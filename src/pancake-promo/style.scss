@@ -1,0 +1,21 @@
+.wp-block-prc-block-promo-pancake {
+    display: flex;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+    text-align: left;
+    clear: both;
+    &.is-style-oatmeal {
+      background: #f8f9f5;
+    }
+    svg {
+      max-width: 50px !important;
+      margin-right: 1rem;
+    }
+    .sans-serif {
+      font-size: 18px;
+      a {
+        color: #3B669B;
+      }
+    }
+}
