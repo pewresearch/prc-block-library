@@ -1,9 +1,10 @@
-
-const { Component, Fragment } = wp.element;
-const { RichText, InnerBlocks, MediaUpload, MediaUploadCheck } = wp.blockEditor;
-const { TextControl, Button } = wp.components;
+import { Component, Fragment, RawHTML } from '@wordpress/element';
+import { RichText, InnerBlocks, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { TextControl, Button } from '@wordpress/components';
 
 import { Card as SemanticCard, Image as SemanticImage } from 'semantic-ui-react';
+
+import classNames from 'classnames/bind';
 
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
@@ -61,7 +62,24 @@ class Card extends Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props.backgroundColor);
+		
+	}
+
+	options = ({link, label}) => {
+		return(
+			<Fragment>
+				<TextControl
+					label="Link"
+					value={ link }
+					onChange={ ( link ) => this.props.edit.setAttributes({link}) }
+				/>
+				<TextControl
+					label="Link Label"
+					value={ label }
+					onChange={ ( linkLabel ) => this.props.edit.setAttributes({linkLabel}) }
+				/>
+			</Fragment>
+		)
 	}
 
 	render() {
@@ -69,13 +87,11 @@ class Card extends Component {
 		if ( '#fff' !== this.props.backgroundColor ) {
 			styles = {backgroundColor: this.props.backgroundColor}
 		}
-		let basic = '';
-		if ( true === this.props.disableBorder ) {
-			basic = 'basic';
-		}
+		let classes = classNames({ basic: this.props.disableBorder  });
+		const Options = this.options;
 		return(
 			<Fragment>
-				<SemanticCard fluid style={styles} className={basic}>
+				<SemanticCard fluid style={styles} className={classes}>
 					<SemanticCard.Header>
 						<Fragment>
 							{ true === this.props.edit.enabled && (
@@ -86,6 +102,7 @@ class Card extends Component {
 									placeholder='Card Title' // Display this text before any content has been added by the user
 								/>
 							) }
+
 							{ true !== this.props.edit.enabled && '' === this.props.link && (
 								<span>{this.props.title}</span>
 							) }
@@ -120,24 +137,14 @@ class Card extends Component {
 						) }
 						</div>
 
-						{ '' !== this.props.linkLabel && (
-							<p><strong><a href={this.props.link} className="read-more">{this.props.linkLabel}</a></strong></p>
+						{ '' !== this.props.label && '' !== this.props.link && (
+							<p><strong><a href={this.props.link} className="read-more">{this.props.label}</a></strong></p>
 						) }
 					</SemanticCard.Content>
+
 				</SemanticCard>
 				{ true === this.props.edit.enabled && (
-					<Fragment>
-						<TextControl
-							label="Link"
-							value={ this.props.link }
-							onChange={ ( link ) => this.props.edit.setAttributes({link}) }
-						/>
-						<TextControl
-							label="Link Label"
-							value={ this.props.linkLabel }
-							onChange={ ( linkLabel ) => this.props.edit.setAttributes({linkLabel}) }
-						/>
-					</Fragment>
+					<Options link={this.props.link} label={this.props.label}/>
 				) }
 			</Fragment>
 		)

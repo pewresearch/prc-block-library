@@ -69,36 +69,52 @@ registerBlockType( 'prc-block/story-item', {
 	},
 	// Attributes are really react props. 
 	attributes: {
-		link: {
-			type: 'string',
-			default: 'https://www.pewresearch.org/post',
-		},
+		// Item Content
 		title: {
 			type: 'string',
-			default: 'TITLE',
-		},
-		date: {
-			type: 'string',
-			default: 'Jan 01, 2020',
-		},
-		label: {
-			type: 'string',
-			default: 'Report',
-		},
-		excerpt: {
-			type: 'string',
-			default: 'EXCERPT',
-		},
-		extra: {
-			type: 'string',
-			default: '',
+			default: 'Title',
 		},
 		image: {
 			type: 'string',
 			default: '',
 		},
-		// Options
+		excerpt: {
+			type: 'string',
+			source: 'html',
+			multiline: 'p',
+			selector: '.description',
+			default: '<p>Excerpt</p>',
+		},
+		extra: {
+			type: 'string',
+			source: 'html',
+			multiline: 'p',
+			selector: '.extra',
+			default: '',
+		},
+		// Item Meta
+		link: {
+			type: 'string',
+			default: 'https://www.pewresearch.org/post',
+		},
+		label: {
+			type: 'string',
+			default: 'Report',
+		},
+		date: {
+			type: 'string',
+			default: 'Jan 01, 2020',
+		},
+		// Post Meta Data:
+		postID: {
+			type: 'string',
+		},
+		// Item Options
 		emphasis: {
+			type: 'boolean',
+			default: false,
+		},
+		isChartArt: {
 			type: 'boolean',
 			default: false,
 		},
@@ -114,10 +130,6 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'boolean',
 			default: true,
 		},
-		isChartArt: {
-			type: 'boolean',
-			default: false,
-		},
 		disableHeader: {
 			type: 'boolean',
 			default: false,
@@ -129,6 +141,16 @@ registerBlockType( 'prc-block/story-item', {
 		headerSize: {
 			type: 'string',
 			default: 'normal',
+		},
+	},
+	example: {
+		attributes: {
+			link: 'http://www.pewresearch.org',
+			title: 'Anim fugiat incididunt consectetur sunt duis',
+			excerpt: 'Ex tempor ut occaecat consequat irure veniam commodo aliqua cupidatat pariatur ad aliquip et. In fugiat Lorem occaecat ex nostrud non incididunt cillum occaecat ex deserunt sit enim ipsum. Sunt elit consectetur quis culpa labore qui pariatur laboris minim incididunt consequat amet.',
+			extra: '<a href="#"><strong>Est in cupidatat:</strong> nulla occaecat dolor sint culpa do anim.</a>',
+			imageSlot: 'top',
+			image: 'https://images.unsplash.com/photo-1555293442-818eb55f7ca0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3500&q=80',
 		},
 	},
 	
@@ -145,23 +167,24 @@ registerBlockType( 'prc-block/story-item', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( props ) => {
+		// Set Image Slot by Style
 		if ( 'is-style-default' === props.attributes.className ) {
-			props.setAttributes({imageSlot: 'default', horizontal: false, stacked: true});
+			props.setAttributes({ imageSlot: 'default' });
 		}
 		if ( 'is-style-top' === props.attributes.className ) {
-			props.setAttributes({imageSlot: 'top', horizontal: false, stacked: true});
+			props.setAttributes({ imageSlot: 'top' });
 		}
 		if ( 'is-style-bottom' === props.attributes.className ) {
-			props.setAttributes({imageSlot: 'bottom', horizontal: false, stacked: true});
+			props.setAttributes({ imageSlot: 'bottom' });
 		}
 		if ( 'is-style-left' === props.attributes.className ) {
-			props.setAttributes({imageSlot: 'left', horizontal: true, stacked: false});
+			props.setAttributes({ imageSlot: 'left' });
 		}
 		if ( 'is-style-right' === props.attributes.className ) {
-			props.setAttributes({imageSlot: 'right', horizontal: true, stacked: false});
+			props.setAttributes({ imageSlot: 'right' });
 		}
 		if ( 'is-style-disabled' === props.attributes.className ) {
-			props.setAttributes({imageSlot: 'disabled', horizontal: false, stacked: true});
+			props.setAttributes({ imageSlot: 'disabled' });
 		}
 		
 		let data = {
@@ -173,17 +196,15 @@ registerBlockType( 'prc-block/story-item', {
 			extra: props.attributes.extra,
 			image: {
 				slot: props.attributes.imageSlot,
-				desktop: props.attributes.image,
-				mobile: props.attributes.image,
+				src: props.attributes.image,
 				isChartArt: props.attributes.isChartArt,
 			},
 			options: {
-				stacked: props.attributes.stacked,
-				horizontal: props.attributes.horizontal,
 				emphasis: props.attributes.emphasis,
 				disableHeader: props.attributes.disableHeader,
 				disableExcerpt: props.attributes.disableExcerpt,
 				headerSize: props.attributes.headerSize,
+				postID: props.attributes.postID,
 			},
 			classNames: props.attributes.className,
 		};
@@ -219,17 +240,15 @@ registerBlockType( 'prc-block/story-item', {
 			extra: props.attributes.extra,
 			image: {
 				slot: props.attributes.imageSlot,
-				desktop: props.attributes.image,
-				mobile: props.attributes.image,
+				src: props.attributes.image,
 				isChartArt: props.attributes.isChartArt,
 			},
 			options: {
-				stacked: props.attributes.stacked,
-				horizontal: props.attributes.horizontal,
 				emphasis: props.attributes.emphasis,
 				disableHeader: props.attributes.disableHeader,
 				disableExcerpt: props.attributes.disableExcerpt,
 				headerSize: props.attributes.headerSize,
+				postID: props.attributes.postID,
 			},
 			classNames: props.attributes.className,
 		};

@@ -1,6 +1,6 @@
 // WordPress Core
 import { Component, Fragment, RawHTML } from '@wordpress/element';
-import { RichText, BlockControls, MediaUpload } from '@wordpress/block-editor';
+import { RichText, BlockControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { Button, ToggleControl, TextControl, SelectControl, DateTimePicker, Popover, Toolbar } from '@wordpress/components';
 
 // Utilities
@@ -98,6 +98,7 @@ class ImageEditor extends Component {
 	}
 	render() {
 		return(
+			<MediaUploadCheck>
 			<MediaUpload
 				onSelect={this.mediaHandler}
 				allowedTypes={ ALLOWED_MEDIA_TYPES }
@@ -127,24 +128,29 @@ class ImageEditor extends Component {
 					</Fragment>
 				) }
 			/>
+			</MediaUploadCheck>
 		)
 	}
 }
 
-const Image = function({ isHorizontal, isChartArt, img, edit, link }) {
-	let classes = classNames({ ui: true, medium: isHorizontal, image: true, bordered: isChartArt });
+const Image = function({ isChartArt, img, edit, link }) {
+	let isMedium = false;
+	if ( 'left' === img.slot || 'right' === img.slot ) {
+		isMedium = true;
+	}
+	let classes = classNames({ ui: true, medium: isMedium, image: true, bordered: isChartArt });
 	return(
 		<Fragment>
 			{ undefined !== img && (
 				<Fragment>
 				{ true === edit.enabled && (
 					<Fragment>
-						<ImageEditor slot={img.slot} img={img.desktop} imgClass={classes} isChartArt={isChartArt} setAttributes={edit.setAttributes}/>
+						<ImageEditor slot={img.slot} img={img.src} imgClass={classes} isChartArt={isChartArt} setAttributes={edit.setAttributes}/>
 					</Fragment>
 				)}
 				{ true !== edit.enabled && (
 					<div className={classes}>
-						<a href={link}><img src={img.desktop}/></a>
+						<a href={link}><img src={img.src}/></a>
 					</div>
 				)}
 				</Fragment>
@@ -154,54 +160,48 @@ const Image = function({ isHorizontal, isChartArt, img, edit, link }) {
 }
 
 const Description = function({ content, disabled, edit, sansSerif }) {
-	const sansSerifFont = sansSerif ? 'sans-serif' : null;
+	let classes = classNames( 'description', {'sans-serif': sansSerif} );
 	return(
 		<Fragment>
 			{ true !== disabled && (
-				<Item.Description>
+				<Fragment>
 					{true === edit.enabled && (
-						
-						<Fragment>
-							<RichText
-								tagName="p" // The tag here is the element output and editable in the admin
-								value={ content } // Any existing content, either from the database or an attribute default
-								onChange={ ( excerpt ) => edit.setAttributes( { excerpt } ) } // Store updated content as a block attribute
-								placeholder={ content } // Display this text before any content has been added by the user
-								className={ sansSerifFont }
-							/>
-						</Fragment>
+						<RichText
+							tagName="div" // The tag here is the element output and editable in the admin
+							value={ content } // Any existing content, either from the database or an attribute default
+							onChange={ ( excerpt ) => edit.setAttributes( { excerpt } ) } // Store updated content as a block attribute
+							placeholder={ content } // Display this text before any content has been added by the user
+							multiline="p"
+							className={ classes }
+						/>
 					)}
 					{true !== edit.enabled && ( 
-						<Fragment>
-							<RichText.Content tagName="p" value={ content } className={ sansSerifFont }/>
-						</Fragment>
-					 )}
-				</Item.Description>
+						<RichText.Content tagName="div" value={ content } className={ classes }/>
+					)}
+				</Fragment>
 			) }
 		</Fragment>
 	)
 }
 
 const Extra = function({ content, edit }) {
+	let classes = classNames( 'extra' );
 	return(
-		<Item.Extra>
+		<Fragment>
 			{true === edit.enabled && (
-				
-				<Fragment>
-					<RichText
-						tagName="p" // The tag here is the element output and editable in the admin
-						value={ content } // Any existing content, either from the database or an attribute default
-						onChange={ ( extra ) => edit.setAttributes( { extra } ) } // Store updated content as a block attribute
-						placeholder={ content } // Display this text before any content has been added by the user
-					/>
-				</Fragment>
+				<RichText
+					tagName="div" // The tag here is the element output and editable in the admin
+					value={ content } // Any existing content, either from the database or an attribute default
+					onChange={ ( extra ) => edit.setAttributes( { extra } ) } // Store updated content as a block attribute
+					placeholder={ content } // Display this text before any content has been added by the user
+					multiline="p"
+					className={ classes }
+				/>
 			)}
 			{true !== edit.enabled && ( 
-				<Fragment>
-					<RichText.Content tagName="p" value={ content }/>
-				</Fragment>
+				<RichText.Content tagName="div" value={ content } className={ classes }/>
 			)}
-		</Item.Extra>
+		</Fragment>
 	)
 }
 
@@ -254,10 +254,17 @@ const Header = function({ title, label, date, edit, link, disabled, size }) {
 	)
 }
 
-const Options = function({emphasis, disableHeader, disableExcerpt, link, edit}) {
+const Options = function({postID, emphasis, disableHeader, disableExcerpt, link, edit}) {
 	return(
 		<Fragment>
 			<div className="story-item-options">
+				<div>
+					<TextControl
+						label="Post ID"
+						value={ postID }
+						onChange={ (value) => edit.setAttributes({postID: value}) }
+					/>
+				</div>
 				<div>
 					<TextControl
 						label="Link"
@@ -305,17 +312,25 @@ class StoryItem extends Component {
 			edit.setAttributes = this.props.setAttributes;
 		}
 
-		let classes = classNames( this.props.classNames, 'story-item', {stacked: this.props.options.stacked, bordered: this.props.options.emphasis} );
+		let isStacked = true;
+		if ( 'left' === this.props.image.slot || 'right' === this.props.image.slot ) {
+			isStacked = false;
+		}
+
+		let isBordered = false;
+		if ( true === this.props.options.emphasis ) {
+			isBordered = true;
+		}
+
+		let classes = classNames( this.props.classNames, 'story-item', {stacked: isStacked, bordered: isBordered} );
 		
 		return(
 			<Fragment>
 				<Item as="article" className={classes}>
 					{ ('top' === this.props.image.slot || 'left' === this.props.image.slot) && (
 						<Image 
-						isHorizontal={this.props.options.horizontal} 
 						img={{
-							desktop: this.props.image.desktop, 
-							mobile: this.props.image.desktop,
+							src: this.props.image.src, 
 							slot: this.props.image.slot
 						}}
 						link={this.props.link}
@@ -335,10 +350,8 @@ class StoryItem extends Component {
 						/>
 						{ 'default' === this.props.image.slot && (
 							<Image 
-							isHorizontal={false}
 							img={{
-								desktop: this.props.image.desktop, 
-								mobile: this.props.image.desktop,
+								src: this.props.image.src, 
 								slot: this.props.image.slot
 							}}
 							link={this.props.link}
@@ -355,10 +368,8 @@ class StoryItem extends Component {
 					</Item.Content>
 					{ ('bottom' === this.props.image.slot || 'right' === this.props.image.slot) && (
 						<Image 
-						isHorizontal={this.props.options.horizontal} 
 						img={{
-							desktop: this.props.image.desktop, 
-							mobile: this.props.image.desktop,
+							src: this.props.image.src, 
 							slot: this.props.image.slot
 						}}
 						link={this.props.link}
@@ -368,7 +379,7 @@ class StoryItem extends Component {
 					) }
 				</Item>
 				{ true === edit.enabled && (
-					<Options emphasis={this.props.options.emphasis} disableHeader={this.props.options.disableHeader} disableExcerpt={this.props.options.disableExcerpt} link={this.props.link} edit={edit}/>
+					<Options postID={this.props.options.postID} emphasis={this.props.options.emphasis} disableHeader={this.props.options.disableHeader} disableExcerpt={this.props.options.disableExcerpt} link={this.props.link} edit={edit}/>
 				) }
 			</Fragment>
 		)

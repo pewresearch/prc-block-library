@@ -3,8 +3,16 @@ import './style.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 import { registerBlockType } from '@wordpress/blocks';
-import { Component, Fragment, RawHTML } from '@wordpress/element';
-import { RichText, BlockControls, AlignmentToolbar } from '@wordpress/block-editor';
+import { RichText } from '@wordpress/block-editor';
+
+import electionIconURL, { ReactComponent as electionSVG } from "./election-icon.svg"; 
+
+const ElectionIcon = ({svg, sizeInPX}) => {
+	// Go ahead and sanitize the output here instead of waiting for WP to do it, otherwise you'll get a diff error.
+	return(
+		<img src={svg} width={sizeInPX} height={sizeInPX}/>
+	)
+}
 
 /**
  * Register: aa Gutenberg Block.
@@ -46,12 +54,20 @@ registerBlockType( 'prc-block/promo-pancake', {
 	},
 	// Attributes are really react props. 
 	attributes: {
+		icon_url: {
+			type: 'string',
+			source: 'attribute',
+			selector: 'img',
+			attribute: 'src',
+			default: electionIconURL,
+		},
 		content: {
 			type: 'string',
+			source: 'html',
+			selector: '.sans-serif',
 			default: 'EMPTY TEXT',
 		},
 	},
-	
 
 	/**
 	 * The edit function describes the structure of your block in the context of the editor.
@@ -65,24 +81,16 @@ registerBlockType( 'prc-block/promo-pancake', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( props ) => {
-		console.log('edit');
-		console.log(props);
 		return(
 			<div className={props.className}>
-			<svg id="election_icon" width="74" height="57" viewBox="0 0 74 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path d="M5.98906 10.4812C2.68139 10.4812 0 13.1788 0 16.5065V34.6553C0 37.983 2.68139 40.6806 5.98905 40.6806H11.1692L8.36363 56.6748L29.8727 40.6806H35.4756C38.7832 40.6806 41.4646 37.983 41.4646 34.6553V16.5065C41.4646 13.1788 38.7832 10.4812 35.4756 10.4812H5.98906Z" fill="#3178A7"/>
-				<path d="M67.5087 0C70.8164 0 73.4978 2.69763 73.4978 6.02532V24.1741C73.4978 27.5018 70.8164 30.1994 67.5087 30.1994H62.3286L65.1341 46.1936L43.6251 30.1994H38.0222C34.7145 30.1994 32.0331 27.5018 32.0331 24.1741V6.02532C32.0331 2.69763 34.7145 0 38.0222 0H67.5087Z" fill="#DA571F"/>
-				<path fill-rule="evenodd" clip-rule="evenodd" d="M41.4646 30.1993H38.0225C34.7148 30.1993 32.0334 27.5017 32.0334 24.174V10.4814H35.4756C38.7832 10.4814 41.4646 13.1791 41.4646 16.5068V30.1993Z" fill="#6B3635"/>
-				<path d="M52.4212 4.79321L54.8808 12.3632L62.8403 12.3632L56.4009 17.0417L58.8605 24.6116L52.4212 19.9331L45.9818 24.6116L48.4414 17.0417L42.002 12.3632L49.9615 12.3632L52.4212 4.79321Z" fill="white"/>
-				<path d="M20.7323 14.9265L23.1919 22.4965L31.1514 22.4965L24.712 27.175L27.1717 34.7449L20.7323 30.0664L14.2929 34.7449L16.7525 27.175L10.3131 22.4965L18.2727 22.4965L20.7323 14.9265Z" fill="white"/>
-			</svg>
-			<RichText
-				tagName="div" // The tag here is the element output and editable in the admin
-				value={ props.attributes.content } // Any existing content, either from the database or an attribute default
-				onChange={ ( content ) => props.setAttributes( { content } ) } // Store updated content as a block attribute
-				placeholder={ props.attributes.content } // Display this text before any content has been added by the user
-				className='sans-serif'
-			/>
+				<ElectionIcon svg={props.attributes.icon_url} sizeInPX='45'/>
+				<RichText
+					tagName="div" // The tag here is the element output and editable in the admin
+					value={ props.attributes.content } // Any existing content, either from the database or an attribute default
+					onChange={ ( content ) => props.setAttributes( { content } ) } // Store updated content as a block attribute
+					placeholder={ props.attributes.content } // Display this text before any content has been added by the user
+					className='sans-serif'
+				/>
 			</div>
 		)
 	},
@@ -100,17 +108,10 @@ registerBlockType( 'prc-block/promo-pancake', {
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
 	save: ( props ) => {
-		console.log('save');
 		console.log(props);
 		return (
 			<div className={props.className}>
-				<svg id="election_icon" width="74" height="57" viewBox="0 0 74 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M5.98906 10.4812C2.68139 10.4812 0 13.1788 0 16.5065V34.6553C0 37.983 2.68139 40.6806 5.98905 40.6806H11.1692L8.36363 56.6748L29.8727 40.6806H35.4756C38.7832 40.6806 41.4646 37.983 41.4646 34.6553V16.5065C41.4646 13.1788 38.7832 10.4812 35.4756 10.4812H5.98906Z" fill="#3178A7"/>
-					<path d="M67.5087 0C70.8164 0 73.4978 2.69763 73.4978 6.02532V24.1741C73.4978 27.5018 70.8164 30.1994 67.5087 30.1994H62.3286L65.1341 46.1936L43.6251 30.1994H38.0222C34.7145 30.1994 32.0331 27.5018 32.0331 24.1741V6.02532C32.0331 2.69763 34.7145 0 38.0222 0H67.5087Z" fill="#DA571F"/>
-					<path fill-rule="evenodd" clip-rule="evenodd" d="M41.4646 30.1993H38.0225C34.7148 30.1993 32.0334 27.5017 32.0334 24.174V10.4814H35.4756C38.7832 10.4814 41.4646 13.1791 41.4646 16.5068V30.1993Z" fill="#6B3635"/>
-					<path d="M52.4212 4.79321L54.8808 12.3632L62.8403 12.3632L56.4009 17.0417L58.8605 24.6116L52.4212 19.9331L45.9818 24.6116L48.4414 17.0417L42.002 12.3632L49.9615 12.3632L52.4212 4.79321Z" fill="white"/>
-					<path d="M20.7323 14.9265L23.1919 22.4965L31.1514 22.4965L24.712 27.175L27.1717 34.7449L20.7323 30.0664L14.2929 34.7449L16.7525 27.175L10.3131 22.4965L18.2727 22.4965L20.7323 14.9265Z" fill="white"/>
-				</svg>
+				<ElectionIcon svg={props.attributes.icon_url} sizeInPX='45'/>
 				<RichText.Content tagName="div" value={ props.attributes.content } className='sans-serif'/>
 			</div>
 		);

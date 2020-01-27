@@ -29,6 +29,7 @@ class PRC_Block_Library {
 		if ( true === $init ) {
 			$this->plugin_dir = __DIR__ . '/prc_blocks/';
 			add_action( 'init', array( $this, 'register_block_assets' ) );
+			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
 		}
 	}
 
@@ -50,9 +51,9 @@ class PRC_Block_Library {
 		$enqueue = new \WPackio\Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 
 		// Story Item
-		$js_deps   = $this->js_deps;
-		$js_deps[] = 'moment';
-		$assets    = $enqueue->register(
+		$js_deps    = $this->js_deps;
+		$js_deps[]  = 'moment';
+		$story_item = $enqueue->register(
 			'story-item',
 			'main',
 			[
@@ -68,13 +69,34 @@ class PRC_Block_Library {
 			'prc-block/story-item',
 			array(
 				// We're only enqueing these in the block editor, not the front end.
-				'editor_script' => array_pop( $assets['js'] )['handle'],
-				'editor_style'  => array_pop( $assets['css'] )['handle'],
+				'editor_script' => array_pop( $story_item['js'] )['handle'],
+				'editor_style'  => array_pop( $story_item['css'] )['handle'],
+			)
+		);
+
+		// Card
+		$card = $enqueue->register(
+			'card',
+			'main',
+			[
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => [],
+				'in_footer' => true,
+				'media'     => 'all',
+			]
+		);
+		register_block_type(
+			'prc-block/card',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $card['js'] )['handle'],
 			)
 		);
 
 		// Pancake Promo
-		$assets = $enqueue->register(
+		$pancake_promo = $enqueue->register(
 			'pancake-promo',
 			'main',
 			[
@@ -90,11 +112,24 @@ class PRC_Block_Library {
 			'prc-block/pancake-promo',
 			array(
 				// We're only enqueing these in the block editor, not the front end.
-				'editor_script' => array_pop( $assets['js'] )['handle'],
-				'style'         => array_pop( $assets['css'] )['handle'],
+				'editor_script' => array_pop( $pancake_promo['js'] )['handle'],
+				'style'         => array_pop( $pancake_promo['css'] )['handle'],
 			)
 		);
 
+	}
+
+	// register custom meta tag field
+	public function block_story_item_register_meta() {
+		register_post_meta(
+			'prc-block-areas',
+			'featured_posts',
+			array(
+				'show_in_rest' => true,
+				'single'       => true,
+				'type'         => 'string',
+			)
+		);
 	}
 
 

@@ -1,19 +1,5 @@
-/**
- * BLOCK: prc-blocks
- *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
- */
-
-//  Import CSS.
-import './editor.scss';
-// Our front end styles are included in our theme
-
 const { __ } = wp.i18n; // Import __() from wp.i18n
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { Fragment } = wp.element;
-const { InspectorControls } = wp.blockEditor;
-const { PanelBody, ColorPalette, ToggleControl } = wp.components;
+import { registerBlockType } from '@wordpress/blocks';
 
 import Card from './component';
 
@@ -63,24 +49,27 @@ registerBlockType( 'prc-block/card', {
 	attributes: {
 		link: {
 			type: 'string',
-			default: '{https://www.pewresearch.org/page}',
+			default: 'https://www.pewresearch.org/page',
 		},
-		linkLabel: {
+		label: {
 			type: 'string',
 			default: 'Read More',
 		},
+		//
 		title: {
 			type: 'string',
-			default: '{Card Title}',
-		},
-		excerpt: {
-			type: 'html',
-			default: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p><p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>',
+			default: 'Card Title',
 		},
 		image: {
 			type: 'string',
 			default: '',
 		},
+		//
+		excerpt: {
+			type: 'string',
+			default: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p><p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>',
+		},
+		//
 		backgroundColor: {
 			type: 'string',
 			default: '#fff',
@@ -113,7 +102,7 @@ registerBlockType( 'prc-block/card', {
 			props.setAttributes({backgroundColor: '#f8f9f5', disableBorder: true});
 		}
 
-		let data = props.attributes;
+		let data = props.attributes; // Condense the attributes into props
 		data.edit = {
 			enabled: false,
 			display: false,
