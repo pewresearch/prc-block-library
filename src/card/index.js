@@ -1,4 +1,4 @@
-const { __ } = wp.i18n; // Import __() from wp.i18n
+import { __ } from "@wordpress/i18n";
 import { registerBlockType } from '@wordpress/blocks';
 
 import Card from './component';
@@ -68,15 +68,6 @@ registerBlockType( 'prc-block/card', {
 		excerpt: {
 			type: 'string',
 			default: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p><p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>',
-		},
-		//
-		backgroundColor: {
-			type: 'string',
-			default: '#fff',
-		},
-		disableBorder: {
-			type: 'boolean',
-			defaul: false,
 		}
 	},
 
@@ -92,17 +83,8 @@ registerBlockType( 'prc-block/card', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: (props) => {
-		if ( 'is-style-default' === props.attributes.className ) {
-			props.setAttributes({backgroundColor: '#fff', disableBorder: false});
-		}
-		if ( 'is-style-borderless' === props.attributes.className ) {
-			props.setAttributes({disableBorder: true});
-		}
-		if ( 'is-style-oatmeal' === props.attributes.className ) {
-			props.setAttributes({backgroundColor: '#f8f9f5', disableBorder: true});
-		}
-
 		let data = props.attributes; // Condense the attributes into props
+		data.className = props.attributes.className; // Push classNames
 		data.edit = {
 			enabled: false,
 			display: false,
@@ -133,6 +115,7 @@ registerBlockType( 'prc-block/card', {
 	 */
 	save: ( props ) => {
 		let data = props.attributes;
+		data.className = props.attributes.className;
 		data.edit = {
 			enabled: false,
 			display: true,

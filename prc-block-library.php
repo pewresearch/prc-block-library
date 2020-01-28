@@ -22,7 +22,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 class PRC_Block_Library {
 
-	protected $js_deps = array( 'react', 'react-dom', 'wp-element', 'wp-components', 'wp-polyfill' );
+	protected $js_deps = array( 'react', 'react-dom', 'wp-element', 'wp-components', 'wp-polyfill', 'wp-i18n' );
 	public $plugin_dir = false;
 
 	public function __construct( $init = false ) {
@@ -30,6 +30,7 @@ class PRC_Block_Library {
 			$this->plugin_dir = __DIR__ . '/prc_blocks/';
 			add_action( 'init', array( $this, 'register_block_assets' ) );
 			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'sidebar_script' ) );
 		}
 	}
 
@@ -117,6 +118,25 @@ class PRC_Block_Library {
 			)
 		);
 
+	}
+
+	public function sidebar_script() {
+		$enqueue       = new \WPackio\Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
+		$js_deps       = $this->js_deps;
+		$js_deps[]     = 'wp-plugins';
+		$js_deps[]     = 'wp-edit-post';
+		$plugin_script = $enqueue->enqueue(
+			'block-area-sidebar',
+			'main',
+			[
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => [],
+				'in_footer' => true,
+				'media'     => 'all',
+			]
+		);
 	}
 
 	// register custom meta tag field

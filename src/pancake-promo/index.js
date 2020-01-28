@@ -1,7 +1,7 @@
 //  Import CSS
 import './style.scss';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+import { __ } from "@wordpress/i18n";
 import { registerBlockType } from '@wordpress/blocks';
 import { RichText } from '@wordpress/block-editor';
 

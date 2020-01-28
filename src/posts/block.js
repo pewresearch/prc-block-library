@@ -9,7 +9,7 @@
 import './editor.scss';
 import './style.scss';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+import { __ } from "@wordpress/i18n";
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 import PostsList from './component';

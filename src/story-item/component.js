@@ -117,7 +117,7 @@ class ImageEditor extends Component {
 									</BlockControls>
 								) }
 								<div className={this.props.imgClass} onClick={ open }>
-									<img src={this.props.img}/>
+									<img src={this.props.img} />
 									<i>Click image to open media library</i>
 								</div>
 							</Fragment>
@@ -150,7 +150,7 @@ const Image = function({ isChartArt, img, edit, link }) {
 				)}
 				{ true !== edit.enabled && (
 					<div className={classes}>
-						<a href={link}><img src={img.src}/></a>
+						<a href={link}><img src={img.src} /></a>
 					</div>
 				)}
 				</Fragment>

@@ -83,15 +83,15 @@ class Card extends Component {
 	}
 
 	render() {
-		let styles = {};
-		if ( '#fff' !== this.props.backgroundColor ) {
-			styles = {backgroundColor: this.props.backgroundColor}
+		let isBasic = false;
+		if ( 'is-style-borderless' === this.props.className ) {
+			isBasic = true;
 		}
-		let classes = classNames({ basic: this.props.disableBorder  });
+		let classes = classNames(this.props.className, { basic: isBasic });
 		const Options = this.options;
 		return(
 			<Fragment>
-				<SemanticCard fluid style={styles} className={classes}>
+				<SemanticCard fluid className={classes}>
 					<SemanticCard.Header>
 						<Fragment>
 							{ true === this.props.edit.enabled && (
