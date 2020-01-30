@@ -159,7 +159,7 @@ class PRC_Block_Library {
 	public function get_stub_post_by_post_url( $url ) {
 		$return = false;
 
-		$site_id = prc_get_site_id_from_url( $url, true, true );
+		$site_id = prc_get_site_id_from_url( $url, true, prc_is_dev_env() );
 
 		switch_to_blog( $site_id );
 		$post_id = url_to_postid( $url );

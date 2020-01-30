@@ -38,6 +38,10 @@ registerBlockType( 'prc-block/card', {
 			label: 'Basic Borderless',
 		},
 		{
+			name: 'beige',
+			label: 'Beige (Borderless)',
+		},
+		{
 			name: 'oatmeal',
 			label: 'Oatmeal (Borderless)',
 		},

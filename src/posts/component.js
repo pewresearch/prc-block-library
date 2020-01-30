@@ -8,6 +8,8 @@ class PostsList extends Component {
 	}
 
 	getPosts(setAttributes) {
+		// We could use a rest api endpoint here.
+		// Every 10 minutes it should self update...
 		console.info('Getting Posts');
 		let data = [];
 		return ( new wp.api.collections.FactTank() ).fetch().then( ( posts ) => {
@@ -49,6 +51,7 @@ class PostsList extends Component {
 		}
 	}
 
+	// We may need to import this ala the pancake promo
 	logo() {
 		const cls1 = {
 			fill: 'none',
