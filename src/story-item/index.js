@@ -339,6 +339,7 @@ registerBlockType( 'prc-block/story-item', {
 	 */
 	save: ( props ) => {
 		const data = {
+			postID: props.attributes.postID,
 			title: props.attributes.title,
 			link: props.attributes.link,
 			date: props.attributes.date,
@@ -355,7 +356,6 @@ registerBlockType( 'prc-block/story-item', {
 				disableHeader: props.attributes.disableHeader,
 				disableExcerpt: props.attributes.disableExcerpt,
 				headerSize: props.attributes.headerSize,
-				postID: props.attributes.postID,
 			},
 			classNames: props.attributes.className,
 		};
