@@ -30,7 +30,7 @@ class PRC_Block_Library {
 			$this->plugin_dir = __DIR__ . '/prc_blocks/';
 			add_action( 'init', array( $this, 'register_block_assets' ) );
 			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
-			add_action( 'enqueue_block_editor_assets', array( $this, 'sidebar_script' ) );
+			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 		}
 	}
 
@@ -120,25 +120,6 @@ class PRC_Block_Library {
 
 	}
 
-	public function sidebar_script() {
-		$enqueue       = new \WPackio\Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
-		$js_deps       = $this->js_deps;
-		$js_deps[]     = 'wp-plugins';
-		$js_deps[]     = 'wp-edit-post';
-		$plugin_script = $enqueue->enqueue(
-			'block-area-sidebar',
-			'main',
-			[
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $js_deps,
-				'css_dep'   => [],
-				'in_footer' => true,
-				'media'     => 'all',
-			]
-		);
-	}
-
 	// register custom meta tag field
 	public function block_story_item_register_meta() {
 		register_post_meta(
@@ -152,7 +133,66 @@ class PRC_Block_Library {
 		);
 	}
 
+	public function register_rest_endpoints() {
+		register_rest_route(
+			'prc-api/v2/blocks/helpers',
+			'/get-post-by-url',
+			array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'get_stub_post_by_post_url_restfully' ),
+				'args'     => array(
+					'url' => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+				),
+			)
+		);
+	}
 
+	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
+		$url = $request->get_param( 'url' );
+		return $this->get_stub_post_by_post_url( $url );
+	}
+
+	public function get_stub_post_by_post_url( $url ) {
+		$return = false;
+
+		$site_id = prc_get_site_id_from_url( $url, true, true );
+
+		switch_to_blog( $site_id );
+		$post_id = url_to_postid( $url );
+		if ( false === $post_id ) {
+			return false;
+		}
+		$stub_id = get_post_meta( $post_id, '_stub_post', true );
+		if ( ! $stub_id ) {
+			return false;
+		}
+		restore_current_blog();
+
+		$stub_post = get_post( $stub_id );
+		if ( false === $stub_post ) {
+			return false;
+		}
+
+		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
+
+		$format_term = get_term_by( 'slug', $stub_info['_taxonomies']['formats'][0], 'formats' );
+
+		$return = array(
+			'id'      => $stub_post->ID,
+			'title'   => esc_attr( $stub_post->post_title ),
+			'excerpt' => "<p>{$stub_post->post_excerpt}</p>",
+			'date'    => get_the_date( 'M d, Y', $stub_post->ID ),
+			'label'   => $format_term->name,
+			'link'    => get_post_meta( $stub_post->ID, '_redirect', true ),
+			'image'   => $stub_info['_featured_image'],
+		);
+
+		return $return;
+	}
 }
 
 new PRC_Block_Library( true );

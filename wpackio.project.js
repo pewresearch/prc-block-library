@@ -58,20 +58,6 @@ module.exports = {
 			},
 		},
 		{
-			name: 'block-area-sidebar',
-			entry: {
-				// mention each non-interdependent files as entry points
-		     // The keys of the object will be used to generate filenames
-		     // The values can be string or Array of strings (string|string[])
-		     // But unlike webpack itself, it can not be anything else
-		     // <https://webpack.js.org/concepts/#entry>
-		     // You do not need to worry about file-size, because we would do
-		     // code splitting automatically. When using ES6 modules, forget
-		     // global namespace pollutions 😉
-				main: './src/block-area-sidebar/index.js', // Could be a string
-			},
-		},
-		{
 			name: 'pancake-promo',
 			entry: {
 				// mention each non-interdependent files as entry points

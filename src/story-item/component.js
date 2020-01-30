@@ -1,7 +1,7 @@
 // WordPress Core
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { RichText, BlockControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { Button, ToggleControl, TextControl, SelectControl, DateTimePicker, Popover, Toolbar } from '@wordpress/components';
+import { Button, SelectControl, DateTimePicker, Popover, Toolbar } from '@wordpress/components';
 
 // Utilities
 import * as moment from 'moment';
@@ -44,7 +44,7 @@ class MetaEditor extends Component {
 			}
 			setState({labelOptions: data});
 		});
-	} 
+	}
 
 	render() {
 		const formatDate = function( dateString ) {
@@ -254,50 +254,6 @@ const Header = function({ title, label, date, edit, link, disabled, size }) {
 	)
 }
 
-const Options = function({postID, emphasis, disableHeader, disableExcerpt, link, edit}) {
-	return(
-		<Fragment>
-			<div className="story-item-options">
-				<div>
-					<TextControl
-						label="Post ID"
-						value={ postID }
-						onChange={ (value) => edit.setAttributes({postID: value}) }
-					/>
-				</div>
-				<div>
-					<TextControl
-						label="Link"
-						value={ link }
-						onChange={ ( link ) => edit.setAttributes({link}) }
-					/>
-				</div>
-				<div>
-					<ToggleControl
-						label={ disableHeader ? 'Header Disabled' : 'Header Enabled' }
-						checked={ disableHeader }
-						onChange={ (value) => { edit.setAttributes({ disableHeader: value }); } }
-					/>
-				</div>
-				<div>
-					<ToggleControl
-						label={ disableExcerpt ? 'Excerpt Disabled' : 'Excerpt Enabled' }
-						checked={ disableExcerpt }
-						onChange={ (value) => { edit.setAttributes({ disableExcerpt: value }); } }
-					/>
-				</div>
-				<div>
-					<ToggleControl
-						label={ emphasis ? 'Emphasis Enabled' : 'Emphasis Disabled' }
-						checked={ emphasis }
-						onChange={ (value) => { edit.setAttributes({ emphasis: value }); } }
-					/>
-				</div>
-			</div>
-		</Fragment>
-	)
-}
-
 class StoryItem extends Component {
 	constructor(props) {
 		super(props);
@@ -378,9 +334,6 @@ class StoryItem extends Component {
 						/>
 					) }
 				</Item>
-				{ true === edit.enabled && (
-					<Options postID={this.props.options.postID} emphasis={this.props.options.emphasis} disableHeader={this.props.options.disableHeader} disableExcerpt={this.props.options.disableExcerpt} link={this.props.link} edit={edit}/>
-				) }
 			</Fragment>
 		)
 	}	

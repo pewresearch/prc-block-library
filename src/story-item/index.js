@@ -11,7 +11,105 @@ import './editor.scss';
 
 import { __ } from "@wordpress/i18n";
 import { registerBlockType } from '@wordpress/blocks';
+import { InspectorControls } from '@wordpress/block-editor';
+import { Button, PanelBody, ToggleControl, TextControl } from '@wordpress/components';
+import { Component, Fragment } from '@wordpress/element';
 import StoryItem from './component';
+
+class EditSidebar extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			url: '',
+		}
+		this.setPostByURL = this.setPostByURL.bind(this);
+	}
+
+	componentDidMount = () => {
+		this.setState({url: this.props.link});
+	}
+
+	/**
+	 * Loading Posts
+	 */
+	setPostByURL = () => {
+		console.log('GetPostByURL');
+		console.log(this.props);
+		const setAttributes = this.props.setAttributes;
+		let url = this.state.url;
+
+		if ( undefined === setAttributes || undefined === url ) {
+			return;
+		}
+
+		window.wp.apiFetch( { path: '/prc-api/v2/blocks/helpers/get-post-by-url/?url=' + url } ).then( post => {
+			if ( false !== post ) {
+				setAttributes({
+					title: post.title,
+					image: post.image,
+					excerpt: post.excerpt,
+					link: post.link,
+					label: post.label,
+					date: post.date,
+					postID: post.id,
+					extra: '', // We want to clear extra when pulling a new post
+				});
+			}
+        } );
+	} 
+
+	render = () => {
+		const setAttributes = this.props.setAttributes;
+		console.log(this.props);
+		return(
+			<InspectorControls>
+				<PanelBody title={ __( 'Story Item Options' ) }>
+					<div>
+						<TextControl
+							label="Post ID"
+							value={ this.props.postID }
+							disabled
+						/>
+					</div>
+					<div className='story-item-link'>
+						<div>
+							<TextControl
+								label="Link"
+								value={ this.state.url }
+								onChange={ ( url ) => this.setState({url}) }
+							/>
+						</div>
+						<div>
+							<Button onClick={this.setPostByURL} isPrimary>Fetch</Button>
+						</div>
+					</div>
+					<p><strong>Content Options:</strong></p>
+					<div>
+						<ToggleControl
+							label={ this.props.options.disableHeader ? 'Header Disabled' : 'Header Enabled' }
+							checked={ this.props.options.disableHeader }
+							onChange={ (value) => { setAttributes({ disableHeader: value }); } }
+						/>
+					</div>
+					<div>
+						<ToggleControl
+							label={ this.props.options.disableExcerpt ? 'Excerpt Disabled' : 'Excerpt Enabled' }
+							checked={ this.props.options.disableExcerpt }
+							onChange={ (value) => { setAttributes({ disableExcerpt: value }); } }
+						/>
+					</div>
+					<div>
+						<ToggleControl
+							label={ this.props.options.emphasis ? 'Emphasis Enabled' : 'Emphasis Disabled' }
+							checked={ this.props.options.emphasis }
+							onChange={ (value) => { setAttributes({ emphasis: value }); } }
+						/>
+					</div>
+				</PanelBody>
+			</InspectorControls>
+		)
+	}
+}
 
 /**
  * Register: aa Gutenberg Block.
@@ -85,14 +183,6 @@ registerBlockType( 'prc-block/story-item', {
 			selector: '.description',
 			default: '<p>Excerpt</p>',
 		},
-		extra: {
-			type: 'string',
-			source: 'html',
-			multiline: 'p',
-			selector: '.extra',
-			default: '',
-		},
-		// Item Meta
 		link: {
 			type: 'string',
 			default: 'https://www.pewresearch.org/post',
@@ -105,9 +195,16 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: 'Jan 01, 2020',
 		},
+		extra: {
+			type: 'string',
+			source: 'html',
+			multiline: 'p',
+			selector: '.extra',
+			default: '',
+		},
 		// Post Meta Data:
 		postID: {
-			type: 'string',
+			type: 'integer',
 		},
 		// Item Options
 		emphasis: {
@@ -143,16 +240,16 @@ registerBlockType( 'prc-block/story-item', {
 			default: 'normal',
 		},
 	},
-	example: {
-		attributes: {
-			link: 'http://www.pewresearch.org',
-			title: 'Anim fugiat incididunt consectetur sunt duis',
-			excerpt: 'Ex tempor ut occaecat consequat irure veniam commodo aliqua cupidatat pariatur ad aliquip et. In fugiat Lorem occaecat ex nostrud non incididunt cillum occaecat ex deserunt sit enim ipsum. Sunt elit consectetur quis culpa labore qui pariatur laboris minim incididunt consequat amet.',
-			extra: '<a href="#"><strong>Est in cupidatat:</strong> nulla occaecat dolor sint culpa do anim.</a>',
-			imageSlot: 'top',
-			image: 'https://images.unsplash.com/photo-1555293442-818eb55f7ca0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3500&q=80',
-		},
-	},
+	// example: {
+	// 	attributes: {
+	// 		link: 'http://www.pewresearch.org',
+	// 		title: 'Anim fugiat incididunt consectetur sunt duis',
+	// 		excerpt: 'Ex tempor ut occaecat consequat irure veniam commodo aliqua cupidatat pariatur ad aliquip et. In fugiat Lorem occaecat ex nostrud non incididunt cillum occaecat ex deserunt sit enim ipsum. Sunt elit consectetur quis culpa labore qui pariatur laboris minim incididunt consequat amet.',
+	// 		extra: '<a href="#"><strong>Est in cupidatat:</strong> nulla occaecat dolor sint culpa do anim.</a>',
+	// 		imageSlot: 'top',
+	// 		image: 'https://images.unsplash.com/photo-1555293442-818eb55f7ca0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3500&q=80',
+	// 	},
+	// },
 	
 
 	/**
@@ -188,6 +285,7 @@ registerBlockType( 'prc-block/story-item', {
 		}
 		
 		let data = {
+			postID: props.attributes.postID,
 			title: props.attributes.title,
 			link: props.attributes.link,
 			date: props.attributes.date,
@@ -204,7 +302,6 @@ registerBlockType( 'prc-block/story-item', {
 				disableHeader: props.attributes.disableHeader,
 				disableExcerpt: props.attributes.disableExcerpt,
 				headerSize: props.attributes.headerSize,
-				postID: props.attributes.postID,
 			},
 			classNames: props.attributes.className,
 		};
@@ -214,7 +311,12 @@ registerBlockType( 'prc-block/story-item', {
 			data.setAttributes = props.setAttributes;
 		}
 		return(
-			<StoryItem {...data}/>
+			<Fragment>
+				{ true === props.isSelected && (
+					<EditSidebar {...data}/>
+				) }
+				<StoryItem {...data}/>
+			</Fragment>
 		)
 	},
 
