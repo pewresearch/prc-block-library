@@ -14,7 +14,12 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { Button, PanelBody, ToggleControl, TextControl } from '@wordpress/components';
 import { Component, Fragment } from '@wordpress/element';
+import * as moment from 'moment';
 import StoryItem from './component';
+
+const todaysDate = () => {
+	return moment().format("MMM D, YYYY");
+}
 
 class EditSidebar extends Component {
 	constructor(props) {
@@ -193,7 +198,7 @@ registerBlockType( 'prc-block/story-item', {
 		},
 		date: {
 			type: 'string',
-			default: 'Jan 01, 2020',
+			default: todaysDate(),
 		},
 		extra: {
 			type: 'string',
