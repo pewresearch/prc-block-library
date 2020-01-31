@@ -4,7 +4,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { Button, PanelBody, ToggleControl, TextControl, SelectControl } from '@wordpress/components';
 import { Component, Fragment } from '@wordpress/element';
 
-import PostsList from './component';
+import PostsList from './styles/list';
 
 class EditSidebar extends Component {
 	constructor(props) {
@@ -16,22 +16,20 @@ class EditSidebar extends Component {
 		this.getPosts(this.props.attributes.per_page, this.props.attributes.format);
 	}
 
-	getPosts = (perPage, format) => {
-		console.info('Getting Posts');
-
+	getPosts = (perPage, format, program) => {
 		const formatDate = function( dateString ) {
 			return moment(dateString).format("MMM D, YYYY");
 		}
-
 		const setAttributes = this.props.setAttributes;
 		const collection = new wp.api.collections.Stub();
-	
-		let data = [];
-		let formats = [ Number(format) ];
-		perPage = Number(perPage);
 
-		collection.fetch( { data: { 'per_page': perPage, 'formats': formats } } ).then( ( posts ) => {
-			console.log(posts);
+		let args = { 'per_page': Number(perPage), 'formats': [ Number(format) ] };
+		if ( 0 !== program ) {
+			args.programs = Number(program);
+		}
+		let data = [];
+
+		collection.fetch( { data: args } ).then( ( posts ) => {
 			for ( let index = 0; index < posts.length; index++ ) {
 				data.push({
 					title: posts[index].title.rendered,
@@ -44,7 +42,14 @@ class EditSidebar extends Component {
 	}
 
 	render = () => {
+		console.log('edit sidebar');
+		console.log(this.props);
 		const setAttributes = this.props.setAttributes;
+		// If the style is fact-tank then the format should be set to fact-tank
+		if ( "wp-block-prc-block-posts is-style-fact-tank" === this.props.className ) {
+			setAttributes({format: 10818955});
+			this.getPosts(this.props.attributes.per_page, 10818955, this.props.attributes.program); 
+		}
 		return(
 			<InspectorControls>
 				<PanelBody title={ __( 'Posts Block Options' ) }>
@@ -53,7 +58,7 @@ class EditSidebar extends Component {
 						value={ Number(this.props.attributes.per_page) }
 						onChange={ ( per_page ) => { 
 							setAttributes( { per_page: Number(per_page) } );
-							this.getPosts(per_page, this.props.attributes.format); 
+							this.getPosts(per_page, this.props.attributes.format, this.props.attributes.program); 
 						} }
 					/>
 					<SelectControl
@@ -66,9 +71,33 @@ class EditSidebar extends Component {
 						] }
 						onChange={ ( format ) => { 
 							setAttributes( { format: Number(format) } );
-							this.getPosts(this.props.attributes.per_page, format);
+							this.getPosts(this.props.attributes.per_page, format, this.props.attributes.program);
 						} }
 					/>
+					<SelectControl
+						label="Research Program"
+						value={ this.props.attributes.program }
+						options={ [
+							{ label: 'All Programs', value: 0 },
+							{ label: 'Global', value: 10818960 },
+							{ label: 'Internet', value: 10818962 },
+							{ label: 'Religion', value: 10818963 },
+							{ label: 'Journalism', value: 10818964 },
+						] }
+						onChange={ ( program ) => { 
+							setAttributes( { program: Number(program) } );
+							this.getPosts(this.props.attributes.per_page, this.props.attributes.format, program);
+						} }
+					/>
+					{ "wp-block-prc-block-posts is-style-columns" === this.props.className && (
+						<TextControl
+							label="Column Count"
+							value={ Number(this.props.attributes.columns) }
+							onChange={ ( columns ) => { 
+								setAttributes( { columns } );
+							} }
+						/>
+					) }
 				</PanelBody>
 			</InspectorControls>
 		)
@@ -99,11 +128,12 @@ registerBlockType( 'prc-block/posts', {
 		__( 'posts listing' ),
 		__( 'posts' ),
 		__( 'posts widget' ),
+		__( 'publication listing' ),
 	],
 	styles: [
 		{
-			name: 'default',
-			label: 'Default',
+			name: 'list',
+			label: 'Simple List',
 			isDefault: true,
 		},
 		{
@@ -115,8 +145,12 @@ registerBlockType( 'prc-block/posts', {
 			label: 'Publication Listing',
 		},
 		{
-			name: '3-column-lede',
-			label: 'Three Column Lede',
+			name: '4-story-lede',
+			label: '4 Story Lede',
+		},
+		{
+			name: 'columns',
+			label: 'Columns',
 		}
 	],
 	supports: {
@@ -130,19 +164,24 @@ registerBlockType( 'prc-block/posts', {
 		},
 		format: {
 			type: 'integer',
-			default: 10818957,
+			default: 10818957, // Report
 		},
 		program: {
-			type: 'string',
-			default: '',
+			type: 'integer',
+			default: 0,
 		},
 		per_page: {
-			type: 'interger',
+			type: 'integer',
 			default: 10,
 		},
+		// If static is true then we should output on save only a holder div that would contain the options and the style template to use and then the frontend loader will load the posts. This mean will be 
 		static: {
 			type: 'boolean',
 			default: true,
+		},
+		columns: {
+			type: 'string',
+			default: '5',
 		},
 		posts: {
 			type: 'array',
@@ -162,15 +201,20 @@ registerBlockType( 'prc-block/posts', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( props ) => {
+		const data = props.attributes;
+		data.className = props.className;
 		if ( true === props.isSelected ) {
-			props.attributes.setAttributes = props.setAttributes;
+			data.setAttributes = props.setAttributes;
 		}
+		data.disableLink = true;
 		return(
 			<Fragment>
 				{ true === props.isSelected && (
 					<EditSidebar {...props}/>
 				) }
-				<PostsList {...props.attributes}/>
+				<div className={data.className}>
+					<PostsList {...data}/>
+				</div>
 			</Fragment>
 		)
 	},
@@ -187,8 +231,13 @@ registerBlockType( 'prc-block/posts', {
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
 	save: ( props ) => {
+		const data = props.attributes;
+		data.className = props.className;
+		data.disableLink = false;
 		return (
-			<PostsList {...props.attributes}/>
+			<div className={data.className}>
+				<PostsList {...data}/>
+			</div>
 		);
 	},
 } );
