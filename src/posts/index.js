@@ -24,17 +24,12 @@ class EditSidebar extends Component {
 		}
 
 		const setAttributes = this.props.setAttributes;
+		const collection = new wp.api.collections.Stub();
 	
 		let data = [];
 		let formats = [ Number(format) ];
 		perPage = Number(perPage);
 
-		console.log('per page');
-		console.log(perPage);
-		console.log('format');
-		console.log(formats);
-
-		const collection = new wp.api.collections.Stub();
 		collection.fetch( { data: { 'per_page': perPage, 'formats': formats } } ).then( ( posts ) => {
 			console.log(posts);
 			for ( let index = 0; index < posts.length; index++ ) {
@@ -50,7 +45,6 @@ class EditSidebar extends Component {
 
 	render = () => {
 		const setAttributes = this.props.setAttributes;
-		console.log(this.props);
 		return(
 			<InspectorControls>
 				<PanelBody title={ __( 'Posts Block Options' ) }>
@@ -109,16 +103,21 @@ registerBlockType( 'prc-block/posts', {
 	styles: [
 		{
 			name: 'default',
+			label: 'Default',
 			isDefault: true,
 		},
 		{
-			name: 'beige',
-			label: 'Beige (Borderless)',
+			name: 'fact-tank',
+			label: 'Fact Tank',
 		},
 		{
-			name: 'oatmeal',
-			label: 'Oatmeal (Borderless)',
+			name: 'publication-listing',
+			label: 'Publication Listing',
 		},
+		{
+			name: '3-column-lede',
+			label: 'Three Column Lede',
+		}
 	],
 	supports: {
 		html: false, // We do not want to give people the ability to edit the raw html of this block.
