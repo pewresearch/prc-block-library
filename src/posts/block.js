@@ -13,7 +13,6 @@ import { __ } from "@wordpress/i18n";
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 import PostsList from './component';
-
 /**
  * Register: aa Gutenberg Block.
  *

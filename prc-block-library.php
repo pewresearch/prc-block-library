@@ -31,7 +31,38 @@ class PRC_Block_Library {
 			add_action( 'init', array( $this, 'register_block_assets' ) );
 			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
+			add_action( 'acf/init', array( $this, 'acf_shim' ) );
 		}
+	}
+
+	public function acf_shim() {
+		// get post types assigned to byline.
+		// register a testimonial block.
+		$post_types = array( 'post' );
+		acf_register_block_type(
+			array(
+				'name'            => 'bylines',
+				'title'           => __( 'Bylines' ),
+				'description'     => __( 'Bylines' ),
+				'render_callback' => array( $this, 'acf_byline_render' ),
+				'category'        => 'formatting',
+				'icon'            => 'groups',
+				'keywords'        => array( 'byline', 'bylines' ),
+				'post_types'      => $post_types,
+				// 'mode'            => 'edit',
+				'supports'        => array(
+					'multiple' => false,
+				),
+			)
+		);
+	}
+
+	public function acf_byline_render() {
+		ob_start();
+		?>
+		<div>Bylines Test</div>
+		<?php
+		return ob_get_clean();
 	}
 
 	/**
