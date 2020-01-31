@@ -130,7 +130,7 @@ class Card extends Component {
 
 						<div className="ui items">
 						{ false === this.props.edit.display && (
-							<InnerBlocks allowedBlocks={[ 'prc-block/story-item' ]}/>
+							<InnerBlocks allowedBlocks={[ 'prc-block/story-item', 'prc-block/posts' ]}/>
 						) }
 						{ true === this.props.edit.display && (
 							<InnerBlocks.Content/>

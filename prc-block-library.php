@@ -149,6 +149,30 @@ class PRC_Block_Library {
 			)
 		);
 
+		// Posts
+		$js_deps   = $this->js_deps;
+		$js_deps[] = 'moment';
+		$posts     = $enqueue->register(
+			'posts',
+			'main',
+			[
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => [],
+				'in_footer' => true,
+				'media'     => 'all',
+			]
+		);
+		register_block_type(
+			'prc-block/posts',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $posts['js'] )['handle'],
+				'style'         => array_pop( $posts['css'] )['handle'],
+			)
+		);
+
 	}
 
 	// register custom meta tag field
