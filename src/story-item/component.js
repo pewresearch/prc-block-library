@@ -149,9 +149,9 @@ const Image = function({ isChartArt, img, edit, link }) {
 					</Fragment>
 				)}
 				{ true !== edit.enabled && (
-					<div className={classes}>
-						<a href={link}><img src={img.src} /></a>
-					</div>
+					<a href={link} className={classes}>
+						<img src={img.src} />
+					</a>
 				)}
 				</Fragment>
 			)}
@@ -246,7 +246,7 @@ const Header = function({ title, label, date, edit, link, disabled, size }) {
 								/>
 							</Fragment>
 						)}
-						{ true !== edit.enabled && true !== disabled && ( <a href={link}><RawHTML>{title}</RawHTML></a> ) }
+						{ true !== edit.enabled && true !== disabled && ( <a href={link}><RichText.Content tagName="div" value={ title }/></a> ) }
 					</Item.Header>
 				</Fragment>
 			) }

@@ -5,6 +5,7 @@ import { Button, PanelBody, ToggleControl, TextControl, SelectControl } from '@w
 import { Component, Fragment } from '@wordpress/element';
 
 import PostsList from './styles/list';
+import FactTankList from './styles/fact-tank';
 
 class EditSidebar extends Component {
 	constructor(props) {
@@ -206,7 +207,7 @@ registerBlockType( 'prc-block/posts', {
 		if ( true === props.isSelected ) {
 			data.setAttributes = props.setAttributes;
 		}
-		data.disableLink = true;
+		data.disableLink = true; // While editing we do not want users to accidentally click on a post.
 		return(
 			<Fragment>
 				{ true === props.isSelected && (
