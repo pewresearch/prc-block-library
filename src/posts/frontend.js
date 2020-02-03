@@ -1,6 +1,7 @@
 import { render, Component, Fragment } from '@wordpress/element';
 import PostsList from './styles/list';
 import FactTankList from './styles/fact-tank';
+import getPosts from '../_shared/get-posts';
 
 class DynamicPosts extends Component {
 	constructor(props) {
@@ -13,35 +14,11 @@ class DynamicPosts extends Component {
 	}
 	componentDidMount = () => {
 		// Fetch immediately, then fetch every x milliseconds.
-		this.getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
+		getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
 		
 		setInterval( () => {
-			this.getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
+			getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
 		}, this.state.fetchInterval);
-	}
-	// We can consolidiate this into a shared function and have an attr where we pass the save option eiither setstate or setattributes
-	getPosts = (saveMethod, perPage, format, program) => {
-		const formatDate = function( dateString ) {
-			return moment(dateString).format("MMM D, YYYY");
-		}
-		const collection = new wp.api.collections.Stub();
-
-		let args = { 'per_page': Number(perPage), 'formats': [ Number(format) ] };
-		if ( 0 !== program ) {
-			args.programs = Number(program);
-		}
-		let data = [];
-
-		collection.fetch( { data: args } ).then( ( posts ) => {
-			for ( let index = 0; index < posts.length; index++ ) {
-				data.push({
-					title: posts[index].title.rendered,
-					date: formatDate(posts[index].date),
-					link: posts[index].link,
-				});
-			}
-			saveMethod({ posts: data });
-		});
 	}
 	render() {
 		let data = this.props;
