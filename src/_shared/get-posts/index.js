@@ -1,5 +1,7 @@
 import * as moment from 'moment';
 
+// @TODO: convert froomo wp api to apifetch https://www.npmjs.com/package/@wordpress/api-fetch
+
 const getPosts = (saveMethod, perPage, format, program) => {
 	const formatDate = function( dateString ) {
 		return moment(dateString).format("MMM D, YYYY");
