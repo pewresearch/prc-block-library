@@ -32,6 +32,7 @@ class PRC_Block_Library {
 			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 			add_action( 'acf/init', array( $this, 'acf_shim' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'posts_block_dynamic_render' ) );
 		}
 	}
 
@@ -173,6 +174,30 @@ class PRC_Block_Library {
 			)
 		);
 
+	}
+
+	/**
+	 * Enqueue prc-block/posts in the front end for dynamic rendering.
+	 *
+	 * @return void
+	 */
+	public function posts_block_dynamic_render() {
+		$enqueue   = new \WPackio\Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
+		$js_deps   = $this->js_deps;
+		$js_deps[] = 'moment';
+		$js_deps[] = 'wp-api'; // Used for fetching posts.
+		$enqueue->enqueue(
+			'posts',
+			'frontend',
+			[
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => [],
+				'in_footer' => true,
+				'media'     => 'all',
+			]
+		);
 	}
 
 	// register custom meta tag field

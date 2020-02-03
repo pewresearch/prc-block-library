@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
-import { Button, PanelBody, ToggleControl, TextControl, SelectControl } from '@wordpress/components';
+import { PanelBody, ToggleControl, TextControl, SelectControl } from '@wordpress/components';
 import { Component, Fragment } from '@wordpress/element';
 
 import PostsList from './styles/list';
@@ -14,7 +14,9 @@ class EditSidebar extends Component {
 	}
 
 	componentDidMount = () => {
-		this.getPosts(this.props.attributes.per_page, this.props.attributes.format);
+		if ( false === this.props.attributes.posts ) {
+			this.getPosts(this.props.attributes.per_page, this.props.attributes.format);
+		}
 	}
 
 	getPosts = (perPage, format, program) => {
@@ -43,11 +45,9 @@ class EditSidebar extends Component {
 	}
 
 	render = () => {
-		console.log('edit sidebar');
-		console.log(this.props);
 		const setAttributes = this.props.setAttributes;
 		// If the style is fact-tank then the format should be set to fact-tank
-		if ( "wp-block-prc-block-posts is-style-fact-tank" === this.props.className ) {
+		if ( true === this.props.className.includes('is-style-fact-tank') ) {
 			setAttributes({format: 10818955});
 			this.getPosts(this.props.attributes.per_page, 10818955, this.props.attributes.program); 
 		}
@@ -89,6 +89,12 @@ class EditSidebar extends Component {
 							setAttributes( { program: Number(program) } );
 							this.getPosts(this.props.attributes.per_page, this.props.attributes.format, program);
 						} }
+					/>
+					<ToggleControl
+						label="Dynamic Mode"
+						help={ this.props.attributes.dynamic ? 'Updates posts in real time, every 5 minutes.' : 'Posts are saved statically (will not update in real time).' }
+						checked={ this.props.attributes.dynamic }
+						onChange={ () => setAttributes({ dynamic: ! this.props.attributes.dynamic }) }
 					/>
 					{ "wp-block-prc-block-posts is-style-columns" === this.props.className && (
 						<TextControl
@@ -141,18 +147,18 @@ registerBlockType( 'prc-block/posts', {
 			name: 'fact-tank',
 			label: 'Fact Tank',
 		},
-		{
-			name: 'publication-listing',
-			label: 'Publication Listing',
-		},
-		{
-			name: '4-story-lede',
-			label: '4 Story Lede',
-		},
-		{
-			name: 'columns',
-			label: 'Columns',
-		}
+		// {
+		// 	name: 'publication-listing',
+		// 	label: 'Publication Listing',
+		// },
+		// {
+		// 	name: '4-story-lede',
+		// 	label: '4 Story Lede',
+		// },
+		// {
+		// 	name: 'columns',
+		// 	label: 'Columns',
+		// }
 	],
 	supports: {
 		html: false, // We do not want to give people the ability to edit the raw html of this block.
@@ -176,9 +182,9 @@ registerBlockType( 'prc-block/posts', {
 			default: 10,
 		},
 		// If static is true then we should output on save only a holder div that would contain the options and the style template to use and then the frontend loader will load the posts. This mean will be 
-		static: {
+		dynamic: {
 			type: 'boolean',
-			default: true,
+			default: false,
 		},
 		columns: {
 			type: 'string',
@@ -203,10 +209,22 @@ registerBlockType( 'prc-block/posts', {
 	 */
 	edit: ( props ) => {
 		const data = props.attributes;
-		data.className = props.className;
+
+		let style = props.attributes.className;
+		let isFactTank = false;
+		if ( undefined !== style && style.includes('is-style-fact-tank') ) {
+			isFactTank = true;
+		}
+		let isList = false;
+		if ( undefined !== style && style.includes('is-style-list') ) {
+			isList = true;
+		}
+		data.className = style;
+
 		if ( true === props.isSelected ) {
 			data.setAttributes = props.setAttributes;
 		}
+
 		data.disableLink = true; // While editing we do not want users to accidentally click on a post.
 		return(
 			<Fragment>
@@ -214,7 +232,12 @@ registerBlockType( 'prc-block/posts', {
 					<EditSidebar {...props}/>
 				) }
 				<div className={data.className}>
-					<PostsList {...data}/>
+					{ true === isFactTank && (
+						<FactTankList {...data}/>
+					) }
+					{ true === isList && (
+						<PostsList {...data}/>
+					) }
 				</div>
 			</Fragment>
 		)
@@ -233,11 +256,36 @@ registerBlockType( 'prc-block/posts', {
 	 */
 	save: ( props ) => {
 		const data = props.attributes;
-		data.className = props.className;
+
+		let style = props.attributes.className;
+		let isFactTank = false;
+		if ( undefined !== style && style.includes('is-style-fact-tank') ) {
+			isFactTank = true;
+		}
+		let isList = false;
+		if ( undefined !== style && style.includes('is-style-list') ) {
+			isList = true;
+		}
+		data.className = style;
+
 		data.disableLink = false;
 		return (
 			<div className={data.className}>
-				<PostsList {...data}/>
+				{ true !== props.attributes.dynamic && true === isFactTank && (
+					<FactTankList {...data}/>
+				) }
+				{ true !== props.attributes.dynamic && true === isList && (
+					<PostsList {...data}/>
+				) }
+				{ true === props.attributes.dynamic && (
+					<div className='js-react-posts-block'
+						data-title={props.attributes.title}
+						data-format={props.attributes.format}
+						data-program={props.attributes.program}
+						data-number={props.attributes.per_page}
+						data-style={style}
+					/>
+				) }
 			</div>
 		);
 	},

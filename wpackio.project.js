@@ -45,6 +45,39 @@ module.exports = {
 			name: 'posts',
 			entry: {
 				main: './src/posts/index.js',
+				frontend: './src/posts/frontend.js',
+			},
+			webpackConfig: (config, merge, appDir, isDev) => {
+				const customRules = {
+					module: {
+						rules: [
+							// Config for SVGR in javascript files
+							{
+								test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+								issuer: issuerForJsTsFiles,
+								use: ["@svgr/webpack", "url-loader"],
+							},
+							// For everything else, we use file-loader only
+							{
+								test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+								issuer: issuerForNonJsTsFiles,
+								use: [
+									{
+										loader: fileLoader,
+										options: getFileLoaderOptions(
+											appDir,
+											isDev,
+											true
+										),
+									},
+								],
+							},
+						],
+					},
+				};
+
+				// merge and return
+				return merge(config, customRules);
 			},
 		},
 		{

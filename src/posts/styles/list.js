@@ -1,7 +1,6 @@
 
 import { Component, Fragment, RawHTML } from '@wordpress/element';
-import { Item, List } from 'semantic-ui-react';
-import classNames from 'classnames/bind';
+import { List } from 'semantic-ui-react';
 
 class PostsList extends Component {
 	constructor(props) {
@@ -9,7 +8,6 @@ class PostsList extends Component {
 	}
 
 	posts({data, disableLink}){
-		console.log(data);
 		return(
 			<List relaxed="very" link divided>
 			{ false !== data && data.map((item, index) => {
