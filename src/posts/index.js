@@ -123,18 +123,14 @@ registerBlockType( 'prc-block/posts', {
 			name: 'fact-tank',
 			label: 'Fact Tank',
 		},
-		// {
-		// 	name: 'publication-listing',
-		// 	label: 'Publication Listing',
-		// },
-		// {
-		// 	name: '4-story-lede',
-		// 	label: '4 Story Lede',
-		// },
-		// {
-		// 	name: 'columns',
-		// 	label: 'Columns',
-		// }
+		{
+			name: 'publication-listing',
+			label: 'Publication Listing',
+		},
+		{
+			name: 'columns',
+			label: 'Columns',
+		}
 	],
 	supports: {
 		html: false, // We do not want to give people the ability to edit the raw html of this block.
