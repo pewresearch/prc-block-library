@@ -7,17 +7,20 @@ class DynamicPosts extends Component {
 		super(props);
 		this.state = {
 			posts: false,
-			fetchInterval: 5000, // In minutes
+			fetchInterval: 5000, // In minutes @TODO on production change this to 5 minutes and not 5 seconds
 		}
 		this.setState = this.setState.bind(this);
 	}
 	componentDidMount = () => {
+		// Fetch immediately, then fetch every x milliseconds.
+		this.getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
+		
 		setInterval( () => {
-			this.getPosts(this.props.per_page, this.props.format, this.props.program);
+			this.getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
 		}, this.state.fetchInterval);
 	}
-	getPosts = (perPage, format, program) => {
-		const setState = this.setState;
+	// We can consolidiate this into a shared function and have an attr where we pass the save option eiither setstate or setattributes
+	getPosts = (saveMethod, perPage, format, program) => {
 		const formatDate = function( dateString ) {
 			return moment(dateString).format("MMM D, YYYY");
 		}
@@ -37,7 +40,7 @@ class DynamicPosts extends Component {
 					link: posts[index].link,
 				});
 			}
-			setState({ posts: data });
+			saveMethod({ posts: data });
 		});
 	}
 	render() {

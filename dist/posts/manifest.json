@@ -1,6 +1,6 @@
 {
-  "frontend.js": "posts/frontend-37d0b992.js",
-  "frontend.js.map": "posts/frontend-37d0b992.js.map",
+  "frontend.js": "posts/frontend-da9c6ea7.js",
+  "frontend.js.map": "posts/frontend-da9c6ea7.js.map",
   "main.js": "posts/main-35936bd7.js",
   "main.js.map": "posts/main-35936bd7.js.map",
   "runtime.js": "posts/runtime-a582402a.js",
@@ -24,12 +24,12 @@
       "js": [
         "posts/runtime-a582402a.js",
         "posts/vendors~frontend~main-c9d6946b.js",
-        "posts/frontend-37d0b992.js"
+        "posts/frontend-da9c6ea7.js"
       ],
       "js.map": [
         "posts/runtime-a582402a.js.map",
         "posts/vendors~frontend~main-c9d6946b.js.map",
-        "posts/frontend-37d0b992.js.map"
+        "posts/frontend-da9c6ea7.js.map"
       ]
     }
   }
