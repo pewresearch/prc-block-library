@@ -11,7 +11,7 @@ class PostsList extends Component {
 	posts({data, disableLink}){
 		console.log(data);
 		return(
-			<List relaxed divided>
+			<List relaxed="very" link divided>
 			{ false !== data && data.map((item, index) => {
 				if ( true === disableLink ) {
 					return <List.Item><span className="meta date">{item.date}</span><RawHTML>{item.title}</RawHTML></List.Item>
