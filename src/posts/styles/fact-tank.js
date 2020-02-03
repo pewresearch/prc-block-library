@@ -11,7 +11,7 @@ class FactTankList extends Component {
 
 	svgHeader({svg, width}) {
 		let height = width / 5;
-		return(<img src={svg} width={width+'px'} height={height+'px'}/>)
+		return(<img style={{margin: 'auto', display: 'block'}} src={svg} width={width+'px'} height={height+'px'}/>)
 	}
 
 	render() {
