@@ -253,7 +253,7 @@ registerBlockType( 'prc-block/posts', {
 				{ true !== props.attributes.dynamic && true === isList && (
 					<PostsList {...data}/>
 				) }
-				{ true === isColumns && (
+				{ true !== props.attributes.dynamic && true === isColumns && (
 					<PostsColumns {...data}/>
 				) }
 				{ true === props.attributes.dynamic && (
