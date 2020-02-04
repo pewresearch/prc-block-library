@@ -222,12 +222,17 @@ class PRC_Block_Library {
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_block_lib_posts' ),
 				'args'     => array(
-					'format'  => array(
+					'format'       => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
 					),
-					'program' => array(
+					'program'      => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+					'labeldisplay' => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
@@ -253,8 +258,56 @@ class PRC_Block_Library {
 	}
 
 	public function get_block_lib_posts( \WP_REST_Request $request ) {
-		$format  = $request->get_param( 'format' );
-		$program = $request->get_param( 'program' );
+		$format        = $request->get_param( 'format' );
+		$program       = $request->get_param( 'program' );
+		$label_display = $request->get_param( 'labeldisplay' );
+		$args          = array(
+			'post_type' => 'stub',
+			'tax_query' => array(
+				'relation' => 'AND',
+			),
+		);
+		if ( $format ) {
+			$args['tax_query'][] = array(
+				'taxonomy' => 'formats',
+				'terms'    => $format,
+				'field'    => 'term_id',
+			);
+		}
+		if ( $program ) {
+			$args['tax_query'][] = array(
+				'taxonomy' => 'programs',
+				'terms'    => $program,
+				'field'    => 'term_id',
+			);
+		}
+		// The Query
+		$the_query = new WP_Query( $args );
+		$return    = array();
+		// The Loop
+		if ( $the_query->have_posts() ) {
+			while ( $the_query->have_posts() ) {
+				$the_query->the_post();
+				if ( 'program' === $label_display ) {
+					$label = '';
+				} else {
+					$label = '';
+				}
+				$return[] = array(
+					'id'    => get_the_ID(),
+					'title' => get_the_title(),
+					'date'  => get_the_date(),
+					'link'  => get_permalink(),
+					'label' => 'feature',
+					'image' => get_the_post_thumbnail_url( get_the_ID(), 'large' ),
+				);
+			}
+		} else {
+			// no posts found
+		}
+		/* Restore original Post Data */
+		wp_reset_postdata();
+		return $return;
 	}
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
