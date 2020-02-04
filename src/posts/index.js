@@ -8,6 +8,7 @@ import getPosts from '../_shared/get-posts';
 
 import PostsList from './styles/list';
 import FactTankList from './styles/fact-tank';
+import PostsColumns from './styles/columns';
 
 class EditSidebar extends Component {
 	constructor(props) {
@@ -30,6 +31,11 @@ class EditSidebar extends Component {
 		return(
 			<InspectorControls>
 				<PanelBody title={ __( 'Posts Block Options' ) }>
+					<TextControl
+						label="Title"
+						value={ this.props.attributes.title }
+						onChange={ ( title ) => setAttributes( { title } ) }
+					/>
 					<TextControl
 						label="Number of Posts"
 						value={ Number(this.props.attributes.per_page) }
@@ -72,15 +78,6 @@ class EditSidebar extends Component {
 						checked={ this.props.attributes.dynamic }
 						onChange={ () => setAttributes({ dynamic: ! this.props.attributes.dynamic }) }
 					/>
-					{ "wp-block-prc-block-posts is-style-columns" === this.props.className && (
-						<TextControl
-							label="Column Count"
-							value={ Number(this.props.attributes.columns) }
-							onChange={ ( columns ) => { 
-								setAttributes( { columns } );
-							} }
-						/>
-					) }
 				</PanelBody>
 			</InspectorControls>
 		)
@@ -124,13 +121,13 @@ registerBlockType( 'prc-block/posts', {
 			label: 'Fact Tank',
 		},
 		{
+			name: 'columns',
+			label: 'Columns',
+		},
+		{
 			name: 'publication-listing',
 			label: 'Publication Listing',
 		},
-		{
-			name: 'columns',
-			label: 'Columns',
-		}
 	],
 	supports: {
 		html: false, // We do not want to give people the ability to edit the raw html of this block.
@@ -157,10 +154,6 @@ registerBlockType( 'prc-block/posts', {
 		dynamic: {
 			type: 'boolean',
 			default: false,
-		},
-		columns: {
-			type: 'string',
-			default: '5',
 		},
 		posts: {
 			type: 'array',
@@ -191,6 +184,10 @@ registerBlockType( 'prc-block/posts', {
 		if ( undefined !== style && style.includes('is-style-list') ) {
 			isList = true;
 		}
+		let isColumns = false;
+		if ( undefined !== style && style.includes('is-style-columns') ) {
+			isColumns = true;
+		}
 		data.className = style;
 
 		if ( true === props.isSelected ) {
@@ -209,6 +206,9 @@ registerBlockType( 'prc-block/posts', {
 					) }
 					{ true === isList && (
 						<PostsList {...data}/>
+					) }
+					{ true === isColumns && (
+						<PostsColumns {...data}/>
 					) }
 				</div>
 			</Fragment>
@@ -238,6 +238,10 @@ registerBlockType( 'prc-block/posts', {
 		if ( undefined !== style && style.includes('is-style-list') ) {
 			isList = true;
 		}
+		let isColumns = false;
+		if ( undefined !== style && style.includes('is-style-columns') ) {
+			isColumns = true;
+		}
 		data.className = style;
 
 		data.disableLink = false;
@@ -248,6 +252,9 @@ registerBlockType( 'prc-block/posts', {
 				) }
 				{ true !== props.attributes.dynamic && true === isList && (
 					<PostsList {...data}/>
+				) }
+				{ true === isColumns && (
+					<PostsColumns {...data}/>
 				) }
 				{ true === props.attributes.dynamic && (
 					<div className='js-react-posts-block'

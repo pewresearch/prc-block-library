@@ -259,6 +259,10 @@ class StoryItem extends Component {
 		super(props);
 	}
 
+	componentDidMount() {
+		console.log(this.props);
+	}
+
 	render() {
 		let edit = {
 			enabled: false,

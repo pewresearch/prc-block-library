@@ -1,7 +1,11 @@
 import { render, Component, Fragment } from '@wordpress/element';
+
+import getPosts from '../_shared/get-posts';
+
 import PostsList from './styles/list';
 import FactTankList from './styles/fact-tank';
-import getPosts from '../_shared/get-posts';
+import PostsColumns from './styles/columns';
+
 
 class DynamicPosts extends Component {
 	constructor(props) {
@@ -33,6 +37,10 @@ class DynamicPosts extends Component {
 		if ( undefined !== this.props.style && this.props.style.includes('is-style-list') ) {
 			isList = true;
 		}
+		let isColumns = false;
+		if ( undefined !== this.props.style && this.props.style.includes('is-style-columns') ) {
+			isColumns = true;
+		}
 		return(
 			<Fragment>
 				{ true === isFactTank && (
@@ -40,6 +48,9 @@ class DynamicPosts extends Component {
 				) }
 				{ true === isList && (
 					<PostsList {...data}/>
+				) }
+				{ true === isColumns && (
+					<PostsColumns {...data}/>
 				) }
 			</Fragment>
 		)

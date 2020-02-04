@@ -1,24 +1,11 @@
-import * as moment from 'moment';
-
 // @TODO: convert froomo wp api to apifetch https://www.npmjs.com/package/@wordpress/api-fetch
 
-const getPosts = (saveMethod, perPage, format, program) => {
+const getTerms = (saveMethod, taxonomy) => {
 	if ( 'function' !== typeof(saveMethod) ) {
-		console.error('saveMethod in getPosts is not a function');
+		console.error('saveMethod in getTerms is not a function');
 		return false;
 	}
-
-	const formatDate = function( dateString ) {
-		// $date_format = 'M j, Y';
-		// $timestamp   = get_the_date( 'U', $post_id );
-		// $date        = get_the_date( $date_format, $post_id );
-
-		// // If today...
-		// if ( date( 'M j', $timestamp ) == date( 'M j' ) ) {
-		// 	$date = 'Today at ' . get_the_date( 'g:i a', $post_id );
-		// }
-		return moment(dateString).format("MMM D, YYYY");
-	}
+	
 	// Define posts collection
 	const collection = new wp.api.collections.Stub();
 
@@ -45,4 +32,4 @@ const getPosts = (saveMethod, perPage, format, program) => {
 	});
 }
 
-export default getPosts;
+export default getTerms;

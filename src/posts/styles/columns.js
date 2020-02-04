@@ -1,31 +1,54 @@
 
-import { Component, Fragment, RawHTML } from '@wordpress/element';
+import { Component, Fragment } from '@wordpress/element';
 import { Grid } from 'semantic-ui-react';
-import { StoryItem } from '../../story-item/component';
+import StoryItem from '../../story-item/component';
 
 class PostsColumns extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			defaultOptions: {
+				emphasis: false,
+				disableHeader: false,
+				disableExcerpt: false,
+				headerSize: 'small',
+			}
+		}
 	}
 
-	posts({data, disableLink}){
-		return(
-			<List relaxed="very" link divided>
-			{ false !== data && data.map((item, index) => {
-				if ( true === disableLink ) {
-					return <List.Item><span className="meta date">{item.date}</span><RawHTML>{item.title}</RawHTML></List.Item>
-				} else {
-					return <List.Item><span className="meta date">{item.date}</span><a href={item.link}><RawHTML>{item.title}</RawHTML></a></List.Item>
-				}
-			}) }
-			</List>
-		)
+	componentDidMount() {
 	}
 
 	render() {
-		const Posts = this.posts;
+		const data = this.props.posts;
 		return(
-			<Posts data={ this.props.posts } disableLink={this.props.disableLink}/>
+			<Fragment>
+			<div className="ui sub header">{this.props.title}</div>
+			<Grid divided columns='equal'>
+				<Grid.Row>
+				{ false !== data && data.map((item, index) => {
+					let storyItemArgs = {
+						postID: '',
+						title: item.title,
+						link: item.link,
+						date: item.date,
+						label: '',
+						excerpt: '',
+						extra: '',
+						image: {
+							slot: 'top',
+							src: '',
+							isChartArt: false,
+						},
+						// These are very much 
+						options: this.state.defaultOptions,
+						classNames: 'is-style-top',
+					};
+					return <Grid.Column><StoryItem {...storyItemArgs}/></Grid.Column>
+				}) }
+				</Grid.Row>
+			</Grid>
+			</Fragment>
 		)
 	}	
 }

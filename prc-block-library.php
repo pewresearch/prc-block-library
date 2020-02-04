@@ -216,6 +216,26 @@ class PRC_Block_Library {
 	public function register_rest_endpoints() {
 		register_rest_route(
 			'prc-api/v2/blocks/helpers',
+			'/get-posts',
+			array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'get_block_lib_posts' ),
+				'args'     => array(
+					'format'  => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+					'program' => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+				),
+			)
+		);
+		register_rest_route(
+			'prc-api/v2/blocks/helpers',
 			'/get-post-by-url',
 			array(
 				'methods'  => 'GET',
@@ -229,6 +249,11 @@ class PRC_Block_Library {
 				),
 			)
 		);
+	}
+
+	public function get_block_lib_posts( \WP_REST_Request $request ) {
+		$format  = $request->get_param( 'format' );
+		$program = $request->get_param( 'program' );
 	}
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
