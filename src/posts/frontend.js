@@ -17,6 +17,7 @@ class DynamicPosts extends Component {
 		this.setState = this.setState.bind(this);
 	}
 	componentDidMount = () => {
+		console.log('Dynamic Posts Mounted');
 		// Fetch immediately, then fetch every x milliseconds.
 		getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
 		
@@ -62,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	if ( document.querySelector('.js-react-posts-block') ) {
 		const elms = document.querySelectorAll('.js-react-posts-block');
 		for (const elm of elms) {
+			console.log(elm);
 			const props = {
 				title: elm.getAttribute('data-title'),
 				format: elm.getAttribute('data-format'),

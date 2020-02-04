@@ -1,7 +1,41 @@
 import { __ } from "@wordpress/i18n";
+import { Component, Fragment } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
+import { InspectorControls } from '@wordpress/block-editor';
+import { Button, PanelBody, ToggleControl, TextControl } from '@wordpress/components';
 
 import Card from './component';
+
+class EditSidebar extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+
+	render = () => {
+		const setAttributes = this.props.edit.setAttributes;
+		return(
+			<InspectorControls>
+				<PanelBody title={ __( 'Card Options' ) }>
+					<div>
+						<TextControl
+							label="Link"
+							value={ this.props.link }
+							onChange={ ( link ) => setAttributes({link}) }
+						/>
+					</div>
+					<div>
+						<TextControl
+							label="Read More Text"
+							value={ this.props.label }
+							onChange={ ( label ) => setAttributes({label}) }
+						/>
+					</div>
+				</PanelBody>
+			</InspectorControls>
+		)
+	}
+}
 
 /**
  * Register: aa Gutenberg Block.
@@ -99,9 +133,14 @@ registerBlockType( 'prc-block/card', {
 		}
 		
 		return(
-			<div style={{maxWidth: '400px'}}>
-				<Card {...data}/>
-			</div>
+			<Fragment>
+				{ true === props.isSelected && (
+					<EditSidebar {...data}/>
+				) }
+				<div style={{maxWidth: '400px'}}>
+					<Card {...data}/>
+				</div>
+			</Fragment>
 		)
 	},
 

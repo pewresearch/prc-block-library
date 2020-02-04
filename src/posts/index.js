@@ -18,16 +18,16 @@ class EditSidebar extends Component {
 	componentDidMount = () => {
 		if ( false === this.props.attributes.posts ) {
 			getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program);
+			if ( true === this.props.className.includes('is-style-fact-tank') ) {
+				setAttributes({format: 10818955});
+				getPosts(this.props.setAttributes, this.props.attributes.per_page, 10818955, this.props.attributes.program);
+			}
 		}
 	}
 
 	render = () => {
 		const setAttributes = this.props.setAttributes;
 		// If the style is fact-tank then the format should be set to fact-tank
-		if ( true === this.props.className.includes('is-style-fact-tank') ) {
-			setAttributes({format: 10818955});
-			getPosts(this.props.setAttributes, this.props.attributes.per_page, 10818955, this.props.attributes.program);
-		}
 		return(
 			<InspectorControls>
 				<PanelBody title={ __( 'Posts Block Options' ) }>
@@ -124,10 +124,10 @@ registerBlockType( 'prc-block/posts', {
 			name: 'columns',
 			label: 'Columns',
 		},
-		{
-			name: 'publication-listing',
-			label: 'Publication Listing',
-		},
+		// {
+		// 	name: 'publication-listing',
+		// 	label: 'Publication Listing',
+		// },
 	],
 	supports: {
 		html: false, // We do not want to give people the ability to edit the raw html of this block.

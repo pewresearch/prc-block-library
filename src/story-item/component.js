@@ -190,11 +190,11 @@ const Extra = function({ content, edit }) {
 		<Fragment>
 			{true === edit.enabled && (
 				<RichText
-					tagName="div" // The tag here is the element output and editable in the admin
+					tagName="ul" // The tag here is the element output and editable in the admin
 					value={ content } // Any existing content, either from the database or an attribute default
 					onChange={ ( extra ) => edit.setAttributes( { extra } ) } // Store updated content as a block attribute
 					placeholder={ content } // Display this text before any content has been added by the user
-					multiline="p"
+					multiline="li"
 					className={ classes }
 				/>
 			)}
