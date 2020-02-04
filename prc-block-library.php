@@ -185,6 +185,7 @@ class PRC_Block_Library {
 		$enqueue   = new \WPackio\Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 		$js_deps   = $this->js_deps;
 		$js_deps[] = 'moment';
+		$js_deps[] = 'wp-block-editor';
 		$js_deps[] = 'wp-api'; // Used for fetching posts.
 		$enqueue->enqueue(
 			'posts',
