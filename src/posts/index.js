@@ -148,7 +148,7 @@ registerBlockType( 'prc-block/posts', {
 		},
 		per_page: {
 			type: 'integer',
-			default: 10,
+			default: 5,
 		},
 		// If static is true then we should output on save only a holder div that would contain the options and the style template to use and then the frontend loader will load the posts. This mean will be 
 		dynamic: {

@@ -1,8 +1,8 @@
 {
   "frontend.js": "posts/frontend-313680e3.js",
   "frontend.js.map": "posts/frontend-313680e3.js.map",
-  "main.js": "posts/main-d8466781.js",
-  "main.js.map": "posts/main-d8466781.js.map",
+  "main.js": "posts/main-5d7d31dd.js",
+  "main.js.map": "posts/main-5d7d31dd.js.map",
   "runtime.js": "posts/runtime-a582402a.js",
   "runtime.js.map": "posts/runtime-a582402a.js.map",
   "vendors~frontend~main.js": "posts/vendors~frontend~main-5f128941.js",
@@ -12,12 +12,12 @@
       "js": [
         "posts/runtime-a582402a.js",
         "posts/vendors~frontend~main-5f128941.js",
-        "posts/main-d8466781.js"
+        "posts/main-5d7d31dd.js"
       ],
       "js.map": [
         "posts/runtime-a582402a.js.map",
         "posts/vendors~frontend~main-5f128941.js.map",
-        "posts/main-d8466781.js.map"
+        "posts/main-5d7d31dd.js.map"
       ]
     },
     "frontend": {
