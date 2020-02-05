@@ -246,7 +246,7 @@ const Header = function({ title, label, date, edit, link, disabled, size }) {
 								/>
 							</Fragment>
 						)}
-						{ true !== edit.enabled && true !== disabled && ( <a href={link}><RichText.Content tagName="div" value={ title }/></a> ) }
+						{ true !== edit.enabled && true !== disabled && ( <RichText.Content href={link} tagName="a" value={ title }/> ) }
 					</Item.Header>
 				</Fragment>
 			) }
