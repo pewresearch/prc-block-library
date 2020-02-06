@@ -5,6 +5,7 @@ import { PanelBody, ToggleControl, TextControl, SelectControl } from '@wordpress
 import { Component, Fragment } from '@wordpress/element';
 
 import getPosts from '../_shared/get-posts';
+import getTerms from '../_shared/get-terms';
 
 import PostsList from './styles/list';
 import FactTankList from './styles/fact-tank';
@@ -13,9 +14,22 @@ import PostsColumns from './styles/columns';
 class EditSidebar extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			formats: false,
+			programs: false,
+		}
+		this.setState = this.setState.bind(this);
 	}
 
 	componentDidMount = () => {
+		const setState = this.setState;
+		getTerms('Formats', true).then((data)=>{
+			setState({ formats: data });
+		});
+		getTerms('Programs', true).then((data)=>{
+			setState({ programs: data });
+		});
+
 		if ( false === this.props.attributes.posts ) {
 			getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program);
 			if ( true === this.props.className.includes('is-style-fact-tank') ) {
@@ -47,11 +61,7 @@ class EditSidebar extends Component {
 					<SelectControl
 						label="Format"
 						value={ this.props.attributes.format }
-						options={ [
-							{ label: 'Report', value: 10818957 },
-							{ label: 'Feature', value: 10818948 },
-							{ label: 'Fact Tank', value: 10818955 },
-						] }
+						options={ this.state.formats }
 						onChange={ ( format ) => { 
 							setAttributes( { format: Number(format) } );
 							getPosts(this.props.setAttributes, this.props.attributes.per_page, format, this.props.attributes.program);
@@ -60,13 +70,7 @@ class EditSidebar extends Component {
 					<SelectControl
 						label="Research Program"
 						value={ this.props.attributes.program }
-						options={ [
-							{ label: 'All Programs', value: 0 },
-							{ label: 'Global', value: 10818960 },
-							{ label: 'Internet', value: 10818962 },
-							{ label: 'Religion', value: 10818963 },
-							{ label: 'Journalism', value: 10818964 },
-						] }
+						options={this.state.programs}
 						onChange={ ( program ) => { 
 							setAttributes( { program: Number(program) } );
 							getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, program);
@@ -174,14 +178,13 @@ registerBlockType( 'prc-block/posts', {
 	 */
 	edit: ( props ) => {
 		const data = props.attributes;
-
 		let style = props.attributes.className;
 		let isFactTank = false;
 		if ( undefined !== style && style.includes('is-style-fact-tank') ) {
 			isFactTank = true;
 		}
 		let isList = false;
-		if ( undefined !== style && style.includes('is-style-list') ) {
+		if ( undefined === style || style.includes('is-style-list') ) {
 			isList = true;
 		}
 		let isColumns = false;

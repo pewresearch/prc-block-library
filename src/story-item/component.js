@@ -1,11 +1,13 @@
 // WordPress Core
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { RichText, BlockControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { Button, SelectControl, DateTimePicker, Popover, Toolbar } from '@wordpress/components';
+import { Button, SelectControl, DatePicker, Popover, Toolbar } from '@wordpress/components';
 
 // Utilities
 import * as moment from 'moment';
 import classNames from 'classnames/bind';
+
+import getTerms from '../_shared/get-terms';
 
 // Elements
 import { Picture } from 'react-responsive-picture';
@@ -19,6 +21,7 @@ class MetaEditor extends Component {
 		this.state = {
 			open: false,
 			editLabel: false,
+			taxonomy: 'Formats',
 			labelOptions: [],
 		}
 		this.setState = this.setState.bind(this);
@@ -26,23 +29,26 @@ class MetaEditor extends Component {
 	}
 
 	componentDidMount() {
+		console.log('mounted');
 		this.getLabelOptions();
 	}
 
+	componentDidUpdate() {
+		console.log('updated');
+		if ( this.state.taxonomy !== this.props.taxonomy ) {
+			this.getLabelOptions();
+		}
+	}
+
 	getLabelOptions() {
-		if ( undefined === wp.api.collections.Formats ) {
+		if ( undefined === wp.api.collections[this.props.taxonomy] ) {
 			// Exit early, critical error that we don't want to stop the block from loading.
 			return;
 		}
-
-		let data = [];
 		const setState = this.setState;
-
-		return ( new wp.api.collections.Formats() ).fetch().then( ( terms ) => {
-			for (let index = 0; index < terms.length; index++) {
-				data.push({ value: terms[index].name, label: terms[index].name });
-			}
-			setState({labelOptions: data});
+		
+		getTerms(this.props.taxonomy, false).then((data)=>{
+			setState({ taxonomy: this.props.taxonomy, labelOptions: data });
 		});
 	}
 
@@ -68,13 +74,15 @@ class MetaEditor extends Component {
 						<span onClick={ () => { this.state.open ? this.setState({open: false}) : this.setState({open: true}) } }>{formatDate(this.props.date)}</span>
 						{ true === this.state.open && (
 							<Popover>
-								<DateTimePicker
+								<div>
+								<DatePicker
 									currentDate={ this.props.date }
 									onChange={ ( date ) => { 
 										let dateString = formatDate(date);
 										this.props.setAttributes( { date: dateString } );
 									} }
 								/>
+								</div>
 							</Popover>
 						)}
 					</div>
@@ -116,9 +124,10 @@ class ImageEditor extends Component {
 										}]} />
 									</BlockControls>
 								) }
-								<div className={this.props.imgClass} onClick={ open }>
-									<img src={this.props.img} />
-									<i>Click image to open media library</i>
+								<div className={this.props.imgClass}>
+									<img src={this.props.img} onClick={ open }/>
+									<div class="sans-serif"><i>Click image to open media library</i></div>
+									<div class="sans-serif remove-image" onClick={()=>{this.props.setAttributes({image:''})}}>Or click here to <strong>REMOVE IMAGE</strong></div>
 								</div>
 							</Fragment>
 						) }
@@ -159,11 +168,11 @@ const Image = function({ isChartArt, img, edit, link }) {
 	)	
 }
 
-const Description = function({ content, disabled, edit, sansSerif }) {
+const Description = function({ content, enabled, edit, sansSerif }) {
 	let classes = classNames( 'description', {'sans-serif': sansSerif} );
 	return(
 		<Fragment>
-			{ true !== disabled && (
+			{ true === enabled && (
 				<Fragment>
 					{true === edit.enabled && (
 						<RichText
@@ -198,14 +207,14 @@ const Extra = function({ content, edit }) {
 					className={ classes }
 				/>
 			)}
-			{true !== edit.enabled && ( 
+			{true !== edit.enabled && '' !== content && ( 
 				<RichText.Content tagName="div" value={ content } className={ classes }/>
 			)}
 		</Fragment>
 	)
 }
 
-const Header = function({ title, label, date, edit, link, disabled, size }) {
+const Header = function({ title, label, date, edit, link, enabled, size, taxonomy }) {
 	const currentSize = size;
 	const createSizeControls = function( size ) {
 		let active = false;
@@ -218,17 +227,19 @@ const Header = function({ title, label, date, edit, link, disabled, size }) {
             isActive: active,
             onClick: () => { edit.setAttributes({headerSize: size}) },
         };
-    }
+	}
+	const labelSlug = label.replace(/\s+/g, '-').toLowerCase();
+	let labelClass = classNames( labelSlug, 'label' );
 	return(
 		<Fragment>
-			{ true !== disabled && (
+			{ true === enabled && (
 				<Fragment>
 					<Item.Meta>
 						{ true === edit.enabled && (
-							<MetaEditor date={date} label={label} setAttributes={edit.setAttributes}/>
+							<MetaEditor date={date} label={label} taxonomy={taxonomy} setAttributes={edit.setAttributes}/>
 						) }
 						{ true !== edit.enabled && (
-							<Fragment>{label ? label : 'Report'} | {date}</Fragment>
+							<Fragment><span className={labelClass}>{label ? label : 'Report'}</span> | {date}</Fragment>
 						) }
 					</Item.Meta>
 					<Item.Header className={size}>
@@ -246,7 +257,7 @@ const Header = function({ title, label, date, edit, link, disabled, size }) {
 								/>
 							</Fragment>
 						)}
-						{ true !== edit.enabled && true !== disabled && ( <RichText.Content href={link} tagName="a" value={ title }/> ) }
+						{ true !== edit.enabled && true === enabled && ( <RichText.Content href={link} tagName="a" value={ title }/> ) }
 					</Item.Header>
 				</Fragment>
 			) }
@@ -270,6 +281,11 @@ class StoryItem extends Component {
 		if ( undefined !== this.props.editMode ) {
 			edit.enabled = true;
 			edit.setAttributes = this.props.setAttributes;
+		}
+
+		let taxonomy = 'Formats';
+		if ( true === this.props.options.taxonomy ) {
+			taxonomy = 'Programs';
 		}
 
 		let isStacked = true;
@@ -305,8 +321,9 @@ class StoryItem extends Component {
 						label={this.props.label}
 						link={this.props.link}
 						edit={edit}
-						disabled={this.props.options.disableHeader}
+						enabled={this.props.options.enableHeader}
 						size={this.props.options.headerSize}
+						taxonomy={taxonomy}
 						/>
 						{ 'default' === this.props.image.slot && (
 							<Image 
@@ -323,7 +340,7 @@ class StoryItem extends Component {
 							<ImageEditor slot={this.props.image.slot} img='' setAttributes={edit.setAttributes}
 							isChartArt={this.props.image.isChartArt}/>
 						)}
-						<Description content={this.props.excerpt} disabled={this.props.options.disableExcerpt} edit={edit} sansSerif={this.props.options.disableHeader}/>
+						<Description content={this.props.excerpt} enabled={this.props.options.enableExcerpt} edit={edit} sansSerif={ ! this.props.options.enableHeader}/>
 						<Extra content={this.props.extra} edit={edit}/>
 					</Item.Content>
 					{ ('bottom' === this.props.image.slot || 'right' === this.props.image.slot) && (

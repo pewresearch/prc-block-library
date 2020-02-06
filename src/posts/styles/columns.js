@@ -9,8 +9,8 @@ class PostsColumns extends Component {
 		this.state = {
 			defaultOptions: {
 				emphasis: false,
-				disableHeader: false,
-				disableExcerpt: false,
+				enableHeader: true,
+				enableExcerpt: true,
 				headerSize: 'small',
 			}
 		}

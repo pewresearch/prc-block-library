@@ -65,7 +65,6 @@ class EditSidebar extends Component {
 
 	render = () => {
 		const setAttributes = this.props.setAttributes;
-		console.log(this.props);
 		return(
 			<InspectorControls>
 				<PanelBody title={ __( 'Story Item Options' ) }>
@@ -91,16 +90,16 @@ class EditSidebar extends Component {
 					<p><strong>Content Options:</strong></p>
 					<div>
 						<ToggleControl
-							label={ this.props.options.disableHeader ? 'Header Disabled' : 'Header Enabled' }
-							checked={ this.props.options.disableHeader }
-							onChange={ (value) => { setAttributes({ disableHeader: value }); } }
+							label={ this.props.options.enableHeader ? 'Header Enabled' : 'Header Enabled' }
+							checked={ this.props.options.enableHeader }
+							onChange={ (value) => { setAttributes({ enableHeader: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.disableExcerpt ? 'Excerpt Disabled' : 'Excerpt Enabled' }
-							checked={ this.props.options.disableExcerpt }
-							onChange={ (value) => { setAttributes({ disableExcerpt: value }); } }
+							label={ this.props.options.enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Enabled' }
+							checked={ this.props.options.enableExcerpt }
+							onChange={ (value) => { setAttributes({ enableExcerpt: value }); } }
 						/>
 					</div>
 					<div>
@@ -108,6 +107,15 @@ class EditSidebar extends Component {
 							label={ this.props.options.emphasis ? 'Emphasis Enabled' : 'Emphasis Disabled' }
 							checked={ this.props.options.emphasis }
 							onChange={ (value) => { setAttributes({ emphasis: value }); } }
+						/>
+					</div>
+					<div>
+						<ToggleControl
+							label={ this.props.options.taxonomy ? 'Programs' : 'Formats' }
+							checked={ this.props.options.taxonomy }
+							onChange={ (value) => { 
+								setAttributes({ enableProgramsTaxonomy: value });
+							} }
 						/>
 					</div>
 				</PanelBody>
@@ -203,7 +211,7 @@ registerBlockType( 'prc-block/story-item', {
 		extra: {
 			type: 'string',
 			source: 'html',
-			multiline: 'p',
+			multiline: 'li',
 			selector: '.extra',
 			default: '',
 		},
@@ -232,11 +240,15 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'boolean',
 			default: true,
 		},
-		disableHeader: {
+		enableHeader: {
 			type: 'boolean',
-			default: false,
+			default: true,
 		},
-		disableExcerpt: {
+		enableExcerpt: {
+			type: 'boolean',
+			default: true,
+		},
+		enableProgramsTaxonomy: {
 			type: 'boolean',
 			default: false,
 		},
@@ -304,9 +316,10 @@ registerBlockType( 'prc-block/story-item', {
 			},
 			options: {
 				emphasis: props.attributes.emphasis,
-				disableHeader: props.attributes.disableHeader,
-				disableExcerpt: props.attributes.disableExcerpt,
+				enableHeader: props.attributes.enableHeader,
+				enableExcerpt: props.attributes.enableExcerpt,
 				headerSize: props.attributes.headerSize,
+				taxonomy: props.attributes.enableProgramsTaxonomy,
 			},
 			classNames: props.attributes.className,
 		};
@@ -353,8 +366,8 @@ registerBlockType( 'prc-block/story-item', {
 			},
 			options: {
 				emphasis: props.attributes.emphasis,
-				disableHeader: props.attributes.disableHeader,
-				disableExcerpt: props.attributes.disableExcerpt,
+				enableHeader: props.attributes.enableHeader,
+				enableExcerpt: props.attributes.enableExcerpt,
 				headerSize: props.attributes.headerSize,
 			},
 			classNames: props.attributes.className,

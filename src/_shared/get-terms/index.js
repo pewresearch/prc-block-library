@@ -1,35 +1,30 @@
 // @TODO: convert froomo wp api to apifetch https://www.npmjs.com/package/@wordpress/api-fetch
 
-const getTerms = (saveMethod, taxonomy) => {
-	if ( 'function' !== typeof(saveMethod) ) {
-		console.error('saveMethod in getTerms is not a function');
+const getTerms = (taxonomy, returnTermID) => {
+	console.log('getting terms for '+taxonomy);
+	// Set up taxonomy collection:
+	const collection = new wp.api.collections[taxonomy];
+	if ( undefined === collection ) {
 		return false;
 	}
+	return new Promise( (resolve, reject) => {
+		let data = [];
+		collection.fetch().then( ( terms ) => {
+			for (let index = 0; index < terms.length; index++) {
+				let obj = {
+					label: terms[index].name,
+				}
+				if ( true === returnTermID ) {
+					obj.value = terms[index].id;
+				} else {
+					obj.value = terms[index].name;
+				}
+				data.push(obj);
+			}
 	
-	// Define posts collection
-	const collection = new wp.api.collections.Stub();
-
-	let args = { 'per_page': Number(perPage), 'formats': [ Number(format) ] };
-	if ( 0 !== program ) {
-		args.programs = Number(program);
-	}
-	let data = [];
-
-	collection.fetch( { data: args } ).then( ( posts ) => {
-		console.info('Fetching posts for format: ' + format);
-		for ( let index = 0; index < posts.length; index++ ) {
-			data.push({
-				id: '',
-				title: posts[index].title.rendered,
-				// excerpt: posts[index].excerpt.rendered,
-				date: formatDate(posts[index].date),
-				link: posts[index].link,
-				label: '',
-				image: '',
-			});
-		}
-		saveMethod({ posts: data });
-	});
+			resolve(data);
+		} );
+	} ) ;
 }
 
 export default getTerms;
