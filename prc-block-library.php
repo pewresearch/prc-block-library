@@ -252,9 +252,14 @@ class PRC_Block_Library {
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_stub_post_by_post_url_restfully' ),
 				'args'     => array(
-					'url' => array(
+					'url'    => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
+						},
+					),
+					'siteID' => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_int( $param );
 						},
 					),
 				),
@@ -325,7 +330,7 @@ class PRC_Block_Library {
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
 		$url     = $request->get_param( 'url' );
-		$site_id = \prc_get_site_id_from_url( $url, true, false );
+		$site_id = $request->get_param( 'siteID' );
 		return $this->get_stub_post_by_post_url( $url, $site_id );
 	}
 
