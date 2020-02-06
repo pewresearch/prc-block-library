@@ -193,11 +193,11 @@ const Description = function({ content, enabled, edit, sansSerif }) {
 	)
 }
 
-const Extra = function({ content, edit }) {
+const Extra = function({ enabled, content, edit }) {
 	let classes = classNames( 'extra' );
 	return(
 		<Fragment>
-			{true === edit.enabled && (
+			{true === edit.enabled && true === enabled && (
 				<RichText
 					tagName="ul" // The tag here is the element output and editable in the admin
 					value={ content } // Any existing content, either from the database or an attribute default
@@ -207,7 +207,7 @@ const Extra = function({ content, edit }) {
 					className={ classes }
 				/>
 			)}
-			{true !== edit.enabled && '' !== content && ( 
+			{true !== edit.enabled && true === enabled && ( 
 				<RichText.Content tagName="div" value={ content } className={ classes }/>
 			)}
 		</Fragment>
@@ -341,7 +341,7 @@ class StoryItem extends Component {
 							isChartArt={this.props.image.isChartArt}/>
 						)}
 						<Description content={this.props.excerpt} enabled={this.props.options.enableExcerpt} edit={edit} sansSerif={ ! this.props.options.enableHeader}/>
-						<Extra content={this.props.extra} edit={edit}/>
+						<Extra enabled={this.props.options.enableExtra} content={this.props.extra} edit={edit}/>
 					</Item.Content>
 					{ ('bottom' === this.props.image.slot || 'right' === this.props.image.slot) && (
 						<Image 

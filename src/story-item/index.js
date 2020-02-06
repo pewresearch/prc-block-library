@@ -104,6 +104,13 @@ class EditSidebar extends Component {
 					</div>
 					<div>
 						<ToggleControl
+							label={ this.props.options.enableExtra ? 'Extras Enabled' : 'Extras Disabled' }
+							checked={ this.props.options.enableExtra }
+							onChange={ (value) => { setAttributes({ enableExtra: value }); } }
+						/>
+					</div>
+					<div>
+						<ToggleControl
 							label={ this.props.options.emphasis ? 'Emphasis Enabled' : 'Emphasis Disabled' }
 							checked={ this.props.options.emphasis }
 							onChange={ (value) => { setAttributes({ emphasis: value }); } }
@@ -248,6 +255,10 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'boolean',
 			default: true,
 		},
+		enableExtra: {
+			type: 'boolean',
+			default: false,
+		},
 		enableProgramsTaxonomy: {
 			type: 'boolean',
 			default: false,
@@ -318,6 +329,7 @@ registerBlockType( 'prc-block/story-item', {
 				emphasis: props.attributes.emphasis,
 				enableHeader: props.attributes.enableHeader,
 				enableExcerpt: props.attributes.enableExcerpt,
+				enableExtra: props.attributes.enableExtra,
 				headerSize: props.attributes.headerSize,
 				taxonomy: props.attributes.enableProgramsTaxonomy,
 			},
@@ -368,6 +380,7 @@ registerBlockType( 'prc-block/story-item', {
 				emphasis: props.attributes.emphasis,
 				enableHeader: props.attributes.enableHeader,
 				enableExcerpt: props.attributes.enableExcerpt,
+				enableExtra: props.attributes.enableExtra,
 				headerSize: props.attributes.headerSize,
 			},
 			classNames: props.attributes.className,
