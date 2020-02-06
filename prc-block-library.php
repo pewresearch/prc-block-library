@@ -377,7 +377,7 @@ class PRC_Block_Library {
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
 		$url     = $request->get_param( 'url' );
-		$site_id = $this->get_site_id_from_url( $url, true, false );
+		$site_id = $this->get_site_id_from_url( $url, true, true );
 		return $this->get_stub_post_by_post_url( $url, $site_id );
 	}
 
@@ -387,26 +387,26 @@ class PRC_Block_Library {
 			return 'No Site ID Found';
 		}
 
-		switch_to_blog( $site_id );
-		$post_id = url_to_postid( $url );
+		\switch_to_blog( $site_id );
+		$post_id = \url_to_postid( $url );
 		if ( false === $post_id ) {
 			return 'URL TO POSTID ' . $site_id . '-' . $url;
 		}
 
-		$stub_id = get_post_meta( $post_id, '_stub_post', true );
+		$stub_id = \get_post_meta( $post_id, '_stub_post', true );
 		if ( ! $stub_id ) {
 			return 'GET STUB POST ' . $site_id . '-' . $post_id . '-' . $url;
 		}
-		restore_current_blog();
+		\restore_current_blog();
 
-		$stub_post = get_post( $stub_id );
+		$stub_post = \get_post( $stub_id );
 		if ( false === $stub_post ) {
 			return 'STUB ' . $site_id . '-' . $post_id . '-' . $stub_id;
 		}
 
-		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
+		$stub_info = \get_post_meta( $stub_post->ID, '_stub_info', true );
 
-		$format_term = get_term_by( 'slug', $stub_info['_taxonomies']['formats'][0], 'formats' );
+		$format_term = \get_term_by( 'slug', $stub_info['_taxonomies']['formats'][0], 'formats' );
 
 		$return = array(
 			'id'      => $stub_post->ID,
