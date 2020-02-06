@@ -39,10 +39,10 @@ class EditSidebar extends Component {
 	 * Loading Posts
 	 */
 	setPostByURL = () => {
-		console.log('GetPostByURL');
+		console.log('GetPostByURL: ' + this.props.link);
 		console.log(this.props);
 		const setAttributes = this.props.setAttributes;
-		let url = this.state.url;
+		let url = this.props.link;
 
 		if ( undefined === setAttributes || undefined === url ) {
 			return;
@@ -80,8 +80,8 @@ class EditSidebar extends Component {
 						<div>
 							<TextControl
 								label="Link"
-								value={ this.state.url }
-								onChange={ ( url ) => this.setState({url}) }
+								value={ this.props.link }
+								onChange={ ( link ) => setAttributes({link}) }
 							/>
 						</div>
 						<div>
@@ -206,7 +206,7 @@ registerBlockType( 'prc-block/story-item', {
 		},
 		link: {
 			type: 'string',
-			default: 'https://www.pewresearch.org/post',
+			default: '',
 		},
 		label: {
 			type: 'string',
