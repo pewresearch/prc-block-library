@@ -325,7 +325,6 @@ class PRC_Block_Library {
 
 	public function get_site_id_from_url( $url, $allow_prc = true, $is_dev = false ) {
 		$site_id = 1;
-
 		if ( false === $is_dev ) {
 			if ( strpos( $url, 'https://www.pewresearch.org/global/' ) || strpos( $url, 'https://www.pewglobal.org/' ) ) {
 				$site_id = 2;
@@ -377,7 +376,7 @@ class PRC_Block_Library {
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
 		$url     = $request->get_param( 'url' );
-		$site_id = $this->get_site_id_from_url( $url, true, true );
+		$site_id = $this->get_site_id_from_url( $url, true, false );
 		return $this->get_stub_post_by_post_url( $url, $site_id );
 	}
 
@@ -389,7 +388,7 @@ class PRC_Block_Library {
 
 		\switch_to_blog( $site_id );
 		$post_id = \url_to_postid( $url );
-		if ( false === $post_id ) {
+		if ( 0 === $post_id ) {
 			return 'URL TO POSTID ' . $site_id . '-' . $url;
 		}
 
