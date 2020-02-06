@@ -340,13 +340,13 @@ class PRC_Block_Library {
 		}
 		$stub_id = get_post_meta( $post_id, '_stub_post', true );
 		if ( ! $stub_id ) {
-			return false;
+			return $site_id . '-' . $post_id;
 		}
 		restore_current_blog();
 
 		$stub_post = get_post( $stub_id );
 		if ( false === $stub_post ) {
-			return false;
+			return $site_id . '-' . $post_id;
 		}
 
 		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
