@@ -340,7 +340,7 @@ class PRC_Block_Library {
 		}
 		$stub_id = get_post_meta( $post_id, '_stub_post', true );
 		if ( ! $stub_id ) {
-			return $site_id . '-' . $post_id . '-' . $url;
+			return prc_is_dev_env() . '-' . $site_id . '-' . $post_id . '-' . $url;
 		}
 		restore_current_blog();
 
