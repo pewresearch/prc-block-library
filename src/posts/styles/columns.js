@@ -24,7 +24,8 @@ class PostsColumns extends Component {
 		return(
 			<div style={{marginBottom: '2rem'}}>
 			<div className="ui sub header" style={{marginBottom: '1rem'}}>{this.props.title}</div>
-			<Grid divided padded columns='equal' style={{backgroundColor: this.props.backgroundColor}}>
+			<Grid divided padded stackable columns='equal' style={{backgroundColor: this.props.backgroundColor}}>
+				<Grid.Row>
 				{ false !== data && data.map((item, index) => {
 					let storyItemArgs = {
 						postID: '',
@@ -45,6 +46,7 @@ class PostsColumns extends Component {
 					};
 					return <Grid.Column><StoryItem {...storyItemArgs}/></Grid.Column>
 				}) }
+				</Grid.Row>
 			</Grid>
 			</div>
 		)
