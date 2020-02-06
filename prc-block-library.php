@@ -340,6 +340,8 @@ class PRC_Block_Library {
 			return 'No Site ID Found ' . $url;
 		}
 
+		$current_site_id = get_current_blog_id();
+
 		switch_to_blog( $site_id );
 		$post_id = url_to_postid( $url );
 		if ( 0 === $post_id ) {
@@ -351,6 +353,10 @@ class PRC_Block_Library {
 			return 'GET STUB POST ' . $site_id . '-' . $post_id . '-' . $url;
 		}
 		restore_current_blog();
+
+		if ( 1 !== $current_site_id ) {
+			switch_to_blog( 1 );
+		}
 
 		$stub_post = get_post( $stub_id );
 		if ( false === $stub_post ) {
@@ -370,6 +376,10 @@ class PRC_Block_Library {
 			'link'    => get_post_meta( $stub_post->ID, '_redirect', true ),
 			'image'   => $stub_info['_featured_image'],
 		);
+
+		if ( 1 !== $current_site_id ) {
+			restore_current_blog();
+		}
 
 		return $return;
 	}
