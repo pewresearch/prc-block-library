@@ -49,6 +49,8 @@ class EditSidebar extends Component {
 		}
 
 		apiFetch( { path: '/prc-api/v2/blocks/helpers/get-post-by-url/?url=' + url } ).then( post => {
+			console.info('Post Returned:');
+			console.log(post);
 			if ( false !== post ) {
 				setAttributes({
 					title: post.title,
