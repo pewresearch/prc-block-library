@@ -372,11 +372,16 @@ class PRC_Block_Library {
 		}
 
 		return $site_id;
+
 	}
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
-		$url     = $request->get_param( 'url' );
-		$site_id = $this->get_site_id_from_url( $url, true, false );
+		$url = $request->get_param( 'url' );
+		// $site_id = $this->get_site_id_from_url( $url, true, false );
+		$site_id = 0;
+		if ( strpos( $url, 'https://www.pewsocialtrends.org/' ) ) {
+			$site_id = 3;
+		}
 		return $this->get_stub_post_by_post_url( $url, $site_id );
 	}
 
