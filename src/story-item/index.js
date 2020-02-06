@@ -44,11 +44,37 @@ class EditSidebar extends Component {
 		const setAttributes = this.props.setAttributes;
 		let url = this.props.link;
 
+		const getSiteIDFromURL = (url) => {
+			let siteID = 1;
+			if ( url.includes('https://www.pewresearch.org/global/' ) || url.includes('https://www.pewglobal.org/' ) ) {
+				siteID = 2;
+			} else if ( url.includes('https://www.pewresearch.org/hispanic/' ) || url.includes('https://www.pewhispanic.org/' ) ) {
+				siteID = 5;
+			} else if ( url.includes('https://www.pewresearch.org/science/' ) ) {
+				siteID = 16;
+			} else if ( url.includes('https://www.pewresearch.org/methods/' ) ) {
+				siteID = 10;
+			} else if ( url.includes('https://www.people-press.org/' ) ) {
+				siteID = 4;
+			} else if ( url.includes('https://www.pewforum.org/' ) ) {
+				siteID = 7;
+			} else if ( url.includes('https://www.journalism.org/' ) ) {
+				siteID = 8;
+			} else if ( url.includes('https://www.pewsocialtrends.org/' ) ) {
+				siteID = 3;
+			} else if ( url.includes('https://www.pewresearch.org/internet/' || url.includes('https://www.pewinternet.org/' ) ) ) {
+				siteID = 9;
+			} else if ( url.includes('https://www.pewresearch.org/' ) ) {
+				siteID = 1;
+			}
+			return siteID;
+		}
+
 		if ( undefined === setAttributes || undefined === url ) {
 			return;
 		}
 
-		apiFetch( { path: '/prc-api/v2/blocks/helpers/get-post-by-url/?url=' + url } ).then( post => {
+		apiFetch( { path: '/prc-api/v2/blocks/helpers/get-post-by-url/?url=' + url + '&siteID=' + getSiteIDFromURL(url) } ).then( post => {
 			console.info('Post Returned:');
 			console.log(post);
 			if ( false !== post ) {
