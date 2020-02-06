@@ -1,8 +1,8 @@
 {
   "main.css": "story-item/main-c856b561.css",
   "main.css.map": "story-item/main-c856b561.css.map",
-  "main.js": "story-item/main-3f3f696a.js",
-  "main.js.map": "story-item/main-3f3f696a.js.map",
+  "main.js": "story-item/main-fb90e52a.js",
+  "main.js.map": "story-item/main-fb90e52a.js.map",
   "runtime.js": "story-item/runtime-6b7036d3.js",
   "runtime.js.map": "story-item/runtime-6b7036d3.js.map",
   "vendors~main.js": "story-item/vendors~main-55bb72e6.js",
@@ -12,12 +12,12 @@
       "js": [
         "story-item/runtime-6b7036d3.js",
         "story-item/vendors~main-55bb72e6.js",
-        "story-item/main-3f3f696a.js"
+        "story-item/main-fb90e52a.js"
       ],
       "js.map": [
         "story-item/runtime-6b7036d3.js.map",
         "story-item/vendors~main-55bb72e6.js.map",
-        "story-item/main-3f3f696a.js.map"
+        "story-item/main-fb90e52a.js.map"
       ],
       "css": [
         "story-item/main-c856b561.css"

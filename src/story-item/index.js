@@ -90,14 +90,14 @@ class EditSidebar extends Component {
 					<p><strong>Content Options:</strong></p>
 					<div>
 						<ToggleControl
-							label={ this.props.options.enableHeader ? 'Header Enabled' : 'Header Enabled' }
+							label={ this.props.options.enableHeader ? 'Header Enabled' : 'Header Disabled' }
 							checked={ this.props.options.enableHeader }
 							onChange={ (value) => { setAttributes({ enableHeader: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Enabled' }
+							label={ this.props.options.enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled' }
 							checked={ this.props.options.enableExcerpt }
 							onChange={ (value) => { setAttributes({ enableExcerpt: value }); } }
 						/>
