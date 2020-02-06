@@ -323,9 +323,61 @@ class PRC_Block_Library {
 		return $return;
 	}
 
+	public function get_site_id_from_url( $url, $allow_prc = true, $is_dev = false ) {
+		$site_id = 1;
+
+		if ( false === $is_dev ) {
+			if ( strpos( $url, 'https://www.pewresearch.org/global/' ) || strpos( $url, 'https://www.pewglobal.org/' ) ) {
+				$site_id = 2;
+			} elseif ( strpos( $url, 'https://www.pewresearch.org/hispanic/' ) || strpos( $url, 'https://www.pewhispanic.org/' ) ) {
+				$site_id = 5;
+			} elseif ( strpos( $url, 'https://www.pewresearch.org/science/' ) ) {
+				$site_id = 16;
+			} elseif ( strpos( $url, 'https://www.pewresearch.org/methods/' ) ) {
+				$site_id = 10;
+			} elseif ( strpos( $url, 'https://www.people-press.org/' ) ) {
+				$site_id = 4;
+			} elseif ( strpos( $url, 'https://www.pewforum.org/' ) ) {
+				$site_id = 7;
+			} elseif ( strpos( $url, 'https://www.journalism.org/' ) ) {
+				$site_id = 8;
+			} elseif ( strpos( $url, 'https://www.pewsocialtrends.org/' ) ) {
+				$site_id = 3;
+			} elseif ( strpos( $url, 'https://www.pewresearch.org/internet/' || strpos( $url, 'https://www.pewinternet.org/' ) ) ) {
+				$site_id = 9;
+			} elseif ( strpos( $url, 'https://www.pewresearch.org/' ) && false !== $allow_prc ) {
+				$site_id = 1;
+			}
+		} else {
+			if ( strpos( $url, '/global/' ) ) {
+				$site_id = 2;
+			} elseif ( strpos( $url, '/hispanic/' ) ) {
+				$site_id = 5;
+			} elseif ( strpos( $url, '/science/' ) ) {
+				$site_id = 16;
+			} elseif ( strpos( $url, '/methods/' ) ) {
+				$site_id = 10;
+			} elseif ( strpos( $url, '/people-press/' ) ) {
+				$site_id = 4;
+			} elseif ( strpos( $url, '/pewforum/' ) ) {
+				$site_id = 7;
+			} elseif ( strpos( $url, '/journalism/' ) ) {
+				$site_id = 8;
+			} elseif ( strpos( $url, '/pewsocialtrends/' ) ) {
+				$site_id = 3;
+			} elseif ( strpos( $url, '/internet/' ) ) {
+				$site_id = 9;
+			} else {
+				$site_id = 1;
+			}
+		}
+
+		return $site_id;
+	}
+
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
 		$url     = $request->get_param( 'url' );
-		$site_id = \prc_get_site_id_from_url( $url, true, false );
+		$site_id = $this->get_site_id_from_url( $url, true, false );
 		return $this->get_stub_post_by_post_url( $url, $site_id );
 	}
 
@@ -338,18 +390,18 @@ class PRC_Block_Library {
 		switch_to_blog( $site_id );
 		$post_id = url_to_postid( $url );
 		if ( false === $post_id ) {
-			return $site_id . '-' . $url;
+			return 'URL TO POSTID ' . $site_id . '-' . $url;
 		}
 
 		$stub_id = get_post_meta( $post_id, '_stub_post', true );
 		if ( ! $stub_id ) {
-			return prc_is_dev_env() . '-' . $site_id . '-' . $post_id . '-' . $url;
+			return 'GET STUB POST ' . $site_id . '-' . $post_id . '-' . $url;
 		}
 		restore_current_blog();
 
 		$stub_post = get_post( $stub_id );
 		if ( false === $stub_post ) {
-			return 'STUB' . $site_id . '-' . $post_id . '-' . $stub_id;
+			return 'STUB ' . $site_id . '-' . $post_id . '-' . $stub_id;
 		}
 
 		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
