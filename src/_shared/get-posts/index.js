@@ -24,14 +24,14 @@ const getPosts = (saveMethod, perPage, format, program) => {
 	const collection = new wp.api.collections.Stub();
 
 	let args = { 'per_page': Number(perPage), 'formats': [ Number(format) ] };
-	if ( 0 !== program ) {
+	if ( 0 !== Number(program) ) {
 		args.programs = Number(program);
 	}
 	let data = [];
 
-	apiFetch( { path: '/prc-api/v2/blocks/helpers/get-posts/?format=' + format + '&program=' + program } ).then( posts => {
-		console.log(posts);
-	} );
+	// apiFetch( { path: '/prc-api/v2/blocks/helpers/get-posts/?format=' + format + '&program=' + program } ).then( posts => {
+	// 	console.log(posts);
+	// } );
 
 	collection.fetch( { data: args } ).then( ( posts ) => {
 		console.info('Fetching posts for format: ' + format);

@@ -27,7 +27,9 @@ class EditSidebar extends Component {
 			setState({ formats: data });
 		});
 		getTerms('Programs', true).then((data)=>{
-			setState({ programs: data });
+			let programs = data;
+			programs.push({ value: 0, label: 'All' });
+			setState({ programs: programs });
 		});
 
 		if ( false === this.props.attributes.posts ) {
