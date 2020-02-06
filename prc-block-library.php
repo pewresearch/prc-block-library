@@ -331,7 +331,7 @@ class PRC_Block_Library {
 	public function get_stub_post_by_post_url( $url ) {
 		$return = false;
 
-		$site_id = prc_get_site_id_from_url( $url, true, prc_is_dev_env() );
+		$site_id = \prc_get_site_id_from_url( $url, true, \prc_is_dev_env() );
 
 		switch_to_blog( $site_id );
 		$post_id = url_to_postid( $url );
@@ -340,13 +340,13 @@ class PRC_Block_Library {
 		}
 		$stub_id = get_post_meta( $post_id, '_stub_post', true );
 		if ( ! $stub_id ) {
-			return $site_id . '-' . $post_id;
+			return $site_id . '-' . $post_id . '-' . $url;
 		}
 		restore_current_blog();
 
 		$stub_post = get_post( $stub_id );
 		if ( false === $stub_post ) {
-			return $site_id . '-' . $post_id . '-' . $stub_id;
+			return 'STUB' . $site_id . '-' . $post_id . '-' . $stub_id;
 		}
 
 		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
