@@ -47,10 +47,6 @@ class MetaEditor extends Component {
 		
 		getTerms(this.props.taxonomy, false).then((data)=>{
 			let labelOptions = data;
-			// Force Fact Tank
-			if ( 'Formats' === this.props.taxonomy ) {
-				labelOptions.push({ value: 'Fact Tank', label: 'Fact Tank' });
-			}
 			setState({ taxonomy: this.props.taxonomy, labelOptions: labelOptions });
 		});
 	}
