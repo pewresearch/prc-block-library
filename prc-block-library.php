@@ -336,7 +336,7 @@ class PRC_Block_Library {
 		switch_to_blog( $site_id );
 		$post_id = url_to_postid( $url );
 		if ( false === $post_id ) {
-			return false;
+			return $site_id . '-' . $url;
 		}
 		$stub_id = get_post_meta( $post_id, '_stub_post', true );
 		if ( ! $stub_id ) {
