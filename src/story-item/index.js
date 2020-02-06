@@ -49,7 +49,6 @@ class EditSidebar extends Component {
 		}
 
 		apiFetch( { path: '/prc-api/v2/blocks/helpers/get-post-by-url/?url=' + url + '&siteID=' + Number(window.siteID) } ).then( post => {
-			console.info('Post Returned:');
 			console.log(post);
 			if ( false !== post ) {
 				setAttributes({

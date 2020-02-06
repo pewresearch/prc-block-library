@@ -259,7 +259,7 @@ class PRC_Block_Library {
 					),
 					'siteID' => array(
 						'validate_callback' => function( $param, $request, $key ) {
-							return is_int( $param );
+							return is_string( $param );
 						},
 					),
 				),
@@ -335,7 +335,8 @@ class PRC_Block_Library {
 	}
 
 	public function get_stub_post_by_post_url( $url, $site_id ) {
-		$return = false;
+		$return  = false;
+		$site_id = (int) $site_id;
 		if ( false == $site_id ) {
 			return 'No Site ID Found';
 		}
