@@ -12,17 +12,17 @@ class DynamicPosts extends Component {
 		super(props);
 		this.state = {
 			posts: false,
-			fetchInterval: 5000, // In minutes @TODO on production change this to 5 minutes and not 5 seconds
+			fetchInterval: 50000, // In minutes @TODO on production change this to 5 minutes and not 5 seconds
 		}
 		this.setState = this.setState.bind(this);
 	}
 	componentDidMount = () => {
 		console.log('Dynamic Posts Mounted');
 		// Fetch immediately, then fetch every x milliseconds.
-		getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
+		getPosts(this.setState, this.props.per_page, this.props.format, this.props.program, 'formats');
 		
 		setInterval( () => {
-			getPosts(this.setState, this.props.per_page, this.props.format, this.props.program);
+			getPosts(this.setState, this.props.per_page, this.props.format, this.props.program, 'programs');
 		}, this.state.fetchInterval);
 	}
 	render() {
@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function(){
 				format: elm.getAttribute('data-format'),
 				program: elm.getAttribute('data-program'),
 				per_page: elm.getAttribute('data-number'),
+				backgroundColor: elm.getAttribute('data-background'),
 				style: elm.getAttribute('data-style'),
 			}
 			render( 

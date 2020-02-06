@@ -14,6 +14,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { Button, PanelBody, ToggleControl, TextControl } from '@wordpress/components';
 import { Component, Fragment } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 import * as moment from 'moment';
 import StoryItem from './component';
 
@@ -47,7 +48,7 @@ class EditSidebar extends Component {
 			return;
 		}
 
-		window.wp.apiFetch( { path: '/prc-api/v2/blocks/helpers/get-post-by-url/?url=' + url } ).then( post => {
+		apiFetch( { path: '/prc-api/v2/blocks/helpers/get-post-by-url/?url=' + url } ).then( post => {
 			if ( false !== post ) {
 				setAttributes({
 					title: post.title,

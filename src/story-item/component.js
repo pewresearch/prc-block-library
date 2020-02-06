@@ -29,12 +29,10 @@ class MetaEditor extends Component {
 	}
 
 	componentDidMount() {
-		console.log('mounted');
 		this.getLabelOptions();
 	}
 
 	componentDidUpdate() {
-		console.log('updated');
 		if ( this.state.taxonomy !== this.props.taxonomy ) {
 			this.getLabelOptions();
 		}
@@ -48,7 +46,12 @@ class MetaEditor extends Component {
 		const setState = this.setState;
 		
 		getTerms(this.props.taxonomy, false).then((data)=>{
-			setState({ taxonomy: this.props.taxonomy, labelOptions: data });
+			let labelOptions = data;
+			// Force Fact Tank
+			if ( 'Formats' === this.props.taxonomy ) {
+				labelOptions.push({ value: 'Fact Tank', label: 'Fact Tank' });
+			}
+			setState({ taxonomy: this.props.taxonomy, labelOptions: labelOptions });
 		});
 	}
 
@@ -214,7 +217,21 @@ const Extra = function({ enabled, content, edit }) {
 	)
 }
 
-const Header = function({ title, label, date, edit, link, enabled, size, taxonomy }) {
+const Kicker = ({ label, date }) => {
+	const labelSlug = label.replace(/\s+/g, '-').toLowerCase();
+	let classes = classNames( labelSlug, 'label' );
+	return(
+		<Fragment><span className={classes}>{label ? label : 'Report'}</span> | {date}</Fragment>
+	)
+}
+
+const PostTitle = ({ title, link, size, as = 'a' }) => {
+	return(
+		<RichText.Content href={link} tagName={as} value={ title }/>
+	)
+}
+
+const Header = function({ title, label, date, link, enabled, size, taxonomy, edit }) {
 	const currentSize = size;
 	const createSizeControls = function( size ) {
 		let active = false;
@@ -228,8 +245,6 @@ const Header = function({ title, label, date, edit, link, enabled, size, taxonom
             onClick: () => { edit.setAttributes({headerSize: size}) },
         };
 	}
-	const labelSlug = label.replace(/\s+/g, '-').toLowerCase();
-	let labelClass = classNames( labelSlug, 'label' );
 	return(
 		<Fragment>
 			{ true === enabled && (
@@ -239,7 +254,7 @@ const Header = function({ title, label, date, edit, link, enabled, size, taxonom
 							<MetaEditor date={date} label={label} taxonomy={taxonomy} setAttributes={edit.setAttributes}/>
 						) }
 						{ true !== edit.enabled && (
-							<Fragment><span className={labelClass}>{label ? label : 'Report'}</span> | {date}</Fragment>
+							<Kicker label={label} date={date}/>
 						) }
 					</Item.Meta>
 					<Item.Header className={size}>
@@ -257,7 +272,9 @@ const Header = function({ title, label, date, edit, link, enabled, size, taxonom
 								/>
 							</Fragment>
 						)}
-						{ true !== edit.enabled && true === enabled && ( <RichText.Content href={link} tagName="a" value={ title }/> ) }
+						{ true !== edit.enabled && true === enabled && ( 
+							<PostTitle title={title} link={link} as='a' size={size}/>
+						) }
 					</Item.Header>
 				</Fragment>
 			) }

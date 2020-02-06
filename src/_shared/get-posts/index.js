@@ -1,9 +1,9 @@
 import * as moment from 'moment';
-import apiFetch from '@wordpress/api-fetch'
+import apiFetch from '@wordpress/api-fetch';
 
 // @TODO: convert froomo wp api to apifetch https://www.npmjs.com/package/@wordpress/api-fetch
 
-const getPosts = (saveMethod, perPage, format, program) => {
+const getPosts = (saveMethod, perPage, format, program, labelTaxonomy) => {
 	if ( 'function' !== typeof(saveMethod) ) {
 		console.error('saveMethod in getPosts is not a function');
 		return false;
@@ -20,34 +20,23 @@ const getPosts = (saveMethod, perPage, format, program) => {
 		// }
 		return moment(dateString).format("MMM D, YYYY");
 	}
-	// Define posts collection
-	const collection = new wp.api.collections.Stub();
 
-	let args = { 'per_page': Number(perPage), 'formats': [ Number(format) ] };
-	if ( 0 !== Number(program) ) {
-		args.programs = Number(program);
-	}
 	let data = [];
 
-	// apiFetch( { path: '/prc-api/v2/blocks/helpers/get-posts/?format=' + format + '&program=' + program } ).then( posts => {
-	// 	console.log(posts);
-	// } );
-
-	collection.fetch( { data: args } ).then( ( posts ) => {
-		console.info('Fetching posts for format: ' + format);
-		for ( let index = 0; index < posts.length; index++ ) {
+	apiFetch( { path: '/prc-api/v2/blocks/helpers/get-posts/?perPage='+perPage+'&format=' + format + '&program=' + program + '&labelTaxonomy=' + labelTaxonomy } ).then( posts => {
+		for ( let index = 0; index < perPage ; index++ ) {
 			data.push({
-				id: '',
-				title: posts[index].title.rendered,
-				// excerpt: posts[index].excerpt.rendered,
+				id: posts[index].id,
+				title: posts[index].title,
+				excerpt: posts[index].excerpt,
 				date: formatDate(posts[index].date),
 				link: posts[index].link,
-				label: '',
-				image: '',
+				label: posts[index].label,
+				image: posts[index].image,
 			});
 		}
 		saveMethod({ posts: data });
-	});
+	} );
 }
 
 export default getPosts;

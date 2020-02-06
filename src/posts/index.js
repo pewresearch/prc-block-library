@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl, TextControl, SelectControl } from '@wordpress/components';
+import { PanelBody, ToggleControl, TextControl, SelectControl, ColorPalette } from '@wordpress/components';
 import { Component, Fragment } from '@wordpress/element';
 
 import getPosts from '../_shared/get-posts';
@@ -23,8 +23,11 @@ class EditSidebar extends Component {
 
 	componentDidMount = () => {
 		const setState = this.setState;
+
 		getTerms('Formats', true).then((data)=>{
-			setState({ formats: data });
+			let formats = data;
+			formats.push({ value: 10818955, label: 'Fact Tank' });
+			setState({ formats: formats });
 		});
 		getTerms('Programs', true).then((data)=>{
 			let programs = data;
@@ -33,16 +36,21 @@ class EditSidebar extends Component {
 		});
 
 		if ( false === this.props.attributes.posts ) {
-			getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program);
+			getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay);
 			if ( true === this.props.className.includes('is-style-fact-tank') ) {
 				setAttributes({format: 10818955});
-				getPosts(this.props.setAttributes, this.props.attributes.per_page, 10818955, this.props.attributes.program);
+				getPosts(this.props.setAttributes, this.props.attributes.per_page, 10818955, this.props.attributes.program, this.props.attributes.taxonomyToDisplay);
 			}
 		}
 	}
 
 	render = () => {
 		const setAttributes = this.props.setAttributes;
+		const backgrounds = [
+			{ name: 'White', color: '#fff' },
+			{ name: 'Oatmeal', color: '#f8f9f5' },
+		];
+		let style = this.props.attributes.className;
 		// If the style is fact-tank then the format should be set to fact-tank
 		return(
 			<InspectorControls>
@@ -57,7 +65,7 @@ class EditSidebar extends Component {
 						value={ Number(this.props.attributes.per_page) }
 						onChange={ ( per_page ) => { 
 							setAttributes( { per_page: Number(per_page) } );
-							getPosts(this.props.setAttributes, per_page, this.props.attributes.format, this.props.attributes.program);
+							getPosts(this.props.setAttributes, per_page, this.props.attributes.format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay);
 						} }
 					/>
 					<SelectControl
@@ -66,16 +74,28 @@ class EditSidebar extends Component {
 						options={ this.state.formats }
 						onChange={ ( format ) => { 
 							setAttributes( { format: Number(format) } );
-							getPosts(this.props.setAttributes, this.props.attributes.per_page, format, this.props.attributes.program);
+							getPosts(this.props.setAttributes, this.props.attributes.per_page, format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay);
 						} }
 					/>
 					<SelectControl
 						label="Research Program"
 						value={ this.props.attributes.program }
-						options={this.state.programs}
+						options={ this.state.programs }
 						onChange={ ( program ) => { 
 							setAttributes( { program: Number(program) } );
-							getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, program);
+							getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, program, this.props.attributes.taxonomyToDisplay);
+						} }
+					/>
+					<SelectControl
+						label="Label Taxonomy"
+						value={ this.props.attributes.taxonomyToDisplay }
+						options={ [
+							{ label: 'Formats', value: 'formats' },
+							{ label: 'Programs', value: 'programs' },
+						] }
+						onChange={ ( taxonomyToDisplay ) => { 
+							setAttributes( { taxonomyToDisplay } );
+							getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program, taxonomyToDisplay);
 						} }
 					/>
 					<ToggleControl
@@ -83,6 +103,12 @@ class EditSidebar extends Component {
 						help={ this.props.attributes.dynamic ? 'Updates posts in real time, every 5 minutes.' : 'Posts are saved statically (will not update in real time).' }
 						checked={ this.props.attributes.dynamic }
 						onChange={ () => setAttributes({ dynamic: ! this.props.attributes.dynamic }) }
+					/>
+					<strong>Background Color:</strong><br/>
+					<ColorPalette
+						colors={ backgrounds }
+						value={ this.props.attributes.backgroundColor }
+						onChange={ ( color ) => setAttributes( { backgroundColor: color } ) }
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -156,10 +182,18 @@ registerBlockType( 'prc-block/posts', {
 			type: 'integer',
 			default: 5,
 		},
+		backgroundColor: {
+			tyle: 'string',
+			default: '#fff',
+		},
 		// If static is true then we should output on save only a holder div that would contain the options and the style template to use and then the frontend loader will load the posts. This mean will be 
 		dynamic: {
 			type: 'boolean',
 			default: false,
+		},
+		taxonomyToDisplay: {
+			type: 'string',
+			default: 'formats',
 		},
 		posts: {
 			type: 'array',
@@ -267,6 +301,7 @@ registerBlockType( 'prc-block/posts', {
 						data-format={props.attributes.format}
 						data-program={props.attributes.program}
 						data-number={props.attributes.per_page}
+						data-background={props.attributes.backgroundColor}
 						data-style={style}
 					/>
 				) }

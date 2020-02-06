@@ -22,22 +22,21 @@ class PostsColumns extends Component {
 	render() {
 		const data = this.props.posts;
 		return(
-			<Fragment>
-			<div className="ui sub header">{this.props.title}</div>
-			<Grid divided columns='equal'>
-				<Grid.Row>
+			<div style={{marginBottom: '2rem'}}>
+			<div className="ui sub header" style={{marginBottom: '1rem'}}>{this.props.title}</div>
+			<Grid divided padded columns='equal' style={{backgroundColor: this.props.backgroundColor}}>
 				{ false !== data && data.map((item, index) => {
 					let storyItemArgs = {
 						postID: '',
 						title: item.title,
 						link: item.link,
 						date: item.date,
-						label: '',
+						label: item.label,
 						excerpt: '',
 						extra: '',
 						image: {
 							slot: 'top',
-							src: '',
+							src: item.image,
 							isChartArt: false,
 						},
 						// These are very much 
@@ -46,9 +45,8 @@ class PostsColumns extends Component {
 					};
 					return <Grid.Column><StoryItem {...storyItemArgs}/></Grid.Column>
 				}) }
-				</Grid.Row>
 			</Grid>
-			</Fragment>
+			</div>
 		)
 	}	
 }

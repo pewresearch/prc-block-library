@@ -151,6 +151,7 @@ module.exports = {
 		'@wordpress/edit-post': "wp.editPost",
 		'@wordpress/data': "wp.data",
 		'@wordpress/i18n': "wp.i18n",
+		'@wordpress/api-fetch': "wp.apiFetch",
 	},
 	// Webpack Aliases
 	// <https://webpack.js.org/configuration/resolve/#resolve-alias>

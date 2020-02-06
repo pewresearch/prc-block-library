@@ -186,7 +186,7 @@ class PRC_Block_Library {
 		$js_deps   = $this->js_deps;
 		$js_deps[] = 'moment';
 		$js_deps[] = 'wp-block-editor';
-		$js_deps[] = 'wp-api'; // Used for fetching posts.
+		$js_deps[] = 'wp-api-fetch'; // Used for fetching posts.
 		$enqueue->enqueue(
 			'posts',
 			'frontend',
@@ -222,17 +222,22 @@ class PRC_Block_Library {
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_block_lib_posts' ),
 				'args'     => array(
-					'format'       => array(
+					'format'        => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
 					),
-					'program'      => array(
+					'program'       => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
 					),
-					'labeldisplay' => array(
+					'perPage'       => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+					'labelTaxonomy' => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
@@ -258,12 +263,21 @@ class PRC_Block_Library {
 	}
 
 	public function get_block_lib_posts( \WP_REST_Request $request ) {
-		$format        = $request->get_param( 'format' );
-		$program       = $request->get_param( 'program' );
-		$label_display = $request->get_param( 'labeldisplay' );
-		$args          = array(
-			'post_type' => 'stub',
-			'tax_query' => array(
+		$format         = $request->get_param( 'format' );
+		$program        = $request->get_param( 'program' );
+		$per_page       = $request->get_param( 'perPage' );
+		$label_taxonomy = $request->get_param( 'labelTaxonomy' );
+		error_log( print_r( $format, true ) );
+		error_log( print_r( $program, true ) );
+		error_log( print_r( $label_taxonomy, true ) );
+
+		$args = array(
+			'post_type'        => 'stub',
+			'post_per_page'    => (int) $per_page,
+			'post_parent'      => 0, // No Children
+			'meta_key'         => 'hide_on_index',
+			'meta_compare_key' => 'NOT EXISTS',
+			'tax_query'        => array(
 				'relation' => 'AND',
 			),
 		);
@@ -281,30 +295,29 @@ class PRC_Block_Library {
 				'field'    => 'term_id',
 			);
 		}
+		error_log( print_r( $args, true ) );
 		// The Query
 		$the_query = new WP_Query( $args );
-		$return    = array();
+
+		$return = array();
 		// The Loop
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
-				if ( 'program' === $label_display ) {
-					$label = '';
-				} else {
-					$label = '';
-				}
-				$return[] = array(
+				$stub_info = get_post_meta( get_the_ID(), '_stub_info', true );
+				$term      = get_term_by( 'slug', $stub_info['_taxonomies'][ $label_taxonomy ][0], $label_taxonomy );
+				$label     = $term->name;
+				$return[]  = array(
 					'id'    => get_the_ID(),
 					'title' => get_the_title(),
 					'date'  => get_the_date(),
 					'link'  => get_permalink(),
-					'label' => 'feature',
+					'label' => $label,
 					'image' => get_the_post_thumbnail_url( get_the_ID(), 'large' ),
 				);
 			}
-		} else {
-			// no posts found
 		}
+
 		/* Restore original Post Data */
 		wp_reset_postdata();
 		return $return;
