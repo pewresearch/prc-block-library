@@ -324,20 +324,23 @@ class PRC_Block_Library {
 	}
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
-		$url = $request->get_param( 'url' );
-		return $this->get_stub_post_by_post_url( $url );
+		$url     = $request->get_param( 'url' );
+		$site_id = \prc_get_site_id_from_url( $url, true, false );
+		return $this->get_stub_post_by_post_url( $url, $site_id );
 	}
 
-	public function get_stub_post_by_post_url( $url ) {
+	public function get_stub_post_by_post_url( $url, $site_id ) {
 		$return = false;
-
-		$site_id = \prc_get_site_id_from_url( $url, true, \prc_is_dev_env() );
+		if ( false == $site_id ) {
+			return 'No Site ID Found';
+		}
 
 		switch_to_blog( $site_id );
 		$post_id = url_to_postid( $url );
 		if ( false === $post_id ) {
 			return $site_id . '-' . $url;
 		}
+
 		$stub_id = get_post_meta( $post_id, '_stub_post', true );
 		if ( ! $stub_id ) {
 			return prc_is_dev_env() . '-' . $site_id . '-' . $post_id . '-' . $url;
