@@ -346,7 +346,7 @@ class PRC_Block_Library {
 
 		$stub_post = get_post( $stub_id );
 		if ( false === $stub_post ) {
-			return $site_id . '-' . $post_id;
+			return $site_id . '-' . $post_id . '-' . $stub_id;
 		}
 
 		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
