@@ -126,7 +126,7 @@ class ImageEditor extends Component {
 								<div className={this.props.imgClass}>
 									<img src={this.props.img} onClick={ open }/>
 									<div class="sans-serif"><i>Click image to open media library</i></div>
-									<div class="sans-serif remove-image" onClick={()=>{this.props.setAttributes({image:''})}}>Or click here to <strong>REMOVE IMAGE</strong></div>
+									<div class="sans-serif remove-image" onClick={()=>{this.props.setAttributes({image:'', imageSlot: 'disabled'})}}>Or click here to <strong>REMOVE IMAGE</strong></div>
 								</div>
 							</Fragment>
 						) }
@@ -354,10 +354,6 @@ class StoryItem extends Component {
 							isChartArt={this.props.image.isChartArt}
 							/>
 						) }
-						{ 'disabled' === this.props.image.slot && true === edit.enabled  && (
-							<ImageEditor slot={this.props.image.slot} img='' setAttributes={edit.setAttributes}
-							isChartArt={this.props.image.isChartArt}/>
-						)}
 						<Description content={this.props.excerpt} enabled={this.props.options.enableExcerpt} edit={edit} sansSerif={ ! this.props.options.enableHeader}/>
 						<Extra enabled={this.props.options.enableExtra} content={this.props.extra} edit={edit}/>
 					</Item.Content>

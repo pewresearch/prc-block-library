@@ -321,23 +321,23 @@ registerBlockType( 'prc-block/story-item', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( props ) => {
+		console.log(props.attributes.imageSlot);
+		console.log(props.attributes.className);
+		if ( 'disabled' === props.attributes.imageSlot ) {
+			props.attributes.className = 'is-style-disabled';
+		}
 		// Set Image Slot by Style
 		if ( 'is-style-default' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'default' });
-		}
-		if ( 'is-style-top' === props.attributes.className ) {
+		} else if ( 'is-style-top' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'top' });
-		}
-		if ( 'is-style-bottom' === props.attributes.className ) {
+		} else if ( 'is-style-bottom' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'bottom' });
-		}
-		if ( 'is-style-left' === props.attributes.className ) {
+		} else if ( 'is-style-left' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'left' });
-		}
-		if ( 'is-style-right' === props.attributes.className ) {
+		} else if ( 'is-style-right' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'right' });
-		}
-		if ( 'is-style-disabled' === props.attributes.className ) {
+		} else if ( 'is-style-disabled' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'disabled' });
 		}
 		
