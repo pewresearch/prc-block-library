@@ -1,8 +1,6 @@
 import * as moment from 'moment';
 import apiFetch from '@wordpress/api-fetch';
 
-// @TODO: convert froomo wp api to apifetch https://www.npmjs.com/package/@wordpress/api-fetch
-
 const getPosts = (saveMethod, perPage, format, program, labelTaxonomy) => {
 	if ( 'function' !== typeof(saveMethod) ) {
 		console.error('saveMethod in getPosts is not a function');
