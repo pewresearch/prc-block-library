@@ -4,13 +4,13 @@ import { RichText, BlockControls, MediaUpload, MediaUploadCheck } from '@wordpre
 import { Button, SelectControl, DatePicker, Popover, Toolbar } from '@wordpress/components';
 
 // Utilities
+import { addQueryArgs } from '@wordpress/url';
 import * as moment from 'moment';
 import classNames from 'classnames/bind';
 
 import getTerms from '../_shared/get-terms';
 
 // Elements
-import { Picture } from 'react-responsive-picture';
 import { Item } from 'semantic-ui-react';
 
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
@@ -147,6 +147,9 @@ const Image = function({ isChartArt, img, edit, link }) {
 		isMedium = true;
 	}
 	let classes = classNames({ ui: true, medium: isMedium, image: true, bordered: isChartArt });
+	const appendImageWidth = (imgURL, width) => {
+		return addQueryArgs( imgURL, { w: width } );
+	}
 	return(
 		<Fragment>
 			{ undefined !== img && (
@@ -157,9 +160,11 @@ const Image = function({ isChartArt, img, edit, link }) {
 					</Fragment>
 				)}
 				{ true !== edit.enabled && (
-					<a href={link} className={classes}>
-						<img src={img.src} />
-					</a>
+					<div className={classes}>
+						<a href={link}>
+							<img src={appendImageWidth(img.src, 345)}/>
+						</a>
+					</div>
 				)}
 				</Fragment>
 			)}

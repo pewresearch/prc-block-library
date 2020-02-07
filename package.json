@@ -15,6 +15,7 @@
     "@wpackio/scripts": "^4.3.0",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
+    "@wordpress/url": "^2.10.0",
     "url-loader": "^3.0.0"
   },
   "scripts": {
