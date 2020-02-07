@@ -302,6 +302,7 @@ class PRC_Block_Library {
 		}
 		error_log( print_r( $args, true ) );
 		// The Query
+		switch_to_blog( 1 );
 		$the_query = new WP_Query( $args );
 
 		$return = array();
@@ -325,6 +326,7 @@ class PRC_Block_Library {
 
 		/* Restore original Post Data */
 		wp_reset_postdata();
+		restore_current_blog();
 		return $return;
 	}
 
