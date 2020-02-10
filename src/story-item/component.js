@@ -147,7 +147,11 @@ const Image = function({ isChartArt, img, edit, link }) {
 		isMedium = true;
 	}
 	let classes = classNames({ ui: true, medium: isMedium, image: true, bordered: isChartArt });
-	const appendImageWidth = (imgURL, width) => {
+	const appendImageWidth = (imgURL, slot) => {
+		let width = '564';
+		if ( 'left' === slot || 'right' === slot ) {
+			width = '345';
+		}
 		return addQueryArgs( imgURL, { w: width } );
 	}
 	return(
@@ -162,7 +166,7 @@ const Image = function({ isChartArt, img, edit, link }) {
 				{ true !== edit.enabled && (
 					<div className={classes}>
 						<a href={link}>
-							<img src={appendImageWidth(img.src, 345)}/>
+							<img src={appendImageWidth(img.src, img.slot)}/>
 						</a>
 					</div>
 				)}
