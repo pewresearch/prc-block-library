@@ -321,11 +321,6 @@ registerBlockType( 'prc-block/story-item', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( props ) => {
-		console.log(props.attributes.imageSlot);
-		console.log(props.attributes.className);
-		if ( 'disabled' === props.attributes.imageSlot ) {
-			props.attributes.className = 'is-style-disabled';
-		}
 		// Set Image Slot by Style
 		if ( 'is-style-default' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'default' });
