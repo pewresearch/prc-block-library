@@ -29,6 +29,7 @@ class EditSidebar extends Component {
 			formats.push({ value: 10818955, label: 'Fact Tank' });
 			setState({ formats: formats });
 		});
+		
 		getTerms('Programs', true).then((data)=>{
 			let programs = data;
 			programs.push({ value: 0, label: 'All' });
@@ -81,7 +82,7 @@ class EditSidebar extends Component {
 						label="Research Program"
 						value={ this.props.attributes.program }
 						options={ this.state.programs }
-						onChange={ ( program ) => { 
+						onChange={ ( program ) => {
 							setAttributes( { program: Number(program) } );
 							getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, program, this.props.attributes.taxonomyToDisplay);
 						} }
@@ -169,6 +170,10 @@ registerBlockType( 'prc-block/posts', {
 		title: {
 			type: 'string',
 			default: 'Title',
+		},
+		moreLink: {
+			type: 'string',
+			default: '',
 		},
 		format: {
 			type: 'integer',
