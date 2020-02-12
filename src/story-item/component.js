@@ -1,7 +1,7 @@
 // WordPress Core
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { RichText, BlockControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { Button, SelectControl, DatePicker, Popover, Toolbar } from '@wordpress/components';
+import { Button, SelectControl, TextControl, Popover, Toolbar } from '@wordpress/components';
 
 // Utilities
 import { addQueryArgs } from '@wordpress/url';
@@ -14,6 +14,10 @@ import getTerms from '../_shared/get-terms';
 import { Item } from 'semantic-ui-react';
 
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
+
+const formatDate = ( dateString ) => {
+	return moment(dateString).format("MMM D, YYYY");
+}
 
 class MetaEditor extends Component {
 	constructor(props) {
@@ -52,10 +56,6 @@ class MetaEditor extends Component {
 	}
 
 	render() {
-		const formatDate = function( dateString ) {
-			return moment(dateString).format("MMM D, YYYY");
-		}
-	
 		return (
 			<Fragment>
 				<div style={{display: 'flex', alignItems: 'center'}}>
@@ -70,20 +70,12 @@ class MetaEditor extends Component {
 					</div>
 					<div>&nbsp;|&nbsp;</div>
 					<div>
-						<span onClick={ () => { this.state.open ? this.setState({open: false}) : this.setState({open: true}) } }>{formatDate(this.props.date)}</span>
-						{ true === this.state.open && (
-							<Popover>
-								<div>
-								<DatePicker
-									currentDate={ this.props.date }
-									onChange={ ( date ) => { 
-										let dateString = formatDate(date);
-										this.props.setAttributes( { date: dateString } );
-									} }
-								/>
-								</div>
-							</Popover>
-						)}
+						<TextControl
+							value={ this.props.date }
+							onChange={ ( date ) => {
+								this.props.setAttributes( { date: date } );
+							} }
+						/>
 					</div>
 				</div>
 			</Fragment>
@@ -226,7 +218,7 @@ const Kicker = ({ label, date }) => {
 	const labelSlug = label.replace(/\s+/g, '-').toLowerCase();
 	let classes = classNames( labelSlug, 'label' );
 	return(
-		<Fragment><span className={classes}>{label ? label : 'Report'}</span> | {date}</Fragment>
+		<Fragment><span className={classes}>{label ? label : 'Report'}</span> | {formatDate(date)}</Fragment>
 	)
 }
 
