@@ -50,13 +50,49 @@ class EditSidebar extends Component {
 		}
 	}
 
+	insertStoryBlock = (clientID, item, index) => {
+		console.log('Insert Story Block');
+
+		const parentID = window.wp.data.select('core/block-editor').getBlockHierarchyRootClientId( clientID );
+		const parentBlockOrder = window.wp.data.select('core/block-editor').getBlockOrder(parentID);
+		const parentBlock = window.wp.data.select('core/block-editor').getBlock(parentBlockOrder[1]);
+
+		console.log(parentBlockOrder[1]);
+		console.log(parentBlock);
+		console.log(parentID);
+		
+		let block = window.wp.blocks.createBlock( 'prc-block/story-item', {
+			title: item.title,
+			image: item.image,
+			excerpt: item.excerpt,
+			link: item.link,
+			label: item.label,
+			date: item.date,
+			extra: '',
+			// Post Meta Data:
+			postID: item.id,
+			// Item Options
+			emphasis: false,
+			isChartArt: false,
+			imageSlot: 'top',
+			horizontal: false,
+			stacked: true,
+			enableHeader: true,
+			enableExcerpt: false,
+			enableExtra: false,
+			enableProgramsTaxonomy: false,
+			headerSize: 'normal',
+		} );
+
+		window.wp.data.dispatch('core/block-editor').insertBlocks(block, index + 1, parentBlock.clientId);
+	}
+
 	render = () => {
 		const setAttributes = this.props.setAttributes;
 		const backgrounds = [
 			{ name: 'White', color: '#fff' },
 			{ name: 'Oatmeal', color: '#f8f9f5' },
 		];
-		let style = this.props.attributes.className;
 		// If the style is fact-tank then the format should be set to fact-tank
 		return(
 			<InspectorControls>

@@ -225,6 +225,10 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: '',
 		},
+		imageID: {
+			type: 'string',
+			default: '',
+		},
 		excerpt: {
 			type: 'string',
 			source: 'html',
@@ -345,6 +349,7 @@ registerBlockType( 'prc-block/story-item', {
 			excerpt: props.attributes.excerpt,
 			extra: props.attributes.extra,
 			image: {
+				id: props.attributes.imageID,
 				slot: props.attributes.imageSlot,
 				src: props.attributes.image,
 				isChartArt: props.attributes.isChartArt,
@@ -396,6 +401,7 @@ registerBlockType( 'prc-block/story-item', {
 			excerpt: props.attributes.excerpt,
 			extra: props.attributes.extra,
 			image: {
+				id: props.attributes.imageID,
 				slot: props.attributes.imageSlot,
 				src: props.attributes.image,
 				isChartArt: props.attributes.isChartArt,

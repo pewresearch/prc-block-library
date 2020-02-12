@@ -89,10 +89,12 @@ class ImageEditor extends Component {
 		this.mediaHandler = this.mediaHandler.bind(this);
 	}
 	mediaHandler(media) {
+		console.log(media);
+		//wp-image-358278
 		if ( 'disabled' === this.props.slot ) {
-			this.props.setAttributes( { image: media.url, imageSlot: 'default' } )
+			this.props.setAttributes( { image: media.url, imageID: media.id, imageSlot: 'default' } )
 		} else {
-			this.props.setAttributes( { image: media.url } )
+			this.props.setAttributes( { image: media.url, imageID: media.id } )
 		}
 	}
 	render() {
@@ -116,7 +118,7 @@ class ImageEditor extends Component {
 									</BlockControls>
 								) }
 								<div className={this.props.imgClass}>
-									<img src={this.props.img} onClick={ open }/>
+									<img className={'wp-image-'+this.props.id} src={this.props.img} onClick={ open }/>
 									<div class="sans-serif"><i>Click image to open media library</i></div>
 									<div class="sans-serif remove-image" onClick={()=>{this.props.setAttributes({image:'', imageSlot: 'disabled'})}}>Or click here to <strong>REMOVE IMAGE</strong></div>
 								</div>
@@ -156,13 +158,13 @@ const Image = function({ isChartArt, img, edit, link }) {
 				<Fragment>
 				{ true === edit.enabled && (
 					<Fragment>
-						<ImageEditor slot={img.slot} img={img.src} imgClass={classes} isChartArt={isChartArt} setAttributes={edit.setAttributes}/>
+						<ImageEditor id={img.id} slot={img.slot} img={img.src} imgClass={classes} isChartArt={isChartArt} setAttributes={edit.setAttributes}/>
 					</Fragment>
 				)}
 				{ true !== edit.enabled && (
 					<div className={classes}>
 						<a href={link}>
-							<img src={appendImageWidth(img.src, img.slot)}/>
+							<img className={'wp-image-'+img.id} src={appendImageWidth(img.src, img.slot)}/>
 						</a>
 					</div>
 				)}
@@ -325,6 +327,7 @@ class StoryItem extends Component {
 						<Image 
 						img={{
 							src: this.props.image.src, 
+							id: this.props.image.id,
 							slot: this.props.image.slot
 						}}
 						link={this.props.link}
@@ -347,6 +350,7 @@ class StoryItem extends Component {
 							<Image 
 							img={{
 								src: this.props.image.src, 
+								id: this.props.image.id,
 								slot: this.props.image.slot
 							}}
 							link={this.props.link}
@@ -361,6 +365,7 @@ class StoryItem extends Component {
 						<Image 
 						img={{
 							src: this.props.image.src, 
+							id: this.props.image.id,
 							slot: this.props.image.slot
 						}}
 						link={this.props.link}
