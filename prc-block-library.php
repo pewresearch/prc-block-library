@@ -276,6 +276,12 @@ class PRC_Block_Library {
 		error_log( print_r( $program, true ) );
 		error_log( print_r( $label_taxonomy, true ) );
 
+		// If the current site is not 1 then for the format and the program we should get their parent.
+		if ( 1 !== get_current_blog_id() ) {
+			$format  = get_term_meta( $format, '_origin_term_id', true );
+			$program = get_term_meta( $program, '_origin_term_id', true );
+		}
+
 		$args = array(
 			'post_type'        => 'stub',
 			'post_per_page'    => (int) $per_page,

@@ -21,6 +21,11 @@ const getPosts = (saveMethod, perPage, format, program, labelTaxonomy) => {
 
 	let data = [];
 
+	console.log('format');
+	console.log(format);
+	console.log('program');
+	console.log(program);
+
 	apiFetch( { path: '/prc-api/v2/blocks/helpers/get-posts/?perPage='+perPage+'&format=' + format + '&program=' + program + '&labelTaxonomy=' + labelTaxonomy } ).then( posts => {
 		for ( let index = 0; index < perPage ; index++ ) {
 			data.push({
