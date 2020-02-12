@@ -23,6 +23,7 @@ class EditSidebar extends Component {
 
 	componentDidMount = () => {
 		const setState = this.setState;
+		const setAttributes = this.props.setAttributes;
 
 		getTerms('Formats', true).then((data)=>{
 			let formats = data;
@@ -37,50 +38,19 @@ class EditSidebar extends Component {
 		});
 
 		if ( false === this.props.attributes.posts ) {
-			getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay);
+			getPosts(this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay).then( (posts) => {
+				setAttributes({posts});
+			});
 			if ( true === this.props.className.includes('is-style-fact-tank') ) {
 				setAttributes({format: 10818955});
-				getPosts(this.props.setAttributes, this.props.attributes.per_page, 10818955, this.props.attributes.program, this.props.attributes.taxonomyToDisplay);
+				getPosts(this.props.attributes.per_page, this.props.attributes.format, 10818955, this.props.attributes.taxonomyToDisplay).then( (posts) => {
+					setAttributes({posts});
+				});
 			}
 		}
 	}
 
 	render = () => {
-		const data = this.props;
-		console.log('props:');
-		console.log(data);
-		const insertBlock = () => {
-			console.log('Insert Block');
-			const parentID = window.wp.data.select('core/block-editor').getBlockHierarchyRootClientId( data.clientId );
-			const parentBlockOrder = window.wp.data.select('core/block-editor').getBlockOrder(parentID);
-			console.log(parentBlockOrder[1]);
-			const parentBlock = window.wp.data.select('core/block-editor').getBlock(parentBlockOrder[1]);
-			console.log(parentBlock);
-			console.log(parentID);
-			let block = window.wp.blocks.createBlock( 'prc-block/story-item', {
-				title: 'Auto Insert Title',
-				image: 'http://pewresearch.local/global/wp-content/uploads/sites/2/2020/02/aj-colores-aZ-TRPezwt0-unsplash.jpg',
-				excerpt: '',
-				link: '#',
-				label: 'Feature',
-				date: '01-01-20',
-				extra: '',
-				// Post Meta Data:
-				postID: '',
-				// Item Options
-				emphasis: false,
-				isChartArt: false,
-				imageSlot: 'top',
-				horizontal: false,
-				stacked: true,
-				enableHeader: true,
-				enableExcerpt: false,
-				enableExtra: false,
-				enableProgramsTaxonomy: false,
-				headerSize: 'normal',
-			} );
-			window.wp.data.dispatch('core/block-editor').insertBlocks(block, 2, parentBlock.clientId);
-		}
 		const setAttributes = this.props.setAttributes;
 		const backgrounds = [
 			{ name: 'White', color: '#fff' },
@@ -101,7 +71,9 @@ class EditSidebar extends Component {
 						value={ Number(this.props.attributes.per_page) }
 						onChange={ ( per_page ) => { 
 							setAttributes( { per_page: Number(per_page) } );
-							getPosts(this.props.setAttributes, per_page, this.props.attributes.format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay);
+							getPosts(per_page, this.props.attributes.format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay).then( (posts) => {
+								setAttributes({posts});
+							});
 						} }
 					/>
 					<SelectControl
@@ -110,7 +82,9 @@ class EditSidebar extends Component {
 						options={ this.state.formats }
 						onChange={ ( format ) => { 
 							setAttributes( { format: Number(format) } );
-							getPosts(this.props.setAttributes, this.props.attributes.per_page, format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay);
+							getPosts(this.props.attributes.per_page, format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay).then( (posts) => {
+								setAttributes({posts});
+							});
 						} }
 					/>
 					<SelectControl
@@ -119,7 +93,9 @@ class EditSidebar extends Component {
 						options={ this.state.programs }
 						onChange={ ( program ) => {
 							setAttributes( { program: Number(program) } );
-							getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, program, this.props.attributes.taxonomyToDisplay);
+							getPosts(this.props.attributes.per_page, this.props.attributes.format, program, this.props.attributes.taxonomyToDisplay).then( (posts) => {
+								setAttributes({posts});
+							});
 						} }
 					/>
 					<SelectControl
@@ -131,7 +107,9 @@ class EditSidebar extends Component {
 						] }
 						onChange={ ( taxonomyToDisplay ) => { 
 							setAttributes( { taxonomyToDisplay } );
-							getPosts(this.props.setAttributes, this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program, taxonomyToDisplay);
+							getPosts(this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program, taxonomyToDisplay).then( (posts) => {
+								setAttributes({posts});
+							});
 						} }
 					/>
 					<ToggleControl
@@ -146,7 +124,6 @@ class EditSidebar extends Component {
 						value={ this.props.attributes.backgroundColor }
 						onChange={ ( color ) => setAttributes( { backgroundColor: color } ) }
 					/>
-					<a onClick={ insertBlock }>Insert Story</a>
 				</PanelBody>
 			</InspectorControls>
 		)
@@ -273,6 +250,8 @@ registerBlockType( 'prc-block/posts', {
 		if ( true === props.isSelected ) {
 			data.setAttributes = props.setAttributes;
 		}
+
+		data.clientID = props.clientId;
 
 		data.disableLink = true; // While editing we do not want users to accidentally click on a post.
 		return(

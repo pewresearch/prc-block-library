@@ -140,6 +140,10 @@ const Image = function({ isChartArt, img, edit, link }) {
 	}
 	let classes = classNames({ ui: true, medium: isMedium, image: true, bordered: isChartArt });
 	const appendImageWidth = (imgURL, slot) => {
+		if ( '' === imgURL ) {
+			return imgURL;
+		}
+		
 		let width = '564';
 		if ( 'left' === slot || 'right' === slot ) {
 			width = '345';
