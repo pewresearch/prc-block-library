@@ -17,6 +17,7 @@ class PostsColumns extends Component {
 	}
 
 	componentDidMount() {
+		
 	}
 
 	render() {

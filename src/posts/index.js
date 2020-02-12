@@ -46,6 +46,41 @@ class EditSidebar extends Component {
 	}
 
 	render = () => {
+		const data = this.props;
+		console.log('props:');
+		console.log(data);
+		const insertBlock = () => {
+			console.log('Insert Block');
+			const parentID = window.wp.data.select('core/block-editor').getBlockHierarchyRootClientId( data.clientId );
+			const parentBlockOrder = window.wp.data.select('core/block-editor').getBlockOrder(parentID);
+			console.log(parentBlockOrder[1]);
+			const parentBlock = window.wp.data.select('core/block-editor').getBlock(parentBlockOrder[1]);
+			console.log(parentBlock);
+			console.log(parentID);
+			let block = window.wp.blocks.createBlock( 'prc-block/story-item', {
+				title: 'Auto Insert Title',
+				image: 'http://pewresearch.local/global/wp-content/uploads/sites/2/2020/02/aj-colores-aZ-TRPezwt0-unsplash.jpg',
+				excerpt: '',
+				link: '#',
+				label: 'Feature',
+				date: '01-01-20',
+				extra: '',
+				// Post Meta Data:
+				postID: '',
+				// Item Options
+				emphasis: false,
+				isChartArt: false,
+				imageSlot: 'top',
+				horizontal: false,
+				stacked: true,
+				enableHeader: true,
+				enableExcerpt: false,
+				enableExtra: false,
+				enableProgramsTaxonomy: false,
+				headerSize: 'normal',
+			} );
+			window.wp.data.dispatch('core/block-editor').insertBlocks(block, 2, parentBlock.clientId);
+		}
 		const setAttributes = this.props.setAttributes;
 		const backgrounds = [
 			{ name: 'White', color: '#fff' },
@@ -111,6 +146,7 @@ class EditSidebar extends Component {
 						value={ this.props.attributes.backgroundColor }
 						onChange={ ( color ) => setAttributes( { backgroundColor: color } ) }
 					/>
+					<a onClick={ insertBlock }>Insert Story</a>
 				</PanelBody>
 			</InspectorControls>
 		)
