@@ -29,7 +29,7 @@ class EditSidebar extends Component {
 	}
 
 	componentDidMount = () => {
-		this.setState({ url: this.props.link });
+		this.setState({ url: this.props.attributes.link });
 	}
 
 	/**
@@ -37,18 +37,21 @@ class EditSidebar extends Component {
 	 */
 	setPostByURL = () => {
 		const setAttributes = this.props.setAttributes;
-		let url = this.props.link;
+		let url = this.props.attributes.link;
 
 		const getSiteIDFromURL = (url) => {
+			console.log(url);
 			let siteID = 1;
-			if ( url.includes('https://www.pewresearch.org/global/' ) || url.includes('https://www.pewglobal.org/' ) ) {
+			if ( url.includes(window.siteDomain + '/global/' ) ) {
 				siteID = 2;
-			} else if ( url.includes('https://www.pewresearch.org/hispanic/' ) || url.includes('https://www.pewhispanic.org/' ) ) {
+			} else if ( url.includes(window.siteDomain + '/hispanic/' ) ) {
 				siteID = 5;
-			} else if ( url.includes('https://www.pewresearch.org/science/' ) ) {
+			} else if ( url.includes(window.siteDomain + '/science/' ) ) {
 				siteID = 16;
-			} else if ( url.includes('https://www.pewresearch.org/methods/' ) ) {
+			} else if ( url.includes(window.siteDomain + '/methods/' ) ) {
 				siteID = 10;
+			} else if ( url.includes(window.siteDomain + '/internet/' ) ) {
+				siteID = 9;
 			} else if ( url.includes('https://www.people-press.org/' ) ) {
 				siteID = 4;
 			} else if ( url.includes('https://www.pewforum.org/' ) ) {
@@ -57,9 +60,7 @@ class EditSidebar extends Component {
 				siteID = 8;
 			} else if ( url.includes('https://www.pewsocialtrends.org/' ) ) {
 				siteID = 3;
-			} else if ( url.includes('https://www.pewresearch.org/internet/' || url.includes('https://www.pewinternet.org/' ) ) ) {
-				siteID = 9;
-			} else if ( url.includes('https://www.pewresearch.org/' ) ) {
+			} else if ( url.includes('https://www.pewresearch.org/' ) || url.includes(window.siteDomain) ) {
 				siteID = 1;
 			}
 			return siteID;
