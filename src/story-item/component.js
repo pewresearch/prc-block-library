@@ -120,7 +120,7 @@ class ImageEditor extends Component {
 								<div className={this.props.imgClass}>
 									<img className={'wp-image-'+this.props.id} src={this.props.img} onClick={ open }/>
 									<div class="sans-serif"><i>Click image to open media library</i></div>
-									<div class="sans-serif remove-image" onClick={()=>{this.props.setAttributes({image:'', imageSlot: 'disabled'})}}>Or click here to <strong>REMOVE IMAGE</strong></div>
+									<div class="sans-serif remove-image" onClick={()=>{ this.props.setAttributes({image:'', imageSlot: 'disabled'}) }}>Or click here to <strong>REMOVE IMAGE</strong></div>
 								</div>
 							</Fragment>
 						) }
@@ -135,7 +135,7 @@ class ImageEditor extends Component {
 	}
 }
 
-const Image = function({ isChartArt, img, edit, link }) {
+const Image = function({ isChartArt, img, setAttributes, link }) {
 	let isMedium = false;
 	if ( 'left' === img.slot || 'right' === img.slot ) {
 		isMedium = true;
@@ -156,12 +156,12 @@ const Image = function({ isChartArt, img, edit, link }) {
 		<Fragment>
 			{ undefined !== img && (
 				<Fragment>
-				{ true === edit.enabled && (
+				{ false !== setAttributes && (
 					<Fragment>
-						<ImageEditor id={img.id} slot={img.slot} img={img.src} imgClass={classes} isChartArt={isChartArt} setAttributes={edit.setAttributes}/>
+						<ImageEditor id={img.id} slot={img.slot} img={img.src} imgClass={classes} isChartArt={isChartArt} setAttributes={setAttributes}/>
 					</Fragment>
 				)}
-				{ true !== edit.enabled && (
+				{ false === setAttributes && (
 					<div className={classes}>
 						<a href={link}>
 							<img className={'wp-image-'+img.id} src={appendImageWidth(img.src, img.slot)}/>
@@ -174,48 +174,48 @@ const Image = function({ isChartArt, img, edit, link }) {
 	)	
 }
 
-const Description = function({ content, enabled, edit, sansSerif }) {
+const Description = function({ content, enabled, setAttributes, sansSerif }) {
 	let classes = classNames( 'description', {'sans-serif': sansSerif} );
 	return(
 		<Fragment>
 			{ true === enabled && (
 				<Fragment>
-					{true === edit.enabled && (
+					{ false !== setAttributes && (
 						<RichText
 							tagName="div" // The tag here is the element output and editable in the admin
 							value={ content } // Any existing content, either from the database or an attribute default
-							onChange={ ( excerpt ) => edit.setAttributes( { excerpt } ) } // Store updated content as a block attribute
+							onChange={ ( excerpt ) => setAttributes( { excerpt } ) } // Store updated content as a block attribute
 							placeholder={ content } // Display this text before any content has been added by the user
 							multiline="p"
 							className={ classes }
 						/>
-					)}
-					{true !== edit.enabled && ( 
+					) }
+					{ false === setAttributes && ( 
 						<RichText.Content tagName="div" value={ content } className={ classes }/>
-					)}
+					) }
 				</Fragment>
 			) }
 		</Fragment>
 	)
 }
 
-const Extra = function({ enabled, content, edit }) {
+const Extra = function({ enabled, content, setAttributes }) {
 	let classes = classNames( 'extra' );
 	return(
 		<Fragment>
-			{true === edit.enabled && true === enabled && (
+			{ false !== setAttributes && true === enabled && (
 				<RichText
 					tagName="ul" // The tag here is the element output and editable in the admin
 					value={ content } // Any existing content, either from the database or an attribute default
-					onChange={ ( extra ) => edit.setAttributes( { extra } ) } // Store updated content as a block attribute
+					onChange={ ( extra ) => setAttributes( { extra } ) } // Store updated content as a block attribute
 					placeholder={ content } // Display this text before any content has been added by the user
 					multiline="li"
 					className={ classes }
 				/>
-			)}
-			{true !== edit.enabled && true === enabled && ( 
+			) }
+			{ false === setAttributes && true === enabled && ( 
 				<RichText.Content tagName="div" value={ content } className={ classes }/>
-			)}
+			) }
 		</Fragment>
 	)
 }
@@ -230,11 +230,11 @@ const Kicker = ({ label, date }) => {
 
 const PostTitle = ({ title, link, size, as = 'a' }) => {
 	return(
-		<RichText.Content href={link} tagName={as} value={ title }/>
+		<RichText.Content href={link} tagName={as} value={title}/>
 	)
 }
 
-const Header = function({ title, label, date, link, enabled, size, taxonomy, edit }) {
+const Header = function({ title, label, date, link, enabled, size, taxonomy, setAttributes }) {
 	const currentSize = size;
 	const createSizeControls = function( size ) {
 		let active = false;
@@ -245,7 +245,7 @@ const Header = function({ title, label, date, link, enabled, size, taxonomy, edi
             icon: 'editor-textcolor',
             title: `Size: ${ size }`,
             isActive: active,
-            onClick: () => { edit.setAttributes({headerSize: size}) },
+            onClick: () => { setAttributes({ headerSize: size }) },
         };
 	}
 	return(
@@ -253,15 +253,15 @@ const Header = function({ title, label, date, link, enabled, size, taxonomy, edi
 			{ true === enabled && (
 				<Fragment>
 					<Item.Meta>
-						{ true === edit.enabled && (
-							<MetaEditor date={date} label={label} taxonomy={taxonomy} setAttributes={edit.setAttributes}/>
+						{ false !== setAttributes && (
+							<MetaEditor date={date} label={label} taxonomy={taxonomy} setAttributes={setAttributes}/>
 						) }
-						{ true !== edit.enabled && (
+						{ false === setAttributes && (             
 							<Kicker label={label} date={date}/>
 						) }
 					</Item.Meta>
 					<Item.Header className={size}>
-						{ true === edit.enabled && (
+						{ false !== setAttributes && (
 							<Fragment>
 								<BlockControls>
 									<Toolbar controls={ [ 'small', 'normal', 'large' ].map( createSizeControls ) } />
@@ -269,13 +269,13 @@ const Header = function({ title, label, date, link, enabled, size, taxonomy, edi
 								<RichText
 									tagName="div" // The tag here is the element output and editable in the admin
 									value={ title } // Any existing content, either from the database or an attribute default
-									onChange={ ( title ) => edit.setAttributes( { title } ) } // Store updated content as a block attribute
+									onChange={ ( title ) => setAttributes( { title } ) } // Store updated content as a block attribute
 									placeholder='Title' // Display this text before any content has been added by the user
 									multiline="br"
 								/>
 							</Fragment>
-						)}
-						{ true !== edit.enabled && true === enabled && ( 
+						) }
+						{ false === setAttributes && ( 
 							<PostTitle title={title} link={link} as='a' size={size}/>
 						) }
 					</Item.Header>
@@ -288,92 +288,103 @@ const Header = function({ title, label, date, link, enabled, size, taxonomy, edi
 class StoryItem extends Component {
 	constructor(props) {
 		super(props);
+		this.item = this.item.bind(this);
 	}
 
 	componentDidMount() {
 		console.log(this.props);
 	}
 
-	render() {
-		let edit = {
-			enabled: false,
-		}
-		if ( undefined !== this.props.editMode ) {
-			edit.enabled = true;
-			edit.setAttributes = this.props.setAttributes;
-		}
+	item = (attrs) => {
+		console.log('Item Render');
 
-		let taxonomy = 'Formats';
-		if ( true === this.props.options.taxonomy ) {
-			taxonomy = 'Programs';
+		return(
+			<Item as="article" className={attrs.classes}>
+				{ ( 'top' === attrs.imageSlot || 'left' === attrs.imageSlot ) && (
+					<Image 
+						img={{
+							src: attrs.image, 
+							id: attrs.imageID,
+							slot: attrs.imageSlot
+						}}
+						link={attrs.link}
+						setAttributes={this.props.setAttributes}
+						isChartArt={attrs.isChartArt}
+					/>
+				) }
+				
+				<Item.Content>
+					<Header 
+						title={attrs.title}
+						date={attrs.date}
+						label={attrs.label}
+						link={attrs.link}
+						setAttributes={this.props.setAttributes}
+						enabled={attrs.enableHeader}
+						size={attrs.headerSize}
+						taxonomy={attrs.taxonomy} // Where??
+					/>
+
+					{ 'default' === attrs.imageSlot && (
+						<Image 
+							img={{
+								src: attrs.image, 
+								id: attrs.imageID,
+								slot: attrs.imageSlot
+							}}
+							link={attrs.link}
+							setAttributes={this.props.setAttributes}
+							isChartArt={attrs.isChartArt}
+						/>
+					) }
+
+					<Description content={attrs.excerpt} enabled={attrs.enableExcerpt} setAttributes={this.props.setAttributes} sansSerif={!attrs.enableHeader}/>
+
+					<Extra enabled={attrs.enableExtra} content={attrs.extra} setAttributes={this.props.setAttributes}/>
+				</Item.Content>
+
+				{ ( 'bottom' === attrs.imageSlot || 'right' === attrs.imageSlot ) && (
+					<Image 
+						img={{
+							src: attrs.image, 
+							id: attrs.imageID,
+							slot: attrs.imageSlot
+						}}
+						link={attrs.link}
+						setAttributes={this.props.setAttributes}
+						isChartArt={attrs.isChartArt}
+					/>
+				) }
+			</Item>
+		)
+	}
+
+	render() {
+		// If the block is not selected, it is not in edit mode, disable setAttributes.
+		if ( true !== this.props.isSelected ) {
+			this.props.setAttributes = false;
+		}
+		
+		this.props.attributes.taxonomy = 'Formats';
+		if ( true === this.props.attributes.enableProgramsTaxonomy ) {
+			this.props.attributes.taxonomy = 'Programs';
 		}
 
 		let isStacked = true;
-		if ( 'left' === this.props.image.slot || 'right' === this.props.image.slot ) {
+		if ( 'left' === this.props.attributes.imageSlot || 'right' === this.props.attributes.imageSlot ) {
 			isStacked = false;
 		}
 
 		let isBordered = false;
-		if ( true === this.props.options.emphasis ) {
+		if ( true === this.props.attributes.emphasis ) {
 			isBordered = true;
 		}
 
-		let classes = classNames( this.props.classNames, 'story-item', {stacked: isStacked, bordered: isBordered} );
+		this.props.attributes.classes = classNames( this.props.attributes.className, 'story-item', {stacked: isStacked, bordered: isBordered} );
 		
 		return(
 			<Fragment>
-				<Item as="article" className={classes}>
-					{ ('top' === this.props.image.slot || 'left' === this.props.image.slot) && (
-						<Image 
-						img={{
-							src: this.props.image.src, 
-							id: this.props.image.id,
-							slot: this.props.image.slot
-						}}
-						link={this.props.link}
-						edit={edit}
-						isChartArt={this.props.image.isChartArt}
-						/>
-					) }
-					<Item.Content>
-						<Header 
-						title={this.props.title}
-						date={this.props.date}
-						label={this.props.label}
-						link={this.props.link}
-						edit={edit}
-						enabled={this.props.options.enableHeader}
-						size={this.props.options.headerSize}
-						taxonomy={taxonomy}
-						/>
-						{ 'default' === this.props.image.slot && (
-							<Image 
-							img={{
-								src: this.props.image.src, 
-								id: this.props.image.id,
-								slot: this.props.image.slot
-							}}
-							link={this.props.link}
-							edit={edit}
-							isChartArt={this.props.image.isChartArt}
-							/>
-						) }
-						<Description content={this.props.excerpt} enabled={this.props.options.enableExcerpt} edit={edit} sansSerif={ ! this.props.options.enableHeader}/>
-						<Extra enabled={this.props.options.enableExtra} content={this.props.extra} edit={edit}/>
-					</Item.Content>
-					{ ('bottom' === this.props.image.slot || 'right' === this.props.image.slot) && (
-						<Image 
-						img={{
-							src: this.props.image.src, 
-							id: this.props.image.id,
-							slot: this.props.image.slot
-						}}
-						link={this.props.link}
-						edit={edit}
-						isChartArt={this.props.image.isChartArt}
-						/>
-					) }
-				</Item>
+				<this.item {...this.props.attributes}/>
 			</Fragment>
 		)
 	}	

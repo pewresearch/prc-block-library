@@ -25,18 +25,19 @@ class EditSidebar extends Component {
 		const setState = this.setState;
 		const setAttributes = this.props.setAttributes;
 
+		// Build Select Fields Data:
 		getTerms('Formats', true).then((data)=>{
 			let formats = data;
-			formats.push({ value: 10818955, label: 'Fact Tank' });
 			setState({ formats: formats });
 		});
 		
 		getTerms('Programs', true).then((data)=>{
 			let programs = data;
 			programs.push({ value: 0, label: 'All' });
-			setState({ programs: programs });
+			setState({ programs });
 		});
 
+		// Initial Fetch Posts:
 		if ( false === this.props.attributes.posts ) {
 			getPosts(this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay).then( (posts) => {
 				setAttributes({posts});
@@ -50,7 +51,8 @@ class EditSidebar extends Component {
 		}
 	}
 
-	insertStoryBlock = (clientID, item, index) => {
+	// Insert a story block as a column 
+	insertStoryBlock = (blockClientID, item, index) => {
 		console.log('Insert Story Block');
 
 		const parentID = window.wp.data.select('core/block-editor').getBlockHierarchyRootClientId( clientID );
@@ -84,7 +86,7 @@ class EditSidebar extends Component {
 			headerSize: 'normal',
 		} );
 
-		window.wp.data.dispatch('core/block-editor').insertBlocks(block, index + 1, parentBlock.clientId);
+		window.wp.data.dispatch('core/block-editor').insertBlocks(block, index, blockClientID);
 	}
 
 	render = () => {

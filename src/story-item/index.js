@@ -32,15 +32,13 @@ class EditSidebar extends Component {
 	}
 
 	componentDidMount = () => {
-		this.setState({url: this.props.link});
+		this.setState({ url: this.props.link });
 	}
 
 	/**
 	 * Loading Posts
 	 */
 	setPostByURL = () => {
-		console.log('GetPostByURL: ' + this.props.link);
-		console.log(this.props);
 		const setAttributes = this.props.setAttributes;
 		let url = this.props.link;
 
@@ -100,7 +98,7 @@ class EditSidebar extends Component {
 					<div>
 						<TextControl
 							label="Post ID"
-							value={ this.props.postID }
+							value={ this.props.attributes.postID }
 							disabled
 						/>
 					</div>
@@ -108,7 +106,7 @@ class EditSidebar extends Component {
 						<div>
 							<TextControl
 								label="Link"
-								value={ this.props.link }
+								value={ this.props.attributes.link }
 								onChange={ ( link ) => setAttributes({link}) }
 							/>
 						</div>
@@ -119,36 +117,36 @@ class EditSidebar extends Component {
 					<p><strong>Content Options:</strong></p>
 					<div>
 						<ToggleControl
-							label={ this.props.options.enableHeader ? 'Header Enabled' : 'Header Disabled' }
-							checked={ this.props.options.enableHeader }
+							label={ this.props.attributes.enableHeader ? 'Header Enabled' : 'Header Disabled' }
+							checked={ this.props.attributes.enableHeader }
 							onChange={ (value) => { setAttributes({ enableHeader: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled' }
-							checked={ this.props.options.enableExcerpt }
+							label={ this.props.attributes.enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled' }
+							checked={ this.props.attributes.enableExcerpt }
 							onChange={ (value) => { setAttributes({ enableExcerpt: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.enableExtra ? 'Extras Enabled' : 'Extras Disabled' }
-							checked={ this.props.options.enableExtra }
+							label={ this.props.attributes.enableExtra ? 'Extras Enabled' : 'Extras Disabled' }
+							checked={ this.props.attributes.enableExtra }
 							onChange={ (value) => { setAttributes({ enableExtra: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.emphasis ? 'Emphasis Enabled' : 'Emphasis Disabled' }
-							checked={ this.props.options.emphasis }
+							label={ this.props.attributes.emphasis ? 'Emphasis Enabled' : 'Emphasis Disabled' }
+							checked={ this.props.attributes.emphasis }
 							onChange={ (value) => { setAttributes({ emphasis: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.taxonomy ? 'Programs' : 'Formats' }
-							checked={ this.props.options.taxonomy }
+							label={ this.props.attributes.enableProgramsTaxonomy ? 'Programs' : 'Formats' }
+							checked={ this.props.attributes.enableProgramsTaxonomy }
 							onChange={ (value) => { 
 								setAttributes({ enableProgramsTaxonomy: value });
 							} }
@@ -221,14 +219,6 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: 'Title',
 		},
-		image: {
-			type: 'string',
-			default: '',
-		},
-		imageID: {
-			type: 'string',
-			default: '',
-		},
 		excerpt: {
 			type: 'string',
 			source: 'html',
@@ -236,6 +226,14 @@ registerBlockType( 'prc-block/story-item', {
 			selector: '.description',
 			default: '<p>Excerpt</p>',
 		},
+		extra: {
+			type: 'string',
+			source: 'html',
+			multiline: 'li',
+			selector: '.extra',
+			default: '',
+		},
+		// Item Meta
 		link: {
 			type: 'string',
 			default: '',
@@ -248,12 +246,22 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: todaysDate(),
 		},
-		extra: {
+		// Images
+		image: {
 			type: 'string',
-			source: 'html',
-			multiline: 'li',
-			selector: '.extra',
 			default: '',
+		},
+		imageID: {
+			type: 'string',
+			default: '',
+		},
+		imageSlot: {
+			type: 'string',
+			default: 'disabled',
+		},
+		isChartArt: {
+			type: 'boolean',
+			default: false,
 		},
 		// Post Meta Data:
 		postID: {
@@ -263,14 +271,6 @@ registerBlockType( 'prc-block/story-item', {
 		emphasis: {
 			type: 'boolean',
 			default: false,
-		},
-		isChartArt: {
-			type: 'boolean',
-			default: false,
-		},
-		imageSlot: {
-			type: 'string',
-			default: 'disabled',
 		},
 		horizontal: {
 			type: 'boolean',
@@ -301,6 +301,7 @@ registerBlockType( 'prc-block/story-item', {
 			default: 'normal',
 		},
 	},
+	
 	// example: {
 	// 	attributes: {
 	// 		link: 'http://www.pewresearch.org',
@@ -339,42 +340,13 @@ registerBlockType( 'prc-block/story-item', {
 		} else if ( 'is-style-disabled' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'disabled' });
 		}
-		
-		let data = {
-			postID: props.attributes.postID,
-			title: props.attributes.title,
-			link: props.attributes.link,
-			date: props.attributes.date,
-			label: props.attributes.label,
-			excerpt: props.attributes.excerpt,
-			extra: props.attributes.extra,
-			image: {
-				id: props.attributes.imageID,
-				slot: props.attributes.imageSlot,
-				src: props.attributes.image,
-				isChartArt: props.attributes.isChartArt,
-			},
-			options: {
-				emphasis: props.attributes.emphasis,
-				enableHeader: props.attributes.enableHeader,
-				enableExcerpt: props.attributes.enableExcerpt,
-				enableExtra: props.attributes.enableExtra,
-				headerSize: props.attributes.headerSize,
-				taxonomy: props.attributes.enableProgramsTaxonomy,
-			},
-			classNames: props.attributes.className,
-		};
-		
-		if ( true === props.isSelected ) {
-			data.editMode = true;
-			data.setAttributes = props.setAttributes;
-		}
+
 		return(
 			<Fragment>
 				{ true === props.isSelected && (
-					<EditSidebar {...data}/>
+					<EditSidebar {...props}/>
 				) }
-				<StoryItem {...data}/>
+				<StoryItem {...props}/>
 			</Fragment>
 		)
 	},
@@ -392,31 +364,8 @@ registerBlockType( 'prc-block/story-item', {
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
 	save: ( props ) => {
-		const data = {
-			postID: props.attributes.postID,
-			title: props.attributes.title,
-			link: props.attributes.link,
-			date: props.attributes.date,
-			label: props.attributes.label,
-			excerpt: props.attributes.excerpt,
-			extra: props.attributes.extra,
-			image: {
-				id: props.attributes.imageID,
-				slot: props.attributes.imageSlot,
-				src: props.attributes.image,
-				isChartArt: props.attributes.isChartArt,
-			},
-			options: {
-				emphasis: props.attributes.emphasis,
-				enableHeader: props.attributes.enableHeader,
-				enableExcerpt: props.attributes.enableExcerpt,
-				enableExtra: props.attributes.enableExtra,
-				headerSize: props.attributes.headerSize,
-			},
-			classNames: props.attributes.className,
-		};
 		return (
-			<StoryItem {...data}/>
+			<StoryItem {...props}/>
 		);
 	},
 } );
