@@ -2,7 +2,7 @@
 import { Component, Fragment } from '@wordpress/element';
 import { InnerBlocks } from '@wordpress/block-editor';
 import { Grid } from 'semantic-ui-react';
-import StoryItem from '../../story-item/component';
+// import StoryItem from '../../story-item/component';
 
 class PostsColumns extends Component {
 	constructor(props) {
@@ -19,6 +19,7 @@ class PostsColumns extends Component {
 
 	componentDidMount = () => {
 		console.log("Columns Mounted");
+		console.log(this.props);
 	}
 
 	render = () => {
@@ -56,7 +57,6 @@ class PostsColumns extends Component {
 					};
 					return <Grid.Column><StoryItem {...storyItemArgs}/></Grid.Column>
 				}) }
-				<InnerBlocks/>
 				</Grid.Row>
 			</Grid>
 			</div>

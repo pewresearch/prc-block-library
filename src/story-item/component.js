@@ -299,8 +299,6 @@ class StoryItem extends Component {
 	}
 
 	item = (attrs) => {
-		console.log('Item Render');
-
 		return(
 			<Item as="article" className={attrs.classes}>
 				{ ( 'top' === attrs.imageSlot || 'left' === attrs.imageSlot ) && (
