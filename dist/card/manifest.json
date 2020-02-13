@@ -1,13 +1,21 @@
 {
-  "main.js": "card/main.js",
-  "runtime.js": "card/runtime.js",
-  "vendors~main.js": "card/vendors~main.js",
+  "main.js": "card/main-0f458b59.js",
+  "main.js.map": "card/main-0f458b59.js.map",
+  "runtime.js": "card/runtime-5452aa84.js",
+  "runtime.js.map": "card/runtime-5452aa84.js.map",
+  "vendors~main.js": "card/vendors~main-dffef47f.js",
+  "vendors~main.js.map": "card/vendors~main-dffef47f.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "card/runtime.js",
-        "card/vendors~main.js",
-        "card/main.js"
+        "card/runtime-5452aa84.js",
+        "card/vendors~main-dffef47f.js",
+        "card/main-0f458b59.js"
+      ],
+      "js.map": [
+        "card/runtime-5452aa84.js.map",
+        "card/vendors~main-dffef47f.js.map",
+        "card/main-0f458b59.js.map"
       ]
     }
   }
