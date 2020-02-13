@@ -16,11 +16,8 @@ import { Button, PanelBody, ToggleControl, TextControl } from '@wordpress/compon
 import { Component, Fragment } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import * as moment from 'moment';
-import StoryItem from './component';
 
-const todaysDate = () => {
-	return moment().format("MMM D, YYYY");
-}
+import StoryItem from './component';
 
 class EditSidebar extends Component {
 	constructor(props) {
@@ -156,6 +153,10 @@ class EditSidebar extends Component {
 			</InspectorControls>
 		)
 	}
+}
+
+const todaysDate = () => {
+	return moment().format("MMM D, YYYY");
 }
 
 /**
@@ -301,18 +302,6 @@ registerBlockType( 'prc-block/story-item', {
 			default: 'normal',
 		},
 	},
-	
-	// example: {
-	// 	attributes: {
-	// 		link: 'http://www.pewresearch.org',
-	// 		title: 'Anim fugiat incididunt consectetur sunt duis',
-	// 		excerpt: 'Ex tempor ut occaecat consequat irure veniam commodo aliqua cupidatat pariatur ad aliquip et. In fugiat Lorem occaecat ex nostrud non incididunt cillum occaecat ex deserunt sit enim ipsum. Sunt elit consectetur quis culpa labore qui pariatur laboris minim incididunt consequat amet.',
-	// 		extra: '<a href="#"><strong>Est in cupidatat:</strong> nulla occaecat dolor sint culpa do anim.</a>',
-	// 		imageSlot: 'top',
-	// 		image: 'https://images.unsplash.com/photo-1555293442-818eb55f7ca0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3500&q=80',
-	// 	},
-	// },
-	
 
 	/**
 	 * The edit function describes the structure of your block in the context of the editor.
