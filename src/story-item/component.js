@@ -141,8 +141,9 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 		isMedium = true;
 	}
 	let classes = classNames({ ui: true, medium: isMedium, image: true, bordered: isChartArt });
+
 	const appendImageWidth = (imgURL, slot) => {
-		if ( '' === imgURL ) {
+		if ( '' === imgURL || false === imgURL ) {
 			return imgURL;
 		}
 		
@@ -150,8 +151,10 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 		if ( 'left' === slot || 'right' === slot ) {
 			width = '345';
 		}
+
 		return addQueryArgs( imgURL, { w: width } );
 	}
+
 	return(
 		<Fragment>
 			{ undefined !== img && (
@@ -164,7 +167,7 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 				{ false === setAttributes && (
 					<div className={classes}>
 						<a href={link}>
-							<img className={'wp-image-'+img.id} src={appendImageWidth(img.src, img.slot)}/>
+							<img className={'wp-image-' + img.id} src={appendImageWidth(img.src, img.slot)}/>
 						</a>
 					</div>
 				)}
@@ -214,7 +217,7 @@ const Extra = function({ enabled, content, setAttributes }) {
 				/>
 			) }
 			{ false === setAttributes && true === enabled && ( 
-				<RichText.Content tagName="div" value={ content } className={ classes }/>
+				<RichText.Content tagName="ul" value={ content } className={ classes }/>
 			) }
 		</Fragment>
 	)
@@ -361,7 +364,7 @@ class StoryItem extends Component {
 
 	render() {
 		// If the block is not selected, it is not in edit mode, disable setAttributes.
-		if ( true !== this.props.isSelected ) {
+		if ( undefined === this.props.isSelected || true !== this.props.isSelected ) {
 			this.props.setAttributes = false;
 		}
 		

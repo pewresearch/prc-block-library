@@ -15,7 +15,6 @@ class PostsColumns extends Component {
 				headerSize: 'small',
 			}
 		}
-		this.insertStoryBlock = this.insertStoryBlock.bind(this);
 	}
 
 	componentDidMount = () => {
@@ -31,21 +30,29 @@ class PostsColumns extends Component {
 				<Grid.Row>
 				{ false !== data && data.map((item, index) => {
 					let storyItemArgs = {
-						postID: '',
-						title: item.title,
-						link: item.link,
-						date: item.date,
-						label: item.label,
-						excerpt: '',
-						extra: '',
-						image: {
-							slot: 'top',
-							src: item.image,
+						attributes: {
+							title: item.title,
+							image: item.image,
+							excerpt: item.excerpt,
+							link: item.link,
+							label: item.label,
+							date: item.date,
+							extra: '',
+							// Post Meta Data:
+							postID: item.id,
+							// Item Options
+							emphasis: false,
 							isChartArt: false,
+							imageSlot: 'top',
+							horizontal: false,
+							stacked: true,
+							enableHeader: true,
+							enableExcerpt: false,
+							enableExtra: false,
+							enableProgramsTaxonomy: false,
+							headerSize: 'normal',
+							classNames: 'is-style-top',
 						},
-						// These are very much 
-						options: this.state.defaultOptions,
-						classNames: 'is-style-top',
 					};
 					return <Grid.Column><StoryItem {...storyItemArgs}/></Grid.Column>
 				}) }
