@@ -16,11 +16,8 @@ import { Button, PanelBody, ToggleControl, TextControl } from '@wordpress/compon
 import { Component, Fragment } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import * as moment from 'moment';
-import StoryItem from './component';
 
-const todaysDate = () => {
-	return moment().format("MMM D, YYYY");
-}
+import StoryItem from './component';
 
 class EditSidebar extends Component {
 	constructor(props) {
@@ -32,28 +29,29 @@ class EditSidebar extends Component {
 	}
 
 	componentDidMount = () => {
-		this.setState({url: this.props.link});
+		this.setState({ url: this.props.attributes.link });
 	}
 
 	/**
 	 * Loading Posts
 	 */
 	setPostByURL = () => {
-		console.log('GetPostByURL: ' + this.props.link);
-		console.log(this.props);
 		const setAttributes = this.props.setAttributes;
-		let url = this.props.link;
+		let url = this.props.attributes.link;
 
 		const getSiteIDFromURL = (url) => {
+			console.log(url);
 			let siteID = 1;
-			if ( url.includes('https://www.pewresearch.org/global/' ) || url.includes('https://www.pewglobal.org/' ) ) {
+			if ( url.includes(window.siteDomain + '/global/' ) ) {
 				siteID = 2;
-			} else if ( url.includes('https://www.pewresearch.org/hispanic/' ) || url.includes('https://www.pewhispanic.org/' ) ) {
+			} else if ( url.includes(window.siteDomain + '/hispanic/' ) ) {
 				siteID = 5;
-			} else if ( url.includes('https://www.pewresearch.org/science/' ) ) {
+			} else if ( url.includes(window.siteDomain + '/science/' ) ) {
 				siteID = 16;
-			} else if ( url.includes('https://www.pewresearch.org/methods/' ) ) {
+			} else if ( url.includes(window.siteDomain + '/methods/' ) ) {
 				siteID = 10;
+			} else if ( url.includes(window.siteDomain + '/internet/' ) ) {
+				siteID = 9;
 			} else if ( url.includes('https://www.people-press.org/' ) ) {
 				siteID = 4;
 			} else if ( url.includes('https://www.pewforum.org/' ) ) {
@@ -62,9 +60,7 @@ class EditSidebar extends Component {
 				siteID = 8;
 			} else if ( url.includes('https://www.pewsocialtrends.org/' ) ) {
 				siteID = 3;
-			} else if ( url.includes('https://www.pewresearch.org/internet/' || url.includes('https://www.pewinternet.org/' ) ) ) {
-				siteID = 9;
-			} else if ( url.includes('https://www.pewresearch.org/' ) ) {
+			} else if ( url.includes('https://www.pewresearch.org/' ) || url.includes(window.siteDomain) ) {
 				siteID = 1;
 			}
 			return siteID;
@@ -81,6 +77,7 @@ class EditSidebar extends Component {
 				setAttributes({
 					title: post.title,
 					image: post.image,
+					imageID: post.imageID,
 					excerpt: post.excerpt,
 					link: post.link,
 					label: post.label,
@@ -100,7 +97,7 @@ class EditSidebar extends Component {
 					<div>
 						<TextControl
 							label="Post ID"
-							value={ this.props.postID }
+							value={ this.props.attributes.postID }
 							disabled
 						/>
 					</div>
@@ -108,7 +105,7 @@ class EditSidebar extends Component {
 						<div>
 							<TextControl
 								label="Link"
-								value={ this.props.link }
+								value={ this.props.attributes.link }
 								onChange={ ( link ) => setAttributes({link}) }
 							/>
 						</div>
@@ -119,36 +116,36 @@ class EditSidebar extends Component {
 					<p><strong>Content Options:</strong></p>
 					<div>
 						<ToggleControl
-							label={ this.props.options.enableHeader ? 'Header Enabled' : 'Header Disabled' }
-							checked={ this.props.options.enableHeader }
+							label={ this.props.attributes.enableHeader ? 'Header Enabled' : 'Header Disabled' }
+							checked={ this.props.attributes.enableHeader }
 							onChange={ (value) => { setAttributes({ enableHeader: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled' }
-							checked={ this.props.options.enableExcerpt }
+							label={ this.props.attributes.enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled' }
+							checked={ this.props.attributes.enableExcerpt }
 							onChange={ (value) => { setAttributes({ enableExcerpt: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.enableExtra ? 'Extras Enabled' : 'Extras Disabled' }
-							checked={ this.props.options.enableExtra }
+							label={ this.props.attributes.enableExtra ? 'Extras Enabled' : 'Extras Disabled' }
+							checked={ this.props.attributes.enableExtra }
 							onChange={ (value) => { setAttributes({ enableExtra: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.emphasis ? 'Emphasis Enabled' : 'Emphasis Disabled' }
-							checked={ this.props.options.emphasis }
+							label={ this.props.attributes.emphasis ? 'Emphasis Enabled' : 'Emphasis Disabled' }
+							checked={ this.props.attributes.emphasis }
 							onChange={ (value) => { setAttributes({ emphasis: value }); } }
 						/>
 					</div>
 					<div>
 						<ToggleControl
-							label={ this.props.options.taxonomy ? 'Programs' : 'Formats' }
-							checked={ this.props.options.taxonomy }
+							label={ this.props.attributes.enableProgramsTaxonomy ? 'Programs' : 'Formats' }
+							checked={ this.props.attributes.enableProgramsTaxonomy }
 							onChange={ (value) => { 
 								setAttributes({ enableProgramsTaxonomy: value });
 							} }
@@ -158,6 +155,10 @@ class EditSidebar extends Component {
 			</InspectorControls>
 		)
 	}
+}
+
+const todaysDate = () => {
+	return moment().format("MMM D, YYYY");
 }
 
 /**
@@ -221,10 +222,6 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: 'Title',
 		},
-		image: {
-			type: 'string',
-			default: '',
-		},
 		excerpt: {
 			type: 'string',
 			source: 'html',
@@ -232,6 +229,14 @@ registerBlockType( 'prc-block/story-item', {
 			selector: '.description',
 			default: '<p>Excerpt</p>',
 		},
+		extra: {
+			type: 'string',
+			source: 'html',
+			multiline: 'li',
+			selector: '.extra',
+			default: '',
+		},
+		// Item Meta
 		link: {
 			type: 'string',
 			default: '',
@@ -244,12 +249,22 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: todaysDate(),
 		},
-		extra: {
+		// Images
+		image: {
 			type: 'string',
-			source: 'html',
-			multiline: 'li',
-			selector: '.extra',
 			default: '',
+		},
+		imageID: {
+			type: 'string',
+			default: '',
+		},
+		imageSlot: {
+			type: 'string',
+			default: 'disabled',
+		},
+		isChartArt: {
+			type: 'boolean',
+			default: false,
 		},
 		// Post Meta Data:
 		postID: {
@@ -259,14 +274,6 @@ registerBlockType( 'prc-block/story-item', {
 		emphasis: {
 			type: 'boolean',
 			default: false,
-		},
-		isChartArt: {
-			type: 'boolean',
-			default: false,
-		},
-		imageSlot: {
-			type: 'string',
-			default: 'disabled',
 		},
 		horizontal: {
 			type: 'boolean',
@@ -297,17 +304,6 @@ registerBlockType( 'prc-block/story-item', {
 			default: 'normal',
 		},
 	},
-	// example: {
-	// 	attributes: {
-	// 		link: 'http://www.pewresearch.org',
-	// 		title: 'Anim fugiat incididunt consectetur sunt duis',
-	// 		excerpt: 'Ex tempor ut occaecat consequat irure veniam commodo aliqua cupidatat pariatur ad aliquip et. In fugiat Lorem occaecat ex nostrud non incididunt cillum occaecat ex deserunt sit enim ipsum. Sunt elit consectetur quis culpa labore qui pariatur laboris minim incididunt consequat amet.',
-	// 		extra: '<a href="#"><strong>Est in cupidatat:</strong> nulla occaecat dolor sint culpa do anim.</a>',
-	// 		imageSlot: 'top',
-	// 		image: 'https://images.unsplash.com/photo-1555293442-818eb55f7ca0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3500&q=80',
-	// 	},
-	// },
-	
 
 	/**
 	 * The edit function describes the structure of your block in the context of the editor.
@@ -335,41 +331,13 @@ registerBlockType( 'prc-block/story-item', {
 		} else if ( 'is-style-disabled' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'disabled' });
 		}
-		
-		let data = {
-			postID: props.attributes.postID,
-			title: props.attributes.title,
-			link: props.attributes.link,
-			date: props.attributes.date,
-			label: props.attributes.label,
-			excerpt: props.attributes.excerpt,
-			extra: props.attributes.extra,
-			image: {
-				slot: props.attributes.imageSlot,
-				src: props.attributes.image,
-				isChartArt: props.attributes.isChartArt,
-			},
-			options: {
-				emphasis: props.attributes.emphasis,
-				enableHeader: props.attributes.enableHeader,
-				enableExcerpt: props.attributes.enableExcerpt,
-				enableExtra: props.attributes.enableExtra,
-				headerSize: props.attributes.headerSize,
-				taxonomy: props.attributes.enableProgramsTaxonomy,
-			},
-			classNames: props.attributes.className,
-		};
-		
-		if ( true === props.isSelected ) {
-			data.editMode = true;
-			data.setAttributes = props.setAttributes;
-		}
+
 		return(
 			<Fragment>
 				{ true === props.isSelected && (
-					<EditSidebar {...data}/>
+					<EditSidebar {...props}/>
 				) }
-				<StoryItem {...data}/>
+				<StoryItem {...props}/>
 			</Fragment>
 		)
 	},
@@ -387,30 +355,8 @@ registerBlockType( 'prc-block/story-item', {
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
 	save: ( props ) => {
-		const data = {
-			postID: props.attributes.postID,
-			title: props.attributes.title,
-			link: props.attributes.link,
-			date: props.attributes.date,
-			label: props.attributes.label,
-			excerpt: props.attributes.excerpt,
-			extra: props.attributes.extra,
-			image: {
-				slot: props.attributes.imageSlot,
-				src: props.attributes.image,
-				isChartArt: props.attributes.isChartArt,
-			},
-			options: {
-				emphasis: props.attributes.emphasis,
-				enableHeader: props.attributes.enableHeader,
-				enableExcerpt: props.attributes.enableExcerpt,
-				enableExtra: props.attributes.enableExtra,
-				headerSize: props.attributes.headerSize,
-			},
-			classNames: props.attributes.className,
-		};
 		return (
-			<StoryItem {...data}/>
+			<StoryItem {...props}/>
 		);
 	},
 } );

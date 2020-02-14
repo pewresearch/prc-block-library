@@ -7,7 +7,7 @@ class PostsList extends Component {
 		super(props);
 	}
 
-	posts({data, disableLink}){
+	posts({loaded, setState, clientID, data, disableLink}){
 		return(
 			<List relaxed="very" link divided>
 			{ false !== data && data.map((item, index) => {
@@ -24,7 +24,9 @@ class PostsList extends Component {
 	render() {
 		const Posts = this.posts;
 		return(
-			<Posts data={ this.props.posts } disableLink={this.props.disableLink}/>
+			<Fragment>
+				<Posts data={this.props.posts} disableLink={this.props.disableLink}/>
+			</Fragment>
 		)
 	}	
 }

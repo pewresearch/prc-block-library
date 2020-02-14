@@ -276,6 +276,12 @@ class PRC_Block_Library {
 		error_log( print_r( $program, true ) );
 		error_log( print_r( $label_taxonomy, true ) );
 
+		// If the current site is not 1 then for the format and the program we should get their parent.
+		if ( 1 !== get_current_blog_id() ) {
+			$format  = get_term_meta( $format, '_origin_term_id', true );
+			$program = get_term_meta( $program, '_origin_term_id', true );
+		}
+
 		$args = array(
 			'post_type'        => 'stub',
 			'post_per_page'    => (int) $per_page,
@@ -369,6 +375,8 @@ class PRC_Block_Library {
 
 		$format_term = get_term_by( 'slug', $stub_info['_taxonomies']['formats'][0], 'formats' );
 
+		$featured_image = array();
+
 		$return = array(
 			'id'      => $stub_post->ID,
 			'title'   => esc_attr( $stub_post->post_title ),
@@ -377,6 +385,7 @@ class PRC_Block_Library {
 			'label'   => $format_term->name,
 			'link'    => get_post_meta( $stub_post->ID, '_redirect', true ),
 			'image'   => $stub_info['_featured_image'],
+			'imageID' => '',
 		);
 
 		if ( 1 !== $current_site_id ) {

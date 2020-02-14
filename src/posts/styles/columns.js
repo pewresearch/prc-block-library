@@ -1,7 +1,8 @@
 
 import { Component, Fragment } from '@wordpress/element';
+import { InnerBlocks } from '@wordpress/block-editor';
 import { Grid } from 'semantic-ui-react';
-import StoryItem from '../../story-item/component';
+// import StoryItem from '../../story-item/component';
 
 class PostsColumns extends Component {
 	constructor(props) {
@@ -16,10 +17,12 @@ class PostsColumns extends Component {
 		}
 	}
 
-	componentDidMount() {
+	componentDidMount = () => {
+		console.log("Columns Mounted");
+		console.log(this.props);
 	}
 
-	render() {
+	render = () => {
 		const data = this.props.posts;
 		return(
 			<div style={{marginBottom: '2rem'}}>
@@ -28,21 +31,29 @@ class PostsColumns extends Component {
 				<Grid.Row>
 				{ false !== data && data.map((item, index) => {
 					let storyItemArgs = {
-						postID: '',
-						title: item.title,
-						link: item.link,
-						date: item.date,
-						label: item.label,
-						excerpt: '',
-						extra: '',
-						image: {
-							slot: 'top',
-							src: item.image,
+						attributes: {
+							title: item.title,
+							image: item.image,
+							excerpt: item.excerpt,
+							link: item.link,
+							label: item.label,
+							date: item.date,
+							extra: '',
+							// Post Meta Data:
+							postID: item.id,
+							// Item Options
+							emphasis: false,
 							isChartArt: false,
+							imageSlot: 'top',
+							horizontal: false,
+							stacked: true,
+							enableHeader: true,
+							enableExcerpt: false,
+							enableExtra: false,
+							enableProgramsTaxonomy: false,
+							headerSize: 'normal',
+							classNames: 'is-style-top',
 						},
-						// These are very much 
-						options: this.state.defaultOptions,
-						classNames: 'is-style-top',
 					};
 					return <Grid.Column><StoryItem {...storyItemArgs}/></Grid.Column>
 				}) }

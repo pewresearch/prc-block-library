@@ -1,12 +1,7 @@
 import * as moment from 'moment';
 import apiFetch from '@wordpress/api-fetch';
 
-const getPosts = (saveMethod, perPage, format, program, labelTaxonomy) => {
-	if ( 'function' !== typeof(saveMethod) ) {
-		console.error('saveMethod in getPosts is not a function');
-		return false;
-	}
-
+const getPosts = (perPage, format, program, labelTaxonomy) => {
 	const formatDate = function( dateString ) {
 		// $date_format = 'M j, Y';
 		// $timestamp   = get_the_date( 'U', $post_id );
@@ -19,22 +14,28 @@ const getPosts = (saveMethod, perPage, format, program, labelTaxonomy) => {
 		return moment(dateString).format("MMM D, YYYY");
 	}
 
-	let data = [];
+	console.log('format');
+	console.log(format);
+	console.log('program');
+	console.log(program);
 
-	apiFetch( { path: '/prc-api/v2/blocks/helpers/get-posts/?perPage='+perPage+'&format=' + format + '&program=' + program + '&labelTaxonomy=' + labelTaxonomy } ).then( posts => {
-		for ( let index = 0; index < perPage ; index++ ) {
-			data.push({
-				id: posts[index].id,
-				title: posts[index].title,
-				excerpt: posts[index].excerpt,
-				date: formatDate(posts[index].date),
-				link: posts[index].link,
-				label: posts[index].label,
-				image: posts[index].image,
-			});
-		}
-		saveMethod({ posts: data });
-	} );
+	return new Promise( (resolve, reject) => {
+		let data = [];
+		apiFetch( { path: '/prc-api/v2/blocks/helpers/get-posts/?perPage='+perPage+'&format=' + format + '&program=' + program + '&labelTaxonomy=' + labelTaxonomy } ).then( posts => {
+			for ( let index = 0; index < perPage ; index++ ) {
+				data.push({
+					id: posts[index].id,
+					title: posts[index].title,
+					excerpt: posts[index].excerpt,
+					date: posts[index].date,
+					link: posts[index].link,
+					label: posts[index].label,
+					image: posts[index].image,
+				});
+			}
+			resolve(data);
+		} );
+	} ) ;
 }
 
 export default getPosts;

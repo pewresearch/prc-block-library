@@ -18,11 +18,16 @@ class DynamicPosts extends Component {
 	}
 	componentDidMount = () => {
 		console.log('Dynamic Posts Mounted');
+		const setState = this.setState;
 		// Fetch immediately, then fetch every x milliseconds.
-		getPosts(this.setState, this.props.per_page, this.props.format, this.props.program, 'formats');
+		getPosts(this.props.per_page, this.props.format, this.props.program, 'formats').then( (posts) => {
+			setState({posts});
+		});
 		
 		setInterval( () => {
-			getPosts(this.setState, this.props.per_page, this.props.format, this.props.program, 'programs');
+			getPosts(this.props.per_page, this.props.format, this.props.program, 'formats').then( (posts) => {
+				setState({posts});
+			});
 		}, this.state.fetchInterval);
 	}
 	render() {
