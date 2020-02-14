@@ -375,6 +375,8 @@ class PRC_Block_Library {
 
 		$format_term = get_term_by( 'slug', $stub_info['_taxonomies']['formats'][0], 'formats' );
 
+		$featured_image = array();
+
 		$return = array(
 			'id'      => $stub_post->ID,
 			'title'   => esc_attr( $stub_post->post_title ),
@@ -383,6 +385,7 @@ class PRC_Block_Library {
 			'label'   => $format_term->name,
 			'link'    => get_post_meta( $stub_post->ID, '_redirect', true ),
 			'image'   => $stub_info['_featured_image'],
+			'imageID' => '',
 		);
 
 		if ( 1 !== $current_site_id ) {

@@ -77,6 +77,7 @@ class EditSidebar extends Component {
 				setAttributes({
 					title: post.title,
 					image: post.image,
+					imageID: post.imageID,
 					excerpt: post.excerpt,
 					link: post.link,
 					label: post.label,
