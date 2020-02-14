@@ -262,6 +262,10 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: 'disabled',
 		},
+		imageSize: {
+			type: 'string',
+			default: 'A1',
+		},
 		isChartArt: {
 			type: 'boolean',
 			default: false,

@@ -90,7 +90,6 @@ class ImageEditor extends Component {
 	}
 	mediaHandler(media) {
 		console.log(media);
-		//wp-image-358278
 		if ( 'disabled' === this.props.slot ) {
 			this.props.setAttributes( { image: media.url, imageID: media.id, imageSlot: 'default' } )
 		} else {
@@ -119,8 +118,26 @@ class ImageEditor extends Component {
 								) }
 								<div className={this.props.imgClass}>
 									<img className={'wp-image-'+this.props.id} src={this.props.img} onClick={ open }/>
-									<div class="sans-serif"><i>Click image to open media library</i></div>
-									<div class="sans-serif remove-image" onClick={()=>{ this.props.setAttributes({image:'', imageSlot: 'disabled'}) }}>Or click here to <strong>REMOVE IMAGE</strong></div>
+									<div className="image-editor-options">
+										<div>
+											<div class="sans-serif"><i>Click image to open media library</i></div>
+											<div class="sans-serif remove-image" onClick={()=>{ this.props.setAttributes({image:'', imageSlot: 'disabled'}) }}>Or click here to <strong>REMOVE IMAGE</strong></div>
+										</div>
+										<div>
+											<SelectControl
+												label='Image Size'
+												value={ this.props.size }
+												options={[
+													{ value: 'A1', label: 'A1' },
+													{ value: 'A2', label: 'A2' },
+													{ value: 'A3', label: 'A3' },
+													{ value: 'A4', label: 'A4' },
+												]}
+												onChange={ ( imageSize ) => { this.props.setAttributes({imageSize}); } }
+												style={{marginBottom: '0px'}}
+											/>
+										</div>
+									</div>
 								</div>
 							</Fragment>
 						) }
@@ -142,14 +159,29 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 	}
 	let classes = classNames({ ui: true, medium: isMedium, image: true, bordered: isChartArt });
 
-	const appendImageWidth = (imgURL, slot) => {
+	const appendImageWidth = (imgURL, slot, size) => {
 		if ( '' === imgURL || false === imgURL ) {
 			return imgURL;
 		}
-		
-		let width = '564';
+
+		let A1 = '564px';
+		let A2 = '268px';
+		let A3 = '194px';
+		let A4 = '268px';
+
 		if ( 'left' === slot || 'right' === slot ) {
-			width = '345';
+			size = 'A2';
+			setAttributes({ imageSize: size });
+		}
+
+		// We're making A1 the default
+		let width = A1;
+		if ( 'A2' === size ) {
+			width = A2;
+		} else if ( 'A3' === size ) {
+			width = A3;
+		} else if ( 'A4' === size ) {
+			width = A4;
 		}
 
 		return addQueryArgs( imgURL, { w: width } );
@@ -161,13 +193,13 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 				<Fragment>
 				{ false !== setAttributes && (
 					<Fragment>
-						<ImageEditor id={img.id} slot={img.slot} img={img.src} imgClass={classes} isChartArt={isChartArt} setAttributes={setAttributes}/>
+						<ImageEditor id={img.id} slot={img.slot} img={appendImageWidth(img.src, img.slot, img.size)} size={img.size} imgClass={classes} isChartArt={isChartArt} setAttributes={setAttributes}/>
 					</Fragment>
 				)}
 				{ false === setAttributes && (
 					<div className={classes}>
 						<a href={link}>
-							<img className={'wp-image-' + img.id} src={appendImageWidth(img.src, img.slot)}/>
+							<img className={'wp-image-' + img.id} src={appendImageWidth(img.src, img.slot, img.size)}/>
 						</a>
 					</div>
 				)}
@@ -306,7 +338,8 @@ class StoryItem extends Component {
 						img={{
 							src: attrs.image, 
 							id: attrs.imageID,
-							slot: attrs.imageSlot
+							slot: attrs.imageSlot,
+							size: attrs.imageSize,
 						}}
 						link={attrs.link}
 						setAttributes={this.props.setAttributes}
@@ -331,7 +364,8 @@ class StoryItem extends Component {
 							img={{
 								src: attrs.image, 
 								id: attrs.imageID,
-								slot: attrs.imageSlot
+								slot: attrs.imageSlot,
+								size: attrs.imageSize,
 							}}
 							link={attrs.link}
 							setAttributes={this.props.setAttributes}
@@ -349,7 +383,8 @@ class StoryItem extends Component {
 						img={{
 							src: attrs.image, 
 							id: attrs.imageID,
-							slot: attrs.imageSlot
+							slot: attrs.imageSlot,
+							size: attrs.imageSize,
 						}}
 						link={attrs.link}
 						setAttributes={this.props.setAttributes}
