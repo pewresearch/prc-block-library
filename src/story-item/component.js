@@ -159,7 +159,7 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 	}
 	let classes = classNames({ ui: true, medium: isMedium, image: true, bordered: isChartArt });
 
-	const appendImageWidth = (imgURL, slot, size) => {
+	const appendImageWidth = (imgURL, slot, size, setAttributes) => {
 		if ( '' === imgURL || false === imgURL ) {
 			return imgURL;
 		}
@@ -169,9 +169,12 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 		let A3 = '194px';
 		let A4 = '268px';
 
+		// If left or right slot we know we have a set image size for that, so change accordingly.
 		if ( 'left' === slot || 'right' === slot ) {
 			size = 'A2';
-			setAttributes({ imageSize: size });
+			if ( null !== setAttributes ) {
+				setAttributes({ imageSize: size });
+			}
 		}
 
 		// We're making A1 the default
@@ -193,13 +196,13 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 				<Fragment>
 				{ false !== setAttributes && (
 					<Fragment>
-						<ImageEditor id={img.id} slot={img.slot} img={appendImageWidth(img.src, img.slot, img.size)} size={img.size} imgClass={classes} isChartArt={isChartArt} setAttributes={setAttributes}/>
+						<ImageEditor id={img.id} slot={img.slot} img={appendImageWidth(img.src, img.slot, img.size, setAttributes)} size={img.size} imgClass={classes} isChartArt={isChartArt} setAttributes={setAttributes}/>
 					</Fragment>
 				)}
 				{ false === setAttributes && (
 					<div className={classes}>
 						<a href={link}>
-							<img className={'wp-image-' + img.id} src={appendImageWidth(img.src, img.slot, img.size)}/>
+							<img className={'wp-image-' + img.id} src={appendImageWidth(img.src, img.slot, img.size, null)}/>
 						</a>
 					</div>
 				)}
