@@ -132,6 +132,8 @@ class ImageEditor extends Component {
 													{ value: 'A2', label: 'A2' },
 													{ value: 'A3', label: 'A3' },
 													{ value: 'A4', label: 'A4' },
+													{ value: 'legacy-260', label: 'Legacy Homepage 260x260' },
+													{ value: 'legacy-260-173', label: 'Legacy Homepage 260x173' },
 												]}
 												onChange={ ( imageSize ) => { this.props.setAttributes({imageSize}); } }
 												style={{marginBottom: '0px'}}
@@ -168,26 +170,24 @@ const Image = function({ isChartArt, img, setAttributes, link }) {
 		let A2 = '268px';
 		let A3 = '194px';
 		let A4 = '268px';
-
-		// If left or right slot we know we have a set image size for that, so change accordingly.
-		if ( 'left' === slot || 'right' === slot ) {
-			size = 'A2';
-			if ( null !== setAttributes ) {
-				setAttributes({ imageSize: size });
-			}
-		}
+		let legacyFeatured = '260,260'
+		let legacyNewsWell = '260,173';
 
 		// We're making A1 the default
-		let width = A1;
+		let args = { w: A1 };
 		if ( 'A2' === size ) {
-			width = A2;
+			args = { w: A2 };
 		} else if ( 'A3' === size ) {
-			width = A3;
+			args = { w: A3 };
 		} else if ( 'A4' === size ) {
-			width = A4;
+			args = { w: A4 };
+		} else if ( 'legacy-260' === size ) {
+			args = { resize: legacyFeatured };
+		} else if ( 'legacy-260-173' === size ) {
+			args = { resize: legacyNewsWell };
 		}
 
-		return addQueryArgs( imgURL, { w: width } );
+		return addQueryArgs( imgURL, args );
 	}
 
 	return(
@@ -259,6 +259,9 @@ const Extra = function({ enabled, content, setAttributes }) {
 }
 
 const Kicker = ({ label, date }) => {
+	if ( undefined === label ) {
+		label = "Report";
+	}
 	const labelSlug = label.replace(/\s+/g, '-').toLowerCase();
 	let classes = classNames( labelSlug, 'label' );
 	return(
