@@ -105,7 +105,7 @@ class Card extends Component {
 						<RichText.Content tagName="div" className="sans-serif" value={this.props.excerpt}/>
 					) }
 
-					<div className="ui items">
+					<div className="ui relaxed items">
 					{ false === this.props.edit.display && (
 						<InnerBlocks allowedBlocks={[ 'prc-block/story-item', 'prc-block/posts' ]}/>
 					) }

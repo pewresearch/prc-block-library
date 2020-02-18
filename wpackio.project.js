@@ -42,6 +42,12 @@ module.exports = {
 			},
 		},
 		{
+			name: 'follow-us',
+			entry: {
+				main: './src/follow-us/index.js',
+			},
+		},
+		{
 			name: 'posts',
 			entry: {
 				main: './src/posts/index.js',

@@ -128,6 +128,28 @@ class PRC_Block_Library {
 			)
 		);
 
+		// Follow Us
+		$js_deps   = $this->js_deps;
+		$follow_us = $enqueue->register(
+			'follow-us',
+			'main',
+			[
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => [],
+				'in_footer' => true,
+				'media'     => 'all',
+			]
+		);
+		register_block_type(
+			'prc-block/follow-us',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $follow_us['js'] )['handle'],
+			)
+		);
+
 		// Pancake Promo
 		$pancake_promo = $enqueue->register(
 			'pancake-promo',
