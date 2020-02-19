@@ -1,35 +1,35 @@
 {
-  "frontend.js": "follow-us/frontend-3865bf5d.js",
-  "frontend.js.map": "follow-us/frontend-3865bf5d.js.map",
-  "main.js": "follow-us/main-4c174f4a.js",
-  "main.js.map": "follow-us/main-4c174f4a.js.map",
+  "frontend.js": "follow-us/frontend-9a890087.js",
+  "frontend.js.map": "follow-us/frontend-9a890087.js.map",
+  "main.js": "follow-us/main-344c2c99.js",
+  "main.js.map": "follow-us/main-344c2c99.js.map",
   "runtime.js": "follow-us/runtime-efa173e4.js",
   "runtime.js.map": "follow-us/runtime-efa173e4.js.map",
-  "vendors~frontend~main.js": "follow-us/vendors~frontend~main-cc1a4c93.js",
-  "vendors~frontend~main.js.map": "follow-us/vendors~frontend~main-cc1a4c93.js.map",
+  "vendors~frontend~main.js": "follow-us/vendors~frontend~main-6ea5e30d.js",
+  "vendors~frontend~main.js.map": "follow-us/vendors~frontend~main-6ea5e30d.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "follow-us/runtime-efa173e4.js",
-        "follow-us/vendors~frontend~main-cc1a4c93.js",
-        "follow-us/main-4c174f4a.js"
+        "follow-us/vendors~frontend~main-6ea5e30d.js",
+        "follow-us/main-344c2c99.js"
       ],
       "js.map": [
         "follow-us/runtime-efa173e4.js.map",
-        "follow-us/vendors~frontend~main-cc1a4c93.js.map",
-        "follow-us/main-4c174f4a.js.map"
+        "follow-us/vendors~frontend~main-6ea5e30d.js.map",
+        "follow-us/main-344c2c99.js.map"
       ]
     },
     "frontend": {
       "js": [
         "follow-us/runtime-efa173e4.js",
-        "follow-us/vendors~frontend~main-cc1a4c93.js",
-        "follow-us/frontend-3865bf5d.js"
+        "follow-us/vendors~frontend~main-6ea5e30d.js",
+        "follow-us/frontend-9a890087.js"
       ],
       "js.map": [
         "follow-us/runtime-efa173e4.js.map",
-        "follow-us/vendors~frontend~main-cc1a4c93.js.map",
-        "follow-us/frontend-3865bf5d.js.map"
+        "follow-us/vendors~frontend~main-6ea5e30d.js.map",
+        "follow-us/frontend-9a890087.js.map"
       ]
     }
   }

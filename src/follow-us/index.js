@@ -8,7 +8,6 @@
 import { __ } from "@wordpress/i18n";
 import { registerBlockType } from '@wordpress/blocks';
 import { RichText } from '@wordpress/block-editor';
-import { Fragment } from '@wordpress/element';
 
 import FollowUs from './component';
 
@@ -72,9 +71,9 @@ registerBlockType( 'prc-block/follow-us', {
 			data.setAttributes = props.setAttributes;
 		}
 		return(
-			<Fragment>
-				<FollowUs {...data}/>
-			</Fragment>
+			<FollowUs {...data}>
+				<RichText.Content className="ui link list" tagName="div" value={ data.socialMedia } />
+			</FollowUs>
 		)
 	},
 
@@ -93,7 +92,7 @@ registerBlockType( 'prc-block/follow-us', {
 	save: ( props ) => {
 		return (
 			<div className="js-react-follow-us" data-newsletters={props.attributes.newsletters}>
-				<RichText.Content className="ui link list" tagName="ul" value={ props.attributes.socialMedia } />
+				<RichText.Content className="ui link list" tagName="div" value={ props.attributes.socialMedia } />
 			</div>
 		);
 	},

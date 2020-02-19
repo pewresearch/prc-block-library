@@ -101,17 +101,17 @@ class FollowUs extends Component {
 	}
 
 	render = () => {
-		console.log(this);
 		let classes = classNames(this.props.className, 'inverted', 'beige');
 		const newsletters = window.prcMailchimpBlock.interests;
 		const SelectNewsletters = this.selectNewsletters;
-		// const setState = this.setState;
+		
 		return(
 			<SemanticCard fluid className={classes}>
 				<SemanticCard.Header>Follow Us</SemanticCard.Header>
 
 				<SemanticCard.Content>
 					<div class="ui sub header">Social Media</div>
+					{/* Edit */}
 					{ false !== this.props.setAttributes && (
 						<RichText
 							tagName="ul"
@@ -119,12 +119,17 @@ class FollowUs extends Component {
 							onChange={ ( socialMedia ) => {
 								this.props.setAttributes( { socialMedia } );
 							} }
+							formattingControls={ ['link'] }
 							placeholder={ this.props.socialMedia }
 							multiline="li"
 							className="ui link list"
 						/>
 					) }
-					{ false === this.props.setAttributes && ( 
+					{/* Display */}
+					{ false === this.props.setAttributes && true === this.props.editMode && (
+						this.props.children
+					) }
+					{ false === this.props.setAttributes && undefined === this.props.editMode && (
 						<RawHTML>{this.props.children}</RawHTML>
 					) }
 					
