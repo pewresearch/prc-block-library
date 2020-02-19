@@ -45,6 +45,7 @@ class PostsColumns extends Component {
 							emphasis: false,
 							isChartArt: false,
 							imageSlot: 'top',
+							imageSize: 'legacy-260',
 							horizontal: false,
 							stacked: true,
 							enableHeader: true,
