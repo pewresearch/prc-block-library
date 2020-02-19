@@ -7,91 +7,10 @@
 
 import { __ } from "@wordpress/i18n";
 import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls } from '@wordpress/block-editor';
-import { Button, PanelBody, CheckboxControl, TextControl } from '@wordpress/components';
-import { Component, Fragment } from '@wordpress/element';
+import { RichText } from '@wordpress/block-editor';
+import { Fragment } from '@wordpress/element';
 
 import FollowUs from './component';
-
-class EditSidebar extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			newsletters: []
-		}
-	}
-
-	componentDidMount = () => {
-		// Convert string to array and store in state:
-		let data = this.props.attributes.newsletters;
-		data = data.split(',');
-		this.setState({ newsletters: data });
-	}
-
-	updateNewsletters = ( ID ) => {
-		let newsletters = this.state.newsletters;
-
-		if ( newsletters.includes(ID) ) {
-			// If currently selected then remove "toggle"
-			var index = newsletters.indexOf(ID);
-			if ( index > -1 ) {
-				newsletters.splice(index, 1);
-			}
-		} else {
-			newsletters.push(ID);
-		}
-		
-		// Update the selection of newsletters in the context of the sidebar:
-		this.setState({ newsletters });
-		// Covnert array to string for data storage:
-		this.props.setAttributes({ newsletters: newsletters.join() });
-	}
-
-	isNewsletterSelected = ( ID ) => {
-		let newsletters = this.state.newsletters;
-		if ( newsletters.includes(ID) ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	list = () =>{
-		const updateNewsletters = this.updateNewsletters;
-		const isNewsletterSelected = this.isNewsletterSelected;
-		let data = window.prcMailchimpBlock.interests;
-		return(
-			<ul>
-				{ data.map((item, index) => {
-					return (
-						<li>
-							<CheckboxControl
-								label={item.label}
-								checked={ isNewsletterSelected(item.value) }
-								onChange={ () => {
-									updateNewsletters(item.value);
-								} }
-							/>
-						</li>
-					)
-				}) }
-			</ul>
-		)
-	}
-
-	render = () => {
-		const List = this.list;
-		return(
-			<InspectorControls>
-				<PanelBody title={ __( 'Follow Us Options' ) }>
-					<div>
-						<List/>
-					</div>
-				</PanelBody>
-			</InspectorControls>
-		)
-	}
-}
 
 /**
  * Register: aa Gutenberg Block.
@@ -124,7 +43,14 @@ registerBlockType( 'prc-block/follow-us', {
 		newsletters: {
 			type: 'string',
 			default: ''
-		}
+		},
+		socialMedia: {
+			type: 'string',
+			source: 'html',
+			selector: '.ui.link.list',
+			multiline: 'li',
+			default: '<li><a href="#">Twitter</a></li>'
+		},
 	},
 
 	/**
@@ -139,13 +65,15 @@ registerBlockType( 'prc-block/follow-us', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( props ) => {
-		console.log(props);
+		let data = props.attributes;
+		data.setAttributes = false;
+		data.editMode = true;
+		if ( true === props.isSelected ) {
+			data.setAttributes = props.setAttributes;
+		}
 		return(
 			<Fragment>
-				{ true === props.isSelected && (
-					<EditSidebar {...props}/>
-				) }
-				<FollowUs {...props.attributes}/>
+				<FollowUs {...data}/>
 			</Fragment>
 		)
 	},
@@ -164,7 +92,8 @@ registerBlockType( 'prc-block/follow-us', {
 	 */
 	save: ( props ) => {
 		return (
-			<div className="js-react-follow-us">
+			<div className="js-react-follow-us" data-newsletters={props.attributes.newsletters}>
+				<RichText.Content className="ui link list" tagName="ul" value={ props.attributes.socialMedia } />
 			</div>
 		);
 	},

@@ -129,10 +129,25 @@ class PRC_Block_Library {
 		);
 
 		// Follow Us
-		$js_deps   = $this->js_deps;
-		$follow_us = $enqueue->register(
+		$js_deps            = $this->js_deps;
+		$follow_us          = $enqueue->register(
 			'follow-us',
 			'main',
+			[
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => [],
+				'in_footer' => true,
+				'media'     => 'all',
+			]
+		);
+		$js_deps            = $this->js_deps;
+		$js_deps[]          = 'wp-block-editor';
+		$js_deps[]          = 'wp-api-fetch';
+		$follow_us_frontend = $enqueue->register(
+			'follow-us',
+			'frontend',
 			[
 				'js'        => true,
 				'css'       => false,
@@ -147,6 +162,7 @@ class PRC_Block_Library {
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $follow_us['js'] )['handle'],
+				'script'        => array_pop( $follow_us_frontend['js'] )['handle'],
 			)
 		);
 
@@ -209,6 +225,7 @@ class PRC_Block_Library {
 		$js_deps[] = 'moment';
 		$js_deps[] = 'wp-block-editor';
 		$js_deps[] = 'wp-api-fetch'; // Used for fetching posts.
+
 		$enqueue->enqueue(
 			'posts',
 			'frontend',

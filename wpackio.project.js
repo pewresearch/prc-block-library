@@ -45,6 +45,7 @@ module.exports = {
 			name: 'follow-us',
 			entry: {
 				main: './src/follow-us/index.js',
+				frontend: './src/follow-us/frontend.js',
 			},
 		},
 		{
