@@ -52,7 +52,7 @@ class PostsColumns extends Component {
 							enableExcerpt: false,
 							enableExtra: false,
 							enableProgramsTaxonomy: false,
-							headerSize: 'normal',
+							headerSize: 'small',
 							classNames: 'is-style-top',
 						},
 					};
