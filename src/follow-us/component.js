@@ -1,8 +1,8 @@
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
-import { Card as SemanticCard, Checkbox, Button, Form, Input } from 'semantic-ui-react';
-import classNames from 'classnames/bind';
 import apiFetch from '@wordpress/api-fetch';
+import { Card as SemanticCard, Checkbox, Button, Form, Input, Dimmer } from 'semantic-ui-react';
+import classNames from 'classnames/bind';
 
 class FollowUs extends Component {
 	constructor(props) {
@@ -10,6 +10,8 @@ class FollowUs extends Component {
 		this.state = {
 			email: '',
 			loading: false,
+			dimmed: false,
+			message: '',
 			selected: [],
 		}
 		this.setState = this.setState.bind(this);
@@ -51,9 +53,28 @@ class FollowUs extends Component {
 	}
 
 	submitHandler = (e) => {
-		console.log(this.state);
-		this.setState({loading: true});
-		// Do apifetch and return success message
+		const setState = this.setState;
+		const interests = this.state.selected.join();
+		const email = this.state.email;
+		let state = {
+			dimmed: true,
+			loading: false,
+			message: '',
+		}
+
+		setState({loading: true});
+
+		apiFetch( {
+			path: '/prc-api/v2/mailchimp/subscribe/?email=' +email+ '&interests=' + interests,
+			method: 'POST',
+		} ).then( () => {
+			state.message = "You have succesfully subsrcibed to these newsletter(s)";
+		} ).catch( (err) => {
+			console.error(err);
+			state.message = "Unfortunately we could not susbscribe you at this time. Please try again later.";
+		} ).finally( () => {
+			setState(state);
+		} );
 	}
 
 	selectNewsletters = () =>{
@@ -107,9 +128,9 @@ class FollowUs extends Component {
 		
 		return(
 			<SemanticCard fluid className={classes}>
+				
 				<SemanticCard.Header>Follow Us</SemanticCard.Header>
-
-				<SemanticCard.Content>
+				<Dimmer.Dimmable as="div" className="content" dimmed={this.state.dimmed}>
 					<div class="ui sub header">Social Media</div>
 					{/* Edit */}
 					{ false !== this.props.setAttributes && (
@@ -162,12 +183,16 @@ class FollowUs extends Component {
 								type="email"
 								placeholder='Email Address'
 								value={this.state.email}
+								disabled={this.state.loading}
 								onChange={ (e) => this.setState({email: e.target.value}) }
 							/>
 						</Form.Field>
 					</Form>
-				</SemanticCard.Content>
 
+					<Dimmer active={this.state.dimmed} onClickOutside={()=>{this.setState({dimmed:false})}}>
+						<p className="sans-serif">{this.state.message} (Click to close)</p>
+					</Dimmer>
+				</Dimmer.Dimmable>									
 			</SemanticCard>
 		)
 	}	

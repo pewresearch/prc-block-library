@@ -311,9 +311,6 @@ class PRC_Block_Library {
 		$program        = $request->get_param( 'program' );
 		$per_page       = $request->get_param( 'perPage' );
 		$label_taxonomy = $request->get_param( 'labelTaxonomy' );
-		error_log( print_r( $format, true ) );
-		error_log( print_r( $program, true ) );
-		error_log( print_r( $label_taxonomy, true ) );
 
 		// If the current site is not 1 then for the format and the program we should get their parent.
 		if ( 1 !== get_current_blog_id() ) {
@@ -345,7 +342,7 @@ class PRC_Block_Library {
 				'field'    => 'term_id',
 			);
 		}
-		error_log( print_r( $args, true ) );
+
 		// The Query
 		switch_to_blog( 1 );
 		$the_query = new WP_Query( $args );
