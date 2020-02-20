@@ -1,19 +1,19 @@
 {
   "main.css": "pancake-promo/main-48aa6163.css",
   "main.css.map": "pancake-promo/main-48aa6163.css.map",
-  "main.js": "pancake-promo/main-acd793bf.js",
-  "main.js.map": "pancake-promo/main-acd793bf.js.map",
+  "main.js": "pancake-promo/main-9cf29971.js",
+  "main.js.map": "pancake-promo/main-9cf29971.js.map",
   "runtime.js": "pancake-promo/runtime-3cde4ff2.js",
   "runtime.js.map": "pancake-promo/runtime-3cde4ff2.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "pancake-promo/runtime-3cde4ff2.js",
-        "pancake-promo/main-acd793bf.js"
+        "pancake-promo/main-9cf29971.js"
       ],
       "js.map": [
         "pancake-promo/runtime-3cde4ff2.js.map",
-        "pancake-promo/main-acd793bf.js.map"
+        "pancake-promo/main-9cf29971.js.map"
       ],
       "css": [
         "pancake-promo/main-48aa6163.css"

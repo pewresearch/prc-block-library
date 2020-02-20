@@ -4,6 +4,7 @@ import './style.scss';
 import { __ } from "@wordpress/i18n";
 import { registerBlockType } from '@wordpress/blocks';
 import { RichText } from '@wordpress/block-editor';
+import classNames from 'classnames/bind';
 
 import electionIconURL, { ReactComponent as electionSVG } from "./election-icon.svg"; 
 
@@ -81,8 +82,9 @@ registerBlockType( 'prc-block/promo-pancake', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( props ) => {
+		let classes = classNames(props.className, 'pancake');
 		return(
-			<div className={props.className}>
+			<div className={classes}>
 				<ElectionIcon svg={props.attributes.icon_url} sizeInPX='45'/>
 				<RichText
 					tagName="div" // The tag here is the element output and editable in the admin
@@ -108,9 +110,9 @@ registerBlockType( 'prc-block/promo-pancake', {
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
 	save: ( props ) => {
-		console.log(props);
+		let classes = classNames(props.className, 'pancake');
 		return (
-			<div className={props.className}>
+			<div className={classes}>
 				<ElectionIcon svg={props.attributes.icon_url} sizeInPX='45'/>
 				<RichText.Content tagName="div" value={ props.attributes.content } className='sans-serif'/>
 			</div>
