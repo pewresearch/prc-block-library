@@ -127,7 +127,7 @@ class FollowUs extends Component {
 		const SelectNewsletters = this.selectNewsletters;
 		
 		return(
-			<SemanticCard fluid className={classes}>
+			<SemanticCard fluid className={classes} style={{marginBottom: '35px'}}>
 				
 				<SemanticCard.Header>Follow Us</SemanticCard.Header>
 				<Dimmer.Dimmable as="div" className="content" dimmed={this.state.dimmed}>

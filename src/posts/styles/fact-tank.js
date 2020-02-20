@@ -20,7 +20,7 @@ class FactTankList extends Component {
 		let args = { format: 'fact-tank' };
 		const readMoreLink = addQueryArgs(window.siteURL, args);
 		return(
-			<div id="js-fact-tank-widget">
+			<div id="js-fact-tank-widget" style={{marginBottom: '35px'}}>
 				<Logo svg={ftLogoURL} width="200"/>
 				<div class="ui segment inverted beige" style={{borderTop: '1px solid #b2b3a5'}}>
 					<p className="tagline">NEWS IN THE NUMBERS</p>
