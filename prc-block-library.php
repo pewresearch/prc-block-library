@@ -157,6 +157,62 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			]
 		);
+		wp_localize_script(
+			array_pop( $follow_us['js'] )['handle'],
+			'prcMailchimpBlock', // Array containing dynamic data for a JS Global.
+			array(
+				'interests' => array(
+					[
+						'label' => 'Alert: New Report - Internet',
+						'value' => '44312fd5fc',
+					],
+					[
+						'label' => 'Alert: New Report - Hispanic',
+						'value' => '61521c863e',
+					],
+					[
+						'label' => 'Alert: New Report - Social Trends',
+						'value' => '3836f62305',
+					],
+					[
+						'label' => 'Daily: Daily Briefing - Journalism',
+						'value' => '1d2638430b',
+					],
+					[
+						'label' => 'Daily: Daily Headlines - Religion',
+						'value' => '1a647764b2',
+					],
+					[
+						'label' => 'Weekly Roundup',
+						'value' => '7c1390ba46',
+					],
+					[
+						'label' => 'Weekly: Election 2020',
+						'value' => 'fa5fdbc701',
+					],
+					[
+						'label' => 'Weekly: Religion',
+						'value' => 'a7d4f3268f',
+					],
+					[
+						'label' => 'Bi-Weekly: Global',
+						'value' => '9203343b04',
+					],
+					[
+						'label' => 'Monthly: Hispanic',
+						'value' => '0e7495c7b2',
+					],
+					[
+						'label' => 'Monthly: Internet',
+						'value' => 'ea87b26abe',
+					],
+					[
+						'label' => 'Monthly: Methods',
+						'value' => '6d1e80bbaf',
+					],
+				),
+			)
+		);
 		register_block_type(
 			'prc-block/follow-us',
 			array(
