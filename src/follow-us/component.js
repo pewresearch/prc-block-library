@@ -1,7 +1,7 @@
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
-import { Card as SemanticCard, Checkbox, Button, Form, Input, Dimmer } from 'semantic-ui-react';
+import { Card, Checkbox, Button, Form, Input, Dimmer } from 'semantic-ui-react';
 import classNames from 'classnames/bind';
 
 class FollowUs extends Component {
@@ -125,11 +125,10 @@ class FollowUs extends Component {
 		let classes = classNames(this.props.className, 'inverted', 'beige');
 		const newsletters = window.prcMailchimpBlock.interests;
 		const SelectNewsletters = this.selectNewsletters;
-		
 		return(
-			<SemanticCard fluid className={classes} style={{marginBottom: '35px'}}>
+			<Card fluid className={classes} style={{marginBottom: '35px'}}>
 				
-				<SemanticCard.Header>Follow Us</SemanticCard.Header>
+				<Card.Header>Follow Us</Card.Header>
 				<Dimmer.Dimmable as="div" className="content" dimmed={this.state.dimmed}>
 					<div class="ui sub header">Social Media</div>
 					{/* Edit */}
@@ -193,7 +192,7 @@ class FollowUs extends Component {
 						<p className="sans-serif">{this.state.message} (Click to close)</p>
 					</Dimmer>
 				</Dimmer.Dimmable>									
-			</SemanticCard>
+			</Card>
 		)
 	}	
 }
