@@ -158,7 +158,7 @@ class PRC_Block_Library {
 			]
 		);
 		wp_localize_script(
-			array_pop( $follow_us['js'] )['handle'],
+			array_pop( $follow_us_frontend['js'] )['handle'],
 			'prcMailchimpBlock', // Array containing dynamic data for a JS Global.
 			array(
 				'interests' => array(
