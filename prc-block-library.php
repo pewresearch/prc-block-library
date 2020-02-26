@@ -113,7 +113,7 @@ class PRC_Block_Library {
 			'main',
 			[
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $js_deps,
 				'css_dep'   => [],
 				'in_footer' => true,
@@ -125,6 +125,7 @@ class PRC_Block_Library {
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $card['js'] )['handle'],
+				'style'         => array_pop( $card['css'] )['handle'],
 			)
 		);
 
@@ -288,7 +289,7 @@ class PRC_Block_Library {
 			'frontend',
 			[
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $js_deps,
 				'css_dep'   => [],
 				'in_footer' => true,

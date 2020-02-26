@@ -1,0 +1,7 @@
+@media only screen and (max-width: 767px) {
+	.wp-block-column {
+		& > .wp-block-prc-block-posts.is-style-fact-tank {
+			margin-top: 2em;
+		}
+	}
+}

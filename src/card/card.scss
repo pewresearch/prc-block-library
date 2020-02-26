@@ -1,0 +1,12 @@
+@media only screen and (max-width: 767px) {
+	.wp-block-column {
+		.ui.card:last-child {
+			margin-bottom: 1em;
+		}
+	}
+	.wp-block-columns > .wp-block-column:last-child {
+		.ui.card:last-child {
+			margin-bottom: 0;
+		}
+	}
+}

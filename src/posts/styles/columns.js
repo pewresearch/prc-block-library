@@ -1,6 +1,7 @@
 
+import './columns.scss';
+
 import { Component, Fragment } from '@wordpress/element';
-import { InnerBlocks } from '@wordpress/block-editor';
 import { Grid } from 'semantic-ui-react';
 import StoryItem from '../../story-item/component';
 
@@ -18,8 +19,8 @@ class PostsColumns extends Component {
 	}
 
 	componentDidMount = () => {
-		console.log("Columns Mounted");
-		console.log(this.props);
+		// console.log("Columns Mounted");
+		// console.log(this.props);
 	}
 
 	render = () => {

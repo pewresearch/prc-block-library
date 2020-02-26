@@ -1,3 +1,5 @@
+import './card.scss';
+
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { RichText, InnerBlocks, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { TextControl, Button } from '@wordpress/components';

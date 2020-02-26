@@ -1,3 +1,5 @@
+import './fact-tank.scss';
+
 import { Component, Fragment } from '@wordpress/element';
 import PostsList from './list';
 
