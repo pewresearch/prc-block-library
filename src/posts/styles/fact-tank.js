@@ -1,5 +1,4 @@
 import { Component, Fragment } from '@wordpress/element';
-import { addQueryArgs } from '@wordpress/url';
 import PostsList from './list';
 
 import ftLogoURL, { ReactComponent as ftLogoSVG } from "./fact-tank-logo.svg"; 
@@ -18,7 +17,7 @@ class FactTankList extends Component {
 	render() {
 		const Logo = this.svgHeader;
 		let args = { format: 'fact-tank' };
-		const readMoreLink = addQueryArgs(window.siteURL, args);
+		const readMoreLink = window.siteURL + '/fact-tank';
 		return(
 			<div id="js-fact-tank-widget" style={{marginBottom: '35px'}}>
 				<Logo svg={ftLogoURL} width="200"/>
