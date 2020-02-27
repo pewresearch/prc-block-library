@@ -1,6 +1,7 @@
 import './fact-tank.scss';
 
 import { Component, Fragment } from '@wordpress/element';
+import { addQueryArgs } from '@wordpress/url';
 import PostsList from './list';
 
 import ftLogoURL, { ReactComponent as ftLogoSVG } from "./fact-tank-logo.svg"; 
@@ -18,8 +19,11 @@ class FactTankList extends Component {
 
 	render() {
 		const Logo = this.svgHeader;
-		let args = { format: 'fact-tank' };
-		const readMoreLink = window.siteURL + '/fact-tank';
+		let readMoreLink = window.siteURL + '/fact-tank'
+		if ( 1 !== window.siteID ) {
+			let args = { format: 'fact-tank', program: this.props.programSlug };
+			readMoreLink = addQueryArgs(window.siteURL + '/publications', args);
+		}
 		return(
 			<div id="js-fact-tank-widget" style={{marginBottom: '35px'}}>
 				<Logo svg={ftLogoURL} width="200"/>

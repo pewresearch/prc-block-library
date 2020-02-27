@@ -31,6 +31,7 @@ class PostsColumns extends Component {
 			<Grid divided padded stackable columns='equal' style={{backgroundColor: this.props.backgroundColor}}>
 				<Grid.Row>
 				{ false !== data && data.map((item, index) => {
+					console.log(item);
 					let storyItemArgs = {
 						attributes: {
 							title: item.title,

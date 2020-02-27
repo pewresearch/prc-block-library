@@ -370,7 +370,7 @@ class PRC_Block_Library {
 		$per_page       = $request->get_param( 'perPage' );
 		$label_taxonomy = $request->get_param( 'labelTaxonomy' );
 
-		// If the current site is not 1 then for the format and the program we should get their parent.
+		// If the current site is not 1 then for the format and the program we should get their parent term ids
 		if ( 1 !== get_current_blog_id() ) {
 			$format  = get_term_meta( $format, '_origin_term_id', true );
 			$program = get_term_meta( $program, '_origin_term_id', true );
@@ -412,7 +412,7 @@ class PRC_Block_Library {
 				$the_query->the_post();
 				$stub_info = get_post_meta( get_the_ID(), '_stub_info', true );
 				$term      = get_term_by( 'slug', $stub_info['_taxonomies'][ $label_taxonomy ][0], $label_taxonomy );
-				$label     = $term->name;
+				$label     = $term->term_id . ',' . $term->name;
 				$return[]  = array(
 					'id'    => get_the_ID(),
 					'title' => get_the_title(),

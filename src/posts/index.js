@@ -26,14 +26,14 @@ class EditSidebar extends Component {
 		const setAttributes = this.props.setAttributes;
 
 		// Build Select Fields Data:
-		getTerms('Formats', true).then((data)=>{
+		getTerms('Formats').then((data)=>{
 			let formats = data;
 			setState({ formats: formats });
 		});
 		
-		getTerms('Programs', true).then((data)=>{
+		getTerms('Programs').then((data)=>{
 			let programs = data;
-			programs.push({ value: 0, label: 'All' });
+			programs.push({ value: '0,all', label: 'All' });
 			setState({ programs });
 		});
 
@@ -109,29 +109,31 @@ class EditSidebar extends Component {
 						value={ Number(this.props.attributes.per_page) }
 						onChange={ ( per_page ) => { 
 							setAttributes( { per_page: Number(per_page) } );
-							getPosts(per_page, this.props.attributes.format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay).then( (posts) => {
+							getPosts(per_page, this.props.attributes.formatID, this.props.attributes.programID, this.props.attributes.taxonomyToDisplay).then( (posts) => {
 								setAttributes({posts});
 							});
 						} }
 					/>
 					<SelectControl
 						label="Format"
-						value={ this.props.attributes.format }
+						value={ this.props.attributes.formatID + ',' + this.props.attributes.formatSlug }
 						options={ this.state.formats }
 						onChange={ ( format ) => { 
-							setAttributes( { format: Number(format) } );
-							getPosts(this.props.attributes.per_page, format, this.props.attributes.program, this.props.attributes.taxonomyToDisplay).then( (posts) => {
+							let f = format.split(',');
+							setAttributes( { formatID: Number(f[0]), formatSlug: f[1] } );
+							getPosts(this.props.attributes.per_page, f[0], this.props.attributes.programID, this.props.attributes.taxonomyToDisplay).then( (posts) => {
 								setAttributes({posts});
 							});
 						} }
 					/>
 					<SelectControl
 						label="Research Program"
-						value={ this.props.attributes.program }
+						value={ this.props.attributes.programID + ',' + this.props.attributes.programSlug }
 						options={ this.state.programs }
 						onChange={ ( program ) => {
-							setAttributes( { program: Number(program) } );
-							getPosts(this.props.attributes.per_page, this.props.attributes.format, program, this.props.attributes.taxonomyToDisplay).then( (posts) => {
+							let p = program.split(',');
+							setAttributes( { programID: Number(p[0]), programSlug: p[1] } );
+							getPosts(this.props.attributes.per_page, this.props.attributes.formatID, p[0], this.props.attributes.taxonomyToDisplay).then( (posts) => {
 								setAttributes({posts});
 							});
 						} }
@@ -145,7 +147,7 @@ class EditSidebar extends Component {
 						] }
 						onChange={ ( taxonomyToDisplay ) => { 
 							setAttributes( { taxonomyToDisplay } );
-							getPosts(this.props.attributes.per_page, this.props.attributes.format, this.props.attributes.program, taxonomyToDisplay).then( (posts) => {
+							getPosts(this.props.attributes.per_page, this.props.attributes.formatID, this.props.attributes.programID, taxonomyToDisplay).then( (posts) => {
 								setAttributes({posts});
 							});
 						} }
@@ -226,13 +228,21 @@ registerBlockType( 'prc-block/posts', {
 			type: 'string',
 			default: '',
 		},
-		format: {
+		formatID: {
 			type: 'integer',
 			default: 10818957, // Report
 		},
-		program: {
+		formatSlug: {
+			type: 'string',
+			default: '', // Report
+		},
+		programID: {
 			type: 'integer',
 			default: 0,
+		},
+		programSlug: {
+			type: 'string',
+			default: '',
 		},
 		per_page: {
 			type: 'integer',
@@ -356,8 +366,10 @@ registerBlockType( 'prc-block/posts', {
 				{ true === props.attributes.dynamic && (
 					<div className='js-react-posts-block'
 						data-title={props.attributes.title}
-						data-format={props.attributes.format}
-						data-program={props.attributes.program}
+						data-format-id={props.attributes.formatID}
+						data-format-slug={props.attributes.formatSlug}
+						data-program-id={props.attributes.programID}
+						data-program-slug={props.attributes.programSlug}
 						data-number={props.attributes.per_page}
 						data-background={props.attributes.backgroundColor}
 						data-style={style}
