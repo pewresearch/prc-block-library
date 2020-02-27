@@ -19,12 +19,12 @@ class DynamicPosts extends Component {
 	componentDidMount = () => {
 		const setState = this.setState;
 		// Fetch immediately, then fetch every x milliseconds.
-		getPosts(this.props.per_page, this.props.formatID, this.props.programID, 'formats').then( (posts) => {
+		getPosts(this.props.per_page, this.props.formatID, this.props.programID, 'formats', true).then( (posts) => {
 			setState({posts});
 		});
 		
 		setInterval( () => {
-			getPosts(this.props.per_page, this.props.formatID, this.props.programID, 'formats').then( (posts) => {
+			getPosts(this.props.per_page, this.props.formatID, this.props.programID, 'formats', true).then( (posts) => {
 				setState({posts});
 			});
 		}, this.state.fetchInterval);
@@ -33,7 +33,7 @@ class DynamicPosts extends Component {
 		let data = this.props;
 		data.posts = this.state.posts;
 		data.disableLiink = false;
-		
+
 		let isFactTank = false;
 		if ( undefined !== this.props.style && this.props.style.includes('is-style-fact-tank') ) {
 			isFactTank = true;
@@ -69,8 +69,10 @@ document.addEventListener("DOMContentLoaded", function(){
 		for (const elm of elms) {
 			const props = {
 				title: elm.getAttribute('data-title'),
+				format: elm.getAttribute('data-format'),
 				formatID: elm.getAttribute('data-format-id'),
 				formatSlug: elm.getAttribute('data-format-slug'),
+				program: elm.getAttribute('data-program'),
 				programID: elm.getAttribute('data-program-id'),
 				programSlug: elm.getAttribute('data-program-slug'),
 				per_page: elm.getAttribute('data-number'),

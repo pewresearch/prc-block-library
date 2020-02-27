@@ -80,7 +80,7 @@ class EditSidebar extends Component {
 					imageID: post.imageID,
 					excerpt: post.excerpt,
 					link: post.link,
-					label: 'null,'+post.label,
+					label: post.label,
 					date: post.date,
 					postID: post.id,
 					extra: '', // We want to clear extra when pulling a new post

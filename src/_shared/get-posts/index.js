@@ -1,16 +1,15 @@
 import * as moment from 'moment';
 
-const getPosts = (perPage, format, program, labelTaxonomy) => {
-	const formatDate = function( dateString ) {
-		// $date_format = 'M j, Y';
-		// $timestamp   = get_the_date( 'U', $post_id );
-		// $date        = get_the_date( $date_format, $post_id );
-
-		// // If today...
-		// if ( date( 'M j', $timestamp ) == date( 'M j' ) ) {
-		// 	$date = 'Today at ' . get_the_date( 'g:i a', $post_id );
-		// }
-		return moment(dateString).format("MMM D, YYYY");
+const getPosts = (perPage, format, program, labelTaxonomy, relativeDate = false) => {
+	const formatDate = function( dateString, relativeDate ) {
+		let defaultFormat = "MMM D, YYYY";
+		let todaysDate = moment().format(defaultFormat);
+		let date = moment.unix(dateString).format(defaultFormat);
+		if ( true === relativeDate && todaysDate === date ) {
+			date = moment.unix(dateString).fromNow();
+			// date = 'Today at ' + moment.unix(dateString).format('HH:mm');
+		}
+		return date;
 	}
 
 	return new Promise( (resolve, reject) => {
@@ -24,7 +23,7 @@ const getPosts = (perPage, format, program, labelTaxonomy) => {
 							id: result[index].id,
 							title: result[index].title,
 							excerpt: result[index].excerpt,
-							date: result[index].date,
+							date: formatDate(result[index].timestamp, relativeDate),
 							link: result[index].link,
 							label: result[index].label,
 							image: result[index].image,

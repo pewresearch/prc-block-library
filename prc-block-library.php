@@ -282,7 +282,6 @@ class PRC_Block_Library {
 		$js_deps   = $this->js_deps;
 		$js_deps[] = 'moment';
 		$js_deps[] = 'wp-block-editor';
-		$js_deps[] = 'wp-api-fetch'; // Used for fetching posts.
 
 		$enqueue->enqueue(
 			'posts',
@@ -412,14 +411,15 @@ class PRC_Block_Library {
 				$the_query->the_post();
 				$stub_info = get_post_meta( get_the_ID(), '_stub_info', true );
 				$term      = get_term_by( 'slug', $stub_info['_taxonomies'][ $label_taxonomy ][0], $label_taxonomy );
-				$label     = $term->term_id . ',' . $term->name;
+				$label     = $term->name;
 				$return[]  = array(
-					'id'    => get_the_ID(),
-					'title' => get_the_title(),
-					'date'  => get_the_date(),
-					'link'  => get_permalink(),
-					'label' => $label,
-					'image' => get_the_post_thumbnail_url( get_the_ID(), 'large' ),
+					'id'        => get_the_ID(),
+					'title'     => get_the_title(),
+					'date'      => get_the_date(),
+					'timestamp' => get_the_time( 'U' ),
+					'link'      => get_permalink(),
+					'label'     => $label,
+					'image'     => get_the_post_thumbnail_url( get_the_ID(), 'large' ),
 				);
 			}
 		}
@@ -472,14 +472,15 @@ class PRC_Block_Library {
 		$featured_image = array();
 
 		$return = array(
-			'id'      => $stub_post->ID,
-			'title'   => esc_attr( $stub_post->post_title ),
-			'excerpt' => "<p>{$stub_post->post_excerpt}</p>",
-			'date'    => get_the_date( 'M d, Y', $stub_post->ID ),
-			'label'   => $format_term->name,
-			'link'    => get_post_meta( $stub_post->ID, '_redirect', true ),
-			'image'   => $stub_info['_featured_image'],
-			'imageID' => '',
+			'id'        => $stub_post->ID,
+			'title'     => esc_attr( $stub_post->post_title ),
+			'excerpt'   => "<p>{$stub_post->post_excerpt}</p>",
+			'date'      => get_the_date( 'M d, Y', $stub_post->ID ),
+			'timestamp' => get_the_time( 'U', $stub_post->ID ),
+			'label'     => $format_term->name,
+			'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
+			'image'     => $stub_info['_featured_image'],
+			'imageID'   => '',
 		);
 
 		if ( 1 !== $current_site_id ) {

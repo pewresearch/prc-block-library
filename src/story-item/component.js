@@ -50,7 +50,19 @@ class MetaEditor extends Component {
 		const setState = this.setState;
 		
 		getTerms(this.props.taxonomy).then((data)=>{
-			let labelOptions = data;
+			let labelOptions = [];
+
+			for (let termID in data) {
+				// skip loop if the property is from prototype
+				if (!data.hasOwnProperty(termID)) continue;
+			
+				let termObj = data[termID];
+				labelOptions.push({
+					value: termObj.name,
+					label: termObj.name,
+				});
+			}
+
 			setState({ taxonomy: this.props.taxonomy, labelOptions: labelOptions });
 		});
 	}
@@ -260,18 +272,13 @@ const Extra = function({ enabled, content, setAttributes }) {
 
 const Kicker = ({ label, date }) => {
 	if ( undefined === label ) {
-		label = "null,Report";
+		label = "Report";
 	}
-	let labelText = label.split(',')[1];
-	if ( undefined === labelText ) {
-		labelText = "report";
-	}
-	const labelSlug = labelText.replace(/\s+/g, '-').toLowerCase();
-	labelText = labelText.replace('-', ' ').toUpperCase();
+	const labelSlug = label.replace(/\s+/g, '-').toLowerCase();
 
 	let classes = classNames( labelSlug, 'label' );
 	return(
-		<Fragment><span className={classes}>{labelText ? labelText : 'Report'}</span> | {formatDate(date)}</Fragment>
+		<Fragment><span className={classes}>{label ? label : 'Report'}</span> | {formatDate(date)}</Fragment>
 	)
 }
 

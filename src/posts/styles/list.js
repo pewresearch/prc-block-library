@@ -12,9 +12,9 @@ class PostsList extends Component {
 			<List relaxed="very" link divided>
 			{ false !== data && data.map((item, index) => {
 				if ( true === disableLink ) {
-					return <List.Item><span className="meta date">{item.date}</span><RawHTML>{item.title}</RawHTML></List.Item>
+					return <List.Item><span className="meta">{item.date}</span><RawHTML>{item.title}</RawHTML></List.Item>
 				} else {
-					return <List.Item><span className="meta date">{item.date}</span><a href={item.link}><RawHTML>{item.title}</RawHTML></a></List.Item>
+					return <List.Item><span className="meta">{item.date}</span><a href={item.link}><RawHTML>{item.title}</RawHTML></a></List.Item>
 				}
 			}) }
 			</List>
