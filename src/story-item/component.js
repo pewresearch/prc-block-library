@@ -345,10 +345,6 @@ class StoryItem extends Component {
 		this.item = this.item.bind(this);
 	}
 
-	componentDidMount() {
-		console.log(this.props);
-	}
-
 	item = (attrs) => {
 		return(
 			<Item as="article" className={attrs.classes}>
