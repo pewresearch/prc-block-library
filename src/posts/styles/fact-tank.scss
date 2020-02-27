@@ -4,4 +4,17 @@
 			margin-top: 2em;
 		}
 	}
+
+}
+
+.wp-block-prc-block-posts.is-style-fact-tank {
+	.ui.list > .item {
+		& > a {
+			font-size: 16px;
+			line-height: 20px;
+		}
+		& > .meta {
+			font-size: 12px;
+		}
+	}
 }
