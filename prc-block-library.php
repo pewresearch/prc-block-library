@@ -476,7 +476,7 @@ class PRC_Block_Library {
 			'title'     => esc_attr( $stub_post->post_title ),
 			'excerpt'   => "<p>{$stub_post->post_excerpt}</p>",
 			'date'      => get_the_date( 'M d, Y', $stub_post->ID ),
-			'timestamp' => get_the_time( 'U', $stub_post->ID ),
+			'timestamp' => get_the_time( 'c', $stub_post->ID ),
 			'label'     => $format_term->name,
 			'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
 			'image'     => $stub_info['_featured_image'],
