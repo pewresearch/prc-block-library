@@ -12,21 +12,21 @@ class FactTankList extends Component {
 		this.svgHeader = this.svgHeader.bind(this);
 	}
 
-	svgHeader({svg, width}) {
+	svgHeader({svg, width, link}) {
 		let height = width / 5;
-		return(<img style={{margin: 'auto', display: 'block'}} src={svg} width={width+'px'} height={height+'px'}/>)
+		return(<a href={link}><img style={{margin: 'auto', display: 'block'}} src={svg} width={width+'px'} height={height+'px'}/></a>)
 	}
 
 	render() {
 		const Logo = this.svgHeader;
-		let readMoreLink = window.siteURL + '/fact-tank'
+		let readMoreLink = 'https://www.pewresearch.org/fact-tank';
 		if ( 1 !== window.siteID ) {
-			let args = { formats: 'fact-tank', program: this.props.programSlug };
-			readMoreLink = addQueryArgs(window.siteURL + '/publications/', args);
+			let args = { formats: 'fact-tank', programs: this.props.programSlug };
+			readMoreLink = addQueryArgs('https://www.pewresearch.org/publications/', args);
 		}
 		return(
 			<div id="js-fact-tank-widget" style={{marginBottom: '35px'}}>
-				<Logo svg={ftLogoURL} width="200"/>
+				<Logo svg={ftLogoURL} width="200" link={readMoreLink}/>
 				<div class="ui segment inverted beige" style={{borderTop: '1px solid #b2b3a5'}}>
 					<p className="tagline">NEWS IN THE NUMBERS</p>
 					<PostsList {...this.props}/>
