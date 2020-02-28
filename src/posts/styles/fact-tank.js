@@ -21,7 +21,7 @@ class FactTankList extends Component {
 		const Logo = this.svgHeader;
 		let readMoreLink = window.siteURL + '/fact-tank'
 		if ( 1 !== window.siteID ) {
-			let args = { format: 'fact-tank', program: this.props.programSlug };
+			let args = { formats: 'fact-tank', program: this.props.programSlug };
 			readMoreLink = addQueryArgs(window.siteURL + '/publications', args);
 		}
 		return(
