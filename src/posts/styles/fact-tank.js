@@ -22,7 +22,7 @@ class FactTankList extends Component {
 		let readMoreLink = window.siteURL + '/fact-tank'
 		if ( 1 !== window.siteID ) {
 			let args = { formats: 'fact-tank', program: this.props.programSlug };
-			readMoreLink = addQueryArgs(window.siteURL + '/publications', args);
+			readMoreLink = addQueryArgs(window.siteURL + '/publications/', args);
 		}
 		return(
 			<div id="js-fact-tank-widget" style={{marginBottom: '35px'}}>
