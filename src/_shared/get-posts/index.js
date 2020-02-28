@@ -4,9 +4,9 @@ const getPosts = (perPage, format, program, labelTaxonomy, relativeDate = false)
 	const formatDate = function( dateString, relativeDate ) {
 		let defaultFormat = "MMM D, YYYY";
 		let todaysDate = moment().format(defaultFormat);
-		let date = moment.unix(dateString).format(defaultFormat);
+		let date = moment(dateString).format(defaultFormat);
 		if ( true === relativeDate && todaysDate === date ) {
-			date = moment.unix(dateString).fromNow();
+			date = moment(dateString).fromNow();
 			// date = 'Today at ' + moment.unix(dateString).format('HH:mm');
 		}
 		return date;

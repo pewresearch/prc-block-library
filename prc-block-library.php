@@ -416,7 +416,7 @@ class PRC_Block_Library {
 					'id'        => get_the_ID(),
 					'title'     => get_the_title(),
 					'date'      => get_the_date(),
-					'timestamp' => get_the_time( 'U' ),
+					'timestamp' => get_the_time( 'c' ),
 					'link'      => get_permalink(),
 					'label'     => $label,
 					'image'     => get_the_post_thumbnail_url( get_the_ID(), 'large' ),
