@@ -106,6 +106,7 @@ class Image extends Component {
 
 	editMode = ({dataHandler, size, slot}) => {
 		console.log('Edit Mode');
+		console.log(this.props);
 		console.log(dataHandler);
 		console.log(size);
 		
