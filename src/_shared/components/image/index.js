@@ -76,6 +76,21 @@ class Image extends Component {
 				hidpi: '536,302',
 				smallHidpi: '708,388',
 			}
+
+			const legacy = {
+				'260': {
+					default: '260,260',
+					small: '260,260',
+					hidpi: '520,520',
+					smallHidpi: '520,520',
+				},
+				'260-173': {
+					default: '260,173',
+					small: '260,173',
+					hidpi: '520,346',
+					smallHidpi: '520,346',
+				}
+			}
 	
 			// Default to A1
 			let args = { resize: A1[variant] };
@@ -89,9 +104,9 @@ class Image extends Component {
 			
 			// Temp legacy sizes for homepages
 			if ( 'legacy-260' === size ) {
-				args = { resize: '260,260' };
+				args = { resize: legacy['260'][variant] };
 			} else if ( 'legacy-260-173' === size ) {
-				args = { resize: '260,173' };
+				args = { resize: legacy['260-173'][variant] };
 			}
 	
 			return addQueryArgs( url, args );
