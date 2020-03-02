@@ -18,7 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
-require_once __DIR__ . '/vendor/autoload.php';
+require_once PRC_VENDOR_DIR . '/autoload.php';
+use WPackio\Enqueue;
 
 class PRC_Block_Library {
 
@@ -81,7 +82,7 @@ class PRC_Block_Library {
 	 * @since 1.0.0
 	 */
 	public function register_block_assets() { // phpcs:ignore
-		$enqueue = new \WPackio\Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 
 		// Story Item
 		$js_deps    = $this->js_deps;
@@ -278,7 +279,7 @@ class PRC_Block_Library {
 	 * @return void
 	 */
 	public function posts_block_dynamic_render() {
-		$enqueue   = new \WPackio\Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
+		$enqueue   = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 		$js_deps   = $this->js_deps;
 		$js_deps[] = 'moment';
 		$js_deps[] = 'wp-block-editor';
