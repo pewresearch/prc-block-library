@@ -30,6 +30,7 @@ class PRC_Block_Library {
 		if ( true === $init ) {
 			$this->plugin_dir = __DIR__ . '/prc_blocks/';
 			add_action( 'init', array( $this, 'register_block_assets' ) );
+			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 			add_action( 'acf/init', array( $this, 'acf_shim' ) );
@@ -65,6 +66,17 @@ class PRC_Block_Library {
 		<div>Bylines Test</div>
 		<?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * Filter the allowed tags for KSES to allow for amp-story children.
+	 *
+	 * @param array $allowed_tags Allowed tags.
+	 * @return array Allowed tags.
+	 */
+	public static function allowed_html_tags( $allowed_tags ) {
+		$allowed_tags['picture'] = true;
+		return $allowed_tags;
 	}
 
 	/**
