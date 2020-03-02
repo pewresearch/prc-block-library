@@ -1,21 +1,22 @@
+import './imageEditor.scss';
+
 import { Component, Fragment } from '@wordpress/element';
 import { Picture } from 'react-responsive-picture';
 import { addQueryArgs } from '@wordpress/url';
 import classNames from 'classnames/bind';
 // Edit
-import { Button, ButtonGroup, SelectControl } from '@wordpress/components';
+import { Button, IconButton, SelectControl } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 
 const ALLOWED_MEDIA_TYPES = [ 'image' ];
 
 /**
  * Props:
- * id:
  * img:
  * size:
  * link:
- * slot:
- * chartArt:
+ * slot: // if set to false then no image size chooser will be display
+ * chartArt: // if undefined then no chart art button will appear
  * dataHandler: *When not in "edit mode" this prop should be false to signal that.*
  * 
  * <Image id={} img={} size={} link={} slot={} chartArt={} dataHandler={}/>
@@ -26,15 +27,23 @@ class Image extends Component {
 		super(props);
 	}
 
-	classNames = (slot, chartArt) => {
+	classNames = () => {
 		let isMedium = false;
-		if ( 'left' === slot || 'right' === slot ) {
-			isMedium = true;
+		
+		if ( undefined !== this.props.slot ) {
+			if ( 'left' === this.props.slot || 'right' === this.props.slot ) {
+				isMedium = true;
+			}
 		}
+
+		let chartArt = false;
+		if ( undefined !== this.props.chartArt ) {
+			chartArt = this.props.chartArt;
+		} 
 		return classNames({ ui: true, medium: isMedium, image: true, bordered: chartArt });
 	}
 
-	imgMarkup = ({img, size, id, link}) => {
+	imgMarkup = ({img, size, link}) => {
 		const getImgURL = (url, size, variant) => {
 			if ( '' === url || false === url ) {
 				return url;
@@ -101,50 +110,66 @@ class Image extends Component {
 			]
 		}
 
-		return <Picture className={'wp-image-' + id} sources={ getImgSrcSet(img, size) }/>
+		return <Picture style={{display: 'block'}} sources={ getImgSrcSet(img, size) }/>
 	}
 
-	editMode = ({dataHandler, size, slot}) => {
+	editMode = ({dataHandler}) => {
 		console.log('Edit Mode');
 		console.log(this.props);
-		console.log(dataHandler);
-		console.log(size);
 		
 		const mediaHandler = (media) => {
-			console.log(media);
-			if ( 'disabled' === slot ) {
-				dataHandler( { image: media.url, imageID: media.id, imageSlot: 'default' } );
+			if ( undefined !== this.props.slot && 'disabled' === this.props.slot ) {
+				dataHandler( { image: media.url, imageSlot: 'default' } );
 			} else {
-				dataHandler( { image: media.url, imageID: media.id } );
+				dataHandler( { image: media.url } );
 			}
 		}
 
-		const Toolbar = ({open, dataHandler, isChartArt}) => {
+		const Toolbar = ({open, dataHandler}) => {
 			return(
-				<div style={{display: 'flex', flexWrap: 'wrap'}}>
+				<div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', backgroundColor: '#f0f2f3'}}>
 					<div>
-						<ButtonGroup>
-							<Button isPrimary onClick={open}>Select Image</Button>
-							<Button onClick={ ()=>{ dataHandler({ image:'', imageSlot: 'disabled'}) }}>Remove</Button>
-							<Button onClick={ () => { dataHandler({ isChartArt: ! isChartArt }) } }>Enable Chart Art</Button>
-						</ButtonGroup>
+						<div style={{display: 'flex', flexWrap: 'wrap'}}>
+							<IconButton
+								icon="upload"
+								label="Select/Upload New Image"
+								onClick={open}
+							/>
+							<IconButton
+								icon="trash"
+								label="Remove Image"
+								onClick={ ()=>{ dataHandler({ image:'', imageSlot: 'disabled'}) }}
+							/>
+							
+							<Fragment>
+							{ undefined !== this.props.chartArt && (
+								<IconButton
+									icon="art"
+									label={ true === this.props.chartArt ? 'Disable Chart Art' : 'Enable Chart Art' }
+									onClick={ ()=>{ dataHandler({ isChartArt: ! this.props.chartArt }) }}
+								/>
+							) }
+							</Fragment>
+						</div>
 					</div>
-					<div>
-						<SelectControl
-							label='Image Size'
-							value={ size }
-							options={[
-								{ value: 'A1', label: 'A1' },
-								{ value: 'A2', label: 'A2' },
-								{ value: 'A3', label: 'A3' },
-								{ value: 'A4', label: 'A4' },
-								{ value: 'legacy-260', label: 'Legacy Homepage 260x260' },
-								{ value: 'legacy-260-173', label: 'Legacy Homepage 260x173' },
-							]}
-							onChange={ ( imageSize ) => dataHandler({ imageSize }) }
-							style={{marginBottom: '0px'}}
-						/>
-					</div>
+					{ undefined !== this.props.slot && (
+						<div style={{display: 'flex', alignItems:'center'}}>
+							<SelectControl
+								label='Image Size'
+								value={ this.props.size }
+								options={[
+									{ value: 'A1', label: 'A1' },
+									{ value: 'A2', label: 'A2' },
+									{ value: 'A3', label: 'A3' },
+									{ value: 'A4', label: 'A4' },
+									{ value: 'legacy-260', label: 'Legacy Homepage 260x260' },
+									{ value: 'legacy-260-173', label: 'Legacy Homepage 260x173' },
+								]}
+								onChange={ ( imageSize ) => dataHandler({ imageSize }) }
+								style={{marginBottom: '0px'}}
+							/>
+						</div>
+					) }
 				</div>
 			)
 		}
@@ -162,8 +187,8 @@ class Image extends Component {
 							{ '' !== this.props.img && (
 								<Fragment>
 									<div className={this.classNames()}>
-										<ImgMarkup img={this.props.img} size={this.props.size} id={this.props.id} link={this.props.link} slot={this.props.slot}/>
-										<Toolbar dataHandler={dataHandler} open={open} isChartArt={this.props.chartArt}/>
+										<ImgMarkup img={this.props.img} size={this.props.size} id={this.props.id} link={this.props.link}/>
+										<Toolbar dataHandler={dataHandler} open={open}/>
 									</div>
 								</Fragment>
 							) }
@@ -186,18 +211,17 @@ class Image extends Component {
 		// We should also have a prop that will let you pass through setAttribute or setState something like onChange
 		return(
 			<Fragment>
-				{ false === this.props.dataHandler && (
-					<div className={this.classNames(this.props.slot)}>
+				{ (false === this.props.dataHandler || undefined === this.props.dataHandler) && (
+					<div className={this.classNames()}>
 						<ImgMarkup 
-						id={this.props.id}
-						img={this.props.img}
-						size={this.props.size}
-						link={this.props.link}
+							img={this.props.img}
+							size={this.props.size}
+							link={this.props.link}
 						/>
 					</div>
 				) }
-				{ false !== this.props.dataHandler && (
-					<Edit dataHandler={this.props.dataHandler} size={this.props.size} slot={this.props.slot}/>
+				{ (false !== this.props.dataHandler && undefined !== this.props.dataHandler) && (
+					<Edit dataHandler={this.props.dataHandler}/>
 				) }
 			</Fragment>
 		)

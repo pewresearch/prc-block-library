@@ -17,5 +17,7 @@
  */
 @media only screen and (max-width: 767px){.wp-block-column .ui.card:last-child{margin-bottom:1em}.wp-block-columns>.wp-block-column:last-child .ui.card:last-child{margin-bottom:0}}
 
+.ui.image .components-base-control .components-base-control__field{display:-webkit-box;display:flex}.ui.image .components-base-control .components-base-control__label{min-width:80px;margin:0;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;font-weight:bold}
 
-/*# sourceMappingURL=main-9f536227.css.map*/
+
+/*# sourceMappingURL=main-1a9c57aa.css.map*/

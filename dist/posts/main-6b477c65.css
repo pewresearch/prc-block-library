@@ -19,5 +19,7 @@
 
 @media only screen and (max-width: 767px){.js-react-posts-block div.ui.stackable.divided:not(.vertically).grid>.row>.column{padding-left:1rem !important;padding-right:1rem !important}}
 
+.ui.image .components-base-control .components-base-control__field{display:-webkit-box;display:flex}.ui.image .components-base-control .components-base-control__label{min-width:80px;margin:0;display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;font-weight:bold}
 
-/*# sourceMappingURL=frontend-8edacfd3.css.map*/
+
+/*# sourceMappingURL=main-6b477c65.css.map*/

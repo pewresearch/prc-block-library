@@ -221,8 +221,7 @@ class StoryItem extends Component {
 		return(
 			<Item as="article" className={attrs.classes}>
 				{ ( 'top' === attrs.imageSlot || 'left' === attrs.imageSlot ) && (
-					<Image 
-						id={attrs.imageID}
+					<Image
 						img={attrs.image}
 						size={attrs.imageSize}
 						link={attrs.link}
@@ -245,8 +244,7 @@ class StoryItem extends Component {
 					/>
 
 					{ 'default' === attrs.imageSlot && (
-						<Image 
-							id={attrs.imageID}
+						<Image
 							img={attrs.image}
 							size={attrs.imageSize}
 							link={attrs.link}
@@ -262,8 +260,7 @@ class StoryItem extends Component {
 				</Item.Content>
 
 				{ ( 'bottom' === attrs.imageSlot || 'right' === attrs.imageSlot ) && (
-					<Image 
-						id={attrs.imageID}
+					<Image
 						img={attrs.image}
 						size={attrs.imageSize}
 						link={attrs.link}

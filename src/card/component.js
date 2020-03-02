@@ -5,58 +5,9 @@ import { RichText, InnerBlocks, MediaUpload, MediaUploadCheck } from '@wordpress
 import { TextControl, Button } from '@wordpress/components';
 
 import { Card as SemanticCard, Image as SemanticImage } from 'semantic-ui-react';
+import { Image } from '../_shared';
 
 import classNames from 'classnames/bind';
-
-const ALLOWED_MEDIA_TYPES = [ 'image' ];
-
-const Image = function({ img, link, edit }) {
-	let classes = 'image';
-	return(
-		<Fragment>
-			{ undefined !== img && (
-				<Fragment>
-				{ true === edit.enabled && (
-					<MediaUploadCheck>
-						<MediaUpload
-							onSelect={ ( media ) => {
-								edit.setAttributes( { image: media.url } )
-							} }
-							allowedTypes={ ALLOWED_MEDIA_TYPES }
-							render={ ( { open } ) => (
-								<Fragment>
-									{ '' !== img && (
-										<div className={classes}>
-											<img src={img} onClick={ open }/>
-											<i>Click image to open media library</i>
-											<p><Button isSmall onClick={ () => edit.setAttributes({image: ''}) }>Remove</Button></p>
-										</div>
-									) }
-									{ '' === img && (
-										<p><Button isPrimary onClick={ open }>Insert Image</Button></p>
-									) }
-								</Fragment>
-							) }
-						/>
-					</MediaUploadCheck>
-				)}
-				{ true !== edit.enabled && (
-					<Fragment>
-						{ '' !== link && (
-							<a href={link} className={classes}>
-								<img src={img}/>
-							</a>
-						) }
-						{ '' === link && (
-							<div className={classes}><img src={img}/></div>
-						) }
-					</Fragment>
-				)}
-				</Fragment>
-			)}
-		</Fragment>
-	)	
-}
 
 class Card extends Component {
 	constructor(props) {
@@ -69,6 +20,10 @@ class Card extends Component {
 			isBasic = true;
 		}
 		let classes = classNames(this.props.className, { basic: isBasic });
+		let dataHandler = false;
+		if ( true === this.props.edit.enabled ) {
+			dataHandler = this.props.edit.setAttributes;
+		}
 		return(
 			<SemanticCard fluid className={classes}>
 				<SemanticCard.Header>
@@ -92,7 +47,12 @@ class Card extends Component {
 				</SemanticCard.Header>
 
 				<SemanticCard.Content>
-					<Image img={this.props.image} link={this.props.link} edit={this.props.edit}/>
+					<Image
+						img={this.props.image}
+						size='A2'
+						link={this.props.link}
+						dataHandler={dataHandler}
+					/>
 
 					{ true === this.props.edit.enabled && (
 						<RichText
@@ -109,7 +69,7 @@ class Card extends Component {
 
 					<div className="ui relaxed items">
 					{ false === this.props.edit.display && (
-						<InnerBlocks allowedBlocks={[ 'prc-block/story-item', 'prc-block/posts' ]}/>
+						<InnerBlocks />
 					) }
 					{ true === this.props.edit.display && (
 						<InnerBlocks.Content/>

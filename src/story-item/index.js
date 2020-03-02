@@ -77,7 +77,6 @@ class EditSidebar extends Component {
 				setAttributes({
 					title: post.title,
 					image: post.image,
-					imageID: post.imageID,
 					excerpt: post.excerpt,
 					link: post.link,
 					label: post.label,
@@ -251,10 +250,6 @@ registerBlockType( 'prc-block/story-item', {
 		},
 		// Images
 		image: {
-			type: 'string',
-			default: '',
-		},
-		imageID: {
 			type: 'string',
 			default: '',
 		},

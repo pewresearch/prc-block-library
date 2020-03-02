@@ -1,0 +1,13 @@
+.ui.image {
+	.components-base-control .components-base-control__field {
+		display: flex;
+	}
+	.components-base-control .components-base-control__label {
+		min-width: 80px;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: bold;
+	}
+}
