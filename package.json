@@ -12,10 +12,10 @@
     "@wordpress/element": "^2.10.0",
     "@wordpress/i18n": "^3.8.0",
     "@wordpress/plugins": "^2.10.0",
+    "@wordpress/url": "^2.10.0",
     "@wpackio/scripts": "^4.3.0",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
-    "@wordpress/url": "^2.10.0",
     "url-loader": "^3.0.0"
   },
   "scripts": {
@@ -27,6 +27,7 @@
   "dependencies": {
     "@wpackio/entrypoint": "^4.3.0",
     "classnames": "^2.2.6",
+    "react-responsive-picture": "^3.2.2",
     "semantic-ui-react": "^0.88.2"
   }
 }

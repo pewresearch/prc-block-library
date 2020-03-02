@@ -1,14 +1,13 @@
 // WordPress Core
-import { Component, Fragment, RawHTML } from '@wordpress/element';
+import { Component, Fragment } from '@wordpress/element';
 import { RichText, BlockControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { Button, SelectControl, TextControl, Popover, Toolbar } from '@wordpress/components';
+import { SelectControl, TextControl, Toolbar } from '@wordpress/components';
 
 // Utilities
-import { addQueryArgs } from '@wordpress/url';
 import * as moment from 'moment';
 import classNames from 'classnames/bind';
 
-import getTerms from '../_shared/get-terms';
+import { getTerms, Image } from "../_shared";
 
 // Elements
 import { Item } from 'semantic-ui-react';
@@ -63,6 +62,8 @@ class MetaEditor extends Component {
 				});
 			}
 
+			labelOptions.sort((a, b) =>(a.label > b.label) ? 1: -1);
+
 			setState({ taxonomy: this.props.taxonomy, labelOptions: labelOptions });
 		});
 	}
@@ -95,135 +96,6 @@ class MetaEditor extends Component {
 	}
 }
 
-class ImageEditor extends Component {
-	constructor(props) {
-		super(props);
-		this.mediaHandler = this.mediaHandler.bind(this);
-	}
-	mediaHandler(media) {
-		console.log(media);
-		if ( 'disabled' === this.props.slot ) {
-			this.props.setAttributes( { image: media.url, imageID: media.id, imageSlot: 'default' } )
-		} else {
-			this.props.setAttributes( { image: media.url, imageID: media.id } )
-		}
-	}
-	render() {
-		return(
-			<MediaUploadCheck>
-			<MediaUpload
-				onSelect={this.mediaHandler}
-				allowedTypes={ ALLOWED_MEDIA_TYPES }
-				render={ ( { open } ) => (
-					<Fragment>
-						{ '' !== this.props.img && (
-							<Fragment>
-								{ ('default' !== this.props.slot && 'disabled' !== this.props.slot) && (
-									<BlockControls>
-										<Toolbar controls={[{
-											icon: 'art',
-											title: `Chart Art`,
-											isActive: this.props.isChartArt,
-											onClick: () => { this.props.setAttributes({ isChartArt: this.props.isChartArt ? false : true  }) },
-										}]} />
-									</BlockControls>
-								) }
-								<div className={this.props.imgClass}>
-									<img className={'wp-image-'+this.props.id} src={this.props.img} onClick={ open }/>
-									<div className="image-editor-options">
-										<div>
-											<div class="sans-serif"><i>Click image to open media library</i></div>
-											<div class="sans-serif remove-image" onClick={()=>{ this.props.setAttributes({image:'', imageSlot: 'disabled'}) }}>Or click here to <strong>REMOVE IMAGE</strong></div>
-										</div>
-										<div>
-											<SelectControl
-												label='Image Size'
-												value={ this.props.size }
-												options={[
-													{ value: 'A1', label: 'A1' },
-													{ value: 'A2', label: 'A2' },
-													{ value: 'A3', label: 'A3' },
-													{ value: 'A4', label: 'A4' },
-													{ value: 'legacy-260', label: 'Legacy Homepage 260x260' },
-													{ value: 'legacy-260-173', label: 'Legacy Homepage 260x173' },
-												]}
-												onChange={ ( imageSize ) => { this.props.setAttributes({imageSize}); } }
-												style={{marginBottom: '0px'}}
-											/>
-										</div>
-									</div>
-								</div>
-							</Fragment>
-						) }
-						{ '' === this.props.img && (
-							<p><Button isPrimary onClick={ open }>Insert Image</Button></p>
-						) }
-					</Fragment>
-				) }
-			/>
-			</MediaUploadCheck>
-		)
-	}
-}
-
-const Image = function({ isChartArt, img, setAttributes, link }) {
-	let isMedium = false;
-	if ( 'left' === img.slot || 'right' === img.slot ) {
-		isMedium = true;
-	}
-	let classes = classNames({ ui: true, medium: isMedium, image: true, bordered: isChartArt });
-
-	const appendImageWidth = (imgURL, slot, size, setAttributes) => {
-		if ( '' === imgURL || false === imgURL ) {
-			return imgURL;
-		}
-
-		let A1 = '564px';
-		let A2 = '268px';
-		let A3 = '194px';
-		let A4 = '268px';
-		let legacyFeatured = '260,260'
-		let legacyNewsWell = '260,173';
-
-		// We're making A1 the default
-		let args = { w: A1 };
-		if ( 'A2' === size ) {
-			args = { w: A2 };
-		} else if ( 'A3' === size ) {
-			args = { w: A3 };
-		} else if ( 'A4' === size ) {
-			args = { w: A4 };
-		} else if ( 'legacy-260' === size ) {
-			args = { resize: legacyFeatured };
-		} else if ( 'legacy-260-173' === size ) {
-			args = { resize: legacyNewsWell };
-		}
-
-		return addQueryArgs( imgURL, args );
-	}
-
-	return(
-		<Fragment>
-			{ undefined !== img && (
-				<Fragment>
-				{ false !== setAttributes && (
-					<Fragment>
-						<ImageEditor id={img.id} slot={img.slot} img={appendImageWidth(img.src, img.slot, img.size, setAttributes)} size={img.size} imgClass={classes} isChartArt={isChartArt} setAttributes={setAttributes}/>
-					</Fragment>
-				)}
-				{ false === setAttributes && (
-					<div className={classes}>
-						<a href={link}>
-							<img className={'wp-image-' + img.id} src={appendImageWidth(img.src, img.slot, img.size, null)}/>
-						</a>
-					</div>
-				)}
-				</Fragment>
-			)}
-		</Fragment>
-	)	
-}
-
 const Description = function({ content, enabled, setAttributes, sansSerif }) {
 	let classes = classNames( 'description', {'sans-serif': sansSerif} );
 	return(
@@ -232,10 +104,10 @@ const Description = function({ content, enabled, setAttributes, sansSerif }) {
 				<Fragment>
 					{ false !== setAttributes && (
 						<RichText
-							tagName="div" // The tag here is the element output and editable in the admin
-							value={ content } // Any existing content, either from the database or an attribute default
-							onChange={ ( excerpt ) => setAttributes( { excerpt } ) } // Store updated content as a block attribute
-							placeholder={ content } // Display this text before any content has been added by the user
+							tagName="div"
+							value={ content }
+							onChange={ ( excerpt ) => setAttributes( { excerpt } ) } 
+							placeholder={ content }
 							multiline="p"
 							className={ classes }
 						/>
@@ -350,15 +222,13 @@ class StoryItem extends Component {
 			<Item as="article" className={attrs.classes}>
 				{ ( 'top' === attrs.imageSlot || 'left' === attrs.imageSlot ) && (
 					<Image 
-						img={{
-							src: attrs.image, 
-							id: attrs.imageID,
-							slot: attrs.imageSlot,
-							size: attrs.imageSize,
-						}}
+						id={attrs.imageID}
+						img={attrs.image}
+						size={attrs.imageSize}
 						link={attrs.link}
-						setAttributes={this.props.setAttributes}
-						isChartArt={attrs.isChartArt}
+						slot={attrs.imageSlot}
+						chartArt={attrs.isChartArt}
+						dataHandler={this.props.setAttributes}
 					/>
 				) }
 				
@@ -376,15 +246,13 @@ class StoryItem extends Component {
 
 					{ 'default' === attrs.imageSlot && (
 						<Image 
-							img={{
-								src: attrs.image, 
-								id: attrs.imageID,
-								slot: attrs.imageSlot,
-								size: attrs.imageSize,
-							}}
+							id={attrs.imageID}
+							img={attrs.image}
+							size={attrs.imageSize}
 							link={attrs.link}
-							setAttributes={this.props.setAttributes}
-							isChartArt={attrs.isChartArt}
+							slot={attrs.imageSlot}
+							chartArt={attrs.isChartArt}
+							dataHandler={this.props.setAttributes}
 						/>
 					) }
 
@@ -395,15 +263,13 @@ class StoryItem extends Component {
 
 				{ ( 'bottom' === attrs.imageSlot || 'right' === attrs.imageSlot ) && (
 					<Image 
-						img={{
-							src: attrs.image, 
-							id: attrs.imageID,
-							slot: attrs.imageSlot,
-							size: attrs.imageSize,
-						}}
+						id={attrs.imageID}
+						img={attrs.image}
+						size={attrs.imageSize}
 						link={attrs.link}
-						setAttributes={this.props.setAttributes}
-						isChartArt={attrs.isChartArt}
+						slot={attrs.imageSlot}
+						chartArt={attrs.isChartArt}
+						dataHandler={this.props.setAttributes}
 					/>
 				) }
 			</Item>

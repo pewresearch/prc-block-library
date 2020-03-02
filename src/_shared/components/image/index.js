@@ -17,6 +17,8 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
  * slot:
  * chartArt:
  * dataHandler: *When not in "edit mode" this prop should be false to signal that.*
+ * 
+ * <Image id={} img={} size={} link={} slot={} chartArt={} dataHandler={}/>
  */
 class Image extends Component {
 
@@ -106,6 +108,7 @@ class Image extends Component {
 		console.log('Edit Mode');
 		console.log(dataHandler);
 		console.log(size);
+		
 		const mediaHandler = (media) => {
 			console.log(media);
 			if ( 'disabled' === slot ) {
@@ -121,8 +124,8 @@ class Image extends Component {
 					<div>
 						<ButtonGroup>
 							<Button isPrimary onClick={open}>Select Image</Button>
-							<Button onClick={ ()=>{ dataHandler({image:'', imageSlot: 'disabled'}) }}>Remove</Button>
-							<Button onClick={ () => { dataHandler({isChartArt: ! isChartArt }) } }>Enable Chart Art</Button>
+							<Button onClick={ ()=>{ dataHandler({ image:'', imageSlot: 'disabled'}) }}>Remove</Button>
+							<Button onClick={ () => { dataHandler({ isChartArt: ! isChartArt }) } }>Enable Chart Art</Button>
 						</ButtonGroup>
 					</div>
 					<div>
@@ -137,7 +140,7 @@ class Image extends Component {
 								{ value: 'legacy-260', label: 'Legacy Homepage 260x260' },
 								{ value: 'legacy-260-173', label: 'Legacy Homepage 260x173' },
 							]}
-							onChange={ ( imageSize ) => dataHandler({imageSize}) }
+							onChange={ ( imageSize ) => dataHandler({ imageSize }) }
 							style={{marginBottom: '0px'}}
 						/>
 					</div>
