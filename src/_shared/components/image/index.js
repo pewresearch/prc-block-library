@@ -125,7 +125,12 @@ class Image extends Component {
 			]
 		}
 
-		return <Picture style={{display: 'block'}} sources={ getImgSrcSet(img, size) }/>
+		return(
+			<Fragment>
+				{ '' === link && ( <Picture style={{display: 'block'}} sources={ getImgSrcSet(img, size) }/> ) }
+				{ '' !== link && ( <a href={link}><Picture style={{display: 'block'}} sources={ getImgSrcSet(img, size) }/></a> ) }
+			</Fragment>
+		)
 	}
 
 	editMode = ({dataHandler}) => {
@@ -202,7 +207,7 @@ class Image extends Component {
 							{ '' !== this.props.img && (
 								<Fragment>
 									<div className={this.classNames()}>
-										<ImgMarkup img={this.props.img} size={this.props.size} id={this.props.id} link={this.props.link}/>
+										<ImgMarkup img={this.props.img} size={this.props.size} id={this.props.id} link=''/>
 										<Toolbar dataHandler={dataHandler} open={open}/>
 									</div>
 								</Fragment>
