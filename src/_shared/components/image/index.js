@@ -1,6 +1,6 @@
 import './imageEditor.scss';
 
-import { Component, Fragment, RawHTML } from '@wordpress/element';
+import { Component, Fragment } from '@wordpress/element';
 import { Picture } from 'react-responsive-picture';
 import { addQueryArgs } from '@wordpress/url';
 import classNames from 'classnames/bind';
