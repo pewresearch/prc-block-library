@@ -260,12 +260,7 @@ class StoryItem extends Component {
 				</Item.Content>
 
 				{ ( 'bottom' === attrs.imageSlot || 'right' === attrs.imageSlot ) && (
-					<Image
-						img={attrs.image}
-						size={attrs.imageSize}
-						link={attrs.link}
-						slot={attrs.imageSlot}
-						chartArt={attrs.isChartArt}
+					<Image img={attrs.image} size={attrs.imageSize} link={attrs.link} slot={attrs.imageSlot} chartArt={attrs.isChartArt}
 						dataHandler={this.props.setAttributes}
 					/>
 				) }
