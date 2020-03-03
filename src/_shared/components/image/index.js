@@ -1,7 +1,6 @@
 import './imageEditor.scss';
 
 import { Component, Fragment } from '@wordpress/element';
-import { Picture } from 'react-responsive-picture';
 import { addQueryArgs } from '@wordpress/url';
 import classNames from 'classnames/bind';
 // Edit
@@ -44,7 +43,8 @@ class Image extends Component {
 	}
 
 	imgMarkup = ({img, size, link}) => {
-		const getImgURL = (url, size, variant) => {
+		
+		const getImgURL = (url, size, variant, disableW = false) => {
 			if ( '' === url || false === url ) {
 				return url;
 			}
@@ -94,12 +94,16 @@ class Image extends Component {
 	
 			// Default to A1
 			let args = { resize: A1[variant] };
+			let width = A1[variant].split(',')[0] + 'w';
 			if ( 'A2' === size ) {
 				args = { resize: A2[variant] };
+				width = A2[variant].split(',')[0] + 'w';
 			} else if ( 'A3' === size ) {
 				args = { resize: A3[variant] };
+				width = A3[variant].split(',')[0] + 'w';
 			} else if ( 'A4' === size ) {
 				args = { resize: A4[variant] };
+				width = A4[variant].split(',')[0] + 'w';
 			}
 			
 			// Temp legacy sizes for homepages
@@ -108,35 +112,30 @@ class Image extends Component {
 			} else if ( 'legacy-260-173' === size ) {
 				args = { resize: legacy['260-173'][variant] };
 			}
-	
-			return addQueryArgs( url, args );
+
+			console.log('width');
+			console.log(width);
+			
+			let imgURL = addQueryArgs( url, args ) + ' ' + width;
+			if ( true === disableW ) {
+				imgURL = addQueryArgs( url, args );
+			}
+			return imgURL;
 		}
 
-		const getImgSrcSet = (url, size, threshold = 420) => {
-			return [
-				{
-					srcSet: getImgURL(url, size, 'default') + ' 1x, ' + getImgURL(url, size, 'hidpi') + ' 2x',
-					media: "(min-width: "+threshold+"px)",
-				},
-				{
-					srcSet: getImgURL(url, size, 'small') + ' 1x, ' + getImgURL(url, size, 'smallHidpi') + ' 2x',
-					media: "(max-width: "+threshold+"px)",
-				},
-			]
+		const getImgSrcSet = (url, size) => {
+			return getImgURL(url, size, 'hidpi') + ', ' + getImgURL(url, size, 'default') + ', ' + getImgURL(url, size, 'small') + ', ' + getImgURL(url, size, 'smallHidpi');
 		}
 
 		return(
 			<Fragment>
-				{ '' === link && ( <Picture style={{display: 'block'}} sources={ getImgSrcSet(img, size) }/> ) }
-				{ '' !== link && ( <a href={link}><Picture style={{display: 'block'}} sources={ getImgSrcSet(img, size) }/></a> ) }
+				{ '' === link && ( <img src={getImgURL(img, size, 'default', true)} srcset={getImgSrcSet(img, size)} sizes="100vw"/> ) }
+				{ '' !== link && ( <a href={link}><img src={getImgURL(img, size, 'default', true)} srcset={getImgSrcSet(img, size)} sizes="100vw"/></a> ) }
 			</Fragment>
 		)
 	}
 
 	editMode = ({dataHandler}) => {
-		console.log('Edit Mode');
-		console.log(this.props);
-		
 		const mediaHandler = (media) => {
 			if ( undefined !== this.props.slot && 'disabled' === this.props.slot ) {
 				dataHandler( { image: media.url, imageSlot: 'default' } );
@@ -186,7 +185,7 @@ class Image extends Component {
 									{ value: 'legacy-260-173', label: 'Legacy Homepage 260x173' },
 								]}
 								onChange={ ( imageSize ) => dataHandler({ imageSize }) }
-								style={{marginBottom: '0px'}}
+								style={{ marginBottom: '0px' }}
 							/>
 						</div>
 					) }

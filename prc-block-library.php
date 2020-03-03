@@ -30,8 +30,8 @@ class PRC_Block_Library {
 		if ( true === $init ) {
 			$this->plugin_dir = __DIR__ . '/prc_blocks/';
 			add_action( 'init', array( $this, 'register_block_assets' ) );
-			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
+			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 			add_action( 'acf/init', array( $this, 'acf_shim' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'posts_block_dynamic_render' ) );
@@ -75,7 +75,8 @@ class PRC_Block_Library {
 	 * @return array Allowed tags.
 	 */
 	public static function allowed_html_tags( $allowed_tags ) {
-		$allowed_tags['picture'] = true;
+		$allowed_tags['img']['srcset'] = true;
+		$allowed_tags['img']['sizes']  = true;
 		return $allowed_tags;
 	}
 
@@ -94,6 +95,7 @@ class PRC_Block_Library {
 	 * @since 1.0.0
 	 */
 	public function register_block_assets() { // phpcs:ignore
+
 		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 
 		// Story Item

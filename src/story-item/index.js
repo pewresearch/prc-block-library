@@ -253,6 +253,18 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: '',
 		},
+		images: {
+			type: 'array',
+			source: 'query',
+			selector: 'picture > source',
+			query: {
+				url: {
+					type: 'string',
+					source: 'attribute',
+					attribute: 'srcset',
+				}
+			}
+		},
 		imageSlot: {
 			type: 'string',
 			default: 'disabled',
@@ -330,7 +342,8 @@ registerBlockType( 'prc-block/story-item', {
 		} else if ( 'is-style-disabled' === props.attributes.className ) {
 			props.setAttributes({ imageSlot: 'disabled' });
 		}
-
+		console.log('StoryItem');
+		console.log(props);
 		return(
 			<Fragment>
 				{ true === props.isSelected && (
