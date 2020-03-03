@@ -253,18 +253,6 @@ registerBlockType( 'prc-block/story-item', {
 			type: 'string',
 			default: '',
 		},
-		images: {
-			type: 'array',
-			source: 'query',
-			selector: 'picture > source',
-			query: {
-				url: {
-					type: 'string',
-					source: 'attribute',
-					attribute: 'srcset',
-				}
-			}
-		},
 		imageSlot: {
 			type: 'string',
 			default: 'disabled',
