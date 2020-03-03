@@ -77,6 +77,12 @@ class PRC_Block_Library {
 	public static function allowed_html_tags( $allowed_tags ) {
 		$allowed_tags['img']['srcset'] = true;
 		$allowed_tags['img']['sizes']  = true;
+		$allowed_tags['picture']       = true;
+		$allowed_tags['source']        = array(
+			'srcset' => true,
+			'media'  => true,
+			'type'   => true,
+		);
 		return $allowed_tags;
 	}
 
