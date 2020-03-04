@@ -1,31 +1,51 @@
 {
-  "default~frontend~main.css": "posts/default~frontend~main.css",
-  "default~frontend~main.js": "posts/default~frontend~main.js",
-  "frontend.js": "posts/frontend.js",
-  "main.js": "posts/main.js",
-  "runtime.js": "posts/runtime.js",
-  "vendors~frontend~main.js": "posts/vendors~frontend~main.js",
+  "frontend.css": "posts/frontend-6b477c65.css",
+  "frontend.css.map": "posts/frontend-6b477c65.css.map",
+  "frontend.js": "posts/frontend-3a910d8b.js",
+  "frontend.js.map": "posts/frontend-3a910d8b.js.map",
+  "main.css": "posts/main-6b477c65.css",
+  "main.css.map": "posts/main-6b477c65.css.map",
+  "main.js": "posts/main-3c8125e1.js",
+  "main.js.map": "posts/main-3c8125e1.js.map",
+  "runtime.js": "posts/runtime-a582402a.js",
+  "runtime.js.map": "posts/runtime-a582402a.js.map",
+  "vendors~frontend~main.js": "posts/vendors~frontend~main-672baa93.js",
+  "vendors~frontend~main.js.map": "posts/vendors~frontend~main-672baa93.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "posts/runtime.js",
-        "posts/vendors~frontend~main.js",
-        "posts/default~frontend~main.js",
-        "posts/main.js"
+        "posts/runtime-a582402a.js",
+        "posts/vendors~frontend~main-672baa93.js",
+        "posts/main-3c8125e1.js"
+      ],
+      "js.map": [
+        "posts/runtime-a582402a.js.map",
+        "posts/vendors~frontend~main-672baa93.js.map",
+        "posts/main-3c8125e1.js.map"
       ],
       "css": [
-        "posts/default~frontend~main.css"
+        "posts/main-6b477c65.css"
+      ],
+      "css.map": [
+        "posts/main-6b477c65.css.map"
       ]
     },
     "frontend": {
       "js": [
-        "posts/runtime.js",
-        "posts/vendors~frontend~main.js",
-        "posts/default~frontend~main.js",
-        "posts/frontend.js"
+        "posts/runtime-a582402a.js",
+        "posts/vendors~frontend~main-672baa93.js",
+        "posts/frontend-3a910d8b.js"
+      ],
+      "js.map": [
+        "posts/runtime-a582402a.js.map",
+        "posts/vendors~frontend~main-672baa93.js.map",
+        "posts/frontend-3a910d8b.js.map"
       ],
       "css": [
-        "posts/default~frontend~main.css"
+        "posts/frontend-6b477c65.css"
+      ],
+      "css.map": [
+        "posts/frontend-6b477c65.css.map"
       ]
     }
   }
