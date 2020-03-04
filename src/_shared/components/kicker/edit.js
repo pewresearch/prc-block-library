@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect } from '@wordpress/element';
+import { useEffect, useLayoutEffect } from '@wordpress/element';
 import { withState } from '@wordpress/compose';
 import { SelectControl, TextControl } from '@wordpress/components';
 import { getTerms } from '../../helpers';
@@ -41,30 +41,28 @@ const KickerEditor = withState({
     }, [taxonomy]);
 
     return (
-        <Fragment>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div>
-                    <SelectControl
-                        value={label}
-                        options={labelOptions}
-                        onChange={l => {
-                            setAttributes({ label: l });
-                        }}
-                        style={{ marginBottom: '0px' }}
-                        className="story-label-select"
-                    />
-                </div>
-                <div>&nbsp;|&nbsp;</div>
-                <div>
-                    <TextControl
-                        value={date}
-                        onChange={d => {
-                            setAttributes({ date: d });
-                        }}
-                    />
-                </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div>
+                <SelectControl
+                    value={label}
+                    options={labelOptions}
+                    onChange={l => {
+                        setAttributes({ label: l });
+                    }}
+                    style={{ marginBottom: '0px' }}
+                    className="story-label-select"
+                />
             </div>
-        </Fragment>
+            <div>&nbsp;|&nbsp;</div>
+            <div>
+                <TextControl
+                    value={date}
+                    onChange={d => {
+                        setAttributes({ date: d });
+                    }}
+                />
+            </div>
+        </div>
     );
 });
 
