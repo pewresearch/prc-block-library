@@ -33,7 +33,7 @@ const KickerEditor = withState({
         );
     }, []);
 
-	// On taxonomy change:
+    // On taxonomy change:
     useEffect(() => {
         getLabelOptions(taxonomy).then(options =>
             setState({ labelOptions: options }),
