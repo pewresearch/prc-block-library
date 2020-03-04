@@ -7,7 +7,7 @@ import { Toolbar } from '@wordpress/components';
 import classNames from 'classnames/bind';
 
 import { Item } from 'semantic-ui-react';
-import { Image, Kicker, KickerEditor } from '../_shared';
+import { Image, Kicker, KickerEditor } from '../..';
 
 const Description = function({ content, enabled, setAttributes, sansSerif }) {
     const classes = classNames('description', { 'sans-serif': sansSerif });

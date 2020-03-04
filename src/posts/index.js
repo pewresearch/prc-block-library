@@ -4,8 +4,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl, TextControl, SelectControl, ColorPalette } from '@wordpress/components';
 import { Component, Fragment } from '@wordpress/element';
 
-import getPosts from '../_shared/get-posts';
-import getTerms from '../_shared/get-terms';
+import { getPosts, getTerms } from '../_shared';
 
 import PostsList from './styles/list';
 import FactTankList from './styles/fact-tank';
