@@ -1,34 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import { Component, Fragment } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
 
 import Card from './component';
-
-const EditSidebar = props => {
-    const { setAttributes, link, label } = props;
-    return (
-        <InspectorControls>
-            <PanelBody title={__('Card Options')}>
-                <div>
-                    <TextControl
-                        label="Link"
-                        value={link}
-                        onChange={value => setAttributes({ link: value })}
-                    />
-                </div>
-                <div>
-                    <TextControl
-                        label="Read More Text"
-                        value={label}
-                        onChange={value => setAttributes({ label: value })}
-                    />
-                </div>
-            </PanelBody>
-        </InspectorControls>
-    );
-};
 
 /**
  * Register: aa Gutenberg Block.
@@ -75,7 +51,7 @@ registerBlockType('prc-block/card', {
     attributes: {
         link: {
             type: 'string',
-            default: 'https://www.pewresearch.org/page',
+            default: 'https://www.pewresearch.org/',
         },
         label: {
             type: 'string',
@@ -100,20 +76,40 @@ registerBlockType('prc-block/card', {
      * @returns {Mixed} JSX Component.
      */
     edit: props => {
-        const data = props.attributes; // Condense the attributes into props
-        data.className = props.attributes.className; // Push classNames
-        data.edit = {
-            enabled: false,
-            display: false,
-            setAttributes: props.setAttributes,
-        };
-        if (props.isSelected === true) {
-            data.edit.enabled = true;
+        const { attributes, setAttributes, isSelected } = props;
+        const data = attributes;
+        data.setAttributes = setAttributes;
+        data.isDisplay = true;
+        if (true === isSelected) {
+            data.isDisplay = false;
         }
 
         return (
             <Fragment>
-                {props.isSelected === true && <EditSidebar {...data} />}
+                {true === isSelected && (
+                    <InspectorControls>
+                        <PanelBody title={__('Card Options')}>
+                            <div>
+                                <TextControl
+                                    label="Link"
+                                    value={attributes.link}
+                                    onChange={value =>
+                                        setAttributes({ link: value })
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <TextControl
+                                    label="Read More Text"
+                                    value={attributes.label}
+                                    onChange={value =>
+                                        setAttributes({ label: value })
+                                    }
+                                />
+                            </div>
+                        </PanelBody>
+                    </InspectorControls>
+                )}
                 <div style={{ maxWidth: '400px' }}>
                     <Card {...data} />
                 </div>
@@ -134,13 +130,10 @@ registerBlockType('prc-block/card', {
      * @returns {Mixed} JSX Frontend HTML.
      */
     save: props => {
-        const data = props.attributes;
-        data.className = props.attributes.className;
-        data.edit = {
-            enabled: false,
-            display: true,
-            setAttributes: props.setAttributes,
-        };
+        const { attributes } = props;
+        const data = attributes;
+        data.isDisplay = true;
+        data.setAttributes = false;
         return <Card {...data} />;
     },
 });

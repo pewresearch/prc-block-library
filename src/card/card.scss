@@ -10,3 +10,10 @@
 		}
 	}
 }
+.ui.card {
+	.wp-block-image {
+		.components-resizable-box__container span, .editor-rich-text {
+			display: none!important;
+		}
+	}
+}
