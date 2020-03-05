@@ -96,18 +96,10 @@ const Display = ({ img, size, link }) => {
 
     return (
         <Fragment>
-            {'' === link && (
-                <Picture
-                    style={{ display: 'block' }}
-                    sources={getImgSrcSet(img, size)}
-                />
-            )}
+            {'' === link && <Picture sources={getImgSrcSet(img, size)} />}
             {'' !== link && (
                 <a href={link}>
-                    <Picture
-                        style={{ display: 'block' }}
-                        sources={getImgSrcSet(img, size)}
-                    />
+                    <Picture sources={getImgSrcSet(img, size)} />
                 </a>
             )}
         </Fragment>
