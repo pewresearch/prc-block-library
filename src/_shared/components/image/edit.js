@@ -4,18 +4,7 @@ import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 
 const ALLOWED_MEDIA_TYPES = ['image'];
 
-const Edit = ({
-    img,
-    size,
-    slot,
-    chartArt,
-    dataHandler,
-    display,
-    className,
-}) => {
-    // Expect the display tag to be passed through props, whatever you pass here needs to support img, size, and link props as well
-    const Display = display;
-
+const Edit = ({ img, size, slot, chartArt, dataHandler }) => {
     const mediaHandler = media => {
         if ('disabled' === slot) {
             dataHandler({ image: media.url, imageSlot: 'default' });
@@ -26,14 +15,7 @@ const Edit = ({
 
     const Toolbar = ({ handler, open }) => {
         return (
-            <div
-                style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    backgroundColor: '#f0f2f3',
-                }}
-            >
+            <div className="image-editor-toolbar">
                 <div>
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                         <IconButton
@@ -107,15 +89,7 @@ const Edit = ({
                 render={({ open }) => (
                     <Fragment>
                         {'' !== img && (
-                            <Fragment>
-                                <div className={className}>
-                                    <Display img={img} size={size} link="" />
-                                    <Toolbar
-                                        handler={dataHandler}
-                                        open={open}
-                                    />
-                                </div>
-                            </Fragment>
+                            <Toolbar handler={dataHandler} open={open} />
                         )}
                         {'' === img && (
                             <p>

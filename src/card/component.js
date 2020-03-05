@@ -42,15 +42,13 @@ const Card = props => {
             </SemanticCard.Header>
 
             <SemanticCard.Content>
-                <div className="ui relaxed items">
-                    {false !== setAttributes && (
-                        <InnerBlocks allowedBlocks={allowedBlocks} />
-                        // State where isDisplay is false but alsoe set attribute is false. Internal save mode. But what we ultimately need is a flag "hasInnerBlocks
-                    )}
-                    {false === setAttributes && true === isDisplay && (
-                        <InnerBlocks.Content />
-                    )}
-                </div>
+                {false !== setAttributes && (
+                    <InnerBlocks allowedBlocks={allowedBlocks} />
+                    // State where isDisplay is false but alsoe set attribute is false. Internal save mode. But what we ultimately need is a flag "hasInnerBlocks
+                )}
+                {false === setAttributes && true === isDisplay && (
+                    <InnerBlocks.Content />
+                )}
                 {'' !== label && '' !== link && (
                     <p>
                         <strong>

@@ -10,4 +10,17 @@
 		justify-content: center;
 		font-weight: bold;
 	}
+	img {
+		display: block;
+	}
+	.image-editor-toolbar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		background-color: rgba(240, 242, 243, 0.71);
+		// position: absolute;
+		// bottom: 0px;
+		// left: 0px;
+		// width: 100%;
+	}
 }

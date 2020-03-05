@@ -1,6 +1,5 @@
 import './imageEditor.scss';
 
-import { Fragment } from '@wordpress/element';
 import classNames from 'classnames/bind';
 
 import Display from './display';
@@ -8,12 +7,12 @@ import Edit from './edit';
 
 /**
  * Props:
- * img:
- * size:
- * link:
- * slot: // if set to false then no image size chooser will be display
- * chartArt: // if undefined then no chart art button will appear
- * dataHandler: *When not in "edit mode" this prop should be false to signal that.*
+ * img: string url of image to display
+ * size: string of image/slot size (A1,A2,A3,A4)
+ * link: string of url to go to when image is clicked on front end
+ * slot: if set to null then no image size chooser will be display
+ * chartArt: if set to null then no chart art button will appear
+ * dataHandler: defaults to false unless otherwise provided a function to pass data back up to a HOC state.
  *
  * <Image id={} img={} size={} link={} slot={} chartArt={} dataHandler={}/>
  */
@@ -37,12 +36,12 @@ const Image = ({ img, link, size, slot, chartArt, dataHandler }) => {
     };
 
     return (
-        <Fragment>
-            {false === dataHandler && (
-                <div className={classes()}>
-                    <Display img={img} size={size} link={link} />
-                </div>
-            )}
+        <div className={classes()}>
+            <Display
+                img={img}
+                size={size}
+                link={false !== dataHandler ? '' : link}
+            />
             {false !== dataHandler && (
                 <Edit
                     img={img}
@@ -50,11 +49,9 @@ const Image = ({ img, link, size, slot, chartArt, dataHandler }) => {
                     size={size}
                     chartArt={chartArt}
                     dataHandler={dataHandler}
-                    display={Display}
-                    className={classes()}
                 />
             )}
-        </Fragment>
+        </div>
     );
 };
 
