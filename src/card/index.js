@@ -63,6 +63,53 @@ registerBlockType('prc-block/card', {
             default: 'Card Title',
         },
     },
+    deprecated: [
+        {
+            attributes: {
+                link: {
+                    type: 'string',
+                },
+                label: {
+                    type: 'string',
+                },
+                title: {
+                    type: 'string',
+                },
+                // Legacy
+                image: {
+                    type: 'string',
+                },
+                excerpt: {
+                    type: 'string',
+                },
+            },
+
+            migrate(attributes, innerBlocks) {
+                const { omit } = window.lodash;
+                return [
+                    omit(attributes, ['excerpt', 'image']),
+                    [
+                        createBlock('core/image', {
+                            url: attributes.image,
+                            sizeSlug: 'large',
+                        }),
+                        createBlock('core/paragraph', {
+                            content: attributes.excerpt,
+                        }),
+                        ...innerBlocks,
+                    ],
+                ];
+            },
+
+            save(props) {
+                const { attributes } = props;
+                const data = attributes;
+                data.isDisplay = true;
+                data.setAttributes = false;
+                return <Card {...data} />;
+            },
+        },
+    ],
 
     /**
      * The edit function describes the structure of your block in the context of the editor.
