@@ -1,11 +1,10 @@
 // @TODO: convert froomo wp api to apifetch https://www.npmjs.com/package/@wordpress/api-fetch
-
 const getTerms = taxonomy => {
     const collection = new wp.api.collections[taxonomy]();
     if (undefined === collection) {
         return false;
     }
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         const data = {};
         collection
             .fetch({
@@ -28,4 +27,25 @@ const getTerms = taxonomy => {
     });
 };
 
+const getTermsAsOptions = taxonomy => {
+    return new Promise(resolve => {
+        getTerms(taxonomy).then(data => {
+            const labelOptions = [];
+
+            Object.keys(data).forEach(key => {
+                const termObj = data[key];
+                labelOptions.push({
+                    value: termObj.name,
+                    label: termObj.name,
+                });
+            });
+
+            labelOptions.sort((a, b) => (a.label > b.label ? 1 : -1));
+
+            resolve(labelOptions);
+        });
+    });
+};
+
 export default getTerms;
+export { getTerms, getTermsAsOptions };

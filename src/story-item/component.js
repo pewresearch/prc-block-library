@@ -160,7 +160,7 @@ class StoryItem extends Component {
                         link={attrs.link}
                         slot={attrs.imageSlot}
                         chartArt={attrs.isChartArt}
-                        dataHandler={this.props.setAttributes}
+                        dataHandler={attrs.setAttributes}
                     />
                 )}
 
@@ -170,7 +170,7 @@ class StoryItem extends Component {
                         date={attrs.date}
                         label={attrs.label}
                         link={attrs.link}
-                        setAttributes={this.props.setAttributes}
+                        setAttributes={attrs.setAttributes}
                         enabled={attrs.enableHeader}
                         size={attrs.headerSize}
                         taxonomy={attrs.taxonomy} // Where??
@@ -183,21 +183,21 @@ class StoryItem extends Component {
                             link={attrs.link}
                             slot={attrs.imageSlot}
                             chartArt={attrs.isChartArt}
-                            dataHandler={this.props.setAttributes}
+                            dataHandler={attrs.setAttributes}
                         />
                     )}
 
                     <Description
                         content={attrs.excerpt}
                         enabled={attrs.enableExcerpt}
-                        setAttributes={this.props.setAttributes}
+                        setAttributes={attrs.setAttributes}
                         sansSerif={!attrs.enableHeader}
                     />
 
                     <Extra
                         enabled={attrs.enableExtra}
                         content={attrs.extra}
-                        setAttributes={this.props.setAttributes}
+                        setAttributes={attrs.setAttributes}
                     />
                 </Item.Content>
 
@@ -209,7 +209,7 @@ class StoryItem extends Component {
                         link={attrs.link}
                         slot={attrs.imageSlot}
                         chartArt={attrs.isChartArt}
-                        dataHandler={this.props.setAttributes}
+                        dataHandler={attrs.setAttributes}
                     />
                 )}
             </Item>
@@ -249,9 +249,12 @@ class StoryItem extends Component {
             { stacked: isStacked, bordered: isBordered },
         );
 
+        const attrs = this.props.attributes;
+        attrs.setAttributes = this.props.setAttributes;
+
         return (
             <Fragment>
-                <this.item {...this.props.attributes} />
+                <this.item {...attrs} />
             </Fragment>
         );
     }

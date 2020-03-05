@@ -1,27 +1,27 @@
 {
   "frontend.css": "posts/frontend-1bd3383e.css",
   "frontend.css.map": "posts/frontend-1bd3383e.css.map",
-  "frontend.js": "posts/frontend-2f12606f.js",
-  "frontend.js.map": "posts/frontend-2f12606f.js.map",
+  "frontend.js": "posts/frontend-81a0044a.js",
+  "frontend.js.map": "posts/frontend-81a0044a.js.map",
   "main.css": "posts/main-1bd3383e.css",
   "main.css.map": "posts/main-1bd3383e.css.map",
-  "main.js": "posts/main-f15aadd8.js",
-  "main.js.map": "posts/main-f15aadd8.js.map",
+  "main.js": "posts/main-628916aa.js",
+  "main.js.map": "posts/main-628916aa.js.map",
   "runtime.js": "posts/runtime-a582402a.js",
   "runtime.js.map": "posts/runtime-a582402a.js.map",
-  "vendors~frontend~main.js": "posts/vendors~frontend~main-b17b6478.js",
-  "vendors~frontend~main.js.map": "posts/vendors~frontend~main-b17b6478.js.map",
+  "vendors~frontend~main.js": "posts/vendors~frontend~main-8908728f.js",
+  "vendors~frontend~main.js.map": "posts/vendors~frontend~main-8908728f.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "posts/runtime-a582402a.js",
-        "posts/vendors~frontend~main-b17b6478.js",
-        "posts/main-f15aadd8.js"
+        "posts/vendors~frontend~main-8908728f.js",
+        "posts/main-628916aa.js"
       ],
       "js.map": [
         "posts/runtime-a582402a.js.map",
-        "posts/vendors~frontend~main-b17b6478.js.map",
-        "posts/main-f15aadd8.js.map"
+        "posts/vendors~frontend~main-8908728f.js.map",
+        "posts/main-628916aa.js.map"
       ],
       "css": [
         "posts/main-1bd3383e.css"
@@ -33,13 +33,13 @@
     "frontend": {
       "js": [
         "posts/runtime-a582402a.js",
-        "posts/vendors~frontend~main-b17b6478.js",
-        "posts/frontend-2f12606f.js"
+        "posts/vendors~frontend~main-8908728f.js",
+        "posts/frontend-81a0044a.js"
       ],
       "js.map": [
         "posts/runtime-a582402a.js.map",
-        "posts/vendors~frontend~main-b17b6478.js.map",
-        "posts/frontend-2f12606f.js.map"
+        "posts/vendors~frontend~main-8908728f.js.map",
+        "posts/frontend-81a0044a.js.map"
       ],
       "css": [
         "posts/frontend-1bd3383e.css"

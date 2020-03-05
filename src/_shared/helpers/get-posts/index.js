@@ -7,7 +7,7 @@ const getPosts = (
     labelTaxonomy,
     relativeDate = false,
 ) => {
-    const formatDate = function(dateString, relativeDate) {
+    const formatDate = dateString => {
         const defaultFormat = 'MMM D, YYYY';
         const todaysDate = moment().format(defaultFormat);
         let date = moment(dateString).format(defaultFormat);
@@ -18,7 +18,7 @@ const getPosts = (
         return date;
     };
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         const data = [];
         fetch(
             `${window.siteURL}/wp-json/prc-api/v2/blocks/helpers/get-posts/?perPage=${perPage}&format=${format}&program=${program}&labelTaxonomy=${labelTaxonomy}`,

@@ -1,4 +1,4 @@
 import getPosts from './get-posts';
-import getTerms from './get-terms';
+import { getTerms, getTermsAsOptions } from './get-terms';
 
-export { getPosts, getTerms };
+export { getPosts, getTerms, getTermsAsOptions };
