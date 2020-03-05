@@ -50,12 +50,10 @@ const Card = props => {
                     <InnerBlocks.Content />
                 )}
                 {'' !== label && '' !== link && (
-                    <p>
-                        <strong>
-                            <a href={link} className="read-more">
-                                {label}
-                            </a>
-                        </strong>
+                    <p className="relaxed">
+                        <a href={link} className="read-more">
+                            {label}
+                        </a>
                     </p>
                 )}
             </SemanticCard.Content>
