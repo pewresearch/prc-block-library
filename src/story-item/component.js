@@ -38,7 +38,7 @@ const Description = function({ content, enabled, setAttributes, sansSerif }) {
     );
 };
 
-const Extra = function({ enabled, content, setAttributes }) {
+const Extra = function({ enabled, content, setAttributes, breakingNews }) {
     const classes = classNames('extra');
     return (
         <Fragment>
@@ -59,17 +59,17 @@ const Extra = function({ enabled, content, setAttributes }) {
                     className={classes}
                 />
             )}
-        </Fragment>
-    );
-};
-
-const BreakingNews = function({ enabled, label, url }) {
-    return (
-        <Fragment>
-            {true === enabled && (
-                <a href={url} className="kicker-breaking-news">
-                    {label}
-                </a>
+            {true === breakingNews && false !== window.prcBreakingNews && (
+                <ul className="extra-breaking-news">
+                    <li>
+                        <a
+                            href={window.prcBreakingNews.url}
+                            className="kicker-breaking-news"
+                        >
+                            {window.prcBreakingNews.label}
+                        </a>
+                    </li>
+                </ul>
             )}
         </Fragment>
     );
@@ -210,15 +210,8 @@ class StoryItem extends Component {
                         enabled={attrs.enableExtra}
                         content={attrs.extra}
                         setAttributes={attrs.setAttributes}
+                        breakingNews={attrs.enableBreakingNews}
                     />
-
-                    {false !== window.prcBreakingNews && (
-                        <BreakingNews
-                            enabled={attrs.enableBreakingNews}
-                            label={window.prcBreakingNews.label}
-                            url={window.prcBreakingNews.url}
-                        />
-                    )}
                 </Item.Content>
 
                 {('bottom' === attrs.imageSlot ||
