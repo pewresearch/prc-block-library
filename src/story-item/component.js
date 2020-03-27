@@ -63,6 +63,18 @@ const Extra = function({ enabled, content, setAttributes }) {
     );
 };
 
+const BreakingNews = function({ enabled, label, url }) {
+    return (
+        <Fragment>
+            {true === enabled && (
+                <a href={url} className="kicker-breaking-news">
+                    {label}
+                </a>
+            )}
+        </Fragment>
+    );
+};
+
 const Header = function({
     title,
     label,
@@ -199,6 +211,14 @@ class StoryItem extends Component {
                         content={attrs.extra}
                         setAttributes={attrs.setAttributes}
                     />
+
+                    {false !== window.prcBreakingNews && (
+                        <BreakingNews
+                            enabled={attrs.enableBreakingNews}
+                            label={window.prcBreakingNews.label}
+                            url={window.prcBreakingNews.url}
+                        />
+                    )}
                 </Item.Content>
 
                 {('bottom' === attrs.imageSlot ||
