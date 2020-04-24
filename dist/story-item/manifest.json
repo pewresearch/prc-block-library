@@ -12,12 +12,12 @@
       "js": [
         "story-item/runtime-6b7036d3.js",
         "story-item/vendors~main-afbfcd33.js",
-        "story-item/main-5be10f6e.js"
+        "story-item/main-98995e44.js"
       ],
       "js.map": [
         "story-item/runtime-6b7036d3.js.map",
         "story-item/vendors~main-afbfcd33.js.map",
-        "story-item/main-5be10f6e.js.map"
+        "story-item/main-98995e44.js.map"
       ],
       "css": [
         "story-item/main-c82e7d9f.css"
