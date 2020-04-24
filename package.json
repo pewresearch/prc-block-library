@@ -28,6 +28,7 @@
     "@wpackio/entrypoint": "^4.3.0",
     "classnames": "^2.2.6",
     "react-responsive-picture": "^3.2.2",
+    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2"
   }
 }

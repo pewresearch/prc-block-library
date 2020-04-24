@@ -28,6 +28,13 @@ module.exports = {
 	},
 	// Files we need to compile, and where to put
 	files: [
+		{
+			name: 'tabs',
+			entry: {
+				main: './src/tabs/index.js',
+				frontend: './src/tabs/frontend.js',
+			},
+		},
 		// If this has length === 1, then single compiler
 		{
 			name: 'story-item',

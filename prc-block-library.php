@@ -291,6 +291,47 @@ class PRC_Block_Library {
 			)
 		);
 
+
+
+
+		// Tabs
+		$tabs = $enqueue->register(
+			'tabs',
+			'main',
+			[
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => [],
+				'in_footer' => true,
+				'media'     => 'all',
+			]
+		);
+
+		$tabs_frontend  = $enqueue->register(
+			'tabs',
+			'frontend',
+			[
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => [],
+				'in_footer' => true,
+				'media'     => 'all',
+			]
+		);
+
+		register_block_type(
+			'prc-block/tabs',
+			array(
+				'editor_script' => array_pop( $tabs['js'] )['handle'],
+				'editor_style'  => array_pop( $tabs['css'] )['handle'],
+				'script' => array_pop( $tabs_frontend['js'] )['handle'],
+			)
+		);
+
+
+
 	}
 
 	/**
