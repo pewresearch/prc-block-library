@@ -110,14 +110,14 @@ class PRC_Block_Library {
 		$story_item = $enqueue->register(
 			'story-item',
 			'main',
-			[
+			array(
 				'js'        => true,
 				'css'       => true,
 				'js_dep'    => $js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 		register_block_type(
 			'prc-block/story-item',
@@ -132,14 +132,14 @@ class PRC_Block_Library {
 		$card = $enqueue->register(
 			'card',
 			'main',
-			[
+			array(
 				'js'        => true,
 				'css'       => true,
 				'js_dep'    => $js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 		register_block_type(
 			'prc-block/card',
@@ -155,14 +155,14 @@ class PRC_Block_Library {
 		$follow_us                 = $enqueue->register(
 			'follow-us',
 			'main',
-			[
+			array(
 				'js'        => true,
 				'css'       => false,
 				'js_dep'    => $js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 		$js_deps                   = $this->js_deps;
 		$js_deps[]                 = 'wp-block-editor';
@@ -170,14 +170,14 @@ class PRC_Block_Library {
 		$follow_us_frontend        = $enqueue->register(
 			'follow-us',
 			'frontend',
-			[
+			array(
 				'js'        => true,
 				'css'       => false,
 				'js_dep'    => $js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 		$follow_us_frontend_handle = array_pop( $follow_us_frontend['js'] )['handle'];
 		wp_localize_script(
@@ -185,54 +185,54 @@ class PRC_Block_Library {
 			'prcMailchimpBlock', // Array containing dynamic data for a JS Global.
 			array(
 				'interests' => array(
-					[
+					array(
 						'label' => 'Alert: New Report - Internet',
 						'value' => '44312fd5fc',
-					],
-					[
+					),
+					array(
 						'label' => 'Alert: New Report - Hispanic',
 						'value' => '61521c863e',
-					],
-					[
+					),
+					array(
 						'label' => 'Alert: New Report - Social Trends',
 						'value' => '3836f62305',
-					],
-					[
+					),
+					array(
 						'label' => 'Daily: Daily Briefing - Journalism',
 						'value' => '1d2638430b',
-					],
-					[
+					),
+					array(
 						'label' => 'Daily: Daily Headlines - Religion',
 						'value' => '1a647764b2',
-					],
-					[
+					),
+					array(
 						'label' => 'Weekly Roundup',
 						'value' => '7c1390ba46',
-					],
-					[
+					),
+					array(
 						'label' => 'Weekly: Election 2020',
 						'value' => 'fa5fdbc701',
-					],
-					[
+					),
+					array(
 						'label' => 'Weekly: Religion',
 						'value' => 'a7d4f3268f',
-					],
-					[
+					),
+					array(
 						'label' => 'Bi-Weekly: Global',
 						'value' => '9203343b04',
-					],
-					[
+					),
+					array(
 						'label' => 'Monthly: Hispanic',
 						'value' => '0e7495c7b2',
-					],
-					[
+					),
+					array(
 						'label' => 'Monthly: Internet',
 						'value' => 'ea87b26abe',
-					],
-					[
+					),
+					array(
 						'label' => 'Monthly: Methods',
 						'value' => '6d1e80bbaf',
-					],
+					),
 				),
 			)
 		);
@@ -249,14 +249,14 @@ class PRC_Block_Library {
 		$pancake_promo = $enqueue->register(
 			'pancake-promo',
 			'main',
-			[
+			array(
 				'js'        => true,
 				'css'       => true,
 				'js_dep'    => $this->js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 		register_block_type(
 			'prc-block/pancake-promo',
@@ -273,14 +273,14 @@ class PRC_Block_Library {
 		$posts     = $enqueue->register(
 			'posts',
 			'main',
-			[
+			array(
 				'js'        => true,
 				'css'       => true,
 				'js_dep'    => $js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 		register_block_type(
 			'prc-block/posts',
@@ -307,14 +307,14 @@ class PRC_Block_Library {
 		$enqueue->enqueue(
 			'posts',
 			'frontend',
-			[
+			array(
 				'js'        => true,
 				'css'       => true,
 				'js_dep'    => $js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 	}
 
@@ -457,6 +457,24 @@ class PRC_Block_Library {
 		return $this->get_stub_post_by_post_url( $url, $site_id );
 	}
 
+	private function get_fact_tank_post_by_slug( $slug ) {
+		if ( ! is_string( $slug ) ) {
+			return false;
+		}
+		$args  = array(
+			'name'        => $slug,
+			'post_type'   => 'fact-tank',
+			'post_status' => 'publish',
+			'numberposts' => 1,
+		);
+		$posts = get_posts( $args );
+		if ( $posts ) {
+			return $posts[0]->ID;
+		} else {
+			return false;
+		}
+	}
+
 	public function get_stub_post_by_post_url( $url, $site_id ) {
 		$return = false;
 		if ( false == $site_id ) {
@@ -466,7 +484,15 @@ class PRC_Block_Library {
 		$current_site_id = get_current_blog_id();
 
 		switch_to_blog( $site_id );
-		$post_id = url_to_postid( $url );
+		// If url contains fact-tank right after the url then go get the slug and fetch post that way.
+		$test = 'http://pewresearch.local/fact-tank/2020/04/02/5-facts-about-partisan-reactions-to-covid-19-in-the-u-s/';
+		if ( false !== strpos( $url, '/fact-tank/' ) ) {
+			$slug    = basename( $url );
+			$post_id = $this->get_fact_tank_post_by_slug( $slug );
+		} else {
+			$post_id = url_to_postid( $url );
+		}
+
 		if ( 0 === $post_id ) {
 			return 'URL TO POSTID ' . $site_id . '-' . $url;
 		}
