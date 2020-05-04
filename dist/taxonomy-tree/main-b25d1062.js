@@ -1,0 +1,19 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 0.1.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2020 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+(window["wpackioprcBlocksLibrarytaxonomy-treeJsonp"]=window["wpackioprcBlocksLibrarytaxonomy-treeJsonp"]||[]).push([[0],{0:function(e,t){e.exports=React},120:function(e,t){e.exports=wp.blocks},121:function(e,t){e.exports=wp.blockEditor},141:function(e,t,n){n(142),e.exports=n(262)},18:function(e,t){e.exports=wp.element},262:function(e,t,n){"use strict";n.r(t);var o=n(131),a=n(120),r=n(61),c=n(18),l=n(271),i=n(84),m=n(121),u=(n(62),function(e){var t=new wp.api.collections[e];return void 0!==t&&new Promise((function(n){var o={};t.fetch({data:{hide_empty:!1,per_page:25}}).then((function(t){for(var a=0;a<t.length;a++){var r=t[a].slug.replace("".concat(e.toLowerCase(),"_"),"");o[t[a].id]={id:t[a].id,name:t[a].name,slug:r}}n(o)}))}))}),s=function(e){return new Promise((function(t){u(e).then((function(e){var n=[];Object.keys(e).forEach((function(t){var o=e[t];n.push({value:o.name,label:o.name})})),n.sort((function(e,t){return e.label>t.label?1:-1})),t(n)}))}))},p=n(269),f=n(270),d=function(e){var t=e.name,n=e.url,o=(e.termID,e.editMode);return React.createElement(c.Fragment,null,!0===o&&React.createElement(p.a,{label:t}),!1===o&&React.createElement("a",{href:n},t))},E=function(e){var t=e.label,n=e.term,o=e.taxonomy,a=e.editMode;return Object(c.useEffect)((function(){console.log("Term Change"),s(o).then((function(e){return console.log(e)}))}),[n]),React.createElement(f.a,null,React.createElement(f.a.Item,null,React.createElement(f.a.Header,null,t)),React.createElement(f.a.Item,null,React.createElement(d,{name:"Term 1",url:"#",termID:1e3,editMode:a})),React.createElement(f.a.Item,null,React.createElement(d,{name:"Term 2",url:"#",termID:1e3,editMode:a})),React.createElement(f.a.Item,null,React.createElement(d,{name:"Term 3",url:"#",termID:1e3,editMode:a})))},x=["core/heading"],b=Object(l.a)({terms:[]})((function(e){var t=e.attributes,n=e.setAttributes,o=e.isSelected,a=e.setState,r=e.terms,l=t.taxonomy,u=t.term;Object(c.useEffect)((function(){console.log("Taxonomy Change"),!1!==l&&s(l).then((function(e){return a({terms:e})}))}),[l]);var p=function(e){var t=e.tx;return React.createElement(i.SelectControl,{value:t,options:[{label:"Topics",value:"Topics"},{label:"Topic",value:"Topic"}],onChange:function(e){n({taxonomy:e})}})},f=function(e){var t=e.tm;return React.createElement(i.SelectControl,{value:t,options:r,onChange:function(e){n({term:e})}})};return console.log(l),React.createElement(c.Fragment,null,!1===u&&React.createElement(p,{tx:l}),!1!==l&&!1===u&&React.createElement(f,{tm:u}),!1!==u&&React.createElement("h2",null,u),!1!==l&&!1!==u&&React.createElement(c.Fragment,null,React.createElement(E,{label:"Key Topics",taxonomy:l,term:u,editMode:o})),!1!==n&&React.createElement(m.InnerBlocks,{allowedBlocks:x}))})),g=function(e){return console.log("Save Mode:"),console.log(e),React.createElement("div",null,"Hello World")},v=["prc-block/taxonomy-tree",{title:Object(r.__)("Taxonomy Tree"),description:"A tree view of a selected taxonomy and term.",category:"layout",icon:"networking",keywords:[Object(r.__)("Taxonomy Tree"),Object(r.__)("Taxonomies")],supports:{html:!1,align:!1},attributes:{taxonomy:{type:"string",default:!1},term:{type:"string",default:!1}},edit:b,save:g}];a.registerBlockType.apply(void 0,Object(o.a)(v))},42:function(e,t){e.exports=ReactDOM},61:function(e,t){e.exports=wp.i18n},62:function(e,t){e.exports=moment},84:function(e,t){e.exports=wp.components},87:function(e,t){e.exports=lodash}},[[141,1,2]]]);
+//# sourceMappingURL=main-b25d1062.js.map
