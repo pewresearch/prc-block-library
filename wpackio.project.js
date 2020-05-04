@@ -42,6 +42,12 @@ module.exports = {
             },
         },
         {
+            name: 'button',
+            entry: {
+                main: './src/button/index.js',
+            },
+        },
+        {
             name: 'follow-us',
             entry: {
                 main: './src/follow-us/index.js',
@@ -88,9 +94,9 @@ module.exports = {
             },
         },
         {
-            name: 'pancake-promo',
+            name: 'promo',
             entry: {
-                main: './src/pancake-promo/index.js',
+                main: './src/promo/index.js',
             },
             webpackConfig: (config, merge, appDir, isDev) => {
                 const customRules = {

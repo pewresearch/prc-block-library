@@ -1,0 +1,89 @@
+.wp-block-prc-block-promo {
+    padding: 24px 40px;
+    margin-top: 40px;
+		margin-bottom: 40px;
+    clear: both;
+    
+    text-align: center;
+    font-size: 16px;
+
+    border-width: 1px;
+    border-style: solid;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    .text {
+      padding-bottom: 24px;
+
+      h2 {
+        font-size: 21px;
+        line-height: 26px;
+      }
+      p {
+        font-size: 16px;
+        line-height: 21px;
+      }
+    }
+
+    .action {
+      .button {
+        font-size: 15px;
+        font-weight: 500;
+        min-width: 120px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .block-editor-block-list__block {
+        margin-top: 0;
+        margin-bottom: 14px;
+      }
+    }
+
+    // Horizontal "Pancake" Styles:
+    &.pancake,
+    &.is-style-pancake,
+    &.is-style-pancake-stacked {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+
+      .text {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-bottom: 0;
+
+        & > h2 {
+          min-width: 388px;
+          padding-right: 38px;
+          margin-bottom: 0;
+        }
+      }
+
+      .action {
+        text-align: right;
+        margin-left: 35px;
+        flex-grow: 1;
+      }
+    }
+
+    &.is-style-pancake-stacked {
+      .action .block-editor-block-list__block {
+        text-align: right;
+      }
+  
+      .text {
+        flex-direction: column;
+        align-items: flex-start;
+        & > h2 {
+          min-width: 300px;
+          padding-right: 0;
+        }
+      }
+    }
+
+}

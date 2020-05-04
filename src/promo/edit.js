@@ -1,0 +1,129 @@
+import { __ } from '@wordpress/i18n';
+import {
+    InspectorControls,
+    RichText,
+    InnerBlocks,
+} from '@wordpress/block-editor';
+import { dispatch, select } from '@wordpress/data';
+import { PanelBody, ColorPalette } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
+import classNames from 'classnames/bind';
+// import Icon from './icons';
+
+const allowedBlocks = ['prc-block/button'];
+const template = [['prc-block/button', { color: '#d3aa20', label: 'DONATE' }]];
+
+const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
+    const bgDefaults = [
+        { name: 'oatmeal', color: '#F7F7F2' },
+        { name: 'gray', color: '#F8F8F8' },
+        { name: 'white', color: '#FFF' },
+    ];
+    const borderDefaults = [
+        { name: 'oatmeal', color: '#D5D5CD' },
+        { name: 'gray', color: '#D8D8D8' },
+        { name: 'black', color: '#000' },
+    ];
+
+    return (
+        <InspectorControls>
+            <PanelBody title={__('Promo Design Options')}>
+                <div>
+                    <p>
+                        <strong>Background Color:</strong>
+                    </p>
+                    <ColorPalette
+                        colors={bgDefaults}
+                        value={bgColor}
+                        onChange={c => setAttributes({ bgColor: c })}
+                        disableCustomColors
+                    />
+                </div>
+                <div>
+                    <p>
+                        <strong>Border Color:</strong>
+                    </p>
+                    <ColorPalette
+                        colors={borderDefaults}
+                        value={borderColor}
+                        onChange={c => setAttributes({ borderColor: c })}
+                        disableCustomColors
+                    />
+                </div>
+            </PanelBody>
+        </InspectorControls>
+    );
+};
+
+const edit = props => {
+    const {
+        attributes,
+        className,
+        isSelected,
+        clientId,
+        setAttributes,
+    } = props;
+
+    // If width is greater than 640 then set to "pancake" (horizontal flex).
+    const domBlock = document.querySelector(`[data-block="${clientId}"]`);
+    if (null !== domBlock) {
+        const width = domBlock.clientWidth;
+
+        if (640 <= width) {
+            setAttributes({ pancake: true });
+        } else {
+            setAttributes({ pancake: false });
+        }
+    }
+
+    const { header, description, bgColor, borderColor, pancake } = attributes;
+    let alignItems = null;
+    if (true === pancake) {
+        alignItems = 'flex-start';
+    }
+    const classes = classNames(className, { pancake });
+
+    return (
+        <Fragment>
+            <SidebarControls
+                bgColor={bgColor}
+                borderColor={borderColor}
+                setAttributes={setAttributes}
+            />
+            <div
+                className={classes}
+                style={{
+                    borderColor,
+                    backgroundColor: bgColor,
+                    alignItems,
+                }}
+            >
+                <div className="text">
+                    <RichText
+                        tagName="h2" // The tag here is the element output and editable in the admin
+                        value={header} // Any existing content, either from the database or an attribute default
+                        onChange={h => setAttributes({ header: h })} // Store updated content as a block attribute
+                        placeholder="Facts are more important than ever." // Display this text before any content has been added by the user
+                        formattingControls={[]}
+                    />
+                    <RichText
+                        tagName="div" // The tag here is the element output and editable in the admin
+                        value={description} // Any existing content, either from the database or an attribute default
+                        onChange={d => setAttributes({ description: d })} // Store updated content as a block attribute
+                        placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution." // Display this text before any content has been added by the user
+                        // formattingControls={[]}
+                        multiline="p"
+                    />
+                </div>
+                <div className="action">
+                    <InnerBlocks
+                        allowedBlocks={allowedBlocks}
+                        template={template}
+                    />
+                </div>
+            </div>
+        </Fragment>
+    );
+};
+
+export default edit;
