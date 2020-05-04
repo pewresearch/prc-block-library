@@ -1,4 +1,4 @@
-import { useEffect, Fragment, useState } from '@wordpress/element';
+import { useEffect, Fragment } from '@wordpress/element';
 import { List, Checkbox } from 'semantic-ui-react';
 import { getTermsAsOptions } from '../_shared/helpers';
 
@@ -19,6 +19,13 @@ const TreeItem = ({ name, url, termID, editMode }) => {
 const Tree = props => {
     const { label, term, taxonomy, editMode } = props;
 
+    let maxHeight = '100%';
+    let overflowY = 'auto';
+    if (true === editMode) {
+        maxHeight = '5em';
+        overflowY = 'scroll';
+    }
+
     useEffect(() => {
         console.log('Term Change');
         getTermsAsOptions(taxonomy).then(options => console.log(options));
@@ -26,35 +33,65 @@ const Tree = props => {
 
     // get
     return (
-        <List>
-            <List.Item>
-                <List.Header>{label}</List.Header>
-            </List.Item>
-            <List.Item>
-                <TreeItem
-                    name="Term 1"
-                    url="#"
-                    termID={1000}
-                    editMode={editMode}
-                />
-            </List.Item>
-            <List.Item>
-                <TreeItem
-                    name="Term 2"
-                    url="#"
-                    termID={1000}
-                    editMode={editMode}
-                />
-            </List.Item>
-            <List.Item>
-                <TreeItem
-                    name="Term 3"
-                    url="#"
-                    termID={1000}
-                    editMode={editMode}
-                />
-            </List.Item>
-        </List>
+        <Fragment>
+            <List>
+                <List.Item>
+                    <List.Header>{label}</List.Header>
+                </List.Item>
+                <List.Item>
+                    <List style={{ maxHeight, overflowY }}>
+                        <List.Item>
+                            <TreeItem
+                                name="Term 1"
+                                url="#"
+                                termID={1000}
+                                editMode={editMode}
+                            />
+                        </List.Item>
+                        <List.Item>
+                            <TreeItem
+                                name="Term 2"
+                                url="#"
+                                termID={1000}
+                                editMode={editMode}
+                            />
+                        </List.Item>
+                        <List.Item>
+                            <TreeItem
+                                name="Term 3"
+                                url="#"
+                                termID={1000}
+                                editMode={editMode}
+                            />
+                        </List.Item>
+                        <List.Item>
+                            <TreeItem
+                                name="Term 4"
+                                url="#"
+                                termID={1000}
+                                editMode={editMode}
+                            />
+                        </List.Item>
+                        <List.Item>
+                            <TreeItem
+                                name="Term 5"
+                                url="#"
+                                termID={1000}
+                                editMode={editMode}
+                            />
+                        </List.Item>
+                        <List.Item>
+                            <TreeItem
+                                name="Term 6"
+                                url="#"
+                                termID={1000}
+                                editMode={editMode}
+                            />
+                        </List.Item>
+                    </List>
+                </List.Item>
+            </List>
+        </Fragment>
     );
 };
 
