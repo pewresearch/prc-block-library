@@ -101,6 +101,7 @@ const edit = props => {
                         onChange={h => setAttributes({ header: h })} // Store updated content as a block attribute
                         placeholder="Facts are more important than ever." // Display this text before any content has been added by the user
                         formattingControls={[]}
+                        keepPlaceholderOnFocus
                     />
                     <RichText
                         tagName="div" // The tag here is the element output and editable in the admin
@@ -109,6 +110,8 @@ const edit = props => {
                         placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution." // Display this text before any content has been added by the user
                         // formattingControls={[]}
                         multiline="p"
+                        allowedFormats={['core/bold', 'core/italic']}
+                        keepPlaceholderOnFocus
                     />
                 </div>
                 <div className="action">
