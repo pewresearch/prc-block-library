@@ -29,12 +29,12 @@
 
     .action {
       .button {
-        font-size: 15px;
-        font-weight: 500;
+        font-size: 15px    !important;
+        font-weight: 500   !important;
         min-width: 120px;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
+        text-align: center !important;
+        margin-left: auto  !important;
+        margin-right: auto !important;
       }
       .block-editor-block-list__block {
         margin-top: 0;
@@ -48,7 +48,7 @@
     &.is-style-pancake-stacked {
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       text-align: left;
 
       .text {

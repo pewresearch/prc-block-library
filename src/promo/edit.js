@@ -15,14 +15,15 @@ const template = [['prc-block/button', { color: '#d3aa20', label: 'DONATE' }]];
 
 const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
     const bgDefaults = [
-        { name: 'oatmeal', color: '#F7F7F2' },
-        { name: 'gray', color: '#F8F8F8' },
-        { name: 'white', color: '#FFF' },
+        { name: 'Oatmeal', color: '#F7F7F2' },
+        { name: 'Gray', color: '#F8F8F8' },
+        { name: 'White', color: '#FFF' },
     ];
     const borderDefaults = [
-        { name: 'oatmeal', color: '#D5D5CD' },
-        { name: 'gray', color: '#D8D8D8' },
-        { name: 'black', color: '#000' },
+        { name: 'Oatmeal', color: '#D5D5CD' },
+        { name: 'Gray', color: '#D8D8D8' },
+        { name: 'White', color: '#FFF' },
+        { name: 'Black', color: '#000' },
     ];
 
     return (
@@ -77,10 +78,6 @@ const edit = props => {
     }
 
     const { header, description, bgColor, borderColor, pancake } = attributes;
-    let alignItems = null;
-    if (true === pancake) {
-        alignItems = 'flex-start';
-    }
     const classes = classNames(className, { pancake });
 
     return (
@@ -95,7 +92,6 @@ const edit = props => {
                 style={{
                     borderColor,
                     backgroundColor: bgColor,
-                    alignItems,
                 }}
             >
                 <div className="text">
