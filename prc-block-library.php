@@ -308,6 +308,28 @@ class PRC_Block_Library {
 			)
 		);
 
+		// Taxonomy Tree
+		$taxonomy_tree = $enqueue->register(
+			'taxonomy-tree',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		register_block_type(
+			'prc-block/taxonomy-tree',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $taxonomy_tree['js'] )['handle'],
+				'style'         => array_pop( $taxonomy_tree['css'] )['handle'],
+			)
+		);
+
 	}
 
 	/**
@@ -474,6 +496,24 @@ class PRC_Block_Library {
 		return $this->get_stub_post_by_post_url( $url, $site_id );
 	}
 
+	private function get_fact_tank_post_by_slug( $slug ) {
+		if ( ! is_string( $slug ) ) {
+			return false;
+		}
+		$args  = array(
+			'name'        => $slug,
+			'post_type'   => 'fact-tank',
+			'post_status' => 'publish',
+			'numberposts' => 1,
+		);
+		$posts = get_posts( $args );
+		if ( $posts ) {
+			return $posts[0]->ID;
+		} else {
+			return false;
+		}
+	}
+
 	public function get_stub_post_by_post_url( $url, $site_id ) {
 		$return = false;
 		if ( false == $site_id ) {
@@ -483,7 +523,15 @@ class PRC_Block_Library {
 		$current_site_id = get_current_blog_id();
 
 		switch_to_blog( $site_id );
-		$post_id = url_to_postid( $url );
+		// If url contains fact-tank right after the url then go get the slug and fetch post that way.
+		$test = 'http://pewresearch.local/fact-tank/2020/04/02/5-facts-about-partisan-reactions-to-covid-19-in-the-u-s/';
+		if ( false !== strpos( $url, '/fact-tank/' ) ) {
+			$slug    = basename( $url );
+			$post_id = $this->get_fact_tank_post_by_slug( $slug );
+		} else {
+			$post_id = url_to_postid( $url );
+		}
+
 		if ( 0 === $post_id ) {
 			return 'URL TO POSTID ' . $site_id . '-' . $url;
 		}

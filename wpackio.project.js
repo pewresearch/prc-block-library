@@ -138,6 +138,12 @@ module.exports = {
                 return merge(config, customRules);
             },
         },
+        {
+            name: 'taxonomy-tree',
+            entry: {
+                main: './src/taxonomy-tree/index.js',
+            },
+        },
         // If has more length, then multi-compiler
     ],
     // Output path relative to the context directory

@@ -19,6 +19,7 @@ class FactTankList extends Component {
 
 	render() {
 		const Logo = this.svgHeader;
+		this.props.size = 'large';
 		let readMoreLink = 'https://www.pewresearch.org/fact-tank';
 		if ( 1 !== window.siteID ) {
 			let args = { formats: 'fact-tank', programs: this.props.programSlug };
