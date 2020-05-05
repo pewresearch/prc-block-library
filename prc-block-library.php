@@ -101,8 +101,8 @@ class PRC_Block_Library {
 	 * @since 1.0.0
 	 */
 	public function register_block_assets() { // phpcs:ignore
-
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
+		$mailchimp = new PRC_API_Mailchimp( true );
+		$enqueue   = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 
 		// Story Item
 		$js_deps    = $this->js_deps;
@@ -183,58 +183,7 @@ class PRC_Block_Library {
 		wp_localize_script(
 			$follow_us_frontend_handle,
 			'prcMailchimpBlock', // Array containing dynamic data for a JS Global.
-			array(
-				'interests' => array(
-					array(
-						'label' => 'Alert: New Report - Internet',
-						'value' => '44312fd5fc',
-					),
-					array(
-						'label' => 'Alert: New Report - Hispanic',
-						'value' => '61521c863e',
-					),
-					array(
-						'label' => 'Alert: New Report - Social Trends',
-						'value' => '3836f62305',
-					),
-					array(
-						'label' => 'Daily: Daily Briefing - Journalism',
-						'value' => '1d2638430b',
-					),
-					array(
-						'label' => 'Daily: Daily Headlines - Religion',
-						'value' => '1a647764b2',
-					),
-					array(
-						'label' => 'Weekly Roundup',
-						'value' => '7c1390ba46',
-					),
-					array(
-						'label' => 'Weekly: Election 2020',
-						'value' => 'fa5fdbc701',
-					),
-					array(
-						'label' => 'Weekly: Religion',
-						'value' => 'a7d4f3268f',
-					),
-					array(
-						'label' => 'Bi-Weekly: Global',
-						'value' => '9203343b04',
-					),
-					array(
-						'label' => 'Monthly: Hispanic',
-						'value' => '0e7495c7b2',
-					),
-					array(
-						'label' => 'Monthly: Internet',
-						'value' => 'ea87b26abe',
-					),
-					array(
-						'label' => 'Monthly: Methods',
-						'value' => '6d1e80bbaf',
-					),
-				),
-			)
+			$mailchimp->get_interests(),
 		);
 		register_block_type(
 			'prc-block/follow-us',
@@ -242,6 +191,52 @@ class PRC_Block_Library {
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $follow_us['js'] )['handle'],
 				'script'        => $follow_us_frontend_handle,
+			)
+		);
+
+		// Mailchimp Form
+		$js_deps                        = $this->js_deps;
+		$mailchimp_form_block           = $enqueue->register(
+			'mailchimp-form',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$mailchimp_form_frontend        = $enqueue->register(
+			'mailchimp-form',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$mailchimp_form_block_script    = array_pop( $mailchimp_form_block['js'] )['handle'];
+		$mailchimp_form_frontend_script = array_pop( $mailchimp_form_frontend['js'] )['handle'];
+		// $mailchimp_form_style           = array_pop( $mailchimp_form_block['css'] )['handle'];
+		wp_localize_script(
+			$mailchimp_form_block_script,
+			'prcMailchimpForm', // Array containing dynamic data for a JS Global.
+			array(
+				'interests' => $mailchimp->get_interests(),
+			)
+		);
+		register_block_type(
+			'prc-block/mailchimp-form',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => $mailchimp_form_block_script,
+				'script'        => $mailchimp_form_frontend_script,
+				// 'style'         => $$mailchimp_form_style,
 			)
 		);
 

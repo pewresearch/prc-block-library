@@ -9,6 +9,7 @@
 
     border-width: 1px;
     border-style: solid;
+    border-color: #E2E2E2;
 
     &:first-child {
       margin-top: 0;
@@ -29,12 +30,13 @@
 
     .action {
       .button {
-        font-size: 15px    !important;
-        font-weight: 500   !important;
+        font-size: 15px        !important;
+        font-weight: 500       !important;
+        letter-spacing: 0.05em !important;
         min-width: 120px;
-        text-align: center !important;
-        margin-left: auto  !important;
-        margin-right: auto !important;
+        text-align: center     !important;
+        margin-left: auto      !important;
+        margin-right: auto     !important;
       }
       .block-editor-block-list__block {
         margin-top: 0;

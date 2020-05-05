@@ -55,6 +55,13 @@ module.exports = {
             },
         },
         {
+            name: 'mailchimp-form',
+            entry: {
+                main: './src/mailchimp-form/index.js',
+                frontend: './src/mailchimp-form/frontend.js',
+            },
+        },
+        {
             name: 'posts',
             entry: {
                 main: './src/posts/index.js',

@@ -29,6 +29,10 @@ const settings = [
                 name: 'pancake-stacked',
                 label: 'Pancake (Text Stacked)',
             },
+            {
+                name: 'pancake-form',
+                label: 'Pancake (Form)',
+            },
         ],
         supports: {
             html: false, // We do not want to give people the ability to edit the raw html of this block.

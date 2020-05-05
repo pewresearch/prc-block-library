@@ -10,7 +10,7 @@ import { Fragment } from '@wordpress/element';
 import classNames from 'classnames/bind';
 // import Icon from './icons';
 
-const allowedBlocks = ['prc-block/button'];
+const allowedBlocks = ['prc-block/button', 'prc-block/mailchimp-form'];
 const template = [['prc-block/button', { color: '#d3aa20', label: 'DONATE' }]];
 
 const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
@@ -20,7 +20,8 @@ const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
         { name: 'White', color: '#FFF' },
     ];
     const borderDefaults = [
-        { name: 'Oatmeal', color: '#D5D5CD' },
+        { name: 'Oatmeal', color: '#E2E2E2' },
+        // { name: 'Oatmeal (dark)', color: '#D5D5CD' },
         { name: 'Gray', color: '#D8D8D8' },
         { name: 'White', color: '#FFF' },
         { name: 'Black', color: '#000' },
@@ -57,13 +58,7 @@ const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
 };
 
 const edit = props => {
-    const {
-        attributes,
-        className,
-        isSelected,
-        clientId,
-        setAttributes,
-    } = props;
+    const { attributes, className, clientId, setAttributes } = props;
 
     // If width is greater than 640 then set to "pancake" (horizontal flex).
     const domBlock = document.querySelector(`[data-block="${clientId}"]`);
