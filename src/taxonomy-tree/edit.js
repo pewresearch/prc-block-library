@@ -10,7 +10,6 @@ import Tree from './tree';
 const edit = withState({
     terms: [],
 })(({ terms, attributes, setAttributes, isSelected, setState }) => {
-
     const { taxonomy, term, termsSelected } = attributes;
     // On initial load & taxonomy change:
 
@@ -19,7 +18,7 @@ const edit = withState({
         console.log('Taxonomy Change');
         if (false !== taxonomy) {
             // eslint-disable-next-line prettier/prettier
-            getTermsAsOptions(taxonomy).then(options =>
+            getTermsAsOptions(taxonomy, 50).then(options =>
                     // eslint-disable-next-line function-paren-newline
                     setState({ terms: options }),
                 // eslint-disable-next-line function-paren-newline
@@ -59,17 +58,17 @@ const edit = withState({
             {false !== term && <h2>{term}</h2>}
             {false !== taxonomy && false !== term && (
                 <Fragment>
-                    <Tree label="Key Topics" taxonomy={taxonomy} term={term} editMode={isSelected} />
+                    <Tree
+                        label="Key Topics"
+                        taxonomy={taxonomy}
+                        term={term}
+                        editMode={isSelected}
+                        termsSelected={termsSelected}
+                        setData={setAttributes}
+                    />
+                    <InnerBlocks />
                 </Fragment>
             )}
-            {false !== setAttributes && (
-                // What we need here is a new block called inner-tree-list, it will contain a richtext label and then a tree in itself, passed down into the block attributes for this will be termsToExclude.
-                // <InnerBlocks allowedBlocks={allowedBlocks} />
-                // State where isDisplay is false but alsoe set attribute is false. Internal save mode. But what we ultimately need is a flag "hasInnerBlocks
-            )}
-            {/* {false === setAttributes && false === isSelected && (
-                <InnerBlocks.Content />
-            )} */}
         </Fragment>
     );
 });

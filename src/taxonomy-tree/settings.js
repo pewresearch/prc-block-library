@@ -24,6 +24,9 @@ const settings = [
                 type: 'string',
                 default: false,
             },
+            termsSelected: {
+                type: 'array',
+            },
         },
         edit,
         save,

@@ -7,28 +7,48 @@ import { getTermsAsOptions } from '../_shared/helpers';
 // Now how do we get the termsSelected and moreTermsSelected fed up to a total list of termsToExclude whenever we're calling this tree. SO after the key topics tree is built and we add additional sub headers those trees would be called with terms to exclude and when it received that it would pre-remove the terms to exclude that matched its termsSelected or moreTermsSelected...
 // Maybe we could use the block context api so that this tree could become a block and provide context up higher? then in the main tree view we would have a master termsToExclude data attribute.
 
-const TreeItem = ({ name, url, termID, editMode }) => {
+const TreeItem = ({ name, url, termID, editMode, termsSelected, setData }) => {
+    let checked = false;
+    if (undefined !== termsSelected && termsSelected.includes(termID)) {
+        checked = true;
+    }
     return (
         <Fragment>
-            {true === editMode && <Checkbox label={name} />}
+            {true === editMode && (
+                <Checkbox
+                    label={name}
+                    defaultChecked={checked}
+                    onChange={e => {
+                        console.log(`Clicked ${termID}`);
+                        console.log('Existing Selected Terms:');
+                        console.log(termsSelected);
+
+                        let t = termsSelected;
+                        if (undefined !== termsSelected) {
+                            t.push(termID);
+                        } else {
+                            t = [termID];
+                        }
+                        setData({ termsSelected: t });
+                    }}
+                />
+            )}
             {false === editMode && <a href={url}>{name}</a>}
         </Fragment>
     );
 };
 
-const Tree = props => {
-    const { label, term, taxonomy, editMode } = props;
-
+const Tree = ({ label, term, taxonomy, termsSelected, editMode, setData }) => {
     let maxHeight = '100%';
     let overflowY = 'auto';
     if (true === editMode) {
-        maxHeight = '5em';
+        maxHeight = '7.15em';
         overflowY = 'scroll';
     }
 
     useEffect(() => {
         console.log('Term Change');
-        getTermsAsOptions(taxonomy).then(options => console.log(options));
+        // getTermsAsOptions(taxonomy).then(options => console.log(options));
     }, [term]);
 
     // get
@@ -46,14 +66,18 @@ const Tree = props => {
                                 url="#"
                                 termID={1000}
                                 editMode={editMode}
+                                termsSelected={termsSelected}
+                                setData={setData}
                             />
                         </List.Item>
                         <List.Item>
                             <TreeItem
                                 name="Term 2"
                                 url="#"
-                                termID={1000}
+                                termID={10001}
                                 editMode={editMode}
+                                termsSelected={termsSelected}
+                                setData={setData}
                             />
                         </List.Item>
                         <List.Item>

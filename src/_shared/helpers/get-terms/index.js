@@ -1,5 +1,8 @@
 // @TODO: convert froomo wp api to apifetch https://www.npmjs.com/package/@wordpress/api-fetch
-const getTerms = taxonomy => {
+const getTerms = (taxonomy, perPage) => {
+    if (undefined === perPage) {
+        perPage = 25;
+    }
     const collection = new wp.api.collections[taxonomy]();
     if (undefined === collection) {
         return false;
@@ -8,7 +11,7 @@ const getTerms = taxonomy => {
         const data = {};
         collection
             .fetch({
-                data: { hide_empty: false, per_page: 25 },
+                data: { hide_empty: false, per_page: perPage },
             })
             .then(terms => {
                 for (let index = 0; index < terms.length; index++) {
@@ -27,9 +30,9 @@ const getTerms = taxonomy => {
     });
 };
 
-const getTermsAsOptions = taxonomy => {
+const getTermsAsOptions = (taxonomy, perPage) => {
     return new Promise(resolve => {
-        getTerms(taxonomy).then(data => {
+        getTerms(taxonomy, perPage).then(data => {
             const labelOptions = [];
 
             Object.keys(data).forEach(key => {
