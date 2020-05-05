@@ -5,16 +5,13 @@ import { SelectControl } from '@wordpress/components';
 import { RichText, InnerBlocks } from '@wordpress/block-editor';
 import { getTermsAsOptions } from '../_shared/helpers';
 
-const allowedBlocks = [
-    'core/heading',
-];
-
 import Tree from './tree';
 
 const edit = withState({
     terms: [],
-})(({ attributes, setAttributes, isSelected, setState, terms }) => {
-    const { taxonomy, term } = attributes;
+})(({ terms, attributes, setAttributes, isSelected, setState }) => {
+
+    const { taxonomy, term, termsSelected } = attributes;
     // On initial load & taxonomy change:
 
     // Watch for initial change on taxonomy... once that AND the term are set these should be locked, if you want to undo then you should delete and start over I say.
@@ -67,7 +64,7 @@ const edit = withState({
             )}
             {false !== setAttributes && (
                 // What we need here is a new block called inner-tree-list, it will contain a richtext label and then a tree in itself, passed down into the block attributes for this will be termsToExclude.
-                <InnerBlocks allowedBlocks={allowedBlocks} />
+                // <InnerBlocks allowedBlocks={allowedBlocks} />
                 // State where isDisplay is false but alsoe set attribute is false. Internal save mode. But what we ultimately need is a flag "hasInnerBlocks
             )}
             {/* {false === setAttributes && false === isSelected && (
