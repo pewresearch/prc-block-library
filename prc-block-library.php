@@ -183,7 +183,7 @@ class PRC_Block_Library {
 		wp_localize_script(
 			$follow_us_frontend_handle,
 			'prcMailchimpBlock', // Array containing dynamic data for a JS Global.
-			$mailchimp->get_interests(),
+			$mailchimp->get_interests()
 		);
 		register_block_type(
 			'prc-block/follow-us',
