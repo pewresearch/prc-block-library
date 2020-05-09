@@ -14,6 +14,7 @@
     "@wordpress/plugins": "^2.10.0",
     "@wordpress/url": "^2.10.0",
     "@wpackio/scripts": "^4.3.0",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "url-loader": "^3.0.0"
@@ -27,6 +28,7 @@
   "dependencies": {
     "@wpackio/entrypoint": "^4.3.0",
     "classnames": "^2.2.6",
+    "num-words": "^1.2.0",
     "react-responsive-picture": "^3.2.2",
     "semantic-ui-react": "^0.88.2"
   }

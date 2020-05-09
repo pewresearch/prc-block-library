@@ -150,6 +150,28 @@ class PRC_Block_Library {
 			)
 		);
 
+		// Columns
+		$columns = $enqueue->register(
+			'columns',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		register_block_type(
+			'prc-block/columns',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $columns['js'] )['handle'],
+				'style'         => array_pop( $columns['css'] )['handle'],
+			)
+		);
+
 		// Follow Us
 		$js_deps                   = $this->js_deps;
 		$follow_us                 = $enqueue->register(

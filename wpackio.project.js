@@ -48,6 +48,12 @@ module.exports = {
             },
         },
         {
+            name: 'columns',
+            entry: {
+                main: './src/columns/index.js',
+            },
+        },
+        {
             name: 'follow-us',
             entry: {
                 main: './src/follow-us/index.js',

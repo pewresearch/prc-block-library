@@ -1,6 +1,6 @@
 {
-  "default~frontend~main.css": "posts/default~frontend~main-82f84c3f.css",
-  "default~frontend~main.css.map": "posts/default~frontend~main-82f84c3f.css.map",
+  "default~frontend~main.css": "posts/default~frontend~main-1532556c.css",
+  "default~frontend~main.css.map": "posts/default~frontend~main-1532556c.css.map",
   "default~frontend~main.js": "posts/default~frontend~main-f3210ff3.js",
   "default~frontend~main.js.map": "posts/default~frontend~main-f3210ff3.js.map",
   "frontend.js": "posts/frontend-50f284ee.js",
@@ -26,10 +26,10 @@
         "posts/main-3a0d8b5e.js.map"
       ],
       "css": [
-        "posts/default~frontend~main-82f84c3f.css"
+        "posts/default~frontend~main-1532556c.css"
       ],
       "css.map": [
-        "posts/default~frontend~main-82f84c3f.css.map"
+        "posts/default~frontend~main-1532556c.css.map"
       ]
     },
     "frontend": {
@@ -46,10 +46,10 @@
         "posts/frontend-50f284ee.js.map"
       ],
       "css": [
-        "posts/default~frontend~main-82f84c3f.css"
+        "posts/default~frontend~main-1532556c.css"
       ],
       "css.map": [
-        "posts/default~frontend~main-82f84c3f.css.map"
+        "posts/default~frontend~main-1532556c.css.map"
       ]
     }
   }
