@@ -2,7 +2,7 @@
 import { __ } from '@wordpress/i18n';
 import edit from './edit';
 import save from './save';
-import variations from './variations';
+import variations from './standard-variations';
 
 const settings = [
     'prc-block/columns',

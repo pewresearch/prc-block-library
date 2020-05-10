@@ -54,8 +54,8 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [
-			[ 'prc-block/column', { width: 6 } ],
-			[ 'prc-block/column', { width: 10 } ],
+			[ 'prc-block/column', { width: 6, innerBlocks: [ ['core/paragraph', { content: 'Hello' } ] ] } ],
+			[ 'prc-block/column', { width: 10, innerBlocks: [ ['core/paragraph', { content: 'Hello' } ] ] } ],
 		],
 		scope: [ 'block' ],
 	},
@@ -111,6 +111,30 @@ const variations = [
 		name: 'three-columns-wider-center',
 		title: __( '25 / 50 / 25' ),
 		description: __( 'Three columns; wide center column' ),
+		icon: (
+			<SVG
+				width="48"
+				height="48"
+				viewBox="0 0 48 48"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<Path
+					fillRule="evenodd"
+					d="M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM31 34H17V14h14v20zm2 0V14h6v20h-6zm-18 0H9V14h6v20z"
+				/>
+			</SVG>
+		),
+		innerBlocks: [
+			[ 'prc-block/column', { width: 4 } ],
+			[ 'prc-block/column', { width: 8 } ],
+			[ 'prc-block/column', { width: 4 } ],
+		],
+		scope: [ 'block' ],
+	},
+	{
+		name: 'three-lede',
+		title: __( 'Three Story Lede' ),
+		description: __( 'Three columns; one wide, one split into two interior columns' ),
 		icon: (
 			<SVG
 				width="48"

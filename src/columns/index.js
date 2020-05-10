@@ -1,6 +1,10 @@
 import { registerBlockType } from '@wordpress/blocks';
-import settings from './settings';
+import standardSettings from './standard-settings';
+import ledeSettings from './lede-settings';
 
 import './blocks/';
 
-registerBlockType(...settings);
+// Register Standard Columns Block
+registerBlockType(...standardSettings);
+// Register "Child" Lede Columns Block
+registerBlockType(...ledeSettings);

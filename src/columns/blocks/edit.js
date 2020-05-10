@@ -7,7 +7,7 @@ const edit = ({attributes, setAttributes}) => {
     console.log(numWords(width));
     return(
         <div className='prc blocks column'>
-            <InnerBlocks/>
+            <InnerBlocks templateLock={false}/>
         </div>
     );
 }

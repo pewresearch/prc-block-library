@@ -58,7 +58,7 @@ const edit = props => {
     if ( hasInnerBlocks ) {
         return(
             <div className='prc blocks columns'>
-                <InnerBlocks allowedBlocks={ ALLOWED_BLOCKS }/>
+                <InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } templateLock="insert"/>
             </div>
         )
     }

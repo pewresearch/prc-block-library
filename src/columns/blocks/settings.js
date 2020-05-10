@@ -21,7 +21,7 @@ const settings = [
                 default: 0,
             },
         },
-        parent: [ 'prc-block/columns' ],
+        parent: [ 'prc-block/columns', 'prc-block/lede-layout' ],
         // inserter: false,
         edit,
         save,
