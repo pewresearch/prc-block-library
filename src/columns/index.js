@@ -1,6 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
-import standardSettings from './standard-settings';
-import ledeSettings from './lede-settings';
+import standardSettings from './settings/standard';
+import ledeSettings from './settings/lede';
 
 import './blocks/';
 

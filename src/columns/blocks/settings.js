@@ -20,6 +20,15 @@ const settings = [
                 type: 'integer',
                 default: 0,
             },
+            // Is this column comprised of story items
+            items: {
+                type: 'boolean',
+                default: false,
+            },
+            divided: {
+                type: 'boolean',
+                default: false,
+            }
         },
         parent: [ 'prc-block/columns', 'prc-block/lede-layout' ],
         // inserter: false,

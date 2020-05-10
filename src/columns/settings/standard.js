@@ -1,8 +1,8 @@
 
 import { __ } from '@wordpress/i18n';
-import edit from './edit';
-import save from './save';
-import variations from './standard-variations';
+import edit from '../edit';
+import save from '../save';
+import variations from '../variations/standard';
 
 const settings = [
     'prc-block/columns',

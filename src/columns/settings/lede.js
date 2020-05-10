@@ -1,8 +1,8 @@
 
 import { __ } from '@wordpress/i18n';
-import edit from './edit';
-import save from './save';
-import variations from './lede-variations';
+import edit from '../edit';
+import save from '../save';
+import variations from '../variations/lede';
 
 const settings = [
     'prc-block/lede-layout',
