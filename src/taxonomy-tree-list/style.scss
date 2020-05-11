@@ -1,0 +1,11 @@
+div[data-type="prc-block/taxonomy-tree-list"] {
+    margin-top: 1em!important;
+    & > ul {
+        width: 70%;
+    }
+    &:hover {
+        & > ul {
+            border-right: 1px dashed #eaeaea;
+        }
+    }
+}

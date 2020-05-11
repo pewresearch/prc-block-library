@@ -32,6 +32,9 @@ const variations = [
 			</SVG>
 		),
 		isDefault: true,
+		attributes: {
+			equal: true,
+		},
 		innerBlocks: [ 
 			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
 			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ]
@@ -57,8 +60,8 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [
-			[ 'prc-block/column', { width: 6, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { width: 10, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
+			[ 'prc-block/column', { width: 5, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
+			[ 'prc-block/column', { width: 11, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
 		],
 		scope: [ 'block' ],
 	},
@@ -81,8 +84,8 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [
-			[ 'prc-block/column', { width: 10, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { width: 6, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
+			[ 'prc-block/column', { width: 11, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
+			[ 'prc-block/column', { width: 5, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
 		],
 		scope: [ 'block' ],
 	},
@@ -103,6 +106,9 @@ const variations = [
 				/>
 			</SVG>
 		),
+		attributes: {
+			equal: true,
+		},
 		innerBlocks: [
 			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
 			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],

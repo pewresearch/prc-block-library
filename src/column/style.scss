@@ -1,0 +1,7 @@
+.prc.blocks.column {
+    border: 1px dashed #FFF;
+    min-height: 50px;
+    &:hover {
+        border-color: #EAEAEA;
+    }
+}

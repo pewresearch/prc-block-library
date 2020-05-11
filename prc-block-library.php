@@ -168,7 +168,29 @@ class PRC_Block_Library {
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $columns['js'] )['handle'],
-				'style'         => array_pop( $columns['css'] )['handle'],
+				'editor_style'         => array_pop( $columns['css'] )['handle'],
+			)
+		);
+
+		// Column
+		$column = $enqueue->register(
+			'column',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		register_block_type(
+			'prc-block/column',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $column['js'] )['handle'],
+				'editor_style'         => array_pop( $column['css'] )['handle'],
 			)
 		);
 
@@ -349,6 +371,41 @@ class PRC_Block_Library {
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $taxonomy_tree['js'] )['handle'],
 				'style'         => array_pop( $taxonomy_tree['css'] )['handle'],
+			)
+		);
+
+		// Taxonomy Tree List
+		$tax_tree_list = $enqueue->register(
+			'taxonomy-tree-list',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$tax_tree_list_frontend = $enqueue->register(
+			'taxonomy-tree-list',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		register_block_type(
+			'prc-block/taxonomy-tree-list',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $tax_tree_list['js'] )['handle'],
+				'script'        => array_pop( $tax_tree_list_frontend['js'] )['handle'],
+				'style'         => array_pop( $tax_tree_list['css'] )['handle'],
 			)
 		);
 

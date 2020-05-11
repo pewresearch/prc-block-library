@@ -26,7 +26,8 @@ const createBlocksFromInnerBlocksTemplate = ( innerBlocksTemplate ) => {
 };
 
 const edit = props => {
-    const { className, clientId, name } = props;
+	const { attributes, className, clientId, name } = props;
+	const { equal } = attributes;
     // We get some information when the block's internal state changes.
     const {
 		blockType,
@@ -57,9 +58,11 @@ const edit = props => {
 
     if ( hasInnerBlocks ) {
         return(
-            <div className={'prc blocks columns '+className}>
+			<div className={'prc-block-columns-edit'}>
+            <div className={'prc blocks columns'}>
                 <InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } templateLock="insert"/>
             </div>
+			</div>
         )
     }
     

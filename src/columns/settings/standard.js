@@ -10,7 +10,7 @@ const settings = [
         title: __('Columns'),
         description: '.',
         category: 'layout',
-        icon: 'grid',
+        icon: 'layout',
         keywords: [__('Columns'), __('Column')],
         supports: {
             html: false,
@@ -22,6 +22,10 @@ const settings = [
             size: {
                 type: 'string',
                 default: ''
+            },
+            equal: {
+                type: 'boolean',
+                default: false,
             },
         },
         edit,
