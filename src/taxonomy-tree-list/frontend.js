@@ -11,11 +11,12 @@ const viewMoreHandler = function() {
             continue;
         }
         readMore.addEventListener('click', function() {
-            console.log('clicking read more');
             const { display } = readMore.nextElementSibling.style;
             if ('none' === display) {
+                readMore.innerHTML = "View Less";
                 readMore.nextElementSibling.style.display = 'inherit';
             } else {
+                readMore.innerHTML = "View More";
                 readMore.nextElementSibling.style.display = 'none';
             }
         });
