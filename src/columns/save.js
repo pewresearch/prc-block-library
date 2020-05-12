@@ -7,7 +7,7 @@ const save = ({attributes}) => {
     return(
         <Fragment>
             { true === equal && (
-                <Grid columns="equal"><InnerBlocks.Content/></Grid>
+                <Grid columns="equal" stackable><InnerBlocks.Content/></Grid>
             )}
             { false === equal && (
                 <Grid><InnerBlocks.Content/></Grid>

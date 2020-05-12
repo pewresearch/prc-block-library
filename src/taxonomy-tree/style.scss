@@ -1,7 +1,14 @@
 .wp-block-prc-block-taxonomy-tree {
     border-bottom: 1px solid #DEDEDF;
-    padding-top: 2.1875em;
-    padding-bottom: 2.1875em;
+    &:first-child {
+        padding-top: 0;
+    }
+    padding-top: 1.074em;
+    padding-bottom: 1.074em;
+    @media only screen and (min-width: 541px) {
+        padding-top: 2.1875em;
+        padding-bottom: 2.1875em;
+    }
     .title {
         display: flex;
         flex-direction: row;
