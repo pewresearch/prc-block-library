@@ -1,0 +1,38 @@
+{
+  "frontend.js": "taxonomy-tree-list/frontend-a12823c4.js",
+  "frontend.js.map": "taxonomy-tree-list/frontend-a12823c4.js.map",
+  "main.css": "taxonomy-tree-list/main-e2a72ba1.css",
+  "main.css.map": "taxonomy-tree-list/main-e2a72ba1.css.map",
+  "main.js": "taxonomy-tree-list/main-5898f3e4.js",
+  "main.js.map": "taxonomy-tree-list/main-5898f3e4.js.map",
+  "runtime.js": "taxonomy-tree-list/runtime-9aebaf46.js",
+  "runtime.js.map": "taxonomy-tree-list/runtime-9aebaf46.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "taxonomy-tree-list/runtime-9aebaf46.js",
+        "taxonomy-tree-list/main-5898f3e4.js"
+      ],
+      "js.map": [
+        "taxonomy-tree-list/runtime-9aebaf46.js.map",
+        "taxonomy-tree-list/main-5898f3e4.js.map"
+      ],
+      "css": [
+        "taxonomy-tree-list/main-e2a72ba1.css"
+      ],
+      "css.map": [
+        "taxonomy-tree-list/main-e2a72ba1.css.map"
+      ]
+    },
+    "frontend": {
+      "js": [
+        "taxonomy-tree-list/runtime-9aebaf46.js",
+        "taxonomy-tree-list/frontend-a12823c4.js"
+      ],
+      "js.map": [
+        "taxonomy-tree-list/runtime-9aebaf46.js.map",
+        "taxonomy-tree-list/frontend-a12823c4.js.map"
+      ]
+    }
+  }
+}

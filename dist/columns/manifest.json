@@ -1,0 +1,30 @@
+{
+  "main.css": "columns/main-502d3710.css",
+  "main.css.map": "columns/main-502d3710.css.map",
+  "main.js": "columns/main-9965e765.js",
+  "main.js.map": "columns/main-9965e765.js.map",
+  "runtime.js": "columns/runtime-9898f2b3.js",
+  "runtime.js.map": "columns/runtime-9898f2b3.js.map",
+  "vendors~main.js": "columns/vendors~main-84e22d01.js",
+  "vendors~main.js.map": "columns/vendors~main-84e22d01.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "columns/runtime-9898f2b3.js",
+        "columns/vendors~main-84e22d01.js",
+        "columns/main-9965e765.js"
+      ],
+      "js.map": [
+        "columns/runtime-9898f2b3.js.map",
+        "columns/vendors~main-84e22d01.js.map",
+        "columns/main-9965e765.js.map"
+      ],
+      "css": [
+        "columns/main-502d3710.css"
+      ],
+      "css.map": [
+        "columns/main-502d3710.css.map"
+      ]
+    }
+  }
+}

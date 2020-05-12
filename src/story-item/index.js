@@ -307,6 +307,8 @@ registerBlockType('prc-block/story-item', {
         },
         date: {
             type: 'string',
+            source: 'html',
+            selector: '.date',
             default: todaysDate(),
         },
         // Images

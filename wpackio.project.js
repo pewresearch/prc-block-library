@@ -48,6 +48,18 @@ module.exports = {
             },
         },
         {
+            name: 'columns',
+            entry: {
+                main: './src/columns/index.js',
+            },
+        },
+        {
+            name: 'column',
+            entry: {
+                main: './src/column/index.js',
+            },
+        },
+        {
             name: 'follow-us',
             entry: {
                 main: './src/follow-us/index.js',
@@ -136,6 +148,19 @@ module.exports = {
 
                 // merge and return
                 return merge(config, customRules);
+            },
+        },
+        {
+            name: 'taxonomy-tree',
+            entry: {
+                main: './src/taxonomy-tree/index.js',
+            },
+        },
+        {
+            name: 'taxonomy-tree-list',
+            entry: {
+                main: './src/taxonomy-tree-list/index.js',
+                frontend: './src/taxonomy-tree-list/frontend.js',
             },
         },
         // If has more length, then multi-compiler

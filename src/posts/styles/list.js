@@ -7,9 +7,9 @@ class PostsList extends Component {
 		super(props);
 	}
 
-	posts({loaded, setState, clientID, data, disableLink}){
+	posts({data, disableLink, size}){
 		return(
-			<List relaxed="very" link divided>
+			<List relaxed="very" link divided size={size}>
 			{ false !== data && data.map((item, index) => {
 				if ( true === disableLink ) {
 					return <List.Item><span className="meta">{item.date}</span><RawHTML>{item.title}</RawHTML></List.Item>
@@ -23,9 +23,13 @@ class PostsList extends Component {
 
 	render() {
 		const Posts = this.posts;
+		let size = 'medium';
+		if ( this.props.size === 'large' ) {
+			size = 'large';
+		}
 		return(
 			<Fragment>
-				<Posts data={this.props.posts} disableLink={this.props.disableLink}/>
+				<Posts data={this.props.posts} disableLink={this.props.disableLink} size={size}/>
 			</Fragment>
 		)
 	}	

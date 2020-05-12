@@ -11,12 +11,15 @@
     "@wordpress/edit-post": "^3.11.0",
     "@wordpress/element": "^2.10.0",
     "@wordpress/i18n": "^3.8.0",
+    "@wordpress/icons": "^1.4.0",
     "@wordpress/plugins": "^2.10.0",
     "@wordpress/url": "^2.10.0",
     "@wpackio/scripts": "^4.3.0",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
-    "url-loader": "^3.0.0"
+    "url-loader": "^3.0.0",
+    "webpack-build-notifier": "^2.0.0"
   },
   "scripts": {
     "bootstrap": "wpackio-scripts bootstrap",
@@ -27,6 +30,7 @@
   "dependencies": {
     "@wpackio/entrypoint": "^4.3.0",
     "classnames": "^2.2.6",
+    "num-words": "^1.2.0",
     "react-responsive-picture": "^3.2.2",
     "semantic-ui-react": "^0.88.2"
   }
