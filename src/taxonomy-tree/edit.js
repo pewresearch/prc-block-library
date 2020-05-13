@@ -11,7 +11,6 @@ const edit = ({ attributes, className, setAttributes }) => {
             <ListTitle heading={heading} setAttributes={setAttributes}/>
             <InnerBlocks
                 allowedBlocks={ALLOWED_BLOCKS}
-                // __experimentalCaptureToolbars
             />
         </div>
     );
