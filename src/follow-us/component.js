@@ -99,14 +99,14 @@ class FollowUs extends Component {
 
 		const isSelected = ( ID ) => {
 			let newsletters = this.state.selected;
-			if ( newsletters.includes(ID) ) {
+			if ( newsletters.includes(ID) ) { 
 				return true;
 			} else {
 				return false;
 			}
 		}
 
-		let newsletters = window.prcMailchimpBlock.interests;
+		let newsletters = window.prcMailchimpBlock;
 
 		return(
 			<Fragment>
@@ -123,7 +123,7 @@ class FollowUs extends Component {
 
 	render = () => {
 		let classes = classNames(this.props.className, 'inverted', 'beige');
-		const newsletters = window.prcMailchimpBlock.interests;
+		const newsletters = window.prcMailchimpBlock;
 		const SelectNewsletters = this.selectNewsletters;
 		return(
 			<Card fluid className={classes} style={{marginBottom: '35px'}}>
