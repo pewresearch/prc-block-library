@@ -5,6 +5,9 @@ const treeCollapseHandler = function() {
         return;
     }
     for (let block of blocks) {
+        if ( block.parentElement.classList.contains('block-editor-block-list__block') ) {
+            continue;
+        }
         const title = block.querySelector('.title');
         const content = block.querySelector('.content');
         if ( undefined === title ) {
