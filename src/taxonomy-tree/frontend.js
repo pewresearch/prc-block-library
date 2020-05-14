@@ -13,21 +13,30 @@ const treeCollapseHandler = function() {
             continue;
         }
         const title = block.querySelector('.title');
-        const content = block.querySelector('.content');
         if ( undefined === title ) {
             continue;
         }
         if ( null === title ) {
             continue;
         }
+
+        const content = block.querySelector('.content');
+       
         const linkCheck = title.querySelector('a');
-        let titleLink = false;
-        console.log(linkCheck);
         if ( null !== linkCheck ) {
-            console.log('removing href');
-            titleLink = linkCheck.getAttribute('href');
-            console.log('link : '+titleLink);
-            linkCheck.removeAttribute('href');
+            let titleLink = linkCheck.getAttribute('href');
+            let h2 = title.querySelector('h2');
+            // Replace The Title
+            h2.innerHTML = linkCheck.innerHTML;
+
+            // Create New Link
+            let newLink = document.createElement("a");
+            newLink.innerHTML = 'View all ' + linkCheck.innerHTML + ' publications.';
+            newLink.setAttribute('href', titleLink);
+            newLink.classList.add('sans-serif');
+            content.prepend(newLink);  
+
+            linkCheck.remove();
         }
         title.addEventListener('click', function(e) {
             e.stopPropagation(); // Short-circuit any links
