@@ -1,4 +1,8 @@
 const treeCollapseHandler = function() {
+    // If viewport is greater than mobile threshold disable
+    if ( 541 <= window.innerWidth ) {
+        return;
+    }
     const animation = 'fade';
     const blocks = document.querySelectorAll('.wp-block-prc-block-taxonomy-tree');
     if ( undefined === blocks ) {
@@ -17,9 +21,14 @@ const treeCollapseHandler = function() {
             continue;
         }
         const linkCheck = title.querySelector('a');
-        // if ( undefined !== linkCheck || null !== linkCheck ) {
-        //     linkCheck.removeAttribute('href');
-        // }
+        let titleLink = false;
+        console.log(linkCheck);
+        if ( null !== linkCheck ) {
+            console.log('removing href');
+            titleLink = linkCheck.getAttribute('href');
+            console.log('link : '+titleLink);
+            linkCheck.removeAttribute('href');
+        }
         title.addEventListener('click', function(e) {
             e.stopPropagation(); // Short-circuit any links
             const { display } = content.style;
