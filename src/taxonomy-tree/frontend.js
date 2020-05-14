@@ -31,7 +31,7 @@ const treeCollapseHandler = function() {
 
             // Create New Link
             let newLink = document.createElement("a");
-            newLink.innerHTML = 'View all ' + linkCheck.innerHTML + ' publications.';
+            newLink.innerHTML = 'View all ' + linkCheck.innerHTML + ' publications';
             newLink.setAttribute('href', titleLink);
             newLink.classList.add('sans-serif');
             content.prepend(newLink);  
