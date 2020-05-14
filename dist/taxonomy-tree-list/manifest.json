@@ -1,6 +1,6 @@
 {
-  "frontend.js": "taxonomy-tree-list/frontend-a706e34b.js",
-  "frontend.js.map": "taxonomy-tree-list/frontend-a706e34b.js.map",
+  "frontend.js": "taxonomy-tree-list/frontend-0aba4eb8.js",
+  "frontend.js.map": "taxonomy-tree-list/frontend-0aba4eb8.js.map",
   "main.css": "taxonomy-tree-list/main-e2a72ba1.css",
   "main.css.map": "taxonomy-tree-list/main-e2a72ba1.css.map",
   "main.js": "taxonomy-tree-list/main-5898f3e4.js",
@@ -27,11 +27,11 @@
     "frontend": {
       "js": [
         "taxonomy-tree-list/runtime-9aebaf46.js",
-        "taxonomy-tree-list/frontend-a706e34b.js"
+        "taxonomy-tree-list/frontend-0aba4eb8.js"
       ],
       "js.map": [
         "taxonomy-tree-list/runtime-9aebaf46.js.map",
-        "taxonomy-tree-list/frontend-a706e34b.js.map"
+        "taxonomy-tree-list/frontend-0aba4eb8.js.map"
       ]
     }
   }

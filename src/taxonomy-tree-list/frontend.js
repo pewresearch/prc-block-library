@@ -5,6 +5,9 @@ const viewMoreHandler = function() {
         return;
     }
     for (let list of termLists) {
+        if ( list.parentElement.classList.contains('block-editor-block-list__block') ) {
+            continue;
+        }
         const readMore = list.querySelector('.read-more');
         if ( undefined === readMore ) {
             continue;
