@@ -77,12 +77,6 @@ const edit = ({ attributes, isSelected, setAttributes }) => {
                         <div className="read-more">
                             View More
                         </div>
-                        <RichText.Content
-                            tagName="ul"
-                            className="list hidden-list"
-                            value={moreList}
-                            style={{ display: 'none' }}
-                        />
                     </li>
                 )}
             </ul>

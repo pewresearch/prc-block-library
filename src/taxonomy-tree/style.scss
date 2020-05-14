@@ -16,6 +16,10 @@
         @media only screen and (max-width: 540px) {
             align-items: flex-start;
         }
+        a {
+            color: black !important;
+            text-decoration: none;
+        }
         h1,h2,h3 {
             margin: 0;
             @media only screen and (max-width: 540px) {

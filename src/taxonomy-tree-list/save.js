@@ -33,7 +33,6 @@ const save = ({ attributes }) => {
                             tagName="ul"
                             className="list hidden-list"
                             value={moreList}
-                            style={{ display: 'none' }}
                         />
                     </li>
                 )}

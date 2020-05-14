@@ -19,10 +19,12 @@ const viewMoreHandler = function() {
             const { display } = readMore.nextElementSibling.style;
             if ('none' === display) {
                 readMore.innerHTML = "View Less";
-                readMore.nextElementSibling.style.display = 'inherit';
+                jQuery(readMore.nextElementSibling).transition('slide up');
+                // readMore.nextElementSibling.style.display = 'inherit';
             } else {
                 readMore.innerHTML = "View More";
-                readMore.nextElementSibling.style.display = 'none';
+                jQuery(readMore.nextElementSibling).transition('slide down');
+                // readMore.nextElementSibling.style.display = 'none';
             }
         });
     }
