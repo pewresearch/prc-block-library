@@ -365,12 +365,25 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+		$taxonomy_tree_frontend = $enqueue->register(
+			'taxonomy-tree',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/taxonomy-tree',
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $taxonomy_tree['js'] )['handle'],
 				'style'         => array_pop( $taxonomy_tree['css'] )['handle'],
+				'script'        => array_pop( $taxonomy_tree_frontend['js'] )['handle'],
 			)
 		);
 

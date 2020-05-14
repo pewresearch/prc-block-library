@@ -9,9 +9,11 @@ const edit = ({ attributes, className, setAttributes }) => {
     return (
         <div className={className}>
             <ListTitle heading={heading} setAttributes={setAttributes}/>
-            <InnerBlocks
-                allowedBlocks={ALLOWED_BLOCKS}
-            />
+            <div class="content">
+                <InnerBlocks
+                    allowedBlocks={ALLOWED_BLOCKS}
+                />
+            </div>
         </div>
     );
 };

@@ -154,6 +154,7 @@ module.exports = {
             name: 'taxonomy-tree',
             entry: {
                 main: './src/taxonomy-tree/index.js',
+                frontend: './src/taxonomy-tree/frontend.js',
             },
         },
         {

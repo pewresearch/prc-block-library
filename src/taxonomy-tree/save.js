@@ -7,7 +7,9 @@ const save = ({ attributes, className }) => {
     return (
         <div className={className}>
             <ListTitle heading={heading} setAttributes={false}/>
-            <InnerBlocks.Content />
+            <div class="content">
+                <InnerBlocks.Content />
+            </div>
         </div>
     );
 };

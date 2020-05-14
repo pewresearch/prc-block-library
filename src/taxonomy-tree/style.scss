@@ -40,6 +40,13 @@
             }
         }
     }
+    .content {
+        padding-top: 18px;
+        display: block;
+        @media only screen and (max-width: 540px) {
+            display: none;
+        }
+    }
 }
 
 // Block Editor
