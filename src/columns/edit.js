@@ -9,6 +9,7 @@ import {
 import { withDispatch, useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import { get, map } from 'lodash';
+import classNames from 'classnames';
 // import variations from './variations';
 
 const ALLOWED_BLOCKS = ['prc-block/column'];
@@ -24,6 +25,16 @@ const createBlocksFromInnerBlocksTemplate = ( innerBlocksTemplate ) => {
 			)
 	);
 };
+
+const editControls = props => {
+	return(
+		<InspectorControls>
+			// Controls for equal
+			// Controls for doubling
+			// Controls for stacking
+		</InspectorControls>
+	);
+}
 
 const edit = props => {
 	const { attributes, className, clientId, name } = props;
@@ -58,10 +69,10 @@ const edit = props => {
 
     if ( hasInnerBlocks ) {
         return(
-			<div className={'prc-block-columns-edit'}>
-            <div className={'prc blocks columns'}>
-                <InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } templateLock="insert"/>
-            </div>
+			<div className='prc-block-columns-edit'>
+				<div className='prc blocks columns'>
+					<InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } templateLock="insert"/>
+				</div>
 			</div>
         )
     }

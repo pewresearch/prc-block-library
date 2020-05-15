@@ -1,7 +1,17 @@
-.prc.blocks.column {
-    border: 1px dashed #FFF;
-    min-height: 50px;
-    &:hover {
-        border-color: #EAEAEA;
+div[data-type="prc-block/column"] {
+    &.has-child-selected:after {
+        position: absolute;
+        z-index: 1;
+        pointer-events: none;
+        content: "";
+        top: 1px;
+        bottom: 1px;
+        left: 1px;
+        right: 1px;
+        box-shadow: 0 0 0 1.5px #EAEAEA;
+        border-radius: 1px;
+        // @media (min-width: 600px) {
+        //     box-shadow: -3px 0 0 0 #555d66;
+        // }
     }
 }

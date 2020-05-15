@@ -15,7 +15,7 @@
  * Compiled with the help of https://wpack.io
  * A zero setup Webpack Bundler Script for WordPress
  */
-.prc-block-columns-edit{max-width:1156px;margin:auto;border:1px dashed #FFF}.prc-block-columns-edit:hover{border-color:#EAEAEA}
+div[data-type="prc-block/column"].has-child-selected:after{position:absolute;z-index:1;pointer-events:none;content:"";top:1px;bottom:1px;left:1px;right:1px;box-shadow:0 0 0 1.5px #EAEAEA;border-radius:1px}
 
 
-/*# sourceMappingURL=main-502d3710.css.map*/
+/*# sourceMappingURL=main-40b6aa6b.css.map*/

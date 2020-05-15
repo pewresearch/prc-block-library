@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/column/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,mBACI,sBAAuB,CACvB,eAAgB,CAFpB,yBAIQ,oBAAqB","file":"column/main-5240f331.css","sourcesContent":[".prc.blocks.column {\n    border: 1px dashed #FFF;\n    min-height: 50px;\n    &:hover {\n        border-color: #EAEAEA;\n    }\n}"],"sourceRoot":""}

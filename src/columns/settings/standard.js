@@ -27,6 +27,14 @@ const settings = [
                 type: 'boolean',
                 default: false,
             },
+            doubling: {
+                type: 'boolean',
+                default: true,
+            },
+            stackable: {
+                type: 'boolean',
+                default: true,
+            },
         },
         edit,
         save,
