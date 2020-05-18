@@ -101,7 +101,11 @@ class PRC_Block_Library {
 	 * @since 1.0.0
 	 */
 	public function register_block_assets() { // phpcs:ignore
-		$mailchimp = new PRC_API_Mailchimp( true );
+		$mailchimp_interests = false;
+		if ( class_exists('PRC_API_Mailchimp') ) {
+			$mailchimp = new PRC_API_Mailchimp( true );
+			$mailchimp_interests = $mailchimp->get_interests();
+		}
 		$enqueue   = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 
 		// Story Item
@@ -183,7 +187,7 @@ class PRC_Block_Library {
 		wp_localize_script(
 			$follow_us_frontend_handle,
 			'prcMailchimpBlock', // Array containing dynamic data for a JS Global.
-			$mailchimp->get_interests(),
+			$mailchimp_interests
 		);
 		register_block_type(
 			'prc-block/follow-us',
@@ -227,7 +231,7 @@ class PRC_Block_Library {
 			$mailchimp_form_block_script,
 			'prcMailchimpForm', // Array containing dynamic data for a JS Global.
 			array(
-				'interests' => $mailchimp->get_interests(),
+				'interests' => $mailchimp_interests,
 			)
 		);
 		register_block_type(
