@@ -1,35 +1,35 @@
 {
-  "frontend.js": "follow-us/frontend-96c987c0.js",
-  "frontend.js.map": "follow-us/frontend-96c987c0.js.map",
-  "main.js": "follow-us/main-e86d0226.js",
-  "main.js.map": "follow-us/main-e86d0226.js.map",
-  "runtime.js": "follow-us/runtime-266ecadc.js",
-  "runtime.js.map": "follow-us/runtime-266ecadc.js.map",
-  "vendors~frontend~main.js": "follow-us/vendors~frontend~main-609ae200.js",
-  "vendors~frontend~main.js.map": "follow-us/vendors~frontend~main-609ae200.js.map",
+  "frontend.js": "follow-us/frontend.js",
+  "frontend.js.map": "follow-us/frontend.js.map",
+  "main.js": "follow-us/main.js",
+  "main.js.map": "follow-us/main.js.map",
+  "runtime.js": "follow-us/runtime.js",
+  "runtime.js.map": "follow-us/runtime.js.map",
+  "vendors~frontend~main.js": "follow-us/vendors~frontend~main.js",
+  "vendors~frontend~main.js.map": "follow-us/vendors~frontend~main.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "follow-us/runtime-266ecadc.js",
-        "follow-us/vendors~frontend~main-609ae200.js",
-        "follow-us/main-e86d0226.js"
+        "follow-us/runtime.js",
+        "follow-us/vendors~frontend~main.js",
+        "follow-us/main.js"
       ],
       "js.map": [
-        "follow-us/runtime-266ecadc.js.map",
-        "follow-us/vendors~frontend~main-609ae200.js.map",
-        "follow-us/main-e86d0226.js.map"
+        "follow-us/runtime.js.map",
+        "follow-us/vendors~frontend~main.js.map",
+        "follow-us/main.js.map"
       ]
     },
     "frontend": {
       "js": [
-        "follow-us/runtime-266ecadc.js",
-        "follow-us/vendors~frontend~main-609ae200.js",
-        "follow-us/frontend-96c987c0.js"
+        "follow-us/runtime.js",
+        "follow-us/vendors~frontend~main.js",
+        "follow-us/frontend.js"
       ],
       "js.map": [
-        "follow-us/runtime-266ecadc.js.map",
-        "follow-us/vendors~frontend~main-609ae200.js.map",
-        "follow-us/frontend-96c987c0.js.map"
+        "follow-us/runtime.js.map",
+        "follow-us/vendors~frontend~main.js.map",
+        "follow-us/frontend.js.map"
       ]
     }
   }
