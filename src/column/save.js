@@ -7,6 +7,7 @@ const save = ({attributes}) => {
     if (0 === width) {
         w = false;
     }
+    
     return(
         <Grid.Column width={w}>
             {true === items && (

@@ -10,7 +10,7 @@ import { Fragment } from '@wordpress/element';
 import classNames from 'classnames/bind';
 // import Icon from './icons';
 
-const allowedBlocks = ['prc-block/button', 'prc-block/mailchimp-form'];
+const allowedBlocks = ['prc-block/button', 'prc-block/mailchimp-form', 'prc-blocks/pathways-ask-an-analyst'];
 const template = [['prc-block/button', { color: '#d3aa20', label: 'DONATE' }]];
 
 const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {

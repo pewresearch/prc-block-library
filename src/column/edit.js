@@ -5,7 +5,7 @@ import {
     ToggleControl,
     TextControl,
 } from '@wordpress/components';
-import { useEffect } from '@wordpress/element';
+import { useEffect, Fragment } from '@wordpress/element';
 import { withSelect } from '@wordpress/data';
 import numWords from 'num-words';
 
@@ -61,7 +61,7 @@ const edit = ({attributes, clientId, hasChildBlocks, setAttributes}) => {
     }
 
     return(
-        <div className='prc blocks column'>
+        <Fragment>
             <InspectorTools width={width} items={items} setAttributes={setAttributes}/>
             {true === items && (
                 <div className="ui divided items">
@@ -71,7 +71,7 @@ const edit = ({attributes, clientId, hasChildBlocks, setAttributes}) => {
             {false === items && (
                 <ColumnContent/>
             )}
-        </div>
+        </Fragment>
     );
 }
 

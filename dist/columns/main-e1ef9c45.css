@@ -15,7 +15,7 @@
  * Compiled with the help of https://wpack.io
  * A zero setup Webpack Bundler Script for WordPress
  */
-.wp-block-prc-block-columns{max-width:1156px;margin:auto}
+div[data-type="prc-block/columns"],.wp-block-prc-block-columns>.block-editor-inner-blocks>.block-editor-block-list__layout{margin-top:0 !important}
 
 
-/*# sourceMappingURL=main-bd0f8b91.css.map*/
+/*# sourceMappingURL=main-e1ef9c45.css.map*/

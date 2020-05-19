@@ -89,10 +89,8 @@ const edit = ({ attributes, className, clientId, name, setAttributes }) => {
         return(
 			<Fragment>
 				<InspectorTools divided={divided} setAttributes={setAttributes}/>
-				<div className={className}>
-                    <div className={classNames('prc blocks columns', {divided: divided})}>
-                        <InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } templateLock="insert" renderAppender={ false }/>
-                    </div>
+                <div className={classNames(className, {divided: divided})}>
+                    <InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } templateLock="insert" renderAppender={ false }/>
                 </div>
 			</Fragment>
         )

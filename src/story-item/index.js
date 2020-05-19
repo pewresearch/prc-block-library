@@ -45,7 +45,6 @@ class EditSidebar extends Component {
         const url = this.props.attributes.link;
 
         const getSiteIDFromURL = url => {
-            console.log(url);
             let siteID = 1;
             if (url.includes(`${window.siteDomain}/global/`)) {
                 siteID = 2;
@@ -384,6 +383,7 @@ registerBlockType('prc-block/story-item', {
      */
     edit: props => {
         // Set Image Slot by Style
+        // @TODO: This should be done on some hook not all the time live.
         if ('is-style-default' === props.attributes.className) {
             props.setAttributes({ imageSlot: 'default' });
         } else if ('is-style-top' === props.attributes.className) {
@@ -397,8 +397,6 @@ registerBlockType('prc-block/story-item', {
         } else if ('is-style-disabled' === props.attributes.className) {
             props.setAttributes({ imageSlot: 'disabled' });
         }
-        console.log('StoryItem');
-        console.log(props);
         return (
             <Fragment>
                 {true === props.isSelected && <EditSidebar {...props} />}
