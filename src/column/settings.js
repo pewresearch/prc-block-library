@@ -1,15 +1,16 @@
 
 import { __ } from '@wordpress/i18n';
+import { column as icon } from '@wordpress/icons';
 import edit from './edit';
 import save from './save';
 
 const settings = [
     'prc-block/column',
     {
-        title: __('Column'),
-        description: '.',
+        title: __('PRC Column'),
+        description: __( 'A single column within a columns block.' ),
         category: 'layout',
-        icon: 'grid',
+        icon,
         keywords: [__('Column')],
         supports: {
             html: false,
@@ -22,10 +23,6 @@ const settings = [
             },
             // Is this column comprised of story items
             items: {
-                type: 'boolean',
-                default: false,
-            },
-            divided: {
                 type: 'boolean',
                 default: false,
             }

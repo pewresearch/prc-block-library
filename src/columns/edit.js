@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import {
 	InspectorControls,
 	InnerBlocks,
@@ -6,8 +7,14 @@ import {
 	__experimentalBlockVariationPicker,
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
+import {
+    PanelBody,
+    ToggleControl,
+    TextControl,
+} from '@wordpress/components';
 import { withDispatch, useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
+import { Fragment } from '@wordpress/element';
 import { get, map } from 'lodash';
 import classNames from 'classnames';
 // import variations from './variations';
@@ -26,19 +33,31 @@ const createBlocksFromInnerBlocksTemplate = ( innerBlocksTemplate ) => {
 	);
 };
 
-const editControls = props => {
-	return(
-		<InspectorControls>
-			// Controls for equal
-			// Controls for doubling
-			// Controls for stacking
-		</InspectorControls>
-	);
+
+const InspectorTools = ({divided, setAttributes}) => {
+    return (
+        <InspectorControls>
+            <PanelBody title={__('Columns Settings')}>
+                <div>
+                    <ToggleControl
+                        label={
+                            divided
+                                ? 'Divided'
+                                : 'Not Divided'
+                        }
+                        checked={divided}
+                        onChange={() => {
+                            setAttributes({ divided: !divided });
+                        }}
+                    />
+                </div>
+            </PanelBody>
+        </InspectorControls>
+    );
 }
 
-const edit = props => {
-	const { attributes, className, clientId, name } = props;
-	const { equal } = attributes;
+const edit = ({ attributes, className, clientId, name, setAttributes }) => {
+	const { equal, divided } = attributes;
     // We get some information when the block's internal state changes.
     const {
 		blockType,
@@ -66,14 +85,16 @@ const edit = props => {
     );
 
     const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
-
     if ( hasInnerBlocks ) {
         return(
-			<div className='prc-block-columns-edit'>
-				<div className='prc blocks columns'>
-					<InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } templateLock="insert"/>
-				</div>
-			</div>
+			<Fragment>
+				<InspectorTools divided={divided} setAttributes={setAttributes}/>
+				<div className={className}>
+                    <div className={classNames('prc blocks columns', {divided: divided})}>
+                        <InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } templateLock="insert" renderAppender={ false }/>
+                    </div>
+                </div>
+			</Fragment>
         )
     }
     
@@ -84,11 +105,11 @@ const edit = props => {
             variations={ variations }
             onSelect={ ( nextVariation = defaultVariation ) => {
                 if ( nextVariation.attributes ) {
-                    props.setAttributes( nextVariation.attributes );
+                    setAttributes( nextVariation.attributes );
                 }
                 if ( nextVariation.innerBlocks ) {
                     replaceInnerBlocks(
-                        props.clientId,
+                        clientId,
                         createBlocksFromInnerBlocksTemplate(
                             nextVariation.innerBlocks
                         )

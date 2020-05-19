@@ -15,7 +15,7 @@ import { __ } from '@wordpress/i18n';
 const variations = [
 	{
 		name: 'two-columns-equal',
-		title: __( '50 / 50' ),
+		title: __( '1/2 | 1/2' ),
 		description: __( 'Two columns; equal split' ),
 		icon: (
 			<SVG
@@ -36,14 +36,14 @@ const variations = [
 			equal: true,
 		},
 		innerBlocks: [ 
-			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ]
+			[ 'prc-block/column' ],
+			[ 'prc-block/column' ]
 		],
 		scope: [ 'block' ],
 	},
 	{
 		name: 'two-columns-one-third-two-thirds',
-		title: __( '30 / 70' ),
+		title: __( '1/3 | 2/3' ),
 		description: __( 'Two columns; one-third, two-thirds split' ),
 		icon: (
 			<SVG
@@ -60,14 +60,14 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [
-			[ 'prc-block/column', { width: 5, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { width: 11, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
+			[ 'prc-block/column', { width: 5 } ],
+			[ 'prc-block/column', { width: 11 } ],
 		],
 		scope: [ 'block' ],
 	},
 	{
 		name: 'two-columns-two-thirds-one-third',
-		title: __( '70 / 30' ),
+		title: __( '2/3 | 1/3' ),
 		description: __( 'Two columns; two-thirds, one-third split' ),
 		icon: (
 			<SVG
@@ -84,14 +84,14 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [
-			[ 'prc-block/column', { width: 11, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { width: 5, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
+			[ 'prc-block/column', { width: 11 } ],
+			[ 'prc-block/column', { width: 5 } ],
 		],
 		scope: [ 'block' ],
 	},
 	{
 		name: 'three-columns-equal',
-		title: __( '33 / 33 / 33' ),
+		title: __( '1/3 | 1/3 | 1/3' ),
 		description: __( 'Three columns; equal split' ),
 		icon: (
 			<SVG
@@ -110,15 +110,15 @@ const variations = [
 			equal: true,
 		},
 		innerBlocks: [
-			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
+			[ 'prc-block/column' ],
+			[ 'prc-block/column' ],
+			[ 'prc-block/column' ],
 		],
 		scope: [ 'block' ],
 	},
 	{
 		name: 'three-columns-wider-center',
-		title: __( '25 / 50 / 25' ),
+		title: __( '1/4 | 1/2 | 1/4' ),
 		description: __( 'Three columns; wide center column' ),
 		icon: (
 			<SVG
@@ -134,9 +134,9 @@ const variations = [
 			</SVG>
 		),
 		innerBlocks: [
-			[ 'prc-block/column', { width: 4, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { width: 8, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
-			[ 'prc-block/column', { width: 4, innerBlocks: [ ['core/paragraph', { placeholder: 'Insert Blocks Here' } ] ] } ],
+			[ 'prc-block/column', { width: 4 } ],
+			[ 'prc-block/column', { width: 8 } ],
+			[ 'prc-block/column', { width: 4 } ],
 		],
 		scope: [ 'block' ],
 	}

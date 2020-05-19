@@ -3,14 +3,14 @@ import { Grid } from 'semantic-ui-react';
 import { Fragment } from '@wordpress/element';
 
 const save = ({attributes}) => {
-    const { equal } = attributes;
+    const { equal, divided } = attributes;
     return(
         <Fragment>
             { true === equal && (
-                <Grid columns="equal" stackable><InnerBlocks.Content/></Grid>
+                <Grid columns="equal" divided={divided} stackable><InnerBlocks.Content/></Grid>
             )}
             { false === equal && (
-                <Grid><InnerBlocks.Content/></Grid>
+                <Grid divided={divided}><InnerBlocks.Content/></Grid>
             )}
         </Fragment>
     );

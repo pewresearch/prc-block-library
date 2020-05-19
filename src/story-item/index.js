@@ -223,7 +223,7 @@ class EditSidebar extends Component {
 }
 
 const todaysDate = () => {
-    return moment().format('MMM D, YYYY');
+    return moment().format('MM-DD-YYYY');
 };
 
 /**
@@ -307,9 +307,9 @@ registerBlockType('prc-block/story-item', {
         },
         date: {
             type: 'string',
-            source: 'html',
-            selector: '.date',
-            default: todaysDate(),
+            // source: 'html',
+            // selector: '.date',
+            // default: todaysDate(),
         },
         // Images
         image: {
