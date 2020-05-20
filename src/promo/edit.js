@@ -57,12 +57,11 @@ const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
     );
 };
 
-const edit = props => {
-    const { attributes, className, clientId, setAttributes } = props;
+const edit = ({attributes, className, clientId, setAttributes, isSelected}) => {
 
     // If width is greater than 640 then set to "pancake" (horizontal flex).
     const domBlock = document.querySelector(`[data-block="${clientId}"]`);
-    if (null !== domBlock) {
+    if (true === isSelected && null !== domBlock) {
         const width = domBlock.clientWidth;
 
         if (640 <= width) {

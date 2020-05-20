@@ -60,7 +60,18 @@ const settings = [
                 default: false,
             },
         },
-
+        // example: {
+        //     attributes: {
+        //         header: 'Facts are more important than ever',
+        //         description: 'In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.',
+        //         bgColor: '#FFF',
+        //         borderColor: '#000',
+        //         pancake: false,
+        //     },
+        //     innerBlocks: [
+        //         ['prc-block/button', { color: '#d3aa20', label: 'DONATE' }]
+        //     ],
+        // },
         edit,
         save,
     },

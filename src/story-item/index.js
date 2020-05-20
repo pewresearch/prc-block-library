@@ -271,6 +271,21 @@ registerBlockType('prc-block/story-item', {
             label: 'Image Aligned Right',
         },
     ],
+    example: {
+        attributes: {
+            title: 'Ultricies Ipsum Nibh Egestas Purus',
+            excerpt: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
+            extra: '<li></li>',
+            // Item Meta
+            link: '#',
+            label: 'Report',
+            date: todaysDate(),
+            // Images
+            image: 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
+            imageSlot: 'top',
+            imageSize: 'A1',
+        },
+    },
     supports: {
         html: false, // We do not want to give people the ability to edit the raw html of this block.
     },
