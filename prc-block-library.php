@@ -177,7 +177,7 @@ class PRC_Block_Library {
 			'main',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $this->js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -202,6 +202,7 @@ class PRC_Block_Library {
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $collapsible['js'] )['handle'],
+				'editor_style' => array_pop( $collapsible['css'] )['handle'],
 				'script' =>  array_pop( $collapsible_frontend['js'] )['handle'],
 			)
 		);

@@ -225,6 +225,14 @@ const todaysDate = () => {
     return moment().format('MM-DD-YYYY');
 };
 
+const ops = [
+    {
+        key: 'is-styl-default',
+        attribute: 'imageSlot',
+        value: 'default',
+    }
+];
+
 /**
  * Register: aa Gutenberg Block.
  *

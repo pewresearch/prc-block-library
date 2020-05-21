@@ -3,12 +3,13 @@ import domReady from '@wordpress/dom-ready';
 import { Accordion, Icon } from 'semantic-ui-react';
 
 const Frontend = ({title, children}) => {
-    const [ open, setState ] = useState(true);
+    const defaultState = false;
+    const [ open, setState ] = useState(defaultState);
     let direction = open ? 'down' : 'right';
     return( 
         <Accordion styled>
             <Accordion.Title
-            active={open ===  true}
+            active={open === true}
             index={0}
             onClick={ () => setState( ! open ) }
             >

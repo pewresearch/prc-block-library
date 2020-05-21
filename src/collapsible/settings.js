@@ -17,6 +17,17 @@ const settings = [
             html: false,
             align: false,
         },
+        styles: [
+            {
+                name: 'default',
+                label: __('Default'),
+                isDefault: true,
+            },
+            {
+                name: 'secondary',
+                label: __('Secondary "How We Did This"'),
+            }
+        ],
         attributes: {
             title: {
                 type: 'string',

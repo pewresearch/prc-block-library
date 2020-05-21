@@ -1,25 +1,14 @@
-import { InnerBlocks, RichText } from '@wordpress/block-editor';
-import { useState } from '@wordpress/element';
+import { useState, Fragment, RawHTML } from '@wordpress/element';
 import { Accordion, Icon } from 'semantic-ui-react';
 
-const ALLOWED_BLOCKS = ['core/paragraph', 'core/heading', 'core/list', 'prc-block/button'];
+const Frontend = ({title, children}) => {
+    const defaultState = false;
+    const [ open, setState ] = useState(defaultState);
+    let direction = open ? 'down' : 'right';
 
-const edit = ({attributes, setAttributes}) => {
-    const { title, className } = attributes;
-    const [ open, setState ] = useState(true);
-
-    let icon = open ? 'caret down' : 'caret right';
-    if ( 'is-style-secondary' === className ) {
-        icon = open ? 'minus' : 'plus';
-    }
-
-    return( 
-        <Accordion styled>
-            <Accordion.Title
-            active={open === true}
-            index={0}
-            className={className}
-            >
+    const editTitle = () => {
+        return(
+            <Fragment>
                 { 'is-style-secondary' !== className && (
                     <Icon name={icon} onClick={ () => setState( ! open ) } />
                 ) }
@@ -37,12 +26,42 @@ const edit = ({attributes, setAttributes}) => {
                 { 'is-style-secondary' === className && (
                     <Icon name={icon} onClick={ () => setState( ! open ) } style={{marginLeft: '1em'}}/>
                 ) }
+            </Fragment>
+        );
+    }
+
+    const Title = () => {
+        return(
+            <Fragment>
+                { 'is-style-secondary' !== className && (
+                    <Icon name={icon} onClick={ () => setState( ! open ) } />
+                ) }
+                <span>{title}</span>
+                { 'is-style-secondary' === className && (
+                    <Icon name={icon} onClick={ () => setState( ! open ) } style={{marginLeft: '1em'}}/>
+                ) }
+            </Fragment>
+        );
+    }
+
+    const Content = () => {
+        return(
+            <RawHTML>{children}</RawHTML>
+        );
+    }
+
+    return( 
+        <Accordion styled>
+            <Accordion.Title
+            active={open === true}
+            index={0}
+            onClick={ () => setState( ! open ) }
+            >
+               <Title/>
             </Accordion.Title>
             <Accordion.Content active={ open === true }>
-                <InnerBlocks allowedBlocks={ALLOWED_BLOCKS}/>
+                <Content/>
             </Accordion.Content>
         </Accordion>
     );
 }
-
-export default edit;

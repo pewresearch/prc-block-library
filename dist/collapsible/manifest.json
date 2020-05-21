@@ -1,35 +1,43 @@
 {
-  "frontend.js": "collapsible/frontend-33e9adc8.js",
-  "frontend.js.map": "collapsible/frontend-33e9adc8.js.map",
-  "main.js": "collapsible/main-402be18c.js",
-  "main.js.map": "collapsible/main-402be18c.js.map",
+  "frontend.js": "collapsible/frontend-54708a9a.js",
+  "frontend.js.map": "collapsible/frontend-54708a9a.js.map",
+  "main.css": "collapsible/main-05e69635.css",
+  "main.css.map": "collapsible/main-05e69635.css.map",
+  "main.js": "collapsible/main-02a9fa3e.js",
+  "main.js.map": "collapsible/main-02a9fa3e.js.map",
   "runtime.js": "collapsible/runtime-14f9b620.js",
   "runtime.js.map": "collapsible/runtime-14f9b620.js.map",
-  "vendors~frontend~main.js": "collapsible/vendors~frontend~main-9f519737.js",
-  "vendors~frontend~main.js.map": "collapsible/vendors~frontend~main-9f519737.js.map",
+  "vendors~frontend~main.js": "collapsible/vendors~frontend~main-61cc75f4.js",
+  "vendors~frontend~main.js.map": "collapsible/vendors~frontend~main-61cc75f4.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "collapsible/runtime-14f9b620.js",
-        "collapsible/vendors~frontend~main-9f519737.js",
-        "collapsible/main-402be18c.js"
+        "collapsible/vendors~frontend~main-61cc75f4.js",
+        "collapsible/main-02a9fa3e.js"
       ],
       "js.map": [
         "collapsible/runtime-14f9b620.js.map",
-        "collapsible/vendors~frontend~main-9f519737.js.map",
-        "collapsible/main-402be18c.js.map"
+        "collapsible/vendors~frontend~main-61cc75f4.js.map",
+        "collapsible/main-02a9fa3e.js.map"
+      ],
+      "css": [
+        "collapsible/main-05e69635.css"
+      ],
+      "css.map": [
+        "collapsible/main-05e69635.css.map"
       ]
     },
     "frontend": {
       "js": [
         "collapsible/runtime-14f9b620.js",
-        "collapsible/vendors~frontend~main-9f519737.js",
-        "collapsible/frontend-33e9adc8.js"
+        "collapsible/vendors~frontend~main-61cc75f4.js",
+        "collapsible/frontend-54708a9a.js"
       ],
       "js.map": [
         "collapsible/runtime-14f9b620.js.map",
-        "collapsible/vendors~frontend~main-9f519737.js.map",
-        "collapsible/frontend-33e9adc8.js.map"
+        "collapsible/vendors~frontend~main-61cc75f4.js.map",
+        "collapsible/frontend-54708a9a.js.map"
       ]
     }
   }
