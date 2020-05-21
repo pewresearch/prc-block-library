@@ -1,44 +1,49 @@
+import { InnerBlocks, RichText } from '@wordpress/block-editor';
 import { useState, Fragment, RawHTML } from '@wordpress/element';
 import { Accordion, Icon } from 'semantic-ui-react';
 
-const Frontend = ({title, children}) => {
-    const defaultState = false;
-    const [ open, setState ] = useState(defaultState);
-    let direction = open ? 'down' : 'right';
+const ALLOWED_BLOCKS = ['core/paragraph', 'core/heading', 'core/list', 'prc-block/button'];
 
-    const editTitle = () => {
-        return(
-            <Fragment>
-                { 'is-style-secondary' !== className && (
-                    <Icon name={icon} onClick={ () => setState( ! open ) } />
-                ) }
-                <RichText
-                    tagName="div" // The tag here is the element output and editable in the admin
-                    value={title} // Any existing content, either from the database or an attribute default
-                    onChange={t => setAttributes({ title: t })} // Store updated content as a block attribute
-                    placeholder="How we did this" // Display this text before any content has been added by the user
-                    formattingControls={[]}
-                    keepPlaceholderOnFocus
-                    style={{
-                        display: 'inline-block'
-                    }}
-                />
-                { 'is-style-secondary' === className && (
-                    <Icon name={icon} onClick={ () => setState( ! open ) } style={{marginLeft: '1em'}}/>
-                ) }
-            </Fragment>
-        );
+const AccordionBlock = ({title, className, children, setAttributes = false, defaultOpen = false}) => {
+    const [ open, setState ] = useState(defaultOpen);
+
+    let icon = open ? 'caret down' : 'caret right';
+    if ( 'is-style-alternate' === className ) {
+        icon = open ? 'minus' : 'plus';
     }
 
     const Title = () => {
         return(
             <Fragment>
-                { 'is-style-secondary' !== className && (
-                    <Icon name={icon} onClick={ () => setState( ! open ) } />
+                { 'is-style-alternate' !== className && (
+                    <Icon name={icon} onClick={ () => {
+                        if ( false !== setAttributes ) {
+                            setState( ! open );
+                        }
+                    } }/>
                 ) }
-                <span>{title}</span>
-                { 'is-style-secondary' === className && (
-                    <Icon name={icon} onClick={ () => setState( ! open ) } style={{marginLeft: '1em'}}/>
+                { false !== setAttributes && (
+                    <RichText
+                        tagName="div" // The tag here is the element output and editable in the admin
+                        value={title} // Any existing content, either from the database or an attribute default
+                        onChange={t => setAttributes({ title: t })} // Store updated content as a block attribute
+                        placeholder="How we did this" // Display this text before any content has been added by the user
+                        formattingControls={[]}
+                        keepPlaceholderOnFocus
+                        style={{
+                            display: 'inline-block'
+                        }}
+                    />
+                ) }
+                { false === setAttributes  && (
+                    <span>{title}</span>
+                ) }
+                { 'is-style-alternate' === className && (
+                    <Icon name={icon} style={{marginLeft: '0.5em'}} onClick={ () => {
+                        if ( false !== setAttributes ) {
+                            setState( ! open );
+                        }
+                    } }/>
                 ) }
             </Fragment>
         );
@@ -46,7 +51,14 @@ const Frontend = ({title, children}) => {
 
     const Content = () => {
         return(
-            <RawHTML>{children}</RawHTML>
+            <Fragment>
+                { false !== setAttributes && (
+                    <InnerBlocks allowedBlocks={ALLOWED_BLOCKS}/>
+                ) }
+                { false === setAttributes && (
+                    <RawHTML>{children}</RawHTML>
+                ) }
+            </Fragment>
         );
     }
 
@@ -55,7 +67,11 @@ const Frontend = ({title, children}) => {
             <Accordion.Title
             active={open === true}
             index={0}
-            onClick={ () => setState( ! open ) }
+            onClick={ () => {
+                if ( false === setAttributes ) {
+                    setState( ! open );
+                }
+            } }
             >
                <Title/>
             </Accordion.Title>
@@ -65,3 +81,5 @@ const Frontend = ({title, children}) => {
         </Accordion>
     );
 }
+
+export default AccordionBlock;

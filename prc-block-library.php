@@ -196,14 +196,17 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-		// Will need frontend.
+		$this->frontend_shortcode_shim = array_pop( $collapsible_frontend['js'] )['handle'];
+		add_filter( 'prc_block_collapsible_frontend_shim', function() { 
+			return $this->frontend_shortcode_shim;
+		});
 		register_block_type(
 			'prc-block/collapsible',
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $collapsible['js'] )['handle'],
 				'editor_style' => array_pop( $collapsible['css'] )['handle'],
-				'script' =>  array_pop( $collapsible_frontend['js'] )['handle'],
+				'script' =>  $this->frontend_shortcode_shim,
 			)
 		);
 

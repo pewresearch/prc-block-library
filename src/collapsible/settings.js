@@ -24,8 +24,8 @@ const settings = [
                 isDefault: true,
             },
             {
-                name: 'secondary',
-                label: __('Secondary "How We Did This"'),
+                name: 'alternate',
+                label: __('Plus Icon'),
             }
         ],
         attributes: {
