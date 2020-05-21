@@ -150,6 +150,62 @@ class PRC_Block_Library {
 			)
 		);
 
+		// Callout
+		$callout = $enqueue->register(
+			'callout',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		register_block_type(
+			'prc-block/callout',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $callout['js'] )['handle'],
+			)
+		);
+
+		// Collapsible
+		$collapsible = $enqueue->register(
+			'collapsible',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$collapsible_frontend = $enqueue->register(
+			'collapsible',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		// Will need frontend.
+		register_block_type(
+			'prc-block/collapsible',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $collapsible['js'] )['handle'],
+				'script' =>  array_pop( $collapsible_frontend['js'] )['handle'],
+			)
+		);
+
 		// Columns
 		$columns = $enqueue->register(
 			'columns',

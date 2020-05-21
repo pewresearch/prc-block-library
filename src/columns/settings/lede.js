@@ -1,5 +1,5 @@
-
 import { __ } from '@wordpress/i18n';
+import { schedule as icon } from '@wordpress/icons';
 import edit from '../edit';
 import save from '../save';
 import variations from '../variations/lede';
@@ -10,8 +10,8 @@ const settings = [
         title: __('Lede Layout'),
         description: 'Preconfigured advanced columns layouts for use in laying out Topics, Home, and Program pages.',
         category: 'layout',
-        icon: 'schedule',
-        keywords: [__('Columns'), __('Column'), __('Lede')],
+        icon,
+        keywords: [__('Lede')],
         supports: {
             html: false,
             align: false,
@@ -25,7 +25,11 @@ const settings = [
             },
             equal: {
                 type: 'boolean',
-                default: false,
+            default: false,
+        },
+            divided: {
+                type: 'boolean',
+                default: true,
             },
             doubling: {
                 type: 'boolean',

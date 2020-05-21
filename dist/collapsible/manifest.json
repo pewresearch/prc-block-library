@@ -1,0 +1,36 @@
+{
+  "frontend.js": "collapsible/frontend-33e9adc8.js",
+  "frontend.js.map": "collapsible/frontend-33e9adc8.js.map",
+  "main.js": "collapsible/main-402be18c.js",
+  "main.js.map": "collapsible/main-402be18c.js.map",
+  "runtime.js": "collapsible/runtime-14f9b620.js",
+  "runtime.js.map": "collapsible/runtime-14f9b620.js.map",
+  "vendors~frontend~main.js": "collapsible/vendors~frontend~main-9f519737.js",
+  "vendors~frontend~main.js.map": "collapsible/vendors~frontend~main-9f519737.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "collapsible/runtime-14f9b620.js",
+        "collapsible/vendors~frontend~main-9f519737.js",
+        "collapsible/main-402be18c.js"
+      ],
+      "js.map": [
+        "collapsible/runtime-14f9b620.js.map",
+        "collapsible/vendors~frontend~main-9f519737.js.map",
+        "collapsible/main-402be18c.js.map"
+      ]
+    },
+    "frontend": {
+      "js": [
+        "collapsible/runtime-14f9b620.js",
+        "collapsible/vendors~frontend~main-9f519737.js",
+        "collapsible/frontend-33e9adc8.js"
+      ],
+      "js.map": [
+        "collapsible/runtime-14f9b620.js.map",
+        "collapsible/vendors~frontend~main-9f519737.js.map",
+        "collapsible/frontend-33e9adc8.js.map"
+      ]
+    }
+  }
+}

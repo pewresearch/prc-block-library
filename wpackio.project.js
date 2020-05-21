@@ -36,9 +36,22 @@ module.exports = {
             },
         },
         {
+            name: 'callout',
+            entry: {
+                main: './src/callout/index.js',
+            },
+        },
+        {
             name: 'card',
             entry: {
                 main: './src/card/index.js',
+            },
+        },
+        {
+            name: 'collapsible',
+            entry: {
+                main: './src/collapsible/index.js',
+                frontend: './src/collapsible/frontend.js',
             },
         },
         {
@@ -193,6 +206,7 @@ module.exports = {
         '@wordpress/element': 'wp.element',
         '@wordpress/block-editor': 'wp.blockEditor',
         '@wordpress/components': 'wp.components',
+        '@wordpress/dom-ready': 'wp.domReady',
         '@wordpress/plugins': 'wp.plugins',
         '@wordpress/edit-post': 'wp.editPost',
         '@wordpress/data': 'wp.data',
