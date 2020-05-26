@@ -196,6 +196,7 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+		// This supports the legacy collapsible shortcode by utilizing the new collapsible react component instead.
 		$this->frontend_shortcode_shim = array_pop( $collapsible_frontend['js'] )['handle'];
 		add_filter( 'prc_block_collapsible_frontend_shim', function() { 
 			return $this->frontend_shortcode_shim;
