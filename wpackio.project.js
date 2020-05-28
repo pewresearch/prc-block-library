@@ -9,6 +9,7 @@ const {
     // eslint-disable-next-line import/no-extraneous-dependencies
 } = require('@wpackio/scripts');
 const pkg = require('./package.json');
+const path = require('path');
 
 module.exports = {
     // Project Identity
@@ -216,7 +217,9 @@ module.exports = {
     },
     // Webpack Aliases
     // <https://webpack.js.org/configuration/resolve/#resolve-alias>
-    alias: undefined,
+    alias: {
+		shared: path.resolve( __dirname, 'src/_shared' ),
+	},
     // Show overlay on development
     errorOverlay: true,
     // Auto optimization by webpack
