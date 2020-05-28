@@ -1,23 +1,23 @@
 {
   "main.css": "columns/main-e1ef9c45.css",
   "main.css.map": "columns/main-e1ef9c45.css.map",
-  "main.js": "columns/main-9c52bb52.js",
-  "main.js.map": "columns/main-9c52bb52.js.map",
+  "main.js": "columns/main-97d19ab1.js",
+  "main.js.map": "columns/main-97d19ab1.js.map",
   "runtime.js": "columns/runtime-9898f2b3.js",
   "runtime.js.map": "columns/runtime-9898f2b3.js.map",
-  "vendors~main.js": "columns/vendors~main-4611412e.js",
-  "vendors~main.js.map": "columns/vendors~main-4611412e.js.map",
+  "vendors~main.js": "columns/vendors~main-8fda8e26.js",
+  "vendors~main.js.map": "columns/vendors~main-8fda8e26.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "columns/runtime-9898f2b3.js",
-        "columns/vendors~main-4611412e.js",
-        "columns/main-9c52bb52.js"
+        "columns/vendors~main-8fda8e26.js",
+        "columns/main-97d19ab1.js"
       ],
       "js.map": [
         "columns/runtime-9898f2b3.js.map",
-        "columns/vendors~main-4611412e.js.map",
-        "columns/main-9c52bb52.js.map"
+        "columns/vendors~main-8fda8e26.js.map",
+        "columns/main-97d19ab1.js.map"
       ],
       "css": [
         "columns/main-e1ef9c45.css"

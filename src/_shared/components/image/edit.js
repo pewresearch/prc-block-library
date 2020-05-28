@@ -59,6 +59,7 @@ const Edit = ({ img, size, slot, chartArt, dataHandler }) => {
                             label="Image Size"
                             value={size}
                             options={[
+                                { value: 'XL', label: 'XL' },
                                 { value: 'A1', label: 'A1' },
                                 { value: 'A2', label: 'A2' },
                                 { value: 'A3', label: 'A3' },

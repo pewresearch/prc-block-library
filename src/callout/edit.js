@@ -4,7 +4,7 @@ import { Segment } from 'semantic-ui-react';
 const ALLOWED_BLOCKS = ['core/paragraph', 'core/heading', 'core/list', 'prc-block/button']
 
 const edit = ({className}) => {
-    return( <Segment inverted className={className + ' oatmeal'}><InnerBlocks allowedBlocks={ALLOWED_BLOCKS}/></Segment> );
+    return( <Segment inverted className={className + ' beige'}><InnerBlocks allowedBlocks={ALLOWED_BLOCKS}/></Segment> );
 }
 
 export default edit;

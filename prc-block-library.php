@@ -30,6 +30,7 @@ class PRC_Block_Library {
 		if ( true === $init ) {
 			$this->plugin_dir = __DIR__ . '/prc_blocks/';
 			add_action( 'init', array( $this, 'register_block_assets' ) );
+			add_action( 'init', array( $this, 'register_block_patterns' ) );
 			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
@@ -480,6 +481,316 @@ class PRC_Block_Library {
 				'editor_script' => array_pop( $tax_tree_list['js'] )['handle'],
 				'script'        => array_pop( $tax_tree_list_frontend['js'] )['handle'],
 				'style'         => array_pop( $tax_tree_list['css'] )['handle'],
+			)
+		);
+	}
+
+	public function register_block_patterns() {
+		// Unregister the core block patterns and categories
+		// Patterns
+		unregister_block_pattern( 'core/text-two-columns' );
+		unregister_block_pattern( 'core/two-buttons' );
+		unregister_block_pattern( 'core/cover-abc' );
+		unregister_block_pattern( 'core/two-images' );
+		unregister_block_pattern( 'core/hero-two-columns' );
+		unregister_block_pattern( 'core/numbered-features' );
+		unregister_block_pattern( 'core/its-time' );
+		unregister_block_pattern( 'core/hero-right-column' );
+		unregister_block_pattern( 'core/testimonials' );
+		unregister_block_pattern( 'core/features-services' );
+		// Categories
+		unregister_block_pattern_category( 'text' );
+		unregister_block_pattern_category( 'hero' );
+		unregister_block_pattern_category( 'columns' );
+		unregister_block_pattern_category( 'buttons' );
+		unregister_block_pattern_category( 'gallery' );
+		unregister_block_pattern_category( 'features' );
+		unregister_block_pattern_category( 'testimonials' );
+
+		register_block_pattern_category(
+			'lede',
+			array( 'label' => __( 'Lede', 'prc-blocks' ) )
+		);
+
+		// Pattern: Three Lede V!
+		ob_start();
+		?>
+		<!-- wp:prc-block/columns {"equal":true,"divided":true} -->
+		<div class="ui stackable divided vertically padded equal width grid"><!-- wp:prc-block/column {"width":12,"items":true} -->
+		<div class="twelve wide column wp-block-prc-block-column"><div class="ui divided items"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","headerSize":"large","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header large"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item -->
+
+		<!-- wp:prc-block/story-item {"title":"Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header normal"><a href="">Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item --></div></div>
+		<!-- /wp:prc-block/column -->
+
+		<!-- wp:prc-block/column {"width":4} -->
+		<div class="four wide column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"Would you share your views of Donald Trump over dinner?","date":"05/16/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"bottom","imageSize":"A2","className":"is-style-bottom"} -->
+		<article class="item is-style-bottom story-item stacked"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 16, 2020</span></div><div class="header normal"><a href="">Would you share your views of Donald Trump over dinner?</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div><div class="ui image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=268%2C151 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=536%2C301 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column --></div>
+		<!-- /wp:prc-block/columns -->
+		<?php $three_lede_v1 = ob_get_clean();
+
+		register_block_pattern(
+			'prc-bock/three-lede-v1',
+			array(
+				'title' => 'Three Lede V1',
+				'content' => $three_lede_v1,
+				'categories' => ['lede'],
+				'viewportWidth' => 1000,
+			)
+		);
+
+		// Pattern: Three Lede V2
+		ob_start();
+		?>
+		<!-- wp:prc-block/columns {"equal":true,"divided":true} -->
+		<div class="ui stackable divided vertically padded equal width grid"><!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"bottom","headerSize":"large","className":"is-style-bottom"} -->
+		<article class="item is-style-bottom story-item stacked"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header large"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div><div class="ui image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column -->
+
+		<!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/columns {"equal":true,"divided":true} -->
+		<div class="ui stackable divided vertically padded equal width grid"><!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"top","className":"is-style-top"} -->
+		<article class="item is-style-top story-item stacked"><div class="ui image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header normal"><a href="">Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column -->
+
+		<!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"Would you share your views of Donald Trump over dinner?","date":"05/16/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"top","imageSize":"A2","className":"is-style-top"} -->
+		<article class="item is-style-top story-item stacked"><div class="ui image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=268%2C151 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=536%2C301 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 16, 2020</span></div><div class="header normal"><a href="">Would you share your views of Donald Trump over dinner?</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column --></div>
+		<!-- /wp:prc-block/columns --></div>
+		<!-- /wp:prc-block/column --></div>
+		<!-- /wp:prc-block/columns -->
+		<?php $three_lede_v2 = ob_get_clean();
+		register_block_pattern(
+			'prc-bock/three-lede-v2',
+			array(
+				'title' => 'Three Lede V2',
+				'content' => $three_lede_v2,
+				'categories' => ['lede'],
+				'viewportWidth' => 1000,
+			)
+		);
+
+		// Three Lede V3
+		ob_start();
+		?>
+		<!-- wp:prc-block/columns {"equal":true,"divided":true} -->
+		<div class="ui stackable divided vertically padded equal width grid"><!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"bottom","headerSize":"large","className":"is-style-bottom"} -->
+		<article class="item is-style-bottom story-item stacked"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header large"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div><div class="ui image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column -->
+
+		<!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/columns {"equal":true,"divided":true} -->
+		<div class="ui stackable divided vertically padded equal width grid"><!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"top","enableExcerpt":false,"headerSize":"small","className":"is-style-top"} -->
+		<article class="item is-style-top story-item stacked"><div class="ui image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header small"><a href="">Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics</a></div></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column -->
+
+		<!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"Would you share your views of Donald Trump over dinner?","date":"05/16/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"top","imageSize":"A2","enableExcerpt":false,"headerSize":"small","className":"is-style-top"} -->
+		<article class="item is-style-top story-item stacked"><div class="ui image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=268%2C151 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=536%2C301 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 16, 2020</span></div><div class="header small"><a href="">Would you share your views of Donald Trump over dinner?</a></div></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column --></div>
+		<!-- /wp:prc-block/columns -->
+
+		<!-- wp:prc-block/promo {"header":"Facts are more important than ever","description":"\u003cp\u003eIn times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.\u003c/p\u003e","bgColor":"#F7F7F2","borderColor":"#E2E2E2"} -->
+		<div class="wp-block-prc-block-promo" style="border-color:#E2E2E2;background-color:#F7F7F2"><div class="text"><h2>Facts are more important than ever</h2><div><p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p></div></div><div class="action"><!-- wp:prc-block/button {"color":"#d3aa20","label":"DONATE"} -->
+		<a class="wp-block-prc-block-button mustard ui button" href="">DONATE</a>
+		<!-- /wp:prc-block/button --></div></div>
+		<!-- /wp:prc-block/promo --></div>
+		<!-- /wp:prc-block/column --></div>
+		<!-- /wp:prc-block/columns -->
+		<?php $three_lede_v3 = ob_get_clean();
+		
+		register_block_pattern(
+			'prc-bock/three-lede-v3',
+			array(
+				'title' => 'Three Lede V3',
+				'content' => $three_lede_v3,
+				'categories' => ['lede'],
+				'viewportWidth' => 1000,
+			)
+		);
+
+		// Pattern: Three Lede v4
+		ob_start();
+		?>
+		<!-- wp:prc-block/columns {"equal":true,"divided":true} -->
+		<div class="ui stackable divided vertically padded equal width grid"><!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"top","headerSize":"large","className":"is-style-top"} -->
+		<article class="item is-style-top story-item stacked"><div class="ui image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header large"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column -->
+
+		<!-- wp:prc-block/column {"items":true} -->
+		<div class="column wp-block-prc-block-column"><div class="ui divided items"><!-- wp:prc-block/story-item {"title":"Would you share your views of Donald Trump over dinner?","date":"05/16/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","imageSize":"A2","enableExcerpt":false,"headerSize":"small","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 16, 2020</span></div><div class="header small"><a href="">Would you share your views of Donald Trump over dinner?</a></div></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=268%2C151 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=536%2C301 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item -->
+
+		<!-- wp:prc-block/story-item {"title":"Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","imageSize":"A3","enableExcerpt":false,"headerSize":"small","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header small"><a href="">Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics</a></div></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=194%2C110 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=388%2C220 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=148%2C84 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=296%2C168 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item -->
+
+		<!-- wp:prc-block/mailchimp {"icon":"election","align":"centered","headline":"\u003cstrong\u003eSign up for our Election 2020 newsletter\u003c/strong\u003e","className":"is-style-centered"} -->
+		<div class="js-react-mailchimp-newsletter" data-segment-id="" data-icon="election" data-fontcolor="#000" data-backgroundcolor="#fff" data-align="centered" data-headline="false" data-subheadline="false"><h4 class="mailchimp-headline sans-serif" style="color:#000"><strong>Sign up for our Election 2020 newsletter</strong></h4><h4 class="mailchimp-subheadline sans-serif" style="color:#000">Our latest data, delivered Saturdays</h4></div>
+		<!-- /wp:prc-block/mailchimp --></div></div>
+		<!-- /wp:prc-block/column --></div>
+		<!-- /wp:prc-block/columns -->
+		<?php $three_lede_v4 = ob_get_clean();
+		register_block_pattern(
+			'prc-bock/three-lede-v4',
+			array(
+				'title' => 'Three Lede V4',
+				'content' => $three_lede_v4,
+				'categories' => ['lede'],
+				'viewportWidth' => 1000,
+			)
+		);
+
+		// Pattern: Three Lede w XL
+		ob_start();
+		?>
+		<!-- wp:group -->
+		<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","imageSize":"XL","enableExtra":true,"enableBreakingNews":true,"className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header normal"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div><ul class="extra"><li><strong>Explore new survey data about COVID-19 in our tool</strong></li></ul><ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS COVERAGE ></a></li></ul></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=720%2C405 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1440%2C810 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item -->
+
+		<!-- wp:separator -->
+		<hr class="wp-block-separator"/>
+		<!-- /wp:separator -->
+
+		<!-- wp:prc-block/columns {"equal":true,"divided":true} -->
+		<div class="ui stackable divided vertically padded equal width grid"><!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","headerSize":"small","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header small"><a href="">Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column -->
+
+		<!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"Would you share your views of Donald Trump over dinner?","date":"05/16/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","imageSize":"A2","headerSize":"small","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 16, 2020</span></div><div class="header small"><a href="">Would you share your views of Donald Trump over dinner?</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=268%2C151 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=536%2C301 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column --></div>
+		<!-- /wp:prc-block/columns --></div></div>
+		<!-- /wp:group -->
+		<?php $three_lede_w_xl = ob_get_clean();
+		register_block_pattern(
+			'prc-bock/three-lede-xl',
+			array(
+				'title' => 'Three Lede w XL',
+				'content' => $three_lede_w_xl,
+				'categories' => ['lede'],
+				'viewportWidth' => 1000,
+			)
+		);
+
+		// Pattern: Three Lede w XL and Newsletter V1
+		ob_start();
+		?>
+		<!-- wp:group -->
+		<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","imageSize":"XL","enableExtra":true,"enableBreakingNews":true,"headerSize":"large","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header large"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div><ul class="extra"><li><strong>Explore new survey data about COVID-19 in our tool</strong></li></ul><ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS COVERAGE ></a></li></ul></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=720%2C405 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1440%2C810 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item -->
+
+		<!-- wp:separator -->
+		<hr class="wp-block-separator"/>
+		<!-- /wp:separator -->
+
+		<!-- wp:prc-block/columns {"equal":true,"divided":true} -->
+		<div class="ui stackable divided vertically padded equal width grid"><!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","headerSize":"small","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header small"><a href="">Americans Have Positive Views About Religion's Role In Society, but Want It Out of Politics</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=564%2C317 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1128%2C634 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item --></div>
+		<!-- /wp:prc-block/column -->
+
+		<!-- wp:prc-block/column -->
+		<div class="column wp-block-prc-block-column"><!-- wp:prc-block/promo {"header":"Facts are more important than ever.","description":"\u003cp\u003eIn times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.\u003c/p\u003e","bgColor":"#F7F7F2","borderColor":"#E2E2E2"} -->
+		<div class="wp-block-prc-block-promo" style="border-color:#E2E2E2;background-color:#F7F7F2"><div class="text"><h2>Facts are more important than ever.</h2><div><p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p></div></div><div class="action"><!-- wp:prc-block/button {"color":"#d3aa20","label":"DONATE"} -->
+		<a class="wp-block-prc-block-button mustard ui button" href="">DONATE</a>
+		<!-- /wp:prc-block/button --></div></div>
+		<!-- /wp:prc-block/promo --></div>
+		<!-- /wp:prc-block/column --></div>
+		<!-- /wp:prc-block/columns --></div></div>
+		<!-- /wp:group -->
+		<?php $three_lede_xl_newsletter_v1 = ob_get_clean();
+		register_block_pattern(
+			'prc-bock/three-lede-xl-newsletter-v1',
+			array(
+				'title' => 'Three Lede w XL and Newsletter (V1)',
+				'content' => $three_lede_xl_newsletter_v1,
+				'categories' => ['lede'],
+				'viewportWidth' => 1000,
+			)
+		);
+
+		// Pattern: Three Lede W XL and Newsletter V2
+		ob_start();
+		?>
+		<!-- wp:group -->
+		<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","imageSize":"XL","enableExtra":true,"enableBreakingNews":true,"headerSize":"large","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header large"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div><ul class="extra"><li><strong>Explore new survey data about COVID-19 in our tool</strong></li></ul><ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS COVERAGE ></a></li></ul></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=720%2C405 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1440%2C810 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item -->
+
+		<!-- wp:separator -->
+		<hr class="wp-block-separator"/>
+		<!-- /wp:separator -->
+
+		<!-- wp:prc-block/promo {"header":"Facts are more important than ever.","description":"\u003cp\u003eIn times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.\u003c/p\u003e","bgColor":"#F7F7F2","borderColor":"#E2E2E2","pancake":true} -->
+		<div class="wp-block-prc-block-promo pancake" style="border-color:#E2E2E2;background-color:#F7F7F2"><div class="text"><h2>Facts are more important than ever.</h2><div><p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p></div></div><div class="action"><!-- wp:prc-block/button {"color":"#d3aa20","label":"DONATE"} -->
+		<a class="wp-block-prc-block-button mustard ui button" href="">DONATE</a>
+		<!-- /wp:prc-block/button --></div></div>
+		<!-- /wp:prc-block/promo --></div></div>
+		<!-- /wp:group -->
+		<?php $three_lede_xl_newsletter_v2 = ob_get_clean();
+		register_block_pattern(
+			'prc-bock/three-lede-xl-newsletter-v1',
+			array(
+				'title' => 'Three Lede w XL and Newsletter (V1)',
+				'content' => $three_lede_xl_newsletter_v2,
+				'categories' => ['lede'],
+				'viewportWidth' => 1000,
+			)
+		);
+
+		// Pattern: Three Lede W XL and Newsletter V3
+		ob_start();
+		?>
+		<!-- wp:group -->
+		<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg","imageSlot":"right","imageSize":"XL","enableExtra":true,"enableBreakingNews":true,"headerSize":"large","className":"is-style-right"} -->
+		<article class="item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span classnmae="date">May 11, 2020</span></div><div class="header large"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>Nullam id dolor id nibh ultricies vehicula ut id elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum.</p></div><ul class="extra"><li><strong>Explore new survey data about COVID-19 in our tool</strong></li></ul><ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS COVERAGE ></a></li></ul></div><div class="ui medium image"><picture><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=720%2C405 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=1440%2C810 2x" media="(min-width: 420px)"/><source srcset="https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=354%2C194 1x, https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg?resize=708%2C388 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
+		<!-- /wp:prc-block/story-item -->
+
+		<!-- wp:separator -->
+		<hr class="wp-block-separator"/>
+		<!-- /wp:separator -->
+
+		<!-- wp:prc-block/promo {"header":"Facts are more important than ever.","description":"\u003cp\u003eIn times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.\u003c/p\u003e","bgColor":"#F7F7F2","borderColor":"#E2E2E2","pancake":true} -->
+		<div class="wp-block-prc-block-promo pancake" style="border-color:#E2E2E2;background-color:#F7F7F2"><div class="text"><h2>Facts are more important than ever.</h2><div><p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p></div></div><div class="action"><!-- wp:prc-block/button {"color":"#d3aa20","label":"DONATE"} -->
+		<a class="wp-block-prc-block-button mustard ui button" href="">DONATE</a>
+		<!-- /wp:prc-block/button --></div></div>
+		<!-- /wp:prc-block/promo --></div></div>
+		<!-- /wp:group -->
+		<?php $three_lede_xl_newsletter_v3 = ob_get_clean();
+		register_block_pattern(
+			'prc-bock/three-lede-xl-newsletter-v3',
+			array(
+				'title' => 'Three Lede w XL and Newsletter (V3)',
+				'content' => $three_lede_xl_newsletter_v3,
+				'categories' => ['lede'],
+				'viewportWidth' => 1000,
 			)
 		);
 

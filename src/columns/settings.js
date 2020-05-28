@@ -1,9 +1,9 @@
 
 import { __ } from '@wordpress/i18n';
 import { columns as icon } from '@wordpress/icons';
-import edit from '../edit';
-import save from '../save';
-import variations from '../variations/standard';
+import edit from './edit';
+import save from './save';
+import variations from './variations';
 
 const settings = [
     'prc-block/columns',
