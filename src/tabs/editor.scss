@@ -1,0 +1,15 @@
+[data-type="prc-block/pane"] {
+  display:none;
+  &:first-of-type {
+    display:block;
+  }
+  .ui.segment {
+    border-top:none !important;
+  }
+}
+
+.static {
+  .ui.bottom.attached.segment {
+    display:none !important;
+  }
+}

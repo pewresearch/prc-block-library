@@ -36,6 +36,13 @@ module.exports = {
             },
         },
         {
+			name: 'tabs',
+			entry: {
+				main: './src/tabs/index.js',
+				frontend: './src/tabs/frontend.js',
+			},
+		},
+        {
             name: 'card',
             entry: {
                 main: './src/card/index.js',

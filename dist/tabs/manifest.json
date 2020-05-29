@@ -1,0 +1,42 @@
+{
+  "frontend.js": "tabs/frontend-427aa110.js",
+  "frontend.js.map": "tabs/frontend-427aa110.js.map",
+  "main.css": "tabs/main-6bdda983.css",
+  "main.css.map": "tabs/main-6bdda983.css.map",
+  "main.js": "tabs/main-8dbb65f9.js",
+  "main.js.map": "tabs/main-8dbb65f9.js.map",
+  "runtime.js": "tabs/runtime-9524aa08.js",
+  "runtime.js.map": "tabs/runtime-9524aa08.js.map",
+  "vendors~main.js": "tabs/vendors~main-76172db3.js",
+  "vendors~main.js.map": "tabs/vendors~main-76172db3.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "tabs/runtime-9524aa08.js",
+        "tabs/vendors~main-76172db3.js",
+        "tabs/main-8dbb65f9.js"
+      ],
+      "js.map": [
+        "tabs/runtime-9524aa08.js.map",
+        "tabs/vendors~main-76172db3.js.map",
+        "tabs/main-8dbb65f9.js.map"
+      ],
+      "css": [
+        "tabs/main-6bdda983.css"
+      ],
+      "css.map": [
+        "tabs/main-6bdda983.css.map"
+      ]
+    },
+    "frontend": {
+      "js": [
+        "tabs/runtime-9524aa08.js",
+        "tabs/frontend-427aa110.js"
+      ],
+      "js.map": [
+        "tabs/runtime-9524aa08.js.map",
+        "tabs/frontend-427aa110.js.map"
+      ]
+    }
+  }
+}
