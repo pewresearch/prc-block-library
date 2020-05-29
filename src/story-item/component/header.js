@@ -15,11 +15,14 @@ const Header = ({
     label,
     date,
     link,
-    enabled,
     size,
+    enabled,
     taxonomy,
     setAttributes,
 }) => {
+    if ( true !== enabled ) {
+        return <Fragment></Fragment>;
+    }
     const currentSize = size; // Perhaps we need useState here for setting active?
     const createSizeControls = function(size) {
         let active = false;
@@ -37,53 +40,49 @@ const Header = ({
     };
     return (
         <Fragment>
-            {true === enabled && (
-                <Fragment>
-                    <Item.Meta>
-                        {false !== setAttributes && (
-                            <KickerEditor
-                                date={date}
-                                label={label}
-                                taxonomy={taxonomy}
-                                setAttributes={setAttributes}
+            <Item.Meta>
+                {false !== setAttributes && (
+                    <KickerEditor
+                        date={date}
+                        label={label}
+                        taxonomy={taxonomy}
+                        setAttributes={setAttributes}
+                    />
+                )}
+                {false === setAttributes && (
+                    <Kicker label={label} date={date} />
+                )}
+            </Item.Meta>
+            <Item.Header className={size}>
+                {false !== setAttributes && (
+                    <Fragment>
+                        <BlockControls>
+                            <Toolbar
+                                controls={[
+                                    'small',
+                                    'normal',
+                                    'large',
+                                ].map(createSizeControls)}
                             />
-                        )}
-                        {false === setAttributes && (
-                            <Kicker label={label} date={date} />
-                        )}
-                    </Item.Meta>
-                    <Item.Header className={size}>
-                        {false !== setAttributes && (
-                            <Fragment>
-                                <BlockControls>
-                                    <Toolbar
-                                        controls={[
-                                            'small',
-                                            'normal',
-                                            'large',
-                                        ].map(createSizeControls)}
-                                    />
-                                </BlockControls>
-                                <RichText
-                                    tagName="div" // The tag here is the element output and editable in the admin
-                                    value={title} // Any existing content, either from the database or an attribute default
-                                    onChange={title => setAttributes({ title })} // Store updated content as a block attribute
-                                    placeholder="Title" // Display this text before any content has been added by the user
-                                    multiline="br"
-                                />
-                            </Fragment>
-                        )}
-                        {false === setAttributes && (
-                            <PostTitle
-                                title={title}
-                                link={link}
-                                as="a"
-                                size={size}
-                            />
-                        )}
-                    </Item.Header>
-                </Fragment>
-            )}
+                        </BlockControls>
+                        <RichText
+                            tagName="div"
+                            value={title}
+                            onChange={title => setAttributes({ title })}
+                            placeholder="Title"
+                            multiline="br"
+                        />
+                    </Fragment>
+                )}
+                {false === setAttributes && (
+                    <PostTitle
+                        title={title}
+                        link={link}
+                        as="a"
+                        size={size}
+                    />
+                )}
+            </Item.Header>
         </Fragment>
     );
 }

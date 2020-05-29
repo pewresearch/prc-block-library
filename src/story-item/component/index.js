@@ -1,11 +1,9 @@
 import classNames from 'classnames/bind';
-
 import { Item } from 'semantic-ui-react';
+import { Image } from 'shared';
 import Description from './description';
 import Extra from './extra';
 import Header from './header';
-
-import { Image } from 'shared';
 
 const StoryItem = props => {
     console.info('What is in StoryItem');

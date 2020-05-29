@@ -1,27 +1,29 @@
 // WordPress Core
 import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
-import classNames from 'classnames/bind';
 
-const Extra = function({ enabled, content, setAttributes, breakingNews }) {
-    const classes = classNames('extra');
+const Extra = ({ content, breakingNews, enabled, setAttributes }) => {
+    if ( true !== enabled ) {
+        return <Fragment></Fragment>;
+    }
+
     return (
         <Fragment>
-            {false !== setAttributes && true === enabled && (
+            {false !== setAttributes && (
                 <RichText
-                    tagName="ul" // The tag here is the element output and editable in the admin
-                    value={content} // Any existing content, either from the database or an attribute default
-                    onChange={extra => setAttributes({ extra })} // Store updated content as a block attribute
-                    placeholder={content} // Display this text before any content has been added by the user
+                    tagName="ul"
+                    value={content}
+                    onChange={extra => setAttributes({ extra })}
+                    placeholder={content}
                     multiline="li"
-                    className={classes}
+                    className={'extra'}
                 />
             )}
-            {false === setAttributes && true === enabled && (
+            {false === setAttributes && (
                 <RichText.Content
                     tagName="ul"
                     value={content}
-                    className={classes}
+                    className={'extra'}
                 />
             )}
             {true === breakingNews && false !== window.prcBreakingNews && (
