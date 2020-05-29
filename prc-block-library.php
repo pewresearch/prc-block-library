@@ -488,6 +488,9 @@ class PRC_Block_Library {
 	public function register_block_patterns() {
 		// Unregister the core block patterns and categories
 		// Patterns
+		if ( ! function_exists('unregister_block_pattern') || ! function_exists('unregister_block_pattern_category') || ! function_exists('register_block_pattern') || ! function_exists('register_block_pattern_category') ) {
+			return;
+		}
 		unregister_block_pattern( 'core/text-two-columns' );
 		unregister_block_pattern( 'core/two-buttons' );
 		unregister_block_pattern( 'core/cover-abc' );
