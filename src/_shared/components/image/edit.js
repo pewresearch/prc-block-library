@@ -74,7 +74,7 @@ const Edit = ({ img, size, slot, chartArt, dataHandler }) => {
                                 },
                             ]}
                             onChange={imageSize => handler({ imageSize })}
-                            style={{ marginBottom: '0px' }}
+                            style={{ marginBottom: '0px', maxWidth: '140px' }}
                         />
                     </div>
                 )}

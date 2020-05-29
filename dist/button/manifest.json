@@ -1,8 +1,8 @@
 {
   "main.css": "button/main-bfa389e9.css",
   "main.css.map": "button/main-bfa389e9.css.map",
-  "main.js": "button/main-6e92a574.js",
-  "main.js.map": "button/main-6e92a574.js.map",
+  "main.js": "button/main-655b9742.js",
+  "main.js.map": "button/main-655b9742.js.map",
   "runtime.js": "button/runtime-d2846bfc.js",
   "runtime.js.map": "button/runtime-d2846bfc.js.map",
   "vendors~main.js": "button/vendors~main-b98e7fba.js",
@@ -12,12 +12,12 @@
       "js": [
         "button/runtime-d2846bfc.js",
         "button/vendors~main-b98e7fba.js",
-        "button/main-6e92a574.js"
+        "button/main-655b9742.js"
       ],
       "js.map": [
         "button/runtime-d2846bfc.js.map",
         "button/vendors~main-b98e7fba.js.map",
-        "button/main-6e92a574.js.map"
+        "button/main-655b9742.js.map"
       ],
       "css": [
         "button/main-bfa389e9.css"
