@@ -1,4 +1,4 @@
-import StoryItem from './component';
+import { StoryItem } from 'shared';
 
 const save = props => {
     return <StoryItem {...props} />;

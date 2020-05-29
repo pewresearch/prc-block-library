@@ -9,7 +9,7 @@ import {
 import { Component, Fragment } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
-import StoryItem from './component';
+import { StoryItem } from 'shared';
 
 class EditSidebar extends Component {
     constructor(props) {

@@ -1,6 +1,4 @@
 import { getPosts, getTerms, getColorName } from './helpers';
-import { Kicker, KickerEditor } from './components/kicker';
-import Image from './components/image';
+import { Kicker, KickerEditor, Image, StoryItem } from './components';
 
-
-export { getPosts, getTerms, Image, Kicker, KickerEditor, getColorName };
+export { getPosts, getTerms, Image, Kicker, KickerEditor, StoryItem, getColorName };

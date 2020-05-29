@@ -3,7 +3,7 @@ import './columns.scss';
 
 import { Component, Fragment } from '@wordpress/element';
 import { Grid } from 'semantic-ui-react';
-import StoryItem from '../../story-item/component';
+import { StoryItem } from 'shared';
 
 class PostsColumns extends Component {
 	constructor(props) {
