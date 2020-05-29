@@ -9,6 +9,7 @@ const {
     // eslint-disable-next-line import/no-extraneous-dependencies
 } = require('@wpackio/scripts');
 const pkg = require('./package.json');
+const path = require('path');
 
 module.exports = {
     // Project Identity
@@ -41,7 +42,13 @@ module.exports = {
 				main: './src/tabs/index.js',
 				frontend: './src/tabs/frontend.js',
 			},
-		},
+        },
+        {
+            name: 'callout',
+            entry: {
+                main: './src/callout/index.js',
+            },
+        },
         {
             name: 'card',
             entry: {
@@ -49,9 +56,28 @@ module.exports = {
             },
         },
         {
+            name: 'collapsible',
+            entry: {
+                main: './src/collapsible/index.js',
+                frontend: './src/collapsible/frontend.js',
+            },
+        },
+        {
             name: 'button',
             entry: {
                 main: './src/button/index.js',
+            },
+        },
+        {
+            name: 'columns',
+            entry: {
+                main: './src/columns/index.js',
+            },
+        },
+        {
+            name: 'column',
+            entry: {
+                main: './src/column/index.js',
             },
         },
         {
@@ -145,6 +171,20 @@ module.exports = {
                 return merge(config, customRules);
             },
         },
+        {
+            name: 'taxonomy-tree',
+            entry: {
+                main: './src/taxonomy-tree/index.js',
+                frontend: './src/taxonomy-tree/frontend.js',
+            },
+        },
+        {
+            name: 'taxonomy-tree-list',
+            entry: {
+                main: './src/taxonomy-tree-list/index.js',
+                frontend: './src/taxonomy-tree-list/frontend.js',
+            },
+        },
         // If has more length, then multi-compiler
     ],
     // Output path relative to the context directory
@@ -174,6 +214,7 @@ module.exports = {
         '@wordpress/element': 'wp.element',
         '@wordpress/block-editor': 'wp.blockEditor',
         '@wordpress/components': 'wp.components',
+        '@wordpress/dom-ready': 'wp.domReady',
         '@wordpress/plugins': 'wp.plugins',
         '@wordpress/edit-post': 'wp.editPost',
         '@wordpress/data': 'wp.data',
@@ -183,7 +224,9 @@ module.exports = {
     },
     // Webpack Aliases
     // <https://webpack.js.org/configuration/resolve/#resolve-alias>
-    alias: undefined,
+    alias: {
+		shared: path.resolve( __dirname, 'src/_shared' ),
+	},
     // Show overlay on development
     errorOverlay: true,
     // Auto optimization by webpack

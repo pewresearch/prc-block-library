@@ -37,6 +37,13 @@ const Display = ({ img, size, link }) => {
             smallHidpi: '708,388',
         };
 
+        const XL = {
+            default: '720,405',
+            small: '354,194',
+            hidpi: '1440,810',
+            smallHidpi: '708,388',
+        };
+
         const legacy = {
             '260': {
                 default: '260,260',
@@ -60,6 +67,8 @@ const Display = ({ img, size, link }) => {
             args = { resize: A3[variant] };
         } else if ('A4' === size) {
             args = { resize: A4[variant] };
+        } else if ('XL' === size) {
+            args = { resize: XL[variant] };
         }
 
         // Temp legacy sizes for homepages

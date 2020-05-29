@@ -17,6 +17,10 @@ $breakpoint-tablet: 920px;
       margin-top: 0;
     }
 
+    &:last-child {
+      margin-bottom: 0;
+    }
+
     .text {
       padding-bottom: 24px;
 

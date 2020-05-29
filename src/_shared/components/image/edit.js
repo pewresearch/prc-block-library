@@ -59,6 +59,7 @@ const Edit = ({ img, size, slot, chartArt, dataHandler }) => {
                             label="Image Size"
                             value={size}
                             options={[
+                                { value: 'XL', label: 'XL' },
                                 { value: 'A1', label: 'A1' },
                                 { value: 'A2', label: 'A2' },
                                 { value: 'A3', label: 'A3' },
@@ -73,7 +74,7 @@ const Edit = ({ img, size, slot, chartArt, dataHandler }) => {
                                 },
                             ]}
                             onChange={imageSize => handler({ imageSize })}
-                            style={{ marginBottom: '0px' }}
+                            style={{ marginBottom: '0px', maxWidth: '140px' }}
                         />
                     </div>
                 )}
