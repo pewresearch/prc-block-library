@@ -43,6 +43,9 @@ const Image = ({ img, link, size, slot, chartArt, dataHandler }) => {
                 isA3 = true;
             } else if ( 'A4' === size ) {
                 isA4 = true;
+            } else {
+                // Fallback to isMedium
+                isMedium = true;
             }
         }
 
