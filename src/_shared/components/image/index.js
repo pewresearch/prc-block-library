@@ -24,15 +24,6 @@ const Image = ({ img, link, size, slot, chartArt, dataHandler }) => {
         let isA3 = false;
         let isA4 = false;
         if (false !== slot) {
-            if ('left' === slot || 'right' === slot) {
-                // if ( 'XL' === size ) {
-                //     isXL = true;
-                // } else if ( 'A1' === size ) {
-                //     isA1 = true;
-                // } else {
-                //     isMedium = true;
-                // }
-            }
             if ( 'XL' === size ) {
                 isXL = true;
             } else if ( 'A1' === size ) {
@@ -44,8 +35,9 @@ const Image = ({ img, link, size, slot, chartArt, dataHandler }) => {
             } else if ( 'A4' === size ) {
                 isA4 = true;
             } else {
-                // Fallback to isMedium
-                isMedium = true;
+                if ('left' === slot || 'right' === slot) {
+                    isMedium = true;
+                }
             }
         }
 
