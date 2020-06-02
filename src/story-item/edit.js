@@ -223,6 +223,8 @@ const edit = props => {
         props.setAttributes({ imageSlot: 'right' });
     } else if ('is-style-disabled' === props.attributes.className) {
         props.setAttributes({ imageSlot: 'disabled' });
+    } else {
+        props.setAttributes({ imageSlot: 'default' });
     }
     return (
         <Fragment>

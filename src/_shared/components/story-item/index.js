@@ -9,8 +9,8 @@ import Header from './header';
 import './style.scss';
 
 const StoryItem = props => {
-    console.info('What is in StoryItem');
-    console.log(props);
+    // console.info('Story Item::::');
+    // console.log(props);
     // If the block is not selected, it is not in edit mode, disable setAttributes.
     if (
         undefined === props.isSelected ||
