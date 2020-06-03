@@ -209,11 +209,8 @@ class EditSidebar extends Component {
 }
 
 const edit = props => {
-    // Set Image Slot by Style
-    // @TODO: This should be done on some hook not all the time live. // We should do this using useDispatch or something
-    if ('is-style-default' === props.attributes.className) {
-        props.setAttributes({ imageSlot: 'default' });
-    } else if ('is-style-top' === props.attributes.className) {
+    
+    if ('is-style-top' === props.attributes.className) {
         props.setAttributes({ imageSlot: 'top' });
     } else if ('is-style-bottom' === props.attributes.className) {
         props.setAttributes({ imageSlot: 'bottom' });
@@ -226,6 +223,7 @@ const edit = props => {
     } else {
         props.setAttributes({ imageSlot: 'default' });
     }
+
     return (
         <Fragment>
             {true === props.isSelected && <EditSidebar {...props} />}
