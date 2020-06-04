@@ -1,15 +1,14 @@
 import { Fragment } from '@wordpress/element';
 import { InnerBlocks } from '@wordpress/block-editor';
-import { ListTitle } from './components';
+import { CollapsibleList } from 'shared';
 
 const save = ({ attributes, className }) => {
     const { heading } = attributes;
     return (
         <div className={className}>
-            <ListTitle heading={heading} setAttributes={false}/>
-            <div class="content">
+            <CollapsibleList heading={heading} chevron={true} setAttributes={false}>
                 <InnerBlocks.Content />
-            </div>
+            </CollapsibleList>
         </div>
     );
 };

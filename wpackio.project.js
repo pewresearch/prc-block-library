@@ -172,6 +172,13 @@ module.exports = {
             },
         },
         {
+            name: 'a-z-taxonomy-list',
+            entry: {
+                main: './src/a-z-taxonomy-list/index.js',
+                // frontend: './src/a-z-taxonomy-list/frontend.js',
+            },
+        },
+        {
             name: 'taxonomy-tree',
             entry: {
                 main: './src/taxonomy-tree/index.js',

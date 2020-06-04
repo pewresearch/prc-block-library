@@ -1,64 +1,14 @@
 .wp-block-prc-block-taxonomy-tree {
     border-bottom: 1px solid #DEDEDF;
-    &:first-child {
-        padding-top: 0;
-    }
-    padding-top: 1.074em;
-    padding-bottom: 1.074em;
-    @media only screen and (min-width: 541px) {
-        padding-top: 2.1875em;
-        padding-bottom: 2.1875em;
-    }
-    .title {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        @media only screen and (max-width: 540px) {
-            align-items: flex-start;
-        }
-        a {
-            color: black !important;
-            text-decoration: none;
-        }
-        h1,h2,h3 {
-            margin: 0;
-            @media only screen and (max-width: 540px) {
-                font-size: 1.175em;
-            }
-        }
-        .icon.caret {
-            display: none;
-            @media only screen and (max-width: 540px) {
-                display: inherit;
-            }
-        }
-        .icon.chevron {
-            display: none;
-            @media only screen and (min-width: 541px) {
-                display: inherit;
-                margin-left: 0.25em;
-            }
-        }
-    }
-    .content {
-        padding-top: 18px;
-        display: block;
-        @media only screen and (max-width: 540px) {
-            display: none;
-            padding-left: 1.3em;
-        }
-    }
 }
 
 // Block Editor
-
 div[data-type="prc-block/taxonomy-tree-list"] {
     margin-top: 0!important;
     margin-bottom: 0!important;
 }
-
 .wp-block-prc-block-taxonomy-tree {
-    // For the latest Gutenberg release
+    // Styled for Gutenberg 9+
     .block-editor-button-block-appender {
         display: flex;
         flex-direction: row;

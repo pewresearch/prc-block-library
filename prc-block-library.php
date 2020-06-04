@@ -457,7 +457,27 @@ class PRC_Block_Library {
 			)
 		);
 
-
+		// A-Z Taxonomy List
+		$az_taxonomy_list = $enqueue->register(
+			'a-z-taxonomy-list',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		register_block_type(
+			'prc-block/a-z-taxonomy-list',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $az_taxonomy_list['js'] )['handle'],
+				'style'         => array_pop( $az_taxonomy_list['css'] )['handle'],
+			)
+		);
 
 		// Taxonomy Tree
 		$taxonomy_tree = $enqueue->register(
