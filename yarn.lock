@@ -912,6 +912,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@daniakash/lifecycle-hooks@^0.0.1-alpha-2":
+  version "0.0.1-alpha-2"
+  resolved "https://registry.yarnpkg.com/@daniakash/lifecycle-hooks/-/lifecycle-hooks-0.0.1-alpha-2.tgz#a544fcc54e81c19a8bad5017008dd5b69e934199"
+  integrity sha512-Ql8FSJhgWUFR0iCyh3HmI+YnZY/vkUgiC+6YjK5Sr8xDfUPacGRupUqLMbeEqMAnyyau/wNA6TdwD4DO81c+iw==
+
 "@emotion/cache@^10.0.27":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"

@@ -961,6 +961,26 @@ class PRC_Block_Library {
 				),
 			)
 		);
+		register_rest_route(
+			'prc-api/v2/blocks/helpers',
+			'/get-taxonomy-by-letter',
+			array(
+				'methods'  => 'GET',
+				'callback' => array( $this, 'get_taxonomy_by_letter_restfully' ),
+				'args'     => array(
+					'taxonomy'    => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+					'letter'    => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+				),
+			)
+		);
 	}
 
 	public function get_block_lib_posts( \WP_REST_Request $request ) {
@@ -1027,6 +1047,36 @@ class PRC_Block_Library {
 		/* Restore original Post Data */
 		wp_reset_postdata();
 		restore_current_blog();
+		return $return;
+	}
+
+	public function get_taxonomy_by_letter_restfully( \WP_REST_Request $request ) {
+		$taxonomy = $request->get_param( 'taxonomy' );
+		$letter   = $request->get_param( 'letter' );
+		
+		$terms = get_terms( array(
+			'taxonomy' => $taxonomy,
+			'hide_empty' => false,
+			'name__like' => $letter
+		) );
+
+		if ( empty( $terms ) ) {
+			return false;
+		}
+
+		$return = array();
+
+		function startsWith($string, $startString) { 
+			$len = strlen($startString); 
+			return (substr($string, 0, $len) === $startString); 
+		} 
+
+		foreach ($terms as $term) {
+			if ( true === startsWith($term->name, $letter) ) {
+				$return[] = $term;
+			}
+		}
+
 		return $return;
 	}
 

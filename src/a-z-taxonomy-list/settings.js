@@ -21,6 +21,14 @@ const settings = [
                 selector: 'h2',
                 default: '',
             },
+            letter: {
+                type: 'string',
+                default: '',
+            },
+            include: {
+                type: 'array',
+                default: [],
+            }
         },
         edit,
         save,

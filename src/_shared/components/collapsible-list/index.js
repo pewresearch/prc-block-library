@@ -2,7 +2,7 @@ import './style.scss';
 import { RichText } from '@wordpress/block-editor';
 import { Icon } from 'semantic-ui-react';
 
-const CollapsibleList = ({heading, chevron, setAttributes, children}) => {
+const CollapsibleList = ({heading, chevron, placeholder, setAttributes, children}) => {
     return(
         <div className="prc-collapsible-list">
             <div className="title">
@@ -12,7 +12,7 @@ const CollapsibleList = ({heading, chevron, setAttributes, children}) => {
                         tagName="h2"
                         value={heading}
                         onChange={h => setAttributes({ heading: h })}
-                        placeholder="Politics"
+                        placeholder={placeholder}
                         formattingControls={['link']}
                         keepPlaceholderOnFocus
                         className="sans-serif"

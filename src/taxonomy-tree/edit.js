@@ -8,7 +8,7 @@ const edit = ({ attributes, className, setAttributes }) => {
     const { heading } = attributes;
     return (
         <div className={className}>
-            <CollapsibleList heading={heading} chevron={true} setAttributes={setAttributes}>
+            <CollapsibleList heading={heading} placeholder="Politics" chevron={true} setAttributes={setAttributes}>
                 <InnerBlocks
                     allowedBlocks={ALLOWED_BLOCKS}
                 />

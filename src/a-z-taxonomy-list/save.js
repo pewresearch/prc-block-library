@@ -4,7 +4,7 @@ const save = ({ attributes, className, setAttributes }) => {
     const { heading } = attributes;
     return (
         <div className={className}>
-            <CollapsibleList heading={heading} setAttributes={setAttributes}>
+            <CollapsibleList heading={heading} setAttributes={false}>
                 <p>Test</p>
             </CollapsibleList>
         </div>
