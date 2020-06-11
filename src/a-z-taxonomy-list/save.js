@@ -5,8 +5,6 @@ import { CollapsibleList, TaxonomySelectList } from 'shared';
 const save = ({ attributes, className }) => {
     const { heading, letter, include } = attributes;
 
-    console.log('save mode::');
-
     return (
         <div className={className}>
             <CollapsibleList
@@ -17,6 +15,7 @@ const save = ({ attributes, className }) => {
                 <TaxonomySelectList
                     include={include}
                     letter={letter}
+                    taxonomy="Topics"
                     setAttributes={false}
                 />
             </CollapsibleList>

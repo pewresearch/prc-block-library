@@ -29,44 +29,14 @@ class PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			$this->plugin_dir = __DIR__ . '/prc_blocks/';
+			add_action( 'wp_enqueue_scripts', array( $this, 'block_library_scripts' ) );
 			add_action( 'init', array( $this, 'register_block_assets' ) );
 			add_action( 'init', array( $this, 'register_block_patterns' ) );
 			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
-			add_action( 'acf/init', array( $this, 'acf_shim' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'posts_block_dynamic_render' ) );
 		}
-	}
-
-	public function acf_shim() {
-		// get post types assigned to byline.
-		// register a testimonial block.
-		$post_types = array( 'post' );
-		acf_register_block_type(
-			array(
-				'name'            => 'bylines',
-				'title'           => __( 'Bylines' ),
-				'description'     => __( 'Bylines' ),
-				'render_callback' => array( $this, 'acf_byline_render' ),
-				'category'        => 'formatting',
-				'icon'            => 'groups',
-				'keywords'        => array( 'byline', 'bylines' ),
-				'post_types'      => $post_types,
-				// 'mode'            => 'edit',
-				'supports'        => array(
-					'multiple' => false,
-				),
-			)
-		);
-	}
-
-	public function acf_byline_render() {
-		ob_start();
-		?>
-		<div>Bylines Test</div>
-		<?php
-		return ob_get_clean();
 	}
 
 	/**
@@ -87,6 +57,23 @@ class PRC_Block_Library {
 		return $allowed_tags;
 	}
 
+	public function block_library_scripts() {
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
+
+		$enqueue->enqueue(
+			'block-library',
+			'globals',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
 	/**
 	 * Enqueue Gutenberg block assets for both frontend + backend.
 	 *
@@ -103,11 +90,11 @@ class PRC_Block_Library {
 	 */
 	public function register_block_assets() { // phpcs:ignore
 		$mailchimp_interests = false;
-		if ( class_exists('PRC_API_Mailchimp') ) {
-			$mailchimp = new PRC_API_Mailchimp( true );
+		if ( class_exists( 'PRC_API_Mailchimp' ) ) {
+			$mailchimp           = new PRC_API_Mailchimp( true );
 			$mailchimp_interests = $mailchimp->get_interests();
 		}
-		$enqueue   = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 
 		// Story Item
 		$js_deps    = $this->js_deps;
@@ -177,7 +164,7 @@ class PRC_Block_Library {
 		);
 
 		// Collapsible
-		$collapsible = $enqueue->register(
+		$collapsible          = $enqueue->register(
 			'collapsible',
 			'main',
 			array(
@@ -203,16 +190,19 @@ class PRC_Block_Library {
 		);
 		// This supports the legacy collapsible shortcode by utilizing the new collapsible react component instead.
 		$this->frontend_shortcode_shim = array_pop( $collapsible_frontend['js'] )['handle'];
-		add_filter( 'prc_block_collapsible_frontend_shim', function() { 
-			return $this->frontend_shortcode_shim;
-		});
+		add_filter(
+			'prc_block_collapsible_frontend_shim',
+			function() {
+				return $this->frontend_shortcode_shim;
+			}
+		);
 		register_block_type(
 			'prc-block/collapsible',
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $collapsible['js'] )['handle'],
-				'editor_style' => array_pop( $collapsible['css'] )['handle'],
-				'script' =>  $this->frontend_shortcode_shim,
+				'editor_style'  => array_pop( $collapsible['css'] )['handle'],
+				'script'        => $this->frontend_shortcode_shim,
 			)
 		);
 
@@ -234,7 +224,7 @@ class PRC_Block_Library {
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $columns['js'] )['handle'],
-				'editor_style'         => array_pop( $columns['css'] )['handle'],
+				'editor_style'  => array_pop( $columns['css'] )['handle'],
 			)
 		);
 
@@ -256,7 +246,7 @@ class PRC_Block_Library {
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $column['js'] )['handle'],
-				'editor_style'         => array_pop( $column['css'] )['handle'],
+				'editor_style'  => array_pop( $column['css'] )['handle'],
 			)
 		);
 
@@ -418,34 +408,31 @@ class PRC_Block_Library {
 			)
 		);
 
-
-
-
 		// Tabs
 		$tabs = $enqueue->register(
 			'tabs',
 			'main',
-			[
+			array(
 				'js'        => true,
 				'css'       => true,
 				'js_dep'    => $js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 
-		$tabs_frontend  = $enqueue->register(
+		$tabs_frontend = $enqueue->register(
 			'tabs',
 			'frontend',
-			[
+			array(
 				'js'        => true,
 				'css'       => false,
 				'js_dep'    => $js_deps,
-				'css_dep'   => [],
+				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
-			]
+			)
 		);
 
 		register_block_type(
@@ -453,7 +440,7 @@ class PRC_Block_Library {
 			array(
 				'editor_script' => array_pop( $tabs['js'] )['handle'],
 				'editor_style'  => array_pop( $tabs['css'] )['handle'],
-				'script' => array_pop( $tabs_frontend['js'] )['handle'],
+				'script'        => array_pop( $tabs_frontend['js'] )['handle'],
 			)
 		);
 
@@ -492,30 +479,17 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-		$taxonomy_tree_frontend = $enqueue->register(
-			'taxonomy-tree',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $this->js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
 		register_block_type(
 			'prc-block/taxonomy-tree',
 			array(
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => array_pop( $taxonomy_tree['js'] )['handle'],
 				'style'         => array_pop( $taxonomy_tree['css'] )['handle'],
-				'script'        => array_pop( $taxonomy_tree_frontend['js'] )['handle'],
 			)
 		);
 
 		// Taxonomy Tree List
-		$tax_tree_list = $enqueue->register(
+		$tax_tree_list          = $enqueue->register(
 			'taxonomy-tree-list',
 			'main',
 			array(
@@ -553,7 +527,7 @@ class PRC_Block_Library {
 	public function register_block_patterns() {
 		// Unregister the core block patterns and categories
 		// Patterns
-		if ( ! function_exists('unregister_block_pattern') || ! function_exists('unregister_block_pattern_category') || ! function_exists('register_block_pattern') || ! function_exists('register_block_pattern_category') ) {
+		if ( ! function_exists( 'unregister_block_pattern' ) || ! function_exists( 'unregister_block_pattern_category' ) || ! function_exists( 'register_block_pattern' ) || ! function_exists( 'register_block_pattern_category' ) ) {
 			return;
 		}
 		unregister_block_pattern( 'core/text-two-columns' );
@@ -598,13 +572,14 @@ class PRC_Block_Library {
 		<!-- /wp:prc-block/button --></div></div>
 		<!-- /wp:prc-block/promo --></div></div>
 		<!-- /wp:group -->
-		<?php $one_lede = ob_get_clean();
+		<?php
+		$one_lede = ob_get_clean();
 		register_block_pattern(
 			'prc-bock/one-lede',
 			array(
-				'title' => '1 Lede',
-				'content' => $one_lede,
-				'categories' => ['lede'],
+				'title'         => '1 Lede',
+				'content'       => $one_lede,
+				'categories'    => array( 'lede' ),
 				'viewportWidth' => 1156,
 			)
 		);
@@ -629,14 +604,15 @@ class PRC_Block_Library {
 		<!-- /wp:prc-block/story-item --></div>
 		<!-- /wp:prc-block/column --></div>
 		<!-- /wp:prc-block/columns -->
-		<?php $three_lede_wide = ob_get_clean();
+		<?php
+		$three_lede_wide = ob_get_clean();
 
 		register_block_pattern(
 			'prc-bock/three-lede-wide',
 			array(
-				'title' => '3 Lede (Wide)',
-				'content' => $three_lede_wide,
-				'categories' => ['lede'],
+				'title'         => '3 Lede (Wide)',
+				'content'       => $three_lede_wide,
+				'categories'    => array( 'lede' ),
 				'viewportWidth' => 1156,
 			)
 		);
@@ -667,13 +643,14 @@ class PRC_Block_Library {
 		<!-- /wp:prc-block/columns --></div>
 		<!-- /wp:prc-block/column --></div>
 		<!-- /wp:prc-block/columns -->
-		<?php $three_lede_vertical = ob_get_clean();
+		<?php
+		$three_lede_vertical = ob_get_clean();
 		register_block_pattern(
 			'prc-bock/three-lede-vertical',
 			array(
-				'title' => '3 Lede (Vertical)',
-				'content' => $three_lede_vertical,
-				'categories' => ['lede'],
+				'title'         => '3 Lede (Vertical)',
+				'content'       => $three_lede_vertical,
+				'categories'    => array( 'lede' ),
 				'viewportWidth' => 1156,
 			)
 		);
@@ -710,14 +687,15 @@ class PRC_Block_Library {
 		<!-- /wp:prc-block/promo --></div>
 		<!-- /wp:prc-block/column --></div>
 		<!-- /wp:prc-block/columns -->
-		<?php $four_lede_veritcal = ob_get_clean();
-		
+		<?php
+		$four_lede_veritcal = ob_get_clean();
+
 		register_block_pattern(
 			'prc-bock/four-lede-vertical',
 			array(
-				'title' => '4 Lede (Vertical)',
-				'content' => $four_lede_veritcal,
-				'categories' => ['lede'],
+				'title'         => '4 Lede (Vertical)',
+				'content'       => $four_lede_veritcal,
+				'categories'    => array( 'lede' ),
 				'viewportWidth' => 1156,
 			)
 		);
@@ -746,13 +724,14 @@ class PRC_Block_Library {
 		<!-- /wp:prc-block/mailchimp --></div></div>
 		<!-- /wp:prc-block/column --></div>
 		<!-- /wp:prc-block/columns -->
-		<?php $four_lede_horizontal = ob_get_clean();
+		<?php
+		$four_lede_horizontal = ob_get_clean();
 		register_block_pattern(
 			'prc-bock/four-lede-horzontal',
 			array(
-				'title' => '4 Lede (Horizontal)',
-				'content' => $four_lede_horizontal,
-				'categories' => ['lede'],
+				'title'         => '4 Lede (Horizontal)',
+				'content'       => $four_lede_horizontal,
+				'categories'    => array( 'lede' ),
 				'viewportWidth' => 1156,
 			)
 		);
@@ -787,13 +766,14 @@ class PRC_Block_Library {
 		<!-- /wp:prc-block/columns --></div>
 		<!-- /wp:prc-block/column --></div>
 		<!-- /wp:prc-block/columns -->
-		<?php $four_lede = ob_get_clean();
+		<?php
+		$four_lede = ob_get_clean();
 		register_block_pattern(
 			'prc-bock/four-lede',
 			array(
-				'title' => '4 Lede',
-				'content' => $four_lede,
-				'categories' => ['lede'],
+				'title'         => '4 Lede',
+				'content'       => $four_lede,
+				'categories'    => array( 'lede' ),
 				'viewportWidth' => 1156,
 			)
 		);
@@ -860,13 +840,14 @@ class PRC_Block_Library {
 		<!-- /wp:prc-block/card --></div>
 		<!-- /wp:prc-block/column --></div>
 		<!-- /wp:prc-block/columns -->
-		<?php $homepage = ob_get_clean();
+		<?php
+		$homepage = ob_get_clean();
 		register_block_pattern(
 			'prc-bock/homepage',
 			array(
-				'title' => 'Homepage',
-				'content' => $homepage,
-				'categories' => [],
+				'title'         => 'Homepage',
+				'content'       => $homepage,
+				'categories'    => array(),
 				'viewportWidth' => 1156,
 			)
 		);
@@ -968,12 +949,12 @@ class PRC_Block_Library {
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_taxonomy_by_letter_restfully' ),
 				'args'     => array(
-					'taxonomy'    => array(
+					'taxonomy' => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
 					),
-					'letter'    => array(
+					'letter'   => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
@@ -1053,12 +1034,14 @@ class PRC_Block_Library {
 	public function get_taxonomy_by_letter_restfully( \WP_REST_Request $request ) {
 		$taxonomy = $request->get_param( 'taxonomy' );
 		$letter   = $request->get_param( 'letter' );
-		
-		$terms = get_terms( array(
-			'taxonomy' => $taxonomy,
-			'hide_empty' => false,
-			'name__like' => $letter
-		) );
+
+		$terms = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'hide_empty' => false,
+				'name__like' => $letter,
+			)
+		);
 
 		if ( empty( $terms ) ) {
 			return false;
@@ -1066,13 +1049,13 @@ class PRC_Block_Library {
 
 		$return = array();
 
-		function startsWith($string, $startString) { 
-			$len = strlen($startString); 
-			return (substr($string, 0, $len) === $startString); 
-		} 
+		function startsWith( $string, $startString ) {
+			$len = strlen( $startString );
+			return ( substr( $string, 0, $len ) === $startString );
+		}
 
-		foreach ($terms as $term) {
-			if ( true === startsWith($term->name, $letter) ) {
+		foreach ( $terms as $term ) {
+			if ( true === startsWith( $term->name, $letter ) ) {
 				$return[] = $term;
 			}
 		}

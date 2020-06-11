@@ -1,0 +1,18 @@
+{
+  "globals.js": "block-library/globals-2bd77d56.js",
+  "globals.js.map": "block-library/globals-2bd77d56.js.map",
+  "runtime.js": "block-library/runtime-66cb9c52.js",
+  "runtime.js.map": "block-library/runtime-66cb9c52.js.map",
+  "wpackioEp": {
+    "globals": {
+      "js": [
+        "block-library/runtime-66cb9c52.js",
+        "block-library/globals-2bd77d56.js"
+      ],
+      "js.map": [
+        "block-library/runtime-66cb9c52.js.map",
+        "block-library/globals-2bd77d56.js.map"
+      ]
+    }
+  }
+}

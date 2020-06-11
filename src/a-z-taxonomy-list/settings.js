@@ -6,7 +6,8 @@ const settings = [
     'prc-block/a-z-taxonomy-list',
     {
         title: __('A-Z Taxonomy List'),
-        description: 'A taxonomy list sorted by alphabetical.',
+        description:
+            'A taxonomy list sorted alphabeticaly. Check terms you want to exclude.',
         category: 'layout',
         icon: 'networking',
         keywords: [__('Taxonomy List'), __('Taxonomies'), __('A-Z'), __('AZ')],

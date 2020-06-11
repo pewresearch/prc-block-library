@@ -1,39 +1,25 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
-import { ToggleControl } from '@wordpress/components';
 
 const edit = ({ attributes, isSelected, setAttributes }) => {
     const { subheading, list, moreEnabled, moreList } = attributes;
+
     return (
         <Fragment>
             <ul className="ui relaxed tree list">
-                <Fragment>
-                    {true === isSelected && (
-                        <li className="item">
-                            <RichText
-                                tagName="div"
-                                className="header"
-                                value={subheading}
-                                onChange={h => setAttributes({ subheading: h })}
-                                placeholder="Key Topics"
-                                formattingControls={['link']}
-                                keepPlaceholderOnFocus
-                            />
-                        </li>
-                    )}
-                    {false === isSelected && '' !== subheading && (
-                        <li className="item">
-                            <RichText
-                                tagName="div"
-                                className="header"
-                                value={subheading}
-                                onChange={h => setAttributes({ subheading: h })}
-                                placeholder="Key Topics"
-                                keepPlaceholderOnFocus
-                            />
-                        </li>
-                    )}
-                </Fragment>
+                <li className="item">
+                    <RichText
+                        tagName="div"
+                        className="header"
+                        value={subheading}
+                        onChange={h => setAttributes({ subheading: h })}
+                        placeholder="Key Topics"
+                        keepPlaceholderOnFocus
+                    />
+                </li>
                 <li className="item">
                     <RichText
                         tagName="ul"
@@ -48,9 +34,9 @@ const edit = ({ attributes, isSelected, setAttributes }) => {
                 {true === isSelected && (
                     <li className="item">
                         <div
-                            onClick={(e) => {
+                            onClick={e => {
                                 e.stopPropagation();
-                                setAttributes({ moreEnabled: !moreEnabled })
+                                setAttributes({ moreEnabled: !moreEnabled });
                             }}
                             className="read-more"
                         >
@@ -67,6 +53,7 @@ const edit = ({ attributes, isSelected, setAttributes }) => {
                                 multiline="li"
                                 placeholder="Hidden Item"
                                 keepPlaceholderOnFocus
+                                style={{ display: 'block' }}
                             />
                         )}
                     </li>
@@ -74,9 +61,7 @@ const edit = ({ attributes, isSelected, setAttributes }) => {
                 {/* Pseudo Save display mode when not actively editing. */}
                 {false === isSelected && true === moreEnabled && (
                     <li className="item">
-                        <div className="read-more">
-                            View More
-                        </div>
+                        <div className="read-more">View More</div>
                     </li>
                 )}
             </ul>

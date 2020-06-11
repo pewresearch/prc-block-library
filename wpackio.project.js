@@ -8,8 +8,8 @@ const {
     fileLoader,
     // eslint-disable-next-line import/no-extraneous-dependencies
 } = require('@wpackio/scripts');
-const pkg = require('./package.json');
 const path = require('path');
+const pkg = require('./package.json');
 
 module.exports = {
     // Project Identity
@@ -29,6 +29,12 @@ module.exports = {
     },
     // Files we need to compile, and where to put
     files: [
+        {
+            name: 'block-library',
+            entry: {
+                globals: './src/_shared/globally-available/index.js',
+            },
+        },
         // If this has length === 1, then single compiler
         {
             name: 'story-item',
@@ -37,11 +43,11 @@ module.exports = {
             },
         },
         {
-			name: 'tabs',
-			entry: {
-				main: './src/tabs/index.js',
-				frontend: './src/tabs/frontend.js',
-			},
+            name: 'tabs',
+            entry: {
+                main: './src/tabs/index.js',
+                frontend: './src/tabs/frontend.js',
+            },
         },
         {
             name: 'callout',
@@ -175,14 +181,12 @@ module.exports = {
             name: 'a-z-taxonomy-list',
             entry: {
                 main: './src/a-z-taxonomy-list/index.js',
-                // frontend: './src/a-z-taxonomy-list/frontend.js',
             },
         },
         {
             name: 'taxonomy-tree',
             entry: {
                 main: './src/taxonomy-tree/index.js',
-                frontend: './src/taxonomy-tree/frontend.js',
             },
         },
         {
@@ -232,8 +236,8 @@ module.exports = {
     // Webpack Aliases
     // <https://webpack.js.org/configuration/resolve/#resolve-alias>
     alias: {
-		shared: path.resolve( __dirname, 'src/_shared' ),
-	},
+        shared: path.resolve(__dirname, 'src/_shared'),
+    },
     // Show overlay on development
     errorOverlay: true,
     // Auto optimization by webpack

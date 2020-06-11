@@ -26,9 +26,7 @@ const save = ({ attributes }) => {
                 </li>
                 {true === moreEnabled && (
                     <li className="item">
-                        <div className="read-more">
-                            View More
-                        </div>
+                        <div className="read-more">View More</div>
                         <RichText.Content
                             tagName="ul"
                             className="list hidden-list"

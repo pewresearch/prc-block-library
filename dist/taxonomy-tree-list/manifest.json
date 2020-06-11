@@ -1,21 +1,21 @@
 {
-  "frontend.js": "taxonomy-tree-list/frontend-ab4cdb46.js",
-  "frontend.js.map": "taxonomy-tree-list/frontend-ab4cdb46.js.map",
+  "frontend.js": "taxonomy-tree-list/frontend-ce61bbae.js",
+  "frontend.js.map": "taxonomy-tree-list/frontend-ce61bbae.js.map",
   "main.css": "taxonomy-tree-list/main-0afe7408.css",
   "main.css.map": "taxonomy-tree-list/main-0afe7408.css.map",
-  "main.js": "taxonomy-tree-list/main-cccb6bcb.js",
-  "main.js.map": "taxonomy-tree-list/main-cccb6bcb.js.map",
+  "main.js": "taxonomy-tree-list/main-5274b252.js",
+  "main.js.map": "taxonomy-tree-list/main-5274b252.js.map",
   "runtime.js": "taxonomy-tree-list/runtime-9aebaf46.js",
   "runtime.js.map": "taxonomy-tree-list/runtime-9aebaf46.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "taxonomy-tree-list/runtime-9aebaf46.js",
-        "taxonomy-tree-list/main-cccb6bcb.js"
+        "taxonomy-tree-list/main-5274b252.js"
       ],
       "js.map": [
         "taxonomy-tree-list/runtime-9aebaf46.js.map",
-        "taxonomy-tree-list/main-cccb6bcb.js.map"
+        "taxonomy-tree-list/main-5274b252.js.map"
       ],
       "css": [
         "taxonomy-tree-list/main-0afe7408.css"
@@ -27,11 +27,11 @@
     "frontend": {
       "js": [
         "taxonomy-tree-list/runtime-9aebaf46.js",
-        "taxonomy-tree-list/frontend-ab4cdb46.js"
+        "taxonomy-tree-list/frontend-ce61bbae.js"
       ],
       "js.map": [
         "taxonomy-tree-list/runtime-9aebaf46.js.map",
-        "taxonomy-tree-list/frontend-ab4cdb46.js.map"
+        "taxonomy-tree-list/frontend-ce61bbae.js.map"
       ]
     }
   }

@@ -23,9 +23,6 @@ const TaxonomySelectList = withState({
         const stateInit = terms => {
             const state = {};
 
-            console.log(exclude.length);
-            console.log(exclude);
-
             // Initialize exclude data from exclude prop
             if (0 !== terms.length && 0 !== exclude.length) {
                 state.excludeData = JSON.parse(exclude);
@@ -38,14 +35,13 @@ const TaxonomySelectList = withState({
                     includeArr.push({
                         id: term.term_id,
                         name: term.name,
+                        slug: term.slug,
                     });
                 });
                 // We need to take this array and object and json stringify it, we will also need a function to convert back to an array of objects.
                 setAttributes({ include: JSON.stringify(includeArr) });
                 state.includeData = includeArr;
-                console.log('DOES NOT HAVE HAS INCLUDE');
             } else if (0 !== terms.length && 0 !== include.length) {
-                console.log('ALREADY HAS INCLUDE');
                 state.includeData = JSON.parse(include);
             }
 
@@ -75,13 +71,9 @@ const TaxonomySelectList = withState({
             });
         }
 
-        const processChange = (bool, termId, termName) => {
-            console.log('processChange');
+        const processChange = (bool, termId, termName, termSlug) => {
             const excludeState = excludeData;
             const includeState = includeData;
-
-            console.log(excludeData);
-            console.log(includeState);
 
             const removeFromInclude = () => {
                 const index = includeState.findIndex(x => x.id === termId);
@@ -100,7 +92,11 @@ const TaxonomySelectList = withState({
                 removeFromInclude();
             } else {
                 // Add term to include array
-                includeState.push({ id: termId, name: termName });
+                includeState.push({
+                    id: termId,
+                    name: termName,
+                    slug: termSlug,
+                });
                 // Remove term from exclude array
                 removeFromExclude();
             }
@@ -118,7 +114,16 @@ const TaxonomySelectList = withState({
                 {false !== staticData && (
                     <Fragment>
                         {staticData.map(term => {
-                            return <div className="item">{term.name}</div>;
+                            return (
+                                <a
+                                    className="item"
+                                    href={`/${taxonomy.toLowerCase()}/${
+                                        term.slug
+                                    }`}
+                                >
+                                    {term.name}
+                                </a>
+                            );
                         })}
                     </Fragment>
                 )}
@@ -128,7 +133,12 @@ const TaxonomySelectList = withState({
                             const checked = exclude.includes(term.term_id);
 
                             const onChange = b => {
-                                processChange(b, term.term_id, term.name);
+                                processChange(
+                                    b,
+                                    term.term_id,
+                                    term.name,
+                                    term.slug,
+                                );
                             };
 
                             return (

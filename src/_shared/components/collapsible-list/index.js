@@ -2,11 +2,19 @@ import './style.scss';
 import { RichText } from '@wordpress/block-editor';
 import { Icon } from 'semantic-ui-react';
 
-const CollapsibleList = ({heading, chevron, placeholder, setAttributes, children}) => {
-    return(
+const CollapsibleList = ({
+    heading,
+    chevron,
+    placeholder,
+    setAttributes,
+    children,
+}) => {
+    return (
         <div className="prc-collapsible-list">
             <div className="title">
-                <div><Icon name="caret down" /></div>
+                <div>
+                    <Icon name="caret down" />
+                </div>
                 {false !== setAttributes && (
                     <RichText
                         tagName="h2"
@@ -25,15 +33,15 @@ const CollapsibleList = ({heading, chevron, placeholder, setAttributes, children
                         className="sans-serif"
                     />
                 )}
-                { true === chevron && (
-                    <div><Icon name="chevron right" size="large" /></div>
-                ) }
+                {true === chevron && (
+                    <div>
+                        <Icon name="chevron right" size="large" />
+                    </div>
+                )}
             </div>
-            <div class="content">
-                {children}
-            </div>
+            <div className="content">{children}</div>
         </div>
     );
-}
+};
 
 export default CollapsibleList;
