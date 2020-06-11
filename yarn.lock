@@ -7573,7 +7573,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -7877,6 +7877,13 @@ react-portal@^4.1.5:
   integrity sha512-fE9kOBagwmTXZ3YGRYb4gcMy+kSA+yLO0xnPankjRlfBv4uCpFXqKPfkpsGQQR15wkZ9EssnvTOl1yMzbkxhPQ==
   dependencies:
     prop-types "^15.5.8"
+
+react-repeat-component@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-repeat-component/-/react-repeat-component-1.0.2.tgz#907f515ab8ff52f49e2855ba3a0b382c99715ed4"
+  integrity sha1-kH9RWrj/UvSeKFW6Ogs4LJlxXtQ=
+  dependencies:
+    prop-types "^15.5.10"
 
 react-resize-aware@^3.0.0:
   version "3.0.0"

@@ -34,6 +34,7 @@
     "classnames": "^2.2.6",
     "num-words": "^1.2.0",
     "react-cool-dimensions": "^1.0.1",
+    "react-repeat-component": "^1.0.2",
     "react-responsive-picture": "^3.2.2",
     "semantic-ui-react": "^0.88.2"
   }

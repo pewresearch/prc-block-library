@@ -1,22 +1,18 @@
-import { CollapsibleList, getTerms } from 'shared';
-import { SelectControl, CheckboxControl } from '@wordpress/components';
-import { withState } from '@wordpress/compose';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+// eslint-disable-next-line import/no-unresolved
+import { CollapsibleList, TaxonomySelectList } from 'shared';
+import { SelectControl } from '@wordpress/components';
 
-const edit = withState( {
-    terms: [],
-} )( ( { attributes, className, terms, setAttributes, setState } ) => {
-    const { heading, letter, selected } = attributes;
-    console.log('Tax List');
-    console.log(terms);
-    console.log(attributes);
+const edit = ({ attributes, className, setAttributes }) => {
+    const { heading, letter, exclude, include } = attributes;
 
-    return (
-        <div className={className}>
-            <CollapsibleList heading={heading} placeholder="A" setAttributes={false}>
-                <SelectControl
+    const SelectLetter = () => {
+        return (
+            <SelectControl
                 label="Chose a letter"
-                value={ letter }
-                options={ [
+                value={letter}
+                options={[
+                    { label: '(Click to select letter)', value: '' },
                     { label: 'A', value: 'A' },
                     { label: 'B', value: 'B' },
                     { label: 'C', value: 'C' },
@@ -43,33 +39,39 @@ const edit = withState( {
                     { label: 'X', value: 'X' },
                     { label: 'Y', value: 'Y' },
                     { label: 'Z', value: 'Z' },
-                ] }
-                onChange={ ( l ) => { 
-                    setAttributes( { letter: l, heading: l } );
-                    getTerms('Topics', 100, l).then((t)=>{
-                        console.log(t);
-                        setState({terms: t});
+                ]}
+                onChange={l => {
+                    setAttributes({
+                        letter: l,
+                        heading: l,
+                        exclude: '',
+                        include: '',
                     });
-                } }
+                }}
             />
-            <div className="ui link list">
-                <label class="components-base-control">Select the terms you want to display</label>
-                { terms.map( (term, index) => (
-                    <div className="item">
-                        <CheckboxControl
-                            label={term.name}
-                            checked={ selected.includes(term.term_id) }
-                            onChange={ () => {
-                                selected.push(term.term_id);
-                                setAttributes({selected: selected});
-                            } }
-                        />
-                    </div>
-                ) ) }
-            </div>
+        );
+    };
+
+    return (
+        <div className={className}>
+            <CollapsibleList
+                heading={heading}
+                placeholder="A"
+                setAttributes={false}
+            >
+                {'' === letter && <SelectLetter />}
+                {'' !== letter && (
+                    <TaxonomySelectList
+                        exclude={exclude}
+                        include={include}
+                        letter={letter}
+                        taxonomy="Topics"
+                        setAttributes={setAttributes}
+                    />
+                )}
             </CollapsibleList>
         </div>
     );
-} );
+};
 
 export default edit;

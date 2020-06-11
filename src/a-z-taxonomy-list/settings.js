@@ -19,16 +19,20 @@ const settings = [
                 type: 'string',
                 source: 'html',
                 selector: 'h2',
-                default: '',
+                default: 'A',
             },
             letter: {
                 type: 'string',
                 default: '',
             },
+            exclude: {
+                type: 'string',
+                default: '',
+            },
             include: {
-                type: 'array',
-                default: [],
-            }
+                type: 'string',
+                default: '',
+            },
         },
         edit,
         save,
