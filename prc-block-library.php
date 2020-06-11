@@ -445,13 +445,15 @@ class PRC_Block_Library {
 		);
 
 		// A-Z Taxonomy List
+		$az_js_deps       = $this->js_deps;
+		$az_js_deps[]     = 'wp-html-entities';
 		$az_taxonomy_list = $enqueue->register(
 			'a-z-taxonomy-list',
 			'main',
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $this->js_deps,
+				'js_dep'    => $az_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -1040,6 +1042,7 @@ class PRC_Block_Library {
 				'taxonomy'   => $taxonomy,
 				'hide_empty' => false,
 				'name__like' => $letter,
+				'orderby'    => 'slug',
 			)
 		);
 

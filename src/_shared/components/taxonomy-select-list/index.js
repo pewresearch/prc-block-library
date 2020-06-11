@@ -1,4 +1,5 @@
 import { getTerms } from 'shared';
+import { decodeEntities } from '@wordpress/html-entities';
 import { CheckboxControl } from '@wordpress/components';
 import { withState } from '@wordpress/compose';
 import { useDidMount } from '@daniakash/lifecycle-hooks';
@@ -19,6 +20,7 @@ const TaxonomySelectList = withState({
         letter,
         taxonomy,
         setAttributes,
+        isSelected,
     }) => {
         const stateInit = terms => {
             const state = {};
@@ -144,12 +146,29 @@ const TaxonomySelectList = withState({
                             return (
                                 <div className="item">
                                     <CheckboxControl
-                                        label={term.name}
+                                        label={decodeEntities(term.name)}
                                         checked={checked}
                                         onChange={onChange}
                                         data-termid={term.term_id}
                                         data-term={term.name}
                                     />
+                                    <div
+                                        style={{
+                                            height: '15px',
+                                            marginTop: '-5px',
+                                        }}
+                                    >
+                                        {true === isSelected && (
+                                            <pre
+                                                style={{
+                                                    fontSize: '11px',
+                                                    margin: 0,
+                                                }}
+                                            >
+                                                ({term.slug})
+                                            </pre>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}

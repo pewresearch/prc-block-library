@@ -1,23 +1,23 @@
 {
   "main.css": "story-item/main-2f705118.css",
   "main.css.map": "story-item/main-2f705118.css.map",
-  "main.js": "story-item/main-be198e3a.js",
-  "main.js.map": "story-item/main-be198e3a.js.map",
+  "main.js": "story-item/main-3d11c80f.js",
+  "main.js.map": "story-item/main-3d11c80f.js.map",
   "runtime.js": "story-item/runtime-e7c58969.js",
   "runtime.js.map": "story-item/runtime-e7c58969.js.map",
-  "vendors~main.js": "story-item/vendors~main-bd7697be.js",
-  "vendors~main.js.map": "story-item/vendors~main-bd7697be.js.map",
+  "vendors~main.js": "story-item/vendors~main-744e0056.js",
+  "vendors~main.js.map": "story-item/vendors~main-744e0056.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "story-item/runtime-e7c58969.js",
-        "story-item/vendors~main-bd7697be.js",
-        "story-item/main-be198e3a.js"
+        "story-item/vendors~main-744e0056.js",
+        "story-item/main-3d11c80f.js"
       ],
       "js.map": [
         "story-item/runtime-e7c58969.js.map",
-        "story-item/vendors~main-bd7697be.js.map",
-        "story-item/main-be198e3a.js.map"
+        "story-item/vendors~main-744e0056.js.map",
+        "story-item/main-3d11c80f.js.map"
       ],
       "css": [
         "story-item/main-2f705118.css"

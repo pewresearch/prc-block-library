@@ -3,7 +3,7 @@
 import { CollapsibleList, TaxonomySelectList } from 'shared';
 import { SelectControl } from '@wordpress/components';
 
-const edit = ({ attributes, className, setAttributes }) => {
+const edit = ({ attributes, className, setAttributes, isSelected }) => {
     const { heading, letter, exclude, include } = attributes;
 
     const SelectLetter = () => {
@@ -67,6 +67,7 @@ const edit = ({ attributes, className, setAttributes }) => {
                         letter={letter}
                         taxonomy="Topics"
                         setAttributes={setAttributes}
+                        isSelected={isSelected}
                     />
                 )}
             </CollapsibleList>

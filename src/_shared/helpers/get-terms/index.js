@@ -6,15 +6,17 @@ const getTerms = (taxonomy, perPage, letter) => {
         perPage = 25;
     }
     const collection = new wp.api.collections[taxonomy]();
-    if ( undefined !== letter ) {
+    if (undefined !== letter) {
         return new Promise(resolve => {
             const data = {};
-            apiFetch( { path: '/prc-api/v2/blocks/helpers/get-taxonomy-by-letter/?taxonomy=topic&letter=' + letter } ).then( terms => {
-                console.log( terms );
+            apiFetch({
+                path: `/prc-api/v2/blocks/helpers/get-taxonomy-by-letter/?taxonomy=topic&letter=${letter}`,
+            }).then(terms => {
                 resolve(terms);
-            } );
+            });
         });
-    } else if ( undefined !== collection ) {
+    }
+    if (undefined !== collection) {
         return new Promise(resolve => {
             const data = {};
             collection
@@ -36,9 +38,8 @@ const getTerms = (taxonomy, perPage, letter) => {
                     resolve(data);
                 });
         });
-    } else {
-        return false;
     }
+    return false;
 };
 
 const getTermsAsOptions = (taxonomy, perPage) => {

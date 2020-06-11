@@ -232,6 +232,7 @@ module.exports = {
         '@wordpress/i18n': 'wp.i18n',
         '@wordpress/api-fetch': 'wp.apiFetch',
         '@wordpress/url': 'wp.url',
+        '@wordpress/html-entities': 'wp.htmlEntities',
     },
     // Webpack Aliases
     // <https://webpack.js.org/configuration/resolve/#resolve-alias>
