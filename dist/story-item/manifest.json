@@ -1,8 +1,8 @@
 {
   "main.css": "story-item/main-2f705118.css",
   "main.css.map": "story-item/main-2f705118.css.map",
-  "main.js": "story-item/main-3d11c80f.js",
-  "main.js.map": "story-item/main-3d11c80f.js.map",
+  "main.js": "story-item/main-7d497e48.js",
+  "main.js.map": "story-item/main-7d497e48.js.map",
   "runtime.js": "story-item/runtime-e7c58969.js",
   "runtime.js.map": "story-item/runtime-e7c58969.js.map",
   "vendors~main.js": "story-item/vendors~main-744e0056.js",
@@ -12,12 +12,12 @@
       "js": [
         "story-item/runtime-e7c58969.js",
         "story-item/vendors~main-744e0056.js",
-        "story-item/main-3d11c80f.js"
+        "story-item/main-7d497e48.js"
       ],
       "js.map": [
         "story-item/runtime-e7c58969.js.map",
         "story-item/vendors~main-744e0056.js.map",
-        "story-item/main-3d11c80f.js.map"
+        "story-item/main-7d497e48.js.map"
       ],
       "css": [
         "story-item/main-2f705118.css"

@@ -11,13 +11,13 @@ const Kicker = ({ label = 'Report', date }) => {
 
     const classes = classNames(labelSlug, 'label');
 
-    let d = formatDate(date);
+    const d = formatDate(date);
 
     return (
         <Fragment>
             <span className={classes}>{label || 'Report'}</span>
             {' | '}
-            <span classNmae="date">{d}</span>
+            <span className="date">{d}</span>
         </Fragment>
     );
 };
