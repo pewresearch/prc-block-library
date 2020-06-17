@@ -4,13 +4,16 @@ import {
     RichText,
     InnerBlocks,
 } from '@wordpress/block-editor';
-import { dispatch, select } from '@wordpress/data';
 import { PanelBody, ColorPalette } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import classNames from 'classnames/bind';
 // import Icon from './icons';
 
-const allowedBlocks = ['prc-block/button', 'prc-block/mailchimp-form', 'prc-blocks/pathways-ask-an-analyst'];
+const allowedBlocks = [
+    'prc-block/button',
+    'prc-block/mailchimp-form',
+    'prc-blocks/pathways-ask-an-analyst',
+];
 const template = [['prc-block/button', { color: '#d3aa20', label: 'DONATE' }]];
 
 const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
@@ -57,8 +60,13 @@ const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
     );
 };
 
-const edit = ({attributes, className, clientId, setAttributes, isSelected}) => {
-
+const edit = ({
+    attributes,
+    className,
+    clientId,
+    setAttributes,
+    isSelected,
+}) => {
     // If width is greater than 640 then set to "pancake" (horizontal flex).
     const domBlock = document.querySelector(`[data-block="${clientId}"]`);
     if (true === isSelected && null !== domBlock) {

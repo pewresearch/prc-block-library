@@ -615,8 +615,8 @@ class PRC_Block_Library {
 
 	public function register_rest_endpoints() {
 		register_rest_route(
-			'prc-api/v2/blocks/helpers',
-			'/get-posts',
+			'prc-api/v2',
+			'/blocks/helpers/get-posts',
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_block_lib_posts' ),
@@ -645,8 +645,8 @@ class PRC_Block_Library {
 			)
 		);
 		register_rest_route(
-			'prc-api/v2/blocks/helpers',
-			'/get-post-by-url',
+			'prc-api/v2',
+			'/blocks/helpers/get-post-by-url',
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_stub_post_by_post_url_restfully' ),
@@ -665,8 +665,8 @@ class PRC_Block_Library {
 			)
 		);
 		register_rest_route(
-			'prc-api/v2/blocks/helpers',
-			'/get-taxonomy-by-letter',
+			'prc-api/v2',
+			'/blocks/helpers/get-taxonomy-by-letter',
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_taxonomy_by_letter_restfully' ),
