@@ -101,6 +101,9 @@ const Controls = ({
                         <Button
                             onClick={() => setPostByURL(link, setAttributes)}
                             isPrimary
+                            style={{
+                                height: '30px',
+                            }}
                         >
                             Fetch
                         </Button>

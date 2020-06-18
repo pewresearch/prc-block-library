@@ -1,4 +1,3 @@
-
 import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
 import edit from './edit';
@@ -9,7 +8,7 @@ const settings = [
     {
         title: __('PRC Collapsible'),
         description: __(
-            'Add a block that displays content in a single accordion.'
+            'Add a block that displays content in a single accordion.',
         ),
         category: 'layout',
         keywords: [__('Collapsible'), __('Accordion'), _('How we did this')],
@@ -26,21 +25,25 @@ const settings = [
             {
                 name: 'alternate',
                 label: __('Plus Icon'),
-            }
+            },
         ],
         attributes: {
             title: {
                 type: 'string',
                 default: 'How we did this',
-            }
+            },
         },
         transforms: {
             to: [
                 {
                     type: 'block',
-                    blocks: [ 'prc-block/callout' ],
-                    transform: function( attributes, innerBlocks ) {
-                        return createBlock( 'prc-block/callout', attributes, innerBlocks );
+                    blocks: ['prc-block/callout'],
+                    transform(attributes, innerBlocks) {
+                        return createBlock(
+                            'prc-block/callout',
+                            attributes,
+                            innerBlocks,
+                        );
                     },
                 },
             ],

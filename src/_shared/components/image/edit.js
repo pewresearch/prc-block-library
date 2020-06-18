@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from '@wordpress/element';
-import { SelectControl, Toolbar as WPComToolbar } from '@wordpress/components';
+import { Button, SelectControl, Toolbar } from '@wordpress/components';
 import {
     MediaUpload,
     MediaUploadCheck,
@@ -49,9 +49,21 @@ const Edit = ({ img, size, chartArt, postId, dataHandler }) => {
                 allowedTypes={ALLOWED_MEDIA_TYPES}
                 render={({ open }) => (
                     <Fragment>
-                        <Display img={img} size={size} link="" onClick={open} />
+                        {'' === img && (
+                            <Button isPrimary onClick={open}>
+                                Insert Image
+                            </Button>
+                        )}
+                        {'' !== img && (
+                            <Display
+                                img={img}
+                                size={size}
+                                link=""
+                                onClick={open}
+                            />
+                        )}
                         <BlockControls>
-                            <WPComToolbar
+                            <Toolbar
                                 controls={[
                                     {
                                         icon: null,
