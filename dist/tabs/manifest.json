@@ -1,47 +1,41 @@
 {
-  "frontend.js": "tabs/frontend.js",
-  "frontend.js.map": "tabs/frontend.js.map",
-  "main.css": "tabs/main.css",
-  "main.css.map": "tabs/main.css.map",
-  "main.js": "tabs/main.js",
-  "main.js.map": "tabs/main.js.map",
-  "runtime.js": "tabs/runtime.js",
-  "runtime.js.map": "tabs/runtime.js.map",
-  "vendors~frontend~main.js": "tabs/vendors~frontend~main.js",
-  "vendors~frontend~main.js.map": "tabs/vendors~frontend~main.js.map",
-  "vendors~main.js": "tabs/vendors~main.js",
-  "vendors~main.js.map": "tabs/vendors~main.js.map",
+  "frontend.js": "tabs/frontend-427aa110.js",
+  "frontend.js.map": "tabs/frontend-427aa110.js.map",
+  "main.css": "tabs/main-6bdda983.css",
+  "main.css.map": "tabs/main-6bdda983.css.map",
+  "main.js": "tabs/main-8dbb65f9.js",
+  "main.js.map": "tabs/main-8dbb65f9.js.map",
+  "runtime.js": "tabs/runtime-9524aa08.js",
+  "runtime.js.map": "tabs/runtime-9524aa08.js.map",
+  "vendors~main.js": "tabs/vendors~main-76172db3.js",
+  "vendors~main.js.map": "tabs/vendors~main-76172db3.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "tabs/runtime.js",
-        "tabs/vendors~frontend~main.js",
-        "tabs/vendors~main.js",
-        "tabs/main.js"
+        "tabs/runtime-9524aa08.js",
+        "tabs/vendors~main-76172db3.js",
+        "tabs/main-8dbb65f9.js"
       ],
       "js.map": [
-        "tabs/runtime.js.map",
-        "tabs/vendors~frontend~main.js.map",
-        "tabs/vendors~main.js.map",
-        "tabs/main.js.map"
+        "tabs/runtime-9524aa08.js.map",
+        "tabs/vendors~main-76172db3.js.map",
+        "tabs/main-8dbb65f9.js.map"
       ],
       "css": [
-        "tabs/main.css"
+        "tabs/main-6bdda983.css"
       ],
       "css.map": [
-        "tabs/main.css.map"
+        "tabs/main-6bdda983.css.map"
       ]
     },
     "frontend": {
       "js": [
-        "tabs/runtime.js",
-        "tabs/vendors~frontend~main.js",
-        "tabs/frontend.js"
+        "tabs/runtime-9524aa08.js",
+        "tabs/frontend-427aa110.js"
       ],
       "js.map": [
-        "tabs/runtime.js.map",
-        "tabs/vendors~frontend~main.js.map",
-        "tabs/frontend.js.map"
+        "tabs/runtime-9524aa08.js.map",
+        "tabs/frontend-427aa110.js.map"
       ]
     }
   }

@@ -1,35 +1,35 @@
 {
-  "frontend.js": "follow-us/frontend.js",
-  "frontend.js.map": "follow-us/frontend.js.map",
-  "main.js": "follow-us/main.js",
-  "main.js.map": "follow-us/main.js.map",
-  "runtime.js": "follow-us/runtime.js",
-  "runtime.js.map": "follow-us/runtime.js.map",
-  "vendors~frontend~main.js": "follow-us/vendors~frontend~main.js",
-  "vendors~frontend~main.js.map": "follow-us/vendors~frontend~main.js.map",
+  "frontend.js": "follow-us/frontend-d5a7b68f.js",
+  "frontend.js.map": "follow-us/frontend-d5a7b68f.js.map",
+  "main.js": "follow-us/main-09004b75.js",
+  "main.js.map": "follow-us/main-09004b75.js.map",
+  "runtime.js": "follow-us/runtime-266ecadc.js",
+  "runtime.js.map": "follow-us/runtime-266ecadc.js.map",
+  "vendors~frontend~main.js": "follow-us/vendors~frontend~main-609ae200.js",
+  "vendors~frontend~main.js.map": "follow-us/vendors~frontend~main-609ae200.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "follow-us/runtime.js",
-        "follow-us/vendors~frontend~main.js",
-        "follow-us/main.js"
+        "follow-us/runtime-266ecadc.js",
+        "follow-us/vendors~frontend~main-609ae200.js",
+        "follow-us/main-09004b75.js"
       ],
       "js.map": [
-        "follow-us/runtime.js.map",
-        "follow-us/vendors~frontend~main.js.map",
-        "follow-us/main.js.map"
+        "follow-us/runtime-266ecadc.js.map",
+        "follow-us/vendors~frontend~main-609ae200.js.map",
+        "follow-us/main-09004b75.js.map"
       ]
     },
     "frontend": {
       "js": [
-        "follow-us/runtime.js",
-        "follow-us/vendors~frontend~main.js",
-        "follow-us/frontend.js"
+        "follow-us/runtime-266ecadc.js",
+        "follow-us/vendors~frontend~main-609ae200.js",
+        "follow-us/frontend-d5a7b68f.js"
       ],
       "js.map": [
-        "follow-us/runtime.js.map",
-        "follow-us/vendors~frontend~main.js.map",
-        "follow-us/frontend.js.map"
+        "follow-us/runtime-266ecadc.js.map",
+        "follow-us/vendors~frontend~main-609ae200.js.map",
+        "follow-us/frontend-d5a7b68f.js.map"
       ]
     }
   }
