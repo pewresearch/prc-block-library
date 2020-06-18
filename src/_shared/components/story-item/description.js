@@ -3,7 +3,7 @@ import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 import classNames from 'classnames/bind';
 
-const Description = function({ content, sansSerif, enabled, setAttributes }) {
+const Description = ({ content, sansSerif, enabled, setAttributes }) => {
     if (true !== enabled) {
         return <Fragment />;
     }

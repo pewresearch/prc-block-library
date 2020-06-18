@@ -4,7 +4,7 @@ import { RichText, BlockControls } from '@wordpress/block-editor';
 import { Toolbar, Path, SVG } from '@wordpress/components';
 
 import { Item } from 'semantic-ui-react';
-import { Kicker, KickerEditor } from 'shared';
+import { Kicker, KickerEditor } from './kicker';
 
 function HeadingLevelIcon({ level, isPressed = false }) {
     const levelToPath = {

@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { Item } from 'semantic-ui-react';
-import { Image } from 'shared';
 
+import Image from './image';
 import Description from './description';
 import Extra from './extra';
 import Header from './header';
