@@ -11,7 +11,7 @@ import Display from './display';
 
 const ALLOWED_MEDIA_TYPES = ['image'];
 
-const Edit = ({ img, size, chartArt, postId, dataHandler }) => {
+const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
     const [art, setArt] = useState(false);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const Edit = ({ img, size, chartArt, postId, dataHandler }) => {
             }).then(data => {
                 if (false !== data) {
                     setArt(data);
-                    dataHandler({ image: data[size].rawUrl });
+                    setAttributes({ image: data[size].rawUrl });
                 } else {
                     // If no art on any subsequent art fetches set to false
                     setArt(false);
@@ -35,7 +35,7 @@ const Edit = ({ img, size, chartArt, postId, dataHandler }) => {
             console.log(
                 'image size changed, go get correct art from art store!',
             );
-            dataHandler({
+            setAttributes({
                 image: art[size].rawUrl,
                 isChartArt: art[size].chartArt,
             });
@@ -45,7 +45,7 @@ const Edit = ({ img, size, chartArt, postId, dataHandler }) => {
     return (
         <MediaUploadCheck>
             <MediaUpload
-                onSelect={media => dataHandler({ image: media.url })}
+                onSelect={media => setAttributes({ image: media.url })}
                 allowedTypes={ALLOWED_MEDIA_TYPES}
                 render={({ open }) => (
                     <Fragment>
@@ -105,7 +105,7 @@ const Edit = ({ img, size, chartArt, postId, dataHandler }) => {
                                                     },
                                                 ]}
                                                 onChange={imageSize =>
-                                                    dataHandler({ imageSize })
+                                                    setAttributes({ imageSize })
                                                 }
                                                 style={{
                                                     margin: 0,
@@ -120,7 +120,7 @@ const Edit = ({ img, size, chartArt, postId, dataHandler }) => {
                                         title: 'Chartart',
                                         isActive: chartArt,
                                         onClick: () => {
-                                            dataHandler({
+                                            setAttributes({
                                                 isChartArt: !chartArt,
                                             });
                                         },

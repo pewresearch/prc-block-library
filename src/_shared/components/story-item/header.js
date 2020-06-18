@@ -121,7 +121,7 @@ const Header = ({
                             tagName="div"
                             value={title}
                             onChange={t => setAttributes({ title: t })}
-                            formattingControls={['bold', 'italic']}
+                            allowedFormats={['bold', 'italic']}
                             placeholder="Title"
                             multiline="br"
                         />

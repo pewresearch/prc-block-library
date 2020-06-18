@@ -9,12 +9,12 @@ import Edit from './edit';
  * link: string of url to go to when image is clicked on front end
  * slot: if set to null then no image size chooser will be display
  * chartArt: if set to null then no chart art button will appear
- * dataHandler: defaults to false unless otherwise provided a function to pass data back up to a HOC state.
+ * setAttributes: defaults to false unless otherwise provided a function to pass data back up to a HOC state.
  *
- * <Image id={} img={} size={} link={} slot={} chartArt={} postId={} dataHandler={}/>
+ * <Image id={} img={} size={} link={} slot={} chartArt={} postId={} setAttributes={}/>
  */
 
-const Image = ({ img, link, size, slot, chartArt, postId, dataHandler }) => {
+const Image = ({ img, link, size, slot, chartArt, postId, setAttributes }) => {
     const classes = () => {
         let isMedium = false;
         let isXL = false;
@@ -53,20 +53,20 @@ const Image = ({ img, link, size, slot, chartArt, postId, dataHandler }) => {
 
     return (
         <div className={classes()}>
-            {false === dataHandler && (
+            {false === setAttributes && (
                 <Display
                     img={img}
                     size={size}
-                    link={false !== dataHandler ? '' : link}
+                    link={false !== setAttributes ? '' : link}
                 />
             )}
-            {false !== dataHandler && (
+            {false !== setAttributes && (
                 <Edit
                     img={img}
                     size={size}
                     chartArt={chartArt}
                     postId={postId}
-                    dataHandler={dataHandler}
+                    setAttributes={setAttributes}
                 />
             )}
         </div>

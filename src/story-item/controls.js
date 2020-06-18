@@ -161,8 +161,9 @@ const Controls = ({
                                     enableBreakingNews: !enableBreakingNews,
                                 });
                             } else {
+                                // eslint-disable-next-line no-alert
                                 alert(
-                                    'There are no currently active breaking news events, this will be set to false automatically.',
+                                    'There are no currently active, authorized, breaking news events. The breaking news toggle will be set back to false.',
                                 );
                                 setAttributes({
                                     enableBreakingNews: false,

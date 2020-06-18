@@ -1,28 +1,58 @@
 import { Fragment } from '@wordpress/element';
-import { StoryItem } from 'shared';
+import { StoryItem, ifMatchSetAttribute } from 'shared';
 import Controls from './controls';
 
-const edit = props => {
-    if ('is-style-top' === props.attributes.className) {
-        props.setAttributes({ imageSlot: 'top' });
-    } else if ('is-style-bottom' === props.attributes.className) {
-        props.setAttributes({ imageSlot: 'bottom' });
-    } else if ('is-style-left' === props.attributes.className) {
-        props.setAttributes({ imageSlot: 'left' });
-    } else if ('is-style-right' === props.attributes.className) {
-        props.setAttributes({ imageSlot: 'right' });
-    } else if ('is-style-disabled' === props.attributes.className) {
-        props.setAttributes({ imageSlot: 'disabled' });
-    } else {
-        props.setAttributes({ imageSlot: 'default' });
-    }
+const setImageSlotByClassName = (className, setAttributes) => {
+    ifMatchSetAttribute(
+        'is-style-top',
+        className,
+        'imageSlot',
+        'top',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
+        'is-style-bottom',
+        className,
+        'imageSlot',
+        'bottom',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
+        'is-style-left',
+        className,
+        'imageSlot',
+        'left',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
+        'is-style-right',
+        className,
+        'imageSlot',
+        'right',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
+        'is-style-disabled',
+        className,
+        'imageSlot',
+        'disabled',
+        setAttributes,
+    );
+    // Default
+    ifMatchSetAttribute('', className, 'imageSlot', 'default', setAttributes);
+};
 
-    const controlProps = { ...props.attributes };
-    controlProps.setAttributes = props.setAttributes;
+const edit = ({ attributes, setAttributes, isSelected }) => {
+    const { className } = attributes;
+    setImageSlotByClassName(className, setAttributes);
+
+    const props = attributes;
+    props.isSelected = isSelected;
+    props.setAttributes = setAttributes;
 
     return (
         <Fragment>
-            {true === props.isSelected && <Controls {...controlProps} />}
+            {true === isSelected && <Controls {...props} />}
             <StoryItem {...props} />
         </Fragment>
     );

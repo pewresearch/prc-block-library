@@ -1,4 +1,10 @@
-import { getPosts, getTerms, getTermsAsOptions, getColorName } from './helpers';
+import {
+    getPosts,
+    getTerms,
+    getTermsAsOptions,
+    getColorName,
+    ifMatchSetAttribute,
+} from './helpers';
 import { StoryItem, CollapsibleList, TaxonomySelectList } from './components';
 
 export {
@@ -6,6 +12,7 @@ export {
     getTerms,
     getTermsAsOptions,
     getColorName,
+    ifMatchSetAttribute,
     StoryItem,
     CollapsibleList,
     TaxonomySelectList,

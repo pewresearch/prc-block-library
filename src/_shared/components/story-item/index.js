@@ -8,108 +8,111 @@ import Header from './header';
 
 import './style.scss';
 
-const StoryItem = props => {
-    // console.info('Story Item::::');
-    // console.log(props);
-    // If the block is not selected, it is not in edit mode, disable setAttributes.
-    if (undefined === props.isSelected || true !== props.isSelected) {
-        props.setAttributes = false;
+const StoryItem = ({
+    title,
+    excerpt,
+    extra,
+    link,
+    label,
+    date,
+    image,
+    imageSlot,
+    imageSize,
+    isChartArt,
+    postID,
+    headerSize,
+    enableEmphasis,
+    enableHeader,
+    enableExcerpt,
+    enableExtra,
+    enableBreakingNews,
+    enableProgramsTaxonomy,
+    className,
+    isSelected,
+    setAttributes,
+}) => {
+    let taxonomy = 'Formats';
+    if (true === enableProgramsTaxonomy) {
+        taxonomy = 'Programs';
     }
-
-    props.attributes.taxonomy = 'Formats';
-    if (true === props.attributes.enableProgramsTaxonomy) {
-        props.attributes.taxonomy = 'Programs';
-    }
-
     let isStacked = true;
-    if (
-        'left' === props.attributes.imageSlot ||
-        'right' === props.attributes.imageSlot
-    ) {
+    if ('left' === imageSlot || 'right' === imageSlot) {
         isStacked = false;
     }
 
-    let isBordered = false;
-    if (true === props.attributes.enableEmphasis) {
-        isBordered = true;
+    let dataHandler = setAttributes;
+    // If the story item is not currently in focus, !isSelected, then set the dataHandler (usually setAttributes but could be any state manager) to false to disable all editing and save on hook performance.
+    if (!isSelected) {
+        dataHandler = false;
     }
 
-    props.attributes.classes = classNames(
-        props.attributes.className,
-        'story-item',
-        { stacked: isStacked, bordered: isBordered },
-    );
-
-    const attrs = props.attributes;
-    attrs.setAttributes = props.setAttributes;
-    const { image, postID } = props.attributes;
-    // const image = attrs.art[attrs.imageSize].rawUrl;
-    // const { chartArt } = attrs.art[attrs.imageSize];
-    // console.log('chartart');
-    // console.log(chartArt);
+    const classes = classNames(className, 'story-item', {
+        stacked: isStacked,
+        bordered: enableEmphasis,
+    });
 
     return (
-        <Item as="article" className={attrs.classes}>
-            {('top' === attrs.imageSlot || 'left' === attrs.imageSlot) && (
+        <Item as="article" className={classes}>
+            {('top' === imageSlot || 'left' === imageSlot) && (
                 <Image
                     img={image}
-                    size={attrs.imageSize}
-                    link={attrs.link}
-                    slot={attrs.imageSlot}
-                    chartArt={attrs.isChartArt}
+                    size={imageSize}
+                    link={link}
+                    slot={imageSlot}
+                    chartArt={isChartArt}
                     postId={postID}
-                    dataHandler={attrs.setAttributes}
+                    setAttributes={dataHandler}
                 />
             )}
 
             <Item.Content>
                 <Header
-                    title={attrs.title}
-                    date={attrs.date}
-                    label={attrs.label}
-                    link={attrs.link}
-                    setAttributes={attrs.setAttributes}
-                    enabled={attrs.enableHeader}
-                    size={attrs.headerSize}
-                    taxonomy={attrs.taxonomy} // Where??
+                    enabled={enableHeader}
+                    title={title}
+                    date={date}
+                    label={label}
+                    link={link}
+                    size={headerSize}
+                    taxonomy={taxonomy}
+                    setAttributes={dataHandler}
                 />
 
-                {'default' === attrs.imageSlot && (
+                {'default' === imageSlot && (
                     <Image
                         img={image}
-                        size={attrs.imageSize}
-                        link={attrs.link}
-                        slot={attrs.imageSlot}
-                        chartArt={attrs.isChartArt}
+                        size={imageSize}
+                        link={link}
+                        slot={imageSlot}
+                        chartArt={isChartArt}
                         postId={postID}
-                        dataHandler={attrs.setAttributes}
+                        setAttributes={dataHandler}
                     />
                 )}
 
                 <Description
-                    content={attrs.excerpt}
-                    enabled={attrs.enableExcerpt}
-                    setAttributes={attrs.setAttributes}
-                    sansSerif={!attrs.enableHeader}
+                    enabled={enableExcerpt}
+                    content={excerpt}
+                    sansSerif={!enableHeader}
+                    setAttributes={dataHandler}
                 />
 
                 <Extra
-                    enabled={attrs.enableExtra}
-                    content={attrs.extra}
-                    setAttributes={attrs.setAttributes}
-                    breakingNews={attrs.enableBreakingNews}
+                    enabled={enableExtra}
+                    content={extra}
+                    breakingNews={enableBreakingNews}
+                    setAttributes={dataHandler}
                 />
             </Item.Content>
 
-            {('bottom' === attrs.imageSlot || 'right' === attrs.imageSlot) && (
+            {('bottom' === imageSlot || 'right' === imageSlot) && (
                 <Image
                     img={image}
-                    size={attrs.imageSize}
-                    link={attrs.link}
-                    slot={attrs.imageSlot}
-                    chartArt={attrs.isChartArt}
+                    size={imageSize}
+                    link={link}
+                    slot={imageSlot}
+                    chartArt={isChartArt}
                     postId={postID}
-                    dataHandler={attrs.setAttributes}
+                    setAttributes={dataHandler}
                 />
             )}
         </Item>
