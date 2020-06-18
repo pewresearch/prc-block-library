@@ -820,7 +820,6 @@ class PRC_Block_Library {
 
 		switch_to_blog( $site_id );
 		// If url contains fact-tank right after the url then go get the slug and fetch post that way.
-		$test = 'http://pewresearch.local/fact-tank/2020/04/02/5-facts-about-partisan-reactions-to-covid-19-in-the-u-s/';
 		if ( false !== strpos( $url, '/fact-tank/' ) ) {
 			$slug    = basename( $url );
 			$post_id = $this->get_fact_tank_post_by_slug( $slug );
@@ -861,6 +860,7 @@ class PRC_Block_Library {
 			'timestamp' => get_the_time( 'c', $stub_post->ID ),
 			'label'     => $format_term->name,
 			'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
+			'art'       => $stub_info['_art'],
 			'image'     => $stub_info['_featured_image'],
 			'imageID'   => '',
 		);

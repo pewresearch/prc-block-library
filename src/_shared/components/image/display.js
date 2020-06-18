@@ -2,7 +2,7 @@ import { Fragment } from '@wordpress/element';
 import { Picture } from 'react-responsive-picture';
 import { addQueryArgs } from '@wordpress/url';
 
-const Display = ({ img, size, link }) => {
+const Display = ({ img, size, link, onClick = false }) => {
     // eslint-disable-next-line no-shadow
     const getImgURL = (url, size, variant) => {
         if ('' === url || false === url) {
@@ -102,6 +102,14 @@ const Display = ({ img, size, link }) => {
             },
         ];
     };
+
+    if (false !== onClick) {
+        return (
+            <div onClick={onClick}>
+                <Picture sources={getImgSrcSet(img, size)} />
+            </div>
+        );
+    }
 
     return (
         <Fragment>

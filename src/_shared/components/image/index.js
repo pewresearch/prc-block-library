@@ -1,7 +1,7 @@
 import './imageEditor.scss';
+import classNames from 'classnames/bind';
 import Display from './display';
 import Edit from './edit';
-import classNames from 'classnames/bind';
 
 /**
  * Props:
@@ -12,10 +12,10 @@ import classNames from 'classnames/bind';
  * chartArt: if set to null then no chart art button will appear
  * dataHandler: defaults to false unless otherwise provided a function to pass data back up to a HOC state.
  *
- * <Image id={} img={} size={} link={} slot={} chartArt={} dataHandler={}/>
+ * <Image id={} img={} size={} link={} slot={} chartArt={} postId={} dataHandler={}/>
  */
 
-const Image = ({ img, link, size, slot, chartArt, dataHandler }) => {
+const Image = ({ img, link, size, slot, chartArt, postId, dataHandler }) => {
     const classes = () => {
         let isMedium = false;
         let isXL = false;
@@ -24,20 +24,18 @@ const Image = ({ img, link, size, slot, chartArt, dataHandler }) => {
         let isA3 = false;
         let isA4 = false;
         if (false !== slot) {
-            if ( 'XL' === size ) {
+            if ('XL' === size) {
                 isXL = true;
-            } else if ( 'A1' === size ) {
+            } else if ('A1' === size) {
                 isA1 = true;
-            } else if ( 'A2' === size ) {
+            } else if ('A2' === size) {
                 isA2 = true;
-            } else if ( 'A3' === size ) {
+            } else if ('A3' === size) {
                 isA3 = true;
-            } else if ( 'A4' === size ) {
+            } else if ('A4' === size) {
                 isA4 = true;
-            } else {
-                if ('left' === slot || 'right' === slot) {
-                    isMedium = true;
-                }
+            } else if ('left' === slot || 'right' === slot) {
+                isMedium = true;
             }
         }
 
@@ -56,31 +54,24 @@ const Image = ({ img, link, size, slot, chartArt, dataHandler }) => {
 
     return (
         <div className={classes()}>
-            <Display
-                img={img}
-                size={size}
-                link={false !== dataHandler ? '' : link}
-            />
+            {false === dataHandler && (
+                <Display
+                    img={img}
+                    size={size}
+                    link={false !== dataHandler ? '' : link}
+                />
+            )}
             {false !== dataHandler && (
                 <Edit
                     img={img}
-                    slot={slot}
                     size={size}
                     chartArt={chartArt}
+                    postId={postId}
                     dataHandler={dataHandler}
                 />
             )}
         </div>
     );
-};
-
-Image.defaultProps = {
-    img: '',
-    link: '',
-    size: 'A1',
-    slot: false,
-    chartArt: false,
-    dataHandler: false,
 };
 
 export default Image;

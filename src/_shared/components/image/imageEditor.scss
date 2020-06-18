@@ -17,10 +17,14 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		background-color: rgba(240, 242, 243, 0.71);
+		background-color: none;
 		position: absolute;
 		bottom: 0px;
 		left: 0px;
 		width: 100%;
+		color: white;
+		button {
+			color: white;
+		}
 	}
 }

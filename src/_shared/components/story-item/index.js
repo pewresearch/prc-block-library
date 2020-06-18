@@ -12,10 +12,7 @@ const StoryItem = props => {
     // console.info('Story Item::::');
     // console.log(props);
     // If the block is not selected, it is not in edit mode, disable setAttributes.
-    if (
-        undefined === props.isSelected ||
-        true !== props.isSelected
-    ) {
+    if (undefined === props.isSelected || true !== props.isSelected) {
         props.setAttributes = false;
     }
 
@@ -33,7 +30,7 @@ const StoryItem = props => {
     }
 
     let isBordered = false;
-    if (true === props.attributes.emphasis) {
+    if (true === props.attributes.enableEmphasis) {
         isBordered = true;
     }
 
@@ -45,16 +42,22 @@ const StoryItem = props => {
 
     const attrs = props.attributes;
     attrs.setAttributes = props.setAttributes;
+    const { image, postID } = props.attributes;
+    // const image = attrs.art[attrs.imageSize].rawUrl;
+    // const { chartArt } = attrs.art[attrs.imageSize];
+    // console.log('chartart');
+    // console.log(chartArt);
 
     return (
         <Item as="article" className={attrs.classes}>
             {('top' === attrs.imageSlot || 'left' === attrs.imageSlot) && (
                 <Image
-                    img={attrs.image}
+                    img={image}
                     size={attrs.imageSize}
                     link={attrs.link}
                     slot={attrs.imageSlot}
                     chartArt={attrs.isChartArt}
+                    postId={postID}
                     dataHandler={attrs.setAttributes}
                 />
             )}
@@ -73,11 +76,12 @@ const StoryItem = props => {
 
                 {'default' === attrs.imageSlot && (
                     <Image
-                        img={attrs.image}
+                        img={image}
                         size={attrs.imageSize}
                         link={attrs.link}
                         slot={attrs.imageSlot}
                         chartArt={attrs.isChartArt}
+                        postId={postID}
                         dataHandler={attrs.setAttributes}
                     />
                 )}
@@ -97,19 +101,19 @@ const StoryItem = props => {
                 />
             </Item.Content>
 
-            {('bottom' === attrs.imageSlot ||
-                'right' === attrs.imageSlot) && (
+            {('bottom' === attrs.imageSlot || 'right' === attrs.imageSlot) && (
                 <Image
-                    img={attrs.image}
+                    img={image}
                     size={attrs.imageSize}
                     link={attrs.link}
                     slot={attrs.imageSlot}
                     chartArt={attrs.isChartArt}
+                    postId={postID}
                     dataHandler={attrs.setAttributes}
                 />
             )}
         </Item>
     );
-}
+};
 
 export default StoryItem;

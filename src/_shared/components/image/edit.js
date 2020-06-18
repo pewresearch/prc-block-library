@@ -1,104 +1,121 @@
-import { Fragment } from '@wordpress/element';
-import { Button, IconButton, SelectControl } from '@wordpress/components';
-import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { Fragment, useState, useEffect } from '@wordpress/element';
+import { SelectControl, Toolbar as WPComToolbar } from '@wordpress/components';
+import {
+    MediaUpload,
+    MediaUploadCheck,
+    BlockControls,
+} from '@wordpress/block-editor';
+import apiFetch from '@wordpress/api-fetch';
+
+import Display from './display';
 
 const ALLOWED_MEDIA_TYPES = ['image'];
 
-const Edit = ({ img, size, slot, chartArt, dataHandler }) => {
-    const mediaHandler = media => {
-        if ('disabled' === slot) {
-            dataHandler({ image: media.url, imageSlot: 'default' });
-        } else {
-            dataHandler({ image: media.url });
+const Edit = ({ img, size, chartArt, postId, dataHandler }) => {
+    const [art, setArt] = useState(false);
+
+    useEffect(() => {
+        if (0 !== postId) {
+            apiFetch({
+                path: `/prc-api/v2/get-art/?postId=${postId}`,
+            }).then(data => {
+                if (false !== data) {
+                    setArt(data);
+                    dataHandler({ image: data[size].rawUrl });
+                } else {
+                    // If no art on any subsequent art fetches set to false
+                    setArt(false);
+                }
+            });
         }
-    };
+    }, [postId]);
 
-    const Toolbar = ({ handler, open }) => {
-        return (
-            <div className="image-editor-toolbar">
-                <div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        <IconButton
-                            icon="upload"
-                            label="Select/Upload New Image"
-                            onClick={open}
-                        />
-                        <IconButton
-                            icon="trash"
-                            label="Remove Image"
-                            onClick={() => {
-                                handler({
-                                    image: '',
-                                    imageSlot: 'disabled',
-                                });
-                            }}
-                        />
-
-                        <Fragment>
-                            {null !== chartArt && (
-                                <IconButton
-                                    icon="art"
-                                    label={
-                                        true === chartArt
-                                            ? 'Disable Chart Art'
-                                            : 'Enable Chart Art'
-                                    }
-                                    onClick={() => {
-                                        handler({
-                                            isChartArt: !chartArt,
-                                        });
-                                    }}
-                                />
-                            )}
-                        </Fragment>
-                    </div>
-                </div>
-                {null !== slot && (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <SelectControl
-                            label="Image Size"
-                            value={size}
-                            options={[
-                                { value: 'XL', label: 'XL' },
-                                { value: 'A1', label: 'A1' },
-                                { value: 'A2', label: 'A2' },
-                                { value: 'A3', label: 'A3' },
-                                { value: 'A4', label: 'A4' },
-                                {
-                                    value: 'legacy-260',
-                                    label: 'Legacy Homepage 260x260',
-                                },
-                                {
-                                    value: 'legacy-260-173',
-                                    label: 'Legacy Homepage 260x173',
-                                },
-                            ]}
-                            onChange={imageSize => handler({ imageSize })}
-                            style={{ marginBottom: '0px', maxWidth: '140px' }}
-                        />
-                    </div>
-                )}
-            </div>
-        );
-    };
+    useEffect(() => {
+        if (false !== art && undefined !== art[size]) {
+            console.log(
+                'image size changed, go get correct art from art store!',
+            );
+            dataHandler({
+                image: art[size].rawUrl,
+                isChartArt: art[size].chartArt,
+            });
+        }
+    }, [art, size]);
 
     return (
         <MediaUploadCheck>
             <MediaUpload
-                onSelect={mediaHandler}
+                onSelect={media => dataHandler({ image: media.url })}
                 allowedTypes={ALLOWED_MEDIA_TYPES}
                 render={({ open }) => (
                     <Fragment>
-                        {'' !== img && (
-                            <Toolbar handler={dataHandler} open={open} />
-                        )}
-                        {'' === img && (
-                            <p>
-                                <Button isPrimary onClick={open}>
-                                    Insert Image
-                                </Button>
-                            </p>
-                        )}
+                        <Display img={img} size={size} link="" onClick={open} />
+                        <BlockControls>
+                            <WPComToolbar
+                                controls={[
+                                    {
+                                        icon: null,
+                                        title: 'Size',
+                                        isActive: false,
+                                        children: (
+                                            <SelectControl
+                                                value={size}
+                                                options={[
+                                                    {
+                                                        value: 'XL',
+                                                        label: 'XL',
+                                                    },
+                                                    {
+                                                        value: 'A1',
+                                                        label: 'A1',
+                                                    },
+                                                    {
+                                                        value: 'A2',
+                                                        label: 'A2',
+                                                    },
+                                                    {
+                                                        value: 'A3',
+                                                        label: 'A3',
+                                                    },
+                                                    {
+                                                        value: 'A4',
+                                                        label: 'A4',
+                                                    },
+                                                    {
+                                                        value: 'legacy-260',
+                                                        label:
+                                                            'Legacy Homepage 260x260',
+                                                    },
+                                                    {
+                                                        value: 'legacy-260-173',
+                                                        label:
+                                                            'Legacy Homepage 260x173',
+                                                    },
+                                                ]}
+                                                onChange={imageSize =>
+                                                    dataHandler({ imageSize })
+                                                }
+                                                style={{
+                                                    margin: 0,
+                                                    marginTop: '10px',
+                                                }}
+                                            />
+                                        ),
+                                        onClick: null,
+                                    },
+                                    {
+                                        icon: 'chart-pie',
+                                        title: 'Chartart',
+                                        isActive: chartArt,
+                                        onClick: () => {
+                                            dataHandler({
+                                                isChartArt: !chartArt,
+                                            });
+                                        },
+                                    },
+                                ]}
+                            />
+                        </BlockControls>
                     </Fragment>
                 )}
             />

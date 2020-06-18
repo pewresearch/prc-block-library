@@ -10,10 +10,9 @@ const todaysDate = () => {
 const settings = [
     'prc-block/story-item',
     {
-        // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-        title: __('Story Item'), // Block title.
-        icon: 'format-aside', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-        category: 'widgets', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+        title: __('Story Item'),
+        icon: 'format-aside',
+        category: 'widgets',
         keywords: [__('prc'), __('story'), __('post'), __('story item')],
         styles: [
             {
@@ -45,14 +44,14 @@ const settings = [
         example: {
             attributes: {
                 title: 'Ultricies Ipsum Nibh Egestas Purus',
-                excerpt: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
+                excerpt:
+                    '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
                 extra: '<li></li>',
-                // Item Meta
                 link: '#',
                 label: 'Report',
                 date: todaysDate(),
-                // Images
-                image: 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
+                image:
+                    'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
                 imageSlot: 'top',
                 imageSize: 'A2',
             },
@@ -60,12 +59,12 @@ const settings = [
         supports: {
             html: false, // We do not want to give people the ability to edit the raw html of this block.
         },
-        // Attributes are really react props.
         attributes: {
-            // Item Content
             title: {
                 type: 'string',
                 default: 'Title',
+                // source: 'html',
+                // selector: '.header a',
             },
             excerpt: {
                 type: 'string',
@@ -81,7 +80,6 @@ const settings = [
                 selector: '.extra',
                 default: '',
             },
-            // Item Meta
             link: {
                 type: 'string',
                 default: '',
@@ -89,12 +87,11 @@ const settings = [
             label: {
                 type: 'string',
                 default: 'Report',
+                source: 'html',
+                selector: '.meta .label',
             },
             date: {
                 type: 'string',
-                // source: 'html',
-                // selector: '.date',
-                // default: todaysDate(),
             },
             // Images
             image: {
@@ -118,17 +115,13 @@ const settings = [
                 type: 'integer',
             },
             // Item Options
-            emphasis: {
+            headerSize: {
+                type: 'string',
+                default: 'normal',
+            },
+            enableEmphasis: {
                 type: 'boolean',
                 default: false,
-            },
-            horizontal: {
-                type: 'boolean',
-                default: false,
-            },
-            stacked: {
-                type: 'boolean',
-                default: true,
             },
             enableHeader: {
                 type: 'boolean',
@@ -150,15 +143,10 @@ const settings = [
                 type: 'boolean',
                 default: false,
             },
-            headerSize: {
-                type: 'string',
-                default: 'normal',
-            },
         },
         edit,
-        // Seth Learning Note: SO save literally only transforms on post_content filter. You won't see this result inside the gutenberg editor, you will however see it if you look at code view.
         save,
-    }
+    },
 ];
 
 export default settings;

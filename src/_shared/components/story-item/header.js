@@ -1,14 +1,10 @@
 // WordPress Core
-import { Fragment } from '@wordpress/element';
+import { Fragment, RawHTML } from '@wordpress/element';
 import { RichText, BlockControls } from '@wordpress/block-editor';
 import { Toolbar } from '@wordpress/components';
 
 import { Item } from 'semantic-ui-react';
 import { Kicker, KickerEditor } from 'shared';
-
-const PostTitle = ({ title, link, as = 'a' }) => {
-    return <RichText.Content href={link} tagName={as} value={title} />;
-};
 
 const Header = ({
     title,
@@ -20,24 +16,9 @@ const Header = ({
     taxonomy,
     setAttributes,
 }) => {
-    if ( true !== enabled ) {
-        return <Fragment></Fragment>;
+    if (true !== enabled) {
+        return <Fragment />;
     }
-    const currentSize = size; // Perhaps we need useState here for setting active?
-    const createSizeControls = function(size) {
-        let active = false;
-        if (size === currentSize) {
-            active = true;
-        }
-        return {
-            icon: 'editor-textcolor',
-            title: `Size: ${size}`,
-            isActive: active,
-            onClick: () => {
-                setAttributes({ headerSize: size });
-            },
-        };
-    };
     return (
         <Fragment>
             <Item.Meta>
@@ -59,32 +40,57 @@ const Header = ({
                         <BlockControls>
                             <Toolbar
                                 controls={[
-                                    'small',
-                                    'normal',
-                                    'large',
-                                ].map(createSizeControls)}
+                                    {
+                                        icon: 'editor-textcolor',
+                                        title: `Size: Small`,
+                                        isActive: 'small' === size,
+                                        onClick: () => {
+                                            setAttributes({
+                                                headerSize: 'small',
+                                            });
+                                        },
+                                    },
+                                    {
+                                        icon: 'editor-textcolor',
+                                        title: `Size: Medium`,
+                                        isActive: 'medium' === size,
+                                        onClick: () => {
+                                            setAttributes({
+                                                headerSize: 'medium',
+                                            });
+                                        },
+                                    },
+                                    {
+                                        icon: 'editor-textcolor',
+                                        title: `Size: Large`,
+                                        isActive: 'large' === size,
+                                        onClick: () => {
+                                            setAttributes({
+                                                headerSize: 'large',
+                                            });
+                                        },
+                                    },
+                                ]}
                             />
                         </BlockControls>
                         <RichText
                             tagName="div"
                             value={title}
-                            onChange={title => setAttributes({ title })}
+                            onChange={t => setAttributes({ title: t })}
+                            formattingControls={['bold', 'italic']}
                             placeholder="Title"
                             multiline="br"
                         />
                     </Fragment>
                 )}
                 {false === setAttributes && (
-                    <PostTitle
-                        title={title}
-                        link={link}
-                        as="a"
-                        size={size}
-                    />
+                    <a href={link}>
+                        <RawHTML>{title}</RawHTML>
+                    </a>
                 )}
             </Item.Header>
         </Fragment>
     );
-}
+};
 
 export default Header;
