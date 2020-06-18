@@ -1,12 +1,9 @@
-import { __ } from '@wordpress/i18n';
 import { RichText } from '@wordpress/block-editor';
-import { Fragment } from '@wordpress/element';
 import classNames from 'classnames/bind';
 import colors from './colors';
 import { getColorName } from '../_shared';
 
-const edit = props => {
-    const { attributes, className, isSelected, clientId } = props;
+const edit = ({ attributes, className }) => {
     const { color, label, url } = attributes;
     const classes = classNames(
         className,

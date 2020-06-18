@@ -1,29 +1,29 @@
 {
-  "main.css": "column/main-cfca580a.css",
-  "main.css.map": "column/main-cfca580a.css.map",
-  "main.js": "column/main-ad6f54af.js",
-  "main.js.map": "column/main-ad6f54af.js.map",
-  "runtime.js": "column/runtime-3ab75f4f.js",
-  "runtime.js.map": "column/runtime-3ab75f4f.js.map",
-  "vendors~main.js": "column/vendors~main-93dad4c8.js",
-  "vendors~main.js.map": "column/vendors~main-93dad4c8.js.map",
+  "main.css": "column/main.css",
+  "main.css.map": "column/main.css.map",
+  "main.js": "column/main.js",
+  "main.js.map": "column/main.js.map",
+  "runtime.js": "column/runtime.js",
+  "runtime.js.map": "column/runtime.js.map",
+  "vendors~main.js": "column/vendors~main.js",
+  "vendors~main.js.map": "column/vendors~main.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "column/runtime-3ab75f4f.js",
-        "column/vendors~main-93dad4c8.js",
-        "column/main-ad6f54af.js"
+        "column/runtime.js",
+        "column/vendors~main.js",
+        "column/main.js"
       ],
       "js.map": [
-        "column/runtime-3ab75f4f.js.map",
-        "column/vendors~main-93dad4c8.js.map",
-        "column/main-ad6f54af.js.map"
+        "column/runtime.js.map",
+        "column/vendors~main.js.map",
+        "column/main.js.map"
       ],
       "css": [
-        "column/main-cfca580a.css"
+        "column/main.css"
       ],
       "css.map": [
-        "column/main-cfca580a.css.map"
+        "column/main.css.map"
       ]
     }
   }

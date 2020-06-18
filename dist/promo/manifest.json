@@ -1,25 +1,30 @@
 {
-  "main.css": "promo/main-ef614601.css",
-  "main.css.map": "promo/main-ef614601.css.map",
-  "main.js": "promo/main-a15bed9d.js",
-  "main.js.map": "promo/main-a15bed9d.js.map",
-  "runtime.js": "promo/runtime-57709f56.js",
-  "runtime.js.map": "promo/runtime-57709f56.js.map",
+  "main.css": "promo/main.css",
+  "main.css.map": "promo/main.css.map",
+  "main.js": "promo/main.js",
+  "main.js.map": "main.e2cc0b771e1f49a7518b.hot-update.js.map",
+  "runtime.js": "promo/runtime.js",
+  "runtime.js.map": "promo/runtime.js.map",
+  "vendors~main.js": "promo/vendors~main.js",
+  "vendors~main.js.map": "promo/vendors~main.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "promo/runtime-57709f56.js",
-        "promo/main-a15bed9d.js"
+        "promo/runtime.js",
+        "promo/vendors~main.js",
+        "promo/main.js"
       ],
       "js.map": [
-        "promo/runtime-57709f56.js.map",
-        "promo/main-a15bed9d.js.map"
+        "promo/runtime.js.map",
+        "promo/vendors~main.js.map",
+        "promo/main.js.map",
+        "main.e2cc0b771e1f49a7518b.hot-update.js.map"
       ],
       "css": [
-        "promo/main-ef614601.css"
+        "promo/main.css"
       ],
       "css.map": [
-        "promo/main-ef614601.css.map"
+        "promo/main.css.map"
       ]
     }
   }

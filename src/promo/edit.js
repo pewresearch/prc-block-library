@@ -14,9 +14,11 @@ const allowedBlocks = [
     'prc-block/mailchimp-form',
     'prc-blocks/pathways-ask-an-analyst',
 ];
-const template = [['prc-block/button', { color: '#d3aa20', label: 'DONATE' }]];
+const template = [
+    ['prc-block/button', { color: '#d3aa20', label: 'DONATE', url: '' }],
+];
 
-const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
+const SidebarControls = ({ backgroundColor, borderColor, setAttributes }) => {
     const bgDefaults = [
         { name: 'Oatmeal', color: '#F7F7F2' },
         { name: 'Gray', color: '#F8F8F8' },
@@ -39,8 +41,8 @@ const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
                     </p>
                     <ColorPalette
                         colors={bgDefaults}
-                        value={bgColor}
-                        onChange={c => setAttributes({ bgColor: c })}
+                        value={backgroundColor}
+                        onChange={c => setAttributes({ backgroundColor: c })}
                         disableCustomColors
                     />
                 </div>
@@ -63,8 +65,8 @@ const SidebarControls = ({ bgColor, borderColor, setAttributes }) => {
 const edit = ({
     attributes,
     className,
-    clientId,
     setAttributes,
+    clientId,
     isSelected,
 }) => {
     // If width is greater than 640 then set to "pancake" (horizontal flex).
@@ -79,23 +81,23 @@ const edit = ({
         }
     }
 
-    const { header, description, bgColor, borderColor, pancake } = attributes;
+    const {
+        header,
+        description,
+        backgroundColor,
+        borderColor,
+        pancake,
+    } = attributes;
     const classes = classNames(className, { pancake });
 
     return (
         <Fragment>
             <SidebarControls
-                bgColor={bgColor}
+                bgColor={backgroundColor}
                 borderColor={borderColor}
                 setAttributes={setAttributes}
             />
-            <div
-                className={classes}
-                style={{
-                    borderColor,
-                    backgroundColor: bgColor,
-                }}
-            >
+            <div className={classes} style={{ borderColor, backgroundColor }}>
                 <div className="text">
                     <RichText
                         tagName="h2" // The tag here is the element output and editable in the admin

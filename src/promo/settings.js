@@ -37,6 +37,19 @@ const settings = [
         supports: {
             html: false, // We do not want to give people the ability to edit the raw html of this block.
         },
+        example: {
+            attributes: {
+                header: 'Facts are more important than ever',
+                description:
+                    'In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.',
+            },
+            innerBlocks: [
+                {
+                    name: 'prc-block/button',
+                    attributes: { color: '#d3aa20', label: 'DONATE', url: '' },
+                },
+            ],
+        },
         // Attributes are really react props.
         attributes: {
             header: {
@@ -47,7 +60,7 @@ const settings = [
                 type: 'string',
                 default: '',
             },
-            bgColor: {
+            backgroundColor: {
                 type: 'string',
                 default: '#fff',
             },
@@ -59,15 +72,6 @@ const settings = [
                 type: 'boolean',
                 default: false,
             },
-        },
-        example: {
-            attributes: {
-                header: 'Facts are more important than ever',
-                description: 'In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.',
-            },
-            innerBlocks: [
-                ['prc-block/button', { color: '#d3aa20', label: 'DONATE' }]
-            ],
         },
         edit,
         save,

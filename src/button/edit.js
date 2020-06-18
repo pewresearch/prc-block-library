@@ -35,9 +35,7 @@ const SidebarControls = ({ color, url, setAttributes }) => {
     );
 };
 
-const edit = props => {
-    const { attributes, className, isSelected, clientId, setAttributes } = props;
-
+const edit = ({ attributes, className, setAttributes, isSelected }) => {
     const { color, label, url } = attributes;
 
     const classes = classNames(
@@ -54,14 +52,15 @@ const edit = props => {
                 url={url}
                 setAttributes={setAttributes}
             />
-            <RichText
-                tagName="a" // The tag here is the element output and editable in the admin
-                value={label} // Any existing content, either from the database or an attribute default
-                onChange={t => setAttributes({ label: t })} // Store updated content as a block attribute
-                placeholder="Button" // Display this text before any content has been added by the user
-                formattingControls={[]}
-                className={classes}
-            />
+            <div className={classes}>
+                <RichText
+                    tagName="div" // The tag here is the element output and editable in the admin
+                    value={label} // Any existing content, either from the database or an attribute default
+                    onChange={t => setAttributes({ label: t })} // Store updated content as a block attribute
+                    placeholder="Button" // Display this text before any content has been added by the user
+                    formattingControls={[]}
+                />
+            </div>
         </Fragment>
     );
 };

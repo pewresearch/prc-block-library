@@ -1,29 +1,30 @@
 {
-  "main.css": "button/main-93a55036.css",
-  "main.css.map": "button/main-93a55036.css.map",
-  "main.js": "button/main-f221226e.js",
-  "main.js.map": "button/main-f221226e.js.map",
-  "runtime.js": "button/runtime-d2846bfc.js",
-  "runtime.js.map": "button/runtime-d2846bfc.js.map",
-  "vendors~main.js": "button/vendors~main-40c58bfb.js",
-  "vendors~main.js.map": "button/vendors~main-40c58bfb.js.map",
+  "main.css": "button/main.css",
+  "main.css.map": "button/main.css.map",
+  "main.js": "button/main.js",
+  "main.js.map": "main.99625434c3eeef644a88.hot-update.js.map",
+  "runtime.js": "button/runtime.js",
+  "runtime.js.map": "button/runtime.js.map",
+  "vendors~main.js": "button/vendors~main.js",
+  "vendors~main.js.map": "button/vendors~main.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "button/runtime-d2846bfc.js",
-        "button/vendors~main-40c58bfb.js",
-        "button/main-f221226e.js"
+        "button/runtime.js",
+        "button/vendors~main.js",
+        "button/main.js"
       ],
       "js.map": [
-        "button/runtime-d2846bfc.js.map",
-        "button/vendors~main-40c58bfb.js.map",
-        "button/main-f221226e.js.map"
+        "button/runtime.js.map",
+        "button/vendors~main.js.map",
+        "button/main.js.map",
+        "main.99625434c3eeef644a88.hot-update.js.map"
       ],
       "css": [
-        "button/main-93a55036.css"
+        "button/main.css"
       ],
       "css.map": [
-        "button/main-93a55036.css.map"
+        "button/main.css.map"
       ]
     }
   }
