@@ -524,6 +524,26 @@ class PRC_Block_Library {
 				'style'         => array_pop( $tax_tree_list['css'] )['handle'],
 			)
 		);
+
+		$post_subtitle = $enqueue->register(
+			'post-elements',
+			'subtitle',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		// register_block_type(
+		// 'prc-block/post-subtitle',
+		// array(
+		// We're only enqueing these in the block editor, not the front end.
+		// 'editor_script' => array_pop( $post_subtitle['js'] )['handle'],
+		// )
+		// );
 	}
 
 	private function load_block_pattern( $name ) {
