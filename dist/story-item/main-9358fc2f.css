@@ -21,9 +21,5 @@
 
 .prc-collapsible-list{padding-top:1.074em;padding-bottom:1.074em}.prc-collapsible-list:first-child{padding-top:0}@media only screen and (min-width: 541px){.prc-collapsible-list{padding-top:2.1875em;padding-bottom:2.1875em}}.prc-collapsible-list .title{display:flex;flex-direction:row;align-items:center}@media only screen and (max-width: 540px){.prc-collapsible-list .title{align-items:flex-start}}.prc-collapsible-list .title a{color:black !important;text-decoration:none}.prc-collapsible-list .title h1,.prc-collapsible-list .title h2,.prc-collapsible-list .title h3{margin:0}@media only screen and (max-width: 540px){.prc-collapsible-list .title h1,.prc-collapsible-list .title h2,.prc-collapsible-list .title h3{font-size:1.175em}}.prc-collapsible-list .title .icon.caret{display:none}@media only screen and (max-width: 540px){.prc-collapsible-list .title .icon.caret{display:inherit}}.prc-collapsible-list .title .icon.chevron{display:none}@media only screen and (min-width: 541px){.prc-collapsible-list .title .icon.chevron{display:inherit;margin-left:0.25em}}.prc-collapsible-list .content{padding-top:18px;display:block}@media only screen and (max-width: 540px){.prc-collapsible-list .content{display:none;padding-left:1.3em}}
 
-@media only screen and (max-width: 767px){.wp-block-column>.wp-block-prc-block-posts.is-style-fact-tank{margin-top:1.75rem}}.wp-block-prc-block-posts.is-style-fact-tank .ui.list>.item>a{line-height:1.25}
 
-@media only screen and (max-width: 767px){.js-react-posts-block div.ui.stackable.divided:not(.vertically).grid>.row>.column{padding-left:1rem !important;padding-right:1rem !important}}
-
-
-/*# sourceMappingURL=default~frontend~main-90046f1f.css.map*/
+/*# sourceMappingURL=main-9358fc2f.css.map*/

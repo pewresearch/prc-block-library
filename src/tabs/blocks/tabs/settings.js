@@ -35,17 +35,6 @@ const settings = ['prc-block/tabs', {
           }
         }
       },
-      // values: {
-      //   type: "array",
-      //   source: "query",
-      //   selector: ".ui.tab",
-      //   query : {
-      //     content: {
-      //       type: "string",
-      //       source: "html"
-      //     }
-      //   }
-      // }
     },
     example: {},
     edit,

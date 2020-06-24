@@ -8,11 +8,14 @@ class Tabs extends Component {
   }
 
   handleChange(e, data) {
-    let panes = document.querySelectorAll(`[data-block="${this.props.clientId}"] [data-type="prc-block/pane"]`);
-    for (let i = 0; i < panes.length; i++) {
-      panes[i].style.display = "none";
+    let clientId = typeof this.props.clientId !== 'undefined' ? this.props.clientId : e.target.closest('.wp-block').dataset.block;
+    let panes = document.querySelectorAll(`[data-block="${clientId}"] [data-type="prc-block/pane"]`);
+    if (panes.length > 0 ) {
+      for (let i = 0; i < panes.length; i++) {
+        panes[i].style.display = "none";
+      }
+      panes[data.activeIndex].style.display = "block";
     }
-    panes[data.activeIndex].style.display = "block";
   }
 
   render() {

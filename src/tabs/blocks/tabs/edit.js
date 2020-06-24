@@ -38,7 +38,6 @@ export default function edit(props) {
         menuItem: `Tab ${i + 1}`,
         pane: {
           key:`${i}`,
-          //content:
 				}
     };
 	}
@@ -63,7 +62,6 @@ export default function edit(props) {
 				menuItem: titles[i].content,
 				pane: {
 					key:`tab${i + 1}`,
-					//content : null
 				}
       });
 		}

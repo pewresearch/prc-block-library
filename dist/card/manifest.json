@@ -1,6 +1,6 @@
 {
-  "main.css": "card/main-35e6ec62.css",
-  "main.css.map": "card/main-35e6ec62.css.map",
+  "main.css": "card/main-e83b5d9c.css",
+  "main.css.map": "card/main-e83b5d9c.css.map",
   "main.js": "card/main-433c1a1d.js",
   "main.js.map": "card/main-433c1a1d.js.map",
   "runtime.js": "card/runtime-176ad2d9.js",
@@ -20,10 +20,10 @@
         "card/main-433c1a1d.js.map"
       ],
       "css": [
-        "card/main-35e6ec62.css"
+        "card/main-e83b5d9c.css"
       ],
       "css.map": [
-        "card/main-35e6ec62.css.map"
+        "card/main-e83b5d9c.css.map"
       ]
     }
   }

@@ -1,6 +1,6 @@
 {
-  "main.css": "promo/main-ef614601.css",
-  "main.css.map": "promo/main-ef614601.css.map",
+  "main.css": "promo/main-c70bf43e.css",
+  "main.css.map": "promo/main-c70bf43e.css.map",
   "main.js": "promo/main-65eff600.js",
   "main.js.map": "promo/main-65eff600.js.map",
   "runtime.js": "promo/runtime-57709f56.js",
@@ -16,10 +16,10 @@
         "promo/main-65eff600.js.map"
       ],
       "css": [
-        "promo/main-ef614601.css"
+        "promo/main-c70bf43e.css"
       ],
       "css.map": [
-        "promo/main-ef614601.css.map"
+        "promo/main-c70bf43e.css.map"
       ]
     }
   }
