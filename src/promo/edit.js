@@ -74,7 +74,7 @@ const edit = ({
     if (true === isSelected && null !== domBlock) {
         const width = domBlock.clientWidth;
 
-        if (640 <= width) {
+        if (680 <= width) {
             setAttributes({ pancake: true });
         } else {
             setAttributes({ pancake: false });
