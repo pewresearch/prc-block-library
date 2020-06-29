@@ -524,6 +524,26 @@ class PRC_Block_Library {
 				'style'         => array_pop( $tax_tree_list['css'] )['handle'],
 			)
 		);
+
+		$post_subtitle = $enqueue->register(
+			'post-elements',
+			'subtitle',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		// register_block_type(
+		// 'prc-block/post-subtitle',
+		// array(
+		// We're only enqueing these in the block editor, not the front end.
+		// 'editor_script' => array_pop( $post_subtitle['js'] )['handle'],
+		// )
+		// );
 	}
 
 	private function load_block_pattern( $name ) {
@@ -615,8 +635,8 @@ class PRC_Block_Library {
 
 	public function register_rest_endpoints() {
 		register_rest_route(
-			'prc-api/v2/blocks/helpers',
-			'/get-posts',
+			'prc-api/v2',
+			'/blocks/helpers/get-posts',
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_block_lib_posts' ),
@@ -645,8 +665,8 @@ class PRC_Block_Library {
 			)
 		);
 		register_rest_route(
-			'prc-api/v2/blocks/helpers',
-			'/get-post-by-url',
+			'prc-api/v2',
+			'/blocks/helpers/get-post-by-url',
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_stub_post_by_post_url_restfully' ),
@@ -665,8 +685,8 @@ class PRC_Block_Library {
 			)
 		);
 		register_rest_route(
-			'prc-api/v2/blocks/helpers',
-			'/get-taxonomy-by-letter',
+			'prc-api/v2',
+			'/blocks/helpers/get-taxonomy-by-letter',
 			array(
 				'methods'  => 'GET',
 				'callback' => array( $this, 'get_taxonomy_by_letter_restfully' ),
@@ -820,7 +840,6 @@ class PRC_Block_Library {
 
 		switch_to_blog( $site_id );
 		// If url contains fact-tank right after the url then go get the slug and fetch post that way.
-		$test = 'http://pewresearch.local/fact-tank/2020/04/02/5-facts-about-partisan-reactions-to-covid-19-in-the-u-s/';
 		if ( false !== strpos( $url, '/fact-tank/' ) ) {
 			$slug    = basename( $url );
 			$post_id = $this->get_fact_tank_post_by_slug( $slug );
@@ -861,6 +880,7 @@ class PRC_Block_Library {
 			'timestamp' => get_the_time( 'c', $stub_post->ID ),
 			'label'     => $format_term->name,
 			'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
+			'art'       => $stub_info['_art'],
 			'image'     => $stub_info['_featured_image'],
 			'imageID'   => '',
 		);

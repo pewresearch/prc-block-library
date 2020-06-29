@@ -1,21 +1,19 @@
-import { getPosts, getTerms, getColorName } from './helpers';
 import {
-    Kicker,
-    KickerEditor,
-    Image,
-    StoryItem,
-    CollapsibleList,
-    TaxonomySelectList,
-} from './components';
+    getPosts,
+    getTerms,
+    getTermsAsOptions,
+    getColorName,
+    ifMatchSetAttribute,
+} from './helpers';
+import { StoryItem, CollapsibleList, TaxonomySelectList } from './components';
 
 export {
     getPosts,
     getTerms,
-    Image,
-    Kicker,
-    KickerEditor,
+    getTermsAsOptions,
+    getColorName,
+    ifMatchSetAttribute,
     StoryItem,
     CollapsibleList,
-    getColorName,
     TaxonomySelectList,
 };

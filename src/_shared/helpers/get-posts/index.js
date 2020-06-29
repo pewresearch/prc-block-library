@@ -5,6 +5,7 @@ const getPosts = (
     format,
     program,
     labelTaxonomy,
+    imageSize = 'A2',
     relativeDate = false,
 ) => {
     const formatDate = dateString => {
