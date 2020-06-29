@@ -1,0 +1,34 @@
+{
+  "frontend.js": "mailchimp-opt-down/frontend-13899615.js",
+  "frontend.js.map": "mailchimp-opt-down/frontend-13899615.js.map",
+  "main.js": "mailchimp-opt-down/main-046941de.js",
+  "main.js.map": "mailchimp-opt-down/main-046941de.js.map",
+  "runtime.js": "mailchimp-opt-down/runtime-b19d574d.js",
+  "runtime.js.map": "mailchimp-opt-down/runtime-b19d574d.js.map",
+  "vendors~main.js": "mailchimp-opt-down/vendors~main-9824ac34.js",
+  "vendors~main.js.map": "mailchimp-opt-down/vendors~main-9824ac34.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "mailchimp-opt-down/runtime-b19d574d.js",
+        "mailchimp-opt-down/vendors~main-9824ac34.js",
+        "mailchimp-opt-down/main-046941de.js"
+      ],
+      "js.map": [
+        "mailchimp-opt-down/runtime-b19d574d.js.map",
+        "mailchimp-opt-down/vendors~main-9824ac34.js.map",
+        "mailchimp-opt-down/main-046941de.js.map"
+      ]
+    },
+    "frontend": {
+      "js": [
+        "mailchimp-opt-down/runtime-b19d574d.js",
+        "mailchimp-opt-down/frontend-13899615.js"
+      ],
+      "js.map": [
+        "mailchimp-opt-down/runtime-b19d574d.js.map",
+        "mailchimp-opt-down/frontend-13899615.js.map"
+      ]
+    }
+  }
+}

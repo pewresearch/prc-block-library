@@ -340,6 +340,55 @@ class PRC_Block_Library {
 			)
 		);
 
+		// Mailchimp Opt-down Form
+		$js_deps                        = $this->js_deps;
+		$mailchimp_opt_down_block           = $enqueue->register(
+			'mailchimp-opt-down',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$mailchimp_opt_down_frontend   = $enqueue->register(
+			'mailchimp-opt-down',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$mailchimp_opt_down_block_script    = array_pop( $mailchimp_opt_down_block['js'] )['handle'];
+		$mailchimp_opt_down_frontend_script = array_pop( $mailchimp_opt_down_frontend['js'] )['handle'];
+		// $mailchimp_form_style           = array_pop( $mailchimp_form_block['css'] )['handle'];
+		// wp_localize_script(
+		// 	$mailchimp_o_block_script,
+		// 	'prcMailchimpForm', // Array containing dynamic data for a JS Global.
+		// 	array(
+		// 		'interests' => $mailchimp_interests,
+		// 	)
+		// );
+		register_block_type(
+			'prc-block/mailchimp-opt-down',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => $mailchimp_opt_down_block_script,
+				'script'        => $mailchimp_opt_down_frontend_script,
+				// 'style'         => $$mailchimp_form_style,
+			)
+		);
+
+
+
+
 		// Promo
 		$promo = $enqueue->register(
 			'promo',
