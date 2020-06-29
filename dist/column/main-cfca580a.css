@@ -15,7 +15,7 @@
  * Compiled with the help of https://wpack.io
  * A zero setup Webpack Bundler Script for WordPress
  */
-@media only screen and (max-width: 767px){.wp-block-column .ui.card:last-child{margin-bottom:1em}.wp-block-columns>.wp-block-column:last-child .ui.card:last-child{margin-bottom:0}}.ui.card .wp-block-image .components-resizable-box__container span,.ui.card .wp-block-image .editor-rich-text{display:none !important}
+div[data-type="prc-block/column"],div[data-type="prc-block/column"] .block-editor-block-list__block{margin-top:0 !important}
 
 
-/*# sourceMappingURL=main-e83b5d9c.css.map*/
+/*# sourceMappingURL=main-cfca580a.css.map*/

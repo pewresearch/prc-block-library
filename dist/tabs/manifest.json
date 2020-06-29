@@ -1,8 +1,8 @@
 {
   "frontend.js": "tabs/frontend-427aa110.js",
   "frontend.js.map": "tabs/frontend-427aa110.js.map",
-  "main.css": "tabs/main-7cbae718.css",
-  "main.css.map": "tabs/main-7cbae718.css.map",
+  "main.css": "tabs/main-6bdda983.css",
+  "main.css.map": "tabs/main-6bdda983.css.map",
   "main.js": "tabs/main-634b1392.js",
   "main.js.map": "tabs/main-634b1392.js.map",
   "runtime.js": "tabs/runtime-9524aa08.js",
@@ -22,10 +22,10 @@
         "tabs/main-634b1392.js.map"
       ],
       "css": [
-        "tabs/main-7cbae718.css"
+        "tabs/main-6bdda983.css"
       ],
       "css.map": [
-        "tabs/main-7cbae718.css.map"
+        "tabs/main-6bdda983.css.map"
       ]
     },
     "frontend": {
