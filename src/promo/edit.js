@@ -89,7 +89,6 @@ const edit = ({
         pancake,
     } = attributes;
     const classes = classNames(className, { pancake });
-
     return (
         <Fragment>
             <SidebarControls
