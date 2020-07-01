@@ -30,7 +30,7 @@ ob_start();
 $content = ob_get_clean();
 
 return array(
-	'title'         => '1 Lede',
+	'title'         => '1 Lede (With Newsletter)',
 	'content'       => $content,
 	'categories'    => array( 'lede' ),
 	'viewportWidth' => 1156,
