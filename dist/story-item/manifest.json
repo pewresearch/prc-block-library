@@ -5,18 +5,18 @@
   "main.js.map": "story-item/main-15643d52.js.map",
   "runtime.js": "story-item/runtime-e7c58969.js",
   "runtime.js.map": "story-item/runtime-e7c58969.js.map",
-  "vendors~main.js": "story-item/vendors~main-2154fe14.js",
-  "vendors~main.js.map": "story-item/vendors~main-2154fe14.js.map",
+  "vendors~main.js": "story-item/vendors~main-ae1a3b43.js",
+  "vendors~main.js.map": "story-item/vendors~main-ae1a3b43.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "story-item/runtime-e7c58969.js",
-        "story-item/vendors~main-2154fe14.js",
+        "story-item/vendors~main-ae1a3b43.js",
         "story-item/main-15643d52.js"
       ],
       "js.map": [
         "story-item/runtime-e7c58969.js.map",
-        "story-item/vendors~main-2154fe14.js.map",
+        "story-item/vendors~main-ae1a3b43.js.map",
         "story-item/main-15643d52.js.map"
       ],
       "css": [

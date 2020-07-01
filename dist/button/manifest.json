@@ -5,18 +5,18 @@
   "main.js.map": "button/main-3a38f295.js.map",
   "runtime.js": "button/runtime-d2846bfc.js",
   "runtime.js.map": "button/runtime-d2846bfc.js.map",
-  "vendors~main.js": "button/vendors~main-fed9207f.js",
-  "vendors~main.js.map": "button/vendors~main-fed9207f.js.map",
+  "vendors~main.js": "button/vendors~main-c1744fc7.js",
+  "vendors~main.js.map": "button/vendors~main-c1744fc7.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "button/runtime-d2846bfc.js",
-        "button/vendors~main-fed9207f.js",
+        "button/vendors~main-c1744fc7.js",
         "button/main-3a38f295.js"
       ],
       "js.map": [
         "button/runtime-d2846bfc.js.map",
-        "button/vendors~main-fed9207f.js.map",
+        "button/vendors~main-c1744fc7.js.map",
         "button/main-3a38f295.js.map"
       ],
       "css": [
