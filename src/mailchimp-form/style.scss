@@ -1,0 +1,10 @@
+#js-mailchimp-form {
+    &.is-style-horizontal .ui.form.mailchimp .field {
+        display: flex;
+    }
+    &.is-style-horizontal .ui.form.mailchimp .field > .required {
+        flex-grow: 1;
+        margin-bottom: 0;
+        margin-right: 0.5em
+    }
+}

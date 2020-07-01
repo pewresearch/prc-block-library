@@ -1,15 +1,19 @@
 import { withState } from '@wordpress/compose';
+import apiFetch from '@wordpress/api-fetch';
 import { Form, Dimmer } from 'semantic-ui-react';
+
+import './style.scss';
 
 const defaultState = {
     error: false,
     loading: false,
     emailAddress: '',
     dimmerActive: false,
-    dimmerMessage: 'BLANK DIMMER MESSAGE',
+    dimmerMessage: 'n/a',
 };
 
-const MailchimpForm = withState(defaultState)(({
+const MailchimpForm = withState(defaultState)(
+    ({
         display,
         interest,
         error,
@@ -18,8 +22,8 @@ const MailchimpForm = withState(defaultState)(({
         dimmerActive,
         dimmerMessage,
         setState,
+        className,
     }) => {
-
         const submitHandler = e => {
             e.preventDefault();
 
@@ -41,7 +45,8 @@ const MailchimpForm = withState(defaultState)(({
                             {
                                 email,
                                 interests: interest,
-                            })}`,
+                            },
+                        )}`,
                         type: 'POST',
                     })
                     .done(() => {
@@ -80,6 +85,7 @@ const MailchimpForm = withState(defaultState)(({
                 as="div"
                 id="js-mailchimp-form"
                 dimmed={dimmerActive}
+                className={className}
             >
                 <Form
                     className="mailchimp"

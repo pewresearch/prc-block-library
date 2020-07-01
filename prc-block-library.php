@@ -322,7 +322,7 @@ class PRC_Block_Library {
 		);
 		$mailchimp_form_block_script    = array_pop( $mailchimp_form_block['js'] )['handle'];
 		$mailchimp_form_frontend_script = array_pop( $mailchimp_form_frontend['js'] )['handle'];
-		// $mailchimp_form_style           = array_pop( $mailchimp_form_block['css'] )['handle'];
+		$mailchimp_form_style           = array_pop( $mailchimp_form_frontend['css'] )['handle'];
 		wp_localize_script(
 			$mailchimp_form_block_script,
 			'prcMailchimpForm', // Array containing dynamic data for a JS Global.
@@ -336,7 +336,7 @@ class PRC_Block_Library {
 				// We're only enqueing these in the block editor, not the front end.
 				'editor_script' => $mailchimp_form_block_script,
 				'script'        => $mailchimp_form_frontend_script,
-				// 'style'         => $$mailchimp_form_style,
+				'style'         => $mailchimp_form_style,
 			)
 		);
 

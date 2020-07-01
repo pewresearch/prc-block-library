@@ -18,20 +18,16 @@ const settings = [
         styles: [
             {
                 name: '',
-                label: 'Standard',
+                label: 'Standard (Text Centered)',
                 isDefault: true,
             },
             {
                 name: 'pancake',
-                label: 'Pancake (Text Centered)',
+                label: 'Pancake (Text Horizontally Centered)',
             },
             {
                 name: 'pancake-stacked',
                 label: 'Pancake (Text Stacked)',
-            },
-            {
-                name: 'pancake-form',
-                label: 'Pancake (Form)',
             },
         ],
         supports: {
@@ -62,15 +58,19 @@ const settings = [
             },
             backgroundColor: {
                 type: 'string',
-                default: '#fff',
+                default: '',
             },
             borderColor: {
                 type: 'string',
-                default: '#fff',
+                default: '',
             },
-            pancake: {
+            sansSerif: {
                 type: 'boolean',
                 default: false,
+            },
+            icon: {
+                type: 'string',
+                default: '',
             },
         },
         edit,

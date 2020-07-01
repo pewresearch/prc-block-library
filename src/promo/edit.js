@@ -4,10 +4,16 @@ import {
     RichText,
     InnerBlocks,
 } from '@wordpress/block-editor';
-import { PanelBody, ColorPalette } from '@wordpress/components';
+import {
+    PanelBody,
+    PanelRow,
+    ColorPalette,
+    ToggleControl,
+    SelectControl,
+} from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import classNames from 'classnames/bind';
-// import Icon from './icons';
+import Icon from './icons';
 
 const allowedBlocks = [
     'prc-block/button',
@@ -18,24 +24,28 @@ const template = [
     ['prc-block/button', { color: '#d3aa20', label: 'DONATE', url: '' }],
 ];
 
-const SidebarControls = ({ backgroundColor, borderColor, setAttributes }) => {
+const SidebarControls = ({
+    backgroundColor,
+    borderColor,
+    sansSerif,
+    icon,
+    setAttributes,
+}) => {
     const bgDefaults = [
         { name: 'Oatmeal', color: '#F7F7F2' },
         { name: 'Gray', color: '#F8F8F8' },
-        { name: 'White', color: '#FFF' },
     ];
     const borderDefaults = [
         { name: 'Oatmeal', color: '#E2E2E2' },
         // { name: 'Oatmeal (dark)', color: '#D5D5CD' },
         { name: 'Gray', color: '#D8D8D8' },
-        { name: 'White', color: '#FFF' },
         { name: 'Black', color: '#000' },
     ];
 
     return (
         <InspectorControls>
             <PanelBody title={__('Promo Design Options')}>
-                <div>
+                <PanelRow>
                     <p>
                         <strong>Background Color:</strong>
                     </p>
@@ -45,8 +55,8 @@ const SidebarControls = ({ backgroundColor, borderColor, setAttributes }) => {
                         onChange={c => setAttributes({ backgroundColor: c })}
                         disableCustomColors
                     />
-                </div>
-                <div>
+                </PanelRow>
+                <PanelRow>
                     <p>
                         <strong>Border Color:</strong>
                     </p>
@@ -56,7 +66,28 @@ const SidebarControls = ({ backgroundColor, borderColor, setAttributes }) => {
                         onChange={c => setAttributes({ borderColor: c })}
                         disableCustomColors
                     />
-                </div>
+                </PanelRow>
+                <PanelRow>
+                    <SelectControl
+                        label="Choose Icon"
+                        value={icon}
+                        options={[
+                            { label: 'None', value: '' },
+                            { label: 'Mail', value: 'mail' },
+                            { label: 'Election', value: 'election' },
+                        ]}
+                        onChange={i => setAttributes({ icon: i })}
+                    />
+                </PanelRow>
+                <PanelRow>
+                    <ToggleControl
+                        label="Sans Serif Font"
+                        checked={sansSerif}
+                        onChange={() =>
+                            setAttributes({ sansSerif: !sansSerif })
+                        }
+                    />
+                </PanelRow>
             </PanelBody>
         </InspectorControls>
     );
@@ -69,34 +100,31 @@ const edit = ({
     clientId,
     isSelected,
 }) => {
-    // If width is greater than 640 then set to "pancake" (horizontal flex).
-    const domBlock = document.querySelector(`[data-block="${clientId}"]`);
-    if (true === isSelected && null !== domBlock) {
-        const width = domBlock.clientWidth;
-
-        if (680 <= width) {
-            setAttributes({ pancake: true });
-        } else {
-            setAttributes({ pancake: false });
-        }
-    }
-
     const {
         header,
         description,
         backgroundColor,
         borderColor,
-        pancake,
+        sansSerif,
+        icon,
     } = attributes;
-    const classes = classNames(className, { pancake });
+    const classes = classNames(className);
+    const fontFamily = classNames({ 'sans-serif': sansSerif });
     return (
         <Fragment>
             <SidebarControls
                 bgColor={backgroundColor}
                 borderColor={borderColor}
+                sansSerif={sansSerif}
+                icon={icon}
                 setAttributes={setAttributes}
             />
             <div className={classes} style={{ borderColor, backgroundColor }}>
+                {'' !== icon && (
+                    <div className="icon">
+                        <Icon icon={icon} />
+                    </div>
+                )}
                 <div className="text">
                     <RichText
                         tagName="h2" // The tag here is the element output and editable in the admin
@@ -105,6 +133,7 @@ const edit = ({
                         placeholder="Facts are more important than ever." // Display this text before any content has been added by the user
                         formattingControls={[]}
                         keepPlaceholderOnFocus
+                        className={fontFamily}
                     />
                     <RichText
                         tagName="div" // The tag here is the element output and editable in the admin
@@ -115,6 +144,7 @@ const edit = ({
                         multiline="p"
                         allowedFormats={['core/bold', 'core/italic']}
                         keepPlaceholderOnFocus
+                        className={fontFamily}
                     />
                 </div>
                 <div className="action">

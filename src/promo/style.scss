@@ -11,7 +11,7 @@ $breakpoint-tablet: 920px;
 
     border-width: 1px;
     border-style: solid;
-    border-color: #E2E2E2;
+    border-color: transparent;
 
     &:first-child {
       margin-top: 0;
@@ -44,10 +44,6 @@ $breakpoint-tablet: 920px;
         margin-left: auto      !important;
         margin-right: auto     !important;
       }
-      .block-editor-block-list__block {
-        margin-top: 0;
-        margin-bottom: 14px;
-      }
     }
 
     // Horizontal "Pancake" Styles:
@@ -59,6 +55,11 @@ $breakpoint-tablet: 920px;
         flex-direction: row;
         align-items: flex-start;
         text-align: left;
+
+        .icon,
+        .text {
+          margin-right: 1em;
+        }
   
         .text {
           display: flex;
@@ -75,7 +76,6 @@ $breakpoint-tablet: 920px;
   
         .action {
           text-align: right;
-          margin-left: 35px;
           flex-grow: 1;
         }
       }
@@ -95,4 +95,19 @@ $breakpoint-tablet: 920px;
       }
     }
 
+  #js-mailchimp-form {
+    min-width: 420px;
+  }
+  // Editor Only Styles:
+  .block-editor-block-list__block {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+  }
+  .block-list-appender {
+    position: absolute!important;
+    // margin: 0;
+    * {
+      margin: 0!important;
+    }
+  }
 }

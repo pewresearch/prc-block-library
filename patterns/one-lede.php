@@ -20,8 +20,8 @@ ob_start();
 <hr class="wp-block-separator"/>
 <!-- /wp:separator -->
 
-<!-- wp:prc-block/promo {"header":"Facts are more important than ever.","description":"\u003cp\u003eIn times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.\u003c/p\u003e","borderColor":"#E2E2E2","pancake":true} -->
-<div class="wp-block-prc-block-promo pancake" style="border-color:#E2E2E2"><div class="text"><h2>Facts are more important than ever.</h2><div><p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p></div></div><div class="action"><!-- wp:prc-block/button {"color":"#d3aa20","label":"DONATE"} -->
+<!-- wp:prc-block/promo {"header":"Facts are more important than ever.","description":"\u003cp\u003eIn times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.\u003c/p\u003e","backgroundColor":"#F7F7F2","borderColor":"#D8D8D8","className":"pancake"} -->
+<div class="wp-block-prc-block-promo pancake" style="border-color:#D8D8D8"><div class="text"><h2>Facts are more important than ever.</h2><div><p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p></div></div><div class="action"><!-- wp:prc-block/button {"color":"#d3aa20","label":"DONATE"} -->
 <a class="wp-block-prc-block-button mustard ui button" href="">DONATE</a>
 <!-- /wp:prc-block/button --></div></div>
 <!-- /wp:prc-block/promo --></div></div>

@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import { PanelBody, PanelRow, SelectControl } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import MailchimpForm from './component';
 
@@ -10,7 +10,7 @@ const SidebarControls = ({ interest, setAttributes }) => {
     return (
         <InspectorControls>
             <PanelBody title={__('Mailchimp Form Options')}>
-                <div>
+                <PanelRow>
                     <SelectControl
                         label="Choose Newsletter"
                         value={interest}
@@ -19,16 +19,15 @@ const SidebarControls = ({ interest, setAttributes }) => {
                             setAttributes({ interest: id });
                         }}
                     />
-                </div>
+                </PanelRow>
             </PanelBody>
         </InspectorControls>
     );
 };
 
-
 const edit = props => {
     const { attributes, setAttributes } = props;
-    const { interest } = attributes;
+    const { interest, className } = attributes;
     const formProps = {
         display: false,
         interest,
@@ -39,7 +38,7 @@ const edit = props => {
                 interest={interest}
                 setAttributes={setAttributes}
             />
-            <MailchimpForm {...formProps} />
+            <MailchimpForm {...formProps} className={className} />
         </Fragment>
     );
 };
