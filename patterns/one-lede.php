@@ -18,8 +18,7 @@ ob_start();
 
 <!-- wp:separator -->
 <hr class="wp-block-separator"/>
-<!-- /wp:separator -->
-
+<!-- /wp:separator --></div></div>
 <!-- /wp:group -->
 <?php
 $content = ob_get_clean();
