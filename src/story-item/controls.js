@@ -27,7 +27,7 @@ const setPostByURL = (url, setAttributes) => {
             siteID = 10;
         } else if (u.includes(`${siteDomain}/internet/`)) {
             siteID = 9;
-        } else if (u.includes('https://www.people-press.org/')) {
+        } else if (u.includes(`${siteDomain}/politics/`)) {
             siteID = 4;
         } else if (u.includes('https://www.pewforum.org/')) {
             siteID = 7;
