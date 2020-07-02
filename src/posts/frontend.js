@@ -82,7 +82,7 @@ class DynamicPosts extends Component {
 document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('.js-react-posts-block')) {
         const elms = document.querySelectorAll('.js-react-posts-block');
-        for (const elm of elms) {
+        elms.forEach(elm => {
             const props = {
                 title: elm.getAttribute('data-title'),
                 format: elm.getAttribute('data-format'),
@@ -96,6 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 style: elm.getAttribute('data-style'),
             };
             render(<DynamicPosts {...props} />, elm);
-        }
+        });
     }
 });
