@@ -83,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('.js-react-posts-block')) {
         const elms = document.querySelectorAll('.js-react-posts-block');
         elms.forEach(elm => {
+            console.log('Dynamic Posts');
+            console.log(elm);
             const props = {
                 title: elm.getAttribute('data-title'),
                 format: elm.getAttribute('data-format'),
@@ -95,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 backgroundColor: elm.getAttribute('data-background'),
                 style: elm.getAttribute('data-style'),
             };
+            console.log(props);
             render(<DynamicPosts {...props} />, elm);
         });
     }
