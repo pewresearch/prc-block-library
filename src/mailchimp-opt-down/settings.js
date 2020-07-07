@@ -15,16 +15,9 @@ const settings = [
             __('mailchimp'),
             __('newsletter'),
             __('newsletter signup'),
-        ],  
+        ],
         supports: {
             html: false, // We do not want to give people the ability to edit the raw html of this block.
-        },
-        // Attributes are really react props.
-        attributes: {
-            interest: {
-                type: 'string',
-                default: '',
-            },
         },
         edit,
         save,

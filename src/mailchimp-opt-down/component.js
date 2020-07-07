@@ -29,12 +29,18 @@ const MailchimpOptDown = withState(defaultState)(({
 
         const submitHandler = e => {
           e.preventDefault();
+          setState({
+            loading:true,
+            dimmerActive: false
+          });
           const email = emailAddress;
           if (!validate_email(email)) {
             console.log('email error');
             setState({
               dimmerMessage: 'Please enter a valid email address.' ,
-              error: true
+              error: true,
+              loading:false,
+              dimmerActive: true
             });
 
             return;
@@ -63,7 +69,9 @@ const MailchimpOptDown = withState(defaultState)(({
                       setState({
                           dimmerMessage:
                               'We could not find that email address in our records.',
-                          error: true
+                          error: true,
+                          loading:false,
+                          dimmerActive: true
                       });
                     }
                   })
@@ -72,7 +80,9 @@ const MailchimpOptDown = withState(defaultState)(({
                       setState({
                           dimmerMessage:
                               'You have succesfully updated your preferences.',
-                          error: false
+                          error: false,
+                          loading:false,
+                          dimmerActive: true
                       });
                   })
           });
@@ -88,10 +98,11 @@ const MailchimpOptDown = withState(defaultState)(({
             <Message
               style={{fontFamily: 'franklin-gothic-urw'}}
               color={ error ? 'red' : 'green'}
-              hidden={dimmerMessage.length > 0 ? false : true }>
+              hidden={!dimmerActive }>
               {dimmerMessage}
             </Message>
             <Form className="mailchimp-opt-down">
+              <Form.Field>
               <Form.Input
                 label="Email"
                 placeholder="Your email address"
@@ -100,20 +111,24 @@ const MailchimpOptDown = withState(defaultState)(({
                 required
                 value={emailAddress}
                 onChange={ e => { setState({emailAddress: e.target.value}) } }
+                size="big"
                 />
+                </Form.Field>
                 { interests.map( (d,i) =>
-                  <Form.Checkbox
-                    inline
-                    name="interests"
-                    label={d.value === list_id ? `Send me quarterly updates and unsubscribe from all other newsletters.` : d.label }
-                    value={d.value}
-                    readonly={d.value !== list_id ? true : false }
-                    defaultChecked={d.value === list_id ? true : false }
-                    style={{ 'display' : d.value !== list_id ? `none` : `inherit` }}
-                    onChange={ e => { setState({choice: !choice }) } }
-                  />
+                  <Form.Field>
+                    <Form.Checkbox
+                      inline
+                      name="interests"
+                      label={<label style={{fontFamily: 'franklin-gothic-urw'}}> {d.value === list_id ? `Send me quarterly updates and unsubscribe from all other newsletters.` : d.label }</label>}
+                      value={d.value}
+                      readonly={d.value !== list_id ? true : false }
+                      defaultChecked={d.value === list_id ? true : false }
+                      style={{ 'display' : d.value !== list_id ? `none` : `inherit` }}
+                      onChange={ e => { setState({choice: !choice }) } }
+                    />
+                  </Form.Field>
                 )}
-              <Button disabled={ !choice } onClick={submitHandler}>Update preferences</Button>
+              <Button disabled={ !choice } onClick={submitHandler} loading={loading}>Update preferences</Button>
             </Form>
           </>
         );
