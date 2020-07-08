@@ -3,7 +3,7 @@ import MailchimpOptDown from './component';
 
 // When the document is fully loaded load the mailchimp-form
 window.onload = () => {
-    if (document.querySelector('.mailchimp-opt-down')) {
+    if (document.querySelector('.mailchimp-opt-down') && !document.querySelector('body.wp-admin')) {
         const query = new URLSearchParams(window.location.search);
         const elms = document.querySelectorAll('.mailchimp-opt-down',);
 
@@ -17,4 +17,3 @@ window.onload = () => {
         }
     }
 };
-  

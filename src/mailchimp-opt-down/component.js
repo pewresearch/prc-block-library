@@ -128,7 +128,7 @@ const MailchimpOptDown = withState(defaultState)(({
                     />
                   </Form.Field>
                 )}
-              <Button disabled={ !choice } onClick={submitHandler} loading={loading}>Update preferences</Button>
+              <Button disabled={ !choice || document.querySelector('body.wp-admin') } onClick={submitHandler} loading={loading}>Update preferences</Button>
             </Form>
           </>
         );
