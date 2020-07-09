@@ -5,6 +5,7 @@ import { Accordion, Icon } from 'semantic-ui-react';
 const ALLOWED_BLOCKS = [
     'core/paragraph',
     'core/heading',
+    'core/image',
     'core/list',
     'prc-block/button',
 ];

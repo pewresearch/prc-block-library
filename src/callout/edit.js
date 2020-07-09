@@ -2,9 +2,9 @@ import { InnerBlocks } from '@wordpress/block-editor';
 import { Segment } from 'semantic-ui-react';
 
 const ALLOWED_BLOCKS = [
+    'core/image',
     'core/paragraph',
     'core/heading',
-    'core/image',
     'core/list',
     'prc-block/button',
 ];
