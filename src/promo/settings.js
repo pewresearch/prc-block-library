@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { megaphone as icon } from '@wordpress/icons';
 import edit from './edit';
 import save from './save';
 
@@ -12,7 +13,7 @@ const settings = [
     {
         // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
         title: __('Promo'), // Block title.
-        icon: 'format-aside', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+        icon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
         category: 'widgets', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
         keywords: [__('prc'), __('ad'), __('promo'), __('pancake')],
         styles: [

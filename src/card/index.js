@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { box as icon } from '@wordpress/icons';
 import { Fragment } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
@@ -22,7 +23,7 @@ import Card from './component';
 registerBlockType('prc-block/card', {
     // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
     title: __('Card'), // Block title.
-    icon: 'format-aside', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+    icon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
     category: 'widgets', // Block category — Group blocks together based on common traits E.g. common, formatting, layout, widgets, embed.
     keywords: [__('prc'), __('card'), __('baseball card'), __('packaged card')],
     styles: [
