@@ -27,26 +27,17 @@ module.exports = {
             'This software is released under the UNLICENSED License\nhttps://opensource.org/licenses/UNLICENSED',
         credit: true,
     },
-    // Files we need to compile, and where to put
     files: [
         {
-            name: 'block-library',
+            name: 'a-z-taxonomy-list',
             entry: {
-                globals: './src/_shared/globally-available/index.js',
-            },
-        },
-        // If this has length === 1, then single compiler
-        {
-            name: 'story-item',
-            entry: {
-                main: './src/story-item/index.js',
+                main: './src/a-z-taxonomy-list/index.js',
             },
         },
         {
-            name: 'tabs',
+            name: 'button',
             entry: {
-                main: './src/tabs/index.js',
-                frontend: './src/tabs/frontend.js',
+                main: './src/button/index.js',
             },
         },
         {
@@ -66,12 +57,6 @@ module.exports = {
             entry: {
                 main: './src/collapsible/index.js',
                 frontend: './src/collapsible/frontend.js',
-            },
-        },
-        {
-            name: 'button',
-            entry: {
-                main: './src/button/index.js',
             },
         },
         {
@@ -178,9 +163,17 @@ module.exports = {
             },
         },
         {
-            name: 'a-z-taxonomy-list',
+            name: 'story-item',
             entry: {
-                main: './src/a-z-taxonomy-list/index.js',
+                main: './src/story-item/index.js',
+                frontend: './src/_shared/components/story-item/frontend.js',
+            },
+        },
+        {
+            name: 'tabs',
+            entry: {
+                main: './src/tabs/index.js',
+                frontend: './src/tabs/frontend.js',
             },
         },
         {
@@ -194,12 +187,6 @@ module.exports = {
             entry: {
                 main: './src/taxonomy-tree-list/index.js',
                 frontend: './src/taxonomy-tree-list/frontend.js',
-            },
-        },
-        {
-            name: 'post-elements',
-            entry: {
-                subtitle: './src/post-subtitle/index.js',
             },
         },
         // If has more length, then multi-compiler

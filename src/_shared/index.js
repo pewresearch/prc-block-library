@@ -5,7 +5,13 @@ import {
     getColorName,
     ifMatchSetAttribute,
 } from './helpers';
-import { StoryItem, CollapsibleList, TaxonomySelectList } from './components';
+import {
+    StoryItem,
+    StoryItemEdit,
+    StoryItemStatic,
+    CollapsibleList,
+    TaxonomySelectList,
+} from './components';
 
 export {
     getPosts,
@@ -14,6 +20,8 @@ export {
     getColorName,
     ifMatchSetAttribute,
     StoryItem,
+    StoryItemEdit,
+    StoryItemStatic,
     CollapsibleList,
     TaxonomySelectList,
 };

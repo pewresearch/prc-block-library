@@ -1,29 +1,55 @@
 {
-  "main.css": "story-item/main-9fbe2314.css",
-  "main.css.map": "story-item/main-9fbe2314.css.map",
-  "main.js": "story-item/main-c561bb98.js",
-  "main.js.map": "story-item/main-c561bb98.js.map",
+  "default~frontend~main.css": "story-item/default~frontend~main-a32a3202.css",
+  "default~frontend~main.css.map": "story-item/default~frontend~main-a32a3202.css.map",
+  "default~frontend~main.js": "story-item/default~frontend~main-f822a2cc.js",
+  "default~frontend~main.js.map": "story-item/default~frontend~main-f822a2cc.js.map",
+  "frontend.js": "story-item/frontend-b5bcef33.js",
+  "frontend.js.map": "story-item/frontend-b5bcef33.js.map",
+  "main.js": "story-item/main-644d3f41.js",
+  "main.js.map": "story-item/main-644d3f41.js.map",
   "runtime.js": "story-item/runtime-e7c58969.js",
   "runtime.js.map": "story-item/runtime-e7c58969.js.map",
-  "vendors~main.js": "story-item/vendors~main-c1bbdf07.js",
-  "vendors~main.js.map": "story-item/vendors~main-c1bbdf07.js.map",
+  "vendors~frontend~main.js": "story-item/vendors~frontend~main-e41c119d.js",
+  "vendors~frontend~main.js.map": "story-item/vendors~frontend~main-e41c119d.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "story-item/runtime-e7c58969.js",
-        "story-item/vendors~main-c1bbdf07.js",
-        "story-item/main-c561bb98.js"
+        "story-item/vendors~frontend~main-e41c119d.js",
+        "story-item/default~frontend~main-f822a2cc.js",
+        "story-item/main-644d3f41.js"
       ],
       "js.map": [
         "story-item/runtime-e7c58969.js.map",
-        "story-item/vendors~main-c1bbdf07.js.map",
-        "story-item/main-c561bb98.js.map"
+        "story-item/vendors~frontend~main-e41c119d.js.map",
+        "story-item/default~frontend~main-f822a2cc.js.map",
+        "story-item/main-644d3f41.js.map"
       ],
       "css": [
-        "story-item/main-9fbe2314.css"
+        "story-item/default~frontend~main-a32a3202.css"
       ],
       "css.map": [
-        "story-item/main-9fbe2314.css.map"
+        "story-item/default~frontend~main-a32a3202.css.map"
+      ]
+    },
+    "frontend": {
+      "js": [
+        "story-item/runtime-e7c58969.js",
+        "story-item/vendors~frontend~main-e41c119d.js",
+        "story-item/default~frontend~main-f822a2cc.js",
+        "story-item/frontend-b5bcef33.js"
+      ],
+      "js.map": [
+        "story-item/runtime-e7c58969.js.map",
+        "story-item/vendors~frontend~main-e41c119d.js.map",
+        "story-item/default~frontend~main-f822a2cc.js.map",
+        "story-item/frontend-b5bcef33.js.map"
+      ],
+      "css": [
+        "story-item/default~frontend~main-a32a3202.css"
+      ],
+      "css.map": [
+        "story-item/default~frontend~main-a32a3202.css.map"
       ]
     }
   }
