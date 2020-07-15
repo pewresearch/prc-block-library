@@ -76,6 +76,10 @@ const attributes = {
         type: 'boolean',
         default: true,
     },
+    enableExcerptBelow: {
+        type: 'boolean',
+        default: false,
+    },
     enableExtra: {
         type: 'boolean',
         default: false,
@@ -89,108 +93,6 @@ const attributes = {
         default: false,
     },
 };
-
-const deprecated = [
-    {
-        attributes: {
-            title: {
-                type: 'string',
-                default: 'Title',
-            },
-            excerpt: {
-                type: 'string',
-                source: 'html',
-                multiline: 'p',
-                selector: '.description',
-                default: '<p>Excerpt</p>',
-            },
-            extra: {
-                type: 'string',
-                source: 'html',
-                multiline: 'li',
-                selector: '.extra',
-                default: '',
-            },
-            link: {
-                type: 'string',
-                default: '',
-            },
-            label: {
-                type: 'string',
-                default: 'Report',
-                source: 'html',
-                selector: '.meta .label',
-            },
-            date: {
-                type: 'string',
-            },
-            // Images
-            image: {
-                type: 'string',
-                default: '',
-            },
-            imageSlot: {
-                type: 'string',
-                default: 'disabled',
-            },
-            imageSize: {
-                type: 'string',
-                default: 'A1',
-            },
-            isChartArt: {
-                type: 'boolean',
-                default: false,
-            },
-            // Post Meta Data:
-            postID: {
-                type: 'integer',
-            },
-            // Item Options
-            headerSize: {
-                type: 'string',
-                default: 'normal',
-            },
-            enableEmphasis: {
-                type: 'boolean',
-                default: false,
-            },
-            enableHeader: {
-                type: 'boolean',
-                default: true,
-            },
-            enableExcerpt: {
-                type: 'boolean',
-                default: true,
-            },
-            enableExtra: {
-                type: 'boolean',
-                default: false,
-            },
-            enableBreakingNews: {
-                type: 'boolean',
-                default: false,
-            },
-            enableProgramsTaxonomy: {
-                type: 'boolean',
-                default: false,
-            },
-        },
-
-        migrate(props) {
-            console.log('MIGRATE STORY ITEM');
-            console.log(props);
-            const { attributes } = props;
-            return <StoryItemStatic {...attributes} />;
-        },
-
-        save(props) {
-            console.log('SAVE DEPRECATED STORY ITEM');
-            console.log(props);
-            const { attributes } = props;
-            return <StoryItemStatic {...attributes} />;
-        },
-    },
-];
 
 // Version: 2.0
 const settings = [
@@ -248,7 +150,6 @@ const settings = [
         attributes,
         edit,
         save,
-        // deprecated,
     },
 ];
 

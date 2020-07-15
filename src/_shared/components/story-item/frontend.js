@@ -20,6 +20,7 @@ const getProps = elm => {
         enableEmphasis: false,
         enableHeader: true,
         enableExcerpt: true,
+        enableExcerptBelow: false,
         enableExtra: false,
         enableBreakingNews: false,
         className: '',
@@ -67,6 +68,11 @@ const getProps = elm => {
     if (elm.getAttribute('data-inloop')) {
         if ('true' === elm.getAttribute('data-inloop')) {
             props.inLoop = true;
+        }
+    }
+    if (elm.getAttribute('data-excerptbelow')) {
+        if ('true' === elm.getAttribute('data-excerptbelow')) {
+            props.enableExcerptBelow = true;
         }
     }
     return props;

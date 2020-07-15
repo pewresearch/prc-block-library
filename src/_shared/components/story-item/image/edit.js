@@ -114,7 +114,7 @@ const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
                                                     setAttributes({ imageSize })
                                                 }
                                                 style={{
-                                                    margin: '3px',
+                                                    marginBottom: '-8px',
                                                 }}
                                             />
                                         ),

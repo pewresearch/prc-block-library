@@ -22,6 +22,7 @@ const StoryItem = ({
     enableEmphasis,
     enableHeader,
     enableExcerpt,
+    enableExcerptBelow,
     enableExtra,
     enableBreakingNews,
     className,
@@ -40,9 +41,14 @@ const StoryItem = ({
         isStyleMobileLoop = true;
     }
 
+    if (false === inLoop && true === isSmall) {
+        imageSlot = 'top';
+    }
+
     const classes = classNames(className, 'story', {
         stacked: isStacked,
         bordered: enableEmphasis,
+        'alt-description': enableExcerptBelow,
         'is-style-mobile-loop': isStyleMobileLoop,
     });
 
@@ -114,11 +120,13 @@ const StoryItem = ({
 
                 <DefaultSlot />
 
-                <Description
-                    enabled={enableExcerpt}
-                    content={excerpt}
-                    sansSerif={!enableHeader}
-                />
+                {true !== enableExcerptBelow && (
+                    <Description
+                        enabled={enableExcerpt}
+                        content={excerpt}
+                        sansSerif={!enableHeader}
+                    />
+                )}
 
                 <Extra
                     enabled={enableExtra}
@@ -128,6 +136,14 @@ const StoryItem = ({
             </Item.Content>
 
             <BottomAndRightSlot />
+
+            {true === enableExcerptBelow && (
+                <Description
+                    enabled={enableExcerpt}
+                    content={excerpt}
+                    sansSerif={!enableHeader}
+                />
+            )}
         </Item>
     );
 };

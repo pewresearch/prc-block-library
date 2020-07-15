@@ -24,6 +24,7 @@ const StoryItem = ({
     enableEmphasis,
     enableHeader,
     enableExcerpt,
+    enableExcerptBelow,
     enableExtra,
     enableBreakingNews,
     enableProgramsTaxonomy,
@@ -53,6 +54,7 @@ const StoryItem = ({
     const classes = classNames(className, 'story', {
         stacked: isStacked,
         bordered: enableEmphasis,
+        'alt-description': enableExcerptBelow,
     });
 
     const Img = () => {
@@ -111,12 +113,14 @@ const StoryItem = ({
 
                 <DefaultSlot />
 
-                <Description
-                    enabled={enableExcerpt}
-                    content={excerpt}
-                    sansSerif={!enableHeader}
-                    setAttributes={dataHandler}
-                />
+                {true !== enableExcerptBelow && (
+                    <Description
+                        enabled={enableExcerpt}
+                        content={excerpt}
+                        sansSerif={!enableHeader}
+                        setAttributes={dataHandler}
+                    />
+                )}
 
                 <Extra
                     enabled={enableExtra}
@@ -127,6 +131,15 @@ const StoryItem = ({
             </Item.Content>
 
             <BottomAndRightSlot />
+
+            {true === enableExcerptBelow && (
+                <Description
+                    enabled={enableExcerpt}
+                    content={excerpt}
+                    sansSerif={!enableHeader}
+                    setAttributes={dataHandler}
+                />
+            )}
         </Item>
     );
 };

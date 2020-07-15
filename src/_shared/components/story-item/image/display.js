@@ -14,19 +14,19 @@ const Display = ({ img, size, link, onClick = false }) => {
             default: '564,317',
             small: '690,388',
             hidpi: '1128,634',
-            smallHidpi: '690,388',
+            smallHidpi: '1380,776',
         };
 
         const A2 = {
             default: '268,151',
             small: '690,388',
             hidpi: '536,301',
-            smallHidpi: '690,388',
+            smallHidpi: '1380,776',
         };
 
         const A3 = {
             default: '194,110',
-            small: '690,388',
+            small: '148,84',
             hidpi: '388,220',
             smallHidpi: '296,168',
         };
@@ -35,14 +35,14 @@ const Display = ({ img, size, link, onClick = false }) => {
             default: '268,151',
             small: '690,388',
             hidpi: '536,302',
-            smallHidpi: '690,388',
+            smallHidpi: '1380,776',
         };
 
         const XL = {
             default: '720,405',
             small: '690,388',
             hidpi: '1440,810',
-            smallHidpi: '690,388',
+            smallHidpi: '1380,776',
         };
 
         const legacy = {

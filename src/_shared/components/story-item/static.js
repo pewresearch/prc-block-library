@@ -22,6 +22,7 @@ const StoryItem = ({
     enableEmphasis,
     enableHeader,
     enableExcerpt,
+    enableExcerptBelow,
     enableExtra,
     enableBreakingNews,
     className,
@@ -71,6 +72,7 @@ const StoryItem = ({
             data-className={className}
             data-emphasis={enableEmphasis}
             data-breakingNews={enableBreakingNews}
+            data-excerptbelow={enableExcerptBelow}
             data-chartArt={isChartArt}
         >
             <div

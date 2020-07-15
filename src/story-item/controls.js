@@ -71,8 +71,10 @@ const setPostByURL = (url, setAttributes) => {
 const Controls = ({
     postID,
     link,
+    imageSlot,
     enableHeader,
     enableExcerpt,
+    enableExcerptBelow,
     enableExtra,
     enableBreakingNews,
     enableEmphasis,
@@ -109,9 +111,11 @@ const Controls = ({
                         </Button>
                     </div>
                 </div>
-                <p>
-                    <strong>Content Options:</strong>
-                </p>
+                <div>
+                    <p>
+                        <strong>Content Options:</strong>
+                    </p>
+                </div>
                 <div>
                     <ToggleControl
                         label={
@@ -174,6 +178,22 @@ const Controls = ({
                 </div>
                 <div>
                     <ToggleControl
+                        label={enableProgramsTaxonomy ? 'Programs' : 'Formats'}
+                        checked={enableProgramsTaxonomy}
+                        onChange={() => {
+                            setAttributes({
+                                enableProgramsTaxonomy: !enableProgramsTaxonomy,
+                            });
+                        }}
+                    />
+                </div>
+                <div>
+                    <p>
+                        <strong>Style Options:</strong>
+                    </p>
+                </div>
+                <div>
+                    <ToggleControl
                         label={
                             enableEmphasis
                                 ? 'Emphasis Enabled'
@@ -184,17 +204,24 @@ const Controls = ({
                             setAttributes({ enableEmphasis: !enableEmphasis });
                         }}
                     />
-                </div>
-                <div>
-                    <ToggleControl
-                        label={enableProgramsTaxonomy ? 'Programs' : 'Formats'}
-                        checked={enableProgramsTaxonomy}
-                        onChange={() => {
-                            setAttributes({
-                                enableProgramsTaxonomy: !enableProgramsTaxonomy,
-                            });
-                        }}
-                    />
+                    {true === enableExcerpt &&
+                        ('right' === imageSlot || 'left' === imageSlot) && (
+                            <div>
+                                <ToggleControl
+                                    label={
+                                        enableExcerptBelow
+                                            ? 'Excerpt Will Appear Below'
+                                            : 'Excerpt Will Appear Normally'
+                                    }
+                                    checked={enableExcerptBelow}
+                                    onChange={() => {
+                                        setAttributes({
+                                            enableExcerptBelow: !enableExcerptBelow,
+                                        });
+                                    }}
+                                />
+                            </div>
+                        )}
                 </div>
             </PanelBody>
         </InspectorControls>
