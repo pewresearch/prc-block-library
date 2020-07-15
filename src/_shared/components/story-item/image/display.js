@@ -83,7 +83,7 @@ const Display = ({ img, size, link, onClick = false }) => {
     };
 
     // eslint-disable-next-line no-shadow
-    const getImgSrcSet = (url, size, threshold = 420) => {
+    const getImgSrcSet = (url, size, threshold = 767) => {
         return [
             {
                 srcSet: `${getImgURL(url, size, 'default')} 1x, ${getImgURL(
