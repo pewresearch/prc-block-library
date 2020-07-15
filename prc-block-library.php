@@ -32,8 +32,8 @@ class PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
-			add_action( 'init', array( $this, 'register_assets' ) );
-			add_action( 'init', array( $this, 'register_blocks' ) );
+			add_action( 'init', array( $this, 'register_assets' ), 10 );
+			add_action( 'init', array( $this, 'register_blocks' ), 11 );
 			add_action( 'init', array( $this, 'register_block_patterns' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 
