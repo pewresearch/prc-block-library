@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { RawHTML } from '@wordpress/element';
+import { Fragment, RawHTML } from '@wordpress/element';
 
 /**
  * Outputs static html data store for Story Item. Defaults to placeholder loading effect.
@@ -26,7 +26,38 @@ const StoryItem = ({
     enableBreakingNews,
     className,
 }) => {
+    let stacked = 'stacked';
+    if ('left' === imageSlot || 'right' === imageSlot) {
+        stacked = null;
+    }
     const classes = classNames(className, 'react-story-item');
+
+    const Img = () => {
+        return (
+            <div className={`${imageSize} image`}>
+                <div className="ui fluid placeholder">
+                    <div className="image" />
+                </div>
+            </div>
+        );
+    };
+
+    const TopAndLeftSlot = () => {
+        if ('top' !== imageSlot && 'left' !== imageSlot) {
+            return <Fragment />;
+        }
+
+        return <Img />;
+    };
+
+    const BottomAndRightSlot = () => {
+        if ('bottom' !== imageSlot && 'right' !== imageSlot) {
+            return <Fragment />;
+        }
+
+        return <Img />;
+    };
+
     return (
         <div
             className={classes}
@@ -44,18 +75,11 @@ const StoryItem = ({
         >
             <div
                 id={`post-${postID}`}
-                className={`ui item story-item is-style-${imageSlot}`}
+                className={`ui item story is-style-${imageSlot} ${stacked}`}
             >
-                <div className={`${imageSize} image`}>
-                    <div className="ui fluid placeholder">
-                        <div className="rectangular image" />
-                    </div>
-                </div>
+                <TopAndLeftSlot />
                 <div className="content">
                     <div className="ui fluid placeholder">
-                        <div className="paragraph">
-                            <div className="medium line" />
-                        </div>
                         <div className="header">
                             <div className="line" />
                             <div className="line" />
@@ -69,13 +93,18 @@ const StoryItem = ({
                         </div>
                     </div>
                 </div>
+                <BottomAndRightSlot />
                 <div className="hidden">
-                    <div className="title">
-                        <RawHTML>{title}</RawHTML>
-                    </div>
-                    <div className="description">
-                        <RawHTML>{excerpt}</RawHTML>
-                    </div>
+                    {true === enableHeader && (
+                        <div className="title">
+                            <RawHTML>{title}</RawHTML>
+                        </div>
+                    )}
+                    {true === enableExcerpt && (
+                        <div className="description">
+                            <RawHTML>{excerpt}</RawHTML>
+                        </div>
+                    )}
                     {true === enableExtra && (
                         <ul className="extra">
                             <RawHTML>{extra}</RawHTML>

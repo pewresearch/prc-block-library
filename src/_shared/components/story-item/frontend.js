@@ -2,6 +2,7 @@ import { render } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 import StoryItem from './display';
 
+// Get prop from static element.
 const getProps = elm => {
     const props = {
         title: '',
@@ -24,9 +25,15 @@ const getProps = elm => {
         className: '',
         inLoop: false,
     };
-    props.className = elm.getAttribute('data-className');
+    props.className = elm.getAttribute('data-classname');
     props.title = elm.querySelector('.title').textContent;
-    props.excerpt = elm.querySelector('.description').innerHTML;
+
+    const excerpt = elm.querySelector('.description');
+    if (excerpt) {
+        props.excerpt = excerpt.innerHTML;
+    } else {
+        props.enableExcerpt = false;
+    }
 
     props.link = elm.getAttribute('data-link');
     props.label = elm.getAttribute('data-label');
@@ -70,6 +77,7 @@ const StoryItemsRender = () => {
     items.forEach(item => {
         const props = getProps(item);
         render(<StoryItem {...props} />, item);
+        item.classList.add('loaded');
     });
 };
 

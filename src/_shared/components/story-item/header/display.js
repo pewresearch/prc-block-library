@@ -11,8 +11,7 @@ const Header = ({
     link,
     size,
     enabled,
-    inLoop,
-    isSmall,
+    isStyleMobileLoop,
     image,
     imageSize,
     isChartArt,
@@ -26,7 +25,7 @@ const Header = ({
                 <Kicker label={label} date={date} />
             </Item.Meta>
             <Item.Header className={size}>
-                {true === inLoop && true === isSmall && (
+                {true === isStyleMobileLoop && (
                     <Image
                         img={image}
                         size={imageSize}

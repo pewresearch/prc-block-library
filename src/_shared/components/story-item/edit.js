@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { Fragment } from '@wordpress/element';
 import { Item } from 'semantic-ui-react';
 import { Edit as Image } from './image';
 import { Edit as Description } from './description';
@@ -49,24 +50,52 @@ const StoryItem = ({
         dataHandler = false;
     }
 
-    const classes = classNames(className, 'story-item', {
+    const classes = classNames(className, 'story', {
         stacked: isStacked,
         bordered: enableEmphasis,
     });
 
+    const Img = () => {
+        return (
+            <Image
+                img={image}
+                size={imageSize}
+                link={link}
+                slot={imageSlot}
+                chartArt={isChartArt}
+                postId={postID}
+                setAttributes={dataHandler}
+            />
+        );
+    };
+
+    const TopAndLeftSlot = () => {
+        if ('top' !== imageSlot && 'left' !== imageSlot) {
+            return <Fragment />;
+        }
+
+        return <Img />;
+    };
+
+    const DefaultSlot = () => {
+        if ('default' !== imageSlot) {
+            return <Fragment />;
+        }
+
+        return <Img />;
+    };
+
+    const BottomAndRightSlot = () => {
+        if ('bottom' !== imageSlot && 'right' !== imageSlot) {
+            return <Fragment />;
+        }
+
+        return <Img />;
+    };
+
     return (
         <Item as="article" className={classes}>
-            {('top' === imageSlot || 'left' === imageSlot) && (
-                <Image
-                    img={image}
-                    size={imageSize}
-                    link={link}
-                    slot={imageSlot}
-                    chartArt={isChartArt}
-                    postId={postID}
-                    setAttributes={dataHandler}
-                />
-            )}
+            <TopAndLeftSlot />
 
             <Item.Content>
                 <Header
@@ -80,17 +109,7 @@ const StoryItem = ({
                     setAttributes={dataHandler}
                 />
 
-                {'default' === imageSlot && (
-                    <Image
-                        img={image}
-                        size={imageSize}
-                        link={link}
-                        slot={imageSlot}
-                        chartArt={isChartArt}
-                        postId={postID}
-                        setAttributes={dataHandler}
-                    />
-                )}
+                <DefaultSlot />
 
                 <Description
                     enabled={enableExcerpt}
@@ -107,17 +126,7 @@ const StoryItem = ({
                 />
             </Item.Content>
 
-            {('bottom' === imageSlot || 'right' === imageSlot) && (
-                <Image
-                    img={image}
-                    size={imageSize}
-                    link={link}
-                    slot={imageSlot}
-                    chartArt={isChartArt}
-                    postId={postID}
-                    setAttributes={dataHandler}
-                />
-            )}
+            <BottomAndRightSlot />
         </Item>
     );
 };

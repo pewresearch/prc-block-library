@@ -28,18 +28,23 @@ const StoryItem = ({
     inLoop = false,
 }) => {
     console.log('<StoryItem Display>');
+    const isSmall = useMediaQuery('(max-width: 767px)');
 
     let isStacked = true;
     if ('left' === imageSlot || 'right' === imageSlot) {
         isStacked = false;
     }
 
-    const classes = classNames(className, 'story-item', {
+    let isStyleMobileLoop = false;
+    if (true === inLoop && true === isSmall) {
+        isStyleMobileLoop = true;
+    }
+
+    const classes = classNames(className, 'story', {
         stacked: isStacked,
         bordered: enableEmphasis,
+        'is-style-mobile-loop': isStyleMobileLoop,
     });
-
-    const isSmall = useMediaQuery('(max-width: 48rem)');
 
     const Img = () => {
         return (
@@ -101,8 +106,7 @@ const StoryItem = ({
                     label={label}
                     link={link}
                     size={headerSize}
-                    inLoop={inLoop}
-                    isSmall={isSmall}
+                    isStyleMobileLoop={isStyleMobileLoop}
                     image={image}
                     imageSize={imageSize}
                     chartArt={isChartArt}

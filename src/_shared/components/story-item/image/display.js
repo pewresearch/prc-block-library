@@ -126,7 +126,6 @@ const Display = ({ img, size, link, onClick = false }) => {
 
 const Img = ({ img, link, size, slot, chartArt }) => {
     const classes = () => {
-        let isMedium = false;
         let isXL = false;
         let isA1 = false;
         let isA2 = false;
@@ -143,8 +142,6 @@ const Img = ({ img, link, size, slot, chartArt }) => {
                 isA3 = true;
             } else if ('A4' === size) {
                 isA4 = true;
-            } else if ('left' === slot || 'right' === slot) {
-                isMedium = true;
             }
         }
 
@@ -155,7 +152,6 @@ const Img = ({ img, link, size, slot, chartArt }) => {
             A2: isA2,
             A3: isA3,
             A4: isA4,
-            medium: isMedium,
             image: true,
             bordered: chartArt,
         });

@@ -297,6 +297,12 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+		add_filter(
+			'prc_story_item_script_handle',
+			function() {
+				return array_pop( $this->registered['frontend']['prc-block/story-item']['js'] )['handle'];
+			}
+		);
 
 		/** Tabs */
 		$this->registered['block']['prc-block/tabs']    = $enqueue->register(
