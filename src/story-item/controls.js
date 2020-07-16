@@ -86,6 +86,9 @@ const Controls = ({
     const [url, setUrl] = useState(link);
     useDidMount(() => {
         if (!isEmpty(link) && isEmpty(postID)) {
+            console.log('Story Item Controls Did Mount');
+            console.log(link);
+            console.log(postID);
             setPostByURL(link, setAttributes);
         }
     });
