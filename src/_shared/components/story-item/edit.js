@@ -23,7 +23,6 @@ const StoryItem = ({
     headerSize,
     enableEmphasis,
     enableHeader,
-    enableAltHeaderWeight,
     enableExcerpt,
     enableExcerptBelow,
     enableExtra,
@@ -36,6 +35,11 @@ const StoryItem = ({
 }) => {
     console.log('<StoryItem Edit>');
     console.log(className);
+
+    let enableAltHeaderWeight = false;
+    if (false === enableExcerpt) {
+        enableAltHeaderWeight = true;
+    }
 
     let taxonomy = 'Formats';
     if (true === enableProgramsTaxonomy) {

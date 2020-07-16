@@ -1,6 +1,7 @@
 // WordPress Core
 import { Fragment, RawHTML } from '@wordpress/element';
 import { RichText, BlockControls } from '@wordpress/block-editor';
+import classNames from 'classnames/bind';
 import { Toolbar, Path, SVG } from '@wordpress/components';
 
 import { Item } from 'semantic-ui-react';
@@ -102,6 +103,9 @@ const Header = ({
     if (true !== enabled) {
         return <Fragment />;
     }
+    const classes = classNames(size, {
+        light: altHeaderWeight,
+    });
     return (
         <Fragment>
             <Item.Meta>
@@ -117,7 +121,7 @@ const Header = ({
                     <Kicker label={label} date={date} />
                 )}
             </Item.Meta>
-            <Item.Header className={size}>
+            <Item.Header className={classes}>
                 {false !== setAttributes && (
                     <Fragment>
                         <Controls size={size} setAttributes={setAttributes} />

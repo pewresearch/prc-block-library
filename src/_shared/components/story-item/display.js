@@ -21,7 +21,6 @@ const StoryItem = ({
     headerSize,
     enableEmphasis,
     enableHeader,
-    enableAltHeaderWeight,
     enableExcerpt,
     enableExcerptBelow,
     enableExtra,
@@ -30,6 +29,11 @@ const StoryItem = ({
     inLoop = false,
 }) => {
     const isSmall = useMediaQuery('(max-width: 767px)');
+
+    let enableAltHeaderWeight = false;
+    if (false === enableExcerpt) {
+        enableAltHeaderWeight = true;
+    }
 
     let isStacked = true;
     if ('left' === imageSlot || 'right' === imageSlot) {

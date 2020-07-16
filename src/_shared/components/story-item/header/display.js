@@ -1,6 +1,7 @@
 // WordPress Core
 import { Fragment, RawHTML } from '@wordpress/element';
 import { Item } from 'semantic-ui-react';
+import classNames from 'classnames/bind';
 import { Display as Image } from '../image';
 import { Kicker } from '../kicker';
 
@@ -20,12 +21,15 @@ const Header = ({
     if (true !== enabled) {
         return <Fragment />;
     }
+    const classes = classNames(size, {
+        light: altHeaderWeight,
+    });
     return (
         <Fragment>
             <Item.Meta>
                 <Kicker label={label} date={date} />
             </Item.Meta>
-            <Item.Header className={size}>
+            <Item.Header className={classes}>
                 {true === isStyleMobileLoop && (
                     <Image
                         img={image}

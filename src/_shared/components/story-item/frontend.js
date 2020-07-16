@@ -76,11 +76,6 @@ const getProps = elm => {
             props.enableExcerptBelow = true;
         }
     }
-    if (elm.getAttribute('data-altheaderweight')) {
-        if ('true' === elm.getAttribute('data-altheaderweight')) {
-            props.enableAltHeaderWeight = true;
-        }
-    }
     return props;
 };
 

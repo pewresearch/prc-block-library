@@ -21,7 +21,6 @@ const StoryItem = ({
     headerSize,
     enableEmphasis,
     enableHeader,
-    enableAltHeaderWeight,
     enableExcerpt,
     enableExcerptBelow,
     enableExtra,
@@ -70,7 +69,6 @@ const StoryItem = ({
             data-imageSlot={imageSlot}
             data-imageSize={imageSize}
             data-headerSize={headerSize}
-            data-altheaderweight={enableAltHeaderWeight}
             data-className={className}
             data-emphasis={enableEmphasis}
             data-breakingNews={enableBreakingNews}
