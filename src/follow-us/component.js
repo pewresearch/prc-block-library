@@ -47,8 +47,7 @@ class FollowUs extends Component {
     };
 
     isSelected = ID => {
-        const newsletters = this.props.newsletters.split(',');
-        if (newsletters.includes(ID)) {
+        if (this.props.newsletters.split(',').includes(ID)) {
             return true;
         }
         return false;
@@ -104,8 +103,7 @@ class FollowUs extends Component {
         };
 
         const isSelected = ID => {
-            const newsletters = this.state.selected;
-            if (newsletters.includes(ID)) {
+            if (this.state.selected.includes(ID)) {
                 return true;
             }
             return false;

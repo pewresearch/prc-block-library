@@ -1,8 +1,8 @@
 {
-  "frontend.js": "follow-us/frontend-334f8b60.js",
-  "frontend.js.map": "follow-us/frontend-334f8b60.js.map",
-  "main.js": "follow-us/main-112504e4.js",
-  "main.js.map": "follow-us/main-112504e4.js.map",
+  "frontend.js": "follow-us/frontend-5906493f.js",
+  "frontend.js.map": "follow-us/frontend-5906493f.js.map",
+  "main.js": "follow-us/main-c61d1e47.js",
+  "main.js.map": "follow-us/main-c61d1e47.js.map",
   "runtime.js": "follow-us/runtime-266ecadc.js",
   "runtime.js.map": "follow-us/runtime-266ecadc.js.map",
   "vendors~frontend~main.js": "follow-us/vendors~frontend~main-aac18d8f.js",
@@ -12,24 +12,24 @@
       "js": [
         "follow-us/runtime-266ecadc.js",
         "follow-us/vendors~frontend~main-aac18d8f.js",
-        "follow-us/main-112504e4.js"
+        "follow-us/main-c61d1e47.js"
       ],
       "js.map": [
         "follow-us/runtime-266ecadc.js.map",
         "follow-us/vendors~frontend~main-aac18d8f.js.map",
-        "follow-us/main-112504e4.js.map"
+        "follow-us/main-c61d1e47.js.map"
       ]
     },
     "frontend": {
       "js": [
         "follow-us/runtime-266ecadc.js",
         "follow-us/vendors~frontend~main-aac18d8f.js",
-        "follow-us/frontend-334f8b60.js"
+        "follow-us/frontend-5906493f.js"
       ],
       "js.map": [
         "follow-us/runtime-266ecadc.js.map",
         "follow-us/vendors~frontend~main-aac18d8f.js.map",
-        "follow-us/frontend-334f8b60.js.map"
+        "follow-us/frontend-5906493f.js.map"
       ]
     }
   }
