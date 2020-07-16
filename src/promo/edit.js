@@ -131,7 +131,7 @@ const edit = ({
                         value={header} // Any existing content, either from the database or an attribute default
                         onChange={h => setAttributes({ header: h })} // Store updated content as a block attribute
                         placeholder="Facts are more important than ever." // Display this text before any content has been added by the user
-                        formattingControls={[]}
+                        allowedFormats={['core/bold', 'core/italic']}
                         keepPlaceholderOnFocus
                         className={fontFamily}
                     />

@@ -60,6 +60,12 @@ module.exports = {
             },
         },
         {
+            name: 'collapsible-list',
+            entry: {
+                helper: './src/_shared/components/collapsible-list/frontend.js',
+            },
+        },
+        {
             name: 'columns',
             entry: {
                 main: './src/columns/index.js',

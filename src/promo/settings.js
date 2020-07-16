@@ -3,11 +3,6 @@ import { megaphone as icon } from '@wordpress/icons';
 import edit from './edit';
 import save from './save';
 
-import electionIconURL, {
-    // eslint-disable-next-line no-unused-vars
-    ReactComponent as electionSVG,
-} from './icons/election-icon.svg';
-
 const settings = [
     'prc-block/promo',
     {
@@ -29,6 +24,10 @@ const settings = [
             {
                 name: 'pancake-stacked',
                 label: 'Pancake (Text Stacked)',
+            },
+            {
+                name: 'left-aligned',
+                label: 'Left Aligned (Mailchimp Promo)',
             },
         ],
         supports: {

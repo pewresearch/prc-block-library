@@ -67,6 +67,9 @@ class PRC_Block_Library {
 	}
 
 	public function get_handle( $block_name, $asset_type, $location = 'block' ) {
+		error_log( 'get_handle for:' );
+		error_log( $block_name );
+		error_log( print_r( $this->registered, true ) );
 		return array_pop( $this->registered[ $location ][ $block_name ][ $asset_type ] )['handle'];
 	}
 
@@ -162,6 +165,20 @@ class PRC_Block_Library {
 			function() {
 				return array_pop( $this->registered['frontend']['prc-block/collapsible']['js'] )['handle'];
 			}
+		);
+
+		/** Collapsible List Frontend Helper (Used in Taxonomy Tree and A-Z Taxonomy blocks) */
+		$this->registered['frontend']['helper/collapsible-list'] = $enqueue->register(
+			'collapsible-list',
+			'helper',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => array( 'jquery', 'wp-dom-ready' ),
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
 		);
 
 		/** Columns */
@@ -557,6 +574,10 @@ class PRC_Block_Library {
 				wp_enqueue_style( array_pop( $block_assets['css'] )['handle'] );
 			}
 		}
+		// For blocks that take advantage of the collapsible list sub component.
+		if ( has_block( 'prc-block/taxonomy-tree' ) || has_block( 'prc-block/a-z-taxonomy-list' ) ) {
+			wp_enqueue_script( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) );
+		}
 	}
 
 	// Pages not using the_content
@@ -616,9 +637,9 @@ class PRC_Block_Library {
 		);
 		register_block_pattern( 'prc-block/pattern/one-lede', $this->load_block_pattern( 'one-lede' ) );
 		register_block_pattern( 'prc-block/pattern/one-lede-with-newsletter', $this->load_block_pattern( 'one-lede-with-newsletter' ) );
-		register_block_pattern( 'prc-block/pattern/three-lede-xl', $this->load_block_pattern( 'three-lede-xl' ) );
-		register_block_pattern( 'prc-block/pattern/three-lede-wide', $this->load_block_pattern( 'three-lede-wide' ) );
 		register_block_pattern( 'prc-block/pattern/three-lede-vertical', $this->load_block_pattern( 'three-lede-vertical' ) );
+		register_block_pattern( 'prc-block/pattern/three-lede-horizontal', $this->load_block_pattern( 'three-lede-horizontal' ) );
+		register_block_pattern( 'prc-block/pattern/three-lede-wide', $this->load_block_pattern( 'three-lede-wide' ) );
 		register_block_pattern( 'prc-block/pattern/four-lede-vertical', $this->load_block_pattern( 'four-lede-vertical' ) );
 		register_block_pattern( 'prc-block/pattern/four-lede-horizontal', $this->load_block_pattern( 'four-lede-horizontal' ) );
 		register_block_pattern( 'prc-block/pattern/four-lede', $this->load_block_pattern( 'four-lede' ) );

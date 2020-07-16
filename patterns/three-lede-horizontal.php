@@ -36,7 +36,7 @@ ob_start();
 $content = ob_get_clean();
 
 return array(
-	'title'         => '3 Lede (XL)',
+	'title'         => '3 Lede (Horizontal)',
 	'content'       => $content,
 	'categories'    => array( 'lede' ),
 	'viewportWidth' => 1200,
