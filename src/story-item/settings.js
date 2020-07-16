@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { StoryItemStatic } from 'shared';
 import edit from './edit';
 import save from './save';
+import transforms from './transforms';
 
 const todaysDate = () => {
     return moment().format('MM-DD-YYYY');
@@ -148,6 +149,7 @@ const settings = [
             html: false, // We do not want to give people the ability to edit the raw html of this block.
         },
         attributes,
+        transforms,
         edit,
         save,
     },

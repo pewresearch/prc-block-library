@@ -6,8 +6,10 @@ import {
     ToggleControl,
     TextControl,
 } from '@wordpress/components';
-import { Fragment, useState } from '@wordpress/element';
+import { useState } from '@wordpress/element';
+import { useDidMount } from 'beautiful-react-hooks';
 import apiFetch from '@wordpress/api-fetch';
+import { isEmpty } from 'lodash';
 
 const setPostByURL = (url, setAttributes) => {
     if (undefined === setAttributes || undefined === url) {
@@ -82,6 +84,11 @@ const Controls = ({
     setAttributes,
 }) => {
     const [url, setUrl] = useState(link);
+    useDidMount(() => {
+        if (!isEmpty(link) && isEmpty(postID)) {
+            setPostByURL(link, setAttributes);
+        }
+    });
     return (
         <InspectorControls>
             <PanelBody title={__('Story Item Options')}>
