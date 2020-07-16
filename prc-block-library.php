@@ -542,9 +542,8 @@ class PRC_Block_Library {
 		// How to account for homepages?
 		$post_id = get_the_ID();
 		foreach ( $this->registered['frontend'] as $block_name => $block_assets ) {
-			error_log( $block_name );
 			if ( has_block( $block_name, $post_id ) ) {
-				if ( 'follow-us' === $block_name ) {
+				if ( 'prc-block/follow-us' === $block_name ) {
 					$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'frontend' );
 					wp_localize_script(
 						$follow_us_handle,
