@@ -74,6 +74,7 @@ const Controls = ({
     postID,
     link,
     imageSlot,
+    enableAltHeaderWeight,
     enableHeader,
     enableExcerpt,
     enableExcerptBelow,
@@ -214,6 +215,23 @@ const Controls = ({
                             setAttributes({ enableEmphasis: !enableEmphasis });
                         }}
                     />
+                </div>
+                <div>
+                    <ToggleControl
+                        label={
+                            enableAltHeaderWeight
+                                ? 'Light Weight Header'
+                                : 'Normal Header Weight'
+                        }
+                        checked={enableAltHeaderWeight}
+                        onChange={() => {
+                            setAttributes({
+                                enableAltHeaderWeight: !enableAltHeaderWeight,
+                            });
+                        }}
+                    />
+                </div>
+                <div>
                     {true === enableExcerpt &&
                         ('right' === imageSlot || 'left' === imageSlot) && (
                             <div>

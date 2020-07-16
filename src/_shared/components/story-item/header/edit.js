@@ -97,6 +97,7 @@ const Header = ({
     enabled,
     taxonomy,
     setAttributes,
+    altHeaderWeight,
 }) => {
     if (true !== enabled) {
         return <Fragment />;
@@ -124,7 +125,7 @@ const Header = ({
                             tagName="div"
                             value={title}
                             onChange={t => setAttributes({ title: t })}
-                            allowedFormats={['bold', 'italic']}
+                            allowedFormats={['italic']}
                             placeholder="Title"
                             multiline="br"
                         />

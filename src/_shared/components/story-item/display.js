@@ -21,6 +21,7 @@ const StoryItem = ({
     headerSize,
     enableEmphasis,
     enableHeader,
+    enableAltHeaderWeight,
     enableExcerpt,
     enableExcerptBelow,
     enableExtra,
@@ -115,6 +116,7 @@ const StoryItem = ({
                     image={image}
                     imageSize={imageSize}
                     chartArt={isChartArt}
+                    altHeaderWeight={enableAltHeaderWeight}
                 />
 
                 <DefaultSlot />

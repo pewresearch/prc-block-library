@@ -65,6 +65,10 @@ const attributes = {
         type: 'string',
         default: 'normal',
     },
+    enableAltHeaderWeight: {
+        type: 'boolean',
+        default: false,
+    },
     enableEmphasis: {
         type: 'boolean',
         default: false,

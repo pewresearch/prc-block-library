@@ -616,6 +616,7 @@ class PRC_Block_Library {
 		);
 		register_block_pattern( 'prc-block/pattern/one-lede', $this->load_block_pattern( 'one-lede' ) );
 		register_block_pattern( 'prc-block/pattern/one-lede-with-newsletter', $this->load_block_pattern( 'one-lede-with-newsletter' ) );
+		register_block_pattern( 'prc-block/pattern/three-lede-xl', $this->load_block_pattern( 'three-lede-xl' ) );
 		register_block_pattern( 'prc-block/pattern/three-lede-wide', $this->load_block_pattern( 'three-lede-wide' ) );
 		register_block_pattern( 'prc-block/pattern/three-lede-vertical', $this->load_block_pattern( 'three-lede-vertical' ) );
 		register_block_pattern( 'prc-block/pattern/four-lede-vertical', $this->load_block_pattern( 'four-lede-vertical' ) );

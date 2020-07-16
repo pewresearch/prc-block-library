@@ -15,6 +15,7 @@ const Header = ({
     image,
     imageSize,
     isChartArt,
+    altHeaderWeight,
 }) => {
     if (true !== enabled) {
         return <Fragment />;

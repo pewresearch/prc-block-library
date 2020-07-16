@@ -19,6 +19,7 @@ const getProps = elm => {
         headerSize: 'normal',
         enableEmphasis: false,
         enableHeader: true,
+        enableAltHeaderWeight: false,
         enableExcerpt: true,
         enableExcerptBelow: false,
         enableExtra: false,
@@ -73,6 +74,11 @@ const getProps = elm => {
     if (elm.getAttribute('data-excerptbelow')) {
         if ('true' === elm.getAttribute('data-excerptbelow')) {
             props.enableExcerptBelow = true;
+        }
+    }
+    if (elm.getAttribute('data-altheaderweight')) {
+        if ('true' === elm.getAttribute('data-altheaderweight')) {
+            props.enableAltHeaderWeight = true;
         }
     }
     return props;

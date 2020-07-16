@@ -23,6 +23,7 @@ const StoryItem = ({
     headerSize,
     enableEmphasis,
     enableHeader,
+    enableAltHeaderWeight,
     enableExcerpt,
     enableExcerptBelow,
     enableExtra,
@@ -109,6 +110,7 @@ const StoryItem = ({
                     size={headerSize}
                     taxonomy={taxonomy}
                     setAttributes={dataHandler}
+                    altHeaderWeight={enableAltHeaderWeight}
                 />
 
                 <DefaultSlot />
