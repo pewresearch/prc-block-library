@@ -27,7 +27,8 @@ class PRC_Block_Library {
 	 *
 	 * @var array
 	 */
-	public $registered = array();
+	public $registered          = array();
+	public $mailchimp_interests = false;
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -38,7 +39,12 @@ class PRC_Block_Library {
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_archive_assets' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_index_page_assets' ) );
+
+			if ( class_exists( 'PRC_API_Mailchimp' ) ) {
+				$mailchimp                 = new PRC_API_Mailchimp( false );
+				$this->mailchimp_interests = $mailchimp->get_interests();
+			}
 		}
 	}
 
@@ -58,6 +64,10 @@ class PRC_Block_Library {
 			'type'   => true,
 		);
 		return $allowed_tags;
+	}
+
+	public function get_handle( $block_name, $asset_type, $location = 'block' ) {
+		return array_pop( $this->registered[ $location ][ $block_name ][ $asset_type ] )['handle'];
 	}
 
 	public function register_assets() {
@@ -207,7 +217,7 @@ class PRC_Block_Library {
 		);
 
 		/** Mailchimp Form */
-		$this->registered['block']['prc-block/mailchimp-form']    = $enqueue->register(
+		$this->registered['block']['prc-block/mailchimp-form'] = $enqueue->register(
 			'mailchimp-form',
 			'main',
 			array(
@@ -219,13 +229,14 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+
 		$this->registered['frontend']['prc-block/mailchimp-form'] = $enqueue->register(
 			'mailchimp-form',
 			'frontend',
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $js_deps,
+				'js_dep'    => array_merge( $js_deps, array( 'wp-api-fetch' ) ),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -265,7 +276,7 @@ class PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => array_merge( $js_deps, array( 'moment', 'wp-url' ) ),
+				'js_dep'    => array_merge( $js_deps, array( 'moment', 'wp-url', 'wp-api-fetch' ) ),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -440,18 +451,34 @@ class PRC_Block_Library {
 		);
 
 		/** Follow Us */
+		$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'block' );
+		wp_localize_script(
+			$follow_us_handle,
+			'prcFollowUsMailchimp', // Array containing dynamic data for a JS Global.
+			array(
+				'interests' => $this->mailchimp_interests,
+			)
+		);
 		register_block_type(
 			'prc-block/follow-us',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/follow-us']['js'] )['handle'],
+				'editor_script' => $follow_us_handle,
 			)
 		);
 
 		/** Mailchimp Form */
+		$mailchimp_handle = $this->get_handle( 'prc-block/mailchimp-form', 'js' );
+		wp_localize_script(
+			$mailchimp_handle,
+			'prcMailchimpForm', // Array containing dynamic data for a JS Global.
+			array(
+				'interests' => $this->mailchimp_interests,
+			)
+		);
 		register_block_type(
 			'prc-block/mailchimp-form',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/mailchimp-form']['js'] )['handle'],
+				'editor_script' => $mailchimp_handle,
 				'style'         => array_pop( $this->registered['block']['prc-block/mailchimp-form']['css'] )['handle'],
 			)
 		);
@@ -517,7 +544,16 @@ class PRC_Block_Library {
 		foreach ( $this->registered['frontend'] as $block_name => $block_assets ) {
 			error_log( $block_name );
 			if ( has_block( $block_name, $post_id ) ) {
-				error_log( '--' );
+				if ( 'follow-us' === $block_name ) {
+					$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'frontend' );
+					wp_localize_script(
+						$follow_us_handle,
+						'prcFollowUsMailchimp', // Array containing dynamic data for a JS Global.
+						array(
+							'interests' => $this->mailchimp_interests,
+						)
+					);
+				}
 				wp_enqueue_script( array_pop( $block_assets['js'] )['handle'] );
 				wp_enqueue_style( array_pop( $block_assets['css'] )['handle'] );
 			}
@@ -525,11 +561,11 @@ class PRC_Block_Library {
 	}
 
 	// Pages not using the_content
-	public function enqueue_archive_assets() {
+	public function enqueue_index_page_assets() {
 		if ( ! is_index( true ) ) {
 			return;
 		}
-		wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/story-item']['js'] )['handle'] );
+		wp_enqueue_script( $this->get_handle( 'prc-block/story-item', 'js', 'frontend' ) );
 	}
 
 	private function load_block_pattern( $name ) {

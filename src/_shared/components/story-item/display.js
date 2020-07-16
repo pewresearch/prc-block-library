@@ -28,7 +28,6 @@ const StoryItem = ({
     className,
     inLoop = false,
 }) => {
-    console.log('<StoryItem Display>');
     const isSmall = useMediaQuery('(max-width: 767px)');
 
     let isStacked = true;
@@ -40,7 +39,7 @@ const StoryItem = ({
     if (true === inLoop && true === isSmall) {
         isStyleMobileLoop = true;
     }
-
+    // On mobile, outside the loop, force image alignment top.
     if (false === inLoop && true === isSmall) {
         imageSlot = 'top';
     }
