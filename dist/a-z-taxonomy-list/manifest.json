@@ -1,8 +1,8 @@
 {
   "main.css": "a-z-taxonomy-list/main-b9294cd3.css",
   "main.css.map": "a-z-taxonomy-list/main-b9294cd3.css.map",
-  "main.js": "a-z-taxonomy-list/main-718e04ac.js",
-  "main.js.map": "a-z-taxonomy-list/main-718e04ac.js.map",
+  "main.js": "a-z-taxonomy-list/main-9b7edde4.js",
+  "main.js.map": "a-z-taxonomy-list/main-9b7edde4.js.map",
   "runtime.js": "a-z-taxonomy-list/runtime-c0cd9730.js",
   "runtime.js.map": "a-z-taxonomy-list/runtime-c0cd9730.js.map",
   "vendors~main.js": "a-z-taxonomy-list/vendors~main-f1531992.js",
@@ -12,12 +12,12 @@
       "js": [
         "a-z-taxonomy-list/runtime-c0cd9730.js",
         "a-z-taxonomy-list/vendors~main-f1531992.js",
-        "a-z-taxonomy-list/main-718e04ac.js"
+        "a-z-taxonomy-list/main-9b7edde4.js"
       ],
       "js.map": [
         "a-z-taxonomy-list/runtime-c0cd9730.js.map",
         "a-z-taxonomy-list/vendors~main-f1531992.js.map",
-        "a-z-taxonomy-list/main-718e04ac.js.map"
+        "a-z-taxonomy-list/main-9b7edde4.js.map"
       ],
       "css": [
         "a-z-taxonomy-list/main-b9294cd3.css"

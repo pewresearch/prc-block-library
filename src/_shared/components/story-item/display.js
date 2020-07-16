@@ -105,7 +105,13 @@ const StoryItem = ({
     };
 
     return (
-        <Item as="article" className={classes}>
+        <Item
+            as="article"
+            className={classes}
+            onClick={() => {
+                window.location = link;
+            }}
+        >
             <TopAndLeftSlot />
 
             <Item.Content>
