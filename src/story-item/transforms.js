@@ -14,9 +14,9 @@ const transforms = {
             transform: node => {
                 return createBlock('prc-block/story-item', {
                     link: node.textContent.trim(),
-                    className: 'is-style-top',
+                    className: 'is-style-default',
                     imageSize: 'A1',
-                    imageSlot: 'top',
+                    imageSlot: 'default',
                 });
             },
         },
@@ -28,9 +28,9 @@ const transforms = {
             transform: ({ url }) => {
                 return createBlock('prc-block/story-item', {
                     link: url,
-                    className: 'is-style-top',
+                    className: 'is-style-default',
                     imageSize: 'A1',
-                    imageSlot: 'top',
+                    imageSlot: 'default',
                 });
             },
         },

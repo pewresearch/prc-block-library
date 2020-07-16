@@ -39,7 +39,13 @@ const setImageSlotByClassName = (className, setAttributes) => {
         setAttributes,
     );
     // Default
-    ifMatchSetAttribute('', className, 'imageSlot', 'default', setAttributes);
+    ifMatchSetAttribute(
+        'is-style-default',
+        className,
+        'imageSlot',
+        'default',
+        setAttributes,
+    );
 };
 
 const edit = ({ attributes, setAttributes, isSelected }) => {
