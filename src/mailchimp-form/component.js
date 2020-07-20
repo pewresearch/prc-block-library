@@ -1,24 +1,22 @@
 import { useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { Form, Dimmer } from 'semantic-ui-react';
+import { Form, Icon } from 'semantic-ui-react';
 
 import './style.scss';
 
 const MailchimpForm = ({ display, interest, className }) => {
+    const [buttonText, changeButtonText] = useState('SIGNUP');
+    const [success, toggleSuccess] = useState(false);
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const [emailAddress, setEmail] = useState('');
-    const [dimmerActive, toggleDimmer] = useState(false);
-    const [dimmerMessage, setDimmerMessage] = useState('n/a');
 
-    const reset = enableDimmer => {
+    const subscribed = () => {
         toggleError(false);
         toggleLoading(false);
+        toggleSuccess(true);
+        changeButtonText(<Icon name="check circle" />);
         setEmail('');
-        if (true !== enableDimmer) {
-            toggleDimmer(false);
-            setDimmerMessage('');
-        }
     };
 
     const submitHandler = e => {
@@ -37,40 +35,27 @@ const MailchimpForm = ({ display, interest, className }) => {
                 path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}`,
                 method: 'POST',
             })
-                .then(res => {
-                    console.log(res);
-                    console.info('Succesfully subscribed');
-                    setDimmerMessage(
-                        'You have succesfully subscribed to this newsletter.',
-                    );
-                    toggleDimmer(true);
-                })
                 .then(() => {
-                    reset(true);
+                    subscribed();
                 })
                 .catch(e => {
-                    toggleError(true);
+                    toggleLoading(false);
                     if ('add-member-error' === e.code) {
-                        setDimmerMessage(
-                            'This email address is already subscribed to this newsletter.',
+                        subscribed();
+                        console.info(
+                            `${emailAddress} already subscribed to ${interest}`,
                         );
                     } else {
-                        setDimmerMessage(
-                            'Unfortunatley we could not subscribe you to this newsletter at this time, please try again later.',
-                        );
+                        toggleSuccess(false);
+                        toggleError(true);
+                        changeButtonText('ERROR');
                     }
-                    toggleDimmer(true);
                 });
         }, 2000);
     };
 
     return (
-        <Dimmer.Dimmable
-            as="div"
-            id="js-mailchimp-form"
-            dimmed={dimmerActive}
-            className={className}
-        >
+        <div className={className}>
             <Form className="mailchimp" error={error} onSubmit={submitHandler}>
                 <Form.Field>
                     <Form.Input
@@ -85,21 +70,16 @@ const MailchimpForm = ({ display, interest, className }) => {
                     />
                     <Form.Button
                         secondary
+                        positive={success}
+                        negative={error}
                         loading={loading}
-                        content="SIGN UP"
-                    />
+                        icon={success}
+                    >
+                        {buttonText}
+                    </Form.Button>
                 </Form.Field>
             </Form>
-
-            <Dimmer
-                active={dimmerActive}
-                onClickOutside={() => {
-                    reset();
-                }}
-            >
-                <p className="sans-serif">{dimmerMessage} (Click to close)</p>
-            </Dimmer>
-        </Dimmer.Dimmable>
+        </div>
     );
 };
 

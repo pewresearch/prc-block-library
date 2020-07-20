@@ -1,25 +1,18 @@
 import { InnerBlocks } from '@wordpress/block-editor';
 import { Grid } from 'semantic-ui-react';
 
-const save = ({attributes}) => {
-    const {width, items} = attributes;
+const save = ({ attributes }) => {
+    const { width } = attributes;
     let w = width;
     if (0 === width) {
         w = false;
     }
-    
-    return(
+
+    return (
         <Grid.Column width={w}>
-            {true === items && (
-                <div className="ui divided items">
-                    <InnerBlocks.Content/>
-                </div>
-            )}
-            {false === items && (
-                <InnerBlocks.Content/>
-            )}
+            <InnerBlocks.Content />
         </Grid.Column>
     );
-}
+};
 
 export default save;

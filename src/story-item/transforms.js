@@ -10,7 +10,9 @@ const transforms = {
             type: 'raw',
             isMatch: node =>
                 'P' === node.nodeName &&
-                /^\s*(https?:\/\/\S+)\s*$/i.test(node.textContent),
+                /^https?:\/\/(www\.)?pewresearch\.(org|local)\/.+/i.test(
+                    node.textContent,
+                ),
             transform: node => {
                 return createBlock('prc-block/story-item', {
                     link: node.textContent.trim(),

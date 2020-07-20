@@ -139,6 +139,14 @@ const StoryItem = ({
                     />
                 )}
 
+                {true === enableExcerptBelow && true === isSmall && (
+                    <Description
+                        enabled={enableExcerpt}
+                        content={excerpt}
+                        sansSerif={!enableHeader}
+                    />
+                )}
+
                 <Extra
                     enabled={enableExtra}
                     content={extra}
@@ -148,7 +156,7 @@ const StoryItem = ({
 
             <BottomAndRightSlot />
 
-            {true === enableExcerptBelow && (
+            {true === enableExcerptBelow && false === isSmall && (
                 <Description
                     enabled={enableExcerpt}
                     content={excerpt}

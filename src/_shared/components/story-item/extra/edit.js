@@ -3,13 +3,9 @@ import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 
 const Extra = ({ content, breakingNews, enabled, setAttributes }) => {
-    if (true !== enabled) {
-        return <Fragment />;
-    }
-
     return (
         <Fragment>
-            {false !== setAttributes && (
+            {false !== setAttributes && true === enabled && (
                 <RichText
                     tagName="ul"
                     value={content}
@@ -19,7 +15,7 @@ const Extra = ({ content, breakingNews, enabled, setAttributes }) => {
                     className="extra"
                 />
             )}
-            {false === setAttributes && (
+            {false === setAttributes && true === enabled && (
                 <RichText.Content
                     tagName="ul"
                     value={content}

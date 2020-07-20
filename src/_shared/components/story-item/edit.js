@@ -33,9 +33,6 @@ const StoryItem = ({
     setAttributes,
     inLoop = false,
 }) => {
-    console.log('<StoryItem Edit>');
-    console.log(className);
-
     let enableAltHeaderWeight = false;
     if (false === enableExcerpt) {
         enableAltHeaderWeight = true;

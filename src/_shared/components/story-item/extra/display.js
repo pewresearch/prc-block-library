@@ -3,15 +3,13 @@ import { Fragment, RawHTML } from '@wordpress/element';
 import { Item } from 'semantic-ui-react';
 
 const Extra = ({ content, breakingNews, enabled }) => {
-    if (true !== enabled) {
-        return <Fragment />;
-    }
-
     return (
         <Fragment>
-            <Item.Extra as="ul">
-                <RawHTML>{content}</RawHTML>
-            </Item.Extra>
+            {true === enabled && (
+                <Item.Extra as="ul">
+                    <RawHTML>{content}</RawHTML>
+                </Item.Extra>
+            )}
             {true === breakingNews && false !== window.prcBreakingNews && (
                 <ul className="extra-breaking-news">
                     <li>

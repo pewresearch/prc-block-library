@@ -12,8 +12,6 @@ import { Display } from './display';
 const ALLOWED_MEDIA_TYPES = ['image'];
 
 const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
-    console.log('ImageEdit');
-    console.log(setAttributes);
     const [art, setArt] = useState(false);
 
     useEffect(() => {
@@ -55,10 +53,14 @@ const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
                 allowedTypes={ALLOWED_MEDIA_TYPES}
                 render={({ open }) => (
                     <Fragment>
-                        {'' === img && (
-                            <Button isPrimary onClick={open}>
-                                Insert Image
-                            </Button>
+                        {0 === img.length && (
+                            <Display
+                                img={img}
+                                size={size}
+                                link=""
+                                onClick={open}
+                                placeholder
+                            />
                         )}
                         {'' !== img && (
                             <Display

@@ -239,7 +239,7 @@ class PRC_Block_Library {
 			'main',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $block_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -252,7 +252,7 @@ class PRC_Block_Library {
 			'frontend',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => array_merge( $js_deps, array( 'wp-api-fetch' ) ),
 				'css_dep'   => array(),
 				'in_footer' => true,
