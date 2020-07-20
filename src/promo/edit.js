@@ -4,6 +4,7 @@ import {
     RichText,
     InnerBlocks,
 } from '@wordpress/block-editor';
+import { withSelect } from '@wordpress/data';
 import {
     PanelBody,
     PanelRow,
@@ -13,6 +14,7 @@ import {
 } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import classNames from 'classnames/bind';
+
 import Icon from './icons';
 
 const allowedBlocks = [
@@ -97,7 +99,7 @@ const edit = ({
     attributes,
     className,
     setAttributes,
-    clientId,
+    hasChildBlocks,
     isSelected,
 }) => {
     const {
@@ -148,14 +150,32 @@ const edit = ({
                     />
                 </div>
                 <div className="action">
-                    <InnerBlocks
-                        allowedBlocks={allowedBlocks}
-                        template={template}
-                    />
+                    {true === isSelected && (
+                        <InnerBlocks
+                            allowedBlocks={allowedBlocks}
+                            renderAppender={
+                                hasChildBlocks
+                                    ? undefined
+                                    : () => <InnerBlocks.ButtonBlockAppender />
+                            }
+                        />
+                    )}
+                    {true !== isSelected && true === hasChildBlocks && (
+                        <InnerBlocks
+                            allowedBlocks={allowedBlocks}
+                            renderAppender={false}
+                        />
+                    )}
                 </div>
             </div>
         </Fragment>
     );
 };
 
-export default edit;
+export default withSelect((select, ownProps) => {
+    const { clientId } = ownProps;
+    const { getBlockOrder } = select('core/block-editor');
+    return {
+        hasChildBlocks: 0 < getBlockOrder(clientId).length,
+    };
+})(edit);
