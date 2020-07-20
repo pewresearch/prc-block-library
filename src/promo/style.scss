@@ -97,7 +97,10 @@ $breakpoint-tablet: 920px;
     }
 
   .wp-block-prc-block-mailchimp-form {
-    min-width: 420px;
+    max-width: 420px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
   // Editor Only Styles:
   .block-editor-block-list__block {
