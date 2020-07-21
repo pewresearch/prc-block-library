@@ -260,6 +260,16 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+		// Legacy PHP compatability
+		add_filter(
+			'prc_block_mailchimp_form_frontend_shim',
+			function() {
+				return array(
+					'script' => array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['js'] )['handle'],
+					'style'  => array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['css'] )['handle'],
+				);
+			}
+		);
 
 		/** Promo */
 		$this->registered['block']['prc-block/promo'] = $enqueue->register(
@@ -273,6 +283,15 @@ class PRC_Block_Library {
 				'in_footer' => true,
 				'media'     => 'all',
 			)
+		);
+		// Legacy PHP compat
+		add_filter(
+			'prc_block_promo_frontend_shim',
+			function() {
+				return array(
+					'style' => array_pop( $this->registered['block']['prc-block/promo']['css'] )['handle'],
+				);
+			}
 		);
 
 		/** Posts */
