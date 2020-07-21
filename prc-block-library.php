@@ -39,6 +39,7 @@ class PRC_Block_Library {
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
+			add_action( 'prc_block_area_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_index_page_assets' ) );
 
 			if ( class_exists( 'PRC_API_Mailchimp' ) ) {
@@ -555,9 +556,11 @@ class PRC_Block_Library {
 		);
 	}
 
-	public function enqueue_frontend_assets() {
+	public function enqueue_frontend_assets( $post_id = false ) {
 		// How to account for homepages?
-		$post_id = get_the_ID();
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
 		foreach ( $this->registered['frontend'] as $block_name => $block_assets ) {
 			if ( has_block( $block_name, $post_id ) ) {
 				if ( 'prc-block/follow-us' === $block_name ) {

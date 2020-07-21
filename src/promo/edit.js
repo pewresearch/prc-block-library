@@ -95,6 +95,20 @@ const SidebarControls = ({
     );
 };
 
+const Description = ({ description, fontFamily, setAttributes }) => {
+    return (
+        <RichText
+            tagName="div"
+            value={description}
+            onChange={d => setAttributes({ description: d })}
+            placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
+            multiline="p"
+            keepPlaceholderOnFocus
+            className={fontFamily}
+        />
+    );
+};
+
 const edit = ({
     attributes,
     className,
@@ -134,32 +148,21 @@ const edit = ({
                         value={header}
                         onChange={h => setAttributes({ header: h })}
                         placeholder="Facts are more important than ever."
-                        allowedFormats={['core/italic']}
                         keepPlaceholderOnFocus
                         className={fontFamily}
                     />
                     {true === isSelected && (
-                        <RichText
-                            tagName="div"
-                            value={description}
-                            onChange={d => setAttributes({ description: d })}
-                            placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
-                            multiline="p"
-                            allowedFormats={['core/bold', 'core/italic']}
-                            keepPlaceholderOnFocus
-                            className={fontFamily}
+                        <Description
+                            description={description}
+                            setAttributes={setAttributes}
+                            fontFamily={fontFamily}
                         />
                     )}
                     {true !== isSelected && '<p></p>' !== description && (
-                        <RichText
-                            tagName="div"
-                            value={description}
-                            onChange={d => setAttributes({ description: d })}
-                            placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
-                            multiline="p"
-                            allowedFormats={['core/bold', 'core/italic']}
-                            keepPlaceholderOnFocus
-                            className={fontFamily}
+                        <Description
+                            description={description}
+                            setAttributes={setAttributes}
+                            fontFamily={fontFamily}
                         />
                     )}
                 </div>

@@ -1,5 +1,10 @@
 $breakpoint-tablet: 920px;
 
+.prc-block-area[data-post-type='fact-tank'] .wp-block-prc-block-promo,
+.prc-block-area[data-post-type='post'] .wp-block-prc-block-promo {
+  padding: 1rem;
+}
+
 .wp-block-prc-block-promo {
     padding: 24px 40px;
     margin-top: 21px;
