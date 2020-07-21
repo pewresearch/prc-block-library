@@ -33,11 +33,13 @@ const save = ({ attributes, className }) => {
                     value={header}
                     className={fontFamily}
                 />
-                <RichText.Content
-                    tagName="div"
-                    value={description}
-                    className={fontFamily}
-                />
+                {'<p></p>' !== description && (
+                    <RichText.Content
+                        tagName="div"
+                        value={description}
+                        className={fontFamily}
+                    />
+                )}
             </div>
             <div className="action">
                 <InnerBlocks.Content />

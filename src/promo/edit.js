@@ -112,6 +112,7 @@ const edit = ({
     } = attributes;
     const classes = classNames(className);
     const fontFamily = classNames({ 'sans-serif': sansSerif });
+
     return (
         <Fragment>
             <SidebarControls
@@ -129,25 +130,38 @@ const edit = ({
                 )}
                 <div className="text">
                     <RichText
-                        tagName="h2" // The tag here is the element output and editable in the admin
-                        value={header} // Any existing content, either from the database or an attribute default
-                        onChange={h => setAttributes({ header: h })} // Store updated content as a block attribute
-                        placeholder="Facts are more important than ever." // Display this text before any content has been added by the user
-                        allowedFormats={['core/bold', 'core/italic']}
+                        tagName="h2"
+                        value={header}
+                        onChange={h => setAttributes({ header: h })}
+                        placeholder="Facts are more important than ever."
+                        allowedFormats={['core/italic']}
                         keepPlaceholderOnFocus
                         className={fontFamily}
                     />
-                    <RichText
-                        tagName="div" // The tag here is the element output and editable in the admin
-                        value={description} // Any existing content, either from the database or an attribute default
-                        onChange={d => setAttributes({ description: d })} // Store updated content as a block attribute
-                        placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution." // Display this text before any content has been added by the user
-                        // formattingControls={[]}
-                        multiline="p"
-                        allowedFormats={['core/bold', 'core/italic']}
-                        keepPlaceholderOnFocus
-                        className={fontFamily}
-                    />
+                    {true === isSelected && (
+                        <RichText
+                            tagName="div"
+                            value={description}
+                            onChange={d => setAttributes({ description: d })}
+                            placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
+                            multiline="p"
+                            allowedFormats={['core/bold', 'core/italic']}
+                            keepPlaceholderOnFocus
+                            className={fontFamily}
+                        />
+                    )}
+                    {true !== isSelected && '<p></p>' !== description && (
+                        <RichText
+                            tagName="div"
+                            value={description}
+                            onChange={d => setAttributes({ description: d })}
+                            placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
+                            multiline="p"
+                            allowedFormats={['core/bold', 'core/italic']}
+                            keepPlaceholderOnFocus
+                            className={fontFamily}
+                        />
+                    )}
                 </div>
                 <div className="action">
                     {true === isSelected && (

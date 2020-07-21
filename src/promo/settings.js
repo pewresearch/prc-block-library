@@ -50,11 +50,13 @@ const settings = [
         attributes: {
             header: {
                 type: 'string',
+                source: 'html',
+                selector: '.text > h2',
                 default: '',
             },
             description: {
                 type: 'string',
-                default: '',
+                default: '<p></p>',
             },
             backgroundColor: {
                 type: 'string',
