@@ -64,13 +64,30 @@ class PRC_Block_Library {
 			'media'  => true,
 			'type'   => true,
 		);
+		// Add SVG Support
+		$allowed_tags['svg']  = array(
+			'xmlns'       => array(),
+			'fill'        => array(),
+			'viewbox'     => array(),
+			'role'        => array(),
+			'aria-hidden' => array(),
+			'focusable'   => array(),
+		);
+		$allowed_tags['path'] = array(
+			'd'    => array(),
+			'fill' => array(),
+		);
+		$allowed_tags['rect'] = array(
+			'x'      => array(),
+			'y'      => array(),
+			'width'  => array(),
+			'height' => array(),
+			'fill'   => array(),
+		);
 		return $allowed_tags;
 	}
 
 	public function get_handle( $block_name, $asset_type, $location = 'block' ) {
-		error_log( 'get_handle for:' );
-		error_log( $block_name );
-		error_log( print_r( $this->registered, true ) );
 		return array_pop( $this->registered[ $location ][ $block_name ][ $asset_type ] )['handle'];
 	}
 

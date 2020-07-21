@@ -75,8 +75,9 @@ const SidebarControls = ({
                         value={icon}
                         options={[
                             { label: 'None', value: '' },
-                            { label: 'Mail', value: 'mail' },
+                            { label: 'Donate', value: 'donate' },
                             { label: 'Election', value: 'election' },
+                            { label: 'Mail', value: 'mail' },
                         ]}
                         onChange={i => setAttributes({ icon: i })}
                     />

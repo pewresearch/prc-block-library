@@ -1,4 +1,5 @@
 $breakpoint-tablet: 920px;
+$icon-width: 45px;
 
 .prc-block-area[data-post-type='fact-tank'] .wp-block-prc-block-promo,
 .prc-block-area[data-post-type='post'] .wp-block-prc-block-promo {
@@ -52,6 +53,16 @@ $breakpoint-tablet: 920px;
       }
     }
 
+    .icon {
+      & > div {
+        width: $icon-width;
+        display: inline-block;
+        svg {
+          max-width: 100%;
+        }
+      }
+    }
+
     // Horizontal "Pancake" Styles:
     @media (min-width: $breakpoint-tablet) {
       &.pancake,
@@ -59,7 +70,7 @@ $breakpoint-tablet: 920px;
       &.is-style-pancake-stacked {
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
+        align-items: flex-start; 
         text-align: left;
 
         .icon,
@@ -107,6 +118,9 @@ $breakpoint-tablet: 920px;
         text-align: left;
         .icon {
           padding-right: 20px;
+          & > div {
+            width: 50px;
+          }
         }
         .text {
           flex-grow: 1;
