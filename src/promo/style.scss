@@ -94,6 +94,28 @@ $breakpoint-tablet: 920px;
           }
         }
       }
+
+      &.is-style-left-aligned {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        text-align: left;
+        .icon {
+          padding-right: 20px;
+        }
+        .text {
+          flex-grow: 1;
+          flex-shrink: 1;
+          flex-basis: 300px;
+        }
+        .action {
+          flex-basis: 100%;
+          padding-left: 65px;
+          .wp-block-prc-block-mailchimp-form {
+            margin-left: 0;
+          }
+        }
+      }
     }
 
   .wp-block-prc-block-mailchimp-form {

@@ -18,7 +18,7 @@ const InspectorTools = ({ width }) => {
 };
 
 const edit = ({ attributes, clientId, hasChildBlocks }) => {
-    const { width } = attributes;
+    const { width, items } = attributes;
 
     /**
      * @description Sets css by adding data attribute to parent gutenberg div.
@@ -46,7 +46,12 @@ const edit = ({ attributes, clientId, hasChildBlocks }) => {
     return (
         <Fragment>
             <InspectorTools width={width} />
-            <ColumnContent />
+            {true === items && (
+                <div className="ui divided items">
+                    <ColumnContent />
+                </div>
+            )}
+            {false === items && <ColumnContent />}
         </Fragment>
     );
 };

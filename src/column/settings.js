@@ -20,6 +20,11 @@ const settings = [
                 type: 'integer',
                 default: 0,
             },
+            // Legacy, does nothing
+            items: {
+                type: 'boolean',
+                default: false,
+            },
         },
         parent: ['prc-block/columns'],
         // inserter: false,
