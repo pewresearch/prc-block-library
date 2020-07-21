@@ -7,7 +7,7 @@ const save = ({ attributes, className }) => {
     const {
         header,
         description,
-        bgColor,
+        backgroundColor,
         borderColor,
         icon,
         sansSerif,
@@ -19,7 +19,7 @@ const save = ({ attributes, className }) => {
             className={classes}
             style={{
                 borderColor,
-                backgroundColor: bgColor,
+                backgroundColor,
             }}
         >
             {'' !== icon && (

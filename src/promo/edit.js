@@ -116,7 +116,7 @@ const edit = ({
     return (
         <Fragment>
             <SidebarControls
-                bgColor={backgroundColor}
+                backgroundColor={backgroundColor}
                 borderColor={borderColor}
                 sansSerif={sansSerif}
                 icon={icon}
