@@ -101,6 +101,13 @@ module.exports = {
             },
         },
         {
+            name: 'mailchimp-opt-down',
+            entry: {
+                main: './src/mailchimp-opt-down/index.js',
+                frontend: './src/mailchimp-opt-down/frontend.js',
+            },
+        },
+        {
             name: 'posts',
             entry: {
                 main: './src/posts/index.js',
