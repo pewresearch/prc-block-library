@@ -2,10 +2,10 @@ import { render } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 import AccordionBlock from './component';
 
-domReady(() => {
+domReady(function() {
     if (document.querySelector('.js-react-collapsible')) {
         const elms = document.querySelectorAll('.js-react-collapsible');
-        elms.forEach(elm => {
+        for (const elm of elms) {
             console.log(elm);
             const children = elm.innerHTML;
             const title = elm.getAttribute('data-title');
@@ -20,6 +20,6 @@ domReady(() => {
                 </AccordionBlock>,
                 elm,
             );
-        });
+        }
     }
 });

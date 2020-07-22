@@ -1,5 +1,5 @@
 import { Fragment } from '@wordpress/element';
-import { StoryItemEdit, ifMatchSetAttribute } from 'shared';
+import { StoryItem, ifMatchSetAttribute } from 'shared';
 import Controls from './controls';
 
 const setImageSlotByClassName = (className, setAttributes) => {
@@ -39,13 +39,7 @@ const setImageSlotByClassName = (className, setAttributes) => {
         setAttributes,
     );
     // Default
-    ifMatchSetAttribute(
-        'is-style-default',
-        className,
-        'imageSlot',
-        'default',
-        setAttributes,
-    );
+    ifMatchSetAttribute('', className, 'imageSlot', 'default', setAttributes);
 };
 
 const edit = ({ attributes, setAttributes, isSelected }) => {
@@ -59,7 +53,7 @@ const edit = ({ attributes, setAttributes, isSelected }) => {
     return (
         <Fragment>
             {true === isSelected && <Controls {...props} />}
-            <StoryItemEdit {...props} />
+            <StoryItem {...props} />
         </Fragment>
     );
 };

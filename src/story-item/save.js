@@ -1,8 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
-import { StoryItemStatic as StoryItem } from 'shared';
+import { StoryItem } from 'shared';
 
 const save = ({ attributes }) => {
     const props = attributes;
+    props.isSelected = false;
     return <StoryItem {...props} />;
 };
 

@@ -1,11 +1,8 @@
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
-import { Card, Checkbox, Form, Input, Dimmer } from 'semantic-ui-react';
+import { Card, Checkbox, Button, Form, Input, Dimmer } from 'semantic-ui-react';
 import classNames from 'classnames/bind';
-
-const { interests } = window.prcFollowUsMailchimp;
-const newsletters = interests;
 
 class FollowUs extends Component {
     constructor(props) {
@@ -47,7 +44,8 @@ class FollowUs extends Component {
     };
 
     isSelected = ID => {
-        if (this.props.newsletters.split(',').includes(ID)) {
+        const newsletters = this.props.newsletters.split(',');
+        if (newsletters.includes(ID)) {
             return true;
         }
         return false;
@@ -55,7 +53,7 @@ class FollowUs extends Component {
 
     submitHandler = e => {
         const { setState } = this;
-        const interest = this.state.selected.join();
+        const interests = this.state.selected.join();
         const { email } = this.state;
         const state = {
             dimmed: true,
@@ -66,7 +64,7 @@ class FollowUs extends Component {
         setState({ loading: true });
 
         apiFetch({
-            path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}`,
+            path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interests}`,
             method: 'POST',
         })
             .then(() => {
@@ -74,6 +72,7 @@ class FollowUs extends Component {
                     'You have succesfully subsrcibed to these newsletter(s)';
             })
             .catch(err => {
+                console.error(err);
                 state.message =
                     'Unfortunately we could not susbscribe you at this time. Please try again later.';
             })
@@ -103,11 +102,14 @@ class FollowUs extends Component {
         };
 
         const isSelected = ID => {
-            if (this.state.selected.includes(ID)) {
+            const newsletters = this.state.selected;
+            if (newsletters.includes(ID)) {
                 return true;
             }
             return false;
         };
+
+        const newsletters = window.prcMailchimpBlock;
 
         return (
             <Fragment>
@@ -132,6 +134,7 @@ class FollowUs extends Component {
 
     render = () => {
         const classes = classNames(this.props.className, 'inverted', 'beige');
+        const newsletters = window.prcMailchimpBlock;
         const SelectNewsletters = this.selectNewsletters;
         return (
             <Card fluid className={classes} style={{ marginBottom: '35px' }}>

@@ -1,14 +1,11 @@
 /* eslint-disable no-continue */
 /* eslint-disable no-restricted-syntax */
 import jQuery from 'jquery';
-import domReady from '@wordpress/dom-ready';
+// import { select } from '@wordpress/data';
 
 const collapsibleListHandler = () => {
-    const vW = Math.max(
-        document.documentElement.clientWidth || 0,
-        window.innerWidth || 0,
-    );
-    const isSmall = 767 > vW;
+    const { isViewportMatch } = wp.data.select('core/viewport');
+    const isSmall = isViewportMatch('< medium');
 
     if (!isSmall) {
         return;
@@ -78,7 +75,4 @@ const collapsibleListHandler = () => {
     }
 };
 
-domReady(() => {
-    // Initial load
-    collapsibleListHandler();
-});
+export default collapsibleListHandler;

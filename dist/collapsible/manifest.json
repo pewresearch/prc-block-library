@@ -1,6 +1,6 @@
 {
-  "frontend.js": "collapsible/frontend-01ade29c.js",
-  "frontend.js.map": "collapsible/frontend-01ade29c.js.map",
+  "frontend.js": "collapsible/frontend-2fac3d06.js",
+  "frontend.js.map": "collapsible/frontend-2fac3d06.js.map",
   "main.css": "collapsible/main-05e69635.css",
   "main.css.map": "collapsible/main-05e69635.css.map",
   "main.js": "collapsible/main-04960743.js",
@@ -32,12 +32,12 @@
       "js": [
         "collapsible/runtime-14f9b620.js",
         "collapsible/vendors~frontend~main-464d6dc8.js",
-        "collapsible/frontend-01ade29c.js"
+        "collapsible/frontend-2fac3d06.js"
       ],
       "js.map": [
         "collapsible/runtime-14f9b620.js.map",
         "collapsible/vendors~frontend~main-464d6dc8.js.map",
-        "collapsible/frontend-01ade29c.js.map"
+        "collapsible/frontend-2fac3d06.js.map"
       ]
     }
   }

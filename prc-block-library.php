@@ -22,30 +22,20 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use WPackio\Enqueue;
 
 class PRC_Block_Library {
-	/**
-	 * Registered wpackio assets
-	 *
-	 * @var array
-	 */
-	public $registered          = array();
-	public $mailchimp_interests = false;
+
+	protected $js_deps = array( 'react', 'react-dom', 'wp-element', 'wp-components', 'wp-polyfill', 'wp-i18n' );
+	public $plugin_dir = false;
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
-			add_action( 'init', array( $this, 'register_assets' ), 10 );
-			add_action( 'init', array( $this, 'register_blocks' ), 11 );
+			$this->plugin_dir = __DIR__ . '/prc_blocks/';
+			add_action( 'wp_enqueue_scripts', array( $this, 'block_library_scripts' ) );
+			add_action( 'init', array( $this, 'register_block_assets' ) );
 			add_action( 'init', array( $this, 'register_block_patterns' ) );
+			add_action( 'init', array( $this, 'block_story_item_register_meta' ) );
+			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
-
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
-			add_action( 'prc_block_area_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_index_page_assets' ) );
-
-			if ( class_exists( 'PRC_API_Mailchimp' ) ) {
-				$mailchimp                 = new PRC_API_Mailchimp( false );
-				$this->mailchimp_interests = $mailchimp->get_interests();
-			}
+			add_action( 'wp_enqueue_scripts', array( $this, 'posts_block_dynamic_render' ) );
 		}
 	}
 
@@ -64,369 +54,19 @@ class PRC_Block_Library {
 			'media'  => true,
 			'type'   => true,
 		);
-		// Add SVG Support
-		$allowed_tags['svg']  = array(
-			'xmlns'       => array(),
-			'fill'        => array(),
-			'viewbox'     => array(),
-			'role'        => array(),
-			'aria-hidden' => array(),
-			'focusable'   => array(),
-		);
-		$allowed_tags['path'] = array(
-			'd'    => array(),
-			'fill' => array(),
-		);
-		$allowed_tags['rect'] = array(
-			'x'      => array(),
-			'y'      => array(),
-			'width'  => array(),
-			'height' => array(),
-			'fill'   => array(),
-		);
 		return $allowed_tags;
 	}
 
-	public function get_handle( $block_name, $asset_type, $location = 'block' ) {
-		return array_pop( $this->registered[ $location ][ $block_name ][ $asset_type ] )['handle'];
-	}
+	public function block_library_scripts() {
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 
-	public function register_assets() {
-		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', __DIR__ . '/prc_blocks/' );
-
-		/** A-Z Taxonomy List */
-		$this->registered['block']['prc-block/a-z-taxonomy-list'] = $enqueue->register(
-			'a-z-taxonomy-list',
-			'main',
+		$enqueue->enqueue(
+			'block-library',
+			'globals',
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => array_merge( $block_js_deps, array( 'wp-html-entities' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Button */
-		$this->registered['block']['prc-block/button'] = $enqueue->register(
-			'button',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Card */
-		$this->registered['block']['prc-block/card'] = $enqueue->register(
-			'card',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Callout */
-		$this->registered['block']['prc-block/callout'] = $enqueue->register(
-			'callout',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Collapsible */
-		$this->registered['block']['prc-block/collapsible']    = $enqueue->register(
-			'collapsible',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/collapsible'] = $enqueue->register(
-			'collapsible',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		// Add legacy support for shortcodes.
-		add_filter(
-			'prc_block_collapsible_frontend_shim',
-			function() {
-				return array_pop( $this->registered['frontend']['prc-block/collapsible']['js'] )['handle'];
-			}
-		);
-
-		/** Collapsible List Frontend Helper (Used in Taxonomy Tree and A-Z Taxonomy blocks) */
-		$this->registered['frontend']['helper/collapsible-list'] = $enqueue->register(
-			'collapsible-list',
-			'helper',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => array( 'jquery', 'wp-dom-ready' ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Columns */
-		$this->registered['block']['prc-block/columns'] = $enqueue->register(
-			'columns',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['block']['prc-block/column']  = $enqueue->register(
-			'column',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Follow Us */
-		$this->registered['block']['prc-block/follow-us']    = $enqueue->register(
-			'follow-us',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/follow-us'] = $enqueue->register(
-			'follow-us',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => array_merge( $js_deps, array( 'wp-api-fetch' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Mailchimp Form */
-		$this->registered['block']['prc-block/mailchimp-form'] = $enqueue->register(
-			'mailchimp-form',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		$this->registered['frontend']['prc-block/mailchimp-form'] = $enqueue->register(
-			'mailchimp-form',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $js_deps, array( 'wp-api-fetch' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		// Legacy PHP compatability
-		add_filter(
-			'prc_block_mailchimp_form_frontend_shim',
-			function() {
-				return array(
-					'script' => array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['js'] )['handle'],
-					'style'  => array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['css'] )['handle'],
-				);
-			}
-		);
-
-		/** Promo */
-		$this->registered['block']['prc-block/promo'] = $enqueue->register(
-			'promo',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		// Legacy PHP compat
-		add_filter(
-			'prc_block_promo_frontend_shim',
-			function() {
-				return array(
-					'style' => array_pop( $this->registered['block']['prc-block/promo']['css'] )['handle'],
-				);
-			}
-		);
-
-		/** Posts */
-		$this->registered['block']['prc-block/posts']    = $enqueue->register(
-			'posts',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $block_js_deps, array( 'moment' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/posts'] = $enqueue->register(
-			'posts',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $js_deps, array( 'moment', 'wp-url', 'wp-api-fetch' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Story Item */
-		$this->registered['frontend']['prc-block/story-item'] = $enqueue->register(
-			'story-item',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $js_deps, array( 'moment', 'wp-url' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['block']['prc-block/story-item']    = $enqueue->register(
-			'story-item',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $block_js_deps, array( 'moment', 'wp-url' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		add_filter(
-			'prc_story_item_script_handle',
-			function() {
-				return array_pop( $this->registered['frontend']['prc-block/story-item']['js'] )['handle'];
-			}
-		);
-
-		/** Tabs */
-		$this->registered['block']['prc-block/tabs']    = $enqueue->register(
-			'tabs',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/tabs'] = $enqueue->register(
-			'tabs',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Taxonomy Tree */
-		$this->registered['block']['prc-block/taxonomy-tree']         = $enqueue->register(
-			'taxonomy-tree',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['block']['prc-block/taxonomy-tree-list']    = $enqueue->register(
-			'taxonomy-tree-list',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/taxonomy-tree-list'] = $enqueue->register(
-			'taxonomy-tree-list',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $js_deps,
+				'js_dep'    => $this->js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -435,196 +75,524 @@ class PRC_Block_Library {
 	}
 
 	/**
-	 * Register blocks and editor scripts/styles. DO NOT use the `script` frontend attribute when registering a block type.
-	 * If your block has frontend script assets load those in the function below checking for the block with has_block().
+	 * Enqueue Gutenberg block assets for both frontend + backend.
 	 *
-	 * @return void
+	 * Assets enqueued:
+	 * 1. blocks.style.build.css - Frontend + Backend.
+	 * 2. blocks.build.js - Backend.
+	 * 3. blocks.editor.build.css - Backend.
+	 *
+	 * @uses {wp-blocks} for block type registration & related functions.
+	 * @uses {wp-element} for WP Element abstraction — structure of blocks.
+	 * @uses {wp-i18n} to internationalize the block's text.
+	 * @uses {wp-editor} for WP editor styles.
+	 * @since 1.0.0
 	 */
-	public function register_blocks() {
+	public function register_block_assets() { // phpcs:ignore
+		$mailchimp_interests = false;
+		if ( class_exists( 'PRC_API_Mailchimp' ) ) {
+			$mailchimp           = new PRC_API_Mailchimp( true );
+			$mailchimp_interests = $mailchimp->get_interests();
+		}
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
 
-		/** Story Item */
+		// Story Item
+		$js_deps    = $this->js_deps;
+		$js_deps[]  = 'moment';
+		$story_item = $enqueue->register(
+			'story-item',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/story-item',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/story-item']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/story-item']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $story_item['js'] )['handle'],
+				'editor_style'  => array_pop( $story_item['css'] )['handle'],
 			)
 		);
 
-		/** Button */
-		register_block_type(
-			'prc-block/button',
+		// Card
+		$card = $enqueue->register(
+			'card',
+			'main',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/button']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/button']['css'] )['handle'],
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
 			)
 		);
-
-		/** Card */
 		register_block_type(
 			'prc-block/card',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/card']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/card']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $card['js'] )['handle'],
+				'style'         => array_pop( $card['css'] )['handle'],
 			)
 		);
 
-		/** Callout */
+		// Callout
+		$callout = $enqueue->register(
+			'callout',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/callout',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/callout']['js'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $callout['js'] )['handle'],
 			)
 		);
 
-		/** Collapsible */
+		// Collapsible
+		$collapsible          = $enqueue->register(
+			'collapsible',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$collapsible_frontend = $enqueue->register(
+			'collapsible',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		// This supports the legacy collapsible shortcode by utilizing the new collapsible react component instead.
+		$this->frontend_shortcode_shim = array_pop( $collapsible_frontend['js'] )['handle'];
+		add_filter(
+			'prc_block_collapsible_frontend_shim',
+			function() {
+				return $this->frontend_shortcode_shim;
+			}
+		);
 		register_block_type(
 			'prc-block/collapsible',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/collapsible']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/collapsible']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $collapsible['js'] )['handle'],
+				'editor_style'  => array_pop( $collapsible['css'] )['handle'],
+				'script'        => $this->frontend_shortcode_shim,
 			)
 		);
 
-		/** Columns */
+		// Columns
+		$columns = $enqueue->register(
+			'columns',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/columns',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/columns']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/columns']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $columns['js'] )['handle'],
+				'editor_style'  => array_pop( $columns['css'] )['handle'],
 			)
 		);
 
-		/** Column */
+		// Column
+		$column = $enqueue->register(
+			'column',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/column',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/column']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/column']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $column['js'] )['handle'],
+				'editor_style'  => array_pop( $column['css'] )['handle'],
 			)
 		);
 
-		/** Follow Us */
-		$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'block' );
-		wp_localize_script(
-			$follow_us_handle,
-			'prcFollowUsMailchimp', // Array containing dynamic data for a JS Global.
+		// Follow Us
+		$js_deps                   = $this->js_deps;
+		$follow_us                 = $enqueue->register(
+			'follow-us',
+			'main',
 			array(
-				'interests' => $this->mailchimp_interests,
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
 			)
+		);
+		$js_deps                   = $this->js_deps;
+		$js_deps[]                 = 'wp-block-editor';
+		$js_deps[]                 = 'wp-api-fetch';
+		$follow_us_frontend        = $enqueue->register(
+			'follow-us',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$follow_us_frontend_handle = array_pop( $follow_us_frontend['js'] )['handle'];
+		wp_localize_script(
+			$follow_us_frontend_handle,
+			'prcMailchimpBlock', // Array containing dynamic data for a JS Global.
+			$mailchimp_interests
 		);
 		register_block_type(
 			'prc-block/follow-us',
 			array(
-				'editor_script' => $follow_us_handle,
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $follow_us['js'] )['handle'],
+				'script'        => $follow_us_frontend_handle,
 			)
 		);
 
-		/** Mailchimp Form */
-		$mailchimp_handle = $this->get_handle( 'prc-block/mailchimp-form', 'js' );
+		// Mailchimp Form
+		$js_deps                        = $this->js_deps;
+		$mailchimp_form_block           = $enqueue->register(
+			'mailchimp-form',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$mailchimp_form_frontend        = $enqueue->register(
+			'mailchimp-form',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$mailchimp_form_block_script    = array_pop( $mailchimp_form_block['js'] )['handle'];
+		$mailchimp_form_frontend_script = array_pop( $mailchimp_form_frontend['js'] )['handle'];
+		$mailchimp_form_style           = array_pop( $mailchimp_form_frontend['css'] )['handle'];
 		wp_localize_script(
-			$mailchimp_handle,
+			$mailchimp_form_block_script,
 			'prcMailchimpForm', // Array containing dynamic data for a JS Global.
 			array(
-				'interests' => $this->mailchimp_interests,
+				'interests' => $mailchimp_interests,
 			)
 		);
 		register_block_type(
 			'prc-block/mailchimp-form',
 			array(
-				'editor_script' => $mailchimp_handle,
-				'style'         => array_pop( $this->registered['block']['prc-block/mailchimp-form']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => $mailchimp_form_block_script,
+				'script'        => $mailchimp_form_frontend_script,
+				'style'         => $mailchimp_form_style,
 			)
 		);
 
-		/** Promo */
+		// Mailchimp Opt-down Form
+		$js_deps                        = $this->js_deps;
+		$mailchimp_opt_down_block           = $enqueue->register(
+			'mailchimp-opt-down',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$mailchimp_opt_down_frontend   = $enqueue->register(
+			'mailchimp-opt-down',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$mailchimp_opt_down_block_script    = array_pop( $mailchimp_opt_down_block['js'] )['handle'];
+		$mailchimp_opt_down_frontend_script = array_pop( $mailchimp_opt_down_frontend['js'] )['handle'];
+		// $mailchimp_form_style           = array_pop( $mailchimp_form_block['css'] )['handle'];
+		// wp_localize_script(
+		// 	$mailchimp_o_block_script,
+		// 	'prcMailchimpForm', // Array containing dynamic data for a JS Global.
+		// 	array(
+		// 		'interests' => $mailchimp_interests,
+		// 	)
+		// );
+		register_block_type(
+			'prc-block/mailchimp-opt-down',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => $mailchimp_opt_down_block_script,
+				'script'        => $mailchimp_opt_down_frontend_script,
+				// 'style'         => $$mailchimp_form_style,
+			)
+		);
+
+
+
+
+		// Promo
+		$promo = $enqueue->register(
+			'promo',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/promo',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/promo']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/promo']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $promo['js'] )['handle'],
+				'style'         => array_pop( $promo['css'] )['handle'],
 			)
 		);
 
-		/** Posts */
+		// Button
+		$button = $enqueue->register(
+			'button',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		register_block_type(
+			'prc-block/button',
+			array(
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $button['js'] )['handle'],
+				'style'         => array_pop( $button['css'] )['handle'],
+			)
+		);
+
+		// Posts
+		$js_deps   = $this->js_deps;
+		$js_deps[] = 'moment';
+		$posts     = $enqueue->register(
+			'posts',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/posts',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/posts']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/posts']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $posts['js'] )['handle'],
+				'style'         => array_pop( $posts['css'] )['handle'],
 			)
 		);
 
-		/** Tabs */
+		// Tabs
+		$tabs = $enqueue->register(
+			'tabs',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
+		$tabs_frontend = $enqueue->register(
+			'tabs',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
 		register_block_type(
 			'prc-block/tabs',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/tabs']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/tabs']['css'] )['handle'],
+				'editor_script' => array_pop( $tabs['js'] )['handle'],
+				'editor_style'  => array_pop( $tabs['css'] )['handle'],
+				'script'        => array_pop( $tabs_frontend['js'] )['handle'],
 			)
 		);
 
-		/** A-Z Taxonomy List */
+		// A-Z Taxonomy List
+		$az_js_deps       = $this->js_deps;
+		$az_js_deps[]     = 'wp-html-entities';
+		$az_taxonomy_list = $enqueue->register(
+			'a-z-taxonomy-list',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $az_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/a-z-taxonomy-list',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $az_taxonomy_list['js'] )['handle'],
+				'style'         => array_pop( $az_taxonomy_list['css'] )['handle'],
 			)
 		);
 
-		/** Taxonomy Tree */
+		// Taxonomy Tree
+		$taxonomy_tree = $enqueue->register(
+			'taxonomy-tree',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/taxonomy-tree',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/taxonomy-tree']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/taxonomy-tree']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $taxonomy_tree['js'] )['handle'],
+				'style'         => array_pop( $taxonomy_tree['css'] )['handle'],
 			)
 		);
 
-		/** Taxonomy Tree List */
+		// Taxonomy Tree List
+		$tax_tree_list          = $enqueue->register(
+			'taxonomy-tree-list',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$tax_tree_list_frontend = $enqueue->register(
+			'taxonomy-tree-list',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 		register_block_type(
 			'prc-block/taxonomy-tree-list',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['css'] )['handle'],
+				// We're only enqueing these in the block editor, not the front end.
+				'editor_script' => array_pop( $tax_tree_list['js'] )['handle'],
+				'script'        => array_pop( $tax_tree_list_frontend['js'] )['handle'],
+				'style'         => array_pop( $tax_tree_list['css'] )['handle'],
 			)
 		);
-	}
 
-	public function enqueue_frontend_assets( $post_id = false ) {
-		// How to account for homepages?
-		if ( ! $post_id ) {
-			$post_id = get_the_ID();
-		}
-		foreach ( $this->registered['frontend'] as $block_name => $block_assets ) {
-			if ( has_block( $block_name, $post_id ) ) {
-				if ( 'prc-block/follow-us' === $block_name ) {
-					$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'frontend' );
-					wp_localize_script(
-						$follow_us_handle,
-						'prcFollowUsMailchimp', // Array containing dynamic data for a JS Global.
-						array(
-							'interests' => $this->mailchimp_interests,
-						)
-					);
-				}
-				wp_enqueue_script( array_pop( $block_assets['js'] )['handle'] );
-				wp_enqueue_style( array_pop( $block_assets['css'] )['handle'] );
-			}
-		}
-		// For blocks that take advantage of the collapsible list sub component.
-		if ( has_block( 'prc-block/taxonomy-tree' ) || has_block( 'prc-block/a-z-taxonomy-list' ) ) {
-			wp_enqueue_script( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) );
-		}
-	}
-
-	// Pages not using the_content
-	public function enqueue_index_page_assets() {
-		if ( ! is_index( true ) ) {
-			return;
-		}
-		wp_enqueue_script( $this->get_handle( 'prc-block/story-item', 'js', 'frontend' ) );
+		$post_subtitle = $enqueue->register(
+			'post-elements',
+			'subtitle',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $this->js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		// register_block_type(
+		// 'prc-block/post-subtitle',
+		// array(
+		// We're only enqueing these in the block editor, not the front end.
+		// 'editor_script' => array_pop( $post_subtitle['js'] )['handle'],
+		// )
+		// );
 	}
 
 	private function load_block_pattern( $name ) {
@@ -676,13 +644,50 @@ class PRC_Block_Library {
 		);
 		register_block_pattern( 'prc-block/pattern/one-lede', $this->load_block_pattern( 'one-lede' ) );
 		register_block_pattern( 'prc-block/pattern/one-lede-with-newsletter', $this->load_block_pattern( 'one-lede-with-newsletter' ) );
-		register_block_pattern( 'prc-block/pattern/three-lede-vertical', $this->load_block_pattern( 'three-lede-vertical' ) );
-		register_block_pattern( 'prc-block/pattern/three-lede-horizontal', $this->load_block_pattern( 'three-lede-horizontal' ) );
 		register_block_pattern( 'prc-block/pattern/three-lede-wide', $this->load_block_pattern( 'three-lede-wide' ) );
+		register_block_pattern( 'prc-block/pattern/three-lede-vertical', $this->load_block_pattern( 'three-lede-vertical' ) );
 		register_block_pattern( 'prc-block/pattern/four-lede-vertical', $this->load_block_pattern( 'four-lede-vertical' ) );
 		register_block_pattern( 'prc-block/pattern/four-lede-horizontal', $this->load_block_pattern( 'four-lede-horizontal' ) );
 		register_block_pattern( 'prc-block/pattern/four-lede', $this->load_block_pattern( 'four-lede' ) );
 		register_block_pattern( 'prc-block/pattern/homepage', $this->load_block_pattern( 'homepage' ) );
+	}
+
+	/**
+	 * Enqueue prc-block/posts in the front end for dynamic rendering.
+	 *
+	 * @return void
+	 */
+	public function posts_block_dynamic_render() {
+		$enqueue   = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', $this->plugin_dir );
+		$js_deps   = $this->js_deps;
+		$js_deps[] = 'moment';
+		$js_deps[] = 'wp-block-editor';
+
+		$enqueue->enqueue(
+			'posts',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
+	// register custom meta tag field
+	public function block_story_item_register_meta() {
+		register_post_meta(
+			'prc-block-areas',
+			'featured_posts',
+			array(
+				'show_in_rest' => true,
+				'single'       => true,
+				'type'         => 'string',
+			)
+		);
 	}
 
 	public function register_rest_endpoints() {

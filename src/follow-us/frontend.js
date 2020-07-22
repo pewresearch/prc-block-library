@@ -1,4 +1,5 @@
 import { render } from '@wordpress/element';
+
 import domReady from '@wordpress/dom-ready';
 import FollowUs from './component';
 

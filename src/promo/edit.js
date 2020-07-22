@@ -4,7 +4,6 @@ import {
     RichText,
     InnerBlocks,
 } from '@wordpress/block-editor';
-import { withSelect } from '@wordpress/data';
 import {
     PanelBody,
     PanelRow,
@@ -14,7 +13,6 @@ import {
 } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import classNames from 'classnames/bind';
-
 import Icon from './icons';
 
 const allowedBlocks = [
@@ -75,9 +73,8 @@ const SidebarControls = ({
                         value={icon}
                         options={[
                             { label: 'None', value: '' },
-                            { label: 'Donate', value: 'donate' },
-                            { label: 'Election', value: 'election' },
                             { label: 'Mail', value: 'mail' },
+                            { label: 'Election', value: 'election' },
                         ]}
                         onChange={i => setAttributes({ icon: i })}
                     />
@@ -96,25 +93,11 @@ const SidebarControls = ({
     );
 };
 
-const Description = ({ description, fontFamily, setAttributes }) => {
-    return (
-        <RichText
-            tagName="div"
-            value={description}
-            onChange={d => setAttributes({ description: d })}
-            placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
-            multiline="p"
-            keepPlaceholderOnFocus
-            className={fontFamily}
-        />
-    );
-};
-
 const edit = ({
     attributes,
     className,
     setAttributes,
-    hasChildBlocks,
+    clientId,
     isSelected,
 }) => {
     const {
@@ -127,11 +110,10 @@ const edit = ({
     } = attributes;
     const classes = classNames(className);
     const fontFamily = classNames({ 'sans-serif': sansSerif });
-
     return (
         <Fragment>
             <SidebarControls
-                backgroundColor={backgroundColor}
+                bgColor={backgroundColor}
                 borderColor={borderColor}
                 sansSerif={sansSerif}
                 icon={icon}
@@ -145,55 +127,35 @@ const edit = ({
                 )}
                 <div className="text">
                     <RichText
-                        tagName="h2"
-                        value={header}
-                        onChange={h => setAttributes({ header: h })}
-                        placeholder="Facts are more important than ever."
+                        tagName="h2" // The tag here is the element output and editable in the admin
+                        value={header} // Any existing content, either from the database or an attribute default
+                        onChange={h => setAttributes({ header: h })} // Store updated content as a block attribute
+                        placeholder="Facts are more important than ever." // Display this text before any content has been added by the user
+                        formattingControls={[]}
                         keepPlaceholderOnFocus
                         className={fontFamily}
                     />
-                    {true === isSelected && (
-                        <Description
-                            description={description}
-                            setAttributes={setAttributes}
-                            fontFamily={fontFamily}
-                        />
-                    )}
-                    {true !== isSelected && '<p></p>' !== description && (
-                        <Description
-                            description={description}
-                            setAttributes={setAttributes}
-                            fontFamily={fontFamily}
-                        />
-                    )}
+                    <RichText
+                        tagName="div" // The tag here is the element output and editable in the admin
+                        value={description} // Any existing content, either from the database or an attribute default
+                        onChange={d => setAttributes({ description: d })} // Store updated content as a block attribute
+                        placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution." // Display this text before any content has been added by the user
+                        // formattingControls={[]}
+                        multiline="p"
+                        allowedFormats={['core/bold', 'core/italic']}
+                        keepPlaceholderOnFocus
+                        className={fontFamily}
+                    />
                 </div>
                 <div className="action">
-                    {true === isSelected && (
-                        <InnerBlocks
-                            allowedBlocks={allowedBlocks}
-                            renderAppender={
-                                hasChildBlocks
-                                    ? undefined
-                                    : () => <InnerBlocks.ButtonBlockAppender />
-                            }
-                        />
-                    )}
-                    {true !== isSelected && true === hasChildBlocks && (
-                        <InnerBlocks
-                            allowedBlocks={allowedBlocks}
-                            renderAppender={false}
-                        />
-                    )}
+                    <InnerBlocks
+                        allowedBlocks={allowedBlocks}
+                        template={template}
+                    />
                 </div>
             </div>
         </Fragment>
     );
 };
 
-export default withSelect((select, ownProps) => {
-    const { clientId } = ownProps;
-    const { getBlockOrder } = select('core/block-editor');
-    return {
-        hasChildBlocks: 0 < getBlockOrder(clientId).length,
-    };
-})(edit);
+export default edit;

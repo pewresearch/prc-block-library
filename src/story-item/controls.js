@@ -6,10 +6,8 @@ import {
     ToggleControl,
     TextControl,
 } from '@wordpress/components';
-import { useState } from '@wordpress/element';
-import { useDidMount } from 'beautiful-react-hooks';
+import { Fragment, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { isEmpty } from 'lodash';
 
 const setPostByURL = (url, setAttributes) => {
     if (undefined === setAttributes || undefined === url) {
@@ -73,10 +71,8 @@ const setPostByURL = (url, setAttributes) => {
 const Controls = ({
     postID,
     link,
-    imageSlot,
     enableHeader,
     enableExcerpt,
-    enableExcerptBelow,
     enableExtra,
     enableBreakingNews,
     enableEmphasis,
@@ -84,14 +80,6 @@ const Controls = ({
     setAttributes,
 }) => {
     const [url, setUrl] = useState(link);
-    useDidMount(() => {
-        if (!isEmpty(link) && undefined === postID) {
-            console.log('Story Item Controls Did Mount');
-            console.log(link);
-            console.log(postID);
-            setPostByURL(link, setAttributes);
-        }
-    });
     return (
         <InspectorControls>
             <PanelBody title={__('Story Item Options')}>
@@ -121,11 +109,9 @@ const Controls = ({
                         </Button>
                     </div>
                 </div>
-                <div>
-                    <p>
-                        <strong>Content Options:</strong>
-                    </p>
-                </div>
+                <p>
+                    <strong>Content Options:</strong>
+                </p>
                 <div>
                     <ToggleControl
                         label={
@@ -188,22 +174,6 @@ const Controls = ({
                 </div>
                 <div>
                     <ToggleControl
-                        label={enableProgramsTaxonomy ? 'Programs' : 'Formats'}
-                        checked={enableProgramsTaxonomy}
-                        onChange={() => {
-                            setAttributes({
-                                enableProgramsTaxonomy: !enableProgramsTaxonomy,
-                            });
-                        }}
-                    />
-                </div>
-                <div>
-                    <p>
-                        <strong>Style Options:</strong>
-                    </p>
-                </div>
-                <div>
-                    <ToggleControl
                         label={
                             enableEmphasis
                                 ? 'Emphasis Enabled'
@@ -216,24 +186,15 @@ const Controls = ({
                     />
                 </div>
                 <div>
-                    {true === enableExcerpt &&
-                        ('right' === imageSlot || 'left' === imageSlot) && (
-                            <div>
-                                <ToggleControl
-                                    label={
-                                        enableExcerptBelow
-                                            ? 'Excerpt Will Appear Below'
-                                            : 'Excerpt Will Appear Normally'
-                                    }
-                                    checked={enableExcerptBelow}
-                                    onChange={() => {
-                                        setAttributes({
-                                            enableExcerptBelow: !enableExcerptBelow,
-                                        });
-                                    }}
-                                />
-                            </div>
-                        )}
+                    <ToggleControl
+                        label={enableProgramsTaxonomy ? 'Programs' : 'Formats'}
+                        checked={enableProgramsTaxonomy}
+                        onChange={() => {
+                            setAttributes({
+                                enableProgramsTaxonomy: !enableProgramsTaxonomy,
+                            });
+                        }}
+                    />
                 </div>
             </PanelBody>
         </InspectorControls>

@@ -1,3 +1,4 @@
+
 import { __ } from '@wordpress/i18n';
 import { column as icon } from '@wordpress/icons';
 import edit from './edit';
@@ -7,7 +8,7 @@ const settings = [
     'prc-block/column',
     {
         title: __('PRC Column'),
-        description: __('A single column within a columns block.'),
+        description: __( 'A single column within a columns block.' ),
         category: 'layout',
         icon,
         keywords: [__('Column')],
@@ -20,13 +21,13 @@ const settings = [
                 type: 'integer',
                 default: 0,
             },
-            // Legacy, does nothing
+            // Is this column comprised of story items
             items: {
                 type: 'boolean',
                 default: false,
-            },
+            }
         },
-        parent: ['prc-block/columns'],
+        parent: [ 'prc-block/columns' ],
         // inserter: false,
         edit,
         save,

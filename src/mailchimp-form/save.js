@@ -1,6 +1,12 @@
-const save = ({ attributes, className }) => {
-    const { interest } = attributes;
-    return <div className={className} data-segment-id={interest} />;
+const save = ({ attributes }) => {
+    const { interest, className } = attributes;
+    return (
+        <div
+            className="js-react-mailchimp-form"
+            data-segment-id={interest}
+            data-style={className}
+        />
+    );
 };
 
 export default save;

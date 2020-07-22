@@ -1,5 +1,5 @@
 import { render, Component, Fragment } from '@wordpress/element';
-import domReady from '@wordpress/dom-ready';
+
 import { getPosts } from '../_shared';
 
 import PostsList from './styles/list';
@@ -78,7 +78,8 @@ class DynamicPosts extends Component {
     }
 }
 
-domReady(() => {
+// When DOM is fully loaded load the filters
+document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('.js-react-posts-block')) {
         const elms = document.querySelectorAll('.js-react-posts-block');
         elms.forEach(elm => {

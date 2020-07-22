@@ -33,8 +33,6 @@ const KickerEditor = withState({
                     onChange={d => {
                         setAttributes({ date: d });
                     }}
-                    style={{ marginBottom: '0px' }}
-                    className="story-label-select"
                 />
             </div>
         </div>

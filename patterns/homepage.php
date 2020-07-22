@@ -10,17 +10,17 @@ ob_start();
 ?>
 <!-- wp:prc-block/columns {"equal":true} -->
 <div class="ui stackable vertically padded equal width grid"><!-- wp:prc-block/column {"width":11} -->
-<div class="eleven wide column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://pewresearch-org-bleeding-edge.go-vip.net/wp-content/uploads/2020/05/PS_19.10.31_ClimateChange_promo_featured.png","imageSlot":"right","imageSize":"legacy-260","headerSize":"large","enableEmphasis":true,"className":"is-style-right"} -->
-<div class="wp-block-prc-block-story-item is-style-right react-story-item" data-label="Report" data-date="05/11/2020" data-link="" data-image="https://pewresearch-org-bleeding-edge.go-vip.net/wp-content/uploads/2020/05/PS_19.10.31_ClimateChange_promo_featured.png" data-imageslot="right" data-imagesize="legacy-260" data-headersize="large" data-classname="wp-block-prc-block-story-item is-style-right" data-emphasis="true" data-breakingnews="false" data-excerptbelow="false" data-chartart="false"><div id="post-undefined" class="ui item story is-style-right null"><div class="content"><div class="ui fluid placeholder"><div class="header"><div class="line"></div><div class="line"></div></div><div class="paragraph"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div></div><div class="legacy-260 image"><div class="ui fluid placeholder"><div class="image"></div></div></div><div class="hidden"><div class="title">U.S. Public Views on Climate and Energy</div><div class="description"><p>A majority of U.S. adults say they are taking at least some specific action in their daily lives to protect the environment, though Democrats and Republicans remain at ideological odds over the causes of climate change and the effects of policies to address it.</p></div></div></div></div>
+<div class="eleven wide column wp-block-prc-block-column"><!-- wp:prc-block/story-item {"title":"U.S. Public Views on Climate and Energy","date":"05/11/2020","image":"https://pewresearch-org-bleeding-edge.go-vip.net/wp-content/uploads/2020/05/PS_19.10.31_ClimateChange_promo_featured.png","imageSlot":"right","imageSize":"legacy-260","headerSize":"large","className":"is-style-right"} -->
+<article class="item wp-block-prc-block-story-item is-style-right story-item"><div class="content"><div class="meta"><span class="report label">Report</span> | <span class="date">May 11, 2020</span></div><div class="header large"><a href="">U.S. Public Views on Climate and Energy</a></div><div class="description"><p>A majority of U.S. adults say they are taking at least some specific action in their daily lives to protect the environment, though Democrats and Republicans remain at ideological odds over the causes of climate change and the effects of policies to address it.</p></div></div><div class="ui medium image"><picture><source srcset="https://pewresearch-org-bleeding-edge.go-vip.net/wp-content/uploads/2020/05/PS_19.10.31_ClimateChange_promo_featured.png?resize=260%2C260 1x, https://pewresearch-org-bleeding-edge.go-vip.net/wp-content/uploads/2020/05/PS_19.10.31_ClimateChange_promo_featured.png?resize=520%2C520 2x" media="(min-width: 420px)"/><source srcset="https://pewresearch-org-bleeding-edge.go-vip.net/wp-content/uploads/2020/05/PS_19.10.31_ClimateChange_promo_featured.png?resize=260%2C260 1x, https://pewresearch-org-bleeding-edge.go-vip.net/wp-content/uploads/2020/05/PS_19.10.31_ClimateChange_promo_featured.png?resize=520%2C520 2x" media="(max-width: 420px)"/><img alt="" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/></picture></div></article>
 <!-- /wp:prc-block/story-item -->
 
 <!-- wp:prc-block/columns {"equal":true} -->
-<div class="ui stackable vertically padded equal width grid"><!-- wp:prc-block/column -->
-<div class="column wp-block-prc-block-column"></div>
+<div class="ui stackable vertically padded equal width grid"><!-- wp:prc-block/column {"items":true} -->
+<div class="column wp-block-prc-block-column"><div class="ui divided items"></div></div>
 <!-- /wp:prc-block/column -->
 
-<!-- wp:prc-block/column -->
-<div class="column wp-block-prc-block-column"></div>
+<!-- wp:prc-block/column {"items":true} -->
+<div class="column wp-block-prc-block-column"><div class="ui divided items"></div></div>
 <!-- /wp:prc-block/column --></div>
 <!-- /wp:prc-block/columns -->
 
@@ -32,11 +32,7 @@ ob_start();
 <div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:paragraph {"align":"right","className":"more"} -->
 <p class="has-text-align-right more"><a href="#">All Publications &gt;</a></p>
 <!-- /wp:paragraph --></div></div>
-<!-- /wp:group -->
-
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
 <!-- /wp:prc-block/column -->
 
 <!-- wp:prc-block/column {"width":5} -->
