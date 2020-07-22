@@ -2,11 +2,103 @@ import { __ } from '@wordpress/i18n';
 import * as moment from 'moment';
 import edit from './edit';
 import save from './save';
+import transforms from './transforms';
 
 const todaysDate = () => {
     return moment().format('MM-DD-YYYY');
 };
 
+const attributes = {
+    title: {
+        type: 'string',
+        default: 'Title',
+    },
+    excerpt: {
+        type: 'string',
+        source: 'html',
+        multiline: 'p',
+        selector: '.description',
+        default: '<p>Excerpt</p>',
+    },
+    extra: {
+        type: 'string',
+        source: 'html',
+        multiline: 'li',
+        selector: '.extra',
+        default: '',
+    },
+    link: {
+        type: 'string',
+        default: '',
+    },
+    label: {
+        type: 'string',
+        default: 'Report',
+    },
+    date: {
+        type: 'string',
+    },
+    // Images
+    image: {
+        type: 'string',
+        default: '',
+    },
+    imageSlot: {
+        type: 'string',
+        default: 'default',
+    },
+    imageSize: {
+        type: 'string',
+        default: 'A1',
+    },
+    isChartArt: {
+        type: 'boolean',
+        default: false,
+    },
+    // Post Meta Data:
+    postID: {
+        type: 'integer',
+    },
+    // Item Options
+    headerSize: {
+        type: 'string',
+        default: 'normal',
+    },
+    enableAltHeaderWeight: {
+        type: 'boolean',
+        default: false,
+    },
+    enableEmphasis: {
+        type: 'boolean',
+        default: false,
+    },
+    enableHeader: {
+        type: 'boolean',
+        default: true,
+    },
+    enableExcerpt: {
+        type: 'boolean',
+        default: true,
+    },
+    enableExcerptBelow: {
+        type: 'boolean',
+        default: false,
+    },
+    enableExtra: {
+        type: 'boolean',
+        default: false,
+    },
+    enableBreakingNews: {
+        type: 'boolean',
+        default: false,
+    },
+    enableProgramsTaxonomy: {
+        type: 'boolean',
+        default: false,
+    },
+};
+
+// Version: 2.0
 const settings = [
     'prc-block/story-item',
     {
@@ -59,91 +151,8 @@ const settings = [
         supports: {
             html: false, // We do not want to give people the ability to edit the raw html of this block.
         },
-        attributes: {
-            title: {
-                type: 'string',
-                default: 'Title',
-                // source: 'html',
-                // selector: '.header a',
-            },
-            excerpt: {
-                type: 'string',
-                source: 'html',
-                multiline: 'p',
-                selector: '.description',
-                default: '<p>Excerpt</p>',
-            },
-            extra: {
-                type: 'string',
-                source: 'html',
-                multiline: 'li',
-                selector: '.extra',
-                default: '',
-            },
-            link: {
-                type: 'string',
-                default: '',
-            },
-            label: {
-                type: 'string',
-                default: 'Report',
-                source: 'html',
-                selector: '.meta .label',
-            },
-            date: {
-                type: 'string',
-            },
-            // Images
-            image: {
-                type: 'string',
-                default: '',
-            },
-            imageSlot: {
-                type: 'string',
-                default: 'disabled',
-            },
-            imageSize: {
-                type: 'string',
-                default: 'A1',
-            },
-            isChartArt: {
-                type: 'boolean',
-                default: false,
-            },
-            // Post Meta Data:
-            postID: {
-                type: 'integer',
-            },
-            // Item Options
-            headerSize: {
-                type: 'string',
-                default: 'normal',
-            },
-            enableEmphasis: {
-                type: 'boolean',
-                default: false,
-            },
-            enableHeader: {
-                type: 'boolean',
-                default: true,
-            },
-            enableExcerpt: {
-                type: 'boolean',
-                default: true,
-            },
-            enableExtra: {
-                type: 'boolean',
-                default: false,
-            },
-            enableBreakingNews: {
-                type: 'boolean',
-                default: false,
-            },
-            enableProgramsTaxonomy: {
-                type: 'boolean',
-                default: false,
-            },
-        },
+        attributes,
+        transforms,
         edit,
         save,
     },
