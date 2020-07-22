@@ -1,0 +1,30 @@
+{
+  "frontend.js": "mailchimp-opt-down-form/frontend-70c19b95.js",
+  "frontend.js.map": "mailchimp-opt-down-form/frontend-70c19b95.js.map",
+  "main.js": "mailchimp-opt-down-form/main-4f793a21.js",
+  "main.js.map": "mailchimp-opt-down-form/main-4f793a21.js.map",
+  "runtime.js": "mailchimp-opt-down-form/runtime-49ad51f1.js",
+  "runtime.js.map": "mailchimp-opt-down-form/runtime-49ad51f1.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "mailchimp-opt-down-form/runtime-49ad51f1.js",
+        "mailchimp-opt-down-form/main-4f793a21.js"
+      ],
+      "js.map": [
+        "mailchimp-opt-down-form/runtime-49ad51f1.js.map",
+        "mailchimp-opt-down-form/main-4f793a21.js.map"
+      ]
+    },
+    "frontend": {
+      "js": [
+        "mailchimp-opt-down-form/runtime-49ad51f1.js",
+        "mailchimp-opt-down-form/frontend-70c19b95.js"
+      ],
+      "js.map": [
+        "mailchimp-opt-down-form/runtime-49ad51f1.js.map",
+        "mailchimp-opt-down-form/frontend-70c19b95.js.map"
+      ]
+    }
+  }
+}
