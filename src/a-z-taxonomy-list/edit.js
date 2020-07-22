@@ -65,7 +65,7 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                         exclude={exclude}
                         include={include}
                         letter={letter}
-                        taxonomy="Topics"
+                        taxonomy="Topic"
                         setAttributes={setAttributes}
                         isSelected={isSelected}
                     />
