@@ -294,6 +294,32 @@ class PRC_Block_Library {
 			}
 		);
 
+		/** Mailchimp Opt Down Special Form */
+		$this->registered['block']['prc-block/mailchimp-opt-down']    = $enqueue->register(
+			'mailchimp-opt-down',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$this->registered['frontend']['prc-block/mailchimp-opt-down'] = $enqueue->register(
+			'mailchimp-opt-down',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
 		/** Promo */
 		$this->registered['block']['prc-block/promo'] = $enqueue->register(
 			'promo',
@@ -540,6 +566,14 @@ class PRC_Block_Library {
 			array(
 				'editor_script' => $mailchimp_handle,
 				'style'         => array_pop( $this->registered['block']['prc-block/mailchimp-form']['css'] )['handle'],
+			)
+		);
+
+		/** Mailchimp Opt Down Special Form */
+		register_block_type(
+			'prc-block/mailchimp-opt-down',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/mailchimp-opt-down']['js'] )['handle'],
 			)
 		);
 
