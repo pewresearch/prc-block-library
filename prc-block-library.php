@@ -38,9 +38,8 @@ class PRC_Block_Library {
 			add_action( 'init', array( $this, 'register_block_patterns' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
-			add_action( 'prc_block_area_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_index_page_assets' ) );
+			add_filter( 'the_content', array( $this, 'enqueue_frontend_assets' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'archive_pages_story_item_enqueue' ) );
 
 			if ( class_exists( 'PRC_API_Mailchimp' ) ) {
 				$mailchimp                 = new PRC_API_Mailchimp( false );
@@ -91,6 +90,13 @@ class PRC_Block_Library {
 		return array_pop( $this->registered[ $location ][ $block_name ][ $asset_type ] )['handle'];
 	}
 
+	/**
+	 * Register block assets here. Format as follows:
+	 * $this->registered[block|frontend][blockName] = wpPackIo register array
+	 *
+	 * @return void
+	 * @throws LogicException
+	 */
 	public function register_assets() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
@@ -436,7 +442,7 @@ class PRC_Block_Library {
 
 	/**
 	 * Register blocks and editor scripts/styles. DO NOT use the `script` frontend attribute when registering a block type.
-	 * If your block has frontend script assets load those in the function below checking for the block with has_block().
+	 * If your block has frontend script asset that needs to be localized load the function `enqueue_frontend_assets`.
 	 *
 	 * @return void
 	 */
@@ -508,7 +514,7 @@ class PRC_Block_Library {
 		$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'block' );
 		wp_localize_script(
 			$follow_us_handle,
-			'prcFollowUsMailchimp', // Array containing dynamic data for a JS Global.
+			'prcFollowUsMailchimp',
 			array(
 				'interests' => $this->mailchimp_interests,
 			)
@@ -524,7 +530,7 @@ class PRC_Block_Library {
 		$mailchimp_handle = $this->get_handle( 'prc-block/mailchimp-form', 'js' );
 		wp_localize_script(
 			$mailchimp_handle,
-			'prcMailchimpForm', // Array containing dynamic data for a JS Global.
+			'prcMailchimpForm',
 			array(
 				'interests' => $this->mailchimp_interests,
 			)
@@ -592,35 +598,51 @@ class PRC_Block_Library {
 		);
 	}
 
-	public function enqueue_frontend_assets( $post_id = false ) {
-		// How to account for homepages?
-		if ( ! $post_id ) {
+	/**
+	 * Filters the_content looking for blocks, enqueues any `frontend` script/styles registered for a block.
+	 */
+	public function enqueue_frontend_assets( $content ) {
+		if ( is_admin() ) {
+			return $content;
+		}
+		if ( is_front_page() ) {
+			$homepage = get_current_homepage();
+			$post_id  = $homepage->ID;
+		} else {
 			$post_id = get_the_ID();
 		}
 		foreach ( $this->registered['frontend'] as $block_name => $block_assets ) {
 			if ( has_block( $block_name, $post_id ) ) {
+				// Follow Us has some special conditions on the frontend that other blocks do not
 				if ( 'prc-block/follow-us' === $block_name ) {
+					// The Mailchimp form in Follow Us requires access to all the interests, they are maintained in the mailchimp api and set in this class in construct.
 					$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'frontend' );
 					wp_localize_script(
 						$follow_us_handle,
-						'prcFollowUsMailchimp', // Array containing dynamic data for a JS Global.
+						'prcFollowUsMailchimp',
 						array(
 							'interests' => $this->mailchimp_interests,
 						)
 					);
 				}
-				wp_enqueue_script( array_pop( $block_assets['js'] )['handle'] );
-				wp_enqueue_style( array_pop( $block_assets['css'] )['handle'] );
+				if ( array_key_exists( 'js', $block_assets ) ) {
+					wp_enqueue_script( array_pop( $block_assets['js'] )['handle'] );
+				}
+				if ( array_key_exists( 'css', $block_assets ) ) {
+					wp_enqueue_style( array_pop( $block_assets['css'] )['handle'] );
+				}
 			}
 		}
 		// For blocks that take advantage of the collapsible list sub component.
+		// Still trying to figure out a better way to handle this dependencies.
 		if ( has_block( 'prc-block/taxonomy-tree' ) || has_block( 'prc-block/a-z-taxonomy-list' ) ) {
 			wp_enqueue_script( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) );
 		}
+
+		return $content;
 	}
 
-	// Pages not using the_content
-	public function enqueue_index_page_assets() {
+	public function archive_pages_story_item_enqueue() {
 		if ( ! is_index( true ) ) {
 			return;
 		}
