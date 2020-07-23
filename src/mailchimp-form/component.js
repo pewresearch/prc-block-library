@@ -1,131 +1,86 @@
-import { withState } from '@wordpress/compose';
+import { useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { Form, Dimmer } from 'semantic-ui-react';
+import { Form, Icon } from 'semantic-ui-react';
 
 import './style.scss';
 
-const defaultState = {
-    error: false,
-    loading: false,
-    emailAddress: '',
-    dimmerActive: false,
-    dimmerMessage: 'n/a',
+const MailchimpForm = ({ display, interest, className }) => {
+    const [buttonText, changeButtonText] = useState('SIGNUP');
+    const [success, toggleSuccess] = useState(false);
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
+    const [emailAddress, setEmail] = useState('');
+
+    const subscribed = () => {
+        toggleError(false);
+        toggleLoading(false);
+        toggleSuccess(true);
+        changeButtonText(<Icon name="check circle" />);
+        setEmail('');
+    };
+
+    const submitHandler = e => {
+        e.preventDefault();
+
+        if (true !== display) {
+            return; // Never allow running this from inside Gutenberg.
+        }
+
+        const email = emailAddress;
+
+        toggleLoading(true);
+
+        setTimeout(() => {
+            apiFetch({
+                path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}`,
+                method: 'POST',
+            })
+                .then(() => {
+                    subscribed();
+                })
+                .catch(e => {
+                    toggleLoading(false);
+                    if ('add-member-error' === e.code) {
+                        subscribed();
+                        console.info(
+                            `${emailAddress} already subscribed to ${interest}`,
+                        );
+                    } else {
+                        toggleSuccess(false);
+                        toggleError(true);
+                        changeButtonText('ERROR');
+                    }
+                });
+        }, 2000);
+    };
+
+    return (
+        <div className={className}>
+            <Form className="mailchimp" error={error} onSubmit={submitHandler}>
+                <Form.Field>
+                    <Form.Input
+                        placeholder="Email address"
+                        type="email"
+                        data-validate="mc-email"
+                        required
+                        onChange={e => {
+                            setEmail(e.target.value);
+                        }}
+                        value={emailAddress}
+                    />
+                    <Form.Button
+                        secondary
+                        positive={success}
+                        negative={error}
+                        loading={loading}
+                        icon={success}
+                    >
+                        {buttonText}
+                    </Form.Button>
+                </Form.Field>
+            </Form>
+        </div>
+    );
 };
-
-const MailchimpForm = withState(defaultState)(
-    ({
-        display,
-        interest,
-        error,
-        loading,
-        emailAddress,
-        dimmerActive,
-        dimmerMessage,
-        setState,
-        className,
-    }) => {
-        const submitHandler = e => {
-            e.preventDefault();
-
-            if (true !== display) {
-                return; // Never allow running this from inside Gutenberg.
-            }
-
-            // Request (POST wp-json/prc-api/v2/mailchimp/subscribe)
-            const email = emailAddress;
-
-            setState({ loading: true });
-
-            setTimeout(() => {
-                jQuery
-                    .ajax({
-                        url: `${
-                            window.siteURL
-                        }/wp-json/prc-api/v2/mailchimp/subscribe?${jQuery.param(
-                            {
-                                email,
-                                interests: interest,
-                            },
-                        )}`,
-                        type: 'POST',
-                    })
-                    .done(() => {
-                        console.info('Succesfully subscribed');
-                        setState({
-                            dimmerMessage:
-                                'You have succesfully subscribed to this newsletter.',
-                        });
-                    })
-                    .fail(jqXHR => {
-                        const failState = {
-                            error: true,
-                            dimmerMessage: '',
-                        };
-                        if ('add-member-error' === jqXHR.responseJSON.code) {
-                            failState.dimmerMessage =
-                                'This email address is already subscribed to this newsletter.';
-                        } else {
-                            failState.dimmerMessage =
-                                'Unfortunatley we could not subscribe you to this newsletter at this time, please try again later.';
-                        }
-                        setState(failState);
-                    })
-                    .always(() => {
-                        setState({
-                            loading: false,
-                            emailAddress: '',
-                            dimmerActive: true,
-                        });
-                    });
-            }, 2000);
-        };
-
-        return (
-            <Dimmer.Dimmable
-                as="div"
-                id="js-mailchimp-form"
-                dimmed={dimmerActive}
-                className={className}
-            >
-                <Form
-                    className="mailchimp"
-                    error={error}
-                    onSubmit={submitHandler}
-                >
-                    <Form.Field>
-                        <Form.Input
-                            placeholder="Email address"
-                            type="email"
-                            data-validate="mc-email"
-                            required
-                            onChange={e => {
-                                setState({
-                                    emailAddress: e.target.value,
-                                });
-                            }}
-                            value={emailAddress}
-                        />
-                        <Form.Button
-                            secondary
-                            loading={loading}
-                            content="SIGN UP"
-                        />
-                    </Form.Field>
-                </Form>
-
-                <Dimmer
-                    active={dimmerActive}
-                    onClickOutside={() => {
-                        setState({ dimmerActive: false });
-                    }}
-                >
-                    <p className="sans-serif">
-                        {dimmerMessage} (Click to close)
-                    </p>
-                </Dimmer>
-            </Dimmer.Dimmable>
-        );
-    },
-);
 
 export default MailchimpForm;

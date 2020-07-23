@@ -25,9 +25,8 @@ const SidebarControls = ({ interest, setAttributes }) => {
     );
 };
 
-const edit = props => {
-    const { attributes, setAttributes } = props;
-    const { interest, className } = attributes;
+const edit = ({ attributes, className, setAttributes }) => {
+    const { interest } = attributes;
     const formProps = {
         display: false,
         interest,

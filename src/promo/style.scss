@@ -1,4 +1,10 @@
 $breakpoint-tablet: 920px;
+$icon-width: 45px;
+
+.prc-block-area[data-post-type='fact-tank'] .wp-block-prc-block-promo,
+.prc-block-area[data-post-type='post'] .wp-block-prc-block-promo {
+  padding: 1rem;
+}
 
 .wp-block-prc-block-promo {
     padding: 24px 40px;
@@ -35,6 +41,7 @@ $breakpoint-tablet: 920px;
     }
 
     .action {
+      min-height: 36px;
       .button {
         font-size: 15px        !important;
         font-weight: 500       !important;
@@ -46,6 +53,16 @@ $breakpoint-tablet: 920px;
       }
     }
 
+    .icon {
+      & > div {
+        width: $icon-width;
+        display: inline-block;
+        svg {
+          max-width: 100%;
+        }
+      }
+    }
+
     // Horizontal "Pancake" Styles:
     @media (min-width: $breakpoint-tablet) {
       &.pancake,
@@ -53,7 +70,7 @@ $breakpoint-tablet: 920px;
       &.is-style-pancake-stacked {
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
+        align-items: flex-start; 
         text-align: left;
 
         .icon,
@@ -93,21 +110,45 @@ $breakpoint-tablet: 920px;
           }
         }
       }
+
+      &.is-style-left-aligned {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        text-align: left;
+        .icon {
+          padding-right: 20px;
+          & > div {
+            width: 50px;
+          }
+        }
+        .text {
+          flex-grow: 1;
+          flex-shrink: 1;
+          flex-basis: 300px;
+        }
+        .action {
+          flex-basis: 100%;
+          padding-left: 65px;
+          .wp-block-prc-block-mailchimp-form {
+            margin-left: 0;
+          }
+        }
+      }
     }
 
-  #js-mailchimp-form {
-    min-width: 420px;
+  .wp-block-prc-block-mailchimp-form {
+    max-width: 420px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
   // Editor Only Styles:
   .block-editor-block-list__block {
     margin-top: 0!important;
     margin-bottom: 0!important;
   }
-  .block-list-appender {
-    position: absolute!important;
-    // margin: 0;
-    * {
-      margin: 0!important;
-    }
+  .components-button.block-list-appender__toggle.block-editor-button-block-appender {
+    margin: 0;
   }
 }

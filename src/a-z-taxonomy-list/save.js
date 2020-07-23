@@ -15,7 +15,7 @@ const save = ({ attributes, className }) => {
                 <TaxonomySelectList
                     include={include}
                     letter={letter}
-                    taxonomy="Topics"
+                    taxonomy="Topic"
                     setAttributes={false}
                 />
             </CollapsibleList>
