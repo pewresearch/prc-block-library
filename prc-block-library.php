@@ -38,6 +38,7 @@ class PRC_Block_Library {
 			add_action( 'init', array( $this, 'register_block_patterns' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 
+			add_action( 'prc_block_area_enqueue_scripts', array( $this, 'enqueue_block_area_assets' ), 10, 2 );
 			add_filter( 'the_content', array( $this, 'enqueue_frontend_assets' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'archive_pages_story_item_enqueue' ) );
 
@@ -633,18 +634,26 @@ class PRC_Block_Library {
 	}
 
 	/**
+	 * Because of the cross site nature of widget block areas we need to force enqueing of assets.
+	 */
+	public function enqueue_block_area_assets( $post_id, $content ) {
+		return $this->enqueue_frontend_assets( $content, $post_id );
+	}
+
+	/**
 	 * Filters the_content looking for blocks, enqueues any `frontend` script/styles registered for a block.
 	 */
-	public function enqueue_frontend_assets( $content ) {
+	public function enqueue_frontend_assets( $content, $post_id = null ) {
 		if ( is_admin() ) {
 			return $content;
 		}
 		if ( is_front_page() ) {
 			$homepage = get_current_homepage();
 			$post_id  = $homepage->ID;
-		} else {
+		} elseif ( null === $post_id ) {
 			$post_id = get_the_ID();
 		}
+
 		foreach ( $this->registered['frontend'] as $block_name => $block_assets ) {
 			if ( has_block( $block_name, $post_id ) ) {
 				// Follow Us has some special conditions on the frontend that other blocks do not
