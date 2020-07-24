@@ -47,7 +47,11 @@ const getProps = elm => {
         props.image = image;
         props.imageSlot = elm.getAttribute('data-imageslot');
         props.imageSize = elm.getAttribute('data-imagesize');
-        props.isChartArt = elm.getAttribute('data-chartart');
+        if (elm.getAttribute('data-chartart')) {
+            if ('true' === elm.getAttribute('data-chartart')) {
+                props.isChartArt = true;
+            }
+        }
     }
     if (elm.querySelector('.extra')) {
         props.extra = elm.querySelector('.extra').innerHTML;
