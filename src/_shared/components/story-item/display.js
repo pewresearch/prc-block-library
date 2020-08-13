@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { Fragment } from '@wordpress/element';
+import { Fragment, RawHTML } from '@wordpress/element';
 import { useMediaQuery } from 'beautiful-react-hooks';
 import { Item } from 'semantic-ui-react';
 import { Display as Image } from './image';
@@ -25,6 +25,7 @@ const StoryItem = ({
     enableExcerptBelow,
     enableExtra,
     enableBreakingNews,
+    extraContent = false,
     className,
     inLoop = false,
 }) => {
@@ -152,6 +153,8 @@ const StoryItem = ({
                     content={extra}
                     breakingNews={enableBreakingNews}
                 />
+
+                {false !== extraContent && <RawHTML>{extraContent}</RawHTML>}
             </Item.Content>
 
             <BottomAndRightSlot />

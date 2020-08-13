@@ -24,11 +24,16 @@ const getProps = elm => {
         enableExcerptBelow: false,
         enableExtra: false,
         enableBreakingNews: false,
+        extraContent: false,
         className: '',
         inLoop: false,
     };
     props.className = elm.getAttribute('data-classname');
     props.title = elm.querySelector('.title').textContent;
+    // Get any additional markup to be inserted here.
+    if (elm.querySelector('.extra-content')) {
+        props.extraContent = elm.querySelector('.extra-content').innerHTML;
+    }
 
     const excerpt = elm.querySelector('.description');
     if (excerpt) {
