@@ -65,6 +65,9 @@ const StoryItem = ({
                 link={link}
                 slot={imageSlot}
                 chartArt={isChartArt}
+                onClick={() => {
+                    window.location = link;
+                }}
             />
         );
     };
@@ -106,13 +109,7 @@ const StoryItem = ({
     };
 
     return (
-        <Item
-            as="article"
-            className={classes}
-            onClick={() => {
-                window.location = link;
-            }}
-        >
+        <Item as="article" className={classes}>
             <TopAndLeftSlot />
 
             <Item.Content>

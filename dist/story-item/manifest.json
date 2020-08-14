@@ -1,8 +1,8 @@
 {
   "default~frontend~main.css": "story-item/default~frontend~main-bc0a4402.css",
   "default~frontend~main.css.map": "story-item/default~frontend~main-bc0a4402.css.map",
-  "default~frontend~main.js": "story-item/default~frontend~main-57c0f828.js",
-  "default~frontend~main.js.map": "story-item/default~frontend~main-57c0f828.js.map",
+  "default~frontend~main.js": "story-item/default~frontend~main-64b427b6.js",
+  "default~frontend~main.js.map": "story-item/default~frontend~main-64b427b6.js.map",
   "frontend.js": "story-item/frontend-72f62773.js",
   "frontend.js.map": "story-item/frontend-72f62773.js.map",
   "main.js": "story-item/main-8e7d6ca2.js",
@@ -16,13 +16,13 @@
       "js": [
         "story-item/runtime-e7c58969.js",
         "story-item/vendors~frontend~main-2ff43c4b.js",
-        "story-item/default~frontend~main-57c0f828.js",
+        "story-item/default~frontend~main-64b427b6.js",
         "story-item/main-8e7d6ca2.js"
       ],
       "js.map": [
         "story-item/runtime-e7c58969.js.map",
         "story-item/vendors~frontend~main-2ff43c4b.js.map",
-        "story-item/default~frontend~main-57c0f828.js.map",
+        "story-item/default~frontend~main-64b427b6.js.map",
         "story-item/main-8e7d6ca2.js.map"
       ],
       "css": [
@@ -36,13 +36,13 @@
       "js": [
         "story-item/runtime-e7c58969.js",
         "story-item/vendors~frontend~main-2ff43c4b.js",
-        "story-item/default~frontend~main-57c0f828.js",
+        "story-item/default~frontend~main-64b427b6.js",
         "story-item/frontend-72f62773.js"
       ],
       "js.map": [
         "story-item/runtime-e7c58969.js.map",
         "story-item/vendors~frontend~main-2ff43c4b.js.map",
-        "story-item/default~frontend~main-57c0f828.js.map",
+        "story-item/default~frontend~main-64b427b6.js.map",
         "story-item/frontend-72f62773.js.map"
       ],
       "css": [
