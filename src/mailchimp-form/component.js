@@ -1,7 +1,6 @@
 import { useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { Form, Icon } from 'semantic-ui-react';
-
 import './style.scss';
 
 const MailchimpForm = ({ display, interest, className }) => {
@@ -60,7 +59,6 @@ const MailchimpForm = ({ display, interest, className }) => {
                 <Form.Field>
                     <Form.Input
                         placeholder="Email address"
-                        type="email"
                         data-validate="mc-email"
                         required
                         onChange={e => {

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@sentry/webpack-plugin": "^1.12.1",
     "@svgr/webpack": "^5.1.0",
     "@wordpress/block-editor": "^4.2.0",
     "@wordpress/blocks": "^6.19.0",
