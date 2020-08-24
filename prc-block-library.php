@@ -703,29 +703,18 @@ class PRC_Block_Library {
 		// Patterns
 		unregister_block_pattern( 'core/text-two-columns' );
 		unregister_block_pattern( 'core/two-buttons' );
-		unregister_block_pattern( 'core/cover-abc' );
 		unregister_block_pattern( 'core/two-images' );
-		unregister_block_pattern( 'core/hero-two-columns' );
-		unregister_block_pattern( 'core/numbered-features' );
-		unregister_block_pattern( 'core/its-time' );
-		unregister_block_pattern( 'core/hero-right-column' );
-		unregister_block_pattern( 'core/testimonials' );
-		unregister_block_pattern( 'core/features-services' );
 		unregister_block_pattern( 'core/text-two-columns-with-images' );
 		unregister_block_pattern( 'core/text-three-columns-buttons' );
 		unregister_block_pattern( 'core/large-header' );
-		unregister_block_pattern( 'core/large-header-paragraph' );
 		unregister_block_pattern( 'core/three-buttons' );
 		unregister_block_pattern( 'core/quote' );
 		// Categories
 		unregister_block_pattern_category( 'text' );
-		unregister_block_pattern_category( 'hero' );
 		unregister_block_pattern_category( 'columns' );
 		unregister_block_pattern_category( 'buttons' );
 		unregister_block_pattern_category( 'header' );
 		unregister_block_pattern_category( 'gallery' );
-		unregister_block_pattern_category( 'features' );
-		unregister_block_pattern_category( 'testimonials' );
 	}
 
 	public function register_block_patterns() {
