@@ -99,4 +99,8 @@ const StoryItemsRender = () => {
 
 domReady(() => {
     StoryItemsRender();
+    jQuery(document).on('facetwp-loaded', () => {
+        console.log('facetwp loaded');
+        StoryItemsRender();
+    });
 });
