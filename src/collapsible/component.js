@@ -6,6 +6,7 @@ const ALLOWED_BLOCKS = [
     'core/paragraph',
     'core/heading',
     'core/image',
+    'core/table',
     'core/list',
     'prc-block/button',
 ];
