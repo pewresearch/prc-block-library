@@ -176,6 +176,12 @@ module.exports = {
             },
         },
         {
+            name: 'pullquote',
+            entry: {
+                main: './src/pullquote/index.js',
+            },
+        },
+        {
             name: 'story-item',
             entry: {
                 main: './src/story-item/index.js',

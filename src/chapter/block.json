@@ -1,0 +1,10 @@
+{
+	"name": "prc-block/chapter",
+	"category": "text",
+	"attributes": {
+		"value": {
+			"type": "string",
+			"multiline": "br"
+		}
+	}
+}
