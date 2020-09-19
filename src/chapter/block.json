@@ -5,6 +5,13 @@
 		"value": {
 			"type": "string",
 			"multiline": "br"
+		},
+		"id": {
+			"type": "string"
+		},
+		"level": {
+			"type": "integer",
+			"default": 2
 		}
 	}
 }

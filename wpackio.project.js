@@ -53,6 +53,12 @@ module.exports = {
             },
         },
         {
+            name: 'chapter',
+            entry: {
+                main: './src/chapter/index.js',
+            },
+        },
+        {
             name: 'collapsible',
             entry: {
                 main: './src/collapsible/index.js',

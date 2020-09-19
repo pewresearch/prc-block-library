@@ -159,6 +159,20 @@ class PRC_Block_Library {
 			)
 		);
 
+		/** Chapter */
+		$this->registered['block']['prc-block/chapter'] = $enqueue->register(
+			'chapter',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
 		/** Collapsible */
 		$this->registered['block']['prc-block/collapsible']    = $enqueue->register(
 			'collapsible',
@@ -521,6 +535,14 @@ class PRC_Block_Library {
 			'prc-block/callout',
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/callout']['js'] )['handle'],
+			)
+		);
+
+		/** Chapter */
+		register_block_type(
+			'prc-block/chapter',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/chapter']['js'] )['handle'],
 			)
 		);
 

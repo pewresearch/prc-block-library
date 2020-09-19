@@ -1,5 +1,5 @@
-import { __, _x } from '@wordpress/i18n';
-import { pullquote as icon } from '@wordpress/icons';
+import { __ } from '@wordpress/i18n';
+import { formatListNumbered as icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -13,9 +13,9 @@ const { name, category, attributes } = metadata;
 const settings = [
     name,
     {
-        title: __('PRC Pullquote'),
+        title: __('PRC Chapter'),
         description: __(
-            'Give special visual emphasis to a quote from your text.',
+            'Build a table of contents for this post using the chapter block.',
         ),
         icon,
         category,
