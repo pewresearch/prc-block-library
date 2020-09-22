@@ -7,7 +7,7 @@ import { pullquote as icon } from '@wordpress/icons';
 import edit from './edit';
 import metadata from './block.json';
 import save from './save';
-import transforms from './transforms';
+// import transforms from './transforms';
 
 const { name, category, attributes, supports } = metadata;
 
@@ -38,7 +38,7 @@ const settings = [
             },
             { name: 'no-marks', label: __('No Marks') },
         ],
-        transforms,
+        // transforms,
         edit,
         save,
     },

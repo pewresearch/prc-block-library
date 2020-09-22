@@ -15,7 +15,7 @@ const transforms = {
                     value: toHTMLString({
                         value: join(
                             attributes.map(({ content }) =>
-                                create({ html: content })),
+                                create({ html: content }),),
                             '\u2028',
                         ),
                         multilineTag: 'p',
@@ -49,7 +49,7 @@ const transforms = {
                         ).map(piece =>
                             createBlock('core/paragraph', {
                                 content: toHTMLString({ value: piece }),
-                            })),
+                            }),),
                     );
                 }
                 if (citation && '<p></p>' !== citation) {
