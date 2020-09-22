@@ -1,17 +1,17 @@
 {
-  "main.js": "pullquote/main-fa33b50e.js",
-  "main.js.map": "pullquote/main-fa33b50e.js.map",
+  "main.js": "pullquote/main-0318851b.js",
+  "main.js.map": "pullquote/main-0318851b.js.map",
   "runtime.js": "pullquote/runtime-281cca81.js",
   "runtime.js.map": "pullquote/runtime-281cca81.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "pullquote/runtime-281cca81.js",
-        "pullquote/main-fa33b50e.js"
+        "pullquote/main-0318851b.js"
       ],
       "js.map": [
         "pullquote/runtime-281cca81.js.map",
-        "pullquote/main-fa33b50e.js.map"
+        "pullquote/main-0318851b.js.map"
       ]
     }
   }

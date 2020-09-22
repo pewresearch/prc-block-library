@@ -783,6 +783,8 @@ class PRC_Block_Library {
 		register_block_pattern( 'prc-block/pattern/homepage', $this->load_block_pattern( 'homepage' ) );
 	}
 
+
+
 	public function register_rest_endpoints() {
 		register_rest_route(
 			'prc-api/v2',
