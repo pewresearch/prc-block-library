@@ -16,6 +16,9 @@ const settings = [
         description: __('An unstyled card that has a front and back'),
         category,
         attributes,
+        supports: {
+            align: ['left', 'right'],
+        },
         edit,
         save,
     },
