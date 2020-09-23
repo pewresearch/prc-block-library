@@ -1,0 +1,6 @@
+{
+	"name": "prc-block/flip-card-front",
+	"category": "layout",
+    "attributes": {},
+    "parent": ["prc-block/flip-card"]
+}

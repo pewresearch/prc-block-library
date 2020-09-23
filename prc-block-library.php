@@ -246,6 +246,32 @@ class PRC_Block_Library {
 			)
 		);
 
+		/** Flip Cards */
+		$this->registered['block']['prc-block/flip-card']    = $enqueue->register(
+			'flip-card',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+		$this->registered['frontend']['prc-block/flip-card'] = $enqueue->register(
+			'flip-card',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
 		/** Follow Us */
 		$this->registered['block']['prc-block/follow-us']    = $enqueue->register(
 			'follow-us',
@@ -570,6 +596,15 @@ class PRC_Block_Library {
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/column']['js'] )['handle'],
 				'editor_style'  => array_pop( $this->registered['block']['prc-block/column']['css'] )['handle'],
+			)
+		);
+
+		/** Flip Card */
+		register_block_type(
+			'prc-block/flip-card',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/flip-card']['js'] )['handle'],
+				'editor_style'  => array_pop( $this->registered['block']['prc-block/flip-card']['css'] )['handle'],
 			)
 		);
 

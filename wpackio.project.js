@@ -84,6 +84,13 @@ module.exports = {
             },
         },
         {
+            name: 'flip-card',
+            entry: {
+                main: './src/flip-card/index.js',
+                frontend: './src/flip-card/frontend.js',
+            },
+        },
+        {
             name: 'follow-us',
             entry: {
                 main: './src/follow-us/index.js',
