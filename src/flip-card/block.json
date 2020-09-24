@@ -1,5 +1,10 @@
 {
 	"name": "prc-block/flip-card",
 	"category": "layout",
-	"attributes": {}
+	"attributes": {
+		"width": {
+			"type": "string",
+			"default": "310px"
+		}
+	}
 }
