@@ -1,11 +1,18 @@
 import { __ } from '@wordpress/i18n';
-import { BlockControls } from '@wordpress/block-editor';
+import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import { flipHorizontal as icon } from '@wordpress/icons';
-import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import {
+    Button,
+    PanelBody,
+    PanelRow,
+    ToolbarButton,
+    ToolbarGroup,
+} from '@wordpress/components';
+import { select } from '@wordpress/data';
 import { Fragment } from '@wordpress/element';
 
 const determine = clientId => {
-    const block = wp.data.select('core/block-editor').getBlock(clientId);
+    const block = select('core/block-editor').getBlock(clientId);
     const { innerBlocks } = block;
     innerBlocks.forEach(b => {
         const blockElm = document.querySelector(
@@ -20,25 +27,25 @@ const determine = clientId => {
     });
 };
 
-const FlipLabel = ({ label = 'Front of Card', clientId }) => {
+const FlipButton = ({ label = 'Front of Card', clientId }) => {
     return (
-        <div
-            className="sans-serif"
-            style={{
-                fontSize: '12px',
-                cursor: 'pointer',
-                display: 'inline-block',
-            }}
-            onClick={() => {
-                const rootClientId = wp.data
-                    .select('core/block-editor')
-                    .getBlockRootClientId(clientId);
-                determine(rootClientId);
-            }}
-            alt="Click to flip"
-        >
-            {__(label)}
-        </div>
+        <InspectorControls>
+            <PanelBody title={__(label)}>
+                <PanelRow>
+                    <Button
+                        isSecondary
+                        onClick={() => {
+                            const rootClientId = select(
+                                'core/block-editor',
+                            ).getBlockRootClientId(clientId);
+                            determine(rootClientId);
+                        }}
+                    >
+                        Flip Card Over
+                    </Button>
+                </PanelRow>
+            </PanelBody>
+        </InspectorControls>
     );
 };
 
@@ -52,17 +59,17 @@ const FlipControls = ({ label, clientId }) => {
                         label={__('Flip Card Over')}
                         f
                         onClick={() => {
-                            const rootClientId = wp.data
-                                .select('core/block-editor')
-                                .getBlockRootClientId(clientId);
+                            const rootClientId = select(
+                                'core/block-editor',
+                            ).getBlockRootClientId(clientId);
                             determine(rootClientId);
                         }}
                     />
                 </ToolbarGroup>
             </BlockControls>
-            <FlipLabel label={label} clientId={clientId} />
+            <FlipButton label={label} clientId={clientId} />
         </Fragment>
     );
 };
 
-export { FlipControls, FlipLabel };
+export { FlipControls, FlipButton };

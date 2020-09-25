@@ -384,6 +384,20 @@ class PRC_Block_Library {
 			}
 		);
 
+		/** Post Publish Date */
+		$this->registered['block']['prc-block/post-publish-date'] = $enqueue->register(
+			'post-publish-date',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
 		/** Pullquote */
 		$this->registered['block']['prc-block/pullquote'] = $enqueue->register(
 			'pullquote',
@@ -655,6 +669,14 @@ class PRC_Block_Library {
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/promo']['js'] )['handle'],
 				'style'         => array_pop( $this->registered['block']['prc-block/promo']['css'] )['handle'],
+			)
+		);
+
+		/** Post Publish Date */
+		register_block_type(
+			'prc-block/post-publish-date',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/post-publish-date']['js'] )['handle'],
 			)
 		);
 

@@ -151,6 +151,12 @@ module.exports = {
             },
         },
         {
+            name: 'post-publish-date',
+            entry: {
+                main: './src/post-publish-date/index.js',
+            },
+        },
+        {
             name: 'promo',
             entry: {
                 main: './src/promo/index.js',

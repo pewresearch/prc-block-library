@@ -1,9 +1,14 @@
 import { InnerBlocks } from '@wordpress/block-editor';
 
 const save = ({ attributes, className }) => {
-    const { width } = attributes;
+    const { width, borderColor, bgColor } = attributes;
     return (
-        <div className={className} style={{ maxWidth: width }}>
+        <div
+            className={className}
+            style={{ maxWidth: width }}
+            data-bg={bgColor}
+            data-border={borderColor}
+        >
             <InnerBlocks.Content />
         </div>
     );

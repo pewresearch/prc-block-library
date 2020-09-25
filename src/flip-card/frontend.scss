@@ -1,10 +1,10 @@
 .wp-block-prc-block-flip-card {
     margin-bottom: 1.5em;
+    width: 100vw;
     .flip-card-front,
     .flip-card-back {
         cursor: pointer;
-        background-color: white;
-        border: 1px solid black;
         padding: 1em;
+        border: 1px solid;
     }
 }

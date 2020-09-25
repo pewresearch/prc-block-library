@@ -1,0 +1,18 @@
+{
+  "main.js": "post-publish-date/main-1867ad13.js",
+  "main.js.map": "post-publish-date/main-1867ad13.js.map",
+  "runtime.js": "post-publish-date/runtime-aca39e12.js",
+  "runtime.js.map": "post-publish-date/runtime-aca39e12.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "post-publish-date/runtime-aca39e12.js",
+        "post-publish-date/main-1867ad13.js"
+      ],
+      "js.map": [
+        "post-publish-date/runtime-aca39e12.js.map",
+        "post-publish-date/main-1867ad13.js.map"
+      ]
+    }
+  }
+}

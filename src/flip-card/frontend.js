@@ -3,7 +3,7 @@ import { RawHTML, render, useState } from '@wordpress/element';
 import ReactCardFlip from 'react-card-flip';
 import './frontend.scss';
 
-const FlipCard = ({ front, back }) => {
+const FlipCard = ({ front, back, borderColor, backgroundColor }) => {
     const [flipped, toggleFlip] = useState(false);
     return (
         <div
@@ -12,11 +12,23 @@ const FlipCard = ({ front, back }) => {
             }}
         >
             <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
-                <div className="flip-card-front">
+                <div
+                    className="flip-card-front"
+                    style={{
+                        backgroundColor,
+                        borderColor,
+                    }}
+                >
                     <RawHTML>{front}</RawHTML>
                 </div>
 
-                <div className="flip-card-back">
+                <div
+                    className="flip-card-back"
+                    style={{
+                        backgroundColor,
+                        borderColor,
+                    }}
+                >
                     <RawHTML>{back}</RawHTML>
                 </div>
             </ReactCardFlip>
@@ -37,6 +49,8 @@ const flipCardInit = () => {
             const props = {
                 front: front.innerHTML,
                 back: back.innerHTML,
+                borderColor: elm.getAttribute('data-border'),
+                backgroundColor: elm.getAttribute('data-bg'),
             };
             render(<FlipCard {...props} />, elm);
         });
