@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/flip-card/edit.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,qCACI,SAAU","file":"flip-card/main-95d21031.css","sourcesContent":["div[data-type=\"prc-block/flip-card\"] {\n    z-index: 2;\n}"],"sourceRoot":""}

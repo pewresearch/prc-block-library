@@ -39,6 +39,7 @@
     "beautiful-react-hooks": "^0.27.1",
     "classnames": "^2.2.6",
     "num-words": "^1.2.0",
+    "react-card-flip": "^1.0.11",
     "react-cool-dimensions": "^1.0.1",
     "react-repeat-component": "^1.0.2",
     "react-responsive-picture": "^3.2.2",

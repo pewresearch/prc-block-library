@@ -7824,6 +7824,11 @@ react-autosize-textarea@^3.0.2:
     line-height "^0.3.1"
     prop-types "^15.5.6"
 
+react-card-flip@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/react-card-flip/-/react-card-flip-1.0.11.tgz#4d1d11637d0d6de8668c8c47550bb522bc8f6049"
+  integrity sha512-JwPJM4L7Fz3g+DN3N4XYfmZkWUPuc/00T6h8UUsAcXaWgGDNOVUd4vBm724I+a4ZlkNwRbCzHS7gbZEzysF/SA==
+
 react-cool-dimensions@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-cool-dimensions/-/react-cool-dimensions-1.0.1.tgz#cd263f50d12d5f44faed2dace814b5517ed8d49e"

@@ -1,21 +1,26 @@
 import domReady from '@wordpress/dom-ready';
-import { RawHTML, render } from '@wordpress/element';
-import { Reveal } from 'semantic-ui-react';
+import { RawHTML, render, useState } from '@wordpress/element';
+import ReactCardFlip from 'react-card-flip';
+import './frontend.scss';
 
 const FlipCard = ({ front, back }) => {
+    const [flipped, toggleFlip] = useState(false);
     return (
-        <Reveal animated="small fade">
-            <Reveal.Content visible>
-                <div style={{ backgroundColor: 'white', cursor: 'pointer' }}>
+        <div
+            onClick={() => {
+                toggleFlip(!flipped);
+            }}
+        >
+            <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
+                <div className="flip-card-front">
                     <RawHTML>{front}</RawHTML>
                 </div>
-            </Reveal.Content>
-            <Reveal.Content hidden>
-                <div style={{ backgroundColor: 'white', cursor: 'pointer' }}>
+
+                <div className="flip-card-back">
                     <RawHTML>{back}</RawHTML>
                 </div>
-            </Reveal.Content>
-        </Reveal>
+            </ReactCardFlip>
+        </div>
     );
 };
 
