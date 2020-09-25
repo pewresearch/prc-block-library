@@ -3,8 +3,16 @@
 	"category": "layout",
 	"attributes": {
 		"width": {
+			"type": "integer",
+			"default": 310
+		},
+		"borderColor": {
 			"type": "string",
-			"default": "310px"
+			"default": "#000"
+		},
+		"bgColor": {
+			"type": "string",
+			"default": "#FFF"
 		}
 	}
 }
