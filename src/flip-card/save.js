@@ -5,7 +5,7 @@ const save = ({ attributes, className }) => {
     return (
         <div
             className={className}
-            style={{ maxWidth: width }}
+            style={{ maxWidth: `${width}px` }}
             data-height={height}
             data-bg={bgColor}
             data-border={borderColor}

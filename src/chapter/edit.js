@@ -8,6 +8,7 @@ import {
     Path,
     SVG,
 } from '@wordpress/components';
+import { cleanForSlug } from '@wordpress/url';
 import { DOWN } from '@wordpress/keycodes';
 import { Fragment } from '@wordpress/element';
 
@@ -111,7 +112,10 @@ const edit = ({ attributes, className, setAttributes }) => {
             <RichText
                 tagName={tagName}
                 value={value}
-                onChange={t => setAttributes({ value: t })}
+                onChange={t => {
+                    const id = cleanForSlug(t);
+                    setAttributes({ value: t, id });
+                }}
                 placeholder={__('Chapter Title Here')}
                 allowedFormats={[]}
                 keepPlaceholderOnFocus
