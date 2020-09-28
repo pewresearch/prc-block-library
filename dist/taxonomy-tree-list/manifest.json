@@ -1,37 +1,37 @@
 {
-  "frontend.js": "taxonomy-tree-list/frontend-ce61bbae.js",
-  "frontend.js.map": "taxonomy-tree-list/frontend-ce61bbae.js.map",
-  "main.css": "taxonomy-tree-list/main-0afe7408.css",
-  "main.css.map": "taxonomy-tree-list/main-0afe7408.css.map",
-  "main.js": "taxonomy-tree-list/main-5274b252.js",
-  "main.js.map": "taxonomy-tree-list/main-5274b252.js.map",
-  "runtime.js": "taxonomy-tree-list/runtime-9aebaf46.js",
-  "runtime.js.map": "taxonomy-tree-list/runtime-9aebaf46.js.map",
+  "frontend.js": "taxonomy-tree-list/frontend-c105bbab.js",
+  "frontend.js.map": "taxonomy-tree-list/frontend-c105bbab.js.map",
+  "main.css": "taxonomy-tree-list/main-163f5fa9.css",
+  "main.css.map": "taxonomy-tree-list/main-163f5fa9.css.map",
+  "main.js": "taxonomy-tree-list/main-54aea3e4.js",
+  "main.js.map": "taxonomy-tree-list/main-54aea3e4.js.map",
+  "runtime.js": "taxonomy-tree-list/runtime-69824158.js",
+  "runtime.js.map": "taxonomy-tree-list/runtime-69824158.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "taxonomy-tree-list/runtime-9aebaf46.js",
-        "taxonomy-tree-list/main-5274b252.js"
+        "taxonomy-tree-list/runtime-69824158.js",
+        "taxonomy-tree-list/main-54aea3e4.js"
       ],
       "js.map": [
-        "taxonomy-tree-list/runtime-9aebaf46.js.map",
-        "taxonomy-tree-list/main-5274b252.js.map"
+        "taxonomy-tree-list/runtime-69824158.js.map",
+        "taxonomy-tree-list/main-54aea3e4.js.map"
       ],
       "css": [
-        "taxonomy-tree-list/main-0afe7408.css"
+        "taxonomy-tree-list/main-163f5fa9.css"
       ],
       "css.map": [
-        "taxonomy-tree-list/main-0afe7408.css.map"
+        "taxonomy-tree-list/main-163f5fa9.css.map"
       ]
     },
     "frontend": {
       "js": [
-        "taxonomy-tree-list/runtime-9aebaf46.js",
-        "taxonomy-tree-list/frontend-ce61bbae.js"
+        "taxonomy-tree-list/runtime-69824158.js",
+        "taxonomy-tree-list/frontend-c105bbab.js"
       ],
       "js.map": [
-        "taxonomy-tree-list/runtime-9aebaf46.js.map",
-        "taxonomy-tree-list/frontend-ce61bbae.js.map"
+        "taxonomy-tree-list/runtime-69824158.js.map",
+        "taxonomy-tree-list/frontend-c105bbab.js.map"
       ]
     }
   }

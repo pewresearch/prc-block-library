@@ -195,6 +195,12 @@ module.exports = {
             },
         },
         {
+            name: 'social-toolbar',
+            entry: {
+                main: './src/social-toolbar/index.js',
+            },
+        },
+        {
             name: 'story-item',
             entry: {
                 main: './src/story-item/index.js',

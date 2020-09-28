@@ -1,0 +1,18 @@
+{
+  "main.js": "social-toolbar/main-9a716cd2.js",
+  "main.js.map": "social-toolbar/main-9a716cd2.js.map",
+  "runtime.js": "social-toolbar/runtime-a1c032e0.js",
+  "runtime.js.map": "social-toolbar/runtime-a1c032e0.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "social-toolbar/runtime-a1c032e0.js",
+        "social-toolbar/main-9a716cd2.js"
+      ],
+      "js.map": [
+        "social-toolbar/runtime-a1c032e0.js.map",
+        "social-toolbar/main-9a716cd2.js.map"
+      ]
+    }
+  }
+}
