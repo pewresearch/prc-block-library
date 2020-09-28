@@ -28,7 +28,7 @@ const borderDefaults = [
 ];
 
 const edit = ({ attributes, className, setAttributes, isSelected }) => {
-    const { width, borderColor, bgColor } = attributes;
+    const { width, height, borderColor, bgColor } = attributes;
     const { toggleSelection } = dispatch('core/block-editor');
     return (
         <Fragment>
@@ -39,6 +39,13 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                             label="Width"
                             value={width}
                             onChange={w => setAttributes({ width: w })}
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <TextControl
+                            label="Height"
+                            value={height}
+                            onChange={h => setAttributes({ height: h })}
                         />
                     </PanelRow>
                     <PanelRow>
@@ -85,13 +92,15 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                 <ResizableBox
                     size={{
                         width,
+                        height,
                     }}
+                    minHeight="200"
                     minWidth="200"
                     maxWidth="640"
                     enable={{
                         top: false,
                         right: isSelected,
-                        bottom: false,
+                        bottom: isSelected,
                         left: false,
                         topRight: false,
                         bottomRight: false,
@@ -101,6 +110,7 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                     onResizeStop={(event, direction, elt, delta) => {
                         setAttributes({
                             width: parseInt(width + delta.width, 10),
+                            height: parseInt(height + delta.height, 10),
                         });
                         toggleSelection(true);
                     }}

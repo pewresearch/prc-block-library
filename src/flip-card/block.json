@@ -6,6 +6,10 @@
 			"type": "integer",
 			"default": 310
 		},
+		"height": {
+			"type": "integer",
+			"default": 310
+		},
 		"borderColor": {
 			"type": "string",
 			"default": "#000"

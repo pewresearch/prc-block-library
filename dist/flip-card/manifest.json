@@ -1,45 +1,45 @@
 {
-  "frontend.css": "flip-card/frontend-dc07410c.css",
-  "frontend.css.map": "flip-card/frontend-dc07410c.css.map",
-  "frontend.js": "flip-card/frontend-b5148ca1.js",
-  "frontend.js.map": "flip-card/frontend-b5148ca1.js.map",
-  "main.css": "flip-card/main-4d0ee64c.css",
-  "main.css.map": "flip-card/main-4d0ee64c.css.map",
-  "main.js": "flip-card/main-b9633b15.js",
-  "main.js.map": "flip-card/main-b9633b15.js.map",
+  "frontend.css": "flip-card/frontend-5b971b51.css",
+  "frontend.css.map": "flip-card/frontend-5b971b51.css.map",
+  "frontend.js": "flip-card/frontend-bd03e86e.js",
+  "frontend.js.map": "flip-card/frontend-bd03e86e.js.map",
+  "main.css": "flip-card/main-1294b216.css",
+  "main.css.map": "flip-card/main-1294b216.css.map",
+  "main.js": "flip-card/main-42461938.js",
+  "main.js.map": "flip-card/main-42461938.js.map",
   "runtime.js": "flip-card/runtime-26dc8c43.js",
   "runtime.js.map": "flip-card/runtime-26dc8c43.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "flip-card/runtime-26dc8c43.js",
-        "flip-card/main-b9633b15.js"
+        "flip-card/main-42461938.js"
       ],
       "js.map": [
         "flip-card/runtime-26dc8c43.js.map",
-        "flip-card/main-b9633b15.js.map"
+        "flip-card/main-42461938.js.map"
       ],
       "css": [
-        "flip-card/main-4d0ee64c.css"
+        "flip-card/main-1294b216.css"
       ],
       "css.map": [
-        "flip-card/main-4d0ee64c.css.map"
+        "flip-card/main-1294b216.css.map"
       ]
     },
     "frontend": {
       "js": [
         "flip-card/runtime-26dc8c43.js",
-        "flip-card/frontend-b5148ca1.js"
+        "flip-card/frontend-bd03e86e.js"
       ],
       "js.map": [
         "flip-card/runtime-26dc8c43.js.map",
-        "flip-card/frontend-b5148ca1.js.map"
+        "flip-card/frontend-bd03e86e.js.map"
       ],
       "css": [
-        "flip-card/frontend-dc07410c.css"
+        "flip-card/frontend-5b971b51.css"
       ],
       "css.map": [
-        "flip-card/frontend-dc07410c.css.map"
+        "flip-card/frontend-5b971b51.css.map"
       ]
     }
   }
