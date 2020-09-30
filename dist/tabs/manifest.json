@@ -1,41 +1,41 @@
 {
-  "frontend.js": "tabs/frontend-a67ef694.js",
-  "frontend.js.map": "tabs/frontend-a67ef694.js.map",
-  "main.css": "tabs/main-174b0735.css",
-  "main.css.map": "tabs/main-174b0735.css.map",
-  "main.js": "tabs/main-ff7d4972.js",
-  "main.js.map": "tabs/main-ff7d4972.js.map",
-  "runtime.js": "tabs/runtime-b67d388c.js",
-  "runtime.js.map": "tabs/runtime-b67d388c.js.map",
-  "vendors~main.js": "tabs/vendors~main-5e14800d.js",
-  "vendors~main.js.map": "tabs/vendors~main-5e14800d.js.map",
+  "frontend.js": "tabs/frontend-427aa110.js",
+  "frontend.js.map": "tabs/frontend-427aa110.js.map",
+  "main.css": "tabs/main-6bdda983.css",
+  "main.css.map": "tabs/main-6bdda983.css.map",
+  "main.js": "tabs/main-634b1392.js",
+  "main.js.map": "tabs/main-634b1392.js.map",
+  "runtime.js": "tabs/runtime-9524aa08.js",
+  "runtime.js.map": "tabs/runtime-9524aa08.js.map",
+  "vendors~main.js": "tabs/vendors~main-76172db3.js",
+  "vendors~main.js.map": "tabs/vendors~main-76172db3.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "tabs/runtime-b67d388c.js",
-        "tabs/vendors~main-5e14800d.js",
-        "tabs/main-ff7d4972.js"
+        "tabs/runtime-9524aa08.js",
+        "tabs/vendors~main-76172db3.js",
+        "tabs/main-634b1392.js"
       ],
       "js.map": [
-        "tabs/runtime-b67d388c.js.map",
-        "tabs/vendors~main-5e14800d.js.map",
-        "tabs/main-ff7d4972.js.map"
+        "tabs/runtime-9524aa08.js.map",
+        "tabs/vendors~main-76172db3.js.map",
+        "tabs/main-634b1392.js.map"
       ],
       "css": [
-        "tabs/main-174b0735.css"
+        "tabs/main-6bdda983.css"
       ],
       "css.map": [
-        "tabs/main-174b0735.css.map"
+        "tabs/main-6bdda983.css.map"
       ]
     },
     "frontend": {
       "js": [
-        "tabs/runtime-b67d388c.js",
-        "tabs/frontend-a67ef694.js"
+        "tabs/runtime-9524aa08.js",
+        "tabs/frontend-427aa110.js"
       ],
       "js.map": [
-        "tabs/runtime-b67d388c.js.map",
-        "tabs/frontend-a67ef694.js.map"
+        "tabs/runtime-9524aa08.js.map",
+        "tabs/frontend-427aa110.js.map"
       ]
     }
   }
