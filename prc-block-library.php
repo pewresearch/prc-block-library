@@ -438,6 +438,20 @@ class PRC_Block_Library {
 			)
 		);
 
+		/** Social - toolbar */
+		$this->registered['block']['prc-block/social-toolbar'] = $enqueue->register(
+			'social-toolbar',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
 		/** Story Item */
 		$this->registered['frontend']['prc-block/story-item'] = $enqueue->register(
 			'story-item',
@@ -542,6 +556,14 @@ class PRC_Block_Library {
 	 * @return void
 	 */
 	public function register_blocks() {
+
+		/** Social-toolbar */
+		register_block_type(
+			'prc-block/social-toolbar',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/social-toolbar']['js'] )['handle'],
+			)
+		);
 
 		/** Story Item */
 		register_block_type(

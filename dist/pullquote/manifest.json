@@ -1,17 +1,17 @@
 {
-  "main.js": "pullquote/main-0318851b.js",
-  "main.js.map": "pullquote/main-0318851b.js.map",
-  "runtime.js": "pullquote/runtime-281cca81.js",
-  "runtime.js.map": "pullquote/runtime-281cca81.js.map",
+  "main.js": "pullquote/main-bba56554.js",
+  "main.js.map": "pullquote/main-bba56554.js.map",
+  "runtime.js": "pullquote/runtime-7e7ebed2.js",
+  "runtime.js.map": "pullquote/runtime-7e7ebed2.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "pullquote/runtime-281cca81.js",
-        "pullquote/main-0318851b.js"
+        "pullquote/runtime-7e7ebed2.js",
+        "pullquote/main-bba56554.js"
       ],
       "js.map": [
-        "pullquote/runtime-281cca81.js.map",
-        "pullquote/main-0318851b.js.map"
+        "pullquote/runtime-7e7ebed2.js.map",
+        "pullquote/main-bba56554.js.map"
       ]
     }
   }

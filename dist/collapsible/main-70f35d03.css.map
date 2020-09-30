@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/collapsible/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,qDACI,0BAA0B","file":"collapsible/main-70f35d03.css","sourcesContent":["div[data-type=\"prc-block/collapsible\"] > .ui.accordion {\n    margin-bottom: 0!important;\n}"],"sourceRoot":""}
