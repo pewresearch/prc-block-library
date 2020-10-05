@@ -56,6 +56,7 @@ class PRC_Block_Library {
 	 * @return array Allowed tags.
 	 */
 	public static function allowed_html_tags( $allowed_tags ) {
+		$allowed_tags['div']['style']  = true;
 		$allowed_tags['img']['srcset'] = true;
 		$allowed_tags['img']['sizes']  = true;
 		$allowed_tags['picture']       = true;
