@@ -10,7 +10,7 @@ const edit = ({ attributes, className, clientId, setAttributes }) => {
             const d = new Date(
                 select('core/editor').getEditedPostAttribute('date'),
             ).toString();
-            return moment(d).format('MMMM Do YYYY');
+            return moment(d).format('MMMM D YYYY');
         },
         [clientId],
     );

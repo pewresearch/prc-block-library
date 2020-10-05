@@ -56,6 +56,7 @@ class PRC_Block_Library {
 	 * @return array Allowed tags.
 	 */
 	public static function allowed_html_tags( $allowed_tags ) {
+		$allowed_tags['div']['style']  = true;
 		$allowed_tags['img']['srcset'] = true;
 		$allowed_tags['img']['sizes']  = true;
 		$allowed_tags['picture']       = true;
@@ -868,6 +869,39 @@ class PRC_Block_Library {
 		register_rest_route(
 			'prc-api/v2',
 			'/blocks/helpers/get-posts',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_block_lib_posts' ),
+				'args'                => array(
+					'format'        => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+					'program'       => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+					'perPage'       => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+					'labelTaxonomy' => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+				),
+				'permission_callback' => function () {
+					return true;
+				},
+			)
+		);
+		register_rest_route(
+			'prc-api/v2',
+			'/fetch-posts',
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_block_lib_posts' ),
