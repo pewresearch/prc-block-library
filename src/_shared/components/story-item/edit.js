@@ -5,7 +5,7 @@ import { Edit as Image } from './image';
 import { Edit as Description } from './description';
 import { Edit as Extra } from './extra';
 import { Edit as Header } from './header';
-import ContextControls from './wpQueryControls';
+import WpQueryPinControls from '../wpQueryPinControl';
 
 import './edit.scss';
 
@@ -102,7 +102,7 @@ const StoryItem = ({
     return (
         <Item as="article" className={classes}>
             {false !== wpQueryContext && (
-                <ContextControls
+                <WpQueryPinControls
                     wpQueryContext={wpQueryContext}
                     rootClientId={rootClientId}
                     postId={postID}

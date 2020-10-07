@@ -21,6 +21,22 @@ const settings = [
         providesContext: {
             'prc-block/wp-query': 'pinned',
         },
+        styles: [
+            // Mark style as default.
+            {
+                name: 'publication-listing',
+                label: __('Publications Listing'),
+                isDefault: true,
+            },
+            {
+                name: 'noimage',
+                label: __('Pub Listing No Image'),
+            },
+            {
+                name: 'list',
+                label: __('List'),
+            },
+        ],
         edit,
         save,
     },

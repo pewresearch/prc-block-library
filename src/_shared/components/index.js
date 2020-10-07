@@ -5,6 +5,7 @@ import {
 } from './story-item';
 import CollapsibleList from './collapsible-list';
 import TaxonomySelectList from './taxonomy-select-list';
+import WpQueryPinControls from './wpQueryPinControl';
 
 export {
     StoryItem,
@@ -12,4 +13,5 @@ export {
     StoryItemStatic,
     CollapsibleList,
     TaxonomySelectList,
+    WpQueryPinControls,
 };

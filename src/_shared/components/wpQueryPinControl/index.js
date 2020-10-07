@@ -2,7 +2,7 @@ import { dispatch } from '@wordpress/data';
 import { Toolbar } from '@wordpress/components';
 import { BlockControls } from '@wordpress/block-editor';
 
-const ContextControls = ({ wpQueryContext, rootClientId, postId }) => {
+const WpQueryPinControls = ({ wpQueryContext, rootClientId, postId }) => {
     console.log('<ContextControls>', wpQueryContext, rootClientId, postId);
     const isActive = wpQueryContext.includes(postId);
     console.log('isActive?', isActive);
@@ -39,4 +39,4 @@ const ContextControls = ({ wpQueryContext, rootClientId, postId }) => {
     );
 };
 
-export default ContextControls;
+export default WpQueryPinControls;

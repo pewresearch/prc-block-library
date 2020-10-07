@@ -6,8 +6,9 @@ import Controls from './controls';
 
 const ALLOWED = ['prc-block/story-item'];
 
-const initStoryBlock = item => {
-    const block = createBlock('prc-block/story-item', {
+const initStoryBlock = (item, style, labelTaxonomy) => {
+    console.log('initStoryItem w style of...', style);
+    const args = {
         title: item.title,
         image: item.image,
         excerpt: item.excerpt,
@@ -22,6 +23,7 @@ const initStoryBlock = item => {
         // Image Position:
         isChartArt: false,
         imageSlot: 'left',
+        imageSize: 'A2',
         horizontal: true,
         stacked: false,
         // Misc Toggles:
@@ -30,13 +32,22 @@ const initStoryBlock = item => {
         enableExtra: false,
         enableProgramsTaxonomy: false,
         headerSize: 'normal',
-    });
+        className: 'is-style-left',
+    };
+    if ('is-style-noimage' === style) {
+        args.imageSlot = 'disabled';
+        args.className = 'is-style-disabled';
+    }
+    if ('programs' === labelTaxonomy) {
+        args.enableProgramsTaxonomy = true;
+    }
+    const block = createBlock('prc-block/story-item', args);
 
     return block;
 };
 
-const edit = ({ attributes, className, setAttributes, clientId }) => {
-    const { pinned, perPage } = attributes;
+const edit = ({ attributes, setAttributes, clientId }) => {
+    const { pinned, perPage, className, labelTaxonomy } = attributes;
     const [posts, setPosts] = useState(false);
     const { replaceInnerBlocks } = useDispatch('core/block-editor');
     const { innerBlocks, hasInnerBlocks } = useSelect(
@@ -52,13 +63,11 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
 
     // Go create story item blocks from posts fetched
     useEffect(() => {
-        // Do fetch stuff and setting of posts
-        console.log('Posts?', posts);
         if (false !== posts) {
             let tmp = [];
-            // TODO: Here we can change what block gets inserted. We could for example say if the postType is not equal to stub then insert a list or whatever. Maybe we create a block just for staff that we can use.
-            posts.forEach(item => tmp.push(initStoryBlock(item)));
-            console.log('replaceInnerBlocks', tmp, innerBlocks);
+            posts.forEach(item => {
+                tmp.push(initStoryBlock(item, className, labelTaxonomy));
+            });
 
             const toKeep = [];
             JSON.parse(pinned).forEach(postId => {
@@ -80,7 +89,6 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
             });
 
             const toInsert = toKeep.concat(tmp);
-            console.log(tmp, toKeep, toInsert);
 
             replaceInnerBlocks(clientId, toInsert);
         }
