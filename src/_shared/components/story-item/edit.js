@@ -5,6 +5,7 @@ import { Edit as Image } from './image';
 import { Edit as Description } from './description';
 import { Edit as Extra } from './extra';
 import { Edit as Header } from './header';
+import ContextControls from './wpQueryControls';
 
 import './edit.scss';
 
@@ -31,7 +32,8 @@ const StoryItem = ({
     className,
     isSelected,
     setAttributes,
-    inLoop = false,
+    wpQueryContext,
+    rootClientId,
 }) => {
     let enableAltHeaderWeight = false;
     if (false === enableExcerpt) {
@@ -99,6 +101,13 @@ const StoryItem = ({
 
     return (
         <Item as="article" className={classes}>
+            {false !== wpQueryContext && (
+                <ContextControls
+                    wpQueryContext={wpQueryContext}
+                    rootClientId={rootClientId}
+                    postId={postID}
+                />
+            )}
             <TopAndLeftSlot />
 
             <Item.Content>

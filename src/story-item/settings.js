@@ -152,6 +152,7 @@ const settings = [
             html: false, // We do not want to give people the ability to edit the raw html of this block.
         },
         attributes,
+        usesContext: ['prc-block/wp-query'],
         transforms,
         edit,
         save,

@@ -534,6 +534,20 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+
+		/** WP Query */
+		$this->registered['block']['prc-block/wp-query'] = $enqueue->register(
+			'wp-query',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 	}
 
 	/**
@@ -733,6 +747,15 @@ class PRC_Block_Library {
 				'style'         => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['css'] )['handle'],
 			)
 		);
+
+		/** WP Query */
+		register_block_type(
+			'prc-block/wp-query',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/wp-query']['js'] )['handle'],
+			)
+		);
+
 	}
 
 	/**
@@ -972,8 +995,8 @@ class PRC_Block_Library {
 
 		$args = array(
 			'post_type'        => 'stub',
-			'post_per_page'    => (int) $per_page,
-			'post_parent'      => 0, // No Children
+			'posts_per_page'   => (int) $per_page,
+			'post_parent'      => 0, // No Children.
 			'meta_key'         => 'hide_on_index',
 			'meta_compare_key' => 'NOT EXISTS',
 			'tax_query'        => array(
@@ -995,12 +1018,12 @@ class PRC_Block_Library {
 			);
 		}
 
-		// The Query
+		// The Query.
 		switch_to_blog( 1 );
 		$the_query = new WP_Query( $args );
 
 		$return = array();
-		// The Loop
+		// The Loop.
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
@@ -1019,7 +1042,6 @@ class PRC_Block_Library {
 				);
 			}
 		}
-
 		/* Restore original Post Data */
 		wp_reset_postdata();
 		restore_current_blog();

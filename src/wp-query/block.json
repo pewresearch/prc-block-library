@@ -1,0 +1,28 @@
+{
+	"name": "prc-block/wp-query",
+	"category": "layout",
+	"attributes": {
+		"formatTermId": {
+			"type": "integer"
+		},
+		"programTermId": {
+			"type": "integer"
+		},
+		"perPage": {
+			"type": "integer",
+			"default": 10
+		},
+		"postType": {
+			"type": "string",
+			"default": "stub"
+		},
+		"pinned": {
+			"type": "string",
+			"default": "[1,2,3]"
+		},
+		"labelTaxonomy": {
+			"type": "string",
+			"default": "formats"
+		}
+	}
+}

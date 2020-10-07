@@ -227,6 +227,12 @@ module.exports = {
                 frontend: './src/taxonomy-tree-list/frontend.js',
             },
         },
+        {
+            name: 'wp-query',
+            entry: {
+                main: './src/wp-query/index.js',
+            },
+        },
         // If has more length, then multi-compiler
     ],
     // Output path relative to the context directory

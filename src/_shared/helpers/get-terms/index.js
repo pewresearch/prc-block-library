@@ -1,14 +1,13 @@
 // @TODO: convert froomo wp api to apifetch https://www.npmjs.com/package/@wordpress/api-fetch
 import apiFetch from '@wordpress/api-fetch';
 
-const getTerms = (taxonomy, perPage, letter) => {
-    if (undefined === perPage) {
-        perPage = 25;
-    }
+const { wp } = window;
+
+const getTerms = (taxonomy, perPage = 25, letter) => {
     const collection = new wp.api.collections[taxonomy]();
+
     if (undefined !== letter) {
         return new Promise(resolve => {
-            const data = {};
             apiFetch({
                 path: `/prc-api/v2/blocks/helpers/get-taxonomy-by-letter/?taxonomy=topic&letter=${letter}`,
             }).then(terms => {
@@ -16,6 +15,7 @@ const getTerms = (taxonomy, perPage, letter) => {
             });
         });
     }
+
     if (undefined !== collection) {
         return new Promise(resolve => {
             const data = {};
@@ -39,6 +39,7 @@ const getTerms = (taxonomy, perPage, letter) => {
                 });
         });
     }
+
     return false;
 };
 

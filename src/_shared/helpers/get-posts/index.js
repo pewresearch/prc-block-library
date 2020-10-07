@@ -6,7 +6,6 @@ const getPosts = (
     format,
     program,
     labelTaxonomy,
-    imageSize = 'A2',
     relativeDate = false,
 ) => {
     const formatDate = dateString => {
@@ -28,6 +27,7 @@ const getPosts = (
             .then(res => res.json())
             .then(
                 result => {
+                    console.log(result);
                     for (let index = 0; index < perPage; index++) {
                         data.push({
                             id: result[index].id,

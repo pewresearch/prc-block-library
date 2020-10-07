@@ -15,6 +15,7 @@ const allowedBlocks = [
     'core/list',
     'core/image',
     'prc-block/story-item',
+    'prc-block/wp-query',
 ];
 
 const Card = props => {
