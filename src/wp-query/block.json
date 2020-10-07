@@ -18,7 +18,7 @@
 		},
 		"pinned": {
 			"type": "string",
-			"default": "[1,2,3]"
+			"default": "[]"
 		},
 		"labelTaxonomy": {
 			"type": "string",

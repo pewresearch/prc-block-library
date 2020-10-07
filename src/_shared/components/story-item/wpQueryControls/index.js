@@ -11,7 +11,7 @@ const ContextControls = ({ wpQueryContext, rootClientId, postId }) => {
             <Toolbar
                 controls={[
                     {
-                        icon: isActive ? 'star-filled' : 'star-empty',
+                        icon: 'sticky',
                         title: 'Pin This',
                         isActive,
                         onClick: () => {

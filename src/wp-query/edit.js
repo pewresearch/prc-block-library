@@ -36,14 +36,15 @@ const initStoryBlock = item => {
 };
 
 const edit = ({ attributes, className, setAttributes, clientId }) => {
-    // const [loaded, toggleLoaded] = useState(false);
+    const { pinned, perPage } = attributes;
     const [posts, setPosts] = useState(false);
     const { replaceInnerBlocks } = useDispatch('core/block-editor');
-    const { hasInnerBlocks } = useSelect(
+    const { innerBlocks, hasInnerBlocks } = useSelect(
         select => {
+            const blocks = select('core/block-editor').getBlocks(clientId);
             return {
-                hasInnerBlocks:
-                    0 < select('core/block-editor').getBlocks(clientId).length,
+                innerBlocks: blocks,
+                hasInnerBlocks: 0 < blocks.length,
             };
         },
         [clientId],
@@ -54,11 +55,34 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
         // Do fetch stuff and setting of posts
         console.log('Posts?', posts);
         if (false !== posts) {
-            const tmp = [];
+            let tmp = [];
             // TODO: Here we can change what block gets inserted. We could for example say if the postType is not equal to stub then insert a list or whatever. Maybe we create a block just for staff that we can use.
             posts.forEach(item => tmp.push(initStoryBlock(item)));
-            // We should also... get "stickyPosts" from attributes, thats an array that will contain post ids. We can go through existing innerblocks and if there is a post with an id that matches grab it into another array and well combine the posts and that together putting the stickyPosts on top and decreasing the posts returned by that amount so it doesnt exceed PerPage. THEN we can do replaceInnerBlocks.
-            replaceInnerBlocks(clientId, tmp);
+            console.log('replaceInnerBlocks', tmp, innerBlocks);
+
+            const toKeep = [];
+            JSON.parse(pinned).forEach(postId => {
+                const toPush = innerBlocks.filter(e => {
+                    const toCheck = tmp.filter(
+                        f => f.attributes.postID === postId,
+                    );
+                    return (
+                        e.attributes.postID === postId && 0 >= toCheck.length
+                    );
+                });
+                toPush.forEach(b => toKeep.push(b));
+            });
+
+            const allowedPerPage = perPage - toKeep.length;
+
+            tmp = tmp.filter((e, index) => {
+                return index <= allowedPerPage - 1;
+            });
+
+            const toInsert = toKeep.concat(tmp);
+            console.log(tmp, toKeep, toInsert);
+
+            replaceInnerBlocks(clientId, toInsert);
         }
     }, [posts]);
 
