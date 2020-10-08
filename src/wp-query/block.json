@@ -2,6 +2,10 @@
 	"name": "prc-block/wp-query",
 	"category": "layout",
 	"attributes": {
+		"expertsOnly": {
+			"type": "boolean",
+			"default": false
+		},
 		"formatTermId": {
 			"type": "integer"
 		},
@@ -23,6 +27,10 @@
 		"labelTaxonomy": {
 			"type": "string",
 			"default": "formats"
+		},
+		"disableImage": {
+			"type": "boolean",
+			"default": false
 		}
 	}
 }

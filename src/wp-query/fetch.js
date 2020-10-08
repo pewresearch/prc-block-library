@@ -2,47 +2,50 @@ import * as moment from 'moment';
 import apiFetch from '@wordpress/api-fetch';
 
 const fetchPosts = (
+    postType,
     perPage,
-    format,
-    program,
+    formatTermId,
+    programTermId,
     labelTaxonomy,
-    relativeDate = false,
+    expertsOnly,
 ) => {
     const formatDate = dateString => {
         const defaultFormat = 'MMM D, YYYY';
-        const todaysDate = moment().format(defaultFormat);
-        let date = moment(dateString).format(defaultFormat);
-        if (true === relativeDate && todaysDate === date) {
-            date = moment(dateString).fromNow();
-            // date = 'Today at ' + moment.unix(dateString).format('HH:mm');
-        }
+        const date = moment(dateString).format(defaultFormat);
         return date;
     };
 
     return new Promise(resolve => {
         const data = [];
+        let path = `/prc-api/v2/fetch-posts/?postType=${postType}&perPage=${perPage}&formatTermId=${formatTermId}&programTermId=${programTermId}&labelTaxonomy=${labelTaxonomy}`;
+        if ('staff' === postType) {
+            path = `/prc-api/v2/fetch-posts/?postType=${postType}&perPage=${perPage}&programTermId=${programTermId}&expertsOnly=${expertsOnly}`;
+        }
+        console.log(
+            'fetchPosts?',
+            postType,
+            perPage,
+            formatTermId,
+            programTermId,
+            labelTaxonomy,
+            expertsOnly,
+        );
         apiFetch({
-            path: `/prc-api/v2/fetch-posts/?perPage=${perPage}&format=${format}&program=${program}&labelTaxonomy=${labelTaxonomy}`,
+            path,
         }).then(results => {
-            console.log(
-                'fetchPosts?',
-                perPage,
-                format,
-                program,
-                labelTaxonomy,
-                relativeDate,
-            );
+            console.log(results);
             // eslint-disable-next-line no-plusplus
             results.forEach(result => {
-                data.push({
+                const d = {
                     id: result.id,
                     title: result.title,
                     excerpt: result.excerpt,
-                    date: formatDate(result.timestamp, relativeDate),
+                    date: formatDate(result.timestamp),
                     link: result.link,
                     label: result.label,
                     image: result.image,
-                });
+                };
+                data.push(d);
             });
             resolve(data);
         });

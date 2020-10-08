@@ -1,23 +1,23 @@
 {
   "main.css": "wp-query/main-bc0a4402.css",
   "main.css.map": "wp-query/main-bc0a4402.css.map",
-  "main.js": "wp-query/main-63c8d5d0.js",
-  "main.js.map": "wp-query/main-63c8d5d0.js.map",
+  "main.js": "wp-query/main-4b6b62b5.js",
+  "main.js.map": "wp-query/main-4b6b62b5.js.map",
   "runtime.js": "wp-query/runtime-5be61ab2.js",
   "runtime.js.map": "wp-query/runtime-5be61ab2.js.map",
-  "vendors~main.js": "wp-query/vendors~main-0be75a72.js",
-  "vendors~main.js.map": "wp-query/vendors~main-0be75a72.js.map",
+  "vendors~main.js": "wp-query/vendors~main-df1ed443.js",
+  "vendors~main.js.map": "wp-query/vendors~main-df1ed443.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "wp-query/runtime-5be61ab2.js",
-        "wp-query/vendors~main-0be75a72.js",
-        "wp-query/main-63c8d5d0.js"
+        "wp-query/vendors~main-df1ed443.js",
+        "wp-query/main-4b6b62b5.js"
       ],
       "js.map": [
         "wp-query/runtime-5be61ab2.js.map",
-        "wp-query/vendors~main-0be75a72.js.map",
-        "wp-query/main-63c8d5d0.js.map"
+        "wp-query/vendors~main-df1ed443.js.map",
+        "wp-query/main-4b6b62b5.js.map"
       ],
       "css": [
         "wp-query/main-bc0a4402.css"

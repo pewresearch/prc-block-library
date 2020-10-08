@@ -201,6 +201,12 @@ module.exports = {
             },
         },
         {
+            name: 'staff',
+            entry: {
+                main: './src/staff/index.js',
+            },
+        },
+        {
             name: 'story-item',
             entry: {
                 main: './src/story-item/index.js',

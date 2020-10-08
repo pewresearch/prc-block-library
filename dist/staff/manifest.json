@@ -1,0 +1,26 @@
+{
+  "main.css": "staff/main-c99205e1.css",
+  "main.css.map": "staff/main-c99205e1.css.map",
+  "main.js": "staff/main-dd579aac.js",
+  "main.js.map": "staff/main-dd579aac.js.map",
+  "runtime.js": "staff/runtime-99a003fd.js",
+  "runtime.js.map": "staff/runtime-99a003fd.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "staff/runtime-99a003fd.js",
+        "staff/main-dd579aac.js"
+      ],
+      "js.map": [
+        "staff/runtime-99a003fd.js.map",
+        "staff/main-dd579aac.js.map"
+      ],
+      "css": [
+        "staff/main-c99205e1.css"
+      ],
+      "css.map": [
+        "staff/main-c99205e1.css.map"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+	"name": "prc-block/staff",
+	"category": "layout",
+	"attributes": {
+		"name": {
+			"type": "string"
+        },
+        "jobTitle": {
+			"type": "string"
+        },
+        "image": {
+			"type": "string"
+        },
+        "link": {
+			"type": "string"
+        }
+	}
+}

@@ -6,8 +6,7 @@ import Controls from './controls';
 
 const ALLOWED = ['prc-block/story-item'];
 
-const initStoryBlock = (item, style, labelTaxonomy) => {
-    console.log('initStoryItem w style of...', style);
+const initStoryBlock = (item, disableImage, labelTaxonomy) => {
     const args = {
         title: item.title,
         image: item.image,
@@ -23,7 +22,7 @@ const initStoryBlock = (item, style, labelTaxonomy) => {
         // Image Position:
         isChartArt: false,
         imageSlot: 'left',
-        imageSize: 'A2',
+        imageSize: 'A3',
         horizontal: true,
         stacked: false,
         // Misc Toggles:
@@ -34,22 +33,40 @@ const initStoryBlock = (item, style, labelTaxonomy) => {
         headerSize: 'normal',
         className: 'is-style-left',
     };
-    if ('is-style-noimage' === style) {
+    if (true === disableImage) {
         args.imageSlot = 'disabled';
         args.className = 'is-style-disabled';
+        args.enableExcerpt = false;
     }
     if ('programs' === labelTaxonomy) {
         args.enableProgramsTaxonomy = true;
     }
-    const block = createBlock('prc-block/story-item', args);
-
-    return block;
+    return createBlock('prc-block/story-item', args);
 };
 
-const edit = ({ attributes, setAttributes, clientId }) => {
-    const { pinned, perPage, className, labelTaxonomy } = attributes;
+const initStaffBlock = item => {
+    const args = {
+        name: item.title,
+        jobTitle: item.label,
+        image: item.image,
+        link: item.link,
+    };
+    return createBlock('prc-block/staff', args);
+};
+
+const edit = ({ attributes, setAttributes, className, clientId }) => {
+    const {
+        pinned,
+        postType,
+        perPage,
+        labelTaxonomy,
+        disableImage,
+    } = attributes;
+
     const [posts, setPosts] = useState(false);
+
     const { replaceInnerBlocks } = useDispatch('core/block-editor');
+
     const { innerBlocks, hasInnerBlocks } = useSelect(
         select => {
             const blocks = select('core/block-editor').getBlocks(clientId);
@@ -66,7 +83,12 @@ const edit = ({ attributes, setAttributes, clientId }) => {
         if (false !== posts) {
             let tmp = [];
             posts.forEach(item => {
-                tmp.push(initStoryBlock(item, className, labelTaxonomy));
+                if ('stub' === postType) {
+                    tmp.push(initStoryBlock(item, disableImage, labelTaxonomy));
+                }
+                if ('staff' === postType) {
+                    tmp.push(initStaffBlock(item));
+                }
             });
 
             const toKeep = [];

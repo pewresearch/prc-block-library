@@ -3,18 +3,10 @@ import apiFetch from '@wordpress/api-fetch';
 
 const { wp } = window;
 
-const getTerms = (taxonomy, perPage = 25, letter) => {
-    const collection = new wp.api.collections[taxonomy]();
-
-    if (undefined !== letter) {
-        return new Promise(resolve => {
-            apiFetch({
-                path: `/prc-api/v2/blocks/helpers/get-taxonomy-by-letter/?taxonomy=topic&letter=${letter}`,
-            }).then(terms => {
-                resolve(terms);
-            });
-        });
-    }
+const getTerms = (taxonomy, perPage = 25) => {
+    const taxSlug = taxonomy;
+    // strip dashes out of ataxonomy
+    const collection = new wp.api.collections[taxSlug]();
 
     if (undefined !== collection) {
         return new Promise(resolve => {
@@ -26,7 +18,7 @@ const getTerms = (taxonomy, perPage = 25, letter) => {
                 .then(terms => {
                     for (let index = 0; index < terms.length; index++) {
                         const slug = terms[index].slug.replace(
-                            `${taxonomy.toLowerCase()}_`,
+                            `${taxSlug.toLowerCase()}_`,
                             '',
                         );
                         data[terms[index].id] = {
@@ -39,6 +31,18 @@ const getTerms = (taxonomy, perPage = 25, letter) => {
                 });
         });
     }
+
+    return false;
+};
+
+const getTermsByLetter = (taxonomy, letter) => {
+    return new Promise(resolve => {
+        apiFetch({
+            path: `/prc-api/v2/blocks/helpers/get-taxonomy-by-letter/?taxonomy=${taxonomy}&letter=${letter}`,
+        }).then(terms => {
+            resolve(terms);
+        });
+    });
 
     return false;
 };
@@ -64,4 +68,4 @@ const getTermsAsOptions = (taxonomy, perPage) => {
 };
 
 export default getTerms;
-export { getTerms, getTermsAsOptions };
+export { getTerms, getTermsByLetter, getTermsAsOptions };

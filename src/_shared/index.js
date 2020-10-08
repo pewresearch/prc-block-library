@@ -1,6 +1,7 @@
 import {
     getPosts,
     getTerms,
+    getTermsByLetter,
     getTermsAsOptions,
     getColorName,
     ifMatchSetAttribute,
@@ -17,6 +18,7 @@ import {
 export {
     getPosts,
     getTerms,
+    getTermsByLetter,
     getTermsAsOptions,
     getColorName,
     ifMatchSetAttribute,

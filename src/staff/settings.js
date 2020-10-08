@@ -6,23 +6,27 @@ import { __ } from '@wordpress/i18n';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
+import transforms from './transforms';
 
 const { name, category, attributes } = metadata;
 
 const settings = [
     name,
     {
-        title: __('PRC WP Query'),
+        title: __('PRC Staffer'),
         description: __(
-            'The WP Query block provides a handful of arguments depending on post type that will return the intendend block. You can pin results so that subsequent updates add to rather than replace.',
+            'Paste a staff link and return a staff member with their photo, name, and job title.',
         ),
         category,
         attributes,
-        providesContext: {
-            'prc-block/wp-query': 'pinned',
+        supports: {
+            // Hide this block from the inserter.
+            // This block can only be inserted by pasting in a staffer url.
+            inserter: false,
         },
         edit,
         save,
+        transforms,
     },
 ];
 

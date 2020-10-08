@@ -5,6 +5,7 @@ import { useSelect } from '@wordpress/data';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
     Button,
+    HorizontalRule,
     PanelBody,
     Placeholder,
     TextControl,
@@ -23,11 +24,13 @@ const Fields = ({
     disabled = false,
 }) => {
     const {
+        expertsOnly,
         formatTermId,
         programTermId,
         perPage,
         postType,
         labelTaxonomy,
+        disableImage,
     } = attributes;
 
     const [formatOptions, setFormatOptions] = useState([]);
@@ -77,6 +80,26 @@ const Fields = ({
                 }}
                 disabled={disabled}
             />
+            <HorizontalRule />
+            {'staff' === postType && (
+                <ToggleControl
+                    label="Limit to experts"
+                    checked={expertsOnly}
+                    onChange={() =>
+                        setAttributes({ expertsOnly: !expertsOnly })
+                    }
+                />
+            )}
+            {'stub' === postType && (
+                <ToggleControl
+                    label="Disable Image"
+                    checked={disableImage}
+                    onChange={() =>
+                        setAttributes({ disableImage: !disableImage })
+                    }
+                />
+            )}
+            <HorizontalRule />
             {'stub' === postType && (
                 <div
                     style={
@@ -201,6 +224,7 @@ const Fields = ({
                 value={perPage}
                 onChange={num => setAttributes({ perPage: parseInt(num) })}
                 disabled={disabled}
+                autoComplete="off"
             />
         </Fragment>
     );
@@ -221,17 +245,20 @@ const Controls = ({ attributes, setAttributes, setPosts, clientId }) => {
     const clickHandler = () => {
         toggleBusy(true);
         const {
+            postType,
             formatTermId,
             programTermId,
             perPage,
             labelTaxonomy,
+            expertsOnly,
         } = attributes;
         fetchPosts(
+            postType,
             perPage,
             formatTermId,
             programTermId,
             labelTaxonomy,
-            true,
+            expertsOnly,
         ).then(data => {
             setTimeout(() => {
                 toggleBusy(false);

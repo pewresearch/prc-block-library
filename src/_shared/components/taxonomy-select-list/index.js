@@ -1,4 +1,4 @@
-import { getTerms } from 'shared';
+import { getTermsByLetter } from 'shared';
 import { decodeEntities } from '@wordpress/html-entities';
 import { CheckboxControl } from '@wordpress/components';
 import { withState } from '@wordpress/compose';
@@ -58,7 +58,7 @@ const TaxonomySelectList = withState({
         };
 
         const loadTerms = () => {
-            getTerms(taxonomy, 100, letter).then(terms => {
+            getTermsByLetter(taxonomy, 100, letter).then(terms => {
                 setState({ termsData: terms });
                 stateInit(terms);
             });

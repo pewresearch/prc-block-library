@@ -10,15 +10,12 @@ const transforms = {
             type: 'raw',
             isMatch: node =>
                 'P' === node.nodeName &&
-                /^https?:\/\/(www\.)?pewresearch\.(org|local)\/*.[^staff].*/i.test(
+                /^https?:\/\/(www\.)?pewresearch\.(org|local)\/staff\/.+/i.test(
                     node.textContent,
                 ),
             transform: node => {
-                return createBlock('prc-block/story-item', {
+                return createBlock('prc-block/staff', {
                     link: node.textContent.trim(),
-                    className: 'is-style-default',
-                    imageSize: 'A1',
-                    imageSlot: 'default',
                 });
             },
         },
@@ -26,13 +23,10 @@ const transforms = {
     to: [
         {
             type: 'block',
-            blocks: ['prc-block/story-item'],
+            blocks: ['prc-block/staff'],
             transform: ({ url }) => {
-                return createBlock('prc-block/story-item', {
+                return createBlock('prc-block/staff', {
                     link: url,
-                    className: 'is-style-default',
-                    imageSize: 'A1',
-                    imageSlot: 'default',
                 });
             },
         },
