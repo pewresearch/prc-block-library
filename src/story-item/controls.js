@@ -51,6 +51,7 @@ const setPostByURL = (url, setAttributes) => {
             url,
         )}`,
     }).then(post => {
+        console.log('setPostbyURL', post);
         if (false !== post) {
             const storyItem = {
                 title: post.title,

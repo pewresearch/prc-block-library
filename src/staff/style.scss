@@ -1,0 +1,33 @@
+
+$itemSpacing: 0em 0em 1rem 0em;
+$dividedBorder: 1px solid rgba(34, 36, 38, 0.15);
+$imageWidth: 86px;
+
+.wp-block-prc-block-staff {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    color: black!important;
+    text-decoration: none!important;
+    margin-bottom: 0;
+    padding: $itemSpacing;
+    &:not(:last-of-type) {
+        margin: $itemSpacing;
+        border-bottom: $dividedBorder;
+    }
+    &:hover {
+        color: rgba(0,0,0,0.7);
+        h3 {
+            text-decoration: underline;
+        }
+    }
+    & > div.profile-image {
+        width: $imageWidth;
+        padding-right: 1em;
+    }
+}
+
+div[data-type="prc-block/staff"]:not(:last-of-type) > .wp-block-prc-block-staff {
+    margin: $itemSpacing;
+    border-bottom: $dividedBorder;
+}

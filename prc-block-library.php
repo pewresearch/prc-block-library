@@ -923,6 +923,7 @@ class PRC_Block_Library {
 				},
 			)
 		);
+
 		register_rest_route(
 			'prc-api/v2',
 			'/fetch-posts',
@@ -968,6 +969,7 @@ class PRC_Block_Library {
 				},
 			)
 		);
+
 		register_rest_route(
 			'prc-api/v2',
 			'/blocks/helpers/get-post-by-url',
@@ -991,6 +993,26 @@ class PRC_Block_Library {
 				},
 			)
 		);
+
+		register_rest_route(
+			'prc-api/v2',
+			'/blocks/helpers/get-staff-by-url',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_staff_post_by_post_url_restfully' ),
+				'args'                => array(
+					'url' => array(
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
+				),
+				'permission_callback' => function () {
+					return true;
+				},
+			)
+		);
+
 		register_rest_route(
 			'prc-api/v2',
 			'/blocks/helpers/get-taxonomy-by-letter',
@@ -1040,14 +1062,6 @@ class PRC_Block_Library {
 			),
 		);
 
-		// Currently we only allow querying by one term in each of these taxonomies.
-		if ( is_numeric( $fomat_term_id ) ) {
-			$args['tax_query'][] = array(
-				'taxonomy' => 'formats',
-				'terms'    => $fomat_term_id,
-				'field'    => 'term_id',
-			);
-		}
 		if ( is_numeric( $program_term_id ) ) {
 			$args['tax_query'][] = array(
 				'taxonomy' => 'programs',
@@ -1055,6 +1069,21 @@ class PRC_Block_Library {
 				'field'    => 'term_id',
 			);
 		}
+
+		// Stub Specific:
+		if ( is_numeric( $fomat_term_id ) ) {
+			$args['tax_query'][] = array(
+				'taxonomy' => 'formats',
+				'terms'    => $fomat_term_id,
+				'field'    => 'term_id',
+			);
+		}
+		if ( 'stub' === $post_type ) {
+			$args['meta_key']         = 'hide_on_index';
+			$args['meta_compare_key'] = 'NOT EXISTS';
+		}
+
+		// Staff Specific:
 		if ( 'true' === $limit_to_experts ) {
 			$args['tax_query'][] = array(
 				'taxonomy' => 'areas-of-expertise',
@@ -1070,10 +1099,6 @@ class PRC_Block_Library {
 				'field'    => 'slug',
 				'operator' => 'NOT IN',
 			);
-		}
-		if ( 'stub' === $post_type ) {
-			$args['meta_key']         = 'hide_on_index';
-			$args['meta_compare_key'] = 'NOT EXISTS';
 		}
 
 		$return = array();
@@ -1102,9 +1127,6 @@ class PRC_Block_Library {
 
 					$post_data['label'] = $term->name;
 					$post_data['link']  = get_post_meta( get_the_ID(), '_redirect', true );
-				} elseif ( 'staff' === $post_type ) {
-					$post_data['label'] = get_post_meta( get_the_ID(), 'job_title', true );
-					$post_data['image'] = get_the_post_thumbnail_url( get_the_ID(), 'medium' );
 				}
 
 				$return[] = $post_data;
@@ -1221,6 +1243,36 @@ class PRC_Block_Library {
 		$url     = $request->get_param( 'url' );
 		$site_id = $request->get_param( 'siteID' );
 		return $this->get_stub_post_by_post_url( $url, $site_id );
+	}
+
+	public function get_staff_post_by_post_url_restfully( \WP_REST_Request $request ) {
+		$url = $request->get_param( 'url' );
+
+		switch_to_blog( 1 );
+
+		$term_slug = basename( $url );
+		$term      = get_term_by( 'slug', $term_slug, 'bylines' );
+
+		$post_id = get_term_meta( $term->term_id, 'staff_post_id', true );
+		if ( 0 === $post_id ) {
+			restore_current_blog();
+			return new WP_Error( '500', 'Could not find staff/byline term for url given: ' . $url );
+		}
+
+		$staff_post = get_post( $post_id );
+
+		restore_current_blog();
+
+		if ( false === $staff_post ) {
+			return new WP_Error( '500', 'No staff post found for url given: ' . $url );
+		}
+
+		return array(
+			'id'    => $staff_post->ID,
+			'title' => $staff_post->post_title,
+			'label' => get_post_meta( $staff_post->ID, 'job_title', true ),
+			'image' => get_the_post_thumbnail_url( $staff_post->ID, 'large' ),
+		);
 	}
 
 	private function get_fact_tank_post_by_slug( $slug ) {

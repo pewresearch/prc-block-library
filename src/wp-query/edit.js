@@ -45,10 +45,8 @@ const initStoryBlock = (item, disableImage, labelTaxonomy) => {
 };
 
 const initStaffBlock = item => {
+    // We only need to set the link, the block itself will go and fetch all the information we need.
     const args = {
-        name: item.title,
-        jobTitle: item.label,
-        image: item.image,
         link: item.link,
     };
     return createBlock('prc-block/staff', args);

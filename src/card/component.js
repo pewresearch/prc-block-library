@@ -14,6 +14,7 @@ const allowedBlocks = [
     'core/heading',
     'core/list',
     'core/image',
+    'prc-block/staff',
     'prc-block/story-item',
     'prc-block/wp-query',
 ];

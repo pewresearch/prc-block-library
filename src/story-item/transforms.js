@@ -10,7 +10,7 @@ const transforms = {
             type: 'raw',
             isMatch: node =>
                 'P' === node.nodeName &&
-                /^https?:\/\/(www\.)?pewresearch\.(org|local)\/*.[^staff].*/i.test(
+                /^https?:\/\/(www\.)?pewresearch\.(org|local)\/((?!staff).)*$/i.test(
                     node.textContent,
                 ),
             transform: node => {
