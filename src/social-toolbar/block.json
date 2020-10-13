@@ -1,0 +1,14 @@
+{
+	"name": "prc-block/social-toolbar",
+	"category": "text",
+	"attributes": {
+		"socialIcons": {
+			"type": "array",
+			"selector": "social-icon",
+			"default" : []
+		},
+		"socialIcon": {
+			"type": "string"
+		}
+	}
+}
