@@ -35,7 +35,7 @@ const StoryItem = ({
     className,
     isSelected,
     setAttributes,
-    wpQueryContext,
+    wpQueryContext = false,
     rootClientId,
 }) => {
     const controlProps = {
