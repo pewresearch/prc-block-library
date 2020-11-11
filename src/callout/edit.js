@@ -9,10 +9,12 @@ const ALLOWED_BLOCKS = [
     'prc-block/button',
 ];
 
+const TEMPLATE = [['core/heading', {content: 'Heading Here', level: 4}]];
+
 const edit = ({ className }) => {
     return (
         <Segment inverted className={`${className} beige`}>
-            <InnerBlocks allowedBlocks={ALLOWED_BLOCKS} />
+            <InnerBlocks allowedBlocks={ALLOWED_BLOCKS} template={TEMPLATE}/>
         </Segment>
     );
 };
