@@ -1,0 +1,18 @@
+{
+  "main.js": "subtitle/main-6c13b270.js",
+  "main.js.map": "subtitle/main-6c13b270.js.map",
+  "runtime.js": "subtitle/runtime-89f4ee4d.js",
+  "runtime.js.map": "subtitle/runtime-89f4ee4d.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "subtitle/runtime-89f4ee4d.js",
+        "subtitle/main-6c13b270.js"
+      ],
+      "js.map": [
+        "subtitle/runtime-89f4ee4d.js.map",
+        "subtitle/main-6c13b270.js.map"
+      ]
+    }
+  }
+}
