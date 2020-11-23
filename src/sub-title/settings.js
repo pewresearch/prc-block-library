@@ -24,6 +24,9 @@ const settings = [
                 value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
             },
         },
+        supports: {
+            multiple: false
+        },
         edit,
         save: () => null,
     },
