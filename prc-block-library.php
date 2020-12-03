@@ -776,10 +776,13 @@ class PRC_Block_Library {
 			'post',
 			'sub_headline',
 			array(
-				'show_in_rest' => true,
-				'single'       => true,
-				'type'         => 'string',
-				'description'  => 'A sub title for posts.',
+				'show_in_rest'  => true,
+				'single'        => true,
+				'type'          => 'string',
+				'description'   => 'A sub title for posts.',
+				'auth_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
 			)
 		);
 		register_block_type(
