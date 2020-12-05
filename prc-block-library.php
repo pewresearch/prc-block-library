@@ -439,7 +439,6 @@ class PRC_Block_Library {
 			)
 		);
 
-
 		/** Staff */
 		$this->registered['block']['prc-block/staff'] = $enqueue->register(
 			'staff',
@@ -498,6 +497,20 @@ class PRC_Block_Library {
 			function() {
 				return array_pop( $this->registered['frontend']['prc-block/story-item']['js'] )['handle'];
 			}
+		);
+
+		/** Sub Title */
+		$this->registered['block']['prc-block/subtitle'] = $enqueue->register(
+			'subtitle',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
 		);
 
 		/** Tabs */
@@ -755,6 +768,27 @@ class PRC_Block_Library {
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/staff']['js'] )['handle'],
 				'style'         => array_pop( $this->registered['block']['prc-block/staff']['css'] )['handle'],
+			)
+		);
+
+		/** Sub Title */
+		register_post_meta(
+			'post',
+			'sub_headline',
+			array(
+				'show_in_rest'  => true,
+				'single'        => true,
+				'type'          => 'string',
+				'description'   => 'A sub title for posts.',
+				'auth_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+		register_block_type(
+			'prc-block/subtitle',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/subtitle']['js'] )['handle'],
 			)
 		);
 

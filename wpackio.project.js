@@ -221,6 +221,12 @@ module.exports = {
             },
         },
         {
+            name: 'subtitle',
+            entry: {
+                main: './src/sub-title/index.js',
+            },
+        },
+        {
             name: 'tabs',
             entry: {
                 main: './src/tabs/index.js',

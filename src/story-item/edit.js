@@ -1,8 +1,8 @@
 import { Fragment } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { StoryItemEdit, ifMatchSetAttribute } from 'shared';
-import Controls from './controls';
+import { StoryItemForm, ifMatchSetAttribute } from 'shared';
 
+// Sets the image slot based on the style classname selected.
 const setImageSlotByClassName = (className, setAttributes) => {
     ifMatchSetAttribute(
         'is-style-top',
@@ -67,8 +67,8 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     const props = attributes;
     props.isSelected = isSelected;
     props.setAttributes = setAttributes;
-    props.wpQueryContext = false;
     props.rootClientId = rootClientId;
+    props.wpQueryContext = false;
     if (context.hasOwnProperty('prc-block/wp-query')) {
         props.wpQueryContext = JSON.parse(context['prc-block/wp-query']);
     }
@@ -76,12 +76,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     console.log('StoryItem Context?', context);
     console.log(props);
 
-    return (
-        <Fragment>
-            {true === isSelected && <Controls {...props} />}
-            <StoryItemEdit {...props} />
-        </Fragment>
-    );
+    return <StoryItemForm {...props} />;
 };
 
 export default edit;

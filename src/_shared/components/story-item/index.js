@@ -1,6 +1,6 @@
 import Display from './display';
-import Edit from './edit';
-import Static from './static';
+import Form from './form';
+import Placeholder from './placeholder';
 
 export default Display;
-export { Display, Edit, Static };
+export { Display, Form, Placeholder };
