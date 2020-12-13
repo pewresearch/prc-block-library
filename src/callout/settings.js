@@ -32,7 +32,12 @@ const settings = [
                 },
             ],
         },
-        attributes: {},
+        attributes: {
+            width: {
+                type: 'integer',
+                default: 320,
+            },
+        },
         edit,
         save,
     },

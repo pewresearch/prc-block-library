@@ -11,6 +11,10 @@ const ALLOWED_BLOCKS = [
 
 const TEMPLATE = [['core/heading', {content: 'Heading Here', level: 4}]];
 
+const Controls = () => {
+    return dropdown with various width options
+}
+
 const edit = ({ className }) => {
     return (
         <Segment inverted className={`${className} beige`}>
