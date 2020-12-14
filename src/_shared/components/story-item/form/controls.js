@@ -17,40 +17,40 @@ const setPostByURL = (url, setAttributes) => {
         return;
     }
 
-    const getSiteIDFromURL = u => {
-        const { siteDomain } = window;
-        let siteID = 1;
-        if (u.includes(`${siteDomain}/global/`)) {
-            siteID = 2;
-        } else if (u.includes(`${siteDomain}/hispanic/`)) {
-            siteID = 5;
-        } else if (u.includes(`${siteDomain}/science/`)) {
-            siteID = 16;
-        } else if (u.includes(`${siteDomain}/methods/`)) {
-            siteID = 10;
-        } else if (u.includes(`${siteDomain}/internet/`)) {
-            siteID = 9;
-        } else if (u.includes(`${siteDomain}/politics/`)) {
-            siteID = 4;
-        } else if (u.includes('https://www.pewforum.org/')) {
-            siteID = 7;
-        } else if (u.includes('https://www.journalism.org/')) {
-            siteID = 8;
-        } else if (u.includes('https://www.pewsocialtrends.org/')) {
-            siteID = 3;
-        } else if (
-            u.includes('https://www.pewresearch.org/') ||
-            u.includes(siteDomain)
-        ) {
-            siteID = 1;
-        }
-        return siteID;
-    };
+    // const getSiteIDFromURL = u => {
+    //     const { siteDomain } = window;
+    //     let siteID = 1;
+    //     if (u.includes(`${siteDomain}/global/`)) {
+    //         siteID = 2;
+    //     } else if (u.includes(`${siteDomain}/hispanic/`)) {
+    //         siteID = 5;
+    //     } else if (u.includes(`${siteDomain}/science/`)) {
+    //         siteID = 16;
+    //     } else if (u.includes(`${siteDomain}/methods/`)) {
+    //         siteID = 10;
+    //     } else if (u.includes(`${siteDomain}/internet/`)) {
+    //         siteID = 9;
+    //     } else if (u.includes(`${siteDomain}/politics/`)) {
+    //         siteID = 4;
+    //     } else if (u.includes('https://www.pewforum.org/')) {
+    //         siteID = 7;
+    //     } else if (u.includes('https://www.journalism.org/')) {
+    //         siteID = 8;
+    //     } else if (u.includes('https://www.pewsocialtrends.org/')) {
+    //         siteID = 3;
+    //     } else if (
+    //         u.includes('https://www.pewresearch.org/') ||
+    //         u.includes(siteDomain)
+    //     ) {
+    //         siteID = 1;
+    //     }
+    //     return siteID;
+    // };
 
     apiFetch({
-        path: `/prc-api/v2/blocks/helpers/get-post-by-url/?url=${url}&siteID=${getSiteIDFromURL(
-            url,
-        )}`,
+        path: '/prc-api/v2/blocks/helpers/get-post-by-url',
+        method: 'POST',
+        data: { url },
     }).then(post => {
         console.log('setPostbyURL', post);
         if (false !== post) {

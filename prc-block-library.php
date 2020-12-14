@@ -1031,22 +1031,11 @@ class PRC_Block_Library {
 			'prc-api/v2',
 			'/blocks/helpers/get-post-by-url',
 			array(
-				'methods'             => 'GET',
+				'methods'             => 'POST',
 				'callback'            => array( $this, 'get_stub_post_by_post_url_restfully' ),
-				'args'                => array(
-					'url'    => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-					'siteID' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-				),
+				'args'                => array(),
 				'permission_callback' => function () {
-					return true;
+					return current_user_can( 'edit_posts' );
 				},
 			)
 		);
@@ -1297,9 +1286,80 @@ class PRC_Block_Library {
 	}
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
-		$url     = $request->get_param( 'url' );
-		$site_id = $request->get_param( 'siteID' );
-		return $this->get_stub_post_by_post_url( $url, $site_id );
+		$url = json_decode( $request->get_body(), true );
+		if ( array_key_exists( 'url', $url ) ) {
+			return $this->get_stub_post_by_post_url( $url['url'] );
+		} else {
+			return false;
+		}
+	}
+
+	public function get_stub_post_by_post_url( $url ) {
+		$return  = false;
+		$site_id = prc_get_site_id_from_url( $url, true );
+		if ( false == $site_id ) {
+			return 'No Site ID Found ' . $url;
+		}
+
+		error_log( 'get_stub_post_by_url()' );
+		error_log( print_r( $url, true ) );
+
+		$current_site_id = get_current_blog_id();
+
+		switch_to_blog( $site_id );
+		// If url contains fact-tank right after the url then go get the slug and fetch post that way.
+		if ( false !== strpos( $url, '/fact-tank/' ) ) {
+			$slug    = basename( $url );
+			$post_id = $this->get_fact_tank_post_by_slug( $slug );
+		} else {
+			$post_id = prc_get_post_id_from_url( $url );
+		}
+		error_log( 'Conclusion:' );
+		error_log( $post_id );
+
+		if ( 0 === $post_id ) {
+			return 'URL TO POSTID ' . $site_id . '-' . $url;
+		}
+
+		$stub_id = get_post_meta( $post_id, '_stub_post', true );
+		if ( ! $stub_id ) {
+			return 'GET STUB POST ' . $site_id . '-' . $post_id . '-' . $url;
+		}
+		restore_current_blog();
+
+		if ( 1 !== $current_site_id ) {
+			switch_to_blog( 1 );
+		}
+
+		$stub_post = get_post( $stub_id );
+		if ( false === $stub_post ) {
+			return 'STUB ' . $site_id . '-' . $post_id . '-' . $stub_id;
+		}
+
+		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
+
+		$format_term = get_term_by( 'slug', $stub_info['_taxonomies']['formats'][0], 'formats' );
+
+		$featured_image = array();
+
+		$return = array(
+			'id'        => $stub_post->ID,
+			'title'     => esc_attr( $stub_post->post_title ),
+			'excerpt'   => "<p>{$stub_post->post_excerpt}</p>",
+			'date'      => get_the_date( 'M d, Y', $stub_post->ID ),
+			'timestamp' => get_the_time( 'c', $stub_post->ID ),
+			'label'     => $format_term->name,
+			'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
+			'art'       => $stub_info['_art'],
+			'image'     => '',
+			'imageID'   => '',
+		);
+
+		if ( 1 !== $current_site_id ) {
+			restore_current_blog();
+		}
+
+		return $return;
 	}
 
 	public function get_staff_post_by_post_url_restfully( \WP_REST_Request $request ) {
@@ -1350,67 +1410,7 @@ class PRC_Block_Library {
 		}
 	}
 
-	public function get_stub_post_by_post_url( $url, $site_id ) {
-		$return = false;
-		if ( false == $site_id ) {
-			return 'No Site ID Found ' . $url;
-		}
 
-		$current_site_id = get_current_blog_id();
-
-		switch_to_blog( $site_id );
-		// If url contains fact-tank right after the url then go get the slug and fetch post that way.
-		if ( false !== strpos( $url, '/fact-tank/' ) ) {
-			$slug    = basename( $url );
-			$post_id = $this->get_fact_tank_post_by_slug( $slug );
-		} else {
-			$post_id = url_to_postid( $url );
-		}
-
-		if ( 0 === $post_id ) {
-			return 'URL TO POSTID ' . $site_id . '-' . $url;
-		}
-
-		$stub_id = get_post_meta( $post_id, '_stub_post', true );
-		if ( ! $stub_id ) {
-			return 'GET STUB POST ' . $site_id . '-' . $post_id . '-' . $url;
-		}
-		restore_current_blog();
-
-		if ( 1 !== $current_site_id ) {
-			switch_to_blog( 1 );
-		}
-
-		$stub_post = get_post( $stub_id );
-		if ( false === $stub_post ) {
-			return 'STUB ' . $site_id . '-' . $post_id . '-' . $stub_id;
-		}
-
-		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
-
-		$format_term = get_term_by( 'slug', $stub_info['_taxonomies']['formats'][0], 'formats' );
-
-		$featured_image = array();
-
-		$return = array(
-			'id'        => $stub_post->ID,
-			'title'     => esc_attr( $stub_post->post_title ),
-			'excerpt'   => "<p>{$stub_post->post_excerpt}</p>",
-			'date'      => get_the_date( 'M d, Y', $stub_post->ID ),
-			'timestamp' => get_the_time( 'c', $stub_post->ID ),
-			'label'     => $format_term->name,
-			'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
-			'art'       => $stub_info['_art'],
-			'image'     => $stub_info['_featured_image'],
-			'imageID'   => '',
-		);
-
-		if ( 1 !== $current_site_id ) {
-			restore_current_blog();
-		}
-
-		return $return;
-	}
 }
 
 new PRC_Block_Library( true );
