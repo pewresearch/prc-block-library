@@ -53,7 +53,6 @@ const legacy = {
 };
 
 const ImageDisplay = ({ img, size, link, onClick = false, placeholder = false }) => {
-    
     // eslint-disable-next-line no-shadow
     const getImgURL = variant => {
         if (true === placeholder) {
