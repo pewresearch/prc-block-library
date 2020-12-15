@@ -1296,7 +1296,7 @@ class PRC_Block_Library {
 
 	public function get_stub_post_by_post_url( $url ) {
 		$return  = false;
-		$site_id = prc_get_site_id_from_url( $url, true );
+		$site_id = prc_get_site_id_from_url( $url );
 		if ( false == $site_id ) {
 			return 'No Site ID Found ' . $url;
 		}
