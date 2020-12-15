@@ -15,7 +15,6 @@ const settings = [
         supports: {
             html: false,
             align: ['left', 'right'],
-            // lightBlockWrapper: true,
         },
         transforms: {
             to: [
@@ -35,7 +34,7 @@ const settings = [
         attributes: {
             width: {
                 type: 'integer',
-                default: 320,
+                default: 310,
             },
         },
         edit,
