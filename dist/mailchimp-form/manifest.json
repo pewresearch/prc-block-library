@@ -1,27 +1,27 @@
 {
   "frontend.css": "mailchimp-form/frontend-4e30f6bc.css",
   "frontend.css.map": "mailchimp-form/frontend-4e30f6bc.css.map",
-  "frontend.js": "mailchimp-form/frontend-6dbb85f9.js",
-  "frontend.js.map": "mailchimp-form/frontend-6dbb85f9.js.map",
+  "frontend.js": "mailchimp-form/frontend-d8c631de.js",
+  "frontend.js.map": "mailchimp-form/frontend-d8c631de.js.map",
   "main.css": "mailchimp-form/main-4e30f6bc.css",
   "main.css.map": "mailchimp-form/main-4e30f6bc.css.map",
-  "main.js": "mailchimp-form/main-9b326ce4.js",
-  "main.js.map": "mailchimp-form/main-9b326ce4.js.map",
+  "main.js": "mailchimp-form/main-cf8baa1c.js",
+  "main.js.map": "mailchimp-form/main-cf8baa1c.js.map",
   "runtime.js": "mailchimp-form/runtime-f9bee1a1.js",
   "runtime.js.map": "mailchimp-form/runtime-f9bee1a1.js.map",
-  "vendors~frontend~main.js": "mailchimp-form/vendors~frontend~main-ffd8052e.js",
-  "vendors~frontend~main.js.map": "mailchimp-form/vendors~frontend~main-ffd8052e.js.map",
+  "vendors~frontend~main.js": "mailchimp-form/vendors~frontend~main-df0f9614.js",
+  "vendors~frontend~main.js.map": "mailchimp-form/vendors~frontend~main-df0f9614.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "mailchimp-form/runtime-f9bee1a1.js",
-        "mailchimp-form/vendors~frontend~main-ffd8052e.js",
-        "mailchimp-form/main-9b326ce4.js"
+        "mailchimp-form/vendors~frontend~main-df0f9614.js",
+        "mailchimp-form/main-cf8baa1c.js"
       ],
       "js.map": [
         "mailchimp-form/runtime-f9bee1a1.js.map",
-        "mailchimp-form/vendors~frontend~main-ffd8052e.js.map",
-        "mailchimp-form/main-9b326ce4.js.map"
+        "mailchimp-form/vendors~frontend~main-df0f9614.js.map",
+        "mailchimp-form/main-cf8baa1c.js.map"
       ],
       "css": [
         "mailchimp-form/main-4e30f6bc.css"
@@ -33,13 +33,13 @@
     "frontend": {
       "js": [
         "mailchimp-form/runtime-f9bee1a1.js",
-        "mailchimp-form/vendors~frontend~main-ffd8052e.js",
-        "mailchimp-form/frontend-6dbb85f9.js"
+        "mailchimp-form/vendors~frontend~main-df0f9614.js",
+        "mailchimp-form/frontend-d8c631de.js"
       ],
       "js.map": [
         "mailchimp-form/runtime-f9bee1a1.js.map",
-        "mailchimp-form/vendors~frontend~main-ffd8052e.js.map",
-        "mailchimp-form/frontend-6dbb85f9.js.map"
+        "mailchimp-form/vendors~frontend~main-df0f9614.js.map",
+        "mailchimp-form/frontend-d8c631de.js.map"
       ],
       "css": [
         "mailchimp-form/frontend-4e30f6bc.css"

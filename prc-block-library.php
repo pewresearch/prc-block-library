@@ -174,6 +174,34 @@ class PRC_Block_Library {
 			)
 		);
 
+		/** Chiclet Menu */
+		$this->registered['block']['prc-block/chiclet-menu'] = $enqueue->register(
+			'chiclet-menu',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
+		/** Chiclet Menu Item */
+		$this->registered['block']['prc-block/chiclet-menu-item'] = $enqueue->register(
+			'chiclet-menu-item',
+			'main',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $block_js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
 		/** Collapsible */
 		$this->registered['block']['prc-block/collapsible']    = $enqueue->register(
 			'collapsible',
@@ -648,6 +676,23 @@ class PRC_Block_Library {
 			'prc-block/chapter',
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/chapter']['js'] )['handle'],
+			)
+		);
+
+		/** Chiclet Menu */
+		register_block_type(
+			'prc-block/chiclet-menu',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/chiclet-menu']['js'] )['handle'],
+				'style'         => array_pop( $this->registered['block']['prc-block/chiclet-menu']['css'] )['handle'],
+			)
+		);
+		/** Chiclet Menu Item */
+		register_block_type(
+			'prc-block/chiclet-menu-item',
+			array(
+				'editor_script' => array_pop( $this->registered['block']['prc-block/chiclet-menu-item']['js'] )['handle'],
+				'style'         => array_pop( $this->registered['block']['prc-block/chiclet-menu-item']['css'] )['handle'],
 			)
 		);
 

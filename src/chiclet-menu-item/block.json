@@ -1,0 +1,12 @@
+{
+	"name": "prc-block/chiclet-menu-item",
+	"category": "layout",
+	"attributes": {
+		"text": {
+			"type": "string"
+		},
+		"link": {
+			"type": "string"
+		}
+	}
+}

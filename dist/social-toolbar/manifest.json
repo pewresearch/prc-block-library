@@ -1,17 +1,17 @@
 {
-  "main.js": "social-toolbar/main-54e50020.js",
-  "main.js.map": "social-toolbar/main-54e50020.js.map",
+  "main.js": "social-toolbar/main-367652a2.js",
+  "main.js.map": "social-toolbar/main-367652a2.js.map",
   "runtime.js": "social-toolbar/runtime-32bba991.js",
   "runtime.js.map": "social-toolbar/runtime-32bba991.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "social-toolbar/runtime-32bba991.js",
-        "social-toolbar/main-54e50020.js"
+        "social-toolbar/main-367652a2.js"
       ],
       "js.map": [
         "social-toolbar/runtime-32bba991.js.map",
-        "social-toolbar/main-54e50020.js.map"
+        "social-toolbar/main-367652a2.js.map"
       ]
     }
   }
