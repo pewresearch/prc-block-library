@@ -59,6 +59,18 @@ module.exports = {
             },
         },
         {
+            name: 'chiclet-menu',
+            entry: {
+                main: './src/chiclet-menu/index.js',
+            },
+        },
+        {
+            name: 'chiclet-menu-item',
+            entry: {
+                main: './src/chiclet-menu-item/index.js',
+            },
+        },
+        {
             name: 'collapsible',
             entry: {
                 main: './src/collapsible/index.js',

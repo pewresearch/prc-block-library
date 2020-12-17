@@ -1,0 +1,26 @@
+{
+  "main.css": "chiclet-menu/main-a13ebf2d.css",
+  "main.css.map": "chiclet-menu/main-a13ebf2d.css.map",
+  "main.js": "chiclet-menu/main-e8f3e632.js",
+  "main.js.map": "chiclet-menu/main-e8f3e632.js.map",
+  "runtime.js": "chiclet-menu/runtime-9f751056.js",
+  "runtime.js.map": "chiclet-menu/runtime-9f751056.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "chiclet-menu/runtime-9f751056.js",
+        "chiclet-menu/main-e8f3e632.js"
+      ],
+      "js.map": [
+        "chiclet-menu/runtime-9f751056.js.map",
+        "chiclet-menu/main-e8f3e632.js.map"
+      ],
+      "css": [
+        "chiclet-menu/main-a13ebf2d.css"
+      ],
+      "css.map": [
+        "chiclet-menu/main-a13ebf2d.css.map"
+      ]
+    }
+  }
+}
