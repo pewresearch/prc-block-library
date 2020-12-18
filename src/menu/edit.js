@@ -7,16 +7,15 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { useState } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import {
 	InnerBlocks,
 	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
-	InspectorControls,
 	BlockControls,
 	useBlockProps,
 } from '@wordpress/block-editor';
-import { useDispatch, withSelect, withDispatch } from '@wordpress/data';
-import { PanelBody, ToggleControl, ToolbarGroup } from '@wordpress/components';
+import { withSelect } from '@wordpress/data';
+import { ToolbarGroup } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
@@ -25,27 +24,27 @@ import { __ } from '@wordpress/i18n';
  */
 import useBlockNavigator from './use-block-navigator';
 import * as navIcons from './icons';
-import NavigationPlaceholder from './placeholder';
 
-function Navigation( {
+const isStyle = (needle, haystack) => {
+	const arr = haystack.split(" ");
+	return arr.includes(needle);
+}
+
+const TEMPLATE = [
+    [ 'prc-block/menu-link', { url: 'https://www.pewresearch.org', label: 'Pew Research Center' } ],
+];
+
+const Navigation = ( {
 	selectedBlockHasDescendants,
 	attributes,
 	setAttributes,
 	clientId,
-	hasExistingNavItems,
 	isImmediateParentOfSelectedBlock,
 	isSelected,
-	updateInnerBlocks,
 	className,
-	hasSubmenuIndicatorSetting = true,
 	hasItemJustificationControls = true,
 	hasListViewModal = true,
-} ) {
-	const [ isPlaceholderShown, setIsPlaceholderShown ] = useState(
-		! hasExistingNavItems
-	);
-
-	const { selectBlock } = useDispatch( 'core/block-editor' );
+} ) => {
 
 	const blockProps = useBlockProps( {
 		className: classnames( className, {
@@ -54,6 +53,7 @@ function Navigation( {
 		} ),
 	} );
 
+	// Inner block navigator
 	const { navigatorToolbarButton, navigatorModal } = useBlockNavigator(
 		clientId
 	);
@@ -61,7 +61,11 @@ function Navigation( {
 	// useInnerBlocksProps is amazing, really changes how we can use innerblocks.
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: 'wp-block-navigation__container',
+			className: classnames( 'ui menu', {
+				'secondary': isStyle('is-style-secondary', blockProps.className),
+				'tabular': isStyle('is-style-tabular', blockProps.className),
+				'text': isStyle('is-style-text', blockProps.className),
+			} ),
 		},
 		{
 			allowedBlocks: [
@@ -76,32 +80,17 @@ function Navigation( {
 				isSelected
 					? InnerBlocks.DefaultAppender
 					: false,
-			__experimentalAppenderTagName: 'li',
+			__experimentalAppenderTagName: 'div',
 			__experimentalCaptureToolbars: true,
 			// Template lock set to false here so that the Nav
 			// Block on the experimental menus screen does not
 			// inherit templateLock={ 'all' }.
+			template: TEMPLATE,
 			templateLock: false,
 		}
 	);
 
-	if ( isPlaceholderShown ) {
-		return (
-			<div { ...blockProps }>
-				<NavigationPlaceholder
-					onCreate={ ( blocks, selectNavigationBlock ) => {
-						setIsPlaceholderShown( false );
-						updateInnerBlocks( blocks );
-						if ( selectNavigationBlock ) {
-							selectBlock( clientId );
-						}
-					} }
-				/>
-			</div>
-		);
-	}
-
-	function handleItemsAlignment( align ) {
+	const handleItemsAlignment = ( align ) => {
 		return () => {
 			const itemsJustification =
 				attributes.itemsJustification === align ? undefined : align;
@@ -112,7 +101,7 @@ function Navigation( {
 	}
 
 	return (
-		<>
+		<Fragment>
 			<BlockControls>
 				{ hasItemJustificationControls && (
 					<ToolbarGroup
@@ -158,15 +147,14 @@ function Navigation( {
 			</BlockControls>
 			{ hasListViewModal && navigatorModal }
 			<nav { ...blockProps }>
-				<ul { ...innerBlocksProps } />
+				<div { ...innerBlocksProps } />
 			</nav>
-		</>
+		</Fragment>
 	);
 }
 
-export default compose( [
+const edit = compose( [
 	withSelect( ( select, { clientId } ) => {
-		const innerBlocks = select( 'core/block-editor' ).getBlocks( clientId );
 		const {
 			getClientIdsOfDescendants,
 			hasSelectedInnerBlock,
@@ -182,22 +170,9 @@ export default compose( [
 		] )?.length;
 		return {
 			isImmediateParentOfSelectedBlock,
-			selectedBlockHasDescendants,
-			hasExistingNavItems: !! innerBlocks.length,
-		};
-	} ),
-	withDispatch( ( dispatch, { clientId } ) => {
-		return {
-			updateInnerBlocks( blocks ) {
-				if ( blocks?.length === 0 ) {
-					return false;
-				}
-				dispatch( 'core/block-editor' ).replaceInnerBlocks(
-					clientId,
-					blocks,
-					true
-				);
-			},
+			selectedBlockHasDescendants
 		};
 	} ),
 ] )( Navigation );
+
+export default edit;

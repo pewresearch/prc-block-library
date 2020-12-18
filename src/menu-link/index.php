@@ -16,16 +16,8 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
 	}
-	/**
-	 * Renders the `prc-block/menu-link` block.
-	 *
-	 * @param array $attributes The block attributes.
-	 * @param array $content The saved content.
-	 * @param array $block The parsed block.
-	 *
-	 * @return string Returns the post content with the legacy widget added.
-	 */
-	public function render_menu_item_link( $attributes, $content, $block ) {
+
+	public function get_menu_link( $attributes, $is_chiclet = false ) {
 		// Don't render the block's subtree if it has no label.
 		if ( empty( $attributes['label'] ) ) {
 			return '';
@@ -34,16 +26,14 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		$is_active = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
 
 		$css_classes = ! empty( $attributes['className'] ) ? implode( ' ', (array) $attributes['className'] ) : false;
-		$has_submenu = count( $block->inner_blocks ) > 0;
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class' => $css_classes . ( $has_submenu ? ' has-child' : '' ) .
-				( $is_active ? ' current-menu-item' : '' ),
+				'class' => ( $is_chiclet ? 'ui basic button ' : 'item ' ) . $css_classes . ( $is_active ? ' active' : '' ),
 			)
 		);
 
-		$html = '<li ' . $wrapper_attributes . '><a class="wp-block-navigation-link__content" ';
+		$html = '<a ' . $wrapper_attributes . ' ';
 
 		// Start appending HTML attributes to anchor tag.
 		if ( isset( $attributes['url'] ) ) {
@@ -67,8 +57,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		// End appending HTML attributes to anchor tag.
 
 		// Start anchor tag content.
-		// Wrap title with span to isolate it from submenu icon.
-		$html .= '><span class="wp-block-navigation-link__label">';
+		$html .= '>';
 
 		if ( isset( $attributes['label'] ) ) {
 			$html .= wp_kses(
@@ -92,27 +81,35 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			);
 		}
 
-		$html .= '</span>';
-
 		$html .= '</a>';
 		// End anchor tag content.
 
-		if ( $has_submenu ) {
-			$inner_blocks_html = '';
-			foreach ( $block->inner_blocks as $inner_block ) {
-				$inner_blocks_html .= $inner_block->render();
-			}
+		return $html;
+	}
 
-			// TODO - classname is wrong!
-			$html .= sprintf(
-				'<ul class="wp-block-navigation__container">%s</ul>',
-				$inner_blocks_html
-			);
+	/**
+	 * Renders the `prc-block/menu-link` block.
+	 *
+	 * @param array $attributes The block attributes.
+	 * @param array $content The saved content.
+	 * @param array $block The parsed block.
+	 *
+	 * @return string Returns the post content with the legacy widget added.
+	 */
+	public function render_menu_item_link( $attributes, $content, $block ) {
+		// Don't render the block's subtree if it has no label.
+		if ( empty( $attributes['label'] ) ) {
+			return '';
 		}
 
-		$html .= '</li>';
+		error_log( 'render_Menu_item_link' );
+		error_log( print_r( $attributes, true ) );
 
-		return $html;
+		if ( array_key_exists( 'className', $attributes ) && 'is-style-chiclet' === $attributes['className'] ) {
+			return '<div class="item">' . $this->get_menu_link( $attributes, true ) . '</div>';
+		} else {
+			return $this->get_menu_link( $attributes );
+		}
 	}
 
 	/**

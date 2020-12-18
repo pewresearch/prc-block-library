@@ -16,10 +16,10 @@ import variations from './variations';
 const { name } = metadata;
 
 const settings = {
-	title: __( 'Navigation' ),
+	title: __( 'Menu' ),
 	icon,
 	description: __(
-		'A collection of blocks that allow visitors to get around your site.'
+		'A collection of links as blocks to create menus.'
 	),
 	keywords: [ __( 'menu' ), __( 'navigation' ), __( 'links' ) ],
 	variations,
@@ -54,5 +54,5 @@ const settings = {
 	edit,
 	save,
 };
-console.log("PRC MENU SETTINGS", {...metadata, ...settings});
+
 registerBlockType( name, {...metadata, ...settings});

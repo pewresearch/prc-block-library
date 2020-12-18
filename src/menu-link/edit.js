@@ -46,6 +46,11 @@ import {
 import { placeCaretAtHorizontalEdge } from '@wordpress/dom';
 import { link as linkIcon } from '@wordpress/icons';
 
+const isStyle = (needle, haystack) => {
+	const arr = haystack.split(" ");
+	return arr.includes(needle);
+}
+
 /**
  * A React hook to determine if it's dragging within the target element.
  *
@@ -122,13 +127,10 @@ function getSuggestionsQuery( type ) {
 
 function NavigationLinkEdit( {
 	attributes,
-	hasDescendants,
 	isSelected,
 	isImmediateParentOfSelectedBlock,
-	isParentOfSelectedBlock,
 	setAttributes,
 	insertLinkBlock,
-	selectedBlockHasDescendants,
 	userCanCreatePages = false,
 	userCanCreatePosts = false,
 	insertBlocksAfter,
@@ -237,41 +239,17 @@ function NavigationLinkEdit( {
 
 	const blockProps = useBlockProps( {
 		ref: listItemRef,
-		className: classnames( {
+		className: classnames( 'item', {
 			'is-editing':
-				( isSelected || isParentOfSelectedBlock ) &&
+				( isSelected ) &&
 				// Don't show the element as editing while dragging.
 				! isDraggingBlocks,
 			// Don't select the element while dragging.
 			'is-selected': isSelected && ! isDraggingBlocks,
 			'is-dragging-within': isDraggingWithin,
 			'has-link': !! url,
-			'has-child': hasDescendants,
 		} ),
 	} );
-
-	const innerBlocksProps = useInnerBlocksProps(
-		{
-			className: classnames( 'wp-block-navigation__container', {
-				'is-parent-of-selected-block':
-					isParentOfSelectedBlock &&
-					// Don't select as parent of selected block while dragging.
-					! isDraggingBlocks,
-			} ),
-		},
-		{
-			allowedBlocks: [ 'prc-block/menu-link' ],
-			renderAppender:
-				( isSelected && hasDescendants ) ||
-				( isImmediateParentOfSelectedBlock &&
-					! selectedBlockHasDescendants ) ||
-				// Show the appender while dragging to allow inserting element between item and the appender.
-				( isDraggingBlocks && hasDescendants )
-					? InnerBlocks.DefaultAppender
-					: false,
-			__experimentalAppenderTagName: 'li',
-		}
-	);
 
 	return (
 		<Fragment>
@@ -293,6 +271,7 @@ function NavigationLinkEdit( {
 					/>
 				</ToolbarGroup>
 			</BlockControls>
+			
 			<InspectorControls>
 				<PanelBody title={ __( 'Link settings' ) }>
 					<TextareaControl
@@ -323,8 +302,39 @@ function NavigationLinkEdit( {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<li { ...blockProps }>
-				<div className="wp-block-navigation-link__content">
+
+			<div { ...blockProps }>
+				{ isStyle('is-style-chiclet', blockProps.className) && (
+					<div class="ui basic button">
+						<RichText
+							ref={ ref }
+							identifier="label"
+							className="wp-block-navigation-link__label"
+							value={ label }
+							onChange={ ( labelValue ) =>
+								setAttributes( { label: labelValue } )
+							}
+							onMerge={ mergeBlocks }
+							onReplace={ onReplace }
+							__unstableOnSplitAtEnd={ () =>
+								insertBlocksAfter(
+									createBlock( 'prc-block/menu-link' )
+								)
+							}
+							aria-label={ __( 'Navigation link text' ) }
+							placeholder={ itemLabelPlaceholder }
+							keepPlaceholderOnFocus
+							withoutInteractiveFormatting
+							allowedFormats={ [
+								'core/bold',
+								'core/italic',
+								'core/image',
+								'core/strikethrough',
+							] }
+						/>
+					</div>
+				) } 
+				{ ! isStyle('is-style-chiclet', blockProps.className) && (
 					<RichText
 						ref={ ref }
 						identifier="label"
@@ -351,78 +361,77 @@ function NavigationLinkEdit( {
 							'core/strikethrough',
 						] }
 					/>
-					{ isLinkOpen && (
-						<Popover
-							position="bottom center"
-							onClose={ () => setIsLinkOpen( false ) }
-						>
-							<LinkControl
-								className="wp-block-navigation-link__inline-link-input"
-								value={ link }
-								showInitialSuggestions={ true }
-								withCreateSuggestion={ userCanCreate }
-								createSuggestion={ handleCreate }
-								createSuggestionButtonText={ ( searchTerm ) => {
-									let format;
-									if ( type === 'post' ) {
-										/* translators: %s: search term. */
-										format = __(
-											'Create post: <mark>%s</mark>'
-										);
-									} else {
-										/* translators: %s: search term. */
-										format = __(
-											'Create page: <mark>%s</mark>'
-										);
-									}
-									return createInterpolateElement(
-										sprintf( format, searchTerm ),
-										{ mark: <mark /> }
+				) } 
+				{ isLinkOpen && (
+					<Popover
+						position="bottom center"
+						onClose={ () => setIsLinkOpen( false ) }
+					>
+						<LinkControl
+							className="wp-block-navigation-link__inline-link-input"
+							value={ link }
+							showInitialSuggestions={ true }
+							withCreateSuggestion={ userCanCreate }
+							createSuggestion={ handleCreate }
+							createSuggestionButtonText={ ( searchTerm ) => {
+								let format;
+								if ( type === 'post' ) {
+									/* translators: %s: search term. */
+									format = __(
+										'Create post: <mark>%s</mark>'
 									);
-								} }
-								noDirectEntry={ !! type }
-								noURLSuggestion={ !! type }
-								suggestionsQuery={ getSuggestionsQuery( type ) }
-								onChange={ ( {
-									title: newTitle = '',
-									url: newURL = '',
+								} else {
+									/* translators: %s: search term. */
+									format = __(
+										'Create page: <mark>%s</mark>'
+									);
+								}
+								return createInterpolateElement(
+									sprintf( format, searchTerm ),
+									{ mark: <mark /> }
+								);
+							} }
+							noDirectEntry={ !! type }
+							noURLSuggestion={ !! type }
+							suggestionsQuery={ getSuggestionsQuery( type ) }
+							onChange={ ( {
+								title: newTitle = '',
+								url: newURL = '',
+								opensInNewTab: newOpensInNewTab,
+								id,
+							} = {} ) =>
+								setAttributes( {
+									url: encodeURI( newURL ),
+									label: ( () => {
+										const normalizedTitle = newTitle.replace(
+											/http(s?):\/\//gi,
+											''
+										);
+										const normalizedURL = newURL.replace(
+											/http(s?):\/\//gi,
+											''
+										);
+										if (
+											newTitle !== '' &&
+											normalizedTitle !==
+												normalizedURL &&
+											label !== newTitle
+										) {
+											return escape( newTitle );
+										} else if ( label ) {
+											return label;
+										}
+										// If there's no label, add the URL.
+										return escape( normalizedURL );
+									} )(),
 									opensInNewTab: newOpensInNewTab,
 									id,
-								} = {} ) =>
-									setAttributes( {
-										url: encodeURI( newURL ),
-										label: ( () => {
-											const normalizedTitle = newTitle.replace(
-												/http(s?):\/\//gi,
-												''
-											);
-											const normalizedURL = newURL.replace(
-												/http(s?):\/\//gi,
-												''
-											);
-											if (
-												newTitle !== '' &&
-												normalizedTitle !==
-													normalizedURL &&
-												label !== newTitle
-											) {
-												return escape( newTitle );
-											} else if ( label ) {
-												return label;
-											}
-											// If there's no label, add the URL.
-											return escape( normalizedURL );
-										} )(),
-										opensInNewTab: newOpensInNewTab,
-										id,
-									} )
-								}
-							/>
-						</Popover>
-					) }
-				</div>
-				<ul { ...innerBlocksProps } />
-			</li>
+								} )
+							}
+						/>
+					</Popover>
+				) }
+			</div>
 		</Fragment>
 	);
 }
@@ -440,7 +449,7 @@ export default compose( [
 		const { clientId } = ownProps;
 		const hasDescendants = !! getClientIdsOfDescendants( [ clientId ] )
 			.length;
-		const isParentOfSelectedBlock = hasSelectedInnerBlock( clientId, true );
+
 		const isImmediateParentOfSelectedBlock = hasSelectedInnerBlock(
 			clientId,
 			false
@@ -451,7 +460,6 @@ export default compose( [
 		] )?.length;
 
 		return {
-			isParentOfSelectedBlock,
 			isImmediateParentOfSelectedBlock,
 			hasDescendants,
 			selectedBlockHasDescendants,

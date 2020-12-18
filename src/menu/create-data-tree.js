@@ -13,7 +13,7 @@
  * @param {*} relation the property which identifies how the current item is related to other items in the data (if at all).
  * @return {Array} a nested array of parent/child relationships
  */
-function createDataTree( dataset, id = 'id', relation = 'parent' ) {
+const createDataTree = ( dataset, id = 'id', relation = 'parent' ) => {
 	const hashTable = Object.create( null );
 	const dataTree = [];
 

@@ -17,6 +17,18 @@ class PRC_Block_Menu extends PRC_Block_Library {
 		}
 	}
 
+	public function get_menu_class( $selected_style ) {
+		$menu_classes = 'ui menu';
+		if ( 'is-style-text' === $selected_style ) {
+			$menu_classes .= ' text';
+		} elseif ( 'is-style-secondary' === $selected_style ) {
+			$menu_classes .= ' secondary';
+		} elseif ( 'is-style-tabular' === $selected_style ) {
+			$menu_classes .= ' tabular';
+		}
+		return $menu_classes;
+	}
+
 	/**
 	 * Renders the `core/navigation` block on server.
 	 *
@@ -51,9 +63,12 @@ class PRC_Block_Menu extends PRC_Block_Library {
 			)
 		);
 
+		$menu_classes = $this->get_menu_class( $attributes['className'] );
+
 		return sprintf(
-			'<nav %1$s><ul class="wp-block-navigation__container">%2$s</ul></nav>',
+			'<nav %1$s><div class="%2$s">%3$s</div></nav>',
 			$wrapper_attributes,
+			$menu_classes,
 			$inner_blocks_html
 		);
 	}

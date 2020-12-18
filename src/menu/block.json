@@ -1,6 +1,6 @@
 {
 	"apiVersion": 2,
-	"name": "prc-block-navigation/navigation",
+	"name": "prc-block/menu",
 	"category": "layout",
 	"attributes": {
 		"orientation": {
@@ -10,6 +10,25 @@
 			"type": "string"
 		}
 	},
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{
+			"name": "secondary",
+			"label": "Secondary"
+		},
+		{
+			"name": "text",
+			"label": "Text"
+		},
+		{
+			"name": "tabular",
+			"label": "Tabular"
+		}
+	],
 	"supports": {
 		"align": [
 			"wide",
@@ -18,7 +37,5 @@
 		"anchor": true,
 		"html": false,
 		"inserter": true
-	},
-	"editorStyle": "wp-block-navigation-editor",
-	"style": "wp-block-navigation"
+	}
 }

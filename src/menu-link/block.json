@@ -30,10 +30,19 @@
 			"type": "string"
 		}
 	},
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{
+			"name": "chiclet",
+			"label": "As Chiclet"
+		}
+	],
 	"supports": {
 		"reusable": false,
 		"html": false
-	},
-	"editorStyle": "wp-block-navigation-link-editor",
-	"style": "wp-block-navigation-link"
+	}
 }

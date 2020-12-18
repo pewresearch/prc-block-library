@@ -4,10 +4,10 @@
 import { __experimentalBlockNavigationTree } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from '@wordpress/data';
 
-export default function BlockNavigationList( {
+const BlockNavigationList = ( {
 	clientId,
 	__experimentalFeatures,
-} ) {
+} ) => {
 	const { block, selectedBlockClientId } = useSelect(
 		( select ) => {
 			const { getSelectedBlockClientId, getBlock } = select(
@@ -36,3 +36,5 @@ export default function BlockNavigationList( {
 		/>
 	);
 }
+
+export default BlockNavigationList;

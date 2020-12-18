@@ -1,17 +1,17 @@
 {
-  "main.js": "menu/main-7c2d20b7.js",
-  "main.js.map": "menu/main-7c2d20b7.js.map",
+  "main.js": "menu/main-1814e15d.js",
+  "main.js.map": "menu/main-1814e15d.js.map",
   "runtime.js": "menu/runtime-c8a3a7b8.js",
   "runtime.js.map": "menu/runtime-c8a3a7b8.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "menu/runtime-c8a3a7b8.js",
-        "menu/main-7c2d20b7.js"
+        "menu/main-1814e15d.js"
       ],
       "js.map": [
         "menu/runtime-c8a3a7b8.js.map",
-        "menu/main-7c2d20b7.js.map"
+        "menu/main-1814e15d.js.map"
       ]
     }
   }
