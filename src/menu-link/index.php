@@ -102,10 +102,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			return '';
 		}
 
-		error_log( 'render_Menu_item_link' );
-		error_log( print_r( $attributes, true ) );
-
-		if ( array_key_exists( 'className', $attributes ) && 'is-style-chiclet' === $attributes['className'] ) {
+		if ( 'is-style-text' === $block->context['prc-block/menu'] ) {
 			return '<div class="item">' . $this->get_menu_link( $attributes, true ) . '</div>';
 		} else {
 			return $this->get_menu_link( $attributes );

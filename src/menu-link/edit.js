@@ -127,6 +127,7 @@ function getSuggestionsQuery( type ) {
 
 function NavigationLinkEdit( {
 	attributes,
+	context,
 	isSelected,
 	isImmediateParentOfSelectedBlock,
 	setAttributes,
@@ -304,64 +305,32 @@ function NavigationLinkEdit( {
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				{ isStyle('is-style-chiclet', blockProps.className) && (
-					<div class="ui basic button">
-						<RichText
-							ref={ ref }
-							identifier="label"
-							className="wp-block-navigation-link__label"
-							value={ label }
-							onChange={ ( labelValue ) =>
-								setAttributes( { label: labelValue } )
-							}
-							onMerge={ mergeBlocks }
-							onReplace={ onReplace }
-							__unstableOnSplitAtEnd={ () =>
-								insertBlocksAfter(
-									createBlock( 'prc-block/menu-link' )
-								)
-							}
-							aria-label={ __( 'Navigation link text' ) }
-							placeholder={ itemLabelPlaceholder }
-							keepPlaceholderOnFocus
-							withoutInteractiveFormatting
-							allowedFormats={ [
-								'core/bold',
-								'core/italic',
-								'core/image',
-								'core/strikethrough',
-							] }
-						/>
-					</div>
-				) } 
-				{ ! isStyle('is-style-chiclet', blockProps.className) && (
-					<RichText
-						ref={ ref }
-						identifier="label"
-						className="wp-block-navigation-link__label"
-						value={ label }
-						onChange={ ( labelValue ) =>
-							setAttributes( { label: labelValue } )
-						}
-						onMerge={ mergeBlocks }
-						onReplace={ onReplace }
-						__unstableOnSplitAtEnd={ () =>
-							insertBlocksAfter(
-								createBlock( 'prc-block/menu-link' )
-							)
-						}
-						aria-label={ __( 'Navigation link text' ) }
-						placeholder={ itemLabelPlaceholder }
-						keepPlaceholderOnFocus
-						withoutInteractiveFormatting
-						allowedFormats={ [
-							'core/bold',
-							'core/italic',
-							'core/image',
-							'core/strikethrough',
-						] }
-					/>
-				) } 
+				<RichText
+					ref={ ref }
+					identifier="label"
+					className={'is-style-text' === context['prc-block/menu'] ? 'ui basic button' : ''}
+					value={ label }
+					onChange={ ( labelValue ) =>
+						setAttributes( { label: labelValue } )
+					}
+					onMerge={ mergeBlocks }
+					onReplace={ onReplace }
+					__unstableOnSplitAtEnd={ () =>
+						insertBlocksAfter(
+							createBlock( 'prc-block/menu-link' )
+						)
+					}
+					aria-label={ __( 'Navigation link text' ) }
+					placeholder={ itemLabelPlaceholder }
+					keepPlaceholderOnFocus
+					withoutInteractiveFormatting
+					allowedFormats={ [
+						'core/bold',
+						'core/italic',
+						'core/image',
+						'core/strikethrough',
+					] }
+				/>
 				{ isLinkOpen && (
 					<Popover
 						position="bottom center"

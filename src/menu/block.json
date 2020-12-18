@@ -10,6 +10,9 @@
 			"type": "string"
 		}
 	},
+	"providesContext": {
+		"prc-block/menu": "className"
+	},
 	"styles": [
 		{
 			"name": "default",

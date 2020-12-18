@@ -30,17 +30,7 @@
 			"type": "string"
 		}
 	},
-	"styles": [
-		{
-			"name": "default",
-			"label": "Default",
-			"isDefault": true
-		},
-		{
-			"name": "chiclet",
-			"label": "As Chiclet"
-		}
-	],
+	"usesContext": ["prc-block/menu"],
 	"supports": {
 		"reusable": false,
 		"html": false
