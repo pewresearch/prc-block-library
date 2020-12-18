@@ -1,0 +1,24 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block-navigation/navigation",
+	"category": "layout",
+	"attributes": {
+		"orientation": {
+			"type": "string"
+		},
+		"itemsJustification": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"align": [
+			"wide",
+			"full"
+		],
+		"anchor": true,
+		"html": false,
+		"inserter": true
+	},
+	"editorStyle": "wp-block-navigation-editor",
+	"style": "wp-block-navigation"
+}

@@ -1,0 +1,22 @@
+{
+  "main.js": "menu-link/main-c2f6890c.js",
+  "main.js.map": "menu-link/main-c2f6890c.js.map",
+  "runtime.js": "menu-link/runtime-eab927fb.js",
+  "runtime.js.map": "menu-link/runtime-eab927fb.js.map",
+  "vendors~main.js": "menu-link/vendors~main-16a33195.js",
+  "vendors~main.js.map": "menu-link/vendors~main-16a33195.js.map",
+  "wpackioEp": {
+    "main": {
+      "js": [
+        "menu-link/runtime-eab927fb.js",
+        "menu-link/vendors~main-16a33195.js",
+        "menu-link/main-c2f6890c.js"
+      ],
+      "js.map": [
+        "menu-link/runtime-eab927fb.js.map",
+        "menu-link/vendors~main-16a33195.js.map",
+        "menu-link/main-c2f6890c.js.map"
+      ]
+    }
+  }
+}

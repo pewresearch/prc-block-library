@@ -59,18 +59,6 @@ module.exports = {
             },
         },
         {
-            name: 'chiclet-menu',
-            entry: {
-                main: './src/chiclet-menu/index.js',
-            },
-        },
-        {
-            name: 'chiclet-menu-item',
-            entry: {
-                main: './src/chiclet-menu-item/index.js',
-            },
-        },
-        {
             name: 'collapsible',
             entry: {
                 main: './src/collapsible/index.js',
@@ -121,6 +109,18 @@ module.exports = {
             entry: {
                 main: './src/mailchimp-opt-down/index.js',
                 frontend: './src/mailchimp-opt-down/frontend.js',
+            },
+        },
+        {
+            name: 'menu',
+            entry: {
+                main: './src/menu/index.js',
+            },
+        },
+        {
+            name: 'menu-link',
+            entry: {
+                main: './src/menu-link/index.js',
             },
         },
         {

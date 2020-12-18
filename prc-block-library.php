@@ -21,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once PRC_VENDOR_DIR . '/autoload.php';
 use WPackio\Enqueue;
 
+use function BLOCKNAVIGATION\enqueue;
+
 class PRC_Block_Library {
 	/**
 	 * Registered wpackio assets
@@ -28,6 +30,7 @@ class PRC_Block_Library {
 	 * @var array
 	 */
 	public $registered          = array();
+	public $enqueue             = false;
 	public $mailchimp_interests = false;
 
 	public function __construct( $init = false ) {
@@ -46,6 +49,9 @@ class PRC_Block_Library {
 				$mailchimp                 = new PRC_API_Mailchimp( false );
 				$this->mailchimp_interests = $mailchimp->get_interests();
 			}
+
+			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 		}
 	}
 
@@ -174,33 +180,33 @@ class PRC_Block_Library {
 			)
 		);
 
-		/** Chiclet Menu */
-		$this->registered['block']['prc-block/chiclet-menu'] = $enqueue->register(
-			'chiclet-menu',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
+		// /** Chiclet Menu */
+		// $this->registered['block']['prc-block/menu'] = $enqueue->register(
+		// 'menu',
+		// 'main',
+		// array(
+		// 'js'        => true,
+		// 'css'       => true,
+		// 'js_dep'    => $block_js_deps,
+		// 'css_dep'   => array(),
+		// 'in_footer' => true,
+		// 'media'     => 'all',
+		// )
+		// );
 
-		/** Chiclet Menu Item */
-		$this->registered['block']['prc-block/chiclet-menu-item'] = $enqueue->register(
-			'chiclet-menu-item',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
+		// /** Chiclet Menu Item */
+		// $this->registered['block']['prc-block/menu-link'] = $enqueue->register(
+		// 'menu-link',
+		// 'main',
+		// array(
+		// 'js'        => true,
+		// 'css'       => true,
+		// 'js_dep'    => $block_js_deps,
+		// 'css_dep'   => array(),
+		// 'in_footer' => true,
+		// 'media'     => 'all',
+		// )
+		// );
 
 		/** Collapsible */
 		$this->registered['block']['prc-block/collapsible']    = $enqueue->register(
@@ -679,23 +685,6 @@ class PRC_Block_Library {
 			)
 		);
 
-		/** Chiclet Menu */
-		register_block_type(
-			'prc-block/chiclet-menu',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/chiclet-menu']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/chiclet-menu']['css'] )['handle'],
-			)
-		);
-		/** Chiclet Menu Item */
-		register_block_type(
-			'prc-block/chiclet-menu-item',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/chiclet-menu-item']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/chiclet-menu-item']['css'] )['handle'],
-			)
-		);
-
 		/** Collapsible */
 		register_block_type(
 			'prc-block/collapsible',
@@ -772,6 +761,23 @@ class PRC_Block_Library {
 				'editor_script' => array_pop( $this->registered['block']['prc-block/mailchimp-opt-down']['js'] )['handle'],
 			)
 		);
+
+		// /** Chiclet Menu */
+		// register_block_type(
+		// 'prc-block/menu',
+		// array(
+		// 'editor_script' => array_pop( $this->registered['block']['prc-block/menu']['js'] )['handle'],
+		// 'style'         => array_pop( $this->registered['block']['prc-block/menu']['css'] )['handle'],
+		// )
+		// );
+		// /** Chiclet Menu Item */
+		// register_block_type(
+		// 'prc-block/menu-link',
+		// array(
+		// 'editor_script' => array_pop( $this->registered['block']['prc-block/menu-link']['js'] )['handle'],
+		// 'style'         => array_pop( $this->registered['block']['prc-block/menu-link']['css'] )['handle'],
+		// )
+		// );
 
 		/** Promo */
 		register_block_type(
