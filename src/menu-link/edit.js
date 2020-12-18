@@ -111,10 +111,10 @@ function getSuggestionsQuery( type ) {
 			return { type: 'post', subtype: type };
 		case 'topic':
 			return { type: 'term', subtype: 'topic' };
-		case 'feature':
-			return { type: 'term', subtype: 'feature' };
-		case 'program':
-			return { type: 'term', subtype: 'program' };
+		case 'formats':
+			return { type: 'term', subtype: 'formats' };
+		case 'programs':
+			return { type: 'term', subtype: 'programs' };
 		default:
 			return {};
 	}

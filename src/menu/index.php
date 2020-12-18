@@ -75,8 +75,6 @@ class PRC_Block_Menu extends PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-		error_log( plugin_dir_path( __DIR__ ) );
-		error_log( print_r( $registered, true ) );
 
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/menu',

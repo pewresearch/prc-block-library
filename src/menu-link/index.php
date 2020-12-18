@@ -34,10 +34,12 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		$is_active = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
 
 		$css_classes = ! empty( $attributes['className'] ) ? implode( ' ', (array) $attributes['className'] ) : false;
+		$has_submenu = count( $block->inner_blocks ) > 0;
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class' => $css_classes . ( $is_active ? ' current-menu-item' : '' ),
+				'class' => $css_classes . ( $has_submenu ? ' has-child' : '' ) .
+				( $is_active ? ' current-menu-item' : '' ),
 			)
 		);
 
@@ -94,6 +96,19 @@ class PRC_Menu_Link extends PRC_Block_Library {
 
 		$html .= '</a>';
 		// End anchor tag content.
+
+		if ( $has_submenu ) {
+			$inner_blocks_html = '';
+			foreach ( $block->inner_blocks as $inner_block ) {
+				$inner_blocks_html .= $inner_block->render();
+			}
+
+			// TODO - classname is wrong!
+			$html .= sprintf(
+				'<ul class="wp-block-navigation__container">%s</ul>',
+				$inner_blocks_html
+			);
+		}
 
 		$html .= '</li>';
 
