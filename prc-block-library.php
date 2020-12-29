@@ -180,34 +180,6 @@ class PRC_Block_Library {
 			)
 		);
 
-		// /** Chiclet Menu */
-		// $this->registered['block']['prc-block/menu'] = $enqueue->register(
-		// 'menu',
-		// 'main',
-		// array(
-		// 'js'        => true,
-		// 'css'       => true,
-		// 'js_dep'    => $block_js_deps,
-		// 'css_dep'   => array(),
-		// 'in_footer' => true,
-		// 'media'     => 'all',
-		// )
-		// );
-
-		// /** Chiclet Menu Item */
-		// $this->registered['block']['prc-block/menu-link'] = $enqueue->register(
-		// 'menu-link',
-		// 'main',
-		// array(
-		// 'js'        => true,
-		// 'css'       => true,
-		// 'js_dep'    => $block_js_deps,
-		// 'css_dep'   => array(),
-		// 'in_footer' => true,
-		// 'media'     => 'all',
-		// )
-		// );
-
 		/** Collapsible */
 		$this->registered['block']['prc-block/collapsible']    = $enqueue->register(
 			'collapsible',
@@ -761,23 +733,6 @@ class PRC_Block_Library {
 				'editor_script' => array_pop( $this->registered['block']['prc-block/mailchimp-opt-down']['js'] )['handle'],
 			)
 		);
-
-		// /** Chiclet Menu */
-		// register_block_type(
-		// 'prc-block/menu',
-		// array(
-		// 'editor_script' => array_pop( $this->registered['block']['prc-block/menu']['js'] )['handle'],
-		// 'style'         => array_pop( $this->registered['block']['prc-block/menu']['css'] )['handle'],
-		// )
-		// );
-		// /** Chiclet Menu Item */
-		// register_block_type(
-		// 'prc-block/menu-link',
-		// array(
-		// 'editor_script' => array_pop( $this->registered['block']['prc-block/menu-link']['js'] )['handle'],
-		// 'style'         => array_pop( $this->registered['block']['prc-block/menu-link']['css'] )['handle'],
-		// )
-		// );
 
 		/** Promo */
 		register_block_type(
