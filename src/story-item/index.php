@@ -27,8 +27,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @return string Returns the post content with the legacy widget added.
 	 */
 	public function render_story_item( $attributes, $content, $block ) {
-
-		return 'Markup Here';
+		return 'Markup For React Here';
 	}
 
 	/**
@@ -66,4 +65,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 }
 
-new PRC_Menu_Link( true );
+new PRC_Story_Item( true );
+
+function get_story_item( $args ) {
+	$story_item = new PRC_Story_Item( false );
+	return $story_item->render_story_item();
+}

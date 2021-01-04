@@ -1,0 +1,114 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/story-item",
+	"category": "layout",
+	"attributes": {
+		"title": {
+			"type": "string"
+        },
+        "excerpt": {
+            "type": "string",
+            "multiline": "p",
+            "default": "<p>Excerpt</p>"
+        },
+        "extra": {
+            "type": "string",
+            "multiline": "li"
+        },
+        "link": {
+			"type": "string"
+        },
+        "label": {
+            "type": "string",
+            "default": "Report"
+        },
+        "date": {
+			"type": "string"
+        },
+        "image": {
+			"type": "string"
+        },
+        "imageSlot": {
+            "type": "string",
+            "default": "default"
+        },
+        "imageSize": {
+            "type": "string",
+            "default": "A1"
+        },
+        "isChartArt": {
+            "type": "boolean",
+            "default": false
+        },
+        "postID": {
+            "type": "integer"
+        },
+        "headerSize": {
+            "type": "string",
+            "default": "normal"
+        },
+        "enableAltHeaderWeight": {
+            "type": "boolean",
+            "default": false
+        },
+        "enableEmphasis": {
+            "type": "boolean",
+            "default": false
+        },
+        "enableHeader": {
+            "type": "boolean",
+            "default": true
+        },
+        "enableExcerpt": {
+            "type": "boolean",
+            "default": true
+        },
+        "enableExcerptBelow": {
+            "type": "boolean",
+            "default": false
+        },
+        "enableExtra": {
+            "type": "boolean",
+            "default": false
+        },
+        "enableBreakingNews": {
+            "type": "boolean",
+            "default": false
+        },
+        "enableProgramsTaxonomy": {
+            "type": "boolean",
+            "default": false
+        }
+	},
+	"usesContext": ["prc-block/wp-query"],
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default Image Alignment",
+			"isDefault": true
+		},
+		{
+			"name": "top",
+			"label": "Image Aligned Top"
+		},
+		{
+			"name": "bottom",
+			"label": "Image Aligned Bottom"
+		},
+		{
+			"name": "left",
+			"label": "Image Aligned Left"
+		},
+		{
+			"name": "right",
+			"label": "Image Aligned Right"
+        },
+        {
+			"name": "disabled",
+			"label": "Disable Image"
+		}
+	],
+	"supports": {
+		"html": false
+	}
+}
