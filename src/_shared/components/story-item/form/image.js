@@ -54,7 +54,7 @@ const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
                 allowedTypes={ALLOWED_MEDIA_TYPES}
                 render={({ open }) => (
                     <Fragment>
-                        {0 === img.length && (
+                        {undefined !== img && 0 === img.length && (
                             <ImageDisplay
                                 img={img}
                                 size={size}
@@ -156,6 +156,7 @@ const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
  */
 
 const Img = ({ img, size, slot, chartArt, postId, setAttributes }) => {
+    console.log('<Img>', img);
     const classes = () => {
         let isXL = false;
         let isA1 = false;

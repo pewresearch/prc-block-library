@@ -22,6 +22,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 		}
 	}
 
+	private function cherry_pick_attr( $needle, $haystack ) {
+		if ( array_key_exists( $needle, $haystack ) ) {
+			return $haystack[ $needle ];
+		}
+		return '';
+	}
+
 	/**
 	 * Renders the `prc-block/story-item` placeholder block.
 	 *
@@ -32,7 +39,74 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @return string Returns the post content with the legacy widget added.
 	 */
 	public function render_story_item( $attributes, $content, $block ) {
-		return 'Markup For React Here';
+		// Do we need to go fetch information at any time??
+		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
+		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
+		$stacked    = ( 'left' === $image_slot || 'right' === $image_slot );
+		$post_id    = $this->cherry_pick_attr( 'postID', $attributes );
+		$label      = $this->cherry_pick_attr( 'label', $attributes );
+		$date       = $this->cherry_pick_attr( 'date', $attributes );
+		$title      = $this->cherry_pick_attr( 'title', $attributes );
+		$excerpt    = $this->cherry_pick_attr( 'excerpt', $attributes );
+		$extra      = $this->cherry_pick_attr( 'extra', $attributes );
+		ob_start();
+		vdump( $attributes );
+		?>
+		<div
+			class=<?php echo esc_attr( classNames( 'react-story-item', $this->cherry_pick_attr( 'className', $attributes ) ) ); ?>
+			data-label=<?php echo esc_attr( $label ); ?>
+			data-date=<?php echo esc_attr( $date ); ?>
+			data-link=<?php echo esc_attr( $this->cherry_pick_attr( 'link', $attributes ) ); ?>
+			data-image=<?php echo esc_attr( $this->cherry_pick_attr( 'image', $attributes ) ); ?>
+			data-imageSlot=<?php echo esc_attr( $image_slot ); ?>
+			data-imageSize=<?php echo esc_attr( $image_size ); ?>
+			data-headerSize=<?php echo esc_attr( $this->cherry_pick_attr( 'headerSize', $attributes ) ); ?>
+			data-classname=<?php echo esc_attr( $this->cherry_pick_attr( 'className', $attributes ) ); ?>
+			data-emphasis=<?php echo esc_attr( $this->cherry_pick_attr( 'enableEmphasis', $attributes ) ); ?>
+			data-breakingNews=<?php echo esc_attr( $this->cherry_pick_attr( 'enableBreakingNews', $attributes ) ); ?>
+			data-excerptbelow=<?php echo esc_attr( $this->cherry_pick_attr( 'enableExcerptBelow', $attributes ) ); ?>
+			data-chartArt=<?php echo esc_attr( $this->cherry_pick_attr( 'isChartArt', $attributes ) ); ?>
+		>
+			<div
+				id=<?php echo esc_attr( 'post-' . $post_id ); ?>
+				class=<?php echo esc_attr( classNames( 'ui item story is-style-' . $image_slot, array( 'stacked' => $stacked ) ) ); ?>
+			>
+				<div class="content">
+					<div class="ui fluid placeholder">
+						<div class="header">
+							<div class="line" />
+							<div class="line" />
+						</div>
+						<div class="paragraph">
+							<div class="line" />
+							<div class="line" />
+							<div class="line" />
+							<div class="line" />
+							<div class="line" />
+						</div>
+					</div>
+				</div>
+				<div class="hidden">
+					<?php
+					if ( true === $this->cherry_pick_attr( 'enableHeader', $attributes ) ) {
+						echo "<div class='title'>{$title}</div>";
+					}
+					?>
+					<?php
+					if ( true === $this->cherry_pick_attr( 'enableExcerpt', $attributes ) ) {
+						echo "<div class='description'>{$excerpt}</div>";
+					}
+					?>
+					<?php
+					if ( true === $this->cherry_pick_attr( 'enableExtra', $attributes ) ) {
+						echo "<ul class='extra'>{$extra}</ul>";
+					}
+					?>
+				</div>
+			</div>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 
 	/**
@@ -109,6 +183,6 @@ new PRC_Story_Item( true );
 
 function prc_get_story_item( $args ) {
 	$story_item = new PRC_Story_Item( false );
-	wp_enqueue_script( 'register_frontend_assets' );
+	wp_enqueue_script( 'prc-story-item-frontend' );
 	return $story_item->render_story_item();
 }

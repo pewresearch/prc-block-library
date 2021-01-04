@@ -1,8 +1,8 @@
 {
   "main.css": "wp-query/main-661edc25.css",
   "main.css.map": "wp-query/main-661edc25.css.map",
-  "main.js": "wp-query/main-820bd5d5.js",
-  "main.js.map": "wp-query/main-820bd5d5.js.map",
+  "main.js": "wp-query/main-afabbb1f.js",
+  "main.js.map": "wp-query/main-afabbb1f.js.map",
   "runtime.js": "wp-query/runtime-5be61ab2.js",
   "runtime.js.map": "wp-query/runtime-5be61ab2.js.map",
   "vendors~main.js": "wp-query/vendors~main-75489dc3.js",
@@ -12,12 +12,12 @@
       "js": [
         "wp-query/runtime-5be61ab2.js",
         "wp-query/vendors~main-75489dc3.js",
-        "wp-query/main-820bd5d5.js"
+        "wp-query/main-afabbb1f.js"
       ],
       "js.map": [
         "wp-query/runtime-5be61ab2.js.map",
         "wp-query/vendors~main-75489dc3.js.map",
-        "wp-query/main-820bd5d5.js.map"
+        "wp-query/main-afabbb1f.js.map"
       ],
       "css": [
         "wp-query/main-661edc25.css"

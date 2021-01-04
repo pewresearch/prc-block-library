@@ -68,13 +68,9 @@ const StoryItem = ({
     if (true === enableProgramsTaxonomy) {
         taxonomy = 'Programs';
     }
-    let isStacked = true;
-    if ('left' === imageSlot || 'right' === imageSlot) {
-        isStacked = false;
-    }
 
     const classes = classNames(className, 'story', {
-        stacked: isStacked,
+        stacked: ('left' === imageSlot || 'right' === imageSlot),
         bordered: enableEmphasis,
         'alt-description': enableExcerptBelow,
     });
