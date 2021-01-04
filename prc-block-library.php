@@ -52,6 +52,7 @@ class PRC_Block_Library {
 
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
 		}
 	}
 
@@ -474,36 +475,36 @@ class PRC_Block_Library {
 		);
 
 		/** Story Item */
-		$this->registered['frontend']['prc-block/story-item'] = $enqueue->register(
-			'story-item',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $js_deps, array( 'moment', 'wp-url' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['block']['prc-block/story-item']    = $enqueue->register(
-			'story-item',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $block_js_deps, array( 'moment', 'wp-url' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		add_filter(
-			'prc_story_item_script_handle',
-			function() {
-				return array_pop( $this->registered['frontend']['prc-block/story-item']['js'] )['handle'];
-			}
-		);
+		// $this->registered['frontend']['prc-block/story-item'] = $enqueue->register(
+		// 'story-item',
+		// 'frontend',
+		// array(
+		// 'js'        => true,
+		// 'css'       => true,
+		// 'js_dep'    => array_merge( $js_deps, array( 'moment', 'wp-url' ) ),
+		// 'css_dep'   => array(),
+		// 'in_footer' => true,
+		// 'media'     => 'all',
+		// )
+		// );
+		// $this->registered['block']['prc-block/story-item']    = $enqueue->register(
+		// 'story-item',
+		// 'main',
+		// array(
+		// 'js'        => true,
+		// 'css'       => true,
+		// 'js_dep'    => array_merge( $block_js_deps, array( 'moment', 'wp-url' ) ),
+		// 'css_dep'   => array(),
+		// 'in_footer' => true,
+		// 'media'     => 'all',
+		// )
+		// );
+		// add_filter(
+		// 'prc_story_item_script_handle',
+		// function() {
+		// return array_pop( $this->registered['frontend']['prc-block/story-item']['js'] )['handle'];
+		// }
+		// );
 
 		/** Sub Title */
 		$this->registered['block']['prc-block/subtitle'] = $enqueue->register(
@@ -615,13 +616,13 @@ class PRC_Block_Library {
 		);
 
 		/** Story Item */
-		register_block_type(
-			'prc-block/story-item',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/story-item']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/story-item']['css'] )['handle'],
-			)
-		);
+		// register_block_type(
+		// 'prc-block/story-item',
+		// array(
+		// 'editor_script' => array_pop( $this->registered['block']['prc-block/story-item']['js'] )['handle'],
+		// 'editor_style'  => array_pop( $this->registered['block']['prc-block/story-item']['css'] )['handle'],
+		// )
+		// );
 
 		/** Button */
 		register_block_type(
@@ -900,7 +901,7 @@ class PRC_Block_Library {
 		if ( ! is_index( true ) ) {
 			return;
 		}
-		wp_enqueue_script( $this->get_handle( 'prc-block/story-item', 'js', 'frontend' ) );
+		// wp_enqueue_script( $this->get_handle( 'prc-block/story-item', 'js', 'frontend' ) );
 	}
 
 	private function load_block_pattern( $name ) {

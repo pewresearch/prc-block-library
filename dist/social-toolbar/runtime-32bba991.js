@@ -7,7 +7,7 @@
  * @link UNLICENSED
  * @license UNLICENSED
  * 
- * Copyright (c) 2020 Seth Rubenstein
+ * Copyright (c) 2021 Seth Rubenstein
  * 
  * This software is released under the UNLICENSED License
  * https://opensource.org/licenses/UNLICENSED

@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
-import { StoryItemPlaceholder } from 'shared';
+import { Fragment } from '@wordpress/element';
 
 const save = ({ attributes }) => {
     const props = attributes;
-    return <StoryItemPlaceholder {...props} />;
+    return <Fragment></Fragment>;
 };
 
 export default save;
