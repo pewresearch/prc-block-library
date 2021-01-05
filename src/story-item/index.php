@@ -5,7 +5,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use WPackio\Enqueue;
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/story-item` block.
  *
  * @package gutenberg
  */
@@ -30,18 +30,27 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return null;
 	}
 
+	private function get_label( $post_id, $programs = false ) {
+		$terms = wp_get_object_terms( $post_id, $programs ? 'programs' : 'formats', array( 'fields' => 'names' ) );
+		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
+			return array_shift( $terms );
+		}
+		return 'Report';
+	}
+
 	/**
 	 * Given a post id construct a fully realized story item attributes array. Lookup art.
+	 * Defaults to stub posts.
 	 *
 	 * @param mixed $post_id
 	 * @return array
 	 */
-	public function get_attributes_by_stub_id( $post_id, $args = array() ) {
-		// Return an array of attributes given a stub's id.
-		// Defaults, that can be parsed.
+	public function get_attributes_by_object_id( int $post_id, $args = array() ) {
 		$defaults = array(
+			'postID'                 => $post_id,
+			'postType'               => 'stub',
 			'imageSize'              => 'A3',
-			'imageSlot'              => 'left',
+			'imageSlot'              => 'disabled',
 			'isChartArt'             => false,
 			'headerSize'             => 'normal',
 			'enableAltHeaderWeight'  => false,
@@ -53,17 +62,43 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enableBreakingNews'     => false,
 			'enableProgramsTaxonomy' => false,
 		);
-		switch_to_blog( 1 );
-		$post                = get_post( $post_id );
-		$defaults['title']   = $post->post_title;
-		$defaults['label']   = 'Report';
-		$defaults['excerpt'] = $post->post_excerpt;
-		$defaults['date']    = $post->post_date;
-		$defaults['link']    = get_post_meta( $post_id, '_redirect', true );
-		// $attrs['image'] = ?
-		// Set some defaults for things like image size and slot and extra and enabled flags...
-		$attrs = wp_parse_args( $args, $defaults );
-		restore_current_blog();
+		$attrs    = wp_parse_args( $args, $defaults );
+
+		if ( 'stub' === $attrs['postType'] ) {
+			switch_to_blog( 1 );
+		}
+
+		$post = get_post( $post_id );
+
+		if ( is_wp_error( $post ) ) {
+			restore_current_blog();
+			return $post;
+		}
+
+		$attrs['title']   = $post->post_title;
+		$attrs['excerpt'] = $post->post_excerpt;
+		$attrs['date']    = $post->post_date;
+
+		$attrs['label'] = $this->get_label( $post_id, $attrs['enableProgramsTaxonomy'] );
+
+		$art = prc_get_art( $post_id, $attrs['imageSize'] );
+		if ( false !== $attrs['imageSlot'] && false !== $art ) {
+			$attrs['image']     = $art['rawUrl'];
+			$attrs['imageSlot'] = 'left';
+			$attrs['className'] = 'is-style-left';
+		}
+
+		if ( 'stub' === $attrs['postType'] ) {
+			$attrs['link'] = get_post_meta( $post_id, '_redirect', true );
+		} else {
+			$attrs['link'] = get_permalink( $post_id );
+		}
+
+		$attrs = wp_parse_args( $args, $attrs );
+		if ( 'stub' === $attrs['postType'] ) {
+			restore_current_blog();
+		}
+
 		return $attrs;
 	}
 
@@ -76,11 +111,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 *
 	 * @return string Returns the post content with the legacy widget added.
 	 */
-	public function render_story_item( $attributes, $content, $block ) {
+	public function render_story_item( $attributes ) {
 		// Do we need to go fetch information at any time??
 		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
 		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
-		$stacked    = ( 'left' === $image_slot || 'right' === $image_slot );
+		$stacked    = ( 'top' === $image_slot || 'bottom' === $image_slot );
 		$post_id    = $this->cherry_pick_attr( 'postID', $attributes );
 		$label      = $this->cherry_pick_attr( 'label', $attributes );
 		$date       = $this->cherry_pick_attr( 'date', $attributes );
@@ -180,13 +215,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	public function enqueue_frontend() {
+		if ( false === $this->frontend_assets || ! array_key_exists( 'js', $this->frontend_assets ) ) {
+			$this->register_frontend();
+		}
 		wp_enqueue_script( array_pop( $this->frontend_assets['js'] )['handle'] );
 	}
 
 	/**
-	 * Register the menu link block.
+	 * Register the story item block.
 	 *
-	 * @uses render_block_core_navigation()
+	 * @uses render_story_item()
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
@@ -214,23 +252,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 				'render_callback' => array( $this, 'render_story_item' ),
 			)
 		);
-
-		// Not sure what this is doing really...
-		// if ( false !== $this->block_assets ) {
-		// add_filter(
-		// 'prc_story_item_script_handle',
-		// function() {
-		// return array_pop( $this->block_assets['js'] )['handle'];
-		// }
-		// );
-		// }
 	}
 }
 
 new PRC_Story_Item( true );
 
-function prc_get_story_item( $args ) {
+/**
+ * By default should only load A3 left aligned stubs, can be modified through args.
+ */
+function prc_get_story_item( $stub_post_id, $args = array() ) {
 	$story_item = new PRC_Story_Item( false );
-	wp_enqueue_script( 'prc-story-item-frontend' );
-	return $story_item->render_story_item();
+	$attributes = $story_item->get_attributes_by_object_id( $stub_post_id, $args );
+	return $story_item->render_story_item( $attributes );
 }
