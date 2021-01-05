@@ -12,13 +12,14 @@ use WPackio\Enqueue;
 
 class PRC_Story_Item extends PRC_Block_Library {
 
-	public $version      = '2.0.1';
-	public $block_assets = false;
+	public $version         = '2.0.1';
+	public $block_assets    = false;
+	public $frontend_assets = false;
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			add_action( 'init', array( $this, 'register_frontend' ), 10 );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
-			add_action( 'init', array( $this, 'register_frontend_assets' ), 11 );
 		}
 	}
 
@@ -26,7 +27,44 @@ class PRC_Story_Item extends PRC_Block_Library {
 		if ( array_key_exists( $needle, $haystack ) ) {
 			return $haystack[ $needle ];
 		}
-		return '';
+		return null;
+	}
+
+	/**
+	 * Given a post id construct a fully realized story item attributes array. Lookup art.
+	 *
+	 * @param mixed $post_id
+	 * @return array
+	 */
+	public function get_attributes_by_stub_id( $post_id, $args = array() ) {
+		// Return an array of attributes given a stub's id.
+		// Defaults, that can be parsed.
+		$defaults = array(
+			'imageSize'              => 'A3',
+			'imageSlot'              => 'left',
+			'isChartArt'             => false,
+			'headerSize'             => 'normal',
+			'enableAltHeaderWeight'  => false,
+			'enableEmphasis'         => false,
+			'enableHeader'           => true,
+			'enableExcerpt'          => true,
+			'enableExcerptBelow'     => false,
+			'enableExtra'            => false,
+			'enableBreakingNews'     => false,
+			'enableProgramsTaxonomy' => false,
+		);
+		switch_to_blog( 1 );
+		$post                = get_post( $post_id );
+		$defaults['title']   = $post->post_title;
+		$defaults['label']   = 'Report';
+		$defaults['excerpt'] = $post->post_excerpt;
+		$defaults['date']    = $post->post_date;
+		$defaults['link']    = get_post_meta( $post_id, '_redirect', true );
+		// $attrs['image'] = ?
+		// Set some defaults for things like image size and slot and extra and enabled flags...
+		$attrs = wp_parse_args( $args, $defaults );
+		restore_current_blog();
+		return $attrs;
 	}
 
 	/**
@@ -49,57 +87,71 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$title      = $this->cherry_pick_attr( 'title', $attributes );
 		$excerpt    = $this->cherry_pick_attr( 'excerpt', $attributes );
 		$extra      = $this->cherry_pick_attr( 'extra', $attributes );
+
+		$story_item_class = 'ui item story is-style-' . $image_slot;
+		if ( $stacked ) {
+			$story_item_class .= ' stacked';
+		}
+		$this->enqueue_frontend();
 		ob_start();
-		vdump( $attributes );
 		?>
 		<div
-			class=<?php echo esc_attr( classNames( 'react-story-item', $this->cherry_pick_attr( 'className', $attributes ) ) ); ?>
-			data-label=<?php echo esc_attr( $label ); ?>
-			data-date=<?php echo esc_attr( $date ); ?>
-			data-link=<?php echo esc_attr( $this->cherry_pick_attr( 'link', $attributes ) ); ?>
-			data-image=<?php echo esc_attr( $this->cherry_pick_attr( 'image', $attributes ) ); ?>
-			data-imageSlot=<?php echo esc_attr( $image_slot ); ?>
-			data-imageSize=<?php echo esc_attr( $image_size ); ?>
-			data-headerSize=<?php echo esc_attr( $this->cherry_pick_attr( 'headerSize', $attributes ) ); ?>
-			data-classname=<?php echo esc_attr( $this->cherry_pick_attr( 'className', $attributes ) ); ?>
-			data-emphasis=<?php echo esc_attr( $this->cherry_pick_attr( 'enableEmphasis', $attributes ) ); ?>
-			data-breakingNews=<?php echo esc_attr( $this->cherry_pick_attr( 'enableBreakingNews', $attributes ) ); ?>
-			data-excerptbelow=<?php echo esc_attr( $this->cherry_pick_attr( 'enableExcerptBelow', $attributes ) ); ?>
-			data-chartArt=<?php echo esc_attr( $this->cherry_pick_attr( 'isChartArt', $attributes ) ); ?>
+			class="<?php echo esc_attr( classNames( 'react-story-item', $this->cherry_pick_attr( 'className', $attributes ) ) ); ?>"
+			data-label="<?php echo esc_attr( $label ); ?>"
+			data-date="<?php echo esc_attr( $date ); ?>"
+			data-link="<?php echo esc_attr( $this->cherry_pick_attr( 'link', $attributes ) ); ?>"
+			data-image="<?php echo esc_attr( $this->cherry_pick_attr( 'image', $attributes ) ); ?>"
+			data-imageSlot="<?php echo esc_attr( $image_slot ); ?>"
+			data-imageSize="<?php echo esc_attr( $image_size ); ?>"
+			data-headerSize="<?php echo esc_attr( $this->cherry_pick_attr( 'headerSize', $attributes ) ); ?>"
+			data-classname="<?php echo esc_attr( $this->cherry_pick_attr( 'className', $attributes ) ); ?>"
+			data-emphasis="<?php echo esc_attr( $this->cherry_pick_attr( 'enableEmphasis', $attributes ) ); ?>"
+			data-breakingNews="<?php echo esc_attr( $this->cherry_pick_attr( 'enableBreakingNews', $attributes ) ); ?>"
+			data-excerptbelow="<?php echo esc_attr( $this->cherry_pick_attr( 'enableExcerptBelow', $attributes ) ); ?>"
+			data-chartArt="<?php echo esc_attr( $this->cherry_pick_attr( 'isChartArt', $attributes ) ); ?>"
 		>
 			<div
-				id=<?php echo esc_attr( 'post-' . $post_id ); ?>
-				class=<?php echo esc_attr( classNames( 'ui item story is-style-' . $image_slot, array( 'stacked' => $stacked ) ) ); ?>
+				id="<?php echo esc_attr( 'post-' . $post_id ); ?>"
+				class="<?php echo esc_attr( $story_item_class ); ?>"
 			>
+				<?php
+				if ( in_array( $image_slot, array( 'left', 'top' ) ) ) {
+					echo wp_kses( "<div class='{$image_size} image'><div class='ui fluid placeholder'><div class='image'></div></div></div>", 'post' );
+				}
+				?>
 				<div class="content">
 					<div class="ui fluid placeholder">
 						<div class="header">
-							<div class="line" />
-							<div class="line" />
+							<div class="line"></div>
+							<div class="line"></div>
 						</div>
 						<div class="paragraph">
-							<div class="line" />
-							<div class="line" />
-							<div class="line" />
-							<div class="line" />
-							<div class="line" />
+							<div class="line"></div>
+							<div class="line"></div>
+							<div class="line"></div>
+							<div class="line"></div>
 						</div>
 					</div>
 				</div>
+				<?php
+				if ( in_array( $image_slot, array( 'right', 'bottom' ) ) ) {
+					echo wp_kses( "<div class='{$image_size} image'><div class='ui fluid placeholder'><div class='image'></div></div></div>", 'post' );
+				}
+				?>
 				<div class="hidden">
 					<?php
 					if ( true === $this->cherry_pick_attr( 'enableHeader', $attributes ) ) {
-						echo "<div class='title'>{$title}</div>";
+						echo wp_kses( "<div class='title'>{$title}</div>", 'post' );
 					}
 					?>
 					<?php
 					if ( true === $this->cherry_pick_attr( 'enableExcerpt', $attributes ) ) {
-						echo "<div class='description'>{$excerpt}</div>";
+						echo wp_kses( "<div class='description'>{$excerpt}</div>", 'post' );
 					}
 					?>
 					<?php
 					if ( true === $this->cherry_pick_attr( 'enableExtra', $attributes ) ) {
-						echo "<ul class='extra'>{$extra}</ul>";
+						echo wp_kses( "<ul class='extra'>{$extra}</ul>", 'post' );
 					}
 					?>
 				</div>
@@ -107,6 +159,28 @@ class PRC_Story_Item extends PRC_Block_Library {
 		</div>
 		<?php
 		return ob_get_clean();
+	}
+
+	public function register_frontend() {
+		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
+
+		$this->frontend_assets = $enqueue->register(
+			'story-item',
+			'frontend',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
+	public function enqueue_frontend() {
+		wp_enqueue_script( array_pop( $this->frontend_assets['js'] )['handle'] );
 	}
 
 	/**
@@ -119,7 +193,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'lodash', 'wp-components' );
 		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 
-		$this->block_assets = $enqueue->register(
+		$block_assets = $enqueue->register(
 			'story-item',
 			'main',
 			array(
@@ -135,8 +209,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/story-item',
 			array(
-				'editor_script'   => array_pop( $this->block_assets['js'] )['handle'],
-				'style'           => array_pop( $this->block_assets['css'] )['handle'],
+				'editor_script'   => array_pop( $block_assets['js'] )['handle'],
+				'style'           => array_pop( $block_assets['css'] )['handle'],
 				'render_callback' => array( $this, 'render_story_item' ),
 			)
 		);
@@ -150,32 +224,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// }
 		// );
 		// }
-	}
-
-	public function register_frontend_assets() {
-		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
-
-		$frontend_assets = $enqueue->register(
-			'story-item',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		wp_register_script(
-			'prc-story-item-frontend',
-			str_replace( get_template_directory_uri(), '', array_pop( $frontend_assets['js'] )['url'] ),
-			$js_deps,
-			$this->version,
-			true
-		);
 	}
 }
 

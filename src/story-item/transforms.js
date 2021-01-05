@@ -1,8 +1,7 @@
 import { createBlock } from '@wordpress/blocks';
 
 /**
- * Default transforms for generic embeds.
- * http://pewresearch.local/fact-tank/2020/06/18/maecenas-sed-diam-eget-risus-varius-blandit-sit-amet-non-magna/
+ * Match pewresearch.org post links (not staff links) and insert story items with only the url and base image options selected, this will then let the story item fetch the details (but shouldnt we actually do that as part of the transform?)
  */
 const transforms = {
     from: [

@@ -84,12 +84,14 @@ const getProps = elm => {
         if ('true' === elm.getAttribute('data-excerptbelow')) {
             props.enableExcerptBelow = true;
         }
-    }
+    }console.log('getProps', props);
     return props;
 };
 
 const StoryItemsRender = () => {
+    console.log("StoryItemsRender...");
     const items = document.querySelectorAll('.react-story-item');
+    console.log(items);
     items.forEach(item => {
         const props = getProps(item);
         render(<StoryItem {...props} />, item);
