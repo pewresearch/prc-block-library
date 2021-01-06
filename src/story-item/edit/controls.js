@@ -1,5 +1,5 @@
 import { __, sprintf } from '@wordpress/i18n';
-import { isEmpty } from 'lodash';
+import { isEmpty, isInteger } from 'lodash';
 import { dispatch } from '@wordpress/data';
 import { InspectorControls, BlockControls, __experimentalLinkControl as LinkControl } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
@@ -16,11 +16,33 @@ import apiFetch from '@wordpress/api-fetch';
 import { isURL, prependHTTP } from '@wordpress/url';
 import WpQueryPinControls from '../../_shared/components/wpQueryPinControl'; // Supports pinning items to the wpQuery block using block context.
 
+const setPostAsAttributes = (post, setAttributes) => {
+    const storyItem = {
+        title: post.title.hasOwnProperty('rendered') ? post.title.rendered : post.title,
+        excerpt: post.excerpt.hasOwnProperty('rendered') ? post.excerpt.rendered : post.excerpt,
+        link: post.link,
+        label: post.hasOwnProperty('label') ? post.label : 'Report',
+        date: post.date,
+        postID: post.id,
+        extra: '', // We want to clear extra when pulling a new post
+    };
+    // If the post has art then let the image editor mounting effect handle setting it.
+    // Get art...
+    if ( !post.art ) {
+        storyItem.image = post.image;
+    }
+    setAttributes(storyItem);
+}
+
+/**
+ * Set's post attributes by url, failover and set just link.
+ * @param {string} url 
+ * @param {func} setAttributes 
+ */
 const setPostByURL = (url, setAttributes) => {
     if (undefined === setAttributes || undefined === url) {
         return;
     }
-
     apiFetch({
         path: '/prc-api/v2/blocks/helpers/get-post-by-url',
         method: 'POST',
@@ -28,45 +50,23 @@ const setPostByURL = (url, setAttributes) => {
     }).then(post => {
         console.log('setPostbyURL', post);
         if (false !== post) {
-            const storyItem = {
-                title: post.title,
-                excerpt: post.excerpt,
-                link: post.link,
-                label: post.label,
-                date: post.date,
-                postID: post.id,
-                extra: '', // We want to clear extra when pulling a new post
-            };
-            // If the post has art then let the image editor mounting effect handle setting it.
-            if (!post.art) {
-                storyItem.image = post.image;
-            }
-            setAttributes(storyItem);
+            setPostAsAttributes(post, setAttributes);
         }
-    });
+    }).catch( () => setAttributes({link: url}) );
 };
 
 const setPostByStubID = (postId, setAttributes) => {
-    var post = new window.wp.api.models.Stub( { id: postId } );
-    post.fetch((p) => {
-        console.log('Fetched?',p);
-        // Get post from postId.
-        const storyItem = {
-            title: post.title,
-            excerpt: post.excerpt,
-            link: post.link,
-            label: post.label,
-            date: post.date,
-            postID: post.id,
-            extra: '', // We want to clear extra when pulling a new post
-        };
-        // If the post has art then let the image editor mounting effect handle setting it.
-        // Get art...
-        if (!post.art) {
-            storyItem.image = post.image;
+    console.log('setPostByStubID', postId);
+    apiFetch({
+        path: '/wp/v2/stub/' + postId,
+        method: 'GET',
+    }).then(post => {
+        console.log('setPostByStubID', post);
+        if (false !== post) {
+            // We should lookup the meta link here real quick and apply that to the post.link object before posting attributes.
+            setPostAsAttributes(post, setAttributes);
         }
-        setAttributes(storyItem);
-    });
+    }).catch( err => console.error(err) );
 }
 
 const URLControl = ({url, setAttributes}) => {
@@ -92,7 +92,18 @@ const URLControl = ({url, setAttributes}) => {
                         showInitialSuggestions={ true }
                         suggestionsQuery={ { type: 'post', subtype: 'stub' } }
                         onChange={(p) => {
-                            console.log(p);
+                            if ( !p.hasOwnProperty('url') ) {
+                                return;
+                            }
+                            console.log(p, p.hasOwnProperty('id'));
+                            // If this returns an  ID then its a stub id so we can go ahead and get info from wp api.
+                            if ( p.hasOwnProperty('id') ) {
+                                console.log("Yeah");
+                                setPostByStubID(p.id, setAttributes);
+                            } else {
+                                console.log("No");
+                                setPostByURL(p.url, setAttributes);
+                            }
                         }} // Does return the post id so we could just go set that shit
                         settings={[]}
                     />
@@ -270,9 +281,12 @@ const Controls = ({attributes, setAttributes, context, rootClientId}) => {
             )}
             <InspectorControls>
                 <PanelBody title={label}>
-                <div>
-                    <TextControl label="Post ID" value={postID} disabled />
-                </div>
+                {isInteger(postID) && (
+                    <div>
+                        <TextControl label="Post ID" value={postID} disabled />
+                        <Button isSecondary>Refresh Post Details</Button>
+                    </div>
+                )}
                 <div>
                     <BaseControl label="Content Options">
                         <ToggleControl

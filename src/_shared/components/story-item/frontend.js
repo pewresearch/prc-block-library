@@ -66,25 +66,26 @@ const getProps = elm => {
         props.headerSize = elm.getAttribute('data-headersize');
     }
     if (elm.getAttribute('data-emphasis')) {
-        if ('true' === elm.getAttribute('data-emphasis')) {
+        if ('1' === elm.getAttribute('data-emphasis') || 'true' === elm.getAttribute('data-emphasis')) {
             props.enableEmphasis = true;
         }
     }
     if (elm.getAttribute('data-breakingnews')) {
-        if ('true' === elm.getAttribute('data-breakingnews')) {
+        if ('1' === elm.getAttribute('data-breakingnews') || 'true' === elm.getAttribute('data-breakingnews')) {
             props.enableBreakingNews = true;
         }
     }
     if (elm.getAttribute('data-inloop')) {
-        if ('true' === elm.getAttribute('data-inloop')) {
+        if ('1' === elm.getAttribute('data-inloop') || 'true' === elm.getAttribute('data-inloop')) {
             props.inLoop = true;
         }
     }
     if (elm.getAttribute('data-excerptbelow')) {
-        if ('true' === elm.getAttribute('data-excerptbelow')) {
+        if ('1' === elm.getAttribute('data-excerptbelow') || 'true' === elm.getAttribute('data-excerptbelow')) {
             props.enableExcerptBelow = true;
         }
-    }console.log('getProps', props);
+    }
+    console.log('getProps', props, elm);
     return props;
 };
 

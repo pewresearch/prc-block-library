@@ -69,6 +69,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enableExtra'            => false,
 			'enableBreakingNews'     => false,
 			'enableProgramsTaxonomy' => false,
+			'inLoop'                 => false,
 		);
 		$attrs    = wp_parse_args( $args, $defaults );
 
@@ -117,7 +118,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 *
 	 * @return string Returns story item placeholder markup.
 	 */
-	public function render_story_item( $attributes ) {
+	public function render_story_item( $attributes, $in_loop = false ) {
 		// Do we need to go fetch information at any time??
 		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
 		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
@@ -151,6 +152,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			data-breakingNews="<?php echo esc_attr( $this->cherry_pick_attr( 'enableBreakingNews', $attributes ) ); ?>"
 			data-excerptbelow="<?php echo esc_attr( $this->cherry_pick_attr( 'enableExcerptBelow', $attributes ) ); ?>"
 			data-chartArt="<?php echo esc_attr( $this->cherry_pick_attr( 'isChartArt', $attributes ) ); ?>"
+			data-inLoop="<?php echo esc_attr( $this->cherry_pick_attr( 'inLoop', $attributes ) ); ?>"
 		>
 			<div
 				id="<?php echo esc_attr( 'post-' . $post_id ); ?>"

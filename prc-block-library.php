@@ -1325,12 +1325,25 @@ class PRC_Block_Library {
 		error_log( $post_id );
 
 		if ( 0 === $post_id ) {
-			return 'URL TO POSTID ' . $site_id . '-' . $url;
+			return new WP_Error(
+				404,
+				'Could not find object from given url',
+				array(
+					'url' => $url,
+				)
+			);
 		}
 
 		$stub_id = get_post_meta( $post_id, '_stub_post', true );
 		if ( ! $stub_id ) {
-			return 'GET STUB POST ' . $site_id . '-' . $post_id . '-' . $url;
+			return new WP_Error(
+				404,
+				'Given object is not a stub post',
+				array(
+					'id'  => $post_id,
+					'url' => $url,
+				)
+			);
 		}
 		restore_current_blog();
 
@@ -1340,7 +1353,16 @@ class PRC_Block_Library {
 
 		$stub_post = get_post( $stub_id );
 		if ( false === $stub_post ) {
-			return 'STUB ' . $site_id . '-' . $post_id . '-' . $stub_id;
+			return new WP_Error(
+				404,
+				'Stub object could not be fetched',
+				array(
+					'id'      => $post_id,
+					'stub_id' => $stub_id,
+					'site_id' => $site_id,
+					'url'     => $url,
+				)
+			);
 		}
 
 		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
