@@ -46,13 +46,31 @@ const setPostByURL = (url, setAttributes) => {
     });
 };
 
-const URLControl = ({url, setAttributes}) => {    
+const setPostByStubID = (postId, setAttributes) => {
+    var post = new window.wp.api.models.Stub( { id: postId } );
+    post.fetch((p) => {
+        console.log('Fetched?',p);
+        // Get post from postId.
+        const storyItem = {
+            title: post.title,
+            excerpt: post.excerpt,
+            link: post.link,
+            label: post.label,
+            date: post.date,
+            postID: post.id,
+            extra: '', // We want to clear extra when pulling a new post
+        };
+        // If the post has art then let the image editor mounting effect handle setting it.
+        // Get art...
+        if (!post.art) {
+            storyItem.image = post.image;
+        }
+        setAttributes(storyItem);
+    });
+}
+
+const URLControl = ({url, setAttributes}) => {
     const [ isLinkOpen, setIsLinkOpen ] = useState( false );
-
-    const link = {
-		url
-    };
-
     return(
         <Fragment>
             <ToolbarButton
@@ -70,10 +88,12 @@ const URLControl = ({url, setAttributes}) => {
                 >
                     <LinkControl
                         className="wp-block-navigation-link__inline-link-input"
-                        value={ link }
+                        value={{ url }}
                         showInitialSuggestions={ true }
                         suggestionsQuery={ { type: 'post', subtype: 'stub' } }
-                        onChange={(nextVal) => console.log(nextVal)} // Does return the post id so we could just go set that shit
+                        onChange={(p) => {
+                            console.log(p);
+                        }} // Does return the post id so we could just go set that shit
                         settings={[]}
                     />
                 </Popover>
@@ -87,7 +107,7 @@ const POPOVER_PROPS = {
     isAlternate: true,
 };
 
-const ToolbarDropdown = ({ selected, options, iconPaths, label, onChange, iconWidth = '24', iconHeight = '24', iconViewBox = '0 0 24 24' }) => {
+const ToolbarDropdown = ({ selected, options, iconPaths, label, prefixLabel = '%s', onChange, iconWidth = '24', iconHeight = '24', iconViewBox = '0 0 24 24' }) => {
     const Icon = ({ selected, isPressed = false }) => {
         if (!iconPaths.hasOwnProperty(selected)) {
             return null;
@@ -136,7 +156,7 @@ const ToolbarDropdown = ({ selected, options, iconPaths, label, onChange, iconWi
                                 ),
                                 title: sprintf(
                                     // translators: %s: heading level e.g: "1", "2", "3"
-                                    __('%s'),
+                                    __(prefixLabel),
                                     size,
                                 ),
                                 isActive,
@@ -176,6 +196,7 @@ const ToolbarControls = ({
                     }}
                     iconHeight="24"
                     iconWidth="24"
+                    prefixLabel="Heading %d"
                     iconViewBox="0 0 20 20"
                 />
             </ToolbarGroup>
@@ -193,6 +214,7 @@ const ToolbarControls = ({
                             'A4': 'M12.31,18.09h-3l-.74-2.46H4.67l-.75,2.46H1.45l3.84-12H8.54ZM7.9,13.41,6.62,9.2,5.34,13.41Z M20.86,13.22h1.69v2.1H20.86v2.77H18.05V15.32H12.81v-2.1l4.84-7.31h3.21Zm-2.69,0V9.16c0-.09,0-.28,0-.57l0-.51-3.29,5.14Z',
                             'XL': 'M9.23,11.58,12.94,18H9.7L7.28,13.65,4.87,18H2.21l3.71-6.38L2.62,6H5.9L7.84,9.65,9.88,6h2.63Z M21.79,15.63V18H14.18V6H17v9.64Z'
                         }}
+                        prefixLabel="%s Image Size"
                     />
                     <ToolbarButton
                         icon='chart-pie'
@@ -225,7 +247,7 @@ const Controls = ({attributes, setAttributes, context, rootClientId}) => {
     } = attributes;
 
     const label = __('Story Item Options');
-    const [url, setUrl] = useState(link);
+
     useEffect(()=>{
         // On mount load the latest post details from the url.
         if (!isEmpty(link) && undefined === postID) {
@@ -250,30 +272,6 @@ const Controls = ({attributes, setAttributes, context, rootClientId}) => {
                 <PanelBody title={label}>
                 <div>
                     <TextControl label="Post ID" value={postID} disabled />
-                </div>
-                <div className="story-item-link">
-                    <div>
-                        <TextControl
-                            autoComplete="off"
-                            label="Link"
-                            value={url}
-                            onChange={u => {
-                                setUrl(u);
-                                setAttributes({ link: u });
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <Button
-                            onClick={() => setPostByURL(link, setAttributes)}
-                            isPrimary
-                            style={{
-                                height: '30px',
-                            }}
-                        >
-                            Fetch Post Details
-                        </Button>
-                    </div>
                 </div>
                 <div>
                     <BaseControl label="Content Options">
