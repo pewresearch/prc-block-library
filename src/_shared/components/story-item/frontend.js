@@ -16,7 +16,7 @@ const getProps = elm => {
         imageSize: 'A3',
         isChartArt: false,
         postID: '',
-        headerSize: 'normal',
+        headerSize: 2,
         enableEmphasis: false,
         enableHeader: true,
         enableAltHeaderWeight: false,

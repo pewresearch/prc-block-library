@@ -9,8 +9,6 @@ import {
 
 import {
     StoryItem,
-    StoryItemForm,
-    StoryItemPlaceholder,
     CollapsibleList,
     TaxonomySelectList,
 } from './components';
@@ -23,8 +21,6 @@ export {
     getColorName,
     ifMatchSetAttribute,
     StoryItem,
-    StoryItemForm,
-    StoryItemPlaceholder,
     CollapsibleList,
     TaxonomySelectList,
 };

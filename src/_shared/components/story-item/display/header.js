@@ -22,9 +22,16 @@ const Header = ({
     if (true !== enabled) {
         return <Fragment />;
     }
-    const classes = classNames(size, {
+    console.log(size);
+    const classes = classNames({
+        large: (1 === parseInt(size)),
+        medium: (2 === parseInt(size)),
+        small: (3 === parseInt(size)),
         light: altHeaderWeight,
     });
+
+    console.log("<Header/>", size, classes);
+    
     return (
         <Fragment>
             <Item.Meta>

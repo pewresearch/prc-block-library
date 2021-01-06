@@ -30,7 +30,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return null;
 	}
 
-	private function get_label( $post_id, $programs = false ) {
+	/**
+	 * Get first term in either formats or programs (as determined by $programs flag)
+	 *
+	 * @param int  $post_id of post you want to fetch.
+	 * @param bool $programs flag to enable fetching programs taxonomy instead of formats, defaults to false.
+	 * @return string
+	 */
+	private function get_label( int $post_id, $programs = false ) {
 		$terms = wp_get_object_terms( $post_id, $programs ? 'programs' : 'formats', array( 'fields' => 'names' ) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
@@ -39,10 +46,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	/**
-	 * Given a post id construct a fully realized story item attributes array. Lookup art.
-	 * Defaults to stub posts.
+	 * Given a post id construct a post's story item attributes.
+	 * Defaults to pub listing options (stub, image slot left, A3 image size) but these can be overriden by passing in $args (array).
 	 *
-	 * @param mixed $post_id
+	 * @param int   $post_id of post you want to fetch.
+	 * @param array $args option arguments to override defaults.
 	 * @return array
 	 */
 	public function get_attributes_by_object_id( int $post_id, $args = array() ) {
@@ -52,7 +60,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'imageSize'              => 'A3',
 			'imageSlot'              => 'disabled',
 			'isChartArt'             => false,
-			'headerSize'             => 'normal',
+			'headerSize'             => 2,
 			'enableAltHeaderWeight'  => false,
 			'enableEmphasis'         => false,
 			'enableHeader'           => true,
@@ -106,10 +114,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * Renders the `prc-block/story-item` placeholder block.
 	 *
 	 * @param array $attributes The block attributes.
-	 * @param array $content The saved content.
-	 * @param array $block The parsed block.
 	 *
-	 * @return string Returns the post content with the legacy widget added.
+	 * @return string Returns story item placeholder markup.
 	 */
 	public function render_story_item( $attributes ) {
 		// Do we need to go fetch information at any time??
@@ -128,6 +134,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			$story_item_class .= ' stacked';
 		}
 		$this->enqueue_frontend();
+		error_log( print_r( $attributes, true ) );
 		ob_start();
 		?>
 		<div

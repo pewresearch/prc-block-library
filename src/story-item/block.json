@@ -43,8 +43,8 @@
             "type": "integer"
         },
         "headerSize": {
-            "type": "string",
-            "default": "normal"
+            "type": "integer",
+            "default": 2
         },
         "enableAltHeaderWeight": {
             "type": "boolean",
