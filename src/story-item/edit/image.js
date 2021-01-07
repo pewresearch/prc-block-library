@@ -48,30 +48,36 @@ const Edit = ({ img, size, postId, setAttributes }) => {
             <MediaUpload
                 onSelect={media => setAttributes({ image: media.url })}
                 allowedTypes={ALLOWED_MEDIA_TYPES}
-                render={({ open }) => (
-                    <Fragment>
-                        {
-                            // If we have an actual image here then display it otherwise give us the placeholder
-                        }
-                        {undefined !== img && 0 !== img.length && (
-                            <ImageDisplay
-                                img={img}
-                                size={size}
-                                link=""
-                                onClick={open}
-                            />
-                        )}
-                        {(undefined === img || 0 === img.length) && (
-                            <ImageDisplay
-                                img={img}
-                                size={size}
-                                link=""
-                                onClick={open}
-                                placeholder
-                            />
-                        )}
-                    </Fragment>
-                )}
+                render={({ open }) => {
+                    let openFn = open;
+                    if (undefined !== postId && ! ['legacy-260', 'legacy-260-173'].includes(size)) {
+                        openFn = () => alert("You are unable to edit this image as it is locked to a post. To edit, visit this post and edit its origin post. " + postId);
+                    }
+                    return(
+                        <Fragment>
+                            {
+                                // If we have an actual image here then display it otherwise give us the placeholder
+                            }
+                            {undefined !== img && 0 !== img.length && (
+                                <ImageDisplay
+                                    img={img}
+                                    size={size}
+                                    link=""
+                                    onClick={openFn}
+                                />
+                            )}
+                            {(undefined === img || 0 === img.length) && (
+                                <ImageDisplay
+                                    img={img}
+                                    size={size}
+                                    link=""
+                                    onClick={openFn}
+                                    placeholder
+                                />
+                            )}
+                        </Fragment>
+                    )
+                }}
             />
         </MediaUploadCheck>
     );

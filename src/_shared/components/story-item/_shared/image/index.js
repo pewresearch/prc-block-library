@@ -65,6 +65,12 @@ const ImageDisplay = ({ img, size, link, onClick = false, placeholder = false })
                 dimensions = '536x302';
             } else if ('XL' === size) {
                 dimensions = '1440x810';
+            } else if ('legacy-260' === size) {
+                // Default to A1
+                dimensions = '260x260';
+            } else if ('legacy-260-173' === size) {
+                // Default to A1
+                dimensions = '260x173';
             } else {
                 // Default to A1
                 dimensions = '1128x634';

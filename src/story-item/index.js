@@ -34,6 +34,46 @@ const settings = {
         },
     },
     transforms,
+    variations: [
+        {
+            name: 'story-item-default',
+            isDefault: true,
+            title: __( 'Story Item' ),
+            description: __( 'The default story item' ),
+            attributes: { 
+                imageSlot: 'default',
+                imageSize: 'A1'
+             },
+        },
+        {
+            name: 'story-item-pub-listing',
+            title: __( 'Pub Listing Story Item' ),
+            attributes: {
+                className: 'is-style-left',
+                imageSlot: 'left',
+                imageSize: 'A3'
+             },
+        },
+        // Legacy variations
+        {
+            name: 'story-item-homepage-small',
+            title: __( 'Homepage Story Item (Small)' ),
+            attributes: {
+                imageSize: 'legacy-260-173'
+             },
+        },
+        {
+            name: 'story-item-homepage-large',
+            title: __( 'Homepage Story Item (Large)' ),
+            attributes: {
+                className: 'is-style-right',
+                headerSize: 1,
+                enableEmphasis: true,
+                imageSlot: 'right',
+                imageSize: 'legacy-260'
+             },
+        },
+    ],
 	edit,
 	save,
 };
