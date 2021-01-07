@@ -18,7 +18,7 @@ const { name } = metadata;
 const settings = {
 	title: __( 'Story Item' ),
 	icon: 'format-aside',
-	description: __('A story item is a visual display of a stub post (which is a database reference to a post).'),
+	description: __('A story item is a visual display of a post, usually referencing a stub post.'),
 	keywords: [__('prc'), __('story'), __('post'), __('story item')],
 	example: {
         attributes: {

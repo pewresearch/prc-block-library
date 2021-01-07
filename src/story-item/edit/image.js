@@ -1,10 +1,5 @@
 import { Fragment, useState, useEffect } from '@wordpress/element';
-import { Button, SelectControl, Toolbar } from '@wordpress/components';
-import {
-    MediaUpload,
-    MediaUploadCheck,
-    BlockControls,
-} from '@wordpress/block-editor';
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 import classNames from 'classnames/bind';
 
@@ -12,9 +7,10 @@ import { ImageDisplay } from '../../_shared/components/story-item/_shared';
 
 const ALLOWED_MEDIA_TYPES = ['image'];
 
-const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
+const Edit = ({ img, size, postId, setAttributes }) => {
     const [art, setArt] = useState(false);
 
+    // When the postId changes go fetch new art for this post and store it in state and also store the correct image url in attributes.
     useEffect(() => {
         if (0 !== postId && false !== setAttributes) {
             apiFetch({
@@ -29,10 +25,10 @@ const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
                 }
             });
         }
-    }, [postId, setAttributes]);
+    }, [postId]);
 
     /**
-     * Check if post has `art` assets and if so set them.
+     * If the art or size changes then go check the art object and set the approrpiate image and chart art given the arts options.
      */
     useEffect(() => {
         if (
@@ -54,21 +50,24 @@ const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
                 allowedTypes={ALLOWED_MEDIA_TYPES}
                 render={({ open }) => (
                     <Fragment>
-                        {undefined !== img && 0 === img.length && (
+                        {
+                            // If we have an actual image here then display it otherwise give us the placeholder
+                        }
+                        {undefined !== img && 0 !== img.length && (
+                            <ImageDisplay
+                                img={img}
+                                size={size}
+                                link=""
+                                onClick={open}
+                            />
+                        )}
+                        {(undefined === img || 0 === img.length) && (
                             <ImageDisplay
                                 img={img}
                                 size={size}
                                 link=""
                                 onClick={open}
                                 placeholder
-                            />
-                        )}
-                        {'' !== img && (
-                            <ImageDisplay
-                                img={img}
-                                size={size}
-                                link=""
-                                onClick={open}
                             />
                         )}
                     </Fragment>
@@ -92,6 +91,7 @@ const Edit = ({ img, size, chartArt, postId, setAttributes }) => {
 
 const Img = ({ img, size, slot, chartArt, postId, setAttributes }) => {
     console.log('<Img>', img);
+
     const classes = () => {
         let isXL = false;
         let isA1 = false;
@@ -129,7 +129,6 @@ const Img = ({ img, size, slot, chartArt, postId, setAttributes }) => {
             <Edit
                 img={img}
                 size={size}
-                chartArt={chartArt}
                 postId={postId}
                 setAttributes={setAttributes}
             />
