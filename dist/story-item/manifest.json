@@ -3,8 +3,8 @@
   "frontend.js.map": "story-item/frontend-5de1317c.js.map",
   "main.css": "story-item/main-cfb7b0d8.css",
   "main.css.map": "story-item/main-cfb7b0d8.css.map",
-  "main.js": "story-item/main-08d0fb80.js",
-  "main.js.map": "story-item/main-08d0fb80.js.map",
+  "main.js": "story-item/main-c4f6eb09.js",
+  "main.js.map": "story-item/main-c4f6eb09.js.map",
   "runtime.js": "story-item/runtime-ee75697a.js",
   "runtime.js.map": "story-item/runtime-ee75697a.js.map",
   "vendors~frontend~main.js": "story-item/vendors~frontend~main-6f0dca03.js",
@@ -14,12 +14,12 @@
       "js": [
         "story-item/runtime-ee75697a.js",
         "story-item/vendors~frontend~main-6f0dca03.js",
-        "story-item/main-08d0fb80.js"
+        "story-item/main-c4f6eb09.js"
       ],
       "js.map": [
         "story-item/runtime-ee75697a.js.map",
         "story-item/vendors~frontend~main-6f0dca03.js.map",
-        "story-item/main-08d0fb80.js.map"
+        "story-item/main-c4f6eb09.js.map"
       ],
       "css": [
         "story-item/main-cfb7b0d8.css"

@@ -59,12 +59,18 @@ const setPostByURL = (url, setAttributes) => {
         if (false !== post) {
             setPostAsAttributes(post, setAttributes);
         }
-    }).catch( () => setAttributes({link: url}) );
+    }).catch( (err) => {
+        console.error(err);
+        setAttributes({link: url});
+    } );
 };
 
-const setPostByStubID = (postId, setAttributes) => {
+const setPostByStubID = (postId, setAttributes, refresh) => {
     if (undefined === postId || undefined === setAttributes) {
         return;
+    }
+    if ( undefined !== refresh ) {
+        refresh(true);
     }
     apiFetch({
         path: '/wp/v2/stub/' + postId,
@@ -75,7 +81,11 @@ const setPostByStubID = (postId, setAttributes) => {
             // We should lookup the meta link here real quick and apply that to the post.link object before posting attributes.
             setPostAsAttributes(post, setAttributes);
         }
-    }).catch( err => console.error(err) );
+    }).catch( err => console.error(err) ).then(()=>{
+        if ( undefined !== refresh ) {
+            refresh(false);
+        }
+    });
 }
 
 const URLControl = ({url, setAttributes}) => {
@@ -253,6 +263,7 @@ const ToolbarControls = ({
 }
 
 const Controls = ({attributes, setAttributes, context, rootClientId}) => {
+    const [isRefreshing, refresh] = useState(false);
     const {
         postID,
         link,
@@ -288,7 +299,7 @@ const Controls = ({attributes, setAttributes, context, rootClientId}) => {
             <InspectorControls>
                 <PanelBody title={label}>
                     {isInteger(postID) && (
-                        <Button isSecondary onClick={() => setPostByStubID(postID, setAttributes)} style={{marginBottom: '1em'}}>Refresh Post</Button>
+                        <Button isSecondary isBusy={isRefreshing} onClick={() => setPostByStubID(postID, setAttributes, refresh)} style={{marginBottom: '1em'}}>Refresh Post</Button>
                     )}
                     <ToggleControl
                         label={
