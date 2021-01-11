@@ -119,7 +119,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 *
 	 * @return string Returns story item placeholder markup.
 	 */
-	public function render_story_item( $attributes, $content ) {
+	public function render_story_item( $attributes, $content = '' ) {
 		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
 		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
 		$stacked    = ( 'top' === $image_slot || 'bottom' === $image_slot );
