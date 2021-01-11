@@ -288,7 +288,7 @@ const Controls = ({attributes, setAttributes, context, rootClientId}) => {
             <InspectorControls>
                 <PanelBody title={label}>
                     {isInteger(postID) && (
-                        <Button isSecondary onClick={() => setPostByStubID(postID, setAttributes)} style={{marginTop: '1em'}}>Refresh Post</Button>
+                        <Button isSecondary onClick={() => setPostByStubID(postID, setAttributes)} style={{marginBottom: '1em'}}>Refresh Post</Button>
                     )}
                     <ToggleControl
                         label={

@@ -119,7 +119,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 *
 	 * @return string Returns story item placeholder markup.
 	 */
-	public function render_story_item( $attributes, $in_loop = false ) {
+	public function render_story_item( $attributes, $content ) {
+		error_log( 'render_story_item()' );
+		error_log( print_r( $content, true ) );
 		// Do we need to go fetch information at any time??
 		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
 		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
@@ -128,8 +130,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$label      = $this->cherry_pick_attr( 'label', $attributes );
 		$date       = $this->cherry_pick_attr( 'date', $attributes );
 		$title      = $this->cherry_pick_attr( 'title', $attributes );
-		$excerpt    = $this->cherry_pick_attr( 'excerpt', $attributes );
-		$extra      = $this->cherry_pick_attr( 'extra', $attributes );
+		// Check for legacy excerpt
+		preg_match( '/<p>(.*)<\/p>/', $content, $matches );
+		if ( $matches && substr( $matches[0], 0, 3 ) === '<p>' ) {
+			$excerpt = $matches[0];
+		} else {
+			$excerpt = $this->cherry_pick_attr( 'excerpt', $attributes );
+		}
+		$extra = $this->cherry_pick_attr( 'extra', $attributes );
 
 		$story_item_class = 'ui item story is-style-' . $image_slot;
 		if ( $stacked ) {
