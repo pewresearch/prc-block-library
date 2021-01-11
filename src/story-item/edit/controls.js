@@ -119,6 +119,7 @@ const URLControl = ({url, setAttributes}) => {
                             if ( p.hasOwnProperty('id') ) {
                                 setPostByStubID(p.id, setAttributes);
                             } else {
+                                console.log('setPostByUrl Pre:', p);
                                 setPostByURL(p.url, setAttributes);
                             }
                         }} // Does return the post id so we could just go set that shit
