@@ -34,7 +34,6 @@ const settings = {
             imageSize: 'A2',
         },
     },
-    transforms,
     variations: [
         {
             name: 'story-item-default',
@@ -75,9 +74,10 @@ const settings = {
              },
         },
     ],
+    transforms,
+    deprecated,
 	edit,
     save,
-    deprecated,
 };
 
 registerBlockType( name, {...metadata, ...settings});
