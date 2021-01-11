@@ -42,12 +42,12 @@ const setPostAsAttributes = (post, setAttributes) => {
 }
 
 /**
- * Set's post attributes by url, failover and set just link.
+ * Set's post attributes by url if a post is not found then failover and set just the link as what was passed through.
  * @param {string} url 
  * @param {func} setAttributes 
  */
 const setPostByURL = (url, setAttributes) => {
-    if (undefined === setAttributes || undefined === url) {
+    if (undefined === url || undefined === setAttributes) {
         return;
     }
     apiFetch({
@@ -63,12 +63,14 @@ const setPostByURL = (url, setAttributes) => {
 };
 
 const setPostByStubID = (postId, setAttributes) => {
-    console.log('setPostByStubID', postId);
+    if (undefined === postId || undefined === setAttributes) {
+        return;
+    }
     apiFetch({
         path: '/wp/v2/stub/' + postId,
         method: 'GET',
     }).then(post => {
-        console.log('setPostByStubID', post);
+        console.log('setPostByStubID', postId, post);
         if (false !== post) {
             // We should lookup the meta link here real quick and apply that to the post.link object before posting attributes.
             setPostAsAttributes(post, setAttributes);
@@ -99,16 +101,14 @@ const URLControl = ({url, setAttributes}) => {
                         showInitialSuggestions={ true }
                         suggestionsQuery={ { type: 'post', subtype: 'stub' } }
                         onChange={(p) => {
+                            // If for whatever reason what is returned does not have the url property then bail out.
                             if ( !p.hasOwnProperty('url') ) {
                                 return;
                             }
-                            console.log(p, p.hasOwnProperty('id'));
                             // If this returns an  ID then its a stub id so we can go ahead and get info from wp api.
                             if ( p.hasOwnProperty('id') ) {
-                                console.log("Yeah");
                                 setPostByStubID(p.id, setAttributes);
                             } else {
-                                console.log("No");
                                 setPostByURL(p.url, setAttributes);
                             }
                         }} // Does return the post id so we could just go set that shit
@@ -271,9 +271,6 @@ const Controls = ({attributes, setAttributes, context, rootClientId}) => {
     useEffect(()=>{
         // On mount load the latest post details from the url.
         if (!isEmpty(link) && undefined === postID) {
-            console.log('Story Item Controls Did Mount');
-            console.log(link);
-            console.log(postID);
             setPostByURL(link, setAttributes);
         }
     }, [link]);
@@ -290,6 +287,9 @@ const Controls = ({attributes, setAttributes, context, rootClientId}) => {
             )}
             <InspectorControls>
                 <PanelBody title={label}>
+                    {isInteger(postID) && (
+                        <Button isSecondary onClick={() => setPostByStubID(postID, setAttributes)} style={{marginTop: '1em'}}>Refresh Post</Button>
+                    )}
                     <ToggleControl
                         label={
                             enableHeader ? 'Header Enabled' : 'Header Disabled'
@@ -377,9 +377,6 @@ const Controls = ({attributes, setAttributes, context, rootClientId}) => {
                             setAttributes({ enableEmphasis: !enableEmphasis });
                         }}
                     />
-                    {isInteger(postID) && (
-                        <Button isSecondary onClick={() => setPostByStubID(postID, setAttributes)} style={{marginTop: '1em'}}>Refresh Attributes</Button>
-                    )}
                 </PanelBody>
             </InspectorControls>
         </Fragment>

@@ -219,7 +219,6 @@ const deprecated = [
         supports,
         migrate( props ) {
             console.log("MIGRATE", props);
-            
             if ( 'large' === props.headerSize ) {
                 props.headerSize = 1;
             }
@@ -229,10 +228,10 @@ const deprecated = [
             if ( 'small' === props.headerSize ) {
                 props.headerSize = 3;
             }
-            return props;
+            return props
         },
         save( props ) {
-            console.log("Migration Save", props);
+            console.log("Migration Save...", props);
             const { attributes } = props;
             return <LegacyStoryItem {...attributes} />;        
         },
