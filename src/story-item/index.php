@@ -257,6 +257,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 			);
 		}
 
+		$url = $url['url'];
+
 		$current_site_id = get_current_blog_id();
 
 		$site_id = prc_get_site_id_from_url( $url );
