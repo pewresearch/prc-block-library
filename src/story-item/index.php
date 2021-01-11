@@ -120,9 +120,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @return string Returns story item placeholder markup.
 	 */
 	public function render_story_item( $attributes, $content ) {
-		error_log( 'render_story_item()' );
-		error_log( print_r( $content, true ) );
-		// Do we need to go fetch information at any time??
 		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
 		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
 		$stacked    = ( 'top' === $image_slot || 'bottom' === $image_slot );
