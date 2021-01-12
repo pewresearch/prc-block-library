@@ -933,6 +933,7 @@ class PRC_Block_Library {
 		if ( ! function_exists( 'register_block_pattern' ) || ! function_exists( 'register_block_pattern_category' ) ) {
 			return;
 		}
+
 		$this->unregister_core_patterns();
 
 		// PRC Patterns
