@@ -167,7 +167,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			>
 				<?php
 				if ( in_array( $image_slot, array( 'left', 'top' ) ) ) {
-					echo wp_kses( "<div class='{$image_size} image'><div class='ui fluid placeholder'><div class='image'></div></div></div>", 'post' );
+					echo "<div class='{$image_size} image'><div class='ui fluid placeholder'><div class='image'></div></div></div>";
 				}
 				?>
 				<div class="content">
@@ -186,23 +186,23 @@ class PRC_Story_Item extends PRC_Block_Library {
 				</div>
 				<?php
 				if ( in_array( $image_slot, array( 'right', 'bottom' ) ) ) {
-					echo wp_kses( "<div class='{$image_size} image'><div class='ui fluid placeholder'><div class='image'></div></div></div>", 'post' );
+					echo "<div class='{$image_size} image'><div class='ui fluid placeholder'><div class='image'></div></div></div>";
 				}
 				?>
 				<div class="hidden">
 					<?php
 					if ( true === $this->cherry_pick_attr( 'enableHeader', $attributes ) ) {
-						echo wp_kses( "<div class='title'>{$title}</div>", 'post' );
+						echo "<div class='title'>{$title}</div>";
 					}
 					?>
 					<?php
 					if ( true === $this->cherry_pick_attr( 'enableExcerpt', $attributes ) ) {
-						echo wp_kses( "<div class='description'>{$excerpt}</div>", 'post' );
+						echo "<div class='description'>{$excerpt}</div>";
 					}
 					?>
 					<?php
 					if ( true === $this->cherry_pick_attr( 'enableExtra', $attributes ) ) {
-						echo wp_kses( "<ul class='extra'>{$extra}</ul>", 'post' );
+						echo "<ul class='extra'>{$extra}</ul>";
 					}
 					?>
 				</div>
