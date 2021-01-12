@@ -205,6 +205,15 @@ class PRC_Story_Item extends PRC_Block_Library {
 						echo "<ul class='extra'>{$extra}</ul>";
 					}
 					?>
+					<?php
+					do_action(
+						'prc_story_item_extra',
+						array(
+							'post_type' => get_post_type( $post_id ),
+							'id'        => $post_id,
+						),
+					);
+					?>
 				</div>
 			</div>
 		</div>
