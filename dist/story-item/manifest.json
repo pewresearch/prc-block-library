@@ -1,6 +1,6 @@
 {
-  "frontend.js": "story-item/frontend-5de1317c.js",
-  "frontend.js.map": "story-item/frontend-5de1317c.js.map",
+  "frontend.js": "story-item/frontend-f25f1b15.js",
+  "frontend.js.map": "story-item/frontend-f25f1b15.js.map",
   "main.css": "story-item/main-cfb7b0d8.css",
   "main.css.map": "story-item/main-cfb7b0d8.css.map",
   "main.js": "story-item/main-c4f6eb09.js",
@@ -32,12 +32,12 @@
       "js": [
         "story-item/runtime-ee75697a.js",
         "story-item/vendors~frontend~main-6f0dca03.js",
-        "story-item/frontend-5de1317c.js"
+        "story-item/frontend-f25f1b15.js"
       ],
       "js.map": [
         "story-item/runtime-ee75697a.js.map",
         "story-item/vendors~frontend~main-6f0dca03.js.map",
-        "story-item/frontend-5de1317c.js.map"
+        "story-item/frontend-f25f1b15.js.map"
       ]
     }
   }

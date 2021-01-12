@@ -53,7 +53,7 @@ const getProps = elm => {
         props.imageSlot = elm.getAttribute('data-imageslot');
         props.imageSize = elm.getAttribute('data-imagesize');
         if (elm.getAttribute('data-chartart')) {
-            if ('true' === elm.getAttribute('data-chartart')) {
+            if ('1' === elm.getAttribute('data-chartart') || 'true' === elm.getAttribute('data-chartart')) {
                 props.isChartArt = true;
             }
         }
