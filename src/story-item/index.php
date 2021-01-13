@@ -12,13 +12,11 @@ use WPackio\Enqueue;
 
 class PRC_Story_Item extends PRC_Block_Library {
 
-	public $version         = '3.0.0-beta';
-	public $block_assets    = false;
-	public $frontend_assets = false;
+	public static $version      = '3.0.0';
+	public static $block_assets = false;
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_action( 'init', array( $this, 'register_frontend' ), 10 );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 		}
@@ -355,8 +353,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
 		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
-
-		$this->frontend_assets = $enqueue->register(
+		return $enqueue->register(
 			'story-item',
 			'frontend',
 			array(
@@ -371,10 +368,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	public function enqueue_frontend() {
-		if ( false === $this->frontend_assets || ! array_key_exists( 'js', $this->frontend_assets ) ) {
-			$this->register_frontend();
-		}
-		wp_enqueue_script( array_pop( $this->frontend_assets['js'] )['handle'] );
+		$registered = $this->register_frontend();
+		wp_enqueue_script( array_pop( $registered['js'] )['handle'] );
 	}
 
 	/**
