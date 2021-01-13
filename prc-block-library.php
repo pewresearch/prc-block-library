@@ -884,6 +884,7 @@ class PRC_Block_Library {
 					wp_enqueue_script( array_pop( $block_assets['js'] )['handle'] );
 				}
 				if ( array_key_exists( 'css', $block_assets ) ) {
+					error_log( $block_name );
 					wp_enqueue_style( array_pop( $block_assets['css'] )['handle'] );
 				}
 			}
