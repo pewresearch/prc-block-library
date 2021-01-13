@@ -382,15 +382,16 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-		// Legacy PHP compat
-		add_filter(
-			'prc_block_promo_frontend_shim',
-			function() {
-				return array(
-					'style' => array_pop( $this->registered['block']['prc-block/promo']['css'] )['handle'],
-				);
-			}
-		);
+		// // Legacy PHP compat
+		// add_filter(
+		// 'prc_block_promo_frontend_shim',
+		// function() {
+		// error_log( print_r( $this->registered['block'], true ) );
+		// return array(
+		// 'style' => array_pop( $this->registered['block']['prc-block/promo']['css'] )['handle'],
+		// );
+		// }
+		// );
 
 		/** Post Publish Date */
 		$this->registered['block']['prc-block/post-publish-date'] = $enqueue->register(
