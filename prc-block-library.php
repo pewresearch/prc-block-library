@@ -43,13 +43,13 @@ class PRC_Block_Library {
 
 			add_action( 'prc_block_area_enqueue_scripts', array( $this, 'enqueue_block_area_assets' ), 10, 2 );
 			add_filter( 'the_content', array( $this, 'enqueue_frontend_assets' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'archive_pages_story_item_enqueue' ) );
 
 			if ( class_exists( 'PRC_API_Mailchimp' ) ) {
 				$mailchimp                 = new PRC_API_Mailchimp( false );
 				$this->mailchimp_interests = $mailchimp->get_interests();
 			}
 
+			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
@@ -475,38 +475,6 @@ class PRC_Block_Library {
 			)
 		);
 
-		/** Story Item */
-		// $this->registered['frontend']['prc-block/story-item'] = $enqueue->register(
-		// 'story-item',
-		// 'frontend',
-		// array(
-		// 'js'        => true,
-		// 'css'       => true,
-		// 'js_dep'    => array_merge( $js_deps, array( 'moment', 'wp-url' ) ),
-		// 'css_dep'   => array(),
-		// 'in_footer' => true,
-		// 'media'     => 'all',
-		// )
-		// );
-		// $this->registered['block']['prc-block/story-item']    = $enqueue->register(
-		// 'story-item',
-		// 'main',
-		// array(
-		// 'js'        => true,
-		// 'css'       => true,
-		// 'js_dep'    => array_merge( $block_js_deps, array( 'moment', 'wp-url' ) ),
-		// 'css_dep'   => array(),
-		// 'in_footer' => true,
-		// 'media'     => 'all',
-		// )
-		// );
-		// add_filter(
-		// 'prc_story_item_script_handle',
-		// function() {
-		// return array_pop( $this->registered['frontend']['prc-block/story-item']['js'] )['handle'];
-		// }
-		// );
-
 		/** Sub Title */
 		$this->registered['block']['prc-block/subtitle'] = $enqueue->register(
 			'subtitle',
@@ -615,15 +583,6 @@ class PRC_Block_Library {
 				'editor_script' => array_pop( $this->registered['block']['prc-block/social-toolbar']['js'] )['handle'],
 			)
 		);
-
-		/** Story Item */
-		// register_block_type(
-		// 'prc-block/story-item',
-		// array(
-		// 'editor_script' => array_pop( $this->registered['block']['prc-block/story-item']['js'] )['handle'],
-		// 'editor_style'  => array_pop( $this->registered['block']['prc-block/story-item']['css'] )['handle'],
-		// )
-		// );
 
 		/** Button */
 		register_block_type(
@@ -897,13 +856,6 @@ class PRC_Block_Library {
 		}
 
 		return $content;
-	}
-
-	public function archive_pages_story_item_enqueue() {
-		if ( ! is_index( true ) ) {
-			return;
-		}
-		// wp_enqueue_script( $this->get_handle( 'prc-block/story-item', 'js', 'frontend' ) );
 	}
 
 	private function load_block_pattern( $name ) {

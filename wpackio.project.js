@@ -84,6 +84,13 @@ module.exports = {
             },
         },
         {
+            name: 'fact-sheet-collection',
+            entry: {
+                main: './src/fact-sheet-collection/index.js',
+                frontend: './src/fact-sheet-collection/frontend.js',
+            },
+        },
+        {
             name: 'flip-card',
             entry: {
                 main: './src/flip-card/index.js',

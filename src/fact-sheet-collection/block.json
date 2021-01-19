@@ -1,0 +1,23 @@
+{
+    "name": "prc-block/fact-sheet-collection",
+    "apiVersion": 2,
+	"category": "layout",
+	"attributes": {
+		"altPostUrl" : {
+			"type": "string"
+        },
+        "altPostLabel" : {
+			"type": "string"
+        },
+        "collectionType" : {
+            "type": "string",
+            "default": "flag"
+        },
+        "pdfId" : {
+            "type": "integer"
+        }
+	},
+	"supports": {
+		"html": false
+	}
+}

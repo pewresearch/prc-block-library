@@ -1,0 +1,1 @@
+// Component that takes in altLangPostUrl and pdfUrl
