@@ -3,15 +3,12 @@
     "apiVersion": 2,
 	"category": "layout",
 	"attributes": {
-		"altPostUrl" : {
-			"type": "string"
-        },
         "altPostLabel" : {
 			"type": "string"
         },
-        "collectionType" : {
-            "type": "string",
-            "default": "flag"
+        "enableFlags" : {
+            "type": "boolean",
+            "default": true
         },
         "pdfId" : {
             "type": "integer"

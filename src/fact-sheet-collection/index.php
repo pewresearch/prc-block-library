@@ -120,10 +120,44 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 		return $items;
 	}
 
-	private function get_alt_lang_post_url( $attributes ) {
-		if ( array_key_exists( 'altPostLabel', $attributes ) && array_key_exists( 'altPostUrl', $attributes ) ) {
+	private function get_alt_post_url( $term_id, $exclude_post_id ) {
+		$exclude_post_id = array( $exclude_post_id );
+		// Do wp query with tax query set to this term id and also exclude the current post id get_the_ID();
+		$alt_post_query = new WP_Query(
+			array(
+				'post_type'      => 'fact-sheets',
+				'posts_per_page' => 1,
+				'post__not_in'   => $exclude_post_id,
+				'tax_query'      => array(
+					array(
+						'taxonomy' => 'collection',
+						'field'    => 'term_id',
+						'terms'    => array( $term_id ),
+					),
+				),
+			)
+		);
+		if ( $alt_post_query->have_posts() ) {
+			while ( $alt_post_query->have_posts() ) {
+				$alt_post_query->the_post();
+				$url = get_permalink();
+				wp_reset_postdata();
+				return $url;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	private function get_alt_lang_post_url( $attributes, $collection, $post_id ) {
+		if ( array_key_exists( 'altPostLabel', $attributes ) ) {
+			$collection_term_id = $collection['current']['term_id'];
+			$url                = $this->get_alt_post_url( $collection_term_id, $post_id );
+			if ( false === $url ) {
+				return false;
+			}
 			return array(
-				'url'   => $attributes['altPostUrl'],
+				'url'   => $url,
 				'label' => $attributes['altPostLabel'],
 			);
 		}
@@ -138,17 +172,19 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes ) {
+		$this->enqueue_frontend();
 		ob_start();
-		$collection = $this->get_collection( get_the_ID() );
-		$alt        = $this->get_alt_lang_post_url( $attributes );
-		$pdf_link   = $this->get_pdf_url( $attributes );
+		$post_id        = get_the_ID();
+		$collection     = $this->get_collection( $post_id );
+		$alt_post_label = $this->get_alt_lang_post_url( $attributes, $collection, $post_id );
+		$pdf_link       = $this->get_pdf_url( $attributes );
 		?>
-		<div>
-			<?php if ( false !== $alt ) : ?>
-				<a class="fact-sheet-alt-url" href="<?php echo esc_url( $alt['url'] ); ?>"><?php echo esc_html( $alt['label'] ); ?></a>
+		<div class="fact-sheet-collection">
+			<?php if ( false !== $alt_post_label ) : ?>
+				<a class="fact-sheet-alt-url" href="<?php echo esc_url( $alt_post_label['url'] ); ?>"><?php echo esc_html( $alt_post_label['label'] ); ?></a>
 			<?php endif; ?>
 			<?php if ( false !== $collection ) : ?>
-				<div class='factsheet-collection-terms'>
+				<div class='fact-sheet-collection-terms' data-enable-flags="<?php echo esc_attr( $attributes['enableFlags'] ); ?>">
 					<?php echo implode( '', $this->get_menu_items( $collection ) ); ?>
 				</div>
 			<?php endif; ?>

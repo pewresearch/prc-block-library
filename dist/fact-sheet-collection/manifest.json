@@ -1,25 +1,29 @@
 {
-  "frontend.js": "fact-sheet-collection/frontend-fc46698c.js",
-  "frontend.js.map": "fact-sheet-collection/frontend-fc46698c.js.map",
+  "frontend.js": "fact-sheet-collection/frontend-ee3395a8.js",
+  "frontend.js.map": "fact-sheet-collection/frontend-ee3395a8.js.map",
   "main.css": "fact-sheet-collection/main-cfb7b0d8.css",
   "main.css.map": "fact-sheet-collection/main-cfb7b0d8.css.map",
-  "main.js": "fact-sheet-collection/main-1735ae73.js",
-  "main.js.map": "fact-sheet-collection/main-1735ae73.js.map",
+  "main.js": "fact-sheet-collection/main-8b1cc9d7.js",
+  "main.js.map": "fact-sheet-collection/main-8b1cc9d7.js.map",
   "runtime.js": "fact-sheet-collection/runtime-45287d43.js",
   "runtime.js.map": "fact-sheet-collection/runtime-45287d43.js.map",
-  "vendors~main.js": "fact-sheet-collection/vendors~main-669660f0.js",
-  "vendors~main.js.map": "fact-sheet-collection/vendors~main-669660f0.js.map",
+  "vendors~frontend~main.js": "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js",
+  "vendors~frontend~main.js.map": "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js.map",
+  "vendors~main.js": "fact-sheet-collection/vendors~main-ca971700.js",
+  "vendors~main.js.map": "fact-sheet-collection/vendors~main-ca971700.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "fact-sheet-collection/runtime-45287d43.js",
-        "fact-sheet-collection/vendors~main-669660f0.js",
-        "fact-sheet-collection/main-1735ae73.js"
+        "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js",
+        "fact-sheet-collection/vendors~main-ca971700.js",
+        "fact-sheet-collection/main-8b1cc9d7.js"
       ],
       "js.map": [
         "fact-sheet-collection/runtime-45287d43.js.map",
-        "fact-sheet-collection/vendors~main-669660f0.js.map",
-        "fact-sheet-collection/main-1735ae73.js.map"
+        "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js.map",
+        "fact-sheet-collection/vendors~main-ca971700.js.map",
+        "fact-sheet-collection/main-8b1cc9d7.js.map"
       ],
       "css": [
         "fact-sheet-collection/main-cfb7b0d8.css"
@@ -31,11 +35,13 @@
     "frontend": {
       "js": [
         "fact-sheet-collection/runtime-45287d43.js",
-        "fact-sheet-collection/frontend-fc46698c.js"
+        "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js",
+        "fact-sheet-collection/frontend-ee3395a8.js"
       ],
       "js.map": [
         "fact-sheet-collection/runtime-45287d43.js.map",
-        "fact-sheet-collection/frontend-fc46698c.js.map"
+        "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js.map",
+        "fact-sheet-collection/frontend-ee3395a8.js.map"
       ]
     }
   }
