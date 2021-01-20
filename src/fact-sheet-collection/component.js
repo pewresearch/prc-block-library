@@ -1,38 +1,109 @@
 import { Fragment, RawHTML } from '@wordpress/element';
-import { Segment, Divider, Flag, Accordion } from 'semantic-ui-react';
+import { List, Divider, Dropdown, Flag, Accordion } from 'semantic-ui-react';
+import { cleanForSlug } from '@wordpress/url';
 // import { getAlpha2Code } from 'i18n-iso-countries';
 
-const CountryFlagMenuItem = ({label, url}) => {
+const MobileTOC = () => {
+    const { prcToc } = window;
+    return (
+        <List small selection link>
+            {prcToc.data.map((item, index) => {
+                if (true === item.active) {
+                    return (
+                        <List.Item active key={index}>
+                            {item.title}
+                        </List.Item>
+                    );
+                }
+                return (
+                    <List.Item as="a" href={item.link} key={index}>
+                        {item.title}
+                    </List.Item>
+                );
+            })}
+        </List>
+    );
+};
 
-}
+const ListMenu = ({ items, enableFlags }) => {
+    return (
+        <div className="ui celled horizontal link list sans-serif">
+            {items.map(item => (
+                <a className="item" href={item.url}>
+                    {true === enableFlags && (
+                        <Flag name={item.label.toLowerCase()} />
+                    )}
+                    {item.label}
+                </a>
+            ))}
+        </div>
+    );
+};
 
-const FactSheetCollection = ({altPost, collectionTerms, download, enableFlags}) => {
-    console.log('collection props', altPost, collectionTerms, download, enableFlags);
+const DropdownMenu = ({ items }) => {
+    return (
+        <Dropdown
+            placeholder="Select Fact Sheet"
+            fluid
+            search
+            selection
+            options={items}
+            onChange={(e, { value }) => {
+                window.location.href = value;
+            }}
+        />
+    );
+};
 
+const FactSheetCollection = ({
+    altPost,
+    collectionName,
+    collectionTerms,
+    download,
+    enableFlags,
+    style,
+}) => {
     const MenuItems = () => {
         const elms = [];
-        collectionTerms.forEach( elm => {
-            elms.push({label: elm.innerText, url: elm.href});
-        } );
-        return(
+        collectionTerms.forEach(elm => {
+            if ('is-style-list' === style) {
+                elms.push({ label: elm.innerText, url: elm.href });
+            } else {
+                const obj = {
+                    key: cleanForSlug(elm.innerText),
+                    value: elm.href,
+                    text: elm.innerText,
+                };
+                if (true === enableFlags) {
+                    obj.flag = elm.innerText.toLowerCase();
+                }
+                elms.push(obj);
+            }
+        });
+        return (
             <Fragment>
-                {elms.map( elm => (<a className="item" href={elm.url}>{enableFlags && <Flag name={elm.label.toLowerCase()}/>}{elm.label}</a>)) }
+                {'is-style-dropdown' === style && <DropdownMenu items={elms} />}
+                {'is-style-list' === style && (
+                    <ListMenu items={elms} enableFlags={enableFlags} />
+                )}
             </Fragment>
-        )
-    }
+        );
+    };
 
-    return(
-        <Segment color="beige" inverted>
+    return (
+        <div>
+            <MobileTOC />
             <a href={altPost.href}>{altPost.innerText}</a>
-            <Divider/>
-            <div class="ui sub header">Fact Sheets: News Media and Political Attitudes in Western Europe</div>
-            <div className="ui celled horizontal link list sans-serif">
-                <MenuItems/>
-            </div>
-            <Divider/>
-            <a href={download.href} download style={{color: 'black'}}><i class="icon file pdf outline"></i>Download a PDF version of this fact sheet</a>
-        </Segment>
+            <Divider />
+            <div className="ui sub header">{collectionName}</div>
+            <MenuItems />
+            <Divider />
+            <a href={download.href} download style={{ color: 'black' }}>
+                <i className="icon file pdf outline" />
+                Download a PDF version of this fact sheet
+            </a>
+        </div>
     );
-}
+};
 
 export default FactSheetCollection;

@@ -150,7 +150,7 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 	}
 
 	private function get_alt_lang_post_url( $attributes, $collection, $post_id ) {
-		if ( array_key_exists( 'altPostLabel', $attributes ) ) {
+		if ( is_array( $collection ) && array_key_exists( 'altPostLabel', $attributes ) ) {
 			$collection_term_id = $collection['current']['term_id'];
 			$url                = $this->get_alt_post_url( $collection_term_id, $post_id );
 			if ( false === $url ) {
@@ -171,7 +171,7 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 		return false;
 	}
 
-	public function render_block_callback( $attributes ) {
+	public function render_block_callback( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
 		ob_start();
 		$post_id        = get_the_ID();
@@ -179,12 +179,12 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 		$alt_post_label = $this->get_alt_lang_post_url( $attributes, $collection, $post_id );
 		$pdf_link       = $this->get_pdf_url( $attributes );
 		?>
-		<div class="fact-sheet-collection">
+		<div class="<?php echo esc_attr( $attributes['className'] ); ?>" data-style="<?php echo esc_attr( str_replace( 'wp-block-prc-block-fact-sheet-collection ', '', $attributes['className'] ) ); ?>">
 			<?php if ( false !== $alt_post_label ) : ?>
 				<a class="fact-sheet-alt-url" href="<?php echo esc_url( $alt_post_label['url'] ); ?>"><?php echo esc_html( $alt_post_label['label'] ); ?></a>
 			<?php endif; ?>
 			<?php if ( false !== $collection ) : ?>
-				<div class='fact-sheet-collection-terms' data-enable-flags="<?php echo esc_attr( $attributes['enableFlags'] ); ?>">
+				<div class='fact-sheet-collection-terms' data-collection-name="<?php echo esc_attr( $collection['parent']['name'] ); ?>" data-enable-flags="<?php echo esc_attr( $attributes['enableFlags'] ); ?>">
 					<?php echo implode( '', $this->get_menu_items( $collection ) ); ?>
 				</div>
 			<?php endif; ?>

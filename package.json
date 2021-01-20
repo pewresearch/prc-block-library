@@ -16,6 +16,7 @@
     "@wordpress/i18n": "^3.16.0",
     "@wordpress/icons": "^2.8.0",
     "@wordpress/plugins": "^2.23.0",
+    "@wordpress/server-side-render": "^1.20.1",
     "@wordpress/url": "^2.19.0",
     "@wordpress/viewport": "^2.24.0",
     "@wpackio/scripts": "^4.3.0",

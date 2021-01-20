@@ -30,7 +30,7 @@ const initStoryBlock = (item, disableImage, labelTaxonomy) => {
         enableExcerpt: true,
         enableExtra: false,
         enableProgramsTaxonomy: false,
-        headerSize: 'normal',
+        headerSize: 2,
         className: 'is-style-left',
     };
     if (true === disableImage) {

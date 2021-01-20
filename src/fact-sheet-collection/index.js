@@ -14,19 +14,21 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-	title: __( 'Fact Sheet Collection' ),
-	icon: 'format-aside',
-	description: __("Set and display a collection of Fact Sheet's. Set a report PDF or alternate language post."),
-	keywords: [__('prc'), __('factsheet'), __('fact sheet'), __('collection')],
-	example: {
+    title: __('Fact Sheet Collection'),
+    icon: 'format-aside',
+    description: __(
+        "Set and display a collection of Fact Sheet's. Set a report PDF or alternate language post.",
+    ),
+    keywords: [__('prc'), __('factsheet'), __('fact sheet'), __('collection')],
+    example: {
         attributes: {
             altLangPostId: 61623,
             collectionId: 12812,
-            reportPdfUrl: ''
+            reportPdfUrl: '',
         },
     },
-	edit,
+    edit,
     save,
 };
 
-registerBlockType( name, {...metadata, ...settings});
+registerBlockType(name, { ...metadata, ...settings });

@@ -308,6 +308,7 @@ module.exports = {
         '@wordpress/api-fetch': 'wp.apiFetch',
         '@wordpress/url': 'wp.url',
         '@wordpress/html-entities': 'wp.htmlEntities',
+        '@wordpress/server-side-render': 'wp.serverSideRender'
     },
     // Webpack Aliases
     // <https://webpack.js.org/configuration/resolve/#resolve-alias>

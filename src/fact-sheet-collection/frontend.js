@@ -4,14 +4,15 @@ import domReady from '@wordpress/dom-ready';
 import FactSheetCollection from './component';
 
 const factSheetCollectionLoader = () => {
-    console.log("StoryItemsRender...");
-    const collections = document.querySelectorAll('.fact-sheet-collection');
+    const collections = document.querySelectorAll('.wp-block-prc-block-fact-sheet-collection');
     collections.forEach(collection => {
         const props = {
             altPost: false,
+            collectionName: '',
             collectionTerms: false,
             download: false,
-            enableFlags: true,
+            enableFlags: false,
+            style: collection.getAttribute('data-style'),
         }
 
         if ( collection.querySelector('.fact-sheet-alt-url') ) {
@@ -20,6 +21,7 @@ const factSheetCollectionLoader = () => {
 
         if ( collection.querySelector('.fact-sheet-collection-terms') ) {
             props.collectionTerms = collection.querySelectorAll('.fact-sheet-collection-terms > .item');
+            props.collectionName = collection.querySelector('.fact-sheet-collection-terms').getAttribute('data-collection-name');
             props.enableFlags = Boolean(collection.querySelector('.fact-sheet-collection-terms').getAttribute('data-enable-flags'));
         }
 

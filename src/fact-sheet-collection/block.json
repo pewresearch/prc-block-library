@@ -8,13 +8,25 @@
         },
         "enableFlags" : {
             "type": "boolean",
-            "default": true
+            "default": false
         },
         "pdfId" : {
             "type": "integer"
         }
 	},
 	"supports": {
-		"html": false
-	}
+        "html": false,
+        "multiple": false
+    },
+    "styles": [
+		{
+			"name": "dropdown",
+			"label": "Dropdown",
+			"isDefault": true
+		},
+		{
+			"name": "list",
+			"label": "List"
+		}
+	]
 }
