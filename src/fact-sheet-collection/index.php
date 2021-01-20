@@ -179,7 +179,7 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 		$alt_post_label = $this->get_alt_lang_post_url( $attributes, $collection, $post_id );
 		$pdf_link       = $this->get_pdf_url( $attributes );
 		?>
-		<div class="<?php echo esc_attr( $attributes['className'] ); ?>" data-style="<?php echo esc_attr( str_replace( 'wp-block-prc-block-fact-sheet-collection ', '', $attributes['className'] ) ); ?>">
+		<div class="wp-block-prc-block-fact-sheet-collection" data-style="<?php echo esc_attr( str_replace( 'wp-block-prc-block-fact-sheet-collection ', '', $attributes['className'] ) ); ?>">
 			<?php if ( false !== $alt_post_label ) : ?>
 				<a class="fact-sheet-alt-url" href="<?php echo esc_url( $alt_post_label['url'] ); ?>"><?php echo esc_html( $alt_post_label['label'] ); ?></a>
 			<?php endif; ?>
