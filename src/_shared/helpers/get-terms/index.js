@@ -19,7 +19,7 @@ const getTerms = (taxonomy, perPage = 25) => {
     return new Promise(resolve => {
         const data = {};
         apiFetch({
-            path: `/wp/v2/${taxonomy}`,
+            path: `/wp/v2/${taxonomy}?per_page=${perPage}`,
         }).then(terms => {
             for (let index = 0; index < terms.length; index++) {
                 const slug = terms[index].slug.replace(

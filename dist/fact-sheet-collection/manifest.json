@@ -3,8 +3,8 @@
   "frontend.js.map": "fact-sheet-collection/frontend-5fe78848.js.map",
   "main.css": "fact-sheet-collection/main-cfb7b0d8.css",
   "main.css.map": "fact-sheet-collection/main-cfb7b0d8.css.map",
-  "main.js": "fact-sheet-collection/main-8b1cc9d7.js",
-  "main.js.map": "fact-sheet-collection/main-8b1cc9d7.js.map",
+  "main.js": "fact-sheet-collection/main-96d44da5.js",
+  "main.js.map": "fact-sheet-collection/main-96d44da5.js.map",
   "runtime.js": "fact-sheet-collection/runtime-45287d43.js",
   "runtime.js.map": "fact-sheet-collection/runtime-45287d43.js.map",
   "vendors~frontend~main.js": "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js",
@@ -17,13 +17,13 @@
         "fact-sheet-collection/runtime-45287d43.js",
         "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js",
         "fact-sheet-collection/vendors~main-ca971700.js",
-        "fact-sheet-collection/main-8b1cc9d7.js"
+        "fact-sheet-collection/main-96d44da5.js"
       ],
       "js.map": [
         "fact-sheet-collection/runtime-45287d43.js.map",
         "fact-sheet-collection/vendors~frontend~main-e3cc91cb.js.map",
         "fact-sheet-collection/vendors~main-ca971700.js.map",
-        "fact-sheet-collection/main-8b1cc9d7.js.map"
+        "fact-sheet-collection/main-96d44da5.js.map"
       ],
       "css": [
         "fact-sheet-collection/main-cfb7b0d8.css"
