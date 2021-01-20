@@ -165,7 +165,7 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 	}
 
 	private function get_pdf_url( $attributes ) {
-		if ( array_key_exists( 'pdfId', $attributes ) ) {
+		if ( array_key_exists( 'pdfId', $attributes ) && 0 !== (int) $attributes['pdfId'] ) {
 			return wp_get_attachment_url( (int) $attributes['pdfId'] );
 		}
 		return false;

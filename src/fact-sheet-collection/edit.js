@@ -89,14 +89,12 @@ const PDFControl = ({ attachmentId, setAttributes }) => {
                 render={({ open }) => (
                     <ButtonGroup>
                         <Button isPrimary onClick={open}>
-                            {null === attachmentId
-                                ? `Upload PDF`
-                                : `Change PDF`}
+                            {0 === attachmentId ? `Upload PDF` : `Change PDF`}
                         </Button>
-                        {null !== attachmentId && (
+                        {0 !== attachmentId && (
                             <Button
                                 isSecondary
-                                onClick={() => setAttributes({ pdfId: null })}
+                                onClick={() => setAttributes({ pdfId: 0 })}
                             >
                                 Clear PDF
                             </Button>
