@@ -840,11 +840,10 @@ class PRC_Block_Library {
 						)
 					);
 				}
-				if ( array_key_exists( 'js', $block_assets ) ) {
+				if ( array_key_exists( 'js', $block_assets ) && array_key_exists( 'handle', $block_assets['js'] ) ) {
 					wp_enqueue_script( array_pop( $block_assets['js'] )['handle'] );
 				}
-				if ( array_key_exists( 'css', $block_assets ) ) {
-					error_log( $block_name );
+				if ( array_key_exists( 'css', $block_assets ) && array_key_exists( 'handle', $block_assets['css'] ) ) {
 					wp_enqueue_style( array_pop( $block_assets['css'] )['handle'] );
 				}
 			}
