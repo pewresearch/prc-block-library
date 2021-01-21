@@ -133,15 +133,17 @@ const FactSheetCollection = ({
                 </div>
                 <MenuItems />
                 <Divider />
-                <a
-                    href={download.href}
-                    download
-                    style={{ color: 'black' }}
-                    className="sans-serif"
-                >
-                    <i className="icon file pdf outline" />
-                    Download a PDF version of this fact sheet
-                </a>
+                {false !== download && (
+                    <a
+                        href={download.href}
+                        download
+                        style={{ color: 'black' }}
+                        className="sans-serif"
+                    >
+                        <i className="icon file pdf outline" />
+                        Download a PDF version of this fact sheet
+                    </a>
+                )}
             </Fragment>
         );
     };
@@ -174,16 +176,18 @@ const FactSheetCollection = ({
                 <Accordion.Content active={1 === activeIndex}>
                     <MenuItems styleOverride="is-style-list" />
                 </Accordion.Content>
-                <Accordion.Title
-                    active={2 === activeIndex}
-                    index={2}
-                    onClick={() => {
-                        window.location.href = download.href;
-                    }}
-                >
-                    <i className="icon file pdf outline" />
-                    Download a PDF version of this fact sheet
-                </Accordion.Title>
+                {false !== download && (
+                    <Accordion.Title
+                        active={2 === activeIndex}
+                        index={2}
+                        onClick={() => {
+                            window.location.href = download.href;
+                        }}
+                    >
+                        <i className="icon file pdf outline" />
+                        Download a PDF version of this fact sheet
+                    </Accordion.Title>
+                )}
             </Accordion>
         );
     };

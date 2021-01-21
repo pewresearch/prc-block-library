@@ -17,7 +17,7 @@ const settings = {
     title: __('Fact Sheet Collection'),
     icon: 'format-aside',
     description: __(
-        "Set and display a collection of Fact Sheet's. Set a report PDF or alternate language post.",
+        'Set and display a collection of Fact Sheets. Set a report PDF or label for an alternat language post.',
     ),
     keywords: [__('prc'), __('factsheet'), __('fact sheet'), __('collection')],
     example: {

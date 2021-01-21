@@ -122,7 +122,7 @@ const edit = ({ attributes, className, setAttributes }) => {
     return (
         <div {...blockProps}>
             <Placeholder
-                label={__('Configure Factsheet Collection')}
+                label={__('Configure Fact Sheet Collection')}
                 isColumnLayout
             >
                 {!isNaN(termId) && (
