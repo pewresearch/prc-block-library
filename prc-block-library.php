@@ -863,18 +863,9 @@ class PRC_Block_Library {
 	}
 
 	private function unregister_core_patterns() {
-		if ( ! function_exists( 'unregister_block_pattern' ) || ! function_exists( 'unregister_block_pattern_category' ) ) {
+		if ( ! function_exists( 'unregister_block_pattern_category' ) ) {
 			return;
 		}
-		// Patterns
-		unregister_block_pattern( 'core/text-two-columns' );
-		unregister_block_pattern( 'core/two-buttons' );
-		unregister_block_pattern( 'core/two-images' );
-		unregister_block_pattern( 'core/text-two-columns-with-images' );
-		unregister_block_pattern( 'core/text-three-columns-buttons' );
-		unregister_block_pattern( 'core/large-header' );
-		unregister_block_pattern( 'core/three-buttons' );
-		unregister_block_pattern( 'core/quote' );
 		// Categories
 		unregister_block_pattern_category( 'text' );
 		unregister_block_pattern_category( 'columns' );
