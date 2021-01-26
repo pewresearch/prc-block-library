@@ -10,7 +10,7 @@ use WPackio\Enqueue;
  * @package gutenberg
  */
 
-class PRC_Menu_Link extends PRC_Block_Library {
+class PRC_Social_Link extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -126,7 +126,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 
 		$registered = $enqueue->register(
 			'menu',
-			'link',
+			'social-link',
 			array(
 				'js'        => true,
 				'css'       => false,
@@ -138,13 +138,14 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		);
 
 		register_block_type_from_metadata(
-			plugin_dir_path( __DIR__ ) . '/menu-link',
+			plugin_dir_path( __DIR__ ) . '/social-link',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				// Script?
 				'render_callback' => array( $this, 'render_menu_item_link' ),
 			)
 		);
 	}
 }
 
-new PRC_Menu_Link( true );
+new PRC_Social_Link( true );
