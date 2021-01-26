@@ -3,6 +3,7 @@ import {
     getTerms,
     getTermsByLetter,
     getTermsAsOptions,
+    getTermsAsTree,
     getColorName,
     ifMatchSetAttribute,
 } from './helpers';
@@ -18,6 +19,7 @@ export {
     getTerms,
     getTermsByLetter,
     getTermsAsOptions,
+    getTermsAsTree,
     getColorName,
     ifMatchSetAttribute,
     StoryItem,

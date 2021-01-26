@@ -84,6 +84,13 @@ module.exports = {
             },
         },
         {
+            name: 'fact-sheet-collection',
+            entry: {
+                main: './src/fact-sheet-collection/index.js',
+                frontend: './src/fact-sheet-collection/frontend.js',
+            },
+        },
+        {
             name: 'flip-card',
             entry: {
                 main: './src/flip-card/index.js',
@@ -114,13 +121,9 @@ module.exports = {
         {
             name: 'menu',
             entry: {
-                main: './src/menu/index.js',
-            },
-        },
-        {
-            name: 'menu-link',
-            entry: {
-                main: './src/menu-link/index.js',
+                menu: './src/menu/index.js',
+                link: './src/menu-link/index.js',
+                'social-link': './src/social-link/index.js',
             },
         },
         {
@@ -222,7 +225,6 @@ module.exports = {
             name: 'social-toolbar',
             entry: {
                 main: './src/social-toolbar/index.js',
-
             },
         },
         {
@@ -301,6 +303,7 @@ module.exports = {
         '@wordpress/api-fetch': 'wp.apiFetch',
         '@wordpress/url': 'wp.url',
         '@wordpress/html-entities': 'wp.htmlEntities',
+        '@wordpress/server-side-render': 'wp.serverSideRender',
     },
     // Webpack Aliases
     // <https://webpack.js.org/configuration/resolve/#resolve-alias>

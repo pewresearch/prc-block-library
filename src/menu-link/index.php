@@ -125,11 +125,11 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
-			'menu-link',
-			'main',
+			'menu',
+			'link',
 			array(
 				'js'        => true,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => $block_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -141,7 +141,6 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/menu-link',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_menu_item_link' ),
 			)
 		);
