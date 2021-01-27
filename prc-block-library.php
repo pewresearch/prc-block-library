@@ -52,6 +52,8 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
 		}

@@ -17,8 +17,12 @@ class PRC_Block_Menu extends PRC_Block_Library {
 		}
 	}
 
-	public function get_menu_class( $selected_style ) {
-		$menu_classes = 'ui menu';
+	public function get_menu_class( $attributes ) {
+		$menu_classes   = 'ui menu';
+		$selected_style = null;
+		if ( array_key_exists( 'className', $attributes ) ) {
+			$selected_style = $attributes['className'];
+		}
 		if ( 'is-style-text' === $selected_style ) {
 			$menu_classes .= ' text';
 		} elseif ( 'is-style-secondary' === $selected_style ) {
@@ -63,7 +67,9 @@ class PRC_Block_Menu extends PRC_Block_Library {
 			)
 		);
 
-		$menu_classes = $this->get_menu_class( $attributes['className'] );
+		error_log( print_r( $attributes, true ) );
+
+		$menu_classes = $this->get_menu_class( $attributes );
 
 		return sprintf(
 			'<nav %1$s><div class="%2$s">%3$s</div></nav>',
@@ -79,7 +85,7 @@ class PRC_Block_Menu extends PRC_Block_Library {
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
-			'menu',
+			'blocks',
 			'menu',
 			array(
 				'js'        => true,

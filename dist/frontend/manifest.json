@@ -1,0 +1,18 @@
+{
+  "runtime.js": "frontend/runtime-afabe77b.js",
+  "runtime.js.map": "frontend/runtime-afabe77b.js.map",
+  "social-link.js": "frontend/social-link-ef918987.js",
+  "social-link.js.map": "frontend/social-link-ef918987.js.map",
+  "wpackioEp": {
+    "social-link": {
+      "js": [
+        "frontend/runtime-afabe77b.js",
+        "frontend/social-link-ef918987.js"
+      ],
+      "js.map": [
+        "frontend/runtime-afabe77b.js.map",
+        "frontend/social-link-ef918987.js.map"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/post-bylines",
+    "category": "layout",
+    "supports": {
+        "html": false,
+        "multiple": false
+    }
+}

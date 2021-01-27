@@ -106,7 +106,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			return '';
 		}
 
-		if ( 'is-style-text' === $block->context['prc-block/menu'] ) {
+		if ( array_key_exists( 'prc-block/menu', $block->context ) && 'is-style-text' === $block->context['prc-block/menu'] ) {
 			return '<div class="item">' . $this->get_menu_link( $attributes, true ) . '</div>';
 		} else {
 			return $this->get_menu_link( $attributes );
@@ -125,8 +125,8 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
-			'menu',
-			'link',
+			'blocks',
+			'menu-link',
 			array(
 				'js'        => true,
 				'css'       => false,

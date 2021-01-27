@@ -17,6 +17,14 @@ class PRC_Social_Link extends PRC_Block_Library {
 		}
 	}
 
+	public function render_as_icon( $attributes, $content, $block ) {
+
+	}
+
+	public function render_as_button( $attributes, $content, $block ) {
+
+	}
+
 	public function get_menu_link( $attributes, $is_chiclet = false ) {
 		// Don't render the block's subtree if it has no label.
 		if ( empty( $attributes['label'] ) ) {
@@ -87,6 +95,22 @@ class PRC_Social_Link extends PRC_Block_Library {
 		return $html;
 	}
 
+	public function enqueue_frontend_script() {
+		$enqueue  = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
+		$frontend = $enqueue->enqueue(
+			'frontend',
+			'social-link',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => array( 'wp-dom-ready' ),
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
 	/**
 	 * Renders the `prc-block/menu-link` block.
 	 *
@@ -97,6 +121,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 	 * @return string Returns the post content with the legacy widget added.
 	 */
 	public function render_menu_item_link( $attributes, $content, $block ) {
+		$this->enqueue_frontend_script();
 		// Don't render the block's subtree if it has no label.
 		if ( empty( $attributes['label'] ) ) {
 			return '';
@@ -124,8 +149,8 @@ class PRC_Social_Link extends PRC_Block_Library {
 		$block_js_deps = array_merge( $js_deps, array( 'lodash', 'wp-components' ) );
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 
-		$registered = $enqueue->register(
-			'menu',
+		$block = $enqueue->register(
+			'blocks',
 			'social-link',
 			array(
 				'js'        => true,
@@ -140,8 +165,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/social-link',
 			array(
-				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				// Script?
+				'editor_script'   => array_pop( $block['js'] )['handle'],
 				'render_callback' => array( $this, 'render_menu_item_link' ),
 			)
 		);

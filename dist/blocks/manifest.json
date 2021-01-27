@@ -1,0 +1,74 @@
+{
+  "menu-link.js": "blocks/menu-link-7293a403.js",
+  "menu-link.js.map": "blocks/menu-link-7293a403.js.map",
+  "menu.js": "blocks/menu-177b5a72.js",
+  "menu.js.map": "blocks/menu-177b5a72.js.map",
+  "post-bylines.js": "blocks/post-bylines-31fbc598.js",
+  "post-bylines.js.map": "blocks/post-bylines-31fbc598.js.map",
+  "post-title.js": "blocks/post-title-ef88c3c7.js",
+  "post-title.js.map": "blocks/post-title-ef88c3c7.js.map",
+  "runtime.js": "blocks/runtime-49d996c3.js",
+  "runtime.js.map": "blocks/runtime-49d996c3.js.map",
+  "social-link.js": "blocks/social-link-cda05cb8.js",
+  "social-link.js.map": "blocks/social-link-cda05cb8.js.map",
+  "vendors~menu-link.js": "blocks/vendors~menu-link-5aaee038.js",
+  "vendors~menu-link.js.map": "blocks/vendors~menu-link-5aaee038.js.map",
+  "vendors~social-link.js": "blocks/vendors~social-link-54311bbf.js",
+  "vendors~social-link.js.map": "blocks/vendors~social-link-54311bbf.js.map",
+  "wpackioEp": {
+    "menu": {
+      "js": [
+        "blocks/runtime-49d996c3.js",
+        "blocks/menu-177b5a72.js"
+      ],
+      "js.map": [
+        "blocks/runtime-49d996c3.js.map",
+        "blocks/menu-177b5a72.js.map"
+      ]
+    },
+    "menu-link": {
+      "js": [
+        "blocks/runtime-49d996c3.js",
+        "blocks/vendors~menu-link-5aaee038.js",
+        "blocks/menu-link-7293a403.js"
+      ],
+      "js.map": [
+        "blocks/runtime-49d996c3.js.map",
+        "blocks/vendors~menu-link-5aaee038.js.map",
+        "blocks/menu-link-7293a403.js.map"
+      ]
+    },
+    "post-bylines": {
+      "js": [
+        "blocks/runtime-49d996c3.js",
+        "blocks/post-bylines-31fbc598.js"
+      ],
+      "js.map": [
+        "blocks/runtime-49d996c3.js.map",
+        "blocks/post-bylines-31fbc598.js.map"
+      ]
+    },
+    "post-title": {
+      "js": [
+        "blocks/runtime-49d996c3.js",
+        "blocks/post-title-ef88c3c7.js"
+      ],
+      "js.map": [
+        "blocks/runtime-49d996c3.js.map",
+        "blocks/post-title-ef88c3c7.js.map"
+      ]
+    },
+    "social-link": {
+      "js": [
+        "blocks/runtime-49d996c3.js",
+        "blocks/vendors~social-link-54311bbf.js",
+        "blocks/social-link-cda05cb8.js"
+      ],
+      "js.map": [
+        "blocks/runtime-49d996c3.js.map",
+        "blocks/vendors~social-link-54311bbf.js.map",
+        "blocks/social-link-cda05cb8.js.map"
+      ]
+    }
+  }
+}

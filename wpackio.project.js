@@ -29,6 +29,22 @@ module.exports = {
     },
     files: [
         {
+            name: 'blocks',
+            entry: {
+                menu: './src/menu/index.js',
+                'menu-link': './src/menu-link/index.js',
+                'post-bylines': './src/post-bylines/index.js',
+                'post-title': './src/post-title/index.js',
+                'social-link': './src/social-link/index.js',
+            },
+        },
+        {
+            name: 'frontend',
+            entry: {
+                'social-link': './src/social-link/frontend.js',
+            },
+        },
+        {
             name: 'a-z-taxonomy-list',
             entry: {
                 main: './src/a-z-taxonomy-list/index.js',
@@ -116,14 +132,6 @@ module.exports = {
             entry: {
                 main: './src/mailchimp-opt-down/index.js',
                 frontend: './src/mailchimp-opt-down/frontend.js',
-            },
-        },
-        {
-            name: 'menu',
-            entry: {
-                menu: './src/menu/index.js',
-                link: './src/menu-link/index.js',
-                'social-link': './src/social-link/index.js',
             },
         },
         {
