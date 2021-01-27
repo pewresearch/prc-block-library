@@ -9,8 +9,8 @@
   "post-title.js.map": "blocks/post-title-ef88c3c7.js.map",
   "runtime.js": "blocks/runtime-49d996c3.js",
   "runtime.js.map": "blocks/runtime-49d996c3.js.map",
-  "social-link.js": "blocks/social-link-cda05cb8.js",
-  "social-link.js.map": "blocks/social-link-cda05cb8.js.map",
+  "social-link.js": "blocks/social-link-7913e7da.js",
+  "social-link.js.map": "blocks/social-link-7913e7da.js.map",
   "vendors~menu-link.js": "blocks/vendors~menu-link-5aaee038.js",
   "vendors~menu-link.js.map": "blocks/vendors~menu-link-5aaee038.js.map",
   "vendors~social-link.js": "blocks/vendors~social-link-54311bbf.js",
@@ -62,12 +62,12 @@
       "js": [
         "blocks/runtime-49d996c3.js",
         "blocks/vendors~social-link-54311bbf.js",
-        "blocks/social-link-cda05cb8.js"
+        "blocks/social-link-7913e7da.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
         "blocks/vendors~social-link-54311bbf.js.map",
-        "blocks/social-link-cda05cb8.js.map"
+        "blocks/social-link-7913e7da.js.map"
       ]
     }
   }

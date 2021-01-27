@@ -44,6 +44,20 @@ const edit = ({
         }),
     });
 
+    const { postId, postTitle, shortUrl } = useSelect(select => {
+        const { bitly } = select('core/editor').getEditedPostAttribute('meta');
+        return {
+            postTitle: select('core/editor').getEditedPostAttribute('title'),
+            postId: select('core/editor').getCurrentPostId(),
+            shortUrl: bitly,
+        };
+    });
+
+    useEffect(() => {
+        console.log('shortUrl', shortUrl, postId);
+        setAttributes({ url: shortUrl, title: postTitle });
+    }, [postId, postTitle]);
+
     return (
         <Fragment>
             <InspectorControls>

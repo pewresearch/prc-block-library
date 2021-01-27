@@ -17,11 +17,11 @@ class PRC_Social_Link extends PRC_Block_Library {
 		}
 	}
 
-	public function render_as_icon( $attributes, $content, $block ) {
-
+	public function render_as_icon( $attributes ) {
+		return apply_filters( 'prc_social_link_icon', false, $attributes );
 	}
 
-	public function render_as_button( $attributes, $content, $block ) {
+	public function render_as_button( $attributes ) {
 
 	}
 
@@ -103,7 +103,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => array( 'wp-dom-ready' ),
+				'js_dep'    => array( 'wp-dom-ready', 'wp-url' ),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -123,7 +123,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 	public function render_menu_item_link( $attributes, $content, $block ) {
 		$this->enqueue_frontend_script();
 		// Don't render the block's subtree if it has no label.
-		if ( empty( $attributes['label'] ) ) {
+		if ( empty( $attributes['url'] ) ) {
 			return '';
 		}
 
@@ -131,11 +131,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 			return '';
 		}
 
-		if ( 'is-style-text' === $block->context['prc-block/menu'] ) {
-			return '<div class="item">' . $this->get_menu_link( $attributes, true ) . '</div>';
-		} else {
-			return $this->get_menu_link( $attributes );
-		}
+		return $this->render_as_icon( $attributes );
 	}
 
 	/**
