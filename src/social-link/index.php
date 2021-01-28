@@ -11,10 +11,11 @@ use WPackio\Enqueue;
  */
 
 class PRC_Social_Link extends PRC_Block_Library {
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
-			// Ensure new frontend script is running
+			// Ensure new frontend script is running even on template functions.
 			add_filter(
 				'prc_social_link_icon',
 				function( $markup, $attributes ) {
@@ -27,17 +28,9 @@ class PRC_Social_Link extends PRC_Block_Library {
 		}
 	}
 
-	public function render_as_icon( $attributes ) {
-		return apply_filters( 'prc_social_link_icon', false, $attributes );
-	}
-
-	public function render_as_button( $attributes ) {
-
-	}
-
 	public function enqueue_frontend_script() {
-		$enqueue  = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
-		$frontend = $enqueue->enqueue(
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
+		return $enqueue->enqueue(
 			'frontend',
 			'social-link',
 			array(
@@ -51,6 +44,14 @@ class PRC_Social_Link extends PRC_Block_Library {
 		);
 	}
 
+	public function render_as_icon( $attributes ) {
+		return apply_filters( 'prc_social_link_icon', false, $attributes );
+	}
+
+	public function render_as_button( $attributes ) {
+		return apply_filters( 'prc_social_button', false, $attributes );
+	}
+
 	/**
 	 * Renders the `prc-block/menu-link` block.
 	 *
@@ -60,15 +61,11 @@ class PRC_Social_Link extends PRC_Block_Library {
 	 *
 	 * @return string Returns the post content with the legacy widget added.
 	 */
-	public function render_menu_item_link( $attributes, $content, $block ) {
-		// Don't render the block's subtree if it has no label.
-		if ( empty( $attributes['url'] ) ) {
-			return '';
-		}
-
+	public function render_social_link_block( $attributes, $content, $block ) {
 		if ( ! is_object( $block ) ) {
 			return '';
 		}
+		// If is style icon if is style button....
 
 		return $this->render_as_icon( $attributes );
 	}
@@ -101,7 +98,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/social-link',
 			array(
 				'editor_script'   => array_pop( $block['js'] )['handle'],
-				'render_callback' => array( $this, 'render_menu_item_link' ),
+				'render_callback' => array( $this, 'render_social_link_block' ),
 			)
 		);
 	}
