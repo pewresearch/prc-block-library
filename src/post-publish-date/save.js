@@ -1,7 +1,16 @@
-const save = ({ attributes, className }) => {
-    const { date } = attributes;
+import { useBlockProps } from '@wordpress/block-editor';
+import classnames from 'classnames';
 
-    return <div className={`${className} meta`}>{date}</div>;
+const save = ({ attributes, className }) => {
+    const { date, asItem } = attributes;
+
+    const blockProps = useBlockProps.save({
+        className: classnames(className, 'meta', {
+            item: asItem,
+        }),
+    });
+
+    return <div {...blockProps}>{date}</div>;
 };
 
 export default save;

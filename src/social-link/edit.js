@@ -6,37 +6,18 @@ import { Icon } from 'semantic-ui-react';
 /**
  * WordPress dependencies
  */
-import {
-    useSelect,
-    useDispatch,
-    withDispatch,
-    withSelect,
-} from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import {
     PanelBody,
     SelectControl,
     TextControl,
     TextareaControl,
-    ToolbarButton,
-    ToolbarGroup,
 } from '@wordpress/components';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { Fragment, useState, useEffect } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 
-const isStyle = (needle, haystack) => {
-    const arr = haystack.split(' ');
-    return arr.includes(needle);
-};
-
-const edit = ({
-    attributes,
-    setAttributes,
-    className,
-    isSelected,
-    clientId,
-    context,
-}) => {
+const edit = ({ attributes, setAttributes, className, isSelected }) => {
     const { description, label, title, icon, url } = attributes;
     const blockProps = useBlockProps({
         className: classnames('item', className, {

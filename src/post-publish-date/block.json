@@ -1,9 +1,13 @@
 {
+    "apiVersion": 2,
 	"name": "prc-block/post-publish-date",
     "category": "layout",
     "attributes": {
         "date": {
             "type": "string"
+        },
+        "asItem": {
+            "type": "boolean"
         }
     },
     "supports": {

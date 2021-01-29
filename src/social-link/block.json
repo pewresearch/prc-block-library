@@ -21,17 +21,6 @@
 		}
 	},
 	"usesContext": ["prc-block/menu"],
-	"styles": [
-		{
-			"name": "icon",
-			"label": "As Icon",
-			"isDefault": true
-		},
-		{
-			"name": "button",
-			"label": "As Button"
-		}
-	],
 	"supports": {
 		"reusable": false,
 		"html": false

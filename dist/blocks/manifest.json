@@ -1,16 +1,16 @@
 {
   "menu-link.js": "blocks/menu-link-7293a403.js",
   "menu-link.js.map": "blocks/menu-link-7293a403.js.map",
-  "menu.js": "blocks/menu-177b5a72.js",
-  "menu.js.map": "blocks/menu-177b5a72.js.map",
+  "menu.js": "blocks/menu-bc9a9c31.js",
+  "menu.js.map": "blocks/menu-bc9a9c31.js.map",
   "post-bylines.js": "blocks/post-bylines-31fbc598.js",
   "post-bylines.js.map": "blocks/post-bylines-31fbc598.js.map",
   "post-title.js": "blocks/post-title-ef88c3c7.js",
   "post-title.js.map": "blocks/post-title-ef88c3c7.js.map",
   "runtime.js": "blocks/runtime-49d996c3.js",
   "runtime.js.map": "blocks/runtime-49d996c3.js.map",
-  "social-link.js": "blocks/social-link-7913e7da.js",
-  "social-link.js.map": "blocks/social-link-7913e7da.js.map",
+  "social-link.js": "blocks/social-link-633aae50.js",
+  "social-link.js.map": "blocks/social-link-633aae50.js.map",
   "vendors~menu-link.js": "blocks/vendors~menu-link-5aaee038.js",
   "vendors~menu-link.js.map": "blocks/vendors~menu-link-5aaee038.js.map",
   "vendors~social-link.js": "blocks/vendors~social-link-54311bbf.js",
@@ -19,11 +19,11 @@
     "menu": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/menu-177b5a72.js"
+        "blocks/menu-bc9a9c31.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/menu-177b5a72.js.map"
+        "blocks/menu-bc9a9c31.js.map"
       ]
     },
     "menu-link": {
@@ -62,12 +62,12 @@
       "js": [
         "blocks/runtime-49d996c3.js",
         "blocks/vendors~social-link-54311bbf.js",
-        "blocks/social-link-7913e7da.js"
+        "blocks/social-link-633aae50.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
         "blocks/vendors~social-link-54311bbf.js.map",
-        "blocks/social-link-7913e7da.js.map"
+        "blocks/social-link-633aae50.js.map"
       ]
     }
   }

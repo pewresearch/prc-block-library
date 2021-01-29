@@ -44,6 +44,8 @@ const Navigation = ({
     hasItemJustificationControls = true,
     hasListViewModal = true,
 }) => {
+    const { orientation } = attributes;
+
     const [isPlaceholderShown, setIsPlaceholderShown] = useState(
         !hasExistingNavItems,
     );
@@ -53,7 +55,6 @@ const Navigation = ({
     const blockProps = useBlockProps({
         className: classnames(className, {
             [`items-justified-${attributes.itemsJustification}`]: attributes.itemsJustification,
-            'is-vertical': 'vertical' === attributes.orientation,
         }),
     });
 
@@ -68,16 +69,18 @@ const Navigation = ({
                 secondary: isStyle('is-style-secondary', blockProps.className),
                 tabular: isStyle('is-style-tabular', blockProps.className),
                 text: isStyle('is-style-text', blockProps.className),
+                vertical: 'vertical' === orientation,
             }),
         },
         {
             allowedBlocks: [
+                'prc-block/menu',
                 'prc-block/menu-link',
                 'prc-block/social-link',
                 'prc-block/post-bylines',
                 'prc-block/post-publish-date',
             ],
-            orientation: attributes.orientation || 'horizontal',
+            orientation: orientation || 'horizontal',
             renderAppender:
                 (isImmediateParentOfSelectedBlock &&
                     !selectedBlockHasDescendants) ||
@@ -86,9 +89,6 @@ const Navigation = ({
                     : false,
             __experimentalAppenderTagName: 'div',
             __experimentalCaptureToolbars: true,
-            // Template lock set to false here so that the Nav
-            // Block on the experimental menus screen does not
-            // inherit templateLock={ 'all' }.
             templateLock: false,
         },
     );
