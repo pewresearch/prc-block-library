@@ -62,20 +62,19 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 			$term_children = get_terms(
 				array(
 					'taxonomy' => 'collection',
-					'orderby'  => 'slug',
-					'order'    => 'ASC',
+					'orderby'  => 'term_order',
 					'child_of' => $parent->term_id,
 				)
 			);
 			if ( $term_children ) {
 				foreach ( $term_children as $term ) {
-					// Get the first post associated with this taxonomy term. Not the newest, the first. That means the oldest.
 					// TODO: Figure out a better way to do this.
+					// Get the first post associated with this taxonomy term. Not the newest, the first. That means the oldest.
 					// IDEA: We could increase the number of posts to 6, grab the first one position 0 use it for our nav and then add the other 5 into a "More content in this collection" part of the return with post title and link.
 					$args = array(
 						'post_type'   => $post_type,
 						'numberposts' => 1,
-						'orderby'     => 'date',
+						'orderby'     => 'order',
 						'order'       => 'ASC',
 						'tax_query'   => array(
 							array(
@@ -87,7 +86,8 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 					);
 
 					$linked_posts = new WP_Query( $args );
-					$permalink    = '';
+					do_action( 'qm/info', print_r( $linked_posts, true ) );
+					$permalink = '';
 					if ( $linked_posts ) {
 						$permalink = get_permalink( $linked_posts->posts[0]->ID );
 					}
