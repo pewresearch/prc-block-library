@@ -86,7 +86,7 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 					);
 
 					$linked_posts = new WP_Query( $args );
-					do_action( 'qm/info', print_r( $linked_posts, true ) );
+
 					$permalink = '';
 					if ( $linked_posts ) {
 						$permalink = get_permalink( $linked_posts->posts[0]->ID );
