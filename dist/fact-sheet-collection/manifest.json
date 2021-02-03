@@ -1,6 +1,6 @@
 {
-  "frontend.js": "fact-sheet-collection/frontend-a7cfa6bd.js",
-  "frontend.js.map": "fact-sheet-collection/frontend-a7cfa6bd.js.map",
+  "frontend.js": "fact-sheet-collection/frontend-8fa06978.js",
+  "frontend.js.map": "fact-sheet-collection/frontend-8fa06978.js.map",
   "main.css": "fact-sheet-collection/main-cfb7b0d8.css",
   "main.css.map": "fact-sheet-collection/main-cfb7b0d8.css.map",
   "main.js": "fact-sheet-collection/main-9182278f.js",
@@ -39,13 +39,13 @@
         "fact-sheet-collection/runtime-45287d43.js",
         "fact-sheet-collection/vendors~frontend~main-38038209.js",
         "fact-sheet-collection/vendors~frontend-cac8dbce.js",
-        "fact-sheet-collection/frontend-a7cfa6bd.js"
+        "fact-sheet-collection/frontend-8fa06978.js"
       ],
       "js.map": [
         "fact-sheet-collection/runtime-45287d43.js.map",
         "fact-sheet-collection/vendors~frontend~main-38038209.js.map",
         "fact-sheet-collection/vendors~frontend-cac8dbce.js.map",
-        "fact-sheet-collection/frontend-a7cfa6bd.js.map"
+        "fact-sheet-collection/frontend-8fa06978.js.map"
       ]
     }
   }

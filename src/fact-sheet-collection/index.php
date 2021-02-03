@@ -185,7 +185,7 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 			<?php endif; ?>
 			<?php if ( false !== $collection ) : ?>
 				<div class='fact-sheet-collection-terms' data-collection-name="<?php echo esc_attr( $collection['parent']['name'] ); ?>" data-enable-flags="<?php echo esc_attr( $attributes['enableFlags'] ); ?>">
-					<?php echo implode( '', $this->get_menu_items( $collection ) ); ?>
+					<?php echo wp_kses( implode( '', $this->get_menu_items( $collection ) ), 'post' ); ?>
 				</div>
 			<?php endif; ?>
 			<?php if ( false !== $pdf_link ) : ?>

@@ -96,7 +96,7 @@ const FactSheetCollection = ({
             };
             if ('is-style-list' === s) {
                 obj.label = elm.innerText;
-                obj.url = elm.hfref;
+                obj.url = elm.href;
             } else {
                 obj.key = cleanForSlug(elm.innerText);
                 obj.value = elm.href;
