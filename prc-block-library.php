@@ -41,9 +41,6 @@ class PRC_Block_Library {
 			add_action( 'init', array( $this, 'register_block_patterns' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 
-			add_action( 'prc_block_area_enqueue_scripts', array( $this, 'enqueue_block_area_assets' ), 10, 2 );
-			add_filter( 'the_content', array( $this, 'enqueue_frontend_assets' ) );
-
 			if ( class_exists( 'PRC_API_Mailchimp' ) ) {
 				$mailchimp                 = new PRC_API_Mailchimp( false );
 				$this->mailchimp_interests = $mailchimp->get_interests();
@@ -549,7 +546,7 @@ class PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $js_deps,
+				'js_dep'    => array_merge( $js_deps, array( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) ) ),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -625,8 +622,12 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/collapsible',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/collapsible']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/collapsible']['css'] )['handle'],
+				'editor_script'   => array_pop( $this->registered['block']['prc-block/collapsible']['js'] )['handle'],
+				'editor_style'    => array_pop( $this->registered['block']['prc-block/collapsible']['css'] )['handle'],
+				'render_callback' => function( $attributes, $content, $block ) {
+					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/collapsible']['js'] )['handle'] );
+					return $content;
+				},
 			)
 		);
 
@@ -652,8 +653,13 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/flip-card',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/flip-card']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/flip-card']['css'] )['handle'],
+				'editor_script'   => array_pop( $this->registered['block']['prc-block/flip-card']['js'] )['handle'],
+				'editor_style'    => array_pop( $this->registered['block']['prc-block/flip-card']['css'] )['handle'],
+				'render_callback' => function( $attributes, $content, $block ) {
+					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/flip-card']['js'] )['handle'] );
+					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/flip-card']['css'] )['handle'] );
+					return $content;
+				},
 			)
 		);
 
@@ -669,7 +675,20 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/follow-us',
 			array(
-				'editor_script' => $follow_us_handle,
+				'editor_script'   => $follow_us_handle,
+				'render_callback' => function( $attributes, $content, $block ) {
+					$script_handle = array_pop( $this->registered['frontend']['prc-block/follow-us']['js'] )['handle'];
+					wp_localize_script(
+						$script_handle,
+						'prcFollowUsMailchimp',
+						array(
+							'interests' => $this->mailchimp_interests,
+						)
+					);
+					wp_enqueue_script( $script_handle );
+					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/follow-us']['css'] )['handle'] );
+					return $content;
+				},
 			)
 		);
 
@@ -685,8 +704,21 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/mailchimp-form',
 			array(
-				'editor_script' => $mailchimp_handle,
-				'style'         => array_pop( $this->registered['block']['prc-block/mailchimp-form']['css'] )['handle'],
+				'editor_script'   => $mailchimp_handle,
+				'style'           => array_pop( $this->registered['block']['prc-block/mailchimp-form']['css'] )['handle'],
+				'render_callback' => function( $attributes, $content, $block ) {
+					$script_handle = array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['js'] )['handle'];
+					wp_localize_script(
+						$script_handle,
+						'prcMailchimpForm',
+						array(
+							'interests' => $this->mailchimp_interests,
+						)
+					);
+					wp_enqueue_script( $script_handle );
+					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['css'] )['handle'] );
+					return $content;
+				},
 			)
 		);
 
@@ -694,7 +726,12 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/mailchimp-opt-down',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/mailchimp-opt-down']['js'] )['handle'],
+				'editor_script'   => array_pop( $this->registered['block']['prc-block/mailchimp-opt-down']['js'] )['handle'],
+				'render_callback' => function( $attributes, $content, $block ) {
+					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/mailchimp-opt-down']['js'] )['handle'] );
+					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/mailchimp-opt-down']['css'] )['handle'] );
+					return $content;
+				},
 			)
 		);
 
@@ -727,8 +764,13 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/posts',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/posts']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/posts']['css'] )['handle'],
+				'editor_script'   => array_pop( $this->registered['block']['prc-block/posts']['js'] )['handle'],
+				'style'           => array_pop( $this->registered['block']['prc-block/posts']['css'] )['handle'],
+				'render_callback' => function( $attributes, $content, $block ) {
+					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/posts']['js'] )['handle'] );
+					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/posts']['css'] )['handle'] );
+					return $content;
+				},
 			)
 		);
 
@@ -766,8 +808,13 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/tabs',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/tabs']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/tabs']['css'] )['handle'],
+				'editor_script'   => array_pop( $this->registered['block']['prc-block/tabs']['js'] )['handle'],
+				'editor_style'    => array_pop( $this->registered['block']['prc-block/tabs']['css'] )['handle'],
+				'render_callback' => function( $attributes, $content, $block ) {
+					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/tabs']['js'] )['handle'] );
+					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/tabs']['css'] )['handle'] );
+					return $content;
+				},
 			)
 		);
 
@@ -775,8 +822,12 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/a-z-taxonomy-list',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['css'] )['handle'],
+				'editor_script'   => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['js'] )['handle'],
+				'style'           => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['css'] )['handle'],
+				'render_callback' => function( $attributes, $content, $block ) {
+					wp_enqueue_script( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) );
+					return $content;
+				},
 			)
 		);
 
@@ -793,8 +844,13 @@ class PRC_Block_Library {
 		register_block_type(
 			'prc-block/taxonomy-tree-list',
 			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['css'] )['handle'],
+				'editor_script'   => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['js'] )['handle'],
+				'style'           => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['css'] )['handle'],
+				'render_callback' => function( $attributes, $content, $block ) {
+					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/taxonomy-tree-list']['js'] )['handle'] );
+					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/taxonomy-tree-list']['css'] )['handle'] );
+					return $content;
+				},
 			)
 		);
 
@@ -808,72 +864,8 @@ class PRC_Block_Library {
 
 	}
 
-	/**
-	 * Because of the cross site nature of widget block areas we need to force enqueing of assets.
-	 */
-	public function enqueue_block_area_assets( $post_id, $content ) {
-		return $this->enqueue_frontend_assets( $content, $post_id );
-	}
-
-	/**
-	 * Filters the_content looking for blocks, enqueues any `frontend` script/styles registered for a block.
-	 */
-	public function enqueue_frontend_assets( $content, $post_id = null ) {
-		if ( is_admin() ) {
-			return $content;
-		}
-		if ( is_front_page() ) {
-			$homepage = get_current_homepage();
-			$post_id  = $homepage->ID;
-		} elseif ( null === $post_id ) {
-			$post_id = get_the_ID();
-		}
-
-		foreach ( $this->registered['frontend'] as $block_name => $block_assets ) {
-			if ( has_block( $block_name, $post_id ) ) {
-				// Follow Us has some special conditions on the frontend that other blocks do not
-				if ( 'prc-block/follow-us' === $block_name ) {
-					// The Mailchimp form in Follow Us requires access to all the interests, they are maintained in the mailchimp api and set in this class in construct.
-					$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'frontend' );
-					wp_localize_script(
-						$follow_us_handle,
-						'prcFollowUsMailchimp',
-						array(
-							'interests' => $this->mailchimp_interests,
-						)
-					);
-				}
-				if ( array_key_exists( 'js', $block_assets ) && array_key_exists( 'handle', $block_assets['js'] ) ) {
-					wp_enqueue_script( array_pop( $block_assets['js'] )['handle'] );
-				}
-				if ( array_key_exists( 'css', $block_assets ) && array_key_exists( 'handle', $block_assets['css'] ) ) {
-					wp_enqueue_style( array_pop( $block_assets['css'] )['handle'] );
-				}
-			}
-		}
-		// For blocks that take advantage of the collapsible list sub component.
-		// Still trying to figure out a better way to handle this dependencies.
-		if ( has_block( 'prc-block/taxonomy-tree' ) || has_block( 'prc-block/a-z-taxonomy-list' ) ) {
-			wp_enqueue_script( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) );
-		}
-
-		return $content;
-	}
-
 	private function load_block_pattern( $name ) {
 		return require __DIR__ . '/patterns/' . $name . '.php';
-	}
-
-	private function unregister_core_patterns() {
-		if ( ! function_exists( 'unregister_block_pattern_category' ) ) {
-			return;
-		}
-		// Categories
-		unregister_block_pattern_category( 'text' );
-		unregister_block_pattern_category( 'columns' );
-		unregister_block_pattern_category( 'buttons' );
-		unregister_block_pattern_category( 'header' );
-		unregister_block_pattern_category( 'gallery' );
 	}
 
 	public function register_block_patterns() {
@@ -881,13 +873,12 @@ class PRC_Block_Library {
 			return;
 		}
 
-		$this->unregister_core_patterns();
-
 		// PRC Patterns
 		register_block_pattern_category(
 			'lede',
 			array( 'label' => __( 'Lede', 'prc-blocks' ) )
 		);
+
 		register_block_pattern( 'prc-block/pattern/one-lede', $this->load_block_pattern( 'one-lede' ) );
 		register_block_pattern( 'prc-block/pattern/one-lede-with-newsletter', $this->load_block_pattern( 'one-lede-with-newsletter' ) );
 		register_block_pattern( 'prc-block/pattern/three-lede-vertical', $this->load_block_pattern( 'three-lede-vertical' ) );
