@@ -768,7 +768,11 @@ class PRC_Block_Library {
 				'style'           => array_pop( $this->registered['block']['prc-block/posts']['css'] )['handle'],
 				'render_callback' => function( $attributes, $content, $block ) {
 					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/posts']['js'] )['handle'] );
-					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/posts']['css'] )['handle'] );
+					$css = array_pop( $this->registered['frontend']['prc-block/posts']['css'] );
+					$css_handle = array_key_exists( 'handle', $css ) ? $css['handle'] : false;
+					if ( false !== $css_handle ) {
+						wp_enqueue_style( $css_handle );
+					}
 					return $content;
 				},
 			)
