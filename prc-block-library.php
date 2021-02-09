@@ -38,7 +38,6 @@ class PRC_Block_Library {
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'init', array( $this, 'register_assets' ), 10 );
 			add_action( 'init', array( $this, 'register_blocks' ), 11 );
-			add_action( 'init', array( $this, 'register_block_patterns' ) );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 
 			if ( class_exists( 'PRC_API_Mailchimp' ) ) {
@@ -869,34 +868,6 @@ class PRC_Block_Library {
 		);
 
 	}
-
-	private function load_block_pattern( $name ) {
-		return require __DIR__ . '/patterns/' . $name . '.php';
-	}
-
-	public function register_block_patterns() {
-		if ( ! function_exists( 'register_block_pattern' ) || ! function_exists( 'register_block_pattern_category' ) ) {
-			return;
-		}
-
-		// PRC Patterns
-		register_block_pattern_category(
-			'lede',
-			array( 'label' => __( 'Lede', 'prc-blocks' ) )
-		);
-
-		register_block_pattern( 'prc-block/pattern/one-lede', $this->load_block_pattern( 'one-lede' ) );
-		register_block_pattern( 'prc-block/pattern/one-lede-with-newsletter', $this->load_block_pattern( 'one-lede-with-newsletter' ) );
-		register_block_pattern( 'prc-block/pattern/three-lede-vertical', $this->load_block_pattern( 'three-lede-vertical' ) );
-		register_block_pattern( 'prc-block/pattern/three-lede-horizontal', $this->load_block_pattern( 'three-lede-horizontal' ) );
-		register_block_pattern( 'prc-block/pattern/three-lede-wide', $this->load_block_pattern( 'three-lede-wide' ) );
-		register_block_pattern( 'prc-block/pattern/four-lede-vertical', $this->load_block_pattern( 'four-lede-vertical' ) );
-		register_block_pattern( 'prc-block/pattern/four-lede-horizontal', $this->load_block_pattern( 'four-lede-horizontal' ) );
-		register_block_pattern( 'prc-block/pattern/four-lede', $this->load_block_pattern( 'four-lede' ) );
-		register_block_pattern( 'prc-block/pattern/homepage', $this->load_block_pattern( 'homepage' ) );
-	}
-
-
 
 	public function register_rest_endpoints() {
 		register_rest_route(
