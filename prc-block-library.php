@@ -45,7 +45,12 @@ class PRC_Block_Library {
 				$this->mailchimp_interests = $mailchimp->get_interests();
 			}
 
+			// Needs to be moved into shared wpack vendor outputs
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
+
+			// Using shared wpack vendor outputs
+			require_once plugin_dir_path( __FILE__ ) . '/src/column/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/columns/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
@@ -221,32 +226,6 @@ class PRC_Block_Library {
 				'js'        => true,
 				'css'       => false,
 				'js_dep'    => array( 'jquery', 'wp-dom-ready' ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Columns */
-		$this->registered['block']['prc-block/columns'] = $enqueue->register(
-			'columns',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['block']['prc-block/column']  = $enqueue->register(
-			'column',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -627,24 +606,6 @@ class PRC_Block_Library {
 					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/collapsible']['js'] )['handle'] );
 					return $content;
 				},
-			)
-		);
-
-		/** Columns */
-		register_block_type(
-			'prc-block/columns',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/columns']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/columns']['css'] )['handle'],
-			)
-		);
-
-		/** Column */
-		register_block_type(
-			'prc-block/column',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/column']['js'] )['handle'],
-				'editor_style'  => array_pop( $this->registered['block']['prc-block/column']['css'] )['handle'],
 			)
 		);
 

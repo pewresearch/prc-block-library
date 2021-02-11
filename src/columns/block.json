@@ -1,0 +1,47 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/columns",
+    "category": "layout",
+    "attributes": {
+        "celled": {
+            "type": "boolean",
+            "default": false
+        },
+        "container": {
+            "type": "boolean",
+            "default": false
+        },
+        "divided": {
+            "type": "boolean",
+            "default": false
+        },
+        "doubling": {
+            "type": "boolean",
+            "default": false
+        },
+        "equal": {
+            "type": "boolean",
+            "default": false
+        },
+        "padded": {
+            "type": "string",
+            "default": "false|true|horizontally|vertically"
+        },
+        "relaxed": {
+            "type": "string",
+            "default": "false|true|very"
+        },
+        "stackable": {
+            "type": "boolean",
+            "default": true
+        },
+        "textAlign": {
+            "type": "string",
+            "default": "left|center|right|justified"
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": false
+    }
+}

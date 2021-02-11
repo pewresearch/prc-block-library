@@ -31,6 +31,8 @@ module.exports = {
         {
             name: 'blocks',
             entry: {
+                column: './src/column/index.js',
+                columns: './src/columns/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',
@@ -85,18 +87,6 @@ module.exports = {
             name: 'collapsible-list',
             entry: {
                 helper: './src/_shared/components/collapsible-list/frontend.js',
-            },
-        },
-        {
-            name: 'columns',
-            entry: {
-                main: './src/columns/index.js',
-            },
-        },
-        {
-            name: 'column',
-            entry: {
-                main: './src/column/index.js',
             },
         },
         {

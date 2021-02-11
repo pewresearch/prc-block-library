@@ -1,0 +1,22 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/column",
+    "category": "layout",
+    "attributes": {
+        "width": {
+            "type": "integer",
+            "default": 0
+        },
+        "verticalAlignment": {
+			"type": "string"
+		},
+        "templateLock": {
+			"type": "string"
+		}
+    },
+    "parent": ["prc-block/columns"],
+    "supports": {
+        "html": false,
+        "align": false
+    }
+}
