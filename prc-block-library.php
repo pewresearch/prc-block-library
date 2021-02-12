@@ -1,15 +1,24 @@
 <?php
 /**
- * Plugin Name: PRC Block Library
- * Plugin URI: https://pewresearch.org
- * Description: PRC Block Library: Story Item, Card, Pancake Promo, Posts (Fact Tank Widget)
- * Author: Seth Rubenstein
- * Author URI: https://sethrubenstein.info
- * Version: 1.0.0
- * License: GPL2+
- * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
+ * PRC Block Library
  *
- * @package CGB
+ * @package           PRC_Block_Library
+ * @author            Seth Rubenstein
+ * @copyright         2021 Pew Research Center
+ * @license           GPL-2.0-or-later
+ *
+ * @wordpress-plugin
+ * Plugin Name:       PRC Block Library
+ * Plugin URI:        https://pewresearch.org
+ * Description:       PRC Block Library
+ * Version:           1.0.0
+ * Requires at least: 5.2
+ * Requires PHP:      7.4
+ * Author:            Seth Rubenstein
+ * Author URI:        https://sethrubenstein.info
+ * Text Domain:       prc-user-surveys
+ * License:           GPL v2 or later
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 // Exit if accessed directly.
@@ -20,8 +29,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 use WPackio\Enqueue;
-
-use function BLOCKNAVIGATION\enqueue;
 
 class PRC_Block_Library {
 	/**
@@ -45,10 +52,10 @@ class PRC_Block_Library {
 				$this->mailchimp_interests = $mailchimp->get_interests();
 			}
 
-			// Needs to be moved into shared wpack vendor outputs
+			// @TODO Needs to be moved into shared wpack vendor outputs.
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
 
-			// Using shared wpack vendor outputs
+			// Using shared wpack vendor outputs.
 			require_once plugin_dir_path( __FILE__ ) . '/src/column/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/columns/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';

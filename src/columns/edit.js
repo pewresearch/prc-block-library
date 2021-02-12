@@ -108,7 +108,9 @@ const ColumnsEditContainer = ({
                 </PanelBody>
             </InspectorControls>
 
-            <div {...innerBlocksProps} />
+            <div className="ui container">
+                <div {...innerBlocksProps} />
+            </div>
         </Fragment>
     );
 };
