@@ -1,10 +1,10 @@
 {
-  "column.js": "blocks/column-5c83feb0.js",
-  "column.js.map": "blocks/column-5c83feb0.js.map",
+  "column.js": "blocks/column-6882ecc8.js",
+  "column.js.map": "blocks/column-6882ecc8.js.map",
   "columns.css": "blocks/columns-e1ef9c45.css",
   "columns.css.map": "blocks/columns-e1ef9c45.css.map",
-  "columns.js": "blocks/columns-57e68539.js",
-  "columns.js.map": "blocks/columns-57e68539.js.map",
+  "columns.js": "blocks/columns-0586da05.js",
+  "columns.js.map": "blocks/columns-0586da05.js.map",
   "menu-link.js": "blocks/menu-link-1ef644ff.js",
   "menu-link.js.map": "blocks/menu-link-1ef644ff.js.map",
   "menu.js": "blocks/menu-51edcfbb.js",
@@ -25,21 +25,21 @@
     "column": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/column-5c83feb0.js"
+        "blocks/column-6882ecc8.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/column-5c83feb0.js.map"
+        "blocks/column-6882ecc8.js.map"
       ]
     },
     "columns": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/columns-57e68539.js"
+        "blocks/columns-0586da05.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/columns-57e68539.js.map"
+        "blocks/columns-0586da05.js.map"
       ],
       "css": [
         "blocks/columns-e1ef9c45.css"

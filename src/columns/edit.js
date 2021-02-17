@@ -35,7 +35,6 @@ import {
     hasExplicitPercentColumnWidths,
     getMappedColumnWidths,
     getRedistributedColumnWidths,
-    toWidthPrecision,
 } from './utils';
 
 /**
@@ -56,7 +55,7 @@ const ColumnsEditContainer = ({
     toggleDivided,
     clientId,
 }) => {
-    const { divided } = attributes;
+    const { divided, equal } = attributes;
 
     // Return a count of prc-block/column inside...
     const { count } = useSelect(
@@ -68,9 +67,13 @@ const ColumnsEditContainer = ({
         [clientId],
     );
 
+    const gridClassName = classnames(className, 'ui', 'grid', {
+        divided,
+    });
+
     const blockProps = useBlockProps({
-        className: classnames(className, 'ui', 'grid', {
-            divided,
+        className: classnames('row', {
+            'equal width': equal,
         }),
     });
 
@@ -109,7 +112,9 @@ const ColumnsEditContainer = ({
             </InspectorControls>
 
             <div className="ui container">
-                <div {...innerBlocksProps} />
+                <div className={gridClassName}>
+                    <div {...innerBlocksProps} />
+                </div>
             </div>
         </Fragment>
     );
@@ -117,11 +122,15 @@ const ColumnsEditContainer = ({
 
 const ColumnsEditContainerWrapper = withDispatch(
     (dispatch, ownProps, registry) => ({
+        /**
+         * Toggles the divided style attribute true or false.
+         */
         toggleDivided() {
             const { attributes, setAttributes } = ownProps;
             const { divided } = attributes;
             setAttributes({ divided: !divided });
         },
+
         /**
          * Updates the column count, including necessary revisions to child Column
          * blocks to grant required or redistribute available space.
@@ -139,19 +148,25 @@ const ColumnsEditContainerWrapper = withDispatch(
                 innerBlocks,
             );
 
+            console.log('updateColumns()', previousColumns, newColumns);
+
+            console.log('hasExplicitWidths?', hasExplicitWidths);
+
             // Redistribute available width for existing inner blocks.
             const isAddingColumn = newColumns > previousColumns;
+
+            console.log('isAddingColumns?', isAddingColumn);
 
             if (isAddingColumn && hasExplicitWidths) {
                 // If adding a new column, assign width to the new column equal to
                 // as if it were `1 / columns` of the total available space.
-                const newColumnWidth = toWidthPrecision(100 / newColumns);
+                const newColumnWidth = newColumns;
 
                 // Redistribute in consideration of pending block insertion as
                 // constraining the available working width.
                 const widths = getRedistributedColumnWidths(
                     innerBlocks,
-                    100 - newColumnWidth,
+                    16 - newColumnWidth,
                 );
 
                 innerBlocks = [
@@ -180,7 +195,7 @@ const ColumnsEditContainerWrapper = withDispatch(
                     // Redistribute as if block is already removed.
                     const widths = getRedistributedColumnWidths(
                         innerBlocks,
-                        100,
+                        16,
                     );
 
                     innerBlocks = getMappedColumnWidths(innerBlocks, widths);

@@ -21,20 +21,25 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 const ColumnEdit = ({
-    attributes: { verticalAlignment, width, templateLock = false },
+    attributes: { verticalAlignment = false, width, templateLock = false },
     setAttributes,
     className,
     clientId,
 }) => {
-    const { hasChildBlocks, rootClientId } = useSelect(
+    const { hasChildBlocks, isEqual, rootClientId } = useSelect(
         select => {
-            const { getBlockOrder, getBlockRootClientId } = select(
-                'core/block-editor',
-            );
-
+            const {
+                getBlockOrder,
+                getBlockRootClientId,
+                getBlockAttributes,
+            } = select('core/block-editor');
+            const rootBlockClientId = getBlockRootClientId(clientId);
+            const rootAttributes = getBlockAttributes(rootBlockClientId);
+            const { equal } = rootAttributes;
             return {
                 hasChildBlocks: 0 < getBlockOrder(clientId).length,
-                rootClientId: getBlockRootClientId(clientId),
+                rootClientId: rootBlockClientId,
+                isEqual: equal,
             };
         },
         [clientId],
@@ -47,13 +52,37 @@ const ColumnEdit = ({
         // Update own alignment.
         setAttributes({ verticalAlignment: value });
         // Reset parent Columns block.
-        updateBlockAttributes(rootClientId, {
-            verticalAlignment: null,
-        });
+        // updateBlockAttributes(rootClientId, {
+        //     verticalAlignment: null,
+        // });
+    };
+
+    const verticalAlignmentClassName = () => {
+        if (false === verticalAlignment) {
+            return null;
+        }
+        let vA = verticalAlignment;
+        if ('center' === verticalAlignment) {
+            vA = 'middle';
+        }
+        return `${vA} aligned`;
+    };
+
+    const getWidthClassName = () => {
+        // If parent block (columns) is set to equal then return null;
+        if (true === isEqual) {
+            return null;
+        }
+        return `${numWords(width)} wide`;
     };
 
     const blockProps = useBlockProps({
-        className: classnames(className, numWords(width), 'wide', 'column'),
+        className: classnames(
+            className,
+            getWidthClassName(),
+            'column',
+            verticalAlignmentClassName(),
+        ),
     });
     const innerBlocksProps = useInnerBlocksProps(blockProps, {
         templateLock,
