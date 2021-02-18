@@ -16,9 +16,8 @@ const { name } = metadata;
 
 const settings = {
     title: __('PRC Column'),
-    description: __('A single column within a columns block.'),
+    description: __('A single column within a row.'),
     icon,
-    keywords: [__('Column')],
     edit,
     save,
 };

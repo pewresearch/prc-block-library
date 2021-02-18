@@ -1,16 +1,8 @@
 {
     "apiVersion": 2,
-	"name": "prc-block/columns",
+	"name": "prc-block/row",
     "category": "layout",
     "attributes": {
-        "celled": {
-            "type": "boolean",
-            "default": false
-        },
-        "container": {
-            "type": "boolean",
-            "default": false
-        },
         "divided": {
             "type": "boolean",
             "default": false
@@ -23,23 +15,12 @@
             "type": "boolean",
             "default": false
         },
-        "padded": {
-            "type": "string",
-            "default": "false|true|horizontally|vertically"
-        },
-        "relaxed": {
-            "type": "string",
-            "default": "false|true|very"
-        },
-        "stackable": {
-            "type": "boolean",
-            "default": true
-        },
         "textAlign": {
             "type": "string",
             "default": "left|center|right|justified"
         }
     },
+    "parent": ["prc-block/grid"],
     "supports": {
         "html": false,
         "align": false

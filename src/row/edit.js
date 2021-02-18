@@ -41,14 +41,14 @@ import {
  * Allowed blocks constant is passed to InnerBlocks precisely as specified here.
  * The contents of the array should never change.
  * The array should contain the name of each block that is allowed.
- * In columns block, the only block we allow is 'core/column'.
+ * In the row block, the only block we allow is 'core/column'.
  *
  * @constant
  * @type {string[]}
  */
 const ALLOWED_BLOCKS = ['prc-block/column'];
 
-const ColumnsEditContainer = ({
+const RowEditContainer = ({
     attributes,
     className,
     updateColumns,
@@ -68,13 +68,12 @@ const ColumnsEditContainer = ({
         [clientId],
     );
 
-    const gridClassName = classnames(className, 'ui', 'stackable', 'grid', {
-        divided,
-    });
+    const gridClassName = classnames(className, 'ui', 'stackable', 'grid');
 
     const blockProps = useBlockProps({
         className: classnames('row', {
             'equal width': equal,
+            divided,
         }),
     });
 
@@ -130,7 +129,7 @@ const ColumnsEditContainer = ({
     );
 };
 
-const ColumnsEditContainerWrapper = withDispatch(
+const RowEditContainerWrapper = withDispatch(
     (dispatch, ownProps, registry) => ({
         /**
          * Toggles the divided style attribute true or false.
@@ -222,7 +221,7 @@ const ColumnsEditContainerWrapper = withDispatch(
             replaceInnerBlocks(clientId, innerBlocks);
         },
     }),
-)(ColumnsEditContainer);
+)(RowEditContainer);
 
 const Placeholder = ({ clientId, name, setAttributes }) => {
     const { blockType, defaultVariation, variations } = useSelect(
@@ -279,10 +278,8 @@ const Edit = props => {
     );
 
     // Define active component...
-    // ... if block hasInnerBlocks then use ColumnsEditContainerWrapper otherwise use Placholder, pass all props through
-    const Component = hasInnerBlocks
-        ? ColumnsEditContainerWrapper
-        : Placeholder;
+    // ... if block hasInnerBlocks then use RowEditContainerWrapper otherwise use Placholder, pass all props through
+    const Component = hasInnerBlocks ? RowEditContainerWrapper : Placeholder;
 
     return <Component {...props} />;
 };

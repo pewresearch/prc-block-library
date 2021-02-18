@@ -56,8 +56,11 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
 
 			// Using shared wpack vendor outputs.
+			// Layout Primitives.
+			require_once plugin_dir_path( __FILE__ ) . '/src/grid/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/row/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/column/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/columns/index.php';
+
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';

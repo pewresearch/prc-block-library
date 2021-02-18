@@ -1,0 +1,27 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/grid",
+    "category": "layout",
+    "attributes": {
+        "container": {
+            "type": "boolean",
+            "default": true
+        },
+        "padded": {
+            "type": "string",
+            "default": "false|true|horizontally|vertically"
+        },
+        "relaxed": {
+            "type": "string",
+            "default": "false|true|very"
+        },
+        "stackable": {
+            "type": "boolean",
+            "default": true
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": false
+    }
+}

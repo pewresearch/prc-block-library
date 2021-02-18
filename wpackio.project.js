@@ -32,11 +32,12 @@ module.exports = {
             name: 'blocks',
             entry: {
                 column: './src/column/index.js',
-                columns: './src/columns/index.js',
+                grid: './src/grid/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',
                 'post-title': './src/post-title/index.js',
+                row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
             },
         },

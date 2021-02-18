@@ -5,7 +5,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 
 use WPackio\Enqueue;
 
-class Columns_Block extends PRC_Block_Library {
+class Grid_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -13,31 +13,24 @@ class Columns_Block extends PRC_Block_Library {
 	}
 
 	/**
-	 * Render callback for prc-block/column
+	 * Render callback for prc-block/grid
 	 *
 	 * @param mixed $attributes
 	 * @param mixed $content
 	 * @param mixed $block
 	 * @return string|false
 	 */
-	public function render_columns( $attributes, $content, $block ) {
+	public function render_grid( $attributes, $content, $block ) {
 		$grid_classes = array(
 			'ui',
 			'grid',
 			'stackable', // At this time we're not going to allow non stackable grids.
-			'divided' => $attributes['divided'],
-		);
-		$row_classes  = array(
-			'row',
-			'equal width' => $attributes['equal'],
 		);
 		ob_start();
 		?>
 		<div class="ui container">
 			<div class="<?php echo esc_attr( classNames( $grid_classes ) ); ?>">
-				<div class="<?php echo esc_attr( classNames( $row_classes ) ); ?>">
-					<?php echo wp_kses( $content, 'post' ); ?>
-				</div>
+				<?php echo wp_kses( $content, 'post' ); ?>
 			</div>
 		</div>
 		<?php
@@ -45,7 +38,7 @@ class Columns_Block extends PRC_Block_Library {
 	}
 
 	/**
-	 * Register the menu link block.
+	 * Register the prc-block/grid block.
 	 *
 	 * @uses render_block_core_navigation()
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
@@ -56,7 +49,7 @@ class Columns_Block extends PRC_Block_Library {
 
 		$registered = $enqueue->register(
 			'blocks',
-			'columns',
+			'grid',
 			array(
 				'js'        => true,
 				'css'       => false,
@@ -68,13 +61,13 @@ class Columns_Block extends PRC_Block_Library {
 		);
 
 		register_block_type_from_metadata(
-			plugin_dir_path( __DIR__ ) . '/columns',
+			plugin_dir_path( __DIR__ ) . '/grid',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'render_callback' => array( $this, 'render_columns' ),
+				'render_callback' => array( $this, 'render_grid' ),
 			)
 		);
 	}
 }
 
-new Columns_Block( true );
+new Grid_Block( true );
