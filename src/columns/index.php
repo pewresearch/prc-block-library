@@ -21,15 +21,24 @@ class Columns_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_columns( $attributes, $content, $block ) {
-		$classes = array(
+		$grid_classes = array(
 			'ui',
-			'columns',
+			'grid',
+			'stackable', // At this time we're not going to allow non stackable grids.
+			'divided' => $attributes['divided'],
+		);
+		$row_classes  = array(
+			'row',
+			'equal width' => $attributes['equal'],
 		);
 		ob_start();
-		print_r( $attributes );
 		?>
-		<div class="<?php echo esc_attr( classNames( $classes ) ); ?>">
-			<?php echo wp_kses( $content, 'post' ); ?>
+		<div class="ui container">
+			<div class="<?php echo esc_attr( classNames( $grid_classes ) ); ?>">
+				<div class="<?php echo esc_attr( classNames( $row_classes ) ); ?>">
+					<?php echo wp_kses( $content, 'post' ); ?>
+				</div>
+			</div>
 		</div>
 		<?php
 		return ob_get_clean();

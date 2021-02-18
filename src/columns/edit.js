@@ -53,6 +53,7 @@ const ColumnsEditContainer = ({
     className,
     updateColumns,
     toggleDivided,
+    toggleEqual,
     clientId,
 }) => {
     const { divided, equal } = attributes;
@@ -67,7 +68,7 @@ const ColumnsEditContainer = ({
         [clientId],
     );
 
-    const gridClassName = classnames(className, 'ui', 'grid', {
+    const gridClassName = classnames(className, 'ui', 'stackable', 'grid', {
         divided,
     });
 
@@ -92,6 +93,15 @@ const ColumnsEditContainer = ({
                         label={divided ? 'Divided' : 'Not Divided'}
                         checked={divided}
                         onChange={() => toggleDivided()}
+                    />
+                    <ToggleControl
+                        label={
+                            equal
+                                ? 'Equal Width Columns'
+                                : 'Not Equal Width Columns'
+                        }
+                        checked={equal}
+                        onChange={() => toggleEqual()}
                     />
                     <RangeControl
                         label={__('Columns')}
@@ -130,7 +140,14 @@ const ColumnsEditContainerWrapper = withDispatch(
             const { divided } = attributes;
             setAttributes({ divided: !divided });
         },
-
+        /**
+         * Toggles the divided style attribute true or false.
+         */
+        toggleEqual() {
+            const { attributes, setAttributes } = ownProps;
+            const { equal } = attributes;
+            setAttributes({ equal: !equal });
+        },
         /**
          * Updates the column count, including necessary revisions to child Column
          * blocks to grant required or redistribute available space.
@@ -139,7 +156,7 @@ const ColumnsEditContainerWrapper = withDispatch(
          * @param {number} newColumns      New column count.
          */
         updateColumns(previousColumns, newColumns) {
-            const { clientId } = ownProps;
+            const { clientId, equal } = ownProps;
             const { replaceInnerBlocks } = dispatch('core/block-editor');
             const { getBlocks } = registry.select('core/block-editor');
 
@@ -150,12 +167,8 @@ const ColumnsEditContainerWrapper = withDispatch(
 
             console.log('updateColumns()', previousColumns, newColumns);
 
-            console.log('hasExplicitWidths?', hasExplicitWidths);
-
-            // Redistribute available width for existing inner blocks.
+            // Flag if we are adding columns or removing them.
             const isAddingColumn = newColumns > previousColumns;
-
-            console.log('isAddingColumns?', isAddingColumn);
 
             if (isAddingColumn && hasExplicitWidths) {
                 // If adding a new column, assign width to the new column equal to
@@ -177,6 +190,7 @@ const ColumnsEditContainerWrapper = withDispatch(
                         });
                     }),
                 ];
+                console.log('isAddingColumn && hasExplicitWidth', innerBlocks);
             } else if (isAddingColumn) {
                 innerBlocks = [
                     ...innerBlocks,
@@ -184,7 +198,9 @@ const ColumnsEditContainerWrapper = withDispatch(
                         return createBlock('prc-block/column');
                     }),
                 ];
+                console.log('isAddingColumn', innerBlocks);
             } else {
+                // Remove a column, subtract.
                 // The removed column will be the last of the inner blocks.
                 innerBlocks = dropRight(
                     innerBlocks,
@@ -200,6 +216,7 @@ const ColumnsEditContainerWrapper = withDispatch(
 
                     innerBlocks = getMappedColumnWidths(innerBlocks, widths);
                 }
+                console.log('neither...', innerBlocks);
             }
 
             replaceInnerBlocks(clientId, innerBlocks);

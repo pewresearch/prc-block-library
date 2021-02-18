@@ -27,14 +27,35 @@ class Column_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_column( $attributes, $content, $block ) {
-		$classes = array(
-			'ui',
+		$dictionary = array(
+			1  => 'one',
+			2  => 'two',
+			3  => 'three',
+			4  => 'four',
+			5  => 'five',
+			6  => 'six',
+			7  => 'seven',
+			8  => 'eight',
+			9  => 'nine',
+			10 => 'ten',
+			11 => 'eleven',
+			12 => 'twelve',
+			13 => 'thirteen',
+			14 => 'fourteen',
+			15 => 'fifteen',
+			16 => 'sixteen',
+		);
+		$width      = $dictionary[ $attributes['width'] ];
+		$classes    = array(
 			'column',
 		);
+		if ( null !== $width ) {
+			$classes[] = "{$width} wide";
+		}
 		ob_start();
-		print_r( $attributes );
 		?>
 		<div class="<?php echo esc_attr( classNames( $classes ) ); ?>">
+			<?php print_r( $attributes ); ?>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php

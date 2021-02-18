@@ -113,6 +113,7 @@ const ColumnEdit = ({
                         min={1}
                         max={16}
                         withInputField
+                        disabled={isEqual}
                     />
                 </PanelBody>
             </InspectorControls>
