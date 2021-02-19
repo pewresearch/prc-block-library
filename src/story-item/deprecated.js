@@ -1,4 +1,3 @@
-
 import classNames from 'classnames/bind';
 import { Fragment, RawHTML } from '@wordpress/element';
 import metadata from './block.json';
@@ -217,29 +216,29 @@ const deprecated = [
         },
         // Define all the old supports (this hasnt changed so we'll just use whats defined in block.json)
         supports,
-        migrate( props ) {
-            console.log("MIGRATE", props);
-            if ( 'large' === props.headerSize ) {
+        migrate(props) {
+            console.log('MIGRATE', props);
+            if ('large' === props.headerSize) {
                 props.headerSize = 1;
             }
-            if ( 'normal' === props.headerSize ) {
+            if ('normal' === props.headerSize) {
                 props.headerSize = 2;
             }
-            if ( 'small' === props.headerSize ) {
+            if ('small' === props.headerSize) {
                 props.headerSize = 3;
             }
-            return props
+            return props;
         },
-        save( props ) {
-            console.log("Migration Save...", props);
+        save(props) {
+            console.log('Migration Save...', props);
             const { attributes } = props;
-            return <LegacyStoryItem {...attributes} />;        
+            return <LegacyStoryItem {...attributes} />;
         },
-        isEligible( attributes ) {
+        isEligible(attributes) {
             console.log('is eligible?', attributes);
             return true;
-        }
-    }
+        },
+    },
 ];
 
 export default deprecated;

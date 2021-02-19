@@ -15,7 +15,7 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('PRC Column'),
+    title: __('Column'),
     description: __('A single column within a row.'),
     icon,
     edit,

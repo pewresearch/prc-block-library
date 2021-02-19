@@ -16,7 +16,7 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('PRC Row'),
+    title: __('Row'),
     description: __(
         'Add a block that displays content in multiple columns, then add whatever content blocks you’d like.',
     ),

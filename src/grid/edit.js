@@ -17,6 +17,7 @@ import {
     Notice,
 } from '@wordpress/components';
 import {
+    InnerBlocks,
     InspectorControls,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     __experimentalBlockVariationPicker,
@@ -58,7 +59,7 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId }) => {
     const innerBlocksProps = useInnerBlocksProps(blockProps, {
         allowedBlocks: ALLOWED_BLOCKS,
         orientation: 'vertical',
-        renderAppender: false,
+        renderAppender: InnerBlocks.ButtonBlockAppender,
     });
 
     return (

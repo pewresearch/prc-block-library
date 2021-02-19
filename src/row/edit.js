@@ -29,15 +29,6 @@ import {
 } from '@wordpress/blocks';
 
 /**
- * Internal dependencies
- */
-import {
-    hasExplicitPercentColumnWidths,
-    getMappedColumnWidths,
-    getRedistributedColumnWidths,
-} from './utils';
-
-/**
  * Allowed blocks constant is passed to InnerBlocks precisely as specified here.
  * The contents of the array should never change.
  * The array should contain the name of each block that is allowed.
@@ -67,8 +58,6 @@ const RowEditContainer = ({
         },
         [clientId],
     );
-
-    const gridClassName = classnames(className, 'ui', 'stackable', 'grid');
 
     const blockProps = useBlockProps({
         className: classnames('row', {
@@ -120,11 +109,7 @@ const RowEditContainer = ({
                 </PanelBody>
             </InspectorControls>
 
-            <div className="ui container">
-                <div className={gridClassName}>
-                    <div {...innerBlocksProps} />
-                </div>
-            </div>
+            <div {...innerBlocksProps} />
         </Fragment>
     );
 };
@@ -160,44 +145,35 @@ const RowEditContainerWrapper = withDispatch(
             const { getBlocks } = registry.select('core/block-editor');
 
             let innerBlocks = getBlocks(clientId);
-            const hasExplicitWidths = hasExplicitPercentColumnWidths(
+
+            console.log(
+                'updateColumns()',
+                previousColumns,
+                newColumns,
                 innerBlocks,
             );
-
-            console.log('updateColumns()', previousColumns, newColumns);
 
             // Flag if we are adding columns or removing them.
             const isAddingColumn = newColumns > previousColumns;
 
-            if (isAddingColumn && hasExplicitWidths) {
-                // If adding a new column, assign width to the new column equal to
-                // as if it were `1 / columns` of the total available space.
-                const newColumnWidth = newColumns;
-
-                // Redistribute in consideration of pending block insertion as
-                // constraining the available working width.
-                const widths = getRedistributedColumnWidths(
-                    innerBlocks,
-                    16 - newColumnWidth,
-                );
-
-                innerBlocks = [
-                    ...getMappedColumnWidths(innerBlocks, widths),
-                    ...times(newColumns - previousColumns, () => {
-                        return createBlock('prc-block/column', {
-                            width: newColumnWidth,
-                        });
-                    }),
-                ];
-                console.log('isAddingColumn && hasExplicitWidth', innerBlocks);
-            } else if (isAddingColumn) {
+            const newWidth = Math.round(16 / newColumns);
+            // Change
+            if (isAddingColumn) {
+                // Modify existing columns to new width
+                innerBlocks = innerBlocks.map(block => {
+                    const b = block;
+                    b.attributes.width = newWidth;
+                    return b;
+                });
+                // Merge existing columns with new columns
                 innerBlocks = [
                     ...innerBlocks,
                     ...times(newColumns - previousColumns, () => {
-                        return createBlock('prc-block/column');
+                        return createBlock('prc-block/column', {
+                            width: newWidth,
+                        });
                     }),
                 ];
-                console.log('isAddingColumn', innerBlocks);
             } else {
                 // Remove a column, subtract.
                 // The removed column will be the last of the inner blocks.
@@ -205,17 +181,6 @@ const RowEditContainerWrapper = withDispatch(
                     innerBlocks,
                     previousColumns - newColumns,
                 );
-
-                if (hasExplicitWidths) {
-                    // Redistribute as if block is already removed.
-                    const widths = getRedistributedColumnWidths(
-                        innerBlocks,
-                        16,
-                    );
-
-                    innerBlocks = getMappedColumnWidths(innerBlocks, widths);
-                }
-                console.log('neither...', innerBlocks);
             }
 
             replaceInnerBlocks(clientId, innerBlocks);

@@ -14,7 +14,7 @@
 			"type": "string"
 		}
     },
-    "parent": ["prc-block/row"],
+    "parent": ["prc-block/columns", "prc-block/row"],
     "supports": {
         "html": false,
         "align": false
