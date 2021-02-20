@@ -35,11 +35,14 @@ const settings = {
         useEffect(() => {
             const block = select('core/block-editor').getBlock(clientId);
             const { innerBlocks, attributes } = block;
-
+            let isEqual = false;
+            if (attributes.className.split(' ').includes('equal')) {
+                isEqual = true;
+            }
             if (true === isSelected) {
                 const rowBlock = createBlock(
                     'prc-block/row',
-                    { ...attributes, className: '' },
+                    { equal: isEqual, className: '' },
                     innerBlocks,
                 );
                 const newGridBlock = createBlock(
@@ -62,6 +65,9 @@ const settings = {
         return <InnerBlocks />;
     },
     save: () => <InnerBlocks.Content />,
+    supports: {
+        inserter: false,
+    },
 };
 
 registerBlockType('prc-block/columns', settings);

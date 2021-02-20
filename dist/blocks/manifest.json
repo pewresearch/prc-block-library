@@ -1,8 +1,8 @@
 {
   "column.js": "blocks/column-8e5ecbfe.js",
   "column.js.map": "blocks/column-8e5ecbfe.js.map",
-  "grid.js": "blocks/grid-e9ce1c47.js",
-  "grid.js.map": "blocks/grid-e9ce1c47.js.map",
+  "grid.js": "blocks/grid-4c8fa850.js",
+  "grid.js.map": "blocks/grid-4c8fa850.js.map",
   "menu-link.js": "blocks/menu-link-9f361570.js",
   "menu-link.js.map": "blocks/menu-link-9f361570.js.map",
   "menu.js": "blocks/menu-59b1ceb5.js",
@@ -35,11 +35,11 @@
     "grid": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/grid-e9ce1c47.js"
+        "blocks/grid-4c8fa850.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/grid-e9ce1c47.js.map"
+        "blocks/grid-4c8fa850.js.map"
       ]
     },
     "menu": {
