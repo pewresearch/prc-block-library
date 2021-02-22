@@ -1,23 +1,23 @@
 {
   "main.css": "taxonomy-tree/main-d8bc2e60.css",
   "main.css.map": "taxonomy-tree/main-d8bc2e60.css.map",
-  "main.js": "taxonomy-tree/main-60ce7480.js",
-  "main.js.map": "taxonomy-tree/main-60ce7480.js.map",
+  "main.js": "taxonomy-tree/main-bad724b7.js",
+  "main.js.map": "taxonomy-tree/main-bad724b7.js.map",
   "runtime.js": "taxonomy-tree/runtime-95589478.js",
   "runtime.js.map": "taxonomy-tree/runtime-95589478.js.map",
-  "vendors~main.js": "taxonomy-tree/vendors~main-73c4852c.js",
-  "vendors~main.js.map": "taxonomy-tree/vendors~main-73c4852c.js.map",
+  "vendors~main.js": "taxonomy-tree/vendors~main-3750c47b.js",
+  "vendors~main.js.map": "taxonomy-tree/vendors~main-3750c47b.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "taxonomy-tree/runtime-95589478.js",
-        "taxonomy-tree/vendors~main-73c4852c.js",
-        "taxonomy-tree/main-60ce7480.js"
+        "taxonomy-tree/vendors~main-3750c47b.js",
+        "taxonomy-tree/main-bad724b7.js"
       ],
       "js.map": [
         "taxonomy-tree/runtime-95589478.js.map",
-        "taxonomy-tree/vendors~main-73c4852c.js.map",
-        "taxonomy-tree/main-60ce7480.js.map"
+        "taxonomy-tree/vendors~main-3750c47b.js.map",
+        "taxonomy-tree/main-bad724b7.js.map"
       ],
       "css": [
         "taxonomy-tree/main-d8bc2e60.css"

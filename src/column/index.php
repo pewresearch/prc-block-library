@@ -28,6 +28,7 @@ class Column_Block extends PRC_Block_Library {
 	 */
 	public function render_column( $attributes, $content, $block ) {
 		$dictionary = array(
+			0  => null,
 			1  => 'one',
 			2  => 'two',
 			3  => 'three',

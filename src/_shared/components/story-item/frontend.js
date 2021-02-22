@@ -53,7 +53,10 @@ const getProps = elm => {
         props.imageSlot = elm.getAttribute('data-imageslot');
         props.imageSize = elm.getAttribute('data-imagesize');
         if (elm.getAttribute('data-chartart')) {
-            if ('1' === elm.getAttribute('data-chartart') || 'true' === elm.getAttribute('data-chartart')) {
+            if (
+                '1' === elm.getAttribute('data-chartart') ||
+                'true' === elm.getAttribute('data-chartart')
+            ) {
                 props.isChartArt = true;
             }
         }
@@ -66,33 +69,42 @@ const getProps = elm => {
         props.headerSize = elm.getAttribute('data-headersize');
     }
     if (elm.getAttribute('data-emphasis')) {
-        if ('1' === elm.getAttribute('data-emphasis') || 'true' === elm.getAttribute('data-emphasis')) {
+        if (
+            '1' === elm.getAttribute('data-emphasis') ||
+            'true' === elm.getAttribute('data-emphasis')
+        ) {
             props.enableEmphasis = true;
         }
     }
     if (elm.getAttribute('data-breakingnews')) {
-        if ('1' === elm.getAttribute('data-breakingnews') || 'true' === elm.getAttribute('data-breakingnews')) {
+        if (
+            '1' === elm.getAttribute('data-breakingnews') ||
+            'true' === elm.getAttribute('data-breakingnews')
+        ) {
             props.enableBreakingNews = true;
         }
     }
     if (elm.getAttribute('data-inloop')) {
-        if ('1' === elm.getAttribute('data-inloop') || 'true' === elm.getAttribute('data-inloop')) {
+        if (
+            '1' === elm.getAttribute('data-inloop') ||
+            'true' === elm.getAttribute('data-inloop')
+        ) {
             props.inLoop = true;
         }
     }
     if (elm.getAttribute('data-excerptbelow')) {
-        if ('1' === elm.getAttribute('data-excerptbelow') || 'true' === elm.getAttribute('data-excerptbelow')) {
+        if (
+            '1' === elm.getAttribute('data-excerptbelow') ||
+            'true' === elm.getAttribute('data-excerptbelow')
+        ) {
             props.enableExcerptBelow = true;
         }
     }
-    console.log('getProps', props, elm);
     return props;
 };
 
 const StoryItemsRender = () => {
-    console.log("StoryItemsRender...");
     const items = document.querySelectorAll('.react-story-item');
-    console.log(items);
     items.forEach(item => {
         const props = getProps(item);
         render(<StoryItem {...props} />, item);
@@ -103,7 +115,6 @@ const StoryItemsRender = () => {
 domReady(() => {
     StoryItemsRender();
     jQuery(document).on('facetwp-loaded', () => {
-        console.log('facetwp loaded');
         StoryItemsRender();
     });
 });

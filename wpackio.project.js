@@ -39,6 +39,7 @@ module.exports = {
                 'post-title': './src/post-title/index.js',
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
+                table: './src/table/index.js',
             },
         },
         {
@@ -294,7 +295,9 @@ module.exports = {
         '@wordpress/element': 'wp.element',
         '@wordpress/block-editor': 'wp.blockEditor',
         '@wordpress/components': 'wp.components',
+        '@wordpress/compose': 'wp.compose',
         '@wordpress/dom-ready': 'wp.domReady',
+        '@wordpress/hooks': 'wp.hooks',
         '@wordpress/plugins': 'wp.plugins',
         '@wordpress/edit-post': 'wp.editPost',
         '@wordpress/data': 'wp.data',
