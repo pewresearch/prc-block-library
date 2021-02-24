@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import apiFetch from '@wordpress/api-fetch';
 
-const fetchPosts = (
+export const fetchPosts = (
     postType,
     perPage,
     formatTermId,

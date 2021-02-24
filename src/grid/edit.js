@@ -3,31 +3,22 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import { dropRight, get, times } from 'lodash';
+import { dropRight, times } from 'lodash';
 
 /**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import {
-    PanelBody,
-    RangeControl,
-    ToggleControl,
-    Notice,
-} from '@wordpress/components';
+import { PanelBody, RangeControl, Notice } from '@wordpress/components';
 import {
     InnerBlocks,
     InspectorControls,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
-    __experimentalBlockVariationPicker,
     useBlockProps,
 } from '@wordpress/block-editor';
-import { withDispatch, useDispatch, useSelect } from '@wordpress/data';
-import {
-    createBlock,
-    createBlocksFromInnerBlocksTemplate,
-} from '@wordpress/blocks';
+import { withDispatch, useSelect } from '@wordpress/data';
+import { createBlock } from '@wordpress/blocks';
 
 /**
  * Allowed blocks constant is passed to InnerBlocks precisely as specified here.

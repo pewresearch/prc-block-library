@@ -40,6 +40,7 @@ module.exports = {
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
                 table: './src/table/index.js',
+                'wp-query': './src/wp-query/index.js',
             },
         },
         {
@@ -258,12 +259,6 @@ module.exports = {
             entry: {
                 main: './src/taxonomy-tree-list/index.js',
                 frontend: './src/taxonomy-tree-list/frontend.js',
-            },
-        },
-        {
-            name: 'wp-query',
-            entry: {
-                main: './src/wp-query/index.js',
             },
         },
         // If has more length, then multi-compiler

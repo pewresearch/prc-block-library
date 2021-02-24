@@ -1,36 +1,33 @@
 {
+	"apiVersion": 2,
 	"name": "prc-block/wp-query",
 	"category": "layout",
 	"attributes": {
-		"expertsOnly": {
+		"disableImage": {
 			"type": "boolean",
 			"default": false
-		},
-		"formatTermId": {
-			"type": "integer"
-		},
-		"programTermId": {
-			"type": "integer"
 		},
 		"perPage": {
 			"type": "integer",
 			"default": 10
 		},
-		"postType": {
-			"type": "string",
-			"default": "stub"
-		},
 		"pinned": {
 			"type": "string",
 			"default": "[]"
 		},
-		"labelTaxonomy": {
+		"postType": {
 			"type": "string",
-			"default": "formats"
+			"default": "stub"
 		},
-		"disableImage": {
-			"type": "boolean",
-			"default": false
+		"taxQuery": {
+			"type": "object",
+			"default": {
+				"relation": "or",
+				"data": []
+			}
 		}
+	},
+	"providesContext": {
+		"prc-block/wp-query": "pinned"
 	}
 }

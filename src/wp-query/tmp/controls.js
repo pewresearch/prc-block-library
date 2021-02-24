@@ -13,7 +13,7 @@ import {
     SelectControl,
 } from '@wordpress/components';
 
-import { getTerms } from '../_shared';
+import { getTerms } from '../../_shared';
 
 import fetchPosts from './fetch';
 

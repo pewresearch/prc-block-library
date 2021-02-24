@@ -56,7 +56,6 @@ class Column_Block extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $classes ) ); ?>">
-			<?php print_r( $attributes ); ?>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
