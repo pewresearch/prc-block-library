@@ -41,7 +41,6 @@ const ALLOWED_BLOCKS = ['prc-block/column'];
 
 const RowEditContainer = ({
     attributes,
-    className,
     updateColumns,
     toggleDivided,
     toggleEqual,
@@ -71,6 +70,7 @@ const RowEditContainer = ({
         allowedBlocks: ALLOWED_BLOCKS,
         orientation: 'horizontal',
         renderAppender: false,
+        templateLock: 'all',
     });
 
     return (
@@ -212,6 +212,7 @@ const Placeholder = ({ clientId, name, setAttributes }) => {
             <__experimentalBlockVariationPicker
                 icon={get(blockType, ['icon', 'src'])}
                 label={get(blockType, ['title'])}
+                instructions={__(`Select a columns layout to begin.`)}
                 variations={variations}
                 onSelect={(nextVariation = defaultVariation) => {
                     if (nextVariation.attributes) {

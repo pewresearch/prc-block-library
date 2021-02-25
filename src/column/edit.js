@@ -107,6 +107,12 @@ const ColumnEdit = ({
         updateMaxWidth();
     }, [width]);
 
+    useEffect(() => {
+        if (isEqual) {
+            setAttributes({ width: null });
+        }
+    }, [isEqual]);
+
     const blockProps = useBlockProps({
         className: classnames(
             className,

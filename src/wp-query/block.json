@@ -7,17 +7,16 @@
 			"type": "boolean",
 			"default": false
 		},
-		"perPage": {
-			"type": "integer",
-			"default": 10
-		},
 		"pinned": {
 			"type": "string",
 			"default": "[]"
 		},
-		"postType": {
-			"type": "string",
-			"default": "stub"
+		"queryArgs": {
+			"type": "object",
+			"default": {
+				"post_type": "stub",
+				"posts_per_page": 10
+			}
 		},
 		"taxQuery": {
 			"type": "object",
