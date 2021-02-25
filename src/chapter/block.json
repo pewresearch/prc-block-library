@@ -11,7 +11,7 @@
 		},
 		"level": {
 			"type": "integer",
-			"default": 2
+			"default": 3
 		}
 	}
 }
