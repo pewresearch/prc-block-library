@@ -100,6 +100,8 @@ const TaxQuery = ({ taxQuery, setAttributes }) => {
         const nextOptions = options.map(o => {
             if (selectedTaxonomies.includes(o.value)) {
                 o.disabled = true;
+            } else {
+                o.disabled = false;
             }
             return o;
         });

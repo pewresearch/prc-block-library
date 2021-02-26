@@ -25,8 +25,8 @@
   "vendors~social-link.js.map": "blocks/vendors~social-link-e3a4b5f6.js.map",
   "vendors~table.js": "blocks/vendors~table-b2fae5de.js",
   "vendors~table.js.map": "blocks/vendors~table-b2fae5de.js.map",
-  "wp-query.js": "blocks/wp-query-5533d396.js",
-  "wp-query.js.map": "blocks/wp-query-5533d396.js.map",
+  "wp-query.js": "blocks/wp-query-7fccf975.js",
+  "wp-query.js.map": "blocks/wp-query-7fccf975.js.map",
   "wpackioEp": {
     "column": {
       "js": [
@@ -127,11 +127,11 @@
     "wp-query": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/wp-query-5533d396.js"
+        "blocks/wp-query-7fccf975.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/wp-query-5533d396.js.map"
+        "blocks/wp-query-7fccf975.js.map"
       ]
     }
   }
