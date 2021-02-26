@@ -11,17 +11,14 @@
 			"type": "string",
 			"default": "[]"
 		},
-		"queryArgs": {
-			"type": "object",
-			"default": {
-				"post_type": "stub",
-				"posts_per_page": 10
-			}
+		"postsPerPage": {
+			"type": "integer",
+			"default": 5
 		},
 		"taxQuery": {
 			"type": "object",
 			"default": {
-				"relation": "or",
+				"relationAnd": false,
 				"data": []
 			}
 		}

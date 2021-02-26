@@ -13,12 +13,16 @@ import {
     HorizontalRule,
     PanelBody,
     Placeholder,
-    TextControl,
-    ToggleControl,
+    RangeControl,
     SelectControl,
-    BaseControl,
+    ToggleControl,
+    TextControl,
+    Flex,
+    FlexItem,
+    FlexBlock,
 } from '@wordpress/components';
-import { Icon, closeSmall } from '@wordpress/icons';
+import { closeSmall } from '@wordpress/icons';
+
 import { createBlock } from '@wordpress/blocks';
 import { at } from 'lodash';
 
@@ -47,30 +51,41 @@ const TaxonomyField = ({
         tmpData.data[index].taxonomy = val;
         setAttributes({ taxQuery: { ...taxQuery, ...tmpData } });
     };
-    const onTermChange = ({ id, url }) => {
+    const onTermChange = val => {
+        const { id, title, url } = val;
         const tmpData = taxQuery;
         tmpData.data[index].terms = id;
+        tmpData.data[index].title = title;
         tmpData.data[index].value = url;
         setAttributes({ taxQuery: { ...taxQuery, ...tmpData } });
     };
     return (
-        <BaseControl label={label}>
-            <Button
-                isLink
-                icon={closeSmall}
-                onClick={onRemove}
-                lable={__(`Remove taxonomy argument`)}
-            />
+        <div>
+            <Flex>
+                <FlexBlock>
+                    <strong>{label}</strong>
+                </FlexBlock>
+                <FlexItem>
+                    <Button
+                        isLink
+                        icon={closeSmall}
+                        onClick={onRemove}
+                        lable={__(`Remove taxonomy argument`)}
+                    />
+                </FlexItem>
+            </Flex>
             {false === taxonomy && (
-                <SelectControl
-                    label={__('Taxonomy')}
-                    value={taxonomy}
-                    options={options}
-                    onChange={onTaxonomyChange}
-                />
+                <div style={{ margin: '16px' }}>
+                    <SelectControl
+                        value={taxonomy}
+                        options={options}
+                        onChange={onTaxonomyChange}
+                    />
+                </div>
             )}
-            {false !== taxonomy && (
+            {false !== taxonomy && null === value && (
                 <LinkControl
+                    label={__(`Term`)}
                     value={value}
                     showInitialSuggestions
                     suggestionsQuery={{ type: 'term', subtype: taxonomy }}
@@ -78,23 +93,45 @@ const TaxonomyField = ({
                     settings={[]}
                 />
             )}
-        </BaseControl>
+            <HorizontalRule />
+        </div>
     );
 };
 
 const TaxQuery = ({ taxQuery, setAttributes }) => {
-    const { relation, data } = taxQuery;
+    const { relationAnd, data } = taxQuery;
     const [options, setOptions] = useState([
         { label: 'Select a Taxonomy', value: false },
-        { label: 'Topic', value: 'topic' },
-        { label: 'Format', value: 'format' },
-        { label: 'Program', value: 'program' },
+        { label: 'Topics', value: 'topic' },
+        { label: 'Formats', value: 'formats' },
+        { label: 'Programs', value: 'programs' },
     ]);
+
+    const onRelationChange = val => {
+        const tmpData = taxQuery;
+        tmpData.relationAnd = val;
+        setAttributes({ taxQuery: { ...taxQuery, ...tmpData } });
+    };
+
+    const getLabel = val => {
+        const { taxonomy, title } = val;
+        let label =
+            false === taxonomy ? `Choose Taxonomy` : `Choose ${taxonomy} Term`;
+        if (null !== title && false !== taxonomy) {
+            label = `${taxonomy}: ${title}`;
+        }
+        return label
+            .toLowerCase()
+            .split(' ')
+            .map(s => s.charAt(0).toUpperCase() + s.substring(1))
+            .join(' ');
+    };
 
     /**
      * Disable any taxonomy options that are already selected.
      */
     useEffect(() => {
+        console.log('data.length?', data.length);
         // Go gather up selected taxonomies from taxQuery.data,
         const selectedTaxonomies = data.map(({ taxonomy }) => taxonomy);
         const nextOptions = options.map(o => {
@@ -111,26 +148,44 @@ const TaxQuery = ({ taxQuery, setAttributes }) => {
 
     return (
         <div>
-            {data.map((d, index) => {
-                const { taxonomy, url } = d;
-                return (
-                    <TaxonomyField
-                        index={index}
-                        label={__(`Choose ${taxonomy} term`)}
-                        taxonomy={taxonomy}
-                        value={url}
-                        options={options}
-                        taxQuery={taxQuery}
-                        setAttributes={setAttributes}
-                    />
-                );
-            })}
+            <h4 className="sans-serif">Tax Query Arguments</h4>
+            <div>
+                {data.map((d, index) => {
+                    const { taxonomy, value } = d;
+                    const label = getLabel(d);
+                    return (
+                        <TaxonomyField
+                            index={index}
+                            label={__(label)}
+                            taxonomy={taxonomy}
+                            value={value}
+                            options={options}
+                            taxQuery={taxQuery}
+                            setAttributes={setAttributes}
+                        />
+                    );
+                })}
+                {2 <= data.length && (
+                    <div style={{ marginTop: '1em', marginBottom: '1em' }}>
+                        <ToggleControl
+                            label="Query Relation (OR|AND)"
+                            help={
+                                relationAnd
+                                    ? 'AND (restrictive: restricts content)'
+                                    : 'OR (expansive: expands content)'
+                            }
+                            checked={relationAnd}
+                            onChange={() => onRelationChange(!relationAnd)}
+                        />
+                    </div>
+                )}
+            </div>
             <Button
                 isSecondary
                 isSmall
                 onClick={() => {
                     const mergedTaxQuery = {
-                        relation: 'AND',
+                        relationAnd: false,
                         data: [
                             ...taxQuery.data,
                             {
@@ -145,20 +200,78 @@ const TaxQuery = ({ taxQuery, setAttributes }) => {
             >
                 Add Taxonomy
             </Button>
+            <HorizontalRule />
         </div>
     );
 };
 
-const Fields = ({ attributes, setAttributes }) => {
-    const [processing, toggleProcessing] = useState(true);
-    const { queryArgs, taxQuery } = attributes;
+// @TODO: More query args tk.
+
+const QueryArgs = ({ postsPerPage, setAttributes }) => {
     return (
-        <Fragment>
+        <div>
+            <h4 className="sans-serif">Query Arguments</h4>
+            <RangeControl
+                label={__('Number of posts')}
+                value={postsPerPage}
+                onChange={val => setAttributes({ postsPerPage: val })}
+                min={3}
+                max={10}
+                required
+            />
+            <HorizontalRule />
+        </div>
+    );
+};
+
+//
+
+const Fields = ({ attributes, setAttributes }) => {
+    const [processing, toggleProcessing] = useState(false);
+    const { postsPerPage, taxQuery } = attributes;
+    const clickHandler = () => {
+        toggleProcessing(true);
+
+        const {
+            postType,
+            formatTermId,
+            programTermId,
+            perPage,
+            labelTaxonomy,
+            expertsOnly,
+        } = attributes;
+
+        fetchPosts(
+            postType,
+            perPage,
+            formatTermId,
+            programTermId,
+            labelTaxonomy,
+            expertsOnly,
+        ).then(data => {
+            setTimeout(() => {
+                toggleProcessing(false);
+                setPosts(data);
+            }, 3600);
+        });
+    };
+    return (
+        <div>
+            <QueryArgs
+                postsPerPage={postsPerPage}
+                setAttributes={setAttributes}
+            />
             <TaxQuery taxQuery={taxQuery} setAttributes={setAttributes} />
-            <Button isBusy={processing} isPrimary>
+            <Button
+                isBusy={processing}
+                isPrimary
+                onClick={() => {
+                    toggleProcessing(!processing);
+                }}
+            >
                 Query Posts
             </Button>
-        </Fragment>
+        </div>
     );
 };
 
