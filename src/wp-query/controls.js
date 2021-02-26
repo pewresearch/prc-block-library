@@ -1,9 +1,11 @@
+/* eslint-disable radix */
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { closeSmall } from '@wordpress/icons';
 import { Fragment, useState, useEffect } from '@wordpress/element';
-import { useSelect, useDispatch, select } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import {
     InspectorControls,
     __experimentalLinkControl as LinkControl,
@@ -21,263 +23,211 @@ import {
     FlexItem,
     FlexBlock,
 } from '@wordpress/components';
-import { closeSmall } from '@wordpress/icons';
-
-import { createBlock } from '@wordpress/blocks';
-import { at } from 'lodash';
 
 /**
  * Internal Dependencies
  */
+import TaxQuery from './taxQuery';
+import { getTerms } from '../_shared';
+import fetchPosts from './fetch';
 
-const ALLOWED = ['prc-block/story-item'];
-
-const TaxonomyField = ({
-    index,
-    label,
-    taxonomy = false,
-    value,
-    options,
-    taxQuery,
+const Fields = ({
+    attributes,
     setAttributes,
+    wide = false,
+    disabled = false,
 }) => {
-    const onRemove = () => {
-        const tmpData = taxQuery;
-        tmpData.data.splice(index, 1);
-        setAttributes({ taxQuery: { ...taxQuery, ...tmpData } });
-    };
-    const onTaxonomyChange = val => {
-        const tmpData = taxQuery;
-        tmpData.data[index].taxonomy = val;
-        setAttributes({ taxQuery: { ...taxQuery, ...tmpData } });
-    };
-    const onTermChange = val => {
-        const { id, title, url } = val;
-        const tmpData = taxQuery;
-        tmpData.data[index].terms = id;
-        tmpData.data[index].title = title;
-        tmpData.data[index].value = url;
-        setAttributes({ taxQuery: { ...taxQuery, ...tmpData } });
-    };
-    return (
-        <div>
-            <Flex>
-                <FlexBlock>
-                    <strong>{label}</strong>
-                </FlexBlock>
-                <FlexItem>
-                    <Button
-                        isLink
-                        icon={closeSmall}
-                        onClick={onRemove}
-                        lable={__(`Remove taxonomy argument`)}
-                    />
-                </FlexItem>
-            </Flex>
-            {false === taxonomy && (
-                <div style={{ margin: '16px' }}>
-                    <SelectControl
-                        value={taxonomy}
-                        options={options}
-                        onChange={onTaxonomyChange}
-                    />
-                </div>
-            )}
-            {false !== taxonomy && null === value && (
-                <LinkControl
-                    label={__(`Term`)}
-                    value={value}
-                    showInitialSuggestions
-                    suggestionsQuery={{ type: 'term', subtype: taxonomy }}
-                    onChange={onTermChange}
-                    settings={[]}
-                />
-            )}
-            <HorizontalRule />
-        </div>
-    );
-};
+    const {
+        formatTermId,
+        programTermId,
+        postsPerPage,
+        labelTaxonomy,
+        disableImage,
+        taxQuery,
+    } = attributes;
 
-const TaxQuery = ({ taxQuery, setAttributes }) => {
-    const { relationAnd, data } = taxQuery;
-    const [options, setOptions] = useState([
-        { label: 'Select a Taxonomy', value: false },
-        { label: 'Topics', value: 'topic' },
-        { label: 'Formats', value: 'formats' },
-        { label: 'Programs', value: 'programs' },
-    ]);
+    const [formatOptions, setFormatOptions] = useState([]);
+    const [programOptions, setProgramOptions] = useState([]);
 
-    const onRelationChange = val => {
-        const tmpData = taxQuery;
-        tmpData.relationAnd = val;
-        setAttributes({ taxQuery: { ...taxQuery, ...tmpData } });
-    };
-
-    const getLabel = val => {
-        const { taxonomy, title } = val;
-        let label =
-            false === taxonomy ? `Choose Taxonomy` : `Choose ${taxonomy} Term`;
-        if (null !== title && false !== taxonomy) {
-            label = `${taxonomy}: ${title}`;
-        }
-        return label
-            .toLowerCase()
-            .split(' ')
-            .map(s => s.charAt(0).toUpperCase() + s.substring(1))
-            .join(' ');
-    };
-
-    /**
-     * Disable any taxonomy options that are already selected.
-     */
-    useEffect(() => {
-        console.log('data.length?', data.length);
-        // Go gather up selected taxonomies from taxQuery.data,
-        const selectedTaxonomies = data.map(({ taxonomy }) => taxonomy);
-        const nextOptions = options.map(o => {
-            if (selectedTaxonomies.includes(o.value)) {
-                o.disabled = true;
-            } else {
-                o.disabled = false;
-            }
-            return o;
+    const initTerms = (taxonomy, initData) => {
+        console.log('initTerms', attributes);
+        getTerms(taxonomy).then(data => {
+            const termIds = Object.keys(data);
+            const tmp = [{ value: 'any', label: 'Any' }];
+            termIds.forEach(termId => {
+                tmp.push({
+                    value: termId,
+                    label: data[termId].name,
+                });
+            });
+            initData(tmp);
         });
-        setOptions(nextOptions);
-    }, [taxQuery]);
-    // Dont offer to change relation unless if data has more than one
+    };
+
+    useEffect(() => {
+        if (0 === formatOptions.length) {
+            initTerms('Formats', setFormatOptions);
+        }
+        if (0 === programOptions.length) {
+            initTerms('Programs', setProgramOptions);
+        }
+    }, []);
 
     return (
-        <div>
-            <h4 className="sans-serif">Tax Query Arguments</h4>
+        <Fragment>
             <div>
-                {data.map((d, index) => {
-                    const { taxonomy, value } = d;
-                    const label = getLabel(d);
-                    return (
-                        <TaxonomyField
-                            index={index}
-                            label={__(label)}
-                            taxonomy={taxonomy}
-                            value={value}
-                            options={options}
-                            taxQuery={taxQuery}
-                            setAttributes={setAttributes}
-                        />
-                    );
-                })}
-                {2 <= data.length && (
-                    <div style={{ marginTop: '1em', marginBottom: '1em' }}>
-                        <ToggleControl
-                            label="Query Relation (OR|AND)"
-                            help={
-                                relationAnd
-                                    ? 'AND (restrictive: restricts content)'
-                                    : 'OR (expansive: expands content)'
-                            }
-                            checked={relationAnd}
-                            onChange={() => onRelationChange(!relationAnd)}
+                <h4 className="sans-serif">Story Item Settings</h4>
+                <ToggleControl
+                    label="Disable Images"
+                    checked={disableImage}
+                    onChange={() =>
+                        setAttributes({ disableImage: !disableImage })
+                    }
+                />
+                <div
+                    style={
+                        true === wide
+                            ? {
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                              }
+                            : {}
+                    }
+                >
+                    <div
+                        style={
+                            true === wide
+                                ? {
+                                      flexGrow: '1',
+                                      paddingRight: '1em',
+                                  }
+                                : {}
+                        }
+                    >
+                        <SelectControl
+                            label="Format"
+                            value={formatTermId}
+                            options={formatOptions}
+                            onChange={termId => {
+                                setAttributes({
+                                    formatTermId: parseInt(termId),
+                                });
+                            }}
+                            disabled={disabled}
                         />
                     </div>
-                )}
+                    <div
+                        style={
+                            true === wide
+                                ? {
+                                      display: 'flex',
+                                      alignItems: 'flex-end',
+                                      paddingBottom: '0.2em',
+                                  }
+                                : {}
+                        }
+                    >
+                        <ToggleControl
+                            label="Use as Label"
+                            checked={'formats' === labelTaxonomy}
+                            onChange={() =>
+                                setAttributes({
+                                    labelTaxonomy:
+                                        'formats' === labelTaxonomy
+                                            ? 'programs'
+                                            : 'formats',
+                                })
+                            }
+                        />
+                    </div>
+                </div>
+                <div
+                    style={
+                        true === wide
+                            ? {
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                              }
+                            : {}
+                    }
+                >
+                    <div
+                        style={
+                            true === wide
+                                ? {
+                                      flexGrow: '1',
+                                      paddingRight: '1em',
+                                  }
+                                : {}
+                        }
+                    >
+                        <SelectControl
+                            label="Program"
+                            value={programTermId}
+                            options={programOptions}
+                            onChange={termId => {
+                                setAttributes({
+                                    programTermId: parseInt(termId),
+                                });
+                            }}
+                            disabled={disabled}
+                        />
+                    </div>
+                    <div
+                        style={
+                            true === wide
+                                ? {
+                                      display: 'flex',
+                                      alignItems: 'flex-end',
+                                      paddingBottom: '0.2em',
+                                  }
+                                : {}
+                        }
+                    >
+                        <ToggleControl
+                            label="Use as Label"
+                            checked={'programs' === labelTaxonomy}
+                            onChange={() =>
+                                setAttributes({
+                                    labelTaxonomy:
+                                        'programs' === labelTaxonomy
+                                            ? 'formats'
+                                            : 'programs',
+                                })
+                            }
+                        />
+                    </div>
+                </div>
             </div>
-            <Button
-                isSecondary
-                isSmall
-                onClick={() => {
-                    const mergedTaxQuery = {
-                        relationAnd: false,
-                        data: [
-                            ...taxQuery.data,
-                            {
-                                taxonomy: false,
-                                terms: null,
-                                value: null,
-                            },
-                        ],
-                    };
-                    setAttributes({ taxQuery: mergedTaxQuery });
-                }}
-            >
-                Add Taxonomy
-            </Button>
+
             <HorizontalRule />
-        </div>
-    );
-};
 
-// @TODO: More query args tk.
+            <div>
+                <h4 className="sans-serif">Query Arguments</h4>
+                <RangeControl
+                    label={__('Number of posts')}
+                    value={postsPerPage}
+                    onChange={val => setAttributes({ postsPerPage: val })}
+                    min={3}
+                    max={10}
+                    required
+                />
+            </div>
 
-const QueryArgs = ({ postsPerPage, setAttributes }) => {
-    return (
-        <div>
-            <h4 className="sans-serif">Query Arguments</h4>
-            <RangeControl
-                label={__('Number of posts')}
-                value={postsPerPage}
-                onChange={val => setAttributes({ postsPerPage: val })}
-                min={3}
-                max={10}
-                required
-            />
             <HorizontalRule />
-        </div>
+
+            <div>
+                <h4 className="sans-serif">Taxonomy Query Arguments</h4>
+                <TaxQuery taxQuery={taxQuery} setAttributes={setAttributes} />
+            </div>
+
+            <HorizontalRule />
+        </Fragment>
     );
 };
 
-//
-
-const Fields = ({ attributes, setAttributes }) => {
-    const [processing, toggleProcessing] = useState(false);
-    const { postsPerPage, taxQuery } = attributes;
-    const clickHandler = () => {
-        toggleProcessing(true);
-
-        const {
-            postType,
-            formatTermId,
-            programTermId,
-            perPage,
-            labelTaxonomy,
-            expertsOnly,
-        } = attributes;
-
-        fetchPosts(
-            postType,
-            perPage,
-            formatTermId,
-            programTermId,
-            labelTaxonomy,
-            expertsOnly,
-        ).then(data => {
-            setTimeout(() => {
-                toggleProcessing(false);
-                setPosts(data);
-            }, 3600);
-        });
-    };
-    return (
-        <div>
-            <QueryArgs
-                postsPerPage={postsPerPage}
-                setAttributes={setAttributes}
-            />
-            <TaxQuery taxQuery={taxQuery} setAttributes={setAttributes} />
-            <Button
-                isBusy={processing}
-                isPrimary
-                onClick={() => {
-                    toggleProcessing(!processing);
-                }}
-            >
-                Query Posts
-            </Button>
-        </div>
-    );
-};
-
-const Controls = ({ attributes, setAttributes, clientId }) => {
-    const { taxQuery } = attributes;
-
+const Controls = ({ attributes, setAttributes, setPosts, clientId }) => {
+    const [busy, toggleBusy] = useState(false);
     const { hasInnerBlocks } = useSelect(
         select => {
             return {
@@ -288,23 +238,53 @@ const Controls = ({ attributes, setAttributes, clientId }) => {
         [clientId],
     );
 
-    useEffect(() => {
-        console.log('taxQuery??', taxQuery);
-    }, [taxQuery]);
+    const clickHandler = () => {
+        toggleBusy(true);
+        fetchPosts(attributes).then(data => {
+            setTimeout(() => {
+                toggleBusy(false);
+                setPosts(data);
+            }, 3600);
+        });
+    };
 
     return (
         <Fragment>
             <InspectorControls>
-                <PanelBody title={__(`Query Arguments`)} initialOpen={false}>
+                <PanelBody title={__('Query Arguments')}>
                     <Fields
                         attributes={attributes}
                         setAttributes={setAttributes}
+                        disabled={busy}
                     />
+                    <Button
+                        isBusy={busy}
+                        isPrimary
+                        onClick={() => clickHandler()}
+                    >
+                        Update
+                    </Button>
                 </PanelBody>
             </InspectorControls>
-            <Placeholder label={__(`Configure Query Args`)} isColumnLayout>
-                <Fields attributes={attributes} setAttributes={setAttributes} />
-            </Placeholder>
+            {false === hasInnerBlocks && (
+                <Placeholder label="Configure Query Args" isColumnLayout>
+                    <div>
+                        <Fields
+                            attributes={attributes}
+                            setAttributes={setAttributes}
+                            disabled={busy}
+                            wide
+                        />
+                        <Button
+                            isBusy={busy}
+                            isPrimary
+                            onClick={() => clickHandler()}
+                        >
+                            Query Posts
+                        </Button>
+                    </div>
+                </Placeholder>
+            )}
         </Fragment>
     );
 };

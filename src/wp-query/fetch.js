@@ -1,14 +1,7 @@
 import * as moment from 'moment';
 import apiFetch from '@wordpress/api-fetch';
 
-export const fetchPosts = (
-    postType,
-    perPage,
-    formatTermId,
-    programTermId,
-    labelTaxonomy,
-    expertsOnly,
-) => {
+const fetchPosts = attributes => {
     const formatDate = dateString => {
         const defaultFormat = 'MMM D, YYYY';
         const date = moment(dateString).format(defaultFormat);
@@ -17,22 +10,15 @@ export const fetchPosts = (
 
     return new Promise(resolve => {
         const data = [];
-        let path = `/prc-api/v2/fetch-posts/?postType=${postType}&perPage=${perPage}&formatTermId=${formatTermId}&programTermId=${programTermId}&labelTaxonomy=${labelTaxonomy}`;
-        if ('staff' === postType) {
-            path = `/prc-api/v2/fetch-posts/?postType=${postType}&perPage=${perPage}&programTermId=${programTermId}&expertsOnly=${expertsOnly}`;
-        }
-        console.log(
-            'fetchPosts?',
-            postType,
-            perPage,
-            formatTermId,
-            programTermId,
-            labelTaxonomy,
-            expertsOnly,
-        );
-        apiFetch({
-            path,
-        }).then(results => {
+        console.log('fetchPosts?', attributes);
+
+        const request = {
+            method: 'POST',
+            path: '/prc-api/v2/block/wp-query',
+            data: attributes,
+        };
+
+        apiFetch(request).then(results => {
             console.log(results);
             // eslint-disable-next-line no-plusplus
             results.forEach(result => {

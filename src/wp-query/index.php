@@ -8,6 +8,7 @@ class WP_Query_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 		}
 	}
 
@@ -25,27 +26,51 @@ class WP_Query_Block extends PRC_Block_Library {
 		);
 	}
 
+	private function parse_tax_query( $tax_query ) {
+		error_log( 'parse_tax_query' . print_r( $tax_query, true ) );
+		$parsed             = array();
+		$parsed['relation'] = array_key_exists( 'relation', $tax_query ) ? $tax_query['relation'] : 'OR';
+		foreach ( $tax_query['data'] as $tax_arg ) {
+			$parsed[] = array(
+				'taxonomy' => $tax_arg['taxonomy'],
+				'terms'    => $tax_arg['terms'],
+				'field'    => 'term_id',
+			);
+		}
+		return $parsed;
+	}
+
 	public function construct_query_from_attributes( $attributes ) {
-		$defaults = array(
+		$args = array(
 			'post_type'      => 'stub',
-			'posts_per_page' => 10,
+			'posts_per_page' => $attributes['postsPerPage'],
 			'post_parent'    => 0, // Do Not Allow Children.
 			'post_status'    => 'publish',
-			'tax_query'      => array(
-				'relation' => 'OR',
-			),
+			'tax_query'      => $this->parse_tax_query( $attributes['taxQuery'] ),
 		);
-		$args     = wp_parse_args( $attributes['queryArgs'], $defaults );
-
-		// Sus out the tax query and anything else you need.
-
+		error_log( 'construct_query_from_attributes' . print_r( $args, true ) );
 		return new WP_Query( $args );
 	}
 
 	public function restful_wp_query( \WP_REST_Request $request ) {
 		$attributes = json_decode( $request->get_body(), true );
 		$query      = $this->construct_query_from_attributes( $attributes );
-		return false;
+		$return     = array();
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				$return[] = array(
+					'id'      => get_the_ID(),
+					'title'   => get_the_title(),
+					'excerpt' => get_the_excerpt(),
+					'date'    => get_the_date(),
+					'link'    => get_the_permalink(),
+					'label'   => 'Label',
+					// Image is now fetched by the story item itself from post id.
+				);
+			}
+		}
+		return $return;
 	}
 
 	/**
@@ -59,10 +84,20 @@ class WP_Query_Block extends PRC_Block_Library {
 	public function render_wp_query( $attributes, $content, $block ) {
 		$context = $block->context;
 		ob_start();
-		print_r( $context, true );
+		print_r( $context );
+		$query = $this->construct_query_from_attributes( $attributes );
 		// We should get innerblocks from $block and treat
 		?>
 		<h1>Hello World</h1>
+		<?php
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				echo get_the_title();
+			}
+		}
+		wp_reset_postdata();
+		?>
 		<?php
 		return ob_get_clean();
 	}

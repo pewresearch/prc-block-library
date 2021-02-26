@@ -7,6 +7,13 @@
 			"type": "boolean",
 			"default": false
 		},
+		"formatTermId": {
+			"type": "integer"
+		},
+		"labelTaxonomy": {
+			"type": "string",
+			"default": "formats"
+		},
 		"pinned": {
 			"type": "string",
 			"default": "[]"
@@ -15,10 +22,13 @@
 			"type": "integer",
 			"default": 5
 		},
+		"programTermId": {
+			"type": "integer"
+		},
 		"taxQuery": {
 			"type": "object",
 			"default": {
-				"relationAnd": false,
+				"relation": "OR",
 				"data": []
 			}
 		}

@@ -1,137 +1,151 @@
 {
-  "column.js": "blocks/column-97aa8f5f.js",
-  "column.js.map": "blocks/column-97aa8f5f.js.map",
-  "grid.js": "blocks/grid-06b2a3bb.js",
-  "grid.js.map": "blocks/grid-06b2a3bb.js.map",
-  "menu-link.js": "blocks/menu-link-1d301230.js",
-  "menu-link.js.map": "blocks/menu-link-1d301230.js.map",
-  "menu.js": "blocks/menu-763510ba.js",
-  "menu.js.map": "blocks/menu-763510ba.js.map",
-  "post-bylines.js": "blocks/post-bylines-8aa9e2fc.js",
-  "post-bylines.js.map": "blocks/post-bylines-8aa9e2fc.js.map",
-  "post-title.js": "blocks/post-title-fe27c036.js",
-  "post-title.js.map": "blocks/post-title-fe27c036.js.map",
-  "row.js": "blocks/row-b174090f.js",
-  "row.js.map": "blocks/row-b174090f.js.map",
+  "column.js": "blocks/column-469d0b34.js",
+  "column.js.map": "blocks/column-469d0b34.js.map",
+  "grid.js": "blocks/grid-bced687f.js",
+  "grid.js.map": "blocks/grid-bced687f.js.map",
+  "menu-link.js": "blocks/menu-link-44e7218a.js",
+  "menu-link.js.map": "blocks/menu-link-44e7218a.js.map",
+  "menu.js": "blocks/menu-c5df08da.js",
+  "menu.js.map": "blocks/menu-c5df08da.js.map",
+  "post-bylines.js": "blocks/post-bylines-408958b1.js",
+  "post-bylines.js.map": "blocks/post-bylines-408958b1.js.map",
+  "post-title.js": "blocks/post-title-178b7512.js",
+  "post-title.js.map": "blocks/post-title-178b7512.js.map",
+  "row.js": "blocks/row-f7844746.js",
+  "row.js.map": "blocks/row-f7844746.js.map",
   "runtime.js": "blocks/runtime-49d996c3.js",
   "runtime.js.map": "blocks/runtime-49d996c3.js.map",
-  "social-link.js": "blocks/social-link-cf681320.js",
-  "social-link.js.map": "blocks/social-link-cf681320.js.map",
-  "table.js": "blocks/table-4aab1f16.js",
-  "table.js.map": "blocks/table-4aab1f16.js.map",
-  "vendors~menu-link.js": "blocks/vendors~menu-link-c2eeae2a.js",
-  "vendors~menu-link.js.map": "blocks/vendors~menu-link-c2eeae2a.js.map",
-  "vendors~social-link.js": "blocks/vendors~social-link-e3a4b5f6.js",
-  "vendors~social-link.js.map": "blocks/vendors~social-link-e3a4b5f6.js.map",
-  "vendors~table.js": "blocks/vendors~table-b2fae5de.js",
-  "vendors~table.js.map": "blocks/vendors~table-b2fae5de.js.map",
-  "wp-query.js": "blocks/wp-query-306e3b34.js",
-  "wp-query.js.map": "blocks/wp-query-306e3b34.js.map",
+  "social-link.js": "blocks/social-link-2776bbcd.js",
+  "social-link.js.map": "blocks/social-link-2776bbcd.js.map",
+  "table.js": "blocks/table-56a8abaa.js",
+  "table.js.map": "blocks/table-56a8abaa.js.map",
+  "vendors~menu-link.js": "blocks/vendors~menu-link-65acd8b3.js",
+  "vendors~menu-link.js.map": "blocks/vendors~menu-link-65acd8b3.js.map",
+  "vendors~social-link~wp-query.js": "blocks/vendors~social-link~wp-query-dadd8c9c.js",
+  "vendors~social-link~wp-query.js.map": "blocks/vendors~social-link~wp-query-dadd8c9c.js.map",
+  "vendors~table.js": "blocks/vendors~table-3841d3b2.js",
+  "vendors~table.js.map": "blocks/vendors~table-3841d3b2.js.map",
+  "vendors~wp-query.js": "blocks/vendors~wp-query-a7dc7a05.js",
+  "vendors~wp-query.js.map": "blocks/vendors~wp-query-a7dc7a05.js.map",
+  "wp-query.css": "blocks/wp-query-cfb7b0d8.css",
+  "wp-query.css.map": "blocks/wp-query-cfb7b0d8.css.map",
+  "wp-query.js": "blocks/wp-query-89eff98a.js",
+  "wp-query.js.map": "blocks/wp-query-89eff98a.js.map",
   "wpackioEp": {
     "column": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/column-97aa8f5f.js"
+        "blocks/column-469d0b34.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/column-97aa8f5f.js.map"
+        "blocks/column-469d0b34.js.map"
       ]
     },
     "grid": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/grid-06b2a3bb.js"
+        "blocks/grid-bced687f.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/grid-06b2a3bb.js.map"
+        "blocks/grid-bced687f.js.map"
       ]
     },
     "menu": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/menu-763510ba.js"
+        "blocks/menu-c5df08da.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/menu-763510ba.js.map"
+        "blocks/menu-c5df08da.js.map"
       ]
     },
     "menu-link": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~menu-link-c2eeae2a.js",
-        "blocks/menu-link-1d301230.js"
+        "blocks/vendors~menu-link-65acd8b3.js",
+        "blocks/menu-link-44e7218a.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~menu-link-c2eeae2a.js.map",
-        "blocks/menu-link-1d301230.js.map"
+        "blocks/vendors~menu-link-65acd8b3.js.map",
+        "blocks/menu-link-44e7218a.js.map"
       ]
     },
     "post-bylines": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/post-bylines-8aa9e2fc.js"
+        "blocks/post-bylines-408958b1.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/post-bylines-8aa9e2fc.js.map"
+        "blocks/post-bylines-408958b1.js.map"
       ]
     },
     "post-title": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/post-title-fe27c036.js"
+        "blocks/post-title-178b7512.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/post-title-fe27c036.js.map"
+        "blocks/post-title-178b7512.js.map"
       ]
     },
     "row": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/row-b174090f.js"
+        "blocks/row-f7844746.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/row-b174090f.js.map"
+        "blocks/row-f7844746.js.map"
       ]
     },
     "social-link": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~social-link-e3a4b5f6.js",
-        "blocks/social-link-cf681320.js"
+        "blocks/vendors~social-link~wp-query-dadd8c9c.js",
+        "blocks/social-link-2776bbcd.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~social-link-e3a4b5f6.js.map",
-        "blocks/social-link-cf681320.js.map"
+        "blocks/vendors~social-link~wp-query-dadd8c9c.js.map",
+        "blocks/social-link-2776bbcd.js.map"
       ]
     },
     "table": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~table-b2fae5de.js",
-        "blocks/table-4aab1f16.js"
+        "blocks/vendors~table-3841d3b2.js",
+        "blocks/table-56a8abaa.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~table-b2fae5de.js.map",
-        "blocks/table-4aab1f16.js.map"
+        "blocks/vendors~table-3841d3b2.js.map",
+        "blocks/table-56a8abaa.js.map"
       ]
     },
     "wp-query": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/wp-query-306e3b34.js"
+        "blocks/vendors~social-link~wp-query-dadd8c9c.js",
+        "blocks/vendors~wp-query-a7dc7a05.js",
+        "blocks/wp-query-89eff98a.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/wp-query-306e3b34.js.map"
+        "blocks/vendors~social-link~wp-query-dadd8c9c.js.map",
+        "blocks/vendors~wp-query-a7dc7a05.js.map",
+        "blocks/wp-query-89eff98a.js.map"
+      ],
+      "css": [
+        "blocks/wp-query-cfb7b0d8.css"
+      ],
+      "css.map": [
+        "blocks/wp-query-cfb7b0d8.css.map"
       ]
     }
   }
