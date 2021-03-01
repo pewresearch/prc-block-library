@@ -23,9 +23,7 @@ class Grid_Block extends PRC_Block_Library {
 	public function render_grid( $attributes, $content, $block ) {
 		ob_start();
 		?>
-		<div class="ui container">
-			<?php echo wp_kses( $content, 'post' ); ?>
-		</div>
+		<?php echo wp_kses( $content, 'post' ); ?>
 		<?php
 		return ob_get_clean();
 	}

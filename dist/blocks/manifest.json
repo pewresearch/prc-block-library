@@ -1,8 +1,8 @@
 {
   "column.js": "blocks/column-469d0b34.js",
   "column.js.map": "blocks/column-469d0b34.js.map",
-  "grid.js": "blocks/grid-bc07803b.js",
-  "grid.js.map": "blocks/grid-bc07803b.js.map",
+  "grid.js": "blocks/grid-b54e1b5a.js",
+  "grid.js.map": "blocks/grid-b54e1b5a.js.map",
   "menu-link.js": "blocks/menu-link-44e7218a.js",
   "menu-link.js.map": "blocks/menu-link-44e7218a.js.map",
   "menu.js": "blocks/menu-c5df08da.js",
@@ -45,11 +45,11 @@
     "grid": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/grid-bc07803b.js"
+        "blocks/grid-b54e1b5a.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/grid-bc07803b.js.map"
+        "blocks/grid-b54e1b5a.js.map"
       ]
     },
     "menu": {

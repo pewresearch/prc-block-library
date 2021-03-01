@@ -66,9 +66,7 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId }) => {
                 </PanelBody>
             </InspectorControls>
 
-            <div className="ui container">
-                <div {...innerBlocksProps} />
-            </div>
+            <div {...innerBlocksProps} />
         </Fragment>
     );
 };
