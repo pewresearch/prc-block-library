@@ -59,7 +59,8 @@ const RowEditContainer = ({
     );
 
     const blockProps = useBlockProps({
-        className: classnames('row', {
+        className: classnames('ui', 'grid', {
+            stackable: true,
             'equal width': equal,
             divided,
         }),

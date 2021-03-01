@@ -21,17 +21,10 @@ class Grid_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_grid( $attributes, $content, $block ) {
-		$grid_classes = array(
-			'ui',
-			'grid',
-			'stackable', // At this time we're not going to allow non stackable grids.
-		);
 		ob_start();
 		?>
 		<div class="ui container">
-			<div class="<?php echo esc_attr( classNames( $grid_classes ) ); ?>">
-				<?php echo wp_kses( $content, 'post' ); ?>
-			</div>
+			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
 		return ob_get_clean();

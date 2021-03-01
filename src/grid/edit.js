@@ -42,9 +42,7 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId }) => {
         [clientId],
     );
 
-    const blockProps = useBlockProps({
-        className: classnames(className, 'ui', 'stackable', 'grid'),
-    });
+    const blockProps = useBlockProps();
 
     // @TODO When we get to a certain viewport size in the editor we should change the orientation from horizontal to vertical.
     const innerBlocksProps = useInnerBlocksProps(blockProps, {
@@ -65,13 +63,6 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId }) => {
                         max={Math.max(6, count)}
                         withInputField
                     />
-                    {5 < count && (
-                        <Notice status="warning" isDismissible={false}>
-                            {__(
-                                'This column count exceeds the recommended amount and may cause visual breakage.',
-                            )}
-                        </Notice>
-                    )}
                 </PanelBody>
             </InspectorControls>
 

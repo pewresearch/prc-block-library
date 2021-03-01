@@ -1,8 +1,8 @@
 {
   "column.js": "blocks/column-469d0b34.js",
   "column.js.map": "blocks/column-469d0b34.js.map",
-  "grid.js": "blocks/grid-bced687f.js",
-  "grid.js.map": "blocks/grid-bced687f.js.map",
+  "grid.js": "blocks/grid-bc07803b.js",
+  "grid.js.map": "blocks/grid-bc07803b.js.map",
   "menu-link.js": "blocks/menu-link-44e7218a.js",
   "menu-link.js.map": "blocks/menu-link-44e7218a.js.map",
   "menu.js": "blocks/menu-c5df08da.js",
@@ -11,8 +11,8 @@
   "post-bylines.js.map": "blocks/post-bylines-408958b1.js.map",
   "post-title.js": "blocks/post-title-178b7512.js",
   "post-title.js.map": "blocks/post-title-178b7512.js.map",
-  "row.js": "blocks/row-f7844746.js",
-  "row.js.map": "blocks/row-f7844746.js.map",
+  "row.js": "blocks/row-6846c971.js",
+  "row.js.map": "blocks/row-6846c971.js.map",
   "runtime.js": "blocks/runtime-49d996c3.js",
   "runtime.js.map": "blocks/runtime-49d996c3.js.map",
   "social-link.js": "blocks/social-link-2776bbcd.js",
@@ -45,11 +45,11 @@
     "grid": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/grid-bced687f.js"
+        "blocks/grid-bc07803b.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/grid-bced687f.js.map"
+        "blocks/grid-bc07803b.js.map"
       ]
     },
     "menu": {
@@ -97,11 +97,11 @@
     "row": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/row-f7844746.js"
+        "blocks/row-6846c971.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/row-f7844746.js.map"
+        "blocks/row-6846c971.js.map"
       ]
     },
     "social-link": {
