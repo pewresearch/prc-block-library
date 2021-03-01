@@ -15,6 +15,18 @@
             "type": "boolean",
             "default": false
         },
+        "padded": {
+            "type": "string",
+            "default": "false|true|horizontally|vertically"
+        },
+        "relaxed": {
+            "type": "string",
+            "default": "false|true|very"
+        },
+        "stackable": {
+            "type": "boolean",
+            "default": true
+        },
         "textAlign": {
             "type": "string",
             "default": "left|center|right|justified"

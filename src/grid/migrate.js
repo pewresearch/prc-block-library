@@ -8,6 +8,60 @@ import { InnerBlocks } from '@wordpress/block-editor';
 import { select, dispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
+const migrateInnerColumns = innerBlocks => {
+    return innerBlocks.map(columnBlock => {
+        console.log('inner column block - ', columnBlock);
+        // Zero out the column classnames
+        columnBlock.attributes.className = '';
+        return {
+            ...columnBlock,
+            innerBlocks: columnBlock.innerBlocks.map(b => {
+                if ('prc-block/columns' === b.name) {
+                    const classnames = b.attributes.className.split(' ');
+                    console.log('classNames?', classnames);
+                    const isEqual = classnames.includes('equal');
+                    const isDivided = classnames.includes('divided');
+
+                    const newGridBlock = createBlock(
+                        'prc-block/grid',
+                        { className: '' },
+                        [
+                            createBlock(
+                                'prc-block/row',
+                                {
+                                    equal: isEqual,
+                                    divided: isDivided,
+                                    className: '',
+                                },
+                                b.innerBlocks,
+                            ),
+                        ],
+                    );
+                    return newGridBlock;
+                }
+                return b;
+            }),
+        };
+    });
+};
+
+const migrate = (block, clientId, isSelected) => {
+    console.log('in...', block);
+    const { innerBlocks, attributes } = block;
+
+    if (true === isSelected) {
+        const newGridBlock = createBlock('prc-block/grid', { className: '' }, [
+            createBlock(
+                'prc-block/row',
+                { className: '' },
+                migrateInnerColumns(innerBlocks),
+            ),
+        ]);
+        dispatch('core/block-editor').replaceBlock(clientId, newGridBlock);
+        console.log('out...', newGridBlock);
+    }
+};
+
 const settings = {
     title: __('PRC Columns'),
     description: __('LEGACY, DO NOT USE. USE prc-block/grid, instead'),
@@ -31,36 +85,10 @@ const settings = {
         },
     },
     edit: ({ clientId, isSelected }) => {
-        // We need to get the Innerblocks from here (the columns) gather them up and store them. We then need to create a block or replace this block with a new block. That will snap us out of migration and back into grid.
+        // We need to get the innerBlocks from here (the columns) gather them up and store them. We then need to create a block or replace this block with a new block. That will snap us out of migration and back into grid.
         useEffect(() => {
             const block = select('core/block-editor').getBlock(clientId);
-            const { innerBlocks, attributes } = block;
-            let isEqual = false;
-            if (attributes.className.split(' ').includes('equal')) {
-                isEqual = true;
-            }
-            if (true === isSelected) {
-                const rowBlock = createBlock(
-                    'prc-block/row',
-                    { equal: isEqual, className: '' },
-                    innerBlocks,
-                );
-                const newGridBlock = createBlock(
-                    'prc-block/grid',
-                    { className: '' },
-                    [rowBlock],
-                );
-                console.log(
-                    'Migrating prc-block/columns->',
-                    block,
-                    innerBlocks,
-                    newGridBlock,
-                );
-                dispatch('core/block-editor').replaceBlock(
-                    clientId,
-                    newGridBlock,
-                );
-            }
+            migrate(block, clientId, isSelected);
         }, [clientId]);
         return <InnerBlocks />;
     },
