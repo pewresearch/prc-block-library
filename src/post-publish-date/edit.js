@@ -16,7 +16,7 @@ const edit = ({ attributes, className, clientId, setAttributes }) => {
                 'core/block-editor',
             ).getBlockRootClientId(clientId);
             return {
-                postDate: moment(d).format('MMMM D YYYY'),
+                postDate: moment(d).format('MMMM D, YYYY'),
                 rootBlock: select('core/block-editor').getBlockName(
                     rootClientId,
                 ),
