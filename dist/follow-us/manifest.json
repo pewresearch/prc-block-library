@@ -5,30 +5,30 @@
   "main.js.map": "follow-us/main-b8c32b7e.js.map",
   "runtime.js": "follow-us/runtime-266ecadc.js",
   "runtime.js.map": "follow-us/runtime-266ecadc.js.map",
-  "vendors~frontend~main.js": "follow-us/vendors~frontend~main-75c85aaf.js",
-  "vendors~frontend~main.js.map": "follow-us/vendors~frontend~main-75c85aaf.js.map",
+  "vendors~frontend~main.js": "follow-us/vendors~frontend~main-dec2a0d4.js",
+  "vendors~frontend~main.js.map": "follow-us/vendors~frontend~main-dec2a0d4.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "follow-us/runtime-266ecadc.js",
-        "follow-us/vendors~frontend~main-75c85aaf.js",
+        "follow-us/vendors~frontend~main-dec2a0d4.js",
         "follow-us/main-b8c32b7e.js"
       ],
       "js.map": [
         "follow-us/runtime-266ecadc.js.map",
-        "follow-us/vendors~frontend~main-75c85aaf.js.map",
+        "follow-us/vendors~frontend~main-dec2a0d4.js.map",
         "follow-us/main-b8c32b7e.js.map"
       ]
     },
     "frontend": {
       "js": [
         "follow-us/runtime-266ecadc.js",
-        "follow-us/vendors~frontend~main-75c85aaf.js",
+        "follow-us/vendors~frontend~main-dec2a0d4.js",
         "follow-us/frontend-922b7a68.js"
       ],
       "js.map": [
         "follow-us/runtime-266ecadc.js.map",
-        "follow-us/vendors~frontend~main-75c85aaf.js.map",
+        "follow-us/vendors~frontend~main-dec2a0d4.js.map",
         "follow-us/frontend-922b7a68.js.map"
       ]
     }

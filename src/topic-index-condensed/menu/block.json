@@ -1,0 +1,13 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/topic-index-condensed-menu",
+    "category": "layout",
+    "attributes": {},
+    "supports": {
+        "html": false,
+        "align": false,
+        "inserter": false,
+        "multiple": false
+    },
+    "parent": ["prc-block/topic-index-condensed-view"]
+}

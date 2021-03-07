@@ -1,0 +1,23 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/topic-index-condensed-view",
+    "category": "layout",
+    "attributes": {
+        "map": {
+            "type": "array",
+            "default": [
+                {
+                    "menuUUID": 0,
+                    "pageUUID": 0
+                }
+            ]
+        }
+    },
+    "providesContext":{
+        "prc-block/topic-index-condensed-view": "map"
+    },
+    "supports": {
+        "html": false,
+        "align": false
+    }
+}
