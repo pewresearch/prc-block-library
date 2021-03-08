@@ -36,7 +36,7 @@ const Edit = ({ attributes, setAttributes, className, clientId }) => {
         allowedBlocks: ALLOWED_BLOCKS,
         renderAppender: false,
         template: BLOCKS_TEMPLATE,
-        // templateLock: 'all',
+        templateLock: 'all',
     });
 
     return (

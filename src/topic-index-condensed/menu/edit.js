@@ -7,6 +7,7 @@ import classnames from 'classnames';
  * WordPress dependencies
  */
 import {
+    InnerBlocks,
     useBlockProps,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
@@ -26,6 +27,7 @@ const Edit = ({ className }) => {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: 'vertical',
             templateLock: false,
+            renderAppender: InnerBlocks.ButtonBlockAppender,
         },
     );
 

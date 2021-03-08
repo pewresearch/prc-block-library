@@ -28,7 +28,7 @@ const Edit = ({ attributes, className, clientId, context }) => {
 
     const blockProps = useBlockProps({
         className: classnames(className, {
-            active: uuid !== currentlyActive,
+            active: uuid === currentlyActive,
         }),
     });
 
