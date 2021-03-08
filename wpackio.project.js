@@ -37,14 +37,16 @@ module.exports = {
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
                 table: './src/table/index.js',
-                'topic-index-condensed-view':
-                    './src/topic-index-condensed/view/index.js',
+                'topic-index-condensed-controller':
+                    './src/topic-index-condensed/controller/index.js',
                 'topic-index-condensed-menu':
                     './src/topic-index-condensed/menu/index.js',
                 'topic-index-condensed-menu-item':
                     './src/topic-index-condensed/menu-item/index.js',
                 'topic-index-condensed-page':
                     './src/topic-index-condensed/page/index.js',
+                'topic-index-condensed-pages':
+                    './src/topic-index-condensed/pages/index.js',
                 'wp-query': './src/wp-query/index.js',
             },
         },

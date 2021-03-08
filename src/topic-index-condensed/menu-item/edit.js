@@ -6,12 +6,13 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { Fragment, useEffect, useState } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 import {
-    BlockControls,
     InspectorControls,
     useBlockProps,
+    RichText,
 } from '@wordpress/block-editor';
+import { createBlock } from '@wordpress/blocks';
 import { PanelBody } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
@@ -22,40 +23,115 @@ const Edit = ({
     className,
     clientId,
     isSelected,
+    context,
 }) => {
-    const { updateBlockAttributes } = useDispatch('core/block-editor');
-    const { rootClientId } = useSelect(
+    const { title, uuid } = attributes;
+
+    const { insertBlock, updateBlockAttributes } = useDispatch(
+        'core/block-editor',
+    );
+
+    const { controllerClientId, pagesClientId, pages } = useSelect(
         select => {
-            const { getBlockRootClientId } = select('core/block-editor');
-            const rootBlockClientId = getBlockRootClientId(clientId);
+            const {
+                getBlock,
+                getBlockRootClientId,
+                getAdjacentBlockClientId,
+            } = select('core/block-editor');
+            const menuBlockClientId = getBlockRootClientId(clientId);
+            const pClientId = getAdjacentBlockClientId(menuBlockClientId);
             return {
-                rootClientId: rootBlockClientId,
+                controllerClientId: getBlockRootClientId(menuBlockClientId),
+                pagesClientId: pClientId,
+                pages: getBlock(pClientId).innerBlocks.map(i => {
+                    return {
+                        clientId: i.clientId,
+                        uuid: i.attributes.uuid,
+                        title: i.attributes.title,
+                    };
+                }),
             };
         },
         [clientId],
     );
 
-    useEffect(() => {}, [isSelected]);
+    const onBlockCreation = () => {
+        if (null === uuid) {
+            // We will use the first client id assigned as a uuid.
+            console.log('onBlockCreation', uuid);
+            const newUuid = clientId;
+            setAttributes({ uuid: newUuid });
+            const newPageBlock = createBlock(
+                'prc-block/topic-index-condensed-page',
+                {
+                    uuid: newUuid,
+                    title: 'New Page',
+                },
+            );
+            insertBlock(newPageBlock, false, pagesClientId);
+            // updateBlockAttributes(topicIndexViewClientId, {map: });
+            // Go create a page block, set the uuid to this uuid. Now they are bonded.
+        }
+    };
+
+    const onTitleUpdate = t => {
+        const tmp = pages;
+        console.log('onTitleUpdate->pages', pages);
+        if (1 <= pages.length) {
+            const matchedPages = tmp.filter(i => i.uuid === uuid);
+            if (1 <= matchedPages.length) {
+                const targetClientId = matchedPages[0].clientId;
+                // Update the block title
+                updateBlockAttributes(targetClientId, { title: t });
+                // If this block is removed then remove the page??...
+            }
+        }
+    };
+
+    const onBlockSelection = () => {
+        if (null !== uuid) {
+            updateBlockAttributes(controllerClientId, { active: uuid });
+        }
+    };
+
+    useEffect(() => {
+        onBlockCreation();
+    }, []);
+
+    useEffect(() => {
+        onTitleUpdate(title);
+    }, [title]);
+
+    useEffect(() => {
+        console.log('menu item is selected');
+        onBlockSelection();
+    }, [isSelected]);
 
     const blockProps = useBlockProps({
-        className: classnames(className),
+        className: classnames(className, 'item', {
+            active: uuid === context['prc-block/topic-index-condensed-active'],
+        }),
     });
-
-    // When you click into a menu link, when isSelected is true then we should using block context change something in the parent block, view block, that says this is whats active. From there we will hide or show the current page, when you click on a new menu link that will show the appropriate page.
 
     return (
         <Fragment>
-            <BlockControls>Toolbar Shit Here For Links and Such</BlockControls>
-
             <InspectorControls>
-                <PanelBody title={__('Menu settings')}>
+                <PanelBody title={__('Menu Item Settings')}>
                     <Fragment>
-                        <p>Yep</p>
+                        <p>Yep, sure looks like {__`"menu item settings"`}</p>
                     </Fragment>
                 </PanelBody>
             </InspectorControls>
 
-            <div {...blockProps}>Menu item here</div>
+            <div {...blockProps}>
+                <RichText
+                    tagName="div" // The tag here is the element output and editable in the admin
+                    value={title} // Any existing content, either from the database or an attribute default
+                    allowedFormats={[]} // Allow the content to be made bold or italic, but do not allow other formatting options
+                    onChange={newTitle => setAttributes({ title: newTitle })} // Store updated content as a block attribute
+                    placeholder={__('Politics')} // Display this text before any content has been added by the user
+                />
+            </div>
         </Fragment>
     );
 };

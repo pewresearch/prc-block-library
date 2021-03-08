@@ -15,7 +15,7 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Topic Index - Condensed Menu Item'),
+    title: __('Menu Item'),
     description: __(
         'A sub block of Menu block, a sub block of the Topic Index - Condensed View block.',
     ),

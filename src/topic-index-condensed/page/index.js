@@ -15,7 +15,7 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Topic Index - Condensed Page'),
+    title: __('Page'),
     description: __(
         'A sub block of Topic Index - Condensed View, this block controls the right side pages of content corresponding to an item from the menu.',
     ),

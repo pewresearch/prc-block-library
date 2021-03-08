@@ -92,13 +92,12 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         [clientId],
     );
 
-
-    let dataHandler = setAttributes;
-    let enableAltHeaderWeight = !enableExcerpt;
-    let taxonomy = enableProgramsTaxonomy ? 'Programs' : 'Formats';
+    const dataHandler = setAttributes;
+    const enableAltHeaderWeight = !enableExcerpt;
+    const taxonomy = enableProgramsTaxonomy ? 'Programs' : 'Formats';
 
     const classes = classNames(className, 'story', {
-        stacked: ('top' === imageSlot || 'bottom' === imageSlot),
+        stacked: 'top' === imageSlot || 'bottom' === imageSlot,
         bordered: enableEmphasis,
         'alt-description': enableExcerptBelow,
     });
@@ -143,15 +142,19 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         return <Img />;
     };
 
-    return(
+    return (
         <Fragment>
             {true === isSelected && (
-                <Controls {...{
-                    attributes,
-                    setAttributes,
-                    context: context.hasOwnProperty('prc-block/wp-query') ? JSON.parse(context['prc-block/wp-query']) : false,
-                    rootClientId,
-                }}/>
+                <Controls
+                    {...{
+                        attributes,
+                        setAttributes,
+                        context: context.hasOwnProperty('prc-block/wp-query')
+                            ? JSON.parse(context['prc-block/wp-query'])
+                            : false,
+                        rootClientId,
+                    }}
+                />
             )}
             <Item as="article" className={classes}>
                 <TopAndLeftSlot />

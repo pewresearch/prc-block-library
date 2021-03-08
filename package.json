@@ -47,6 +47,7 @@
     "react-cool-dimensions": "^1.0.1",
     "react-repeat-component": "^1.0.2",
     "react-responsive-picture": "^3.2.2",
-    "semantic-ui-react": "^2.0.1"
+    "semantic-ui-react": "^2.0.1",
+    "uuid": "^8.3.2"
   }
 }

@@ -15,7 +15,7 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Topic Index - Condensed Menu'),
+    title: __('Menu'),
     description: __(
         'A sub block of Topic Index - Condensed View, this block controls the left sidebar menu.',
     ),

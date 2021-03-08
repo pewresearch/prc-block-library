@@ -2,11 +2,19 @@
     "apiVersion": 2,
 	"name": "prc-block/topic-index-condensed-menu-item",
     "category": "layout",
-    "attributes": {},
+    "attributes": {
+        "title": {
+            "type": "string"
+        },
+        "uuid": {
+            "type": "string",
+            "default": null
+        }
+    },
     "supports": {
         "html": false,
         "align": false
     },
-    "usesContext": ["prc-block/topic-index-condensed-view"],
+    "usesContext": ["prc-block/topic-index-condensed-active"],
     "parent": ["prc-block/topic-index-condensed-menu"]
 }

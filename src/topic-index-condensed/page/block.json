@@ -5,12 +5,16 @@
     "attributes": {
         "title": {
             "type": "string"
+        },
+        "uuid": {
+            "type": "string"
         }
     },
-    "usesContext": ["prc-block/topic-index-condensed-view"],
     "supports": {
         "html": false,
-        "align": false
+        "align": false,
+        "inserter": false
     },
-    "parent": ["prc-block/topic-index-condensed-view"]
+    "usesContext": ["prc-block/topic-index-condensed-active"],
+    "parent": ["prc-block/topic-index-condensed-pages"]
 }

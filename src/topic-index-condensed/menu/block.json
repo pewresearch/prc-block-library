@@ -9,5 +9,5 @@
         "inserter": false,
         "multiple": false
     },
-    "parent": ["prc-block/topic-index-condensed-view"]
+    "parent": ["prc-block/topic-index-condensed-controller"]
 }

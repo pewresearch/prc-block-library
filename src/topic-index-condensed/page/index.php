@@ -43,7 +43,7 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 			'topic-index-condensed-page',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $block_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -55,6 +55,7 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . 'page',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'editor_style'    => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_page_placeholder' ),
 			)
 		);

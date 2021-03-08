@@ -7,18 +7,18 @@
   "main.js.map": "tabs/main-9573c90d.js.map",
   "runtime.js": "tabs/runtime-9524aa08.js",
   "runtime.js.map": "tabs/runtime-9524aa08.js.map",
-  "vendors~main.js": "tabs/vendors~main-a9615d81.js",
-  "vendors~main.js.map": "tabs/vendors~main-a9615d81.js.map",
+  "vendors~main.js": "tabs/vendors~main-a733cd00.js",
+  "vendors~main.js.map": "tabs/vendors~main-a733cd00.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "tabs/runtime-9524aa08.js",
-        "tabs/vendors~main-a9615d81.js",
+        "tabs/vendors~main-a733cd00.js",
         "tabs/main-9573c90d.js"
       ],
       "js.map": [
         "tabs/runtime-9524aa08.js.map",
-        "tabs/vendors~main-a9615d81.js.map",
+        "tabs/vendors~main-a733cd00.js.map",
         "tabs/main-9573c90d.js.map"
       ],
       "css": [
