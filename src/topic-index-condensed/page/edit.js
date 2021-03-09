@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import {
     InspectorControls,
+    InnerBlocks,
     useBlockProps,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
@@ -26,13 +27,30 @@ const Edit = ({ attributes, className, clientId, context }) => {
     const { title, uuid } = attributes;
     const currentlyActive = context['prc-block/topic-index-condensed-active'];
 
+    const { hasChildBlocks } = useSelect(
+        select => {
+            const { getBlockOrder } = select('core/block-editor');
+            return {
+                hasChildBlocks: 0 < getBlockOrder(clientId).length,
+            };
+        },
+        [clientId],
+    );
+
     const blockProps = useBlockProps({
         className: classnames(className, {
             active: uuid === currentlyActive,
         }),
     });
 
-    const innerBlocksProps = useInnerBlocksProps();
+    const innerBlocksProps = useInnerBlocksProps(
+        { className: 'pages' },
+        {
+            renderAppender: hasChildBlocks
+                ? InnerBlocks.DefaultBlockAppender
+                : InnerBlocks.ButtonBlockAppender,
+        },
+    );
 
     useEffect(() => {
         console.log('page context', uuid, context);
@@ -49,7 +67,7 @@ const Edit = ({ attributes, className, clientId, context }) => {
             </InspectorControls>
 
             <div {...blockProps}>
-                <h2>{title}</h2>
+                <h2 className="sans-serif">{title}</h2>
                 <div {...innerBlocksProps} />
             </div>
         </Fragment>

@@ -23,7 +23,11 @@ class Topic_Index_Condensed_Menu extends PRC_Block_Library {
 	public function render_menu_placeholder( $attributes, $content, $block ) {
 		ob_start();
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<div class="column five wide">
+			<div class="ui secondary vertical fluid menu">
+				<?php echo wp_kses( $content, 'post' ); ?>
+			</div>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

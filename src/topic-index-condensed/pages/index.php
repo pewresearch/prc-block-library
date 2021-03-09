@@ -23,7 +23,9 @@ class Topic_Index_Condensed_Pages extends PRC_Block_Library {
 	public function render_pages_placeholder( $attributes, $content, $block ) {
 		ob_start();
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<div class="column eleven wide">
+			<?php echo wp_kses( $content, 'post' ); ?>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

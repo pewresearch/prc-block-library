@@ -39,6 +39,8 @@ module.exports = {
                 table: './src/table/index.js',
                 'topic-index-condensed-controller':
                     './src/topic-index-condensed/controller/index.js',
+                'topic-index-condensed-frontend':
+                    './src/topic-index-condensed/controller/frontend.js',
                 'topic-index-condensed-menu':
                     './src/topic-index-condensed/menu/index.js',
                 'topic-index-condensed-menu-item':

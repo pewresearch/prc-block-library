@@ -23,7 +23,9 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 	public function render_page_placeholder( $attributes, $content, $block ) {
 		ob_start();
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<div class="wp-block-prc-block-topic-index-condensed-page" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
+			<?php echo wp_kses( $content, 'post' ); ?>
+		</div>
 		<?php
 		return ob_get_clean();
 	}
@@ -55,7 +57,7 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . 'page',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'editor_style'    => array_pop( $registered['css'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_page_placeholder' ),
 			)
 		);

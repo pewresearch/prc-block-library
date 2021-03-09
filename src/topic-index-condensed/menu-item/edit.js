@@ -24,6 +24,7 @@ const Edit = ({
     clientId,
     isSelected,
     context,
+    onRemove,
 }) => {
     const { title, uuid } = attributes;
 
@@ -96,6 +97,7 @@ const Edit = ({
 
     useEffect(() => {
         onBlockCreation();
+        console.log('onRemove?', onRemove);
     }, []);
 
     useEffect(() => {

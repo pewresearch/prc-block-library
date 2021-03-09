@@ -21,11 +21,36 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_controller_placeholder( $attributes, $content, $block ) {
+		$this->enqueue_frontend();
 		ob_start();
 		?>
+		<div class="ui divided grid">
 		<?php echo wp_kses( $content, 'post' ); ?>
+		</div>
 		<?php
 		return ob_get_clean();
+	}
+
+	public function register_frontend() {
+		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-url' );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
+		return $enqueue->register(
+			'blocks',
+			'topic-index-condensed-frontend',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
+	public function enqueue_frontend() {
+		$registered = $this->register_frontend();
+		wp_enqueue_script( array_pop( $registered['js'] )['handle'] );
 	}
 
 	/**
