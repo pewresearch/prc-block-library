@@ -9,7 +9,13 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_filter( 'query_vars', array( $this, 'register_query_vars' ), 20, 1 );
 		}
+	}
+
+	public function register_query_vars( $qvars ) {
+		$qvars[] = 'menuItem';
+		return $qvars;
 	}
 
 	/**
@@ -24,8 +30,8 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		$this->enqueue_frontend();
 		ob_start();
 		?>
-		<div class="ui divided grid">
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<div class="wp-block-prc-block-topic-index-condensed ui divided grid">
+			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
 		return ob_get_clean();
@@ -35,8 +41,8 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-url' );
 		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
 		return $enqueue->register(
-			'blocks',
-			'topic-index-condensed-frontend',
+			'frontend',
+			'topic-index-condensed',
 			array(
 				'js'        => true,
 				'css'       => false,
@@ -49,8 +55,10 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 	}
 
 	public function enqueue_frontend() {
-		$registered = $this->register_frontend();
-		wp_enqueue_script( array_pop( $registered['js'] )['handle'] );
+		$registered    = $this->register_frontend();
+		$script_handle = array_pop( $registered['js'] )['handle'];
+		wp_localize_script( $script_handle, 'prcTopicIndexCondensed', array( 'active' => get_query_var( 'menuItem', false ) ) );
+		wp_enqueue_script( $script_handle );
 	}
 
 	/**

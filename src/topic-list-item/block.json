@@ -1,0 +1,21 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/topic-list-item",
+	"category": "layout",
+    "attributes": {
+        "id": {
+            "type": "integer"
+        },
+        "title": {
+            "type": "string"
+        },
+        "url": {
+            "type": "string",
+            "default": null
+        },
+        "more": {
+            "type": "boolean",
+            "default": false
+        }
+    }
+}

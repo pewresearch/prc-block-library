@@ -34,13 +34,12 @@ module.exports = {
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',
                 'post-title': './src/post-title/index.js',
+                'promo-rotator': './src/promo-rotator/index.js',
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
                 table: './src/table/index.js',
                 'topic-index-condensed-controller':
                     './src/topic-index-condensed/controller/index.js',
-                'topic-index-condensed-frontend':
-                    './src/topic-index-condensed/controller/frontend.js',
                 'topic-index-condensed-menu':
                     './src/topic-index-condensed/menu/index.js',
                 'topic-index-condensed-menu-item':
@@ -49,6 +48,7 @@ module.exports = {
                     './src/topic-index-condensed/page/index.js',
                 'topic-index-condensed-pages':
                     './src/topic-index-condensed/pages/index.js',
+                'topic-list-item': './src/topic-list-item/index.js',
                 'wp-query': './src/wp-query/index.js',
             },
         },
@@ -56,6 +56,8 @@ module.exports = {
             name: 'frontend',
             entry: {
                 'social-link': './src/social-link/frontend.js',
+                'topic-index-condensed':
+                    './src/topic-index-condensed/controller/frontend.js',
             },
         },
         {

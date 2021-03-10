@@ -23,7 +23,7 @@ class Topic_Index_Condensed_Menu_Item extends PRC_Block_Library {
 	public function render_menu_item_placeholder( $attributes, $content, $block ) {
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-topic-index-condensed-menu-item item" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
+		<div class="wp-block-prc-block-topic-index-condensed-menu-item item" data-slug="<?php echo esc_attr( $attributes['slug'] ); ?>" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
 			<?php echo wp_kses( $attributes['title'], 'post' ); ?>
 		</div>
 		<?php

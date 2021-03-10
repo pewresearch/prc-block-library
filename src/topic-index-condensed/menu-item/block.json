@@ -3,6 +3,9 @@
 	"name": "prc-block/topic-index-condensed-menu-item",
     "category": "layout",
     "attributes": {
+        "slug" : {
+            "type": "string"
+        },
         "title": {
             "type": "string"
         },

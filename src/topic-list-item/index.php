@@ -5,7 +5,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 
 use WPackio\Enqueue;
 
-class Topic_Index_Condensed_Menu extends PRC_Block_Library {
+class Topic_List_Item extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -13,29 +13,23 @@ class Topic_Index_Condensed_Menu extends PRC_Block_Library {
 	}
 
 	/**
-	 * Render callback for prc-block/topic-index-condensed-menu
+	 * Render callback for prc-block/topic-list-item
 	 *
 	 * @param mixed $attributes
 	 * @param mixed $content
 	 * @param mixed $block
 	 * @return string|false
 	 */
-	public function render_menu_placeholder( $attributes, $content, $block ) {
+	public function render_topic_list_item( $attributes, $content ) {
+        $term_name = $attributes['title'];
 		ob_start();
-		?>
-		<div class="column five wide">
-			<div class="ui vertical fluid menu">
-				<?php echo wp_kses( $content, 'post' ); ?>
-			</div>
-		</div>
-		<?php
+        echo '<a href="#" class="item">' . $term_name . '</a>'; 
 		return ob_get_clean();
 	}
 
 	/**
-	 * Register the prc-block/topic-index-condensed-menu block.
+	 * Register the prc-block/topic-list-item block.
 	 *
-	 * @uses render_block_core_navigation()
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
@@ -44,7 +38,7 @@ class Topic_Index_Condensed_Menu extends PRC_Block_Library {
 
 		$registered = $enqueue->register(
 			'blocks',
-			'topic-index-condensed-menu',
+			'topic-list-item',
 			array(
 				'js'        => true,
 				'css'       => false,
@@ -56,13 +50,13 @@ class Topic_Index_Condensed_Menu extends PRC_Block_Library {
 		);
 
 		register_block_type_from_metadata(
-			plugin_dir_path( __DIR__ ) . 'menu',
+			plugin_dir_path( __DIR__ ) . '/topic-list-item',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'render_callback' => array( $this, 'render_menu_placeholder' ),
+				'render_callback' => array( $this, 'render_topic_list_item' ),
 			)
 		);
 	}
 }
 
-new Topic_Index_Condensed_Menu( true );
+new Topic_List_Item( true );

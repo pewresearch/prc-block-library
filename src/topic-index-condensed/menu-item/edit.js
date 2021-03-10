@@ -16,6 +16,7 @@ import { createBlock } from '@wordpress/blocks';
 import { PanelBody } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
+import { cleanForSlug } from '@wordpress/url';
 
 const Edit = ({
     attributes,
@@ -66,7 +67,7 @@ const Edit = ({
                 'prc-block/topic-index-condensed-page',
                 {
                     uuid: newUuid,
-                    title: 'New Page',
+                    title: '',
                 },
             );
             insertBlock(newPageBlock, false, pagesClientId);
@@ -76,6 +77,7 @@ const Edit = ({
     };
 
     const onTitleUpdate = t => {
+        setAttributes({ slug: cleanForSlug(t) });
         const tmp = pages;
         console.log('onTitleUpdate->pages', pages);
         if (1 <= pages.length) {

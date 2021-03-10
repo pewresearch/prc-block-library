@@ -24,6 +24,7 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div class="wp-block-prc-block-topic-index-condensed-page" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
+			<h2 class="sans-serif"><?php echo esc_html( $attributes['title'] ); ?></h2>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php

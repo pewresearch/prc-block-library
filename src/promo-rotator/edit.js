@@ -12,17 +12,13 @@ import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
-const ALLOWED_BLOCKS = ['prc-block/topic-index-condensed-menu-item'];
+const ALLOWED_BLOCKS = ['prc-block/promo', 'prc-block/card'];
 
 const Edit = ({ className }) => {
-    const blockProps = useBlockProps({
-        className: classnames(className, 'column five wide'),
-    });
+    const blockProps = useBlockProps();
 
     const innerBlocksProps = useInnerBlocksProps(
-        {
-            className: 'ui vertical fluid menu',
-        },
+        blockProps,
         {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: 'vertical',
@@ -32,9 +28,7 @@ const Edit = ({ className }) => {
     );
 
     return (
-        <div {...blockProps}>
-            <div {...innerBlocksProps} />
-        </div>
+        <div {...innerBlocksProps} />
     );
 };
 
