@@ -18,13 +18,6 @@ export default [
         attributes: {},
     },
     {
-        name: 'post',
-        icon: postIcon,
-        title: __('Post Link'),
-        description: __('A link to a post.'),
-        attributes: { type: 'post' },
-    },
-    {
         name: 'page',
         icon: pageIcon,
         title: __('Page Link'),

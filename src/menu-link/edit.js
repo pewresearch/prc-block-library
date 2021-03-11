@@ -7,14 +7,7 @@ import { escape, get, head, find } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { compose } from '@wordpress/compose';
-import { createBlock } from '@wordpress/blocks';
-import {
-    useSelect,
-    useDispatch,
-    withDispatch,
-    withSelect,
-} from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import {
     KeyboardShortcuts,
     PanelBody,
@@ -29,78 +22,16 @@ import { rawShortcut, displayShortcut } from '@wordpress/keycodes';
 import { __, sprintf } from '@wordpress/i18n';
 import {
     BlockControls,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     InspectorControls,
     RichText,
     __experimentalLinkControl as LinkControl,
+    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
 import { isURL, prependHTTP } from '@wordpress/url';
-import {
-    Fragment,
-    useState,
-    useEffect,
-    useRef,
-    createInterpolateElement,
-} from '@wordpress/element';
+import { Fragment, useState, useEffect, useRef } from '@wordpress/element';
 import { placeCaretAtHorizontalEdge } from '@wordpress/dom';
 import { link as linkIcon, formatIndent as moreIcon } from '@wordpress/icons';
-
-const isStyle = (needle, haystack) => {
-    const arr = haystack.split(' ');
-    return arr.includes(needle);
-};
-
-/**
- * A React hook to determine if it's dragging within the target element.
- *
- * @typedef {import('@wordpress/element').RefObject} RefObject
- *
- * @param {RefObject<HTMLElement>} elementRef The target elementRef object.
- *
- * @return {boolean} Is dragging within the target element.
- */
-const useIsDraggingWithin = elementRef => {
-    const [isDraggingWithin, setIsDraggingWithin] = useState(false);
-
-    useEffect(() => {
-        const { ownerDocument } = elementRef.current;
-
-        function handleDragStart(event) {
-            // Check the first time when the dragging starts.
-            handleDragEnter(event);
-        }
-
-        // Set to false whenever the user cancel the drag event by either releasing the mouse or press Escape.
-        function handleDragEnd() {
-            setIsDraggingWithin(false);
-        }
-
-        function handleDragEnter(event) {
-            // Check if the current target is inside the item element.
-            if (elementRef.current.contains(event.target)) {
-                setIsDraggingWithin(true);
-            } else {
-                setIsDraggingWithin(false);
-            }
-        }
-
-        // Bind these events to the document to catch all drag events.
-        // Ideally, we can also use `event.relatedTarget`, but sadly that
-        // doesn't work in Safari.
-        ownerDocument.addEventListener('dragstart', handleDragStart);
-        ownerDocument.addEventListener('dragend', handleDragEnd);
-        ownerDocument.addEventListener('dragenter', handleDragEnter);
-
-        return () => {
-            ownerDocument.removeEventListener('dragstart', handleDragStart);
-            ownerDocument.removeEventListener('dragend', handleDragEnd);
-            ownerDocument.removeEventListener('dragenter', handleDragEnter);
-        };
-    }, []);
-
-    return isDraggingWithin;
-};
 
 /**
  * Given the Link block's type attribute, return the query params to give to
@@ -109,11 +40,10 @@ const useIsDraggingWithin = elementRef => {
  * @param {string} type Link block's type attribute.
  * @return {{ type?: string, subtype?: string }} Search query params.
  */
-function getSuggestionsQuery(type) {
+const getSuggestionsQuery = type => {
     switch (type) {
-        case 'post':
         case 'page':
-            return { type: 'post', subtype: type };
+            return { type: 'post', subtype: 'page' };
         case 'topic':
             return { type: 'term', subtype: 'topic' };
         case 'formats':
@@ -123,19 +53,51 @@ function getSuggestionsQuery(type) {
         default:
             return {};
     }
-}
+};
 
-function NavigationLinkEdit({
+const SubMenu = ({ type, close }) => {
+    const innerBlocksProps = useInnerBlocksProps(
+        {
+            className: classnames({
+                list: 'inline' === type,
+                menu: 'dropdown' === type,
+            }),
+        },
+        {
+            allowedBlocks: ['prc-block/menu-link'],
+            orientation: 'vertical',
+            __experimentalCaptureToolbars: true,
+            templateLock: false,
+        },
+    );
+
+    if ('inline' === type) {
+        return <div {...innerBlocksProps} />;
+    }
+
+    return (
+        <Popover
+            position="bottom center"
+            onFocusOutside={() => null}
+            onClose={close}
+            style={{ zIndex: 1 }}
+        >
+            <div style={{ width: '300px', height: '300px', zIndex: 2 }}>
+                <div {...innerBlocksProps} />
+            </div>
+        </Popover>
+    );
+};
+
+const edit = ({
     attributes,
     context,
     isSelected,
-    isImmediateParentOfSelectedBlock,
     setAttributes,
-    insertLinkBlock,
-    insertBlocksAfter,
+    clientId,
     mergeBlocks,
     onReplace,
-}) {
+}) => {
     const {
         label,
         type,
@@ -152,16 +114,52 @@ function NavigationLinkEdit({
         opensInNewTab,
     };
 
+    const { isDraggingBlocks, subMenuType, allowSubMenu } = useSelect(
+        select => {
+            const {
+                getClientIdsOfDescendants,
+                getBlockRootClientId,
+                getBlock,
+            } = select('core/block-editor');
+            let allowSubMenus = true;
+            const parentBlock = getBlock(getBlockRootClientId(clientId));
+            if ('prc-block/menu-link' === parentBlock.name) {
+                allowSubMenus = false;
+            }
+            return {
+                allowSubMenu: allowSubMenus,
+                hasDescendants: !!getClientIdsOfDescendants([clientId]).length,
+                isDraggingBlocks: select(
+                    'core/block-editor',
+                ).isDraggingBlocks(),
+                subMenuType: context.hasOwnProperty('prc-block/menu')
+                    ? 'dropdown'
+                    : 'inline',
+            };
+        },
+        [],
+    );
+
     const [isLinkOpen, setIsLinkOpen] = useState(false);
+    const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
     const listItemRef = useRef(null);
-    const isDraggingWithin = useIsDraggingWithin(listItemRef);
     const itemLabelPlaceholder = __('Add link…');
     const ref = useRef();
 
-    const isDraggingBlocks = useSelect(
-        select => select('core/block-editor').isDraggingBlocks(),
-        [],
-    );
+    /**
+     * Focus the Link label text and select it.
+     */
+    const selectLabelText = () => {
+        ref.current.focus();
+        const { ownerDocument } = ref.current;
+        const { defaultView } = ownerDocument;
+        const selection = defaultView.getSelection();
+        const range = ownerDocument.createRange();
+        // Get the range of the current ref contents so we can add this range to the selection.
+        range.selectNodeContents(ref.current);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    };
 
     // Show the LinkControl on mount if the URL is empty
     // ( When adding a new menu item)
@@ -197,21 +195,6 @@ function NavigationLinkEdit({
         }
     }, [url]);
 
-    /**
-     * Focus the Link label text and select it.
-     */
-    function selectLabelText() {
-        ref.current.focus();
-        const { ownerDocument } = ref.current;
-        const { defaultView } = ownerDocument;
-        const selection = defaultView.getSelection();
-        const range = ownerDocument.createRange();
-        // Get the range of the current ref contents so we can add this range to the selection.
-        range.selectNodeContents(ref.current);
-        selection.removeAllRanges();
-        selection.addRange(range);
-    }
-
     const blockProps = useBlockProps({
         ref: listItemRef,
         className: classnames('item', {
@@ -221,22 +204,9 @@ function NavigationLinkEdit({
                 !isDraggingBlocks,
             // Don't select the element while dragging.
             'is-selected': isSelected && !isDraggingBlocks,
-            'is-dragging-within': isDraggingWithin,
             'has-link': !!url,
         }),
     });
-
-    const innerBlocksProps = useInnerBlocksProps(
-        {
-            className: classnames('ui link list'),
-        },
-        {
-            allowedBlocks: ['prc-block/menu-link'],
-            orientation: 'vertical',
-            __experimentalCaptureToolbars: true,
-            templateLock: false,
-        },
-    );
 
     return (
         <Fragment>
@@ -256,14 +226,19 @@ function NavigationLinkEdit({
                         shortcut={displayShortcut.primary('k')}
                         onClick={() => setIsLinkOpen(true)}
                     />
-                    <ToolbarButton
-                        name="link"
-                        icon={moreIcon}
-                        title={__('Sub Menu')}
-                        onClick={() =>
-                            setAttributes({ subMenuEnabled: !subMenuEnabled })
-                        }
-                    />
+                    {true === allowSubMenu && (
+                        <ToolbarButton
+                            name="sub-menu"
+                            icon={moreIcon}
+                            title={__('Sub Menu')}
+                            onClick={() => {
+                                if (false === subMenuEnabled) {
+                                    setAttributes({ subMenuEnabled: true });
+                                }
+                                setIsSubMenuOpen(!isSubMenuOpen);
+                            }}
+                        />
+                    )}
                 </ToolbarGroup>
             </BlockControls>
 
@@ -295,13 +270,17 @@ function NavigationLinkEdit({
                         label={__('Link rel')}
                         autoComplete="off"
                     />
-                    <ToggleControl
-                        checked={subMenuEnabled}
-                        onChange={() => {
-                            setAttributes({ subMenuEnabled: !subMenuEnabled });
-                        }}
-                        label={__('Enable Sub Menu')}
-                    />
+                    {true === allowSubMenu && (
+                        <ToggleControl
+                            checked={subMenuEnabled}
+                            onChange={() => {
+                                setAttributes({
+                                    subMenuEnabled: !subMenuEnabled,
+                                });
+                            }}
+                            label={__('Enable Sub Menu')}
+                        />
+                    )}
                 </PanelBody>
             </InspectorControls>
 
@@ -320,19 +299,11 @@ function NavigationLinkEdit({
                     }
                     onMerge={mergeBlocks}
                     onReplace={onReplace}
-                    __unstableOnSplitAtEnd={() =>
-                        insertBlocksAfter(createBlock('prc-block/menu-link'))
-                    }
-                    aria-label={__('Navigation link text')}
+                    aria-label={__('Menu link text')}
                     placeholder={itemLabelPlaceholder}
                     keepPlaceholderOnFocus
                     withoutInteractiveFormatting
-                    allowedFormats={[
-                        'core/bold',
-                        'core/italic',
-                        'core/image',
-                        'core/strikethrough',
-                    ]}
+                    allowedFormats={['core/bold', 'core/italic']}
                 />
                 {isLinkOpen && (
                     <Popover
@@ -383,57 +354,15 @@ function NavigationLinkEdit({
                         />
                     </Popover>
                 )}
-                {true === subMenuEnabled && <div {...innerBlocksProps} />}
+                {true === subMenuEnabled && true === isSubMenuOpen && (
+                    <SubMenu
+                        type={subMenuType}
+                        close={() => setIsSubMenuOpen(!isSubMenuOpen)}
+                    />
+                )}
             </div>
         </Fragment>
     );
-}
+};
 
-export default compose([
-    withSelect((select, ownProps) => {
-        const {
-            getBlockAttributes,
-            getClientIdsOfDescendants,
-            hasSelectedInnerBlock,
-            getBlockParentsByBlockName,
-            getSelectedBlockClientId,
-            getSettings,
-        } = select('core/block-editor');
-        const { clientId } = ownProps;
-        const hasDescendants = !!getClientIdsOfDescendants([clientId]).length;
-
-        const isImmediateParentOfSelectedBlock = hasSelectedInnerBlock(
-            clientId,
-            false,
-        );
-        const selectedBlockId = getSelectedBlockClientId();
-        const selectedBlockHasDescendants = !!getClientIdsOfDescendants([
-            selectedBlockId,
-        ])?.length;
-
-        return {
-            isImmediateParentOfSelectedBlock,
-            hasDescendants,
-            selectedBlockHasDescendants,
-        };
-    }),
-    withDispatch((dispatch, ownProps, registry) => {
-        return {
-            insertLinkBlock() {
-                const { clientId } = ownProps;
-
-                const { insertBlock } = dispatch('core/block-editor');
-
-                const { getClientIdsOfDescendants } = registry.select(
-                    'core/block-editor',
-                );
-                const navItems = getClientIdsOfDescendants([clientId]);
-                const insertionPoint = navItems.length ? navItems.length : 0;
-
-                const blockToInsert = createBlock('prc-block/menu-link');
-
-                insertBlock(blockToInsert, insertionPoint, clientId);
-            },
-        };
-    }),
-])(NavigationLinkEdit);
+export default edit;
