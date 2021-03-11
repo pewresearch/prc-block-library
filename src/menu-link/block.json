@@ -2,7 +2,6 @@
 	"apiVersion": 2,
 	"name": "prc-block/menu-link",
 	"category": "layout",
-	"parent": [ "prc-block/menu" ],
 	"attributes": {
 		"label": {
 			"type": "string"
@@ -28,9 +27,13 @@
 		},
 		"title": {
 			"type": "string"
+		},
+		"subMenuEnabled": {
+			"type":"boolean",
+			"default": false
 		}
 	},
-	"usesContext": ["prc-block/menu"],
+	"usesContext": ["prc-block/menu", "prc-block/tree-list"],
 	"supports": {
 		"reusable": false,
 		"html": false

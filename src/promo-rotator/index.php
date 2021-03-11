@@ -9,7 +9,7 @@ class Promo_Rotator extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
-            add_filter( 'render_block', array($this, 'wrap_innerblocks'), 10, 2 );
+			add_filter( 'render_block', array( $this, 'randomly_select_inner_block' ), 10, 2 );
 			add_filter( 'query_vars', array( $this, 'register_query_vars' ), 20, 1 );
 		}
 	}
@@ -19,14 +19,14 @@ class Promo_Rotator extends PRC_Block_Library {
 		return $qvars;
 	}
 
-    // Randomly selects one inner block to display
-    public function randomly_select_inner_block( $block_content, $block ) {
-        if ( 'prc-block/promo-rotator' === $block['blockName'] ) {
-            $iteration = array_rand($block['innerBlocks']);
-            return render_block($block['innerBlocks'][$iteration]);
-        }
-        return $block_content;
-    }
+	// Randomly selects one inner block to display
+	public function randomly_select_inner_block( $block_content, $block ) {
+		if ( 'prc-block/promo-rotator' === $block['blockName'] ) {
+			$iteration = array_rand( $block['innerBlocks'] );
+			return render_block( $block['innerBlocks'][ $iteration ] );
+		}
+		return $block_content;
+	}
 
 	/**
 	 * Render callback for prc-block/promo-rotator
@@ -38,7 +38,7 @@ class Promo_Rotator extends PRC_Block_Library {
 	 */
 	public function render_promo_rotator( $attributes, $content, $block ) {
 		ob_start();
-        echo wp_kses($content, 'post');
+		echo wp_kses( $content, 'post' );
 		return ob_get_clean();
 	}
 

@@ -48,7 +48,6 @@ module.exports = {
                     './src/topic-index-condensed/page/index.js',
                 'topic-index-condensed-pages':
                     './src/topic-index-condensed/pages/index.js',
-                'topic-list-item': './src/topic-list-item/index.js',
                 'wp-query': './src/wp-query/index.js',
             },
         },

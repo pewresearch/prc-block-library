@@ -21,6 +21,7 @@ import {
     Popover,
     TextControl,
     TextareaControl,
+    ToggleControl,
     ToolbarButton,
     ToolbarGroup,
 } from '@wordpress/components';
@@ -28,7 +29,6 @@ import { rawShortcut, displayShortcut } from '@wordpress/keycodes';
 import { __, sprintf } from '@wordpress/i18n';
 import {
     BlockControls,
-    InnerBlocks,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     InspectorControls,
     RichText,
@@ -44,7 +44,7 @@ import {
     createInterpolateElement,
 } from '@wordpress/element';
 import { placeCaretAtHorizontalEdge } from '@wordpress/dom';
-import { link as linkIcon } from '@wordpress/icons';
+import { link as linkIcon, formatIndent as moreIcon } from '@wordpress/icons';
 
 const isStyle = (needle, haystack) => {
     const arr = haystack.split(' ');
@@ -132,8 +132,6 @@ function NavigationLinkEdit({
     isImmediateParentOfSelectedBlock,
     setAttributes,
     insertLinkBlock,
-    userCanCreatePages = false,
-    userCanCreatePosts = false,
     insertBlocksAfter,
     mergeBlocks,
     onReplace,
@@ -146,12 +144,14 @@ function NavigationLinkEdit({
         description,
         rel,
         title,
+        subMenuEnabled,
     } = attributes;
+
     const link = {
         url,
         opensInNewTab,
     };
-    const { saveEntityRecord } = useDispatch('core');
+
     const [isLinkOpen, setIsLinkOpen] = useState(false);
     const listItemRef = useRef(null);
     const isDraggingWithin = useIsDraggingWithin(listItemRef);
@@ -212,29 +212,6 @@ function NavigationLinkEdit({
         selection.addRange(range);
     }
 
-    let userCanCreate = false;
-    if (!type || 'page' === type) {
-        userCanCreate = userCanCreatePages;
-    } else if ('post' === type) {
-        userCanCreate = userCanCreatePosts;
-    }
-
-    async function handleCreate(pageTitle) {
-        const postType = type || 'page';
-
-        const page = await saveEntityRecord('postType', postType, {
-            title: pageTitle,
-            status: 'publish',
-        });
-
-        return {
-            id: page.id,
-            postType,
-            title: page.title.rendered,
-            url: page.link,
-        };
-    }
-
     const blockProps = useBlockProps({
         ref: listItemRef,
         className: classnames('item', {
@@ -248,6 +225,18 @@ function NavigationLinkEdit({
             'has-link': !!url,
         }),
     });
+
+    const innerBlocksProps = useInnerBlocksProps(
+        {
+            className: classnames('ui link list'),
+        },
+        {
+            allowedBlocks: ['prc-block/menu-link'],
+            orientation: 'vertical',
+            __experimentalCaptureToolbars: true,
+            templateLock: false,
+        },
+    );
 
     return (
         <Fragment>
@@ -266,6 +255,14 @@ function NavigationLinkEdit({
                         title={__('Link')}
                         shortcut={displayShortcut.primary('k')}
                         onClick={() => setIsLinkOpen(true)}
+                    />
+                    <ToolbarButton
+                        name="link"
+                        icon={moreIcon}
+                        title={__('Sub Menu')}
+                        onClick={() =>
+                            setAttributes({ subMenuEnabled: !subMenuEnabled })
+                        }
                     />
                 </ToolbarGroup>
             </BlockControls>
@@ -297,6 +294,13 @@ function NavigationLinkEdit({
                         }}
                         label={__('Link rel')}
                         autoComplete="off"
+                    />
+                    <ToggleControl
+                        checked={subMenuEnabled}
+                        onChange={() => {
+                            setAttributes({ subMenuEnabled: !subMenuEnabled });
+                        }}
+                        label={__('Enable Sub Menu')}
                     />
                 </PanelBody>
             </InspectorControls>
@@ -339,22 +343,6 @@ function NavigationLinkEdit({
                             className="wp-block-navigation-link__inline-link-input"
                             value={link}
                             showInitialSuggestions
-                            withCreateSuggestion={userCanCreate}
-                            createSuggestion={handleCreate}
-                            createSuggestionButtonText={searchTerm => {
-                                let format;
-                                if ('post' === type) {
-                                    /* translators: %s: search term. */
-                                    format = __('Create post: <mark>%s</mark>');
-                                } else {
-                                    /* translators: %s: search term. */
-                                    format = __('Create page: <mark>%s</mark>');
-                                }
-                                return createInterpolateElement(
-                                    sprintf(format, searchTerm),
-                                    { mark: <mark /> },
-                                );
-                            }}
                             noDirectEntry={!!type}
                             noURLSuggestion={!!type}
                             suggestionsQuery={getSuggestionsQuery(type)}
@@ -395,6 +383,7 @@ function NavigationLinkEdit({
                         />
                     </Popover>
                 )}
+                {true === subMenuEnabled && <div {...innerBlocksProps} />}
             </div>
         </Fragment>
     );
@@ -426,8 +415,6 @@ export default compose([
             isImmediateParentOfSelectedBlock,
             hasDescendants,
             selectedBlockHasDescendants,
-            userCanCreatePages: select('core').canUser('create', 'pages'),
-            userCanCreatePosts: select('core').canUser('create', 'posts'),
         };
     }),
     withDispatch((dispatch, ownProps, registry) => {
