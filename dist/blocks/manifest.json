@@ -23,8 +23,8 @@
   "table.js.map": "blocks/table-f7ca7b41.js.map",
   "taxonomy-tree.css": "blocks/taxonomy-tree-78bc373a.css",
   "taxonomy-tree.css.map": "blocks/taxonomy-tree-78bc373a.css.map",
-  "taxonomy-tree.js": "blocks/taxonomy-tree-b79fcca9.js",
-  "taxonomy-tree.js.map": "blocks/taxonomy-tree-b79fcca9.js.map",
+  "taxonomy-tree.js": "blocks/taxonomy-tree-94117afe.js",
+  "taxonomy-tree.js.map": "blocks/taxonomy-tree-94117afe.js.map",
   "topic-index-condensed-controller.js": "blocks/topic-index-condensed-controller-1aa5ae6b.js",
   "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-1aa5ae6b.js.map",
   "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-192cacb9.js",
@@ -161,13 +161,13 @@
         "blocks/runtime-49d996c3.js",
         "blocks/vendors~social-link~taxonomy-tree~wp-query-00163bb0.js",
         "blocks/vendors~taxonomy-tree~wp-query-f12d930d.js",
-        "blocks/taxonomy-tree-b79fcca9.js"
+        "blocks/taxonomy-tree-94117afe.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
         "blocks/vendors~social-link~taxonomy-tree~wp-query-00163bb0.js.map",
         "blocks/vendors~taxonomy-tree~wp-query-f12d930d.js.map",
-        "blocks/taxonomy-tree-b79fcca9.js.map"
+        "blocks/taxonomy-tree-94117afe.js.map"
       ],
       "css": [
         "blocks/taxonomy-tree-78bc373a.css"

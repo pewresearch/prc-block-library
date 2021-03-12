@@ -13,7 +13,7 @@ import {
 } from '@wordpress/block-editor';
 import { CollapsibleList } from 'shared';
 
-const ALLOWED_BLOCKS = ['prc-block/menu-item'];
+const ALLOWED_BLOCKS = ['prc-block/menu-link'];
 
 const edit = ({ attributes, className, setAttributes }) => {
     const { heading } = attributes;
