@@ -70,6 +70,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/wp-query/index.php';
 		}
@@ -507,44 +508,6 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-
-		/** Taxonomy Tree */
-		$this->registered['block']['prc-block/taxonomy-tree']         = $enqueue->register(
-			'taxonomy-tree',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['block']['prc-block/taxonomy-tree-list']    = $enqueue->register(
-			'taxonomy-tree-list',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/taxonomy-tree-list'] = $enqueue->register(
-			'taxonomy-tree-list',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $js_deps, array( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
 	}
 
 	/**
@@ -793,29 +756,6 @@ class PRC_Block_Library {
 				'style'           => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['css'] )['handle'],
 				'render_callback' => function( $attributes, $content, $block ) {
 					wp_enqueue_script( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) );
-					return $content;
-				},
-			)
-		);
-
-		/** Taxonomy Tree */
-		register_block_type(
-			'prc-block/taxonomy-tree',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/taxonomy-tree']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/taxonomy-tree']['css'] )['handle'],
-			)
-		);
-
-		/** Taxonomy Tree List */
-		register_block_type(
-			'prc-block/taxonomy-tree-list',
-			array(
-				'editor_script'   => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['js'] )['handle'],
-				'style'           => array_pop( $this->registered['block']['prc-block/taxonomy-tree-list']['css'] )['handle'],
-				'render_callback' => function( $attributes, $content, $block ) {
-					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/taxonomy-tree-list']['js'] )['handle'] );
-					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/taxonomy-tree-list']['css'] )['handle'] );
 					return $content;
 				},
 			)

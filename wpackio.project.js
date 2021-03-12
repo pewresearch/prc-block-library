@@ -38,6 +38,7 @@ module.exports = {
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
                 table: './src/table/index.js',
+                'taxonomy-tree': './src/taxonomy-tree/index.js',
                 'topic-index-condensed-controller':
                     './src/topic-index-condensed/controller/index.js',
                 'topic-index-condensed-menu':

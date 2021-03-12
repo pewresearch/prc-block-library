@@ -1,0 +1,17 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/taxonomy-tree",
+	"category": "layout",
+	"attributes": {
+		"heading": {
+            "type": "string",
+            "source": "html",
+            "selector": "h2",
+            "default": ""
+        }
+    },          
+	"supports": {
+		"reusable": false,
+		"html": false
+	}
+}
