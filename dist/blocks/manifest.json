@@ -3,8 +3,8 @@
   "column.js.map": "blocks/column-356260d5.js.map",
   "grid.js": "blocks/grid-cb095ab6.js",
   "grid.js.map": "blocks/grid-cb095ab6.js.map",
-  "menu-link.js": "blocks/menu-link-7e0d168a.js",
-  "menu-link.js.map": "blocks/menu-link-7e0d168a.js.map",
+  "menu-link.js": "blocks/menu-link-90b03687.js",
+  "menu-link.js.map": "blocks/menu-link-90b03687.js.map",
   "menu.js": "blocks/menu-1cb24156.js",
   "menu.js.map": "blocks/menu-1cb24156.js.map",
   "post-bylines.js": "blocks/post-bylines-4a2686fd.js",
@@ -23,8 +23,8 @@
   "table.js.map": "blocks/table-f7ca7b41.js.map",
   "taxonomy-tree.css": "blocks/taxonomy-tree-78bc373a.css",
   "taxonomy-tree.css.map": "blocks/taxonomy-tree-78bc373a.css.map",
-  "taxonomy-tree.js": "blocks/taxonomy-tree-94117afe.js",
-  "taxonomy-tree.js.map": "blocks/taxonomy-tree-94117afe.js.map",
+  "taxonomy-tree.js": "blocks/taxonomy-tree-aa60107b.js",
+  "taxonomy-tree.js.map": "blocks/taxonomy-tree-aa60107b.js.map",
   "topic-index-condensed-controller.js": "blocks/topic-index-condensed-controller-1aa5ae6b.js",
   "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-1aa5ae6b.js.map",
   "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-192cacb9.js",
@@ -84,12 +84,12 @@
       "js": [
         "blocks/runtime-49d996c3.js",
         "blocks/vendors~menu-link-12c0e946.js",
-        "blocks/menu-link-7e0d168a.js"
+        "blocks/menu-link-90b03687.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
         "blocks/vendors~menu-link-12c0e946.js.map",
-        "blocks/menu-link-7e0d168a.js.map"
+        "blocks/menu-link-90b03687.js.map"
       ]
     },
     "post-bylines": {
@@ -161,13 +161,13 @@
         "blocks/runtime-49d996c3.js",
         "blocks/vendors~social-link~taxonomy-tree~wp-query-00163bb0.js",
         "blocks/vendors~taxonomy-tree~wp-query-f12d930d.js",
-        "blocks/taxonomy-tree-94117afe.js"
+        "blocks/taxonomy-tree-aa60107b.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
         "blocks/vendors~social-link~taxonomy-tree~wp-query-00163bb0.js.map",
         "blocks/vendors~taxonomy-tree~wp-query-f12d930d.js.map",
-        "blocks/taxonomy-tree-94117afe.js.map"
+        "blocks/taxonomy-tree-aa60107b.js.map"
       ],
       "css": [
         "blocks/taxonomy-tree-78bc373a.css"

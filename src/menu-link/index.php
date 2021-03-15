@@ -17,10 +17,14 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		}
 	}
 
-	public function get_menu_link( $attributes, $is_chiclet = false ) {
+	public function get_menu_link( $attributes, $content = null, $in_menu = false, $is_chiclet = false ) {
 		// Don't render the block's subtree if it has no label.
 		if ( empty( $attributes['label'] ) ) {
 			return '';
+		}
+
+		if ( true === $attributes['isChild'] ) {
+			$is_chiclet = false;
 		}
 
 		$is_active = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
@@ -29,29 +33,44 @@ class PRC_Menu_Link extends PRC_Block_Library {
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class' => ( $is_chiclet ? 'ui basic button ' : 'item ' ) . $css_classes . ( $is_active ? ' active' : '' ),
+				'class' => classNames(
+					array(
+						'item'               => ! $is_chiclet,
+						'ui basic button'    => $is_chiclet,
+						'active'             => $is_active,
+						'ui simple dropdown' => ( $in_menu && ! empty( $content ) ),
+					)
+				),
 			)
 		);
 
-		$html = '<a ' . $wrapper_attributes . ' ';
+		if ( ! empty( $content ) && true === $in_menu ) {
+			$html = '<div ' . $wrapper_attributes . ' ';
+		} elseif ( ! empty( $content ) ) {
+			$html = '<div ' . $wrapper_attributes . '> <a ';
+		} else {
+			$html = '<a ' . $wrapper_attributes . ' ';
+		}
 
 		// Start appending HTML attributes to anchor tag.
-		if ( isset( $attributes['url'] ) ) {
-			$html .= ' href="' . esc_url( $attributes['url'] ) . '"';
-		}
+		if ( false === $in_menu ) {
+			if ( isset( $attributes['url'] ) ) {
+				$html .= ' href="' . esc_url( $attributes['url'] ) . '"';
+			}
 
-		if ( isset( $attributes['opensInNewTab'] ) && true === $attributes['opensInNewTab'] ) {
-			$html .= ' target="_blank"  ';
-		}
+			if ( isset( $attributes['opensInNewTab'] ) && true === $attributes['opensInNewTab'] ) {
+				$html .= ' target="_blank"  ';
+			}
 
-		if ( isset( $attributes['rel'] ) ) {
-			$html .= ' rel="' . esc_attr( $attributes['rel'] ) . '"';
-		} elseif ( isset( $attributes['nofollow'] ) && $attributes['nofollow'] ) {
-			$html .= ' rel="nofollow"';
-		}
+			if ( isset( $attributes['rel'] ) ) {
+				$html .= ' rel="' . esc_attr( $attributes['rel'] ) . '"';
+			} elseif ( isset( $attributes['nofollow'] ) && $attributes['nofollow'] ) {
+				$html .= ' rel="nofollow"';
+			}
 
-		if ( isset( $attributes['title'] ) ) {
-			$html .= ' title="' . esc_attr( $attributes['title'] ) . '"';
+			if ( isset( $attributes['title'] ) ) {
+				$html .= ' title="' . esc_attr( $attributes['title'] ) . '"';
+			}
 		}
 
 		// End appending HTML attributes to anchor tag.
@@ -81,7 +100,13 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			);
 		}
 
-		$html .= '</a>';
+		if ( ! empty( $content ) && true === $in_menu ) {
+			$html .= '<i class="dropdown icon"></i> <div class="menu">' . $content . '</div></div>';
+		} elseif ( ! empty( $content ) ) {
+			$html .= '</a><div class="list">' . $content . '</div></div>';
+		} else {
+			$html .= '</a>';
+		}
 		// End anchor tag content.
 
 		return $html;
@@ -106,10 +131,16 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			return '';
 		}
 
-		if ( array_key_exists( 'prc-block/menu', $block->context ) && 'is-style-text' === $block->context['prc-block/menu'] ) {
-			return '<div class="item">' . $this->get_menu_link( $attributes, true ) . '</div>';
+		error_log( 'Block Context?' . print_r( $block, true ) );
+
+		if ( array_key_exists( 'prc-block/menu', $block->context ) ) {
+			if ( 'is-style-text' === $block->context['prc-block/menu'] ) {
+				return '<div class="item">' . $this->get_menu_link( $attributes, $content, true, true ) . '</div>';
+			} else {
+				return $this->get_menu_link( $attributes, $content, true, false );
+			}
 		} else {
-			return $this->get_menu_link( $attributes );
+			return $this->get_menu_link( $attributes, $content );
 		}
 	}
 

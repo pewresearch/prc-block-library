@@ -31,6 +31,10 @@
 		"subMenuEnabled": {
 			"type":"boolean",
 			"default": false
+		},
+		"isChild": {
+			"type":"boolean",
+			"default": false
 		}
 	},
 	"usesContext": ["prc-block/menu", "prc-block/tree-list"],

@@ -24,7 +24,7 @@ const edit = ({ attributes, className, setAttributes }) => {
 
     const innerBlocksProps = useInnerBlocksProps(
         {
-            className: classnames('ui relaxed tree list'),
+            className: classnames('ui list'),
         },
         {
             allowedBlocks: ALLOWED_BLOCKS,

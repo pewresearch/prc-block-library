@@ -29,7 +29,10 @@ class Taxonomy_Tree extends PRC_Block_Library {
 	public function render_taxonomy_tree( $attributes, $content, $block ) {
 		ob_start();
 		?>
-		<div>Taxonomy Tree</div>
+		<h2>Taxonomy Tree</h2>
+		<div class="ui list">
+			<?php echo wp_kses( $content, 'post' ); ?>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

@@ -195,6 +195,10 @@ const edit = ({
         }
     }, [url]);
 
+    useEffect(() => {
+        setAttributes({ isChild: !allowSubMenu });
+    }, [allowSubMenu]);
+
     const blockProps = useBlockProps({
         ref: listItemRef,
         className: classnames('item', {
