@@ -8,9 +8,14 @@ import classnames from 'classnames';
  */
 import { Fragment } from '@wordpress/element';
 import {
+    InnerBlocks,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
+
+/**
+ * Internal dependencies
+ */
 import { CollapsibleList } from 'shared';
 
 const ALLOWED_BLOCKS = ['prc-block/menu-link'];
@@ -30,6 +35,7 @@ const edit = ({ attributes, className, setAttributes }) => {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: 'vertical',
             templateLock: false,
+            renderAppender: InnerBlocks.ButtonBlockAppender,
         },
     );
 
