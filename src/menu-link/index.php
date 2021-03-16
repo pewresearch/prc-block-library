@@ -131,8 +131,6 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			return '';
 		}
 
-		error_log( 'Block Context?' . print_r( $block, true ) );
-
 		if ( array_key_exists( 'prc-block/menu', $block->context ) ) {
 			if ( 'is-style-text' === $block->context['prc-block/menu'] ) {
 				return '<div class="item">' . $this->get_menu_link( $attributes, $content, true, true ) . '</div>';
