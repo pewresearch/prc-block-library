@@ -24,7 +24,7 @@ class Topic_Index_Condensed_Menu extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div class="column five wide">
-			<div class="ui vertical fluid menu">
+			<div class="ui vertical fluid secondary menu">
 				<?php echo wp_kses( $content, 'post' ); ?>
 			</div>
 		</div>

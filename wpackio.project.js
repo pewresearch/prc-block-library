@@ -41,6 +41,8 @@ module.exports = {
                 'taxonomy-tree': './src/taxonomy-tree/index.js',
                 'taxonomy-tree-more': './src/taxonomy-tree-more/index.js',
                 'topic-index-az': './src/topic-index-az/index.js',
+                'topic-index-categorized':
+                    './src/topic-index-categorized/index.js',
                 'topic-index-condensed-controller':
                     './src/topic-index-condensed/controller/index.js',
                 'topic-index-condensed-menu':
@@ -57,15 +59,19 @@ module.exports = {
         {
             name: 'frontend',
             entry: {
+                'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
+                'taxonomy-tree-more': './src/taxonomy-tree-more/frontend.js',
+                'topic-index-categorized':
+                    './src/topic-index-categorized/frontend.js',
                 'topic-index-condensed':
                     './src/topic-index-condensed/controller/frontend.js',
             },
         },
         {
-            name: 'a-z-taxonomy-list',
+            name: 'collapsible-list',
             entry: {
-                main: './src/a-z-taxonomy-list/index.js',
+                helper: './src/_shared/components/collapsible-list/frontend.js',
             },
         },
         {
@@ -97,12 +103,6 @@ module.exports = {
             entry: {
                 main: './src/collapsible/index.js',
                 frontend: './src/collapsible/frontend.js',
-            },
-        },
-        {
-            name: 'collapsible-list',
-            entry: {
-                helper: './src/_shared/components/collapsible-list/frontend.js',
             },
         },
         {

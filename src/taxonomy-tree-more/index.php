@@ -17,11 +17,34 @@ class Taxonomy_Tree_More extends PRC_Block_Library {
 		}
 	}
 
+	public function register_frontend() {
+		$js_deps = array( 'wp-dom-ready' );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
+		return $enqueue->register(
+			'frontend',
+			'taxonomy-tree-more',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
+	public function enqueue_frontend() {
+		$registered    = $this->register_frontend();
+		$script_handle = array_pop( $registered['js'] )['handle'];
+		wp_enqueue_script( $script_handle );
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
-		// Need a frontend script that when you click on view more the links below will become visible.
+		$this->enqueue_frontend();
 		ob_start();
 		?>
-		<div class="item">View More +</div>
+		<div class="item view-more">+ More</div>
 		<?php echo wp_kses( $content, 'post' ); ?>
 		<?php
 		return ob_get_clean();

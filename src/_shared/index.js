@@ -8,11 +8,7 @@ import {
     ifMatchSetAttribute,
 } from './helpers';
 
-import {
-    StoryItem,
-    CollapsibleList,
-    TaxonomySelectList,
-} from './components';
+import { StoryItem, CollapsibleList } from './components';
 
 export {
     getPosts,
@@ -24,5 +20,4 @@ export {
     ifMatchSetAttribute,
     StoryItem,
     CollapsibleList,
-    TaxonomySelectList,
 };

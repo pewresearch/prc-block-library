@@ -86,7 +86,7 @@ class Topic_Index_AZ extends PRC_Block_Library {
 		return $this->term_query_by_letter( $letter );
 	}
 
-	public function render_topic_index_az( $attributes, $content, $block ) {
+	public function render_topic_index_az( $attributes ) {
 		$term_query = $this->term_query_by_letter( $attributes['letter'], explode( ',', $attributes['exclude'] ) );
 		ob_start();
 		?>

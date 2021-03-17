@@ -12,6 +12,7 @@ import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
+import { Button } from '@wordpress/components';
 
 const ALLOWED_BLOCKS = ['prc-block/menu-link'];
 
@@ -33,7 +34,9 @@ const edit = ({ className }) => {
 
     return (
         <div {...blockProps}>
-            <div onClick={() => toggleVisibility(!visible)}>View More +</div>
+            <Button isLink onClick={() => toggleVisibility(!visible)}>
+                {visible ? `- Less` : `+ More`}
+            </Button>
             {visible && <div {...innerBlocksProps} />}
         </div>
     );

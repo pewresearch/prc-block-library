@@ -35,9 +35,15 @@
 		"isChild": {
 			"type":"boolean",
 			"default": false
+		},
+		"rootBlockName": {
+			"type":"string"
+		},
+		"parentBlockName": {
+			"type":"string"
 		}
 	},
-	"usesContext": ["prc-block/menu", "prc-block/tree-list"],
+	"usesContext": ["prc-block/menu", "prc-block/taxonomy-tree", "prc-block/taxonomy-tree-more"],
 	"supports": {
 		"reusable": false,
 		"html": false

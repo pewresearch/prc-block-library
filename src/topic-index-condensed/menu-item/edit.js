@@ -122,7 +122,7 @@ const Edit = ({
             <InspectorControls>
                 <PanelBody title={__('Menu Item Settings')}>
                     <Fragment>
-                        <p>Yep, sure looks like {__`"menu item settings"`}</p>
+                        <p>WIP</p>
                     </Fragment>
                 </PanelBody>
             </InspectorControls>

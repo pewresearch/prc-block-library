@@ -9,6 +9,10 @@ import { escape, get, head, find } from 'lodash';
  */
 import { useSelect } from '@wordpress/data';
 import {
+    Button,
+    Flex,
+    FlexItem,
+    FlexBlock,
     KeyboardShortcuts,
     PanelBody,
     Popover,
@@ -31,7 +35,12 @@ import {
 import { isURL, prependHTTP } from '@wordpress/url';
 import { Fragment, useState, useEffect, useRef } from '@wordpress/element';
 import { placeCaretAtHorizontalEdge } from '@wordpress/dom';
-import { link as linkIcon, formatIndent as moreIcon } from '@wordpress/icons';
+import {
+    Icon,
+    link as linkIcon,
+    formatIndent as moreIcon,
+    plusCircle as expandInlineIcon,
+} from '@wordpress/icons';
 
 /**
  * Given the Link block's type attribute, return the query params to give to
@@ -60,13 +69,16 @@ const SubMenu = ({ type, close }) => {
         {
             className: classnames({
                 list: 'inline' === type,
-                menu: 'dropdown' === type,
             }),
+            style:
+                'dropdown' === type
+                    ? { width: '200px', padding: '0 1em 1em 1em', zIndex: 2 }
+                    : null,
         },
         {
             allowedBlocks: ['prc-block/menu-link'],
             orientation: 'vertical',
-            __experimentalCaptureToolbars: true,
+            __experimentalCaptureToolbars: 'dropdown' === type,
             templateLock: false,
         },
     );
@@ -82,9 +94,7 @@ const SubMenu = ({ type, close }) => {
             onClose={close}
             style={{ zIndex: 1 }}
         >
-            <div style={{ width: '300px', height: '300px', zIndex: 2 }}>
-                <div {...innerBlocksProps} />
-            </div>
+            <div {...innerBlocksProps} />
         </Popover>
     );
 };
@@ -114,31 +124,40 @@ const edit = ({
         opensInNewTab,
     };
 
-    const { isDraggingBlocks, subMenuType, allowSubMenu } = useSelect(
-        select => {
-            const {
-                getClientIdsOfDescendants,
-                getBlockRootClientId,
-                getBlock,
-            } = select('core/block-editor');
-            let allowSubMenus = true;
-            const parentBlock = getBlock(getBlockRootClientId(clientId));
-            if ('prc-block/menu-link' === parentBlock.name) {
-                allowSubMenus = false;
-            }
-            return {
-                allowSubMenu: allowSubMenus,
-                hasDescendants: !!getClientIdsOfDescendants([clientId]).length,
-                isDraggingBlocks: select(
-                    'core/block-editor',
-                ).isDraggingBlocks(),
-                subMenuType: context.hasOwnProperty('prc-block/menu')
-                    ? 'dropdown'
-                    : 'inline',
-            };
-        },
-        [],
-    );
+    const {
+        isDraggingBlocks,
+        subMenuType,
+        allowSubMenu,
+        parentBlockName,
+        rootBlockName,
+    } = useSelect(select => {
+        const {
+            getBlockHierarchyRootClientId,
+            getClientIdsOfDescendants,
+            getBlockRootClientId,
+            getBlock,
+        } = select('core/block-editor');
+        let allowSubMenus = true;
+        const parentBlock = getBlock(getBlockRootClientId(clientId));
+        const rootBlock = getBlock(getBlockHierarchyRootClientId(clientId));
+        if (
+            ['prc-block/menu-link', 'prc-block/taxonomy-tree-more'].includes(
+                parentBlock.name,
+            )
+        ) {
+            allowSubMenus = false;
+        }
+        return {
+            allowSubMenu: allowSubMenus,
+            hasDescendants: !!getClientIdsOfDescendants([clientId]).length,
+            isDraggingBlocks: select('core/block-editor').isDraggingBlocks(),
+            subMenuType: context.hasOwnProperty('prc-block/menu')
+                ? 'dropdown'
+                : 'inline',
+            rootBlockName: rootBlock.name,
+            parentBlockName: parentBlock.name,
+        };
+    }, []);
 
     const [isLinkOpen, setIsLinkOpen] = useState(false);
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
@@ -169,6 +188,10 @@ const edit = ({
         if (!url) {
             setIsLinkOpen(true);
         }
+        setAttributes({
+            rootBlockName,
+            parentBlockName,
+        });
     }, []);
 
     /**
@@ -195,9 +218,8 @@ const edit = ({
         }
     }, [url]);
 
-    useEffect(() => {
-        setAttributes({ isChild: !allowSubMenu });
-    }, [allowSubMenu]);
+    // If this is not allowed to have a sub menu then it is a child, set attributes for use server side accordingly.
+    useEffect(() => {}, [allowSubMenu]);
 
     const blockProps = useBlockProps({
         ref: listItemRef,
@@ -235,6 +257,7 @@ const edit = ({
                             name="sub-menu"
                             icon={moreIcon}
                             title={__('Sub Menu')}
+                            isActive={isSubMenuOpen}
                             onClick={() => {
                                 if (false === subMenuEnabled) {
                                     setAttributes({ subMenuEnabled: true });
@@ -289,26 +312,45 @@ const edit = ({
             </InspectorControls>
 
             <div {...blockProps}>
-                <RichText
-                    ref={ref}
-                    identifier="label"
-                    className={
-                        'is-style-text' === context['prc-block/menu']
-                            ? 'ui basic button'
-                            : ''
-                    }
-                    value={label}
-                    onChange={labelValue =>
-                        setAttributes({ label: labelValue })
-                    }
-                    onMerge={mergeBlocks}
-                    onReplace={onReplace}
-                    aria-label={__('Menu link text')}
-                    placeholder={itemLabelPlaceholder}
-                    keepPlaceholderOnFocus
-                    withoutInteractiveFormatting
-                    allowedFormats={['core/bold', 'core/italic']}
-                />
+                <Flex>
+                    <FlexItem>
+                        <RichText
+                            ref={ref}
+                            identifier="label"
+                            className={
+                                'is-style-text' === context['prc-block/menu'] &&
+                                true === allowSubMenu
+                                    ? 'ui basic button'
+                                    : ''
+                            }
+                            value={label}
+                            onChange={labelValue =>
+                                setAttributes({ label: labelValue })
+                            }
+                            onMerge={mergeBlocks}
+                            onReplace={onReplace}
+                            aria-label={__('Menu link text')}
+                            placeholder={itemLabelPlaceholder}
+                            keepPlaceholderOnFocus
+                            withoutInteractiveFormatting
+                            allowedFormats={['core/bold', 'core/italic']}
+                        />
+                    </FlexItem>
+                    <FlexBlock>
+                        {true === subMenuEnabled &&
+                            'inline' === subMenuType && (
+                                <Button
+                                    isTertiary
+                                    isPressed={isSubMenuOpen}
+                                    icon={expandInlineIcon}
+                                    onClick={() =>
+                                        setIsSubMenuOpen(!isSubMenuOpen)
+                                    }
+                                />
+                            )}
+                    </FlexBlock>
+                </Flex>
+
                 {isLinkOpen && (
                     <Popover
                         position="bottom center"

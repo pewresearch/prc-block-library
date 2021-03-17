@@ -88,7 +88,7 @@ const Navigation = ({
                     ? InnerBlocks.DefaultAppender
                     : false,
             __experimentalAppenderTagName: 'div',
-            __experimentalCaptureToolbars: true,
+            __experimentalCaptureToolbars: false,
             templateLock: false,
         },
     );

@@ -14,7 +14,13 @@ class PRC_Menu_Link extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_filter( 'query_vars', array( $this, 'register_query_vars' ), 20, 1 );
 		}
+	}
+
+	public function register_query_vars( $qvars ) {
+		$qvars[] = 'menuItemId';
+		return $qvars;
 	}
 
 	public function get_menu_link( $attributes, $content = null, $in_menu = false, $is_chiclet = false ) {
@@ -23,18 +29,29 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			return '';
 		}
 
-		if ( true === $attributes['isChild'] ) {
+		if ( in_array( $attributes['parentBlockName'], array( 'prc-block/menu-link', 'prc-block/taxonomy-tree-more' ) ) ) {
 			$is_chiclet = false;
 		}
 
+		$menu_item_id = md5( json_encode( $attributes ) );
+
+		$selected_menu_item = get_query_var( 'menuItemId' );
+
 		$is_active = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
+		if ( $menu_item_id === $selected_menu_item ) {
+			$is_active = true;
+		}
+
+		$is_hidden = 'prc-block/taxonomy-tree-more' === $attributes['parentBlockName'];
 
 		$css_classes = ! empty( $attributes['className'] ) ? implode( ' ', (array) $attributes['className'] ) : false;
+		error_log( 'get_menu_link:: ' . print_r( $css_classes, true ) );
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'class' => classNames(
 					array(
+						'hidden'             => $is_hidden,
 						'item'               => ! $is_chiclet,
 						'ui basic button'    => $is_chiclet,
 						'active'             => $is_active,
@@ -103,13 +120,36 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		if ( ! empty( $content ) && true === $in_menu ) {
 			$html .= '<i class="dropdown icon"></i> <div class="menu">' . $content . '</div></div>';
 		} elseif ( ! empty( $content ) ) {
-			$html .= '</a><div class="list">' . $content . '</div></div>';
+			$html .= '</a> <span class="expand-sub-list" data-target="' . $menu_item_id . '">+</span><div id="' . $menu_item_id . '" class="hidden list">' . $content . '</div></div>';
 		} else {
 			$html .= '</a>';
 		}
 		// End anchor tag content.
 
 		return $html;
+	}
+
+	public function register_frontend() {
+		$js_deps = array( 'wp-dom-ready', 'wp-url' );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
+		return $enqueue->register(
+			'frontend',
+			'menu-link',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
+	public function enqueue_frontend() {
+		$registered    = $this->register_frontend();
+		$script_handle = array_pop( $registered['js'] )['handle'];
+		wp_enqueue_script( $script_handle );
 	}
 
 	/**
@@ -129,6 +169,11 @@ class PRC_Menu_Link extends PRC_Block_Library {
 
 		if ( ! is_object( $block ) ) {
 			return '';
+		}
+
+		// If this has a sub menu enqueue the frontend handler.
+		if ( ! empty( $content ) ) {
+			$this->enqueue_frontend();
 		}
 
 		if ( array_key_exists( 'prc-block/menu', $block->context ) ) {

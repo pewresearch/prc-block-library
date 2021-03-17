@@ -1,0 +1,13 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/topic-index-categorized",
+	"category": "layout",
+	"attributes": {
+		"heading": {
+            "type": "string"
+        }
+    },          
+	"supports": {
+		"html": false
+	}
+}

@@ -1,5 +1,5 @@
 import domReady from '@wordpress/dom-ready';
-import { addQueryArgs } from '@wordpress/url';
+import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
 
 const makeActive = uuid => {
     const menuItem = document.querySelector(
@@ -15,9 +15,10 @@ const makeActive = uuid => {
     if (page) {
         // Update the url with new ?menuItem arg.
         const newUrlArgs = { menuItem: menuItem.dataset.slug };
-        const newUrl = addQueryArgs( window.location.href, newUrlArgs );
+        let newUrl = addQueryArgs(window.location.href, newUrlArgs);
+        newUrl = removeQueryArgs(newUrl, 'menuItemId');
         window.history.pushState(newUrlArgs, document.title, newUrl);
-        
+
         page.classList.add('active');
     }
 };
@@ -46,7 +47,7 @@ const checkForQueryVar = () => {
             `.wp-block-prc-block-topic-index-condensed-menu-item[data-slug="${active}"]`,
         );
         console.log(activeMenuItem.dataset);
-        const uuid = activeMenuItem.dataset.uuid;
+        const { uuid } = activeMenuItem.dataset;
         makeActive(uuid);
     }
 };

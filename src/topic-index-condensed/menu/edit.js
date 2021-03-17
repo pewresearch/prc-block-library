@@ -21,7 +21,7 @@ const Edit = ({ className }) => {
 
     const innerBlocksProps = useInnerBlocksProps(
         {
-            className: 'ui vertical fluid menu',
+            className: 'ui vertical fluid secondary menu',
         },
         {
             allowedBlocks: ALLOWED_BLOCKS,
