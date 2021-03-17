@@ -1,0 +1,9 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/taxonomy-tree-more",
+	"category": "layout",
+	"parent": "prc-block/taxonomy-tree",
+	"supports": {
+		"html": false
+	}
+}

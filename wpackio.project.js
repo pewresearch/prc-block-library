@@ -39,6 +39,8 @@ module.exports = {
                 'social-link': './src/social-link/index.js',
                 table: './src/table/index.js',
                 'taxonomy-tree': './src/taxonomy-tree/index.js',
+                'taxonomy-tree-more': './src/taxonomy-tree-more/index.js',
+                'topic-index-az': './src/topic-index-az/index.js',
                 'topic-index-condensed-controller':
                     './src/topic-index-condensed/controller/index.js',
                 'topic-index-condensed-menu':
@@ -257,19 +259,6 @@ module.exports = {
             entry: {
                 main: './src/tabs/index.js',
                 frontend: './src/tabs/frontend.js',
-            },
-        },
-        {
-            name: 'taxonomy-tree',
-            entry: {
-                main: './src/taxonomy-tree/index.js',
-            },
-        },
-        {
-            name: 'taxonomy-tree-list',
-            entry: {
-                main: './src/taxonomy-tree-list/index.js',
-                frontend: './src/taxonomy-tree-list/frontend.js',
             },
         },
         // If has more length, then multi-compiler

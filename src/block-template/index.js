@@ -11,17 +11,14 @@ import { registerBlockType } from '@wordpress/blocks';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
-import './style.scss';
 
 const { name } = metadata;
 
 const settings = {
-    title: __('Topic Index A-Z'),
-    description:
-        'A taxonomy list sorted alphabeticaly. Select terms you want to exclude.',
+    title: __('Block Title'),
+    description: 'Block description.',
     category: 'layout',
-    icon: 'networking',
-    keywords: [__('Topic Index'), __('Taxonomies'), __('A-Z'), __('AZ')],
+    keywords: [__('Block Keyword 1'), __('Block Keyword 2')],
     edit,
     save,
 };

@@ -1,9 +1,9 @@
 {
 	"apiVersion": 2,
-	"name": "prc-block/taxonomy-tree",
+	"name": "prc-block/block-name",
 	"category": "layout",
 	"attributes": {
-		"subHeading": {
+		"value": {
             "type": "string"
         }
     },          

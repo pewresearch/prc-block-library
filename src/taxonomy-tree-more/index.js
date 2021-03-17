@@ -11,17 +11,13 @@ import { registerBlockType } from '@wordpress/blocks';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
-import './style.scss';
 
 const { name } = metadata;
 
 const settings = {
-    title: __('Topic Index A-Z'),
-    description:
-        'A taxonomy list sorted alphabeticaly. Select terms you want to exclude.',
+    title: __('Taxonomy Tree More'),
+    description: 'A collapsible list of more content for the Taxonomy Tree.',
     category: 'layout',
-    icon: 'networking',
-    keywords: [__('Topic Index'), __('Taxonomies'), __('A-Z'), __('AZ')],
     edit,
     save,
 };

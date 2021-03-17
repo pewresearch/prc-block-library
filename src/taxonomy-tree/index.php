@@ -29,7 +29,7 @@ class Taxonomy_Tree extends PRC_Block_Library {
 	public function render_taxonomy_tree( $attributes, $content, $block ) {
 		ob_start();
 		?>
-		<h2>Taxonomy Tree</h2>
+		<div class="ui sub header"><?php echo filter_block_kses_value( $attributes['subHeading'], 'post' ); ?></div>
 		<div class="ui list">
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>

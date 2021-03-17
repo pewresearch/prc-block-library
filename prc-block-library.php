@@ -71,6 +71,8 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree-more/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-az/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/wp-query/index.php';
 		}
@@ -130,20 +132,6 @@ class PRC_Block_Library {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', __DIR__ . '/prc_blocks/' );
-
-		/** A-Z Taxonomy List */
-		$this->registered['block']['prc-block/a-z-taxonomy-list'] = $enqueue->register(
-			'a-z-taxonomy-list',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $block_js_deps, array( 'wp-html-entities' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
 
 		/** Button */
 		$this->registered['block']['prc-block/button'] = $enqueue->register(
@@ -748,19 +736,6 @@ class PRC_Block_Library {
 			)
 		);
 
-		/** A-Z Taxonomy List */
-		register_block_type(
-			'prc-block/a-z-taxonomy-list',
-			array(
-				'editor_script'   => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['js'] )['handle'],
-				'style'           => array_pop( $this->registered['block']['prc-block/a-z-taxonomy-list']['css'] )['handle'],
-				'render_callback' => function( $attributes, $content, $block ) {
-					wp_enqueue_script( $this->get_handle( 'helper/collapsible-list', 'js', 'frontend' ) );
-					return $content;
-				},
-			)
-		);
-
 	}
 
 	public function register_rest_endpoints() {
@@ -806,30 +781,6 @@ class PRC_Block_Library {
 				'callback'            => array( $this, 'get_staff_post_by_post_url_restfully' ),
 				'args'                => array(
 					'url' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-				),
-				'permission_callback' => function () {
-					return true;
-				},
-			)
-		);
-
-		register_rest_route(
-			'prc-api/v2',
-			'/blocks/helpers/get-taxonomy-by-letter',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_taxonomy_by_letter_restfully' ),
-				'args'                => array(
-					'taxonomy' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-					'letter'   => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
@@ -906,39 +857,6 @@ class PRC_Block_Library {
 		/* Restore original Post Data */
 		wp_reset_postdata();
 		restore_current_blog();
-		return $return;
-	}
-
-	public function get_taxonomy_by_letter_restfully( \WP_REST_Request $request ) {
-		$taxonomy = $request->get_param( 'taxonomy' );
-		$letter   = $request->get_param( 'letter' );
-
-		$terms = get_terms(
-			array(
-				'taxonomy'   => $taxonomy,
-				'hide_empty' => false,
-				'name__like' => $letter,
-				'orderby'    => 'slug',
-			)
-		);
-
-		if ( empty( $terms ) ) {
-			return false;
-		}
-
-		$return = array();
-
-		function startsWith( $string, $startString ) {
-			$len = strlen( $startString );
-			return ( substr( $string, 0, $len ) === $startString );
-		}
-
-		foreach ( $terms as $term ) {
-			if ( true === startsWith( $term->name, $letter ) ) {
-				$return[] = $term;
-			}
-		}
-
 		return $return;
 	}
 

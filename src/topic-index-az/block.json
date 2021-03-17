@@ -1,0 +1,17 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/topic-index-az",
+	"category": "layout",
+	"attributes": {
+        "letter": {
+            "type": "string"
+        },
+        "exclude": {
+            "type": "string"
+        }
+    },          
+	"supports": {
+		"html": false,
+        "align": false
+	}
+}
