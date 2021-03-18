@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import { Flex, FlexItem, FlexBlock } from '@wordpress/components';
+import { Button, Flex, FlexItem, FlexBlock } from '@wordpress/components';
 import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
@@ -22,7 +22,7 @@ import { Icon } from 'semantic-ui-react';
 
 const ALLOWED_BLOCKS = ['prc-block/taxonomy-tree'];
 
-const edit = ({ attributes, className, setAttributes }) => {
+const edit = ({ attributes, className, setAttributes, clientId }) => {
     const { heading } = attributes;
 
     const blockProps = useBlockProps({
@@ -35,6 +35,20 @@ const edit = ({ attributes, className, setAttributes }) => {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: 'vertical',
             templateLock: false,
+            // renderAppender: rootClientId => {
+            //     return (
+            //         <Button
+            //             isSecondary
+            //             onClick={() =>
+            //                 console.log(
+            //                     `insert a block for client id:: ${clientId}`,
+            //                 )
+            //             }
+            //         >
+            //             Insert New Tree
+            //         </Button>
+            //     );
+            // },
         },
     );
 

@@ -1,29 +1,21 @@
 {
-  "main.css": "button/main-cfb7b0d8.css",
-  "main.css.map": "button/main-cfb7b0d8.css.map",
-  "main.js": "button/main-ed992804.js",
-  "main.js.map": "button/main-ed992804.js.map",
+  "main.js": "button/main-870accb7.js",
+  "main.js.map": "button/main-870accb7.js.map",
   "runtime.js": "button/runtime-d2846bfc.js",
   "runtime.js.map": "button/runtime-d2846bfc.js.map",
-  "vendors~main.js": "button/vendors~main-3ef22ad5.js",
-  "vendors~main.js.map": "button/vendors~main-3ef22ad5.js.map",
+  "vendors~main.js": "button/vendors~main-24587549.js",
+  "vendors~main.js.map": "button/vendors~main-24587549.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "button/runtime-d2846bfc.js",
-        "button/vendors~main-3ef22ad5.js",
-        "button/main-ed992804.js"
+        "button/vendors~main-24587549.js",
+        "button/main-870accb7.js"
       ],
       "js.map": [
         "button/runtime-d2846bfc.js.map",
-        "button/vendors~main-3ef22ad5.js.map",
-        "button/main-ed992804.js.map"
-      ],
-      "css": [
-        "button/main-cfb7b0d8.css"
-      ],
-      "css.map": [
-        "button/main-cfb7b0d8.css.map"
+        "button/vendors~main-24587549.js.map",
+        "button/main-870accb7.js.map"
       ]
     }
   }

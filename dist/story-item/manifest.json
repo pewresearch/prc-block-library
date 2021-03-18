@@ -1,43 +1,35 @@
 {
-  "frontend.js": "story-item/frontend-b41ea079.js",
-  "frontend.js.map": "story-item/frontend-b41ea079.js.map",
-  "main.css": "story-item/main-cfb7b0d8.css",
-  "main.css.map": "story-item/main-cfb7b0d8.css.map",
-  "main.js": "story-item/main-66669dac.js",
-  "main.js.map": "story-item/main-66669dac.js.map",
+  "frontend.js": "story-item/frontend-eb9dd558.js",
+  "frontend.js.map": "story-item/frontend-eb9dd558.js.map",
+  "main.js": "story-item/main-756c5b53.js",
+  "main.js.map": "story-item/main-756c5b53.js.map",
   "runtime.js": "story-item/runtime-ee75697a.js",
   "runtime.js.map": "story-item/runtime-ee75697a.js.map",
-  "vendors~frontend~main.js": "story-item/vendors~frontend~main-6f015b96.js",
-  "vendors~frontend~main.js.map": "story-item/vendors~frontend~main-6f015b96.js.map",
+  "vendors~frontend~main.js": "story-item/vendors~frontend~main-fd8a51bd.js",
+  "vendors~frontend~main.js.map": "story-item/vendors~frontend~main-fd8a51bd.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "story-item/runtime-ee75697a.js",
-        "story-item/vendors~frontend~main-6f015b96.js",
-        "story-item/main-66669dac.js"
+        "story-item/vendors~frontend~main-fd8a51bd.js",
+        "story-item/main-756c5b53.js"
       ],
       "js.map": [
         "story-item/runtime-ee75697a.js.map",
-        "story-item/vendors~frontend~main-6f015b96.js.map",
-        "story-item/main-66669dac.js.map"
-      ],
-      "css": [
-        "story-item/main-cfb7b0d8.css"
-      ],
-      "css.map": [
-        "story-item/main-cfb7b0d8.css.map"
+        "story-item/vendors~frontend~main-fd8a51bd.js.map",
+        "story-item/main-756c5b53.js.map"
       ]
     },
     "frontend": {
       "js": [
         "story-item/runtime-ee75697a.js",
-        "story-item/vendors~frontend~main-6f015b96.js",
-        "story-item/frontend-b41ea079.js"
+        "story-item/vendors~frontend~main-fd8a51bd.js",
+        "story-item/frontend-eb9dd558.js"
       ],
       "js.map": [
         "story-item/runtime-ee75697a.js.map",
-        "story-item/vendors~frontend~main-6f015b96.js.map",
-        "story-item/frontend-b41ea079.js.map"
+        "story-item/vendors~frontend~main-fd8a51bd.js.map",
+        "story-item/frontend-eb9dd558.js.map"
       ]
     }
   }

@@ -67,8 +67,6 @@ class PRC_Block_Menu extends PRC_Block_Library {
 			)
 		);
 
-		error_log( print_r( $attributes, true ) );
-
 		$menu_classes = $this->get_menu_class( $attributes );
 
 		return sprintf(

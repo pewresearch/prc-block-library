@@ -6,7 +6,7 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { Fragment, useEffect, useState } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import {
     BlockControls,
     InspectorControls,
@@ -14,7 +14,6 @@ import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
-import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 const BLOCKS_TEMPLATE = [
@@ -27,7 +26,7 @@ const ALLOWED_BLOCKS = [
     'prc-block/topic-index-condensed-pages',
 ];
 
-const Edit = ({ attributes, setAttributes, className, clientId }) => {
+const Edit = ({ className }) => {
     const blockProps = useBlockProps({
         className: classnames(className, 'ui divided grid'),
     });
@@ -45,9 +44,7 @@ const Edit = ({ attributes, setAttributes, className, clientId }) => {
 
             <InspectorControls>
                 <PanelBody title={__('Controller Settings')}>
-                    <Fragment>
-                        <p>Yep</p>
-                    </Fragment>
+                    <Fragment>Controller Settings</Fragment>
                 </PanelBody>
             </InspectorControls>
 

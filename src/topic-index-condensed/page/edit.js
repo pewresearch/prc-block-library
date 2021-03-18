@@ -61,7 +61,7 @@ const Edit = ({ attributes, className, clientId, context }) => {
             <InspectorControls>
                 <PanelBody title={__('Page Settings')}>
                     <Fragment>
-                        <p>Yep, sure looks like {__`"page settings"`}</p>
+                        <p>Page Settings WIP</p>
                     </Fragment>
                 </PanelBody>
             </InspectorControls>
