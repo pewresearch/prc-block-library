@@ -387,7 +387,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'main',
 			array(
 				'js'        => true,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => $js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -399,7 +399,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/story-item',
 			array(
 				'editor_script'   => array_pop( $block_assets['js'] )['handle'],
-				'style'           => array_pop( $block_assets['css'] )['handle'],
 				'render_callback' => array( $this, 'render_story_item' ),
 			)
 		);

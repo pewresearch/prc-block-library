@@ -28,6 +28,9 @@
 		"title": {
 			"type": "string"
 		},
+		"color" : {
+			"type" : "string"
+		},
 		"subMenuEnabled": {
 			"type":"boolean",
 			"default": false
@@ -43,9 +46,26 @@
 			"type":"string"
 		}
 	},
+	"example": {
+        "attributes": {
+            "label": "A link"
+        },
+		"viewPortWidth": 100
+    },
 	"usesContext": ["prc-block/menu", "prc-block/taxonomy-tree", "prc-block/taxonomy-tree-more"],
 	"supports": {
 		"reusable": false,
 		"html": false
-	}
+	},
+	"styles": [
+		{
+			"name": "link",
+			"label": "Link",
+			"isDefault": true
+		},
+		{
+			"name": "button",
+			"label": "Button"
+		}
+	]
 }

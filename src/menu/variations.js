@@ -16,7 +16,7 @@ const variations = [
     },
     {
         name: 'vertical',
-        title: __('PRC Vertical (vertical)'),
+        title: __('PRC Menu (vertical)'),
         description: __(
             'A vertical menu, all items will be displayed in a column.',
         ),

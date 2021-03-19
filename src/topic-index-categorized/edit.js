@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import { Button, Flex, FlexItem, FlexBlock } from '@wordpress/components';
+import { Flex, FlexItem, FlexBlock } from '@wordpress/components';
 import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
@@ -19,6 +19,12 @@ import {
  * External dependencies
  */
 import { Icon } from 'semantic-ui-react';
+
+/**
+ * Internal dependencies
+ */
+
+import { BlockInserterButton } from 'shared';
 
 const ALLOWED_BLOCKS = ['prc-block/taxonomy-tree'];
 
@@ -35,20 +41,13 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: 'vertical',
             templateLock: false,
-            // renderAppender: rootClientId => {
-            //     return (
-            //         <Button
-            //             isSecondary
-            //             onClick={() =>
-            //                 console.log(
-            //                     `insert a block for client id:: ${clientId}`,
-            //                 )
-            //             }
-            //         >
-            //             Insert New Tree
-            //         </Button>
-            //     );
-            // },
+            renderAppender: e => (
+                <BlockInserterButton
+                    label="Add New Tree List"
+                    blockName="prc-block/taxonomy-tree"
+                    clientId={clientId}
+                />
+            ),
         },
     );
 

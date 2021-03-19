@@ -8,7 +8,7 @@ const ALLOWED_BLOCKS = [
     'core/image',
     'core/table',
     'core/list',
-    'prc-block/button',
+    'prc-block/menu-link',
 ];
 
 const template = [['core/paragraph', {}]];

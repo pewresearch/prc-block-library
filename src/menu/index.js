@@ -22,6 +22,9 @@ const settings = {
     keywords: [__('menu'), __('navigation'), __('links')],
     variations,
     example: {
+        attributes: {
+            orientation: 'vertical',
+        },
         innerBlocks: [
             {
                 name: 'prc-block/menu-link',

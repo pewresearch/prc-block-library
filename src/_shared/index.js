@@ -8,7 +8,7 @@ import {
     ifMatchSetAttribute,
 } from './helpers';
 
-import { StoryItem } from './components';
+import { BlockInserterButton, StoryItem } from './components';
 
 export {
     getPosts,
@@ -18,5 +18,6 @@ export {
     getTermsAsTree,
     getColorName,
     ifMatchSetAttribute,
+    BlockInserterButton,
     StoryItem,
 };

@@ -69,18 +69,6 @@ module.exports = {
             },
         },
         {
-            name: 'collapsible-list',
-            entry: {
-                helper: './src/_shared/components/collapsible-list/frontend.js',
-            },
-        },
-        {
-            name: 'button',
-            entry: {
-                main: './src/button/index.js',
-            },
-        },
-        {
             name: 'callout',
             entry: {
                 main: './src/callout/index.js',
@@ -233,12 +221,6 @@ module.exports = {
             name: 'staff',
             entry: {
                 main: './src/staff/index.js',
-            },
-        },
-        {
-            name: 'social-toolbar',
-            entry: {
-                main: './src/social-toolbar/index.js',
             },
         },
         {

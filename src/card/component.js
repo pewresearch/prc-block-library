@@ -18,6 +18,10 @@ const allowedBlocks = [
     'prc-block/staff',
     'prc-block/story-item',
     'prc-block/wp-query',
+    'prc-block/menu',
+    'prc-block/mailchimp-form',
+    'prc-block/taxonomy-tree',
+    'prc-block/menu-link',
 ];
 
 const Card = props => {

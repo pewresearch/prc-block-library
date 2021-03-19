@@ -23,7 +23,30 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		return $qvars;
 	}
 
-	public function get_menu_link( $attributes, $content = null, $in_menu = false, $is_chiclet = false ) {
+	public function register_frontend() {
+		$js_deps = array( 'wp-dom-ready', 'wp-url' );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
+		return $enqueue->register(
+			'frontend',
+			'menu-link',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
+	public function enqueue_frontend() {
+		$registered    = $this->register_frontend();
+		$script_handle = array_pop( $registered['js'] )['handle'];
+		wp_enqueue_script( $script_handle );
+	}
+
+	public function get_menu_link( $attributes, $content = null, $in_menu = false ) {
 		// Don't render the block's subtree if it has no label.
 		if ( empty( $attributes['label'] ) ) {
 			return '';
@@ -33,31 +56,36 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			$is_chiclet = false;
 		}
 
-		$menu_item_id = md5( json_encode( $attributes ) );
+		$class_names = explode( ' ', $attributes['className'] );
+		error_log( 'class_names:: ' . print_r( $attributes, true ) );
 
+		$menu_item_id       = md5( json_encode( $attributes ) );
 		$selected_menu_item = get_query_var( 'menuItemId' );
-
-		$is_active = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
+		$is_active          = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
 		if ( $menu_item_id === $selected_menu_item ) {
 			$is_active = true;
 		}
-
-		$is_hidden = 'prc-block/taxonomy-tree-more' === $attributes['parentBlockName'];
-
-		$css_classes = ! empty( $attributes['className'] ) ? implode( ' ', (array) $attributes['className'] ) : false;
-		error_log( 'get_menu_link:: ' . print_r( $css_classes, true ) );
+		$is_button    = ! empty( $attributes['className'] ) && in_array( 'is-style-button', $class_names );
+		$is_menu_item = in_array( $attributes['parentBlockName'], array( 'prc-block/menu', 'prc-block/menu-link' ) );
+		$is_list_item = in_array( $attributes['parentBlockName'], array( 'prc-block/taxonomy-tree', 'prc-block/taxonomy-tree-more' ) );
+		$is_hidden    = 'prc-block/taxonomy-tree-more' === $attributes['parentBlockName'];
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class' => classNames(
+				'class'  => classNames(
 					array(
 						'hidden'             => $is_hidden,
-						'item'               => ! $is_chiclet,
-						'ui basic button'    => $is_chiclet,
+						'item'               => ! $is_button,
+						'ui basic button'    => $is_button && $is_menu_item,
+						'ui button'          => $is_button && ! $is_menu_item,
 						'active'             => $is_active,
 						'ui simple dropdown' => ( $in_menu && ! empty( $content ) ),
 					)
 				),
+				'href'   => isset( $attributes['url'] ) ? esc_url( $attributes['url'] ) : false,
+				'rel'    => isset( $attributes['rel'] ) || ( isset( $attributes['nofollow'] ) && true === $attributes['nofollow'] ) ? ( isset( $attributes['rel'] ) ? $attributes['rel'] : 'nofollow' ) : false,
+				'title'  => isset( $attributes['title'] ) ? esc_attr( $attributes['title'] ) : false,
+				'target' => isset( $attributes['opensInNewTab'] ) && true === $attributes['opensInNewTab'] ? '_blank' : false,
 			)
 		);
 
@@ -67,27 +95,6 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			$html = '<div ' . $wrapper_attributes . '> <a ';
 		} else {
 			$html = '<a ' . $wrapper_attributes . ' ';
-		}
-
-		// Start appending HTML attributes to anchor tag.
-		if ( false === $in_menu ) {
-			if ( isset( $attributes['url'] ) ) {
-				$html .= ' href="' . esc_url( $attributes['url'] ) . '"';
-			}
-
-			if ( isset( $attributes['opensInNewTab'] ) && true === $attributes['opensInNewTab'] ) {
-				$html .= ' target="_blank"  ';
-			}
-
-			if ( isset( $attributes['rel'] ) ) {
-				$html .= ' rel="' . esc_attr( $attributes['rel'] ) . '"';
-			} elseif ( isset( $attributes['nofollow'] ) && $attributes['nofollow'] ) {
-				$html .= ' rel="nofollow"';
-			}
-
-			if ( isset( $attributes['title'] ) ) {
-				$html .= ' title="' . esc_attr( $attributes['title'] ) . '"';
-			}
 		}
 
 		// End appending HTML attributes to anchor tag.
@@ -127,29 +134,6 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		// End anchor tag content.
 
 		return $html;
-	}
-
-	public function register_frontend() {
-		$js_deps = array( 'wp-dom-ready', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
-		return $enqueue->register(
-			'frontend',
-			'menu-link',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-	}
-
-	public function enqueue_frontend() {
-		$registered    = $this->register_frontend();
-		$script_handle = array_pop( $registered['js'] )['handle'];
-		wp_enqueue_script( $script_handle );
 	}
 
 	/**

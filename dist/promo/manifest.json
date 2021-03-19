@@ -1,19 +1,19 @@
 {
   "main.css": "promo/main-752c3b16.css",
   "main.css.map": "promo/main-752c3b16.css.map",
-  "main.js": "promo/main-78d6bbce.js",
-  "main.js.map": "promo/main-78d6bbce.js.map",
+  "main.js": "promo/main-3b7cdfae.js",
+  "main.js.map": "promo/main-3b7cdfae.js.map",
   "runtime.js": "promo/runtime-57709f56.js",
   "runtime.js.map": "promo/runtime-57709f56.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "promo/runtime-57709f56.js",
-        "promo/main-78d6bbce.js"
+        "promo/main-3b7cdfae.js"
       ],
       "js.map": [
         "promo/runtime-57709f56.js.map",
-        "promo/main-78d6bbce.js.map"
+        "promo/main-3b7cdfae.js.map"
       ],
       "css": [
         "promo/main-752c3b16.css"

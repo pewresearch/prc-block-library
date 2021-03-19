@@ -11,7 +11,7 @@ const settings = [
             'Add a block that displays content in a single accordion.',
         ),
         category: 'layout',
-        keywords: [__('Collapsible'), __('Accordion'), _('How we did this')],
+        keywords: [__('Collapsible'), __('Accordion'), __('How we did this')],
         supports: {
             html: false,
             align: false,

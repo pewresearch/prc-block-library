@@ -134,20 +134,6 @@ class PRC_Block_Library {
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', __DIR__ . '/prc_blocks/' );
 
-		/** Button */
-		$this->registered['block']['prc-block/button'] = $enqueue->register(
-			'button',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
 		/** Card */
 		$this->registered['block']['prc-block/card'] = $enqueue->register(
 			'card',
@@ -221,20 +207,6 @@ class PRC_Block_Library {
 			function() {
 				return array_pop( $this->registered['frontend']['prc-block/collapsible']['js'] )['handle'];
 			}
-		);
-
-		/** Collapsible List Frontend Helper (Used in Taxonomy Tree and A-Z Taxonomy blocks) */
-		$this->registered['frontend']['helper/collapsible-list'] = $enqueue->register(
-			'collapsible-list',
-			'helper',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => array( 'jquery', 'wp-dom-ready' ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
 		);
 
 		/** Flip Cards */
@@ -444,20 +416,6 @@ class PRC_Block_Library {
 			)
 		);
 
-		/** Social - toolbar */
-		$this->registered['block']['prc-block/social-toolbar'] = $enqueue->register(
-			'social-toolbar',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
 		/** Sub Title */
 		$this->registered['block']['prc-block/subtitle'] = $enqueue->register(
 			'subtitle',
@@ -506,23 +464,6 @@ class PRC_Block_Library {
 	 * @return void
 	 */
 	public function register_blocks() {
-
-		/** Social-toolbar */
-		register_block_type(
-			'prc-block/social-toolbar',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/social-toolbar']['js'] )['handle'],
-			)
-		);
-
-		/** Button */
-		register_block_type(
-			'prc-block/button',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/button']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/button']['css'] )['handle'],
-			)
-		);
 
 		/** Card */
 		register_block_type(

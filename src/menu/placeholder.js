@@ -23,9 +23,9 @@ const NavigationPlaceholder = ({ onCreate }, ref) => {
             <Button isPrimary onClick={onCreateEmptyMenu}>
                 {__('Create Blank Menu')}
             </Button>
-            <Button isSecondary onClick={onCreateSocialToolbar}>
+            {/* <Button isSecondary onClick={onCreateSocialToolbar}>
                 {__('Create Social Toolbar')}
-            </Button>
+            </Button> */}
         </Placeholder>
     );
 };

@@ -41,8 +41,13 @@ const settings = [
             },
             innerBlocks: [
                 {
-                    name: 'prc-block/button',
-                    attributes: { color: '#d3aa20', label: 'DONATE', url: '' },
+                    name: 'prc-block/menu-link',
+                    attributes: {
+                        className: 'is-style-button',
+                        color: '#d3aa20',
+                        label: 'DONATE',
+                        url: '',
+                    },
                 },
             ],
         },

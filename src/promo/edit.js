@@ -18,12 +18,9 @@ import classNames from 'classnames/bind';
 import Icon from './icons';
 
 const allowedBlocks = [
-    'prc-block/button',
+    'prc-block/menu-link',
     'prc-block/mailchimp-form',
     'prc-blocks/pathways-ask-an-analyst',
-];
-const template = [
-    ['prc-block/button', { color: '#d3aa20', label: 'DONATE', url: '' }],
 ];
 
 const SidebarControls = ({

@@ -3,9 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import {
-    category as categoryIcon,
+    button as buttonIcon,
+    category as topicIcon,
     page as pageIcon,
-    postTitle as postIcon,
     tag as tagIcon,
 } from '@wordpress/icons';
 
@@ -18,6 +18,15 @@ export default [
         attributes: {},
     },
     {
+        name: 'button',
+        icon: buttonIcon,
+        title: __('Button'),
+        description: __('A link to a URL, styled as a button'),
+        attributes: {
+            className: 'is-style-button',
+        },
+    },
+    {
         name: 'page',
         icon: pageIcon,
         title: __('Page Link'),
@@ -26,7 +35,7 @@ export default [
     },
     {
         name: 'topic',
-        icon: categoryIcon,
+        icon: topicIcon,
         title: __('Topic Page Link'),
         description: __('A link to a topic.'),
         attributes: { type: 'topic' },

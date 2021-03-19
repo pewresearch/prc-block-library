@@ -7,8 +7,10 @@ import { escape, get, head, find } from 'lodash';
 /**
  * WordPress dependencies
  */
+import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import {
+    ColorPalette,
     Button,
     Flex,
     FlexItem,
@@ -23,7 +25,6 @@ import {
     ToolbarGroup,
 } from '@wordpress/components';
 import { rawShortcut, displayShortcut } from '@wordpress/keycodes';
-import { __, sprintf } from '@wordpress/i18n';
 import {
     BlockControls,
     InspectorControls,
@@ -36,11 +37,24 @@ import { isURL, prependHTTP } from '@wordpress/url';
 import { Fragment, useState, useEffect, useRef } from '@wordpress/element';
 import { placeCaretAtHorizontalEdge } from '@wordpress/dom';
 import {
-    Icon,
     link as linkIcon,
     formatIndent as moreIcon,
     plusCircle as expandInlineIcon,
 } from '@wordpress/icons';
+
+/**
+ * Internal dependencies
+ */
+
+import { BlockInserterButton } from 'shared';
+
+const getColorName = (color, colors) => {
+    const matched = colors.filter(c => c.color === color);
+    if (1 <= matched.length) {
+        return `${matched[0].name}`;
+    }
+    return null;
+};
 
 /**
  * Given the Link block's type attribute, return the query params to give to
@@ -64,7 +78,7 @@ const getSuggestionsQuery = type => {
     }
 };
 
-const SubMenu = ({ type, close }) => {
+const SubMenu = ({ type, close, clientId }) => {
     const innerBlocksProps = useInnerBlocksProps(
         {
             className: classnames({
@@ -80,6 +94,13 @@ const SubMenu = ({ type, close }) => {
             orientation: 'vertical',
             __experimentalCaptureToolbars: 'dropdown' === type,
             templateLock: false,
+            renderAppender: () => (
+                <BlockInserterButton
+                    label="Add New Sub Menu Item"
+                    blockName="prc-block/menu-link"
+                    clientId={clientId}
+                />
+            ),
         },
     );
 
@@ -101,7 +122,6 @@ const SubMenu = ({ type, close }) => {
 
 const edit = ({
     attributes,
-    context,
     isSelected,
     setAttributes,
     clientId,
@@ -109,6 +129,8 @@ const edit = ({
     onReplace,
 }) => {
     const {
+        className,
+        color,
         label,
         type,
         opensInNewTab,
@@ -125,7 +147,6 @@ const edit = ({
     };
 
     const {
-        isDraggingBlocks,
         subMenuType,
         allowSubMenu,
         parentBlockName,
@@ -133,29 +154,32 @@ const edit = ({
     } = useSelect(select => {
         const {
             getBlockHierarchyRootClientId,
-            getClientIdsOfDescendants,
             getBlockRootClientId,
             getBlock,
         } = select('core/block-editor');
-        let allowSubMenus = true;
         const parentBlock = getBlock(getBlockRootClientId(clientId));
         const rootBlock = getBlock(getBlockHierarchyRootClientId(clientId));
-        if (
-            ['prc-block/menu-link', 'prc-block/taxonomy-tree-more'].includes(
-                parentBlock.name,
-            )
-        ) {
-            allowSubMenus = false;
-        }
         return {
-            allowSubMenu: allowSubMenus,
-            hasDescendants: !!getClientIdsOfDescendants([clientId]).length,
-            isDraggingBlocks: select('core/block-editor').isDraggingBlocks(),
-            subMenuType: context.hasOwnProperty('prc-block/menu')
-                ? 'dropdown'
-                : 'inline',
-            rootBlockName: rootBlock.name,
-            parentBlockName: parentBlock.name,
+            allowSubMenu:
+                null !== parentBlock &&
+                parentBlock.hasOwnProperty('name') &&
+                ['prc-block/menu', 'prc-block/taxonomy-tree'].includes(
+                    parentBlock.name,
+                ),
+            subMenuType:
+                null !== parentBlock &&
+                parentBlock.hasOwnProperty('name') &&
+                'prc-block/menu' === parentBlock.name
+                    ? 'dropdown'
+                    : 'inline',
+            rootBlockName:
+                null !== rootBlock && rootBlock.hasOwnProperty('name')
+                    ? rootBlock.name
+                    : null,
+            parentBlockName:
+                null !== parentBlock && parentBlock.hasOwnProperty('name')
+                    ? parentBlock.name
+                    : null,
         };
     }, []);
 
@@ -218,19 +242,38 @@ const edit = ({
         }
     }, [url]);
 
-    // If this is not allowed to have a sub menu then it is a child, set attributes for use server side accordingly.
-    useEffect(() => {}, [allowSubMenu]);
+    /**
+     * Style constants
+     */
+    const buttonColors = [
+        { name: 'primary', color: '#2185d0' },
+        { name: 'secondary', color: '#000' },
+        { name: 'mustard', color: '#d3aa20' },
+        { name: 'basic', color: '#fff' },
+    ];
+    const isButton = 'is-style-button' === className;
+    const isMenuItem = ['prc-block/menu', 'prc-block/menu-link'].includes(
+        parentBlockName,
+    );
+    const isListItem = [
+        'prc-block/taxonomy-tree',
+        'prc-block/taxonomy-tree-more',
+    ].includes(parentBlockName);
+
+    /**
+     * If toggling between button style, if no longer a button clear the color
+     */
+    useEffect(() => {
+        if (!isButton) {
+            setAttributes({ color: null });
+        }
+    }, [isButton]);
 
     const blockProps = useBlockProps({
         ref: listItemRef,
-        className: classnames('item', {
-            'is-editing':
-                isSelected &&
-                // Don't show the element as editing while dragging.
-                !isDraggingBlocks,
-            // Don't select the element while dragging.
-            'is-selected': isSelected && !isDraggingBlocks,
-            'has-link': !!url,
+        className: classnames(className, getColorName(color, buttonColors), {
+            item: !isButton || isListItem || isMenuItem,
+            'ui button': isButton && !(isListItem || isMenuItem),
         }),
     });
 
@@ -278,7 +321,7 @@ const edit = ({
                         }}
                         label={__('Description')}
                         help={__(
-                            'The description will be displayed in the menu if the current theme supports it.',
+                            'The description will be displayed where supported.',
                         )}
                     />
                     <TextControl
@@ -309,6 +352,18 @@ const edit = ({
                         />
                     )}
                 </PanelBody>
+                {isButton && (
+                    <PanelBody title={__('Button Style Options')}>
+                        <ColorPalette
+                            colors={buttonColors}
+                            value={color}
+                            onChange={c => {
+                                setAttributes({ color: c });
+                            }}
+                            disableCustomColors
+                        />
+                    </PanelBody>
+                )}
             </InspectorControls>
 
             <div {...blockProps}>
@@ -318,9 +373,13 @@ const edit = ({
                             ref={ref}
                             identifier="label"
                             className={
-                                'is-style-text' === context['prc-block/menu'] &&
-                                true === allowSubMenu
-                                    ? 'ui basic button'
+                                undefined !== parentBlockName &&
+                                'prc-block/menu' === parentBlockName &&
+                                isButton
+                                    ? `ui ${getColorName(
+                                          color,
+                                          buttonColors,
+                                      )} button`
                                     : ''
                             }
                             value={label}
@@ -333,7 +392,7 @@ const edit = ({
                             placeholder={itemLabelPlaceholder}
                             keepPlaceholderOnFocus
                             withoutInteractiveFormatting
-                            allowedFormats={['core/bold', 'core/italic']}
+                            allowedFormats={[]}
                         />
                     </FlexItem>
                     <FlexBlock>
@@ -404,6 +463,7 @@ const edit = ({
                     <SubMenu
                         type={subMenuType}
                         close={() => setIsSubMenuOpen(!isSubMenuOpen)}
+                        clientId={clientId}
                     />
                 )}
             </div>

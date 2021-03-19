@@ -18,19 +18,21 @@ class PRC_Block_Menu extends PRC_Block_Library {
 	}
 
 	public function get_menu_class( $attributes ) {
-		$menu_classes   = 'ui menu';
-		$selected_style = null;
-		if ( array_key_exists( 'className', $attributes ) ) {
-			$selected_style = $attributes['className'];
+		$menu_classes = array(
+			'ui',
+			'menu',
+		);
+		if ( array_key_exists( 'className', $attributes ) && 'is-style-text' === $attributes['className'] ) {
+			$menu_classes[] = 'text';
+		} elseif ( array_key_exists( 'className', $attributes ) && 'is-style-secondary' === $attributes['className'] ) {
+			$menu_classes[] = 'secondary';
+		} elseif ( array_key_exists( 'className', $attributes ) && 'is-style-tabular' === $attributes['className'] ) {
+			$menu_classes[] = 'tabular';
 		}
-		if ( 'is-style-text' === $selected_style ) {
-			$menu_classes .= ' text';
-		} elseif ( 'is-style-secondary' === $selected_style ) {
-			$menu_classes .= ' secondary';
-		} elseif ( 'is-style-tabular' === $selected_style ) {
-			$menu_classes .= ' tabular';
+		if ( array_key_exists( 'orientation', $attributes ) && 'vertical' === $attributes['orientation'] ) {
+			$menu_classes[] = 'vertical';
 		}
-		return $menu_classes;
+		return implode( ' ', $menu_classes );
 	}
 
 	/**
@@ -49,7 +51,7 @@ class PRC_Block_Menu extends PRC_Block_Library {
 		}
 
 		$classes = array_merge(
-			( isset( $attributes['orientation'] ) && 'vertical' === $attributes['orientation'] ) ? array( 'is-vertical' ) : array(),
+			( isset( $attributes['orientation'] ) && 'vertical' === $attributes['orientation'] ) ? array( 'vertical' ) : array(),
 			isset( $attributes['itemsJustification'] ) ? array( 'items-justified-' . $attributes['itemsJustification'] ) : array()
 		);
 
