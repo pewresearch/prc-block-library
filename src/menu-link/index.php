@@ -59,6 +59,8 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		$class_names = explode( ' ', $attributes['className'] );
 		error_log( 'class_names:: ' . print_r( $attributes, true ) );
 
+		$color = isset( $attributes['color'] ) ? $attributes['color'] : false;
+
 		$menu_item_id       = md5( json_encode( $attributes ) );
 		$selected_menu_item = get_query_var( 'menuItemId' );
 		$is_active          = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
@@ -80,6 +82,10 @@ class PRC_Menu_Link extends PRC_Block_Library {
 						'ui button'          => $is_button && ! $is_menu_item,
 						'active'             => $is_active,
 						'ui simple dropdown' => ( $in_menu && ! empty( $content ) ),
+						'mustard'            => '#d3aa20' === $color,
+						'primary'            => '#2185d0' === $color,
+						'secondary'          => '#000' === $color,
+						'basic'              => '#fff' === $color,
 					)
 				),
 				'href'   => isset( $attributes['url'] ) ? esc_url( $attributes['url'] ) : false,
