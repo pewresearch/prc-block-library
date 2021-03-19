@@ -78,7 +78,12 @@ const getSuggestionsQuery = type => {
     }
 };
 
-const SubMenu = ({ type, close, clientId }) => {
+const SubMenu = ({ type, close, clientId, linkType }) => {
+    const capitalize = s => {
+        if ('string' !== typeof s) return '';
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    };
+
     const innerBlocksProps = useInnerBlocksProps(
         {
             className: classnames({
@@ -96,8 +101,9 @@ const SubMenu = ({ type, close, clientId }) => {
             templateLock: false,
             renderAppender: () => (
                 <BlockInserterButton
-                    label="Add New Sub Menu Item"
+                    label={__(`Add New ${capitalize(type)} Item`)}
                     blockName="prc-block/menu-link"
+                    attributes={{ type: linkType }}
                     clientId={clientId}
                 />
             ),
@@ -470,6 +476,7 @@ const edit = ({
                         type={subMenuType}
                         close={() => setIsSubMenuOpen(!isSubMenuOpen)}
                         clientId={clientId}
+                        linkType={type}
                     />
                 )}
             </div>

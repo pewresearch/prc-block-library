@@ -27,9 +27,10 @@ class Taxonomy_Tree extends PRC_Block_Library {
 	 * @return string Returns the post content with the legacy widget added.
 	 */
 	public function render_taxonomy_tree( $attributes, $content, $block ) {
+		$sub_heading = array_key_exists( 'subHeading', $attributes ) ? $attributes['subHeading'] : null;
 		ob_start();
 		?>
-		<div class="ui sub header"><?php echo filter_block_kses_value( $attributes['subHeading'], 'post' ); ?></div>
+		<div class="ui sub header"><?php echo filter_block_kses_value( $sub_heading, 'post' ); ?></div>
 		<div class="ui list">
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>

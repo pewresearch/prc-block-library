@@ -52,12 +52,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			return '';
 		}
 
-		if ( in_array( $attributes['parentBlockName'], array( 'prc-block/menu-link', 'prc-block/taxonomy-tree-more' ) ) ) {
-			$is_chiclet = false;
-		}
-
-		$class_names = explode( ' ', $attributes['className'] );
-		error_log( 'class_names:: ' . print_r( $attributes, true ) );
+		$class_names = explode( ' ', array_key_exists( 'className', $attributes ) ? $attributes['className'] : '' );
 
 		$color = isset( $attributes['color'] ) ? $attributes['color'] : false;
 

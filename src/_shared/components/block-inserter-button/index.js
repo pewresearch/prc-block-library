@@ -4,16 +4,20 @@
 import { __ } from '@wordpress/i18n';
 import { select, dispatch } from '@wordpress/data';
 import { Button } from '@wordpress/components';
-import { Icon, plus as addBlockIcon } from '@wordpress/icons';
 
 import { createBlock } from '@wordpress/blocks';
 
-const BlockInserterButton = ({ label = '', blockName, clientId }) => {
+const BlockInserterButton = ({
+    label = '',
+    blockName,
+    clientId,
+    attributes = {},
+}) => {
     const handleClick = () => {
         const currentBlock = select('core/block-editor').getBlock(clientId);
         console.log('debug info...', currentBlock.innerBlocks.length);
         const nextIndex = currentBlock.innerBlocks.length - 1;
-        const newBlock = createBlock(blockName, {});
+        const newBlock = createBlock(blockName, attributes);
         dispatch('core/block-editor').insertBlock(
             newBlock,
             nextIndex,

@@ -41,10 +41,11 @@ class Topic_Index_Categorized extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
+		$heading = array_key_exists( 'heading', $attributes ) ? $attributes['heading'] : null;
 		ob_start();
 		?>
 		<div class="">
-			<h2 class="sans-serif"><?php echo filter_block_kses_value( $attributes['heading'], 'post' ); ?> <i class="chevron right icon"></i></h2>
+			<h2 class="sans-serif"><?php echo filter_block_kses_value( $heading, 'post' ); ?> <i class="chevron right icon"></i></h2>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php

@@ -1,12 +1,12 @@
 {
-  "column.js": "blocks/column-3b5468bc.js",
-  "column.js.map": "blocks/column-3b5468bc.js.map",
+  "column.js": "blocks/column-98f0903e.js",
+  "column.js.map": "blocks/column-98f0903e.js.map",
   "grid.js": "blocks/grid-a724b946.js",
   "grid.js.map": "blocks/grid-a724b946.js.map",
-  "menu-link.js": "blocks/menu-link-ba6b04b8.js",
-  "menu-link.js.map": "blocks/menu-link-ba6b04b8.js.map",
-  "menu.js": "blocks/menu-e119a388.js",
-  "menu.js.map": "blocks/menu-e119a388.js.map",
+  "menu-link.js": "blocks/menu-link-b1f62b33.js",
+  "menu-link.js.map": "blocks/menu-link-b1f62b33.js.map",
+  "menu.js": "blocks/menu-8f934872.js",
+  "menu.js.map": "blocks/menu-8f934872.js.map",
   "post-bylines.js": "blocks/post-bylines-1a258231.js",
   "post-bylines.js.map": "blocks/post-bylines-1a258231.js.map",
   "post-title.js": "blocks/post-title-9c2131b1.js",
@@ -17,8 +17,8 @@
   "row.js.map": "blocks/row-2fa02783.js.map",
   "runtime.js": "blocks/runtime-49d996c3.js",
   "runtime.js.map": "blocks/runtime-49d996c3.js.map",
-  "social-link.js": "blocks/social-link-6a7336f5.js",
-  "social-link.js.map": "blocks/social-link-6a7336f5.js.map",
+  "social-link.js": "blocks/social-link-dc3b8abd.js",
+  "social-link.js.map": "blocks/social-link-dc3b8abd.js.map",
   "table.js": "blocks/table-e4d7e50d.js",
   "table.js.map": "blocks/table-e4d7e50d.js.map",
   "taxonomy-tree-more.js": "blocks/taxonomy-tree-more-eb3bf97e.js",
@@ -31,37 +31,37 @@
   "topic-index-az.css.map": "blocks/topic-index-az-c99205e1.css.map",
   "topic-index-az.js": "blocks/topic-index-az-54eeea3c.js",
   "topic-index-az.js.map": "blocks/topic-index-az-54eeea3c.js.map",
-  "topic-index-categorized.js": "blocks/topic-index-categorized-128ba275.js",
-  "topic-index-categorized.js.map": "blocks/topic-index-categorized-128ba275.js.map",
+  "topic-index-categorized.js": "blocks/topic-index-categorized-96a29760.js",
+  "topic-index-categorized.js.map": "blocks/topic-index-categorized-96a29760.js.map",
   "topic-index-condensed-controller.js": "blocks/topic-index-condensed-controller-abec365c.js",
   "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-abec365c.js.map",
   "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-877d4aa7.js",
   "topic-index-condensed-menu-item.js.map": "blocks/topic-index-condensed-menu-item-877d4aa7.js.map",
-  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-f90c2fd1.js",
-  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-f90c2fd1.js.map",
+  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-46e06581.js",
+  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-46e06581.js.map",
   "topic-index-condensed-page.css": "blocks/topic-index-condensed-page-6141e588.css",
   "topic-index-condensed-page.css.map": "blocks/topic-index-condensed-page-6141e588.css.map",
   "topic-index-condensed-page.js": "blocks/topic-index-condensed-page-dc499940.js",
   "topic-index-condensed-page.js.map": "blocks/topic-index-condensed-page-dc499940.js.map",
   "topic-index-condensed-pages.js": "blocks/topic-index-condensed-pages-9daef9b0.js",
   "topic-index-condensed-pages.js.map": "blocks/topic-index-condensed-pages-9daef9b0.js.map",
-  "vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query.js": "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js",
-  "vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query.js.map": "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js.map",
-  "vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query.js": "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js",
-  "vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query.js.map": "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js.map",
-  "vendors~table.js": "blocks/vendors~table-d9d276c6.js",
-  "vendors~table.js.map": "blocks/vendors~table-d9d276c6.js.map",
-  "wp-query.js": "blocks/wp-query-a1bc8d51.js",
-  "wp-query.js.map": "blocks/wp-query-a1bc8d51.js.map",
+  "vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query.js": "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js",
+  "vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query.js.map": "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js.map",
+  "vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query.js": "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js",
+  "vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query.js.map": "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js.map",
+  "vendors~table.js": "blocks/vendors~table-4c70a078.js",
+  "vendors~table.js.map": "blocks/vendors~table-4c70a078.js.map",
+  "wp-query.js": "blocks/wp-query-c7276eab.js",
+  "wp-query.js.map": "blocks/wp-query-c7276eab.js.map",
   "wpackioEp": {
     "column": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/column-3b5468bc.js"
+        "blocks/column-98f0903e.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/column-3b5468bc.js.map"
+        "blocks/column-98f0903e.js.map"
       ]
     },
     "grid": {
@@ -77,25 +77,25 @@
     "menu": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/menu-e119a388.js"
+        "blocks/menu-8f934872.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/menu-e119a388.js.map"
+        "blocks/menu-8f934872.js.map"
       ]
     },
     "menu-link": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js",
-        "blocks/menu-link-ba6b04b8.js"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js",
+        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js",
+        "blocks/menu-link-b1f62b33.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js.map",
-        "blocks/menu-link-ba6b04b8.js.map"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js.map",
+        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js.map",
+        "blocks/menu-link-b1f62b33.js.map"
       ]
     },
     "post-bylines": {
@@ -141,24 +141,24 @@
     "social-link": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js",
-        "blocks/social-link-6a7336f5.js"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js",
+        "blocks/social-link-dc3b8abd.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js.map",
-        "blocks/social-link-6a7336f5.js.map"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js.map",
+        "blocks/social-link-dc3b8abd.js.map"
       ]
     },
     "table": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~table-d9d276c6.js",
+        "blocks/vendors~table-4c70a078.js",
         "blocks/table-e4d7e50d.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~table-d9d276c6.js.map",
+        "blocks/vendors~table-4c70a078.js.map",
         "blocks/table-e4d7e50d.js.map"
       ]
     },
@@ -207,15 +207,15 @@
     "topic-index-categorized": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js",
-        "blocks/topic-index-categorized-128ba275.js"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js",
+        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js",
+        "blocks/topic-index-categorized-96a29760.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js.map",
-        "blocks/topic-index-categorized-128ba275.js.map"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js.map",
+        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js.map",
+        "blocks/topic-index-categorized-96a29760.js.map"
       ]
     },
     "topic-index-condensed-controller": {
@@ -231,15 +231,15 @@
     "topic-index-condensed-menu": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js",
-        "blocks/topic-index-condensed-menu-f90c2fd1.js"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js",
+        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js",
+        "blocks/topic-index-condensed-menu-46e06581.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js.map",
-        "blocks/topic-index-condensed-menu-f90c2fd1.js.map"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js.map",
+        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js.map",
+        "blocks/topic-index-condensed-menu-46e06581.js.map"
       ]
     },
     "topic-index-condensed-menu-item": {
@@ -281,15 +281,15 @@
     "wp-query": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js",
-        "blocks/wp-query-a1bc8d51.js"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js",
+        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js",
+        "blocks/wp-query-c7276eab.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d1bd9de6.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-3f70e5d1.js.map",
-        "blocks/wp-query-a1bc8d51.js.map"
+        "blocks/vendors~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-d6b1b75e.js.map",
+        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~wp-query-a2b9e914.js.map",
+        "blocks/wp-query-c7276eab.js.map"
       ]
     }
   }
