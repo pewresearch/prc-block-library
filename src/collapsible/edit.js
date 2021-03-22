@@ -28,7 +28,7 @@ const TEMPLATE = [['core/paragraph', {}]];
 const edit = ({ attributes, setAttributes }) => {
     const { title, className } = attributes;
 
-    const style = 1 >= className.length ? className.split(' ') : [];
+    const style = undefined !== className ? className.split(' ') : [];
 
     const blockProps = useBlockProps({
         className: classnames(className),

@@ -1,6 +1,6 @@
 {
-  "collapsible.js": "blocks/collapsible-c310bb34.js",
-  "collapsible.js.map": "blocks/collapsible-c310bb34.js.map",
+  "collapsible.js": "blocks/collapsible-9f1139d3.js",
+  "collapsible.js.map": "blocks/collapsible-9f1139d3.js.map",
   "column.js": "blocks/column-b14c641d.js",
   "column.js.map": "blocks/column-b14c641d.js.map",
   "grid.js": "blocks/grid-a4661e40.js",
@@ -63,13 +63,13 @@
         "blocks/runtime-49d996c3.js",
         "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-b682f2f8.js",
         "blocks/vendors~collapsible-d5adba9c.js",
-        "blocks/collapsible-c310bb34.js"
+        "blocks/collapsible-9f1139d3.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
         "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~wp-query-b682f2f8.js.map",
         "blocks/vendors~collapsible-d5adba9c.js.map",
-        "blocks/collapsible-c310bb34.js.map"
+        "blocks/collapsible-9f1139d3.js.map"
       ]
     },
     "column": {
