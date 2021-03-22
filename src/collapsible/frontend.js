@@ -7,7 +7,7 @@ import { Accordion, Icon } from 'semantic-ui-react';
  * WordPress dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { useState, Fragment, RawHTML, render } from '@wordpress/element';
 
 const CollapsibleBlock = ({ title, style, children, defaultOpen = false }) => {
