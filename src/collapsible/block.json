@@ -1,0 +1,26 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/collapsible",
+	"category": "layout",
+	"attributes": {
+		"title": {
+            "type": "string",
+			"default": "How we did this"
+        }
+    },
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{
+			"name": "alternate",
+			"label": "Plus Icon"
+		}
+	],      
+	"supports": {
+		"html": false,
+		"align" : false
+	}
+}

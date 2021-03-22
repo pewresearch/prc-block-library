@@ -28,6 +28,7 @@ module.exports = {
         {
             name: 'blocks',
             entry: {
+                collapsible: './src/collapsible/index.js',
                 column: './src/column/index.js',
                 grid: './src/grid/index.js',
                 menu: './src/menu/index.js',
@@ -59,6 +60,7 @@ module.exports = {
         {
             name: 'frontend',
             entry: {
+                collapsible: './src/collapsible/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
                 'taxonomy-tree-more': './src/taxonomy-tree-more/frontend.js',
@@ -84,13 +86,6 @@ module.exports = {
             name: 'chapter',
             entry: {
                 main: './src/chapter/index.js',
-            },
-        },
-        {
-            name: 'collapsible',
-            entry: {
-                main: './src/collapsible/index.js',
-                frontend: './src/collapsible/frontend.js',
             },
         },
         {

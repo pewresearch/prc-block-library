@@ -62,6 +62,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/row/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/column/index.php';
 
+			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
@@ -174,39 +175,6 @@ class PRC_Block_Library {
 				'in_footer' => true,
 				'media'     => 'all',
 			)
-		);
-
-		/** Collapsible */
-		$this->registered['block']['prc-block/collapsible']    = $enqueue->register(
-			'collapsible',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/collapsible'] = $enqueue->register(
-			'collapsible',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		// Add legacy support for shortcodes.
-		add_filter(
-			'prc_block_collapsible_frontend_shim',
-			function() {
-				return array_pop( $this->registered['frontend']['prc-block/collapsible']['js'] )['handle'];
-			}
 		);
 
 		/** Flip Cards */
@@ -487,19 +455,6 @@ class PRC_Block_Library {
 			'prc-block/chapter',
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/chapter']['js'] )['handle'],
-			)
-		);
-
-		/** Collapsible */
-		register_block_type(
-			'prc-block/collapsible',
-			array(
-				'editor_script'   => array_pop( $this->registered['block']['prc-block/collapsible']['js'] )['handle'],
-				'editor_style'    => array_pop( $this->registered['block']['prc-block/collapsible']['css'] )['handle'],
-				'render_callback' => function( $attributes, $content, $block ) {
-					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/collapsible']['js'] )['handle'] );
-					return $content;
-				},
 			)
 		);
 
