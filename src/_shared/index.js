@@ -10,6 +10,7 @@ import {
 
 import {
     BlockInserterButton,
+    CaretHeadingLink,
     LinkToolbarButton,
     StoryItem,
 } from './components';
@@ -23,6 +24,7 @@ export {
     getColorName,
     ifMatchSetAttribute,
     BlockInserterButton,
+    CaretHeadingLink,
     LinkToolbarButton,
     StoryItem,
 };

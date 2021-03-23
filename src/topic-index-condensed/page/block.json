@@ -3,10 +3,13 @@
 	"name": "prc-block/topic-index-condensed-page",
     "category": "layout",
     "attributes": {
-        "title": {
+        "heading": {
             "type": "string"
         },
         "uuid": {
+            "type": "string"
+        },
+        "url": {
             "type": "string"
         }
     },

@@ -6,25 +6,22 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { Fragment, useEffect, useState } from '@wordpress/element';
 import {
-    InspectorControls,
     InnerBlocks,
     useBlockProps,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { PanelBody } from '@wordpress/components';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { __ } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
+import { CaretHeadingLink } from 'shared';
 
 import './style.scss';
 
-const Edit = ({ attributes, className, clientId, context }) => {
-    const { title, uuid } = attributes;
+const Edit = ({ attributes, className, clientId, context, setAttributes }) => {
+    const { heading, url, uuid } = attributes;
     const currentlyActive = context['prc-block/topic-index-condensed-active'];
 
     const { hasChildBlocks } = useSelect(
@@ -53,23 +50,14 @@ const Edit = ({ attributes, className, clientId, context }) => {
     );
 
     return (
-        <Fragment>
-            <InspectorControls>
-                <PanelBody title={__('Page Settings')}>
-                    <Fragment>
-                        <p>Page Settings WIP</p>
-                        <p>
-                            URL CONTROL HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        </p>
-                    </Fragment>
-                </PanelBody>
-            </InspectorControls>
-
-            <div {...blockProps}>
-                <h2 className="sans-serif">{title}</h2>
-                <div {...innerBlocksProps} />
-            </div>
-        </Fragment>
+        <div {...blockProps}>
+            <CaretHeadingLink
+                url={url}
+                heading={heading}
+                setAttributes={setAttributes}
+            />
+            <div {...innerBlocksProps} />
+        </div>
     );
 };
 

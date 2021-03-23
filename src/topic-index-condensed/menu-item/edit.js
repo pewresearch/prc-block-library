@@ -7,13 +7,8 @@ import classnames from 'classnames';
  * WordPress dependencies
  */
 import { Fragment, useEffect } from '@wordpress/element';
-import {
-    InspectorControls,
-    useBlockProps,
-    RichText,
-} from '@wordpress/block-editor';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
-import { PanelBody } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { cleanForSlug } from '@wordpress/url';
@@ -25,7 +20,6 @@ const Edit = ({
     clientId,
     isSelected,
     context,
-    onRemove,
 }) => {
     const { title, uuid } = attributes;
 
@@ -79,14 +73,12 @@ const Edit = ({
     const onTitleUpdate = t => {
         setAttributes({ slug: cleanForSlug(t) });
         const tmp = pages;
-        console.log('onTitleUpdate->pages', pages);
         if (1 <= pages.length) {
             const matchedPages = tmp.filter(i => i.uuid === uuid);
             if (1 <= matchedPages.length) {
                 const targetClientId = matchedPages[0].clientId;
-                // Update the block title
-                updateBlockAttributes(targetClientId, { title: t });
-                // If this block is removed then remove the page??...
+                // Update the heading on the page block.
+                updateBlockAttributes(targetClientId, { heading: t });
             }
         }
     };
@@ -99,7 +91,6 @@ const Edit = ({
 
     useEffect(() => {
         onBlockCreation();
-        console.log('onRemove?', onRemove);
     }, []);
 
     useEffect(() => {
@@ -107,7 +98,6 @@ const Edit = ({
     }, [title]);
 
     useEffect(() => {
-        console.log('menu item is selected');
         onBlockSelection();
     }, [isSelected]);
 
@@ -119,14 +109,6 @@ const Edit = ({
 
     return (
         <Fragment>
-            <InspectorControls>
-                <PanelBody title={__('Menu Item Settings')}>
-                    <Fragment>
-                        <p>Menu Item Settings WIP</p>
-                    </Fragment>
-                </PanelBody>
-            </InspectorControls>
-
             <div {...blockProps}>
                 <RichText
                     tagName="div" // The tag here is the element output and editable in the admin
