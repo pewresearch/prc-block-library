@@ -93,13 +93,11 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		if ( ! empty( $content ) && true === $in_menu ) {
 			$html = '<div ' . $wrapper_attributes . ' ';
 		} elseif ( ! empty( $content ) ) {
-			$html = '<div ' . $wrapper_attributes . '> <a ';
+			$html = '<div ' . $wrapper_attributes . '> <a href="' . esc_url( $attributes['url'] ) . '"';
 		} else {
 			$html = '<a ' . $wrapper_attributes . ' ';
 		}
-
 		// End appending HTML attributes to anchor tag.
-
 		// Start anchor tag content.
 		$html .= '>';
 
@@ -128,7 +126,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		if ( ! empty( $content ) && true === $in_menu ) {
 			$html .= '<i class="dropdown icon"></i> <div class="menu">' . $content . '</div></div>';
 		} elseif ( ! empty( $content ) ) {
-			$html .= '</a> <span class="expand-sub-list" data-target="' . $menu_item_id . '">+</span><div id="' . $menu_item_id . '" class="hidden list">' . $content . '</div></div>';
+			$html .= '</a> <span class="expand-sub-list" data-target="' . $menu_item_id . '" style="cursor:pointer">+</span><div id="' . $menu_item_id . '" class="hidden list">' . $content . '</div></div>';
 		} else {
 			$html .= '</a>';
 		}
