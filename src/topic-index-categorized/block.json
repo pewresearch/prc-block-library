@@ -5,7 +5,10 @@
 	"attributes": {
 		"heading": {
             "type": "string"
-        }
+        },
+		"url": {
+			"type": "string"
+		}
     },          
 	"supports": {
 		"html": false

@@ -8,8 +8,15 @@ import classnames from 'classnames';
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import { Flex, FlexItem, FlexBlock } from '@wordpress/components';
 import {
+    Flex,
+    FlexItem,
+    FlexBlock,
+    Toolbar,
+    ToolbarGroup,
+} from '@wordpress/components';
+import {
+    BlockControls,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
     RichText,
@@ -24,12 +31,12 @@ import { Icon } from 'semantic-ui-react';
  * Internal dependencies
  */
 
-import { BlockInserterButton } from 'shared';
+import { BlockInserterButton, LinkToolbarButton } from 'shared';
 
 const ALLOWED_BLOCKS = ['prc-block/taxonomy-tree'];
 
 const edit = ({ attributes, className, setAttributes, clientId }) => {
-    const { heading } = attributes;
+    const { heading, url } = attributes;
 
     const blockProps = useBlockProps({
         className: classnames(className),
@@ -41,7 +48,7 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: 'vertical',
             templateLock: false,
-            renderAppender: e => (
+            renderAppender: () => (
                 <BlockInserterButton
                     label="Add New Tree List"
                     blockName="prc-block/taxonomy-tree"
@@ -53,14 +60,24 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
 
     return (
         <div {...blockProps}>
-            <Flex>
+            <BlockControls>
+                <ToolbarGroup>
+                    <LinkToolbarButton
+                        url={url}
+                        onChange={p => {
+                            setAttributes({ url: p.url });
+                        }}
+                    />
+                </ToolbarGroup>
+            </BlockControls>
+            <Flex style={{ paddingBottom: '1em' }}>
                 <FlexItem>
                     <RichText
                         tagName="h2"
                         value={heading}
                         onChange={h => setAttributes({ heading: h })}
                         placeholder="Heading..."
-                        formattingControls={['link']}
+                        formattingControls={[]}
                         keepPlaceholderOnFocus
                         className="sans-serif"
                     />

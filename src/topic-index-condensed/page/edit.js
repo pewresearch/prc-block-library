@@ -52,16 +52,15 @@ const Edit = ({ attributes, className, clientId, context }) => {
         },
     );
 
-    useEffect(() => {
-        console.log('page context', uuid, context);
-    }, [context]);
-
     return (
         <Fragment>
             <InspectorControls>
                 <PanelBody title={__('Page Settings')}>
                     <Fragment>
                         <p>Page Settings WIP</p>
+                        <p>
+                            URL CONTROL HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        </p>
                     </Fragment>
                 </PanelBody>
             </InspectorControls>
