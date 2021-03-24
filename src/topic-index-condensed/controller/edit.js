@@ -61,13 +61,21 @@ const Edit = ({ className, clientId, setAttributes }) => {
     // Get menu blocks, get page blocks
     const { menuBlocks, pageBlocks } = useSelect(select => {
         const rootBlocks = select('core/block-editor').getBlocks(clientId);
+        const mBlocks =
+            1 <= rootBlocks.length
+                ? rootBlocks.filter(
+                      e => 'prc-block/topic-index-condensed-menu' === e.name,
+                  )
+                : [];
+        const pBlocks =
+            1 <= rootBlocks.length
+                ? rootBlocks.filter(
+                      e => 'prc-block/topic-index-condensed-pages' === e.name,
+                  )
+                : [];
         return {
-            menuBlocks: rootBlocks.filter(
-                e => 'prc-block/topic-index-condensed-menu' === e.name,
-            )[0].innerBlocks,
-            pageBlocks: rootBlocks.filter(
-                e => 'prc-block/topic-index-condensed-pages' === e.name,
-            )[0].innerBlocks,
+            menuBlocks: 1 <= mBlocks.length ? mBlocks[0].innerBlocks : false,
+            pageBlocks: 1 <= pBlocks.length ? pBlocks[0].innerBlocks : false,
         };
     });
 

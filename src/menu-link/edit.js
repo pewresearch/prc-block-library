@@ -169,9 +169,11 @@ const edit = ({
             allowSubMenu:
                 null !== parentBlock &&
                 parentBlock.hasOwnProperty('name') &&
-                ['prc-block/menu', 'prc-block/taxonomy-tree'].includes(
-                    parentBlock.name,
-                ),
+                [
+                    'prc-block/menu',
+                    'prc-block/taxonomy-tree',
+                    'prc-block/taxonomy-tree-more',
+                ].includes(parentBlock.name),
             subMenuType:
                 null !== parentBlock &&
                 parentBlock.hasOwnProperty('name') &&

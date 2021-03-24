@@ -54,6 +54,8 @@ module.exports = {
                     './src/topic-index-condensed/page/index.js',
                 'topic-index-condensed-pages':
                     './src/topic-index-condensed/pages/index.js',
+                'topic-index-search-field':
+                    './src/topic-index-search-field/index.js',
                 'wp-query': './src/wp-query/index.js',
             },
         },
@@ -68,6 +70,8 @@ module.exports = {
                     './src/topic-index-categorized/frontend.js',
                 'topic-index-condensed':
                     './src/topic-index-condensed/controller/frontend.js',
+                'topic-index-search-field':
+                    './src/topic-index-search-field/frontend.js',
             },
         },
         {
