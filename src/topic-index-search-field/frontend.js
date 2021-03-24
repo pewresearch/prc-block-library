@@ -1,74 +1,80 @@
 /**
  * External dependencies
  */
-import { Form, Button } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 /**
  * WordPress dependencies
  */
-import { Fragment, render, useState, useEffect } from '@wordpress/element';
+import { render, useState, useEffect } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
-
-const countryOptions = [
-    { key: 'af', value: 'af', flag: 'af', text: 'Afghanistan' },
-    { key: 'ax', value: 'ax', flag: 'ax', text: 'Aland Islands' },
-    { key: 'al', value: 'al', flag: 'al', text: 'Albania' },
-    { key: 'dz', value: 'dz', flag: 'dz', text: 'Algeria' },
-    { key: 'as', value: 'as', flag: 'as', text: 'American Samoa' },
-    { key: 'ad', value: 'ad', flag: 'ad', text: 'Andorra' },
-    { key: 'ao', value: 'ao', flag: 'ao', text: 'Angola' },
-    { key: 'ai', value: 'ai', flag: 'ai', text: 'Anguilla' },
-    { key: 'ag', value: 'ag', flag: 'ag', text: 'Antigua' },
-    { key: 'ar', value: 'ar', flag: 'ar', text: 'Argentina' },
-    { key: 'am', value: 'am', flag: 'am', text: 'Armenia' },
-    { key: 'aw', value: 'aw', flag: 'aw', text: 'Aruba' },
-    { key: 'au', value: 'au', flag: 'au', text: 'Australia' },
-    { key: 'at', value: 'at', flag: 'at', text: 'Austria' },
-    { key: 'az', value: 'az', flag: 'az', text: 'Azerbaijan' },
-    { key: 'bs', value: 'bs', flag: 'bs', text: 'Bahamas' },
-    { key: 'bh', value: 'bh', flag: 'bh', text: 'Bahrain' },
-    { key: 'bd', value: 'bd', flag: 'bd', text: 'Bangladesh' },
-    { key: 'bb', value: 'bb', flag: 'bb', text: 'Barbados' },
-    { key: 'by', value: 'by', flag: 'by', text: 'Belarus' },
-    { key: 'be', value: 'be', flag: 'be', text: 'Belgium' },
-    { key: 'bz', value: 'bz', flag: 'bz', text: 'Belize' },
-    { key: 'bj', value: 'bj', flag: 'bj', text: 'Benin' },
-];
+import { decodeEntities } from '@wordpress/html-entities';
 
 const TopicSearchField = ({ restrictToTermId = 0 }) => {
-    const [data, setData] = useState(false);
+    const [data, setData] = useState([
+        {
+            key: 'default',
+            value: null,
+            text: 'Loading values...',
+            disabled: true,
+        },
+    ]);
+    const [processing, toggleProcessing] = useState(false);
+    const [loading, toggleLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     const [selected, select] = useState(false);
 
     useEffect(() => {
-        console.log('fetch data');
-        const args = {};
+        const args = { per_page: 25 };
+        if ('' !== searchTerm) {
+            args.search = searchTerm;
+        }
+        if (0 !== restrictToTermId && '' !== restrictToTermId) {
+            args.parent = restrictToTermId;
+        }
         const path = addQueryArgs('/wp/v2/topic', args);
-        console.log('...path', path);
         apiFetch({ path })
             .then(topics => {
-                console.log(topics);
-                setData(topics);
+                const tmpData = topics.map(t => {
+                    return {
+                        key: t.id,
+                        value: t.link,
+                        text: decodeEntities(t.name),
+                    };
+                });
+                setData(tmpData);
             })
-            .catch(e => console.error(e));
-    }, []);
+            .catch(e => console.error(e))
+            .finally(() => toggleLoading(false));
+    }, [searchTerm]);
+
+    const onSubmit = () => {
+        toggleProcessing(true);
+        window.location = selected;
+    };
 
     return (
-        <Form onSubmit={e => console.log(e)}>
+        <Form onSubmit={onSubmit}>
             <Form.Group>
                 <Form.Dropdown
                     placeholder="Start typing or click arrow"
                     search
                     selection
-                    options={countryOptions}
-                    loading={false === data}
-                    onSearchChange={e => console.log('search...', e)}
-                    onChange={e => console.log('onChange', e)}
+                    options={data}
+                    loading={loading}
+                    onSearchChange={(e, { searchQuery }) =>
+                        setSearchTerm(searchQuery)
+                    }
+                    onChange={(e, { value }) => select(value)}
+                    style={{ width: '200px' }}
                 />
                 <Form.Button
                     content="Go"
-                    // disabled={false === selected}
+                    type="submit"
+                    disabled={false === selected}
+                    loading={processing}
                 />
             </Form.Group>
         </Form>
@@ -81,7 +87,12 @@ domReady(() => {
     );
     if (fields) {
         fields.forEach(elm => {
-            render(<TopicSearchField restrictToTermId={null} />, elm);
+            const restrictToTermId = elm.getAttribute('data-term-id');
+            console.log(elm, restrictToTermId);
+            render(
+                <TopicSearchField restrictToTermId={restrictToTermId} />,
+                elm,
+            );
         });
     }
 });

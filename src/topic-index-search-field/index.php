@@ -18,7 +18,7 @@ class Block_Name extends PRC_Block_Library {
 	}
 
 	public function register_frontend() {
-		$js_deps = array( 'wp-dom-ready', 'wp-element', 'wp-api-fetch' );
+		$js_deps = array( 'wp-dom-ready', 'wp-element', 'wp-api-fetch', 'wp-html-entities' );
 		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
 		return $enqueue->register(
 			'frontend',
@@ -43,9 +43,8 @@ class Block_Name extends PRC_Block_Library {
 	public function render_block_callback( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
 		ob_start();
-		print_r( $attributes );
 		?>
-			<div class="js-react-topic-index-search-field" data-term-id="<?php echo esc_attr( null ); ?>">Test</div>
+			<div class="js-react-topic-index-search-field" data-term-id="<?php echo esc_attr( $attributes['id'] ); ?>"></div>
 		<?php
 		return ob_get_clean();
 	}
