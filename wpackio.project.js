@@ -42,6 +42,8 @@ module.exports = {
                 'taxonomy-tree': './src/taxonomy-tree/index.js',
                 'taxonomy-tree-more': './src/taxonomy-tree-more/index.js',
                 'topic-index-az': './src/topic-index-az/index.js',
+                'topic-index-az-controller':
+                    './src/topic-index-az-controller/index.js',
                 'topic-index-categorized':
                     './src/topic-index-categorized/index.js',
                 'topic-index-condensed-controller':

@@ -74,6 +74,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree-more/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-az/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-az-controller/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-categorized/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-search-field/index.php';
