@@ -18,16 +18,43 @@ class Promo extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$id = md5( wp_json_encode( $attributes ) );
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'id'    => md5( wp_json_encode( $attributes ) ),
+				'class' => classnames( 'wp-block-prc-block-promo', $attributes['classname'], array( 'sans-serif' => $attributes['sansSerif'] ) ),
+				'style' => 'border-color: ' . $attributes['borderColor'] . '; background-color: ' . $attributes['backgroundColor'],
+			)
+		);
+		$heading_tag        = 3 === $attributes['headinglevel'] ? 'h3' : 'h2';
+		$has_description    = '' !== $attributes['description'] && '<p></p>' !== $attributes['description'];
+		$has_icon           = ! empty( $attributes['icon'] );
+		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		ob_start();
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<div <?php echo $wrapper_attributes; ?>>
+			<?php
+			if ( $has_icon ) {
+				echo '<div class="icon"><img src="' . esc_url( $icon_url ) . '"/></div>';
+			}
+			?>
+			<div class="text">
+				<<?php echo $heading_tag; ?>><?php echo filter_block_kses_value( $attributes['heading'], 'post' ); ?></<?php echo $heading_tag; ?>>
+				<?php
+				if ( $has_description ) {
+					echo '<div>' . filter_block_kses_value( $attributes['description'], 'post' ) . '</div>';
+				}
+				?>
+			</div>
+			<div class="action">
+				<?php echo wp_kses( $content, 'post' ); ?>
+			</div>
+		</div>
 		<?php
 		return ob_get_clean();
 	}
 
 	public function register_block() {
-		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
+		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-block-editor', 'wp-data', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$enqueue              = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(

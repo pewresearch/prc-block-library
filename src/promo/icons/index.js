@@ -1,14 +1,21 @@
-import DonateIcon from './donation';
-import ElectionIcon from './election';
-import MailIcon from './newsletter';
+/**
+ * WordPress dependencies
+ */
+import { Fragment, RawHTML } from '@wordpress/element';
+
+import AudioSVG from './audio.svg';
+import DonateSVG from './donation.svg';
+import ElectionSVG from './election.svg';
+import MailSVG from './mail.svg';
 
 const Icon = ({ icon }) => {
     return (
-        <div>
-            {'election' === icon && <ElectionIcon />}
-            {'mail' === icon && <MailIcon />}
-            {'donate' === icon && <DonateIcon />}
-        </div>
+        <Fragment>
+            {'audio' === icon && <RawHTML>{AudioSVG}</RawHTML>}
+            {'election' === icon && <RawHTML>{ElectionSVG}</RawHTML>}
+            {'mail' === icon && <RawHTML>{MailSVG}</RawHTML>}
+            {'donate' === icon && <RawHTML>{DonateSVG}</RawHTML>}
+        </Fragment>
     );
 };
 

@@ -9,16 +9,17 @@ import classnames from 'classnames';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useEffect } from '@wordpress/element';
 import {
+    BlockControls,
     RichText,
     InnerBlocks,
     InspectorControls,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 import {
     BaseControl,
     PanelBody,
-    PanelRow,
     ColorPalette,
     ToggleControl,
     SelectControl,
@@ -27,6 +28,7 @@ import {
 /**
  * Internal dependencies
  */
+import { HeadingLevelToolbar } from 'shared';
 import Icon from './icons';
 
 const ALLOWED_BLOCKS = [
@@ -35,60 +37,76 @@ const ALLOWED_BLOCKS = [
     'prc-blocks/pathways-ask-an-analyst',
 ];
 
+const BG_COLORS = [
+    { name: 'Oatmeal', color: '#F7F7F2' },
+    { name: 'Gray', color: '#F8F8F8' },
+];
+const BORDER_COLORS = [
+    { name: 'Oatmeal', color: '#E2E2E2' },
+    { name: 'Gray', color: '#D8D8D8' },
+    { name: 'Black', color: '#000' },
+];
+
 const Controls = ({
     backgroundColor,
     borderColor,
+    headingLevel,
     sansSerif,
     icon,
     setAttributes,
 }) => {
-    const bgDefaults = [
-        { name: 'Oatmeal', color: '#F7F7F2' },
-        { name: 'Gray', color: '#F8F8F8' },
-    ];
-    const borderDefaults = [
-        { name: 'Oatmeal', color: '#E2E2E2' },
-        { name: 'Gray', color: '#D8D8D8' },
-        { name: 'Black', color: '#000' },
-    ];
-
     return (
-        <InspectorControls>
-            <PanelBody title={__('Promo Design Options')}>
-                <BaseControl label="Background Color">
-                    <ColorPalette
-                        colors={bgDefaults}
-                        value={backgroundColor}
-                        onChange={c => setAttributes({ backgroundColor: c })}
-                        disableCustomColors
-                    />
-                </BaseControl>
-                <BaseControl label="Border Color">
-                    <ColorPalette
-                        colors={borderDefaults}
-                        value={borderColor}
-                        onChange={c => setAttributes({ borderColor: c })}
-                        disableCustomColors
-                    />
-                </BaseControl>
-                <SelectControl
-                    label="Choose Icon"
-                    value={icon}
-                    options={[
-                        { label: 'None', value: '' },
-                        { label: 'Donate', value: 'donate' },
-                        { label: 'Election', value: 'election' },
-                        { label: 'Mail', value: 'mail' },
-                    ]}
-                    onChange={i => setAttributes({ icon: i })}
+        <Fragment>
+            <BlockControls>
+                <HeadingLevelToolbar
+                    selectedLevel={headingLevel}
+                    onChange={newLevel =>
+                        setAttributes({ headingLevel: newLevel })
+                    }
                 />
-                <ToggleControl
-                    label="Sans Serif Font"
-                    checked={sansSerif}
-                    onChange={() => setAttributes({ sansSerif: !sansSerif })}
-                />
-            </PanelBody>
-        </InspectorControls>
+            </BlockControls>
+            <InspectorControls>
+                <PanelBody title={__('Promo Design Options')}>
+                    <BaseControl label="Background Color">
+                        <ColorPalette
+                            colors={BG_COLORS}
+                            value={backgroundColor}
+                            onChange={c =>
+                                setAttributes({ backgroundColor: c })
+                            }
+                            disableCustomColors
+                        />
+                    </BaseControl>
+                    <BaseControl label="Border Color">
+                        <ColorPalette
+                            colors={BORDER_COLORS}
+                            value={borderColor}
+                            onChange={c => setAttributes({ borderColor: c })}
+                            disableCustomColors
+                        />
+                    </BaseControl>
+                    <SelectControl
+                        label="Choose Icon"
+                        value={icon}
+                        options={[
+                            { label: 'None', value: '' },
+                            { label: 'Audio', value: 'audio' },
+                            { label: 'Donate', value: 'donate' },
+                            { label: 'Election', value: 'election' },
+                            { label: 'Mail', value: 'mail' },
+                        ]}
+                        onChange={i => setAttributes({ icon: i })}
+                    />
+                    <ToggleControl
+                        label="Sans Serif Font"
+                        checked={sansSerif}
+                        onChange={() =>
+                            setAttributes({ sansSerif: !sansSerif })
+                        }
+                    />
+                </PanelBody>
+            </InspectorControls>
+        </Fragment>
     );
 };
 
@@ -96,7 +114,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
     const {
         className,
         heading,
-        headingSize,
+        headingLevel,
         description,
         backgroundColor,
         borderColor,
@@ -112,12 +130,20 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
         }
     }, [header]);
 
-    const hasChildBlocks = false;
+    const hasDescription =
+        undefined !== description &&
+        '' !== description &&
+        '<p></p>' !== description;
+
+    const hasIcon = undefined !== icon && '' !== icon;
+
+    const hasChildBlocks = useSelect(
+        select =>
+            0 < select('core/block-editor').getBlockOrder(clientId).length,
+        [clientId],
+    );
 
     const style = { borderColor, backgroundColor };
-    if (isSelected && !borderColor) {
-        style.borderColor = '#eaeaea';
-    }
 
     const blockProps = useBlockProps({
         className: classnames(className), // wp-block-prc-block-promo
@@ -130,11 +156,10 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
         },
         {
             allowedBlocks: ALLOWED_BLOCKS,
-            orientation: 'vertical',
             templateLock: false,
-            renderAppender: !hasChildBlocks
-                ? InnerBlocks.ButtonBlockerAppender
-                : false,
+            renderAppender: hasChildBlocks
+                ? false
+                : InnerBlocks.ButtonBlockerAppender,
         },
     );
 
@@ -144,27 +169,28 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
                 {...{
                     backgroundColor,
                     borderColor,
+                    headingLevel,
                     sansSerif,
                     icon,
                     setAttributes,
                 }}
             />
             <div {...blockProps}>
-                {(isSelected || '' !== icon) && (
+                {hasIcon && (
                     <div className="icon">
                         <Icon icon={icon} />
                     </div>
                 )}
                 <div className="text">
                     <RichText
-                        tagName={`h${headingSize}`}
+                        tagName={`h${headingLevel}`}
                         value={heading}
                         onChange={h => setAttributes({ heading: h })}
                         placeholder={__(`Facts are more important than ever.`)}
                         keepPlaceholderOnFocus
                         className={sansSerif ? 'sans-serif' : null}
                     />
-                    {true === (isSelected || '' !== description) && (
+                    {true === (isSelected || hasDescription) && (
                         <RichText
                             tagName="div"
                             value={description}
@@ -178,7 +204,9 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
                         />
                     )}
                 </div>
-                <div {...innerBlocksProps} />
+                {true === (isSelected || hasChildBlocks) && (
+                    <div {...innerBlocksProps} />
+                )}
             </div>
         </Fragment>
     );

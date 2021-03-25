@@ -62,34 +62,19 @@ module.exports = {
                 'wp-query': './src/wp-query/index.js',
             },
             webpackConfig: (config, merge, appDir, isDev) => {
+                // create a new module.rules for svg-inline-loader
                 const customRules = {
                     module: {
                         rules: [
-                            // Config for SVGR in javascript files
+                            // Inline svg loader
+                            // https://webpack.js.org/loaders/svg-inline-loader/#configuration
                             {
                                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForJsTsFiles,
-                                use: ['@svgr/webpack', 'url-loader'],
-                            },
-                            // For everything else, we use file-loader only
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForNonJsTsFiles,
-                                use: [
-                                    {
-                                        loader: fileLoader,
-                                        options: getFileLoaderOptions(
-                                            appDir,
-                                            isDev,
-                                            true,
-                                        ),
-                                    },
-                                ],
+                                use: ['svg-inline-loader'],
                             },
                         ],
                     },
                 };
-
                 // merge and return
                 return merge(config, customRules);
             },

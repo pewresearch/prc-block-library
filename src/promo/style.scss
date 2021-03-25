@@ -27,6 +27,15 @@ $icon-width: 45px;
       margin-bottom: 0;
     }
 
+    &.is-selected:focus {
+      border-color: transparent!important;
+    }
+
+    &.is-selected,
+    &.has-child-selected {
+      border-color: #007cba;
+    }
+
     .text {
       padding-bottom: 24px;
 
@@ -54,7 +63,8 @@ $icon-width: 45px;
     }
 
     .icon {
-      & > div {
+      & > div,
+      & > img {
         width: $icon-width;
         display: inline-block;
         svg {

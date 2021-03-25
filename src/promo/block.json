@@ -6,7 +6,7 @@
 		"heading": {
 			"type": "string"
 		},
-		"headingSize": {
+		"headingLevel": {
 			"type": "integer",
 			"default": 2
 		},
@@ -17,7 +17,8 @@
 			"type": "string"
 		},
 		"borderColor": {
-			"type": "string"
+			"type": "string",
+			"default": "#000"
 		},
 		"sansSerif": {
 			"type": "boolean"
@@ -65,7 +66,8 @@
 					"url": ""
 				}
 			}
-		]
+		],
+		"viewPortWidth": 940
 	},    
 	"supports": {
 		"html": false

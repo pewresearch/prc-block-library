@@ -1,217 +1,221 @@
 {
-  "collapsible.js": "blocks/collapsible-bea71c68.js",
-  "collapsible.js.map": "blocks/collapsible-bea71c68.js.map",
-  "column.js": "blocks/column-664f9db0.js",
-  "column.js.map": "blocks/column-664f9db0.js.map",
-  "grid.js": "blocks/grid-35348675.js",
-  "grid.js.map": "blocks/grid-35348675.js.map",
-  "menu-link.js": "blocks/menu-link-ee71bff1.js",
-  "menu-link.js.map": "blocks/menu-link-ee71bff1.js.map",
-  "menu.js": "blocks/menu-382a5a28.js",
-  "menu.js.map": "blocks/menu-382a5a28.js.map",
-  "post-bylines.js": "blocks/post-bylines-71f58ab1.js",
-  "post-bylines.js.map": "blocks/post-bylines-71f58ab1.js.map",
-  "post-title.js": "blocks/post-title-01c54a98.js",
-  "post-title.js.map": "blocks/post-title-01c54a98.js.map",
-  "promo-rotator.js": "blocks/promo-rotator-c7f8c4ec.js",
-  "promo-rotator.js.map": "blocks/promo-rotator-c7f8c4ec.js.map",
-  "promo.css": "blocks/promo-752c3b16.css",
-  "promo.css.map": "blocks/promo-752c3b16.css.map",
-  "promo.js": "blocks/promo-6bae96b0.js",
-  "promo.js.map": "blocks/promo-6bae96b0.js.map",
-  "row.js": "blocks/row-d399aecc.js",
-  "row.js.map": "blocks/row-d399aecc.js.map",
+  "collapsible.js": "blocks/collapsible-fc890f34.js",
+  "collapsible.js.map": "blocks/collapsible-fc890f34.js.map",
+  "column.js": "blocks/column-e7825ff4.js",
+  "column.js.map": "blocks/column-e7825ff4.js.map",
+  "grid.js": "blocks/grid-4f954653.js",
+  "grid.js.map": "blocks/grid-4f954653.js.map",
+  "menu-link.js": "blocks/menu-link-6d14fedb.js",
+  "menu-link.js.map": "blocks/menu-link-6d14fedb.js.map",
+  "menu.js": "blocks/menu-62654773.js",
+  "menu.js.map": "blocks/menu-62654773.js.map",
+  "post-bylines.js": "blocks/post-bylines-3af8eb3d.js",
+  "post-bylines.js.map": "blocks/post-bylines-3af8eb3d.js.map",
+  "post-title.js": "blocks/post-title-41bf15c9.js",
+  "post-title.js.map": "blocks/post-title-41bf15c9.js.map",
+  "promo-rotator.js": "blocks/promo-rotator-85151c55.js",
+  "promo-rotator.js.map": "blocks/promo-rotator-85151c55.js.map",
+  "promo.css": "blocks/promo-9b7fe513.css",
+  "promo.css.map": "blocks/promo-9b7fe513.css.map",
+  "promo.js": "blocks/promo-fd60a0f2.js",
+  "promo.js.map": "blocks/promo-fd60a0f2.js.map",
+  "row.js": "blocks/row-08c11eee.js",
+  "row.js.map": "blocks/row-08c11eee.js.map",
   "runtime.js": "blocks/runtime-49d996c3.js",
   "runtime.js.map": "blocks/runtime-49d996c3.js.map",
-  "social-link.js": "blocks/social-link-f16261bb.js",
-  "social-link.js.map": "blocks/social-link-f16261bb.js.map",
-  "table.js": "blocks/table-921a1a38.js",
-  "table.js.map": "blocks/table-921a1a38.js.map",
-  "taxonomy-tree-more.js": "blocks/taxonomy-tree-more-167cf815.js",
-  "taxonomy-tree-more.js.map": "blocks/taxonomy-tree-more-167cf815.js.map",
+  "social-link.js": "blocks/social-link-eb8cc23a.js",
+  "social-link.js.map": "blocks/social-link-eb8cc23a.js.map",
+  "table.js": "blocks/table-a3092113.js",
+  "table.js.map": "blocks/table-a3092113.js.map",
+  "taxonomy-tree-more.js": "blocks/taxonomy-tree-more-1a738ab6.js",
+  "taxonomy-tree-more.js.map": "blocks/taxonomy-tree-more-1a738ab6.js.map",
   "taxonomy-tree.css": "blocks/taxonomy-tree-ab07c332.css",
   "taxonomy-tree.css.map": "blocks/taxonomy-tree-ab07c332.css.map",
-  "taxonomy-tree.js": "blocks/taxonomy-tree-a0e94e1c.js",
-  "taxonomy-tree.js.map": "blocks/taxonomy-tree-a0e94e1c.js.map",
-  "topic-index-az-controller.js": "blocks/topic-index-az-controller-bf9d283f.js",
-  "topic-index-az-controller.js.map": "blocks/topic-index-az-controller-bf9d283f.js.map",
+  "taxonomy-tree.js": "blocks/taxonomy-tree-ac01a954.js",
+  "taxonomy-tree.js.map": "blocks/taxonomy-tree-ac01a954.js.map",
+  "topic-index-az-controller.js": "blocks/topic-index-az-controller-0c779bd6.js",
+  "topic-index-az-controller.js.map": "blocks/topic-index-az-controller-0c779bd6.js.map",
   "topic-index-az.css": "blocks/topic-index-az-c99205e1.css",
   "topic-index-az.css.map": "blocks/topic-index-az-c99205e1.css.map",
-  "topic-index-az.js": "blocks/topic-index-az-b187d8c6.js",
-  "topic-index-az.js.map": "blocks/topic-index-az-b187d8c6.js.map",
-  "topic-index-categorized.js": "blocks/topic-index-categorized-8bb906de.js",
-  "topic-index-categorized.js.map": "blocks/topic-index-categorized-8bb906de.js.map",
-  "topic-index-condensed-controller.js": "blocks/topic-index-condensed-controller-ee1c942b.js",
-  "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-ee1c942b.js.map",
-  "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-6d7dfdd0.js",
-  "topic-index-condensed-menu-item.js.map": "blocks/topic-index-condensed-menu-item-6d7dfdd0.js.map",
-  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-82824fbf.js",
-  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-82824fbf.js.map",
+  "topic-index-az.js": "blocks/topic-index-az-9f465b6e.js",
+  "topic-index-az.js.map": "blocks/topic-index-az-9f465b6e.js.map",
+  "topic-index-categorized.js": "blocks/topic-index-categorized-925c3376.js",
+  "topic-index-categorized.js.map": "blocks/topic-index-categorized-925c3376.js.map",
+  "topic-index-condensed-controller.js": "blocks/topic-index-condensed-controller-8bdb522f.js",
+  "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-8bdb522f.js.map",
+  "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-b06a6285.js",
+  "topic-index-condensed-menu-item.js.map": "blocks/topic-index-condensed-menu-item-b06a6285.js.map",
+  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-3dde8197.js",
+  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-3dde8197.js.map",
   "topic-index-condensed-page.css": "blocks/topic-index-condensed-page-6141e588.css",
   "topic-index-condensed-page.css.map": "blocks/topic-index-condensed-page-6141e588.css.map",
-  "topic-index-condensed-page.js": "blocks/topic-index-condensed-page-2d867f14.js",
-  "topic-index-condensed-page.js.map": "blocks/topic-index-condensed-page-2d867f14.js.map",
-  "topic-index-condensed-pages.js": "blocks/topic-index-condensed-pages-76868c81.js",
-  "topic-index-condensed-pages.js.map": "blocks/topic-index-condensed-pages-76868c81.js.map",
-  "topic-index-search-field.js": "blocks/topic-index-search-field-83973597.js",
-  "topic-index-search-field.js.map": "blocks/topic-index-search-field-83973597.js.map",
-  "vendors~collapsible.js": "blocks/vendors~collapsible-a75996b7.js",
-  "vendors~collapsible.js.map": "blocks/vendors~collapsible-a75996b7.js.map",
-  "vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9.js": "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js",
-  "vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9.js.map": "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js.map",
-  "vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query.js": "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js",
-  "vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query.js.map": "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js.map",
-  "vendors~table.js": "blocks/vendors~table-cfa3cb3d.js",
-  "vendors~table.js.map": "blocks/vendors~table-cfa3cb3d.js.map",
-  "wp-query.js": "blocks/wp-query-859d2f5d.js",
-  "wp-query.js.map": "blocks/wp-query-859d2f5d.js.map",
+  "topic-index-condensed-page.js": "blocks/topic-index-condensed-page-419319e7.js",
+  "topic-index-condensed-page.js.map": "blocks/topic-index-condensed-page-419319e7.js.map",
+  "topic-index-condensed-pages.js": "blocks/topic-index-condensed-pages-7b5e21b0.js",
+  "topic-index-condensed-pages.js.map": "blocks/topic-index-condensed-pages-7b5e21b0.js.map",
+  "topic-index-search-field.js": "blocks/topic-index-search-field-8ab62637.js",
+  "topic-index-search-field.js.map": "blocks/topic-index-search-field-8ab62637.js.map",
+  "vendors~collapsible.js": "blocks/vendors~collapsible-3ffe15c5.js",
+  "vendors~collapsible.js.map": "blocks/vendors~collapsible-3ffe15c5.js.map",
+  "vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2.js": "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+  "vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2.js.map": "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+  "vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e.js": "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js",
+  "vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e.js.map": "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js.map",
+  "vendors~table.js": "blocks/vendors~table-eff647c8.js",
+  "vendors~table.js.map": "blocks/vendors~table-eff647c8.js.map",
+  "wp-query.js": "blocks/wp-query-d52e376c.js",
+  "wp-query.js.map": "blocks/wp-query-d52e376c.js.map",
   "wpackioEp": {
     "collapsible": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js",
-        "blocks/vendors~collapsible-a75996b7.js",
-        "blocks/collapsible-bea71c68.js"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+        "blocks/vendors~collapsible-3ffe15c5.js",
+        "blocks/collapsible-fc890f34.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js.map",
-        "blocks/vendors~collapsible-a75996b7.js.map",
-        "blocks/collapsible-bea71c68.js.map"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+        "blocks/vendors~collapsible-3ffe15c5.js.map",
+        "blocks/collapsible-fc890f34.js.map"
       ]
     },
     "column": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/column-664f9db0.js"
+        "blocks/column-e7825ff4.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/column-664f9db0.js.map"
+        "blocks/column-e7825ff4.js.map"
       ]
     },
     "grid": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/grid-35348675.js"
+        "blocks/grid-4f954653.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/grid-35348675.js.map"
+        "blocks/grid-4f954653.js.map"
       ]
     },
     "menu": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/menu-382a5a28.js"
+        "blocks/menu-62654773.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/menu-382a5a28.js.map"
+        "blocks/menu-62654773.js.map"
       ]
     },
     "menu-link": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js",
-        "blocks/menu-link-ee71bff1.js"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js",
+        "blocks/menu-link-6d14fedb.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js.map",
-        "blocks/menu-link-ee71bff1.js.map"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js.map",
+        "blocks/menu-link-6d14fedb.js.map"
       ]
     },
     "post-bylines": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/post-bylines-71f58ab1.js"
+        "blocks/post-bylines-3af8eb3d.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/post-bylines-71f58ab1.js.map"
+        "blocks/post-bylines-3af8eb3d.js.map"
       ]
     },
     "post-title": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/post-title-01c54a98.js"
+        "blocks/post-title-41bf15c9.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/post-title-01c54a98.js.map"
+        "blocks/post-title-41bf15c9.js.map"
       ]
     },
     "promo": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/promo-6bae96b0.js"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js",
+        "blocks/promo-fd60a0f2.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/promo-6bae96b0.js.map"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js.map",
+        "blocks/promo-fd60a0f2.js.map"
       ],
       "css": [
-        "blocks/promo-752c3b16.css"
+        "blocks/promo-9b7fe513.css"
       ],
       "css.map": [
-        "blocks/promo-752c3b16.css.map"
+        "blocks/promo-9b7fe513.css.map"
       ]
     },
     "promo-rotator": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/promo-rotator-c7f8c4ec.js"
+        "blocks/promo-rotator-85151c55.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/promo-rotator-c7f8c4ec.js.map"
+        "blocks/promo-rotator-85151c55.js.map"
       ]
     },
     "row": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/row-d399aecc.js"
+        "blocks/row-08c11eee.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/row-d399aecc.js.map"
+        "blocks/row-08c11eee.js.map"
       ]
     },
     "social-link": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js",
-        "blocks/social-link-f16261bb.js"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+        "blocks/social-link-eb8cc23a.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js.map",
-        "blocks/social-link-f16261bb.js.map"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+        "blocks/social-link-eb8cc23a.js.map"
       ]
     },
     "table": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~table-cfa3cb3d.js",
-        "blocks/table-921a1a38.js"
+        "blocks/vendors~table-eff647c8.js",
+        "blocks/table-a3092113.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~table-cfa3cb3d.js.map",
-        "blocks/table-921a1a38.js.map"
+        "blocks/vendors~table-eff647c8.js.map",
+        "blocks/table-a3092113.js.map"
       ]
     },
     "taxonomy-tree": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/taxonomy-tree-a0e94e1c.js"
+        "blocks/taxonomy-tree-ac01a954.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/taxonomy-tree-a0e94e1c.js.map"
+        "blocks/taxonomy-tree-ac01a954.js.map"
       ],
       "css": [
         "blocks/taxonomy-tree-ab07c332.css"
@@ -223,21 +227,21 @@
     "taxonomy-tree-more": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/taxonomy-tree-more-167cf815.js"
+        "blocks/taxonomy-tree-more-1a738ab6.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/taxonomy-tree-more-167cf815.js.map"
+        "blocks/taxonomy-tree-more-1a738ab6.js.map"
       ]
     },
     "topic-index-az": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/topic-index-az-b187d8c6.js"
+        "blocks/topic-index-az-9f465b6e.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/topic-index-az-b187d8c6.js.map"
+        "blocks/topic-index-az-9f465b6e.js.map"
       ],
       "css": [
         "blocks/topic-index-az-c99205e1.css"
@@ -249,73 +253,73 @@
     "topic-index-az-controller": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/topic-index-az-controller-bf9d283f.js"
+        "blocks/topic-index-az-controller-0c779bd6.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/topic-index-az-controller-bf9d283f.js.map"
+        "blocks/topic-index-az-controller-0c779bd6.js.map"
       ]
     },
     "topic-index-categorized": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js",
-        "blocks/topic-index-categorized-8bb906de.js"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js",
+        "blocks/topic-index-categorized-925c3376.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js.map",
-        "blocks/topic-index-categorized-8bb906de.js.map"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js.map",
+        "blocks/topic-index-categorized-925c3376.js.map"
       ]
     },
     "topic-index-condensed-controller": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/topic-index-condensed-controller-ee1c942b.js"
+        "blocks/topic-index-condensed-controller-8bdb522f.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/topic-index-condensed-controller-ee1c942b.js.map"
+        "blocks/topic-index-condensed-controller-8bdb522f.js.map"
       ]
     },
     "topic-index-condensed-menu": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js",
-        "blocks/topic-index-condensed-menu-82824fbf.js"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js",
+        "blocks/topic-index-condensed-menu-3dde8197.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js.map",
-        "blocks/topic-index-condensed-menu-82824fbf.js.map"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js.map",
+        "blocks/topic-index-condensed-menu-3dde8197.js.map"
       ]
     },
     "topic-index-condensed-menu-item": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/topic-index-condensed-menu-item-6d7dfdd0.js"
+        "blocks/topic-index-condensed-menu-item-b06a6285.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/topic-index-condensed-menu-item-6d7dfdd0.js.map"
+        "blocks/topic-index-condensed-menu-item-b06a6285.js.map"
       ]
     },
     "topic-index-condensed-page": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js",
-        "blocks/topic-index-condensed-page-2d867f14.js"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js",
+        "blocks/topic-index-condensed-page-419319e7.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js.map",
-        "blocks/topic-index-condensed-page-2d867f14.js.map"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js.map",
+        "blocks/topic-index-condensed-page-419319e7.js.map"
       ],
       "css": [
         "blocks/topic-index-condensed-page-6141e588.css"
@@ -327,35 +331,35 @@
     "topic-index-condensed-pages": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/topic-index-condensed-pages-76868c81.js"
+        "blocks/topic-index-condensed-pages-7b5e21b0.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/topic-index-condensed-pages-76868c81.js.map"
+        "blocks/topic-index-condensed-pages-7b5e21b0.js.map"
       ]
     },
     "topic-index-search-field": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/topic-index-search-field-83973597.js"
+        "blocks/topic-index-search-field-8ab62637.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/topic-index-search-field-83973597.js.map"
+        "blocks/topic-index-search-field-8ab62637.js.map"
       ]
     },
     "wp-query": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js",
-        "blocks/wp-query-859d2f5d.js"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js",
+        "blocks/wp-query-d52e376c.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/vendors~collapsible~menu-link~social-link~topic-index-categorized~topic-index-condensed-menu~topic-i~1c553cd9-7f81a917.js.map",
-        "blocks/vendors~menu-link~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-page~wp-query-e9053155.js.map",
-        "blocks/wp-query-859d2f5d.js.map"
+        "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-a2916439.js.map",
+        "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-96e9b753.js.map",
+        "blocks/wp-query-d52e376c.js.map"
       ]
     }
   }

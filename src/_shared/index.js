@@ -11,6 +11,7 @@ import {
 import {
     BlockInserterButton,
     CaretHeadingLink,
+    HeadingLevelToolbar,
     LinkToolbarButton,
     StoryItem,
 } from './components';
@@ -25,6 +26,7 @@ export {
     ifMatchSetAttribute,
     BlockInserterButton,
     CaretHeadingLink,
+    HeadingLevelToolbar,
     LinkToolbarButton,
     StoryItem,
 };
