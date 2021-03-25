@@ -10,41 +10,18 @@ use WPackio\Enqueue;
  * @package gutenberg
  */
 
-class Topic_Index_Search_Field extends PRC_Block_Library {
+class Promo extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
 	}
 
-	public function register_frontend() {
-		$js_deps = array( 'wp-dom-ready', 'wp-element', 'wp-api-fetch', 'wp-html-entities' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
-		return $enqueue->register(
-			'frontend',
-			'topic-index-search-field',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-	}
-
-	public function enqueue_frontend() {
-		$registered    = $this->register_frontend();
-		$script_handle = array_pop( $registered['js'] )['handle'];
-		wp_enqueue_script( $script_handle );
-	}
-
 	public function render_block_callback( $attributes, $content, $block ) {
-		$this->enqueue_frontend();
+		$id = md5( wp_json_encode( $attributes ) );
 		ob_start();
 		?>
-			<div class="js-react-topic-index-search-field" data-term-id="<?php echo esc_attr( $attributes['id'] ); ?>"></div>
+		<?php echo wp_kses( $content, 'post' ); ?>
 		<?php
 		return ob_get_clean();
 	}
@@ -55,10 +32,10 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 
 		$registered = $enqueue->register(
 			'blocks',
-			'topic-index-search-field',
+			'promo',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $block_editor_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -67,13 +44,14 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 		);
 
 		register_block_type_from_metadata(
-			plugin_dir_path( __DIR__ ) . '/topic-index-search-field',
+			plugin_dir_path( __DIR__ ) . '/promo',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
 	}
 }
 
-new Topic_Index_Search_Field( true );
+new Promo( true );

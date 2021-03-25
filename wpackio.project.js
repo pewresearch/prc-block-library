@@ -35,6 +35,7 @@ module.exports = {
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',
                 'post-title': './src/post-title/index.js',
+                promo: './src/promo/index.js',
                 'promo-rotator': './src/promo-rotator/index.js',
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
@@ -59,6 +60,38 @@ module.exports = {
                 'topic-index-search-field':
                     './src/topic-index-search-field/index.js',
                 'wp-query': './src/wp-query/index.js',
+            },
+            webpackConfig: (config, merge, appDir, isDev) => {
+                const customRules = {
+                    module: {
+                        rules: [
+                            // Config for SVGR in javascript files
+                            {
+                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                                issuer: issuerForJsTsFiles,
+                                use: ['@svgr/webpack', 'url-loader'],
+                            },
+                            // For everything else, we use file-loader only
+                            {
+                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                                issuer: issuerForNonJsTsFiles,
+                                use: [
+                                    {
+                                        loader: fileLoader,
+                                        options: getFileLoaderOptions(
+                                            appDir,
+                                            isDev,
+                                            true,
+                                        ),
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                };
+
+                // merge and return
+                return merge(config, customRules);
             },
         },
         {
@@ -172,44 +205,6 @@ module.exports = {
             name: 'post-publish-date',
             entry: {
                 main: './src/post-publish-date/index.js',
-            },
-        },
-        {
-            name: 'promo',
-            entry: {
-                main: './src/promo/index.js',
-            },
-            webpackConfig: (config, merge, appDir, isDev) => {
-                const customRules = {
-                    module: {
-                        rules: [
-                            // Config for SVGR in javascript files
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForJsTsFiles,
-                                use: ['@svgr/webpack', 'url-loader'],
-                            },
-                            // For everything else, we use file-loader only
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForNonJsTsFiles,
-                                use: [
-                                    {
-                                        loader: fileLoader,
-                                        options: getFileLoaderOptions(
-                                            appDir,
-                                            isDev,
-                                            true,
-                                        ),
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                };
-
-                // merge and return
-                return merge(config, customRules);
             },
         },
         {

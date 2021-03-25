@@ -1,0 +1,73 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/promo",
+	"category": "layout",
+	"attributes": {
+		"heading": {
+			"type": "string"
+		},
+		"headingSize": {
+			"type": "integer",
+			"default": 2
+		},
+		"description": {
+			"type": "string"
+		},
+		"backgroundColor": {
+			"type": "string"
+		},
+		"borderColor": {
+			"type": "string"
+		},
+		"sansSerif": {
+			"type": "boolean"
+		},
+		"icon": {
+			"type": "string"
+		},
+		"header": {
+			"type": "string"
+		}
+    },
+	"styles": [
+		{
+			"name": "",
+			"label": "Standard (Text Centered)",
+			"isDefault": true
+		},
+		{
+			"name": "pancake",
+			"label": "Pancake (Text Horizontally Centered)"
+		},
+		{
+			"name": "pancake-stacked",
+			"label": "Pancake (Text Stacked)"
+		},
+		{
+			"name": "left-aligned",
+			"label": "Left Aligned (Mailchimp Promo)"
+		
+		}
+	],
+	"example": {
+		"attributes": {
+			"heading": "Facts are more important than ever",
+			"description":
+				"In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
+		},
+		"innerBlocks": [
+			{
+				"name": "prc-block/menu-link",
+				"attributes": {
+					"className": "is-style-button",
+					"color": "#d3aa20",
+					"label": "DONATE",
+					"url": ""
+				}
+			}
+		]
+	},    
+	"supports": {
+		"html": false
+	}
+}

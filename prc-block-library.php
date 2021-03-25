@@ -67,6 +67,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo-rotator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
@@ -294,30 +295,6 @@ class PRC_Block_Library {
 			)
 		);
 
-		/** Promo */
-		$this->registered['block']['prc-block/promo'] = $enqueue->register(
-			'promo',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		// // Legacy PHP compat
-		// add_filter(
-		// 'prc_block_promo_frontend_shim',
-		// function() {
-		// error_log( print_r( $this->registered['block'], true ) );
-		// return array(
-		// 'style' => array_pop( $this->registered['block']['prc-block/promo']['css'] )['handle'],
-		// );
-		// }
-		// );
-
 		/** Post Publish Date */
 		$this->registered['block']['prc-block/post-publish-date'] = $enqueue->register(
 			'post-publish-date',
@@ -543,15 +520,6 @@ class PRC_Block_Library {
 					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/mailchimp-opt-down']['css'] )['handle'] );
 					return $content;
 				},
-			)
-		);
-
-		/** Promo */
-		register_block_type(
-			'prc-block/promo',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/promo']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/promo']['css'] )['handle'],
 			)
 		);
 

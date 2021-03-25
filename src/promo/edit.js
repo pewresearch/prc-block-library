@@ -1,29 +1,41 @@
+/**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
+import { Fragment, useEffect } from '@wordpress/element';
 import {
-    InspectorControls,
     RichText,
     InnerBlocks,
+    InspectorControls,
+    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useBlockProps,
 } from '@wordpress/block-editor';
-import { withSelect } from '@wordpress/data';
 import {
+    BaseControl,
     PanelBody,
     PanelRow,
     ColorPalette,
     ToggleControl,
     SelectControl,
 } from '@wordpress/components';
-import { Fragment } from '@wordpress/element';
-import classNames from 'classnames/bind';
 
+/**
+ * Internal dependencies
+ */
 import Icon from './icons';
 
-const allowedBlocks = [
+const ALLOWED_BLOCKS = [
     'prc-block/menu-link',
     'prc-block/mailchimp-form',
     'prc-blocks/pathways-ask-an-analyst',
 ];
 
-const SidebarControls = ({
+const Controls = ({
     backgroundColor,
     borderColor,
     sansSerif,
@@ -36,7 +48,6 @@ const SidebarControls = ({
     ];
     const borderDefaults = [
         { name: 'Oatmeal', color: '#E2E2E2' },
-        // { name: 'Oatmeal (dark)', color: '#D5D5CD' },
         { name: 'Gray', color: '#D8D8D8' },
         { name: 'Black', color: '#000' },
     ];
@@ -44,153 +55,133 @@ const SidebarControls = ({
     return (
         <InspectorControls>
             <PanelBody title={__('Promo Design Options')}>
-                <PanelRow>
-                    <p>
-                        <strong>Background Color:</strong>
-                    </p>
+                <BaseControl label="Background Color">
                     <ColorPalette
                         colors={bgDefaults}
                         value={backgroundColor}
                         onChange={c => setAttributes({ backgroundColor: c })}
                         disableCustomColors
                     />
-                </PanelRow>
-                <PanelRow>
-                    <p>
-                        <strong>Border Color:</strong>
-                    </p>
+                </BaseControl>
+                <BaseControl label="Border Color">
                     <ColorPalette
                         colors={borderDefaults}
                         value={borderColor}
                         onChange={c => setAttributes({ borderColor: c })}
                         disableCustomColors
                     />
-                </PanelRow>
-                <PanelRow>
-                    <SelectControl
-                        label="Choose Icon"
-                        value={icon}
-                        options={[
-                            { label: 'None', value: '' },
-                            { label: 'Donate', value: 'donate' },
-                            { label: 'Election', value: 'election' },
-                            { label: 'Mail', value: 'mail' },
-                        ]}
-                        onChange={i => setAttributes({ icon: i })}
-                    />
-                </PanelRow>
-                <PanelRow>
-                    <ToggleControl
-                        label="Sans Serif Font"
-                        checked={sansSerif}
-                        onChange={() =>
-                            setAttributes({ sansSerif: !sansSerif })
-                        }
-                    />
-                </PanelRow>
+                </BaseControl>
+                <SelectControl
+                    label="Choose Icon"
+                    value={icon}
+                    options={[
+                        { label: 'None', value: '' },
+                        { label: 'Donate', value: 'donate' },
+                        { label: 'Election', value: 'election' },
+                        { label: 'Mail', value: 'mail' },
+                    ]}
+                    onChange={i => setAttributes({ icon: i })}
+                />
+                <ToggleControl
+                    label="Sans Serif Font"
+                    checked={sansSerif}
+                    onChange={() => setAttributes({ sansSerif: !sansSerif })}
+                />
             </PanelBody>
         </InspectorControls>
     );
 };
 
-const Description = ({ description, fontFamily, setAttributes }) => {
-    return (
-        <RichText
-            tagName="div"
-            value={description}
-            onChange={d => setAttributes({ description: d })}
-            placeholder="In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
-            multiline="p"
-            keepPlaceholderOnFocus
-            className={fontFamily}
-        />
-    );
-};
-
-const edit = ({
-    attributes,
-    className,
-    setAttributes,
-    hasChildBlocks,
-    isSelected,
-}) => {
+const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
     const {
-        header,
+        className,
+        heading,
+        headingSize,
         description,
         backgroundColor,
         borderColor,
         sansSerif,
         icon,
+        header,
     } = attributes;
-    const classes = classNames(className);
-    const fontFamily = classNames({ 'sans-serif': sansSerif });
+
+    useEffect(() => {
+        // Quickly migrate the attribute value.
+        if ('' !== header) {
+            setAttributes({ heading: header, header: '' });
+        }
+    }, [header]);
+
+    const hasChildBlocks = false;
+
+    const style = { borderColor, backgroundColor };
+    if (isSelected && !borderColor) {
+        style.borderColor = '#eaeaea';
+    }
+
+    const blockProps = useBlockProps({
+        className: classnames(className), // wp-block-prc-block-promo
+        style,
+    });
+
+    const innerBlocksProps = useInnerBlocksProps(
+        {
+            className: 'action',
+        },
+        {
+            allowedBlocks: ALLOWED_BLOCKS,
+            orientation: 'vertical',
+            templateLock: false,
+            renderAppender: !hasChildBlocks
+                ? InnerBlocks.ButtonBlockerAppender
+                : false,
+        },
+    );
 
     return (
         <Fragment>
-            <SidebarControls
-                backgroundColor={backgroundColor}
-                borderColor={borderColor}
-                sansSerif={sansSerif}
-                icon={icon}
-                setAttributes={setAttributes}
+            <Controls
+                {...{
+                    backgroundColor,
+                    borderColor,
+                    sansSerif,
+                    icon,
+                    setAttributes,
+                }}
             />
-            <div className={classes} style={{ borderColor, backgroundColor }}>
-                {'' !== icon && (
+            <div {...blockProps}>
+                {(isSelected || '' !== icon) && (
                     <div className="icon">
                         <Icon icon={icon} />
                     </div>
                 )}
                 <div className="text">
                     <RichText
-                        tagName="h2"
-                        value={header}
-                        onChange={h => setAttributes({ header: h })}
-                        placeholder="Facts are more important than ever."
+                        tagName={`h${headingSize}`}
+                        value={heading}
+                        onChange={h => setAttributes({ heading: h })}
+                        placeholder={__(`Facts are more important than ever.`)}
                         keepPlaceholderOnFocus
-                        className={fontFamily}
+                        className={sansSerif ? 'sans-serif' : null}
                     />
-                    {true === isSelected && (
-                        <Description
-                            description={description}
-                            setAttributes={setAttributes}
-                            fontFamily={fontFamily}
-                        />
-                    )}
-                    {true !== isSelected && '<p></p>' !== description && (
-                        <Description
-                            description={description}
-                            setAttributes={setAttributes}
-                            fontFamily={fontFamily}
-                        />
-                    )}
-                </div>
-                <div className="action">
-                    {true === isSelected && (
-                        <InnerBlocks
-                            allowedBlocks={allowedBlocks}
-                            renderAppender={
-                                hasChildBlocks
-                                    ? undefined
-                                    : () => <InnerBlocks.ButtonBlockAppender />
-                            }
-                        />
-                    )}
-                    {true !== isSelected && true === hasChildBlocks && (
-                        <InnerBlocks
-                            allowedBlocks={allowedBlocks}
-                            renderAppender={false}
+                    {true === (isSelected || '' !== description) && (
+                        <RichText
+                            tagName="div"
+                            value={description}
+                            onChange={d => setAttributes({ description: d })}
+                            placeholder={__(
+                                `In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.`,
+                            )}
+                            multiline="p"
+                            keepPlaceholderOnFocus
+                            className={sansSerif ? 'sans-serif' : null}
                         />
                     )}
                 </div>
+                <div {...innerBlocksProps} />
             </div>
         </Fragment>
     );
 };
 
-export default withSelect((select, ownProps) => {
-    const { clientId } = ownProps;
-    const { getBlockOrder } = select('core/block-editor');
-    return {
-        hasChildBlocks: 0 < getBlockOrder(clientId).length,
-    };
-})(edit);
+export default edit;
