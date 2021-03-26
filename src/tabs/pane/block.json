@@ -1,0 +1,17 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/tabs-pane",
+    "category": "layout",
+    "attributes": {
+        "uuid": {
+            "type": "string"
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": false,
+        "inserter": false
+    },
+    "usesContext": ["prc-block/tabs-vertical", "prc-block/tabs-style", "prc-block/tabs-active"],
+    "parent": ["prc-block/tabs-panes"]
+}

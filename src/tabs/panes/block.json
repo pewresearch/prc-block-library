@@ -1,0 +1,14 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/tabs-panes",
+    "category": "layout",
+    "attributes": {},
+    "supports": {
+        "html": false,
+        "align": false,
+        "inserter": false,
+        "multiple": false
+    },
+    "parent": ["prc-block/tabs"],
+    "usesContext": ["prc-block/tabs-vertical", "prc-block/tabs-style"]
+}

@@ -1,0 +1,42 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/tabs",
+    "category": "layout",
+    "attributes": {
+        "active": {
+            "type": "string",
+            "default": null
+        },
+        "vertical": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "providesContext":{
+        "prc-block/tabs-active": "active",
+        "prc-block/tabs-vertical": "vertical",
+        "prc-block/tabs-style": "className"
+    },
+    "styles": [
+		{
+			"name": "tabular",
+			"label": "Tabular",
+			"isDefault": true
+		},
+		{
+			"name": "secondary",
+			"label": "Secondary"
+		},
+        {
+			"name": "text",
+			"label": "Text"
+		},
+        {
+			"name": "pointing",
+			"label": "Pointing"
+		}
+	],
+    "supports": {
+        "html": false
+    }
+}

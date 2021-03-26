@@ -1,0 +1,23 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/tabs-menu-item",
+    "category": "layout",
+    "attributes": {
+        "slug" : {
+            "type": "string"
+        },
+        "title": {
+            "type": "string"
+        },
+        "uuid": {
+            "type": "string",
+            "default": null
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": false
+    },
+    "usesContext": ["prc-block/tabs-active"],
+    "parent": ["prc-block/tabs-menu"]
+}

@@ -9,11 +9,9 @@ const path = require('path');
 const pkg = require('./package.json');
 
 module.exports = {
-    // Project Identity
-    appName: 'prcBlocksLibrary', // Unique name of your project
-    type: 'plugin', // Plugin or theme
-    slug: 'prc-block-library', // Plugin or Theme slug, basically the directory name under `wp-content/<themes|plugins>`
-    // Used to generate banners on top of compiled stuff
+    appName: 'prcBlocksLibrary',
+    type: 'plugin',
+    slug: 'prc-block-library',
     bannerConfig: {
         name: 'prcBlocksLibrary',
         author: 'Seth Rubenstein',
@@ -40,6 +38,11 @@ module.exports = {
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
                 table: './src/table/index.js',
+                'tabs-controller': './src/tabs/controller/index.js',
+                'tabs-menu': './src/tabs/menu/index.js',
+                'tabs-menu-item': './src/tabs/menu-item/index.js',
+                'tabs-pane': './src/tabs/pane/index.js',
+                'tabs-panes': './src/tabs/panes/index.js',
                 'taxonomy-tree': './src/taxonomy-tree/index.js',
                 'taxonomy-tree-more': './src/taxonomy-tree-more/index.js',
                 'topic-index-az': './src/topic-index-az/index.js',
@@ -85,6 +88,7 @@ module.exports = {
                 collapsible: './src/collapsible/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
+                'tabs-controller': './src/tabs/controller/frontend.js',
                 'taxonomy-tree-more': './src/taxonomy-tree-more/frontend.js',
                 'topic-index-categorized':
                     './src/topic-index-categorized/frontend.js',
@@ -215,13 +219,6 @@ module.exports = {
             name: 'subtitle',
             entry: {
                 main: './src/sub-title/index.js',
-            },
-        },
-        {
-            name: 'tabs',
-            entry: {
-                main: './src/tabs/index.js',
-                frontend: './src/tabs/frontend.js',
             },
         },
         // If has more length, then multi-compiler

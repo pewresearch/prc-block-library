@@ -72,6 +72,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/tabs/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree-more/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-az/index.php';
@@ -376,32 +377,6 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-
-		/** Tabs */
-		$this->registered['block']['prc-block/tabs']    = $enqueue->register(
-			'tabs',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/tabs'] = $enqueue->register(
-			'tabs',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
 	}
 
 	/**
@@ -586,20 +561,6 @@ class PRC_Block_Library {
 			'prc-block/subtitle',
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/subtitle']['js'] )['handle'],
-			)
-		);
-
-		/** Tabs */
-		register_block_type(
-			'prc-block/tabs',
-			array(
-				'editor_script'   => array_pop( $this->registered['block']['prc-block/tabs']['js'] )['handle'],
-				'editor_style'    => array_pop( $this->registered['block']['prc-block/tabs']['css'] )['handle'],
-				'render_callback' => function( $attributes, $content, $block ) {
-					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/tabs']['js'] )['handle'] );
-					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/tabs']['css'] )['handle'] );
-					return $content;
-				},
 			)
 		);
 

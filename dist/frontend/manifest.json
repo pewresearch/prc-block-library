@@ -1,99 +1,111 @@
 {
-  "collapsible.js": "frontend/collapsible-0fdcc623.js",
-  "collapsible.js.map": "frontend/collapsible-0fdcc623.js.map",
-  "menu-link.js": "frontend/menu-link-e13750dc.js",
-  "menu-link.js.map": "frontend/menu-link-e13750dc.js.map",
+  "collapsible.js": "frontend/collapsible-2210fdcb.js",
+  "collapsible.js.map": "frontend/collapsible-2210fdcb.js.map",
+  "menu-link.js": "frontend/menu-link-e7f9b47e.js",
+  "menu-link.js.map": "frontend/menu-link-e7f9b47e.js.map",
   "runtime.js": "frontend/runtime-afabe77b.js",
   "runtime.js.map": "frontend/runtime-afabe77b.js.map",
-  "social-link.js": "frontend/social-link-fa75f43c.js",
-  "social-link.js.map": "frontend/social-link-fa75f43c.js.map",
-  "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-2ded9fcc.js",
-  "taxonomy-tree-more.js.map": "frontend/taxonomy-tree-more-2ded9fcc.js.map",
-  "topic-index-categorized.js": "frontend/topic-index-categorized-50355708.js",
-  "topic-index-categorized.js.map": "frontend/topic-index-categorized-50355708.js.map",
-  "topic-index-condensed.js": "frontend/topic-index-condensed-9324b19f.js",
-  "topic-index-condensed.js.map": "frontend/topic-index-condensed-9324b19f.js.map",
-  "topic-index-search-field.js": "frontend/topic-index-search-field-000caed1.js",
-  "topic-index-search-field.js.map": "frontend/topic-index-search-field-000caed1.js.map",
-  "vendors~collapsible~topic-index-search-field.js": "frontend/vendors~collapsible~topic-index-search-field-5686a08b.js",
-  "vendors~collapsible~topic-index-search-field.js.map": "frontend/vendors~collapsible~topic-index-search-field-5686a08b.js.map",
-  "vendors~topic-index-search-field.js": "frontend/vendors~topic-index-search-field-67edfa87.js",
-  "vendors~topic-index-search-field.js.map": "frontend/vendors~topic-index-search-field-67edfa87.js.map",
+  "social-link.js": "frontend/social-link-74a976fb.js",
+  "social-link.js.map": "frontend/social-link-74a976fb.js.map",
+  "tabs-controller.js": "frontend/tabs-controller-0f24ad74.js",
+  "tabs-controller.js.map": "frontend/tabs-controller-0f24ad74.js.map",
+  "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-c86e2a73.js",
+  "taxonomy-tree-more.js.map": "frontend/taxonomy-tree-more-c86e2a73.js.map",
+  "topic-index-categorized.js": "frontend/topic-index-categorized-7e131598.js",
+  "topic-index-categorized.js.map": "frontend/topic-index-categorized-7e131598.js.map",
+  "topic-index-condensed.js": "frontend/topic-index-condensed-9d2e6c5b.js",
+  "topic-index-condensed.js.map": "frontend/topic-index-condensed-9d2e6c5b.js.map",
+  "topic-index-search-field.js": "frontend/topic-index-search-field-a1ef36fe.js",
+  "topic-index-search-field.js.map": "frontend/topic-index-search-field-a1ef36fe.js.map",
+  "vendors~collapsible~topic-index-search-field.js": "frontend/vendors~collapsible~topic-index-search-field-4134e3f9.js",
+  "vendors~collapsible~topic-index-search-field.js.map": "frontend/vendors~collapsible~topic-index-search-field-4134e3f9.js.map",
+  "vendors~topic-index-search-field.js": "frontend/vendors~topic-index-search-field-8f1ace39.js",
+  "vendors~topic-index-search-field.js.map": "frontend/vendors~topic-index-search-field-8f1ace39.js.map",
   "wpackioEp": {
     "collapsible": {
       "js": [
         "frontend/runtime-afabe77b.js",
-        "frontend/vendors~collapsible~topic-index-search-field-5686a08b.js",
-        "frontend/collapsible-0fdcc623.js"
+        "frontend/vendors~collapsible~topic-index-search-field-4134e3f9.js",
+        "frontend/collapsible-2210fdcb.js"
       ],
       "js.map": [
         "frontend/runtime-afabe77b.js.map",
-        "frontend/vendors~collapsible~topic-index-search-field-5686a08b.js.map",
-        "frontend/collapsible-0fdcc623.js.map"
+        "frontend/vendors~collapsible~topic-index-search-field-4134e3f9.js.map",
+        "frontend/collapsible-2210fdcb.js.map"
       ]
     },
     "menu-link": {
       "js": [
         "frontend/runtime-afabe77b.js",
-        "frontend/menu-link-e13750dc.js"
+        "frontend/menu-link-e7f9b47e.js"
       ],
       "js.map": [
         "frontend/runtime-afabe77b.js.map",
-        "frontend/menu-link-e13750dc.js.map"
+        "frontend/menu-link-e7f9b47e.js.map"
       ]
     },
     "social-link": {
       "js": [
         "frontend/runtime-afabe77b.js",
-        "frontend/social-link-fa75f43c.js"
+        "frontend/social-link-74a976fb.js"
       ],
       "js.map": [
         "frontend/runtime-afabe77b.js.map",
-        "frontend/social-link-fa75f43c.js.map"
+        "frontend/social-link-74a976fb.js.map"
+      ]
+    },
+    "tabs-controller": {
+      "js": [
+        "frontend/runtime-afabe77b.js",
+        "frontend/tabs-controller-0f24ad74.js"
+      ],
+      "js.map": [
+        "frontend/runtime-afabe77b.js.map",
+        "frontend/tabs-controller-0f24ad74.js.map"
       ]
     },
     "taxonomy-tree-more": {
       "js": [
         "frontend/runtime-afabe77b.js",
-        "frontend/taxonomy-tree-more-2ded9fcc.js"
+        "frontend/taxonomy-tree-more-c86e2a73.js"
       ],
       "js.map": [
         "frontend/runtime-afabe77b.js.map",
-        "frontend/taxonomy-tree-more-2ded9fcc.js.map"
+        "frontend/taxonomy-tree-more-c86e2a73.js.map"
       ]
     },
     "topic-index-categorized": {
       "js": [
         "frontend/runtime-afabe77b.js",
-        "frontend/topic-index-categorized-50355708.js"
+        "frontend/topic-index-categorized-7e131598.js"
       ],
       "js.map": [
         "frontend/runtime-afabe77b.js.map",
-        "frontend/topic-index-categorized-50355708.js.map"
+        "frontend/topic-index-categorized-7e131598.js.map"
       ]
     },
     "topic-index-condensed": {
       "js": [
         "frontend/runtime-afabe77b.js",
-        "frontend/topic-index-condensed-9324b19f.js"
+        "frontend/topic-index-condensed-9d2e6c5b.js"
       ],
       "js.map": [
         "frontend/runtime-afabe77b.js.map",
-        "frontend/topic-index-condensed-9324b19f.js.map"
+        "frontend/topic-index-condensed-9d2e6c5b.js.map"
       ]
     },
     "topic-index-search-field": {
       "js": [
         "frontend/runtime-afabe77b.js",
-        "frontend/vendors~collapsible~topic-index-search-field-5686a08b.js",
-        "frontend/vendors~topic-index-search-field-67edfa87.js",
-        "frontend/topic-index-search-field-000caed1.js"
+        "frontend/vendors~collapsible~topic-index-search-field-4134e3f9.js",
+        "frontend/vendors~topic-index-search-field-8f1ace39.js",
+        "frontend/topic-index-search-field-a1ef36fe.js"
       ],
       "js.map": [
         "frontend/runtime-afabe77b.js.map",
-        "frontend/vendors~collapsible~topic-index-search-field-5686a08b.js.map",
-        "frontend/vendors~topic-index-search-field-67edfa87.js.map",
-        "frontend/topic-index-search-field-000caed1.js.map"
+        "frontend/vendors~collapsible~topic-index-search-field-4134e3f9.js.map",
+        "frontend/vendors~topic-index-search-field-8f1ace39.js.map",
+        "frontend/topic-index-search-field-a1ef36fe.js.map"
       ]
     }
   }
