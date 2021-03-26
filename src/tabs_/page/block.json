@@ -1,0 +1,23 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/topic-index-condensed-page",
+    "category": "layout",
+    "attributes": {
+        "heading": {
+            "type": "string"
+        },
+        "uuid": {
+            "type": "string"
+        },
+        "url": {
+            "type": "string"
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": false,
+        "inserter": false
+    },
+    "usesContext": ["prc-block/topic-index-condensed-active"],
+    "parent": ["prc-block/topic-index-condensed-pages"]
+}

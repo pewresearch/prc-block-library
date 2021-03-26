@@ -17,8 +17,7 @@
 			"type": "string"
 		},
 		"borderColor": {
-			"type": "string",
-			"default": "#000"
+			"type": "string"
 		},
 		"sansSerif": {
 			"type": "boolean"

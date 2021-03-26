@@ -4,7 +4,7 @@
 import { Fragment, RawHTML } from '@wordpress/element';
 
 import AudioSVG from './audio.svg';
-import DonateSVG from './donation.svg';
+import DonateSVG from './donate.svg';
 import ElectionSVG from './election.svg';
 import MailSVG from './mail.svg';
 
