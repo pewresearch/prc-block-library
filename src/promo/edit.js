@@ -156,10 +156,11 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
         },
         {
             allowedBlocks: ALLOWED_BLOCKS,
+            orientation: 'vertical',
             templateLock: false,
-            renderAppender: hasChildBlocks
-                ? false
-                : InnerBlocks.ButtonBlockerAppender,
+            renderAppender: !hasChildBlocks
+                ? InnerBlocks.ButtonBlockAppender
+                : false,
         },
     );
 
