@@ -26,6 +26,7 @@ class Promo extends PRC_Block_Library {
 			)
 		);
 		$heading_tag        = 3 === $attributes['headinglevel'] ? 'h3' : 'h2';
+		$heading_tag        = $heading_tag . ' class=' . classnames( array( 'sans-serif' => $attributes['sansSerif'] ) );
 		$has_description    = '' !== $attributes['description'] && '<p></p>' !== $attributes['description'];
 		$has_icon           = ! empty( $attributes['icon'] );
 		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';

@@ -128,7 +128,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
         if ('' !== header) {
             setAttributes({ heading: header, header: '' });
         }
-    }, [header]);
+    }, []);
 
     const hasDescription =
         undefined !== description &&
