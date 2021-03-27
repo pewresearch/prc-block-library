@@ -1,8 +1,8 @@
 {
   "frontend.js": "fact-sheet-collection/frontend-73ca01f5.js",
   "frontend.js.map": "fact-sheet-collection/frontend-73ca01f5.js.map",
-  "main.js": "fact-sheet-collection/main-189e49ba.js",
-  "main.js.map": "fact-sheet-collection/main-189e49ba.js.map",
+  "main.js": "fact-sheet-collection/main-bbf5099d.js",
+  "main.js.map": "fact-sheet-collection/main-bbf5099d.js.map",
   "runtime.js": "fact-sheet-collection/runtime-45287d43.js",
   "runtime.js.map": "fact-sheet-collection/runtime-45287d43.js.map",
   "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-c3dfc258.js",
@@ -17,13 +17,13 @@
         "fact-sheet-collection/runtime-45287d43.js",
         "fact-sheet-collection/vendors~frontend~main-7f07543e.js",
         "fact-sheet-collection/vendors~main-5cf9a07c.js",
-        "fact-sheet-collection/main-189e49ba.js"
+        "fact-sheet-collection/main-bbf5099d.js"
       ],
       "js.map": [
         "fact-sheet-collection/runtime-45287d43.js.map",
         "fact-sheet-collection/vendors~frontend~main-7f07543e.js.map",
         "fact-sheet-collection/vendors~main-5cf9a07c.js.map",
-        "fact-sheet-collection/main-189e49ba.js.map"
+        "fact-sheet-collection/main-bbf5099d.js.map"
       ]
     },
     "frontend": {

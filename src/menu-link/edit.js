@@ -272,7 +272,6 @@ const edit = ({
      * If toggling between button style, if no longer a button clear the color
      */
     useEffect(() => {
-        console.log('is button??', parentBlockName, isButton, color);
         if (!isButton) {
             setAttributes({ color: null });
         } else if (

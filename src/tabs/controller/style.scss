@@ -1,0 +1,7 @@
+.wp-block-prc-block-tabs-pane {
+    & > div:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}

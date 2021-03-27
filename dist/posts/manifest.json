@@ -1,8 +1,8 @@
 {
   "default~frontend~main.css": "posts/default~frontend~main-90660731.css",
   "default~frontend~main.css.map": "posts/default~frontend~main-90660731.css.map",
-  "default~frontend~main.js": "posts/default~frontend~main-f77344fc.js",
-  "default~frontend~main.js.map": "posts/default~frontend~main-f77344fc.js.map",
+  "default~frontend~main.js": "posts/default~frontend~main-b2ffa777.js",
+  "default~frontend~main.js.map": "posts/default~frontend~main-b2ffa777.js.map",
   "frontend.js": "posts/frontend-f2b4c136.js",
   "frontend.js.map": "posts/frontend-f2b4c136.js.map",
   "main.js": "posts/main-1a35fe6b.js",
@@ -16,13 +16,13 @@
       "js": [
         "posts/runtime-b726827b.js",
         "posts/vendors~frontend~main-8e79f025.js",
-        "posts/default~frontend~main-f77344fc.js",
+        "posts/default~frontend~main-b2ffa777.js",
         "posts/main-1a35fe6b.js"
       ],
       "js.map": [
         "posts/runtime-b726827b.js.map",
         "posts/vendors~frontend~main-8e79f025.js.map",
-        "posts/default~frontend~main-f77344fc.js.map",
+        "posts/default~frontend~main-b2ffa777.js.map",
         "posts/main-1a35fe6b.js.map"
       ],
       "css": [
@@ -36,13 +36,13 @@
       "js": [
         "posts/runtime-b726827b.js",
         "posts/vendors~frontend~main-8e79f025.js",
-        "posts/default~frontend~main-f77344fc.js",
+        "posts/default~frontend~main-b2ffa777.js",
         "posts/frontend-f2b4c136.js"
       ],
       "js.map": [
         "posts/runtime-b726827b.js.map",
         "posts/vendors~frontend~main-8e79f025.js.map",
-        "posts/default~frontend~main-f77344fc.js.map",
+        "posts/default~frontend~main-b2ffa777.js.map",
         "posts/frontend-f2b4c136.js.map"
       ],
       "css": [

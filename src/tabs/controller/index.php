@@ -18,6 +18,10 @@ class Tabs_Controller extends PRC_Block_Library {
 		return $qvars;
 	}
 
+	public function mobile_accordion( $attributes, $block ) {
+
+	}
+
 	/**
 	 * Render callback for prc-block/topic-index-condensed-controller
 	 *
@@ -28,9 +32,18 @@ class Tabs_Controller extends PRC_Block_Library {
 	 */
 	public function render_controller( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
+		if ( jetpack_is_mobile() ) {
+			return $this->mobile_accordion( $attributes, $block );
+		}
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'id'    => md5( wp_json_encode( $attributes ) ),
+				'class' => classnames( array( 'ui grid' => $attributes['vertical'] ) ),
+			)
+		);
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-tabs-controller" data-vertical="<?php echo $attributes['vertical']; ?>">
+		<div <?php echo $wrapper_attributes; ?>>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
@@ -38,7 +51,7 @@ class Tabs_Controller extends PRC_Block_Library {
 	}
 
 	public function register_frontend() {
-		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-url' );
+		$js_deps = array( 'wp-dom-ready', 'wp-url' );
 		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
 		return $enqueue->register(
 			'frontend',
@@ -76,7 +89,7 @@ class Tabs_Controller extends PRC_Block_Library {
 			'tabs-controller',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $block_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -87,7 +100,9 @@ class Tabs_Controller extends PRC_Block_Library {
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . 'controller',
 			array(
-				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'editor_script'   => array_pop( $registered['js'] )
+				['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_controller' ),
 			)
 		);

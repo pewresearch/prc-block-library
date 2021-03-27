@@ -21,11 +21,18 @@ class Tabs_Panes extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_tabs_panes( $attributes, $content, $block ) {
+		// if is vertical then wrap in div and class column twelve wide
+		$is_vertical        = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : false;
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'class' => 'column twelve wide',
+			)
+		);
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-tabs-panes">
-			<?php echo wp_kses( $content, 'post' ); ?>
-		</div>
+		<?php echo $is_vertical ? '<div ' . $wrapper_attributes . '>' : null; ?>
+		<?php echo wp_kses( $content, 'post' ); ?>
+		<?php echo $is_vertical ? '</div> ' : null; ?>
 		<?php
 		return ob_get_clean();
 	}

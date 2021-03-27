@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-// import './style.scss';
+import './style.scss';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';

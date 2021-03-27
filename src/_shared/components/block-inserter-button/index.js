@@ -11,6 +11,7 @@ const BlockInserterButton = ({
     label = '',
     blockName,
     clientId,
+    className,
     attributes = {},
 }) => {
     const handleClick = () => {

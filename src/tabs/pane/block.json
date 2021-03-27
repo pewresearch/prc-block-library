@@ -12,6 +12,6 @@
         "align": false,
         "inserter": false
     },
-    "usesContext": ["prc-block/tabs-vertical", "prc-block/tabs-style", "prc-block/tabs-active"],
+    "usesContext": ["prc-block/tabs-active", "prc-block/tabs-vertical", "prc-block/tabs-panes-style", "prc-block/tabs-style"],
     "parent": ["prc-block/tabs-panes"]
 }

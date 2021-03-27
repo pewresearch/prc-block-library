@@ -14,19 +14,13 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
-/**
- * Internal dependencies
- */
-
-import './style.scss';
-
-const Edit = ({ attributes, className, clientId, context, setAttributes }) => {
+const Edit = ({ attributes, className, clientId, context }) => {
     const { uuid } = attributes;
+    // eslint-disable-next-line react/destructuring-assignment
     const currentlyActive = context['prc-block/tabs-active'];
     const isActive = uuid === currentlyActive;
-
-    const isVertical = context['prc-block/tabs-vertical'];
-    const style = context['prc-block/tabs-style'];
+    // eslint-disable-next-line react/destructuring-assignment
+    const style = context['prc-block/tabs-panes-style'];
 
     if (!isActive) {
         return <Fragment />;
@@ -44,17 +38,25 @@ const Edit = ({ attributes, className, clientId, context, setAttributes }) => {
 
     const blockProps = useBlockProps({
         className: classnames(className, 'ui segment tab', {
+            basic: 'is-style-not-bordered' === style,
             active: uuid === currentlyActive,
         }),
     });
 
-    const innerBlocksProps = useInnerBlocksProps(blockProps, {
-        renderAppender: hasChildBlocks
-            ? InnerBlocks.DefaultBlockAppender
-            : InnerBlocks.ButtonBlockAppender,
-    });
+    const innerBlocksProps = useInnerBlocksProps(
+        {},
+        {
+            renderAppender: hasChildBlocks
+                ? InnerBlocks.DefaultBlockAppender
+                : InnerBlocks.ButtonBlockAppender,
+        },
+    );
 
-    return <div {...innerBlocksProps} />;
+    return (
+        <div {...blockProps}>
+            <div {...innerBlocksProps} />
+        </div>
+    );
 };
 
 export default Edit;

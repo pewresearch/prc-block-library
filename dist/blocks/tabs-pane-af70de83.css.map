@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/tabs/pane/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,+CACI,YAAa,CADjB,sDAGQ,aAAc","file":"blocks/tabs-pane-af70de83.css","sourcesContent":[".wp-block-prc-block-topic-index-condensed-page {\n    display: none;\n    &.active {\n        display: block;\n    }\n}"],"sourceRoot":""}

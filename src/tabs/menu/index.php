@@ -21,11 +21,31 @@ class Tabs_Menu extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_menu( $attributes, $content, $block ) {
+		$is_vertical        = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : false;
+		$style              = array_key_exists( 'prc-block/tabs-style', $block->context ) ? $block->context['prc-block/tabs-style'] : 'is-style-tabular';
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'class' => classnames(
+					'ui',
+					array(
+						'top attached' => ! $is_vertical && 'is-style-tabular' === $style,
+						'vertical'     => $is_vertical,
+						'pointing'     => 'is-style-pointing' === $style,
+						'secondary'    => 'is-style-secondary' === $style,
+						'tabular'      => 'is-style-tabular' === $style,
+						'text'         => 'is-style-text' === $style,
+					),
+					'fluid menu'
+				),
+			)
+		);
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-tabs-menu">
+		<?php echo $is_vertical ? '<div class="column four wide">' : null; ?>
+		<div <?php echo $wrapper_attributes; ?>>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
+		<?php echo $is_vertical ? '</div> ' : null; ?>
 		<?php
 		return ob_get_clean();
 	}

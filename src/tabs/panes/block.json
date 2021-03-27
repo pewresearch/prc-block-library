@@ -3,12 +3,26 @@
 	"name": "prc-block/tabs-panes",
     "category": "layout",
     "attributes": {},
+    "parent": ["prc-block/tabs"],
+    "providesContext":{
+        "prc-block/tabs-panes-style": "className"
+    },
+    "styles": [
+		{
+			"name": "bordered",
+			"label": "Bordered",
+			"isDefault": true
+		},
+		{
+			"name": "not-bordered",
+			"label": "Not Bordered"
+		}
+	],
     "supports": {
         "html": false,
         "align": false,
         "inserter": false,
         "multiple": false
     },
-    "parent": ["prc-block/tabs"],
     "usesContext": ["prc-block/tabs-vertical", "prc-block/tabs-style"]
 }

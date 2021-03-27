@@ -21,9 +21,26 @@ class Tabs_Pane extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_tab_pane( $attributes, $content, $block ) {
+		$is_vertical        = $block->context['prc-block/tabs-vertical'];
+		$style              = $block->context['prc-block/tabs-panes-style'];
+		$controller_style   = $block->context['prc-block/tabs-style'];
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'class'     => classnames(
+					'ui',
+					array(
+						'bottom attached' => ! $is_vertical && 'is-style-tabular' === $controller_style,
+						'basic'           => 'is-style-not-bordered' === $style,
+						'active'          => get_query_var( 'menuItem' ) === $attributes['uuid'],
+					),
+					'segment tab'
+				),
+				'data-uuid' => $attributes['uuid'],
+			)
+		);
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-tabs-pane" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
+		<div <?php echo $wrapper_attributes; ?>>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php

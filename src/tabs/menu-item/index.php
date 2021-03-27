@@ -21,9 +21,21 @@ class Tabs_Menu_Item extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_menu_item( $attributes, $content, $block ) {
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'class'     => classnames(
+					'item',
+					array(
+						'active' => get_query_var( 'menuItem' ) === $attributes['uuid'],
+					)
+				),
+				'data-slug' => $attributes['slug'],
+				'data-uuid' => $attributes['uuid'],
+			)
+		);
 		ob_start();
 		?>
-		<a class="wp-block-prc-block-tabs-menu-item" data-slug="<?php echo esc_attr( $attributes['slug'] ); ?>" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
+		<a <?php echo $wrapper_attributes; ?>>
 			<?php echo wp_kses( $attributes['title'], 'post' ); ?>
 		</a>
 		<?php

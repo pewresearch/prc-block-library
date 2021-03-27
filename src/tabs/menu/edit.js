@@ -11,13 +11,6 @@ import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
-/**
- * Internal dependencies
- */
-
-// eslint-disable-next-line import/no-unresolved
-import { BlockInserterButton } from 'shared';
-
 const ALLOWED_BLOCKS = ['prc-block/tabs-menu-item'];
 
 const Edit = ({ className, clientId, context }) => {
@@ -44,13 +37,6 @@ const Edit = ({ className, clientId, context }) => {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: isVertical ? 'vertical' : 'horizontal',
             templateLock: false,
-            renderAppender: () => (
-                <BlockInserterButton
-                    label="Add New Menu Item"
-                    blockName="prc-block/tabs-menu-item"
-                    clientId={clientId}
-                />
-            ),
         },
     );
 
