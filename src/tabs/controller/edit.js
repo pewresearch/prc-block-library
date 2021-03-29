@@ -57,24 +57,34 @@ const Edit = ({ attributes, className, setAttributes, clientId }) => {
     });
 
     // Get menu blocks, get page blocks
-    const { menuBlocks, paneBlocks } = useSelect(select => {
-        const rootBlocks = select('core/block-editor').getBlocks(clientId);
-        const mBlocks =
-            1 <= rootBlocks.length
-                ? rootBlocks.filter(e => 'prc-block/tabs-menu' === e.name)
-                : [];
-        const pBlocks =
-            1 <= rootBlocks.length
-                ? rootBlocks.filter(e => 'prc-block/tabs-panes' === e.name)
-                : [];
-        return {
-            menuBlocks: 1 <= mBlocks.length ? mBlocks[0].innerBlocks : false,
-            paneBlocks: 1 <= pBlocks.length ? pBlocks[0].innerBlocks : false,
-        };
-    });
+    const { menuBlocks, paneBlocks } = useSelect(
+        select => {
+            if (undefined === clientId) {
+                return;
+            }
+            const rootBlocks = select('core/block-editor').getBlocks(clientId);
+            const mBlocks =
+                1 <= rootBlocks.length
+                    ? rootBlocks.filter(e => 'prc-block/tabs-menu' === e.name)
+                    : [];
+            const pBlocks =
+                1 <= rootBlocks.length
+                    ? rootBlocks.filter(e => 'prc-block/tabs-panes' === e.name)
+                    : [];
+            // eslint-disable-next-line consistent-return
+            return {
+                menuBlocks:
+                    1 <= mBlocks.length ? mBlocks[0].innerBlocks : false,
+                paneBlocks:
+                    1 <= pBlocks.length ? pBlocks[0].innerBlocks : false,
+            };
+        },
+        [clientId],
+    );
 
     // When a menu item block is removed find the matching page block by uuid and remove it.
     useEffect(() => {
+        console.log('menuBlocks', menuBlocks);
         if (menuBlocks.length < menuBlocksPast.length) {
             // We have removed something.
             // Find what the diff from menuBlocks and menuBlocksPast is, then get the uuid then search the pageBlocks and remove the block in question.
@@ -85,7 +95,6 @@ const Edit = ({ attributes, className, setAttributes, clientId }) => {
             dispatch('core/block-editor').removeBlock(matchedPane[0].clientId);
             // Need to set active the next available menu item block
         }
-
         setMenuBlocksPast(menuBlocks);
     }, [menuBlocks]);
 

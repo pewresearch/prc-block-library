@@ -17,15 +17,28 @@ class Promo extends PRC_Block_Library {
 		}
 	}
 
-	public function render_block_callback( $attributes, $content, $block ) {
+	public function render_block_callback( $attributes, $content ) {
+		$attributes         = wp_parse_args(
+			$attributes,
+			array(
+				'className'       => '',
+				'heading'         => '',
+				'headingLevel'    => 2,
+				'description'     => '',
+				'backgroundColor' => '#fff',
+				'borderColor'     => '#fff',
+				'sansSerif'       => false,
+				'icon'            => '',
+			)
+		);
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'    => md5( wp_json_encode( $attributes ) ),
-				'class' => classnames( 'wp-block-prc-block-promo', $attributes['classname'], array( 'sans-serif' => $attributes['sansSerif'] ) ),
+				'class' => classnames( 'wp-block-prc-block-promo', $attributes['className'], array( 'sans-serif' => $attributes['sansSerif'] ) ),
 				'style' => 'border-color: ' . $attributes['borderColor'] . '; background-color: ' . $attributes['backgroundColor'],
 			)
 		);
-		$heading_tag        = 3 === $attributes['headinglevel'] ? 'h3' : 'h2';
+		$heading_tag        = 3 === $attributes['headingLevel'] ? 'h3' : 'h2';
 		$heading_tag        = $heading_tag . ' class=' . classnames( array( 'sans-serif' => $attributes['sansSerif'] ) );
 		$has_description    = '' !== $attributes['description'] && '<p></p>' !== $attributes['description'];
 		$has_icon           = ! empty( $attributes['icon'] );
@@ -83,3 +96,13 @@ class Promo extends PRC_Block_Library {
 }
 
 new Promo( true );
+
+/**
+ * Renders a standard PRC Promo block
+ *
+ * @param mixed $args
+ * @param mixed $content
+ * @return string|false
+ */
+function prc_render_promo( $args, $content ) {
+}

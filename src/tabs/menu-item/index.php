@@ -21,12 +21,17 @@ class Tabs_Menu_Item extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_menu_item( $attributes, $content, $block ) {
+		if ( array_key_exists( 'active', $attributes ) && true === $attributes['active'] ) {
+			$active = true;
+		} else {
+			$active = get_query_var( 'menuItem' ) === $attributes['uuid'];
+		}
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'class'     => classnames(
 					'item',
 					array(
-						'active' => get_query_var( 'menuItem' ) === $attributes['uuid'],
+						'active' => $active,
 					)
 				),
 				'data-slug' => $attributes['slug'],

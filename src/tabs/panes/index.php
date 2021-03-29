@@ -31,7 +31,14 @@ class Tabs_Panes extends PRC_Block_Library {
 		ob_start();
 		?>
 		<?php echo $is_vertical ? '<div ' . $wrapper_attributes . '>' : null; ?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<?php
+		foreach ( $block->parsed_block['innerBlocks'] as $i => $pane ) {
+			if ( ! get_query_var( 'menuItem' ) && 0 === $i ) {
+				$pane['attrs']['active'] = true;
+			}
+			echo render_block( $pane );
+		}
+		?>
 		<?php echo $is_vertical ? '</div> ' : null; ?>
 		<?php
 		return ob_get_clean();

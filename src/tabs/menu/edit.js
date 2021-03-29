@@ -13,7 +13,9 @@ import {
 
 const ALLOWED_BLOCKS = ['prc-block/tabs-menu-item'];
 
-const Edit = ({ className, clientId, context }) => {
+const BLOCKS_TEMPLATE = [['prc-block/tabs-menu-item', {}]];
+
+const Edit = ({ className, context }) => {
     // eslint-disable-next-line react/destructuring-assignment
     const isVertical = context['prc-block/tabs-vertical'];
     // eslint-disable-next-line react/destructuring-assignment
@@ -44,6 +46,7 @@ const Edit = ({ className, clientId, context }) => {
         {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: isVertical ? 'vertical' : 'horizontal',
+            template: BLOCKS_TEMPLATE,
             templateLock: false,
         },
     );

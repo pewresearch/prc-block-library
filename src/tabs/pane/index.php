@@ -21,17 +21,31 @@ class Tabs_Pane extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_tab_pane( $attributes, $content, $block ) {
-		$is_vertical        = $block->context['prc-block/tabs-vertical'];
-		$style              = $block->context['prc-block/tabs-panes-style'];
-		$controller_style   = $block->context['prc-block/tabs-style'];
+		if ( array_key_exists( 'active', $attributes ) && true === $attributes['active'] ) {
+			$active = true;
+		} else {
+			$active = get_query_var( 'menuItem' ) === $attributes['uuid'];
+		}
+		$context          = wp_parse_args(
+			$block->context,
+			array(
+				'prc-block/tabs-vertical'    => false,
+				'prc-block/tabs-panes-style' => 'is-style-bordered',
+				'prc-block/tabs-style'       => 'is-style-tabular',
+			)
+		);
+		$is_vertical      = $context['prc-block/tabs-vertical'];
+		$style            = $context['prc-block/tabs-panes-style'];
+		$controller_style = $context['prc-block/tabs-style'];
+		error_log( 'context:' . print_r( $context, true ) );
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'class'     => classnames(
 					'ui',
 					array(
-						'bottom attached' => ! $is_vertical && 'is-style-tabular' === $controller_style,
+						'bottom attached' => true !== $is_vertical && 'is-style-tabular' === $controller_style,
 						'basic'           => 'is-style-not-bordered' === $style,
-						'active'          => get_query_var( 'menuItem' ) === $attributes['uuid'],
+						'active'          => $active,
 					),
 					'segment tab'
 				),

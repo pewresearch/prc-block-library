@@ -43,7 +43,14 @@ class Tabs_Menu extends PRC_Block_Library {
 		?>
 		<?php echo $is_vertical ? '<div class="column four wide">' : null; ?>
 		<div <?php echo $wrapper_attributes; ?>>
-			<?php echo wp_kses( $content, 'post' ); ?>
+			<?php
+			foreach ( $block->parsed_block['innerBlocks'] as $i => $menu_item ) {
+				if ( ! get_query_var( 'menuItem' ) && 0 === $i ) {
+					$menu_item['attrs']['active'] = true;
+				}
+				echo render_block( $menu_item );
+			}
+			?>
 		</div>
 		<?php echo $is_vertical ? '</div> ' : null; ?>
 		<?php
