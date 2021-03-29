@@ -26,18 +26,11 @@ class Tabs_Pane extends PRC_Block_Library {
 		} else {
 			$active = get_query_var( 'menuItem' ) === $attributes['uuid'];
 		}
-		$context          = wp_parse_args(
-			$block->context,
-			array(
-				'prc-block/tabs-vertical'    => false,
-				'prc-block/tabs-panes-style' => 'is-style-bordered',
-				'prc-block/tabs-style'       => 'is-style-tabular',
-			)
-		);
-		$is_accordion     = array_key_exists( 'asAccordion', $attributes ) ? $attributes['asAccordion'] : false;
-		$is_vertical      = $context['prc-block/tabs-vertical'];
-		$style            = $context['prc-block/tabs-panes-style'];
-		$controller_style = $context['prc-block/tabs-style'];
+		$is_accordion = array_key_exists( 'asAccordion', $attributes ) ? $attributes['asAccordion'] : false;
+		// We have to fake block context bc we're manually rendering block here.
+		$is_vertical      = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : ( array_key_exists( 'isVertical', $attributes ) ? $attributes['isVertical'] : false );
+		$style            = array_key_exists( 'prc-block/tabs-panes-style', $block->context ) ? $block->context['prc-block/tabs-panes-style'] : ( array_key_exists( 'paneStyle', $attributes ) ? $attributes['paneStyle'] : false );
+		$controller_style = array_key_exists( 'prc-block/tabs-style', $block->context ) ? $block->context['prc-block/tabs-style'] : ( array_key_exists( 'controllerStyle', $attributes ) ? $attributes['controllerStyle'] : false );
 
 		$classes = array(
 			'ui',

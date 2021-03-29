@@ -1,12 +1,27 @@
 import domReady from '@wordpress/dom-ready';
 import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
 
-const makeActive = uuid => {
+/**
+ * Sets a title/item and content/tab active by UUID.
+ * Accepts a boolean for isAccordion if true changes the logic to hide currently active items if clicked on again.
+ * @param {string} uuid
+ * @param {boolean} isAccordion
+ * @returns New window.history state.
+ */
+const makeActive = (uuid, isAccordion) => {
+    console.log('makeActive', uuid, isAccordion);
     const menuItem = document.querySelector(
         `.wp-block-prc-block-tabs-menu-item[data-uuid="${uuid}"]`,
     );
     if (menuItem) {
-        menuItem.classList.add('active');
+        console.log(isAccordion);
+
+        if (isAccordion) {
+            console.log('doing accordion things?', menuItem.classList);
+            menuItem.classList.toggle('active', true);
+        } else {
+            menuItem.classList.add('active');
+        }
     }
 
     const pane = document.querySelector(
@@ -15,11 +30,18 @@ const makeActive = uuid => {
     if (pane) {
         // Update the url with new ?menuItem arg.
         const newUrlArgs = { menuItem: uuid };
-        const newUrl = addQueryArgs(window.location.href, newUrlArgs);
-        console.log('newUrl', newUrl);
-        window.history.pushState(newUrlArgs, document.title, newUrl);
+        let newUrl = addQueryArgs(window.location.href, newUrlArgs);
 
-        pane.classList.add('active');
+        if (isAccordion) {
+            if (pane.classList.contains('active')) {
+                newUrl = removeQueryArgs(newUrl, 'menuItem');
+            }
+            pane.classList.toggle('active', true);
+        } else {
+            pane.classList.add('active');
+        }
+
+        window.history.pushState(newUrlArgs, document.title, newUrl);
     }
 };
 
@@ -52,7 +74,7 @@ domReady(() => {
             const uuid = menuItem.getAttribute('data-uuid');
             menuItem.addEventListener('click', () => {
                 hideActive(id);
-                makeActive(uuid);
+                makeActive(uuid, isAccordion);
             });
         });
     });

@@ -13,7 +13,7 @@ class Tabs_Panes extends PRC_Block_Library {
 	}
 
 	/**
-	 * Render callback for prc-block/topic-index-condensed-pages
+	 * Render callback for prc-block/tab-panes
 	 *
 	 * @param mixed $attributes
 	 * @param mixed $content
@@ -21,7 +21,6 @@ class Tabs_Panes extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_tabs_panes( $attributes, $content, $block ) {
-		// if is vertical then wrap in div and class column twelve wide
 		$is_vertical        = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : false;
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
@@ -42,6 +41,10 @@ class Tabs_Panes extends PRC_Block_Library {
 			if ( ! in_array( get_query_var( 'menuItem' ), $uuids ) && 0 === $i ) {
 				$pane['attrs']['active'] = true;
 			}
+			// We have to fake block context bc we're manually rendering block here.
+			$pane['attrs']['isVertical']      = $block->context['prc-block/tabs-vertical'];
+			$pane['attrs']['paneStyle']       = $attributes['className'];
+			$pane['attrs']['controllerStyle'] = $block->context['prc-block/tabs-style'];
 			echo render_block( $pane );
 		}
 		?>
