@@ -5,3 +5,12 @@
         clear: both;
     }
 }
+.wp-block-prc-block-tabs-menu.block-editor-block-list__block {
+    margin-bottom: 0!important;
+    .ui.menu {
+        margin-top: 0!important;
+    }
+}
+.wp-block-prc-block-tabs-panes.block-editor-block-list__block {
+    margin-top: 0!important;
+}

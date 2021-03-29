@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/tabs/controller/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,wCAEQ,UAAW,CACX,aAAc,CACd,UAAW","file":"blocks/tabs-controller-591a60f9.css","sourcesContent":[".wp-block-prc-block-tabs-pane {\n    & > div:after {\n        content: \"\";\n        display: table;\n        clear: both;\n    }\n}"],"sourceRoot":""}

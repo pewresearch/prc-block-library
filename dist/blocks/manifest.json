@@ -27,18 +27,18 @@
   "social-link.js.map": "blocks/social-link-a20e840c.js.map",
   "table.js": "blocks/table-3b9f0b8d.js",
   "table.js.map": "blocks/table-3b9f0b8d.js.map",
-  "tabs-controller.css": "blocks/tabs-controller-591a60f9.css",
-  "tabs-controller.css.map": "blocks/tabs-controller-591a60f9.css.map",
+  "tabs-controller.css": "blocks/tabs-controller-3b3d4d73.css",
+  "tabs-controller.css.map": "blocks/tabs-controller-3b3d4d73.css.map",
   "tabs-controller.js": "blocks/tabs-controller-56f51d4c.js",
   "tabs-controller.js.map": "blocks/tabs-controller-56f51d4c.js.map",
   "tabs-menu-item.js": "blocks/tabs-menu-item-1bf39f24.js",
   "tabs-menu-item.js.map": "blocks/tabs-menu-item-1bf39f24.js.map",
-  "tabs-menu.js": "blocks/tabs-menu-4b5c6f7a.js",
-  "tabs-menu.js.map": "blocks/tabs-menu-4b5c6f7a.js.map",
-  "tabs-pane.js": "blocks/tabs-pane-14cbbf04.js",
-  "tabs-pane.js.map": "blocks/tabs-pane-14cbbf04.js.map",
-  "tabs-panes.js": "blocks/tabs-panes-7f8d7b89.js",
-  "tabs-panes.js.map": "blocks/tabs-panes-7f8d7b89.js.map",
+  "tabs-menu.js": "blocks/tabs-menu-66e67aac.js",
+  "tabs-menu.js.map": "blocks/tabs-menu-66e67aac.js.map",
+  "tabs-pane.js": "blocks/tabs-pane-34923db0.js",
+  "tabs-pane.js.map": "blocks/tabs-pane-34923db0.js.map",
+  "tabs-panes.js": "blocks/tabs-panes-80d0a66d.js",
+  "tabs-panes.js.map": "blocks/tabs-panes-80d0a66d.js.map",
   "taxonomy-tree-more.js": "blocks/taxonomy-tree-more-7d2cb482.js",
   "taxonomy-tree-more.js.map": "blocks/taxonomy-tree-more-7d2cb482.js.map",
   "taxonomy-tree.css": "blocks/taxonomy-tree-ab07c332.css",
@@ -230,20 +230,20 @@
         "blocks/tabs-controller-56f51d4c.js.map"
       ],
       "css": [
-        "blocks/tabs-controller-591a60f9.css"
+        "blocks/tabs-controller-3b3d4d73.css"
       ],
       "css.map": [
-        "blocks/tabs-controller-591a60f9.css.map"
+        "blocks/tabs-controller-3b3d4d73.css.map"
       ]
     },
     "tabs-menu": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/tabs-menu-4b5c6f7a.js"
+        "blocks/tabs-menu-66e67aac.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/tabs-menu-4b5c6f7a.js.map"
+        "blocks/tabs-menu-66e67aac.js.map"
       ]
     },
     "tabs-menu-item": {
@@ -259,21 +259,21 @@
     "tabs-pane": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/tabs-pane-14cbbf04.js"
+        "blocks/tabs-pane-34923db0.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/tabs-pane-14cbbf04.js.map"
+        "blocks/tabs-pane-34923db0.js.map"
       ]
     },
     "tabs-panes": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/tabs-panes-7f8d7b89.js"
+        "blocks/tabs-panes-80d0a66d.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/tabs-panes-7f8d7b89.js.map"
+        "blocks/tabs-panes-80d0a66d.js.map"
       ]
     },
     "taxonomy-tree": {

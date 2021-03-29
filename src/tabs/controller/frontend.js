@@ -14,7 +14,7 @@ const makeActive = uuid => {
     );
     if (pane) {
         // Update the url with new ?menuItem arg.
-        const newUrlArgs = { menuItem: menuItem.getAttribute('data-uuid') };
+        const newUrlArgs = { menuItem: uuid };
         let newUrl = addQueryArgs(window.location.href, newUrlArgs);
         newUrl = removeQueryArgs(newUrl, 'menuItem');
         window.history.pushState(newUrlArgs, document.title, newUrl);
@@ -40,8 +40,6 @@ const hideActive = id => {
 };
 
 domReady(() => {
-    // checkForQueryVar();
-    // Key off menu items.
     const tabs = document.querySelectorAll('.wp-block-prc-block-tabs');
     tabs.forEach(t => {
         const id = t.getAttribute('id');

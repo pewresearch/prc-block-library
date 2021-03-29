@@ -19,8 +19,6 @@ const Edit = ({ attributes, className, clientId, context }) => {
     // eslint-disable-next-line react/destructuring-assignment
     const currentlyActive = context['prc-block/tabs-active'];
     const isActive = uuid === currentlyActive;
-    // eslint-disable-next-line react/destructuring-assignment
-    const style = context['prc-block/tabs-panes-style'];
 
     if (!isActive) {
         return <Fragment />;
@@ -37,10 +35,7 @@ const Edit = ({ attributes, className, clientId, context }) => {
     );
 
     const blockProps = useBlockProps({
-        className: classnames(className, 'ui segment tab', {
-            basic: 'is-style-not-bordered' === style,
-            active: uuid === currentlyActive,
-        }),
+        className: classnames(className),
     });
 
     const innerBlocksProps = useInnerBlocksProps(

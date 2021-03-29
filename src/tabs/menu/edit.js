@@ -20,7 +20,15 @@ const Edit = ({ className, clientId, context }) => {
     const style = context['prc-block/tabs-style'];
 
     const blockProps = useBlockProps({
-        className: classnames(className, { 'column four wide': isVertical }),
+        className: classnames(className, {
+            'column four wide': isVertical,
+        }),
+        style: {
+            marginBottom:
+                !isVertical && 'is-style-tabular' === style
+                    ? '-1px!important'
+                    : null,
+        },
     });
 
     const innerBlocksProps = useInnerBlocksProps(
