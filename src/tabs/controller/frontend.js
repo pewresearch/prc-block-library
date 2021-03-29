@@ -15,8 +15,8 @@ const makeActive = uuid => {
     if (pane) {
         // Update the url with new ?menuItem arg.
         const newUrlArgs = { menuItem: uuid };
-        let newUrl = addQueryArgs(window.location.href, newUrlArgs);
-        newUrl = removeQueryArgs(newUrl, 'menuItem');
+        const newUrl = addQueryArgs(window.location.href, newUrlArgs);
+        console.log('newUrl', newUrl);
         window.history.pushState(newUrlArgs, document.title, newUrl);
 
         pane.classList.add('active');
@@ -43,6 +43,8 @@ domReady(() => {
     const tabs = document.querySelectorAll('.wp-block-prc-block-tabs');
     tabs.forEach(t => {
         const id = t.getAttribute('id');
+        const isAccordion = t.classList.contains('accordion');
+
         const menuItems = t.querySelectorAll(
             '.wp-block-prc-block-tabs-menu-item',
         );

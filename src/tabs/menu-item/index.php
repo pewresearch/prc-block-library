@@ -26,23 +26,26 @@ class Tabs_Menu_Item extends PRC_Block_Library {
 		} else {
 			$active = get_query_var( 'menuItem' ) === $attributes['uuid'];
 		}
+		$is_accordion = array_key_exists( 'asAccordion', $attributes ) ? $attributes['asAccordion'] : false;
+		$classes      = array(
+			'item',
+		);
+		if ( true === $is_accordion ) {
+			$classes = array( 'title' );
+		}
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class'     => classnames(
-					'item',
-					array(
-						'active' => $active,
-					)
-				),
+				'class'     => classnames( $classes, array( 'active' => $active ) ),
 				'data-slug' => $attributes['slug'],
 				'data-uuid' => $attributes['uuid'],
 			)
 		);
 		ob_start();
 		?>
-		<a <?php echo $wrapper_attributes; ?>>
+		<div <?php echo $wrapper_attributes; ?>>
+			<?php echo $is_accordion ? '<i class="dropdown icon"></i>' : null; ?>
 			<?php echo wp_kses( $attributes['title'], 'post' ); ?>
-		</a>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

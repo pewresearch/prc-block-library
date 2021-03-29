@@ -18,8 +18,68 @@ class Tabs_Controller extends PRC_Block_Library {
 		return $qvars;
 	}
 
-	public function mobile_accordion( $attributes, $block ) {
+	public function mobile_accordion( $block ) {
+		// We're going to need to gather all the block innerblocks menu innerblocks up in an array and then add some attr like 'asAccordion = true`
+		// Same for pane blocks.
+		// When asAccordion = true in attributes the render on menu item and pane should reflect the accordion html https://semantic-ui.com/modules/accordion.html.
+		// Here we will enclose with an accordion div.
+		$root_inner_blocks = $block->parsed_block['innerBlocks'];
+		$menu_block        = array_pop(
+			array_filter(
+				$root_inner_blocks,
+				function( $block ) {
+					return 'prc-block/tabs-menu' === $block['blockName'];
+				}
+			)
+		);
+		$panes_block       = array_pop(
+			array_filter(
+				$root_inner_blocks,
+				function( $block ) {
+					return 'prc-block/tabs-panes' === $block['blockName'];
+				}
+			)
+		);
+		$uuids             = array_map(
+			function( $item ) {
+				return $item['attrs']['uuid'];
+			},
+			$menu_block['innerBlocks']
+		);
 
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'id'    => md5( wp_json_encode( $uuids ) ),
+				'class' => classnames( 'ui basic styled accordion' ),
+			)
+		);
+
+		ob_start();
+		?>
+		<div <?php echo $wrapper_attributes; ?>>
+		<?php
+		foreach ( $menu_block['innerBlocks'] as $i => $menu_item ) {
+			$uuid                              = $menu_item['attrs']['uuid'];
+			$menu_item['attrs']['asAccordion'] = true;
+
+			$matched_pane = array_pop(
+				array_filter(
+					$panes_block['innerBlocks'],
+					function( $pane ) use ( &$uuid ) {
+						return $pane['attrs']['uuid'] === $uuid;
+					}
+				)
+			);
+
+			$matched_pane['attrs']['asAccordion'] = true;
+
+			echo render_block( $menu_item );
+			echo render_block( $matched_pane );
+		}
+		?>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 
 	/**
@@ -33,7 +93,7 @@ class Tabs_Controller extends PRC_Block_Library {
 	public function render_controller( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
 		if ( jetpack_is_mobile() ) {
-			return $this->mobile_accordion( $attributes, $block );
+			return $this->mobile_accordion( $block );
 		}
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(

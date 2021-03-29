@@ -34,21 +34,23 @@ class Tabs_Pane extends PRC_Block_Library {
 				'prc-block/tabs-style'       => 'is-style-tabular',
 			)
 		);
+		$is_accordion     = array_key_exists( 'asAccordion', $attributes ) ? $attributes['asAccordion'] : false;
 		$is_vertical      = $context['prc-block/tabs-vertical'];
 		$style            = $context['prc-block/tabs-panes-style'];
 		$controller_style = $context['prc-block/tabs-style'];
-		error_log( 'context:' . print_r( $context, true ) );
+
+		$classes = array(
+			'ui',
+			'bottom attached' => true !== $is_vertical && 'is-style-tabular' === $controller_style,
+			'basic'           => 'is-style-not-bordered' === $style,
+			'segment tab',
+		);
+		if ( true === $is_accordion ) {
+			$classes = array( 'content' );
+		}
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class'     => classnames(
-					'ui',
-					array(
-						'bottom attached' => true !== $is_vertical && 'is-style-tabular' === $controller_style,
-						'basic'           => 'is-style-not-bordered' === $style,
-						'active'          => $active,
-					),
-					'segment tab'
-				),
+				'class'     => classnames( $classes, array( 'active' => $active ) ),
 				'data-uuid' => $attributes['uuid'],
 			)
 		);

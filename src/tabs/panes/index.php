@@ -32,8 +32,14 @@ class Tabs_Panes extends PRC_Block_Library {
 		?>
 		<?php echo $is_vertical ? '<div ' . $wrapper_attributes . '>' : null; ?>
 		<?php
+		$uuids = array_map(
+			function( $item ) {
+				return $item['attrs']['uuid'];
+			},
+			$block->parsed_block['innerBlocks']
+		);
 		foreach ( $block->parsed_block['innerBlocks'] as $i => $pane ) {
-			if ( ! get_query_var( 'menuItem' ) && 0 === $i ) {
+			if ( ! in_array( get_query_var( 'menuItem' ), $uuids ) && 0 === $i ) {
 				$pane['attrs']['active'] = true;
 			}
 			echo render_block( $pane );

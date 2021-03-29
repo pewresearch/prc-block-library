@@ -44,8 +44,14 @@ class Tabs_Menu extends PRC_Block_Library {
 		<?php echo $is_vertical ? '<div class="column four wide">' : null; ?>
 		<div <?php echo $wrapper_attributes; ?>>
 			<?php
+			$uuids = array_map(
+				function( $item ) {
+					return $item['attrs']['uuid'];
+				},
+				$block->parsed_block['innerBlocks']
+			);
 			foreach ( $block->parsed_block['innerBlocks'] as $i => $menu_item ) {
-				if ( ! get_query_var( 'menuItem' ) && 0 === $i ) {
+				if ( ! in_array( get_query_var( 'menuItem' ), $uuids ) && 0 === $i ) {
 					$menu_item['attrs']['active'] = true;
 				}
 				echo render_block( $menu_item );
