@@ -4,7 +4,7 @@ import { Form, Icon } from 'semantic-ui-react';
 import './style.scss';
 
 const MailchimpForm = ({ display, interest, className }) => {
-    const [buttonText, changeButtonText] = useState('SIGNUP');
+    const [buttonText, changeButtonText] = useState('SIGN UP');
     const [success, toggleSuccess] = useState(false);
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);

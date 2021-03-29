@@ -1,12 +1,12 @@
 {
   "frontend.css": "mailchimp-form/frontend-4e30f6bc.css",
   "frontend.css.map": "mailchimp-form/frontend-4e30f6bc.css.map",
-  "frontend.js": "mailchimp-form/frontend-d8c631de.js",
-  "frontend.js.map": "mailchimp-form/frontend-d8c631de.js.map",
+  "frontend.js": "mailchimp-form/frontend-043ce78b.js",
+  "frontend.js.map": "mailchimp-form/frontend-043ce78b.js.map",
   "main.css": "mailchimp-form/main-4e30f6bc.css",
   "main.css.map": "mailchimp-form/main-4e30f6bc.css.map",
-  "main.js": "mailchimp-form/main-cf8baa1c.js",
-  "main.js.map": "mailchimp-form/main-cf8baa1c.js.map",
+  "main.js": "mailchimp-form/main-5715e175.js",
+  "main.js.map": "mailchimp-form/main-5715e175.js.map",
   "runtime.js": "mailchimp-form/runtime-f9bee1a1.js",
   "runtime.js.map": "mailchimp-form/runtime-f9bee1a1.js.map",
   "vendors~frontend~main.js": "mailchimp-form/vendors~frontend~main-df0f9614.js",
@@ -16,12 +16,12 @@
       "js": [
         "mailchimp-form/runtime-f9bee1a1.js",
         "mailchimp-form/vendors~frontend~main-df0f9614.js",
-        "mailchimp-form/main-cf8baa1c.js"
+        "mailchimp-form/main-5715e175.js"
       ],
       "js.map": [
         "mailchimp-form/runtime-f9bee1a1.js.map",
         "mailchimp-form/vendors~frontend~main-df0f9614.js.map",
-        "mailchimp-form/main-cf8baa1c.js.map"
+        "mailchimp-form/main-5715e175.js.map"
       ],
       "css": [
         "mailchimp-form/main-4e30f6bc.css"
@@ -34,12 +34,12 @@
       "js": [
         "mailchimp-form/runtime-f9bee1a1.js",
         "mailchimp-form/vendors~frontend~main-df0f9614.js",
-        "mailchimp-form/frontend-d8c631de.js"
+        "mailchimp-form/frontend-043ce78b.js"
       ],
       "js.map": [
         "mailchimp-form/runtime-f9bee1a1.js.map",
         "mailchimp-form/vendors~frontend~main-df0f9614.js.map",
-        "mailchimp-form/frontend-d8c631de.js.map"
+        "mailchimp-form/frontend-043ce78b.js.map"
       ],
       "css": [
         "mailchimp-form/frontend-4e30f6bc.css"
