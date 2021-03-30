@@ -27,9 +27,16 @@ class Tabs_Pane extends PRC_Block_Library {
 			$active = get_query_var( 'menuItem' ) === $attributes['uuid'];
 		}
 		$is_accordion = array_key_exists( 'asAccordion', $attributes ) ? $attributes['asAccordion'] : false;
-		// We have to fake block context bc we're manually rendering block here.
-		$is_vertical      = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : ( array_key_exists( 'isVertical', $attributes ) ? $attributes['isVertical'] : false );
-		$style            = array_key_exists( 'prc-block/tabs-panes-style', $block->context ) ? $block->context['prc-block/tabs-panes-style'] : ( array_key_exists( 'paneStyle', $attributes ) ? $attributes['paneStyle'] : false );
+
+		/**
+		 * We have to fake block context bc we're manually rendering block here, but, we do
+		 * default to block context - if its available then use it (who knows what filters
+		 * will become available in the future for manual block rendering)
+		 */
+		$is_vertical = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : ( array_key_exists( 'isVertical', $attributes ) ? $attributes['isVertical'] : false );
+
+		$style = array_key_exists( 'prc-block/tabs-panes-style', $block->context ) ? $block->context['prc-block/tabs-panes-style'] : ( array_key_exists( 'paneStyle', $attributes ) ? $attributes['paneStyle'] : false );
+
 		$controller_style = array_key_exists( 'prc-block/tabs-style', $block->context ) ? $block->context['prc-block/tabs-style'] : ( array_key_exists( 'controllerStyle', $attributes ) ? $attributes['controllerStyle'] : false );
 
 		$classes = array(
@@ -41,18 +48,16 @@ class Tabs_Pane extends PRC_Block_Library {
 		if ( true === $is_accordion ) {
 			$classes = array( 'content' );
 		}
+
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'class'     => classnames( $classes, array( 'active' => $active ) ),
 				'data-uuid' => $attributes['uuid'],
 			)
 		);
+		$open               = "<div {$wrapper_attributes}>";
 		ob_start();
-		?>
-		<div <?php echo $wrapper_attributes; ?>>
-			<?php echo wp_kses( $content, 'post' ); ?>
-		</div>
-		<?php
+		echo wp_kses( $open . $content . '</div>', 'post' );
 		return ob_get_clean();
 	}
 

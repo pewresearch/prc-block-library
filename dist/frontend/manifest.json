@@ -7,8 +7,8 @@
   "runtime.js.map": "frontend/runtime-afabe77b.js.map",
   "social-link.js": "frontend/social-link-74a976fb.js",
   "social-link.js.map": "frontend/social-link-74a976fb.js.map",
-  "tabs-controller.js": "frontend/tabs-controller-99c9182c.js",
-  "tabs-controller.js.map": "frontend/tabs-controller-99c9182c.js.map",
+  "tabs-controller.js": "frontend/tabs-controller-a1abeb5b.js",
+  "tabs-controller.js.map": "frontend/tabs-controller-a1abeb5b.js.map",
   "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-c86e2a73.js",
   "taxonomy-tree-more.js.map": "frontend/taxonomy-tree-more-c86e2a73.js.map",
   "topic-index-categorized.js": "frontend/topic-index-categorized-7e131598.js",
@@ -57,11 +57,11 @@
     "tabs-controller": {
       "js": [
         "frontend/runtime-afabe77b.js",
-        "frontend/tabs-controller-99c9182c.js"
+        "frontend/tabs-controller-a1abeb5b.js"
       ],
       "js.map": [
         "frontend/runtime-afabe77b.js.map",
-        "frontend/tabs-controller-99c9182c.js.map"
+        "frontend/tabs-controller-a1abeb5b.js.map"
       ]
     },
     "taxonomy-tree-more": {

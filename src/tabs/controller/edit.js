@@ -8,14 +8,15 @@ import classnames from 'classnames';
  */
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import {
-    BlockControls,
-    InspectorControls,
     useBlockProps,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
 import { dispatch, useSelect } from '@wordpress/data';
+
+/**
+ * Internal Dependencies
+ */
+import VerticalControls from '../vertical-control';
 
 const BLOCKS_TEMPLATE = [
     ['prc-block/tabs-menu', {}],
@@ -41,7 +42,7 @@ const findRemovedDiff = (past, present) => {
     return onlyInA.concat(onlyInB);
 };
 
-const Edit = ({ attributes, className, setAttributes, clientId }) => {
+const ControllerEdit = ({ attributes, className, clientId }) => {
     const [menuBlocksPast, setMenuBlocksPast] = useState(false);
     const { vertical } = attributes;
 
@@ -52,6 +53,7 @@ const Edit = ({ attributes, className, setAttributes, clientId }) => {
     const innerBlocksProps = useInnerBlocksProps(blockProps, {
         allowedBlocks: ALLOWED_BLOCKS,
         renderAppender: false,
+        orientation: vertical ? 'horizontal' : 'vertical',
         template: BLOCKS_TEMPLATE,
         templateLock: 'all',
     });
@@ -100,19 +102,13 @@ const Edit = ({ attributes, className, setAttributes, clientId }) => {
 
     return (
         <Fragment>
-            <InspectorControls>
-                <PanelBody title={__('Tab Controller Settings')}>
-                    <ToggleControl
-                        label="Vertical Orientation"
-                        checked={vertical}
-                        onChange={() => setAttributes({ vertical: !vertical })}
-                    />
-                </PanelBody>
-            </InspectorControls>
-
+            <VerticalControls
+                vertical={vertical}
+                controllerClientId={clientId}
+            />
             <div {...innerBlocksProps} />
         </Fragment>
     );
 };
 
-export default Edit;
+export default ControllerEdit;

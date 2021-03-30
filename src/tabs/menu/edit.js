@@ -10,16 +10,27 @@ import {
     useBlockProps,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
+import { useDispatch, useSelect } from '@wordpress/data';
+
+/**
+ * Internal Dependencies
+ */
+import VerticalControls from '../vertical-control';
 
 const ALLOWED_BLOCKS = ['prc-block/tabs-menu-item'];
 
 const BLOCKS_TEMPLATE = [['prc-block/tabs-menu-item', {}]];
 
-const Edit = ({ className, context }) => {
+const Edit = ({ className, clientId, context }) => {
     // eslint-disable-next-line react/destructuring-assignment
     const isVertical = context['prc-block/tabs-vertical'];
     // eslint-disable-next-line react/destructuring-assignment
     const style = context['prc-block/tabs-style'];
+
+    const controllerClientId = useSelect(
+        select => select('core/block-editor').getBlockRootClientId(clientId),
+        [clientId],
+    );
 
     const blockProps = useBlockProps({
         className: classnames(className, {
@@ -53,6 +64,10 @@ const Edit = ({ className, context }) => {
 
     return (
         <div {...blockProps}>
+            <VerticalControls
+                vertical={isVertical}
+                controllerClientId={controllerClientId}
+            />
             <div {...innerBlocksProps} />
         </div>
     );
