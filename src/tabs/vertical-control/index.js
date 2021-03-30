@@ -15,7 +15,6 @@ const VerticalControls = ({ vertical, controllerClientId }) => {
                     label="Vertical Orientation"
                     checked={vertical}
                     onChange={() => {
-                        console.log(controllerClientId, vertical);
                         updateBlockAttributes(controllerClientId, {
                             vertical: !vertical,
                         });

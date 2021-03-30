@@ -8,11 +8,9 @@ import {
 } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import {
-    BaseControl,
     Button,
     PanelBody,
     ToggleControl,
-    TextControl,
     Dropdown,
     Toolbar,
     ToolbarButton,
@@ -20,8 +18,6 @@ import {
     Path,
     SVG,
     Popover,
-    TabPanel,
-    PanelRow,
 } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { isURL, prependHTTP } from '@wordpress/url';
