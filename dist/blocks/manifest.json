@@ -35,8 +35,8 @@
   "tabs-menu-item.js.map": "blocks/tabs-menu-item-b1e016ba.js.map",
   "tabs-menu.js": "blocks/tabs-menu-25caaa03.js",
   "tabs-menu.js.map": "blocks/tabs-menu-25caaa03.js.map",
-  "tabs-pane.js": "blocks/tabs-pane-aea825ea.js",
-  "tabs-pane.js.map": "blocks/tabs-pane-aea825ea.js.map",
+  "tabs-pane.js": "blocks/tabs-pane-cc66e08a.js",
+  "tabs-pane.js.map": "blocks/tabs-pane-cc66e08a.js.map",
   "tabs-panes.js": "blocks/tabs-panes-a95b761e.js",
   "tabs-panes.js.map": "blocks/tabs-panes-a95b761e.js.map",
   "taxonomy-tree-more.js": "blocks/taxonomy-tree-more-12482ef8.js",
@@ -259,11 +259,11 @@
     "tabs-pane": {
       "js": [
         "blocks/runtime-49d996c3.js",
-        "blocks/tabs-pane-aea825ea.js"
+        "blocks/tabs-pane-cc66e08a.js"
       ],
       "js.map": [
         "blocks/runtime-49d996c3.js.map",
-        "blocks/tabs-pane-aea825ea.js.map"
+        "blocks/tabs-pane-cc66e08a.js.map"
       ]
     },
     "tabs-panes": {
