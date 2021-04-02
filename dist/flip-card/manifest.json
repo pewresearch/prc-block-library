@@ -1,23 +1,23 @@
 {
   "frontend.css": "flip-card/frontend-5b971b51.css",
   "frontend.css.map": "flip-card/frontend-5b971b51.css.map",
-  "frontend.js": "flip-card/frontend-89985ea7.js",
-  "frontend.js.map": "flip-card/frontend-89985ea7.js.map",
+  "frontend.js": "flip-card/frontend-673ee363.js",
+  "frontend.js.map": "flip-card/frontend-673ee363.js.map",
   "main.css": "flip-card/main-1294b216.css",
   "main.css.map": "flip-card/main-1294b216.css.map",
-  "main.js": "flip-card/main-516a3254.js",
-  "main.js.map": "flip-card/main-516a3254.js.map",
-  "runtime.js": "flip-card/runtime-26dc8c43.js",
-  "runtime.js.map": "flip-card/runtime-26dc8c43.js.map",
+  "main.js": "flip-card/main-310e54cd.js",
+  "main.js.map": "flip-card/main-310e54cd.js.map",
+  "runtime.js": "flip-card/runtime-8e383e5a.js",
+  "runtime.js.map": "flip-card/runtime-8e383e5a.js.map",
   "wpackioEp": {
     "main": {
       "js": [
-        "flip-card/runtime-26dc8c43.js",
-        "flip-card/main-516a3254.js"
+        "flip-card/runtime-8e383e5a.js",
+        "flip-card/main-310e54cd.js"
       ],
       "js.map": [
-        "flip-card/runtime-26dc8c43.js.map",
-        "flip-card/main-516a3254.js.map"
+        "flip-card/runtime-8e383e5a.js.map",
+        "flip-card/main-310e54cd.js.map"
       ],
       "css": [
         "flip-card/main-1294b216.css"
@@ -28,12 +28,12 @@
     },
     "frontend": {
       "js": [
-        "flip-card/runtime-26dc8c43.js",
-        "flip-card/frontend-89985ea7.js"
+        "flip-card/runtime-8e383e5a.js",
+        "flip-card/frontend-673ee363.js"
       ],
       "js.map": [
-        "flip-card/runtime-26dc8c43.js.map",
-        "flip-card/frontend-89985ea7.js.map"
+        "flip-card/runtime-8e383e5a.js.map",
+        "flip-card/frontend-673ee363.js.map"
       ],
       "css": [
         "flip-card/frontend-5b971b51.css"

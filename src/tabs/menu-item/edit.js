@@ -159,6 +159,9 @@ const Edit = ({
                             })
                         } // Store updated content as a block attribute
                         placeholder={__('Tab Pane 1')} // Display this text before any content has been added by the user
+                        style={{
+                            textTransform: 'none',
+                        }}
                     />
                 )}
                 {!isSelected && <div>{title}</div>}

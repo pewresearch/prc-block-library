@@ -1,5 +1,18 @@
+/**
+ * WordPress dependencies
+ */
 import domReady from '@wordpress/dom-ready';
-import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
+import { addQueryArgs, removeQueryArgs, getQueryArg } from '@wordpress/url';
+
+const scrollIntoView = () => {
+    const uuid = getQueryArg(window.location.href, 'menuItem');
+    if (uuid) {
+        const target = document.querySelector(
+            `.wp-block-prc-block-tabs-menu-item[data-uuid="${uuid}"]`,
+        );
+        setTimeout(() => target.scrollIntoView(true), 1000);
+    }
+};
 
 /**
  * Sets a title/item and content/tab active by UUID.
@@ -8,18 +21,17 @@ import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
  * @param {boolean} isAccordion
  * @returns New window.history state.
  */
-const makeActive = (uuid, isAccordion) => {
-    console.log('makeActive', uuid, isAccordion);
+const makeActive = (uuid, id, isAccordion) => {
+    console.log('makeActive', uuid, id, isAccordion);
     const menuItem = document.querySelector(
         `.wp-block-prc-block-tabs-menu-item[data-uuid="${uuid}"]`,
     );
     if (menuItem) {
-        console.log(isAccordion);
-
         if (isAccordion) {
-            console.log('doing accordion things?', menuItem.classList);
-            menuItem.classList.toggle('active', true);
+            console.log('menuItem', menuItem);
+            menuItem.classList.toggle('active');
         } else {
+            console.log('not accordion');
             menuItem.classList.add('active');
         }
     }
@@ -33,10 +45,12 @@ const makeActive = (uuid, isAccordion) => {
         let newUrl = addQueryArgs(window.location.href, newUrlArgs);
 
         if (isAccordion) {
-            if (pane.classList.contains('active')) {
+            if (true === pane.classList.contains('active')) {
                 newUrl = removeQueryArgs(newUrl, 'menuItem');
+                pane.classList.remove('active');
+            } else {
+                pane.classList.add('active');
             }
-            pane.classList.toggle('active', true);
         } else {
             pane.classList.add('active');
         }
@@ -72,10 +86,12 @@ domReady(() => {
         );
         menuItems.forEach(menuItem => {
             const uuid = menuItem.getAttribute('data-uuid');
+            const { classList } = menuItem;
             menuItem.addEventListener('click', () => {
                 hideActive(id);
-                makeActive(uuid, isAccordion);
+                makeActive(uuid, id, isAccordion);
             });
         });
     });
+    scrollIntoView();
 });

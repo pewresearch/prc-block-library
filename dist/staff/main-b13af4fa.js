@@ -1,0 +1,19 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 0.1.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+(window.wpackioprcBlocksLibrarystaffJsonp=window.wpackioprcBlocksLibrarystaffJsonp||[]).push([[0],[function(t,e){t.exports=wp.blocks},function(t){t.exports=JSON.parse('{"name":"prc-block/staff","category":"layout","attributes":{"name":{"type":"string"},"jobTitle":{"type":"string"},"image":{"type":"string"},"link":{"type":"string"}}}')},function(t,e){t.exports=wp.i18n},function(t,e){t.exports=wp.apiFetch},function(t,e){t.exports=wp.element},function(t,e,r){r(6),t.exports=r(8)},function(t,e,r){"use strict";var a="prcBlocksLibrarydist".replace(/[^a-zA-Z0-9_-]/g,"");r.p=window["__wpackIo".concat(a)]},function(t,e,r){},function(t,e,r){"use strict";function a(t,e){(null==e||e>t.length)&&(e=t.length);for(var r=0,a=new Array(e);r<e;r++)a[r]=t[r];return a}r.r(e);var n,c=r(0),o=r(2),i=r(1),s=r(3),l=r.n(s),f=r(4),m=function(t){var e=t.attributes,r=t.className,a=t.setAttributes,n=e.name,c=e.jobTitle,o=e.image,i=e.link;return Object(f.useEffect)((function(){!function(t,e){void 0!==e&&void 0!==t&&(console.log("setPostByURL",t),l()({path:"/prc-api/v2/blocks/helpers/get-staff-by-url/?url=".concat(t)}).then((function(t){if(!1!==t){var r={name:t.title,jobTitle:t.label,image:t.image};e(r)}})))}(i,a)}),[i]),React.createElement("div",{className:r},void 0!==o&&React.createElement("div",{className:"profile-image"},React.createElement("img",{src:o,alt:"".concat(n," profile")})),React.createElement("div",null,React.createElement("h2",{className:"sans-serif"},n),React.createElement("div",{className:"meta"},React.createElement("span",null,c))))},p=function(t){var e=t.attributes,r=t.className,a=e.name,n=e.jobTitle,c=e.image,o=e.link;return React.createElement("a",{className:r,href:o},void 0!==c&&React.createElement("div",{className:"profile-image"},React.createElement("img",{src:c,alt:"".concat(a," profile")})),React.createElement("div",null,React.createElement("h3",{className:"sans-serif"},a),React.createElement("div",{className:"meta"},React.createElement("span",null,n))))},u={from:[{type:"raw",isMatch:function(t){return"P"===t.nodeName&&/^https?:\/\/(www\.)?pewresearch\.(org|local)\/staff\/.+/i.test(t.textContent)},transform:function(t){return Object(c.createBlock)("prc-block/staff",{link:t.textContent.trim()})}}],to:[{type:"block",blocks:["prc-block/staff"],transform:function(t){var e=t.url;return Object(c.createBlock)("prc-block/staff",{link:e})}}]},b=i.name,y=i.category,d=i.attributes,g=[b,{title:Object(o.__)("PRC Staffer"),description:Object(o.__)("Paste a staff link and return a staff member with their photo, name, and job title."),category:y,attributes:d,supports:{inserter:!1},edit:m,save:p,transforms:u}];r(7);c.registerBlockType.apply(void 0,function(t){if(Array.isArray(t))return a(t)}(n=g)||function(t){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(t))return Array.from(t)}(n)||function(t,e){if(t){if("string"==typeof t)return a(t,e);var r=Object.prototype.toString.call(t).slice(8,-1);return"Object"===r&&t.constructor&&(r=t.constructor.name),"Map"===r||"Set"===r?Array.from(t):"Arguments"===r||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)?a(t,e):void 0}}(n)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}())}],[[5,1]]]);
+//# sourceMappingURL=main-b13af4fa.js.map
