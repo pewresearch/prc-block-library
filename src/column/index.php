@@ -53,6 +53,9 @@ class Column_Block extends PRC_Block_Library {
 		if ( null !== $width ) {
 			$classes[] = "{$width} wide";
 		}
+		if ( array_key_exists('classname', $attributes) ) {
+			$classes[] = $attributes['classname'];
+		}
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $classes ) ); ?>">
