@@ -53,8 +53,8 @@ class Column_Block extends PRC_Block_Library {
 		if ( null !== $width ) {
 			$classes[] = "{$width} wide";
 		}
-		if ( array_key_exists('classname', $attributes) ) {
-			$classes[] = $attributes['classname'];
+		if ( array_key_exists('className', $attributes) ) {
+			$classes[] = $attributes['className'];
 		}
 		ob_start();
 		?>
