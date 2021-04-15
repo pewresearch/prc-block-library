@@ -23,10 +23,10 @@ class Row_Block extends PRC_Block_Library {
 	public function render_row( $attributes, $content, $block ) {
 		$row_classes = array(
 			'ui',
-			'grid',
 			'stackable',
 			'equal width' => $attributes['equal'],
 			'divided'     => $attributes['divided'],
+			'grid',
 		);
 		ob_start();
 		?>
