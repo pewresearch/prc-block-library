@@ -1,0 +1,39 @@
+{
+    "name": "prc-block/chart-builder-data-wrapper",
+    "category": "layout",
+    "textdomain": "chart-builder-data-wrapper",
+    "attributes": {
+        "transformed": {
+            "type": "boolean",
+            "default": false
+        },
+        "tableHead": {
+            "type": "array",
+            "default": [
+                {
+                    "cells": [
+                        { "content": "x", "tag": "th" },
+                        { "content": "y", "tag": "th" }
+                    ]
+                }
+            ]
+        },
+        "tableBody": {
+            "type": "array",
+            "default": [
+                {
+                    "cells": [
+                        { "content": "", "tag": "td" },
+                        { "content": "", "tag": "td" }
+                    ]
+                },
+                {
+                    "cells": [
+                        { "content": "", "tag": "td" },
+                        { "content": "", "tag": "td" }
+                    ]
+                }
+            ]
+        }
+    }
+}
