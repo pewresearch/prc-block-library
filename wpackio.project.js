@@ -30,6 +30,7 @@ module.exports = {
                 column: './src/column/index.js',
                 grid: './src/grid/index.js',
                 group: './src/group/index.js',
+                heading: './src/heading/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',
@@ -103,12 +104,6 @@ module.exports = {
             name: 'callout',
             entry: {
                 main: './src/callout/index.js',
-            },
-        },
-        {
-            name: 'card',
-            entry: {
-                main: './src/card/index.js',
             },
         },
         {

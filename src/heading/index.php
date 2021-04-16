@@ -5,20 +5,20 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 
 use WPackio\Enqueue;
 
-class Group_Block extends PRC_Block_Library {
+class Heading_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
-			add_filter( 'render_block', array( $this, 'group_block_render_callback' ), 10, 2 );
+			add_filter( 'render_block', array( $this, 'heading_block_render' ), 10, 2 );
 		}
 	}
 
 	public function enqueue_assets( $js = true, $css = true ) {
-		$block_js_deps = array( 'react', 'react-dom', 'wp-blocks', 'wp-hooks', 'wp-element', 'wp-i18n', 'wp-polyfill' );
+		$block_js_deps = array( 'wp-blocks', 'wp-dom-ready', 'wp-i18n', 'wp-polyfill' );
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'blocks',
-			'group',
+			'heading',
 			array(
 				'js'        => $js,
 				'css'       => $css,
@@ -30,8 +30,8 @@ class Group_Block extends PRC_Block_Library {
 		);
 	}
 
-	public function group_block_render_callback( $block_content, $block ) {
-		if ( 'core/group' !== $block['blockName'] ) {
+	public function heading_block_render( $block_content, $block ) {
+		if ( 'core/heading' !== $block['blockName'] ) {
 			return $block_content;
 		}
 		
@@ -50,4 +50,4 @@ class Group_Block extends PRC_Block_Library {
 	}
 }
 
-new Group_Block( true );
+new Heading_Block( true );

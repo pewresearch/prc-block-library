@@ -1,0 +1,16 @@
+h1.is-style-section-header,
+h2.is-style-section-header,
+h3.is-style-section-header,
+h4.is-style-section-header,
+h5.is-style-section-header,
+h6.is-style-section-header,
+h1[data-type="core/heading"].is-style-section-header,
+h2[data-type="core/heading"].is-style-section-header,
+h3[data-type="core/heading"].is-style-section-header,
+h4[data-type="core/heading"].is-style-section-header,
+h5[data-type="core/heading"].is-style-section-header,
+h6[data-type="core/heading"].is-style-section-header {
+	border-bottom: 1px solid black;
+	padding-bottom: 0.5em;
+	margin-bottom: 0.5em;
+}
