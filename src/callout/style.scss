@@ -1,0 +1,20 @@
+.wp-block-prc-block-callout {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    &.alignright,
+    &.alignleft {
+        width: min-content;
+        .size-200-wide,
+        .size-260-wide,
+        .size-310-wide,
+        .size-420-wide,
+        .size-640-wide,
+        .size-740-wide,
+        .size-1400-wide {
+            width: max-content;
+        }
+    }
+}

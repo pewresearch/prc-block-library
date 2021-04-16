@@ -53,14 +53,14 @@ class Collapsible extends PRC_Block_Library {
 
 	public function render_collapsible_placeholder( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
-		$class_names = explode(' ', $attributes['className']);
-		$alt_style = false;
+		$class_names = explode( ' ', array_key_exists( 'className', $attributes ) ? $attributes['className'] : '' );
+		$alt_style   = false;
 		if ( in_array( 'is-style-alternate', $class_names ) ) {
 			$alt_style = true;
 		}
 		ob_start();
 		?>
-		<div class='js-react-collapsible' data-title="<?php echo esc_attr($attributes['title']);?>" data-style="<?php echo $alt_style ? 'is-style-alternate' : null;?>">
+		<div class='js-react-collapsible' data-title="<?php echo esc_attr( $attributes['title'] ); ?>" data-style="<?php echo $alt_style ? 'is-style-alternate' : null; ?>">
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php

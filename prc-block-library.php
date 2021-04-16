@@ -63,6 +63,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/column/index.php';
 
 			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';

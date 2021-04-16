@@ -1,0 +1,79 @@
+@import "../master.variables.less";
+
+.wp-block-cover {
+	margin-bottom: 2em;
+}
+
+// Ensure the first cover block fits under the nav bar.
+body.post-template-template-essay {
+	#primary {
+		padding-top: 0;
+	}
+	.wp-block-cover.is-style-essay {
+		margin-top: -1em;
+		@media only screen and (max-width: @largestMobileScreen) {
+			min-height: 235px!important;
+			margin-bottom: 1.5em;
+		}
+		@media only screen and (min-width: @largestMobileScreen) {
+			margin-top: -4em;
+		}
+	}
+}
+
+.wp-block-cover.is-style-essay {
+	.wp-block-cover__inner-container {
+		max-width: 920px !important;
+		text-shadow: 0px 1px 2px rgba(0,0,0,.8);
+		text-align: center;
+		a,
+		.meta {
+			color: white!important;
+		}
+		& > .wp-block,
+		& > [class="wp-block-*"] {
+			max-width: 100% !important;
+		}
+		h1:first-of-type {
+			font-size: unit((56/@baseUnit), rem);
+			font-family: @headerFont;
+			line-height: unit((64/@baseUnit), rem);
+		}
+		h2:first-of-type {
+			font-size: unit((24/@baseUnit), rem);
+			font-weight: normal;
+			font-family: @headerFont;
+			margin-top: 1em;
+		}
+		.meta {
+			font-size: 14px;
+		}
+	}
+}
+
+.wp-block-cover__inner-container.is-style-mobile-essay-header {
+	margin-bottom: 1.5em;
+	text-align: left;
+	& > * {
+		text-align: left !important;
+	}
+	h1,
+	h2 {
+		font-family: @headerFont;
+	}
+	h1 {
+		font-size: unit((26/@baseUnit), rem);
+		line-height: unit((30/@baseUnit), rem);;
+	}
+	h2 {
+		font-size: unit((20/@baseUnit), rem);
+		line-height: unit((24/@baseUnit), rem);
+		font-weight: 400;
+		margin-top: 0;
+		margin-bottom: 1.5em;
+	}
+	.meta {
+		font-weight: bold;
+		color: black;
+	}
+}

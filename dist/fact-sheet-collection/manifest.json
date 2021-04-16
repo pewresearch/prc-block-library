@@ -9,20 +9,20 @@
   "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-a2f6cb9a.js.map",
   "vendors~frontend~main.js": "fact-sheet-collection/vendors~frontend~main-ca653811.js",
   "vendors~frontend~main.js.map": "fact-sheet-collection/vendors~frontend~main-ca653811.js.map",
-  "vendors~main.js": "fact-sheet-collection/vendors~main-854bb20b.js",
-  "vendors~main.js.map": "fact-sheet-collection/vendors~main-854bb20b.js.map",
+  "vendors~main.js": "fact-sheet-collection/vendors~main-116805a2.js",
+  "vendors~main.js.map": "fact-sheet-collection/vendors~main-116805a2.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "fact-sheet-collection/runtime-f356125f.js",
         "fact-sheet-collection/vendors~frontend~main-ca653811.js",
-        "fact-sheet-collection/vendors~main-854bb20b.js",
+        "fact-sheet-collection/vendors~main-116805a2.js",
         "fact-sheet-collection/main-31e59966.js"
       ],
       "js.map": [
         "fact-sheet-collection/runtime-f356125f.js.map",
         "fact-sheet-collection/vendors~frontend~main-ca653811.js.map",
-        "fact-sheet-collection/vendors~main-854bb20b.js.map",
+        "fact-sheet-collection/vendors~main-116805a2.js.map",
         "fact-sheet-collection/main-31e59966.js.map"
       ]
     },

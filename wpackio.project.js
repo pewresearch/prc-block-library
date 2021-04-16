@@ -29,6 +29,7 @@ module.exports = {
                 collapsible: './src/collapsible/index.js',
                 column: './src/column/index.js',
                 grid: './src/grid/index.js',
+                group: './src/group/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',

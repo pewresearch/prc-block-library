@@ -37,7 +37,6 @@
     "archive": "wpackio-scripts pack"
   },
   "dependencies": {
-    "@daniakash/lifecycle-hooks": "^0.0.1-alpha-2",
     "@wpackio/entrypoint": "^4.3.0",
     "beautiful-react-hooks": "^0.31.0",
     "classnames": "^2.2.6",

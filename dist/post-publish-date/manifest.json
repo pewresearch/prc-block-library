@@ -1,17 +1,17 @@
 {
-  "main.js": "post-publish-date/main-88968275.js",
-  "main.js.map": "post-publish-date/main-88968275.js.map",
+  "main.js": "post-publish-date/main-f707a821.js",
+  "main.js.map": "post-publish-date/main-f707a821.js.map",
   "runtime.js": "post-publish-date/runtime-dd2a6275.js",
   "runtime.js.map": "post-publish-date/runtime-dd2a6275.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "post-publish-date/runtime-dd2a6275.js",
-        "post-publish-date/main-88968275.js"
+        "post-publish-date/main-f707a821.js"
       ],
       "js.map": [
         "post-publish-date/runtime-dd2a6275.js.map",
-        "post-publish-date/main-88968275.js.map"
+        "post-publish-date/main-f707a821.js.map"
       ]
     }
   }
