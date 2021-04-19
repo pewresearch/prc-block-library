@@ -22,6 +22,7 @@ const StoryItem = ({
     headerSize,
     enableEmphasis,
     enableHeader,
+    enableMeta,
     enableExcerpt,
     enableExcerptBelow,
     enableExtra,
@@ -115,7 +116,7 @@ const StoryItem = ({
 
             <Item.Content>
                 <Header
-                    enabled={enableHeader}
+                    enabled={{enableHeader, enableMeta}}
                     title={title}
                     date={date}
                     label={label}
@@ -134,7 +135,7 @@ const StoryItem = ({
                     <Description
                         enabled={enableExcerpt}
                         content={excerpt}
-                        sansSerif={!enableHeader}
+                        sansSerif={!enableHeader || !enableMeta}
                     />
                 )}
 

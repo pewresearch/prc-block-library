@@ -31,7 +31,7 @@ import { createBlock } from '@wordpress/blocks';
  */
 const ALLOWED_BLOCKS = ['prc-block/row'];
 
-const GridEditContainer = ({ attributes, className, updateRows, clientId }) => {
+const GridEditContainer = ({ attributes, className, updateRows, clientId, isSelected }) => {
     // Return a count of prc-block/row inside...
     const { count } = useSelect(
         select => {
@@ -56,7 +56,7 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId }) => {
     }, {
         allowedBlocks: ALLOWED_BLOCKS,
         orientation: 'vertical',
-        renderAppender: InnerBlocks.ButtonBlockAppender,
+        renderAppender: isSelected ? InnerBlocks.ButtonBlockAppender : false,
     });
 
     return (

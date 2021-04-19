@@ -179,7 +179,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                         <Description
                             enabled={enableExcerpt}
                             content={excerpt}
-                            sansSerif={!enableHeader}
+                            sansSerif={!enableMeta || !enableHeader}
                             setAttributes={dataHandler}
                         />
                     )}

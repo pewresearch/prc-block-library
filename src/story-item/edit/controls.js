@@ -305,7 +305,7 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
         enableMeta,
     } = attributes;
 
-    const label = __('Story Item Options');
+    const label = __('Story Item options');
 
     useEffect(() => {
         // On mount load the latest post details from the url.
@@ -338,16 +338,7 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                             Refresh Post
                         </Button>
                     )}
-                    <ToggleControl
-                        label={
-                            enableHeader ? 'Header Enabled' : 'Header Disabled'
-                        }
-                        checked={enableHeader}
-                        onChange={() => {
-                            setAttributes({ enableHeader: !enableHeader });
-                        }}
-                    />
-                    <ToggleControl
+                     <ToggleControl
                         label={
                             enableMeta
                                 ? 'Meta Enabled'
