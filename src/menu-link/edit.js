@@ -405,7 +405,7 @@ const edit = ({
                             placeholder={itemLabelPlaceholder}
                             keepPlaceholderOnFocus
                             withoutInteractiveFormatting
-                            allowedFormats={[]}
+                            allowedFormats={['bold']}
                         />
                     </FlexItem>
                     <FlexBlock>

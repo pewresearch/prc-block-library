@@ -302,6 +302,7 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
         enableBreakingNews,
         enableEmphasis,
         enableProgramsTaxonomy,
+        enableMeta,
     } = attributes;
 
     const label = __('Story Item Options');
@@ -348,13 +349,22 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                     />
                     <ToggleControl
                         label={
-                            enableExcerpt
-                                ? 'Excerpt Enabled'
-                                : 'Excerpt Disabled'
+                            enableMeta
+                                ? 'Meta Enabled'
+                                : 'Meta Disabled'
                         }
-                        checked={enableExcerpt}
+                        checked={enableMeta}
                         onChange={() => {
-                            setAttributes({ enableExcerpt: !enableExcerpt });
+                            setAttributes({ enableMeta: !enableMeta });
+                        }}
+                    />
+                    <ToggleControl
+                        label={
+                            enableHeader ? 'Header Enabled' : 'Header Disabled'
+                        }
+                        checked={enableHeader}
+                        onChange={() => {
+                            setAttributes({ enableHeader: !enableHeader });
                         }}
                     />
                     {true === enableExcerpt &&
