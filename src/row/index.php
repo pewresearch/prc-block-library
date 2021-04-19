@@ -26,7 +26,7 @@ class Row_Block extends PRC_Block_Library {
 			'ui',
 			'equal width' => $attributes['equal'],
 			'divided'     => $attributes['divided'],
-			'stackable'   => ! $as_row,
+			'stackable'   => array_key_exists( 'stackable', $attributes ) ? $attributes['stackable'] : false,
 			'grid'        => ! $as_row,
 			'row'         => $as_row,
 		);

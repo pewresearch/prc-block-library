@@ -26,7 +26,13 @@ class Grid_Block extends PRC_Block_Library {
 		$count        = count( $inner_blocks );
 		ob_start();
 		if ( $count > 1 ) {
-			echo '<div class="ui grid">';
+			$class_names = classNames(
+				array(
+					'ui',
+					'grid',
+				)
+			);
+			echo '<div class="' . esc_attr( $class_names ) . '">';
 		}
 		foreach ( $inner_blocks as $row_block ) {
 			if ( $count > 1 ) {

@@ -44,9 +44,10 @@ const RowEditContainer = ({
     updateColumns,
     toggleDivided,
     toggleEqual,
+    toggleStackable,
     clientId,
 }) => {
-    const { divided, equal } = attributes;
+    const { divided, equal, stackable } = attributes;
 
     // Return a count of prc-block/column inside...
     const { count, rowCount } = useSelect(
@@ -65,7 +66,8 @@ const RowEditContainer = ({
             'ui' : true,
             'equal width' : equal,
             divided,
-            'stackable grid': rowCount <= 1,
+            stackable: stackable,
+            'grid': rowCount <= 1,
             'row': rowCount > 1,
         }),
     });
@@ -95,6 +97,15 @@ const RowEditContainer = ({
                         }
                         checked={equal}
                         onChange={() => toggleEqual()}
+                    />
+                    <ToggleControl
+                        label={
+                            stackable
+                                ? 'Stack On Mobile'
+                                : 'Do Not Stack On Mobile'
+                        }
+                        checked={stackable}
+                        onChange={() => toggleStackable()}
                     />
                     <RangeControl
                         label={__('Columns')}
@@ -136,6 +147,14 @@ const RowEditContainerWrapper = withDispatch(
             const { attributes, setAttributes } = ownProps;
             const { equal } = attributes;
             setAttributes({ equal: !equal });
+        },
+        /**
+         * Toggles the stackable style attribute true or false.
+         */
+         toggleStackable() {
+            const { attributes, setAttributes } = ownProps;
+            const { stackable } = attributes;
+            setAttributes({ stackable: !stackable });
         },
         /**
          * Updates the column count, including necessary revisions to child Column

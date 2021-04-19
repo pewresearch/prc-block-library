@@ -21,18 +21,21 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 const ColumnEdit = ({
-    attributes: { verticalAlignment = false, width, templateLock = false },
+    attributes: { verticalAlignment = false, width, tabletWidth, phoneWidth, templateLock = false },
     setAttributes,
     className,
     clientId,
 }) => {
     const [maxWidth, setMaxWidth] = useState(16);
+    
     const { updateBlockAttributes } = useDispatch('core/block-editor');
+
     const {
         hasChildBlocks,
         isEqual,
         rootClientId,
         otherColumnsInRow,
+        isStackable,
     } = useSelect(
         select => {
             const {
@@ -45,12 +48,13 @@ const ColumnEdit = ({
 
             // Get equal attribute from row.
             const rootAttributes = getBlockAttributes(rootBlockClientId);
-            const { equal } = rootAttributes;
+            const { equal, stackable } = rootAttributes;
 
             return {
                 hasChildBlocks: 0 < getBlockOrder(clientId).length,
                 rootClientId: rootBlockClientId,
                 isEqual: equal,
+                isStackable: stackable,
                 otherColumnsInRow: getBlocks(rootBlockClientId),
             };
         },
@@ -70,7 +74,6 @@ const ColumnEdit = ({
         allColumnWidths = allColumnWidths.reduce((a, b) => a + b, 0);
 
         const availableWidth = 16 - allColumnWidths;
-        console.log('maxWidth', availableWidth);
         setMaxWidth(availableWidth);
     };
 
@@ -102,6 +105,43 @@ const ColumnEdit = ({
         }
         return `${numWords(width)} wide`;
     };
+
+    const WidthControl = ({label, icon = null, w, setWidth}) => {
+        const tooltipContent = value => `${value}/16`;
+        return(
+            <Fragment>
+                {1 >= maxWidth && (
+                    <Notice
+                        status={
+                            -1 === Math.sign(maxWidth)
+                                ? 'warning'
+                                : 'info'
+                        }
+                        isDismissible={false}
+                    >
+                        {-1 === Math.sign(maxWidth)
+                            ? `Exceeding Grid Width!!`
+                            : `Attention: Approaching Grid Maximum`}
+                    </Notice>
+                )}
+                <RangeControl
+                    beforeIcon={icon}
+                    label={label}
+                    value={w}
+                    onChange={value => {
+                        const nextWidth =
+                            0 > parseFloat(value) ? '0' : value;
+                        setWidth(nextWidth);
+                    }}
+                    min={1}
+                    max={16}
+                    withInputField
+                    disabled={isEqual}
+                    renderTooltipContent={ tooltipContent }
+                />
+            </Fragment>
+        );
+    }
 
     useEffect(() => {
         updateMaxWidth();
@@ -146,33 +186,9 @@ const ColumnEdit = ({
                                 column widths has been disabled.
                             </Notice>
                         )}
-                        {1 >= maxWidth && (
-                            <Notice
-                                status={
-                                    -1 === Math.sign(maxWidth)
-                                        ? 'warning'
-                                        : 'info'
-                                }
-                                isDismissible={false}
-                            >
-                                {-1 === Math.sign(maxWidth)
-                                    ? `Exceeding Grid Width!!`
-                                    : `Attention: Approaching Grid Maximum`}
-                            </Notice>
-                        )}
-                        <RangeControl
-                            label={__('Width')}
-                            value={width}
-                            onChange={value => {
-                                const nextWidth =
-                                    0 > parseFloat(value) ? '0' : value;
-                                setAttributes({ width: nextWidth });
-                            }}
-                            min={1}
-                            max={16}
-                            withInputField
-                            disabled={isEqual}
-                        />
+                        <WidthControl label={__('Desktop Width')} icon={'desktop'} w={width} setWidth={(v) => setAttributes({width: v})}/>
+                        <WidthControl label={__('Tablet Width')} icon={'tablet'} w={tabletWidth} setWidth={(v) => setAttributes({tabletWidth: v})}/>
+                        <WidthControl label={__('Phone Width')} icon={'smartphone'} w={phoneWidth} setWidth={(v) => setAttributes({phoneWidth: v})}/>
                     </Fragment>
                 </PanelBody>
             </InspectorControls>

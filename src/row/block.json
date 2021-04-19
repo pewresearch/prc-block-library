@@ -5,7 +5,7 @@
     "attributes": {
         "divided": {
             "type": "boolean",
-            "default": false
+            "default": true
         },
         "doubling": {
             "type": "boolean",

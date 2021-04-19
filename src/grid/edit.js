@@ -31,7 +31,7 @@ import { createBlock } from '@wordpress/blocks';
  */
 const ALLOWED_BLOCKS = ['prc-block/row'];
 
-const GridEditContainer = ({ className, clientId, updateRows }) => {
+const GridEditContainer = ({ clientId, updateRows }) => {
     const maxRows = 6;
 
     const { count, displayBlockAppender } = useSelect(
@@ -54,7 +54,7 @@ const GridEditContainer = ({ className, clientId, updateRows }) => {
 
     const innerBlocksProps = useInnerBlocksProps({
         className: classnames({
-            'ui stackable grid': count > 1
+            'ui grid': count > 1,
         }),
     }, {
         allowedBlocks: ALLOWED_BLOCKS,

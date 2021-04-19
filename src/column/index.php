@@ -47,15 +47,28 @@ class Column_Block extends PRC_Block_Library {
 			16 => 'sixteen',
 		);
 		$width      = $dictionary[ $attributes['width'] ];
-		$classes    = array(
-			'column',
+		
+		$desktop_width    = $width;
+		$tablet_width     = $dictionary[ $attributes['tabletWidth'] ];
+		$phone_width      = $dictionary[ $attributes['phoneWidth'] ];
+		$is_row_stackable = false;
+
+		$unstackable_classes = array(
+			"{$phone_width} wide mobile"     => false === $is_row_stackable,
+			"{$tablet_width} wide tablet"    => false === $is_row_stackable,
+			"{$desktop_width} wide computer" => false === $is_row_stackable,
 		);
-		if ( null !== $width ) {
+
+		$classes = array();
+		if ( null !== $width && true === $is_row_stackable ) {
 			$classes[] = "{$width} wide";
+		} elseif ( null !== $width && false === $is_row_stackable ) {
+			$classes = $unstackable_classes;
 		}
-		if ( array_key_exists('className', $attributes) ) {
+		if ( array_key_exists( 'className', $attributes ) ) {
 			$classes[] = $attributes['className'];
 		}
+		$classes[] = 'column';
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $classes ) ); ?>">

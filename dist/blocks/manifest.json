@@ -1,16 +1,16 @@
 {
   "collapsible.js": "blocks/collapsible-d57c66ee.js",
   "collapsible.js.map": "blocks/collapsible-d57c66ee.js.map",
-  "column.js": "blocks/column-065601cb.js",
-  "column.js.map": "blocks/column-065601cb.js.map",
+  "column.js": "blocks/column-195a6ed7.js",
+  "column.js.map": "blocks/column-195a6ed7.js.map",
   "cover.css": "blocks/cover-f5dbd3e3.css",
   "cover.css.map": "blocks/cover-f5dbd3e3.css.map",
   "cover.js": "blocks/cover-6e0e8dbc.js",
   "cover.js.map": "blocks/cover-6e0e8dbc.js.map",
   "grid.css": "blocks/grid-0d9de208.css",
   "grid.css.map": "blocks/grid-0d9de208.css.map",
-  "grid.js": "blocks/grid-cc446801.js",
-  "grid.js.map": "blocks/grid-cc446801.js.map",
+  "grid.js": "blocks/grid-e54b62a3.js",
+  "grid.js.map": "blocks/grid-e54b62a3.js.map",
   "group.css": "blocks/group-38828ba1.css",
   "group.css.map": "blocks/group-38828ba1.css.map",
   "group.js": "blocks/group-51f205ee.js",
@@ -33,8 +33,8 @@
   "promo.css.map": "blocks/promo-9b7fe513.css.map",
   "promo.js": "blocks/promo-b2af2fb3.js",
   "promo.js.map": "blocks/promo-b2af2fb3.js.map",
-  "row.js": "blocks/row-b7452793.js",
-  "row.js.map": "blocks/row-b7452793.js.map",
+  "row.js": "blocks/row-9b2f6806.js",
+  "row.js.map": "blocks/row-9b2f6806.js.map",
   "runtime.js": "blocks/runtime-8f407741.js",
   "runtime.js.map": "blocks/runtime-8f407741.js.map",
   "social-link.js": "blocks/social-link-84f5febb.js",
@@ -109,11 +109,11 @@
     "column": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/column-065601cb.js"
+        "blocks/column-195a6ed7.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/column-065601cb.js.map"
+        "blocks/column-195a6ed7.js.map"
       ]
     },
     "cover": {
@@ -135,11 +135,11 @@
     "grid": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/grid-cc446801.js"
+        "blocks/grid-e54b62a3.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/grid-cc446801.js.map"
+        "blocks/grid-e54b62a3.js.map"
       ],
       "css": [
         "blocks/grid-0d9de208.css"
@@ -257,11 +257,11 @@
     "row": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/row-b7452793.js"
+        "blocks/row-9b2f6806.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/row-b7452793.js.map"
+        "blocks/row-9b2f6806.js.map"
       ]
     },
     "social-link": {
