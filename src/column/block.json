@@ -23,6 +23,7 @@
 		}
     },
     "parent": ["prc-block/columns", "prc-block/row"],
+    "usesContext": ["prc-block/row-stackable"],
     "supports": {
         "html": false,
         "align": false

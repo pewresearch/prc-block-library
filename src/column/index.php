@@ -27,7 +27,7 @@ class Column_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_column( $attributes, $content, $block ) {
-		$dictionary = array(
+		$dictionary       = array(
 			0  => null,
 			1  => 'one',
 			2  => 'two',
@@ -46,9 +46,8 @@ class Column_Block extends PRC_Block_Library {
 			15 => 'fifteen',
 			16 => 'sixteen',
 		);
-		$width      = $dictionary[ $attributes['width'] ];
-		
-		$is_row_stackable = false;
+		$width            = $dictionary[ $attributes['width'] ];
+		$is_row_stackable = $block->context['prc-block/row-stackable'];
 		$desktop_width    = $width;
 		$tablet_width     = 0 === $attributes['tabletWidth'] ? $width : $dictionary[ $attributes['tabletWidth'] ];
 		$phone_width      = 0 === $attributes['phoneWidth'] ? $width : $dictionary[ $attributes['phoneWidth'] ];

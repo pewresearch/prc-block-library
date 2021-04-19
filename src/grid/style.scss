@@ -9,10 +9,21 @@ div.wp-block[data-type="prc-block/grid"] > .wp-block.block-list-appender {
   margin-top: 0;
   max-width: $maxWidth!important;
   width: 100%;
-}
+
 div.wp-block[data-type="prc-block/grid"] {
   .block-editor-block-list__block {
     margin-top: inherit;
+  }
+}
+div.wp-block[data-type="prc-block/grid"] > .ui.grid > .wp-block.block-list-appender,
+div.wp-block[data-type="prc-block/grid"] > .block-editor-block-list__layout > .wp-block.block-list-appender {
+  & > .components-button {
+    background-color: #f9f9f9;
+    flex-direction: row;
+    &:after {
+      display: inline;
+      content: 'Add Row';
+    }
   }
 }
 div.wp-block[data-type="prc-block/grid"] .block-editor-block-list__layout:not(.ui.grid) div.wp-block[data-type="prc-block/row"]:not(.has-placeholder),

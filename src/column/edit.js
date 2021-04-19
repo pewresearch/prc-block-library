@@ -25,17 +25,19 @@ const ColumnEdit = ({
     setAttributes,
     className,
     clientId,
+    context
 }) => {
     const [maxWidth, setMaxWidth] = useState(16);
     
     const { updateBlockAttributes } = useDispatch('core/block-editor');
+
+    const isStackable = context['prc-block/row-active'];
 
     const {
         hasChildBlocks,
         isEqual,
         rootClientId,
         otherColumnsInRow,
-        isStackable,
     } = useSelect(
         select => {
             const {
@@ -48,13 +50,12 @@ const ColumnEdit = ({
 
             // Get equal attribute from row.
             const rootAttributes = getBlockAttributes(rootBlockClientId);
-            const { equal, stackable } = rootAttributes;
+            const { equal } = rootAttributes;
 
             return {
                 hasChildBlocks: 0 < getBlockOrder(clientId).length,
                 rootClientId: rootBlockClientId,
                 isEqual: equal,
-                isStackable: stackable,
                 otherColumnsInRow: getBlocks(rootBlockClientId),
             };
         },
