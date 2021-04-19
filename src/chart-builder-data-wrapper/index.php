@@ -128,8 +128,8 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
-			'chart-builder',
-			'wrapperBlock',
+			'blocks',
+			'chart-builder-wrapper',
 			array(
 				'js'        => true,
 				'css'       => false,

@@ -61,8 +61,8 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
 		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
-			'chart-builder',
 			'frontend',
+			'chart-builder',
 			array(
 				'js'        => true,
 				'css'       => true,
@@ -88,8 +88,8 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
+			'blocks',
 			'chart-builder',
-			'main',
 			array(
 				'js'        => true,
 				'css'       => true,

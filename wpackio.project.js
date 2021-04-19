@@ -28,9 +28,9 @@ module.exports = {
             entry: {
                 collapsible: './src/collapsible/index.js',
                 column: './src/column/index.js',
-                // 'chart-builder': './src/chart-builder/index.js',
-                // 'chart-builder-wrapper':
-                //     './src/chart-builder-data-wrapper/index.js',
+                'chart-builder': './src/chart-builder/index.js',
+                'chart-builder-wrapper':
+                    './src/chart-builder-data-wrapper/index.js',
                 grid: './src/grid/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
@@ -89,7 +89,7 @@ module.exports = {
             name: 'frontend',
             entry: {
                 collapsible: './src/collapsible/frontend.js',
-                // 'chart-builder': './src/chart-builder/frontend.js',
+                'chart-builder': './src/chart-builder/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
                 'tabs-controller': './src/tabs/controller/frontend.js',
@@ -118,14 +118,6 @@ module.exports = {
             name: 'chapter',
             entry: {
                 main: './src/chapter/index.js',
-            },
-        },
-        {
-            name: 'chart-builder',
-            entry: {
-                main: './src/chart-builder/index.js',
-                frontend: './src/chart-builder/frontend.js',
-                wrapperBlock: './src/chart-builder-data-wrapper/index.js',
             },
         },
         {
