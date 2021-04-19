@@ -1,6 +1,6 @@
 {
-  "frontend.js": "story-item/frontend-8569dd2b.js",
-  "frontend.js.map": "story-item/frontend-8569dd2b.js.map",
+  "frontend.js": "story-item/frontend-821d3f4c.js",
+  "frontend.js.map": "story-item/frontend-821d3f4c.js.map",
   "main.js": "story-item/main-69ed1d9b.js",
   "main.js.map": "story-item/main-69ed1d9b.js.map",
   "runtime.js": "story-item/runtime-6ed187c0.js",
@@ -24,12 +24,12 @@
       "js": [
         "story-item/runtime-6ed187c0.js",
         "story-item/vendors~frontend~main-ad36a779.js",
-        "story-item/frontend-8569dd2b.js"
+        "story-item/frontend-821d3f4c.js"
       ],
       "js.map": [
         "story-item/runtime-6ed187c0.js.map",
         "story-item/vendors~frontend~main-ad36a779.js.map",
-        "story-item/frontend-8569dd2b.js.map"
+        "story-item/frontend-821d3f4c.js.map"
       ]
     }
   }
