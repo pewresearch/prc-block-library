@@ -107,7 +107,7 @@ const ColumnEdit = ({
         return `${numWords(width)} wide`;
     };
 
-    const WidthControl = ({label, icon = null, w, setWidth}) => {
+    const WidthControl = ({label, icon = null, w, setWidth, min = 1}) => {
         const tooltipContent = value => `${value}/16`;
         return(
             <RangeControl
@@ -119,7 +119,7 @@ const ColumnEdit = ({
                         0 > parseFloat(value) ? '0' : value;
                     setWidth(nextWidth);
                 }}
-                min={1}
+                min={min}
                 max={16}
                 withInputField
                 disabled={isEqual}
@@ -187,8 +187,8 @@ const ColumnEdit = ({
                             </Notice>
                         )}
                         <WidthControl label={__('Desktop Width')} icon={'desktop'} w={width} setWidth={(v) => setAttributes({width: v})}/>
-                        <WidthControl label={__('Tablet Width')} icon={'tablet'} w={0 === tabletWidth ? width : tabletWidth} setWidth={(v) => setAttributes({tabletWidth: v})}/>
-                        <WidthControl label={__('Phone Width')} icon={'smartphone'} w={0 === phoneWidth ? width : phoneWidth} setWidth={(v) => setAttributes({phoneWidth: v})}/>
+                        <WidthControl label={__('Tablet Width')} icon={'tablet'} min={0} w={100 === tabletWidth ? width : tabletWidth} setWidth={(v) => setAttributes({tabletWidth: v})}/>
+                        <WidthControl label={__('Phone Width')} icon={'smartphone'} min={0} w={100 === phoneWidth ? width : phoneWidth} setWidth={(v) => setAttributes({phoneWidth: v})}/>
                     </Fragment>
                 </PanelBody>
             </InspectorControls>

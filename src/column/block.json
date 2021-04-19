@@ -9,11 +9,11 @@
         },
         "tabletWidth": {
             "type": "integer",
-            "default": 0
+            "default": 100
         },
         "phoneWidth": {
             "type": "integer",
-            "default": 0
+            "default": 100
         },
         "verticalAlignment": {
 			"type": "string"

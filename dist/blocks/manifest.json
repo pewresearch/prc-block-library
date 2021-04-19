@@ -1,8 +1,8 @@
 {
   "collapsible.js": "blocks/collapsible-e42925c4.js",
   "collapsible.js.map": "blocks/collapsible-e42925c4.js.map",
-  "column.js": "blocks/column-7883aac4.js",
-  "column.js.map": "blocks/column-7883aac4.js.map",
+  "column.js": "blocks/column-8ad6a648.js",
+  "column.js.map": "blocks/column-8ad6a648.js.map",
   "cover.css": "blocks/cover-f5dbd3e3.css",
   "cover.css.map": "blocks/cover-f5dbd3e3.css.map",
   "cover.js": "blocks/cover-fb2a9ab3.js",
@@ -33,8 +33,8 @@
   "promo.css.map": "blocks/promo-9b7fe513.css.map",
   "promo.js": "blocks/promo-401fa7c4.js",
   "promo.js.map": "blocks/promo-401fa7c4.js.map",
-  "row.js": "blocks/row-05a19c4f.js",
-  "row.js.map": "blocks/row-05a19c4f.js.map",
+  "row.js": "blocks/row-bd1a44ba.js",
+  "row.js.map": "blocks/row-bd1a44ba.js.map",
   "runtime.js": "blocks/runtime-8f407741.js",
   "runtime.js.map": "blocks/runtime-8f407741.js.map",
   "social-link.js": "blocks/social-link-95bdd290.js",
@@ -109,11 +109,11 @@
     "column": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/column-7883aac4.js"
+        "blocks/column-8ad6a648.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/column-7883aac4.js.map"
+        "blocks/column-8ad6a648.js.map"
       ]
     },
     "cover": {
@@ -257,11 +257,11 @@
     "row": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/row-05a19c4f.js"
+        "blocks/row-bd1a44ba.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/row-05a19c4f.js.map"
+        "blocks/row-bd1a44ba.js.map"
       ]
     },
     "social-link": {
