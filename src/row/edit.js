@@ -229,7 +229,9 @@ const Placeholder = ({ clientId, name, setAttributes }) => {
         [name],
     );
     const { replaceInnerBlocks } = useDispatch('core/block-editor');
-    const blockProps = useBlockProps();
+    const blockProps = useBlockProps({
+        className: 'has-placeholder',
+    });
 
     return (
         <div {...blockProps}>

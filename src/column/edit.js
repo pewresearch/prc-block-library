@@ -109,37 +109,22 @@ const ColumnEdit = ({
     const WidthControl = ({label, icon = null, w, setWidth}) => {
         const tooltipContent = value => `${value}/16`;
         return(
-            <Fragment>
-                {1 >= maxWidth && (
-                    <Notice
-                        status={
-                            -1 === Math.sign(maxWidth)
-                                ? 'warning'
-                                : 'info'
-                        }
-                        isDismissible={false}
-                    >
-                        {-1 === Math.sign(maxWidth)
-                            ? `Exceeding Grid Width!!`
-                            : `Attention: Approaching Grid Maximum`}
-                    </Notice>
-                )}
-                <RangeControl
-                    beforeIcon={icon}
-                    label={label}
-                    value={w}
-                    onChange={value => {
-                        const nextWidth =
-                            0 > parseFloat(value) ? '0' : value;
-                        setWidth(nextWidth);
-                    }}
-                    min={1}
-                    max={16}
-                    withInputField
-                    disabled={isEqual}
-                    renderTooltipContent={ tooltipContent }
-                />
-            </Fragment>
+            <RangeControl
+                beforeIcon={icon}
+                label={label}
+                value={w}
+                onChange={value => {
+                    const nextWidth =
+                        0 > parseFloat(value) ? '0' : value;
+                    setWidth(nextWidth);
+                }}
+                min={1}
+                max={16}
+                withInputField
+                disabled={isEqual}
+                renderTooltipContent={ tooltipContent }
+                type="stepper"
+            />
         );
     }
 
@@ -186,9 +171,23 @@ const ColumnEdit = ({
                                 column widths has been disabled.
                             </Notice>
                         )}
+                        {1 >= maxWidth && (
+                            <Notice
+                                status={
+                                    -1 === Math.sign(maxWidth)
+                                        ? 'warning'
+                                        : 'info'
+                                }
+                                isDismissible={false}
+                            >
+                                {-1 === Math.sign(maxWidth)
+                                    ? `Exceeding Grid Width!!`
+                                    : `Attention: Approaching Grid Maximum`}
+                            </Notice>
+                        )}
                         <WidthControl label={__('Desktop Width')} icon={'desktop'} w={width} setWidth={(v) => setAttributes({width: v})}/>
-                        <WidthControl label={__('Tablet Width')} icon={'tablet'} w={tabletWidth} setWidth={(v) => setAttributes({tabletWidth: v})}/>
-                        <WidthControl label={__('Phone Width')} icon={'smartphone'} w={phoneWidth} setWidth={(v) => setAttributes({phoneWidth: v})}/>
+                        <WidthControl label={__('Tablet Width')} icon={'tablet'} w={0 === tabletWidth ? width : tabletWidth} setWidth={(v) => setAttributes({tabletWidth: v})}/>
+                        <WidthControl label={__('Phone Width')} icon={'smartphone'} w={0 === phoneWidth ? width : phoneWidth} setWidth={(v) => setAttributes({phoneWidth: v})}/>
                     </Fragment>
                 </PanelBody>
             </InspectorControls>

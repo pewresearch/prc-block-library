@@ -1,14 +1,14 @@
 {
   "collapsible.js": "blocks/collapsible-d57c66ee.js",
   "collapsible.js.map": "blocks/collapsible-d57c66ee.js.map",
-  "column.js": "blocks/column-195a6ed7.js",
-  "column.js.map": "blocks/column-195a6ed7.js.map",
+  "column.js": "blocks/column-979e742e.js",
+  "column.js.map": "blocks/column-979e742e.js.map",
   "cover.css": "blocks/cover-f5dbd3e3.css",
   "cover.css.map": "blocks/cover-f5dbd3e3.css.map",
   "cover.js": "blocks/cover-6e0e8dbc.js",
   "cover.js.map": "blocks/cover-6e0e8dbc.js.map",
-  "grid.css": "blocks/grid-0d9de208.css",
-  "grid.css.map": "blocks/grid-0d9de208.css.map",
+  "grid.css": "blocks/grid-1b260d91.css",
+  "grid.css.map": "blocks/grid-1b260d91.css.map",
   "grid.js": "blocks/grid-e54b62a3.js",
   "grid.js.map": "blocks/grid-e54b62a3.js.map",
   "group.css": "blocks/group-38828ba1.css",
@@ -33,8 +33,8 @@
   "promo.css.map": "blocks/promo-9b7fe513.css.map",
   "promo.js": "blocks/promo-b2af2fb3.js",
   "promo.js.map": "blocks/promo-b2af2fb3.js.map",
-  "row.js": "blocks/row-9b2f6806.js",
-  "row.js.map": "blocks/row-9b2f6806.js.map",
+  "row.js": "blocks/row-8a28b563.js",
+  "row.js.map": "blocks/row-8a28b563.js.map",
   "runtime.js": "blocks/runtime-8f407741.js",
   "runtime.js.map": "blocks/runtime-8f407741.js.map",
   "social-link.js": "blocks/social-link-84f5febb.js",
@@ -109,11 +109,11 @@
     "column": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/column-195a6ed7.js"
+        "blocks/column-979e742e.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/column-195a6ed7.js.map"
+        "blocks/column-979e742e.js.map"
       ]
     },
     "cover": {
@@ -142,10 +142,10 @@
         "blocks/grid-e54b62a3.js.map"
       ],
       "css": [
-        "blocks/grid-0d9de208.css"
+        "blocks/grid-1b260d91.css"
       ],
       "css.map": [
-        "blocks/grid-0d9de208.css.map"
+        "blocks/grid-1b260d91.css.map"
       ]
     },
     "group": {
@@ -257,11 +257,11 @@
     "row": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/row-9b2f6806.js"
+        "blocks/row-8a28b563.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/row-9b2f6806.js.map"
+        "blocks/row-8a28b563.js.map"
       ]
     },
     "social-link": {

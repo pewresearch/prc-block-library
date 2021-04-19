@@ -48,10 +48,10 @@ class Column_Block extends PRC_Block_Library {
 		);
 		$width      = $dictionary[ $attributes['width'] ];
 		
-		$desktop_width    = $width;
-		$tablet_width     = $dictionary[ $attributes['tabletWidth'] ];
-		$phone_width      = $dictionary[ $attributes['phoneWidth'] ];
 		$is_row_stackable = false;
+		$desktop_width    = $width;
+		$tablet_width     = 0 === $attributes['tabletWidth'] ? $width : $dictionary[ $attributes['tabletWidth'] ];
+		$phone_width      = 0 === $attributes['phoneWidth'] ? $width : $dictionary[ $attributes['phoneWidth'] ];
 
 		$unstackable_classes = array(
 			"{$phone_width} wide mobile"     => false === $is_row_stackable,
