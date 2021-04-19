@@ -42,10 +42,18 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId }) => {
         [clientId],
     );
 
-    const blockProps = useBlockProps();
+    const blockProps = useBlockProps({
+        className: classnames({
+            'ui container': count > 1
+        }),
+    });
 
     // @TODO When we get to a certain viewport size in the editor we should change the orientation from horizontal to vertical.
-    const innerBlocksProps = useInnerBlocksProps(blockProps, {
+    const innerBlocksProps = useInnerBlocksProps({
+        className: classnames({
+            'ui stackable grid': count > 1
+        }),
+    }, {
         allowedBlocks: ALLOWED_BLOCKS,
         orientation: 'vertical',
         renderAppender: InnerBlocks.ButtonBlockAppender,
@@ -66,7 +74,9 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId }) => {
                 </PanelBody>
             </InspectorControls>
 
-            <div {...innerBlocksProps} />
+            <div {...blockProps}>
+                <div {...innerBlocksProps} />
+            </div>
         </Fragment>
     );
 };

@@ -49,10 +49,12 @@ const RowEditContainer = ({
     const { divided, equal } = attributes;
 
     // Return a count of prc-block/column inside...
-    const { count } = useSelect(
+    const { count, rowCount } = useSelect(
         select => {
+            const gridRootClientId = select('core/block-editor').getBlockRootClientId(clientId);
             return {
                 count: select('core/block-editor').getBlockCount(clientId),
+                rowCount: select('core/block-editor').getBlockCount(gridRootClientId),
             };
         },
         [clientId],
@@ -60,11 +62,11 @@ const RowEditContainer = ({
 
     const blockProps = useBlockProps({
         className: classnames({
-            'ui': true,
-            stackable: true,
-            'equal width': equal,
+            'ui' : true,
+            'equal width' : equal,
             divided,
-            'grid': true
+            'stackable grid': rowCount <= 1,
+            'row': rowCount > 1,
         }),
     });
 

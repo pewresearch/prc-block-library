@@ -21,12 +21,14 @@ class Row_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_row( $attributes, $content, $block ) {
+		$as_row      = array_key_exists( 'asRow', $attributes ) ? $attributes['asRow'] : false;
 		$row_classes = array(
 			'ui',
-			'stackable',
 			'equal width' => $attributes['equal'],
 			'divided'     => $attributes['divided'],
-			'grid',
+			'stackable'   => ! $as_row,
+			'grid'        => ! $as_row,
+			'row'         => $as_row,
 		);
 		ob_start();
 		?>

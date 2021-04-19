@@ -28,6 +28,7 @@ module.exports = {
             entry: {
                 collapsible: './src/collapsible/index.js',
                 column: './src/column/index.js',
+                cover: './src/cover/index.js',
                 grid: './src/grid/index.js',
                 group: './src/group/index.js',
                 heading: './src/heading/index.js',
@@ -88,6 +89,7 @@ module.exports = {
             name: 'frontend',
             entry: {
                 collapsible: './src/collapsible/frontend.js',
+                cover: './src/cover/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
                 'tabs-controller': './src/tabs/controller/frontend.js',
@@ -98,12 +100,6 @@ module.exports = {
                     './src/topic-index-condensed/controller/frontend.js',
                 'topic-index-search-field':
                     './src/topic-index-search-field/frontend.js',
-            },
-        },
-        {
-            name: 'callout',
-            entry: {
-                main: './src/callout/index.js',
             },
         },
         {
