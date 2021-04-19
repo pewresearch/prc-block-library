@@ -19,8 +19,8 @@
   "heading.css.map": "blocks/heading-516cb5aa.css.map",
   "heading.js": "blocks/heading-305af9d1.js",
   "heading.js.map": "blocks/heading-305af9d1.js.map",
-  "menu-link.js": "blocks/menu-link-ade132aa.js",
-  "menu-link.js.map": "blocks/menu-link-ade132aa.js.map",
+  "menu-link.js": "blocks/menu-link-1de9c435.js",
+  "menu-link.js.map": "blocks/menu-link-1de9c435.js.map",
   "menu.js": "blocks/menu-fe408981.js",
   "menu.js.map": "blocks/menu-fe408981.js.map",
   "post-bylines.js": "blocks/post-bylines-b216f052.js",
@@ -31,8 +31,8 @@
   "promo-rotator.js.map": "blocks/promo-rotator-10940f8a.js.map",
   "promo.css": "blocks/promo-9b7fe513.css",
   "promo.css.map": "blocks/promo-9b7fe513.css.map",
-  "promo.js": "blocks/promo-75f1a7fb.js",
-  "promo.js.map": "blocks/promo-75f1a7fb.js.map",
+  "promo.js": "blocks/promo-b2af2fb3.js",
+  "promo.js.map": "blocks/promo-b2af2fb3.js.map",
   "row.js": "blocks/row-b7452793.js",
   "row.js.map": "blocks/row-b7452793.js.map",
   "runtime.js": "blocks/runtime-8f407741.js",
@@ -65,18 +65,18 @@
   "topic-index-az.css.map": "blocks/topic-index-az-c99205e1.css.map",
   "topic-index-az.js": "blocks/topic-index-az-218d1a8e.js",
   "topic-index-az.js.map": "blocks/topic-index-az-218d1a8e.js.map",
-  "topic-index-categorized.js": "blocks/topic-index-categorized-05f97553.js",
-  "topic-index-categorized.js.map": "blocks/topic-index-categorized-05f97553.js.map",
+  "topic-index-categorized.js": "blocks/topic-index-categorized-51e3bec1.js",
+  "topic-index-categorized.js.map": "blocks/topic-index-categorized-51e3bec1.js.map",
   "topic-index-condensed-controller.js": "blocks/topic-index-condensed-controller-39f59437.js",
   "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-39f59437.js.map",
   "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-2d0d9a25.js",
   "topic-index-condensed-menu-item.js.map": "blocks/topic-index-condensed-menu-item-2d0d9a25.js.map",
-  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-362379b9.js",
-  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-362379b9.js.map",
+  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-ad35af68.js",
+  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-ad35af68.js.map",
   "topic-index-condensed-page.css": "blocks/topic-index-condensed-page-6141e588.css",
   "topic-index-condensed-page.css.map": "blocks/topic-index-condensed-page-6141e588.css.map",
-  "topic-index-condensed-page.js": "blocks/topic-index-condensed-page-e61de6cf.js",
-  "topic-index-condensed-page.js.map": "blocks/topic-index-condensed-page-e61de6cf.js.map",
+  "topic-index-condensed-page.js": "blocks/topic-index-condensed-page-f530b274.js",
+  "topic-index-condensed-page.js.map": "blocks/topic-index-condensed-page-f530b274.js.map",
   "topic-index-condensed-pages.js": "blocks/topic-index-condensed-pages-a5bb6430.js",
   "topic-index-condensed-pages.js.map": "blocks/topic-index-condensed-pages-a5bb6430.js.map",
   "topic-index-search-field.js": "blocks/topic-index-search-field-719586e3.js",
@@ -89,8 +89,8 @@
   "vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e.js.map": "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js.map",
   "vendors~table.js": "blocks/vendors~table-cb241ad5.js",
   "vendors~table.js.map": "blocks/vendors~table-cb241ad5.js.map",
-  "wp-query.js": "blocks/wp-query-d7e9c5fc.js",
-  "wp-query.js.map": "blocks/wp-query-d7e9c5fc.js.map",
+  "wp-query.js": "blocks/wp-query-b5dafe77.js",
+  "wp-query.js.map": "blocks/wp-query-b5dafe77.js.map",
   "wpackioEp": {
     "collapsible": {
       "js": [
@@ -195,13 +195,13 @@
         "blocks/runtime-8f407741.js",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js",
-        "blocks/menu-link-ade132aa.js"
+        "blocks/menu-link-1de9c435.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js.map",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js.map",
-        "blocks/menu-link-ade132aa.js.map"
+        "blocks/menu-link-1de9c435.js.map"
       ]
     },
     "post-bylines": {
@@ -229,13 +229,13 @@
         "blocks/runtime-8f407741.js",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js",
-        "blocks/promo-75f1a7fb.js"
+        "blocks/promo-b2af2fb3.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js.map",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js.map",
-        "blocks/promo-75f1a7fb.js.map"
+        "blocks/promo-b2af2fb3.js.map"
       ],
       "css": [
         "blocks/promo-9b7fe513.css"
@@ -401,13 +401,13 @@
         "blocks/runtime-8f407741.js",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js",
-        "blocks/topic-index-categorized-05f97553.js"
+        "blocks/topic-index-categorized-51e3bec1.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js.map",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js.map",
-        "blocks/topic-index-categorized-05f97553.js.map"
+        "blocks/topic-index-categorized-51e3bec1.js.map"
       ]
     },
     "topic-index-condensed-controller": {
@@ -425,13 +425,13 @@
         "blocks/runtime-8f407741.js",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js",
-        "blocks/topic-index-condensed-menu-362379b9.js"
+        "blocks/topic-index-condensed-menu-ad35af68.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js.map",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js.map",
-        "blocks/topic-index-condensed-menu-362379b9.js.map"
+        "blocks/topic-index-condensed-menu-ad35af68.js.map"
       ]
     },
     "topic-index-condensed-menu-item": {
@@ -449,13 +449,13 @@
         "blocks/runtime-8f407741.js",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js",
-        "blocks/topic-index-condensed-page-e61de6cf.js"
+        "blocks/topic-index-condensed-page-f530b274.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js.map",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js.map",
-        "blocks/topic-index-condensed-page-e61de6cf.js.map"
+        "blocks/topic-index-condensed-page-f530b274.js.map"
       ],
       "css": [
         "blocks/topic-index-condensed-page-6141e588.css"
@@ -489,13 +489,13 @@
         "blocks/runtime-8f407741.js",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js",
-        "blocks/wp-query-d7e9c5fc.js"
+        "blocks/wp-query-b5dafe77.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-2df72532.js.map",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-c7ac9b11.js.map",
-        "blocks/wp-query-d7e9c5fc.js.map"
+        "blocks/wp-query-b5dafe77.js.map"
       ]
     }
   }

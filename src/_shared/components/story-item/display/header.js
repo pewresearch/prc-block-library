@@ -28,6 +28,7 @@ const Header = ({
         medium: 2 === parseInt(size),
         small: 3 === parseInt(size),
         light: altHeaderWeight,
+        'sans-serif': !enableMeta,
     });
 
     return (
