@@ -68,17 +68,16 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		$table_block  = array_pop(
             array_filter(
                 $block->parsed_block['innerBlocks'],
-                function( $block ) {
-                    return 'core/table' === $block['blockName'];
+                function( $b ) {
+                    return 'core/table' === $b['blockName'];
                 }
             )
         );
 		$chart_block  = array_pop(
             array_filter(
                 $block->parsed_block['innerBlocks'],
-                function( $block ) {
-					$target = 'prc-block/chart-builder';
-                    return $target === $block['blockName'];
+                function( $b ) {
+                    return 'prc-block/chart-builder' === $b['blockName'];
                 }
             )
         );
