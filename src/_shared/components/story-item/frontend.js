@@ -77,9 +77,7 @@ const getProps = elm => {
             props.enableEmphasis = true;
         }
     }
-    console.log('data-meta', elm.getAttribute('data-meta'));
     if (elm.getAttribute('data-meta')) {
-        console.log('got it!');
         if (
             '1' === elm.getAttribute('data-meta') ||
             'true' === elm.getAttribute('data-meta')

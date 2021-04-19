@@ -31,12 +31,16 @@ import { createBlock } from '@wordpress/blocks';
  */
 const ALLOWED_BLOCKS = ['prc-block/row'];
 
-const GridEditContainer = ({ attributes, className, updateRows, clientId, isSelected }) => {
-    // Return a count of prc-block/row inside...
-    const { count } = useSelect(
+const GridEditContainer = ({ className, clientId, updateRows }) => {
+    const maxRows = 6;
+
+    const { count, displayBlockAppender } = useSelect(
         select => {
+            const innerBlockSelected = select('core/block-editor').hasSelectedInnerBlock(clientId);
+            const isSelected = select('core/block-editor').isBlockSelected(clientId);
             return {
                 count: select('core/block-editor').getBlockCount(clientId),
+                displayBlockAppender: (innerBlockSelected || isSelected),
             };
         },
         [clientId],
@@ -48,15 +52,17 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId, isSele
         }),
     });
 
-    // @TODO When we get to a certain viewport size in the editor we should change the orientation from horizontal to vertical.
     const innerBlocksProps = useInnerBlocksProps({
         className: classnames({
             'ui stackable grid': count > 1
         }),
     }, {
         allowedBlocks: ALLOWED_BLOCKS,
-        orientation: 'vertical',
-        renderAppender: isSelected ? InnerBlocks.ButtonBlockAppender : false,
+        orientation: 'vertical', // @TODO When we get to a certain viewport size in the editor we should change the orientation from horizontal to vertical.
+        template: [
+            [ 'prc-block/row', {} ],
+        ],
+        renderAppender: displayBlockAppender ? InnerBlocks.ButtonBlockAppender : false,
     });
 
     return (
@@ -68,7 +74,7 @@ const GridEditContainer = ({ attributes, className, updateRows, clientId, isSele
                         value={count}
                         onChange={value => updateRows(count, value)}
                         min={1}
-                        max={Math.max(6, count)}
+                        max={Math.max(maxRows, count)}
                         withInputField
                     />
                 </PanelBody>

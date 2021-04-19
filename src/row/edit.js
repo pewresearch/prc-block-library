@@ -217,7 +217,7 @@ const Placeholder = ({ clientId, name, setAttributes }) => {
             <__experimentalBlockVariationPicker
                 icon={get(blockType, ['icon', 'src'])}
                 label={get(blockType, ['title'])}
-                instructions={__(`Select a columns layout to begin.`)}
+                instructions={__(`Select a layout to begin. Click "skip" to select the default One Column option.`)}
                 variations={variations}
                 onSelect={(nextVariation = defaultVariation) => {
                     if (nextVariation.attributes) {
