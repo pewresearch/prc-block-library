@@ -15,8 +15,8 @@
   "group.css.map": "blocks/group-053f719c.css.map",
   "group.js": "blocks/group-4be41e8e.js",
   "group.js.map": "blocks/group-4be41e8e.js.map",
-  "heading.css": "blocks/heading-0ccf3949.css",
-  "heading.css.map": "blocks/heading-0ccf3949.css.map",
+  "heading.css": "blocks/heading-26533fc9.css",
+  "heading.css.map": "blocks/heading-26533fc9.css.map",
   "heading.js": "blocks/heading-ac3afc42.js",
   "heading.js.map": "blocks/heading-ac3afc42.js.map",
   "menu-link.js": "blocks/menu-link-2d9f4dd9.js",
@@ -174,10 +174,10 @@
         "blocks/heading-ac3afc42.js.map"
       ],
       "css": [
-        "blocks/heading-0ccf3949.css"
+        "blocks/heading-26533fc9.css"
       ],
       "css.map": [
-        "blocks/heading-0ccf3949.css.map"
+        "blocks/heading-26533fc9.css.map"
       ]
     },
     "menu": {
