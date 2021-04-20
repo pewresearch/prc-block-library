@@ -31,7 +31,7 @@ const StoryItem = ({
     className,
     inLoop = false,
 }) => {
-    const isSmall = useMediaQuery('(max-width: 767px)');
+    const isSmall = useMediaQuery('(max-width: 990px)');
 
     let enableAltHeaderWeight = false;
     if (false === enableExcerpt) {
@@ -50,6 +50,11 @@ const StoryItem = ({
     // On mobile, outside the loop, force image alignment top.
     if (false === inLoop && true === isSmall && 'disabled' !== imageSlot) {
         imageSlot = 'top';
+    }
+
+    if ( isStyleMobileLoop ) {
+        imageSlot = 'left';
+        imageSize = 'A3';
     }
 
     const classes = classNames(className, 'story', {

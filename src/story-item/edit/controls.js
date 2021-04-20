@@ -303,6 +303,7 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
         enableEmphasis,
         enableProgramsTaxonomy,
         enableMeta,
+        inLoop,
     } = attributes;
 
     const label = __('Story Item options');
@@ -433,6 +434,17 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                         checked={enableEmphasis}
                         onChange={() => {
                             setAttributes({ enableEmphasis: !enableEmphasis });
+                        }}
+                    />
+                    <ToggleControl
+                        label={
+                            inLoop
+                                ? 'Pub Listing Style On Mobile'
+                                : 'Normal Styling On Mobile'
+                        }
+                        checked={inLoop}
+                        onChange={() => {
+                            setAttributes({ inLoop: !inLoop });
                         }}
                     />
                 </PanelBody>

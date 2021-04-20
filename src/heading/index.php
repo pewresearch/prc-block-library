@@ -16,7 +16,7 @@ class Heading_Block extends PRC_Block_Library {
 
 	public function add_section_header_class_to_row( $classes, $parsed_row_block ) {
 		$inner_blocks = array_pop( $parsed_row_block['innerBlocks'] );
-		if ( 'prc-block/column' !== $inner_blocks['blockName'] || 'core/group' !== $inner_blocks['blockName'] || 16 === $inner_blocks['attrs']['width'] ) {
+		if ( 'prc-block/column' !== $inner_blocks['blockName'] || 16 === $inner_blocks['attrs']['width'] ) {
 			return $classes;
 		}
 		
@@ -26,7 +26,7 @@ class Heading_Block extends PRC_Block_Library {
 			return $classes;
 		}
 
-		$classes['has-section-header'] = true;
+		$classes['has section heading'] = true;
 		return $classes;
 	}
 

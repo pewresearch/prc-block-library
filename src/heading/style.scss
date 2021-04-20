@@ -1,7 +1,3 @@
-$sectionHeaderPadding: 30px;
-$gutterSize: 24px;
-$mobileBreakPoint: 767px;
-
 h1.is-style-section-header,
 h2.is-style-section-header,
 h3.is-style-section-header,
@@ -16,18 +12,4 @@ h5[data-type="core/heading"].is-style-section-header,
 h6[data-type="core/heading"].is-style-section-header {
 	border-bottom: 1px solid black;
 	padding-bottom: 8px;
-}
-
-.ui.has-section-header.row,
-.ui.has-section-header.grid {
-	padding-top: $sectionHeaderPadding;
-	// .column {
-	// 	@media only screen and (max-width: $mobileBreakPoint) {
-	// 		padding-top: $sectionHeaderPadding;
-	// 	}
-	// }
-	.column > .is-style-section-header:first-of-type {
-		margin-top: -$sectionHeaderPadding;
-		margin-bottom: $gutterSize;
-	}
 }
