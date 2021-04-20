@@ -1,24 +1,17 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
-import { InspectorControls } from '@wordpress/block-editor';
 import {
-    Button,
-    HorizontalRule,
     PanelBody,
     PanelRow,
-    Placeholder,
-    TextControl,
     ToggleControl,
     SelectControl,
-    RangeControl,
-    Flex,
-    FlexItem,
-    __experimentalUnitControl as UnitControl,
     __experimentalNumberControl as NumberControl,
-    ColorPalette,
 } from '@wordpress/components';
-
+/**
+ * Internal dependencies
+ */
 import { formatNum } from '../utils/helpers';
 
 const LineControls = ({ attributes, setAttributes, chartType }) => {

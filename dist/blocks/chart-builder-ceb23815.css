@@ -15,15 +15,6 @@
  * Compiled with the help of https://wpack.io
  * A zero setup Webpack Bundler Script for WordPress
  */
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.flex > div {
-  flex: 1 0 auto;
-}
-
 .prc-tooltip {
   border: 1px solid #eee;
   border-radius: 5px;
@@ -86,4 +77,4 @@
 }
 /*# sourceMappingURL=styles.css.map */
 
-/*# sourceMappingURL=chart-builder-926e955d.css.map*/
+/*# sourceMappingURL=chart-builder-ceb23815.css.map*/

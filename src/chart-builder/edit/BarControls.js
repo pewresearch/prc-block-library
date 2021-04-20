@@ -1,9 +1,14 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 import {
     PanelBody,
     __experimentalNumberControl as NumberControl,
 } from '@wordpress/components';
-
+/**
+ * Internal dependencies
+ */
 import { formatNum } from '../utils/helpers';
 
 const BarControls = ({ attributes, setAttributes }) => {

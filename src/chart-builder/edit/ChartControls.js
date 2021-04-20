@@ -1,25 +1,19 @@
-import { setLocaleData, __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { useSelect, select, useDispatch } from '@wordpress/data';
+/**
+ * WordPress dependencies
+ */
+import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
-    Button,
-    HorizontalRule,
     PanelBody,
-    Placeholder,
-    TextControl,
-    ToggleControl,
     SelectControl,
     RangeControl,
-    __experimentalUnitControl as UnitControl,
     __experimentalNumberControl as NumberControl,
-    ColorPalette,
-    PanelRow,
-    Flex,
-    FlexItem,
     ExternalLink,
     FormTokenField,
 } from '@wordpress/components';
+/**
+ * Internal dependencies
+ */
 import { colorNames } from '../utils/colors';
 import { formatNum } from '../utils/helpers';
 import XAxisControls from './XAxisControls';
@@ -31,12 +25,7 @@ import LegendControls from './LegendControls';
 import TooltipControls from './TooltipControls';
 import TextFieldControls from './TextFieldControls';
 
-const ChartControls = ({
-    attributes,
-    setAttributes,
-    clientId,
-    parentBlockId,
-}) => {
+const ChartControls = ({ attributes, setAttributes }) => {
     const {
         chartType,
         chartOrientation,
@@ -172,7 +161,6 @@ const ChartControls = ({
                 <XAxisControls
                     attributes={attributes}
                     setAttributes={setAttributes}
-                    parentBlockId={parentBlockId}
                 />
                 <YAxisControls
                     attributes={attributes}

@@ -1,26 +1,23 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { useSelect, select, useDispatch } from '@wordpress/data';
-import { InspectorControls } from '@wordpress/block-editor';
 import {
-    Button,
-    HorizontalRule,
     PanelBody,
     PanelRow,
-    Placeholder,
     TextControl,
     ToggleControl,
     SelectControl,
-    RangeControl,
     Flex,
     FlexItem,
-    ColorPalette,
     __experimentalNumberControl as NumberControl,
 } from '@wordpress/components';
-
+/**
+ * Internal dependencies
+ */
 import { formatNum } from '../utils/helpers';
 
-const XAxisControls = ({ attributes, setAttributes, chartType }) => {
+const XAxisControls = ({ attributes, setAttributes }) => {
     const {
         xAxisActive,
         xScale,

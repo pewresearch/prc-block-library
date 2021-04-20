@@ -1,3 +1,6 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
@@ -18,7 +21,9 @@ import {
     __experimentalNumberControl as NumberControl,
     ColorPalette,
 } from '@wordpress/components';
-
+/**
+ * Internal dependencies
+ */
 import { formatNum } from '../utils/helpers';
 
 const LabelControls = ({ attributes, setAttributes, chartType }) => {

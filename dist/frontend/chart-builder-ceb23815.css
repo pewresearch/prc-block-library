@@ -1,3 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 0.1.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
 .prc-tooltip {
   border: 1px solid #eee;
   border-radius: 5px;
@@ -6,8 +23,7 @@
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  -webkit-box-shadow: 0px 1px 3px -1px rgba(0, 0, 0, 0.2);
-          box-shadow: 0px 1px 3px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 1px 3px -1px rgba(0, 0, 0, 0.2);
   background-color: #ffffff;
   color: black;
   text-align: center;
@@ -60,3 +76,5 @@
   display: none;
 }
 /*# sourceMappingURL=styles.css.map */
+
+/*# sourceMappingURL=chart-builder-ceb23815.css.map*/

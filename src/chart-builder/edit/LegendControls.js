@@ -1,20 +1,21 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 import {
-    HorizontalRule,
     PanelBody,
     PanelRow,
-    Placeholder,
     TextControl,
     ToggleControl,
     SelectControl,
-    RangeControl,
     Flex,
     FlexItem,
-    __experimentalUnitControl as UnitControl,
     __experimentalNumberControl as NumberControl,
     ColorPicker,
 } from '@wordpress/components';
-
+/**
+ * Internal dependencies
+ */
 import { formatNum } from '../utils/helpers';
 
 const LegendControls = ({ attributes, setAttributes }) => {

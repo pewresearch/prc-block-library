@@ -1,10 +1,12 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 import {
     TextareaControl,
     TextControl,
     ToggleControl,
     PanelBody,
-    PanelRow,
 } from '@wordpress/components';
 
 const TextFieldControls = ({ attributes, setAttributes }) => {

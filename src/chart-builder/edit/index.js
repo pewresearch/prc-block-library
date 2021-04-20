@@ -1,12 +1,20 @@
+/**
+ * WordPress dependencies
+ */
 import { ResizableBox } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 import { select, useSelect } from '@wordpress/data';
+/**
+ * External dependencies
+ */
 import {
     ChartBuilderWrapper,
     masterConfig,
     ChartBuilderTextWrapper,
 } from '@prcdigital/chart-builder/dist';
-
+/**
+ * Internal dependencies
+ */
 import { colors } from '../utils/colors';
 import {
     stringToArrayOfNums,

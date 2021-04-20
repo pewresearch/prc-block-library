@@ -1,6 +1,11 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType, createBlock } from '@wordpress/blocks';
-
+/**
+ * Internal dependencies
+ */
 import edit from './edit';
 import save from './save';
 import metadata from './block.json';

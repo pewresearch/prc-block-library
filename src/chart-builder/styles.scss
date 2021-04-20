@@ -4,15 +4,6 @@ $white: #ffffff;
 $franklin: franklin-gothic-urw, Verdana, Geneva, sans-serif;
 $abril: abril-text, Georgia, Times New Roman, Times, serif;
 
-.flex {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.flex > div {
-    flex: 1 0 auto;
-}
-
 .prc-tooltip {
     border: 1px solid $gallery;
     border-radius: 5px;

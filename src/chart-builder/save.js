@@ -1,9 +1,12 @@
+/**
+ * WordPress dependencies
+ */
+
 import { Fragment } from '@wordpress/element';
 
 /** Returns a server side block callback */
 const save = ({ attributes }) => {
-  const props = attributes;
-  return <Fragment></Fragment>;
+    return <Fragment></Fragment>;
 };
 
 export default save;

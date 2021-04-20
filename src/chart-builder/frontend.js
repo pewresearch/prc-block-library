@@ -1,13 +1,23 @@
+/**
+ * WordPress dependencies
+ */
 import domReady from '@wordpress/dom-ready';
 import { render, Fragment } from '@wordpress/element';
+/**
+ * External dependencies
+ */
 import { Tab, Table } from 'semantic-ui-react';
-import { colors as colorObj } from './utils/colors';
-import { stringToArrayOfNums, getDomain, getTicks } from './utils/helpers';
 import {
     ChartBuilderWrapper,
     ChartBuilderTextWrapper,
     masterConfig,
 } from '@prcdigital/chart-builder/dist';
+/**
+ * Internal  dependencies
+ */
+import { colors as colorObj } from './utils/colors';
+import { stringToArrayOfNums, getDomain, getTicks } from './utils/helpers';
+import './styles.css';
 
 const getConfig = (el) => {
     const { layout, xAxis, yAxis } = masterConfig;
