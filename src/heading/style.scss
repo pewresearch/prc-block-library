@@ -20,14 +20,12 @@ h6[data-type="core/heading"].is-style-section-header {
 
 .ui.has-section-header.row,
 .ui.has-section-header.grid {
-	@media only screen and (min-width: $mobileBreakPoint) {
-		padding-top: $sectionHeaderPadding;
-	}
-	.column {
-		@media only screen and (max-width: $mobileBreakPoint) {
-			padding-top: $sectionHeaderPadding;
-		}
-	}
+	padding-top: $sectionHeaderPadding;
+	// .column {
+	// 	@media only screen and (max-width: $mobileBreakPoint) {
+	// 		padding-top: $sectionHeaderPadding;
+	// 	}
+	// }
 	.column > .is-style-section-header:first-of-type {
 		margin-top: -$sectionHeaderPadding;
 		margin-bottom: $gutterSize;

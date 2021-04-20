@@ -1,0 +1,21 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 0.1.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+h1.is-style-section-header,h2.is-style-section-header,h3.is-style-section-header,h4.is-style-section-header,h5.is-style-section-header,h6.is-style-section-header,h1[data-type="core/heading"].is-style-section-header,h2[data-type="core/heading"].is-style-section-header,h3[data-type="core/heading"].is-style-section-header,h4[data-type="core/heading"].is-style-section-header,h5[data-type="core/heading"].is-style-section-header,h6[data-type="core/heading"].is-style-section-header{border-bottom:1px solid black;padding-bottom:8px}.ui.has-section-header.row,.ui.has-section-header.grid{padding-top:30px}.ui.has-section-header.row .column>.is-style-section-header:first-of-type,.ui.has-section-header.grid .column>.is-style-section-header:first-of-type{margin-top:-30px;margin-bottom:24px}
+
+
+/*# sourceMappingURL=heading-e7c3d809.css.map*/
