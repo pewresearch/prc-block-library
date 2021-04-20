@@ -11,7 +11,15 @@
             "type": "integer",
             "default": 100
         },
-        "phoneWidth": {
+        "tabletOrder": {
+            "type": "integer",
+            "default": 100
+        },
+        "mobileWidth": {
+            "type": "integer",
+            "default": 100
+        },
+        "mobileOrder": {
             "type": "integer",
             "default": 100
         },

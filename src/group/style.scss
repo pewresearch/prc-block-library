@@ -1,4 +1,5 @@
 $relaxedBorder: #e6e7e6;
+$altCardHeaderPadding: 1em;
 
 .wp-block-group {
 	& > :last-child {
@@ -37,6 +38,17 @@ $relaxedBorder: #e6e7e6;
 		p {
 			font-family: franklin-gothic-urw,Verdana,Geneva,sans-serif;
 			font-size: 14px;
+		}
+	}
+	
+	&.is-style-card-alt {
+		.is-style-sub-header {
+			background-color: #333132;
+			padding: 9px $altCardHeaderPadding;
+			margin-bottom: 0;
+			a {
+				color: white;
+			}
 		}
 	}
 	

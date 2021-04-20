@@ -43,6 +43,7 @@
     "csv": "^5.3.2",
     "i18n-iso-countries": "^6.4.0",
     "num-words": "^1.2.0",
+    "ordinal": "^1.0.3",
     "react-card-flip": "^1.0.11",
     "react-cool-dimensions": "^1.0.1",
     "react-repeat-component": "^1.0.2",

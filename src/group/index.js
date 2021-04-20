@@ -55,7 +55,7 @@ registerBlockVariation('core/group', {
         ['core/paragraph'],
     ],
 });
-
+ 
 registerBlockVariation('core/group', {
     name: 'card',
     title: __('Card'),
@@ -70,7 +70,25 @@ registerBlockVariation('core/group', {
             placeholder: 'Signature Reports...'
         }],
         ['core/image'],
-        ['prc-block/story-item'],
+        ['prc-block/story-item', {className: 'is-style-disabled'}],
+    ],
+});
+
+registerBlockVariation('core/group', {
+    name: 'card-alt',
+    title: __('Card (Alt)'),
+    description: __('A Group block in the "Card" format with a sub header heading in a black background, image, text, and read more link.'),
+    attributes: {
+        className: 'is-style-card',
+    },
+    innerBlocks: [
+        ['core/heading', {
+            className: 'is-style-sub-header',
+            level: 3,
+            placeholder: 'Signature Reports...'
+        }],
+        ['core/image'],
+        ['prc-block/story-item', {className: 'is-style-disabled'}],
     ],
 });
 

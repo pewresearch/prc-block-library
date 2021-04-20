@@ -9,8 +9,25 @@ class Heading_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
+			add_filter( 'prc_grid_row_classes', array( $this, 'add_section_header_class_to_row' ), 10, 2 );
 			add_filter( 'render_block', array( $this, 'heading_block_render' ), 10, 2 );
 		}
+	}
+
+	public function add_section_header_class_to_row( $classes, $parsed_row_block ) {
+		$inner_blocks = array_pop( $parsed_row_block['innerBlocks'] );
+		if ( 'prc-block/column' !== $inner_blocks['blockName'] || 16 === $inner_blocks['attrs']['width'] ) {
+			return $classes;
+		}
+		
+		$first_block = $inner_blocks['innerBlocks'][0];
+
+		if ( 'core/heading' !== $first_block['blockName'] && 'is-style-section-header' !== $first_block['attrs']['className'] ) {
+			return $classes;
+		}
+
+		$classes['has-section-header'] = true;
+		return $classes;
 	}
 
 	public function enqueue_assets( $js = true, $css = true ) {

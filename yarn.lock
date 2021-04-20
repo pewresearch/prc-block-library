@@ -8947,6 +8947,11 @@
     "strip-ansi" "^6.0.0"
     "wcwidth" "^1.0.1"
 
+"ordinal@^1.0.3":
+  "integrity" "sha512-cMddMgb2QElm8G7vdaa02jhUNbTSrhsgAGUz1OokD83uJTwSUn+nKoNoKVVaRa08yF6sgfO7Maou1+bgLd9rdQ=="
+  "resolved" "https://registry.npmjs.org/ordinal/-/ordinal-1.0.3.tgz"
+  "version" "1.0.3"
+
 "os-browserify@^0.3.0":
   "integrity" "sha1-hUNzx/XCMVkU/Jv8a9gjj92h7Cc="
   "resolved" "https://registry.npmjs.org/os-browserify/-/os-browserify-0.3.0.tgz"

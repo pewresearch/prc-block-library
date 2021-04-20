@@ -28,7 +28,7 @@ class Column_Block extends PRC_Block_Library {
 	 */
 	public function render_column( $attributes, $content, $block ) {
 		$dictionary       = array(
-			0  => null,
+			0  => 'zero',
 			1  => 'one',
 			2  => 'two',
 			3  => 'three',
@@ -49,19 +49,23 @@ class Column_Block extends PRC_Block_Library {
 		$width            = $dictionary[ $attributes['width'] ];
 		$is_row_stackable = $block->context['prc-block/row-stackable'];
 		$desktop_width    = $width;
+		$tablet_order     = 100 === $attributes['tabletOrder'] ? false : $dictionary[ $attributes['tabletOrder'] ];
 		$tablet_width     = 100 === $attributes['tabletWidth'] ? $width : $dictionary[ $attributes['tabletWidth'] ];
-		$phone_width      = 100 === $attributes['phoneWidth'] ? $width : $dictionary[ $attributes['phoneWidth'] ];
+		$mobile_width     = 100 === $attributes['mobileWidth'] ? $width : $dictionary[ $attributes['mobileWidth'] ];
+		$mobile_order     = 100 === $attributes['mobileOrder'] ? false : $dictionary[ $attributes['mobileOrder'] ];
 
 		$unstackable_classes = array(
-			"{$phone_width} wide mobile"     => false === $is_row_stackable,
+			"mobile-order-{$mobile_order}"   => false !== $mobile_order && false === $is_row_stackable,
+			"{$mobile_width} wide mobile"    => false === $is_row_stackable,
+			"tablet-order-{$tablet_order}"   => false !== $tablet_order && false === $is_row_stackable,
 			"{$tablet_width} wide tablet"    => false === $is_row_stackable,
 			"{$desktop_width} wide computer" => false === $is_row_stackable,
 		);
 
 		$classes = array();
-		if ( null !== $width && true === $is_row_stackable ) {
+		if ( 'zero' !== $width && true === $is_row_stackable ) {
 			$classes[] = "{$width} wide";
-		} elseif ( null !== $width && false === $is_row_stackable ) {
+		} elseif ( 'zero' !== $width && false === $is_row_stackable ) {
 			$classes = $unstackable_classes;
 		}
 		if ( array_key_exists( 'className', $attributes ) ) {

@@ -358,6 +358,15 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                             setAttributes({ enableHeader: !enableHeader });
                         }}
                     />
+                    <ToggleControl
+                        label={
+                            enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled'
+                        }
+                        checked={enableExcerpt}
+                        onChange={() => {
+                            setAttributes({ enableExcerpt: !enableExcerpt });
+                        }}
+                    />
                     {true === enableExcerpt &&
                         ('right' === imageSlot || 'left' === imageSlot) && (
                             <ToggleControl

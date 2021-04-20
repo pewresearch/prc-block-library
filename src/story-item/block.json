@@ -31,10 +31,6 @@
             "type": "string",
             "default": "default"
         },
-        "mobileImageSlot": {
-            "type": "string",
-            "default": "default"
-        },
         "imageSize": {
             "type": "string",
             "default": "A1"
