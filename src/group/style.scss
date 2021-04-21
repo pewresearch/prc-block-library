@@ -1,0 +1,95 @@
+$relaxedBorder: #e6e7e6;
+$altCardHeaderPadding: 1em;
+
+.wp-block-group {
+	& > :last-child {
+		margin-bottom: 0;
+	}
+	.block-editor-block-list__layout > .wp-block {
+		max-width: 1152px!important
+	}
+
+	&.has-background {
+		padding: 1em;
+		margin-bottom: 2em;
+		// & > .wp-block-group__inner-container {
+		// 	padding: 1rem;
+		// }
+		&.is-style-200-wide {
+			width: 100%;
+			max-width: 200px;
+		}
+		&.is-style-300-wide {
+			width: 100%;
+			max-width: 300px;
+		}
+		&.is-style-420-wide {
+			width: 100%;
+			max-width: 420px;
+		}
+		&.is-style-640-wide {
+			width: 100%;
+			max-width: 640px;
+		}
+	}
+	
+	&.is-style-callout {
+		border-top: 1px solid $relaxedBorder;
+		p {
+			font-family: franklin-gothic-urw,Verdana,Geneva,sans-serif;
+			font-size: 14px;
+		}
+	}
+	
+	&.is-style-card-alt {
+		.is-style-sub-header {
+			background-color: #333132;
+			padding: 9px $altCardHeaderPadding;
+			margin-bottom: 0;
+			a {
+				color: white;
+			}
+		}
+	}
+	
+	&.is-style-essay-toolbar {
+		.meta,
+		.icon {
+			color: black!important;
+		}
+		.meta {
+			font-size: 14px;
+			letter-spacing: inherit;
+		}
+		.icon {
+			font-size: 16px;
+		}
+	}
+
+	&.relaxed {
+		.ui.button {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	// Ensures grid blocks take up the full width of a group.
+    div[data-type="prc-block/columns"] {
+        max-width: 100%!important;
+    }
+}
+
+.wp-block-group.essay-toolbar-group {
+	.meta,
+	.icon {
+		color: black!important;
+	}
+	.meta {
+		font-size: 14px;
+		letter-spacing: inherit;
+	}
+	.icon {
+		font-size: 16px;
+	}
+}

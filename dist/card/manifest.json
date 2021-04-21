@@ -5,12 +5,18 @@
   "main.js.map": "card/main-1402802e.js.map",
   "runtime.js": "card/runtime-47c843ec.js",
   "runtime.js.map": "card/runtime-47c843ec.js.map",
+<<<<<<< HEAD
   "vendors~main.js": "card/vendors~main-22dfa95f.js",
   "vendors~main.js.map": "card/vendors~main-22dfa95f.js.map",
+=======
+  "vendors~main.js": "card/vendors~main-e0156436.js",
+  "vendors~main.js.map": "card/vendors~main-e0156436.js.map",
+>>>>>>> release/3.9.6
   "wpackioEp": {
     "main": {
       "js": [
         "card/runtime-47c843ec.js",
+<<<<<<< HEAD
         "card/vendors~main-22dfa95f.js",
         "card/main-1402802e.js"
       ],
@@ -18,6 +24,15 @@
         "card/runtime-47c843ec.js.map",
         "card/vendors~main-22dfa95f.js.map",
         "card/main-1402802e.js.map"
+=======
+        "card/vendors~main-e0156436.js",
+        "card/main-dabaaef9.js"
+      ],
+      "js.map": [
+        "card/runtime-47c843ec.js.map",
+        "card/vendors~main-e0156436.js.map",
+        "card/main-dabaaef9.js.map"
+>>>>>>> release/3.9.6
       ],
       "css": [
         "card/main-f62c7bdc.css"

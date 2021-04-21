@@ -21,17 +21,7 @@ const settings = {
         'Add a block that displays content in multiple columns, then add whatever content blocks you’d like.',
     ),
     icon: (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            role="img"
-            aria-hidden="true"
-            focusable="false"
-        >
-            <path d="M19 6H6c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h13c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-4.1 1.5v10H10v-10h4.9zM5.5 17V8c0-.3.2-.5.5-.5h2.5v10H6c-.3 0-.5-.2-.5-.5zm14 0c0 .3-.2.5-.5.5h-2.6v-10H19c.3 0 .5.2.5.5v9z" />
-        </svg>
+        <svg width="24" height="24" fill="none" view-box="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><path d="m3.75 18v-12c0-.69036.55964-1.25 1.25-1.25h14c.6904 0 1.25.55964 1.25 1.25v12c0 .6904-.5596 1.25-1.25 1.25h-14c-.69036 0-1.25-.5596-1.25-1.25z" stroke="currentColor" stroke-width="1.5" fill="none"></path><path d="m3 15h6v18h-6z" fill="currentColor" transform="matrix(0 -1 1 0 -12 18)"></path></svg>
     ),
     variations,
     edit,

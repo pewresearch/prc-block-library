@@ -66,6 +66,14 @@
 		{
 			"name": "button",
 			"label": "Button"
+		},
+		{
+			"name": "link-to-read-more",
+			"label": "Read More"
+		},
+		{
+			"name": "link-to-archive",
+			"label": "All Publications"
 		}
 	]
 }

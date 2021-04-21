@@ -64,6 +64,9 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder-data-wrapper/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/cover/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
@@ -139,34 +142,6 @@ class PRC_Block_Library {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', __DIR__ . '/prc_blocks/' );
-
-		/** Card */
-		$this->registered['block']['prc-block/card'] = $enqueue->register(
-			'card',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Callout */
-		$this->registered['block']['prc-block/callout'] = $enqueue->register(
-			'callout',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
 
 		/** Chapter */
 		$this->registered['block']['prc-block/chapter'] = $enqueue->register(
@@ -387,23 +362,6 @@ class PRC_Block_Library {
 	 * @return void
 	 */
 	public function register_blocks() {
-
-		/** Card */
-		register_block_type(
-			'prc-block/card',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/card']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/card']['css'] )['handle'],
-			)
-		);
-
-		/** Callout */
-		register_block_type(
-			'prc-block/callout',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/callout']['js'] )['handle'],
-			)
-		);
 
 		/** Chapter */
 		register_block_type(

@@ -1,34 +1,34 @@
 {
   "frontend.js": "mailchimp-opt-down/frontend-64122a98.js",
   "frontend.js.map": "mailchimp-opt-down/frontend-64122a98.js.map",
-  "main.js": "mailchimp-opt-down/main-2111021e.js",
-  "main.js.map": "mailchimp-opt-down/main-2111021e.js.map",
+  "main.js": "mailchimp-opt-down/main-e8ffee86.js",
+  "main.js.map": "mailchimp-opt-down/main-e8ffee86.js.map",
   "runtime.js": "mailchimp-opt-down/runtime-47008a77.js",
   "runtime.js.map": "mailchimp-opt-down/runtime-47008a77.js.map",
-  "vendors~frontend~main.js": "mailchimp-opt-down/vendors~frontend~main-1bc76476.js",
-  "vendors~frontend~main.js.map": "mailchimp-opt-down/vendors~frontend~main-1bc76476.js.map",
+  "vendors~frontend~main.js": "mailchimp-opt-down/vendors~frontend~main-822f155e.js",
+  "vendors~frontend~main.js.map": "mailchimp-opt-down/vendors~frontend~main-822f155e.js.map",
   "wpackioEp": {
     "main": {
       "js": [
         "mailchimp-opt-down/runtime-47008a77.js",
-        "mailchimp-opt-down/vendors~frontend~main-1bc76476.js",
-        "mailchimp-opt-down/main-2111021e.js"
+        "mailchimp-opt-down/vendors~frontend~main-822f155e.js",
+        "mailchimp-opt-down/main-e8ffee86.js"
       ],
       "js.map": [
         "mailchimp-opt-down/runtime-47008a77.js.map",
-        "mailchimp-opt-down/vendors~frontend~main-1bc76476.js.map",
-        "mailchimp-opt-down/main-2111021e.js.map"
+        "mailchimp-opt-down/vendors~frontend~main-822f155e.js.map",
+        "mailchimp-opt-down/main-e8ffee86.js.map"
       ]
     },
     "frontend": {
       "js": [
         "mailchimp-opt-down/runtime-47008a77.js",
-        "mailchimp-opt-down/vendors~frontend~main-1bc76476.js",
+        "mailchimp-opt-down/vendors~frontend~main-822f155e.js",
         "mailchimp-opt-down/frontend-64122a98.js"
       ],
       "js.map": [
         "mailchimp-opt-down/runtime-47008a77.js.map",
-        "mailchimp-opt-down/vendors~frontend~main-1bc76476.js.map",
+        "mailchimp-opt-down/vendors~frontend~main-822f155e.js.map",
         "mailchimp-opt-down/frontend-64122a98.js.map"
       ]
     }

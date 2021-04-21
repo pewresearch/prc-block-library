@@ -1,0 +1,45 @@
+@import "../master.variables.less";
+
+@markColor: #1b699a;
+@markSize: 5em;
+
+div[data-type="prc-block/pullquote"] {
+    &[data-align="right"],
+    &[data-align="left"] {
+        figure {
+            max-width: 420px;
+        }
+    }
+}
+
+figure.wp-block-prc-block-pullquote {
+    blockquote {
+        margin: 0;
+    }
+    &.alignright,
+    &.alignleft {
+        max-width: 420px;
+    }
+    &.is-style-has-marks {
+        display: flex;
+        flex-direction: column;
+        --mark-color: @markColor;
+        &:before,
+        &:after {
+            display: flex;
+            color: var(--mark-color);
+            font-size: @markSize;
+            font-style: normal;
+        }
+        &:before {
+            content: "\201C";
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+        &:after {
+            content: "\201D";
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+    }
+}

@@ -7,6 +7,22 @@
             "type": "integer",
             "default": 0
         },
+        "tabletWidth": {
+            "type": "integer",
+            "default": 100
+        },
+        "tabletOrder": {
+            "type": "integer",
+            "default": 100
+        },
+        "mobileWidth": {
+            "type": "integer",
+            "default": 100
+        },
+        "mobileOrder": {
+            "type": "integer",
+            "default": 100
+        },
         "verticalAlignment": {
 			"type": "string"
 		},
@@ -15,6 +31,7 @@
 		}
     },
     "parent": ["prc-block/columns", "prc-block/row"],
+    "usesContext": ["prc-block/row-stackable"],
     "supports": {
         "html": false,
         "align": false

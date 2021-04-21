@@ -54,7 +54,6 @@ const Edit = ({
     const onBlockCreation = () => {
         if (null === uuid) {
             // We will use the first client id assigned as a uuid.
-            console.log('onBlockCreation', uuid);
             const newUuid = clientId;
             setAttributes({ uuid: newUuid });
             const newPageBlock = createBlock(
@@ -65,8 +64,6 @@ const Edit = ({
                 },
             );
             insertBlock(newPageBlock, false, pagesClientId);
-            // updateBlockAttributes(topicIndexViewClientId, {map: });
-            // Go create a page block, set the uuid to this uuid. Now they are bonded.
         }
     };
 
@@ -111,11 +108,11 @@ const Edit = ({
         <Fragment>
             <div {...blockProps}>
                 <RichText
-                    tagName="div" // The tag here is the element output and editable in the admin
-                    value={title} // Any existing content, either from the database or an attribute default
-                    allowedFormats={[]} // Allow the content to be made bold or italic, but do not allow other formatting options
-                    onChange={newTitle => setAttributes({ title: newTitle })} // Store updated content as a block attribute
-                    placeholder={__('Politics')} // Display this text before any content has been added by the user
+                    tagName="div"
+                    value={title}
+                    allowedFormats={[]}
+                    onChange={newTitle => setAttributes({ title: newTitle })}
+                    placeholder={__('Politics')}
                 />
             </div>
         </Fragment>

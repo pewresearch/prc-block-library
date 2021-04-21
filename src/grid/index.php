@@ -14,6 +14,7 @@ class Grid_Block extends PRC_Block_Library {
 
 	/**
 	 * Render callback for prc-block/grid
+	 * If there is only one row block then well treat that row block as the grid, otherwise (if there is more than one rwo) treat this as the grid and the rows as rows. 
 	 *
 	 * @param mixed $attributes
 	 * @param mixed $content
@@ -21,10 +22,27 @@ class Grid_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_grid( $attributes, $content, $block ) {
+		$inner_blocks = $block->parsed_block['innerBlocks'];
+		$count        = count( $inner_blocks );
 		ob_start();
-		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
-		<?php
+		if ( $count > 1 ) {
+			$class_names = classNames(
+				array(
+					'ui',
+					'grid',
+				)
+			);
+			echo '<div class="' . esc_attr( $class_names ) . '">';
+		}
+		foreach ( $inner_blocks as $row_block ) {
+			if ( $count > 1 ) {
+				$row_block['attrs']['asRow'] = true;
+			}
+			echo render_block( $row_block );
+		}
+		if ( $count > 1 ) {
+			echo '</div>';
+		}
 		return ob_get_clean();
 	}
 
@@ -43,7 +61,7 @@ class Grid_Block extends PRC_Block_Library {
 			'grid',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $block_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -55,6 +73,7 @@ class Grid_Block extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/grid',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'editor_style'    => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_grid' ),
 			)
 		);

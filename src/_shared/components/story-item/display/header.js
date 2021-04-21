@@ -19,7 +19,8 @@ const Header = ({
     isChartArt,
     altHeaderWeight,
 }) => {
-    if (true !== enabled) {
+    const {enableHeader, enableMeta} = enabled;
+    if (true !== enableHeader) {
         return <Fragment />;
     }
     const classes = classNames({
@@ -27,13 +28,16 @@ const Header = ({
         medium: 2 === parseInt(size),
         small: 3 === parseInt(size),
         light: altHeaderWeight,
+        'sans-serif': !enableMeta,
     });
 
     return (
         <Fragment>
-            <Item.Meta>
-                <Kicker label={label} date={date} />
-            </Item.Meta>
+            { true === enableMeta && (
+                <Item.Meta>
+                    <Kicker label={label} date={date} />
+                </Item.Meta>
+            )}
             <Item.Header className={classes}>
                 {true === isStyleMobileLoop && (
                     <Image

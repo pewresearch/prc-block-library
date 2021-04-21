@@ -70,6 +70,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enableExtra'            => false,
 			'enableBreakingNews'     => false,
 			'enableProgramsTaxonomy' => false,
+			'enableMeta'             => true,
 			'inLoop'                 => false,
 		);
 		$attrs    = wp_parse_args( $args, $defaults );
@@ -193,6 +194,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			data-emphasis="<?php echo esc_attr( $this->cherry_pick_attr( 'enableEmphasis', $attributes ) ); ?>"
 			data-breakingNews="<?php echo esc_attr( $this->cherry_pick_attr( 'enableBreakingNews', $attributes ) ); ?>"
 			data-excerptbelow="<?php echo esc_attr( $this->cherry_pick_attr( 'enableExcerptBelow', $attributes ) ); ?>"
+			data-meta="<?php echo esc_attr( $this->cherry_pick_attr( 'enableMeta', $attributes ) ); ?>"
 			data-chartArt="<?php echo esc_attr( $this->cherry_pick_attr( 'isChartArt', $attributes ) ); ?>"
 			data-inLoop="<?php echo esc_attr( $this->cherry_pick_attr( 'inLoop', $attributes ) ); ?>"
 		>

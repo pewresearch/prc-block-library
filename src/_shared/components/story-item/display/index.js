@@ -22,6 +22,7 @@ const StoryItem = ({
     headerSize,
     enableEmphasis,
     enableHeader,
+    enableMeta,
     enableExcerpt,
     enableExcerptBelow,
     enableExtra,
@@ -30,7 +31,7 @@ const StoryItem = ({
     className,
     inLoop = false,
 }) => {
-    const isSmall = useMediaQuery('(max-width: 767px)');
+    const isSmall = useMediaQuery('(max-width: 990px)');
 
     let enableAltHeaderWeight = false;
     if (false === enableExcerpt) {
@@ -49,6 +50,11 @@ const StoryItem = ({
     // On mobile, outside the loop, force image alignment top.
     if (false === inLoop && true === isSmall && 'disabled' !== imageSlot) {
         imageSlot = 'top';
+    }
+
+    if ( isStyleMobileLoop ) {
+        imageSlot = 'left';
+        imageSize = 'A3';
     }
 
     const classes = classNames(className, 'story', {
@@ -115,7 +121,7 @@ const StoryItem = ({
 
             <Item.Content>
                 <Header
-                    enabled={enableHeader}
+                    enabled={{enableHeader, enableMeta}}
                     title={title}
                     date={date}
                     label={label}
@@ -134,7 +140,7 @@ const StoryItem = ({
                     <Description
                         enabled={enableExcerpt}
                         content={excerpt}
-                        sansSerif={!enableHeader}
+                        sansSerif={!enableHeader || !enableMeta}
                     />
                 )}
 

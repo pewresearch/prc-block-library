@@ -54,7 +54,8 @@ const Header = ({
     setAttributes,
     altHeaderWeight,
 }) => {
-    if (true !== enabled) {
+    const {enableHeader, enableMeta} = enabled;
+    if (true !== enableHeader) {
         return <Fragment />;
     }
 
@@ -63,18 +64,21 @@ const Header = ({
         medium: (2 === size),
         small: (3 === size),
         light: altHeaderWeight,
+        'sans-serif': true !== enableMeta,
     });
 
     return (
         <Fragment>
-            <Item.Meta>
-                <KickerEditor
-                    date={date}
-                    label={label}
-                    taxonomy={taxonomy}
-                    setAttributes={setAttributes}
-                />
-            </Item.Meta>
+            {true === enableMeta && (
+                <Item.Meta>
+                    <KickerEditor
+                        date={date}
+                        label={label}
+                        taxonomy={taxonomy}
+                        setAttributes={setAttributes}
+                    />
+                </Item.Meta>
+            )}
             <Item.Header className={classes}>
                 <RichText
                     tagName="div"

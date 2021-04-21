@@ -31,7 +31,10 @@ module.exports = {
                 'chart-builder': './src/chart-builder/index.js',
                 'chart-builder-wrapper':
                     './src/chart-builder-data-wrapper/index.js',
+                cover: './src/cover/index.js',
                 grid: './src/grid/index.js',
+                group: './src/group/index.js',
+                heading: './src/heading/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',
@@ -90,6 +93,7 @@ module.exports = {
             entry: {
                 collapsible: './src/collapsible/frontend.js',
                 'chart-builder': './src/chart-builder/frontend.js',
+                cover: './src/cover/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
                 'tabs-controller': './src/tabs/controller/frontend.js',
@@ -100,18 +104,6 @@ module.exports = {
                     './src/topic-index-condensed/controller/frontend.js',
                 'topic-index-search-field':
                     './src/topic-index-search-field/frontend.js',
-            },
-        },
-        {
-            name: 'callout',
-            entry: {
-                main: './src/callout/index.js',
-            },
-        },
-        {
-            name: 'card',
-            entry: {
-                main: './src/card/index.js',
             },
         },
         {

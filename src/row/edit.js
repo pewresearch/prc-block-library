@@ -44,25 +44,31 @@ const RowEditContainer = ({
     updateColumns,
     toggleDivided,
     toggleEqual,
+    toggleStackable,
     clientId,
 }) => {
-    const { divided, equal } = attributes;
+    const { divided, equal, stackable } = attributes;
 
     // Return a count of prc-block/column inside...
-    const { count } = useSelect(
+    const { count, rowCount } = useSelect(
         select => {
+            const gridRootClientId = select('core/block-editor').getBlockRootClientId(clientId);
             return {
                 count: select('core/block-editor').getBlockCount(clientId),
+                rowCount: select('core/block-editor').getBlockCount(gridRootClientId),
             };
         },
         [clientId],
     );
 
     const blockProps = useBlockProps({
-        className: classnames('ui', 'grid', {
-            stackable: true,
-            'equal width': equal,
+        className: classnames({
+            'ui' : true,
+            'equal width' : equal,
             divided,
+            stackable: stackable,
+            'grid': rowCount <= 1,
+            'row': rowCount > 1,
         }),
     });
 
@@ -91,6 +97,15 @@ const RowEditContainer = ({
                         }
                         checked={equal}
                         onChange={() => toggleEqual()}
+                    />
+                    <ToggleControl
+                        label={
+                            stackable
+                                ? 'Stack On Mobile'
+                                : 'Do Not Stack On Mobile'
+                        }
+                        checked={stackable}
+                        onChange={() => toggleStackable()}
                     />
                     <RangeControl
                         label={__('Columns')}
@@ -132,6 +147,14 @@ const RowEditContainerWrapper = withDispatch(
             const { attributes, setAttributes } = ownProps;
             const { equal } = attributes;
             setAttributes({ equal: !equal });
+        },
+        /**
+         * Toggles the stackable style attribute true or false.
+         */
+         toggleStackable() {
+            const { attributes, setAttributes } = ownProps;
+            const { stackable } = attributes;
+            setAttributes({ stackable: !stackable });
         },
         /**
          * Updates the column count, including necessary revisions to child Column
@@ -206,14 +229,16 @@ const Placeholder = ({ clientId, name, setAttributes }) => {
         [name],
     );
     const { replaceInnerBlocks } = useDispatch('core/block-editor');
-    const blockProps = useBlockProps();
+    const blockProps = useBlockProps({
+        className: 'has-placeholder',
+    });
 
     return (
         <div {...blockProps}>
             <__experimentalBlockVariationPicker
                 icon={get(blockType, ['icon', 'src'])}
                 label={get(blockType, ['title'])}
-                instructions={__(`Select a columns layout to begin.`)}
+                instructions={__(`Select a layout to begin. Click "skip" to select the default One Column option.`)}
                 variations={variations}
                 onSelect={(nextVariation = defaultVariation) => {
                     if (nextVariation.attributes) {
