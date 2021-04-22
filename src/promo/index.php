@@ -17,7 +17,7 @@ class Promo extends PRC_Block_Library {
 		}
 	}
 
-	public function render_block_callback( $attributes, $content ) {
+	public function render_block_callback( $attributes, $content, $block ) {
 		$attributes         = wp_parse_args(
 			$attributes,
 			array(
@@ -44,6 +44,7 @@ class Promo extends PRC_Block_Library {
 		$has_icon           = ! empty( $attributes['icon'] );
 		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		ob_start();
+		// print_r( $block );
 		?>
 		<div <?php echo $wrapper_attributes; ?>>
 			<?php
