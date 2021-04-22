@@ -140,12 +140,9 @@ class WP_Query_Block extends PRC_Block_Library {
 						}
 					}
 
-					
-
-					error_log( print_r( $block, true ) );
-
-					echo wp_kses( render_block( $block ), 'post' );
-						
+					if ( ! empty( $block['attrs'] ) ) {
+						echo wp_kses( render_block( $block ), 'post' );
+					}               
 				}
 			}
 		}
