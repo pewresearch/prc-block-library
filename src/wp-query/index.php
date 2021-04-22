@@ -60,7 +60,7 @@ class WP_Query_Block extends PRC_Block_Library {
 				$return[] = array(
 					'id'      => get_the_ID(),
 					'title'   => get_the_title(),
-					'excerpt' => get_the_excerpt(),
+					'excerpt' => apply_filters( 'the_content', get_the_excerpt() ),
 					'date'    => get_the_date(),
 					'link'    => get_the_permalink(),
 					'label'   => 'Report',
@@ -99,11 +99,16 @@ class WP_Query_Block extends PRC_Block_Library {
 		);
 		$template = apply_filters( 'prc-block-wp-query-template', $template );
 
+		$as_columns = array_key_exists( 'className', $attributes ) && 'is-style-columns' === $attributes['className'];
+
 		$query = $this->construct_query_from_attributes( $attributes );
 		ob_start();
 		?>
 		<?php
 		if ( $query->have_posts() ) {
+			if ( true === $as_columns ) {
+				echo '<div class="ui equal width stackable grid">';
+			}
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
@@ -126,6 +131,10 @@ class WP_Query_Block extends PRC_Block_Library {
 							),
 							true
 						);
+						if ( $as_columns ) {
+							$block['attrs']['imageSlot'] = 'top';
+							$block['attrs']['className'] = 'is-style-top';
+						}
 					} else {
 						if ( array_key_exists( 'level', $block_attrs ) ) {
 							$block['attrs']['level'] = $block_attrs['level'];
@@ -140,10 +149,17 @@ class WP_Query_Block extends PRC_Block_Library {
 						}
 					}
 
-					if ( ! empty( $block['attrs'] ) ) {
-						echo wp_kses( render_block( $block ), 'post' );
-					}               
+					if ( empty( $block['attrs'] ) ) {
+						return; 
+					}
+
+					$block = render_block( $block );
+					$block = true === $as_columns ? '<div class="column">' . $block . '</div>' : $block;
+					echo wp_kses( $block, 'post' );                 
 				}
+			}
+			if ( true === $as_columns ) {
+				echo ' </div > ';
 			}
 		}
 		wp_reset_postdata();
