@@ -107,7 +107,7 @@ class WP_Query_Block extends PRC_Block_Library {
 		<?php
 		if ( $query->have_posts() ) {
 			if ( true === $as_columns ) {
-				echo '<div class="ui equal width stackable grid">';
+				echo '<div class="ui equal width stackable divided grid">';
 			}
 			while ( $query->have_posts() ) {
 				$query->the_post();

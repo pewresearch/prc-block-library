@@ -14,10 +14,12 @@
 			"type": "string"
 		},
 		"backgroundColor": {
-			"type": "string"
+			"type": "string",
+			"default": "transparent"
 		},
 		"borderColor": {
-			"type": "string"
+			"type": "string",
+			"default": "transparent"
 		},
 		"sansSerif": {
 			"type": "boolean"

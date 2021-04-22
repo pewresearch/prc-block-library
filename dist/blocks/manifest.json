@@ -31,8 +31,8 @@
   "promo-rotator.js.map": "blocks/promo-rotator-5f6be0a9.js.map",
   "promo.css": "blocks/promo-9b7fe513.css",
   "promo.css.map": "blocks/promo-9b7fe513.css.map",
-  "promo.js": "blocks/promo-82714b35.js",
-  "promo.js.map": "blocks/promo-82714b35.js.map",
+  "promo.js": "blocks/promo-4ff1e155.js",
+  "promo.js.map": "blocks/promo-4ff1e155.js.map",
   "row.js": "blocks/row-11238ccb.js",
   "row.js.map": "blocks/row-11238ccb.js.map",
   "runtime.js": "blocks/runtime-8f407741.js",
@@ -229,13 +229,13 @@
         "blocks/runtime-8f407741.js",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-3093f389.js",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-623c1bfe.js",
-        "blocks/promo-82714b35.js"
+        "blocks/promo-4ff1e155.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
         "blocks/vendors~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-condensed-menu~t~d653dae2-3093f389.js.map",
         "blocks/vendors~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index-condensed-pag~b4121b7e-623c1bfe.js.map",
-        "blocks/promo-82714b35.js.map"
+        "blocks/promo-4ff1e155.js.map"
       ],
       "css": [
         "blocks/promo-9b7fe513.css"
