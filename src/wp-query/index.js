@@ -3,6 +3,7 @@
  */
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
+import { postList as icon } from '@wordpress/icons';
 
 /**
  * Internal Dependencies
@@ -18,6 +19,7 @@ const settings = {
     description: __(
         'Query posts by format, topic, region, and/or date. Posts are displayed as Story Items.',
     ),
+    icon,
     edit,
     save,
 };

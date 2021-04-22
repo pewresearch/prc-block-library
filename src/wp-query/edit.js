@@ -1,7 +1,12 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress Dependencies
  */
-import { Fragment, useState, useEffect } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
@@ -14,9 +19,9 @@ import { createBlock } from '@wordpress/blocks';
  */
 import Controls from './controls';
 
-const ALLOWED = ['prc-block/story-item'];
+const ALLOWED = ['prc-block/story-item', 'prc-block/column'];
 
-const initStoryBlock = (item, disableImage, labelTaxonomy) => {
+const initStoryBlock = ({item, labelTaxonomy, className ='is-style-left', imageSlot = 'left', }) => {
     const args = {
         title: item.title,
         image: item.image,
@@ -31,7 +36,7 @@ const initStoryBlock = (item, disableImage, labelTaxonomy) => {
         emphasis: false,
         // Image Position:
         isChartArt: false,
-        imageSlot: 'left',
+        imageSlot,
         imageSize: 'A3',
         horizontal: true,
         stacked: false,
@@ -41,25 +46,24 @@ const initStoryBlock = (item, disableImage, labelTaxonomy) => {
         enableExtra: false,
         enableProgramsTaxonomy: false,
         headerSize: 2,
-        className: 'is-style-left',
+        className,
     };
-    if (true === disableImage) {
-        args.imageSlot = 'disabled';
-        args.className = 'is-style-disabled';
-        args.enableExcerpt = false;
-    }
     if ('programs' === labelTaxonomy) {
         args.enableProgramsTaxonomy = true;
     }
     return createBlock('prc-block/story-item', args);
 };
 
-const edit = ({ attributes, setAttributes, className, clientId }) => {
-    const { postsPerPage, labelTaxonomy, disableImage } = attributes;
+const edit = ({ attributes, setAttributes, clientId }) => {
+    const { postsPerPage, labelTaxonomy, disableImage, className } = attributes;
 
-    const blockProps = useBlockProps({ className });
+    const classNames = classnames({
+        'ui equal width divided grid': 'is-style-columns' === className,
+    });
 
-    const innerBlocksProps = useInnerBlocksProps({}, {
+    const blockProps = useBlockProps({className});
+
+    const innerBlocksProps = useInnerBlocksProps({ className: classNames }, {
         allowedBlocks: ALLOWED,
         orientation: 'vertical', // We should allow toggling this based on layout.
         renderAppender: false,
@@ -70,11 +74,10 @@ const edit = ({ attributes, setAttributes, className, clientId }) => {
 
     const { replaceInnerBlocks } = useDispatch('core/block-editor');
 
-    const { innerBlocks, hasInnerBlocks } = useSelect(
+    const { hasInnerBlocks } = useSelect(
         select => {
             const blocks = select('core/block-editor').getBlocks(clientId);
             return {
-                innerBlocks: blocks,
                 hasInnerBlocks: 0 < blocks.length,
             };
         },
@@ -86,7 +89,15 @@ const edit = ({ attributes, setAttributes, className, clientId }) => {
             let tmp = [];
 
             p.forEach(item => {
-                tmp.push(initStoryBlock(item, disableImage, labelTaxonomy));
+                // If 'is-style-columns' === className then we need to init a prc-block/column width
+                if ( 'is-style-columns' === className ) {
+                    const innerBlocks = [];
+                    innerBlocks.push(initStoryBlock({item, disableImage, labelTaxonomy, className: 'is-style-top', imageSlot: 'top'}))
+                    const column = createBlock('prc-block/column', { width: Math.round((16/postsPerPage)) }, innerBlocks);
+                    tmp.push(column);
+                } else {
+                    tmp.push(initStoryBlock({item, disableImage, labelTaxonomy}));
+                }
             });
 
             const allowedPerPage = postsPerPage;

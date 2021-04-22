@@ -451,8 +451,11 @@ new PRC_Story_Item( true );
 /**
  * By default should only load A3 left aligned stubs, can be modified through args.
  */
-function prc_get_story_item( $stub_post_id, $args = array() ) {
+function prc_get_story_item( $stub_post_id, $args = array(), $return_attributes = false ) {
 	$story_item = new PRC_Story_Item( false );
 	$attributes = $story_item->get_attributes_by_object_id( $stub_post_id, $args );
+	if ( false !== $return_attributes ) {
+		return $attributes;
+	}
 	return $story_item->render_story_item( $attributes );
 }

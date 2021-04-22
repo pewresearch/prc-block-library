@@ -3,9 +3,13 @@
 	"name": "prc-block/wp-query",
 	"category": "layout",
 	"attributes": {
-		"disableImage": {
-			"type": "boolean",
-			"default": false
+		"storyItemImageSlot": {
+			"type": "string",
+			"default": "left"
+		},
+		"storyItemImageSize": {
+			"type": "string",
+			"default": "A2"
 		},
 		"formatTermId": {
 			"type": "integer"
