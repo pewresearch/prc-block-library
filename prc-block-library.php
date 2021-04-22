@@ -32,6 +32,7 @@ use WPackio\Enqueue;
 
 class PRC_Block_Library {
 	public static $plugin_file = __FILE__;
+	public static $version     = '1.0.1';
 	/**
 	 * Registered wpackio assets
 	 *

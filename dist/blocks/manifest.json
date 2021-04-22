@@ -95,8 +95,8 @@
   "vendors~collapsible.js.map": "blocks/vendors~collapsible-de28a0c4.js.map",
   "vendors~table.js": "blocks/vendors~table-58f6dff3.js",
   "vendors~table.js.map": "blocks/vendors~table-58f6dff3.js.map",
-  "wp-query.js": "blocks/wp-query-6b22aecf.js",
-  "wp-query.js.map": "blocks/wp-query-6b22aecf.js.map",
+  "wp-query.js": "blocks/wp-query-50e429db.js",
+  "wp-query.js.map": "blocks/wp-query-50e429db.js.map",
   "wpackioEp": {
     "collapsible": {
       "js": [
@@ -525,13 +525,13 @@
         "blocks/runtime-8f407741.js",
         "blocks/vendors~chart-builder~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-co~e2d6b376-aac555ae.js",
         "blocks/vendors~chart-builder~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index~a73c2a87-d76aa37e.js",
-        "blocks/wp-query-6b22aecf.js"
+        "blocks/wp-query-50e429db.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
         "blocks/vendors~chart-builder~collapsible~menu-link~promo~social-link~topic-index-categorized~topic-index-co~e2d6b376-aac555ae.js.map",
         "blocks/vendors~chart-builder~menu-link~promo~topic-index-categorized~topic-index-condensed-menu~topic-index~a73c2a87-d76aa37e.js.map",
-        "blocks/wp-query-6b22aecf.js.map"
+        "blocks/wp-query-50e429db.js.map"
       ]
     }
   }
