@@ -19,7 +19,7 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'wp-dom-ready', 'wp-element', 'wp-api-fetch', 'wp-html-entities' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		return $enqueue->register(
 			'frontend',
 			'topic-index-search-field',
@@ -51,7 +51,7 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 
 	public function register_block() {
 		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue              = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',
