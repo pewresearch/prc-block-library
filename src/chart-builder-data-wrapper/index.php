@@ -101,7 +101,7 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
 			'chart-builder-data-wrapper',
 			'frontend',
@@ -124,7 +124,7 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 	public function register_block() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-components' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

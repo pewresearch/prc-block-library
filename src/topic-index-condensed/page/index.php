@@ -39,7 +39,7 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
+		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

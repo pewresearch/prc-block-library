@@ -389,7 +389,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
 			'story-item',
 			'frontend',
@@ -417,7 +417,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'lodash', 'wp-components' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$block_assets = $enqueue->register(
 			'story-item',
