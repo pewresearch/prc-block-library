@@ -4,7 +4,6 @@
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import {
-    InnerBlocks,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
@@ -56,14 +55,15 @@ const initStoryBlock = (item, disableImage, labelTaxonomy) => {
 };
 
 const edit = ({ attributes, setAttributes, className, clientId }) => {
-    const { pinned, postsPerPage, labelTaxonomy, disableImage } = attributes;
+    const { postsPerPage, labelTaxonomy, disableImage } = attributes;
 
     const blockProps = useBlockProps({ className });
 
-    const innerBlocksProps = useInnerBlocksProps({
+    const innerBlocksProps = useInnerBlocksProps({}, {
         allowedBlocks: ALLOWED,
         orientation: 'vertical', // We should allow toggling this based on layout.
-        renderAppender: InnerBlocks.ButtonBlockAppender,
+        renderAppender: false,
+        templateLock: 'all'
     });
 
     const [posts, setPosts] = useState(false);
@@ -81,37 +81,29 @@ const edit = ({ attributes, setAttributes, className, clientId }) => {
         [clientId],
     );
 
-    // Go create story item blocks from posts fetched
-    useEffect(() => {
-        if (false !== posts) {
+    const replaceInnerBlocksWithPosts = (p = false) => {
+        if (false !== p) {
             let tmp = [];
-            posts.forEach(item => {
+
+            p.forEach(item => {
                 tmp.push(initStoryBlock(item, disableImage, labelTaxonomy));
             });
 
-            const toKeep = [];
-            JSON.parse(pinned).forEach(postId => {
-                const toPush = innerBlocks.filter(e => {
-                    const toCheck = tmp.filter(
-                        f => f.attributes.postID === postId,
-                    );
-                    return (
-                        e.attributes.postID === postId && 0 >= toCheck.length
-                    );
-                });
-                toPush.forEach(b => toKeep.push(b));
-            });
-
-            const allowedPerPage = postsPerPage - toKeep.length;
+            const allowedPerPage = postsPerPage;
 
             tmp = tmp.filter((e, index) => {
                 return index <= allowedPerPage - 1;
             });
 
-            const toInsert = toKeep.concat(tmp);
+            const toInsert = tmp;
 
             replaceInnerBlocks(clientId, toInsert);
         }
+    }
+
+    // Go create story item blocks from posts fetched
+    useEffect(() => {
+        replaceInnerBlocksWithPosts(posts);
     }, [posts]);
 
     return (

@@ -26,8 +26,7 @@ class WP_Query_Block extends PRC_Block_Library {
 		);
 	}
 
-	private function parse_tax_query( $tax_query ) {
-		error_log( 'parse_tax_query' . print_r( $tax_query, true ) );
+	public function parse_tax_query( $tax_query ) {
 		$parsed             = array();
 		$parsed['relation'] = array_key_exists( 'relation', $tax_query ) ? $tax_query['relation'] : 'OR';
 		foreach ( $tax_query['data'] as $tax_arg ) {
@@ -48,7 +47,6 @@ class WP_Query_Block extends PRC_Block_Library {
 			'post_status'    => 'publish',
 			'tax_query'      => $this->parse_tax_query( $attributes['taxQuery'] ),
 		);
-		error_log( 'construct_query_from_attributes' . print_r( $args, true ) );
 		return new WP_Query( $args );
 	}
 
@@ -65,8 +63,7 @@ class WP_Query_Block extends PRC_Block_Library {
 					'excerpt' => get_the_excerpt(),
 					'date'    => get_the_date(),
 					'link'    => get_the_permalink(),
-					'label'   => 'Label',
-					// Image is now fetched by the story item itself from post id.
+					'label'   => 'Report',
 				);
 			}
 		}
@@ -82,18 +79,20 @@ class WP_Query_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_wp_query( $attributes, $content, $block ) {
-		$context = $block->context;
-		ob_start();
-		print_r( $context );
 		$query = $this->construct_query_from_attributes( $attributes );
-		// We should get innerblocks from $block and treat
+		ob_start();
 		?>
-		<h1>Hello World</h1>
 		<?php
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
-				echo get_the_title();
+				echo prc_get_story_item(
+					get_the_ID(),
+					array(
+						'postType' => get_post_type(),
+						'inLoop'   => true,
+					)
+				);
 			}
 		}
 		wp_reset_postdata();

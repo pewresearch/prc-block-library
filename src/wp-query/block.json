@@ -33,7 +33,19 @@
 			}
 		}
 	},
-	"providesContext": {
-		"prc-block/wp-query": "pinned"
+	"styles": [
+		{
+			"name": "pub-listing",
+			"label": "Publication Listing",
+			"isDefault": true
+		},
+		{
+			"name": "columns",
+			"label": "As Columns"
+		}
+	],
+	"supports": {
+		"html": false,
+		"align": false
 	}
 }
