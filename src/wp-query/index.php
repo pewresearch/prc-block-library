@@ -79,6 +79,26 @@ class WP_Query_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_wp_query( $attributes, $content, $block ) {
+
+		$template = array(
+			// 'core/heading'         => array(
+			// 'level'      => 3,
+			// 'content'    => 'post_title',
+			// 'contentTag' => '<h3>',
+			// ),
+			// 'core/paragraph'       => array(
+			// 'content'    => 'post_excerpt',
+			// 'contentTag' => '<p>',
+			// ),
+			'prc-block/story-item' => array(
+				'inLoop'    => true,
+				'imageSize' => $attributes['storyItemImageSize'],
+				'imageSlot' => $attributes['storyItemImageSlot'],
+			),
+			
+		);
+		$template = apply_filters( 'prc-block-wp-query-template', $template );
+
 		$query = $this->construct_query_from_attributes( $attributes );
 		ob_start();
 		?>
@@ -86,13 +106,47 @@ class WP_Query_Block extends PRC_Block_Library {
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
-				echo prc_get_story_item(
-					get_the_ID(),
-					array(
-						'postType' => get_post_type(),
-						'inLoop'   => true,
-					)
-				);
+
+				foreach ( $template as $block_name => $block_attrs ) {
+					// If this is a story item use the helper function to gather up the correct default attributes.
+
+					$block = array(
+						'blockName' => $block_name,
+						'attrs'     => array(),
+					);
+					
+					if ( 'prc-block/story-item' === $block_name ) {
+						$block['attrs'] = prc_get_story_item(
+							get_the_ID(),
+							array_merge(
+								$block_attrs,
+								array(
+									'postType' => get_post_type(),
+								)
+							),
+							true
+						);
+					} else {
+						if ( array_key_exists( 'level', $block_attrs ) ) {
+							$block['attrs']['level'] = $block_attrs['level'];
+						}
+						if ( array_key_exists( 'content', $block_attrs ) ) {
+							$block['attrs']['content'] = get_post_field( $block_attrs['content'], get_the_ID(), 'raw' );
+							$block['innerBlocks']      = array();
+							$block['innerHtml']        = $block_attrs['contentTag'] . $block['attrs']['content'] . str_replace( '<', '</', $block_attrs['contentTag'] );
+							$block['innerContent']     = array(
+								$block['innerHtml'],
+							);
+						}
+					}
+
+					
+
+					error_log( print_r( $block, true ) );
+
+					echo wp_kses( render_block( $block ), 'post' );
+						
+				}
 			}
 		}
 		wp_reset_postdata();
