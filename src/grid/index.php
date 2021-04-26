@@ -9,6 +9,96 @@ class Grid_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_action( 'prc_core_on_publish', array( $this, 'update_featured_post_ids' ), 10, 2 );
+			add_action( 'prc_core_on_update', array( $this, 'update_featured_post_ids' ), 10, 2 );
+		}
+	}
+
+	protected function get_unique_array( $arr1, $arr2 ) {
+		return array_unique( array_merge( $arr1, $arr2 ), SORT_REGULAR );
+	}
+
+	/**
+	 * Search prc-block/column for prc-block/story-item and return and array of post ids.
+	 *
+	 * @param mixed $inner_blocks
+	 * @param mixed $post_ids
+	 * @return mixed
+	 */
+	public function get_story_item_ids_from_column( $inner_blocks, $post_ids ) {
+		foreach ( $inner_blocks as $key => $inner_block ) {
+			if ( 'prc-block/story-item' === $inner_block['blockName'] ) {
+				if ( ! empty( $inner_block['attrs']['postID'] ) ) {
+					$post_ids[] = $inner_block['attrs']['postID'];
+				}
+			} elseif ( 'prc-block/grid' === $inner_block['blockName'] ) {
+				$post_ids = $this->get_unique_array( $post_ids, $this->recursively_search_grid_for_story_items( $inner_block, $post_ids ) );
+			}
+		}
+		return $post_ids;
+	}
+
+	/**
+	 * Search prc-block/grid or core/group blocks for prc-block/story-item and return array of their post ids.
+	 * // https://stackoverflow.com/questions/10928993/is-there-a-way-to-loop-through-a-multidimensional-array-without-knowing-its-dep
+	 *
+	 * @param mixed $block
+	 * @param mixed $post_ids
+	 * @return mixed
+	 */
+	public function recursively_search_grid_for_story_items( $block, $post_ids ) {
+
+		if ( 'prc-block/grid' === $block['blockName'] ) {
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				foreach ( $block['innerBlocks'] as $key => $inner_block ) {
+					if ( 'prc-block/row' === $inner_block['blockName'] ) {
+						foreach ( $inner_block['innerBlocks'] as $key => $inner_block ) {
+							if ( 'prc-block/column' === $inner_block['blockName'] ) {
+								$post_ids = $this->get_story_item_ids_from_column( $inner_block['innerBlocks'], $post_ids );
+							}
+						}
+					}
+				}
+			}
+		} elseif ( 'core/group' === $block['blockName'] ) {
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				foreach ( $block['innerBlocks'] as $key => $inner_block ) {
+					$post_ids = $this->get_unique_array( $post_ids, $this->recursively_search_grid_for_story_items( $inner_block, $post_ids ) );
+				}
+			}
+		}
+
+		return $post_ids;
+	}
+
+	/**
+	 * Parses the story items inside a grid inside a post/page and builds an array of all post id's referenced in story items
+	 * useful for excluding posts in wp_query block and topic page pre_get_posts
+	 */
+	public function update_featured_post_ids( $post, $is_gutenberg ) {
+		if ( true !== $is_gutenberg ) {
+			return;
+		}
+
+		if ( ! has_block( 'prc-block/story-item' ) && ! has_block( 'prc-block/grid' ) ) {
+			return;
+		}
+
+		$post_ids = array();
+
+		$blocks = parse_blocks( $post->post_content );
+
+		foreach ( $blocks as $key => $block ) {
+			if ( 'prc-block/story-item' === $block['blockName'] ) {
+				if ( false !== $block['attrs']['postID'] ) {
+					$post_ids[] = $block['attrs']['postID'];
+				}
+			}
+			$post_ids = $this->get_unique_array( $post_ids, $this->recursively_search_grid_for_story_items( $block, $post_ids ) );
+		}
+
+		if ( ! empty( $post_ids ) ) {
+			update_post_meta( $post->ID, '_featured_posts', $post_ids );
 		}
 	}
 

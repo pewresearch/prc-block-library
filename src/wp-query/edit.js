@@ -74,11 +74,12 @@ const edit = ({ attributes, setAttributes, clientId }) => {
 
     const { replaceInnerBlocks } = useDispatch('core/block-editor');
 
-    const { hasInnerBlocks } = useSelect(
+    const { hasInnerBlocks, postId } = useSelect(
         select => {
             const blocks = select('core/block-editor').getBlocks(clientId);
             return {
                 hasInnerBlocks: 0 < blocks.length,
+                postId: select('core/editor').getCurrentPostId(),
             };
         },
         [clientId],
@@ -116,6 +117,10 @@ const edit = ({ attributes, setAttributes, clientId }) => {
     useEffect(() => {
         replaceInnerBlocksWithPosts(posts);
     }, [posts]);
+
+    useEffect(()=>{
+        setAttributes({postId});
+    }, [postId]);
 
     return (
         <div {...blockProps}>

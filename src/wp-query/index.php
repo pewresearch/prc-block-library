@@ -39,7 +39,7 @@ class WP_Query_Block extends PRC_Block_Library {
 		return $parsed;
 	}
 
-	public function construct_query_from_attributes( $attributes ) {
+	public function construct_query_from_attributes( $attributes, $exclude_post_ids = array() ) {
 		$args = array(
 			'post_type'      => 'stub',
 			'posts_per_page' => $attributes['postsPerPage'],
@@ -47,6 +47,11 @@ class WP_Query_Block extends PRC_Block_Library {
 			'post_status'    => 'publish',
 			'tax_query'      => $this->parse_tax_query( $attributes['taxQuery'] ),
 		);
+		
+		if ( ! empty( $exclude_post_ids ) && is_array( $exclude_post_ids ) ) {
+			$args['post__not_in'] = $exclude_post_ids;
+		}
+		error_log( 'args   ' . print_r( $args, true ) );
 		return new WP_Query( $args );
 	}
 
@@ -79,6 +84,9 @@ class WP_Query_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_wp_query( $attributes, $content, $block ) {
+		if ( is_admin() ) {
+			return $content;
+		}
 
 		$template = array(
 			// 'core/heading'         => array(
@@ -101,7 +109,10 @@ class WP_Query_Block extends PRC_Block_Library {
 
 		$as_columns = array_key_exists( 'className', $attributes ) && 'is-style-columns' === $attributes['className'];
 
-		$query = $this->construct_query_from_attributes( $attributes );
+		$exclude_post_ids = get_post_meta( $attributes['postId'], '_featured_posts', true );
+
+		$query = $this->construct_query_from_attributes( $attributes, $exclude_post_ids );
+	
 		ob_start();
 		?>
 		<?php

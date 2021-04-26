@@ -3,6 +3,9 @@
 	"name": "prc-block/wp-query",
 	"category": "layout",
 	"attributes": {
+		"postId": {
+			"type": "integer"
+		},
 		"storyItemImageSlot": {
 			"type": "string",
 			"default": "left"
