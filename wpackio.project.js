@@ -32,6 +32,7 @@ module.exports = {
                 grid: './src/grid/index.js',
                 group: './src/group/index.js',
                 heading: './src/heading/index.js',
+                'mailchimp-form': './src/mailchimp-form/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',
@@ -90,6 +91,7 @@ module.exports = {
             entry: {
                 collapsible: './src/collapsible/frontend.js',
                 cover: './src/cover/frontend.js',
+                'mailchimp-form': './src/mailchimp-form/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
                 'tabs-controller': './src/tabs/controller/frontend.js',
