@@ -35,6 +35,7 @@ module.exports = {
                 grid: './src/grid/index.js',
                 group: './src/group/index.js',
                 heading: './src/heading/index.js',
+                'mailchimp-form': './src/mailchimp-form/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
                 'post-bylines': './src/post-bylines/index.js',
@@ -94,6 +95,7 @@ module.exports = {
                 collapsible: './src/collapsible/frontend.js',
                 'chart-builder': './src/chart-builder/frontend.js',
                 cover: './src/cover/frontend.js',
+                'mailchimp-form': './src/mailchimp-form/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
                 'tabs-controller': './src/tabs/controller/frontend.js',
@@ -127,63 +129,10 @@ module.exports = {
             },
         },
         {
-            name: 'follow-us',
-            entry: {
-                main: './src/follow-us/index.js',
-                frontend: './src/follow-us/frontend.js',
-            },
-        },
-        {
-            name: 'mailchimp-form',
-            entry: {
-                main: './src/mailchimp-form/index.js',
-                frontend: './src/mailchimp-form/frontend.js',
-            },
-        },
-        {
             name: 'mailchimp-opt-down',
             entry: {
                 main: './src/mailchimp-opt-down/index.js',
                 frontend: './src/mailchimp-opt-down/frontend.js',
-            },
-        },
-        {
-            name: 'posts',
-            entry: {
-                main: './src/posts/index.js',
-                frontend: './src/posts/frontend.js',
-            },
-            webpackConfig: (config, merge, appDir, isDev) => {
-                const customRules = {
-                    module: {
-                        rules: [
-                            // Config for SVGR in javascript files
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForJsTsFiles,
-                                use: ['@svgr/webpack', 'url-loader'],
-                            },
-                            // For everything else, we use file-loader only
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForNonJsTsFiles,
-                                use: [
-                                    {
-                                        loader: fileLoader,
-                                        options: getFileLoaderOptions(
-                                            appDir,
-                                            isDev,
-                                            true,
-                                        ),
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                };
-
-                // merge and return
-                return merge(config, customRules);
             },
         },
         {

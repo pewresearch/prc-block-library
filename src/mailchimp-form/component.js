@@ -1,5 +1,12 @@
+/**
+ * WordPress dependencies
+ */
 import { useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+
+/**
+ * Internal dependencies
+ */
 import { Form, Icon } from 'semantic-ui-react';
 import './style.scss';
 
