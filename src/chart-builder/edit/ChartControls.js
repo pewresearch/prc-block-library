@@ -18,6 +18,7 @@ import { colorNames } from '../utils/colors';
 import { formatNum } from '../utils/helpers';
 import XAxisControls from './XAxisControls';
 import YAxisControls from './YAxisControls';
+import DataControls from './DataControls';
 import LineControls from './LineControls';
 import BarControls from './BarControls';
 import LabelControls from './LabelControls';
@@ -166,6 +167,10 @@ const ChartControls = ({ attributes, setAttributes }) => {
                     attributes={attributes}
                     setAttributes={setAttributes}
                 />
+                <DataControls
+                    attributes={attributes}
+                    setAttributes={setAttributes}
+                />
                 <LabelControls
                     attributes={attributes}
                     setAttributes={setAttributes}
@@ -179,7 +184,7 @@ const ChartControls = ({ attributes, setAttributes }) => {
                     attributes={attributes}
                     setAttributes={setAttributes}
                 />
-                {chartType === 'bar' && (
+                {(chartType === 'bar' || chartType === 'stacked-bar') && (
                     <BarControls
                         attributes={attributes}
                         setAttributes={setAttributes}

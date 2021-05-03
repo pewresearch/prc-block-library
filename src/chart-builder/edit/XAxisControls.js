@@ -19,17 +19,24 @@ import { formatNum } from '../utils/helpers';
 
 const XAxisControls = ({ attributes, setAttributes }) => {
     const {
+        chartType,
         xAxisActive,
         xScale,
         xScaleFormat,
         xMinDomain,
         xMaxDomain,
+        xDomainPadding,
         xTickNum,
         xTickExact,
         xLabel,
     } = attributes;
     return (
-        <PanelBody title={__('X-Axis Configuration')}>
+        <PanelBody title={__('Independent Axis Configuration')}>
+            <PanelRow>
+                The independent axis is almost always the x-axis, except in
+                cases of horizontal bar charts or stack bar charts, where the
+                independent values are plotted on the y-axis.
+            </PanelRow>
             <ToggleControl
                 label="X-axis active"
                 help={xAxisActive ? 'Has x-axis.' : 'No x-axis.'}
@@ -89,6 +96,11 @@ const XAxisControls = ({ attributes, setAttributes }) => {
                     <NumberControl
                         label={__('Minimum')}
                         value={xMinDomain}
+                        disabled={
+                            chartType === 'stacked-bar' ||
+                            chartType === 'bar' ||
+                            chartType === 'pie'
+                        }
                         disableUnits
                         disabledUnits
                         onChange={(val) => {
@@ -102,6 +114,11 @@ const XAxisControls = ({ attributes, setAttributes }) => {
                     <NumberControl
                         label={__('Maximum')}
                         value={xMaxDomain}
+                        disabled={
+                            chartType === 'stacked-bar' ||
+                            chartType === 'bar' ||
+                            chartType === 'pie'
+                        }
                         disableUnits
                         disabledUnits
                         onChange={(val) => {
@@ -112,6 +129,18 @@ const XAxisControls = ({ attributes, setAttributes }) => {
                     />
                 </FlexItem>
             </Flex>
+            <NumberControl
+                label={__('Domain Padding')}
+                help={__(
+                    'Determines the space between the first tick and the end of the axis',
+                )}
+                value={xDomainPadding}
+                disableUnits={true}
+                disabledUnits={true}
+                onChange={(val) =>
+                    setAttributes({ xDomainPadding: formatNum(val, 'integer') })
+                }
+            />
             <PanelRow>Axis Ticks</PanelRow>
             <NumberControl
                 label={__('Number of ticks')}

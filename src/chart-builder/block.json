@@ -38,6 +38,10 @@
             "type": "integer",
             "default": 0
         },
+        "sortOrder": {
+            "type": "string",
+            "default": "none"
+        },
         "colorLabel": {
             "type": "string"
         },
@@ -64,6 +68,10 @@
         "xMaxDomain": {
             "type": "number",
             "default": 100
+        },
+        "xDomainPadding": {
+            "type": "number",
+            "default": 50
         },
         "xTickNum": {
             "type": "integer",
@@ -104,6 +112,10 @@
         "yMaxDomain": {
             "type": "number",
             "default": 100
+        },
+        "yDomainPadding": {
+            "type": "number",
+            "default": 20
         },
         "showYMinDomainLabel": {
             "type": "boolean",
@@ -253,6 +265,11 @@
         {
             "name": "bar",
             "label": "Bar",
+            "isDefault": true
+        },
+        {
+            "name": "stacked-bar",
+            "label": "Stacked Bar",
             "isDefault": true
         },
         {

@@ -51,7 +51,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		if ( !window.chartConfigs ) {
 			window.chartConfigs = {};
 		}
-		chartConfigs["<?php echo "${id}"; ?>"] = <?php echo "${attrs}"; ?>
+		chartConfigs["<?php echo "${id}" ; ?>"] = <?php echo "${attrs}"; ?>
 		</script>
 		<?php
 		return ob_get_clean();
@@ -59,7 +59,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
 			'frontend',
 			'chart-builder',
@@ -85,7 +85,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-components' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',
@@ -103,9 +103,9 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/chart-builder',
 			array(
-				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'           => array_pop( $registered['css'] )['handle'],
-				'render_callback' => array( $this, 'render_chart_builder' ),
+				'editor_script'   	=> array_pop( $registered['js'] )['handle'],
+				'style'				=> array_pop( $registered['css'] )['handle'],
+				'render_callback' 	=> array( $this, 'render_chart_builder' ),
 			)
 		);
 	}

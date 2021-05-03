@@ -3,7 +3,11 @@ export const formattedData = (data, scale, chartType) => {
     const { body, tableHeaders } = data;
     const seriesData = [];
     const scaleData = (data, scale) => {
-        if (chartType === 'bar') {
+        if (
+            chartType === 'bar' ||
+            chartType === 'stacked-bar' ||
+            chartType === 'pie'
+        ) {
             return data;
         }
         if (scale === 'time') {
@@ -36,10 +40,14 @@ export const getDomain = (min, max, type, scale, axis, orientation) => {
     if (isNaN(min) || isNaN(max)) {
         return [0, 100];
     }
+    // x axis is a bit of a misnomer for bar types. It refers exclusively to the dependent axis.
     if (type === 'bar' && axis === 'x') {
-        // x axis is a bit of a misnomer for bars. It refers exclusively to the dependent axis.
         return null;
     }
+    if (type === 'stacked-bar' && axis === 'x') {
+        return null;
+    }
+    // likewise, no domain for a pie chart
     if (type === 'pie') {
         return null;
     }
