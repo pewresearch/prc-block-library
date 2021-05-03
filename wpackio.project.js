@@ -125,63 +125,10 @@ module.exports = {
             },
         },
         {
-            name: 'follow-us',
-            entry: {
-                main: './src/follow-us/index.js',
-                frontend: './src/follow-us/frontend.js',
-            },
-        },
-        {
-            name: 'mailchimp-form',
-            entry: {
-                main: './src/mailchimp-form/index.js',
-                frontend: './src/mailchimp-form/frontend.js',
-            },
-        },
-        {
             name: 'mailchimp-opt-down',
             entry: {
                 main: './src/mailchimp-opt-down/index.js',
                 frontend: './src/mailchimp-opt-down/frontend.js',
-            },
-        },
-        {
-            name: 'posts',
-            entry: {
-                main: './src/posts/index.js',
-                frontend: './src/posts/frontend.js',
-            },
-            webpackConfig: (config, merge, appDir, isDev) => {
-                const customRules = {
-                    module: {
-                        rules: [
-                            // Config for SVGR in javascript files
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForJsTsFiles,
-                                use: ['@svgr/webpack', 'url-loader'],
-                            },
-                            // For everything else, we use file-loader only
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForNonJsTsFiles,
-                                use: [
-                                    {
-                                        loader: fileLoader,
-                                        options: getFileLoaderOptions(
-                                            appDir,
-                                            isDev,
-                                            true,
-                                        ),
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                };
-
-                // merge and return
-                return merge(config, customRules);
             },
         },
         {

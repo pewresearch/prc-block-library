@@ -1,0 +1,24 @@
+{
+	"name": "prc-block/mailchimp-form",
+	"category": "widgets",
+	"attributes": {
+		"interest": {
+            "type": "string",
+            "default": ""
+        }
+	},
+	"styles": [
+		{
+			"name": "",
+			"label": "Standard",
+			"isDefault": true
+		},
+		{
+			"name": "horizontal",
+			"label": "Horizontal"
+		}
+	],
+	"supports": {
+		"html": false
+	}
+}

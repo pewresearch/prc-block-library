@@ -1,4 +1,28 @@
+/**
+ * WordPress dependencies
+ */
+import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import settings from './settings';
 
-registerBlockType(...settings);
+/**
+ * Internal dependencies
+ */
+import metadata from './block.json';
+import edit from './edit';
+import save from './save';
+import icon from './icon';
+import './style.scss';
+
+const { name } = metadata;
+
+const settings = {
+    title: __('Mailchimp Form'),
+    icon,
+    keywords: [__('mailchimp'), __('newsletter'), __('form')],
+    edit,
+    save,
+};
+
+console.log('Trying to do something over here!');
+
+registerBlockType(name, { ...metadata, ...settings });
