@@ -86,8 +86,9 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-search-field/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/wp-query/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/wp-object/index.php';
 
-			// @TODO This needs to be gone through
+			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'init', array( $this, 'register_assets' ), 10 );
 			add_action( 'init', array( $this, 'register_blocks' ), 11 );
