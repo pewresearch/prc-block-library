@@ -45,7 +45,9 @@ $altCardHeaderPadding: 1em;
 		.is-style-sub-header {
 			background-color: #333132;
 			padding: 9px $altCardHeaderPadding;
-			margin-bottom: 0;
+			margin-bottom: 1em;
+			color: white;
+			font-weight: normal;
 			a {
 				color: white;
 			}

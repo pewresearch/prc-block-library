@@ -14,3 +14,20 @@ h6[data-type="core/heading"].is-style-section-header {
 	padding-bottom: 8px;
 	margin-bottom: 24px;
 }
+
+h1.is-style-sub-header-alt,
+h2.is-style-sub-header-alt,
+h3.is-style-sub-header-alt,
+h4.is-style-sub-header-alt,
+h5.is-style-sub-header-alt,
+h6.is-style-sub-header-alt,
+h1[data-type="core/heading"].is-style-sub-header-alt,
+h2[data-type="core/heading"].is-style-sub-header-alt,
+h3[data-type="core/heading"].is-style-sub-header-alt,
+h4[data-type="core/heading"].is-style-sub-header-alt,
+h5[data-type="core/heading"].is-style-sub-header-alt,
+h6[data-type="core/heading"].is-style-sub-header-alt {
+	background: black;
+	color: white;
+	display: block;
+}
