@@ -14,13 +14,13 @@ import './style.scss';
 
 registerBlockStyle('core/heading', [
     {
+        name: 'section-header',
+        label: 'Section Header',
+    },
+    {
         name: 'sub-header',
         label: 'Sub Header',
     },
-    {
-        name: 'section-header',
-        label: 'Section Header',
-    }
 ]);
 
 registerBlockVariation('core/heading', {

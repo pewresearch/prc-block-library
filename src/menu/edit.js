@@ -67,6 +67,10 @@ const Navigation = ({
         {
             className: classnames('ui menu', {
                 secondary: isStyle('is-style-secondary', blockProps.className),
+                'secondary pointing': isStyle(
+                    'is-style-secondary-pointing',
+                    blockProps.className,
+                ),
                 tabular: isStyle('is-style-tabular', blockProps.className),
                 text: isStyle('is-style-text', blockProps.className),
                 vertical: 'vertical' === orientation,

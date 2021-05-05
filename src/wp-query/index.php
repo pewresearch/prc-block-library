@@ -137,7 +137,8 @@ class WP_Query_Block extends PRC_Block_Library {
 							array_merge(
 								$block_attrs,
 								array(
-									'postType' => get_post_type(),
+									'imageSize' => 'A3',
+									'postType'  => get_post_type(),
 								)
 							),
 							true
