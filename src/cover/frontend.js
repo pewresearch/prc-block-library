@@ -1,12 +1,11 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
- 
- /**
-  * Internal Dependencies
-  */
+
+/**
+ * Internal Dependencies
+ */
 import './style.scss';
 
 const insertAfter = (el, referenceNode) => {

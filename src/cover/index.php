@@ -14,7 +14,7 @@ class Cover_Block extends PRC_Block_Library {
 	}
 
 	public function enqueue_assets( $js = true, $css = true ) {
-		$block_js_deps = array( 'wp-dom-ready', 'wp-i18n', 'wp-polyfill' );
+		$block_js_deps = array( 'wp-dom-ready', 'wp-polyfill' );
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'frontend',
@@ -31,7 +31,7 @@ class Cover_Block extends PRC_Block_Library {
 	}
 
 	public function cover_block_render( $block_content, $block ) {
-		if ( 'core/heading' !== $block['blockName'] ) {
+		if ( 'core/cover' !== $block['blockName'] ) {
 			return $block_content;
 		}
 		
