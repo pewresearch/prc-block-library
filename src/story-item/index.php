@@ -18,10 +18,26 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_action( 'prc_loop_story_item', array( $this, 'loop_story_item' ), 10, 1 );
+			add_filter( 'prc_related_story_item', array( $this, 'related_story_item' ), 10, 1 );
 			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 			add_action( 'template_redirect', array( $this, 'preview_story_item' ), 1 );
 			add_filter( 'query_vars', array( $this, 'add_preview_query_args' ) );
 		}
+	}
+
+	public function related_story_item( $args ) {
+		$post_id = $args['postId'];
+
+		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
+		return $this->render_story_item( $attributes );
+	}
+
+	public function loop_story_item( $args ) {
+		$post_id = $args['postId'];
+
+		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
+		echo $this->render_story_item( $attributes );
 	}
 
 	private function cherry_pick_attr( $needle, $haystack ) {
@@ -449,6 +465,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 new PRC_Story_Item( true );
 
 /**
+ * DEPRECATED::
  * By default should only load A3 left aligned stubs, can be modified through args.
  */
 function prc_get_story_item( $stub_post_id, $args = array(), $return_attributes = false ) {
