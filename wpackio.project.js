@@ -70,6 +70,7 @@ module.exports = {
                 'topic-index-search-field':
                     './src/topic-index-search-field/index.js',
                 'wp-query': './src/wp-query/index.js',
+                'wp-object': './src/wp-object/index.js',
             },
             webpackConfig: (config, merge, appDir, isDev) => {
                 // create a new module.rules for svg-inline-loader
