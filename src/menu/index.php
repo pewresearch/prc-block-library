@@ -26,6 +26,9 @@ class PRC_Block_Menu extends PRC_Block_Library {
 			$menu_classes[] = 'text';
 		} elseif ( array_key_exists( 'className', $attributes ) && 'is-style-secondary' === $attributes['className'] ) {
 			$menu_classes[] = 'secondary';
+		} elseif ( array_key_exists( 'className', $attributes ) && 'is-style-secondary-pointing' === $attributes['className'] ) {
+			$menu_classes[] = 'secondary';
+			$menu_classes[] = 'pointing';
 		} elseif ( array_key_exists( 'className', $attributes ) && 'is-style-tabular' === $attributes['className'] ) {
 			$menu_classes[] = 'tabular';
 		}

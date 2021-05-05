@@ -19,21 +19,21 @@ const Header = ({
     isChartArt,
     altHeaderWeight,
 }) => {
-    const {enableHeader, enableMeta} = enabled;
+    const { enableHeader, enableMeta } = enabled;
     if (true !== enableHeader) {
         return <Fragment />;
     }
     const classes = classNames({
-        large: 1 === parseInt(size),
-        medium: 2 === parseInt(size),
-        small: 3 === parseInt(size),
+        large: 1 === parseInt(size, 0),
+        medium: 2 === parseInt(size, 0),
+        small: 3 === parseInt(size, 0),
         light: altHeaderWeight,
         'sans-serif': !enableMeta,
     });
 
     return (
         <Fragment>
-            { true === enableMeta && (
+            {true === enableMeta && (
                 <Item.Meta>
                     <Kicker label={label} date={date} />
                 </Item.Meta>

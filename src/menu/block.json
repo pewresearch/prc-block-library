@@ -24,6 +24,10 @@
 			"label": "Secondary"
 		},
 		{
+			"name": "secondary-pointing",
+			"label": "Secondary Pointing"
+		},
+		{
 			"name": "text",
 			"label": "Text"
 		},

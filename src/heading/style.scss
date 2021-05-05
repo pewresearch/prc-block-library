@@ -11,8 +11,13 @@ h4[data-type="core/heading"].is-style-section-header,
 h5[data-type="core/heading"].is-style-section-header,
 h6[data-type="core/heading"].is-style-section-header {
 	border-bottom: 1px solid black;
-	padding-bottom: 8px;
+	padding-bottom: 4px;
 	margin-bottom: 24px;
+}
+
+h2.is-style-section-header,
+h2[data-type="core/heading"].is-style-section-header {
+	font-size: 21px;
 }
 
 h1.is-style-sub-header-alt,

@@ -117,7 +117,7 @@ const getProps = elm => {
             props.enableExcerptBelow = true;
         }
     }
-    // console.log("story item props:", props);
+    console.log('story item props:', props);
     return props;
 };
 
