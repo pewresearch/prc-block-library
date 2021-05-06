@@ -1,6 +1,15 @@
 $relaxedBorder: #e6e7e6;
 $altCardHeaderPadding: 1em;
 
+.column > .wp-block-group.is-style-card-alt,
+#secondary.column > .prc-block-area {
+	margin-left: -1.5rem;
+	// @media only screen and (max-width: @largestMobileScreen) {
+	// 	margin-left: 0!important;
+	// 	margin-right: 0!important;
+	// }
+}
+
 .wp-block-group {
 	& > :last-child {
 		margin-bottom: 0;
@@ -42,10 +51,16 @@ $altCardHeaderPadding: 1em;
 	}
 	
 	&.is-style-card-alt {
+		.wp-block-group__inner-container {
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
+		}
 		.is-style-sub-header {
 			background-color: #333132;
 			padding: 9px $altCardHeaderPadding;
-			margin-bottom: 1em;
+			margin-left: -1.5rem;
+			margin-right: -1.5rem;
+			margin-bottom: 1.5rem;
 			color: white;
 			font-weight: normal;
 			a {
