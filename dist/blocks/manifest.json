@@ -11,10 +11,10 @@
   "grid.css.map": "blocks/grid-b70d542e.css.map",
   "grid.js": "blocks/grid-82a519a6.js",
   "grid.js.map": "blocks/grid-82a519a6.js.map",
-  "group.css": "blocks/group-df7fc6a1.css",
-  "group.css.map": "blocks/group-df7fc6a1.css.map",
-  "group.js": "blocks/group-8cdf2f7d.js",
-  "group.js.map": "blocks/group-8cdf2f7d.js.map",
+  "group.css": "blocks/group-85b37b93.css",
+  "group.css.map": "blocks/group-85b37b93.css.map",
+  "group.js": "blocks/group-64904464.js",
+  "group.js.map": "blocks/group-64904464.js.map",
   "heading.css": "blocks/heading-ae7b67f1.css",
   "heading.css.map": "blocks/heading-ae7b67f1.css.map",
   "heading.js": "blocks/heading-c880d456.js",
@@ -157,17 +157,17 @@
     "group": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/group-8cdf2f7d.js"
+        "blocks/group-64904464.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/group-8cdf2f7d.js.map"
+        "blocks/group-64904464.js.map"
       ],
       "css": [
-        "blocks/group-df7fc6a1.css"
+        "blocks/group-85b37b93.css"
       ],
       "css.map": [
-        "blocks/group-df7fc6a1.css.map"
+        "blocks/group-85b37b93.css.map"
       ]
     },
     "heading": {

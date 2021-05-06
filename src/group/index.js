@@ -85,7 +85,7 @@ registerBlockVariation('core/group', {
         'A Group block in the "Card" format with a sub header heading in a black background, image, text, and read more link.',
     ),
     attributes: {
-        className: 'is-style-card',
+        className: 'is-style-card-alt',
     },
     innerBlocks: [
         [
