@@ -1,0 +1,14 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/page",
+	"category": "layout",
+	"attributes": {
+		"postId": {
+            "type": "integer"
+        }
+    },          
+	"supports": {
+		"html": false,
+		"align": false
+	}
+}
