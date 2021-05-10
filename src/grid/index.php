@@ -80,7 +80,7 @@ class Grid_Block extends PRC_Block_Library {
 			return;
 		}
 
-		if ( ! has_block( 'prc-block/story-item' ) && ! has_block( 'prc-block/grid' ) ) {
+		if ( ! has_block( 'prc-block/story-item' ) && ! has_block( 'prc-block/grid' ) && ! has_block( 'prc-block/wp-query' ) ) {
 			return;
 		}
 
@@ -96,6 +96,8 @@ class Grid_Block extends PRC_Block_Library {
 			}
 			$post_ids = $this->get_unique_array( $post_ids, $this->recursively_search_grid_for_story_items( $block, $post_ids ) );
 		}
+
+		$post_ids = apply_filters( 'prc_block_featured_post_ids', $post_ids, $blocks );
 
 		if ( ! empty( $post_ids ) ) {
 			update_post_meta( $post->ID, '_featured_posts', $post_ids );

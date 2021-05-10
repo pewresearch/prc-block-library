@@ -62,13 +62,16 @@ class WP_Query_Block extends PRC_Block_Library {
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
+				$post_id  = get_the_ID();
+				$terms    = wp_get_object_terms( $post_id, 'formats', array( 'fields' => 'names' ) );
+				$label    = array_shift( $terms );
 				$return[] = array(
-					'id'      => get_the_ID(),
+					'id'      => $post_id,
 					'title'   => get_the_title(),
 					'excerpt' => apply_filters( 'the_content', get_the_excerpt() ),
 					'date'    => get_the_date(),
 					'link'    => get_the_permalink(),
-					'label'   => 'Report',
+					'label'   => $label,
 				);
 			}
 		}

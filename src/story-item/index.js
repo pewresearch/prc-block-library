@@ -60,7 +60,7 @@ const settings = {
         },
     ],
     transforms,
-    deprecated,
+    // deprecated,
     edit,
     save,
 };
