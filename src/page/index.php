@@ -18,9 +18,21 @@ class Page_Block extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
+		$title   = $attributes['title'];
+		$content = $attributes['content'];
+		$url     = $attributes['url'];
+		$image   = $attributes['image'];
 		ob_start();
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<div class="ui page">
+			<div class="image"><a href="<?php echo esc_url( $url ); ?>"><img src="<?php echo esc_url( $image ); ?>"/></a></div>
+			<div class="content">
+				<?php echo wp_kses( "<div class='header'><a href='" . esc_url( $url ) . "'>" . $title . '</a></div>', 'post' ); ?>
+				<div class="description">
+					<?php echo wp_kses( $content, 'post' ); ?>
+				</div>
+			</div>
+		</div>
 		<?php
 		return ob_get_clean();
 	}
@@ -34,7 +46,7 @@ class Page_Block extends PRC_Block_Library {
 			'page',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $block_editor_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -46,6 +58,7 @@ class Page_Block extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/page',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
