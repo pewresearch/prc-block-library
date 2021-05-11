@@ -1,5 +1,6 @@
 $relaxedBorder: #e6e7e6;
 $altCardHeaderPadding: 1em;
+$altCardMargin: 1rem;
 
 .column > .wp-block-group.is-style-card-alt,
 #secondary.column > .prc-block-area {
@@ -52,15 +53,15 @@ $altCardHeaderPadding: 1em;
 	
 	&.is-style-card-alt {
 		.wp-block-group__inner-container {
-			padding-left: 1.5rem;
-			padding-right: 1.5rem;
+			padding-left: $altCardMargin;
+			padding-right: $altCardMargin;
 		}
 		.is-style-sub-header {
 			background-color: #333132;
 			padding: 9px $altCardHeaderPadding;
-			margin-left: -1.5rem;
-			margin-right: -1.5rem;
-			margin-bottom: 1.5rem;
+			margin-left: -$altCardMargin;
+			margin-right:  -$altCardMargin;
+			margin-bottom: $altCardMargin;
 			color: white;
 			font-weight: normal;
 			a {
