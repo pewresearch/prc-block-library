@@ -1,32 +1,59 @@
 /**
  * External dependencies
  */
-import { Form } from 'semantic-ui-react';
+import { Search } from 'semantic-ui-react';
 
 /**
  * WordPress dependencies
  */
-import { render, useState, useEffect } from '@wordpress/element';
+import {
+    render,
+    useEffect,
+    useReducer,
+    useCallback,
+    useRef,
+} from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { decodeEntities } from '@wordpress/html-entities';
 
-const TopicSearchField = ({ restrictToTermId = 0 }) => {
-    const [data, setData] = useState([
+const INITIAL_STATE = {
+    loading: false,
+    results: [
         {
-            key: 'default',
+            key: null,
             value: null,
-            text: 'Loading values...',
-            disabled: true,
+            title: 'Start typing to search topics...',
         },
-    ]);
-    const [processing, toggleProcessing] = useState(false);
-    const [loading, toggleLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selected, select] = useState(false);
+    ],
+    value: '',
+    selected: false,
+};
 
-    useEffect(() => {
+const searchReducer = (state, action) => {
+    switch (action.type) {
+        case 'CLEAN_QUERY':
+            return INITIAL_STATE;
+        case 'START_SEARCH':
+            return { ...state, loading: true, value: action.query };
+        case 'FINISH_SEARCH':
+            return { ...state, loading: false, results: action.results };
+        case 'UPDATE_SELECTION':
+            return {
+                ...state,
+                loading: true,
+                value: action.selection.title,
+                selected: action.selection.value,
+            };
+
+        default:
+            throw new Error();
+    }
+};
+
+const doSearch = (searchTerm, restrictToTermId = 0) => {
+    return new Promise(resolve => {
         const args = { per_page: 25 };
         if ('' !== searchTerm) {
             args.search = searchTerm;
@@ -34,50 +61,77 @@ const TopicSearchField = ({ restrictToTermId = 0 }) => {
         if (0 !== restrictToTermId && '' !== restrictToTermId) {
             args.parent = restrictToTermId;
         }
-        const path = addQueryArgs('/wp/v2/topic', args);
-        apiFetch({ path })
-            .then(topics => {
-                const tmpData = topics.map(t => {
-                    return {
-                        key: t.id,
-                        value: t.link,
-                        text: decodeEntities(t.name),
-                    };
-                });
-                setData(tmpData);
-            })
-            .catch(e => console.error(e))
-            .finally(() => toggleLoading(false));
-    }, [searchTerm]);
+        const request = {
+            method: 'GET',
+            path: addQueryArgs('/prc-api/v2/blocks/topic-index-search', args),
+        };
+        console.log('Search Request->', request);
+        apiFetch(request).then(d => {
+            console.log('... returns: ', d);
+            const tmpData = d.map(t => {
+                return {
+                    key: t.id,
+                    value: t.link,
+                    title: decodeEntities(t.name),
+                };
+            });
+            resolve(tmpData);
+        });
+    });
+};
 
-    const onSubmit = () => {
-        toggleProcessing(true);
-        window.location = selected;
+const TopicSearchField = ({ restrictToTermId = 0 }) => {
+    const [state, dispatch] = useReducer(searchReducer, INITIAL_STATE);
+    const { loading, results, value, selected } = state;
+
+    const timeoutRef = useRef();
+
+    const handleResultSelect = (e, { result }) => {
+        dispatch({ type: 'UPDATE_SELECTION', selection: result });
     };
 
+    const handleSearchChange = useCallback((e, data) => {
+        clearTimeout(timeoutRef.current);
+        dispatch({ type: 'START_SEARCH', query: data.value });
+
+        timeoutRef.current = setTimeout(() => {
+            if (0 === data.value.length) {
+                dispatch({ type: 'CLEAN_QUERY' });
+                return;
+            }
+
+            doSearch(data.value, restrictToTermId).then(r => {
+                dispatch({
+                    type: 'FINISH_SEARCH',
+                    results: r,
+                });
+            });
+        }, 300);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(timeoutRef.current);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (false !== selected) {
+            setTimeout(() => {
+                window.location = selected;
+            }, 1000);
+        }
+    }, [selected]);
+
     return (
-        <Form onSubmit={onSubmit}>
-            <Form.Group>
-                <Form.Dropdown
-                    placeholder="Start typing or click arrow"
-                    search
-                    selection
-                    options={data}
-                    loading={loading}
-                    onSearchChange={(e, { searchQuery }) =>
-                        setSearchTerm(searchQuery)
-                    }
-                    onChange={(e, { value }) => select(value)}
-                    style={{ width: '200px' }}
-                />
-                <Form.Button
-                    content="Go"
-                    type="submit"
-                    disabled={false === selected}
-                    loading={processing}
-                />
-            </Form.Group>
-        </Form>
+        <Search
+            loading={loading}
+            onResultSelect={handleResultSelect}
+            onSearchChange={handleSearchChange}
+            results={results}
+            value={value}
+            defaultValue={null}
+        />
     );
 };
 
