@@ -1,0 +1,292 @@
+{
+    "name": "prc-block/chart-builder",
+    "category": "layout",
+    "parent": ["prc-block/chart-builder-data-wrapper"],
+    "attributes": {
+        "chartData": {
+            "type": "string"
+        },
+        "chartType": {
+            "type": "string",
+            "default": "bar"
+        },
+        "chartOrientation": {
+            "type": "string",
+            "default": "vertical"
+        },
+        "width": {
+            "type": "integer",
+            "default": 640
+        },
+        "height": {
+            "type": "integer",
+            "default": 400
+        },
+        "paddingTop": {
+            "type": "integer",
+            "default": 20
+        },
+        "paddingLeft": {
+            "type": "integer",
+            "default": 60
+        },
+        "paddingBottom": {
+            "type": "integer",
+            "default": 20
+        },
+        "paddingRight": {
+            "type": "integer",
+            "default": 0
+        },
+        "sortOrder": {
+            "type": "string",
+            "default": "none"
+        },
+        "colorLabel": {
+            "type": "string"
+        },
+        "colorValue": {
+            "type": "string",
+            "default": "general"
+        },
+        "customColors": {
+            "type": "array",
+            "default": []
+        },
+        "xAxisActive": {
+            "type": "boolean",
+            "default": true
+        },
+        "xLabel": {
+            "type": "string",
+            "default": null
+        },
+        "xMinDomain": {
+            "type": "number",
+            "default": 0
+        },
+        "xMaxDomain": {
+            "type": "number",
+            "default": 100
+        },
+        "xDomainPadding": {
+            "type": "number",
+            "default": 50
+        },
+        "xTickNum": {
+            "type": "integer",
+            "default": 5
+        },
+        "xTickExact": {
+            "type": "string",
+            "default": ""
+        },
+        "xScale": {
+            "type": "string",
+            "default": "linear"
+        },
+        "xScaleFormat": {
+            "type": "string",
+            "default": "yyyy"
+        },
+        "yAxisActive": {
+            "type": "boolean",
+            "default": true
+        },
+        "yLabel": {
+            "type": "string",
+            "default": null
+        },
+        "yScale": {
+            "type": "string",
+            "default": "linear"
+        },
+        "yScaleFormat": {
+            "type": "string",
+            "default": "yyyy"
+        },
+        "yMinDomain": {
+            "type": "number",
+            "default": 0
+        },
+        "yMaxDomain": {
+            "type": "number",
+            "default": 100
+        },
+        "yDomainPadding": {
+            "type": "number",
+            "default": 20
+        },
+        "showYMinDomainLabel": {
+            "type": "boolean",
+            "default": false
+        },
+        "yTickNum": {
+            "type": "integer",
+            "default": 5
+        },
+        "yTickExact": {
+            "type": "string",
+            "default": ""
+        },
+        "barWidth": {
+            "type": "integer",
+            "default": 50
+        },
+        "barGroupOffset": {
+            "type": "integer",
+            "default": 20
+        },
+        "barLabelPosition": {
+            "type": "string",
+            "default": "inside"
+        },
+        "barLabelCutoff": {
+            "type": "number",
+            "default": 10
+        },
+        "barLabelCutoffMobile": {
+            "type": "number",
+            "default": 5
+        },
+        "lineInterpolation": {
+            "type": "string",
+            "default": "linear"
+        },
+        "lineStrokeWidth": {
+            "type": "integer",
+            "default": 3
+        },
+        "lineNodes": {
+            "type": "boolean",
+            "default": false
+        },
+        "lineNodeSize": {
+            "type": "integer",
+            "default": 3
+        },
+        "lineNodeStroke": {
+            "type": "integer",
+            "default": 3
+        },
+        "areaFillOpacity": {
+            "type": "number",
+            "default": 0.4
+        },
+        "tooltipActive": {
+            "type": "boolean",
+            "default": true
+        },
+        "tooltipFormat": {
+            "type": "string",
+            "default": "%1$s: %2$s"
+        },
+        "labelsActive": {
+            "type": "boolean",
+            "default": false
+        },
+        "labelPositionDX": {
+            "type": "integer",
+            "default": 0
+        },
+        "labelPositionDY": {
+            "type": "integer",
+            "default": 15
+        },
+        "labelCutoff": {
+            "type": "number",
+            "default": 10
+        },
+        "labelToFixedDecimal": {
+            "type": "integer",
+            "default": 0
+        },
+        "legendActive": {
+            "type": "boolean",
+            "default": false
+        },
+        "legendOrientation": {
+            "type": "string",
+            "default": "horizontal"
+        },
+        "legendTitle": {
+            "type": "string"
+        },
+        "legendOffsetX": {
+            "type": "integer",
+            "default": 0
+        },
+        "legendOffsetY": {
+            "type": "integer",
+            "default": 0
+        },
+        "legendMarkerStyle": {
+            "type": "string",
+            "default": "square"
+        },
+        "legendBorderStroke": {
+            "type": "string",
+            "default": "#231F20"
+        },
+        "legendFill": {
+            "type": "string",
+            "default": "white"
+        },
+        "metaTextActive": {
+            "type": "boolean",
+            "default": true
+        },
+        "metaTitle": {
+            "type": "string",
+            "default": "Title"
+        },
+        "metaSubtitle": {
+            "type": "string",
+            "default": "Subtitle"
+        },
+        "metaNote": {
+            "type": "string",
+            "default": "Note: This is a note."
+        },
+        "metaSource": {
+            "type": "string",
+            "default": "Source: This is your source."
+        },
+        "metaTag": {
+            "type": "string",
+            "default": "PEW RESEARCH CENTER"
+        }
+    },
+    "supports": {
+        "html": false,
+        "inserter": false
+    },
+    "styles": [
+        {
+            "name": "bar",
+            "label": "Bar",
+            "isDefault": true
+        },
+        {
+            "name": "stacked-bar",
+            "label": "Stacked Bar",
+            "isDefault": true
+        },
+        {
+            "name": "line",
+            "label": "Line"
+        },
+        {
+            "name": "scatter",
+            "label": "Scatter"
+        },
+        {
+            "name": "pie",
+            "label": "Pie"
+        },
+        {
+            "name": "area",
+            "label": "Area"
+        }
+    ]
+}

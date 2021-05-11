@@ -62,7 +62,8 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/grid/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/row/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/column/index.php';
-
+			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder-data-wrapper/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/cover/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';

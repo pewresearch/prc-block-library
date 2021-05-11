@@ -28,6 +28,9 @@ module.exports = {
             entry: {
                 collapsible: './src/collapsible/index.js',
                 column: './src/column/index.js',
+                'chart-builder': './src/chart-builder/index.js',
+                'chart-builder-wrapper':
+                    './src/chart-builder-data-wrapper/index.js',
                 cover: './src/cover/index.js',
                 grid: './src/grid/index.js',
                 group: './src/group/index.js',
@@ -93,6 +96,7 @@ module.exports = {
             name: 'frontend',
             entry: {
                 collapsible: './src/collapsible/frontend.js',
+                'chart-builder': './src/chart-builder/frontend.js',
                 cover: './src/cover/frontend.js',
                 'mailchimp-form': './src/mailchimp-form/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
