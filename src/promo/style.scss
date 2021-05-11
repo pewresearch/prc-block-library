@@ -137,9 +137,11 @@ $icon-width: 45px;
           flex-shrink: 1;
           flex-basis: 300px;
         }
+        &.has-icon .action {
+          padding-left: 65px;
+        }
         .action {
           flex-basis: 100%;
-          padding-left: 65px;
           .wp-block-prc-block-mailchimp-form {
             margin-left: 0;
           }

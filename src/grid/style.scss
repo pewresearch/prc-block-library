@@ -29,8 +29,8 @@ div.wp-block[data-type="prc-block/grid"] > .block-editor-block-list__layout > .w
 div.wp-block[data-type="prc-block/grid"] .block-editor-block-list__layout:not(.ui.grid) div.wp-block[data-type="prc-block/row"]:not(.has-placeholder),
 div.wp-block[data-type="prc-block/grid"] .block-editor-block-list__layout.ui.grid div.wp-block[data-type="prc-block/row"],
 div.wp-block[data-type="prc-block/grid"] > .ui.grid > .wp-block.block-list-appender {
-  max-width: calc(100% + 2rem)!important;
-  width: calc(100% + 2rem)!important;
+  max-width: calc(100% + 3rem)!important;
+  width: calc(100% + 3rem)!important;
 }
 // Make all blocks inside a column take up the width and not exceed the column width.
 div.wp-block[data-type="prc-block/column"],

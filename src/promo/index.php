@@ -31,17 +31,24 @@ class Promo extends PRC_Block_Library {
 				'icon'            => '',
 			)
 		);
+		$has_description    = '' !== $attributes['description'] && '<p></p>' !== $attributes['description'];
+		$has_icon           = ! empty( $attributes['icon'] );
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'    => md5( wp_json_encode( $attributes ) ),
-				'class' => classnames( 'wp-block-prc-block-promo', $attributes['className'], array( 'sans-serif' => $attributes['sansSerif'] ) ),
+				'class' => classnames(
+					'wp-block-prc-block-promo',
+					$attributes['className'],
+					array(
+						'sans-serif' => $attributes['sansSerif'],
+						'has-icon'   => $has_icon,
+					) 
+				),
 				'style' => 'border-color: ' . $attributes['borderColor'] . '; background-color: ' . $attributes['backgroundColor'],
 			)
 		);
 		$heading_tag        = 3 === $attributes['headingLevel'] ? 'h3' : 'h2';
 		$heading_tag        = $heading_tag . ' class=' . classnames( array( 'sans-serif' => $attributes['sansSerif'] ) );
-		$has_description    = '' !== $attributes['description'] && '<p></p>' !== $attributes['description'];
-		$has_icon           = ! empty( $attributes['icon'] );
 		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		ob_start();
 		// print_r( $block );

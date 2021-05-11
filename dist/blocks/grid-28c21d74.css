@@ -1,0 +1,21 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 0.1.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+div.wp-block[data-type="prc-block/grid"],div.wp-block[data-type="prc-block/grid"]>.ui.grid>.wp-block.block-list-appender,div.wp-block[data-type="prc-block/grid"]>.wp-block.block-list-appender{margin-left:auto;margin-right:auto;margin-top:0;max-width:1127px !important;width:100%}div.wp-block[data-type="prc-block/grid"] .block-editor-block-list__block{margin-top:inherit}div.wp-block[data-type="prc-block/grid"]>.ui.grid>.wp-block.block-list-appender>.components-button,div.wp-block[data-type="prc-block/grid"]>.block-editor-block-list__layout>.wp-block.block-list-appender>.components-button{background-color:#f9f9f9;flex-direction:row}div.wp-block[data-type="prc-block/grid"]>.ui.grid>.wp-block.block-list-appender>.components-button:after,div.wp-block[data-type="prc-block/grid"]>.block-editor-block-list__layout>.wp-block.block-list-appender>.components-button:after{display:inline;content:'Add Row'}div.wp-block[data-type="prc-block/grid"] .block-editor-block-list__layout:not(.ui.grid) div.wp-block[data-type="prc-block/row"]:not(.has-placeholder),div.wp-block[data-type="prc-block/grid"] .block-editor-block-list__layout.ui.grid div.wp-block[data-type="prc-block/row"],div.wp-block[data-type="prc-block/grid"]>.ui.grid>.wp-block.block-list-appender{max-width:calc(100% + 3rem) !important;width:calc(100% + 3rem) !important}div.wp-block[data-type="prc-block/column"],div.wp-block[data-type="prc-block/column"]>.wp-block{max-width:100% !important}
+
+
+/*# sourceMappingURL=grid-28c21d74.css.map*/

@@ -146,7 +146,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
     const style = { borderColor, backgroundColor };
 
     const blockProps = useBlockProps({
-        className: classnames(className), // wp-block-prc-block-promo
+        className: classnames(className, { 'has-icon': hasIcon }), // wp-block-prc-block-promo
         style,
     });
 

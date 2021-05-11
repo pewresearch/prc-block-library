@@ -100,6 +100,24 @@ registerBlockVariation('core/group', {
     ],
 });
 
+registerBlockVariation('core/group', {
+    name: 'segment',
+    title: __('Segment'),
+    description: __('A Group block in the "segment" format with a heading.'),
+    attributes: {
+        className: 'is-style-segment ui segment',
+    },
+    innerBlocks: [
+        [
+            'core/heading',
+            {
+                level: 4,
+                placeholder: 'Subscribe to our topical newsletters...',
+            },
+        ],
+    ],
+});
+
 /**
  * Add support for left and right alignment, and transform support from callout to group.
  *
