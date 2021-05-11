@@ -120,6 +120,9 @@ class WP_Query_Block extends PRC_Block_Library {
 		?>
 		<?php
 		if ( $query->have_posts() ) {
+			if ( true === $as_columns ) {
+				echo '<div class="ui equal width stackable divided fitted grid">';
+			}
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
@@ -169,6 +172,9 @@ class WP_Query_Block extends PRC_Block_Library {
 					$block = true === $as_columns ? '<div class="column">' . $block . '</div>' : $block;
 					echo wp_kses( $block, 'post' );                 
 				}
+			}
+			if ( true === $as_columns ) {
+				echo ' </div > ';
 			}
 		}
 		wp_reset_postdata();
