@@ -7,7 +7,7 @@ const KickerDisplay = ({ label = 'Report', date }) => {
         return moment(dateString).format('MMM D, YYYY');
     };
 
-    const labelSlug = label.replace(/\s+/g, '-').toLowerCase();
+    const labelSlug = null !== label ? label.replace(/\s+/g, '-').toLowerCase() : 'report';
 
     const classes = classNames(labelSlug, 'label');
 
