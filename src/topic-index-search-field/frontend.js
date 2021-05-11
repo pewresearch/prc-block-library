@@ -25,7 +25,7 @@ const TopicSearchField = ({ restrictToTermId = 0 }) => {
     const [loading, toggleLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selected, select] = useState(false);
-    
+
     useEffect(() => {
         const args = { per_page: 25 };
         if ('' !== searchTerm) {
