@@ -38,12 +38,14 @@ module.exports = {
                 'mailchimp-form': './src/mailchimp-form/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
+                page: './src/page/index.js',
                 'post-bylines': './src/post-bylines/index.js',
                 'post-title': './src/post-title/index.js',
                 promo: './src/promo/index.js',
                 'promo-rotator': './src/promo-rotator/index.js',
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
+                staff: './src/staff/index.js',
                 table: './src/table/index.js',
                 'tabs-controller': './src/tabs/controller/index.js',
                 'tabs-menu': './src/tabs/menu/index.js',
@@ -70,7 +72,7 @@ module.exports = {
                 'topic-index-search-field':
                     './src/topic-index-search-field/index.js',
                 'wp-query': './src/wp-query/index.js',
-                'wp-object': './src/wp-object/index.js',
+                // 'wp-object': './src/wp-object/index.js',
             },
             webpackConfig: (config, merge, appDir, isDev) => {
                 // create a new module.rules for svg-inline-loader
@@ -146,12 +148,6 @@ module.exports = {
             name: 'pullquote',
             entry: {
                 main: './src/pullquote/index.js',
-            },
-        },
-        {
-            name: 'staff',
-            entry: {
-                main: './src/staff/index.js',
             },
         },
         {

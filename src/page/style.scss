@@ -1,0 +1,32 @@
+$borderColor: rgba(34, 36, 38, 0.15);
+$itemSpacing: 0em 0em 24px 0em;
+
+.ui.page {
+    font-family: franklin-gothic-urw,Verdana,Geneva,sans-serif!important;
+    border-bottom: 1px solid $borderColor;
+    padding: $itemSpacing;
+    margin: $itemSpacing;
+    .image {
+        margin-bottom: 20px;
+        img {
+            display: block;
+            max-width: 100%;
+        }
+    }
+    a {
+        color: #2A2A2A;
+    }
+    .header {
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        margin-bottom: 20px;
+    }
+    .description {
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+    }
+}

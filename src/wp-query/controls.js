@@ -3,13 +3,8 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { closeSmall } from '@wordpress/icons';
 import { Fragment, useState, useEffect } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
-import {
-    InspectorControls,
-    __experimentalLinkControl as LinkControl,
-} from '@wordpress/block-editor';
+import { InspectorControls } from '@wordpress/block-editor';
 import {
     Button,
     HorizontalRule,
