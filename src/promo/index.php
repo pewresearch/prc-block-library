@@ -17,7 +17,7 @@ class Promo extends PRC_Block_Library {
 		}
 	}
 
-	public function render_block_callback( $attributes, $content ) {
+	public function render_block_callback( $attributes, $content, $block ) {
 		$attributes         = wp_parse_args(
 			$attributes,
 			array(
@@ -44,6 +44,7 @@ class Promo extends PRC_Block_Library {
 		$has_icon           = ! empty( $attributes['icon'] );
 		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		ob_start();
+		// print_r( $block );
 		?>
 		<div <?php echo $wrapper_attributes; ?>>
 			<?php
@@ -69,7 +70,7 @@ class Promo extends PRC_Block_Library {
 
 	public function register_block() {
 		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-block-editor', 'wp-data', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue              = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

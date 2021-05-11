@@ -11,7 +11,6 @@ import { registerBlockType } from '@wordpress/blocks';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
-import deprecated from './deprecated';
 import transforms from './transforms';
 
 const { name } = metadata;
@@ -58,28 +57,8 @@ const settings = {
                 imageSize: 'A3',
             },
         },
-        // Legacy variations to be removed after the new homepage launch
-        {
-            name: 'story-item-homepage-small',
-            title: __('Homepage Story Item (Small)'),
-            attributes: {
-                imageSize: 'legacy-260-173',
-            },
-        },
-        {
-            name: 'story-item-homepage-large',
-            title: __('Homepage Story Item (Large)'),
-            attributes: {
-                className: 'is-style-right',
-                headerSize: 1,
-                enableEmphasis: true,
-                imageSlot: 'right',
-                imageSize: 'legacy-260',
-            },
-        },
     ],
     transforms,
-    deprecated,
     edit,
     save,
 };

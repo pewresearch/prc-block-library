@@ -26,8 +26,7 @@ class WP_Query_Block extends PRC_Block_Library {
 		);
 	}
 
-	private function parse_tax_query( $tax_query ) {
-		error_log( 'parse_tax_query' . print_r( $tax_query, true ) );
+	public function parse_tax_query( $tax_query ) {
 		$parsed             = array();
 		$parsed['relation'] = array_key_exists( 'relation', $tax_query ) ? $tax_query['relation'] : 'OR';
 		foreach ( $tax_query['data'] as $tax_arg ) {
@@ -40,7 +39,7 @@ class WP_Query_Block extends PRC_Block_Library {
 		return $parsed;
 	}
 
-	public function construct_query_from_attributes( $attributes ) {
+	public function construct_query_from_attributes( $attributes, $exclude_post_ids = array() ) {
 		$args = array(
 			'post_type'      => 'stub',
 			'posts_per_page' => $attributes['postsPerPage'],
@@ -48,7 +47,11 @@ class WP_Query_Block extends PRC_Block_Library {
 			'post_status'    => 'publish',
 			'tax_query'      => $this->parse_tax_query( $attributes['taxQuery'] ),
 		);
-		error_log( 'construct_query_from_attributes' . print_r( $args, true ) );
+		
+		if ( ! empty( $exclude_post_ids ) && is_array( $exclude_post_ids ) ) {
+			$args['post__not_in'] = $exclude_post_ids;
+		}
+		error_log( 'args   ' . print_r( $args, true ) );
 		return new WP_Query( $args );
 	}
 
@@ -59,14 +62,16 @@ class WP_Query_Block extends PRC_Block_Library {
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
+				$post_id  = get_the_ID();
+				$terms    = wp_get_object_terms( $post_id, 'formats', array( 'fields' => 'names' ) );
+				$label    = array_shift( $terms );
 				$return[] = array(
-					'id'      => get_the_ID(),
+					'id'      => $post_id,
 					'title'   => get_the_title(),
-					'excerpt' => get_the_excerpt(),
+					'excerpt' => apply_filters( 'the_content', get_the_excerpt() ),
 					'date'    => get_the_date(),
 					'link'    => get_the_permalink(),
-					'label'   => 'Label',
-					// Image is now fetched by the story item itself from post id.
+					'label'   => $label,
 				);
 			}
 		}
@@ -82,18 +87,94 @@ class WP_Query_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_wp_query( $attributes, $content, $block ) {
-		$context = $block->context;
+		if ( is_admin() ) {
+			return $content;
+		}
+
+		$template = array(
+			// 'core/heading'         => array(
+			// 'level'      => 3,
+			// 'content'    => 'post_title',
+			// 'contentTag' => '<h3>',
+			// ),
+			// 'core/paragraph'       => array(
+			// 'content'    => 'post_excerpt',
+			// 'contentTag' => '<p>',
+			// ),
+			'prc-block/story-item' => array(
+				'inLoop'    => true,
+				'imageSize' => $attributes['storyItemImageSize'],
+				'imageSlot' => $attributes['storyItemImageSlot'],
+			),
+			
+		);
+		$template = apply_filters( 'prc-block-wp-query-template', $template );
+
+		$as_columns = array_key_exists( 'className', $attributes ) && 'is-style-columns' === $attributes['className'];
+
+		$exclude_post_ids = get_post_meta( $attributes['postId'], '_featured_posts', true );
+
+		$query = $this->construct_query_from_attributes( $attributes, $exclude_post_ids );
+	
 		ob_start();
-		print_r( $context );
-		$query = $this->construct_query_from_attributes( $attributes );
-		// We should get innerblocks from $block and treat
 		?>
-		<h1>Hello World</h1>
 		<?php
 		if ( $query->have_posts() ) {
+			if ( true === $as_columns ) {
+				echo '<div class="ui equal width stackable divided grid">';
+			}
 			while ( $query->have_posts() ) {
 				$query->the_post();
-				echo get_the_title();
+
+				foreach ( $template as $block_name => $block_attrs ) {
+					// If this is a story item use the helper function to gather up the correct default attributes.
+
+					$block = array(
+						'blockName' => $block_name,
+						'attrs'     => array(),
+					);
+					
+					if ( 'prc-block/story-item' === $block_name ) {
+						$block['attrs'] = prc_get_story_item(
+							get_the_ID(),
+							array_merge(
+								$block_attrs,
+								array(
+									'imageSize' => 'A3',
+									'postType'  => get_post_type(),
+								)
+							),
+							true
+						);
+						if ( $as_columns ) {
+							$block['attrs']['imageSlot'] = 'top';
+							$block['attrs']['className'] = 'is-style-top';
+						}
+					} else {
+						if ( array_key_exists( 'level', $block_attrs ) ) {
+							$block['attrs']['level'] = $block_attrs['level'];
+						}
+						if ( array_key_exists( 'content', $block_attrs ) ) {
+							$block['attrs']['content'] = get_post_field( $block_attrs['content'], get_the_ID(), 'raw' );
+							$block['innerBlocks']      = array();
+							$block['innerHtml']        = $block_attrs['contentTag'] . $block['attrs']['content'] . str_replace( '<', '</', $block_attrs['contentTag'] );
+							$block['innerContent']     = array(
+								$block['innerHtml'],
+							);
+						}
+					}
+
+					if ( empty( $block['attrs'] ) ) {
+						return; 
+					}
+
+					$block = render_block( $block );
+					$block = true === $as_columns ? '<div class="column">' . $block . '</div>' : $block;
+					echo wp_kses( $block, 'post' );                 
+				}
+			}
+			if ( true === $as_columns ) {
+				echo ' </div > ';
 			}
 		}
 		wp_reset_postdata();
@@ -114,7 +195,7 @@ class WP_Query_Block extends PRC_Block_Library {
 			return;
 		}
 		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

@@ -34,6 +34,13 @@ const setChartTypeByClassName = (className, setAttributes) => {
         setAttributes,
     );
     ifMatchSetAttribute(
+        'is-style-stacked-bar',
+        className,
+        'chartType',
+        'stacked-bar',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
         'is-style-line',
         className,
         'chartType',
@@ -74,6 +81,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
         paddingLeft,
         height,
         width,
+        sortOrder,
         colorValue,
         customColors,
         barWidth,
@@ -95,12 +103,14 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
         xScaleFormat,
         xMinDomain,
         xMaxDomain,
+        xDomainPadding,
         xTickNum,
         xTickExact,
         yAxisActive,
         yLabel,
         yMinDomain,
         yMaxDomain,
+        yDomainPadding,
         showYMinDomainLabel,
         yTickNum,
         yTickExact,
@@ -161,7 +171,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
             padding: 50,
             tickCount: xTickNum,
             tickValues: xTicks.length <= 1 ? null : getTicks(xTicks, xScale),
-            domainPadding: 50,
+            domainPadding: xDomainPadding,
         },
         yAxis: {
             ...masterConfig.yAxis,
@@ -178,7 +188,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
             ),
             tickCount: yTickNum,
             tickValues: yTicks.length <= 1 ? null : yTicks,
-            domainPadding: 20,
+            domainPadding: yDomainPadding,
             showZero: showYMinDomainLabel,
         },
         dataRender: {
@@ -187,6 +197,8 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
             yScale: 'linear',
             xFormat: xScaleFormat,
             yFormat: null,
+            sortKey: 'x',
+            sortOrder: sortOrder,
         },
         tooltip: {
             active: tooltipActive,
@@ -278,7 +290,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
     }
     // For now, let's force pie charts to only use the first array of data, as they can only contain one series of data by rule.
     // Passing addtl data will break tool (bad).
-
+    console.log({ attributes, config });
     if (tableJson) {
         switch (chartType) {
             case 'pie':

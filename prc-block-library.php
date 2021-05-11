@@ -31,28 +31,29 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use WPackio\Enqueue;
 
 class PRC_Block_Library {
+	/**
+	 * Easily accessible variable that points to the plugin filepath. 
+	 *
+	 * @var string
+	 */
 	public static $plugin_file = __FILE__;
+	/**
+	 * Version, change whenever you push a change to production otherwise script concatenation will break Gutenberg.
+	 *
+	 * @var string
+	 */
+	public static $version = '1.0.1';
+
 	/**
 	 * Registered wpackio assets
 	 *
 	 * @var array
 	 */
-	public $registered          = array();
-	public $enqueue             = false;
-	public $mailchimp_interests = false;
+	public $registered = array();
+	public $enqueue    = false;
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
-			add_action( 'init', array( $this, 'register_assets' ), 10 );
-			add_action( 'init', array( $this, 'register_blocks' ), 11 );
-			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
-
-			if ( class_exists( 'PRC_API_Mailchimp' ) ) {
-				$mailchimp                 = new PRC_API_Mailchimp( false );
-				$this->mailchimp_interests = $mailchimp->get_interests();
-			}
-
 			// @TODO Needs to be moved into shared wpack vendor outputs.
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
 
@@ -64,14 +65,21 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder-data-wrapper/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/cover/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-form/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/page/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo-rotator/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/separator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/staff/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/tabs/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree/index.php';
@@ -82,6 +90,13 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-search-field/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/wp-query/index.php';
+			// require_once plugin_dir_path( __FILE__ ) . '/src/wp-object/index.php';
+
+			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
+			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
+			add_action( 'init', array( $this, 'register_assets' ), 10 );
+			add_action( 'init', array( $this, 'register_blocks' ), 11 );
+			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 		}
 	}
 
@@ -140,34 +155,6 @@ class PRC_Block_Library {
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', __DIR__ . '/prc_blocks/' );
 
-		/** Card */
-		$this->registered['block']['prc-block/card'] = $enqueue->register(
-			'card',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Callout */
-		$this->registered['block']['prc-block/callout'] = $enqueue->register(
-			'callout',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
 		/** Chapter */
 		$this->registered['block']['prc-block/chapter'] = $enqueue->register(
 			'chapter',
@@ -206,69 +193,6 @@ class PRC_Block_Library {
 				'in_footer' => true,
 				'media'     => 'all',
 			)
-		);
-
-		/** Follow Us */
-		$this->registered['block']['prc-block/follow-us']    = $enqueue->register(
-			'follow-us',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/follow-us'] = $enqueue->register(
-			'follow-us',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => array_merge( $js_deps, array( 'wp-api-fetch' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Mailchimp Form */
-		$this->registered['block']['prc-block/mailchimp-form'] = $enqueue->register(
-			'mailchimp-form',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		$this->registered['frontend']['prc-block/mailchimp-form'] = $enqueue->register(
-			'mailchimp-form',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $js_deps, array( 'wp-api-fetch' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		// Legacy PHP compatability
-		add_filter(
-			'prc_block_mailchimp_form_frontend_shim',
-			function() {
-				return array(
-					'script' => array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['js'] )['handle'],
-					'style'  => array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['css'] )['handle'],
-				);
-			}
 		);
 
 		/** Mailchimp Opt Down Special Form */
@@ -325,46 +249,6 @@ class PRC_Block_Library {
 			)
 		);
 
-		/** Posts */
-		$this->registered['block']['prc-block/posts']    = $enqueue->register(
-			'posts',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $block_js_deps, array( 'moment' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/posts'] = $enqueue->register(
-			'posts',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array_merge( $js_deps, array( 'moment', 'wp-url', 'wp-api-fetch' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Staff */
-		$this->registered['block']['prc-block/staff'] = $enqueue->register(
-			'staff',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
 		/** Sub Title */
 		$this->registered['block']['prc-block/subtitle'] = $enqueue->register(
 			'subtitle',
@@ -388,23 +272,6 @@ class PRC_Block_Library {
 	 */
 	public function register_blocks() {
 
-		/** Card */
-		register_block_type(
-			'prc-block/card',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/card']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/card']['css'] )['handle'],
-			)
-		);
-
-		/** Callout */
-		register_block_type(
-			'prc-block/callout',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/callout']['js'] )['handle'],
-			)
-		);
-
 		/** Chapter */
 		register_block_type(
 			'prc-block/chapter',
@@ -422,65 +289,6 @@ class PRC_Block_Library {
 				'render_callback' => function( $attributes, $content, $block ) {
 					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/flip-card']['js'] )['handle'] );
 					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/flip-card']['css'] )['handle'] );
-					return $content;
-				},
-			)
-		);
-
-		/** Follow Us */
-		$follow_us_handle = $this->get_handle( 'prc-block/follow-us', 'js', 'block' );
-		wp_localize_script(
-			$follow_us_handle,
-			'prcFollowUsMailchimp',
-			array(
-				'interests' => $this->mailchimp_interests,
-			)
-		);
-		register_block_type(
-			'prc-block/follow-us',
-			array(
-				'editor_script'   => $follow_us_handle,
-				'render_callback' => function( $attributes, $content, $block ) {
-					$script_handle = array_pop( $this->registered['frontend']['prc-block/follow-us']['js'] )['handle'];
-					wp_localize_script(
-						$script_handle,
-						'prcFollowUsMailchimp',
-						array(
-							'interests' => $this->mailchimp_interests,
-						)
-					);
-					wp_enqueue_script( $script_handle );
-					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/follow-us']['css'] )['handle'] );
-					return $content;
-				},
-			)
-		);
-
-		/** Mailchimp Form */
-		$mailchimp_handle = $this->get_handle( 'prc-block/mailchimp-form', 'js' );
-		wp_localize_script(
-			$mailchimp_handle,
-			'prcMailchimpForm',
-			array(
-				'interests' => $this->mailchimp_interests,
-			)
-		);
-		register_block_type(
-			'prc-block/mailchimp-form',
-			array(
-				'editor_script'   => $mailchimp_handle,
-				'style'           => array_pop( $this->registered['block']['prc-block/mailchimp-form']['css'] )['handle'],
-				'render_callback' => function( $attributes, $content, $block ) {
-					$script_handle = array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['js'] )['handle'];
-					wp_localize_script(
-						$script_handle,
-						'prcMailchimpForm',
-						array(
-							'interests' => $this->mailchimp_interests,
-						)
-					);
-					wp_enqueue_script( $script_handle );
-					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/mailchimp-form']['css'] )['handle'] );
 					return $content;
 				},
 			)
@@ -512,35 +320,6 @@ class PRC_Block_Library {
 			'prc-block/pullquote',
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/pullquote']['js'] )['handle'],
-			)
-		);
-
-		/** Posts */
-		register_block_type(
-			'prc-block/posts',
-			array(
-				'editor_script'   => array_pop( $this->registered['block']['prc-block/posts']['js'] )['handle'],
-				'style'           => array_pop( $this->registered['block']['prc-block/posts']['css'] )['handle'],
-				'render_callback' => function( $attributes, $content, $block ) {
-					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/posts']['js'] )['handle'] );
-					$css = array_pop( $this->registered['frontend']['prc-block/posts']['css'] );
-					if ( is_array( $css ) ) {
-						$css_handle = array_key_exists( 'handle', $css ) ? $css['handle'] : false;
-						if ( false !== $css_handle ) {
-							wp_enqueue_style( $css_handle );
-						}
-					}
-					return $content;
-				},
-			)
-		);
-
-		/** Staff */
-		register_block_type(
-			'prc-block/staff',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/staff']['js'] )['handle'],
-				'style'         => array_pop( $this->registered['block']['prc-block/staff']['css'] )['handle'],
 			)
 		);
 
@@ -591,25 +370,6 @@ class PRC_Block_Library {
 						},
 					),
 					'labelTaxonomy' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-				),
-				'permission_callback' => function () {
-					return true;
-				},
-			)
-		);
-
-		register_rest_route(
-			'prc-api/v2',
-			'/blocks/helpers/get-staff-by-url',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_staff_post_by_post_url_restfully' ),
-				'args'                => array(
-					'url' => array(
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_string( $param );
 						},
@@ -687,36 +447,6 @@ class PRC_Block_Library {
 		wp_reset_postdata();
 		restore_current_blog();
 		return $return;
-	}
-
-	public function get_staff_post_by_post_url_restfully( \WP_REST_Request $request ) {
-		$url = $request->get_param( 'url' );
-
-		switch_to_blog( 1 );
-
-		$term_slug = basename( $url );
-		$term      = get_term_by( 'slug', $term_slug, 'bylines' );
-
-		$post_id = get_term_meta( $term->term_id, 'staff_post_id', true );
-		if ( 0 === $post_id ) {
-			restore_current_blog();
-			return new WP_Error( '500', 'Could not find staff/byline term for url given: ' . $url );
-		}
-
-		$staff_post = get_post( $post_id );
-
-		restore_current_blog();
-
-		if ( false === $staff_post ) {
-			return new WP_Error( '500', 'No staff post found for url given: ' . $url );
-		}
-
-		return array(
-			'id'    => $staff_post->ID,
-			'title' => $staff_post->post_title,
-			'label' => get_post_meta( $staff_post->ID, 'job_title', true ),
-			'image' => get_the_post_thumbnail_url( $staff_post->ID, 'large' ),
-		);
 	}
 
 }

@@ -2,17 +2,26 @@
 	"name": "prc-block/staff",
 	"category": "layout",
 	"attributes": {
-		"name": {
+		"postId": {
+			"type": "integer"
+        },
+		"title": {
 			"type": "string"
         },
-        "jobTitle": {
+		"url": {
 			"type": "string"
         },
-        "image": {
-			"type": "string"
+		"enableJobTitle": {
+			"type": "boolean",
+			"default": true
         },
-        "link": {
-			"type": "string"
+		"enableFindAnExpert": {
+			"type": "boolean",
+			"default": false
         }
+	},
+	"supports": {
+		"html": false,
+		"align": false
 	}
 }

@@ -19,6 +19,7 @@ const getProps = elm => {
         headerSize: 2,
         enableEmphasis: false,
         enableHeader: true,
+        enableMeta: true,
         enableAltHeaderWeight: false,
         enableExcerpt: true,
         enableExcerptBelow: false,
@@ -76,6 +77,22 @@ const getProps = elm => {
             props.enableEmphasis = true;
         }
     }
+    if (elm.getAttribute('data-meta')) {
+        if (
+            '1' === elm.getAttribute('data-meta') ||
+            'true' === elm.getAttribute('data-meta')
+        ) {
+            props.enableMeta = true;
+        } else if (
+            '0' === elm.getAttribute('data-meta') ||
+            'false' === elm.getAttribute('data-meta') ||
+            '' === elm.getAttribute('data-meta')
+        ) {
+            props.enableMeta = false;
+        }
+    } else {
+        props.enableMeta = false;
+    }
     if (elm.getAttribute('data-breakingnews')) {
         if (
             '1' === elm.getAttribute('data-breakingnews') ||
@@ -100,6 +117,7 @@ const getProps = elm => {
             props.enableExcerptBelow = true;
         }
     }
+    console.log('story item props:', props);
     return props;
 };
 

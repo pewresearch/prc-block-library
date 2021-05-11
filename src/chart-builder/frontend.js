@@ -58,7 +58,7 @@ const getConfig = (el) => {
             padding: 50,
             tickCount: json.xTickNum,
             tickValues: xTicks.length <= 1 ? null : getTicks(xTicks, xScale),
-            domainPadding: 50,
+            domainPadding: json.xDomainPadding,
         },
         yAxis: {
             ...yAxis,
@@ -76,7 +76,7 @@ const getConfig = (el) => {
                 'y',
                 json.chartOrientation,
             ),
-            domainPadding: 20,
+            domainPadding: json.yDomainPadding,
             showZero: json.showYMinDomainLabel,
         },
         dataRender: {
@@ -85,6 +85,8 @@ const getConfig = (el) => {
             yScale: json.yScale,
             xFormat: json.xScaleFormat,
             yFormat: json.yScaleFormat,
+            sortKey: 'x',
+            sortOrder: json.sortOrder,
             // categories: categoryArray,
         },
         tooltip: {
@@ -170,7 +172,7 @@ const arrayToDataObj = (arr, scale, type) => {
     const [, ...body] = arr;
     const seriesData = [];
     const scaleData = (data, scale) => {
-        if (type === 'bar') {
+        if (type === 'bar' || type === 'stacked-bar' || type === 'pie') {
             return data;
         }
         if (scale === 'time') {

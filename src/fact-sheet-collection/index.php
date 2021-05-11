@@ -198,7 +198,7 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
 			self::$block_slug,
 			'frontend',
@@ -226,7 +226,7 @@ class PRC_FactSheet_Collection extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'lodash', 'wp-components' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$block_assets = $enqueue->register(
 			self::$block_slug,

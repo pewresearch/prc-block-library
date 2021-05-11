@@ -1,29 +1,72 @@
 
 $itemSpacing: 0em 0em 1rem 0em;
 $dividedBorder: 1px solid rgba(34, 36, 38, 0.15);
-$imageWidth: 86px;
+$imageWidth: 76px;
+$headerColor: #2a2a2a;
+$metaColor: #565656;
 
-.wp-block-prc-block-staff {
+.ui.staff {
+    font-family: franklin-gothic-urw,Verdana,Geneva,sans-serif!important;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    color: black!important;
+    
     text-decoration: none!important;
+    
     margin-bottom: 0;
     padding: $itemSpacing;
     &:not(:last-of-type) {
         margin: $itemSpacing;
         border-bottom: $dividedBorder;
     }
+
     &:hover {
         color: rgba(0,0,0,0.7);
-        h3 {
+        .header {
             text-decoration: underline;
         }
     }
-    & > div.profile-image {
+
+    .header {
+        color: $headerColor;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 21px;
+        margin-bottom: 5px;
+        a {
+            color: $headerColor;
+        }
+    }
+
+    .job-title {
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 23px;
+        letter-spacing: 0em;
+        text-transform: uppercase;
+        color: $metaColor;
+    }
+
+    .extra {
+        text-transform: uppercase;
+        a {
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 33px;
+            letter-spacing: 0.02em;
+            text-align: left;
+
+        }
+    }
+
+    & > .image {
         width: $imageWidth;
         padding-right: 1em;
+        & > img {
+            max-width: 100%;
+        }
     }
 }
 

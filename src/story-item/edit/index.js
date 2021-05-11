@@ -78,6 +78,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         enableExtra,
         enableBreakingNews,
         enableProgramsTaxonomy,
+        enableMeta,
         className,
     } = attributes;
 
@@ -161,7 +162,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 
                 <Item.Content>
                     <Header
-                        enabled={enableHeader}
+                        enabled={{enableHeader, enableMeta}}
                         title={title}
                         date={date}
                         label={label}
@@ -178,7 +179,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                         <Description
                             enabled={enableExcerpt}
                             content={excerpt}
-                            sansSerif={!enableHeader}
+                            sansSerif={!enableMeta || !enableHeader}
                             setAttributes={dataHandler}
                         />
                     )}

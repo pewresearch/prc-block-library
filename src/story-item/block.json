@@ -77,6 +77,14 @@
         "enableProgramsTaxonomy": {
             "type": "boolean",
             "default": false
+        },
+        "enableMeta": {
+            "type": "boolean",
+            "default": true
+        },
+        "inLoop": {
+            "type": "boolean",
+            "default": false
         }
 	},
 	"usesContext": ["prc-block/wp-query"],

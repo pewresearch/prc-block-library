@@ -1,10 +1,16 @@
+/**
+ * WordPress dependencies
+ */
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, PanelRow, SelectControl } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
-import MailchimpForm from './component';
 
-const { interests } = window.prcMailchimpForm;
+/**
+ * Internal dependencies
+ */
+import MailchimpForm from './component';
+import interests from './interests';
 
 const SidebarControls = ({ interest, setAttributes }) => {
     return (

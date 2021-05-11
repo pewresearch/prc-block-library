@@ -12,6 +12,21 @@ class Row_Block extends PRC_Block_Library {
 		}
 	}
 
+	public function has_section_heading( $block ) {
+		$inner_blocks = array_pop( $block->parsed_block['innerBlocks'] );
+		if ( 'prc-block/column' !== $inner_blocks['blockName'] ) {
+			return false;
+		}
+		
+		$first_block = $inner_blocks['innerBlocks'][0];
+
+		if ( 'core/heading' !== $first_block['blockName'] && 'is-style-section-header' !== $first_block['attrs']['className'] ) {
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * Render callback for prc-block/row
 	 *
@@ -21,13 +36,17 @@ class Row_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_row( $attributes, $content, $block ) {
+		$as_row = array_key_exists( 'asRow', $attributes ) ? $attributes['asRow'] : false;
+		
 		$row_classes = array(
 			'ui',
-			'grid',
-			'stackable',
 			'equal width' => $attributes['equal'],
 			'divided'     => $attributes['divided'],
+			'stackable'   => array_key_exists( 'stackable', $attributes ) ? $attributes['stackable'] : false,
+			'grid'        => ! $as_row,
+			'row'         => $as_row,
 		);
+		$row_classes = apply_filters( 'prc_grid_row_classes', $row_classes, $block->parsed_block );
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $row_classes ) ); ?>">
@@ -45,7 +64,7 @@ class Row_Block extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

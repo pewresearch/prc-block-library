@@ -1,128 +1,125 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress Dependencies
  */
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
-import {
-    InnerBlocks,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
-    useBlockProps,
-} from '@wordpress/block-editor';
-import { createBlock } from '@wordpress/blocks';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
+import { isInteger } from 'lodash';
+import { StoryItem } from '../_shared';
 import Controls from './controls';
 
-const ALLOWED = ['prc-block/story-item'];
+const Posts = ({ posts, attributes }) => {
+    if (false === posts) {
+        return <Fragment />;
+    }
 
-const initStoryBlock = (item, disableImage, labelTaxonomy) => {
-    const args = {
-        title: item.title,
-        image: item.image,
-        excerpt: item.excerpt,
-        link: item.link,
-        label: item.label,
-        date: item.date,
-        extra: '',
-        // Post Meta Data:
-        postID: item.id,
-        // Item Options
-        emphasis: false,
-        // Image Position:
-        isChartArt: false,
-        imageSlot: 'left',
-        imageSize: 'A3',
-        horizontal: true,
-        stacked: false,
-        // Misc Toggles:
-        enableHeader: true,
-        enableExcerpt: true,
-        enableExtra: false,
-        enableProgramsTaxonomy: false,
-        headerSize: 2,
-        className: 'is-style-left',
-    };
-    if (true === disableImage) {
-        args.imageSlot = 'disabled';
-        args.className = 'is-style-disabled';
-        args.enableExcerpt = false;
-    }
-    if ('programs' === labelTaxonomy) {
-        args.enableProgramsTaxonomy = true;
-    }
-    return createBlock('prc-block/story-item', args);
+    const {
+        labelTaxonomy,
+        storyItemImageSize,
+        storyItemImageSlot,
+        className,
+    } = attributes;
+
+    const isPubListing = 'is-style-pub-listing' === className;
+    const isColumns = 'is-style-columns' === className;
+
+    return (
+        <Fragment>
+            {posts.map(p => {
+                let imageSlot = 'disabled' === storyItemImageSlot;
+                if (isColumns && 'left' === imageSlot) {
+                    imageSlot = 'top';
+                }
+                const args = {
+                    title: p.title,
+                    image: p.image,
+                    excerpt: p.excerpt,
+                    link: p.link,
+                    label: p.label,
+                    date: p.date,
+                    extra: '',
+                    // Post Meta Data:
+                    postID: p.id,
+                    // Item Options
+                    emphasis: false,
+                    // Image Position:
+                    isChartArt: false,
+                    imageSlot,
+                    imageSize: storyItemImageSize,
+                    horizontal: isPubListing,
+                    stacked: isColumns,
+                    // Misc Toggles:
+                    enableHeader: true,
+                    enableMeta: true,
+                    enableExcerpt: true,
+                    enableExtra: false,
+                    inLoop: isPubListing,
+                    enableProgramsTaxonomy: 'programs' === labelTaxonomy,
+                    headerSize: 2,
+                    className:
+                        'left' === storyItemImageSlot
+                            ? 'is-style-left'
+                            : 'is-style-disabled',
+                };
+                if (isColumns) {
+                    return (
+                        <div className="column">
+                            <StoryItem {...args} />
+                        </div>
+                    );
+                }
+                return <StoryItem {...args} />;
+            })}
+        </Fragment>
+    );
 };
 
-const edit = ({ attributes, setAttributes, className, clientId }) => {
-    const { pinned, postsPerPage, labelTaxonomy, disableImage } = attributes;
-
-    const blockProps = useBlockProps({ className });
-
-    const innerBlocksProps = useInnerBlocksProps({
-        allowedBlocks: ALLOWED,
-        orientation: 'vertical', // We should allow toggling this based on layout.
-        renderAppender: InnerBlocks.ButtonBlockAppender,
-    });
+const edit = ({ attributes, setAttributes, clientId }) => {
+    const { className } = attributes;
 
     const [posts, setPosts] = useState(false);
 
-    const { replaceInnerBlocks } = useDispatch('core/block-editor');
+    const classNames = classnames({
+        'ui equal width divided grid': 'is-style-columns' === className,
+        'ui link divided items': 'is-style-pub-listing' === className,
+    });
 
-    const { innerBlocks, hasInnerBlocks } = useSelect(
+    const blockProps = useBlockProps({ className: classNames });
+
+    const { postId } = useSelect(
         select => {
-            const blocks = select('core/block-editor').getBlocks(clientId);
             return {
-                innerBlocks: blocks,
-                hasInnerBlocks: 0 < blocks.length,
+                postId: select('core/editor').getCurrentPostId(),
             };
         },
         [clientId],
     );
 
-    // Go create story item blocks from posts fetched
     useEffect(() => {
-        if (false !== posts) {
-            let tmp = [];
-            posts.forEach(item => {
-                tmp.push(initStoryBlock(item, disableImage, labelTaxonomy));
-            });
-
-            const toKeep = [];
-            JSON.parse(pinned).forEach(postId => {
-                const toPush = innerBlocks.filter(e => {
-                    const toCheck = tmp.filter(
-                        f => f.attributes.postID === postId,
-                    );
-                    return (
-                        e.attributes.postID === postId && 0 >= toCheck.length
-                    );
-                });
-                toPush.forEach(b => toKeep.push(b));
-            });
-
-            const allowedPerPage = postsPerPage - toKeep.length;
-
-            tmp = tmp.filter((e, index) => {
-                return index <= allowedPerPage - 1;
-            });
-
-            const toInsert = toKeep.concat(tmp);
-
-            replaceInnerBlocks(clientId, toInsert);
+        if (false !== posts && isInteger(postId)) {
+            setAttributes({ postId });
         }
-    }, [posts]);
+    }, [postId, posts]);
 
     return (
         <div {...blockProps}>
             <Controls
                 attributes={attributes}
                 setAttributes={setAttributes}
+                posts={posts}
                 setPosts={setPosts}
                 clientId={clientId}
             />
-            {true === hasInnerBlocks && <div {...innerBlocksProps} />}
+            <Posts posts={posts} attributes={attributes} />
         </div>
     );
 };

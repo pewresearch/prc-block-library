@@ -3,18 +3,31 @@
   "main.js.map": "callout/main-0836f90b.js.map",
   "runtime.js": "callout/runtime-e4d7f9d1.js",
   "runtime.js.map": "callout/runtime-e4d7f9d1.js.map",
+<<<<<<< HEAD
   "vendors~main.js": "callout/vendors~main-5b30f98e.js",
   "vendors~main.js.map": "callout/vendors~main-5b30f98e.js.map",
+=======
+  "vendors~main.js": "callout/vendors~main-5db1adbb.js",
+  "vendors~main.js.map": "callout/vendors~main-5db1adbb.js.map",
+>>>>>>> release/3.9.6
   "wpackioEp": {
     "main": {
       "js": [
         "callout/runtime-e4d7f9d1.js",
+<<<<<<< HEAD
         "callout/vendors~main-5b30f98e.js",
+=======
+        "callout/vendors~main-5db1adbb.js",
+>>>>>>> release/3.9.6
         "callout/main-0836f90b.js"
       ],
       "js.map": [
         "callout/runtime-e4d7f9d1.js.map",
+<<<<<<< HEAD
         "callout/vendors~main-5b30f98e.js.map",
+=======
+        "callout/vendors~main-5db1adbb.js.map",
+>>>>>>> release/3.9.6
         "callout/main-0836f90b.js.map"
       ]
     }

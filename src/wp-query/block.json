@@ -3,27 +3,20 @@
 	"name": "prc-block/wp-query",
 	"category": "layout",
 	"attributes": {
-		"disableImage": {
-			"type": "boolean",
-			"default": false
-		},
-		"formatTermId": {
+		"postId": {
 			"type": "integer"
 		},
-		"labelTaxonomy": {
+		"storyItemImageSlot": {
 			"type": "string",
-			"default": "formats"
+			"default": "left"
 		},
-		"pinned": {
+		"storyItemImageSize": {
 			"type": "string",
-			"default": "[]"
+			"default": "A3"
 		},
 		"postsPerPage": {
 			"type": "integer",
 			"default": 5
-		},
-		"programTermId": {
-			"type": "integer"
 		},
 		"taxQuery": {
 			"type": "object",
@@ -33,7 +26,19 @@
 			}
 		}
 	},
-	"providesContext": {
-		"prc-block/wp-query": "pinned"
+	"styles": [
+		{
+			"name": "pub-listing",
+			"label": "Publication Listing",
+			"isDefault": true
+		},
+		{
+			"name": "columns",
+			"label": "As Columns"
+		}
+	],
+	"supports": {
+		"html": false,
+		"align": false
 	}
 }

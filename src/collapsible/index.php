@@ -21,7 +21,7 @@ class Collapsible extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps               = array( 'wp-dom-ready', 'wp-element', 'wp-i18n' );
-		$enqueue               = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', parent::$plugin_file );
+		$enqueue               = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$this->frontend_script = $enqueue->register(
 			'frontend',
 			'collapsible',
@@ -53,14 +53,14 @@ class Collapsible extends PRC_Block_Library {
 
 	public function render_collapsible_placeholder( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
-		$class_names = explode(' ', $attributes['className']);
-		$alt_style = false;
+		$class_names = explode( ' ', array_key_exists( 'className', $attributes ) ? $attributes['className'] : '' );
+		$alt_style   = false;
 		if ( in_array( 'is-style-alternate', $class_names ) ) {
 			$alt_style = true;
 		}
 		ob_start();
 		?>
-		<div class='js-react-collapsible' data-title="<?php echo esc_attr($attributes['title']);?>" data-style="<?php echo $alt_style ? 'is-style-alternate' : null;?>">
+		<div class='js-react-collapsible' data-title="<?php echo esc_attr( $attributes['title'] ); ?>" data-style="<?php echo $alt_style ? 'is-style-alternate' : null; ?>">
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
@@ -69,7 +69,7 @@ class Collapsible extends PRC_Block_Library {
 
 	public function register_block() {
 		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue              = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

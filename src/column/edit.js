@@ -3,6 +3,7 @@
  */
 import classnames from 'classnames';
 import numWords from 'num-words';
+import ordinal from 'ordinal';
 
 /**
  * WordPress dependencies
@@ -20,23 +21,73 @@ import { Notice, PanelBody, RangeControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
-const ColumnEdit = ({
-    attributes: { verticalAlignment = false, width, templateLock = false },
+const WidthControl = ({label, icon = null, width, setWidth, min = 1, disabled}) => {
+    const tooltipContent = value => `${value}/16`;
+    return(
+        <RangeControl
+            beforeIcon={icon}
+            label={label}
+            value={width}
+            onChange={value => {
+                const nextWidth =
+                    0 > parseFloat(value) ? '0' : value;
+                setWidth(nextWidth);
+            }}
+            min={min}
+            max={16}
+            withInputField
+            disabled={disabled}
+            renderTooltipContent={ tooltipContent }
+            type="stepper"
+        />
+    );
+}
+
+const OrderControl = ({label = `Current Position`, icon = null, disabled, position, max = 4, setOrder}) => {
+    const tooltipContent = value => `Column Will Appear: ${ordinal(++value)}`;
+    return(
+        <RangeControl
+            beforeIcon={icon}
+            label={label}
+            value={position}
+            onChange={value => {
+                const nextOrder =
+                    0 > parseFloat(value) ? '0' : value;
+                setOrder(nextOrder);
+            }}
+            min={0}
+            max={max}
+            disabled={disabled}
+            renderTooltipContent={ tooltipContent }
+            type="stepper"
+        />
+    );
+}
+
+const edit = ({
+    attributes: { verticalAlignment = false, width, tabletOrder, tabletWidth, mobileOrder, mobileWidth, templateLock = false },
     setAttributes,
     className,
     clientId,
+    context,
 }) => {
     const [maxWidth, setMaxWidth] = useState(16);
+    
     const { updateBlockAttributes } = useDispatch('core/block-editor');
+
+    const isStackable = context['prc-block/row-active'];
+
     const {
-        hasChildBlocks,
         isEqual,
-        rootClientId,
+        index,
+        hasChildBlocks,
         otherColumnsInRow,
+        rootClientId,
     } = useSelect(
         select => {
             const {
                 getBlocks,
+                getBlockIndex,
                 getBlockOrder,
                 getBlockRootClientId,
                 getBlockAttributes,
@@ -48,10 +99,11 @@ const ColumnEdit = ({
             const { equal } = rootAttributes;
 
             return {
-                hasChildBlocks: 0 < getBlockOrder(clientId).length,
-                rootClientId: rootBlockClientId,
+                index: getBlockIndex(clientId, rootBlockClientId),
                 isEqual: equal,
+                hasChildBlocks: 0 < getBlockOrder(clientId).length,
                 otherColumnsInRow: getBlocks(rootBlockClientId),
+                rootClientId: rootBlockClientId,
             };
         },
         [clientId],
@@ -70,7 +122,6 @@ const ColumnEdit = ({
         allColumnWidths = allColumnWidths.reduce((a, b) => a + b, 0);
 
         const availableWidth = 16 - allColumnWidths;
-        console.log('maxWidth', availableWidth);
         setMaxWidth(availableWidth);
     };
 
@@ -160,19 +211,49 @@ const ColumnEdit = ({
                                     : `Attention: Approaching Grid Maximum`}
                             </Notice>
                         )}
-                        <RangeControl
-                            label={__('Width')}
-                            value={width}
-                            onChange={value => {
-                                const nextWidth =
-                                    0 > parseFloat(value) ? '0' : value;
-                                setAttributes({ width: nextWidth });
-                            }}
-                            min={1}
-                            max={16}
-                            withInputField
-                            disabled={isEqual}
-                        />
+                        <div style={{marginBottom: '1em', paddingBottom: '1em', borderBottom: '1px solid lightgray'}}>
+                            <WidthControl 
+                                label={__('Desktop Width')}
+                                icon={'desktop'}
+                                disabled={isEqual}
+                                width={width}
+                                setWidth={(v) => setAttributes({width: v})}
+                            />
+                        </div>
+                        <div style={{marginBottom: '1em', paddingBottom: '1em', borderBottom: '1px solid lightgray'}}>
+                            <WidthControl 
+                                label={__('Tablet Width')}
+                                icon={'tablet'}
+                                min={0}
+                                disabled={isEqual || isStackable}
+                                width={100 === tabletWidth ? width : tabletWidth}
+                                setWidth={(v) => setAttributes({tabletWidth: v})}
+                            />
+                            <OrderControl 
+                                label={__('Tablet Order')}
+                                icon={'tablet'}
+                                disabled={isEqual || isStackable}
+                                position={100 === tabletOrder ? index : tabletOrder}
+                                setOrder={(v) => setAttributes({tabletOrder: v})}
+                            />
+                        </div>
+                        <div>
+                            <WidthControl 
+                                label={__('Mobile Width')}
+                                icon={'smartphone'}
+                                min={0}
+                                disabled={isEqual || isStackable}
+                                width={100 === mobileWidth ? width : mobileWidth}
+                                setWidth={(v) => setAttributes({mobileWidth: v})}
+                            />
+                            <OrderControl 
+                                label={__('Mobile Order')}
+                                icon={'smartphone'}
+                                disabled={isEqual || isStackable}
+                                position={100 === mobileOrder ? index : mobileOrder}
+                                setOrder={(v) => setAttributes({mobileOrder: v})}
+                            />
+                        </div>
                     </Fragment>
                 </PanelBody>
             </InspectorControls>
@@ -182,4 +263,4 @@ const ColumnEdit = ({
     );
 };
 
-export default ColumnEdit;
+export default edit;

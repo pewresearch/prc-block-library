@@ -31,15 +31,21 @@ module.exports = {
                 'chart-builder': './src/chart-builder/index.js',
                 'chart-builder-wrapper':
                     './src/chart-builder-data-wrapper/index.js',
+                cover: './src/cover/index.js',
                 grid: './src/grid/index.js',
+                group: './src/group/index.js',
+                heading: './src/heading/index.js',
+                'mailchimp-form': './src/mailchimp-form/index.js',
                 menu: './src/menu/index.js',
                 'menu-link': './src/menu-link/index.js',
+                page: './src/page/index.js',
                 'post-bylines': './src/post-bylines/index.js',
                 'post-title': './src/post-title/index.js',
                 promo: './src/promo/index.js',
                 'promo-rotator': './src/promo-rotator/index.js',
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
+                staff: './src/staff/index.js',
                 table: './src/table/index.js',
                 'tabs-controller': './src/tabs/controller/index.js',
                 'tabs-menu': './src/tabs/menu/index.js',
@@ -66,6 +72,7 @@ module.exports = {
                 'topic-index-search-field':
                     './src/topic-index-search-field/index.js',
                 'wp-query': './src/wp-query/index.js',
+                // 'wp-object': './src/wp-object/index.js',
             },
             webpackConfig: (config, merge, appDir, isDev) => {
                 // create a new module.rules for svg-inline-loader
@@ -90,6 +97,8 @@ module.exports = {
             entry: {
                 collapsible: './src/collapsible/frontend.js',
                 'chart-builder': './src/chart-builder/frontend.js',
+                cover: './src/cover/frontend.js',
+                'mailchimp-form': './src/mailchimp-form/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
                 'tabs-controller': './src/tabs/controller/frontend.js',
@@ -100,18 +109,6 @@ module.exports = {
                     './src/topic-index-condensed/controller/frontend.js',
                 'topic-index-search-field':
                     './src/topic-index-search-field/frontend.js',
-            },
-        },
-        {
-            name: 'callout',
-            entry: {
-                main: './src/callout/index.js',
-            },
-        },
-        {
-            name: 'card',
-            entry: {
-                main: './src/card/index.js',
             },
         },
         {
@@ -135,63 +132,10 @@ module.exports = {
             },
         },
         {
-            name: 'follow-us',
-            entry: {
-                main: './src/follow-us/index.js',
-                frontend: './src/follow-us/frontend.js',
-            },
-        },
-        {
-            name: 'mailchimp-form',
-            entry: {
-                main: './src/mailchimp-form/index.js',
-                frontend: './src/mailchimp-form/frontend.js',
-            },
-        },
-        {
             name: 'mailchimp-opt-down',
             entry: {
                 main: './src/mailchimp-opt-down/index.js',
                 frontend: './src/mailchimp-opt-down/frontend.js',
-            },
-        },
-        {
-            name: 'posts',
-            entry: {
-                main: './src/posts/index.js',
-                frontend: './src/posts/frontend.js',
-            },
-            webpackConfig: (config, merge, appDir, isDev) => {
-                const customRules = {
-                    module: {
-                        rules: [
-                            // Config for SVGR in javascript files
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForJsTsFiles,
-                                use: ['@svgr/webpack', 'url-loader'],
-                            },
-                            // For everything else, we use file-loader only
-                            {
-                                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                                issuer: issuerForNonJsTsFiles,
-                                use: [
-                                    {
-                                        loader: fileLoader,
-                                        options: getFileLoaderOptions(
-                                            appDir,
-                                            isDev,
-                                            true,
-                                        ),
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                };
-
-                // merge and return
-                return merge(config, customRules);
             },
         },
         {
@@ -204,12 +148,6 @@ module.exports = {
             name: 'pullquote',
             entry: {
                 main: './src/pullquote/index.js',
-            },
-        },
-        {
-            name: 'staff',
-            entry: {
-                main: './src/staff/index.js',
             },
         },
         {

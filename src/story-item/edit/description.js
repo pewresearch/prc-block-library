@@ -9,6 +9,7 @@ const Description = ({ content, sansSerif, enabled, setAttributes }) => {
     }
 
     const classes = classNames('description', { 'sans-serif': sansSerif });
+
     return (
         <Fragment>
             {false !== setAttributes && (

@@ -22,12 +22,18 @@ const YAxisControls = ({ attributes, setAttributes }) => {
         yLabel,
         yMinDomain,
         yMaxDomain,
+        yDomainPadding,
         yTickNum,
         yTickExact,
         showYMinDomainLabel,
     } = attributes;
     return (
-        <PanelBody title={__('Y-Axis Configuration')}>
+        <PanelBody title={__('Dependent Axis Configuration')}>
+            <PanelRow>
+                Dependent variables are properties that change in response to a
+                change in another property. As such, the dependent axis is
+                usually the y-axis.
+            </PanelRow>
             <ToggleControl
                 label="Y-axis active"
                 help={yAxisActive ? 'Has y-axis.' : 'No y-axis.'}
@@ -68,6 +74,18 @@ const YAxisControls = ({ attributes, setAttributes }) => {
                     />
                 </FlexItem>
             </Flex>
+            <NumberControl
+                label={__('Domain Padding')}
+                help={__(
+                    'Determines the space between the first tick and the end of the axis',
+                )}
+                value={yDomainPadding}
+                disableUnits={true}
+                disabledUnits={true}
+                onChange={(val) =>
+                    setAttributes({ yDomainPadding: formatNum(val, 'integer') })
+                }
+            />
             <PanelRow>Axis Ticks</PanelRow>
             <NumberControl
                 label={__('Number of ticks')}

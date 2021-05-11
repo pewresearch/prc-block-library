@@ -26,6 +26,9 @@ class PRC_Block_Menu extends PRC_Block_Library {
 			$menu_classes[] = 'text';
 		} elseif ( array_key_exists( 'className', $attributes ) && 'is-style-secondary' === $attributes['className'] ) {
 			$menu_classes[] = 'secondary';
+		} elseif ( array_key_exists( 'className', $attributes ) && 'is-style-secondary-pointing' === $attributes['className'] ) {
+			$menu_classes[] = 'secondary';
+			$menu_classes[] = 'pointing';
 		} elseif ( array_key_exists( 'className', $attributes ) && 'is-style-tabular' === $attributes['className'] ) {
 			$menu_classes[] = 'tabular';
 		}
@@ -82,7 +85,7 @@ class PRC_Block_Menu extends PRC_Block_Library {
 	public function register_block() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$block_js_deps = array_merge( $js_deps, array( 'lodash', 'wp-components' ) );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

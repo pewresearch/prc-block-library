@@ -5,7 +5,7 @@
     "attributes": {
         "divided": {
             "type": "boolean",
-            "default": false
+            "default": true
         },
         "doubling": {
             "type": "boolean",
@@ -33,6 +33,9 @@
         }
     },
     "parent": ["prc-block/grid"],
+    "providesContext":{
+        "prc-block/row-stackable": "stackable"
+    },
     "supports": {
         "html": false,
         "align": false

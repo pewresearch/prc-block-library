@@ -18,10 +18,26 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_action( 'prc_loop_story_item', array( $this, 'loop_story_item' ), 10, 1 );
+			add_filter( 'prc_related_story_item', array( $this, 'related_story_item' ), 10, 1 );
 			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 			add_action( 'template_redirect', array( $this, 'preview_story_item' ), 1 );
 			add_filter( 'query_vars', array( $this, 'add_preview_query_args' ) );
 		}
+	}
+
+	public function related_story_item( $args ) {
+		$post_id = $args['postId'];
+
+		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
+		return $this->render_story_item( $attributes );
+	}
+
+	public function loop_story_item( $args ) {
+		$post_id = $args['postId'];
+
+		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
+		echo $this->render_story_item( $attributes );
 	}
 
 	private function cherry_pick_attr( $needle, $haystack ) {
@@ -70,6 +86,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enableExtra'            => false,
 			'enableBreakingNews'     => false,
 			'enableProgramsTaxonomy' => false,
+			'enableMeta'             => true,
 			'inLoop'                 => false,
 		);
 		$attrs    = wp_parse_args( $args, $defaults );
@@ -193,6 +210,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			data-emphasis="<?php echo esc_attr( $this->cherry_pick_attr( 'enableEmphasis', $attributes ) ); ?>"
 			data-breakingNews="<?php echo esc_attr( $this->cherry_pick_attr( 'enableBreakingNews', $attributes ) ); ?>"
 			data-excerptbelow="<?php echo esc_attr( $this->cherry_pick_attr( 'enableExcerptBelow', $attributes ) ); ?>"
+			data-meta="<?php echo esc_attr( $this->cherry_pick_attr( 'enableMeta', $attributes ) ); ?>"
 			data-chartArt="<?php echo esc_attr( $this->cherry_pick_attr( 'isChartArt', $attributes ) ); ?>"
 			data-inLoop="<?php echo esc_attr( $this->cherry_pick_attr( 'inLoop', $attributes ) ); ?>"
 		>
@@ -389,7 +407,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
 			'story-item',
 			'frontend',
@@ -417,7 +435,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'lodash', 'wp-components' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$block_assets = $enqueue->register(
 			'story-item',
@@ -447,10 +465,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 new PRC_Story_Item( true );
 
 /**
+ * DEPRECATED::
  * By default should only load A3 left aligned stubs, can be modified through args.
  */
-function prc_get_story_item( $stub_post_id, $args = array() ) {
+function prc_get_story_item( $stub_post_id, $args = array(), $return_attributes = false ) {
 	$story_item = new PRC_Story_Item( false );
 	$attributes = $story_item->get_attributes_by_object_id( $stub_post_id, $args );
+	if ( false !== $return_attributes ) {
+		return $attributes;
+	}
 	return $story_item->render_story_item( $attributes );
 }

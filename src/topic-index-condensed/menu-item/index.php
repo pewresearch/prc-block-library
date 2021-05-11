@@ -38,7 +38,7 @@ class Topic_Index_Condensed_Menu_Item extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', parent::$plugin_file );
+		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

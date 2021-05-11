@@ -302,9 +302,11 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
         enableBreakingNews,
         enableEmphasis,
         enableProgramsTaxonomy,
+        enableMeta,
+        inLoop,
     } = attributes;
 
-    const label = __('Story Item Options');
+    const label = __('Story Item options');
 
     useEffect(() => {
         // On mount load the latest post details from the url.
@@ -337,6 +339,17 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                             Refresh Post
                         </Button>
                     )}
+                     <ToggleControl
+                        label={
+                            enableMeta
+                                ? 'Meta Enabled'
+                                : 'Meta Disabled'
+                        }
+                        checked={enableMeta}
+                        onChange={() => {
+                            setAttributes({ enableMeta: !enableMeta });
+                        }}
+                    />
                     <ToggleControl
                         label={
                             enableHeader ? 'Header Enabled' : 'Header Disabled'
@@ -348,9 +361,7 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                     />
                     <ToggleControl
                         label={
-                            enableExcerpt
-                                ? 'Excerpt Enabled'
-                                : 'Excerpt Disabled'
+                            enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled'
                         }
                         checked={enableExcerpt}
                         onChange={() => {
@@ -423,6 +434,17 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                         checked={enableEmphasis}
                         onChange={() => {
                             setAttributes({ enableEmphasis: !enableEmphasis });
+                        }}
+                    />
+                    <ToggleControl
+                        label={
+                            inLoop
+                                ? 'Pub Listing Style On Mobile'
+                                : 'Normal Styling On Mobile'
+                        }
+                        checked={inLoop}
+                        onChange={() => {
+                            setAttributes({ inLoop: !inLoop });
                         }}
                     />
                 </PanelBody>
