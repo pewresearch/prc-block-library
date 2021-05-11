@@ -6,6 +6,10 @@
 		"postId": {
 			"type": "integer"
 		},
+		"storyItemDisableExcerpt": {
+			"type": "boolean",
+			"default": false
+		},
 		"storyItemImageSlot": {
 			"type": "string",
 			"default": "left"

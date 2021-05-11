@@ -24,6 +24,7 @@ const Posts = ({ posts, attributes }) => {
 
     const {
         labelTaxonomy,
+        storyItemDisableExcerpt,
         storyItemImageSize,
         storyItemImageSlot,
         className,
@@ -60,7 +61,7 @@ const Posts = ({ posts, attributes }) => {
                     // Misc Toggles:
                     enableHeader: true,
                     enableMeta: true,
-                    enableExcerpt: true,
+                    enableExcerpt: !storyItemDisableExcerpt,
                     enableExtra: false,
                     inLoop: isPubListing,
                     enableProgramsTaxonomy: 'programs' === labelTaxonomy,

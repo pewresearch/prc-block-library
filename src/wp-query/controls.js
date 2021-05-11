@@ -28,6 +28,7 @@ import fetchPosts from './fetch';
 const Fields = ({ attributes, setAttributes, disabled }) => {
     const {
         postsPerPage,
+        storyItemDisableExcerpt,
         storyItemImageSlot,
         storyItemImageSize,
         taxQuery,
@@ -44,6 +45,16 @@ const Fields = ({ attributes, setAttributes, disabled }) => {
                         setAttributes({
                             storyItemImageSlot:
                                 !'disabled' === storyItemImageSlot,
+                        })
+                    }
+                    disabled={disabled}
+                />
+                <ToggleControl
+                    label="Disable Excerpt"
+                    checked={storyItemDisableExcerpt}
+                    onChange={() =>
+                        setAttributes({
+                            storyItemDisableExcerpt: !storyItemDisableExcerpt,
                         })
                     }
                     disabled={disabled}
