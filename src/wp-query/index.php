@@ -113,6 +113,7 @@ class WP_Query_Block extends PRC_Block_Library {
 		$as_columns = array_key_exists( 'className', $attributes ) && 'is-style-columns' === $attributes['className'];
 
 		$exclude_post_ids = get_post_meta( $attributes['postId'], '_featured_posts', true );
+		error_log( 'exclude-post-ids :: ' . $attributes['postId'] . '::' . print_r( $exclude_post_ids, true ) );
 
 		$query = $this->construct_query_from_attributes( $attributes, $exclude_post_ids );
 	

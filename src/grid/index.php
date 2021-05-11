@@ -25,7 +25,7 @@ class Grid_Block extends PRC_Block_Library {
 	 * @param mixed $post_ids
 	 * @return mixed
 	 */
-	public function get_story_item_ids_from_column( $inner_blocks, $post_ids ) {
+	public function get_story_item_ids_from_column( $inner_blocks, $post_ids = array() ) {
 		foreach ( $inner_blocks as $key => $inner_block ) {
 			if ( 'prc-block/story-item' === $inner_block['blockName'] ) {
 				if ( ! empty( $inner_block['attrs']['postID'] ) ) {
@@ -80,7 +80,7 @@ class Grid_Block extends PRC_Block_Library {
 			return;
 		}
 
-		if ( ! has_block( 'prc-block/story-item' ) && ! has_block( 'prc-block/grid' ) && ! has_block( 'prc-block/wp-query' ) ) {
+		if ( ! has_block( 'prc-block/story-item' ) && ! has_block( 'prc-block/grid' ) ) {
 			return;
 		}
 
@@ -98,8 +98,10 @@ class Grid_Block extends PRC_Block_Library {
 		}
 
 		$post_ids = apply_filters( 'prc_block_featured_post_ids', $post_ids, $blocks );
+		error_log( 'post ids?' . print_r( $post_ids, true ) );
 
 		if ( ! empty( $post_ids ) ) {
+			error_log( 'post ids CHECK' . print_r( $post_ids, true ) );
 			update_post_meta( $post->ID, '_featured_posts', $post_ids );
 		}
 	}
