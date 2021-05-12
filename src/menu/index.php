@@ -35,6 +35,9 @@ class PRC_Block_Menu extends PRC_Block_Library {
 		if ( array_key_exists( 'orientation', $attributes ) && 'vertical' === $attributes['orientation'] ) {
 			$menu_classes[] = 'vertical';
 		}
+		if ( array_key_exists( 'size', $attributes ) ) {
+			$menu_classes[] = $attributes['size'];
+		}
 		return implode( ' ', $menu_classes );
 	}
 

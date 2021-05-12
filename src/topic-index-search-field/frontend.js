@@ -18,6 +18,12 @@ import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { decodeEntities } from '@wordpress/html-entities';
 
+/**
+ * Internal dependencies
+ */
+
+import './style.scss';
+
 const INITIAL_STATE = {
     loading: false,
     results: [
@@ -72,6 +78,7 @@ const doSearch = (searchTerm, restrictToTermId = 0) => {
                 return {
                     key: t.id,
                     value: t.link,
+                    description: decodeEntities(t.description),
                     title: decodeEntities(t.name),
                 };
             });
@@ -131,6 +138,7 @@ const TopicSearchField = ({ restrictToTermId = 0 }) => {
             results={results}
             value={value}
             defaultValue={null}
+            fluid
         />
     );
 };

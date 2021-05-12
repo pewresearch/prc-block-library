@@ -18,6 +18,14 @@
 		"enableFindAnExpert": {
 			"type": "boolean",
 			"default": false
+        },
+		"enableTwitter": {
+			"type": "boolean",
+			"default": false
+        },
+		"enableExpertiseLinks": {
+			"type": "boolean",
+			"default": false
         }
 	},
 	"supports": {

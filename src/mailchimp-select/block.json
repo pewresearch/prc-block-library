@@ -1,0 +1,13 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/mailchimp-select",
+	"category": "layout",
+	"attributes": {
+		"interests": {
+            "type": "array"
+        }
+    },          
+	"supports": {
+		"html": false
+	}
+}

@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { useState } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
 /**
@@ -10,7 +10,11 @@ import apiFetch from '@wordpress/api-fetch';
 import { Form, Icon } from 'semantic-ui-react';
 import './style.scss';
 
-const MailchimpForm = ({ display, interest, className }) => {
+const MailchimpForm = ({
+    display,
+    interest,
+    blockProps = { className: '' },
+}) => {
     const [buttonText, changeButtonText] = useState('SIGN UP');
     const [success, toggleSuccess] = useState(false);
     const [error, toggleError] = useState(false);
@@ -29,6 +33,10 @@ const MailchimpForm = ({ display, interest, className }) => {
         e.preventDefault();
 
         if (true !== display) {
+            toggleLoading(true);
+            setTimeout(() => {
+                subscribed();
+            }, 2000);
             return; // Never allow running this from inside Gutenberg.
         }
 
@@ -40,6 +48,7 @@ const MailchimpForm = ({ display, interest, className }) => {
             apiFetch({
                 path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}`,
                 method: 'POST',
+                // TODO: Add nonce verification here.
             })
                 .then(() => {
                     subscribed();
@@ -59,30 +68,53 @@ const MailchimpForm = ({ display, interest, className }) => {
                 });
         }, 2000);
     };
-
     return (
-        <div className={className}>
+        <div {...blockProps}>
             <Form className="mailchimp" error={error} onSubmit={submitHandler}>
-                <Form.Field>
-                    <Form.Input
-                        placeholder="Email address"
-                        data-validate="mc-email"
-                        required
-                        onChange={e => {
-                            setEmail(e.target.value);
-                        }}
-                        value={emailAddress}
-                    />
-                    <Form.Button
-                        secondary
-                        positive={success}
-                        negative={error}
-                        loading={loading}
-                        icon={success}
-                    >
-                        {buttonText}
-                    </Form.Button>
-                </Form.Field>
+                {blockProps.className.includes('is-style-horizontal') && (
+                    <Form.Group>
+                        <Form.Input
+                            placeholder="Email address"
+                            data-validate="mc-email"
+                            required
+                            onChange={e => {
+                                setEmail(e.target.value);
+                            }}
+                            value={emailAddress}
+                        />
+                        <Form.Button
+                            secondary
+                            positive={success}
+                            negative={error}
+                            loading={loading}
+                            icon={success}
+                        >
+                            {buttonText}
+                        </Form.Button>
+                    </Form.Group>
+                )}
+                {!blockProps.className.includes('is-style-horizontal') && (
+                    <Form.Field>
+                        <Form.Input
+                            placeholder="Email address"
+                            data-validate="mc-email"
+                            required
+                            onChange={e => {
+                                setEmail(e.target.value);
+                            }}
+                            value={emailAddress}
+                        />
+                        <Form.Button
+                            secondary
+                            positive={success}
+                            negative={error}
+                            loading={loading}
+                            icon={success}
+                        >
+                            {buttonText}
+                        </Form.Button>
+                    </Form.Field>
+                )}
             </Form>
         </div>
     );

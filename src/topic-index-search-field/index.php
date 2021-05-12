@@ -65,7 +65,8 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 		$terms = get_terms( $args );
 		$terms = array_map(
 			function( $term ) {
-				$term->link = get_term_link( $term, 'topic' );
+				$term->link        = get_term_link( $term, 'topic' );
+				$term->description = wp_strip_all_tags( term_description( $term ) );
 				return $term;
 			},
 			$terms
@@ -93,7 +94,7 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 			'topic-index-search-field',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -105,7 +106,9 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 	public function enqueue_frontend() {
 		$registered    = $this->register_frontend();
 		$script_handle = array_pop( $registered['js'] )['handle'];
+		$style_handle  = array_pop( $registered['css'] )['handle'];
 		wp_enqueue_script( $script_handle );
+		wp_enqueue_style( $style_handle );
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {

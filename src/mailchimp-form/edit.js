@@ -1,8 +1,13 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, PanelRow, SelectControl } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
@@ -10,7 +15,7 @@ import { Fragment } from '@wordpress/element';
  * Internal dependencies
  */
 import MailchimpForm from './component';
-import interests from './interests';
+import mailChimpInterests from '../_shared/data/mailchimp-interests';
 
 const SidebarControls = ({ interest, setAttributes }) => {
     return (
@@ -20,7 +25,7 @@ const SidebarControls = ({ interest, setAttributes }) => {
                     <SelectControl
                         label="Choose Newsletter"
                         value={interest}
-                        options={interests}
+                        options={mailChimpInterests}
                         onChange={id => {
                             setAttributes({ interest: id });
                         }}
@@ -31,11 +36,14 @@ const SidebarControls = ({ interest, setAttributes }) => {
     );
 };
 
-const edit = ({ attributes, className, setAttributes }) => {
-    const { interest } = attributes;
-    const formProps = {
+const edit = ({ attributes, setAttributes }) => {
+    const { interest, className } = attributes;
+    const componentProps = {
         display: false,
         interest,
+        blockProps: useBlockProps({
+            className: classnames(className),
+        }),
     };
     return (
         <Fragment>
@@ -43,7 +51,7 @@ const edit = ({ attributes, className, setAttributes }) => {
                 interest={interest}
                 setAttributes={setAttributes}
             />
-            <MailchimpForm {...formProps} className={className} />
+            <MailchimpForm {...componentProps} />
         </Fragment>
     );
 };

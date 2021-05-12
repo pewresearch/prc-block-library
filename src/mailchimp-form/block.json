@@ -1,4 +1,5 @@
 {
+	"apiVersion": 2,
 	"name": "prc-block/mailchimp-form",
 	"category": "widgets",
 	"attributes": {
@@ -9,7 +10,7 @@
 	},
 	"styles": [
 		{
-			"name": "",
+			"name": "standard",
 			"label": "Standard",
 			"isDefault": true
 		},

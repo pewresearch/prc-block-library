@@ -23,7 +23,6 @@ const settings = {
     keywords: [__('Staff')],
     edit,
     save,
-    // transforms,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

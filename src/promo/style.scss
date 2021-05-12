@@ -73,6 +73,19 @@ $icon-width: 45px;
       }
     }
 
+    &.is-style-centered {
+      .action {
+        max-width: 420px;
+        margin-left:auto;
+        margin-right:auto;
+      }
+      .ui.mailchimp.form {
+        & > .field > .field {
+          text-align: center;
+        }
+      }
+    }
+
     // Horizontal "Pancake" Styles:
     @media (min-width: $breakpoint-tablet) {
       &.pancake,
@@ -142,19 +155,19 @@ $icon-width: 45px;
         }
         .action {
           flex-basis: 100%;
-          .wp-block-prc-block-mailchimp-form {
-            margin-left: 0;
+          .ui.mailchimp.form {
+            max-width: 420px;
           }
         }
       }
     }
 
-  .wp-block-prc-block-mailchimp-form {
-    max-width: 420px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  // .wp-block-prc-block-mailchimp-form {
+  //   max-width: 420px;
+  //   width: 100%;
+  //   margin-left: auto;
+  //   margin-right: auto;
+  // }
   // Editor Only Styles:
   .block-editor-block-list__block {
     margin-top: 0!important;

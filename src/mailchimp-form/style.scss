@@ -1,10 +1,17 @@
-.wp-block-prc-block-mailchimp-form {
-    &.is-style-horizontal .ui.form.mailchimp .field {
-        display: flex;
+.ui.mailchimp.form {
+    min-width: 300px;
+    width: 100%;
+    .required.field {
+        min-width: 280px;
     }
-    &.is-style-horizontal .ui.form.mailchimp .field > .required {
-        flex-grow: 1;
-        margin-bottom: 0;
-        margin-right: 0.5em
+    & > .field {
+        .field {
+            text-align: left;
+        }
+    }
+    & > .fields {
+        .required.field {
+            flex-grow: 1;
+        }
     }
 }

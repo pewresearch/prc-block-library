@@ -5,6 +5,11 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 
 use WPackio\Enqueue;
 
+/**
+ * Tabs Block Controller Class
+ *
+ * @package 
+ */
 class Tabs_Controller extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {

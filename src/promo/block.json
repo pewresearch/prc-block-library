@@ -33,7 +33,7 @@
     },
 	"styles": [
 		{
-			"name": "",
+			"name": "centered",
 			"label": "Standard (Text Centered)",
 			"isDefault": true
 		},

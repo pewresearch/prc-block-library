@@ -16,6 +16,8 @@ import {
     StoryItem,
 } from './components';
 
+import mailChimpInterests from './data/mailchimp-interests';
+
 export {
     getPosts,
     getTerms,
@@ -24,6 +26,7 @@ export {
     getTermsAsTree,
     getColorName,
     ifMatchSetAttribute,
+    mailChimpInterests,
     BlockInserterButton,
     CaretHeadingLink,
     HeadingLevelToolbar,

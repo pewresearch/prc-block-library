@@ -19,7 +19,7 @@ class Promo_Rotator extends PRC_Block_Library {
 		return $qvars;
 	}
 
-	// Randomly selects one inner block to display
+	// Randomly selects one inner block to display.
 	public function randomly_select_inner_block( $block_content, $block ) {
 		if ( 'prc-block/promo-rotator' === $block['blockName'] ) {
 			$iteration = array_rand( $block['innerBlocks'] );

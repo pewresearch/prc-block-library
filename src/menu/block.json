@@ -6,6 +6,9 @@
 		"orientation": {
 			"type": "string"
 		},
+		"size": {
+			"type": "string"
+		},
 		"itemsJustification": {
 			"type": "string"
 		}

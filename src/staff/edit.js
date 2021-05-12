@@ -50,6 +50,8 @@ const ObjectControls = ({ attributes, setAttributes, isSelected }) => {
         url,
         enableJobTitle,
         enableFindAnExpert,
+        enableTwitter,
+        enableExpertiseLinks,
     } = attributes;
     return (
         <InspectorControls>
@@ -80,6 +82,24 @@ const ObjectControls = ({ attributes, setAttributes, isSelected }) => {
                             })
                         }
                     />
+                    <ToggleControl
+                        label="Enable Twitter"
+                        checked={enableTwitter}
+                        onChange={() =>
+                            setAttributes({
+                                enableTwitter: !enableTwitter,
+                            })
+                        }
+                    />
+                    <ToggleControl
+                        label="Enable Expertise Links"
+                        checked={enableExpertiseLinks}
+                        onChange={() =>
+                            setAttributes({
+                                enableExpertiseLinks: !enableExpertiseLinks,
+                            })
+                        }
+                    />
                 </div>
             </PanelBody>
         </InspectorControls>
@@ -99,10 +119,19 @@ const ObjectPlaceholder = ({ label, attributes, setAttributes }) => {
 };
 
 const edit = ({ attributes, className, setAttributes, isSelected }) => {
-    const { postId, title, enableJobTitle, enableFindAnExpert } = attributes;
+    const {
+        postId,
+        title,
+        enableJobTitle,
+        enableFindAnExpert,
+        enableTwitter,
+        enableExpertiseLinks,
+    } = attributes;
 
     const [image, setImage] = useState(false);
     const [jobTitle, setJobTitle] = useState(false);
+    const [twitter, setTwitter] = useState(false);
+    const [expertise, setExpertise] = useState(false);
 
     const blockProps = useBlockProps({
         className: classnames(className, 'ui', 'staff'),
@@ -124,8 +153,14 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
         getStaffInfo(postId).then(d => {
             setImage(d.staffInfo.image);
             setJobTitle(d.staffInfo.jobTitle);
+            setTwitter(d.staffInfo.twitter);
+            setExpertise(d.staffInfo.expertise);
+            console.log('expertise', d.staffInfo.expertise);
         });
     }, [postId]);
+
+    const displayExtras =
+        enableFindAnExpert || enableTwitter || enableExpertiseLinks;
 
     return (
         <div {...blockProps}>
@@ -146,11 +181,45 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                                 <span>{jobTitle}</span>
                             </div>
                         )}
-                        {true === enableFindAnExpert && (
+                        {true === displayExtras && (
                             <div className="extra">
-                                <a href="#" className="blue-link">
-                                    {__(`Find an expert >`)}
-                                </a>
+                                {true === enableTwitter && false !== twitter && (
+                                    <div>
+                                        <span className="blue-link">
+                                            {__(`@${twitter}`)}
+                                        </span>
+                                    </div>
+                                )}
+                                {true === enableFindAnExpert && (
+                                    <div>
+                                        <span className="blue-link">
+                                            {__(`Find an expert >`)}
+                                        </span>
+                                    </div>
+                                )}
+                                {true === enableExpertiseLinks &&
+                                    false !== expertise && (
+                                        <div>
+                                            <strong>
+                                                {enableTwitter
+                                                    ? 'Tweeting about: '
+                                                    : 'Areas of Expertise: '}
+                                            </strong>
+                                            {expertise.map((t, index) => {
+                                                const i = index + 1;
+                                                const l =
+                                                    1 < expertise.length &&
+                                                    i !== expertise.length
+                                                        ? `${t.label}, `
+                                                        : t.label;
+                                                return (
+                                                    <span className="blue-link">
+                                                        {l}
+                                                    </span>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                             </div>
                         )}
                     </div>
