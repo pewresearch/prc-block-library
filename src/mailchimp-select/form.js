@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { Form, Message } from 'semantic-ui-react';
+import { Form, Message, Icon } from 'semantic-ui-react';
 
 /**
  * WordPress dependencies
@@ -102,6 +102,8 @@ const List = ({ interests, selected, userSelected, onChange }) => {
 
 const FormList = ({ interests, selected, allowSubmissions = false }) => {
     const [userSelection, setSelected] = useState([]);
+    const [buttonText, changeButtonText] = useState('SIGN UP');
+    const [buttonColor, changeButtonColor] = useState('mustard');
     const [loading, toggleLoading] = useState(false);
     const [userEmail, setEmail] = useState('');
     const [isError, toggleError] = useState(false);
@@ -124,6 +126,8 @@ const FormList = ({ interests, selected, allowSubmissions = false }) => {
         })
             .then(res => {
                 console.log(res);
+                changeButtonText(<Icon name="check circle" />);
+                changeButtonColor('green');
                 setMessage({
                     header: 'Success',
                     body:
@@ -136,6 +140,8 @@ const FormList = ({ interests, selected, allowSubmissions = false }) => {
                 console.error(err);
                 toggleSuccess(false);
                 toggleError(true);
+                changeButtonText('ERROR');
+                changeButtonColor('red');
                 setMessage({
                     header: 'Error',
                     body:
@@ -214,9 +220,10 @@ const FormList = ({ interests, selected, allowSubmissions = false }) => {
                 />
                 <Form.Button
                     loading={loading}
-                    content="Sign Up"
-                    color="mustard"
-                />
+                    color={buttonColor}
+                >
+                    {buttonText}
+                </Form.Button>
             </Form.Group>
         </Form>
     );
