@@ -1,7 +1,7 @@
 {
 	"apiVersion": 2,
 	"name": "prc-block/promo",
-	"category": "layout",
+	"category": "marketing",
 	"attributes": {
 		"heading": {
 			"type": "string"

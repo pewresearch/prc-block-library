@@ -1,7 +1,7 @@
 {
 	"apiVersion": 2,
 	"name": "prc-block/mailchimp-form",
-	"category": "widgets",
+	"category": "marketing",
 	"attributes": {
 		"interest": {
             "type": "string",

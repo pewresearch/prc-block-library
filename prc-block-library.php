@@ -54,6 +54,8 @@ class PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			add_filter( 'block_categories', array( $this, 'register_block_categories' ), 10, 2 );
+			
 			// @TODO Needs to be moved into shared wpack vendor outputs.
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
 
@@ -69,6 +71,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-form/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-select/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/page/index.php';
@@ -98,6 +101,18 @@ class PRC_Block_Library {
 			add_action( 'init', array( $this, 'register_blocks' ), 11 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 		}
+	}
+
+	public function register_block_categories( $categories, $post ) {
+		return array_merge(
+			$categories,
+			array(
+				array(
+					'slug'  => 'marketing',
+					'title' => __( 'Marketing', 'marketing' ),
+				),
+			)
+		);
 	}
 
 	/**

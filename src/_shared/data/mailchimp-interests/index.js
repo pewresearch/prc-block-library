@@ -1,47 +1,67 @@
 const mailChimpInterests = [
     {
-        label: 'Monthly: Social Trends',
-        value: '3836f62305',
-    },
-    {
-        label: 'Daily: Daily Briefing - Journalism',
-        value: '1d2638430b',
-    },
-    {
-        label: 'Daily: Daily Headlines - Religion',
-        value: '1a647764b2',
-    },
-    {
-        label: 'Weekly Roundup',
+        label: 'PRC - Weekly',
         value: '7c1390ba46',
     },
     {
-        label: 'Quarterly Update',
+        label: 'PRC - Quarterly',
         value: 'a33430a835',
     },
     {
-        label: 'Monthly: Politics',
-        value: 'fa5fdbc701',
+        label: '--',
+        value: false,
     },
     {
-        label: 'Weekly: Religion',
-        value: 'a7d4f3268f',
-    },
-    {
-        label: 'Bi-Weekly: Global',
+        label: 'Global Attitudes & Trends',
         value: '9203343b04',
     },
     {
-        label: 'Monthly: Hispanic',
-        value: '0e7495c7b2',
-    },
-    {
-        label: 'Monthly: Internet',
+        label: 'Internet, Science & Tech',
         value: 'ea87b26abe',
     },
     {
-        label: 'Quarterly: Methods',
+        label: 'Media & News Daily Briefing',
+        value: '1d2638430b',
+    },
+    {
+        label: 'Hispanic Trends',
+        value: '0e7495c7b2',
+    },
+    {
+        label: 'Religion - Weekly newsletter',
+        value: 'a7d4f3268f',
+    },
+    {
+        label: 'Religion - Daily religion headlines',
+        value: '1a647764b2',
+    },
+    {
+        label: 'Social & Demographic Trends',
+        value: '3836f62305',
+    },
+    {
+        label: 'Methods',
         value: '6d1e80bbaf',
+    },
+    {
+        label: 'Politics',
+        value: 'fa5fdbc701',
+    },
+    {
+        label: '--',
+        value: false,
+    },
+    {
+        label: 'Mini-course - U.S. Immigration',
+        value: 'xxx',
+    },
+    {
+        label: 'Mini-course - U.S. Census',
+        value: 'xxxx',
+    },
+    {
+        label: 'Mini-course - Muslims and Islam',
+        value: 'xxxxx',
     },
 ];
 
