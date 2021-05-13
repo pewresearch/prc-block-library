@@ -25,7 +25,7 @@ class Block_Name extends PRC_Block_Library {
 		$interests = implode( ',', $attributes['interests'] );
 		ob_start();
 		?>
-		<div class="react-prc-mailchimp-form-select" data-interests="<?php echo esc_attr( $interests ); ?> "></div>
+		<div class="wp-block-prc-block-mailchimp-select" data-interests="<?php echo esc_attr( $interests ); ?>"></div>
 		<?php
 		return ob_get_clean();
 	}
@@ -69,6 +69,7 @@ class Block_Name extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/mailchimp-select',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'editor_style'    => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

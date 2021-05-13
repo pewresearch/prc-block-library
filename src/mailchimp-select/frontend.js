@@ -11,7 +11,7 @@ import Form from './form';
 import mailChimpInterests from '../_shared/data/mailchimp-interests';
 
 domReady(() => {
-    const forms = document.querySelectorAll('.react-prc-mailchimp-form-select');
+    const forms = document.querySelectorAll('.wp-block-prc-block-mailchimp-select');
     forms.forEach(elm => {
         const selected = elm.getAttribute('data-interests').split(',');
         render(

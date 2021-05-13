@@ -1,0 +1,11 @@
+.wp-block-prc-block-mailchimp-select {
+    .fields {
+        & > .field:first-child {
+            min-width: 240px;
+        }
+        & > .field:last-child {
+            display: flex;
+            align-items: flex-end;
+        }
+    }
+}
