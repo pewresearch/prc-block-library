@@ -47,6 +47,7 @@ module.exports = {
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
                 staff: './src/staff/index.js',
+                'sub-title': './src/sub-title/index.js',
                 table: './src/table/index.js',
                 'tabs-controller': './src/tabs/controller/index.js',
                 'tabs-menu': './src/tabs/menu/index.js',
@@ -157,12 +158,6 @@ module.exports = {
             entry: {
                 main: './src/story-item/index.js',
                 frontend: './src/_shared/components/story-item/frontend.js',
-            },
-        },
-        {
-            name: 'subtitle',
-            entry: {
-                main: './src/sub-title/index.js',
             },
         },
         // If has more length, then multi-compiler

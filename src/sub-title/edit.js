@@ -1,23 +1,34 @@
-import { __, sprintf } from '@wordpress/i18n';
-import { RichText } from '@wordpress/block-editor';
-import { Fragment } from '@wordpress/element';
+/**
+ * External dependencies
+ */
+import classnames from 'classnames';
+
+/**
+ * WordPress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 const edit = ({ attributes, className, setAttributes }) => {
     const { value } = attributes;
+
+    const blockProps = useBlockProps({
+        className: classnames(className),
+    });
+
     return (
-        <Fragment>
+        <div {...blockProps}>
             <RichText
-                tagName='h2'
-                value={value}
-                onChange={t => {
-                    setAttributes({ value: t });
-                }}
-                placeholder={__('Sub Title Here')}
+                tagName="div"
+                onChange={t => setAttributes({ value: t })}
                 allowedFormats={[]}
                 keepPlaceholderOnFocus
-                className={className}
+                value={value}
+                placeholder={__(
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+                )}
             />
-        </Fragment>
+        </div>
     );
 };
 

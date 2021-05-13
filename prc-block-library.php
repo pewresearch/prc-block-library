@@ -82,6 +82,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/separator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/sub-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/staff/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/tabs/index.php';
@@ -263,20 +264,6 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-
-		/** Sub Title */
-		$this->registered['block']['prc-block/subtitle'] = $enqueue->register(
-			'subtitle',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
 	}
 
 	/**
@@ -337,28 +324,6 @@ class PRC_Block_Library {
 				'editor_script' => array_pop( $this->registered['block']['prc-block/pullquote']['js'] )['handle'],
 			)
 		);
-
-		/** Sub Title */
-		register_post_meta(
-			'post',
-			'sub_headline',
-			array(
-				'show_in_rest'  => true,
-				'single'        => true,
-				'type'          => 'string',
-				'description'   => 'A sub title for posts.',
-				'auth_callback' => function() {
-					return current_user_can( 'edit_posts' );
-				},
-			)
-		);
-		register_block_type(
-			'prc-block/subtitle',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/subtitle']['js'] )['handle'],
-			)
-		);
-
 	}
 
 	public function register_rest_endpoints() {

@@ -30,7 +30,7 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		$this->enqueue_frontend();
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-topic-index-condensed ui divided grid">
+		<div class="wp-block-prc-block-topic-index-condensed ui grid">
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
