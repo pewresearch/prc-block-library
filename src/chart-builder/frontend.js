@@ -59,6 +59,12 @@ const getConfig = (el) => {
             tickCount: json.xTickNum,
             tickValues: xTicks.length <= 1 ? null : getTicks(xTicks, xScale),
             domainPadding: json.xDomainPadding,
+            axis: {
+                stroke: json.xAxisStroke,
+            },
+            grid: {
+                stroke: json.xGridStroke,
+            },
         },
         yAxis: {
             ...yAxis,
@@ -78,6 +84,12 @@ const getConfig = (el) => {
             ),
             domainPadding: json.yDomainPadding,
             showZero: json.showYMinDomainLabel,
+            axis: {
+                stroke: json.yAxisStroke,
+            },
+            grid: {
+                stroke: json.yGridStroke,
+            },
         },
         dataRender: {
             ...masterConfig.dataRender,
@@ -103,8 +115,8 @@ const getConfig = (el) => {
             showPoints: json.lineNodes,
             showArea: json.chartType === 'area' ? true : false,
             strokeWidth: json.lineStrokeWidth,
-            pointSize: json.lineNodeSize,
-            pointStrokeWidth: json.lineNodeStroke,
+            pointSize: json.nodeSize,
+            pointStrokeWidth: json.nodeStroke,
             areaFillOpacity: json.areaFillOpacity,
         },
         legend: {
@@ -118,7 +130,12 @@ const getConfig = (el) => {
             groupOffset: json.barGroupOffset,
         },
         scatter: {
-            pointSize: json.lineNodeSize,
+            pointSize: json.nodeSize,
+        },
+        nodes: {
+            size: json.nodeSize,
+            fill: json.nodeFill,
+            strokeWidth: json.nodeStroke,
         },
         labels: {
             ...masterConfig.labels,
@@ -166,13 +183,18 @@ const getConfig = (el) => {
 };
 
 //this feels redundant for the formatter function in helpers.js, but we need to mod slightly because the param is an array
-const arrayToDataObj = (arr, scale, type) => {
+const arrayToDataObj = (arr, scale, chartType) => {
     const headers = arr[0];
     const [, ...categories] = headers;
     const [, ...body] = arr;
     const seriesData = [];
     const scaleData = (data, scale) => {
-        if (type === 'bar' || type === 'stacked-bar' || type === 'pie') {
+        if (
+            chartType === 'bar' ||
+            chartType === 'stacked-bar' ||
+            chartType === 'pie' ||
+            chartType === 'dot-plot'
+        ) {
             return data;
         }
         if (scale === 'time') {
@@ -194,11 +216,21 @@ const arrayToDataObj = (arr, scale, type) => {
     return { categories, seriesData };
 };
 
+const generateSvgDownload = (hash) => {
+    const tabWrapper = document.getElementById(`tab-wrapper-${hash}`);
+    const svg = tabWrapper.querySelector('svg');
+    const svgBlob = new Blob([svg.outerHTML], {
+        type: 'image/svg+xml;charset=utf-8',
+    });
+    console.log(svgBlob);
+};
+
 const renderCharts = () => {
     const charts = document.querySelectorAll('.wp-chart-builder-wrapper');
     charts.forEach((chart) => {
         const renderEl = chart.querySelector('.wp-chart-builder-inner');
         const config = getConfig(renderEl);
+        const hash = renderEl.dataset.chartHash;
         const dataArrStr = chart.querySelector('.table-array-data').innerText;
         const dataArr = JSON.parse(dataArrStr);
         const dataObj = arrayToDataObj(
@@ -258,12 +290,15 @@ const renderCharts = () => {
                     </Table>
                 ),
             },
+            {
+                menuItem: 'Share',
+                render: () => {},
+            },
         ];
-        render(<Tab panes={panes} />, renderEl);
+        render(<Tab id={`tab-wrapper-${hash}`} panes={panes} />, renderEl);
     });
 };
 
 domReady(() => {
     renderCharts();
-    console.log('frontend loaded');
 });

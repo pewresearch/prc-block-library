@@ -10,7 +10,15 @@ import {
     __experimentalNumberControl as NumberControl,
     ExternalLink,
     FormTokenField,
+    Button,
 } from '@wordpress/components';
+import { uploadMedia } from '@wordpress/media-utils';
+import { dispatch } from '@wordpress/data';
+import { useState } from '@wordpress/element';
+/**
+ * External dependencies
+ */
+import html2canvas from 'html2canvas';
 /**
  * Internal dependencies
  */
@@ -25,8 +33,13 @@ import LabelControls from './LabelControls';
 import LegendControls from './LegendControls';
 import TooltipControls from './TooltipControls';
 import TextFieldControls from './TextFieldControls';
+import NodeControls from './NodeControls';
 
-const ChartControls = ({ attributes, setAttributes }) => {
+const { editPost } = dispatch('core/editor');
+
+const ChartControls = ({ attributes, setAttributes, clientId }) => {
+    const [imageLoading, setImageLoading] = useState(false);
+    const [svgLoading, setSVGLoading] = useState(false);
     const {
         chartType,
         chartOrientation,
@@ -39,10 +52,69 @@ const ChartControls = ({ attributes, setAttributes }) => {
         colorValue,
         customColors,
     } = attributes;
+    const upload = (blob, name, type) => {
+        uploadMedia({
+            filesList: [
+                new File([blob], name, {
+                    type,
+                }),
+            ],
+            onFileChange: ([fileObj]) => {
+                console.log(fileObj);
+                editPost({ featured_media: fileObj.id });
+                setImageLoading(false);
+            },
+            onError: console.error,
+        });
+    };
+    const createSvg = () => {
+        setSVGLoading(true);
+        const blockEl = document.querySelector(`[data-block="${clientId}"]`);
+        const svg = blockEl.querySelector('svg');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        var blob = new Blob([svg.outerHTML], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = `chart-${clientId}.svg`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        setSVGLoading(false);
+    };
+    const createCanvas = () => {
+        setImageLoading(true);
+        const blockEl = document.querySelector(`[data-block="${clientId}"]`);
+        html2canvas(blockEl).then((canvas) => {
+            canvas.toBlob(
+                function (blob) {
+                    upload(
+                        blob,
+                        `chart-${clientId}-${Date.now()}.png`,
+                        'image/png',
+                    );
+                },
+                'image/png',
+                1,
+            );
+            // blockEl.appendChild(canvas);
+        });
+    };
     return (
         <>
             <InspectorControls>
                 <PanelBody title={__('Chart Configuration')}>
+                    <Button isSecondary isBusy={svgLoading} onClick={createSvg}>
+                        Download SVG
+                    </Button>
+                    <Button
+                        isSecondary
+                        isBusy={imageLoading}
+                        onClick={createCanvas}
+                    >
+                        Upload Chart PNG to Media Library
+                    </Button>
                     {chartType === 'bar' && (
                         <SelectControl
                             label={__('Chart Orientation (Bar charts only)')}
@@ -192,6 +264,16 @@ const ChartControls = ({ attributes, setAttributes }) => {
                 )}
                 {(chartType === 'line' || chartType === 'area') && (
                     <LineControls
+                        attributes={attributes}
+                        setAttributes={setAttributes}
+                        chartType={chartType}
+                    />
+                )}
+                {(chartType === 'line' ||
+                    chartType === 'area' ||
+                    chartType === 'dot-plot' ||
+                    chartType === 'scatter') && (
+                    <NodeControls
                         attributes={attributes}
                         setAttributes={setAttributes}
                         chartType={chartType}

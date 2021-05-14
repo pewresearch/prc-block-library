@@ -68,6 +68,13 @@ const setChartTypeByClassName = (className, setAttributes) => {
         'area',
         setAttributes,
     );
+    ifMatchSetAttribute(
+        'is-style-dot-plot',
+        className,
+        'chartType',
+        'dot-plot',
+        setAttributes,
+    );
 };
 
 const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
@@ -94,8 +101,9 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
         lineInterpolation,
         lineStrokeWidth,
         lineNodes,
-        lineNodeSize,
-        lineNodeStroke,
+        nodeSize,
+        nodeStroke,
+        nodeFill,
         areaFillOpacity,
         xAxisActive,
         xLabel,
@@ -106,6 +114,10 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
         xDomainPadding,
         xTickNum,
         xTickExact,
+        xAxisStroke,
+        xGridStroke,
+        yAxisStroke,
+        yGridStroke,
         yAxisActive,
         yLabel,
         yMinDomain,
@@ -172,6 +184,12 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
             tickCount: xTickNum,
             tickValues: xTicks.length <= 1 ? null : getTicks(xTicks, xScale),
             domainPadding: xDomainPadding,
+            axis: {
+                stroke: xAxisStroke,
+            },
+            grid: {
+                stroke: xGridStroke,
+            },
         },
         yAxis: {
             ...masterConfig.yAxis,
@@ -190,6 +208,12 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
             tickValues: yTicks.length <= 1 ? null : yTicks,
             domainPadding: yDomainPadding,
             showZero: showYMinDomainLabel,
+            axis: {
+                stroke: yAxisStroke,
+            },
+            grid: {
+                stroke: yGridStroke,
+            },
         },
         dataRender: {
             ...masterConfig.dataRender,
@@ -214,12 +238,17 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
             showPoints: lineNodes,
             showArea: chartType === 'area' ? true : false,
             strokeWidth: lineStrokeWidth,
-            pointSize: lineNodeSize,
-            pointStrokeWidth: lineNodeStroke,
+            pointSize: nodeSize,
+            pointStrokeWidth: nodeStroke,
             areaFillOpacity: areaFillOpacity,
         },
         scatter: {
-            pointSize: lineNodeSize,
+            pointSize: nodeSize,
+        },
+        nodes: {
+            size: nodeSize,
+            fill: nodeFill,
+            strokeWidth: nodeStroke,
         },
         legend: {
             ...masterConfig.legend,
@@ -354,6 +383,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
                         attributes={attributes}
                         setAttributes={setAttributes}
                         parentBlock={parentBlockId}
+                        clientId={clientId}
                     />
                     {renderedChart}
                     <canvas id="canvas" width="800" height="400"></canvas>

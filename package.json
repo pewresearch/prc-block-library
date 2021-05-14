@@ -16,11 +16,13 @@
         "@wordpress/html-entities": "^2.9.0",
         "@wordpress/i18n": "^3.16.0",
         "@wordpress/icons": "^2.8.0",
+        "@wordpress/media-utils": "^1.20.2",
         "@wordpress/plugins": "^2.23.0",
         "@wordpress/server-side-render": "^1.20.1",
         "@wordpress/url": "^2.19.0",
         "@wordpress/viewport": "^2.24.0",
         "@wpackio/scripts": "^4.3.0",
+        "html2canvas": "^1.0.0-rc.7",
         "jquery": "^3.5.1",
         "lodash": "^4.17.15",
         "moment": "^2.27.0",
@@ -37,7 +39,7 @@
         "archive": "wpackio-scripts pack"
     },
     "dependencies": {
-        "@prcdigital/chart-builder": "^0.3.84",
+        "@prcdigital/chart-builder": "^0.3.95",
         "@wpackio/entrypoint": "^4.3.0",
         "beautiful-react-hooks": "^0.31.0",
         "classnames": "^2.2.6",

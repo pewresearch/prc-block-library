@@ -1,0 +1,21 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 0.1.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-prc-block-tabs-pane>div:after{content:"";display:table;clear:both}.wp-block-prc-block-tabs-menu.block-editor-block-list__block{margin-bottom:0 !important}.wp-block-prc-block-tabs-menu.block-editor-block-list__block .ui.menu{margin-top:0 !important}.wp-block-prc-block-tabs-panes.block-editor-block-list__block{margin-top:0 !important}.wp-block-prc-block-tabs.ui.grid.block-editor-block-list__block{margin-left:auto;margin-right:auto}.wp-block-prc-block-tabs.ui.grid.block-editor-block-list__block>.column.four.wide{margin-top:0}.wp-block-prc-block-tabs.ui.grid.block-editor-block-list__block>.column.twelve.wide{margin-bottom:0}.wp-block-prc-block-tabs.ui.grid .ui.tab.active{margin-top:0 !important}
+
+
+/*# sourceMappingURL=tabs-controller-eb13801c.css.map*/
