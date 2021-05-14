@@ -48,7 +48,7 @@ const CaretHeadingLink = ({
                 <FlexBlock>
                     <Icon
                         name="chevron right"
-                        size="large"
+                        size="small"
                         style={{ marginLeft: '0.5em' }}
                     />
                 </FlexBlock>
