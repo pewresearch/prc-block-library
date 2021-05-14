@@ -21,8 +21,8 @@ class Sub_Title_Block extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$block_js_deps = array_merge( 'react', 'react-dom', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-block-editor' );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$js_deps = array( 'react', 'react-dom', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-block-editor' );
+		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
@@ -30,7 +30,7 @@ class Sub_Title_Block extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => $js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
