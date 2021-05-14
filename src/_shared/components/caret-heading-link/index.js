@@ -19,6 +19,7 @@ const CaretHeadingLink = ({
     url,
     heading,
     headingSize = 'h2',
+    disableIcon = false,
     setAttributes,
 }) => {
     return (
@@ -45,13 +46,15 @@ const CaretHeadingLink = ({
                         className="sans-serif"
                     />
                 </FlexItem>
-                <FlexBlock>
-                    <Icon
-                        name="chevron right"
-                        size="small"
-                        style={{ marginLeft: '0.5em' }}
-                    />
-                </FlexBlock>
+                {true !== disableIcon && (
+                    <FlexBlock>
+                        <Icon
+                            name="chevron right"
+                            size="small"
+                            style={{ marginLeft: '0.5em' }}
+                        />
+                    </FlexBlock>
+                )}
             </Flex>
         </Fragment>
     );

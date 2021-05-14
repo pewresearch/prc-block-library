@@ -17,7 +17,14 @@
         },
 		"image": {
             "type": "string"
-        }
+        },
+		"enableReadMore": {
+            "type": "boolean",
+			"default": false
+        },
+		"readMore": {
+			"type": "string"
+		}
     },          
 	"supports": {
 		"html": false,

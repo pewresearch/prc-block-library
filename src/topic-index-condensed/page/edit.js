@@ -55,6 +55,7 @@ const Edit = ({ attributes, className, clientId, context, setAttributes }) => {
                 url={url}
                 heading={heading}
                 setAttributes={setAttributes}
+                disableIcon
             />
             <div {...innerBlocksProps} />
         </div>

@@ -58,6 +58,7 @@ $altCardMargin: 1rem;
 			padding-right: $altCardMargin;
 			padding-bottom: $altCardMargin;
 		}
+		
 		.is-style-sub-header {
 			background-color: #333132;
 			padding: 9px $altCardHeaderPadding;
@@ -67,6 +68,7 @@ $altCardMargin: 1rem;
 			line-height: $altCardLineHeight;
 			color: white;
 			font-weight: normal;
+			letter-spacing: 0.1em;
 			a {
 				color: white;
 			}

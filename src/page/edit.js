@@ -17,7 +17,12 @@ import {
     RichText,
 } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
-import { Button, Placeholder, PanelBody } from '@wordpress/components';
+import {
+    Button,
+    Placeholder,
+    PanelBody,
+    ToggleControl,
+} from '@wordpress/components';
 
 const SearchAndSelectObject = ({
     postType,
@@ -103,19 +108,14 @@ const ObjectImage = ({ image, setAttributes, isSelected }) => {
     );
 };
 
-const ObjectControls = ({
-    attributes,
-    controls = false,
-    setAttributes,
-    isSelected,
-}) => {
-    const { postId, title, url } = attributes;
+const ObjectControls = ({ attributes, setAttributes, isSelected }) => {
+    const { postId, title, url, enableReadMore } = attributes;
     const postType = 'page';
     const route = 'pages';
     return (
         <Fragment>
             <InspectorControls>
-                <PanelBody title={__('Object Link')}>
+                <PanelBody title={__('Page Link')}>
                     <SearchAndSelectObject
                         postType={postType}
                         route={route}
@@ -124,16 +124,19 @@ const ObjectControls = ({
                         isSelected={isSelected}
                     />
                 </PanelBody>
-                {false !== controls && (
-                    <PanelBody title={__('Object Settings')}>
-                        <div>
-                            <controls
-                                attributes={attributes}
-                                setAttributes={setAttributes}
-                            />
-                        </div>
-                    </PanelBody>
-                )}
+                <PanelBody title={__('Page Settings')}>
+                    <div>
+                        <ToggleControl
+                            label={__(`Enable Read More`)}
+                            checked={enableReadMore}
+                            onChange={() =>
+                                setAttributes({
+                                    enableReadMore: !enableReadMore,
+                                })
+                            }
+                        />
+                    </div>
+                </PanelBody>
             </InspectorControls>
         </Fragment>
     );
@@ -156,7 +159,7 @@ const ObjectPlaceholder = ({ label, attributes, setAttributes }) => {
 };
 
 const edit = ({ attributes, className, setAttributes, isSelected }) => {
-    const { title, url, content, image } = attributes;
+    const { title, url, content, image, enableReadMore, readMore } = attributes;
 
     // go fetch page information...
 
@@ -187,39 +190,65 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                     />
                     <div className="content">
                         {isSelected && (
-                            <RichText
-                                tagName="div"
-                                value={title}
-                                onChange={h => setAttributes({ title: h })}
-                                placeholder={__(`Page Title`)}
-                                keepPlaceholderOnFocus
-                                allowedFormats={['italic']}
-                                className="header"
-                            />
+                            <Fragment>
+                                <RichText
+                                    tagName="div"
+                                    value={title}
+                                    onChange={h => setAttributes({ title: h })}
+                                    placeholder={__(`Page Title`)}
+                                    keepPlaceholderOnFocus
+                                    allowedFormats={['italic']}
+                                    className="header"
+                                />
+                                <RichText
+                                    tagName="div"
+                                    value={content}
+                                    onChange={c =>
+                                        setAttributes({ content: c })
+                                    }
+                                    placeholder={__(`Page excerpt...`)}
+                                    keepPlaceholderOnFocus
+                                    className="description sans-serif"
+                                />
+                                {true === enableReadMore && (
+                                    <div className="extra">
+                                        <RichText
+                                            tagName="div"
+                                            value={readMore}
+                                            onChange={c =>
+                                                setAttributes({ readMore: c })
+                                            }
+                                            placeholder={__(`Read More...`)}
+                                            keepPlaceholderOnFocus
+                                            className="read-more"
+                                            allowedFormats={['link']}
+                                        />
+                                    </div>
+                                )}
+                            </Fragment>
                         )}
                         {!isSelected && (
-                            <RichText.Content
-                                tagName="div"
-                                value={title}
-                                className="header"
-                            />
-                        )}
-                        {isSelected && (
-                            <RichText
-                                tagName="div"
-                                value={content}
-                                onChange={c => setAttributes({ content: c })}
-                                placeholder={__(`Page excerpt...`)}
-                                keepPlaceholderOnFocus
-                                className="description sans-serif"
-                            />
-                        )}
-                        {!isSelected && (
-                            <RichText.Content
-                                tagName="div"
-                                value={content}
-                                className="description sans-serif"
-                            />
+                            <Fragment>
+                                <RichText.Content
+                                    tagName="div"
+                                    value={title}
+                                    className="header"
+                                />
+                                <RichText.Content
+                                    tagName="div"
+                                    value={content}
+                                    className="description sans-serif"
+                                />
+                                {true === enableReadMore && (
+                                    <div className="extra">
+                                        <RichText.Content
+                                            tagName="div"
+                                            value={readMore}
+                                            className="read-more"
+                                        />
+                                    </div>
+                                )}
+                            </Fragment>
                         )}
                     </div>
                 </Fragment>

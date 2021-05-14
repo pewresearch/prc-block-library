@@ -18,10 +18,11 @@ class Page_Block extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$title   = $attributes['title'];
-		$content = $attributes['content'];
-		$url     = $attributes['url'];
-		$image   = $attributes['image'];
+		$title     = $attributes['title'];
+		$content   = $attributes['content'];
+		$url       = $attributes['url'];
+		$image     = $attributes['image'];
+		$read_more = $attributes['enableReadMore'] && array_key_exists( 'readMore', $attributes ) ? $attributes['readMore'] : false;
 		ob_start();
 		?>
 		<div class="ui page">
@@ -31,6 +32,11 @@ class Page_Block extends PRC_Block_Library {
 				<div class="description">
 					<?php echo wp_kses( $content, 'post' ); ?>
 				</div>
+				<?php 
+				if ( false !== $read_more ) {
+					echo '<div class="extra"><span class="read-more">' . filter_block_kses_value( $read_more, 'post' ) . '</span></div>';
+				}
+				?>
 			</div>
 		</div>
 		<?php

@@ -32,7 +32,7 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 		}
 		ob_start();
 		?>
-		<div class="ui secondary fluid menu">
+		<div id="prc-az-index-menu" class="ui secondary fluid menu">
 		<?php
 		foreach ( $az as $letter ) {
 			$class = classnames( 'item', array( 'disabled' => ! in_array( $letter, $present ) ) );
@@ -54,7 +54,7 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 			'topic-index-az-controller',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $block_editor_js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -66,6 +66,7 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/topic-index-az-controller',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
