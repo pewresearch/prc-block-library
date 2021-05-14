@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/chiclet-menu-item/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,oDACI,8BAA8B,CAC9B,+BAA+B","file":"chiclet-menu-item/main-61918119.css","sourcesContent":[".wp-block.wp-block-prc-block-chiclet-menu-item.item {\n    margin-left: inherit!important;\n    margin-right: inherit!important;\n}"],"sourceRoot":""}
