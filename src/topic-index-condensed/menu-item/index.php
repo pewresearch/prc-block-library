@@ -24,7 +24,7 @@ class Topic_Index_Condensed_Menu_Item extends PRC_Block_Library {
 		ob_start();
 		?>
 		<a class="wp-block-prc-block-topic-index-condensed-menu-item item" data-slug="<?php echo esc_attr( $attributes['slug'] ); ?>" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
-			<?php echo wp_kses( $attributes['title'], 'post' ); ?>
+			<?php echo wp_kses( $attributes['title'], 'post' ); ?> <i class="chevron right small icon"></i>
 		</a>
 		<?php
 		return ob_get_clean();
