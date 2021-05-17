@@ -19,8 +19,8 @@ const LineControls = ({ attributes, setAttributes, chartType }) => {
         lineInterpolation,
         lineStrokeWidth,
         lineNodes,
-        lineNodeSize,
-        lineNodeStroke,
+        nodeSize,
+        nodeStroke,
         areaFillOpacity,
     } = attributes;
     return (
@@ -70,19 +70,19 @@ const LineControls = ({ attributes, setAttributes, chartType }) => {
                 disabled={!lineNodes}
                 min={1}
                 label={__('Line Node Size')}
-                value={lineNodeSize}
+                value={nodeSize}
                 onChange={(value) =>
-                    setAttributes({ lineNodeSize: formatNum(value, 'integer') })
+                    setAttributes({ nodeSize: formatNum(value, 'integer') })
                 }
             />
             <NumberControl
                 disabled={!lineNodes}
                 min={1}
                 label={__('Line Node Stroke')}
-                value={lineNodeStroke}
+                value={nodeStroke}
                 onChange={(value) =>
                     setAttributes({
-                        lineNodeStroke: formatNum(value, 'integer'),
+                        nodeStroke: formatNum(value, 'integer'),
                     })
                 }
             />

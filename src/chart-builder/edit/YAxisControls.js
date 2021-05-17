@@ -10,6 +10,7 @@ import {
     Flex,
     FlexItem,
     __experimentalNumberControl as NumberControl,
+    ColorPicker,
 } from '@wordpress/components';
 /**
  * Internal dependencies
@@ -26,6 +27,8 @@ const YAxisControls = ({ attributes, setAttributes }) => {
         yTickNum,
         yTickExact,
         showYMinDomainLabel,
+        yAxisStroke,
+        yGridStroke,
     } = attributes;
     return (
         <PanelBody title={__('Dependent Axis Configuration')}>
@@ -117,6 +120,27 @@ const YAxisControls = ({ attributes, setAttributes }) => {
                 help={__(
                     'List of numbers seperated by commas (eg. 0, 50, 100). Setting this value will override the "Number of ticks" parameter',
                 )}
+            />
+            <PanelRow>
+                <strong>Axis Styles</strong>
+            </PanelRow>
+            <PanelRow>{__('Axis Stroke')}</PanelRow>
+            <ColorPicker
+                color={yAxisStroke}
+                onChangeComplete={(color) =>
+                    setAttributes({
+                        yAxisStroke: color.hex,
+                    })
+                }
+            />
+            <PanelRow> {__('Grid Stroke')}</PanelRow>
+            <ColorPicker
+                color={yGridStroke}
+                onChangeComplete={(color) =>
+                    setAttributes({
+                        yGridStroke: color.hex,
+                    })
+                }
             />
         </PanelBody>
     );

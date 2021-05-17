@@ -11,6 +11,7 @@ import {
     Flex,
     FlexItem,
     __experimentalNumberControl as NumberControl,
+    ColorPicker,
 } from '@wordpress/components';
 /**
  * Internal dependencies
@@ -29,6 +30,8 @@ const XAxisControls = ({ attributes, setAttributes }) => {
         xTickNum,
         xTickExact,
         xLabel,
+        xAxisStroke,
+        xGridStroke,
     } = attributes;
     return (
         <PanelBody title={__('Independent Axis Configuration')}>
@@ -161,6 +164,27 @@ const XAxisControls = ({ attributes, setAttributes }) => {
                 help={__(
                     'List of numbers seperated by commas (eg. 0, 50, 100). Setting this value will override the "Number of Ticks" parameter',
                 )}
+            />
+            <PanelRow>
+                <strong>Axis Styles</strong>
+            </PanelRow>
+            <PanelRow>{__('Axis Stroke')}</PanelRow>
+            <ColorPicker
+                color={xAxisStroke}
+                onChangeComplete={(color) =>
+                    setAttributes({
+                        xAxisStroke: color.hex,
+                    })
+                }
+            />
+            <PanelRow> {__('Grid Stroke')}</PanelRow>
+            <ColorPicker
+                color={xGridStroke}
+                onChangeComplete={(color) =>
+                    setAttributes({
+                        xGridStroke: color.hex,
+                    })
+                }
             />
         </PanelBody>
     );

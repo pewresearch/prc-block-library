@@ -1,3 +1,13 @@
+/**
+ * Wordpress dependencies
+ */
+import { useDispatch } from '@wordpress/data';
+import { uploadMedia } from '@wordpress/media-utils';
+/**
+ * External dependencies
+ */
+import html2canvas from 'html2canvas';
+
 // Transform data from table block into json useable for chart builder
 export const formattedData = (data, scale, chartType) => {
     const { body, tableHeaders } = data;
@@ -6,7 +16,8 @@ export const formattedData = (data, scale, chartType) => {
         if (
             chartType === 'bar' ||
             chartType === 'stacked-bar' ||
-            chartType === 'pie'
+            chartType === 'pie' ||
+            chartType === 'dot-plot'
         ) {
             return data;
         }
@@ -15,6 +26,26 @@ export const formattedData = (data, scale, chartType) => {
         }
         return parseFloat(data);
     };
+
+    // if (chartType === 'dot-plot') {
+    //     for (let i = 0; i < body.length; i++) {
+    //         const row = {};
+    //         for (let j = 0; j < headers.length; j++) {
+    //             if (j === 0) {
+    //                 row['y'] = body[i].cells[j].content;
+    //             }
+    //             if (j === 1) {
+    //                 row.x = parseFloat(body[i].cells[j].content);
+    //                 row.x__label = headers[j].content;
+    //             }
+    //             if (j > 1) {
+    //                 row[`x${j}`] = parseFloat(body[i].cells[j].content);
+    //                 row[`x${j}__label`] = body[i].cells[j].content;
+    //             }
+    //         }
+    //         seriesData.push(row);
+    //     }
+    // } else {
     for (var i = 1; i < tableHeaders.length; i++) {
         var series = body
             .filter((row) => !isNaN(parseFloat(row.cells[i].content)))
@@ -26,6 +57,7 @@ export const formattedData = (data, scale, chartType) => {
             }));
         seriesData.push(series);
     }
+    // }
     return seriesData;
 };
 
@@ -45,6 +77,9 @@ export const getDomain = (min, max, type, scale, axis, orientation) => {
         return null;
     }
     if (type === 'stacked-bar' && axis === 'x') {
+        return null;
+    }
+    if (type === 'dot-plot' && axis === 'x') {
         return null;
     }
     // likewise, no domain for a pie chart
@@ -74,4 +109,47 @@ export const formatNum = (num, output) => {
     return num;
 };
 
-export const svgToCanvasToPng = (svg) => {};
+export const uploadToMediaLibrary = (blob, name, type) => {
+    uploadMedia({
+        filesList: [
+            new File([blob], name, {
+                type,
+            }),
+        ],
+        onFileChange: ([fileObj]) => {
+            console.log(fileObj);
+            const { editPost } = dispatch('core/editor');
+            editPost({ featured_media: fileObj.id });
+        },
+        onError: console.error,
+    });
+};
+
+export const createHTMLCanvas = (clientId) => {
+    const blockEl = document.querySelector(`[data-block="${clientId}"]`);
+    html2canvas(blockEl).then((canvas) => {
+        canvas.toBlob(
+            function (blob) {
+                uploadToMediaLibrary(
+                    blob,
+                    `chart-${clientId}-${Date.now()}.png`,
+                    'image/png',
+                );
+            },
+            'image/png',
+            1,
+        );
+    });
+};
+
+export const createSvg = (clientId) => {
+    const blockEl = document.querySelector(`[data-block="${clientId}"]`);
+    const svg = blockEl.querySelector('svg');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+    console.log(svg.outerHTML);
+    var blob = new Blob([svg.outerHTML], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    console.log({ blob, url });
+    upload(blob, `chart-${clientId}-${Date.now()}.svg`, 'image/svg+xml');
+};

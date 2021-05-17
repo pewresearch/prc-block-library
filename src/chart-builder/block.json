@@ -89,6 +89,22 @@
             "type": "string",
             "default": "yyyy"
         },
+        "xAxisStroke": {
+            "type": "string",
+            "default": "#756f6a"
+        },
+        "xGridStroke": {
+            "type": "string",
+            "default": ""
+        },
+        "yAxisStroke": {
+            "type": "string",
+            "default": "#756f6a"
+        },
+        "yGridStroke": {
+            "type": "string",
+            "default": ""
+        },
         "yAxisActive": {
             "type": "boolean",
             "default": true
@@ -161,11 +177,15 @@
             "type": "boolean",
             "default": false
         },
-        "lineNodeSize": {
+        "nodeSize": {
             "type": "integer",
             "default": 3
         },
-        "lineNodeStroke": {
+        "nodeFill": {
+            "type": "string",
+            "default": "inherit"
+        },
+        "nodeStroke": {
             "type": "integer",
             "default": 3
         },
@@ -287,6 +307,10 @@
         {
             "name": "area",
             "label": "Area"
+        },
+        {
+            "name": "dot-plot",
+            "label": "Dot Plot"
         }
     ]
 }
