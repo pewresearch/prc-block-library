@@ -30,7 +30,7 @@ class Taxonomy_Tree extends PRC_Block_Library {
 		$sub_heading = array_key_exists( 'subHeading', $attributes ) ? $attributes['subHeading'] : null;
 		ob_start();
 		?>
-		<div class="ui sub header"><?php echo filter_block_kses_value( $sub_heading, 'post' ); ?></div>
+		<h3><?php echo filter_block_kses_value( $sub_heading, 'post' ); ?></h3>
 		<div class="ui list">
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
@@ -53,7 +53,7 @@ class Taxonomy_Tree extends PRC_Block_Library {
 			'taxonomy-tree',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
