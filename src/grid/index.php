@@ -75,14 +75,16 @@ class Grid_Block extends PRC_Block_Library {
 	 * Parses the story items inside a grid inside a post/page and builds an array of all post id's referenced in story items
 	 * useful for excluding posts in wp_query block and topic page pre_get_posts
 	 */
-	public function update_featured_post_ids( $post, $is_gutenberg ) {
-		if ( true !== $is_gutenberg ) {
+	public function update_featured_post_ids( $post ) {
+		if ( true !== has_blocks( $post ) ) {
 			return;
 		}
 
-		if ( ! has_block( 'prc-block/story-item' ) && ! has_block( 'prc-block/grid' ) ) {
+		if ( ! has_block( 'prc-block/story-item', $post ) && ! has_block( 'prc-block/grid', $post ) ) {
 			return;
 		}
+
+		error_log( 'update_featured_post_ids()' );
 
 		$post_ids = array();
 
@@ -98,10 +100,8 @@ class Grid_Block extends PRC_Block_Library {
 		}
 
 		$post_ids = apply_filters( 'prc_block_featured_post_ids', $post_ids, $blocks );
-		error_log( 'post ids?' . print_r( $post_ids, true ) );
 
 		if ( ! empty( $post_ids ) ) {
-			error_log( 'post ids CHECK' . print_r( $post_ids, true ) );
 			update_post_meta( $post->ID, '_featured_posts', $post_ids );
 		}
 	}
