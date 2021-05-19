@@ -28,9 +28,18 @@ class Taxonomy_Tree extends PRC_Block_Library {
 	 */
 	public function render_taxonomy_tree( $attributes, $content, $block ) {
 		$sub_heading = array_key_exists( 'subHeading', $attributes ) ? $attributes['subHeading'] : null;
+		$is_alt      = array_key_exists( 'className', $attributes ) && 'is-style-alt' === $attributes['className'] ? true : false;
+		$tag_name    = $is_alt ? 'div' : 'h3';
+		$classnames  = classNames(
+			array(
+				'ui sub header' => $is_alt,
+			)
+		);
 		ob_start();
 		?>
-		<h3><?php echo filter_block_kses_value( $sub_heading, 'post' ); ?></h3>
+		<<?php echo esc_attr( $tag_name ); ?> class="<?php echo esc_attr( $classnames ); ?>">
+			<?php echo filter_block_kses_value( $sub_heading, 'post' ); ?>
+		</<?php echo esc_attr( $tag_name ); ?>>
 		<div class="ui list">
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>

@@ -17,11 +17,17 @@ import {
 
 const ALLOWED_BLOCKS = ['prc-block/menu-link', 'prc-block/taxonomy-tree-more'];
 
-const edit = ({ attributes, className, setAttributes }) => {
-    const { subHeading } = attributes;
+const edit = ({ attributes, setAttributes }) => {
+    const { subHeading, className } = attributes;
 
     const blockProps = useBlockProps({
         className: classnames(className),
+    });
+
+    const isAlt = undefined !== className && className.includes('is-style-alt');
+
+    const subHeaderClasses = classnames({
+        'ui sub header': isAlt,
     });
 
     const innerBlocksProps = useInnerBlocksProps(
@@ -39,7 +45,8 @@ const edit = ({ attributes, className, setAttributes }) => {
     return (
         <div {...blockProps}>
             <RichText
-                className="ui sub header"
+                tagName={isAlt ? 'div' : 'h3'}
+                className={subHeaderClasses}
                 identifier="label"
                 value={subHeading}
                 onChange={newSubHeading =>

@@ -81,8 +81,8 @@
   "taxonomy-tree-more.js.map": "blocks/taxonomy-tree-more-d4065dea.js.map",
   "taxonomy-tree.css": "blocks/taxonomy-tree-ab07c332.css",
   "taxonomy-tree.css.map": "blocks/taxonomy-tree-ab07c332.css.map",
-  "taxonomy-tree.js": "blocks/taxonomy-tree-31c68db3.js",
-  "taxonomy-tree.js.map": "blocks/taxonomy-tree-31c68db3.js.map",
+  "taxonomy-tree.js": "blocks/taxonomy-tree-f2a291d7.js",
+  "taxonomy-tree.js.map": "blocks/taxonomy-tree-f2a291d7.js.map",
   "topic-index-az-controller.css": "blocks/topic-index-az-controller-fb65c3a0.css",
   "topic-index-az-controller.css.map": "blocks/topic-index-az-controller-fb65c3a0.css.map",
   "topic-index-az-controller.js": "blocks/topic-index-az-controller-a3993861.js",
@@ -485,11 +485,11 @@
     "taxonomy-tree": {
       "js": [
         "blocks/runtime-8f407741.js",
-        "blocks/taxonomy-tree-31c68db3.js"
+        "blocks/taxonomy-tree-f2a291d7.js"
       ],
       "js.map": [
         "blocks/runtime-8f407741.js.map",
-        "blocks/taxonomy-tree-31c68db3.js.map"
+        "blocks/taxonomy-tree-f2a291d7.js.map"
       ],
       "css": [
         "blocks/taxonomy-tree-ab07c332.css"

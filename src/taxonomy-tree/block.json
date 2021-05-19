@@ -7,6 +7,17 @@
             "type": "string"
         }
     },          
+	"styles" : [
+		{
+			"name": "standard",
+			"label": "Standard",
+			"isDefault": true
+		},
+		{
+			"name": "alt",
+			"label": "Alternate"
+		}
+	],
 	"supports": {
 		"html": false
 	}

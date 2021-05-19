@@ -9,7 +9,6 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			// Do hooks here
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
 	}
@@ -22,7 +21,9 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 	}
 
 	public function render_chart_builder( $attributes, $content = '', $block ) {
-		error_log( 'Render Received::' );
+		if ( is_admin() ) {
+			return $content;
+		}
 		$script_handle = $this->enqueue_frontend();
 		$attrs         = wp_json_encode( $block->attributes );
 		$id            = md5( $attrs ); // some random id for this chart you can use something like md5() to spit out a random but unique id using the attributes of the block.
@@ -51,7 +52,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		if ( !window.chartConfigs ) {
 			window.chartConfigs = {};
 		}
-		chartConfigs["<?php echo "${id}" ; ?>"] = <?php echo "${attrs}"; ?>
+		chartConfigs["<?php echo "${id}"; ?>"] = <?php echo "${attrs}"; ?>
 		</script>
 		<?php
 		return ob_get_clean();
@@ -81,8 +82,6 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		error_log( 'registering chart builder?' );
-
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-components' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
 		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
@@ -103,9 +102,9 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/chart-builder',
 			array(
-				'editor_script'   	=> array_pop( $registered['js'] )['handle'],
-				'style'				=> array_pop( $registered['css'] )['handle'],
-				'render_callback' 	=> array( $this, 'render_chart_builder' ),
+				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
+				'render_callback' => array( $this, 'render_chart_builder' ),
 			)
 		);
 	}
