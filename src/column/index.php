@@ -75,7 +75,7 @@ class Column_Block extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $classes ) ); ?>">
-			<?php echo wp_kses( $content, 'post' ); ?>
+			<?php echo apply_filters( 'the_content', $content ); ?>
 		</div>
 		<?php
 		return ob_get_clean();
