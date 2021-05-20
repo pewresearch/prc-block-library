@@ -50,7 +50,7 @@ class Row_Block extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $row_classes ) ); ?>">
-			<?php echo wp_kses( $content, 'post' ); ?>
+			<?php echo apply_filters( 'the_content', $content ); ?>
 		</div>
 		<?php
 		return ob_get_clean();
