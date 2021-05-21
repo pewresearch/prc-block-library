@@ -46,14 +46,16 @@ class Row_Block extends PRC_Block_Library {
 			'row'         => $as_row,
 		);
 		$row_classes = apply_filters( 'prc_grid_row_classes', $row_classes, $block->parsed_block );
-		error_log( print_r( normalize_whitespace( $content ), true ) );
+		remove_filter( 'the_content', 'wpautop' );
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $row_classes ) ); ?>">
 			<?php echo apply_filters( 'the_content', normalize_whitespace( $content ) ); ?>
 		</div>
 		<?php
-		return ob_get_clean();
+		$markup = ob_get_clean();
+		add_filter( 'the_content', 'wpautop' );
+		return $markup;
 	}
 
 	/**

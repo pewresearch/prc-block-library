@@ -12,7 +12,9 @@ class Separator_Block extends PRC_Block_Library {
 			return $block_content;
 		}
 
-		return '<div class="ui divider"></div>';
+		$class_names = classNames( 'ui divider', $block['attrs']['className'] );
+
+		return '<div class="' . esc_attr( $class_names ) . '"></div>';
 	}
 }
 

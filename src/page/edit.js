@@ -242,7 +242,7 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                                             placeholder={__(`Read More...`)}
                                             keepPlaceholderOnFocus
                                             className="read-more"
-                                            allowedFormats={['link']}
+                                            allowedFormats={['core/link']}
                                         />
                                     </div>
                                 )}
