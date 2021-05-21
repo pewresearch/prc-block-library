@@ -134,7 +134,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		}
 		// End anchor tag content.
 
-		return $html;
+		return normalize_whitespace( $html );
 	}
 
 	/**
