@@ -78,7 +78,7 @@ const doSearch = (searchTerm, restrictToTermId = 0) => {
                 return {
                     key: t.id,
                     value: t.link,
-                    description: decodeEntities(t.description),
+                    // description: decodeEntities(t.description), If enabled this would add helpful descriptions for terms that have them.
                     title: decodeEntities(t.name),
                 };
             });

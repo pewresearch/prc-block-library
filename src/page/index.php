@@ -18,21 +18,27 @@ class Page_Block extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$title     = $attributes['title'];
-		$content   = $attributes['content'];
-		$url       = $attributes['url'];
-		$image     = $attributes['image'];
-		$read_more = $attributes['enableReadMore'] && array_key_exists( 'readMore', $attributes ) ? $attributes['readMore'] : false;
+		$title       = $attributes['title'];
+		$content     = $attributes['content'];
+		$url         = $attributes['url'];
+		$image       = $attributes['image'];
+		$read_more   = $attributes['enableReadMore'] && array_key_exists( 'readMore', $attributes ) ? $attributes['readMore'] : false;
+		$class_names = classNames(
+			'ui page',
+			array(
+				'has-excerpt' => array_key_exists( 'content', $attributes ) && true === $attributes['enableExcerpt'] && ! empty( $attributes['content'] ),
+			)
+		);
 		ob_start();
 		?>
-		<div class="ui page">
+		<div class="<?php echo esc_attr( $class_names ); ?>">
 			<div class="image"><a href="<?php echo esc_url( $url ); ?>"><img src="<?php echo esc_url( $image ); ?>"/></a></div>
 			<div class="content">
 				<?php echo wp_kses( "<div class='header'><a href='" . esc_url( $url ) . "'>" . $title . '</a></div>', 'post' ); ?>
-				<div class="description">
-					<?php echo wp_kses( $content, 'post' ); ?>
-				</div>
-				<?php 
+				<?php
+				if ( true === $attributes['enableExcerpt'] ) {
+					echo '<div class="description">' . wp_kses( $content, 'post' ) . '</div>';
+				}
 				if ( false !== $read_more ) {
 					echo '<div class="extra"><span class="read-more">' . filter_block_kses_value( $read_more, 'post' ) . '</span></div>';
 				}

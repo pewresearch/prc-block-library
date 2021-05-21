@@ -16,12 +16,15 @@ $itemSpacing: 0em 0em 24px 0em;
     a {
         color: #2A2A2A;
     }
+    &.has-excerpt .header {
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
     .header {
         font-size: 18px;
         font-style: normal;
-        font-weight: 500;
+        font-weight: normal;
         line-height: 20px;
-        margin-bottom: 20px;
     }
     .description {
         font-size: 15px;
@@ -29,7 +32,10 @@ $itemSpacing: 0em 0em 24px 0em;
         font-weight: 400;
         line-height: 18px;
     }
-    .extra {
+    &.has-excerpt .extra {
         padding-top: 0.5em;
+    }
+    .extra {
+        padding-top: 1em;
     }
 }

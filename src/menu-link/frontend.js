@@ -1,5 +1,13 @@
+/**
+ * WordPress dependencies
+ */
 import domReady from '@wordpress/dom-ready';
 import { addQueryArgs, removeQueryArgs, getQueryArg } from '@wordpress/url';
+
+/**
+ * Internal dependencies
+ */
+import './style.scss';
 
 const onClick = elm => {
     elm.parentElement.classList.toggle('active');

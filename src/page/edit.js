@@ -109,7 +109,7 @@ const ObjectImage = ({ image, setAttributes, isSelected }) => {
 };
 
 const ObjectControls = ({ attributes, setAttributes, isSelected }) => {
-    const { postId, title, url, enableReadMore } = attributes;
+    const { postId, title, url, enableReadMore, enableExcerpt } = attributes;
     const postType = 'page';
     const route = 'pages';
     return (
@@ -126,6 +126,15 @@ const ObjectControls = ({ attributes, setAttributes, isSelected }) => {
                 </PanelBody>
                 <PanelBody title={__('Page Settings')}>
                     <div>
+                        <ToggleControl
+                            label={__(`Enable Excerpt`)}
+                            checked={enableExcerpt}
+                            onChange={() =>
+                                setAttributes({
+                                    enableExcerpt: !enableExcerpt,
+                                })
+                            }
+                        />
                         <ToggleControl
                             label={__(`Enable Read More`)}
                             checked={enableReadMore}
@@ -159,12 +168,22 @@ const ObjectPlaceholder = ({ label, attributes, setAttributes }) => {
 };
 
 const edit = ({ attributes, className, setAttributes, isSelected }) => {
-    const { title, url, content, image, enableReadMore, readMore } = attributes;
+    const {
+        title,
+        url,
+        content,
+        image,
+        enableReadMore,
+        enableExcerpt,
+        readMore,
+    } = attributes;
 
     // go fetch page information...
 
     const blockProps = useBlockProps({
-        className: classnames(className, 'ui', 'page'),
+        className: classnames(className, 'ui', 'page', {
+            'has-excerpt': enableExcerpt,
+        }),
     });
 
     return (
@@ -200,16 +219,18 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                                     allowedFormats={['italic']}
                                     className="header"
                                 />
-                                <RichText
-                                    tagName="div"
-                                    value={content}
-                                    onChange={c =>
-                                        setAttributes({ content: c })
-                                    }
-                                    placeholder={__(`Page excerpt...`)}
-                                    keepPlaceholderOnFocus
-                                    className="description sans-serif"
-                                />
+                                {true === enableExcerpt && (
+                                    <RichText
+                                        tagName="div"
+                                        value={content}
+                                        onChange={c =>
+                                            setAttributes({ content: c })
+                                        }
+                                        placeholder={__(`Page excerpt...`)}
+                                        keepPlaceholderOnFocus
+                                        className="description sans-serif"
+                                    />
+                                )}
                                 {true === enableReadMore && (
                                     <div className="extra">
                                         <RichText
@@ -234,11 +255,13 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
                                     value={title}
                                     className="header"
                                 />
-                                <RichText.Content
-                                    tagName="div"
-                                    value={content}
-                                    className="description sans-serif"
-                                />
+                                {true === enableExcerpt && (
+                                    <RichText.Content
+                                        tagName="div"
+                                        value={content}
+                                        className="description sans-serif"
+                                    />
+                                )}
                                 {true === enableReadMore && (
                                     <div className="extra">
                                         <RichText.Content

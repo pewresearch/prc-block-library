@@ -36,8 +36,7 @@ class Row_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_row( $attributes, $content, $block ) {
-		$as_row = array_key_exists( 'asRow', $attributes ) ? $attributes['asRow'] : false;
-		
+		$as_row      = array_key_exists( 'asRow', $attributes ) ? $attributes['asRow'] : false;  
 		$row_classes = array(
 			'ui',
 			'equal width' => $attributes['equal'],
@@ -47,10 +46,11 @@ class Row_Block extends PRC_Block_Library {
 			'row'         => $as_row,
 		);
 		$row_classes = apply_filters( 'prc_grid_row_classes', $row_classes, $block->parsed_block );
+		error_log( print_r( normalize_whitespace( $content ), true ) );
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $row_classes ) ); ?>">
-			<?php echo apply_filters( 'the_content', $content ); ?>
+			<?php echo apply_filters( 'the_content', normalize_whitespace( $content ) ); ?>
 		</div>
 		<?php
 		return ob_get_clean();

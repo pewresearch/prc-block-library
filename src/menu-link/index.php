@@ -31,7 +31,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			'menu-link',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -43,7 +43,9 @@ class PRC_Menu_Link extends PRC_Block_Library {
 	public function enqueue_frontend() {
 		$registered    = $this->register_frontend();
 		$script_handle = array_pop( $registered['js'] )['handle'];
+		$style_handle  = array_pop( $registered['css'] )['handle'];
 		wp_enqueue_script( $script_handle );
+		wp_enqueue_style( $style_handle );
 	}
 
 	public function get_menu_link( $attributes, $content = null, $in_menu = false ) {
@@ -126,13 +128,13 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		if ( ! empty( $content ) && true === $in_menu ) {
 			$html .= '<i class="dropdown icon"></i> <div class="menu">' . $content . '</div></div>';
 		} elseif ( ! empty( $content ) ) {
-			$html .= '</a> <i class="expand-sub-list plus icon" data-target="' . $menu_item_id . '" style="cursor:pointer"></i><div id="' . $menu_item_id . '" class="hidden list">' . $content . '</div></div>';
+			$html .= '</a> <i class="expand-sub-list plus circle icon" data-target="' . $menu_item_id . '"></i><div id="' . $menu_item_id . '" class="hidden list">' . $content . '</div></div>';
 		} else {
 			$html .= '</a>';
 		}
 		// End anchor tag content.
 
-		return $html;
+		return normalize_whitespace( $html );
 	}
 
 	/**

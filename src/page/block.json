@@ -18,6 +18,10 @@
 		"image": {
             "type": "string"
         },
+		"enableExcerpt": {
+            "type": "boolean",
+			"default": true
+		},
 		"enableReadMore": {
             "type": "boolean",
 			"default": false

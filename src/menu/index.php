@@ -20,6 +20,7 @@ class PRC_Block_Menu extends PRC_Block_Library {
 	public function get_menu_class( $attributes ) {
 		$menu_classes = array(
 			'ui',
+			'fluid',
 			'menu',
 		);
 		if ( array_key_exists( 'className', $attributes ) && 'is-style-text' === $attributes['className'] ) {
