@@ -38,7 +38,7 @@ class Taxonomy_Tree extends PRC_Block_Library {
 		ob_start();
 		?>
 		<<?php echo esc_attr( $tag_name ); ?> class="<?php echo esc_attr( $classnames ); ?>"><?php echo filter_block_kses_value( $sub_heading, 'post' ); ?></<?php echo esc_attr( $tag_name ); ?>>
-		<div class="ui relaxed list" data-blockName="prc-block/taxonomy-tree">
+		<div class="ui relaxed link list" data-blockName="prc-block/taxonomy-tree">
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
