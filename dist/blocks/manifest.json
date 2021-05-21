@@ -37,8 +37,8 @@
   "menu-link.js.map": "blocks/menu-link-2fd99ee0.js.map",
   "menu.js": "blocks/menu-07c999b6.js",
   "menu.js.map": "blocks/menu-07c999b6.js.map",
-  "page.css": "blocks/page-e6d7d82c.css",
-  "page.css.map": "blocks/page-e6d7d82c.css.map",
+  "page.css": "blocks/page-f161fdd2.css",
+  "page.css.map": "blocks/page-f161fdd2.css.map",
   "page.js": "blocks/page-0544725b.js",
   "page.js.map": "blocks/page-0544725b.js.map",
   "post-bylines.js": "blocks/post-bylines-62aa63ec.js",
@@ -310,10 +310,10 @@
         "blocks/page-0544725b.js.map"
       ],
       "css": [
-        "blocks/page-e6d7d82c.css"
+        "blocks/page-f161fdd2.css"
       ],
       "css.map": [
-        "blocks/page-e6d7d82c.css.map"
+        "blocks/page-f161fdd2.css.map"
       ]
     },
     "post-bylines": {
