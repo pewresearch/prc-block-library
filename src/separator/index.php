@@ -11,8 +11,10 @@ class Separator_Block extends PRC_Block_Library {
 		if ( 'core/separator' !== $block['blockName'] ) {
 			return $block_content;
 		}
+		
+		$extra_classes = array_key_exists( 'className', $block['attrs'] ) ? $block['attrs']['className'] : null;
 
-		$class_names = classNames( 'ui divider', $block['attrs']['className'] );
+		$class_names = classNames( 'ui divider', $extra_classes );
 
 		return '<div class="' . esc_attr( $class_names ) . '"></div>';
 	}
