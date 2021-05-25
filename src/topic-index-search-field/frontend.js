@@ -13,6 +13,7 @@ import {
     useCallback,
     useRef,
 } from '@wordpress/element';
+import { __ } from '@wordpress/i18n/';
 import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
@@ -30,7 +31,7 @@ const INITIAL_STATE = {
         {
             key: null,
             value: null,
-            title: 'Start typing to search topics...',
+            title: 'Start typing to search for a topic...',
         },
     ],
     value: '',
@@ -139,6 +140,7 @@ const TopicSearchField = ({ restrictToTermId = 0 }) => {
             value={value}
             defaultValue={null}
             fluid
+            placeholder={__(`Start typing to search for a topic...`)}
         />
     );
 };
