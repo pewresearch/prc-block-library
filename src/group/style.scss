@@ -2,14 +2,13 @@ $relaxedBorder: #e6e7e6;
 $altCardHeaderPadding: 1em;
 $altCardLineHeight: 1.28571429em;
 $altCardMargin: 1rem;
+$breakpoint: 767px;
 
 .column > .wp-block-group.is-style-card-alt,
 #secondary.column > .prc-block-area {
-	margin-left: -1.5rem;
-	// @media only screen and (max-width: @largestMobileScreen) {
-	// 	margin-left: 0!important;
-	// 	margin-right: 0!important;
-	// }
+	@media only screen and (min-width: $breakpoint) {
+		margin-left: -1.5rem;
+	}
 }
 
 .wp-block-group {
@@ -54,8 +53,10 @@ $altCardMargin: 1rem;
 	
 	&.is-style-card-alt {
 		.wp-block-group__inner-container {
-			padding-left: $altCardMargin;
-			padding-right: $altCardMargin;
+			@media only screen and (min-width: $breakpoint) {
+				padding-left: $altCardMargin;
+				padding-right: $altCardMargin;
+			}
 			padding-bottom: $altCardMargin;
 		}
 		
