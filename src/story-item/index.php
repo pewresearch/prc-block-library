@@ -23,7 +23,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 			add_action( 'template_redirect', array( $this, 'preview_story_item' ), 1 );
 			add_filter( 'query_vars', array( $this, 'add_preview_query_args' ) );
+			add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 1 );
 		}
+	}
+
+	public function wrap_consecutive_story_items( $content ) {
+		// Do some regex search for consecutive .react-story-item and wrap in a div with class .ui.divided.very.relaxed.story.items
+		return $content;
 	}
 
 	public function related_story_item( $args ) {

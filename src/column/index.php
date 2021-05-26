@@ -73,14 +73,16 @@ class Column_Block extends PRC_Block_Library {
 		}
 		$classes[] = 'column';
 		remove_filter( 'the_content', 'wpautop' );
+		$column_content = apply_filters( 'the_content', $content );
+		add_filter( 'the_content', 'wpautop' );
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $classes ) ); ?>">
-			<?php echo apply_filters( 'the_content', $content ); ?>
+			<?php echo apply_filters( 'prc_column_block_content', $column_content ); ?>
 		</div>
 		<?php
 		$markup = ob_get_clean();
-		add_filter( 'the_content', 'wpautop' );
+		
 		return $markup;
 	}
 
