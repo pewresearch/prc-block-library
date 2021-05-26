@@ -28,7 +28,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	public function wrap_consecutive_story_items( $content ) {
-		// Do some regex search for consecutive .react-story-item and wrap in a div with class .ui.divided.very.relaxed.story.items
+		// regex search for adjacent .react-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
 		return $content;
 	}
 

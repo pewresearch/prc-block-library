@@ -15,7 +15,7 @@
  * Compiled with the help of https://wpack.io
  * A zero setup Webpack Bundler Script for WordPress
  */
-.ui.mailchimp.form{min-width:300px;width:100%}.ui.mailchimp.form .required.field{min-width:280px}.ui.mailchimp.form>.field .field{text-align:left}.ui.mailchimp.form>.fields .required.field{flex-grow:1}
+.ui.mailchimp.form{width:100%}.ui.mailchimp.form>.field .field{text-align:left}.ui.mailchimp.form>.fields .required.field{flex-grow:1}
 
 
-/*# sourceMappingURL=mailchimp-form-5910fc05.css.map*/
+/*# sourceMappingURL=mailchimp-form-1d963e69.css.map*/

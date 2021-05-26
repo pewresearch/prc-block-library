@@ -25,8 +25,8 @@
   "heading.css.map": "blocks/heading-ae7b67f1.css.map",
   "heading.js": "blocks/heading-fbfb5b40.js",
   "heading.js.map": "blocks/heading-fbfb5b40.js.map",
-  "mailchimp-form.css": "blocks/mailchimp-form-5910fc05.css",
-  "mailchimp-form.css.map": "blocks/mailchimp-form-5910fc05.css.map",
+  "mailchimp-form.css": "blocks/mailchimp-form-1d963e69.css",
+  "mailchimp-form.css.map": "blocks/mailchimp-form-1d963e69.css.map",
   "mailchimp-form.js": "blocks/mailchimp-form-2daa3ec1.js",
   "mailchimp-form.js.map": "blocks/mailchimp-form-2daa3ec1.js.map",
   "mailchimp-select.css": "blocks/mailchimp-select-fe24482a.css",
@@ -250,10 +250,10 @@
         "blocks/mailchimp-form-2daa3ec1.js.map"
       ],
       "css": [
-        "blocks/mailchimp-form-5910fc05.css"
+        "blocks/mailchimp-form-1d963e69.css"
       ],
       "css.map": [
-        "blocks/mailchimp-form-5910fc05.css.map"
+        "blocks/mailchimp-form-1d963e69.css.map"
       ]
     },
     "mailchimp-select": {
