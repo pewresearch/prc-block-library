@@ -26,6 +26,10 @@ class Heading_Block extends PRC_Block_Library {
 			$first_block = $first_block['innerBlocks'][0];
 		}
 
+		if ( ! is_array( $first_block ) ) {
+			return $classes;
+		}
+
 		if ( array_key_exists( 'className', $first_block['attrs'] ) && 'core/heading' !== $first_block['blockName'] && 'is-style-section-header' !== $first_block['attrs']['className'] ) {
 			return $classes;
 		}
