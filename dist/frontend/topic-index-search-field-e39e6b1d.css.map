@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/topic-index-search-field/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,mCACI,eAAgB","file":"frontend/topic-index-search-field-e39e6b1d.css","sourcesContent":[".js-react-topic-index-search-field {\n    max-width: 300px;\n}"],"sourceRoot":""}
