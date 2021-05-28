@@ -1,10 +1,10 @@
 const mailChimpInterests = [
     {
-        label: 'PRC - Weekly',
+        label: 'Weekly roundup of all new publications',
         value: '7c1390ba46',
     },
     {
-        label: 'PRC - Quarterly',
+        label: 'Quarterly update from the President',
         value: 'a33430a835',
     },
     {
