@@ -50,6 +50,7 @@ const StoryItem = ({
     // On mobile, outside the loop, force image alignment top.
     if (false === inLoop && true === isSmall && 'disabled' !== imageSlot) {
         imageSlot = 'top';
+        imageSize = 'A2';
     }
 
     if ( isStyleMobileLoop ) {

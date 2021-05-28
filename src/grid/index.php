@@ -26,6 +26,7 @@ class Grid_Block extends PRC_Block_Library {
 	 * @return mixed
 	 */
 	public function get_story_item_ids_from_column( $inner_blocks, $post_ids = array() ) {
+		do_action( 'qm/debug', 'get_story_item_ids_from_column() ->' . print_r( $inner_blocks, true ) );
 		foreach ( $inner_blocks as $key => $inner_block ) {
 			if ( 'prc-block/story-item' === $inner_block['blockName'] ) {
 				if ( ! empty( $inner_block['attrs']['postID'] ) ) {
@@ -83,8 +84,6 @@ class Grid_Block extends PRC_Block_Library {
 		if ( ! has_block( 'prc-block/story-item', $post ) && ! has_block( 'prc-block/grid', $post ) ) {
 			return;
 		}
-
-		error_log( 'update_featured_post_ids()' );
 
 		$post_ids = array();
 
