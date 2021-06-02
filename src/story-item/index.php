@@ -30,7 +30,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public function wrap_consecutive_story_items( $content ) {
 		// regex search for adjacent .react-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
 		$content = preg_replace(
-				'/((?:\s*?<\!-- \.react-story-item -->\X*?<\!-- \/\.react-story-item -->\s*?){2,})/i',
+				'/((?:\s*?<\!-- \.react-story-item -->.*?(?:(?!class=".*?(column|section-header).*?")\X)*?<\!-- \/\.react-story-item -->\s*?){2,})/i',
 				'<div class="ui divided very relaxed story items">${1}</div>',
 				$content
 		);
