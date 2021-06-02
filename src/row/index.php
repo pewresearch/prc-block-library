@@ -37,13 +37,17 @@ class Row_Block extends PRC_Block_Library {
 	 */
 	public function render_row( $attributes, $content, $block ) {
 		$as_row      = array_key_exists( 'asRow', $attributes ) ? $attributes['asRow'] : false;  
-		$row_classes = array(
-			'ui',
-			'equal width' => $attributes['equal'],
-			'divided'     => $attributes['divided'],
-			'stackable'   => array_key_exists( 'stackable', $attributes ) ? $attributes['stackable'] : false,
-			'grid'        => ! $as_row,
-			'row'         => $as_row,
+		$classnames  = array_key_exists( 'className', $attributes ) ? $attributes['className'] : null;
+		$row_classes = array_merge(
+			array(
+				'ui',
+				'equal width' => $attributes['equal'],
+				'divided'     => $attributes['divided'],
+				'stackable'   => array_key_exists( 'stackable', $attributes ) ? $attributes['stackable'] : false,
+				'grid'        => ! $as_row,
+				'row'         => $as_row,
+			),
+			explode( ' ', $classnames )
 		);
 		$row_classes = apply_filters( 'prc_grid_row_classes', $row_classes, $block->parsed_block );
 		remove_filter( 'the_content', 'wpautop' );
