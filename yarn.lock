@@ -1175,20 +1175,20 @@
     "@nodelib/fs.scandir" "2.1.3"
     "fastq" "^1.6.0"
 
-"@popperjs/core@^2.5.4", "@popperjs/core@^2.6.0":
-  "integrity" "sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q=="
-  "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.9.2.tgz"
-  "version" "2.9.2"
-
-"@prcdigital/chart-builder@^0.3.95":
-  "integrity" "sha1-C4Xx5VoA5goqwOefDeLveaAMfu8="
-  "resolved" "https://gitlab.com/api/v4/projects/18803335/packages/npm/@prcdigital/chart-builder/-/@prcdigital/chart-builder-0.3.95.tgz"
-  "version" "0.3.95"
+"@pewresearch/pew-chart-builder@^0.3.97":
+  "integrity" "sha512-I6a0dbC5fkEVaCvFIppaWTTSEp+lyi6qN7qLL/QtP9VBbDbOx9SPcB9zeTskrCWfB4zVZg947cQeVKo/VsePgQ=="
+  "resolved" "https://npm.pkg.github.com/download/@pewresearch/pew-chart-builder/0.3.97/2d01ae87c35392b0a83b2326b64eb0b8b65d2263f80384eb85d587eb69689c86"
+  "version" "0.3.97"
   dependencies:
     "@wordpress/element" "^2.18.0"
     "@wordpress/i18n" "^3.18.0"
     "styled-components" "^4.1.3"
     "victory" "^35.4.6"
+
+"@popperjs/core@^2.5.4", "@popperjs/core@^2.6.0":
+  "integrity" "sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q=="
+  "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.9.2.tgz"
+  "version" "2.9.2"
 
 "@semantic-ui-react/event-stack@^3.1.2":
   "integrity" "sha512-Yd0Qf7lPCIjzJ9bZYfurlNu2RDXT6KKSyubHfYK3WjRauhxCsq6Fk2LMRI9DEvShoEU+AsLSv3NGkqXAcVp0zg=="

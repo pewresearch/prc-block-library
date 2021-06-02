@@ -39,7 +39,7 @@
         "archive": "wpackio-scripts pack"
     },
     "dependencies": {
-        "@prcdigital/chart-builder": "^0.3.95",
+        "@pewresearch/pew-chart-builder": "^0.3.97",
         "@wpackio/entrypoint": "^4.3.0",
         "beautiful-react-hooks": "^0.31.0",
         "classnames": "^2.2.6",

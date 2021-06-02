@@ -76,8 +76,8 @@ class Grid_Block extends PRC_Block_Library {
 	 * Parses the story items inside a grid inside a post/page and builds an array of all post id's referenced in story items
 	 * useful for excluding posts in wp_query block and topic page pre_get_posts
 	 */
-	public function update_featured_post_ids( $post ) {
-		if ( true !== has_blocks( $post ) ) {
+	public function update_featured_post_ids( $post, $has_blocks ) {
+		if ( true !== $has_blocks ) {
 			return;
 		}
 
@@ -116,14 +116,19 @@ class Grid_Block extends PRC_Block_Library {
 	 */
 	public function render_grid( $attributes, $content, $block ) {
 		$inner_blocks = $block->parsed_block['innerBlocks'];
+		$classnames   = array_key_exists( 'className', $attributes ) ? $attributes['className'] : null;
 		$count        = count( $inner_blocks );
+		$classes      = array_merge(
+			array(
+				'ui',
+				'grid',
+			),
+			explode( ' ', $classnames )
+		);
 		ob_start();
 		if ( $count > 1 ) {
 			$class_names = classNames(
-				array(
-					'ui',
-					'grid',
-				)
+				$classes
 			);
 			echo '<div class="' . esc_attr( $class_names ) . '">';
 		}

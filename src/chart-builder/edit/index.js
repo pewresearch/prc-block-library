@@ -11,7 +11,7 @@ import {
     ChartBuilderWrapper,
     masterConfig,
     ChartBuilderTextWrapper,
-} from '@prcdigital/chart-builder/dist';
+} from '@pewresearch/pew-chart-builder/dist';
 /**
  * Internal dependencies
  */
