@@ -29,13 +29,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public function wrap_consecutive_story_items( $content ) {
 		// regex search for adjacent .react-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
-		//error_log(var_export($content, true));
 		$content = preg_replace(
-				'/((?:[\s]*?<div\X*?class="\X*?react-story-item\X*?<\/article\X*?<\/div>[\s]*?){2,})/i',
+				'/((?:\s*?<\!-- \.react-story-item -->\X*?<\!-- \/\.react-story-item -->\s*?){2,})/i',
 				'<div class="ui divided very relaxed story items">${1}</div>',
 				$content
 		);
-		//error_log(var_export($content, true));
 		return $content;
 	}
 
@@ -210,6 +208,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		ob_start();
 		?>
+		<!-- .react-story-item -->
 		<div
 			class="<?php echo esc_attr( classNames( 'react-story-item', $this->cherry_pick_attr( 'className', $attributes ) ) ); ?>"
 			data-label="<?php echo esc_attr( $label ); ?>"
@@ -283,6 +282,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 				</div>
 			</div>
 		</div>
+		<!-- /.react-story-item -->
 		<?php
 		return ob_get_clean();
 	}
