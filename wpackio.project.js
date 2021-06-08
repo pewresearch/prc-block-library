@@ -157,7 +157,7 @@ module.exports = {
             name: 'story-item',
             entry: {
                 main: './src/story-item/index.js',
-                frontend: './src/_shared/components/story-item/frontend.js',
+                frontend: './src/story-item/frontend.js',
             },
         },
         // If has more length, then multi-compiler

@@ -3,7 +3,7 @@ import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 import classNames from 'classnames/bind';
 
-import { ImageDisplay } from '../../_shared/components/story-item/_shared';
+import { ImageDisplay } from '@pewresearch/app-components';
 
 const ALLOWED_MEDIA_TYPES = ['image'];
 

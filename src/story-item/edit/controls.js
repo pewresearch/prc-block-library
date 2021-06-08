@@ -20,7 +20,9 @@ import {
     Popover,
 } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
+
 import { isURL, prependHTTP } from '@wordpress/url';
+
 import WpQueryPinControls from '../../_shared/components/wpQueryPinControl'; // Supports pinning items to the wpQuery block using block context.
 
 const setPostAsAttributes = (post, setAttributes) => {

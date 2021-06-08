@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/topic-index-condensed/page/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,+CACI,YAAa,CADjB,sDAGQ,aAAc","file":"blocks/topic-index-condensed-page-6141e588.css","sourcesContent":[".wp-block-prc-block-topic-index-condensed-page {\n    display: none;\n    &.active {\n        display: block;\n    }\n}"],"sourceRoot":""}

@@ -1,3 +1,6 @@
+/** External dependencies */
+import { test } from '@pewresearch/app-components';
+
 /**
  * WordPress dependencies
  */

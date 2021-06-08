@@ -1,0 +1,24 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 0.1.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+(window.wpackioprcBlocksLibraryblocksJsonp=window.wpackioprcBlocksLibraryblocksJsonp||[]).push([[26],{10:function(t,e,r){"use strict";function o(t,e,r){return e in t?Object.defineProperty(t,e,{value:r,enumerable:!0,configurable:!0,writable:!0}):t[e]=r,t}r.d(e,"a",(function(){return o}))},12:function(t,e){t.exports=wp.blocks},15:function(t,e){function r(e){return"function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?(t.exports=r=function(t){return typeof t},t.exports.default=t.exports,t.exports.__esModule=!0):(t.exports=r=function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},t.exports.default=t.exports,t.exports.__esModule=!0),r(e)}t.exports=r,t.exports.default=t.exports,t.exports.__esModule=!0},17:function(t,e){t.exports=wp.data},18:function(t,e){(function(e){t.exports=e}).call(this,{})},19:function(t,e,r){var o,n=r(15);
+/*!
+  Copyright (c) 2018 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/!function(){"use strict";var c={}.hasOwnProperty;function l(){for(var t=[],e=0;e<arguments.length;e++){var r=arguments[e];if(r){var o=n(r);if("string"===o||"number"===o)t.push(r);else if(Array.isArray(r)){if(r.length){var i=l.apply(null,r);i&&t.push(i)}}else if("object"===o)if(r.toString===Object.prototype.toString)for(var s in r)c.call(r,s)&&r[s]&&t.push(s);else t.push(r.toString())}}return t.join(" ")}t.exports?(l.default=l,t.exports=l):"object"===n(r(18))&&r(18)?void 0===(o=function(){return l}.apply(e,[]))||(t.exports=o):window.classNames=l}()},192:function(t,e,r){"use strict";var o=r(7),n=r(4),c=r(17),l=r(2);e.a=function(t){var e=t.vertical,r=t.controllerClientId,i=Object(c.useDispatch)("core/block-editor").updateBlockAttributes;return React.createElement(o.InspectorControls,null,React.createElement(n.PanelBody,{title:Object(l.__)("Tab Controller Settings")},React.createElement(n.ToggleControl,{label:"Vertical Orientation",checked:e,onChange:function(){i(r,{vertical:!e})}})))}},2:function(t,e){t.exports=wp.i18n},25:function(t,e,r){"use strict";var o="prcBlocksLibrarydist".replace(/[^a-zA-Z0-9_-]/g,"");r.p=window["__wpackIo".concat(o)]},293:function(t){t.exports=JSON.parse('{"apiVersion":2,"name":"prc-block/tabs-menu","category":"layout","attributes":{},"supports":{"html":false,"align":false,"inserter":false,"multiple":false},"parent":["prc-block/tabs"],"usesContext":["prc-block/tabs-vertical","prc-block/tabs-style"]}')},4:function(t,e){t.exports=wp.components},634:function(t,e,r){r(25),t.exports=r(675)},675:function(t,e,r){"use strict";r.r(e);var o=r(10),n=r(12),c=r(2),l=r(293),i=r(19),s=r.n(i),a=r(7),p=r(17),u=r(192),b=["prc-block/tabs-menu-item"],f=[["prc-block/tabs-menu-item",{}]],y=function(t){var e=t.className,r=t.clientId,o=t.context,n=o["prc-block/tabs-vertical"],c=o["prc-block/tabs-style"],l=Object(p.useSelect)((function(t){return t("core/block-editor").getBlockRootClientId(r)}),[r]),i=Object(a.useBlockProps)({className:s()(e,{"column four wide":n}),style:{marginBottom:n||"is-style-tabular"!==c?null:"-1px!important"}}),y=Object(a.__experimentalUseInnerBlocksProps)({className:s()("ui fluid menu",{vertical:n,pointing:"is-style-pointing"===c,secondary:"is-style-secondary"===c,tabular:"is-style-tabular"===c,text:"is-style-text"===c})},{allowedBlocks:b,orientation:n?"vertical":"horizontal",template:f,templateLock:!1});return React.createElement("div",i,React.createElement(u.a,{vertical:n,controllerClientId:l}),React.createElement("div",y))},m=function(){return React.createElement(a.InnerBlocks.Content,null)};function d(t,e){var r=Object.keys(t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(t);e&&(o=o.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),r.push.apply(r,o)}return r}function k(t){for(var e=1;e<arguments.length;e++){var r=null!=arguments[e]?arguments[e]:{};e%2?d(Object(r),!0).forEach((function(e){Object(o.a)(t,e,r[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(r)):d(Object(r)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(r,e))}))}return t}var O=l.name,x={title:Object(c.__)("Menu"),description:Object(c.__)("A sub block of Topic Index - Condensed View, this block controls the left sidebar menu."),edit:y,save:m};Object(n.registerBlockType)(O,k(k({},l),x))},7:function(t,e){t.exports=wp.blockEditor}},[[634,0]]]);
+//# sourceMappingURL=tabs-menu-d99acb54.js.map
