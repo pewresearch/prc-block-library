@@ -1,9 +1,19 @@
+/**
+ * External Dependencies
+ */
+import { Item } from 'semantic-ui-react';
+import { ifMatchSetAttribute, StoryItem } from '@pewresearch/app-components';
+
+/**
+ * WordPress Dependencies
+ */
 import classNames from 'classnames/bind';
 import { Fragment } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { Item } from 'semantic-ui-react';
-import { ifMatchSetAttribute } from 'shared';
 
+/**
+ * Internal Dependencies
+ */
 import Controls from './controls';
 import Image from './image';
 import Description from './description';
@@ -146,63 +156,66 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     return (
         <Fragment>
             {true === isSelected && (
+                <Fragment>
                 <Controls
-                    {...{
-                        attributes,
-                        setAttributes,
-                        context: context.hasOwnProperty('prc-block/wp-query')
-                            ? JSON.parse(context['prc-block/wp-query'])
-                            : false,
-                        rootClientId,
-                    }}
+                {...{
+                    attributes,
+                    setAttributes,
+                    context: context.hasOwnProperty('prc-block/wp-query')
+                        ? JSON.parse(context['prc-block/wp-query'])
+                        : false,
+                    rootClientId,
+                }}
                 />
-            )}
-            <Item as="article" className={classes}>
-                <TopAndLeftSlot />
+                <Item as="article" className={classes}>
+                    <TopAndLeftSlot />
 
-                <Item.Content>
-                    <Header
-                        enabled={{enableHeader, enableMeta}}
-                        title={title}
-                        date={date}
-                        label={label}
-                        link={link}
-                        size={headerSize}
-                        taxonomy={taxonomy}
-                        setAttributes={dataHandler}
-                        altHeaderWeight={enableAltHeaderWeight}
-                    />
+                    <Item.Content>
+                        <Header
+                            enabled={{enableHeader, enableMeta}}
+                            title={title}
+                            date={date}
+                            label={label}
+                            link={link}
+                            size={headerSize}
+                            taxonomy={taxonomy}
+                            setAttributes={dataHandler}
+                            altHeaderWeight={enableAltHeaderWeight}
+                        />
 
-                    <DefaultSlot />
+                        <DefaultSlot />
 
-                    {true !== enableExcerptBelow && (
+                        {true !== enableExcerptBelow && (
+                            <Description
+                                enabled={enableExcerpt}
+                                content={excerpt}
+                                sansSerif={!enableMeta || !enableHeader}
+                                setAttributes={dataHandler}
+                            />
+                        )}
+
+                        <Extra
+                            enabled={enableExtra}
+                            content={extra}
+                            breakingNews={enableBreakingNews}
+                            setAttributes={dataHandler}
+                        />
+                    </Item.Content>
+
+                    <BottomAndRightSlot />
+
+                    {true === enableExcerptBelow && (
                         <Description
                             enabled={enableExcerpt}
                             content={excerpt}
-                            sansSerif={!enableMeta || !enableHeader}
+                            sansSerif={!enableHeader}
                             setAttributes={dataHandler}
                         />
                     )}
-
-                    <Extra
-                        enabled={enableExtra}
-                        content={extra}
-                        breakingNews={enableBreakingNews}
-                        setAttributes={dataHandler}
-                    />
-                </Item.Content>
-
-                <BottomAndRightSlot />
-
-                {true === enableExcerptBelow && (
-                    <Description
-                        enabled={enableExcerpt}
-                        content={excerpt}
-                        sansSerif={!enableHeader}
-                        setAttributes={dataHandler}
-                    />
-                )}
-            </Item>
+                </Item>
+                </Fragment>
+            )}
+            {true !== isSelected && <StoryItem {...attributes}/>}
         </Fragment>
     );
 };

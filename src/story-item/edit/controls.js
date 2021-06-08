@@ -1,3 +1,6 @@
+/**
+ * WordPress Dependencies
+ */
 import { __, sprintf } from '@wordpress/i18n';
 import { isEmpty, isInteger } from 'lodash';
 import { dispatch } from '@wordpress/data';
@@ -20,10 +23,7 @@ import {
     Popover,
 } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
-
 import { isURL, prependHTTP } from '@wordpress/url';
-
-import WpQueryPinControls from '../../_shared/components/wpQueryPinControl'; // Supports pinning items to the wpQuery block using block context.
 
 const setPostAsAttributes = (post, setAttributes) => {
     const storyItem = {
@@ -320,13 +320,6 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
     return (
         <Fragment>
             <ToolbarControls {...{ attributes, setAttributes }} />
-            {false !== context && (
-                <WpQueryPinControls
-                    wpQueryContext={context}
-                    rootClientId={rootClientId}
-                    postId={postID}
-                />
-            )}
             <InspectorControls>
                 <PanelBody title={label}>
                     {isInteger(postID) && (
