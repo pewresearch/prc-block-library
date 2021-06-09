@@ -418,15 +418,15 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	public function register_frontend() {
-		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
 		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		
 		return $enqueue->register(
 			'frontend',
 			'story-item',
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $js_deps,
+				'js_dep'    => array( 'moment' ),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -453,7 +453,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'story-item',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -465,14 +465,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/story-item',
 			array(
 				'editor_script'   => array_pop( $block_assets['js'] )['handle'],
+				'editor_style'    => array_pop( $block_assets['css'] )['handle'],
 				'render_callback' => array( $this, 'render_story_item' ),
 			)
 		);
-		
-		error_log( print_r( $registered_block, true ) );
-		error_log( print_r( $block_assets, true ) );
 
-		add_rewrite_rule( '^preview-story-item/([^/]*)/([^/]*)/([^/]*)/?', 'index.php?storyItemId=$matches[1]&imageId=$matches[2]&imageSize=$matches[3]', 'top' );
+		if ( false !== $registered_block ) {
+			add_rewrite_rule( '^preview-story-item/([^/]*)/([^/]*)/([^/]*)/?', 'index.php?storyItemId=$matches[1]&imageId=$matches[2]&imageSize=$matches[3]', 'top' );
+		}
 	}
 }
 

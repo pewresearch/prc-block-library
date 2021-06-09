@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.0.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-object-select-field,.wp-object-select-field .components-base-control.block-editor-url-input.block-editor-link-control__search-input,.wp-object-select-field .block-editor-link-control__search-results-wrapper{max-width:100%}.wp-object-select-field .block-editor-link-control__search-results-wrapper:after{display:block;content:"";background:#fff;background:linear-gradient(0deg, white 0%, white 35%, rgba(255, 255, 255, 0) 100%);width:100%;height:20px;position:absolute}
+
+/*# sourceMappingURL=story-item-90ff9834.css.map*/

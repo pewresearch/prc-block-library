@@ -1,0 +1,16 @@
+.wp-object-select-field,
+.wp-object-select-field .components-base-control.block-editor-url-input.block-editor-link-control__search-input,
+.wp-object-select-field .block-editor-link-control__search-results-wrapper {
+    max-width: 100%;
+}
+.wp-object-select-field .block-editor-link-control__search-results-wrapper {
+    &:after {
+        display: block;
+        content: "";
+        background: rgb(255,255,255);
+        background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 35%, rgba(255,255,255,0) 100%);
+        width: 100%;
+        height: 20px;
+        position: absolute;
+    }
+}

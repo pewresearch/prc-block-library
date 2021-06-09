@@ -8,17 +8,15 @@ import {
 } from '@wordpress/block-editor';
 
 /**
+ * Internal Dependencies
+ */
+import './style.scss';
+
+/**
  * @param {*} param0 
  * @returns 
  */
-const WPObjectSearchField = ({value, type, subType, onChange}) => {
-    const linkValue = {
-        url: null,
-        title: null,
-        type: null,
-        id: null,
-    }
-
+const WPObjectSearchField = ({value, type, subType, showInitialSuggestions = false, onChange}) => {
     /**
      * Get's a post's id and site id from the url given.
      * @param {string} url
@@ -62,12 +60,13 @@ const WPObjectSearchField = ({value, type, subType, onChange}) => {
     }
 
     return(
-        <div>
+        <div className='wp-object-select-field'>
             <LinkControl
-                value={{ ...linkValue }}
+                value={value}
                 suggestionsQuery={{ type, subtype: subType }}
                 onChange={handleChange}
                 settings={[]}
+                showInitialSuggestions={showInitialSuggestions}
             />
         </div>
     );

@@ -10,6 +10,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { isEmpty, isInteger } from 'lodash';
 import {
     InspectorControls,
+    InspectorAdvancedControls,
     BlockControls,
     __experimentalLinkControl as LinkControl,
 } from '@wordpress/block-editor';
@@ -33,7 +34,7 @@ import {
  */
 import { setPostByStubID } from './helpers';
 
-const URLControl = ({ url, setAttributes }) => {
+const URLControl = ({ title, type, id, url, setAttributes }) => {
     const [isLinkOpen, setIsLinkOpen] = useState(false);
     return (
         <Fragment>
@@ -52,42 +53,19 @@ const URLControl = ({ url, setAttributes }) => {
                 >
                     <WPObjectSearchField
                         value={{
-                            id: 1234,
-                            type: 'post',
-                            subType: 'stub',
+                            url,
+                            title,
+                            type,
+                            id,
                         }}
                         type='post'
                         subType='stub'
                         onChange={obj => {
-                            if (!obj.hasOwnProperty('type') && !obj.hasOwnProperty('raw') ) {
-                                return;
-                            }
-                            // If this returns an  ID then its a stub id so we can go ahead and get info from wp api.
-                            if (obj.hasOwnProperty('subType') && 'post' === obj.type && 'stub' === obj.subType) {
-                                setPostByStubID(p.id, setAttributes);
-                            } else if('url' === obj.type && obj.raw.hasOwnProperty('url') ) {
-                                setPostByURL(obj.raw.url, setAttributes);
+                            console.log('onChange', obj);
+                            if (obj.hasOwnProperty('id')) {
+                                setPostByStubID(obj.id, setAttributes);
                             }
                         }}
-                    />
-                    <LinkControl
-                        className="wp-block-navigation-link__inline-link-input"
-                        value={{ url }}
-                        showInitialSuggestions
-                        suggestionsQuery={{ type: 'post', subtype: 'stub' }}
-                        onChange={p => {
-                            // If for whatever reason what is returned does not have the url property then bail out.
-                            if (!p.hasOwnProperty('url')) {
-                                return;
-                            }
-                            // If this returns an  ID then its a stub id so we can go ahead and get info from wp api.
-                            if (p.hasOwnProperty('id')) {
-                                setPostByStubID(p.id, setAttributes);
-                            } else {
-                                setPostByURL(p.url, setAttributes);
-                            }
-                        }}
-                        settings={[]}
                     />
                 </Popover>
             )}
@@ -179,11 +157,11 @@ const ToolbarDropdown = ({
 };
 
 const ToolbarControls = ({ attributes, setAttributes }) => {
-    const { link, imageSize, imageSlot, headerSize, isChartArt } = attributes;
+    const { link, imageSize, imageSlot, headerSize, isChartArt, postID, title } = attributes;
     return (
         <BlockControls>
             <ToolbarGroup>
-                <URLControl url={link} setAttributes={setAttributes} />
+                <URLControl title={title} id={postID} url={link} type="stub" setAttributes={setAttributes} />
             </ToolbarGroup>
             <ToolbarGroup>
                 <ToolbarDropdown
@@ -276,18 +254,6 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
             <ToolbarControls {...{ attributes, setAttributes }} />
             <InspectorControls>
                 <PanelBody title={label}>
-                    {isInteger(postID) && (
-                        <Button
-                            isSecondary
-                            isBusy={isRefreshing}
-                            onClick={() =>
-                                setPostByStubID(postID, setAttributes, refresh)
-                            }
-                            style={{ marginBottom: '1em' }}
-                        >
-                            Refresh Post
-                        </Button>
-                    )}
                      <ToggleControl
                         label={
                             enableMeta
@@ -398,6 +364,39 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                     />
                 </PanelBody>
             </InspectorControls>
+            <InspectorAdvancedControls>
+                {isInteger(postID) && 0 !== postID && (
+                    <Button
+                        isSecondary
+                        isBusy={isRefreshing}
+                        onClick={() =>
+                            setPostByStubID(postID, setAttributes)
+                        }
+                        style={{ marginBottom: '1em' }}
+                    >
+                        Refresh Post
+                    </Button>
+                )}
+                <Button
+                    isDestructive
+                    isBusy={isRefreshing}
+                    onClick={() =>
+                        setAttributes({
+                            title: null,
+                            excerpt: null,
+                            extra: null,
+                            link: null,
+                            label: null,
+                            date: null,
+                            image: null,
+                            postID: null,
+                        })
+                    }
+                    style={{ marginBottom: '1em' }}
+                >
+                    Reset Story Item Block
+                </Button>
+            </InspectorAdvancedControls>
         </Fragment>
     );
 };
@@ -409,23 +408,19 @@ const Placeholder = ({setAttributes}) => (
         isColumnLayout
     >
         <WPObjectSearchField
-            value={{
-                url: 1234,
-                title: null,
-                type: null,
-                id: null,
-            }}
             type='post'
             subType='stub'
             onChange={obj => {
-                console.log('onChange', obj);
-                if (!obj.hasOwnProperty('id')) {
-                    return;
+                if (obj.hasOwnProperty('id')) {
+                    setPostByStubID(obj.id, setAttributes);
                 }
-                setPostByStubID(obj.id, setAttributes);
             }}
+            showInitialSuggestions
         />
-        <Button isLink>Skip</Button>
+        <Button isLink onClick={()=>{
+            // Create a blank Story Item
+            setAttributes({postID: 0});
+        }}>Skip</Button>
     </WPComPlaceholder>
 );
 
