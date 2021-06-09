@@ -14,12 +14,12 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
+import {Controls, Placeholder} from './controls';
 import Image from './image';
 import Description from './description';
 import Extra from './extra';
 import Header from './header';
-import Placeholder from './placeholder';
+import Preview from './preview';
 
 // Sets the image slot based on the style classname selected.
 const setImageSlotByClassName = (className, setAttributes) => {
@@ -80,7 +80,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         imageSlot,
         imageSize,
         isChartArt,
-        postId = postID,
+        postID,
         headerSize,
         enableEmphasis,
         enableHeader,
@@ -90,11 +90,18 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         enableBreakingNews,
         enableProgramsTaxonomy,
         enableMeta,
+        isPreview,
         className,
     } = attributes;
 
-    if ( null === postId ) {
-        <Placeholder />
+    if ( true === isPreview ) {
+        return <Preview attributes={attributes}/>
+    }
+
+    const postId = postID;
+
+    if ( undefined === postId ) {
+        return <Placeholder setAttributes={setAttributes}/>
     }
 
     const { rootClientId } = useSelect(

@@ -446,7 +446,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'lodash', 'wp-components' );
 		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$block_assets = $enqueue->register(
@@ -455,20 +454,23 @@ class PRC_Story_Item extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
 			)
 		);
-
-		register_block_type_from_metadata(
+		
+		$registered_block = register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/story-item',
 			array(
 				'editor_script'   => array_pop( $block_assets['js'] )['handle'],
 				'render_callback' => array( $this, 'render_story_item' ),
 			)
 		);
+		
+		error_log( print_r( $registered_block, true ) );
+		error_log( print_r( $block_assets, true ) );
 
 		add_rewrite_rule( '^preview-story-item/([^/]*)/([^/]*)/([^/]*)/?', 'index.php?storyItemId=$matches[1]&imageId=$matches[2]&imageSize=$matches[3]', 'top' );
 	}

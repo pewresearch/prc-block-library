@@ -1,9 +1,13 @@
 /**
+ * External Dependencies
+ */
+import { WPObjectSearchField } from '../wp-object-select';
+
+/**
  * WordPress Dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { isEmpty, isInteger } from 'lodash';
-import { dispatch } from '@wordpress/data';
 import {
     InspectorControls,
     BlockControls,
@@ -19,87 +23,15 @@ import {
     ToolbarButton,
     ToolbarGroup,
     Path,
+    Placeholder as WPComPlaceholder,
     SVG,
     Popover,
 } from '@wordpress/components';
-import apiFetch from '@wordpress/api-fetch';
-import { isURL, prependHTTP } from '@wordpress/url';
-
-import { WPObjectSearchField } from '../wp-object-select';
-
-const setPostAsAttributes = (post, setAttributes) => {
-    const storyItem = {
-        title: post.title.hasOwnProperty('rendered')
-            ? post.title.rendered
-            : post.title,
-        excerpt: post.excerpt.hasOwnProperty('rendered')
-            ? post.excerpt.rendered
-            : post.excerpt,
-        link: post.link,
-        label: post.hasOwnProperty('label') ? post.label : 'Report',
-        date: post.date,
-        postID: post.id,
-        extra: '', // We want to clear extra when pulling a new post
-    };
-    // If the post has art then let the image editor mounting effect handle setting it.
-    // Get art...
-    if (!post.art) {
-        storyItem.image = post.image;
-    }
-    setAttributes(storyItem);
-};
 
 /**
- * Set's post attributes by url if a post is not found then failover and set just the link as what was passed through.
- * @param {string} url
- * @param {func} setAttributes
+ * Internal Dependencies
  */
-const setPostByURL = (url, setAttributes) => {
-    if (undefined === url || undefined === setAttributes) {
-        return;
-    }
-    apiFetch({
-        path: '/prc-api/v2/blocks/helpers/get-post-by-url',
-        method: 'POST',
-        data: { url },
-    })
-        .then(post => {
-            console.log('setPostbyURL', post);
-            if (false !== post) {
-                setPostAsAttributes(post, setAttributes);
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            setAttributes({ link: url });
-        });
-};
-
-const setPostByStubID = (postId, setAttributes, refresh) => {
-    if (undefined === postId || undefined === setAttributes) {
-        return;
-    }
-    if (undefined !== refresh) {
-        refresh(true);
-    }
-    apiFetch({
-        path: `/wp/v2/stub/${postId}`,
-        method: 'GET',
-    })
-        .then(post => {
-            console.log('setPostByStubID', postId, post);
-            if (false !== post) {
-                // We should lookup the meta link here real quick and apply that to the post.link object before posting attributes.
-                setPostAsAttributes(post, setAttributes);
-            }
-        })
-        .catch(err => console.error(err))
-        .then(() => {
-            if (undefined !== refresh) {
-                refresh(false);
-            }
-        });
-};
+import { setPostByStubID } from './helpers';
 
 const URLControl = ({ url, setAttributes }) => {
     const [isLinkOpen, setIsLinkOpen] = useState(false);
@@ -119,24 +51,24 @@ const URLControl = ({ url, setAttributes }) => {
                     onClose={() => setIsLinkOpen(false)}
                 >
                     <WPObjectSearchField
-                    value={{
-                        id: 1234,
-                        type: 'post',
-                        subType: 'stub',
-                    }}
-                    type='post'
-                    subType='stub'
-                    onChange={obj => {
-                        if (!obj.hasOwnProperty('type') && !obj.hasOwnProperty('raw') ) {
-                            return;
-                        }
-                        // If this returns an  ID then its a stub id so we can go ahead and get info from wp api.
-                        if (obj.hasOwnProperty('subType') && 'post' === obj.type && 'stub' === obj.subType) {
-                            setPostByStubID(p.id, setAttributes);
-                        } else if('url' === obj.type && obj.raw.hasOwnProperty('url') ) {
-                            setPostByURL(obj.raw.url, setAttributes);
-                        }
-                    }}
+                        value={{
+                            id: 1234,
+                            type: 'post',
+                            subType: 'stub',
+                        }}
+                        type='post'
+                        subType='stub'
+                        onChange={obj => {
+                            if (!obj.hasOwnProperty('type') && !obj.hasOwnProperty('raw') ) {
+                                return;
+                            }
+                            // If this returns an  ID then its a stub id so we can go ahead and get info from wp api.
+                            if (obj.hasOwnProperty('subType') && 'post' === obj.type && 'stub' === obj.subType) {
+                                setPostByStubID(p.id, setAttributes);
+                            } else if('url' === obj.type && obj.raw.hasOwnProperty('url') ) {
+                                setPostByURL(obj.raw.url, setAttributes);
+                            }
+                        }}
                     />
                     <LinkControl
                         className="wp-block-navigation-link__inline-link-input"
@@ -470,4 +402,34 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
     );
 };
 
-export default Controls;
+const Placeholder = ({setAttributes}) => (
+    <WPComPlaceholder
+        icon="format-aside"
+        label={__(` Search for a Story Item`)}
+        isColumnLayout
+    >
+        <WPObjectSearchField
+            value={{
+                url: 1234,
+                title: null,
+                type: null,
+                id: null,
+            }}
+            type='post'
+            subType='stub'
+            onChange={obj => {
+                console.log('onChange', obj);
+                if (!obj.hasOwnProperty('id')) {
+                    return;
+                }
+                setPostByStubID(obj.id, setAttributes);
+            }}
+        />
+        <Button isLink>Skip</Button>
+    </WPComPlaceholder>
+);
+
+export {
+    Placeholder,
+    Controls
+}

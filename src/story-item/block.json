@@ -85,6 +85,10 @@
         "inLoop": {
             "type": "boolean",
             "default": false
+        },
+        "isPreview": {
+            "type": "boolean",
+            "default": false
         }
 	},
 	"usesContext": ["prc-block/wp-query"],

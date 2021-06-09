@@ -1,6 +1,3 @@
-/** External dependencies */
-import { test } from '@pewresearch/app-components';
-
 /**
  * WordPress dependencies
  */
@@ -38,6 +35,7 @@ const settings = {
                 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
             imageSlot: 'top',
             imageSize: 'A2',
+            isPreview: true,
         },
     },
     variations: [
@@ -65,5 +63,7 @@ const settings = {
     edit,
     save,
 };
+
+console.log("STORY ITEM REGISTER", settings);
 
 registerBlockType(name, { ...metadata, ...settings });
