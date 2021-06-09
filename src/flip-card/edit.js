@@ -9,6 +9,7 @@ import {
 } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import { dispatch } from '@wordpress/data';
+
 import './edit.scss';
 
 const ALLOWED = ['prc-block/flip-card-front', 'prc-block/flip-card-back'];

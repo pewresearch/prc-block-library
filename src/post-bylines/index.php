@@ -4,7 +4,7 @@
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
 use PRC_Core\Hybrid_People;
-use WPackio\Enqueue;
+use WPackio\EnqueueNew;
 
 /**
  * Server-side rendering of the `prc-block/menu-link` block.
@@ -40,7 +40,7 @@ class Post_Bylines_Block extends PRC_Block_Library {
 	public function register_block() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

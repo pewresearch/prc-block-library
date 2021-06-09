@@ -1,6 +1,6 @@
 <?php
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\Enqueue;
+use WPackio\EnqueueNew;
 
 /**
  * Server-side rendering of the `prc-block/menu-link` block.
@@ -22,7 +22,7 @@ class Sub_Title_Block extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$js_deps = array( 'react', 'react-dom', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-block-editor' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

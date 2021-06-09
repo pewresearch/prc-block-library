@@ -47,6 +47,7 @@ module.exports = {
                 row: './src/row/index.js',
                 'social-link': './src/social-link/index.js',
                 staff: './src/staff/index.js',
+                'story-item': './src/story-item/index.js',
                 'sub-title': './src/sub-title/index.js',
                 table: './src/table/index.js',
                 'tabs-controller': './src/tabs/controller/index.js',
@@ -76,6 +77,7 @@ module.exports = {
                 'wp-query': './src/wp-query/index.js',
                 // 'wp-object': './src/wp-object/index.js',
             },
+            optimizeForGutenberg: true,
             webpackConfig: (config, merge, appDir, isDev) => {
                 // create a new module.rules for svg-inline-loader
                 const customRules = {
@@ -104,6 +106,7 @@ module.exports = {
                 'mailchimp-select': './src/mailchimp-select/frontend.js',
                 'menu-link': './src/menu-link/frontend.js',
                 'social-link': './src/social-link/frontend.js',
+                'story-item': './src/story-item/frontend.js',
                 'tabs-controller': './src/tabs/controller/frontend.js',
                 'taxonomy-tree-more': './src/taxonomy-tree-more/frontend.js',
                 'topic-index-categorized':
@@ -113,6 +116,7 @@ module.exports = {
                 'topic-index-search-field':
                     './src/topic-index-search-field/frontend.js',
             },
+            optimizeForGutenberg: true,
         },
         {
             name: 'chapter',
@@ -153,14 +157,6 @@ module.exports = {
                 main: './src/pullquote/index.js',
             },
         },
-        {
-            name: 'story-item',
-            entry: {
-                main: './src/story-item/index.js',
-                frontend: './src/story-item/frontend.js',
-            },
-        },
-        // If has more length, then multi-compiler
     ],
     // Output path relative to the context directory
     // We need relative path here, else, we can not map to publicPath
@@ -178,28 +174,8 @@ module.exports = {
     // <https://webpack.js.org/configuration/externals/>
     // Everything in externals should correspon to somehting accessible via window.xxxx from WordPress core
     externals: {
-        jquery: 'jQuery',
-        lodash: 'lodash',
         moment: 'moment',
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        'lodash-es': 'lodash',
         '@babel/runtime/regenerator': 'regeneratorRuntime',
-        '@wordpress/blocks': 'wp.blocks',
-        '@wordpress/element': 'wp.element',
-        '@wordpress/block-editor': 'wp.blockEditor',
-        '@wordpress/components': 'wp.components',
-        '@wordpress/compose': 'wp.compose',
-        '@wordpress/dom-ready': 'wp.domReady',
-        '@wordpress/hooks': 'wp.hooks',
-        '@wordpress/plugins': 'wp.plugins',
-        '@wordpress/edit-post': 'wp.editPost',
-        '@wordpress/data': 'wp.data',
-        '@wordpress/i18n': 'wp.i18n',
-        '@wordpress/api-fetch': 'wp.apiFetch',
-        '@wordpress/url': 'wp.url',
-        '@wordpress/html-entities': 'wp.htmlEntities',
-        '@wordpress/server-side-render': 'wp.serverSideRender',
     },
     // Webpack Aliases
     // <https://webpack.js.org/configuration/resolve/#resolve-alias>

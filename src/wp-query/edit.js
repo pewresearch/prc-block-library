@@ -2,6 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
+import { StoryItem } from '@pewresearch/app-components';
 
 /**
  * WordPress Dependencies
@@ -9,12 +10,11 @@ import classnames from 'classnames';
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useBlockProps } from '@wordpress/block-editor';
+import { isInteger } from 'lodash';
 
 /**
  * Internal Dependencies
  */
-import { isInteger } from 'lodash';
-import { StoryItem } from '../_shared';
 import Controls from './controls';
 
 const Posts = ({ posts, attributes }) => {

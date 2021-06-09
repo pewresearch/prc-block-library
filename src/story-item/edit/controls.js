@@ -25,6 +25,8 @@ import {
 import apiFetch from '@wordpress/api-fetch';
 import { isURL, prependHTTP } from '@wordpress/url';
 
+import { WPObjectSearchField } from '../wp-object-select';
+
 const setPostAsAttributes = (post, setAttributes) => {
     const storyItem = {
         title: post.title.hasOwnProperty('rendered')
@@ -116,6 +118,26 @@ const URLControl = ({ url, setAttributes }) => {
                     position="bottom center"
                     onClose={() => setIsLinkOpen(false)}
                 >
+                    <WPObjectSearchField
+                    value={{
+                        id: 1234,
+                        type: 'post',
+                        subType: 'stub',
+                    }}
+                    type='post'
+                    subType='stub'
+                    onChange={obj => {
+                        if (!obj.hasOwnProperty('type') && !obj.hasOwnProperty('raw') ) {
+                            return;
+                        }
+                        // If this returns an  ID then its a stub id so we can go ahead and get info from wp api.
+                        if (obj.hasOwnProperty('subType') && 'post' === obj.type && 'stub' === obj.subType) {
+                            setPostByStubID(p.id, setAttributes);
+                        } else if('url' === obj.type && obj.raw.hasOwnProperty('url') ) {
+                            setPostByURL(obj.raw.url, setAttributes);
+                        }
+                    }}
+                    />
                     <LinkControl
                         className="wp-block-navigation-link__inline-link-input"
                         value={{ url }}
@@ -132,7 +154,7 @@ const URLControl = ({ url, setAttributes }) => {
                             } else {
                                 setPostByURL(p.url, setAttributes);
                             }
-                        }} // Does return the post id so we could just go set that shit
+                        }}
                         settings={[]}
                     />
                 </Popover>

@@ -2,7 +2,7 @@
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\Enqueue;
+use WPackio\EnqueueNew;
 
 /**
  * Server-side rendering of the `prc-block/menu-link` block.
@@ -51,7 +51,6 @@ class Promo extends PRC_Block_Library {
 		$heading_tag        = $heading_tag . ' class=' . classnames( array( 'sans-serif' => $attributes['sansSerif'] ) );
 		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		ob_start();
-		// print_r( $block );
 		?>
 		<div <?php echo $wrapper_attributes; ?>>
 			<?php
@@ -77,7 +76,7 @@ class Promo extends PRC_Block_Library {
 
 	public function register_block() {
 		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-block-editor', 'wp-data', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue              = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

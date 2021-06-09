@@ -19,6 +19,7 @@ import Image from './image';
 import Description from './description';
 import Extra from './extra';
 import Header from './header';
+import Placeholder from './placeholder';
 
 // Sets the image slot based on the style classname selected.
 const setImageSlotByClassName = (className, setAttributes) => {
@@ -79,7 +80,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         imageSlot,
         imageSize,
         isChartArt,
-        postID,
+        postId = postID,
         headerSize,
         enableEmphasis,
         enableHeader,
@@ -91,6 +92,10 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         enableMeta,
         className,
     } = attributes;
+
+    if ( null === postId ) {
+        <Placeholder />
+    }
 
     const { rootClientId } = useSelect(
         select => {
@@ -123,7 +128,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                 link={link}
                 slot={imageSlot}
                 chartArt={isChartArt}
-                postId={postID}
+                postId={postId}
                 setAttributes={dataHandler}
             />
         );

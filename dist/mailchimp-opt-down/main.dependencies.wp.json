@@ -1,0 +1,9 @@
+{
+  "dependencies": [
+    "wp-blocks",
+    "wp-compose",
+    "wp-element",
+    "wp-i18n"
+  ],
+  "version": "b767f07a447fd907c37654de7e2e84b6"
+}

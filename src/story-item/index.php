@@ -1,7 +1,7 @@
 <?php
 
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\Enqueue;
+use WPackio\EnqueueNew;
 
 /**
  * Server-side rendering of the `prc-block/story-item` block.
@@ -419,10 +419,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
-			'story-item',
 			'frontend',
+			'story-item',
 			array(
 				'js'        => true,
 				'css'       => true,
@@ -447,11 +447,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'lodash', 'wp-components' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$block_assets = $enqueue->register(
+			'blocks',
 			'story-item',
-			'main',
 			array(
 				'js'        => true,
 				'css'       => false,

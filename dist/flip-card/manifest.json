@@ -1,46 +1,50 @@
 {
-  "frontend.css": "flip-card/frontend-5b971b51.css",
-  "frontend.css.map": "flip-card/frontend-5b971b51.css.map",
-  "frontend.js": "flip-card/frontend-673ee363.js",
-  "frontend.js.map": "flip-card/frontend-673ee363.js.map",
-  "main.css": "flip-card/main-1294b216.css",
-  "main.css.map": "flip-card/main-1294b216.css.map",
-  "main.js": "flip-card/main-dff7096f.js",
-  "main.js.map": "flip-card/main-dff7096f.js.map",
+  "frontend.css": "flip-card/frontend-9926b6ad.css",
+  "frontend.css.map": "flip-card/frontend-9926b6ad.css.map",
+  "frontend.js": "flip-card/frontend-d430c8e4.js",
+  "frontend.js.map": "flip-card/frontend-d430c8e4.js.map",
+  "main.css": "flip-card/main-11a310ad.css",
+  "main.css.map": "flip-card/main-11a310ad.css.map",
+  "main.js": "flip-card/main-151462cd.js",
+  "main.js.map": "flip-card/main-151462cd.js.map",
   "runtime.js": "flip-card/runtime-8e383e5a.js",
   "runtime.js.map": "flip-card/runtime-8e383e5a.js.map",
   "wpackioEp": {
     "main": {
-      "js": [
-        "flip-card/runtime-8e383e5a.js",
-        "flip-card/main-dff7096f.js"
-      ],
-      "js.map": [
-        "flip-card/runtime-8e383e5a.js.map",
-        "flip-card/main-dff7096f.js.map"
-      ],
-      "css": [
-        "flip-card/main-1294b216.css"
-      ],
-      "css.map": [
-        "flip-card/main-1294b216.css.map"
-      ]
+      "assets": {
+        "js": [
+          "flip-card/runtime-8e383e5a.js",
+          "flip-card/main-151462cd.js"
+        ],
+        "js.map": [
+          "flip-card/runtime-8e383e5a.js.map",
+          "flip-card/main-151462cd.js.map"
+        ],
+        "css": [
+          "flip-card/main-11a310ad.css"
+        ],
+        "css.map": [
+          "flip-card/main-11a310ad.css.map"
+        ]
+      }
     },
     "frontend": {
-      "js": [
-        "flip-card/runtime-8e383e5a.js",
-        "flip-card/frontend-673ee363.js"
-      ],
-      "js.map": [
-        "flip-card/runtime-8e383e5a.js.map",
-        "flip-card/frontend-673ee363.js.map"
-      ],
-      "css": [
-        "flip-card/frontend-5b971b51.css"
-      ],
-      "css.map": [
-        "flip-card/frontend-5b971b51.css.map"
-      ]
+      "assets": {
+        "js": [
+          "flip-card/runtime-8e383e5a.js",
+          "flip-card/frontend-d430c8e4.js"
+        ],
+        "js.map": [
+          "flip-card/runtime-8e383e5a.js.map",
+          "flip-card/frontend-d430c8e4.js.map"
+        ],
+        "css": [
+          "flip-card/frontend-9926b6ad.css"
+        ],
+        "css.map": [
+          "flip-card/frontend-9926b6ad.css.map"
+        ]
+      }
     }
   }
 }

@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\Enqueue;
+use WPackio\EnqueueNew;
 
 class PRC_Block_Library {
 	/**
@@ -169,7 +169,7 @@ class PRC_Block_Library {
 	public function register_assets() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', __DIR__ . '/prc_blocks/' );
+		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', __DIR__ . '/prc_blocks/' );
 
 		/** Chapter */
 		$this->registered['block']['prc-block/chapter'] = $enqueue->register(

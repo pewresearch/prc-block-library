@@ -3,7 +3,7 @@
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use WPackio\Enqueue;
+use WPackio\EnqueueNew;
 
 class Tabs_Panes extends PRC_Block_Library {
 	public function __construct( $init = false ) {
@@ -61,7 +61,7 @@ class Tabs_Panes extends PRC_Block_Library {
 	 */
 	public function register_block() {
 		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

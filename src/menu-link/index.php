@@ -2,7 +2,7 @@
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\Enqueue;
+use WPackio\EnqueueNew;
 
 /**
  * Server-side rendering of the `prc-block/menu-link` block.
@@ -25,7 +25,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'wp-dom-ready', 'wp-url' );
-		$enqueue = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		return $enqueue->register(
 			'frontend',
 			'menu-link',
@@ -181,7 +181,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 	public function register_block() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$block_js_deps = array_merge( $js_deps, array( 'lodash', 'wp-components' ) );
-		$enqueue       = new Enqueue( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

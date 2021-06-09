@@ -1,0 +1,7 @@
+{
+  "dependencies": [
+    "wp-dom-ready",
+    "wp-element"
+  ],
+  "version": "0d3de05f552aae2647b80b278e5b61da"
+}

@@ -1,0 +1,12 @@
+{
+  "dependencies": [
+    "lodash",
+    "react",
+    "wp-data",
+    "wp-dom-ready",
+    "wp-element",
+    "wp-i18n",
+    "wp-media-utils"
+  ],
+  "version": "2b55dace97aaadeac9d5396d0e58c277"
+}
