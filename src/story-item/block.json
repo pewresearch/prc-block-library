@@ -92,33 +92,6 @@
         }
 	},
 	"usesContext": ["prc-block/wp-query"],
-	"styles": [
-		{
-			"name": "default",
-			"label": "Default Image Alignment",
-			"isDefault": true
-		},
-		{
-			"name": "top",
-			"label": "Image Aligned Top"
-		},
-		{
-			"name": "bottom",
-			"label": "Image Aligned Bottom"
-		},
-		{
-			"name": "left",
-			"label": "Image Aligned Left"
-		},
-		{
-			"name": "right",
-			"label": "Image Aligned Right"
-        },
-        {
-			"name": "disabled",
-			"label": "Disable Image"
-		}
-	],
 	"supports": {
 		"html": false
 	}

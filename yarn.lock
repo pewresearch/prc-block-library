@@ -1146,10 +1146,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pewresearch/app-components@^0.1.7":
-  version "0.1.7"
-  resolved "https://npm.pkg.github.com/download/@pewresearch/app-components/0.1.7/216b06015fa8abde6d37c72422536064412f227d95814124ee0791102c865147#d0e51a0c8d1c1af33920a5ea896717d84d6a09e7"
-  integrity sha512-MfyqGDcxlM1x4Zoi5BQrA2R47ho+LOpGLLnP3m7Z77pUAqKVQlOK2v5KVxuDcDID7TwOEtc+aB5kGm65Tu8+RQ==
+"@pewresearch/app-components@^0.1.8":
+  version "0.1.8"
+  resolved "https://npm.pkg.github.com/download/@pewresearch/app-components/0.1.8/c75313a20da25f4483c623a42b7c390ae18c4e65c14d9c0aebdee77f8cffca23#56a4c087cb4dd457da86b3a9c1bf509da80289e7"
+  integrity sha512-pzb5oEdd6MxQEO55WvCPaNfAnDINSH7hcifRNsoF3seJSQHNyIdmr5cbkItw344YkrSFU2pu53h2hRPGTMM6Fw==
   dependencies:
     "@wordpress/api-fetch" "^5.1.1"
     "@wordpress/block-editor" "^6.1.3"
@@ -7491,10 +7491,19 @@ postcss-value-parser@^4.1.0:
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.1.0.tgz#443f6a20ced6481a2bda4fa8532a6e55d789a2cb"
   integrity sha512-97DXOFbQJhk71ne5/Mt6cOu6yxsSfM0QGQyl0L25Gca4yGWEGJaig7l7gbCX623VqTBNGLRLaVUCnNkcedlRSQ==
 
-postcss@^8.2.15, postcss@^8.3.0:
+postcss@^8.2.15:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.0.tgz#b1a713f6172ca427e3f05ef1303de8b65683325f"
   integrity sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==
+  dependencies:
+    colorette "^1.2.2"
+    nanoid "^3.1.23"
+    source-map-js "^0.6.2"
+
+postcss@^8.3.1:
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.1.tgz#71f380151c227f83b898294a46481f689f86b70a"
+  integrity sha512-9qH0MGjsSm+fjxOi3GnwViL1otfi7qkj+l/WX5gcRGmZNGsIcqc+A5fBkE6PUobEQK4APqYVaES+B3Uti98TCw==
   dependencies:
     colorette "^1.2.2"
     nanoid "^3.1.23"

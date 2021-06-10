@@ -21,8 +21,7 @@ import Extra from './extra';
 import Header from './header';
 import Preview from './preview';
 
-// Sets the image slot based on the style classname selected.
-const setImageSlotByClassName = (className, setAttributes) => {
+const setOptionsFromStyle = (className, setAttributes) => {
     ifMatchSetAttribute(
         'is-style-top',
         className,
@@ -125,7 +124,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         'alt-description': enableExcerptBelow,
     });
 
-    setImageSlotByClassName(className, setAttributes);
+    // setImageSlotByClassName(className, setAttributes);
 
     const Img = () => {
         return (

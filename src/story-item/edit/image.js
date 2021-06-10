@@ -50,8 +50,8 @@ const Edit = ({ img, size, postId, setAttributes }) => {
                 allowedTypes={ALLOWED_MEDIA_TYPES}
                 render={({ open }) => {
                     let openFn = open;
-                    if (undefined !== postId && ! ['legacy-260', 'legacy-260-173'].includes(size)) {
-                        openFn = () => alert("You are unable to edit this image as it is locked to a post. To edit, visit this post and edit its origin post. " + postId);
+                    if (0 !== postId) {
+                        openFn = () => alert("You are unable to edit this image as this story item is linked to a post. To edit, edit the post's art direction. postId:: " + postId);
                     }
                     return(
                         <Fragment>
