@@ -12,13 +12,14 @@ import { isEmpty } from 'lodash';
 /**
  * Match pewresearch.org post links (not staff links) and insert story items with only the url and base image options selected, this will then let the story item fetch the details (but shouldnt we actually do that as part of the transform?)
  */
+const regex = new RegExp(/^https?:\/\/(www\.)?${window.location.host}\/((?!staff).)*$/i);
 const transforms = {
     from: [
         {
             type: 'raw',
             isMatch: node =>
                 'P' === node.nodeName &&
-                /^https?:\/\/(www\.)?pewresearch\.(org|local)\/((?!staff).)*$/i.test(
+                regex.test(
                     node.textContent,
                 ),
             transform: node => {
