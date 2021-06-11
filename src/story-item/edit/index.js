@@ -8,7 +8,7 @@ import { ifMatchSetAttribute, StoryItem } from '@pewresearch/app-components';
  * WordPress Dependencies
  */
 import classNames from 'classnames/bind';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -20,6 +20,7 @@ import Description from './description';
 import Extra from './extra';
 import Header from './header';
 import Preview from './preview';
+import {getAttributesFromURL} from './helpers';
 
 const setOptionsFromStyle = (className, setAttributes) => {
     ifMatchSetAttribute(
@@ -89,18 +90,26 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         enableBreakingNews,
         enableAltTaxonomy,
         enableMeta,
-        isPreview,
+        isTransformed,
         className,
     } = attributes;
 
-    if ( true === isPreview ) {
-        return <Preview attributes={attributes}/>
-    }
+    useEffect(()=>{
+        if ( true === isTransformed ) {
+            getAttributesFromURL(link).then(attrs => {
+                setAttributes({isTransformed: false, ...attrs});
+            });
+        }
+    }, [isTransformed]);
 
     const postId = postID;
 
     if ( undefined === postId ) {
         return <Placeholder attributes={attributes} setAttributes={setAttributes}/>
+    }
+
+    if ( true !== isSelected ) {
+        return <StoryItem {...attributes}/>
     }
 
     const { rootClientId } = useSelect(
@@ -114,7 +123,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         [clientId],
     );
 
-    const dataHandler = setAttributes;
     const enableAltHeaderWeight = !enableExcerpt;
     const taxonomy = enableAltTaxonomy ? 'Research-Areas' : 'Formats';
 
@@ -135,7 +143,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                 slot={imageSlot}
                 chartArt={isChartArt}
                 postId={postId}
-                setAttributes={dataHandler}
+                setAttributes={setAttributes}
             />
         );
     };
@@ -166,67 +174,62 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 
     return (
         <Fragment>
-            {true === isSelected && (
-                <Fragment>
-                <Controls
-                {...{
-                    attributes,
-                    setAttributes,
-                    context: context.hasOwnProperty('prc-block/wp-query')
-                        ? JSON.parse(context['prc-block/wp-query'])
-                        : false,
-                    rootClientId,
-                }}
-                />
-                <Item as="article" className={classes}>
-                    <TopAndLeftSlot />
+            <Controls
+            {...{
+                attributes,
+                setAttributes,
+                context: context.hasOwnProperty('prc-block/wp-query')
+                    ? JSON.parse(context['prc-block/wp-query'])
+                    : false,
+                rootClientId,
+            }}
+            />
+            <Item as="article" className={classes}>
+                <TopAndLeftSlot />
 
-                    <Item.Content>
-                        <Header
-                            enabled={{enableHeader, enableMeta}}
-                            title={title}
-                            date={date}
-                            label={label}
-                            link={link}
-                            size={headerSize}
-                            taxonomy={taxonomy}
-                            setAttributes={dataHandler}
-                            altHeaderWeight={enableAltHeaderWeight}
-                        />
+                <Item.Content>
+                    <Header
+                        enabled={{enableHeader, enableMeta}}
+                        title={title}
+                        date={date}
+                        label={label}
+                        link={link}
+                        size={headerSize}
+                        taxonomy={taxonomy}
+                        setAttributes={setAttributes}
+                        altHeaderWeight={enableAltHeaderWeight}
+                    />
 
-                        <DefaultSlot />
+                    <DefaultSlot />
 
-                        {true !== enableExcerptBelow && (
-                            <Description
-                                enabled={enableExcerpt}
-                                content={excerpt}
-                                sansSerif={!enableMeta || !enableHeader}
-                                setAttributes={dataHandler}
-                            />
-                        )}
-
-                        <Extra
-                            enabled={enableExtra}
-                            content={extra}
-                            breakingNews={enableBreakingNews}
-                            setAttributes={dataHandler}
-                        />
-                    </Item.Content>
-
-                    <BottomAndRightSlot />
-
-                    {true === enableExcerptBelow && (
+                    {true !== enableExcerptBelow && (
                         <Description
                             enabled={enableExcerpt}
                             content={excerpt}
-                            sansSerif={!enableHeader}
-                            setAttributes={dataHandler}
+                            sansSerif={!enableMeta || !enableHeader}
+                            setAttributes={setAttributes}
                         />
                     )}
-                </Item>
-                </Fragment>
-            )}
-            {true !== isSelected && <StoryItem {...attributes}/>}
+
+                    <Extra
+                        enabled={enableExtra}
+                        content={extra}
+                        breakingNews={enableBreakingNews}
+                        setAttributes={setAttributes}
+                    />
+                </Item.Content>
+
+                <BottomAndRightSlot />
+
+                {true === enableExcerptBelow && (
+                    <Description
+                        enabled={enableExcerpt}
+                        content={excerpt}
+                        sansSerif={!enableHeader}
+                        setAttributes={setAttributes}
+                    />
+                )}
+            </Item>
         </Fragment>
     );
 };

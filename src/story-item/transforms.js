@@ -1,4 +1,13 @@
+/**
+ * WordPress Dependencies
+ */
 import { createBlock } from '@wordpress/blocks';
+import { isEmpty } from 'lodash';
+
+/**
+ * Internal Dependencies
+ */
+ import { getAttributesFromURL } from './edit/helpers';
 
 /**
  * Match pewresearch.org post links (not staff links) and insert story items with only the url and base image options selected, this will then let the story item fetch the details (but shouldnt we actually do that as part of the transform?)
@@ -13,29 +22,20 @@ const transforms = {
                     node.textContent,
                 ),
             transform: node => {
-                return createBlock('prc-block/story-item', {
-                    link: node.textContent.trim(),
-                    className: 'is-style-default',
-                    imageSize: 'A1',
-                    imageSlot: 'default',
-                });
+                const url = node.textContent.trim();
+                console.log("you pasted a url, here is the node we matched...", url);
+                if (!isEmpty(url)) {
+                    return createBlock('prc-block/story-item', {
+                        className: 'is-style-default',
+                        imageSize: 'A1',
+                        imageSlot: 'default',
+                        link: url,
+                        isTransformed: true,
+                    });
+                }
             },
         },
-    ],
-    to: [
-        {
-            type: 'block',
-            blocks: ['prc-block/story-item'],
-            transform: ({ url }) => {
-                return createBlock('prc-block/story-item', {
-                    link: url,
-                    className: 'is-style-default',
-                    imageSize: 'A1',
-                    imageSlot: 'default',
-                });
-            },
-        },
-    ],
+    ]
 };
 
 export default transforms;

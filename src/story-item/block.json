@@ -89,6 +89,10 @@
         "isPreview": {
             "type": "boolean",
             "default": false
+        },
+        "isTransformed": {
+            "type": "boolean",
+            "default": false
         }
 	},
 	"usesContext": ["prc-block/wp-query"],

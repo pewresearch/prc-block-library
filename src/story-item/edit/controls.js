@@ -7,14 +7,14 @@ import { WPObjectSearchField } from '@pewresearch/app-components';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { isEmpty, isInteger } from 'lodash';
+import { isInteger } from 'lodash';
 import {
     InspectorControls,
     InspectorAdvancedControls,
     BlockControls,
     __experimentalLinkControl as LinkControl,
 } from '@wordpress/block-editor';
-import { Fragment, useEffect, useState } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import {
     Button,
     PanelBody,
@@ -71,7 +71,7 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
                         onChange={obj => {
                             console.log('onChange', obj);
                             if (obj.hasOwnProperty('id')) {
-                                setPostByStubID(obj.id, imageSize, setAttributes);
+                                setPostByStubID(obj.id, imageSize, false, setAttributes);
                             }
                         }}
                     />
@@ -366,13 +366,6 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
 
     const label = __('Story Item Options');
 
-    // On mount load the latest post details from the url.
-    // useEffect(() => {
-    //     if (!isEmpty(link) && undefined === postId) {
-    //         setPostByURL(link, imageSize, setAttributes);
-    //     }
-    // }, [link]);
-
     return (
         <Fragment>
             <ToolbarControls {...{ attributes, setAttributes }} />
@@ -511,7 +504,7 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                         onClick={() =>{
                             refresh(true);
                             setTimeout(() => {
-                                setPostByStubID(postId, imageSize, setAttributes);
+                                setPostByStubID(postId, imageSize, true, setAttributes);
                                 refresh(false);
                             }, 500);
                         }}
@@ -557,7 +550,7 @@ const Placeholder = ({attributes, setAttributes}) => {
                 subType='stub'
                 onChange={obj => {
                     if (obj.hasOwnProperty('id')) {
-                        setPostByStubID(obj.id, imageSize, setAttributes);
+                        setPostByStubID(obj.id, imageSize, false, setAttributes);
                     }
                 }}
                 showInitialSuggestions

@@ -407,7 +407,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'timestamp' => get_the_time( 'c', $stub_post->ID ),
 			'label'     => $format_term->name,
 			'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
-			'art'       => $stub_info['_art'],
+			'art'       => json_decode( $stub_info['_art'], true ),
 		);
 
 		if ( 1 !== $current_site_id ) {

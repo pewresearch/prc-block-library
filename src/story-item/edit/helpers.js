@@ -1,3 +1,6 @@
+/**
+ * WordPress Dependencies
+ */
 import apiFetch from '@wordpress/api-fetch';
 
 const setArtBySize = (imageSize, postId, setAttributes) => {
@@ -20,7 +23,7 @@ const setArtBySize = (imageSize, postId, setAttributes) => {
     }
 };
 
-const setPostAsAttributes = (post, imageSize, setAttributes) => {
+const getAttributesFromPost = (post, imageSize, isRefresh = false) => {
     const storyItem = {
         title: post.title.hasOwnProperty('rendered')
             ? post.title.rendered
@@ -32,26 +35,52 @@ const setPostAsAttributes = (post, imageSize, setAttributes) => {
         label: post.hasOwnProperty('label') ? post.label : 'Report',
         date: post.date,
         postID: post.id,
-        extra: '', // We want to clear extra when pulling a new post
     };
 
-    // If the post has art then let the image editor mounting effect handle setting it.
-    // Get art...
-    if (post.art) {
-        storyItem.image = post.art[imageSize].rawUrl;
-        storyItem.isChartArt = post.art[imageSize].chartArt;
+    if ( true !== isRefresh ) {
+        storyItem.extra = '';
     }
-    // Set art here??
-    console.log('setPostAsAttributes', post, storyItem);
-    setAttributes(storyItem);
+
+    if (post.art) {
+        const art = post.art;
+        storyItem.image = art[imageSize].rawUrl;
+        storyItem.isChartArt = art[imageSize].chartArt;
+    }
+
+    console.log('getAttributesFromPost', post, storyItem);
+    
+    return storyItem;
 };
+
+const getAttributesFromURL = (url, imageSize = 'A1') => {
+    return new Promise((resolve, reject) => {
+        apiFetch({
+            path: '/prc-api/v2/blocks/helpers/get-post-by-url',
+            method: 'POST',
+            data: { url },
+        })
+            .then(post => {
+                console.log('setPostbyURL', post);
+                if (false !== post) {
+                    const attrs = getAttributesFromPost(post, imageSize, false);
+                    resolve(attrs);
+                } else {
+                    reject(post);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                reject(err);
+            });
+    });
+}
 
 /**
  * Set's post attributes by url if a post is not found then failover and set just the link as what was passed through.
  * @param {string} url
  * @param {func} setAttributes
  */
-const setPostByURL = (url, imageSize, setAttributes) => {
+const setPostByURL = (url, imageSize, isRefresh, setAttributes) => {
     if (undefined === url || undefined === setAttributes) {
         return;
     }
@@ -63,7 +92,8 @@ const setPostByURL = (url, imageSize, setAttributes) => {
         .then(post => {
             console.log('setPostbyURL', post);
             if (false !== post) {
-                setPostAsAttributes(post, imageSize, setAttributes);
+                const attrs = getAttributesFromPost(post, imageSize, isRefresh);
+                setAttributes(attrs);
             }
         })
         .catch(err => {
@@ -72,7 +102,7 @@ const setPostByURL = (url, imageSize, setAttributes) => {
         });
 };
 
-const setPostByStubID = (postId, imageSize, setAttributes) => {
+const setPostByStubID = (postId, imageSize, isRefresh, setAttributes) => {
     if (undefined === postId || undefined === setAttributes) {
         return;
     }
@@ -83,8 +113,8 @@ const setPostByStubID = (postId, imageSize, setAttributes) => {
         .then(post => {
             console.log('setPostByStubID', postId, post);
             if (false !== post) {
-                // We should lookup the meta link here real quick and apply that to the post.link object before posting attributes.
-                setPostAsAttributes(post, imageSize, setAttributes);
+                const attrs = getAttributesFromPost(post, imageSize, isRefresh);
+                setAttributes(attrs);
             }
         })
         .catch(err => console.error(err));
@@ -94,4 +124,5 @@ export {
     setArtBySize,
     setPostByStubID,
     setPostByURL,
+    getAttributesFromURL,
 }
