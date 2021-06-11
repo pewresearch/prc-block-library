@@ -1,5 +1,4 @@
 import {
-    getPosts,
     getTerms,
     getTermsByLetter,
     getTermsAsOptions,
@@ -19,7 +18,6 @@ import {
 import mailChimpInterests from './data/mailchimp-interests';
 
 export {
-    getPosts,
     getTerms,
     getTermsByLetter,
     getTermsAsOptions,

@@ -87,7 +87,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         enableExcerptBelow,
         enableExtra,
         enableBreakingNews,
-        enableProgramsTaxonomy,
+        enableAltTaxonomy,
         enableMeta,
         isPreview,
         className,
@@ -100,7 +100,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     const postId = postID;
 
     if ( undefined === postId ) {
-        return <Placeholder setAttributes={setAttributes}/>
+        return <Placeholder attributes={attributes} setAttributes={setAttributes}/>
     }
 
     const { rootClientId } = useSelect(
@@ -116,7 +116,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 
     const dataHandler = setAttributes;
     const enableAltHeaderWeight = !enableExcerpt;
-    const taxonomy = enableProgramsTaxonomy ? 'Programs' : 'Formats';
+    const taxonomy = enableAltTaxonomy ? 'Research-Areas' : 'Formats';
 
     const classes = classNames(className, 'story', {
         stacked: 'top' === imageSlot || 'bottom' === imageSlot,

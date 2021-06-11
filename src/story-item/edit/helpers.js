@@ -1,6 +1,26 @@
 import apiFetch from '@wordpress/api-fetch';
 
-const setPostAsAttributes = (post, setAttributes) => {
+const setArtBySize = (imageSize, postId, setAttributes) => {
+    if (false !== art && false !== setAttributes) {
+        apiFetch({
+            path: `/prc-api/v2/get-art/?postId=${postId}`,
+        }).then(data => {
+            if (false !== data) {
+                if (
+                    undefined !== data[imageSize] &&
+                    false !== setAttributes
+                ) {
+                    setAttributes({
+                        image: data[imageSize].rawUrl,
+                        isChartArt: data[imageSize].chartArt,
+                    });
+                }
+            }
+        });
+    }
+};
+
+const setPostAsAttributes = (post, imageSize, setAttributes) => {
     const storyItem = {
         title: post.title.hasOwnProperty('rendered')
             ? post.title.rendered
@@ -14,11 +34,15 @@ const setPostAsAttributes = (post, setAttributes) => {
         postID: post.id,
         extra: '', // We want to clear extra when pulling a new post
     };
+
     // If the post has art then let the image editor mounting effect handle setting it.
     // Get art...
-    if (!post.art) {
-        storyItem.image = post.image;
+    if (post.art) {
+        storyItem.image = post.art[imageSize].rawUrl;
+        storyItem.isChartArt = post.art[imageSize].chartArt;
     }
+    // Set art here??
+    console.log('setPostAsAttributes', post, storyItem);
     setAttributes(storyItem);
 };
 
@@ -27,7 +51,7 @@ const setPostAsAttributes = (post, setAttributes) => {
  * @param {string} url
  * @param {func} setAttributes
  */
-const setPostByURL = (url, setAttributes) => {
+const setPostByURL = (url, imageSize, setAttributes) => {
     if (undefined === url || undefined === setAttributes) {
         return;
     }
@@ -39,7 +63,7 @@ const setPostByURL = (url, setAttributes) => {
         .then(post => {
             console.log('setPostbyURL', post);
             if (false !== post) {
-                setPostAsAttributes(post, setAttributes);
+                setPostAsAttributes(post, imageSize, setAttributes);
             }
         })
         .catch(err => {
@@ -48,12 +72,9 @@ const setPostByURL = (url, setAttributes) => {
         });
 };
 
-const setPostByStubID = (postId, setAttributes, refresh) => {
+const setPostByStubID = (postId, imageSize, setAttributes) => {
     if (undefined === postId || undefined === setAttributes) {
         return;
-    }
-    if (undefined !== refresh) {
-        refresh(true);
     }
     apiFetch({
         path: `/wp/v2/stub/${postId}`,
@@ -63,15 +84,10 @@ const setPostByStubID = (postId, setAttributes, refresh) => {
             console.log('setPostByStubID', postId, post);
             if (false !== post) {
                 // We should lookup the meta link here real quick and apply that to the post.link object before posting attributes.
-                setPostAsAttributes(post, setAttributes);
+                setPostAsAttributes(post, imageSize, setAttributes);
             }
         })
-        .catch(err => console.error(err))
-        .then(() => {
-            if (undefined !== refresh) {
-                refresh(false);
-            }
-        });
+        .catch(err => console.error(err));
 };
 
 export {

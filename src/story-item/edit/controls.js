@@ -42,7 +42,7 @@ import {
  */
 import { setPostByStubID } from './helpers';
 
-const URLControl = ({ title, type, id, url, setAttributes }) => {
+const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) => {
     const [isLinkOpen, setIsLinkOpen] = useState(false);
     return (
         <Fragment>
@@ -71,7 +71,7 @@ const URLControl = ({ title, type, id, url, setAttributes }) => {
                         onChange={obj => {
                             console.log('onChange', obj);
                             if (obj.hasOwnProperty('id')) {
-                                setPostByStubID(obj.id, setAttributes);
+                                setPostByStubID(obj.id, imageSize, setAttributes);
                             }
                         }}
                     />
@@ -344,6 +344,7 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
     const {
         postID,
         link,
+        imageSize,
         imageSlot,
         enableHeader,
         enableExcerpt,
@@ -351,19 +352,20 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
         enableExtra,
         enableBreakingNews,
         enableEmphasis,
-        enableProgramsTaxonomy,
+        enableAltTaxonomy,
         enableMeta,
         inLoop,
     } = attributes;
+    const postId = postID;
 
-    const label = __('Story Item options');
+    const label = __('Story Item Options');
 
-    useEffect(() => {
-        // On mount load the latest post details from the url.
-        if (!isEmpty(link) && undefined === postID) {
-            setPostByURL(link, setAttributes);
-        }
-    }, [link]);
+    // On mount load the latest post details from the url.
+    // useEffect(() => {
+    //     if (!isEmpty(link) && undefined === postId) {
+    //         setPostByURL(link, imageSize, setAttributes);
+    //     }
+    // }, [link]);
 
     return (
         <Fragment>
@@ -463,11 +465,11 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                         }}
                     />
                     <ToggleControl
-                        label={enableProgramsTaxonomy ? 'Programs' : 'Formats'}
-                        checked={enableProgramsTaxonomy}
+                        label={enableAltTaxonomy ? 'Research Areas' : 'Formats'}
+                        checked={enableAltTaxonomy}
                         onChange={() => {
                             setAttributes({
-                                enableProgramsTaxonomy: !enableProgramsTaxonomy,
+                                enableAltTaxonomy: !enableAltTaxonomy,
                             });
                         }}
                     />
@@ -496,14 +498,14 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                 </PanelBody>
             </InspectorControls>
             <InspectorAdvancedControls>
-                {isInteger(postID) && 0 !== postID && (
+                {isInteger(postId) && 0 !== postId && (
                     <Button
                         isSecondary
                         isBusy={isRefreshing}
                         onClick={() =>{
                             refresh(true);
                             setTimeout(() => {
-                                setPostByStubID(postID, setAttributes);
+                                setPostByStubID(postId, imageSize, setAttributes);
                                 refresh(false);
                             }, 500);
                         }}
@@ -536,28 +538,31 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
     );
 };
 
-const Placeholder = ({setAttributes}) => (
-    <WPComPlaceholder
-        icon="format-aside"
-        label={__(` Search for a Story Item`)}
-        isColumnLayout
-    >
-        <WPObjectSearchField
-            type='post'
-            subType='stub'
-            onChange={obj => {
-                if (obj.hasOwnProperty('id')) {
-                    setPostByStubID(obj.id, setAttributes);
-                }
-            }}
-            showInitialSuggestions
-        />
-        <Button isLink onClick={()=>{
-            // Create a blank Story Item
-            setAttributes({postID: 0});
-        }}>Skip</Button>
-    </WPComPlaceholder>
-);
+const Placeholder = ({attributes, setAttributes}) => {
+    const {imageSize} = attributes;
+    return (
+        <WPComPlaceholder
+            icon="format-aside"
+            label={__(` Search for a Story Item`)}
+            isColumnLayout
+        >
+            <WPObjectSearchField
+                type='post'
+                subType='stub'
+                onChange={obj => {
+                    if (obj.hasOwnProperty('id')) {
+                        setPostByStubID(obj.id, imageSize, setAttributes);
+                    }
+                }}
+                showInitialSuggestions
+            />
+            <Button isLink onClick={()=>{
+                // Create a blank Story Item
+                setAttributes({postID: 0});
+            }}>Skip</Button>
+        </WPComPlaceholder>
+    )
+};
 
 export {
     Placeholder,

@@ -100,7 +100,6 @@ class PRC_Block_Library {
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 			add_action( 'init', array( $this, 'register_assets' ), 10 );
 			add_action( 'init', array( $this, 'register_blocks' ), 11 );
-			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 		}
 	}
 
@@ -325,110 +324,6 @@ class PRC_Block_Library {
 			)
 		);
 	}
-
-	public function register_rest_endpoints() {
-		register_rest_route(
-			'prc-api/v2',
-			'/blocks/helpers/get-posts',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_block_lib_posts' ),
-				'args'                => array(
-					'format'        => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-					'program'       => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-					'perPage'       => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-					'labelTaxonomy' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-				),
-				'permission_callback' => function () {
-					return true;
-				},
-			)
-		);
-	}
-
-	public function get_block_lib_posts( \WP_REST_Request $request ) {
-		$format         = $request->get_param( 'format' );
-		$program        = $request->get_param( 'program' );
-		$per_page       = $request->get_param( 'perPage' );
-		$label_taxonomy = $request->get_param( 'labelTaxonomy' );
-
-		// If the current site is not 1 then for the format and the program we should get their parent term ids
-		if ( 1 !== get_current_blog_id() ) {
-			$format  = get_term_meta( $format, '_origin_term_id', true );
-			$program = get_term_meta( $program, '_origin_term_id', true );
-		}
-
-		$args = array(
-			'post_type'        => 'stub',
-			'posts_per_page'   => (int) $per_page,
-			'post_parent'      => 0, // No Children.
-			'meta_key'         => 'hide_on_index',
-			'meta_compare_key' => 'NOT EXISTS',
-			'tax_query'        => array(
-				'relation' => 'AND',
-			),
-		);
-		if ( $format ) {
-			$args['tax_query'][] = array(
-				'taxonomy' => 'formats',
-				'terms'    => $format,
-				'field'    => 'term_id',
-			);
-		}
-		if ( $program ) {
-			$args['tax_query'][] = array(
-				'taxonomy' => 'programs',
-				'terms'    => $program,
-				'field'    => 'term_id',
-			);
-		}
-
-		// The Query.
-		switch_to_blog( 1 );
-		$the_query = new WP_Query( $args );
-
-		$return = array();
-		// The Loop.
-		if ( $the_query->have_posts() ) {
-			while ( $the_query->have_posts() ) {
-				$the_query->the_post();
-				$stub_info = get_post_meta( get_the_ID(), '_stub_info', true );
-				$term      = get_term_by( 'slug', $stub_info['_taxonomies'][ $label_taxonomy ][0], $label_taxonomy );
-				$label     = $term->name;
-				$link      = get_post_meta( get_the_ID(), '_redirect', true );
-				$return[]  = array(
-					'id'        => get_the_ID(),
-					'title'     => get_the_title(),
-					'date'      => get_the_date(),
-					'timestamp' => get_the_time( 'c' ),
-					'link'      => $link,
-					'label'     => $label,
-					'image'     => get_the_post_thumbnail_url( get_the_ID(), 'large' ),
-				);
-			}
-		}
-		/* Restore original Post Data */
-		wp_reset_postdata();
-		restore_current_blog();
-		return $return;
-	}
-
 }
 
 new PRC_Block_Library( true );

@@ -58,14 +58,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	/**
-	 * Get first term in either formats or programs (as determined by $programs flag)
+	 * Get first term in either formats or research-areas (as determined by $reasearch_areas flag)
 	 *
 	 * @param int  $post_id of post you want to fetch.
-	 * @param bool $programs flag to enable fetching programs taxonomy instead of formats, defaults to false.
+	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
 	 * @return string
 	 */
-	private function get_label( int $post_id, $programs = false ) {
-		$terms = wp_get_object_terms( $post_id, $programs ? 'programs' : 'formats', array( 'fields' => 'names' ) );
+	private function get_label( int $post_id, $reasearch_areas = false ) {
+		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-areas' : 'formats', array( 'fields' => 'names' ) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
 		}
@@ -82,22 +82,22 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 */
 	public function get_attributes_by_object_id( int $post_id, $args = array() ) {
 		$defaults = array(
-			'postID'                 => $post_id,
-			'postType'               => 'stub',
-			'imageSize'              => 'A3',
-			'imageSlot'              => 'disabled',
-			'isChartArt'             => false,
-			'headerSize'             => 2,
-			'enableAltHeaderWeight'  => false,
-			'enableEmphasis'         => false,
-			'enableHeader'           => true,
-			'enableExcerpt'          => true,
-			'enableExcerptBelow'     => false,
-			'enableExtra'            => false,
-			'enableBreakingNews'     => false,
-			'enableProgramsTaxonomy' => false,
-			'enableMeta'             => true,
-			'inLoop'                 => false,
+			'postID'                => $post_id,
+			'postType'              => 'stub',
+			'imageSize'             => 'A3',
+			'imageSlot'             => 'disabled',
+			'isChartArt'            => false,
+			'headerSize'            => 2,
+			'enableAltHeaderWeight' => false,
+			'enableEmphasis'        => false,
+			'enableHeader'          => true,
+			'enableExcerpt'         => true,
+			'enableExcerptBelow'    => false,
+			'enableExtra'           => false,
+			'enableBreakingNews'    => false,
+			'enableAltTaxonomy'     => false,
+			'enableMeta'            => true,
+			'inLoop'                => false,
 		);
 		$attrs    = wp_parse_args( $args, $defaults );
 
@@ -116,7 +116,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$attrs['excerpt'] = $post->post_excerpt;
 		$attrs['date']    = $post->post_date;
 
-		$attrs['label'] = $this->get_label( $post_id, $attrs['enableProgramsTaxonomy'] );
+		$attrs['label'] = $this->get_label( $post_id, $attrs['enableAltTaxonomy'] );
 
 		$art = prc_get_art( $post_id, $attrs['imageSize'] );
 		if ( false !== $attrs['imageSlot'] && false !== $art ) {
@@ -465,7 +465,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/story-item',
 			array(
 				'editor_script'   => array_pop( $block_assets['js'] )['handle'],
-				'editor_style'    => array_pop( $block_assets['css'] )['handle'],
+				// 'editor_style'    => array_pop( $block_assets['css'] )['handle'],
 				'render_callback' => array( $this, 'render_story_item' ),
 			)
 		);

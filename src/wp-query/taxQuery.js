@@ -88,7 +88,7 @@ const TaxQuery = ({ taxQuery, setAttributes }) => {
         { label: 'Select a Taxonomy', value: false },
         { label: 'Topics', value: 'topic' },
         { label: 'Formats', value: 'formats' },
-        { label: 'Programs', value: 'programs' },
+        { label: 'Research Areas', value: 'research-areas' },
     ]);
 
     const toggleRelation = () => {

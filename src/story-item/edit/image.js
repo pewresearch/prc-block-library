@@ -8,40 +8,40 @@ import { ImageDisplay } from '@pewresearch/app-components';
 const ALLOWED_MEDIA_TYPES = ['image'];
 
 const Edit = ({ img, size, postId, setAttributes }) => {
-    const [art, setArt] = useState(false);
+    // const [art, setArt] = useState(false);
 
-    // When the postId changes go fetch new art for this post and store it in state and also store the correct image url in attributes.
-    useEffect(() => {
-        if (0 !== postId && false !== setAttributes) {
-            apiFetch({
-                path: `/prc-api/v2/get-art/?postId=${postId}`,
-            }).then(data => {
-                if (false !== data) {
-                    setArt(data);
-                    setAttributes({ image: data[size].rawUrl });
-                } else {
-                    // If no art on any subsequent art fetches set to false
-                    setArt(false);
-                }
-            });
-        }
-    }, [postId]);
+    // // When the postId changes go fetch new art for this post and store it in state and also store the correct image url in attributes.
+    // useEffect(() => {
+    //     if (0 !== postId && false !== setAttributes) {
+    //         apiFetch({
+    //             path: `/prc-api/v2/get-art/?postId=${postId}`,
+    //         }).then(data => {
+    //             if (false !== data) {
+    //                 setArt(data);
+    //                 setAttributes({ image: data[size].rawUrl });
+    //             } else {
+    //                 // If no art on any subsequent art fetches set to false
+    //                 setArt(false);
+    //             }
+    //         });
+    //     }
+    // }, [postId]);
 
-    /**
-     * If the art or size changes then go check the art object and set the approrpiate image and chart art given the arts options.
-     */
-    useEffect(() => {
-        if (
-            false !== art &&
-            undefined !== art[size] &&
-            false !== setAttributes
-        ) {
-            setAttributes({
-                image: art[size].rawUrl,
-                isChartArt: art[size].chartArt,
-            });
-        }
-    }, [art, size]);
+    // /**
+    //  * If the art or size changes then go check the art object and set the approrpiate image and chart art given the arts options.
+    //  */
+    // useEffect(() => {
+    //     if (
+    //         false !== art &&
+    //         undefined !== art[size] &&
+    //         false !== setAttributes
+    //     ) {
+    //         setAttributes({
+    //             image: art[size].rawUrl,
+    //             isChartArt: art[size].chartArt,
+    //         });
+    //     }
+    // }, [art, size]);
 
     return (
         <MediaUploadCheck>
@@ -50,9 +50,9 @@ const Edit = ({ img, size, postId, setAttributes }) => {
                 allowedTypes={ALLOWED_MEDIA_TYPES}
                 render={({ open }) => {
                     let openFn = open;
-                    if (0 !== postId) {
-                        openFn = () => alert("You are unable to edit this image as this story item is linked to a post. To edit, edit the post's art direction. postId:: " + postId);
-                    }
+                    // if (0 !== postId) {
+                    //     openFn = () => alert("You are unable to edit this image as this story item is linked to a post. To edit, edit the post's art direction. postId:: " + postId);
+                    // }
                     return(
                         <Fragment>
                             {
