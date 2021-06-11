@@ -48,10 +48,10 @@ export default [
         attributes: { type: 'formats' },
     },
     {
-        name: 'programs',
+        name: 'research-areas',
         icon: tagIcon,
-        title: __('Program Link'),
-        description: __('A link to a program.'),
-        attributes: { type: 'programs' },
+        title: __('Research Areas Link'),
+        description: __('A link to a research area.'),
+        attributes: { type: 'research-areas' },
     },
 ];
