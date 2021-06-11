@@ -10,6 +10,7 @@ class Group_Block extends PRC_Block_Library {
 		if ( true === $init ) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
 			add_filter( 'render_block', array( $this, 'group_block_render_callback' ), 10, 2 );
+			add_shortcode( 'callout', array( $this, 'callout_shortcode_fallback' ) );
 		}
 	}
 
@@ -38,6 +39,34 @@ class Group_Block extends PRC_Block_Library {
 		$this->enqueue_assets( false );
 
 		return $block_content;
+	}
+
+	/**
+	 * For content in the legacy content editor
+	 * fallback to using core/block when calling the [callout] shortcode.
+	 */
+	public function callout_shortcode_fallback( $attr, $content = null ) {
+		$attr = wp_parse_args(
+			$attr,
+			array(
+				'style' => false,
+				'align' => false,
+			)
+		);
+	 
+		ob_start();
+		?>
+		<!-- wp:group {<?php echo $attr['align'] ? '' : esc_attr( '"align":"' . substr( $attr['align'], 5 ) ); ?> "style":{"color":{"background":"#f7f7f1"}},"className":"is-style-callout <?php echo $attr['align'] ? '' : esc_attr( $attr['align'] ); ?>"} -->
+		<div class="wp-block-group <?php echo $attr['align'] ? '' : esc_attr( $attr['align'] ); ?> is-style-callout has-background" style="background-color:#f7f7f1">
+		%s
+		</div>
+		<!-- /wp:group -->
+		<?php
+		$block_content = ob_get_clean();
+		$block_content = wp_sprintf( $block_content, $content );
+		$callout_block = parse_blocks( $block_content );
+		$callout_block = render_block( $callout_block[1] );
+		return $callout_block;
 	}
 
 	/**

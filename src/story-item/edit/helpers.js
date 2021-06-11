@@ -1,7 +1,7 @@
 import apiFetch from '@wordpress/api-fetch';
 
 const setArtBySize = (imageSize, postId, setAttributes) => {
-    if (false !== art && false !== setAttributes) {
+    if (0 !== postId && false !== setAttributes) {
         apiFetch({
             path: `/prc-api/v2/get-art/?postId=${postId}`,
         }).then(data => {
@@ -91,6 +91,7 @@ const setPostByStubID = (postId, imageSize, setAttributes) => {
 };
 
 export {
+    setArtBySize,
     setPostByStubID,
     setPostByURL,
 }

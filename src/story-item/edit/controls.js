@@ -40,7 +40,7 @@ import {
 /**
  * Internal Dependencies
  */
-import { setPostByStubID } from './helpers';
+import { setPostByStubID, setArtBySize } from './helpers';
 
 const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) => {
     const [isLinkOpen, setIsLinkOpen] = useState(false);
@@ -97,6 +97,7 @@ const changeImageSlot = (selected, classNames, setAttributes) => {
 
 const ToolbarControls = ({ attributes, setAttributes }) => {
     const { link, imageSize, imageSlot, headerSize, isChartArt, postID, title } = attributes;
+    const postId = postID;
 
     const Icon = ({ svgPath = false, isPressed = false }) => {
         if (false === svgPath) {
@@ -164,10 +165,15 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
         )
     }
 
+    const handleImageSizeChange = (newSize) => {
+        setAttributes({ imageSize: newSize });
+        setArtBySize(newSize, postId, setAttributes);
+    }
+
     return (
         <BlockControls>
             <ToolbarGroup>
-                <URLControl title={title} id={postID} url={link} type="stub" setAttributes={setAttributes} />
+                <URLControl title={title} id={postId} url={link} type="stub" setAttributes={setAttributes} />
             </ToolbarGroup>
             <ToolbarGroup>
                 <ToolbarDropdownMenu
@@ -286,7 +292,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                                     <ImageSizeIcon selected='A1' currentlyActive={imageSize}/>
                                 ),
                                 isActive: 'A1' === imageSize,
-                                onClick: () => setAttributes({ imageSize: 'A1' }),
+                                onClick: () => handleImageSizeChange('A1'),
                             },
                             {
                                 title: 'A2',
@@ -294,7 +300,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                                     <ImageSizeIcon selected='A2' currentlyActive={imageSize}/>
                                 ),
                                 isActive: 'A2' === imageSize,
-                                onClick: () => setAttributes({ imageSize: 'A2' }),
+                                onClick: () => handleImageSizeChange('A2'),
                             },
                             {
                                 title: 'A3',
@@ -302,7 +308,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                                     <ImageSizeIcon selected='A3' currentlyActive={imageSize}/>
                                 ),
                                 isActive: 'A3' === imageSize,
-                                onClick: () => setAttributes({ imageSize: 'A3' }),
+                                onClick: () => handleImageSizeChange('A3'),
                             },
                             {
                                 title: 'A4',
@@ -310,7 +316,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                                     <ImageSizeIcon selected='A4' currentlyActive={imageSize}/>
                                 ),
                                 isActive: 'A4' === imageSize,
-                                onClick: () => setAttributes({ imageSize: 'A4' }),
+                                onClick: () => handleImageSizeChange('A4'),
                             },
                             {
                                 title: 'XL',
@@ -318,7 +324,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                                     <ImageSizeIcon selected='XL' currentlyActive={imageSize}/>
                                 ),
                                 isActive: 'XL' === imageSize,
-                                onClick: () => setAttributes({ imageSize: 'XL' }),
+                                onClick: () => handleImageSizeChange('XL'),
                             }
                         ] }
                     />
