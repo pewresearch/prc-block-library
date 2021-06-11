@@ -104,14 +104,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 
     const postId = postID;
 
-    if ( undefined === postId ) {
-        return <Placeholder attributes={attributes} setAttributes={setAttributes}/>
-    }
-
-    if ( true !== isSelected ) {
-        return <StoryItem {...attributes}/>
-    }
-
     const { rootClientId } = useSelect(
         select => {
             return {
@@ -171,6 +163,14 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 
         return <Img />;
     };
+
+    if ( undefined === postId ) {
+        return <Placeholder attributes={attributes} setAttributes={setAttributes}/>
+    }
+
+    if ( true !== isSelected ) {
+        return <StoryItem {...attributes}/>
+    }
 
     return (
         <Fragment>
