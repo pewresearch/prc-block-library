@@ -39,14 +39,14 @@
         "archive": "wpackio-scripts pack"
     },
     "dependencies": {
-        "@pewresearch/app-components": "^0.1.8",
+        "@pewresearch/app-components": "^0.1.9",
         "@pewresearch/pew-chart-builder": "^0.3.97",
         "@wordpress/icons": "^4.0.1",
         "@wpackio/entrypoint": "^6.3.0",
         "beautiful-react-hooks": "^0.35.0",
         "classnames": "^2.3.1",
         "csv": "^5.3.2",
-        "i18n-iso-countries": "^6.4.0",
+        "i18n-iso-countries": "^6.8.0",
         "num-words": "^1.2.2",
         "ordinal": "^1.0.3",
         "react-card-flip": "^1.0.11",

@@ -2,6 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
+import { BlockInserterButton } from '@pewresearch/app-components';
 
 /**
  * WordPress dependencies
@@ -10,12 +11,6 @@ import {
     useBlockProps,
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
 } from '@wordpress/block-editor';
-
-/**
- * Internal dependencies
- */
-
-import { BlockInserterButton } from 'shared';
 
 const ALLOWED_BLOCKS = ['prc-block/topic-index-condensed-menu-item'];
 

@@ -2,6 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
+import { BlockInserterButton, CaretHeadingLink } from '@pewresearch/app-components';
 
 /**
  * WordPress dependencies
@@ -11,12 +12,6 @@ import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
-
-/**
- * Internal dependencies
- */
-
-import { BlockInserterButton, CaretHeadingLink } from 'shared';
 
 const ALLOWED_BLOCKS = ['prc-block/taxonomy-tree'];
 

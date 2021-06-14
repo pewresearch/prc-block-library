@@ -1,14 +1,18 @@
 /**
- * WordPress dependencies
+ * External Dependencies
+ */
+import {mailChimpInterests} from '@pewresearch/app-components';
+/**
+ * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
 import { render } from '@wordpress/element';
 
 /**
- * Internal dependencies
+ * Internal Dependencies
  */
 import Form from './form';
-import mailChimpInterests from '../_shared/data/mailchimp-interests';
+
 
 domReady(() => {
     const forms = document.querySelectorAll('.wp-block-prc-block-mailchimp-select');

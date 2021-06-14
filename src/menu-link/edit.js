@@ -2,11 +2,17 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import { escape, get, head, find } from 'lodash';
+import { BlockInserterButton } from '@pewresearch/app-components';
+import {
+    link as linkIcon,
+    formatIndent as moreIcon,
+    plusCircle as expandInlineIcon,
+} from '@wordpress/icons';
 
 /**
  * WordPress dependencies
  */
+import { escape } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import {
@@ -36,17 +42,6 @@ import {
 import { isURL, prependHTTP } from '@wordpress/url';
 import { Fragment, useState, useEffect, useRef } from '@wordpress/element';
 import { placeCaretAtHorizontalEdge } from '@wordpress/dom';
-import {
-    link as linkIcon,
-    formatIndent as moreIcon,
-    plusCircle as expandInlineIcon,
-} from '@wordpress/icons';
-
-/**
- * Internal dependencies
- */
-
-import { BlockInserterButton } from 'shared';
 
 const getColorName = (color, colors) => {
     const matched = colors.filter(c => c.color === color);

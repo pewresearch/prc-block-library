@@ -1,5 +1,13 @@
 /* eslint-disable no-restricted-globals */
 // eslint-disable-next-line import/no-unresolved
+/**
+ * External Dependencies
+ */
+import { getTermsAsTree } from '@pewresearch/app-components';
+
+/**
+ * WordPress Dependencies
+ */
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import {
@@ -16,8 +24,6 @@ import {
     TreeSelect,
 } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
-
-import { getTermsAsTree } from 'shared';
 
 const AltPostLabelControl = ({ label, setAttributes }) => {
     return (

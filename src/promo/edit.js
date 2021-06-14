@@ -2,6 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
+import { HeadingLevelToolbar } from '@pewresearch/app-components';
 
 /**
  * WordPress dependencies
@@ -28,7 +29,6 @@ import {
 /**
  * Internal dependencies
  */
-import { HeadingLevelToolbar } from 'shared';
 import Icon from './icons';
 
 const ALLOWED_BLOCKS = [

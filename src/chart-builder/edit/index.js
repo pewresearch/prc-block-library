@@ -23,7 +23,7 @@ import {
     formattedData,
 } from '../utils/helpers';
 import ChartControls from './ChartControls';
-import { ifMatchSetAttribute } from 'shared';
+import { ifMatchSetAttribute } from '@pewresearch/app-components';
 
 const setChartTypeByClassName = (className, setAttributes) => {
     ifMatchSetAttribute(

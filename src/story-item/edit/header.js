@@ -1,11 +1,16 @@
-// WordPress Core
+/**
+ * External Dependencies
+ */
+import { getTermsAsOptions } from '@pewresearch/app-components';
+
+/**
+ * WordPress Dependencies
+ */
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { SelectControl, TextControl } from '@wordpress/components';
 import { RichText } from '@wordpress/block-editor';
 import classNames from 'classnames/bind';
 import { Item } from 'semantic-ui-react';
-
-import { getTermsAsOptions } from 'shared';
 
 const KickerEditor = ({ label, date, taxonomy, setAttributes }) => {
     const [labelOptions, setLabelOptions] = useState([]);

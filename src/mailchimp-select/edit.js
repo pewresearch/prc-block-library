@@ -2,6 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
+import {mailChimpInterests} from '@pewresearch/app-components';
 
 /**
  * WordPress dependencies
@@ -20,7 +21,6 @@ import {
  * Internal dependencies
  */
 import Form from './form';
-import mailChimpInterests from '../_shared/data/mailchimp-interests';
 
 const edit = ({ attributes, setAttributes }) => {
     const { interests, className } = attributes;

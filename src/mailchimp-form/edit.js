@@ -2,7 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
-
+import {mailChimpInterests} from '@pewresearch/app-components';
 /**
  * WordPress dependencies
  */
@@ -15,7 +15,6 @@ import { Fragment } from '@wordpress/element';
  * Internal dependencies
  */
 import MailchimpForm from './component';
-import mailChimpInterests from '../_shared/data/mailchimp-interests';
 
 const SidebarControls = ({ interest, setAttributes }) => {
     return (

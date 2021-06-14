@@ -2,6 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
+import { CaretHeadingLink } from '@pewresearch/app-components';
 
 /**
  * WordPress dependencies
@@ -16,7 +17,6 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal dependencies
  */
-import { CaretHeadingLink } from 'shared';
 
 import './style.scss';
 
