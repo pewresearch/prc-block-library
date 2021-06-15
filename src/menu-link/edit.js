@@ -66,8 +66,8 @@ const getSuggestionsQuery = type => {
             return { type: 'term', subtype: 'topic' };
         case 'formats':
             return { type: 'term', subtype: 'formats' };
-        case 'research-areas':
-            return { type: 'term', subtype: 'research-areas' };
+        case 'research-teams':
+            return { type: 'term', subtype: 'research-teams' };
         default:
             return {};
     }

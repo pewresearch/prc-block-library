@@ -116,7 +116,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     );
 
     const enableAltHeaderWeight = !enableExcerpt;
-    const taxonomy = enableAltTaxonomy ? 'Research-Areas' : 'Formats';
+    const taxonomy = enableAltTaxonomy ? 'research-teams' : 'Formats';
 
     const classes = classNames(className, 'story', {
         stacked: 'top' === imageSlot || 'bottom' === imageSlot,

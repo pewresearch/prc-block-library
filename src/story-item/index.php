@@ -65,7 +65,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @return string
 	 */
 	private function get_label( int $post_id, $reasearch_areas = false ) {
-		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-areas' : 'formats', array( 'fields' => 'names' ) );
+		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
 		}

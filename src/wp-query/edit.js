@@ -64,7 +64,7 @@ const Posts = ({ posts, attributes }) => {
                     enableExcerpt: !storyItemDisableExcerpt,
                     enableExtra: false,
                     inLoop: isPubListing,
-                    enableAltTaxonomy: 'research-areas' === labelTaxonomy,
+                    enableAltTaxonomy: 'research-teams' === labelTaxonomy,
                     headerSize: 2,
                     className:
                         'left' === storyItemImageSlot
