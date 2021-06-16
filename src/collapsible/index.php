@@ -22,7 +22,7 @@ class Collapsible extends PRC_Block_Library {
 	public function register_frontend() {
 		$js_deps               = array( 'wp-dom-ready', 'wp-element', 'wp-i18n' );
 		$enqueue               = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
-		$this->frontend_script = $enqueue->register(
+		$script                = $enqueue->register(
 			'frontend',
 			'collapsible',
 			array(
@@ -34,6 +34,7 @@ class Collapsible extends PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+		$this->frontend_script = $script;
 		// Add legacy support for shortcodes.
 		add_filter(
 			'prc_block_collapsible_frontend_shim',
@@ -41,10 +42,11 @@ class Collapsible extends PRC_Block_Library {
 				return array_pop( $this->frontend_script['js'] )['handle'];
 			}
 		);
+		return $script;
 	}
 
 	public function enqueue_frontend() {
-		if ( false === $this->frontend_script ) {
+		if ( false === $this->frontend_script || ! is_array( $this->frontend_script ) ) {
 			$this->register_frontend();
 		}
 		$script_handle = array_pop( $this->frontend_script['js'] )['handle'];
@@ -52,7 +54,10 @@ class Collapsible extends PRC_Block_Library {
 	}
 
 	public function render_collapsible_placeholder( $attributes, $content, $block ) {
-		$this->enqueue_frontend();
+		// No need to load this script in backend.
+		if ( ! is_admin() ) {
+			$this->enqueue_frontend();
+		}
 		$class_names = explode( ' ', array_key_exists( 'className', $attributes ) ? $attributes['className'] : '' );
 		$alt_style   = false;
 		if ( in_array( 'is-style-alternate', $class_names ) ) {
