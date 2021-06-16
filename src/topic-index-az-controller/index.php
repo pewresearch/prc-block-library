@@ -25,7 +25,9 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 			foreach ( $block->inner_blocks as $row ) {
 				foreach ( $row->inner_blocks as $column ) {
 					foreach ( $column->inner_blocks as $az_block ) {
-						$present[] = strtoupper( $az_block->attributes['letter'] );
+						if ( array_key_exists( 'letter', $az_block->attributes ) ) {
+							$present[] = strtoupper( $az_block->attributes['letter'] );
+						}
 					}
 				}
 			}

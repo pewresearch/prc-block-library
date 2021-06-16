@@ -6,7 +6,7 @@
     "wp-dom-ready",
     "wp-element",
     "wp-html-entities",
-    "wp-i18n/",
+    "wp-i18n",
     "wp-url"
   ],
   "version": "2b55dace97aaadeac9d5396d0e58c277"

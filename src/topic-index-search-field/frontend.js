@@ -13,7 +13,7 @@ import {
     useCallback,
     useRef,
 } from '@wordpress/element';
-import { __ } from '@wordpress/i18n/';
+import { __ } from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';

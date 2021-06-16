@@ -87,7 +87,6 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 	}
 
 	public function register_frontend() {
-		$js_deps = array( 'wp-dom-ready', 'wp-element', 'wp-api-fetch', 'wp-html-entities' );
 		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		return $enqueue->register(
 			'frontend',
@@ -95,7 +94,7 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -113,11 +112,16 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
-		ob_start();
-		?>
-			<div class="js-react-topic-index-search-field" data-term-id="<?php echo esc_attr( $attributes['id'] ); ?>"></div>
-		<?php
-		return ob_get_clean();
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'class'        => 'js-react-topic-index-search-field',
+				'data-term-id' => array_key_exists( 'id', $attributes ) ? $attributes['id'] : false,
+			)
+		);
+		return sprintf(
+			'<div %1$s></div>',
+			$wrapper_attributes,
+		);
 	}
 
 	public function register_block() {
