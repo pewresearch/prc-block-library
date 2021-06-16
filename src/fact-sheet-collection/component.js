@@ -1,6 +1,8 @@
 /** WordPress Dependencies */
 import { Fragment, useState } from '@wordpress/element';
 import { cleanForSlug } from '@wordpress/url';
+import { select } from '@wordpress/data';
+import { store } from '@wordpress/viewport';
 
 /** Third Party Dependencies */
 import {
@@ -11,7 +13,6 @@ import {
     Flag,
     Accordion,
 } from 'semantic-ui-react';
-import { useMediaQuery } from 'beautiful-react-hooks';
 
 const MobileTOC = () => {
     const { prcToc } = window;
@@ -76,7 +77,7 @@ const FactSheetCollection = ({
     style,
 }) => {
     const [activeIndex, setActiveIndex] = useState(null);
-    const isSmall = useMediaQuery('(max-width: 767px)');
+    const isSmall = select( store ).isViewportMatch( '< medium' );
 
     const handleClick = (e, titleProps) => {
         const { index } = titleProps;
@@ -122,9 +123,6 @@ const FactSheetCollection = ({
     };
 
     const DesktopView = () => {
-        if (isSmall) {
-            return <Fragment />;
-        }
         return (
             <Fragment>
                 <Divider />
@@ -149,9 +147,6 @@ const FactSheetCollection = ({
     };
 
     const MobileView = () => {
-        if (!isSmall) {
-            return <Fragment />;
-        }
         return (
             <Accordion styled>
                 <Accordion.Title
@@ -197,8 +192,8 @@ const FactSheetCollection = ({
             <p className="sans-serif">
                 <a href={altPost.href}>{altPost.innerText}</a>
             </p>
-            <DesktopView />
-            <MobileView />
+            {!isSmall && <DesktopView />}
+            {isSmall && <MobileView />}
         </div>
     );
 };
