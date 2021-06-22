@@ -49,18 +49,18 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 				$min = array_key_exists(
 					'min',
 					$viewport_block['attrs']
-				) ? $viewport_block['attrs']['min'] : null;
+				) && 0 !== $viewport_block['attrs']['min'] ? $viewport_block['attrs']['min'] : null;
 				$max = array_key_exists(
 					'max',
 					$viewport_block['attrs']
-				) ? $viewport_block['attrs']['max'] : null;
-
-				error_log( print_r( array( $id, $min, $max ), true ) );
+				) && 0 !== $viewport_block['attrs']['max'] ? $viewport_block['attrs']['max'] : null;
 
 				if ( null !== $min && null !== $max ) {
 					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: block!important; }}', $max, $min, $id );
 				} elseif ( null !== $max && null === $min ) {
 					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: block!important; }}', $max, $id );
+				} elseif ( null === $max && null !== $min ) {
+					$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: block!important; }}', $min, $id );
 				}
 			}
 		}
@@ -83,17 +83,10 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 				'id' => $this->get_block_id_hash( $block ),
 			)
 		);
-
-		$allowed_html = wp_kses_allowed_html( 'post' );
-		if ( is_array( $allowed_html ) ) {
-			$allowed_html['style']        = true;
-			$allowed_html['div']['style'] = true;
-		}
 		ob_start();
 		?>
 		<div <?php echo $wrapper_attributes; ?>>
 			<?php 
-			// Get through an array map or filter (or array_columns) all the min and max of each viewport block. Then...
 			foreach ( $block->parsed_block['innerBlocks'] as $i => $viewport_block ) {
 				$id = $this->get_block_id_hash( $viewport_block );
 				

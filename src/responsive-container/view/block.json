@@ -9,7 +9,7 @@
         },
         "max": {
             "type": "integer",
-            "default": 640
+            "default": 0
         }
     },
     "parent": ["prc-block/responsive-container-controller"],

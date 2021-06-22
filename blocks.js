@@ -82,7 +82,6 @@ const files = [
             'mailchimp-form': './src/mailchimp-form/frontend.js',
             'mailchimp-select': './src/mailchimp-select/frontend.js',
             'menu-link': './src/menu-link/frontend.js',
-            'responsive-container': './src/responsive-container/controller/frontend.js',
             'social-link': './src/social-link/frontend.js',
             'story-item': './src/story-item/frontend.js',
             'tabs-controller': './src/tabs/controller/frontend.js',
