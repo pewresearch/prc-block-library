@@ -1,0 +1,19 @@
+{
+    "apiVersion": 2,
+    "name": "prc-block/responsive-container-view",
+    "category": "layout",
+    "attributes": {
+        "min": {
+            "type": "integer",
+            "default": 0
+        },
+        "max": {
+            "type": "integer",
+            "default": 640
+        }
+    },
+    "parent": ["prc-block/responsive-container-controller"],
+    "supports": {
+        "html": false
+    }
+}
