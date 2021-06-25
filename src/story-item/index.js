@@ -64,6 +64,4 @@ const settings = {
     save,
 };
 
-console.log("STORY ITEM REGISTER", settings);
-
 registerBlockType(name, { ...metadata, ...settings });
