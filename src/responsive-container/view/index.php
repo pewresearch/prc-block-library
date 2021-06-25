@@ -18,20 +18,9 @@ class Responsive_Container_View extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$min = array_key_exists(
-			'min',
-			$attributes
-		) && 0 !== $attributes['min'] ? $attributes['min'] : null;
-		$max = array_key_exists(
-			'max',
-			$attributes
-		) && 0 !== $attributes['max'] ? $attributes['max'] : null;
-
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'id'       => array_key_exists( 'id', $attributes ) ? $attributes['id'] : md5( wp_json_encode( $block ) ),
-				'data-min' => esc_attr( $min ),
-				'data-max' => esc_attr( $max ),
+				'id' => array_key_exists( 'id', $attributes ) ? $attributes['id'] : md5( wp_json_encode( $block ) ),
 			)
 		);
 

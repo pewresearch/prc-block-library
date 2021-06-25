@@ -23,6 +23,16 @@ import { useSelect } from '@wordpress/data';
 const Controls = ({attributes, setAttributes, clientId}) => {
     const { min, max } = attributes;
 
+    // Determine the maximum, get the minimum of the previous block and subtract 1. If there are no blocks prior, and this is the first block, set the max to 0.
+    const newMax = useSelect(select=> {
+        const previousBlockClientId = select('core/block-editor').getPreviousBlockClientId(clientId);
+        const previousBlockAttrs = select('core/block-editor').getBlockAttributes(previousBlockClientId);
+        if ( null == previousBlockAttrs ) {
+            return 0;
+        }
+        return (previousBlockAttrs.min - 1);
+    });
+
     const [label, setLabel] = useState(`${min}px to ${max}px`);
 
     useEffect(()=>{
@@ -36,15 +46,11 @@ const Controls = ({attributes, setAttributes, clientId}) => {
         setLabel(l);
     }, [min, max]);
 
-    // Determine maximum for numberControl component based on minimum of prior block.
-    const newMax = useSelect(select=> {
-        const previousBlockClientId = select('core/block-editor').getPreviousBlockClientId(clientId);
-        const previousBlockAttrs = select('core/block-editor').getBlockAttributes(previousBlockClientId);
-        if ( null == previousBlockAttrs ) {
-            return 0;
+    useEffect(()=>{
+        if ( undefined === max ) {
+            setAttributes({max: newMax});
         }
-        return (previousBlockAttrs.min - 1);
-    });
+    }, [max]);
 
     return(
         <Fragment>
