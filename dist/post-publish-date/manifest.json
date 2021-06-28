@@ -1,0 +1,20 @@
+{
+  "main.js": "post-publish-date/main-9f17b882.js",
+  "main.js.map": "post-publish-date/main-9f17b882.js.map",
+  "runtime.js": "post-publish-date/runtime-dd2a6275.js",
+  "runtime.js.map": "post-publish-date/runtime-dd2a6275.js.map",
+  "wpackioEp": {
+    "main": {
+      "assets": {
+        "js": [
+          "post-publish-date/runtime-dd2a6275.js",
+          "post-publish-date/main-9f17b882.js"
+        ],
+        "js.map": [
+          "post-publish-date/runtime-dd2a6275.js.map",
+          "post-publish-date/main-9f17b882.js.map"
+        ]
+      }
+    }
+  }
+}
