@@ -1,0 +1,15 @@
+{
+    "apiVersion": 2,
+    "name": "prc-block/responsive-container-controller",
+    "category": "layout",
+    "attributes": {},
+    "supports": {
+        "html": false,
+        "align": [
+			"left",
+			"right",
+			"wide",
+			"full"
+		]
+    }
+}

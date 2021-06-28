@@ -65,9 +65,9 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			$is_active = true;
 		}
 		$is_button    = ! empty( $attributes['className'] ) && in_array( 'is-style-button', $class_names );
-		$is_menu_item = in_array( $attributes['parentBlockName'], array( 'prc-block/menu', 'prc-block/menu-link' ) );
-		$is_list_item = in_array( $attributes['parentBlockName'], array( 'prc-block/taxonomy-tree', 'prc-block/taxonomy-tree-more' ) );
-		$is_hidden    = 'prc-block/taxonomy-tree-more' === $attributes['parentBlockName'];
+		$is_menu_item = array_key_exists( 'parentBlockName', $attributes ) && in_array( $attributes['parentBlockName'], array( 'prc-block/menu', 'prc-block/menu-link' ) );
+		$is_list_item = array_key_exists( 'parentBlockName', $attributes ) && in_array( $attributes['parentBlockName'], array( 'prc-block/taxonomy-tree', 'prc-block/taxonomy-tree-more' ) );
+		$is_hidden    = array_key_exists( 'parentBlockName', $attributes ) && 'prc-block/taxonomy-tree-more' === $attributes['parentBlockName'];
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
