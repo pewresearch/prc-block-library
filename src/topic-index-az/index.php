@@ -91,7 +91,7 @@ class Topic_Index_AZ extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div id="<?php echo esc_attr( $attributes['letter'] ); ?>" data-letter="<?php echo esc_attr( $attributes['letter'] ); ?>">
-			<h2 class="sans-serif"><?php echo filter_block_kses_value( $attributes['letter'], 'post' ); ?></h2>
+			<h2 class="ui header"><?php echo filter_block_kses_value( $attributes['letter'], 'post' ); ?></h2>
 			<div class="ui relaxed link list">
 			<?php
 			foreach ( $term_query as $term ) {
