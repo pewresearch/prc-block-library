@@ -79,6 +79,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo-rotator/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/responsive-container/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/separator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
@@ -94,7 +95,6 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-search-field/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/wp-query/index.php';
-			// require_once plugin_dir_path( __FILE__ ) . '/src/wp-object/index.php';
 
 			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
@@ -116,7 +116,7 @@ class PRC_Block_Library {
 	}
 
 	/**
-	 * Filter the allowed tags for KSES to allow for amp-story children.
+	 * Filter the allowed tags for sanitization.
 	 *
 	 * @param array $allowed_tags Allowed tags.
 	 * @return array Allowed tags.
