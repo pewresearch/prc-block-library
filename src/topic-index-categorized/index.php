@@ -46,7 +46,7 @@ class Topic_Index_Categorized extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div class="">
-			<h2 class="sans-serif"><a href="<?php echo esc_url( $url ); ?>"><?php echo filter_block_kses_value( $heading, 'post' ); ?> <i class="chevron right small icon"></i></a></h2>
+			<h2 class="ui header"><a href="<?php echo esc_url( $url ); ?>"><?php echo filter_block_kses_value( $heading, 'post' ); ?> <i class="chevron right small icon"></i></a></h2>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php

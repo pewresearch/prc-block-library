@@ -24,7 +24,7 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div class="wp-block-prc-block-topic-index-condensed-page" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
-			<h2 class="sans-serif"><a href="<?php echo esc_url( $attributes['url'] ); ?>"><?php echo filter_block_kses_value( $attributes['heading'], 'post' ); ?></a></h2>
+			<h2 class="ui header"><a href="<?php echo esc_url( $attributes['url'] ); ?>"><?php echo filter_block_kses_value( $attributes['heading'], 'post' ); ?></a></h2>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
