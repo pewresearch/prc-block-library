@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/responsive-container/view/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,wEACI,oB","file":"blocks/responsive-container-view-43155709.css","sourcesContent":["div[data-type=\"prc-block/responsive-container-view\"] > .components-notice {\n    margin: 0!important;\n}"],"sourceRoot":""}
