@@ -69,9 +69,12 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
                         type='post'
                         subType='stub'
                         onChange={obj => {
-                            console.log('onChange', obj);
                             if (obj.hasOwnProperty('id')) {
                                 setPostByStubID(obj.id, imageSize, false, setAttributes);
+                            }
+                            if (!obj.hasOwnProperty('id') && obj.hasOwnProperty('url')) {
+                                console.log("HELLO", {link: obj.url});
+                                setAttributes({link: obj.url});
                             }
                         }}
                     />
