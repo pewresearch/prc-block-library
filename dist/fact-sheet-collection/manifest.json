@@ -9,21 +9,21 @@
   "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-791c70c1.js.map",
   "vendors~frontend~main.js": "fact-sheet-collection/vendors~frontend~main-96a833f5.js",
   "vendors~frontend~main.js.map": "fact-sheet-collection/vendors~frontend~main-96a833f5.js.map",
-  "vendors~main.js": "fact-sheet-collection/vendors~main-dfd908ba.js",
-  "vendors~main.js.map": "fact-sheet-collection/vendors~main-dfd908ba.js.map",
+  "vendors~main.js": "fact-sheet-collection/vendors~main-3237eaf2.js",
+  "vendors~main.js.map": "fact-sheet-collection/vendors~main-3237eaf2.js.map",
   "wpackioEp": {
     "main": {
       "assets": {
         "js": [
           "fact-sheet-collection/runtime-f356125f.js",
           "fact-sheet-collection/vendors~frontend~main-96a833f5.js",
-          "fact-sheet-collection/vendors~main-dfd908ba.js",
+          "fact-sheet-collection/vendors~main-3237eaf2.js",
           "fact-sheet-collection/main-0cf1b904.js"
         ],
         "js.map": [
           "fact-sheet-collection/runtime-f356125f.js.map",
           "fact-sheet-collection/vendors~frontend~main-96a833f5.js.map",
-          "fact-sheet-collection/vendors~main-dfd908ba.js.map",
+          "fact-sheet-collection/vendors~main-3237eaf2.js.map",
           "fact-sheet-collection/main-0cf1b904.js.map"
         ]
       }

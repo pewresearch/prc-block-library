@@ -59,22 +59,26 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
                     position="bottom center"
                     onClose={() => setIsLinkOpen(false)}
                 >
-                    <WPObjectSearchField
-                        value={{
-                            url,
-                            title,
-                            type,
-                            id,
-                        }}
-                        type='post'
-                        subType='stub'
-                        onChange={obj => {
-                            console.log('onChange', obj);
-                            if (obj.hasOwnProperty('id')) {
-                                setPostByStubID(obj.id, imageSize, false, setAttributes);
-                            }
-                        }}
-                    />
+                    <div style={{
+                        padding: '12px'
+                    }}>
+                        <WPObjectSearchField
+                            value={{
+                                url,
+                                title,
+                                type,
+                                id,
+                            }}
+                            type='post'
+                            subType='stub'
+                            onChange={obj => {
+                                console.log('onChange', obj);
+                                if (obj.hasOwnProperty('id')) {
+                                    setPostByStubID(obj.id, imageSize, false, setAttributes);
+                                }
+                            }}
+                        />
+                    </div>
                 </Popover>
             )}
         </Fragment>
