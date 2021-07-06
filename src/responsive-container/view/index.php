@@ -14,7 +14,16 @@ class Responsive_Container_View extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_filter( 'safe_style_css', array( $this, 'responsive_container_view_safe_styles' ) );
 		}
+	}
+
+	public function responsive_container_view_safe_styles( $styles ) {
+		$styles[] = 'top';
+		$styles[] = 'left';
+		$styles[] = 'right';
+		$styles[] = 'bottom';
+		return $styles;
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
@@ -28,8 +37,8 @@ class Responsive_Container_View extends PRC_Block_Library {
 		if ( is_array( $allowed_html ) ) {
 			$allowed_html['style']        = true;
 			$allowed_html['div']['style'] = true;
+			$allowed_html['p']['style']   = true;
 		}
-		
 		ob_start();
 		?>
 		<div <?php echo $wrapper_attributes; ?> style="display: none;">
