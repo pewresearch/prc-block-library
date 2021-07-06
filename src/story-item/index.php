@@ -120,9 +120,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		$art = prc_get_art( $post_id, $attrs['imageSize'] );
 		if ( false !== $attrs['imageSlot'] && false !== $art ) {
-			$attrs['image']     = $art['rawUrl'];
-			$attrs['imageSlot'] = 'left';
-			$attrs['className'] = 'is-style-left';
+			$attrs['image']      = $art['rawUrl'];
+			$attrs['imageSlot']  = 'left';
+			$attrs['className']  = 'is-style-left';
+			$attrs['isChartArt'] = $art['chartArt'];
 		}
 
 		if ( 'stub' === $attrs['postType'] ) {
