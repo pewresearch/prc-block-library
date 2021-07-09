@@ -32,9 +32,15 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 				}
 			}
 		}
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'id'    => 'prc-az-index-menu',
+				'class' => 'ui secondary fluid menu',
+			)
+		);
 		ob_start();
 		?>
-		<div id="prc-az-index-menu" class="ui secondary fluid menu">
+		<div <?php echo $block_wrapper_attrs; ?>>
 		<?php
 		foreach ( $az as $letter ) {
 			$class = classnames( 'item', array( 'disabled' => ! in_array( $letter, $present ) ) );

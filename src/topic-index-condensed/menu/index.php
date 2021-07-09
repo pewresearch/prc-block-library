@@ -21,10 +21,16 @@ class Topic_Index_Condensed_Menu extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_menu_placeholder( $attributes, $content, $block ) {
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'class'             => 'ui vertical fluid tabular menu',
+				'data-borderHidden' => 'true',
+			)
+		);
 		ob_start();
 		?>
 		<div class="column five wide">
-			<div class="ui vertical fluid tabular menu" data-borderHidden="true">
+			<div <?php echo $block_wrapper_attrs; ?>>
 				<?php echo wp_kses( $content, 'post' ); ?>
 			</div>
 		</div>

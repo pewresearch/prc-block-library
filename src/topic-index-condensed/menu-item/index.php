@@ -21,9 +21,16 @@ class Topic_Index_Condensed_Menu_Item extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_menu_item_placeholder( $attributes, $content, $block ) {
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'class'     => 'item',
+				'data-slug' => $attributes['slug'],
+				'data-uuid' => $attributes['uuid'],
+			)
+		);
 		ob_start();
 		?>
-		<a class="wp-block-prc-block-topic-index-condensed-menu-item item" data-slug="<?php echo esc_attr( $attributes['slug'] ); ?>" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
+		<a <?php echo $block_wrapper_attrs; ?>>
 			<?php echo wp_kses( $attributes['title'], 'post' ); ?> <i class="chevron right small icon"></i>
 		</a>
 		<?php

@@ -3,7 +3,7 @@ import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
 
 const makeActive = uuid => {
     const menu = document.querySelector(
-        '.wp-block-prc-block-topic-index-condensed .ui.vertical.fluid.tabular.menu',
+        '.wp-block-prc-block-topic-index-condensed-controller .wp-block-prc-block-topic-index-condensed-menu',
     );
     if ('true' === menu.getAttribute('data-borderHidden')) {
         menu.setAttribute('data-borderHidden', 'false');

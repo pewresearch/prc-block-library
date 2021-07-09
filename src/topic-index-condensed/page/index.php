@@ -21,9 +21,15 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_page_placeholder( $attributes, $content, $block ) {
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'class'     => 'item',
+				'data-uuid' => $attributes['uuid'],
+			)
+		);
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-topic-index-condensed-page" data-uuid="<?php echo esc_attr( $attributes['uuid'] ); ?>">
+		<div <?php echo $block_wrapper_attrs; ?>>
 			<h2 class="ui header"><a href="<?php echo esc_url( $attributes['url'] ); ?>"><?php echo filter_block_kses_value( $attributes['heading'], 'post' ); ?></a></h2>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>

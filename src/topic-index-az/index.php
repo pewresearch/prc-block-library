@@ -87,10 +87,16 @@ class Topic_Index_AZ extends PRC_Block_Library {
 	}
 
 	public function render_topic_index_az( $attributes ) {
-		$term_query = $this->term_query_by_letter( $attributes['letter'], explode( ',', $attributes['exclude'] ) );
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'id'          => $attributes['letter'],
+				'data-letter' => $attributes['letter'],
+			)
+		);
+		$term_query          = $this->term_query_by_letter( $attributes['letter'], explode( ',', $attributes['exclude'] ) );
 		ob_start();
 		?>
-		<div id="<?php echo esc_attr( $attributes['letter'] ); ?>" data-letter="<?php echo esc_attr( $attributes['letter'] ); ?>">
+		<div <?php echo $block_wrapper_attrs; ?>>
 			<h2 class="ui header"><?php echo filter_block_kses_value( $attributes['letter'], 'post' ); ?></h2>
 			<div class="ui relaxed link list">
 			<?php

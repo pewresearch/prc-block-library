@@ -21,9 +21,14 @@ class Topic_Index_Condensed_Pages extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_pages_placeholder( $attributes, $content, $block ) {
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'class' => 'column eleven wide',
+			)
+		);
 		ob_start();
 		?>
-		<div class="column eleven wide">
+		<div <?php echo $block_wrapper_attrs; ?>>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php

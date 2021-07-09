@@ -18,6 +18,12 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		return $qvars;
 	}
 
+	public function render_mobile_accordion( $block ) {
+		// go through and get the innerblocks for the menu items
+		// go through and get the innerblocks for the page items
+		// construct an accordion.
+	}
+
 	/**
 	 * Render callback for prc-block/topic-index-condensed-controller
 	 *
@@ -28,9 +34,14 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 	 */
 	public function render_controller_placeholder( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'class' => 'ui grid',
+			)
+		);
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-topic-index-condensed ui grid">
+		<div <?php echo $block_wrapper_attrs; ?>>
 			<?php echo wp_kses( $content, 'post' ); ?>
 		</div>
 		<?php
