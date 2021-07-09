@@ -18,10 +18,36 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		return $qvars;
 	}
 
+	public function render_accordion_title( $label, $link, $uuid, $inner_blocks ) {
+		ob_start();
+		?>
+		<div>
+			<h2><?php echo $label; ?></h2>
+			<div>
+				<p><a href="<?php echo esc_url( $link ); ?>">Main <?php echo $label; ?> page</a></p>
+				<?php 
+				foreach ( $inner_blocks as $block ) {
+					render_block( $block );
+				}
+				?>
+			</div>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
 	public function render_mobile_accordion( $block ) {
-		// go through and get the innerblocks for the menu items
-		// go through and get the innerblocks for the page items
-		// construct an accordion.
+		$page_items = $block->parsed_block['innerBlocks'][1]['innerBlocks'];
+		ob_start();
+		foreach ( $page_items as $page_item ) {
+			echo $this->render_accordion_title( 
+				$page_item['attrs']['heading'],
+				$page_item['attrs']['url'],
+				$page_item['attrs']['uuid'],
+				$page_item['innerBlocks']
+			);
+		}
+		return ob_get_clean();
 	}
 
 	/**
@@ -39,6 +65,9 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 				'class' => 'ui grid',
 			)
 		);
+		if ( jetpack_is_mobile() ) {
+			return $this->render_mobile_accordion( $block );
+		} 
 		ob_start();
 		?>
 		<div <?php echo $block_wrapper_attrs; ?>>
