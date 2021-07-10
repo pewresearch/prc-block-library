@@ -58,12 +58,14 @@ domReady(() => {
         console.log('isAccordion', isAccordion);
         if ( isAccordion ) {
             jQuery(controller).accordion({
-                onOpen: () => {
-                    console.log('onOpen', this);
+                onOpen: function() {
+                    const newUrlArgs = { menuItem: this.dataset.slug };
+                    console.log(newUrlArgs);
+                    let newUrl = addQueryArgs(window.location.href, newUrlArgs);
+                    newUrl = removeQueryArgs(newUrl, 'menuItemId');
+                    console.log(newUrl);
+                    window.history.pushState(newUrlArgs, document.title, newUrl);
                 },
-                onChanging: () => {
-                    console.log('onChanging', this);
-                }
         });
         } else {
             // Key off menu items.

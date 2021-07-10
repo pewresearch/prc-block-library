@@ -24,7 +24,7 @@ class Topic_Index_Condensed_Menu extends PRC_Block_Library {
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class'             => 'ui vertical fluid tabular menu',
-				'data-borderHidden' => 'true',
+				'data-borderHidden' => false === get_query_var( 'menuItem', false ) ? 'true' : 'false',
 			)
 		);
 		ob_start();

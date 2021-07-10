@@ -33,10 +33,10 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		);
 		ob_start();
 		?>
-		<div class="<?php echo esc_attr( $title_class_names ); ?>" data-uuid="<?php echo esc_attr( $uuid ); ?>">
+		<div class="<?php echo esc_attr( $title_class_names ); ?>" data-slug="<?php echo esc_attr( sanitize_title( $label ) ); ?>">
 			<h2><i class="dropdown icon"></i> <?php echo $label; ?></h2>
 		</div>
-		<div class="<?php echo esc_attr( $content_class_names ); ?>">
+		<div class="<?php echo esc_attr( $content_class_names ); ?>" data-slug="<?php echo esc_attr( sanitize_title( $label ) ); ?>">
 			<p><a href="<?php echo esc_url( $link ); ?>">Main <?php echo $label; ?> page</a></p>
 			<?php
 			foreach ( $inner_blocks as $block ) {
