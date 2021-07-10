@@ -49,7 +49,46 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 	}
 
 	public function render_mobile_accordion( $block ) {
-		$page_items          = $block->parsed_block['innerBlocks'][1]['innerBlocks'];
+		$menu_items = $block->parsed_block['innerBlocks'][0]['innerBlocks'];
+		$menu_items = array_map(
+			function( $e ) {
+				return $e['attrs']['uuid'];
+			},
+			$menu_items
+		);
+		$page_items = $block->parsed_block['innerBlocks'][1]['innerBlocks'];
+		// Sort page items by menu items and return a formatted array of only the data we need.
+		$page_items = array_map(
+			function( $v ) use ( $page_items ) {
+				return array_pop(
+					array_filter(
+						array_filter(
+							array_map(
+								function( $e ) {
+									if ( array_key_exists( 'heading', $e['attrs'] ) && ! empty( $e['attrs']['heading'] ) ) {
+										return array(
+											'uuid'        => $e['attrs']['uuid'],
+											'heading'     => $e['attrs']['heading'],
+											'url'         => $e['attrs']['url'],
+											'innerBlocks' => $e['innerBlocks'],
+										);
+									}
+								},
+								$page_items
+							),
+							function( $e ) {
+								return null !== $e;
+							}
+						),
+						function( $e ) use ( $v ) {
+							return $e['uuid'] === $v;
+						}
+					)
+				);
+			},
+			$menu_items
+		);
+		
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class' => 'ui accordion',
@@ -59,13 +98,10 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		echo '<div ' . $block_wrapper_attrs . '>';
 		// We need to get the order of page items from menu items...)
 		foreach ( $page_items as $page_item ) {
-			if ( ! array_key_exists( 'heading', $page_item['attrs'] ) || empty( $page_item['attrs']['heading'] ) ) {
-				continue;
-			}
 			echo $this->render_accordion_section( 
-				$page_item['attrs']['heading'],
-				$page_item['attrs']['url'],
-				$page_item['attrs']['uuid'],
+				$page_item['heading'],
+				$page_item['url'],
+				$page_item['uuid'],
 				$page_item['innerBlocks']
 			);
 		}
