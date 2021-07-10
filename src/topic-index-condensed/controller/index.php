@@ -18,14 +18,25 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		return $qvars;
 	}
 
-	public function render_accordion_title( $label, $link, $uuid, $inner_blocks ) {
-		$is_active = false;
+	public function render_accordion_section( $label, $link, $uuid, $inner_blocks ) {
+		$title_class_names   = classNames(
+			'title',
+			array(
+				'active' => sanitize_title( $label ) === get_query_var( 'menuItem', false ),
+			)
+		);
+		$content_class_names = classNames(
+			'content',
+			array(
+				'active' => sanitize_title( $label ) === get_query_var( 'menuItem', false ),
+			)
+		);
 		ob_start();
 		?>
-		<div class="title">
-			<h2><?php echo $label; ?></h2>
+		<div class="<?php echo esc_attr( $title_class_names ); ?>" data-uuid="<?php echo esc_attr( $uuid ); ?>">
+			<h2><i class="dropdown icon"></i> <?php echo $label; ?></h2>
 		</div>
-		<div class="content">
+		<div class="<?php echo esc_attr( $content_class_names ); ?>">
 			<p><a href="<?php echo esc_url( $link ); ?>">Main <?php echo $label; ?> page</a></p>
 			<?php
 			foreach ( $inner_blocks as $block ) {
@@ -51,7 +62,7 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 			if ( ! array_key_exists( 'heading', $page_item['attrs'] ) || empty( $page_item['attrs']['heading'] ) ) {
 				continue;
 			}
-			echo $this->render_accordion_title( 
+			echo $this->render_accordion_section( 
 				$page_item['attrs']['heading'],
 				$page_item['attrs']['url'],
 				$page_item['attrs']['uuid'],
@@ -89,28 +100,21 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		return ob_get_clean();
 	}
 
-	public function register_frontend() {
+	public function enqueue_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-url' );
 		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
-		return $enqueue->register(
+		return $enqueue->enqueue(
 			'frontend',
 			'topic-index-condensed',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => $js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
 			)
 		);
-	}
-
-	public function enqueue_frontend() {
-		$registered    = $this->register_frontend();
-		$script_handle = array_pop( $registered['js'] )['handle'];
-		wp_localize_script( $script_handle, 'prcTopicIndexCondensed', array( 'active' => get_query_var( 'menuItem', false ) ) );
-		wp_enqueue_script( $script_handle );
 	}
 
 	/**

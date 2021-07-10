@@ -23,8 +23,13 @@ class Topic_Index_Condensed_Menu_Item extends PRC_Block_Library {
 	public function render_menu_item_placeholder( $attributes, $content, $block ) {
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'class'     => 'item',
-				'data-slug' => $attributes['slug'],
+				'class'     => classNames(
+					'item',
+					array(
+						'active' => sanitize_title( $attributes['title'] ) === get_query_var( 'menuItem', false ), 
+					)
+				),
+				'data-slug' => sanitize_title( $attributes['title'] ),
 				'data-uuid' => $attributes['uuid'],
 			)
 		);

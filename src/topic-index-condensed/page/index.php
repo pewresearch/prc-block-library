@@ -23,7 +23,12 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 	public function render_page_placeholder( $attributes, $content, $block ) {
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'class'     => 'item',
+				'class'     => classNames(
+					'item',
+					array(
+						'active' => sanitize_title( $attributes['heading'] ) === get_query_var( 'menuItem', false ), 
+					)
+				),
 				'data-uuid' => $attributes['uuid'],
 			)
 		);

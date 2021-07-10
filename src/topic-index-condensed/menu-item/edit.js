@@ -1,17 +1,16 @@
 /**
- * External dependencies
+ * External Dependencies
  */
 import classnames from 'classnames';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { Fragment, useEffect } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { cleanForSlug } from '@wordpress/url';
 
 const Edit = ({
     attributes,
@@ -68,7 +67,6 @@ const Edit = ({
     };
 
     const onTitleUpdate = t => {
-        setAttributes({ slug: cleanForSlug(t) });
         const tmp = pages;
         if (1 <= pages.length) {
             const matchedPages = tmp.filter(i => i.uuid === uuid);

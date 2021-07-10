@@ -54,16 +54,25 @@ class PRC_Menu_Link extends PRC_Block_Library {
 			return '';
 		}
 
-		$class_names = explode( ' ', array_key_exists( 'className', $attributes ) ? $attributes['className'] : '' );
-
-		$color = isset( $attributes['color'] ) ? $attributes['color'] : false;
-
 		$menu_item_id       = md5( json_encode( $attributes ) );
 		$selected_menu_item = get_query_var( 'menuItemId' );
 		$is_active          = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
 		if ( $menu_item_id === $selected_menu_item ) {
 			$is_active = true;
 		}
+
+		$class_names          = explode( ' ', array_key_exists( 'className', $attributes ) ? $attributes['className'] : '' );
+		$sub_list_class_names = array(
+			'toggle' => classNames( 'expand-sub-list plus circle icon', array( 'active' => $is_active ) ),
+			'list'   => classNames(
+				'list',
+				array(
+					'hidden' => ! $is_active,
+				)
+			),
+		);
+
+		$color        = isset( $attributes['color'] ) ? $attributes['color'] : false;
 		$is_button    = ! empty( $attributes['className'] ) && in_array( 'is-style-button', $class_names );
 		$is_menu_item = array_key_exists( 'parentBlockName', $attributes ) && in_array( $attributes['parentBlockName'], array( 'prc-block/menu', 'prc-block/menu-link' ) );
 		$is_list_item = array_key_exists( 'parentBlockName', $attributes ) && in_array( $attributes['parentBlockName'], array( 'prc-block/taxonomy-tree', 'prc-block/taxonomy-tree-more' ) );
@@ -128,7 +137,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 		if ( ! empty( $content ) && true === $in_menu ) {
 			$html .= '<i class="dropdown icon"></i> <div class="menu">' . $content . '</div></div>';
 		} elseif ( ! empty( $content ) ) {
-			$html .= '</a> <i class="expand-sub-list plus circle icon" data-target="' . $menu_item_id . '"></i><div id="' . $menu_item_id . '" class="hidden list">' . $content . '</div></div>';
+			$html .= '</a> <i class="' . $sub_list_class_names['toggle'] . '" data-target="' . $menu_item_id . '"></i><div id="' . $menu_item_id . '" class="' . $sub_list_class_names['list'] . '">' . $content . '</div></div>';
 		} else {
 			$html .= '</a>';
 		}
