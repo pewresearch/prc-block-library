@@ -1,7 +1,10 @@
 import domReady from '@wordpress/dom-ready';
 import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
 
-const makeActive = uuid => {
+const makeActive = (uuid, isAccordion = false) => {
+    if ( isAccordion ) {
+
+    }
     const menu = document.querySelector(
         '.wp-block-prc-block-topic-index-condensed-controller .wp-block-prc-block-topic-index-condensed-menu',
     );
@@ -29,7 +32,7 @@ const makeActive = uuid => {
     }
 };
 
-const hideActive = () => {
+const hideActive = (isAccordion = false) => {
     const currentlyActiveMenuItem = document.querySelector(
         `.wp-block-prc-block-topic-index-condensed-menu-item.active`,
     );
@@ -60,15 +63,23 @@ const checkForQueryVar = () => {
 
 domReady(() => {
     checkForQueryVar();
-    // Key off menu items.
-    const menuItems = document.querySelectorAll(
-        '.wp-block-prc-block-topic-index-condensed-menu-item',
-    );
-    menuItems.forEach(i => {
-        i.addEventListener('click', elm => {
-            const uuid = elm.target.getAttribute('data-uuid');
-            hideActive();
-            makeActive(uuid);
+    const controller = document.querySelector('.wp-block-prc-block-topic-index-condensed-controller');
+    if ( controller ) {
+        const isAccordion = controller.classList.contains('accordion');
+        console.log('isAccordion', isAccordion);
+        if ( isAccordion ) {
+            jQuery(controller).accordion();
+        }
+        // Key off menu items.
+        const menuItems = controller.querySelectorAll(
+            '.wp-block-prc-block-topic-index-condensed-menu-item',
+        );
+        menuItems.forEach(i => {
+            i.addEventListener('click', elm => {
+                const uuid = elm.target.getAttribute('data-uuid');
+                hideActive();
+                makeActive(uuid);
+            });
         });
-    });
+    }
 });
