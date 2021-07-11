@@ -1,5 +1,5 @@
 import domReady from '@wordpress/dom-ready';
-import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
+import { addQueryArgs, removeQueryArgs, getQueryArg } from '@wordpress/url';
 
 import './style.scss';
 

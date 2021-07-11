@@ -21,6 +21,9 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_page_placeholder( $attributes, $content, $block ) {
+		if ( ! array_key_exists( 'heading', $attributes ) || ! $attributes['heading'] ) {
+			return $content;
+		}
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class'     => classNames(

@@ -91,7 +91,7 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'class' => 'ui accordion',
+				'class' => 'ui divided accordion',
 			)
 		);
 		ob_start();

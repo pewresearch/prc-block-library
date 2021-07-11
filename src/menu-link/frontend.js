@@ -22,7 +22,20 @@ const onClick = elm => {
     window.history.pushState(newUrlArgs, document.title, newUrl);
 };
 
+const bringMenuItemIntoView = () => {
+    console.log('bringMenuItemIntoView');
+    const existingArg = getQueryArg(window.location.href, 'menuItemId');
+    console.log('watchAndMove', existingArg);
+    if ( existingArg ) {
+        document.querySelector(`[data-target="${existingArg}"]`).scrollIntoView();
+    }
+}
+
 domReady(() => {
+    console.log('menuItem Init');
+    setTimeout(()=>{
+        bringMenuItemIntoView();
+    }, 600);
     const targets = document.querySelectorAll('.expand-sub-list');
     if ( targets ) {
         targets.forEach(l => {
