@@ -11,7 +11,7 @@
         "@wordpress/compose": "^4.1.2",
         "@wordpress/data": "^5.1.2",
         "@wordpress/dom-ready": "^3.1.1",
-        "@wordpress/edit-post": "^4.1.13",
+        "@wordpress/edit-post": "^4.1.14",
         "@wordpress/element": "^3.1.1",
         "@wordpress/html-entities": "^3.1.1",
         "@wordpress/i18n": "^4.1.1",
@@ -39,7 +39,7 @@
         "archive": "wpackio-scripts pack"
     },
     "dependencies": {
-        "@pewresearch/app-components": "^0.1.12",
+        "@pewresearch/app-components": "^0.1.14",
         "@pewresearch/pew-chart-builder": "^0.3.97",
         "@wordpress/icons": "^4.0.1",
         "@wpackio/entrypoint": "^6.3.0",
