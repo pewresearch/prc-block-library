@@ -91,8 +91,8 @@
   "taxonomy-tree.css.map": "blocks/taxonomy-tree-3fa4f61b.css.map",
   "taxonomy-tree.js": "blocks/taxonomy-tree-dc9edf72.js",
   "taxonomy-tree.js.map": "blocks/taxonomy-tree-dc9edf72.js.map",
-  "topic-index-az-controller.css": "blocks/topic-index-az-controller-72e84c9a.css",
-  "topic-index-az-controller.css.map": "blocks/topic-index-az-controller-72e84c9a.css.map",
+  "topic-index-az-controller.css": "blocks/topic-index-az-controller-de3356d7.css",
+  "topic-index-az-controller.css.map": "blocks/topic-index-az-controller-de3356d7.css.map",
   "topic-index-az-controller.js": "blocks/topic-index-az-controller-82ff8fe1.js",
   "topic-index-az-controller.js.map": "blocks/topic-index-az-controller-82ff8fe1.js.map",
   "topic-index-az.css": "blocks/topic-index-az-f06ddab9.css",
@@ -105,8 +105,8 @@
   "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-7559f2a0.js.map",
   "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-b9108ea1.js",
   "topic-index-condensed-menu-item.js.map": "blocks/topic-index-condensed-menu-item-b9108ea1.js.map",
-  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-8b97f0e2.js",
-  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-8b97f0e2.js.map",
+  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-1c5834bf.js",
+  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-1c5834bf.js.map",
   "topic-index-condensed-page.css": "blocks/topic-index-condensed-page-41af7103.css",
   "topic-index-condensed-page.css.map": "blocks/topic-index-condensed-page-41af7103.css.map",
   "topic-index-condensed-page.js": "blocks/topic-index-condensed-page-55fdd97c.js",
@@ -649,10 +649,10 @@
           "blocks/topic-index-az-controller-82ff8fe1.js.map"
         ],
         "css": [
-          "blocks/topic-index-az-controller-72e84c9a.css"
+          "blocks/topic-index-az-controller-de3356d7.css"
         ],
         "css.map": [
-          "blocks/topic-index-az-controller-72e84c9a.css.map"
+          "blocks/topic-index-az-controller-de3356d7.css.map"
         ]
       }
     },
@@ -690,13 +690,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~promo~social-link~story-~f233d4b7-fc0d9dfc.js",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~promo~story-item~topic-index-categor~d8ab4b85-c96206c6.js",
-          "blocks/topic-index-condensed-menu-8b97f0e2.js"
+          "blocks/topic-index-condensed-menu-1c5834bf.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~promo~social-link~story-~f233d4b7-fc0d9dfc.js.map",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~promo~story-item~topic-index-categor~d8ab4b85-c96206c6.js.map",
-          "blocks/topic-index-condensed-menu-8b97f0e2.js.map"
+          "blocks/topic-index-condensed-menu-1c5834bf.js.map"
         ]
       }
     },

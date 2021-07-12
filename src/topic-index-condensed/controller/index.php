@@ -18,36 +18,6 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		return $qvars;
 	}
 
-	public function render_accordion_section( $label, $link, $uuid, $inner_blocks ) {
-		$title_class_names   = classNames(
-			'title',
-			array(
-				'active' => sanitize_title( $label ) === get_query_var( 'menuItem', false ),
-			)
-		);
-		$content_class_names = classNames(
-			'content',
-			array(
-				'active' => sanitize_title( $label ) === get_query_var( 'menuItem', false ),
-			)
-		);
-		ob_start();
-		?>
-		<div class="<?php echo esc_attr( $title_class_names ); ?>" data-slug="<?php echo esc_attr( sanitize_title( $label ) ); ?>">
-			<h2><i class="dropdown icon"></i> <?php echo $label; ?></h2>
-		</div>
-		<div class="<?php echo esc_attr( $content_class_names ); ?>" data-slug="<?php echo esc_attr( sanitize_title( $label ) ); ?>">
-			<p><a href="<?php echo esc_url( $link ); ?>">Main <?php echo $label; ?> page</a></p>
-			<?php
-			foreach ( $inner_blocks as $block ) {
-				echo render_block( $block );
-			}
-			?>
-		</div>
-		<?php
-		return ob_get_clean();
-	}
-
 	public function render_mobile_accordion( $block ) {
 		$menu_items = $block->parsed_block['innerBlocks'][0]['innerBlocks'];
 		$menu_items = array_map(
@@ -98,10 +68,9 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		echo '<div ' . $block_wrapper_attrs . '>';
 		// We need to get the order of page items from menu items...)
 		foreach ( $page_items as $page_item ) {
-			echo $this->render_accordion_section( 
+			echo parent::render_accordion_section( 
 				$page_item['heading'],
 				$page_item['url'],
-				$page_item['uuid'],
 				$page_item['innerBlocks']
 			);
 		}

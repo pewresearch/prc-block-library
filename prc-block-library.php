@@ -265,6 +265,36 @@ class PRC_Block_Library {
 		);
 	}
 
+	public function render_accordion_section( $label, $link = false, $inner_blocks ) {
+		$title_class_names   = classNames(
+			'title',
+			array(
+				'active' => sanitize_title( $label ) === get_query_var( 'menuItem', false ),
+			)
+		);
+		$content_class_names = classNames(
+			'content',
+			array(
+				'active' => sanitize_title( $label ) === get_query_var( 'menuItem', false ),
+			)
+		);
+		ob_start();
+		?>
+		<div class="<?php echo esc_attr( $title_class_names ); ?>" data-slug="<?php echo esc_attr( sanitize_title( $label ) ); ?>">
+			<h3><i class="dropdown icon"></i> <?php echo $label; ?></h3>
+		</div>
+		<div class="<?php echo esc_attr( $content_class_names ); ?>" data-slug="<?php echo esc_attr( sanitize_title( $label ) ); ?>">
+			<?php echo false !== $link ? '<p><a href="' . esc_url( $link ) . '">Main ' . $label . ' page</a></p>' : null; ?>
+			<?php
+			foreach ( $inner_blocks as $block ) {
+				echo render_block( $block );
+			}
+			?>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
 	/**
 	 * Register blocks and editor scripts/styles. DO NOT use the `script` frontend attribute when registering a block type.
 	 * If your block has frontend script asset that needs to be localized load the function `enqueue_frontend_assets`.

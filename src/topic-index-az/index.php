@@ -97,7 +97,7 @@ class Topic_Index_AZ extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div <?php echo $block_wrapper_attrs; ?>>
-			<h2 class="ui header"><?php echo filter_block_kses_value( $attributes['letter'], 'post' ); ?></h2>
+			<?php echo ! array_key_exists( 'disableHeading', $attributes ) ? '<h2 class="ui header">' . filter_block_kses_value( $attributes['letter'], 'post' ) . '</h2>' : null; ?>
 			<div class="ui relaxed link list">
 			<?php
 			foreach ( $term_query as $term ) {
