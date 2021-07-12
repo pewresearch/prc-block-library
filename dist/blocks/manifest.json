@@ -55,8 +55,8 @@
   "responsive-container-controller.js.map": "blocks/responsive-container-controller-b6f1d46a.js.map",
   "responsive-container-view.css": "blocks/responsive-container-view-43155709.css",
   "responsive-container-view.css.map": "blocks/responsive-container-view-43155709.css.map",
-  "responsive-container-view.js": "blocks/responsive-container-view-0bc63da9.js",
-  "responsive-container-view.js.map": "blocks/responsive-container-view-0bc63da9.js.map",
+  "responsive-container-view.js": "blocks/responsive-container-view-d479d723.js",
+  "responsive-container-view.js.map": "blocks/responsive-container-view-d479d723.js.map",
   "row.js": "blocks/row-57d84998.js",
   "row.js.map": "blocks/row-57d84998.js.map",
   "runtime.js": "blocks/runtime-8f407741.js",
@@ -424,11 +424,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/responsive-container-view-0bc63da9.js"
+          "blocks/responsive-container-view-d479d723.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/responsive-container-view-0bc63da9.js.map"
+          "blocks/responsive-container-view-d479d723.js.map"
         ],
         "css": [
           "blocks/responsive-container-view-43155709.css"

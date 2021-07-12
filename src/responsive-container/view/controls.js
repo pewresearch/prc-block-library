@@ -16,9 +16,51 @@ import {
     FlexItem,
     FlexBlock,
     Notice,
+    SelectControl,
     __experimentalNumberControl as NumberControl
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
+
+const DeviceSizeQuickSelect = ({attributes, setAttributes}) => {
+    const sizes = {
+        desktop: {
+            min: 980,
+            max: 0,
+        },
+        tablet: {
+            min: 480,
+            max: 979,
+        },
+        smartphone: {
+            min: 0,
+            max: 479,
+        },
+    };
+
+    const existingSelection = Object.keys(sizes).filter(e => {
+        return sizes[e].max === attributes.max;
+    });
+
+    return(
+        <SelectControl
+            value={ 0 === existingSelection.length ? false : existingSelection[0] }
+            options={ [
+                { label: 'Common Device Sizes...', value: false },
+                { label: 'Desktop', value: 'desktop' },
+                { label: 'Tablet', value: 'tablet' },
+                { label: 'Smartphone', value: 'smartphone' },
+            ] }
+            onChange={ ( deviceSize ) => {
+                if ( false !== deviceSize ) {
+                    setAttributes({
+                        min: sizes[deviceSize].min,
+                        max: sizes[deviceSize].max
+                    });
+                }
+            } }
+        />
+    );
+}
 
 const Controls = ({attributes, setAttributes, clientId}) => {
     const { min, max } = attributes;
@@ -59,30 +101,33 @@ const Controls = ({attributes, setAttributes, clientId}) => {
             </Notice>
             <BlockControls>    
                 <div style={{
-                    minWidth: '200px',
-                    maxWidth: '300px',
+                    minWidth: '280px ',
+                    maxWidth: '320px',
                     width: '100%',
                     paddingTop: '7px',
                     paddingLeft: '5px'
                 }}>
                     <Flex align="center">
-                        <FlexBlock>
+                        <FlexBlock style={{marginBottom: '8px'}}>
                             <NumberControl value={min} min={0} max={max} onChange={(val) => {
                                 setAttributes({
                                     min: parseInt(val),
                                 });
                             }}/>
                         </FlexBlock>
-                        <FlexItem>
+                        <FlexItem style={{marginBottom: '8px'}}>
                             <span><strong>~ to ~</strong></span>
                         </FlexItem>
-                        <FlexBlock>
+                        <FlexBlock style={{marginBottom: '8px'}}>
                             <NumberControl value={max} min={0} max={newMax} disabled={0 === newMax} onChange={(val) => {
                                 setAttributes({
                                     max: parseInt(val),
                                 });
                             }}/>
                         </FlexBlock>
+                        <FlexItem style={{width: '100px'}}>
+                            <DeviceSizeQuickSelect attributes={attributes} setAttributes={setAttributes}/>
+                        </FlexItem>
                     </Flex>
                 </div>
             </BlockControls>
