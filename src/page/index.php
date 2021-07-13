@@ -24,7 +24,7 @@ class Page_Block extends PRC_Block_Library {
 		$image       = $attributes['image'];
 		$read_more   = $attributes['enableReadMore'] && array_key_exists( 'readMore', $attributes ) ? $attributes['readMore'] : false;
 		$class_names = classNames(
-			'ui page',
+			'ui page-item',
 			array(
 				'has-excerpt' => array_key_exists( 'content', $attributes ) && true === $attributes['enableExcerpt'] && ! empty( $attributes['content'] ),
 			)

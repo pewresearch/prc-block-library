@@ -181,7 +181,7 @@ const edit = ({ attributes, className, setAttributes, isSelected }) => {
     // go fetch page information...
 
     const blockProps = useBlockProps({
-        className: classnames(className, 'ui', 'page', {
+        className: classnames(className, 'ui', 'page-item', {
             'has-excerpt': enableExcerpt,
         }),
     });

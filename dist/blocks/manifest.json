@@ -37,10 +37,10 @@
   "menu-link.js.map": "blocks/menu-link-4318cd89.js.map",
   "menu.js": "blocks/menu-9bceb448.js",
   "menu.js.map": "blocks/menu-9bceb448.js.map",
-  "page.css": "blocks/page-859d7fbb.css",
-  "page.css.map": "blocks/page-859d7fbb.css.map",
-  "page.js": "blocks/page-73347d20.js",
-  "page.js.map": "blocks/page-73347d20.js.map",
+  "page.css": "blocks/page-26ddd3f2.css",
+  "page.css.map": "blocks/page-26ddd3f2.css.map",
+  "page.js": "blocks/page-5365532a.js",
+  "page.js.map": "blocks/page-5365532a.js.map",
   "post-bylines.js": "blocks/post-bylines-bcf5abd8.js",
   "post-bylines.js.map": "blocks/post-bylines-bcf5abd8.js.map",
   "post-title.js": "blocks/post-title-69da3e37.js",
@@ -336,17 +336,17 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/page-73347d20.js"
+          "blocks/page-5365532a.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/page-73347d20.js.map"
+          "blocks/page-5365532a.js.map"
         ],
         "css": [
-          "blocks/page-859d7fbb.css"
+          "blocks/page-26ddd3f2.css"
         ],
         "css.map": [
-          "blocks/page-859d7fbb.css.map"
+          "blocks/page-26ddd3f2.css.map"
         ]
       }
     },
