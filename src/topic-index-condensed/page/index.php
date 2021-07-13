@@ -40,7 +40,7 @@ class Topic_Index_Condensed_Page extends PRC_Block_Library {
 		<div <?php echo $block_wrapper_attrs; ?>>
 			<h2 class="ui header"><a href="<?php echo esc_url( $attributes['url'] ); ?>"><?php echo filter_block_kses_value( $attributes['heading'], 'post' ); ?></a></h2>
 			<?php echo wp_kses( $content, 'post' ); ?>
-		</div>
+		</div><!--/.wp-block-prc-block-topic-index-condensed-page-->
 		<?php
 		return ob_get_clean();
 	}

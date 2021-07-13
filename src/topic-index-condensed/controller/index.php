@@ -86,16 +86,16 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 	 * @param mixed $block
 	 * @return string|false
 	 */
-	public function render_controller_placeholder( $attributes, $content, $block ) {
+	public function render_controller( $attributes, $content, $block ) {
 		$this->enqueue_frontend();
+		if ( jetpack_is_mobile() ) {
+			return $this->render_mobile_accordion( $block );
+		} 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class' => 'ui grid',
 			)
 		);
-		if ( jetpack_is_mobile() ) {
-			return $this->render_mobile_accordion( $block );
-		} 
 		ob_start();
 		?>
 		<div <?php echo $block_wrapper_attrs; ?>>
@@ -149,7 +149,7 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . 'controller',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'render_callback' => array( $this, 'render_controller_placeholder' ),
+				'render_callback' => array( $this, 'render_controller' ),
 			)
 		);
 	}
