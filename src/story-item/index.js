@@ -60,6 +60,119 @@ const settings = {
         },
     ],
     transforms,
+    deprecated: [
+        {
+            attributes: {
+                title: {
+                    type: 'string',
+                },
+                excerpt: {
+                    type: 'string',
+                    source: 'html',
+                    multiline: 'p',
+                    default: '<p>Excerpt</p>',
+                },
+                extra: {
+                    type: 'string',
+                    source: 'html',
+                    multiline: 'li',
+                },
+                link: {
+                    type: 'string',
+                },
+                label: {
+                    type: 'string',
+                    default: 'Report',
+                },
+                date: {
+                    type: 'string',
+                },
+                // Images
+                image: {
+                    type: 'string',
+                    default: '',
+                },
+                imageSlot: {
+                    type: 'string',
+                    default: 'default',
+                },
+                imageSize: {
+                    type: 'string',
+                    default: 'A1',
+                },
+                isChartArt: {
+                    type: 'boolean',
+                    default: false,
+                },
+                postID: {
+                    type: 'integer',
+                },
+                headerSize: {
+                    type: 'integer',
+                    default: 2,
+                },
+                enableAltHeaderWeight: {
+                    type: 'boolean',
+                    default: false,
+                },
+                enableEmphasis: {
+                    type: 'boolean',
+                    default: false,
+                },
+                enableHeader: {
+                    type: 'boolean',
+                    default: true,
+                },
+                enableExcerpt: {
+                    type: 'boolean',
+                    default: true,
+                },
+                enableExcerptBelow: {
+                    type: 'boolean',
+                    default: false,
+                },
+                enableExtra: {
+                    type: 'boolean',
+                    default: false,
+                },
+                enableBreakingNews: {
+                    type: 'boolean',
+                    default: false,
+                },
+                enableAltTaxonomy: {
+                    type: 'boolean',
+                    default: false,
+                },
+                enableMeta: {
+                    type: 'boolean',
+                    default: true,
+                },
+                inLoop: {
+                    type: 'boolean',
+                    default: false,
+                },
+                isPreview: {
+                    type: 'boolean',
+                    default: false,
+                },
+                isTransformed: {
+                    type: 'boolean',
+                    default: false,
+                },
+            },
+ 
+            migrate( { excerpt, postID } ) {
+                return {
+                    description: excerpt,
+                    postId: postID
+                };
+            },
+ 
+            save( { attributes } ) {
+                return <save attributes={attributes}/>
+            },
+        },
+    ],
     edit,
     save,
 };

@@ -563,7 +563,7 @@ const Placeholder = ({attributes, setAttributes}) => {
             />
             <Button isLink onClick={()=>{
                 // Create a blank Story Item
-                setAttributes({postID: 0});
+                setAttributes({postId: 0});
             }}>Skip</Button>
         </WPComPlaceholder>
     )

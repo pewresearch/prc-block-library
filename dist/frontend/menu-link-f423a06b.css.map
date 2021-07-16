@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/menu-link/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,iBACI,qBACA,e","file":"frontend/menu-link-f423a06b.css","sourcesContent":[".expand-sub-list {\n    display: inline-block;\n    cursor: pointer;\n}"],"sourceRoot":""}

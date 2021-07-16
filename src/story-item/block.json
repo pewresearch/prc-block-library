@@ -1,18 +1,22 @@
 {
+    "apiVersion": 2,
 	"name": "prc-block/story-item",
 	"category": "layout",
 	"attributes": {
 		"title": {
 			"type": "string"
         },
-        "excerpt": {
+        "description": {
             "type": "string",
+            "source": "html",
             "multiline": "p",
-            "default": "<p>Excerpt</p>"
+            "selector": ".description"
         },
         "extra": {
             "type": "string",
-            "multiline": "li"
+            "source": "html",
+            "multiline": "li",
+            "selector": ".extra"
         },
         "link": {
 			"type": "string"
@@ -39,7 +43,7 @@
             "type": "boolean",
             "default": false
         },
-        "postID": {
+        "postId": {
             "type": "integer"
         },
         "headerSize": {

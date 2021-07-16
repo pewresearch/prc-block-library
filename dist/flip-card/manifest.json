@@ -1,10 +1,10 @@
 {
-  "frontend.css": "flip-card/frontend-9926b6ad.css",
-  "frontend.css.map": "flip-card/frontend-9926b6ad.css.map",
+  "frontend.css": "flip-card/frontend-6cad3a30.css",
+  "frontend.css.map": "flip-card/frontend-6cad3a30.css.map",
   "frontend.js": "flip-card/frontend-8130ba45.js",
   "frontend.js.map": "flip-card/frontend-8130ba45.js.map",
-  "main.css": "flip-card/main-11a310ad.css",
-  "main.css.map": "flip-card/main-11a310ad.css.map",
+  "main.css": "flip-card/main-194c7332.css",
+  "main.css.map": "flip-card/main-194c7332.css.map",
   "main.js": "flip-card/main-151462cd.js",
   "main.js.map": "flip-card/main-151462cd.js.map",
   "runtime.js": "flip-card/runtime-8e383e5a.js",
@@ -21,10 +21,10 @@
           "flip-card/main-151462cd.js.map"
         ],
         "css": [
-          "flip-card/main-11a310ad.css"
+          "flip-card/main-194c7332.css"
         ],
         "css.map": [
-          "flip-card/main-11a310ad.css.map"
+          "flip-card/main-194c7332.css.map"
         ]
       }
     },
@@ -39,10 +39,10 @@
           "flip-card/frontend-8130ba45.js.map"
         ],
         "css": [
-          "flip-card/frontend-9926b6ad.css"
+          "flip-card/frontend-6cad3a30.css"
         ],
         "css.map": [
-          "flip-card/frontend-9926b6ad.css.map"
+          "flip-card/frontend-6cad3a30.css.map"
         ]
       }
     }

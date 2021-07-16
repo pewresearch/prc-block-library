@@ -82,7 +82,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 */
 	public function get_attributes_by_object_id( int $post_id, $args = array() ) {
 		$defaults = array(
-			'postID'                => $post_id,
+			'postId'                => $post_id,
 			'postType'              => 'stub',
 			'imageSize'             => 'A3',
 			'imageSlot'             => 'disabled',
@@ -186,7 +186,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
 		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
 		$stacked    = ( 'top' === $image_slot || 'bottom' === $image_slot );
-		$post_id    = $this->cherry_pick_attr( 'postID', $attributes );
+		$post_id    = $this->cherry_pick_attr( 'postId', $attributes );
 		$label      = $this->cherry_pick_attr( 'label', $attributes );
 		$date       = $this->cherry_pick_attr( 'date', $attributes );
 		$title      = $this->cherry_pick_attr( 'title', $attributes );

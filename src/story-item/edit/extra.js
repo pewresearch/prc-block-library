@@ -1,4 +1,6 @@
-// WordPress Core
+/**
+ * WordPress Dependencies
+ */
 import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 

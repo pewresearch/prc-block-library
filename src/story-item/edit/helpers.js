@@ -28,13 +28,13 @@ const getAttributesFromPost = (post, imageSize, isRefresh = false) => {
         title: post.title.hasOwnProperty('rendered')
             ? post.title.rendered
             : post.title,
-        excerpt: post.excerpt.hasOwnProperty('rendered')
+        description: post.excerpt.hasOwnProperty('rendered')
             ? post.excerpt.rendered
             : post.excerpt,
         link: post.link,
         label: post.hasOwnProperty('label') ? post.label : 'Report',
         date: post.date,
-        postID: post.id,
+        postId: post.id,
     };
 
     if ( true !== isRefresh ) {
