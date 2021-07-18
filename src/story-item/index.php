@@ -182,7 +182,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 *
 	 * @return string Returns story item placeholder markup.
 	 */
-	public function render_story_item( $attributes, $content = '' ) {
+	public function render_story_item( $attributes, $content = false ) {
 		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
 		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
 		$stacked    = ( 'top' === $image_slot || 'bottom' === $image_slot );
@@ -191,13 +191,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$date       = $this->cherry_pick_attr( 'date', $attributes );
 		$title      = $this->cherry_pick_attr( 'title', $attributes );
 		// Check for legacy excerpt
-		preg_match( '/<p>(.*)<\/p>/', $content, $matches );
-		if ( $matches && substr( $matches[0], 0, 3 ) === '<p>' ) {
-			$excerpt = $matches[0];
-		} else {
-			$excerpt = $this->cherry_pick_attr( 'excerpt', $attributes );
-		}
-		$extra = $this->cherry_pick_attr( 'extra', $attributes );
+		// preg_match( '/<p>(.*)<\/p>/', $content, $matches );
+		// if ( $matches && substr( $matches[0], 0, 3 ) === '<p>' ) {
+		// $excerpt = $matches[0];
+		// } else {
+		// $excerpt = $this->cherry_pick_attr( 'excerpt', $attributes );
+		// }
+		// $extra = $this->cherry_pick_attr( 'extra', $attributes );
 
 		$story_item_class = 'ui item story is-style-' . $image_slot;
 		if ( $stacked ) {
@@ -260,15 +260,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 						echo "<div class='title'>{$title}</div>";
 					}
 					?>
-					<?php
-					if ( true === $this->cherry_pick_attr( 'enableExcerpt', $attributes ) ) {
-						echo "<div class='description'>{$excerpt}</div>";
-					}
-					?>
-					<?php
-					if ( true === $this->cherry_pick_attr( 'enableExtra', $attributes ) ) {
-						echo "<ul class='extra'>{$extra}</ul>";
-					}
+					<?php 
+					if ( false !== $content ) {
+						echo $content;
+					} 
 					?>
 					<?php
 					do_action(

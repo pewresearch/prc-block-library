@@ -1,17 +1,17 @@
 /**
  * WordPress Dependencies
  */
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { RichText } from '@wordpress/block-editor';
+import { Fragment } from '@wordpress/element';
 
 /** Returns a server side block callback */
 const save = ({ attributes }) => {
-    const blockProps = useBlockProps.save();
     const { description, extra } = attributes;
     return(
-        <div {...blockProps}>
+        <Fragment>
             { description && (<RichText.Content className="description" tagName="div" value={description}/>)}
             { extra && (<RichText.Content className="extra" tagName="ul" value={extra}/>)}
-        </div>
+        </Fragment>
     );
 };
 

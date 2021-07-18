@@ -25,8 +25,8 @@
   "runtime.js.map": "frontend/runtime-83e71da2.js.map",
   "social-link.js": "frontend/social-link-678fde8a.js",
   "social-link.js.map": "frontend/social-link-678fde8a.js.map",
-  "story-item.js": "frontend/story-item-5cb5dcfe.js",
-  "story-item.js.map": "frontend/story-item-5cb5dcfe.js.map",
+  "story-item.js": "frontend/story-item-5d3ed10d.js",
+  "story-item.js.map": "frontend/story-item-5d3ed10d.js.map",
   "tabs-controller.js": "frontend/tabs-controller-9f9487bb.js",
   "tabs-controller.js.map": "frontend/tabs-controller-9f9487bb.js.map",
   "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-5ddd4f0a.js",
@@ -184,13 +184,13 @@
           "frontend/runtime-83e71da2.js",
           "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~story-item~topic-index-search-field-5f792ab4.js",
           "frontend/vendors~mailchimp-form~mailchimp-select~story-item~topic-index-search-field-1ae64170.js",
-          "frontend/story-item-5cb5dcfe.js"
+          "frontend/story-item-5d3ed10d.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
           "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~story-item~topic-index-search-field-5f792ab4.js.map",
           "frontend/vendors~mailchimp-form~mailchimp-select~story-item~topic-index-search-field-1ae64170.js.map",
-          "frontend/story-item-5cb5dcfe.js.map"
+          "frontend/story-item-5d3ed10d.js.map"
         ]
       }
     },

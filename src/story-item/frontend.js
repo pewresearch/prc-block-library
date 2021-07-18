@@ -13,7 +13,7 @@
  const getProps = elm => {
      const props = {
          title: '',
-         excerpt: '',
+         description: '',
          extra: '',
          link: '',
          label: '',
@@ -43,9 +43,9 @@
          props.extraContent = elm.querySelector('.extra-content').innerHTML;
      }
  
-     const excerpt = elm.querySelector('.description');
-     if (excerpt) {
-         props.excerpt = excerpt.innerHTML;
+     const description = elm.querySelector('.description');
+     if (description) {
+         props.description = description.innerHTML;
      } else {
          props.enableExcerpt = false;
      }
