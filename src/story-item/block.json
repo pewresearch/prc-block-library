@@ -97,6 +97,13 @@
         "isTransformed": {
             "type": "boolean",
             "default": false
+        },
+        "postID": {
+            "type": "integer"
+        },
+        "excerpt": {
+            "type": "string",
+            "multiline": "p"
         }
 	},
 	"usesContext": ["prc-block/wp-query"],

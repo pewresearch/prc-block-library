@@ -68,6 +68,23 @@ const setOptionsFromStyle = (className, setAttributes) => {
     );
 };
 
+/**
+ * To be removed at later date:
+*/
+const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
+    const payload = {};
+    if (!attributes.postId && attributes.postID) {
+        payload.postId = attributes.postID;
+    }
+    if (!attributes.description && attributes.excerpt && 0 !== attributes.excerpt.length) {
+        payload.description = attributes.excerpt;
+    }
+    if ( 0 !== Object.keys(payload).length && false !== setAttributes ) {
+        console.log('handleExcerptAndPostIdUpdate', attributes, payload);
+        setAttributes({...payload});
+    }
+}
+
 const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     const {
         title,
@@ -85,7 +102,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         enableEmphasis,
         enableHeader,
         enableExcerpt, // @TODO need to rename this to enableDescription
-        enableExcerptBelow,
+        enableExcerptBelow, // @TODO need to rename this to enableDescriptionBelow
         enableExtra,
         enableBreakingNews,
         enableAltTaxonomy,
@@ -102,6 +119,10 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         }
     }, [isTransformed]);
 
+    useEffect(()=> {
+        handleExcerptAndPostIdUpdate(attributes, setAttributes);
+    }, []);
+
     const { rootClientId } = useSelect(
         select => {
             return {
@@ -116,13 +137,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     const enableAltHeaderWeight = !enableExcerpt;
     const taxonomy = enableAltTaxonomy ? 'research-teams' : 'Formats';
 
-    const blockProps = useBlockProps({
-        className: isSelected ? classNames(className, 'item', 'story',{
-            stacked: 'top' === imageSlot || 'bottom' === imageSlot,
-            bordered: enableEmphasis,
-            'alt-description': enableExcerptBelow,
-        }) : className,
-    });
+    const blockProps = useBlockProps();
 
     // setImageSlotByClassName(className, setAttributes);
 
@@ -189,50 +204,56 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
             }}
             />
 
-            <TopAndLeftSlot />
+            <article className={classNames(className, 'item', 'story',{
+                stacked: 'top' === imageSlot || 'bottom' === imageSlot,
+                bordered: enableEmphasis,
+                'alt-description': enableExcerptBelow,
+            })}>
+                <TopAndLeftSlot />
 
-            <Item.Content>
-                <Header
-                    enabled={{enableHeader, enableMeta}}
-                    title={title}
-                    date={date}
-                    label={label}
-                    link={link}
-                    size={headerSize}
-                    taxonomy={taxonomy}
-                    setAttributes={setAttributes}
-                    altHeaderWeight={enableAltHeaderWeight}
-                />
+                <Item.Content>
+                    <Header
+                        enabled={{enableHeader, enableMeta}}
+                        title={title}
+                        date={date}
+                        label={label}
+                        link={link}
+                        size={headerSize}
+                        taxonomy={taxonomy}
+                        setAttributes={setAttributes}
+                        altHeaderWeight={enableAltHeaderWeight}
+                    />
 
-                <DefaultSlot />
+                    <DefaultSlot />
 
-                {true !== enableExcerptBelow && (
+                    {true !== enableExcerptBelow && (
+                        <Description
+                            enabled={enableExcerpt}
+                            content={description}
+                            sansSerif={!enableMeta || !enableHeader}
+                            setAttributes={setAttributes}
+                        />
+                    )}
+
+                    <Extra
+                        enabled={enableExtra}
+                        content={extra}
+                        breakingNews={enableBreakingNews}
+                        setAttributes={setAttributes}
+                    />
+                </Item.Content>
+
+                <BottomAndRightSlot />
+
+                {true === enableExcerptBelow && (
                     <Description
                         enabled={enableExcerpt}
                         content={description}
-                        sansSerif={!enableMeta || !enableHeader}
+                        sansSerif={!enableHeader}
                         setAttributes={setAttributes}
                     />
                 )}
-
-                <Extra
-                    enabled={enableExtra}
-                    content={extra}
-                    breakingNews={enableBreakingNews}
-                    setAttributes={setAttributes}
-                />
-            </Item.Content>
-
-            <BottomAndRightSlot />
-
-            {true === enableExcerptBelow && (
-                <Description
-                    enabled={enableExcerpt}
-                    content={description}
-                    sansSerif={!enableHeader}
-                    setAttributes={setAttributes}
-                />
-            )}
+            </article>
         </div>
     );
 };
