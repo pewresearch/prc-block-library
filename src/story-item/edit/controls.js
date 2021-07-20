@@ -226,7 +226,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                             isActive: 'default' === imageSlot,
                             onClick: () => {
                                 const newSlot = 'default';
-                                setAttributes({imageSlot: newSlot, className: `is-style-${newSlot}`});
+                                setAttributes({imageSlot: newSlot});
                             },
                         },
                         {
@@ -237,7 +237,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                             isActive: 'right' === imageSlot,
                             onClick: () => {
                                 const newSlot = 'right';
-                                setAttributes({imageSlot: newSlot, className: `is-style-${newSlot}`});
+                                setAttributes({imageSlot: newSlot});
                             },
                         },
                         {
@@ -248,7 +248,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                             isActive: 'left' === imageSlot,
                             onClick: () => {
                                 const newSlot = 'left';
-                                setAttributes({imageSlot: newSlot, className: `is-style-${newSlot}`});
+                                setAttributes({imageSlot: newSlot});
                             },
                         },
                         {
@@ -259,7 +259,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                             isActive: 'top' === imageSlot,
                             onClick: () => {
                                 const newSlot = 'top';
-                                setAttributes({imageSlot: newSlot, className: `is-style-${newSlot}`});
+                                setAttributes({imageSlot: newSlot});
                             },
                         },
                         {
@@ -270,7 +270,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                             isActive: 'bottom' === imageSlot,
                             onClick: () => {
                                 const newSlot = 'bottom';
-                                setAttributes({imageSlot: newSlot, className: `is-style-${newSlot}`});
+                                setAttributes({imageSlot: newSlot});
                             },
                         },
                         {
@@ -281,7 +281,7 @@ const ToolbarControls = ({ attributes, setAttributes }) => {
                             isActive: 'disabled' === imageSlot,
                             onClick: () => {
                                 const newSlot = 'disabled';
-                                setAttributes({imageSlot: newSlot, className: `is-style-${newSlot}`});
+                                setAttributes({imageSlot: newSlot});
                             },
                         },
                     ] }
@@ -389,7 +389,7 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
                             { label: 'Disabled', value: 'disabled' },
                         ] }
                         onChange={ ( newSlot ) => {
-                            setAttributes({imageSlot: newSlot, className: `is-style-${newSlot}`});
+                            setAttributes({imageSlot: newSlot});
                         } }
                     />
                      <ToggleControl

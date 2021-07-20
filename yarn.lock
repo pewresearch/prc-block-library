@@ -1146,10 +1146,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pewresearch/app-components@^0.1.15":
-  version "0.1.15"
-  resolved "https://npm.pkg.github.com/download/@pewresearch/app-components/0.1.15/5e8675415424cd533fe6e38957abbeb091dc44fd4fe79c62160adcf26633d844#59c9e417922cbc0152f2269041807af88fcf8821"
-  integrity sha512-CjqzATFpJ9iB0ieyDxoKkobW4tUpK9dXuPj6mznnmcOCQEXNghdToh6BsYTPqv66iEJekpDioO86VeUdXFYDqA==
+"@pewresearch/app-components@^0.1.16":
+  version "0.1.16"
+  resolved "https://npm.pkg.github.com/download/@pewresearch/app-components/0.1.16/86aeca317edaf9156c757aea2481ad457534548d8c0e9712588be985690b8b3e#7466b2608609725f5951a916483685a1ec2f3128"
+  integrity sha512-IpDwpnzTHensVqiDryGUT5YHmgK4McWfNFcQxruxoH30AwgEDcBIQgz5XC/AilAE6Et4o+P6V8tjbaOMC+YORQ==
   dependencies:
     "@wordpress/api-fetch" "^5.1.1"
     "@wordpress/block-editor" "^6.1.3"

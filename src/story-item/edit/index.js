@@ -204,7 +204,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
             }}
             />
 
-            <article className={classNames(className, 'item', 'story',{
+            <article className={classNames(className, 'item', 'story', `is-style-${imageSlot}`, {
                 stacked: 'top' === imageSlot || 'bottom' === imageSlot,
                 bordered: enableEmphasis,
                 'alt-description': enableExcerptBelow,
