@@ -134,28 +134,36 @@ class WP_Query_Block extends PRC_Block_Library {
 						'attrs'     => array(),
 					);
 					
-					if ( 'prc-block/story-item' === $block_name ) {
-						$block = prc_get_story_item(
-							get_the_ID(),
-							array_merge(
-								$block_attrs,
-								array(
-									'imageSize' => 'A3',
-									'postType'  => get_post_type(),
-								)
-							),
-							'<div class="description">' . get_the_excerpt() . '</div>'
+					if ( 'prc-block/story-item' === $block_name ) {                     
+						$block_args = array(
+							'postId'   => get_the_ID(),
+							'postType' => get_post_type(),
+							'inLoop'   => true,
 						);
-						if ( $as_columns ) {
-							$block['attrs']['imageSlot'] = 'top';
-							$block['attrs']['className'] = 'is-style-top';
+
+						// When as columns it true, set the image slot to top, set the className to is-style-top and set inLoop to false.
+						if ( true === $as_columns ) {
+							$block_args['imageSlot'] = 'top';
+							$block_args['className'] = 'is-style-top';
+							$block_args['inLoop']    = false;
 						}
+
+						ob_start();
+						do_action(
+							'prc_loop_story_item',
+							$block_args 
+						);
+						do_action( 'qm/debug', print_r( $block, true ) );
+						$block = ob_get_clean();
 					} else {
+						// If block_attrs has an array key of "level" then set $block['attrs']['level'] to the value of that key.
 						if ( array_key_exists( 'level', $block_attrs ) ) {
 							$block['attrs']['level'] = $block_attrs['level'];
 						}
+
+						// If block_attrs has an array key of content then set $block['attrs']['content'] to the value of that key, and set innerBlocks to an empty array.
 						if ( array_key_exists( 'content', $block_attrs ) ) {
-							$block['attrs']['content'] = get_post_field( $block_attrs['content'], get_the_ID(), 'raw' );
+							$block['attrs']['content'] = $block_attrs['content'];
 							$block['innerBlocks']      = array();
 							$block['innerHtml']        = $block_attrs['contentTag'] . $block['attrs']['content'] . str_replace( '<', '</', $block_attrs['contentTag'] );
 							$block['innerContent']     = array(
