@@ -135,7 +135,7 @@ class WP_Query_Block extends PRC_Block_Library {
 					);
 					
 					if ( 'prc-block/story-item' === $block_name ) {
-						$block['attrs'] = prc_get_story_item(
+						$block = prc_get_story_item(
 							get_the_ID(),
 							array_merge(
 								$block_attrs,
@@ -144,7 +144,7 @@ class WP_Query_Block extends PRC_Block_Library {
 									'postType'  => get_post_type(),
 								)
 							),
-							true
+							'<div class="description">' . get_the_excerpt() . '</div>'
 						);
 						if ( $as_columns ) {
 							$block['attrs']['imageSlot'] = 'top';
@@ -168,7 +168,10 @@ class WP_Query_Block extends PRC_Block_Library {
 						return; 
 					}
 
-					$block = render_block( $block );
+					if ( 'prc-block/story-item' !== $block_name ) {
+						$block = render_block( $block );
+					}
+
 					$block = true === $as_columns ? '<div class="column">' . $block . '</div>' : $block;
 					echo wp_kses( $block, 'post' );                 
 				}
