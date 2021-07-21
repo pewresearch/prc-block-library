@@ -153,8 +153,8 @@ class WP_Query_Block extends PRC_Block_Library {
 							'prc_loop_story_item',
 							$block_args 
 						);
-						do_action( 'qm/debug', print_r( $block, true ) );
 						$block = ob_get_clean();
+						do_action( 'qm/debug', print_r( $block, true ) );
 					} else {
 						// If block_attrs has an array key of "level" then set $block['attrs']['level'] to the value of that key.
 						if ( array_key_exists( 'level', $block_attrs ) ) {
