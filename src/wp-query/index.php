@@ -51,7 +51,6 @@ class WP_Query_Block extends PRC_Block_Library {
 		if ( ! empty( $exclude_post_ids ) && is_array( $exclude_post_ids ) ) {
 			$args['post__not_in'] = $exclude_post_ids;
 		}
-		error_log( 'args   ' . print_r( $args, true ) );
 		return new WP_Query( $args );
 	}
 
