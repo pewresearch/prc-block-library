@@ -66,12 +66,12 @@ class WP_Query_Block extends PRC_Block_Library {
 				$terms    = wp_get_object_terms( $post_id, 'formats', array( 'fields' => 'names' ) );
 				$label    = array_shift( $terms );
 				$return[] = array(
-					'id'      => $post_id,
-					'title'   => get_the_title(),
-					'excerpt' => apply_filters( 'the_content', get_the_excerpt() ),
-					'date'    => get_the_date(),
-					'link'    => get_the_permalink(),
-					'label'   => $label,
+					'id'          => $post_id,
+					'title'       => get_the_title(),
+					'description' => apply_filters( 'the_content', get_the_excerpt() ),
+					'date'        => get_the_date(),
+					'link'        => get_the_permalink(),
+					'label'       => $label,
 				);
 			}
 		}
@@ -172,11 +172,10 @@ class WP_Query_Block extends PRC_Block_Library {
 						}
 					}
 
-					if ( empty( $block['attrs'] ) ) {
-						return; 
-					}
-
 					if ( 'prc-block/story-item' !== $block_name ) {
+						if ( empty( $block['attrs'] ) ) {
+							return; 
+						}
 						$block = render_block( $block );
 					}
 
