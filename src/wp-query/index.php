@@ -139,8 +139,9 @@ class WP_Query_Block extends PRC_Block_Library {
 							'postType' => get_post_type(),
 							'inLoop'   => true,
 						);
+						
 
-						// When as columns it true, set the image slot to top, set the className to is-style-top and set inLoop to false.
+						// When as columns is true, set the image slot to top, set the className to is-style-top and set inLoop to false.
 						if ( true === $as_columns ) {
 							$block_args['imageSlot'] = 'top';
 							$block_args['className'] = 'is-style-top';
