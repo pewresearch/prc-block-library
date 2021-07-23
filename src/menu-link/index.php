@@ -63,7 +63,7 @@ class PRC_Menu_Link extends PRC_Block_Library {
 
 		$class_names          = explode( ' ', array_key_exists( 'className', $attributes ) ? $attributes['className'] : '' );
 		$sub_list_class_names = array(
-			'toggle' => classNames( 'expand-sub-list plus circle icon', array( 'active' => $is_active ) ),
+			'toggle' => classNames( 'expand-sub-list plus circle outline icon', array( 'active' => $is_active ) ),
 			'list'   => classNames(
 				'list',
 				array(
