@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-pascal-case */
 /**
- * External dependencies
+ * External Dependencies
  */
 import classnames from 'classnames';
 import { dropRight, get, times } from 'lodash';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
@@ -28,15 +28,6 @@ import {
     createBlocksFromInnerBlocksTemplate,
 } from '@wordpress/blocks';
 
-/**
- * Allowed blocks constant is passed to InnerBlocks precisely as specified here.
- * The contents of the array should never change.
- * The array should contain the name of each block that is allowed.
- * In the row block, the only block we allow is 'core/column'.
- *
- * @constant
- * @type {string[]}
- */
 const ALLOWED_BLOCKS = ['prc-block/column'];
 
 const RowEditContainer = ({

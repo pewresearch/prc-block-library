@@ -1,11 +1,11 @@
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
 /**
- * Internal dependencies
+ * Internal Dependencies
  */
 // import './style.scss';
 import metadata from './block.json';

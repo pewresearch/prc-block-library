@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-pascal-case */
 /**
- * External dependencies
+ * External Dependencies
  */
 import classnames from 'classnames';
 import { dropRight, times } from 'lodash';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
@@ -18,15 +18,6 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
-/**
- * Allowed blocks constant is passed to InnerBlocks precisely as specified here.
- * The contents of the array should never change.
- * The array should contain the name of each block that is allowed.
- * In the grid block, the only block we allow is 'prc-block/row'.
- *
- * @constant
- * @type {string[]}
- */
 const ALLOWED_BLOCKS = ['prc-block/row'];
 
 const edit = ({ clientId }) => {

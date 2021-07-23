@@ -1,10 +1,10 @@
 /**
- * External dependencies
+ * External Dependencies
  */
 import { sumBy, merge, mapValues } from 'lodash';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { Platform } from '@wordpress/element';

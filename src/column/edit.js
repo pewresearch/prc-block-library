@@ -1,12 +1,12 @@
 /**
- * External dependencies
+ * External Dependencies
  */
 import classnames from 'classnames';
 import numWords from 'num-words';
 import ordinal from 'ordinal';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import {

@@ -1,5 +1,5 @@
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { Path, SVG } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
