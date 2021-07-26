@@ -55,7 +55,7 @@ const getProps = elm => {
 
     const extraContent = elm.querySelector('.extra-content');
     if (extraContent) {
-        props.extraContent = extraContent;
+        props.extraContent = extraContent.outerHTML;
     }
 
     props.enableBreakingNews = 'true' === props.enableBreakingNews ? true : false;
