@@ -39,9 +39,9 @@
         "archive": "wpackio-scripts pack"
     },
     "dependencies": {
-        "@pewresearch/app-components": "^0.1.16",
+        "@pewresearch/app-components": "^0.1.17",
         "@pewresearch/pew-chart-builder": "^0.3.97",
-        "@wordpress/icons": "^4.0.1",
+        "@wordpress/icons": "^5.0.0",
         "@wpackio/entrypoint": "^6.3.0",
         "beautiful-react-hooks": "^0.35.0",
         "classnames": "^2.3.1",
