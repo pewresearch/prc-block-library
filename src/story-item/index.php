@@ -47,7 +47,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$post_id = $args['postId'];
 
 		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
-		echo $this->render_story_item( $attributes, '<div class="description">' . $attributes['description'] . '</div>' );
+		$story_item = $this->render_story_item( $attributes, '<div class="description">' . $attributes['description'] . '</div>' );
+		echo wp_kses( $story_item, 'post' );
 	}
 
 	private function cherry_pick_attr( $needle, $haystack, $default = null ) {
