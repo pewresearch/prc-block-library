@@ -26,58 +26,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		}
 	}
 
-	public function wrap_consecutive_story_items( $content ) {
-		// regex search for adjacent .wp-block-prc-block-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
-		$content = preg_replace(
-			'/((?:\s*?<\!-- \.wp-block-prc-block-story-item -->.*?(?:(?!class=".*?(column|section-header).*?")\X)*?<\!-- \/\.wp-block-prc-block-story-item -->\s*?){2,})/i',
-			'<div class="ui divided very relaxed story items">${1}</div>',
-			$content
-		);
-		return $content;
-	}
-
-	public function related_story_item( $args ) {
-		$post_id = $args['postId'];
-
-		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
-		return $this->render_story_item( $attributes );
-	}
-
-	public function loop_story_item( $args ) {
-		$post_id = $args['postId'];
-
-		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
-		echo $this->render_story_item( $attributes, '<div class="description">' . $attributes['description'] . '</div>' );
-	}
-
-	private function cherry_pick_attr( $needle, $haystack, $default = null ) {
-		if ( array_key_exists( $needle, $haystack ) ) {
-			if ( true === $haystack[ $needle ] ) {
-				return 'true';
-			} elseif ( false === $haystack[ $needle ] ) {
-				return 'false';
-			} else {
-				return $haystack[ $needle ];
-			}
-		}
-		return $default;
-	}
-
-	/**
-	 * Get first term in either formats or research-areas (as determined by $reasearch_areas flag)
-	 *
-	 * @param int  $post_id of post you want to fetch.
-	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
-	 * @return string
-	 */
-	private function get_label( int $post_id, $reasearch_areas = false ) {
-		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
-		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
-			return array_shift( $terms );
-		}
-		return 'Report';
-	}
-
 	/**
 	 * Given a post id construct a post's story item attributes.
 	 * Defaults to pub listing options (stub, image slot left, A3 image size) but these can be overriden by passing in $args (array).
@@ -142,6 +90,58 @@ class PRC_Story_Item extends PRC_Block_Library {
 		}
 
 		return $attrs;
+	}
+
+	public function wrap_consecutive_story_items( $content ) {
+		// regex search for adjacent .wp-block-prc-block-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
+		$content = preg_replace(
+			'/((?:\s*?<\!-- \.wp-block-prc-block-story-item -->.*?(?:(?!class=".*?(column|section-header).*?")\X)*?<\!-- \/\.wp-block-prc-block-story-item -->\s*?){2,})/i',
+			'<div class="ui divided very relaxed story items">${1}</div>',
+			$content
+		);
+		return $content;
+	}
+
+	public function related_story_item( $args ) {
+		$post_id = $args['postId'];
+
+		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
+		return $this->render_story_item( $attributes );
+	}
+
+	public function loop_story_item( $args ) {
+		$post_id = $args['postId'];
+
+		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
+		echo $this->render_story_item( $attributes, '<div class="description">' . $attributes['description'] . '</div>' );
+	}
+
+	private function cherry_pick_attr( $needle, $haystack, $default = null ) {
+		if ( array_key_exists( $needle, $haystack ) ) {
+			if ( true === $haystack[ $needle ] ) {
+				return 'true';
+			} elseif ( false === $haystack[ $needle ] ) {
+				return 'false';
+			} else {
+				return $haystack[ $needle ];
+			}
+		}
+		return $default;
+	}
+
+	/**
+	 * Get first term in either formats or research-areas (as determined by $reasearch_areas flag)
+	 *
+	 * @param int  $post_id of post you want to fetch.
+	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
+	 * @return string
+	 */
+	private function get_label( int $post_id, $reasearch_areas = false ) {
+		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
+		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
+			return array_shift( $terms );
+		}
+		return 'Report';
 	}
 
 	/**
