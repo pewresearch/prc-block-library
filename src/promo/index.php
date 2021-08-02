@@ -21,52 +21,36 @@ class Promo extends PRC_Block_Library {
 		$attributes         = wp_parse_args(
 			$attributes,
 			array(
-				'className'       => '',
-				'heading'         => '',
-				'headingLevel'    => 2,
-				'description'     => '',
 				'backgroundColor' => '#fff',
 				'borderColor'     => '#fff',
-				'sansSerif'       => false,
 				'icon'            => '',
 			)
 		);
-		$has_description    = '' !== $attributes['description'] && '<p></p>' !== $attributes['description'];
+		$has_dark_bg        = '#000' === $attributes['backgroundColor'];
 		$has_icon           = ! empty( $attributes['icon'] );
+		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'    => md5( wp_json_encode( $attributes ) ),
 				'class' => classnames(
-					'wp-block-prc-block-promo',
 					$attributes['className'],
 					array(
-						'sans-serif' => $attributes['sansSerif'],
 						'has-icon'   => $has_icon,
+						'has-dark-background' => $has_dark_bg,
 					) 
 				),
 				'style' => 'border-color: ' . $attributes['borderColor'] . '; background-color: ' . $attributes['backgroundColor'],
 			)
 		);
-		$heading_tag        = 3 === $attributes['headingLevel'] ? 'h3' : 'h2';
-		$heading_tag        = $heading_tag . ' class=' . classnames( array( 'sans-serif' => $attributes['sansSerif'] ) );
-		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		ob_start();
 		?>
 		<div <?php echo $wrapper_attributes; ?>>
-			<?php
-			if ( $has_icon ) {
-				echo '<div class="icon"><img src="' . esc_url( $icon_url ) . '"/></div>';
-			}
-			?>
-			<div class="text">
-				<<?php echo $heading_tag; ?>><?php echo filter_block_kses_value( $attributes['heading'], 'post' ); ?></<?php echo $heading_tag; ?>>
+			<div class='wp-block-prc-block-promo__inner-container'>
 				<?php
-				if ( $has_description ) {
-					echo '<div>' . filter_block_kses_value( $attributes['description'], 'post' ) . '</div>';
+				if ( $has_icon ) {
+					echo '<div class="icon"><img src="' . esc_url( $icon_url ) . '"/></div>';
 				}
 				?>
-			</div>
-			<div class="action">
 				<?php echo wp_kses( $content, 'post' ); ?>
 			</div>
 		</div>
