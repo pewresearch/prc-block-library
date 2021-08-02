@@ -101,7 +101,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
                             onChange={h => setAttributes({ heading: h })}
                             placeholder={__(`Facts are more important than ever.`)}
                             keepPlaceholderOnFocus
-                            className="heading"
+                            className="heading sans-serif"
                         />
                         {true === (isSelected || hasSubheading) && (
                             <RichText
@@ -113,7 +113,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
                                 )}
                                 multiline="p"
                                 keepPlaceholderOnFocus
-                                className="sub-heading"
+                                className="sub-heading sans-serif"
                             />
                         )}
                     </div>

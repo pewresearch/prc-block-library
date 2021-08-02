@@ -1,6 +1,7 @@
 $breakpointTablet: 920px;
 $padding: 24px 40px;
 $iconWidth: 45px;
+$maxWidth: 1140px;
 
 .wp-block-prc-block-promo {
   padding: $padding;
@@ -13,8 +14,12 @@ $iconWidth: 45px;
     }
   }
 
+  .sub-heading {
+    color: #818181;
+  }
+
   .wp-block-prc-block-promo__inner-container {
-    max-width: 1000px;
+    max-width: $maxWidth;
     display: grid;
     grid-gap: 10px;
   }

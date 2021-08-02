@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.0.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-prc-block-promo{padding:24px 40px;clear:both;border:1px solid transparent}.wp-block-prc-block-promo.has-dark-background .heading{color:#fff}.wp-block-prc-block-promo .sub-heading{color:#818181}.wp-block-prc-block-promo .wp-block-prc-block-promo__inner-container{max-width:1140px;display:grid;grid-gap:10px}.wp-block-prc-block-promo.is-style-standard>.wp-block-prc-block-promo__inner-container,.wp-block-prc-block-promo:not(.is-style-asymmetrical)>.wp-block-prc-block-promo__inner-container{grid-template-areas:"icon text action";grid-template-columns:45px 2fr 2fr;align-items:center}.wp-block-prc-block-promo .heading,.wp-block-prc-block-promo p,.wp-block-prc-block-promo .fields,.wp-block-prc-block-promo .action>.wp-block{margin:0 !important}.wp-block-prc-block-promo .icon{grid-area:icon;text-align:center}.wp-block-prc-block-promo .icon>img,.wp-block-prc-block-promo .icon>div>svg{max-width:45px}.wp-block-prc-block-promo .text{grid-area:text;text-align:left}.wp-block-prc-block-promo .action{grid-area:action;text-align:right}.column:not(.sixteen)>.wp-block-prc-block-promo:not(.is-style-asymmetrical){padding:12px}.column:not(.sixteen)>.wp-block-prc-block-promo:not(.is-style-asymmetrical) .text,.column:not(.sixteen)>.wp-block-prc-block-promo:not(.is-style-asymmetrical) .action{text-align:center}.column:not(.four):not(.sixteen)>.wp-block-prc-block-promo:not(.is-style-asymmetrical)>.wp-block-prc-block-promo__inner-container,.wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical)>.wp-block-prc-block-promo__inner-container{grid-template-areas:"text text" "icon action";grid-template-columns:45px auto}.four.wide.column>.wp-block-prc-block-promo:not(.is-style-asymmetrical)>.wp-block-prc-block-promo__inner-container,.wp-block-prc-block-promo.one-column-width:not(.is-style-asymmetrical)>.wp-block-prc-block-promo__inner-container{grid-template-areas:"icon" "text" "action";grid-template-columns:100%}.prc-block-area[data-post-type=fact-tank] .wp-block-prc-block-promo,.prc-block-area[data-post-type=post] .wp-block-prc-block-promo{padding:1rem}
+
+/*# sourceMappingURL=promo-18355c07.css.map*/
