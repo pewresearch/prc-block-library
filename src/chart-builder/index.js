@@ -13,7 +13,7 @@ import './styles.css';
 
 const { name } = metadata;
 const settings = {
-    title: __('Chart Builder'),
+    title: __('Chart'),
     icon: 'chart-line',
     description: __('Chart element for Chart Builder.'),
     keywords: [__('chart')],

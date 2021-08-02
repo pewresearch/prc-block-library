@@ -12,11 +12,11 @@ import metadata from './block.json';
 
 const { name } = metadata;
 const settings = {
-    title: __('Chart'),
+    title: __('PRC Chart Builder'),
     description: __('Create a custom data-driven chart.'),
     category: 'widgets',
     icon: 'chart-area',
-    keywords: [__('chart', 'chart builder', 'data')],
+    keywords: [__('chart')],
     supports: {
         // Removes support for an HTML mode.
         html: false,
