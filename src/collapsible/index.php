@@ -46,6 +46,9 @@ class Collapsible extends PRC_Block_Library {
 	}
 
 	public function enqueue_frontend() {
+		if ( is_admin() ) {
+			return;
+		}
 		if ( false === $this->frontend_script || ! is_array( $this->frontend_script ) ) {
 			$this->register_frontend();
 		}
