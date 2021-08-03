@@ -17,6 +17,10 @@
 			"source": "html",
             "selector": ".sub-heading"
 		},
+		"hasDarkBackground": {
+			"type": "boolean",
+			"default": false
+		},
 		"backgroundColor": {
 			"type": "string",
 			"default": "transparent"
@@ -26,7 +30,12 @@
 			"default": "transparent"
 		},
 		"icon": {
-			"type": "string"
+			"type": "string",
+			"default": "weekly"
+		},
+		"hasForm": {
+			"type": "boolean",
+			"default": false
 		}
     },
 	"styles": [
@@ -57,7 +66,7 @@
 				}
 			}
 		],
-		"viewPortWidth": 940
+		"viewPortWidth": 1200
 	},    
 	"supports": {
 		"html": false,

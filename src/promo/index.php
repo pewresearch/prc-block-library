@@ -21,13 +21,15 @@ class Promo extends PRC_Block_Library {
 		$attributes         = wp_parse_args(
 			$attributes,
 			array(
-				'backgroundColor' => '#fff',
-				'borderColor'     => '#fff',
-				'icon'            => '',
+				'hasDarkBackground' => false,
+				'backgroundColor'   => '#fff',
+				'borderColor'       => '#fff',
+				'icon'              => '',
+				'hasForm'           => false,
 			)
 		);
-		$has_dark_bg        = '#000' === $attributes['backgroundColor'];
-		$has_icon           = ! empty( $attributes['icon'] );
+		$has_dark_bg        = $attributes['hasDarkBackground'];
+		$has_icon           = ! empty( $attributes['icon'] ) && 'is-style-asymmetrical' !== $attributes['className'];
 		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
@@ -35,7 +37,9 @@ class Promo extends PRC_Block_Library {
 				'class' => classnames(
 					$attributes['className'],
 					array(
-						'has-icon'   => $has_icon,
+						'has-icon'            => $has_icon,
+						'has-large-icon'      => 'alexa' === $attributes['icon'],
+						'has-form'            => $attributes['hasForm'],
 						'has-dark-background' => $has_dark_bg,
 					) 
 				),
@@ -48,7 +52,7 @@ class Promo extends PRC_Block_Library {
 			<div class='wp-block-prc-block-promo__inner-container'>
 				<?php
 				if ( $has_icon ) {
-					echo '<div class="icon"><img src="' . esc_url( $icon_url ) . '"/></div>';
+					echo '<div class="wp-block-prc-block-promo__icon"><img src="' . esc_url( $icon_url ) . '"/></div>';
 				}
 				?>
 				<?php echo wp_kses( $content, 'post' ); ?>

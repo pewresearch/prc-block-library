@@ -26,17 +26,20 @@ const ALLOWED_BLOCKS = [
     'prc-block/menu-link',
     'prc-block/mailchimp-form',
     'prc-blocks/pathways-ask-an-analyst',
+    'core/paragraph',
 ];
 
 const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
     const {
         className,
+        hasDarkBackground,
         heading,
         headingLevel,
         subHeading,
         backgroundColor,
         borderColor,
         icon,
+        hasForm,
     } = attributes;
 
     const hasSubheading =
@@ -46,32 +49,43 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 
     const hasIcon = undefined !== icon && '' !== icon;
 
-    const hasChildBlocks = useSelect(
-        select =>
-            0 < select('core/block-editor').getBlockOrder(clientId).length,
+    const {hasChildBlocks, hasMailchimpForm} = useSelect(
+        select => {
+            const innerBlocks = select( 'core/block-editor' ).getBlock( clientId ).innerBlocks;
+            return {
+                hasChildBlocks: 0 < select('core/block-editor').getBlockOrder(clientId).length,
+                hasMailchimpForm: innerBlocks.filter( ( block ) => block.name === 'prc-block/mailchimp-form' ).length > 0
+            }
+        },
         [clientId],
     );
+
+    useEffect(()=>{
+        setAttributes({hasForm: hasMailchimpForm});
+    }, [hasMailchimpForm]);
 
     const style = { borderColor, backgroundColor };
 
     const blockProps = useBlockProps({
         className: classnames(className, { 
-            'has-icon': hasIcon, 
-            'has-dark-background' : '#000' === backgroundColor
+            'has-icon': hasIcon,
+            'has-form': hasForm,
+            'has-large-icon': 'alexa' == icon,
+            'has-dark-background' : hasDarkBackground
         }),
         style,
     });
 
     const innerBlocksProps = useInnerBlocksProps(
         {
-            className: 'action',
+            className: 'wp-block-prc-block-promo__action',
         },
         {
             allowedBlocks: ALLOWED_BLOCKS,
             orientation: 'vertical',
             templateLock: false,
-            renderAppender: !hasChildBlocks
-                ? InnerBlocks.ButtonBlockAppender
+            renderAppender: isSelected
+                ? InnerBlocks.ButtonBlockerAppender
                 : false,
         },
     );
@@ -80,6 +94,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
         <Fragment>
             <Controls
                 {...{
+                    hasDarkBackground,
                     backgroundColor,
                     borderColor,
                     headingLevel,
@@ -89,12 +104,10 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
             />
             <div {...blockProps}>
                 <div className="wp-block-prc-block-promo__inner-container">
-                    {hasIcon && (
-                        <div className="icon">
-                            <Icon icon={icon} />
-                        </div>
+                    {('is-style-asymmetrical' !== className) && (
+                        <Icon icon={icon} isSelected={isSelected} setAttributes={setAttributes} className="wp-block-prc-block-promo__icon"/>
                     )}
-                    <div className="text">
+                    <div className="wp-block-prc-block-promo__text">
                         <RichText
                             tagName={`h${headingLevel}`}
                             value={heading}
