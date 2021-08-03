@@ -3,6 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType, createBlock } from '@wordpress/blocks';
+import { select } from '@wordpress/data';
+
 /**
  * Internal dependencies
  */
@@ -35,6 +37,9 @@ const settings = {
                 transform: (attributes) => {
                     return createBlock('prc-block/chart-builder-data-wrapper', {
                         transformed: true,
+                        isConvertedChart: attributes.className.includes(
+                            'pew-chart',
+                        ),
                         tableHead: attributes.head,
                         tableBody: attributes.body,
                     });

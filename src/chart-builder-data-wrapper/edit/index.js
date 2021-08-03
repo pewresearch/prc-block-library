@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { InnerBlocks } from '@wordpress/block-editor';
 
 const edit = ({ attributes }) => {
-    console.log(attributes);
+    console.log({ attributes });
     // Create an empty table + chart component on page load
     const MY_TEMPLATE = [
         [
