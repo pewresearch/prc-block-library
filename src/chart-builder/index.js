@@ -26,6 +26,5 @@ const settings = {
     edit,
     save,
 };
-console.log(name);
 
 registerBlockType(name, { ...metadata, ...settings });
