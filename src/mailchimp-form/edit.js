@@ -23,11 +23,9 @@ const BUTTON_COLORS = [
     { name: 'basic', color: '#fff' },
 ];
 
-const SidebarControls = ({ interest, buttonColor, setAttributes, context }) => {
-    const hasDarkBackground = context['promo/hasDarkBackground'];
-    
+const SidebarControls = ({ interest, buttonColor, setAttributes, hasDarkBackground }) => {    
     useEffect(() => {
-        if ( buttonColor.length <= 0 && hasDarkBackground ) {
+        if ( ('' === buttonColor || '#000' === buttonColor) && hasDarkBackground ) {
             setAttributes({
                 buttonColor: '#d3aa20',
             });
@@ -64,10 +62,12 @@ const SidebarControls = ({ interest, buttonColor, setAttributes, context }) => {
 
 const edit = ({ attributes, setAttributes, context }) => {
     const { interest, buttonColor, className } = attributes;
+    const hasDarkBackground = context['prc-block/hasDarkBackground'];
     const componentProps = {
         display: false,
         interest,
         buttonColor,
+        hasDarkBackground,
         blockProps: useBlockProps({
             className: classnames(className),
         }),
@@ -78,7 +78,7 @@ const edit = ({ attributes, setAttributes, context }) => {
                 interest={interest}
                 buttonColor={buttonColor}
                 setAttributes={setAttributes}
-                context={context}
+                hasDarkBackground={hasDarkBackground}
             />
             <MailchimpForm {...componentProps} />
         </Fragment>

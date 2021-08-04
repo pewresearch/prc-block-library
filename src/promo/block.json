@@ -69,7 +69,7 @@
 		"viewPortWidth": 1200
 	},
 	"providesContext": {
-		"promo/hasDarkBackground": "hasDarkBackground"
+		"prc-block/hasDarkBackground": "hasDarkBackground"
 	},
 	"supports": {
 		"html": false,

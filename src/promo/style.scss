@@ -147,10 +147,12 @@ $subHeadingColorLight: #565656;
 }
 
 // When in smaller columns:
+.post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .column:not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical) {
   padding: 12px;
 }
 
+.post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container {
   grid-template-areas:

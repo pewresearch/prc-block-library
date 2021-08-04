@@ -14,7 +14,30 @@ class Promo extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_shortcode( 'newsletter', array( $this, 'newsletter_shortcode_fallback' ), 10, 2 );
 		}
+	}
+
+	// [newsletter list_id=”{mailchimp list id}” headline=”Sign up for our weekly newsletter” subheadline=”Our latest data, delivered Saturdays” align=”aligncenter”]
+	public function newsletter_shortcode_fallback( $atts, $content = null ) {
+		// Render an appropriate promo block with a mailchimp form with the attrs from th is shortcode inside.
+		$args = wp_parse_args(
+			$atts,
+			array(
+				'list_id'     => '7c1390ba46',
+				'headline'    => 'Sign up for our Weekly newsletter',
+				'subheadline' => 'Fresh data delivered Saturday mornings',
+			) 
+		);
+		ob_start();
+		?>
+		<!-- wp:prc-block/promo {"backgroundColor":"#fff","hasForm":true} -->
+		<div class="wp-block-prc-block-promo__text"><h2 class="heading sans-serif"><?php echo esc_html( $args['headline'] ); ?></h2><div class="sub-heading sans-serif"><p><?php echo esc_html( $args['subheadline'] ); ?></p></div></div><div class="wp-block-prc-block-promo__action"><!-- wp:prc-block/mailchimp-form {"interest":"<?php echo esc_html( $args['list_id'] ); ?>","buttonColor":"#000","className":"wp-block-prc-block-mailchimp-form is-style-horizontal"} /--></div>
+		<!-- /wp:prc-block/promo -->
+		<?php
+		$promo_content = ob_get_clean();
+		$block         = parse_blocks( $promo_content )[1];
+		return render_block( $block );
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {

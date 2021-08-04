@@ -26,5 +26,5 @@
 	"supports": {
 		"html": false
 	},
-	"usesContext": ["promo/hasDarkBackground"]
+	"usesContext": ["prc-block/hasDarkBackground"]
 }

@@ -29,6 +29,7 @@ const MailchimpForm = ({
     display,
     interest,
     buttonColor,
+    hasDarkBackground,
     blockProps = { className: '' },
 }) => {
     const [buttonText, changeButtonText] = useState('SIGN UP');
@@ -103,6 +104,7 @@ const MailchimpForm = ({
                         <Form.Button
                             color={'primary'!== buttonColorName && 'secondary'!== buttonColorName ? buttonColorName : null}
                             basic={'basic' === buttonColorName}
+                            inverted={'basic' === buttonColorName && hasDarkBackground}
                             primary={'primary' === buttonColorName}
                             secondary={'secondary' === buttonColorName}
                             positive={success}
@@ -128,6 +130,7 @@ const MailchimpForm = ({
                         <Form.Button
                             color={'primary'!== buttonColorName && 'secondary'!== buttonColorName ? buttonColorName : null}
                             basic={'basic' === buttonColorName}
+                            inverted={'basic' === buttonColorName && hasDarkBackground}
                             primary={'primary' === buttonColorName}
                             secondary={'secondary' === buttonColorName}
                             positive={success}

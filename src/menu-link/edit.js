@@ -42,6 +42,7 @@ import {
 import { isURL, prependHTTP } from '@wordpress/url';
 import { Fragment, useState, useEffect, useRef } from '@wordpress/element';
 import { placeCaretAtHorizontalEdge } from '@wordpress/dom';
+import classNames from 'classnames';
 
 const getColorName = (color, colors) => {
     const matched = colors.filter(c => c.color === color);
@@ -121,11 +122,19 @@ const SubMenu = ({ type, close, clientId, linkType }) => {
     );
 };
 
+const BUTTON_COLORS = [
+    { name: 'primary', color: '#2185d0' },
+    { name: 'secondary', color: '#000' },
+    { name: 'mustard', color: '#d3aa20' },
+    { name: 'basic', color: '#fff' },
+];
+
 const edit = ({
     attributes,
     isSelected,
     setAttributes,
     clientId,
+    context,
     mergeBlocks,
     onReplace,
 }) => {
@@ -138,9 +147,10 @@ const edit = ({
         url,
         description,
         rel,
-        title,
-        subMenuEnabled,
+        title, subMenuEnabled,
     } = attributes;
+
+    const hasDarkBackground = context['prc-block/hasDarkBackground'];
 
     const link = {
         url,
@@ -207,10 +217,17 @@ const edit = ({
         selection.addRange(range);
     };
 
+    // If color is not set and this block has a dark background, set the color to mustard.
+    useEffect(() => {
+        if ( ('' === color || '#000' === color) && hasDarkBackground ) {
+            setAttributes({
+                color: '#d3aa20',
+            });
+        }
+    }, [ color, hasDarkBackground ]);
+
     // Show the LinkControl on mount if the URL is empty
     // ( When adding a new menu item)
-    // This can't be done in the useState call because it conflicts
-    // with the autofocus behavior of the BlockListBlock component.
     useEffect(() => {
         if (!url) {
             setIsLinkOpen(true);
@@ -248,20 +265,9 @@ const edit = ({
     /**
      * Style constants
      */
-    const buttonColors = [
-        { name: 'primary', color: '#2185d0' },
-        { name: 'secondary', color: '#000' },
-        { name: 'mustard', color: '#d3aa20' },
-        { name: 'basic', color: '#fff' },
-    ];
     const isButton = 'is-style-button' === className;
-    const isMenuItem = ['prc-block/menu', 'prc-block/menu-link'].includes(
-        parentBlockName,
-    );
-    const isListItem = [
-        'prc-block/taxonomy-tree',
-        'prc-block/taxonomy-tree-more',
-    ].includes(parentBlockName);
+    const isMenuItem = ['prc-block/menu', 'prc-block/menu-link'].includes(parentBlockName);
+    const isListItem = ['prc-block/taxonomy-tree','prc-block/taxonomy-tree-more'].includes(parentBlockName);
 
     /**
      * If toggling between button style, if no longer a button clear the color
@@ -279,9 +285,10 @@ const edit = ({
 
     const blockProps = useBlockProps({
         ref: listItemRef,
-        className: classnames(className, getColorName(color, buttonColors), {
+        className: classnames(className, getColorName(color, BUTTON_COLORS), {
             item: !isButton || isListItem || isMenuItem,
             'ui button': isButton && !(isListItem || isMenuItem),
+            inverted: 'basic' === getColorName(color, BUTTON_COLORS) && hasDarkBackground && isButton && !(isListItem || isMenuItem)
         }),
     });
 
@@ -363,7 +370,7 @@ const edit = ({
                 {isButton && (
                     <PanelBody title={__('Button Style Options')}>
                         <ColorPalette
-                            colors={buttonColors}
+                            colors={BUTTON_COLORS}
                             value={color}
                             onChange={c => {
                                 setAttributes({ color: c });
@@ -384,10 +391,9 @@ const edit = ({
                                 undefined !== parentBlockName &&
                                 'prc-block/menu' === parentBlockName &&
                                 isButton
-                                    ? `ui ${getColorName(
-                                          color,
-                                          buttonColors,
-                                      )} button`
+                                    ? classNames('ui button', getColorName(color,BUTTON_COLORS,),{
+                                      inverted: 'basic' === getColorName(color,BUTTON_COLORS) && hasDarkBackground,
+                                    })
                                     : ''
                             }
                             value={label}
