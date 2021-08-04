@@ -9,7 +9,7 @@ import { mailChimpInterests } from '@pewresearch/app-components';
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { ColorPalette, PanelBody, PanelRow, SelectControl } from '@wordpress/components';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -23,7 +23,17 @@ const BUTTON_COLORS = [
     { name: 'basic', color: '#fff' },
 ];
 
-const SidebarControls = ({ interest, buttonColor, setAttributes }) => {
+const SidebarControls = ({ interest, buttonColor, setAttributes, context }) => {
+    const hasDarkBackground = context['promo/hasDarkBackground'];
+    
+    useEffect(() => {
+        if ( buttonColor.length <= 0 && hasDarkBackground ) {
+            setAttributes({
+                buttonColor: '#d3aa20',
+            });
+        }
+    }, [ buttonColor, hasDarkBackground ]);
+
     return (
         <InspectorControls>
             <PanelBody title={__('Mailchimp Form Options')}>
@@ -52,7 +62,7 @@ const SidebarControls = ({ interest, buttonColor, setAttributes }) => {
     );
 };
 
-const edit = ({ attributes, setAttributes }) => {
+const edit = ({ attributes, setAttributes, context }) => {
     const { interest, buttonColor, className } = attributes;
     const componentProps = {
         display: false,
@@ -68,6 +78,7 @@ const edit = ({ attributes, setAttributes }) => {
                 interest={interest}
                 buttonColor={buttonColor}
                 setAttributes={setAttributes}
+                context={context}
             />
             <MailchimpForm {...componentProps} />
         </Fragment>

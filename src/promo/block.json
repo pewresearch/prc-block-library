@@ -67,7 +67,10 @@
 			}
 		],
 		"viewPortWidth": 1200
-	},    
+	},
+	"providesContext": {
+		"promo/hasDarkBackground": "hasDarkBackground"
+	},
 	"supports": {
 		"html": false,
 		"align": ["full"]
