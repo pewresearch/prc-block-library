@@ -19,6 +19,8 @@ import icon from './icon';
 
 const { name } = metadata;
 
+// https://gist.github.com/sethrubenstein/93f4fa162511e8eb2577695db6fec41e
+
 const settings = {
     title: __( 'Gist', 'prc-block' ),
     description: __( 'Embed a GitHub Gist.', 'prc-block' ),

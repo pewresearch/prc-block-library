@@ -16,9 +16,18 @@ class Github_Gist extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
+		$block_wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'id' => md5( wp_json_encode( $attributes ) ),
+			)
+		);
 		ob_start();
+		$src = $attributes['file'] ? "{$attributes['url']}.js?file={$attributes['file']}" : "{$attributes['url']}.js";
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		 <div <?php echo $block_wrapper_attributes; ?>>
+			<script src="<?php echo $src; ?>"></script>
+			<?php echo wp_kses( $content, 'post' ); ?>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

@@ -25,7 +25,7 @@ const transforms = {
                     .pop();
                 const fileClean = file.replace( 'file-', '#file-' ).replace( '-', '.' );
 
-                return createBlock( 'coblocks/gist', {
+                return createBlock( 'prc-block/github-gist', {
                     url: node.textContent.trim(),
                     file: file.match( /file*/ ) !== null ? fileClean : undefined,
                 } );

@@ -15,7 +15,6 @@ import { Fragment, useState, useEffect } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
 import Inspector from './inspector';
 import Gist from './gist';
 
@@ -75,13 +74,16 @@ const Edit = (props) => {
         noticeOperations.removeAllNotices();
     };
 
+    const blockProps = useBlockProps({
+        className: classnames( className, meta ? null : 'no-meta' ),
+    });
+
     return (
-        <Fragment>
-            { url && url.length > 0 && isSelected && <Controls { ...props } /> }
+        <div {...blockProps}>
             { url && url.length > 0 && isSelected && <Inspector { ...props } /> }
             { preview ? (
                 url && (
-                    <div className={ classnames( className, meta ? null : 'no-meta' ) }>
+                    <Fragment>
                         <Gist url={ url } file={ file } callbackId={ gistCallbackId } onError={ () => {
                             handleErrors();
                         } } />
@@ -95,12 +97,11 @@ const Edit = (props) => {
                                 inlineToolbar
                             />
                         ) }
-                    </div>
+                    </Fragment>
                 )
             ) : (
                 <Fragment>
                     { noticeUI }
-                    <div className={ className }>
                         <label htmlFor={ `gist-url-input-${ clientId }` }>
                             { __( 'Gist URL' ) }
                         </label>
@@ -111,11 +112,9 @@ const Edit = (props) => {
                             placeholder={ __( 'Add GitHub Gist URL…' ) }
                             onChange={ updateURL }
                         />
-                    </div>
                 </Fragment>
             ) }
-
-        </Fragment>
+        </div>
     );
 };
 
