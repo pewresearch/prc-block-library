@@ -1,15 +1,10 @@
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { Fragment } from '@wordpress/element';
 
-const save = ({ attributes }) => {
-    const { interest, className } = attributes;
-    const blockProps = useBlockProps.save({
-        className,
-        'data-segment-id': interest,
-    });
-    return <div {...blockProps} />;
+const save = () => {
+    return <Fragment/>;
 };
 
 export default save;

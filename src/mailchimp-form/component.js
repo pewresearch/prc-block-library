@@ -10,9 +10,25 @@ import apiFetch from '@wordpress/api-fetch';
 import { Form, Icon } from 'semantic-ui-react';
 import './style.scss';
 
+const BUTTON_COLORS = [
+    { name: 'primary', color: '#2185d0' },
+    { name: 'secondary', color: '#000' },
+    { name: 'mustard', color: '#d3aa20' },
+    { name: 'basic', color: '#fff' },
+];
+
+const getColorName = (color) => {
+    const matched = BUTTON_COLORS.filter(c => c.color === color);
+    if (1 <= matched.length) {
+        return `${matched[0].name}`;
+    }
+    return null;
+};
+
 const MailchimpForm = ({
     display,
     interest,
+    buttonColor,
     blockProps = { className: '' },
 }) => {
     const [buttonText, changeButtonText] = useState('SIGN UP');
@@ -20,6 +36,8 @@ const MailchimpForm = ({
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const [emailAddress, setEmail] = useState('');
+
+    const buttonColorName = getColorName(buttonColor);
 
     const subscribed = () => {
         toggleError(false);
@@ -83,7 +101,10 @@ const MailchimpForm = ({
                             value={emailAddress}
                         />
                         <Form.Button
-                            secondary
+                            color={'primary'!== buttonColorName && 'secondary'!== buttonColorName ? buttonColorName : null}
+                            basic={'basic' === buttonColorName}
+                            primary={'primary' === buttonColorName}
+                            secondary={'secondary' === buttonColorName}
                             positive={success}
                             negative={error}
                             loading={loading}
@@ -105,7 +126,10 @@ const MailchimpForm = ({
                             value={emailAddress}
                         />
                         <Form.Button
-                            secondary
+                            color={'primary'!== buttonColorName && 'secondary'!== buttonColorName ? buttonColorName : null}
+                            basic={'basic' === buttonColorName}
+                            primary={'primary' === buttonColorName}
+                            secondary={'secondary' === buttonColorName}
                             positive={success}
                             negative={error}
                             loading={loading}

@@ -6,7 +6,11 @@
 		"interest": {
             "type": "string",
             "default": ""
-        }
+        },
+		"buttonColor": {
+			"type": "string",
+			"default": "secondary"
+		}
 	},
 	"styles": [
 		{

@@ -15,7 +15,21 @@ class Mailchimp_Form extends PRC_Block_Library {
 
 	public function render_mailchimp_form_callback( $attributes, $content, $block ) {
 		$this->enqueue_frontend_assets();
-		return $content;
+		
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'id'              => md5( wp_json_encode( $attributes ) ),
+				'class'           => classnames(
+					$attributes['className'],
+				),
+				'data-segment-id' => $attributes['segmentId'],
+			)
+		);
+		ob_start();
+		?>
+		<div <?php echo $wrapper_attributes; ?>></div>
+		<?php
+		return ob_get_clean();
 	}
 
 	public function enqueue_frontend_assets() {
