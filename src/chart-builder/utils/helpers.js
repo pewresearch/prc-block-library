@@ -153,3 +153,25 @@ export const createSvg = (clientId) => {
     console.log({ blob, url });
     upload(blob, `chart-${clientId}-${Date.now()}.svg`, 'image/svg+xml');
 };
+
+export const formatLegacyAttrs = (legacyAttrs) => {
+    const legacyType = (type) => {
+        switch (type) {
+            case 'bar':
+                return { type: 'bar', orientation: 'vertical' };
+            case 'column':
+                return { type: 'bar', orientation: 'horizontal' };
+            case 'line':
+                return { type: 'bar', orientation: 'horizontal' };
+            case 'area':
+                return { type: 'bar', orientation: 'horizontal' };
+            case 'scatter':
+                return { type: 'bar', orientation: 'horizontal' };
+            case 'pie':
+                return { type: 'bar', orientation: 'horizontal' };
+            default:
+                return { type: 'bar', orientation: 'horizontal' };
+        }
+    };
+    return legacyType(legacyAttrs['cb_type']);
+};

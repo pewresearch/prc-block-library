@@ -23,7 +23,7 @@ import { addFilter } from '@wordpress/hooks';
 import csv from 'csv';
 
 const convertToRow = (d, tag = 'td') => {
-    return d.map(content => {
+    return d.map((content) => {
         return {
             content,
             tag,
@@ -36,17 +36,16 @@ const convertJSONToAttributes = (d, tag = 'td') => {
     if ('th' === tag) {
         return convertToRow(d, tag);
     }
-    return d.map(row => {
+    return d.map((row) => {
         return { cells: convertToRow(row, tag) };
     });
 };
 
-const TableBlockEdit = props => {
-    console.log('<TableBlockEdit/>', props);
+const TableBlockEdit = (props) => {
     const { attributes, setAttributes } = props;
     const [hasDropped, toggleDropped] = useState(false);
 
-    const onDropCSV = filesList => {
+    const onDropCSV = (filesList) => {
         const reader = new FileReader();
         // Define how data is parsed and handled.
         reader.onload = () => {
@@ -62,7 +61,7 @@ const TableBlockEdit = props => {
             });
         };
 
-        filesList.forEach(file => reader.readAsBinaryString(file));
+        filesList.forEach((file) => reader.readAsBinaryString(file));
     };
 
     return (
@@ -73,12 +72,12 @@ const TableBlockEdit = props => {
                         <DropZoneProvider>
                             <Button isPrimary>Upload CSV</Button>
                             <DropZone
-                                onFilesDrop={c => {
+                                onFilesDrop={(c) => {
                                     console.log('onFilesDrop', c);
                                     onDropCSV(c);
                                     toggleDropped(true);
                                 }}
-                                onDrop={c => {
+                                onDrop={(c) => {
                                     console.log('onDrop', c);
                                     toggleDropped(true);
                                 }}
@@ -91,8 +90,8 @@ const TableBlockEdit = props => {
     );
 };
 
-const TableBlockFilter = createHigherOrderComponent(BlockEdit => {
-    return props => {
+const TableBlockFilter = createHigherOrderComponent((BlockEdit) => {
+    return (props) => {
         const { name } = props;
         if ('core/table' !== name) {
             return <BlockEdit {...props} />;

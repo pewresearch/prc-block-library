@@ -21,6 +21,7 @@ import {
     getDomain,
     getTicks,
     formattedData,
+    formatLegacyAttrs,
 } from '../utils/helpers';
 import ChartControls from './ChartControls';
 import { ifMatchSetAttribute } from '@pewresearch/app-components';
@@ -79,6 +80,7 @@ const setChartTypeByClassName = (className, setAttributes) => {
 
 const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
     const {
+        isConvertedChart,
         className,
         chartType,
         chartOrientation,
@@ -146,8 +148,17 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
     } = attributes;
     // update chart type using styles
     useEffect(() => {
+        if (isConvertedChart) {
+            const meta = select('core/editor').getEditedPostAttribute('meta');
+            const legacyType = formatLegacyAttrs(meta);
+            setAttributes({
+                chartType: legacyType.type,
+                chartOrientation: legacyType.orientation,
+                isConvertedChart: false,
+            });
+        }
         setChartTypeByClassName(className, setAttributes);
-    }, [className]);
+    }, [className, isConvertedChart]);
     const xTicks = stringToArrayOfNums(xTickExact);
     const yTicks = stringToArrayOfNums(yTickExact);
     const config = {

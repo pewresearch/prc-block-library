@@ -16,7 +16,12 @@ const edit = ({ attributes }) => {
                 body: attributes.tableBody,
             },
         ],
-        ['prc-block/chart-builder', {}],
+        [
+            'prc-block/chart-builder',
+            {
+                isConvertedChart: attributes.isConvertedChart,
+            },
+        ],
     ];
 
     return <InnerBlocks template={MY_TEMPLATE} templateLock="all" />;
