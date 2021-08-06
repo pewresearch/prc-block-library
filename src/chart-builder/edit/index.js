@@ -149,13 +149,11 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
     // update chart type using styles
     useEffect(() => {
         if (isConvertedChart) {
-            const meta = select('core/editor').getEditedPostAttribute('meta');
-            const legacyType = formatLegacyAttrs(meta);
-            setAttributes({
-                chartType: legacyType.type,
-                chartOrientation: legacyType.orientation,
-                isConvertedChart: false,
-            });
+            const legacyMeta = select('core/editor').getEditedPostAttribute(
+                'meta',
+            );
+            const legacyAttrs = formatLegacyAttrs(legacyMeta);
+            setAttributes(legacyAttrs);
         }
         setChartTypeByClassName(className, setAttributes);
     }, [className, isConvertedChart]);
@@ -330,7 +328,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
     }
     // For now, let's force pie charts to only use the first array of data, as they can only contain one series of data by rule.
     // Passing addtl data will break tool (bad).
-    console.log({ attributes, config });
+    console.log({ attributes, config, clientId });
     if (tableJson) {
         switch (chartType) {
             case 'pie':

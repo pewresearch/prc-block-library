@@ -26,26 +26,6 @@ export const formattedData = (data, scale, chartType) => {
         }
         return parseFloat(data);
     };
-
-    // if (chartType === 'dot-plot') {
-    //     for (let i = 0; i < body.length; i++) {
-    //         const row = {};
-    //         for (let j = 0; j < headers.length; j++) {
-    //             if (j === 0) {
-    //                 row['y'] = body[i].cells[j].content;
-    //             }
-    //             if (j === 1) {
-    //                 row.x = parseFloat(body[i].cells[j].content);
-    //                 row.x__label = headers[j].content;
-    //             }
-    //             if (j > 1) {
-    //                 row[`x${j}`] = parseFloat(body[i].cells[j].content);
-    //                 row[`x${j}__label`] = body[i].cells[j].content;
-    //             }
-    //         }
-    //         seriesData.push(row);
-    //     }
-    // } else {
     for (var i = 1; i < tableHeaders.length; i++) {
         var series = body
             .filter((row) => !isNaN(parseFloat(row.cells[i].content)))
@@ -57,7 +37,6 @@ export const formattedData = (data, scale, chartType) => {
             }));
         seriesData.push(series);
     }
-    // }
     return seriesData;
 };
 
@@ -154,7 +133,7 @@ export const createSvg = (clientId) => {
     upload(blob, `chart-${clientId}-${Date.now()}.svg`, 'image/svg+xml');
 };
 
-export const formatLegacyAttrs = (legacyAttrs) => {
+export const formatLegacyAttrs = (legacyMeta) => {
     const legacyType = (type) => {
         switch (type) {
             case 'bar':
@@ -173,5 +152,12 @@ export const formatLegacyAttrs = (legacyAttrs) => {
                 return { type: 'bar', orientation: 'horizontal' };
         }
     };
-    return legacyType(legacyAttrs['cb_type']);
+    return {
+        chartType: legacyType(legacyMeta['cb_type']).type,
+        chartOrientation: legacyType(legacyMeta['cb_type']).orientation,
+        xScale: legacyMeta['cb_xaxis_type'] === 'datetime' ? 'time' : 'linear',
+        metaSubtitle: legacyMeta['cb_subtitle'],
+        isConvertedChart: false,
+        lineNodes: legacyMeta['cb_hide_markers'],
+    };
 };

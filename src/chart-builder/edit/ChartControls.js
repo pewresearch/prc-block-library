@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
     PanelBody,
+    PanelRow,
     SelectControl,
     RangeControl,
     __experimentalNumberControl as NumberControl,
@@ -105,16 +106,6 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
         <>
             <InspectorControls>
                 <PanelBody title={__('Chart Configuration')}>
-                    <Button isSecondary isBusy={svgLoading} onClick={createSvg}>
-                        Download SVG
-                    </Button>
-                    <Button
-                        isSecondary
-                        isBusy={imageLoading}
-                        onClick={createCanvas}
-                    >
-                        Upload Chart PNG to Media Library
-                    </Button>
                     {chartType === 'bar' && (
                         <SelectControl
                             label={__('Chart Orientation (Bar charts only)')}
@@ -279,6 +270,24 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
                         chartType={chartType}
                     />
                 )}
+                <PanelBody title="Image Exports" initialOpen={false}>
+                    <PanelRow>
+                        <Button
+                            isSecondary
+                            isBusy={svgLoading}
+                            onClick={createSvg}
+                        >
+                            Download SVG
+                        </Button>
+                        <Button
+                            isSecondary
+                            isBusy={imageLoading}
+                            onClick={createCanvas}
+                        >
+                            Upload Chart PNG to Media Library
+                        </Button>
+                    </PanelRow>
+                </PanelBody>
             </InspectorControls>
         </>
     );
