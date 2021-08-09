@@ -11,6 +11,7 @@ import {
     ToolbarButton,
     ToolbarGroup,
     ToggleControl,
+    PanelBody,
 } from '@wordpress/components';
 import { minus, plusCircleFilled } from '@wordpress/icons';
 import { select, dispatch } from '@wordpress/data';
@@ -38,37 +39,39 @@ const edit = ({ attributes, setAttributes, clientId, isSelected }) => {
     return (
         <>
             <InspectorControls>
-                <ToggleControl
-                    label={__('Toggle table visbility')}
-                    help={
-                        attributes.hideTable
-                            ? 'Table hidden.'
-                            : 'Table visible.'
-                    }
-                    checked={attributes.hideTable}
-                    onChange={() => {
-                        const tableBlock = select('core/block-editor')
-                            .getBlocks(clientId)
-                            .find((block) => block.name === 'core/table');
-                        if (attributes.hideTable) {
-                            dispatch('core/editor').updateBlockAttributes(
-                                tableBlock.clientId,
-                                {
-                                    className: 'chart-builder-data-table',
-                                },
-                            );
-                        } else {
-                            dispatch('core/editor').updateBlockAttributes(
-                                tableBlock.clientId,
-                                {
-                                    className:
-                                        'chart-builder-data-table--hidden',
-                                },
-                            );
+                <PanelBody>
+                    <ToggleControl
+                        label={__('Hide table')}
+                        help={
+                            attributes.hideTable
+                                ? 'Table hidden.'
+                                : 'Table visible.'
                         }
-                        setAttributes({ hideTable: !attributes.hideTable });
-                    }}
-                />
+                        checked={attributes.hideTable}
+                        onChange={() => {
+                            const tableBlock = select('core/block-editor')
+                                .getBlocks(clientId)
+                                .find((block) => block.name === 'core/table');
+                            if (attributes.hideTable) {
+                                dispatch('core/editor').updateBlockAttributes(
+                                    tableBlock.clientId,
+                                    {
+                                        className: 'chart-builder-data-table',
+                                    },
+                                );
+                            } else {
+                                dispatch('core/editor').updateBlockAttributes(
+                                    tableBlock.clientId,
+                                    {
+                                        className:
+                                            'chart-builder-data-table--hidden',
+                                    },
+                                );
+                            }
+                            setAttributes({ hideTable: !attributes.hideTable });
+                        }}
+                    />
+                </PanelBody>
             </InspectorControls>
             <BlockControls>
                 <ToolbarGroup>
