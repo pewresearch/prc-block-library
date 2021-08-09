@@ -9,8 +9,8 @@
   "cover.css.map": "frontend/cover-2af30733.css.map",
   "cover.js": "frontend/cover-3215899f.js",
   "cover.js.map": "frontend/cover-3215899f.js.map",
-  "mailchimp-form.css": "frontend/mailchimp-form-a5464ff7.css",
-  "mailchimp-form.css.map": "frontend/mailchimp-form-a5464ff7.css.map",
+  "mailchimp-form.css": "frontend/mailchimp-form-6ef26f54.css",
+  "mailchimp-form.css.map": "frontend/mailchimp-form-6ef26f54.css.map",
   "mailchimp-form.js": "frontend/mailchimp-form-b55f0fa2.js",
   "mailchimp-form.js.map": "frontend/mailchimp-form-b55f0fa2.js.map",
   "mailchimp-select.css": "frontend/mailchimp-select-9366f789.css",
@@ -119,10 +119,10 @@
           "frontend/mailchimp-form-b55f0fa2.js.map"
         ],
         "css": [
-          "frontend/mailchimp-form-a5464ff7.css"
+          "frontend/mailchimp-form-6ef26f54.css"
         ],
         "css.map": [
-          "frontend/mailchimp-form-a5464ff7.css.map"
+          "frontend/mailchimp-form-6ef26f54.css.map"
         ]
       }
     },

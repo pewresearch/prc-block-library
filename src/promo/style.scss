@@ -2,9 +2,8 @@ $breakpointTablet: 920px;
 $fontSize: 15px;
 $margin: 21px auto;
 $padding: 24px 40px;
-$iconContainerWidth: 63px;
+$gridGap: 16px;
 $iconWidth: 47px;
-$largeIconContainerWidth: 122px;
 $largeIconWidth: 106px;
 $maxWidth: 1058px;
 $headingColorDark: #F8F8F8;
@@ -12,6 +11,7 @@ $subHeadingColorDark: #DADBDB;
 $headingColorLight: #2A2A2A;
 $subHeadingColorLight: #565656;
 $subHeadingLineHeight: 18px;
+
 
 .wp-block-prc-block-promo {
   padding: $padding;
@@ -53,7 +53,7 @@ $subHeadingLineHeight: 18px;
   .wp-block-prc-block-promo__inner-container {
     max-width: $maxWidth;
     display: grid;
-    grid-gap: 10px;
+    grid-gap: $gridGap;
     margin: 0 auto;
   }
 
@@ -66,12 +66,12 @@ $subHeadingLineHeight: 18px;
   &.is-style-standard.has-icon > .wp-block-prc-block-promo__inner-container,
   &:not(.is-style-asymmetrical).has-icon > .wp-block-prc-block-promo__inner-container {
     grid-template-areas: 'icon text action';
-    grid-template-columns: $iconContainerWidth 2fr 2fr;
+    grid-template-columns: $iconWidth 2fr 2fr;
     align-items: center;
   }
   &.is-style-standard.has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container,
   &:not(.is-style-asymmetrical).has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container {
-    grid-template-columns: $largeIconContainerWidth 2fr 2fr;
+    grid-template-columns: $largeIconWidth 2fr 2fr;
   }
 
   &.is-style-asymmetrical > .wp-block-prc-block-promo__inner-container {
@@ -102,8 +102,11 @@ $subHeadingLineHeight: 18px;
         'text'
         'action'!important;
       justify-content: center;
-      grid-template-columns: minmax(320px, 500px)!important;
+      grid-template-columns: minmax(320px, 481px)!important;
       
+      .wp-block-prc-block-promo__text {
+        padding-bottom: 7px;
+      }
       .wp-block-prc-block-promo__text,
       .wp-block-prc-block-promo__action,
       .ui.mailchimp.form .field {
@@ -173,12 +176,13 @@ $subHeadingLineHeight: 18px;
   grid-template-areas:
   'text text'
   'icon action';
-  grid-template-columns: $iconContainerWidth minmax(320px, 500px);
+  grid-template-columns: $iconWidth minmax(320px, 481px);
   align-items: flex-start;
   justify-content: center!important;
 
   .wp-block-prc-block-promo__text {
     text-align: center;
+    padding-bottom: 7px;
   }
   .wp-block-prc-block-promo__action .wp-block-prc-block-mailchimp-form input[type="text"] {
     max-width: 370px;
@@ -202,6 +206,10 @@ $subHeadingLineHeight: 18px;
   .wp-block-prc-block-promo__action,
   .ui.mailchimp.form .field {
     text-align: center;
+  }
+
+  .wp-block-prc-block-promo__text {
+    padding-bottom: 7px;
   }
 
   .wp-block-prc-block-promo__icon {
