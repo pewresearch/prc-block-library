@@ -102,7 +102,7 @@ $subHeadingLineHeight: 18px;
         'text'
         'action'!important;
       justify-content: center;
-      grid-template-columns: minmax(320px, 481px)!important;
+      grid-template-columns: minmax(320px, 475px)!important;
       
       .wp-block-prc-block-promo__text {
         padding-bottom: 7px;
@@ -176,7 +176,7 @@ $subHeadingLineHeight: 18px;
   grid-template-areas:
   'text text'
   'icon action';
-  grid-template-columns: $iconWidth minmax(320px, 481px);
+  grid-template-columns: $iconWidth minmax(320px, 475px);
   align-items: flex-start;
   justify-content: center!important;
 
