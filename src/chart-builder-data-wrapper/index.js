@@ -62,5 +62,4 @@ const settings = {
     edit,
     save,
 };
-console.log('wwatching');
 registerBlockType(name, { ...metadata, ...settings });

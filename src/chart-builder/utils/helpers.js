@@ -133,7 +133,10 @@ export const createSvg = (clientId) => {
     upload(blob, `chart-${clientId}-${Date.now()}.svg`, 'image/svg+xml');
 };
 
-export const formatLegacyAttrs = (legacyMeta) => {
+export const formatLegacyAttrs = (legacyMeta, attributes) => {
+    console.log({ legacyMeta });
+    const checkEmptyStr = (legacyAttr, attr) =>
+        legacyAttr.length !== 0 ? legacyAttr : attr;
     const legacyType = (type) => {
         switch (type) {
             case 'bar':
@@ -156,8 +159,18 @@ export const formatLegacyAttrs = (legacyMeta) => {
         chartType: legacyType(legacyMeta['cb_type']).type,
         chartOrientation: legacyType(legacyMeta['cb_type']).orientation,
         xScale: legacyMeta['cb_xaxis_type'] === 'datetime' ? 'time' : 'linear',
-        metaSubtitle: legacyMeta['cb_subtitle'],
-        isConvertedChart: false,
+        xLabel: checkEmptyStr(legacyMeta['cb_xaxis_label'], attributes.xLabel),
+        yLabel: checkEmptyStr(legacyMeta['cb_yaxis_label'], attributes.yLabel),
+        yMaxDomain: checkEmptyStr(
+            legacyMeta['cb_yaxis_max_value'],
+            attributes.yMaxDomain,
+        ),
+        metaSubtitle: checkEmptyStr(
+            legacyMeta['cb_subtitle'],
+            attributes.metaSubtitle,
+        ),
         lineNodes: legacyMeta['cb_hide_markers'],
+        tooltipActive: legacyMeta['cb_enable_inline_tooltips'],
+        isConvertedChart: false,
     };
 };

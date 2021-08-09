@@ -152,7 +152,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
             const legacyMeta = select('core/editor').getEditedPostAttribute(
                 'meta',
             );
-            const legacyAttrs = formatLegacyAttrs(legacyMeta);
+            const legacyAttrs = formatLegacyAttrs(legacyMeta, attributes);
             setAttributes(legacyAttrs);
         }
         setChartTypeByClassName(className, setAttributes);
