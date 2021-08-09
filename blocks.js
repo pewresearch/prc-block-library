@@ -18,6 +18,7 @@ const files = [
             'menu-link': './src/menu-link/index.js',
             page: './src/page/index.js',
             'post-bylines': './src/post-bylines/index.js',
+            'post-publish-date': './src/post-publish-date/index.js',
             'post-title': './src/post-title/index.js',
             promo: './src/promo/index.js',
             'promo-rotator': './src/promo-rotator/index.js',
@@ -122,12 +123,6 @@ const files = [
         entry: {
             main: './src/mailchimp-opt-down/index.js',
             frontend: './src/mailchimp-opt-down/frontend.js',
-        },
-    },
-    {
-        name: 'post-publish-date',
-        entry: {
-            main: './src/post-publish-date/index.js',
         },
     },
     {

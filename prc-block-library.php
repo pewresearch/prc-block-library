@@ -76,6 +76,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/page/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/post-publish-date/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
@@ -236,21 +237,6 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-
-		/** Post Publish Date */
-		$this->registered['block']['prc-block/post-publish-date'] = $enqueue->register(
-			'post-publish-date',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
 		/** Pullquote */
 		$this->registered['block']['prc-block/pullquote'] = $enqueue->register(
 			'pullquote',
@@ -336,14 +322,6 @@ class PRC_Block_Library {
 					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/mailchimp-opt-down']['css'] )['handle'] );
 					return $content;
 				},
-			)
-		);
-
-		/** Post Publish Date */
-		register_block_type(
-			'prc-block/post-publish-date',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/post-publish-date']['js'] )['handle'],
 			)
 		);
 
