@@ -17,7 +17,7 @@ class Post_Publish_Date_Block extends PRC_Block_Library {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id             = get_the_ID();
-		$date                = get_the_date( 'M j, Y', $post_id );
+		$date                = get_the_date( 'F j, Y', $post_id );
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class' => classNames( 'meta', array( 'item' => $attributes['asItem'] ) ),
