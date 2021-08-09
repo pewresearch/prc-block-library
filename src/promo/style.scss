@@ -9,6 +9,7 @@ $headingColorDark: #F8F8F8;
 $subHeadingColorDark: #DADBDB;
 $headingColorLight: #2A2A2A;
 $subHeadingColorLight: #565656;
+$subHeadingLineHeight: 18px;
 
 .wp-block-prc-block-promo {
   padding: $padding;
@@ -42,6 +43,9 @@ $subHeadingColorLight: #565656;
 
   .sub-heading {
     color: $subHeadingColorLight;
+    & > p {
+      line-height: $subHeadingLineHeight;
+    }
   }
 
   .wp-block-prc-block-promo__inner-container {
@@ -88,7 +92,8 @@ $subHeadingColorLight: #565656;
         'icon'
         'text'
         'action'!important;
-      grid-template-columns: 100%!important;
+      justify-content: center;
+      grid-template-columns: minmax(320px, 500px)!important;
       
       .wp-block-prc-block-promo__text,
       .wp-block-prc-block-promo__action,
@@ -149,23 +154,30 @@ $subHeadingColorLight: #565656;
 // When in smaller columns:
 .post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .column:not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical) {
-  padding: 12px;
+  padding: 21px;
 }
 
+// When in columns that are not four and not sixteen (everything else) use this layout:
 .post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container {
   grid-template-areas:
   'text text'
   'icon action';
-  grid-template-columns: $iconWidth auto;
+  grid-template-columns: $iconWidth minmax(320px, 500px);
   align-items: flex-start;
+  justify-content: center!important;
 
   .wp-block-prc-block-promo__text {
     text-align: center;
   }
+  .wp-block-prc-block-promo__action .wp-block-prc-block-mailchimp-form input[type="text"] {
+    max-width: 370px;
+    width: 100%;
+  }
 }
 
+// "Single Column" (4 column width) layout:
 .column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .four.wide.column > .wp-block-prc-block-promo:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container,
@@ -189,6 +201,9 @@ $subHeadingColorLight: #565656;
 
   .wp-block-prc-block-promo__action {
     @media screen and (min-width: 761px) {
+      .wp-block-prc-block-mailchimp-form {
+        width: 100%;
+      }
       display: flex;
       flex-direction: column;
       align-items: center;
