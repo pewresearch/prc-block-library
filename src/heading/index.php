@@ -30,11 +30,10 @@ class Heading_Block extends PRC_Block_Library {
 			return $classes;
 		}
 
-		if ( array_key_exists( 'className', $first_block['attrs'] ) && 'core/heading' !== $first_block['blockName'] && 'is-style-section-header' !== $first_block['attrs']['className'] ) {
-			return $classes;
+		if ( array_key_exists( 'className', $first_block['attrs'] ) && 'core/heading' === $first_block['blockName'] && 'is-style-section-header' === $first_block['attrs']['className'] ) {
+			$classes['has section heading'] = true;
 		}
-
-		$classes['has section heading'] = true;
+		
 		return $classes;
 	}
 

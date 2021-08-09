@@ -51,14 +51,15 @@ class Promo extends PRC_Block_Library {
 				'hasForm'           => false,
 			)
 		);
+		$class_name         = array_key_exists( 'className', $attributes ) ? $attributes['className'] : 'is-style-standard';
 		$has_dark_bg        = $attributes['hasDarkBackground'];
-		$has_icon           = ! empty( $attributes['icon'] ) && 'is-style-asymmetrical' !== $attributes['className'];
+		$has_icon           = ! empty( $attributes['icon'] ) && 'is-style-asymmetrical' !== $class_name;
 		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'    => md5( wp_json_encode( $attributes ) ),
 				'class' => classnames(
-					$attributes['className'],
+					$class_name,
 					array(
 						'has-icon'            => $has_icon,
 						'has-large-icon'      => 'alexa' === $attributes['icon'],
