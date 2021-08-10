@@ -51,8 +51,8 @@
   "post-title.js.map": "blocks/post-title-e2024912.js.map",
   "promo-rotator.js": "blocks/promo-rotator-065c71a6.js",
   "promo-rotator.js.map": "blocks/promo-rotator-065c71a6.js.map",
-  "promo.css": "blocks/promo-0ff00696.css",
-  "promo.css.map": "blocks/promo-0ff00696.css.map",
+  "promo.css": "blocks/promo-1128201b.css",
+  "promo.css.map": "blocks/promo-1128201b.css.map",
   "promo.js": "blocks/promo-2ef3d5b2.js",
   "promo.js.map": "blocks/promo-2ef3d5b2.js.map",
   "responsive-container-controller.js": "blocks/responsive-container-controller-2cdd4a6d.js",
@@ -417,10 +417,10 @@
           "blocks/promo-2ef3d5b2.js.map"
         ],
         "css": [
-          "blocks/promo-0ff00696.css"
+          "blocks/promo-1128201b.css"
         ],
         "css.map": [
-          "blocks/promo-0ff00696.css.map"
+          "blocks/promo-1128201b.css.map"
         ]
       }
     },
