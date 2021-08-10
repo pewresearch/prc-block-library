@@ -16,7 +16,7 @@ import {
 import { minus, plusCircleFilled } from '@wordpress/icons';
 import { select, dispatch } from '@wordpress/data';
 
-const edit = ({ attributes, setAttributes, clientId, isSelected }) => {
+const edit = ({ attributes, setAttributes, clientId }) => {
     console.log({ attributes, clientId });
     // Create an empty table + chart component on page load
     const MY_TEMPLATE = [

@@ -78,7 +78,13 @@ const setChartTypeByClassName = (className, setAttributes) => {
     );
 };
 
-const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
+const edit = ({
+    attributes,
+    setAttributes,
+    toggleSelection,
+    clientId,
+    isSelected,
+}) => {
     const {
         isConvertedChart,
         className,
@@ -367,7 +373,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
                         bottom: false,
                         left: false,
                         topRight: false,
-                        bottomRight: true,
+                        bottomRight: isSelected ? true : false,
                         bottomLeft: false,
                         topLeft: false,
                     }}

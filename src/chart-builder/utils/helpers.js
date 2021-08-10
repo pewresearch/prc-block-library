@@ -96,7 +96,7 @@ export const uploadToMediaLibrary = (blob, name, type) => {
             }),
         ],
         onFileChange: ([fileObj]) => {
-            console.log(fileObj);
+            console.log({ fileObj });
             const { editPost } = dispatch('core/editor');
             editPost({ featured_media: fileObj.id });
         },

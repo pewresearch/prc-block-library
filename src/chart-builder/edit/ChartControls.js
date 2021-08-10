@@ -12,6 +12,7 @@ import {
     ExternalLink,
     FormTokenField,
     Button,
+    TextControl,
 } from '@wordpress/components';
 import { uploadMedia } from '@wordpress/media-utils';
 import { dispatch } from '@wordpress/data';
@@ -52,6 +53,7 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
         width,
         colorValue,
         customColors,
+        pngUrl,
     } = attributes;
     const upload = (blob, name, type) => {
         uploadMedia({
@@ -61,7 +63,8 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
                 }),
             ],
             onFileChange: ([fileObj]) => {
-                console.log(fileObj);
+                console.log({ fileObj });
+                setAttributes({ pngUrl: fileObj.url });
                 editPost({ featured_media: fileObj.id });
                 setImageLoading(false);
             },
@@ -87,6 +90,10 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
     const createCanvas = () => {
         setImageLoading(true);
         const blockEl = document.querySelector(`[data-block="${clientId}"]`);
+        const resizerEl = blockEl.querySelector(
+            '.components-resizable-box__container',
+        );
+        resizerEl.classList.remove('has-show-handle');
         html2canvas(blockEl).then((canvas) => {
             canvas.toBlob(
                 function (blob) {
@@ -99,7 +106,7 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
                 'image/png',
                 1,
             );
-            // blockEl.appendChild(canvas);
+            resizerEl.classList.add('has-show-handle');
         });
     };
     return (
@@ -279,6 +286,8 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
                         >
                             Download SVG
                         </Button>
+                    </PanelRow>
+                    <PanelRow>
                         <Button
                             isSecondary
                             isBusy={imageLoading}
@@ -287,6 +296,30 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
                             Upload Chart PNG to Media Library
                         </Button>
                     </PanelRow>
+                    <PanelRow>
+                        {imageLoading && (
+                            <p>
+                                Creating image. This will take several moments
+                                ...
+                            </p>
+                        )}
+                        {svgLoading && <p>Preparing SVG ...</p>}
+                    </PanelRow>
+                    {pngUrl.length > 0 && (
+                        <>
+                            <PanelRow>
+                                <TextControl
+                                    label={__('PNG URL')}
+                                    value={pngUrl}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <ExternalLink href={pngUrl}>
+                                    Preview Image
+                                </ExternalLink>
+                            </PanelRow>
+                        </>
+                    )}
                 </PanelBody>
             </InspectorControls>
         </>
