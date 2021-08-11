@@ -3,7 +3,7 @@
 // Require the composer autoload for getting conflict-free access to enqueue
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use WPackio\EnqueueNew;
+use \WPackio;
 
 class PRC_Chart_Builder extends PRC_Block_Library {
 
@@ -60,7 +60,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
-		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
 			'frontend',
 			'chart-builder',
@@ -84,7 +84,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 	public function register_block() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-components' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

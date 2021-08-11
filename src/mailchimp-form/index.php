@@ -3,7 +3,7 @@
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use WPackio\EnqueueNew;
+use \WPackio;
 
 class Mailchimp_Form extends PRC_Block_Library {
 
@@ -22,7 +22,7 @@ class Mailchimp_Form extends PRC_Block_Library {
 		if ( is_admin() ) {
 			return;
 		}
-		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'frontend',
 			'mailchimp-form',
@@ -38,7 +38,7 @@ class Mailchimp_Form extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$assets = $enqueue->register(
 			'blocks',

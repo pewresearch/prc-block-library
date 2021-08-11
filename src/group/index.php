@@ -3,7 +3,7 @@
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use WPackio\EnqueueNew;
+use \WPackio;
 
 class Group_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
@@ -16,7 +16,7 @@ class Group_Block extends PRC_Block_Library {
 
 	public function enqueue_assets( $js = true, $css = true ) {
 		$block_js_deps = array( 'react', 'react-dom', 'wp-blocks', 'wp-hooks', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'blocks',
 			'group',

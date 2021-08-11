@@ -2,7 +2,7 @@
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\EnqueueNew;
+use \WPackio;
 
 /**
  * Server-side rendering of the `prc-block/menu-link` block.
@@ -100,7 +100,7 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue    = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue    = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$registered = $enqueue->register(
 			'blocks',
 			'responsive-container-controller',

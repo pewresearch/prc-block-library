@@ -1,6 +1,6 @@
 <?php
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\EnqueueNew;
+use \WPackio;
 class Responsive_Container_View extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -40,7 +40,7 @@ class Responsive_Container_View extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
