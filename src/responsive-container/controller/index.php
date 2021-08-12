@@ -56,11 +56,11 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 				) && 0 !== $viewport_block['attrs']['max'] ? $viewport_block['attrs']['max'] : null;
 
 				if ( null !== $min && null !== $max ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-direction: center; }}', $max, $min, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-content: center; }}', $max, $min, $id );
 				} elseif ( null !== $max && null === $min ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-direction: center; }}', $max, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-content: center; }}', $max, $id );
 				} elseif ( null === $max && null !== $min ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-direction: center; }}', $min, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-content: center; }}', $min, $id );
 				}
 			}
 		}
