@@ -53,7 +53,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 	}
 
 	/**
-	 * Renders the `prc-block/menu-link` block.
+	 * Renders the `prc-block/social-link` block.
 	 *
 	 * @param array $attributes The block attributes.
 	 * @param array $content The saved content.
@@ -77,9 +77,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$block_js_deps = array_merge( $js_deps, array( 'lodash', 'wp-components' ) );
-		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$block = $enqueue->register(
 			'blocks',
@@ -87,7 +85,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

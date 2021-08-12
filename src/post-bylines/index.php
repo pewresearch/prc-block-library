@@ -38,9 +38,7 @@ class Post_Bylines_Block extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$js_deps       = array( 'react', 'react-dom', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',
@@ -48,7 +46,7 @@ class Post_Bylines_Block extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

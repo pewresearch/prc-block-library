@@ -17,6 +17,10 @@ import {
  */
 import Controls from './controls';
 
+const TEMPLATE = [
+    [ 'core/html', {} ],
+];
+
 const edit = ({ attributes, className, setAttributes, clientId }) => {
     const blockProps = useBlockProps({
         className: classnames(className),
@@ -25,6 +29,7 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
     const innerBlocksProps = useInnerBlocksProps({}, {
         orientation: 'vertical',
         templateLock: false,
+        template: TEMPLATE,
     });
 
     return (
