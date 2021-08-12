@@ -169,6 +169,13 @@ $subHeadingLineHeight: 18px;
   padding: 21px;
 }
 
+.ui.text.container > .prc-block-area .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
+.post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
+.column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
+.wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container {
+  grid-template-columns: 1fr;
+}
+
 // When in columns that are not four and not sixteen (everything else) use this layout:
 .ui.text.container > .prc-block-area .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
