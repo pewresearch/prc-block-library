@@ -3,7 +3,7 @@
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use WPackio\EnqueueNew;
+use \WPackio;
 
 class Mailchimp_Form extends PRC_Block_Library {
 
@@ -15,14 +15,25 @@ class Mailchimp_Form extends PRC_Block_Library {
 
 	public function render_mailchimp_form_callback( $attributes, $content, $block ) {
 		$this->enqueue_frontend_assets();
-		return $content;
+
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'id'               => md5( wp_json_encode( $attributes ) ),
+				'class'            => classnames(
+					$attributes['className'],
+				),
+				'data-segment-id'  => $attributes['interest'],
+				'data-has-dark-bg' => $block->context['prc-block/hasDarkBackground'],
+			)
+		);
+		return wp_kses( "<div {$wrapper_attributes}></div>", 'post' );
 	}
 
 	public function enqueue_frontend_assets() {
 		if ( is_admin() ) {
 			return;
 		}
-		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'frontend',
 			'mailchimp-form',
@@ -38,7 +49,7 @@ class Mailchimp_Form extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$assets = $enqueue->register(
 			'blocks',

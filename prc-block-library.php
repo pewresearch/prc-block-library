@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\EnqueueNew;
+use \WPackio;
 
 class PRC_Block_Library {
 	/**
@@ -42,7 +42,7 @@ class PRC_Block_Library {
 	 *
 	 * @var string
 	 */
-	public static $version = '2.1.4.2';
+	public static $version = '2.1.4.3';
 
 	/**
 	 * Registered wpackio assets
@@ -68,6 +68,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/cover/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/github-gist/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-form/index.php';
@@ -75,6 +76,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/page/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/post-publish-date/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
@@ -168,7 +170,7 @@ class PRC_Block_Library {
 	public function register_assets() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', __DIR__ . '/prc_blocks/' );
+		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', __DIR__ . '/prc_blocks/' );
 
 		/** Chapter */
 		$this->registered['block']['prc-block/chapter'] = $enqueue->register(
@@ -235,21 +237,6 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-
-		/** Post Publish Date */
-		$this->registered['block']['prc-block/post-publish-date'] = $enqueue->register(
-			'post-publish-date',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
 		/** Pullquote */
 		$this->registered['block']['prc-block/pullquote'] = $enqueue->register(
 			'pullquote',
@@ -335,14 +322,6 @@ class PRC_Block_Library {
 					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/mailchimp-opt-down']['css'] )['handle'] );
 					return $content;
 				},
-			)
-		);
-
-		/** Post Publish Date */
-		register_block_type(
-			'prc-block/post-publish-date',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/post-publish-date']['js'] )['handle'],
 			)
 		);
 

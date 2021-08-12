@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import * as moment from 'moment';
 
 const edit = ({ attributes, className, clientId, setAttributes }) => {
-    const { date, asItem } = attributes;
+    const { asItem } = attributes;
 
     const { postDate, rootBlock } = useSelect(
         select => {
@@ -33,12 +33,11 @@ const edit = ({ attributes, className, clientId, setAttributes }) => {
 
     useEffect(() => {
         setAttributes({
-            date: postDate,
             asItem: 'prc-block/menu' === rootBlock,
         });
-    }, [postDate, rootBlock]);
+    }, [rootBlock]);
 
-    return <div {...blockProps}>{date}</div>;
+    return <div {...blockProps}>{postDate}</div>;
 };
 
 export default edit;

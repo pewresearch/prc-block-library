@@ -2,7 +2,7 @@
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\EnqueueNew;
+use \WPackio;
 
 /**
  * Server-side rendering of the `prc-block/menu-link` block.
@@ -56,11 +56,11 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 				) && 0 !== $viewport_block['attrs']['max'] ? $viewport_block['attrs']['max'] : null;
 
 				if ( null !== $min && null !== $max ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: block!important; }}', $max, $min, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $min, $id );
 				} elseif ( null !== $max && null === $min ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: block!important; }}', $max, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $id );
 				} elseif ( null === $max && null !== $min ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: block!important; }}', $min, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $min, $id );
 				}
 			}
 		}
@@ -100,13 +100,13 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue    = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue    = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$registered = $enqueue->register(
 			'blocks',
 			'responsive-container-controller',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -118,6 +118,7 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . 'controller',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

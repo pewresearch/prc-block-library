@@ -33,7 +33,9 @@ const edit = ({ className, clientId }) => {
     };
 
     useEffect(() => {
-        getBylines().then(data => setBylines([...data]));
+        if ( bylineTerms && bylineTerms.length > 0 ) {
+            getBylines().then(data => setBylines([...data]));
+        }
     }, [bylineTerms]);
 
     return (

@@ -20,22 +20,6 @@ const settings = {
     description: __(
         'Add a link to a social network to a profile or to share the current post.',
     ),
-    // variations: [
-    //     {
-    //         name: 'link',
-    //         isDefault: true,
-    //         title: __('Link'),
-    //         description: __('A link to a URL.'),
-    //         attributes: {},
-    //     },
-    //     {
-    //         name: 'post',
-    //         icon: postIcon,
-    //         title: __('Post Link'),
-    //         description: __('A link to a post.'),
-    //         attributes: { type: 'post' },
-    //     },
-    // ],
     __experimentalLabel: ({ label }) => label,
     merge(leftAttributes, { label: rightLabel = '' }) {
         return {

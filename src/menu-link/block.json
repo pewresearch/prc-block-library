@@ -29,7 +29,8 @@
 			"type": "string"
 		},
 		"color" : {
-			"type" : "string"
+			"type" : "string",
+			"default" : ""
 		},
 		"subMenuEnabled": {
 			"type":"boolean",
@@ -52,7 +53,7 @@
         },
 		"viewPortWidth": 100
     },
-	"usesContext": ["prc-block/menu", "prc-block/taxonomy-tree", "prc-block/taxonomy-tree-more"],
+	"usesContext": ["prc-block/menu", "prc-block/taxonomy-tree", "prc-block/taxonomy-tree-more", "prc-block/hasDarkBackground"],
 	"supports": {
 		"reusable": false,
 		"html": false

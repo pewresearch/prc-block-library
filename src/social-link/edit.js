@@ -18,26 +18,32 @@ import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { Fragment, useEffect } from '@wordpress/element';
 
 const edit = ({ attributes, setAttributes, className, isSelected }) => {
-    const { description, label, title, icon, url } = attributes;
+    const { description, title, icon } = attributes;
     const blockProps = useBlockProps({
         className: classnames('item', className, {
             'is-selected': isSelected,
         }),
     });
 
-    const { postId, postTitle, shortUrl } = useSelect(select => {
-        const { bitly } = select('core/editor').getEditedPostAttribute('meta');
+    const { postTitle, shortUrl } = useSelect(select => {
+        console.log("Getting things");
+        const meta = select('core/editor').getEditedPostAttribute('meta');
+        let bitly = false;
+        if ( undefined !== meta && meta.hasOwnProperty('bitly') ) {
+            bitly = meta.bitly;
+        }
+        const t = select('core/editor').getEditedPostAttribute('title');
         return {
-            postTitle: select('core/editor').getEditedPostAttribute('title'),
-            postId: select('core/editor').getCurrentPostId(),
-            shortUrl: bitly,
+            postTitle: t ? t : false,
+            shortUrl: bitly ? bitly : false,
         };
     });
 
     useEffect(() => {
-        console.log('shortUrl', shortUrl, postId);
-        setAttributes({ url: shortUrl, title: postTitle });
-    }, [postId, postTitle]);
+        if ( false !== postTitle && false !== shortUrl ) {
+            setAttributes({ url: shortUrl, title: postTitle });
+        }
+    }, [postTitle, shortUrl]);
 
     return (
         <Fragment>

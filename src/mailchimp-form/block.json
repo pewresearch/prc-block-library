@@ -6,7 +6,11 @@
 		"interest": {
             "type": "string",
             "default": ""
-        }
+        },
+		"buttonColor": {
+			"type": "string",
+			"default": ""
+		}
 	},
 	"styles": [
 		{
@@ -21,5 +25,6 @@
 	],
 	"supports": {
 		"html": false
-	}
+	},
+	"usesContext": ["prc-block/hasDarkBackground"]
 }

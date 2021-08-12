@@ -21,6 +21,7 @@ domReady(() => {
             const props = {
                 display: true,
                 interest: elm.getAttribute('data-segment-id'),
+                buttonColor: elm.getAttribute('data-button-color'),
                 blockProps: {
                     className: elm.getAttribute('class'),
                 },

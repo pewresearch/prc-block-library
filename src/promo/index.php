@@ -2,7 +2,7 @@
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\EnqueueNew;
+use \WPackio;
 
 /**
  * Server-side rendering of the `prc-block/menu-link` block.
@@ -14,59 +14,71 @@ class Promo extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_shortcode( 'newsletter', array( $this, 'newsletter_shortcode_fallback' ), 10, 2 );
 		}
+	}
+
+	// [newsletter list_id=”{mailchimp list id}” headline=”Sign up for our weekly newsletter” subheadline=”Our latest data, delivered Saturdays” align=”aligncenter”]
+	public function newsletter_shortcode_fallback( $atts, $content = null ) {
+		// Render an appropriate promo block with a mailchimp form with the attrs from th is shortcode inside.
+		$args = wp_parse_args(
+			$atts,
+			array(
+				'list_id'     => '7c1390ba46',
+				'headline'    => 'Sign up for our Weekly newsletter',
+				'subheadline' => 'Fresh data delivered Saturday mornings',
+			) 
+		);
+		ob_start();
+		?>
+		<!-- wp:prc-block/promo {"backgroundColor":"#fff","hasForm":true} -->
+		<div class="wp-block-prc-block-promo__text"><h2 class="heading sans-serif"><?php echo esc_html( $args['headline'] ); ?></h2><div class="sub-heading sans-serif"><p><?php echo esc_html( $args['subheadline'] ); ?></p></div></div><div class="wp-block-prc-block-promo__action"><!-- wp:prc-block/mailchimp-form {"interest":"<?php echo esc_html( $args['list_id'] ); ?>","buttonColor":"#000","className":"wp-block-prc-block-mailchimp-form is-style-horizontal"} /--></div>
+		<!-- /wp:prc-block/promo -->
+		<?php
+		$promo_content = ob_get_clean();
+		$block         = parse_blocks( $promo_content )[1];
+		return render_block( $block );
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$attributes         = wp_parse_args(
 			$attributes,
 			array(
-				'className'       => '',
-				'heading'         => '',
-				'headingLevel'    => 2,
-				'description'     => '',
-				'backgroundColor' => '#fff',
-				'borderColor'     => '#fff',
-				'sansSerif'       => false,
-				'icon'            => '',
+				'hasDarkBackground' => false,
+				'backgroundColor'   => '#fff',
+				'borderColor'       => '#fff',
+				'icon'              => '',
+				'hasForm'           => false,
 			)
 		);
-		$has_description    = '' !== $attributes['description'] && '<p></p>' !== $attributes['description'];
-		$has_icon           = ! empty( $attributes['icon'] );
+		$class_name         = array_key_exists( 'className', $attributes ) ? $attributes['className'] : 'is-style-standard';
+		$has_dark_bg        = $attributes['hasDarkBackground'];
+		$has_icon           = ! empty( $attributes['icon'] ) && 'is-style-asymmetrical' !== $class_name;
+		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'    => md5( wp_json_encode( $attributes ) ),
 				'class' => classnames(
-					'wp-block-prc-block-promo',
-					$attributes['className'],
+					$class_name,
 					array(
-						'sans-serif' => $attributes['sansSerif'],
-						'has-icon'   => $has_icon,
+						'has-icon'            => $has_icon,
+						'has-large-icon'      => 'alexa' === $attributes['icon'],
+						'has-form'            => $attributes['hasForm'],
+						'has-dark-background' => $has_dark_bg,
 					) 
 				),
 				'style' => 'border-color: ' . $attributes['borderColor'] . '; background-color: ' . $attributes['backgroundColor'],
 			)
 		);
-		$heading_tag        = 3 === $attributes['headingLevel'] ? 'h3' : 'h2';
-		$heading_tag        = $heading_tag . ' class=' . classnames( array( 'sans-serif' => $attributes['sansSerif'] ) );
-		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		ob_start();
 		?>
 		<div <?php echo $wrapper_attributes; ?>>
-			<?php
-			if ( $has_icon ) {
-				echo '<div class="icon"><img src="' . esc_url( $icon_url ) . '"/></div>';
-			}
-			?>
-			<div class="text">
-				<<?php echo $heading_tag; ?>><?php echo filter_block_kses_value( $attributes['heading'], 'post' ); ?></<?php echo $heading_tag; ?>>
+			<div class='wp-block-prc-block-promo__inner-container'>
 				<?php
-				if ( $has_description ) {
-					echo '<div>' . filter_block_kses_value( $attributes['description'], 'post' ) . '</div>';
+				if ( $has_icon ) {
+					echo '<div class="wp-block-prc-block-promo__icon"><img src="' . esc_url( $icon_url ) . '"/></div>';
 				}
 				?>
-			</div>
-			<div class="action">
 				<?php echo wp_kses( $content, 'post' ); ?>
 			</div>
 		</div>
@@ -76,7 +88,7 @@ class Promo extends PRC_Block_Library {
 
 	public function register_block() {
 		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-block-editor', 'wp-data', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue              = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

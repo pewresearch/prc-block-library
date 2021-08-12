@@ -4,14 +4,22 @@
 	"category": "marketing",
 	"attributes": {
 		"heading": {
-			"type": "string"
+			"type": "string",
+			"source": "html",
+            "selector": ".heading"
 		},
 		"headingLevel": {
 			"type": "integer",
 			"default": 2
 		},
-		"description": {
-			"type": "string"
+		"subHeading": {
+			"type": "string",
+			"source": "html",
+            "selector": ".sub-heading"
+		},
+		"hasDarkBackground": {
+			"type": "boolean",
+			"default": false
 		},
 		"backgroundColor": {
 			"type": "string",
@@ -21,40 +29,30 @@
 			"type": "string",
 			"default": "transparent"
 		},
-		"sansSerif": {
-			"type": "boolean"
-		},
 		"icon": {
-			"type": "string"
+			"type": "string",
+			"default": "weekly"
 		},
-		"header": {
-			"type": "string"
+		"hasForm": {
+			"type": "boolean",
+			"default": false
 		}
     },
 	"styles": [
 		{
-			"name": "centered",
-			"label": "Standard (Text Centered)",
+			"name": "standard",
+			"label": "Standard",
 			"isDefault": true
 		},
 		{
-			"name": "pancake",
-			"label": "Pancake (Text Horizontally Centered)"
-		},
-		{
-			"name": "pancake-stacked",
-			"label": "Pancake (Text Stacked)"
-		},
-		{
-			"name": "left-aligned",
-			"label": "Left Aligned (Mailchimp Promo)"
-		
+			"name": "asymmetrical",
+			"label": "Asymmetrical"
 		}
 	],
 	"example": {
 		"attributes": {
 			"heading": "Facts are more important than ever",
-			"description":
+			"subHeading":
 				"In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
 		},
 		"innerBlocks": [
@@ -64,13 +62,17 @@
 					"className": "is-style-button",
 					"color": "#d3aa20",
 					"label": "DONATE",
-					"url": ""
+					"url": "#"
 				}
 			}
 		],
-		"viewPortWidth": 940
-	},    
+		"viewPortWidth": 1200
+	},
+	"providesContext": {
+		"prc-block/hasDarkBackground": "hasDarkBackground"
+	},
 	"supports": {
-		"html": false
+		"html": false,
+		"align": ["full"]
 	}
 }

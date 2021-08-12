@@ -3,7 +3,7 @@
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use WPackio\EnqueueNew;
+use \WPackio;
 
 class Heading_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
@@ -30,17 +30,16 @@ class Heading_Block extends PRC_Block_Library {
 			return $classes;
 		}
 
-		if ( array_key_exists( 'className', $first_block['attrs'] ) && 'core/heading' !== $first_block['blockName'] && 'is-style-section-header' !== $first_block['attrs']['className'] ) {
-			return $classes;
+		if ( array_key_exists( 'className', $first_block['attrs'] ) && 'core/heading' === $first_block['blockName'] && 'is-style-section-header' === $first_block['attrs']['className'] ) {
+			$classes['has section heading'] = true;
 		}
-
-		$classes['has section heading'] = true;
+		
 		return $classes;
 	}
 
 	public function enqueue_assets( $js = true, $css = true ) {
 		$block_js_deps = array( 'wp-blocks', 'wp-dom-ready', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'blocks',
 			'heading',

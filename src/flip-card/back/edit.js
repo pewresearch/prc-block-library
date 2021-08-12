@@ -13,7 +13,7 @@ const edit = ({ className, clientId }) => {
     return (
         <div className={className}>
             <FlipControls label="Back of Card" clientId={clientId} />
-            <InnerBlocks templateLock={false} />
+            <InnerBlocks templateLock={false} template={[['core/paragraph',{}]]}/>
         </div>
     );
 };

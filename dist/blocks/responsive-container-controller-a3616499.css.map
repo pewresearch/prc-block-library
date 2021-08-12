@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/responsive-container/controller/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,oDACI,uBACA,oB","file":"blocks/responsive-container-controller-a3616499.css","sourcesContent":[".wp-block-prc-block-responsive-container-controller {\n    justify-content: center;\n    margin-bottom: 1.5em;\n}"],"sourceRoot":""}

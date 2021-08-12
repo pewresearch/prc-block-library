@@ -1,7 +1,7 @@
 <?php
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\EnqueueNew;
+use \WPackio;
 
 /**
  * Server-side rendering of the `prc-block/collapsible` block.
@@ -21,7 +21,7 @@ class Collapsible extends PRC_Block_Library {
 
 	public function register_frontend() {
 		$js_deps               = array( 'wp-dom-ready', 'wp-element', 'wp-i18n' );
-		$enqueue               = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue               = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$script                = $enqueue->register(
 			'frontend',
 			'collapsible',
@@ -77,7 +77,7 @@ class Collapsible extends PRC_Block_Library {
 
 	public function register_block() {
 		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue              = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',
