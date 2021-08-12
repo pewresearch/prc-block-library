@@ -1,6 +1,5 @@
 <?php
-require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\EnqueueNew;
+use \WPackio;
 
 /**
  * Server-side rendering of the `prc-block/post-publish-date` block.
@@ -31,7 +30,7 @@ class Post_Publish_Date_Block extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

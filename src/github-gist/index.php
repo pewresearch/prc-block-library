@@ -1,6 +1,5 @@
 <?php
-require_once PRC_VENDOR_DIR . '/autoload.php';
-use WPackio\EnqueueNew;
+use \WPackio;
 
 /**
  * Server-side rendering of the `prc-block/github-gist` block.
@@ -33,7 +32,7 @@ class Github_Gist extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new EnqueueNew( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',
