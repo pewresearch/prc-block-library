@@ -56,11 +56,11 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 				) && 0 !== $viewport_block['attrs']['max'] ? $viewport_block['attrs']['max'] : null;
 
 				if ( null !== $min && null !== $max ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-content: center; }}', $max, $min, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $min, $id );
 				} elseif ( null !== $max && null === $min ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-content: center; }}', $max, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $id );
 				} elseif ( null === $max && null !== $min ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; justify-content: center; }}', $min, $id );
+					$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $min, $id );
 				}
 			}
 		}
@@ -106,7 +106,7 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 			'responsive-container-controller',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -118,6 +118,7 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . 'controller',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

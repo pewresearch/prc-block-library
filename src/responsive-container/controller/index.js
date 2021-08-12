@@ -14,6 +14,8 @@ import save from './save';
 
 const { name } = metadata;
 
+import './style.scss';
+
 const settings = {
     title: __('Responsive Container'),
     description: 'A set of blocks to display content at specific viewport widths.',
