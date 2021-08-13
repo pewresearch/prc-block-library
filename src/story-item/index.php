@@ -1,7 +1,7 @@
 <?php
 
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use \WPackio;
+use \WPackio as WPackio;
 
 /**
  * Server-side rendering of the `prc-block/story-item` block.

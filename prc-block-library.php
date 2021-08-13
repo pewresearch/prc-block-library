@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use \WPackio;
+use \WPackio as WPackio;
 
 class PRC_Block_Library {
 	/**
