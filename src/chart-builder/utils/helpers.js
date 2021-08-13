@@ -26,26 +26,6 @@ export const formattedData = (data, scale, chartType) => {
         }
         return parseFloat(data);
     };
-
-    // if (chartType === 'dot-plot') {
-    //     for (let i = 0; i < body.length; i++) {
-    //         const row = {};
-    //         for (let j = 0; j < headers.length; j++) {
-    //             if (j === 0) {
-    //                 row['y'] = body[i].cells[j].content;
-    //             }
-    //             if (j === 1) {
-    //                 row.x = parseFloat(body[i].cells[j].content);
-    //                 row.x__label = headers[j].content;
-    //             }
-    //             if (j > 1) {
-    //                 row[`x${j}`] = parseFloat(body[i].cells[j].content);
-    //                 row[`x${j}__label`] = body[i].cells[j].content;
-    //             }
-    //         }
-    //         seriesData.push(row);
-    //     }
-    // } else {
     for (var i = 1; i < tableHeaders.length; i++) {
         var series = body
             .filter((row) => !isNaN(parseFloat(row.cells[i].content)))
@@ -57,7 +37,6 @@ export const formattedData = (data, scale, chartType) => {
             }));
         seriesData.push(series);
     }
-    // }
     return seriesData;
 };
 
@@ -117,7 +96,7 @@ export const uploadToMediaLibrary = (blob, name, type) => {
             }),
         ],
         onFileChange: ([fileObj]) => {
-            console.log(fileObj);
+            console.log({ fileObj });
             const { editPost } = dispatch('core/editor');
             editPost({ featured_media: fileObj.id });
         },
@@ -152,4 +131,46 @@ export const createSvg = (clientId) => {
     const url = URL.createObjectURL(blob);
     console.log({ blob, url });
     upload(blob, `chart-${clientId}-${Date.now()}.svg`, 'image/svg+xml');
+};
+
+export const formatLegacyAttrs = (legacyMeta, attributes) => {
+    console.log({ legacyMeta });
+    const checkEmptyStr = (legacyAttr, attr) =>
+        legacyAttr.length !== 0 ? legacyAttr : attr;
+    const legacyType = (type) => {
+        switch (type) {
+            case 'bar':
+                return { type: 'bar', orientation: 'vertical' };
+            case 'column':
+                return { type: 'bar', orientation: 'horizontal' };
+            case 'line':
+                return { type: 'bar', orientation: 'horizontal' };
+            case 'area':
+                return { type: 'bar', orientation: 'horizontal' };
+            case 'scatter':
+                return { type: 'bar', orientation: 'horizontal' };
+            case 'pie':
+                return { type: 'bar', orientation: 'horizontal' };
+            default:
+                return { type: 'bar', orientation: 'horizontal' };
+        }
+    };
+    return {
+        chartType: legacyType(legacyMeta['cb_type']).type,
+        chartOrientation: legacyType(legacyMeta['cb_type']).orientation,
+        xScale: legacyMeta['cb_xaxis_type'] === 'datetime' ? 'time' : 'linear',
+        xLabel: checkEmptyStr(legacyMeta['cb_xaxis_label'], attributes.xLabel),
+        yLabel: checkEmptyStr(legacyMeta['cb_yaxis_label'], attributes.yLabel),
+        yMaxDomain: checkEmptyStr(
+            legacyMeta['cb_yaxis_max_value'],
+            attributes.yMaxDomain,
+        ),
+        metaSubtitle: checkEmptyStr(
+            legacyMeta['cb_subtitle'],
+            attributes.metaSubtitle,
+        ),
+        lineNodes: legacyMeta['cb_hide_markers'],
+        tooltipActive: legacyMeta['cb_enable_inline_tooltips'],
+        isConvertedChart: false,
+    };
 };

@@ -3,6 +3,10 @@
     "category": "layout",
     "parent": ["prc-block/chart-builder-data-wrapper"],
     "attributes": {
+        "isConvertedChart": {
+            "type": "boolean",
+            "default": false
+        },
         "chartData": {
             "type": "string"
         },
@@ -275,6 +279,10 @@
         "metaTag": {
             "type": "string",
             "default": "PEW RESEARCH CENTER"
+        },
+        "pngUrl": {
+            "type": "string",
+            "default": ""
         }
     },
     "supports": {

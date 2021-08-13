@@ -13,7 +13,7 @@ import './styles.css';
 
 const { name } = metadata;
 const settings = {
-    title: __('Chart Builder'),
+    title: __('Chart'),
     icon: 'chart-line',
     description: __('Chart element for Chart Builder.'),
     keywords: [__('chart')],
@@ -26,6 +26,5 @@ const settings = {
     edit,
     save,
 };
-console.log(name);
 
 registerBlockType(name, { ...metadata, ...settings });

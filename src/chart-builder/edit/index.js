@@ -21,6 +21,7 @@ import {
     getDomain,
     getTicks,
     formattedData,
+    formatLegacyAttrs,
 } from '../utils/helpers';
 import ChartControls from './ChartControls';
 import { ifMatchSetAttribute } from '@pewresearch/app-components';
@@ -77,8 +78,15 @@ const setChartTypeByClassName = (className, setAttributes) => {
     );
 };
 
-const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
+const edit = ({
+    attributes,
+    setAttributes,
+    toggleSelection,
+    clientId,
+    isSelected,
+}) => {
     const {
+        isConvertedChart,
         className,
         chartType,
         chartOrientation,
@@ -146,8 +154,15 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
     } = attributes;
     // update chart type using styles
     useEffect(() => {
+        if (isConvertedChart) {
+            const legacyMeta = select('core/editor').getEditedPostAttribute(
+                'meta',
+            );
+            const legacyAttrs = formatLegacyAttrs(legacyMeta, attributes);
+            setAttributes(legacyAttrs);
+        }
         setChartTypeByClassName(className, setAttributes);
-    }, [className]);
+    }, [className, isConvertedChart]);
     const xTicks = stringToArrayOfNums(xTickExact);
     const yTicks = stringToArrayOfNums(yTickExact);
     const config = {
@@ -319,7 +334,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
     }
     // For now, let's force pie charts to only use the first array of data, as they can only contain one series of data by rule.
     // Passing addtl data will break tool (bad).
-    console.log({ attributes, config });
+    console.log({ attributes, config, clientId });
     if (tableJson) {
         switch (chartType) {
             case 'pie':
@@ -358,7 +373,7 @@ const edit = ({ attributes, setAttributes, toggleSelection, clientId }) => {
                         bottom: false,
                         left: false,
                         topRight: false,
-                        bottomRight: true,
+                        bottomRight: isSelected ? true : false,
                         bottomLeft: false,
                         topLeft: false,
                     }}

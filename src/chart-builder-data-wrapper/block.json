@@ -7,6 +7,14 @@
             "type": "boolean",
             "default": false
         },
+        "isConvertedChart": {
+            "type": "boolean",
+            "default": false
+        },
+        "hideTable": {
+            "type": "boolean",
+            "default": false
+        },
         "tableHead": {
             "type": "array",
             "default": [

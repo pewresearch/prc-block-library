@@ -23,6 +23,4 @@ const settings = {
     save,
 };
 
-console.log('Trying to do something over here!');
-
 registerBlockType(name, { ...metadata, ...settings });
