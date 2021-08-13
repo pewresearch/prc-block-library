@@ -15,6 +15,6 @@
  * Compiled with the help of https://wpack.io
  * A zero setup Webpack Bundler Script for WordPress
  */
-.wp-block-prc-block-responsive-container-controller{justify-content:center;margin-bottom:1.5em}
+.wp-block-prc-block-responsive-container-controller{display:flex;justify-content:center;margin-bottom:1.5em}
 
-/*# sourceMappingURL=responsive-container-controller-a3616499.css.map*/
+/*# sourceMappingURL=responsive-container-controller-d85b16a2.css.map*/
