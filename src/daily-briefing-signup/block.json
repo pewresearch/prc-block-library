@@ -1,0 +1,9 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/daily-briefing-signup",
+	"category": "marketing",
+	"attributes": {},          
+	"supports": {
+		"html": false
+	}
+}
