@@ -23,9 +23,13 @@ const TEMPLATE = [['prc-block/story-item', {
 
 const edit = ({ attributes, className, setAttributes }) => {
 
+    const [loaded, toggleLoaded] = useState( false );
+
     const blockProps = useBlockProps({
         className: classnames(className),
     });
+
+    // Get the latest post from daily briefing and give me story item attributes.
 
     const innerBlocksProps = useInnerBlocksProps(blockProps, {
         allowedBlocks: ALLOWED_BLOCKS,
@@ -36,9 +40,16 @@ const edit = ({ attributes, className, setAttributes }) => {
 
     useEffect(()=> {
         // Do something when the component mounts
+        // Go get the latest post from daily briefing
+        // Set the story item attributes
+        // Set the loaded state to true
+
+        toggleLoaded(true);
     }, []);
 
-    // Get the latest post from daily briefing and give me story item attributes.
+    if ( ! loaded ) {
+        return <Fragment/>;
+    }
 
     return <div {...innerBlocksProps} />;
 };
