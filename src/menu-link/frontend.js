@@ -1,15 +1,22 @@
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
 import { addQueryArgs, removeQueryArgs, getQueryArg } from '@wordpress/url';
 
 /**
- * Internal dependencies
+ * Internal Dependencies
  */
 import './style.scss';
 
 const onClick = elm => {
+    if ( elm.classList.contains('plus') ) {
+        elm.classList.remove('plus');
+        elm.classList.add('minus');
+    } else {
+        elm.classList.remove('minus');
+        elm.classList.add('plus');
+    }
     elm.parentElement.classList.toggle('active');
     elm.nextElementSibling.classList.toggle('hidden');
 
@@ -23,16 +30,13 @@ const onClick = elm => {
 };
 
 const bringMenuItemIntoView = () => {
-    console.log('bringMenuItemIntoView');
     const existingArg = getQueryArg(window.location.href, 'menuItemId');
-    console.log('watchAndMove', existingArg);
     if ( existingArg ) {
         document.querySelector(`[data-target="${existingArg}"]`).scrollIntoView();
     }
 }
 
 domReady(() => {
-    console.log('menuItem Init');
     setTimeout(()=>{
         bringMenuItemIntoView();
     }, 600);
