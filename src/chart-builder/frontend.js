@@ -6,7 +6,7 @@ import { render, Fragment } from '@wordpress/element';
 /**
  * External dependencies
  */
-import { Tab, Table } from 'semantic-ui-react';
+import { Tab, Table, Icon, Container } from 'semantic-ui-react';
 import {
     ChartBuilderWrapper,
     ChartBuilderTextWrapper,
@@ -231,6 +231,11 @@ const renderCharts = () => {
         const renderEl = chart.querySelector('.wp-chart-builder-inner');
         const config = getConfig(renderEl);
         const hash = renderEl.dataset.chartHash;
+        const postId = renderEl.dataset.postId;
+        const pngAttrs = {
+            url: window.chartConfigs[hash].pngUrl,
+            id: window.chartConfigs[hash].pngId,
+        };
         const dataArrStr = chart.querySelector('.table-array-data').innerText;
         const dataArr = JSON.parse(dataArrStr);
         const dataObj = arrayToDataObj(
@@ -245,7 +250,7 @@ const renderCharts = () => {
                 : dataObj.seriesData;
         const panes = [
             {
-                menuItem: 'Chart',
+                menuItem: 'CHART',
                 render: () => (
                     <ChartBuilderTextWrapper
                         active={config.metadata.active}
@@ -265,7 +270,7 @@ const renderCharts = () => {
                 ),
             },
             {
-                menuItem: 'Table',
+                menuItem: 'TABLE',
                 // render: () => <div dangerouslySetInnerHTML={createTable()} />,
                 render: () => (
                     <Table celled>
@@ -291,8 +296,42 @@ const renderCharts = () => {
                 ),
             },
             {
-                menuItem: 'Share',
-                render: () => {},
+                menuItem: 'SHARE',
+                render: () => (
+                    <Container>
+                        <div>Share this chart:</div>
+                        {pngAttrs.id && (
+                            <div>
+                                <a
+                                    href={pngAttrs.url}
+                                    download={`chart-${pngAttrs.id}`}
+                                >
+                                    Download as PNG
+                                </a>
+                            </div>
+                        )}
+                        <div>
+                            <a
+                                className="button twitter twtr-pew-share ui"
+                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                                    config.metadata.title,
+                                )}&?url=https://www.pewresearch.org/share/${postId}/${
+                                    pngAttrs.id
+                                }`}
+                            >
+                                <Icon name="twitter" />
+                                Share on Twitter
+                            </a>
+                            <a
+                                className="button facebook fb-pew-share ui"
+                                href=""
+                            >
+                                <Icon name="facebook" />
+                                Share on Facebook
+                            </a>
+                        </div>
+                    </Container>
+                ),
             },
         ];
         render(<Tab id={`tab-wrapper-${hash}`} panes={panes} />, renderEl);
