@@ -54,6 +54,7 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
         colorValue,
         customColors,
         pngUrl,
+        pngId,
     } = attributes;
     const upload = (blob, name, type) => {
         uploadMedia({
@@ -64,7 +65,10 @@ const ChartControls = ({ attributes, setAttributes, clientId }) => {
             ],
             onFileChange: ([fileObj]) => {
                 console.log({ fileObj });
-                setAttributes({ pngUrl: fileObj.url });
+                setAttributes({
+                    pngUrl: fileObj.url,
+                    pngId: fileObj.id,
+                });
                 editPost({ featured_media: fileObj.id });
                 setImageLoading(false);
             },

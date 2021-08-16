@@ -45,6 +45,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 			data-y-min-domain="<?php echo esc_attr( $this->cherry_pick_attr( 'yMinDomain', $attributes ) ); ?>"
 			data-y-max-domain="<?php echo esc_attr( $this->cherry_pick_attr( 'yMaxDomain', $attributes ) ); ?>"
 			data-colors="<?php echo esc_attr( $this->cherry_pick_attr( 'colorValue', $attributes ) ); ?>"
+			data-png-id="<?php echo esc_attr( $this->cherry_pick_attr( 'pngId', $attributes ) ); ?>"
 		>
 			Chart Builder Inner
 		</div>
