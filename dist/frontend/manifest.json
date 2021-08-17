@@ -19,8 +19,8 @@
   "mailchimp-select.js.map": "frontend/mailchimp-select-f286ce98.js.map",
   "menu-link.css": "frontend/menu-link-f423a06b.css",
   "menu-link.css.map": "frontend/menu-link-f423a06b.css.map",
-  "menu-link.js": "frontend/menu-link-6461006d.js",
-  "menu-link.js.map": "frontend/menu-link-6461006d.js.map",
+  "menu-link.js": "frontend/menu-link-5cd7861b.js",
+  "menu-link.js.map": "frontend/menu-link-5cd7861b.js.map",
   "runtime.js": "frontend/runtime-83e71da2.js",
   "runtime.js.map": "frontend/runtime-83e71da2.js.map",
   "social-link.js": "frontend/social-link-ace10648.js",
@@ -150,11 +150,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/menu-link-6461006d.js"
+          "frontend/menu-link-5cd7861b.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/menu-link-6461006d.js.map"
+          "frontend/menu-link-5cd7861b.js.map"
         ],
         "css": [
           "frontend/menu-link-f423a06b.css"
@@ -173,11 +173,6 @@
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
           "frontend/social-link-ace10648.js.map"
-          "frontend/social-link-678fde8a.js"
-        ],
-        "js.map": [
-          "frontend/runtime-83e71da2.js.map",
-          "frontend/social-link-678fde8a.js.map"
         ]
       }
     },
