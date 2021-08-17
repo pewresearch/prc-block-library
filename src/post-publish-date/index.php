@@ -1,5 +1,5 @@
 <?php
-use \WPackio;
+use \WPackio as WPackio;
 
 /**
  * Server-side rendering of the `prc-block/post-publish-date` block.

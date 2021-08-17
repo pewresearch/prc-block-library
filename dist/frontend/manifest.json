@@ -173,6 +173,11 @@
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
           "frontend/social-link-ace10648.js.map"
+          "frontend/social-link-678fde8a.js"
+        ],
+        "js.map": [
+          "frontend/runtime-83e71da2.js.map",
+          "frontend/social-link-678fde8a.js.map"
         ]
       }
     },

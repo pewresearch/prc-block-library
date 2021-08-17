@@ -1,7 +1,7 @@
 <?php
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use \WPackio;
+use \WPackio as WPackio;
 class Row_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {

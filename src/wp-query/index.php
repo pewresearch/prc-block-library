@@ -2,7 +2,7 @@
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use \WPackio;
+use \WPackio as WPackio;
 
 class WP_Query_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
@@ -56,8 +56,12 @@ class WP_Query_Block extends PRC_Block_Library {
 
 	public function restful_wp_query( \WP_REST_Request $request ) {
 		$attributes = json_decode( $request->get_body(), true );
-		$query      = $this->construct_query_from_attributes( $attributes );
-		$return     = array();
+		$site_id    = get_current_blog_id();
+		if ( 1 !== $site_id ) {
+			switch_to_blog( 1 );
+		}
+		$query  = $this->construct_query_from_attributes( $attributes );
+		$return = array();
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
@@ -73,6 +77,9 @@ class WP_Query_Block extends PRC_Block_Library {
 					'label'       => $label,
 				);
 			}
+		}
+		if ( 1 !== $site_id ) {
+			restore_current_blog();
 		}
 		return $return;
 	}

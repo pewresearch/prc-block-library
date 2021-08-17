@@ -3,7 +3,7 @@
 // Require the composer autoload for getting conflict-free access to enqueue
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use \WPackio;
+use \WPackio as WPackio;
 
 class PRC_Chart_Builder extends PRC_Block_Library {
 

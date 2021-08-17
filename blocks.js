@@ -8,6 +8,7 @@ const files = [
             'chart-builder-wrapper':
                 './src/chart-builder-data-wrapper/index.js',
             cover: './src/cover/index.js',
+            'daily-briefing-signup': './src/daily-briefing-signup/index.js',
             'github-gist': './src/github-gist/index.js',
             grid: './src/grid/index.js',
             group: './src/group/index.js',

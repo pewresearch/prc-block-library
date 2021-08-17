@@ -4,7 +4,7 @@
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
 use PRC_Core\Hybrid_People;
-use \WPackio;
+use \WPackio as WPackio;
 
 /**
  * Server-side rendering of the `prc-block/menu-link` block.
@@ -38,7 +38,7 @@ class Post_Bylines_Block extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',

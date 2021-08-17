@@ -11,7 +11,7 @@
  * Plugin Name:       PRC Block Library
  * Plugin URI:        https://pewresearch.org
  * Description:       PRC Block Library
- * Version:           2.1.4.2
+ * Version:           2.1.5
  * Requires at least: 5.4
  * Requires PHP:      7.4
  * Author:            Seth Rubenstein, Benjamin Wormald
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use \WPackio;
+use \WPackio as WPackio;
 
 class PRC_Block_Library {
 	/**
@@ -42,7 +42,7 @@ class PRC_Block_Library {
 	 *
 	 * @var string
 	 */
-	public static $version = '2.1.4.3';
+	public static $version = '2.1.5';
 
 	/**
 	 * Registered wpackio assets
@@ -68,6 +68,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/cover/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/daily-briefing-signup/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/github-gist/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
