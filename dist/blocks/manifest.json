@@ -1,8 +1,8 @@
 {
   "chart-builder-wrapper.js": "blocks/chart-builder-wrapper-fb881dce.js",
   "chart-builder-wrapper.js.map": "blocks/chart-builder-wrapper-fb881dce.js.map",
-  "chart-builder.css": "blocks/chart-builder-f3785423.css",
-  "chart-builder.css.map": "blocks/chart-builder-f3785423.css.map",
+  "chart-builder.css": "blocks/chart-builder-ddf9d855.css",
+  "chart-builder.css.map": "blocks/chart-builder-ddf9d855.css.map",
   "chart-builder.js": "blocks/chart-builder-e6202cf0.js",
   "chart-builder.js.map": "blocks/chart-builder-e6202cf0.js.map",
   "collapsible.js": "blocks/collapsible-838ede5e.js",
@@ -175,10 +175,10 @@
           "blocks/chart-builder-e6202cf0.js.map"
         ],
         "css": [
-          "blocks/chart-builder-f3785423.css"
+          "blocks/chart-builder-ddf9d855.css"
         ],
         "css.map": [
-          "blocks/chart-builder-f3785423.css.map"
+          "blocks/chart-builder-ddf9d855.css.map"
         ]
       }
     },

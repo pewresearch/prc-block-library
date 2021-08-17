@@ -27,6 +27,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		$script_handle = $this->enqueue_frontend();
 		$attrs         = wp_json_encode( $block->attributes );
 		$id            = md5( $attrs ); // some random id for this chart you can use something like md5() to spit out a random but unique id using the attributes of the block.
+		$post_id 	   = get_the_ID();
 		ob_start();
 		?>
 		<div
@@ -45,7 +46,8 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 			data-y-min-domain="<?php echo esc_attr( $this->cherry_pick_attr( 'yMinDomain', $attributes ) ); ?>"
 			data-y-max-domain="<?php echo esc_attr( $this->cherry_pick_attr( 'yMaxDomain', $attributes ) ); ?>"
 			data-colors="<?php echo esc_attr( $this->cherry_pick_attr( 'colorValue', $attributes ) ); ?>"
-			data-post-id="<?php echo get_the_ID(); ?>"
+			data-post-id="<?php echo $post_id; ?>"
+			data-post-url="<?php echo get_permalink( $post_id ); ?>"
 		>
 			Chart Builder Inner
 		</div>

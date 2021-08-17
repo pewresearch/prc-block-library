@@ -70,3 +70,21 @@ $abril: abril-text, Georgia, Times New Roman, Times, serif;
 .chart-builder-data-table--hidden {
     display: none;
 }
+
+.share-pane {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    font-family: $franklin;
+    .share-pane__prompt {
+        font-family: $franklin;
+        font-weight: 700;
+        font-size: 1.3rem;
+        line-height: 1.5rem;
+        margin-bottom: 20px;
+    }
+    .share-pane__link {
+        font-family: $franklin;
+        margin-bottom: 20px;
+    }
+}
