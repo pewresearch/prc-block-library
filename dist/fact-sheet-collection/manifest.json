@@ -7,8 +7,8 @@
   "runtime.js.map": "fact-sheet-collection/runtime-f356125f.js.map",
   "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-6fd1b892.js",
   "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-6fd1b892.js.map",
-  "vendors~frontend~main.js": "fact-sheet-collection/vendors~frontend~main-74ca65ec.js",
-  "vendors~frontend~main.js.map": "fact-sheet-collection/vendors~frontend~main-74ca65ec.js.map",
+  "vendors~frontend~main.js": "fact-sheet-collection/vendors~frontend~main-f27dedb0.js",
+  "vendors~frontend~main.js.map": "fact-sheet-collection/vendors~frontend~main-f27dedb0.js.map",
   "vendors~main.js": "fact-sheet-collection/vendors~main-c1058f3b.js",
   "vendors~main.js.map": "fact-sheet-collection/vendors~main-c1058f3b.js.map",
   "wpackioEp": {
@@ -16,13 +16,13 @@
       "assets": {
         "js": [
           "fact-sheet-collection/runtime-f356125f.js",
-          "fact-sheet-collection/vendors~frontend~main-74ca65ec.js",
+          "fact-sheet-collection/vendors~frontend~main-f27dedb0.js",
           "fact-sheet-collection/vendors~main-c1058f3b.js",
           "fact-sheet-collection/main-0cf1b904.js"
         ],
         "js.map": [
           "fact-sheet-collection/runtime-f356125f.js.map",
-          "fact-sheet-collection/vendors~frontend~main-74ca65ec.js.map",
+          "fact-sheet-collection/vendors~frontend~main-f27dedb0.js.map",
           "fact-sheet-collection/vendors~main-c1058f3b.js.map",
           "fact-sheet-collection/main-0cf1b904.js.map"
         ]
@@ -32,13 +32,13 @@
       "assets": {
         "js": [
           "fact-sheet-collection/runtime-f356125f.js",
-          "fact-sheet-collection/vendors~frontend~main-74ca65ec.js",
+          "fact-sheet-collection/vendors~frontend~main-f27dedb0.js",
           "fact-sheet-collection/vendors~frontend-6fd1b892.js",
           "fact-sheet-collection/frontend-459f4f17.js"
         ],
         "js.map": [
           "fact-sheet-collection/runtime-f356125f.js.map",
-          "fact-sheet-collection/vendors~frontend~main-74ca65ec.js.map",
+          "fact-sheet-collection/vendors~frontend~main-f27dedb0.js.map",
           "fact-sheet-collection/vendors~frontend-6fd1b892.js.map",
           "fact-sheet-collection/frontend-459f4f17.js.map"
         ]
