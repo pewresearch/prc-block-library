@@ -3,8 +3,8 @@
   "chart-builder-wrapper.js.map": "blocks/chart-builder-wrapper-0f222312.js.map",
   "chart-builder.css": "blocks/chart-builder-ddf9d855.css",
   "chart-builder.css.map": "blocks/chart-builder-ddf9d855.css.map",
-  "chart-builder.js": "blocks/chart-builder-eb0faea8.js",
-  "chart-builder.js.map": "blocks/chart-builder-eb0faea8.js.map",
+  "chart-builder.js": "blocks/chart-builder-54fe63c7.js",
+  "chart-builder.js.map": "blocks/chart-builder-54fe63c7.js.map",
   "collapsible.js": "blocks/collapsible-00b100ac.js",
   "collapsible.js.map": "blocks/collapsible-00b100ac.js.map",
   "column.js": "blocks/column-f688359d.js",
@@ -170,13 +170,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~promo~social-link~story-~f233d4b7-e98b4b4c.js",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~promo~story-item~topic-index-categor~d8ab4b85-3133372b.js",
-          "blocks/chart-builder-eb0faea8.js"
+          "blocks/chart-builder-54fe63c7.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~promo~social-link~story-~f233d4b7-e98b4b4c.js.map",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~promo~story-item~topic-index-categor~d8ab4b85-3133372b.js.map",
-          "blocks/chart-builder-eb0faea8.js.map"
+          "blocks/chart-builder-54fe63c7.js.map"
         ],
         "css": [
           "blocks/chart-builder-ddf9d855.css"
