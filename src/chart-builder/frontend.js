@@ -3,10 +3,12 @@
  */
 import domReady from '@wordpress/dom-ready';
 import { render, Fragment } from '@wordpress/element';
+import { addQueryArgs } from '@wordpress/url';
+
 /**
  * External dependencies
  */
-import { Tab, Table } from 'semantic-ui-react';
+import { Tab, Table, Icon, Container, Button } from 'semantic-ui-react';
 import {
     ChartBuilderWrapper,
     ChartBuilderTextWrapper,
@@ -18,6 +20,8 @@ import {
 import { colors as colorObj } from './utils/colors';
 import { stringToArrayOfNums, getDomain, getTicks } from './utils/helpers';
 import './styles.css';
+
+const { innerWidth, innerHeight } = window;
 
 const getConfig = (el) => {
     const { layout, xAxis, yAxis } = masterConfig;
@@ -216,13 +220,42 @@ const arrayToDataObj = (arr, scale, chartType) => {
     return { categories, seriesData };
 };
 
-const generateSvgDownload = (hash) => {
-    const tabWrapper = document.getElementById(`tab-wrapper-${hash}`);
-    const svg = tabWrapper.querySelector('svg');
-    const svgBlob = new Blob([svg.outerHTML], {
-        type: 'image/svg+xml;charset=utf-8',
+const initFacebookLinks = (e, postUrl, postId, pngAttrs) => {
+    e.preventDefault();
+    const actionUrl = addQueryArgs(
+        'https://www.facebook.com/sharer/sharer.php',
+        {
+            u: pngAttrs.id
+                ? `https://www.pewresearch.org/share/${postId}/${pngAttrs.id}`
+                : postUrl,
+        },
+    );
+    window.open(
+        actionUrl,
+        'fbShareWindow',
+        `height=450, width=550, top=${innerHeight / 2 - 275}, left=${
+            innerWidth / 2 - 225
+        }, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`,
+    );
+    e.stopPropagation();
+};
+
+const initTwitterLinks = (e, postUrl, postId, pngAttrs, title) => {
+    e.preventDefault();
+    const actionUrl = addQueryArgs('https://twitter.com/intent/tweet', {
+        text: title,
+        url: pngAttrs.id
+            ? `https://www.pewresearch.org/share/${postId}/${pngAttrs.id}`
+            : postUrl,
     });
-    console.log(svgBlob);
+    window.open(
+        actionUrl,
+        'twtrShareWindow',
+        `height=450, width=550, top=${innerHeight / 2 - 275}, left=${
+            innerWidth / 2 - 225
+        }, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`,
+    );
+    e.stopPropagation();
 };
 
 const renderCharts = () => {
@@ -231,6 +264,12 @@ const renderCharts = () => {
         const renderEl = chart.querySelector('.wp-chart-builder-inner');
         const config = getConfig(renderEl);
         const hash = renderEl.dataset.chartHash;
+        const postId = renderEl.dataset.postId;
+        const postUrl = renderEl.dataset.postUrl;
+        const pngAttrs = {
+            url: window.chartConfigs[hash].pngUrl,
+            id: window.chartConfigs[hash].pngId,
+        };
         const dataArrStr = chart.querySelector('.table-array-data').innerText;
         const dataArr = JSON.parse(dataArrStr);
         const dataObj = arrayToDataObj(
@@ -239,13 +278,13 @@ const renderCharts = () => {
             config.layout.type,
         );
         config.dataRender.categories = dataObj.categories;
-        const formattedData =
-            config.layout.type === 'pie'
-                ? dataObj.seriesData[0]
-                : dataObj.seriesData;
+        const formattedData = dataObj.seriesData;
+        // config.layout.type === 'pie'
+        //     ? dataObj.seriesData[0]
+        //     : dataObj.seriesData;
         const panes = [
             {
-                menuItem: 'Chart',
+                menuItem: 'CHART',
                 render: () => (
                     <ChartBuilderTextWrapper
                         active={config.metadata.active}
@@ -265,7 +304,7 @@ const renderCharts = () => {
                 ),
             },
             {
-                menuItem: 'Table',
+                menuItem: 'TABLE',
                 // render: () => <div dangerouslySetInnerHTML={createTable()} />,
                 render: () => (
                     <Table celled>
@@ -291,8 +330,55 @@ const renderCharts = () => {
                 ),
             },
             {
-                menuItem: 'Share',
-                render: () => {},
+                menuItem: 'SHARE',
+                render: () => (
+                    <Container className="share-pane">
+                        <div className="share-pane__prompt">
+                            Share this chart:
+                        </div>
+                        {pngAttrs.id && (
+                            <div className="share-pane__link">
+                                <a
+                                    href={pngAttrs.url}
+                                    download={`chart-${pngAttrs.id}`}
+                                >
+                                    Download as PNG
+                                </a>
+                            </div>
+                        )}
+                        <div className="share-pane__buttons">
+                            <Button
+                                color="twitter"
+                                onClick={(e) => {
+                                    initTwitterLinks(
+                                        e,
+                                        postUrl,
+                                        postId,
+                                        pngAttrs,
+                                        config.metadata.title,
+                                    );
+                                }}
+                            >
+                                <Icon name="twitter" />
+                                Share on Twitter
+                            </Button>
+                            <Button
+                                color="facebook"
+                                onClick={(e) => {
+                                    initFacebookLinks(
+                                        e,
+                                        postUrl,
+                                        postId,
+                                        pngAttrs,
+                                    );
+                                }}
+                            >
+                                <Icon name="facebook" />
+                                Share on Facebook
+                            </Button>
+                        </div>
+                    </Container>
+                ),
             },
         ];
         render(<Tab id={`tab-wrapper-${hash}`} panes={panes} />, renderEl);

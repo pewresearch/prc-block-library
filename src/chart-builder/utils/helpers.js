@@ -144,13 +144,13 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
             case 'column':
                 return { type: 'bar', orientation: 'horizontal' };
             case 'line':
-                return { type: 'bar', orientation: 'horizontal' };
+                return { type: 'line', orientation: 'horizontal' };
             case 'area':
-                return { type: 'bar', orientation: 'horizontal' };
+                return { type: 'area', orientation: 'horizontal' };
             case 'scatter':
-                return { type: 'bar', orientation: 'horizontal' };
+                return { type: 'scatter', orientation: 'horizontal' };
             case 'pie':
-                return { type: 'bar', orientation: 'horizontal' };
+                return { type: 'pie', orientation: 'horizontal' };
             default:
                 return { type: 'bar', orientation: 'horizontal' };
         }

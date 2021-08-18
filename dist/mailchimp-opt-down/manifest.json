@@ -5,19 +5,19 @@
   "main.js.map": "mailchimp-opt-down/main-cc052682.js.map",
   "runtime.js": "mailchimp-opt-down/runtime-47008a77.js",
   "runtime.js.map": "mailchimp-opt-down/runtime-47008a77.js.map",
-  "vendors~frontend~main.js": "mailchimp-opt-down/vendors~frontend~main-9406d57d.js",
-  "vendors~frontend~main.js.map": "mailchimp-opt-down/vendors~frontend~main-9406d57d.js.map",
+  "vendors~frontend~main.js": "mailchimp-opt-down/vendors~frontend~main-780a2713.js",
+  "vendors~frontend~main.js.map": "mailchimp-opt-down/vendors~frontend~main-780a2713.js.map",
   "wpackioEp": {
     "main": {
       "assets": {
         "js": [
           "mailchimp-opt-down/runtime-47008a77.js",
-          "mailchimp-opt-down/vendors~frontend~main-9406d57d.js",
+          "mailchimp-opt-down/vendors~frontend~main-780a2713.js",
           "mailchimp-opt-down/main-cc052682.js"
         ],
         "js.map": [
           "mailchimp-opt-down/runtime-47008a77.js.map",
-          "mailchimp-opt-down/vendors~frontend~main-9406d57d.js.map",
+          "mailchimp-opt-down/vendors~frontend~main-780a2713.js.map",
           "mailchimp-opt-down/main-cc052682.js.map"
         ]
       }
@@ -26,12 +26,12 @@
       "assets": {
         "js": [
           "mailchimp-opt-down/runtime-47008a77.js",
-          "mailchimp-opt-down/vendors~frontend~main-9406d57d.js",
+          "mailchimp-opt-down/vendors~frontend~main-780a2713.js",
           "mailchimp-opt-down/frontend-b8a76300.js"
         ],
         "js.map": [
           "mailchimp-opt-down/runtime-47008a77.js.map",
-          "mailchimp-opt-down/vendors~frontend~main-9406d57d.js.map",
+          "mailchimp-opt-down/vendors~frontend~main-780a2713.js.map",
           "mailchimp-opt-down/frontend-b8a76300.js.map"
         ]
       }

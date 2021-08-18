@@ -334,11 +334,11 @@ const edit = ({
     }
     // For now, let's force pie charts to only use the first array of data, as they can only contain one series of data by rule.
     // Passing addtl data will break tool (bad).
-    console.log({ attributes, config, clientId });
+    console.log({ attributes, config, clientId, tableJson });
     if (tableJson) {
         switch (chartType) {
             case 'pie':
-                chartData = tableJson[0];
+                chartData = tableJson;
                 break;
             default:
                 chartData = tableJson;

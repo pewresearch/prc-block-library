@@ -36,7 +36,7 @@
         },
         "paddingBottom": {
             "type": "integer",
-            "default": 20
+            "default": 25
         },
         "paddingRight": {
             "type": "integer",
@@ -215,7 +215,7 @@
         },
         "labelPositionDY": {
             "type": "integer",
-            "default": 15
+            "default": 0
         },
         "labelCutoff": {
             "type": "number",
@@ -283,6 +283,9 @@
         "pngUrl": {
             "type": "string",
             "default": ""
+        },
+        "pngId": {
+            "type": "integer"
         }
     },
     "supports": {
