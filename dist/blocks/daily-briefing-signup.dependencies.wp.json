@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "wp-api-fetch",
     "wp-block-editor",
     "wp-blocks",
     "wp-element",

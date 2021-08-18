@@ -6,6 +6,7 @@ import classnames from 'classnames';
 /**
  * WordPress Dependencies
  */
+import apiFetch from '@wordpress/api-fetch';
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import {
@@ -14,16 +15,12 @@ import {
 } from '@wordpress/block-editor';
 
 const ALLOWED_BLOCKS = ['prc-block/mailchimp-form', 'prc-block/story-item'];
-const TEMPLATE = [['prc-block/story-item', {
-    postId: 0,
-    title: "More than 10% of staff in Daily Mail let go after acquisition",
-    description: "<p>This story, plus independent Indian journalist shares perspective on Israeli spyware and Pegasus list, NBC News adding over 200 new jobs as part of major streaming push and more, all in today’s media headlines.</p>",
-    imageSlot: 'disabled',
-}], ['prc-block/mailchimp-form', {className: 'is-style-horizontal', interest: '1d2638430b'}]];
 
 const edit = ({ attributes, className, setAttributes }) => {
 
     const [loaded, toggleLoaded] = useState( false );
+
+    const [template, setTemplate] = useState([]);
 
     const blockProps = useBlockProps({
         className: classnames(className),
@@ -35,17 +32,40 @@ const edit = ({ attributes, className, setAttributes }) => {
         allowedBlocks: ALLOWED_BLOCKS,
         orientation: 'vertical',
         templateLock: 'all',
-        template: TEMPLATE,
+        template: template,
     });
 
+    // Init the template. 
     useEffect(()=> {
         // Do something when the component mounts
         // Go get the latest post from daily briefing
         // Set the story item attributes
         // Set the loaded state to true
-
-        toggleLoaded(true);
+        apiFetch({
+            path: `/prc-api/v2/blocks/daily-briefing-signup`,
+            method: 'GET',
+        }).then( p => {
+            console.log(p);
+            setTemplate(
+                [['prc-block/story-item', {
+                    postId: p.ID,
+                    title: p.post_title,
+                    description: `<p>${p.post_content}</p>`,
+                    imageSlot: 'disabled',
+                }], ['prc-block/mailchimp-form', {className: 'is-style-horizontal', interest: '1d2638430b'}]]
+            );
+        });
     }, []);
+
+    // Set loaded to true when the template has data.
+    useEffect(
+        () => {
+            // if template is not empty, set the loaded state to true
+            if (template.length > 0) {
+                toggleLoaded(true);
+            }
+        }, [template]
+    );
 
     if ( ! loaded ) {
         return <Fragment/>;
