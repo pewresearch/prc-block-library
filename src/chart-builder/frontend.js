@@ -278,10 +278,10 @@ const renderCharts = () => {
             config.layout.type,
         );
         config.dataRender.categories = dataObj.categories;
-        const formattedData =
-            config.layout.type === 'pie'
-                ? dataObj.seriesData[0]
-                : dataObj.seriesData;
+        const formattedData = dataObj.seriesData;
+        // config.layout.type === 'pie'
+        //     ? dataObj.seriesData[0]
+        //     : dataObj.seriesData;
         const panes = [
             {
                 menuItem: 'CHART',
