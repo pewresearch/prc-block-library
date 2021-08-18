@@ -12,6 +12,10 @@ $headerFont: 'franklin-gothic-urw', Verdana, Geneva, sans-serif;
 	margin-bottom: 2em;
 }
 
+.wp-block-cover.alignfull > .wp-block-cover__inner-container{
+	text-align: center;
+}
+
 .wp-block-cover.is-style-essay {
 	.wp-block-cover__inner-container {
 		max-width: 920px !important;

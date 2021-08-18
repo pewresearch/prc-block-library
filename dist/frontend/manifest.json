@@ -5,8 +5,8 @@
   "chart-builder.js.map": "frontend/chart-builder-ff86ed0e.js.map",
   "collapsible.js": "frontend/collapsible-5363be72.js",
   "collapsible.js.map": "frontend/collapsible-5363be72.js.map",
-  "cover.css": "frontend/cover-2af30733.css",
-  "cover.css.map": "frontend/cover-2af30733.css.map",
+  "cover.css": "frontend/cover-7ab47c21.css",
+  "cover.css.map": "frontend/cover-7ab47c21.css.map",
   "cover.js": "frontend/cover-9e67c7cf.js",
   "cover.js.map": "frontend/cover-9e67c7cf.js.map",
   "mailchimp-form.css": "frontend/mailchimp-form-77a9b9a5.css",
@@ -95,10 +95,10 @@
           "frontend/cover-9e67c7cf.js.map"
         ],
         "css": [
-          "frontend/cover-2af30733.css"
+          "frontend/cover-7ab47c21.css"
         ],
         "css.map": [
-          "frontend/cover-2af30733.css.map"
+          "frontend/cover-7ab47c21.css.map"
         ]
       }
     },

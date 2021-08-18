@@ -3,6 +3,6 @@
     &:not(.block-editor-block-list__block) {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        align-items: center;
     }
 }

@@ -9,8 +9,8 @@
   "collapsible.js.map": "blocks/collapsible-7d729e01.js.map",
   "column.js": "blocks/column-e5830cb7.js",
   "column.js.map": "blocks/column-e5830cb7.js.map",
-  "cover.css": "blocks/cover-2af30733.css",
-  "cover.css.map": "blocks/cover-2af30733.css.map",
+  "cover.css": "blocks/cover-7ab47c21.css",
+  "cover.css.map": "blocks/cover-7ab47c21.css.map",
   "cover.js": "blocks/cover-daedd216.js",
   "cover.js.map": "blocks/cover-daedd216.js.map",
   "daily-briefing-signup.css": "blocks/daily-briefing-signup-65b540fa.css",
@@ -59,8 +59,8 @@
   "promo.css.map": "blocks/promo-f3f7b653.css.map",
   "promo.js": "blocks/promo-17ff3e5f.js",
   "promo.js.map": "blocks/promo-17ff3e5f.js.map",
-  "responsive-container-controller.css": "blocks/responsive-container-controller-7a316f53.css",
-  "responsive-container-controller.css.map": "blocks/responsive-container-controller-7a316f53.css.map",
+  "responsive-container-controller.css": "blocks/responsive-container-controller-806cd166.css",
+  "responsive-container-controller.css.map": "blocks/responsive-container-controller-806cd166.css.map",
   "responsive-container-controller.js": "blocks/responsive-container-controller-4e8b9105.js",
   "responsive-container-controller.js.map": "blocks/responsive-container-controller-4e8b9105.js.map",
   "responsive-container-view.css": "blocks/responsive-container-view-5ebcdb42.css",
@@ -209,10 +209,10 @@
           "blocks/cover-daedd216.js.map"
         ],
         "css": [
-          "blocks/cover-2af30733.css"
+          "blocks/cover-7ab47c21.css"
         ],
         "css.map": [
-          "blocks/cover-2af30733.css.map"
+          "blocks/cover-7ab47c21.css.map"
         ]
       }
     },
@@ -471,10 +471,10 @@
           "blocks/responsive-container-controller-4e8b9105.js.map"
         ],
         "css": [
-          "blocks/responsive-container-controller-7a316f53.css"
+          "blocks/responsive-container-controller-806cd166.css"
         ],
         "css.map": [
-          "blocks/responsive-container-controller-7a316f53.css.map"
+          "blocks/responsive-container-controller-806cd166.css.map"
         ]
       }
     },
