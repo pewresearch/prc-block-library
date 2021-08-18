@@ -336,14 +336,14 @@ const edit = ({
     // Passing addtl data will break tool (bad).
     console.log({ attributes, config, clientId, tableJson });
     if (tableJson) {
-        // switch (chartType) {
-        //     case 'pie':
-        //         chartData = tableJson;
-        //         break;
-        //     default:
-        //         chartData = tableJson;
-        //         break;
-        // }
+        switch (chartType) {
+            case 'pie':
+                chartData = tableJson;
+                break;
+            default:
+                chartData = tableJson;
+                break;
+        }
         renderedChart = (
             <ChartBuilderWrapper config={config} data={chartData} />
         );
