@@ -8,6 +8,8 @@ use \WPackio as WPackio;
  */
 
 class Daily_Briefing_Signup extends PRC_Block_Library {
+	protected static $post_type = 'daily-briefings';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -42,7 +44,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 		// New wp_query to get the latest 1 daily-briefing post
 		$query = new WP_Query(
 			array(
-				'post_type'      => 'daily-briefings',
+				'post_type'      => self::$post_type,
 				'posts_per_page' => 1,
 				'orderby'        => 'date',
 				'order'          => 'DESC',
@@ -65,9 +67,13 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
+		$block_attrs = get_block_wrapper_attributes();
 		ob_start();
+		// We need to go through each innerblock and render manually, for the story item fetch that information using query. We schould cache the info somehow, when a new daily briefing is published we should invalidate the cache.
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<div <?php echo $block_attrs; ?>>
+			<?php echo wp_kses( $content, 'post' ); ?>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

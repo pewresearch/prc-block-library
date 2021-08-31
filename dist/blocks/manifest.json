@@ -13,10 +13,10 @@
   "cover.css.map": "blocks/cover-7ab47c21.css.map",
   "cover.js": "blocks/cover-daedd216.js",
   "cover.js.map": "blocks/cover-daedd216.js.map",
-  "daily-briefing-signup.css": "blocks/daily-briefing-signup-65b540fa.css",
-  "daily-briefing-signup.css.map": "blocks/daily-briefing-signup-65b540fa.css.map",
-  "daily-briefing-signup.js": "blocks/daily-briefing-signup-9002ba5b.js",
-  "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-9002ba5b.js.map",
+  "daily-briefing-signup.css": "blocks/daily-briefing-signup-4aa77cfe.css",
+  "daily-briefing-signup.css.map": "blocks/daily-briefing-signup-4aa77cfe.css.map",
+  "daily-briefing-signup.js": "blocks/daily-briefing-signup-17106c72.js",
+  "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-17106c72.js.map",
   "github-gist.js": "blocks/github-gist-9e3c13c5.js",
   "github-gist.js.map": "blocks/github-gist-9e3c13c5.js.map",
   "grid.css": "blocks/grid-d695f775.css",
@@ -220,17 +220,17 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/daily-briefing-signup-9002ba5b.js"
+          "blocks/daily-briefing-signup-17106c72.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/daily-briefing-signup-9002ba5b.js.map"
+          "blocks/daily-briefing-signup-17106c72.js.map"
         ],
         "css": [
-          "blocks/daily-briefing-signup-65b540fa.css"
+          "blocks/daily-briefing-signup-4aa77cfe.css"
         ],
         "css.map": [
-          "blocks/daily-briefing-signup-65b540fa.css.map"
+          "blocks/daily-briefing-signup-4aa77cfe.css.map"
         ]
       }
     },
