@@ -54,7 +54,7 @@ class PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_filter( 'block_categories', array( $this, 'register_block_categories' ), 10, 2 );
+			add_filter( 'block_categories_all', array( $this, 'register_block_categories' ), 10, 2 );
 			
 			// @TODO Needs to be moved into shared wpack vendor outputs.
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
@@ -64,11 +64,13 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/grid/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/row/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/column/index.php';
+			// Load Main BLock Library.
 			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder-data-wrapper/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/cover/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/daily-briefing-signup/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/flip-card/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/github-gist/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
@@ -106,9 +108,9 @@ class PRC_Block_Library {
 		}
 	}
 
-	public function register_block_categories( $categories, $post ) {
+	public function register_block_categories( $block_categories, $block_editor_context ) {
 		return array_merge(
-			$categories,
+			$block_categories,
 			array(
 				array(
 					'slug'  => 'marketing',
@@ -181,32 +183,6 @@ class PRC_Block_Library {
 				'js'        => true,
 				'css'       => false,
 				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
-		/** Flip Cards */
-		$this->registered['block']['prc-block/flip-card']    = $enqueue->register(
-			'flip-card',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/flip-card'] = $enqueue->register(
-			'flip-card',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $js_deps,
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -296,20 +272,6 @@ class PRC_Block_Library {
 			'prc-block/chapter',
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/chapter']['js'] )['handle'],
-			)
-		);
-
-		/** Flip Card */
-		register_block_type(
-			'prc-block/flip-card',
-			array(
-				'editor_script'   => array_pop( $this->registered['block']['prc-block/flip-card']['js'] )['handle'],
-				'editor_style'    => array_pop( $this->registered['block']['prc-block/flip-card']['css'] )['handle'],
-				'render_callback' => function( $attributes, $content, $block ) {
-					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/flip-card']['js'] )['handle'] );
-					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/flip-card']['css'] )['handle'] );
-					return $content;
-				},
 			)
 		);
 

@@ -1,8 +1,38 @@
-import { InnerBlocks } from '@wordpress/block-editor';
-import { useEffect } from '@wordpress/element';
-import { FlipControls } from '../flip-controls';
+/**
+ * External Dependencies
+ */
+import classnames from 'classnames';
 
-const edit = ({ className, clientId }) => {
+/**
+ * WordPress Dependencies
+ */
+import { __, sprintf } from '@wordpress/i18n';
+import { Fragment, useEffect } from '@wordpress/element';
+import {
+    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useBlockProps,
+} from '@wordpress/block-editor';
+
+/**
+ * Internal Dependencies
+ */
+import Controls from '../_shared';
+
+const ALLOWED_BLOCKS = [];
+const TEMPLATE =  [['core/paragraph',{}]];
+
+const edit = ({ attributes, className, clientId }) => {
+    const blockProps = useBlockProps({
+        className: classnames(className),
+    });
+
+    const innerBlocksProps = useInnerBlocksProps({}, {
+        allowedBlocks: ALLOWED_BLOCKS,
+        orientation: 'vertical',
+        templateLock: false,
+        template: TEMPLATE
+    });
+
     // On load hide the back
     useEffect(() => {
         const blockElm = document.querySelector(
@@ -10,11 +40,14 @@ const edit = ({ className, clientId }) => {
         );
         blockElm.style.display = 'none';
     }, []);
-    return (
-        <div className={className}>
-            <FlipControls label="Back of Card" clientId={clientId} />
-            <InnerBlocks templateLock={false} template={[['core/paragraph',{}]]}/>
-        </div>
+
+    return(
+        <Fragment>
+            <Controls clientId={clientId} />
+            <div { ...blockProps }>
+                <div {...innerBlocksProps}/>
+            </div>
+        </Fragment>
     );
 };
 

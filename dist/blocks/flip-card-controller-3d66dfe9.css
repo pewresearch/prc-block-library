@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.0.0
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2021 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+div[data-type="prc-block/flip-card"]{z-index:2}div[data-type="prc-block/flip-card-front"],div[data-type="prc-block/flip-card-back"]{margin:0}.wp-block-prc-block-flip-card>.components-resizable-box__container{padding:1em;border:1px solid #fff}
+
+/*# sourceMappingURL=flip-card-controller-3d66dfe9.css.map*/

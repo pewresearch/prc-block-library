@@ -10,6 +10,9 @@ const files = [
             cover: './src/cover/index.js',
             'daily-briefing-signup': './src/daily-briefing-signup/index.js',
             'github-gist': './src/github-gist/index.js',
+            'flip-card-controller': './src/flip-card/controller/index.js',
+            'flip-card-back': './src/flip-card/back/index.js',
+            'flip-card-front': './src/flip-card/front/index.js',
             grid: './src/grid/index.js',
             group: './src/group/index.js',
             heading: './src/heading/index.js',
@@ -110,13 +113,6 @@ const files = [
         entry: {
             main: './src/fact-sheet-collection/index.js',
             frontend: './src/fact-sheet-collection/frontend.js',
-        },
-    },
-    {
-        name: 'flip-card',
-        entry: {
-            main: './src/flip-card/index.js',
-            frontend: './src/flip-card/frontend.js',
         },
     },
     {
