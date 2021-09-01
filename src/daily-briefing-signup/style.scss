@@ -7,6 +7,11 @@ $iconWidth: 35px;
     background-color: $background;
     border: $border;
     padding: $padding;
+
+    .wp-block-prc-block-story-item {
+        margin-top: 0;
+    }
+
     .wp-block-prc-block-promo {
         margin: 0;
         padding: 0;
@@ -18,7 +23,7 @@ $iconWidth: 35px;
             grid-template-columns: $iconWidth minmax(320px, 475px)!important;
             align-items: flex-end!important;
             justify-content: flex-start!important;
-            
+
             .ui.mailchimp.form>.fields .ui.input {
                 max-width: 100%!important;
             }

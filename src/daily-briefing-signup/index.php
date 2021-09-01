@@ -81,7 +81,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 						'title'        => $latest_daily_briefing->post_title,
 						'imageSlot'    => 'disabled',
 						'postId'       => $latest_daily_briefing->ID,
-						'label'        => 'Daily Briefing of the News',
+						'label'        => 'Daily Briefing of Media News',
 						'date'         => $latest_daily_briefing->post_date,
 						'innerHTML'    => $description,
 						'innerContent' => array( $description ),
