@@ -32,7 +32,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 		);
 	}
 
-	public function get_latest_daily_briefing_restfully( \WP_REST_Request $request ) {
+	public function get_latest_daily_briefing_restfully() {
 		$site_id = get_current_blog_id();
 		
 		if ( 8 !== $site_id ) {
@@ -67,12 +67,29 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$block_attrs = get_block_wrapper_attributes();
+		$latest_daily_briefing = $this->get_latest_daily_briefing_restfully();
+		$block_attrs           = get_block_wrapper_attributes();
 		ob_start();
 		// We need to go through each innerblock and render manually, for the story item fetch that information using query. We schould cache the info somehow, when a new daily briefing is published we should invalidate the cache.
 		?>
 		<div <?php echo $block_attrs; ?>>
-			<?php echo wp_kses( $content, 'post' ); ?>
+			<?php 
+			foreach ( $block->parsed_block['innerBlocks'] as $i => $block ) {
+				if ( 'prc-block/story-item' === $block['blockName'] ) {
+					$description    = $latest_daily_briefing->post_content;
+					$block['attrs'] = array(
+						'title'        => $latest_daily_briefing->post_title,
+						'imageSlot'    => 'disabled',
+						'postId'       => $latest_daily_briefing->ID,
+						'label'        => 'Daily Briefing of the News',
+						'date'         => $latest_daily_briefing->post_date,
+						'innerHTML'    => $description,
+						'innerContent' => array( $description ),
+					);
+				}
+				echo render_block( $block );
+			}
+			?>
 		</div>
 		<?php
 		return ob_get_clean();
