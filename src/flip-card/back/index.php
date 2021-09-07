@@ -9,9 +9,12 @@ class Flip_Card_Back extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
+		$block_attrs = get_block_wrapper_attributes();
 		ob_start();
 		?>
+		<div <?php echo $block_attrs; ?>>
 			<?php echo wp_kses( $content, 'post' ); ?>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

@@ -85,6 +85,7 @@ const files = [
             collapsible: './src/collapsible/frontend.js',
             'chart-builder': './src/chart-builder/frontend.js',
             cover: './src/cover/frontend.js',
+            'flip-card-controller': './src/flip-card/controller/frontend.js',
             'mailchimp-form': './src/mailchimp-form/frontend.js',
             'mailchimp-select': './src/mailchimp-select/frontend.js',
             'menu-link': './src/menu-link/frontend.js',
