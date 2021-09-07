@@ -49,25 +49,6 @@
 			"label": "Asymmetrical"
 		}
 	],
-	"example": {
-		"attributes": {
-			"heading": "Facts are more important than ever",
-			"subHeading":
-				"In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
-		},
-		"innerBlocks": [
-			{
-				"name": "prc-block/menu-link",
-				"attributes": {
-					"className": "is-style-button",
-					"color": "#d3aa20",
-					"label": "DONATE",
-					"url": "#"
-				}
-			}
-		],
-		"viewPortWidth": 1200
-	},
 	"providesContext": {
 		"prc-block/hasDarkBackground": "hasDarkBackground"
 	},
