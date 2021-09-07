@@ -112,7 +112,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
                             tagName={`h${headingLevel}`}
                             value={heading}
                             onChange={h => setAttributes({ heading: h })}
-                            placeholder={__(`Facts are more important than ever.`)}
+                            placeholder={__(`Promo title`)}
                             keepPlaceholderOnFocus
                             className="heading sans-serif"
                         />
@@ -122,7 +122,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
                                 value={subHeading}
                                 onChange={d => setAttributes({ subHeading: d })}
                                 placeholder={__(
-                                    `In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.`,
+                                    `Promo description`,
                                 )}
                                 multiline="p"
                                 keepPlaceholderOnFocus

@@ -14,7 +14,7 @@ import {
     useBlockProps,
 } from '@wordpress/block-editor';
 
-const ALLOWED_BLOCKS = ['prc-block/mailchimp-form', 'prc-block/story-item'];
+const ALLOWED_BLOCKS = ['prc-block/promo', 'prc-block/story-item'];
 
 const edit = ({ attributes, className, setAttributes }) => {
 
@@ -47,12 +47,21 @@ const edit = ({ attributes, className, setAttributes }) => {
         }).then( p => {
             console.log(p);
             setTemplate(
-                [['prc-block/story-item', {
-                    postId: p.ID,
-                    title: p.post_title,
-                    description: `<p>${p.post_content}</p>`,
-                    imageSlot: 'disabled',
-                }], ['prc-block/mailchimp-form', {className: 'is-style-horizontal', interest: '1d2638430b'}]]
+                [
+                    ['prc-block/story-item', {
+                        postId: p.ID,
+                        title: p.post_title,
+                        description: `<p>${p.post_content}</p>`,
+                        imageSlot: 'disabled',
+                    }],
+                    ['prc-block/promo', {
+                        heading: 'Get the Daily Briefing by email',
+                        headingLevel: 3,
+                        hasForm: true,
+                    },[
+                        ['prc-block/mailchimp-form', {className: 'is-style-horizontal', interest: '1d2638430b'}]
+                    ]]
+                ]
             );
         });
     }, []);

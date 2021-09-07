@@ -8,6 +8,8 @@ use \WPackio as WPackio;
  */
 
 class Daily_Briefing_Signup extends PRC_Block_Library {
+	protected static $post_type = 'daily-briefings';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -30,7 +32,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 		);
 	}
 
-	public function get_latest_daily_briefing_restfully( \WP_REST_Request $request ) {
+	public function get_latest_daily_briefing_restfully() {
 		$site_id = get_current_blog_id();
 		
 		if ( 8 !== $site_id ) {
@@ -42,7 +44,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 		// New wp_query to get the latest 1 daily-briefing post
 		$query = new WP_Query(
 			array(
-				'post_type'      => 'daily-briefings',
+				'post_type'      => self::$post_type,
 				'posts_per_page' => 1,
 				'orderby'        => 'date',
 				'order'          => 'DESC',
@@ -65,9 +67,30 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
+		$latest_daily_briefing = $this->get_latest_daily_briefing_restfully();
+		$block_attrs           = get_block_wrapper_attributes();
 		ob_start();
+		// We need to go through each innerblock and render manually, for the story item fetch that information using query. We schould cache the info somehow, when a new daily briefing is published we should invalidate the cache.
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<div <?php echo $block_attrs; ?>>
+			<?php 
+			foreach ( $block->parsed_block['innerBlocks'] as $i => $block ) {
+				if ( 'prc-block/story-item' === $block['blockName'] ) {
+					$description    = $latest_daily_briefing->post_content;
+					$block['attrs'] = array(
+						'title'        => $latest_daily_briefing->post_title,
+						'imageSlot'    => 'disabled',
+						'postId'       => $latest_daily_briefing->ID,
+						'label'        => 'Daily Briefing of Media News',
+						'date'         => $latest_daily_briefing->post_date,
+						'innerHTML'    => $description,
+						'innerContent' => array( $description ),
+					);
+				}
+				echo wp_kses( render_block( $block ), 'post' );
+			}
+			?>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

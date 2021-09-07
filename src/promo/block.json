@@ -53,7 +53,7 @@
 		"attributes": {
 			"heading": "Facts are more important than ever",
 			"subHeading":
-				"In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution."
+				"<p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p>"
 		},
 		"innerBlocks": [
 			{
@@ -66,7 +66,7 @@
 				}
 			}
 		],
-		"viewPortWidth": 1200
+		"viewPortWidth": 1000
 	},
 	"providesContext": {
 		"prc-block/hasDarkBackground": "hasDarkBackground"

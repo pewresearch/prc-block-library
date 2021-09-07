@@ -13,10 +13,10 @@
   "cover.css.map": "blocks/cover-7ab47c21.css.map",
   "cover.js": "blocks/cover-f76b65c8.js",
   "cover.js.map": "blocks/cover-f76b65c8.js.map",
-  "daily-briefing-signup.css": "blocks/daily-briefing-signup-65b540fa.css",
-  "daily-briefing-signup.css.map": "blocks/daily-briefing-signup-65b540fa.css.map",
-  "daily-briefing-signup.js": "blocks/daily-briefing-signup-a4872537.js",
-  "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-a4872537.js.map",
+  "daily-briefing-signup.css": "blocks/daily-briefing-signup-3f2aabfb.css",
+  "daily-briefing-signup.css.map": "blocks/daily-briefing-signup-3f2aabfb.css.map",
+  "daily-briefing-signup.js": "blocks/daily-briefing-signup-1b1f0361.js",
+  "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-1b1f0361.js.map",
   "flip-card-back.js": "blocks/flip-card-back-7adf04a5.js",
   "flip-card-back.js.map": "blocks/flip-card-back-7adf04a5.js.map",
   "flip-card-controller.css": "blocks/flip-card-controller-3d66dfe9.css",
@@ -65,8 +65,8 @@
   "promo-rotator.js.map": "blocks/promo-rotator-288b5fb7.js.map",
   "promo.css": "blocks/promo-f3f7b653.css",
   "promo.css.map": "blocks/promo-f3f7b653.css.map",
-  "promo.js": "blocks/promo-727a4dcd.js",
-  "promo.js.map": "blocks/promo-727a4dcd.js.map",
+  "promo.js": "blocks/promo-3b3dddee.js",
+  "promo.js.map": "blocks/promo-3b3dddee.js.map",
   "responsive-container-controller.css": "blocks/responsive-container-controller-806cd166.css",
   "responsive-container-controller.css.map": "blocks/responsive-container-controller-806cd166.css.map",
   "responsive-container-controller.js": "blocks/responsive-container-controller-c3afcbe1.js",
@@ -228,17 +228,17 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/daily-briefing-signup-a4872537.js"
+          "blocks/daily-briefing-signup-1b1f0361.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/daily-briefing-signup-a4872537.js.map"
+          "blocks/daily-briefing-signup-1b1f0361.js.map"
         ],
         "css": [
-          "blocks/daily-briefing-signup-65b540fa.css"
+          "blocks/daily-briefing-signup-3f2aabfb.css"
         ],
         "css.map": [
-          "blocks/daily-briefing-signup-65b540fa.css.map"
+          "blocks/daily-briefing-signup-3f2aabfb.css.map"
         ]
       }
     },
@@ -482,13 +482,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~promo~social-link~story-~f233d4b7-c15f831d.js",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~promo~story-item~topic-index-categor~d8ab4b85-0b504e33.js",
-          "blocks/promo-727a4dcd.js"
+          "blocks/promo-3b3dddee.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~promo~social-link~story-~f233d4b7-c15f831d.js.map",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~promo~story-item~topic-index-categor~d8ab4b85-0b504e33.js.map",
-          "blocks/promo-727a4dcd.js.map"
+          "blocks/promo-3b3dddee.js.map"
         ],
         "css": [
           "blocks/promo-f3f7b653.css"
