@@ -72,7 +72,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 		ob_start();
 		// We need to go through each innerblock and render manually, for the story item fetch that information using query. We schould cache the info somehow, when a new daily briefing is published we should invalidate the cache.
 		?>
-		<div <?php echo $block_attrs; ?>>
+		<div <?php echo esc_attr( $block_attrs ); ?>>
 			<?php 
 			foreach ( $block->parsed_block['innerBlocks'] as $i => $block ) {
 				if ( 'prc-block/story-item' === $block['blockName'] ) {
@@ -87,7 +87,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 						'innerContent' => array( $description ),
 					);
 				}
-				echo render_block( $block );
+				echo wp_kses( render_block( $block ), 'post' );
 			}
 			?>
 		</div>
