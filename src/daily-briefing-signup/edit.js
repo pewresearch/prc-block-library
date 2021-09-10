@@ -56,10 +56,11 @@ const edit = ({ attributes, className, setAttributes }) => {
                     }],
                     ['prc-block/promo', {
                         heading: 'Get the Daily Briefing by email',
-                        headingLevel: 3,
+                        headingLevel: 2,
                         hasForm: true,
+                        icon: 'journalism',
                     },[
-                        ['prc-block/mailchimp-form', {className: 'is-style-horizontal', interest: '1d2638430b'}]
+                        ['prc-block/mailchimp-form', {className: 'is-style-horizontal', interest: '1d2638430b', buttonColor: '#000'}]
                     ]]
                 ]
             );
