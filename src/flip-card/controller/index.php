@@ -58,6 +58,7 @@ class Flip_Card_Controller extends PRC_Block_Library {
 				'editor_script'   => array_pop( $block['js'] )['handle'],
 				'editor_style'    => array_pop( $block['css'] )['handle'],
 				'script'          => array_pop( $frontend['js'] )['handle'],
+				'style'           => array_pop( $frontend['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

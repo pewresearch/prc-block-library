@@ -15,6 +15,6 @@
  * Compiled with the help of https://wpack.io
  * A zero setup Webpack Bundler Script for WordPress
  */
-.wp-block-prc-block-flip-card{margin-bottom:1.5em;width:100vw}.wp-block-prc-block-flip-card .flip-card-front,.wp-block-prc-block-flip-card .flip-card-back{cursor:pointer;padding:1em;border:1px solid #fff}
+.wp-block-prc-block-flip-card{margin-bottom:1.5em;padding:1em}.wp-block-prc-block-flip-card .flip-card-front,.wp-block-prc-block-flip-card .flip-card-back{cursor:pointer}
 
-/*# sourceMappingURL=flip-card-controller-ed079d72.css.map*/
+/*# sourceMappingURL=flip-card-controller-18c6e025.css.map*/
