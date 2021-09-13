@@ -21,8 +21,8 @@
   "flip-card-back.js.map": "blocks/flip-card-back-3888bec5.js.map",
   "flip-card-controller.css": "blocks/flip-card-controller-3d66dfe9.css",
   "flip-card-controller.css.map": "blocks/flip-card-controller-3d66dfe9.css.map",
-  "flip-card-controller.js": "blocks/flip-card-controller-1aa5c8ff.js",
-  "flip-card-controller.js.map": "blocks/flip-card-controller-1aa5c8ff.js.map",
+  "flip-card-controller.js": "blocks/flip-card-controller-db2638f7.js",
+  "flip-card-controller.js.map": "blocks/flip-card-controller-db2638f7.js.map",
   "flip-card-front.js": "blocks/flip-card-front-685aa6b6.js",
   "flip-card-front.js.map": "blocks/flip-card-front-685aa6b6.js.map",
   "github-gist.js": "blocks/github-gist-68261b99.js",
@@ -258,11 +258,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/flip-card-controller-1aa5c8ff.js"
+          "blocks/flip-card-controller-db2638f7.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/flip-card-controller-1aa5c8ff.js.map"
+          "blocks/flip-card-controller-db2638f7.js.map"
         ],
         "css": [
           "blocks/flip-card-controller-3d66dfe9.css"

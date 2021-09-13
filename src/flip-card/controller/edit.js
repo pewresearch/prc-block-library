@@ -53,15 +53,13 @@ const edit = ({ attributes, className, setAttributes, isSelected, clientId }) =>
                 <ResizableBox
                     size={{
                         width,
-                        height,
                     }}
-                    minHeight="200"
                     minWidth="200"
                     maxWidth="640"
                     enable={{
                         top: false,
                         right: isSelected,
-                        bottom: isSelected,
+                        bottom: false,
                         left: false,
                         topRight: false,
                         bottomRight: false,
@@ -71,7 +69,6 @@ const edit = ({ attributes, className, setAttributes, isSelected, clientId }) =>
                     onResizeStop={(event, direction, elt, delta) => {
                         setAttributes({
                             width: parseInt(width + delta.width, 10),
-                            height: parseInt(height + delta.height, 10),
                         });
                         toggleSelection(true);
                     }}
