@@ -15,15 +15,14 @@ class Group_Block extends PRC_Block_Library {
 	}
 
 	public function enqueue_assets( $js = true, $css = true ) {
-		$block_js_deps = array( 'react', 'react-dom', 'wp-blocks', 'wp-hooks', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
 			'blocks',
 			'group',
 			array(
 				'js'        => $js,
 				'css'       => $css,
-				'js_dep'    => true === $js ? $block_js_deps : array(),
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -32,7 +31,7 @@ class Group_Block extends PRC_Block_Library {
 	}
 
 	public function group_block_render_callback( $block_content, $block ) {
-		if ( 'core/group' !== $block['blockName'] ) {
+		if ( 'core/group' !== $block['blockName'] || is_admin() ) {
 			return $block_content;
 		}
 		

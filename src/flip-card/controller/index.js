@@ -3,6 +3,7 @@
  */
 import { registerBlockType } from '@wordpress/blocks';
 import { __, sprintf } from '@wordpress/i18n';
+import { flipVertical as icon } from '@wordpress/icons';
 
 /**
  * Internal Dependencies
@@ -19,6 +20,7 @@ const settings = {
     supports: {
         align: ['left', 'right'],
     },
+    icon,
     edit,
     save,
 };

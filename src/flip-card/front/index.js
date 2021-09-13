@@ -3,6 +3,7 @@
  */
 import { registerBlockType } from '@wordpress/blocks';
 import { __, sprintf } from '@wordpress/i18n';
+import { flipVertical as icon } from '@wordpress/icons';
 
 /**
  * Internal Dependencies
@@ -16,6 +17,7 @@ const { name } = metadata;
 const settings = {
     title: __('PRC Flip Card (Front)'),
     description: __('Front of the flip card'),
+    icon,
     edit,
     save,
 };

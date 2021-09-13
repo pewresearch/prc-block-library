@@ -18,7 +18,6 @@ import {
  */
 import Controls from '../_shared';
 
-const ALLOWED_BLOCKS = [];
 const TEMPLATE =  [['core/paragraph',{}]];
 
 const edit = ({ attributes, className, clientId }) => {
@@ -27,7 +26,6 @@ const edit = ({ attributes, className, clientId }) => {
     });
 
     const innerBlocksProps = useInnerBlocksProps({}, {
-        allowedBlocks: ALLOWED_BLOCKS,
         orientation: 'vertical',
         templateLock: false,
         template: TEMPLATE

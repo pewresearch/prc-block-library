@@ -11,6 +11,13 @@ class Flip_Card_Controller extends PRC_Block_Library {
 	public function render_block_callback( $attributes, $content, $block ) {
 		$block_attrs = get_block_wrapper_attributes(
 			array(
+				'class' => classNames(
+					'rendered',
+					array(
+						'alignleft'  => array_key_exists( 'align', $attributes ) && 'left' === $attributes['align'],
+						'alignright' => array_key_exists( 'align', $attributes ) && 'right' === $attributes['align'],
+					) 
+				),
 				'style' => sprintf( 'width: %spx; min-height: %spx; border-color: %s; background-color: %s', $attributes['width'], $attributes['height'], $attributes['borderColor'], $attributes['bgColor'] ),
 			)
 		);

@@ -1,7 +1,17 @@
+/**
+ * External Dependencies
+ */
+import ReactCardFlip from 'react-card-flip';
+
+/**
+ * WordPress Dependencies
+ */
 import domReady from '@wordpress/dom-ready';
 import { RawHTML, render, useState } from '@wordpress/element';
 
-import ReactCardFlip from 'react-card-flip';
+/**
+ * Internal Dependencies
+ */
 import './frontend.scss';
 
 const FlipCard = ({ front, back, height, borderColor, backgroundColor }) => {
