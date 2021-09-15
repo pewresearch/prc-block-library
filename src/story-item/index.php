@@ -73,7 +73,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 		if ( 'stub' === $attrs['postType'] ) {
 			$attrs['link'] = get_post_meta( $post_id, '_redirect', true );
 		} if ( 'news-item' === $attrs['postType'] ) {
-			$attrs['link'] = get_post_meta( $post_id, '_news_item_url', true );
+			$url = get_post_meta( $post_id, 'news-item-options', true );
+			if ( is_array( $url ) && array_key_exists( 'url', $url ) ) {
+				$url = $url['url'];
+			}
+			if ( ! empty( get_post_meta( $post_id, '_news_item_url', true ) ) ) {
+				$url = get_post_meta( $post_id, '_news_item_url', true );
+			}
+			$attrs['link'] = $url;
 		} else {
 			$attrs['link'] = get_permalink( $post_id );
 		}
