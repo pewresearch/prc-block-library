@@ -58,7 +58,7 @@ class Topic_Index_AZ extends PRC_Block_Library {
 
 		$terms = get_terms(
 			array(
-				'taxonomy'   => 'topic',
+				'taxonomy'   => array( 'topic', 'regions-countries' ),
 				'hide_empty' => false,
 				'name__like' => $letter,
 				'orderby'    => 'slug',
@@ -101,7 +101,13 @@ class Topic_Index_AZ extends PRC_Block_Library {
 			<div class="ui relaxed link list">
 			<?php
 			foreach ( $term_query as $term ) {
-				$term_link = get_term_link( $term, 'topic' );
+				// Check what kind of term we're dealing with. And then get term link accordingly.
+				$term_link = '';
+				if ( 'topic' === $term->taxonomy ) {
+					$term_link = get_term_link( $term, 'topic' );
+				} elseif ( 'regions-countries' === $term->taxonomy ) {
+					$term_link = get_term_link( $term, 'regions-countries' );
+				}
 				echo '<div class="item"><a href="' . esc_url( $term_link ) . '">' . esc_html( $term->name ) . '</a></div>';
 			}
 			?>
