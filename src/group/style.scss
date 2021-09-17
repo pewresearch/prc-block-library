@@ -50,13 +50,11 @@ $breakpoint: 767px;
 	}
 	
 	&.is-style-card-alt {
-		.wp-block-group__inner-container {
-			@media only screen and (min-width: $breakpoint) {
-				padding-left: $altCardMargin;
-				padding-right: $altCardMargin;
-			}
-			padding-bottom: $altCardMargin;
+		@media only screen and (min-width: $breakpoint) {
+			padding-left: $altCardMargin;
+			padding-right: $altCardMargin;
 		}
+		padding-bottom: $altCardMargin;
 		
 		.is-style-sub-header {
 			background-color: #333132;

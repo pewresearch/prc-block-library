@@ -31,8 +31,8 @@
   "grid.css.map": "blocks/grid-d695f775.css.map",
   "grid.js": "blocks/grid-316c1b19.js",
   "grid.js.map": "blocks/grid-316c1b19.js.map",
-  "group.css": "blocks/group-d6a875b7.css",
-  "group.css.map": "blocks/group-d6a875b7.css.map",
+  "group.css": "blocks/group-79022d4d.css",
+  "group.css.map": "blocks/group-79022d4d.css.map",
   "group.js": "blocks/group-8c230d4f.js",
   "group.js.map": "blocks/group-8c230d4f.js.map",
   "heading.css": "blocks/heading-c24f58d5.css",
@@ -325,10 +325,10 @@
           "blocks/group-8c230d4f.js.map"
         ],
         "css": [
-          "blocks/group-d6a875b7.css"
+          "blocks/group-79022d4d.css"
         ],
         "css.map": [
-          "blocks/group-d6a875b7.css.map"
+          "blocks/group-79022d4d.css.map"
         ]
       }
     },
