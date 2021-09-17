@@ -11,12 +11,13 @@
 			"default": 310
 		},
 		"borderColor": {
-			"type": "string",
-			"default": "#000"
+			"type": "string"
 		},
 		"bgColor": {
-			"type": "string",
-			"default": "#FFF"
+			"type": "string"
+		},
+		"fluid": {
+			"type": "boolean"
 		}
 	}
 }

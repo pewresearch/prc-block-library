@@ -7,7 +7,8 @@ import classnames from 'classnames';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import {
     __experimentalUseInnerBlocksProps as useInnerBlocksProps,
     useBlockProps
@@ -29,7 +30,7 @@ const TEMPLATE = [
 ];
 
 const edit = ({ attributes, className, setAttributes, isSelected, clientId }) => {
-    const { width, height, borderColor, bgColor } = attributes;
+    const { width, height, borderColor, bgColor, fluid } = attributes;
     
     const { toggleSelection } = dispatch('core/block-editor');
 
@@ -45,6 +46,35 @@ const edit = ({ attributes, className, setAttributes, isSelected, clientId }) =>
         __experimentalCaptureToolbars: true,
         renderAppender: false,
     });
+
+    const { isFluid } = useSelect(select => {
+        const parentBlockId = select('core/block-editor').getBlockRootClientId(clientId);
+        const parentBlock = select('core/block-editor').getBlock(parentBlockId);
+        return {
+            isFluid: null !== parentBlock && parentBlock.name === 'prc-block/column',
+        };
+    });
+
+    useEffect(()=>{
+        if ( isSelected) {
+            setAttributes({
+                fluid: isFluid,
+            });
+            console.log('isFluid?', isFluid);
+        }
+    }, [isFluid, isSelected]);
+
+    // If is fluid then skip the resizable box.
+    if ( isFluid ) {
+        return (
+            <Fragment>
+                <Controls clientId={clientId} />
+                <div {...blockProps}>
+                    <div {...innerBlocksProps} />
+                </div>
+            </Fragment>
+        );
+    }
 
     return (
         <Fragment>
