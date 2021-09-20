@@ -155,6 +155,7 @@ const edit = ({
     // update chart type using styles
     useEffect(() => {
         if (isConvertedChart) {
+            console.log('converting ...');
             const legacyMeta = select('core/editor').getEditedPostAttribute(
                 'meta',
             );

@@ -37,9 +37,7 @@ const settings = {
                 transform: (attributes) => {
                     return createBlock('prc-block/chart-builder-data-wrapper', {
                         transformed: true,
-                        isConvertedChart: attributes.className.includes(
-                            'pew-chart',
-                        ),
+                        isConvertedChart: true,
                         tableHead: attributes.head,
                         tableBody: attributes.body,
                     });
