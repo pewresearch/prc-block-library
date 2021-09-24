@@ -74,7 +74,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
         return (
 
             <div {...blockProps}>
-                <div>
+                <div class="main">
                     {numberEnabled && (
                         <span className="big-number">
                             {blockIndex + 1}

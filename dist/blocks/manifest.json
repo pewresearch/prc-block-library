@@ -55,10 +55,10 @@
   "page.css.map": "blocks/page-f9436eb4.css.map",
   "page.js": "blocks/page-a9c82971.js",
   "page.js.map": "blocks/page-a9c82971.js.map",
-  "popular-listing.css": "blocks/popular-listing-27b1bfa2.css",
-  "popular-listing.css.map": "blocks/popular-listing-27b1bfa2.css.map",
-  "popular-listing.js": "blocks/popular-listing-bc087657.js",
-  "popular-listing.js.map": "blocks/popular-listing-bc087657.js.map",
+  "popular-listing.css": "blocks/popular-listing-a9912176.css",
+  "popular-listing.css.map": "blocks/popular-listing-a9912176.css.map",
+  "popular-listing.js": "blocks/popular-listing-29ebc795.js",
+  "popular-listing.js.map": "blocks/popular-listing-29ebc795.js.map",
   "post-bylines.js": "blocks/post-bylines-07a6304f.js",
   "post-bylines.js.map": "blocks/post-bylines-07a6304f.js.map",
   "post-publish-date.js": "blocks/post-publish-date-9efc99d8.js",
@@ -450,19 +450,19 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~so~367cfc7e-9e65a589.js",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~story-item~top~0f4cfee1-0ae7b900.js",
-          "blocks/popular-listing-bc087657.js"
+          "blocks/popular-listing-29ebc795.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~so~367cfc7e-9e65a589.js.map",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~story-item~top~0f4cfee1-0ae7b900.js.map",
-          "blocks/popular-listing-bc087657.js.map"
+          "blocks/popular-listing-29ebc795.js.map"
         ],
         "css": [
-          "blocks/popular-listing-27b1bfa2.css"
+          "blocks/popular-listing-a9912176.css"
         ],
         "css.map": [
-          "blocks/popular-listing-27b1bfa2.css.map"
+          "blocks/popular-listing-a9912176.css.map"
         ]
       }
     },

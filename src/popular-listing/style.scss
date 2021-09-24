@@ -3,8 +3,10 @@
     flex-direction: row;
 }
 
+//! This probabbly needs to be updated (added for testing)
 .wp-block-group {
     width: 320px !important;
+    border-left: 1px solid rgba(34, 36, 38, .15);
 }
 
 .my-class {
@@ -17,6 +19,7 @@
     line-height: 23px;
     font-weight: 400;
     color: #2a2a2a !important;
+
 }
 
 .wp-block-prc-block-popular-listing {
