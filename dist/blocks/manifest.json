@@ -89,8 +89,8 @@
   "story-item.js.map": "blocks/story-item-ba038bf6.js.map",
   "sub-title.js": "blocks/sub-title-08d3f801.js",
   "sub-title.js.map": "blocks/sub-title-08d3f801.js.map",
-  "table.js": "blocks/table-5f7b5d3e.js",
-  "table.js.map": "blocks/table-5f7b5d3e.js.map",
+  "table.js": "blocks/table-5e94fc90.js",
+  "table.js.map": "blocks/table-5e94fc90.js.map",
   "tabs-controller.css": "blocks/tabs-controller-b90c64c0.css",
   "tabs-controller.css.map": "blocks/tabs-controller-b90c64c0.css.map",
   "tabs-controller.js": "blocks/tabs-controller-42b408c4.js",
@@ -623,12 +623,12 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~table-86ba5bb8.js",
-          "blocks/table-5f7b5d3e.js"
+          "blocks/table-5e94fc90.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~table-86ba5bb8.js.map",
-          "blocks/table-5f7b5d3e.js.map"
+          "blocks/table-5e94fc90.js.map"
         ]
       }
     },

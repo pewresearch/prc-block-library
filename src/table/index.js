@@ -7,13 +7,16 @@
  */
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment, useState, useEffect } from '@wordpress/element';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, BlockControls } from '@wordpress/block-editor';
 import {
     Button,
     DropZoneProvider,
     DropZone,
+    KeyboardShortcuts,
     PanelBody,
     PanelRow,
+    Toolbar,
+    ToolbarGroup
 } from '@wordpress/components';
 import { addFilter } from '@wordpress/hooks';
 
@@ -98,7 +101,32 @@ const TableBlockFilter = createHigherOrderComponent((BlockEdit) => {
         }
         return (
             <Fragment>
-                <BlockEdit {...props} />
+                <KeyboardShortcuts
+                    shortcuts={ {
+                        'enter': () => console.log("enter pressed", props),
+                    } }
+                >
+                    <BlockEdit {...props} />
+                    <BlockControls>
+                        <Toolbar
+                            label={'Test Block Controls'}
+                        >
+                            <ToolbarGroup
+                                isCollapsed={false}
+                                controls={[1].map(targetLevel => {
+                                    return {
+                                        icon: 'admin-settings',
+                                        title: 'Test Control',
+                                        isActive: false,
+                                        onClick() {
+                                            console.log("clicked!", props);
+                                        },
+                                    };
+                                })}
+                            />
+                        </Toolbar>
+                    </BlockControls>
+                </KeyboardShortcuts>
                 <TableBlockEdit {...props} />
             </Fragment>
         );
