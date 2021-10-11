@@ -72,7 +72,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$attrs['label']       = $this->get_label( $post_id, $attrs['enableAltTaxonomy'] );
 		if ( 'stub' === $attrs['postType'] ) {
 			$attrs['link'] = get_post_meta( $post_id, '_redirect', true );
-		} if ( 'news-item' === $attrs['postType'] ) {
+		} elseif ( 'news-item' === $attrs['postType'] ) {
 			$url = get_post_meta( $post_id, 'news-item-options', true );
 			if ( is_array( $url ) && array_key_exists( 'url', $url ) ) {
 				$url = $url['url'];

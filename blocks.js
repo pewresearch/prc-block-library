@@ -21,6 +21,7 @@ const files = [
             menu: './src/menu/index.js',
             'menu-link': './src/menu-link/index.js',
             page: './src/page/index.js',
+            'popular-listing': './src/popular-listing/index.js',
             'post-bylines': './src/post-bylines/index.js',
             'post-publish-date': './src/post-publish-date/index.js',
             'post-title': './src/post-title/index.js',

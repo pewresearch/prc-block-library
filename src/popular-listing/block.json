@@ -1,0 +1,25 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/popular-listing",
+	"category": "layout",
+	"attributes": {
+		"title": {
+            "type": "string"
+        },
+		"link":{
+			"type": "string"
+		},
+		"postId": {
+            "type": "integer"
+        },
+		"blockIndexAttr": {
+			"type" : "integer"
+		},
+		"enableNumber": {
+			"type": "boolean"
+		}
+    },          
+	"supports": {
+		"html": false
+	}
+}
