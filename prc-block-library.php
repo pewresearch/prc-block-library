@@ -127,7 +127,7 @@ class PRC_Block_Library {
 	 * @param array $allowed_tags Allowed tags.
 	 * @return array Allowed tags.
 	 */
-	public static function allowed_html_tags( $allowed_tags ) {
+	public static function allowed_html_tags( $allowed_tags, $context ) {
 		$allowed_tags['div']['style']  = true;
 		$allowed_tags['img']['srcset'] = true;
 		$allowed_tags['img']['sizes']  = true;
