@@ -43,15 +43,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 			)
 		);
 	}
-
-	public function render_as_icon( $attributes ) {
-		return apply_filters( 'prc_social_link_icon', false, $attributes );
-	}
-
-	public function render_as_button( $attributes ) {
-		return apply_filters( 'prc_social_button', false, $attributes );
-	}
-
+	
 	/**
 	 * Renders the `prc-block/social-link` block.
 	 *
@@ -65,9 +57,7 @@ class PRC_Social_Link extends PRC_Block_Library {
 		if ( ! is_object( $block ) ) {
 			return '';
 		}
-		// If is style icon if is style button....
-
-		return $this->render_as_icon( $attributes );
+		return apply_filters( 'prc_social_link_icon', false, $attributes );
 	}
 
 	/**

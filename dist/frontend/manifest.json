@@ -27,8 +27,8 @@
   "menu-link.js.map": "frontend/menu-link-db1bf22f.js.map",
   "runtime.js": "frontend/runtime-83e71da2.js",
   "runtime.js.map": "frontend/runtime-83e71da2.js.map",
-  "social-link.js": "frontend/social-link-8fc8daec.js",
-  "social-link.js.map": "frontend/social-link-8fc8daec.js.map",
+  "social-link.js": "frontend/social-link-9955f961.js",
+  "social-link.js.map": "frontend/social-link-9955f961.js.map",
   "story-item.js": "frontend/story-item-e12893b3.js",
   "story-item.js.map": "frontend/story-item-e12893b3.js.map",
   "tabs-controller.js": "frontend/tabs-controller-5517fb38.js",
@@ -190,11 +190,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/social-link-8fc8daec.js"
+          "frontend/social-link-9955f961.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/social-link-8fc8daec.js.map"
+          "frontend/social-link-9955f961.js.map"
         ]
       }
     },

@@ -83,8 +83,8 @@
   "row.js.map": "blocks/row-5b5a5181.js.map",
   "runtime.js": "blocks/runtime-8f407741.js",
   "runtime.js.map": "blocks/runtime-8f407741.js.map",
-  "social-link.js": "blocks/social-link-61cc686a.js",
-  "social-link.js.map": "blocks/social-link-61cc686a.js.map",
+  "social-link.js": "blocks/social-link-f23479d3.js",
+  "social-link.js.map": "blocks/social-link-f23479d3.js.map",
   "staff.css": "blocks/staff-eece803c.css",
   "staff.css.map": "blocks/staff-eece803c.css.map",
   "staff.js": "blocks/staff-350da008.js",
@@ -589,12 +589,12 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~so~367cfc7e-fc5b8c0e.js",
-          "blocks/social-link-61cc686a.js"
+          "blocks/social-link-f23479d3.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~so~367cfc7e-fc5b8c0e.js.map",
-          "blocks/social-link-61cc686a.js.map"
+          "blocks/social-link-f23479d3.js.map"
         ]
       }
     },

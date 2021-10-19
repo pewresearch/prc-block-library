@@ -18,6 +18,10 @@
 		},
 		"url": {
 			"type": "string"
+		},
+		"asButton": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"usesContext": ["prc-block/menu"],

@@ -4,7 +4,7 @@ import { addQueryArgs } from '@wordpress/url';
 const { innerWidth, innerHeight } = window;
 
 const getArgs = elm => {
-    let description = elm.getAttribute('share-description');
+    let description = elm.getAttribute('data-share-description');
     if (!description) {
         description = document
             .querySelector('meta[property="og:description"]')
@@ -17,7 +17,7 @@ const getArgs = elm => {
             .getAttribute('content');
     }
 
-    let url = elm.getAttribute('share-url');
+    let url = elm.getAttribute('data-share-url');
     if (!url) {
         url = document
             .querySelector('meta[property="og:url"]')
