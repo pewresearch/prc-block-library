@@ -7,7 +7,10 @@ import { uploadMedia } from '@wordpress/media-utils';
  * External dependencies
  */
 import html2canvas from 'html2canvas';
-
+import horizontalBarConfig from '@pewresearch/pew-chart-builder/dist/Templates/horizontalBar';
+import verticalBarConfig from '@pewresearch/pew-chart-builder/dist/Templates/verticalBar';
+import lineConfig from '@pewresearch/pew-chart-builder/dist/Templates/line';
+import scatterConfig from '@pewresearch/pew-chart-builder/dist/Templates/scatter';
 // Transform data from table block into json useable for chart builder
 export const formattedData = (data, scale, chartType) => {
     const { body, tableHeaders } = data;
@@ -137,27 +140,35 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
     console.log({ legacyMeta });
     const checkEmptyStr = (legacyAttr, attr) =>
         legacyAttr.length !== 0 ? legacyAttr : attr;
-    const legacyType = (type) => {
+    const getLegacyConfig = (type) => {
         switch (type) {
             case 'bar':
-                return { type: 'bar', orientation: 'vertical' };
+                return verticalBarConfig;
             case 'column':
-                return { type: 'bar', orientation: 'horizontal' };
+                return horizontalBarConfig;
             case 'line':
-                return { type: 'line', orientation: 'horizontal' };
+                return lineConfig;
             case 'area':
-                return { type: 'area', orientation: 'horizontal' };
+                return lineConfig;
             case 'scatter':
-                return { type: 'scatter', orientation: 'horizontal' };
+                return scatterConfig;
             case 'pie':
-                return { type: 'pie', orientation: 'horizontal' };
+                return verticalBarConfig;
             default:
-                return { type: 'bar', orientation: 'horizontal' };
+                return verticalBarConfig;
         }
     };
+    const legacyConfig = getLegacyConfig(legacyMeta['cb_type']);
+    const { layout, legend, bar, labels } = legacyConfig;
     return {
-        chartType: legacyType(legacyMeta['cb_type']).type,
-        chartOrientation: legacyType(legacyMeta['cb_type']).orientation,
+        chartType: layout.type,
+        chartOrientation: layout.orientation,
+        width: layout.width,
+        height: layout.height,
+        paddingTop: layout.padding.top,
+        paddingRight: layout.padding.right,
+        paddingBottom: layout.padding.bottom,
+        paddingLeft: layout.padding.left,
         xScale: legacyMeta['cb_xaxis_type'] === 'datetime' ? 'time' : 'linear',
         xLabel: checkEmptyStr(legacyMeta['cb_xaxis_label'], attributes.xLabel),
         yLabel: checkEmptyStr(legacyMeta['cb_yaxis_label'], attributes.yLabel),
@@ -171,6 +182,8 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
         ),
         lineNodes: legacyMeta['cb_hide_markers'],
         tooltipActive: legacyMeta['cb_enable_inline_tooltips'],
+        labelPositionDX: labels.labelPositionDX,
+        labelPositionDY: labels.labelPositionDY,
         isConvertedChart: false,
     };
 };

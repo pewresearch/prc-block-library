@@ -4,83 +4,98 @@ $altCardLineHeight: 1.28571429em;
 $altCardMargin: 1rem;
 $breakpoint: 767px;
 
-.column > .wp-block-group.is-style-card-alt,
-#secondary.column > .prc-block-area {
+.column>.wp-block-group.is-style-card-alt,
+#secondary.column>.prc-block-area {
 	@media only screen and (min-width: $breakpoint) {
 		margin-left: -1.5rem;
 	}
 }
 
 .wp-block-group {
-	& > :last-child {
+	&> :last-child {
 		margin-bottom: 0;
 	}
-	.block-editor-block-list__layout > .wp-block {
-		max-width: 1152px!important
+
+	.block-editor-block-list__layout>.wp-block {
+		max-width: 1152px !important
 	}
 
 	&.has-background {
 		padding: 1em;
 		margin-bottom: 2em;
-		
+
 		&.is-style-200-wide {
 			width: 100%;
 			max-width: 200px;
 		}
+
 		&.is-style-300-wide {
 			width: 100%;
 			max-width: 300px;
 		}
+
 		&.is-style-420-wide {
 			width: 100%;
 			max-width: 420px;
 		}
+
 		&.is-style-640-wide {
 			width: 100%;
 			max-width: 640px;
 		}
 	}
-	
+
 	&.is-style-callout {
 		border-top: 1px solid $relaxedBorder;
+
 		p {
-			font-family: franklin-gothic-urw,Verdana,Geneva,sans-serif;
+			font-family: franklin-gothic-urw, Verdana, Geneva, sans-serif;
 			font-size: 14px;
 		}
+
+		.wp-block-group__inner-container ul li {
+			font-family: sans-serif !important;
+			font-size: 13px;
+		}
 	}
-	
+
 	&.is-style-card-alt {
 		@media only screen and (min-width: $breakpoint) {
 			padding-left: $altCardMargin;
 			padding-right: $altCardMargin;
 		}
+
 		padding-bottom: $altCardMargin;
-		
+
 		.is-style-sub-header {
 			background-color: #333132;
 			padding: 9px $altCardHeaderPadding;
 			margin-left: -$altCardMargin;
-			margin-right:  -$altCardMargin;
+			margin-right: -$altCardMargin;
 			margin-bottom: $altCardMargin;
 			line-height: $altCardLineHeight;
 			color: white;
 			font-weight: normal;
 			letter-spacing: 0.1em;
+
 			a {
 				color: white;
 			}
 		}
 	}
-	
+
 	&.is-style-essay-toolbar {
+
 		.meta,
 		.icon {
-			color: black!important;
+			color: black !important;
 		}
+
 		.meta {
 			font-size: 14px;
 			letter-spacing: inherit;
 		}
+
 		.icon {
 			font-size: 16px;
 		}
@@ -95,20 +110,23 @@ $breakpoint: 767px;
 	}
 
 	// Ensures grid blocks take up the full width of a group.
-    div[data-type="prc-block/columns"] {
-        max-width: 100%!important;
-    }
+	div[data-type="prc-block/columns"] {
+		max-width: 100% !important;
+	}
 }
 
 .wp-block-group.essay-toolbar-group {
+
 	.meta,
 	.icon {
-		color: black!important;
+		color: black !important;
 	}
+
 	.meta {
 		font-size: 14px;
 		letter-spacing: inherit;
 	}
+
 	.icon {
 		font-size: 16px;
 	}
