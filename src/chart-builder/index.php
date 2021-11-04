@@ -26,8 +26,9 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		}
 		$script_handle = $this->enqueue_frontend();
 		$attrs         = wp_json_encode( $block->attributes );
-		$id            = md5( $attrs ); // some random id for this chart you can use something like md5() to spit out a random but unique id using the attributes of the block.
+		$id            = md5( $attrs );
 		$post_id 	   = get_the_ID();
+		wp_add_inline_script($script_handle, "if ( !window.chartConfigs ) {window.chartConfigs = {};} chartConfigs['".$id."'] = " . $attrs . ";");
 		ob_start();
 		?>
 		<div
@@ -49,14 +50,8 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 			data-post-id="<?php echo esc_attr($post_id); ?>"
 			data-post-url="<?php echo esc_url(get_permalink( $post_id )); ?>"
 		>
-			Chart Builder Inner
+			Chart Loading...
 		</div>
-		<script>
-		if ( !window.chartConfigs ) {
-			window.chartConfigs = {};
-		}
-		chartConfigs["<?php echo "${id}"; ?>"] = <?php echo "${attrs}"; ?>
-		</script>
 		<?php
 		return ob_get_clean();
 	}
@@ -85,8 +80,6 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-components' );
-		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
@@ -95,7 +88,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

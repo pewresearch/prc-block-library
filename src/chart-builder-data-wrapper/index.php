@@ -7,6 +7,7 @@ use \WPackio as WPackio;
 
 class ConvertHelper {
 	static function getdata( $contents ) {
+		// @TODO DOMDocument can be quite processor intensive, we should investigate alternatives. 
 		$DOM = new DOMDocument();
 		@$DOM->loadHTML( $contents );
 		$items  = $DOM->getElementsByTagName( 'tr' );
@@ -33,36 +34,18 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		if ( true === $init ) {
 			// Do hooks here
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			// Debugging:
+			// add_filter('the_content', function($content) {
+			// 	return prc_chart_builder() . $content;
+			// }, 10, 1);
 		}
 	}
-
-	private function cherry_pick_attr( $needle, $haystack ) {
-		if ( array_key_exists( $needle, $haystack ) ) {
-			return $haystack[ $needle ];
-		}
-		return null;
-	}
-
 
 	public function render_chart_builder_data_wrapper( $attributes, $content = '', $block ) {
-		// $this->enqueue_frontend();
-		$attrs = wp_json_encode( $block->attributes );
-
 		if ( empty( $block->inner_blocks ) ) {
 			return '';
 		}
 
-		$inner_blocks_html = '';
-		$table_content     = '';
-		// foreach ( $block->inner_blocks as $inner_block ) {
-		// if ('core/table' === $inner_block->name) {
-		// $table_content .= $inner_block->inner_html;
-		// }
-		// }
-		// foreach ( $block->parsed_block['innerBlocks'] as $i => $inner_block ) {
-
-		// echo render_block( $inner_block );
-		// }
 		$table_block = array_pop(
 			array_filter(
 				$block->parsed_block['innerBlocks'],
@@ -81,7 +64,6 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		);
 
 		$table_array = ConvertHelper::getdata( $table_block['innerHTML'] );
-		// vdump(wp_j÷son_encode($table_block));
 
 		ob_start();
 		?>
@@ -98,7 +80,6 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 	}
 
 	public function register_frontend() {
-		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 		return $enqueue->register(
 			'chart-builder-data-wrapper',
@@ -106,7 +87,7 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $js_deps,
+				'js_dep'    => array('moment'),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -114,14 +95,7 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		);
 	}
 
-	// public function enqueue_frontend() {
-	// $registered = $this->register_frontend();
-	// wp_enqueue_script( array_pop( $registered['js'] )['handle'] );
-	// }
-
 	public function register_block() {
-		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-components' );
-		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
@@ -130,14 +104,14 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
 			)
 		);
 
-		$my_block = register_block_type_from_metadata(
+		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/chart-builder-data-wrapper',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
@@ -149,3 +123,48 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 }
 
 new PRC_Chart_Builder_Data_Wrapper( true );
+
+function prc_chart_builder() {
+	$parsed = new WP_Block_Parser_Block( 
+		'prc-block/chart-builder-data-wrapper',
+		array(
+			// Attributes for chart wrapper here
+			// See structure here https://github.com/wpcomvip/pewresearch-org/blob/master/plugins/prc-block-library/src/chart-builder-data-wrapper/block.json#L18-L46
+		),
+		array(
+			array(
+				'core/table',
+				array(
+					// Attributes for table block here (data)
+					// See structure here https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/table/block.json#L8-L124
+					'className' => 'chart-builder-data-table'	
+				), 
+				//inner blocks
+				array(),
+				//innerHTML
+				'<figure class="wp-block-table chart-builder-data-table"><table><thead><tr><th>x axis</th><th>y axis</th></tr></thead><tbody><tr><td>2</td><td>2</td></tr><tr><td>1</td><td>1</td></tr></tbody></table></figure>',
+				//innerContent
+				array('<figure class="wp-block-table chart-builder-data-table"><table><thead><tr><th>x axis</th><th>y axis</th></tr></thead><tbody><tr><td>2</td><td>2</td></tr><tr><td>1</td><td>1</td></tr></tbody></table></figure>')
+			),
+			array(
+				'prc-block/chart-builder',
+				array(
+					// Attributes for chart here
+					// See structure here https://github.com/wpcomvip/pewresearch-org/blob/master/plugins/prc-block-library/src/chart-builder/block.json#L5-L290
+					"chartType" => "scatter",
+					"colorValue" => "light-brown-spectrum",
+					"xLabel" => "the x axis",
+					"xMaxDomain" => 2,
+					"yLabel" => "the y axis",
+					"yMaxDomain" => 2,
+					"legendActive" => true,
+					"className" => "is-style-scatter"				
+				), array(), '', array()
+			),
+		),
+		'',
+		array()
+	);
+
+	echo render_block( (array) $parsed );
+}
