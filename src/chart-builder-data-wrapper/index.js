@@ -20,7 +20,6 @@ const settings = {
     icon: 'chart-area',
     keywords: [__('chart')],
     supports: {
-        // Removes support for an HTML mode.
         html: false,
     },
     example: {

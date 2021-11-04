@@ -3,6 +3,9 @@
     "category": "layout",
     "parent": ["prc-block/chart-builder-data-wrapper"],
     "attributes": {
+        "id": {
+            "type": "string"
+        },
         "isConvertedChart": {
             "type": "boolean",
             "default": false

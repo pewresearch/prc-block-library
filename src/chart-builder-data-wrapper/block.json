@@ -3,6 +3,9 @@
     "category": "layout",
     "textdomain": "chart-builder-data-wrapper",
     "attributes": {
+        "id": {
+            "type": "string"
+        },
         "transformed": {
             "type": "boolean",
             "default": false
@@ -15,33 +18,11 @@
             "type": "boolean",
             "default": false
         },
-        "tableHead": {
-            "type": "array",
-            "default": [
-                {
-                    "cells": [
-                        { "content": "x", "tag": "th" },
-                        { "content": "y", "tag": "th" }
-                    ]
-                }
-            ]
-        },
-        "tableBody": {
-            "type": "array",
-            "default": [
-                {
-                    "cells": [
-                        { "content": "", "tag": "td" },
-                        { "content": "", "tag": "td" }
-                    ]
-                },
-                {
-                    "cells": [
-                        { "content": "", "tag": "td" },
-                        { "content": "", "tag": "td" }
-                    ]
-                }
-            ]
+        "chartData": {
+            "type": "array"
         }
-    }
+    },
+    "providesContext": {
+		"prc-chart-builder/id": "id"
+	}
 }

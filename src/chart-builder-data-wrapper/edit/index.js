@@ -1,5 +1,5 @@
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
 import {
@@ -15,17 +15,44 @@ import {
 } from '@wordpress/components';
 import { minus, plusCircleFilled } from '@wordpress/icons';
 import { select, dispatch } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 
 const edit = ({ attributes, setAttributes, clientId }) => {
-    console.log({ attributes, clientId });
-    // Create an empty table + chart component on page load
-    const MY_TEMPLATE = [
+    const {id} = attributes;
+
+    useEffect(()=>{
+        if ( !id ) {
+            setAttributes({id: clientId});
+        }
+    }, []);
+
+    const TEMPLATE = [
         [
             'core/table',
             {
                 className: 'chart-builder-data-table',
-                head: attributes.tableHead,
-                body: attributes.tableBody,
+                head: [
+                    {
+                        "cells": [
+                            { "content": "x", "tag": "th" },
+                            { "content": "y", "tag": "th" }
+                        ]
+                    }
+                ],
+                body: [
+                    {
+                        "cells": [
+                            { "content": "", "tag": "td" },
+                            { "content": "", "tag": "td" }
+                        ]
+                    },
+                    {
+                        "cells": [
+                            { "content": "", "tag": "td" },
+                            { "content": "", "tag": "td" }
+                        ]
+                    }
+                ],
             },
         ],
         [
@@ -108,7 +135,7 @@ const edit = ({ attributes, setAttributes, clientId }) => {
                     />
                 </ToolbarGroup>
             </BlockControls>
-            <InnerBlocks template={MY_TEMPLATE} templateLock="all" />
+            <InnerBlocks template={TEMPLATE} templateLock="all" />
         </>
     );
 };

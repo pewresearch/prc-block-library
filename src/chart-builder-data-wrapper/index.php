@@ -34,10 +34,6 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		if ( true === $init ) {
 			// Do hooks here
 			add_action( 'init', array( $this, 'register_block' ), 11 );
-			// Debugging:
-			// add_filter('the_content', function($content) {
-			// 	return prc_chart_builder() . $content;
-			// }, 10, 1);
 		}
 	}
 
@@ -45,34 +41,35 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		if ( empty( $block->inner_blocks ) ) {
 			return '';
 		}
+		$id = $attributes['id'];
 
-		$table_block = array_pop(
-			array_filter(
-				$block->parsed_block['innerBlocks'],
-				function( $b ) {
-					return 'core/table' === $b['blockName'];
-				}
-			)
+		$chart_block = array_filter(
+			$block->parsed_block['innerBlocks'],
+			function( $b ) {
+				return array_key_exists('blockName', $b) && 'prc-block/chart-builder' === $b['blockName'];
+			}
 		);
-		$chart_block = array_pop(
-			array_filter(
-				$block->parsed_block['innerBlocks'],
-				function( $b ) {
-					return 'prc-block/chart-builder' === $b['blockName'];
-				}
-			)
-		);
+		$chart_block = array_pop($chart_block);
+		// Add id to chart block, for some reason block context was not working. @TODO Need to investigate.
+		$chart_block['attrs']['id'] = $id;
 
-		$table_array = ConvertHelper::getdata( $table_block['innerHTML'] );
+		$table_block = array_filter(
+			$block->parsed_block['innerBlocks'],
+			function( $b ) {
+				return array_key_exists('blockName', $b) && 'core/table' === $b['blockName'];
+			}
+		);
+		$table_block = array_pop( $table_block );
+
+		$table_array = array_key_exists('chartData', $attributes) ? $attributes['chartData'] : ConvertHelper::getdata( $table_block['innerHTML'] );
+
+		$script_handle = $this->enqueue_frontend();
+
+		wp_add_inline_script($script_handle, "if ( !window.chartData ) {window.chartData = {};} window.chartData['".$id."'] = " . wp_json_encode( $table_array ) . ";");
 
 		ob_start();
 		?>
 		<div class="wp-chart-builder-wrapper">
-			<div class="hidden">
-				<div class="table-array-data">
-					<?php echo htmlspecialchars( wp_json_encode( $table_array ), ENT_QUOTES, 'UTF-8' ); ?>
-				</div>
-			</div>
 			<?php echo render_block( $chart_block ); ?>
 		</div>
 		<?php
@@ -80,14 +77,14 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 	}
 
 	public function register_frontend() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		return $enqueue->register(
-			'chart-builder-data-wrapper',
 			'frontend',
+			'chart-builder-wrapper',
 			array(
 				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array('moment'),
+				'css'       => false,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -95,8 +92,14 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		);
 	}
 
+	public function enqueue_frontend() {
+		$registered = $this->register_frontend();
+		wp_enqueue_script( array_pop( $registered['js'] )['handle'] );
+		return array_pop( $registered['js'] )['handle'];
+	}
+
 	public function register_block() {
-		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
@@ -123,48 +126,3 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 }
 
 new PRC_Chart_Builder_Data_Wrapper( true );
-
-function prc_chart_builder() {
-	$parsed = new WP_Block_Parser_Block( 
-		'prc-block/chart-builder-data-wrapper',
-		array(
-			// Attributes for chart wrapper here
-			// See structure here https://github.com/wpcomvip/pewresearch-org/blob/master/plugins/prc-block-library/src/chart-builder-data-wrapper/block.json#L18-L46
-		),
-		array(
-			array(
-				'core/table',
-				array(
-					// Attributes for table block here (data)
-					// See structure here https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/table/block.json#L8-L124
-					'className' => 'chart-builder-data-table'	
-				), 
-				//inner blocks
-				array(),
-				//innerHTML
-				'<figure class="wp-block-table chart-builder-data-table"><table><thead><tr><th>x axis</th><th>y axis</th></tr></thead><tbody><tr><td>2</td><td>2</td></tr><tr><td>1</td><td>1</td></tr></tbody></table></figure>',
-				//innerContent
-				array('<figure class="wp-block-table chart-builder-data-table"><table><thead><tr><th>x axis</th><th>y axis</th></tr></thead><tbody><tr><td>2</td><td>2</td></tr><tr><td>1</td><td>1</td></tr></tbody></table></figure>')
-			),
-			array(
-				'prc-block/chart-builder',
-				array(
-					// Attributes for chart here
-					// See structure here https://github.com/wpcomvip/pewresearch-org/blob/master/plugins/prc-block-library/src/chart-builder/block.json#L5-L290
-					"chartType" => "scatter",
-					"colorValue" => "light-brown-spectrum",
-					"xLabel" => "the x axis",
-					"xMaxDomain" => 2,
-					"yLabel" => "the y axis",
-					"yMaxDomain" => 2,
-					"legendActive" => true,
-					"className" => "is-style-scatter"				
-				), array(), '', array()
-			),
-		),
-		'',
-		array()
-	);
-
-	echo render_block( (array) $parsed );
-}

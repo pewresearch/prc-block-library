@@ -26,31 +26,40 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		}
 		$script_handle = $this->enqueue_frontend();
 		$attrs         = wp_json_encode( $block->attributes );
-		$id            = md5( $attrs );
+		$id            = array_key_exists('id', $attributes) ? $attributes['id'] : false;
+		if ( false === $id ) {
+			new WP_Error( 'missing_id', __( 'Chart Block is missing ID', 'prc-block-library' ) );
+			return;
+		}
 		$post_id 	   = get_the_ID();
 		wp_add_inline_script($script_handle, "if ( !window.chartConfigs ) {window.chartConfigs = {};} chartConfigs['".$id."'] = " . $attrs . ";");
+
+		$block_attrs = get_block_wrapper_attributes(
+			array(
+				'class' => 'wp-chart-builder-inner',
+				'data-chart-hash' => $id,
+				'data-chart-orientation' => $block->attributes['chartOrientation'],
+				'data-width' => $this->cherry_pick_attr( 'width', $attributes ),
+				'data-height' => $this->cherry_pick_attr( 'height', $attributes ),
+				'data-padding-top' => $this->cherry_pick_attr( 'paddingTop', $attributes ),
+				'data-padding-left' => $this->cherry_pick_attr( 'paddingLeft', $attributes ),
+				'data-padding-bottom' => $this->cherry_pick_attr( 'paddingBottom', $attributes ),
+				'data-padding-right' => $this->cherry_pick_attr( 'paddingRight', $attributes ),
+				'data-x-label' => $this->cherry_pick_attr( 'xLabel', $attributes ),
+				'data-x-min-domain' => $this->cherry_pick_attr( 'xMinDomain', $attributes ),
+				'data-x-max-domain' => $this->cherry_pick_attr( 'xMaxDomain', $attributes ),
+				'data-y-min-domain' => $this->cherry_pick_attr( 'yMinDomain', $attributes ),
+				'data-y-max-domain' => $this->cherry_pick_attr( 'yMaxDomain', $attributes ),
+				'data-colors' => $this->cherry_pick_attr( 'colorValue', $attributes ),
+				'data-post-id' => $post_id,
+				'data-post-url' => get_permalink( $post_id ),
+			)
+		);
+		
 		ob_start();
 		?>
-		<div
-			class="wp-chart-builder-inner"
-			data-chart-hash="<?php echo $id; ?>"
-			data-chart-orientation="<?php echo esc_attr( $block->attributes['chartOrientation'] ); ?>"
-			data-width="<?php echo esc_attr( $this->cherry_pick_attr( 'width', $attributes ) ); ?>"
-			data-height="<?php echo esc_attr( $this->cherry_pick_attr( 'height', $attributes ) ); ?>"
-			data-padding-top="<?php echo esc_attr( $this->cherry_pick_attr( 'paddingTop', $attributes ) ); ?>"
-			data-padding-left="<?php echo esc_attr( $this->cherry_pick_attr( 'paddingLeft', $attributes ) ); ?>"
-			data-padding-bottom="<?php echo esc_attr( $this->cherry_pick_attr( 'paddingBottom', $attributes ) ); ?>"
-			data-padding-right="<?php echo esc_attr( $this->cherry_pick_attr( 'paddingRight', $attributes ) ); ?>"
-			data-x-label="<?php echo esc_attr( $this->cherry_pick_attr( 'xLabel', $attributes ) ); ?>"
-			data-x-min-domain="<?php echo esc_attr( $this->cherry_pick_attr( 'xMinDomain', $attributes ) ); ?>"
-			data-x-max-domain="<?php echo esc_attr( $this->cherry_pick_attr( 'xMaxDomain', $attributes ) ); ?>"
-			data-y-min-domain="<?php echo esc_attr( $this->cherry_pick_attr( 'yMinDomain', $attributes ) ); ?>"
-			data-y-max-domain="<?php echo esc_attr( $this->cherry_pick_attr( 'yMaxDomain', $attributes ) ); ?>"
-			data-colors="<?php echo esc_attr( $this->cherry_pick_attr( 'colorValue', $attributes ) ); ?>"
-			data-post-id="<?php echo esc_attr($post_id); ?>"
-			data-post-url="<?php echo esc_url(get_permalink( $post_id )); ?>"
-		>
-			Chart Loading...
+		<div <?php echo $block_attrs;?>>
+			<div class="ui active centered inline loader"></div>
 		</div>
 		<?php
 		return ob_get_clean();

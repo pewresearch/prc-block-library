@@ -270,8 +270,7 @@ const renderCharts = () => {
             url: window.chartConfigs[hash].pngUrl,
             id: window.chartConfigs[hash].pngId,
         };
-        const dataArrStr = chart.querySelector('.table-array-data').innerText;
-        const dataArr = JSON.parse(dataArrStr);
+        const dataArr = window.chartData[hash];
         const dataObj = arrayToDataObj(
             dataArr,
             config.xAxis.scale,
