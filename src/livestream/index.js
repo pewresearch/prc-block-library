@@ -11,13 +11,14 @@ import { registerBlockType } from '@wordpress/blocks';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
+import './styles.scss';
 
 const { name } = metadata;
 
 const settings = {
-    title: __('Block Title'),
-    description: 'Block description.',
-    keywords: [__('Block Keyword 1'), __('Block Keyword 2')],
+    title: __('Livestream'),
+    description: 'Create Embeddable Livestream with Chat.',
+    keywords: [__('Livestream'), __('Stream'), __('Chat')],
     edit,
     save,
 };

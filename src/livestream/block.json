@@ -10,6 +10,17 @@
             "type": "string"
         }
     },
+    "styles": [
+        {
+            "name": "chat-box-right",
+            "label": "Chat Box Right",
+            "isDefault": true
+        },
+        {
+            "name": "chat-box-left",
+            "label": "Chat Box Left"
+        }
+    ],
     "supports": {
         "html": false
     }

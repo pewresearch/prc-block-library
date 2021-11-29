@@ -16,12 +16,10 @@ class Livestream extends PRC_Block_Library {
 		}
 	}
 
-	public function render_block_callback( $attributes, $content, $block ) {
-		ob_start();
-		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
-		<?php
-		return ob_get_clean();
+	public function render_block_callback( $attributes ) {
+		if ( array_key_exists( 'streamUrl', $attributes ) ) {
+			return '<h1>' . $attributes['streamUrl'] . '</h1>';
+		}
 	}
 
 	public function register_block() {
@@ -32,7 +30,7 @@ class Livestream extends PRC_Block_Library {
 			'livestream',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -44,6 +42,7 @@ class Livestream extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/livestream',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
