@@ -1,0 +1,16 @@
+{
+    "apiVersion": 2,
+    "name": "prc-block/livestream",
+    "category": "layout",
+    "attributes": {
+        "streamUrl": {
+            "type": "string"
+        },
+        "chatUrl": {
+            "type": "string"
+        }
+    },
+    "supports": {
+        "html": false
+    }
+}
