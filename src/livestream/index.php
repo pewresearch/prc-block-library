@@ -17,9 +17,37 @@ class Livestream extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes ) {
-		if ( array_key_exists( 'streamUrl', $attributes ) ) {
-			return '<h1>' . $attributes['streamUrl'] . '</h1>';
+		$this->enqueue_frontend_assets();
+
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'id'               => md5( wp_json_encode( $attributes ) ),
+				'class'            => classnames(
+					$attributes['className'],
+				),
+				'data-stream-url'  => $attributes['streamUrl'],
+				'data-chat-url'    => $attributes['chatUrl'],
+			)
+		);
+		return wp_kses( "<div {$wrapper_attributes}>Loading ...</div>", 'post' );
+	}
+	public function enqueue_frontend_assets() {
+		if ( is_admin() ) {
+			return;
 		}
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue->enqueue(
+			'frontend',
+			'livestream',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => array(),
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
 	}
 
 	public function register_block() {

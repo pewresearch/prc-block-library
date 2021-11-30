@@ -11,14 +11,19 @@ $franklin: franklin-gothic-urw, Verdana, Geneva, sans-serif;
         border: 1px solid #eaeaea;
         padding: 1rem;
     }
-    &.wp-block-prc-block-livestream.is-style-chat-box-left {
+    &.is-style-chat-box-left {
         grid-template-columns: 1fr 2fr;
         grid-template-rows: 1fr;
         grid-template-areas: 'chat stream';
+        @media screen and (max-width: 640px) {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-template-areas: 'stream' 'chat';
+        }
     }
-    &.wp-block-prc-block-livestream.is-style-chat-box-right {
+    &.is-style-chat-box-right {
+        @extend .is-style-chat-box-left;
         grid-template-columns: 2fr 1fr;
-        grid-template-rows: 1fr;
         grid-template-areas: 'stream chat';
     }
 }
@@ -26,6 +31,8 @@ $franklin: franklin-gothic-urw, Verdana, Geneva, sans-serif;
     grid-area: 'livestream';
     display: flex;
     flex-direction: column;
+    position: relative;
+    padding: 56.25% 0 0 0;
 }
 .prc-livestream-chat {
     grid-area: 'chat';
