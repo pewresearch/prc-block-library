@@ -130,22 +130,6 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                     <CardDivider/>
                     
                     <SelectControl
-                        label="Image Slot"
-                        value={ imageSlot }
-                        options={ [
-                            { label: 'Default', value: 'default' },
-                            { label: 'Left', value: 'left' },
-                            { label: 'Right', value: 'right' },
-                            { label: 'Top', value: 'top' },
-                            { label: 'Bottom', value: 'bottom' },
-                            { label: 'Disabled', value: 'disabled' },
-                        ] }
-                        onChange={ ( newSlot ) => {
-                            setAttributes({imageSlot: newSlot});
-                        } }
-                    />
-                    
-                    <SelectControl
                         label="Select Taxonomy To Display"
                         value={ metaTaxonomy }
                         options={ [

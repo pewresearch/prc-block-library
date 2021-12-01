@@ -19,7 +19,7 @@ const ContentPlaceholder = ({
     onSkip,
     mode = 'post',
     contentTypes = [ 'stub' ],
-    label = __('Search for a post:'),
+    label = __('Search for a post'),
     placeholder = __('Search for a post...'),
     icon = 'format-aside',
     value = [],
@@ -28,16 +28,16 @@ const ContentPlaceholder = ({
         <div {...blockProps}>
             <WPComPlaceholder
                 icon={icon}
-                label={` ${label}`}
+                label={`  ${label}:`}
                 isColumnLayout
             >
                 <ContentPicker
                     onPickChange={ (pickedContent) => {
-                        console.log('running...', pickedContent);
+                        console.log('Step1:', pickedContent);
                         onChange(pickedContent);
                     } }
                     mode={mode}
-                    label={`${label} or enter a url`}
+                    label={`${label} or enter a url:`}
                     placeholder={placeholder}
                     contentTypes={contentTypes}
                     value={value}
@@ -48,6 +48,9 @@ const ContentPlaceholder = ({
                         onSkip();
                     }}
                     text={__('Skip')}
+                    style={{
+                        paddingLeft: '9px'
+                    }}
                 />
             </WPComPlaceholder>
         </div>

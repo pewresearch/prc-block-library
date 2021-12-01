@@ -64,6 +64,7 @@ const PickedItem = ({ item, isOrderable = false, handleItemDelete, mode }) => {
 			const result = getEntityRecord(...getEntityRecordParameters);
 
 			if (result) {
+				console.log("Has Item", result);
 				const newItem = {
 					title: mode === 'post' ? result.title.rendered : result.name,
 					url: result.link,

@@ -106,6 +106,7 @@ const ContentPicker = ({
 				id: item.id,
 				uuid: uuidv4(),
 				type: 'subtype' in item ? item.subtype : item.type,
+				url: item.url,
 			},
 			...previousContent,
 		]);

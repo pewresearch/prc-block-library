@@ -32,9 +32,6 @@ const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
     );
 }
 
-// import { setPostByStubID } from '../helpers';
-// setPostByStubID(obj.id, imageSize, false, setAttributes)
-
 export {
     Controls,
     Placeholder
