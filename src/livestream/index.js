@@ -19,6 +19,7 @@ const settings = {
     title: __('Livestream'),
     description: 'Create Embeddable Livestream with Chat.',
     keywords: [__('Livestream'), __('Stream'), __('Chat')],
+    icon: 'embed-video',
     edit,
     save,
 };
