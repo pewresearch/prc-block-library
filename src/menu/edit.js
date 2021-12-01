@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import { Fragment, useState } from '@wordpress/element';
 import {
     InnerBlocks,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     BlockControls,
     useBlockProps,
 } from '@wordpress/block-editor';

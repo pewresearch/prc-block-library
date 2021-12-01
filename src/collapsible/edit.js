@@ -10,7 +10,7 @@ import { Accordion, Icon } from 'semantic-ui-react';
 import { useState, Fragment } from '@wordpress/element';
 import {
     RichText,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
 

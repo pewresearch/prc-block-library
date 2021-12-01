@@ -18,7 +18,7 @@ import {
 } from '@wordpress/components';
 import {
     InspectorControls,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     __experimentalBlockVariationPicker,
     useBlockProps,
 } from '@wordpress/block-editor';

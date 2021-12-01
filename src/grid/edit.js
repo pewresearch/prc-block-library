@@ -13,7 +13,7 @@ import { Fragment } from '@wordpress/element';
 import { PanelBody, RangeControl, Notice } from '@wordpress/components';
 import {
     InnerBlocks,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';

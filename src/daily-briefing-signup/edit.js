@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import {
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
 

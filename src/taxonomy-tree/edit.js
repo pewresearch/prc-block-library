@@ -10,7 +10,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 import {
     InnerBlocks,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps,
     RichText,
 } from '@wordpress/block-editor';

@@ -1,0 +1,54 @@
+const classDictionary = [
+    'is-style-default',
+    'is-style-left',
+    'is-style-right',
+    'is-style-top',
+    'is-style-bottom',
+    'is-style-disabled',
+];
+
+const setOptionsFromStyle = (className, setAttributes) => {
+    ifMatchSetAttribute(
+        'is-style-top',
+        className,
+        'imageSlot',
+        'top',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
+        'is-style-bottom',
+        className,
+        'imageSlot',
+        'bottom',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
+        'is-style-left',
+        className,
+        'imageSlot',
+        'left',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
+        'is-style-right',
+        className,
+        'imageSlot',
+        'right',
+        setAttributes,
+    );
+    ifMatchSetAttribute(
+        'is-style-disabled',
+        className,
+        'imageSlot',
+        'disabled',
+        setAttributes,
+    );
+    // Default
+    ifMatchSetAttribute(
+        'is-style-default',
+        className,
+        'imageSlot',
+        'default',
+        setAttributes,
+    );
+};

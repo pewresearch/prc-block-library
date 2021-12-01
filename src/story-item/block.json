@@ -78,13 +78,13 @@
             "type": "boolean",
             "default": false
         },
-        "enableAltTaxonomy": {
-            "type": "boolean",
-            "default": false
-        },
         "enableMeta": {
             "type": "boolean",
             "default": true
+        },
+        "metaTaxonomy": {
+            "type": "string",
+            "default": "formats"
         },
         "inLoop": {
             "type": "boolean",
@@ -98,6 +98,10 @@
             "type": "boolean",
             "default": false
         },
+        "enableAltTaxonomy": {
+            "type": "boolean",
+            "default": false
+        },
         "postID": {
             "type": "integer"
         },
@@ -106,7 +110,7 @@
             "multiline": "p"
         }
 	},
-	"usesContext": ["prc-block/wp-query"],
+	"usesContext": ["postId", "postType", "queryId"],
 	"supports": {
 		"html": false
 	}

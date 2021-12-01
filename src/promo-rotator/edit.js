@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import {
     InnerBlocks,
     useBlockProps,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 const ALLOWED_BLOCKS = ['prc-block/promo', 'prc-block/card'];

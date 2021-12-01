@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment, useEffect } from '@wordpress/element';
 import {
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
 

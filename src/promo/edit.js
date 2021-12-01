@@ -11,7 +11,7 @@ import { Fragment, useEffect } from '@wordpress/element';
 import {
     RichText,
     InnerBlocks,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';

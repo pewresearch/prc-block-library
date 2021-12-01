@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 import {
     useBlockProps,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
 

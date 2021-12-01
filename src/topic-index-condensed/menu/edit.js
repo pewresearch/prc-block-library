@@ -9,7 +9,7 @@ import { BlockInserterButton } from '@pewresearch/app-components';
  */
 import {
     useBlockProps,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 const ALLOWED_BLOCKS = ['prc-block/topic-index-condensed-menu-item'];

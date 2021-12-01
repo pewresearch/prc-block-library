@@ -9,8 +9,8 @@ const save = ({ attributes }) => {
     const { description, extra } = attributes;
     return(
         <Fragment>
-            { description && (<RichText.Content className="description" tagName="div" value={description}/>)}
-            { extra && (<RichText.Content className="extra" tagName="ul" value={extra}/>)}
+            { description && (<RichText.Content className="description" tagName="div" value={description}/>) }
+            { extra && (<RichText.Content className="extra" tagName="ul" value={extra}/>) }
         </Fragment>
     );
 };

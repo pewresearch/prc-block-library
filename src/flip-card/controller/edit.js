@@ -10,7 +10,7 @@ import { __ } from '@wordpress/i18n';
 import { Fragment, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import {
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps
 } from '@wordpress/block-editor';
 import { ResizableBox } from '@wordpress/components';

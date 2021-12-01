@@ -13,6 +13,10 @@ import classNames from 'classnames/bind';
 import { Item } from 'semantic-ui-react';
 
 const KickerEditor = ({ label, date, taxonomy, setAttributes }) => {
+    if ( 'disabled' === taxonomy ) {
+        return <Fragment />;
+    }
+    
     const [labelOptions, setLabelOptions] = useState([]);
 
     useEffect(() => {

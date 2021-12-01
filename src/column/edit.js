@@ -15,7 +15,7 @@ import {
     BlockVerticalAlignmentToolbar,
     InspectorControls,
     useBlockProps,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { Notice, PanelBody, RangeControl } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';

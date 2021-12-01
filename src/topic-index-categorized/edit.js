@@ -9,7 +9,7 @@ import { BlockInserterButton, CaretHeadingLink } from '@pewresearch/app-componen
  */
 import { __ } from '@wordpress/i18n';
 import {
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
 

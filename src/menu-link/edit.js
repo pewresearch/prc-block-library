@@ -36,7 +36,7 @@ import {
     InspectorControls,
     RichText,
     __experimentalLinkControl as LinkControl,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
 import { isURL, prependHTTP } from '@wordpress/url';

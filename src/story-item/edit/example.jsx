@@ -1,0 +1,1 @@
+// A very simple example of a story item.

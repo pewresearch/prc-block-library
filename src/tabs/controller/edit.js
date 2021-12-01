@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import {
     useBlockProps,
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
+    useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { dispatch, useSelect } from '@wordpress/data';
 
