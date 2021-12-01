@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { WPObjectSearchField } from '@pewresearch/app-components';
+import { ContentPicker } from '../../../_components/content-picker';
 
 /**
  * WordPress Dependencies
@@ -56,25 +56,24 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
                     onClose={() => setIsLinkOpen(false)}
                 >
                     <div style={{
-                        padding: '12px'
+                        minWidth: '250px',
+                        padding: '10px'
                     }}>
-                        <WPObjectSearchField
-                            value={{
+                        <ContentPicker
+                            onPickChange={ (pickedContent) => {
+                                if ( pickedContent.length > 0 && undefined !== pickedContent[0].id ) {
+                                    setPostByStubID(pickedContent[0].id, imageSize, false, setAttributes);
+                                }
+                            } }
+                            mode={'post'}
+                            label={`Search for a post or enter a url:`}
+                            contentTypes={['stub']}
+                            value={[{
                                 url,
                                 title,
                                 type,
                                 id,
-                            }}
-                            type='post'
-                            subType='stub'
-                            onChange={obj => {
-                                if (obj.hasOwnProperty('id')) {
-                                    setPostByStubID(obj.id, imageSize, false, setAttributes);
-                                }
-                                if (!obj.hasOwnProperty('id') && obj.hasOwnProperty('url')) {
-                                    setAttributes({link: obj.url});
-                                }
-                            }}
+                            }]}
                         />
                     </div>
                 </Popover>

@@ -21,14 +21,12 @@ const ContentPlaceholder = ({
     contentTypes = [ 'stub' ],
     label = __('Search for a post'),
     placeholder = __('Search for a post...'),
-    icon = 'format-aside',
     value = [],
 }) => {
     return (
         <div {...blockProps}>
             <WPComPlaceholder
-                icon={icon}
-                label={`  ${label}:`}
+                label={`${label}:`}
                 isColumnLayout
             >
                 <ContentPicker
