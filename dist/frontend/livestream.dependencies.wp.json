@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "react",
     "wp-dom-ready",
     "wp-element"
   ],

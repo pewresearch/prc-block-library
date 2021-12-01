@@ -3,7 +3,10 @@
  */
 import { render } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
-
+/**
+ * External dependencies
+ */
+import { Placeholder } from 'semantic-ui-react';
 /**
  * Internal dependencies
  */
@@ -13,29 +16,65 @@ const Livestream = ({ streamURL, chatURL }) => {
     return (
         <>
             <div className="prc-livestream-stream">
-                <iframe
-                    src={streamURL}
-                    frameborder="0"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowfullscreen
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                    }}
-                ></iframe>
+                {streamURL && (
+                    <iframe
+                        src={streamURL}
+                        frameborder="0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowfullscreen
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                        }}
+                    ></iframe>
+                )}
+                {!streamURL && (
+                    <Placeholder
+                        fluid
+                        style={{
+                            height: '100%',
+                        }}
+                    >
+                        <Placeholder.Image
+                            fluid
+                            style={{
+                                height: '100%',
+                            }}
+                        />
+                    </Placeholder>
+                )}
             </div>
             <div className="prc-livestream-chat">
-                <iframe
-                    src={chatURL}
-                    height="100%"
-                    width="100%"
-                    frameBorder="0"
-                    style={{ minHeight: '560px' }}
-                    title="Slido"
-                ></iframe>
+                {chatURL && (
+                    <iframe
+                        src={chatURL}
+                        frameBorder="0"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            minHeight: '560px',
+                        }}
+                        title="Slido"
+                    ></iframe>
+                )}
+                {!chatURL && (
+                    <Placeholder
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            minHeight: '560px',
+                        }}
+                    >
+                        <Placeholder.Paragraph>
+                            {[...Array(30)].map(() => (
+                                <Placeholder.Line />
+                            ))}
+                        </Placeholder.Paragraph>
+                    </Placeholder>
+                )}
             </div>
         </>
     );
