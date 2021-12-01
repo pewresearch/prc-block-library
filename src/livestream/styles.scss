@@ -14,28 +14,37 @@ $franklin: franklin-gothic-urw, Verdana, Geneva, sans-serif;
     &.is-style-chat-box-left {
         grid-template-columns: 1fr 2fr;
         grid-template-rows: 1fr;
-        grid-template-areas: 'chat stream';
+        grid-template-areas: 'chat livestream';
         @media screen and (max-width: 640px) {
             grid-template-columns: 1fr;
             grid-template-rows: 1fr 1fr;
-            grid-template-areas: 'stream' 'chat';
+            grid-template-areas:
+                'livestream'
+                'chat';
         }
     }
     &.is-style-chat-box-right {
-        @extend .is-style-chat-box-left;
         grid-template-columns: 2fr 1fr;
-        grid-template-areas: 'stream chat';
+        grid-template-rows: 1fr;
+        grid-template-areas: 'livestream chat';
+        @media screen and (max-width: 640px) {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-template-areas:
+                'stream'
+                'chat';
+        }
     }
 }
 .prc-livestream-stream {
-    grid-area: 'livestream';
+    grid-area: livestream;
     display: flex;
     flex-direction: column;
     position: relative;
-    padding: 56.25% 0 0 0;
+    padding: 0;
 }
 .prc-livestream-chat {
-    grid-area: 'chat';
+    grid-area: chat;
     display: flex;
     flex-direction: column;
 }

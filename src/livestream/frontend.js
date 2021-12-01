@@ -14,7 +14,7 @@ const Livestream = ({ streamURL, chatURL }) => {
         <>
             <div className="prc-livestream-stream">
                 <iframe
-                    src="https://vimeo.com/event/1352567/embed"
+                    src={streamURL}
                     frameborder="0"
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowfullscreen
@@ -29,7 +29,7 @@ const Livestream = ({ streamURL, chatURL }) => {
             </div>
             <div className="prc-livestream-chat">
                 <iframe
-                    src="https://app.sli.do/event/2jtxhrzn"
+                    src={chatURL}
                     height="100%"
                     width="100%"
                     frameBorder="0"
@@ -50,8 +50,8 @@ domReady(() => {
         console.log(streams);
         streams.forEach((stream) => {
             const props = {
-                streamURL: stream.dataset['stream-url'],
-                chatURL: stream.dataset['chat-url'],
+                streamURL: stream.dataset.streamUrl,
+                chatURL: stream.dataset.chatUrl,
             };
             render(<Livestream {...props} />, stream);
         });

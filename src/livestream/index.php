@@ -29,7 +29,7 @@ class Livestream extends PRC_Block_Library {
 				'data-chat-url'    => $attributes['chatUrl'],
 			)
 		);
-		return wp_kses( "<div {$wrapper_attributes}>Loading ...</div>", 'post' );
+		return wp_kses( "<div {$wrapper_attributes}>Loading livestream ...</div>", 'post' );
 	}
 	public function enqueue_frontend_assets() {
 		if ( is_admin() ) {

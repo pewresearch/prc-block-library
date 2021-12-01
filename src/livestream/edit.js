@@ -7,19 +7,10 @@ import { Input } from 'semantic-ui-react';
 /**
  * WordPress Dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
-import {
-    __experimentalUseInnerBlocksProps as useInnerBlocksProps,
-    useBlockProps,
-} from '@wordpress/block-editor';
-
-const ALLOWED_BLOCKS = [];
+import { useBlockProps } from '@wordpress/block-editor';
 
 const edit = ({ attributes, setAttributes }) => {
     const { className, streamUrl, chatUrl } = attributes;
-    const style = undefined !== className ? className.split(' ') : [];
-    console.log({ attributes });
     const blockProps = useBlockProps({
         className: classnames(className),
     });
@@ -27,10 +18,10 @@ const edit = ({ attributes, setAttributes }) => {
     return (
         <div {...blockProps}>
             <div className="prc-livestream-stream">
-                Livestream video URL:
+                Livestream video embed URL:
                 <Input
                     type="text"
-                    placeholder="Livestream URL"
+                    placeholder="e.g. https://vimeo.com/event/1352567/embed"
                     value={streamUrl}
                     onChange={(e) =>
                         setAttributes({ streamUrl: e.target.value })
@@ -38,10 +29,10 @@ const edit = ({ attributes, setAttributes }) => {
                 />
             </div>
             <div className="prc-livestream-chat">
-                Livestream chat URL:
+                Livestream chat embed URL:
                 <Input
                     type="text"
-                    placeholder="Chat URL"
+                    placeholder="e.g. https://app.sli.do/event/2jtxhrzn"
                     value={chatUrl}
                     onChange={(e) => setAttributes({ chatUrl: e.target.value })}
                 />
