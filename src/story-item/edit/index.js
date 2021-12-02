@@ -22,6 +22,15 @@ import Extra from './extra';
 import Header from './header';
 import { getAttributesFromURL } from './helpers';
 
+const classDictionary = [
+    'is-style-default',
+    'is-style-left',
+    'is-style-right',
+    'is-style-top',
+    'is-style-bottom',
+    'is-style-disabled',
+];
+
 /**
  * To be removed at later date:
 */
@@ -61,7 +70,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         enableBreakingNews,
         enableMeta,
         metaTaxonomy,
-        isTransformed,
+        isTransformed, // Signal to run auto lookup, this is primarily for pasting a link into the editor blindly and it auto converting to a story item.
         className,
     } = attributes;
 

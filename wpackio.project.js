@@ -35,6 +35,9 @@ module.exports = {
     },
     alias: {
         shared: path.resolve(__dirname, 'src/_shared'),
+        '@prc/blocks/components': path.resolve(__dirname, 'src/_components'),
+        '@prc/blocks/functions': path.resolve(__dirname, 'src/_functions'),
+        '@prc/blocks/hooks': path.resolve(__dirname, 'src/_hooks'),
     },
     errorOverlay: true,
     optimizeSplitChunks: true,

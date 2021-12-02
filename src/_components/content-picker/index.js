@@ -35,50 +35,35 @@ const StyleWrapper = styled('div')`
 	}
 `;
 
-function useDebounce(value, delay) {
-    // State and setters for debounced value
-    const [debouncedValue, setDebouncedValue] = useState(value);
-    useEffect(
-        () => {
-            // Update debounced value after delay
-            const handler = setTimeout(() => {
-                setDebouncedValue(value);
-            }, delay);
-            // Cancel the timeout if value changes (also on delay change or unmount)
-            // This is how we prevent debounced value from updating if value is changed ...
-            // .. within the delay period. Timeout gets cleared and restarted.
-            return () => {
-                clearTimeout(handler);
-            };
-        },
-        [value, delay], // Only re-call effect if value or delay changes
-    );
-    return debouncedValue;
-}
-
 /**
  * Content Picker
  */
 const ContentPicker = ({
 	label,
+	placeholder,
 	mode = 'post',
 	contentTypes = ['post', 'page'],
-	placeholder = '',
 	onPickChange = (ids) => {
         console.log('Content picker list change', ids); // eslint-disable-line no-console
     },
 	maxContentItems = 1,
 	isOrderable = false,
-	singlePickedLabel = __('You have selected the following item:', 'prc-app-components'),
-	multiPickedLabel = __('You have selected the following items:', 'prc-app-components'),
+	singlePickedLabel = __('You have selected the following item:', 'prc-block-components'),
+	multiPickedLabel = __('You have selected the following items:', 'prc-block-components'),
 	value = [],
 	uniqueContentItems = true,
 	excludeCurrentPost = true,
 	perPage = 50,
+	PickedItemChild = false,
+	searchStyle = 'search',
 }) => {
 	const [content, setContent] = useState(value);
 
 	const currentPostId = select('core/editor')?.getCurrentPostId();
+
+	useEffect(()=> {
+		console.log("Init content state", value);
+	}, []);
 
 	/**
 	 * This legacy code allows you to pass in only IDs to content like [ 1, 4, 5 ].
@@ -147,6 +132,7 @@ const ContentPicker = ({
 					contentTypes={contentTypes}
 					mode={mode}
 					perPage={perPage}
+					style={searchStyle}
 				/>
 			)}
 			{Boolean(content?.length) > 0 && (
@@ -172,6 +158,7 @@ const ContentPicker = ({
 							console.log("newContent?", newContent);
 							setContent(newContent);
 						}}
+						ChildComponent={PickedItemChild}
 					/>
 				</StyleWrapper>
 			)}

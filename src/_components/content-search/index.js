@@ -3,13 +3,14 @@
  */
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
+import { useDebounce } from '@prc/blocks/hooks';
 
 /**
  * WordPress Dependencies
  */
 import { SearchControl, TextControl, Spinner, NavigableMenu } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
-import { useState, useRef, useEffect } from '@wordpress/element'; // eslint-disable-line
+import { Fragment, useState, useRef, useEffect } from '@wordpress/element'; // eslint-disable-line
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -21,8 +22,10 @@ const NAMESPACE = 'prc-content-search';
 
 const searchCache = {};
 
-const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, excludeItems, perPage }) => {
-	const [searchString, setSearchString] = useState('');
+const ContentSearch = ({ onSelectItem, placeholder, label, style = 'search', contentTypes, mode, excludeItems, perPage }) => {
+	const [searchInput, setSearchInput] = useState('');
+	const searchString = useDebounce(searchInput, 500);
+
 	const [searchResults, setSearchResults] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [selectedItem, setSelectedItem] = useState(null);
@@ -38,7 +41,7 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 	 *
 	 * @param {*} item
 	 */
-	function handleOnNavigate(item) {
+	const handleOnNavigate = (item) => {
 		if (item === 0) {
 			setSelectedItem(null);
 		}
@@ -46,7 +49,7 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 		setSelectedItem(item);
 	}
 
-	function getPostByUrl(url) {
+	const getPostByUrl = (url) => {
         if (undefined === url) {
             return false;
         }
@@ -72,14 +75,13 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 	 *
 	 * @param {*} item
 	 */
-	function handleItemSelection(item) {
+	const handleItemSelection = (item) => {
 		setSearchResults([]);
-		setSearchString('');
-
+		setSearchInput('');
 		onSelectItem(item);
 	}
 
-	function filterResults(results) {
+	const filterResults = (results) => {
 		return results.filter((result) => {
 			let keep = true;
 
@@ -109,8 +111,6 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 
 		// Determine if keyword is a url
 		const isUrl = keyword.match(/^(http|https):\/\//);
-
-		setSearchString(keyword);
 
 		if (keyword.trim() === '') {
 			setIsLoading(false);
@@ -197,6 +197,12 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 		};
 	}, []);
 
+	useEffect(()=>{
+		if ( '' !== searchString ) {
+			handleSearchStringChange(searchString);
+		}
+	}, [searchString]);
+
 	const listCSS = css`
 		/* stylelint-disable */
 		max-height: 350px;
@@ -205,30 +211,35 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 
 	return (
 		<NavigableMenu onNavigate={handleOnNavigate} orientation="vertical">
-			{/* <TextControl
-				label={label}
-				value={searchString}
-				onChange={handleSearchStringChange}
-				placeholder={placeholder}
-				autoComplete="off"
-			/> */}
 			<div style={{
 				display: 'flex'
 			}}>
 				<div style={{
 					flexGrow: '1',
 				}}>
-					<SearchControl
-						value={ searchString }
-						onChange={ handleSearchStringChange }
-						placeholder={placeholder}
-					/>
+					{ 'minimal' === style && (
+						<TextControl
+							label={label}
+							value={searchInput}
+							onChange={(keyword)=> setSearchInput(keyword)}
+							placeholder={placeholder}
+							autoComplete="off"
+						/>
+					)}
+					{ 'search' === style && (
+						<SearchControl
+							value={searchInput}
+							onChange={(keyword)=> setSearchInput(keyword)}
+							placeholder={placeholder}
+						/>
+					)}
 				</div>
+				
 				{isLoading && (
 					<div style={{
 						position: 'absolute',
-						right: '50px',
-						marginTop: '10px',
+						right: 'minimal' === style ? '8px' : '50px',
+						marginTop: 'minimal' === style ? '27px' : '10px',
 					}}>
 						<Spinner />
 					</div>
@@ -251,7 +262,7 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 							className={`${NAMESPACE}-list-item components-button`}
 							style={{ color: 'inherit', cursor: 'default', paddingLeft: '3px' }}
 						>
-							{__('Nothing found.', '10up-block-components')}
+							{__('Nothing found.', 'prc-block-components')}
 						</li>
 					)}
 					{!isLoading && searchResults.map((item, index) => {

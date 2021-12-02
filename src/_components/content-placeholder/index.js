@@ -2,11 +2,12 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
 import {
     Button,
     Placeholder as WPComPlaceholder,
+    Spinner,
 } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -19,9 +20,10 @@ const ContentPlaceholder = ({
     onSkip,
     mode = 'post',
     contentTypes = [ 'stub' ],
-    label = __('Search for a post'),
-    placeholder = __('Search for a post...'),
+    label = __('Search for a post', 'prc-block-components'),
+    placeholder = __('Search for a post or pate in a url...', 'prc-block-components'),
     value = [],
+    loadingComponent = false,
     children,
 }) => {
     return (
@@ -30,28 +32,42 @@ const ContentPlaceholder = ({
                 label={`${label}:`}
                 isColumnLayout
             >
-                {children}
-                <ContentPicker
-                    onPickChange={ (pickedContent) => {
-                        console.log('Step1:', pickedContent);
-                        onChange(pickedContent);
-                    } }
-                    mode={mode}
-                    label={`${label} or enter a url:`}
-                    placeholder={placeholder}
-                    contentTypes={contentTypes}
-                    value={value}
-                />
-                <Button
-                    isLink
-                    onClick={()=>{
-                        onSkip();
-                    }}
-                    text={__('Skip')}
-                    style={{
-                        paddingLeft: '9px'
-                    }}
-                />
+                {false !== loadingComponent && (
+                    <div style={{
+                        textAlign: 'center',
+                    }}>
+                        <Spinner />
+                        <p className="sans-serif">
+                            Loading object...
+                        </p>
+                    </div>
+                )}
+                {false === loadingComponent && (
+                    <Fragment>
+                        {children}
+                        <ContentPicker
+                            onPickChange={ (pickedContent) => {
+                                console.log('Step1:', pickedContent);
+                                onChange(pickedContent);
+                            } }
+                            mode={mode}
+                            label={`${label} or enter a url:`}
+                            placeholder={placeholder}
+                            contentTypes={contentTypes}
+                            value={value}
+                        />
+                        <Button
+                            isLink
+                            onClick={()=>{
+                                onSkip();
+                            }}
+                            text={__('Skip')}
+                            style={{
+                                paddingLeft: '9px'
+                            }}
+                        />
+                    </Fragment>
+                )}
             </WPComPlaceholder>
         </div>
     );

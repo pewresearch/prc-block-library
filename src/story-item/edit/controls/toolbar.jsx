@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { ContentPicker } from '../../../_components/content-picker';
+import { ContentPicker } from '@prc/blocks/components';
 
 /**
  * WordPress Dependencies
@@ -14,7 +14,6 @@ import {
 import { useEntityProp } from '@wordpress/core-data';
 import { Fragment, useState } from '@wordpress/element';
 import {
-    BaseControl,
     Path,
     Popover,
     SelectControl,
@@ -56,17 +55,18 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
                     onClose={() => setIsLinkOpen(false)}
                 >
                     <div style={{
-                        minWidth: '250px',
-                        padding: '10px'
+                        minWidth: '270px',
+                        padding: '16px'
                     }}>
                         <ContentPicker
+                            label={__('Search for post or paste url:')}
+                            searchStyle="minimal"
                             onPickChange={ (pickedContent) => {
                                 if ( pickedContent.length > 0 && undefined !== pickedContent[0].id ) {
                                     setPostByStubID(pickedContent[0].id, imageSize, false, setAttributes);
                                 }
                             } }
                             mode={'post'}
-                            label={`Search for a post or enter a url:`}
                             contentTypes={['stub']}
                             value={[{
                                 url,
@@ -83,8 +83,7 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
 };
 
 const Toolbar = ({ attributes, setAttributes }) => {
-    const { link, imageSize, imageSlot, headerSize, isChartArt, postID, title } = attributes;
-    const postId = postID;
+    const { postId, link, imageSize, imageSlot, headerSize, isChartArt, title } = attributes;
 
     const Icon = ({ svgPath = false, isPressed = false }) => {
         if (false === svgPath) {

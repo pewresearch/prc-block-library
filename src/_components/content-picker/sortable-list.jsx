@@ -8,8 +8,8 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
  */
 import PickedItem from './picked-item';
 
-const SortableList = SortableContainer(({ items, isOrderable, handleItemDelete, mode }) => {
-	const ItemComponent = isOrderable ? SortableElement(PickedItem) : PickedItem;
+const SortableList = SortableContainer(({ items, isOrderable, handleItemDelete, mode, ChildComponent = false }) => {
+	const ItemComponent = false !== ChildComponent ? (isOrderable ? SortableElement(ChildComponent) : ChildComponent) : isOrderable ? SortableElement(PickedItem) : PickedItem;
 	return (
 		<div
 			style={{

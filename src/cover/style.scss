@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $largestMobileScreen: 767px;
 
 $baseUnit: 14px;
@@ -5,7 +7,7 @@ $baseUnit: 14px;
 $headerFont: 'franklin-gothic-urw', Verdana, Geneva, sans-serif;
 
 @function calcRemUnit($pixels) {
-	@return ($pixels / $baseUnit) * 1rem;
+	@return math.div($pixels, $baseUnit) * 1rem;
 }
 
 .wp-block-cover {
