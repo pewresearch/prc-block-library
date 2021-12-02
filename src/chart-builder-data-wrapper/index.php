@@ -42,7 +42,6 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 			return '';
 		}
 		$id = $attributes['id'];
-
 		$chart_block = array_filter(
 			$block->parsed_block['innerBlocks'],
 			function( $b ) {
@@ -101,10 +100,11 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		// 	)
 		// );
 
+		error_log(var_export($table_block, true));
+
 		$table_array = array_key_exists('chartData', $attributes) ? $attributes['chartData'] : ConvertHelper::getdata( $table_block['innerHTML'] );
 		$preformatted_data = array_key_exists('chartPreformattedData', $attributes) ? $attributes['chartPreformattedData'] : null;
 		$script_handle = $this->enqueue_frontend();
-
 		wp_add_inline_script($script_handle, "if ( !window.chartData ) {window.chartData = {};} window.chartData['".$id."'] = " . wp_json_encode( $table_array ) . ";");
 		wp_add_inline_script($script_handle, "if ( !window.chartPreformattedData ) {window.chartPreformattedData = {};} window.chartPreformattedData['".$id."'] = " . wp_json_encode( $preformatted_data ) . ";");
 
