@@ -60,7 +60,7 @@ function useDebounce(value, delay) {
  * Content Picker
  */
 const ContentPicker = ({
-	label = '',
+	label,
 	mode = 'post',
 	contentTypes = ['post', 'page'],
 	placeholder = '',
@@ -84,14 +84,14 @@ const ContentPicker = ({
 	 * This legacy code allows you to pass in only IDs to content like [ 1, 4, 5 ].
 	 * This really shouldn't be done as of version 1.5.0.
 	 */
-	if (content.length && typeof content[0] !== 'object') {
-		for (let i = 0; i < content.length; i++) {
-			content[i] = {
-				id: content[i],
-				type: contentTypes[0],
-			};
-		}
-	}
+	// if (content.length && typeof content[0] !== 'object') {
+	// 	for (let i = 0; i < content.length; i++) {
+	// 		content[i] = {
+	// 			id: content[i],
+	// 			type: contentTypes[0],
+	// 		};
+	// 	}
+	// }
 
 	// Run onPickChange callback when content changes.
 	useEffect(() => {

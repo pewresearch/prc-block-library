@@ -14,12 +14,8 @@ import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 
 /**
- * PickedItem
- *
- * @param {Object} props react props
- * @return {*} React JSX
+ * SVG Drag Handle
  */
-
 const DragHandle = sortableHandle(() => (
 	<svg
 		style={{ marginRight: '5px', cursor: 'grab', flexShrink: 0 }}
@@ -51,6 +47,13 @@ const Wrapper = styled('div')`
 	}
 `;
 
+
+/**
+ * PickedItem
+ *
+ * @param {Object} props react props
+ * @return {*} React JSX
+ */
 const PickedItem = ({ item, isOrderable = false, handleItemDelete, mode }) => {
 	const type = mode === 'post' ? 'postType' : 'taxonomy';
 

@@ -28,7 +28,7 @@ const Placeholder = ({attributes, setAttributes, blockProps}) => {
             onSkip={()=>{
                 setAttributes({postId: 0});
             }}
-            placeholder={__('Joe Biden...', 'wp-story-blocks')}
+            placeholder={__('Search for a post or paste a url', 'wp-story-blocks')}
             blockProps={blockProps}
         />
     );

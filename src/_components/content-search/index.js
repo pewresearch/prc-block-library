@@ -7,7 +7,7 @@ import { jsx, css } from '@emotion/react';
 /**
  * WordPress Dependencies
  */
-import { TextControl, Spinner, NavigableMenu } from '@wordpress/components';
+import { SearchControl, TextControl, Spinner, NavigableMenu } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { useState, useRef, useEffect } from '@wordpress/element'; // eslint-disable-line
 import { __ } from '@wordpress/i18n';
@@ -205,13 +205,35 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 
 	return (
 		<NavigableMenu onNavigate={handleOnNavigate} orientation="vertical">
-			<TextControl
+			{/* <TextControl
 				label={label}
 				value={searchString}
 				onChange={handleSearchStringChange}
 				placeholder={placeholder}
 				autoComplete="off"
-			/>
+			/> */}
+			<div style={{
+				display: 'flex'
+			}}>
+				<div style={{
+					flexGrow: '1',
+				}}>
+					<SearchControl
+						value={ searchString }
+						onChange={ handleSearchStringChange }
+						placeholder={placeholder}
+					/>
+				</div>
+				{isLoading && (
+					<div style={{
+						position: 'absolute',
+						right: '50px',
+						marginTop: '10px',
+					}}>
+						<Spinner />
+					</div>
+				)}
+			</div>
 			{hasSearchString ? (
 				<ul
 					className={`${NAMESPACE}-list`}
@@ -224,7 +246,6 @@ const ContentSearch = ({ onSelectItem, placeholder, label, contentTypes, mode, e
 					}}
 					css={listCSS}
 				>
-					{isLoading && <Spinner />}
 					{!isLoading && !hasSearchResults && (
 						<li
 							className={`${NAMESPACE}-list-item components-button`}

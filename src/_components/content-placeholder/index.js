@@ -22,6 +22,7 @@ const ContentPlaceholder = ({
     label = __('Search for a post'),
     placeholder = __('Search for a post...'),
     value = [],
+    children,
 }) => {
     return (
         <div {...blockProps}>
@@ -29,6 +30,7 @@ const ContentPlaceholder = ({
                 label={`${label}:`}
                 isColumnLayout
             >
+                {children}
                 <ContentPicker
                     onPickChange={ (pickedContent) => {
                         console.log('Step1:', pickedContent);
