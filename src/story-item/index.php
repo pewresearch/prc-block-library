@@ -183,7 +183,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
-		$post_id = false === $post_id && array_key_exists( 'postId', $context ) ? $context['postId'] : false;
+		$post_id = false === $post_id && array_key_exists( 'postId', $context ) ? $context['postId'] : $post_id;
 
 		$cache_key = md5(
 			wp_json_encode(
@@ -354,9 +354,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		);
 		
 		ob_start();
-		if ( is_user_logged_in() ) {
-			var_dump( $attrs );
-		}
+		// var_dump( array_merge( $attrs, array( 'content' => $content ) ) );
 		?>
 		<?php
 		/**
