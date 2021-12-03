@@ -149,7 +149,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public function get_image( int $post_id, $default_image, $image_size ) {
 		// Get art from the post id, use the default image if it differs from the art['imageSize]. 
-		$art = prc_get_art( $post_id, $image_size );
 		return $default_image;
 	}
 
@@ -180,22 +179,32 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	public function get_attributes( $attributes, $context = array() ) {
+		$is_mobile    = jetpack_is_mobile();
 		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
 		$post_id = false === $post_id && array_key_exists( 'postId', $context ) ? $context['postId'] : false;
 
-		$cache_key = md5( wp_json_encode( array_merge( $attributes, array( 'id' => $post_id ) ) ) );
+		$cache_key = md5(
+			wp_json_encode(
+				array_merge(
+					$attributes,
+					array(
+						'id'     => $post_id,
+						'mobile' => $is_mobile,
+					) 
+				) 
+			) 
+		);
 		$cache     = get_transient( $cache_key );
+
 		if ( $cache ) {
 			$cache['cached'] = true;
 			return $cache;
 		}
 
-		
 		$post = get_post( $post_id );
 
-		$is_mobile  = jetpack_is_mobile();
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = false === $is_in_loop && array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : false;
 
@@ -237,17 +246,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
 
-		// @todo These are all things to make the loading process quicker on mobile, these are shortcuts so the browser does not need to compute these. For example the css for the header switch should be in the correct media query header:not(.medium) { set the font size and all that to medium... }
-		// @todo if column_width is less than 5, and left or right image slot, then the image size need's to set to what?
-		if ( $is_mobile ) {
-			$header_size = 2;
-			// @todo if is mobile and column_width is less than ??, and left or right image slot, then image size needs to be set to what?
-			$image_slot = in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : $image_slot;
-			// The default fallback image will be set to A3 when a mobile device is detected.
-			$image_size = 'right' === $image_slot ? 'A3' : $image_size;
-			// css grid for this would be...
-		}
-
 		$variables = array(
 			'post_id'                       => $post_id,
 			'post_type'                     => $post_type,
@@ -256,6 +254,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'label'                         => $label,
 			'date'                          => $date,
 			'url'                           => $url,
+			'art'                           => prc_get_art( $post_id, 'all' ),
 			'image'                         => $image,
 			'image_size'                    => $image_size,
 			'image_is_bordered'             => $image_is_bordered,
@@ -271,6 +270,17 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enable_alt_header_weight'      => $enable_alt_header_weight,
 			'enable_meta'                   => $enable_meta,
 		);
+
+		// @todo These are all things to make the loading process quicker on mobile, these are shortcuts so the browser does not need to compute these. For example the css for the header switch should be in the correct media query header:not(.medium) { set the font size and all that to medium... }
+		// @todo if column_width is less than 5, and left or right image slot, then the image size need's to set to what?
+		if ( $is_mobile ) {
+			$header_size = 2;
+			// @todo if is mobile and column_width is less than ??, and left or right image slot, then image size needs to be set to what?
+			$image_slot = in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : $image_slot;
+			// The default fallback image will be set to A3 when a mobile device is detected.
+			$image_size = 'right' === $image_slot ? 'A3' : $image_size;
+			// css grid for this would be...
+		}
 
 		set_transient( $cache_key, $variables, 30 * MINUTE_IN_SECONDS );
 
@@ -344,6 +354,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 		);
 		
 		ob_start();
+		if ( is_user_logged_in() ) {
+			var_dump( $attrs );
+		}
 		?>
 		<?php
 		/**

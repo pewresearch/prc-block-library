@@ -166,13 +166,20 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
           "image breakingnews";
     }
 
+    // Right aligned needs to have widths for the images on small but the left aligned just need to be 1 column down full width?
     &.right.aligned {
         grid-template-columns: 2fr 1fr;
         &[data-image-size="A1"] {
-            grid-template-columns: 2fr variables.$A1;
+            grid-template-columns: 2fr variables.$A1Small;
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                grid-template-columns: 2fr variables.$A1;
+            }
         }
         &[data-image-size="A2"] {
-            grid-template-columns: 2fr variables.$A2;
+            grid-template-columns: 2fr variables.$A2Small;
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                grid-template-columns: 2fr variables.$A2;
+            }
         }
         &[data-image-size="A3"] {
             grid-template-columns: 2fr variables.$A3;
@@ -184,12 +191,14 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             grid-template-columns: 2fr variables.$A1;
         }
         grid-template-rows: auto;
-        grid-template-areas:
-          "meta image"
-          "header image"
-          "description image"
-          "extras image"
-          "breakingnews image";
+        @media only screen and (min-width: variables.$largestMobileScreen) {
+            grid-template-areas:
+                "meta image"
+                "header image"
+                "description image"
+                "extras image"
+                "breakingnews image";
+        }
     }
 
     .meta {
