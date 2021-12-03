@@ -43,6 +43,36 @@ $veryRelaxedItemSpacing: 0 0 28px 0;
 /* Divided */
 $dividedBorder: 1px solid colors.$borderColor;
 
+/* Glow Gradient */
+$placeholderLoadingAnimationDuration: 2s;
+$placeholderLoadingGradientWidth: 1200px;
+$placeholderLoadingGradient: linear-gradient(to right,
+    rgba(0, 0, 0, 0.08) 0%,
+    rgba(0, 0, 0, 0.15) 15%,
+    rgba(0, 0, 0, 0.08) 30%);
+$placeholderInvertedLoadingGradient: linear-gradient(to right,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.14) 15%,
+    rgba(255, 255, 255, 0.08) 30%);
+
+@mixin imageLoading() {
+    animation: placeholderShimmer $placeholderLoadingAnimationDuration linear;
+    animation-iteration-count: infinite;
+    background-color: colors.$white;
+    background-image: $placeholderLoadingGradient;
+    background-size: $placeholderLoadingGradientWidth 100%;
+}
+
+@keyframes placeholderShimmer {
+    0% {
+        background-position: -$placeholderLoadingGradientWidth 0;
+    }
+
+    100% {
+        background-position: $placeholderLoadingGradientWidth 0;
+    }
+}
+
 .wp-block-prc-block-story-item,
 .story.item {
     display: grid;
@@ -172,39 +202,54 @@ $dividedBorder: 1px solid colors.$borderColor;
             border: 1px solid #dadada;
         }
 
-        &.A1,
         &.A1 > img {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A1;
+                &:not(.loaded) {
+                    width: variables.$A1;
+                    height: variables.$A1Height;
+                    @include imageLoading();
+                }
             }
         }
 
-        &.A2,
         &.A2 > img {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A2;
+                &:not(.loaded) {
+                    width: variables.$A2;
+                    height: variables.$A2Height;
+                    @include imageLoading();
+                }
             }
         }
 
-        &.A3,
         &.A3 > img {
             max-width: variables.$A3Small;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A3;
+                &:not(.loaded) {
+                    width: variables.$A3;
+                    height: variables.$A3Height;
+                    @include imageLoading();
+                }
             }
         }
 
-        &.A4,
         &.A4 > img {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A4;
+                &:not(.loaded) {
+                    width: variables.$A4;
+                    height: variables.$A4Height;
+                    @include imageLoading();
+                }
             }
         }
 
-        &.XL,
         &.XL > img {
             max-width: variables.$XL;
         }

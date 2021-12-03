@@ -11,9 +11,10 @@ use \WPackio as WPackio;
 
 class PRC_Story_Item extends PRC_Block_Library {
 
-	public static $css_handle  = false;
-	public static $version     = '4.0.0';
-	public static $date_format = 'M d, Y';
+	public static $css_handle         = false;
+	public static $frontend_js_handle = false;
+	public static $version            = '4.0.0';
+	public static $date_format        = 'M d, Y';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -113,6 +114,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public function related_story_item( $args ) {
 		wp_enqueue_style( self::$css_handle );
+		wp_enqueue_script( self::$frontend_js_handle );
 		$post_id = $args['postId'];
 
 		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
@@ -122,6 +124,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public function loop_story_item( $args ) {
 		wp_enqueue_style( self::$css_handle );
+		wp_enqueue_script( self::$frontend_js_handle );
 		$post_id = $args['postId'];
 
 		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
@@ -219,6 +222,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
 
+		// @todo These are all things to make the loading process quicker on mobile, these are shortcuts so the browser does not need to compute these. For example the css for the header switch should be in the correct media query header:not(.medium) { set the font size and all that to medium... }
 		// @todo if column_width is less than 5, and left or right image slot, then the image size need's to set to what?
 		if ( $is_mobile ) {
 			$header_size = 2;
@@ -520,13 +524,31 @@ class PRC_Story_Item extends PRC_Block_Library {
 		if ( false === self::$css_handle ) {
 			self::$css_handle = array_pop( $block_assets['css'] )['handle'];
 		}
+
+		$frontend_assets = $enqueue->register(
+			'frontend',
+			'story-item',
+			array(
+				'js'        => true,
+				'css'       => false,
+				'js_dep'    => array(),
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
+		if ( false === self::$frontend_js_handle ) {
+			self::$frontend_js_handle = array_pop( $frontend_assets['js'] )['handle'];
+		}
 		
 		$registered_block = register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/story-item',
 			array(
+				'render_callback' => array( $this, 'render_story_item' ),
 				'editor_script'   => array_pop( $block_assets['js'] )['handle'],
 				'style'           => self::$css_handle,
-				'render_callback' => array( $this, 'render_story_item' ),
+				'script'          => self::$frontend_js_handle,
 			)
 		);
 
