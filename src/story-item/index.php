@@ -291,8 +291,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );
 
-		$column_width = array_key_exists( 'prc-block/column/width', $block->context ) ? $block->context['prc-block/column/width'] : false;
-
 		$block_wrapper_attrs = array(
 			'class'           => classNames(
 				'story item',
