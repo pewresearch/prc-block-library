@@ -183,6 +183,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 		
 		$post = get_post( $post_id );
 
+		$is_mobile  = jetpack_is_mobile();
+		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
+		$is_in_loop = false === $is_in_loop && array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : false;
+
 		$post_type = array_key_exists( 'postType', $context ) ? $context['postType'] : false;
 
 		// Title, image, description, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
@@ -200,11 +204,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_slot        = 'default' === $image_slot ? 'top' : $image_slot;
 		$image_slot        = 'disabled' === $image_slot ? false : $image_slot;
 		$image_size        = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
+		$image_size        = in_array( $image_slot, array( 'left', 'right' ) ) && ( $is_mobile ) ? 'A3' : $image_size;
 		$image_size        = false === $image_slot ? false : $image_size;
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
-		
-		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
-		$is_in_loop = false === $is_in_loop && array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : false;
 		
 		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
 		$enable_description            = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : false;
