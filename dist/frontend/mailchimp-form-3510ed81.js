@@ -3,7 +3,7 @@
  * prcBlocksLibrary
  * 
  * @author Seth Rubenstein
- * @version 2.1.7
+ * @version 2.1.8
  * @link UNLICENSED
  * @license UNLICENSED
  * 

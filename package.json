@@ -1,6 +1,6 @@
 {
     "name": "prc-block-library",
-    "version": "2.1.7",
+    "version": "2.1.8",
     "private": true,
     "devDependencies": {
         "@sentry/webpack-plugin": "^1.12.1",
