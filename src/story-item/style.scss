@@ -135,6 +135,11 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
     } 
 
+    &.left,
+    &.right {
+        grid-column-gap: 23px;
+    }
+
     &.left.aligned {
         grid-template-columns: 1fr 2fr;
         &[data-image-size="A1"] {
