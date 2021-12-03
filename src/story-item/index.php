@@ -184,6 +184,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
 		$post_id = false === $post_id && array_key_exists( 'postId', $context ) ? $context['postId'] : false;
+
+		$cache_key = md5( wp_json_encode( array_merge( $attributes, array( 'id' => $post_id ) ) ) );
+		$cache     = get_transient( $cache_key );
+		if ( $cache ) {
+			$cache['cached'] = true;
+			return $cache;
+		}
+
 		
 		$post = get_post( $post_id );
 
@@ -200,9 +208,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
 		);
-		$date        = gmdate( self::$date_format, strtotime( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date ) );
+		$date        = gmdate( 
+			self::$date_format,
+			strtotime( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date ) 
+		);
 		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $post->permalink;
-		$image       = $this->get_image( $post_id, array_key_exists( 'image', $attributes ) ? $attributes['image'] : '', $attributes['imageSize'] );
+		$image       = $this->get_image( 
+			$post_id,
+			array_key_exists( 'image', $attributes ) ? $attributes['image'] : '',
+			$attributes['imageSize']
+		);
 		
 		$image_slot        = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
 		$image_slot        = 'default' === $image_slot ? 'top' : $image_slot;
@@ -233,7 +248,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			// css grid for this would be...
 		}
 
-		return array(
+		$variables = array(
 			'post_id'                       => $post_id,
 			'post_type'                     => $post_type,
 			'title'                         => $title,
@@ -256,6 +271,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enable_alt_header_weight'      => $enable_alt_header_weight,
 			'enable_meta'                   => $enable_meta,
 		);
+
+		set_transient( $cache_key, $variables, 30 * MINUTE_IN_SECONDS );
+
+		return $variables;
 	}
 
 	/**
