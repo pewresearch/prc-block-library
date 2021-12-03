@@ -105,7 +105,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// regex search for adjacent .wp-block-prc-block-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
 		$content = preg_replace(
 			'/((?:\s*?<\!-- \.wp-block-prc-block-story-item -->.*?(?:(?!class=".*?(column|section-header).*?")\X)*?<\!-- \/\.wp-block-prc-block-story-item -->\s*?){2,})/i',
-			'<section class="ui divided very relaxed story items" aria-role="feed">${1}</section>',
+			'<section class="ui divided relaxed story items" aria-role="feed">${1}</section>',
 			$content
 		);
 		return $content;

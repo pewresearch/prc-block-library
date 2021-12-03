@@ -9,10 +9,6 @@ $itemSpacing: 0em 0em 1rem 0em;
 
 $mobileImageWidth: 690px;
 
-/* Image */
-$imageTopMargin: 0 0 21px 0;
-$imageBottomMargin: 21px 0 0 0;
-
 /* Header */
 $headerColor: colors.$darkTextColor;
 $headerLinkColor: $headerColor;
@@ -92,7 +88,7 @@ $dividedBorder: 1px solid colors.$borderColor;
           "extras"
           "breakingnews";
         .image {
-            margin: $imageTopMargin;
+            margin: 0 0 21px 0;
         }
     }
 
@@ -105,7 +101,7 @@ $dividedBorder: 1px solid colors.$borderColor;
             "breakingnews"
             "image";
         .image {
-            margin: $imageBottomMargin;
+            margin: 21px 0 0 0;
         }
     } 
 
