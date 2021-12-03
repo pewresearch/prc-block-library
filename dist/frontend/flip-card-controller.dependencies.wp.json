@@ -1,8 +1,0 @@
-{
-  "dependencies": [
-    "react",
-    "wp-dom-ready",
-    "wp-element"
-  ],
-  "version": "2b55dace97aaadeac9d5396d0e58c277"
-}
