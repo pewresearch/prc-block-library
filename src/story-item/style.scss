@@ -4,50 +4,16 @@
 @use "../../../../themes/prc_parent/src/scss/mixins.scss" as mixins;
 @use "sass:math";
 
-/* Item */
-$display: grid;
-$background: transparent;
-$width: 100%;
-$border: none;
-$zIndex: "";
-$transition: box-shadow variables.$defaultDuration variables.$defaultEasing;
-
 /* Responsive */
 $itemSpacing: 0em 0em 1rem 0em;
-$imageWidth: variables.$A3;
-$contentImageDistance: 1.5rem;
 
-$mobileItemSpacing: 2rem;
 $mobileImageWidth: 690px;
-$mobileContentImageDistance: 1.5rem;
 
 /* Image */
-$imageDisplay: block;
-$imageFloat: none;
-$imageMaxHeight: "";
-$imageVerticalAlign: top;
-$imageMargin: 0em;
 $imageTopMargin: 0 0 1.5rem 0;
-$imagePadding: 0em;
-$imageBorder: 1px solid #dadada;
-$imageBorderRadius: 0;
-$imageBoxShadow: none;
-
-/* Content */
-$contentDisplay: block;
-$contentVerticalAlign: top;
-
-$contentWidth: auto;
-$contentOffset: 0em;
-$contentBackground: none;
-$contentMargin: 0em;
-$contentPadding: 0em;
-$contentBorder: none;
-$contentBorderRadius: 0em;
-$contentBoxShadow: none;
+$imageBottomMargin: $imageTopMargin;
 
 /* Header */
-$headerMargin: -(variables.$lineHeightOffset) 0em 0em;
 $headerColor: colors.$darkTextColor;
 $headerLinkColor: $headerColor;
 //
@@ -68,10 +34,6 @@ $headerMediumLineHeight: functions.replace-unit(math.div(26, variables.$baseUnit
 $headerLargeFontSize: functions.replace-unit(math.div(28, variables.$baseUnit), rem);
 $headerLargeFontWeight: variables.$bold;
 $headerLargeLineHeight: functions.replace-unit(math.div(34, variables.$baseUnit), rem);
-
-/* Meta Data */
-$metaFontSize: 12px;
-$metaPadding: 18px;
 
 /* Description */
 $descriptionDistance: 0.6rem;
@@ -105,7 +67,10 @@ $veryRelaxedItemSpacing: 0 0 28px 0;
 /* Divided */
 $dividedBorder: 1px solid colors.$borderColor;
 
-@mixin stack() {
+.wp-block-prc-block-story-item,
+.story.item {
+    display: grid;
+    gap: 0px;
     grid-auto-flow: column;
     grid-template-areas:
         "image"
@@ -114,28 +79,16 @@ $dividedBorder: 1px solid colors.$borderColor;
         "description"
         "extras"
         "breakingnews";
-}
-
-.wp-block-prc-block-story-item,
-.story.item {
-    @include mixins.clearfix();
-    display: $display;
-    gap: 0px;
     margin: 0;
     padding: 0;
-    width: $width;
-    background: $background;
-    border: $border;
-    transition: $transition;
-    z-index: $zIndex;
-
-    /* Layouts and Style Options */
-    &.stacked {
-        @include stack();
-    }
+    width: 100%;
+    background: transparent;
+    border: none;
+    transition: box-shadow variables.$defaultDuration variables.$defaultEasing;
+    z-index: '';
 
     &.bordered {
-        padding: 1.5rem !important;
+        padding: 21px!important;
         border: 1px solid #d3d3d3;
         margin-bottom: 2rem;
     }
@@ -161,6 +114,9 @@ $dividedBorder: 1px solid colors.$borderColor;
           "description"
           "extras"
           "breakingnews";
+        .image {
+            margin: $imageTopMargin;
+        }
     }
 
     &.bottom.aligned {
@@ -171,11 +127,29 @@ $dividedBorder: 1px solid colors.$borderColor;
             "extras"
             "breakingnews"
             "image";
+        .image {
+            margin: $imageBottomMargin;
+        }
     } 
 
     &.left.aligned {
         grid-template-columns: 1fr 2fr;
-        grid-template-rows: 1fr 2fr;
+        &[data-image-size="A1"] {
+            grid-template-columns: variables.$A1 2fr;
+        }
+        &[data-image-size="A2"] {
+            grid-template-columns: variables.$A2 2fr;
+        }
+        &[data-image-size="A3"] {
+            grid-template-columns: variables.$A3 2fr;
+        }
+        &[data-image-size="A4"] {
+            grid-template-columns: variables.$A4 2fr;
+        }
+        &[data-image-size="XL"] {
+            grid-template-columns: variables.$A1 2fr;
+        }
+        grid-template-rows: auto;
         grid-template-areas:
           "image meta"
           "image header"
@@ -186,7 +160,22 @@ $dividedBorder: 1px solid colors.$borderColor;
 
     &.right.aligned {
         grid-template-columns: 2fr 1fr;
-        grid-template-rows: 2fr 1fr;
+        &[data-image-size="A1"] {
+            gride-template-columns: 2fr variables.$A1;
+        }
+        &[data-image-size="A2"] {
+            gride-template-columns: 2fr variables.$A2;
+        }
+        &[data-image-size="A3"] {
+            gride-template-columns: 2fr variables.$A3;
+        }
+        &[data-image-size="A4"] {
+            gride-template-columns: 2fr variables.$A4;
+        }
+        &[data-image-size="XL"] {
+            gride-template-columns: 2fr variables.$A1;
+        }
+        grid-template-rows: auto;
         grid-template-areas:
           "meta image"
           "header image"
@@ -197,28 +186,16 @@ $dividedBorder: 1px solid colors.$borderColor;
 
     .meta {
         grid-area: meta;
-        padding-bottom: $metaPadding;
-        font-size: $metaFontSize;
+        padding-bottom: 18px;
+        font-size: 12px;
     }
 
     /* Image */
     .image {
-        position: relative;
-        flex: 0 0 auto;
-        display: $imageDisplay;
-        float: $imageFloat;
-        margin: $imageMargin;
-        padding: $imagePadding;
-        max-width: 100%; // $imageWidth;
-        align-self: $imageVerticalAlign;
-
-        img {
-            margin: 0;
-        }
+        grid-area: image;
 
         &.A1 {
             max-width: $mobileImageWidth;
-
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A1;
             }
@@ -226,7 +203,6 @@ $dividedBorder: 1px solid colors.$borderColor;
 
         &.A2 {
             max-width: $mobileImageWidth;
-
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A2;
             }
@@ -234,7 +210,6 @@ $dividedBorder: 1px solid colors.$borderColor;
 
         &.A3 {
             max-width: variables.$A3Small;
-
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A3;
             }
@@ -242,7 +217,6 @@ $dividedBorder: 1px solid colors.$borderColor;
 
         &.A4 {
             max-width: $mobileImageWidth;
-
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A4;
             }
@@ -252,18 +226,19 @@ $dividedBorder: 1px solid colors.$borderColor;
             max-width: variables.$XL;
         }
 
-        &>img,
-        &>a {
+        & > img,
+        & > a {
             display: block;
+            margin: 0;
             width: 100%;
             height: auto;
-            border-radius: $imageBorderRadius;
+            border-radius: 0px;
         }
 
         // Chart Art
         &.bordered {
-            &>img {
-                border: $imageBorder;
+            & > img {
+                border: 1px solid #dadada;
             }
         }
     }
@@ -461,7 +436,6 @@ div[data-type="prc-block/wp-query"] > .item {
 // On mobile and items not explicitly defined as being unstackable should stack
 @media only screen and (max-width: variables.$largestMobileScreen) {
     .ui.items .item {
-        @include stack();
         padding: $veryRelaxedItemSpacing;
     }
 }

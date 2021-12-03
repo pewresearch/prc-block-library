@@ -202,7 +202,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_size        = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
 		$image_size        = false === $image_slot ? false : $image_size;
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
-		$is_stacked        = in_array( $image_slot, array( 'default', 'top', 'bottom', false ) );
 		
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = false === $is_in_loop && array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : false;
@@ -230,7 +229,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'image_size'                    => $image_size,
 			'image_is_bordered'             => $image_is_bordered,
 			'image_slot'                    => $image_slot,
-			'is_stacked'                    => $is_stacked,
 			'is_in_loop'                    => $is_in_loop,
 			'header_size'                   => $header_size,
 			'enable_breaking_news'          => $enable_breaking_news,
@@ -259,14 +257,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 		extract( $attrs );
 
 		$block_wrapper_attrs = array(
-			'class' => classNames(
+			'class'           => classNames(
 				'story item',
 				array(
 					$image_slot . ' aligned' => $image_slot,
-					'stacked'                => $is_stacked,
 					'bordered'               => $enable_emphasis,
 				)
 			),
+			'data-image-size' => $image_size,
 		);
 		if ( ! empty( $post_id ) ) {
 			$block_wrapper_attrs['id'] = 'post-' . $post_id;
@@ -311,6 +309,12 @@ class PRC_Story_Item extends PRC_Block_Library {
 		<!-- .wp-block-prc-block-story-item -->
 		<article <?php echo $block_wrapper_attrs; ?>>
 			<?php
+			if ( 'disabled' !== $image_slot && ! empty( $image ) ) {
+				$caption = '';
+				// If we can get image id then we can actually grab the caption... for now we'll use the description
+				$caption = $description;
+				echo "<div class='image {$image_size}'><img src='{$image}' alt='{$caption}'/></div>";
+			}
 			if ( $enable_meta ) {
 				echo "<div class='meta'><span class='report label'>{$label}</span> | <span class='date'>{$date}</span></div>";
 			}
