@@ -11,18 +11,17 @@ use \WPackio as WPackio;
 
 class PRC_Story_Item extends PRC_Block_Library {
 
-	public static $version      = '3.0.0';
-	public static $block_assets = false;
+	public static $css_handle  = false;
+	public static $version     = '4.0.0';
+	public static $date_format = 'M d, Y';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
-			add_action( 'prc_loop_story_item', array( $this, 'loop_story_item' ), 10, 1 );
-			add_filter( 'prc_related_story_item', array( $this, 'related_story_item' ), 10, 1 );
 			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
-			add_action( 'template_redirect', array( $this, 'preview_story_item' ), 1 );
-			add_filter( 'query_vars', array( $this, 'add_preview_query_args' ) );
+			add_action( 'prc_loop_story_item', array( $this, 'loop_story_item' ), 10, 1 );
 			add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 1 );
+			add_filter( 'prc_related_story_item', array( $this, 'related_story_item' ), 10, 1 );
 		}
 	}
 
@@ -70,6 +69,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$attrs['description'] = $post->post_excerpt;
 		$attrs['date']        = $post->post_date;
 		$attrs['label']       = $this->get_label( $post_id, $attrs['enableAltTaxonomy'] );
+
 		if ( 'stub' === $attrs['postType'] ) {
 			$attrs['link'] = get_post_meta( $post_id, '_redirect', true );
 		} elseif ( 'news-item' === $attrs['postType'] ) {
@@ -105,38 +105,28 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// regex search for adjacent .wp-block-prc-block-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
 		$content = preg_replace(
 			'/((?:\s*?<\!-- \.wp-block-prc-block-story-item -->.*?(?:(?!class=".*?(column|section-header).*?")\X)*?<\!-- \/\.wp-block-prc-block-story-item -->\s*?){2,})/i',
-			'<div class="ui divided very relaxed story items">${1}</div>',
+			'<section class="ui divided very relaxed story items" aria-role="feed">${1}</section>',
 			$content
 		);
 		return $content;
 	}
 
 	public function related_story_item( $args ) {
+		wp_enqueue_style( self::$css_handle );
 		$post_id = $args['postId'];
 
 		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
-		return $this->render_story_item( $attributes );
+		$story_item = $this->render_story_item( $attributes );
+		echo wp_kses( $story_item, 'post' );
 	}
 
 	public function loop_story_item( $args ) {
+		wp_enqueue_style( self::$css_handle );
 		$post_id = $args['postId'];
 
 		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
 		$story_item = $this->render_story_item( $attributes, '<div class="description">' . $attributes['description'] . '</div>' );
 		echo wp_kses( $story_item, 'post' );
-	}
-
-	private function cherry_pick_attr( $needle, $haystack, $default = null ) {
-		if ( array_key_exists( $needle, $haystack ) ) {
-			if ( true === $haystack[ $needle ] ) {
-				return 'true';
-			} elseif ( false === $haystack[ $needle ] ) {
-				return 'false';
-			} else {
-				return $haystack[ $needle ];
-			}
-		}
-		return $default;
 	}
 
 	/**
@@ -154,61 +144,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return 'Report';
 	}
 
-	/**
-	 * If this is a block we default to get_block_wrapper_attributes, otherwise this operates as a forked version of get_block_wrapper_attributes, hard settings the class name. 
-	 * I wish there was a filter for this in the core version.
-	 */
-	public function get_wrapper_attributes( $extra_attributes = array(), $block = false ) {
-		if ( false !== $block ) {
-			return get_block_wrapper_attributes( $extra_attributes );
-		}
-
-		$new_attributes = array(
-			'class' => classNames( 'wp-block-prc-block-story-item' ),
-		);
-	
-		if ( empty( $new_attributes ) && empty( $extra_attributes ) ) {
-			return '';
-		}
-	
-		// This is hardcoded on purpose.
-		// We only support a fixed list of attributes.
-		$attributes_to_merge = array( 'style', 'class' );
-		$attributes          = array();
-		foreach ( $attributes_to_merge as $attribute_name ) {
-			if ( empty( $new_attributes[ $attribute_name ] ) && empty( $extra_attributes[ $attribute_name ] ) ) {
-				continue;
-			}
-	
-			if ( empty( $new_attributes[ $attribute_name ] ) ) {
-				$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ];
-				continue;
-			}
-	
-			if ( empty( $extra_attributes[ $attribute_name ] ) ) {
-				$attributes[ $attribute_name ] = $new_attributes[ $attribute_name ];
-				continue;
-			}
-	
-			$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ] . ' ' . $new_attributes[ $attribute_name ];
-		}
-	
-		foreach ( $extra_attributes as $attribute_name => $value ) {
-			if ( ! in_array( $attribute_name, $attributes_to_merge, true ) ) {
-				$attributes[ $attribute_name ] = $value;
-			}
-		}
-	
-		if ( empty( $attributes ) ) {
-			return '';
-		}
-	
-		$normalized_attributes = array();
-		foreach ( $attributes as $key => $value ) {
-			$normalized_attributes[] = $key . '="' . esc_attr( $value ) . '"';
-		}
-	
-		return implode( ' ', $normalized_attributes );
+	public function get_image( int $post_id, $default_image, $image_size ) {
+		// Get art from the post id, use the default image if it differs from the art['imageSize]. 
+		$art = prc_get_art( $post_id, $image_size );
+		return $default_image;
 	}
 
 	/**
@@ -218,129 +157,177 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @return void 
 	 */
 	public function legacy_content( $attributes ) {
-		$excerpt = $this->cherry_pick_attr( 'excerpt', $attributes );
-		$extra   = $this->cherry_pick_attr( 'excerpt', $attributes );
+		$excerpt = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
+		$extra   = array_key_exists( 'extra', $attributes ) ? $attributes['extra'] : false;
 		
 		ob_start();
 		?>
-		<div class="description">
-			<?php echo $excerpt; ?>
-		</div>
+		<?php if ( false !== $excerpt ) : ?>
+			<div class="description">
+				<?php echo $excerpt; ?>
+			</div>
+		<?php endif; ?>
+		<?php if ( false !== $extra ) : ?>
+			<ul class="extra">
+				<?php echo $extra; ?>
+			</ul>
+		<?php endif; ?>
 		<?php
 		return ob_get_clean();
 	}
 
+	public function get_attributes( $attributes, $context = array() ) {
+		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
+		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
+		$post_id = false === $post_id && array_key_exists( 'postId', $context ) ? $context['postId'] : false;
+		
+		$post = get_post( $post_id );
+
+		$post_type = array_key_exists( 'postType', $context ) ? $context['postType'] : false;
+
+		// Title, image, description, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
+		$title       = array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title;
+		$description = array_key_exists( 'description', $attributes ) ? $attributes['description'] : $post->post_excerpt;
+		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label( 
+			$post_id,
+			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
+		);
+		$date        = gmdate( self::$date_format, strtotime( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date ) );
+		$url         = array_key_exists( 'url', $attributes ) ? $attributes['link'] : $post->permalink;
+		$image       = $this->get_image( $post_id, $attributes['image'], $attributes['imageSize'] );
+		
+		$image_slot        = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
+		$image_slot        = 'default' === $image_slot ? 'top' : $image_slot;
+		$image_slot        = 'disabled' === $image_slot ? false : $image_slot;
+		$image_size        = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
+		$image_size        = false === $image_slot ? false : $image_size;
+		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
+		$is_stacked        = in_array( $image_slot, array( 'default', 'top', 'bottom', false ) );
+		
+		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
+		$is_in_loop = false === $is_in_loop && array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : false;
+		
+		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
+		$enable_description            = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : false;
+		$enable_alt_description_layout = array_key_exists( 'enableExcerptBelow', $attributes ) ? $attributes['enableExcerptBelow'] : false;
+		$enable_emphasis               = array_key_exists( 'enableEmphasis', $attributes ) ? $attributes['enableEmphasis'] : false;
+		$enable_extra                  = array_key_exists( 'enableExtra', $attributes ) ? $attributes['enableExtra'] : false;
+		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : false;
+		$enable_alt_header_weight      = array_key_exists( 'enableAltHeaderWeight', $attributes ) ? $attributes['enableAltHeaderWeight'] : false;
+		$enable_meta                   = array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : false;
+
+		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
+
+		return array(
+			'post_id'                       => $post_id,
+			'post_type'                     => $post_type,
+			'title'                         => $title,
+			'description'                   => $description,
+			'label'                         => $label,
+			'date'                          => $date,
+			'url'                           => $url,
+			'image'                         => $image,
+			'image_size'                    => $image_size,
+			'image_is_bordered'             => $image_is_bordered,
+			'image_slot'                    => $image_slot,
+			'is_stacked'                    => $is_stacked,
+			'is_in_loop'                    => $is_in_loop,
+			'header_size'                   => $header_size,
+			'enable_breaking_news'          => $enable_breaking_news,
+			'enable_description'            => $enable_description,
+			'enable_alt_description_layout' => $enable_alt_description_layout,
+			'enable_emphasis'               => $enable_emphasis,
+			'enable_extra'                  => $enable_extra,
+			'enable_header'                 => $enable_header,
+			'enable_alt_header_weight'      => $enable_alt_header_weight,
+			'enable_meta'                   => $enable_meta,
+		);
+	}
+
 	/**
-	 * Renders the `prc-block/story-item` placeholder block.
+	 * Renders the `prc-block/story-item` block.
 	 * 
 	 * Classname: .wp-block-prc-block-story-item
 	 *
 	 * @param array $attributes The block attributes.
 	 *
-	 * @return string Returns story item placeholder markup.
+	 * @return string Returns story item markup.
 	 */
-	public function render_story_item( $attributes, $content = false ) {
-		$image_size = $this->cherry_pick_attr( 'imageSize', $attributes );
-		$image_slot = $this->cherry_pick_attr( 'imageSlot', $attributes );
-		$stacked    = ( 'top' === $image_slot || 'bottom' === $image_slot );
+	public function render_story_item( $attributes, $content = false, $block = false ) {
+		// Format and extract the attributes into variables.
+		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
+		extract( $attrs );
 
-		$post_id = $this->cherry_pick_attr( 'postId', $attributes );
-		$title   = $this->cherry_pick_attr( 'title', $attributes );
-		
-		// Check for legacy excerpt and extra.
-		$has_content_to_convert = null !== $this->cherry_pick_attr( 'excerpt', $attributes ) || null !== $this->cherry_pick_attr( 'extra', $attributes );
-		if ( ( false === $content || empty( $content ) ) && $has_content_to_convert ) {
-			$content = $this->legacy_content( $attributes );
+		$block_wrapper_attrs = array(
+			'class' => classNames(
+				'story item',
+				array(
+					$image_slot . ' aligned' => $image_slot,
+					'stacked'                => $is_stacked,
+					'bordered'               => $enable_emphasis,
+				)
+			),
+		);
+		if ( ! empty( $post_id ) ) {
+			$block_wrapper_attrs['id'] = 'post-' . $post_id;
 		}
+		$block_wrapper_attrs = get_block_wrapper_attributes( $block_wrapper_attrs );
 
-		$story_item_class = classNames(
-			'ui item story',
-			'is-style-' . $image_slot,
+		$header_class = classNames(
+			'header',
 			array(
-				'stacked' => $stacked,
+				'large'  => 1 === $header_size,
+				'medium' => 2 === $header_size,
+				'small'  => 3 === $header_size,
+				'light'  => $enable_alt_header_weight || ! $enable_description,
 			)
 		);
 
-		$block_wrapper_attrs = $this->get_wrapper_attributes(
+		// Check for legacy excerpt and reformat to description.
+		if ( ( false === $content || empty( $content ) ) && ( array_key_exists( 'excerpt', $attributes ) || array_key_exists( 'extra', $attributes ) ) ) {
+			$content = $this->legacy_content( $attributes );
+		}
+		// Regex remove div with class 'extra' from this string if $enable_extra is false.
+		$content = ! $enable_extra ? preg_replace( '/<ul class="extra">(.*?)<\/ul>/s', '', $content ) : $content;
+		// Regex remove div with class 'description' from this string if $enable_description is false.
+		$content = ! $enable_description ? preg_replace( '/<div class="description">(.*?)<\/div>/s', '', $content ) : $content;
+
+		$story_item_extras = apply_filters(
+			'prc_story_item_extra',
+			false,
 			array(
-				'class'                     => 'is-style-' . $image_slot,
-				'data-class-name'           => $this->cherry_pick_attr( 'className', $attributes ),
-				'data-image-size'           => $image_size,
-				'data-image-slot'           => $image_slot,
-				'data-label'                => $this->cherry_pick_attr( 'label', $attributes ),
-				'data-date'                 => $this->cherry_pick_attr( 'date', $attributes ),
-				'data-link'                 => $this->cherry_pick_attr( 'link', $attributes ),
-				'data-image'                => $this->cherry_pick_attr( 'image', $attributes ),
-				'data-header-size'          => $this->cherry_pick_attr( 'headerSize', $attributes ),
-				'data-enable-header'        => $this->cherry_pick_attr( 'enableHeader', $attributes ),
-				'data-enable-excerpt'       => $this->cherry_pick_attr( 'enableExcerpt', $attributes ),
-				'data-excerpt-below'        => $this->cherry_pick_attr( 'enableExcerptBelow', $attributes ),
-				'data-enable-extra'         => $this->cherry_pick_attr( 'enableExtra', $attributes ),
-				'data-enable-emphasis'      => $this->cherry_pick_attr( 'enableEmphasis', $attributes ),
-				'data-enable-breaking-news' => $this->cherry_pick_attr( 'enableBreakingNews', $attributes ),
-				'data-enable-meta'          => $this->cherry_pick_attr( 'enableMeta', $attributes, true ),
-				'data-is-chart-art'         => $this->cherry_pick_attr( 'isChartArt', $attributes ),
-				'data-in-loop'              => $this->cherry_pick_attr( 'inLoop', $attributes ),
-			) 
+				'post_type' => $post_type,
+				'id'        => $post_id,
+			)
 		);
-
-		$this->enqueue_frontend();
-
+		
 		ob_start();
 		?>
+		<?php
+		/**
+		 * These inline html comments are necessary for a filter to wrap consecutive story items, see 'wrap_consecutive_story_items'
+		 */
+		?>
 		<!-- .wp-block-prc-block-story-item -->
-		<div <?php echo $block_wrapper_attrs; ?>>
-			<div
-				id="<?php echo esc_attr( 'post-' . $post_id ); ?>"
-				class="<?php echo esc_attr( $story_item_class ); ?>"
-			>
-				<?php
-				if ( in_array( $image_slot, array( 'left', 'top' ) ) ) {
-					echo "<div class='{$image_size} image'><div class='ui fluid placeholder'><div class='image'></div></div></div>";
-				}
-				?>
-				<div class="content">
-					<div class="ui fluid placeholder">
-						<div class="header">
-							<div class="line"></div>
-							<div class="line"></div>
-						</div>
-						<div class="paragraph">
-							<div class="line"></div>
-							<div class="line"></div>
-							<div class="line"></div>
-							<div class="line"></div>
-						</div>
-					</div>
-				</div>
-				<?php
-				if ( in_array( $image_slot, array( 'right', 'bottom' ) ) ) {
-					echo "<div class='{$image_size} image'><div class='ui fluid placeholder'><div class='image'></div></div></div>";
-				}
-				?>
-				<div class="hidden">
-					<?php
-					if ( false !== $this->cherry_pick_attr( 'enableHeader', $attributes ) ) {
-						echo "<div class='title'>{$title}</div>";
-					}
-					?>
-					<?php 
-					if ( false !== $content ) {
-						echo $content;
-					} 
-					?>
-					<?php
-					do_action(
-						'prc_story_item_extra',
-						array(
-							'post_type' => get_post_type( $post_id ),
-							'id'        => $post_id,
-						),
-					);
-					?>
-				</div>
-			</div>
-		</div>
+		<article <?php echo $block_wrapper_attrs; ?>>
+			<?php
+			if ( $enable_meta ) {
+				echo "<div class='meta'><span class='report label'>{$label}</span> | <span class='date'>{$date}</span></div>";
+			}
+			if ( $enable_header ) {
+				echo "<header class='{$header_class}'><a href='{$url}'>{$title}</a></header>";
+			}
+			if ( ! empty( $content ) ) {
+				echo wp_kses( $content, 'post' );
+			}
+			if ( $enable_breaking_news ) {
+				echo '<ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS RESEARCH ></a></li></ul>';
+			} 
+			if ( ! empty( $story_item_extras ) ) {
+				echo $story_item_extras;
+			}
+			?>
+		</article>
 		<!-- /.wp-block-prc-block-story-item -->
 		<?php
 		return ob_get_clean();
@@ -482,28 +469,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return $return;
 	}
 
-	public function register_frontend() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
-		
-		return $enqueue->register(
-			'frontend',
-			'story-item',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array( 'moment' ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-	}
-
-	public function enqueue_frontend() {
-		$registered = $this->register_frontend();
-		wp_enqueue_script( array_pop( $registered['js'] )['handle'] );
-	}
-
 	/**
 	 * Register the story item block.
 	 *
@@ -525,70 +490,30 @@ class PRC_Story_Item extends PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+
+		if ( false === self::$css_handle ) {
+			self::$css_handle = array_pop( $block_assets['css'] )['handle'];
+		}
 		
 		$registered_block = register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/story-item',
 			array(
 				'editor_script'   => array_pop( $block_assets['js'] )['handle'],
-				// 'editor_style'    => array_pop( $block_assets['css'] )['handle'],
+				'style'           => self::$css_handle,
 				'render_callback' => array( $this, 'render_story_item' ),
 			)
 		);
 
-		if ( false !== $registered_block ) {
-			add_rewrite_rule( '^preview-story-item/([^/]*)/([^/]*)/([^/]*)/?', 'index.php?storyItemId=$matches[1]&imageId=$matches[2]&imageSize=$matches[3]', 'top' );
+		if ( false === $registered_block ) {
+			new WP_Error(
+				'block_registration_failed',
+				'Block registration failed',
+				array(
+					'block_name' => 'story-item',
+				)
+			);
 		}
-	}
-
-	/**
-	 * WIP New Functionality:
-	 * 1. Preview story item markup through restful interface.
-	 */
-
-	public function add_preview_query_args( $vars ) {
-		$vars[] = 'storyItemId';
-		$vars[] = 'imageId';
-		$vars[] = 'imageSize';
-		return $vars;
-	}
-
-	public function preview_story_item() {
-		if ( ! get_query_var( 'storyItemId' ) ) {
-			return;
-		}
-		$post_id    = (int) get_query_var( 'storyItemId' );
-		$image_id   = (int) get_query_var( 'imageId', 0 );
-		$image_size = strtoupper( get_query_var( 'imageSize', 'A1' ) );
-		$image_slot = 'left';
-		if ( 'XL' === $image_size ) {
-			$image_slot = 'top';
-		}
-		$post_type  = get_post_type( $post_id );
-		$attributes = $this->get_attributes_by_object_id(
-			$post_id,
-			array(
-				'imageSlot' => $image_slot,
-				'imageSize' => $image_size,
-				'image'     => wp_get_attachment_image_src( $image_id, $image_size )[0],
-				'postType'  => $post_type,
-			)
-		);
-		show_admin_bar( false );
-		wp_head();
-		echo wp_kses( $this->render_story_item( $attributes ), 'post' );
-		wp_footer();
-		exit();
 	}
 }
 
 new PRC_Story_Item( true );
-
-/**
- * DEPRECATED::
- * By default should only load A3 left aligned stubs, can be modified through args.
- */
-function prc_get_story_item( $stub_post_id, $args = array(), $content = null ) {
-	$story_item = new PRC_Story_Item( false );
-	$attributes = $story_item->get_attributes_by_object_id( $stub_post_id, $args );
-	return $story_item->render_story_item( $attributes, $content );
-}

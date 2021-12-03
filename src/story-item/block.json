@@ -90,10 +90,6 @@
             "type": "boolean",
             "default": false
         },
-        "isPreview": {
-            "type": "boolean",
-            "default": false
-        },
         "isTransformed": {
             "type": "boolean",
             "default": false

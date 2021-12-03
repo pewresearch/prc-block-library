@@ -74,6 +74,9 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         className,
     } = attributes;
 
+    /**
+     * Handle transform from a pewresearch.[org|local] link into a story item.
+     */
     useEffect(()=>{
         if ( true === isTransformed ) {
             getAttributesFromURL(link).then(attrs => {
@@ -100,8 +103,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     const enableAltHeaderWeight = !enableExcerpt;
 
     const blockProps = useBlockProps();
-
-    // setImageSlotByClassName(className, setAttributes);
 
     const Img = () => {
         return (

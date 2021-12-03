@@ -1,0 +1,467 @@
+@use "../../../../themes/prc_parent/src/scss/master.variables.scss" as variables;
+@use "../../../../themes/prc_parent/src/scss/colors.scss" as colors;
+@use "../../../../themes/prc_parent/src/scss/functions.scss" as functions;
+@use "../../../../themes/prc_parent/src/scss/mixins.scss" as mixins;
+@use "sass:math";
+
+/* Item */
+$display: grid;
+$background: transparent;
+$width: 100%;
+$border: none;
+$zIndex: "";
+$transition: box-shadow variables.$defaultDuration variables.$defaultEasing;
+
+/* Responsive */
+$itemSpacing: 0em 0em 1rem 0em;
+$imageWidth: variables.$A3;
+$contentImageDistance: 1.5rem;
+
+$mobileItemSpacing: 2rem;
+$mobileImageWidth: 690px;
+$mobileContentImageDistance: 1.5rem;
+
+/* Image */
+$imageDisplay: block;
+$imageFloat: none;
+$imageMaxHeight: "";
+$imageVerticalAlign: top;
+$imageMargin: 0em;
+$imageTopMargin: 0 0 1.5rem 0;
+$imagePadding: 0em;
+$imageBorder: 1px solid #dadada;
+$imageBorderRadius: 0;
+$imageBoxShadow: none;
+
+/* Content */
+$contentDisplay: block;
+$contentVerticalAlign: top;
+
+$contentWidth: auto;
+$contentOffset: 0em;
+$contentBackground: none;
+$contentMargin: 0em;
+$contentPadding: 0em;
+$contentBorder: none;
+$contentBorderRadius: 0em;
+$contentBoxShadow: none;
+
+/* Header */
+$headerMargin: -(variables.$lineHeightOffset) 0em 0em;
+$headerColor: colors.$darkTextColor;
+$headerLinkColor: $headerColor;
+//
+$headerSmallFontSize: functions.replace-unit(math.div(18, variables.$baseUnit), rem);
+$headerSmallFontWeight: 400;
+$headerSmallLineHeight: functions.replace-unit(math.div(25, variables.$baseUnit), rem);
+//
+$headerSmallAltFontSize: functions.replace-unit(math.div(18, variables.$baseUnit), rem);
+$headerSmallAltFontWeight: variables.$bold;
+$headerSmallAltLineHeight: functions.replace-unit(math.div(23, variables.$baseUnit), rem);
+//
+$headerFont: variables.$postTitleFont;
+//
+$headerMediumFontSize: functions.replace-unit(math.div(20, variables.$baseUnit), rem);
+$headerMediumFontWeight: 700;
+$headerMediumLineHeight: functions.replace-unit(math.div(26, variables.$baseUnit), rem);
+//
+$headerLargeFontSize: functions.replace-unit(math.div(28, variables.$baseUnit), rem);
+$headerLargeFontWeight: variables.$bold;
+$headerLargeLineHeight: functions.replace-unit(math.div(34, variables.$baseUnit), rem);
+
+/* Meta Data */
+$metaFontSize: 12px;
+$metaPadding: 18px;
+
+/* Description */
+$descriptionDistance: 0.6rem;
+$descriptionMaxWidth: auto;
+$descriptionFontSize: 16px;
+$descriptionLineHeight: variables.$lineHeight;
+$descriptionColor: colors.$textColor;
+$descriptionLinkColor: black;
+$descriptionLinkHoverColor: colors.$linkColor;
+$descriptionLinkTransition: color variables.$defaultDuration variables.$defaultEasing;
+
+/* Paragraph */
+$paragraphDistance: 0.5rem;
+
+/* Extras Content */
+$extraHorizontalSpacing: 0.5rem;
+$extraRowSpacing: 0.5rem;
+
+$extraDisplay: block;
+$extraMargin: 1em 0 0 0;
+$extraWidth: 100%;
+$extraColor: colors.$darkTextColor;
+$extraFont: variables.$sansSerifFont;
+$extraFontSize: 15px;
+$extraTransition: color variables.$defaultDuration variables.$defaultEasing;
+
+/* Relaxed */
+$relaxedItemSpacing: 0 0 21px 0;
+$veryRelaxedItemSpacing: 0 0 28px 0;
+
+/* Divided */
+$dividedBorder: 1px solid colors.$borderColor;
+
+@mixin stack() {
+    grid-auto-flow: column;
+    grid-template-areas:
+        "image"
+        "meta"
+        "header"
+        "description"
+        "extras"
+        "breakingnews";
+}
+
+.wp-block-prc-block-story-item,
+.story.item {
+    @include mixins.clearfix();
+    display: $display;
+    gap: 0px;
+    margin: 0;
+    padding: 0;
+    width: $width;
+    background: $background;
+    border: $border;
+    transition: $transition;
+    z-index: $zIndex;
+
+    /* Layouts and Style Options */
+    &.stacked {
+        @include stack();
+    }
+
+    &.bordered {
+        padding: 1.5rem !important;
+        border: 1px solid #d3d3d3;
+        margin-bottom: 2rem;
+    }
+
+    &.is-style-mobile-loop {
+    }
+
+    &.aligned {
+        grid-auto-flow: row;
+    }
+
+    &.top,
+    &.bottom {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+    
+    &.top.aligned {
+        grid-template-areas:
+          "image"
+          "meta"
+          "header"
+          "description"
+          "extras"
+          "breakingnews";
+    }
+
+    &.bottom.aligned {
+        grid-template-areas:
+            "meta"
+            "header"
+            "description"
+            "extras"
+            "breakingnews"
+            "image";
+    } 
+
+    &.left.aligned {
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr 2fr;
+        grid-template-areas:
+          "image meta"
+          "image header"
+          "image description"
+          "image extras"
+          "image breakingnews";
+    }
+
+    &.right.aligned {
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: 2fr 1fr;
+        grid-template-areas:
+          "meta image"
+          "header image"
+          "description image"
+          "extras image"
+          "breakingnews image";
+    }
+
+    .meta {
+        grid-area: meta;
+        padding-bottom: $metaPadding;
+        font-size: $metaFontSize;
+    }
+
+    /* Image */
+    .image {
+        position: relative;
+        flex: 0 0 auto;
+        display: $imageDisplay;
+        float: $imageFloat;
+        margin: $imageMargin;
+        padding: $imagePadding;
+        max-width: 100%; // $imageWidth;
+        align-self: $imageVerticalAlign;
+
+        img {
+            margin: 0;
+        }
+
+        &.A1 {
+            max-width: $mobileImageWidth;
+
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                max-width: variables.$A1;
+            }
+        }
+
+        &.A2 {
+            max-width: $mobileImageWidth;
+
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                max-width: variables.$A2;
+            }
+        }
+
+        &.A3 {
+            max-width: variables.$A3Small;
+
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                max-width: variables.$A3;
+            }
+        }
+
+        &.A4 {
+            max-width: $mobileImageWidth;
+
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                max-width: variables.$A4;
+            }
+        }
+
+        &.XL {
+            max-width: variables.$XL;
+        }
+
+        &>img,
+        &>a {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: $imageBorderRadius;
+        }
+
+        // Chart Art
+        &.bordered {
+            &>img {
+                border: $imageBorder;
+            }
+        }
+    }
+
+    .header {
+        grid-area: header;
+
+        @media only screen and (max-width: variables.$largestMobileScreen) {
+            display: block;
+        }
+
+        display: inline-block;
+        font-family: $headerFont;
+        color: $headerColor;
+        -ms-word-wrap: break-word;
+        word-wrap: break-word;
+
+        // .medium
+        font-size: $headerMediumFontSize;
+        font-weight: $headerMediumFontWeight;
+        line-height: $headerMediumLineHeight;
+
+        &.large {
+            font-size: $headerLargeFontSize;
+            font-weight: $headerLargeFontWeight;
+            line-height: $headerLargeLineHeight;
+        }
+
+        &.small {
+            font-size: $headerSmallFontSize;
+            font-weight: $headerSmallFontWeight;
+            line-height: $headerSmallLineHeight;
+        }
+
+        &.light {
+            font-weight: normal;
+        }
+
+        & > a {
+            color: $headerColor;
+            text-decoration: none;
+
+            &:hover {
+                color: $headerColor !important;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .description {
+        grid-area: description;
+        margin: $descriptionDistance 0 0 0;
+        max-width: $descriptionMaxWidth;
+        font-size: $descriptionFontSize;
+        line-height: $descriptionLineHeight;
+        color: $descriptionColor;
+        p {
+            margin: 0em 0em $paragraphDistance;
+            &:last-child {
+                margin-bottom: 0em;
+            }
+        }
+    }
+
+    .description a,
+    .extra a {
+        color: $descriptionLinkColor;
+        transition: $descriptionLinkTransition;
+        &:hover {
+            color: $descriptionLinkHoverColor;
+        }
+    }
+
+    // For when breaking news is enabled but extras are not.
+    .description + ul.extra-breaking-news {
+        margin: $extraMargin;
+    }
+
+    .extra {
+        grid-area: extras;
+    }
+    .extra-breaking-news {
+        grid-area: breakingnews;
+    }
+
+    .extra,
+    .extra-breaking-news {
+        @include mixins.clearfix();
+        display: $extraDisplay;
+        margin: $extraMargin;
+        width: $extraWidth;
+        font-family: $extraFont;
+        font-size: $extraFontSize;
+        color: $extraColor;
+        transition: $extraTransition;
+
+        .kicker-breaking-news {
+            display: inline;
+        }
+    }
+
+    // Make extra and extra breaking news attached.
+    ul.extra + ul.extra-breaking-news {
+        margin: 0;
+    }
+
+    ul.extra,
+    ul.extra-breaking-news {
+        list-style-position: outside;
+        padding-left: 1em;
+
+        li {
+            margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0em;
+        }
+    }
+
+    // @TODO what is this combination, where does this appear?
+    ul.extra-breaking-news > li,
+    div.extra > * {
+        margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0em;
+    }
+}
+// End .wp-block-prc-block-story-item
+
+/**
+ * Misc Layout Styles:
+ *
+ * 1. A single story item block in a column block.
+ * 2. Conescutive story items in a wp-query block.
+ * 3. A single story item block inside Gutenberg editor.
+ *
+ *
+ */
+
+// 1.
+.wp-block-prc-block-column > .wp-block-prc-block-story-item:only-child {
+    @media only screen and (max-width: variables.$largestMobileScreen) {
+        margin: $itemSpacing;
+        padding: $itemSpacing;
+        border-bottom: $dividedBorder;
+    }
+}
+
+// 2.
+div[data-type="prc-block/wp-query"] > .item {
+    margin: $itemSpacing;
+    padding: $itemSpacing;
+    border-bottom: $dividedBorder;
+}
+
+
+/**
+ * Consecutive Story Items
+ */
+
+.ui.items,
+.ui[class*="story items"] {
+    & > .item,
+    & > .wp-block-prc-block-story-item {
+        font-size: variables.$relativeMedium;
+    }
+
+    &.divided > .story.item:not(:last-of-type) {
+        border-bottom: $dividedBorder;
+    }
+
+    &.relaxed > .wp-block-prc-block-story-item > .item:not(:last-of-type),
+    &.relaxed > .item:not(:last-of-type) {
+        padding: $relaxedItemSpacing;
+        margin: $relaxedItemSpacing;
+        
+        & + .story.item.bordered {
+            margin-top: -22px;
+        }
+    }
+    
+    &[class*="very realxed"] > .wp-block-prc-block-story-item .item:not(:last-of-type),
+    &[class*="very relaxed"] > .item:not(:last-of-type) {
+        padding: $veryRelaxedItemSpacing;
+        margin: $veryRelaxedItemSpacing;
+        & + .story.item.bordered {
+            margin-top: -29px;
+        }
+    }
+}
+
+/**
+ * Responsive Layouts
+ */
+
+/* Tablet Only */
+@media only screen and (min-width: variables.$tabletBreakpoint) and (max-width: variables.$largestTabletScreen) {}
+
+/* Mobile Only */
+// On mobile and items not explicitly defined as being unstackable should stack
+@media only screen and (max-width: variables.$largestMobileScreen) {
+    .ui.items .item {
+        @include stack();
+        padding: $veryRelaxedItemSpacing;
+    }
+}
