@@ -91,8 +91,8 @@
   "staff.js.map": "blocks/staff-b7af8ee6.js.map",
   "story-item.css": "blocks/story-item-c1c65cd5.css",
   "story-item.css.map": "blocks/story-item-c1c65cd5.css.map",
-  "story-item.js": "blocks/story-item-4d12f4fc.js",
-  "story-item.js.map": "blocks/story-item-4d12f4fc.js.map",
+  "story-item.js": "blocks/story-item-9b295319.js",
+  "story-item.js.map": "blocks/story-item-9b295319.js.map",
   "sub-title.js": "blocks/sub-title-cdcbe50d.js",
   "sub-title.js.map": "blocks/sub-title-cdcbe50d.js.map",
   "table.js": "blocks/table-e70b4a28.js",
@@ -624,13 +624,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~so~367cfc7e-69043b87.js",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~story-item~top~0f4cfee1-925e1dd4.js",
-          "blocks/story-item-4d12f4fc.js"
+          "blocks/story-item-9b295319.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~so~367cfc7e-69043b87.js.map",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~story-item~top~0f4cfee1-925e1dd4.js.map",
-          "blocks/story-item-4d12f4fc.js.map"
+          "blocks/story-item-9b295319.js.map"
         ],
         "css": [
           "blocks/story-item-c1c65cd5.css"

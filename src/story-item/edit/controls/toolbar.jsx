@@ -85,6 +85,9 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
 const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
     const { postId, link, imageSize, imageSlot, headerSize, isChartArt, title } = attributes;
 
+    const columnWidth = undefined !== context['prc-block/column/width'] ? context['prc-block/column/width'] : false;
+    console.log('context?', columnWidth, context);
+
     const Icon = ({ svgPath = false, isPressed = false }) => {
         if (false === svgPath) {
             return null;
@@ -200,39 +203,6 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
                     label="Select Image Slot"
                     controls={ [
                         {
-                            title: 'Default',
-                            icon: (
-                                <ImageSlotIcon selected='default'/>
-                            ),
-                            isActive: 'default' === imageSlot,
-                            onClick: () => {
-                                const newSlot = 'default';
-                                setAttributes({imageSlot: newSlot});
-                            },
-                        },
-                        {
-                            title: 'Right',
-                            icon: (
-                                <ImageSlotIcon selected='right'/>
-                            ),
-                            isActive: 'right' === imageSlot,
-                            onClick: () => {
-                                const newSlot = 'right';
-                                setAttributes({imageSlot: newSlot});
-                            },
-                        },
-                        {
-                            title: 'Left',
-                            icon: (
-                                <ImageSlotIcon selected='left'/>
-                            ),
-                            isActive: 'left' === imageSlot,
-                            onClick: () => {
-                                const newSlot = 'left';
-                                setAttributes({imageSlot: newSlot});
-                            },
-                        },
-                        {
                             title: 'Top',
                             icon: (
                                 <ImageSlotIcon selected='top'/>
@@ -251,6 +221,30 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
                             isActive: 'bottom' === imageSlot,
                             onClick: () => {
                                 const newSlot = 'bottom';
+                                setAttributes({imageSlot: newSlot});
+                            },
+                        },
+                        {
+                            title: 'Left',
+                            icon: (
+                                <ImageSlotIcon selected='left'/>
+                            ),
+                            isActive: 'left' === imageSlot,
+                            isDisabled: false !== columnWidth && 5 >= columnWidth,
+                            onClick: () => {
+                                const newSlot = 'left';
+                                setAttributes({imageSlot: newSlot});
+                            },
+                        },
+                        {
+                            title: 'Right',
+                            icon: (
+                                <ImageSlotIcon selected='right'/>
+                            ),
+                            isActive: 'right' === imageSlot,
+                            isDisabled: false !== columnWidth && 5 >= columnWidth,
+                            onClick: () => {
+                                const newSlot = 'right';
                                 setAttributes({imageSlot: newSlot});
                             },
                         },

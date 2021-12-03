@@ -160,9 +160,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                 {...{
                     attributes,
                     setAttributes,
-                    context: context.hasOwnProperty('prc-block/wp-query')
-                        ? JSON.parse(context['prc-block/wp-query'])
-                        : false,
+                    context,
                     rootClientId,
                 }}
             />
