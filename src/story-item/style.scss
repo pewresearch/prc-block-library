@@ -171,6 +171,11 @@ $dividedBorder: 1px solid colors.$borderColor;
     .image {
         grid-area: image;
 
+        // Chart Art
+        &.bordered > img {
+            border: 1px solid #dadada;
+        }
+
         &.A1,
         &.A1 > img {
             max-width: $mobileImageWidth;
@@ -215,13 +220,6 @@ $dividedBorder: 1px solid colors.$borderColor;
             width: 100%;
             height: auto;
             border-radius: 0px;
-        }
-
-        // Chart Art
-        &.bordered {
-            & > img {
-                border: 1px solid #dadada;
-            }
         }
     }
 
@@ -272,8 +270,7 @@ $dividedBorder: 1px solid colors.$borderColor;
 
     .description {
         grid-area: description;
-        margin: 23px 0 0 0;
-        max-width: auto;
+        margin: 10px 0 0 0;
         font-size: 16px;
         line-height: variables.$lineHeight;
         color: colors.$textColor;

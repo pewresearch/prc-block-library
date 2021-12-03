@@ -194,7 +194,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		);
 		$date        = gmdate( self::$date_format, strtotime( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date ) );
 		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $post->permalink;
-		$image       = $this->get_image( $post_id, $attributes['image'], $attributes['imageSize'] );
+		$image       = $this->get_image( $post_id, array_key_exists( 'image', $attributes ) ? $attributes['image'] : '', $attributes['imageSize'] );
 		
 		$image_slot        = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
 		$image_slot        = 'default' === $image_slot ? 'top' : $image_slot;
