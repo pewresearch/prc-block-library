@@ -177,6 +177,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	public function get_attributes( $attributes, $context = array() ) {
+		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
 		$post_id = false === $post_id && array_key_exists( 'postId', $context ) ? $context['postId'] : false;
@@ -204,7 +205,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_slot        = 'default' === $image_slot ? 'top' : $image_slot;
 		$image_slot        = 'disabled' === $image_slot ? false : $image_slot;
 		$image_size        = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
-		$image_size        = in_array( $image_slot, array( 'left', 'right' ) ) && ( $is_mobile ) ? 'A3' : $image_size;
 		$image_size        = false === $image_slot ? false : $image_size;
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
 		
@@ -218,6 +218,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$enable_meta                   = array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : false;
 
 		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
+
+		// @todo if column_width is less than 5, and left or right image slot, then the image size need's to set to what?
+		if ( $is_mobile ) {
+			$header_size = 2;
+			// @todo if is mobile and column_width is less than ??, and left or right image slot, then image size needs to be set to what?
+			$image_slot = in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : $image_slot;
+			// The default fallback image will be set to A3 when a mobile device is detected.
+			$image_size = 'right' === $image_slot ? 'A3' : $image_size;
+			// css grid for this would be...
+		}
 
 		return array(
 			'post_id'                       => $post_id,
@@ -257,6 +267,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// Format and extract the attributes into variables.
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );
+
+		$column_width = array_key_exists( 'prc-block/column/width', $block->context ) ? $block->context['prc-block/column/width'] : false;
 
 		$block_wrapper_attrs = array(
 			'class'           => classNames(

@@ -82,7 +82,7 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
     );
 };
 
-const Toolbar = ({ attributes, setAttributes }) => {
+const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
     const { postId, link, imageSize, imageSlot, headerSize, isChartArt, title } = attributes;
 
     const Icon = ({ svgPath = false, isPressed = false }) => {
@@ -154,6 +154,7 @@ const Toolbar = ({ attributes, setAttributes }) => {
     const handleImageSizeChange = (newSize) => {
         setAttributes({ imageSize: newSize });
         setArtBySize(newSize, postId, setAttributes);
+        console.log('new image size, check column context', context);
     }
 
     return (

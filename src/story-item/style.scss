@@ -13,23 +13,23 @@ $mobileImageWidth: 690px;
 $headerColor: colors.$darkTextColor;
 $headerLinkColor: $headerColor;
 //
-$headerSmallFontSize: functions.replace-unit(math.div(18, variables.$baseUnit), rem);
+$headerSmallFontSize: 18px;
 $headerSmallFontWeight: 400;
-$headerSmallLineHeight: functions.replace-unit(math.div(25, variables.$baseUnit), rem);
+$headerSmallLineHeight: 25px;
 //
-$headerSmallAltFontSize: functions.replace-unit(math.div(18, variables.$baseUnit), rem);
+$headerSmallAltFontSize: 18px;
 $headerSmallAltFontWeight: variables.$bold;
-$headerSmallAltLineHeight: functions.replace-unit(math.div(23, variables.$baseUnit), rem);
+$headerSmallAltLineHeight: 23px;
 //
 $headerFont: variables.$postTitleFont;
 //
-$headerMediumFontSize: functions.replace-unit(math.div(20, variables.$baseUnit), rem);
+$headerMediumFontSize: 20px;
 $headerMediumFontWeight: 700;
-$headerMediumLineHeight: functions.replace-unit(math.div(26, variables.$baseUnit), rem);
+$headerMediumLineHeight: 26px;
 //
-$headerLargeFontSize: functions.replace-unit(math.div(28, variables.$baseUnit), rem);
+$headerLargeFontSize: 28px;
 $headerLargeFontWeight: variables.$bold;
-$headerLargeLineHeight: functions.replace-unit(math.div(34, variables.$baseUnit), rem);
+$headerLargeLineHeight: 34px;
 
 /* Extras Content */
 $extraHorizontalSpacing: 0.5rem;

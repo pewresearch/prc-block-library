@@ -106,7 +106,7 @@
             "multiline": "p"
         }
 	},
-	"usesContext": ["postId", "postType", "queryId"],
+	"usesContext": ["postId", "postType", "queryId", "prc-block/column/width"],
 	"supports": {
 		"html": false
 	}

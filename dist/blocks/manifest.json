@@ -7,8 +7,8 @@
   "chart-builder.js.map": "blocks/chart-builder-4d043ff5.js.map",
   "collapsible.js": "blocks/collapsible-b2524148.js",
   "collapsible.js.map": "blocks/collapsible-b2524148.js.map",
-  "column.js": "blocks/column-4fabecf1.js",
-  "column.js.map": "blocks/column-4fabecf1.js.map",
+  "column.js": "blocks/column-a3a41810.js",
+  "column.js.map": "blocks/column-a3a41810.js.map",
   "cover.css": "blocks/cover-3777e6ad.css",
   "cover.css.map": "blocks/cover-3777e6ad.css.map",
   "cover.js": "blocks/cover-f18f0d5a.js",
@@ -91,8 +91,8 @@
   "staff.js.map": "blocks/staff-b7af8ee6.js.map",
   "story-item.css": "blocks/story-item-7f6d145b.css",
   "story-item.css.map": "blocks/story-item-7f6d145b.css.map",
-  "story-item.js": "blocks/story-item-91e3342f.js",
-  "story-item.js.map": "blocks/story-item-91e3342f.js.map",
+  "story-item.js": "blocks/story-item-4d12f4fc.js",
+  "story-item.js.map": "blocks/story-item-4d12f4fc.js.map",
   "sub-title.js": "blocks/sub-title-cdcbe50d.js",
   "sub-title.js.map": "blocks/sub-title-cdcbe50d.js.map",
   "table.js": "blocks/table-e70b4a28.js",
@@ -170,11 +170,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/column-4fabecf1.js"
+          "blocks/column-a3a41810.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/column-4fabecf1.js.map"
+          "blocks/column-a3a41810.js.map"
         ]
       }
     },
@@ -624,13 +624,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~so~367cfc7e-69043b87.js",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~story-item~top~0f4cfee1-925e1dd4.js",
-          "blocks/story-item-91e3342f.js"
+          "blocks/story-item-4d12f4fc.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~so~367cfc7e-69043b87.js.map",
           "blocks/vendors~chart-builder~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~story-item~top~0f4cfee1-925e1dd4.js.map",
-          "blocks/story-item-91e3342f.js.map"
+          "blocks/story-item-4d12f4fc.js.map"
         ],
         "css": [
           "blocks/story-item-7f6d145b.css"

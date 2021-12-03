@@ -32,6 +32,9 @@
     },
     "parent": ["prc-block/columns", "prc-block/row"],
     "usesContext": ["prc-block/row-stackable"],
+    "providesContext": {
+        "prc-block/column/width": "width"
+    },
     "supports": {
         "html": false,
         "align": false

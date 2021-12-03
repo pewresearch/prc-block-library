@@ -19,7 +19,7 @@ import Toolbar from './toolbar';
 const Controls = ({ attributes, setAttributes, context, rootClientId }) => {
     return (
         <Fragment>
-            <Toolbar {...{ attributes, setAttributes }} />
+            <Toolbar {...{ attributes, setAttributes, context, rootClientId }} />
             <Inspector
                 {...{
                     attributes,
