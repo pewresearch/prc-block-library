@@ -31,8 +31,8 @@
   "runtime.js.map": "frontend/runtime-83e71da2.js.map",
   "social-link.js": "frontend/social-link-3b91e1b1.js",
   "social-link.js.map": "frontend/social-link-3b91e1b1.js.map",
-  "story-item.js": "frontend/story-item-a8cf27dd.js",
-  "story-item.js.map": "frontend/story-item-a8cf27dd.js.map",
+  "story-item.js": "frontend/story-item-c71b15e0.js",
+  "story-item.js.map": "frontend/story-item-c71b15e0.js.map",
   "tabs-controller.js": "frontend/tabs-controller-6516605e.js",
   "tabs-controller.js.map": "frontend/tabs-controller-6516605e.js.map",
   "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-9b9c2cdc.js",
@@ -216,11 +216,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/story-item-a8cf27dd.js"
+          "frontend/story-item-c71b15e0.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/story-item-a8cf27dd.js.map"
+          "frontend/story-item-c71b15e0.js.map"
         ]
       }
     },
