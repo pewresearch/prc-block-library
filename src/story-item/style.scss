@@ -171,35 +171,40 @@ $dividedBorder: 1px solid colors.$borderColor;
     .image {
         grid-area: image;
 
-        &.A1 {
+        &.A1,
+        &.A1 > img {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A1;
             }
         }
 
-        &.A2 {
+        &.A2,
+        &.A2 > img {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A2;
             }
         }
 
-        &.A3 {
+        &.A3,
+        &.A3 > img {
             max-width: variables.$A3Small;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A3;
             }
         }
 
-        &.A4 {
+        &.A4,
+        &.A4 > img {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A4;
             }
         }
 
-        &.XL {
+        &.XL,
+        &.XL > img {
             max-width: variables.$XL;
         }
 
