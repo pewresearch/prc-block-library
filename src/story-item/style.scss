@@ -35,30 +35,10 @@ $headerLargeFontSize: functions.replace-unit(math.div(28, variables.$baseUnit), 
 $headerLargeFontWeight: variables.$bold;
 $headerLargeLineHeight: functions.replace-unit(math.div(34, variables.$baseUnit), rem);
 
-/* Description */
-$descriptionDistance: 0.6rem;
-$descriptionMaxWidth: auto;
-$descriptionFontSize: 16px;
-$descriptionLineHeight: variables.$lineHeight;
-$descriptionColor: colors.$textColor;
-$descriptionLinkColor: black;
-$descriptionLinkHoverColor: colors.$linkColor;
-$descriptionLinkTransition: color variables.$defaultDuration variables.$defaultEasing;
-
-/* Paragraph */
-$paragraphDistance: 0.5rem;
-
 /* Extras Content */
 $extraHorizontalSpacing: 0.5rem;
 $extraRowSpacing: 0.5rem;
-
-$extraDisplay: block;
 $extraMargin: 1em 0 0 0;
-$extraWidth: 100%;
-$extraColor: colors.$darkTextColor;
-$extraFont: variables.$sansSerifFont;
-$extraFontSize: 15px;
-$extraTransition: color variables.$defaultDuration variables.$defaultEasing;
 
 /* Relaxed */
 $relaxedItemSpacing: 0 0 21px 0;
@@ -91,9 +71,6 @@ $dividedBorder: 1px solid colors.$borderColor;
         padding: 21px!important;
         border: 1px solid #d3d3d3;
         margin-bottom: 2rem;
-    }
-
-    &.is-style-mobile-loop {
     }
 
     &.aligned {
@@ -161,19 +138,19 @@ $dividedBorder: 1px solid colors.$borderColor;
     &.right.aligned {
         grid-template-columns: 2fr 1fr;
         &[data-image-size="A1"] {
-            gride-template-columns: 2fr variables.$A1;
+            grid-template-columns: 2fr variables.$A1;
         }
         &[data-image-size="A2"] {
-            gride-template-columns: 2fr variables.$A2;
+            grid-template-columns: 2fr variables.$A2;
         }
         &[data-image-size="A3"] {
-            gride-template-columns: 2fr variables.$A3;
+            grid-template-columns: 2fr variables.$A3;
         }
         &[data-image-size="A4"] {
-            gride-template-columns: 2fr variables.$A4;
+            grid-template-columns: 2fr variables.$A4;
         }
         &[data-image-size="XL"] {
-            gride-template-columns: 2fr variables.$A1;
+            grid-template-columns: 2fr variables.$A1;
         }
         grid-template-rows: auto;
         grid-template-areas:
@@ -290,25 +267,25 @@ $dividedBorder: 1px solid colors.$borderColor;
 
     .description {
         grid-area: description;
-        margin: $descriptionDistance 0 0 0;
-        max-width: $descriptionMaxWidth;
-        font-size: $descriptionFontSize;
-        line-height: $descriptionLineHeight;
-        color: $descriptionColor;
+        margin: 23px 0 0 0;
+        max-width: auto;
+        font-size: 16px;
+        line-height: variables.$lineHeight;
+        color: colors.$textColor;
         p {
-            margin: 0em 0em $paragraphDistance;
+            margin: 0 0 7px 0;
             &:last-child {
-                margin-bottom: 0em;
+                margin-bottom: 0;
             }
         }
     }
 
     .description a,
     .extra a {
-        color: $descriptionLinkColor;
-        transition: $descriptionLinkTransition;
+        color: colors.$trueBlack;
+        transition: color variables.$defaultDuration variables.$defaultEasing;
         &:hover {
-            color: $descriptionLinkHoverColor;
+            color: colors.$trueBlack;
         }
     }
 
@@ -327,13 +304,13 @@ $dividedBorder: 1px solid colors.$borderColor;
     .extra,
     .extra-breaking-news {
         @include mixins.clearfix();
-        display: $extraDisplay;
+        display: block;
         margin: $extraMargin;
-        width: $extraWidth;
-        font-family: $extraFont;
-        font-size: $extraFontSize;
-        color: $extraColor;
-        transition: $extraTransition;
+        width: 100%;
+        color: colors.$darkTextColor;
+        font-family: variables.$sansSerifFont;
+        font-size: 15px;
+        transition: color variables.$defaultDuration variables.$defaultEasing;
 
         .kicker-breaking-news {
             display: inline;
@@ -351,14 +328,14 @@ $dividedBorder: 1px solid colors.$borderColor;
         padding-left: 1em;
 
         li {
-            margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0em;
+            margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
         }
     }
 
     // @TODO what is this combination, where does this appear?
     ul.extra-breaking-news > li,
     div.extra > * {
-        margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0em;
+        margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
     }
 }
 // End .wp-block-prc-block-story-item

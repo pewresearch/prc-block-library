@@ -193,7 +193,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
 		);
 		$date        = gmdate( self::$date_format, strtotime( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date ) );
-		$url         = array_key_exists( 'url', $attributes ) ? $attributes['link'] : $post->permalink;
+		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $post->permalink;
 		$image       = $this->get_image( $post_id, $attributes['image'], $attributes['imageSize'] );
 		
 		$image_slot        = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
