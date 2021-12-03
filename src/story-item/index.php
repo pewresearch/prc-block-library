@@ -302,6 +302,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 				)
 			),
 			'data-image-size' => $image_size,
+			'data-cached'     => array_key_exists( 'cached', $attrs ) ? true : false,
 		);
 		if ( ! empty( $post_id ) ) {
 			$block_wrapper_attrs['id'] = 'post-' . $post_id;
