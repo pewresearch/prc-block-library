@@ -271,6 +271,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 		}
 		$block_wrapper_attrs = get_block_wrapper_attributes( $block_wrapper_attrs );
 
+		$image_class = classNames(
+			'image',
+			array(
+				$image_size => $image_size,
+				'bordered'  => $image_is_bordered,
+			)
+		);
+
 		$header_class = classNames(
 			'header',
 			array(
@@ -309,11 +317,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 		<!-- .wp-block-prc-block-story-item -->
 		<article <?php echo $block_wrapper_attrs; ?>>
 			<?php
-			if ( 'disabled' !== $image_slot && ! empty( $image ) ) {
+			if ( false !== $image_slot && ! empty( $image ) ) {
 				$caption = '';
 				// If we can get image id then we can actually grab the caption... for now we'll use the description
 				$caption = $description;
-				echo "<div class='image {$image_size}'><img src='{$image}' alt='{$caption}'/></div>";
+				echo "<div class='{$image_class}'><img src='{$image}' alt='{$caption}'/></div>";
 			}
 			if ( $enable_meta ) {
 				echo "<div class='meta'><span class='report label'>{$label}</span> | <span class='date'>{$date}</span></div>";
