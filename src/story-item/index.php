@@ -15,6 +15,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.0';
 	public static $date_format        = 'M d, Y';
+	public static $cache_invalidate   = '01201201';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -147,11 +148,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return 'Report';
 	}
 
-	public function get_image( int $post_id, $default_image, $image_size ) {
-		// Get art from the post id, use the default image if it differs from the art['imageSize]. 
-		return $default_image;
-	}
-
 	/**
 	 * Returns formatted html to match new $content method of storing the description "excerpt" and "extras"
 	 *
@@ -190,15 +186,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 				array_merge(
 					$attributes,
 					array(
-						'id'     => $post_id,
-						'mobile' => $is_mobile,
+						'id'         => $post_id,
+						'mobile'     => $is_mobile,
+						'invalidate' => self::$cache_invalidate,
 					) 
 				) 
 			) 
 		);
-		$cache     = get_transient( $cache_key );
 
-		if ( $cache ) {
+		$cache = get_transient( $cache_key );
+		if ( $cache && ! is_preview() ) {
 			$cache['cached'] = true;
 			return $cache;
 		}
@@ -222,18 +219,15 @@ class PRC_Story_Item extends PRC_Block_Library {
 			strtotime( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date ) 
 		);
 		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $post->permalink;
-		$image       = $this->get_image( 
-			$post_id,
-			array_key_exists( 'image', $attributes ) ? $attributes['image'] : '',
-			$attributes['imageSize']
-		);
-		
+
+		$image             = array_key_exists( 'image', $attributes ) ? $attributes['image'] : false;
 		$image_slot        = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
 		$image_slot        = 'default' === $image_slot ? 'top' : $image_slot;
 		$image_slot        = 'disabled' === $image_slot ? false : $image_slot;
 		$image_size        = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
 		$image_size        = false === $image_slot ? false : $image_size;
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
+		$image_is_bordered = array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered;
 		
 		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
 		$enable_description            = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : false;
@@ -254,7 +248,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'label'                         => $label,
 			'date'                          => $date,
 			'url'                           => $url,
-			'art'                           => prc_get_art( $post_id, 'all' ),
 			'image'                         => $image,
 			'image_size'                    => $image_size,
 			'image_is_bordered'             => $image_is_bordered,
@@ -282,9 +275,73 @@ class PRC_Story_Item extends PRC_Block_Library {
 			// css grid for this would be...
 		}
 
-		set_transient( $cache_key, $variables, 30 * MINUTE_IN_SECONDS );
+		if ( ! is_preview() ) {
+			set_transient( $cache_key, $variables, 30 * MINUTE_IN_SECONDS );
+		}
 
 		return $variables;
+	}
+
+	public function render_image( $post_id, $image, $image_size, $image_is_bordered ) {
+		$art = prc_get_art( $post_id, $image_size );
+
+		// if $image url is not the same as the art url, then we need to use the $image url.
+		
+
+		if ( false === $art ) {
+			// return array(
+			// 'id'       => null,
+			// 'src'      => ! empty( $default_image ) ? $default_image : false,
+			// 'alt'      => false,
+			// 'width'    => false,
+			// 'height'   => false,
+			// 'bordered' => false,
+			// );
+		}
+
+		$caption = false;
+		if ( array_key_exists( 'caption', $art ) && ! empty( $art['caption'] ) ) {
+			$caption = $art['caption'];
+		} else {
+			$post = get_post( $post_id );
+			if ( ! empty( $post->post_excerpt ) ) {
+				$caption = $post->post_excerpt;
+			}
+		}
+		
+		$images                          = array();
+		$images[ $image_size ]           = array(
+			'src'      => $art['rawUrl'],
+			'alt'      => $caption,
+			'width'    => $art['width'],
+			'height'   => $art['height'],
+			'bordered' => $art['chartArt'],
+		);
+		$images[ "{$image_size}-SMALL" ] = array(
+			'src'      => $art['rawUrl'],
+			'alt'      => $caption,
+			'width'    => $art['width'],
+			'height'   => $art['height'],
+			'bordered' => $art['chartArt'],
+		);
+
+		// Get art?
+		$image_class = classNames(
+			'image',
+			array(
+				$image_size => $image_size,
+				'bordered'  => $image_is_bordered,
+			)
+		);
+		ob_start();
+		?>
+		<picture class="<?php echo esc_attr( $image_class ); ?>">
+			<source srcset="https://www.pewresearch.org/wp-content/uploads/2021/11/PG_21.11.22_Meaning-of-Life-Report_Homepage-A1-image-for-pewresearch.org_.png?resize=564%2C317 1x, https://www.pewresearch.org/wp-content/uploads/2021/11/PG_21.11.22_Meaning-of-Life-Report_Homepage-A1-image-for-pewresearch.org_.png?resize=1128%2C634 2x" media="(min-width: 766px)">
+			<source srcset="https://www.pewresearch.org/wp-content/uploads/2021/11/PG_21.11.22_Meaning-of-Life-Report_Homepage-A1-image-for-pewresearch.org_.png?resize=690%2C388 1x, https://www.pewresearch.org/wp-content/uploads/2021/11/PG_21.11.22_Meaning-of-Life-Report_Homepage-A1-image-for-pewresearch.org_.png?resize=1380%2C776 2x" media="(max-width: 767px)">
+			<img alt="<?php echo esc_attr( $caption ); ?>" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+		</picture>
+		<?php
+		return ob_get_clean();
 	}
 
 	/**
@@ -317,14 +374,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		}
 		$block_wrapper_attrs = get_block_wrapper_attributes( $block_wrapper_attrs );
 
-		$image_class = classNames(
-			'image',
-			array(
-				$image_size => $image_size,
-				'bordered'  => $image_is_bordered,
-			)
-		);
-
 		$header_class = classNames(
 			'header',
 			array(
@@ -354,7 +403,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		);
 		
 		ob_start();
-		// var_dump( array_merge( $attrs, array( 'content' => $content ) ) );
 		?>
 		<?php
 		/**
@@ -364,11 +412,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 		<!-- .wp-block-prc-block-story-item -->
 		<article <?php echo $block_wrapper_attrs; ?>>
 			<?php
-			if ( false !== $image_slot && ! empty( $image ) ) {
-				$caption = '';
-				// If we can get image id then we can actually grab the caption... for now we'll use the description
-				$caption = $description;
-				echo "<div class='{$image_class}'><img src='{$image}' alt='{$caption}'/></div>";
+			if ( false !== $image_slot ) {
+				// $dimensions = null;
+				// if ( array_key_exists( 'width', $image ) && array_key_exists( 'height', $image ) && false !== $image['width'] && false !== $image['height'] ) {
+				// $dimensions = 'width="' . $image['width'] . '" height="' . $image['height'] . '"';
+				// }
+				// echo "<div class='{$image_class}'><img src='{$image['src']}' alt='{$image['alt']}' {$dimensions}/></div>";
+				echo $this->render_image( $post_id, $image, $image_size, $image_is_bordered );
 			}
 			if ( $enable_meta ) {
 				echo "<div class='meta'><span class='report label'>{$label}</span> | <span class='date'>{$date}</span></div>";

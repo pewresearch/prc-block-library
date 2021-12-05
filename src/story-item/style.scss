@@ -216,7 +216,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             border: 1px solid #dadada;
         }
 
-        &.A1 > img {
+        &.A1 > img,
+        &.A1 > source {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A1;
@@ -228,7 +229,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             }
         }
 
-        &.A2 > img {
+        &.A2 > img,
+        &.A2 > source {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A2;
@@ -240,7 +242,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             }
         }
 
-        &.A3 > img {
+        &.A3 > img,
+        &.A3 > source {
             max-width: variables.$A3Small;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A3;
@@ -252,7 +255,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             }
         }
 
-        &.A4 > img {
+        &.A4 > img,
+        &.A4 > source {
             max-width: $mobileImageWidth;
             @media only screen and (min-width: variables.$largestMobileScreen) {
                 max-width: variables.$A4;
@@ -264,11 +268,13 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             }
         }
 
-        &.XL > img {
+        &.XL > img,
+        &.XL > source {
             max-width: variables.$XL;
         }
 
         & > img,
+        & > source,
         & > a {
             display: block;
             margin: 0;
