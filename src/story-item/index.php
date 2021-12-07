@@ -282,21 +282,29 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return $variables;
 	}
 
+	private function get_img_url( $post_id, $image_id, $image_size, $hidpi = false ) {
+		$is_stub    = get_post_meta( $post_id, '_is_stub', true );
+		$img_url    = false;
+		$image_size = $hidpi ? $image_size . '-HIDPI' : $image_size;
+		if ( $is_stub ) {
+			$stub_info      = get_post_meta( $post_id, '_stub_info', true );
+			$origin_site_id = (int) $stub_info['site_id'];
+			switch_to_blog( $origin_site_id );
+			$img_url = wp_get_attachment_image_src( $image_id, $image_size );
+			restore_current_blog();
+		} else {
+			$img_url = wp_get_attachment_image_src( $image_id, $image_size );
+		}
+		return is_array( $img_url ) ? $img_url[0] : false;
+	}
+
 	public function render_image( $post_id, $image, $image_size, $image_is_bordered ) {
 		$art = prc_get_art( $post_id, $image_size );
 
 		// if $image url is not the same as the art url, then we need to use the $image url.
-		
 
 		if ( false === $art ) {
-			// return array(
-			// 'id'       => null,
-			// 'src'      => ! empty( $default_image ) ? $default_image : false,
-			// 'alt'      => false,
-			// 'width'    => false,
-			// 'height'   => false,
-			// 'bordered' => false,
-			// );
+			return false;
 		}
 
 		$caption = false;
@@ -308,21 +316,19 @@ class PRC_Story_Item extends PRC_Block_Library {
 				$caption = $post->post_excerpt;
 			}
 		}
-		
-		$images                          = array();
-		$images[ $image_size ]           = array(
-			'src'      => $art['rawUrl'],
-			'alt'      => $caption,
-			'width'    => $art['width'],
-			'height'   => $art['height'],
-			'bordered' => $art['chartArt'],
-		);
-		$images[ "{$image_size}-SMALL" ] = array(
-			'src'      => $art['rawUrl'],
-			'alt'      => $caption,
-			'width'    => $art['width'],
-			'height'   => $art['height'],
-			'bordered' => $art['chartArt'],
+
+		// @TODO, i would like to re-model the art-direction data model to include hidpi and small sizes for image slots.
+		$sources = array(
+			'desktop' => wp_sprintf( 
+				'<source srcset="%s 1x, %s 2x" media="(min-width: 769px)">',
+				$this->get_img_url( $post_id, $art['id'], $image_size, false ),
+				$this->get_img_url( $post_id, $art['id'], $image_size, true )
+			),
+			'mobile'  => wp_sprintf( 
+				'<source srcset="%s 1x, %s 2x" media="(max-width: 767px)">',
+				$this->get_img_url( $post_id, $art['id'], $image_size . '-SMALL', false ),
+				$this->get_img_url( $post_id, $art['id'], $image_size . '-SMALL', true )
+			),
 		);
 
 		// Get art?
@@ -336,8 +342,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		ob_start();
 		?>
 		<picture class="<?php echo esc_attr( $image_class ); ?>">
-			<source srcset="https://www.pewresearch.org/wp-content/uploads/2021/11/PG_21.11.22_Meaning-of-Life-Report_Homepage-A1-image-for-pewresearch.org_.png?resize=564%2C317 1x, https://www.pewresearch.org/wp-content/uploads/2021/11/PG_21.11.22_Meaning-of-Life-Report_Homepage-A1-image-for-pewresearch.org_.png?resize=1128%2C634 2x" media="(min-width: 766px)">
-			<source srcset="https://www.pewresearch.org/wp-content/uploads/2021/11/PG_21.11.22_Meaning-of-Life-Report_Homepage-A1-image-for-pewresearch.org_.png?resize=690%2C388 1x, https://www.pewresearch.org/wp-content/uploads/2021/11/PG_21.11.22_Meaning-of-Life-Report_Homepage-A1-image-for-pewresearch.org_.png?resize=1380%2C776 2x" media="(max-width: 767px)">
+			<?php echo $sources['desktop']; ?>
+			<?php echo $sources['mobile']; ?>
 			<img alt="<?php echo esc_attr( $caption ); ?>" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
 		</picture>
 		<?php
@@ -357,6 +363,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// Format and extract the attributes into variables.
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );
+
+		$image_markup = $this->render_image( $post_id, $image, $image_size, $image_is_bordered );
+		$image_slot   = false === $image_markup ? false : $image_slot; // If no image then don't show the image slot.
 
 		$block_wrapper_attrs = array(
 			'class'           => classNames(
@@ -412,29 +421,26 @@ class PRC_Story_Item extends PRC_Block_Library {
 		<!-- .wp-block-prc-block-story-item -->
 		<article <?php echo $block_wrapper_attrs; ?>>
 			<?php
+			$markup = '';
 			if ( false !== $image_slot ) {
-				// $dimensions = null;
-				// if ( array_key_exists( 'width', $image ) && array_key_exists( 'height', $image ) && false !== $image['width'] && false !== $image['height'] ) {
-				// $dimensions = 'width="' . $image['width'] . '" height="' . $image['height'] . '"';
-				// }
-				// echo "<div class='{$image_class}'><img src='{$image['src']}' alt='{$image['alt']}' {$dimensions}/></div>";
-				echo $this->render_image( $post_id, $image, $image_size, $image_is_bordered );
+				$markup = $image_markup;
 			}
 			if ( $enable_meta ) {
-				echo "<div class='meta'><span class='report label'>{$label}</span> | <span class='date'>{$date}</span></div>";
+				$markup .= "<div class='meta'><span class='report label'>{$label}</span> | <span class='date'>{$date}</span></div>";
 			}
 			if ( $enable_header ) {
-				echo "<header class='{$header_class}'><a href='{$url}'>{$title}</a></header>";
+				$markup .= "<header class='{$header_class}'><a href='{$url}'>{$title}</a></header>";
 			}
 			if ( ! empty( $content ) ) {
-				echo wp_kses( $content, 'post' );
+				$markup .= $content;
 			}
 			if ( $enable_breaking_news ) {
-				echo '<ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS RESEARCH ></a></li></ul>';
+				$markup .= '<ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS RESEARCH ></a></li></ul>';
 			} 
 			if ( ! empty( $story_item_extras ) ) {
-				echo $story_item_extras;
+				$markup .= $story_item_extras;
 			}
+			echo wp_kses( $markup, 'post' );
 			?>
 		</article>
 		<!-- /.wp-block-prc-block-story-item -->
