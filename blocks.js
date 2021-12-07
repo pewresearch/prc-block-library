@@ -16,6 +16,7 @@ const files = [
             grid: './src/grid/index.js',
             group: './src/group/index.js',
             heading: './src/heading/index.js',
+            livestream: './src/livestream/index.js',
             'mailchimp-form': './src/mailchimp-form/index.js',
             'mailchimp-select': './src/mailchimp-select/index.js',
             menu: './src/menu/index.js',
@@ -27,8 +28,10 @@ const files = [
             'post-title': './src/post-title/index.js',
             promo: './src/promo/index.js',
             'promo-rotator': './src/promo-rotator/index.js',
-            'responsive-container-controller': './src/responsive-container/controller/index.js',
-            'responsive-container-view': './src/responsive-container/view/index.js',
+            'responsive-container-controller':
+                './src/responsive-container/controller/index.js',
+            'responsive-container-view':
+                './src/responsive-container/view/index.js',
             row: './src/row/index.js',
             'social-link': './src/social-link/index.js',
             staff: './src/staff/index.js',
@@ -45,8 +48,7 @@ const files = [
             'topic-index-az': './src/topic-index-az/index.js',
             'topic-index-az-controller':
                 './src/topic-index-az-controller/index.js',
-            'topic-index-categorized':
-                './src/topic-index-categorized/index.js',
+            'topic-index-categorized': './src/topic-index-categorized/index.js',
             'topic-index-condensed-controller':
                 './src/topic-index-condensed/controller/index.js',
             'topic-index-condensed-menu':
@@ -89,6 +91,7 @@ const files = [
                 './src/chart-builder-data-wrapper/frontend.js',
             cover: './src/cover/frontend.js',
             'flip-card-controller': './src/flip-card/controller/frontend.js',
+            livestream: './src/livestream/frontend.js',
             'mailchimp-form': './src/mailchimp-form/frontend.js',
             'mailchimp-select': './src/mailchimp-select/frontend.js',
             'menu-link': './src/menu-link/frontend.js',
@@ -96,7 +99,8 @@ const files = [
             'story-item': './src/story-item/frontend.js',
             'tabs-controller': './src/tabs/controller/frontend.js',
             'taxonomy-tree-more': './src/taxonomy-tree-more/frontend.js',
-            'topic-index-az-mobile': './src/topic-index-az-controller/frontend-mobile.js',
+            'topic-index-az-mobile':
+                './src/topic-index-az-controller/frontend-mobile.js',
             'topic-index-categorized':
                 './src/topic-index-categorized/frontend.js',
             'topic-index-condensed':

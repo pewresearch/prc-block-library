@@ -1,0 +1,34 @@
+{
+    "apiVersion": 2,
+    "name": "prc-block/livestream",
+    "category": "layout",
+    "attributes": {
+        "streamUrl": {
+            "type": "string"
+        },
+        "chatUrl": {
+            "type": "string"
+        }
+    },
+    "styles": [
+        {
+            "name": "chat-box-left",
+            "label": "Chat Box Left"
+        },
+        {
+            "name": "chat-box-right",
+            "label": "Chat Box Right",
+            "isDefault": true
+        }
+    ],
+    "example": {
+        "attributes": {
+            "streamUrl": "https://vimeo.com/event/1352567/embed",
+            "chatUrl": "https://app.sli.do/event/2jtxhrzn"
+        },
+        "viewPortWidth": 800
+    },
+    "supports": {
+        "html": false
+    }
+}
