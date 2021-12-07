@@ -29,7 +29,26 @@ class Livestream extends PRC_Block_Library {
 				'data-chat-url'    => $attributes['chatUrl'],
 			)
 		);
-		return wp_kses( "<div {$wrapper_attributes}>Loading livestream ...</div>", 'post' );
+		ob_start();
+		?>
+		<div <?php echo wp_kses($wrapper_attributes, 'post'); ?>>
+			<div class='prc-livestream-stream'>
+				<div class='ui fluid placeholder' style='height: 100%;'>
+					<div class='image' style='height: 100%;'></div>
+				</div>
+			</div>
+			<div class='prc-livestream-chat'>
+				<div class='ui placeholder' style='width: 100%; height: 100%; min-height: 560px;'>
+					<div class='paragraph'>
+						<?php for ( $i = 0; $i < 30; $i++ ) : ?>
+						<div class='line'></div>
+						<?php endfor; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 	public function enqueue_frontend_assets() {
 		if ( is_admin() ) {
