@@ -2,6 +2,7 @@
 
 require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
+use function PRC_Core\get_stub_info;
 
 /**
  * Server-side rendering of the `prc-block/story-item` block.
@@ -15,92 +16,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.0';
 	public static $date_format        = 'M d, Y';
-	public static $cache_invalidate   = '01201201';
+	public static $cache_invalidate   = '12072021gooddog';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_action( 'init', array( $this, 'register_block' ), 11 );
-			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
-			add_action( 'prc_loop_story_item', array( $this, 'loop_story_item' ), 10, 1 );
 			add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 1 );
-			add_filter( 'prc_related_story_item', array( $this, 'related_story_item' ), 10, 1 );
+			add_filter( 'prc_related_story_item', array( $this, 'return_story_item' ), 10, 1 );
+			add_action( 'prc_loop_story_item', array( $this, 'do_story_item' ), 10, 1 );            
+			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
+			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
-	}
-
-	/**
-	 * Given a post id construct a post's story item attributes.
-	 * Defaults to pub listing options (stub, image slot left, A3 image size) but these can be overriden by passing in $args (array).
-	 *
-	 * @param int   $post_id of post you want to fetch.
-	 * @param array $args option arguments to override defaults.
-	 * @return array
-	 */
-	public function get_attributes_by_object_id( int $post_id, $args = array() ) {
-		$defaults = array(
-			'postId'                => $post_id,
-			'postType'              => 'stub',
-			'imageSize'             => 'A3',
-			'imageSlot'             => 'disabled',
-			'isChartArt'            => false,
-			'headerSize'            => 2,
-			'enableAltHeaderWeight' => false,
-			'enableEmphasis'        => false,
-			'enableHeader'          => true,
-			'enableExcerpt'         => true,
-			'enableExcerptBelow'    => false,
-			'enableExtra'           => false,
-			'enableBreakingNews'    => false,
-			'enableAltTaxonomy'     => false,
-			'enableMeta'            => true,
-			'inLoop'                => false,
-		);
-		$attrs    = wp_parse_args( $args, $defaults );
-
-		if ( 'stub' === $attrs['postType'] ) {
-			switch_to_blog( 1 );
-		}
-
-		$post = get_post( $post_id );
-
-		if ( is_wp_error( $post ) ) {
-			restore_current_blog();
-			return $post;
-		}
-
-		$attrs['title']       = $post->post_title;
-		$attrs['description'] = $post->post_excerpt;
-		$attrs['date']        = $post->post_date;
-		$attrs['label']       = $this->get_label( $post_id, $attrs['enableAltTaxonomy'] );
-
-		if ( 'stub' === $attrs['postType'] ) {
-			$attrs['link'] = get_post_meta( $post_id, '_redirect', true );
-		} elseif ( 'news-item' === $attrs['postType'] ) {
-			$url = get_post_meta( $post_id, 'news-item-options', true );
-			if ( is_array( $url ) && array_key_exists( 'url', $url ) ) {
-				$url = $url['url'];
-			}
-			if ( ! empty( get_post_meta( $post_id, '_news_item_url', true ) ) ) {
-				$url = get_post_meta( $post_id, '_news_item_url', true );
-			}
-			$attrs['link'] = $url;
-		} else {
-			$attrs['link'] = get_permalink( $post_id );
-		}
-
-		$art = prc_get_art( $post_id, $attrs['imageSize'] );
-		if ( false !== $attrs['imageSlot'] && false !== $art ) {
-			$attrs['image']      = $art['rawUrl'];
-			$attrs['imageSlot']  = 'left';
-			$attrs['className']  = 'is-style-left';
-			$attrs['isChartArt'] = $art['chartArt'];
-		}
-
-		$attrs = wp_parse_args( $args, $attrs );
-		if ( 'stub' === $attrs['postType'] ) {
-			restore_current_blog();
-		}
-
-		return $attrs;
 	}
 
 	public function wrap_consecutive_story_items( $content ) {
@@ -113,39 +38,26 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return $content;
 	}
 
-	public function related_story_item( $args ) {
-		wp_enqueue_style( self::$css_handle );
-		wp_enqueue_script( self::$frontend_js_handle );
-		$post_id = $args['postId'];
-
-		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
-		$story_item = $this->render_story_item( $attributes );
-		echo wp_kses( $story_item, 'post' );
+	public function return_story_item( $args = array() ) {
+		$parsed = new WP_Block_Parser_Block( 
+			'prc-block/story-item',
+			$args,
+			array(),
+			'',
+			'',
+		);
+		return render_block( (array) $parsed );
 	}
 
-	public function loop_story_item( $args ) {
-		wp_enqueue_style( self::$css_handle );
-		wp_enqueue_script( self::$frontend_js_handle );
-		$post_id = $args['postId'];
-
-		$attributes = $this->get_attributes_by_object_id( $post_id, $args );
-		$story_item = $this->render_story_item( $attributes, '<div class="description">' . $attributes['description'] . '</div>' );
-		echo wp_kses( $story_item, 'post' );
-	}
-
-	/**
-	 * Get first term in either formats or research-areas (as determined by $reasearch_areas flag)
-	 *
-	 * @param int  $post_id of post you want to fetch.
-	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
-	 * @return string
-	 */
-	private function get_label( int $post_id, $reasearch_areas = false ) {
-		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
-		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
-			return array_shift( $terms );
-		}
-		return 'Report';
+	public function do_story_item( $args = array() ) {
+		$parsed = new WP_Block_Parser_Block( 
+			'prc-block/story-item',
+			$args,
+			array(),
+			'',
+			'',
+		);
+		echo render_block( (array) $parsed );
 	}
 
 	/**
@@ -174,9 +86,114 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Get first term in either formats or research-areas (as determined by $reasearch_areas flag)
+	 *
+	 * @param int  $post_id of post you want to fetch.
+	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
+	 * @return string
+	 */
+	private function get_label( int $post_id, $reasearch_areas = false ) {
+		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
+		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
+			return array_shift( $terms );
+		}
+		return 'Report';
+	}
+
+	private function get_url( int $post_id, $post_type = 'post' ) {
+		if ( 'post' === $post_type ) {
+			return get_permalink( $post_id );
+		} elseif ( 'stub' === $post_type ) {
+			return get_post_meta( $post_id, '_redirect', true );
+		} elseif ( 'news-item' === $post_type ) {
+			$url = get_post_meta( $post_id, 'news-item-options', true );
+			if ( is_array( $url ) && array_key_exists( 'url', $url ) ) {
+				$url = $url['url'];
+			}
+			if ( ! empty( get_post_meta( $post_id, '_news_item_url', true ) ) ) {
+				$url = get_post_meta( $post_id, '_news_item_url', true );
+			}
+			return $url;
+		}
+		return false;
+	}
+
+	private function get_img( $attributes, $args = array() ) {
+		if ( array_key_exists( 'imageSlot', $attributes ) && 'diasbled' === $attributes['imageSlot'] ) {
+			return false;
+		}
+
+		$args = wp_parse_args(
+			$args,
+			array(
+				'is_mobile'  => false,
+				'is_in_loop' => false,
+				'post_id'    => false,
+				'post_type'  => false,
+			)
+		);
+		extract( $args );
+		
+		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : 'A3';
+		$image_size = $is_in_loop ? 'A3' : $image_size;
+
+		// Start new art function here:
+		$imgs = false;
+		
+		$is_stub  = 'stub' === $post_type;
+		$art      = prc_get_art( $post_id, $image_size );
+		$image_id = false !== $art ? $art['id'] : false;
+		
+		if ( $is_stub && false !== $image_id ) {
+			$stub_info      = get_post_meta( $post_id, '_stub_info', true );
+			$origin_site_id = (int) $stub_info['site_id'];
+			switch_to_blog( $origin_site_id );
+			$imgs = array(
+				'desktop' => array(
+					'default' => wp_get_attachment_image_src( $image_id, $image_size ),
+					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-HIDPI' ),
+				),
+				'mobile'  => array(
+					'default' => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL' ),
+					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
+				),
+			);
+			restore_current_blog();
+		} elseif ( false !== $image_id ) {
+			$imgs = array(
+				'desktop' => array(
+					'default' => wp_get_attachment_image_src( $image_id, $image_size ),
+					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-HIDPI' ),
+				),
+				'mobile'  => array(
+					'default' => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL' ),
+					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
+				),
+			);
+		} elseif ( false === $image_id && array_key_exists( 'image', $attributes ) && ! empty( $attributes['image'] ) ) {
+			$img  = array(
+				$attributes['image'],
+				null,
+				null,
+			);
+			$imgs = array(
+				'desktop' => array(
+					'default' => $img,
+					'hidpi'   => $img,
+				),
+				'mobile'  => array(
+					'default' => $img,
+					'hidpi'   => $img,
+				),
+			);
+		}
+
+		return $imgs;
+	}
+
 	public function get_attributes( $attributes, $context = array() ) {
-		$is_mobile    = jetpack_is_mobile();
-		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
+		$is_mobile = jetpack_is_mobile();
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
 		$post_id = false === $post_id && array_key_exists( 'postId', $context ) ? $context['postId'] : $post_id;
@@ -200,12 +217,15 @@ class PRC_Story_Item extends PRC_Block_Library {
 			return $cache;
 		}
 
+		// $column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
+
 		$post = get_post( $post_id );
 
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
-		$is_in_loop = false === $is_in_loop && array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : false;
+		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
 
 		$post_type = array_key_exists( 'postType', $context ) ? $context['postType'] : false;
+		$post_type = false === $post_type ? $post_type : $post->post_type;
 
 		// Title, image, description, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title;
@@ -218,27 +238,49 @@ class PRC_Story_Item extends PRC_Block_Library {
 			self::$date_format,
 			strtotime( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date ) 
 		);
-		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $post->permalink;
+		$url         = $this->get_url( $post_id, $post_type );
+		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $url;
 
-		$image             = array_key_exists( 'image', $attributes ) ? $attributes['image'] : false;
+		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
+
+		$image             = $this->get_img(
+			$attributes,
+			array(
+				'is_mobile'  => $is_mobile,
+				'is_in_loop' => $is_in_loop,
+				'post_id'    => $post_id,
+				'post_type'  => $post_type,
+			)
+		);
 		$image_slot        = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
 		$image_slot        = 'default' === $image_slot ? 'top' : $image_slot;
 		$image_slot        = 'disabled' === $image_slot ? false : $image_slot;
+		$image_slot        = false !== $image ? $image_slot : false;
+		$image_slot        = false !== $image_slot && $is_in_loop ? 'left' : $image_slot;
 		$image_size        = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
 		$image_size        = false === $image_slot ? false : $image_size;
+		$image_size        = false !== $image_size && $is_in_loop ? 'A3' : $image_size;
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
-		$image_is_bordered = array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered;
+		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered;
 		
 		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
-		$enable_description            = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : false;
+		$enable_description            = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : true;
 		$enable_alt_description_layout = array_key_exists( 'enableExcerptBelow', $attributes ) ? $attributes['enableExcerptBelow'] : false;
 		$enable_emphasis               = array_key_exists( 'enableEmphasis', $attributes ) ? $attributes['enableEmphasis'] : false;
 		$enable_extra                  = array_key_exists( 'enableExtra', $attributes ) ? $attributes['enableExtra'] : false;
-		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : false;
+		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : true;
 		$enable_alt_header_weight      = array_key_exists( 'enableAltHeaderWeight', $attributes ) ? $attributes['enableAltHeaderWeight'] : false;
-		$enable_meta                   = array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : false;
+		$enable_meta                   = array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : true;
 
-		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
+		// @todo These are all things to make the loading process quicker on mobile, these are shortcuts so the browser does not need to compute these. For example the css for the header switch should be in the correct media query header:not(.medium) { set the font size and all that to medium... }
+		// @todo if column_width is less than 5, and left or right image slot, then the image size need's to set to what?
+		if ( $is_mobile ) {
+			$header_size = 2;
+			if ( false !== $image_slot ) {
+				// @todo if is mobile and column_width is less than ??, and left or right image slot, then image size needs to be set to what?
+				$image_slot = in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : $image_slot;
+			}
+		}
 
 		$variables = array(
 			'post_id'                       => $post_id,
@@ -264,17 +306,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enable_meta'                   => $enable_meta,
 		);
 
-		// @todo These are all things to make the loading process quicker on mobile, these are shortcuts so the browser does not need to compute these. For example the css for the header switch should be in the correct media query header:not(.medium) { set the font size and all that to medium... }
-		// @todo if column_width is less than 5, and left or right image slot, then the image size need's to set to what?
-		if ( $is_mobile ) {
-			$header_size = 2;
-			// @todo if is mobile and column_width is less than ??, and left or right image slot, then image size needs to be set to what?
-			$image_slot = in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : $image_slot;
-			// The default fallback image will be set to A3 when a mobile device is detected.
-			$image_size = 'right' === $image_slot ? 'A3' : $image_size;
-			// css grid for this would be...
-		}
-
 		if ( ! is_preview() ) {
 			set_transient( $cache_key, $variables, 30 * MINUTE_IN_SECONDS );
 		}
@@ -282,52 +313,22 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return $variables;
 	}
 
-	private function get_img_url( $post_id, $image_id, $image_size, $hidpi = false ) {
-		$is_stub    = get_post_meta( $post_id, '_is_stub', true );
-		$img_url    = false;
-		$image_size = $hidpi ? $image_size . '-HIDPI' : $image_size;
-		if ( $is_stub ) {
-			$stub_info      = get_post_meta( $post_id, '_stub_info', true );
-			$origin_site_id = (int) $stub_info['site_id'];
-			switch_to_blog( $origin_site_id );
-			$img_url = wp_get_attachment_image_src( $image_id, $image_size );
-			restore_current_blog();
-		} else {
-			$img_url = wp_get_attachment_image_src( $image_id, $image_size );
-		}
-		return is_array( $img_url ) ? $img_url[0] : false;
-	}
-
-	public function render_image( $post_id, $image, $image_size, $image_is_bordered ) {
-		$art = prc_get_art( $post_id, $image_size );
-
-		// if $image url is not the same as the art url, then we need to use the $image url.
-
-		if ( false === $art ) {
+	public function render_image( $image, $image_size, $image_is_bordered ) {
+		if ( false === $image ) {
 			return false;
-		}
-
-		$caption = false;
-		if ( array_key_exists( 'caption', $art ) && ! empty( $art['caption'] ) ) {
-			$caption = $art['caption'];
-		} else {
-			$post = get_post( $post_id );
-			if ( ! empty( $post->post_excerpt ) ) {
-				$caption = $post->post_excerpt;
-			}
 		}
 
 		// @TODO, i would like to re-model the art-direction data model to include hidpi and small sizes for image slots.
 		$sources = array(
 			'desktop' => wp_sprintf( 
-				'<source srcset="%s 1x, %s 2x" media="(min-width: 769px)">',
-				$this->get_img_url( $post_id, $art['id'], $image_size, false ),
-				$this->get_img_url( $post_id, $art['id'], $image_size, true )
+				'<source srcset="%s 1x, %s 2x" media="(min-width: 768px)">',
+				$image['desktop']['default'][0],
+				$image['desktop']['hidpi'][0]
 			),
 			'mobile'  => wp_sprintf( 
 				'<source srcset="%s 1x, %s 2x" media="(max-width: 767px)">',
-				$this->get_img_url( $post_id, $art['id'], $image_size . '-SMALL', false ),
-				$this->get_img_url( $post_id, $art['id'], $image_size . '-SMALL', true )
+				$image['mobile']['default'][0],
+				$image['mobile']['hidpi'][0]
 			),
 		);
 
@@ -341,11 +342,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 		);
 		ob_start();
 		?>
-		<picture class="<?php echo esc_attr( $image_class ); ?>">
-			<?php echo $sources['desktop']; ?>
-			<?php echo $sources['mobile']; ?>
-			<img alt="<?php echo esc_attr( $caption ); ?>" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
-		</picture>
+		<div class="<?php echo esc_attr( $image_class ); ?>">
+			<picture>
+				<?php echo $sources['desktop']; ?>
+				<?php echo $sources['mobile']; ?>
+				<img srcset="<?php echo esc_url( $image['desktop']['default'][0] ); ?>" height="<?php echo esc_attr( $image['desktop']['default'][1] ); ?>" width="<?php echo esc_attr( $image['desktop']['default'][2] ); ?>">
+			</picture>
+		</div>
 		<?php
 		return ob_get_clean();
 	}
@@ -364,7 +367,17 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );
 
-		$image_markup = $this->render_image( $post_id, $image, $image_size, $image_is_bordered );
+		// error_log(
+		// print_r(
+		// array(
+		// 'attrs'   => error_log( print_r( $attrs, true ) ),
+		// 'content' => $content,
+		// ),
+		// true 
+		// ) 
+		// );
+
+		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered );
 		$image_slot   = false === $image_markup ? false : $image_slot; // If no image then don't show the image slot.
 
 		$block_wrapper_attrs = array(
