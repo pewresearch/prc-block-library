@@ -39,8 +39,8 @@
   "heading.css.map": "blocks/heading-c24f58d5.css.map",
   "heading.js": "blocks/heading-25095a40.js",
   "heading.js.map": "blocks/heading-25095a40.js.map",
-  "livestream.css": "blocks/livestream-2a3b1aef.css",
-  "livestream.css.map": "blocks/livestream-2a3b1aef.css.map",
+  "livestream.css": "blocks/livestream-33a7225d.css",
+  "livestream.css.map": "blocks/livestream-33a7225d.css.map",
   "livestream.js": "blocks/livestream-4868831c.js",
   "livestream.js.map": "blocks/livestream-4868831c.js.map",
   "mailchimp-form.css": "blocks/mailchimp-form-77a9b9a5.css",
@@ -373,10 +373,10 @@
           "blocks/livestream-4868831c.js.map"
         ],
         "css": [
-          "blocks/livestream-2a3b1aef.css"
+          "blocks/livestream-33a7225d.css"
         ],
         "css.map": [
-          "blocks/livestream-2a3b1aef.css.map"
+          "blocks/livestream-33a7225d.css.map"
         ]
       }
     },
