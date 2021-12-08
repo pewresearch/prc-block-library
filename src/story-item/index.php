@@ -14,9 +14,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public static $css_handle         = false;
 	public static $frontend_js_handle = false;
-	public static $version            = '4.0.1';
+	public static $version            = '4.0.2';
 	public static $date_format        = 'M d, Y';
-	public static $cache_invalidate   = '100011';
+	public static $cache_invalidate   = '100asadf011';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -119,24 +119,19 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return false;
 	}
 
-	private function get_img( $attributes, $args = array() ) {
-		if ( array_key_exists( 'imageSlot', $attributes ) && 'diasbled' === $attributes['imageSlot'] ) {
+	private function get_img( $image_size = false, $image_slot = false, $args = array() ) {
+		if ( false === $image_size || false === $image_slot ) {
 			return false;
 		}
 
 		$args = wp_parse_args(
 			$args,
 			array(
-				'is_mobile'  => false,
-				'is_in_loop' => false,
-				'post_id'    => false,
-				'post_type'  => false,
+				'post_id'   => false,
+				'post_type' => false,
 			)
 		);
 		extract( $args );
-		
-		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : 'A3';
-		$image_size = $is_in_loop ? 'A3' : $image_size;
 
 		// Start new art function here:
 		$imgs = false;
@@ -242,9 +237,24 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $url;
 
 		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
+		$header_size = $is_mobile && 1 !== $header_size ? 2 : $header_size;
+		
+		$image_slot = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
+		$image_slot = 'default' === $image_slot ? 'top' : $image_slot;
+		$image_slot = 'disabled' === $image_slot ? false : $image_slot;
+		$image_slot = false !== $image_slot && $is_in_loop ? 'left' : $image_slot;
+		if ( $is_mobile ) {
+			$image_slot = in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : 'top';
+		}
+		// Set the image size to A1 on mobile, if its in a loop then set it to A3, otherwise deliver whats set in the attributes.
+		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
+		$image_size = false === $image_slot ? false : $image_size;
+		$image_size = false !== $image_size && $is_mobile ? 'A1' : $image_size;
+		$image_size = false !== $image_size && $is_in_loop ? 'A3' : $image_size;
 
-		$image             = $this->get_img(
-			$attributes,
+		$image = $this->get_img(
+			$image_size,
+			$image_slot,
 			array(
 				'is_mobile'  => $is_mobile,
 				'is_in_loop' => $is_in_loop,
@@ -252,14 +262,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 				'post_type'  => $post_type,
 			)
 		);
-		$image_slot        = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
-		$image_slot        = 'default' === $image_slot ? 'top' : $image_slot;
-		$image_slot        = 'disabled' === $image_slot ? false : $image_slot;
-		$image_slot        = false !== $image ? $image_slot : false;
-		$image_slot        = false !== $image_slot && $is_in_loop ? 'left' : $image_slot;
-		$image_size        = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
-		$image_size        = false === $image_slot ? false : $image_size;
-		$image_size        = false !== $image_size && $is_in_loop ? 'A3' : $image_size;
+		// If we can not find an image set the image slot to false to disable it.
+		$image_slot = false !== $image ? $image_slot : false;
+		
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
 		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered;
 		
@@ -271,16 +276,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : true;
 		$enable_alt_header_weight      = array_key_exists( 'enableAltHeaderWeight', $attributes ) ? $attributes['enableAltHeaderWeight'] : false;
 		$enable_meta                   = array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : true;
-
-		// @todo These are all things to make the loading process quicker on mobile, these are shortcuts so the browser does not need to compute these. For example the css for the header switch should be in the correct media query header:not(.medium) { set the font size and all that to medium... }
-		// @todo if column_width is less than 5, and left or right image slot, then the image size need's to set to what?
-		if ( $is_mobile ) {
-			$header_size = 2;
-			if ( false !== $image_slot ) {
-				// @todo if is mobile and column_width is less than ??, and left or right image slot, then image size needs to be set to what?
-				$image_slot = in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : $image_slot;
-			}
-		}
 
 		$variables = array(
 			'post_id'                       => $post_id,

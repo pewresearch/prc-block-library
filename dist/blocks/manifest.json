@@ -91,8 +91,8 @@
   "staff.css.map": "blocks/staff-eece803c.css.map",
   "staff.js": "blocks/staff-83e92ffb.js",
   "staff.js.map": "blocks/staff-83e92ffb.js.map",
-  "story-item.css": "blocks/story-item-e979289b.css",
-  "story-item.css.map": "blocks/story-item-e979289b.css.map",
+  "story-item.css": "blocks/story-item-6c79db0e.css",
+  "story-item.css.map": "blocks/story-item-6c79db0e.css.map",
   "story-item.js": "blocks/story-item-248fbbf8.js",
   "story-item.js.map": "blocks/story-item-248fbbf8.js.map",
   "sub-title.js": "blocks/sub-title-b6300172.js",
@@ -647,10 +647,10 @@
           "blocks/story-item-248fbbf8.js.map"
         ],
         "css": [
-          "blocks/story-item-e979289b.css"
+          "blocks/story-item-6c79db0e.css"
         ],
         "css.map": [
-          "blocks/story-item-e979289b.css.map"
+          "blocks/story-item-6c79db0e.css.map"
         ]
       }
     },
