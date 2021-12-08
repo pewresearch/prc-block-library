@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import { getTermsAsOptions } from '@pewresearch/app-components';
+import classNames from 'classnames/bind';
 
 /**
  * WordPress Dependencies
@@ -9,8 +10,6 @@ import { getTermsAsOptions } from '@pewresearch/app-components';
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { SelectControl, TextControl } from '@wordpress/components';
 import { RichText } from '@wordpress/block-editor';
-import classNames from 'classnames/bind';
-import { Item } from 'semantic-ui-react';
 
 const KickerEditor = ({ label, date, taxonomy, setAttributes }) => {
     if ( 'disabled' === taxonomy ) {
@@ -26,7 +25,7 @@ const KickerEditor = ({ label, date, taxonomy, setAttributes }) => {
     }, [taxonomy]);
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="meta" style={{ display: 'flex', alignItems: 'center' }}>
             <div>
                 <SelectControl
                     value={label}
@@ -68,7 +67,7 @@ const Header = ({
         return <Fragment />;
     }
 
-    const classes = classNames({
+    const classes = classNames('header', {
         large: (1 === size),
         medium: (2 === size),
         small: (3 === size),
@@ -79,25 +78,22 @@ const Header = ({
     return (
         <Fragment>
             {true === enableMeta && (
-                <Item.Meta>
-                    <KickerEditor
-                        date={date}
-                        label={label}
-                        taxonomy={taxonomy}
-                        setAttributes={setAttributes}
-                    />
-                </Item.Meta>
-            )}
-            <Item.Header className={classes}>
-                <RichText
-                    tagName="div"
-                    value={title}
-                    onChange={t => setAttributes({ title: t })}
-                    allowedFormats={['italic']}
-                    placeholder="Title"
-                    multiline="br"
+               <KickerEditor
+                    date={date}
+                    label={label}
+                    taxonomy={taxonomy}
+                    setAttributes={setAttributes}
                 />
-            </Item.Header>
+            )}
+            <RichText
+                tagName="header"
+                value={title}
+                onChange={t => setAttributes({ title: t })}
+                allowedFormats={['italic']}
+                placeholder="Title"
+                multiline="br"
+                className={classes}
+            />
         </Fragment>
     );
 };

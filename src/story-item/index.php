@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.2';
 	public static $date_format        = 'M d, Y';
-	public static $cache_invalidate   = '100asadf011';
+	public static $cache_invalidate   = '8667';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -119,6 +119,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return false;
 	}
 
+	/**
+	 * Given an image_size, image_slot, post_id, and post_type return an array of desktop and mobile 1x and 2x image urls.
+	 *
+	 * @param bool  $image_size 
+	 * @param bool  $image_slot 
+	 * @param array $args 
+	 * @return false|array 
+	 */
 	private function get_img( $image_size = false, $image_slot = false, $args = array() ) {
 		if ( false === $image_size || false === $image_slot ) {
 			return false;
@@ -127,8 +135,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$args = wp_parse_args(
 			$args,
 			array(
-				'post_id'   => false,
-				'post_type' => false,
+				'post_id'      => false,
+				'post_type'    => false,
+				'static_image' => false,
 			)
 		);
 		extract( $args );
@@ -166,9 +175,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
 				),
 			);
-		} elseif ( false === $image_id && array_key_exists( 'image', $attributes ) && ! empty( $attributes['image'] ) ) {
+		} elseif ( false === $image_id && false !== $static_image ) {
 			$img  = array(
-				$attributes['image'],
+				$static_image,
 				null,
 				null,
 			);
@@ -187,7 +196,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return $imgs;
 	}
 
+	/**
+	 * Apply business logic to attributes and return as an array ready for extracting into variables.
+	 * 
+	 * @param mixed $attributes 
+	 * @param array $context 
+	 * @return mixed 
+	 */
 	public function get_attributes( $attributes, $context = array() ) {
+		error_log( print_r( $context, true ) );
+		
 		$is_mobile = jetpack_is_mobile();
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
@@ -212,10 +230,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 			return $cache;
 		}
 
-		// $column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
+		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
 
 		$post = get_post( $post_id );
-		error_log( print_r( $context, true ) );
+
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
 
@@ -244,22 +262,21 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_slot = 'disabled' === $image_slot ? false : $image_slot;
 		$image_slot = false !== $image_slot && $is_in_loop ? 'left' : $image_slot;
 		if ( $is_mobile ) {
-			$image_slot = in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : 'top';
+			$image_slot = $is_in_loop && in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : 'top';
 		}
 		// Set the image size to A1 on mobile, if its in a loop then set it to A3, otherwise deliver whats set in the attributes.
 		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
 		$image_size = false === $image_slot ? false : $image_size;
-		$image_size = false !== $image_size && $is_mobile ? 'A1' : $image_size;
+		$image_size = false !== $image_size && $is_mobile ? 'A2' : $image_size;
 		$image_size = false !== $image_size && $is_in_loop ? 'A3' : $image_size;
 
 		$image = $this->get_img(
 			$image_size,
 			$image_slot,
 			array(
-				'is_mobile'  => $is_mobile,
-				'is_in_loop' => $is_in_loop,
-				'post_id'    => $post_id,
-				'post_type'  => $post_type,
+				'post_id'      => $post_id,
+				'post_type'    => $post_type,
+				'static_image' => array_key_exists( 'image', $attributes ) ? $attributes['image'] : false,
 			)
 		);
 		// If we can not find an image set the image slot to false to disable it.

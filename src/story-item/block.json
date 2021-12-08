@@ -19,8 +19,9 @@
             "multiline": "li",
             "selector": ".extra"
         },
-        "link": {
-			"type": "string"
+        "url": {
+			"type": "string",
+            "default": ""
         },
         "label": {
             "type": "string",
@@ -34,7 +35,7 @@
         },
         "imageSlot": {
             "type": "string",
-            "default": "default"
+            "default": "top"
         },
         "imageSize": {
             "type": "string",
@@ -63,11 +64,11 @@
             "type": "boolean",
             "default": true
         },
-        "enableExcerpt": {
+        "enableDescription": {
             "type": "boolean",
             "default": true
         },
-        "enableExcerptBelow": {
+        "enableDescriptionBelow": {
             "type": "boolean",
             "default": false
         },
@@ -95,16 +96,27 @@
             "type": "boolean",
             "default": false
         },
-        "enableAltTaxonomy": {
-            "type": "boolean",
-            "default": false
-        },
         "postID": {
             "type": "integer"
+        },
+        "link": {
+			"type": "string"
         },
         "excerpt": {
             "type": "string",
             "multiline": "p"
+        },
+        "enableExcerpt": {
+            "type": "boolean",
+            "default": true
+        },
+        "enableExcerptBelow": {
+            "type": "boolean",
+            "default": false
+        },
+        "enableAltTaxonomy": {
+            "type": "boolean",
+            "default": false
         }
 	},
 	"supports": {

@@ -2,8 +2,6 @@
  * External Dependencies
  */
 import classNames from 'classnames/bind';
-import { Item } from 'semantic-ui-react';
-import { ifMatchSetAttribute, StoryItem } from '@pewresearch/app-components';
 
 /**
  * WordPress Dependencies
@@ -22,15 +20,6 @@ import Extra from './extra';
 import Header from './header';
 import { getAttributesFromURL } from './helpers';
 
-const classDictionary = [
-    'is-style-default',
-    'is-style-left',
-    'is-style-right',
-    'is-style-top',
-    'is-style-bottom',
-    'is-style-disabled',
-];
-
 /**
  * To be removed at later date:
 */
@@ -42,10 +31,26 @@ const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
     if (!attributes.description && attributes.excerpt && 0 !== attributes.excerpt.length) {
         payload.description = attributes.excerpt;
     }
+    // Convert old attributes to new attributes.
+    payload.enableDescription = attributes.enableExcerpt;
+    payload.enableDescriptionBelow = attributes.enableExcerptBelow;
+    payload.url = attributes.link;
+
     if ( 0 !== Object.keys(payload).length && false !== setAttributes ) {
         console.log('handleExcerptAndPostIdUpdate', attributes, payload);
         setAttributes({...payload});
     }
+}
+
+const getBlockAttributes = (attributes, context) => {
+    attributes.enableDescription = attributes.enableDescription !== attributes.enableExcerpt ? attributes.enableExcerpt : attributes.enableDescription;
+    attributes.enableDescriptionBelow = attributes.enableDescriptionBelow !== attributes.enableExcerptBelow ? attributes.enableExcerptBelow : attributes.enableDescriptionBelow;
+    attributes.url = attributes.url !== attributes.link ? attributes.link : attributes.url;
+
+    // Check if block context is in a query loop.
+    attributes.inLoop = context.hasOwnProperty('queryId') && context.queryId > 0 ? true : attributes.inLoop;
+    console.log('getBlockAttributes', attributes, context);
+    return attributes;
 }
 
 const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
@@ -53,7 +58,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         title,
         description,
         extra,
-        link,
+        url,
         label,
         date,
         image,
@@ -64,24 +69,23 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         headerSize,
         enableEmphasis,
         enableHeader,
-        enableExcerpt, // @TODO need to rename this to enableDescription
-        enableExcerptBelow, // @TODO need to rename this to enableDescriptionBelow
+        enableDescription,
+        enableDescriptionBelow,
         enableExtra,
         enableBreakingNews,
         enableMeta,
         metaTaxonomy,
+        inLoop,
         isTransformed, // Signal to run auto lookup, this is primarily for pasting a link into the editor blindly and it auto converting to a story item.
         className,
-    } = attributes;
-
-    console.log('Story Item Context', context);
+    } = getBlockAttributes(attributes, context);
 
     /**
      * Handle transform from a pewresearch.[org|local] link into a story item.
      */
     useEffect(()=>{
         if ( true === isTransformed ) {
-            getAttributesFromURL(link).then(attrs => {
+            getAttributesFromURL(url).then(attrs => {
                 setAttributes({isTransformed: false, ...attrs});
             });
         }
@@ -102,58 +106,27 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         [clientId],
     );
 
-    const enableAltHeaderWeight = !enableExcerpt;
+    const enableAltHeaderWeight = !enableDescription;
 
-    const blockProps = useBlockProps();
-
-    const Img = () => {
-        return (
-            <Image
-                img={image}
-                size={imageSize}
-                link={link}
-                slot={imageSlot}
-                chartArt={isChartArt}
-                postId={postId}
-                setAttributes={setAttributes}
-            />
-        );
+    const logicalClasses = {
+        bordered: enableEmphasis,
+        'alt-description': enableDescriptionBelow,
     };
-
-    const TopAndLeftSlot = () => {
-        if ('top' !== imageSlot && 'left' !== imageSlot) {
-            return <Fragment />;
-        }
-
-        return <Img />;
-    };
-
-    const DefaultSlot = () => {
-        if ('default' !== imageSlot) {
-            return <Fragment />;
-        }
-
-        return <Img />;
-    };
-
-    const BottomAndRightSlot = () => {
-        if ('bottom' !== imageSlot && 'right' !== imageSlot) {
-            return <Fragment />;
-        }
-
-        return <Img />;
-    };
-
-    //
-    // Display Component
-    //
-
-    if ( undefined === postId ) {
-        return <Placeholder attributes={attributes} setAttributes={setAttributes} blockProps={blockProps}/>
+    if ( 'disbaled' !== imageSlot ) {
+        logicalClasses[imageSlot] = true;
+        logicalClasses['aligned'] = true;
+    }
+    const blockPropsArgs = {
+        className: classNames('story item', className, logicalClasses),
+    }
+    if ( 'disabled' !== imageSlot && imageSize.length > 0) {
+        blockPropsArgs['data-image-size'] = imageSize;
     }
 
-    if ( true !== isSelected ) {
-        return <div {...blockProps}><StoryItem {...attributes}/></div>
+    const blockProps = useBlockProps(blockPropsArgs);
+
+    if ( !inLoop && undefined === postId ) {
+        return <Placeholder attributes={attributes} setAttributes={setAttributes} blockProps={blockProps}/>
     }
 
     return (
@@ -166,58 +139,45 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                     rootClientId,
                 }}
             />
-            <div {...blockProps}>
-                <article className={classNames(className, 'item', 'story', `is-style-${imageSlot}`, {
-                    stacked: 'top' === imageSlot || 'bottom' === imageSlot,
-                    bordered: enableEmphasis,
-                    'alt-description': enableExcerptBelow,
-                })}>
-                    <TopAndLeftSlot />
+            <article {...blockProps}>
+                <Image
+                    img={image}
+                    size={imageSize}
+                    slot={imageSlot}
+                    chartArt={isChartArt}
+                    postId={postId}
+                    setAttributes={setAttributes}
+                    isSelected={isSelected}
+                />
 
-                    <Item.Content>
-                        <Header
-                            enabled={{enableHeader, enableMeta}}
-                            title={title}
-                            date={date}
-                            label={label}
-                            link={link}
-                            size={headerSize}
-                            taxonomy={metaTaxonomy}
-                            setAttributes={setAttributes}
-                            altHeaderWeight={enableAltHeaderWeight}
-                        />
+                <Header
+                    enabled={{enableHeader, enableMeta}}
+                    title={title}
+                    date={date}
+                    label={label}
+                    size={headerSize}
+                    taxonomy={metaTaxonomy}
+                    setAttributes={setAttributes}
+                    altHeaderWeight={enableAltHeaderWeight}
+                    isSelected={isSelected}
+                />
 
-                        <DefaultSlot />
+                <Description
+                    enabled={enableDescription}
+                    content={description}
+                    sansSerif={!enableHeader}
+                    setAttributes={setAttributes}
+                    isSelected={isSelected}
+                />
 
-                        {true !== enableExcerptBelow && (
-                            <Description
-                                enabled={enableExcerpt}
-                                content={description}
-                                sansSerif={!enableMeta || !enableHeader}
-                                setAttributes={setAttributes}
-                            />
-                        )}
-
-                        <Extra
-                            enabled={enableExtra}
-                            content={extra}
-                            breakingNews={enableBreakingNews}
-                            setAttributes={setAttributes}
-                        />
-                    </Item.Content>
-
-                    <BottomAndRightSlot />
-
-                    {true === enableExcerptBelow && (
-                        <Description
-                            enabled={enableExcerpt}
-                            content={description}
-                            sansSerif={!enableHeader}
-                            setAttributes={setAttributes}
-                        />
-                    )}
-                </article>
-            </div>
+                <Extra
+                    enabled={enableExtra}
+                    content={extra}
+                    breakingNews={enableBreakingNews}
+                    setAttributes={setAttributes}
+                    isSelected={isSelected}
+                />
+            </article>
         </Fragment>
     );
 };

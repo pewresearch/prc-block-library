@@ -83,7 +83,7 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
 };
 
 const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
-    const { postId, link, imageSize, imageSlot, headerSize, isChartArt, title } = attributes;
+    const { postId, url, imageSize, imageSlot, headerSize, isChartArt, title } = attributes;
 
     const columnWidth = undefined !== context['prc-block/column/width'] ? context['prc-block/column/width'] : false;
     console.log('context?', columnWidth, context);
@@ -163,7 +163,7 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
     return (
         <BlockControls>
             <ToolbarGroup>
-                <URLControl title={title} id={postId} url={link} type="stub" setAttributes={setAttributes} />
+                <URLControl title={title} id={postId} url={url} type="stub" setAttributes={setAttributes} />
             </ToolbarGroup>
             <ToolbarGroup>
                 <ToolbarDropdownMenu

@@ -31,7 +31,7 @@ const getAttributesFromPost = (post, imageSize, isRefresh = false) => {
         description: post.excerpt.hasOwnProperty('rendered')
             ? post.excerpt.rendered
             : post.excerpt,
-        link: post.link,
+        url: post.link,
         label: post.hasOwnProperty('label') ? post.label : 'Report',
         date: post.date,
         postId: post.id,
