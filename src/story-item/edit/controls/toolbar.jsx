@@ -37,6 +37,9 @@ import {
  */
 import { setPostByStubID, setArtBySize } from '../helpers';
 
+// Minimum width of column to allow for left and right imageSlot.
+const COLUMN_LIMIT = 6;
+
 const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) => {
     const [isLinkOpen, setIsLinkOpen] = useState(false);
     return (
@@ -156,7 +159,7 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
 
     const handleImageSizeChange = (newSize) => {
         setAttributes({ imageSize: newSize });
-        setArtBySize(newSize, postId, setAttributes);
+        setArtBySize(newSize, postId, setAttributes); // @TODO LOOK INTO
         console.log('new image size, check column context', context);
     }
 
@@ -230,7 +233,7 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
                                 <ImageSlotIcon selected='left'/>
                             ),
                             isActive: 'left' === imageSlot,
-                            isDisabled: false !== columnWidth && 5 >= columnWidth,
+                            isDisabled: false !== columnWidth && COLUMN_LIMIT >= columnWidth,
                             onClick: () => {
                                 const newSlot = 'left';
                                 setAttributes({imageSlot: newSlot});
@@ -242,7 +245,7 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
                                 <ImageSlotIcon selected='right'/>
                             ),
                             isActive: 'right' === imageSlot,
-                            isDisabled: false !== columnWidth && 5 >= columnWidth,
+                            isDisabled: false !== columnWidth && COLUMN_LIMIT >= columnWidth,
                             onClick: () => {
                                 const newSlot = 'right';
                                 setAttributes({imageSlot: newSlot});
