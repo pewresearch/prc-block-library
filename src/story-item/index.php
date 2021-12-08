@@ -381,16 +381,20 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_slot   = false === $image_markup ? false : $image_slot; // If no image then don't show the image slot.
 
 		$block_wrapper_attrs = array(
-			'class'           => classNames(
+			'class' => classNames(
 				'story item',
 				array(
 					$image_slot . ' aligned' => $image_slot,
 					'bordered'               => $enable_emphasis,
 				)
 			),
-			'data-image-size' => $image_size,
-			'data-cached'     => array_key_exists( 'cached', $attrs ) ? true : false,
 		);
+		if ( ! empty( $image_size ) ) {
+			$block_wrapper_attrs['data-image-size'] = $image_size;
+		}
+		if ( array_key_exists( 'cached', $attrs ) ) {
+			$block_wrapper_attrs['data-cached'] = true;
+		}
 		if ( ! empty( $post_id ) ) {
 			$block_wrapper_attrs['id'] = 'post-' . $post_id;
 		}

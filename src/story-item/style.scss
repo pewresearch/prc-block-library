@@ -183,6 +183,12 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
         &[data-image-size="A3"] {
             grid-template-columns: 2fr variables.$A3;
+            grid-template-areas: 
+                "meta meta"
+                "header image"
+                "description description"
+                "extras extras"
+                "breakingnews breakingnews";
         }
         &[data-image-size="A4"] {
             grid-template-columns: 2fr variables.$A4;
@@ -216,55 +222,71 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             border: 1px solid #dadada;
         }
 
-        &.A1 > picture > img,
-        &.A1 > picture > source {
-            max-width: $mobileImageWidth;
-            @media only screen and (min-width: variables.$largestMobileScreen) {
-                max-width: variables.$A1;
-                // &:not(.loaded) {
-                //     width: variables.$A1;
-                //     height: variables.$A1Height;
-                //     @include imageLoading();
-                // }
+        &.A1 {
+            & > picture > img,
+            & > picture > source {
+                max-width: $mobileImageWidth;
+                @media only screen and (min-width: variables.$largestMobileScreen) {
+                    max-width: variables.$A1;
+                }
+            }
+            &:not(.loaded) > picture > img {
+                @media only screen and (min-width: variables.$largestMobileScreen) {
+                    width: variables.$A1;
+                    height: variables.$A1Height;
+                    @include imageLoading();
+                }
             }
         }
 
-        &.A2 > picture > img,
-        &.A2 > picture > source {
-            max-width: $mobileImageWidth;
-            @media only screen and (min-width: variables.$largestMobileScreen) {
-                max-width: variables.$A2;
-                // &:not(.loaded) {
-                //     width: variables.$A2;
-                //     height: variables.$A2Height;
-                //     @include imageLoading();
-                // }
+        &.A2 {
+            & > picture > img,
+            & > picture > source {
+                max-width: $mobileImageWidth;
+                @media only screen and (min-width: variables.$largestMobileScreen) {
+                    max-width: variables.$A2;
+                }
+            }
+            &:not(.loaded) > picture > img {
+                @media only screen and (min-width: variables.$largestMobileScreen) {
+                    width: variables.$A2;
+                    height: variables.$A2Height;
+                    @include imageLoading();
+                }
             }
         }
 
-        &.A3 > picture > img,
-        &.A3 > picture > source {
-            max-width: variables.$A3Small;
-            @media only screen and (min-width: variables.$largestMobileScreen) {
-                max-width: variables.$A3;
-                // &:not(.loaded) {
-                //     width: variables.$A3;
-                //     height: variables.$A3Height;
-                //     @include imageLoading();
-                // }
+        &.A3 {
+            & > picture > img,
+            & > picture > source {
+                max-width: variables.$A3Small;
+                @media only screen and (min-width: variables.$largestMobileScreen) {
+                    max-width: variables.$A3;
+                }
+            }
+            &:not(.loaded) > picture > img {
+                @media only screen and (min-width: variables.$largestMobileScreen) {
+                    width: variables.$A3;
+                    height: variables.$A3Height;
+                    @include imageLoading();
+                }
             }
         }
 
-        &.A4 > picture > img,
-        &.A4 > picture > source {
-            max-width: $mobileImageWidth;
-            @media only screen and (min-width: variables.$largestMobileScreen) {
-                max-width: variables.$A4;
-                // &:not(.loaded) {
-                //     width: variables.$A4;
-                //     height: variables.$A4Height;
-                //     @include imageLoading();
-                // }
+        &.A4 {
+            & > picture > img,
+            & > picture > source {
+                max-width: $mobileImageWidth;
+                @media only screen and (min-width: variables.$largestMobileScreen) {
+                    max-width: variables.$A4;
+                }
+            }
+            &:not(.loaded) > picture > img {
+                @media only screen and (min-width: variables.$largestMobileScreen) {
+                    width: variables.$A4;
+                    height: variables.$A4Height;
+                    @include imageLoading();
+                }
             }
         }
 
