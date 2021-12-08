@@ -84,6 +84,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/query/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo-rotator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/responsive-container/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/separator/index.php';

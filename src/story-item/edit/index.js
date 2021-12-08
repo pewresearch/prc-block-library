@@ -74,6 +74,8 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         className,
     } = attributes;
 
+    console.log('Story Item Context', context);
+
     /**
      * Handle transform from a pewresearch.[org|local] link into a story item.
      */

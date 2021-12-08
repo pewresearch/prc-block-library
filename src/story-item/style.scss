@@ -182,13 +182,14 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             }
         }
         &[data-image-size="A3"] {
-            grid-template-columns: 2fr variables.$A3;
-            grid-template-areas: 
-                "meta meta"
-                "header image"
-                "description description"
-                "extras extras"
-                "breakingnews breakingnews";
+            display: block;
+            .image {
+                float: right;
+            }
+            .description {
+                clear: right;
+                padding-top: 10px;
+            }
         }
         &[data-image-size="A4"] {
             grid-template-columns: 2fr variables.$A4;

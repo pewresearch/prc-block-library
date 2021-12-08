@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.1';
 	public static $date_format        = 'M d, Y';
-	public static $cache_invalidate   = '12072021gooddog';
+	public static $cache_invalidate   = '100011';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -220,7 +220,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// $column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
 
 		$post = get_post( $post_id );
-
+		error_log( print_r( $context, true ) );
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
 
@@ -439,11 +439,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 		<article <?php echo $block_wrapper_attrs; ?>>
 			<?php
 			$markup = '';
-			if ( false !== $image_slot ) {
-				$markup = $image_markup;
-			}
 			if ( $enable_meta ) {
 				$markup .= "<div class='meta'><span class='report label'>{$label}</span> | <span class='date'>{$date}</span></div>";
+			}
+			if ( false !== $image_slot ) {
+				$markup .= $image_markup;
 			}
 			if ( $enable_header ) {
 				$markup .= "<header class='{$header_class}'><a href='{$url}'>{$title}</a></header>";

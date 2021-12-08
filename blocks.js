@@ -27,6 +27,7 @@ const files = [
             'post-title': './src/post-title/index.js',
             promo: './src/promo/index.js',
             'promo-rotator': './src/promo-rotator/index.js',
+            query: './src/query/index.js',
             'responsive-container-controller': './src/responsive-container/controller/index.js',
             'responsive-container-view': './src/responsive-container/view/index.js',
             row: './src/row/index.js',
