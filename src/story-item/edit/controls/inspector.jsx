@@ -28,7 +28,7 @@ import { setPostByStubID } from '../helpers';
 const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
     const [isRefreshing, refresh] = useState(false);
     const {
-        postID,
+        postId,
         imageSize,
         imageSlot,
         enableHeader,
@@ -40,7 +40,6 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
         enableMeta,
         metaTaxonomy,
     } = attributes;
-    const postId = postID;
 
     const label = __('Story Item Options');
 
@@ -142,7 +141,7 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                 </PanelBody>
             </InspectorControls>
             <InspectorAdvancedControls>
-                {true === enableExcerpt && ('right' === imageSlot || 'left' === imageSlot) && (
+                {true === enableDescription && ('right' === imageSlot || 'left' === imageSlot) && (
                     <Fragment>
                         <ToggleControl
                             label={
@@ -161,7 +160,6 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                         <CardDivider/>
                     </Fragment>
                 )}
-                
 
                 {isInteger(postId) && 0 !== postId && (
                     <div>
@@ -176,7 +174,7 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                                 }, 500);
                             }}
                             style={{ marginBottom: '1em' }}
-                            text={__('Refresh Post')}
+                            text={__('Refresh Post Data')}
                         />
                     </div>
                 )}

@@ -18,6 +18,7 @@ import Image from './image';
 import Description from './description';
 import Extra from './extra';
 import Header from './header';
+import Meta from './meta';
 import { getAttributesFromURL } from './helpers';
 
 /**
@@ -97,7 +98,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         }
     }, [isTransformed]);
 
-    //@TODO  If in loop we should get title, image, label, date, and description from the postId. 
+    //@TODO  If in loop we should get title, image, label, date, and description from the postId on load.
     useEffect(()=> {
         handleExcerptAndPostIdUpdate(attributes, setAttributes);
     }, []);
@@ -156,15 +157,21 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                     isSelected={isSelected}
                 />
 
-                <Header
-                    enabled={{enableHeader, enableMeta}}
-                    title={title}
+                <Meta
+                    enabled={enableMeta}
                     date={date}
                     label={label}
-                    size={headerSize}
                     taxonomy={metaTaxonomy}
                     setAttributes={setAttributes}
+                    isSelected={isSelected}
+                />
+
+                <Header
+                    enabled={enableHeader}
+                    title={title}
+                    size={headerSize}
                     altHeaderWeight={enableAltHeaderWeight}
+                    setAttributes={setAttributes}
                     isSelected={isSelected}
                 />
 

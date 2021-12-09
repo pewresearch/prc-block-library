@@ -38,7 +38,7 @@ import {
 import { setPostByStubID, setArtBySize } from '../helpers';
 
 // Minimum width of column to allow for left and right imageSlot.
-const COLUMN_LIMIT = 6;
+const COLUMN_LIMIT = 8;
 
 const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) => {
     const [isLinkOpen, setIsLinkOpen] = useState(false);
@@ -89,7 +89,6 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
     const { postId, url, imageSize, imageSlot, headerSize, isChartArt, title } = attributes;
 
     const columnWidth = undefined !== context['prc-block/column/width'] ? context['prc-block/column/width'] : false;
-    console.log('context?', columnWidth, context);
 
     const Icon = ({ svgPath = false, isPressed = false }) => {
         if (false === svgPath) {

@@ -3,6 +3,32 @@
  */
 import apiFetch from '@wordpress/api-fetch';
 
+const getStoryItemContentFromPostId = (postId) => {
+    // go get the title, date, label, excerpt, and image for a post given the post id.
+    return new Promise((resolve, reject) => {
+        apiFetch({
+            path: `/wp/v2/posts/${postId}`,
+        }).then((post) => {
+            // resolve as attributes
+            const attrsToReturn = {
+                title: post.title.hasOwnProperty('rendered')
+                    ? post.title.rendered
+                    : post.title,
+                description: post.excerpt.hasOwnProperty('rendered')
+                    ? post.excerpt.rendered
+                    : post.excerpt,
+                url: post.link,
+                label: post.hasOwnProperty('label') ? post.label : 'Report',
+                date: post.date,
+                postId: post.id,
+            };
+            resolve(attrsToReturn);
+        }).catch((error) => {
+            reject(error);
+        });
+    });
+}
+
 const setArtBySize = (imageSize, postId, setAttributes) => {
     if (0 !== postId && false !== setAttributes) {
         apiFetch({
@@ -125,4 +151,5 @@ export {
     setPostByStubID,
     setPostByURL,
     getAttributesFromURL,
+    getStoryItemContentFromPostId,
 }
