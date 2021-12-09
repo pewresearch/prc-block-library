@@ -33,7 +33,6 @@ const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
     }
     // Convert old attributes to new attributes.
     payload.enableDescription = attributes.enableExcerpt;
-    payload.enableDescriptionBelow = attributes.enableExcerptBelow;
     payload.url = attributes.link;
 
     if ( 0 !== Object.keys(payload).length && false !== setAttributes ) {
@@ -43,13 +42,20 @@ const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
 }
 
 const getBlockAttributes = (attributes, context) => {
+    // Convert old enableExcerpt attribute to enableDescription.
     attributes.enableDescription = attributes.enableDescription !== attributes.enableExcerpt ? attributes.enableExcerpt : attributes.enableDescription;
+
+    // Convert old enableExcerptBelow attribute to enableDescriptionBelow.
     attributes.enableDescriptionBelow = attributes.enableDescriptionBelow !== attributes.enableExcerptBelow ? attributes.enableExcerptBelow : attributes.enableDescriptionBelow;
+
+    // Convert old link attribute to url attribnute.
     attributes.url = attributes.url !== attributes.link ? attributes.link : attributes.url;
 
-    // Check if block context is in a query loop.
+    // Check if block context is in a query loop and if so set inLoop to true.
     attributes.inLoop = context.hasOwnProperty('queryId') && context.queryId > 0 ? true : attributes.inLoop;
+    
     console.log('getBlockAttributes', attributes, context);
+
     return attributes;
 }
 
@@ -91,6 +97,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         }
     }, [isTransformed]);
 
+    //@TODO  If in loop we should get title, image, label, date, and description from the postId. 
     useEffect(()=> {
         handleExcerptAndPostIdUpdate(attributes, setAttributes);
     }, []);
@@ -122,7 +129,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     if ( 'disabled' !== imageSlot && imageSize.length > 0) {
         blockPropsArgs['data-image-size'] = imageSize;
     }
-
     const blockProps = useBlockProps(blockPropsArgs);
 
     if ( !inLoop && undefined === postId ) {

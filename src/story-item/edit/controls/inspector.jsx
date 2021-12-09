@@ -29,18 +29,16 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
     const [isRefreshing, refresh] = useState(false);
     const {
         postID,
-        link,
         imageSize,
         imageSlot,
         enableHeader,
-        enableExcerpt,
-        enableExcerptBelow,
+        enableDescription,
+        enableDescriptionBelow,
         enableExtra,
         enableBreakingNews,
         enableEmphasis,
         enableMeta,
         metaTaxonomy,
-        inLoop,
     } = attributes;
     const postId = postID;
 
@@ -75,11 +73,11 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                         />
                         <ToggleControl
                             label={
-                                enableExcerpt ? 'Description Enabled' : 'Description Disabled'
+                                enableDescription ? 'Description Enabled' : 'Description Disabled'
                             }
-                            checked={enableExcerpt}
+                            checked={enableDescription}
                             onChange={() => {
-                                setAttributes({ enableExcerpt: !enableExcerpt });
+                                setAttributes({ enableDescription: !enableDescription });
                             }}
                         />
                         <ToggleControl
@@ -145,35 +143,25 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
             </InspectorControls>
             <InspectorAdvancedControls>
                 {true === enableExcerpt && ('right' === imageSlot || 'left' === imageSlot) && (
-                    <ToggleControl
-                        label={
-                            enableExcerptBelow
-                                ? 'Description Will Appear Below Image'
-                                : 'Description Will Appear Normally'
-                        }
-                        help={__('If you have descriptions enabled and a right or left image slot you can force the description to appear below an image.')}
-                        checked={enableExcerptBelow}
-                        onChange={() => {
-                            setAttributes({
-                                enableExcerptBelow: !enableExcerptBelow,
-                            });
-                        }}
-                    />
+                    <Fragment>
+                        <ToggleControl
+                            label={
+                                enableDescriptionBelow
+                                    ? 'Description Will Appear Below Image'
+                                    : 'Description Will Appear Normally'
+                            }
+                            help={__('If you have descriptions enabled and a right or left image slot you can force the description to appear below an image.')}
+                            checked={enableDescriptionBelow}
+                            onChange={() => {
+                                setAttributes({
+                                    enableDescriptionBelow: !enableDescriptionBelow,
+                                });
+                            }}
+                        />
+                        <CardDivider/>
+                    </Fragment>
                 )}
-                <ToggleControl
-                    label={
-                        inLoop
-                            ? 'On Mobile Use Pub Listing Style'
-                            : 'On Mobile DO NOT Use Pub Listing Style'
-                    }
-                    help={__('Enabling this will force a Story Item to appear as in a Pub Listing style (left image slot, A3 image) on mobile, regardless of the settings you set here for image alignment and size.')}
-                    checked={inLoop}
-                    onChange={() => {
-                        setAttributes({ inLoop: !inLoop });
-                    }}
-                />
                 
-                <CardDivider/>
 
                 {isInteger(postId) && 0 !== postId && (
                     <div>
