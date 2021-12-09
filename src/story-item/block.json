@@ -2,7 +2,7 @@
     "apiVersion": 2,
 	"name": "prc-block/story-item",
 	"category": "layout",
-    "usesContext": ["postId", "postType", "queryId", "query", "prc-block/column/width"],
+    "usesContext": ["queryId", "query", "prc-block/column/width"],
 	"attributes": {
 		"title": {
 			"type": "string"

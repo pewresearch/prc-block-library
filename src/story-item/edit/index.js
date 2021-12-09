@@ -8,7 +8,7 @@ import classNames from 'classnames/bind';
  */
 import { Fragment, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, useBlockPreview } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -33,8 +33,8 @@ const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
         payload.description = attributes.excerpt;
     }
     // Convert old attributes to new attributes.
-    payload.enableDescription = attributes.enableExcerpt;
-    payload.url = attributes.link;
+    // payload.enableDescription = attributes.enableExcerpt;
+    // payload.url = attributes.link;
 
     if ( 0 !== Object.keys(payload).length && false !== setAttributes ) {
         console.log('handleExcerptAndPostIdUpdate', attributes, payload);

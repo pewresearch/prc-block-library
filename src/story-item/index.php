@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.2';
 	public static $date_format        = 'M d, Y';
-	public static $cache_invalidate   = '123123a';
+	public static $cache_invalidate   = 'hasdh2167';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -204,12 +204,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @return mixed 
 	 */
 	public function get_attributes( $attributes, $context = array() ) {
-		error_log( 'context...' . print_r( $attributes, true ) );
-		
 		$is_mobile = jetpack_is_mobile();
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
-		$post_id = false === $post_id && array_key_exists( 'postId', $context ) ? $context['postId'] : $post_id;
 
 		$cache_key = md5(
 			wp_json_encode(
@@ -237,8 +234,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
 
-		$post_type = array_key_exists( 'postType', $context ) ? $context['postType'] : false;
-		$post_type = false === $post_type ? $post_type : $post->post_type;
+		$post_type = $post->post_type;
 
 		// Title, image, description, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title;
@@ -380,11 +376,12 @@ class PRC_Story_Item extends PRC_Block_Library {
 		extract( $attrs );
 
 		error_log(
-			'checking attrs...' .
+			'story_item -> checking attrs...' .
 			print_r(
 				array(
 					'attrs'         => $attrs,
 					'attributesRaw' => $attributes,
+					'context'       => $block->context,
 				),
 				true 
 			) 
