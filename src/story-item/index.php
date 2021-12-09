@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.2';
 	public static $date_format        = 'M d, Y';
-	public static $cache_invalidate   = '8667';
+	public static $cache_invalidate   = '123123a';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -74,7 +74,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		?>
 		<?php if ( false !== $excerpt ) : ?>
 			<div class="description">
-				<?php echo $excerpt; ?>
+				<?php echo wpautop( $excerpt ); ?>
 			</div>
 		<?php endif; ?>
 		<?php if ( false !== $extra ) : ?>
@@ -204,7 +204,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @return mixed 
 	 */
 	public function get_attributes( $attributes, $context = array() ) {
-		error_log( print_r( $context, true ) );
+		error_log( 'context...' . print_r( $attributes, true ) );
 		
 		$is_mobile = jetpack_is_mobile();
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
@@ -379,15 +379,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );
 
-		// error_log(
-		// print_r(
-		// array(
-		// 'attrs'   => error_log( print_r( $attrs, true ) ),
-		// 'content' => $content,
-		// ),
-		// true 
-		// ) 
-		// );
+		error_log(
+			'checking attrs...' .
+			print_r(
+				array(
+					'attrs'         => $attrs,
+					'attributesRaw' => $attributes,
+				),
+				true 
+			) 
+		);
 
 		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered );
 		$image_slot   = false === $image_markup ? false : $image_slot; // If no image then don't show the image slot.
@@ -422,10 +423,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 			)
 		);
 
-		// Check for legacy excerpt and reformat to description.
+		// Fallback for non gutenberg story items and older story items from gutenberg.
 		if ( ( false === $content || empty( $content ) ) && ( array_key_exists( 'excerpt', $attributes ) || array_key_exists( 'extra', $attributes ) ) ) {
 			$content = $this->legacy_content( $attributes );
 		}
+
 		// Regex remove div with class 'extra' from this string if $enable_extra is false.
 		$content = ! $enable_extra ? preg_replace( '/<ul class="extra">(.*?)<\/ul>/s', '', $content ) : $content;
 		// Regex remove div with class 'description' from this string if $enable_description is false.
