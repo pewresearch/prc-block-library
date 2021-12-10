@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.2';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'ask7716b ';
+	public static $cache_invalidate   = 'hasdh10badsfkhg';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -60,7 +60,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	public function return_story_item( $args = array() ) {
-		error_log( 'return_story_item' . print_r( $args, true ) );
 		$parsed = new WP_Block_Parser_Block( 
 			'prc-block/story-item',
 			$args,
@@ -79,7 +78,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'',
 			'',
 		);
-		echo render_block( (array) $parsed );
+		echo wp_kses( render_block( (array) $parsed ), 'post' );
 	}
 
 	/**
@@ -246,6 +245,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 						'mobile'      => $is_mobile,
 						'invalidate'  => self::$cache_invalidate,
 						'experiments' => self::$experiments,
+						'version'     => self::$version,
 					) 
 				) 
 			) 
@@ -471,8 +471,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		/**
 		 * These inline html comments are necessary for a filter to wrap consecutive story items, see 'wrap_consecutive_story_items'
 		 */
+		echo '<!-- .wp-block-prc-block-story-item -->';
 		?>
-		<!-- .wp-block-prc-block-story-item -->
 		<article <?php echo $block_wrapper_attrs; ?>>
 			<?php
 			$markup = '';
@@ -497,8 +497,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 			echo wp_kses( $markup, 'post' );
 			?>
 		</article>
-		<!-- /.wp-block-prc-block-story-item -->
 		<?php
+		echo '<!-- /.wp-block-prc-block-story-item -->';
 		return ob_get_clean();
 	}
 

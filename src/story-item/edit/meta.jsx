@@ -1,33 +1,20 @@
 /**
- * External Dependencies
- */
-import { getTermsAsOptions } from '@pewresearch/app-components';
-
-/**
  * WordPress Dependencies
  */
-import { Fragment, useState, useEffect } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import { SelectControl, TextControl } from '@wordpress/components';
 
-const Meta = ({ enabled, date, label, taxonomy, setAttributes, isSelected }) => {
-    if ( 'disabled' === taxonomy || ! enabled ) {
+const Meta = ({ enabled, date, label, setAttributes, termOptions }) => {
+    if ( ! enabled ) {
         return <Fragment />;
     }
-    
-    const [labelOptions, setLabelOptions] = useState([]);
-
-    useEffect(() => {
-        getTermsAsOptions(taxonomy).then(options => {
-            setLabelOptions(options);
-        });
-    }, [taxonomy]);
 
     return (
         <div className="meta" style={{ display: 'flex', alignItems: 'center' }}>
             <div>
                 <SelectControl
                     value={label}
-                    options={labelOptions}
+                    options={termOptions}
                     onChange={l => {
                         setAttributes({ label: l });
                     }}

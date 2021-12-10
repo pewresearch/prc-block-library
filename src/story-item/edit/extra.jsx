@@ -7,20 +7,13 @@ import { RichText } from '@wordpress/block-editor';
 const Extra = ({ content, breakingNews, enabled, setAttributes }) => {
     return (
         <Fragment>
-            {false !== setAttributes && true === enabled && (
+            {true === enabled && (
                 <RichText
                     tagName="ul"
                     value={content}
                     onChange={extra => setAttributes({ extra })}
                     placeholder={content}
                     multiline="li"
-                    className="extra"
-                />
-            )}
-            {false === setAttributes && true === enabled && (
-                <RichText.Content
-                    tagName="ul"
-                    value={content}
                     className="extra"
                 />
             )}

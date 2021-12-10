@@ -2,13 +2,14 @@
  * External Dependencies
  */
 import classNames from 'classnames/bind';
+import { getTermsAsOptions } from '@pewresearch/app-components';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment, useEffect, useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { useBlockProps, useBlockPreview } from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -19,6 +20,7 @@ import Description from './description';
 import Extra from './extra';
 import Header from './header';
 import Meta from './meta';
+import Preview from './preview';
 import { getAttributesFromURL } from './helpers';
 
 /**
@@ -87,6 +89,20 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         className,
     } = getBlockAttributes(attributes, context);
 
+    const [termOptions, setTermOptions] = useState([]);
+
+    /**
+     * When the taxonomy selection changes go update the term options. Setting this here prevents the constant pop in and re-polling for terms.
+     */
+    useEffect(() => {
+        if ( 'disabled' !== metaTaxonomy ) {
+            getTermsAsOptions(metaTaxonomy).then(options => {
+                setTermOptions(options);
+            });
+            console.log('termOptions', termOptions);
+        }
+    }, [metaTaxonomy]);
+
     /**
      * Handle transform from a pewresearch.[org|local] link into a story item.
      */
@@ -134,7 +150,11 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     }
     const blockProps = useBlockProps(blockPropsArgs);
 
-    if ( !inLoop && undefined === postId ) {
+    if ( !isSelected ) {
+        return <Preview attributes={attributes} />;
+    }
+
+    if ( undefined === postId && !context.hasOwnProperty('query') ) {
         return <Placeholder attributes={attributes} setAttributes={setAttributes} blockProps={blockProps}/>
     }
 
@@ -156,16 +176,14 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                     chartArt={isChartArt}
                     postId={postId}
                     setAttributes={setAttributes}
-                    isSelected={isSelected}
                 />
 
                 <Meta
-                    enabled={enableMeta}
+                    enabled={enableMeta && 'disabled' !== metaTaxonomy}
                     date={date}
                     label={label}
-                    taxonomy={metaTaxonomy}
                     setAttributes={setAttributes}
-                    isSelected={isSelected}
+                    termOptions={termOptions}
                 />
 
                 <Header
@@ -174,7 +192,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                     size={headerSize}
                     altHeaderWeight={enableAltHeaderWeight}
                     setAttributes={setAttributes}
-                    isSelected={isSelected}
                 />
 
                 <Description
@@ -182,7 +199,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                     content={description}
                     sansSerif={!enableHeader}
                     setAttributes={setAttributes}
-                    isSelected={isSelected}
                 />
 
                 <Extra

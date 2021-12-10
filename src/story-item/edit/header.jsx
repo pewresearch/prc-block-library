@@ -6,8 +6,7 @@ import classNames from 'classnames/bind';
 /**
  * WordPress Dependencies
  */
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { SelectControl, TextControl } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 
 const Header = ({
@@ -16,16 +15,15 @@ const Header = ({
     enabled,
     setAttributes,
     altHeaderWeight,
-    isSelected,
 }) => {
     if (true !== enabled) {
         return <Fragment />;
     }
 
     const classes = classNames('header', {
-        large: (1 === size),
-        medium: (2 === size),
-        small: (3 === size),
+        large: 1 === size,
+        medium: 2 === size,
+        small: 3 === size,
         light: altHeaderWeight,
     });
 
