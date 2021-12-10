@@ -15,8 +15,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $css_handle         = false;
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.2';
-	public static $date_format        = 'M d, Y';
-	public static $cache_invalidate   = 'hasdh2167';
+	public static $date_format        = 'M j, Y';
+	public static $cache_invalidate   = 'ask7716b ';
+	public static $experiments        = array(
+		'relative_date' => false,
+	);
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -119,6 +122,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return false;
 	}
 
+	private function get_date( $date ) {
+		return gmdate( 
+			self::$date_format,
+			strtotime( $date )
+		);
+	}
+
 	/**
 	 * Given an image_size, image_slot, post_id, and post_type return an array of desktop and mobile 1x and 2x image urls.
 	 *
@@ -213,9 +223,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 				array_merge(
 					$attributes,
 					array(
-						'id'         => $post_id,
-						'mobile'     => $is_mobile,
-						'invalidate' => self::$cache_invalidate,
+						'id'          => $post_id,
+						'mobile'      => $is_mobile,
+						'invalidate'  => self::$cache_invalidate,
+						'experiments' => self::$experiments,
 					) 
 				) 
 			) 
@@ -243,10 +254,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
 		);
-		$date        = gmdate( 
-			self::$date_format,
-			strtotime( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date ) 
-		);
+		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date );
 		$url         = $this->get_url( $post_id, $post_type );
 		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $url;
 
@@ -399,7 +407,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 				)
 			),
 		);
-		if ( ! empty( $image_size ) ) {
+		if ( ! empty( $image_size ) && false !== $image_slot ) {
 			$block_wrapper_attrs['data-image-size'] = $image_size;
 		}
 		if ( array_key_exists( 'cached', $attrs ) ) {

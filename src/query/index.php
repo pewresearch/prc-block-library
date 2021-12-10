@@ -36,6 +36,7 @@ class Query_Block extends PRC_Block_Library {
 			'order'        => 'DESC',
 			'orderby'      => 'date',
 			'post__not_in' => array(),
+			'post_parent'  => 0, // Only retrieve parent posts.
 		);
 
 		if ( isset( $block['query'] ) ) {
@@ -158,9 +159,10 @@ class Query_Block extends PRC_Block_Library {
 					$id                      = get_the_ID();
 					$b['attrs']['postId']    = $id;
 					$b['attrs']['excerpt']   = get_the_excerpt( $id );
+					$b['attrs']['inLoop']    = 'list' === $block['attrs']['displayLayout']['type'];
 					$template_block          = new WP_Block( $b );
 					$template_block->context = array(
-						'inLoop' => true,
+						'inLoop' => 'list' === $block['attrs']['displayLayout']['type'],
 						'query'  => $query_args,
 					);
 				} else {

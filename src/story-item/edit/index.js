@@ -99,6 +99,8 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     }, [isTransformed]);
 
     //@TODO  If in loop we should get title, image, label, date, and description from the postId on load.
+    // Also if in loop we should disable setting any of the attributes and force the A3 left variant. 
+    // If we are in loop but have a grid display type then you can set the imageSlot, imageize, enableHeader, enableDescription,  enableMeta, metaTaxonomy attributes.
     useEffect(()=> {
         handleExcerptAndPostIdUpdate(attributes, setAttributes);
     }, []);
