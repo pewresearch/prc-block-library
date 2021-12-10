@@ -60,7 +60,6 @@ const files = [
                 './src/topic-index-condensed/pages/index.js',
             'topic-index-search-field':
                 './src/topic-index-search-field/index.js',
-            'wp-query': './src/wp-query/index.js',
         },
         optimizeForGutenberg: true,
         webpackConfig: (config, merge, appDir, isDev) => {

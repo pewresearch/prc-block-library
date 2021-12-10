@@ -23,25 +23,44 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 1 );
-			add_filter( 'prc_related_story_item', array( $this, 'return_story_item' ), 10, 1 );
+			add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
+			add_filter( 'prc_group_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
+			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
 			add_action( 'prc_loop_story_item', array( $this, 'do_story_item' ), 10, 1 );            
 			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
 	}
 
-	public function wrap_consecutive_story_items( $content ) {
+	public function wrap_consecutive_story_items( $content, $block ) {
+		$relaxed      = false;
+		$very_relaxed = false;
+		$block_name   = is_array( $block ) ? $block['blockName'] : $block->name;
+
+		if ( 'prc-block/column' === $block_name ) {
+			$relaxed = true;
+		}
+
+		$classnames = classNames(
+			'ui',
+			array(
+				'relaxed'             => $relaxed,
+				'very relaxed'        => $very_relaxed,
+				'divided story items' => true,
+			)
+		);
 		// regex search for adjacent .wp-block-prc-block-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
 		$content = preg_replace(
 			'/((?:\s*?<\!-- \.wp-block-prc-block-story-item -->.*?(?:(?!class=".*?(column|section-header).*?")\X)*?<\!-- \/\.wp-block-prc-block-story-item -->\s*?){2,})/i',
-			'<section class="ui divided relaxed story items" aria-role="feed">${1}</section>',
+			'<section class="' . $classnames . '" aria-role="feed">${1}</section>',
 			$content
 		);
+		
 		return $content;
 	}
 
 	public function return_story_item( $args = array() ) {
+		error_log( 'return_story_item' . print_r( $args, true ) );
 		$parsed = new WP_Block_Parser_Block( 
 			'prc-block/story-item',
 			$args,
@@ -348,7 +367,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 			),
 		);
 
-		// Get art?
 		$image_class = classNames(
 			'image',
 			array(
@@ -383,17 +401,17 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );
 
-		error_log(
-			'story_item -> checking attrs...' .
-			print_r(
-				array(
-					'attrs'         => $attrs,
-					'attributesRaw' => $attributes,
-					'context'       => $block->context,
-				),
-				true 
-			) 
-		);
+		// error_log(
+		// 'story_item -> checking attrs...' .
+		// print_r(
+		// array(
+		// 'attrs'         => $attrs,
+		// 'attributesRaw' => $attributes,
+		// 'context'       => $block->context,
+		// ),
+		// true 
+		// ) 
+		// );
 
 		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered );
 		$image_slot   = false === $image_markup ? false : $image_slot; // If no image then don't show the image slot.

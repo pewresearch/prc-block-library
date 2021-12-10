@@ -81,7 +81,7 @@ class Column_Block extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( classNames( $classes ) ); ?>">
-			<?php echo apply_filters( 'prc_column_block_content', $column_content ); ?>
+			<?php echo apply_filters( 'prc_column_block_content', $column_content, $block ); ?>
 		</div>
 		<?php
 		$markup = ob_get_clean();

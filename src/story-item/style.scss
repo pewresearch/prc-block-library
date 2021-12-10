@@ -4,9 +4,6 @@
 @use "../../../../themes/prc_parent/src/scss/mixins.scss" as mixins;
 @use "sass:math";
 
-/* Responsive */
-$itemSpacing: 0em 0em 1rem 0em;
-
 $mobileImageWidth: 690px;
 
 /* Header */
@@ -36,7 +33,8 @@ $extraHorizontalSpacing: 0.5rem;
 $extraRowSpacing: 0.5rem;
 $extraMargin: 1em 0 0 0;
 
-/* Relaxed */
+/* Consecutive Items */
+$itemSpacing: 0em 0em 14px 0em;
 $relaxedItemSpacing: 0 0 21px 0;
 $veryRelaxedItemSpacing: 0 0 28px 0;
 
@@ -427,17 +425,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 }
 // End .wp-block-prc-block-story-item
 
-/**
- * Misc Layout Styles:
- *
- * 1. A single story item block in a column block.
- * 2. Conescutive story items in a wp-query block.
- * 3. A single story item block inside Gutenberg editor.
- *
- *
- */
-
-// 1.
+// A mobile tweak for spacing for a single story item...
 .wp-block-prc-block-column > .wp-block-prc-block-story-item:only-child {
     @media only screen and (max-width: variables.$largestMobileScreen) {
         margin: $itemSpacing;
@@ -446,18 +434,31 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 }
 
-// 2.
-div[data-type="prc-block/wp-query"] > .item {
-    margin: $itemSpacing;
-    padding: $itemSpacing;
-    border-bottom: $dividedBorder;
+// Handle Consecutive Items in the block editor.
+.block-editor-block-list__layout {
+    & > .wp-block-prc-block-story-item:not(:last-of-type) {
+        padding: $itemSpacing;
+        margin: $itemSpacing;
+        
+        & + .story.item.bordered {
+            margin-top: -15px;
+        }
+    }
+    &.wp-block-prc-block-column > .wp-block-prc-block-story-item:not(:last-of-type) {
+        border-bottom: $dividedBorder;
+        padding: $relaxedItemSpacing;
+        margin: $relaxedItemSpacing;
+        
+        & + .story.item.bordered {
+            margin-top: -22px;
+        }
+    }
 }
-
 
 /**
  * Consecutive Story Items
  */
-
+// Keeping these .ui for the time being for backwards compatibility.
 .ui.items,
 .ui[class*="story items"] {
     & > .item,
@@ -467,6 +468,16 @@ div[data-type="prc-block/wp-query"] > .item {
 
     &.divided > .story.item:not(:last-of-type) {
         border-bottom: $dividedBorder;
+    }
+
+    & > .wp-block-prc-block-story-item > .item:not(:last-of-type),
+    & > .item:not(:last-of-type) {
+        padding: $itemSpacing;
+        margin: $itemSpacing;
+        
+        & + .story.item.bordered {
+            margin-top: -15px;
+        }
     }
 
     &.relaxed > .wp-block-prc-block-story-item > .item:not(:last-of-type),
