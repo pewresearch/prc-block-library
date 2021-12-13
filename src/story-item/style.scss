@@ -61,6 +61,79 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     background-size: $placeholderLoadingGradientWidth 100%;
 }
 
+@mixin imageSize($size) {
+    // Mobile first
+    &:not(.loaded) > picture > img {
+        @media only screen and (min-width: variables.$largestMobileScreen) {
+            @include imageLoading();
+        }
+    }
+
+    @if $size == "A1" {
+        & > picture > img,
+        & > picture > source {
+            max-width: $mobileImageWidth;
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                max-width: variables.$A1;
+            }
+        }
+        &:not(.loaded) > picture > img {
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                width: variables.$A1;
+                height: variables.$A1Height;
+            }
+        }
+    }
+
+    @if $size == "A2" {
+        & > picture > img,
+        & > picture > source {
+            max-width: $mobileImageWidth;
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                max-width: variables.$A2;
+            }
+        }
+        &:not(.loaded) > picture > img {
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                width: variables.$A2;
+                height: variables.$A2Height;
+            }
+        }
+    }
+
+    @if $size == "A3" {
+        & > picture > img,
+        & > picture > source {
+            max-width: variables.$A3Small;
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                max-width: variables.$A3;
+            }
+        }
+        &:not(.loaded) > picture > img {
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                width: variables.$A3;
+                height: variables.$A3Height;
+            }
+        }
+    }
+
+    @if $size == "A4" {
+        & > picture > img,
+        & > picture > source {
+            max-width: $mobileImageWidth;
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                max-width: variables.$A4;
+            }
+        }
+        &:not(.loaded) > picture > img {
+            @media only screen and (min-width: variables.$largestMobileScreen) {
+                width: variables.$A4;
+                height: variables.$A4Height;
+            }
+        }
+    }
+}
+
 @keyframes placeholderShimmer {
     0% {
         background-position: -$placeholderLoadingGradientWidth 0;
@@ -107,7 +180,9 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         grid-template-rows: 1fr;
     }
     
-    &.top.aligned {
+    // Mobile first, both top and bottom are the same. Bottom only gets aligned to the bottom on desktop.
+    &.top.aligned,
+    &.bottom.aligned {
         grid-template-areas:
           "image"
           "meta"
@@ -120,16 +195,19 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
     }
 
+    // On desktop make bottom aligned images actually bottom aligned
     &.bottom.aligned {
-        grid-template-areas:
+        @media only screen and (min-width: variables.$largestMobileScreen) {
+            grid-template-areas:
             "meta"
             "header"
             "description"
             "extras"
             "breakingnews"
             "image";
-        .image {
-            margin: 21px 0 0 0;
+            .image {
+                margin: 21px 0 0 0;
+            }
         }
     } 
 
@@ -215,6 +293,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             .image {
                 float: right!important;
                 padding-left: 10px!important;
+                // Force A3 image size.
+                @include imageSize("A3");
             }
             .description {
                 clear: right!important;
