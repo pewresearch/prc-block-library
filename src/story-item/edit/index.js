@@ -53,9 +53,6 @@ const getBlockAttributes = (attributes, context) => {
 
     // Convert old link attribute to url attribnute.
     attributes.url = attributes.url !== attributes.link ? attributes.link : attributes.url;
-
-    // Check if block context is in a query loop and if so set inLoop to true.
-    attributes.inLoop = context.hasOwnProperty('queryId') && context.queryId > 0 ? true : attributes.inLoop;
     
     console.log('getBlockAttributes', attributes, context);
 

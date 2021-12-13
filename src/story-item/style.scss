@@ -139,7 +139,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     display: block!important;
     .image {
         float: right!important;
-        padding-left: 10px!important;
+        padding-left: 21px!important;
         // Force A3 image size.
         @if $mobile == true {
             @include imageSize("A3");

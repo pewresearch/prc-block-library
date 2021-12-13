@@ -8,17 +8,16 @@ const variations = [
         name: 'story-item-default',
         isDefault: true,
         title: __('Story Item'),
-        description: __('The default story item'),
+        description: __('Default story item layout: top aligned A1 image.'),
         attributes: {
-            imageSlot: 'default',
+            imageSlot: 'top',
             imageSize: 'A1',
         },
     },
     {
         name: 'story-item-pub-listing',
-        title: __('Pub Listing Story Item'),
+        title: __('Pub listing Story item: left algined A3 image (right aligned A3 on mobile).'),
         attributes: {
-            className: 'is-style-left',
             imageSlot: 'left',
             imageSize: 'A3',
         },

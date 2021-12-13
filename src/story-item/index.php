@@ -273,9 +273,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
 		);
-		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date );
+		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : get_the_date( 'M j, Y', $post_id ) );
 		$url         = $this->get_url( $post_id, $post_type );
-		$url         = array_key_exists( 'link', $attributes ) ? $attributes['link'] : $url;
+		$url         = array_key_exists( 'url', $attributes ) ? $attributes['url'] : $url;
 
 		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
 		$header_size = $is_mobile && 1 !== $header_size ? 2 : $header_size;
@@ -315,7 +315,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$enable_extra                  = array_key_exists( 'enableExtra', $attributes ) ? $attributes['enableExtra'] : false;
 		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : true;
 		$enable_alt_header_weight      = array_key_exists( 'enableAltHeaderWeight', $attributes ) ? $attributes['enableAltHeaderWeight'] : false;
-		$disable_mobile_styles = array_key_exists('disableMobileStyles', $attributes) ? $attributes['disableMobileStyles'] : false;
+		$disable_mobile_styles         = array_key_exists( 'disableMobileStyles', $attributes ) ? $attributes['disableMobileStyles'] : false;
 		$enable_meta                   = array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : true;
 
 		$variables = array(
@@ -339,7 +339,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enable_extra'                  => $enable_extra,
 			'enable_header'                 => $enable_header,
 			'enable_alt_header_weight'      => $enable_alt_header_weight,
-			'disable_mobile_styles' => $disable_mobile_styles,
+			'disable_mobile_styles'         => $disable_mobile_styles,
 			'enable_meta'                   => $enable_meta,
 		);
 

@@ -22,7 +22,7 @@ const getStoryItemContentFromPostId = (postId) => {
                 description: post.excerpt.hasOwnProperty('rendered')
                     ? post.excerpt.rendered
                     : post.excerpt,
-                url: post.link,
+                url: post.url,
                 label: post.hasOwnProperty('label') ? post.label : 'Report',
                 date: post.date,
                 postId: post.id,
@@ -129,7 +129,7 @@ const setPostByURL = (url, imageSize, isRefresh, setAttributes) => {
         })
         .catch(err => {
             console.error(err);
-            setAttributes({ link: url });
+            setAttributes({ url });
         });
 };
 
