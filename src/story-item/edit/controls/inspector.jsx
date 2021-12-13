@@ -195,18 +195,22 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                     <Button
                         isDestructive
                         isBusy={isRefreshing}
-                        onClick={() =>
-                            setAttributes({
-                                title: '',
-                                excerpt: '',
-                                extra: '',
-                                link: '',
-                                label: '',
-                                date: '',
-                                image: '',
-                                postID: 0,
-                            })
-                        }
+                        onClick={() =>{
+                            refresh(true);
+                            setTimeout(() => {
+                                setAttributes({
+                                    title: '',
+                                    description: '',
+                                    extra: '',
+                                    url: '',
+                                    label: '',
+                                    date: '',
+                                    image: '',
+                                    postId: 0,
+                                });
+                                refresh(false);
+                            }, 500);
+                        }}
                         style={{ marginBottom: '1em' }}
                         text={__('Reset Story Item Block')}
                     />
