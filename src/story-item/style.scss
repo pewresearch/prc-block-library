@@ -164,9 +164,18 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
           "image breakingnews";
     }
 
-    // Right aligned needs to have widths for the images on small but the left aligned just need to be 1 column down full width?
     &.right.aligned {
         grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto;
+        @media only screen and (min-width: variables.$largestMobileScreen) {
+            grid-template-areas:
+                "meta image"
+                "header image"
+                "description image"
+                "extras image"
+                "breakingnews image";
+        }
+
         &[data-image-size="A1"] {
             grid-template-columns: 2fr variables.$A1Small;
             @media only screen and (min-width: variables.$largestMobileScreen) {
@@ -196,21 +205,22 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         &[data-image-size="XL"] {
             grid-template-columns: 2fr variables.$A1;
         }
-        grid-template-rows: auto;
-        @media only screen and (min-width: variables.$largestMobileScreen) {
-            grid-template-areas:
-                "meta image"
-                "header image"
-                "description image"
-                "extras image"
-                "breakingnews image";
-        }
     }
 
-    .meta {
-        grid-area: meta;
-        padding-bottom: 18px;
-        font-size: 12px;
+    // Mobile switch over for left and right to be right aligned in the loop.
+    &.left.aligned,
+    &.right.aligned {
+        @media only screen and (max-width: variables.$largestMobileScreen) {
+            display: block!important;
+            .image {
+                float: right!important;
+                padding-left: 10px!important;
+            }
+            .description {
+                clear: right!important;
+                padding-top: 10px!important;
+            }
+        }
     }
 
     /* Image */
@@ -304,6 +314,12 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             height: auto;
             border-radius: 0px;
         }
+    }
+
+    .meta {
+        grid-area: meta;
+        padding-bottom: 18px;
+        font-size: 12px;
     }
 
     .header {
