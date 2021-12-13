@@ -1,4 +1,9 @@
 /**
+ * External Dependencies
+ */
+import moment from 'moment';
+
+/**
  * WordPress Dependencies
  */
 import apiFetch from '@wordpress/api-fetch';

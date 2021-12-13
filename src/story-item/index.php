@@ -315,6 +315,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$enable_extra                  = array_key_exists( 'enableExtra', $attributes ) ? $attributes['enableExtra'] : false;
 		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : true;
 		$enable_alt_header_weight      = array_key_exists( 'enableAltHeaderWeight', $attributes ) ? $attributes['enableAltHeaderWeight'] : false;
+		$disable_mobile_styles = array_key_exists('disableMobileStyles', $attributes) ? $attributes['disableMobileStyles'] : false;
 		$enable_meta                   = array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : true;
 
 		$variables = array(
@@ -338,6 +339,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enable_extra'                  => $enable_extra,
 			'enable_header'                 => $enable_header,
 			'enable_alt_header_weight'      => $enable_alt_header_weight,
+			'disable_mobile_styles' => $disable_mobile_styles,
 			'enable_meta'                   => $enable_meta,
 		);
 
@@ -433,6 +435,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 		}
 		if ( ! empty( $post_id ) ) {
 			$block_wrapper_attrs['id'] = 'post-' . $post_id;
+		}
+		if ( true === $disable_mobile_styles ) {
+			$block_wrapper_attrs['data-disable-mobile-styles'] = true;
 		}
 		$block_wrapper_attrs = get_block_wrapper_attributes( $block_wrapper_attrs );
 

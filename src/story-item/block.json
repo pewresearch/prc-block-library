@@ -80,6 +80,10 @@
             "type": "boolean",
             "default": false
         },
+        "disableMobileStyles": {
+            "type": "boolean",
+            "default": false
+        },
         "enableMeta": {
             "type": "boolean",
             "default": true

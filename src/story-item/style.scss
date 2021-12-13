@@ -402,6 +402,19 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         font-size: 12px;
     }
 
+    &[data-disable-mobile-styles="true"] .header.large {
+        font-size: $headerLargeFontSize;
+        font-weight: $headerLargeFontWeight;
+        line-height: $headerLargeLineHeight;
+    }
+    .header.large {
+        @media only screen and (max-width: variables.$largestMobileScreen) {
+            font-size: $headerLargeFontSize;
+            font-weight: $headerLargeFontWeight;
+            line-height: $headerLargeLineHeight;
+        }
+    }
+
     .header {
         grid-area: header;
 
@@ -415,16 +428,12 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         -ms-word-wrap: break-word;
         word-wrap: break-word;
 
-        // .medium
+        // .medium, mobile first.
         font-size: $headerMediumFontSize;
         font-weight: $headerMediumFontWeight;
         line-height: $headerMediumLineHeight;
 
-        &.large {
-            font-size: $headerLargeFontSize;
-            font-weight: $headerLargeFontWeight;
-            line-height: $headerLargeLineHeight;
-        }
+        // Find .large above
 
         &.small {
             font-size: $headerSmallFontSize;

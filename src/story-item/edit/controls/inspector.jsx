@@ -37,6 +37,7 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
         enableExtra,
         enableBreakingNews,
         enableEmphasis,
+        disableMobileStyles,
         enableMeta,
         metaTaxonomy,
     } = attributes;
@@ -141,6 +142,18 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                 </PanelBody>
             </InspectorControls>
             <InspectorAdvancedControls>
+                <ToggleControl
+                    label={
+                        disableMobileStyles
+                            ? 'Mobile Styling Enabled'
+                            : 'Mobile Styling Disabled'
+                    }
+                    help={__('If enabled your image slot will change to right aligned (if left aligned), and top aligned (if bottom aligned). Also, large headers will switch to medium headers on mobile.')}
+                    checked={!disableMobileStyles}
+                    onChange={() => {
+                        setAttributes({ disableMobileStyles: !disableMobileStyles });
+                    }}
+                />
                 {true === enableDescription && ('right' === imageSlot || 'left' === imageSlot) && (
                     <Fragment>
                         <ToggleControl
