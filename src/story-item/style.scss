@@ -52,20 +52,16 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     rgba(255, 255, 255, 0.08) 0%,
     rgba(255, 255, 255, 0.14) 15%,
     rgba(255, 255, 255, 0.08) 30%);
-
-@mixin imageLoading() {
-    animation: placeholderShimmer $placeholderLoadingAnimationDuration linear;
-    animation-iteration-count: infinite;
-    background-color: colors.$white;
-    background-image: $placeholderLoadingGradient;
-    background-size: $placeholderLoadingGradientWidth 100%;
-}
-
+    
 @mixin imageSize($size) {
     // Mobile first
     &:not(.loaded) > picture > img {
         @media only screen and (min-width: variables.$largestMobileScreen) {
-            @include imageLoading();
+            animation: placeholderShimmer $placeholderLoadingAnimationDuration linear;
+            animation-iteration-count: infinite;
+            background-color: colors.$white;
+            background-image: $placeholderLoadingGradient;
+            background-size: $placeholderLoadingGradientWidth 100%;
         }
     }
 
@@ -79,7 +75,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
         &:not(.loaded) > picture > img {
             @media only screen and (min-width: variables.$largestMobileScreen) {
-                width: variables.$A1;
                 height: variables.$A1Height;
             }
         }
@@ -95,7 +90,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
         &:not(.loaded) > picture > img {
             @media only screen and (min-width: variables.$largestMobileScreen) {
-                width: variables.$A2;
                 height: variables.$A2Height;
             }
         }
@@ -111,7 +105,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
         &:not(.loaded) > picture > img {
             @media only screen and (min-width: variables.$largestMobileScreen) {
-                width: variables.$A3;
                 height: variables.$A3Height;
             }
         }
@@ -127,7 +120,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
         &:not(.loaded) > picture > img {
             @media only screen and (min-width: variables.$largestMobileScreen) {
-                width: variables.$A4;
                 height: variables.$A4Height;
             }
         }
@@ -317,71 +309,19 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
 
         &.A1 {
-            & > picture > img,
-            & > picture > source {
-                max-width: $mobileImageWidth;
-                @media only screen and (min-width: variables.$largestMobileScreen) {
-                    max-width: variables.$A1;
-                }
-            }
-            &:not(.loaded) > picture > img {
-                @media only screen and (min-width: variables.$largestMobileScreen) {
-                    width: variables.$A1;
-                    height: variables.$A1Height;
-                    @include imageLoading();
-                }
-            }
+            @include imageSize("A1");
         }
 
         &.A2 {
-            & > picture > img,
-            & > picture > source {
-                max-width: $mobileImageWidth;
-                @media only screen and (min-width: variables.$largestMobileScreen) {
-                    max-width: variables.$A2;
-                }
-            }
-            &:not(.loaded) > picture > img {
-                @media only screen and (min-width: variables.$largestMobileScreen) {
-                    width: variables.$A2;
-                    height: variables.$A2Height;
-                    @include imageLoading();
-                }
-            }
+            @include imageSize("A2");
         }
 
         &.A3 {
-            & > picture > img,
-            & > picture > source {
-                max-width: variables.$A3Small;
-                @media only screen and (min-width: variables.$largestMobileScreen) {
-                    max-width: variables.$A3;
-                }
-            }
-            &:not(.loaded) > picture > img {
-                @media only screen and (min-width: variables.$largestMobileScreen) {
-                    width: variables.$A3;
-                    height: variables.$A3Height;
-                    @include imageLoading();
-                }
-            }
+            @include imageSize("A3");
         }
 
         &.A4 {
-            & > picture > img,
-            & > picture > source {
-                max-width: $mobileImageWidth;
-                @media only screen and (min-width: variables.$largestMobileScreen) {
-                    max-width: variables.$A4;
-                }
-            }
-            &:not(.loaded) > picture > img {
-                @media only screen and (min-width: variables.$largestMobileScreen) {
-                    width: variables.$A4;
-                    height: variables.$A4Height;
-                    @include imageLoading();
-                }
-            }
+            @include imageSize("A4");
         }
 
         &.XL > picture > img,
