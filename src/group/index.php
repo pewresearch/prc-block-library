@@ -37,11 +37,7 @@ class Group_Block extends PRC_Block_Library {
 		
 		$this->enqueue_assets( false );
 
-		$block_wrapper_attrs = get_block_wrapper_attributes(
-			array(
-				'class' => classNames( 'wp-block-group', array_key_exists( 'className', $block['attrs'] ) ? $block['attrs']['className'] : '' ),
-			) 
-		);
+		$class_names = classNames( 'wp-block-group', array_key_exists( 'className', $block['attrs'] ) ? $block['attrs']['className'] : '' );
 
 		$group_block_content = '';
 		foreach ( $block['innerBlocks'] as $inner_block ) {
@@ -49,8 +45,8 @@ class Group_Block extends PRC_Block_Library {
 		}
 
 		return sprintf(
-			'<div %1$s>%2$s</div>',
-			$block_wrapper_attrs,
+			'<div class="%1$s">%2$s</div>',
+			$class_names,
 			apply_filters( 'prc_group_block_content', $group_block_content, $block )
 		);
 	}
