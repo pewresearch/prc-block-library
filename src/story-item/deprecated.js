@@ -32,6 +32,7 @@ const deprecated = [
         },
 
         migrate( { postID, link, excerpt, enableExcerpt, enableExcerptBelow, enableAltTaxonomy, enableMeta } ) {
+            console.log("Migrating...", { postID, link, excerpt, enableExcerpt, enableExcerptBelow, enableAltTaxonomy, enableMeta });
             const newMetaTaxonomy = enableMeta ? ( enableAltTaxonomy ? 'research-teams' : 'formats' ) : 'disabled';
             return {
                 postId: postID,

@@ -8,7 +8,7 @@ import { registerBlockType } from '@wordpress/blocks';
 /**
  * Internal dependencies
  */
-import depcreated from './deprecated';
+import deprecated from './deprecated';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
@@ -33,7 +33,7 @@ const settings = {
             isPreview: true,
         },
     },
-    depcreated,
+    deprecated,
     variations,
     transforms,
     edit,
