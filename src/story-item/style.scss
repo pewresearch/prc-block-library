@@ -408,7 +408,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         line-height: $headerLargeLineHeight;
     }
     .header.large {
-        @media only screen and (max-width: variables.$largestMobileScreen) {
+        @media only screen and (min-width: variables.$largestMobileScreen) {
             font-size: $headerLargeFontSize;
             font-weight: $headerLargeFontWeight;
             line-height: $headerLargeLineHeight;

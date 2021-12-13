@@ -144,12 +144,12 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
             <InspectorAdvancedControls>
                 <ToggleControl
                     label={
-                        disableMobileStyles
+                        !disableMobileStyles
                             ? 'Mobile Styling Enabled'
                             : 'Mobile Styling Disabled'
                     }
                     help={__('If enabled your image slot will change to right aligned (if left aligned), and top aligned (if bottom aligned). Also, large headers will switch to medium headers on mobile.')}
-                    checked={!disableMobileStyles}
+                    checked={disableMobileStyles}
                     onChange={() => {
                         setAttributes({ disableMobileStyles: !disableMobileStyles });
                     }}
