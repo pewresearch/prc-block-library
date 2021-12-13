@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import moment from 'moment';
+ import * as moment from 'moment';
 
 /**
  * WordPress Dependencies

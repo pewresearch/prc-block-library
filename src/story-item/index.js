@@ -8,6 +8,7 @@ import { registerBlockType } from '@wordpress/blocks';
 /**
  * Internal dependencies
  */
+import depcreated from './deprecated';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
@@ -18,19 +19,11 @@ import './style.scss';
 const { name } = metadata;
 
 const settings = {
-    title: __('Story Item'),
-    icon: 'format-aside',
-    description: __(
-        'A story item is a visual display of a post, usually referencing a stub post.',
-    ),
-    keywords: [__('prc'), __('story'), __('post'), __('story item')],
     example: {
         attributes: {
             title: 'Ultricies Ipsum Nibh Egestas Purus',
-            excerpt:
+            description:
                 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
-            extra: '<li></li>',
-            link: '#',
             label: 'Report',
             date: moment().format('MM-DD-YYYY'),
             image:
@@ -40,6 +33,7 @@ const settings = {
             isPreview: true,
         },
     },
+    depcreated,
     variations,
     transforms,
     edit,

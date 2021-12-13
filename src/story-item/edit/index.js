@@ -83,8 +83,9 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         metaTaxonomy,
         inLoop,
         isTransformed, // Signal to run auto lookup, this is primarily for pasting a link into the editor blindly and it auto converting to a story item.
+        isPreview,
         className,
-    } = getBlockAttributes(attributes, context);
+    } = attributes;
 
     const [termOptions, setTermOptions] = useState([]);
 
@@ -147,7 +148,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     }
     const blockProps = useBlockProps(blockPropsArgs);
 
-    if ( !isSelected ) {
+    if ( !isSelected || isPreview ) {
         return <Preview attributes={attributes} />;
     }
 

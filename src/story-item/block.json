@@ -1,7 +1,11 @@
 {
     "apiVersion": 2,
 	"name": "prc-block/story-item",
+    "title": "Story Item",
 	"category": "layout",
+    "icon": "format-aside",
+    "description": "A story item is a visual display of a post, usually referencing a stub post.",
+    "keywords": ["prc", "story", "item", "story item", "stub"],
     "usesContext": ["queryId", "query", "prc-block/column/width"],
 	"attributes": {
 		"title": {
@@ -100,25 +104,7 @@
             "type": "boolean",
             "default": false
         },
-        "postID": {
-            "type": "integer"
-        },
-        "link": {
-			"type": "string"
-        },
-        "excerpt": {
-            "type": "string",
-            "multiline": "p"
-        },
-        "enableExcerpt": {
-            "type": "boolean",
-            "default": true
-        },
-        "enableExcerptBelow": {
-            "type": "boolean",
-            "default": false
-        },
-        "enableAltTaxonomy": {
+        "isPreview": {
             "type": "boolean",
             "default": false
         }

@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.3';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'hash10bbe';
+	public static $cache_invalidate   = 'hash10burger';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -114,7 +114,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
 	 * @return string
 	 */
-	private function get_label( int $post_id, $reasearch_areas = false ) {
+	private function get_label( int $post_id, $reasearch_areas = false, $disabled = false ) {
+		if ( $disabled ) {
+			return '';
+		}
 		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
@@ -267,11 +270,12 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$post_type = $post->post_type;
 
 		// Title, image, description, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
-		$title       = array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title;
+		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
 		$description = array_key_exists( 'description', $attributes ) ? $attributes['description'] : $post->post_excerpt;
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label( 
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
+			array_key_exists( 'metaTaxonomy', $attributes ) && 'disabled' === $attributes['metaTaxonomy'] ? true : false
 		);
 		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : get_the_date( 'M j, Y', $post_id ) );
 		$url         = $this->get_url( $post_id, $post_type );
@@ -309,8 +313,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered;
 		
 		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
-		$enable_description            = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : true;
-		$enable_alt_description_layout = array_key_exists( 'enableExcerptBelow', $attributes ) ? $attributes['enableExcerptBelow'] : false;
+		$enable_description            = array_key_exists( 'enableDescription', $attributes ) ? $attributes['enableDescription'] : true;
+		$enable_alt_description_layout = array_key_exists( 'enableDescriptionBelow', $attributes ) ? $attributes['enableDescriptionBelow'] : false;
 		$enable_emphasis               = array_key_exists( 'enableEmphasis', $attributes ) ? $attributes['enableEmphasis'] : false;
 		$enable_extra                  = array_key_exists( 'enableExtra', $attributes ) ? $attributes['enableExtra'] : false;
 		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : true;
@@ -461,14 +465,14 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// Regex remove div with class 'description' from this string if $enable_description is false.
 		$content = ! $enable_description ? preg_replace( '/<div class="description">(.*?)<\/div>/s', '', $content ) : $content;
 
-		$story_item_extras = apply_filters(
+		$story_item_extras = ! array_key_exists( 'extraContent', $attributes ) ? apply_filters(
 			'prc_story_item_extra',
 			false,
 			array(
 				'post_type' => $post_type,
 				'id'        => $post_id,
 			)
-		);
+		) : $attributes['extraContent'];
 		
 		ob_start();
 		?>
@@ -497,7 +501,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 				$markup .= '<ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS RESEARCH ></a></li></ul>';
 			} 
 			if ( ! empty( $story_item_extras ) ) {
-				$markup .= $story_item_extras;
+				$markup .= '<div class="extra-content">' . $story_item_extras . '</div>';
 			}
 			echo wp_kses( $markup, 'post' );
 			?>

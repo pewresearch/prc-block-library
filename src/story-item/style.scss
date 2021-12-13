@@ -172,7 +172,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         "header"
         "description"
         "extras"
-        "breakingnews";
+        "breakingnews"
+        "extracontent";
     margin: 0;
     padding: 0;
     width: 100%;
@@ -206,7 +207,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
           "header"
           "description"
           "extras"
-          "breakingnews";
+          "breakingnews"
+          "extracontent";
         .image {
             margin: 0 0 21px 0;
         }
@@ -221,6 +223,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             "description"
             "extras"
             "breakingnews"
+            "extracontent"
             "image";
             .image {
                 margin: 21px 0 0 0;
@@ -256,7 +259,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
           "image header"
           "image description"
           "image extras"
-          "image breakingnews";
+          "image breakingnews"
+          "image extracontent";
     }
 
     &.right.aligned {
@@ -268,7 +272,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
                 "header image"
                 "description image"
                 "extras image"
-                "breakingnews image";
+                "breakingnews image"
+                "extracontent image";
         }
 
         &[data-image-size="A1"] {
@@ -525,6 +530,10 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     ul.extra-breaking-news > li,
     div.extra > * {
         margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
+    }
+
+    .extra-content {
+        grid-area: extracontent;
     }
 }
 // End .wp-block-prc-block-story-item
