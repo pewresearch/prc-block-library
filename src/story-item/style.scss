@@ -134,6 +134,23 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 }
 
+@mixin rightAlignedA3($mobile: false) {
+    @include mixins.clearfix();
+    display: block!important;
+    .image {
+        float: right!important;
+        padding-left: 10px!important;
+        // Force A3 image size.
+        @if $mobile == true {
+            @include imageSize("A3");
+        }
+    }
+    .description {
+        clear: right!important;
+        padding-top: 10px!important;
+    }
+}
+
 @keyframes placeholderShimmer {
     0% {
         background-position: -$placeholderLoadingGradientWidth 0;
@@ -267,15 +284,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             }
         }
         &[data-image-size="A3"] {
-            display: block;
-            .image {
-                float: right;
-                padding-left: 10px;
-            }
-            .description {
-                clear: right;
-                padding-top: 10px;
-            }
+            @include rightAlignedA3(false);
         }
         &[data-image-size="A4"] {
             grid-template-columns: 2fr variables.$A4;
@@ -289,17 +298,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     &.left.aligned,
     &.right.aligned {
         @media only screen and (max-width: variables.$largestMobileScreen) {
-            display: block!important;
-            .image {
-                float: right!important;
-                padding-left: 10px!important;
-                // Force A3 image size.
-                @include imageSize("A3");
-            }
-            .description {
-                clear: right!important;
-                padding-top: 10px!important;
-            }
+            @include rightAlignedA3(true);
         }
     }
 
@@ -402,7 +401,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         font-size: 12px;
     }
 
-    &[data-disable-mobile-styles="true"] .header.large {
+    &[data-disable-mobile-styles="1"] .header.large {
         font-size: $headerLargeFontSize;
         font-weight: $headerLargeFontWeight;
         line-height: $headerLargeLineHeight;
