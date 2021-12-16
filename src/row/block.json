@@ -30,6 +30,10 @@
         "textAlign": {
             "type": "string",
             "default": "left|center|right|justified"
+        },
+        "useCssGrid": {
+            "type": "boolean",
+            "default": false
         }
     },
     "parent": ["prc-block/grid"],

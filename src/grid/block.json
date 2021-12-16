@@ -3,10 +3,6 @@
 	"name": "prc-block/grid",
     "category": "layout",
     "attributes": {
-        "container": {
-            "type": "boolean",
-            "default": true
-        },
         "useCssGrid": {
             "type": "boolean",
             "default": false

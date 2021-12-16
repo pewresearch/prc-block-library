@@ -10,9 +10,10 @@ import { dropRight, times } from 'lodash';
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import { PanelBody, RangeControl, Notice } from '@wordpress/components';
+import { PanelBody, RangeControl, Notice, ToggleControl } from '@wordpress/components';
 import {
     InnerBlocks,
+    InspectorAdvancedControls,
     useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
@@ -20,7 +21,8 @@ import { useSelect } from '@wordpress/data';
 
 const ALLOWED_BLOCKS = ['prc-block/row'];
 
-const edit = ({ clientId }) => {
+const edit = ({ attributes, setAttributes, clientId }) => {
+    const { useCssGrid } = attributes;
     const { count, displayBlockAppender } = useSelect(
         select => {
             const innerBlockSelected = select('core/block-editor').hasSelectedInnerBlock(clientId);
@@ -54,6 +56,13 @@ const edit = ({ clientId }) => {
 
     return (
         <Fragment>
+            <InspectorAdvancedControls>
+                <ToggleControl
+                    label={__('Use experimental CSS Grid', 'prc-block-library')}
+                    checked={useCssGrid}
+                    onChange={() => setAttributes({ useCssGrid: !useCssGrid })}
+                />
+            </InspectorAdvancedControls>
             <div {...blockProps}>
                 <div {...innerBlocksProps} />
             </div>

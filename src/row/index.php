@@ -33,21 +33,22 @@ class Row_Block extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_row( $attributes, $content, $block ) {
-		$as_row      = array_key_exists( 'asRow', $attributes ) ? $attributes['asRow'] : false;  
-		$classnames  = array_key_exists( 'className', $attributes ) ? $attributes['className'] : null;
-		$row_classes = array_merge(
+		$use_css_grid = array_key_exists( 'useCssGrid', $attributes ) ? $attributes['useCssGrid'] : false;
+		$as_row       = array_key_exists( 'asRow', $attributes ) ? $attributes['asRow'] : false;  
+		$classnames   = array_key_exists( 'className', $attributes ) ? $attributes['className'] : null;
+		$row_classes  = array_merge(
 			array(
-				'ui',
+				'ui'                      => false === $use_css_grid,
 				'equal width'             => $attributes['equal'],
 				'divided'                 => $attributes['divided'],
 				'stackable'               => array_key_exists( 'stackable', $attributes ) ? $attributes['stackable'] : false,
-				'grid'                    => ! $as_row,
+				'grid'                    => ! $as_row && false === $use_css_grid,
 				'row'                     => $as_row,
 				'wp-block-prc-block-grid' => ! $as_row,
 			),
 			explode( ' ', $classnames )
 		);
-		$row_classes = apply_filters( 'prc_grid_row_classes', $row_classes, $block->parsed_block );
+		$row_classes  = apply_filters( 'prc_grid_row_classes', $row_classes, $block->parsed_block );
 		remove_filter( 'the_content', 'wpautop' );
 		ob_start();
 		?>

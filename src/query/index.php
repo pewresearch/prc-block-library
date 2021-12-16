@@ -185,7 +185,7 @@ class Query_Block extends PRC_Block_Library {
 			return $block_content;
 		}
 		
-		$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'wp-query' ) );
+		$classnames = classNames( 'wp-query' );
 
 		$query_template = $block['innerBlocks'];
 
@@ -205,8 +205,8 @@ class Query_Block extends PRC_Block_Library {
 		error_log( 'ENDING QUERY' );
 
 		return sprintf(
-			'<div %1$s>%2$s</div>',
-			$wrapper_attributes,
+			'<div class="%1$s">%2$s</div>',
+			$classnames,
 			$content
 		);
 	}

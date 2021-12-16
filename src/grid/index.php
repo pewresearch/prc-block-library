@@ -116,19 +116,17 @@ class Grid_Block extends PRC_Block_Library {
 	public function render_grid( $attributes, $content, $block ) {
 		$inner_blocks = $block->parsed_block['innerBlocks'];
 		$classnames   = array_key_exists( 'className', $attributes ) ? $attributes['className'] : null;
+		$use_css_grid = array_key_exists( 'useCssGrid', $attributes ) ? $attributes['useCssGrid'] : false;
 		$count        = count( $inner_blocks );
-		$classes      = array_merge(
-			array(
-				'wp-block-prc-block-grid',
-				'ui',
-				'grid',
-			),
-			explode( ' ', $classnames )
-		);
+
 		ob_start();
 		if ( $count > 1 ) {
 			$class_names = classNames(
-				$classes
+				'wp-block-prc-block-grid',
+				array(
+					'ui grid' => false === $use_css_grid,
+				),
+				explode( ' ', $classnames )
 			);
 			echo '<div class="' . esc_attr( $class_names ) . '">';
 		}
@@ -136,6 +134,7 @@ class Grid_Block extends PRC_Block_Library {
 			if ( $count > 1 ) {
 				$row_block['attrs']['asRow'] = true;
 			}
+			$row_block['attrs']['useCssGrid'] = $use_css_grid;
 			echo render_block( $row_block );
 		}
 		if ( $count > 1 ) {
@@ -151,7 +150,7 @@ class Grid_Block extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
