@@ -16,10 +16,20 @@ const variations = [
     },
     {
         name: 'story-item-pub-listing',
-        title: __('Pub listing Story item: left algined A3 image (right aligned A3 on mobile).'),
+        title: __('Pub Listing Story Item'),
+        description: __('Left algined A3 image (right aligned A3 on mobile).'),
         attributes: {
             imageSlot: 'left',
             imageSize: 'A3',
+        },
+    },
+    {
+        name: 'story-item-slim',
+        title: __('Story Item Slim'),
+        description: __('No description, no image.'),
+        attributes: {
+            imageSlot: 'disabled',
+            enableDescription: false,
         },
     },
 ];

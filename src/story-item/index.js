@@ -12,7 +12,6 @@ import deprecated from './deprecated';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
-import transforms from './transforms';
 import variations from './variations';
 import './style.scss';
 
@@ -35,7 +34,6 @@ const settings = {
     },
     deprecated,
     variations,
-    transforms,
     edit,
     save,
 };

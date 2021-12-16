@@ -35,7 +35,7 @@ import {
 /**
  * Internal Dependencies
  */
-import { setPostByStubID, setArtBySize } from '../helpers';
+import { setPostAttributes, setArtBySize } from '../helpers';
 
 // Minimum width of column to allow for left and right imageSlot.
 const COLUMN_LIMIT = 8;
@@ -66,7 +66,12 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
                             searchStyle="minimal"
                             onPickChange={ (pickedContent) => {
                                 if ( pickedContent.length > 0 && undefined !== pickedContent[0].id ) {
-                                    setPostByStubID(pickedContent[0].id, imageSize, false, setAttributes);
+                                    setPostAttributes({
+                                        postId: pickedContent[0].id,
+                                        imageSize,
+                                        isRefresh: false,
+                                        setAttributes,
+                                    });
                                 }
                             } }
                             mode={'post'}

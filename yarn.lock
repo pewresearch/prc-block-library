@@ -9241,7 +9241,7 @@ react-resize-aware@^3.1.0:
 
 react-responsive-picture@^3.2.2:
   version "3.2.2"
-  resolved "https://registry.npmjs.org/react-responsive-picture/-/react-responsive-picture-3.2.2.tgz"
+  resolved "https://registry.yarnpkg.com/react-responsive-picture/-/react-responsive-picture-3.2.2.tgz#0095ef8fe0913f1acbe5dc124a74ae0905f76fca"
   integrity sha512-vqaWBL9h7GWA/Asec+tbq3TG1LPN46i+PDeNymw2VydT3W6Z9QEjPbuJhuUmLz9q7JOaMdMwGMIRDfVDw/RTlw==
   dependencies:
     can-use-dom "0.1.0"

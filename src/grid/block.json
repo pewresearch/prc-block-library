@@ -6,6 +6,10 @@
         "container": {
             "type": "boolean",
             "default": true
+        },
+        "useCssGrid": {
+            "type": "boolean",
+            "default": false
         }
     },
     "supports": {

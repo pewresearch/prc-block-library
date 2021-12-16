@@ -21,7 +21,6 @@ import Extra from './extra';
 import Header from './header';
 import Meta from './meta';
 import Preview from './preview';
-import { getAttributesFromURL } from './helpers';
 
 /**
  * To be removed at later date:
@@ -31,6 +30,7 @@ const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
     if (!attributes.postId && attributes.postID) {
         payload.postId = attributes.postID;
     }
+    //@TODO change this to look for description and clean it up and change back to excerpt.
     if (!attributes.description && attributes.excerpt && 0 !== attributes.excerpt.length) {
         payload.description = attributes.excerpt;
     }
@@ -44,27 +44,11 @@ const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
     }
 }
 
-const getBlockAttributes = (attributes, context) => {
-    // Convert old enableExcerpt attribute to enableDescription.
-    attributes.enableDescription = attributes.enableDescription !== attributes.enableExcerpt ? attributes.enableExcerpt : attributes.enableDescription;
-
-    // Convert old enableExcerptBelow attribute to enableDescriptionBelow.
-    attributes.enableDescriptionBelow = attributes.enableDescriptionBelow !== attributes.enableExcerptBelow ? attributes.enableExcerptBelow : attributes.enableDescriptionBelow;
-
-    // Convert old link attribute to url attribnute.
-    attributes.url = attributes.url !== attributes.link ? attributes.link : attributes.url;
-    
-    console.log('getBlockAttributes', attributes, context);
-
-    return attributes;
-}
-
 const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     const {
         title,
         description,
         extra,
-        url,
         label,
         date,
         image,
@@ -82,7 +66,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         enableMeta,
         metaTaxonomy,
         inLoop,
-        isTransformed, // Signal to run auto lookup, this is primarily for pasting a link into the editor blindly and it auto converting to a story item.
         isPreview,
         className,
     } = attributes;
@@ -100,17 +83,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
             console.log('termOptions', termOptions);
         }
     }, [metaTaxonomy]);
-
-    /**
-     * Handle transform from a pewresearch.[org|local] link into a story item.
-     */
-    useEffect(()=>{
-        if ( true === isTransformed ) {
-            getAttributesFromURL(url).then(attrs => {
-                setAttributes({isTransformed: false, ...attrs});
-            });
-        }
-    }, [isTransformed]);
 
     //@TODO  If in loop we should get title, image, label, date, and description from the postId on load.
     // Also if in loop we should disable setting any of the attributes and force the A3 left variant. 

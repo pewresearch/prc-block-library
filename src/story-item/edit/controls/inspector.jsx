@@ -23,7 +23,7 @@ import {
 /**
  * Internal Dependencies
  */
-import { setPostByStubID } from '../helpers';
+import { setPostAttributes } from '../helpers';
 
 const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
     const [isRefreshing, refresh] = useState(false);
@@ -182,7 +182,12 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                             onClick={() =>{
                                 refresh(true);
                                 setTimeout(() => {
-                                    setPostByStubID(postId, imageSize, true, setAttributes);
+                                    setPostAttributes({
+                                        postId,
+                                        imageSize,
+                                        isRefresh: true,
+                                        setAttributes,
+                                    });
                                     refresh(false);
                                 }, 500);
                             }}

@@ -12,7 +12,7 @@ import { useState } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import { setPostByStubID } from '../helpers';
+import { setPostAttributes } from '../helpers';
 
 const Placeholder = ({attributes, setAttributes, blockProps}) => {
     const {imageSize} = attributes;
@@ -26,7 +26,12 @@ const Placeholder = ({attributes, setAttributes, blockProps}) => {
                 if ( pickedContent.length > 0 && undefined !== pickedContent[0].id ) {
                     console.log('Step3:', pickedContent[0]);
                     setLoadingStub(true);
-                    setPostByStubID(pickedContent[0].id, imageSize, false, setAttributes);
+                    setPostAttributes({
+                        postId: pickedContent[0].id,
+                        imageSize,
+                        isRefresh: false,
+                        setAttributes
+                    });
                 }
             }}
             onSkip={()=>{

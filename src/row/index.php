@@ -38,11 +38,12 @@ class Row_Block extends PRC_Block_Library {
 		$row_classes = array_merge(
 			array(
 				'ui',
-				'equal width' => $attributes['equal'],
-				'divided'     => $attributes['divided'],
-				'stackable'   => array_key_exists( 'stackable', $attributes ) ? $attributes['stackable'] : false,
-				'grid'        => ! $as_row,
-				'row'         => $as_row,
+				'equal width'             => $attributes['equal'],
+				'divided'                 => $attributes['divided'],
+				'stackable'               => array_key_exists( 'stackable', $attributes ) ? $attributes['stackable'] : false,
+				'grid'                    => ! $as_row,
+				'row'                     => $as_row,
+				'wp-block-prc-block-grid' => ! $as_row,
 			),
 			explode( ' ', $classnames )
 		);

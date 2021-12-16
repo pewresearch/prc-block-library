@@ -119,6 +119,7 @@ class Grid_Block extends PRC_Block_Library {
 		$count        = count( $inner_blocks );
 		$classes      = array_merge(
 			array(
+				'wp-block-prc-block-grid',
 				'ui',
 				'grid',
 			),
@@ -169,7 +170,7 @@ class Grid_Block extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/grid',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'editor_style'    => array_pop( $registered['css'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_grid' ),
 			)
 		);

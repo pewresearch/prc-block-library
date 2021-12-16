@@ -519,7 +519,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public function register_endpoints() {
 		register_rest_route(
 			'prc-api/v2',
-			'/blocks/helpers/get-post-by-url',
+			'/blocks/story-item/get-post-by-url',
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'get_stub_post_by_post_url_restfully' ),
@@ -547,6 +547,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 		} else {
 			return false;
 		}
+	}
+
+	private function get_stub_id_from_url() {
+		// if edit link post id is...
+		$post_id = 0;
+		$stub_id = false;
+		// Look for stub id for post.
 	}
 
 	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
@@ -582,6 +589,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			$slug    = basename( $url );
 			$post_id = $this->get_fact_tank_post_by_slug( $slug );
 		} else {
+			// @TODO replace this with an internal class function that can be used to get the post id from the url regardless if the link is fully formed or a edit link. 
 			$post_id = prc_get_post_id_from_url( $url );
 		}
 		if ( 0 === $post_id ) {
