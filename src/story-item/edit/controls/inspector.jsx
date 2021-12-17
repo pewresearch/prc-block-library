@@ -23,7 +23,7 @@ import {
 /**
  * Internal Dependencies
  */
-import { setPostAttributes } from '../helpers';
+import { setPostAttributes } from '../../helpers';
 
 const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
     const [isRefreshing, refresh] = useState(false);

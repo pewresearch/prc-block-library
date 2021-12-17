@@ -1,4 +1,6 @@
 <?php
+require_once PRC_VENDOR_DIR . '/autoload.php';
+
 use \WPackio as WPackio;
 
 /**
@@ -14,30 +16,38 @@ class Popular_Listing extends PRC_Block_Library {
 		}
 	}
 
+	public function register_google_analytics_endpoint() {
+
+	}
+
+	public function get_top_posts_restfully() {
+
+	}
+
 	public function render_popular_listing( $attributes, $content, $block ) {
 		$block_wrapper_attributes = get_block_wrapper_attributes();
 		$post_id                  = $attributes['postId'];
 		$title                    = $attributes['title'];
-		$args                     = array(
-			'postId'        => $post_id,
-			'postType'      => 'stub',
-			'inLoop'        => false,
-			'enableMeta'    => false,
-			'imageSlot'     => false,
-			'enableExcerpt' => false,
-			'title'         => $title,
+		$url                      = $attributes['url'];
+
+		$args = array(
+			'postId'            => $post_id,
+			'postType'          => 'stub',
+			'inLoop'            => false,
+			'enableMeta'        => false,
+			'imageSlot'         => false,
+			'enableDescription' => false,
+			'title'             => $title,
+			'title'             => $title,
+			'url'               => $url,
 		);
+
 		ob_start();
 		?>
-		<div <?php echo $block_wrapper_attributes; ?>>
-			<div class="main">
-				<span class="big-number"><?php echo ( $attributes['enableNumber'] == true ? $attributes['blockIndexAttr'] + 1 : $attributes['blockIndexAttr'] ); ?></span>
-
-				<h2 class="my-class">
-					<a href="<?php echo esc_url( $attributes['link'] ); ?>"><?php echo esc_attr( $attributes['title'] ); ?></a>
-				</h2>
-			</div>
-		</div>
+		<aside <?php echo $block_wrapper_attributes; ?>>
+			<div class="big-number"><?php echo ( $attributes['enableNumber'] == true ? $attributes['blockIndexAttr'] + 1 : $attributes['blockIndexAttr'] ); ?></div>
+			<?php echo do_action( 'prc_loop_story_item', $args ); ?>
+		</aside>
 		<?php
 		return ob_get_clean();
 	}

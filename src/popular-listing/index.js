@@ -16,8 +16,6 @@ import './style.scss';
 const { name } = metadata;
 
 const settings = {
-    title: __('PRC Popular Listing'),
-    description: 'Displays the "Most Popular" Listing .',
     edit,
     save,
 };

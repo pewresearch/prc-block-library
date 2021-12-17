@@ -1,12 +1,15 @@
 {
 	"apiVersion": 2,
 	"name": "prc-block/popular-listing",
+	"description": "A popular post, must be placed in a group block for numbers to appear.",
+	"title": "Popular Listing",
 	"category": "layout",
+	"icon": "star-filled",
 	"attributes": {
 		"title": {
             "type": "string"
         },
-		"link":{
+		"url":{
 			"type": "string"
 		},
 		"postId": {

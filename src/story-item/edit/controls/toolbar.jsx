@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { ContentPicker } from '@prc/blocks/components';
+import { ContentPicker } from '@prc/shared';
 
 /**
  * WordPress Dependencies
@@ -35,7 +35,7 @@ import {
 /**
  * Internal Dependencies
  */
-import { setPostAttributes, setArtBySize } from '../helpers';
+import { setPostAttributes, setArtBySize } from '../../helpers';
 
 // Minimum width of column to allow for left and right imageSlot.
 const COLUMN_LIMIT = 8;

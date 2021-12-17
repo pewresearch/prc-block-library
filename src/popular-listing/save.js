@@ -1,15 +1,11 @@
 /**
  * WordPress Dependencies
  */
-import { RichText } from '@wordpress/block-editor';
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 
-const save = ({ attributes }) => {
-    const { title, blockIndexAttr } = attributes;
+const save = () => {
     return (
-        <Fragment>
-            {/* {blockIndexAttr} {title && (<RichText.Content tagName="p" value={title} />)} */}
-        </Fragment>
+        <Fragment/>
     )
 };
 

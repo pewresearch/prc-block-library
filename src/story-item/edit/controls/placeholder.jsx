@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { ContentPlaceholder } from '@prc/blocks/components';
+import { ContentPlaceholder } from '@prc/shared';
 
 /**
  * WordPress Dependencies
@@ -12,7 +12,7 @@ import { useState } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import { setPostAttributes } from '../helpers';
+import { setPostAttributes } from '../../helpers';
 
 const Placeholder = ({attributes, setAttributes, blockProps}) => {
     const {imageSize} = attributes;
