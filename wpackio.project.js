@@ -1,10 +1,3 @@
-// const {
-//     getFileLoaderOptions,
-//     issuerForJsTsFiles,
-//     issuerForNonJsTsFiles,
-//     fileLoader,
-//     // eslint-disable-next-line import/no-extraneous-dependencies
-// } = require('@wpackio/scripts');
 const path = require('path');
 const blocks = require('./blocks');
 const pkg = require('./package.json');

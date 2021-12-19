@@ -1,9 +1,4 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
 
@@ -26,7 +21,7 @@ import Placeholder from './placeholder';
 const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 
     const { title, link, postId, blockIndexAttr, enableNumber } = attributes;
-    
+
     const blockProps = useBlockProps();
 
     const { blockIndex, numberEnabled } = useSelect(
@@ -45,7 +40,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
             let blockIndexID;
 
             const parentBlock = select('core/block-editor').getBlock(parentBlockId);
-
 
             if (parentBlock.name === 'core/group') {
                 //get the block index for this block

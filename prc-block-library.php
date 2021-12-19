@@ -215,19 +215,6 @@ class PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-		/** Pullquote */
-		$this->registered['block']['prc-block/pullquote'] = $enqueue->register(
-			'pullquote',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => array_merge( $block_js_deps, array( 'wp-block-editor', 'wp-blocks', 'wp-rich-text' ) ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
 	}
 
 	public function render_accordion_section( $label, $link = false, $inner_blocks ) {
@@ -286,14 +273,6 @@ class PRC_Block_Library {
 					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/mailchimp-opt-down']['css'] )['handle'] );
 					return $content;
 				},
-			)
-		);
-
-		/** Pullquote */
-		register_block_type(
-			'prc-block/pullquote',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/pullquote']['js'] )['handle'],
 			)
 		);
 	}

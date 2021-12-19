@@ -126,12 +126,6 @@ const files = [
             frontend: './src/mailchimp-opt-down/frontend.js',
         },
     },
-    {
-        name: 'pullquote',
-        entry: {
-            main: './src/pullquote/index.js',
-        },
-    },
 ];
 
 module.exports = files;
