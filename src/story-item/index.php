@@ -26,7 +26,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
 			add_filter( 'prc_group_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
 			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
-			add_action( 'prc_loop_story_item', array( $this, 'do_story_item' ), 10, 1 );            
+			add_action( 'prc_loop_story_item', array( $this, 'do_story_item' ), 10, 1 );
 			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
@@ -55,12 +55,12 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'<section class="' . $classnames . '" aria-role="feed">${1}</section>',
 			$content
 		);
-		
+
 		return $content;
 	}
 
 	public function return_story_item( $args = array() ) {
-		$parsed = new WP_Block_Parser_Block( 
+		$parsed = new WP_Block_Parser_Block(
 			'prc-block/story-item',
 			$args,
 			array(),
@@ -71,7 +71,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	public function do_story_item( $args = array() ) {
-		$parsed = new WP_Block_Parser_Block( 
+		$parsed = new WP_Block_Parser_Block(
 			'prc-block/story-item',
 			$args,
 			array(),
@@ -84,13 +84,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 	/**
 	 * Returns formatted html to match new $content method of storing the description "excerpt" and "extras"
 	 *
-	 * @param mixed $attributes 
-	 * @return void 
+	 * @param mixed $attributes
+	 * @return void
 	 */
 	public function legacy_content( $attributes ) {
 		$excerpt = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
 		$extra   = array_key_exists( 'extra', $attributes ) ? $attributes['extra'] : false;
-		
+
 		ob_start();
 		?>
 		<?php if ( false !== $excerpt ) : ?>
@@ -144,7 +144,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	private function get_date( $date ) {
-		return gmdate( 
+		return gmdate(
 			self::$date_format,
 			strtotime( $date )
 		);
@@ -153,10 +153,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 	/**
 	 * Given an image_size, image_slot, post_id, and post_type return an array of desktop and mobile 1x and 2x image urls.
 	 *
-	 * @param bool  $image_size 
-	 * @param bool  $image_slot 
-	 * @param array $args 
-	 * @return false|array 
+	 * @param bool  $image_size
+	 * @param bool  $image_slot
+	 * @param array $args
+	 * @return false|array
 	 */
 	private function get_img( $image_size = false, $image_slot = false, $args = array() ) {
 		if ( false === $image_size || false === $image_slot ) {
@@ -175,11 +175,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		// Start new art function here:
 		$imgs = false;
-		
+
 		$is_stub  = 'stub' === $post_type;
 		$art      = prc_get_art( $post_id, $image_size );
 		$image_id = false !== $art ? $art['id'] : false;
-		
+
 		if ( $is_stub && false !== $image_id ) {
 			$stub_info      = get_post_meta( $post_id, '_stub_info', true );
 			$origin_site_id = (int) $stub_info['site_id'];
@@ -229,10 +229,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	/**
 	 * Apply business logic to attributes and return as an array ready for extracting into variables.
-	 * 
-	 * @param mixed $attributes 
-	 * @param array $context 
-	 * @return mixed 
+	 *
+	 * @param mixed $attributes
+	 * @param array $context
+	 * @return mixed
 	 */
 	public function get_attributes( $attributes, $context = array() ) {
 		$is_mobile = jetpack_is_mobile();
@@ -249,9 +249,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 						'invalidate'  => self::$cache_invalidate,
 						'experiments' => self::$experiments,
 						'version'     => self::$version,
-					) 
-				) 
-			) 
+					)
+				)
+			)
 		);
 
 		$cache = get_transient( $cache_key );
@@ -272,18 +272,18 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// Title, image, description, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
 		$description = array_key_exists( 'description', $attributes ) ? $attributes['description'] : $post->post_excerpt;
-		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label( 
+		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
 			array_key_exists( 'metaTaxonomy', $attributes ) && 'disabled' === $attributes['metaTaxonomy'] ? true : false
 		);
 		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : get_the_date( 'M j, Y', $post_id ) );
 		$url         = $this->get_url( $post_id, $post_type );
-		$url         = array_key_exists( 'url', $attributes ) ? $attributes['url'] : $url;
+		$url         = array_key_exists( 'url', $attributes ) && !empty( $attributes['url'] ) ? $attributes['url'] : $url;
 
 		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
 		$header_size = $is_mobile && 1 !== $header_size ? 2 : $header_size;
-		
+
 		$image_slot = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
 		$image_slot = 'default' === $image_slot ? 'top' : $image_slot;
 		$image_slot = 'disabled' === $image_slot ? false : $image_slot;
@@ -308,10 +308,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 		);
 		// If we can not find an image set the image slot to false to disable it.
 		$image_slot = false !== $image ? $image_slot : false;
-		
+
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
 		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered;
-		
+
 		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
 		$enable_description            = array_key_exists( 'enableDescription', $attributes ) ? $attributes['enableDescription'] : true;
 		$enable_alt_description_layout = array_key_exists( 'enableDescriptionBelow', $attributes ) ? $attributes['enableDescriptionBelow'] : false;
@@ -361,12 +361,12 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		// @TODO, i would like to re-model the art-direction data model to include hidpi and small sizes for image slots.
 		$sources = array(
-			'desktop' => wp_sprintf( 
+			'desktop' => wp_sprintf(
 				'<source srcset="%s 1x, %s 2x" media="(min-width: 768px)">',
 				$image['desktop']['default'][0],
 				$image['desktop']['hidpi'][0]
 			),
-			'mobile'  => wp_sprintf( 
+			'mobile'  => wp_sprintf(
 				'<source srcset="%s 1x, %s 2x" media="(max-width: 767px)">',
 				$image['mobile']['default'][0],
 				$image['mobile']['hidpi'][0]
@@ -395,7 +395,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	/**
 	 * Renders the `prc-block/story-item` block.
-	 * 
+	 *
 	 * Classname: .wp-block-prc-block-story-item
 	 *
 	 * @param array $attributes The block attributes.
@@ -415,8 +415,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// 'attributesRaw' => $attributes,
 		// 'context'       => $block->context,
 		// ),
-		// true 
-		// ) 
+		// true
+		// )
 		// );
 
 		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered );
@@ -473,7 +473,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 				'id'        => $post_id,
 			)
 		) : $attributes['extraContent'];
-		
+
 		ob_start();
 		?>
 		<?php
@@ -499,7 +499,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			}
 			if ( $enable_breaking_news ) {
 				$markup .= '<ul class="extra-breaking-news"><li><a href="https://www.pewresearch.org/topics/coronavirus-disease-2019-covid-19/" class="kicker-breaking-news">SEE ALL CORONAVIRUS RESEARCH ></a></li></ul>';
-			} 
+			}
 			if ( ! empty( $story_item_extras ) ) {
 				$markup .= '<div class="extra-content">' . $story_item_extras . '</div>';
 			}
@@ -514,7 +514,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	/**
 	 * Get stub post information by url and return story item attributes.
 	 *
-	 * @return void 
+	 * @return void
 	 */
 	public function register_endpoints() {
 		register_rest_route(
@@ -589,7 +589,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			$slug    = basename( $url );
 			$post_id = $this->get_fact_tank_post_by_slug( $slug );
 		} else {
-			// @TODO replace this with an internal class function that can be used to get the post id from the url regardless if the link is fully formed or a edit link. 
+			// @TODO replace this with an internal class function that can be used to get the post id from the url regardless if the link is fully formed or a edit link.
 			$post_id = prc_get_post_id_from_url( $url );
 		}
 		if ( 0 === $post_id ) {
@@ -697,7 +697,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		if ( false === self::$frontend_js_handle ) {
 			self::$frontend_js_handle = array_pop( $frontend_assets['js'] )['handle'];
 		}
-		
+
 		$registered_block = register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/story-item',
 			array(
