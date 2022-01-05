@@ -16,6 +16,7 @@ const files = [
             grid: './src/grid/index.js',
             group: './src/group/index.js',
             heading: './src/heading/index.js',
+			image: './src/image/index.js',
             'mailchimp-form': './src/mailchimp-form/index.js',
             'mailchimp-select': './src/mailchimp-select/index.js',
             menu: './src/menu/index.js',

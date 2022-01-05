@@ -1,10 +1,10 @@
 /**
- * External dependencies
+ * External Dependencies
  */
 import { Accordion, Icon } from 'semantic-ui-react';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
 import { __ } from '@wordpress/i18n';
@@ -15,7 +15,7 @@ const CollapsibleBlock = ({ title, style, children, defaultOpen = false }) => {
 
     let icon = isOpen ? 'caret down' : 'caret right';
     if ('is-style-alternate' === style) {
-        icon = isOpen ? 'minus' : 'plus';
+        icon = isOpen ? 'minus circle outline' : 'plus circle outline';
     }
 
     return (

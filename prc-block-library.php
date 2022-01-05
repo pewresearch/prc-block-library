@@ -32,7 +32,7 @@ use \WPackio as WPackio;
 
 class PRC_Block_Library {
 	/**
-	 * Easily accessible variable that points to the plugin filepath. 
+	 * Easily accessible variable that points to the plugin filepath.
 	 *
 	 * @var string
 	 */
@@ -55,7 +55,7 @@ class PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_filter( 'block_categories_all', array( $this, 'register_block_categories' ), 10, 2 );
-			
+
 			// @TODO Needs to be moved into shared wpack vendor outputs.
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
 
@@ -74,6 +74,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/github-gist/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/image/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-form/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-select/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
