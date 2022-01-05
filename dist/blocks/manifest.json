@@ -39,8 +39,8 @@
   "heading.css.map": "blocks/heading-c24f58d5.css.map",
   "heading.js": "blocks/heading-ef904e95.js",
   "heading.js.map": "blocks/heading-ef904e95.js.map",
-  "image.css": "blocks/image-5b5317e6.css",
-  "image.css.map": "blocks/image-5b5317e6.css.map",
+  "image.css": "blocks/image-301c0dfb.css",
+  "image.css.map": "blocks/image-301c0dfb.css.map",
   "image.js": "blocks/image-314aab89.js",
   "image.js.map": "blocks/image-314aab89.js.map",
   "mailchimp-form.css": "blocks/mailchimp-form-77a9b9a5.css",
@@ -373,10 +373,10 @@
           "blocks/image-314aab89.js.map"
         ],
         "css": [
-          "blocks/image-5b5317e6.css"
+          "blocks/image-301c0dfb.css"
         ],
         "css.map": [
-          "blocks/image-5b5317e6.css.map"
+          "blocks/image-301c0dfb.css.map"
         ]
       }
     },

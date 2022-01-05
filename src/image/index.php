@@ -28,7 +28,6 @@ class Image extends PRC_Block_Library {
 			)
 		);
 
-		$handle = array_pop( $registered['js'] )['handle'];
 		$src = array_pop( $registered['css'] )['url'];
 
 		wp_register_style( 'wp-block-image', $src,  array(), $ver );

@@ -129,10 +129,6 @@ $alignRightMargin: 5px 0px 15px 15px;
 		margin-right: auto;
 	}
 
-	figure {
-		margin: 0 0 1em 0;
-	}
-
 	// Supply caption styles to images.
 	figcaption {
 		max-width: 640px;
@@ -149,4 +145,9 @@ $alignRightMargin: 5px 0px 15px 15px;
 		// to rectangular images. A pill-shape is better than otherwise.
 		border-radius: 9999px;
 	}
+}
+
+figure.wp-block-image,
+.wp-block-image > figure {
+	margin: 0 0 1em 0;
 }
