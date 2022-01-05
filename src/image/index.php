@@ -4,9 +4,14 @@ use \WPackio as WPackio;
 class Image extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			add_action('wp_enqueue_scripts', array( $this, 'deregister_core_style' ) );
 			add_action( 'wp_head', array($this, 'deregister_core_styles'), 1 );
 			add_action( 'wp_footer', array($this, 'deregister_core_styles'), 1 );
 		}
+	}
+
+	public function deregister_core_style() {
+		wp_deregister_style( 'wp-block-image' );
 	}
 
 	// Basing logic on how to hook in here https://github.com/WordPress/gutenberg/blob/trunk/lib/blocks.php#L284-L313.
