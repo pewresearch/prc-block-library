@@ -16,12 +16,9 @@ class Image extends PRC_Block_Library {
 		// Build an array of styles that have a path defined.
 		foreach ( $wp_styles->queue as $handle ) {
 			if ( wp_styles()->get_data( $handle, 'path' ) && file_exists( $wp_styles->registered[ $handle ]->extra['path'] ) ) {
-				do_action('qm/debug', print_r(array(
-					'handle' => $handle,
-					'src'    => $wp_styles->registered[ $handle ]->src,
-					'path'   => $wp_styles->registered[ $handle ]->extra['path'],
-					'size'   => filesize( $wp_styles->registered[ $handle ]->extra['path'] ),
-				), true) );
+				do_action('qm/debug', print_r($wp_styles->registered[ $handle ], true) );
+				// We'll need to do a wp_register_style() for this one.
+				// Then we'll need to add a new style with the same handle pointing to our own file.
 			}
 		}
 	}
