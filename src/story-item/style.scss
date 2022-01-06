@@ -137,7 +137,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             @include imageSize("A3");
         }
     }
-    .excerpt {
+    .description {
         clear: right!important;
         padding-top: 10px!important;
     }
@@ -400,7 +400,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
     }
 
-    .excerpt {
+    .description {
         grid-area: excerpt;
         margin: 10px 0 0 0;
         font-size: 16px;
@@ -414,7 +414,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
     }
 
-    .excerpt a,
+    .description a,
     .extra a {
         color: colors.$trueBlack;
         transition: color variables.$defaultDuration variables.$defaultEasing;
@@ -424,7 +424,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 
     // For when breaking news is enabled but extras are not.
-    .excerpt + ul.extra-breaking-news {
+    .description + ul.extra-breaking-news {
         margin: $extraMargin;
     }
 

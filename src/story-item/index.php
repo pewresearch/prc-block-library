@@ -94,12 +94,12 @@ class PRC_Story_Item extends PRC_Block_Library {
 		ob_start();
 		?>
 		<?php if ( false !== $excerpt ) : ?>
-			<div class="description">
+			<div class="description" data-migrated="true">
 				<?php echo wpautop( $excerpt ); ?>
 			</div>
 		<?php endif; ?>
 		<?php if ( false !== $extra ) : ?>
-			<ul class="extra">
+			<ul class="extra" data-migrated="true">
 				<?php echo $extra; ?>
 			</ul>
 		<?php endif; ?>
