@@ -16,7 +16,7 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 import {Controls, Placeholder} from './controls';
 import Image from './image';
-import excerpt from './excerpt';
+import Excerpt from './excerpt';
 import Extra from './extra';
 import Header from './header';
 import Meta from './meta';

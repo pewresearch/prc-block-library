@@ -90,16 +90,15 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public function legacy_content( $attributes ) {
 		$excerpt = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
 		$extra   = array_key_exists( 'extra', $attributes ) ? $attributes['extra'] : false;
-
 		ob_start();
 		?>
 		<?php if ( false !== $excerpt ) : ?>
-			<div class="description" data-migrated="true">
+			<div class="description migrated">
 				<?php echo wpautop( $excerpt ); ?>
 			</div>
 		<?php endif; ?>
 		<?php if ( false !== $extra ) : ?>
-			<ul class="extra" data-migrated="true">
+			<ul class="extra migrated">
 				<?php echo $extra; ?>
 			</ul>
 		<?php endif; ?>
@@ -271,7 +270,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
-		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : $post->post_excerpt;
+		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : $post->post_excerpt; // @TODO handle formerly `description` attribute.
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
