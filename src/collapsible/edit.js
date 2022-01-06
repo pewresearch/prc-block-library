@@ -57,7 +57,7 @@ const edit = ({ attributes, setAttributes }) => {
                     }}
                 >
                     <Fragment>
-                        {!style.includes('is-style-alternate') && (
+                        {style.includes('is-style-caret') && (
                             <Icon
                                 name={isOpen ? 'caret down' : 'caret right'}
                                 onClick={() => {
@@ -76,7 +76,7 @@ const edit = ({ attributes, setAttributes }) => {
                                 display: 'inline-block',
                             }}
                         />
-                        {style.includes('is-style-alternate') && (
+                        {!style.includes('is-style-caret') && (
                             <Icon
                                 name={isOpen ? 'minus' : 'plus'}
                                 style={{ marginLeft: '0.5em' }}

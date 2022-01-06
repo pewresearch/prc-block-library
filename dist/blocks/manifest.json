@@ -5,8 +5,8 @@
   "chart-builder.css.map": "blocks/chart-builder-ddf9d855.css.map",
   "chart-builder.js": "blocks/chart-builder-31636fbb.js",
   "chart-builder.js.map": "blocks/chart-builder-31636fbb.js.map",
-  "collapsible.js": "blocks/collapsible-2f3eae0b.js",
-  "collapsible.js.map": "blocks/collapsible-2f3eae0b.js.map",
+  "collapsible.js": "blocks/collapsible-c3d755da.js",
+  "collapsible.js.map": "blocks/collapsible-c3d755da.js.map",
   "column.js": "blocks/column-76eeca23.js",
   "column.js.map": "blocks/column-76eeca23.js.map",
   "cover.css": "blocks/cover-3777e6ad.css",
@@ -162,13 +162,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~promo~social-link~story-~7bcb36cf-7c9b3b75.js",
           "blocks/vendors~collapsible-f931fae5.js",
-          "blocks/collapsible-2f3eae0b.js"
+          "blocks/collapsible-c3d755da.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-select~menu-link~promo~social-link~story-~7bcb36cf-7c9b3b75.js.map",
           "blocks/vendors~collapsible-f931fae5.js.map",
-          "blocks/collapsible-2f3eae0b.js.map"
+          "blocks/collapsible-c3d755da.js.map"
         ]
       }
     },

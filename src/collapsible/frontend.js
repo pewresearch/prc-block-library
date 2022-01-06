@@ -13,9 +13,9 @@ import { useState, Fragment, RawHTML, render } from '@wordpress/element';
 const CollapsibleBlock = ({ title, style, children, defaultOpen = false }) => {
     const [isOpen, setOpen] = useState(defaultOpen);
 
-    let icon = isOpen ? 'caret down' : 'caret right';
-    if ('is-style-alternate' === style) {
-        icon = isOpen ? 'minus circle outline' : 'plus circle outline';
+    let icon = isOpen ? 'minus circle outline' : 'plus circle outline';
+    if ('is-style-caret' === style) {
+        icon = isOpen ? 'caret down' : 'caret right';
     }
 
     return (
@@ -28,7 +28,7 @@ const CollapsibleBlock = ({ title, style, children, defaultOpen = false }) => {
                 }}
             >
                 <Fragment>
-                    {'is-style-alternate' !== style && (
+                    {'is-style-caret' === style && (
                         <Icon
                             name={icon}
                             onClick={() => {
@@ -37,7 +37,7 @@ const CollapsibleBlock = ({ title, style, children, defaultOpen = false }) => {
                         />
                     )}
                     {__(title)}
-                    {'is-style-alternate' === style && (
+                    {'is-style-caret' !== style && (
                         <Icon
                             name={icon}
                             style={{ marginLeft: '0.5em' }}

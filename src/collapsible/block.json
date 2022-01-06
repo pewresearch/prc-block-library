@@ -10,13 +10,13 @@
     },
 	"styles": [
 		{
-			"name": "caret",
-			"label": "Caret Icon"
-		},
-		{
-			"name": "alternate",
+			"name": "plus",
 			"label": "Plus Icon",
 			"isDefault": true
+		},
+		{
+			"name": "caret",
+			"label": "Caret Icon"
 		}
 	],
 	"supports": {
