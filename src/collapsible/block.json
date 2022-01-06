@@ -10,15 +10,15 @@
     },
 	"styles": [
 		{
-			"name": "default",
-			"label": "Default",
-			"isDefault": true
+			"name": "caret",
+			"label": "Caret Icon"
 		},
 		{
 			"name": "alternate",
-			"label": "Plus Icon"
+			"label": "Plus Icon",
+			"isDefault": true
 		}
-	],      
+	],
 	"supports": {
 		"html": false,
 		"align" : false

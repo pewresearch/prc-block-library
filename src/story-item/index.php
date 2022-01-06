@@ -14,9 +14,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public static $css_handle         = false;
 	public static $frontend_js_handle = false;
-	public static $version            = '4.0.3';
+	public static $version            = '4.0.4';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'hash10burgerace1';
+	public static $cache_invalidate   = 'jadj219adx_129sak';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -262,6 +262,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
 
 		$post = get_post( $post_id );
+		// What should we do if no post can be found?
 
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;

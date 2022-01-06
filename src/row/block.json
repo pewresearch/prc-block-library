@@ -38,7 +38,8 @@
     },
     "parent": ["prc-block/grid"],
     "providesContext":{
-        "prc-block/row-stackable": "stackable"
+        "prc-block/row-stackable": "stackable",
+		"prc-block/row/isEqual": "equal"
     },
     "supports": {
         "html": false,

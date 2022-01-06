@@ -93,6 +93,8 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
 const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
     const { postId, url, imageSize, imageSlot, headerSize, isChartArt, title } = attributes;
 
+	console.log("Context", context);
+
     const columnWidth = undefined !== context['prc-block/column/width'] ? context['prc-block/column/width'] : false;
 
     const Icon = ({ svgPath = false, isPressed = false }) => {
