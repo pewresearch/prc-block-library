@@ -52,7 +52,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     rgba(255, 255, 255, 0.08) 0%,
     rgba(255, 255, 255, 0.14) 15%,
     rgba(255, 255, 255, 0.08) 30%);
-    
+
 @mixin imageSize($size) {
     // Mobile first
     &:not(.loaded) > picture > img {
@@ -137,7 +137,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             @include imageSize("A3");
         }
     }
-    .description {
+    .excerpt {
         clear: right!important;
         padding-top: 10px!important;
     }
@@ -162,7 +162,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         "image"
         "meta"
         "header"
-        "description"
+        "excerpt"
         "extras"
         "breakingnews"
         "extracontent";
@@ -189,7 +189,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
     }
-    
+
     // Mobile first, both top and bottom are the same. Bottom only gets aligned to the bottom on desktop.
     &.top.aligned,
     &.bottom.aligned {
@@ -197,7 +197,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
           "image"
           "meta"
           "header"
-          "description"
+          "excerpt"
           "extras"
           "breakingnews"
           "extracontent";
@@ -212,7 +212,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             grid-template-areas:
             "meta"
             "header"
-            "description"
+            "excerpt"
             "extras"
             "breakingnews"
             "extracontent"
@@ -221,7 +221,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
                 margin: 21px 0 0 0;
             }
         }
-    } 
+    }
 
     &.left,
     &.right {
@@ -249,7 +249,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         grid-template-areas:
           "image meta"
           "image header"
-          "image description"
+          "image excerpt"
           "image extras"
           "image breakingnews"
           "image extracontent";
@@ -262,7 +262,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             grid-template-areas:
                 "meta image"
                 "header image"
-                "description image"
+                "excerpt image"
                 "extras image"
                 "breakingnews image"
                 "extracontent image";
@@ -400,8 +400,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
     }
 
-    .description {
-        grid-area: description;
+    .excerpt {
+        grid-area: excerpt;
         margin: 10px 0 0 0;
         font-size: 16px;
         line-height: variables.$lineHeight;
@@ -414,7 +414,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
     }
 
-    .description a,
+    .excerpt a,
     .extra a {
         color: colors.$trueBlack;
         transition: color variables.$defaultDuration variables.$defaultEasing;
@@ -424,7 +424,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 
     // For when breaking news is enabled but extras are not.
-    .description + ul.extra-breaking-news {
+    .excerpt + ul.extra-breaking-news {
         margin: $extraMargin;
     }
 
@@ -492,7 +492,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     & > .wp-block-prc-block-story-item:not(:last-of-type) {
         padding: $itemSpacing;
         margin: $itemSpacing;
-        
+
         & + .story.item.bordered {
             margin-top: -15px;
         }
@@ -501,7 +501,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         border-bottom: $dividedBorder;
         padding: $relaxedItemSpacing;
         margin: $relaxedItemSpacing;
-        
+
         & + .story.item.bordered {
             margin-top: -22px;
         }
@@ -527,7 +527,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     & > .item:not(:last-of-type) {
         padding: $itemSpacing;
         margin: $itemSpacing;
-        
+
         & + .story.item.bordered {
             margin-top: -15px;
         }
@@ -537,12 +537,12 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     &.relaxed > .item:not(:last-of-type) {
         padding: $relaxedItemSpacing;
         margin: $relaxedItemSpacing;
-        
+
         & + .story.item.bordered {
             margin-top: -22px;
         }
     }
-    
+
     &[class*="very realxed"] > .wp-block-prc-block-story-item .item:not(:last-of-type),
     &[class*="very relaxed"] > .item:not(:last-of-type) {
         padding: $veryRelaxedItemSpacing;

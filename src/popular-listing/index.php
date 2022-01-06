@@ -64,23 +64,23 @@ class Popular_Listing extends PRC_Block_Library {
 	public function get_ga_report() {
 		// Replace with your view ID, for example XXXX.
 		$VIEW_ID = '53098246';
-	
+
 		// Create the DateRange object.
 		$dateRange = new \Google_Service_AnalyticsReporting_DateRange();
 		$dateRange->setStartDate( '7daysAgo' );
 		$dateRange->setEndDate( 'today' );
-	
+
 		// Create the Metrics object.
 		$sessions = new \Google_Service_AnalyticsReporting_Metric();
 		$sessions->setExpression( 'ga:sessions' );
 		$sessions->setAlias( 'sessions' );
-	
+
 		// Create the ReportRequest object.
 		$request = new \Google_Service_AnalyticsReporting_ReportRequest();
 		$request->setViewId( $VIEW_ID );
 		$request->setDateRanges( $dateRange );
 		$request->setMetrics( array( $sessions ) );
-	
+
 		$body = new \Google_Service_AnalyticsReporting_GetReportsRequest();
 		$body->setReportRequests( array( $request ) );
 		return $this->service->reports->batchGet( $body );
@@ -107,7 +107,7 @@ class Popular_Listing extends PRC_Block_Library {
 			'inLoop'            => false,
 			'enableMeta'        => false,
 			'imageSlot'         => false,
-			'enableDescription' => false,
+			'enableExcerpt'     => false,
 			'title'             => $title,
 			'title'             => $title,
 			'url'               => $url,
@@ -122,7 +122,7 @@ class Popular_Listing extends PRC_Block_Library {
 		<?php
 		return ob_get_clean();
 	}
-	
+
 
 	public function register_block() {
 		$js_deps       = array( 'react', 'react-dom', 'wp-element', 'wp-i18n', 'wp-polyfill' );

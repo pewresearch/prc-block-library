@@ -3,7 +3,7 @@
  */
 import classNames from 'classnames/bind';
 
-/** 
+/**
  * WordPress Dependencies
  */
 import { RichText, useBlockProps } from '@wordpress/block-editor';
@@ -20,7 +20,7 @@ const IMAGE_SIZES = {
 const Preview = ( { attributes } ) => {
     const {
         title,
-        description,
+        excerpt,
         extra,
         label,
         date,
@@ -31,8 +31,8 @@ const Preview = ( { attributes } ) => {
         headerSize,
         enableEmphasis,
         enableHeader,
-        enableDescription,
-        enableDescriptionBelow,
+        enableExcerpt,
+        enableExcerptBelow,
         enableExtra,
         enableBreakingNews,
         enableMeta,
@@ -41,7 +41,7 @@ const Preview = ( { attributes } ) => {
 
     const logicalClasses = {
         bordered: enableEmphasis,
-        'alt-description': enableDescriptionBelow,
+        'alt-excerpt': enableExcerptBelow,
     };
     if ( 'disbaled' !== imageSlot ) {
         logicalClasses[imageSlot] = true;
@@ -53,7 +53,7 @@ const Preview = ( { attributes } ) => {
     if ( 'disabled' !== imageSlot && imageSize.length > 0) {
         blockPropsArgs['data-image-size'] = imageSize;
     }
-    
+
     const blockProps = useBlockProps(blockPropsArgs);
 
     const headerClasses = classNames('header', {
@@ -63,7 +63,7 @@ const Preview = ( { attributes } ) => {
         light: false,
     });
 
-    const descriptionClasses = classNames('description');
+    const excerptClasses = classNames('excerpt');
 
     return(
         <article {...blockProps}>
@@ -72,7 +72,7 @@ const Preview = ( { attributes } ) => {
                     <span class="label">{label}</span> | <span class="date">{date}</span>
                 </div>
             )}
-            
+
             {'disabled' !== imageSlot && (
                 <div class={`image ${imageSize}`}>
                     <picture>
@@ -80,19 +80,19 @@ const Preview = ( { attributes } ) => {
                     </picture>
                 </div>
             )}
-            
+
             {enableHeader && (
                 <header class={headerClasses}>
                     {title}
                 </header>
             )}
-            
-            {enableDescription && (
+
+            {enableExcerpt && (
                 <RichText.Content
                     tagName="div"
-                    value={description}
+                    value={excerpt}
                     multiline="p"
-                    className={descriptionClasses}
+                    className={excerptClasses}
                 />
             )}
 

@@ -16,7 +16,7 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 import {Controls, Placeholder} from './controls';
 import Image from './image';
-import Description from './description';
+import excerpt from './excerpt';
 import Extra from './extra';
 import Header from './header';
 import Meta from './meta';
@@ -30,12 +30,12 @@ const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
     if (!attributes.postId && attributes.postID) {
         payload.postId = attributes.postID;
     }
-    //@TODO change this to look for description and clean it up and change back to excerpt.
-    if (!attributes.description && attributes.excerpt && 0 !== attributes.excerpt.length) {
-        payload.description = attributes.excerpt;
+    //@TODO change this to look for excerpt and clean it up and change back to excerpt.
+    if (!attributes.excerpt && attributes.excerpt && 0 !== attributes.excerpt.length) {
+        payload.excerpt = attributes.excerpt;
     }
     // Convert old attributes to new attributes.
-    // payload.enableDescription = attributes.enableExcerpt;
+    // payload.enableExcerpt = attributes.enableExcerpt;
     // payload.url = attributes.link;
 
     if ( 0 !== Object.keys(payload).length && false !== setAttributes ) {
@@ -47,7 +47,7 @@ const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
 const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     const {
         title,
-        description,
+        excerpt,
         extra,
         label,
         date,
@@ -59,8 +59,8 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         headerSize,
         enableEmphasis,
         enableHeader,
-        enableDescription,
-        enableDescriptionBelow,
+        enableExcerpt,
+        enableExcerptBelow,
         enableExtra,
         enableBreakingNews,
         enableMeta,
@@ -84,9 +84,9 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         }
     }, [metaTaxonomy]);
 
-    //@TODO  If in loop we should get title, image, label, date, and description from the postId on load.
-    // Also if in loop we should disable setting any of the attributes and force the A3 left variant. 
-    // If we are in loop but have a grid display type then you can set the imageSlot, imageize, enableHeader, enableDescription,  enableMeta, metaTaxonomy attributes.
+    //@TODO  If in loop we should get title, image, label, date, and excerpt from the postId on load.
+    // Also if in loop we should disable setting any of the attributes and force the A3 left variant.
+    // If we are in loop but have a grid display type then you can set the imageSlot, imageize, enableHeader, enableExcerpt,  enableMeta, metaTaxonomy attributes.
     useEffect(()=> {
         handleExcerptAndPostIdUpdate(attributes, setAttributes);
     }, []);
@@ -102,11 +102,11 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         [clientId],
     );
 
-    const enableAltHeaderWeight = !enableDescription;
+    const enableAltHeaderWeight = !enableExcerpt;
 
     const logicalClasses = {
         bordered: enableEmphasis,
-        'alt-description': enableDescriptionBelow,
+        'alt-excerpt': enableExcerptBelow,
     };
     if ( 'disbaled' !== imageSlot ) {
         logicalClasses[imageSlot] = true;
@@ -164,9 +164,9 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
                     setAttributes={setAttributes}
                 />
 
-                <Description
-                    enabled={enableDescription}
-                    content={description}
+                <Excerpt
+                    enabled={enableExcerpt}
+                    content={excerpt}
                     sansSerif={!enableHeader}
                     setAttributes={setAttributes}
                 />

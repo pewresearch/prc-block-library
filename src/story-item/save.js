@@ -6,10 +6,10 @@ import { Fragment } from '@wordpress/element';
 
 /** Returns a server side block callback */
 const save = ({ attributes }) => {
-    const { description, extra } = attributes;
+    const { excerpt, extra } = attributes;
     return(
         <Fragment>
-            { description && (<RichText.Content className="description" tagName="div" value={description}/>) }
+            { excerpt && (<RichText.Content className="description" tagName="div" value={excerpt}/>) }
             { extra && (<RichText.Content className="extra" tagName="ul" value={extra}/>) }
         </Fragment>
     );

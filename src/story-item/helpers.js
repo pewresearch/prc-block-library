@@ -31,10 +31,10 @@ const setArtBySize = (imageSize, postId, setAttributes) => {
 /**
  * Converts a post object to attributes for a story item.
  * @TODO Have moment clean up the date data.
- * @param {*} post 
- * @param {*} imageSize 
- * @param {*} isRefresh 
- * @returns 
+ * @param {*} post
+ * @param {*} imageSize
+ * @param {*} isRefresh
+ * @returns
  */
 const getAttributesFromPost = (opts) => {
     const {
@@ -52,7 +52,7 @@ const getAttributesFromPost = (opts) => {
             ? post.title.rendered
             : post.title,
         // @TODO change back to excerpt everywhere, write a deprecation transition for that and excerptBelow?
-        description: post.excerpt.hasOwnProperty('rendered')
+        excerpt: post.excerpt.hasOwnProperty('rendered')
             ? post.excerpt.rendered
             : post.excerpt,
         url: post.link, // @TODO where is this `link` coming from, why is it not url or permalink.
@@ -72,7 +72,7 @@ const getAttributesFromPost = (opts) => {
     }
 
     console.log('getAttributesFromPost', post, storyItem);
-    
+
     return storyItem;
 };
 
@@ -111,12 +111,12 @@ const getAttributesFromURL = (opts) => {
 /**
  * Get the attributes for a stub, then throw a warning that a stub can not be found.
  * @TODO allow searching by post id OR url, if its by url use the above function. We need to cehck for a url and then use getAttributesFromURL.
- * 
- * @param {*} postId 
- * @param {*} imageSize 
- * @param {*} isRefresh 
- * @param {*} setAttributes 
- * @returns 
+ *
+ * @param {*} postId
+ * @param {*} imageSize
+ * @param {*} isRefresh
+ * @param {*} setAttributes
+ * @returns
  */
 const setPostAttributes = (options) => {
     const {

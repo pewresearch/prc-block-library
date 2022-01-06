@@ -21,7 +21,7 @@ const settings = {
     example: {
         attributes: {
             title: 'Ultricies Ipsum Nibh Egestas Purus',
-            description:
+            excerpt:
                 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
             label: 'Report',
             date: moment().format('MM-DD-YYYY'),

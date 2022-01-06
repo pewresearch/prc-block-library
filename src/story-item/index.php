@@ -82,7 +82,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	/**
-	 * Returns formatted html to match new $content method of storing the description "excerpt" and "extras"
+	 * Returns formatted html to match new $content method of storing the excerpt "excerpt" and "extras"
 	 *
 	 * @param mixed $attributes
 	 * @return void
@@ -269,9 +269,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		$post_type = $post->post_type;
 
-		// Title, image, description, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
+		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
-		$description = array_key_exists( 'description', $attributes ) ? $attributes['description'] : $post->post_excerpt;
+		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : $post->post_excerpt;
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
@@ -313,8 +313,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered;
 
 		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
-		$enable_description            = array_key_exists( 'enableDescription', $attributes ) ? $attributes['enableDescription'] : true;
-		$enable_alt_description_layout = array_key_exists( 'enableDescriptionBelow', $attributes ) ? $attributes['enableDescriptionBelow'] : false;
+		$enable_excerpt                = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : true;
+		$enable_alt_excerpt_layout     = array_key_exists( 'enableExcerptBelow', $attributes ) ? $attributes['enableExcerptBelow'] : false;
 		$enable_emphasis               = array_key_exists( 'enableEmphasis', $attributes ) ? $attributes['enableEmphasis'] : false;
 		$enable_extra                  = array_key_exists( 'enableExtra', $attributes ) ? $attributes['enableExtra'] : false;
 		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : true;
@@ -326,7 +326,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'post_id'                       => $post_id,
 			'post_type'                     => $post_type,
 			'title'                         => $title,
-			'description'                   => $description,
+			'excerpt'                       => $excerpt,
 			'label'                         => $label,
 			'date'                          => $date,
 			'url'                           => $url,
@@ -337,8 +337,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'is_in_loop'                    => $is_in_loop,
 			'header_size'                   => $header_size,
 			'enable_breaking_news'          => $enable_breaking_news,
-			'enable_description'            => $enable_description,
-			'enable_alt_description_layout' => $enable_alt_description_layout,
+			'enable_excerpt'                => $enable_excerpt,
+			'enable_alt_excerpt_layout'     => $enable_alt_excerpt_layout,
 			'enable_emphasis'               => $enable_emphasis,
 			'enable_extra'                  => $enable_extra,
 			'enable_header'                 => $enable_header,
@@ -451,7 +451,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 				'large'  => 1 === $header_size,
 				'medium' => 2 === $header_size,
 				'small'  => 3 === $header_size,
-				'light'  => $enable_alt_header_weight || ! $enable_description,
+				'light'  => $enable_alt_header_weight || ! $enable_excerpt,
 			)
 		);
 
@@ -462,8 +462,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		// Regex remove div with class 'extra' from this string if $enable_extra is false.
 		$content = ! $enable_extra ? preg_replace( '/<ul class="extra">(.*?)<\/ul>/s', '', $content ) : $content;
-		// Regex remove div with class 'description' from this string if $enable_description is false.
-		$content = ! $enable_description ? preg_replace( '/<div class="description">(.*?)<\/div>/s', '', $content ) : $content;
+		// Regex remove div with class 'description' from this string if $enable_excerpt is false.
+		$content = ! $enable_excerpt ? preg_replace( '/<div class="description">(.*?)<\/div>/s', '', $content ) : $content;
 
 		$story_item_extras = ! array_key_exists( 'extraContent', $attributes ) ? apply_filters(
 			'prc_story_item_extra',

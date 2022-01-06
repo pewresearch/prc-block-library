@@ -9,23 +9,23 @@ import classNames from 'classnames/bind';
 import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 
-const Description = ({ content, sansSerif, enabled, setAttributes }) => {
+const Excerpt = ({ content, sansSerif, enabled, setAttributes }) => {
     if (true !== enabled) {
         return <Fragment />;
     }
 
-    const classes = classNames('description', { 'sans-serif': sansSerif });
+    const classes = classNames('excerpt', { 'sans-serif': sansSerif });
 
     return (
         <RichText
             tagName="div"
             value={content}
-            onChange={description => setAttributes({ description })}
-            placeholder="Story item description..."
+            onChange={excerpt => setAttributes({ excerpt })}
+            placeholder="Story item excerpt..."
             multiline="p"
             className={classes}
         />
     );
 };
 
-export default Description;
+export default Excerpt;

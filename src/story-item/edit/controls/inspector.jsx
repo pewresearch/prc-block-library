@@ -32,8 +32,8 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
         imageSize,
         imageSlot,
         enableHeader,
-        enableDescription,
-        enableDescriptionBelow,
+        enableExcerpt,
+        enableExcerptBelow,
         enableExtra,
         enableBreakingNews,
         enableEmphasis,
@@ -73,11 +73,11 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                         />
                         <ToggleControl
                             label={
-                                enableDescription ? 'Description Enabled' : 'Description Disabled'
+                                enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled'
                             }
-                            checked={enableDescription}
+                            checked={enableExcerpt}
                             onChange={() => {
-                                setAttributes({ enableDescription: !enableDescription });
+                                setAttributes({ enableExcerpt: !enableExcerpt });
                             }}
                         />
                         <ToggleControl
@@ -124,9 +124,9 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                             }}
                         />
                     </BaseControl>
-                    
+
                     <CardDivider/>
-                    
+
                     <SelectControl
                         label="Select Taxonomy To Display"
                         value={ metaTaxonomy }
@@ -154,19 +154,19 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                         setAttributes({ disableMobileStyles: !disableMobileStyles });
                     }}
                 />
-                {true === enableDescription && ('right' === imageSlot || 'left' === imageSlot) && (
+                {true === enableExcerpt && ('right' === imageSlot || 'left' === imageSlot) && (
                     <Fragment>
                         <ToggleControl
                             label={
-                                enableDescriptionBelow
-                                    ? 'Description Will Appear Below Image'
-                                    : 'Description Will Appear Normally'
+                                enableExcerptBelow
+                                    ? 'Excerpt Will Appear Below Image'
+                                    : 'Excerpt Will Appear Normally'
                             }
-                            help={__('If you have descriptions enabled and a right or left image slot you can force the description to appear below an image.')}
-                            checked={enableDescriptionBelow}
+                            help={__('If you have excerpts enabled and a right or left image slot you can force the excerpt to appear below an image.')}
+                            checked={enableExcerptBelow}
                             onChange={() => {
                                 setAttributes({
-                                    enableDescriptionBelow: !enableDescriptionBelow,
+                                    enableExcerptBelow: !enableExcerptBelow,
                                 });
                             }}
                         />
@@ -205,7 +205,7 @@ const Inspector = ({ attributes, setAttributes, context, rootClientId }) => {
                             setTimeout(() => {
                                 setAttributes({
                                     title: '',
-                                    description: '',
+                                    excerpt: '',
                                     extra: '',
                                     url: '',
                                     label: '',

@@ -37,9 +37,9 @@ const deprecated = [
             return {
                 postId: postID,
                 url: link,
-                description: excerpt,
-                enableDescription: enableExcerpt,
-                enableDescriptionBelow: enableExcerptBelow,
+                excerpt: excerpt,
+                enableExcerpt: enableExcerpt,
+                enableExcerptBelow: enableExcerptBelow,
                 metaTaxonomy: newMetaTaxonomy,
             };
         },
@@ -47,7 +47,7 @@ const deprecated = [
         save( props ) {
             return (
                 <Fragment>
-                    { 0 !== props.excerpt.length && (<RichText.Content className="description" tagName="div" value={props.excerpt}/>) }
+                    { 0 !== props.excerpt.length && (<RichText.Content className="excerpt" tagName="div" value={props.excerpt}/>) }
                 </Fragment>
             );
         },

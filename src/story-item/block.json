@@ -11,7 +11,7 @@
 		"title": {
 			"type": "string"
         },
-        "description": {
+        "excerpt": {
             "type": "string",
             "source": "html",
             "multiline": "p",
@@ -68,11 +68,11 @@
             "type": "boolean",
             "default": true
         },
-        "enableDescription": {
+        "enableExcerpt": {
             "type": "boolean",
             "default": true
         },
-        "enableDescriptionBelow": {
+        "enableExcerptBelow": {
             "type": "boolean",
             "default": false
         },
