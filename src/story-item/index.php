@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.4';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'jadj219adx_129sak';
+	public static $cache_invalidate   = 'asdf812had';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -26,7 +26,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
 			add_filter( 'prc_group_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
 			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
-			add_action( 'prc_loop_story_item', array( $this, 'do_story_item' ), 10, 1 );
+			add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
 			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
@@ -36,6 +36,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$relaxed      = false;
 		$very_relaxed = false;
 		$block_name   = is_array( $block ) ? $block['blockName'] : $block->name;
+		error_log('----');
+		error_log('wrap_consecutive_story_items: ' . $block_name);
+		error_log(print_r($content, true));
 
 		if ( 'prc-block/column' === $block_name ) {
 			$relaxed = true;
@@ -55,6 +58,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'<section class="' . $classnames . '" aria-role="feed">${1}</section>',
 			$content
 		);
+		error_log(print_r($content, true));
 
 		return $content;
 	}
@@ -347,6 +351,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 			'enable_meta'                   => $enable_meta,
 		);
 
+		wp_reset_postdata();
+
 		if ( ! is_preview() ) {
 			set_transient( $cache_key, $variables, 30 * MINUTE_IN_SECONDS );
 		}
@@ -406,18 +412,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// Format and extract the attributes into variables.
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );
-
-		// error_log(
-		// 'story_item -> checking attrs...' .
-		// print_r(
-		// array(
-		// 'attrs'         => $attrs,
-		// 'attributesRaw' => $attributes,
-		// 'context'       => $block->context,
-		// ),
-		// true
-		// )
-		// );
 
 		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered );
 		$image_slot   = false === $image_markup ? false : $image_slot; // If no image then don't show the image slot.

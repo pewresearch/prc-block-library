@@ -117,7 +117,7 @@ class Popular_Listing extends PRC_Block_Library {
 		?>
 		<aside <?php echo $block_wrapper_attributes; ?>>
 			<div class="big-number"><?php echo ( $attributes['enableNumber'] == true ? $attributes['blockIndexAttr'] + 1 : $attributes['blockIndexAttr'] ); ?></div>
-			<?php echo do_action( 'prc_loop_story_item', $args ); ?>
+			<?php echo do_action( 'prc_do_story_item', $args ); ?>
 		</aside>
 		<?php
 		return ob_get_clean();
