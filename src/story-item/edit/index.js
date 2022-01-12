@@ -21,6 +21,7 @@ import Extra from './extra';
 import Header from './header';
 import Meta from './meta';
 import Preview from './preview';
+import { setPostAttributes } from '../helpers';
 
 /**
  * To be removed at later date:
@@ -90,6 +91,18 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     useEffect(()=> {
         handleExcerptAndPostIdUpdate(attributes, setAttributes);
     }, []);
+
+	// For posts inside a query block if we have a post id then go fetch the post and set attributes.
+	useEffect(() => {
+		if ( context.hasOwnProperty('query') && context.hasOwnProperty('postId') && !Number.isInteger(postId) ) {
+			// setPostAttributes({
+			// 	postId: context.postId,
+			// 	imageSize,
+			// 	isRefresh: false,
+			// 	setAttributes,
+			// });
+		}
+	}, [context]);
 
     const { rootClientId } = useSelect(
         select => {

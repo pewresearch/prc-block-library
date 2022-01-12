@@ -6,7 +6,7 @@
     "icon": "format-aside",
     "description": "A story item is a visual display of a post, usually referencing a stub post.",
     "keywords": ["prc", "story", "item", "story item", "stub"],
-    "usesContext": ["queryId", "query", "prc-block/column/width", "prc-block/row/isEqual"],
+    "usesContext": ["queryId", "query", "postId", "postType", "prc-block/column/width", "prc-block/row/isEqual"],
 	"attributes": {
 		"title": {
 			"type": "string"
