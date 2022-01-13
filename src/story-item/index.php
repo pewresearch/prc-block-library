@@ -288,6 +288,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
 		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : $post->post_excerpt; // @TODO handle formerly `description` attribute.
+		// How can we get label, date, and url from the post if it is a stub and this site is not site id 1. How can we tell something is a stub before hand??? We could assume always is stub unless otherwise specified?
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
