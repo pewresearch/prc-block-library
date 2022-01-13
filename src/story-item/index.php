@@ -124,7 +124,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
 	 * @return string
 	 */
-	private function get_label( int $post_id, $reasearch_areas = false, $disabled = false ) {
+	private function get_label( int $post_id, $post_type = false, $reasearch_areas = false, $disabled = false ) {
 		do_action("qm/debug", "get_label... " . $post_id );
 		if ( $disabled ) {
 			return '';
@@ -277,6 +277,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
 
 		$post = get_post( $post_id );
+		do_action('qm/debug', 'prc_get_attributes' . print_r(array(
+			'post' => $post,
+			'post_id' => $post_id,
+		), true));
 		// What should we do if no post can be found?
 
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
@@ -292,7 +296,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
 			array_key_exists( 'metaTaxonomy', $attributes ) && 'disabled' === $attributes['metaTaxonomy'] ? true : false
 		);
-		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : get_the_date( 'M j, Y', $post_id ) );
+		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date );
 		$url         = $this->get_url( $post_id, $post_type );
 		$url         = array_key_exists( 'url', $attributes ) && !empty( $attributes['url'] ) ? $attributes['url'] : $url;
 
