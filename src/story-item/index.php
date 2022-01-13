@@ -129,7 +129,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			return '';
 		}
 		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
-		do_action("qm/debug", "get_label" . print_r(array('terms' => $terms, 'post_id' => $post_id)));
+		do_action("qm/debug", "get_label" . print_r(array('terms' => $terms, 'post_id' => $post_id), true) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
 		}
