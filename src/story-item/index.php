@@ -124,14 +124,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
 	 * @return string
 	 */
-	private function get_label( int $post_id, $post_type = false, $reasearch_areas = false, $disabled = false ) {
-		do_action("qm/debug", "get_label... " . $post_id );
+	private function get_label( int $post_id, $reasearch_areas = false, $disabled = false ) {
 		if ( $disabled ) {
 			return '';
 		}
-		switch_to_blog(1);
 		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
-		restore_current_blog();
 		do_action("qm/debug", "get_label" . print_r(array('terms' => $terms, 'post_id' => $post_id), true) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
