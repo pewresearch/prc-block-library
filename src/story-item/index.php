@@ -129,6 +129,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 			return '';
 		}
 		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
+		do_action("qm/debug", "get_label" . print_r(array('terms' => $terms, 'post_id' => $post_id)));
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
 		}
@@ -517,6 +518,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 *
 	 * @return void
 	 */
+	// @TODO remove this, its not being used. Favor the more generic -> utils/get-post-by-url
 	public function register_endpoints() {
 		register_rest_route(
 			'prc-api/v2',
@@ -591,7 +593,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 			$post_id = $this->get_fact_tank_post_by_slug( $slug );
 		} else {
 			// @TODO replace this with an internal class function that can be used to get the post id from the url regardless if the link is fully formed or a edit link.
-			$post_id = prc_get_post_id_from_url( $url );
+			// $post_id = prc_get_post_id_from_url( $url );
+			$post_id = 0;
 		}
 		if ( 0 === $post_id ) {
 			return new WP_Error(

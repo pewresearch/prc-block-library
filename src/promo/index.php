@@ -11,6 +11,8 @@ use \WPackio as WPackio;
  */
 
 class Promo extends PRC_Block_Library {
+	public static $version = '1.0.0';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -27,7 +29,7 @@ class Promo extends PRC_Block_Library {
 				'list_id'     => '7c1390ba46',
 				'headline'    => 'Sign up for our Weekly newsletter',
 				'subheadline' => 'Fresh data delivered Saturday mornings',
-			) 
+			)
 		);
 		ob_start();
 		?>
@@ -65,7 +67,7 @@ class Promo extends PRC_Block_Library {
 						'has-large-icon'      => 'alexa' === $attributes['icon'],
 						'has-form'            => $attributes['hasForm'],
 						'has-dark-background' => $has_dark_bg,
-					) 
+					)
 				),
 				'style' => 'border-color: ' . $attributes['borderColor'] . '; background-color: ' . $attributes['backgroundColor'],
 			)
@@ -87,8 +89,7 @@ class Promo extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-block-editor', 'wp-data', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
@@ -96,7 +97,7 @@ class Promo extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $block_editor_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

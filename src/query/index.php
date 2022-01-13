@@ -5,7 +5,7 @@ use \WPackio as WPackio;
 
 /**
  * This code involves a lot of hijacking of the query block and its internal processes and should only be touched by someone well versed in the WordPress Core and Gutenberg development and source code.
- * 
+ *
  * @package prc-block-library
  */
 
@@ -112,12 +112,11 @@ class Query_Block extends PRC_Block_Library {
 	}
 
 	public function post_template_block( $block ) {
-		error_log( 'post_template_block' . print_r( $block, true ) );
 		$page_key = isset( $block['queryId'] ) ? 'query-' . $block['queryId'] . '-page' : 'query-page';
 		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 
 		$query_args = $this->build_query_vars_from_attributes( $block['attrs'], $page );
-		
+
 		// Override the custom query with the global query if needed.
 		$use_global_query = ( isset( $block['query']['inherit'] ) && $block['query']['inherit'] );
 		if ( $use_global_query ) {
@@ -134,6 +133,8 @@ class Query_Block extends PRC_Block_Library {
 			}
 		}
 
+		$display_layout = array_key_exists('displayLayout', $block['attrs']) && array_key_exists('type', $block['attrs']['displayLayout']) ? $block['attrs']['displayLayout']['type'] : false;
+
 		$query = new WP_Query( $query_args );
 
 		if ( ! $query->have_posts() ) {
@@ -141,12 +142,14 @@ class Query_Block extends PRC_Block_Library {
 		}
 
 		$wrapper_attributes = array( 'class' => 'ui divided relaxed story items' );
-		if ( isset( $block['attrs']['displayLayout'] ) ) {
-			if ( isset( $block['attrs']['displayLayout']['type'] ) && 'flex' === $block['attrs']['displayLayout']['type'] ) {
-				$wrapper_attributes['data-columns'] = $block['attrs']['displayLayout']['columns'];
-			}
+		if ( false !== $display_layout && 'flex' === $display_layout ) {
+			$wrapper_attributes['data-columns'] = $block['attrs']['displayLayout']['columns'];
 		}
-		$wrapper_attributes = get_block_wrapper_attributes( $wrapper_attributes );
+
+		$normalized_attributes = array();
+		foreach ( $wrapper_attributes as $key => $value ) {
+			$normalized_attributes[] = $key . '="' . esc_attr( $value ) . '"';
+		}
 
 		$block_template = $block['innerBlocks'];
 
@@ -159,10 +162,10 @@ class Query_Block extends PRC_Block_Library {
 					$id                      = get_the_ID();
 					$b['attrs']['postId']    = $id;
 					$b['attrs']['excerpt']   = get_the_excerpt( $id );
-					$b['attrs']['inLoop']    = 'list' === $block['attrs']['displayLayout']['type'];
+					$b['attrs']['inLoop']    = 'list' === $display_layout;
 					$template_block          = new WP_Block( $b );
 					$template_block->context = array(
-						'inLoop' => 'list' === $block['attrs']['displayLayout']['type'],
+						'inLoop' => 'list' === $display_layout,
 						'query'  => $query_args,
 					);
 				} else {
@@ -175,7 +178,7 @@ class Query_Block extends PRC_Block_Library {
 
 		return sprintf(
 			'<section %1$s>%2$s</section>',
-			$wrapper_attributes,
+			implode( ' ', $normalized_attributes ),
 			$content
 		);
 	}
@@ -184,7 +187,7 @@ class Query_Block extends PRC_Block_Library {
 		if ( 'core/query' !== $block['blockName'] ) {
 			return $block_content;
 		}
-		
+
 		$classnames = classNames( 'wp-query' );
 
 		$query_template = $block['innerBlocks'];

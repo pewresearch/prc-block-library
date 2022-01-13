@@ -12,6 +12,16 @@ $headingColorLight: #2A2A2A;
 $subHeadingColorLight: #565656;
 $subHeadingLineHeight: 18px;
 
+// Disable margin-top on the first block and margin-bottom on the last block when inside a column block.
+.wp-block-prc-block-grid .column > .wp-block-prc-block-promo {
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
 
 .wp-block-prc-block-promo {
   padding: $padding;
@@ -20,14 +30,6 @@ $subHeadingLineHeight: 18px;
 
   border: 1px solid transparent;
   font-size: $fontSize;
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 
   &.has-dark-background {
     .heading {
@@ -91,7 +93,7 @@ $subHeadingLineHeight: 18px;
       font-size: 15px;
       padding: .56em 1em;
     }
-  }    
+  }
 
   // Convert everything to stacking on mobile.
   @media screen and (max-width: 760px) {
@@ -103,7 +105,7 @@ $subHeadingLineHeight: 18px;
         'action'!important;
       justify-content: center;
       grid-template-columns: minmax(320px, 475px)!important;
-      
+
       .wp-block-prc-block-promo__text {
         padding-bottom: 7px;
       }
@@ -114,7 +116,7 @@ $subHeadingLineHeight: 18px;
       }
     }
   }
-  
+
   .heading,
   p,
   .fields,
@@ -203,7 +205,7 @@ $subHeadingLineHeight: 18px;
 .wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .four.wide.column > .wp-block-prc-block-promo:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container,
 .wp-block-prc-block-promo.one-column-width:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container {
-  grid-template-areas: 
+  grid-template-areas:
   'icon'
   'text'
   'action'!important;
