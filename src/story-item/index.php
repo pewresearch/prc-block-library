@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.4';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'asdf812had';
+	public static $cache_invalidate   = '82712nasdfh';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
