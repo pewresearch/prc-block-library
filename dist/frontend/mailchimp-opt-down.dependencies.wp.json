@@ -1,0 +1,17 @@
+{
+  "dependencies": [
+    "react",
+    "react-dom",
+    "wp-api-fetch",
+    "wp-block-editor",
+    "wp-blocks",
+    "wp-components",
+    "wp-compose",
+    "wp-data",
+    "wp-element",
+    "wp-i18n",
+    "wp-keycodes",
+    "wp-url"
+  ],
+  "version": "2b55dace97aaadeac9d5396d0e58c277"
+}

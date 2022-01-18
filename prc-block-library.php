@@ -76,6 +76,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/image/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-form/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-opt-down/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-select/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
@@ -189,33 +190,7 @@ class PRC_Block_Library {
 				'in_footer' => true,
 				'media'     => 'all',
 			)
-		);
-
-		/** Mailchimp Opt Down Special Form */
-		$this->registered['block']['prc-block/mailchimp-opt-down']    = $enqueue->register(
-			'mailchimp-opt-down',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-		$this->registered['frontend']['prc-block/mailchimp-opt-down'] = $enqueue->register(
-			'mailchimp-opt-down',
-			'frontend',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
+			);
 	}
 
 	public function render_accordion_section( $label, $link = false, $inner_blocks ) {
@@ -261,19 +236,6 @@ class PRC_Block_Library {
 			'prc-block/chapter',
 			array(
 				'editor_script' => array_pop( $this->registered['block']['prc-block/chapter']['js'] )['handle'],
-			)
-		);
-
-		/** Mailchimp Opt Down Special Form */
-		register_block_type(
-			'prc-block/mailchimp-opt-down',
-			array(
-				'editor_script'   => array_pop( $this->registered['block']['prc-block/mailchimp-opt-down']['js'] )['handle'],
-				'render_callback' => function( $attributes, $content, $block ) {
-					wp_enqueue_script( array_pop( $this->registered['frontend']['prc-block/mailchimp-opt-down']['js'] )['handle'] );
-					wp_enqueue_style( array_pop( $this->registered['frontend']['prc-block/mailchimp-opt-down']['css'] )['handle'] );
-					return $content;
-				},
 			)
 		);
 	}

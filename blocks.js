@@ -18,6 +18,7 @@ const files = [
             heading: './src/heading/index.js',
 			image: './src/image/index.js',
             'mailchimp-form': './src/mailchimp-form/index.js',
+			'mailchimp-opt-down': './src/mailchimp-opt-down/index.js',
             'mailchimp-select': './src/mailchimp-select/index.js',
             menu: './src/menu/index.js',
             'menu-link': './src/menu-link/index.js',
@@ -91,6 +92,7 @@ const files = [
             cover: './src/cover/frontend.js',
             'flip-card-controller': './src/flip-card/controller/frontend.js',
             'mailchimp-form': './src/mailchimp-form/frontend.js',
+			'mailchimp-opt-down': './src/mailchimp-opt-down/frontend.js',
             'mailchimp-select': './src/mailchimp-select/frontend.js',
             'menu-link': './src/menu-link/frontend.js',
             'social-link': './src/social-link/frontend.js',
@@ -118,13 +120,6 @@ const files = [
         entry: {
             main: './src/fact-sheet-collection/index.js',
             frontend: './src/fact-sheet-collection/frontend.js',
-        },
-    },
-    {
-        name: 'mailchimp-opt-down',
-        entry: {
-            main: './src/mailchimp-opt-down/index.js',
-            frontend: './src/mailchimp-opt-down/frontend.js',
         },
     },
 ];

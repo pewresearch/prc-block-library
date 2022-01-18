@@ -1,0 +1,12 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/mailchimp-opt-down",
+	"title": "Mailchimp Opt-down Form",
+	"category": "widgets",
+	"attributes": {},
+	"icon": "feedback",
+	"keywords": ["prc", "prc", "opt-down"],
+	"supports": {
+		"html": false
+	}
+}
