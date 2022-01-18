@@ -63,6 +63,15 @@ const Preview = ( { attributes } ) => {
         light: false,
     });
 
+	const imageClasses = classNames('image', {
+		'bordered': isChartArt,
+		XL: 'XL' === imageSize,
+		A4: 'A4' === imageSize,
+		A3: 'A3' === imageSize,
+		A2: 'A2' === imageSize,
+		A1: 'A1' === imageSize,
+	});
+
     const excerptClasses = classNames('excerpt');
 
     return(
@@ -74,7 +83,7 @@ const Preview = ( { attributes } ) => {
             )}
 
             {'disabled' !== imageSlot && (
-                <div class={`image ${imageSize}`}>
+                <div class={`${imageClasses}`}>
                     <picture>
                         <img srcset={image} width={IMAGE_SIZES[imageSize][0]} height={IMAGE_SIZES[imageSize][1]}/>
                     </picture>

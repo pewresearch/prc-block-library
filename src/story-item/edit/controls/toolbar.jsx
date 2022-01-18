@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { ContentPicker } from '@prc/shared';
+import { useDebounce } from '@prc/shared';
 
 /**
  * WordPress Dependencies
@@ -11,14 +11,19 @@ import {
     BlockControls,
     __experimentalLinkControl as LinkControl,
 } from '@wordpress/block-editor';
+import apiFetch from '@wordpress/api-fetch';
 import { useEntityProp } from '@wordpress/core-data';
-import { Fragment, useState } from '@wordpress/element';
+import { Fragment, useState, useEffect } from '@wordpress/element';
 import {
+	ButtonGroup,
+	Button,
+	Icon,
+	Modal,
     Path,
     Popover,
-    SelectControl,
+	Spinner,
     SVG,
-    ToggleControl,
+    TextControl,
     ToolbarButton,
     ToolbarDropdownMenu,
     ToolbarGroup,
@@ -41,7 +46,53 @@ import { setPostAttributes, setArtBySize } from '../../helpers';
 const COLUMN_LIMIT = 8;
 
 const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) => {
+	const [isLoading, setIsLoading] = useState(false);
     const [isLinkOpen, setIsLinkOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [inputValue, setInputValue] = useState(url);
+	const [post, setPost] = useState(null);
+
+	const value = useDebounce(inputValue, 500);
+	// When the input value changes, search for the post.
+	useEffect(()=>{
+		if ( value !== url ) {
+			setIsLoading(true);
+			apiFetch({
+				path: '/prc-api/v2/utils/get-post-by-url',
+				method: 'POST',
+				data: { url: value },
+			})
+				.then((post) => {
+					console.log('get-post-by-url', post);
+					if ( undefined !== post.ID ) {
+						setPost(post);
+						setIsLoading(false);
+					}
+				})
+				.catch((err) => {
+					console.log("Error: ", err);
+					// In this state no url has been found so we should just assume the user wants the url passed in.
+					setPost(false);
+					setIsLoading(false);
+				});
+		}
+	}, [value]);
+
+	const onModalClose = () => setIsModalOpen(false);
+	const onModalOpen = () => {
+		setIsLinkOpen(false);
+		setIsModalOpen(true);
+	}
+
+	const onReplace = (newPostId) => {
+		setPostAttributes({
+			postId: newPostId,
+			imageSize,
+			isRefresh: false,
+			setAttributes,
+		});
+	}
+
     return (
         <Fragment>
             <ToolbarButton
@@ -52,37 +103,65 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
                 onClick={() => setIsLinkOpen(!isLinkOpen)}
                 showTooltip
             />
+			{true === isModalOpen &&  (
+				<Modal title="Replace content?" onRequestClose={ onModalClose }>
+					<ButtonGroup>
+						<Button isDestructive onClick={ () => {
+							onReplace(post.ID);
+							onModalClose();
+						} }>
+							Replace
+						</Button>
+						<Button variant="secondary" onClick={ () => {
+							setAttributes({
+								url: value,
+								postId: post.ID,
+							})
+							onModalClose();
+						} }>
+							Replace URL Only
+						</Button>
+						<Button variant="secondary" onClick={ onModalClose }>
+							Cancel
+						</Button>
+					</ButtonGroup>
+				</Modal>
+			)}
             {true === isLinkOpen && (
                 <Popover
                     position="bottom center"
                     onClose={() => setIsLinkOpen(false)}
                 >
                     <div style={{
-                        minWidth: '270px',
-                        padding: '16px'
+                        minWidth: '300px',
+                        padding: '16px',
+						display: 'flex',
+						alignItems: 'flex-end',
                     }}>
-                        <ContentPicker
-                            label={__('Search for post or paste url:')}
-                            searchStyle="minimal"
-                            onPickChange={ (pickedContent) => {
-                                if ( pickedContent.length > 0 && undefined !== pickedContent[0].id ) {
-                                    setPostAttributes({
-                                        postId: pickedContent[0].id,
-                                        imageSize,
-                                        isRefresh: false,
-                                        setAttributes,
-                                    });
-                                }
-                            } }
-                            mode={'post'}
-                            contentTypes={['stub']}
-                            value={[{
-                                url,
-                                title,
-                                type,
-                                id,
-                            }]}
-                        />
+						<TextControl
+							label={'Enter url'}
+							value={inputValue}
+							onChange={(value)=> setInputValue(value)}
+							autoComplete="off"
+						/>
+						<div style={{
+							paddingBottom: '14px',
+							paddingLeft: '16px',
+						}}>
+							{isLoading && (
+								<Button variant="tertiary">
+									<Spinner/>
+								</Button>
+							)}
+							{!isLoading && false === post && (
+								<Button icon="yes-alt" variant="tertiary" onClick={()=>{
+									setAttributes({ url: value });
+								}}/>
+							)}
+							{!isLoading && false !== post && null !== post && (
+								<Button icon="warning" variant="tertiary" onClick={ onModalOpen }/>
+							)}
+						</div>
                     </div>
                 </Popover>
             )}
@@ -96,6 +175,8 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
 	console.log("Context", context);
 
     const columnWidth = undefined !== context['prc-block/column/width'] ? context['prc-block/column/width'] : false;
+	const columnIsEqualWidth = undefined !== context['prc-block/row/isEqual'] ? context['prc-block/row/isEqual'] : false;
+	console.log('columnWidth', columnWidth, columnIsEqualWidth);
 
     const Icon = ({ svgPath = false, isPressed = false }) => {
         if (false === svgPath) {
@@ -239,7 +320,7 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
                                 <ImageSlotIcon selected='left'/>
                             ),
                             isActive: 'left' === imageSlot,
-                            isDisabled: false !== columnWidth && COLUMN_LIMIT >= columnWidth,
+                            isDisabled: true !== columnIsEqualWidth && false !== columnWidth && COLUMN_LIMIT >= columnWidth,
                             onClick: () => {
                                 const newSlot = 'left';
                                 setAttributes({imageSlot: newSlot});
@@ -251,7 +332,7 @@ const Toolbar = ({ attributes, setAttributes, context, rootClientId }) => {
                                 <ImageSlotIcon selected='right'/>
                             ),
                             isActive: 'right' === imageSlot,
-                            isDisabled: false !== columnWidth && COLUMN_LIMIT >= columnWidth,
+                            isDisabled: true !== columnIsEqualWidth && false !== columnWidth && COLUMN_LIMIT >= columnWidth,
                             onClick: () => {
                                 const newSlot = 'right';
                                 setAttributes({imageSlot: newSlot});

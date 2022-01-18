@@ -26,21 +26,14 @@ import { setPostAttributes } from '../helpers';
 /**
  * To be removed at later date:
 */
-const handleExcerptAndPostIdUpdate = (attributes, setAttributes = false) => {
+const handlePostIdCaseChange = (attributes, setAttributes = false) => {
     const payload = {};
     if (!attributes.postId && attributes.postID) {
         payload.postId = attributes.postID;
     }
-    //@TODO change this to look for excerpt and clean it up and change back to excerpt.
-    if (!attributes.excerpt && attributes.excerpt && 0 !== attributes.excerpt.length) {
-        payload.excerpt = attributes.excerpt;
-    }
-    // Convert old attributes to new attributes.
-    // payload.enableExcerpt = attributes.enableExcerpt;
-    // payload.url = attributes.link;
 
     if ( 0 !== Object.keys(payload).length && false !== setAttributes ) {
-        console.log('handleExcerptAndPostIdUpdate', attributes, payload);
+        console.log('handlePostIdCaseChange', attributes, payload);
         setAttributes({...payload});
     }
 }
@@ -81,7 +74,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
             getTermsAsOptions(metaTaxonomy).then(options => {
                 setTermOptions(options);
             });
-            console.log('termOptions', termOptions);
         }
     }, [metaTaxonomy]);
 
@@ -89,7 +81,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     // Also if in loop we should disable setting any of the attributes and force the A3 left variant.
     // If we are in loop but have a grid display type then you can set the imageSlot, imageize, enableHeader, enableExcerpt,  enableMeta, metaTaxonomy attributes.
     useEffect(()=> {
-        handleExcerptAndPostIdUpdate(attributes, setAttributes);
+        handlePostIdCaseChange(attributes, setAttributes);
     }, []);
 
 	// For posts inside a query block if we have a post id then go fetch the post and set attributes.
