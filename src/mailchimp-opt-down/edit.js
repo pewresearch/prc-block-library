@@ -1,16 +1,15 @@
+/**
+ * WordPress Dependencies
+ */
 import { mailChimpInterests } from '@pewresearch/app-components';
+
+/**
+ * Internal Dependencies
+ */
 import MailchimpOptDown from './component';
 
-
 const edit = props => {
-
-  const _props = {
-      interests: mailChimpInterests.map(d => d.value),
-  };
-
-  return (
-    <MailchimpOptDown {..._props} />
-  );
+	return <MailchimpOptDown interests={mailChimpInterests.map(d => d.value)} />;
 };
 
 

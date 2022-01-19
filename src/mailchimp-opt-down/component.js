@@ -1,6 +1,13 @@
+/**
+ * External Dependencies
+ */
+import { Form, Input, Dimmer, Button, Message } from 'semantic-ui-react';
+
+/**
+ * WordPress Dependencies
+ */
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { withState } from '@wordpress/compose';
-import { Form, Input, Dimmer, Button, Message } from 'semantic-ui-react';
 
 const defaultState = {
     error: false,
