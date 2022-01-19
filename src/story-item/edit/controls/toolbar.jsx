@@ -98,13 +98,14 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
             <ToolbarButton
                 aria-expanded={isLinkOpen}
                 aria-haspopup="true"
-                label={__('Set Link')}
+                label={__('Set URL')}
                 icon="admin-links"
                 onClick={() => setIsLinkOpen(!isLinkOpen)}
                 showTooltip
             />
 			{true === isModalOpen &&  (
-				<Modal title="Replace content?" onRequestClose={ onModalClose }>
+				<Modal title={__('Replace story item content', 'prc-blocks-story-item')} onRequestClose={ onModalClose }>
+					<p>Replace this story item with "<strong>{post.post_title}</strong>"?</p>
 					<ButtonGroup>
 						<Button isDestructive onClick={ () => {
 							onReplace(post.ID);
@@ -134,28 +135,34 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
                 >
                     <div style={{
                         minWidth: '300px',
-                        padding: '16px',
+                        padding: '8px',
 						display: 'flex',
 						alignItems: 'flex-end',
                     }}>
-						<TextControl
-							label={'Enter url'}
-							value={inputValue}
-							onChange={(value)=> setInputValue(value)}
-							autoComplete="off"
-						/>
 						<div style={{
-							paddingBottom: '14px',
-							paddingLeft: '16px',
+							flexGrow: '1',
+						}}>
+							<TextControl
+								label={'URL'}
+								value={inputValue}
+								onChange={(value)=> setInputValue(value)}
+								autoComplete="off"
+							/>
+						</div>
+						<div style={{
+							paddingBottom: '7px',
+							paddingLeft: '8px',
+							width: '44px'
 						}}>
 							{isLoading && (
-								<Button variant="tertiary">
+								<div style={{ paddingBottom: '3px' }}>
 									<Spinner/>
-								</Button>
+								</div>
 							)}
 							{!isLoading && false === post && (
 								<Button icon="yes-alt" variant="tertiary" onClick={()=>{
 									setAttributes({ url: value });
+									setIsLinkOpen(false);
 								}}/>
 							)}
 							{!isLoading && false !== post && null !== post && (
