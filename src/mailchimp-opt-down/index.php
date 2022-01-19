@@ -30,7 +30,7 @@ class MailChimp_Opt_Down extends PRC_Block_Library {
 			'mailchimp-opt-down',
 			array(
 				'js'        => true,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -55,7 +55,6 @@ class MailChimp_Opt_Down extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/mailchimp-opt-down',
 			array(
 				'editor_script'   => array_pop( $block['js'] )['handle'],
-				'editor_style'   => array_pop( $block['css'] )['handle'],
 				'script' => array_pop( $frontend['js'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
