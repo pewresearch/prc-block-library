@@ -274,10 +274,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
 
 		$post = get_post( $post_id );
-		do_action('qm/debug', 'prc_get_attributes' . print_r(array(
-			'post' => $post,
-			'post_id' => $post_id,
-		), true));
 		// What should we do if no post can be found?
 
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
