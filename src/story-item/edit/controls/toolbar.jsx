@@ -116,7 +116,6 @@ const URLControl = ({ title, type, id, url, imageSize = 'A1', setAttributes }) =
 						<Button variant="secondary" onClick={ () => {
 							setAttributes({
 								url: value,
-								postId: post.ID,
 							})
 							onModalClose();
 						} }>
