@@ -75,6 +75,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/image/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/livestream/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-form/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-opt-down/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-select/index.php';
