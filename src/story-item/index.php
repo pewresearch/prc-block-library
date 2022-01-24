@@ -324,7 +324,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_slot = false !== $image ? $image_slot : false;
 
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
-		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered;
+		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered; // We need to get the art status here....
 
 		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
 		$enable_excerpt                = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : true;
