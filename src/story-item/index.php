@@ -137,9 +137,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 
 	private function get_url( int $post_id, $post_type = 'post' ) {
-		if ( 'post' === $post_type ) {
-			return get_permalink( $post_id );
-		} elseif ( 'stub' === $post_type ) {
+		$permalink = false;
+		if ( 'stub' === $post_type ) {
 			return get_post_meta( $post_id, '_redirect', true );
 		} elseif ( 'news-item' === $post_type ) {
 			$url = get_post_meta( $post_id, 'news-item-options', true );
@@ -150,8 +149,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 				$url = get_post_meta( $post_id, '_news_item_url', true );
 			}
 			return $url;
+		} else {
+			$permalink = get_permalink( $post_id );
 		}
-		return false;
+		return $permalink;
 	}
 
 	private function get_date( $date ) {
