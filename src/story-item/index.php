@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.6';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'ahju719212sx';
+	public static $cache_invalidate   = 'ahju71921212dx';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -193,7 +193,24 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_id = false !== $art ? $art['id'] : false;
 		$chart_art = false !== $art ? $art['chartArt'] : false;
 
-		if ( $is_stub && false !== $image_id ) {
+		if ( false === $image_id && false !== $static_image ) {
+			$img  = array(
+				$static_image,
+				null,
+				null,
+			);
+			$imgs = array(
+				'desktop' => array(
+					'default' => $img,
+					'hidpi'   => $img,
+				),
+				'mobile'  => array(
+					'default' => $img,
+					'hidpi'   => $img,
+				),
+				'bordered' => $chart_art,
+			);
+		} elseif ( $is_stub && false !== $image_id ) {
 			$stub_info      = get_post_meta( $post_id, '_stub_info', true );
 			$origin_site_id = (int) $stub_info['site_id'];
 			switch_to_blog( $origin_site_id );
@@ -218,23 +235,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 				'mobile'  => array(
 					'default' => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL' ),
 					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
-				),
-				'bordered' => $chart_art,
-			);
-		} elseif ( false === $image_id && false !== $static_image ) {
-			$img  = array(
-				$static_image,
-				null,
-				null,
-			);
-			$imgs = array(
-				'desktop' => array(
-					'default' => $img,
-					'hidpi'   => $img,
-				),
-				'mobile'  => array(
-					'default' => $img,
-					'hidpi'   => $img,
 				),
 				'bordered' => $chart_art,
 			);
@@ -376,7 +376,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return $variables;
 	}
 
-	public function render_image( $image, $image_size, $image_is_bordered ) {
+	public function render_image( $image, $image_size, $image_is_bordered, $link ) {
 		if ( false === $image ) {
 			return false;
 		}
@@ -404,13 +404,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 		);
 		ob_start();
 		?>
-		<div class="<?php echo esc_attr( $image_class ); ?>">
+		<a href="<?php echo esc_url($link);?>" class="<?php echo esc_attr( $image_class ); ?>">
 			<picture>
 				<?php echo $sources['desktop']; ?>
 				<?php echo $sources['mobile']; ?>
 				<img srcset="<?php echo esc_url( $image['desktop']['default'][0] ); ?>" height="<?php echo esc_attr( $image['desktop']['default'][1] ); ?>" width="<?php echo esc_attr( $image['desktop']['default'][2] ); ?>">
 			</picture>
-		</div>
+		</a>
 		<?php
 		return ob_get_clean();
 	}
@@ -429,7 +429,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );
 
-		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered );
+		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered, $url );
 		$image_slot   = false === $image_markup ? false : $image_slot; // If no image then don't show the image slot.
 
 		$block_wrapper_attrs = array(
