@@ -344,9 +344,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 		// If we can not find an image set the image slot to false to disable it.
 		$image_slot = false !== $image ? $image_slot : false;
 
-		// Get img and chart art from art direction IF in loop...
-		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
-		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered; // We need to get the art status here....
+		// Check if the fetched image has a border, otherwise look for the attribute.
+		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : false; // We need to get the art status here....
+		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : $image_is_bordered;
 
 		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
 		$enable_excerpt                = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : true;

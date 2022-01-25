@@ -45,8 +45,7 @@
             "default": "A1"
         },
         "isChartArt": {
-            "type": "boolean",
-            "default": false
+            "type": "boolean"
         },
         "postId": {
             "type": "integer"
