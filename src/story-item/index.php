@@ -185,6 +185,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 		);
 		extract( $args );
 
+		do_action('qm/debug', "get_img -> internal args -> " . print_r(array('args' => $args), true) );
+
 		// Start new art function here:
 		$imgs = false;
 
