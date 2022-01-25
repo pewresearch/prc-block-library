@@ -161,14 +161,13 @@ class Query_Block extends PRC_Block_Library {
 				if ( 'prc-block/story-item' === $b['blockName'] ) {
 					$id                      = get_the_ID();
 					$b['attrs']['postId']    = $id;
+					$b['attrs']['excerpt']   = get_the_excerpt( $id );
 					$b['attrs']['inLoop']    = 'list' === $display_layout;
-					// Remove the title, url, label, date from $b['attrs']
 					$b['attrs'] = array_diff_key( $b['attrs'], array(
 						'title' => '',
 						'url' => '',
 						'label' => '',
 						'date' => '',
-						'excerpt' => '',
 					) );
 					$template_block          = new WP_Block( $b );
 					$template_block->context = array(
