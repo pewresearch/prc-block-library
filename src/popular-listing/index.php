@@ -15,7 +15,6 @@ class Popular_Listing extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
-			// add_action( 'rest_api_init', array( $this, 'register_google_analytics_endpoint' ) );
 		}
 	}
 
