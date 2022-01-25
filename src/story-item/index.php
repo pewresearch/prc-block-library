@@ -14,7 +14,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 	public static $css_handle         = false;
 	public static $frontend_js_handle = false;
-	public static $version            = '4.0.5';
+	public static $version            = '4.0.6';
 	public static $date_format        = 'M j, Y';
 	public static $cache_invalidate   = 'ahju719212sx';
 	public static $experiments        = array(
@@ -191,6 +191,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$is_stub  = 'stub' === $post_type;
 		$art      = prc_get_art( $post_id, $image_size );
 		$image_id = false !== $art ? $art['id'] : false;
+		$chart_art = false !== $art ? $art['chartArt'] : false;
 
 		if ( $is_stub && false !== $image_id ) {
 			$stub_info      = get_post_meta( $post_id, '_stub_info', true );
@@ -205,6 +206,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 					'default' => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL' ),
 					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
 				),
+				'bordered' => $chart_art,
 			);
 			restore_current_blog();
 		} elseif ( false !== $image_id ) {
@@ -217,6 +219,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 					'default' => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL' ),
 					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
 				),
+				'bordered' => $chart_art,
 			);
 		} elseif ( false === $image_id && false !== $static_image ) {
 			$img  = array(
@@ -233,6 +236,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 					'default' => $img,
 					'hidpi'   => $img,
 				),
+				'bordered' => $chart_art,
 			);
 		}
 
@@ -320,9 +324,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 				'static_image' => array_key_exists( 'image', $attributes ) ? $attributes['image'] : false,
 			)
 		);
+		do_action('qm/debug', "get_img" . print_r(array('art' => $image, 'post_id' => $post_id), true) );
 		// If we can not find an image set the image slot to false to disable it.
 		$image_slot = false !== $image ? $image_slot : false;
 
+		// Get img and chart art from art direction IF in loop...
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : false;
 		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : $image_is_bordered; // We need to get the art status here....
 
