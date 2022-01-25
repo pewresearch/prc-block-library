@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.6';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'ahju719212cd2dx';
+	public static $cache_invalidate   = 'adfljh123o7';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -129,7 +129,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 			return '';
 		}
 		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
-		do_action("qm/debug", "get_label" . print_r(array('terms' => $terms, 'post_id' => $post_id), true) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
 		}
@@ -195,7 +194,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_id = false !== $art ? $art['id'] : false;
 		$chart_art = false !== $art ? $art['chartArt'] : false;
 
-		if ( false === $image_id && false !== $static_image ) {
+		if ( false !== $static_image ) {
 			$img  = array(
 				$static_image,
 				null,
@@ -306,11 +305,10 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
-		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : $post->post_excerpt; // @TODO handle formerly `description` attribute.
-		// How can we get label, date, and url from the post if it is a stub and this site is not site id 1. How can we tell something is a stub before hand??? We could assume always is stub unless otherwise specified?
+		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : $post->post_excerpt;
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
-			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
+			array_key_exists( 'metaTaxonomy', $attributes ) ? 'research-areas' === $attributes['metaTaxonomy'] : false,
 			array_key_exists( 'metaTaxonomy', $attributes ) && 'disabled' === $attributes['metaTaxonomy'] ? true : false
 		);
 		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date );

@@ -38,6 +38,8 @@ const handlePostIdCaseChange = (attributes, setAttributes = false) => {
     }
 }
 
+window.termOptions = {formats: [], 'research-teams': []};
+
 const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
     const {
         title,
@@ -64,16 +66,24 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
         className,
     } = attributes;
 
-    const [termOptions, setTermOptions] = useState([]);
+    const [termOptions, setTermOptions] = useState(window.termOptions[metaTaxonomy]);
 
     /**
      * When the taxonomy selection changes go update the term options. Setting this here prevents the constant pop in and re-polling for terms.
      */
     useEffect(() => {
         if ( 'disabled' !== metaTaxonomy ) {
-            getTermsAsOptions(metaTaxonomy).then(options => {
-                setTermOptions(options);
-            });
+			//@TODO change this to use local session, we can set it to expire for like 30 days because this almost never changes.
+			if ( 0 !== window.termOptions[metaTaxonomy].length ) {
+				setTermOptions(window.termOptions[metaTaxonomy]);
+			} else {
+				getTermsAsOptions(metaTaxonomy).then(options => {
+					if ( !window.termOptions[metaTaxonomy].length ) {
+						window.termOptions[metaTaxonomy] = options;
+					}
+					setTermOptions(options);
+				});
+			}
         }
     }, [metaTaxonomy]);
 

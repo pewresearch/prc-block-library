@@ -103,8 +103,8 @@
   "staff.js.map": "blocks/staff-802205a4.js.map",
   "story-item.css": "blocks/story-item-817d5a72.css",
   "story-item.css.map": "blocks/story-item-817d5a72.css.map",
-  "story-item.js": "blocks/story-item-2c68dad8.js",
-  "story-item.js.map": "blocks/story-item-2c68dad8.js.map",
+  "story-item.js": "blocks/story-item-c78e974a.js",
+  "story-item.js.map": "blocks/story-item-c78e974a.js.map",
   "sub-title.js": "blocks/sub-title-59249023.js",
   "sub-title.js.map": "blocks/sub-title-59249023.js.map",
   "table.js": "blocks/table-6bbc593a.js",
@@ -702,13 +702,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~menu~af3f95dc-b141991f.js",
           "blocks/vendors~chart-builder~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~menu-link~promo~~960dd9d6-f8d5ccc5.js",
-          "blocks/story-item-2c68dad8.js"
+          "blocks/story-item-c78e974a.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~menu~af3f95dc-b141991f.js.map",
           "blocks/vendors~chart-builder~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~menu-link~promo~~960dd9d6-f8d5ccc5.js.map",
-          "blocks/story-item-2c68dad8.js.map"
+          "blocks/story-item-c78e974a.js.map"
         ],
         "css": [
           "blocks/story-item-817d5a72.css"
