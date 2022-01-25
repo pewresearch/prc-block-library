@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.6';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'ahju701763d1212dx';
+	public static $cache_invalidate   = 'ahju71921212dx';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -195,23 +195,39 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_id = false !== $art ? $art['id'] : false;
 		$chart_art = false !== $art ? $art['chartArt'] : false;
 
-		if ( false !== $static_image ) {
+		if ( false === $image_id && false !== $static_image ) {
 			$img  = array(
 				$static_image,
 				null,
 				null,
 			);
-			$imgs = array(
-				'desktop' => array(
-					'default' => $img,
-					'hidpi'   => $img,
-				),
-				'mobile'  => array(
-					'default' => $img,
-					'hidpi'   => $img,
-				),
-				'bordered' => false,
-			);
+			$image_id = attachment_url_to_postid($static_image);
+			do_action('qm/debug', "get_img -> static image -> " . print_r(array('imageid' => $image_id), true) );
+			if ( false != $image_id ) {
+				$imgs = array(
+					'desktop' => array(
+						'default' => wp_get_attachment_image_src( $image_id, $image_size ),
+						'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-HIDPI' ),
+					),
+					'mobile'  => array(
+						'default' => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL' ),
+						'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
+					),
+					'bordered' => false,
+				);
+			} else {
+				$imgs = array(
+					'desktop' => array(
+						'default' => $img,
+						'hidpi'   => $img,
+					),
+					'mobile'  => array(
+						'default' => $img,
+						'hidpi'   => $img,
+					),
+					'bordered' => false,
+				);
+			}
 		} elseif ( $is_stub && false !== $image_id ) {
 			$stub_info      = get_post_meta( $post_id, '_stub_info', true );
 			$origin_site_id = (int) $stub_info['site_id'];
