@@ -65,8 +65,8 @@
   "page.css.map": "blocks/page-f9436eb4.css.map",
   "page.js": "blocks/page-1c915378.js",
   "page.js.map": "blocks/page-1c915378.js.map",
-  "popular-listing.css": "blocks/popular-listing-4379c86d.css",
-  "popular-listing.css.map": "blocks/popular-listing-4379c86d.css.map",
+  "popular-listing.css": "blocks/popular-listing-b12709f3.css",
+  "popular-listing.css.map": "blocks/popular-listing-b12709f3.css.map",
   "popular-listing.js": "blocks/popular-listing-1ab58228.js",
   "popular-listing.js.map": "blocks/popular-listing-1ab58228.js.map",
   "post-bylines.js": "blocks/post-bylines-aa2e34fb.js",
@@ -531,10 +531,10 @@
           "blocks/popular-listing-1ab58228.js.map"
         ],
         "css": [
-          "blocks/popular-listing-4379c86d.css"
+          "blocks/popular-listing-b12709f3.css"
         ],
         "css.map": [
-          "blocks/popular-listing-4379c86d.css.map"
+          "blocks/popular-listing-b12709f3.css.map"
         ]
       }
     },

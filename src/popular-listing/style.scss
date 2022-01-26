@@ -13,7 +13,7 @@
     font-size: 21px;
     font-weight: 500;
     margin-right: 13px;
-    padding-bottom: 1rem;
+    padding-bottom: .15rem;
     padding-top: .15rem;
     opacity: 81%;
 }
@@ -31,5 +31,6 @@
 		line-height: 23px;
 		font-weight: 400;
 		color: colors.$darkTextColor;
+		margin: 0;
 	}
 }
