@@ -30,6 +30,7 @@ const files = [
             'post-title': './src/post-title/index.js',
             promo: './src/promo/index.js',
             'promo-rotator': './src/promo-rotator/index.js',
+			pullquote: './src/pullquote/index.js',
 			query: './src/query/index.js',
             'responsive-container-controller':
                 './src/responsive-container/controller/index.js',

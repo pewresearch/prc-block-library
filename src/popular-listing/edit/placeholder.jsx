@@ -13,7 +13,6 @@ import { useState, Fragment, useEffect } from '@wordpress/element';
  * Internal Dependencies
  */
 import { setPostAttributes } from '../../story-item/helpers.js';
-import GoogleAnalyticsMostPopular from './google-analytics.jsx';
 
 const Placeholder = ({setAttributes, blockProps}) => {
     const [loadingStub, setLoadingStub] = useState(false);
@@ -40,9 +39,7 @@ const Placeholder = ({setAttributes, blockProps}) => {
             label={__('Search for a popular post', 'prc-block-library')}
             blockProps={{...blockProps, style: {marginBottom: '16px'}}}
             loadingComponent={loadingStub}
-        >
-            {/* @TODO we'll revisit this in 2022 when we update to GA4 <GoogleAnalyticsMostPopular onPick={onPick}/> */}
-        </ContentPlaceholder>
+        />
     );
 }
 
