@@ -1,7 +1,16 @@
+@use "../../../../themes/prc_parent/src/scss/master.variables.scss" as variables;
+@use "../../../../themes/prc_parent/src/scss/colors.scss" as colors;
+@use "../../../../themes/prc_parent/src/scss/functions.scss" as functions;
+@use "../../../../themes/prc_parent/src/scss/mixins.scss" as mixins;
+@use "sass:math";
+
+$maxWidth: 420px;
+
 figure.wp-block-pullquote {
 	padding: 0;
 	margin-bottom: 20px;
 	blockquote {
+		@include mixins.clearfix();
 		color: #565656;
 		padding: 24px;
 		margin: 0!important;
@@ -30,13 +39,19 @@ figure.wp-block-pullquote {
 	}
 	cite,
 	.wp-block-pullquote__citation {
-		display: block;
+		max-width: $maxWidth;
+		display: block!important;
 		padding: 0!important;
+		float: right;
 		text-align: right;
+		color: #565656!important;
 		font-size: 15px!important;
+		font-family: variables.$sansSerifFont;
 		line-height: 18px!important;
-		color: #565656;
-		text-transform: normal;
+
+		letter-spacing: inherit!important;
+		text-transform: inherit!important;
+
 		&:before {
 			border-bottom: 1px solid #8c8c8c;
 			content: "";
@@ -54,8 +69,15 @@ figure.wp-block-pullquote {
 .wp-block[data-align="right"] figure.wp-block-pullquote,
 figure.wp-block-pullquote.alignleft,
 figure.wp-block-pullquote.alignright {
-	max-width: 480px;
-	margin-top: 0!important;
-	margin-left: 0!important;
-	margin-right: 0!important;
+	max-width: $maxWidth;
+}
+
+.wp-block[data-align="left"] figure.wp-block-pullquote,
+figure.wp-block-pullquote.alignleft {
+	float: left;
+}
+
+.wp-block[data-align="right"] figure.wp-block-pullquote,
+figure.wp-block-pullquote.alignright {
+	float: right;
 }
