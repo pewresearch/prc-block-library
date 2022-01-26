@@ -23,24 +23,11 @@ class Popular_Listing extends PRC_Block_Library {
 		$post_id                  = $attributes['postId'];
 		$title                    = $attributes['title'];
 		$url                      = $attributes['url'];
-
-		$args = array(
-			'postId'            => $post_id,
-			'postType'          => 'stub',
-			'inLoop'            => false,
-			'enableMeta'        => false,
-			'imageSlot'         => false,
-			'enableExcerpt'     => false,
-			'title'             => $title,
-			'title'             => $title,
-			'url'               => $url,
-		);
-
 		ob_start();
 		?>
 		<aside <?php echo $block_wrapper_attributes; ?>>
 			<div class="big-number"><?php echo ( $attributes['enableNumber'] == true ? $attributes['blockIndexAttr'] + 1 : $attributes['blockIndexAttr'] ); ?></div>
-			<?php echo do_action( 'prc_do_story_item', $args ); ?>
+			<a href="<?php echo esc_url($url);?>" class="title"><?php echo $title;?></a>
 		</aside>
 		<?php
 		return ob_get_clean();
@@ -48,8 +35,6 @@ class Popular_Listing extends PRC_Block_Library {
 
 
 	public function register_block() {
-		$js_deps       = array( 'react', 'react-dom', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
@@ -58,7 +43,7 @@ class Popular_Listing extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

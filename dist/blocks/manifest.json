@@ -65,10 +65,10 @@
   "page.css.map": "blocks/page-f9436eb4.css.map",
   "page.js": "blocks/page-1c915378.js",
   "page.js.map": "blocks/page-1c915378.js.map",
-  "popular-listing.css": "blocks/popular-listing-4db9d89c.css",
-  "popular-listing.css.map": "blocks/popular-listing-4db9d89c.css.map",
-  "popular-listing.js": "blocks/popular-listing-43005f0b.js",
-  "popular-listing.js.map": "blocks/popular-listing-43005f0b.js.map",
+  "popular-listing.css": "blocks/popular-listing-4379c86d.css",
+  "popular-listing.css.map": "blocks/popular-listing-4379c86d.css.map",
+  "popular-listing.js": "blocks/popular-listing-1ab58228.js",
+  "popular-listing.js.map": "blocks/popular-listing-1ab58228.js.map",
   "post-bylines.js": "blocks/post-bylines-aa2e34fb.js",
   "post-bylines.js.map": "blocks/post-bylines-aa2e34fb.js.map",
   "post-publish-date.js": "blocks/post-publish-date-6d3ce404.js",
@@ -523,18 +523,18 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~popular-listing-116374f5.js",
-          "blocks/popular-listing-43005f0b.js"
+          "blocks/popular-listing-1ab58228.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~popular-listing-116374f5.js.map",
-          "blocks/popular-listing-43005f0b.js.map"
+          "blocks/popular-listing-1ab58228.js.map"
         ],
         "css": [
-          "blocks/popular-listing-4db9d89c.css"
+          "blocks/popular-listing-4379c86d.css"
         ],
         "css.map": [
-          "blocks/popular-listing-4db9d89c.css.map"
+          "blocks/popular-listing-4379c86d.css.map"
         ]
       }
     },

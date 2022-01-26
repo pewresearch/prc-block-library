@@ -20,7 +20,7 @@ import Placeholder from './placeholder';
 
 const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 
-    const { title, link, postId, blockIndexAttr, enableNumber } = attributes;
+    const { title, postId } = attributes;
 
     const blockProps = useBlockProps();
 
@@ -43,7 +43,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 
             if (parentBlock.name === 'core/group') {
                 //get the block index for this block
-                blockIndexID = select('core/block-editor').getBlockIndex(clientId, parentBlockId)
+                blockIndexID = select('core/block-editor').getBlockIndex(clientId, parentBlockId);
             }
 
             // Set your attribute with the index number here.
@@ -56,38 +56,14 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
     );
 
     useEffect(() => {
-        setAttributes({ blockIndexAttr: blockIndex })
+        setAttributes({ blockIndexAttr: blockIndex });
 
         if (numberEnabled == true) {
-            setAttributes({ enableNumber: true })
+            setAttributes({ enableNumber: true });
         } else {
-            setAttributes({ enableNumber: false })
+            setAttributes({ enableNumber: false });
         }
-
     }, [blockIndex])
-
-    if (true !== isSelected && blockIndex >= 0) {
-        return (
-
-            <div {...blockProps}>
-                <div class="main">
-                    {numberEnabled && (
-                        <span className="big-number">
-                            {blockIndex + 1}
-                        </span >
-                    )}
-                    <h2 className="my-class">
-                        <a href={link}> {title}</a>
-                    </h2>
-                </div>
-            </div>
-        )
-    }
-
-
-    if (true !== isSelected) {
-        return <div {...blockProps} style={{ padding: '5px' }}>{title}</div>
-    }
 
     if ( undefined === postId ) {
         return <Placeholder setAttributes={setAttributes} blockProps={blockProps}/>;
@@ -95,31 +71,23 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 
     return (
         <div {...blockProps} >
-            {postId && (
-                <article className="item story stacked" style={{ border: "2px solid gray" }}>
-                    <div className="content">
-                        <div className="header small light">
-                            <a href={link}>
-                                <RichText
-                                    tagName="p"
-                                    value={title}
-                                    onChange={t => setAttributes({ title: t })}
-                                    placeholder="How we did this"
-                                    keepPlaceholderOnFocus
-                                    style={{
-                                        fontFamily: 'Abril',
-                                        fontWeight: '400',
-                                        fontSize: '18px',
-                                        color: '#2a2a2a',
-                                        lineHeight: '128%',
-                                    }}
-                                />
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            )}
-
+			{numberEnabled && blockIndex >= 0 && (
+				<span className="big-number">
+					{blockIndex + 1}
+				</span >
+			)}
+			{true !== isSelected && <RichText.Content className="title" tagName="h2" value={title} />}
+            {true === isSelected && (
+				<RichText
+					tagName="h2"
+					value={title}
+					allowedFormats={ [ 'core/bold', 'core/italic' ] }
+					onChange={t => setAttributes({ title: t })}
+					placeholder="Joe Biden does something about climate change..."
+					keepPlaceholderOnFocus
+					className="title"
+				/>
+			)}
         </div >
     );
 };
