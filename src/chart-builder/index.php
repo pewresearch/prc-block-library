@@ -53,6 +53,7 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 				'data-colors' => $this->cherry_pick_attr( 'colorValue', $attributes ),
 				'data-post-id' => $post_id,
 				'data-post-url' => get_permalink( $post_id ),
+				'data-iframe-height' => null,
 			)
 		);
 		
