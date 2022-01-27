@@ -4,19 +4,19 @@ $altCardLineHeight: 1.28571429em;
 $altCardMargin: 1rem;
 $breakpoint: 767px;
 
-.column>.wp-block-group.is-style-card-alt,
-#secondary.column>.prc-block-area {
+.column > .wp-block-group.is-style-card-alt,
+#secondary.column > .prc-block-area {
 	@media only screen and (min-width: $breakpoint) {
 		margin-left: -1.5rem;
 	}
 }
 
 .wp-block-group {
-	&> :last-child {
+	& > :last-child {
 		margin-bottom: 0;
 	}
 
-	.block-editor-block-list__layout>.wp-block {
+	.block-editor-block-list__layout > .wp-block {
 		max-width: 1152px !important
 	}
 

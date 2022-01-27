@@ -34,10 +34,29 @@ class Group_Block extends PRC_Block_Library {
 		if ( 'core/group' !== $block['blockName'] || is_admin() ) {
 			return $block_content;
 		}
-		
+
 		$this->enqueue_assets( false );
 
-		$class_names = classNames( 'wp-block-group', array_key_exists( 'className', $block['attrs'] ) ? $block['attrs']['className'] : '' );
+		$classes = array(
+			'wp-block-group',
+		);
+		if ( array_key_exists( 'className', $block['attrs'] ) ) {
+			array_push( $classes, $block['attrs']['className'] );
+		}
+
+		$styles = '';
+		if ( array_key_exists('style', $block['attrs']) ) {
+			if ( array_key_exists('color', $block['attrs']['style']) ) {
+				$colors = $block['attrs']['style']['color'];
+				if ( array_key_exists('background', $colors) ) {
+					array_push( $classes, 'has-background' );
+					$styles .= 'background-color:' . $colors['background'] . ';';
+				}
+				if ( array_key_exists('text', $colors) ) {
+					$styles .= 'color:' . $colors['text'] . ';';
+				}
+			}
+		}
 
 		$group_block_content = '';
 		foreach ( $block['innerBlocks'] as $inner_block ) {
@@ -45,8 +64,9 @@ class Group_Block extends PRC_Block_Library {
 		}
 
 		return sprintf(
-			'<div class="%1$s">%2$s</div>',
-			$class_names,
+			'<div class="%1$s" style="%2$s">%3$s</div>',
+			classNames( $classes ),
+			$styles,
 			apply_filters( 'prc_group_block_content', $group_block_content, $block )
 		);
 	}
@@ -63,7 +83,7 @@ class Group_Block extends PRC_Block_Library {
 				'align' => false,
 			)
 		);
-	 
+
 		ob_start();
 		?>
 		<!-- wp:group {<?php echo $attr['align'] ? '' : esc_attr( '"align":"' . substr( $attr['align'], 5 ) ); ?> "style":{"color":{"background":"#f7f7f1"}},"className":"is-style-callout <?php echo $attr['align'] ? '' : esc_attr( $attr['align'] ); ?>"} -->
