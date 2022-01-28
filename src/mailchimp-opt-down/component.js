@@ -41,10 +41,9 @@ const MailchimpOptDown = ({}) => {
 
 		apiFetch({
             path: addQueryArgs(
-				'prc-api/v2/mailchimp/update',
+				'prc-api/v2/mailchimp/quartery-opt-out',
 				{
 					email: emailAddress,
-					interests: JSON.stringify(updated_interests),
 				}
 			),
             method: 'POST',
@@ -84,7 +83,7 @@ const MailchimpOptDown = ({}) => {
 					data-validate="mc-email"
 					required
 					value={emailAddress}
-					onChange={ e => { setState({emailAddress: e.target.value}) } }
+					onChange={ e => { setEmailAddress(e.target.value) } }
 					size="big"
 					/>
 				</Form.Field>
