@@ -2,18 +2,15 @@
  * External Dependencies
  */
 import { Form, Input, Dimmer, Button, Message } from 'semantic-ui-react';
-import { mailChimpInterests } from '@pewresearch/app-components';
 
 /**
  * WordPress Dependencies
  */
 import apiFetch from '@wordpress/api-fetch';
-import { Component, Fragment, RawHTML, useState, useEffect } from '@wordpress/element';
-import { getQueryArg, isEmail } from '@wordpress/url';
+import { Fragment, useState, useEffect } from '@wordpress/element';
+import { addQueryArgs, getQueryArg, isEmail } from '@wordpress/url';
 
 const MailchimpOptDown = ({}) => {
-	const interests = mailChimpInterests.map(d => d.value);
-
 	const [ error, setError ] = useState(false);
 	const [ loading, setLoading ] = useState(false);
 	const [ choice, setChoice ] = useState(false);
@@ -36,8 +33,6 @@ const MailchimpOptDown = ({}) => {
 			setDimmerActive(true);
 			return;
 		}
-
-		let updated_interests = {};
 
 		apiFetch({
             path: addQueryArgs(
