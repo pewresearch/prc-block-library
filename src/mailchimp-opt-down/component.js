@@ -36,7 +36,7 @@ const MailchimpOptDown = ({}) => {
 
 		apiFetch({
             path: addQueryArgs(
-				'prc-api/v2/mailchimp/quartery-opt-out',
+				'prc-api/v2/mailchimp/quarterly-opt-out/',
 				{
 					email: emailAddress,
 				}
