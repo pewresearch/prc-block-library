@@ -46,8 +46,6 @@ class Group_Block extends PRC_Block_Library {
 			array_push( $classes, $block['attrs']['className'] );
 		}
 
-		do_action("qm/debug", 'group_block -> ' . print_r($block, true));
-
 		$styles = '';
 		if ( array_key_exists('style', $block['attrs']) ) {
 			if ( array_key_exists('color', $block['attrs']['style']) ) {
