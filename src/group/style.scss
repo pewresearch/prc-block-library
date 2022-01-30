@@ -1,3 +1,9 @@
+@use "../../../../themes/prc_parent/src/scss/master.variables.scss" as variables;
+@use "../../../../themes/prc_parent/src/scss/colors.scss" as colors;
+@use "../../../../themes/prc_parent/src/scss/functions.scss" as functions;
+@use "../../../../themes/prc_parent/src/scss/mixins.scss" as mixins;
+@use "sass:math";
+
 $relaxedBorder: #e6e7e6;
 $altCardHeaderPadding: 1em;
 $altCardLineHeight: 1.28571429em;
@@ -112,6 +118,25 @@ $breakpoint: 767px;
 	// Ensures grid blocks take up the full width of a group.
 	div[data-type="prc-block/columns"] {
 		max-width: 100% !important;
+	}
+
+	&.alignright {
+		@media only screen and (min-width: variables.$largestTabletScreen) {
+			/*rtl:ignore*/
+			clear: right;
+			float: right;
+			margin-left: 1em;
+			/*rtl:ignore*/
+		}
+	}
+	&.alignleft {
+		@media only screen and (min-width: variables.$largestTabletScreen) {
+			/*rtl:ignore*/
+			clear: left;
+			float: left;
+			margin-right: 1em;
+			/*rtl:ignore*/
+		}
 	}
 }
 

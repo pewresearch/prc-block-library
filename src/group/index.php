@@ -6,6 +6,8 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Group_Block extends PRC_Block_Library {
+	public static $version = '3.0.0';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
@@ -15,7 +17,7 @@ class Group_Block extends PRC_Block_Library {
 	}
 
 	public function enqueue_assets( $js = true, $css = true ) {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
 			'blocks',
 			'group',
@@ -58,6 +60,10 @@ class Group_Block extends PRC_Block_Library {
 					$styles .= 'color:' . $colors['text'] . ';';
 				}
 			}
+		}
+
+		if ( array_key_exists('align', $block['attrs'] ) ) {
+			$classes[] = 'align' . $block['attrs']['align'];
 		}
 
 		$group_block_content = '';
