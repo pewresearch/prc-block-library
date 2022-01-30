@@ -63,7 +63,7 @@ class Group_Block extends PRC_Block_Library {
 		}
 
 		if ( array_key_exists('align', $block['attrs'] ) ) {
-			$classes[] = 'align' . $block['attrs']['align'];
+			array_push( $classes, 'align' . $block['attrs']['align'] );
 		}
 
 		$group_block_content = '';
