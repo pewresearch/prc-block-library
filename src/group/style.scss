@@ -29,26 +29,26 @@ $breakpoint: 767px;
 	&.has-background {
 		padding: 1em;
 		margin-bottom: 2em;
+	}
 
-		&.is-style-200-wide {
-			width: 100%;
-			max-width: 200px;
-		}
+	&.is-style-200-wide {
+		width: 100%;
+		max-width: 200px!important;
+	}
 
-		&.is-style-300-wide {
-			width: 100%;
-			max-width: 300px;
-		}
+	&.is-style-300-wide {
+		width: 100%;
+		max-width: 300px!important;
+	}
 
-		&.is-style-420-wide {
-			width: 100%;
-			max-width: 420px;
-		}
+	&.is-style-420-wide {
+		width: 100%;
+		max-width: 420px!important;
+	}
 
-		&.is-style-640-wide {
-			width: 100%;
-			max-width: 640px;
-		}
+	&.is-style-640-wide {
+		width: 100%;
+		max-width: 640px!important;
 	}
 
 	&.is-style-callout {
@@ -136,6 +136,15 @@ $breakpoint: 767px;
 			float: left;
 			margin-right: 1em;
 			/*rtl:ignore*/
+		}
+	}
+	&.aligncenter {
+		&.is-style-640-wide,
+		&.is-style-420-wide,
+		&.is-style-300-wide,
+		&.is-style-200-wide {
+			margin-left: auto!important;
+			margin-right: auto!important;
 		}
 	}
 }

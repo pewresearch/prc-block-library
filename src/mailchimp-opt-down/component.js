@@ -43,17 +43,17 @@ const MailchimpOptDown = ({}) => {
 			),
             method: 'POST',
         }).then( p => {
-            console.info('Succesfully subscribed');
+            console.info('Succesfully updated', p);
 			setLoading(false);
 			setError(false);
 			setDimmerActive(true);
 			setDimmerMessage('You have succesfully updated your preferences.');
         }).catch( e=> {
 			console.log(e);
+			setLoading(false);
+			setError(true);
+			setDimmerActive(true);
 			if (e.responseJSON.data.status == '404') {
-				setLoading(false);
-				setError(true);
-				setDimmerActive(true);
 				setDimmerMessage('We could not find that email address in our records.');
 			}
 		});

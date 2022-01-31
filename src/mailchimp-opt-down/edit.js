@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { mailChimpInterests } from '@pewresearch/app-components';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -9,7 +9,8 @@ import { mailChimpInterests } from '@pewresearch/app-components';
 import MailchimpOptDown from './component';
 
 const edit = props => {
-	return <MailchimpOptDown interests={mailChimpInterests.map(d => d.value)} />;
+	const blockProps = useBlockProps();
+	return <div {...blockProps}><MailchimpOptDown/></div>;
 };
 
 
