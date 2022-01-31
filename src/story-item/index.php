@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.7';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'hw712hadfhh32';
+	public static $cache_invalidate   = 'hw712had081bzh32112yz';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -321,9 +321,12 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_slot = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
 		$image_slot = 'default' === $image_slot ? 'top' : $image_slot;
 		$image_slot = 'disabled' === $image_slot ? false : $image_slot;
+		$image_slot = empty($image_slot) ? false : $image_slot;
 		$image_slot = false !== $image_slot && $is_in_loop ? 'left' : $image_slot;
 		if ( $is_mobile ) {
-			$image_slot = $is_in_loop && false !== $image_slot && in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : 'top';
+			$image_slot = false !== $image_slot ? 'top' : false;
+			$image_slot = $is_in_loop && in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : $image_slot;
+			do_action('qm/debug', 'mobile image... ' . print_r($image_slot, true));
 		}
 		// Set the image size to A1 on mobile, if its in a loop then set it to A3, otherwise deliver whats set in the attributes.
 		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
