@@ -323,7 +323,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_slot = 'disabled' === $image_slot ? false : $image_slot;
 		$image_slot = false !== $image_slot && $is_in_loop ? 'left' : $image_slot;
 		if ( $is_mobile ) {
-			$image_slot = $is_in_loop && in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : 'top';
+			$image_slot = $is_in_loop && false !== $image_slot && in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : 'top';
 		}
 		// Set the image size to A1 on mobile, if its in a loop then set it to A3, otherwise deliver whats set in the attributes.
 		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;

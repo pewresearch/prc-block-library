@@ -346,19 +346,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         font-size: 12px;
     }
 
-    &[data-disable-mobile-styles="1"] .header.large {
-        font-size: $headerLargeFontSize;
-        font-weight: $headerLargeFontWeight;
-        line-height: $headerLargeLineHeight;
-    }
-    .header.large {
-        @media only screen and (min-width: variables.$largestMobileScreen) {
-            font-size: $headerLargeFontSize;
-            font-weight: $headerLargeFontWeight;
-            line-height: $headerLargeLineHeight;
-        }
-    }
-
     .header {
         grid-area: header;
 
@@ -384,6 +371,12 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             font-weight: $headerSmallFontWeight;
             line-height: $headerSmallLineHeight;
         }
+
+		&.large {
+			font-size: $headerLargeFontSize;
+			font-weight: $headerLargeFontWeight;
+			line-height: $headerLargeLineHeight;
+		}
 
         &.light {
             font-weight: normal;
