@@ -1,0 +1,26 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/staff-bio",
+	"category": "layout",
+	"attributes": {
+		"jobTitle": {
+            "type": "string"
+        },
+		"miniJobTitle": {
+            "type": "string"
+        },
+		"phoneNumber": {
+            "type": "string"
+        },
+		"twitter": {
+            "type": "string"
+        },
+		"email": {
+            "type": "string"
+        }
+    },
+	"supports": {
+		"html": false,
+		"multiple": false
+	}
+}
