@@ -39,6 +39,8 @@ const files = [
             row: './src/row/index.js',
             'social-link': './src/social-link/index.js',
             staff: './src/staff/index.js',
+			'staff-bio': './src/staff-bio/index.js',
+			'staff-listing': './src/staff-listing/index.js',
             'story-item': './src/story-item/index.js',
             'sub-title': './src/sub-title/index.js',
             table: './src/table/index.js',

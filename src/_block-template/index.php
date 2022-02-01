@@ -23,7 +23,7 @@ class Block_Name extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

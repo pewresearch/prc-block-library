@@ -1,23 +1,17 @@
 {
 	"apiVersion": 2,
 	"name": "prc-block/staff-bio",
+	"title": "Staff Bio",
+	"description": "Add bio and job information to a staff post.",
+	"keywords": ["Bio", "Staff"],
 	"category": "layout",
 	"attributes": {
-		"jobTitle": {
-            "type": "string"
-        },
-		"miniJobTitle": {
-            "type": "string"
-        },
-		"phoneNumber": {
-            "type": "string"
-        },
-		"twitter": {
-            "type": "string"
-        },
-		"email": {
-            "type": "string"
-        }
+		"bio": {
+			"type": "string",
+            "source": "html",
+            "multiline": "p",
+            "selector": ".bio"
+		}
     },
 	"supports": {
 		"html": false,

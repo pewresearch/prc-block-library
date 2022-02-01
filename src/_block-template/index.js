@@ -2,7 +2,6 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -15,9 +14,6 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Block Title'),
-    description: 'Block description.',
-    keywords: [__('Block Keyword 1'), __('Block Keyword 2')],
     edit,
     save,
 };

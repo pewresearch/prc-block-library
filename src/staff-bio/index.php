@@ -14,6 +14,10 @@ class Staff_Bio extends PRC_Block_Library {
 		}
 	}
 
+	public function set_post_type_template() {
+		// Set the template for the staff post type to be use this block and see about not allowing it to be removed.
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
 		// global $wp_query;
 		// $staff    = new PRC_Core\Hybrid_People();
@@ -39,7 +43,7 @@ class Staff_Bio extends PRC_Block_Library {
 			'staff-bio',
 			array(
 				'js'        => true,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -51,7 +55,6 @@ class Staff_Bio extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/staff-bio',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'   => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
