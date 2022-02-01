@@ -53,7 +53,7 @@ const MailchimpOptDown = ({}) => {
 			setLoading(false);
 			setError(true);
 			setDimmerActive(true);
-			if (e.responseJSON.data.status == '404') {
+			if (e.data.status == '404') {
 				setDimmerMessage('We could not find that email address in our records.');
 			}
 		});
