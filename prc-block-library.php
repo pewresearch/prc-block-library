@@ -96,7 +96,6 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/sub-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/staff/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/staff-bio/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/staff-listing/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/tabs/index.php';
