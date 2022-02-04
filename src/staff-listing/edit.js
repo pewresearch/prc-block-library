@@ -1,4 +1,8 @@
 /**
+ * External Dependencies
+ */
+import { getTermsAsOptions } from '@prc/shared';
+/**
  * WordPress Dependencies
  */
 import apiFetch from '@wordpress/api-fetch';
@@ -15,28 +19,36 @@ const capitalize = (s) => {
 	return s.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
 }
 
-const SelectTerms = ({selected, setAttributes}) => {
-	const terms = selected.split(',');
-	const [selectedTerms, setSelectedTerms] = useState(terms);
-	const options = ['executive-team', 'managing-directors', 'staff'];
+const SelectTerms = ({taxonomy = 'staff-type', attribute ='staffTypes', selected = [], setAttributes}) => {
+	const [selectedTerms, setSelectedTerms] = useState(selected);
+	const [options, setOptions] = useState([]);
+
+	useEffect(() => {
+		getTermsAsOptions(taxonomy).then(terms => {
+			setOptions(terms);
+		});
+	}, [taxonomy]);
 
 	useEffect(()=>{
-		setAttributes({staffTypes: selectedTerms.join(',')});
+		const toSend = {};
+		toSend[attribute] = [...selectedTerms];
+		setAttributes(toSend);
 	}, [selectedTerms]);
 
 	return (
 		<div>
+			<h3>{capitalize(taxonomy.replace('-', ' '))}</h3>
 			{options.map(option => {
 				return (
 					<CheckboxControl
-						key={option}
-						label={capitalize(option.replace('-', ' '))}
-						checked={terms.includes(option)}
+						key={option.value}
+						label={option.label}
+						checked={selectedTerms.includes(option.value)}
 						onChange={() => {
-							if (terms.includes(option)) {
-								setSelectedTerms(selectedTerms.filter(term => term !== option));
+							if (selectedTerms.includes(option.value)) {
+								setSelectedTerms(selectedTerms.filter(term => term !== option.value));
 							} else {
-								setSelectedTerms([...selectedTerms, option]);
+								setSelectedTerms([...selectedTerms, option.value]);
 							}
 						}}
 					/>
@@ -47,35 +59,44 @@ const SelectTerms = ({selected, setAttributes}) => {
 }
 
 const edit = ({ attributes, setAttributes }) => {
-    const { staffTypes } = attributes;
+    const { staffTypes, expertise, researchTeams } = attributes;
 	const [staffPosts, setStaffPosts] = useState({'executive-team': [], 'managing-directors': [], staff: []});
 	const [loading, setLoading] = useState(true);
 
     const blockProps = useBlockProps();
 
-	const loadPosts = (termSlugs) => {
+	const loadPosts = (t = [], e = [], r = []) => {
+		const payload = {
+			staff_types: t.join(','),
+			areas_of_expertise: e.join(','),
+			research_teams: r.join(',')
+		}
+		console.log('loadPosts', payload);
 		setLoading(true);
 		apiFetch({
-            path: addQueryArgs('/prc-api/v2/blocks/staff-listing', {staff_types: termSlugs})
+            path: addQueryArgs('/prc-api/v2/blocks/staff-listing', payload),
         }).then(d => {
-           setStaffPosts({...staffPosts, ...d});
+			console.log(d);
+			setStaffPosts({...staffPosts, ...d});
         });
 	}
+
+	useEffect(()=>{
+		loadPosts(staffTypes, expertise, researchTeams);
+	},[staffTypes, expertise, researchTeams]);
 
 	useEffect(()=>{
 		console.log('staffPosts changed', staffPosts);
 		setLoading(false);
 	},[staffPosts]);
 
-	useEffect(()=>{
-		loadPosts(staffTypes);
-	},[staffTypes]);
-
     return (
 		<Fragment>
 			<InspectorControls>
                 <PanelBody title="Staff Listing Options">
-					<SelectTerms selected={staffTypes} setAttributes={setAttributes} />
+					<SelectTerms taxonomy="staff-type" attribute="staffTypes" selected={staffTypes} setAttributes={setAttributes} />
+					<SelectTerms taxonomy="areas-of-expertise" attribute="expertise" selected={expertise} setAttributes={setAttributes} />
+					<SelectTerms taxonomy="research-teams" attribute="researchTeams" selected={researchTeams} setAttributes={setAttributes} />
                 </PanelBody>
             </InspectorControls>
 			<div {...blockProps} >
@@ -91,7 +112,6 @@ const edit = ({ attributes, setAttributes }) => {
 						<h2>{capitalize(term.replace('-', ' '))}</h2>
 						<div class="ui list">
 							{staffPosts[term].map(staff => {
-								console.log('staff....', staff);
 								return(
 									<div class="item">
 										<p><strong>{staff.name}</strong>, {staff.job_title}</p>

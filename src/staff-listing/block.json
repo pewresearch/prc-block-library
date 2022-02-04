@@ -2,19 +2,19 @@
 	"apiVersion": 2,
 	"name": "prc-block/staff-listing",
 	"title": "Staff Listing",
-	"description": "Display a list of staff members organized by staff type.",
-	"keywords": [ "staff", "people" ],
+	"description": "Display a list of staff members organized by staff type, as well as expertise and/or research team.",
+	"keywords": [ "staff", "people", "experts" ],
 	"category": "layout",
 	"attributes": {
 		"staffTypes": {
-            "type": "string",
-			"default": "staff"
+            "type": "array",
+			"default": ["staff"]
         },
 		"expertise": {
-			"type": "string"
+			"type": "array"
 		},
 		"researchTeams": {
-			"type": "string"
+			"type": "array"
 		}
     },
 	"supports": {
