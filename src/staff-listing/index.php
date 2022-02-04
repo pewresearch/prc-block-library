@@ -88,7 +88,7 @@ class Staff_Listing extends PRC_Block_Library {
 				$staff_query->the_post();
 				$byline             = get_post_meta( get_the_ID(), 'linked_byline_term', true );
 				$enable_byline_link = get_post_meta( get_the_ID(), 'promote_to_byline', true );
-				if ( ! empty( $byline ) && true == $enable_byline_link ) {
+				if ( true == $enable_byline_link && ! empty( $byline )) {
 					$term = get_term( $byline, 'bylines' );
 					$link = get_bloginfo( 'url' ) . '/staff/' . $term->slug;
 				}
@@ -96,6 +96,7 @@ class Staff_Listing extends PRC_Block_Library {
 					'name' => get_the_title(),
 					'id'   => get_the_ID(),
 					'job_title' => get_post_meta( get_the_ID(), 'job_title', true ),
+					'byline' => $byline,
 					'link' => $link,
 				) );
 			}
@@ -116,17 +117,32 @@ class Staff_Listing extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$staff_types = array('staff'); // attribute...
+		$staff_types = explode(',', $attributes['staffTypes']);
+		// Order $staff_types so that 'executive-team' is always first.
+		if ( in_array( 'executive-team', $staff_types ) ) {
+			$key = array_search( 'executive-team', $staff_types );
+			unset( $staff_types[ $key ] );
+			array_unshift( $staff_types, 'executive-team' );
+		}
+		// Order $staff_types so that 'staff' is always last.
+		if ( in_array( 'staff', $staff_types ) ) {
+			$key = array_search( 'staff', $staff_types );
+			unset( $staff_types[ $key ] );
+			array_push( $staff_types, 'staff' );
+		}
 
 		ob_start();
 		foreach ($staff_types as $staff_type_slug) {
+			$label = str_replace('-', ' ', $staff_type_slug);
+			$label = ucwords($label);
 			$staff_posts = $this->get_staff_by_type($staff_type_slug);
-			echo '<h2>' . esc_html( $staff_type_slug ) . '</h2>';
+			echo '<h2>' . esc_html( $label ) . '</h2>';
 			echo '<div class="ui list">';
 			foreach ( $staff_posts as $staff_post ) {
+				$staff_name = !empty($staff_post['link']) ? '<a href="' . esc_url( $staff_post['link'] ) . '">' . esc_html( $staff_post['name'] ) . '</a>' : esc_html( $staff_post['name'] );
 				?>
 					<div class="item">
-						<p><strong><?php echo $staff_post['name']; ?></strong>, <?php echo $staff_post['job_title']; ?></p>
+						<p><strong><?php echo $staff_name;?></strong>, <?php echo $staff_post['job_title']; ?></p>
 					</div>
 				<?php
 			}
