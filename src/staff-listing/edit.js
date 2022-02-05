@@ -10,7 +10,7 @@ import {addQueryArgs} from '@wordpress/url';
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { CheckboxControl, Notice, PanelBody } from '@wordpress/components';
+import { BaseControl, CheckboxControl, CardDivider, Placeholder, Spinner, PanelBody } from '@wordpress/components';
 
 const capitalize = (s) => {
 	if (typeof s !== 'string') {
@@ -36,8 +36,7 @@ const SelectTerms = ({taxonomy = 'staff-type', attribute ='staffTypes', selected
 	}, [selectedTerms]);
 
 	return (
-		<div>
-			<h3>{capitalize(taxonomy.replace('-', ' '))}</h3>
+		<BaseControl label={capitalize(taxonomy.replace('-', ' '))}>
 			{options.map(option => {
 				return (
 					<CheckboxControl
@@ -54,7 +53,8 @@ const SelectTerms = ({taxonomy = 'staff-type', attribute ='staffTypes', selected
 					/>
 				);
 			})}
-		</div>
+			<CardDivider/>
+		</BaseControl>
 	);
 }
 
@@ -71,7 +71,6 @@ const edit = ({ attributes, setAttributes }) => {
 			areas_of_expertise: e.join(','),
 			research_teams: r.join(',')
 		}
-		console.log('loadPosts', payload);
 		setLoading(true);
 		apiFetch({
             path: addQueryArgs('/prc-api/v2/blocks/staff-listing', payload),
@@ -101,7 +100,12 @@ const edit = ({ attributes, setAttributes }) => {
             </InspectorControls>
 			<div {...blockProps} >
 				{loading && (
-					<Notice status="warning" isDismissible={false} >{__('Loading Staff...', 'prc-block-library')}</Notice>
+					<Placeholder
+						icon=""
+						label={__('Staff Listing')}
+					>
+						<span><Spinner />{` Loading Staff Database...`}</span>
+					</Placeholder>
 				)}
 				{false === loading && Object.keys(staffPosts).map(term => {
 					if ( staffPosts[term].length <= 0 ) {
@@ -113,7 +117,7 @@ const edit = ({ attributes, setAttributes }) => {
 						<div class="ui list">
 							{staffPosts[term].map(staff => {
 								return(
-									<div class="item">
+									<div class="item sans-serif">
 										<p><strong>{staff.name}</strong>, {staff.job_title}</p>
 									</div>
 								);
