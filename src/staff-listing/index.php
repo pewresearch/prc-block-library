@@ -100,16 +100,9 @@ class Staff_Listing extends PRC_Block_Library {
 			// Michael Dimock should always come first in this list.
 			if ( true === $is_executive_team ) {
 				// Check if a post in $staff_query->posts has a post_title of "Michael Dimock" and if so then get the index of that post.
-				$president_index = array_search(
-					array_filter(
-						$staff_query->posts,
-						function( $post ) {
-							return $post->post_title === 'Michael Dimock';
-						}
-					),
-					$staff_query->posts
-				);
+				$president_index = array_search('Michael Dimock', array_column($staff_query->posts, 'post_title'));
 				$president = $staff_query->posts[$president_index];
+
 				unset( $staff_query->posts[$president_index] );
 				array_unshift( $staff_query->posts, $president );
 			}
