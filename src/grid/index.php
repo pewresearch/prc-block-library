@@ -5,6 +5,8 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 
 use \WPackio as WPackio;
 class Grid_Block extends PRC_Block_Library {
+	public static $version = '2.0.1';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -106,7 +108,7 @@ class Grid_Block extends PRC_Block_Library {
 
 	/**
 	 * Render callback for prc-block/grid
-	 * If there is only one row block then well treat that row block as the grid, otherwise (if there is more than one rwo) treat this as the grid and the rows as rows. 
+	 * If there is only one row block then well treat that row block as the grid, otherwise (if there is more than one rwo) treat this as the grid and the rows as rows.
 	 *
 	 * @param mixed $attributes
 	 * @param mixed $content
@@ -150,7 +152,7 @@ class Grid_Block extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

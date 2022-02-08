@@ -71,6 +71,7 @@ div.wp-block[data-type="prc-block/grid"] > .wp-block.block-list-appender {
 div.wp-block[data-type="prc-block/grid"] {
   .block-editor-block-list__block {
     margin-top: inherit;
+		box-sizing: border-box;
   }
 }
 div.wp-block[data-type="prc-block/grid"] > .ui.grid > .wp-block.block-list-appender,
