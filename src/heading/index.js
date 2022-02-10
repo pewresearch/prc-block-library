@@ -15,14 +15,14 @@ import './style.scss';
 
 /**
  * Modify default settings on core/heading block. Change the default heading level to 4 and add isChapter attribute to replace prc-block/chapter at a later date.
- * 
- * @param {*} settings 
- * @param {*} name 
- * @returns 
+ *
+ * @param {*} settings
+ * @param {*} name
+ * @returns
  */
 function modifyDefaultSettings( settings, name ) {
     if ( 'core/heading' !== name ) {
-        return settings;    
+        return settings;
     }
     settings.attributes.level.default = 4;
     settings.attributes.isChapter = {
@@ -58,3 +58,5 @@ registerBlockVariation('core/heading', {
         level: 3,
     },
 });
+
+//@TODO: Register a block transform to convert prc-block/chapter to heading. from prc-block/chapter to this.

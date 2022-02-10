@@ -11,6 +11,7 @@ class Heading_Block extends PRC_Block_Library {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
 			add_filter( 'prc_grid_row_classes', array( $this, 'add_section_header_class_to_row' ), 10, 2 );
 			add_filter( 'render_block', array( $this, 'heading_block_render' ), 10, 2 );
+			add_filter( 'block_type_metadata', array( $this, 'add_chapter_attributes' ), 100, 1 );
 		}
 	}
 
@@ -19,7 +20,7 @@ class Heading_Block extends PRC_Block_Library {
 		if ( 'prc-block/column' !== $inner_blocks['blockName'] || 16 === $inner_blocks['attrs']['width'] ) {
 			return $classes;
 		}
-		
+
 		$first_block = $inner_blocks['innerBlocks'][0];
 
 		if ( 'core/group' === $first_block['blockName'] ) {
@@ -33,7 +34,7 @@ class Heading_Block extends PRC_Block_Library {
 		if ( array_key_exists( 'className', $first_block['attrs'] ) && 'core/heading' === $first_block['blockName'] && 'is-style-section-header' === $first_block['attrs']['className'] ) {
 			$classes['has section heading'] = true;
 		}
-		
+
 		return $classes;
 	}
 
@@ -58,10 +59,36 @@ class Heading_Block extends PRC_Block_Library {
 		if ( 'core/heading' !== $block['blockName'] ) {
 			return $block_content;
 		}
-		
+
 		$this->enqueue_assets( false );
 
 		return $block_content;
+	}
+
+	public function add_chapter_attributes( $metadata ) {
+		if ( 'core/heading' !== $metadata['name'] ) {
+			return $metadata;
+		}
+
+		if ( ! array_key_exists( 'isChapter', $metadata['attributes'] ) ) {
+			$metadata['attributes']['isChapter'] = array(
+				'type'    => 'boolean',
+				'default' => false,
+			);
+		}
+		if ( ! array_key_exists( 'altTocText', $metadata['attributes'] ) ) {
+			$metadata['attributes']['altTocText'] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+		if ( ! array_key_exists( 'icon', $metadata['attributes'] ) ) {
+			$metadata['attributes']['icon'] = array(
+				'type'    => 'string',
+				'default' => '',
+			);
+		}
+		return $metadata;
 	}
 
 	/**
