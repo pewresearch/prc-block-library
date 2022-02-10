@@ -7,6 +7,8 @@ import {
     createBlock,
     registerBlockStyle,
     registerBlockVariation,
+	rawHandler,
+	serialize,
 } from '@wordpress/blocks';
 
 /**
@@ -156,6 +158,32 @@ addFilter('blocks.registerBlockType', 'prc-block/group', settings => {
                     );
                 },
             },
+			{
+				type: 'raw',
+				isMatch: ( node ) => {
+					// If the element has a class of callout return true and proceed to trasnform...
+					return node.classList.contains('callout');
+				},
+				transform: ( node ) => {
+					// Loop through the node child nodes and get its outerHtml and create a block from the HTML string, then add that to innerBlocks.
+					const innerBlocks = rawHandler({HTML: node.innerHTML});
+
+					const attrs = {
+						className: 'is-style-callout',
+						style: {
+							color: {
+								background: '#f7f7f1',
+							},
+						},
+					};
+					if ( node.getAttribute('align') ) {
+						attrs.align = node.getAttribute('align');
+					}
+
+					return createBlock( 'core/group', attrs, [...innerBlocks] );
+				},
+				priority: 11,
+			},
         ],
         to: [
             {
