@@ -1,0 +1,32 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/video-popup",
+	"title": "Video Popup",
+	"icon": "playlist-video",
+	"description": "A block that displays a video in a popup when the user clicks on any of the content inside.",
+	"keywords": [ "videopress", "video" ],
+	"category": "media",
+	"attributes": {
+		"src": {
+            "type": "string"
+        },
+		"attachmentId": {
+            "type": "string"
+        },
+		"isYoutube": {
+            "type": "boolean",
+			"default": false
+        },
+		"isVimeo": {
+            "type": "boolean",
+			"default": false
+        },
+		"isVideoPress": {
+            "type": "boolean",
+			"default": false
+        }
+    },
+	"supports": {
+		"html": false
+	}
+}

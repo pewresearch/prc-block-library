@@ -2,7 +2,7 @@
     "apiVersion": 2,
 	"name": "prc-block/story-item",
     "title": "Story Item",
-	"category": "layout",
+	"category": "content-curation",
     "icon": "format-aside",
     "description": "A story item is a visual display of a post, usually referencing a stub post.",
     "keywords": ["prc", "story", "item", "story item", "stub"],

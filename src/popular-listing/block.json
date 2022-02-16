@@ -3,7 +3,7 @@
 	"name": "prc-block/popular-listing",
 	"description": "A popular post, must be placed in a group block for numbers to appear.",
 	"title": "Popular Listing",
-	"category": "layout",
+	"category": "content-curation",
 	"attributes": {
 		"title": {
             "type": "string"
@@ -20,7 +20,7 @@
 		"enableNumber": {
 			"type": "boolean"
 		}
-    },          
+    },
 	"supports": {
 		"html": false
 	}
