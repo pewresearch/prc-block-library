@@ -2,7 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import { BlockInserterButton } from '@pewresearch/app-components';
+import { BlockInserterButton } from '@prc-app/shared';
 
 /**
  * WordPress dependencies

@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
- * Internal dependencies
+ * Internal Dependencies
  */
 import deprecated from './deprecated';
 import metadata from './block.json';

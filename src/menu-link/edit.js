@@ -1,8 +1,8 @@
 /**
- * External dependencies
+ * External Dependencies
  */
 import classnames from 'classnames';
-import { BlockInserterButton } from '@pewresearch/app-components';
+import { BlockInserterButton } from '@prc-app/shared';
 import {
     link as linkIcon,
     formatIndent as moreIcon,

@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import {mailChimpInterests} from '@pewresearch/app-components';
+import { mailChimpInterests } from '@prc-app/shared';
 /**
  * WordPress Dependencies
  */

@@ -1,9 +1,4 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
@@ -21,27 +16,34 @@ import {
     CardDivider,
 	DropZone,
     PanelBody,
+	ResponsiveWrapper,
+	Spinner,
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { uploadMedia } from '@wordpress/media-utils';
 
 const ALLOWED_MEDIA_TYPES = ['video'];
 
-const VideoDropZone = ({ attachmentId = false }) => {
+const VideoDropZone = ({ attributes, setAttributes }) => {
+	const {attachmentId, src} = attributes;
     const [isUploading, setIsUploading] = useState(false);
 
     const { media } = useSelect(select => {
         const { getMedia } = select('core');
         return {
-            media: attachmentId ? getMedia(attachmentId) : null,
+            media: attachmentId ? getMedia(attachmentId) : null
         };
-    });
+    }, [attachmentId]);
 
     const onUpdate = video => {
         console.log(
             'video update',
 			video
         );
+		setAttributes({
+			attachmentId: video.id,
+			src: '',
+		});
     };
 
     const onDrop = filesList => {
@@ -66,18 +68,11 @@ const VideoDropZone = ({ attachmentId = false }) => {
         });
     };
 
-    let mediaWidth;
-    let mediaHeight;
-    let mediaSourceUrl;
-    if (media) {
-        console.log('hasMedia!', media, attachmentId);
-        if (has(media, ['media_details', 'sizes', size])) {
-            // use size when available
-            mediaWidth = media.media_details.sizes[size].width;
-            mediaHeight = media.media_details.sizes[size].height;
-            mediaSourceUrl = media.media_details.sizes[size].source_url;
-        }
-    }
+	useEffect(()=>{
+		if (media) {
+			console.log('hasMedia!', media, attachmentId);
+		}
+	}, [media]);
 
     return (
         <MediaUploadCheck>
@@ -98,6 +93,7 @@ const VideoDropZone = ({ attachmentId = false }) => {
 									isInline
 								>
 									The Video File
+									<video src={videoSrc} controls />
 								</ResponsiveWrapper>
 							)}
 							{((!!attachmentId && !media) || isUploading) && (
@@ -139,7 +135,7 @@ const edit = ({ attributes, className, setAttributes }) => {
 		<Fragment>
 			<InspectorControls>
 				<PanelBody title={__('Video Settings')}>
-					<VideoDropZone attachmentId={attachmentId} />
+					<VideoDropZone attachmentId={attachmentId} setAttributes={setAttributes}/>
 				</PanelBody>
 			</InspectorControls>
 			<div {...innerBlocksProps} />

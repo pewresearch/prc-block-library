@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { useDebounce } from '@prc/shared';
+import { useDebounce } from '@prc-app/shared';
 
 /**
  * WordPress Dependencies

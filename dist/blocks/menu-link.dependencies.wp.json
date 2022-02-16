@@ -10,6 +10,7 @@
     "wp-data",
     "wp-dom",
     "wp-element",
+    "wp-html-entities",
     "wp-i18n",
     "wp-keycodes",
     "wp-primitives",

@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import classNames from 'classnames/bind';
-import { getTermsAsOptions } from '@pewresearch/app-components';
+import { getTermsAsOptions } from '@prc-app/shared';
 
 /**
  * WordPress Dependencies

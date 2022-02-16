@@ -10,6 +10,7 @@
     "wp-element",
     "wp-html-entities",
     "wp-i18n",
+    "wp-keycodes",
     "wp-primitives",
     "wp-url"
   ],

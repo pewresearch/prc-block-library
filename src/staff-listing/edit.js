@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { getTermsAsOptions } from '@prc/shared';
+import { getTermsAsOptions } from '@prc-app/shared';
 /**
  * WordPress Dependencies
  */

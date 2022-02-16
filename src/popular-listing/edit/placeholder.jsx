@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { ContentPlaceholder } from '@prc/shared';
+import { ContentPlaceholder } from '@prc-app/shared';
 
 /**
  * WordPress Dependencies

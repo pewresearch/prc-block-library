@@ -42,8 +42,6 @@
     "dependencies": {
         "@emotion/react": "^11.7.0",
         "@emotion/styled": "^11.6.0",
-        "@google-analytics/data": "^2.8.0",
-        "@pewresearch/app-components": "^0.1.17",
         "@pewresearch/pew-chart-builder": "^0.4.7",
         "@wordpress/icons": "^6.1.1",
         "@wpackio/entrypoint": "^6.3.0",

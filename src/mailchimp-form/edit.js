@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import classnames from 'classnames';
-import { mailChimpInterests } from '@pewresearch/app-components';
+import { mailChimpInterests } from '@prc-app/shared';
 /**
  * WordPress Dependencies
  */
@@ -23,7 +23,7 @@ const BUTTON_COLORS = [
     { name: 'basic', color: '#fff' },
 ];
 
-const SidebarControls = ({ interest, buttonColor, setAttributes, hasDarkBackground }) => {    
+const SidebarControls = ({ interest, buttonColor, setAttributes, hasDarkBackground }) => {
     useEffect(() => {
         if ( ('' === buttonColor || '#000' === buttonColor) && hasDarkBackground ) {
             setAttributes({

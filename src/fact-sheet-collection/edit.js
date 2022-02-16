@@ -3,7 +3,7 @@
 /**
  * External Dependencies
  */
-import { getTermsAsTree } from '@pewresearch/app-components';
+import { getTermsAsTree } from '@prc-app/shared';
 
 /**
  * WordPress Dependencies

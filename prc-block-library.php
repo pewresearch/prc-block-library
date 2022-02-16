@@ -106,6 +106,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-categorized/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-search-field/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/video-popup/index.php';
 
 			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
@@ -119,8 +120,16 @@ class PRC_Block_Library {
 			$block_categories,
 			array(
 				array(
+					'slug'  => 'content-curation',
+					'title' => __( 'Content Curation', 'prc-block-library-categories' ),
+				),
+				array(
+					'slug'  => 'essay',
+					'title' => __( 'Essays', 'prc-block-library-categories' ),
+				),
+				array(
 					'slug'  => 'marketing',
-					'title' => __( 'Marketing', 'marketing' ),
+					'title' => __( 'Marketing', 'prc-block-library-categories' ),
 				),
 			)
 		);

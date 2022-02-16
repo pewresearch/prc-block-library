@@ -66,6 +66,7 @@ const files = [
                 './src/topic-index-condensed/pages/index.js',
             'topic-index-search-field':
                 './src/topic-index-search-field/index.js',
+			'video-popup': './src/video-popup/index.js',
         },
         optimizeForGutenberg: true,
         webpackConfig: (config, merge, appDir, isDev) => {

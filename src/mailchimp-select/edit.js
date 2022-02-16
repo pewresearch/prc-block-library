@@ -2,7 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import {mailChimpInterests} from '@pewresearch/app-components';
+import {mailChimpInterests} from '@prc-app/shared';
 
 /**
  * WordPress dependencies

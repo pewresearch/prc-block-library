@@ -2,7 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import { CaretHeadingLink } from '@pewresearch/app-components';
+import { CaretHeadingLink } from '@prc-app/shared';
 
 /**
  * WordPress dependencies

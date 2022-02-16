@@ -5,7 +5,7 @@
 	"icon": "playlist-video",
 	"description": "A block that displays a video in a popup when the user clicks on any of the content inside.",
 	"keywords": [ "videopress", "video" ],
-	"category": "media",
+	"category": "essay",
 	"attributes": {
 		"src": {
             "type": "string"

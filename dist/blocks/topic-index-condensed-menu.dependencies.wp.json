@@ -8,8 +8,10 @@
     "wp-components",
     "wp-data",
     "wp-element",
+    "wp-html-entities",
     "wp-i18n",
     "wp-keycodes",
+    "wp-primitives",
     "wp-url"
   ],
   "version": "6e67616ce2f2193b5cdb252e69006e2f"

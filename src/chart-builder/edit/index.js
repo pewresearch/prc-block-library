@@ -12,6 +12,8 @@ import {
     masterConfig,
     ChartBuilderTextWrapper,
 } from '@pewresearch/pew-chart-builder/dist';
+import { ifMatchSetAttribute } from '@prc-app/shared';
+
 /**
  * Internal dependencies
  */
@@ -24,7 +26,6 @@ import {
     formatLegacyAttrs,
 } from '../utils/helpers';
 import ChartControls from './ChartControls';
-import { ifMatchSetAttribute } from '@pewresearch/app-components';
 
 const setChartTypeByClassName = (className, setAttributes) => {
     ifMatchSetAttribute(
