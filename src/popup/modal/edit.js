@@ -9,10 +9,14 @@ import {
     useBlockProps,
 	RichText,
 } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl } from '@wordpress/components';
+import {
+	PanelBody,
+	SelectControl,
+	ToggleControl
+} from '@wordpress/components';
 
 const edit = ({ attributes, setAttributes }) => {
-	const { title, inverted, className } = attributes;
+	const { title, inverted, transition, className } = attributes;
 
 	const isVideo = className === 'is-style-video';
 
@@ -31,11 +35,26 @@ const edit = ({ attributes, setAttributes }) => {
 		<Fragment>
 			<InspectorControls>
 				<PanelBody title={'Modal Settings'}>
-					<ToggleControl
-						label={'Use white background'}
-						checked={inverted}
-						onChange={() => setAttributes({ inverted: !inverted })}
-					/>
+					<div>
+						<ToggleControl
+							label={'Use white background'}
+							checked={inverted}
+							onChange={() => setAttributes({ inverted: !inverted })}
+						/>
+						<SelectControl
+							label="Transition"
+							value={ transition }
+							options={ [
+								{ label: 'Scale', value: 'scale' },
+								{ label: 'Zoom', value: 'zoom' },
+								{ label: 'Fade', value: 'fade' },
+								{ label: 'Fade Up', value: 'fade up' },
+								{ label: 'Drop', value: 'drop' },
+								{ label: 'Fly Up', value: 'fly up' },
+							] }
+							onChange={ ( value ) => setAttributes( {transition: value} ) }
+						/>
+					</div>
 				</PanelBody>
 			</InspectorControls>
 			<div {...blockProps}>

@@ -71,16 +71,16 @@
   "popular-listing.css.map": "blocks/popular-listing-b12709f3.css.map",
   "popular-listing.js": "blocks/popular-listing-fc604fb2.js",
   "popular-listing.js.map": "blocks/popular-listing-fc604fb2.js.map",
-  "popup-content.css": "blocks/popup-content-41c7b43e.css",
-  "popup-content.css.map": "blocks/popup-content-41c7b43e.css.map",
+  "popup-content.css": "blocks/popup-content-55c7f7fd.css",
+  "popup-content.css.map": "blocks/popup-content-55c7f7fd.css.map",
   "popup-content.js": "blocks/popup-content-865c4e97.js",
   "popup-content.js.map": "blocks/popup-content-865c4e97.js.map",
   "popup-controller.js": "blocks/popup-controller-75e8403e.js",
   "popup-controller.js.map": "blocks/popup-controller-75e8403e.js.map",
   "popup-modal.css": "blocks/popup-modal-7f16c0ae.css",
   "popup-modal.css.map": "blocks/popup-modal-7f16c0ae.css.map",
-  "popup-modal.js": "blocks/popup-modal-e0af861e.js",
-  "popup-modal.js.map": "blocks/popup-modal-e0af861e.js.map",
+  "popup-modal.js": "blocks/popup-modal-71afe70f.js",
+  "popup-modal.js.map": "blocks/popup-modal-71afe70f.js.map",
   "post-bylines.js": "blocks/post-bylines-5776809a.js",
   "post-bylines.js.map": "blocks/post-bylines-5776809a.js.map",
   "post-publish-date.js": "blocks/post-publish-date-1b58d649.js",
@@ -581,10 +581,10 @@
           "blocks/popup-content-865c4e97.js.map"
         ],
         "css": [
-          "blocks/popup-content-41c7b43e.css"
+          "blocks/popup-content-55c7f7fd.css"
         ],
         "css.map": [
-          "blocks/popup-content-41c7b43e.css.map"
+          "blocks/popup-content-55c7f7fd.css.map"
         ]
       }
     },
@@ -592,11 +592,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-modal-e0af861e.js"
+          "blocks/popup-modal-71afe70f.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-modal-e0af861e.js.map"
+          "blocks/popup-modal-71afe70f.js.map"
         ],
         "css": [
           "blocks/popup-modal-7f16c0ae.css"

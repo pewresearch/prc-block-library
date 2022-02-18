@@ -14,6 +14,15 @@ class Popup_Modal extends PRC_Block_Library {
 		}
 	}
 
+	// We need to know if the vimeo block is inside the modal block...
+	public function add_context_to_vimeo_block() {
+
+	}
+
+	public function render_vimeo_player($attributes) {
+
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
 		$is_video = array_key_exists('className', $attributes) && $attributes['className'] === 'is-style-video';
 		$classnames = classNames('ui modal', array(
@@ -22,6 +31,7 @@ class Popup_Modal extends PRC_Block_Library {
 		$block_attrs = get_block_wrapper_attributes(array(
 			'class' => $classnames,
 			'data-inverted' => array_key_exists('inverted', $attributes) ? boolval($attributes['inverted']) : false,
+			'data-transition' => array_key_exists('transition', $attributes) ? $attributes['transition'] : 'scale',
 		));
 		ob_start();
 		?>
@@ -30,7 +40,7 @@ class Popup_Modal extends PRC_Block_Library {
 				echo "<div class='header'><h2>{$attributes['title']}</h2></div>";
 			}?>
 			<div class="content">
-				<?php echo wp_kses( $content, 'post' ); ?>
+				<?php echo apply_filters( 'the_content', $content ); ?>
 			</div>
 		</div>
 		<?php

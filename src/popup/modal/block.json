@@ -9,6 +9,10 @@
 		"title": {
 			"type": "string"
 		},
+		"transition": {
+			"type": "string",
+			"default": "scale"
+		},
 		"inverted": {
 			"type": "boolean",
 			"default": false

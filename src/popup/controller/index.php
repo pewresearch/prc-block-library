@@ -8,10 +8,16 @@ use \WPackio as WPackio;
  */
 
 class Popup_Controller extends PRC_Block_Library {
+	public $vimeo_script_handle = false;
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
+	}
+
+	public function makes_js_deps() {
+		return array('vimeo-for-wordpress-player');
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
@@ -21,7 +27,7 @@ class Popup_Controller extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div <?php echo $block_attrs; ?>>
-			<?php echo wp_kses( $content, 'post' ); ?>
+			<?php echo apply_filters( 'the_content', $content ); ?>
 		</div>
 		<?php
 		return ob_get_clean();

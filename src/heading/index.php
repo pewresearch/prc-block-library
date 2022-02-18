@@ -12,6 +12,7 @@ class Heading_Block extends PRC_Block_Library {
 			add_filter( 'prc_grid_row_classes', array( $this, 'add_section_header_class_to_row' ), 10, 2 );
 			add_filter( 'render_block', array( $this, 'heading_block_render' ), 10, 2 );
 			add_filter( 'block_type_metadata', array( $this, 'add_chapter_attributes' ), 100, 1 );
+			add_filter( 'prc_chapters', array($this, 'construct_toc'), 10, 2 );
 		}
 	}
 
@@ -63,6 +64,58 @@ class Heading_Block extends PRC_Block_Library {
 		$this->enqueue_assets( false );
 
 		return $block_content;
+	}
+
+	public function recursively_search_for_chapters( $array ) {
+		$key = 'blockName';
+		$value = 'core/heading';
+		$results = array();
+
+		// true === $block['attributes']['isChapter']
+
+		if ( is_array( $array ) ) {
+
+			if ( isset( $array[ $key ] ) && $array[ $key ] == $value ) {
+				$results[] = $array;
+			}
+
+			foreach ( $array as $subarray ) {
+				$results = array_merge( $results, $this->recursively_search_for_chapters( $subarray, $key, $value ) );
+			}
+		}
+
+		return $results;
+	}
+
+	public function construct_toc( $post_id, $content = null ) {
+		// If this post doesn't have blocks OR if it specifically does not have heading blocks then we can't do anything so just return false.
+		if ( !has_blocks( $post_id ) || !has_block( 'core/heading', $post_id ) ) {
+			return false;
+		}
+
+		error_log("construct toc...");
+
+		$chapters = array();
+
+		if ( null !== $content ) {
+			$blocks = parse_blocks($content);
+		} else {
+			$content = get_post_field( 'post_content', $post_id );
+			$blocks = parse_blocks($content);
+		}
+
+		$chapter_blocks = $this->recursively_search_for_chapters( $blocks );
+
+		foreach ( $chapter_blocks as $chapter ) {
+			error_log(print_r($chapter, true));
+			if ( array_key_exists('isChapter', $chapter['attrs']) && true === $chapter['attrs']['isChapter'] ) {
+				$chapters[] = $chapter;
+			}
+		}
+
+		error_log(print_r($chapters, true));
+
+		return $chapters;
 	}
 
 	/**
