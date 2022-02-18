@@ -1,0 +1,14 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/popup-controller",
+	"title": "Popup Controller",
+	"icon": "playlist-video",
+	"description": "Display content in a popup.",
+	"category": "media",
+	"keywords": [ "video", "vimeo", "popup", "modal" ],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"anchor": true
+	}
+}

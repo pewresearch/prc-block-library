@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/popup/content/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,iDACC,e","file":"blocks/popup-content-41c7b43e.css","sourcesContent":[".wp-block-prc-block-popup-content:not(.wp-block) {\n\tcursor: pointer;\n}\n"],"sourceRoot":""}

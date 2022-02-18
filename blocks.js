@@ -25,6 +25,9 @@ const files = [
             'menu-link': './src/menu-link/index.js',
             page: './src/page/index.js',
             'popular-listing': './src/popular-listing/index.js',
+			'popup-controller': './src/popup/controller/index.js',
+			'popup-content': './src/popup/content/index.js',
+			'popup-modal': './src/popup/modal/index.js',
             'post-bylines': './src/post-bylines/index.js',
             'post-publish-date': './src/post-publish-date/index.js',
             'post-title': './src/post-title/index.js',
@@ -66,7 +69,6 @@ const files = [
                 './src/topic-index-condensed/pages/index.js',
             'topic-index-search-field':
                 './src/topic-index-search-field/index.js',
-			'video-popup': './src/video-popup/index.js',
         },
         optimizeForGutenberg: true,
         webpackConfig: (config, merge, appDir, isDev) => {
@@ -101,6 +103,7 @@ const files = [
 			'mailchimp-opt-down': './src/mailchimp-opt-down/frontend.js',
             'mailchimp-select': './src/mailchimp-select/frontend.js',
             'menu-link': './src/menu-link/frontend.js',
+			'popup-controller': './src/popup/controller/frontend.js',
             'social-link': './src/social-link/frontend.js',
             'story-item': './src/story-item/frontend.js',
             'tabs-controller': './src/tabs/controller/frontend.js',

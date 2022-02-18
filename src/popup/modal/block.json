@@ -1,0 +1,35 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/popup-modal",
+	"title": "Popup Modal",
+	"icon": "playlist-video",
+	"description": "Display content in a modal.",
+	"category": "media",
+	"attributes": {
+		"title": {
+			"type": "string"
+		},
+		"inverted": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{
+			"name": "video",
+			"label": "Video"
+		}
+	],
+	"supports": {
+        "html": false,
+        "align": false,
+        "inserter": false,
+        "multiple": false
+    },
+    "parent": ["prc-block/popup-controller"]
+}

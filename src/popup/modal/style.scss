@@ -1,0 +1,12 @@
+.wp-block-prc-block-popup-modal.wp-block.ui.modal {
+    position: relative!important;
+	z-index: inherit!important;
+	margin-top: 1.5em!important;
+	margin-bottom: 1.5em!important;
+	&.basic {
+		background: black!important;
+	}
+	.content {
+		box-sizing: border-box;
+	}
+}

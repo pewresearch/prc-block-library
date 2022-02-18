@@ -81,8 +81,9 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-select/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/popular-listing/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/page/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/popular-listing/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/popup/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-publish-date/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
@@ -106,7 +107,6 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-categorized/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-search-field/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/video-popup/index.php';
 
 			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
