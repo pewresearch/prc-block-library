@@ -65,6 +65,11 @@ class Heading_Block extends PRC_Block_Library {
 		return $block_content;
 	}
 
+	/**
+	 * Register additional attributes for heading block.
+	 * @param mixed $metadata
+	 * @return mixed
+	 */
 	public function add_chapter_attributes( $metadata ) {
 		if ( 'core/heading' !== $metadata['name'] ) {
 			return $metadata;
