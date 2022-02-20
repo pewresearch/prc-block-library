@@ -15,6 +15,8 @@ import variations from './variations';
 
 const { name } = metadata;
 
+// @TODO change this to `prc-block/ui-link`
+
 const settings = {
     title: __('Link'),
     icon: linkIcon,

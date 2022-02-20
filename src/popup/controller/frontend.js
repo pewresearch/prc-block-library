@@ -2,6 +2,7 @@
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
+import { getQueryArg, addQueryArgs, removeQueryArgs } from '@wordpress/url';
 // This script gets included automatically by the vimeo/create block. We can use it as we would importing it.
 const Vimeo = window.hasOwnProperty('Vimeo') ? window.Vimeo : false;
 
@@ -14,6 +15,7 @@ const show = (modal, show = true, args = {}) => {
 }
 
 const startController = () => {
+	const originalUrl = window.location.href;
 	const controllers = document.querySelectorAll('.wp-block-prc-block-popup-controller');
 	if (controllers.length) {
 		controllers.forEach(controller => {
@@ -64,6 +66,8 @@ const startController = () => {
 
 				// When the modal is shown, start the video.
 				initArgs.onVisible = () => {
+					window.history.pushState('modal', 'Modal', `#${id}`);
+
 					player.play().then(() =>{
 						console.log('the video was played');
 					}).catch(function(error) {
@@ -87,6 +91,8 @@ const startController = () => {
 
 				// When the modal is hidden, reset the video to its original state.
 				initArgs.onHidden = () => {
+					window.history.back()
+
 					player.unload().then(() => {
 						console.log('the video was unloaded');
 					}).catch((error) => {
