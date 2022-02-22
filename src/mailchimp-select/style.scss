@@ -1,11 +1,23 @@
 .wp-block-prc-block-mailchimp-select {
-    .fields {
-        & > .field:first-child {
-            min-width: 240px;
-        }
-        & > .field:last-child {
-            display: flex;
-            align-items: flex-end;
-        }
-    }
+	.fields {
+		& > .field:first-child {
+			min-width: 240px;
+		}
+		& > .field:last-child {
+			display: flex;
+			align-items: flex-end;
+		}
+	}
+	.grecaptcha-about {
+		font-family: franklin-gothic-urw, Verdana, Geneva, sans-serif;
+		font-size: 0.8rem;
+		color: #58585b;
+		margin-top: 1rem;
+		a {
+			text-decoration: none;
+		}
+	}
+	.grecaptcha-badge {
+		visibility: hidden;
+	}
 }

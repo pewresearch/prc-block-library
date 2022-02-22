@@ -42,7 +42,8 @@
     "dependencies": {
         "@emotion/react": "^11.7.0",
         "@emotion/styled": "^11.6.0",
-        "@pewresearch/pew-chart-builder": "^0.4.7",
+        "@pewresearch/pew-chart-builder": "^0.4.22",
+        "@vimeo/player": "^2.16.3",
         "@wordpress/icons": "^6.1.1",
         "@wpackio/entrypoint": "^6.3.0",
         "array-move": "^4.0.0",
@@ -52,10 +53,11 @@
         "num-words": "^1.2.2",
         "ordinal": "^1.0.3",
         "react-card-flip": "^1.0.11",
+        "react-google-recaptcha": "^2.1.0",
         "react-responsive-picture": "^3.2.2",
         "react-sortable-hoc": "^2.0.0",
         "semantic-ui-react": "^2.0.1",
-		"@vimeo/player": "^2.16.3",
+        "styled-components": "^5.3.3",
         "uuid": "^8.3.2"
     }
 }
