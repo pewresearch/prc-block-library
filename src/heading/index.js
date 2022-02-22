@@ -116,7 +116,6 @@ function modifyDefaultSettings( settings, name ) {
 			} );
 		},
 	}];
-	console.log("core heading settings...", settings);
 	return settings;
 }
 
@@ -156,5 +155,3 @@ registerBlockVariation('core/heading', {
         isChapter: true,
     },
 });
-
-//@TODO: Register a block transform to convert prc-block/chapter to heading. from prc-block/chapter to this.
