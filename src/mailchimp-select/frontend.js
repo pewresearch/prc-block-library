@@ -11,20 +11,21 @@ import { render } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import Form from './form';
-
+import FormList from './form';
 
 domReady(() => {
-    const forms = document.querySelectorAll('.wp-block-prc-block-mailchimp-select');
-    forms.forEach(elm => {
-        const selected = elm.getAttribute('data-interests').split(',');
-        render(
-            <Form
-                interests={mailChimpInterests}
-                selected={selected}
-                allowSubmissions
-            />,
-            elm,
-        );
-    });
+	const forms = document.querySelectorAll(
+		'.wp-block-prc-block-mailchimp-select',
+	);
+	forms.forEach((elm) => {
+		const selected = elm.getAttribute('data-interests').split(',');
+		render(
+			<FormList
+				interests={mailChimpInterests}
+				selected={selected}
+				allowSubmissions
+			/>,
+			elm,
+		);
+	});
 });

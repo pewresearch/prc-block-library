@@ -1,25 +1,37 @@
 .ui.mailchimp.form {
-    width: 100%;
-    .fields {
-        .field:nth-of-type(1) {
-            padding: 0!important;
-        }
-        .field:last-child {
-            padding-right: 0!important;
-        }
-    }
-    & > .field {
-        .field {
-            text-align: left;
-        }
-    }
-    & > .fields {
-        .required.field {
-            flex-grow: 1;
-        }
-        .ui.input {
-            max-width: 370px!important;
-            width: 100%!important;
-        }
-    }
+	width: 100%;
+	.fields {
+		.field:nth-of-type(1) {
+			padding: 0 !important;
+		}
+		.field:last-child {
+			padding-right: 0 !important;
+		}
+	}
+	& > .field {
+		.field {
+			text-align: left;
+		}
+	}
+	& > .fields {
+		.required.field {
+			flex-grow: 1;
+		}
+		.ui.input {
+			max-width: 370px !important;
+			width: 100% !important;
+		}
+	}
+	.grecaptcha-about {
+		font-family: franklin-gothic-urw, Verdana, Geneva, sans-serif;
+		font-size: 0.8rem;
+		color: #58585b;
+		margin-top: 1rem;
+		a {
+			text-decoration: none !important;
+		}
+	}
+	.grecaptcha-badge {
+		visibility: hidden;
+	}
 }
