@@ -1,4 +1,9 @@
 /**
+ * External Dependencies
+ */
+
+import { MediaDropZone } from '@prc-app/shared';
+/**
  * WordPress Dependencies
  */
  import { __ } from '@wordpress/i18n';
@@ -30,7 +35,7 @@ const HeadingBlockFilter = createHigherOrderComponent((BlockEdit) => {
         if ('core/heading' !== name) {
             return <BlockEdit {...props} />;
         }
-		const { isChapter, altTocText, content, anchor } = attributes;
+		const { isChapter, icon, altTocText, content, anchor } = attributes;
         return (
             <Fragment>
 				<BlockControls>
@@ -58,7 +63,17 @@ const HeadingBlockFilter = createHigherOrderComponent((BlockEdit) => {
 								placeholder={content}
 								onChange={(value) => setAttributes({altTocText: value})}
 							/>
-							<p>Image Icon::</p>
+							<MediaDropZone
+								attachmentId={icon}
+								mediaType={['image']}
+								mediaSize={'heading-block--chapter-icon'}
+								onUpdate={(image) => {
+									console.log("IMAGE", image);
+									setAttributes({
+										icon: image.id,
+									});
+								}}
+							/>
 						</Fragment>
 					)}
 				</InspectorAdvancedControls>

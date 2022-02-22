@@ -12,6 +12,7 @@
     "wp-html-entities",
     "wp-i18n",
     "wp-keycodes",
+    "wp-media-utils",
     "wp-primitives",
     "wp-url"
   ],

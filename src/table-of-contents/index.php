@@ -54,6 +54,14 @@ class Table_of_Contents extends PRC_Block_Library {
 		return $results;
 	}
 
+	public function legacy_lookup() {
+		// First see if there are any of the new blocks...
+		// THen see if there are any prc block chapters in here and if so gather them up...
+		// If not then fallback to dom lookup.
+		// In either case we should update_post_meta($post_id, '_migration_flag_chapters', true);
+		// Then we can run a report on each site to see what posts need updating... maybe even add a flag or red light in the admin area for posts that require gutenberg mirgation assistance.
+	}
+
 	public function construct_toc( $post_id, $content = null ) {
 		// If this post doesn't have blocks OR if it specifically does not have heading blocks then we can't do anything so just return false.
 		if ( !has_blocks( $post_id ) || !has_block( 'core/heading', $post_id ) ) {
@@ -86,6 +94,7 @@ class Table_of_Contents extends PRC_Block_Library {
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
 		$chapters = $this->construct_toc( $post_id );
+
 		ob_start();
 		?>
 		<ul>
