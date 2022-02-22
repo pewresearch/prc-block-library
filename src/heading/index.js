@@ -50,12 +50,17 @@ const HeadingBlockFilter = createHigherOrderComponent((BlockEdit) => {
 					</ToolbarGroup>
 				</BlockControls>
 				<InspectorAdvancedControls>
-					<TextControl
-						label={__('Alternate TOC Text', 'prc-block-library')}
-						value={altTocText}
-						placeholder={content}
-						onChange={(value) => setAttributes({altTocText: value})}
-					/>
+					{isChapter && (
+						<Fragment>
+							<TextControl
+								label={__('Alternate TOC Text', 'prc-block-library')}
+								value={altTocText}
+								placeholder={content}
+								onChange={(value) => setAttributes({altTocText: value})}
+							/>
+							<p>Image Icon::</p>
+						</Fragment>
+					)}
 				</InspectorAdvancedControls>
                 <BlockEdit {...props} />
             </Fragment>
