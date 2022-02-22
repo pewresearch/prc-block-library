@@ -99,6 +99,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/staff/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/staff-listing/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/table-of-contents/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/tabs/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree-more/index.php';

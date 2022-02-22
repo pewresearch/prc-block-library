@@ -39,42 +39,7 @@ class Group_Block extends PRC_Block_Library {
 
 		$this->enqueue_assets( false );
 
-		$classes = array(
-			'wp-block-group',
-		);
-		if ( array_key_exists( 'className', $block['attrs'] ) ) {
-			array_push( $classes, $block['attrs']['className'] );
-		}
-
-		$styles = '';
-		if ( array_key_exists('style', $block['attrs']) ) {
-			if ( array_key_exists('color', $block['attrs']['style']) ) {
-				$colors = $block['attrs']['style']['color'];
-				if ( array_key_exists('background', $colors) ) {
-					array_push( $classes, 'has-background' );
-					$styles .= 'background-color:' . $colors['background'] . ';';
-				}
-				if ( array_key_exists('text', $colors) ) {
-					$styles .= 'color:' . $colors['text'] . ';';
-				}
-			}
-		}
-
-		if ( array_key_exists('align', $block['attrs'] ) ) {
-			array_push( $classes, 'align' . $block['attrs']['align'] );
-		}
-
-		$group_block_content = '';
-		foreach ( $block['innerBlocks'] as $inner_block ) {
-			$group_block_content .= render_block( $inner_block );
-		}
-
-		return sprintf(
-			'<div class="%1$s" style="%2$s">%3$s</div>',
-			classNames( $classes ),
-			$styles,
-			apply_filters( 'prc_group_block_content', $group_block_content, $block )
-		);
+		return apply_filters( 'prc_group_block_content', $block_content, $block );
 	}
 
 	/**

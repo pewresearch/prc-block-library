@@ -48,11 +48,7 @@ registerBlockVariation('core/group', {
     ),
     attributes: {
         className: 'is-style-callout',
-        style: {
-            color: {
-                background: '#f7f7f1',
-            },
-        },
+        backgroundColor: 'beige',
     },
     innerBlocks: [['core/heading'], ['core/paragraph']],
 });
@@ -96,6 +92,8 @@ registerBlockVariation('core/group', {
                 className: 'is-style-sub-header',
                 level: 3,
                 placeholder: 'Most Popular Posts...',
+				backgroundColor: 'slate',
+				textColor: 'white'
             },
         ],
         ['prc-block/story-item', { className: 'is-style-disabled' }],
@@ -147,11 +145,7 @@ addFilter('blocks.registerBlockType', 'prc-block/group', settings => {
                         'core/group',
                         {
                             className: 'is-style-callout',
-                            style: {
-                                color: {
-                                    background: '#f7f7f1',
-                                },
-                            },
+                            backgroundColor: 'beige',
                             ...attributes,
                         },
                         innerBlocks,
@@ -170,11 +164,7 @@ addFilter('blocks.registerBlockType', 'prc-block/group', settings => {
 
 					const attrs = {
 						className: 'is-style-callout',
-						style: {
-							color: {
-								background: '#f7f7f1',
-							},
-						},
+						backgroundColor: 'beige',
 					};
 					if ( node.getAttribute('align') ) {
 						attrs.align = node.getAttribute('align');
@@ -194,11 +184,7 @@ addFilter('blocks.registerBlockType', 'prc-block/group', settings => {
                         'core/group',
                         {
                             className: 'is-style-callout',
-                            style: {
-                                color: {
-                                    background: '#f7f7f1',
-                                },
-                            },
+                            backgroundColor: 'beige',
                             ...attributes,
                         },
                         innerBlocks,

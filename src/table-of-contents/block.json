@@ -1,0 +1,14 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/table-of-contents",
+	"title": "Table of Contents",
+	"description": "Displays a list of all heading blocks set to chapter headings.",
+	"keywords": [ "toc", "chapter", "table of contents" ],
+	"category": "design",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"multiple": false
+	},
+	"usesContext": ["queryId", "query", "postId", "postType", "prc-block/column/width", "prc-block/row/isEqual"]
+}

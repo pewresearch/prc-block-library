@@ -46,6 +46,7 @@ const files = [
             'story-item': './src/story-item/index.js',
             'sub-title': './src/sub-title/index.js',
             table: './src/table/index.js',
+			'table-of-contents': './src/table-of-contents/index.js',
             'tabs-controller': './src/tabs/controller/index.js',
             'tabs-menu': './src/tabs/menu/index.js',
             'tabs-menu-item': './src/tabs/menu-item/index.js',

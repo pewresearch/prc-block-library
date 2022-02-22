@@ -115,4 +115,14 @@ registerBlockVariation('core/heading', {
     },
 });
 
+registerBlockVariation('core/heading', {
+    name: 'chapter',
+    title: __('Chapter'),
+    description: __('A chapter heading.'),
+	icon: 'editor-ol',
+    attributes: {
+        isChapter: true,
+    },
+});
+
 //@TODO: Register a block transform to convert prc-block/chapter to heading. from prc-block/chapter to this.
