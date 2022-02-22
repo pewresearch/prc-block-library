@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "lodash",
     "react",
     "react-dom",
     "wp-api-fetch",

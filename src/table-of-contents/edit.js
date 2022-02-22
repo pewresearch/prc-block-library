@@ -1,24 +1,33 @@
 /**
  * External Dependencies
  */
-import classnames from 'classnames';
+
 
 /**
  * WordPress Dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect, useMemo } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
-const edit = ({ attributes, className, setAttributes }) => {
-    const blockProps = useBlockProps({
-        className: classnames(className),
-    });
+const edit = ({ attributes, className, setAttributes, clientId }) => {
+    const blockProps = useBlockProps();
+
+	const {chapters = []} = useSelect((select) => {
+		const blocks = select('core/block-editor').getBlocks();
+		return {
+			chapters: blocks.filter(block => block.name === 'core/heading' && block.attributes.isChapter),
+		}
+	}, [clientId]);
 
     return (
 		<div {...blockProps}>
-			<p>Table of contents use data api to gather up all the chapter blocks here...</p>
+			<ul>
+				{0 !== chapters.length && chapters.map((chapter, index) => {
+					return(<li>{chapter.attributes.content}</li>);
+				})}
+			</ul>
 		</div>
 	);
 };

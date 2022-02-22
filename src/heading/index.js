@@ -1,8 +1,9 @@
 /**
  * External Dependencies
  */
-
+import { isEmpty } from 'lodash';
 import { MediaDropZone } from '@prc-app/shared';
+
 /**
  * WordPress Dependencies
  */
@@ -10,14 +11,15 @@ import { MediaDropZone } from '@prc-app/shared';
  import { createHigherOrderComponent } from '@wordpress/compose';
  import { Fragment } from '@wordpress/element';
  import {
+	createBlock,
     registerBlockStyle,
     registerBlockVariation
 } from '@wordpress/blocks';
 import { BlockControls, InspectorAdvancedControls } from '@wordpress/block-editor';
 import {
+	BaseControl,
     KeyboardShortcuts,
 	TextControl,
-    Toolbar,
     ToolbarGroup,
 	ToolbarButton
 } from '@wordpress/components';
@@ -63,17 +65,20 @@ const HeadingBlockFilter = createHigherOrderComponent((BlockEdit) => {
 								placeholder={content}
 								onChange={(value) => setAttributes({altTocText: value})}
 							/>
-							<MediaDropZone
-								attachmentId={icon}
-								mediaType={['image']}
-								mediaSize={'heading-block--chapter-icon'}
-								onUpdate={(image) => {
-									console.log("IMAGE", image);
-									setAttributes({
-										icon: image.id,
-									});
-								}}
-							/>
+
+							<BaseControl label={__('Chapter Icon', 'prc-block-library')}>
+								<MediaDropZone
+									attachmentId={0 === icon ? false : icon}
+									mediaType={['image']}
+									mediaSize={'heading-block--chapter-icon'}
+									onUpdate={(image) => {
+										console.log("settingAttributes...", image);
+										setAttributes({
+											icon: image.id,
+										});
+									}}
+								/>
+							</BaseControl>
 						</Fragment>
 					)}
 				</InspectorAdvancedControls>
@@ -100,6 +105,18 @@ function modifyDefaultSettings( settings, name ) {
         type: 'boolean',
         default: false,
     };
+	settings.transforms.from = [...settings.transforms.from, {
+		type: 'block',
+		blocks: [ 'prc-block/chapter' ],
+		transform: ( { value, level } ) => {
+			return createBlock( 'core/heading', {
+				content: value,
+				level,
+				isChapter: true,
+			} );
+		},
+	}];
+	console.log("core heading settings...", settings);
 	return settings;
 }
 

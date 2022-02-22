@@ -89,8 +89,8 @@ class Heading_Block extends PRC_Block_Library {
 		}
 		if ( ! array_key_exists( 'icon', $metadata['attributes'] ) ) {
 			$metadata['attributes']['icon'] = array(
-				'type'    => 'string',
-				'default' => '',
+				'type'    => 'integer',
+				'default' => 0,
 			);
 		}
 		return $metadata;

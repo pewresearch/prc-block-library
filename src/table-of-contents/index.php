@@ -15,9 +15,9 @@ class Table_of_Contents extends PRC_Block_Library {
 		}
 	}
 
-	public function recursively_search_for_chapters( $array ) {
+	public function recursively_search_for_chapters( $array, $block_name = 'core/heading' ) {
 		$key = 'blockName';
-		$value = 'core/heading';
+		$value = $block_name;
 		$results = array();
 
 		if ( is_array( $array ) ) {
@@ -25,11 +25,13 @@ class Table_of_Contents extends PRC_Block_Library {
 			if ( isset( $array[ $key ] ) && $array[ $key ] == $value ) {
 				if ( array_key_exists('isChapter', $array['attrs']) && true === $array['attrs']['isChapter'] ) {
 					$results[] = $array;
+				} elseif ( 'prc-block/chapter' === $array[$key] ) {
+					$results[] = $array;
 				}
 			}
 
 			foreach ( $array as $subarray ) {
-				$results = array_merge( $results, $this->recursively_search_for_chapters( $subarray, $key, $value ) );
+				$results = array_merge( $results, $this->recursively_search_for_chapters( $subarray, $value ) );
 			}
 		}
 
@@ -63,20 +65,18 @@ class Table_of_Contents extends PRC_Block_Library {
 	}
 
 	public function construct_toc( $post_id, $content = null ) {
+		$chapters = array();
+
+		if ( null === $content ) {
+			$content = get_post_field( 'post_content', $post_id );
+		}
+
 		// If this post doesn't have blocks OR if it specifically does not have heading blocks then we can't do anything so just return false.
-		if ( !has_blocks( $post_id ) || !has_block( 'core/heading', $post_id ) ) {
+		if ( !has_block( 'core/heading', $content ) ) {
 			return false;
 		}
 
-		$chapters = array();
-
-		if ( null !== $content ) {
-			$blocks = parse_blocks($content);
-		} else {
-			$content = get_post_field( 'post_content', $post_id );
-			$blocks = parse_blocks($content);
-		}
-
+		$blocks = parse_blocks($content);
 		$chapter_blocks = $this->recursively_search_for_chapters( $blocks );
 
 		foreach ( $chapter_blocks as $chapter ) {
@@ -94,8 +94,12 @@ class Table_of_Contents extends PRC_Block_Library {
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
 		$chapters = $this->construct_toc( $post_id );
+		if ( empty($chapters) ) {
+			return;
+		}
 
 		ob_start();
+		echo $post_id;
 		?>
 		<ul>
 		<?php foreach ( $chapters as $chapter ) {
