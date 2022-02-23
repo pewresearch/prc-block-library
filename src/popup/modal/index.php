@@ -40,7 +40,7 @@ class Popup_Modal extends PRC_Block_Library {
 			<?php if ( ! $is_video ) {
 				echo "<div class='header'><h2>{$attributes['title']}</h2></div>";
 			}?>
-			<div class="content">
+			<div class="scrolling content">
 				<?php echo apply_filters( 'the_content', $content ); ?>
 			</div>
 		</div>
