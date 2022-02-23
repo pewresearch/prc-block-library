@@ -118,6 +118,13 @@ const startController = () => {
 					console.log('played the video!');
 					// Send some event to GA?
 				});
+			} else {
+				initArgs.onVisible = () => {
+					window.history.pushState('modal', 'Modal', `#${id}`);
+				};
+				initArgs.onHidden = () => {
+					window.history.back()
+				};
 			}
 
 			// Initialize modals.
