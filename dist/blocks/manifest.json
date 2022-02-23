@@ -15,8 +15,8 @@
   "cover.js.map": "blocks/cover-100b2517.js.map",
   "daily-briefing-signup.css": "blocks/daily-briefing-signup-f40d5194.css",
   "daily-briefing-signup.css.map": "blocks/daily-briefing-signup-f40d5194.css.map",
-  "daily-briefing-signup.js": "blocks/daily-briefing-signup-29d261aa.js",
-  "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-29d261aa.js.map",
+  "daily-briefing-signup.js": "blocks/daily-briefing-signup-693eb8e8.js",
+  "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-693eb8e8.js.map",
   "flip-card-back.js": "blocks/flip-card-back-44ae80ff.js",
   "flip-card-back.js.map": "blocks/flip-card-back-44ae80ff.js.map",
   "flip-card-controller.css": "blocks/flip-card-controller-3d66dfe9.css",
@@ -252,11 +252,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/daily-briefing-signup-29d261aa.js"
+          "blocks/daily-briefing-signup-693eb8e8.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/daily-briefing-signup-29d261aa.js.map"
+          "blocks/daily-briefing-signup-693eb8e8.js.map"
         ],
         "css": [
           "blocks/daily-briefing-signup-f40d5194.css"

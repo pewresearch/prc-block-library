@@ -34,7 +34,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 
 	public function get_latest_daily_briefing_restfully() {
 		$site_id = get_current_blog_id();
-		
+
 		if ( 8 !== $site_id ) {
 			switch_to_blog( 8 );
 		}
@@ -50,19 +50,21 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 				'order'          => 'DESC',
 			)
 		);
-		
+
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 				global $post;
 				$response = $post;
+				$response->link = get_permalink( $post->ID, false);
 			}
 		}
-		
+
 		if ( 8 !== $site_id ) {
 			restore_current_blog();
 		}
-		
+
+
 		return $response;
 	}
 
@@ -73,7 +75,7 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 		// We need to go through each innerblock and render manually, for the story item fetch that information using query. We schould cache the info somehow, when a new daily briefing is published we should invalidate the cache.
 		?>
 		<div <?php echo $block_attrs; ?>>
-			<?php 
+			<?php
 			foreach ( $block->parsed_block['innerBlocks'] as $i => $block ) {
 				if ( 'prc-block/story-item' === $block['blockName'] ) {
 					$description    = $latest_daily_briefing->post_content;
@@ -84,7 +86,8 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 						'label'        => 'Daily Briefing of Media News',
 						'date'         => $latest_daily_briefing->post_date,
 						'innerHTML'    => $description,
-						'innerContent' => array( $description ),
+						'excerpt'      => array( $description ),
+						'url'		   => $latest_daily_briefing->link,
 					);
 				}
 				echo wp_kses( render_block( $block ), 'post' );
