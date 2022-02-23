@@ -36,6 +36,7 @@ class Popup_Modal extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div <?php echo $block_attrs; ?>>
+			<i class="close icon"></i>
 			<?php if ( ! $is_video ) {
 				echo "<div class='header'><h2>{$attributes['title']}</h2></div>";
 			}?>

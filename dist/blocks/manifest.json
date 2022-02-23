@@ -77,8 +77,8 @@
   "popup-content.js.map": "blocks/popup-content-fd07c2f9.js.map",
   "popup-controller.js": "blocks/popup-controller-407363d5.js",
   "popup-controller.js.map": "blocks/popup-controller-407363d5.js.map",
-  "popup-modal.css": "blocks/popup-modal-f05824dc.css",
-  "popup-modal.css.map": "blocks/popup-modal-f05824dc.css.map",
+  "popup-modal.css": "blocks/popup-modal-74338dd7.css",
+  "popup-modal.css.map": "blocks/popup-modal-74338dd7.css.map",
   "popup-modal.js": "blocks/popup-modal-aac030ea.js",
   "popup-modal.js.map": "blocks/popup-modal-aac030ea.js.map",
   "post-bylines.js": "blocks/post-bylines-dbdd4ad7.js",
@@ -605,10 +605,10 @@
           "blocks/popup-modal-aac030ea.js.map"
         ],
         "css": [
-          "blocks/popup-modal-f05824dc.css"
+          "blocks/popup-modal-74338dd7.css"
         ],
         "css.map": [
-          "blocks/popup-modal-f05824dc.css.map"
+          "blocks/popup-modal-74338dd7.css.map"
         ]
       }
     },
