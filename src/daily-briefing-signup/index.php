@@ -85,12 +85,13 @@ class Daily_Briefing_Signup extends PRC_Block_Library {
 						'postId'       => $latest_daily_briefing->ID,
 						'label'        => 'Daily Briefing of Media News',
 						'date'         => $latest_daily_briefing->post_date,
-						'innerHTML'    => $description,
-						'excerpt'      => array( $description ),
+						'excerpt'      => $description,
 						'url'		   => $latest_daily_briefing->link,
 					);
+					do_action( 'prc_do_story_item', $block['attrs'] );
+				} else {
+					echo wp_kses( render_block( $block ), 'post' );
 				}
-				echo wp_kses( render_block( $block ), 'post' );
 			}
 			?>
 		</div>
