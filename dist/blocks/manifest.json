@@ -127,8 +127,8 @@
   "sub-title.js.map": "blocks/sub-title-d4fc6f2d.js.map",
   "table-of-contents.css": "blocks/table-of-contents-3ba37d71.css",
   "table-of-contents.css.map": "blocks/table-of-contents-3ba37d71.css.map",
-  "table-of-contents.js": "blocks/table-of-contents-4e73cc06.js",
-  "table-of-contents.js.map": "blocks/table-of-contents-4e73cc06.js.map",
+  "table-of-contents.js": "blocks/table-of-contents-ee71e615.js",
+  "table-of-contents.js.map": "blocks/table-of-contents-ee71e615.js.map",
   "table.js": "blocks/table-0891e7b9.js",
   "table.js.map": "blocks/table-0891e7b9.js.map",
   "tabs-controller.css": "blocks/tabs-controller-b90c64c0.css",
@@ -862,11 +862,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/table-of-contents-4e73cc06.js"
+          "blocks/table-of-contents-ee71e615.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/table-of-contents-4e73cc06.js.map"
+          "blocks/table-of-contents-ee71e615.js.map"
         ],
         "css": [
           "blocks/table-of-contents-3ba37d71.css"

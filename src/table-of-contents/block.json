@@ -22,5 +22,13 @@
 			"label": "Mobile Icons"
 		}
 	],
-	"usesContext": ["queryId", "query", "postId", "postType", "prc-block/column/width", "prc-block/row/isEqual"]
+	"usesContext": [
+		"queryId",
+		"query",
+		"postId",
+		"postType",
+		"prc-block/column/width",
+		"prc-block/row/isEqual",
+		"core/group/mobileAttachThreshold"
+	]
 }

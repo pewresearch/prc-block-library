@@ -22,28 +22,6 @@ class Table_of_Contents extends PRC_Block_Library {
 		}
 	}
 
-	public function recursively_search_for_chapters( $array, $block_name = 'core/heading' ) {
-		$search = $block_name;
-		$results = array();
-
-		if ( is_array( $array ) ) {
-
-			if ( isset( $array[ 'blockName' ] ) && $array[ 'blockName' ] === $search ) {
-				if ( array_key_exists('isChapter', $array['attrs']) && true === $array['attrs']['isChapter'] ) {
-					$results[] = $array;
-				} elseif ( 'prc-block/chapter' === $array['blockName'] ) {
-					$results[] = $array;
-				}
-			}
-
-			foreach ( $array as $subarray ) {
-				$results = array_merge( $results, $this->recursively_search_for_chapters( $subarray, $search ) );
-			}
-		}
-
-		return $results;
-	}
-
 	// Cribbed from https://codepad.co/snippet/extract-html-attributes-with-regex-in-php
 	public function extract_html_attributes($input) {
 		if( ! preg_match('#^(<)([a-z0-9\-._:]+)((\s)+(.*?))?((>)([\s\S]*?)((<)\/\2(>))|(\s)*\/?(>))$#im', $input, $matches)) return false;
@@ -63,17 +41,48 @@ class Table_of_Contents extends PRC_Block_Library {
 	}
 
 	/**
-	 * This will only match h2 and h3 elements and assign them as chapters...
-	 * @param mixed $content
-	 * @return void|Dom
-	 * @throws ChildNotFoundException
-	 * @throws CircularException
-	 * @throws CurlException
-	 * @throws StrictException
-	 * @throws NotLoadedException
+	 * Will recrusively build the table of contents through navigating all blocks and grabbing core/heading and prc-block/chapter
+	 * @param mixed $array
+	 * @return array
 	 */
-	public function legacy_lookup($content) {
+	public function prepare_chapter_blocks( $array) {
+		$results = array();
+
+		if ( is_array( $array ) ) {
+			// We get the first level of the array first, then sub levels...
+			if ( isset( $array[ 'blockName' ] ) && in_array($array[ 'blockName' ], array('core/heading', 'prc-block/chapter')) ) {
+				if ( array_key_exists('isChapter', $array['attrs']) && true === $array['attrs']['isChapter'] ) {
+					$attrs = $this->extract_html_attributes($array['innerHTML']);
+					$results[] = array(
+						'id' => $attrs['attributes']['id'],
+						'icon' => !empty($array['attrs']['icon']) ? $array['attrs']['icon'] : false,
+						'content' => wp_strip_all_tags( !empty($array['attrs']['altTocText']) ? $array['attrs']['altTocText'] : $array['innerHTML'] ),
+					);
+				} elseif ( 'prc-block/chapter' === $array['blockName'] ) {
+					$results[] = array(
+						'id' => $array['attrs']['id'],
+						'icon' => false,
+						'content' => wp_strip_all_tags( $array['attrs']['value'] ),
+					);
+				}
+			}
+
+			foreach ( $array as $subarray ) {
+				$results = array_merge( $results, $this->prepare_chapter_blocks( $subarray ) );
+			}
+		}
+
+		return $results;
+	}
+
+	/**
+	 * This will only match h2 and h3 elements and assign them as chapters...
+	 */
+	public function prepare_legacy_headings($post_id, $content) {
 		if ( has_blocks($content) ) {
+			return false;
+		}
+		if ( !in_array( get_post_type($post_id), array( 'post', 'fact-sheets' ) ) ) {
 			return false;
 		}
 		// First see if there are any of the new blocks...
@@ -101,18 +110,16 @@ class Table_of_Contents extends PRC_Block_Library {
 			}
 
 			$id = sanitize_title( $elm->text );
-			// $elm->setAttribute( 'id', $id );
-			// $elm->setAttribute( 'class', 'toc-chapter' . ' ' . $elm->getAttribute( 'class' ) );
 
 			$text = $elm->text;
 			if ( ! empty( $alt_text = $elm->getAttribute( 'toc-title' ) ) ) {
 				$text = $alt_text;
 			}
 
-			$chapters[] = (object) array(
-				'content' => $text,
+			$chapters[] = array(
 				'id'  => $id,
 				'icon' => false,
+				'content' => $text,
 			);
 		}
 
@@ -128,61 +135,48 @@ class Table_of_Contents extends PRC_Block_Library {
 			$content = get_post_field( 'post_content', $post_id );
 		}
 
+		$legacy_chapters = $this->prepare_legacy_headings( $post_id, $content );
+		if ( false !== $legacy_chapters ) {
+			return $legacy_chapters;
+		}
+
 		// If this post doesn't have blocks OR if it specifically does not have heading blocks then we can't do anything so just return false.
-		if ( !has_block( 'core/heading', $content ) ) {
+		if ( !has_block( 'core/heading', $content ) && !has_block( 'prc-block/chapter', $content ) ) {
 			return false;
 		}
-
 		$blocks = parse_blocks($content);
-		$chapter_blocks = $this->recursively_search_for_chapters( $blocks, 'core/heading' );
-		// $legacy_chapter_blocks = $this->recursively_search_for_chapters( $blocks, 'prc-block/chapter' );
-
-		foreach ( $chapter_blocks as $chapter ) {
-			$attrs = $this->extract_html_attributes($chapter['innerHTML']);
-			$chapters[] = array(
-				'id' => $attrs['attributes']['id'],
-				'icon' => !empty($chapter['attrs']['icon']) ? $chapter['attrs']['icon'] : false,
-				'content' => wp_strip_all_tags( !empty($chapter['attrs']['altTocText']) ? $chapter['attrs']['altTocText'] : $chapter['innerHTML'] ),
-			);
-		}
-
-		// if ( $legacy_chapter_blocks ) {
-		// 	foreach( $legacy_chapter_blocks as $chapter_block ) {
-		// 		// Add ?
-		// 	}
-		// }
-
-		return $chapters;
+		return $this->prepare_chapter_blocks( $blocks );
 	}
 
-	public function render_list($chapters = false) {
-		if ( false === $chapters ) {
+	public function get_list_items($chapters = false) {
+		if ( false === $chapters || !is_array($chapters) || empty( $chapters ) ) {
 			return false;
 		}
-		// Enqueue mobile logic for the list...
 		ob_start();
 		?>
-		<div role="list" class="ui link selection list">
 		<?php foreach ( $chapters as $chapter ) {
 			echo '<a role="listitem" class="item" href="#' . $chapter['id'] . '">' . $chapter['content'] . '</a>';
 		} ?>
-		</div>
 		<?php
 		return ob_get_clean();
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
+		$mobile_threshold = $block->context['core/group/mobileAttachThreshold'];
 		$chapters = $this->construct_toc( $post_id );
-		if ( empty($chapters) ) {
-			return $post_id;
-		}
 
-		$content = $this->render_list( $chapters );
+		// If this is a multisection report then we'll wrap the TOC with the multi section report list.
+		$content = wp_sprintf(
+			'<div role="list" class="ui link selection list">%s</div>',
+			apply_filters( 'prc-block/table-of-contents', $this->get_list_items( $chapters ), $post_id )
+		);
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
-			get_block_wrapper_attributes(),
+			get_block_wrapper_attributes(array(
+				'data-mobile-threshold' => $mobile_threshold,
+			)),
 			$content
 		);
 	}

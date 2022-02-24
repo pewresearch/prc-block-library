@@ -6,12 +6,15 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Group_Block extends PRC_Block_Library {
-	public static $version = '3.0.0';
+	public static $version = '3.0.1a';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
-			add_filter( 'block_type_metadata', array( $this, 'add_sticky_attributes' ), 100, 1 );
+
+			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
+			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
+
 			add_filter( 'render_block', array( $this, 'group_block_render_callback' ), 10, 2 );
 			add_shortcode( 'callout', array( $this, 'callout_shortcode_fallback' ) );
 		}
@@ -53,7 +56,7 @@ class Group_Block extends PRC_Block_Library {
 	 * @param mixed $metadata
 	 * @return mixed
 	 */
-	public function add_sticky_attributes( $metadata ) {
+	public function add_attributes( $metadata ) {
 		if ( 'core/group' !== $metadata['name'] ) {
 			return $metadata;
 		}
@@ -82,6 +85,20 @@ class Group_Block extends PRC_Block_Library {
 		return $metadata;
 	}
 
+	public function add_settings(array $settings, array $metadata) {
+		if ( 'core/group' === $metadata['name'] ) {
+			$settings['provides_context'] = array_merge(
+				array_key_exists('provides_context', $settings) ? $settings['provides_context'] : array(),
+				array(
+					'core/group/isSticky' => 'isSticky',
+					'core/group/mobileAttachId' => 'mobileAttachId',
+					'core/group/mobileAttachThreshold' => 'mobileAttachThreshold',
+				)
+			);
+		}
+		return $settings;
+	}
+
 	public function group_block_render_callback( $block_content, $block ) {
 		if ( 'core/group' !== $block['blockName'] || is_admin() ) {
 			return $block_content;
@@ -94,12 +111,30 @@ class Group_Block extends PRC_Block_Library {
 		);
 
 		$is_sticky = array_key_exists('isSticky', $block['attrs']) ? $block['attrs']['isSticky'] : false;
+		$mobile_attach_id = array_key_exists('mobileAttachId', $block['attrs']) ? $block['attrs']['mobileAttachId'] : false;
+		$mobile_attach_threshold = array_key_exists('mobileAttachThreshold', $block['attrs']) ? $block['attrs']['mobileAttachThreshold'] : false;
+
+		$block_content = apply_filters( 'prc_group_block_content', $block_content, $block );
 
 		if ( $is_sticky ) {
-			return '<div class="prc-group-block--sticky ui sticky">' . apply_filters( 'prc_group_block_content', $block_content, $block ) . '</div>';
+			$block_content = wp_sprintf(
+				'<div class="prc-group-block--sticky ui sticky">%s</div>',
+				$block_content
+			);
 		}
 
-		return apply_filters( 'prc_group_block_content', $block_content, $block );
+		if ( $mobile_attach_threshold && $mobile_attach_id ) {
+			$id = md5($block_content);
+			$block_content = wp_sprintf(
+				'<div class="prc-group-block--responsive" data-return-id="%1$s" data-attach-id="%2$s" data-attach-threshold="%3$s">%4$s</div>',
+				$id,
+				$mobile_attach_id,
+				$mobile_attach_threshold,
+				$block_content
+			);
+		}
+
+		return $block_content;
 	}
 
 	/**

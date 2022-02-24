@@ -49,6 +49,7 @@
         "array-move": "^4.0.0",
         "classnames": "^2.3.1",
         "csv": "^6.0.4",
+        "enquire.js": "^2.1.6",
         "i18n-iso-countries": "^7.1.0",
         "num-words": "^1.2.2",
         "ordinal": "^1.0.3",
