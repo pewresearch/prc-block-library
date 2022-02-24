@@ -10,7 +10,7 @@ import {
 } from '@wordpress/components';
 import { cleanForSlug } from '@wordpress/url';
 import { DOWN } from '@wordpress/keycodes';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 
 const HeadingLevelIcon = ({ level, isPressed = false }) => {
     const levelToPath = {
@@ -104,9 +104,18 @@ const HeadingLevelDropdown = ({ selectedLevel, onChange }) => {
     );
 };
 
+window.prcBlocksLegacyChapterWarning = false;
+
 const edit = ({ attributes, className, setAttributes }) => {
     const { value, level } = attributes;
     const tagName = `h${level}`;
+	useEffect(()=>{
+		// Only run once.
+		if ( true !== window.prcBlocksLegacyChapterWarning ) {
+			window.prcBlocksLegacyChapterWarning = true;
+			alert('Legacy PRC Chapter block detected! Please click on the PRC Chapter blocks in this document and conver them to Heading blocks.');
+		}
+	},[]);
     return (
         <Fragment>
             <RichText
