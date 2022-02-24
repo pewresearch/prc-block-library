@@ -18,6 +18,7 @@ class Table_of_Contents extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_filter( 'prc_the_content_raw', array( $this, 'handle_legacy_content' ), 1, 1 );
 			add_filter( 'prc_get_chapters', array($this, 'construct_toc'), 10, 2 );
 		}
 	}
@@ -124,6 +125,41 @@ class Table_of_Contents extends PRC_Block_Library {
 		}
 
 		return $chapters;
+	}
+
+	public function handle_legacy_content( $content ) {
+		// If we have blocks immediately return $content.
+		if ( has_blocks( $content ) ) {
+			return $content;
+		}
+
+		// If this is in an authorized post type then find h2,h3 and set id's accordingly.
+		if ( in_array( get_post_type(), array( 'post', 'fact-sheets' ) ) ) {
+			$dom = new Dom();
+			$dom->load(
+				$content,
+				array(
+					'whitespaceTextNode' => true,
+					'preserveLineBreaks' => true,
+				)
+			);
+
+			$headers = $dom->find( 'h2,h3' );
+
+			foreach ( $headers as $elm ) {
+				// If a heading element has a class of no-toc then skip it.
+				if ( $elm->getAttribute( 'no-toc' ) ) {
+					return;
+				}
+
+				$id = sanitize_title( $elm->text );
+				$elm->setAttribute( 'id', $id );
+			}
+
+			$content = $dom;
+		}
+
+		return $content;
 	}
 
 	public function construct_toc( $post_id, $content = null ) {
