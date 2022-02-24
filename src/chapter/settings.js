@@ -27,6 +27,9 @@ const settings = [
         },
         edit,
         save,
+		supports: {
+			inserter: false,
+		}
     },
 ];
 
