@@ -79,7 +79,7 @@ const LabelControls = ({ attributes, setAttributes, chartType }) => {
 			/>
 			<TextControl
 				label={__('Label Units')}
-				value={attributes.labelUnit}
+				value={labelUnit}
 				onChange={(value) => setAttributes({ labelUnit: value })}
 			/>
 			<SelectControl
