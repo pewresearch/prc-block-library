@@ -1,8 +1,15 @@
 <?php
+require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
+use PHPHtmlParser\Dom;
+use PHPHtmlParser\Exceptions\ChildNotFoundException;
+use PHPHtmlParser\Exceptions\CircularException;
+use PHPHtmlParser\Exceptions\CurlException;
+use PHPHtmlParser\Exceptions\StrictException;
+use PHPHtmlParser\Exceptions\NotLoadedException;
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/table-of-contents` block.
  *
  * @package gutenberg
  */
@@ -16,22 +23,21 @@ class Table_of_Contents extends PRC_Block_Library {
 	}
 
 	public function recursively_search_for_chapters( $array, $block_name = 'core/heading' ) {
-		$key = 'blockName';
-		$value = $block_name;
+		$search = $block_name;
 		$results = array();
 
 		if ( is_array( $array ) ) {
 
-			if ( isset( $array[ $key ] ) && $array[ $key ] == $value ) {
+			if ( isset( $array[ 'blockName' ] ) && $array[ 'blockName' ] === $search ) {
 				if ( array_key_exists('isChapter', $array['attrs']) && true === $array['attrs']['isChapter'] ) {
 					$results[] = $array;
-				} elseif ( 'prc-block/chapter' === $array[$key] ) {
+				} elseif ( 'prc-block/chapter' === $array['blockName'] ) {
 					$results[] = $array;
 				}
 			}
 
 			foreach ( $array as $subarray ) {
-				$results = array_merge( $results, $this->recursively_search_for_chapters( $subarray, $value ) );
+				$results = array_merge( $results, $this->recursively_search_for_chapters( $subarray, $search ) );
 			}
 		}
 
@@ -56,17 +62,68 @@ class Table_of_Contents extends PRC_Block_Library {
 		return $results;
 	}
 
-	public function legacy_lookup() {
+	/**
+	 * This will only match h2 and h3 elements and assign them as chapters...
+	 * @param mixed $content
+	 * @return void|Dom
+	 * @throws ChildNotFoundException
+	 * @throws CircularException
+	 * @throws CurlException
+	 * @throws StrictException
+	 * @throws NotLoadedException
+	 */
+	public function legacy_lookup($content) {
+		if ( has_blocks($content) ) {
+			return false;
+		}
 		// First see if there are any of the new blocks...
 		// THen see if there are any prc block chapters in here and if so gather them up...
 		// If not then fallback to dom lookup.
 		// In either case we should update_post_meta($post_id, '_migration_flag_chapters', true);
 		// Then we can run a report on each site to see what posts need updating... maybe even add a flag or red light in the admin area for posts that require gutenberg mirgation assistance.
+
+		$dom = new Dom();
+		$dom->load(
+			$content,
+			array(
+				'whitespaceTextNode' => true,
+				'preserveLineBreaks' => true,
+			)
+		);
+
+		$chapters = array();
+		$headers = $dom->find( 'h2,h3' );
+
+		foreach ( $headers as $elm ) {
+			// If a heading element has a class of no-toc then skip it.
+			if ( $elm->getAttribute( 'no-toc' ) ) {
+				return;
+			}
+
+			$id = sanitize_title( $elm->text );
+			// $elm->setAttribute( 'id', $id );
+			// $elm->setAttribute( 'class', 'toc-chapter' . ' ' . $elm->getAttribute( 'class' ) );
+
+			$text = $elm->text;
+			if ( ! empty( $alt_text = $elm->getAttribute( 'toc-title' ) ) ) {
+				$text = $alt_text;
+			}
+
+			$chapters[] = (object) array(
+				'content' => $text,
+				'id'  => $id,
+				'icon' => false,
+			);
+		}
+
+		return $chapters;
 	}
 
 	public function construct_toc( $post_id, $content = null ) {
 		$chapters = array();
 
+		// You can pass through any string and extract the table of contents from it.
+		// If there is no content then we'll fallback to the give post id's content.
 		if ( null === $content ) {
 			$content = get_post_field( 'post_content', $post_id );
 		}
@@ -77,7 +134,8 @@ class Table_of_Contents extends PRC_Block_Library {
 		}
 
 		$blocks = parse_blocks($content);
-		$chapter_blocks = $this->recursively_search_for_chapters( $blocks );
+		$chapter_blocks = $this->recursively_search_for_chapters( $blocks, 'core/heading' );
+		// $legacy_chapter_blocks = $this->recursively_search_for_chapters( $blocks, 'prc-block/chapter' );
 
 		foreach ( $chapter_blocks as $chapter ) {
 			$attrs = $this->extract_html_attributes($chapter['innerHTML']);
@@ -88,26 +146,39 @@ class Table_of_Contents extends PRC_Block_Library {
 			);
 		}
 
+		// if ( $legacy_chapter_blocks ) {
+		// 	foreach( $legacy_chapter_blocks as $chapter_block ) {
+		// 		// Add ?
+		// 	}
+		// }
+
 		return $chapters;
+	}
+
+	public function render_list($chapters = false) {
+		if ( false === $chapters ) {
+			return false;
+		}
+		// Enqueue mobile logic for the list...
+		ob_start();
+		?>
+		<div role="list" class="ui link selection list">
+		<?php foreach ( $chapters as $chapter ) {
+			echo '<a role="listitem" class="item" href="#' . $chapter['id'] . '">' . $chapter['content'] . '</a>';
+		} ?>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
 		$chapters = $this->construct_toc( $post_id );
 		if ( empty($chapters) ) {
-			return;
+			return $post_id;
 		}
 
-		ob_start();
-		echo $post_id;
-		?>
-		<ul>
-		<?php foreach ( $chapters as $chapter ) {
-			echo '<li><a href="#' . $chapter['id'] . '">' . $chapter['content'] . '</a></li>';
-		} ?>
-		</ul>
-		<?php
-		$content = ob_get_clean();
+		$content = $this->render_list( $chapters );
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',

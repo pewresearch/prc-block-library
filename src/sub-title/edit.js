@@ -14,20 +14,23 @@ const edit = ({ attributes, className, setAttributes }) => {
 
     const blockProps = useBlockProps({
         className: classnames(className),
+		style: {
+			marginBottom: '1.5em',
+		}
     });
 
     return (
         <div {...blockProps}>
-            <RichText
-                tagName="div"
-                onChange={t => setAttributes({ value: t })}
-                allowedFormats={[]}
-                keepPlaceholderOnFocus
-                value={value}
-                placeholder={__(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
-                )}
-            />
+			<RichText
+				tagName="div"
+				onChange={t => setAttributes({ value: t })}
+				allowedFormats={[]}
+				keepPlaceholderOnFocus
+				value={value}
+				placeholder={__(
+					'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+				)}
+			/>
         </div>
     );
 };

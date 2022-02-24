@@ -11,5 +11,16 @@
 		"html": false,
 		"multiple": false
 	},
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{
+			"name": "mobile-icons",
+			"label": "Mobile Icons"
+		}
+	],
 	"usesContext": ["queryId", "query", "postId", "postType", "prc-block/column/width", "prc-block/row/isEqual"]
 }

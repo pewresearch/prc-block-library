@@ -99,6 +99,7 @@ const files = [
                 './src/chart-builder-data-wrapper/frontend.js',
             cover: './src/cover/frontend.js',
             'flip-card-controller': './src/flip-card/controller/frontend.js',
+			'group': './src/group/frontend.js',
             livestream: './src/livestream/frontend.js',
             'mailchimp-form': './src/mailchimp-form/frontend.js',
 			'mailchimp-opt-down': './src/mailchimp-opt-down/frontend.js',

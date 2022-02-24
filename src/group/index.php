@@ -11,12 +11,13 @@ class Group_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
+			add_filter( 'block_type_metadata', array( $this, 'add_sticky_attributes' ), 100, 1 );
 			add_filter( 'render_block', array( $this, 'group_block_render_callback' ), 10, 2 );
 			add_shortcode( 'callout', array( $this, 'callout_shortcode_fallback' ) );
 		}
 	}
 
-	public function enqueue_assets( $js = true, $css = true ) {
+	public function enqueue_assets( $js = true, $css = true, $frontend = false ) {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
 			'blocks',
@@ -30,6 +31,55 @@ class Group_Block extends PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+
+		if ( $frontend ) {
+			$enqueue->enqueue(
+				'frontend',
+				'group',
+				array(
+					'js'        => true,
+					'css'       => false,
+					'js_dep'    => array(),
+					'css_dep'   => array(),
+					'in_footer' => true,
+					'media'     => 'all',
+				)
+			);
+		}
+	}
+
+	/**
+	 * Register additional attributes for group block.
+	 * @param mixed $metadata
+	 * @return mixed
+	 */
+	public function add_sticky_attributes( $metadata ) {
+		if ( 'core/group' !== $metadata['name'] ) {
+			return $metadata;
+		}
+
+		if ( ! array_key_exists( 'isSticky', $metadata['attributes'] ) ) {
+			$metadata['attributes']['isSticky'] = array(
+				'type'    => 'boolean',
+				'default' => false,
+			);
+		}
+
+		// If you pass an id to the block, it will be used as the anchor for when the mobile viewpoint is reached.
+		if ( ! array_key_exists( 'mobileAttachId', $metadata['attributes'] ) ) {
+			$metadata['attributes']['mobileAttachId'] = array(
+				'type'    => 'string',
+			);
+		}
+		// If you pass a threshold it will be used for the mobile viewpoint attach. If not, the default is 640.
+		if ( ! array_key_exists( 'mobileAttachThreshold', $metadata['attributes'] ) ) {
+			$metadata['attributes']['mobileAttachThreshold'] = array(
+				'type'    => 'integer',
+				'default' => 640,
+			);
+		}
+
+		return $metadata;
 	}
 
 	public function group_block_render_callback( $block_content, $block ) {
@@ -37,7 +87,17 @@ class Group_Block extends PRC_Block_Library {
 			return $block_content;
 		}
 
-		$this->enqueue_assets( false );
+		$this->enqueue_assets(
+			false,
+			true,
+			true
+		);
+
+		$is_sticky = array_key_exists('isSticky', $block['attrs']) ? $block['attrs']['isSticky'] : false;
+
+		if ( $is_sticky ) {
+			return '<div class="prc-group-block--sticky ui sticky">' . apply_filters( 'prc_group_block_content', $block_content, $block ) . '</div>';
+		}
 
 		return apply_filters( 'prc_group_block_content', $block_content, $block );
 	}
@@ -76,7 +136,7 @@ class Group_Block extends PRC_Block_Library {
 	 * @uses Enqueue
 	 */
 	public function register_script() {
-		$this->enqueue_assets( true, true );
+		$this->enqueue_assets( true, true, false );
 	}
 }
 

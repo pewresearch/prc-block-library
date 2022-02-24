@@ -16,8 +16,26 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
 
 	const {chapters = []} = useSelect((select) => {
 		const blocks = select('core/block-editor').getBlocks();
+		const chptrs = [
+			{
+				attributes: {
+					content: 'Chapter 1...',
+				}
+			},
+			{
+				attributes: {
+					content: 'Chapter 2...',
+				}
+			},
+			{
+				attributes: {
+					content: 'Chapter 3...',
+				}
+			}
+		];
+		const found = blocks.filter(block => block.name === 'core/heading' && block.attributes.isChapter);
 		return {
-			chapters: blocks.filter(block => block.name === 'core/heading' && block.attributes.isChapter),
+			chapters: 0 === found.length ? chptrs : found,
 		}
 	}, [clientId]);
 

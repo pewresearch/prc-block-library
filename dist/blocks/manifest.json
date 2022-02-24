@@ -1,186 +1,188 @@
 {
-  "chart-builder-wrapper.js": "blocks/chart-builder-wrapper-a7eae73e.js",
-  "chart-builder-wrapper.js.map": "blocks/chart-builder-wrapper-a7eae73e.js.map",
+  "chart-builder-wrapper.js": "blocks/chart-builder-wrapper-d879eb15.js",
+  "chart-builder-wrapper.js.map": "blocks/chart-builder-wrapper-d879eb15.js.map",
   "chart-builder.css": "blocks/chart-builder-ddf9d855.css",
   "chart-builder.css.map": "blocks/chart-builder-ddf9d855.css.map",
-  "chart-builder.js": "blocks/chart-builder-6694ec5b.js",
-  "chart-builder.js.map": "blocks/chart-builder-6694ec5b.js.map",
-  "collapsible.js": "blocks/collapsible-9f2b9b70.js",
-  "collapsible.js.map": "blocks/collapsible-9f2b9b70.js.map",
-  "column.js": "blocks/column-5f372380.js",
-  "column.js.map": "blocks/column-5f372380.js.map",
+  "chart-builder.js": "blocks/chart-builder-ae333a15.js",
+  "chart-builder.js.map": "blocks/chart-builder-ae333a15.js.map",
+  "collapsible.js": "blocks/collapsible-a805652d.js",
+  "collapsible.js.map": "blocks/collapsible-a805652d.js.map",
+  "column.js": "blocks/column-6325f2bd.js",
+  "column.js.map": "blocks/column-6325f2bd.js.map",
   "cover.css": "blocks/cover-3777e6ad.css",
   "cover.css.map": "blocks/cover-3777e6ad.css.map",
-  "cover.js": "blocks/cover-2a79815a.js",
-  "cover.js.map": "blocks/cover-2a79815a.js.map",
+  "cover.js": "blocks/cover-86afa28f.js",
+  "cover.js.map": "blocks/cover-86afa28f.js.map",
   "daily-briefing-signup.css": "blocks/daily-briefing-signup-f40d5194.css",
   "daily-briefing-signup.css.map": "blocks/daily-briefing-signup-f40d5194.css.map",
-  "daily-briefing-signup.js": "blocks/daily-briefing-signup-6bacd517.js",
-  "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-6bacd517.js.map",
-  "default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3.js": "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-  "default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3.js.map": "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-  "flip-card-back.js": "blocks/flip-card-back-1b3c09d9.js",
-  "flip-card-back.js.map": "blocks/flip-card-back-1b3c09d9.js.map",
+  "daily-briefing-signup.js": "blocks/daily-briefing-signup-ff558886.js",
+  "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-ff558886.js.map",
+  "default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3.js": "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+  "default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3.js.map": "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+  "flip-card-back.js": "blocks/flip-card-back-7e630aeb.js",
+  "flip-card-back.js.map": "blocks/flip-card-back-7e630aeb.js.map",
   "flip-card-controller.css": "blocks/flip-card-controller-3d66dfe9.css",
   "flip-card-controller.css.map": "blocks/flip-card-controller-3d66dfe9.css.map",
-  "flip-card-controller.js": "blocks/flip-card-controller-7e75c270.js",
-  "flip-card-controller.js.map": "blocks/flip-card-controller-7e75c270.js.map",
-  "flip-card-front.js": "blocks/flip-card-front-a091330d.js",
-  "flip-card-front.js.map": "blocks/flip-card-front-a091330d.js.map",
-  "github-gist.js": "blocks/github-gist-f894aac7.js",
-  "github-gist.js.map": "blocks/github-gist-f894aac7.js.map",
+  "flip-card-controller.js": "blocks/flip-card-controller-89c76e30.js",
+  "flip-card-controller.js.map": "blocks/flip-card-controller-89c76e30.js.map",
+  "flip-card-front.js": "blocks/flip-card-front-34668a18.js",
+  "flip-card-front.js.map": "blocks/flip-card-front-34668a18.js.map",
+  "github-gist.js": "blocks/github-gist-57858273.js",
+  "github-gist.js.map": "blocks/github-gist-57858273.js.map",
   "grid.css": "blocks/grid-48197e4b.css",
   "grid.css.map": "blocks/grid-48197e4b.css.map",
-  "grid.js": "blocks/grid-208f5184.js",
-  "grid.js.map": "blocks/grid-208f5184.js.map",
+  "grid.js": "blocks/grid-a03bc5b6.js",
+  "grid.js.map": "blocks/grid-a03bc5b6.js.map",
   "group.css": "blocks/group-4d0d5aa1.css",
   "group.css.map": "blocks/group-4d0d5aa1.css.map",
-  "group.js": "blocks/group-0068f8de.js",
-  "group.js.map": "blocks/group-0068f8de.js.map",
+  "group.js": "blocks/group-5c55fc29.js",
+  "group.js.map": "blocks/group-5c55fc29.js.map",
   "heading.css": "blocks/heading-c24f58d5.css",
   "heading.css.map": "blocks/heading-c24f58d5.css.map",
-  "heading.js": "blocks/heading-9dcf5c60.js",
-  "heading.js.map": "blocks/heading-9dcf5c60.js.map",
+  "heading.js": "blocks/heading-a3b6e5f8.js",
+  "heading.js.map": "blocks/heading-a3b6e5f8.js.map",
   "image.css": "blocks/image-e682daff.css",
   "image.css.map": "blocks/image-e682daff.css.map",
   "image.js": "blocks/image-78f01e43.js",
   "image.js.map": "blocks/image-78f01e43.js.map",
   "livestream.css": "blocks/livestream-33a7225d.css",
   "livestream.css.map": "blocks/livestream-33a7225d.css.map",
-  "livestream.js": "blocks/livestream-36621dba.js",
-  "livestream.js.map": "blocks/livestream-36621dba.js.map",
+  "livestream.js": "blocks/livestream-32e10451.js",
+  "livestream.js.map": "blocks/livestream-32e10451.js.map",
   "mailchimp-form.css": "blocks/mailchimp-form-686d18ea.css",
   "mailchimp-form.css.map": "blocks/mailchimp-form-686d18ea.css.map",
-  "mailchimp-form.js": "blocks/mailchimp-form-8d5f1500.js",
-  "mailchimp-form.js.map": "blocks/mailchimp-form-8d5f1500.js.map",
-  "mailchimp-opt-down.js": "blocks/mailchimp-opt-down-5ab44ee9.js",
-  "mailchimp-opt-down.js.map": "blocks/mailchimp-opt-down-5ab44ee9.js.map",
+  "mailchimp-form.js": "blocks/mailchimp-form-be6bf414.js",
+  "mailchimp-form.js.map": "blocks/mailchimp-form-be6bf414.js.map",
+  "mailchimp-opt-down.js": "blocks/mailchimp-opt-down-b90939ad.js",
+  "mailchimp-opt-down.js.map": "blocks/mailchimp-opt-down-b90939ad.js.map",
   "mailchimp-select.css": "blocks/mailchimp-select-1becba5f.css",
   "mailchimp-select.css.map": "blocks/mailchimp-select-1becba5f.css.map",
-  "mailchimp-select.js": "blocks/mailchimp-select-d6a0d082.js",
-  "mailchimp-select.js.map": "blocks/mailchimp-select-d6a0d082.js.map",
-  "menu-link.js": "blocks/menu-link-14a042dc.js",
-  "menu-link.js.map": "blocks/menu-link-14a042dc.js.map",
-  "menu.js": "blocks/menu-495a70a6.js",
-  "menu.js.map": "blocks/menu-495a70a6.js.map",
+  "mailchimp-select.js": "blocks/mailchimp-select-0a2c7c19.js",
+  "mailchimp-select.js.map": "blocks/mailchimp-select-0a2c7c19.js.map",
+  "menu-link.js": "blocks/menu-link-b5fddaac.js",
+  "menu-link.js.map": "blocks/menu-link-b5fddaac.js.map",
+  "menu.js": "blocks/menu-309e6d9d.js",
+  "menu.js.map": "blocks/menu-309e6d9d.js.map",
   "page.css": "blocks/page-f9436eb4.css",
   "page.css.map": "blocks/page-f9436eb4.css.map",
-  "page.js": "blocks/page-25775eae.js",
-  "page.js.map": "blocks/page-25775eae.js.map",
+  "page.js": "blocks/page-f427e1ed.js",
+  "page.js.map": "blocks/page-f427e1ed.js.map",
   "popular-listing.css": "blocks/popular-listing-f31a35cf.css",
   "popular-listing.css.map": "blocks/popular-listing-f31a35cf.css.map",
-  "popular-listing.js": "blocks/popular-listing-e02163d4.js",
-  "popular-listing.js.map": "blocks/popular-listing-e02163d4.js.map",
+  "popular-listing.js": "blocks/popular-listing-a8321ba4.js",
+  "popular-listing.js.map": "blocks/popular-listing-a8321ba4.js.map",
   "popup-content.css": "blocks/popup-content-55c7f7fd.css",
   "popup-content.css.map": "blocks/popup-content-55c7f7fd.css.map",
-  "popup-content.js": "blocks/popup-content-fd07c2f9.js",
-  "popup-content.js.map": "blocks/popup-content-fd07c2f9.js.map",
-  "popup-controller.js": "blocks/popup-controller-407363d5.js",
-  "popup-controller.js.map": "blocks/popup-controller-407363d5.js.map",
+  "popup-content.js": "blocks/popup-content-5b713b0e.js",
+  "popup-content.js.map": "blocks/popup-content-5b713b0e.js.map",
+  "popup-controller.js": "blocks/popup-controller-54dab28a.js",
+  "popup-controller.js.map": "blocks/popup-controller-54dab28a.js.map",
   "popup-modal.css": "blocks/popup-modal-74338dd7.css",
   "popup-modal.css.map": "blocks/popup-modal-74338dd7.css.map",
-  "popup-modal.js": "blocks/popup-modal-aac030ea.js",
-  "popup-modal.js.map": "blocks/popup-modal-aac030ea.js.map",
-  "post-bylines.js": "blocks/post-bylines-dbdd4ad7.js",
-  "post-bylines.js.map": "blocks/post-bylines-dbdd4ad7.js.map",
-  "post-publish-date.js": "blocks/post-publish-date-9e169629.js",
-  "post-publish-date.js.map": "blocks/post-publish-date-9e169629.js.map",
-  "post-title.js": "blocks/post-title-2e3a964f.js",
-  "post-title.js.map": "blocks/post-title-2e3a964f.js.map",
-  "promo-rotator.js": "blocks/promo-rotator-90099011.js",
-  "promo-rotator.js.map": "blocks/promo-rotator-90099011.js.map",
+  "popup-modal.js": "blocks/popup-modal-3286bd0f.js",
+  "popup-modal.js.map": "blocks/popup-modal-3286bd0f.js.map",
+  "post-bylines.js": "blocks/post-bylines-11592033.js",
+  "post-bylines.js.map": "blocks/post-bylines-11592033.js.map",
+  "post-publish-date.js": "blocks/post-publish-date-536e41f5.js",
+  "post-publish-date.js.map": "blocks/post-publish-date-536e41f5.js.map",
+  "post-title.js": "blocks/post-title-704e4abf.js",
+  "post-title.js.map": "blocks/post-title-704e4abf.js.map",
+  "promo-rotator.js": "blocks/promo-rotator-71faaa48.js",
+  "promo-rotator.js.map": "blocks/promo-rotator-71faaa48.js.map",
   "promo.css": "blocks/promo-d5b15eb7.css",
   "promo.css.map": "blocks/promo-d5b15eb7.css.map",
-  "promo.js": "blocks/promo-0f0d49ae.js",
-  "promo.js.map": "blocks/promo-0f0d49ae.js.map",
+  "promo.js": "blocks/promo-f5d96aa1.js",
+  "promo.js.map": "blocks/promo-f5d96aa1.js.map",
   "pullquote.css": "blocks/pullquote-e38ff5e6.css",
   "pullquote.css.map": "blocks/pullquote-e38ff5e6.css.map",
   "pullquote.js": "blocks/pullquote-9963b3ca.js",
   "pullquote.js.map": "blocks/pullquote-9963b3ca.js.map",
-  "query.js": "blocks/query-5702e1bc.js",
-  "query.js.map": "blocks/query-5702e1bc.js.map",
+  "query.js": "blocks/query-cb4ea884.js",
+  "query.js.map": "blocks/query-cb4ea884.js.map",
   "responsive-container-controller.css": "blocks/responsive-container-controller-806cd166.css",
   "responsive-container-controller.css.map": "blocks/responsive-container-controller-806cd166.css.map",
-  "responsive-container-controller.js": "blocks/responsive-container-controller-558b6827.js",
-  "responsive-container-controller.js.map": "blocks/responsive-container-controller-558b6827.js.map",
+  "responsive-container-controller.js": "blocks/responsive-container-controller-69f95503.js",
+  "responsive-container-controller.js.map": "blocks/responsive-container-controller-69f95503.js.map",
   "responsive-container-view.css": "blocks/responsive-container-view-5ebcdb42.css",
   "responsive-container-view.css.map": "blocks/responsive-container-view-5ebcdb42.css.map",
-  "responsive-container-view.js": "blocks/responsive-container-view-29ec920d.js",
-  "responsive-container-view.js.map": "blocks/responsive-container-view-29ec920d.js.map",
-  "row.js": "blocks/row-8a86815e.js",
-  "row.js.map": "blocks/row-8a86815e.js.map",
+  "responsive-container-view.js": "blocks/responsive-container-view-4b3c7ca2.js",
+  "responsive-container-view.js.map": "blocks/responsive-container-view-4b3c7ca2.js.map",
+  "row.js": "blocks/row-fa04baad.js",
+  "row.js.map": "blocks/row-fa04baad.js.map",
   "runtime.js": "blocks/runtime-8f407741.js",
   "runtime.js.map": "blocks/runtime-8f407741.js.map",
-  "social-link.js": "blocks/social-link-66d12482.js",
-  "social-link.js.map": "blocks/social-link-66d12482.js.map",
-  "staff-listing.js": "blocks/staff-listing-d5b19269.js",
-  "staff-listing.js.map": "blocks/staff-listing-d5b19269.js.map",
+  "social-link.js": "blocks/social-link-b7b71dd6.js",
+  "social-link.js.map": "blocks/social-link-b7b71dd6.js.map",
+  "staff-listing.js": "blocks/staff-listing-69b230f8.js",
+  "staff-listing.js.map": "blocks/staff-listing-69b230f8.js.map",
   "staff.css": "blocks/staff-eece803c.css",
   "staff.css.map": "blocks/staff-eece803c.css.map",
-  "staff.js": "blocks/staff-6290be8c.js",
-  "staff.js.map": "blocks/staff-6290be8c.js.map",
+  "staff.js": "blocks/staff-7b312bf2.js",
+  "staff.js.map": "blocks/staff-7b312bf2.js.map",
   "story-item.css": "blocks/story-item-58e17685.css",
   "story-item.css.map": "blocks/story-item-58e17685.css.map",
-  "story-item.js": "blocks/story-item-bf8fc648.js",
-  "story-item.js.map": "blocks/story-item-bf8fc648.js.map",
-  "sub-title.js": "blocks/sub-title-8f6ed204.js",
-  "sub-title.js.map": "blocks/sub-title-8f6ed204.js.map",
-  "table-of-contents.js": "blocks/table-of-contents-84a0edc9.js",
-  "table-of-contents.js.map": "blocks/table-of-contents-84a0edc9.js.map",
+  "story-item.js": "blocks/story-item-09fa9454.js",
+  "story-item.js.map": "blocks/story-item-09fa9454.js.map",
+  "sub-title.js": "blocks/sub-title-d4fc6f2d.js",
+  "sub-title.js.map": "blocks/sub-title-d4fc6f2d.js.map",
+  "table-of-contents.css": "blocks/table-of-contents-3ba37d71.css",
+  "table-of-contents.css.map": "blocks/table-of-contents-3ba37d71.css.map",
+  "table-of-contents.js": "blocks/table-of-contents-5fce3bad.js",
+  "table-of-contents.js.map": "blocks/table-of-contents-5fce3bad.js.map",
   "table.js": "blocks/table-0891e7b9.js",
   "table.js.map": "blocks/table-0891e7b9.js.map",
   "tabs-controller.css": "blocks/tabs-controller-b90c64c0.css",
   "tabs-controller.css.map": "blocks/tabs-controller-b90c64c0.css.map",
-  "tabs-controller.js": "blocks/tabs-controller-b7f036d4.js",
-  "tabs-controller.js.map": "blocks/tabs-controller-b7f036d4.js.map",
-  "tabs-menu-item.js": "blocks/tabs-menu-item-dccdc8de.js",
-  "tabs-menu-item.js.map": "blocks/tabs-menu-item-dccdc8de.js.map",
-  "tabs-menu.js": "blocks/tabs-menu-91814152.js",
-  "tabs-menu.js.map": "blocks/tabs-menu-91814152.js.map",
-  "tabs-pane.js": "blocks/tabs-pane-47ebc4cf.js",
-  "tabs-pane.js.map": "blocks/tabs-pane-47ebc4cf.js.map",
-  "tabs-panes.js": "blocks/tabs-panes-65849fb3.js",
-  "tabs-panes.js.map": "blocks/tabs-panes-65849fb3.js.map",
-  "taxonomy-tree-more.js": "blocks/taxonomy-tree-more-1c2c2c2a.js",
-  "taxonomy-tree-more.js.map": "blocks/taxonomy-tree-more-1c2c2c2a.js.map",
+  "tabs-controller.js": "blocks/tabs-controller-838a08c0.js",
+  "tabs-controller.js.map": "blocks/tabs-controller-838a08c0.js.map",
+  "tabs-menu-item.js": "blocks/tabs-menu-item-73b033b5.js",
+  "tabs-menu-item.js.map": "blocks/tabs-menu-item-73b033b5.js.map",
+  "tabs-menu.js": "blocks/tabs-menu-7032900b.js",
+  "tabs-menu.js.map": "blocks/tabs-menu-7032900b.js.map",
+  "tabs-pane.js": "blocks/tabs-pane-a4e4c4b2.js",
+  "tabs-pane.js.map": "blocks/tabs-pane-a4e4c4b2.js.map",
+  "tabs-panes.js": "blocks/tabs-panes-6686cbde.js",
+  "tabs-panes.js.map": "blocks/tabs-panes-6686cbde.js.map",
+  "taxonomy-tree-more.js": "blocks/taxonomy-tree-more-0db94f92.js",
+  "taxonomy-tree-more.js.map": "blocks/taxonomy-tree-more-0db94f92.js.map",
   "taxonomy-tree.css": "blocks/taxonomy-tree-71d5e413.css",
   "taxonomy-tree.css.map": "blocks/taxonomy-tree-71d5e413.css.map",
-  "taxonomy-tree.js": "blocks/taxonomy-tree-044e8dba.js",
-  "taxonomy-tree.js.map": "blocks/taxonomy-tree-044e8dba.js.map",
+  "taxonomy-tree.js": "blocks/taxonomy-tree-b660126f.js",
+  "taxonomy-tree.js.map": "blocks/taxonomy-tree-b660126f.js.map",
   "topic-index-az-controller.css": "blocks/topic-index-az-controller-cd7f20bf.css",
   "topic-index-az-controller.css.map": "blocks/topic-index-az-controller-cd7f20bf.css.map",
-  "topic-index-az-controller.js": "blocks/topic-index-az-controller-1202a4f1.js",
-  "topic-index-az-controller.js.map": "blocks/topic-index-az-controller-1202a4f1.js.map",
+  "topic-index-az-controller.js": "blocks/topic-index-az-controller-dc73b162.js",
+  "topic-index-az-controller.js.map": "blocks/topic-index-az-controller-dc73b162.js.map",
   "topic-index-az.css": "blocks/topic-index-az-3ba37d71.css",
   "topic-index-az.css.map": "blocks/topic-index-az-3ba37d71.css.map",
-  "topic-index-az.js": "blocks/topic-index-az-a4b84cc7.js",
-  "topic-index-az.js.map": "blocks/topic-index-az-a4b84cc7.js.map",
-  "topic-index-categorized.js": "blocks/topic-index-categorized-d26f674c.js",
-  "topic-index-categorized.js.map": "blocks/topic-index-categorized-d26f674c.js.map",
-  "topic-index-condensed-controller.js": "blocks/topic-index-condensed-controller-8b7bb436.js",
-  "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-8b7bb436.js.map",
-  "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-eae53915.js",
-  "topic-index-condensed-menu-item.js.map": "blocks/topic-index-condensed-menu-item-eae53915.js.map",
-  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-9bbbc601.js",
-  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-9bbbc601.js.map",
+  "topic-index-az.js": "blocks/topic-index-az-5f6939eb.js",
+  "topic-index-az.js.map": "blocks/topic-index-az-5f6939eb.js.map",
+  "topic-index-categorized.js": "blocks/topic-index-categorized-c0910163.js",
+  "topic-index-categorized.js.map": "blocks/topic-index-categorized-c0910163.js.map",
+  "topic-index-condensed-controller.js": "blocks/topic-index-condensed-controller-1436b54b.js",
+  "topic-index-condensed-controller.js.map": "blocks/topic-index-condensed-controller-1436b54b.js.map",
+  "topic-index-condensed-menu-item.js": "blocks/topic-index-condensed-menu-item-d7ad8693.js",
+  "topic-index-condensed-menu-item.js.map": "blocks/topic-index-condensed-menu-item-d7ad8693.js.map",
+  "topic-index-condensed-menu.js": "blocks/topic-index-condensed-menu-dddedb9f.js",
+  "topic-index-condensed-menu.js.map": "blocks/topic-index-condensed-menu-dddedb9f.js.map",
   "topic-index-condensed-page.css": "blocks/topic-index-condensed-page-9b2a22a5.css",
   "topic-index-condensed-page.css.map": "blocks/topic-index-condensed-page-9b2a22a5.css.map",
-  "topic-index-condensed-page.js": "blocks/topic-index-condensed-page-ac147923.js",
-  "topic-index-condensed-page.js.map": "blocks/topic-index-condensed-page-ac147923.js.map",
-  "topic-index-condensed-pages.js": "blocks/topic-index-condensed-pages-4a337aa6.js",
-  "topic-index-condensed-pages.js.map": "blocks/topic-index-condensed-pages-4a337aa6.js.map",
-  "topic-index-search-field.js": "blocks/topic-index-search-field-bfcff6c2.js",
-  "topic-index-search-field.js.map": "blocks/topic-index-search-field-bfcff6c2.js.map",
+  "topic-index-condensed-page.js": "blocks/topic-index-condensed-page-e5eb8f8b.js",
+  "topic-index-condensed-page.js.map": "blocks/topic-index-condensed-page-e5eb8f8b.js.map",
+  "topic-index-condensed-pages.js": "blocks/topic-index-condensed-pages-abd0ba45.js",
+  "topic-index-condensed-pages.js.map": "blocks/topic-index-condensed-pages-abd0ba45.js.map",
+  "topic-index-search-field.js": "blocks/topic-index-search-field-992737b4.js",
+  "topic-index-search-field.js.map": "blocks/topic-index-search-field-992737b4.js.map",
   "vendors~chart-builder.js": "blocks/vendors~chart-builder-f65cc6f8.js",
   "vendors~chart-builder.js.map": "blocks/vendors~chart-builder-f65cc6f8.js.map",
   "vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1.js": "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
   "vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1.js.map": "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-  "vendors~collapsible.js": "blocks/vendors~collapsible-73154a80.js",
-  "vendors~collapsible.js.map": "blocks/vendors~collapsible-73154a80.js.map",
-  "vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link.js": "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js",
-  "vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link.js.map": "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js.map",
-  "vendors~livestream~mailchimp-opt-down.js": "blocks/vendors~livestream~mailchimp-opt-down-e9065357.js",
-  "vendors~livestream~mailchimp-opt-down.js.map": "blocks/vendors~livestream~mailchimp-opt-down-e9065357.js.map",
+  "vendors~collapsible.js": "blocks/vendors~collapsible-ff1ed439.js",
+  "vendors~collapsible.js.map": "blocks/vendors~collapsible-ff1ed439.js.map",
+  "vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link.js": "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js",
+  "vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link.js.map": "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js.map",
+  "vendors~livestream~mailchimp-opt-down.js": "blocks/vendors~livestream~mailchimp-opt-down-3ce78791.js",
+  "vendors~livestream~mailchimp-opt-down.js.map": "blocks/vendors~livestream~mailchimp-opt-down-3ce78791.js.map",
   "vendors~story-item.js": "blocks/vendors~story-item-6b3dfaac.js",
   "vendors~story-item.js.map": "blocks/vendors~story-item-6b3dfaac.js.map",
   "vendors~table.js": "blocks/vendors~table-772ddde9.js",
@@ -190,15 +192,15 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js",
-          "blocks/vendors~collapsible-73154a80.js",
-          "blocks/collapsible-9f2b9b70.js"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js",
+          "blocks/vendors~collapsible-ff1ed439.js",
+          "blocks/collapsible-a805652d.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js.map",
-          "blocks/vendors~collapsible-73154a80.js.map",
-          "blocks/collapsible-9f2b9b70.js.map"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js.map",
+          "blocks/vendors~collapsible-ff1ed439.js.map",
+          "blocks/collapsible-a805652d.js.map"
         ]
       }
     },
@@ -206,11 +208,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/column-5f372380.js"
+          "blocks/column-6325f2bd.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/column-5f372380.js.map"
+          "blocks/column-6325f2bd.js.map"
         ]
       }
     },
@@ -220,13 +222,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
           "blocks/vendors~chart-builder-f65cc6f8.js",
-          "blocks/chart-builder-6694ec5b.js"
+          "blocks/chart-builder-ae333a15.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
           "blocks/vendors~chart-builder-f65cc6f8.js.map",
-          "blocks/chart-builder-6694ec5b.js.map"
+          "blocks/chart-builder-ae333a15.js.map"
         ],
         "css": [
           "blocks/chart-builder-ddf9d855.css"
@@ -240,11 +242,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/chart-builder-wrapper-a7eae73e.js"
+          "blocks/chart-builder-wrapper-d879eb15.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/chart-builder-wrapper-a7eae73e.js.map"
+          "blocks/chart-builder-wrapper-d879eb15.js.map"
         ]
       }
     },
@@ -252,11 +254,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/cover-2a79815a.js"
+          "blocks/cover-86afa28f.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/cover-2a79815a.js.map"
+          "blocks/cover-86afa28f.js.map"
         ],
         "css": [
           "blocks/cover-3777e6ad.css"
@@ -270,11 +272,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/daily-briefing-signup-6bacd517.js"
+          "blocks/daily-briefing-signup-ff558886.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/daily-briefing-signup-6bacd517.js.map"
+          "blocks/daily-briefing-signup-ff558886.js.map"
         ],
         "css": [
           "blocks/daily-briefing-signup-f40d5194.css"
@@ -288,11 +290,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/github-gist-f894aac7.js"
+          "blocks/github-gist-57858273.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/github-gist-f894aac7.js.map"
+          "blocks/github-gist-57858273.js.map"
         ]
       }
     },
@@ -300,11 +302,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/flip-card-controller-7e75c270.js"
+          "blocks/flip-card-controller-89c76e30.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/flip-card-controller-7e75c270.js.map"
+          "blocks/flip-card-controller-89c76e30.js.map"
         ],
         "css": [
           "blocks/flip-card-controller-3d66dfe9.css"
@@ -318,11 +320,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/flip-card-back-1b3c09d9.js"
+          "blocks/flip-card-back-7e630aeb.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/flip-card-back-1b3c09d9.js.map"
+          "blocks/flip-card-back-7e630aeb.js.map"
         ]
       }
     },
@@ -330,11 +332,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/flip-card-front-a091330d.js"
+          "blocks/flip-card-front-34668a18.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/flip-card-front-a091330d.js.map"
+          "blocks/flip-card-front-34668a18.js.map"
         ]
       }
     },
@@ -342,11 +344,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/grid-208f5184.js"
+          "blocks/grid-a03bc5b6.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/grid-208f5184.js.map"
+          "blocks/grid-a03bc5b6.js.map"
         ],
         "css": [
           "blocks/grid-48197e4b.css"
@@ -360,11 +362,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/group-0068f8de.js"
+          "blocks/group-5c55fc29.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/group-0068f8de.js.map"
+          "blocks/group-5c55fc29.js.map"
         ],
         "css": [
           "blocks/group-4d0d5aa1.css"
@@ -379,14 +381,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-          "blocks/heading-9dcf5c60.js"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+          "blocks/heading-a3b6e5f8.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-          "blocks/heading-9dcf5c60.js.map"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+          "blocks/heading-a3b6e5f8.js.map"
         ],
         "css": [
           "blocks/heading-c24f58d5.css"
@@ -418,15 +420,15 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js",
-          "blocks/vendors~livestream~mailchimp-opt-down-e9065357.js",
-          "blocks/livestream-36621dba.js"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js",
+          "blocks/vendors~livestream~mailchimp-opt-down-3ce78791.js",
+          "blocks/livestream-32e10451.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js.map",
-          "blocks/vendors~livestream~mailchimp-opt-down-e9065357.js.map",
-          "blocks/livestream-36621dba.js.map"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js.map",
+          "blocks/vendors~livestream~mailchimp-opt-down-3ce78791.js.map",
+          "blocks/livestream-32e10451.js.map"
         ],
         "css": [
           "blocks/livestream-33a7225d.css"
@@ -441,14 +443,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js",
-          "blocks/mailchimp-form-8d5f1500.js"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js",
+          "blocks/mailchimp-form-be6bf414.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js.map",
-          "blocks/mailchimp-form-8d5f1500.js.map"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js.map",
+          "blocks/mailchimp-form-be6bf414.js.map"
         ],
         "css": [
           "blocks/mailchimp-form-686d18ea.css"
@@ -462,15 +464,15 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js",
-          "blocks/vendors~livestream~mailchimp-opt-down-e9065357.js",
-          "blocks/mailchimp-opt-down-5ab44ee9.js"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js",
+          "blocks/vendors~livestream~mailchimp-opt-down-3ce78791.js",
+          "blocks/mailchimp-opt-down-b90939ad.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js.map",
-          "blocks/vendors~livestream~mailchimp-opt-down-e9065357.js.map",
-          "blocks/mailchimp-opt-down-5ab44ee9.js.map"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js.map",
+          "blocks/vendors~livestream~mailchimp-opt-down-3ce78791.js.map",
+          "blocks/mailchimp-opt-down-b90939ad.js.map"
         ]
       }
     },
@@ -479,14 +481,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js",
-          "blocks/mailchimp-select-d6a0d082.js"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js",
+          "blocks/mailchimp-select-0a2c7c19.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js.map",
-          "blocks/mailchimp-select-d6a0d082.js.map"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js.map",
+          "blocks/mailchimp-select-0a2c7c19.js.map"
         ],
         "css": [
           "blocks/mailchimp-select-1becba5f.css"
@@ -500,11 +502,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/menu-495a70a6.js"
+          "blocks/menu-309e6d9d.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/menu-495a70a6.js.map"
+          "blocks/menu-309e6d9d.js.map"
         ]
       }
     },
@@ -513,14 +515,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-          "blocks/menu-link-14a042dc.js"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+          "blocks/menu-link-b5fddaac.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-          "blocks/menu-link-14a042dc.js.map"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+          "blocks/menu-link-b5fddaac.js.map"
         ]
       }
     },
@@ -528,11 +530,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/page-25775eae.js"
+          "blocks/page-f427e1ed.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/page-25775eae.js.map"
+          "blocks/page-f427e1ed.js.map"
         ],
         "css": [
           "blocks/page-f9436eb4.css"
@@ -547,14 +549,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-          "blocks/popular-listing-e02163d4.js"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+          "blocks/popular-listing-a8321ba4.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-          "blocks/popular-listing-e02163d4.js.map"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+          "blocks/popular-listing-a8321ba4.js.map"
         ],
         "css": [
           "blocks/popular-listing-f31a35cf.css"
@@ -568,11 +570,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-controller-407363d5.js"
+          "blocks/popup-controller-54dab28a.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-controller-407363d5.js.map"
+          "blocks/popup-controller-54dab28a.js.map"
         ]
       }
     },
@@ -580,11 +582,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-content-fd07c2f9.js"
+          "blocks/popup-content-5b713b0e.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-content-fd07c2f9.js.map"
+          "blocks/popup-content-5b713b0e.js.map"
         ],
         "css": [
           "blocks/popup-content-55c7f7fd.css"
@@ -598,11 +600,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-modal-aac030ea.js"
+          "blocks/popup-modal-3286bd0f.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-modal-aac030ea.js.map"
+          "blocks/popup-modal-3286bd0f.js.map"
         ],
         "css": [
           "blocks/popup-modal-74338dd7.css"
@@ -616,11 +618,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/post-bylines-dbdd4ad7.js"
+          "blocks/post-bylines-11592033.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/post-bylines-dbdd4ad7.js.map"
+          "blocks/post-bylines-11592033.js.map"
         ]
       }
     },
@@ -628,11 +630,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/post-publish-date-9e169629.js"
+          "blocks/post-publish-date-536e41f5.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/post-publish-date-9e169629.js.map"
+          "blocks/post-publish-date-536e41f5.js.map"
         ]
       }
     },
@@ -640,11 +642,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/post-title-2e3a964f.js"
+          "blocks/post-title-704e4abf.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/post-title-2e3a964f.js.map"
+          "blocks/post-title-704e4abf.js.map"
         ]
       }
     },
@@ -653,14 +655,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-          "blocks/promo-0f0d49ae.js"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+          "blocks/promo-f5d96aa1.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-          "blocks/promo-0f0d49ae.js.map"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+          "blocks/promo-f5d96aa1.js.map"
         ],
         "css": [
           "blocks/promo-d5b15eb7.css"
@@ -674,11 +676,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/promo-rotator-90099011.js"
+          "blocks/promo-rotator-71faaa48.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/promo-rotator-90099011.js.map"
+          "blocks/promo-rotator-71faaa48.js.map"
         ]
       }
     },
@@ -704,11 +706,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/query-5702e1bc.js"
+          "blocks/query-cb4ea884.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/query-5702e1bc.js.map"
+          "blocks/query-cb4ea884.js.map"
         ]
       }
     },
@@ -716,11 +718,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/responsive-container-controller-558b6827.js"
+          "blocks/responsive-container-controller-69f95503.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/responsive-container-controller-558b6827.js.map"
+          "blocks/responsive-container-controller-69f95503.js.map"
         ],
         "css": [
           "blocks/responsive-container-controller-806cd166.css"
@@ -734,11 +736,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/responsive-container-view-29ec920d.js"
+          "blocks/responsive-container-view-4b3c7ca2.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/responsive-container-view-29ec920d.js.map"
+          "blocks/responsive-container-view-4b3c7ca2.js.map"
         ],
         "css": [
           "blocks/responsive-container-view-5ebcdb42.css"
@@ -752,11 +754,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/row-8a86815e.js"
+          "blocks/row-fa04baad.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/row-8a86815e.js.map"
+          "blocks/row-fa04baad.js.map"
         ]
       }
     },
@@ -764,13 +766,13 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js",
-          "blocks/social-link-66d12482.js"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js",
+          "blocks/social-link-b7b71dd6.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-f2e9daff.js.map",
-          "blocks/social-link-66d12482.js.map"
+          "blocks/vendors~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~social-link-3064ffe3.js.map",
+          "blocks/social-link-b7b71dd6.js.map"
         ]
       }
     },
@@ -778,11 +780,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/staff-6290be8c.js"
+          "blocks/staff-7b312bf2.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/staff-6290be8c.js.map"
+          "blocks/staff-7b312bf2.js.map"
         ],
         "css": [
           "blocks/staff-eece803c.css"
@@ -797,14 +799,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-          "blocks/staff-listing-d5b19269.js"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+          "blocks/staff-listing-69b230f8.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-          "blocks/staff-listing-d5b19269.js.map"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+          "blocks/staff-listing-69b230f8.js.map"
         ]
       }
     },
@@ -814,13 +816,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
           "blocks/vendors~story-item-6b3dfaac.js",
-          "blocks/story-item-bf8fc648.js"
+          "blocks/story-item-09fa9454.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
           "blocks/vendors~story-item-6b3dfaac.js.map",
-          "blocks/story-item-bf8fc648.js.map"
+          "blocks/story-item-09fa9454.js.map"
         ],
         "css": [
           "blocks/story-item-58e17685.css"
@@ -834,11 +836,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/sub-title-8f6ed204.js"
+          "blocks/sub-title-d4fc6f2d.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/sub-title-8f6ed204.js.map"
+          "blocks/sub-title-d4fc6f2d.js.map"
         ]
       }
     },
@@ -860,11 +862,17 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/table-of-contents-84a0edc9.js"
+          "blocks/table-of-contents-5fce3bad.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/table-of-contents-84a0edc9.js.map"
+          "blocks/table-of-contents-5fce3bad.js.map"
+        ],
+        "css": [
+          "blocks/table-of-contents-3ba37d71.css"
+        ],
+        "css.map": [
+          "blocks/table-of-contents-3ba37d71.css.map"
         ]
       }
     },
@@ -872,11 +880,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/tabs-controller-b7f036d4.js"
+          "blocks/tabs-controller-838a08c0.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/tabs-controller-b7f036d4.js.map"
+          "blocks/tabs-controller-838a08c0.js.map"
         ],
         "css": [
           "blocks/tabs-controller-b90c64c0.css"
@@ -890,11 +898,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/tabs-menu-91814152.js"
+          "blocks/tabs-menu-7032900b.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/tabs-menu-91814152.js.map"
+          "blocks/tabs-menu-7032900b.js.map"
         ]
       }
     },
@@ -902,11 +910,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/tabs-menu-item-dccdc8de.js"
+          "blocks/tabs-menu-item-73b033b5.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/tabs-menu-item-dccdc8de.js.map"
+          "blocks/tabs-menu-item-73b033b5.js.map"
         ]
       }
     },
@@ -914,11 +922,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/tabs-pane-47ebc4cf.js"
+          "blocks/tabs-pane-a4e4c4b2.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/tabs-pane-47ebc4cf.js.map"
+          "blocks/tabs-pane-a4e4c4b2.js.map"
         ]
       }
     },
@@ -926,11 +934,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/tabs-panes-65849fb3.js"
+          "blocks/tabs-panes-6686cbde.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/tabs-panes-65849fb3.js.map"
+          "blocks/tabs-panes-6686cbde.js.map"
         ]
       }
     },
@@ -938,11 +946,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/taxonomy-tree-044e8dba.js"
+          "blocks/taxonomy-tree-b660126f.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/taxonomy-tree-044e8dba.js.map"
+          "blocks/taxonomy-tree-b660126f.js.map"
         ],
         "css": [
           "blocks/taxonomy-tree-71d5e413.css"
@@ -956,11 +964,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/taxonomy-tree-more-1c2c2c2a.js"
+          "blocks/taxonomy-tree-more-0db94f92.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/taxonomy-tree-more-1c2c2c2a.js.map"
+          "blocks/taxonomy-tree-more-0db94f92.js.map"
         ]
       }
     },
@@ -968,11 +976,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/topic-index-az-a4b84cc7.js"
+          "blocks/topic-index-az-5f6939eb.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/topic-index-az-a4b84cc7.js.map"
+          "blocks/topic-index-az-5f6939eb.js.map"
         ],
         "css": [
           "blocks/topic-index-az-3ba37d71.css"
@@ -986,11 +994,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/topic-index-az-controller-1202a4f1.js"
+          "blocks/topic-index-az-controller-dc73b162.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/topic-index-az-controller-1202a4f1.js.map"
+          "blocks/topic-index-az-controller-dc73b162.js.map"
         ],
         "css": [
           "blocks/topic-index-az-controller-cd7f20bf.css"
@@ -1005,14 +1013,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-          "blocks/topic-index-categorized-d26f674c.js"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+          "blocks/topic-index-categorized-c0910163.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-          "blocks/topic-index-categorized-d26f674c.js.map"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+          "blocks/topic-index-categorized-c0910163.js.map"
         ]
       }
     },
@@ -1020,11 +1028,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/topic-index-condensed-controller-8b7bb436.js"
+          "blocks/topic-index-condensed-controller-1436b54b.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/topic-index-condensed-controller-8b7bb436.js.map"
+          "blocks/topic-index-condensed-controller-1436b54b.js.map"
         ]
       }
     },
@@ -1033,14 +1041,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-          "blocks/topic-index-condensed-menu-9bbbc601.js"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+          "blocks/topic-index-condensed-menu-dddedb9f.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-          "blocks/topic-index-condensed-menu-9bbbc601.js.map"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+          "blocks/topic-index-condensed-menu-dddedb9f.js.map"
         ]
       }
     },
@@ -1048,11 +1056,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/topic-index-condensed-menu-item-eae53915.js"
+          "blocks/topic-index-condensed-menu-item-d7ad8693.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/topic-index-condensed-menu-item-eae53915.js.map"
+          "blocks/topic-index-condensed-menu-item-d7ad8693.js.map"
         ]
       }
     },
@@ -1061,14 +1069,14 @@
         "js": [
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js",
-          "blocks/topic-index-condensed-page-ac147923.js"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js",
+          "blocks/topic-index-condensed-page-e5eb8f8b.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-7e40de87.js.map",
-          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-8ccc6cc6.js.map",
-          "blocks/topic-index-condensed-page-ac147923.js.map"
+          "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-970b7fd2.js.map",
+          "blocks/topic-index-condensed-page-e5eb8f8b.js.map"
         ],
         "css": [
           "blocks/topic-index-condensed-page-9b2a22a5.css"
@@ -1082,11 +1090,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/topic-index-condensed-pages-4a337aa6.js"
+          "blocks/topic-index-condensed-pages-abd0ba45.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/topic-index-condensed-pages-4a337aa6.js.map"
+          "blocks/topic-index-condensed-pages-abd0ba45.js.map"
         ]
       }
     },
@@ -1094,11 +1102,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/topic-index-search-field-bfcff6c2.js"
+          "blocks/topic-index-search-field-992737b4.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/topic-index-search-field-bfcff6c2.js.map"
+          "blocks/topic-index-search-field-992737b4.js.map"
         ]
       }
     }
