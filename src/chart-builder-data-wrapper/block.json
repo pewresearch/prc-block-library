@@ -1,28 +1,31 @@
 {
-    "name": "prc-block/chart-builder-data-wrapper",
-    "category": "layout",
-    "textdomain": "chart-builder-data-wrapper",
-    "attributes": {
-        "id": {
-            "type": "string"
-        },
-        "transformed": {
-            "type": "boolean",
-            "default": false
-        },
-        "isConvertedChart": {
-            "type": "boolean",
-            "default": false
-        },
-        "hideTable": {
-            "type": "boolean",
-            "default": false
-        },
-        "chartData": {
-            "type": "array"
-        }
-    },
-    "providesContext": {
+	"name": "prc-block/chart-builder-data-wrapper",
+	"category": "layout",
+	"textdomain": "chart-builder-data-wrapper",
+	"attributes": {
+		"id": {
+			"type": "string"
+		},
+		"transformed": {
+			"type": "boolean",
+			"default": false
+		},
+		"isConvertedChart": {
+			"type": "boolean",
+			"default": false
+		},
+		"hideTable": {
+			"type": "boolean",
+			"default": false
+		},
+		"chartData": {
+			"type": "array"
+		},
+		"chartPreformattedData": {
+			"type": "array"
+		}
+	},
+	"providesContext": {
 		"prc-chart-builder/id": "id"
 	}
 }

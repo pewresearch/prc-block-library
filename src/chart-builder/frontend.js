@@ -313,16 +313,23 @@ const renderCharts = () => {
 		};
 		const tabsActive = window.chartConfigs[hash].tabsActive;
 		const dataArr = window.chartData[hash];
+		const preformattedDataArr = window.chartPreformattedData[hash];
 		const dataObj = arrayToDataObj(
 			dataArr,
 			config.xAxis.scale,
 			config.layout.type,
 		);
-		config.dataRender.categories = dataObj.categories;
-		const formattedData = dataObj.seriesData;
+		config.dataRender.categories = preformattedDataArr
+			? config.dataRender.categories
+			: dataObj.categories;
+		const formattedData = preformattedDataArr
+			? preformattedDataArr
+			: dataObj.seriesData;
 		// config.layout.type === 'pie'
 		//     ? dataObj.seriesData[0]
 		//     : dataObj.seriesData;
+		console.log({ formattedData });
+		console.log({ dataObj });
 		const panes = [
 			{
 				menuItem: 'CHART',
