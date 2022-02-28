@@ -1,0 +1,51 @@
+// .prc-widget-toc {
+//     background: white;
+
+//     // Default styling of items, whether they be in a list or a dropdown.
+//     .item {
+//         padding: 5px 10px;
+
+//         a {
+//             line-height: 140% !important;
+//             color: black !important;
+//         }
+
+//         &:hover a {
+//             color: black !important;
+//         }
+
+//         // Disable bold font weight on sub list items
+//         &.active .item {
+//             font-weight: normal !important;
+//         }
+//     }
+
+//     &.rail {
+//         .widget-content {
+//             padding: 0;
+//         }
+//     }
+
+//     .list .list .item:last-of-type,
+//     .menu .list .item:last-of-type {
+//         padding-bottom: 0px !important;
+//     }
+
+//     &.stuck {
+//         background-color: white;
+//         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+//         width: calc(100% + 2em);
+//         margin-left: -1em;
+//         padding-left: 1em;
+//         padding-right: 1em;
+
+//         .ui.dropdown {
+//             border: 0;
+//         }
+
+//         .menu.visible {
+//             width: calc(100% + 2em);
+//             margin-left: -1em;
+//         }
+//     }
+// }
