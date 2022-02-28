@@ -109,6 +109,7 @@ const files = [
             'social-link': './src/social-link/frontend.js',
             'story-item': './src/story-item/frontend.js',
             'tabs-controller': './src/tabs/controller/frontend.js',
+			'table-of-contents': './src/table-of-contents/frontend.js',
             'taxonomy-tree-more': './src/taxonomy-tree-more/frontend.js',
             'topic-index-az-mobile':
                 './src/topic-index-az-controller/frontend-mobile.js',

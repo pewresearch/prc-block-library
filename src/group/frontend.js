@@ -20,6 +20,9 @@ const initStickyBlocks = () => {
 	const stickyBlocks = document.querySelectorAll('.prc-group-block--sticky');
 	// If there are any sticky blocks init them.
 	if (stickyBlocks.length) {
+		stickyBlocks.forEach(block => {
+			block.classList.add('ui sticky');
+		});
 		jQuery('.prc-group-block--sticky.ui.sticky').sticky();
 	}
 }

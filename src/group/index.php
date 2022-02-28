@@ -118,7 +118,7 @@ class Group_Block extends PRC_Block_Library {
 
 		if ( $is_sticky ) {
 			$block_content = wp_sprintf(
-				'<div class="prc-group-block--sticky ui sticky">%s</div>',
+				'<div class="prc-group-block--sticky">%s</div>',
 				$block_content
 			);
 		}

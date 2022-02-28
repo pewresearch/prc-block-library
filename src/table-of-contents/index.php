@@ -10,6 +10,7 @@ use PHPHtmlParser\Exceptions\NotLoadedException;
 
 /**
  * Server-side rendering of the `prc-block/table-of-contents` block.
+ * Note: This will automatically detect if the current post needs data migration (classic to gutenberg or prc-block/chapter to heading) and assign post meta for future actions. _migration_flag_chapters
  *
  * @package gutenberg
  */
@@ -46,9 +47,9 @@ class Table_of_Contents extends PRC_Block_Library {
 	 * @param mixed $array
 	 * @return array
 	 */
-	public function prepare_chapter_blocks( $array) {
+	public function prepare_chapter_blocks( $array, $post_id = false ) {
 		$results = array();
-
+		$needs_migration = false;
 		if ( is_array( $array ) ) {
 			// We get the first level of the array first, then sub levels...
 			if ( isset( $array[ 'blockName' ] ) && in_array($array[ 'blockName' ], array('core/heading', 'prc-block/chapter')) ) {
@@ -60,6 +61,7 @@ class Table_of_Contents extends PRC_Block_Library {
 						'content' => wp_strip_all_tags( !empty($array['attrs']['altTocText']) ? $array['attrs']['altTocText'] : $array['innerHTML'] ),
 					);
 				} elseif ( 'prc-block/chapter' === $array['blockName'] ) {
+					$needs_migration = true;
 					$results[] = array(
 						'id' => $array['attrs']['id'],
 						'icon' => false,
@@ -73,21 +75,25 @@ class Table_of_Contents extends PRC_Block_Library {
 			}
 		}
 
+		if ( $needs_migration && false !== $post_id ) {
+			update_post_meta($post_id, '_migration_flag_chapters', true);
+		}
+
 		return $results;
 	}
 
 	/**
 	 * This will only match h2 and h3 elements and assign them as chapters...
 	 */
-	public function prepare_legacy_headings($post_id, $content) {
+	public function prepare_legacy_headings($content, $post_id) {
 		if ( has_blocks($content) ) {
 			return false;
 		}
 		if ( !in_array( get_post_type($post_id), array( 'post', 'fact-sheets' ) ) ) {
 			return false;
 		}
+
 		// First see if there are any of the new blocks...
-		// THen see if there are any prc block chapters in here and if so gather them up...
 		// If not then fallback to dom lookup.
 		// In either case we should update_post_meta($post_id, '_migration_flag_chapters', true);
 		// Then we can run a report on each site to see what posts need updating... maybe even add a flag or red light in the admin area for posts that require gutenberg mirgation assistance.
@@ -122,6 +128,10 @@ class Table_of_Contents extends PRC_Block_Library {
 				'icon' => false,
 				'content' => $text,
 			);
+		}
+
+		if ( ! empty( $chapters ) ) {
+			update_post_meta($post_id, '_migration_flag_chapters', true);
 		}
 
 		return $chapters;
@@ -171,7 +181,7 @@ class Table_of_Contents extends PRC_Block_Library {
 			$content = get_post_field( 'post_content', $post_id );
 		}
 
-		$legacy_chapters = $this->prepare_legacy_headings( $post_id, $content );
+		$legacy_chapters = $this->prepare_legacy_headings( $content, $post_id );
 		if ( false !== $legacy_chapters ) {
 			return $legacy_chapters;
 		}
@@ -181,7 +191,7 @@ class Table_of_Contents extends PRC_Block_Library {
 			return false;
 		}
 		$blocks = parse_blocks($content);
-		return $this->prepare_chapter_blocks( $blocks );
+		return $this->prepare_chapter_blocks( $blocks, $post_id );
 	}
 
 	public function get_list_items($chapters = false) {
@@ -197,10 +207,30 @@ class Table_of_Contents extends PRC_Block_Library {
 		return ob_get_clean();
 	}
 
+	public function responsive_script() {
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$registered = $enqueue->enqueue(
+			'frontend',
+			'table-of-contents',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => array(),
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
 		$mobile_threshold = $block->context['core/group/mobileAttachThreshold'];
 		$chapters = $this->construct_toc( $post_id );
+
+		if ( !empty($mobile_threshold) ) {
+			$this->responsive_script();
+		}
 
 		// If this is a multisection report then we'll wrap the TOC with the multi section report list.
 		$content = wp_sprintf(
