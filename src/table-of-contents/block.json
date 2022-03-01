@@ -29,6 +29,6 @@
 		"postType",
 		"prc-block/column/width",
 		"prc-block/row/isEqual",
-		"core/group/mobileAttachThreshold"
+		"core/group/responsiveThreshold"
 	]
 }

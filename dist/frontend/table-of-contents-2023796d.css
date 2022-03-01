@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.9
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-group:not(.wp-block).mobile-toc{margin-bottom:1em;padding-bottom:1em;border-top:1px solid #dadbdb;border-bottom:1px solid #dadbdb}.wp-block-group:not(.wp-block).mobile-toc.sticky.fixed{background:var(--wp--preset--color--white)}.wp-block-group:not(.wp-block).mobile-toc h3{cursor:pointer;padding-top:1em;margin-bottom:0;letter-spacing:.1em}.wp-block-group:not(.wp-block).mobile-toc h3:after{font-family:var(--prc--icon--dropdown--family);content:var(--prc--icon--dropdown--content);display:block;float:right}.wp-block-group:not(.wp-block).mobile-toc .wp-block-prc-block-table-of-contents{padding-top:1em}.wp-block-group:not(.wp-block).mobile-toc.is-open h3:after{-webkit-transform:rotate(180deg) scaleX(-1);transform:rotate(180deg) scaleX(-1)}.wp-block-group:not(.wp-block).mobile-toc:not(.is-open) .wp-block-prc-block-table-of-contents{display:none}
+
+/*# sourceMappingURL=table-of-contents-2023796d.css.map*/

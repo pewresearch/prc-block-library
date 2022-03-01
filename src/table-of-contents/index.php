@@ -225,11 +225,14 @@ class Table_of_Contents extends PRC_Block_Library {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
-		$mobile_threshold = $block->context['core/group/mobileAttachThreshold'];
+		$mobile_threshold = array_key_exists('core/group/responsiveThreshold', $block->context) ? $block->context['core/group/responsiveThreshold'] : null;
 		$chapters = $this->construct_toc( $post_id );
 
-		if ( !empty($mobile_threshold) ) {
+		$block_attrs = array();
+
+		if ( false !== $mobile_threshold && !empty($mobile_threshold) ) {
 			$this->responsive_script();
+			$block_attrs['data-mobile-threshold'] = $mobile_threshold;
 		}
 
 		// If this is a multisection report then we'll wrap the TOC with the multi section report list.
@@ -240,9 +243,7 @@ class Table_of_Contents extends PRC_Block_Library {
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
-			get_block_wrapper_attributes(array(
-				'data-mobile-threshold' => $mobile_threshold,
-			)),
+			get_block_wrapper_attributes($block_attrs),
 			$content
 		);
 	}

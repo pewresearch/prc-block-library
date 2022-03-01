@@ -3,13 +3,19 @@
  */
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
 import {
     createBlock,
     registerBlockStyle,
     registerBlockVariation,
 	rawHandler,
-	serialize,
 } from '@wordpress/blocks';
+import { Fragment } from '@wordpress/element';
+import { InspectorAdvancedControls } from '@wordpress/block-editor';
+import {
+	TextControl,
+    ToggleControl,
+} from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -196,3 +202,36 @@ addFilter('blocks.registerBlockType', 'prc-block/group', settings => {
 
     return settings;
 });
+
+const GroupBlockAdvancedControls = createHigherOrderComponent((BlockEdit) => {
+    return (props) => {
+        const { name, attributes, setAttributes } = props;
+        if ('core/group' !== name) {
+            return <BlockEdit {...props} />;
+        }
+		const { isSticky, responsiveAttachId, responsiveThreshold } = attributes;
+        return (
+            <Fragment>
+				<InspectorAdvancedControls>
+					<ToggleControl
+						label={__('Sticky On Scroll?')}
+						checked={isSticky}
+						onChange={(val) => setAttributes({ isSticky: !isSticky })}
+					/>
+					<TextControl
+						label={__('Responsive Attachment ID')}
+						value={responsiveAttachId}
+						onChange={(val) => setAttributes({ responsiveAttachId: val })}
+					/>
+					{/* <InputControl
+						label={__('Responsive Threshold')}
+						value={responsiveThreshold}
+						onChange={(val) => setAttributes({ responsiveThreshold: parseInt(val) })}
+					/> */}
+				</InspectorAdvancedControls>
+                <BlockEdit {...props} />
+            </Fragment>
+        );
+    };
+}, 'withGroupAdvancedControls');
+addFilter('editor.BlockEdit', 'prc-block/group', GroupBlockAdvancedControls, 21);

@@ -69,14 +69,14 @@ class Group_Block extends PRC_Block_Library {
 		}
 
 		// If you pass an id to the block, it will be used as the anchor for when the mobile viewpoint is reached.
-		if ( ! array_key_exists( 'mobileAttachId', $metadata['attributes'] ) ) {
-			$metadata['attributes']['mobileAttachId'] = array(
+		if ( ! array_key_exists( 'responsiveAttachId', $metadata['attributes'] ) ) {
+			$metadata['attributes']['responsiveAttachId'] = array(
 				'type'    => 'string',
 			);
 		}
 		// If you pass a threshold it will be used for the mobile viewpoint attach. If not, the default is 640.
-		if ( ! array_key_exists( 'mobileAttachThreshold', $metadata['attributes'] ) ) {
-			$metadata['attributes']['mobileAttachThreshold'] = array(
+		if ( ! array_key_exists( 'responsiveThreshold', $metadata['attributes'] ) ) {
+			$metadata['attributes']['responsiveThreshold'] = array(
 				'type'    => 'integer',
 				'default' => 640,
 			);
@@ -91,8 +91,8 @@ class Group_Block extends PRC_Block_Library {
 				array_key_exists('provides_context', $settings) ? $settings['provides_context'] : array(),
 				array(
 					'core/group/isSticky' => 'isSticky',
-					'core/group/mobileAttachId' => 'mobileAttachId',
-					'core/group/mobileAttachThreshold' => 'mobileAttachThreshold',
+					'core/group/responsiveAttachId' => 'responsiveAttachId',
+					'core/group/responsiveThreshold' => 'responsiveThreshold',
 				)
 			);
 		}
@@ -111,8 +111,8 @@ class Group_Block extends PRC_Block_Library {
 		);
 
 		$is_sticky = array_key_exists('isSticky', $block['attrs']) ? $block['attrs']['isSticky'] : false;
-		$mobile_attach_id = array_key_exists('mobileAttachId', $block['attrs']) ? $block['attrs']['mobileAttachId'] : false;
-		$mobile_attach_threshold = array_key_exists('mobileAttachThreshold', $block['attrs']) ? $block['attrs']['mobileAttachThreshold'] : false;
+		$responsive_attach_id = array_key_exists('responsiveAttachId', $block['attrs']) ? $block['attrs']['responsiveAttachId'] : false;
+		$responsive_threshold = array_key_exists('responsiveThreshold', $block['attrs']) ? $block['attrs']['responsiveThreshold'] : false;
 
 		$block_content = apply_filters( 'prc_group_block_content', $block_content, $block );
 
@@ -123,13 +123,13 @@ class Group_Block extends PRC_Block_Library {
 			);
 		}
 
-		if ( $mobile_attach_threshold && $mobile_attach_id ) {
+		if ( $responsive_threshold && $responsive_attach_id ) {
 			$id = md5($block_content);
 			$block_content = wp_sprintf(
-				'<div class="prc-group-block--responsive" data-return-id="%1$s" data-attach-id="%2$s" data-attach-threshold="%3$s">%4$s</div>',
+				'<div class="prc-group-block--responsive" data-return-id="%1$s" data-attach-id="%2$s" data-responsive-threshold="%3$s">%4$s</div>',
 				$id,
-				$mobile_attach_id,
-				$mobile_attach_threshold,
+				$responsive_attach_id,
+				$responsive_threshold,
 				$block_content
 			);
 		}
