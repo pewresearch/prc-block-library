@@ -3,7 +3,7 @@
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
-use PRC_Core\Hybrid_People;
+use PRC_Core\Hybrid_People\prc_get_bylines;
 use \WPackio as WPackio;
 
 /**
@@ -24,17 +24,17 @@ class Post_Bylines_Block extends PRC_Block_Library {
 		if ( false === $post_id ) {
 			return null;
 		}
-		ob_start();
-		echo '<div class="bylines meta">By ';
-		echo prc_get_bylines( (int) $post_id );
-		echo '</div>';
-		return ob_get_clean();
+		$text_align = isset( $attributes['textAlign'] ) ? $attributes['textAlign'] : 'left';
+		$block_attrs = get_block_wrapper_attributes(array(
+			'class' => 'has-text-align' . '-' . $text_align,
+		));
+		return wp_sprintf( '<div %1$s>By %2$s</div>',$block_attrs, prc_get_bylines( (int) $post_id ) );
 	}
 
 	/**
 	 * Register the menu link block.
 	 *
-	 * @uses render_block_core_navigation()
+	 * @uses render_post_bylines()
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {

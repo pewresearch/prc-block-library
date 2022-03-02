@@ -28,7 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use \WPackio as WPackio;
+
+define( 'PRC_BLOCK_LIBRARY_FILE', __FILE__ );
 
 class PRC_Block_Library {
 	/**
@@ -59,6 +60,8 @@ class PRC_Block_Library {
 			// @TODO Needs to be moved into shared wpack vendor outputs.
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
 
+			require_once plugin_dir_path( __FILE__ ) . '/src/_deprecated/index.php';
+
 			// Using shared wpack vendor outputs.
 			// Layout Primitives.
 			require_once plugin_dir_path( __FILE__ ) . '/src/grid/index.php';
@@ -86,6 +89,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/popup/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-publish-date/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/post-sub-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo-rotator/index.php';
@@ -95,7 +99,6 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/separator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/sub-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/staff/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/staff-listing/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
@@ -111,8 +114,6 @@ class PRC_Block_Library {
 
 			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
-			add_action( 'init', array( $this, 'register_assets' ), 10 );
-			add_action( 'init', array( $this, 'register_blocks' ), 11 );
 		}
 	}
 
@@ -179,33 +180,6 @@ class PRC_Block_Library {
 		return array_pop( $this->registered[ $location ][ $block_name ][ $asset_type ] )['handle'];
 	}
 
-	/**
-	 * Register block assets here. Format as follows:
-	 * $this->registered[block|frontend][blockName] = wpPackIo register array
-	 *
-	 * @return void
-	 * @throws LogicException
-	 */
-	public function register_assets() {
-		$js_deps       = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$block_js_deps = array_merge( $js_deps, array( 'wp-components' ) );
-		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.1', 'plugin', __DIR__ . '/prc_blocks/' );
-
-		/** Chapter */
-		$this->registered['block']['prc-block/chapter'] = $enqueue->register(
-			'chapter',
-			'main',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-			);
-	}
-
 	public function render_accordion_section( $label, $link = false, $inner_blocks ) {
 		$title_class_names   = classNames(
 			'title',
@@ -236,22 +210,6 @@ class PRC_Block_Library {
 		return ob_get_clean();
 	}
 
-	/**
-	 * Register blocks and editor scripts/styles. DO NOT use the `script` frontend attribute when registering a block type.
-	 * If your block has frontend script asset that needs to be localized load the function `enqueue_frontend_assets`.
-	 *
-	 * @return void
-	 */
-	public function register_blocks() {
-
-		/** Chapter */
-		register_block_type(
-			'prc-block/chapter',
-			array(
-				'editor_script' => array_pop( $this->registered['block']['prc-block/chapter']['js'] )['handle'],
-			)
-		);
-	}
 }
 
 new PRC_Block_Library( true );

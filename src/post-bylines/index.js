@@ -1,5 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
+import { people } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -11,8 +12,7 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('PRC Post Bylines'),
-    description: __('Displays the post bylines.'),
+	icon: people,
     edit,
     save,
 };

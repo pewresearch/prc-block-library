@@ -1,0 +1,20 @@
+{
+  "chapter.js": "deprecated/chapter-49e70097.js",
+  "chapter.js.map": "deprecated/chapter-49e70097.js.map",
+  "runtime.js": "deprecated/runtime-ffb8f327.js",
+  "runtime.js.map": "deprecated/runtime-ffb8f327.js.map",
+  "wpackioEp": {
+    "chapter": {
+      "assets": {
+        "js": [
+          "deprecated/runtime-ffb8f327.js",
+          "deprecated/chapter-49e70097.js"
+        ],
+        "js.map": [
+          "deprecated/runtime-ffb8f327.js.map",
+          "deprecated/chapter-49e70097.js.map"
+        ]
+      }
+    }
+  }
+}

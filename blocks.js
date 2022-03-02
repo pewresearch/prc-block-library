@@ -30,6 +30,7 @@ const files = [
 			'popup-modal': './src/popup/modal/index.js',
             'post-bylines': './src/post-bylines/index.js',
             'post-publish-date': './src/post-publish-date/index.js',
+			'post-sub-title': './src/post-sub-title/index.js',
             'post-title': './src/post-title/index.js',
             promo: './src/promo/index.js',
             'promo-rotator': './src/promo-rotator/index.js',
@@ -44,7 +45,6 @@ const files = [
             staff: './src/staff/index.js',
 			'staff-listing': './src/staff-listing/index.js',
             'story-item': './src/story-item/index.js',
-            'sub-title': './src/sub-title/index.js',
             table: './src/table/index.js',
 			'table-of-contents': './src/table-of-contents/index.js',
             'tabs-controller': './src/tabs/controller/index.js',
@@ -123,10 +123,11 @@ const files = [
         optimizeForGutenberg: true,
     },
     {
-        name: 'chapter',
+        name: 'deprecated',
         entry: {
-            main: './src/chapter/index.js',
+            chapter: './src/_deprecated/chapter/index.js',
         },
+		optimizeForGutenberg: true,
     },
     {
         name: 'fact-sheet-collection',

@@ -1,0 +1,13 @@
+{
+  "dependencies": [
+    "wp-block-editor",
+    "wp-blocks",
+    "wp-components",
+    "wp-element",
+    "wp-i18n",
+    "wp-keycodes",
+    "wp-primitives",
+    "wp-url"
+  ],
+  "version": "7d216b4bd3110e9f1a518b7ef02503bb"
+}

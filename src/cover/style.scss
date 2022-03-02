@@ -1,13 +1,22 @@
 @use "sass:math";
-
-$largestMobileScreen: 767px;
-
 $baseUnit: 14px;
-
-$headerFont: 'franklin-gothic-urw', Verdana, Geneva, sans-serif;
-
 @function calcRemUnit($pixels) {
 	@return math.div($pixels, $baseUnit) * 1rem;
+}
+
+.wp-block-cover.has-snap-groups {
+	.wp-block-cover__inner-container {
+		height: 100vh;
+		overflow-y: scroll;
+		scroll-snap-type: y mandatory;
+		.wp-block-group {
+			scroll-snap-align: start;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			height: 100vh;
+		}
+	}
 }
 
 .wp-block-cover {
@@ -15,7 +24,7 @@ $headerFont: 'franklin-gothic-urw', Verdana, Geneva, sans-serif;
 }
 
 .wp-block-cover.alignfull > .wp-block-cover__inner-container{
-	text-align: center;
+	// text-align: center;
 }
 
 .wp-block-cover.is-style-essay {
@@ -33,13 +42,13 @@ $headerFont: 'franklin-gothic-urw', Verdana, Geneva, sans-serif;
 		}
 		h1:first-of-type {
 			font-size: calcRemUnit(56px);
-			font-family: $headerFont;
+			font-family: var(--wp--preset--font-family--sans-serif, sans-serif);
 			line-height: calcRemUnit(64px);
 		}
 		h2:first-of-type {
 			font-size: calcRemUnit(24px);
 			font-weight: normal;
-			font-family: $headerFont;
+			font-family: var(--wp--preset--font-family--sans-serif, sans-serif);
 			margin-top: 1em;
 		}
 		.meta {
@@ -56,7 +65,7 @@ $headerFont: 'franklin-gothic-urw', Verdana, Geneva, sans-serif;
 	}
 	h1,
 	h2 {
-		font-family: $headerFont;
+		font-family: var(--wp--preset--font-family--sans-serif, sans-serif);
 	}
 	h1 {
 		font-size: calcRemUnit(26px);

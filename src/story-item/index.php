@@ -32,6 +32,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		}
 	}
 
+	//@TODO We need to look into a significantly more performant way to handle this.
 	public function wrap_consecutive_story_items( $content, $block ) {
 		$relaxed      = false;
 		$very_relaxed = false;

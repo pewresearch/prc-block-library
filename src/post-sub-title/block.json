@@ -1,0 +1,27 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/subtitle",
+	"category": "layout",
+	"attributes": {
+		"value": {
+			"type": "string",
+			"source": "meta",
+			"meta": "sub_headline"
+		},
+		"textAlign": {
+			"type": "string"
+		}
+	},
+	"example": {
+		"attributes": {
+			"value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+		}
+	},
+	"supports": {
+		"multiple": false,
+		"color": {
+			"text": true,
+			"background": true
+		}
+	}
+}

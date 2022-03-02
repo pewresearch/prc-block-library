@@ -1,9 +1,18 @@
+/**
+ * External Dependencies
+ */
+import classNames from 'classnames';
+
+/**
+ * WordPress Dependencies
+ */
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, BlockControls, AlignmentControl } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 
-const edit = ({ className, clientId }) => {
+const edit = ({ attributes, className, clientId, setAttributes }) => {
+	const {textAlign} = attributes;
     const [bylines, setBylines] = useState([]);
     const bylineTerms = useSelect(
         select => {
@@ -12,8 +21,13 @@ const edit = ({ className, clientId }) => {
         [clientId],
     );
     const blockProps = useBlockProps({
-        className: `${className} bylines meta`,
+        className: classNames(className, {
+			'bylines meta': true,
+			[ `has-text-align-${ textAlign }` ]: textAlign
+		}),
     });
+
+
 
     const getBylineNameAsync = termId => {
         return new Promise(resolve => {
@@ -34,24 +48,39 @@ const edit = ({ className, clientId }) => {
 
     useEffect(() => {
         if ( bylineTerms && bylineTerms.length > 0 ) {
-            getBylines().then(data => setBylines([...data]));
-        }
+            getBylines().then(data => {
+				console.log("bylines data...", data);
+				setBylines([...data]);
+			});
+        } else {
+			setBylines(['Jane Doe', 'John Doe']);
+		}
     }, [bylineTerms]);
 
     return (
-        <div {...blockProps}>
-            {`By `}
-            {bylines.map((b, index) => {
-                const total = bylines.length - 1;
-                if (1 < total && index === total) {
-                    return <Fragment>and {b}</Fragment>;
-                }
-                if (1 < total && index !== total) {
-                    return <Fragment>{b}, </Fragment>;
-                }
-                return <Fragment>{b}</Fragment>;
-            })}
-        </div>
+		<Fragment>
+			<BlockControls>
+				<AlignmentControl
+					value={ textAlign }
+					onChange={ ( nextAlign ) => {
+						setAttributes( { textAlign: nextAlign } );
+					} }
+				/>
+			</BlockControls>
+			<div {...blockProps}>
+				{`By `}
+				{bylines.map((b, index) => {
+					const total = bylines.length;
+					if (1 < total && total === index + 1) {
+						return <Fragment>and {b}</Fragment>;
+					}
+					if (1 < total && total !== index + 1) {
+						return <Fragment>{b}, </Fragment>;
+					}
+					return <Fragment>{b}</Fragment>;
+				})}
+			</div>
+		</Fragment>
     );
 };
 
