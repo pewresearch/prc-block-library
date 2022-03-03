@@ -8,6 +8,22 @@ import domReady from '@wordpress/dom-ready';
  */
 import './style.scss';
 
+const scollSnapInit = () => {
+	const ob = new IntersectionObserver((payload) => {
+		console.log(payload);
+		const isIntersecting = payload[0].isIntersecting;
+		const firstCover = document.getElementById('essay-cover');
+		if ( isIntersecting ) {
+			firstCover.classList.add('active');
+		} else {
+			firstCover.classList.remove('active');
+		}
+	});
+
+	const firstCover = document.getElementById('essay-cover');
+	ob.observe(firstCover.lastElementChild.lastElementChild);
+}
+
 const insertAfter = (el, referenceNode) => {
     referenceNode.parentNode.insertBefore(el, referenceNode.nextSibling);
 };
@@ -34,8 +50,9 @@ const essayCoverMobileToggle = () => {
     });
 };
 
-window.addEventListener('resize', essayCoverMobileToggle);
+// window.addEventListener('resize', essayCoverMobileToggle);
 
 domReady(() => {
-    essayCoverMobileToggle();
+	scollSnapInit();
+    // essayCoverMobileToggle();
 });

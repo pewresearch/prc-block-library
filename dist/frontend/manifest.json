@@ -7,10 +7,10 @@
   "chart-builder.js.map": "frontend/chart-builder-551fab0d.js.map",
   "collapsible.js": "frontend/collapsible-0ad7796f.js",
   "collapsible.js.map": "frontend/collapsible-0ad7796f.js.map",
-  "cover.css": "frontend/cover-3eca056a.css",
-  "cover.css.map": "frontend/cover-3eca056a.css.map",
-  "cover.js": "frontend/cover-3f69ca49.js",
-  "cover.js.map": "frontend/cover-3f69ca49.js.map",
+  "cover.css": "frontend/cover-159809c2.css",
+  "cover.css.map": "frontend/cover-159809c2.css.map",
+  "cover.js": "frontend/cover-49ad2257.js",
+  "cover.js.map": "frontend/cover-49ad2257.js.map",
   "flip-card-controller.css": "frontend/flip-card-controller-914f5d29.css",
   "flip-card-controller.css.map": "frontend/flip-card-controller-914f5d29.css.map",
   "flip-card-controller.js": "frontend/flip-card-controller-e869e7a7.js",
@@ -122,17 +122,17 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/cover-3f69ca49.js"
+          "frontend/cover-49ad2257.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/cover-3f69ca49.js.map"
+          "frontend/cover-49ad2257.js.map"
         ],
         "css": [
-          "frontend/cover-3eca056a.css"
+          "frontend/cover-159809c2.css"
         ],
         "css.map": [
-          "frontend/cover-3eca056a.css.map"
+          "frontend/cover-159809c2.css.map"
         ]
       }
     },

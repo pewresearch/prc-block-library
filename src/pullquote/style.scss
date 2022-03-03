@@ -1,17 +1,19 @@
-@use "../../../../themes/prc_parent/src/scss/master.variables.scss" as variables;
-@use "../../../../themes/prc_parent/src/scss/colors.scss" as colors;
-@use "../../../../themes/prc_parent/src/scss/functions.scss" as functions;
-@use "../../../../themes/prc_parent/src/scss/mixins.scss" as mixins;
-@use "sass:math";
 
-$maxWidth: 420px;
 
 figure.wp-block-pullquote {
+	--max-width: 420px;
+	--default--color: #565656;
+	--default--border-color: #8c8c8c;
+
 	padding: 0;
 	margin-bottom: 20px;
 	blockquote {
-		@include mixins.clearfix();
-		color: #565656;
+		&:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
+		color: var(--default--color);
 		padding: 24px;
 		margin: 0!important;
 	}
@@ -39,21 +41,21 @@ figure.wp-block-pullquote {
 	}
 	cite,
 	.wp-block-pullquote__citation {
-		max-width: $maxWidth;
+		max-width: var(--max-width);
 		display: block!important;
 		padding: 0!important;
 		float: right;
 		text-align: right;
-		color: #565656!important;
+		color: var(--default--color)!important;
 		font-size: 15px!important;
-		font-family: variables.$sansSerifFont;
+		font-family: var(--wp--preset--font-family--sans-serif);
 		line-height: 18px!important;
 
 		letter-spacing: inherit!important;
 		text-transform: inherit!important;
 
 		&:before {
-			border-bottom: 1px solid #8c8c8c;
+			border-bottom: 1px solid var(--default--border-color);
 			content: "";
 			display: inline-block;
 			height: 1px;
@@ -69,7 +71,7 @@ figure.wp-block-pullquote {
 .wp-block[data-align="right"] figure.wp-block-pullquote,
 figure.wp-block-pullquote.alignleft,
 figure.wp-block-pullquote.alignright {
-	max-width: $maxWidth;
+	max-width: var(--max-width);
 }
 
 .wp-block[data-align="left"] figure.wp-block-pullquote,

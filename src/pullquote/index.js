@@ -25,14 +25,13 @@ addFilter(
 			settings.supports = Object.assign( settings.supports, {
 				align: [ 'left', 'right', 'wide' ],
 				typography: {
-					fontSize: false,
-					lineHeight: false,
+					fontSize: true,
 					"__experimentalFontStyle": false,
 					"__experimentalFontWeight": false,
 					"__experimentalLetterSpacing": false,
 					"__experimentalTextTransform": false,
 					"__experimentalDefaultControls": {
-						fontSize: false,
+						fontSize: true,
 						fontAppearance: false
 					}
 				},

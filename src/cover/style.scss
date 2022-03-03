@@ -4,10 +4,15 @@ $baseUnit: 14px;
 	@return math.div($pixels, $baseUnit) * 1rem;
 }
 
+// We need to use intersection scroll observer to apply this has-snap-groups active and not active
 .wp-block-cover.has-snap-groups {
+	padding: 0;
+	&.active .wp-block-cover__inner-container {
+		overflow-y: scroll;
+	}
 	.wp-block-cover__inner-container {
 		height: 100vh;
-		overflow-y: scroll;
+		overflow-y: hidden;
 		scroll-snap-type: y mandatory;
 		.wp-block-group {
 			scroll-snap-align: start;

@@ -9,8 +9,8 @@
   "collapsible.js.map": "blocks/collapsible-293d7bce.js.map",
   "column.js": "blocks/column-3e028342.js",
   "column.js.map": "blocks/column-3e028342.js.map",
-  "cover.css": "blocks/cover-3eca056a.css",
-  "cover.css.map": "blocks/cover-3eca056a.css.map",
+  "cover.css": "blocks/cover-159809c2.css",
+  "cover.css.map": "blocks/cover-159809c2.css.map",
   "cover.js": "blocks/cover-6ed64c5d.js",
   "cover.js.map": "blocks/cover-6ed64c5d.js.map",
   "daily-briefing-signup.css": "blocks/daily-briefing-signup-f40d5194.css",
@@ -97,10 +97,10 @@
   "promo.css.map": "blocks/promo-d5b15eb7.css.map",
   "promo.js": "blocks/promo-ae5ff4a7.js",
   "promo.js.map": "blocks/promo-ae5ff4a7.js.map",
-  "pullquote.css": "blocks/pullquote-e38ff5e6.css",
-  "pullquote.css.map": "blocks/pullquote-e38ff5e6.css.map",
-  "pullquote.js": "blocks/pullquote-7920cdfb.js",
-  "pullquote.js.map": "blocks/pullquote-7920cdfb.js.map",
+  "pullquote.css": "blocks/pullquote-90322137.css",
+  "pullquote.css.map": "blocks/pullquote-90322137.css.map",
+  "pullquote.js": "blocks/pullquote-df787a5c.js",
+  "pullquote.js.map": "blocks/pullquote-df787a5c.js.map",
   "query.js": "blocks/query-44c6b666.js",
   "query.js.map": "blocks/query-44c6b666.js.map",
   "responsive-container-controller.css": "blocks/responsive-container-controller-806cd166.css",
@@ -263,10 +263,10 @@
           "blocks/cover-6ed64c5d.js.map"
         ],
         "css": [
-          "blocks/cover-3eca056a.css"
+          "blocks/cover-159809c2.css"
         ],
         "css.map": [
-          "blocks/cover-3eca056a.css.map"
+          "blocks/cover-159809c2.css.map"
         ]
       }
     },
@@ -708,17 +708,17 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/pullquote-7920cdfb.js"
+          "blocks/pullquote-df787a5c.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/pullquote-7920cdfb.js.map"
+          "blocks/pullquote-df787a5c.js.map"
         ],
         "css": [
-          "blocks/pullquote-e38ff5e6.css"
+          "blocks/pullquote-90322137.css"
         ],
         "css.map": [
-          "blocks/pullquote-e38ff5e6.css.map"
+          "blocks/pullquote-90322137.css.map"
         ]
       }
     },
