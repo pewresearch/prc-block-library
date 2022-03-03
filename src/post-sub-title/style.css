@@ -4,8 +4,10 @@
     font-weight: normal;
     font-family: var(--wp--preset--font-family--serif, serif);
     line-height: 30px;
+}
 
-    @media only screen and (max-width: var(--wp--custom--breakpoint--tablet)) {
-        font-size: 18.5px;
-    }
+@media only screen and (max-width: var(--wp--custom--breakpoint--tablet)) {
+	.wp-block-prc-block-subtitle {
+		font-size: 18.5px;
+	}
 }

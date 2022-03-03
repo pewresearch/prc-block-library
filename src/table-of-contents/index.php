@@ -235,6 +235,12 @@ class Table_of_Contents extends PRC_Block_Library {
 			$block_attrs['data-mobile-threshold'] = $mobile_threshold;
 		}
 
+		if ( array_key_exists('showCurrentChapter', $attributes) && $attributes['showCurrentChapter'] ) {
+			$block_attrs['data-show-current-chapter'] = true;
+		}
+
+		$block_attrs = get_block_wrapper_attributes($block_attrs);
+
 		// If this is a multisection report then we'll wrap the TOC with the multi section report list.
 		$content = wp_sprintf(
 			'<div role="list" class="ui link selection list">%s</div>',
@@ -243,7 +249,7 @@ class Table_of_Contents extends PRC_Block_Library {
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
-			get_block_wrapper_attributes($block_attrs),
+			$block_attrs,
 			$content
 		);
 	}

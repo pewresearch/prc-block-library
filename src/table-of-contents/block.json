@@ -5,7 +5,12 @@
 	"description": "Displays a list of all heading blocks set to chapter headings.",
 	"keywords": [ "toc", "chapter", "table of contents" ],
 	"category": "design",
-	"attributes": {},
+	"attributes": {
+		"showCurrentChapter": {
+			"type": "boolean",
+			"default": false
+		}
+	},
 	"supports": {
 		"align": ["left", "right"],
 		"html": false,

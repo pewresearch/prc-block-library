@@ -1,4 +1,9 @@
 /**
+ * External Dependencies
+ */
+import enquire from 'enquire.js';
+
+/**
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
@@ -8,51 +13,87 @@ import domReady from '@wordpress/dom-ready';
  */
 import './style.scss';
 
-const scollSnapInit = () => {
-	const ob = new IntersectionObserver((payload) => {
-		console.log(payload);
-		const isIntersecting = payload[0].isIntersecting;
-		const firstCover = document.getElementById('essay-cover');
-		if ( isIntersecting ) {
-			firstCover.classList.add('active');
-		} else {
-			firstCover.classList.remove('active');
-		}
-	});
-
-	const firstCover = document.getElementById('essay-cover');
-	ob.observe(firstCover.lastElementChild.lastElementChild);
-}
+const insertBefore = (el, referenceNode) => {
+    referenceNode.parentNode.insertBefore(el, referenceNode);
+};
 
 const insertAfter = (el, referenceNode) => {
     referenceNode.parentNode.insertBefore(el, referenceNode.nextSibling);
 };
 
-const essayCoverMobileToggle = () => {
-    const covers = document.querySelectorAll('.wp-block-cover.is-style-essay');
-    const vw = document.documentElement.clientWidth;
-    covers.forEach(cover => {
-        const content = cover.querySelector('.wp-block-cover__inner-container');
-        // If tablet+ and the inner container is not present then move it back
-        if (
-            741 <= vw &&
-            !cover.querySelector('.wp-block-cover__inner-container')
-        ) {
-            cover.nextElementSibling.classList.remove(
-                'is-style-mobile-essay-header',
-            );
-            cover.appendChild(cover.nextElementSibling);
-        }
-        if (740 >= vw && null !== content) {
-            content.classList.toggle('is-style-mobile-essay-header');
-            insertAfter(content, cover);
-        }
-    });
-};
+const generateRandomString = (length=6)=>Math.random().toString(20).substr(2, length)
 
-// window.addEventListener('resize', essayCoverMobileToggle);
+const scollSnapInit = () => {
+	const snapCovers = document.querySelectorAll('.wp-block-cover.is-style-snap-groups');
+	snapCovers.forEach(cover => {
+
+		const id = generateRandomString();
+
+		cover.setAttribute('data-top-watcher-id', id);
+		// cover.classList.add('locked'); // init with locked
+
+		const returnPoint = document.createElement('div');
+		returnPoint.setAttribute('id', id);
+		insertBefore(returnPoint, cover);
+
+		const items = cover.querySelectorAll('.wp-block-group');
+		const lastItem = items[items.length - 1];
+
+		const topWatcher = new IntersectionObserver((payload) => {
+			const p = payload[0];
+			const isIntersecting = p.isIntersecting;
+			console.log('topWatcher', isIntersecting, p);
+
+			if ( ! isIntersecting ) {
+				p.target.nextSibling.classList.add('active');
+			} else {
+				p.target.nextSibling.classList.remove('active');
+			}
+		});
+
+		const scrollingBackSnapToTop = (top) => {
+			// window.scroll({
+			// 	top: top,
+			// 	behavior: "smooth"
+			// });
+		}
+
+		const middleWatcher = new IntersectionObserver((payload) => {
+			const p = payload[0];
+			const isIntersecting = p.isIntersecting;
+			console.log('middleWatcher', isIntersecting, p);
+			if ( isIntersecting ) {
+				console.log("I would add locked now");
+				p.target.classList.add('locked');
+				scrollingBackSnapToTop(p.boundingClientRect.top);
+			} else {
+				console.log("I would remove locked now");
+				p.target.classList.remove('locked');
+			}
+		}, {
+			root: null,
+			threshold: [0.70]
+		});
+
+		const bottomWatcher = new IntersectionObserver((payload) => {
+			const p = payload[0];
+			const isIntersecting = p.isIntersecting;
+			console.log('bottomWatcher', isIntersecting, p);
+			if ( isIntersecting) {
+				p.target.parentElement.parentElement.classList.remove('locked');
+			}
+		}, {
+			root: cover, // Declaring null uses the entire viewport.
+			threshold: 0.5, //  The percentage of the bottomPost to come into view.
+			// rootMargin: `-${navHeight}px`, // The offset based on the nav bar's height.
+		});
+
+		topWatcher.observe(returnPoint);
+		middleWatcher.observe(cover);
+		bottomWatcher.observe(lastItem);
+	});
+}
 
 domReady(() => {
 	scollSnapInit();
-    // essayCoverMobileToggle();
 });

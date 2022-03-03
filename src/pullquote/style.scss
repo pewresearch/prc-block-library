@@ -1,25 +1,24 @@
-
-
 figure.wp-block-pullquote {
 	--max-width: 420px;
-	--default--color: #565656;
 	--default--border-color: #8c8c8c;
 
+	color: #565656;
 	padding: 0;
 	margin-bottom: 20px;
+	font-size: 20px;
 	blockquote {
 		&:after {
 			content: "";
 			display: table;
 			clear: both;
 		}
-		color: var(--default--color);
+		color: inherit!important;
 		padding: 24px;
 		margin: 0!important;
 	}
 	p {
 		text-align: left;
-		font-size: 20px!important;
+		font-size: inherit!important;
 		line-height: 30px!important;
 		&:first-child:before {
 			content: "“";
@@ -46,7 +45,7 @@ figure.wp-block-pullquote {
 		padding: 0!important;
 		float: right;
 		text-align: right;
-		color: var(--default--color)!important;
+		color: inherit!important;
 		font-size: 15px!important;
 		font-family: var(--wp--preset--font-family--sans-serif);
 		line-height: 18px!important;

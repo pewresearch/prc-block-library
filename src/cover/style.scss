@@ -1,14 +1,51 @@
-@use "sass:math";
-$baseUnit: 14px;
-@function calcRemUnit($pixels) {
-	@return math.div($pixels, $baseUnit) * 1rem;
+.wp-block-cover {
+	margin-bottom: 2em;
+	.wp-block-cover__inner-container > [class*="wp-block-"] {
+		max-width: var(--wp--custom--content-size);
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 
-// We need to use intersection scroll observer to apply this has-snap-groups active and not active
-.wp-block-cover.has-snap-groups {
+// Collapse cover block on mobile
+@media screen and (max-width: 640px) {
+	.wp-block-cover:not(.is-style-snap-groups) {
+		flex-direction: column!important;
+		margin-bottom: 0; // The content inside should provide its own bottom margin.
+		&[style] {
+			min-height: auto!important;
+		}
+		img.wp-block-cover__image-background {
+			position: relative!important;
+			margin-left: -2em;
+			margin-right: -2em;
+			max-width: calc(100% + 2em)!important;
+			width: calc(100% + 2em)!important;
+		}
+		.has-text-color {
+			color: inherit!important;
+		}
+		.wp-block-cover__inner-container > [class*="wp-block-"]:last-child {
+			margin-bottom: 0!important;
+		}
+		.wp-block-cover__background,
+		.wp-block-spacer {
+			display: none!important;
+		}
+	}
+}
+
+// We need to use intersection scroll observer to apply this is-style-snap-groups active and not active
+.wp-block-cover.is-style-snap-groups {
 	padding: 0;
-	&.active .wp-block-cover__inner-container {
+	&.active .wp-block-cover__inner-container,
+	&.is-selected .wp-block-cover__inner-container,
+	&.has-child-selected .wp-block-cover__inner-container {
 		overflow-y: scroll;
+	}
+	 // We don't want to lock the scrolling in the gutenberg editor so only do this on the frontend.
+	&.locked .wp-block-cover__inner-container {
+		overscroll-behavior: contain;
 	}
 	.wp-block-cover__inner-container {
 		height: 100vh;
@@ -16,75 +53,20 @@ $baseUnit: 14px;
 		scroll-snap-type: y mandatory;
 		.wp-block-group {
 			scroll-snap-align: start;
+			scroll-snap-stop: always;
+			height: 100vh;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			height: 100vh;
+			@media screen and (max-width: 640px) {
+				margin-left: 1em;
+				margin-right: 1em;
+				.alignwide {
+					margin-left: 0!important;
+					margin-right: 0!important;
+					width: 100%!important;
+				}
+			}
 		}
-	}
-}
-
-.wp-block-cover {
-	margin-bottom: 2em;
-}
-
-.wp-block-cover.alignfull > .wp-block-cover__inner-container{
-	// text-align: center;
-}
-
-.wp-block-cover.is-style-essay {
-	.wp-block-cover__inner-container {
-		max-width: 920px !important;
-		text-shadow: 0px 1px 2px rgba(0,0,0,.8);
-		text-align: center;
-		a,
-		.meta {
-			color: white!important;
-		}
-		& > .wp-block,
-		& > [class="wp-block-*"] {
-			max-width: 100% !important;
-		}
-		h1:first-of-type {
-			font-size: calcRemUnit(56px);
-			font-family: var(--wp--preset--font-family--sans-serif, sans-serif);
-			line-height: calcRemUnit(64px);
-		}
-		h2:first-of-type {
-			font-size: calcRemUnit(24px);
-			font-weight: normal;
-			font-family: var(--wp--preset--font-family--sans-serif, sans-serif);
-			margin-top: 1em;
-		}
-		.meta {
-			font-size: 14px;
-		}
-	}
-}
-
-.wp-block-cover__inner-container.is-style-mobile-essay-header {
-	margin-bottom: 1.5em;
-	text-align: left;
-	& > * {
-		text-align: left !important;
-	}
-	h1,
-	h2 {
-		font-family: var(--wp--preset--font-family--sans-serif, sans-serif);
-	}
-	h1 {
-		font-size: calcRemUnit(26px);
-		line-height: calcRemUnit(30px);
-	}
-	h2 {
-		font-size: calcRemUnit(20px);
-		line-height: calcRemUnit(24px);
-		font-weight: 400;
-		margin-top: 0;
-		margin-bottom: 1.5em;
-	}
-	.meta {
-		font-weight: bold;
-		color: black;
 	}
 }

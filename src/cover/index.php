@@ -6,6 +6,8 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Cover_Block extends PRC_Block_Library {
+	public static $version = '1.0.0';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
@@ -34,7 +36,7 @@ class Cover_Block extends PRC_Block_Library {
 		if ( 'core/cover' !== $block['blockName'] || is_admin() ) {
 			return $block_content;
 		}
-		
+
 		$this->enqueue_assets( true, true );
 
 		return $block_content;
@@ -47,7 +49,7 @@ class Cover_Block extends PRC_Block_Library {
 	 */
 	public function register_script() {
 		$block_js_deps = array( 'wp-blocks', 'wp-dom-ready', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
 			'blocks',
 			'cover',

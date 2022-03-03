@@ -29,7 +29,7 @@ const files = [
 			'popup-content': './src/popup/content/index.js',
 			'popup-modal': './src/popup/modal/index.js',
             'post-bylines': './src/post-bylines/index.js',
-            'post-publish-date': './src/post-publish-date/index.js',
+			'post-date': './src/post-date/index.js',
 			'post-sub-title': './src/post-sub-title/index.js',
             'post-title': './src/post-title/index.js',
             promo: './src/promo/index.js',
@@ -126,6 +126,8 @@ const files = [
         name: 'deprecated',
         entry: {
             chapter: './src/_deprecated/chapter/index.js',
+			'post-publish-date': './src/_deprecated/post-publish-date/index.js',
+			'post-title': './src/post-title/index.js',
         },
 		optimizeForGutenberg: true,
     },

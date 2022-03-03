@@ -1,20 +1,43 @@
-import { registerBlockType } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
+/**
+ * WordPress Dependencies
+ */
+import { addFilter } from '@wordpress/hooks';
 
 /**
- * Internal dependencies
+ * Internal Depdendencies
  */
-import metadata from './block.json';
-import edit from './edit';
-import save from './save';
+import './style.scss';
 
-const { name } = metadata;
+/**
+ * Change the value attribute to have a default value that includes fancy quotes.
+ *
+ * @param {Object} settings Settings for the block.
+ *
+ * @return {Object} settings Modified settings.
+ */
 
-const settings = {
-    title: __('PRC Post Title'),
-    description: __('Displays the post title.'),
-    edit,
-    save,
-};
-
-registerBlockType(name, { ...settings, ...metadata });
+addFilter(
+	'blocks.registerBlockType',
+	'core/post-title',
+	(settings) => {
+		//check if object exists for old Gutenberg version compatibility
+		if( 'core/post-title' === settings.name ){
+			console.log('post-title settings', settings);
+			// settings.supports = Object.assign( settings.supports, {
+			// 	align: [ 'left', 'right', 'wide' ],
+			// 	typography: {
+			// 		fontSize: true,
+			// 		"__experimentalFontStyle": false,
+			// 		"__experimentalFontWeight": false,
+			// 		"__experimentalLetterSpacing": false,
+			// 		"__experimentalTextTransform": false,
+			// 		"__experimentalDefaultControls": {
+			// 			fontSize: true,
+			// 			fontAppearance: false
+			// 		}
+			// 	},
+			// });
+		}
+		return settings;
+	}
+);

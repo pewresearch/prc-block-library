@@ -12,6 +12,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
 const edit = ({ attributes, className, setAttributes, clientId }) => {
+	const { showCurrentChapter } = attributes;
     const blockProps = useBlockProps();
 
 	const {chapters = []} = useSelect((select) => {

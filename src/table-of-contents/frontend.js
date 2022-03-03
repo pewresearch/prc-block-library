@@ -18,6 +18,11 @@ window.prcBlocks.tableOfContents = {
 	elms: {},
 };
 
+const watchPostContentForChange = () => {
+	// We will need to watch the post content for changes. and create intersection observers for each chapter block.
+	// When we hit the chapter we should get the id and mark it as active...
+}
+
 const toggleTitle = (groupElm, matched = false) => {
 	if ( ! groupElm ) {
 		return;

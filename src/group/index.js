@@ -13,8 +13,10 @@ import {
 import { Fragment } from '@wordpress/element';
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import {
+	__experimentalNumberControl as NumberControl,
 	TextControl,
     ToggleControl,
+	CardDivider,
 } from '@wordpress/components';
 
 /**
@@ -223,11 +225,15 @@ const GroupBlockAdvancedControls = createHigherOrderComponent((BlockEdit) => {
 						value={responsiveAttachId}
 						onChange={(val) => setAttributes({ responsiveAttachId: val })}
 					/>
-					{/* <InputControl
+					<NumberControl
 						label={__('Responsive Threshold')}
 						value={responsiveThreshold}
-						onChange={(val) => setAttributes({ responsiveThreshold: parseInt(val) })}
-					/> */}
+						onChange={(val) => setAttributes({ responsiveThreshold: val })}
+						max={1400}
+						min={320}
+						isDragEnabled
+					/>
+					<CardDivider/>
 				</InspectorAdvancedControls>
                 <BlockEdit {...props} />
             </Fragment>
