@@ -18,17 +18,14 @@ class Post_Date_Block extends PRC_Block_Library {
 	 * @throws LogicException
 	 */
 	public function register_assets() {
-		// wp_deregister_style( 'wp-block-pullquote' );
-
-		$ver = parent::$version;
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', $ver, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
 			'post-date',
 			array(
 				'js'        => true,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -36,13 +33,7 @@ class Post_Date_Block extends PRC_Block_Library {
 			)
 		);
 
-		// $src = array_pop( $registered['css'] )['url'];
-
-		// wp_register_style( 'wp-block-pullquote', $src,  array(), $ver );
-
-		if ( is_admin() ) {
-			wp_enqueue_script( array_pop($registered['js'])['handle'] );
-		}
+		wp_enqueue_script( array_pop($registered['js'])['handle'] );
 	}
 }
 

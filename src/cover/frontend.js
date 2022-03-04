@@ -1,7 +1,8 @@
 /**
  * External Dependencies
  */
-import enquire from 'enquire.js';
+import 'waypoints/lib/noframework.waypoints';
+import 'waypoints/lib/shortcuts/inview';
 
 /**
  * WordPress Dependencies
@@ -13,84 +14,86 @@ import domReady from '@wordpress/dom-ready';
  */
 import './style.scss';
 
-const insertBefore = (el, referenceNode) => {
-    referenceNode.parentNode.insertBefore(el, referenceNode);
+if ( !window.hasOwnProperty('prcBlocks') ) {
+	window.prcBlocks = {};
+}
+window.prcBlocks.coverBlocks = {
+	ids: [],
 };
 
-const insertAfter = (el, referenceNode) => {
-    referenceNode.parentNode.insertBefore(el, referenceNode.nextSibling);
-};
-
-const generateRandomString = (length=6)=>Math.random().toString(20).substr(2, length)
+/**
+ * One line helper functions:
+ *
+ * 1. Generate a random string.
+ * 2. Insert an element before another element.
+ * 3. Insert an element after another element.
+ */
+const generateRandomString = () => Math.random().toString(20).substr(2, 6);
+const insertBefore = (el, referenceNode) => referenceNode.parentNode.insertBefore(el, referenceNode);
+const insertAfter = (el, referenceNode) => referenceNode.parentNode.insertBefore(el, referenceNode.nextSibling);
+const toggleActive = (coverElm) => coverElm.classList.toggle('active');
 
 const scollSnapInit = () => {
-	const snapCovers = document.querySelectorAll('.wp-block-cover.is-style-snap-groups');
+	const selector = '.wp-block-cover.is-style-snap-groups';
+	const snapCovers = document.querySelectorAll(selector);
 	snapCovers.forEach(cover => {
-
 		const id = generateRandomString();
+		cover.setAttribute('data-scroll-snap-id', id);
+		window.prcBlocks.coverBlocks.ids.push(id);
 
-		cover.setAttribute('data-top-watcher-id', id);
-		// cover.classList.add('locked'); // init with locked
+		const top = document.createElement('div');
+		top.setAttribute('id', id);
+		insertBefore(top, cover);
 
-		const returnPoint = document.createElement('div');
-		returnPoint.setAttribute('id', id);
-		insertBefore(returnPoint, cover);
+		cover.addEventListener('scroll', () => {
+			console.log("Watch scrolling inside cover", cover);
+			// last item
+			const lastGroup = cover.querySelector('.wp-block-group:last-child');
+			const lastGroupTopPosition = lastGroup.offsetTop;
 
-		const items = cover.querySelectorAll('.wp-block-group');
-		const lastItem = items[items.length - 1];
-
-		const topWatcher = new IntersectionObserver((payload) => {
-			const p = payload[0];
-			const isIntersecting = p.isIntersecting;
-			console.log('topWatcher', isIntersecting, p);
-
-			if ( ! isIntersecting ) {
-				p.target.nextSibling.classList.add('active');
-			} else {
-				p.target.nextSibling.classList.remove('active');
+			if ( (scrollTop - (scrollTop - lastGroupTopPosition)) === lastGroupTopPosition && cover.classList.contains('locked') ) {
+				// Reached the top of the cover.
+				console.warn("GROUP REACHED THE TOP");
+				cover.classList.remove('locked');
 			}
 		});
+	});
 
-		const scrollingBackSnapToTop = (top) => {
-			// window.scroll({
-			// 	top: top,
-			// 	behavior: "smooth"
+
+	window.addEventListener('scroll', function() {
+		document.querySelectorAll(selector).forEach(cover => {
+			const coverHeight = cover.offsetHeight;
+
+			const coverTopPosition = cover.offsetTop;
+			const coverBottomPosition = coverTopPosition + coverHeight;
+
+			const scrollTop = window.pageYOffset - (coverTopPosition - window.pageYOffset);
+			const scrollBottom = scrollTop + window.innerHeight;
+
+			// console.log("Cover Viewport Info:", {
+			// 	coverTopPosition,
+			// 	coverBottomPosition,
+			// 	scrollTop,
+			// 	scrollBottom,
 			// });
-		}
 
-		const middleWatcher = new IntersectionObserver((payload) => {
-			const p = payload[0];
-			const isIntersecting = p.isIntersecting;
-			console.log('middleWatcher', isIntersecting, p);
-			if ( isIntersecting ) {
-				console.log("I would add locked now");
-				p.target.classList.add('locked');
-				scrollingBackSnapToTop(p.boundingClientRect.top);
-			} else {
-				console.log("I would remove locked now");
-				p.target.classList.remove('locked');
+			if ( scrollTop === coverTopPosition && ! cover.classList.contains('active') ) {
+				// Reached the top of the cover.
+				console.warn("REACHED THE TOP");
+				cover.classList.add('active');
+				cover.classList.add('locked');
 			}
-		}, {
-			root: null,
-			threshold: [0.70]
-		});
 
-		const bottomWatcher = new IntersectionObserver((payload) => {
-			const p = payload[0];
-			const isIntersecting = p.isIntersecting;
-			console.log('bottomWatcher', isIntersecting, p);
-			if ( isIntersecting) {
-				p.target.parentElement.parentElement.classList.remove('locked');
+			if ( scrollTop === coverBottomPosition && cover.classList.contains('active') ) {
+				// Reached the bottom of the cover.
+				console.warn("REACHED THE BOTTOM");
+				cover.classList.remove('active');
 			}
-		}, {
-			root: cover, // Declaring null uses the entire viewport.
-			threshold: 0.5, //  The percentage of the bottomPost to come into view.
-			// rootMargin: `-${navHeight}px`, // The offset based on the nav bar's height.
-		});
 
-		topWatcher.observe(returnPoint);
-		middleWatcher.observe(cover);
-		bottomWatcher.observe(lastItem);
+			// if (coverBottom > scrollTop && coverTop < scrollBottom) {
+			// 	toggleActive(cover);
+			// }
+		});
 	});
 }
 
