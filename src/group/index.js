@@ -219,6 +219,7 @@ const GroupBlockAdvancedControls = createHigherOrderComponent((BlockEdit) => {
 						label={__('Sticky On Scroll?')}
 						checked={isSticky}
 						onChange={(val) => setAttributes({ isSticky: !isSticky })}
+						help={'Enable sticky on scroll for this group, this will be disabled when you reach the responsive threshold as its intended for desktop only. If you have specific mobile needs consult with the dev team.'}
 					/>
 					<TextControl
 						label={__('Responsive Attachment ID')}

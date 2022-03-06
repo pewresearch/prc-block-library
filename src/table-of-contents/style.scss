@@ -1,12 +1,21 @@
+// For posts with sidebar driven TOC.
+#prc-mobile-toc {
+	position: sticky;
+	top: 0;
+	.wp-block-group.mobile-toc {
+		position: relative;
+	}
+}
+
 .wp-block-group:not(.wp-block) {
 	&.mobile-toc {
 		margin-bottom: 1em;
 		padding-bottom: 1em;
+		background: var(--wp--preset--color--white)!important;
 		border-top: 1px solid #dadbdb;
 		border-bottom: 1px solid #dadbdb;
-		&.sticky.fixed {
-			background: var(--wp--preset--color--white);
-		}
+		position: sticky;
+		top: 0;
 		h3 {
 			cursor: pointer;
 			padding-top: 1em;

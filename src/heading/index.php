@@ -60,6 +60,17 @@ class Heading_Block extends PRC_Block_Library {
 			return $block_content;
 		}
 
+		if ( array_key_exists('isChapter', $block['attrs']) && true === $block['attrs']['isChapter'] ) {
+			// regex add is-chapter="true" to the h element in $block_content.
+			$block_content = preg_replace( '/<h([1-6])/', '<h$1 data-is-chapter="true"', $block_content );
+		}
+
+		if ( array_key_exists('icon', $block['attrs']) && ! empty( $block['attrs']['icon'] ) ) {
+			// get the icon src from the icon id and add it to the h element in $block_content.
+			$icon_src = wp_get_attachment_image_src( $block['attrs']['icon'], 'full' );
+			$block_content = preg_replace( '/<h([1-6])/', '<h$1 data-icon-src="' . esc_url($icon_src[0]) . '"', $block_content );
+		}
+
 		$this->enqueue_assets( false );
 
 		return $block_content;

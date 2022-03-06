@@ -8,8 +8,9 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment, useEffect, useMemo } from '@wordpress/element';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorAdvancedControls } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
+import { ToggleControl } from '@wordpress/components';
 
 const edit = ({ attributes, className, setAttributes, clientId }) => {
 	const { showCurrentChapter } = attributes;
@@ -41,13 +42,25 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
 	}, [clientId]);
 
     return (
-		<div {...blockProps}>
-			<ul>
-				{0 !== chapters.length && chapters.map((chapter, index) => {
-					return(<li>{chapter.attributes.content}</li>);
-				})}
-			</ul>
-		</div>
+		<Fragment>
+			<InspectorAdvancedControls>
+				<ToggleControl
+					label={__('Highlight Current Chapter')}
+					checked={showCurrentChapter}
+					onChange={(value) => {
+						setAttributes({showCurrentChapter: !showCurrentChapter});
+					}}
+					help={__('Highlight the current chapter in the table of contents when scrolling.', 'prc-block-library')}
+				/>
+			</InspectorAdvancedControls>
+			<div {...blockProps}>
+				<ul>
+					{0 !== chapters.length && chapters.map((chapter, index) => {
+						return(<li>{chapter.attributes.content}</li>);
+					})}
+				</ul>
+			</div>
+		</Fragment>
 	);
 };
 

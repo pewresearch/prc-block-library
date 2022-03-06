@@ -21,10 +21,8 @@ const initStickyBlocks = () => {
 	// If there are any sticky blocks init them.
 	if (stickyBlocks.length) {
 		stickyBlocks.forEach(block => {
-			block.classList.add('ui');
 			block.classList.add('sticky');
 		});
-		jQuery('.prc-group-block--sticky.ui.sticky').sticky();
 	}
 }
 
@@ -51,6 +49,7 @@ const initResponsiveGroupBlocks = () => {
 
 	const matchResponsiveBlock = (viewportWidth) => {
 		window.prcBlocks.groupBlocks.elms[viewportWidth].forEach(block => {
+			// We should remove the sticky class if it exists.
 			const attachId = block.getAttribute('data-attach-id');
 			const attachBlock = document.getElementById(attachId);
 			if ( attachBlock ){
@@ -63,6 +62,7 @@ const initResponsiveGroupBlocks = () => {
 		window.prcBlocks.groupBlocks.elms[viewportWidth].forEach(block => {
 			const returnId = block.getAttribute('data-return-id');
 			const returnPoint = document.getElementById(returnId);
+			// If the sticky class should be here re-add it.
 			if ( returnPoint ){
 				returnPoint.parentNode.insertBefore(block, returnPoint.nextSibling)
 			}
@@ -105,6 +105,6 @@ const initResponsiveGroupBlocks = () => {
 }
 
 domReady(() => {
-	initStickyBlocks();
 	initResponsiveGroupBlocks();
+	initStickyBlocks();
 });

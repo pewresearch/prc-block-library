@@ -225,6 +225,7 @@ class Table_of_Contents extends PRC_Block_Library {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
+		$group_is_sticky = array_key_exists('core/group/isSticky', $block->context) ? $block->context['core/group/isSticky'] : false;
 		$mobile_threshold = array_key_exists('core/group/responsiveThreshold', $block->context) ? $block->context['core/group/responsiveThreshold'] : null;
 		$chapters = $this->construct_toc( $post_id );
 
@@ -237,6 +238,10 @@ class Table_of_Contents extends PRC_Block_Library {
 
 		if ( array_key_exists('showCurrentChapter', $attributes) && $attributes['showCurrentChapter'] ) {
 			$block_attrs['data-show-current-chapter'] = true;
+		}
+
+		if ( false !== $group_is_sticky && !empty($group_is_sticky) ) {
+			$block_attrs['data-is-sticky'] = true;
 		}
 
 		$block_attrs = get_block_wrapper_attributes($block_attrs);
