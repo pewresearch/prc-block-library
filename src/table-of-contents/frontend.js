@@ -23,6 +23,10 @@ const watchPostContentForChange = () => {
 	// When we hit the chapter we should get the id and mark it as active...
 }
 
+const initMobileIconTOC = () => {
+
+}
+
 const toggleTitle = (groupElm, matched = false) => {
 	if ( ! groupElm ) {
 		return;
