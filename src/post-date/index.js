@@ -17,7 +17,7 @@ addFilter(
 	(settings) => {
 		//check if object exists for old Gutenberg version compatibility
 		if( 'core/post-date' === settings.name ){
-			console.log('post-date settings', settings);
+			// console.log('post-date settings', settings);
 			settings.supports = Object.assign( settings.supports, {
 				align: [ 'left', 'right', 'wide' ],
 				typography: {

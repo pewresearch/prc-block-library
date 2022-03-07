@@ -9,8 +9,8 @@
   "collapsible.js.map": "frontend/collapsible-032abe58.js.map",
   "cover.css": "frontend/cover-6781d216.css",
   "cover.css.map": "frontend/cover-6781d216.css.map",
-  "cover.js": "frontend/cover-f6b2af6c.js",
-  "cover.js.map": "frontend/cover-f6b2af6c.js.map",
+  "cover.js": "frontend/cover-f8a5fe50.js",
+  "cover.js.map": "frontend/cover-f8a5fe50.js.map",
   "flip-card-controller.css": "frontend/flip-card-controller-914f5d29.css",
   "flip-card-controller.css.map": "frontend/flip-card-controller-914f5d29.css.map",
   "flip-card-controller.js": "frontend/flip-card-controller-54007c8f.js",
@@ -29,8 +29,8 @@
   "mailchimp-opt-down.js.map": "frontend/mailchimp-opt-down-0dcdf96f.js.map",
   "mailchimp-select.css": "frontend/mailchimp-select-1becba5f.css",
   "mailchimp-select.css.map": "frontend/mailchimp-select-1becba5f.css.map",
-  "mailchimp-select.js": "frontend/mailchimp-select-fd7c9a07.js",
-  "mailchimp-select.js.map": "frontend/mailchimp-select-fd7c9a07.js.map",
+  "mailchimp-select.js": "frontend/mailchimp-select-c6609687.js",
+  "mailchimp-select.js.map": "frontend/mailchimp-select-c6609687.js.map",
   "menu-link.css": "frontend/menu-link-f423a06b.css",
   "menu-link.css.map": "frontend/menu-link-f423a06b.css.map",
   "menu-link.js": "frontend/menu-link-9c8db2d2.js",
@@ -43,10 +43,10 @@
   "social-link.js.map": "frontend/social-link-a3de95b7.js.map",
   "story-item.js": "frontend/story-item-28697a46.js",
   "story-item.js.map": "frontend/story-item-28697a46.js.map",
-  "table-of-contents.css": "frontend/table-of-contents-c79ce60d.css",
-  "table-of-contents.css.map": "frontend/table-of-contents-c79ce60d.css.map",
-  "table-of-contents.js": "frontend/table-of-contents-ecf6329d.js",
-  "table-of-contents.js.map": "frontend/table-of-contents-ecf6329d.js.map",
+  "table-of-contents.css": "frontend/table-of-contents-a70d071c.css",
+  "table-of-contents.css.map": "frontend/table-of-contents-a70d071c.css.map",
+  "table-of-contents.js": "frontend/table-of-contents-5c1eaa99.js",
+  "table-of-contents.js.map": "frontend/table-of-contents-5c1eaa99.js.map",
   "tabs-controller.js": "frontend/tabs-controller-d90f4427.js",
   "tabs-controller.js.map": "frontend/tabs-controller-d90f4427.js.map",
   "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-b4e726f0.js",
@@ -122,11 +122,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/cover-f6b2af6c.js"
+          "frontend/cover-f8a5fe50.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/cover-f6b2af6c.js.map"
+          "frontend/cover-f8a5fe50.js.map"
         ],
         "css": [
           "frontend/cover-6781d216.css"
@@ -230,13 +230,13 @@
           "frontend/runtime-83e71da2.js",
           "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~topi~91164135-3c07b6c3.js",
           "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~topic-index-search-field-0816dd5a.js",
-          "frontend/mailchimp-select-fd7c9a07.js"
+          "frontend/mailchimp-select-c6609687.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
           "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~topi~91164135-3c07b6c3.js.map",
           "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~topic-index-search-field-0816dd5a.js.map",
-          "frontend/mailchimp-select-fd7c9a07.js.map"
+          "frontend/mailchimp-select-c6609687.js.map"
         ],
         "css": [
           "frontend/mailchimp-select-1becba5f.css"
@@ -316,17 +316,17 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/table-of-contents-ecf6329d.js"
+          "frontend/table-of-contents-5c1eaa99.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/table-of-contents-ecf6329d.js.map"
+          "frontend/table-of-contents-5c1eaa99.js.map"
         ],
         "css": [
-          "frontend/table-of-contents-c79ce60d.css"
+          "frontend/table-of-contents-a70d071c.css"
         ],
         "css.map": [
-          "frontend/table-of-contents-c79ce60d.css.map"
+          "frontend/table-of-contents-a70d071c.css.map"
         ]
       }
     },

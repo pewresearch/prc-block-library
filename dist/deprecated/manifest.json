@@ -5,8 +5,8 @@
   "post-publish-date.js.map": "deprecated/post-publish-date-a66208a8.js.map",
   "post-title.css": "deprecated/post-title-3ba37d71.css",
   "post-title.css.map": "deprecated/post-title-3ba37d71.css.map",
-  "post-title.js": "deprecated/post-title-2d2c7ca1.js",
-  "post-title.js.map": "deprecated/post-title-2d2c7ca1.js.map",
+  "post-title.js": "deprecated/post-title-6a4fa83d.js",
+  "post-title.js.map": "deprecated/post-title-6a4fa83d.js.map",
   "runtime.js": "deprecated/runtime-f8ea246f.js",
   "runtime.js.map": "deprecated/runtime-f8ea246f.js.map",
   "wpackioEp": {
@@ -38,11 +38,11 @@
       "assets": {
         "js": [
           "deprecated/runtime-f8ea246f.js",
-          "deprecated/post-title-2d2c7ca1.js"
+          "deprecated/post-title-6a4fa83d.js"
         ],
         "js.map": [
           "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/post-title-2d2c7ca1.js.map"
+          "deprecated/post-title-6a4fa83d.js.map"
         ],
         "css": [
           "deprecated/post-title-3ba37d71.css"

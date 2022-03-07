@@ -36,65 +36,65 @@ const toggleActive = (coverElm) => coverElm.classList.toggle('active');
 const scollSnapInit = () => {
 	const selector = '.wp-block-cover.is-style-snap-groups';
 	const snapCovers = document.querySelectorAll(selector);
-	snapCovers.forEach(cover => {
-		const id = generateRandomString();
-		cover.setAttribute('data-scroll-snap-id', id);
-		window.prcBlocks.coverBlocks.ids.push(id);
+	// snapCovers.forEach(cover => {
+	// 	const id = generateRandomString();
+	// 	cover.setAttribute('data-scroll-snap-id', id);
+	// 	window.prcBlocks.coverBlocks.ids.push(id);
 
-		const top = document.createElement('div');
-		top.setAttribute('id', id);
-		insertBefore(top, cover);
+	// 	const top = document.createElement('div');
+	// 	top.setAttribute('id', id);
+	// 	insertBefore(top, cover);
 
-		cover.addEventListener('scroll', () => {
-			console.log("Watch scrolling inside cover", cover);
-			// last item
-			const lastGroup = cover.querySelector('.wp-block-group:last-child');
-			const lastGroupTopPosition = lastGroup.offsetTop;
+	// 	cover.addEventListener('scroll', () => {
+	// 		console.log("Watch scrolling inside cover", cover);
+	// 		// last item
+	// 		const lastGroup = cover.querySelector('.wp-block-group:last-child');
+	// 		const lastGroupTopPosition = lastGroup.offsetTop;
 
-			if ( (scrollTop - (scrollTop - lastGroupTopPosition)) === lastGroupTopPosition && cover.classList.contains('locked') ) {
-				// Reached the top of the cover.
-				console.warn("GROUP REACHED THE TOP");
-				cover.classList.remove('locked');
-			}
-		});
-	});
+	// 		if ( (scrollTop - (scrollTop - lastGroupTopPosition)) === lastGroupTopPosition && cover.classList.contains('locked') ) {
+	// 			// Reached the top of the cover.
+	// 			console.warn("GROUP REACHED THE TOP");
+	// 			cover.classList.remove('locked');
+	// 		}
+	// 	});
+	// });
 
 
-	window.addEventListener('scroll', function() {
-		document.querySelectorAll(selector).forEach(cover => {
-			const coverHeight = cover.offsetHeight;
+	// window.addEventListener('scroll', function() {
+	// 	document.querySelectorAll(selector).forEach(cover => {
+	// 		const coverHeight = cover.offsetHeight;
 
-			const coverTopPosition = cover.offsetTop;
-			const coverBottomPosition = coverTopPosition + coverHeight;
+	// 		const coverTopPosition = cover.offsetTop;
+	// 		const coverBottomPosition = coverTopPosition + coverHeight;
 
-			const scrollTop = window.pageYOffset - (coverTopPosition - window.pageYOffset);
-			const scrollBottom = scrollTop + window.innerHeight;
+	// 		const scrollTop = window.pageYOffset - (coverTopPosition - window.pageYOffset);
+	// 		const scrollBottom = scrollTop + window.innerHeight;
 
-			// console.log("Cover Viewport Info:", {
-			// 	coverTopPosition,
-			// 	coverBottomPosition,
-			// 	scrollTop,
-			// 	scrollBottom,
-			// });
+	// 		// console.log("Cover Viewport Info:", {
+	// 		// 	coverTopPosition,
+	// 		// 	coverBottomPosition,
+	// 		// 	scrollTop,
+	// 		// 	scrollBottom,
+	// 		// });
 
-			if ( scrollTop === coverTopPosition && ! cover.classList.contains('active') ) {
-				// Reached the top of the cover.
-				console.warn("REACHED THE TOP");
-				cover.classList.add('active');
-				cover.classList.add('locked');
-			}
+	// 		if ( scrollTop === coverTopPosition && ! cover.classList.contains('active') ) {
+	// 			// Reached the top of the cover.
+	// 			console.warn("REACHED THE TOP");
+	// 			cover.classList.add('active');
+	// 			cover.classList.add('locked');
+	// 		}
 
-			if ( scrollTop === coverBottomPosition && cover.classList.contains('active') ) {
-				// Reached the bottom of the cover.
-				console.warn("REACHED THE BOTTOM");
-				cover.classList.remove('active');
-			}
+	// 		if ( scrollTop === coverBottomPosition && cover.classList.contains('active') ) {
+	// 			// Reached the bottom of the cover.
+	// 			console.warn("REACHED THE BOTTOM");
+	// 			cover.classList.remove('active');
+	// 		}
 
-			// if (coverBottom > scrollTop && coverTop < scrollBottom) {
-			// 	toggleActive(cover);
-			// }
-		});
-	});
+	// 		// if (coverBottom > scrollTop && coverTop < scrollBottom) {
+	// 		// 	toggleActive(cover);
+	// 		// }
+	// 	});
+	// });
 }
 
 domReady(() => {

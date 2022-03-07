@@ -43,7 +43,7 @@ const HeadingBlockFilter = createHigherOrderComponent((BlockEdit) => {
 				<BlockControls>
 					<ToolbarGroup>
 						<ToolbarButton
-							icon={ 'editor-ol' }
+							icon={ 'book-alt' }
 							label="Is Chapter?"
 							isActive={isChapter}
 							onClick={() => {

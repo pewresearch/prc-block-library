@@ -15,6 +15,21 @@
 		"color": {
 			"text": true,
 			"background": true
+		},
+		"typography": {
+			"fontSize": true,
+			"fontAppearance": false,
+			"__experimentalFontStyle": false,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalLetterSpacing": true,
+				"__experimentalTextTransform": true,
+				"__experimentalFontFamily": true
+			}
 		}
     }
 }

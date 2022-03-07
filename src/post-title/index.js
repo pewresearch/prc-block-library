@@ -22,7 +22,7 @@ addFilter(
 	(settings) => {
 		//check if object exists for old Gutenberg version compatibility
 		if( 'core/post-title' === settings.name ){
-			console.log('post-title settings', settings);
+			// console.log('post-title settings', settings);
 			// settings.supports = Object.assign( settings.supports, {
 			// 	align: [ 'left', 'right', 'wide' ],
 			// 	typography: {

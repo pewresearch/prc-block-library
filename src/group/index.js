@@ -24,29 +24,29 @@ import {
  */
 import './style.scss';
 
-registerBlockStyle('core/group', [
-    {
-        name: 'fluid',
-        label: 'Fluid',
-        isDefault: true,
-    },
-    {
-        name: '200-wide',
-        label: '200px Wide',
-    },
-    {
-        name: '300-wide',
-        label: '300px Wide',
-    },
-    {
-        name: '420-wide',
-        label: '420px Wide',
-    },
-    {
-        name: '640-wide',
-        label: '640px Wide',
-    },
-]);
+// registerBlockStyle('core/group', [
+//     {
+//         name: 'fluid',
+//         label: 'Fluid',
+//         isDefault: true,
+//     },
+//     {
+//         name: '200-wide',
+//         label: '200px Wide',
+//     },
+//     {
+//         name: '300-wide',
+//         label: '300px Wide',
+//     },
+//     {
+//         name: '420-wide',
+//         label: '420px Wide',
+//     },
+//     {
+//         name: '640-wide',
+//         label: '640px Wide',
+//     },
+// ]);
 
 registerBlockVariation('core/group', {
     name: 'callout',

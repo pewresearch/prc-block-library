@@ -64,7 +64,7 @@ class Table_of_Contents extends PRC_Block_Library {
 					$needs_migration = true;
 					$results[] = array(
 						'id' => $array['attrs']['id'],
-						'icon' => false,
+						'icon' => $array['attrs']['icon'],
 						'content' => wp_strip_all_tags( $array['attrs']['value'] ),
 					);
 				}
@@ -201,7 +201,13 @@ class Table_of_Contents extends PRC_Block_Library {
 		ob_start();
 		?>
 		<?php foreach ( $chapters as $chapter ) {
-			echo '<a role="listitem" class="item" href="#' . $chapter['id'] . '">' . $chapter['content'] . '</a>';
+			$icon = !empty($chapter['icon']) ? $chapter['icon'] : false;
+			$icon_src = wp_get_attachment_image_src( $icon, 'full' );
+			$extra = '';
+			if ( $icon_src ) {
+				$extra = "data-icon-src='{$icon_src[0]}'";
+			}
+			echo '<a role="listitem" class="item" href="#' . $chapter['id'] . '"'.$extra.'>' . $chapter['content'] . '</a>';
 		} ?>
 		<?php
 		return ob_get_clean();

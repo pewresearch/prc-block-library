@@ -1,12 +1,15 @@
 // For posts with sidebar driven TOC.
-#prc-mobile-toc {
+#prc-mobile-toc,
+.wp-block-group.mobile-toc {
 	position: sticky;
 	top: 0;
+	z-index: 100;
 	.wp-block-group.mobile-toc {
 		position: relative;
 	}
 }
 
+// Mobile Dropdown TOC
 .wp-block-group:not(.wp-block) {
 	&.mobile-toc {
 		margin-bottom: 1em;
@@ -14,8 +17,6 @@
 		background: var(--wp--preset--color--white)!important;
 		border-top: 1px solid #dadbdb;
 		border-bottom: 1px solid #dadbdb;
-		position: sticky;
-		top: 0;
 		h3 {
 			cursor: pointer;
 			padding-top: 1em;
@@ -39,6 +40,45 @@
 	}
 	&.mobile-toc:not(.is-open) .wp-block-prc-block-table-of-contents {
 		display: none;
+	}
+}
+
+
+// Mobile Toolbar Icons TOC
+.wp-block-group:not(.wp-block) {
+	&.mobile-toc-icons {
+		margin-bottom: 1em;
+		padding-bottom: 0;
+		background: var(--wp--preset--color--white)!important;
+		border-top: 1px solid #dadbdb;
+		border-bottom: 1px solid #dadbdb;
+		display: flex;
+		align-items: center;
+		h3 {
+			display: block;
+		}
+		.hidden-text {
+			display: none;
+		}
+		.wp-block-prc-block-table-of-contents {
+			padding-top: 0;
+			.ui.list {
+				display: flex;
+				align-items: stretch;
+				.item {
+					display: inline-block;
+					-webkit-box-flex: 1;
+					-ms-flex-positive: 1;
+					flex-grow: 1;
+					filter: grayscale(100%);
+					opacity: 0.7;
+					&.active {
+						filter: grayscale(0%);
+						opacity: 1.0;
+					}
+				}
+			}
+		}
 	}
 }
 

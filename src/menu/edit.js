@@ -82,7 +82,7 @@ const Navigation = ({
                 'prc-block/menu-link',
                 'prc-block/social-link',
                 'prc-block/post-bylines',
-                'prc-block/post-publish-date',
+                'core/post-date',
             ],
             orientation: orientation || 'horizontal',
             renderAppender:

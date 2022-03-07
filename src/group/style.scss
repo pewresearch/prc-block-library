@@ -42,26 +42,6 @@ $breakpoint: 767px;
 		margin-bottom: 2em;
 	}
 
-	&.is-style-200-wide {
-		width: 100%;
-		max-width: 200px!important;
-	}
-
-	&.is-style-300-wide {
-		width: 100%;
-		max-width: 300px!important;
-	}
-
-	&.is-style-420-wide {
-		width: 100%;
-		max-width: 420px!important;
-	}
-
-	&.is-style-640-wide {
-		width: 100%;
-		max-width: 640px!important;
-	}
-
 	&.is-style-callout {
 		border-top: 1px solid $relaxedBorder;
 
@@ -85,36 +65,18 @@ $breakpoint: 767px;
 		padding-bottom: $altCardMargin;
 
 		.is-style-sub-header {
-			// background-color: #333132;
 			padding: 9px $altCardHeaderPadding;
-			margin-left: -$altCardMargin;
-			margin-right: -$altCardMargin;
+			margin-left: -$altCardMargin!important;
+			margin-right: -$altCardMargin!important;
+			max-width: calc(100% + 2rem) !important;
 			margin-bottom: $altCardMargin;
 			line-height: $altCardLineHeight;
-			// color: white;
 			font-weight: normal;
 			letter-spacing: 0.1em;
 
 			a {
 				color: white;
 			}
-		}
-	}
-
-	&.is-style-essay-toolbar {
-
-		.meta,
-		.icon {
-			color: black !important;
-		}
-
-		.meta {
-			font-size: 14px;
-			letter-spacing: inherit;
-		}
-
-		.icon {
-			font-size: 16px;
 		}
 	}
 
@@ -149,6 +111,11 @@ $breakpoint: 767px;
 			/*rtl:ignore*/
 		}
 	}
+	
+}
+
+// Deprecated Block Styles, utilize the new block layout options instead.
+.wp-block-group {
 	&.aligncenter {
 		&.is-style-640-wide,
 		&.is-style-420-wide,
@@ -158,10 +125,29 @@ $breakpoint: 767px;
 			margin-right: auto!important;
 		}
 	}
+	&.is-style-200-wide {
+		width: 100%;
+		max-width: 200px!important;
+	}
+
+	&.is-style-300-wide {
+		width: 100%;
+		max-width: 300px!important;
+	}
+
+	&.is-style-420-wide {
+		width: 100%;
+		max-width: 420px!important;
+	}
+
+	&.is-style-640-wide {
+		width: 100%;
+		max-width: 640px!important;
+	}
 }
 
-.wp-block-group.essay-toolbar-group {
-
+.wp-block-group.essay-toolbar-group,
+.wp-block-group.is-style-essay-toolbar {
 	.meta,
 	.icon {
 		color: black !important;
