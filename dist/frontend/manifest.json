@@ -11,8 +11,8 @@
   "cover.css.map": "frontend/cover-6781d216.css.map",
   "cover.js": "frontend/cover-f8a5fe50.js",
   "cover.js.map": "frontend/cover-f8a5fe50.js.map",
-  "flip-card-controller.css": "frontend/flip-card-controller-914f5d29.css",
-  "flip-card-controller.css.map": "frontend/flip-card-controller-914f5d29.css.map",
+  "flip-card-controller.css": "frontend/flip-card-controller-bf671fdf.css",
+  "flip-card-controller.css.map": "frontend/flip-card-controller-bf671fdf.css.map",
   "flip-card-controller.js": "frontend/flip-card-controller-54007c8f.js",
   "flip-card-controller.js.map": "frontend/flip-card-controller-54007c8f.js.map",
   "group.js": "frontend/group-ed5ed921.js",
@@ -147,10 +147,10 @@
           "frontend/flip-card-controller-54007c8f.js.map"
         ],
         "css": [
-          "frontend/flip-card-controller-914f5d29.css"
+          "frontend/flip-card-controller-bf671fdf.css"
         ],
         "css.map": [
-          "frontend/flip-card-controller-914f5d29.css.map"
+          "frontend/flip-card-controller-bf671fdf.css.map"
         ]
       }
     },

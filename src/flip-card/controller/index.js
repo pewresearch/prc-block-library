@@ -15,11 +15,6 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('PRC Flip Card'),
-    description: __('An unstyled card that has a front and back'),
-    supports: {
-        align: ['left', 'right'],
-    },
     icon,
     edit,
     save,

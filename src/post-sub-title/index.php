@@ -15,6 +15,19 @@ class Sub_Title_Block extends PRC_Block_Library {
 		}
 	}
 
+	public function render_post_sub_title( $attributes ) {
+		$post_id = get_the_ID();
+		if ( false === $post_id ) {
+			return null;
+		}
+		$text_align = isset( $attributes['textAlign'] ) ? $attributes['textAlign'] : 'left';
+		$block_attrs = get_block_wrapper_attributes(array(
+			'class' => 'has-text-align' . '-' . $text_align,
+		));
+		$sub_title = prc_get_subheadline( (int) $post_id );
+		return wp_sprintf( '<h2 %1$s>%2$s</h2>', $block_attrs, $sub_title );
+	}
+
 	/**
 	 * Register the sub title block.
 	 *
@@ -55,6 +68,7 @@ class Sub_Title_Block extends PRC_Block_Library {
 			array(
 				'editor_script' => array_pop( $registered['js'] )['handle'],
 				'style' 	   => array_pop( $registered['css'] )['handle'],
+				'render_callback' => array( $this, 'render_post_sub_title' ),
 			)
 		);
 	}

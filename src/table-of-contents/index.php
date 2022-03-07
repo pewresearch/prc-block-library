@@ -213,7 +213,7 @@ class Table_of_Contents extends PRC_Block_Library {
 		return ob_get_clean();
 	}
 
-	public function responsive_script() {
+	public function frontend_script() {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$registered = $enqueue->enqueue(
 			'frontend',
@@ -232,13 +232,14 @@ class Table_of_Contents extends PRC_Block_Library {
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
 		$group_is_sticky = array_key_exists('core/group/isSticky', $block->context) ? $block->context['core/group/isSticky'] : false;
-		$mobile_threshold = array_key_exists('core/group/responsiveThreshold', $block->context) ? $block->context['core/group/responsiveThreshold'] : null;
+		$mobile_threshold = array_key_exists('core/group/responsiveThreshold', $block->context) ? $block->context['core/group/responsiveThreshold'] : false;
 		$chapters = $this->construct_toc( $post_id );
 
 		$block_attrs = array();
 
+		$this->frontend_script();
+
 		if ( false !== $mobile_threshold && !empty($mobile_threshold) ) {
-			$this->responsive_script();
 			$block_attrs['data-mobile-threshold'] = $mobile_threshold;
 		}
 

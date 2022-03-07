@@ -25,17 +25,25 @@ import Controls from '../_shared';
 const ALLOWED_BLOCKS = ['prc-block/flip-card-front', 'prc-block/flip-card-back'];
 
 const TEMPLATE = [
-    ['prc-block/flip-card-front', {}],
-    ['prc-block/flip-card-back', {}],
+    ['prc-block/flip-card-front', {}, [
+		['core/paragraph',{
+			placeholder: __('Front of the card...', 'prc-block-library'),
+		}]
+	]],
+    ['prc-block/flip-card-back', {}, [
+		['core/paragraph',{
+			placeholder: __('Back of the card...', 'prc-block-library'),
+		}]
+	]],
 ];
 
 const edit = ({ attributes, className, setAttributes, isSelected, clientId }) => {
     const { width, height, borderColor, bgColor, fluid } = attributes;
-    
+
     const { toggleSelection } = dispatch('core/block-editor');
 
     const blockProps = useBlockProps({
-        className: classnames(className),
+        className,
     });
 
     const innerBlocksProps = useInnerBlocksProps({}, {

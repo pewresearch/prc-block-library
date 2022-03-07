@@ -1,12 +1,12 @@
 {
-  "chapter.js": "deprecated/chapter-a5bf4f2e.js",
-  "chapter.js.map": "deprecated/chapter-a5bf4f2e.js.map",
-  "post-publish-date.js": "deprecated/post-publish-date-a66208a8.js",
-  "post-publish-date.js.map": "deprecated/post-publish-date-a66208a8.js.map",
+  "chapter.js": "deprecated/chapter-1a8c4f8e.js",
+  "chapter.js.map": "deprecated/chapter-1a8c4f8e.js.map",
+  "post-publish-date.js": "deprecated/post-publish-date-cb407404.js",
+  "post-publish-date.js.map": "deprecated/post-publish-date-cb407404.js.map",
   "post-title.css": "deprecated/post-title-3ba37d71.css",
   "post-title.css.map": "deprecated/post-title-3ba37d71.css.map",
-  "post-title.js": "deprecated/post-title-6a4fa83d.js",
-  "post-title.js.map": "deprecated/post-title-6a4fa83d.js.map",
+  "post-title.js": "deprecated/post-title-28f40d79.js",
+  "post-title.js.map": "deprecated/post-title-28f40d79.js.map",
   "runtime.js": "deprecated/runtime-f8ea246f.js",
   "runtime.js.map": "deprecated/runtime-f8ea246f.js.map",
   "wpackioEp": {
@@ -14,11 +14,11 @@
       "assets": {
         "js": [
           "deprecated/runtime-f8ea246f.js",
-          "deprecated/chapter-a5bf4f2e.js"
+          "deprecated/chapter-1a8c4f8e.js"
         ],
         "js.map": [
           "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/chapter-a5bf4f2e.js.map"
+          "deprecated/chapter-1a8c4f8e.js.map"
         ]
       }
     },
@@ -26,11 +26,11 @@
       "assets": {
         "js": [
           "deprecated/runtime-f8ea246f.js",
-          "deprecated/post-publish-date-a66208a8.js"
+          "deprecated/post-publish-date-cb407404.js"
         ],
         "js.map": [
           "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/post-publish-date-a66208a8.js.map"
+          "deprecated/post-publish-date-cb407404.js.map"
         ]
       }
     },
@@ -38,11 +38,11 @@
       "assets": {
         "js": [
           "deprecated/runtime-f8ea246f.js",
-          "deprecated/post-title-6a4fa83d.js"
+          "deprecated/post-title-28f40d79.js"
         ],
         "js.map": [
           "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/post-title-6a4fa83d.js.map"
+          "deprecated/post-title-28f40d79.js.map"
         ],
         "css": [
           "deprecated/post-title-3ba37d71.css"

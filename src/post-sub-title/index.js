@@ -10,7 +10,7 @@ import { formatListNumbered as icon } from '@wordpress/icons';
  */
 import metadata from './block.json';
 import edit from './edit';
-import './style.css';
+import './style.scss';
 
 const { name, category, attributes } = metadata;
 

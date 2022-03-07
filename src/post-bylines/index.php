@@ -45,7 +45,7 @@ class Post_Bylines_Block extends PRC_Block_Library {
 			'post-bylines',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -57,6 +57,7 @@ class Post_Bylines_Block extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/post-bylines',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'style'   => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_post_bylines' ),
 			)
 		);

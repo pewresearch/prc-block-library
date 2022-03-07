@@ -22,7 +22,7 @@ const edit = ({ attributes, className, clientId, setAttributes }) => {
     );
     const blockProps = useBlockProps({
         className: classNames(className, {
-			'bylines meta': true,
+			// 'bylines meta': true,
 			[ `has-text-align-${ textAlign }` ]: textAlign
 		}),
     });

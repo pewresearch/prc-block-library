@@ -15,8 +15,6 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('PRC Flip Card (Front)'),
-    description: __('Front of the flip card'),
     icon,
     edit,
     save,

@@ -1,5 +1,7 @@
 {
 	"name": "prc-block/flip-card",
+	"title": "Flip Card",
+	"description": "A card that can be flipped",
 	"category": "layout",
 	"attributes": {
 		"width": {
@@ -19,5 +21,9 @@
 		"fluid": {
 			"type": "boolean"
 		}
+	},
+	"supports": {
+		"align": ["left", "right"],
+		"html": false
 	}
 }

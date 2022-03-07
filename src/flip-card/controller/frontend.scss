@@ -8,4 +8,10 @@
             cursor: pointer;
         }
     }
+	&.alignleft {
+		float: left;
+	}
+	&.alignright {
+		float: right;
+	}
 }

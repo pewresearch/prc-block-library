@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/menu/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AACC,6CACC,kBACA,Y","file":"blocks/menu-d0f59c57.css","sourcesContent":[".wp-block-prc-block-menu {\n\t.wp-block-post-date {\n\t\talign-self: center;\n\t\tflex-grow: 1;\n\t}\n}\n"],"sourceRoot":""}

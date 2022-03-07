@@ -9,35 +9,37 @@ import { addFilter } from '@wordpress/hooks';
 import './style.scss';
 
 /**
- * Change the value attribute to have a default value that includes fancy quotes.
+ * Change post title supports to include more typography settings.
  *
  * @param {Object} settings Settings for the block.
  *
  * @return {Object} settings Modified settings.
  */
 
-addFilter(
-	'blocks.registerBlockType',
-	'core/post-title',
-	(settings) => {
-		//check if object exists for old Gutenberg version compatibility
-		if( 'core/post-title' === settings.name ){
-			// console.log('post-title settings', settings);
-			// settings.supports = Object.assign( settings.supports, {
-			// 	align: [ 'left', 'right', 'wide' ],
-			// 	typography: {
-			// 		fontSize: true,
-			// 		"__experimentalFontStyle": false,
-			// 		"__experimentalFontWeight": false,
-			// 		"__experimentalLetterSpacing": false,
-			// 		"__experimentalTextTransform": false,
-			// 		"__experimentalDefaultControls": {
-			// 			fontSize: true,
-			// 			fontAppearance: false
-			// 		}
-			// 	},
-			// });
-		}
-		return settings;
-	}
-);
+// addFilter(
+// 	'blocks.registerBlockType',
+// 	'core/post-title',
+// 	(settings) => {
+// 		if( 'core/post-title' === settings.name ){
+// 			console.log('post')
+// 			settings.supports = Object.assign( settings.supports, {
+// 				typography: {
+// 					fontSize: true,
+// 					lineHeight: true,
+// 					fontAppearance: false,
+// 					"__experimentalFontStyle": false,
+// 					"__experimentalFontFamily": true,
+// 					"__experimentalFontWeight": true,
+// 					"__experimentalLetterSpacing": true,
+// 					"__experimentalTextTransform": true,
+// 					"__experimentalDefaultControls": {
+// 						fontSize: true,
+// 						lineHeight: true,
+// 						"__experimentalFontFamily": true,
+// 					}
+// 				},
+// 			});
+// 		}
+// 		return settings;
+// 	}
+// );

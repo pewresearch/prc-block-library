@@ -1,5 +1,7 @@
 {
 	"name": "prc-block/flip-card-front",
+	"title": "Flip Card Front",
+	"description": "A front of a flip card",
 	"category": "layout",
     "attributes": {},
     "parent": ["prc-block/flip-card"]
