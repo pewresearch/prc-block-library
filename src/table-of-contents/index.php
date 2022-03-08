@@ -235,6 +235,10 @@ class Table_of_Contents extends PRC_Block_Library {
 		$mobile_threshold = array_key_exists('core/group/responsiveThreshold', $block->context) ? $block->context['core/group/responsiveThreshold'] : false;
 		$chapters = $this->construct_toc( $post_id );
 
+		if ( empty($chapters) ) {
+			return;
+		}
+
 		$block_attrs = array();
 
 		$this->frontend_script();
