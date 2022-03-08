@@ -302,7 +302,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
 
-		$post_type = $post->post_type;
+		$post_type = array_key_exists( 'postType', $attributes ) ? $attributes['postType'] : $post->post_type;
 
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );

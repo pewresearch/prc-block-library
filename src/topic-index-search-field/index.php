@@ -118,7 +118,7 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 				'data-term-id' => array_key_exists( 'id', $attributes ) ? $attributes['id'] : false,
 			)
 		);
-		return sprintf(
+		return wp_sprintf(
 			'<div %1$s></div>',
 			$wrapper_attributes,
 		);
