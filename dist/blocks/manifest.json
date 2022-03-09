@@ -39,8 +39,8 @@
   "group.js.map": "blocks/group-04d7668b.js.map",
   "heading.css": "blocks/heading-c24f58d5.css",
   "heading.css.map": "blocks/heading-c24f58d5.css.map",
-  "heading.js": "blocks/heading-064831e0.js",
-  "heading.js.map": "blocks/heading-064831e0.js.map",
+  "heading.js": "blocks/heading-cecd3508.js",
+  "heading.js.map": "blocks/heading-cecd3508.js.map",
   "image.css": "blocks/image-e682daff.css",
   "image.css.map": "blocks/image-e682daff.css.map",
   "image.js": "blocks/image-40832a19.js",
@@ -77,8 +77,8 @@
   "popup-content.css.map": "blocks/popup-content-55c7f7fd.css.map",
   "popup-content.js": "blocks/popup-content-a74627d1.js",
   "popup-content.js.map": "blocks/popup-content-a74627d1.js.map",
-  "popup-controller.js": "blocks/popup-controller-fc77ca8b.js",
-  "popup-controller.js.map": "blocks/popup-controller-fc77ca8b.js.map",
+  "popup-controller.js": "blocks/popup-controller-7b303fb0.js",
+  "popup-controller.js.map": "blocks/popup-controller-7b303fb0.js.map",
   "popup-modal.css": "blocks/popup-modal-d296b6a3.css",
   "popup-modal.css.map": "blocks/popup-modal-d296b6a3.css.map",
   "popup-modal.js": "blocks/popup-modal-e00c8d26.js",
@@ -386,13 +386,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-66b646ac.js",
           "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-811ee5d6.js",
-          "blocks/heading-064831e0.js"
+          "blocks/heading-cecd3508.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-66b646ac.js.map",
           "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-811ee5d6.js.map",
-          "blocks/heading-064831e0.js.map"
+          "blocks/heading-cecd3508.js.map"
         ],
         "css": [
           "blocks/heading-c24f58d5.css"
@@ -580,11 +580,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-controller-fc77ca8b.js"
+          "blocks/popup-controller-7b303fb0.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-controller-fc77ca8b.js.map"
+          "blocks/popup-controller-7b303fb0.js.map"
         ]
       }
     },

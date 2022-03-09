@@ -9,6 +9,7 @@
 	"attributes": {},
 	"supports": {
 		"html": false,
+		"align": [ "full", "wide", "left", "right" ],
 		"anchor": true
 	}
 }

@@ -116,22 +116,6 @@ function modifyDefaultSettings( settings, name ) {
 			} );
 		},
 	}];
-	settings.supports = Object.assign( settings.supports, {
-		typography: {
-			fontSize: true,
-			lineHeight: true,
-			fontFamily: true,
-			"__experimentalFontStyle": true,
-			"__experimentalFontWeight": true,
-			"__experimentalFontFamily": true,
-			"__experimentalLetterSpacing": true,
-			"__experimentalTextTransform": true,
-			"__experimentalDefaultControls": {
-				fontSize: true,
-				fontAppearance: true
-			}
-		},
-	});
 	return settings;
 }
 
