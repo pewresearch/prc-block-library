@@ -19,6 +19,7 @@ if ( !window.hasOwnProperty('prcBlocks') ) {
 }
 window.prcBlocks.coverBlocks = {
 	ids: [],
+	currentlyActive: false,
 };
 
 /**
@@ -45,10 +46,29 @@ const scollSnapInit = () => {
 		top.setAttribute('id', id);
 		insertBefore(top, cover);
 
-		const waypoint = new Waypoint({
+		const waypoint = new Waypoint.Inview({
 			element: cover,
 			handler: function(direction) {
 				console.log('direction', direction);
+				toggleActive(cover);
+			},
+			enter: function(direction) {
+				console.log('Enter triggered with direction ' + direction)
+			},
+			entered: function(direction) {
+				console.log('Entered triggered with direction ' + direction);
+				// Only do this once.
+				if ( window.prcBlocks.coverBlocks.currentlyActive !== id ) {
+					window.prcBlocks.coverBlocks.currentlyActive = id;
+					toggleActive(cover);
+				}
+			},
+			exit: function(direction) {
+				console.log('Exit triggered with direction ' + direction)
+				window.prcBlocks.coverBlocks.currentlyActive = false;
+			},
+			exited: function(direction) {
+				console.log('Exited triggered with direction ' + direction);
 				toggleActive(cover);
 			}
 		});
