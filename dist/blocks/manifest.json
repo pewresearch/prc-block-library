@@ -9,8 +9,8 @@
   "collapsible.js.map": "blocks/collapsible-f1581020.js.map",
   "column.js": "blocks/column-3de195ce.js",
   "column.js.map": "blocks/column-3de195ce.js.map",
-  "cover.css": "blocks/cover-6781d216.css",
-  "cover.css.map": "blocks/cover-6781d216.css.map",
+  "cover.css": "blocks/cover-c0f99261.css",
+  "cover.css.map": "blocks/cover-c0f99261.css.map",
   "cover.js": "blocks/cover-11520af3.js",
   "cover.js.map": "blocks/cover-11520af3.js.map",
   "daily-briefing-signup.css": "blocks/daily-briefing-signup-f40d5194.css",
@@ -265,10 +265,10 @@
           "blocks/cover-11520af3.js.map"
         ],
         "css": [
-          "blocks/cover-6781d216.css"
+          "blocks/cover-c0f99261.css"
         ],
         "css.map": [
-          "blocks/cover-6781d216.css.map"
+          "blocks/cover-c0f99261.css.map"
         ]
       }
     },

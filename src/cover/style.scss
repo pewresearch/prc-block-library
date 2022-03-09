@@ -8,7 +8,7 @@
 }
 
 // Collapse cover block on mobile
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 785px) {
 	.wp-block-cover:not(.is-style-snap-groups) {
 		flex-direction: column!important;
 		margin-bottom: 0; // The content inside should provide its own bottom margin.
