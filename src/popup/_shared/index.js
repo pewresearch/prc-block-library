@@ -41,6 +41,7 @@ const ModalControls = ({ controllerClientId, children }) => {
 							if ( modalClientId === window.prcBlocks.modal.isOpen ) {
 								window.prcBlocks.modal.isOpen = false;
 								window.prcBlocks.modal.clientId = false;
+								selectBlock(controllerClientId);
 							} else {
 								window.prcBlocks.modal.isOpen = controllerClientId;
 								window.prcBlocks.modal.clientId = controllerClientId;

@@ -75,14 +75,14 @@
   "popular-listing.js.map": "blocks/popular-listing-93c3b4fd.js.map",
   "popup-content.css": "blocks/popup-content-55c7f7fd.css",
   "popup-content.css.map": "blocks/popup-content-55c7f7fd.css.map",
-  "popup-content.js": "blocks/popup-content-f7f350f0.js",
-  "popup-content.js.map": "blocks/popup-content-f7f350f0.js.map",
-  "popup-controller.js": "blocks/popup-controller-a2f95eb2.js",
-  "popup-controller.js.map": "blocks/popup-controller-a2f95eb2.js.map",
+  "popup-content.js": "blocks/popup-content-a74627d1.js",
+  "popup-content.js.map": "blocks/popup-content-a74627d1.js.map",
+  "popup-controller.js": "blocks/popup-controller-fc77ca8b.js",
+  "popup-controller.js.map": "blocks/popup-controller-fc77ca8b.js.map",
   "popup-modal.css": "blocks/popup-modal-d296b6a3.css",
   "popup-modal.css.map": "blocks/popup-modal-d296b6a3.css.map",
-  "popup-modal.js": "blocks/popup-modal-ec33e99e.js",
-  "popup-modal.js.map": "blocks/popup-modal-ec33e99e.js.map",
+  "popup-modal.js": "blocks/popup-modal-e00c8d26.js",
+  "popup-modal.js.map": "blocks/popup-modal-e00c8d26.js.map",
   "post-bylines.css": "blocks/post-bylines-5dc7ce90.css",
   "post-bylines.css.map": "blocks/post-bylines-5dc7ce90.css.map",
   "post-bylines.js": "blocks/post-bylines-fc2bfc88.js",
@@ -580,11 +580,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-controller-a2f95eb2.js"
+          "blocks/popup-controller-fc77ca8b.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-controller-a2f95eb2.js.map"
+          "blocks/popup-controller-fc77ca8b.js.map"
         ]
       }
     },
@@ -592,11 +592,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-content-f7f350f0.js"
+          "blocks/popup-content-a74627d1.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-content-f7f350f0.js.map"
+          "blocks/popup-content-a74627d1.js.map"
         ],
         "css": [
           "blocks/popup-content-55c7f7fd.css"
@@ -610,11 +610,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-modal-ec33e99e.js"
+          "blocks/popup-modal-e00c8d26.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-modal-ec33e99e.js.map"
+          "blocks/popup-modal-e00c8d26.js.map"
         ],
         "css": [
           "blocks/popup-modal-d296b6a3.css"
