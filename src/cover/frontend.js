@@ -36,28 +36,36 @@ const toggleActive = (coverElm) => coverElm.classList.toggle('active');
 const scollSnapInit = () => {
 	const selector = '.wp-block-cover.is-style-snap-groups';
 	const snapCovers = document.querySelectorAll(selector);
-	// snapCovers.forEach(cover => {
-	// 	const id = generateRandomString();
-	// 	cover.setAttribute('data-scroll-snap-id', id);
-	// 	window.prcBlocks.coverBlocks.ids.push(id);
+	snapCovers.forEach(cover => {
+		const id = generateRandomString();
+		cover.setAttribute('data-scroll-snap-id', id);
+		window.prcBlocks.coverBlocks.ids.push(id);
 
-	// 	const top = document.createElement('div');
-	// 	top.setAttribute('id', id);
-	// 	insertBefore(top, cover);
+		const top = document.createElement('div');
+		top.setAttribute('id', id);
+		insertBefore(top, cover);
 
-	// 	cover.addEventListener('scroll', () => {
-	// 		console.log("Watch scrolling inside cover", cover);
-	// 		// last item
-	// 		const lastGroup = cover.querySelector('.wp-block-group:last-child');
-	// 		const lastGroupTopPosition = lastGroup.offsetTop;
+		const waypoint = new Waypoint({
+			element: cover,
+			handler: function(direction) {
+				console.log('direction', direction);
+				toggleActive(cover);
+			}
+		});
 
-	// 		if ( (scrollTop - (scrollTop - lastGroupTopPosition)) === lastGroupTopPosition && cover.classList.contains('locked') ) {
-	// 			// Reached the top of the cover.
-	// 			console.warn("GROUP REACHED THE TOP");
-	// 			cover.classList.remove('locked');
-	// 		}
-	// 	});
-	// });
+		// cover.addEventListener('scroll', () => {
+		// 	console.log("Watch scrolling inside cover", cover);
+		// 	// last item
+		// 	const lastGroup = cover.querySelector('.wp-block-group:last-child');
+		// 	const lastGroupTopPosition = lastGroup.offsetTop;
+
+		// 	if ( (scrollTop - (scrollTop - lastGroupTopPosition)) === lastGroupTopPosition && cover.classList.contains('locked') ) {
+		// 		// Reached the top of the cover.
+		// 		console.warn("GROUP REACHED THE TOP");
+		// 		cover.classList.remove('locked');
+		// 	}
+		// });
+	});
 
 
 	// window.addEventListener('scroll', function() {

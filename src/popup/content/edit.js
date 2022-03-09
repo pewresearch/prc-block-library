@@ -5,8 +5,19 @@ import {
 	useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 
-const edit = ({ attributes, className, setAttributes }) => {
+/**
+ * Internal Dependencies
+ */
+import { ModalControls } from '../_shared';
+
+const edit = ({ attributes, className, setAttributes, clientId }) => {
+	const {rootClientId} = useSelect(select => {
+		return {
+			rootClientId: select('core/block-editor').getBlockRootClientId(clientId),
+		}
+	});
 
     const blockProps = useBlockProps();
 
@@ -15,7 +26,13 @@ const edit = ({ attributes, className, setAttributes }) => {
         templateLock: false,
     });
 
-    return <div {...innerBlocksProps} />
+    return(
+		<ModalControls
+			controllerClientId={rootClientId}
+		>
+			<div {...innerBlocksProps} />
+		</ModalControls>
+	);
 };
 
 export default edit;

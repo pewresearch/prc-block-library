@@ -20,11 +20,4 @@ const settings = {
 	variations,
 };
 
-window.prcBlocks = {
-	modal: {
-		isOpen: false,
-		clientId: false,
-	}
-}
-
 registerBlockType(name, { ...metadata, ...settings });

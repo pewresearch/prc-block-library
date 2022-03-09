@@ -1,18 +1,18 @@
 /**
  * WordPress Dependencies
  */
-import { sprintf } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 import {
-	BlockControls,
 	useInnerBlocksProps,
     useBlockProps,
 } from '@wordpress/block-editor';
-import {
-	ToolbarButton,
-    ToolbarGroup,
-} from '@wordpress/components';
 import { useSelect, useDispatch, dispatch } from '@wordpress/data';
+
+/**
+ * Internal Dependencies
+ */
+
+import { ModalControls } from '../_shared';
 
 const TEMPLATE = [
 	[ 'prc-block/popup-content', {} ],
@@ -70,26 +70,11 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
 
     return(
 		<Fragment>
-			<BlockControls>
-				<ToolbarGroup>
-					<ToolbarButton
-						icon={sprintf( 'editor-%s', clientId === window.prcBlocks.modal.isOpen ? 'contract' : 'expand' )}
-						label={sprintf( '%s Modal', clientId === window.prcBlocks.modal.isOpen ? 'Close' : 'Open' )}
-						onClick={() => {
-							if ( clientId === window.prcBlocks.modal.isOpen ) {
-								window.prcBlocks.modal.isOpen = false;
-								window.prcBlocks.modal.clientId = false;
-							} else {
-								window.prcBlocks.modal.isOpen = clientId;
-								window.prcBlocks.modal.clientId = modalClientId;
-								selectBlock(modalClientId);
-							}
-						}}
-						isActive={clientId === window.prcBlocks.modal.isOpen}
-					/>
-				</ToolbarGroup>
-			</BlockControls>
-			<div {...innerBlocksProps} />
+			<ModalControls
+				controllerClientId={clientId}
+			>
+				<div {...innerBlocksProps} />
+			</ModalControls>
 		</Fragment>
 	);
 };
