@@ -1,3 +1,19 @@
+// Light background
+.ui.dimmer.modals.inverted {
+	.ui.modal > .close,
+	.ui.basic.modal > .close {
+		color: var(--wp--preset--color--slate, black)!important;
+	}
+}
+// Dark background
+.ui.dimmer.modals:not(.inverted) {
+	.ui.modal > .close,
+	.ui.basic.modal > .close {
+		color: var(--wp--preset--color--white, white)!important;
+	}
+}
+
+// wp-admin pseudo modal
 .wp-block-prc-block-popup-modal.wp-block.ui.modal {
     position: relative!important;
 	z-index: inherit!important;
@@ -15,7 +31,6 @@
 		box-sizing: border-box;
 	}
 }
-
 #prc-block-modal-background {
 	position: absolute;
 	top: 0;

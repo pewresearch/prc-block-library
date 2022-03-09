@@ -31,7 +31,6 @@ const files = [
             'post-bylines': './src/post-bylines/index.js',
 			'post-date': './src/post-date/index.js',
 			'post-sub-title': './src/post-sub-title/index.js',
-            'post-title': './src/post-title/index.js',
             promo: './src/promo/index.js',
             'promo-rotator': './src/promo-rotator/index.js',
 			pullquote: './src/pullquote/index.js',
@@ -127,7 +126,7 @@ const files = [
         entry: {
             chapter: './src/_deprecated/chapter/index.js',
 			'post-publish-date': './src/_deprecated/post-publish-date/index.js',
-			'post-title': './src/post-title/index.js',
+			'post-title': './src/_deprecated/post-title/index.js',
         },
 		optimizeForGutenberg: true,
     },
