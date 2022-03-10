@@ -1,5 +1,8 @@
 .wp-block-cover {
 	margin-bottom: 2em;
+	.wp-block-cover__inner-container {
+		color: inherit!important; // If you need to set a color for text do so on each element or child group.
+	}
 	.wp-block-cover__inner-container > [class*="wp-block-"] {
 		max-width: var(--wp--custom--content-size);
 		margin-left: auto;

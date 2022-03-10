@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.9
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-cover{margin-bottom:2em}.wp-block-cover .wp-block-cover__inner-container{color:inherit !important}.wp-block-cover .wp-block-cover__inner-container>[class*=wp-block-]{max-width:var(--wp--custom--content-size);margin-left:auto;margin-right:auto}@media screen and (max-width: 785px){.wp-block-cover:not(.is-style-snap-groups){flex-direction:column !important;margin-bottom:0}.wp-block-cover:not(.is-style-snap-groups)[style]{min-height:auto !important}.wp-block-cover:not(.is-style-snap-groups) img.wp-block-cover__image-background{position:relative !important;margin-left:-2em;margin-right:-2em;max-width:calc(100% + 2em) !important;width:calc(100% + 2em) !important}.wp-block-cover:not(.is-style-snap-groups) .has-text-color{color:inherit !important}.wp-block-cover:not(.is-style-snap-groups) .wp-block-cover__inner-container>[class*=wp-block-]:last-child{margin-bottom:0 !important}.wp-block-cover:not(.is-style-snap-groups) .wp-block-cover__background,.wp-block-cover:not(.is-style-snap-groups) .wp-block-spacer{display:none !important}}.wp-block-cover.is-style-snap-groups{padding:0}.wp-block-cover.is-style-snap-groups.active .wp-block-cover__inner-container,.wp-block-cover.is-style-snap-groups.is-selected .wp-block-cover__inner-container,.wp-block-cover.is-style-snap-groups.has-child-selected .wp-block-cover__inner-container{overflow-y:scroll}.wp-block-cover.is-style-snap-groups.locked .wp-block-cover__inner-container{-ms-scroll-chaining:none;overscroll-behavior:contain}.wp-block-cover.is-style-snap-groups .wp-block-cover__inner-container{height:100vh;overflow-y:hidden;-ms-scroll-snap-type:y mandatory;scroll-snap-type:y mandatory}.wp-block-cover.is-style-snap-groups .wp-block-cover__inner-container .wp-block-group{scroll-snap-align:start;scroll-snap-stop:always;height:100vh;display:flex;flex-direction:column;justify-content:center}@media screen and (max-width: 640px){.wp-block-cover.is-style-snap-groups .wp-block-cover__inner-container .wp-block-group{margin-left:1em;margin-right:1em}.wp-block-cover.is-style-snap-groups .wp-block-cover__inner-container .wp-block-group .alignwide{margin-left:0 !important;margin-right:0 !important;width:100% !important}}
+
+/*# sourceMappingURL=cover-63ccc396.css.map*/

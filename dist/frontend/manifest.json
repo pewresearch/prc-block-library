@@ -7,8 +7,8 @@
   "chart-builder.js.map": "frontend/chart-builder-97ba922a.js.map",
   "collapsible.js": "frontend/collapsible-032abe58.js",
   "collapsible.js.map": "frontend/collapsible-032abe58.js.map",
-  "cover.css": "frontend/cover-c0f99261.css",
-  "cover.css.map": "frontend/cover-c0f99261.css.map",
+  "cover.css": "frontend/cover-63ccc396.css",
+  "cover.css.map": "frontend/cover-63ccc396.css.map",
   "cover.js": "frontend/cover-37cdb3bb.js",
   "cover.js.map": "frontend/cover-37cdb3bb.js.map",
   "flip-card-controller.css": "frontend/flip-card-controller-bf671fdf.css",
@@ -129,10 +129,10 @@
           "frontend/cover-37cdb3bb.js.map"
         ],
         "css": [
-          "frontend/cover-c0f99261.css"
+          "frontend/cover-63ccc396.css"
         ],
         "css.map": [
-          "frontend/cover-c0f99261.css.map"
+          "frontend/cover-63ccc396.css.map"
         ]
       }
     },

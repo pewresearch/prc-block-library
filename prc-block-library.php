@@ -55,6 +55,9 @@ class PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			// Only load assets when a block is used.
+			add_filter( 'should_load_separate_core_block_assets', '__return_true' );
+
 			add_filter( 'block_categories_all', array( $this, 'register_block_categories' ), 10, 2 );
 
 			// @TODO Needs to be moved into shared wpack vendor outputs.
@@ -85,6 +88,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/page/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/paragraph/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/popular-listing/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/popup/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-date/index.php';

@@ -1,59 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { createHigherOrderComponent } from '@wordpress/compose';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { InspectorControls, BlockControls } from '@wordpress/block-editor';
-import {
-    Button,
-    KeyboardShortcuts,
-    PanelBody,
-    PanelRow,
-} from '@wordpress/components';
-import { addFilter } from '@wordpress/hooks';
 import { registerBlockVariation, unregisterBlockVariation } from '@wordpress/blocks';
-import { assign } from 'lodash';
-
-/**
- * Internal Dependencies
- */
-
-import TaxQuery from './tax-query';
-
-const QueryBlockEdit = (props) => {
-    const { attributes, setAttributes } = props;
-    console.log('<QueryBlockEdit>', props);
-    const {taxQuery} = attributes;
-    if (undefined === taxQuery) {
-        return <Fragment/>;
-    }
-    return (
-        <Fragment>
-            <InspectorControls>
-                <PanelBody title="Taxonomy Query">
-                    <div>
-                        <TaxQuery taxQuery={taxQuery} setAttributes={setAttributes} />
-                    </div>
-                </PanelBody>
-            </InspectorControls>
-        </Fragment>
-    );
-};
-
-const QueryBlockFilter = createHigherOrderComponent((BlockEdit) => {
-    return (props) => {
-        const { name } = props;
-        if ('core/query' !== name) {
-            return <BlockEdit {...props} />;
-        }
-        return (
-            <Fragment>
-                <BlockEdit {...props} />
-                <QueryBlockEdit {...props} />
-            </Fragment>
-        );
-    };
-}, 'withInspectorControl');
 
 registerBlockVariation(
     'core/query',
@@ -96,5 +44,3 @@ unregisterBlockVariation('core/query', 'title-date');
 unregisterBlockVariation('core/query', 'title-excerpt');
 unregisterBlockVariation('core/query', 'title-date-excerpt');
 unregisterBlockVariation('core/query', 'image-date-title');
-
-// addFilter('editor.BlockEdit', 'prc-block/query', QueryBlockFilter, 21);

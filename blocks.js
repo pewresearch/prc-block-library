@@ -25,6 +25,7 @@ const files = [
             menu: './src/menu/index.js',
             'menu-link': './src/menu-link/index.js',
             page: './src/page/index.js',
+			paragraph: './src/paragraph/index.js',
             'popular-listing': './src/popular-listing/index.js',
 			'popup-controller': './src/popup/controller/index.js',
 			'popup-content': './src/popup/content/index.js',
