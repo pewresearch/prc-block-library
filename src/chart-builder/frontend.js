@@ -130,7 +130,7 @@ const getConfig = (el) => {
 			yFormat: attr.yScaleFormat,
 			sortKey: 'x',
 			sortOrder: attr.sortOrder,
-			// categories: categoryArray,
+			categories: attr.categoryArray,
 		},
 		tooltip: {
 			...masterConfig.tooltip,
