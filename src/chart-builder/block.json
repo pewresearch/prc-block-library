@@ -393,7 +393,11 @@
 		},
 		"pngId": {
 			"type": "integer"
-		}
+		},
+		"categoryArray" : {
+			"type": "array",
+			"default": []
+		},
 	},
 	"supports": {
 		"html": false,
