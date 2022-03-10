@@ -397,7 +397,7 @@
 		"categoryArray" : {
 			"type": "array",
 			"default": []
-		},
+		}
 	},
 	"supports": {
 		"html": false,
