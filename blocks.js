@@ -2,6 +2,7 @@ const files = [
     {
         name: 'blocks',
         entry: {
+			buttons: './src/buttons/index.js',
             collapsible: './src/collapsible/index.js',
             column: './src/column/index.js',
             'chart-builder': './src/chart-builder/index.js',

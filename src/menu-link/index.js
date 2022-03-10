@@ -26,5 +26,4 @@ const settings = {
     edit,
     save,
 };
-
 registerBlockType(name, { ...metadata, ...settings });

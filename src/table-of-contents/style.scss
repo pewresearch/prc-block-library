@@ -17,6 +17,9 @@
 		background: var(--wp--preset--color--white)!important;
 		border-top: 1px solid #dadbdb;
 		border-bottom: 1px solid #dadbdb;
+		& > :where(:not(.alignleft):not(.alignright)) {
+			max-width: 100%!important;
+		}
 		h3 {
 			cursor: pointer;
 			padding-top: 1em;

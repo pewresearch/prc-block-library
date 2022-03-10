@@ -76,19 +76,25 @@ $alignRightMargin: 5px 0px 15px 15px;
 		}
 	}
 
-	&.aligncenter {
+	&.aligncenter,
+	& > .aligncenter {
 		text-align: center;
 	}
 
 	&.alignfull img,
-	&.alignwide img {
+	&.alignwide img,
+	& > .alignfull img,
+	& > .alignwide img {
 		height: auto;
 		width: 100%;
 	}
 
 	&.alignleft,
 	&.alignright,
-	&.aligncenter {
+	&.aligncenter,
+	& > .alignleft,
+	& > .alignright,
+	& > .aligncenter {
 		display: table;
 
 		> figcaption {
@@ -98,13 +104,16 @@ $alignRightMargin: 5px 0px 15px 15px;
 	}
 
 	&.alignright,
-	&.alignleft {
+	&.alignleft,
+	& > .alignright,
+	& > .alignleft {
 		clear: both;
 		margin-left: auto;
 		margin-right: auto;
 	}
 
-	.alignleft {
+	.alignleft,
+	& > .alignleft {
 		@media only screen and (min-width: variables.$largestTabletScreen) {
 			/*rtl:ignore*/
 			float: left;
@@ -114,7 +123,8 @@ $alignRightMargin: 5px 0px 15px 15px;
 		}
 	}
 
-	&.alignright {
+	&.alignright,
+	& > .alignright {
 		@media only screen and (min-width: variables.$largestTabletScreen) {
 			/*rtl:ignore*/
 			float: right;
@@ -124,7 +134,8 @@ $alignRightMargin: 5px 0px 15px 15px;
 		}
 	}
 
-	&.aligncenter {
+	&.aligncenter,
+	& > .aligncenter {
 		margin-left: auto;
 		margin-right: auto;
 	}

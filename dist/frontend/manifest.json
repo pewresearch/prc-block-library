@@ -43,8 +43,8 @@
   "social-link.js.map": "frontend/social-link-a3de95b7.js.map",
   "story-item.js": "frontend/story-item-28697a46.js",
   "story-item.js.map": "frontend/story-item-28697a46.js.map",
-  "table-of-contents.css": "frontend/table-of-contents-a70d071c.css",
-  "table-of-contents.css.map": "frontend/table-of-contents-a70d071c.css.map",
+  "table-of-contents.css": "frontend/table-of-contents-e9fa0a83.css",
+  "table-of-contents.css.map": "frontend/table-of-contents-e9fa0a83.css.map",
   "table-of-contents.js": "frontend/table-of-contents-5c1eaa99.js",
   "table-of-contents.js.map": "frontend/table-of-contents-5c1eaa99.js.map",
   "tabs-controller.js": "frontend/tabs-controller-d90f4427.js",
@@ -323,10 +323,10 @@
           "frontend/table-of-contents-5c1eaa99.js.map"
         ],
         "css": [
-          "frontend/table-of-contents-a70d071c.css"
+          "frontend/table-of-contents-e9fa0a83.css"
         ],
         "css.map": [
-          "frontend/table-of-contents-a70d071c.css.map"
+          "frontend/table-of-contents-e9fa0a83.css.map"
         ]
       }
     },

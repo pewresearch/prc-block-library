@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.9
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+#prc-mobile-toc,.wp-block-group.mobile-toc{position:-webkit-sticky;position:sticky;top:0;z-index:100}#prc-mobile-toc .wp-block-group.mobile-toc,.wp-block-group.mobile-toc .wp-block-group.mobile-toc{position:relative}.wp-block-group:not(.wp-block).mobile-toc{margin-bottom:1em;padding-bottom:1em;background:var(--wp--preset--color--white) !important;border-top:1px solid #dadbdb;border-bottom:1px solid #dadbdb}.wp-block-group:not(.wp-block).mobile-toc>:where(:not(.alignleft):not(.alignright)){max-width:100% !important}.wp-block-group:not(.wp-block).mobile-toc h3{cursor:pointer;padding-top:1em;margin-bottom:0;letter-spacing:.1em}.wp-block-group:not(.wp-block).mobile-toc h3:after{font-family:var(--prc--icon--dropdown--family);content:var(--prc--icon--dropdown--content);display:block;float:right}.wp-block-group:not(.wp-block).mobile-toc .wp-block-prc-block-table-of-contents{padding-top:1em}.wp-block-group:not(.wp-block).mobile-toc.is-open h3:after{-webkit-transform:rotate(180deg) scaleX(-1);transform:rotate(180deg) scaleX(-1)}.wp-block-group:not(.wp-block).mobile-toc:not(.is-open) .wp-block-prc-block-table-of-contents{display:none}.wp-block-group:not(.wp-block).mobile-toc-icons{margin-bottom:1em;padding-bottom:0;background:var(--wp--preset--color--white) !important;border-top:1px solid #dadbdb;border-bottom:1px solid #dadbdb;display:flex;align-items:center}.wp-block-group:not(.wp-block).mobile-toc-icons h3{display:block}.wp-block-group:not(.wp-block).mobile-toc-icons .hidden-text{display:none}.wp-block-group:not(.wp-block).mobile-toc-icons .wp-block-prc-block-table-of-contents{padding-top:0}.wp-block-group:not(.wp-block).mobile-toc-icons .wp-block-prc-block-table-of-contents .ui.list{display:flex;align-items:stretch}.wp-block-group:not(.wp-block).mobile-toc-icons .wp-block-prc-block-table-of-contents .ui.list .item{display:inline-block;flex-grow:1;-webkit-filter:grayscale(100%);filter:grayscale(100%);opacity:.7}.wp-block-group:not(.wp-block).mobile-toc-icons .wp-block-prc-block-table-of-contents .ui.list .item.active{-webkit-filter:grayscale(0%);filter:grayscale(0%);opacity:1}
+
+/*# sourceMappingURL=table-of-contents-e9fa0a83.css.map*/
