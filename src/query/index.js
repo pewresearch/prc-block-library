@@ -81,7 +81,10 @@ registerBlockVariation(
 			[
 				'core/post-template',
 				{},
-				[ [ 'prc-block/story-item' ] ],
+				[ [ 'prc-block/story-item', {
+					imageSlot: 'left',
+					imageSize: 'A3'
+				} ] ],
 			],
 		],
 		scope: [ 'block' ],
@@ -94,4 +97,4 @@ unregisterBlockVariation('core/query', 'title-excerpt');
 unregisterBlockVariation('core/query', 'title-date-excerpt');
 unregisterBlockVariation('core/query', 'image-date-title');
 
-addFilter('editor.BlockEdit', 'prc-block/query', QueryBlockFilter, 21);
+// addFilter('editor.BlockEdit', 'prc-block/query', QueryBlockFilter, 21);

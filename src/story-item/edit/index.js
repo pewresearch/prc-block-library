@@ -97,6 +97,9 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 	// For posts inside a query block if we have a post id then go fetch the post and set attributes.
 	useEffect(() => {
 		if ( context.hasOwnProperty('query') && context.hasOwnProperty('postId') && !Number.isInteger(postId) ) {
+			console.log("This post is from a query block...");
+			// We need a way to store the info in state, not just attributes...
+
 			// setPostAttributes({
 			// 	postId: context.postId,
 			// 	imageSize,
