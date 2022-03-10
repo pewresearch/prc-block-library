@@ -17,6 +17,9 @@ $breakpoint: 767px;
 	}
 }
 
+body.admin-bar .prc-group-block--sticky.sticky {
+	top: 32px;
+}
 .prc-group-block--sticky.sticky {
 	position: -webkit-sticky;
 	position: sticky;
@@ -111,7 +114,7 @@ $breakpoint: 767px;
 			/*rtl:ignore*/
 		}
 	}
-	
+
 }
 
 // Deprecated Block Styles, utilize the new block layout options instead.

@@ -86,9 +86,9 @@ $alignRightMargin: 5px 0px 15px 15px;
 		width: 100%;
 	}
 
-	.alignleft,
-	.alignright,
-	.aligncenter {
+	&.alignleft,
+	&.alignright,
+	&.aligncenter {
 		display: table;
 
 		> figcaption {
@@ -97,8 +97,8 @@ $alignRightMargin: 5px 0px 15px 15px;
 		}
 	}
 
-	.alignright,
-	.alignleft {
+	&.alignright,
+	&.alignleft {
 		clear: both;
 		margin-left: auto;
 		margin-right: auto;
@@ -114,7 +114,7 @@ $alignRightMargin: 5px 0px 15px 15px;
 		}
 	}
 
-	.alignright {
+	&.alignright {
 		@media only screen and (min-width: variables.$largestTabletScreen) {
 			/*rtl:ignore*/
 			float: right;
@@ -124,7 +124,7 @@ $alignRightMargin: 5px 0px 15px 15px;
 		}
 	}
 
-	.aligncenter {
+	&.aligncenter {
 		margin-left: auto;
 		margin-right: auto;
 	}
