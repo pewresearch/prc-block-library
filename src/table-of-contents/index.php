@@ -234,8 +234,9 @@ class Table_of_Contents extends PRC_Block_Library {
 		$group_is_sticky = array_key_exists('core/group/isSticky', $block->context) ? $block->context['core/group/isSticky'] : false;
 		$mobile_threshold = array_key_exists('core/group/responsiveThreshold', $block->context) ? $block->context['core/group/responsiveThreshold'] : false;
 		$chapters = $this->construct_toc( $post_id );
+		$content = apply_filters( 'prc-block/table-of-contents', $this->get_list_items( $chapters ), $post_id );
 
-		if ( empty($chapters) ) {
+		if ( empty($content) ) {
 			return;
 		}
 
@@ -260,7 +261,7 @@ class Table_of_Contents extends PRC_Block_Library {
 		// If this is a multisection report then we'll wrap the TOC with the multi section report list.
 		$content = wp_sprintf(
 			'<div role="list" class="ui link selection list">%s</div>',
-			apply_filters( 'prc-block/table-of-contents', $this->get_list_items( $chapters ), $post_id )
+			$content
 		);
 
 		return wp_sprintf(
