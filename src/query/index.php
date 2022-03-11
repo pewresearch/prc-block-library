@@ -18,99 +18,6 @@ class Query_Block extends PRC_Block_Library {
 	}
 
 	/**
-	 * Helper function that constructs a WP_Query args array from
-	 * a `Query` block properties.
-	 *
-	 * It's used in QueryLoop, QueryPaginationNumbers and QueryPaginationNext blocks.
-	 *
-	 * @param WP_Block $block Block instance.
-	 * @param int      $page  Current query's page.
-	 *
-	 * @return array Returns the constructed WP_Query arguments.
-	 */
-	// private function build_query_vars_from_attributes( $block, $page ) {
-	// 	error_log( 'build_query_vars_from_query_block' . print_r( $block, true ) );
-	// 	$query = array(
-	// 		'post_type'    => 'post',
-	// 		'order'        => 'DESC',
-	// 		'orderby'      => 'date',
-	// 		'post__not_in' => array(),
-	// 		'post_parent'  => 0, // Only retrieve parent posts.
-	// 	);
-
-	// 	if ( isset( $block['query'] ) ) {
-	// 		if ( ! empty( $block['query']['postType'] ) ) {
-	// 			$post_type_param = $block['query']['postType'];
-	// 			if ( is_post_type_viewable( $post_type_param ) ) {
-	// 				$query['post_type'] = $post_type_param;
-	// 			}
-	// 		}
-	// 		if ( isset( $block['query']['sticky'] ) && ! empty( $block['query']['sticky'] ) ) {
-	// 			$sticky = get_option( 'sticky_posts' );
-	// 			if ( 'only' === $block['query']['sticky'] ) {
-	// 				$query['post__in'] = $sticky;
-	// 			} else {
-	// 				$query['post__not_in'] = array_merge( $query['post__not_in'], $sticky );
-	// 			}
-	// 		}
-	// 		if ( ! empty( $block['query']['exclude'] ) ) {
-	// 			$excluded_post_ids     = array_map( 'intval', $block['query']['exclude'] );
-	// 			$excluded_post_ids     = array_filter( $excluded_post_ids );
-	// 			$query['post__not_in'] = array_merge( $query['post__not_in'], $excluded_post_ids );
-	// 		}
-	// 		if (
-	// 			isset( $block['query']['perPage'] ) &&
-	// 			is_numeric( $block['query']['perPage'] )
-	// 		) {
-	// 			$per_page = absint( $block['query']['perPage'] );
-	// 			$offset   = 0;
-
-	// 			if (
-	// 				isset( $block['query']['offset'] ) &&
-	// 				is_numeric( $block['query']['offset'] )
-	// 			) {
-	// 				$offset = absint( $block['query']['offset'] );
-	// 			}
-
-	// 			$query['offset']         = ( $per_page * ( $page - 1 ) ) + $offset;
-	// 			$query['posts_per_page'] = $per_page;
-	// 		}
-	// 		if ( ! empty( $block['query']['categoryIds'] ) ) {
-	// 			$term_ids              = array_map( 'intval', $block['query']['categoryIds'] );
-	// 			$term_ids              = array_filter( $term_ids );
-	// 			$query['category__in'] = $term_ids;
-	// 		}
-	// 		if ( ! empty( $block['query']['tagIds'] ) ) {
-	// 			$term_ids         = array_map( 'intval', $block['query']['tagIds'] );
-	// 			$term_ids         = array_filter( $term_ids );
-	// 			$query['tag__in'] = $term_ids;
-	// 		}
-	// 		if (
-	// 			isset( $block['query']['order'] ) &&
-	// 				in_array( strtoupper( $block['query']['order'] ), array( 'ASC', 'DESC' ), true )
-	// 		) {
-	// 			$query['order'] = strtoupper( $block['query']['order'] );
-	// 		}
-	// 		if ( isset( $block['query']['orderBy'] ) ) {
-	// 			$query['orderby'] = $block['query']['orderBy'];
-	// 		}
-	// 		if (
-	// 			isset( $block['query']['author'] ) &&
-	// 			(int) $block['query']['author'] > 0
-	// 		) {
-	// 			$query['author'] = (int) $block['query']['author'];
-	// 		}
-	// 		if ( ! empty( $block['query']['search'] ) ) {
-	// 			$query['s'] = $block['query']['search'];
-	// 		}
-	// 	}
-	// 	if ( ! empty( $block['taxQuery'] ) && ! empty( $block['taxQuery']['data'] ) ) {
-	// 		$query['tax_query'] = $block['taxQuery'];
-	// 	}
-	// 	return $query;
-	// }
-
-	/**
 	 * Builds the query arguments from a `Query` block properties and renders the block template.
 	 * @uses gutenberg_build_query_vars_from_query_block() and build_query_vars_from_query_block()
 	 * @param mixed $block
@@ -192,7 +99,7 @@ class Query_Block extends PRC_Block_Library {
 		}
 		wp_reset_postdata();
 
-		return sprintf(
+		return wp_sprintf(
 			'<section %1$s>%2$s</section>',
 			implode( ' ', $normalized_attributes ),
 			$content
@@ -219,7 +126,7 @@ class Query_Block extends PRC_Block_Library {
 			}
 		}
 
-		return sprintf(
+		return wp_sprintf(
 			'<div class="%1$s">%2$s</div>',
 			classNames( 'wp-query' ),
 			$content

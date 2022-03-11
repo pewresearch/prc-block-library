@@ -8,10 +8,10 @@ registerBlockVariation(
     {
 		name: 'story-item-listing',
 		title: 'Story Item Listing',
-		description: 'Display a list of story items.',
+		description: 'Display a publication list of story items.',
 		attributes: {
 			query: {
-				perPage: 3,
+				perPage: 5,
 				pages: 1,
 				offset: 0,
 				postType: 'stub',

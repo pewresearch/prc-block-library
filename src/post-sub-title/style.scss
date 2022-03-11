@@ -9,8 +9,8 @@
 
 body.post-template-default .post-content > :first-child.wp-block-prc-block-subtitle { display: none; }
 
-@media only screen and (max-width: var(--wp--custom--breakpoint--tablet)) {
+@media only screen and (max-width: 768px) {
 	.wp-block-prc-block-subtitle {
-		font-size: 18.5px;
+		--wp--preset--font-size--h-2: 18.5px;
 	}
 }
