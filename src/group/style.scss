@@ -149,19 +149,15 @@ body.admin-bar .prc-group-block--sticky.sticky {
 	}
 }
 
-.wp-block-group.essay-toolbar-group,
-.wp-block-group.is-style-essay-toolbar {
-	.meta,
-	.icon {
-		color: black !important;
+.wp-block-group.essay--toolbar {
+    display: flex;
+    align-items: center;
+	.wp-block-social-links {
+		padding-top: 0!important;
+		margin-top: 0!important;
 	}
 
-	.meta {
-		font-size: 14px;
-		letter-spacing: inherit;
-	}
-
-	.icon {
-		font-size: 16px;
+	.wp-block-post-date {
+		flex-grow: 1;
 	}
 }
