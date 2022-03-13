@@ -104,6 +104,8 @@ class Social_Link extends PRC_Block_Library {
 	public function register_frontend_assets() {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
+		//@TODO We need to check for the old social link and dequeue its assets before enqueing these.
+
 		$registered = $enqueue->register(
 			'frontend',
 			'social-link',
