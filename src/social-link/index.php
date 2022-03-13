@@ -1,75 +1,87 @@
 <?php
-
-// Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
+
+// Modify the core/social-link block.
+// See: https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/social-link/index.php
+
+
 use \WPackio as WPackio;
 
-/**
- * Server-side rendering of the `prc-block/menu-link` block.
- *
- * @package gutenberg
- */
-
-class PRC_Social_Link extends PRC_Block_Library {
+class Social_Link extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_action( 'init', array( $this, 'register_block' ), 11 );
-			// Ensure new frontend script is running even on template functions.
-			add_filter(
-				'prc_social_link_icon',
-				function( $markup, $attributes ) {
-					$this->enqueue_frontend_script();
-					return $markup;
-				},
-				10,
-				2
-			);
+			add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 0 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend_assets' ) );
+			add_filter( 'render_block', array( $this, 'social_link_render_callback' ), 10, 3 );
 		}
 	}
 
-	public function enqueue_frontend_script() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
-		return $enqueue->enqueue(
-			'frontend',
-			'social-link',
-			array(
-				'js'        => true,
-				'css'       => false,
-				'js_dep'    => array( 'wp-dom-ready', 'wp-url' ),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-	}
-	
 	/**
-	 * Renders the `prc-block/social-link` block.
+	 * Renders the `core/social-link` block on server.
 	 *
-	 * @param array $attributes The block attributes.
-	 * @param array $content The saved content.
-	 * @param array $block The parsed block.
+	 * @param String   $block_content The block content about to be appended.
+	 * @param WP_Block $block      Block array.
 	 *
-	 * @return string Returns the post content with the legacy widget added.
+	 * @return string Rendered HTML of the referenced block.
 	 */
-	public function render_social_link_block( $attributes, $content, $block ) {
-		if ( ! is_object( $block ) ) {
+	public function social_link_render_callback( $block_content, $block_args, $block ) {
+		if ( 'core/social-link' !== $block_args['blockName'] ) {
+			return $block_content;
+		}
+
+		$attributes = $block_args['attrs'];
+		$open_in_new_tab = isset( $block->context['openInNewTab'] ) ? $block->context['openInNewTab'] : false;
+
+		$service     = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
+		$url         = ( isset( $attributes['url'] ) ) ? $attributes['url'] : false;
+		// If no url then try to fetch the short link.
+		if ( ! $url ) {
+			$url = wp_get_shortlink();
+		}
+		$label       = ( isset( $attributes['label'] ) ) ? $attributes['label'] : block_core_social_link_get_name( $service );
+		$show_labels = array_key_exists( 'showLabels', $block->context ) ? $block->context['showLabels'] : false;
+		$class_name  = isset( $attributes['className'] ) ? ' ' . $attributes['className'] : false;
+
+		// Don't render a link if there is no URL set.
+		if ( ! $url ) {
 			return '';
 		}
-		return apply_filters( 'prc_social_link_icon', false, $attributes );
+
+		$rel_target_attributes = '';
+		if ( $open_in_new_tab ) {
+			$rel_target_attributes = 'rel="noopener nofollow" target="_blank"';
+		}
+
+		$icon               = block_core_social_link_get_icon( $service );
+		$wrapper_attributes = $this->_get_block_wrapper_attributes(
+			array(
+				'class' => 'wp-block-social-link wp-social-link wp-social-link-' . $service . $class_name,
+				'style' => block_core_social_link_get_color_styles( $block->context ),
+				'data-share-url' => esc_url($url),
+			)
+		);
+
+		error_log(print_r($wrapper_attributes, true));
+
+		$link  = '<li ' . $wrapper_attributes . '>';
+		$link .= '<a href="' . esc_url( $url ) . '" ' . $rel_target_attributes . ' class="wp-block-social-link-anchor">';
+		$link .= $icon;
+		$link .= '<span class="wp-block-social-link-label' . ( $show_labels ? '' : ' screen-reader-text' ) . '">';
+		$link .= esc_html( $label );
+		$link .= '</span></a></li>';
+
+		return $link;
 	}
 
 	/**
-	 * Register the menu link block.
-	 *
-	 * @uses render_block_core_navigation()
-	 * @throws WP_Error An WP_Error exception parsing the block definition.
+	 * @return void
+	 * @throws LogicException
 	 */
-	public function register_block() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+	public function register_admin_assets() {
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
-		$block = $enqueue->register(
+		$registered = $enqueue->register(
 			'blocks',
 			'social-link',
 			array(
@@ -82,14 +94,31 @@ class PRC_Social_Link extends PRC_Block_Library {
 			)
 		);
 
-		register_block_type_from_metadata(
-			plugin_dir_path( __DIR__ ) . '/social-link',
+		wp_enqueue_script( array_pop($registered['js'])['handle'] );
+	}
+
+	/**
+	 * @return void
+	 * @throws LogicException
+	 */
+	public function register_frontend_assets() {
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+
+		$registered = $enqueue->register(
+			'frontend',
+			'social-link',
 			array(
-				'editor_script'   => array_pop( $block['js'] )['handle'],
-				'render_callback' => array( $this, 'render_social_link_block' ),
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => array(),
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
 			)
 		);
+
+		wp_enqueue_script( array_pop($registered['js'])['handle'] );
 	}
 }
 
-new PRC_Social_Link( true );
+new Social_Link( true );

@@ -1,0 +1,12 @@
+.wp-block-social-link {
+	a {
+		align-items: center;
+		display: flex;
+		line-height: 0;
+		transition: transform 0.1s ease;
+	}
+
+	&:hover {
+		transform: none!important;
+	}
+}
