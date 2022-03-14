@@ -18,7 +18,7 @@ const getArgs = elm => {
             .querySelector('meta[property="og:description"]')
             .getAttribute('content');
     }
-    let title = elm.getAttribute('share-title');
+    let title = elm.getAttribute('data-share-title');
     if (!title) {
         title = document
             .querySelector('meta[property="og:title"]')
@@ -39,11 +39,13 @@ const getArgs = elm => {
 };
 
 const initFacebookLinks = () => {
-    const items = document.querySelectorAll('.social-link.facebook');
+    const items = document.querySelectorAll('.wp-block-social-link.wp-social-link-facebook');
     items.forEach(elm => {
         const { url, title, description } = getArgs(elm);
 
-        elm.addEventListener('click', e => {
+		const link = elm.querySelector('a');
+
+        link.addEventListener('click', e => {
             e.preventDefault();
             const actionUrl = addQueryArgs(
                 'https://www.facebook.com/sharer/sharer.php',
@@ -64,11 +66,13 @@ const initFacebookLinks = () => {
 };
 
 const initLinkedInLinks = () => {
-    const items = document.querySelectorAll('.social-link.linkedin');
+    const items = document.querySelectorAll('.wp-block-social-link.wp-social-link-linkedin');
     items.forEach(elm => {
         const { url, title, description } = getArgs(elm);
 
-        elm.addEventListener('click', e => {
+		const link = elm.querySelector('a');
+
+        link.addEventListener('click', e => {
             e.preventDefault();
             const actionUrl = addQueryArgs(
                 'https://www.linkedin.com/shareArticle',
@@ -93,11 +97,13 @@ const initLinkedInLinks = () => {
 };
 
 const initTwitterLinks = () => {
-    const items = document.querySelectorAll('.social-link.twitter');
+    const items = document.querySelectorAll('.wp-block-social-link.wp-social-link-twitter');
     items.forEach(elm => {
         const { url, title, description } = getArgs(elm);
 
-        elm.addEventListener('click', e => {
+		const link = elm.querySelector('a');
+
+        link.addEventListener('click', e => {
             e.preventDefault();
             const actionUrl = addQueryArgs('https://twitter.com/intent/tweet', {
                 text: description,

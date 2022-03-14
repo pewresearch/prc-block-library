@@ -11,10 +11,59 @@ class Social_Link extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
+			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 0 );
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend_assets' ) );
 			add_filter( 'render_block', array( $this, 'social_link_render_callback' ), 10, 3 );
 		}
+	}
+
+	/**
+	 * Register additional attributes for social links block.
+	 * @param mixed $metadata
+	 * @return mixed
+	 */
+	public function add_attributes( $metadata ) {
+		if ( 'core/social-links' !== $metadata['name'] ) {
+			return $metadata;
+		}
+
+		if ( ! array_key_exists( 'title', $metadata['attributes'] ) ) {
+			$metadata['attributes']['title'] = array(
+				'type'    => 'text',
+			);
+		}
+
+		// If you pass an id to the block, it will be used as the anchor for when the mobile viewpoint is reached.
+		if ( ! array_key_exists( 'description', $metadata['attributes'] ) ) {
+			$metadata['attributes']['description'] = array(
+				'type'    => 'string',
+			);
+		}
+
+		return $metadata;
+	}
+
+	public function add_settings(array $settings, array $metadata) {
+		if ( 'core/social-links' === $metadata['name'] ) {
+			$settings['provides_context'] = array_merge(
+				array_key_exists('provides_context', $settings) ? $settings['provides_context'] : array(),
+				array(
+					'core/social-links/title' => 'title',
+					'core/social-links/description' => 'description',
+				)
+			);
+		}
+		if ( 'core/social-link' === $metadata['name'] ) {
+			$settings['uses_context'] = array_merge(
+				array_key_exists('uses_context', $settings) ? $settings['uses_context'] : array(),
+				array(
+					'core/social-links/title',
+					'core/social-links/description'
+				)
+			);
+		}
+		return $settings;
 	}
 
 	/**
@@ -30,6 +79,8 @@ class Social_Link extends PRC_Block_Library {
 			return $block_content;
 		}
 
+		$this->enqueue_frontend_assets();
+
 		$attributes = $block_args['attrs'];
 		$open_in_new_tab = isset( $block->context['openInNewTab'] ) ? $block->context['openInNewTab'] : false;
 
@@ -42,6 +93,8 @@ class Social_Link extends PRC_Block_Library {
 		$label       = ( isset( $attributes['label'] ) ) ? $attributes['label'] : block_core_social_link_get_name( $service );
 		$show_labels = array_key_exists( 'showLabels', $block->context ) ? $block->context['showLabels'] : false;
 		$class_name  = isset( $attributes['className'] ) ? ' ' . $attributes['className'] : false;
+		$title = isset( $block->context['core/social-links/title'] ) ? $block->context['core/social-links/title'] : null;
+		$description = isset( $block->context['core/social-links/description'] ) ? $block->context['core/social-links/description'] : null;
 
 		// Don't render a link if there is no URL set.
 		if ( ! $url ) {
@@ -54,15 +107,16 @@ class Social_Link extends PRC_Block_Library {
 		}
 
 		$icon               = block_core_social_link_get_icon( $service );
+
 		$wrapper_attributes = $this->_get_block_wrapper_attributes(
 			array(
 				'class' => 'wp-block-social-link wp-social-link wp-social-link-' . $service . $class_name,
 				'style' => block_core_social_link_get_color_styles( $block->context ),
 				'data-share-url' => esc_url($url),
+				'data-share-title' => esc_attr($title),
+				'data-share-description' => esc_attr($description),
 			)
 		);
-
-		error_log(print_r($wrapper_attributes, true));
 
 		$link  = '<li ' . $wrapper_attributes . '>';
 		$link .= '<a href="' . esc_url( $url ) . '" ' . $rel_target_attributes . ' class="wp-block-social-link-anchor">';
@@ -101,7 +155,7 @@ class Social_Link extends PRC_Block_Library {
 	 * @return void
 	 * @throws LogicException
 	 */
-	public function register_frontend_assets() {
+	public function enqueue_frontend_assets() {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		//@TODO We need to check for the old social link and dequeue its assets before enqueing these.
