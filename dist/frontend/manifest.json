@@ -41,8 +41,8 @@
   "runtime.js.map": "frontend/runtime-83e71da2.js.map",
   "social-link.css": "frontend/social-link-d2ddc4eb.css",
   "social-link.css.map": "frontend/social-link-d2ddc4eb.css.map",
-  "social-link.js": "frontend/social-link-f692e590.js",
-  "social-link.js.map": "frontend/social-link-f692e590.js.map",
+  "social-link.js": "frontend/social-link-6d2a105b.js",
+  "social-link.js.map": "frontend/social-link-6d2a105b.js.map",
   "story-item.js": "frontend/story-item-43af82b1.js",
   "story-item.js.map": "frontend/story-item-43af82b1.js.map",
   "table-of-contents.css": "frontend/table-of-contents-e9fa0a83.css",
@@ -282,11 +282,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/social-link-f692e590.js"
+          "frontend/social-link-6d2a105b.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/social-link-f692e590.js.map"
+          "frontend/social-link-6d2a105b.js.map"
         ],
         "css": [
           "frontend/social-link-d2ddc4eb.css"
