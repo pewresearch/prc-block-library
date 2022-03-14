@@ -12,6 +12,17 @@
 		margin-right: auto;
 		max-width: var(--cover-content-width);
 	}
+	// We don't want to apply these text styles to snap-group covers.
+	&:not(.is-style-snap-groups) {
+		.wp-block-prc-block-post-bylines,
+		.wp-block-post-date,
+		.wp-block-post-title {
+			text-shadow: 0px 1px 2px rgba(0,0,0,.8);
+			&.has-text-color a {
+				color: inherit;
+			}
+		}
+	}
 }
 
 // Collapse cover block on mobile
@@ -20,6 +31,11 @@
 		flex-direction: column!important;
 		margin-bottom: 0; // The content inside should provide its own bottom margin.
 		min-height: auto!important;
+		.wp-block-prc-block-post-bylines,
+		.wp-block-post-date,
+		.wp-block-post-title {
+			text-shadow: none!important;
+		}
 		&[style] {
 			min-height: auto!important;
 		}
@@ -39,12 +55,15 @@
 		.wp-block-cover__inner-container {
 			padding-top: 1em;
 			.wp-block-post-title {
-				font-size: 36px;
-				line-height: 115%;
+				font-size: 36px!important;
+				line-height: 115%!important;
 			}
-		}
-		.wp-block-cover__inner-container > [class*="wp-block-"]:last-child {
-			margin-bottom: 0!important;
+			& > [class*="wp-block-"] {
+				margin-bottom: 10px;
+				&:last-child {
+					margin-bottom: 0!important;
+				}
+			}
 		}
 		.wp-block-cover__background,
 		.wp-block-spacer {
