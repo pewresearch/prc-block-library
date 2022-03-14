@@ -38,6 +38,10 @@
 		}
 		.wp-block-cover__inner-container {
 			padding-top: 1em;
+			.wp-block-post-title {
+				font-size: 36px;
+				line-height: 115%;
+			}
 		}
 		.wp-block-cover__inner-container > [class*="wp-block-"]:last-child {
 			margin-bottom: 0!important;
