@@ -4,6 +4,11 @@
 import domReady from '@wordpress/dom-ready';
 import { registerBlockStyle } from '@wordpress/blocks';
 
+/**
+ * Internal Dependencies
+ */
+import './style.scss';
+
 registerBlockStyle('core/paragraph', [
 	{
 		name: '',
