@@ -206,7 +206,7 @@ const GroupBlockAdvancedControls = createHigherOrderComponent((BlockEdit) => {
 						label={__('Responsive Threshold')}
 						value={responsiveThreshold}
 						onChange={(val) => setAttributes({ responsiveThreshold: val })}
-						max={1400}
+						max={2000}
 						min={320}
 						isDragEnabled
 					/>
