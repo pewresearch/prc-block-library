@@ -19,6 +19,7 @@
 	.wp-block-cover:not(.is-style-snap-groups) {
 		flex-direction: column!important;
 		margin-bottom: 0; // The content inside should provide its own bottom margin.
+		min-height: auto!important;
 		&[style] {
 			min-height: auto!important;
 		}
@@ -29,8 +30,14 @@
 			max-width: calc(100% + 2em)!important;
 			width: calc(100% + 2em)!important;
 		}
+		.has-text-align-center {
+			text-align: left!important;
+		}
 		.has-text-color {
 			color: inherit!important;
+		}
+		.wp-block-cover__inner-container {
+			padding-top: 1em;
 		}
 		.wp-block-cover__inner-container > [class*="wp-block-"]:last-child {
 			margin-bottom: 0!important;

@@ -7,6 +7,8 @@ import { createHigherOrderComponent } from '@wordpress/compose';
 import { addFilter } from '@wordpress/hooks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { TextControl, PanelBody } from '@wordpress/components';
+import { registerBlockVariation } from '@wordpress/blocks';
+import { Path, SVG } from '@wordpress/primitives';
 
 const SocialLinksControls = createHigherOrderComponent((BlockEdit) => {
     return (props) => {
@@ -37,3 +39,26 @@ const SocialLinksControls = createHigherOrderComponent((BlockEdit) => {
     };
 }, 'withSocialLinksExtraControls');
 addFilter('editor.BlockEdit', 'prc-block/social-links', SocialLinksControls, 21);
+
+// registerBlockVariation('core/social-link', {
+// 	name: 'whatsapp',
+// 	title: __('WhatsApp'),
+// 	attributes: {
+// 		service: 'whatsapp',
+// 	},
+// 	icon: () => {
+
+// 	}
+// });
+
+
+// registerBlockVariation('core/social-link', {
+// 	name: 'print',
+// 	title: __('Print'),
+// 	attributes: {
+// 		service: 'print',
+// 	},
+// 	icon: () => {
+
+// 	}
+// });
