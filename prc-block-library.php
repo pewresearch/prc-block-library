@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
 define( 'PRC_BLOCK_LIBRARY_FILE', __FILE__ );
+define( 'PRC_BLOCK_LIBRARY_DIR', __DIR__ );
 
 class PRC_Block_Library {
 	/**
@@ -94,6 +95,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-date/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-sub-title/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo-rotator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/pullquote/index.php';

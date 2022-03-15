@@ -51,6 +51,7 @@ const watchChapters = (block) => {
 }
 
 const initSmoothScrollClickHandler = elm => {
+	const groupElm = elm.parentElement;
 	const links = elm.querySelectorAll('a.item');
 	links.forEach(link => {
 		link.addEventListener('click', (e) => {
@@ -62,9 +63,12 @@ const initSmoothScrollClickHandler = elm => {
 				if (target) {
 					const offset = target.offsetTop;
 					window.scrollTo({
-						top: offset,
+						top: (offset - 80), // Gives us some space
 						behavior: 'smooth'
 					});
+					if (groupElm.classList.contains('mobile-toc') && groupElm.classList.contains('is-open')) {
+						groupElm.classList.remove('is-open');
+					}
 				}
 			}
 		});

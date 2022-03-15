@@ -47,8 +47,8 @@
   "story-item.js.map": "frontend/story-item-43af82b1.js.map",
   "table-of-contents.css": "frontend/table-of-contents-e9fa0a83.css",
   "table-of-contents.css.map": "frontend/table-of-contents-e9fa0a83.css.map",
-  "table-of-contents.js": "frontend/table-of-contents-f26e7e7c.js",
-  "table-of-contents.js.map": "frontend/table-of-contents-f26e7e7c.js.map",
+  "table-of-contents.js": "frontend/table-of-contents-de7055cb.js",
+  "table-of-contents.js.map": "frontend/table-of-contents-de7055cb.js.map",
   "tabs-controller.js": "frontend/tabs-controller-b51dfdc7.js",
   "tabs-controller.js.map": "frontend/tabs-controller-b51dfdc7.js.map",
   "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-991e1d60.js",
@@ -324,11 +324,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/table-of-contents-f26e7e7c.js"
+          "frontend/table-of-contents-de7055cb.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/table-of-contents-f26e7e7c.js.map"
+          "frontend/table-of-contents-de7055cb.js.map"
         ],
         "css": [
           "frontend/table-of-contents-e9fa0a83.css"
