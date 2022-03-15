@@ -27,6 +27,7 @@
 	"usesContext": ["prc-block/menu"],
 	"supports": {
 		"reusable": false,
-		"html": false
+		"html": false,
+		"inserter": false,
 	}
 }

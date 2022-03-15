@@ -13,5 +13,8 @@
 			"type": "integer",
 			"default": 3
 		}
+	},
+	"supports": {
+		"inserter": false
 	}
 }

@@ -9,6 +9,7 @@
     },
     "supports": {
         "html": false,
-        "multiple": false
+        "multiple": false,
+		"inserter": false
     }
 }
