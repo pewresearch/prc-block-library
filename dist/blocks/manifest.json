@@ -137,8 +137,8 @@
   "story-item.js.map": "blocks/story-item-f557a036.js.map",
   "table-of-contents.css": "blocks/table-of-contents-e9fa0a83.css",
   "table-of-contents.css.map": "blocks/table-of-contents-e9fa0a83.css.map",
-  "table-of-contents.js": "blocks/table-of-contents-a16ff9a9.js",
-  "table-of-contents.js.map": "blocks/table-of-contents-a16ff9a9.js.map",
+  "table-of-contents.js": "blocks/table-of-contents-457c1acd.js",
+  "table-of-contents.js.map": "blocks/table-of-contents-457c1acd.js.map",
   "table.js": "blocks/table-1c9b6bd1.js",
   "table.js.map": "blocks/table-1c9b6bd1.js.map",
   "tabs-controller.css": "blocks/tabs-controller-b90c64c0.css",
@@ -902,11 +902,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/table-of-contents-a16ff9a9.js"
+          "blocks/table-of-contents-457c1acd.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/table-of-contents-a16ff9a9.js.map"
+          "blocks/table-of-contents-457c1acd.js.map"
         ],
         "css": [
           "blocks/table-of-contents-e9fa0a83.css"

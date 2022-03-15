@@ -24,8 +24,8 @@ registerBlockType(name, { ...metadata, ...settings });
 // Register block variations for complete TOC sidebar widgets.
 registerBlockVariation('core/group', {
     name: 'toc',
-    title: __('Table of Contents Sidebar'),
-    description: __('A Group block in the "alt-card" format with a table of contents list.'),
+    title: __('Table of Contents Widget'),
+    description: __('A Group block in the "alt-card" format with a table of contents list set to show the current chapter.'),
     attributes: {
         className: 'is-style-card-alt',
     },
@@ -42,7 +42,9 @@ registerBlockVariation('core/group', {
         ],
 		[
             'prc-block/table-of-contents',
-            {},
+            {
+				showCurrentChapter: true,
+			},
         ],
     ],
 });
@@ -50,10 +52,11 @@ registerBlockVariation('core/group', {
 registerBlockVariation('core/group', {
     name: 'toc-sticky',
     title: __('Table of Contents Sticky Sidebar'),
-    description: __('A Group block in the "alt-card" format with a table of contents list.'),
+    description: __('A Group block in the "alt-card" format with a table of contents list that is sticky, watches for the current chapter, and collapses at 480px.'),
     attributes: {
         className: 'is-style-card-alt',
 		isSticky: true,
+		responsiveThreshold: 480,
     },
     innerBlocks: [
         [
@@ -68,7 +71,9 @@ registerBlockVariation('core/group', {
         ],
 		[
             'prc-block/table-of-contents',
-            {},
+            {
+				showCurrentChapter: true,
+			},
         ],
     ],
 });

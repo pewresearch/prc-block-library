@@ -50,6 +50,27 @@ const watchChapters = (block) => {
 	}
 }
 
+const initSmoothScrollClickHandler = elm => {
+	const links = elm.querySelectorAll('a.item');
+	links.forEach(link => {
+		link.addEventListener('click', (e) => {
+			const href = link.getAttribute('href');
+			// If the link is a hash link, we need to smooth scroll to the hash.
+			if (href.indexOf('#') === 0) {
+				e.preventDefault();
+				const target = document.getElementById(href.replace('#', ''));
+				if (target) {
+					const offset = target.offsetTop;
+					window.scrollTo({
+						top: offset,
+						behavior: 'smooth'
+					});
+				}
+			}
+		});
+	});
+}
+
 const initMobileClickHandler = elm => {
 	const groupElm = elm.parentElement;
 	const titleElm = groupElm.querySelector('h3');
@@ -152,6 +173,8 @@ domReady(() => {
 			if ( block.getAttribute('data-show-current-chapter') ) {
 				watchChapters(block);
 			}
+
+			initSmoothScrollClickHandler(block);
 
 			initMobileClickHandler(block);
 
