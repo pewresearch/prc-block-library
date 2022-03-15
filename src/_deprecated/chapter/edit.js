@@ -113,7 +113,7 @@ const edit = ({ attributes, className, setAttributes }) => {
 		// Only run once.
 		if ( true !== window.prcBlocksLegacyChapterWarning ) {
 			window.prcBlocksLegacyChapterWarning = true;
-			alert('Legacy PRC Chapter block detected! Please click on the PRC Chapter blocks in this document and conver them to Heading blocks.');
+			alert('Legacy PRC Chapter block detected! Please click on the PRC Chapter blocks in this document and convert them to Heading blocks.');
 		}
 	},[]);
     return (

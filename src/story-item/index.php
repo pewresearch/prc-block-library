@@ -306,7 +306,8 @@ class PRC_Story_Item extends PRC_Block_Library {
 
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
-		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : $post->post_excerpt;
+		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
+		$excerpt     = false === $excerpt && property_exists($post, 'excerpt') && !empty($post->excerpt) ? $post->excerpt : false;
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? 'research-areas' === $attributes['metaTaxonomy'] : false,

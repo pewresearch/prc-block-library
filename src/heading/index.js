@@ -153,5 +153,6 @@ registerBlockVariation('core/heading', {
 	icon: 'editor-ol',
     attributes: {
         isChapter: true,
+		level: 3,
     },
 });

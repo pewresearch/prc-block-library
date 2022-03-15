@@ -64,7 +64,7 @@ class Table_of_Contents extends PRC_Block_Library {
 					$needs_migration = true;
 					$results[] = array(
 						'id' => $array['attrs']['id'],
-						'icon' => $array['attrs']['icon'],
+						'icon' => false,
 						'content' => wp_strip_all_tags( $array['attrs']['value'] ),
 					);
 				}

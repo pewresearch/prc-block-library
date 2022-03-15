@@ -41,8 +41,8 @@
   "group.js.map": "blocks/group-fe2604b2.js.map",
   "heading.css": "blocks/heading-c24f58d5.css",
   "heading.css.map": "blocks/heading-c24f58d5.css.map",
-  "heading.js": "blocks/heading-87e8e469.js",
-  "heading.js.map": "blocks/heading-87e8e469.js.map",
+  "heading.js": "blocks/heading-81e89057.js",
+  "heading.js.map": "blocks/heading-81e89057.js.map",
   "image.css": "blocks/image-dc8ceaa2.css",
   "image.css.map": "blocks/image-dc8ceaa2.css.map",
   "image.js": "blocks/image-d64285e1.js",
@@ -137,8 +137,8 @@
   "story-item.js.map": "blocks/story-item-f557a036.js.map",
   "table-of-contents.css": "blocks/table-of-contents-e9fa0a83.css",
   "table-of-contents.css.map": "blocks/table-of-contents-e9fa0a83.css.map",
-  "table-of-contents.js": "blocks/table-of-contents-457c1acd.js",
-  "table-of-contents.js.map": "blocks/table-of-contents-457c1acd.js.map",
+  "table-of-contents.js": "blocks/table-of-contents-5c5a0b7a.js",
+  "table-of-contents.js.map": "blocks/table-of-contents-5c5a0b7a.js.map",
   "table.js": "blocks/table-1c9b6bd1.js",
   "table.js.map": "blocks/table-1c9b6bd1.js.map",
   "tabs-controller.css": "blocks/tabs-controller-b90c64c0.css",
@@ -400,13 +400,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-e9a3e70e.js",
           "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-e688ace7.js",
-          "blocks/heading-87e8e469.js"
+          "blocks/heading-81e89057.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~heading~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-~f1ae07c1-e9a3e70e.js.map",
           "blocks/default~heading~menu-link~popular-listing~promo~staff-listing~topic-index-categorized~topic-index-co~5b03add3-e688ace7.js.map",
-          "blocks/heading-87e8e469.js.map"
+          "blocks/heading-81e89057.js.map"
         ],
         "css": [
           "blocks/heading-c24f58d5.css"
@@ -902,11 +902,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/table-of-contents-457c1acd.js"
+          "blocks/table-of-contents-5c5a0b7a.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/table-of-contents-457c1acd.js.map"
+          "blocks/table-of-contents-5c5a0b7a.js.map"
         ],
         "css": [
           "blocks/table-of-contents-e9fa0a83.css"

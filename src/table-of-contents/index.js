@@ -28,6 +28,7 @@ registerBlockVariation('core/group', {
     description: __('A Group block in the "alt-card" format with a table of contents list set to show the current chapter.'),
     attributes: {
         className: 'is-style-card-alt',
+		responsiveThreshold: 640,
     },
     innerBlocks: [
         [
@@ -57,6 +58,7 @@ registerBlockVariation('core/group', {
         className: 'is-style-card-alt',
 		isSticky: true,
 		responsiveThreshold: 480,
+		align: 'left'
     },
     innerBlocks: [
         [
