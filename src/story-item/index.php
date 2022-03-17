@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.7';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'hw712had081bzh32112yz';
+	public static $cache_invalidate   = 'pt71912asy1ad081bzhxro012yz';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -125,9 +125,13 @@ class PRC_Story_Item extends PRC_Block_Library {
 	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
 	 * @return string
 	 */
-	private function get_label( int $post_id, $reasearch_areas = false, $disabled = false ) {
+	private function get_label( int $post_id, $post_type = false, $reasearch_areas = false, $disabled = false ) {
 		if ( $disabled ) {
 			return '';
+		}
+		do_action('qm/debug', 'story_item get_label = ' . $post_type);
+		if ( false !== $post_type && 'dataset' ) {
+			return 'Dataset';
 		}
 		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
@@ -310,6 +314,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$excerpt     = false === $excerpt && property_exists($post, 'excerpt') && !empty($post->excerpt) ? $post->excerpt : false;
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
+			$post_type,
 			array_key_exists( 'metaTaxonomy', $attributes ) ? 'research-areas' === $attributes['metaTaxonomy'] : false,
 			array_key_exists( 'metaTaxonomy', $attributes ) && 'disabled' === $attributes['metaTaxonomy'] ? true : false
 		);
