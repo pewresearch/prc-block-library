@@ -1,6 +1,6 @@
 {
-  "chapter.js": "deprecated/chapter-c61c560d.js",
-  "chapter.js.map": "deprecated/chapter-c61c560d.js.map",
+  "chapter.js": "deprecated/chapter-8f60eff1.js",
+  "chapter.js.map": "deprecated/chapter-8f60eff1.js.map",
   "post-publish-date.js": "deprecated/post-publish-date-e880ede1.js",
   "post-publish-date.js.map": "deprecated/post-publish-date-e880ede1.js.map",
   "post-title.js": "deprecated/post-title-0827382c.js",
@@ -11,18 +11,18 @@
   "social-link-frontend.js.map": "deprecated/social-link-frontend-6e011634.js.map",
   "social-link.js": "deprecated/social-link-94170ab6.js",
   "social-link.js.map": "deprecated/social-link-94170ab6.js.map",
-  "vendors~social-link.js": "deprecated/vendors~social-link-2671c400.js",
-  "vendors~social-link.js.map": "deprecated/vendors~social-link-2671c400.js.map",
+  "vendors~social-link.js": "deprecated/vendors~social-link-0b1efc44.js",
+  "vendors~social-link.js.map": "deprecated/vendors~social-link-0b1efc44.js.map",
   "wpackioEp": {
     "chapter": {
       "assets": {
         "js": [
           "deprecated/runtime-f8ea246f.js",
-          "deprecated/chapter-c61c560d.js"
+          "deprecated/chapter-8f60eff1.js"
         ],
         "js.map": [
           "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/chapter-c61c560d.js.map"
+          "deprecated/chapter-8f60eff1.js.map"
         ]
       }
     },
@@ -54,12 +54,12 @@
       "assets": {
         "js": [
           "deprecated/runtime-f8ea246f.js",
-          "deprecated/vendors~social-link-2671c400.js",
+          "deprecated/vendors~social-link-0b1efc44.js",
           "deprecated/social-link-94170ab6.js"
         ],
         "js.map": [
           "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/vendors~social-link-2671c400.js.map",
+          "deprecated/vendors~social-link-0b1efc44.js.map",
           "deprecated/social-link-94170ab6.js.map"
         ]
       }
