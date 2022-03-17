@@ -159,7 +159,7 @@ class Group_Block extends PRC_Block_Library {
 		<!-- /wp:group -->
 		<?php
 		$block_content = ob_get_clean();
-		$block_content = wp_sprintf( $block_content, $content );
+		$block_content = wp_sprintf( $block_content, do_shortcode( $content ) );
 		$callout_block = parse_blocks( $block_content );
 		$callout_block = render_block( $callout_block[1] );
 		return $callout_block;

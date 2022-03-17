@@ -152,7 +152,7 @@ class Grid_Block extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		unregister_block_type('core/columns');
+		// unregister_block_type('core/columns');
 
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
