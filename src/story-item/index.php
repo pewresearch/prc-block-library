@@ -129,7 +129,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 		if ( $disabled ) {
 			return '';
 		}
-		do_action('qm/debug', 'story_item get_label = ' . $post_type);
 		if ( false !== $post_type && 'dataset' ) {
 			return 'Dataset';
 		}
