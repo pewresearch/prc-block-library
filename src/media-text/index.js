@@ -13,7 +13,7 @@ addFilter('blocks.registerBlockType', 'prc-block/media-text', settings => {
         return settings;
     }
 
-    if ('undefined' !== typeof settings.supports.align) {
+    if ('undefined' !== typeof settings.supports && 'undefined' !== typeof settings.supports.align) {
         settings.supports.align = ['left', 'right', 'wide', 'full'];
     }
 

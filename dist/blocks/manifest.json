@@ -63,8 +63,8 @@
   "mailchimp-select.js.map": "blocks/mailchimp-select-e92f19f7.js.map",
   "media-text.css": "blocks/media-text-3ba37d71.css",
   "media-text.css.map": "blocks/media-text-3ba37d71.css.map",
-  "media-text.js": "blocks/media-text-90a479ee.js",
-  "media-text.js.map": "blocks/media-text-90a479ee.js.map",
+  "media-text.js": "blocks/media-text-5bc913a6.js",
+  "media-text.js.map": "blocks/media-text-5bc913a6.js.map",
   "menu-link.js": "blocks/menu-link-8e1cc1a3.js",
   "menu-link.js.map": "blocks/menu-link-8e1cc1a3.js.map",
   "menu.css": "blocks/menu-d0f59c57.css",
@@ -524,11 +524,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/media-text-90a479ee.js"
+          "blocks/media-text-5bc913a6.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/media-text-90a479ee.js.map"
+          "blocks/media-text-5bc913a6.js.map"
         ],
         "css": [
           "blocks/media-text-3ba37d71.css"
