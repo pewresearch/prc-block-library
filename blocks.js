@@ -22,7 +22,6 @@ const files = [
             'mailchimp-form': './src/mailchimp-form/index.js',
 			'mailchimp-opt-down': './src/mailchimp-opt-down/index.js',
             'mailchimp-select': './src/mailchimp-select/index.js',
-			'media-text': './src/media-text/index.js',
             menu: './src/menu/index.js',
             'menu-link': './src/menu-link/index.js',
             page: './src/page/index.js',
