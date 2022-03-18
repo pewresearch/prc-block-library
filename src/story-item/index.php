@@ -129,7 +129,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 		if ( $disabled ) {
 			return '';
 		}
-		if ( false !== $post_type && 'dataset' ) {
+		if ( false !== $post_type && 'dataset' === $post_type ) {
 			return 'Dataset';
 		}
 		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
