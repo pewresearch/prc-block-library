@@ -9,6 +9,14 @@ class Media_Text extends PRC_Block_Library {
 		}
 	}
 
+	public function modify_align_settings(array $settings, array $metadata) {
+		if ( 'core/media-text' !== $metadata['name'] ) {
+			return $settings;
+ 		}
+		 // $settings['supports']['align'] = [ 'left', 'wide', 'full', 'right' ];
+		return $settings;
+	}
+
 	public function enqueue_frontend_assets() {
 		$ver = parent::$version;
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', $ver, 'plugin', parent::$plugin_file );
