@@ -49,12 +49,12 @@ body.admin-bar .prc-group-block--sticky.sticky {
 		border-top: 1px solid $relaxedBorder;
 
 		p {
-			font-family: var(--wp--presets--font-family--sans-serif);
+			font-family: var(--wp--preset--font-family--sans-serif);
 			font-size: 14px;
 		}
 
 		.wp-block-group__inner-container ul li {
-			font-family: var(--wp--presets--font-family--sans-serif) !important;
+			font-family: var(--wp--preset--font-family--sans-serif) !important;
 			font-size: 13px;
 		}
 	}
