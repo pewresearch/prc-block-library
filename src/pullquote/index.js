@@ -26,12 +26,14 @@ addFilter(
 				align: [ 'left', 'right', 'wide' ],
 				typography: {
 					fontSize: true,
+					lineHeight: true,
 					"__experimentalFontStyle": false,
 					"__experimentalFontWeight": false,
 					"__experimentalLetterSpacing": false,
 					"__experimentalTextTransform": false,
 					"__experimentalDefaultControls": {
 						fontSize: true,
+						lineHeight: true,
 						fontAppearance: false
 					}
 				},
