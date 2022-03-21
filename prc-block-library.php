@@ -44,7 +44,7 @@ class PRC_Block_Library {
 	 *
 	 * @var string
 	 */
-	public static $version = '2.1.13e';
+	public static $version = '2.1.13f';
 
 	/**
 	 * Registered wpackio assets

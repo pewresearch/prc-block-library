@@ -1223,10 +1223,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pewresearch/pew-chart-builder@^0.4.28":
-  version "0.4.28"
-  resolved "https://npm.pkg.github.com/download/@pewresearch/pew-chart-builder/0.4.28/2052ca1e04c65192de8125150b89a2aad3df08d3b22f160ce082212ebb873572#9af28855c70e5cfffe179ab939d39b96655010be"
-  integrity sha512-wUalBSSwRCqxgutI1bwCu090eDWNPcPkb6N9jguSgomMEBylsXv0jAlSnKNpSjWMzMISz/eyPaJMaAr579PP6A==
+"@pewresearch/pew-chart-builder@^0.4.31":
+  version "0.4.31"
+  resolved "https://npm.pkg.github.com/download/@pewresearch/pew-chart-builder/0.4.31/dbc5d695b3b9549475ff7065c56df40d7216d2bad8448ed61b25e7f579c930cc#3d8671f4d8a163d1a2dbc3ab3c26405a9cebbbb2"
+  integrity sha512-1pLEsrrBOmB3/EWFP5WsT31Y8cKgpXoRgqHIVqRuLjuh/ZGCfyLSbgMLoES5xoKDyPvcWFUaU+UHwv2xtGU6mw==
   dependencies:
     "@wordpress/element" "^2.18.0"
     "@wordpress/i18n" "^3.18.0"

@@ -42,7 +42,7 @@
 	"dependencies": {
 		"@emotion/react": "^11.7.0",
 		"@emotion/styled": "^11.6.0",
-		"@pewresearch/pew-chart-builder": "^0.4.28",
+		"@pewresearch/pew-chart-builder": "^0.4.31",
 		"@vimeo/player": "^2.16.3",
 		"@wordpress/icons": "^6.1.1",
 		"@wpackio/entrypoint": "^6.3.0",
