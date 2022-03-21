@@ -16,7 +16,7 @@ class PRC_Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.7';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'pt71912asy1ad081bzhxro012yz';
+	public static $cache_invalidate   = 'jlasdfnaas8213127tad1';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -330,8 +330,9 @@ class PRC_Story_Item extends PRC_Block_Library {
 		$image_slot = empty($image_slot) ? false : $image_slot;
 		$image_slot = false !== $image_slot && $is_in_loop ? 'left' : $image_slot;
 		if ( $is_mobile ) {
+			// Default to top for mobile...
 			$image_slot = false !== $image_slot ? 'top' : false;
-			$image_slot = $is_in_loop && in_array( $image_slot, array( 'left', 'right' ) ) ? 'right' : $image_slot;
+			$image_slot = $is_in_loop && !in_array( $image_slot, array( 'disabled', false ) ) ? 'right' : $image_slot;
 			do_action('qm/debug', 'mobile image... ' . print_r($image_slot, true));
 		}
 		// Set the image size to A1 on mobile, if its in a loop then set it to A3, otherwise deliver whats set in the attributes.
