@@ -16,29 +16,17 @@ import './style.scss';
  * @return {Object} settings Modified settings.
  */
 
-addFilter(
-	'blocks.registerBlockType',
-	'core/pullquote',
-	(settings) => {
-		//check if object exists for old Gutenberg version compatibility
-		if( 'core/pullquote' === settings.name && typeof settings.supports !== 'undefined' ){
-			settings.supports = Object.assign( settings.supports, {
-				align: [ 'left', 'right', 'wide' ],
-				typography: {
-					fontSize: true,
-					lineHeight: true,
-					"__experimentalFontStyle": false,
-					"__experimentalFontWeight": false,
-					"__experimentalLetterSpacing": false,
-					"__experimentalTextTransform": false,
-					"__experimentalDefaultControls": {
-						fontSize: true,
-						lineHeight: true,
-						fontAppearance: false
-					}
-				},
-			});
-		}
-		return settings;
-	}
-);
+// addFilter(
+// 	'blocks.registerBlockType',
+// 	'core/pullquote',
+// 	(settings) => {
+// 		//check if object exists for old Gutenberg version compatibility
+// 		if( 'core/pullquote' === settings.name && typeof settings.supports !== 'undefined' ){
+// 			settings.supports = Object.assign( settings.supports, {
+// 				align: [ 'left', 'right', 'wide' ],
+
+// 			});
+// 		}
+// 		return settings;
+// 	}
+// );
