@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/react-in-jsx-scope */
 /**
  * WordPress dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { render, Fragment } from '@wordpress/element';
+import { render } from '@wordpress/element';
 import { addQueryArgs } from '@wordpress/url';
 
 /**
@@ -62,7 +64,7 @@ const getConfig = (el) => {
 			),
 			padding: 50,
 			tickCount: attr.xTickNum,
-			tickValues: xTicks.length <= 1 ? null : getTicks(xTicks, xScale),
+			tickValues: 1 >= xTicks.length ? null : getTicks(xTicks, attr.xScale),
 			tickUnit: attr.xTickUnit,
 			tickUnitPosition: attr.xTickUnitPosition,
 			tickAngle: attr.xTickAngle,
@@ -91,7 +93,7 @@ const getConfig = (el) => {
 			dateFormat: attr.yScaleFormat,
 			padding: 20,
 			tickCount: attr.yTickNum,
-			tickValues: yTicks.length <= 1 ? null : yTicks,
+			tickValues: 1 >= yTicks.length ? null : yTicks,
 			tickUnit: attr.yTickUnit,
 			tickUnitPosition: attr.yTickUnitPosition,
 			tickAngle: attr.yTickAngle,
@@ -139,6 +141,8 @@ const getConfig = (el) => {
 			format: attr.tooltipFormat,
 			offsetX: attr.tooltipOffsetX,
 			offsetY: attr.tooltipOffsetY,
+			maxWidth: attr.tooltipMaxWidth,
+			maxHeight: attr.tooltipMaxHeight,
 			caretPosition: attr.tooltipCaretPosition,
 		},
 		animate: {
@@ -149,7 +153,7 @@ const getConfig = (el) => {
 			...masterConfig.line,
 			interpolation: attr.lineInterpolation,
 			showPoints: attr.lineNodes,
-			showArea: attr.chartType === 'area' ? true : false,
+			showArea: 'area' === attr.chartType,
 			strokeWidth: attr.lineStrokeWidth,
 			pointSize: attr.nodeSize,
 			pointStrokeWidth: attr.nodeStroke,
@@ -192,23 +196,10 @@ const getConfig = (el) => {
 			labelUnitPosition: attr.labelUnitPosition,
 			labelBarPosition: attr.barLabelPosition,
 			labelCutoff:
-				attr.barLabelPosition === 'inside' ? attr.barLabelCutoff : null,
+				'inside' === attr.barLabelPosition ? attr.barLabelCutoff : null,
 			labelCutoffMobile:
-				attr.barLabelPosition === 'inside'
-					? attr.barLabelCutoffMobile
-					: null,
+				'inside' === attr.barLabelPosition ? attr.barLabelCutoffMobile : null,
 			pieLabelRadius: 60,
-		},
-		legend: {
-			...masterConfig.legend,
-			active: attr.legendActive,
-			orientation: attr.legendOrientation,
-			title: attr.legendTitle,
-			offsetX: attr.legendOffsetX,
-			offsetY: attr.legendOffsetY,
-			markerStyle: attr.legendMarkerStyle,
-			borderStroke: attr.legendBorderStroke,
-			fill: attr.legendFill,
 		},
 		metadata: {
 			...masterConfig.metadata,
@@ -220,36 +211,36 @@ const getConfig = (el) => {
 			tag: attr.metaTag,
 		},
 		colors:
-			attr.customColors.length > 0
+			0 < attr.customColors.length
 				? attr.customColors
 				: colorObj[attr.colorValue],
 	};
 	return config;
 };
 
-//this feels redundant for the formatter function in helpers.js, but we need to mod slightly because the param is an array
+// this feels redundant for the formatter function in helpers.js, but we need to mod slightly because the param is an array
 const arrayToDataObj = (arr, scale, chartType) => {
 	const headers = arr[0];
 	const [, ...categories] = headers;
 	const [, ...body] = arr;
 	const seriesData = [];
-	const scaleData = (data, scale) => {
+	const scaleData = (data, s) => {
 		if (
-			chartType === 'bar' ||
-			chartType === 'stacked-bar' ||
-			chartType === 'pie' ||
-			chartType === 'dot-plot'
+			'bar' === chartType ||
+			'stacked-bar' === chartType ||
+			'pie' === chartType ||
+			'dot-plot' === chartType
 		) {
 			return data;
 		}
-		if (scale === 'time') {
+		if ('time' === s) {
 			return new Date(data).getTime();
 		}
 		return parseFloat(data);
 	};
-	for (let i = 1; i < headers.length; i++) {
-		var series = body
-			.filter((row) => !isNaN(parseFloat(row[i])))
+	for (let i = 1; i < headers.length; i += 1) {
+		const series = body
+			.filter((row) => !Number.isNaN(parseFloat(row[i])))
 			.map((row) => ({
 				x: scaleData(row[0], scale),
 				y: parseFloat(row[i]),
@@ -263,14 +254,11 @@ const arrayToDataObj = (arr, scale, chartType) => {
 
 const initFacebookLinks = (e, postUrl, postId, pngAttrs) => {
 	e.preventDefault();
-	const actionUrl = addQueryArgs(
-		'https://www.facebook.com/sharer/sharer.php',
-		{
-			u: pngAttrs.id
-				? `https://www.pewresearch.org/share/${postId}/${pngAttrs.id}`
-				: postUrl,
-		},
-	);
+	const actionUrl = addQueryArgs('https://www.facebook.com/sharer/sharer.php', {
+		u: pngAttrs.id
+			? `https://www.pewresearch.org/share/${postId}/${pngAttrs.id}`
+			: postUrl,
+	});
 	window.open(
 		actionUrl,
 		'fbShareWindow',
@@ -305,13 +293,13 @@ const renderCharts = () => {
 		const renderEl = chart.querySelector('.wp-chart-builder-inner');
 		const config = getConfig(renderEl);
 		const hash = renderEl.dataset.chartHash;
-		const postId = renderEl.dataset.postId;
-		const postUrl = renderEl.dataset.postUrl;
+		const { postId } = renderEl.dataset;
+		const { postUrl } = renderEl.dataset;
 		const pngAttrs = {
 			url: window.chartConfigs[hash].pngUrl,
 			id: window.chartConfigs[hash].pngId,
 		};
-		const tabsActive = window.chartConfigs[hash].tabsActive;
+		const { tabsActive } = window.chartConfigs[hash];
 		const dataArr = window.chartData[hash];
 		const preformattedDataArr = window.chartPreformattedData[hash];
 		const dataObj = arrayToDataObj(
@@ -322,9 +310,7 @@ const renderCharts = () => {
 		config.dataRender.categories = preformattedDataArr
 			? config.dataRender.categories
 			: dataObj.categories;
-		const formattedData = preformattedDataArr
-			? preformattedDataArr
-			: dataObj.seriesData;
+		const formattedData = preformattedDataArr || dataObj.seriesData;
 		// config.layout.type === 'pie'
 		//     ? dataObj.seriesData[0]
 		//     : dataObj.seriesData;
@@ -344,10 +330,7 @@ const renderCharts = () => {
 						source={config.metadata.source}
 						tag={config.metadata.tag}
 					>
-						<ChartBuilderWrapper
-							config={config}
-							data={formattedData}
-						/>
+						<ChartBuilderWrapper config={config} data={formattedData} />
 					</ChartBuilderTextWrapper>
 				),
 			},
@@ -365,7 +348,7 @@ const renderCharts = () => {
 						</Table.Header>
 						<Table.Body>
 							{dataArr
-								.filter((row, i) => i > 0)
+								.filter((row, i) => 0 < i)
 								.map((row) => (
 									<Table.Row>
 										{row.map((cell) => (
@@ -381,15 +364,10 @@ const renderCharts = () => {
 				menuItem: 'SHARE',
 				render: () => (
 					<Container className="share-pane">
-						<div className="share-pane__prompt">
-							Share this chart:
-						</div>
+						<div className="share-pane__prompt">Share this chart:</div>
 						{pngAttrs.id && (
 							<div className="share-pane__link">
-								<a
-									href={pngAttrs.url}
-									download={`chart-${pngAttrs.id}`}
-								>
+								<a href={pngAttrs.url} download={`chart-${pngAttrs.id}`}>
 									Download as PNG
 								</a>
 							</div>
@@ -413,12 +391,7 @@ const renderCharts = () => {
 							<Button
 								color="facebook"
 								onClick={(e) => {
-									initFacebookLinks(
-										e,
-										postUrl,
-										postId,
-										pngAttrs,
-									);
+									initFacebookLinks(e, postUrl, postId, pngAttrs);
 								}}
 							>
 								<Icon name="facebook" />
@@ -429,6 +402,8 @@ const renderCharts = () => {
 				),
 			},
 		];
+		console.log({ hash, config });
+
 		if (!tabsActive) {
 			render(
 				<ChartBuilderTextWrapper
