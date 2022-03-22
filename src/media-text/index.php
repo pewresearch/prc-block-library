@@ -10,7 +10,7 @@ class Media_Text_Block extends PRC_Block_Library {
 	}
 
 	/**
-	 * Override the wp-block-pullquote style
+	 * Override the wp-block-media-text style
 	 * @return void
 	 * @throws LogicException
 	 */
