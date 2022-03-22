@@ -226,6 +226,11 @@ const edit = ({
 			grid: {
 				stroke: xGridStroke,
 			},
+			axisLabel: {
+				...masterConfig.yAxis.axisLabel,
+				fontSize: attr.xLabelFontSize,
+				padding: attr.xLabelPadding,
+			},
 		},
 		yAxis: {
 			...masterConfig.yAxis,
@@ -262,6 +267,11 @@ const edit = ({
 			},
 			grid: {
 				stroke: yGridStroke,
+			},
+			axisLabel: {
+				...masterConfig.yAxis.axisLabel,
+				fontSize: attr.yLabelFontSize,
+				padding: attr.yLabelPadding,
 			},
 		},
 		dataRender: {

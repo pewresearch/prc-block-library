@@ -85,10 +85,16 @@ const getConfig = (el) => {
 			grid: {
 				stroke: attr.xGridStroke,
 			},
+			axisLabel: {
+				...masterConfig.xAxis.axisLabel,
+				fontSize: attr.xLabelFontSize,
+				padding: attr.xLabelPadding,
+			},
 		},
 		yAxis: {
 			...yAxis,
 			active: attr.yAxisActive,
+			label: attr.yLabel,
 			scale: attr.yScale,
 			dateFormat: attr.yScaleFormat,
 			padding: 20,
@@ -122,6 +128,11 @@ const getConfig = (el) => {
 			},
 			grid: {
 				stroke: attr.yGridStroke,
+			},
+			axisLabel: {
+				...masterConfig.yAxis.axisLabel,
+				fontSize: attr.yLabelFontSize,
+				padding: attr.yLabelPadding,
 			},
 		},
 		dataRender: {
@@ -314,8 +325,6 @@ const renderCharts = () => {
 		// config.layout.type === 'pie'
 		//     ? dataObj.seriesData[0]
 		//     : dataObj.seriesData;
-		console.log({ formattedData });
-		console.log({ dataObj });
 		const panes = [
 			{
 				menuItem: 'CHART',
@@ -402,7 +411,6 @@ const renderCharts = () => {
 				),
 			},
 		];
-		console.log({ hash, config });
 
 		if (!tabsActive) {
 			render(
