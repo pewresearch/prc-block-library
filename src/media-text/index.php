@@ -10,7 +10,7 @@ class Media_Text_Block extends PRC_Block_Library {
 	}
 
 	/**
-	 * Override the wp-block-media-text style
+	 * Add inline styles to the wp-block-media-text block
 	 * @return void
 	 * @throws LogicException
 	 */
@@ -18,7 +18,7 @@ class Media_Text_Block extends PRC_Block_Library {
 		ob_start();
 		?>
 		.wp-block-media-text {
-			margin-block-end: 1.5em;
+			margin-block-end: var(--wp--custom--margin-block-end, 1.5em);
 		}
 		<?php
 		$style = ob_get_clean();
