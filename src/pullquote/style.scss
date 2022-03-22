@@ -6,6 +6,7 @@ figure.wp-block-pullquote {
 	padding: 0;
 	margin-bottom: 20px;
 	font-size: 20px;
+	line-height: 30px;
 
 	blockquote {
 		&:after {
@@ -21,7 +22,7 @@ figure.wp-block-pullquote {
 	p {
 		text-align: left;
 		font-size: inherit!important;
-		line-height: 30px!important;
+		line-height: inherit!important;
 		&:first-child:before {
 			content: "“";
 			margin-right: 4px;

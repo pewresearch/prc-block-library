@@ -105,8 +105,8 @@
   "promo.css.map": "blocks/promo-d5b15eb7.css.map",
   "promo.js": "blocks/promo-d8205da4.js",
   "promo.js.map": "blocks/promo-d8205da4.js.map",
-  "pullquote.css": "blocks/pullquote-ee182388.css",
-  "pullquote.css.map": "blocks/pullquote-ee182388.css.map",
+  "pullquote.css": "blocks/pullquote-cdd486f5.css",
+  "pullquote.css.map": "blocks/pullquote-cdd486f5.css.map",
   "pullquote.js": "blocks/pullquote-74b3327f.js",
   "pullquote.js.map": "blocks/pullquote-74b3327f.js.map",
   "query.js": "blocks/query-5b630c43.js",
@@ -749,10 +749,10 @@
           "blocks/pullquote-74b3327f.js.map"
         ],
         "css": [
-          "blocks/pullquote-ee182388.css"
+          "blocks/pullquote-cdd486f5.css"
         ],
         "css.map": [
-          "blocks/pullquote-ee182388.css.map"
+          "blocks/pullquote-cdd486f5.css.map"
         ]
       }
     },
