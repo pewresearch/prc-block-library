@@ -1,6 +1,4 @@
 <?php
-
-// Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 
 use \WPackio as WPackio;
@@ -29,7 +27,7 @@ class Pullquote_Block extends PRC_Block_Library {
 			'blocks',
 			'pullquote',
 			array(
-				'js'        => true,
+				'js'        => false,
 				'css'       => true,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
@@ -41,10 +39,6 @@ class Pullquote_Block extends PRC_Block_Library {
 		$src = array_pop( $registered['css'] )['url'];
 
 		wp_register_style( 'wp-block-pullquote', $src,  array(), $ver );
-
-		if ( is_admin() ) {
-			wp_enqueue_script( array_pop($registered['js'])['handle'] );
-		}
 	}
 }
 

@@ -6,6 +6,7 @@ figure.wp-block-pullquote {
 	padding: 0;
 	margin-bottom: 20px;
 	font-size: 20px;
+
 	blockquote {
 		&:after {
 			content: "";
@@ -16,6 +17,7 @@ figure.wp-block-pullquote {
 		padding: 24px;
 		margin: 0!important;
 	}
+
 	p {
 		text-align: left;
 		font-size: inherit!important;
@@ -32,12 +34,14 @@ figure.wp-block-pullquote {
 			}
 		}
 	}
+
 	&.has-text-align-center p {
 		text-align: center;
 	}
 	&.has-text-align-right p {
 		text-align: right;
 	}
+
 	cite,
 	.wp-block-pullquote__citation {
 		max-width: var(--max-width);
