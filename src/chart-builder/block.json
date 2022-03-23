@@ -76,6 +76,14 @@
 			"type": "string",
 			"default": null
 		},
+		"xLabelFontSize": {
+			"type": "number",
+			"default": 12
+		},
+		"xLabelPadding": {
+			"type": "number",
+			"default": 30
+		},
 		"xMinDomain": {
 			"type": "number",
 			"default": 0
@@ -163,6 +171,14 @@
 		"yLabel": {
 			"type": "string",
 			"default": null
+		},
+		"yLabelFontSize": {
+			"type": "number",
+			"default": 12
+		},
+		"yLabelPadding": {
+			"type": "number",
+			"default": 30
 		},
 		"yScale": {
 			"type": "string",
@@ -284,17 +300,25 @@
 			"type": "boolean",
 			"default": true
 		},
+		"tooltipMaxHeight": {
+			"type": "integer",
+			"default": 200
+		},
+		"tooltipMaxWidth": {
+			"type": "integer",
+			"default": 200
+		},
 		"tooltipCategoryActive": {
 			"type": "boolean",
 			"default": true
 		},
 		"tooltipOffsetX": {
 			"type": "integer",
-			"default": 50
+			"default": 100
 		},
 		"tooltipOffsetY": {
 			"type": "integer",
-			"default": 70
+			"default": 100
 		},
 		"tooltipCaretPosition": {
 			"type": "string",
@@ -394,7 +418,7 @@
 		"pngId": {
 			"type": "integer"
 		},
-		"categoryArray" : {
+		"categoryArray": {
 			"type": "array",
 			"default": []
 		}

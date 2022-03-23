@@ -106,12 +106,6 @@ const edit = ({
 		barLabelPosition,
 		barLabelCutoff,
 		barLabelCutoffMobile,
-		tooltipActive,
-		tooltipCategoryActive,
-		tooltipFormat,
-		tooltipOffsetX,
-		tooltipOffsetY,
-		tooltipCaretPosition,
 		lineInterpolation,
 		lineStrokeWidth,
 		lineNodes,
@@ -170,8 +164,7 @@ const edit = ({
 	useEffect(() => {
 		if (isConvertedChart) {
 			console.log('converting ...');
-			const legacyMeta =
-				select('core/editor').getEditedPostAttribute('meta');
+			const legacyMeta = select('core/editor').getEditedPostAttribute('meta');
 			const legacyAttrs = formatLegacyAttrs(legacyMeta, attr);
 			setAttributes(legacyAttrs);
 		}
@@ -183,11 +176,11 @@ const edit = ({
 		...masterConfig,
 		layout: {
 			...masterConfig.layout,
-			type: chartType === 'area' ? 'line' : chartType,
+			type: 'area' === chartType ? 'line' : chartType,
 			orientation: chartOrientation,
-			width: width,
-			height: height,
-			horizontalRules: horizontalRules,
+			width,
+			height,
+			horizontalRules,
 			padding: {
 				top: paddingTop,
 				right: paddingRight,
@@ -212,7 +205,7 @@ const edit = ({
 			// domain: [new Date(1970, 0), new Date(2024, 0)],
 			padding: 50,
 			tickCount: xTickNum,
-			tickValues: xTicks.length <= 1 ? null : getTicks(xTicks, xScale),
+			tickValues: 1 >= xTicks.length ? null : getTicks(xTicks, xScale),
 			tickUnit: xTickUnit,
 			tickUnitPosition: xTickUnitPosition,
 			tickAngle: xTickAngle,
@@ -233,6 +226,11 @@ const edit = ({
 			grid: {
 				stroke: xGridStroke,
 			},
+			axisLabel: {
+				...masterConfig.yAxis.axisLabel,
+				fontSize: attr.xLabelFontSize,
+				padding: attr.xLabelPadding,
+			},
 		},
 		yAxis: {
 			...masterConfig.yAxis,
@@ -248,7 +246,7 @@ const edit = ({
 				chartOrientation,
 			),
 			tickCount: yTickNum,
-			tickValues: yTicks.length <= 1 ? null : yTicks,
+			tickValues: 1 >= yTicks.length ? null : yTicks,
 			tickUnit: yTickUnit,
 			tickUnitPosition: yTickUnitPosition,
 			tickAngle: yTickAngle,
@@ -270,24 +268,31 @@ const edit = ({
 			grid: {
 				stroke: yGridStroke,
 			},
+			axisLabel: {
+				...masterConfig.yAxis.axisLabel,
+				fontSize: attr.yLabelFontSize,
+				padding: attr.yLabelPadding,
+			},
 		},
 		dataRender: {
 			...masterConfig.dataRender,
-			xScale: xScale,
+			xScale,
 			yScale: 'linear',
 			xFormat: xScaleFormat,
 			yFormat: null,
 			sortKey: 'x',
-			sortOrder: sortOrder,
+			sortOrder,
 		},
 		tooltip: {
 			...masterConfig.tooltip,
-			active: tooltipActive,
-			categoryActive: tooltipCategoryActive,
-			format: tooltipFormat,
-			offsetX: tooltipOffsetX,
-			offsetY: tooltipOffsetY,
-			caretPosition: tooltipCaretPosition,
+			active: attr.tooltipActive,
+			categoryActive: attr.tooltipCategoryActive,
+			format: attr.tooltipFormat,
+			offsetX: attr.tooltipOffsetX,
+			offsetY: attr.tooltipOffsetY,
+			maxHeight: attr.tooltipMaxHeight,
+			maxWidth: attr.tooltipMaxWidth,
+			caretPosition: attr.tooltipCaretPosition,
 		},
 		animate: {
 			active: true,
@@ -297,11 +302,11 @@ const edit = ({
 			...masterConfig.line,
 			interpolation: lineInterpolation,
 			showPoints: lineNodes,
-			showArea: chartType === 'area' ? true : false,
+			showArea: 'area' === chartType,
 			strokeWidth: lineStrokeWidth,
 			pointSize: nodeSize,
 			pointStrokeWidth: nodeStroke,
-			areaFillOpacity: areaFillOpacity,
+			areaFillOpacity,
 		},
 		scatter: {
 			pointSize: nodeSize,
@@ -327,22 +332,22 @@ const edit = ({
 			barToSpaceRatio: 0.8,
 			groupOffset: barGroupOffset,
 		},
-		colors: customColors.length > 0 ? customColors : colors[colorValue],
+		colors: 0 < customColors.length ? customColors : colors[colorValue],
 		labels: {
 			...masterConfig.labels,
 			active: labelsActive,
 			color: 'black',
 			fontWeight: 200,
 			fontSize: 12,
-			labelPositionDX: labelPositionDX,
-			labelPositionDY: labelPositionDY,
-			labelUnit: labelUnit,
-			labelUnitPosition: labelUnitPosition,
+			labelPositionDX,
+			labelPositionDY,
+			labelUnit,
+			labelUnitPosition,
 			pieLabelRadius: 60,
 			labelBarPosition: barLabelPosition,
-			labelCutoff: barLabelPosition === 'inside' ? barLabelCutoff : null,
+			labelCutoff: 'inside' === barLabelPosition ? barLabelCutoff : null,
 			labelCutoffMobile:
-				barLabelPosition === 'inside' ? barLabelCutoffMobile : null,
+				'inside' === barLabelPosition ? barLabelCutoffMobile : null,
 		},
 		metadata: {
 			...masterConfig.metadata,
@@ -354,20 +359,18 @@ const edit = ({
 			tag: metaTag,
 		},
 	};
-	const parentBlockId = select(
-		'core/block-editor',
-	).getBlockParentsByBlockName(
+	const parentBlockId = select('core/block-editor').getBlockParentsByBlockName(
 		clientId,
 		'prc-block/chart-builder-data-wrapper',
 	)[0];
 	const tableData = useSelect((select) => {
 		const tableBlock = select('core/block-editor')
 			.getBlocks(parentBlockId)
-			.find((block) => block.name === 'core/table');
+			.find((block) => 'core/table' === block.name);
 		const tableHeaders = tableBlock.attributes.head[0].cells.map(
 			(c) => c.content,
 		);
-		const body = tableBlock.attributes.body;
+		const { body } = tableBlock.attributes;
 		return { tableHeaders, body };
 	}, []);
 
@@ -376,7 +379,7 @@ const edit = ({
 	let chartData;
 	let renderedChart;
 	if (tableCategories) {
-		//Who needs splice? Use array literals to get all items in array after the first item :)
+		// Who needs splice? Use array literals to get all items in array after the first item :)
 		const [, ...rest] = tableCategories;
 		config.dataRender.categories = rest;
 	}
@@ -392,67 +395,57 @@ const edit = ({
 				chartData = tableJson;
 				break;
 		}
-		renderedChart = (
-			<ChartBuilderWrapper config={config} data={chartData} />
-		);
+		renderedChart = <ChartBuilderWrapper config={config} data={chartData} />;
 	}
 	return (
-		<>
-			<ChartBuilderTextWrapper
-				active={config.metadata.active}
-				width={config.layout.width}
-				horizontalRules={config.layout.horizontalRules}
-				title={config.metadata.title}
-				subtitle={config.metadata.subtitle}
-				note={config.metadata.note}
-				source={config.metadata.source}
-				tag={config.metadata.tag}
+		<ChartBuilderTextWrapper
+			active={config.metadata.active}
+			width={config.layout.width}
+			horizontalRules={config.layout.horizontalRules}
+			title={config.metadata.title}
+			subtitle={config.metadata.subtitle}
+			note={config.metadata.note}
+			source={config.metadata.source}
+			tag={config.metadata.tag}
+		>
+			<ResizableBox
+				size={{
+					height,
+					width,
+				}}
+				minHeight="50"
+				minWidth="50"
+				enable={{
+					top: false,
+					right: false,
+					bottom: false,
+					left: false,
+					topRight: false,
+					bottomRight: !!isSelected,
+					bottomLeft: false,
+					topLeft: false,
+				}}
+				onResizeStop={(event, direction, elt, delta) => {
+					setAttributes({
+						height: parseInt(parseInt(height) + parseInt(delta.height), 10),
+						width: parseInt(parseInt(width) + parseInt(delta.width), 10),
+					});
+					toggleSelection(true);
+				}}
+				onResizeStart={() => {
+					toggleSelection(false);
+				}}
 			>
-				<ResizableBox
-					size={{
-						height,
-						width,
-					}}
-					minHeight="50"
-					minWidth="50"
-					enable={{
-						top: false,
-						right: false,
-						bottom: false,
-						left: false,
-						topRight: false,
-						bottomRight: isSelected ? true : false,
-						bottomLeft: false,
-						topLeft: false,
-					}}
-					onResizeStop={(event, direction, elt, delta) => {
-						setAttributes({
-							height: parseInt(
-								parseInt(height) + parseInt(delta.height),
-								10,
-							),
-							width: parseInt(
-								parseInt(width) + parseInt(delta.width),
-								10,
-							),
-						});
-						toggleSelection(true);
-					}}
-					onResizeStart={() => {
-						toggleSelection(false);
-					}}
-				>
-					<ChartControls
-						attributes={attr}
-						setAttributes={setAttributes}
-						parentBlock={parentBlockId}
-						clientId={clientId}
-					/>
-					{renderedChart}
-					<canvas id="canvas" width="800" height="400"></canvas>
-				</ResizableBox>
-			</ChartBuilderTextWrapper>
-		</>
+				<ChartControls
+					attributes={attr}
+					setAttributes={setAttributes}
+					parentBlock={parentBlockId}
+					clientId={clientId}
+				/>
+				{renderedChart}
+				<canvas id="canvas" width="800" height="400" />
+			</ResizableBox>
+		</ChartBuilderTextWrapper>
 	);
 };
 
