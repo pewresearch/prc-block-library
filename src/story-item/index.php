@@ -522,7 +522,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 			<?php
 			$markup = '';
 			if ( $enable_meta ) {
-				$markup .= "<div class='meta'><span class='report label'>{$label}</span> | <span class='date'>{$date}</span></div>";
+				$markup .= '<div class="meta">';
+				if ( !empty($label) ) {
+					$markup .= "<span class='report label'>{$label}</span> | ";
+				}
+				$markup .= "<span class='date'>{$date}</span></div>";
 			}
 			if ( false !== $image_slot ) {
 				$markup .= $image_markup;
