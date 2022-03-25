@@ -8,7 +8,6 @@ class Post_Date_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ), 0 );
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		}
 	}
 
