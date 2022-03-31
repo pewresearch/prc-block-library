@@ -11,7 +11,7 @@
  * Plugin Name:       PRC Block Library
  * Plugin URI:        https://pewresearch.org
  * Description:       PRC Block Library
- * Version:           2.1.13c
+ * Version:           2.1.13
  * Requires at least: 5.4
  * Requires PHP:      7.4
  * Author:            Seth Rubenstein, Benjamin Wormald

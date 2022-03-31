@@ -204,7 +204,11 @@ class PRC_Story_Item extends PRC_Block_Library {
 				null,
 				null,
 			);
-			$image_id = attachment_url_to_postid($static_image);
+			if ( function_exists('wpcom_vip_attachment_url_to_postid') ) {
+				$image_id = wpcom_vip_attachment_url_to_postid( $static_image );
+			} else {
+				$image_id = attachment_url_to_postid($static_image);
+			}
 			do_action('qm/debug', "get_img -> static image -> " . print_r(array('imageid' => $image_id), true) );
 			if ( false != $image_id ) {
 				$imgs = array(
