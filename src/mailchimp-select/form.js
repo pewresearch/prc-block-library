@@ -18,7 +18,7 @@ import './style.scss';
 
 const CAPTCHA_SITE_KEY = '6LeotpUeAAAAACBX3-8ty2-Q1mSJIdbqBVnvHg0O';
 
-const CBox = ({ label, value, watchWord, userSelected = [], onChange }) => {
+function CBox({ label, value, watchWord, userSelected = [], onChange }) {
 	const checked =
 		(Array.isArray(value) &&
 			0 !== value.filter((e) => userSelected.includes(e)).length) ||
@@ -30,32 +30,25 @@ const CBox = ({ label, value, watchWord, userSelected = [], onChange }) => {
 			onChange={() => onChange(value)}
 		/>
 	);
-};
+}
 
-const List = ({ interests, selected, userSelected, onChange }) => {
+function List({ interests, selected, userSelected, onChange }) {
 	return (
 		<Fragment>
 			{interests
-				.filter((e) => {
-					return selected.includes(e.value);
-				})
+				.filter((e) => selected.includes(e.value))
 				.map((i, index, data) => {
 					// Get all the sub items that are selected
-					const subItems = data.filter((e) => {
-						return e.label.includes('Religion - ');
-					});
+					const subItems = data.filter((e) => e.label.includes('Religion - '));
 					// Get all the sub items values
 					const subItemsValues = subItems.map((c) => c.value);
 					// If there are subitems and this item is the first subitems value then mark true
 					const isFirstSubItem =
-						0 !== subItemsValues.length &&
-						subItemsValues[0] === i.value;
+						0 !== subItemsValues.length && subItemsValues[0] === i.value;
 					//
 					const isSubItem = subItemsValues.includes(i.value);
 
-					const label = !isSubItem
-						? i.label
-						: 'Religion & Public Life';
+					const label = !isSubItem ? i.label : 'Religion & Public Life';
 
 					return (
 						<Fragment>
@@ -82,17 +75,15 @@ const List = ({ interests, selected, userSelected, onChange }) => {
 											paddingBottom: '1.5rem',
 										}}
 									>
-										{subItems.map((d) => {
-											return (
-												<CBox
-													label={d.label}
-													value={d.value}
-													watchWord="Religion - "
-													onChange={onChange}
-													userSelected={userSelected}
-												/>
-											);
-										})}
+										{subItems.map((d) => (
+											<CBox
+												label={d.label}
+												value={d.value}
+												watchWord="Religion - "
+												onChange={onChange}
+												userSelected={userSelected}
+											/>
+										))}
 									</div>
 								</Fragment>
 							)}
@@ -101,9 +92,9 @@ const List = ({ interests, selected, userSelected, onChange }) => {
 				})}
 		</Fragment>
 	);
-};
+}
 
-const FormList = ({ interests, selected, allowSubmissions = false }) => {
+function FormList({ interests, selected, allowSubmissions = false }) {
 	const [userSelection, setSelected] = useState([]);
 	const [buttonText, changeButtonText] = useState('SIGN UP');
 	const [buttonColor, changeButtonColor] = useState('mustard');
@@ -175,8 +166,7 @@ const FormList = ({ interests, selected, allowSubmissions = false }) => {
 	const updateSelection = (s) => {
 		let tmp = userSelection;
 		if (
-			(Array.isArray(s) &&
-				0 !== s.filter((e) => tmp.includes(e)).length) ||
+			(Array.isArray(s) && 0 !== s.filter((e) => tmp.includes(e)).length) ||
 			tmp.includes(s)
 		) {
 			if (Array.isArray(s)) {
@@ -205,9 +195,7 @@ const FormList = ({ interests, selected, allowSubmissions = false }) => {
 			{0 === selected.length && (
 				<Form.Checkbox
 					disabled
-					label={__(
-						`Select Mailchimp Segment Interests In Block Settings`,
-					)}
+					label={__(`Select Mailchimp Segment Interests In Block Settings`)}
 				/>
 			)}
 			<List
@@ -262,6 +250,6 @@ const FormList = ({ interests, selected, allowSubmissions = false }) => {
 			</Form.Group>
 		</Form>
 	);
-};
+}
 
 export default FormList;
