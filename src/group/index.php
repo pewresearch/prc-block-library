@@ -110,9 +110,9 @@ class Group_Block extends PRC_Block_Library {
 			true
 		);
 
-		$is_sticky = array_key_exists('isSticky', $block['attrs']) ? $block['attrs']['isSticky'] : false;
-		$responsive_attach_id = array_key_exists('responsiveAttachId', $block['attrs']) ? $block['attrs']['responsiveAttachId'] : false;
-		$responsive_threshold = array_key_exists('responsiveThreshold', $block['attrs']) ? $block['attrs']['responsiveThreshold'] : false;
+		$is_sticky = is_array($block['attrs']) && array_key_exists('isSticky', $block['attrs']) ? $block['attrs']['isSticky'] : false;
+		$responsive_attach_id = is_array($block['attrs']) && array_key_exists('responsiveAttachId', $block['attrs']) ? $block['attrs']['responsiveAttachId'] : false;
+		$responsive_threshold = is_array($block['attrs']) && array_key_exists('responsiveThreshold', $block['attrs']) ? $block['attrs']['responsiveThreshold'] : false;
 
 		$block_content = apply_filters( 'prc_group_block_content', $block_content, $block );
 
