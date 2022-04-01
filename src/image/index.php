@@ -2,6 +2,8 @@
 use \WPackio as WPackio;
 
 class Image extends PRC_Block_Library {
+	public static $version = '1.0.0';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ) );
@@ -12,7 +14,7 @@ class Image extends PRC_Block_Library {
 	public function register_assets() {
 		wp_deregister_style( 'wp-block-image' );
 
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
@@ -29,7 +31,7 @@ class Image extends PRC_Block_Library {
 
 		$src = array_pop( $registered['css'] )['url'];
 
-		wp_register_style( 'wp-block-image', $src,  array(), $ver );
+		wp_register_style( 'wp-block-image', $src,  array(), self::$version );
 	}
 }
 
