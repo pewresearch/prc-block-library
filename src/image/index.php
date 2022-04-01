@@ -12,8 +12,7 @@ class Image extends PRC_Block_Library {
 	public function register_assets() {
 		wp_deregister_style( 'wp-block-image' );
 
-		$ver = parent::$version;
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', $ver, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', '1.0.0', 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

@@ -43,8 +43,8 @@
   "heading.css.map": "blocks/heading-c24f58d5.css.map",
   "heading.js": "blocks/heading-c1909dda.js",
   "heading.js.map": "blocks/heading-c1909dda.js.map",
-  "image.css": "blocks/image-dc8ceaa2.css",
-  "image.css.map": "blocks/image-dc8ceaa2.css.map",
+  "image.css": "blocks/image-9a4a643b.css",
+  "image.css.map": "blocks/image-9a4a643b.css.map",
   "image.js": "blocks/image-ba9ad6f6.js",
   "image.js.map": "blocks/image-ba9ad6f6.js.map",
   "livestream.css": "blocks/livestream-33a7225d.css",
@@ -427,10 +427,10 @@
           "blocks/image-ba9ad6f6.js.map"
         ],
         "css": [
-          "blocks/image-dc8ceaa2.css"
+          "blocks/image-9a4a643b.css"
         ],
         "css.map": [
-          "blocks/image-dc8ceaa2.css.map"
+          "blocks/image-9a4a643b.css.map"
         ]
       }
     },
