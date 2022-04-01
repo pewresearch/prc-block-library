@@ -45,8 +45,8 @@
   "social-link.js.map": "frontend/social-link-6d2a105b.js.map",
   "story-item.js": "frontend/story-item-f92c4e48.js",
   "story-item.js.map": "frontend/story-item-f92c4e48.js.map",
-  "table-of-contents.css": "frontend/table-of-contents-e9fa0a83.css",
-  "table-of-contents.css.map": "frontend/table-of-contents-e9fa0a83.css.map",
+  "table-of-contents.css": "frontend/table-of-contents-1b47ceab.css",
+  "table-of-contents.css.map": "frontend/table-of-contents-1b47ceab.css.map",
   "table-of-contents.js": "frontend/table-of-contents-54424efa.js",
   "table-of-contents.js.map": "frontend/table-of-contents-54424efa.js.map",
   "tabs-controller.js": "frontend/tabs-controller-b51dfdc7.js",
@@ -331,10 +331,10 @@
           "frontend/table-of-contents-54424efa.js.map"
         ],
         "css": [
-          "frontend/table-of-contents-e9fa0a83.css"
+          "frontend/table-of-contents-1b47ceab.css"
         ],
         "css.map": [
-          "frontend/table-of-contents-e9fa0a83.css.map"
+          "frontend/table-of-contents-1b47ceab.css.map"
         ]
       }
     },
