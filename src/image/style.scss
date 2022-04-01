@@ -112,7 +112,7 @@ $alignRightMargin: 5px 0px 15px 15px;
 		margin-right: auto;
 	}
 
-	.alignleft,
+	&.alignleft,
 	& > .alignleft {
 		@media only screen and (min-width: variables.$largestTabletScreen) {
 			/*rtl:ignore*/
