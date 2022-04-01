@@ -39,7 +39,7 @@ class Block_Name extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => array(),
+				'js_dep'    => array('underscore'),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
