@@ -10,8 +10,8 @@ class Grid_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
-			add_action( 'prc_core_on_publish', array( $this, 'update_featured_post_ids' ), 10, 2 );
-			add_action( 'prc_core_on_update', array( $this, 'update_featured_post_ids' ), 10, 2 );
+			// add_action( 'prc_core_on_publish', array( $this, 'update_featured_post_ids' ), 10, 2 );
+			// add_action( 'prc_core_on_update', array( $this, 'update_featured_post_ids' ), 10, 2 );
 		}
 	}
 
