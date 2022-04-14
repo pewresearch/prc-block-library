@@ -7,6 +7,6 @@ const storyItemsImageLoaded = () => {
 	});
 };
 
-window.addEventListener('load', (event) => {
+window.addEventListener('load', () => {
 	storyItemsImageLoaded();
 });

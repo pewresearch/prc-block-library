@@ -4,6 +4,8 @@
 @use "../../../../themes/prc_parent/src/scss/mixins.scss" as mixins;
 @use "sass:math";
 
+// @TODO: Redo this stylesheet using custom css vars.
+
 $mobileImageWidth: 690px;
 
 /* Header */

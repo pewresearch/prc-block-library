@@ -69,38 +69,8 @@ const getAttributesFromPost = (opts) => {
 	return storyItem;
 };
 
-const getAttributesFromURL = (opts) => {
-	const { url, imageSize } = opts;
-
-	return new Promise((resolve, reject) => {
-		apiFetch({
-			path: '/prc-api/v2/blocks/story-item/get-post-by-url',
-			method: 'POST',
-			data: { url },
-		})
-			.then((post) => {
-				console.log('getAttributesFromURL', post);
-				if (false !== post) {
-					const attrs = getAttributesFromPost({
-						post,
-						imageSize,
-						isRefresh: false,
-					});
-					resolve(attrs);
-				} else {
-					reject(post);
-				}
-			})
-			.catch((err) => {
-				console.error(err);
-				reject(err);
-			});
-	});
-};
-
 /**
- * Get the attributes for a stub, then throw a warning that a stub can not be found.
- * @TODO allow searching by post id OR url, if its by url use the above function. We need to cehck for a url and then use getAttributesFromURL.
+ * Set attributes for a story item from a stub by post id OR by url.
  *
  * @param {*} postId
  * @param {*} imageSize
@@ -112,27 +82,12 @@ const setPostAttributes = (options) => {
 	const {
 		setAttributes,
 		postId = false,
-		url = false,
 		imageSize = 'A1',
 		isRefresh = false,
 	} = options;
 
-	if ((false === postId && false === url) || undefined === setAttributes) {
+	if (false === postId || undefined === setAttributes) {
 		return;
-	}
-
-	if (false !== url) {
-		getAttributesFromURL({
-			url,
-			imageSize,
-		})
-			.then((attrs) => {
-				console.log('setPostAttributes -> by url:', attrs);
-				setAttributes(attrs);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
 	}
 
 	apiFetch({
@@ -153,6 +108,4 @@ const setPostAttributes = (options) => {
 		.catch((err) => console.error(err));
 };
 
-const resetAttributes = (options) => {};
-
-export { setArtBySize, setPostAttributes, resetAttributes };
+export { setArtBySize, setPostAttributes };

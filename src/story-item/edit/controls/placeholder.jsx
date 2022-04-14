@@ -6,7 +6,6 @@ import { ContentPlaceholder } from '@prc-app/shared';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 /**
@@ -26,6 +25,7 @@ function Placeholder({ attributes, setAttributes, blockProps }) {
 				if (0 < pickedContent.length && undefined !== pickedContent[0].id) {
 					console.log('Step3:', pickedContent[0]);
 					setLoadingStub(true);
+					// Here we're passing in to do yet another fetch, i'm not a fan of that, lets speed this up.
 					setPostAttributes({
 						postId: pickedContent[0].id,
 						imageSize,
