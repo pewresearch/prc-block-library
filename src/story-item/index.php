@@ -1,8 +1,6 @@
 <?php
-
 require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
-use function PRC_Core\get_stub_info;
 
 /**
  * Server-side rendering of the `prc-block/story-item` block.
@@ -10,13 +8,13 @@ use function PRC_Core\get_stub_info;
  * @package gutenberg
  */
 
-class PRC_Story_Item extends PRC_Block_Library {
+class Story_Item extends PRC_Block_Library {
 
 	public static $css_handle         = false;
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.8';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'jlasdfnaas8213127tad1';
+	public static $cache_invalidate   = 'axjasd71nasd-9pader1';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -27,7 +25,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 			add_filter( 'prc_group_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
 			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
 			add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
-			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
 	}
@@ -631,4 +628,4 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 }
 
-new PRC_Story_Item( true );
+new Story_Item( true );
