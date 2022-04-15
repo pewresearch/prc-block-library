@@ -12,7 +12,7 @@ class Story_Item extends PRC_Block_Library {
 
 	public static $css_handle         = false;
 	public static $frontend_js_handle = false;
-	public static $version            = '4.0.8';
+	public static $version            = '4.0.8a';
 	public static $date_format        = 'M j, Y';
 	public static $cache_invalidate   = 'axjasd71nasd-9pader1';
 	public static $experiments        = array(
