@@ -5,8 +5,8 @@
   "main.js.map": "fact-sheet-collection/main-89b7e62e.js.map",
   "runtime.js": "fact-sheet-collection/runtime-f356125f.js",
   "runtime.js.map": "fact-sheet-collection/runtime-f356125f.js.map",
-  "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-ac34ae3b.js",
-  "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-ac34ae3b.js.map",
+  "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-a304482d.js",
+  "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-a304482d.js.map",
   "vendors~main.js": "fact-sheet-collection/vendors~main-171a9fbc.js",
   "vendors~main.js.map": "fact-sheet-collection/vendors~main-171a9fbc.js.map",
   "wpackioEp": {
@@ -28,12 +28,12 @@
       "assets": {
         "js": [
           "fact-sheet-collection/runtime-f356125f.js",
-          "fact-sheet-collection/vendors~frontend-ac34ae3b.js",
+          "fact-sheet-collection/vendors~frontend-a304482d.js",
           "fact-sheet-collection/frontend-dd077101.js"
         ],
         "js.map": [
           "fact-sheet-collection/runtime-f356125f.js.map",
-          "fact-sheet-collection/vendors~frontend-ac34ae3b.js.map",
+          "fact-sheet-collection/vendors~frontend-a304482d.js.map",
           "fact-sheet-collection/frontend-dd077101.js.map"
         ]
       }

@@ -15,7 +15,7 @@ import {
 	ChartBuilderWrapper,
 	ChartBuilderTextWrapper,
 	masterConfig,
-} from '@pewresearch/pew-chart-builder/dist';
+} from '@pewresearch/chart-builder/dist';
 /**
  * Internal  dependencies
  */
@@ -203,6 +203,7 @@ const getConfig = (el) => {
 			fontSize: 12,
 			labelPositionDX: attr.labelPositionDX,
 			labelPositionDY: attr.labelPositionDY,
+			toFixedDecimal: attr.labelToFixedDecimal,
 			labelUnit: attr.labelUnit,
 			labelUnitPosition: attr.labelUnitPosition,
 			labelBarPosition: attr.barLabelPosition,
