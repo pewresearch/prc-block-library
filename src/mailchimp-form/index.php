@@ -22,7 +22,8 @@ class Mailchimp_Form extends PRC_Block_Library {
 				'class'            => array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
 				'data-segment-id'  => $attributes['interest'],
 				'data-has-dark-bg' => $block->context['prc-block/hasDarkBackground'],
-			)
+				'data-button-color' => $attributes['buttonColor'],
+				)
 		);
 		return wp_kses( "<div {$wrapper_attributes}></div>", 'post' );
 	}
