@@ -14,8 +14,8 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    edit,
-    save,
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

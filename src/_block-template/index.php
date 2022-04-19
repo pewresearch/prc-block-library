@@ -15,11 +15,13 @@ class Block_Name extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		ob_start();
-		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
-		<?php
-		return ob_get_clean();
+		$block_attrs = get_block_wrapper_attributes(array());
+
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			$block_attrs,
+			$content
+		);
 	}
 
 	public function register_block() {

@@ -173,8 +173,6 @@ class Table_of_Contents extends PRC_Block_Library {
 	}
 
 	public function construct_toc( $post_id, $content = null ) {
-		$chapters = array();
-
 		// You can pass through any string and extract the table of contents from it.
 		// If there is no content then we'll fallback to the give post id's content.
 		if ( null === $content ) {
