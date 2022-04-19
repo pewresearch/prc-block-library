@@ -1,36 +1,35 @@
 /**
  * Wordpress dependencies
  */
-import { useDispatch } from '@wordpress/data';
 import { uploadMedia } from '@wordpress/media-utils';
 /**
  * External dependencies
  */
 import html2canvas from 'html2canvas';
-import horizontalBarConfig from '@pewresearch/pew-chart-builder/dist/Templates/horizontalBar';
-import verticalBarConfig from '@pewresearch/pew-chart-builder/dist/Templates/verticalBar';
-import lineConfig from '@pewresearch/pew-chart-builder/dist/Templates/line';
-import scatterConfig from '@pewresearch/pew-chart-builder/dist/Templates/scatter';
+import horizontalBarConfig from '@pewresearch/chart-builder/dist/Templates/horizontalBar';
+import verticalBarConfig from '@pewresearch/chart-builder/dist/Templates/verticalBar';
+import lineConfig from '@pewresearch/chart-builder/dist/Templates/line';
+import scatterConfig from '@pewresearch/chart-builder/dist/Templates/scatter';
 // Transform data from table block into json useable for chart builder
 export const formattedData = (data, scale, chartType) => {
 	const { body, tableHeaders } = data;
 	const seriesData = [];
 	const scaleData = (data, scale) => {
 		if (
-			chartType === 'bar' ||
-			chartType === 'stacked-bar' ||
-			chartType === 'pie' ||
-			chartType === 'dot-plot'
+			'bar' === chartType ||
+			'stacked-bar' === chartType ||
+			'pie' === chartType ||
+			'dot-plot' === chartType
 		) {
 			return data;
 		}
-		if (scale === 'time') {
+		if ('time' === scale) {
 			return new Date(data).getTime();
 		}
 		return parseFloat(data);
 	};
 	for (var i = 1; i < tableHeaders.length; i++) {
-		var series = body
+		const series = body
 			.filter((row) => !isNaN(parseFloat(row.cells[i].content)))
 			.map((row) => ({
 				x: scaleData(row.cells[0].content, scale),
@@ -43,49 +42,48 @@ export const formattedData = (data, scale, chartType) => {
 	return seriesData;
 };
 
-export const stringToArrayOfNums = (str) => {
-	return str
+export const stringToArrayOfNums = (str) =>
+	str
 		.split(',')
 		.map(Number)
 		.filter((num) => !isNaN(num));
-};
 
 export const getDomain = (min, max, type, scale, axis, orientation) => {
 	if (isNaN(min) || isNaN(max)) {
 		return [0, 100];
 	}
 	// x axis is a bit of a misnomer for bar types. It refers exclusively to the dependent axis.
-	if (type === 'bar' && axis === 'x') {
+	if ('bar' === type && 'x' === axis) {
 		return null;
 	}
-	if (type === 'stacked-bar' && axis === 'x') {
+	if ('stacked-bar' === type && 'x' === axis) {
 		return null;
 	}
-	if (type === 'dot-plot' && axis === 'x') {
+	if ('dot-plot' === type && 'x' === axis) {
 		return null;
 	}
 	// likewise, no domain for a pie chart
-	if (type === 'pie') {
+	if ('pie' === type) {
 		return null;
 	}
-	if (scale === 'time' && axis === 'x') {
+	if ('time' === scale && 'x' === axis) {
 		return [new Date(min, 0), new Date(max, 0)];
 	}
 	return [parseFloat(min), parseFloat(max)];
 };
 
 export const getTicks = (ticks, scale) => {
-	if (scale === 'time') {
+	if ('time' === scale) {
 		return ticks.map((tick) => new Date(`${tick}`));
 	}
 	return ticks;
 };
 
 export const formatNum = (num, output) => {
-	if (typeof num === 'string' && output === 'integer') {
+	if ('string' === typeof num && 'integer' === output) {
 		return parseInt(num);
 	}
-	if (typeof num === 'string' && output === 'float') {
+	if ('string' === typeof num && 'float' === output) {
 		return parseFloat(num);
 	}
 	return num;
@@ -111,7 +109,7 @@ export const createHTMLCanvas = (clientId) => {
 	const blockEl = document.querySelector(`[data-block="${clientId}"]`);
 	html2canvas(blockEl).then((canvas) => {
 		canvas.toBlob(
-			function (blob) {
+			(blob) => {
 				uploadToMediaLibrary(
 					blob,
 					`chart-${clientId}-${Date.now()}.png`,
@@ -130,7 +128,7 @@ export const createSvg = (clientId) => {
 	svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 	svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
 	console.log(svg.outerHTML);
-	var blob = new Blob([svg.outerHTML], { type: 'image/svg+xml' });
+	const blob = new Blob([svg.outerHTML], { type: 'image/svg+xml' });
 	const url = URL.createObjectURL(blob);
 	console.log({ blob, url });
 	upload(blob, `chart-${clientId}-${Date.now()}.svg`, 'image/svg+xml');
@@ -139,7 +137,7 @@ export const createSvg = (clientId) => {
 export const formatLegacyAttrs = (legacyMeta, attributes) => {
 	console.log({ legacyMeta });
 	const checkEmptyStr = (legacyAttr, attr) =>
-		legacyAttr.length !== 0 ? legacyAttr : attr;
+		0 !== legacyAttr.length ? legacyAttr : attr;
 	const getLegacyConfig = (type) => {
 		switch (type) {
 			case 'bar':
@@ -158,7 +156,7 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
 				return verticalBarConfig;
 		}
 	};
-	const legacyConfig = getLegacyConfig(legacyMeta['cb_type']);
+	const legacyConfig = getLegacyConfig(legacyMeta.cb_type);
 	const { layout, legend, bar, labels } = legacyConfig;
 	return {
 		chartType: layout.type,
@@ -169,19 +167,19 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
 		paddingRight: layout.padding.right,
 		paddingBottom: layout.padding.bottom,
 		paddingLeft: layout.padding.left,
-		xScale: legacyMeta['cb_xaxis_type'] === 'datetime' ? 'time' : 'linear',
-		xLabel: checkEmptyStr(legacyMeta['cb_xaxis_label'], attributes.xLabel),
-		yLabel: checkEmptyStr(legacyMeta['cb_yaxis_label'], attributes.yLabel),
+		xScale: 'datetime' === legacyMeta.cb_xaxis_type ? 'time' : 'linear',
+		xLabel: checkEmptyStr(legacyMeta.cb_xaxis_label, attributes.xLabel),
+		yLabel: checkEmptyStr(legacyMeta.cb_yaxis_label, attributes.yLabel),
 		yMaxDomain: checkEmptyStr(
-			legacyMeta['cb_yaxis_max_value'],
+			legacyMeta.cb_yaxis_max_value,
 			attributes.yMaxDomain,
 		),
 		metaSubtitle: checkEmptyStr(
-			legacyMeta['cb_subtitle'],
+			legacyMeta.cb_subtitle,
 			attributes.metaSubtitle,
 		),
-		lineNodes: legacyMeta['cb_hide_markers'],
-		tooltipActive: legacyMeta['cb_enable_inline_tooltips'],
+		lineNodes: legacyMeta.cb_hide_markers,
+		tooltipActive: legacyMeta.cb_enable_inline_tooltips,
 		labelPositionDX: labels.labelPositionDX,
 		labelPositionDY: labels.labelPositionDY,
 		isConvertedChart: false,

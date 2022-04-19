@@ -3,7 +3,6 @@
     "lodash",
     "react",
     "react-dom",
-    "wp-data",
     "wp-dom-ready",
     "wp-element",
     "wp-i18n",

@@ -11,7 +11,7 @@ import {
 	ChartBuilderWrapper,
 	masterConfig,
 	ChartBuilderTextWrapper,
-} from '@pewresearch/pew-chart-builder/dist';
+} from '@pewresearch/chart-builder/dist';
 import { ifMatchSetAttribute } from '@prc-app/shared';
 
 /**
@@ -344,6 +344,7 @@ const edit = ({
 			labelUnit,
 			labelUnitPosition,
 			pieLabelRadius: 60,
+			toFixedDecimal: attr.labelToFixedDecimal,
 			labelBarPosition: barLabelPosition,
 			labelCutoff: 'inside' === barLabelPosition ? barLabelCutoff : null,
 			labelCutoffMobile:
