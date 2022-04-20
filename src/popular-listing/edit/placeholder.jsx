@@ -7,40 +7,41 @@ import { ContentPlaceholder } from '@prc-app/shared';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, Fragment, useEffect } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 
 /**
  * Internal Dependencies
  */
+// eslint-disable-next-line import/extensions
 import { setPostAttributes } from '../../story-item/helpers.js';
 
-const Placeholder = ({setAttributes, blockProps}) => {
-    const [loadingStub, setLoadingStub] = useState(false);
+function Placeholder({ setAttributes, blockProps }) {
+	const [loadingStub, setLoadingStub] = useState(false);
 
-    const onPick = (id, title) => {
-        setPostAttributes({
-            postId: id,
-            title: title,
-            setAttributes
-        });
-    }
+	const onPick = (id) => {
+		setPostAttributes({
+			postId: id,
+			setAttributes,
+			isRefresh: false,
+		});
+	};
 
-    return (
-        <ContentPlaceholder
-            onChange={(pickedContent)=>{
-                if ( pickedContent.length > 0 && undefined !== pickedContent[0].id ) {
-                    setLoadingStub(true);
-                    onPick(pickedContent[0].id, pickedContent[0].title);
-                }
-            }}
-            onSkip={()=>{
-                setAttributes({postId: 0});
-            }}
-            label={__('Search for a popular post', 'prc-block-library')}
-            blockProps={{...blockProps, style: {marginBottom: '16px'}}}
-            loadingComponent={loadingStub}
-        />
-    );
+	return (
+		<ContentPlaceholder
+			onChange={(pickedContent) => {
+				if (0 < pickedContent.length && undefined !== pickedContent[0].id) {
+					setLoadingStub(true);
+					onPick(pickedContent[0].id);
+				}
+			}}
+			onSkip={() => {
+				setAttributes({ postId: 0 });
+			}}
+			label={__('Search for a popular post', 'prc-block-library')}
+			blockProps={{ ...blockProps, style: { marginBottom: '16px' } }}
+			loadingComponent={loadingStub}
+		/>
+	);
 }
 
 export default Placeholder;

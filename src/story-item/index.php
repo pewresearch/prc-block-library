@@ -1,8 +1,6 @@
 <?php
-
 require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
-use function PRC_Core\get_stub_info;
 
 /**
  * Server-side rendering of the `prc-block/story-item` block.
@@ -10,13 +8,13 @@ use function PRC_Core\get_stub_info;
  * @package gutenberg
  */
 
-class PRC_Story_Item extends PRC_Block_Library {
+class Story_Item extends PRC_Block_Library {
 
 	public static $css_handle         = false;
 	public static $frontend_js_handle = false;
-	public static $version            = '4.0.8';
+	public static $version            = '4.0.8b';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'jlasdfnaas8213127tad1';
+	public static $cache_invalidate   = 'axjasd71nasd-9pader1';
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -27,7 +25,6 @@ class PRC_Story_Item extends PRC_Block_Library {
 			add_filter( 'prc_group_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
 			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
 			add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
-			add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
 	}
@@ -555,151 +552,16 @@ class PRC_Story_Item extends PRC_Block_Library {
 		return ob_get_clean();
 	}
 
-	/**
-	 * Get stub post information by url and return story item attributes.
-	 *
-	 * @return void
-	 */
-	// @TODO remove this, its not being used. Favor the more generic -> utils/get-post-by-url
-	public function register_endpoints() {
-		register_rest_route(
-			'prc-api/v2',
-			'/blocks/story-item/get-post-by-url',
-			array(
-				'methods'             => 'POST',
-				'callback'            => array( $this, 'get_stub_post_by_post_url_restfully' ),
-				'args'                => array(),
-				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
-				},
-			)
-		);
-	}
-
-	private function get_fact_tank_post_by_slug( $slug ) {
-		if ( ! is_string( $slug ) ) {
-			return false;
-		}
-		$args  = array(
-			'name'        => $slug,
-			'post_type'   => 'fact-tank',
-			'post_status' => 'publish',
-			'numberposts' => 1,
-		);
-		$posts = get_posts( $args );
-		if ( $posts ) {
-			return $posts[0]->ID;
-		} else {
-			return false;
-		}
-	}
-
-	private function get_stub_id_from_url() {
-		// if edit link post id is...
-		$post_id = 0;
-		$stub_id = false;
-		// Look for stub id for post.
-	}
-
-	public function get_stub_post_by_post_url_restfully( \WP_REST_Request $request ) {
-		$url = json_decode( $request->get_body(), true );
-		if ( ! array_key_exists( 'url', $url ) ) {
-			return new WP_Error(
-				404,
-				'No url given',
-				array(
-					'url' => false,
-				)
-			);
-		}
-
-		$url = $url['url'];
-
-		$current_site_id = get_current_blog_id();
-
-		$site_id = prc_get_site_id_from_url( $url );
-		if ( false == $site_id ) {
-			return new WP_Error(
-				404,
-				'No site ID found for url',
-				array(
-					'url' => $url,
-				)
-			);
-		}
-
-		switch_to_blog( $site_id );
-		// If url contains fact-tank right after the url then go get the slug and fetch post that way.
-		if ( false !== strpos( $url, '/fact-tank/' ) ) {
-			$slug    = basename( $url );
-			$post_id = $this->get_fact_tank_post_by_slug( $slug );
-		} else {
-			// @TODO replace this with an internal class function that can be used to get the post id from the url regardless if the link is fully formed or a edit link.
-			// $post_id = prc_get_post_id_from_url( $url );
-			$post_id = 0;
-		}
-		if ( 0 === $post_id ) {
-			return new WP_Error(
-				404,
-				'Could not find object from given url',
-				array(
-					'url' => $url,
-				)
-			);
-		}
-
-		$stub_id = get_post_meta( $post_id, '_stub_post', true );
-		if ( ! $stub_id ) {
-			return new WP_Error(
-				404,
-				'Given object does not have a stub post',
-				array(
-					'id'  => $post_id,
-					'url' => $url,
-				)
-			);
-		}
-		restore_current_blog();
-
-		if ( 1 !== $current_site_id ) {
-			switch_to_blog( 1 );
-		}
-
-		$stub_post = get_post( $stub_id );
-		if ( false === $stub_post ) {
-			return new WP_Error(
-				404,
-				'Stub object could not be fetched',
-				array(
-					'id'      => $post_id,
-					'stub_id' => $stub_id,
-					'site_id' => $site_id,
-					'url'     => $url,
-				)
-			);
-		}
-
-		$stub_info = get_post_meta( $stub_post->ID, '_stub_info', true );
-
-		$format_term = get_term_by( 'slug', $stub_info['_taxonomies']['formats'][0], 'formats' );
-
-		$return = array(
-			'id'        => $stub_post->ID,
-			'title'     => esc_attr( $stub_post->post_title ),
-			'excerpt'   => "<p>{$stub_post->post_excerpt}</p>",
-			'date'      => get_the_date( 'M d, Y', $stub_post->ID ),
-			'timestamp' => get_the_time( 'c', $stub_post->ID ),
-			'label'     => $format_term->name,
-			'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
-			'art'       => json_decode( $stub_info['_art'], true ),
-		);
-
-		if ( 1 !== $current_site_id ) {
-			restore_current_blog();
-		}
-
-		return $return;
-	}
+	// $return = array(
+	// 	'id'        => $stub_post->ID,
+	// 	'title'     => esc_attr( $stub_post->post_title ),
+	// 	'excerpt'   => "<p>{$stub_post->post_excerpt}</p>",
+	// 	'date'      => get_the_date( 'M d, Y', $stub_post->ID ),
+	// 	'timestamp' => get_the_time( 'c', $stub_post->ID ),
+	// 	'label'     => $format_term->name,
+	// 	'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
+	// 	'art'       => json_decode( $stub_info['_art'], true ),
+	// );
 
 	/**
 	 * Register the story item block.
@@ -766,4 +628,4 @@ class PRC_Story_Item extends PRC_Block_Library {
 	}
 }
 
-new PRC_Story_Item( true );
+new Story_Item( true );

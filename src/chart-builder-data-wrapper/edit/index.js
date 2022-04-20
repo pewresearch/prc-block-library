@@ -13,7 +13,7 @@ import {
     ToggleControl,
     PanelBody,
 } from '@wordpress/components';
-import { minus, plusCircleFilled } from '@wordpress/icons';
+import { cancelCircleFilled, plusCircleFilled } from '@wordpress/icons';
 import { select, dispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 
@@ -104,7 +104,7 @@ const edit = ({ attributes, setAttributes, clientId }) => {
                 <ToolbarGroup>
                     <ToolbarButton
                         name="hide-table"
-                        icon={attributes.hideTable ? plusCircleFilled : minus}
+                        icon={attributes.hideTable ? plusCircleFilled : cancelCircleFilled}
                         title={
                             attributes.hideTable
                                 ? __('Show Table')

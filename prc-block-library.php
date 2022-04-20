@@ -123,58 +123,6 @@ class PRC_Block_Library {
 		}
 	}
 
-	/**
-	 * This mimics core get_block_wrapper_attributes($extra_attributes = array()) for when we're intercepting a block render and global $block data is lost.
-	 * @param array $extra_attributes
-	 * @return mixed
-	 */
-	public function _get_block_wrapper_attributes( $extra_attributes = array() ) {
-		$new_attributes = array();///
-
-		if ( empty( $new_attributes ) && empty( $extra_attributes ) ) {
-			return '';
-		}
-
-		// This is hardcoded on purpose.
-		// We only support a fixed list of attributes.
-		$attributes_to_merge = array( 'style', 'class' );
-		$attributes          = array();
-		foreach ( $attributes_to_merge as $attribute_name ) {
-			if ( empty( $new_attributes[ $attribute_name ] ) && empty( $extra_attributes[ $attribute_name ] ) ) {
-				continue;
-			}
-
-			if ( empty( $new_attributes[ $attribute_name ] ) ) {
-				$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ];
-				continue;
-			}
-
-			if ( empty( $extra_attributes[ $attribute_name ] ) ) {
-				$attributes[ $attribute_name ] = $new_attributes[ $attribute_name ];
-				continue;
-			}
-
-			$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ] . ' ' . $new_attributes[ $attribute_name ];
-		}
-
-		foreach ( $extra_attributes as $attribute_name => $value ) {
-			if ( ! in_array( $attribute_name, $attributes_to_merge, true ) ) {
-				$attributes[ $attribute_name ] = $value;
-			}
-		}
-
-		if ( empty( $attributes ) ) {
-			return '';
-		}
-
-		$normalized_attributes = array();
-		foreach ( $attributes as $key => $value ) {
-			$normalized_attributes[] = $key . '="' . esc_attr( $value ) . '"';
-		}
-
-		return implode( ' ', $normalized_attributes );
-	}
-
 	public function register_block_categories( $block_categories, $block_editor_context ) {
 		return array_merge(
 			$block_categories,
@@ -234,8 +182,56 @@ class PRC_Block_Library {
 		return $allowed_tags;
 	}
 
-	public function get_handle( $block_name, $asset_type, $location = 'block' ) {
-		return array_pop( $this->registered[ $location ][ $block_name ][ $asset_type ] )['handle'];
+	/**
+	 * This mimics core get_block_wrapper_attributes($extra_attributes = array()) for when we're intercepting a block render and global $block data is lost.
+	 * @param array $extra_attributes
+	 * @return mixed
+	 */
+	public function _get_block_wrapper_attributes( $extra_attributes = array() ) {
+		$new_attributes = array();///
+
+		if ( empty( $new_attributes ) && empty( $extra_attributes ) ) {
+			return '';
+		}
+
+		// This is hardcoded on purpose.
+		// We only support a fixed list of attributes.
+		$attributes_to_merge = array( 'style', 'class' );
+		$attributes          = array();
+		foreach ( $attributes_to_merge as $attribute_name ) {
+			if ( empty( $new_attributes[ $attribute_name ] ) && empty( $extra_attributes[ $attribute_name ] ) ) {
+				continue;
+			}
+
+			if ( empty( $new_attributes[ $attribute_name ] ) ) {
+				$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ];
+				continue;
+			}
+
+			if ( empty( $extra_attributes[ $attribute_name ] ) ) {
+				$attributes[ $attribute_name ] = $new_attributes[ $attribute_name ];
+				continue;
+			}
+
+			$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ] . ' ' . $new_attributes[ $attribute_name ];
+		}
+
+		foreach ( $extra_attributes as $attribute_name => $value ) {
+			if ( ! in_array( $attribute_name, $attributes_to_merge, true ) ) {
+				$attributes[ $attribute_name ] = $value;
+			}
+		}
+
+		if ( empty( $attributes ) ) {
+			return '';
+		}
+
+		$normalized_attributes = array();
+		foreach ( $attributes as $key => $value ) {
+			$normalized_attributes[] = $key . '="' . esc_attr( $value ) . '"';
+		}
+
+		return implode( ' ', $normalized_attributes );
 	}
 
 	public function render_accordion_section( $label, $link = false, $inner_blocks ) {

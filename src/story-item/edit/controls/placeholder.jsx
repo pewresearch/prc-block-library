@@ -6,7 +6,6 @@ import { ContentPlaceholder } from '@prc-app/shared';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
 /**

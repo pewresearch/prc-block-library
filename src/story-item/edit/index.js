@@ -21,7 +21,6 @@ import Extra from './extra';
 import Header from './header';
 import Meta from './meta';
 import Preview from './preview';
-import { setPostAttributes } from '../helpers';
 
 /**
  * To be removed at later date:
@@ -105,13 +104,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 		) {
 			console.log('This post is from a query block...');
 			// We need a way to store the info in state, not just attributes...
-
-			// setPostAttributes({
-			// 	postId: context.postId,
-			// 	imageSize,
-			// 	isRefresh: false,
-			// 	setAttributes,
-			// });
 		}
 	}, [context]);
 

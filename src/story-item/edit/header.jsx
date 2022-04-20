@@ -11,6 +11,7 @@ import { RichText } from '@wordpress/block-editor';
 
 function Header({ title, size, enabled, setAttributes, altHeaderWeight }) {
 	if (true !== enabled) {
+		// eslint-disable-next-line react/jsx-no-useless-fragment
 		return <Fragment />;
 	}
 
