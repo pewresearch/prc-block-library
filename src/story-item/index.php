@@ -12,7 +12,7 @@ class Story_Item extends PRC_Block_Library {
 
 	public static $css_handle         = false;
 	public static $frontend_js_handle = false;
-	public static $version            = '4.0.8b';
+	public static $version            = '4.0.9';
 	public static $date_format        = 'M j, Y';
 	public static $cache_invalidate   = 'axjasd71nasd-9pader1';
 	public static $experiments        = array(
@@ -551,17 +551,6 @@ class Story_Item extends PRC_Block_Library {
 		echo '<!-- /.wp-block-prc-block-story-item -->';
 		return ob_get_clean();
 	}
-
-	// $return = array(
-	// 	'id'        => $stub_post->ID,
-	// 	'title'     => esc_attr( $stub_post->post_title ),
-	// 	'excerpt'   => "<p>{$stub_post->post_excerpt}</p>",
-	// 	'date'      => get_the_date( 'M d, Y', $stub_post->ID ),
-	// 	'timestamp' => get_the_time( 'c', $stub_post->ID ),
-	// 	'label'     => $format_term->name,
-	// 	'link'      => get_post_meta( $stub_post->ID, '_redirect', true ),
-	// 	'art'       => json_decode( $stub_info['_art'], true ),
-	// );
 
 	/**
 	 * Register the story item block.

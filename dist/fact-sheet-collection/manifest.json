@@ -1,12 +1,12 @@
 {
-  "frontend.js": "fact-sheet-collection/frontend-dd077101.js",
-  "frontend.js.map": "fact-sheet-collection/frontend-dd077101.js.map",
-  "main.js": "fact-sheet-collection/main-47581aca.js",
-  "main.js.map": "fact-sheet-collection/main-47581aca.js.map",
+  "frontend.js": "fact-sheet-collection/frontend-dcc7486c.js",
+  "frontend.js.map": "fact-sheet-collection/frontend-dcc7486c.js.map",
+  "main.js": "fact-sheet-collection/main-6bfff143.js",
+  "main.js.map": "fact-sheet-collection/main-6bfff143.js.map",
   "runtime.js": "fact-sheet-collection/runtime-f356125f.js",
   "runtime.js.map": "fact-sheet-collection/runtime-f356125f.js.map",
-  "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-ac34ae3b.js",
-  "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-ac34ae3b.js.map",
+  "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-f8141acb.js",
+  "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-f8141acb.js.map",
   "vendors~main.js": "fact-sheet-collection/vendors~main-171a9fbc.js",
   "vendors~main.js.map": "fact-sheet-collection/vendors~main-171a9fbc.js.map",
   "wpackioEp": {
@@ -15,12 +15,12 @@
         "js": [
           "fact-sheet-collection/runtime-f356125f.js",
           "fact-sheet-collection/vendors~main-171a9fbc.js",
-          "fact-sheet-collection/main-47581aca.js"
+          "fact-sheet-collection/main-6bfff143.js"
         ],
         "js.map": [
           "fact-sheet-collection/runtime-f356125f.js.map",
           "fact-sheet-collection/vendors~main-171a9fbc.js.map",
-          "fact-sheet-collection/main-47581aca.js.map"
+          "fact-sheet-collection/main-6bfff143.js.map"
         ]
       }
     },
@@ -28,13 +28,13 @@
       "assets": {
         "js": [
           "fact-sheet-collection/runtime-f356125f.js",
-          "fact-sheet-collection/vendors~frontend-ac34ae3b.js",
-          "fact-sheet-collection/frontend-dd077101.js"
+          "fact-sheet-collection/vendors~frontend-f8141acb.js",
+          "fact-sheet-collection/frontend-dcc7486c.js"
         ],
         "js.map": [
           "fact-sheet-collection/runtime-f356125f.js.map",
-          "fact-sheet-collection/vendors~frontend-ac34ae3b.js.map",
-          "fact-sheet-collection/frontend-dd077101.js.map"
+          "fact-sheet-collection/vendors~frontend-f8141acb.js.map",
+          "fact-sheet-collection/frontend-dcc7486c.js.map"
         ]
       }
     }
