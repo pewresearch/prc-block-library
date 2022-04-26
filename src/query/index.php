@@ -103,7 +103,10 @@ class Query_Block extends PRC_Block_Library {
 			}
 			if ( ! empty( $block['query']['search'] ) ) {
 				$query['s'] = $block['query']['search'];
+				// Enforce ElasticPress search.
 			}
+			// Enable Facet WP integration... which would be set in query as an attribute
+			// and then through block context would trickle down to post template AND other FacetWP specific blocks like Count and Pagionation.
 		}
 		if ( ! empty( $block['taxQuery'] ) && ! empty( $block['taxQuery']['data'] ) ) {
 			$query['tax_query'] = $block['taxQuery'];
