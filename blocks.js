@@ -32,6 +32,7 @@ const files = [
 			'post-bylines': './src/post-bylines/index.js',
 			'post-date': './src/post-date/index.js',
 			'post-sub-title': './src/post-sub-title/index.js',
+			'progress-bar': './src/progress-bar/index.js',
 			promo: './src/promo/index.js',
 			'promo-rotator': './src/promo-rotator/index.js',
 			pullquote: './src/pullquote/index.js',
@@ -39,7 +40,6 @@ const files = [
 			'responsive-container-controller':
 				'./src/responsive-container/controller/index.js',
 			'responsive-container-view': './src/responsive-container/view/index.js',
-			'roper-db-search': './src/roper-db-search/index.js',
 			row: './src/row/index.js',
 			'social-link': './src/social-link/index.js',
 			staff: './src/staff/index.js',
@@ -101,6 +101,7 @@ const files = [
 			'mailchimp-select': './src/mailchimp-select/frontend.js',
 			'menu-link': './src/menu-link/frontend.js',
 			'popup-controller': './src/popup/controller/frontend.js',
+			'progress-bar': './src/progress-bar/frontend.js',
 			'social-link': './src/social-link/frontend.js',
 			'story-item': './src/story-item/frontend.js',
 			'tabs-controller': './src/tabs/controller/frontend.js',
