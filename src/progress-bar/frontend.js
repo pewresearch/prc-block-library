@@ -23,7 +23,6 @@ domReady(() => {
 				showAxisLabel: '1' === attrs.showAxisLabel,
 				barColor: attrs.barColor,
 			};
-			console.log(props);
 			render(<ProgressBar {...props} />, bar);
 		});
 	}

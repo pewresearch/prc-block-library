@@ -171,7 +171,6 @@ function SidebarControls({
 
 const edit = ({ attributes, setAttributes }) => {
 	const blockProps = useBlockProps();
-	console.log({ ...attributes });
 	return (
 		<div {...blockProps}>
 			<SidebarControls {...attributes} setAttributes={setAttributes} />
