@@ -15,37 +15,37 @@ class Roper_DB_Search extends PRC_Block_Library {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 			add_action( 'wp_enqueue_scripts', array($this, 'register_scripts') );
+			add_filter( 'query_vars', array( $this, 'register_roper_global_db_query_vars' ) );
 		}
+	}
+
+	public function register_roper_global_db_query_vars($query_vars) {
+		array_push($query_vars, 'qid', 'cntIDs', 'stdIDs');
+		return $query_vars;
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$block_attrs = get_block_wrapper_attributes(array());
 
 		$type = $attributes['type'];
-		$sub_text = $attributes['subText'];
-		$per_page = $attributes['perPage'];
 
 		ob_start();
 		if ( 'global' === $type ) {
-			$iframe_url = false;
-			if ( isset( $_GET['qid'] ) ) {
-				$iframe_url = "https://ropercenter.cornell.edu/CFIDE/pewglobal/question_view.cfm?qid={$_GET['qid']}&cntIDs={$_GET['cntIDs']}&stdIDs={$_GET['stdIDs']}";
-			} elseif ( isset( $_GET['keyword'] ) || isset( $_GET['keywordtext'] ) || isset( $_POST['keyword'] ) ) {
-				if ( isset( $_GET['keyword'] ) ) {
-					$keyword = $_GET['keyword'];
-				} elseif ( isset( $_GET['keywordtext'] ) ) {
-					$keyword = $_GET['keywordtext'];
-				} elseif ( isset( $_POST['keyword'] ) ) {
-					$keyword = $_POST['keyword'];
-				}
+			$iframe_url = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/index.cfm';
 
-				$iframe_url = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/search_results.cfm?keywordtext=' . urlencode( $keyword ) . '&topic=' . urlencode( $_GET[ $this->prime_taxonomy ] ) . '&startdate=' . urlencode( $_GET['startdate'] ) . '&enddate=' . urlencode( $_GET['enddate'] ) . '&txtAreaCntIDsStndr=' . urlencode( $_GET['txtAreaCntIDsStndr'] ) . '&txtAreaStdIDs=' . urlencode( $_GET['txtAreaStdIDs'] );
-			} elseif ( 2 === get_current_blog_id() ) {
-				$iframe_url = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/index.cfm';
+			$q_id = get_query_var('qid', false);
+			$cnt_ids = get_query_var('cntIDs', false);
+			$std_ids = get_query_var('stdIDs', false);
+			if ( false !== $q_id ) {
+				$q_id = urlencode($q_id);
+				$cnt_ids = urlencode($cnt_ids);
+				$std_ids = urlencode($std_ids);
+				$iframe_url = "https://ropercenter.cornell.edu/CFIDE/pewglobal/question_view.cfm?qid={$q_id}&cntIDs={$cnt_ids}&stdIDs={$std_ids}";
 			}
 
-			echo wp_kses( "<iframe src='{$iframe_url}' width='100%' height='1300' frameborder='0' hspace='0' vspace='0' scrolling='no' marginwidth='0' marginheight='0' allowtransparency='true' name='post' id='frameSec'></iframe>",
-					array( 'iframe' => array(
+			echo wp_kses(
+				"<iframe src='{$iframe_url}' width='100%' height='1300' frameborder='0' hspace='0' vspace='0' scrolling='no' marginwidth='0' marginheight='0' allowtransparency='true' name='post' id='frameSec'></iframe>",
+				array( 'iframe' => array(
 						'src'               => true,
 						'height'            => true,
 						'width'             => true,
@@ -63,6 +63,8 @@ class Roper_DB_Search extends PRC_Block_Library {
 				)
 			);
 		} else {
+			$sub_text = $attributes['subText'];
+			$per_page = $attributes['perPage'];
 			?>
 			<div id="partner">&nbsp;</div>
 			<script>
