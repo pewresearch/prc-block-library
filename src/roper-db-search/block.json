@@ -1,0 +1,25 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/roper-db-search",
+	"title": "Roper DB Search",
+	"description": "A frontend for the Roper DB Search API",
+	"keywords": [ "database", "roper", "cornell", "search", "polling" ],
+	"category": "layout",
+	"attributes": {
+		"subText": {
+            "type": "string",
+			"default": "Use this tool to search our database of polling questions."
+        },
+		"perPage": {
+			"type": "number",
+			"default": 10
+		},
+		"type": {
+			"type": "string",
+			"default": "default"
+		}
+    },
+	"supports": {
+		"html": false
+	}
+}

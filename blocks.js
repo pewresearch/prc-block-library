@@ -39,6 +39,7 @@ const files = [
 			'responsive-container-controller':
 				'./src/responsive-container/controller/index.js',
 			'responsive-container-view': './src/responsive-container/view/index.js',
+			'roper-db-search': './src/roper-db-search/index.js',
 			row: './src/row/index.js',
 			'social-link': './src/social-link/index.js',
 			staff: './src/staff/index.js',

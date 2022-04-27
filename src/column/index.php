@@ -47,7 +47,7 @@ class Column_Block extends PRC_Block_Library {
 			16 => 'sixteen',
 		);
 		$width            = $dictionary[ $attributes['width'] ];
-		$is_row_stackable = $block->context['prc-block/row-stackable'];
+		$is_row_stackable = array_key_exists('prc-block/row-stackable', $block->context) ? $block->context['prc-block/row-stackable'] : false;
 		$desktop_width    = $width;
 		$tablet_order     = 100 === $attributes['tabletOrder'] ? false : $dictionary[ $attributes['tabletOrder'] ];
 		$tablet_width     = 100 === $attributes['tabletWidth'] ? $width : $dictionary[ $attributes['tabletWidth'] ];
@@ -85,7 +85,7 @@ class Column_Block extends PRC_Block_Library {
 		</div>
 		<?php
 		$markup = ob_get_clean();
-		
+
 		return $markup;
 	}
 

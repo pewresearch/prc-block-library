@@ -15,8 +15,8 @@
   "flip-card-controller.css.map": "frontend/flip-card-controller-bf671fdf.css.map",
   "flip-card-controller.js": "frontend/flip-card-controller-fcb69130.js",
   "flip-card-controller.js.map": "frontend/flip-card-controller-fcb69130.js.map",
-  "group.js": "frontend/group-c184cd34.js",
-  "group.js.map": "frontend/group-c184cd34.js.map",
+  "group.js": "frontend/group-ba55b87b.js",
+  "group.js.map": "frontend/group-ba55b87b.js.map",
   "livestream.css": "frontend/livestream-33a7225d.css",
   "livestream.css.map": "frontend/livestream-33a7225d.css.map",
   "livestream.js": "frontend/livestream-9f7a91b0.js",
@@ -160,11 +160,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/group-c184cd34.js"
+          "frontend/group-ba55b87b.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/group-c184cd34.js.map"
+          "frontend/group-ba55b87b.js.map"
         ]
       }
     },

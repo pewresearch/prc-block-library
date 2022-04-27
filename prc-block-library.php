@@ -102,6 +102,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/pullquote/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/query/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/responsive-container/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/roper-db-search/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/separator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
