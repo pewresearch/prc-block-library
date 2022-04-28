@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /**
  * Wordpress dependencies
  */
@@ -28,12 +29,12 @@ export const formattedData = (data, scale, chartType) => {
 		}
 		return parseFloat(data);
 	};
-	for (var i = 1; i < tableHeaders.length; i++) {
+	for (let i = 1; i < tableHeaders.length; i++) {
 		const series = body
-			.filter((row) => !isNaN(parseFloat(row.cells[i].content)))
+			.filter((row) => !Number.isNaN(parseFloat(row.cells[i].content)))
 			.map((row) => ({
 				x: scaleData(row.cells[0].content, scale),
-				y: parseFloat(row.cells[i].content),
+				y: parseFloat(row.cells[i].content.replace(/[^.a-zA-Z0-9]/g, '')),
 				category: tableHeaders[i],
 				// yLabel: `${parseFloat(row.cells[i].content)}`,
 			}));
@@ -178,6 +179,8 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
 			legacyMeta.cb_subtitle,
 			attributes.metaSubtitle,
 		),
+		xMinDomain: 'datetime' === legacyMeta.cb_xaxis_type ? 1960 : 0,
+		xMaxDomain: 'datetime' === legacyMeta.cb_xaxis_type ? 2020 : 100,
 		lineNodes: legacyMeta.cb_hide_markers,
 		tooltipActive: legacyMeta.cb_enable_inline_tooltips,
 		labelPositionDX: labels.labelPositionDX,

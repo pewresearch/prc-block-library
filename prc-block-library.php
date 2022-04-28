@@ -97,6 +97,7 @@ class PRC_Block_Library {
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-sub-title/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
+			require_once plugin_dir_path( __FILE__ ) . '/src/progress-bar/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/promo-rotator/index.php';
 			require_once plugin_dir_path( __FILE__ ) . '/src/pullquote/index.php';
@@ -122,6 +123,58 @@ class PRC_Block_Library {
 			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 		}
+	}
+
+	/**
+	 * This mimics core get_block_wrapper_attributes($extra_attributes = array()) for when we're intercepting a block render and global $block data is lost.
+	 * @param array $extra_attributes
+	 * @return mixed
+	 */
+	public function _get_block_wrapper_attributes( $extra_attributes = array() ) {
+		$new_attributes = array();///
+
+		if ( empty( $new_attributes ) && empty( $extra_attributes ) ) {
+			return '';
+		}
+
+		// This is hardcoded on purpose.
+		// We only support a fixed list of attributes.
+		$attributes_to_merge = array( 'style', 'class' );
+		$attributes          = array();
+		foreach ( $attributes_to_merge as $attribute_name ) {
+			if ( empty( $new_attributes[ $attribute_name ] ) && empty( $extra_attributes[ $attribute_name ] ) ) {
+				continue;
+			}
+
+			if ( empty( $new_attributes[ $attribute_name ] ) ) {
+				$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ];
+				continue;
+			}
+
+			if ( empty( $extra_attributes[ $attribute_name ] ) ) {
+				$attributes[ $attribute_name ] = $new_attributes[ $attribute_name ];
+				continue;
+			}
+
+			$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ] . ' ' . $new_attributes[ $attribute_name ];
+		}
+
+		foreach ( $extra_attributes as $attribute_name => $value ) {
+			if ( ! in_array( $attribute_name, $attributes_to_merge, true ) ) {
+				$attributes[ $attribute_name ] = $value;
+			}
+		}
+
+		if ( empty( $attributes ) ) {
+			return '';
+		}
+
+		$normalized_attributes = array();
+		foreach ( $attributes as $key => $value ) {
+			$normalized_attributes[] = $key . '="' . esc_attr( $value ) . '"';
+		}
+
+		return implode( ' ', $normalized_attributes );
 	}
 
 	public function register_block_categories( $block_categories, $block_editor_context ) {
@@ -181,58 +234,6 @@ class PRC_Block_Library {
 			'fill'   => array(),
 		);
 		return $allowed_tags;
-	}
-
-	/**
-	 * This mimics core get_block_wrapper_attributes($extra_attributes = array()) for when we're intercepting a block render and global $block data is lost.
-	 * @param array $extra_attributes
-	 * @return mixed
-	 */
-	public function _get_block_wrapper_attributes( $extra_attributes = array() ) {
-		$new_attributes = array();///
-
-		if ( empty( $new_attributes ) && empty( $extra_attributes ) ) {
-			return '';
-		}
-
-		// This is hardcoded on purpose.
-		// We only support a fixed list of attributes.
-		$attributes_to_merge = array( 'style', 'class' );
-		$attributes          = array();
-		foreach ( $attributes_to_merge as $attribute_name ) {
-			if ( empty( $new_attributes[ $attribute_name ] ) && empty( $extra_attributes[ $attribute_name ] ) ) {
-				continue;
-			}
-
-			if ( empty( $new_attributes[ $attribute_name ] ) ) {
-				$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ];
-				continue;
-			}
-
-			if ( empty( $extra_attributes[ $attribute_name ] ) ) {
-				$attributes[ $attribute_name ] = $new_attributes[ $attribute_name ];
-				continue;
-			}
-
-			$attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ] . ' ' . $new_attributes[ $attribute_name ];
-		}
-
-		foreach ( $extra_attributes as $attribute_name => $value ) {
-			if ( ! in_array( $attribute_name, $attributes_to_merge, true ) ) {
-				$attributes[ $attribute_name ] = $value;
-			}
-		}
-
-		if ( empty( $attributes ) ) {
-			return '';
-		}
-
-		$normalized_attributes = array();
-		foreach ( $attributes as $key => $value ) {
-			$normalized_attributes[] = $key . '="' . esc_attr( $value ) . '"';
-		}
-
-		return implode( ' ', $normalized_attributes );
 	}
 
 	public function render_accordion_section( $label, $link = false, $inner_blocks ) {

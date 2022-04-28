@@ -17,7 +17,7 @@ import {
  */
 import { formatNum } from '../utils/helpers';
 
-const TooltipControls = ({ attributes, setAttributes }) => {
+function TooltipControls({ attributes, setAttributes }) {
 	const {
 		tooltipFormat,
 		tooltipActive,
@@ -31,9 +31,7 @@ const TooltipControls = ({ attributes, setAttributes }) => {
 			<ToggleControl
 				label={__('Show Tooltip')}
 				checked={tooltipActive}
-				onChange={() =>
-					setAttributes({ tooltipActive: !tooltipActive })
-				}
+				onChange={() => setAttributes({ tooltipActive: !tooltipActive })}
 			/>
 			<ToggleControl
 				label={__('Show Category')}
@@ -101,11 +99,11 @@ const TooltipControls = ({ attributes, setAttributes }) => {
 				)}
 				disabled={!tooltipActive}
 				value={tooltipFormat}
-				placeholder={'%1$s: %2$s'}
+				placeholder="%1$s: %2$s"
 				onChange={(val) => setAttributes({ tooltipFormat: val })}
 			/>
 		</PanelBody>
 	);
-};
+}
 
 export default TooltipControls;
