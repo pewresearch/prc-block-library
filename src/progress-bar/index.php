@@ -79,7 +79,7 @@ class PRC_Progress_Bar extends PRC_Block_Library {
 			'progress-bar',
 			array(
 				'js'        => true,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -91,7 +91,6 @@ class PRC_Progress_Bar extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/progress-bar',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_progress_bar' ),
 			)
 		);
