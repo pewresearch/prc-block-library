@@ -37,9 +37,10 @@ class Roper_DB_Search extends PRC_Block_Library {
 			$cnt_ids = get_query_var('cntIDs', false);
 			$std_ids = get_query_var('stdIDs', false);
 			$keyword = false !== get_query_var('keyword', false) ? get_query_var('keyword', false) : get_query_var('keywordtext', false);
+			$topic = false !== get_query_var('topic', false) ? get_query_var('topic', false) : false;
 			if ( false !== $keyword ) {
 				$args['keyword'] = $keyword;
-				$args['topic'] = '';
+				$args['topic'] = $topic;
 				$args['startdate'] = '';
 				$args['enddate'] = '';
 				$args['txtAreaCntIDsStndr'] = '';
