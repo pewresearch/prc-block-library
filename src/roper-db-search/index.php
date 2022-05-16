@@ -47,6 +47,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 				$args['enddate'] = $end_date;
 				$args['txtAreaCntIDsStndr'] = '';
 				$args['txtAreaStdIDs'] = '';
+				$args['btnSubmit'] = 'Search';
 				//
 				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/search_results.cfm';
 			} elseif ( false !== $q_id ) {
