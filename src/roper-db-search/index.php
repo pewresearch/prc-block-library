@@ -20,7 +20,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 	}
 
 	public function register_roper_global_db_query_vars($query_vars) {
-		array_push($query_vars, 'qid', 'cntIDs', 'stdIDs', 'keyword', 'keywordtext');
+		array_push($query_vars, 'qid', 'cntIDs', 'stdIDs', 'keyword', 'keywordtext', 'startdate', 'enddate');
 		return $query_vars;
 	}
 
@@ -38,15 +38,17 @@ class Roper_DB_Search extends PRC_Block_Library {
 			$std_ids = get_query_var('stdIDs', false);
 			$keyword = false !== get_query_var('keyword', false) ? get_query_var('keyword', false) : get_query_var('keywordtext', false);
 			$topic = false !== get_query_var('topic', false) ? get_query_var('topic', false) : false;
+			$start_date = false !== get_query_var('startdate', false) ? get_query_var('startdate', false) : false;
+			$end_date = false !== get_query_var('enddate', false) ? get_query_var('enddate', false) : false;
 			if ( false !== $keyword ) {
 				$args['keyword'] = $keyword;
 				$args['topic'] = $topic;
-				$args['startdate'] = '';
-				$args['enddate'] = '';
+				$args['startdate'] = $start_date;
+				$args['enddate'] = $end_date;
 				$args['txtAreaCntIDsStndr'] = '';
 				$args['txtAreaStdIDs'] = '';
 				//
-				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/search.cfm';
+				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/search_results.cfm';
 			} elseif ( false !== $q_id ) {
 				$args['qid'] = $q_id;
 				$args['cntIDs'] = $cnt_ids;
