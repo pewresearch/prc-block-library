@@ -41,13 +41,13 @@ class Roper_DB_Search extends PRC_Block_Library {
 			$start_date = false !== get_query_var('startdate', false) ? get_query_var('startdate', false) : false;
 			$end_date = false !== get_query_var('enddate', false) ? get_query_var('enddate', false) : false;
 			if ( false !== $keyword ) {
-				$args['keyword'] = $keyword;
+				$args['keywordText'] = $keyword;
+				$args['btnSubmit'] = 'Search';
 				$args['topic'] = $topic;
 				$args['startdate'] = $start_date;
 				$args['enddate'] = $end_date;
 				$args['txtAreaCntIDsStndr'] = '';
 				$args['txtAreaStdIDs'] = '';
-				$args['btnSubmit'] = 'Search';
 				//
 				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/search_results.cfm';
 			} elseif ( false !== $q_id ) {
@@ -57,7 +57,6 @@ class Roper_DB_Search extends PRC_Block_Library {
 				//
 				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/question_view.cfm';
 			}
-
 			$iframe_url = add_query_arg($args, $src);
 
 			echo wp_kses(
