@@ -1260,6 +1260,18 @@
   "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.11.2.tgz"
   "version" "2.11.2"
 
+"@prc-app/shared@file:../..":
+  "resolved" "file:../.."
+  "version" "4.0.4"
+  dependencies:
+    "@emotion/react" "^11.7.1"
+    "@emotion/styled" "^11.6.0"
+    "array-move" "^4.0.0"
+    "react-sortable-hoc" "^2.0.0"
+    "semantic-ui-react" "^2.1.1"
+    "update" "^0.7.4"
+    "uuid" "^8.3.2"
+
 "@react-spring/animated@~9.4.3-beta.0":
   "integrity" "sha512-hKKmeXPoGpJ/zrG/RC8stwW8PmMH0BbewHD8aUPLbyzD9fNvZEJ0mjKmOI0CcSwMpb43kuwY2nX3ZJVImPQCoQ=="
   "resolved" "https://registry.npmjs.org/@react-spring/animated/-/animated-9.4.3.tgz"
