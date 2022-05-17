@@ -47,6 +47,7 @@ $subHeadingLineHeight: 18px;
 
   .sub-heading {
     color: $subHeadingColorLight;
+    //margin-top: 4px;
     & > p {
       line-height: $subHeadingLineHeight;
     }
@@ -91,7 +92,7 @@ $subHeadingLineHeight: 18px;
   &.has-form .ui.mailchimp.form {
     input[type="text"] {
       font-size: 15px;
-      padding: .56em 1em;
+      padding: .64em 1em;
     }
   }
 

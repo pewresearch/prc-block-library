@@ -133,7 +133,7 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 		}
 		toggleLoading(true);
 		apiFetch({
-			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}`,
+			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}&captcha_token=${token}`,
 			method: 'POST',
 		})
 			.then((res) => {

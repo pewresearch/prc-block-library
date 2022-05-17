@@ -32,13 +32,13 @@ const getColorName = (color) => {
 	return null;
 };
 
-const MailchimpForm = ({
+function MailchimpForm({
 	display,
 	interest,
 	buttonColor,
 	hasDarkBackground,
 	blockProps = { className: '' },
-}) => {
+}) {
 	const [buttonText, changeButtonText] = useState('SIGN UP');
 	const [success, toggleSuccess] = useState(false);
 	const [error, toggleError] = useState(false);
@@ -87,7 +87,7 @@ const MailchimpForm = ({
 
 		setTimeout(() => {
 			apiFetch({
-				path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}`,
+				path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}&captcha_token=${token}`,
 				method: 'POST',
 				// TODO: Add nonce verification here.
 			})
@@ -98,9 +98,7 @@ const MailchimpForm = ({
 					toggleLoading(false);
 					if ('add-member-error' === e.code) {
 						subscribed();
-						console.info(
-							`${emailAddress} already subscribed to ${interest}`,
-						);
+						console.info(`${emailAddress} already subscribed to ${interest}`);
 					} else {
 						toggleSuccess(false);
 						toggleError(true);
@@ -111,11 +109,7 @@ const MailchimpForm = ({
 	};
 	return (
 		<div {...blockProps}>
-			<Form
-				className="mailchimp"
-				error={error}
-				onSubmit={verifyAndSubmit}
-			>
+			<Form className="mailchimp" error={error} onSubmit={verifyAndSubmit}>
 				{blockProps.className.includes('is-style-horizontal') && (
 					<Form.Group>
 						<Form.Input
@@ -135,15 +129,12 @@ const MailchimpForm = ({
 
 						<Form.Button
 							color={
-								'primary' !== buttonColorName &&
-								'secondary' !== buttonColorName
+								'primary' !== buttonColorName && 'secondary' !== buttonColorName
 									? buttonColorName
 									: null
 							}
 							basic={'basic' === buttonColorName}
-							inverted={
-								'basic' === buttonColorName && hasDarkBackground
-							}
+							inverted={'basic' === buttonColorName && hasDarkBackground}
 							primary={'primary' === buttonColorName}
 							secondary={'secondary' === buttonColorName}
 							positive={success}
@@ -173,15 +164,12 @@ const MailchimpForm = ({
 						/>
 						<Form.Button
 							color={
-								'primary' !== buttonColorName &&
-								'secondary' !== buttonColorName
+								'primary' !== buttonColorName && 'secondary' !== buttonColorName
 									? buttonColorName
 									: null
 							}
 							basic={'basic' === buttonColorName}
-							inverted={
-								'basic' === buttonColorName && hasDarkBackground
-							}
+							inverted={'basic' === buttonColorName && hasDarkBackground}
 							primary={'primary' === buttonColorName}
 							secondary={'secondary' === buttonColorName}
 							positive={success}
@@ -196,6 +184,6 @@ const MailchimpForm = ({
 			</Form>
 		</div>
 	);
-};
+}
 
 export default MailchimpForm;
