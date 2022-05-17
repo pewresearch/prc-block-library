@@ -93,6 +93,7 @@ function MailchimpForm({
 			})
 				.then(() => {
 					subscribed();
+					console.info('Subscribed with token: ', token);
 				})
 				.catch((e) => {
 					toggleLoading(false);
