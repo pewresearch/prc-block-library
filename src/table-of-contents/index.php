@@ -16,6 +16,8 @@ use PHPHtmlParser\Exceptions\NotLoadedException;
  */
 
 class Table_of_Contents extends PRC_Block_Library {
+	public static $version = '1.0.0';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -212,7 +214,7 @@ class Table_of_Contents extends PRC_Block_Library {
 	}
 
 	public function frontend_script() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 		$registered = $enqueue->enqueue(
 			'frontend',
 			'table-of-contents',
