@@ -22,7 +22,9 @@ const BUTTON_COLORS = [
 	{ name: 'basic', color: '#fff' },
 ];
 
-const CAPTCHA_SITE_KEY = '6LeotpUeAAAAACBX3-8ty2-Q1mSJIdbqBVnvHg0O';
+const CAPTCHA_SITE_KEY = '6LdLS9gUAAAAAJHBQXVNlqpkpdI04B5jRRCF1AW6';
+// for testing: https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
+// const _TEST_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
 const getColorName = (color) => {
 	const matched = BUTTON_COLORS.filter((c) => c.color === color);
