@@ -1,18 +1,18 @@
 /**
- * WordPress dependencies
+ * External dependencies
  */
-import { Fragment, useState, useRef } from '@wordpress/element';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { Form, Icon } from 'semantic-ui-react';
+
+/**
+ * WordPress Dependencies
+ */
+import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
 /**
- * External dependencies
+ * Internal Dependencies
  */
-import ReCAPTCHA from 'react-google-recaptcha';
-
-/**
- * Internal dependencies
- */
-import { Form, Icon } from 'semantic-ui-react';
 import './style.scss';
 
 const BUTTON_COLORS = [
@@ -22,9 +22,9 @@ const BUTTON_COLORS = [
 	{ name: 'basic', color: '#fff' },
 ];
 
-const CAPTCHA_SITE_KEY = '6LdLS9gUAAAAAJHBQXVNlqpkpdI04B5jRRCF1AW6';
+// const CAPTCHA_SITE_KEY = '6LdLS9gUAAAAAJHBQXVNlqpkpdI04B5jRRCF1AW6';
 // for testing: https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
-// const _TEST_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
 
 const getColorName = (color) => {
 	const matched = BUTTON_COLORS.filter((c) => c.color === color);
@@ -46,7 +46,11 @@ function MailchimpForm({
 	const [error, toggleError] = useState(false);
 	const [loading, toggleLoading] = useState(false);
 	const [emailAddress, setEmail] = useState('');
-	const recaptchaRef = useRef(null);
+
+	// Captcha
+	const [displayCaptcha, toggleDisplayCaptcha] = useState(false);
+	const [token, setToken] = useState(false);
+	const captchaRef = useRef(null);
 
 	const buttonColorName = getColorName(buttonColor);
 
@@ -54,24 +58,20 @@ function MailchimpForm({
 		toggleError(false);
 		toggleLoading(false);
 		toggleSuccess(true);
-		changeButtonText(<Icon name="check circle" />);
+		changeButtonText(
+			<Fragment>
+				<Icon name="check circle" /> SUBSCRIBED
+			</Fragment>,
+		);
 		setEmail('');
 	};
 
-	const verifyAndSubmit = async () => {
-		console.log('verifying');
-		const token = await recaptchaRef.current.executeAsync();
-		console.log('sending token: ', token);
-		submitHandler(token);
-		recaptchaRef.current.reset();
-	};
-
-	const submitHandler = (token) => {
+	const submitHandler = () => {
 		if (!token) {
 			toggleSuccess(false);
 			toggleError(true);
 			changeButtonText('ERROR');
-			changeButtonColor('red');
+			// changeButtonColor('red');
 			return;
 		}
 
@@ -91,11 +91,9 @@ function MailchimpForm({
 			apiFetch({
 				path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}&captcha_token=${token}`,
 				method: 'POST',
-				// TODO: Add nonce verification here.
 			})
 				.then(() => {
 					subscribed();
-					console.info('Subscribed with token: ', token);
 				})
 				.catch((e) => {
 					toggleLoading(false);
@@ -110,10 +108,43 @@ function MailchimpForm({
 				});
 		}, 2000);
 	};
+
+	useEffect(() => {
+		console.log('TOKEN: ', token);
+		if (false !== token) {
+			toggleDisplayCaptcha(false);
+			submitHandler();
+		}
+	}, [token]);
+
+	const isHorizontalStyle = blockProps.className.includes(
+		'is-style-horizontal',
+	);
+
 	return (
 		<div {...blockProps}>
-			<Form className="mailchimp" error={error} onSubmit={verifyAndSubmit}>
-				{blockProps.className.includes('is-style-horizontal') && (
+			<Form
+				className="mailchimp"
+				error={error}
+				onSubmit={() => toggleDisplayCaptcha(true)}
+			>
+				{displayCaptcha && (
+					<HCaptcha
+						sitekey={CAPTCHA_SITE_KEY}
+						theme={hasDarkBackground ? 'dark' : 'light'}
+						size="normal"
+						onLoad={() => {
+							// this reaches out to the hCaptcha JS API and runs the
+							// execute function on it. you can use other functions as
+							// documented here:
+							// https://docs.hcaptcha.com/configuration#jsapi
+							captchaRef.current.execute();
+						}}
+						onVerify={setToken}
+						ref={captchaRef}
+					/>
+				)}
+				{!displayCaptcha && isHorizontalStyle && (
 					<Form.Group>
 						<Form.Input
 							placeholder="Email address"
@@ -124,12 +155,6 @@ function MailchimpForm({
 							}}
 							value={emailAddress}
 						/>
-						<ReCAPTCHA
-							sitekey={CAPTCHA_SITE_KEY}
-							ref={recaptchaRef}
-							size="invisible"
-						/>
-
 						<Form.Button
 							color={
 								'primary' !== buttonColorName && 'secondary' !== buttonColorName
@@ -149,7 +174,7 @@ function MailchimpForm({
 						</Form.Button>
 					</Form.Group>
 				)}
-				{!blockProps.className.includes('is-style-horizontal') && (
+				{!displayCaptcha && !isHorizontalStyle && (
 					<Form.Field>
 						<Form.Input
 							placeholder="Email address"
@@ -159,11 +184,6 @@ function MailchimpForm({
 								setEmail(e.target.value);
 							}}
 							value={emailAddress}
-						/>
-						<ReCAPTCHA
-							sitekey={CAPTCHA_SITE_KEY}
-							ref={recaptchaRef}
-							size="invisible"
 						/>
 						<Form.Button
 							color={
