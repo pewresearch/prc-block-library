@@ -16,9 +16,9 @@ import apiFetch from '@wordpress/api-fetch';
  */
 import './style.scss';
 
-// const _CAPTCHA_SITE_KEY = '6LeotpUeAAAAACBX3-8ty2-Q1mSJIdbqBVnvHg0O';
 const CAPTCHA_SITE_KEY = '6LdLS9gUAAAAAJHBQXVNlqpkpdI04B5jRRCF1AW6';
-const _TEST_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+// for testing: https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
+// const _TEST_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
 function CBox({ label, value, watchWord, userSelected = [], onChange }) {
 	const checked =
@@ -239,7 +239,11 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 						paddingRight: '0.5em',
 					}}
 				>
-					<ReCAPTCHA sitekey={_TEST_KEY} ref={recaptchaRef} size="invisible" />
+					<ReCAPTCHA
+						sitekey={CAPTCHA_SITE_KEY}
+						ref={recaptchaRef}
+						size="invisible"
+					/>
 				</div>
 			</Form.Group>
 			<Form.Group>
