@@ -22,8 +22,6 @@ const BUTTON_COLORS = [
 	{ name: 'basic', color: '#fff' },
 ];
 
-// const CAPTCHA_SITE_KEY = '6LdLS9gUAAAAAJHBQXVNlqpkpdI04B5jRRCF1AW6';
-// for testing: https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
 const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
 
 const getColorName = (color) => {
@@ -50,7 +48,6 @@ function MailchimpForm({
 	// Captcha
 	const [displayCaptcha, toggleDisplayCaptcha] = useState(false);
 	const [token, setToken] = useState(false);
-	const captchaRef = useRef(null);
 
 	const buttonColorName = getColorName(buttonColor);
 
@@ -133,15 +130,7 @@ function MailchimpForm({
 						sitekey={CAPTCHA_SITE_KEY}
 						theme={hasDarkBackground ? 'dark' : 'light'}
 						size="normal"
-						onLoad={() => {
-							// this reaches out to the hCaptcha JS API and runs the
-							// execute function on it. you can use other functions as
-							// documented here:
-							// https://docs.hcaptcha.com/configuration#jsapi
-							captchaRef.current.execute();
-						}}
 						onVerify={setToken}
-						ref={captchaRef}
 					/>
 				)}
 				{!displayCaptcha && isHorizontalStyle && (
@@ -154,6 +143,7 @@ function MailchimpForm({
 								setEmail(e.target.value);
 							}}
 							value={emailAddress}
+							type="email"
 						/>
 						<Form.Button
 							color={
@@ -184,6 +174,7 @@ function MailchimpForm({
 								setEmail(e.target.value);
 							}}
 							value={emailAddress}
+							type="email"
 						/>
 						<Form.Button
 							color={
