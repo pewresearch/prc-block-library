@@ -48,8 +48,27 @@ function MailchimpForm({
 	// Captcha
 	const [displayCaptcha, toggleDisplayCaptcha] = useState(false);
 	const [token, setToken] = useState(false);
+	const captchaRef = useRef(null);
 
 	const buttonColorName = getColorName(buttonColor);
+
+	const hackCaptchaCheckboxStyle = () => {
+		let target = document.querySelector(
+			'iframe[title="Main content of the hCaptcha challenge"]',
+		);
+		target = target.parentElement.parentElement;
+		if (target) {
+			const checkbox = target.querySelector('div:last-of-type');
+			if (null !== checkbox) {
+				checkbox.style = {
+					...checkbox.style,
+					display: 'none',
+				};
+			}
+		} else {
+			hackCaptchaCheckboxStyle();
+		}
+	};
 
 	const subscribed = () => {
 		toggleError(false);
@@ -107,7 +126,6 @@ function MailchimpForm({
 	};
 
 	useEffect(() => {
-		console.log('TOKEN: ', token);
 		if (false !== token) {
 			toggleDisplayCaptcha(false);
 			submitHandler();
@@ -129,8 +147,11 @@ function MailchimpForm({
 					<HCaptcha
 						sitekey={CAPTCHA_SITE_KEY}
 						theme={hasDarkBackground ? 'dark' : 'light'}
-						size="normal"
 						onVerify={setToken}
+						ref={captchaRef}
+						onOpen={() => {
+							hackCaptchaCheckboxStyle();
+						}}
 					/>
 				)}
 				{!displayCaptcha && isHorizontalStyle && (

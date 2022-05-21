@@ -110,6 +110,7 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 
 	// Captcha
 	const [token, setToken] = useState(false);
+	const captchaRef = useRef(null);
 
 	const throwCaptchaError = () => {
 		toggleSuccess(false);
@@ -199,6 +200,24 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 		setSelected([...tmp]);
 	};
 
+	const hackCaptchaCheckboxStyle = () => {
+		let target = document.querySelector(
+			'iframe[title="Main content of the hCaptcha challenge"]',
+		);
+		target = target.parentElement.parentElement;
+		if (target) {
+			const checkbox = target.querySelector('div:last-of-type');
+			if (null !== checkbox) {
+				checkbox.style = {
+					...checkbox.style,
+					display: 'none',
+				};
+			}
+		} else {
+			hackCaptchaCheckboxStyle();
+		}
+	};
+
 	return (
 		<Form onSubmit={onSubmit} success={isSuccess} error={isError}>
 			{0 === selected.length && (
@@ -249,11 +268,17 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 						sitekey={CAPTCHA_SITE_KEY}
 						size="normal"
 						onVerify={setToken}
+						onOpen={() => hackCaptchaCheckboxStyle()}
+						ref={captchaRef}
 					/>
 				</div>
 			</Form.Group>
 			<Form.Group>
-				<Form.Button loading={loading} color={buttonColor}>
+				<Form.Button
+					loading={loading}
+					disabled={false === token}
+					color={buttonColor}
+				>
 					{buttonText}
 				</Form.Button>
 			</Form.Group>

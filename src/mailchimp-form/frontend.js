@@ -21,6 +21,7 @@ domReady(() => {
 				display: true,
 				interest: elm.getAttribute('data-segment-id'),
 				buttonColor: elm.getAttribute('data-button-color'),
+				hasDarkBackground: elm.getAttribute('data-has-dark-bg'),
 				blockProps: {
 					className: elm.getAttribute('class'),
 				},

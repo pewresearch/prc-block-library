@@ -25,7 +25,10 @@ class Mailchimp_Form extends PRC_Block_Library {
 				'data-button-color' => $attributes['buttonColor'],
 				)
 		);
-		return wp_kses( "<div {$wrapper_attributes}></div>", 'post' );
+		return wp_sprintf(
+			'<div %1$s></div>',
+			$wrapper_attributes,
+		);
 	}
 
 	public function enqueue_frontend_assets() {
