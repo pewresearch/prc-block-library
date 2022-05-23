@@ -49,8 +49,8 @@
   "story-item.js.map": "frontend/story-item-76e06ac1.js.map",
   "table-of-contents.css": "frontend/table-of-contents-1b47ceab.css",
   "table-of-contents.css.map": "frontend/table-of-contents-1b47ceab.css.map",
-  "table-of-contents.js": "frontend/table-of-contents-222f6c0a.js",
-  "table-of-contents.js.map": "frontend/table-of-contents-222f6c0a.js.map",
+  "table-of-contents.js": "frontend/table-of-contents-61924a58.js",
+  "table-of-contents.js.map": "frontend/table-of-contents-61924a58.js.map",
   "tabs-controller.js": "frontend/tabs-controller-ea3fcf78.js",
   "tabs-controller.js.map": "frontend/tabs-controller-ea3fcf78.js.map",
   "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-eb627b3c.js",
@@ -342,11 +342,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/table-of-contents-222f6c0a.js"
+          "frontend/table-of-contents-61924a58.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/table-of-contents-222f6c0a.js.map"
+          "frontend/table-of-contents-61924a58.js.map"
         ],
         "css": [
           "frontend/table-of-contents-1b47ceab.css"
