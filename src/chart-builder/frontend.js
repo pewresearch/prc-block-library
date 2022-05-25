@@ -150,6 +150,7 @@ const getConfig = (el) => {
 			active: attr.tooltipActive,
 			categoryActive: attr.tooltipCategoryActive,
 			format: attr.tooltipFormat,
+			formatNumber: attr.tooltipFormatNumber,
 			offsetX: attr.tooltipOffsetX,
 			offsetY: attr.tooltipOffsetY,
 			maxWidth: attr.tooltipMaxWidth,
@@ -246,7 +247,7 @@ const arrayToDataObj = (arr, scale, chartType) => {
 			return data;
 		}
 		if ('time' === s) {
-			return new Date(data).getTime();
+			return new Date(data);
 		}
 		return parseFloat(data);
 	};
@@ -255,7 +256,7 @@ const arrayToDataObj = (arr, scale, chartType) => {
 			.filter((row) => !Number.isNaN(parseFloat(row[i])))
 			.map((row) => ({
 				x: scaleData(row[0], scale),
-				y: parseFloat(row[i]),
+				y: parseFloat(row[i].replace(/[^.a-zA-Z0-9]/g, '')),
 				category: headers[i],
 				// yLabel: `${parseFloat(row[i])}`,
 			}));

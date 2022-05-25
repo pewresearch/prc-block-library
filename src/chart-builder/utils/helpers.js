@@ -25,7 +25,7 @@ export const formattedData = (data, scale, chartType) => {
 			return data;
 		}
 		if ('time' === scale) {
-			return new Date(data).getTime();
+			return new Date(data);
 		}
 		return parseFloat(data);
 	};
@@ -136,7 +136,6 @@ export const createSvg = (clientId) => {
 };
 
 export const formatLegacyAttrs = (legacyMeta, attributes) => {
-	console.log({ legacyMeta });
 	const checkEmptyStr = (legacyAttr, attr) =>
 		0 !== legacyAttr.length ? legacyAttr : attr;
 	const getLegacyConfig = (type) => {

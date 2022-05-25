@@ -288,6 +288,7 @@ const edit = ({
 			active: attr.tooltipActive,
 			categoryActive: attr.tooltipCategoryActive,
 			format: attr.tooltipFormat,
+			formatNumber: attr.tooltipFormatNumber,
 			offsetX: attr.tooltipOffsetX,
 			offsetY: attr.tooltipOffsetY,
 			maxHeight: attr.tooltipMaxHeight,
@@ -386,7 +387,6 @@ const edit = ({
 	}
 	// For now, let's force pie charts to only use the first array of data, as they can only contain one series of data by rule.
 	// Passing addtl data will break tool (bad).
-	console.log({ attr, config, clientId, tableJson });
 	if (tableJson) {
 		switch (chartType) {
 			case 'pie':
