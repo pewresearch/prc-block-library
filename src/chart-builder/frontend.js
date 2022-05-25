@@ -253,10 +253,12 @@ const arrayToDataObj = (arr, scale, chartType) => {
 	};
 	for (let i = 1; i < headers.length; i += 1) {
 		const series = body
-			.filter((row) => !Number.isNaN(parseFloat(row[i])))
+			.filter(
+				(row) => !Number.isNaN(parseFloat(row[i].replace(/[^0-9.]/g, ''))),
+			)
 			.map((row) => ({
 				x: scaleData(row[0], scale),
-				y: parseFloat(row[i].replace(/[^.a-zA-Z0-9]/g, '')),
+				y: parseFloat(row[i].replace(/[^0-9.]/g, '')),
 				category: headers[i],
 				// yLabel: `${parseFloat(row[i])}`,
 			}));

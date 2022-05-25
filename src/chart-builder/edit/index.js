@@ -375,7 +375,6 @@ const edit = ({
 		const { body } = tableBlock.attributes;
 		return { tableHeaders, body };
 	}, []);
-
 	const tableJson = formattedData(tableData, xScale, chartType);
 	const tableCategories = tableData.tableHeaders;
 	let chartData;
@@ -398,6 +397,7 @@ const edit = ({
 		}
 		renderedChart = <ChartBuilderWrapper config={config} data={chartData} />;
 	}
+	console.log({ chartData, config });
 	return (
 		<ChartBuilderTextWrapper
 			active={config.metadata.active}

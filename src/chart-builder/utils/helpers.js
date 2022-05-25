@@ -31,10 +31,15 @@ export const formattedData = (data, scale, chartType) => {
 	};
 	for (let i = 1; i < tableHeaders.length; i++) {
 		const series = body
-			.filter((row) => !Number.isNaN(parseFloat(row.cells[i].content)))
+			.filter(
+				(row) =>
+					!Number.isNaN(
+						parseFloat(row.cells[i].content.replace(/[^0-9.]/g, '')),
+					),
+			)
 			.map((row) => ({
 				x: scaleData(row.cells[0].content, scale),
-				y: parseFloat(row.cells[i].content.replace(/[^.a-zA-Z0-9]/g, '')),
+				y: parseFloat(row.cells[i].content.replace(/[^0-9.]/g, '')),
 				category: tableHeaders[i],
 				// yLabel: `${parseFloat(row.cells[i].content)}`,
 			}));
