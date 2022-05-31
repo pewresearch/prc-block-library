@@ -251,19 +251,19 @@ const arrayToDataObj = (arr, scale, chartType) => {
 		}
 		return parseFloat(data);
 	};
+	const cleanNum = (num) => parseFloat(num.toString().replace(/[^0-9.]/g, ''));
 	for (let i = 1; i < headers.length; i += 1) {
 		const series = body
-			.filter(
-				(row) => !Number.isNaN(parseFloat(row[i].replace(/[^0-9.]/g, ''))),
-			)
+			.filter((row) => !Number.isNaN(cleanNum(row[i])))
 			.map((row) => ({
 				x: scaleData(row[0], scale),
-				y: parseFloat(row[i].replace(/[^0-9.]/g, '')),
+				y: cleanNum(row[i]),
 				category: headers[i],
 				// yLabel: `${parseFloat(row[i])}`,
 			}));
 		seriesData.push(series);
 	}
+
 	return { categories, seriesData };
 };
 
