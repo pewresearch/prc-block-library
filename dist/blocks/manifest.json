@@ -1,8 +1,8 @@
 {
   "buttons.js": "blocks/buttons-725c40d6.js",
   "buttons.js.map": "blocks/buttons-725c40d6.js.map",
-  "chart-builder-wrapper.js": "blocks/chart-builder-wrapper-7df7a5f3.js",
-  "chart-builder-wrapper.js.map": "blocks/chart-builder-wrapper-7df7a5f3.js.map",
+  "chart-builder-data-wrapper.js": "blocks/chart-builder-data-wrapper-2c87fbd8.js",
+  "chart-builder-data-wrapper.js.map": "blocks/chart-builder-data-wrapper-2c87fbd8.js.map",
   "chart-builder.css": "blocks/chart-builder-ddf9d855.css",
   "chart-builder.css.map": "blocks/chart-builder-ddf9d855.css.map",
   "chart-builder.js": "blocks/chart-builder-78ac5496.js",
@@ -260,15 +260,15 @@
         ]
       }
     },
-    "chart-builder-wrapper": {
+    "chart-builder-data-wrapper": {
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/chart-builder-wrapper-7df7a5f3.js"
+          "blocks/chart-builder-data-wrapper-2c87fbd8.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/chart-builder-wrapper-7df7a5f3.js.map"
+          "blocks/chart-builder-data-wrapper-2c87fbd8.js.map"
         ]
       }
     },

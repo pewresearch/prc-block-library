@@ -16,4 +16,4 @@
  * A zero setup Webpack Bundler Script for WordPress
  */
 (window.wpackioprcBlocksLibraryfrontendJsonp=window.wpackioprcBlocksLibraryfrontendJsonp||[]).push([[4],{35:function(o,n,c){var a="prcBlocksLibrarydist".replace(/[^a-zA-Z0-9_-]/g,"");c.p=window["__wpackIo".concat(a)]},574:function(o,n,c){c(35),o.exports=c(575)},575:function(o,n){window.chartData||(window.chartData={})}},[[574,0]]]);
-//# sourceMappingURL=chart-builder-wrapper-7d15f441.js.map
+//# sourceMappingURL=chart-builder-data-wrapper-27a048db.js.map
