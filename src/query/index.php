@@ -46,6 +46,9 @@ class Query_Block extends PRC_Block_Library {
 					$query['post_type'] = $post_type_param;
 				}
 			}
+			// Only allow published posts, no other.
+			$query['post_status'] = 'publish';
+
 			if ( isset( $block['query']['sticky'] ) && ! empty( $block['query']['sticky'] ) ) {
 				$sticky = get_option( 'sticky_posts' );
 				if ( 'only' === $block['query']['sticky'] ) {
