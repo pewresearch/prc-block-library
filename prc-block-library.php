@@ -67,7 +67,6 @@ class PRC_Block_Library {
 
 			// Get files from blocks.json and include them.
 			$files = json_decode( file_get_contents( plugin_dir_path( __FILE__ ) . '/blocks.json' ), true );
-			error_log(print_r($files, true));
 			$blocks = $files['blocks'];
 			foreach ( $blocks as $block ) {
 				if ( !array_key_exists('php', $block) ) {
