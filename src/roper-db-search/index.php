@@ -20,7 +20,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 	}
 
 	public function register_roper_global_db_query_vars($query_vars) {
-		array_push($query_vars, 'qid', 'cntIDs', 'stdIDs');
+		array_push($query_vars, 'qid', 'cntIDs', 'stdIDs', 'keyword', 'keywordtext', 'startdate', 'enddate');
 		return $query_vars;
 	}
 
@@ -31,17 +31,33 @@ class Roper_DB_Search extends PRC_Block_Library {
 
 		ob_start();
 		if ( 'global' === $type ) {
-			$iframe_url = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/index.cfm';
-
+			$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/index.cfm';
+			$args = array();
 			$q_id = get_query_var('qid', false);
 			$cnt_ids = get_query_var('cntIDs', false);
 			$std_ids = get_query_var('stdIDs', false);
-			if ( false !== $q_id ) {
-				$q_id = urlencode($q_id);
-				$cnt_ids = urlencode($cnt_ids);
-				$std_ids = urlencode($std_ids);
-				$iframe_url = "https://ropercenter.cornell.edu/CFIDE/pewglobal/question_view.cfm?qid={$q_id}&cntIDs={$cnt_ids}&stdIDs={$std_ids}";
+			$keyword = false !== get_query_var('keyword', false) ? get_query_var('keyword', false) : get_query_var('keywordtext', false);
+			$topic = false !== get_query_var('topic', false) ? get_query_var('topic', false) : false;
+			$start_date = false !== get_query_var('startdate', false) ? get_query_var('startdate', false) : false;
+			$end_date = false !== get_query_var('enddate', false) ? get_query_var('enddate', false) : false;
+			if ( false !== $keyword ) {
+				$args['keywordText'] = $keyword;
+				$args['btnSubmit'] = 'Search';
+				$args['topic'] = $topic;
+				$args['startdate'] = $start_date;
+				$args['enddate'] = $end_date;
+				$args['txtAreaCntIDsStndr'] = '';
+				$args['txtAreaStdIDs'] = '';
+				//
+				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/search_results.cfm';
+			} elseif ( false !== $q_id ) {
+				$args['qid'] = $q_id;
+				$args['cntIDs'] = $cnt_ids;
+				$args['stdIDs'] = $std_ids;
+				//
+				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/question_view.cfm';
 			}
+			$iframe_url = add_query_arg($args, $src);
 
 			echo wp_kses(
 				"<iframe src='{$iframe_url}' width='100%' height='1300' frameborder='0' hspace='0' vspace='0' scrolling='no' marginwidth='0' marginheight='0' allowtransparency='true' name='post' id='frameSec'></iframe>",

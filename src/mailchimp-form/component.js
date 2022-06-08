@@ -1,18 +1,18 @@
 /**
- * WordPress dependencies
+ * External dependencies
  */
-import { Fragment, useState, useRef } from '@wordpress/element';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { Form, Icon } from 'semantic-ui-react';
+
+/**
+ * WordPress Dependencies
+ */
+import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
 /**
- * External dependencies
+ * Internal Dependencies
  */
-import ReCAPTCHA from 'react-google-recaptcha';
-
-/**
- * Internal dependencies
- */
-import { Form, Icon } from 'semantic-ui-react';
 import './style.scss';
 
 const BUTTON_COLORS = [
@@ -22,7 +22,7 @@ const BUTTON_COLORS = [
 	{ name: 'basic', color: '#fff' },
 ];
 
-const CAPTCHA_SITE_KEY = '6LeotpUeAAAAACBX3-8ty2-Q1mSJIdbqBVnvHg0O';
+const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
 
 const getColorName = (color) => {
 	const matched = BUTTON_COLORS.filter((c) => c.color === color);
@@ -32,44 +32,62 @@ const getColorName = (color) => {
 	return null;
 };
 
-const MailchimpForm = ({
+function MailchimpForm({
 	display,
 	interest,
 	buttonColor,
 	hasDarkBackground,
 	blockProps = { className: '' },
-}) => {
+}) {
 	const [buttonText, changeButtonText] = useState('SIGN UP');
 	const [success, toggleSuccess] = useState(false);
 	const [error, toggleError] = useState(false);
 	const [loading, toggleLoading] = useState(false);
 	const [emailAddress, setEmail] = useState('');
-	const recaptchaRef = useRef(null);
+
+	// Captcha
+	const [displayCaptcha, toggleDisplayCaptcha] = useState(false);
+	const [token, setToken] = useState(false);
+	const captchaRef = useRef(null);
 
 	const buttonColorName = getColorName(buttonColor);
+
+	const hackCaptchaCheckboxStyle = () => {
+		let target = document.querySelector(
+			'iframe[title="Main content of the hCaptcha challenge"]',
+		);
+		target = target.parentElement.parentElement;
+		if (target) {
+			const checkbox = target.querySelector('div:last-of-type');
+			if (null !== checkbox) {
+				checkbox.style = {
+					...checkbox.style,
+					display: 'none',
+				};
+			}
+		} else {
+			hackCaptchaCheckboxStyle();
+		}
+	};
 
 	const subscribed = () => {
 		toggleError(false);
 		toggleLoading(false);
 		toggleSuccess(true);
-		changeButtonText(<Icon name="check circle" />);
+		changeButtonText(
+			<Fragment>
+				<Icon name="check circle" /> SUBSCRIBED
+			</Fragment>,
+		);
 		setEmail('');
 	};
 
-	const verifyAndSubmit = async () => {
-		console.log('verifying');
-		const token = await recaptchaRef.current.executeAsync();
-		console.log('sending token: ', token);
-		submitHandler(token);
-		recaptchaRef.current.reset();
-	};
-
-	const submitHandler = (token) => {
+	const submitHandler = () => {
 		if (!token) {
 			toggleSuccess(false);
 			toggleError(true);
 			changeButtonText('ERROR');
-			changeButtonColor('red');
+			// changeButtonColor('red');
 			return;
 		}
 
@@ -87,9 +105,8 @@ const MailchimpForm = ({
 
 		setTimeout(() => {
 			apiFetch({
-				path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}`,
+				path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}&captcha_token=${token}`,
 				method: 'POST',
-				// TODO: Add nonce verification here.
 			})
 				.then(() => {
 					subscribed();
@@ -98,9 +115,7 @@ const MailchimpForm = ({
 					toggleLoading(false);
 					if ('add-member-error' === e.code) {
 						subscribed();
-						console.info(
-							`${emailAddress} already subscribed to ${interest}`,
-						);
+						console.info(`${emailAddress} already subscribed to ${interest}`);
 					} else {
 						toggleSuccess(false);
 						toggleError(true);
@@ -109,14 +124,37 @@ const MailchimpForm = ({
 				});
 		}, 2000);
 	};
+
+	useEffect(() => {
+		if (false !== token) {
+			toggleDisplayCaptcha(false);
+			submitHandler();
+		}
+	}, [token]);
+
+	const isHorizontalStyle = blockProps.className.includes(
+		'is-style-horizontal',
+	);
+
 	return (
 		<div {...blockProps}>
 			<Form
 				className="mailchimp"
 				error={error}
-				onSubmit={verifyAndSubmit}
+				onSubmit={() => toggleDisplayCaptcha(true)}
 			>
-				{blockProps.className.includes('is-style-horizontal') && (
+				{displayCaptcha && (
+					<HCaptcha
+						sitekey={CAPTCHA_SITE_KEY}
+						theme={hasDarkBackground ? 'dark' : 'light'}
+						onVerify={setToken}
+						ref={captchaRef}
+						onOpen={() => {
+							hackCaptchaCheckboxStyle();
+						}}
+					/>
+				)}
+				{!displayCaptcha && isHorizontalStyle && (
 					<Form.Group>
 						<Form.Input
 							placeholder="Email address"
@@ -126,24 +164,16 @@ const MailchimpForm = ({
 								setEmail(e.target.value);
 							}}
 							value={emailAddress}
+							type="email"
 						/>
-						<ReCAPTCHA
-							sitekey={CAPTCHA_SITE_KEY}
-							ref={recaptchaRef}
-							size="invisible"
-						/>
-
 						<Form.Button
 							color={
-								'primary' !== buttonColorName &&
-								'secondary' !== buttonColorName
+								'primary' !== buttonColorName && 'secondary' !== buttonColorName
 									? buttonColorName
 									: null
 							}
 							basic={'basic' === buttonColorName}
-							inverted={
-								'basic' === buttonColorName && hasDarkBackground
-							}
+							inverted={'basic' === buttonColorName && hasDarkBackground}
 							primary={'primary' === buttonColorName}
 							secondary={'secondary' === buttonColorName}
 							positive={success}
@@ -155,7 +185,7 @@ const MailchimpForm = ({
 						</Form.Button>
 					</Form.Group>
 				)}
-				{!blockProps.className.includes('is-style-horizontal') && (
+				{!displayCaptcha && !isHorizontalStyle && (
 					<Form.Field>
 						<Form.Input
 							placeholder="Email address"
@@ -165,23 +195,16 @@ const MailchimpForm = ({
 								setEmail(e.target.value);
 							}}
 							value={emailAddress}
-						/>
-						<ReCAPTCHA
-							sitekey={CAPTCHA_SITE_KEY}
-							ref={recaptchaRef}
-							size="invisible"
+							type="email"
 						/>
 						<Form.Button
 							color={
-								'primary' !== buttonColorName &&
-								'secondary' !== buttonColorName
+								'primary' !== buttonColorName && 'secondary' !== buttonColorName
 									? buttonColorName
 									: null
 							}
 							basic={'basic' === buttonColorName}
-							inverted={
-								'basic' === buttonColorName && hasDarkBackground
-							}
+							inverted={'basic' === buttonColorName && hasDarkBackground}
 							primary={'primary' === buttonColorName}
 							secondary={'secondary' === buttonColorName}
 							positive={success}
@@ -196,6 +219,6 @@ const MailchimpForm = ({
 			</Form>
 		</div>
 	);
-};
+}
 
 export default MailchimpForm;

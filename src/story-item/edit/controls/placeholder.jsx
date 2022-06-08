@@ -34,7 +34,12 @@ function Placeholder({ attributes, setAttributes, blockProps }) {
 				}
 			}}
 			onSkip={() => {
-				setAttributes({ postId: 0 });
+				const todaysDate = new Date().toLocaleDateString('en-US', {
+					month: 'short',
+					day: 'numeric',
+					year: 'numeric',
+				});
+				setAttributes({ postId: 0, label: 'Report', date: todaysDate });
 			}}
 			blockProps={{ ...blockProps, style: { marginBottom: '16px' } }}
 			loadingComponent={loadingStub}

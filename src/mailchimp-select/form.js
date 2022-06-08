@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { Form, Message, Icon } from 'semantic-ui-react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 /**
  * WordPress dependencies
@@ -16,7 +16,7 @@ import apiFetch from '@wordpress/api-fetch';
  */
 import './style.scss';
 
-const CAPTCHA_SITE_KEY = '6LeotpUeAAAAACBX3-8ty2-Q1mSJIdbqBVnvHg0O';
+const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
 
 function CBox({ label, value, watchWord, userSelected = [], onChange }) {
 	const checked =
@@ -103,60 +103,70 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 	const [isError, toggleError] = useState(false);
 	const [isSuccess, toggleSuccess] = useState(false);
 	const [message, setMessage] = useState({ header: false, body: false });
-	const recaptchaRef = useRef(null);
 	const invalidEmailError = {
 		content: 'Please enter a valid email address',
 		pointing: 'below',
 	};
 
-	const verifyAndSubmit = async () => {
-		const token = await recaptchaRef.current.executeAsync();
-		onSubmit(token);
-		recaptchaRef.current.reset();
+	// Captcha
+	const [token, setToken] = useState(false);
+	const captchaRef = useRef(null);
+
+	const throwCaptchaError = () => {
+		toggleSuccess(false);
+		toggleError(true);
+		changeButtonText('ERROR');
+		changeButtonColor('red');
+		setMessage({
+			header: 'Error',
+			body: 'Your captcha verification has expired or failed. Please try again later.',
+		});
 	};
 
-	const onSubmit = (token) => {
+	const throwSuccess = () => {
+		changeButtonText(<Icon name="check circle" />);
+		changeButtonColor('green');
+		setMessage({
+			header: 'Success',
+			body: 'You have succesfully subsrcibed to these newsletter(s)',
+		});
+		toggleSuccess(true);
+		toggleError(false);
+	};
+
+	const throwError = (err) => {
+		console.error(err);
+		toggleSuccess(false);
+		toggleError(true);
+		changeButtonText('ERROR');
+		changeButtonColor('red');
+		setMessage({
+			header: 'Error',
+			body: 'Unfortunately we could not susbscribe you at this time. Please try again later.',
+		});
+	};
+
+	const onSubmit = () => {
 		if (!token) {
-			allowSubmissions = false;
-			toggleSuccess(false);
-			toggleError(true);
-			changeButtonText('ERROR');
-			changeButtonColor('red');
-			setMessage({
-				header: 'Error',
-				body: 'Your reCAPTCHA verification has expired or failed. Please try again later.',
-			});
+			throwCaptchaError();
+			return;
 		}
-		console.log('allowSubmission?', allowSubmissions, userSelection);
+
 		if (!allowSubmissions) {
 			return;
 		}
+
 		toggleLoading(true);
+
 		apiFetch({
-			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}`,
+			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}&captcha_token=${token}`,
 			method: 'POST',
 		})
-			.then((res) => {
-				console.log(res);
-				changeButtonText(<Icon name="check circle" />);
-				changeButtonColor('green');
-				setMessage({
-					header: 'Success',
-					body: 'You have succesfully subsrcibed to these newsletter(s)',
-				});
-				toggleSuccess(true);
-				toggleError(false);
+			.then(() => {
+				throwSuccess();
 			})
 			.catch((err) => {
-				console.error(err);
-				toggleSuccess(false);
-				toggleError(true);
-				changeButtonText('ERROR');
-				changeButtonColor('red');
-				setMessage({
-					header: 'Error',
-					body: 'Unfortunately we could not susbscribe you at this time. Please try again later.',
-				});
+				throwError(err);
 			})
 			.finally(() => {
 				toggleLoading(false);
@@ -190,8 +200,26 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 		setSelected([...tmp]);
 	};
 
+	const hackCaptchaCheckboxStyle = () => {
+		let target = document.querySelector(
+			'iframe[title="Main content of the hCaptcha challenge"]',
+		);
+		target = target.parentElement.parentElement;
+		if (target) {
+			const checkbox = target.querySelector('div:last-of-type');
+			if (null !== checkbox) {
+				checkbox.style = {
+					...checkbox.style,
+					display: 'none',
+				};
+			}
+		} else {
+			hackCaptchaCheckboxStyle();
+		}
+	};
+
 	return (
-		<Form onSubmit={verifyAndSubmit} success={isSuccess} error={isError}>
+		<Form onSubmit={onSubmit} success={isSuccess} error={isError}>
 			{0 === selected.length && (
 				<Form.Checkbox
 					disabled
@@ -236,15 +264,21 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 						paddingRight: '0.5em',
 					}}
 				>
-					<ReCAPTCHA
+					<HCaptcha
 						sitekey={CAPTCHA_SITE_KEY}
-						ref={recaptchaRef}
-						size="invisible"
+						size="normal"
+						onVerify={setToken}
+						onOpen={() => hackCaptchaCheckboxStyle()}
+						ref={captchaRef}
 					/>
 				</div>
 			</Form.Group>
 			<Form.Group>
-				<Form.Button loading={loading} color={buttonColor}>
+				<Form.Button
+					loading={loading}
+					disabled={false === token}
+					color={buttonColor}
+				>
 					{buttonText}
 				</Form.Button>
 			</Form.Group>

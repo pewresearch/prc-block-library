@@ -17,7 +17,13 @@ class Heading_Block extends PRC_Block_Library {
 
 	public function add_section_header_class_to_row( $classes, $parsed_row_block ) {
 		$inner_blocks = array_pop( $parsed_row_block['innerBlocks'] );
-		if ( 'prc-block/column' !== $inner_blocks['blockName'] || 16 === $inner_blocks['attrs']['width'] ) {
+		if ( 'prc-block/column' !== $inner_blocks['blockName'] ) {
+			return $classes;
+		}
+		if ( array_key_exists('width', $inner_blocks['attrs']) && 16 === $inner_blocks['attrs']['width'] ) {
+			return $classes;
+		}
+		if ( empty($inner_blocks['innerBlocks'] ) ) {
 			return $classes;
 		}
 

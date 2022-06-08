@@ -21,7 +21,6 @@ import {
 } from '@wordpress/block-editor';
 import {
 	BaseControl,
-	KeyboardShortcuts,
 	TextControl,
 	ToolbarGroup,
 	ToolbarButton,
@@ -41,7 +40,7 @@ const HeadingBlockFilter = createHigherOrderComponent(
 			if ('core/heading' !== name) {
 				return <BlockEdit {...props} />;
 			}
-			const { isChapter, icon, altTocText, content, anchor } = attributes;
+			const { isChapter, icon, altTocText, content } = attributes;
 			return (
 				<Fragment>
 					<BlockControls>
@@ -52,10 +51,6 @@ const HeadingBlockFilter = createHigherOrderComponent(
 								isActive={isChapter}
 								onClick={() => {
 									const attrs = {
-										anchor:
-											true === !isChapter
-												? `CHAPTER-${anchor}`
-												: anchor.replace(/CHAPTER-/, ''),
 										isChapter: !isChapter,
 									};
 									setAttributes({ ...attrs });
