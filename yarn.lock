@@ -1811,15 +1811,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pewresearch/chart-builder@npm:^0.4.36":
-  version: 0.4.39
-  resolution: "@pewresearch/chart-builder@npm:0.4.39::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40pewresearch%2Fchart-builder%2F0.4.39%2Fe7f3d2edb0635c88f2004246c2c062098ca8bb4dd318f861a9cb1996e35fe12a"
+"@pewresearch/chart-builder@npm:^0.4.40":
+  version: 0.4.40
+  resolution: "@pewresearch/chart-builder@npm:0.4.40::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40pewresearch%2Fchart-builder%2F0.4.40%2F2eac91c1df310107a88498f3aa3be627b6b6d4605f4387e3d14636cd26141e48"
   dependencies:
     "@wordpress/element": ^4.0.4
     "@wordpress/i18n": ^4.2.4
     styled-components: ^5.3.5
     victory: ^36.3.2
-  checksum: 31e70f6bab853d8c1aace898cb2bc2e6e62b0319125a091b071a1e13aae77e6009a48d8ce0c3ba08c28e130572a3f3cab21f5bf153cda1b1856ef7e12b00792a
+  checksum: eeacac1898a9af3c1cc36a448a986253f2efddfc98d2a31cb552b966aa625ecea718892b478269dc484dc9a1123dc8ad6019cdd320f7f1334041b26c9f42da3f
   languageName: node
   linkType: hard
 
@@ -10449,7 +10449,7 @@ __metadata:
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
     "@hcaptcha/react-hcaptcha": ^1.3.0
-    "@pewresearch/chart-builder": ^0.4.36
+    "@pewresearch/chart-builder": ^0.4.40
     "@sentry/webpack-plugin": ^1.18.3
     "@svgr/webpack": ^6.1.2
     "@vimeo/player": ^2.16.3

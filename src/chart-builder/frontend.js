@@ -150,6 +150,7 @@ const getConfig = (el) => {
 			active: attr.tooltipActive,
 			categoryActive: attr.tooltipCategoryActive,
 			format: attr.tooltipFormat,
+			formatNumber: attr.tooltipFormatNumber,
 			offsetX: attr.tooltipOffsetX,
 			offsetY: attr.tooltipOffsetY,
 			maxWidth: attr.tooltipMaxWidth,
@@ -246,21 +247,23 @@ const arrayToDataObj = (arr, scale, chartType) => {
 			return data;
 		}
 		if ('time' === s) {
-			return new Date(data).getTime();
+			return new Date(data);
 		}
 		return parseFloat(data);
 	};
+	const cleanNum = (num) => parseFloat(num.toString().replace(/[^0-9.]/g, ''));
 	for (let i = 1; i < headers.length; i += 1) {
 		const series = body
-			.filter((row) => !Number.isNaN(parseFloat(row[i])))
+			.filter((row) => !Number.isNaN(cleanNum(row[i])))
 			.map((row) => ({
 				x: scaleData(row[0], scale),
-				y: parseFloat(row[i]),
+				y: cleanNum(row[i]),
 				category: headers[i],
 				// yLabel: `${parseFloat(row[i])}`,
 			}));
 		seriesData.push(series);
 	}
+
 	return { categories, seriesData };
 };
 

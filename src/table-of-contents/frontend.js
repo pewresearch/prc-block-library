@@ -63,6 +63,8 @@ const initSmoothScrollClickHandler = (elm) => {
 				const target = document.getElementById(href.replace('#', ''));
 				if (target) {
 					target.scrollIntoView({ behavior: 'smooth' }, true);
+					// Add the hash to the end of the URL.
+					window.history.pushState(null, null, href);
 					if (
 						groupElm.classList.contains('mobile-toc') &&
 						groupElm.classList.contains('is-open')

@@ -18,7 +18,7 @@ import {
  */
 import { formatNum } from '../utils/helpers';
 
-const YAxisControls = ({ attributes, setAttributes }) => {
+function YAxisControls({ attributes, setAttributes }) {
 	const {
 		yAxisActive,
 		yLabel,
@@ -41,14 +41,10 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 		yGridStroke,
 	} = attributes;
 	return (
-		<PanelBody
-			title={__('Dependent Axis Configuration')}
-			initialOpen={false}
-		>
+		<PanelBody title={__('Dependent Axis Configuration')} initialOpen={false}>
 			<PanelRow>
-				Dependent variables are properties that change in response to a
-				change in another property. As such, the dependent axis is
-				usually the y-axis.
+				Dependent variables are properties that change in response to a change
+				in another property. As such, the dependent axis is usually the y-axis.
 			</PanelRow>
 			<ToggleControl
 				label="Axis active"
@@ -67,8 +63,8 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 					<NumberControl
 						label={__('Minimum')}
 						value={yMinDomain}
-						disableUnits={true}
-						disabledUnits={true}
+						disableUnits
+						disabledUnits
 						onChange={(val) =>
 							setAttributes({
 								yMinDomain: formatNum(val, 'integer'),
@@ -80,8 +76,8 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 					<NumberControl
 						label={__('Maximum')}
 						value={yMaxDomain}
-						disableUnits={true}
-						disabledUnits={true}
+						disableUnits
+						disabledUnits
 						onChange={(val) =>
 							setAttributes({
 								yMaxDomain: formatNum(val, 'integer'),
@@ -96,8 +92,8 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 					'Determines the space between the first tick and the end of the axis',
 				)}
 				value={yDomainPadding}
-				disableUnits={true}
-				disabledUnits={true}
+				disableUnits
+				disabledUnits
 				onChange={(val) =>
 					setAttributes({ yDomainPadding: formatNum(val, 'integer') })
 				}
@@ -106,8 +102,8 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 			<NumberControl
 				label={__('Number of ticks')}
 				value={yTickNum}
-				disableUnits={true}
-				disabledUnits={true}
+				disableUnits
+				disabledUnits
 				min={1}
 				onChange={(val) =>
 					setAttributes({ yTickNum: formatNum(val, 'integer') })
@@ -133,6 +129,29 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 				help={__(
 					'List of numbers seperated by commas (eg. 0, 50, 100). Setting this value will override the "Number of ticks" parameter',
 				)}
+			/>
+			<ToggleControl
+				label={__('Abbreviate ticks')}
+				help={
+					yAbbreviateTicks
+						? __(
+								'Tick values will be abbreviated when possible (eg. 100,000 -> 100K)',
+						  )
+						: __('Tick values will be displayed as-is')
+				}
+				checked={yAbbreviateTicks}
+				onChange={() => setAttributes({ yAbbreviateTicks: !yAbbreviateTicks })}
+			/>
+			<NumberControl
+				label={__('Abbreviated tick to set decimal place (when applicable)')}
+				value={yAbbreviateTicksDecimals}
+				disabled={!yAbbreviateTicks}
+				disableUnits
+				disabledUnits
+				min={0}
+				onChange={(val) =>
+					setAttributes({ yAbbreviateTicksDecimals: formatNum(val, 'integer') })
+				}
 			/>
 			<TextControl
 				label={__('Tick Units')}
@@ -173,8 +192,8 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 					'Number of words before a label will break into multiple lines',
 				)}
 				value={yMultiLineTickLabelsBreak}
-				disableUnits={true}
-				disabledUnits={true}
+				disableUnits
+				disabledUnits
 				onChange={(val) =>
 					setAttributes({
 						yMultiLineTickLabelsBreak: formatNum(val, 'integer'),
@@ -184,8 +203,8 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 			<NumberControl
 				label={__('Tick Label Angle')}
 				value={yTickLabelAngle}
-				disableUnits={true}
-				disabledUnits={true}
+				disableUnits
+				disabledUnits
 				min={0}
 				max={360}
 				help={__('Note: Sets the angle of tick labels in degrees.')}
@@ -264,6 +283,6 @@ const YAxisControls = ({ attributes, setAttributes }) => {
 			/>
 		</PanelBody>
 	);
-};
+}
 
 export default YAxisControls;

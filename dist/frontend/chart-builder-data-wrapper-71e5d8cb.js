@@ -3,7 +3,7 @@
  * prcBlocksLibrary
  * 
  * @author Seth Rubenstein
- * @version 2.1.14
+ * @version 2.1.17
  * @link UNLICENSED
  * @license UNLICENSED
  * 
@@ -16,4 +16,4 @@
  * A zero setup Webpack Bundler Script for WordPress
  */
 (window.wpackioprcBlocksLibraryfrontendJsonp=window.wpackioprcBlocksLibraryfrontendJsonp||[]).push([[4],{36:function(o,n,c){var a="prcBlocksLibrarydist".replace(/[^a-zA-Z0-9_-]/g,"");c.p=window["__wpackIo".concat(a)]},834:function(o,n,c){c(36),o.exports=c(835)},835:function(o,n){window.chartData||(window.chartData={})}},[[834,0]]]);
-//# sourceMappingURL=chart-builder-wrapper-801e86e3.js.map
+//# sourceMappingURL=chart-builder-data-wrapper-71e5d8cb.js.map

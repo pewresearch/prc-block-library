@@ -11,7 +11,7 @@
  * Plugin Name:       PRC Block Library
  * Plugin URI:        https://pewresearch.org
  * Description:       PRC Block Library
- * Version:           2.1.15
+ * Version:           2.1.17
  * Requires at least: 5.4
  * Requires PHP:      7.4
  * Author:            Seth Rubenstein, Benjamin Wormald
@@ -44,7 +44,7 @@ class PRC_Block_Library {
 	 *
 	 * @var string
 	 */
-	public static $version = '2.1.15';
+	public static $version = '2.1.17';
 
 	/**
 	 * Registered wpackio assets
@@ -63,62 +63,18 @@ class PRC_Block_Library {
 
 			// @TODO Needs to be moved into shared wpack vendor outputs.
 			require_once plugin_dir_path( __FILE__ ) . '/src/fact-sheet-collection/index.php';
-
 			require_once plugin_dir_path( __FILE__ ) . '/src/_deprecated/index.php';
 
-			// Using shared wpack vendor outputs.
-			// Layout Primitives.
-			require_once plugin_dir_path( __FILE__ ) . '/src/grid/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/row/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/column/index.php';
-			// Load Main BLock Library.
-			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder-data-wrapper/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/chart-builder/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/collapsible/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/cover/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/daily-briefing-signup/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/flip-card/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/github-gist/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/group/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/heading/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/image/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/livestream/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-form/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-opt-down/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/mailchimp-select/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/media-text/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/menu/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/menu-link/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/page/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/paragraph/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/popular-listing/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/popup/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/post-date/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/post-bylines/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/post-sub-title/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/post-title/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/progress-bar/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/promo/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/promo-rotator/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/pullquote/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/query/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/responsive-container/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/roper-db-search/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/separator/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/social-link/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/story-item/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/staff/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/staff-listing/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/table/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/table-of-contents/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/tabs/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/taxonomy-tree-more/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-az/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-az-controller/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-categorized/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-condensed/index.php';
-			require_once plugin_dir_path( __FILE__ ) . '/src/topic-index-search-field/index.php';
+			// Get files from blocks.json and include them.
+			$files = json_decode( file_get_contents( plugin_dir_path( __FILE__ ) . '/blocks.json' ), true );
+			$blocks = $files['blocks'];
+			foreach ( $blocks as $block ) {
+				if ( !array_key_exists('php', $block) ) {
+					continue;
+				}
+				$php_path = $block['php'];
+				require_once plugin_dir_path( __FILE__ ) . $php_path;
+			}
 
 			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );

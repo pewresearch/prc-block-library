@@ -18,7 +18,7 @@ import {
  */
 import { formatNum } from '../utils/helpers';
 
-const XAxisControls = ({ attributes, setAttributes }) => {
+function XAxisControls({ attributes, setAttributes }) {
 	const {
 		chartType,
 		xAxisActive,
@@ -43,14 +43,11 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 		xGridStroke,
 	} = attributes;
 	return (
-		<PanelBody
-			title={__('Independent Axis Configuration')}
-			initialOpen={false}
-		>
+		<PanelBody title={__('Independent Axis Configuration')} initialOpen={false}>
 			<PanelRow>
-				The independent axis is almost always the x-axis, except in
-				cases of horizontal bar charts or stack bar charts, where the
-				independent values are plotted on the y-axis.
+				The independent axis is almost always the x-axis, except in cases of
+				horizontal bar charts or stack bar charts, where the independent values
+				are plotted on the y-axis.
 			</PanelRow>
 			<ToggleControl
 				label="Axis active"
@@ -82,7 +79,7 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 					});
 				}}
 			/>
-			{xScale === 'time' && (
+			{'time' === xScale && (
 				<SelectControl
 					label={__('Axis scale format')}
 					value={xScaleFormat}
@@ -112,9 +109,9 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 						label={__('Minimum')}
 						value={xMinDomain}
 						disabled={
-							chartType === 'stacked-bar' ||
-							chartType === 'bar' ||
-							chartType === 'pie'
+							'stacked-bar' === chartType ||
+							'bar' === chartType ||
+							'pie' === chartType
 						}
 						disableUnits
 						disabledUnits
@@ -130,9 +127,9 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 						label={__('Maximum')}
 						value={xMaxDomain}
 						disabled={
-							chartType === 'stacked-bar' ||
-							chartType === 'bar' ||
-							chartType === 'pie'
+							'stacked-bar' === chartType ||
+							'bar' === chartType ||
+							'pie' === chartType
 						}
 						disableUnits
 						disabledUnits
@@ -150,8 +147,8 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 					'Determines the space between the first tick and the end of the axis',
 				)}
 				value={xDomainPadding}
-				disableUnits={true}
-				disabledUnits={true}
+				disableUnits
+				disabledUnits
 				onChange={(val) =>
 					setAttributes({ xDomainPadding: formatNum(val, 'integer') })
 				}
@@ -160,8 +157,8 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 			<NumberControl
 				label={__('Number of ticks')}
 				value={xTickNum}
-				disableUnits={true}
-				disabledUnits={true}
+				disableUnits
+				disabledUnits
 				onChange={(val) =>
 					setAttributes({ xTickNum: formatNum(val, 'integer') })
 				}
@@ -177,6 +174,39 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 					'List of numbers seperated by commas (eg. 0, 50, 100). Setting this value will override the "Number of Ticks" parameter',
 				)}
 			/>
+			{'time' !== xScale && (
+				<>
+					<ToggleControl
+						label={__('Abbreviate ticks')}
+						help={
+							xAbbreviateTicks
+								? __(
+										'Tick values will be abbreviated when possible (eg. 100,000 -> 100K)',
+								  )
+								: __('Tick values will be displayed as-is')
+						}
+						checked={xAbbreviateTicks}
+						onChange={() =>
+							setAttributes({ xAbbreviateTicks: !xAbbreviateTicks })
+						}
+					/>
+					<NumberControl
+						label={__(
+							'Abbreviated tick to set decimal place (when applicable)',
+						)}
+						value={xAbbreviateTicksDecimals}
+						disabled={!xAbbreviateTicks}
+						disableUnits
+						disabledUnits
+						min={0}
+						onChange={(val) =>
+							setAttributes({
+								xAbbreviateTicksDecimals: formatNum(val, 'integer'),
+							})
+						}
+					/>
+				</>
+			)}
 			<TextControl
 				label={__('Tick Units')}
 				value={xTickUnit}
@@ -216,8 +246,8 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 					'Number of words before a label will break into multiple lines',
 				)}
 				value={xMultiLineTickLabelsBreak}
-				disableUnits={true}
-				disabledUnits={true}
+				disableUnits
+				disabledUnits
 				onChange={(val) =>
 					setAttributes({
 						xMultiLineTickLabelsBreak: formatNum(val, 'integer'),
@@ -227,8 +257,8 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 			<NumberControl
 				label={__('Tick Label Angle')}
 				value={xTickLabelAngle}
-				disableUnits={true}
-				disabledUnits={true}
+				disableUnits
+				disabledUnits
 				min={0}
 				max={360}
 				help={__('Note: Sets the angle of tick labels in degrees.')}
@@ -307,6 +337,6 @@ const XAxisControls = ({ attributes, setAttributes }) => {
 			/>
 		</PanelBody>
 	);
-};
+}
 
 export default XAxisControls;

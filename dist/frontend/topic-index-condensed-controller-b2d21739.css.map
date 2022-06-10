@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/topic-index-condensed/controller/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AACI,2EACI,8B","file":"frontend/topic-index-condensed-controller-b2d21739.css","sourcesContent":[".wp-block-prc-block-topic-index-condensed-controller {\n    &.ui.accordion .content {\n        padding-left: 2.4em!important;\n    }\n}"],"sourceRoot":""}

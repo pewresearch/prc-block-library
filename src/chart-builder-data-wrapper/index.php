@@ -121,7 +121,7 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		return $enqueue->register(
 			'frontend',
-			'chart-builder-wrapper',
+			'chart-builder-data-wrapper',
 			array(
 				'js'        => true,
 				'css'       => false,
@@ -144,7 +144,7 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 
 		$registered = $enqueue->register(
 			'blocks',
-			'chart-builder-wrapper',
+			'chart-builder-data-wrapper',
 			array(
 				'js'        => true,
 				'css'       => false,
