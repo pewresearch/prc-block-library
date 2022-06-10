@@ -14,7 +14,7 @@ class Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.9';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'arc1208adbf1has';
+	public static $cache_invalidate   = 'arc1208abf1has';
 	public static $cache_ttl          = 10 * MINUTE_IN_SECONDS;
 	public static $experiments        = array(
 		'relative_date' => false,
@@ -528,6 +528,8 @@ class Story_Item extends PRC_Block_Library {
 				if ( !empty($label) ) {
 					// Ensure there are no dashes in labels.
 					$label = str_replace( '-', ' ', $label );
+					// If label is Fact Tank change to Short Read.
+					$label = 'Fact Tank' === $label ? 'Short Read' : $label;
 					$markup .= "<span class='report label'>{$label}</span> | ";
 				}
 				$markup .= "<span class='date'>{$date}</span></div>";
