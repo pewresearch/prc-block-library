@@ -43,7 +43,7 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'frontend',
-			'topic-index-az-mobile',
+			'topic-index-az',
 			array(
 				'js'        => true,
 				'css'       => false,
@@ -69,7 +69,7 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 				}
 			}
 		}
-		
+
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class' => 'ui divided accordion',
@@ -78,7 +78,7 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 
 		$return = '<div ' . $block_wrapper_attrs . '>';
 		foreach ( $az as $letter => $az_block ) {
-			$return .= parent::render_accordion_section( 
+			$return .= parent::render_accordion_section(
 				$letter,
 				false,
 				array( $az_block )

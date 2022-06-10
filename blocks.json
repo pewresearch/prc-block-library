@@ -1,0 +1,329 @@
+{
+	"blocks": [
+		{
+			"name": "buttons",
+			"main": "./src/buttons/index.js",
+			"php": "./src/buttons/index.php"
+		},
+		{
+			"name": "collapsible",
+			"main": "./src/collapsible/index.js",
+			"php": "./src/collapsible/index.php",
+			"frontend": "./src/collapsible/frontend.js"
+		},
+		{
+			"name": "column",
+			"main": "./src/column/index.js",
+			"php": "./src/column/index.php"
+		},
+		{
+			"name": "chart-builder",
+			"main": "./src/chart-builder/index.js",
+			"php": "./src/chart-builder/index.php",
+			"frontend": "./src/chart-builder/frontend.js"
+		},
+		{
+			"name": "chart-builder-data-wrapper",
+			"main": "./src/chart-builder-data-wrapper/index.js",
+			"php": "./src/chart-builder-data-wrapper/index.php",
+			"frontend": "./src/chart-builder-data-wrapper/frontend.js"
+		},
+		{
+			"name": "cover",
+			"main": "./src/cover/index.js",
+			"php": "./src/cover/index.php",
+			"frontend": "./src/cover/frontend.js"
+		},
+		{
+			"name": "daily-briefing-signup",
+			"main": "./src/daily-briefing-signup/index.js",
+			"php": "./src/daily-briefing-signup/index.php"
+		},
+		{
+			"name": "github-gist",
+			"main": "./src/github-gist/index.js",
+			"php": "./src/github-gist/index.php"
+		},
+		{
+			"name": "flip-card-controller",
+			"main": "./src/flip-card/controller/index.js",
+			"php": "./src/flip-card/controller/index.php",
+			"frontend": "./src/flip-card/controller/frontend.js"
+		},
+		{
+			"name": "flip-card-back",
+			"main": "./src/flip-card/back/index.js",
+			"php": "./src/flip-card/back/index.php"
+		},
+		{
+			"name": "flip-card-front",
+			"main": "./src/flip-card/front/index.js",
+			"php": "./src/flip-card/front/index.php"
+		},
+		{
+			"name": "grid",
+			"main": "./src/grid/index.js",
+			"php": "./src/grid/index.php"
+		},
+		{
+			"name": "group",
+			"main": "./src/group/index.js",
+			"php": "./src/group/index.php",
+			"frontend": "./src/group/frontend.js"
+		},
+		{
+			"name": "heading",
+			"main": "./src/heading/index.js",
+			"php": "./src/heading/index.php"
+		},
+		{
+			"name": "image",
+			"main": "./src/image/index.js",
+			"php": "./src/image/index.php"
+		},
+		{
+			"name": "livestream",
+			"main": "./src/livestream/index.js",
+			"php": "./src/livestream/index.php",
+			"frontend": "./src/livestream/frontend.js"
+		},
+		{
+			"name": "mailchimp-form",
+			"main": "./src/mailchimp-form/index.js",
+			"php": "./src/mailchimp-form/index.php",
+			"frontend": "./src/mailchimp-form/frontend.js"
+		},
+		{
+			"name": "mailchimp-opt-down",
+			"main": "./src/mailchimp-opt-down/index.js",
+			"php": "./src/mailchimp-opt-down/index.php",
+			"frontend": "./src/mailchimp-opt-down/frontend.js"
+		},
+		{
+			"name": "mailchimp-select",
+			"main": "./src/mailchimp-select/index.js",
+			"php": "./src/mailchimp-select/index.php",
+			"frontend": "./src/mailchimp-select/frontend.js"
+		},
+		{
+			"name": "menu",
+			"main": "./src/menu/index.js",
+			"php": "./src/menu/index.php"
+		},
+		{
+			"name": "menu-link",
+			"main": "./src/menu-link/index.js",
+			"php": "./src/menu-link/index.php",
+			"frontend": "./src/menu-link/frontend.js"
+		},
+		{
+			"name": "page",
+			"main": "./src/page/index.js",
+			"php": "./src/page/index.php"
+		},
+		{
+			"name": "paragraph",
+			"main": "./src/paragraph/index.js",
+			"php": "./src/paragraph/index.php"
+		},
+		{
+			"name": "popular-listing",
+			"main": "./src/popular-listing/index.js",
+			"php": "./src/popular-listing/index.php"
+		},
+		{
+			"name": "popup-controller",
+			"main": "./src/popup/controller/index.js",
+			"php": "./src/popup/controller/index.php",
+			"frontend": "./src/popup/controller/frontend.js"
+		},
+		{
+			"name": "popup-content",
+			"main": "./src/popup/content/index.js",
+			"php": "./src/popup/content/index.php"
+		},
+		{
+			"name": "popup-modal",
+			"main": "./src/popup/modal/index.js",
+			"php": "./src/popup/modal/index.php"
+		},
+		{
+			"name": "post-bylines",
+			"main": "./src/post-bylines/index.js",
+			"php": "./src/post-bylines/index.php"
+		},
+		{
+			"name": "post-date",
+			"main": "./src/post-date/index.js",
+			"php": "./src/post-date/index.php"
+		},
+		{
+			"name": "post-sub-title",
+			"main": "./src/post-sub-title/index.js",
+			"php": "./src/post-sub-title/index.php"
+		},
+		{
+			"name": "progress-bar",
+			"main": "./src/progress-bar/index.js",
+			"php": "./src/progress-bar/index.php",
+			"frontend": "./src/progress-bar/frontend.js"
+		},
+		{
+			"name": "promo",
+			"main": "./src/promo/index.js",
+			"php": "./src/promo/index.php"
+		},
+		{
+			"name": "promo-rotator",
+			"main": "./src/promo-rotator/index.js",
+			"php": "./src/promo-rotator/index.php"
+		},
+		{
+			"name": "pullquote",
+			"main": "./src/pullquote/index.js",
+			"php": "./src/pullquote/index.php"
+		},
+		{
+			"name": "query",
+			"main": "./src/query/index.js",
+			"php": "./src/query/index.php"
+		},
+		{
+			"name": "responsive-container-controller",
+			"main": "./src/responsive-container/controller/index.js"
+		},
+		{
+			"name": "responsive-container-view",
+			"main": "./src/responsive-container/view/index.js"
+		},
+		{
+			"name": "roper-db-search",
+			"main": "./src/roper-db-search/index.js",
+			"php": "./src/roper-db-search/index.php"
+		},
+		{
+			"name": "row",
+			"main": "./src/row/index.js",
+			"php": "./src/row/index.php"
+		},
+		{
+			"name": "social-link",
+			"main": "./src/social-link/index.js",
+			"php": "./src/social-link/index.php",
+			"frontend": "./src/social-link/frontend.js"
+		},
+		{
+			"name": "staff",
+			"main": "./src/staff/index.js",
+			"php": "./src/staff/index.php"
+		},
+		{
+			"name": "staff-listing",
+			"main": "./src/staff-listing/index.js",
+			"php": "./src/staff-listing/index.php"
+		},
+		{
+			"name": "story-item",
+			"main": "./src/story-item/index.js",
+			"php": "./src/story-item/index.php",
+			"frontend": "./src/story-item/frontend.js"
+		},
+		{
+			"name": "table",
+			"main": "./src/table/index.js",
+			"php": "./src/table/index.php"
+		},
+		{
+			"name": "table-of-contents",
+			"main": "./src/table-of-contents/index.js",
+			"php": "./src/table-of-contents/index.php",
+			"frontend": "./src/table-of-contents/frontend.js"
+		},
+		{
+			"name": "tabs-controller",
+			"main": "./src/tabs/controller/index.js",
+			"php": "./src/tabs/controller/index.php",
+			"frontend": "./src/tabs/controller/frontend.js"
+		},
+		{
+			"name": "tabs-menu",
+			"main": "./src/tabs/menu/index.js",
+			"php": "./src/tabs/menu/index.php"
+		},
+		{
+			"name": "tabs-menu-item",
+			"main": "./src/tabs/menu-item/index.js",
+			"php": "./src/tabs/menu-item/index.php"
+		},
+		{
+			"name": "tabs-pane",
+			"main": "./src/tabs/pane/index.js",
+			"php": "./src/tabs/pane/index.php"
+		},
+		{
+			"name": "tabs-panes",
+			"main": "./src/tabs/panes/index.js",
+			"php": "./src/tabs/panes/index.php"
+		},
+		{
+			"name": "taxonomy-tree",
+			"main": "./src/taxonomy-tree/index.js",
+			"php": "./src/taxonomy-tree/index.php"
+		},
+		{
+			"name": "taxonomy-tree-more",
+			"main": "./src/taxonomy-tree-more/index.js",
+			"php": "./src/taxonomy-tree-more/index.php",
+			"frontend": "./src/taxonomy-tree-more/frontend.js"
+		},
+		{
+			"name": "topic-index-az",
+			"main": "./src/topic-index-az/index.js",
+			"php": "./src/topic-index-az/index.php"
+		},
+		{
+			"name": "topic-index-az-controller",
+			"main": "./src/topic-index-az-controller/index.js",
+			"php": "./src/topic-index-az-controller/index.php",
+			"frontend": "./src/topic-index-az-controller/frontend.js"
+		},
+		{
+			"name": "topic-index-categorized",
+			"main": "./src/topic-index-categorized/index.js",
+			"php": "./src/topic-index-categorized/index.php",
+			"frontend": "./src/topic-index-categorized/frontend.js"
+		},
+		{
+			"name": "topic-index-condensed-controller",
+			"main": "./src/topic-index-condensed/controller/index.js",
+			"php": "./src/topic-index-condensed/controller/index.php",
+			"frontend": "./src/topic-index-condensed/controller/frontend.js"
+		},
+		{
+			"name": "topic-index-condensed-menu",
+			"main": "./src/topic-index-condensed/menu/index.js",
+			"php": "./src/topic-index-condensed/menu/index.php"
+		},
+		{
+			"name": "topic-index-condensed-menu-item",
+			"main": "./src/topic-index-condensed/menu-item/index.js",
+			"php": "./src/topic-index-condensed/menu-item/index.php"
+		},
+		{
+			"name": "topic-index-condensed-page",
+			"main": "./src/topic-index-condensed/page/index.js",
+			"php": "./src/topic-index-condensed/page/index.php"
+		},
+		{
+			"name": "topic-index-condensed-pages",
+			"main": "./src/topic-index-condensed/pages/index.js",
+			"php": "./src/topic-index-condensed/pages/index.php"
+		},
+		{
+			"name": "topic-index-search-field",
+			"main": "./src/topic-index-search-field/index.js",
+			"php": "./src/topic-index-search-field/index.php",
+			"frontend": "./src/topic-index-search-field/frontend.js"
+		}
+	]
+}

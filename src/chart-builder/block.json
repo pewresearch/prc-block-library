@@ -328,6 +328,10 @@
 			"type": "string",
 			"default": "%1$s: %2$s"
 		},
+		"tooltipFormatNumber": {
+			"type": "boolean",
+			"default": true
+		},
 		"labelsActive": {
 			"type": "boolean",
 			"default": false

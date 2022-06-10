@@ -21,17 +21,18 @@ class Buttons extends PRC_Block_Library {
 			'buttons',
 			array(
 				'js'        => false,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
 			)
 		);
+		//@TODO: Enable these when we move button styles over
 
-		$src = array_pop( $registered['css'] )['url'];
+		// $src = array_pop( $registered['css'] )['url'];
 
-		wp_register_style( 'wp-block-buttons', $src,  array(), $ver );
+		// wp_register_style( 'wp-block-buttons', $src,  array(), $ver );
 	}
 }
 
