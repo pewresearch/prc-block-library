@@ -12,10 +12,10 @@
  * Plugin URI:        https://pewresearch.org
  * Description:       PRC Block Library
  * Version:           2.1.17
- * Requires at least: 5.4
+ * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Seth Rubenstein, Benjamin Wormald
- * Author URI:        https://sethrubenstein.info
+ * Author URI:        https://www.pewresearch.org/devdocs/
  * Text Domain:       prc-block-library
  * License:           GPL v2 or later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
