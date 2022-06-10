@@ -14,7 +14,8 @@ class Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.9';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'axjasd71nasd-9pader1';
+	public static $cache_invalidate   = 'arc1208adbf1has';
+	public static $cache_ttl          = 10 * MINUTE_IN_SECONDS;
 	public static $experiments        = array(
 		'relative_date' => false,
 	);
@@ -397,7 +398,7 @@ class Story_Item extends PRC_Block_Library {
 		wp_reset_postdata();
 
 		if ( ! is_preview() ) {
-			set_transient( $cache_key, $variables, 30 * MINUTE_IN_SECONDS );
+			set_transient( $cache_key, $variables, self::$cache_ttl );
 		}
 
 		return $variables;
@@ -525,6 +526,8 @@ class Story_Item extends PRC_Block_Library {
 			if ( $enable_meta ) {
 				$markup .= '<div class="meta">';
 				if ( !empty($label) ) {
+					// Ensure there are no dashes in labels.
+					$label = str_replace( '-', ' ', $label );
 					$markup .= "<span class='report label'>{$label}</span> | ";
 				}
 				$markup .= "<span class='date'>{$date}</span></div>";

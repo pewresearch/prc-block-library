@@ -21,9 +21,9 @@ class Mailchimp_Form extends PRC_Block_Library {
 				'id'               => md5( wp_json_encode( $attributes ) ),
 				'class'            => array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
 				'data-segment-id'  => $attributes['interest'],
-				'data-has-dark-bg' => $block->context['prc-block/hasDarkBackground'],
+				'data-has-dark-bg' => array_key_exists('prc-block/hasDarkBackground', $block->context) ? $block->context['prc-block/hasDarkBackground'] : false,
 				'data-button-color' => $attributes['buttonColor'],
-				)
+			)
 		);
 		return wp_sprintf(
 			'<div %1$s></div>',
