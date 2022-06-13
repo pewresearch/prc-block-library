@@ -58,7 +58,7 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 			},
 			$menu_items
 		);
-		
+
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class' => 'ui divided accordion',
@@ -68,7 +68,7 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		echo '<div ' . $block_wrapper_attrs . '>';
 		// We need to get the order of page items from menu items...)
 		foreach ( $page_items as $page_item ) {
-			echo parent::render_accordion_section( 
+			echo parent::render_accordion_section(
 				$page_item['heading'],
 				$page_item['url'],
 				$page_item['innerBlocks']
@@ -90,7 +90,7 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		$this->enqueue_frontend();
 		if ( jetpack_is_mobile() ) {
 			return $this->render_mobile_accordion( $block );
-		} 
+		}
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class' => 'ui grid',
@@ -110,7 +110,7 @@ class Topic_Index_Condensed_Controller extends PRC_Block_Library {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		return $enqueue->enqueue(
 			'frontend',
-			'topic-index-condensed',
+			'topic-index-condensed-controller',
 			array(
 				'js'        => true,
 				'css'       => true,
