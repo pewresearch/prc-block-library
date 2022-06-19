@@ -1,0 +1,22 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/share-content",
+	"title": "Share Content",
+	"description": "Specify a different share target for the content inside this block.",
+	"keywords": ["share"],
+	"category": "marketing",
+	"attributes": {
+		"shareTargetUrl": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false
+	}
+}

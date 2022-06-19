@@ -10,35 +10,44 @@ import { TextControl, PanelBody } from '@wordpress/components';
 import { registerBlockVariation } from '@wordpress/blocks';
 import { Path, SVG } from '@wordpress/primitives';
 
-const SocialLinksControls = createHigherOrderComponent((BlockEdit) => {
-    return (props) => {
-        const { name, attributes, setAttributes } = props;
-        if ('core/social-links' !== name) {
-            return <BlockEdit {...props} />;
-        }
-		const { title, description } = attributes;
-        return (
-            <Fragment>
-				<InspectorControls>
-					<PanelBody title={__('Title and Description')}>
-						<TextControl
-							label={__('Title')}
-							value={title}
-							onChange={(value) => setAttributes({ title: value })}
-						/>
-						<TextControl
-							label={__('Description')}
-							value={description}
-							onChange={(value) => setAttributes({ description: value })}
-						/>
-					</PanelBody>
-				</InspectorControls>
-				<BlockEdit {...props} />
-			</Fragment>
-        );
-    };
-}, 'withSocialLinksExtraControls');
-addFilter('editor.BlockEdit', 'prc-block/social-links', SocialLinksControls, 21);
+function NewFields(props, BlockEdit) {
+	const { name, attributes, setAttributes } = props;
+	if ('core/social-links' !== name) {
+		return <BlockEdit {...props} />;
+	}
+	const { title, description } = attributes;
+	return (
+		<Fragment>
+			<InspectorControls>
+				<PanelBody title={__('Title and Description')}>
+					<TextControl
+						label={__('Title')}
+						value={title}
+						onChange={(value) => setAttributes({ title: value })}
+					/>
+					<TextControl
+						label={__('Description')}
+						value={description}
+						onChange={(value) => setAttributes({ description: value })}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<BlockEdit {...props} />
+		</Fragment>
+	);
+}
+
+const SocialLinksControls = createHigherOrderComponent(
+	(BlockEdit) => <NewFields {...BlockEdit} />,
+	'withSocialLinksExtraControls',
+);
+
+addFilter(
+	'editor.BlockEdit',
+	'prc-block/social-links',
+	SocialLinksControls,
+	21,
+);
 
 // registerBlockVariation('core/social-link', {
 // 	name: 'whatsapp',
@@ -50,7 +59,6 @@ addFilter('editor.BlockEdit', 'prc-block/social-links', SocialLinksControls, 21)
 
 // 	}
 // });
-
 
 // registerBlockVariation('core/social-link', {
 // 	name: 'print',
