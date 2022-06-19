@@ -324,11 +324,6 @@
 			"main": "./src/topic-index-search-field/index.js",
 			"php": "./src/topic-index-search-field/index.php",
 			"frontend": "./src/topic-index-search-field/frontend.js"
-		},
-		{
-			"name": "share-content",
-			"main": "./src/share-content/index.js",
-			"php": "./src/share-content/index.php"
 		}
 	]
 }

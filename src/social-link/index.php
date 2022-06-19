@@ -41,6 +41,12 @@ class Social_Link extends PRC_Block_Library {
 			);
 		}
 
+		if ( ! array_key_exists( 'url', $metadata['attributes'] ) ) {
+			$metadata['attributes']['url'] = array(
+				'type'    => 'string',
+			);
+		}
+
 		return $metadata;
 	}
 
@@ -51,6 +57,7 @@ class Social_Link extends PRC_Block_Library {
 				array(
 					'core/social-links/title' => 'title',
 					'core/social-links/description' => 'description',
+					'core/social-links/url' => 'url',
 				)
 			);
 		}
@@ -59,7 +66,8 @@ class Social_Link extends PRC_Block_Library {
 				array_key_exists('uses_context', $settings) ? $settings['uses_context'] : array(),
 				array(
 					'core/social-links/title',
-					'core/social-links/description'
+					'core/social-links/description',
+					'core/social-links/url'
 				)
 			);
 		}
@@ -84,9 +92,10 @@ class Social_Link extends PRC_Block_Library {
 		$attributes = $block_args['attrs'];
 		$open_in_new_tab = isset( $block->context['openInNewTab'] ) ? $block->context['openInNewTab'] : false;
 
-		$service     = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
-		$url         = ( isset( $attributes['url'] ) ) ? $attributes['url'] : false;
-		// If no url then try to fetch the short link.
+		$service = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
+		$url     = isset( $block->context['core/social-links/url'] ) ? $block->context['core/social-links/url'] : false;
+		$url     = ( false === $url && isset( $attributes['url'] ) ) ? $attributes['url'] : $url;
+		// If after all that there is no url then try to fetch the short link.
 		if ( ! $url ) {
 			$url = wp_get_shortlink();
 		}

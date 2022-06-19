@@ -126,6 +126,42 @@ registerBlockVariation('core/group', {
 	],
 });
 
+registerBlockVariation('core/group', {
+	name: 'social-group',
+	title: __('Social Group'),
+	icon: 'share-alt2',
+	description: __(
+		'A Group block that allows you to override the share meta for content inside.',
+	),
+	attributes: {
+		className: 'is-style-social-group',
+		templateLock: true,
+	},
+	innerBlocks: [
+		[
+			'core/group',
+			{
+				templateLock: false,
+			},
+			[['core/image']],
+		],
+		[
+			'core/social-links',
+			{
+				iconColor: 'text-color',
+				iconColorValue: '#2a2a2a',
+				size: 'has-small-icon-size',
+				className: 'is-style-logos-only',
+			},
+			[
+				['core/social-link', { service: 'facebook' }],
+				['core/social-link', { service: 'twitter' }],
+				['core/social-link', { service: 'linkedin' }],
+			],
+		],
+	],
+});
+
 /**
  * Add support for left and right alignment, and transform support from callout to group.
  *
