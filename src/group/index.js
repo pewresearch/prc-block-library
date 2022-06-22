@@ -48,6 +48,7 @@ registerBlockStyle('core/group', [
 	},
 ]);
 
+// "Callout" block
 registerBlockVariation('core/group', {
 	name: 'callout',
 	title: __('Callout'),
@@ -61,6 +62,7 @@ registerBlockVariation('core/group', {
 	innerBlocks: [['core/heading'], ['core/paragraph']],
 });
 
+// "Card" block
 registerBlockVariation('core/group', {
 	name: 'card',
 	title: __('Card'),
@@ -84,6 +86,7 @@ registerBlockVariation('core/group', {
 	],
 });
 
+// "Baseball Card" block
 registerBlockVariation('core/group', {
 	name: 'card-alt',
 	title: __('Card (Alt)'),
@@ -108,6 +111,7 @@ registerBlockVariation('core/group', {
 	],
 });
 
+// "Segment" block
 registerBlockVariation('core/group', {
 	name: 'segment',
 	title: __('Segment'),
@@ -126,6 +130,7 @@ registerBlockVariation('core/group', {
 	],
 });
 
+// "Social Group" block
 registerBlockVariation('core/group', {
 	name: 'social-group',
 	title: __('Social Group'),
@@ -163,7 +168,7 @@ registerBlockVariation('core/group', {
 });
 
 /**
- * Add support for left and right alignment, and transform support from callout to group.
+ * Add support for left and right alignment, and add transform support from prc-block/callout to group.
  *
  * @param {Object} settings Settings for the block.
  *
@@ -181,7 +186,7 @@ addFilter('blocks.registerBlockType', 'prc-block/group', (settings) => {
 	}
 
 	if ('undefined' !== typeof settings.transforms) {
-		// Handle allowing a group or the legacy prc-block/callout block to be converted to a group with the callout style.
+		// Handle legacy prc-block/callout block to be converted to a group with the callout style.
 		if ('undefined' !== typeof settings.transforms.from) {
 			settings.transforms.from.push({
 				type: 'block',
@@ -226,50 +231,49 @@ addFilter('blocks.registerBlockType', 'prc-block/group', (settings) => {
 	return settings;
 });
 
-const GroupBlockAdvancedControls = createHigherOrderComponent(
-	(BlockEdit) =>
-		function (props) {
-			const { name, attributes, setAttributes } = props;
-			if ('core/group' !== name) {
-				return <BlockEdit {...props} />;
-			}
-			const { isSticky, responsiveAttachId, responsiveThreshold } = attributes;
-			return (
-				<Fragment>
-					<InspectorAdvancedControls>
-						<ToggleControl
-							label={__('Sticky On Scroll?')}
-							checked={isSticky}
-							onChange={(val) => setAttributes({ isSticky: !isSticky })}
-							help="Enable sticky on scroll for this group, this will be disabled when you reach the responsive threshold as its intended for desktop only. If you have specific mobile needs consult with the dev team."
-						/>
-						<TextControl
-							label={__('Responsive Attachment ID')}
-							value={responsiveAttachId}
-							onChange={(val) => setAttributes({ responsiveAttachId: val })}
-						/>
-						<NumberControl
-							label={__('Responsive Threshold')}
-							value={responsiveThreshold}
-							onChange={(val) => setAttributes({ responsiveThreshold: val })}
-							max={3540}
-							min={320}
-							isDragEnabled
-							help={__(
-								`The responsive threshold is the point at which the group block and its contents will trigger their mobile behavior. The default is 640px (small tablet), but you can change this to any value you like. If you would like to trigger the mobile behavior of a block immediately regardless of device size then use the maximum value of 3540.`,
-							)}
-						/>
-						<CardDivider />
-					</InspectorAdvancedControls>
-					<BlockEdit {...props} />
-				</Fragment>
-			);
-		},
-	'withGroupAdvancedControls',
-);
 addFilter(
 	'editor.BlockEdit',
 	'prc-block/group',
-	GroupBlockAdvancedControls,
+	createHigherOrderComponent(
+		(BlockEdit) =>
+			function GroupBlockAdvancedControls (props) {
+				const { name, attributes, setAttributes } = props;
+				if ('core/group' !== name) {
+					return <BlockEdit {...props} />;
+				}
+				const { isSticky, responsiveAttachId, responsiveThreshold } = attributes;
+				return (
+					<Fragment>
+						<InspectorAdvancedControls>
+							<ToggleControl
+								label={__('Sticky On Scroll?')}
+								checked={isSticky}
+								onChange={(val) => setAttributes({ isSticky: !isSticky })}
+								help="Enable sticky on scroll for this group, this will be disabled when you reach the responsive threshold as its intended for desktop only. If you have specific mobile needs consult with the dev team."
+							/>
+							<TextControl
+								label={__('Responsive Attachment ID')}
+								value={responsiveAttachId}
+								onChange={(val) => setAttributes({ responsiveAttachId: val })}
+							/>
+							<NumberControl
+								label={__('Responsive Threshold')}
+								value={responsiveThreshold}
+								onChange={(val) => setAttributes({ responsiveThreshold: val })}
+								max={3540}
+								min={320}
+								isDragEnabled
+								help={__(
+									`The responsive threshold is the point at which the group block and its contents will trigger their mobile behavior. The default is 640px (small tablet), but you can change this to any value you like. If you would like to trigger the mobile behavior of a block immediately regardless of device size then use the maximum value of 3540.`,
+								)}
+							/>
+							<CardDivider />
+						</InspectorAdvancedControls>
+						<BlockEdit {...props} />
+					</Fragment>
+				);
+			},
+		'withGroupAdvancedControls',
+	),
 	21,
 );
