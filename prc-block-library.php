@@ -76,7 +76,7 @@ class PRC_Block_Library {
 				require_once plugin_dir_path( __FILE__ ) . $php_path;
 			}
 
-			// @TODO This needs to be gone through once all the blocks are moved into the format ^ above
+			add_filter( 'safe_style_css', array($this, 'allowed_inline_styles') );
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 		}
 	}
@@ -154,12 +154,33 @@ class PRC_Block_Library {
 	}
 
 	/**
+	 * Filter the allowed style attributes for sanitization.
+	 * @param mixed $styles
+	 * @return mixed
+	 */
+	public function allowed_inline_styles( $styles ) {
+		$styles[] = 'aspect-ratio'; // Adding this to support Vimeo block.
+		return $styles;
+	}
+
+	/**
 	 * Filter the allowed tags for sanitization.
 	 *
 	 * @param array $allowed_tags Allowed tags.
 	 * @return array Allowed tags.
 	 */
 	public static function allowed_html_tags( $allowed_tags, $context ) {
+		$allowed_tags['iframe'] = array(
+			'class' => true,
+			'loading' => true,
+			'src' => true,
+			'width' => true,
+			'height' => true,
+			'frameborder' => true,
+			'allowfullscreen' => true,
+			'title' => true,
+			'style' => true,
+		);
 		$allowed_tags['div']['style']  = true;
 		$allowed_tags['img']['srcset'] = true;
 		$allowed_tags['img']['sizes']  = true;
