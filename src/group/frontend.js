@@ -3,6 +3,8 @@
  * External Dependencies
  */
 import enquire from 'enquire.js';
+import 'waypoints/lib/noframework.waypoints';
+import 'waypoints/lib/shortcuts/inview';
 
 /**
  * WordPress Dependencies
@@ -23,6 +25,25 @@ const initStickyBlocks = () => {
 	if (stickyBlocks.length) {
 		stickyBlocks.forEach((block) => {
 			block.classList.add('sticky');
+		});
+		// If we exit the content div then hide sticky elements.
+		// eslint-disable-next-line no-new
+		new Waypoint.Inview({
+			element: document.getElementById('content'),
+			entered(direction) {
+				if ('down' === direction) {
+					stickyBlocks.forEach((block) => {
+						block.classList.toggle('sticky');
+					});
+				}
+			},
+			exit(direction) {
+				if ('up' === direction) {
+					stickyBlocks.forEach((block) => {
+						block.classList.toggle('sticky');
+					});
+				}
+			},
 		});
 	}
 };
