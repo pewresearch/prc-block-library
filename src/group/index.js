@@ -148,7 +148,7 @@ registerBlockVariation('core/group', {
 			{
 				templateLock: false,
 			},
-			[['core/image']],
+			[['core/paragraph', { placeholder: 'Add visual content here...' }]],
 		],
 		[
 			'core/social-links',
@@ -159,6 +159,7 @@ registerBlockVariation('core/group', {
 				className: 'is-style-logos-only',
 			},
 			[
+				['prc-block/social-share-url-field', {}],
 				['core/social-link', { service: 'facebook' }],
 				['core/social-link', { service: 'twitter' }],
 				['core/social-link', { service: 'linkedin' }],
@@ -248,7 +249,7 @@ addFilter(
 							<ToggleControl
 								label={__('Sticky On Scroll?')}
 								checked={isSticky}
-								onChange={(val) => setAttributes({ isSticky: !isSticky })}
+								onChange={() => setAttributes({ isSticky: !isSticky })}
 								help="Enable sticky on scroll for this group, this will be disabled when you reach the responsive threshold as its intended for desktop only. If you have specific mobile needs consult with the dev team."
 							/>
 							<TextControl

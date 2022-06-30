@@ -7,19 +7,19 @@
   "runtime.js.map": "fact-sheet-collection/runtime-f356125f.js.map",
   "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-9221e3c0.js",
   "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-9221e3c0.js.map",
-  "vendors~main.js": "fact-sheet-collection/vendors~main-c91561fe.js",
-  "vendors~main.js.map": "fact-sheet-collection/vendors~main-c91561fe.js.map",
+  "vendors~main.js": "fact-sheet-collection/vendors~main-1ce34a67.js",
+  "vendors~main.js.map": "fact-sheet-collection/vendors~main-1ce34a67.js.map",
   "wpackioEp": {
     "main": {
       "assets": {
         "js": [
           "fact-sheet-collection/runtime-f356125f.js",
-          "fact-sheet-collection/vendors~main-c91561fe.js",
+          "fact-sheet-collection/vendors~main-1ce34a67.js",
           "fact-sheet-collection/main-58976193.js"
         ],
         "js.map": [
           "fact-sheet-collection/runtime-f356125f.js.map",
-          "fact-sheet-collection/vendors~main-c91561fe.js.map",
+          "fact-sheet-collection/vendors~main-1ce34a67.js.map",
           "fact-sheet-collection/main-58976193.js.map"
         ]
       }

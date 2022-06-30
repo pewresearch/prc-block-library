@@ -46,12 +46,15 @@ body.admin-bar .prc-group-block--sticky.sticky {
 	}
 
 	&.is-style-social-group {
+		border-top: 1px solid white;
+		border-bottom: 1px solid white;
 		&:hover {
-			background: var(--wp--preset--color--gray-light);
+			border-color: var(--wp--preset--color--slate);
 		}
 		.wp-block-social-links {
 			background: white;
 			padding-top: 0.65em;
+			padding-bottom: 0.5em;
 		}
 	}
 
