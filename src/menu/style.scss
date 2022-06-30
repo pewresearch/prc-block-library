@@ -3,4 +3,9 @@
 		align-self: center;
 		flex-grow: 1;
 	}
+	.ui.fluid.text.menu {
+		@media (max-width: 480px) {
+			overflow-x: overlay;
+		}
+	}
 }
