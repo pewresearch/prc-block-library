@@ -47,6 +47,7 @@ body.admin-bar .prc-group-block--sticky.sticky {
 
 	&.is-style-social-group {
 		border-bottom: 1px solid var(--wp--preset--color--gray);
+		margin-block-end: 1.5em;
 		.wp-block-social-links {
 			background: white;
 			padding-top: 0.65em;

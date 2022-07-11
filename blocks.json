@@ -334,6 +334,10 @@
 			"name": "social-share-text-link",
 			"main": "./src/social-share-text-link/index.js",
 			"php": "./src/social-share-text-link/index.php"
+		},
+		{
+			"name": "media-text",
+			"php": "./src/media-text/index.php"
 		}
 	]
 }
