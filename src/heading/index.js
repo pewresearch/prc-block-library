@@ -139,6 +139,10 @@ registerBlockStyle('core/heading', [
 		name: 'sub-header',
 		label: 'Sub Header',
 	},
+	{
+		name: 'hidden',
+		label: 'Hidden',
+	},
 ]);
 
 registerBlockVariation('core/heading', {
