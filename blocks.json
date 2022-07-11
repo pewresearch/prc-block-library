@@ -329,6 +329,11 @@
 			"name": "social-share-url-field",
 			"main": "./src/social-share-url-field/index.js",
 			"php": "./src/social-share-url-field/index.php"
+		},
+		{
+			"name": "social-share-text-link",
+			"main": "./src/social-share-text-link/index.js",
+			"php": "./src/social-share-text-link/index.php"
 		}
 	]
 }
