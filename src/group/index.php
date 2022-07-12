@@ -6,7 +6,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Group_Block extends PRC_Block_Library {
-	public static $version = '3.0.2';
+	public static $version = '3.0.3';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
