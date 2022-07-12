@@ -8,7 +8,9 @@ const { blocks } = files;
 
 blocks.forEach((block) => {
 	const { name, main, frontend } = block;
-	blockEntries[name] = main;
+	if (undefined !== main) {
+		blockEntries[name] = main;
+	}
 	if (frontend) {
 		frontendEntries[name] = frontend;
 	}

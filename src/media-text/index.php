@@ -4,10 +4,28 @@ class Media_Text_Block extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			add_filter( 'block_type_metadata', array( $this, 'default_align_center' ), 100, 1 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ), 0 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		}
 	}
+
+	public function default_align_center( $metadata ) {
+		if ( 'core/media-text' !== $metadata['name'] ) {
+			return $metadata;
+		}
+
+		if ( array_key_exists( 'align', $metadata['attributes'] ) ) {
+			$metadata['attributes']['align'] = array(
+				'type'    => 'string',
+				'default' => 'center',
+			);
+			$metadata['supports']['align'] = array('wide', 'full', 'center');
+		}
+
+		return $metadata;
+	}
+
 
 	/**
 	 * Add inline styles to the wp-block-media-text block

@@ -35,8 +35,8 @@
   "grid.css.map": "blocks/grid-48197e4b.css.map",
   "grid.js": "blocks/grid-8fc3949d.js",
   "grid.js.map": "blocks/grid-8fc3949d.js.map",
-  "group.css": "blocks/group-5c2b294c.css",
-  "group.css.map": "blocks/group-5c2b294c.css.map",
+  "group.css": "blocks/group-016b0704.css",
+  "group.css.map": "blocks/group-016b0704.css.map",
   "group.js": "blocks/group-8dc80244.js",
   "group.js.map": "blocks/group-8dc80244.js.map",
   "heading.css": "blocks/heading-c39b8322.css",
@@ -83,8 +83,8 @@
   "popup-content.css.map": "blocks/popup-content-55c7f7fd.css.map",
   "popup-content.js": "blocks/popup-content-d768e669.js",
   "popup-content.js.map": "blocks/popup-content-d768e669.js.map",
-  "popup-controller.js": "blocks/popup-controller-c5db8101.js",
-  "popup-controller.js.map": "blocks/popup-controller-c5db8101.js.map",
+  "popup-controller.js": "blocks/popup-controller-49bf72d4.js",
+  "popup-controller.js.map": "blocks/popup-controller-49bf72d4.js.map",
   "popup-modal.css": "blocks/popup-modal-4ffbee58.css",
   "popup-modal.css.map": "blocks/popup-modal-4ffbee58.css.map",
   "popup-modal.js": "blocks/popup-modal-448a3f0a.js",
@@ -399,10 +399,10 @@
           "blocks/group-8dc80244.js.map"
         ],
         "css": [
-          "blocks/group-5c2b294c.css"
+          "blocks/group-016b0704.css"
         ],
         "css.map": [
-          "blocks/group-5c2b294c.css.map"
+          "blocks/group-016b0704.css.map"
         ]
       }
     },
@@ -624,11 +624,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/popup-controller-c5db8101.js"
+          "blocks/popup-controller-49bf72d4.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/popup-controller-c5db8101.js.map"
+          "blocks/popup-controller-49bf72d4.js.map"
         ]
       }
     },

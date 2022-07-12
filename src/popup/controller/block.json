@@ -9,7 +9,7 @@
 	"attributes": {},
 	"supports": {
 		"html": false,
-		"align": [ "full", "wide", "left", "right" ],
+		"align": [ "full", "wide", "left", "right", "center" ],
 		"anchor": true
 	}
 }

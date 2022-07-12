@@ -8,6 +8,7 @@ use \WPackio as WPackio;
  */
 
 class Popup_Controller extends PRC_Block_Library {
+	public static $version = '1.0.1';
 	public $vimeo_script_handle = false;
 
 	public function __construct( $init = false ) {
@@ -34,7 +35,7 @@ class Popup_Controller extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$block = $enqueue->register(
 			'blocks',
