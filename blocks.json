@@ -338,6 +338,11 @@
 		{
 			"name": "media-text",
 			"php": "./src/media-text/index.php"
+		},
+		{
+			"name": "collection-kicker",
+			"main": "./src/collection-kicker/index.js",
+			"php": "./src/collection-kicker/index.php"
 		}
 	]
 }

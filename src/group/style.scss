@@ -34,6 +34,15 @@ body.admin-bar .prc-group-block--sticky.sticky {
 	}
 }
 
+// When a align full cover is before an alignfull group we want to add padding to the group.
+.wp-block-cover.alignfull + .wp-block-group.alignfull {
+	margin-top: -2em;
+    padding-top: 1em;
+    padding-bottom: 2em;
+    padding-left: 2em;
+	padding-right: 2em;
+}
+
 .wp-block-group {
 	& > :last-child {
 		margin-bottom: 0;

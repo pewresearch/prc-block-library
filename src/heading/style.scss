@@ -43,7 +43,11 @@ h3.is-style-hidden:not(.wp-block-heading),
 h4.is-style-hidden:not(.wp-block-heading),
 h5.is-style-hidden:not(.wp-block-heading),
 h6.is-style-hidden:not(.wp-block-heading) {
-	display: none;
+	font-size: 0px!important;
+	opacity: 0!important;
+	height: 0px!important;
+	line-height: 0px!important;
+	margin: none!important
 }
 
 h1[data-type="core/heading"].is-style-hidden,

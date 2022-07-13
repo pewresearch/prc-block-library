@@ -1,0 +1,19 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/collection-kicker",
+	"title": "Collection Kicker",
+	"description": "Allows you to put this post into a collection and display that collections kicker bug.",
+	"keywords": [],
+	"category": "design",
+	"attributes": {
+		"termId": {
+			"type": "integer"
+		},
+		"textColor": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false
+	}
+}

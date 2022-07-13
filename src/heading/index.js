@@ -47,7 +47,7 @@ const HeadingBlockFilter = createHigherOrderComponent(
 						<ToolbarGroup>
 							<ToolbarButton
 								icon="book-alt"
-								label="Is Chapter?"
+								label={isChapter ? 'Remove Chapter' : 'Make Chapter'}
 								isActive={isChapter}
 								onClick={() => {
 									const attrs = {

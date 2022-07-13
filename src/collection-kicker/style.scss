@@ -1,0 +1,18 @@
+.wp-block-prc-block-collection-kicker {
+	display: flex;
+	align-items: center;
+
+	font-family: var(--wp--preset--font-family--sans-serif);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 16px;
+	letter-spacing: 0.05em;
+
+	img {
+		margin-right: 0.5em;
+	}
+
+	.components-base-control__field {
+		margin: 0;
+	}
+}
