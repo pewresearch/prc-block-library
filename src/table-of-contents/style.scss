@@ -79,6 +79,9 @@
 						filter: grayscale(0%);
 						opacity: 1.0;
 					}
+					&.hidden {
+						display: none!important;
+					}
 				}
 			}
 		}

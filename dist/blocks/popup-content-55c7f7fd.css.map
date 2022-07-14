@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/popup/content/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,iDACC,eACA,qB","file":"blocks/popup-content-55c7f7fd.css","sourcesContent":[".wp-block-prc-block-popup-content:not(.wp-block) {\n\tcursor: pointer;\n\tmargin-bottom: 1.25em;\n}\n"],"sourceRoot":""}

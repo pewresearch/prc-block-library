@@ -16,7 +16,7 @@ use PHPHtmlParser\Exceptions\NotLoadedException;
  */
 
 class Table_of_Contents extends PRC_Block_Library {
-	public static $version = '1.0.0';
+	public static $version = '1.0.1';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {

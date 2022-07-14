@@ -6,7 +6,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Group_Block extends PRC_Block_Library {
-	public static $version = '3.0.3';
+	public static $version = '3.0.4';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -95,6 +95,12 @@ class Group_Block extends PRC_Block_Library {
 					'core/group/responsiveThreshold' => 'responsiveThreshold',
 				)
 			);
+			$settings['uses_context'] = array_merge(
+				array_key_exists('uses_context', $settings) ? $settings['uses_context'] : array(),
+				array(
+					'prc-block/carousel/direction',
+				)
+			);
 		}
 		return $settings;
 	}
@@ -110,9 +116,12 @@ class Group_Block extends PRC_Block_Library {
 			true
 		);
 
+		error_log(print_r($block, true));
+
 		$is_sticky = is_array($block['attrs']) && array_key_exists('isSticky', $block['attrs']) ? $block['attrs']['isSticky'] : false;
 		$responsive_attach_id = is_array($block['attrs']) && array_key_exists('responsiveAttachId', $block['attrs']) ? $block['attrs']['responsiveAttachId'] : false;
 		$responsive_threshold = is_array($block['attrs']) && array_key_exists('responsiveThreshold', $block['attrs']) ? $block['attrs']['responsiveThreshold'] : false;
+		$carousel = isset( $block->context['prc-block/carousel/direction'] ) ? $block->context['prc-block/carousel/direction'] : false;
 
 		$block_content = apply_filters( 'prc_group_block_content', $block_content, $block );
 
@@ -130,6 +139,13 @@ class Group_Block extends PRC_Block_Library {
 				$id,
 				$responsive_attach_id,
 				$responsive_threshold,
+				$block_content
+			);
+		}
+
+		if ( false !== $carousel ) {
+			$block_content = wp_sprintf(
+				'<div class="prc-group-block--carousel">%s</div>',
 				$block_content
 			);
 		}

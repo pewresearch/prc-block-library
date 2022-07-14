@@ -38,8 +38,10 @@ class Media_Text_Block extends PRC_Block_Library {
 		.wp-block-media-text {
 			margin-block-end: var(--wp--custom--margin-block-end, 1.5em);
 		}
-		.wp-block-media-text > .wp-block-media-text__content {
-			border-left: 3px solid white;
+		@media (min-width: 768px) {
+			.wp-block-media-text > .wp-block-media-text__content {
+				border-left: 3px solid white;
+			}
 		}
 		.wp-block-media-text > .wp-block-media-text__content > .wp-block-quote {
 			padding-left: 0;

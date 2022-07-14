@@ -6328,6 +6328,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dom7@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "dom7@npm:4.0.4"
+  dependencies:
+    ssr-window: ^4.0.0
+  checksum: b38604f74e915b4d05b6634f9ff239a708c468180f498a28ff67f2a61233697d9bd7192703b788a24541c3591e7f1a6e83a2cbf70bc871a85e033f82e19abc31
+  languageName: node
+  linkType: hard
+
 "domain-browser@npm:^1.1.1":
   version: 1.2.0
   resolution: "domain-browser@npm:1.2.0"
@@ -10495,6 +10504,7 @@ __metadata:
     semantic-ui-react: ^2.0.1
     styled-components: ^5.3.3
     svg-inline-loader: ^0.8.2
+    swiper: ^8.3.1
     url-loader: ^4.1.1
     uuid: ^8.3.2
     waypoints: ^4.0.1
@@ -12152,6 +12162,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ssr-window@npm:^4.0.0, ssr-window@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "ssr-window@npm:4.0.2"
+  checksum: df182600927f4f3225224cf8c02338ea637c9750519505bbfb9a9236741a2a7ec088386fb948bca7b447b8303d9109e7dc7672e3de041c79ac2a0e03665af7d2
+  languageName: node
+  linkType: hard
+
 "ssri@npm:^6.0.1":
   version: 6.0.2
   resolution: "ssri@npm:6.0.2"
@@ -12507,6 +12524,16 @@ __metadata:
   bin:
     svgo: bin/svgo
   checksum: b92f71a8541468ffd0b81b8cdb36b1e242eea320bf3c1a9b2c8809945853e9d8c80c19744267eb91cabf06ae9d5fff3592d677df85a31be4ed59ff78534fa420
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^8.3.1":
+  version: 8.3.1
+  resolution: "swiper@npm:8.3.1"
+  dependencies:
+    dom7: ^4.0.4
+    ssr-window: ^4.0.2
+  checksum: 3bf9fe039ff356ba9c8849953dfc9677aca0e7e69e0da3d6a64636e83562e33fa7a2bae9885c163e66760014ea8c0416492e59a69671787e4543f5dc6c7bcdd1
   languageName: node
   linkType: hard
 

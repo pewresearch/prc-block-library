@@ -6,7 +6,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Cover_Block extends PRC_Block_Library {
-	public static $version = '1.0.1acc';
+	public static $version = '1.0.2';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -15,16 +15,15 @@ class Cover_Block extends PRC_Block_Library {
 		}
 	}
 
-	public function enqueue_assets( $js = true, $css = true ) {
-		$block_js_deps = array( 'wp-dom-ready', 'wp-polyfill' );
+	public function enqueue_assets($css = true, $js = false) {
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
-			'frontend',
+			'blocks',
 			'cover',
 			array(
 				'js'        => $js,
 				'css'       => $css,
-				'js_dep'    => true === $js ? $block_js_deps : array(),
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
@@ -37,7 +36,7 @@ class Cover_Block extends PRC_Block_Library {
 			return $block_content;
 		}
 
-		$this->enqueue_assets( true, true );
+		$this->enqueue_assets();
 
 		return $block_content;
 	}
@@ -48,20 +47,7 @@ class Cover_Block extends PRC_Block_Library {
 	 * @uses Enqueue
 	 */
 	public function register_script() {
-		$block_js_deps = array( 'wp-blocks', 'wp-dom-ready', 'wp-i18n', 'wp-polyfill' );
-		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
-		$enqueue->enqueue(
-			'blocks',
-			'cover',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => $block_js_deps,
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
+		$this->enqueue_assets(true, true);
 	}
 }
 
