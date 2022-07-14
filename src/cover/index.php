@@ -6,7 +6,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Cover_Block extends PRC_Block_Library {
-	public static $version = '1.0.1acc';
+	public static $version = '1.0.2';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -15,14 +15,14 @@ class Cover_Block extends PRC_Block_Library {
 		}
 	}
 
-	public function enqueue_assets() {
+	public function enqueue_assets($css = true, $js = false) {
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
 			'blocks',
 			'cover',
 			array(
-				'js'        => false,
-				'css'       => true,
+				'js'        => $js,
+				'css'       => $css,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -47,7 +47,7 @@ class Cover_Block extends PRC_Block_Library {
 	 * @uses Enqueue
 	 */
 	public function register_script() {
-		$this->enqueue_assets();
+		$this->enqueue_assets(true, true);
 	}
 }
 

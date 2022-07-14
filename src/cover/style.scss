@@ -13,7 +13,6 @@
 		margin-right: auto;
 		max-width: var(--cover-content-width);
 	}
-	// We don't want to apply these text styles to snap-group covers.
 	& > .wp-block-cover__inner-container {
 		& > .wp-block-prc-block-post-bylines,
 		& > .wp-block-post-date,
@@ -28,7 +27,7 @@
 
 // Collapse cover block on mobile
 @media screen and (max-width: 785px) {
-	.wp-block-cover {
+	.wp-block-cover:not(.is-style-disable-mobile-collapse) {
 		flex-direction: column!important;
 		margin-bottom: 0; // The content inside should provide its own bottom margin.
 		min-height: auto!important;

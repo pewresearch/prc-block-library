@@ -126,6 +126,15 @@ const initThresholdWatcher = (block) => {
 		const isMobileToc = groupElm.classList.toggle('mobile-toc-icons');
 		if (isMobileToc) {
 			const items = groupElm.querySelectorAll('a.item[data-icon-src]');
+			// Get items from groupElm that dont have data-icon-src
+			const itemsWithoutIcons = Array.from(
+				groupElm.querySelectorAll('a.item'),
+			).filter((item) => !item.getAttribute('data-icon-src'));
+			// Loop through itemsWithoutIcons and add class hidden to them
+			itemsWithoutIcons.forEach((item) => {
+				item.classList.add('hidden');
+			});
+			console.log('isMobileToc', items, groupElm.querySelectorAll('a.item'));
 			items.forEach((item) => {
 				const icon = item.getAttribute('data-icon-src');
 				// Add the icon to the item
@@ -133,6 +142,14 @@ const initThresholdWatcher = (block) => {
 			});
 		} else {
 			const items = groupElm.querySelectorAll('a.item[data-icon-src]');
+			// Get items from groupElm that dont have data-icon-src
+			// const itemsWithoutIcons = Array.from(
+			// 	groupElm.querySelectorAll('a.item.hidden'),
+			// ).filter((item) => !item.getAttribute('data-icon-src'));
+			// // Loop through itemsWithoutIcons and add class hidden to them
+			// itemsWithoutIcons.forEach((item) => {
+			// 	item.classList.remove('hidden');
+			// }
 			items.forEach((item) => {
 				const icon = item.querySelector('span.icon');
 				const hiddenText = item.querySelector('span.hidden-text');

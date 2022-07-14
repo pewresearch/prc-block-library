@@ -8,7 +8,7 @@ use \WPackio as WPackio;
  */
 
 class Collection_Kicker extends PRC_Block_Library {
-	public static $version = 1.0;
+	public static $version = '1.0.0';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {

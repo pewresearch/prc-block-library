@@ -1,8 +1,8 @@
 {
   "buttons.js": "blocks/buttons-6d6cb657.js",
   "buttons.js.map": "blocks/buttons-6d6cb657.js.map",
-  "carousel.css": "blocks/carousel-3b163baf.css",
-  "carousel.css.map": "blocks/carousel-3b163baf.css.map",
+  "carousel.css": "blocks/carousel-e5272093.css",
+  "carousel.css.map": "blocks/carousel-e5272093.css.map",
   "carousel.js": "blocks/carousel-b0853e18.js",
   "carousel.js.map": "blocks/carousel-b0853e18.js.map",
   "chart-builder-data-wrapper.js": "blocks/chart-builder-data-wrapper-3497ec93.js",
@@ -19,10 +19,10 @@
   "collection-kicker.js.map": "blocks/collection-kicker-72a2728b.js.map",
   "column.js": "blocks/column-66f59b85.js",
   "column.js.map": "blocks/column-66f59b85.js.map",
-  "cover.css": "blocks/cover-b86147b3.css",
-  "cover.css.map": "blocks/cover-b86147b3.css.map",
-  "cover.js": "blocks/cover-791fbfba.js",
-  "cover.js.map": "blocks/cover-791fbfba.js.map",
+  "cover.css": "blocks/cover-2f3dc3fa.css",
+  "cover.css.map": "blocks/cover-2f3dc3fa.css.map",
+  "cover.js": "blocks/cover-2b429ef6.js",
+  "cover.js.map": "blocks/cover-2b429ef6.js.map",
   "daily-briefing-signup.css": "blocks/daily-briefing-signup-f40d5194.css",
   "daily-briefing-signup.css.map": "blocks/daily-briefing-signup-f40d5194.css.map",
   "daily-briefing-signup.js": "blocks/daily-briefing-signup-51e383d1.js",
@@ -155,8 +155,8 @@
   "story-item.css.map": "blocks/story-item-c903dc5f.css.map",
   "story-item.js": "blocks/story-item-d053110c.js",
   "story-item.js.map": "blocks/story-item-d053110c.js.map",
-  "table-of-contents.css": "blocks/table-of-contents-1b47ceab.css",
-  "table-of-contents.css.map": "blocks/table-of-contents-1b47ceab.css.map",
+  "table-of-contents.css": "blocks/table-of-contents-38b1a3f6.css",
+  "table-of-contents.css.map": "blocks/table-of-contents-38b1a3f6.css.map",
   "table-of-contents.js": "blocks/table-of-contents-144984af.js",
   "table-of-contents.js.map": "blocks/table-of-contents-144984af.js.map",
   "table.js": "blocks/table-a42df437.js",
@@ -292,17 +292,17 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/cover-791fbfba.js"
+          "blocks/cover-2b429ef6.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/cover-791fbfba.js.map"
+          "blocks/cover-2b429ef6.js.map"
         ],
         "css": [
-          "blocks/cover-b86147b3.css"
+          "blocks/cover-2f3dc3fa.css"
         ],
         "css.map": [
-          "blocks/cover-b86147b3.css.map"
+          "blocks/cover-2f3dc3fa.css.map"
         ]
       }
     },
@@ -955,10 +955,10 @@
           "blocks/table-of-contents-144984af.js.map"
         ],
         "css": [
-          "blocks/table-of-contents-1b47ceab.css"
+          "blocks/table-of-contents-38b1a3f6.css"
         ],
         "css.map": [
-          "blocks/table-of-contents-1b47ceab.css.map"
+          "blocks/table-of-contents-38b1a3f6.css.map"
         ]
       }
     },
@@ -1269,10 +1269,10 @@
           "blocks/carousel-b0853e18.js.map"
         ],
         "css": [
-          "blocks/carousel-3b163baf.css"
+          "blocks/carousel-e5272093.css"
         ],
         "css.map": [
-          "blocks/carousel-3b163baf.css.map"
+          "blocks/carousel-e5272093.css.map"
         ]
       }
     }
