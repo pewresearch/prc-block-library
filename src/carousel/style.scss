@@ -2,25 +2,30 @@
 .wp-block-prc-block-carousel:not(.wp-block) {
 	padding: 0;
 	width: 100%;
-	max-width: 900px!important;
+	max-width: 100%!important;
 	display: flex;
     flex-direction: column;
 	height: 100vh;
 
 	&:not(.horizontal) {
-		overflow-y: scroll;
+		overflow-y: hidden;
 	}
 	&.horizontal {
 		flex-direction: row;
 		max-width: 100vw!important;
-		overflow-x: scroll;
+		overflow-x: hidden;
 		& > .wp-block-group {
 			min-width: 100vw;
 		}
 	}
-
-	&.locked {
+	&.active {
 		overscroll-behavior: contain;
+		&:not(.horizontal) {
+			overflow-y: scroll;
+		}
+		&.horizontal {
+			overflow-x: scroll;
+		}
 	}
 
 	& > .wp-block-group {
