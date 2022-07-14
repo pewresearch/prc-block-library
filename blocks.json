@@ -31,8 +31,7 @@
 		{
 			"name": "cover",
 			"main": "./src/cover/index.js",
-			"php": "./src/cover/index.php",
-			"frontend": "./src/cover/frontend.js"
+			"php": "./src/cover/index.php"
 		},
 		{
 			"name": "daily-briefing-signup",
@@ -343,6 +342,12 @@
 			"name": "collection-kicker",
 			"main": "./src/collection-kicker/index.js",
 			"php": "./src/collection-kicker/index.php"
+		},
+		{
+			"name": "carousel",
+			"main": "./src/carousel/index.js",
+			"frontend": "./src/carousel/frontend.js",
+			"php": "./src/carousel/index.php"
 		}
 	]
 }

@@ -29,9 +29,6 @@ body.admin-bar .prc-group-block--sticky.sticky {
 	.wp-block-group.alignright {
 		background: rgb(255 255 255 / 50%);
 	}
-	& > .wp-block-group > .wp-block-group {
-		height: fit-content!important;
-	}
 }
 
 // When a align full cover is before an alignfull group we want to add padding to the group.

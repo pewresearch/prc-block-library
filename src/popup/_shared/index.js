@@ -3,16 +3,11 @@
  */
 import { sprintf } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import {
-	BlockControls,
-} from '@wordpress/block-editor';
-import {
-	ToolbarButton,
-	ToolbarGroup,
-} from '@wordpress/components';
+import { BlockControls } from '@wordpress/block-editor';
+import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 
-if ( !window.hasOwnProperty('prcBlocks') ) {
+if (!window.hasOwnProperty('prcBlocks')) {
 	window.prcBlocks = {};
 }
 window.prcBlocks.modal = {
@@ -20,25 +15,37 @@ window.prcBlocks.modal = {
 	clientId: false,
 };
 
-const ModalControls = ({ controllerClientId, children }) => {
-	const {modalClientId} = useSelect(select => {
-		const modalBlock = select('core/block-editor').getBlock(controllerClientId).innerBlocks.filter(block => block.name === 'prc-block/popup-modal');
+function ModalControls({ controllerClientId, children }) {
+	const { modalClientId } = useSelect((select) => {
+		const modalBlock = select('core/block-editor')
+			.getBlock(controllerClientId)
+			.innerBlocks.filter((block) => 'prc-block/popup-modal' === block.name);
 		return {
 			modalClientId: modalBlock.pop().clientId,
-		}
+		};
 	});
 
-	const {selectBlock} = useDispatch('core/block-editor');
+	const { selectBlock } = useDispatch('core/block-editor');
 
-	return(
+	return (
 		<Fragment>
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
-						icon={sprintf( 'editor-%s', modalClientId === window.prcBlocks.modal.isOpen ? 'contract' : 'expand' )}
-						label={sprintf( '%s Modal', modalClientId === window.prcBlocks.modal.isOpen ? 'Close' : 'Open' )}
+						icon={sprintf(
+							'editor-%s',
+							modalClientId === window.prcBlocks.modal.isOpen
+								? 'contract'
+								: 'expand',
+						)}
+						label={sprintf(
+							'%s Modal',
+							modalClientId === window.prcBlocks.modal.isOpen
+								? 'Close'
+								: 'Open',
+						)}
 						onClick={() => {
-							if ( modalClientId === window.prcBlocks.modal.isOpen ) {
+							if (modalClientId === window.prcBlocks.modal.isOpen) {
 								window.prcBlocks.modal.isOpen = false;
 								window.prcBlocks.modal.clientId = false;
 								selectBlock(controllerClientId);
@@ -55,8 +62,6 @@ const ModalControls = ({ controllerClientId, children }) => {
 			{children}
 		</Fragment>
 	);
-};
-
-export {
-	ModalControls,
 }
+
+export { ModalControls };
