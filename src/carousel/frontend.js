@@ -23,26 +23,32 @@ domReady(() => {
 			const lastCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:last-child',
 			);
+
 			// Watch for scrolling on the document to activate the carousel.
 			window.addEventListener('scroll', () => {
 				const carouselTop = carousel.getBoundingClientRect().top;
+				const carouselHeight = carousel.getBoundingClientRect().height;
 				if (0 > carouselTop && false === window.carouselActivated) {
-					console.log("ACTIVE");
 					carousel.classList.add('active');
+					document.querySelector('body').classList.add('carousel-locked');
 					window.carouselActivated = true;
+				}
+				// If the carousel is scrolled to the bottom and out of view then reset the scroll position.
+				if (
+					carouselHeight <= Math.round(Math.abs(carouselTop)) &&
+					window.carouselActivated
+				) {
+					carousel.scrollTop = 0;
 				}
 			});
 
+			// Watch scrolling INSIDE the carousel, when we reach the last slide unlock everything and reset the carousel scroll position to the top.
 			carousel.addEventListener('scroll', () => {
 				const lastCarouselSlideTop =
 					lastCarouselSlide.getBoundingClientRect().top;
-				console.log(
-					'lastCarouselSlide:',
-					lastCarouselSlide,
-					lastCarouselSlideTop,
-				);
 				if (0 > lastCarouselSlideTop) {
 					carousel.classList.remove('active');
+					document.querySelector('body').classList.remove('carousel-locked');
 				}
 			});
 		});
