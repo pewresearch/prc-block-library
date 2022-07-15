@@ -1,4 +1,7 @@
 // We need to use intersection scroll observer to apply this is-style-snap-groups active and not active
+body.carousel-locked {
+	overflow-y: hidden;
+}
 .wp-block-prc-block-carousel:not(.wp-block) {
 	padding: 0;
 	width: 100%;
