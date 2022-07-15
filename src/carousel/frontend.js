@@ -39,6 +39,7 @@ domReady(() => {
 					window.carouselActivated
 				) {
 					carousel.scrollTop = 0;
+					window.carouselActivated = false;
 				}
 			});
 
