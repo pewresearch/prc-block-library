@@ -35,7 +35,6 @@ class Carousel_Block extends PRC_Block_Library {
 		// See https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/prc-block-library.php#L131 for how to use `$this->_get_block_wrapper_attributes()`
 		$block_attrs = get_block_wrapper_attributes(array());
 
-
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
 			$block_attrs,

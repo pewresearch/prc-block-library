@@ -348,11 +348,6 @@
 			"main": "./src/carousel/index.js",
 			"frontend": "./src/carousel/frontend.js",
 			"php": "./src/carousel/index.php"
-		},
-		{
-			"name": "seths-test-block",
-			"main": "./src/seths-test-block/index.js",
-			"php": "./src/seths-test-block/index.php"
 		}
 	]
 }

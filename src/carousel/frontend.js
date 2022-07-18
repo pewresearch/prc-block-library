@@ -1,9 +1,4 @@
 /**
- * External Dependencies
- */
-// import Swiper from 'swiper';
-
-/**
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
@@ -20,6 +15,10 @@ domReady(() => {
 
 	if (carousels.length) {
 		carousels.forEach((carousel) => {
+			// Assign a random id to each carousel
+			const id = Math.random().toString(36).substring(2, 15);
+			carousel.id = id;
+
 			const lastCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:last-child',
 			);
@@ -29,6 +28,10 @@ domReady(() => {
 				const carouselTop = carousel.getBoundingClientRect().top;
 				const carouselHeight = carousel.getBoundingClientRect().height;
 				if (0 > carouselTop && false === window.carouselActivated) {
+					// If window href has a hash, scroll to it.
+					if (window.location.hash) {
+						// Hash found, don't lock the scroll.
+					}
 					carousel.classList.add('active');
 					document.querySelector('body').classList.add('carousel-locked');
 					window.carouselActivated = true;
