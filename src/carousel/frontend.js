@@ -13,6 +13,16 @@ window.prcBlocks.carouselBlocks = {
 	activated: [],
 };
 
+const resetAll = () => {
+	window.prcBlocks.carouselBlocks.activated.forEach((id) => {
+		const elm = document.getElementById(id);
+		if (elm) {
+			elm.classList.remove('active');
+		}
+	});
+	window.prcBlocks.carouselBlocks.activated = [];
+};
+
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
 
@@ -32,14 +42,14 @@ domReady(() => {
 				const carouselHeight = carousel.getBoundingClientRect().height;
 				if (
 					0 >= carouselTop &&
+					-4 <= carouselTop &&
 					!window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
-					// If window href has a hash, scroll to it.
-					if (window.location.hash) {
-						// Hash found, don't lock the scroll.
-					}
 					carousel.classList.add('active');
-					document.querySelector('body').classList.add('carousel-locked');
+
+					if (!window.location.hash) {
+						document.querySelector('body').classList.add('carousel-locked');
+					}
 
 					console.log('Carousel locked', carousel, carouselTop);
 

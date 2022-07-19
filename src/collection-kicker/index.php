@@ -35,12 +35,23 @@ class Collection_Kicker extends PRC_Block_Library {
 
 		$term = get_term( $term_id, 'collection' );
 		$term_name = $term->name;
+		$term_link = get_term_link( $term_id, 'collection' );
 		$kicker_bug_img_id = get_term_meta( $term_id, 'kicker', true );
 		$kicker_bug_img_url = wp_get_attachment_image_url( $kicker_bug_img_id, 'full' );
 
-		$content = $term_name;
+		$content = wp_sprintf(
+			'<a href="%1$s">%2$s</a>',
+			$term_link,
+			$term_name
+		);
+
 		if ( $kicker_bug_img_url ) {
-			$content = '<img src="' . $kicker_bug_img_url . '" alt="' . $term_name . '" />' . $term_name;
+			$content = wp_sprintf(
+				'<img src="%1$s" alt="%2$s" /> %3$s',
+				$kicker_bug_img_url,
+				$term_name,
+				$content
+			);
 		}
 
 		return wp_sprintf(
