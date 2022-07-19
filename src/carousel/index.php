@@ -8,7 +8,7 @@ use \WPackio as WPackio;
  */
 
 class Carousel_Block extends PRC_Block_Library {
-	public static $version = '1.0.2';
+	public static $version = '1.0.3';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -17,24 +17,9 @@ class Carousel_Block extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
-		$enqueue->enqueue(
-			'frontend',
-			'carousel',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array(),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
-
 		// If this block is going to be used in the theme or be called directly by PHP it is sometimes easier to use our internal function for of this function.
-		// See https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/prc-block-library.php#L131 for how to use `$this->_get_block_wrapper_attributes()`
+		// See https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/prc-block-library.php#L89 for how to use `$this->_get_block_wrapper_attributes()`
 		$block_attrs = get_block_wrapper_attributes(array());
-
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
@@ -46,7 +31,7 @@ class Carousel_Block extends PRC_Block_Library {
 	public function register_block() {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
-		$registered = $enqueue->register(
+		$block = $enqueue->register(
 			'blocks',
 			'carousel',
 			array(
@@ -59,11 +44,25 @@ class Carousel_Block extends PRC_Block_Library {
 			)
 		);
 
+		$frontend = $enqueue->register(
+			'frontend',
+			'carousel',
+			array(
+				'js'        => true,
+				'css'       => false, // This is already being included in the block registration above ^
+				'js_dep'    => array(),
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/carousel',
 			array(
-				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'           => array_pop( $registered['css'] )['handle'],
+				'editor_script'   => array_pop( $block['js'] )['handle'],
+				'style'           => array_pop( $block['css'] )['handle'],
+				'script' 		  => array_pop( $frontend['js'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
