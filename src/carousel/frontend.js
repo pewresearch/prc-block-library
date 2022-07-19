@@ -1,5 +1,6 @@
 /** External Dependencies */
 import { randomId } from '@prc-app/shared';
+import inViewport from 'in-viewport';
 
 /**
  * WordPress Dependencies
@@ -23,11 +24,18 @@ const resetAll = () => {
 	window.prcBlocks.carouselBlocks.activated = [];
 };
 
+function visible(elt) {
+	// elt === elem
+	console.log(elt.id + ' is visible in the window!');
+}
+
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
 
 	if (carousels.length) {
 		carousels.forEach((carousel) => {
+			inViewport(carousel, visible);
+
 			const ID = randomId();
 			// Assign a random id to each carousel
 			carousel.setAttribute('id', ID);
@@ -35,6 +43,8 @@ domReady(() => {
 			const lastCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:last-child',
 			);
+
+			inViewport(lastCarouselSlide, visible);
 
 			// Watch for scrolling on the document to activate the carousel.
 			window.addEventListener('scroll', () => {

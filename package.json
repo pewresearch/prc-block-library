@@ -53,6 +53,7 @@
 		"enquire.js": "^2.1.6",
 		"i18n-iso-countries": "^7.1.0",
 		"in-view": "^0.6.1",
+		"in-viewport": "^3.6.0",
 		"num-words": "^1.2.2",
 		"ordinal": "^1.0.3",
 		"react-card-flip": "^1.0.11",
