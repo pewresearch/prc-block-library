@@ -63,6 +63,9 @@ class Media_Text_Block extends PRC_Block_Library {
 			border: none;
 			content: "_";
 		}
+		.wp-block-media-text > .wp-block-media-text__content {
+			height: -webkit-fill-available;
+		}
 		.wp-block-media-text.has-text-color > .wp-block-media-text__content > .wp-block-quote,
 		.wp-block-media-text.has-text-color > .wp-block-media-text__content > .wp-block-quote cite {
 			color: inherit!important;
