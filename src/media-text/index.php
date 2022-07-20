@@ -55,7 +55,7 @@ class Media_Text_Block extends PRC_Block_Library {
 			width: calc(100% + 8%);
 			margin-left: -4%;
 			text-transform: inherit;
-			letter-spacing: 1px;
+			font-size: 15px;
 		}
 		.wp-block-media-text cite:before {
 			top: -0.45em;
