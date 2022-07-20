@@ -43,7 +43,7 @@ domReady(() => {
 
 				if (
 					0 >= carouselTop &&
-					-4 <= carouselTop &&
+					-15 <= carouselTop &&
 					!window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
 					carousel.parentElement.parentElement.scrollIntoView(); // Scroll to the carousel so its perfeclty in the viewport.
