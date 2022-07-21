@@ -11,6 +11,7 @@ if (!window.hasOwnProperty('prcBlocks')) {
 }
 window.prcBlocks.carouselBlocks = {
 	activated: [],
+	reset: [],
 };
 
 const resetAll = () => {
@@ -32,6 +33,10 @@ domReady(() => {
 			// Assign a random id to each carousel
 			carousel.setAttribute('id', ID);
 
+			const firstCarouselSlide = carousel.querySelector(
+				':scope > .wp-block-group:first-child',
+			);
+
 			const lastCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:last-child',
 			);
@@ -48,7 +53,10 @@ domReady(() => {
 				) {
 					carousel.parentElement.parentElement.scrollIntoView(); // Scroll to the carousel so its perfeclty in the viewport.
 					carousel.classList.add('active');
-					if (!window.prcBlocks.carouselBlocks.activated.includes(ID)) {
+					if (
+						!window.prcBlocks.carouselBlocks.activated.includes(ID) ||
+						window.prcBlocks.carouselBlocks.reset.includes(ID)
+					) {
 						window.prcBlocks.carouselBlocks.activated.push(ID);
 					}
 
@@ -62,20 +70,27 @@ domReady(() => {
 				// If the carousel is scrolled to the bottom and out of view then reset the scroll position.
 				if (
 					carouselHeight <= Math.round(Math.abs(carouselTop)) &&
-					window.prcBlocks.carouselBlocks.activated.includes(ID) &&
-					'true' !== carousel.getAttribute('data-carousel-viewed')
+					window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
-					console.log('Carousel reset', ID);
+					console.log(
+						'Carousel reset',
+						ID,
+						carouselHeight,
+						Math.round(Math.abs(carouselTop)),
+					);
 
 					// carousel.scrollTop = 0;
-					carousel.setAttribute('data-carousel-viewed', 'true');
 					window.prcBlocks.carouselBlocks.activated =
 						window.prcBlocks.carouselBlocks.activated.filter((id) => id !== ID);
+
+					window.prcBlocks.carouselBlocks.reset.push(ID);
 				}
 			});
 
 			// Watch scrolling INSIDE the carousel, when we reach the last slide unlock the DOM.
 			carousel.addEventListener('scroll', () => {
+				const firstCarouselSlideTop =
+					firstCarouselSlide.getBoundingClientRect().top;
 				const lastCarouselSlideTop =
 					lastCarouselSlide.getBoundingClientRect().top;
 
@@ -88,6 +103,19 @@ domReady(() => {
 
 					carousel.classList.remove('active');
 					document.querySelector('body').classList.remove('carousel-locked');
+				}
+
+				console.log('firstCarouselSlide', firstCarouselSlideTop);
+
+				if (
+					0 >= firstCarouselSlideTop &&
+					-15 <= firstCarouselSlideTop &&
+					window.prcBlocks.carouselBlocks.reset.includes(ID)
+				) {
+					document.querySelector('body').classList.remove('carousel-locked');
+					carousel.classList.remove('active');
+					window.prcBlocks.carouselBlocks.reset =
+						window.prcBlocks.carouselBlocks.reset.filter((id) => id !== ID);
 				}
 			});
 		});
