@@ -67,8 +67,10 @@ domReady(() => {
 				) {
 					console.log('Carousel reset', ID);
 
-					carousel.scrollTop = 0;
+					// carousel.scrollTop = 0;
 					carousel.setAttribute('data-carousel-viewed', 'true');
+					window.prcBlocks.carouselBlocks.activated =
+						window.prcBlocks.carouselBlocks.activated.filter((id) => id !== ID);
 				}
 			});
 
@@ -77,7 +79,7 @@ domReady(() => {
 				const lastCarouselSlideTop =
 					lastCarouselSlide.getBoundingClientRect().top;
 
-				console.log("Last Carousel Slide Location:", lastCarouselSlideTop);
+				console.log('Last Carousel Slide Location:', lastCarouselSlideTop);
 				if (
 					50 >= lastCarouselSlideTop &&
 					window.prcBlocks.carouselBlocks.activated.includes(ID)
