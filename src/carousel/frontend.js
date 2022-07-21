@@ -24,6 +24,15 @@ const resetAll = () => {
 	window.prcBlocks.carouselBlocks.activated = [];
 };
 
+const toggleBodyLock = (enable = true) => {
+	const body = document.querySelector('body');
+	if (true === enable) {
+		body.classList.add('carousel-locked');
+	} else {
+		body.classList.remove('carousel-locked');
+	}
+}
+
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
 
@@ -32,6 +41,8 @@ domReady(() => {
 			const ID = randomId();
 			// Assign a random id to each carousel
 			carousel.setAttribute('id', ID);
+
+			const isMobile = carousel.getAttribute('data-is-mobile');
 
 			const firstCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:first-child',
@@ -51,7 +62,10 @@ domReady(() => {
 					-15 <= carouselTop &&
 					!window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
-					carousel.parentElement.parentElement.scrollIntoView(); // Scroll to the carousel so its perfeclty in the viewport.
+					if (true != isMobile) {
+						carousel.parentElement.parentElement.scrollIntoView(); // Scroll to the carousel so its perfeclty in the viewport.
+					}
+
 					carousel.classList.add('active');
 					if (
 						!window.prcBlocks.carouselBlocks.activated.includes(ID) ||
@@ -60,11 +74,9 @@ domReady(() => {
 						window.prcBlocks.carouselBlocks.activated.push(ID);
 					}
 
-					if (!window.location.hash) {
-						document.querySelector('body').classList.add('carousel-locked');
+					if (!window.location.hash && true != isMobile) {
+						toggleBodyLock(true);
 					}
-
-					console.log('Carousel locked', carousel, carouselTop);
 				}
 
 				// If the carousel is scrolled to the bottom and out of view then reset the scroll position.
@@ -72,13 +84,6 @@ domReady(() => {
 					carouselHeight <= Math.round(Math.abs(carouselTop)) &&
 					window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
-					console.log(
-						'Carousel reset',
-						ID,
-						carouselHeight,
-						Math.round(Math.abs(carouselTop)),
-					);
-
 					// carousel.scrollTop = 0;
 					window.prcBlocks.carouselBlocks.activated =
 						window.prcBlocks.carouselBlocks.activated.filter((id) => id !== ID);
@@ -94,25 +99,20 @@ domReady(() => {
 				const lastCarouselSlideTop =
 					lastCarouselSlide.getBoundingClientRect().top;
 
-				console.log('Last Carousel Slide Location:', lastCarouselSlideTop);
 				if (
 					50 >= lastCarouselSlideTop &&
 					window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
-					console.log('Carousel unlocked', ID);
-
 					carousel.classList.remove('active');
 					document.querySelector('body').classList.remove('carousel-locked');
 				}
-
-				console.log('firstCarouselSlide', firstCarouselSlideTop);
 
 				if (
 					0 >= firstCarouselSlideTop &&
 					-15 <= firstCarouselSlideTop &&
 					window.prcBlocks.carouselBlocks.reset.includes(ID)
 				) {
-					document.querySelector('body').classList.remove('carousel-locked');
+					toggleBodyLock(false);
 					carousel.classList.remove('active');
 					window.prcBlocks.carouselBlocks.reset =
 						window.prcBlocks.carouselBlocks.reset.filter((id) => id !== ID);
