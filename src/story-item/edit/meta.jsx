@@ -11,12 +11,10 @@ function Meta({ enabled, date, label, setAttributes, termOptions }) {
 		return <Fragment />;
 	}
 
-	const value =
-		'short-read' === cleanForSlug(label.toLowerCase())
-			? 'fact-tank'
-			: cleanForSlug(label.toLowerCase());
+	const cleanedLabel =
+		undefined !== label ? cleanForSlug(label.toLowerCase()) : 'report';
 
-	console.log('<Meta>', label, termOptions);
+	const value = 'short-read' === cleanedLabel ? 'fact-tank' : cleanedLabel;
 
 	return (
 		<div className="meta" style={{ display: 'flex', alignItems: 'center' }}>

@@ -104,7 +104,7 @@ domReady(() => {
 					window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
 					carousel.classList.remove('active');
-					document.querySelector('body').classList.remove('carousel-locked');
+					toggleBodyLock(false);
 				}
 
 				if (

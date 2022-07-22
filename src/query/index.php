@@ -30,7 +30,6 @@ class Query_Block extends PRC_Block_Library {
 	 * @return array Returns the constructed WP_Query arguments.
 	 */
 	private function build_query_vars_from_attributes( $block, $page ) {
-		error_log( 'build_query_vars_from_query_block' . print_r( $block, true ) );
 		$query = array(
 			'post_type'    => 'post',
 			'order'        => 'DESC',
@@ -126,7 +125,6 @@ class Query_Block extends PRC_Block_Library {
 		// Override the custom query with the global query if needed.
 		$use_global_query = ( isset( $block['query']['inherit'] ) && $block['query']['inherit'] );
 		if ( $use_global_query ) {
-			error_log( 'using global wp query' );
 			global $wp_query;
 			if ( $wp_query && isset( $wp_query->query_vars ) && is_array( $wp_query->query_vars ) ) {
 				// Unset `offset` because if is set, $wp_query overrides/ignores the paged parameter and breaks pagination.
