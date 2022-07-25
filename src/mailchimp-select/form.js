@@ -8,7 +8,7 @@ import HCaptcha from '@hcaptcha/react-hcaptcha';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useRef } from '@wordpress/element';
+import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
 /**
@@ -96,6 +96,7 @@ function List({ interests, selected, userSelected, onChange }) {
 
 function FormList({ interests, selected, allowSubmissions = false }) {
 	const [userSelection, setSelected] = useState([]);
+	const [allowed, toggleAllowed] = useState(false);
 	const [buttonText, changeButtonText] = useState('SIGN UP');
 	const [buttonColor, changeButtonColor] = useState('mustard');
 	const [loading, toggleLoading] = useState(false);
@@ -156,10 +157,14 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 			return;
 		}
 
+		if (!allowed) {
+			return;
+		}
+
 		toggleLoading(true);
 
 		apiFetch({
-			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}&captcha_token=${token}`,
+			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}&captcha_token=${token}&api_key=mailchimp-select`,
 			method: 'POST',
 		})
 			.then(() => {
@@ -217,6 +222,10 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 			hackCaptchaCheckboxStyle();
 		}
 	};
+
+	useEffect(() => {
+		toggleAllowed(0 !== userSelection.length && false !== token);
+	}, [token, userSelection]);
 
 	return (
 		<Form onSubmit={onSubmit} success={isSuccess} error={isError}>
@@ -276,7 +285,7 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 			<Form.Group>
 				<Form.Button
 					loading={loading}
-					disabled={false === token}
+					disabled={false === allowed}
 					color={buttonColor}
 				>
 					{buttonText}

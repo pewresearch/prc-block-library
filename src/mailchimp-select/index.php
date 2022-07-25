@@ -22,12 +22,15 @@ class Block_Name extends PRC_Block_Library {
 			return $content;
 		}
 		$this->enqueue_frontend_assets();
-		$interests = implode( ',', $attributes['interests'] );
-		ob_start();
-		?>
-		<div class="wp-block-prc-block-mailchimp-select" data-interests="<?php echo esc_attr( $interests ); ?>"></div>
-		<?php
-		return ob_get_clean();
+
+		$block_attrs = get_block_wrapper_attributes(array(
+			'data-interests' => implode( ',', $attributes['interests'] ),
+		));
+
+		return wp_sprintf(
+			'<div %1$s></div>',
+			$block_attrs,
+		);
 	}
 
 	public function enqueue_frontend_assets() {
