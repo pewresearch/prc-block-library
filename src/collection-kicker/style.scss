@@ -7,6 +7,15 @@
 	font-weight: 400;
 	line-height: 16px;
 	letter-spacing: 0.05em;
+	text-transform: uppercase;
+
+	a {
+		color: inherit!important;
+		text-decoration: none;
+		&:visited {
+			color: inherit!important;
+		}
+	}
 
 	img {
 		margin-right: 0.5em;

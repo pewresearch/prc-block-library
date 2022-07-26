@@ -33,6 +33,7 @@ class Collection_Kicker extends PRC_Block_Library {
 		// See https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/prc-block-library.php#L131 for how to use `$this->_get_block_wrapper_attributes()`
 		$block_attrs = get_block_wrapper_attributes($block_attrs);
 
+
 		$term = get_term( $term_id, 'collection' );
 		$term_name = $term->name;
 		$term_link = get_term_link( $term_id, 'collection' );
@@ -55,7 +56,7 @@ class Collection_Kicker extends PRC_Block_Library {
 		}
 
 		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
+			'<div %1$s>%2$s <i class="ui icon caret right"></i></div>',
 			$block_attrs,
 			$content
 		);

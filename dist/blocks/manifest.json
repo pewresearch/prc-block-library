@@ -13,8 +13,8 @@
   "chart-builder.js.map": "blocks/chart-builder-54e07d13.js.map",
   "collapsible.js": "blocks/collapsible-860dd654.js",
   "collapsible.js.map": "blocks/collapsible-860dd654.js.map",
-  "collection-kicker.css": "blocks/collection-kicker-5b00a130.css",
-  "collection-kicker.css.map": "blocks/collection-kicker-5b00a130.css.map",
+  "collection-kicker.css": "blocks/collection-kicker-f4baa2e5.css",
+  "collection-kicker.css.map": "blocks/collection-kicker-f4baa2e5.css.map",
   "collection-kicker.js": "blocks/collection-kicker-9f665fd9.js",
   "collection-kicker.js.map": "blocks/collection-kicker-9f665fd9.js.map",
   "column.js": "blocks/column-8ae0bdcb.js",
@@ -1255,10 +1255,10 @@
           "blocks/collection-kicker-9f665fd9.js.map"
         ],
         "css": [
-          "blocks/collection-kicker-5b00a130.css"
+          "blocks/collection-kicker-f4baa2e5.css"
         ],
         "css.map": [
-          "blocks/collection-kicker-5b00a130.css.map"
+          "blocks/collection-kicker-f4baa2e5.css.map"
         ]
       }
     },
