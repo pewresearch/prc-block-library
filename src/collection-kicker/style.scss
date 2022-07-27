@@ -9,9 +9,9 @@
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
 
-	a {
+	& > a {
 		color: inherit!important;
-		text-decoration: none;
+		text-decoration: none!important;
 		&:visited {
 			color: inherit!important;
 		}

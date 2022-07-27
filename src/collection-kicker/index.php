@@ -13,20 +13,50 @@ class Collection_Kicker extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_action( 'prc_do_collection_kicker', array( $this, 'do_collection_kicker' ), 10, 1 );
 		}
+	}
+
+	public function do_collection_kicker($post_id = null) {
+		if ( null === $post_id ) {
+			return;
+		}
+		// get the collection term by the post id
+		$terms = get_the_terms( $post_id, 'collection' );
+		if ( false === $terms || empty( $terms ) ) {
+			return;
+		}
+		// get the first term in the list and pop it off the array for use.
+		$term = array_shift( $terms );
+		if ( false === $term || empty( $term ) ) {
+			return;
+		}
+		// get the collection term id
+		$term_id = $term->term_id;
+		$parsed = new WP_Block_Parser_Block(
+			'prc-block/collection-kicker',
+			array(
+				'termId' => $term_id
+			),
+			array(),
+			'',
+			'',
+		);
+		echo wp_kses( render_block( (array) $parsed ), 'post' );
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$term_id = array_key_exists('termId', $attributes) ? $attributes['termId'] : false;
-		$text_color = array_key_exists('textColor', $attributes) ? $attributes['textColor'] : false;
 
 		if ( ! $term_id ) {
 			return;
 		}
 
 		$block_attrs = array();
-		if ( $text_color ) {
-			$block_attrs['style'] = 'color: ' . $text_color . ';';
+
+		$kicker_text_color = get_term_meta( $term_id, 'kicker_text_color', true );
+		if ( false !== $kicker_text_color || '' !== $kicker_text_color ) {
+			$block_attrs['style'] = 'color: ' . $kicker_text_color . ';';
 		}
 
 		// If this block is going to be used in the theme or be called directly by PHP it is sometimes easier to use our internal function for of this function.
@@ -56,7 +86,7 @@ class Collection_Kicker extends PRC_Block_Library {
 		}
 
 		return wp_sprintf(
-			'<div %1$s>%2$s <i class="ui icon caret right"></i></div>',
+			'<div %1$s>%2$s <i class="ui icon caret right" style="margin-left: 5px"></i></div>',
 			$block_attrs,
 			$content
 		);
