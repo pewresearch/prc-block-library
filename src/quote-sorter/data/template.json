@@ -1,0 +1,35 @@
+{
+	"quotes": {
+		"1": {
+			"name": "Aasha_Q",
+			"quote": "To be a Pakistani in America means I have to be true to myself, keep my identity as a Pakistani, uphold my values",
+			"props": {
+				"nativity": "foreignborn",
+				"lengthOfStay": "over10yr",
+				"originGroup": "pakistani",
+				"gender": "female",
+				"ageBand": "30-49",
+				"incomeLevel": "income7",
+				"language": "urdu",
+				"countryOfBirth": "pakistan",
+				"generation": "firstGen",
+				"yearsLived": "11-20",
+				"householdIncome": "above62k",
+				"householdIncomeBand": "75-100k",
+				"familySize": "5",
+				"age": "42",
+				"state": "newYork",
+				"county": "suffolk",
+				"education": "highSchool"
+			}
+		}
+	},
+	"categories": {
+		"pakistani": {
+			"name": "Pakistani"
+		}
+	},
+	"references": {
+		"pakistani": ["1"]
+	}
+}

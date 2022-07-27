@@ -1,0 +1,38 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/quote-sorter-quotes",
+	"title": "Quote Sorter – Container",
+	"icon": "list-view",
+	"description": "Child block containing a group of quotes",
+	"category": "layout",
+	"attributes": {
+		"marginTop": {
+			"type": "number",
+			"default": 20
+		},
+		"marginBottom": {
+			"type": "number",
+			"default": 20
+		},
+		"noResultsMessage": {
+			"type": "string",
+			"default": "No results found. Please try another search."
+		}
+	},
+	"styles": [
+		{
+			"name": "block",
+			"label": "Block",
+			"isDefault": true
+		},
+		{
+			"name": "columns",
+			"label": "Columns"
+		}
+	],
+	"supports": {
+		"html": false
+	},
+	"usesContext": ["prc-block/quote-sorter-hash"],
+	"ancestor": ["prc-block/quote-sorter"]
+}

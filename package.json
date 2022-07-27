@@ -58,6 +58,7 @@
 		"ordinal": "^1.0.3",
 		"react-card-flip": "^1.0.11",
 		"react-google-recaptcha": "^2.1.0",
+		"react-movable": "^3.0.4",
 		"react-responsive-picture": "^3.2.2",
 		"react-sortable-hoc": "^2.0.0",
 		"semantic-ui-react": "^2.0.1",

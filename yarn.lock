@@ -10506,6 +10506,7 @@ __metadata:
     react-card-flip: ^1.0.11
     react-dom: ^17.0.2
     react-google-recaptcha: ^2.1.0
+    react-movable: ^3.0.4
     react-responsive-picture: ^3.2.2
     react-sortable-hoc: ^2.0.0
     sass: ^1.45.0
@@ -10950,6 +10951,16 @@ __metadata:
   peerDependencies:
     moment: ">=1.6.0"
   checksum: 5f26d48a46509acfa7560acf5aba8002e9fb04138976556970748b1a3ff9c1f46a91b3111f964f79060467472a6dfb8e8b4aae7a349469b08b4ad54d0c5bd5e8
+  languageName: node
+  linkType: hard
+
+"react-movable@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "react-movable@npm:3.0.4"
+  peerDependencies:
+    react: ">=16.3"
+    react-dom: ">=16.3"
+  checksum: 1da4eedde1995f2a56fe60fb301c60fad6df3ee1bae47357ff2d7c9a3b9270d2c953f08e666ef07eb7486a2ab029f8fdfd357faa6dedd5665ba2b4af9360bed7
   languageName: node
   linkType: hard
 

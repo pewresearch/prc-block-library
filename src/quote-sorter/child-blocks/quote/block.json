@@ -1,0 +1,26 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/quote-sorter-quote",
+	"title": "Quote Sorter – Quote",
+	"icon": "format-quote",
+	"description": "Child block displaying a single quote and attributes",
+	"category": "layout",
+	"attributes": {
+		"quote": {
+			"type": "string",
+			"default": "Pabst austin banjo intelligentsia. Synth venmo waistcoat woke shabby chic distillery swag kickstarter air plant tilde shaman humblebrag tumeric before they sold out."
+		},
+		"props": {
+			"type": "array"
+		},
+		"attribution": {
+			"type": "string",
+			"default": "Person, Age"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"parent": ["prc-block/quote-sorter-quotes"],
+	"ancestor": ["prc-block/quote-sorter"]
+}

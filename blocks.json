@@ -348,6 +348,37 @@
 			"main": "./src/carousel/index.js",
 			"frontend": "./src/carousel/frontend.js",
 			"php": "./src/carousel/index.php"
+		},
+		{
+			"name": "quote-sorter",
+			"main": "./src/quote-sorter/index.js",
+			"frontend": "./src/quote-sorter/frontend.js",
+			"php": "./src/quote-sorter/index.php"
+		},
+		{
+			"name": "quote-sorter-quotes",
+			"main": "./src/quote-sorter/child-blocks/quotes/index.js",
+			"php": "./src/quote-sorter/child-blocks/quotes/index.php"
+		},
+		{
+			"name": "quote-sorter-quote",
+			"main": "./src/quote-sorter/child-blocks/quote/index.js",
+			"php": "./src/quote-sorter/child-blocks/quote/index.php"
+		},
+		{
+			"name": "quote-sorter-search-bar",
+			"main": "./src/quote-sorter/child-blocks/search-bar/index.js",
+			"php": "./src/quote-sorter/child-blocks/search-bar/index.php"
+		},
+		{
+			"name": "quote-sorter-dropdown",
+			"main": "./src/quote-sorter/child-blocks/dropdown/index.js",
+			"php": "./src/quote-sorter/child-blocks/dropdown/index.php"
+		},
+		{
+			"name": "quote-sorter-dynamic-text",
+			"main": "./src/quote-sorter/child-blocks/dynamic-text/index.js",
+			"php": "./src/quote-sorter/child-blocks/dynamic-text/index.php"
 		}
 	]
 }

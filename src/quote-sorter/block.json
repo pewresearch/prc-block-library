@@ -1,0 +1,34 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/quote-sorter",
+	"title": "Quote Sorter",
+	"description": "Block to create an interactive quote sorter",
+	"icon": "star-filled",
+	"keywords": ["quote", "sort", "sorter", "interactive"],
+	"category": "layout",
+	"attributes": {
+		"toggler": {
+			"type": "boolean",
+			"default": true
+		},
+		"sorterId": {
+			"type": "string",
+			"default": ""
+		},
+		"typologies": {
+			"type": "string",
+			"default": "{\"gender_man\":{\"name\":\"Man\",\"category\":\"Gender\"},\"gender_woman\":{\"name\":\"Woman\",\"category\":\"Gender\"}}"
+		},
+		"uploadStatus": {
+			"type": "string",
+			"default": "unprocessed"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"providesContext": {
+		"prc-block/quote-sorter-hash": "sorterId",
+		"prc-block/quote-sorter-typologies": "typologies"
+	}
+}
