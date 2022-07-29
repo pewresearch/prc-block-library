@@ -8,9 +8,6 @@
 	"attributes": {
 		"termId": {
 			"type": "integer"
-		},
-		"textColor": {
-			"type": "string"
 		}
 	},
 	"supports": {

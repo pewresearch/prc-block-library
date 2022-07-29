@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/quote-sorter/child-blocks/dynamic-text/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,oBACC,YACA,2BACC,S","file":"blocks/quote-sorter-dynamic-text-41740f73.css","sourcesContent":[".dynamic-text-table {\n\theight: auto;\n\t&.hidden {\n\t\theight: 0;\n\t}\n}\n"],"sourceRoot":""}

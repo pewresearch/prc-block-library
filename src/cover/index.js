@@ -12,7 +12,7 @@ import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment } from '@wordpress/element';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, CardDivider } from '@wordpress/components';
+import { PanelBody } from '@wordpress/components';
 
 /**
  * Internal Dependencies

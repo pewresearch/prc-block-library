@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** External Dependencies */
 import { randomId } from '@prc-app/shared';
 
@@ -6,6 +7,7 @@ import { randomId } from '@prc-app/shared';
  */
 import domReady from '@wordpress/dom-ready';
 
+// eslint-disable-next-line no-prototype-builtins
 if (!window.hasOwnProperty('prcBlocks')) {
 	window.prcBlocks = {};
 }
@@ -31,7 +33,7 @@ const toggleBodyLock = (enable = true) => {
 	} else {
 		body.classList.remove('carousel-locked');
 	}
-}
+};
 
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
@@ -41,32 +43,35 @@ domReady(() => {
 			const ID = randomId();
 			// Assign a random id to each carousel
 			carousel.setAttribute('id', ID);
-
 			const isMobile = carousel.getAttribute('data-is-mobile');
-
 			const firstCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:first-child',
 			);
-
 			const lastCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:last-child',
 			);
+			const carouselCoverBlock = carousel.parentElement.parentElement;
+			const viewportHeight = window.innerHeight;
+			const threshold = Math.round(viewportHeight / 8);
 
 			// Watch for scrolling on the document to activate the carousel.
 			window.addEventListener('scroll', () => {
 				const carouselTop = carousel.getBoundingClientRect().top;
 				const carouselHeight = carousel.getBoundingClientRect().height;
 
+				console.log('carouselTop:', {
+					carouselTop,
+					carouselHeight,
+					viewportHeight,
+				});
+
+
 				if (
 					0 >= carouselTop &&
-					-15 <= carouselTop &&
+					-25 <= carouselTop &&
 					!window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
-					if (true != isMobile) {
-						carousel.parentElement.parentElement.scrollIntoView(); // Scroll to the carousel so its perfeclty in the viewport.
-					}
-
-					carousel.classList.add('active');
+					// Signal the carousel is active.
 					if (
 						!window.prcBlocks.carouselBlocks.activated.includes(ID) ||
 						window.prcBlocks.carouselBlocks.reset.includes(ID)
@@ -74,48 +79,73 @@ domReady(() => {
 						window.prcBlocks.carouselBlocks.activated.push(ID);
 					}
 
-					if (!window.location.hash && true != isMobile) {
+					// If not on mobile or if the url doesnt have a hash then lock the body.
+					if (!window.location.hash) {
 						toggleBodyLock(true);
 					}
+
+					// Force the carousel's cover block into view
+					if (true != isMobile) {
+						carouselCoverBlock.scrollIntoView();
+					}
+
+					// Allow scrolling inside the carousel:
+					carousel.classList.add('active');
 				}
 
-				// If the carousel is scrolled to the bottom and out of view then reset the scroll position.
+				// If the carousel's bottom has left the viewport then deactivate it and queue it up for its next iteration back through.
 				if (
 					carouselHeight <= Math.round(Math.abs(carouselTop)) &&
 					window.prcBlocks.carouselBlocks.activated.includes(ID)
 				) {
-					// carousel.scrollTop = 0;
 					window.prcBlocks.carouselBlocks.activated =
 						window.prcBlocks.carouselBlocks.activated.filter((id) => id !== ID);
 
 					window.prcBlocks.carouselBlocks.reset.push(ID);
+					// This concludes iteration zero.
 				}
 			});
 
-			// Watch scrolling INSIDE the carousel, when we reach the last slide unlock the DOM.
+			// Watch scrolling INSIDE the carousel, when we reach the last slide (down, iteration 0) or first slide (up, iteration 1) and unlock the DOM.
 			carousel.addEventListener('scroll', () => {
 				const firstCarouselSlideTop =
 					firstCarouselSlide.getBoundingClientRect().top;
 				const lastCarouselSlideTop =
 					lastCarouselSlide.getBoundingClientRect().top;
 
-				if (
-					50 >= lastCarouselSlideTop &&
-					window.prcBlocks.carouselBlocks.activated.includes(ID)
-				) {
-					carousel.classList.remove('active');
-					document.querySelector('body').classList.remove('carousel-locked');
-				}
+				console.log('slideTops:', [
+					{
+						lastCarouselSlideTop,
+						threshold,
+					},
+					{
+						firstCarouselSlideTop,
+						threshold,
+					},
+				]);
 
-				if (
+				const isIterationZero =
+					threshold >= lastCarouselSlideTop &&
+					window.prcBlocks.carouselBlocks.activated.includes(ID);
+				const isIterationOne =
 					0 >= firstCarouselSlideTop &&
-					-15 <= firstCarouselSlideTop &&
-					window.prcBlocks.carouselBlocks.reset.includes(ID)
-				) {
+					-25 <= firstCarouselSlideTop &&
+					window.prcBlocks.carouselBlocks.reset.includes(ID);
+
+				if (isIterationZero || isIterationOne) {
 					toggleBodyLock(false);
 					carousel.classList.remove('active');
-					window.prcBlocks.carouselBlocks.reset =
-						window.prcBlocks.carouselBlocks.reset.filter((id) => id !== ID);
+
+					if (isIterationOne) {
+						// This concludes iteration one.
+						window.prcBlocks.carouselBlocks.reset =
+							window.prcBlocks.carouselBlocks.reset.filter((id) => id !== ID);
+						// Reset to iteration zero.
+						window.prcBlocks.carouselBlocks.activated =
+							window.prcBlocks.carouselBlocks.activated.filter(
+								(id) => id !== ID,
+							);
+					}
 				}
 			});
 		});

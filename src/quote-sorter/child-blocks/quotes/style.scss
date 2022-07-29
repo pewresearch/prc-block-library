@@ -1,0 +1,51 @@
+$sans-serif: var(--wp--preset--font-family--sans-serif);
+$serif: var(--wp--preset--font-family--serif);
+
+.wp-block-prc-block-quote-sorter-quotes {
+	overflow: hidden;
+	max-height: clamp(200px, 125vh, 1200px);
+	transition: all 500ms ease;
+	position: relative;
+	&:after {
+		content: '';
+		position: absolute;
+		z-index: 1;
+		bottom: 0;
+		left: 0;
+		pointer-events: none;
+		background-image: linear-gradient(
+			to bottom,
+			rgba(255, 255, 255, 0),
+			#fff 80%
+		);
+		width: 100%;
+		height: 40px;
+	}
+	&.expanded {
+		max-height: 20000vh;
+		&:after {
+			height: 0;
+		}
+	}
+}
+
+.show-more {
+	display: grid;
+	place-items: center;
+	&.hidden {
+		display: none;
+	}
+}
+
+.wp-block-prc-block-quote-sorter-no-results {
+	&.hidden {
+		display: none;
+	}
+	text-align: center;
+	font-family: $sans-serif;
+	color: var(--wp--preset--color--gray-dark);
+	height: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

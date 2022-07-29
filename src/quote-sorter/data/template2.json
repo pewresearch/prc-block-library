@@ -1,0 +1,73 @@
+{
+	"quotes": {
+		"1": {
+			"name": "Aasha_Q",
+			"quote": "To be a Pakistani in America means I have to be true to myself, keep my identity as a Pakistani, uphold my values",
+			"props": [
+				"nativity_foreignborn",
+				"lengthOfStay_over10yr",
+				"originGroup_pakistani",
+				"gender_female",
+				"ageBand_30-49",
+				"incomeLevel_income7",
+				"language_urdu",
+				"countryOfBirth_pakistan",
+				"generation_firstGen",
+				"yearsLived_11-20",
+				"householdIncome_above62k",
+				"householdIncomeBand_75-100k",
+				"familySize_5",
+				"age_42",
+				"state_newYork",
+				"county_suffolk",
+				"education_highSchool"
+			]
+		},
+		"2": {
+			"name": "Aaye_M",
+			"quote": "Refugees came from Myanmar, I saw a lot of them in America. It’s like when I went to work there at refugee services as, an interpreter. It was an opportunity. I wanted to go and compare with their English... If I can compare with them So, I know English more than them. I go and help them, interpreting. I know better by doing that. Improving. So, what I see are refugees. Opportunities for them, opportunities for refugees and, OK, let me finish ha ha Opportunity to get quality job.",
+			"props": [
+				"nativity_foreignborn",
+				"lengthOfStay_under10yr",
+				"originGroup_burmese",
+				"gender_female",
+				"ageBand_50-64",
+				"incomeLevel_income4"
+			]
+		}
+	},
+	"typologies": {
+		"countryOfBirth_pakistan": {
+			"name": "Pakistan",
+			"category": "Country of Birth"
+		},
+		"nativity_foreignborn": {
+			"name": "Foreign Born",
+			"category": "Nativity"
+		},
+		"lengthOfStay_over10yr": {
+			"name": "Over 10 years",
+			"category": "Length of Stay"
+		},
+		"originGroup_pakistani": {
+			"name": "Pakistani",
+			"category": "Origin Group"
+		},
+		"lengthOfStay_under10yr": {
+			"name": "Under 10 years",
+			"category": "Length of Stay"
+		},
+		"originGroup_burmese": {
+			"name": "Burmese",
+			"category": "Origin Group"
+		}
+	},
+	"references": {
+		"countryOfBirth_pakistan": ["1"],
+		"nativity_foreignborn": ["1", "2"],
+		"lengthOfStay_over10yr": ["1"],
+		"originGroup_pakistani": ["1"],
+		"lengthOfStay_under10yr": ["2"],
+		"originGroup_burmese": ["2"]
+	}
+}

@@ -105,7 +105,7 @@ function MailchimpForm({
 
 		setTimeout(() => {
 			apiFetch({
-				path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}&captcha_token=${token}`,
+				path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}&captcha_token=${token}&api_key=mailchimp-form`,
 				method: 'POST',
 			})
 				.then(() => {

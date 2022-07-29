@@ -1,0 +1,6 @@
+.dynamic-text-table {
+	height: auto;
+	&.hidden {
+		height: 0;
+	}
+}
