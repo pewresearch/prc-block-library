@@ -209,11 +209,10 @@ function firstCarouselSlideCallback(entry) {
 
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
-	const isMobile = Array.from(carousels).some(
-		(e) =>
-			e.hasAttribute('data-is-mobile') &&
-			'true' === e.getAttribute('data-is-mobile'),
-	);
+	const carouselBlocks = Array.from(carousels);
+	const isMobile = carouselBlocks.some((e) => e.getAttribute('data-is-mobile'));
+
+	console.log('isMobile', isMobile, carouselBlocks);
 
 	/**
 	 * Initialize Observers:
@@ -222,9 +221,8 @@ domReady(() => {
 	const carouselOpts = {
 		threshold: [0.95],
 	};
-	if (isMobile) {
-		carouselOpts.threshold = [0.8];
-	}
+
+	console.log('carouselOpts', carouselOpts);
 
 	const carouselObserver = new IntersectionObserver(
 		carouselObserverCallback,
@@ -299,5 +297,26 @@ domReady(() => {
 			lastCarouselSlideObserver.observe(lastCarouselSlide);
 			firstCarouselSlideObserver.observe(firstCarouselSlide);
 		});
+
+		// On mobile, if the first element is a cover block and that block contains a carousel then after a few seconds lets scroll that into view for the user.
+		if (isMobile) {
+			const postContents = document.querySelector('.post-content');
+			if (postContents.firstElementChild.classList.contains('wp-block-cover')) {
+				const coverBlock = postContents.firstElementChild;
+				if (coverBlock) {
+					const carouselBlock = coverBlock.querySelector(
+						'.wp-block-prc-block-carousel',
+					);
+					if (carouselBlock) {
+						setTimeout(() => {
+							coverBlock.scrollIntoView({
+								behavior: 'smooth',
+								block: 'start',
+							});
+						}, 1000);
+					}
+				}
+			}
+		}
 	}
 });
