@@ -209,14 +209,27 @@ function firstCarouselSlideCallback(entry) {
 
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
+	const isMobile = Array.from(carousels).some(
+		(e) =>
+			e.hasAttribute('data-is-mobile') &&
+			'true' === e.getAttribute('data-is-mobile'),
+	);
 
 	/**
 	 * Initialize Observers:
 	 */
 
-	const carouselObserver = new IntersectionObserver(carouselObserverCallback, {
+	const carouselOpts = {
 		threshold: [0.95],
-	});
+	};
+	if (isMobile) {
+		carouselOpts.threshold = [0.8];
+	}
+
+	const carouselObserver = new IntersectionObserver(
+		carouselObserverCallback,
+		carouselOpts,
+	);
 
 	// This may seem overkill but I found performance wise it was better to watch for the class change and then initiate a manual scroll.
 	const isCarouselActiveObserver = new MutationObserver(
