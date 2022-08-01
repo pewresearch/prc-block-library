@@ -159,8 +159,8 @@
   "runtime.js.map": "blocks/runtime-8f407741.js.map",
   "social-link.js": "blocks/social-link-4fd036f3.js",
   "social-link.js.map": "blocks/social-link-4fd036f3.js.map",
-  "social-share-text-link.css": "blocks/social-share-text-link-77a6f8e4.css",
-  "social-share-text-link.css.map": "blocks/social-share-text-link-77a6f8e4.css.map",
+  "social-share-text-link.css": "blocks/social-share-text-link-a518c2f4.css",
+  "social-share-text-link.css.map": "blocks/social-share-text-link-a518c2f4.css.map",
   "social-share-text-link.js": "blocks/social-share-text-link-ba961b89.js",
   "social-share-text-link.js.map": "blocks/social-share-text-link-ba961b89.js.map",
   "social-share-url-field.css": "blocks/social-share-url-field-46de0d27.css",
@@ -1255,10 +1255,10 @@
           "blocks/social-share-text-link-ba961b89.js.map"
         ],
         "css": [
-          "blocks/social-share-text-link-77a6f8e4.css"
+          "blocks/social-share-text-link-a518c2f4.css"
         ],
         "css.map": [
-          "blocks/social-share-text-link-77a6f8e4.css.map"
+          "blocks/social-share-text-link-a518c2f4.css.map"
         ]
       }
     },
