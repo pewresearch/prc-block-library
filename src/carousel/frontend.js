@@ -309,10 +309,7 @@ domReady(() => {
 					);
 					if (carouselBlock) {
 						setTimeout(() => {
-							coverBlock.scrollIntoView({
-								behavior: 'smooth',
-								block: 'start',
-							});
+							activateCarousel(carouselBlock.id, carouselBlock);
 						}, 1000);
 					}
 				}
