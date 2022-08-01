@@ -12,142 +12,250 @@ if (!window.hasOwnProperty('prcBlocks')) {
 	window.prcBlocks = {};
 }
 window.prcBlocks.carouselBlocks = {
+	watched: [],
 	activated: [],
-	reset: [],
+	toggleBodyLock: (enable = true) => {
+		const body = document.querySelector('body');
+		if (true === enable) {
+			body.classList.add('carousel-locked');
+		} else {
+			body.classList.remove('carousel-locked');
+		}
+	},
 };
 
-const resetAll = () => {
-	window.prcBlocks.carouselBlocks.activated.forEach((id) => {
-		const elm = document.getElementById(id);
-		if (elm) {
-			elm.classList.remove('active');
+/**
+ * Helper Functions:
+ */
+
+function getScrollingDirection(changeEvent) {
+	// if not in watched list then return  null.
+	if (
+		!window.prcBlocks.carouselBlocks.watched.some(
+			(e) => e.id === changeEvent.target.id,
+		)
+	) {
+		return null;
+	}
+
+	const currentY = changeEvent.boundingClientRect.y;
+	const { isIntersecting, intersectionRatio, target } = changeEvent;
+	const currentRatio = intersectionRatio;
+	const { id } = target;
+
+	const previousY = window.prcBlocks.carouselBlocks.watched.find(
+		(e) => e.id === id,
+	).y;
+
+	const previousRatio = window.prcBlocks.carouselBlocks.watched.find(
+		(e) => e.id === id,
+	).ratio;
+
+	console.log('getScrollingDirection', changeEvent, id);
+
+	let direction = null;
+
+	// Scrolling down/up
+	if (currentY < previousY) {
+		if (currentRatio > previousRatio && isIntersecting) {
+			direction = 'scrolling-down-enter';
+		} else {
+			direction = 'scrolling-down-leave';
+		}
+	} else if (currentY > previousY && isIntersecting) {
+		if (currentRatio < previousRatio) {
+			direction = 'scrolling-up-leave';
+		} else {
+			direction = 'scrolling-up-enter';
+		}
+	}
+
+	window.prcBlocks.carouselBlocks.watched.find((e) => e.id === id).y = currentY;
+	window.prcBlocks.carouselBlocks.watched.find((e) => e.id === id).ratio =
+		currentRatio;
+
+	return direction;
+}
+
+function activateCarousel(id, elm) {
+	if (id && !window.prcBlocks.carouselBlocks.activated.includes(id)) {
+		window.prcBlocks.carouselBlocks.activated.push(id);
+
+		// If not on mobile or if the url doesnt have a hash then lock the body:
+		if (!window.location.hash) {
+			window.prcBlocks.carouselBlocks.toggleBodyLock(true);
+		}
+
+		// Finally, allow the carousel to scroll it's contents:
+		elm.classList.add('active');
+
+		console.warn('activating carousel', id);
+	}
+}
+
+function deactivateCarousel(id) {
+	// Filter out current carousel.
+	window.prcBlocks.carouselBlocks.activated =
+		window.prcBlocks.carouselBlocks.activated.filter((ID) => ID !== id);
+
+	console.warn('deactivating carousel', id);
+}
+
+// Initialize watch definition:
+function watch(id) {
+	// If the element is not in the watched list, then add it.
+	if (!window.prcBlocks.carouselBlocks.watched.some((e) => e.id === id)) {
+		window.prcBlocks.carouselBlocks.watched.push({
+			id,
+			y: 0, // When we add horizontal support we need to add X.
+			ratio: 0,
+		});
+	}
+}
+
+/**
+ * Observer Callbacks:
+ */
+
+function carouselObserverCallback(entry) {
+	entry.forEach((change) => {
+		const { id } = change.target;
+		const scrollingDirection = getScrollingDirection(change);
+
+		console.log(
+			'observing change...',
+			change,
+			change.target.classList,
+			scrollingDirection,
+			id,
+		);
+
+		if (
+			'scrolling-down-enter' === scrollingDirection &&
+			!window.prcBlocks.carouselBlocks.activated.includes(id)
+		) {
+			activateCarousel(id, change.target);
+		}
+
+		if (
+			'scrolling-down-leave' === scrollingDirection &&
+			window.prcBlocks.carouselBlocks.activated.includes(id)
+		) {
+			deactivateCarousel(id);
 		}
 	});
-	window.prcBlocks.carouselBlocks.activated = [];
-};
+}
 
-const toggleBodyLock = (enable = true) => {
-	const body = document.querySelector('body');
-	if (true === enable) {
-		body.classList.add('carousel-locked');
-	} else {
-		body.classList.remove('carousel-locked');
-	}
-};
+function lastCarouselSlideCallback(entry) {
+	entry.forEach((change) => {
+		const { id } = change.target;
+		const carouselBlock = change.target.parentElement;
+		const scrollingDirection = getScrollingDirection(change);
+
+		const boundingClientRectHeight = change.boundingClientRect.height;
+		const intersectClientRectHeight = change.intersectionRect.height;
+		const intersectionRatio =
+			intersectClientRectHeight / boundingClientRectHeight;
+
+		if ('scrolling-down-enter' === scrollingDirection) {
+			console.log("Last Carousel Slide :: 'scrolling-down-enter' ->", change);
+			if (0.89 <= intersectionRatio) {
+				console.log(
+					"This is exiting the carousel :: 'scrolling-down-enter' ->",
+					change,
+				);
+				window.prcBlocks.carouselBlocks.toggleBodyLock(false);
+				carouselBlock.classList.remove('active');
+				console.warn('releasing carousel lock');
+			}
+		}
+
+		if ('scrolling-up-enter' === scrollingDirection) {
+			console.log("Last Carousel Slide :: 'scrolling-up-enter' ->", change);
+			console.warn('re-activating carousel lock');
+			// As we go back through the carousel by enterting the last slide by scrolling up we need to reset the body.
+			activateCarousel(id, carouselBlock);
+		}
+
+		if ('scrolling-down-leave' === scrollingDirection) {
+			console.log("Last Carousel Slide :: 'scrolling-down-leave' ->", change);
+		}
+		if ('scrolling-up-leave' === scrollingDirection) {
+			console.log("Last Carousel Slide :: 'scrolling-up-leave' ->", change);
+		}
+	});
+}
+
+function firstCarouselSlideCallback(entry) {
+	entry.forEach((change) => {
+		const carouselBlock = change.target.parentElement;
+		const scrollingDirection = getScrollingDirection(change);
+		if ('scrolling-up-enter' === scrollingDirection) {
+			console.log("First Carousel Slide :: 'scrolling-up-enter' ->", change);
+			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
+			carouselBlock.classList.remove('active');
+			console.warn('de-activating carousel lock');
+		}
+	});
+}
+
+/**
+ * Initialize Observers:
+ */
+
+const carouselObserver = new IntersectionObserver(carouselObserverCallback, {
+	threshold: [0.99],
+});
+
+const lastCarouselSlideObserver = new IntersectionObserver(
+	lastCarouselSlideCallback,
+	{
+		threshold: [0.99],
+	},
+);
+
+const firstCarouselSlideObserver = new IntersectionObserver(
+	firstCarouselSlideCallback,
+	{
+		threshold: [0.99],
+	},
+);
+
+/**
+ * Initialize Carousels:
+ */
 
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
 
 	if (carousels.length) {
 		carousels.forEach((carousel) => {
-			const ID = randomId();
-			// Assign a random id to each carousel
-			carousel.setAttribute('id', ID);
 			const isMobile = carousel.getAttribute('data-is-mobile');
+
 			const firstCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:first-child',
 			);
 			const lastCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:last-child',
 			);
-			const carouselCoverBlock = carousel.parentElement.parentElement;
-			const viewportHeight = window.innerHeight;
-			const threshold = Math.round(viewportHeight / 8);
 
-			// Watch for scrolling on the document to activate the carousel.
-			window.addEventListener('scroll', () => {
-				const carouselTop = carousel.getBoundingClientRect().top;
-				const carouselHeight = carousel.getBoundingClientRect().height;
+			// Assign ID's for easier tracking:
+			const carouselId = randomId();
+			carousel.setAttribute('id', carouselId);
+			watch(carouselId);
 
-				console.log('carouselTop:', {
-					carouselTop,
-					carouselHeight,
-					viewportHeight,
-				});
+			const firstCarouselSlideId = randomId();
+			firstCarouselSlide.setAttribute('id', firstCarouselSlideId);
+			watch(firstCarouselSlideId);
 
+			const lastCarouseSlideId = randomId();
+			lastCarouselSlide.setAttribute('id', lastCarouseSlideId);
+			watch(lastCarouseSlideId);
 
-				if (
-					0 >= carouselTop &&
-					-25 <= carouselTop &&
-					!window.prcBlocks.carouselBlocks.activated.includes(ID)
-				) {
-					// Signal the carousel is active.
-					if (
-						!window.prcBlocks.carouselBlocks.activated.includes(ID) ||
-						window.prcBlocks.carouselBlocks.reset.includes(ID)
-					) {
-						window.prcBlocks.carouselBlocks.activated.push(ID);
-					}
-
-					// If not on mobile or if the url doesnt have a hash then lock the body.
-					if (!window.location.hash) {
-						toggleBodyLock(true);
-					}
-
-					// Force the carousel's cover block into view
-					if (true != isMobile) {
-						carouselCoverBlock.scrollIntoView();
-					}
-
-					// Allow scrolling inside the carousel:
-					carousel.classList.add('active');
-				}
-
-				// If the carousel's bottom has left the viewport then deactivate it and queue it up for its next iteration back through.
-				if (
-					carouselHeight <= Math.round(Math.abs(carouselTop)) &&
-					window.prcBlocks.carouselBlocks.activated.includes(ID)
-				) {
-					window.prcBlocks.carouselBlocks.activated =
-						window.prcBlocks.carouselBlocks.activated.filter((id) => id !== ID);
-
-					window.prcBlocks.carouselBlocks.reset.push(ID);
-					// This concludes iteration zero.
-				}
-			});
-
-			// Watch scrolling INSIDE the carousel, when we reach the last slide (down, iteration 0) or first slide (up, iteration 1) and unlock the DOM.
-			carousel.addEventListener('scroll', () => {
-				const firstCarouselSlideTop =
-					firstCarouselSlide.getBoundingClientRect().top;
-				const lastCarouselSlideTop =
-					lastCarouselSlide.getBoundingClientRect().top;
-
-				console.log('slideTops:', [
-					{
-						lastCarouselSlideTop,
-						threshold,
-					},
-					{
-						firstCarouselSlideTop,
-						threshold,
-					},
-				]);
-
-				const isIterationZero =
-					threshold >= lastCarouselSlideTop &&
-					window.prcBlocks.carouselBlocks.activated.includes(ID);
-				const isIterationOne =
-					0 >= firstCarouselSlideTop &&
-					-25 <= firstCarouselSlideTop &&
-					window.prcBlocks.carouselBlocks.reset.includes(ID);
-
-				if (isIterationZero || isIterationOne) {
-					toggleBodyLock(false);
-					carousel.classList.remove('active');
-
-					if (isIterationOne) {
-						// This concludes iteration one.
-						window.prcBlocks.carouselBlocks.reset =
-							window.prcBlocks.carouselBlocks.reset.filter((id) => id !== ID);
-						// Reset to iteration zero.
-						window.prcBlocks.carouselBlocks.activated =
-							window.prcBlocks.carouselBlocks.activated.filter(
-								(id) => id !== ID,
-							);
-					}
-				}
-			});
+			// Watch inner workings...
+			carouselObserver.observe(carousel);
+			lastCarouselSlideObserver.observe(lastCarouselSlide);
+			firstCarouselSlideObserver.observe(firstCarouselSlide);
 		});
 	}
 });
