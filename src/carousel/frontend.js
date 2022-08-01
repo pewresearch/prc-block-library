@@ -130,7 +130,6 @@ function carouselObserverCallback(entry) {
 			id,
 		);
 
-		// Activate the carousel
 		if (
 			'scrolling-down-enter' === scrollingDirection &&
 			!window.prcBlocks.carouselBlocks.activated.includes(id)
@@ -138,7 +137,6 @@ function carouselObserverCallback(entry) {
 			activateCarousel(id, change.target);
 		}
 
-		// Deactivate carousel's that the user has finished viewing:
 		if (
 			'scrolling-down-leave' === scrollingDirection &&
 			window.prcBlocks.carouselBlocks.activated.includes(id)
@@ -190,15 +188,8 @@ function lastCarouselSlideCallback(entry) {
 
 function firstCarouselSlideCallback(entry) {
 	entry.forEach((change) => {
-		const { id } = change.target;
 		const carouselBlock = change.target.parentElement;
 		const scrollingDirection = getScrollingDirection(change);
-
-		const boundingClientRectHeight = change.boundingClientRect.height;
-		const intersectClientRectHeight = change.intersectionRect.height;
-		const intersectionRatio =
-			intersectClientRectHeight / boundingClientRectHeight;
-
 		if ('scrolling-up-enter' === scrollingDirection) {
 			console.log("First Carousel Slide :: 'scrolling-up-enter' ->", change);
 			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
