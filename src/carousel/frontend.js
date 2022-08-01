@@ -24,7 +24,7 @@ window.prcBlocks.carouselBlocks = {
 	},
 };
 
-const DEBUG = true;
+const DEBUG = false;
 
 /**
  * Helper Functions:
