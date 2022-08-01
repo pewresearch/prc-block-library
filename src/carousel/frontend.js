@@ -24,6 +24,8 @@ window.prcBlocks.carouselBlocks = {
 	},
 };
 
+const DEBUG = true;
+
 /**
  * Helper Functions:
  */
@@ -51,8 +53,6 @@ function getScrollingDirection(changeEvent) {
 		(e) => e.id === id,
 	).ratio;
 
-	console.log('getScrollingDirection', changeEvent, id);
-
 	let direction = null;
 
 	// Scrolling down/up
@@ -78,15 +78,8 @@ function getScrollingDirection(changeEvent) {
 }
 
 function activateCarousel(id, elm) {
-	const coverBlock = elm.parentElement.parentElement;
 	if (id && !window.prcBlocks.carouselBlocks.activated.includes(id)) {
 		window.prcBlocks.carouselBlocks.activated.push(id);
-
-		// scroll coverblock into view:
-		coverBlock.scrollIntoView({
-			behavior: 'smooth',
-			block: 'start',
-		});
 
 		// If not on mobile or if the url doesnt have a hash then lock the body:
 		if (!window.location.hash) {
@@ -96,7 +89,9 @@ function activateCarousel(id, elm) {
 		// Finally, allow the carousel to scroll it's contents:
 		elm.classList.add('active');
 
-		console.warn('activating carousel', id);
+		if (DEBUG) {
+			console.warn('activating carousel', id);
+		}
 	}
 }
 
@@ -105,7 +100,9 @@ function deactivateCarousel(id) {
 	window.prcBlocks.carouselBlocks.activated =
 		window.prcBlocks.carouselBlocks.activated.filter((ID) => ID !== id);
 
-	console.warn('deactivating carousel', id);
+	if (DEBUG) {
+		console.warn('deactivating carousel', id);
+	}
 }
 
 // Initialize watch definition:
@@ -129,13 +126,15 @@ function carouselObserverCallback(entry) {
 		const { id } = change.target;
 		const scrollingDirection = getScrollingDirection(change);
 
-		console.log(
-			'observing change...',
-			change,
-			change.target.classList,
-			scrollingDirection,
-			id,
-		);
+		if (DEBUG) {
+			console.log(
+				'observing change...',
+				change,
+				change.target.classList,
+				scrollingDirection,
+				id,
+			);
+		}
 
 		if (
 			'scrolling-down-enter' === scrollingDirection &&
@@ -164,31 +163,27 @@ function lastCarouselSlideCallback(entry) {
 		const intersectionRatio =
 			intersectClientRectHeight / boundingClientRectHeight;
 
-		if ('scrolling-down-enter' === scrollingDirection) {
-			console.log("Last Carousel Slide :: 'scrolling-down-enter' ->", change);
-			if (0.89 <= intersectionRatio) {
+		if (
+			'scrolling-down-enter' === scrollingDirection &&
+			0.89 <= intersectionRatio
+		) {
+			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
+			carouselBlock.classList.remove('active');
+			if (DEBUG) {
 				console.log(
 					"This is exiting the carousel :: 'scrolling-down-enter' ->",
 					change,
 				);
-				window.prcBlocks.carouselBlocks.toggleBodyLock(false);
-				carouselBlock.classList.remove('active');
 				console.warn('releasing carousel lock');
 			}
 		}
 
 		if ('scrolling-up-enter' === scrollingDirection) {
-			console.log("Last Carousel Slide :: 'scrolling-up-enter' ->", change);
-			console.warn('re-activating carousel lock');
-			// As we go back through the carousel by enterting the last slide by scrolling up we need to reset the body.
+			if (DEBUG) {
+				console.log("Last Carousel Slide :: 'scrolling-up-enter' ->", change);
+				console.warn('re-activating carousel lock');
+			}
 			activateCarousel(id, carouselBlock);
-		}
-
-		if ('scrolling-down-leave' === scrollingDirection) {
-			console.log("Last Carousel Slide :: 'scrolling-down-leave' ->", change);
-		}
-		if ('scrolling-up-leave' === scrollingDirection) {
-			console.log("Last Carousel Slide :: 'scrolling-up-leave' ->", change);
 		}
 	});
 }
@@ -198,10 +193,12 @@ function firstCarouselSlideCallback(entry) {
 		const carouselBlock = change.target.parentElement;
 		const scrollingDirection = getScrollingDirection(change);
 		if ('scrolling-up-enter' === scrollingDirection) {
-			console.log("First Carousel Slide :: 'scrolling-up-enter' ->", change);
 			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
 			carouselBlock.classList.remove('active');
-			console.warn('de-activating carousel lock');
+			if (DEBUG) {
+				console.log("First Carousel Slide :: 'scrolling-up-enter' ->", change);
+				console.warn('de-activating carousel lock');
+			}
 		}
 	});
 }
@@ -221,17 +218,41 @@ domReady(() => {
 		threshold: [0.95],
 	});
 
+	// This may seem overkill but I found performance wise it was better to watch for the class change and then initiate a manual scroll.
+	const isCarouselActiveObserver = new MutationObserver(
+		(mutationList, observer) => {
+			mutationList.forEach((mutation) => {
+				if (
+					'attributes' === mutation.type &&
+					'class' === mutation.attributeName &&
+					mutation.target.classList.contains('active')
+				) {
+					const coverBlock = mutation.target.parentElement.parentElement;
+					if (DEBUG) {
+						console.log('Snapping cover block into view:', coverBlock);
+					}
+					setTimeout(() => {
+						coverBlock.scrollIntoView({
+							behavior: 'smooth',
+							block: 'start',
+						});
+					}, 300);
+				}
+			});
+		},
+	);
+
 	const lastCarouselSlideObserver = new IntersectionObserver(
 		lastCarouselSlideCallback,
 		{
-			threshold: [0.9],
+			threshold: [0.89],
 		},
 	);
 
 	const firstCarouselSlideObserver = new IntersectionObserver(
 		firstCarouselSlideCallback,
 		{
-			threshold: [0.9],
+			threshold: [0.89],
 		},
 	);
 
@@ -259,6 +280,9 @@ domReady(() => {
 
 			// Watch inner workings...
 			carouselObserver.observe(carousel);
+			isCarouselActiveObserver.observe(carousel, {
+				attributes: true,
+			});
 			lastCarouselSlideObserver.observe(lastCarouselSlide);
 			firstCarouselSlideObserver.observe(firstCarouselSlide);
 		});
