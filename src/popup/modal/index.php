@@ -14,15 +14,6 @@ class Popup_Modal extends PRC_Block_Library {
 		}
 	}
 
-	// We need to know if the vimeo block is inside the modal block...
-	public function add_context_to_vimeo_block() {
-
-	}
-
-	public function render_vimeo_player($attributes) {
-
-	}
-
 	public function render_block_callback( $attributes, $content, $block ) {
 		$is_video = array_key_exists('className', $attributes) && $attributes['className'] === 'is-style-video';
 		$classnames = classNames('ui modal', array(
