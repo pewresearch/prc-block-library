@@ -8,6 +8,8 @@ use \WPackio as WPackio;
  */
 
 class PRC_Social_Share_Text_Link extends PRC_Block_Library {
+	public static $version = '1.0.1';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -85,7 +87,7 @@ class PRC_Social_Share_Text_Link extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 
 		$registered = $enqueue->register(
 			'blocks',
