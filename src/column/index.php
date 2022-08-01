@@ -74,9 +74,7 @@ class Column_Block extends PRC_Block_Library {
 		$classes[] = 'column';
 
 		// Don't autop the content inside the column.
-		remove_filter( 'the_content', 'wpautop' );
-		$column_content = apply_filters( 'the_content', $content );
-		add_filter( 'the_content', 'wpautop' );
+		$column_content = do_blocks( $content );
 
 		ob_start();
 		?>

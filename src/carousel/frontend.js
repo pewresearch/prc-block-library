@@ -163,9 +163,11 @@ function lastCarouselSlideCallback(entry) {
 		const intersectionRatio =
 			intersectClientRectHeight / boundingClientRectHeight;
 
+		console.log('intersectionRatio', intersectionRatio);
+
 		if (
 			'scrolling-down-enter' === scrollingDirection &&
-			0.89 <= intersectionRatio
+			0.7 <= intersectionRatio
 		) {
 			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
 			carouselBlock.classList.remove('active');
@@ -196,7 +198,11 @@ function firstCarouselSlideCallback(entry) {
 			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
 			carouselBlock.classList.remove('active');
 			if (DEBUG) {
-				console.log("First Carousel Slide :: 'scrolling-up-enter' ->", change);
+				console.log(
+					"First Carousel Slide :: 'scrolling-up-enter' ->",
+					change,
+					window.prcBlocks,
+				);
 				console.warn('de-activating carousel lock');
 			}
 		}
@@ -218,16 +224,9 @@ domReady(() => {
 	 * Initialize Observers:
 	 */
 
-	const carouselOpts = {
+	const carouselObserver = new IntersectionObserver(carouselObserverCallback, {
 		threshold: [0.95],
-	};
-
-	console.log('carouselOpts', carouselOpts);
-
-	const carouselObserver = new IntersectionObserver(
-		carouselObserverCallback,
-		carouselOpts,
-	);
+	});
 
 	// This may seem overkill but I found performance wise it was better to watch for the class change and then initiate a manual scroll.
 	const isCarouselActiveObserver = new MutationObserver(
@@ -256,14 +255,14 @@ domReady(() => {
 	const lastCarouselSlideObserver = new IntersectionObserver(
 		lastCarouselSlideCallback,
 		{
-			threshold: [0.89],
+			threshold: isMobile ? [0.8] : [0.89],
 		},
 	);
 
 	const firstCarouselSlideObserver = new IntersectionObserver(
 		firstCarouselSlideCallback,
 		{
-			threshold: [0.89],
+			threshold: isMobile ? [0.8] : [0.89],
 		},
 	);
 
