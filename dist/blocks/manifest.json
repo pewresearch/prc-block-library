@@ -15,8 +15,8 @@
   "collapsible.js.map": "blocks/collapsible-2989a42e.js.map",
   "collection-kicker.css": "blocks/collection-kicker-3de6c070.css",
   "collection-kicker.css.map": "blocks/collection-kicker-3de6c070.css.map",
-  "collection-kicker.js": "blocks/collection-kicker-38885529.js",
-  "collection-kicker.js.map": "blocks/collection-kicker-38885529.js.map",
+  "collection-kicker.js": "blocks/collection-kicker-1eab6348.js",
+  "collection-kicker.js.map": "blocks/collection-kicker-1eab6348.js.map",
   "column.js": "blocks/column-40904559.js",
   "column.js.map": "blocks/column-40904559.js.map",
   "cover.css": "blocks/cover-2f3dc3fa.css",
@@ -1268,13 +1268,13 @@
           "blocks/runtime-8f407741.js",
           "blocks/vendors~chart-builder~collection-kicker~cover~heading~mailchimp-form~mailchimp-select~menu-link~popu~ce6d3a14-58124ae8.js",
           "blocks/default~collection-kicker~cover~heading~menu-link~popular-listing~promo~staff-listing~topic-index-ca~ca0477a3-1a5770e3.js",
-          "blocks/collection-kicker-38885529.js"
+          "blocks/collection-kicker-1eab6348.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
           "blocks/vendors~chart-builder~collection-kicker~cover~heading~mailchimp-form~mailchimp-select~menu-link~popu~ce6d3a14-58124ae8.js.map",
           "blocks/default~collection-kicker~cover~heading~menu-link~popular-listing~promo~staff-listing~topic-index-ca~ca0477a3-1a5770e3.js.map",
-          "blocks/collection-kicker-38885529.js.map"
+          "blocks/collection-kicker-1eab6348.js.map"
         ],
         "css": [
           "blocks/collection-kicker-3de6c070.css"
