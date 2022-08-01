@@ -78,8 +78,15 @@ function getScrollingDirection(changeEvent) {
 }
 
 function activateCarousel(id, elm) {
+	const coverBlock = elm.parentElement.parentElement;
 	if (id && !window.prcBlocks.carouselBlocks.activated.includes(id)) {
 		window.prcBlocks.carouselBlocks.activated.push(id);
+
+		// scroll coverblock into view:
+		coverBlock.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start',
+		});
 
 		// If not on mobile or if the url doesnt have a hash then lock the body:
 		if (!window.location.hash) {
@@ -200,38 +207,36 @@ function firstCarouselSlideCallback(entry) {
 }
 
 /**
- * Initialize Observers:
- */
-
-const carouselObserver = new IntersectionObserver(carouselObserverCallback, {
-	threshold: [0.99],
-});
-
-const lastCarouselSlideObserver = new IntersectionObserver(
-	lastCarouselSlideCallback,
-	{
-		threshold: [0.99],
-	},
-);
-
-const firstCarouselSlideObserver = new IntersectionObserver(
-	firstCarouselSlideCallback,
-	{
-		threshold: [0.99],
-	},
-);
-
-/**
  * Initialize Carousels:
  */
 
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
 
+	/**
+	 * Initialize Observers:
+	 */
+
+	const carouselObserver = new IntersectionObserver(carouselObserverCallback, {
+		threshold: [0.95],
+	});
+
+	const lastCarouselSlideObserver = new IntersectionObserver(
+		lastCarouselSlideCallback,
+		{
+			threshold: [0.9],
+		},
+	);
+
+	const firstCarouselSlideObserver = new IntersectionObserver(
+		firstCarouselSlideCallback,
+		{
+			threshold: [0.9],
+		},
+	);
+
 	if (carousels.length) {
 		carousels.forEach((carousel) => {
-			const isMobile = carousel.getAttribute('data-is-mobile');
-
 			const firstCarouselSlide = carousel.querySelector(
 				':scope > .wp-block-group:first-child',
 			);
@@ -239,7 +244,7 @@ domReady(() => {
 				':scope > .wp-block-group:last-child',
 			);
 
-			// Assign ID's for easier tracking:
+			// Track elements:
 			const carouselId = randomId();
 			carousel.setAttribute('id', carouselId);
 			watch(carouselId);
