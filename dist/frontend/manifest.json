@@ -1,6 +1,6 @@
 {
-  "carousel.js": "frontend/carousel-73b46d2a.js",
-  "carousel.js.map": "frontend/carousel-73b46d2a.js.map",
+  "carousel.js": "frontend/carousel-34c421bd.js",
+  "carousel.js.map": "frontend/carousel-34c421bd.js.map",
   "chart-builder-data-wrapper.js": "frontend/chart-builder-data-wrapper-69868812.js",
   "chart-builder-data-wrapper.js.map": "frontend/chart-builder-data-wrapper-69868812.js.map",
   "chart-builder.css": "frontend/chart-builder-ddf9d855.css",
@@ -423,12 +423,12 @@
         "js": [
           "frontend/runtime-83e71da2.js",
           "frontend/vendors~carousel-90910226.js",
-          "frontend/carousel-73b46d2a.js"
+          "frontend/carousel-34c421bd.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
           "frontend/vendors~carousel-90910226.js.map",
-          "frontend/carousel-73b46d2a.js.map"
+          "frontend/carousel-34c421bd.js.map"
         ]
       }
     },
