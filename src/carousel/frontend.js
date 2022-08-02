@@ -12,6 +12,7 @@ if (!window.hasOwnProperty('prcBlocks')) {
 	window.prcBlocks = {};
 }
 window.prcBlocks.carouselBlocks = {
+	debug: false,
 	watched: [],
 	activated: [],
 	toggleBodyLock: (enable = true) => {
@@ -23,8 +24,6 @@ window.prcBlocks.carouselBlocks = {
 		}
 	},
 };
-
-const DEBUG = false;
 
 /**
  * Helper Functions:
@@ -89,7 +88,7 @@ function activateCarousel(id, elm) {
 		// Finally, allow the carousel to scroll it's contents:
 		elm.classList.add('active');
 
-		if (DEBUG) {
+		if (window.prcBlocks.carouselBlocks.debug) {
 			console.warn('activating carousel', id);
 		}
 	}
@@ -100,7 +99,7 @@ function deactivateCarousel(id) {
 	window.prcBlocks.carouselBlocks.activated =
 		window.prcBlocks.carouselBlocks.activated.filter((ID) => ID !== id);
 
-	if (DEBUG) {
+	if (window.prcBlocks.carouselBlocks.debug) {
 		console.warn('deactivating carousel', id);
 	}
 }
@@ -126,7 +125,7 @@ function carouselObserverCallback(entry) {
 		const { id } = change.target;
 		const scrollingDirection = getScrollingDirection(change);
 
-		if (DEBUG) {
+		if (window.prcBlocks.carouselBlocks.debug) {
 			console.log(
 				'observing change...',
 				change,
@@ -163,15 +162,15 @@ function lastCarouselSlideCallback(entry) {
 		const intersectionRatio =
 			intersectClientRectHeight / boundingClientRectHeight;
 
-		console.log('intersectionRatio', intersectionRatio);
+		console.log('Last Carousel Slide intersectionRatio: ', intersectionRatio);
 
 		if (
 			'scrolling-down-enter' === scrollingDirection &&
-			0.7 <= intersectionRatio
+			0.5 <= intersectionRatio
 		) {
 			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
 			carouselBlock.classList.remove('active');
-			if (DEBUG) {
+			if (window.prcBlocks.carouselBlocks.debug) {
 				console.log(
 					"This is exiting the carousel :: 'scrolling-down-enter' ->",
 					change,
@@ -181,7 +180,7 @@ function lastCarouselSlideCallback(entry) {
 		}
 
 		if ('scrolling-up-enter' === scrollingDirection) {
-			if (DEBUG) {
+			if (window.prcBlocks.carouselBlocks.debug) {
 				console.log("Last Carousel Slide :: 'scrolling-up-enter' ->", change);
 				console.warn('re-activating carousel lock');
 			}
@@ -238,7 +237,7 @@ domReady(() => {
 					mutation.target.classList.contains('active')
 				) {
 					const coverBlock = mutation.target.parentElement.parentElement;
-					if (DEBUG) {
+					if (window.prcBlocks.carouselBlocks.debug) {
 						console.log('Snapping cover block into view:', coverBlock);
 					}
 					setTimeout(() => {
@@ -255,14 +254,14 @@ domReady(() => {
 	const lastCarouselSlideObserver = new IntersectionObserver(
 		lastCarouselSlideCallback,
 		{
-			threshold: isMobile ? [0.8] : [0.89],
+			threshold: [0.8],
 		},
 	);
 
 	const firstCarouselSlideObserver = new IntersectionObserver(
 		firstCarouselSlideCallback,
 		{
-			threshold: isMobile ? [0.8] : [0.89],
+			threshold: [0.7],
 		},
 	);
 
