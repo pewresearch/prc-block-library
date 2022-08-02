@@ -196,7 +196,7 @@ function firstCarouselSlideCallback(entry) {
 		if ('scrolling-up-enter' === scrollingDirection) {
 			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
 			carouselBlock.classList.remove('active');
-			if (DEBUG) {
+			if (window.prcBlocks.carouselBlocks.debug) {
 				console.log(
 					"First Carousel Slide :: 'scrolling-up-enter' ->",
 					change,
