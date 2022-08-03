@@ -1989,6 +1989,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@splidejs/splide-extension-intersection@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@splidejs/splide-extension-intersection@npm:0.2.0"
+  checksum: a01525179bae1588348cff78861b7b735fd768b5449188e93e4c0f8e019f7f1066d1b77cc336caaa98019c436c6124016b8fc102590a2039489dddeaba00f16e
+  languageName: node
+  linkType: hard
+
+"@splidejs/splide@npm:^4.0.7":
+  version: 4.0.7
+  resolution: "@splidejs/splide@npm:4.0.7"
+  checksum: 0e95bbb59d4d55302851c652adfe07c661addd2ba4e1b495e037df37db52aa3dcb269cea36eb5d6446c4dbb781c6228ef32884c0f476d9d21ccead2dc197f36c
+  languageName: node
+  linkType: hard
+
 "@svgr/babel-plugin-add-jsx-attribute@npm:^6.0.0":
   version: 6.0.0
   resolution: "@svgr/babel-plugin-add-jsx-attribute@npm:6.0.0"
@@ -10467,6 +10481,8 @@ __metadata:
     "@hcaptcha/react-hcaptcha": ^1.3.0
     "@pewresearch/chart-builder": ^0.4.40
     "@sentry/webpack-plugin": ^1.18.3
+    "@splidejs/splide": ^4.0.7
+    "@splidejs/splide-extension-intersection": ^0.2.0
     "@svgr/webpack": ^6.1.2
     "@vimeo/player": ^2.16.3
     "@wordpress/block-editor": ^8.0.10

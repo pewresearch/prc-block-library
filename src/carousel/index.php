@@ -8,7 +8,7 @@ use \WPackio as WPackio;
  */
 
 class Carousel_Block extends PRC_Block_Library {
-	public static $version = '1.0.8h';
+	public static $version = '1.0.9';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -17,19 +17,30 @@ class Carousel_Block extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
+		$inner_blocks = $block->parsed_block['innerBlocks'];
+
 		// If this block is going to be used in the theme or be called directly by PHP it is sometimes easier to use our internal function for of this function.
 		// See https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/prc-block-library.php#L89 for how to use `$this->_get_block_wrapper_attributes()`
-		$attrs = array();
+		$attrs = array(
+			'class' => 'splide',
+			'aria-label' => 'A carousel alt...',
+		);
 		if ( function_exists('jetpack_is_mobile') && jetpack_is_mobile() ) {
 			$attrs = array(
 				'data-is-mobile' => true,
 			);
 		}
 
+		$content = '';
+		foreach ( $inner_blocks as $group_block ) {
+			$group_block['attrs']['className'] = $group_block['attrs']['className'] . ' splide__slide';
+			$content .= render_block( $group_block );
+		}
+
 		$block_attrs = get_block_wrapper_attributes($attrs);
 
 		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
+			'<section %1$s><div class="splide__track"><ul class="splide__list">%2$s</ul></div></section>',
 			$block_attrs,
 			$content
 		);
