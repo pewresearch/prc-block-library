@@ -15,6 +15,11 @@ window.prcBlocks.carouselBlocks = {
 	debug: false,
 	watched: [],
 	activated: [],
+	thresholds: {
+		carousel: [0.7, 0.9],
+		lastSlide: [0.9],
+		firstSlide: [0.9],
+	},
 	toggleBodyLock: (enable = true) => {
 		const body = document.querySelector('body');
 		if (true === enable) {
@@ -89,18 +94,47 @@ function activateCarousel(id, elm) {
 		elm.classList.add('active');
 
 		if (window.prcBlocks.carouselBlocks.debug) {
-			console.warn('activating carousel', id);
+			console.warn('Activating carousel:', id);
 		}
 	}
 }
 
-function deactivateCarousel(id) {
-	// Filter out current carousel.
-	window.prcBlocks.carouselBlocks.activated =
-		window.prcBlocks.carouselBlocks.activated.filter((ID) => ID !== id);
+function deactivateCarousel(carouselBlock, stage = 1) {
+	if (!carouselBlock) {
+		console.warn('No carousel block found to deactivate.');
+	}
+
+	const id = carouselBlock.getAttribute('id');
+
+	if (1 === stage) {
+		window.prcBlocks.carouselBlocks.toggleBodyLock(false);
+		carouselBlock.classList.remove('active');
+	}
+
+	if (2 === stage) {
+		window.prcBlocks.carouselBlocks.activated =
+			window.prcBlocks.carouselBlocks.activated.filter((ID) => ID !== id);
+	}
 
 	if (window.prcBlocks.carouselBlocks.debug) {
-		console.warn('deactivating carousel', id);
+		console.warn(`Deactivating Carousel (Stage: ${stage})`, id);
+	}
+}
+
+function snapFirstCoverCarousel(timer = 800) {
+	const postContents = document.querySelector('.post-content');
+	if (postContents.firstElementChild.classList.contains('wp-block-cover')) {
+		const coverBlock = postContents.firstElementChild;
+		if (coverBlock) {
+			const carouselBlock = coverBlock.querySelector(
+				'.wp-block-prc-block-carousel',
+			);
+			if (carouselBlock) {
+				setTimeout(() => {
+					activateCarousel(carouselBlock.id, carouselBlock);
+				}, timer);
+			}
+		}
 	}
 }
 
@@ -122,7 +156,8 @@ function watch(id) {
 
 function carouselObserverCallback(entry) {
 	entry.forEach((change) => {
-		const { id } = change.target;
+		const { intersectionRatio, target } = change;
+		const { id } = target;
 		const scrollingDirection = getScrollingDirection(change);
 
 		if (window.prcBlocks.carouselBlocks.debug) {
@@ -130,12 +165,23 @@ function carouselObserverCallback(entry) {
 				'observing change...',
 				change,
 				change.target.classList,
+				intersectionRatio,
 				scrollingDirection,
 				id,
 			);
 		}
 
 		if (
+			0.8 >= intersectionRatio &&
+			('scrolling-down-enter' === scrollingDirection ||
+				'scrolling-up-enter' === scrollingDirection) &&
+			!window.prcBlocks.carouselBlocks.activated.includes(id)
+		) {
+			console.log("Just entered the carousel's viewport.");
+		}
+
+		if (
+			0.8 <= intersectionRatio &&
 			'scrolling-down-enter' === scrollingDirection &&
 			!window.prcBlocks.carouselBlocks.activated.includes(id)
 		) {
@@ -143,10 +189,11 @@ function carouselObserverCallback(entry) {
 		}
 
 		if (
+			0.8 <= intersectionRatio &&
 			'scrolling-down-leave' === scrollingDirection &&
 			window.prcBlocks.carouselBlocks.activated.includes(id)
 		) {
-			deactivateCarousel(id);
+			deactivateCarousel(change.target, 2);
 		}
 	});
 }
@@ -162,27 +209,27 @@ function lastCarouselSlideCallback(entry) {
 		const intersectionRatio =
 			intersectClientRectHeight / boundingClientRectHeight;
 
-		console.log('Last Carousel Slide intersectionRatio: ', intersectionRatio);
-
 		if (
 			'scrolling-down-enter' === scrollingDirection &&
 			0.5 <= intersectionRatio
 		) {
-			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
-			carouselBlock.classList.remove('active');
+			deactivateCarousel(carouselBlock, 1);
 			if (window.prcBlocks.carouselBlocks.debug) {
-				console.log(
-					"This is exiting the carousel :: 'scrolling-down-enter' ->",
+				console.warn(
+					`This is exiting the carousel 'scrolling-down-enter' -> deactivating carousel:`,
+					id,
 					change,
 				);
-				console.warn('releasing carousel lock');
 			}
 		}
 
 		if ('scrolling-up-enter' === scrollingDirection) {
 			if (window.prcBlocks.carouselBlocks.debug) {
-				console.log("Last Carousel Slide :: 'scrolling-up-enter' ->", change);
-				console.warn('re-activating carousel lock');
+				console.warn(
+					`This is re-entering the carousel 'scrolling-up-enter' -> reactivating carousel:`,
+					id,
+					change,
+				);
 			}
 			activateCarousel(id, carouselBlock);
 		}
@@ -194,16 +241,40 @@ function firstCarouselSlideCallback(entry) {
 		const carouselBlock = change.target.parentElement;
 		const scrollingDirection = getScrollingDirection(change);
 		if ('scrolling-up-enter' === scrollingDirection) {
-			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
-			carouselBlock.classList.remove('active');
+			deactivateCarousel(carouselBlock, 1);
 			if (window.prcBlocks.carouselBlocks.debug) {
 				console.log(
-					"First Carousel Slide :: 'scrolling-up-enter' ->",
+					"This is existing the carousel 'scrolling-up-enter' ->",
 					change,
 					window.prcBlocks,
 				);
-				console.warn('de-activating carousel lock');
 			}
+		}
+	});
+}
+
+/**
+ * Watches for active carousel and then snaps the cover block into view.
+ * @param {*} mutationList
+ * @param {*} observer
+ */
+function useActiveCarouselEffect(mutationList) {
+	mutationList.forEach((mutation) => {
+		if (
+			'attributes' === mutation.type &&
+			'class' === mutation.attributeName &&
+			mutation.target.classList.contains('active')
+		) {
+			const coverBlock = mutation.target.parentElement.parentElement;
+			if (window.prcBlocks.carouselBlocks.debug) {
+				console.warn('Snapping to top of cover block...', coverBlock);
+			}
+			setTimeout(() => {
+				coverBlock.scrollIntoView({
+					behavior: 'smooth',
+					block: 'start',
+				});
+			}, 200);
 		}
 	});
 }
@@ -217,51 +288,36 @@ domReady(() => {
 	const carouselBlocks = Array.from(carousels);
 	const isMobile = carouselBlocks.some((e) => e.getAttribute('data-is-mobile'));
 
-	console.log('isMobile', isMobile, carouselBlocks);
-
 	/**
 	 * Initialize Observers:
 	 */
 
 	const carouselObserver = new IntersectionObserver(carouselObserverCallback, {
-		threshold: [0.95],
+		threshold: window.prcBlocks.carouselBlocks.thresholds.carousel,
 	});
 
 	// This may seem overkill but I found performance wise it was better to watch for the class change and then initiate a manual scroll.
 	const isCarouselActiveObserver = new MutationObserver(
-		(mutationList, observer) => {
-			mutationList.forEach((mutation) => {
-				if (
-					'attributes' === mutation.type &&
-					'class' === mutation.attributeName &&
-					mutation.target.classList.contains('active')
-				) {
-					const coverBlock = mutation.target.parentElement.parentElement;
-					if (window.prcBlocks.carouselBlocks.debug) {
-						console.log('Snapping cover block into view:', coverBlock);
-					}
-					setTimeout(() => {
-						coverBlock.scrollIntoView({
-							behavior: 'smooth',
-							block: 'start',
-						});
-					}, 300);
-				}
-			});
-		},
+		useActiveCarouselEffect,
 	);
 
+	/**
+	 * Watches the last carousel slide and when in view depending on scroll position will unlock the carousel or re-lock it.
+	 */
 	const lastCarouselSlideObserver = new IntersectionObserver(
 		lastCarouselSlideCallback,
 		{
-			threshold: [0.8],
+			threshold: window.prcBlocks.carouselBlocks.thresholds.lastSlide,
 		},
 	);
 
+	/**
+	 * Watches the first carousel slide (when scrolling back up) and will unlock the carousel.
+	 */
 	const firstCarouselSlideObserver = new IntersectionObserver(
 		firstCarouselSlideCallback,
 		{
-			threshold: [0.7],
+			threshold: window.prcBlocks.carouselBlocks.thresholds.firstSlide,
 		},
 	);
 
@@ -298,20 +354,7 @@ domReady(() => {
 
 		// On mobile, if the first element is a cover block and that block contains a carousel then after a few seconds lets scroll that into view for the user.
 		if (isMobile) {
-			const postContents = document.querySelector('.post-content');
-			if (postContents.firstElementChild.classList.contains('wp-block-cover')) {
-				const coverBlock = postContents.firstElementChild;
-				if (coverBlock) {
-					const carouselBlock = coverBlock.querySelector(
-						'.wp-block-prc-block-carousel',
-					);
-					if (carouselBlock) {
-						setTimeout(() => {
-							activateCarousel(carouselBlock.id, carouselBlock);
-						}, 1000);
-					}
-				}
-			}
+			snapFirstCoverCarousel(800);
 		}
 	}
 });
