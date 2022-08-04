@@ -1,18 +1,18 @@
 {
-  "carousel.js": "frontend/carousel-8ce0bf51.js",
-  "carousel.js.map": "frontend/carousel-8ce0bf51.js.map",
+  "carousel.js": "frontend/carousel-f7cf2188.js",
+  "carousel.js.map": "frontend/carousel-f7cf2188.js.map",
   "chart-builder-data-wrapper.js": "frontend/chart-builder-data-wrapper-46101b9b.js",
   "chart-builder-data-wrapper.js.map": "frontend/chart-builder-data-wrapper-46101b9b.js.map",
   "chart-builder.css": "frontend/chart-builder-ddf9d855.css",
   "chart-builder.css.map": "frontend/chart-builder-ddf9d855.css.map",
-  "chart-builder.js": "frontend/chart-builder-32b01c01.js",
-  "chart-builder.js.map": "frontend/chart-builder-32b01c01.js.map",
-  "collapsible.js": "frontend/collapsible-397cac8d.js",
-  "collapsible.js.map": "frontend/collapsible-397cac8d.js.map",
+  "chart-builder.js": "frontend/chart-builder-3b82ee1b.js",
+  "chart-builder.js.map": "frontend/chart-builder-3b82ee1b.js.map",
+  "collapsible.js": "frontend/collapsible-be076590.js",
+  "collapsible.js.map": "frontend/collapsible-be076590.js.map",
   "flip-card-controller.css": "frontend/flip-card-controller-bf671fdf.css",
   "flip-card-controller.css.map": "frontend/flip-card-controller-bf671fdf.css.map",
-  "flip-card-controller.js": "frontend/flip-card-controller-b0a2de10.js",
-  "flip-card-controller.js.map": "frontend/flip-card-controller-b0a2de10.js.map",
+  "flip-card-controller.js": "frontend/flip-card-controller-70a1fcfc.js",
+  "flip-card-controller.js.map": "frontend/flip-card-controller-70a1fcfc.js.map",
   "group.js": "frontend/group-ee9eac78.js",
   "group.js.map": "frontend/group-ee9eac78.js.map",
   "livestream.css": "frontend/livestream-33a7225d.css",
@@ -21,14 +21,14 @@
   "livestream.js.map": "frontend/livestream-4a66446f.js.map",
   "mailchimp-form.css": "frontend/mailchimp-form-686d18ea.css",
   "mailchimp-form.css.map": "frontend/mailchimp-form-686d18ea.css.map",
-  "mailchimp-form.js": "frontend/mailchimp-form-006c7f3e.js",
-  "mailchimp-form.js.map": "frontend/mailchimp-form-006c7f3e.js.map",
-  "mailchimp-opt-down.js": "frontend/mailchimp-opt-down-ee658f2e.js",
-  "mailchimp-opt-down.js.map": "frontend/mailchimp-opt-down-ee658f2e.js.map",
+  "mailchimp-form.js": "frontend/mailchimp-form-b4dd0592.js",
+  "mailchimp-form.js.map": "frontend/mailchimp-form-b4dd0592.js.map",
+  "mailchimp-opt-down.js": "frontend/mailchimp-opt-down-86488bcc.js",
+  "mailchimp-opt-down.js.map": "frontend/mailchimp-opt-down-86488bcc.js.map",
   "mailchimp-select.css": "frontend/mailchimp-select-1becba5f.css",
   "mailchimp-select.css.map": "frontend/mailchimp-select-1becba5f.css.map",
-  "mailchimp-select.js": "frontend/mailchimp-select-2a993299.js",
-  "mailchimp-select.js.map": "frontend/mailchimp-select-2a993299.js.map",
+  "mailchimp-select.js": "frontend/mailchimp-select-cba45ab2.js",
+  "mailchimp-select.js.map": "frontend/mailchimp-select-cba45ab2.js.map",
   "menu-link.css": "frontend/menu-link-f423a06b.css",
   "menu-link.css.map": "frontend/menu-link-f423a06b.css.map",
   "menu-link.js": "frontend/menu-link-74779fbe.js",
@@ -39,8 +39,8 @@
   "progress-bar.js.map": "frontend/progress-bar-5ab1fb60.js.map",
   "quote-sorter.css": "frontend/quote-sorter-cb6fdf85.css",
   "quote-sorter.css.map": "frontend/quote-sorter-cb6fdf85.css.map",
-  "quote-sorter.js": "frontend/quote-sorter-a0f26fe9.js",
-  "quote-sorter.js.map": "frontend/quote-sorter-a0f26fe9.js.map",
+  "quote-sorter.js": "frontend/quote-sorter-bf5bf58f.js",
+  "quote-sorter.js.map": "frontend/quote-sorter-bf5bf58f.js.map",
   "runtime.js": "frontend/runtime-83e71da2.js",
   "runtime.js.map": "frontend/runtime-83e71da2.js.map",
   "social-link.css": "frontend/social-link-250378c3.css",
@@ -67,14 +67,14 @@
   "topic-index-condensed-controller.js.map": "frontend/topic-index-condensed-controller-f35ce3d8.js.map",
   "topic-index-search-field.css": "frontend/topic-index-search-field-019a240f.css",
   "topic-index-search-field.css.map": "frontend/topic-index-search-field-019a240f.css.map",
-  "topic-index-search-field.js": "frontend/topic-index-search-field-450ef7ea.js",
-  "topic-index-search-field.js.map": "frontend/topic-index-search-field-450ef7ea.js.map",
-  "vendors~carousel.js": "frontend/vendors~carousel-2748a7ea.js",
-  "vendors~carousel.js.map": "frontend/vendors~carousel-2748a7ea.js.map",
-  "vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266.js": "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
-  "vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266.js.map": "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
-  "vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71.js": "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js",
-  "vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71.js.map": "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js.map",
+  "topic-index-search-field.js": "frontend/topic-index-search-field-f027e906.js",
+  "topic-index-search-field.js.map": "frontend/topic-index-search-field-f027e906.js.map",
+  "vendors~carousel.js": "frontend/vendors~carousel-fe194ed5.js",
+  "vendors~carousel.js.map": "frontend/vendors~carousel-fe194ed5.js.map",
+  "vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266.js": "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
+  "vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266.js.map": "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
+  "vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71.js": "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js",
+  "vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71.js.map": "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js.map",
   "vendors~progress-bar.js": "frontend/vendors~progress-bar-8b20d384.js",
   "vendors~progress-bar.js.map": "frontend/vendors~progress-bar-8b20d384.js.map",
   "wpackioEp": {
@@ -82,15 +82,15 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js",
-          "frontend/collapsible-397cac8d.js"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js",
+          "frontend/collapsible-be076590.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js.map",
-          "frontend/collapsible-397cac8d.js.map"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js.map",
+          "frontend/collapsible-be076590.js.map"
         ]
       }
     },
@@ -98,15 +98,15 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js",
-          "frontend/chart-builder-32b01c01.js"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js",
+          "frontend/chart-builder-3b82ee1b.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js.map",
-          "frontend/chart-builder-32b01c01.js.map"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js.map",
+          "frontend/chart-builder-3b82ee1b.js.map"
         ],
         "css": [
           "frontend/chart-builder-ddf9d855.css"
@@ -132,11 +132,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/flip-card-controller-b0a2de10.js"
+          "frontend/flip-card-controller-70a1fcfc.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/flip-card-controller-b0a2de10.js.map"
+          "frontend/flip-card-controller-70a1fcfc.js.map"
         ],
         "css": [
           "frontend/flip-card-controller-bf671fdf.css"
@@ -162,12 +162,12 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
           "frontend/livestream-4a66446f.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
           "frontend/livestream-4a66446f.js.map"
         ],
         "css": [
@@ -182,15 +182,15 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js",
-          "frontend/mailchimp-form-006c7f3e.js"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js",
+          "frontend/mailchimp-form-b4dd0592.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js.map",
-          "frontend/mailchimp-form-006c7f3e.js.map"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js.map",
+          "frontend/mailchimp-form-b4dd0592.js.map"
         ],
         "css": [
           "frontend/mailchimp-form-686d18ea.css"
@@ -204,15 +204,15 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js",
-          "frontend/mailchimp-opt-down-ee658f2e.js"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js",
+          "frontend/mailchimp-opt-down-86488bcc.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js.map",
-          "frontend/mailchimp-opt-down-ee658f2e.js.map"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js.map",
+          "frontend/mailchimp-opt-down-86488bcc.js.map"
         ]
       }
     },
@@ -220,15 +220,15 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js",
-          "frontend/mailchimp-select-2a993299.js"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js",
+          "frontend/mailchimp-select-cba45ab2.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js.map",
-          "frontend/mailchimp-select-2a993299.js.map"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js.map",
+          "frontend/mailchimp-select-cba45ab2.js.map"
         ],
         "css": [
           "frontend/mailchimp-select-1becba5f.css"
@@ -400,15 +400,15 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js",
-          "frontend/topic-index-search-field-450ef7ea.js"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js",
+          "frontend/topic-index-search-field-f027e906.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js.map",
-          "frontend/topic-index-search-field-450ef7ea.js.map"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js.map",
+          "frontend/topic-index-search-field-f027e906.js.map"
         ],
         "css": [
           "frontend/topic-index-search-field-019a240f.css"
@@ -422,13 +422,13 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~carousel-2748a7ea.js",
-          "frontend/carousel-8ce0bf51.js"
+          "frontend/vendors~carousel-fe194ed5.js",
+          "frontend/carousel-f7cf2188.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~carousel-2748a7ea.js.map",
-          "frontend/carousel-8ce0bf51.js.map"
+          "frontend/vendors~carousel-fe194ed5.js.map",
+          "frontend/carousel-f7cf2188.js.map"
         ]
       }
     },
@@ -436,15 +436,15 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js",
-          "frontend/quote-sorter-a0f26fe9.js"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js",
+          "frontend/quote-sorter-bf5bf58f.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-216c3aea.js.map",
-          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ae932350.js.map",
-          "frontend/quote-sorter-a0f26fe9.js.map"
+          "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-329c642d.js.map",
+          "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-ea944369.js.map",
+          "frontend/quote-sorter-bf5bf58f.js.map"
         ],
         "css": [
           "frontend/quote-sorter-cb6fdf85.css"

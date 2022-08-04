@@ -14,7 +14,6 @@ if (!window.hasOwnProperty('prcBlocks')) {
 	window.prcBlocks = {};
 }
 window.prcBlocks.carouselBlocks = {
-	Splide,
 	debug: false,
 	watched: [],
 	toggleBodyLock: (enable = true) => {
@@ -91,25 +90,30 @@ function watch(id, controller = null) {
 	}
 }
 
-function unlockCarousel(entry) {
-	window.prcBlocks.carouselBlocks.toggleBodyLock(true);
-	setTimeout(()=>{
+function unlockCarousel(entry, isMobile) {
+	if (!isMobile) {
+		window.prcBlocks.carouselBlocks.toggleBodyLock(true);
+	}
+	// Little hack to snap the carousel into the viewport fully.
+	setTimeout(() => {
 		entry.target.parentElement.parentElement.scrollIntoView(true);
 	}, 200);
 	const index = window.prcBlocks.carouselBlocks.watched.findIndex(
 		(e) => e.id === entry.target.id,
 	);
 	window.prcBlocks.carouselBlocks.watched[index].enabled = true;
-	console.warn("unlockCarousel: ", entry);
+	console.warn('unlockCarousel: ', entry);
 }
 
-function lockCarousel(id) {
-	window.prcBlocks.carouselBlocks.toggleBodyLock(false);
+function lockCarousel(id, isMobile) {
+	if (!isMobile) {
+		window.prcBlocks.carouselBlocks.toggleBodyLock(false);
+	}
 	const index = window.prcBlocks.carouselBlocks.watched.findIndex(
 		(e) => e.id === id,
 	);
 	window.prcBlocks.carouselBlocks.watched[index].enabled = false;
-	console.warn("lockCarousel: ", id);
+	console.warn('lockCarousel: ', id);
 }
 
 /**
@@ -146,6 +150,7 @@ function initCarousel(id, elm, isMobile) {
 	// Mount the carousel, the intersection extension and watch the carousel.
 	carousel.mount({ Intersection });
 	watch(id, carousel);
+
 	if (window.prcBlocks.carouselBlocks.debug) {
 		console.warn(
 			'Carousel initialized:',
@@ -156,19 +161,40 @@ function initCarousel(id, elm, isMobile) {
 
 	const numberOfSlides = carousel.length;
 
-	// Disallow scrolling while the carousel is enabled:
+	// Disallow scrolling while the carousel is not enabled:
 	carousel.root.addEventListener(
 		'wheel',
 		(e) => {
 			const { enabled } = window.prcBlocks.carouselBlocks.watched.find(
 				(a) => a.id === id,
 			);
+			console.log('Scrolling...', enabled);
 			if (!enabled) {
 				e.stopPropagation();
 			}
 		},
 		{ capture: true, passive: true },
 	);
+
+	// window.addEventListener('scroll', (e) => {
+	// 	const { enabled } = window.prcBlocks.carouselBlocks.watched.find(
+	// 		(a) => a.id === id,
+	// 	);
+	// 	if (!enabled && isMobile) {
+	// 		carousel.Components.Drag.disable(true);
+	// 	}
+	// 	if (enabled && isMobile) {
+	// 		carousel.Components.Drag.disable(false);
+	// 	}
+	// });
+
+	// Disallow drag while the carousel is not enabled, on mobile:
+	if (
+		isMobile &&
+		!window.prcBlocks.carouselBlocks.watched.find((a) => a.id === id).enabled
+	) {
+		carousel.Components.Drag.disable(true);
+	}
 
 	// If we are on the first slide and the carousel is enabled OR
 	// if this is the last slide then lock the carousel so the user can continue on with the page:
@@ -178,13 +204,16 @@ function initCarousel(id, elm, isMobile) {
 			(a) => a.id === id,
 		);
 		if ((0 === index && enabled) || numberOfSlides === index + 1) {
-			lockCarousel(id);
+			lockCarousel(id, isMobile);
 		}
 	});
 
 	// When the user scrolls into the carousel unlock it:
 	carousel.on('intersection:in', (entry) => {
-		unlockCarousel(entry);
+		unlockCarousel(entry, isMobile);
+		if (isMobile) {
+			carousel.Components.Drag.disable(false);
+		}
 	});
 }
 
