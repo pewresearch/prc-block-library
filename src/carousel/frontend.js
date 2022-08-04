@@ -15,6 +15,7 @@ if (!window.hasOwnProperty('prcBlocks')) {
 }
 window.prcBlocks.carouselBlocks = {
 	debug: false,
+	isMobile: false,
 	watched: [],
 	toggleBodyLock: (enable = true) => {
 		const body = document.querySelector('body');
@@ -23,6 +24,41 @@ window.prcBlocks.carouselBlocks = {
 		} else {
 			body.classList.remove('carousel-locked');
 		}
+	},
+	unlockCarousel: (id, entry = null) => {
+		const elm = document.getElementById(id);
+		const index = window.prcBlocks.carouselBlocks.watched.findIndex(
+			(e) => e.id === id,
+		);
+		const { isMobile } = window.prcBlocks.carouselBlocks;
+		const { controller } = window.prcBlocks.carouselBlocks.watched[index];
+		if (!isMobile) {
+			window.prcBlocks.carouselBlocks.toggleBodyLock(true);
+		} else {
+			controller.Components.Drag.disable(false);
+		}
+
+		// Little hack to snap the carousel into the viewport fully.
+		setTimeout(() => {
+			elm.parentElement.parentElement.scrollIntoView(true);
+		}, 200);
+
+		window.prcBlocks.carouselBlocks.watched[index].enabled = true;
+		console.warn('unlockCarousel: ', entry);
+	},
+	lockCarousel: (id) => {
+		const index = window.prcBlocks.carouselBlocks.watched.findIndex(
+			(e) => e.id === id,
+		);
+		const { isMobile } = window.prcBlocks.carouselBlocks;
+		const { controller } = window.prcBlocks.carouselBlocks.watched[index];
+		if (!isMobile) {
+			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
+		} else {
+			controller.Components.Drag.disable(true);
+		}
+		window.prcBlocks.carouselBlocks.watched[index].enabled = false;
+		console.warn('lockCarousel: ', id);
 	},
 };
 
@@ -90,46 +126,11 @@ function watch(id, controller = null) {
 	}
 }
 
-function unlockCarousel(id, isMobile, entry) {
-	const elm = document.getElementById(id);
-	const index = window.prcBlocks.carouselBlocks.watched.findIndex(
-		(e) => e.id === id,
-	);
-	const { controller } = window.prcBlocks.carouselBlocks.watched[index];
-	if (!isMobile) {
-		window.prcBlocks.carouselBlocks.toggleBodyLock(true);
-	} else {
-		controller.Components.Drag.disable(false);
-	}
-
-	// Little hack to snap the carousel into the viewport fully.
-	setTimeout(() => {
-		elm.parentElement.parentElement.scrollIntoView(true);
-	}, 200);
-
-	window.prcBlocks.carouselBlocks.watched[index].enabled = true;
-	console.warn('unlockCarousel: ', entry);
-}
-
-function lockCarousel(id, isMobile) {
-	const index = window.prcBlocks.carouselBlocks.watched.findIndex(
-		(e) => e.id === id,
-	);
-	const { controller } = window.prcBlocks.carouselBlocks.watched[index];
-	if (!isMobile) {
-		window.prcBlocks.carouselBlocks.toggleBodyLock(false);
-	} else {
-		controller.Components.Drag.disable(true);
-	}
-	window.prcBlocks.carouselBlocks.watched[index].enabled = false;
-	console.warn('lockCarousel: ', id);
-}
-
 /**
  * Initialize Carousel(s):
  */
 
-function initCarousel(id, elm, isMobile) {
+function initCarousel(id, elm) {
 	// Setup classes...
 	const innerGroupBlocks = elm.querySelectorAll(
 		'ul.splide__list > .wp-block-group',
@@ -137,7 +138,8 @@ function initCarousel(id, elm, isMobile) {
 	innerGroupBlocks.forEach((block) => {
 		block.classList.add('splide__slide');
 	});
-
+	const { lockCarousel, unlockCarousel, isMobile, debug } =
+		window.prcBlocks.carouselBlocks;
 	const isHorizontal = elm.classList.contains('horizontal');
 	const height = elm.offsetHeight;
 
@@ -160,7 +162,7 @@ function initCarousel(id, elm, isMobile) {
 	carousel.mount({ Intersection });
 	watch(id, carousel);
 
-	if (window.prcBlocks.carouselBlocks.debug) {
+	if (debug) {
 		console.warn(
 			'Carousel initialized:',
 			carousel,
@@ -184,18 +186,6 @@ function initCarousel(id, elm, isMobile) {
 		},
 		{ capture: true, passive: true },
 	);
-
-	// window.addEventListener('scroll', (e) => {
-	// 	const { enabled } = window.prcBlocks.carouselBlocks.watched.find(
-	// 		(a) => a.id === id,
-	// 	);
-	// 	if (!enabled && isMobile) {
-	// 		carousel.Components.Drag.disable(true);
-	// 	}
-	// 	if (enabled && isMobile) {
-	// 		carousel.Components.Drag.disable(false);
-	// 	}
-	// });
 
 	// On carousel init, on mobile, disable initial drag ability.
 	if (isMobile) {
@@ -223,14 +213,15 @@ function initCarousel(id, elm, isMobile) {
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
 	const carouselBlocks = Array.from(carousels);
-	const isMobile = carouselBlocks.some((e) => e.getAttribute('data-is-mobile'));
+	// eslint-disable-next-line prettier/prettier
+	window.prcBlocks.carouselBlocks.isMobile = carouselBlocks.some((e) => e.getAttribute('data-is-mobile'));
 
 	if (carousels.length) {
 		carousels.forEach((carousel) => {
 			// Track elements:
 			const carouselId = randomId();
 			carousel.setAttribute('id', carouselId);
-			initCarousel(carouselId, carousel, isMobile);
+			initCarousel(carouselId, carousel);
 		});
 	}
 });
