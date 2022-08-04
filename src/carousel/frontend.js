@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 /** External Dependencies */
 import { randomId } from '@prc-app/shared';
+import { Splide } from '@splidejs/splide';
+import { Intersection } from '@splidejs/splide-extension-intersection';
 
 /**
  * WordPress Dependencies
@@ -13,8 +15,8 @@ if (!window.hasOwnProperty('prcBlocks')) {
 }
 window.prcBlocks.carouselBlocks = {
 	debug: false,
+	isMobile: false,
 	watched: [],
-	activated: [],
 	toggleBodyLock: (enable = true) => {
 		const body = document.querySelector('body');
 		if (true === enable) {
@@ -22,6 +24,41 @@ window.prcBlocks.carouselBlocks = {
 		} else {
 			body.classList.remove('carousel-locked');
 		}
+	},
+	unlockCarousel: (id, entry = null) => {
+		const elm = document.getElementById(id);
+		const index = window.prcBlocks.carouselBlocks.watched.findIndex(
+			(e) => e.id === id,
+		);
+		const { isMobile } = window.prcBlocks.carouselBlocks;
+		const { controller } = window.prcBlocks.carouselBlocks.watched[index];
+		if (!isMobile) {
+			window.prcBlocks.carouselBlocks.toggleBodyLock(true);
+		} else {
+			controller.Components.Drag.disable(false);
+		}
+
+		// Little hack to snap the carousel into the viewport fully.
+		setTimeout(() => {
+			elm.parentElement.parentElement.scrollIntoView(true);
+		}, 200);
+
+		window.prcBlocks.carouselBlocks.watched[index].enabled = true;
+		console.warn('unlockCarousel: ', entry);
+	},
+	lockCarousel: (id) => {
+		const index = window.prcBlocks.carouselBlocks.watched.findIndex(
+			(e) => e.id === id,
+		);
+		const { isMobile } = window.prcBlocks.carouselBlocks;
+		const { controller } = window.prcBlocks.carouselBlocks.watched[index];
+		if (!isMobile) {
+			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
+		} else {
+			controller.Components.Drag.disable(true);
+		}
+		window.prcBlocks.carouselBlocks.watched[index].enabled = false;
+		console.warn('lockCarousel: ', id);
 	},
 };
 
@@ -76,242 +113,115 @@ function getScrollingDirection(changeEvent) {
 	return direction;
 }
 
-function activateCarousel(id, elm) {
-	if (id && !window.prcBlocks.carouselBlocks.activated.includes(id)) {
-		window.prcBlocks.carouselBlocks.activated.push(id);
-
-		// If not on mobile or if the url doesnt have a hash then lock the body:
-		if (!window.location.hash) {
-			window.prcBlocks.carouselBlocks.toggleBodyLock(true);
-		}
-
-		// Finally, allow the carousel to scroll it's contents:
-		elm.classList.add('active');
-
-		if (window.prcBlocks.carouselBlocks.debug) {
-			console.warn('activating carousel', id);
-		}
-	}
-}
-
-function deactivateCarousel(id) {
-	// Filter out current carousel.
-	window.prcBlocks.carouselBlocks.activated =
-		window.prcBlocks.carouselBlocks.activated.filter((ID) => ID !== id);
-
-	if (window.prcBlocks.carouselBlocks.debug) {
-		console.warn('deactivating carousel', id);
-	}
-}
-
-// Initialize watch definition:
-function watch(id) {
+function watch(id, controller = null) {
 	// If the element is not in the watched list, then add it.
 	if (!window.prcBlocks.carouselBlocks.watched.some((e) => e.id === id)) {
 		window.prcBlocks.carouselBlocks.watched.push({
 			id,
 			y: 0, // When we add horizontal support we need to add X.
 			ratio: 0,
+			enabled: false,
+			controller,
 		});
 	}
 }
 
 /**
- * Observer Callbacks:
+ * Initialize Carousel(s):
  */
 
-function carouselObserverCallback(entry) {
-	entry.forEach((change) => {
-		const { id } = change.target;
-		const scrollingDirection = getScrollingDirection(change);
+function initCarousel(id, elm) {
+	// Setup classes...
+	const innerGroupBlocks = elm.querySelectorAll(
+		'ul.splide__list > .wp-block-group',
+	);
+	innerGroupBlocks.forEach((block) => {
+		block.classList.add('splide__slide');
+	});
+	const { lockCarousel, unlockCarousel, isMobile, debug } =
+		window.prcBlocks.carouselBlocks;
+	const isHorizontal = elm.classList.contains('horizontal');
+	const height = elm.offsetHeight;
 
-		if (window.prcBlocks.carouselBlocks.debug) {
-			console.log(
-				'observing change...',
-				change,
-				change.target.classList,
-				scrollingDirection,
-				id,
+	const opts = {
+		direction: !isHorizontal ? 'ttb' : 'rtl',
+		height,
+		arrows: false,
+		wheel: true,
+		waitForTransition: true,
+		wheelSleep: 700,
+		speed: 700,
+		releaseWheel: true,
+		intersection: {
+			threshold: 0.95,
+		},
+	};
+	const carousel = new Splide(elm, opts);
+
+	// Mount the carousel, the intersection extension and watch the carousel.
+	carousel.mount({ Intersection });
+	watch(id, carousel);
+
+	if (debug) {
+		console.warn(
+			'Carousel initialized:',
+			carousel,
+			window.prcBlocks.carouselBlocks,
+		);
+	}
+
+	const numberOfSlides = carousel.length;
+
+	// Disallow scrolling while the carousel is not enabled:
+	carousel.root.addEventListener(
+		'wheel',
+		(e) => {
+			const { enabled } = window.prcBlocks.carouselBlocks.watched.find(
+				(a) => a.id === id,
 			);
-		}
+			console.log('Scrolling...', enabled);
+			if (!enabled) {
+				e.stopPropagation();
+			}
+		},
+		{ capture: true, passive: true },
+	);
 
-		if (
-			'scrolling-down-enter' === scrollingDirection &&
-			!window.prcBlocks.carouselBlocks.activated.includes(id)
-		) {
-			activateCarousel(id, change.target);
-		}
+	// On carousel init, on mobile, disable initial drag ability.
+	if (isMobile) {
+		carousel.Components.Drag.disable(true);
+	}
 
-		if (
-			'scrolling-down-leave' === scrollingDirection &&
-			window.prcBlocks.carouselBlocks.activated.includes(id)
-		) {
-			deactivateCarousel(id);
+	// If we are on the first slide and the carousel is enabled OR
+	// if this is the last slide then lock the carousel so the user can continue on with the page:
+	carousel.on('active', (slide) => {
+		const { index } = slide;
+		const { enabled } = window.prcBlocks.carouselBlocks.watched.find(
+			(a) => a.id === id,
+		);
+		if ((0 === index && enabled) || numberOfSlides === index + 1) {
+			lockCarousel(id, isMobile);
 		}
 	});
-}
 
-function lastCarouselSlideCallback(entry) {
-	entry.forEach((change) => {
-		const { id } = change.target;
-		const carouselBlock = change.target.parentElement;
-		const scrollingDirection = getScrollingDirection(change);
-
-		const boundingClientRectHeight = change.boundingClientRect.height;
-		const intersectClientRectHeight = change.intersectionRect.height;
-		const intersectionRatio =
-			intersectClientRectHeight / boundingClientRectHeight;
-
-		console.log('Last Carousel Slide intersectionRatio: ', intersectionRatio);
-
-		if (
-			'scrolling-down-enter' === scrollingDirection &&
-			0.5 <= intersectionRatio
-		) {
-			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
-			carouselBlock.classList.remove('active');
-			if (window.prcBlocks.carouselBlocks.debug) {
-				console.log(
-					"This is exiting the carousel :: 'scrolling-down-enter' ->",
-					change,
-				);
-				console.warn('releasing carousel lock');
-			}
-		}
-
-		if ('scrolling-up-enter' === scrollingDirection) {
-			if (window.prcBlocks.carouselBlocks.debug) {
-				console.log("Last Carousel Slide :: 'scrolling-up-enter' ->", change);
-				console.warn('re-activating carousel lock');
-			}
-			activateCarousel(id, carouselBlock);
-		}
+	// When the user scrolls into the carousel unlock it:
+	carousel.on('intersection:in', (entry) => {
+		unlockCarousel(id, isMobile, entry);
 	});
 }
-
-function firstCarouselSlideCallback(entry) {
-	entry.forEach((change) => {
-		const carouselBlock = change.target.parentElement;
-		const scrollingDirection = getScrollingDirection(change);
-		if ('scrolling-up-enter' === scrollingDirection) {
-			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
-			carouselBlock.classList.remove('active');
-			if (window.prcBlocks.carouselBlocks.debug) {
-				console.log(
-					"First Carousel Slide :: 'scrolling-up-enter' ->",
-					change,
-					window.prcBlocks,
-				);
-				console.warn('de-activating carousel lock');
-			}
-		}
-	});
-}
-
-/**
- * Initialize Carousels:
- */
 
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
 	const carouselBlocks = Array.from(carousels);
-	const isMobile = carouselBlocks.some((e) => e.getAttribute('data-is-mobile'));
-
-	console.log('isMobile', isMobile, carouselBlocks);
-
-	/**
-	 * Initialize Observers:
-	 */
-
-	const carouselObserver = new IntersectionObserver(carouselObserverCallback, {
-		threshold: [0.95],
-	});
-
-	// This may seem overkill but I found performance wise it was better to watch for the class change and then initiate a manual scroll.
-	const isCarouselActiveObserver = new MutationObserver(
-		(mutationList, observer) => {
-			mutationList.forEach((mutation) => {
-				if (
-					'attributes' === mutation.type &&
-					'class' === mutation.attributeName &&
-					mutation.target.classList.contains('active')
-				) {
-					const coverBlock = mutation.target.parentElement.parentElement;
-					if (window.prcBlocks.carouselBlocks.debug) {
-						console.log('Snapping cover block into view:', coverBlock);
-					}
-					setTimeout(() => {
-						coverBlock.scrollIntoView({
-							behavior: 'smooth',
-							block: 'start',
-						});
-					}, 300);
-				}
-			});
-		},
-	);
-
-	const lastCarouselSlideObserver = new IntersectionObserver(
-		lastCarouselSlideCallback,
-		{
-			threshold: [0.8],
-		},
-	);
-
-	const firstCarouselSlideObserver = new IntersectionObserver(
-		firstCarouselSlideCallback,
-		{
-			threshold: [0.7],
-		},
-	);
+	// eslint-disable-next-line prettier/prettier
+	window.prcBlocks.carouselBlocks.isMobile = carouselBlocks.some((e) => e.getAttribute('data-is-mobile'));
 
 	if (carousels.length) {
 		carousels.forEach((carousel) => {
-			const firstCarouselSlide = carousel.querySelector(
-				':scope > .wp-block-group:first-child',
-			);
-			const lastCarouselSlide = carousel.querySelector(
-				':scope > .wp-block-group:last-child',
-			);
-
 			// Track elements:
 			const carouselId = randomId();
 			carousel.setAttribute('id', carouselId);
-			watch(carouselId);
-
-			const firstCarouselSlideId = randomId();
-			firstCarouselSlide.setAttribute('id', firstCarouselSlideId);
-			watch(firstCarouselSlideId);
-
-			const lastCarouseSlideId = randomId();
-			lastCarouselSlide.setAttribute('id', lastCarouseSlideId);
-			watch(lastCarouseSlideId);
-
-			// Watch inner workings...
-			carouselObserver.observe(carousel);
-			isCarouselActiveObserver.observe(carousel, {
-				attributes: true,
-			});
-			lastCarouselSlideObserver.observe(lastCarouselSlide);
-			firstCarouselSlideObserver.observe(firstCarouselSlide);
+			initCarousel(carouselId, carousel);
 		});
-
-		// On mobile, if the first element is a cover block and that block contains a carousel then after a few seconds lets scroll that into view for the user.
-		if (isMobile) {
-			const postContents = document.querySelector('.post-content');
-			if (postContents.firstElementChild.classList.contains('wp-block-cover')) {
-				const coverBlock = postContents.firstElementChild;
-				if (coverBlock) {
-					const carouselBlock = coverBlock.querySelector(
-						'.wp-block-prc-block-carousel',
-					);
-					if (carouselBlock) {
-						setTimeout(() => {
-							activateCarousel(carouselBlock.id, carouselBlock);
-						}, 1000);
-					}
-				}
-			}
-		}
 	}
 });
