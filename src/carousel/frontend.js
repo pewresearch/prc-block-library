@@ -90,9 +90,10 @@ function watch(id, controller = null) {
 	}
 }
 
-function unlockCarousel(entry, isMobile) {
+function unlockCarousel(id, isMobile, entry) {
+	const elm = document.getElementById(id);
 	const index = window.prcBlocks.carouselBlocks.watched.findIndex(
-		(e) => e.id === entry.target.id,
+		(e) => e.id === id,
 	);
 	const { controller } = window.prcBlocks.carouselBlocks.watched[index];
 	if (!isMobile) {
@@ -103,7 +104,7 @@ function unlockCarousel(entry, isMobile) {
 
 	// Little hack to snap the carousel into the viewport fully.
 	setTimeout(() => {
-		entry.target.parentElement.parentElement.scrollIntoView(true);
+		elm.parentElement.parentElement.scrollIntoView(true);
 	}, 200);
 
 	window.prcBlocks.carouselBlocks.watched[index].enabled = true;
@@ -112,7 +113,7 @@ function unlockCarousel(entry, isMobile) {
 
 function lockCarousel(id, isMobile) {
 	const index = window.prcBlocks.carouselBlocks.watched.findIndex(
-		(e) => e.id === entry.target.id,
+		(e) => e.id === id,
 	);
 	const { controller } = window.prcBlocks.carouselBlocks.watched[index];
 	if (!isMobile) {
@@ -215,7 +216,7 @@ function initCarousel(id, elm, isMobile) {
 
 	// When the user scrolls into the carousel unlock it:
 	carousel.on('intersection:in', (entry) => {
-		unlockCarousel(entry, isMobile);
+		unlockCarousel(id, isMobile, entry);
 	});
 }
 
