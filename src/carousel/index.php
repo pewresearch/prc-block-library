@@ -26,9 +26,7 @@ class Carousel_Block extends PRC_Block_Library {
 			'aria-label' => 'A carousel alt...',
 		);
 		if ( function_exists('jetpack_is_mobile') && jetpack_is_mobile() ) {
-			$attrs = array(
-				'data-is-mobile' => true,
-			);
+			$attrs['data-is-mobile'] = true;
 		}
 
 		$content = '';

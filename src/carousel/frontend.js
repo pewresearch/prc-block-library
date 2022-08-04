@@ -14,6 +14,7 @@ if (!window.hasOwnProperty('prcBlocks')) {
 	window.prcBlocks = {};
 }
 window.prcBlocks.carouselBlocks = {
+	Splide,
 	debug: false,
 	watched: [],
 	toggleBodyLock: (enable = true) => {
@@ -92,14 +93,14 @@ function watch(id, controller = null) {
 
 function unlockCarousel(entry) {
 	window.prcBlocks.carouselBlocks.toggleBodyLock(true);
-	entry.target.parentElement.parentElement.scrollIntoView({
-		behavior: 'smooth',
-		block: 'start',
-	});
+	setTimeout(()=>{
+		entry.target.parentElement.parentElement.scrollIntoView(true);
+	}, 200);
 	const index = window.prcBlocks.carouselBlocks.watched.findIndex(
 		(e) => e.id === entry.target.id,
 	);
 	window.prcBlocks.carouselBlocks.watched[index].enabled = true;
+	console.warn("unlockCarousel: ", entry);
 }
 
 function lockCarousel(id) {
@@ -108,6 +109,7 @@ function lockCarousel(id) {
 		(e) => e.id === id,
 	);
 	window.prcBlocks.carouselBlocks.watched[index].enabled = false;
+	console.warn("lockCarousel: ", id);
 }
 
 /**
@@ -125,7 +127,6 @@ function initCarousel(id, elm, isMobile) {
 
 	const isHorizontal = elm.classList.contains('horizontal');
 	const height = elm.offsetHeight;
-	console.log('height...', height);
 
 	const opts = {
 		direction: !isHorizontal ? 'ttb' : 'rtl',
@@ -137,7 +138,7 @@ function initCarousel(id, elm, isMobile) {
 		speed: 700,
 		releaseWheel: true,
 		intersection: {
-			threshold: 0.8,
+			threshold: 0.95,
 		},
 	};
 	const carousel = new Splide(elm, opts);
@@ -178,18 +179,12 @@ function initCarousel(id, elm, isMobile) {
 		);
 		if ((0 === index && enabled) || numberOfSlides === index + 1) {
 			lockCarousel(id);
-			if (isMobile) {
-				carousel.Components.Drag.disable(true);
-			}
 		}
 	});
 
 	// When the user scrolls into the carousel unlock it:
 	carousel.on('intersection:in', (entry) => {
 		unlockCarousel(entry);
-		if (isMobile) {
-			carousel.Components.Drag.disable(false);
-		}
 	});
 }
 
