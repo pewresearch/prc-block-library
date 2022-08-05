@@ -52,9 +52,18 @@ class Collection_Kicker extends PRC_Block_Library {
 			return;
 		}
 
-		$block_attrs = array();
+		$term = get_term( $term_id, 'collection' );
+		if ( false === $term || empty( $term ) ) {
+			return;
+		}
 
+		$term_name = $term->name;
+		$term_link = get_term_link( $term_id, 'collection' );
+		$kicker_bug_img_id = get_term_meta( $term_id, 'kicker', true );
+		$kicker_bug_img_url = wp_get_attachment_image_url( $kicker_bug_img_id, 'full' );
 		$kicker_text_color = get_term_meta( $term_id, 'kicker_text_color', true );
+
+		$block_attrs = array();
 		if ( false !== $kicker_text_color || '' !== $kicker_text_color ) {
 			$block_attrs['style'] = 'color: ' . $kicker_text_color . ';';
 		}
@@ -62,13 +71,6 @@ class Collection_Kicker extends PRC_Block_Library {
 		// If this block is going to be used in the theme or be called directly by PHP it is sometimes easier to use our internal function for of this function.
 		// See https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/prc-block-library.php#L131 for how to use `$this->_get_block_wrapper_attributes()`
 		$block_attrs = get_block_wrapper_attributes($block_attrs);
-
-
-		$term = get_term( $term_id, 'collection' );
-		$term_name = $term->name;
-		$term_link = get_term_link( $term_id, 'collection' );
-		$kicker_bug_img_id = get_term_meta( $term_id, 'kicker', true );
-		$kicker_bug_img_url = wp_get_attachment_image_url( $kicker_bug_img_id, 'full' );
 
 		$content = wp_sprintf(
 			'<a href="%1$s">%2$s</a>',
