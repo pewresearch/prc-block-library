@@ -53,7 +53,7 @@ class Collection_Kicker extends PRC_Block_Library {
 		}
 
 		$term = get_term( $term_id, 'collection' );
-		if ( false === $term || empty( $term ) ) {
+		if ( empty( $term ) || is_wp_error($term) ) {
 			return;
 		}
 
