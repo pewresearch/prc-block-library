@@ -163,8 +163,10 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 
 		toggleLoading(true);
 
+		const url = window.location.href;
+
 		apiFetch({
-			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}&captcha_token=${token}&api_key=mailchimp-select`,
+			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}&captcha_token=${token}&api_key=mailchimp-select&origin_url=${url}`,
 			method: 'POST',
 		})
 			.then(() => {

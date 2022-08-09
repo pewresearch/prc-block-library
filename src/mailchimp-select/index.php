@@ -1,16 +1,16 @@
 <?php
-
-// Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/mailchimp-select` block.
  *
  * @package gutenberg
  */
 
-class Block_Name extends PRC_Block_Library {
+class Mailchimp_Select extends PRC_Block_Library {
+	public static $version = '1.0.2';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -34,8 +34,7 @@ class Block_Name extends PRC_Block_Library {
 	}
 
 	public function enqueue_frontend_assets() {
-		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
-
+		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
 			'frontend',
 			'mailchimp-select',
@@ -51,7 +50,7 @@ class Block_Name extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
@@ -77,4 +76,4 @@ class Block_Name extends PRC_Block_Library {
 	}
 }
 
-new Block_Name( true );
+new Mailchimp_Select( true );

@@ -10,21 +10,23 @@ class Paragraph extends PRC_Block_Library {
 	}
 
 	public function enqueue_frontend_assets() {
-		$ver = parent::$version;
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', $ver, 'plugin', parent::$plugin_file );
-
-		$enqueue->enqueue(
-			'blocks',
-			'paragraph',
-			array(
-				'js'        => false,
-				'css'       => true,
-				'js_dep'    => array(),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
-		);
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$proceed = is_admin() && get_current_screen()->is_block_editor || !is_admin();
+		// This is such a primitive block that it will affect styling in admin if ever accidentally called like in the help system.
+		if ( $proceed ) {
+			$enqueue->enqueue(
+				'blocks',
+				'paragraph',
+				array(
+					'js'        => false,
+					'css'       => true,
+					'js_dep'    => array(),
+					'css_dep'   => array(),
+					'in_footer' => true,
+					'media'     => 'all',
+				)
+			);
+		}
 	}
 
 	public function add_additional_frontend_styles( $block_content, $block ) {
@@ -35,8 +37,7 @@ class Paragraph extends PRC_Block_Library {
 	}
 
 	public function enqueue_admin_assets() {
-		$ver = parent::$version;
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', $ver, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$enqueue->enqueue(
 			'blocks',

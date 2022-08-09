@@ -6,6 +6,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Mailchimp_Form extends PRC_Block_Library {
+	public static $version = '1.0.2';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -35,7 +36,7 @@ class Mailchimp_Form extends PRC_Block_Library {
 		if ( is_admin() ) {
 			return;
 		}
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
 			'frontend',
 			'mailchimp-form',
@@ -51,7 +52,7 @@ class Mailchimp_Form extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$assets = $enqueue->register(
 			'blocks',
