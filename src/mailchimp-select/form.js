@@ -10,6 +10,7 @@ import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+import { isURL } from '@wordpress/url';
 
 /**
  * Internal dependencies
@@ -163,7 +164,11 @@ function FormList({ interests, selected, allowSubmissions = false }) {
 
 		toggleLoading(true);
 
-		const url = window.location.href;
+		const url = document.URL;
+		if (!isURL(url)) {
+			throwError('Invalid URL');
+			return;
+		}
 
 		apiFetch({
 			path: `/prc-api/v2/mailchimp/subscribe/?email=${userEmail}&interests=${userSelection}&captcha_token=${token}&api_key=mailchimp-select&origin_url=${url}`,

@@ -4,7 +4,8 @@
     "react-dom",
     "wp-api-fetch",
     "wp-dom-ready",
-    "wp-element"
+    "wp-element",
+    "wp-url"
   ],
   "version": "2b55dace97aaadeac9d5396d0e58c277"
 }

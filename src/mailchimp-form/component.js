@@ -9,6 +9,7 @@ import { Form, Icon } from 'semantic-ui-react';
  */
 import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+import { isURL } from '@wordpress/url';
 
 /**
  * Internal Dependencies
@@ -104,7 +105,12 @@ function MailchimpForm({
 		toggleLoading(true);
 
 		setTimeout(() => {
-			const url = window.location.href;
+			const url = document.URL;
+			if (!isURL(url)) {
+				throwError('Invalid URL');
+				return;
+			}
+
 			apiFetch({
 				path: `/prc-api/v2/mailchimp/subscribe/?email=${email}&interests=${interest}&captcha_token=${token}&api_key=mailchimp-form&origin_url=${url}`,
 				method: 'POST',
