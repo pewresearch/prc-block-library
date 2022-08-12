@@ -9,7 +9,12 @@ import { Input } from 'semantic-ui-react';
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
+import {
+	useInnerBlocksProps,
+	useBlockProps,
+	InspectorControls,
+} from '@wordpress/block-editor';
+import { PanelBody, TextareaControl } from '@wordpress/components';
 
 const ALLOWED_BLOCKS = [];
 
@@ -28,6 +33,16 @@ const edit = ({ attributes, className, setAttributes }) => {
 
 	return (
 		<div {...innerBlocksProps}>
+			<InspectorControls>
+				<PanelBody title={__('Filter options')}>
+					<TextareaControl
+						label={__('Placeholder text')}
+						value={placeholder}
+						onChange={(value) => setAttributes({ placeholder: value })}
+					/>
+				</PanelBody>
+			</InspectorControls>
+
 			<Input
 				icon="search"
 				fluid

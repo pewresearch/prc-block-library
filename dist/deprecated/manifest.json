@@ -1,78 +1,78 @@
 {
-  "chapter.js": "deprecated/chapter-8f60eff1.js",
-  "chapter.js.map": "deprecated/chapter-8f60eff1.js.map",
-  "post-publish-date.js": "deprecated/post-publish-date-e880ede1.js",
-  "post-publish-date.js.map": "deprecated/post-publish-date-e880ede1.js.map",
-  "post-title.js": "deprecated/post-title-0827382c.js",
-  "post-title.js.map": "deprecated/post-title-0827382c.js.map",
-  "runtime.js": "deprecated/runtime-f8ea246f.js",
-  "runtime.js.map": "deprecated/runtime-f8ea246f.js.map",
-  "social-link-frontend.js": "deprecated/social-link-frontend-6e011634.js",
-  "social-link-frontend.js.map": "deprecated/social-link-frontend-6e011634.js.map",
-  "social-link.js": "deprecated/social-link-94170ab6.js",
-  "social-link.js.map": "deprecated/social-link-94170ab6.js.map",
-  "vendors~social-link.js": "deprecated/vendors~social-link-a3b508b4.js",
-  "vendors~social-link.js.map": "deprecated/vendors~social-link-a3b508b4.js.map",
+  "chapter.js": "deprecated/chapter-4a0b27ac.js",
+  "chapter.js.map": "deprecated/chapter-4a0b27ac.js.map",
+  "post-publish-date.js": "deprecated/post-publish-date-c667b696.js",
+  "post-publish-date.js.map": "deprecated/post-publish-date-c667b696.js.map",
+  "post-title.js": "deprecated/post-title-1bcd968d.js",
+  "post-title.js.map": "deprecated/post-title-1bcd968d.js.map",
+  "runtime.js": "deprecated/runtime-50e1e3bb.js",
+  "runtime.js.map": "deprecated/runtime-50e1e3bb.js.map",
+  "social-link-frontend.js": "deprecated/social-link-frontend-1d112eab.js",
+  "social-link-frontend.js.map": "deprecated/social-link-frontend-1d112eab.js.map",
+  "social-link.js": "deprecated/social-link-7596dcdf.js",
+  "social-link.js.map": "deprecated/social-link-7596dcdf.js.map",
+  "vendors~social-link.js": "deprecated/vendors~social-link-a21246d1.js",
+  "vendors~social-link.js.map": "deprecated/vendors~social-link-a21246d1.js.map",
   "wpackioEp": {
     "chapter": {
       "assets": {
         "js": [
-          "deprecated/runtime-f8ea246f.js",
-          "deprecated/chapter-8f60eff1.js"
+          "deprecated/runtime-50e1e3bb.js",
+          "deprecated/chapter-4a0b27ac.js"
         ],
         "js.map": [
-          "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/chapter-8f60eff1.js.map"
+          "deprecated/runtime-50e1e3bb.js.map",
+          "deprecated/chapter-4a0b27ac.js.map"
         ]
       }
     },
     "post-publish-date": {
       "assets": {
         "js": [
-          "deprecated/runtime-f8ea246f.js",
-          "deprecated/post-publish-date-e880ede1.js"
+          "deprecated/runtime-50e1e3bb.js",
+          "deprecated/post-publish-date-c667b696.js"
         ],
         "js.map": [
-          "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/post-publish-date-e880ede1.js.map"
+          "deprecated/runtime-50e1e3bb.js.map",
+          "deprecated/post-publish-date-c667b696.js.map"
         ]
       }
     },
     "post-title": {
       "assets": {
         "js": [
-          "deprecated/runtime-f8ea246f.js",
-          "deprecated/post-title-0827382c.js"
+          "deprecated/runtime-50e1e3bb.js",
+          "deprecated/post-title-1bcd968d.js"
         ],
         "js.map": [
-          "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/post-title-0827382c.js.map"
+          "deprecated/runtime-50e1e3bb.js.map",
+          "deprecated/post-title-1bcd968d.js.map"
         ]
       }
     },
     "social-link": {
       "assets": {
         "js": [
-          "deprecated/runtime-f8ea246f.js",
-          "deprecated/vendors~social-link-a3b508b4.js",
-          "deprecated/social-link-94170ab6.js"
+          "deprecated/runtime-50e1e3bb.js",
+          "deprecated/vendors~social-link-a21246d1.js",
+          "deprecated/social-link-7596dcdf.js"
         ],
         "js.map": [
-          "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/vendors~social-link-a3b508b4.js.map",
-          "deprecated/social-link-94170ab6.js.map"
+          "deprecated/runtime-50e1e3bb.js.map",
+          "deprecated/vendors~social-link-a21246d1.js.map",
+          "deprecated/social-link-7596dcdf.js.map"
         ]
       }
     },
     "social-link-frontend": {
       "assets": {
         "js": [
-          "deprecated/runtime-f8ea246f.js",
-          "deprecated/social-link-frontend-6e011634.js"
+          "deprecated/runtime-50e1e3bb.js",
+          "deprecated/social-link-frontend-1d112eab.js"
         ],
         "js.map": [
-          "deprecated/runtime-f8ea246f.js.map",
-          "deprecated/social-link-frontend-6e011634.js.map"
+          "deprecated/runtime-50e1e3bb.js.map",
+          "deprecated/social-link-frontend-1d112eab.js.map"
         ]
       }
     }
