@@ -8,7 +8,7 @@
  * @license           GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name:       PRC Block Library
+ * Plugin Name:       PRC Block Library (Private)
  * Plugin URI:        https://pewresearch.org
  * Description:       PRC Block Library
  * Version:           2.1.20

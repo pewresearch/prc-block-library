@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import classnames from 'classnames';
+import { get } from 'lodash';
 
 /**
  * WordPress Dependencies
@@ -12,45 +13,46 @@ import {
 	useInnerBlocksProps,
 	useBlockProps,
 	BlockControls,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 
 const ALLOWED_BLOCKS = ['core/group'];
 
-const edit = ({ attributes, className, setAttributes }) => {
+const edit = ({ attributes, className, setAttributes, clientId }) => {
 	const { direction } = attributes;
 
 	const blockProps = useBlockProps({
 		className: classnames(className),
 	});
 
+	const hasInnerBlocks = useSelect(
+		(select) => 0 < select(blockEditorStore).getBlocks(clientId).length,
+		[clientId],
+	);
+
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		orientation: direction,
 		templateLock: false,
+		template: [
+			[
+				'core/group',
+				{ className: 'carousel-slide' },
+				[
+					[
+						'core/paragraph',
+						{
+							placeholder: 'You can use any blocks inside this carousel slide.',
+						},
+					],
+				],
+			],
+		],
 	});
 
-	return (
-		<Fragment>
-			<BlockControls>
-				<ToolbarGroup>
-					<ToolbarButton
-						icon={sprintf(
-							'arrow-%s-alt2',
-							'vertical' === direction ? 'down' : 'right',
-						)}
-						label="Carousel Direction"
-						onClick={() =>
-							setAttributes({
-								direction: 'vertical' === direction ? 'horizontal' : 'vertical',
-							})
-						}
-					/>
-				</ToolbarGroup>
-			</BlockControls>
-			<div {...innerBlocksProps} />
-		</Fragment>
-	);
+	return <div {...innerBlocksProps} />;
 };
 
 export default edit;

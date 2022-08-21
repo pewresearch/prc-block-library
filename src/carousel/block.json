@@ -3,7 +3,6 @@
 	"name": "prc-block/carousel",
 	"title": "Carousel",
 	"description": "Organize content in a vertical or horizontal carousel.",
-	"icon": "arrow-down-alt2",
 	"keywords": [ "scroll", "carousel", "slider", "scrolly", "scrolley", "scrollytelly", "scrolleytelley" ],
 	"category": "essay",
 	"attributes": {
