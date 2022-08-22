@@ -3,21 +3,12 @@
  */
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
-import { createHigherOrderComponent } from '@wordpress/compose';
 import {
 	createBlock,
 	registerBlockStyle,
 	registerBlockVariation,
 	rawHandler,
 } from '@wordpress/blocks';
-import { Fragment } from '@wordpress/element';
-import { InspectorAdvancedControls } from '@wordpress/block-editor';
-import {
-	__experimentalNumberControl as NumberControl,
-	TextControl,
-	ToggleControl,
-	CardDivider,
-} from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -241,51 +232,3 @@ addFilter('blocks.registerBlockType', 'prc-block/group', (settings) => {
 
 	return settings;
 });
-
-addFilter(
-	'editor.BlockEdit',
-	'prc-block/group',
-	createHigherOrderComponent(
-		(BlockEdit) =>
-			function GroupBlockAdvancedControls(props) {
-				const { name, attributes, setAttributes } = props;
-				if ('core/group' !== name) {
-					return <BlockEdit {...props} />;
-				}
-				const { isSticky, responsiveAttachId, responsiveThreshold } =
-					attributes;
-				return (
-					<Fragment>
-						<InspectorAdvancedControls>
-							<ToggleControl
-								label={__('Sticky On Scroll?')}
-								checked={isSticky}
-								onChange={() => setAttributes({ isSticky: !isSticky })}
-								help="Enable sticky on scroll for this group, this will be disabled when you reach the responsive threshold as its intended for desktop only. If you have specific mobile needs consult with the dev team."
-							/>
-							<TextControl
-								label={__('Responsive Attachment ID')}
-								value={responsiveAttachId}
-								onChange={(val) => setAttributes({ responsiveAttachId: val })}
-							/>
-							<NumberControl
-								label={__('Responsive Threshold')}
-								value={responsiveThreshold}
-								onChange={(val) => setAttributes({ responsiveThreshold: val })}
-								max={3540}
-								min={320}
-								isDragEnabled
-								help={__(
-									`The responsive threshold is the point at which the group block and its contents will trigger their mobile behavior. The default is 640px (small tablet), but you can change this to any value you like. If you would like to trigger the mobile behavior of a block immediately regardless of device size then use the maximum value of 3540.`,
-								)}
-							/>
-							<CardDivider />
-						</InspectorAdvancedControls>
-						<BlockEdit {...props} />
-					</Fragment>
-				);
-			},
-		'withGroupAdvancedControls',
-	),
-	21,
-);

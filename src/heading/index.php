@@ -11,7 +11,6 @@ class Heading_Block extends PRC_Block_Library {
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
 			add_filter( 'prc_grid_row_classes', array( $this, 'add_section_header_class_to_row' ), 10, 2 );
 			add_filter( 'render_block', array( $this, 'heading_block_render' ), 10, 2 );
-			add_filter( 'block_type_metadata', array( $this, 'add_chapter_attributes' ), 100, 1 );
 		}
 	}
 
@@ -66,52 +65,9 @@ class Heading_Block extends PRC_Block_Library {
 			return $block_content;
 		}
 
-		if ( array_key_exists('isChapter', $block['attrs']) && true === $block['attrs']['isChapter'] ) {
-			// regex add is-chapter="true" to the h element in $block_content.
-			$block_content = preg_replace( '/<h([1-6])/', '<h$1 data-is-chapter="true"', $block_content );
-		}
-
-		// Uncomment this if we ever want to provide a way to display icons inline with chapters.
-		// if ( array_key_exists('icon', $block['attrs']) && ! empty( $block['attrs']['icon'] ) ) {
-		// 	// get the icon src from the icon id and add it to the h element in $block_content.
-		// 	$icon_src = wp_get_attachment_image_src( $block['attrs']['icon'], 'full' );
-		// 	$block_content = preg_replace( '/<h([1-6])/', '<h$1 data-icon-src="' . esc_url($icon_src[0]) . '"', $block_content );
-		// }
-
 		$this->enqueue_assets( false );
 
 		return $block_content;
-	}
-
-	/**
-	 * Register additional attributes for heading block.
-	 * @param mixed $metadata
-	 * @return mixed
-	 */
-	public function add_chapter_attributes( $metadata ) {
-		if ( 'core/heading' !== $metadata['name'] ) {
-			return $metadata;
-		}
-
-		if ( ! array_key_exists( 'isChapter', $metadata['attributes'] ) ) {
-			$metadata['attributes']['isChapter'] = array(
-				'type'    => 'boolean',
-				'default' => false,
-			);
-		}
-		if ( ! array_key_exists( 'altTocText', $metadata['attributes'] ) ) {
-			$metadata['attributes']['altTocText'] = array(
-				'type'    => 'string',
-				'default' => '',
-			);
-		}
-		if ( ! array_key_exists( 'icon', $metadata['attributes'] ) ) {
-			$metadata['attributes']['icon'] = array(
-				'type'    => 'integer',
-				'default' => 0,
-			);
-		}
-		return $metadata;
 	}
 
 	/**

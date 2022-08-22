@@ -67,8 +67,7 @@
 		{
 			"name": "group",
 			"main": "./src/group/index.js",
-			"php": "./src/group/index.php",
-			"frontend": "./src/group/frontend.js"
+			"php": "./src/group/index.php"
 		},
 		{
 			"name": "heading",

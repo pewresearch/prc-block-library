@@ -17,20 +17,6 @@ $breakpoint: 767px;
 	}
 }
 
-body.admin-bar .prc-group-block--sticky.sticky {
-	top: 32px;
-}
-.prc-group-block--sticky.sticky {
-	position: -webkit-sticky;
-	position: sticky;
-	top: 0;
-	z-index: 10;
-	.wp-block-group.alignleft,
-	.wp-block-group.alignright {
-		background: rgb(255 255 255 / 50%);
-	}
-}
-
 // When a align full cover is before an alignfull group we want to add padding to the group.
 .wp-block-cover.alignfull + .wp-block-group.alignfull {
 	margin-top: -2em;
