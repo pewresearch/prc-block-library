@@ -1,9 +1,6 @@
 {
   "dependencies": [
-    "react",
-    "wp-dom-ready",
-    "wp-element",
-    "wp-i18n"
+    "wp-dom-ready"
   ],
   "version": "2b55dace97aaadeac9d5396d0e58c277"
 }

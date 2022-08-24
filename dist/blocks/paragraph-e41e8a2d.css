@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+p.has-drop-cap:not(:focus):first-letter{font-size:3.6em !important;line-height:1;padding-right:.14em;margin:0}p.is-style-has-big-number:before,.wp-block[data-type="core/paragraph"].is-style-has-big-number:before{counter-increment:section;content:counter(section);float:left;color:#ec9f2e;font-size:3.2142857143em;font-family:var(--wp--preset--font-family--sans-serif);font-weight:700;padding-top:.6rem;padding-bottom:1rem;margin-right:1rem}p.is-style-has-big-number>strong,.wp-block[data-type="core/paragraph"].is-style-has-big-number>strong{font-family:var(--wp--preset--font-family--sans-serif);font-size:1.2142857143em}p:first-child{margin-top:0em}p:last-child{margin-bottom:0em}
+
+/*# sourceMappingURL=paragraph-e41e8a2d.css.map*/

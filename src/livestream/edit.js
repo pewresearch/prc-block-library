@@ -3,6 +3,7 @@
  */
 import classnames from 'classnames';
 import { Input } from 'semantic-ui-react';
+// @TODO Change this to InputControl from @wordpress/components
 
 /**
  * WordPress Dependencies

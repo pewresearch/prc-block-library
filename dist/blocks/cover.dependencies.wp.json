@@ -1,21 +1,4 @@
 {
-  "dependencies": [
-    "react",
-    "react-dom",
-    "wp-api-fetch",
-    "wp-block-editor",
-    "wp-blocks",
-    "wp-components",
-    "wp-compose",
-    "wp-data",
-    "wp-element",
-    "wp-hooks",
-    "wp-html-entities",
-    "wp-i18n",
-    "wp-keycodes",
-    "wp-media-utils",
-    "wp-primitives",
-    "wp-url"
-  ],
+  "dependencies": [],
   "version": "6e67616ce2f2193b5cdb252e69006e2f"
 }

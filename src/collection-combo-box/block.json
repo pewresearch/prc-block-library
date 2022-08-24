@@ -1,0 +1,33 @@
+{
+    "name": "prc-block/fact-sheet-collection",
+    "apiVersion": 2,
+	"category": "layout",
+	"attributes": {
+        "altPostLabel" : {
+			"type": "string"
+        },
+        "enableFlags" : {
+            "type": "boolean",
+            "default": false
+        },
+        "pdfId" : {
+			"type": "integer",
+			"default": 0
+        }
+	},
+	"supports": {
+        "html": false,
+        "multiple": false
+    },
+    "styles": [
+		{
+			"name": "dropdown",
+			"label": "Dropdown",
+			"isDefault": true
+		},
+		{
+			"name": "list",
+			"label": "List"
+		}
+	]
+}

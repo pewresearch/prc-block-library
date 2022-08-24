@@ -1,0 +1,18 @@
+.wp-block-prc-block-carousel:not(.wp-block) {
+	.splide__list > .wp-block-prc-block-carousel-slide {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		// Ensure groups inside the "slide" group keep the dimensions of their content and not the parent.
+		& > .wp-block-group {
+			height: fit-content;
+			width: 100%;
+			max-width: 540px;
+			opacity: 0.9;
+			box-shadow: 1px 1px 4px 1px rgba(0,0,0,0.40);
+			padding: 1.2em;
+		}
+	}
+}

@@ -56,7 +56,7 @@ class PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			// Only load assets when a block is used.
+			// Only load assets when a block is used. This allows us to unregister core block styles and use our own.
 			add_filter( 'should_load_separate_core_block_assets', '__return_true' );
 
 			add_filter( 'block_categories_all', array( $this, 'register_block_categories' ), 10, 2 );

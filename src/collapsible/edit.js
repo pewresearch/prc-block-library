@@ -2,97 +2,98 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import { Accordion, Icon } from 'semantic-ui-react';
 
 /**
  * WordPress dependencies
  */
-import { useState, Fragment } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import {
-    RichText,
-    useInnerBlocksProps,
-    useBlockProps,
+	RichText,
+	useInnerBlocksProps,
+	useBlockProps,
 } from '@wordpress/block-editor';
 
 const ALLOWED_BLOCKS = [
-    'core/paragraph',
-    'core/heading',
-    'core/image',
-    'core/table',
-    'core/list',
-    'prc-block/menu-link',
+	'core/paragraph',
+	'core/heading',
+	'core/image',
+	'core/table',
+	'core/list',
+	'prc-block/menu-link',
 ];
 
 const TEMPLATE = [['core/paragraph', {}]];
 
+function Icon({ onToggle, caretStyle = false }) {
+	const iconSet = caretStyle
+		? ['fa-solid fa-caret-down', 'fa-solid fa-caret-up']
+		: ['fa-thin fa-circle-minus', 'fa-thin fa-circle-plus'];
+
+	return (
+		<button
+			className="wp-block-prc-block-collapsible__icon"
+			onClick={() => {
+				onToggle();
+			}}
+			type="button"
+		>
+			{iconSet.map((icon, index) => (
+				<i
+					// eslint-disable-next-line react/no-array-index-key
+					key={`icon-${index}`}
+					className={`${icon} ${0 === index ? 'closed' : 'opened'}`}
+				/>
+			))}
+		</button>
+	);
+}
+
 const edit = ({ attributes, setAttributes }) => {
-    const { title, className } = attributes;
+	const { title, className } = attributes;
 
-    const style = undefined !== className ? className.split(' ') : [];
+	const [isOpen, setOpen] = useState(true);
 
-    const blockProps = useBlockProps({
-        className: classnames(className),
-    });
+	const style = undefined !== className ? className.split(' ') : [];
 
-    const innerBlocksProps = useInnerBlocksProps(
-        {},
-        {
-            allowedBlocks: ALLOWED_BLOCKS,
-            orientation: 'vertical',
-            templateLock: false,
-            template: TEMPLATE,
-        },
-    );
+	const blockProps = useBlockProps({
+		className: classnames(className, {
+			'is-open': isOpen,
+		}),
+	});
 
-    const [isOpen, setOpen] = useState(true);
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			allowedBlocks: ALLOWED_BLOCKS,
+			orientation: 'vertical',
+			templateLock: false,
+			template: TEMPLATE,
+		},
+	);
 
-    return (
-        <div {...blockProps}>
-            <Accordion styled>
-                <Accordion.Title
-                    active={true === isOpen}
-                    index={0}
-                    onClick={() => {
-                        // setOpen(!isOpen);
-                    }}
-                >
-                    <Fragment>
-                        {style.includes('is-style-caret') && (
-                            <Icon
-                                name={isOpen ? 'caret down' : 'caret right'}
-                                onClick={() => {
-                                    setOpen(!isOpen);
-                                }}
-                            />
-                        )}
-                        <RichText
-                            tagName="div" // The tag here is the element output and editable in the admin
-                            value={title} // Any existing content, either from the database or an attribute default
-                            onChange={t => setAttributes({ title: t })} // Store updated content as a block attribute
-                            placeholder="How we did this" // Display this text before any content has been added by the user
-                            formattingControls={[]}
-                            keepPlaceholderOnFocus
-                            style={{
-                                display: 'inline-block',
-                            }}
-                        />
-                        {!style.includes('is-style-caret') && (
-                            <Icon
-                                name={isOpen ? 'minus' : 'plus'}
-                                style={{ marginLeft: '0.5em' }}
-                                onClick={() => {
-                                    setOpen(!isOpen);
-                                }}
-                            />
-                        )}
-                    </Fragment>
-                </Accordion.Title>
-                <Accordion.Content active={true === isOpen}>
-                    <div {...innerBlocksProps} />
-                </Accordion.Content>
-            </Accordion>
-        </div>
-    );
+	return (
+		<div {...blockProps}>
+			<div className="wp-block-prc-block-collapsible__title">
+				<RichText
+					tagName="div"
+					value={title}
+					onChange={(t) => setAttributes({ title: t })}
+					placeholder="How we did this..."
+					formattingControls={[]}
+					keepPlaceholderOnFocus
+				/>
+				<Icon
+					onToggle={() => {
+						setOpen(!isOpen);
+					}}
+					caretStyle={style.includes('caret')}
+				/>
+			</div>
+			<div className="wp-block-prc-block-collapsible__content">
+				<div {...innerBlocksProps} />
+			</div>
+		</div>
+	);
 };
 
 export default edit;

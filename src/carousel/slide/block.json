@@ -1,0 +1,12 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/carousel-slide",
+	"title": "Slide",
+	"description": "A slide for use in the carousel block.",
+	"category": "essay",
+	"attributes": {},
+	"supports": {
+		"html": false
+	},
+	"parent": [ "prc-block/carousel" ]
+}

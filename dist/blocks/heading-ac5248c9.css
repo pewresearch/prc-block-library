@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+h1.is-style-section-header,h2.is-style-section-header,h3.is-style-section-header,h4.is-style-section-header,h5.is-style-section-header,h6.is-style-section-header,h1[data-type="core/heading"].is-style-section-header,h2[data-type="core/heading"].is-style-section-header,h3[data-type="core/heading"].is-style-section-header,h4[data-type="core/heading"].is-style-section-header,h5[data-type="core/heading"].is-style-section-header,h6[data-type="core/heading"].is-style-section-header{border-bottom:1px solid #000;padding-bottom:4px;margin-bottom:24px}h2.is-style-section-header,h2[data-type="core/heading"].is-style-section-header{font-size:21px}h1.is-style-sub-header-alt,h2.is-style-sub-header-alt,h3.is-style-sub-header-alt,h4.is-style-sub-header-alt,h5.is-style-sub-header-alt,h6.is-style-sub-header-alt,h1[data-type="core/heading"].is-style-sub-header-alt,h2[data-type="core/heading"].is-style-sub-header-alt,h3[data-type="core/heading"].is-style-sub-header-alt,h4[data-type="core/heading"].is-style-sub-header-alt,h5[data-type="core/heading"].is-style-sub-header-alt,h6[data-type="core/heading"].is-style-sub-header-alt{background:#000;color:#fff;display:block}h1.is-style-hidden:not(.wp-block-heading),h2.is-style-hidden:not(.wp-block-heading),h3.is-style-hidden:not(.wp-block-heading),h4.is-style-hidden:not(.wp-block-heading),h5.is-style-hidden:not(.wp-block-heading),h6.is-style-hidden:not(.wp-block-heading){font-size:0px !important;opacity:0 !important;height:0px !important;line-height:0px !important;margin:none !important}h1[data-type="core/heading"].is-style-hidden,h2[data-type="core/heading"].is-style-hidden,h3[data-type="core/heading"].is-style-hidden,h4[data-type="core/heading"].is-style-hidden,h5[data-type="core/heading"].is-style-hidden,h6[data-type="core/heading"].is-style-hidden{opacity:.5}
+
+/*# sourceMappingURL=heading-ac5248c9.css.map*/

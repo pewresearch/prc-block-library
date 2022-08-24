@@ -1,15 +1,73 @@
 {
 	"blocks": [
 		{
+			"name": "cover",
+			"main": "./src/core/cover/index.js",
+			"php": "./src/core/cover/index.php"
+		},
+		{
+			"name": "group",
+			"main": "./src/core/group/index.js",
+			"php": "./src/core/group/index.php"
+		},
+		{
+			"name": "heading",
+			"main": "./src/core/heading/index.js",
+			"php": "./src/core/heading/index.php"
+		},
+		{
+			"name": "image",
+			"main": "./src/core/image/index.js",
+			"php": "./src/core/image/index.php"
+		},
+		{
+			"name": "navigation",
+			"php": "./src/core/navigation/index.php"
+		},
+		{
+			"name": "paragraph",
+			"main": "./src/core/paragraph/index.js",
+			"php": "./src/core/paragraph/index.php"
+		},
+		{
+			"name": "post-date",
+			"main": "./src/core/post-date/index.js",
+			"php": "./src/core/post-date/index.php"
+		},
+		{
+			"name": "post-title",
+			"php": "./src/core/post-title/index.php"
+		},
+		{
+			"name": "pullquote",
+			"main": "./src/core/pullquote/index.js",
+			"php": "./src/core/pullquote/index.php"
+		},
+		{
+			"name": "query",
+			"main": "./src/core/query/index.js",
+			"php": "./src/core/query/index.php"
+		},
+		{
+			"name": "social-link",
+			"main": "./src/core/social-link/index.js",
+			"php": "./src/core/social-link/index.php",
+			"frontend": "./src/core/social-link/frontend.js"
+		},
+		{
+			"name": "media-text",
+			"php": "./src/core/media-text/index.php"
+		},
+		{
 			"name": "buttons",
-			"main": "./src/buttons/index.js",
-			"php": "./src/buttons/index.php"
+			"main": "./src/core/buttons/index.js",
+			"php": "./src/core/buttons/index.php"
 		},
 		{
 			"name": "collapsible",
 			"main": "./src/collapsible/index.js",
 			"php": "./src/collapsible/index.php",
-			"frontend": "./src/collapsible/frontend.js"
+			"frontend": "./src/collapsible/view.js"
 		},
 		{
 			"name": "column",
@@ -27,11 +85,6 @@
 			"main": "./src/chart-builder-data-wrapper/index.js",
 			"php": "./src/chart-builder-data-wrapper/index.php",
 			"frontend": "./src/chart-builder-data-wrapper/frontend.js"
-		},
-		{
-			"name": "cover",
-			"main": "./src/cover/index.js",
-			"php": "./src/cover/index.php"
 		},
 		{
 			"name": "daily-briefing-signup",
@@ -64,21 +117,7 @@
 			"main": "./src/grid/index.js",
 			"php": "./src/grid/index.php"
 		},
-		{
-			"name": "group",
-			"main": "./src/group/index.js",
-			"php": "./src/group/index.php"
-		},
-		{
-			"name": "heading",
-			"main": "./src/heading/index.js",
-			"php": "./src/heading/index.php"
-		},
-		{
-			"name": "image",
-			"main": "./src/image/index.js",
-			"php": "./src/image/index.php"
-		},
+
 		{
 			"name": "livestream",
 			"main": "./src/livestream/index.js",
@@ -114,15 +153,11 @@
 			"php": "./src/menu-link/index.php",
 			"frontend": "./src/menu-link/frontend.js"
 		},
+
 		{
 			"name": "page",
 			"main": "./src/page/index.js",
 			"php": "./src/page/index.php"
-		},
-		{
-			"name": "paragraph",
-			"main": "./src/paragraph/index.js",
-			"php": "./src/paragraph/index.php"
 		},
 		{
 			"name": "popular-listing",
@@ -151,11 +186,6 @@
 			"php": "./src/post-bylines/index.php"
 		},
 		{
-			"name": "post-date",
-			"main": "./src/post-date/index.js",
-			"php": "./src/post-date/index.php"
-		},
-		{
 			"name": "post-sub-title",
 			"main": "./src/post-sub-title/index.js",
 			"php": "./src/post-sub-title/index.php"
@@ -177,16 +207,6 @@
 			"php": "./src/promo-rotator/index.php"
 		},
 		{
-			"name": "pullquote",
-			"main": "./src/pullquote/index.js",
-			"php": "./src/pullquote/index.php"
-		},
-		{
-			"name": "query",
-			"main": "./src/query/index.js",
-			"php": "./src/query/index.php"
-		},
-		{
 			"name": "responsive-container-controller",
 			"main": "./src/responsive-container/controller/index.js"
 		},
@@ -205,12 +225,6 @@
 			"php": "./src/row/index.php"
 		},
 		{
-			"name": "social-link",
-			"main": "./src/social-link/index.js",
-			"php": "./src/social-link/index.php",
-			"frontend": "./src/social-link/frontend.js"
-		},
-		{
 			"name": "staff",
 			"main": "./src/staff/index.js",
 			"php": "./src/staff/index.php"
@@ -225,11 +239,6 @@
 			"main": "./src/story-item/index.js",
 			"php": "./src/story-item/index.php",
 			"frontend": "./src/story-item/frontend.js"
-		},
-		{
-			"name": "table",
-			"main": "./src/table/index.js",
-			"php": "./src/table/index.php"
 		},
 		{
 			"name": "table-of-contents",
@@ -334,19 +343,20 @@
 			"php": "./src/social-share-text-link/index.php"
 		},
 		{
-			"name": "media-text",
-			"php": "./src/media-text/index.php"
-		},
-		{
 			"name": "collection-kicker",
 			"main": "./src/collection-kicker/index.js",
 			"php": "./src/collection-kicker/index.php"
 		},
 		{
 			"name": "carousel",
-			"main": "./src/carousel/index.js",
-			"frontend": "./src/carousel/frontend.js",
-			"php": "./src/carousel/index.php"
+			"main": "./src/carousel/controller/index.js",
+			"frontend": "./src/carousel/controller/frontend.js",
+			"php": "./src/carousel/controller/index.php"
+		},
+		{
+			"name": "carousel-slide",
+			"main": "./src/carousel/slide/index.js",
+			"php": "./src/carousel/slide/index.php"
 		},
 		{
 			"name": "quote-sorter",

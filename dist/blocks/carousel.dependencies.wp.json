@@ -1,6 +1,5 @@
 {
   "dependencies": [
-    "lodash",
     "wp-block-editor",
     "wp-blocks",
     "wp-components",
