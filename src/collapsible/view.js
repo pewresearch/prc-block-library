@@ -8,16 +8,24 @@ domReady(() => {
 		'.wp-block-prc-block-collapsible',
 	);
 	if (1 <= collapsibleBlocks.length) {
-		console.log("Collapsible blocks found", collapsibleBlocks);
 		collapsibleBlocks.forEach((elm) => {
 			const clickHandlerTarget = elm.querySelector(
 				'.wp-block-prc-block-collapsible__title',
 			);
-			console.log("clickHandlerTarget", clickHandlerTarget);
 			clickHandlerTarget.addEventListener('click', (e) => {
 				e.preventDefault();
-				console.log("clickHandlerTarget", clickHandlerTarget);
+				const icon = clickHandlerTarget.querySelector(
+					'.wp-block-prc-block-collapsible__icon > .icon',
+				);
 				elm.classList.toggle('is-open');
+				// if icon has a class of plus then change to minus
+				if (icon.classList.contains('plus')) {
+					icon.classList.remove('plus');
+					icon.classList.add('minus');
+				} else {
+					icon.classList.remove('minus');
+					icon.classList.add('plus');
+				}
 			});
 		});
 	}

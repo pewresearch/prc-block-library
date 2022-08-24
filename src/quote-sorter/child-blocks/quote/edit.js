@@ -2,13 +2,11 @@
  * External Dependencies
  */
 import classnames from 'classnames';
-import { Card } from 'semantic-ui-react';
 
 /**
  * WordPress Dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
 const ALLOWED_BLOCKS = ['core/pullquote'];

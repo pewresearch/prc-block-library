@@ -7,8 +7,8 @@
   "chart-builder.css.map": "frontend/chart-builder-ddf9d855.css.map",
   "chart-builder.js": "frontend/chart-builder-970c123d.js",
   "chart-builder.js.map": "frontend/chart-builder-970c123d.js.map",
-  "collapsible.js": "frontend/collapsible-1695dae7.js",
-  "collapsible.js.map": "frontend/collapsible-1695dae7.js.map",
+  "collapsible.js": "frontend/collapsible-9d93281e.js",
+  "collapsible.js.map": "frontend/collapsible-9d93281e.js.map",
   "flip-card-controller.css": "frontend/flip-card-controller-bf671fdf.css",
   "flip-card-controller.css.map": "frontend/flip-card-controller-bf671fdf.css.map",
   "flip-card-controller.js": "frontend/flip-card-controller-6dd910ca.js",
@@ -37,8 +37,8 @@
   "progress-bar.js.map": "frontend/progress-bar-2e1eeae3.js.map",
   "quote-sorter.css": "frontend/quote-sorter-cb6fdf85.css",
   "quote-sorter.css.map": "frontend/quote-sorter-cb6fdf85.css.map",
-  "quote-sorter.js": "frontend/quote-sorter-31a00f9c.js",
-  "quote-sorter.js.map": "frontend/quote-sorter-31a00f9c.js.map",
+  "quote-sorter.js": "frontend/quote-sorter-88b28505.js",
+  "quote-sorter.js.map": "frontend/quote-sorter-88b28505.js.map",
   "runtime.js": "frontend/runtime-83e71da2.js",
   "runtime.js.map": "frontend/runtime-83e71da2.js.map",
   "social-link.css": "frontend/social-link-165af459.css",
@@ -98,11 +98,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/collapsible-1695dae7.js"
+          "frontend/collapsible-9d93281e.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/collapsible-1695dae7.js.map"
+          "frontend/collapsible-9d93281e.js.map"
         ]
       }
     },
@@ -420,13 +420,13 @@
           "frontend/runtime-83e71da2.js",
           "frontend/vendors~chart-builder~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~top~058a10e6-be4de1d1.js",
           "frontend/vendors~chart-builder~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-se~7ffbf627-94eb95a1.js",
-          "frontend/quote-sorter-31a00f9c.js"
+          "frontend/quote-sorter-88b28505.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
           "frontend/vendors~chart-builder~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~top~058a10e6-be4de1d1.js.map",
           "frontend/vendors~chart-builder~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-se~7ffbf627-94eb95a1.js.map",
-          "frontend/quote-sorter-31a00f9c.js.map"
+          "frontend/quote-sorter-88b28505.js.map"
         ],
         "css": [
           "frontend/quote-sorter-cb6fdf85.css"

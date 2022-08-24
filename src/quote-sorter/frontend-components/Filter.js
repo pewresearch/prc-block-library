@@ -1,7 +1,11 @@
 /**
- * External dependencies
+ * External Dependencies
  */
 import { Dropdown, List, Button } from 'semantic-ui-react';
+
+/**
+ * WordPress Dependencies
+ */
 import { useState } from '@wordpress/element';
 
 function QuoteSorterDropdown({ typologies, placeholder, onchange }) {

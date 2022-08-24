@@ -31,11 +31,15 @@ class Collapsible extends PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
+
+		$starting_icon = 'plus circle outline';
+
 		return wp_sprintf(
-			'<div %1$s><div class="wp-block-prc-block-collapsible__title">%2$s<div class="wp-block-prc-block-collapsible__icon"></div></div><div class="wp-block-prc-block-collapsible__content">%3$s</div></div>',
+			'<div %1$s><div class="wp-block-prc-block-collapsible__title">%2$s<div class="wp-block-prc-block-collapsible__icon"><i aria-hidden="true" class="%4$s icon" style="margin-left: 0.5em;"></i></div></div><div class="wp-block-prc-block-collapsible__content">%3$s</div></div>',
 			get_block_wrapper_attributes(),
 			array_key_exists( 'title', $attributes ) ? $attributes['title'] : 'How we did this',
 			$content,
+			$starting_icon,
 		);
 	}
 
@@ -55,7 +59,6 @@ class Collapsible extends PRC_Block_Library {
 			)
 		);
 
-		// @TODO Perhaps view_script is not supported yet, maybe need to wait for 6.1 or Gutenberg 14.0
 		// $view = $enqueue->register(
 		// 	'frontend',
 		// 	'collapsible',
