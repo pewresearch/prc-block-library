@@ -1,10 +1,10 @@
 /**
- * External dependencies
+ * External Dependencies
  */
 import classnames from 'classnames';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { useState } from '@wordpress/element';
 import {
