@@ -146,7 +146,7 @@ function initCarousel(id, elm) {
 	const opts = {
 		direction: !isHorizontal ? 'ttb' : 'rtl',
 		height,
-		arrows: false,
+		arrows: !isHorizontal,
 		wheel: true,
 		waitForTransition: true,
 		wheelSleep: 700,

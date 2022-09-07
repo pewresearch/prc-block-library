@@ -22,7 +22,9 @@ class Carousel_Controller extends PRC_Block_Library {
 		// If this block is going to be used in the theme or be called directly by PHP it is sometimes easier to use our internal function for of this function.
 		// See https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/prc-block-library.php#L89 for how to use `$this->_get_block_wrapper_attributes()`
 		$attrs = array(
-			'class' => 'splide',
+			'class' => classNames('splide', array(
+				'horizontal' => $attributes['direction'] === 'horizontal',
+			)),
 			'aria-label' => 'A carousel alt...',
 		);
 		if ( function_exists('jetpack_is_mobile') && jetpack_is_mobile() ) {
