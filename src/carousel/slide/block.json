@@ -6,7 +6,9 @@
 	"category": "essay",
 	"attributes": {},
 	"supports": {
-		"html": false
+		"html": false,
+		"__experimentalMetadata": true,
+		"color": true
 	},
 	"parent": [ "prc-block/carousel" ]
 }

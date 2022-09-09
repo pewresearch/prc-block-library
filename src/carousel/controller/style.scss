@@ -7,9 +7,6 @@ body.carousel-locked {
 	padding: 0;
 	width: 100%;
 	min-height: 50vh;
-	&:not(.is-style-horizontal) {
-		height: 100vh;
-	}
 	&.alignwide {
 		--max-width: 1000px;
 		--gutter: calc(var(--max-width) - 640px);
@@ -21,6 +18,15 @@ body.carousel-locked {
 	}
 	&:not(.is-style-horizontal),
 	&.alignfull {
+		max-width: 100%!important;
+	}
+}
+
+.wp-block-cover {
+	.wp-block-prc-block-carousel:not(.wp-block) {
+		&:not(.is-style-horizontal) {
+			height: 100vh;
+		}
 		max-width: 100%!important;
 	}
 }

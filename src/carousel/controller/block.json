@@ -7,7 +7,8 @@
 	"category": "essay",
 	"supports": {
 		"html": false,
-		"align": [ "wide", "full" ]
+		"align": [ "wide", "full" ],
+		"__experimentalMetadata": true
 	},
 	"providesContext": {
         "prc-block/carousel/direction": "direction"

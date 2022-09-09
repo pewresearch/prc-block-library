@@ -18,20 +18,27 @@ const edit = ({ attributes, className, setAttributes, clientId }) => {
 		[clientId],
 	);
 
-	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		orientation: direction,
-		templateLock: false,
-		template: [
-			[
-				'core/paragraph',
-				{
-					placeholder: 'You can use any blocks inside this carousel slide.',
-				},
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			orientation: direction,
+			templateLock: false,
+			template: [
+				[
+					'core/paragraph',
+					{
+						placeholder: 'You can use any blocks inside this carousel slide.',
+					},
+				],
 			],
-		],
-	});
+		},
+	);
 
-	return <div {...innerBlocksProps} />;
+	return (
+		<div {...blockProps}>
+			<div {...innerBlocksProps} />
+		</div>
+	);
 };
 
 export default edit;
