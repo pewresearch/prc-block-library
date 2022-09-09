@@ -5,16 +5,22 @@
 	"description": "Organize content in a vertical or horizontal carousel.",
 	"keywords": [ "scroll", "carousel", "slider", "scrolly", "scrolley", "scrollytelly", "scrolleytelley" ],
 	"category": "essay",
-	"attributes": {
-		"direction": {
-			"type": "string",
-			"default": "vertical"
-		}
-	},
 	"supports": {
-		"html": false
+		"html": false,
+		"align": [ "wide", "full" ]
 	},
 	"providesContext": {
         "prc-block/carousel/direction": "direction"
-    }
+    },
+	"styles": [
+		{
+			"name": "vertical",
+			"label": "Vertical",
+			"isDefault": true
+		},
+		{
+			"name": "horizontal",
+			"label": "Horizontal"
+		}
+	]
 }

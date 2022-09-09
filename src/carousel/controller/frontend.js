@@ -14,7 +14,7 @@ if (!window.hasOwnProperty('prcBlocks')) {
 	window.prcBlocks = {};
 }
 window.prcBlocks.carouselBlocks = {
-	debug: false,
+	debug: true,
 	isMobile: false,
 	watched: [],
 	toggleBodyLock: (enable = true) => {
@@ -66,53 +66,6 @@ window.prcBlocks.carouselBlocks = {
  * Helper Functions:
  */
 
-function getScrollingDirection(changeEvent) {
-	// if not in watched list then return  null.
-	if (
-		!window.prcBlocks.carouselBlocks.watched.some(
-			(e) => e.id === changeEvent.target.id,
-		)
-	) {
-		return null;
-	}
-
-	const currentY = changeEvent.boundingClientRect.y;
-	const { isIntersecting, intersectionRatio, target } = changeEvent;
-	const currentRatio = intersectionRatio;
-	const { id } = target;
-
-	const previousY = window.prcBlocks.carouselBlocks.watched.find(
-		(e) => e.id === id,
-	).y;
-
-	const previousRatio = window.prcBlocks.carouselBlocks.watched.find(
-		(e) => e.id === id,
-	).ratio;
-
-	let direction = null;
-
-	// Scrolling down/up
-	if (currentY < previousY) {
-		if (currentRatio > previousRatio && isIntersecting) {
-			direction = 'scrolling-down-enter';
-		} else {
-			direction = 'scrolling-down-leave';
-		}
-	} else if (currentY > previousY && isIntersecting) {
-		if (currentRatio < previousRatio) {
-			direction = 'scrolling-up-leave';
-		} else {
-			direction = 'scrolling-up-enter';
-		}
-	}
-
-	window.prcBlocks.carouselBlocks.watched.find((e) => e.id === id).y = currentY;
-	window.prcBlocks.carouselBlocks.watched.find((e) => e.id === id).ratio =
-		currentRatio;
-
-	return direction;
-}
-
 function watch(id, controller = null) {
 	// If the element is not in the watched list, then add it.
 	if (!window.prcBlocks.carouselBlocks.watched.some((e) => e.id === id)) {
@@ -130,23 +83,16 @@ function watch(id, controller = null) {
  * Initialize Carousel(s):
  */
 
-function initCarousel(id, elm) {
+function initVerticalCarousel(id, elm) {
 	// Setup classes...
-	const slideBlocks = elm.querySelectorAll(
-		'ul.splide__list > .wp-block-prc-block-carousel-slide',
-	);
-	slideBlocks.forEach((block) => {
-		block.classList.add('splide__slide');
-	});
 	const { lockCarousel, unlockCarousel, isMobile, debug } =
 		window.prcBlocks.carouselBlocks;
-	const isHorizontal = elm.classList.contains('horizontal');
 	const height = elm.offsetHeight;
 
 	const opts = {
-		direction: !isHorizontal ? 'ttb' : 'rtl',
+		direction: 'ttb',
 		height,
-		arrows: !isHorizontal,
+		arrows: false,
 		wheel: true,
 		waitForTransition: true,
 		wheelSleep: 700,
@@ -164,7 +110,7 @@ function initCarousel(id, elm) {
 
 	if (debug) {
 		console.warn(
-			'Carousel initialized:',
+			'Carousel (vertical) initialized:',
 			carousel,
 			window.prcBlocks.carouselBlocks,
 		);
@@ -210,6 +156,33 @@ function initCarousel(id, elm) {
 	});
 }
 
+function initHorizontalCarousel(id, elm) {
+	const { debug } = window.prcBlocks.carouselBlocks;
+	const height = elm.offsetHeight;
+
+	const opts = {
+		direction: 'ltr',
+		height,
+		arrows: true,
+		wheel: false,
+		waitForTransition: true,
+		speed: 700,
+	};
+	const carousel = new Splide(elm, opts);
+
+	// Mount the carousel and add it to watch list.
+	watch(id, carousel);
+	carousel.mount();
+
+	if (debug) {
+		console.warn(
+			'Carousel (horizontal) initialized:',
+			carousel,
+			window.prcBlocks.carouselBlocks,
+		);
+	}
+}
+
 domReady(() => {
 	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
 	const carouselBlocks = Array.from(carousels);
@@ -221,7 +194,20 @@ domReady(() => {
 			// Track elements:
 			const carouselId = randomId();
 			carousel.setAttribute('id', carouselId);
-			initCarousel(carouselId, carousel);
+
+			const slideBlocks = carousel.querySelectorAll(
+				'ul.splide__list > .wp-block-prc-block-carousel-slide',
+			);
+			slideBlocks.forEach((block) => {
+				block.classList.add('splide__slide');
+			});
+
+			const isHorizontal = carousel.classList.contains('is-style-horizontal');
+			if (isHorizontal) {
+				initHorizontalCarousel(carouselId, carousel);
+			} else {
+				initVerticalCarousel(carouselId, carousel);
+			}
 		});
 	}
 });

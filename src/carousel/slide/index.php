@@ -17,10 +17,12 @@ class Carousel_Slide extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$block_attrs = get_block_wrapper_attributes();
+		$block_attrs = get_block_wrapper_attributes(array(
+			'class' => 'splide__slide',
+		));
 
 		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
+			'<div %1$s><div>%2$s</div></div>',
 			$block_attrs,
 			$content
 		);
