@@ -56,6 +56,8 @@ class PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			// Remove the "Block Directory" from the block inserter.
+			remove_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 			// Only load assets when a block is used. This allows us to unregister core block styles and use our own.
 			add_filter( 'should_load_separate_core_block_assets', '__return_true' );
 
