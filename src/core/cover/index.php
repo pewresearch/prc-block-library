@@ -3,7 +3,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Core_Cover extends PRC_Block_Library {
-	public static $block_name = 'core/column';
+	public static $block_name = 'core/cover';
 	public static $version = '1.0.1';
 
 	public function __construct( $init = false ) {

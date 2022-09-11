@@ -59,6 +59,9 @@ registerBlockVariation('core/group', {
 		['core/image'],
 		['prc-block/story-item', { className: 'is-style-disabled' }],
 	],
+	isActive: (blockAttributes, variationAttributes) =>
+		blockAttributes.className &&
+		blockAttributes.className === variationAttributes.className,
 });
 
 /**
