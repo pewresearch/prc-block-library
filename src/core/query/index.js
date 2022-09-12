@@ -11,6 +11,7 @@ registerBlockVariation('core/query', {
 	title: 'Story Item Listing',
 	description: 'Display a publication list of story items.',
 	attributes: {
+		className: 'is-story-item-listing',
 		query: {
 			perPage: 5,
 			pages: 1,

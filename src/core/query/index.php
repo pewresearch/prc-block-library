@@ -105,9 +105,9 @@ class Core_Query extends PRC_Block_Library {
 			) {
 				$query['author'] = (int) $block['query']['author'];
 			}
+			// Enforce ElasticPress search.
 			if ( ! empty( $block['query']['search'] ) ) {
 				$query['s'] = $block['query']['search'];
-				// Enforce ElasticPress search.
 			}
 			// Enable Facet WP integration... which would be set in query as an attribute
 			// and then through block context would trickle down to post template AND other FacetWP specific blocks like Count and Pagionation.
@@ -181,6 +181,7 @@ class Core_Query extends PRC_Block_Library {
 						'query'  => $query_args,
 					);
 				} else {
+					do_action('qm/debug', $b['blockName']);
 					$template_block = new WP_Block( $b );
 				}
 				$content .= $template_block->render();

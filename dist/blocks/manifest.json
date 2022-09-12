@@ -51,8 +51,8 @@
   "grid.js.map": "blocks/grid-fcdffa91.js.map",
   "group.css": "blocks/group-0dce6298.css",
   "group.css.map": "blocks/group-0dce6298.css.map",
-  "group.js": "blocks/group-817d18b3.js",
-  "group.js.map": "blocks/group-817d18b3.js.map",
+  "group.js": "blocks/group-1c22931c.js",
+  "group.js.map": "blocks/group-1c22931c.js.map",
   "heading.css": "blocks/heading-ac5248c9.css",
   "heading.css.map": "blocks/heading-ac5248c9.css.map",
   "heading.js": "blocks/heading-156f9ebe.js",
@@ -262,11 +262,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/group-817d18b3.js"
+          "blocks/group-1c22931c.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/group-817d18b3.js.map"
+          "blocks/group-1c22931c.js.map"
         ],
         "css": [
           "blocks/group-0dce6298.css"

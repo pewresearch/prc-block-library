@@ -28,6 +28,9 @@ registerBlockVariation('core/group', {
 		backgroundColor: 'beige',
 	},
 	innerBlocks: [['core/heading'], ['core/paragraph']],
+	isActive: (blockAttributes, variationAttributes) =>
+		blockAttributes.className &&
+		blockAttributes.className === variationAttributes.className,
 });
 
 /**
@@ -94,6 +97,9 @@ registerBlockVariation('core/group', {
 		],
 		['prc-block/story-item', { className: 'is-style-disabled' }],
 	],
+	isActive: (blockAttributes, variationAttributes) =>
+		blockAttributes.className &&
+		blockAttributes.className === variationAttributes.className,
 });
 
 /**
@@ -155,6 +161,9 @@ registerBlockVariation('core/group', {
 			],
 		],
 	],
+	isActive: (blockAttributes, variationAttributes) =>
+		blockAttributes.className &&
+		blockAttributes.className === variationAttributes.className,
 });
 
 /**
