@@ -125,8 +125,8 @@
   "pullquote.css.map": "blocks/pullquote-6abe77e2.css.map",
   "pullquote.js": "blocks/pullquote-a17a6174.js",
   "pullquote.js.map": "blocks/pullquote-a17a6174.js.map",
-  "query.js": "blocks/query-650c64d3.js",
-  "query.js.map": "blocks/query-650c64d3.js.map",
+  "query.js": "blocks/query-cd1d0124.js",
+  "query.js.map": "blocks/query-cd1d0124.js.map",
   "quote-sorter-dropdown.css": "blocks/quote-sorter-dropdown-c861141b.css",
   "quote-sorter-dropdown.css.map": "blocks/quote-sorter-dropdown-c861141b.css.map",
   "quote-sorter-dropdown.js": "blocks/quote-sorter-dropdown-27fb554a.js",
@@ -364,11 +364,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/query-650c64d3.js"
+          "blocks/query-cd1d0124.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/query-650c64d3.js.map"
+          "blocks/query-cd1d0124.js.map"
         ]
       }
     },
