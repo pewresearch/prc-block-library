@@ -344,10 +344,15 @@
 			"php": "./src/collection-kicker/index.php"
 		},
 		{
-			"name": "carousel",
-			"main": "./src/carousel/index.js",
-			"frontend": "./src/carousel/frontend.js",
-			"php": "./src/carousel/index.php"
+			"name": "carousel-controller",
+			"main": "./src/carousel/controller/index.js",
+			"frontend": "./src/carousel/controller/frontend.js",
+			"php": "./src/carousel/controller/index.php"
+		},
+		{
+			"name": "carousel-slide",
+			"main": "./src/carousel/slide/index.js",
+			"php": "./src/carousel/slide/index.php"
 		},
 		{
 			"name": "quote-sorter",

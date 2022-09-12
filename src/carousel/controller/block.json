@@ -1,0 +1,27 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/carousel",
+	"title": "Carousel",
+	"description": "Organize content in a vertical or horizontal carousel.",
+	"keywords": [ "scroll", "carousel", "slider", "scrolly", "scrolley", "scrollytelly", "scrolleytelley" ],
+	"category": "essay",
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"__experimentalMetadata": true
+	},
+	"providesContext": {
+        "prc-block/carousel/direction": "direction"
+    },
+	"styles": [
+		{
+			"name": "vertical",
+			"label": "Vertical",
+			"isDefault": true
+		},
+		{
+			"name": "horizontal",
+			"label": "Horizontal"
+		}
+	]
+}
