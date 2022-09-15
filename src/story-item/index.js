@@ -33,6 +33,15 @@ const settings = {
 	},
 	deprecated,
 	variations,
+	supports: {
+		color: {
+			text: true,
+			background: false,
+		},
+		typography: {
+			fontSize: true,
+		},
+	},
 	edit,
 	save,
 };
