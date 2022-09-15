@@ -12,8 +12,7 @@ import { RichText } from '@wordpress/block-editor';
 
 const randomPlaceholder = () => {
 	const opts = [
-		'Defense industry stocks fall on news of executive order recalling all U.S. military as focus shifts to fighting climate change.',
-		'China and United States sign historic climate change accords, agreeing to halt all mineral and fossil fuel extraction on planet Earth.',
+		'Defense industry stocks fall on news of executive order recalling all U.S. military personnel as focus shifts to fighting climate change.',
 		'U.S. President honors 10th anniversary of the loss of Miami to rising sea levels.',
 		'Congress passes bill to offer relocation assistance to all Americans living in coastal areas.',
 		'U.S. President signs executive order to end all fossil fuel extraction and use by 2030.',

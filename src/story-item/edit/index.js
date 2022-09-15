@@ -69,26 +69,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 		}
 	}, [context]);
 
-	/**
-	 * When the taxonomy selection changes go update the term options.
-	 * Setting this here prevents the constant pop in and re-polling for terms.
-	 */
-	useEffect(() => {
-		if ('disabled' !== metaTaxonomy) {
-			// @TODO change this to use local session, we can set it to expire for like 30 days because this almost never changes.
-			if (0 !== window.termOptions[metaTaxonomy].length) {
-				setTermOptions(window.termOptions[metaTaxonomy]);
-			} else {
-				getTermsAsOptions(metaTaxonomy).then((options) => {
-					if (!window.termOptions[metaTaxonomy].length) {
-						window.termOptions[metaTaxonomy] = options;
-					}
-					setTermOptions(options);
-				});
-			}
-		}
-	}, [metaTaxonomy]);
-
 	const blockProps = useStoryItemBlockProps(attributes);
 
 	// If not active or is explicitly a preview, return the preview early.
@@ -134,11 +114,11 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 				/>
 
 				<Meta
-					enabled={enableMeta && 'disabled' !== metaTaxonomy}
-					date={date}
-					label={label}
-					setAttributes={setAttributes}
-					termOptions={termOptions}
+					{...{
+						attributes,
+						setAttributes,
+						enabled: enableMeta && 'disabled' !== metaTaxonomy,
+					}}
 				/>
 
 				<Header

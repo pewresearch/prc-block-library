@@ -118,6 +118,7 @@ function Inspector({ attributes, setAttributes, context }) {
 						options={[
 							{ label: 'Formats', value: 'formats' },
 							{ label: 'Research Teams', value: 'research-teams' },
+							{ label: 'Categories', value: 'category' },
 							{ label: 'Disabled', value: 'disabled' },
 						]}
 						onChange={(newMetaTaxonomy) => {
