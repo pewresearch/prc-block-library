@@ -68,6 +68,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 
     @if $size == "A1" {
+		& > button > picture > img,
+        & > button > picture > source,
         & > picture > img,
         & > picture > source {
             max-width: $mobileImageWidth;
@@ -83,6 +85,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 
     @if $size == "A2" {
+		& > button > picture > img,
+        & > button > picture > source,
         & > picture > img,
         & > picture > source {
             max-width: $mobileImageWidth;
@@ -98,6 +102,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 
     @if $size == "A3" {
+		& > button > picture > img,
+        & > button > picture > source,
         & > picture > img,
         & > picture > source {
             max-width: variables.$A3Small;
@@ -113,6 +119,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 
     @if $size == "A4" {
+		& > button > picture > img,
+        & > button > picture > source,
         & > picture > img,
         & > picture > source {
             max-width: $mobileImageWidth;
@@ -331,6 +339,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             max-width: variables.$XL;
         }
 
+		& > button > picture > img,
+        & > button > picture > source,
         & > picture > img,
         & > picture > source,
         & > a {

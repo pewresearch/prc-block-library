@@ -73,6 +73,17 @@
 	},
 	"supports": {
 		"html": false,
-		"align": ["full"]
+		"align": ["full"],
+		"spacing": {
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"blockGap": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		}
 	}
 }
