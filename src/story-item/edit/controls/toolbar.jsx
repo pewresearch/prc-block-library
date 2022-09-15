@@ -19,21 +19,14 @@ import URLControl from './url-control';
 
 const COLUMN_LIMIT = 8;
 
-function Toolbar({ attributes, setAttributes, context, rootClientId }) {
+function Toolbar({ attributes, setAttributes, context }) {
 	const { postId, url, imageSize, imageSlot, headerSize, isChartArt, title } =
 		attributes;
 
-	console.log('Context', context);
-
 	const columnWidth =
-		undefined !== context['prc-block/column/width']
-			? context['prc-block/column/width']
+		undefined !== context['core/column/gridSpan']
+			? context['core/column/gridSpan']
 			: false;
-	const columnIsEqualWidth =
-		undefined !== context['prc-block/row/isEqual']
-			? context['prc-block/row/isEqual']
-			: false;
-	console.log('columnWidth', columnWidth, columnIsEqualWidth);
 
 	const handleImageSizeChange = (newSize) => {
 		setAttributes({ imageSize: newSize });
@@ -128,10 +121,7 @@ function Toolbar({ attributes, setAttributes, context, rootClientId }) {
 							title: 'Left',
 							icon: <ImageSlotIcon selected="left" />,
 							isActive: 'left' === imageSlot,
-							isDisabled:
-								true !== columnIsEqualWidth &&
-								false !== columnWidth &&
-								COLUMN_LIMIT >= columnWidth,
+							isDisabled: false !== columnWidth && COLUMN_LIMIT >= columnWidth,
 							onClick: () => {
 								const newSlot = 'left';
 								setAttributes({ imageSlot: newSlot });
@@ -141,10 +131,7 @@ function Toolbar({ attributes, setAttributes, context, rootClientId }) {
 							title: 'Right',
 							icon: <ImageSlotIcon selected="right" />,
 							isActive: 'right' === imageSlot,
-							isDisabled:
-								true !== columnIsEqualWidth &&
-								false !== columnWidth &&
-								COLUMN_LIMIT >= columnWidth,
+							isDisabled: false !== columnWidth && COLUMN_LIMIT >= columnWidth,
 							onClick: () => {
 								const newSlot = 'right';
 								setAttributes({ imageSlot: newSlot });

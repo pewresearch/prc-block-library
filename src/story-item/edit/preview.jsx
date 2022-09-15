@@ -6,7 +6,13 @@ import classNames from 'classnames/bind';
 /**
  * WordPress Dependencies
  */
-import { RichText, useBlockProps } from '@wordpress/block-editor';
+import { RichText } from '@wordpress/block-editor';
+import { useEntityProp } from '@wordpress/core-data';
+
+/**
+ * Internal Dependencies
+ */
+import { useStoryItemBlockProps } from '../helpers';
 
 const IMAGE_SIZES = {
 	A1: [1128, 634],
@@ -16,7 +22,7 @@ const IMAGE_SIZES = {
 	XL: [1440, 810],
 };
 
-function Preview({ attributes }) {
+function Preview({ attributes, context }) {
 	const {
 		title,
 		excerpt,
@@ -38,22 +44,17 @@ function Preview({ attributes }) {
 		className,
 	} = attributes;
 
-	const logicalClasses = {
-		bordered: enableEmphasis,
-		'alt-excerpt': enableExcerptBelow,
-	};
-	if ('disbaled' !== imageSlot) {
-		logicalClasses[imageSlot] = true;
-		logicalClasses.aligned = true;
-	}
-	const blockPropsArgs = {
-		className: classNames('story item', className, logicalClasses),
-	};
-	if ('disabled' !== imageSlot && 0 < imageSize.length) {
-		blockPropsArgs['data-image-size'] = imageSize;
-	}
+	console.log('<Preview />', attributes);
 
-	const blockProps = useBlockProps(blockPropsArgs);
+	const { postId, postType } = context;
+	const [content, setContent] = useEntityProp(
+		'postType',
+		postType,
+		'content',
+		postId,
+	);
+
+	const blockProps = useStoryItemBlockProps(attributes);
 
 	const headerClasses = classNames('header', {
 		large: 1 === headerSize,
@@ -82,24 +83,27 @@ function Preview({ attributes }) {
 				</div>
 			)}
 
-			{'disabled' !== imageSlot && (
-				<div className={`${imageClasses}`}>
-					<picture>
-						<img
-							srcSet={image}
-							width={IMAGE_SIZES[imageSize][0]}
-							height={IMAGE_SIZES[imageSize][1]}
-						/>
-					</picture>
-				</div>
-			)}
+			{undefined !== imageSlot &&
+				'disabled' !== imageSlot &&
+				undefined !== imageSize &&
+				'' !== imageSize && (
+					<div className={`${imageClasses}`}>
+						<picture>
+							<img
+								srcSet={image}
+								width={IMAGE_SIZES[imageSize][0]}
+								height={IMAGE_SIZES[imageSize][1]}
+							/>
+						</picture>
+					</div>
+				)}
 
 			{enableHeader && <header className={headerClasses}>{title}</header>}
 
 			{enableExcerpt && (
 				<RichText.Content
 					tagName="div"
-					value={excerpt}
+					value={undefined !== content ? content : excerpt}
 					multiline="p"
 					className={excerptClasses}
 				/>

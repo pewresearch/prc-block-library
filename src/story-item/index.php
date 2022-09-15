@@ -299,7 +299,7 @@ class Story_Item extends PRC_Block_Library {
 			return $cache;
 		}
 
-		$column_width = array_key_exists( 'prc-block/column/width', $context ) ? $context['prc-block/column/width'] : false;
+		$column_width = array_key_exists( 'core/column/gridSpan', $context ) ? $context['core/column/gridSpan'] : false;
 
 		$post = get_post( $post_id );
 		// What should we do if no post can be found?
@@ -453,9 +453,9 @@ class Story_Item extends PRC_Block_Library {
 	 * @return string Returns story item markup.
 	 */
 	public function render_story_item( $attributes, $content = false, $block = false ) {
-		error_log("Render Stort Item Block");
+		error_log("Render Story Item Block");
 		error_log(print_r($attributes, true));
-		error_log(print_r($block, true));
+		// error_log(print_r($block, true));
 		// Format and extract the attributes into variables.
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );

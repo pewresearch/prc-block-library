@@ -1,12 +1,14 @@
 /**
  * External Dependencies
  */
+import classNames from 'classnames/bind';
 import * as moment from 'moment';
 
 /**
  * WordPress Dependencies
  */
 import apiFetch from '@wordpress/api-fetch';
+import { useBlockProps } from '@wordpress/block-editor';
 
 const setArtBySize = (imageSize, postId, setAttributes) => {
 	if (0 !== postId && false !== setAttributes) {
@@ -108,4 +110,76 @@ const setPostAttributes = (options) => {
 		.catch((err) => console.error(err));
 };
 
-export { setArtBySize, setPostAttributes };
+const getStoryItemAttributesDynamically = (postId, postType, imageSize) =>
+	new Promise((resolve, reject) => {
+		if (0 === postId) {
+			reject(new Error('Invalid post id'));
+		}
+
+		let objectType = postType;
+		if ('post' === objectType) {
+			objectType = 'posts';
+		}
+
+		const request = {
+			method: 'GET',
+			path: `/wp/v2/${objectType}/${postId}`,
+		};
+		apiFetch(request).then((post) => {
+			if (false !== post) {
+				const toReturn = getAttributesFromPost({
+					post,
+					imageSize,
+				});
+				console.log('getStoryItemAttributesDynamically', post, toReturn);
+				resolve(toReturn);
+			} else {
+				reject(new Error('Post not found'));
+			}
+		});
+	});
+
+const useStoryItemBlockProps = (attributes) => {
+	const {
+		imageSlot,
+		imageSize,
+		isChartArt,
+		postId,
+		headerSize,
+		enableEmphasis,
+		enableHeader,
+		enableExcerpt,
+		enableExcerptBelow,
+		enableExtra,
+		enableBreakingNews,
+		enableMeta,
+		metaTaxonomy,
+		inLoop,
+		isPreview,
+		className,
+	} = attributes;
+
+	const logicalClasses = {
+		bordered: enableEmphasis,
+		'alt-excerpt': enableExcerptBelow,
+	};
+	if ('disbaled' !== imageSlot) {
+		logicalClasses[imageSlot] = true;
+		logicalClasses.aligned = true;
+	}
+	const blockPropsArgs = {
+		className: classNames('story item', className, logicalClasses),
+	};
+	if ('disabled' !== imageSlot && '' !== imageSize) {
+		blockPropsArgs['data-image-size'] = imageSize;
+	}
+
+	return useBlockProps(blockPropsArgs);
+};
+
+export {
+	setArtBySize,
+	setPostAttributes,
+	getStoryItemAttributesDynamically,
+	useStoryItemBlockProps,
+};

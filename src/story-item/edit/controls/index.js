@@ -10,16 +10,15 @@ import Inspector from './inspector';
 import Placeholder from './placeholder';
 import Toolbar from './toolbar';
 
-function Controls({ attributes, setAttributes, context, rootClientId }) {
+function Controls({ attributes, setAttributes, context }) {
 	return (
 		<Fragment>
-			<Toolbar {...{ attributes, setAttributes, context, rootClientId }} />
+			<Toolbar {...{ attributes, setAttributes, context }} />
 			<Inspector
 				{...{
 					attributes,
 					setAttributes,
 					context,
-					rootClientId,
 				}}
 			/>
 		</Fragment>

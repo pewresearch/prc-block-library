@@ -22,7 +22,7 @@ import {
  */
 import { setPostAttributes } from '../../helpers';
 
-function Inspector({ attributes, setAttributes, context, rootClientId }) {
+function Inspector({ attributes, setAttributes, context }) {
 	const [isRefreshing, refresh] = useState(false);
 	const {
 		postId,

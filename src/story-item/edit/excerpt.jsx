@@ -9,7 +9,21 @@ import classNames from 'classnames/bind';
 import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 
-function Excerpt({ content, sansSerif, enabled, setAttributes }) {
+
+const randomPlaceholder = () => {
+	const opts = [
+		'Defense industry stocks fall on news of executive order recalling all U.S. military as focus shifts to fighting climate change.',
+		'China and United States sign historic climate change accords, agreeing to halt all mineral and fossil fuel extraction on planet Earth.',
+		'U.S. President honors 10th anniversary of the loss of Miami to rising sea levels.',
+		'Congress passes bill to offer relocation assistance to all Americans living in coastal areas.',
+		'U.S. President signs executive order to end all fossil fuel extraction and use by 2030.',
+		'Exxon executives indicted for fraud and conspiracy to commit fraud. Company to be liquidated.',
+		'Shell oil executives to face United Nations war crimes tribunal.',
+	];
+	return opts[Math.floor(Math.random() * opts.length)];
+};
+
+function Excerpt({ value, sansSerif, enabled, setAttributes }) {
 	if (true !== enabled) {
 		return <Fragment />;
 	}
@@ -19,9 +33,9 @@ function Excerpt({ content, sansSerif, enabled, setAttributes }) {
 	return (
 		<RichText
 			tagName="div"
-			value={content}
+			value={value}
 			onChange={(excerpt) => setAttributes({ excerpt })}
-			placeholder="Story item excerpt..."
+			placeholder={randomPlaceholder()}
 			multiline="p"
 			className={classes}
 		/>

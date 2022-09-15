@@ -9,7 +9,7 @@ import { getTermsAsOptions } from '@prc-app/shared';
  */
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useEntityProp } from '@wordpress/core-data';
 
 /**
  * Internal Dependencies
@@ -21,21 +21,7 @@ import Extra from './extra';
 import Header from './header';
 import Meta from './meta';
 import Preview from './preview';
-
-/**
- * To be removed at later date:
- */
-const handlePostIdCaseChange = (attributes, setAttributes = false) => {
-	const payload = {};
-	if (!attributes.postId && attributes.postID) {
-		payload.postId = attributes.postID;
-	}
-
-	if (0 !== Object.keys(payload).length && false !== setAttributes) {
-		console.log('handlePostIdCaseChange', attributes, payload);
-		setAttributes({ ...payload });
-	}
-};
+import { useStoryItemBlockProps } from '../helpers';
 
 window.termOptions = { formats: [], 'research-teams': [] };
 
@@ -69,8 +55,23 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 		window.termOptions[metaTaxonomy],
 	);
 
+	// Check for a query block context and display and run logic accordingly.
+	useEffect(() => {
+		console.log('Context:', context);
+		if (
+			undefined !== context.queryId &&
+			undefined !== context.postId &&
+			undefined !== context.postType &&
+			0 !== context.postId &&
+			Number.isInteger(context.postId)
+		) {
+			console.log('Query Block Story Item: ', context, attributes);
+		}
+	}, [context]);
+
 	/**
-	 * When the taxonomy selection changes go update the term options. Setting this here prevents the constant pop in and re-polling for terms.
+	 * When the taxonomy selection changes go update the term options.
+	 * Setting this here prevents the constant pop in and re-polling for terms.
 	 */
 	useEffect(() => {
 		if ('disabled' !== metaTaxonomy) {
@@ -88,55 +89,17 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 		}
 	}, [metaTaxonomy]);
 
-	// @TODO  If in loop we should get title, image, label, date, and excerpt from the postId on load.
-	// Also if in loop we should disable setting any of the attributes and force the A3 left variant.
-	// If we are in loop but have a grid display type then you can set the imageSlot, imageize, enableHeader, enableExcerpt,  enableMeta, metaTaxonomy attributes.
-	useEffect(() => {
-		handlePostIdCaseChange(attributes, setAttributes);
-	}, []);
+	const blockProps = useStoryItemBlockProps(attributes);
 
-	// For posts inside a query block if we have a post id then go fetch the post and set attributes.
-	useEffect(() => {
-		if (
-			context.hasOwnProperty('query') &&
-			context.hasOwnProperty('postId') &&
-			!Number.isInteger(postId)
-		) {
-			console.log('This post is from a query block...');
-			// We need a way to store the info in state, not just attributes...
-		}
-	}, [context]);
-
-	const { rootClientId } = useSelect(
-		(select) => ({
-			rootClientId: select('core/block-editor').getBlockRootClientId(clientId),
-		}),
-		[clientId],
-	);
-
-	const enableAltHeaderWeight = !enableExcerpt;
-
-	const logicalClasses = {
-		bordered: enableEmphasis,
-		'alt-excerpt': enableExcerptBelow,
-	};
-	if ('disbaled' !== imageSlot) {
-		logicalClasses[imageSlot] = true;
-		logicalClasses.aligned = true;
-	}
-	const blockPropsArgs = {
-		className: classNames('story item', className, logicalClasses),
-	};
-	if ('disabled' !== imageSlot && 0 < imageSize.length) {
-		blockPropsArgs['data-image-size'] = imageSize;
-	}
-	const blockProps = useBlockProps(blockPropsArgs);
-
+	// If not active or is explicitly a preview, return the preview early.
 	if (!isSelected || isPreview) {
-		return <Preview attributes={attributes} />;
+		return <Preview {...{ attributes, context }} />;
 	}
 
-	if (undefined === postId && !context.hasOwnProperty('query')) {
+	if (
+		undefined === postId &&
+		(undefined === context.postId || 0 === context.postId)
+	) {
 		return (
 			<Placeholder
 				attributes={attributes}
@@ -146,6 +109,11 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 		);
 	}
 
+	console.log('postID', {
+		postId,
+		context,
+	});
+
 	return (
 		<Fragment>
 			<Controls
@@ -153,7 +121,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 					attributes,
 					setAttributes,
 					context,
-					rootClientId,
 				}}
 			/>
 			<article {...blockProps}>
@@ -178,13 +145,14 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 					enabled={enableHeader}
 					title={title}
 					size={headerSize}
-					altHeaderWeight={enableAltHeaderWeight}
+					altHeaderWeight={!enableExcerpt}
 					setAttributes={setAttributes}
 				/>
 
 				<Excerpt
 					enabled={enableExcerpt}
-					content={excerpt}
+					value={excerpt}
+					context={context}
 					sansSerif={!enableHeader}
 					setAttributes={setAttributes}
 				/>

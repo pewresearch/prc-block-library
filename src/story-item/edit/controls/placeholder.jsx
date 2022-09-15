@@ -14,6 +14,7 @@ import { useState } from '@wordpress/element';
 import { setPostAttributes } from '../../helpers';
 
 function Placeholder({ attributes, setAttributes, blockProps }) {
+	console.log('placeholder', attributes, blockProps);
 	const { imageSize } = attributes;
 
 	const [loadingStub, setLoadingStub] = useState(false);
@@ -25,12 +26,16 @@ function Placeholder({ attributes, setAttributes, blockProps }) {
 				if (0 < pickedContent.length && undefined !== pickedContent[0].id) {
 					console.log('Step3:', pickedContent[0]);
 					setLoadingStub(true);
-					setPostAttributes({
+					setAttributes({
 						postId: pickedContent[0].id,
-						imageSize,
-						isRefresh: false,
-						setAttributes,
+						url: pickedContent[0].url,
 					});
+					// setPostAttributes({
+					// 	postId: pickedContent[0].id,
+					// 	imageSize,
+					// 	isRefresh: false,
+					// 	setAttributes,
+					// });
 				}
 			}}
 			onSkip={() => {
