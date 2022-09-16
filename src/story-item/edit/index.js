@@ -23,8 +23,6 @@ import Meta from './meta';
 import Preview from './preview';
 import { useStoryItemBlockProps } from '../helpers';
 
-window.termOptions = { formats: [], 'research-teams': [] };
-
 const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 	const {
 		title,
@@ -51,10 +49,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 		className,
 	} = attributes;
 
-	const [termOptions, setTermOptions] = useState(
-		window.termOptions[metaTaxonomy],
-	);
-
 	// Check for a query block context and display and run logic accordingly.
 	useEffect(() => {
 		console.log('Context:', context);
@@ -78,7 +72,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 
 	if (
 		undefined === postId &&
-		(undefined === context.postId || 0 === context.postId)
+		(undefined === context.query || undefined === context.postId)
 	) {
 		return (
 			<Placeholder

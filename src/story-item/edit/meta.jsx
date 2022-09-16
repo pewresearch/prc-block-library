@@ -2,7 +2,7 @@
  * WordPress Dependencies
  */
 import { Fragment, useEffect } from '@wordpress/element';
-import { SelectControl, TextControl } from '@wordpress/components';
+import { SelectControl, Spinner, TextControl } from '@wordpress/components';
 import { cleanForSlug } from '@wordpress/url';
 import { useEntityRecords } from '@wordpress/core-data';
 
@@ -19,6 +19,7 @@ function Meta({ enabled, attributes, setAttributes }) {
 		metaTaxonomy,
 		{ per_page: -1, hide_empty: false, context: 'view' },
 	);
+	const hasRecords = entityTerms ? 0 < entityTerms.length : false;
 
 	useEffect(() => {
 		console.log('isResolving', isResolving, entityTerms);
@@ -42,22 +43,20 @@ function Meta({ enabled, attributes, setAttributes }) {
 			}}
 		>
 			<div>
-				<SelectControl
-					disabled={isResolving}
-					value={value}
-					options={
-						entityTerms
-							? entityTerms.map((term) => ({
-									label: term.name,
-									value: term.slug,
-							  }))
-							: []
-					}
-					onChange={(l) => {
-						setAttributes({ label: l });
-					}}
-					style={{ marginBottom: '0px' }}
-				/>
+				{isResolving && <Spinner />}
+				{!isResolving && hasRecords && (
+					<SelectControl
+						value={value}
+						options={entityTerms.map((term) => ({
+							label: term.name,
+							value: term.slug,
+						}))}
+						onChange={(l) => {
+							setAttributes({ label: l });
+						}}
+						style={{ marginBottom: '0px' }}
+					/>
+				)}
 			</div>
 			<div>&nbsp;|&nbsp;</div>
 			<div>
