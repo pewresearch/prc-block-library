@@ -9,6 +9,7 @@ import classNames from 'classnames/bind';
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { useEntityRecord } from '@wordpress/core-data';
 import { useEffect } from '@wordpress/element';
+import { date as formatDate } from '@wordpress/date';
 
 /**
  * Internal Dependencies
@@ -26,7 +27,7 @@ export default function ContextPreview({ attributes, clientId, context }) {
 	const { postId, postType, queryId } = context;
 	const { record, isResolving } = useEntityRecord('postType', postType, postId);
 
-	const { title, excerpt, date, label, art } = record;
+	const { title, excerpt, label, date, art } = record;
 
 	const {
 		imageSlot,
@@ -94,7 +95,7 @@ export default function ContextPreview({ attributes, clientId, context }) {
 			{enableMeta && (
 				<div className="meta">
 					<span className="label">{label}</span> |{' '}
-					<span className="date">{date}</span>
+					<span className="date">{date ? formatDate('M j, Y', date) : ''}</span>
 				</div>
 			)}
 			{displayImage && (

@@ -7,6 +7,7 @@ import classNames from 'classnames/bind';
  * WordPress Dependencies
  */
 import { RichText } from '@wordpress/block-editor';
+import { date as formatDate } from '@wordpress/date';
 
 /**
  * Internal Dependencies
@@ -71,7 +72,7 @@ function Preview({ attributes }) {
 			{enableMeta && (
 				<div className="meta">
 					<span className="label">{label}</span> |{' '}
-					<span className="date">{date}</span>
+					<span className="date">{formatDate('M j, Y', date)}</span>
 				</div>
 			)}
 

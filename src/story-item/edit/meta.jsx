@@ -1,13 +1,22 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment, useEffect } from '@wordpress/element';
-import { SelectControl, Spinner, TextControl } from '@wordpress/components';
+import { Fragment, useEffect, useState } from '@wordpress/element';
+import {
+	SelectControl,
+	Spinner,
+	TextControl,
+	DatePicker,
+	Button,
+	Popover,
+} from '@wordpress/components';
 import { cleanForSlug } from '@wordpress/url';
 import { useEntityRecords } from '@wordpress/core-data';
+import { date as formatDate } from '@wordpress/date';
 
 function Meta({ attributes, setAttributes }) {
 	const { date, label, enableMeta, metaTaxonomy } = attributes;
+	const [datePickerVisible, setDatePickerVisible] = useState(false);
 
 	if (!enableMeta) {
 		// eslint-disable-next-line react/jsx-no-useless-fragment
@@ -63,13 +72,33 @@ function Meta({ attributes, setAttributes }) {
 				</Fragment>
 			)}
 			<div>
-				<TextControl
-					value={date}
-					onChange={(d) => {
-						setAttributes({ date: d });
+				<Button
+					variant="link"
+					onClick={() => {
+						setDatePickerVisible(!datePickerVisible);
 					}}
-					style={{ marginBottom: '0px' }}
-				/>
+				>
+					{formatDate('M j, Y', date)}
+				</Button>
+				{datePickerVisible && (
+					<Popover
+						position="bottom center"
+						onClose={() => setDatePickerVisible(false)}
+					>
+						<div
+							style={{
+								padding: '1em',
+							}}
+						>
+							<DatePicker
+								currentDate={date}
+								onChange={(d) =>
+									setAttributes({ date: formatDate('M j, Y', d) })
+								}
+							/>
+						</div>
+					</Popover>
+				)}
 			</div>
 		</div>
 	);

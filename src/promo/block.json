@@ -74,6 +74,7 @@
 	"supports": {
 		"html": false,
 		"align": ["full"],
+		"color": true,
 		"spacing": {
 			"margin": [ "top", "bottom" ],
 			"padding": true,

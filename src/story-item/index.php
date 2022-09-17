@@ -397,6 +397,8 @@ class Story_Item extends PRC_Block_Library {
 			'enable_meta'                   => $enable_meta,
 		);
 
+		error_log( "variables" . print_r($variables, true) );
+
 		wp_reset_postdata();
 
 		if ( ! is_preview() ) {
