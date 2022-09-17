@@ -4,20 +4,21 @@
 import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 
-function Extra({ content, breakingNews, enabled, setAttributes }) {
+function Extra({ attributes, setAttributes }) {
+	const { extra, enableExtra, enableBreakingNews } = attributes;
 	return (
 		<Fragment>
-			{true === enabled && (
+			{true === enableExtra && (
 				<RichText
 					tagName="ul"
-					value={content}
-					onChange={(extra) => setAttributes({ extra })}
-					placeholder={content}
+					value={extra}
+					onChange={(value) => setAttributes({ extra: value })}
+					placeholder={extra}
 					multiline="li"
 					className="extra"
 				/>
 			)}
-			{true === breakingNews && false !== window.prcBreakingNews && (
+			{true === enableBreakingNews && false !== window.prcBreakingNews && (
 				<ul className="extra-breaking-news">
 					<li>
 						<a

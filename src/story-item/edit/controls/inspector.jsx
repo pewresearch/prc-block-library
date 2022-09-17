@@ -16,13 +16,21 @@ import {
 	SelectControl,
 	ToggleControl,
 } from '@wordpress/components';
+import { useEntityProp } from '@wordpress/core-data';
 
 /**
  * Internal Dependencies
  */
-import { setPostAttributes } from '../../helpers';
+import { setPostAttributes, stubEnabledSiteIds } from '../../helpers';
 
 function Inspector({ attributes, setAttributes, context }) {
+	const isUsingContext =
+		undefined !== context.queryId &&
+		undefined !== context.postId &&
+		undefined !== context.postType &&
+		0 !== context.postId &&
+		Number.isInteger(context.postId);
+	const [siteId] = useEntityProp('root', 'site', 'siteId');
 	const [isRefreshing, refresh] = useState(false);
 	const {
 		postId,
@@ -71,43 +79,49 @@ function Inspector({ attributes, setAttributes, context }) {
 								setAttributes({ enableExcerpt: !enableExcerpt });
 							}}
 						/>
-						<ToggleControl
-							label={enableExtra ? 'Extras Enabled' : 'Extras Disabled'}
-							checked={enableExtra}
-							onChange={() => {
-								setAttributes({ enableExtra: !enableExtra });
-							}}
-						/>
-						<ToggleControl
-							label={
-								enableBreakingNews
-									? 'Breaking News Enabled'
-									: 'Breaking News Disabled'
-							}
-							checked={enableBreakingNews}
-							onChange={() => {
-								if (false !== window.prcBreakingNews) {
-									setAttributes({
-										enableBreakingNews: !enableBreakingNews,
-									});
-								} else {
-									// eslint-disable-next-line no-alert
-									alert(
-										'There are no currently active authorized breaking news events. The breaking news toggle will be set back to false.',
-									);
-									setAttributes({
-										enableBreakingNews: false,
-									});
-								}
-							}}
-						/>
-						<ToggleControl
-							label={enableEmphasis ? 'Emphasis Enabled' : 'Emphasis Disabled'}
-							checked={enableEmphasis}
-							onChange={() => {
-								setAttributes({ enableEmphasis: !enableEmphasis });
-							}}
-						/>
+						{!isUsingContext && (
+							<Fragment>
+								<ToggleControl
+									label={enableExtra ? 'Extras Enabled' : 'Extras Disabled'}
+									checked={enableExtra}
+									onChange={() => {
+										setAttributes({ enableExtra: !enableExtra });
+									}}
+								/>
+								<ToggleControl
+									label={
+										enableBreakingNews
+											? 'Breaking News Enabled'
+											: 'Breaking News Disabled'
+									}
+									checked={enableBreakingNews}
+									onChange={() => {
+										if (false !== window.prcBreakingNews) {
+											setAttributes({
+												enableBreakingNews: !enableBreakingNews,
+											});
+										} else {
+											// eslint-disable-next-line no-alert
+											alert(
+												'There are no currently active authorized breaking news events. The breaking news toggle will be set back to false.',
+											);
+											setAttributes({
+												enableBreakingNews: false,
+											});
+										}
+									}}
+								/>
+								<ToggleControl
+									label={
+										enableEmphasis ? 'Emphasis Enabled' : 'Emphasis Disabled'
+									}
+									checked={enableEmphasis}
+									onChange={() => {
+										setAttributes({ enableEmphasis: !enableEmphasis });
+									}}
+								/>
+							</Fragment>
+						)}
 					</BaseControl>
 
 					<CardDivider />
@@ -115,12 +129,18 @@ function Inspector({ attributes, setAttributes, context }) {
 					<SelectControl
 						label="Select Taxonomy To Display"
 						value={metaTaxonomy}
-						options={[
-							{ label: 'Formats', value: 'formats' },
-							{ label: 'Research Teams', value: 'research-teams' },
-							{ label: 'Categories', value: 'category' },
-							{ label: 'Disabled', value: 'disabled' },
-						]}
+						options={
+							stubEnabledSiteIds.includes(siteId)
+								? [
+									{ label: 'Formats', value: 'formats' },
+									{ label: 'Research Teams', value: 'research-teams' },
+									{ label: 'Disabled', value: 'disabled' },
+								  ]
+								: [
+									{ label: 'Category', value: 'category' },
+									{ label: 'Disabled', value: 'disabled' },
+								  ]
+						}
 						onChange={(newMetaTaxonomy) => {
 							setAttributes({ metaTaxonomy: newMetaTaxonomy });
 						}}

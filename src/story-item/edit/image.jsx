@@ -164,20 +164,10 @@ function Edit({ img, size, setAttributes }) {
 	);
 }
 
-/**
- * Props:
- * img: string url of image to display
- * size: string of image/slot size (A1,A2,A3,A4)
- * link: string of url to go to when image is clicked on front end
- * slot: if set to null then no image size chooser will be display
- * chartArt: if set to null then no chart art button will appear
- * setAttributes: defaults to false unless otherwise provided a function to pass data back up to a HOC state.
- *
- * <Img id={} img={} size={} slot={} chartArt={} setAttributes={}/>
- */
+export default function Img({ attributes, setAttributes }) {
+	const { image, imageSlot, imageSize, isChartArt } = attributes;
 
-function Img({ img, size, slot, chartArt, setAttributes }) {
-	if ('disabled' === slot) {
+	if ('disabled' === imageSlot) {
 		// eslint-disable-next-line react/jsx-no-useless-fragment
 		return <Fragment />;
 	}
@@ -188,16 +178,16 @@ function Img({ img, size, slot, chartArt, setAttributes }) {
 		let isA2 = false;
 		let isA3 = false;
 		let isA4 = false;
-		if (false !== slot) {
-			if ('XL' === size) {
+		if (false !== imageSlot) {
+			if ('XL' === imageSize) {
 				isXL = true;
-			} else if ('A1' === size) {
+			} else if ('A1' === imageSize) {
 				isA1 = true;
-			} else if ('A2' === size) {
+			} else if ('A2' === imageSize) {
 				isA2 = true;
-			} else if ('A3' === size) {
+			} else if ('A3' === imageSize) {
 				isA3 = true;
-			} else if ('A4' === size) {
+			} else if ('A4' === imageSize) {
 				isA4 = true;
 			}
 		}
@@ -210,15 +200,13 @@ function Img({ img, size, slot, chartArt, setAttributes }) {
 			A3: isA3,
 			A4: isA4,
 			image: true,
-			bordered: chartArt,
+			bordered: isChartArt,
 		});
 	};
 
 	return (
 		<div className={classes()}>
-			<Edit img={img} size={size} setAttributes={setAttributes} />
+			<Edit img={image} size={imageSize} setAttributes={setAttributes} />
 		</div>
 	);
 }
-
-export default Img;

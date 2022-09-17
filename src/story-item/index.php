@@ -14,7 +14,7 @@ class Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.9';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = 'xuasdfu1321lj8';
+	public static $cache_invalidate   = '01da93';
 	public static $cache_ttl          = 10 * MINUTE_IN_SECONDS;
 	public static $experiments        = array(
 		'relative_date' => false,
@@ -275,8 +275,10 @@ class Story_Item extends PRC_Block_Library {
 	 */
 	public function get_attributes( $attributes, $context = array() ) {
 		$is_mobile = jetpack_is_mobile();
+
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
+		$post_id = array_key_exists( 'postId', $context ) ? $context['postId'] : $post_id;
 
 		$cache_key = md5(
 			wp_json_encode(
@@ -453,9 +455,6 @@ class Story_Item extends PRC_Block_Library {
 	 * @return string Returns story item markup.
 	 */
 	public function render_story_item( $attributes, $content = false, $block = false ) {
-		error_log("Render Story Item Block");
-		error_log(print_r($attributes, true));
-		// error_log(print_r($block, true));
 		// Format and extract the attributes into variables.
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
 		extract( $attrs );

@@ -184,6 +184,16 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     transition: box-shadow variables.$defaultDuration variables.$defaultEasing;
     z-index: '';
 
+	&:not(.aligned) {
+		grid-template-areas:
+			"meta"
+			"header"
+			"excerpt"
+			"extras"
+			"breakingnews"
+			"extracontent";
+	}
+
     &.bordered {
         padding: 21px!important;
         border: 1px solid #d3d3d3;
@@ -354,8 +364,13 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
     .meta {
         grid-area: meta;
-        padding-bottom: 18px;
-        font-size: 12px;
+		font-size: 12px;
+		font-family: var(--wp--preset--font-family--sans-serif);
+		color: rgba(0,0,0,.6);
+		letter-spacing: 0.1em;
+		line-height: 1em;
+		text-transform: uppercase;
+		padding-bottom: 1.5em;
     }
 
     .header {

@@ -9,7 +9,6 @@ import classNames from 'classnames/bind';
 import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 
-
 const randomPlaceholder = () => {
 	const opts = [
 		'Defense industry stocks fall on news of executive order recalling all U.S. military personnel as focus shifts to fighting climate change.',
@@ -22,18 +21,20 @@ const randomPlaceholder = () => {
 	return opts[Math.floor(Math.random() * opts.length)];
 };
 
-function Excerpt({ value, sansSerif, enabled, setAttributes }) {
-	if (true !== enabled) {
+function Excerpt({ attributes, setAttributes }) {
+	const { excerpt, enableHeader, enableExcerpt } = attributes;
+
+	if (!enableExcerpt) {
 		return <Fragment />;
 	}
 
-	const classes = classNames('excerpt', { 'sans-serif': sansSerif });
+	const classes = classNames('excerpt', { 'sans-serif': !enableHeader });
 
 	return (
 		<RichText
 			tagName="div"
-			value={value}
-			onChange={(excerpt) => setAttributes({ excerpt })}
+			value={excerpt}
+			onChange={(value) => setAttributes({ excerpt: value })}
 			placeholder={randomPlaceholder()}
 			multiline="p"
 			className={classes}

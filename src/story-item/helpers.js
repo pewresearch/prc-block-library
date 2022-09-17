@@ -163,7 +163,7 @@ const useStoryItemBlockProps = (attributes) => {
 		bordered: enableEmphasis,
 		'alt-excerpt': enableExcerptBelow,
 	};
-	if ('disbaled' !== imageSlot) {
+	if ('disabled' !== imageSlot) {
 		logicalClasses[imageSlot] = true;
 		logicalClasses.aligned = true;
 	}
@@ -177,9 +177,14 @@ const useStoryItemBlockProps = (attributes) => {
 	return useBlockProps(blockPropsArgs);
 };
 
+const stubEnabledSiteIds = Array.from(Array(19).keys()).filter(
+	(id) => 17 !== id && 0 !== id,
+);
+
 export {
 	setArtBySize,
 	setPostAttributes,
 	getStoryItemAttributesDynamically,
 	useStoryItemBlockProps,
+	stubEnabledSiteIds,
 };

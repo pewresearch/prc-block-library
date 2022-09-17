@@ -6,13 +6,13 @@ import { SelectControl, Spinner, TextControl } from '@wordpress/components';
 import { cleanForSlug } from '@wordpress/url';
 import { useEntityRecords } from '@wordpress/core-data';
 
-function Meta({ enabled, attributes, setAttributes }) {
-	if (!enabled) {
+function Meta({ attributes, setAttributes }) {
+	const { date, label, enableMeta, metaTaxonomy } = attributes;
+
+	if (!enableMeta) {
 		// eslint-disable-next-line react/jsx-no-useless-fragment
 		return <Fragment />;
 	}
-
-	const { date, label, metaTaxonomy } = attributes;
 
 	const { records: entityTerms, isResolving } = useEntityRecords(
 		'taxonomy',
@@ -39,26 +39,29 @@ function Meta({ enabled, attributes, setAttributes }) {
 			style={{
 				display: 'flex',
 				alignItems: 'center',
-				fontFamily: 'var(--wp--preset--font-family--sans-serif)',
 			}}
 		>
-			<div>
-				{isResolving && <Spinner />}
-				{!isResolving && hasRecords && (
-					<SelectControl
-						value={value}
-						options={entityTerms.map((term) => ({
-							label: term.name,
-							value: term.slug,
-						}))}
-						onChange={(l) => {
-							setAttributes({ label: l });
-						}}
-						style={{ marginBottom: '0px' }}
-					/>
-				)}
-			</div>
-			<div>&nbsp;|&nbsp;</div>
+			{'disabled' !== metaTaxonomy && (
+				<Fragment>
+					<div>
+						{isResolving && <Spinner />}
+						{!isResolving && hasRecords && (
+							<SelectControl
+								value={value}
+								options={entityTerms.map((term) => ({
+									label: term.name,
+									value: term.slug,
+								}))}
+								onChange={(l) => {
+									setAttributes({ label: l });
+								}}
+								style={{ marginBottom: '0px' }}
+							/>
+						)}
+					</div>
+					<div>&nbsp;|&nbsp;</div>
+				</Fragment>
+			)}
 			<div>
 				<TextControl
 					value={date}

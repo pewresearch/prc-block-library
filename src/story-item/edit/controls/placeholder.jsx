@@ -6,21 +6,27 @@ import { useDebounce } from '@prc-app/shared';
 /**
  * WordPress Dependencies
  */
-import { useState, useMemo, useEffect, Fragment } from '@wordpress/element';
+import { useState, useMemo, useEffect } from '@wordpress/element';
 import {
 	SearchControl,
-	TextControl,
 	Spinner,
 	NavigableMenu,
 	Placeholder as WPComPlaceholder,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useEntityRecords } from '@wordpress/core-data';
+import { useBlockProps } from '@wordpress/block-editor';
+import { useEntityRecords, useEntityProp } from '@wordpress/core-data';
 import apiFetch from '@wordpress/api-fetch';
 
-export default function Placeholder({ attributes, setAttributes, blockProps }) {
-	const { metaTaxonomy } = attributes;
-	const postType = 'stub';
+/**
+ * Internal Dependencies
+ */
+import { stubEnabledSiteIds } from '../../helpers';
+
+export default function Placeholder({ attributes, setAttributes }) {
+	const { metaTaxonomy, imageSize } = attributes;
+
+	const [siteId] = useEntityProp('root', 'site', 'siteId');
 
 	const [searchInput, setSearchInput] = useState('');
 	const searchString = useDebounce(searchInput, 500);
@@ -37,7 +43,7 @@ export default function Placeholder({ attributes, setAttributes, blockProps }) {
 
 	const { records: searchRecords, isResolving } = useEntityRecords(
 		'postType',
-		postType,
+		1 === siteId ? 'stub' : 'post',
 		{
 			per_page: 10,
 			search: hasSearchString && !searchStringIsUrl ? searchString : '',
@@ -70,12 +76,27 @@ export default function Placeholder({ attributes, setAttributes, blockProps }) {
 
 	const handleItemSelection = (item) => {
 		console.log('handleItemSelection', item);
-		// use get entity records to get the given metaTaxonomy
+		const attrs = {
+			postId: item.id,
+			title: item.title.rendered,
+			excerpt: item.excerpt.rendered,
+			date: item.date,
+		};
+		if (item.art) {
+			const { art } = item;
+			attrs.image = art[imageSize].url;
+			attrs.isChartArt = art[imageSize].chartArt;
+		}
+		setAttributes({ ...attrs });
 	};
 
 	useEffect(() => {
 		console.log('searchRecords isResolving', isResolving, searchRecords);
 	}, [searchRecords, isResolving]);
+
+	const blockProps = useBlockProps({
+		className: 'wp-block-prc-block-story-item__placeholder',
+	});
 
 	return (
 		<WPComPlaceholder
@@ -115,7 +136,7 @@ export default function Placeholder({ attributes, setAttributes, blockProps }) {
 				)}
 			</div>
 
-			{hasSearchString ? (
+			{hasSearchString && (
 				<ul
 					style={{
 						marginTop: '0',
@@ -144,7 +165,7 @@ export default function Placeholder({ attributes, setAttributes, blockProps }) {
 							);
 						})}
 				</ul>
-			) : null}
+			)}
 		</WPComPlaceholder>
 	);
 }

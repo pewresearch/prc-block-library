@@ -28,6 +28,13 @@ function Toolbar({ attributes, setAttributes, context }) {
 			? context['core/column/gridSpan']
 			: false;
 
+	const isUsingContext =
+		undefined !== context.queryId &&
+		undefined !== context.postId &&
+		undefined !== context.postType &&
+		0 !== context.postId &&
+		Number.isInteger(context.postId);
+
 	const handleImageSizeChange = (newSize) => {
 		setAttributes({ imageSize: newSize });
 		setArtBySize(newSize, postId, setAttributes); // @TODO LOOK INTO
@@ -53,15 +60,17 @@ function Toolbar({ attributes, setAttributes, context }) {
 
 	return (
 		<BlockControls>
-			<ToolbarGroup>
-				<URLControl
-					title={title}
-					id={postId}
-					url={url}
-					type="stub"
-					setAttributes={setAttributes}
-				/>
-			</ToolbarGroup>
+			{!isUsingContext && (
+				<ToolbarGroup>
+					<URLControl
+						title={title}
+						id={postId}
+						url={url}
+						type="stub"
+						setAttributes={setAttributes}
+					/>
+				</ToolbarGroup>
+			)}
 			<ToolbarGroup>
 				<ToolbarDropdownMenu
 					icon={MemoizedHeadingLevelIcon}

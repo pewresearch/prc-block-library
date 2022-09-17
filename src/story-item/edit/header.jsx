@@ -9,17 +9,19 @@ import classNames from 'classnames/bind';
 import { Fragment } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
 
-function Header({ title, size, enabled, setAttributes, altHeaderWeight }) {
-	if (true !== enabled) {
+function Header({ attributes, setAttributes }) {
+	const { title, headerSize, enableExcerpt, enableHeader } = attributes;
+
+	if (!enableHeader) {
 		// eslint-disable-next-line react/jsx-no-useless-fragment
 		return <Fragment />;
 	}
 
 	const classes = classNames('header', {
-		large: 1 === size,
-		medium: 2 === size,
-		small: 3 === size,
-		light: altHeaderWeight,
+		large: 1 === headerSize,
+		medium: 2 === headerSize,
+		small: 3 === headerSize,
+		light: !enableExcerpt,
 	});
 
 	return (

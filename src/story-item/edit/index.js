@@ -21,72 +21,47 @@ import Extra from './extra';
 import Header from './header';
 import Meta from './meta';
 import Preview from './preview';
+import ContextPreview from './context-preview';
 import { useStoryItemBlockProps } from '../helpers';
 
 const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
-	const {
-		title,
-		excerpt,
-		extra,
-		label,
-		date,
-		image,
-		imageSlot,
-		imageSize,
-		isChartArt,
-		postId,
-		headerSize,
-		enableEmphasis,
-		enableHeader,
-		enableExcerpt,
-		enableExcerptBelow,
-		enableExtra,
-		enableBreakingNews,
-		enableMeta,
-		metaTaxonomy,
-		inLoop,
-		isPreview,
-		className,
-	} = attributes;
+	// If this block is being rendered in the scope of query block context
+	// then render the ContextPreview component early.
+	if (
+		undefined !== context.queryId &&
+		undefined !== context.postId &&
+		undefined !== context.postType &&
+		0 !== context.postId &&
+		Number.isInteger(context.postId)
+	) {
+		return (
+			<Fragment>
+				<Controls
+					{...{
+						attributes,
+						setAttributes,
+						context,
+					}}
+				/>
+				<ContextPreview {...{ attributes, context }} />
+			</Fragment>
+		);
+	}
 
-	// Check for a query block context and display and run logic accordingly.
-	useEffect(() => {
-		console.log('Context:', context);
-		if (
-			undefined !== context.queryId &&
-			undefined !== context.postId &&
-			undefined !== context.postType &&
-			0 !== context.postId &&
-			Number.isInteger(context.postId)
-		) {
-			console.log('Query Block Story Item: ', context, attributes);
-		}
-	}, [context]);
-
-	const blockProps = useStoryItemBlockProps(attributes);
+	const { postId, isPreview } = attributes;
 
 	// If not active or is explicitly a preview, return the preview early.
 	if (!isSelected || isPreview) {
 		return <Preview {...{ attributes, context }} />;
 	}
 
-	if (
-		undefined === postId &&
-		(undefined === context.query || undefined === context.postId)
-	) {
+	if (undefined === postId) {
 		return (
-			<Placeholder
-				attributes={attributes}
-				setAttributes={setAttributes}
-				blockProps={blockProps}
-			/>
+			<Placeholder attributes={attributes} setAttributes={setAttributes} />
 		);
 	}
 
-	console.log('postID', {
-		postId,
-		context,
-	});
+	const blockProps = useStoryItemBlockProps(attributes);
 
 	return (
 		<Fragment>
@@ -99,44 +74,38 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 			/>
 			<article {...blockProps}>
 				<Image
-					img={image}
-					size={imageSize}
-					slot={imageSlot}
-					chartArt={isChartArt}
-					postId={postId}
-					setAttributes={setAttributes}
+					{...{
+						attributes,
+						setAttributes,
+					}}
 				/>
 
 				<Meta
 					{...{
 						attributes,
 						setAttributes,
-						enabled: enableMeta && 'disabled' !== metaTaxonomy,
 					}}
 				/>
 
 				<Header
-					enabled={enableHeader}
-					title={title}
-					size={headerSize}
-					altHeaderWeight={!enableExcerpt}
-					setAttributes={setAttributes}
+					{...{
+						attributes,
+						setAttributes,
+					}}
 				/>
 
 				<Excerpt
-					enabled={enableExcerpt}
-					value={excerpt}
-					context={context}
-					sansSerif={!enableHeader}
-					setAttributes={setAttributes}
+					{...{
+						attributes,
+						setAttributes,
+					}}
 				/>
 
 				<Extra
-					enabled={enableExtra}
-					content={extra}
-					breakingNews={enableBreakingNews}
-					setAttributes={setAttributes}
-					isSelected={isSelected}
+					{...{
+						attributes,
+						setAttributes,
+					}}
 				/>
 			</article>
 		</Fragment>
