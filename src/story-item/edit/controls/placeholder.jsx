@@ -8,6 +8,7 @@ import { useDebounce } from '@prc-app/shared';
  */
 import { useState, useMemo, useEffect } from '@wordpress/element';
 import {
+	Button,
 	SearchControl,
 	Spinner,
 	NavigableMenu,
@@ -18,15 +19,11 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { useEntityRecords, useEntityProp } from '@wordpress/core-data';
 import apiFetch from '@wordpress/api-fetch';
 
-/**
- * Internal Dependencies
- */
-import { stubEnabledSiteIds } from '../../helpers';
-
 export default function Placeholder({ attributes, setAttributes }) {
 	const { metaTaxonomy, imageSize } = attributes;
 
 	const [siteId] = useEntityProp('root', 'site', 'siteId');
+	const postType = 1 === siteId ? 'stub' : 'post';
 
 	const [searchInput, setSearchInput] = useState('');
 	const searchString = useDebounce(searchInput, 500);
@@ -43,7 +40,7 @@ export default function Placeholder({ attributes, setAttributes }) {
 
 	const { records: searchRecords, isResolving } = useEntityRecords(
 		'postType',
-		1 === siteId ? 'stub' : 'post',
+		postType,
 		{
 			per_page: 10,
 			search: hasSearchString && !searchStringIsUrl ? searchString : '',
@@ -74,6 +71,10 @@ export default function Placeholder({ attributes, setAttributes }) {
 		});
 	};
 
+	const getLabel = (item) => {
+		console.log('getLabel', item);
+	};
+
 	const handleItemSelection = (item) => {
 		console.log('handleItemSelection', item);
 		const attrs = {
@@ -101,12 +102,18 @@ export default function Placeholder({ attributes, setAttributes }) {
 	return (
 		<WPComPlaceholder
 			icon="admin-post"
-			label={__('Story Item', 'prc-block-library')}
+			label={__(' Story Item', 'prc-block-library')}
+			isColumnLayout
+			instructions={__(
+				`Search for a ${postType} or paste url here`,
+				'prc-block-library',
+			)}
 			{...blockProps}
 		>
 			<div
 				style={{
 					display: 'flex',
+					width: '100%',
 				}}
 			>
 				<div
@@ -115,10 +122,9 @@ export default function Placeholder({ attributes, setAttributes }) {
 					}}
 				>
 					<SearchControl
-						label="Seach for a post"
 						value={searchInput}
 						onChange={(keyword) => setSearchInput(keyword)}
-						placeholder="Search for a post..."
+						placeholder="Joe Biden climate change..."
 						autoComplete="off"
 					/>
 				</div>
@@ -127,8 +133,9 @@ export default function Placeholder({ attributes, setAttributes }) {
 					<div
 						style={{
 							position: 'absolute',
-							right: '8px',
-							marginTop: '27px',
+							right: '20px',
+							marginTop: '12px',
+							backgroundColor: '#f0f0f0', // Same color as the SearchControl background.
 						}}
 					>
 						<Spinner />
@@ -147,11 +154,11 @@ export default function Placeholder({ attributes, setAttributes }) {
 					}}
 				>
 					{!isResolving && !hasSearchRecords && false === searchStringIsUrl && (
-						<li>{__('Nothing found.', 'prc-block-components')}</li>
+						<li>{__('Nothing found.', 'prc-block-library')}</li>
 					)}
 
 					{!isResolving && !hasSearchRecords && searchStringIsUrl && (
-						<li>{__('Press enter to change url.', 'prc-block-components')}</li>
+						<li>{__('Press enter to insert post.', 'prc-block-library')}</li>
 					)}
 
 					{!isResolving &&
@@ -159,13 +166,33 @@ export default function Placeholder({ attributes, setAttributes }) {
 						searchRecords.map((item, index) => {
 							console.log('Item: ', item);
 							return (
-								<li key={item.id} onClick={() => handleItemSelection(item)}>
+								<li
+									key={item.id}
+									onClick={() => handleItemSelection(item)}
+									style={{
+										cursor: 'pointer',
+										padding: '0.2em 1em',
+										display: 'block',
+										backgroundColor:
+											selectedItem === item.id ? '#eee' : 'transparent',
+									}}
+								>
 									{item.title.rendered}
 								</li>
 							);
 						})}
 				</ul>
 			)}
+			<Button
+				isLink
+				onClick={() => {
+					setAttributes({ postId: 0 });
+				}}
+				text={__('Skip')}
+				style={{
+					paddingLeft: '9px',
+				}}
+			/>
 		</WPComPlaceholder>
 	);
 }

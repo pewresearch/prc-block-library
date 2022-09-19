@@ -110,35 +110,6 @@ const setPostAttributes = (options) => {
 		.catch((err) => console.error(err));
 };
 
-const getStoryItemAttributesDynamically = (postId, postType, imageSize) =>
-	new Promise((resolve, reject) => {
-		if (0 === postId) {
-			reject(new Error('Invalid post id'));
-		}
-
-		let objectType = postType;
-		if ('post' === objectType) {
-			objectType = 'posts';
-		}
-
-		const request = {
-			method: 'GET',
-			path: `/wp/v2/${objectType}/${postId}`,
-		};
-		apiFetch(request).then((post) => {
-			if (false !== post) {
-				const toReturn = getAttributesFromPost({
-					post,
-					imageSize,
-				});
-				console.log('getStoryItemAttributesDynamically', post, toReturn);
-				resolve(toReturn);
-			} else {
-				reject(new Error('Post not found'));
-			}
-		});
-	});
-
 const useStoryItemBlockProps = (attributes) => {
 	const {
 		imageSlot,
@@ -184,7 +155,6 @@ const stubEnabledSiteIds = Array.from(Array(19).keys()).filter(
 export {
 	setArtBySize,
 	setPostAttributes,
-	getStoryItemAttributesDynamically,
 	useStoryItemBlockProps,
 	stubEnabledSiteIds,
 };

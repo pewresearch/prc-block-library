@@ -14,7 +14,7 @@ class Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.9';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = '01da93';
+	public static $cache_invalidate   = false;
 	public static $cache_ttl          = 10 * MINUTE_IN_SECONDS;
 	public static $experiments        = array(
 		'relative_date' => false,
@@ -113,6 +113,7 @@ class Story_Item extends PRC_Block_Library {
 			</ul>
 		<?php endif; ?>
 		<?php
+		error_log('legacy_content' . print_r(ob_get_clean(), true));
 		return ob_get_clean();
 	}
 
@@ -123,14 +124,14 @@ class Story_Item extends PRC_Block_Library {
 	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
 	 * @return string
 	 */
-	private function get_label( int $post_id, $post_type = false, $reasearch_areas = false, $disabled = false ) {
-		if ( $disabled ) {
+	private function get_label( int $post_id, $post_type = false, $taxonomy = false ) {
+		if ( 'disabled' === $taxonomy ) {
 			return '';
 		}
 		if ( false !== $post_type && 'dataset' === $post_type ) {
 			return 'Dataset';
 		}
-		$terms = wp_get_object_terms( $post_id, $reasearch_areas ? 'research-teams' : 'formats', array( 'fields' => 'names' ) );
+		$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'names' ) );
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
 		}
@@ -296,7 +297,7 @@ class Story_Item extends PRC_Block_Library {
 		);
 
 		$cache = get_transient( $cache_key );
-		if ( $cache && ! is_preview() ) {
+		if ( $cache && ! is_preview() && false !== self::$cache_invalidate ) {
 			$cache['cached'] = true;
 			return $cache;
 		}
@@ -304,9 +305,12 @@ class Story_Item extends PRC_Block_Library {
 		$column_width = array_key_exists( 'core/column/gridSpan', $context ) ? $context['core/column/gridSpan'] : false;
 
 		$post = get_post( $post_id );
+		error_log('----------------- /Story Item Post (START) -----------------');
+		error_log(get_the_excerpt($post));
 		// What should we do if no post can be found?
 
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
+		// @TODO when we fully move over PRC to FSE we can remove this next line and the attribute as this will be handled exclusively by the block context.
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
 
 		$post_type = array_key_exists( 'postType', $attributes ) ? $attributes['postType'] : $post->post_type;
@@ -314,12 +318,11 @@ class Story_Item extends PRC_Block_Library {
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
 		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
-		$excerpt     = false === $excerpt && is_object($post) && property_exists($post, 'excerpt') && !empty($post->excerpt) ? $post->excerpt : false;
+		$excerpt     = false === $excerpt && is_object($post)  && !empty(get_the_excerpt($post)) ? get_the_excerpt($post) : false;
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
 			$post_type,
-			array_key_exists( 'metaTaxonomy', $attributes ) ? 'research-areas' === $attributes['metaTaxonomy'] : false,
-			array_key_exists( 'metaTaxonomy', $attributes ) && 'disabled' === $attributes['metaTaxonomy'] ? true : false
+			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
 		);
 		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date );
 		$url         = $this->get_url( $post_id, $post_type );
@@ -337,7 +340,6 @@ class Story_Item extends PRC_Block_Library {
 			// Default to top for mobile...
 			$image_slot = false !== $image_slot ? 'top' : false;
 			$image_slot = $is_in_loop && !in_array( $image_slot, array( 'disabled', false ) ) ? 'right' : $image_slot;
-			do_action('qm/debug', 'mobile image... ' . print_r($image_slot, true));
 		}
 		// Set the image size to A1 on mobile, if its in a loop then set it to A3, otherwise deliver whats set in the attributes.
 		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
@@ -354,7 +356,6 @@ class Story_Item extends PRC_Block_Library {
 				'static_image' => array_key_exists( 'image', $attributes ) ? $attributes['image'] : false,
 			)
 		);
-		do_action('qm/debug', "get_img" . print_r(array('art' => $image, 'post_id' => $post_id), true) );
 		// If we can not find an image set the image slot to false to disable it.
 		$image_slot = false !== $image ? $image_slot : false;
 
@@ -397,11 +398,13 @@ class Story_Item extends PRC_Block_Library {
 			'enable_meta'                   => $enable_meta,
 		);
 
-		error_log( "variables" . print_r($variables, true) );
+		error_log( print_r($variables, true) );
+
+		error_log('----------------- /Story Item Post (END) -----------------');
 
 		wp_reset_postdata();
 
-		if ( ! is_preview() ) {
+		if ( ! is_preview() && false !== self::$cache_invalidate ) {
 			set_transient( $cache_key, $variables, self::$cache_ttl );
 		}
 
@@ -429,6 +432,7 @@ class Story_Item extends PRC_Block_Library {
 
 		$image_class = classNames(
 			'image',
+			'jetpack-lazy-image',
 			array(
 				$image_size => $image_size,
 				'bordered'  => $image_is_bordered,
@@ -440,7 +444,12 @@ class Story_Item extends PRC_Block_Library {
 			<picture>
 				<?php echo $sources['desktop']; ?>
 				<?php echo $sources['mobile']; ?>
-				<img srcset="<?php echo esc_url( $image['desktop']['default'][0] ); ?>" height="<?php echo esc_attr( $image['desktop']['default'][1] ); ?>" width="<?php echo esc_attr( $image['desktop']['default'][2] ); ?>">
+				<?php echo wp_sprintf(
+					'<img srcset="%s" height="%s" width="%s">',
+					esc_url($image['desktop']['default'][0]),
+					esc_attr($image['desktop']['default'][1]),
+					esc_attr($image['desktop']['default'][2])
+				);?>
 			</picture>
 		</a>
 		<?php
@@ -459,6 +468,7 @@ class Story_Item extends PRC_Block_Library {
 	public function render_story_item( $attributes, $content = false, $block = false ) {
 		// Format and extract the attributes into variables.
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
+		error_log("ATTRS: " . print_r($attrs, true));
 		extract( $attrs );
 
 		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered, $url );
@@ -497,9 +507,11 @@ class Story_Item extends PRC_Block_Library {
 			)
 		);
 
+		error_log("Content ChecK:" . print_r(array($content, $attributes), true));
+
 		// Fallback for non gutenberg story items and older story items from gutenberg.
-		if ( ( false === $content || empty( $content ) ) && ( array_key_exists( 'excerpt', $attributes ) || array_key_exists( 'extra', $attributes ) ) ) {
-			$content = $this->legacy_content( $attributes );
+		if ( ( false === $content || empty( $content ) ) && ( array_key_exists( 'excerpt', $attrs ) || array_key_exists( 'extra', $attrs ) ) ) {
+			$content = $this->legacy_content( $attrs );
 		}
 
 		// Regex remove div with class 'extra' from this string if $enable_extra is false.

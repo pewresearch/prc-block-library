@@ -587,3 +587,21 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         padding: $veryRelaxedItemSpacing;
     }
 }
+
+
+/**
+Editor Only Styles
+**/
+
+.wp-block.wp-block-prc-block-story-item {
+	&.wp-block-prc-block-story-item__placeholder  {
+		.components-placeholder__label > .dashicon {
+			margin-right: 10px;
+		}
+	}
+	.meta {
+		.components-base-control__field {
+			margin-bottom: 0!important;
+		}
+	}
+}

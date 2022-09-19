@@ -25,7 +25,7 @@ import ContextPreview from './context-preview';
 import { useStoryItemBlockProps } from '../helpers';
 
 const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
-	// If this block is being rendered in the scope of query block context
+	// If this block is being rendered in the scope of query context
 	// then render the ContextPreview component early.
 	if (
 		undefined !== context.queryId &&
@@ -50,15 +50,19 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 
 	const { postId, isPreview } = attributes;
 
+	if (undefined === postId) {
+		return (
+			<Placeholder
+				attributes={attributes}
+				setAttributes={setAttributes}
+				clientId={clientId}
+			/>
+		);
+	}
+
 	// If not active or is explicitly a preview, return the preview early.
 	if (!isSelected || isPreview) {
 		return <Preview {...{ attributes, context }} />;
-	}
-
-	if (undefined === postId) {
-		return (
-			<Placeholder attributes={attributes} setAttributes={setAttributes} />
-		);
 	}
 
 	const blockProps = useStoryItemBlockProps(attributes);
