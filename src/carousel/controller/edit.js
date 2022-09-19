@@ -11,9 +11,7 @@ import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 const ALLOWED_BLOCKS = ['prc-block/carousel-slide'];
 
 const edit = ({ attributes, className, setAttributes, clientId }) => {
-	const blockProps = useBlockProps({
-		className: classnames(className),
-	});
+	const blockProps = useBlockProps({});
 
 	// const hasInnerBlocks = useSelect(
 	// 	(select) => 0 < select(blockEditorStore).getBlocks(clientId).length,

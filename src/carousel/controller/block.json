@@ -8,11 +8,11 @@
 	"supports": {
 		"html": false,
 		"align": [ "wide", "full" ],
-		"__experimentalMetadata": true,
 		"spacing": {
 			"margin": [ "top", "bottom" ],
 			"padding": true
-		}
+		},
+		"__experimentalMetadata": true
 	},
 	"providesContext": {
         "prc-block/carousel/direction": "direction"
