@@ -79,7 +79,7 @@ const initSmoothScrollClickHandler = (elm) => {
 
 const initMobileClickHandler = (elm) => {
 	const groupElm = elm.parentElement;
-	const titleElm = groupElm.querySelector('h3');
+	const titleElm = groupElm.querySelector('.toc-title');
 	titleElm.addEventListener('click', () => {
 		if (groupElm.classList.contains('mobile-toc')) {
 			groupElm.classList.toggle('is-open');
@@ -98,7 +98,7 @@ const initThresholdWatcher = (block) => {
 		if (!groupElm) {
 			return;
 		}
-		const titleElm = groupElm.querySelector('h3');
+		const titleElm = groupElm.querySelector('.toc-title');
 		if (!titleElm) {
 			return;
 		}
