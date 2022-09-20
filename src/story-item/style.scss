@@ -507,6 +507,20 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 }
 
+// Query Block support
+.wp-block-post-template > li {
+	&:not(:last-of-type) > .wp-block-prc-block-story-item {
+        border-bottom: $dividedBorder;
+        padding: 21px 0 21px 0;
+    }
+	&:first-of-type > .wp-block-prc-block-story-item {
+        padding-top: 0px;
+    }
+	&:last-of-type > .wp-block-prc-block-story-item {
+        padding-top: 21px;
+    }
+}
+
 // Handle Consecutive Items in the block editor.
 .block-editor-block-list__layout {
     & > .wp-block-prc-block-story-item:not(:last-of-type) {

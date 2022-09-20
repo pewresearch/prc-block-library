@@ -21,14 +21,6 @@
 			"type": "boolean",
 			"default": false
 		},
-		"backgroundColor": {
-			"type": "string",
-			"default": "transparent"
-		},
-		"borderColor": {
-			"type": "string",
-			"default": "transparent"
-		},
 		"icon": {
 			"type": "string",
 			"default": "weekly"

@@ -1,7 +1,10 @@
 {
 	"apiVersion": 2,
 	"name": "prc-block/topic-index-categorized",
+	"title": "Topic Index Categorized",
+	"description": "A heading the collapses and expands to show content",
 	"category": "layout",
+	"keywords": ["topic index", "categorized", "collapsible"],
 	"attributes": {
 		"heading": {
             "type": "string"
@@ -9,7 +12,7 @@
 		"url": {
 			"type": "string"
 		}
-    },          
+    },
 	"supports": {
 		"html": false
 	}

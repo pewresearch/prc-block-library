@@ -42,6 +42,7 @@ const settings = {
 			fontSize: true,
 		},
 	},
+	__experimentalLabel: ({ title }) => title || 'Story Item',
 	edit,
 	save,
 };

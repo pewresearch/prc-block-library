@@ -30,11 +30,6 @@
 			"php": "./src/core/paragraph/index.php"
 		},
 		{
-			"name": "post-date",
-			"main": "./src/core/post-date/index.js",
-			"php": "./src/core/post-date/index.php"
-		},
-		{
 			"name": "post-title",
 			"php": "./src/core/post-title/index.php"
 		},
@@ -47,12 +42,6 @@
 			"name": "query",
 			"main": "./src/core/query/index.js",
 			"php": "./src/core/query/index.php"
-		},
-		{
-			"name": "social-link",
-			"main": "./src/core/social-link/index.js",
-			"php": "./src/core/social-link/index.php",
-			"frontend": "./src/core/social-link/frontend.js"
 		},
 		{
 			"name": "media-text",
