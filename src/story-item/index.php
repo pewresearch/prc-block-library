@@ -14,7 +14,7 @@ class Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.9';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = false;
+	public static $cache_invalidate   = '09-19-2022';
 	public static $cache_ttl          = 10 * MINUTE_IN_SECONDS;
 	public static $experiments        = array(
 		'relative_date' => false,
@@ -113,7 +113,6 @@ class Story_Item extends PRC_Block_Library {
 			</ul>
 		<?php endif; ?>
 		<?php
-		error_log('legacy_content' . print_r(ob_get_clean(), true));
 		return ob_get_clean();
 	}
 
@@ -306,7 +305,6 @@ class Story_Item extends PRC_Block_Library {
 
 		$post = get_post( $post_id );
 		error_log('----------------- /Story Item Post (START) -----------------');
-		error_log(get_the_excerpt($post));
 		// What should we do if no post can be found?
 
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
@@ -468,7 +466,6 @@ class Story_Item extends PRC_Block_Library {
 	public function render_story_item( $attributes, $content = false, $block = false ) {
 		// Format and extract the attributes into variables.
 		$attrs = $this->get_attributes( $attributes, false !== $block ? $block->context : array() );
-		error_log("ATTRS: " . print_r($attrs, true));
 		extract( $attrs );
 
 		$image_markup = $this->render_image( $image, $image_size, $image_is_bordered, $url );
@@ -507,18 +504,16 @@ class Story_Item extends PRC_Block_Library {
 			)
 		);
 
-		error_log("Content ChecK:" . print_r(array($content, $attributes), true));
-
 		// Fallback for non gutenberg story items and older story items from gutenberg.
 		if ( ( false === $content || empty( $content ) ) && ( array_key_exists( 'excerpt', $attrs ) || array_key_exists( 'extra', $attrs ) ) ) {
 			$content = $this->legacy_content( $attrs );
 		}
-
 		// Regex remove div with class 'extra' from this string if $enable_extra is false.
 		$content = ! $enable_extra ? preg_replace( '/<ul class="extra">(.*?)<\/ul>/s', '', $content ) : $content;
 		// Regex remove div with class 'description' from this string if $enable_excerpt is false.
 		$content = ! $enable_excerpt ? preg_replace( '/<div class="description">(.*?)<\/div>/s', '', $content ) : $content;
 
+		// @TODO Right now this is only used by datasets...
 		$story_item_extras = ! array_key_exists( 'extraContent', $attributes ) ? apply_filters(
 			'prc_story_item_extra',
 			false,
