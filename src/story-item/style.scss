@@ -609,6 +609,7 @@ Editor Only Styles
 
 .wp-block.wp-block-prc-block-story-item {
 	&.wp-block-prc-block-story-item__placeholder  {
+		padding: 16px;
 		.components-placeholder__label > .dashicon {
 			margin-right: 10px;
 		}

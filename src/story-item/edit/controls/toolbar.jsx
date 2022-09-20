@@ -17,7 +17,7 @@ import { HeadingLevelIcon, ImageSizeIcon, ImageSlotIcon } from './icons';
 import { setArtBySize } from '../../helpers';
 import URLControl from './url-control';
 
-const COLUMN_LIMIT = 8;
+const COLUMN_LIMIT = 6;
 
 function Toolbar({ attributes, setAttributes, context }) {
 	const { postId, url, imageSize, imageSlot, headerSize, isChartArt, title } =
@@ -130,7 +130,7 @@ function Toolbar({ attributes, setAttributes, context }) {
 							title: 'Left',
 							icon: <ImageSlotIcon selected="left" />,
 							isActive: 'left' === imageSlot,
-							isDisabled: false !== columnWidth && COLUMN_LIMIT >= columnWidth,
+							isDisabled: false !== columnWidth && columnWidth < COLUMN_LIMIT,
 							onClick: () => {
 								const newSlot = 'left';
 								setAttributes({ imageSlot: newSlot });
@@ -140,7 +140,7 @@ function Toolbar({ attributes, setAttributes, context }) {
 							title: 'Right',
 							icon: <ImageSlotIcon selected="right" />,
 							isActive: 'right' === imageSlot,
-							isDisabled: false !== columnWidth && COLUMN_LIMIT >= columnWidth,
+							isDisabled: false !== columnWidth && columnWidth < COLUMN_LIMIT,
 							onClick: () => {
 								const newSlot = 'right';
 								setAttributes({ imageSlot: newSlot });
