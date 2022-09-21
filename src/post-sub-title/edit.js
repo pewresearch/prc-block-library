@@ -8,34 +8,39 @@ import classnames from 'classnames';
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import { useBlockProps, RichText, BlockControls, AlignmentControl } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	RichText,
+	BlockControls,
+	AlignmentControl,
+} from '@wordpress/block-editor';
 
 const edit = ({ attributes, className, setAttributes }) => {
-    const { value, textAlign } = attributes;
+	const { value, textAlign } = attributes;
 
-    const blockProps = useBlockProps({
-        className: classnames(className, {
-			[ `has-text-align-${ textAlign }` ]: textAlign
+	const blockProps = useBlockProps({
+		className: classnames(className, {
+			[`has-text-align-${textAlign}`]: textAlign,
 		}),
 		style: {
 			marginBottom: '1.5em',
-		}
-    });
+		},
+	});
 
-    return (
+	return (
 		<Fragment>
 			<BlockControls>
 				<AlignmentControl
-					value={ textAlign }
-					onChange={ ( nextAlign ) => {
-						setAttributes( { textAlign: nextAlign } );
-					} }
+					value={textAlign}
+					onChange={(nextAlign) => {
+						setAttributes({ textAlign: nextAlign });
+					}}
 				/>
 			</BlockControls>
 			<div {...blockProps}>
 				<RichText
 					tagName="div"
-					onChange={t => setAttributes({ value: t })}
+					onChange={(t) => setAttributes({ value: t })}
 					allowedFormats={[]}
 					keepPlaceholderOnFocus
 					value={value}
@@ -45,7 +50,7 @@ const edit = ({ attributes, className, setAttributes }) => {
 				/>
 			</div>
 		</Fragment>
-    );
+	);
 };
 
 export default edit;

@@ -1,6 +1,8 @@
 {
 	"apiVersion": 2,
 	"name": "prc-block/subtitle",
+	"title": "Post Sub Title",
+	"description": "Add the sub title of this post.",
 	"category": "layout",
 	"attributes": {
 		"value": {
