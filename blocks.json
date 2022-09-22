@@ -68,6 +68,11 @@
 			"php": "./src/core/buttons/index.php"
 		},
 		{
+			"name": "separator",
+			"main": "./src/core/separator/index.js",
+			"php": "./src/core/separator/index.php"
+		},
+		{
 			"name": "collapsible",
 			"main": "./src/collapsible/index.js",
 			"php": "./src/collapsible/index.php",
