@@ -1,0 +1,16 @@
+{
+    "apiVersion": 2,
+	"name": "prc-block/grid",
+    "category": "layout",
+    "attributes": {
+        "useCssGrid": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": false,
+		"inserter": false
+    }
+}

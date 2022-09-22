@@ -1,6 +1,21 @@
 {
 	"blocks": [
 		{
+			"name": "grid",
+			"main": "./src/_deprecated/grid/index.js",
+			"php": "./src/_deprecated/grid/index.php"
+		},
+		{
+			"name": "column",
+			"main": "./src/_deprecated/column/index.js",
+			"php": "./src/_deprecated/column/index.php"
+		},
+		{
+			"name": "row",
+			"main": "./src/_deprecated/row/index.js",
+			"php": "./src/_deprecated/row/index.php"
+		},
+		{
 			"name": "cover",
 			"main": "./src/core/cover/index.js",
 			"php": "./src/core/cover/index.php"
@@ -59,11 +74,6 @@
 			"frontend": "./src/collapsible/view.js"
 		},
 		{
-			"name": "column",
-			"main": "./src/column/index.js",
-			"php": "./src/column/index.php"
-		},
-		{
 			"name": "chart-builder",
 			"main": "./src/chart-builder/index.js",
 			"php": "./src/chart-builder/index.php",
@@ -101,12 +111,6 @@
 			"main": "./src/flip-card/front/index.js",
 			"php": "./src/flip-card/front/index.php"
 		},
-		{
-			"name": "grid",
-			"main": "./src/grid/index.js",
-			"php": "./src/grid/index.php"
-		},
-
 		{
 			"name": "livestream",
 			"main": "./src/livestream/index.js",
@@ -209,11 +213,6 @@
 			"php": "./src/roper-db-search/index.php"
 		},
 		{
-			"name": "row",
-			"main": "./src/row/index.js",
-			"php": "./src/row/index.php"
-		},
-		{
 			"name": "staff",
 			"main": "./src/staff/index.js",
 			"php": "./src/staff/index.php"
@@ -227,7 +226,7 @@
 			"name": "story-item",
 			"main": "./src/story-item/index.js",
 			"php": "./src/story-item/index.php",
-			"frontend": "./src/story-item/frontend.js"
+			"frontend": "./src/story-item/view.js"
 		},
 		{
 			"name": "table-of-contents",

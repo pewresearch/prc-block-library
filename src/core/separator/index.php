@@ -6,8 +6,13 @@ class Core_Separator extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			add_action( 'init', array($this, 'remove_styles') );
 			add_filter( 'render_block', array( $this, 'render_divider' ), 10, 2 );
 		}
+	}
+
+	public function remove_styles() {
+		unregister_block_style( self::$block_name, 'wide');
 	}
 
 	public function render_divider( $block_content, $block ) {
@@ -15,11 +20,7 @@ class Core_Separator extends PRC_Block_Library {
 			return $block_content;
 		}
 
-		$extra_classes = array_key_exists( 'className', $block['attrs'] ) ? $block['attrs']['className'] : null;
-
-		$class_names = classNames( 'ui divider', $extra_classes );
-
-		return '<div class="' . esc_attr( $class_names ) . '"></div>';
+		return $block_content;
 	}
 }
 
