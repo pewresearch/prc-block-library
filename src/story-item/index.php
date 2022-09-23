@@ -192,7 +192,7 @@ class Story_Item extends PRC_Block_Library {
 		$imgs = false;
 
 		$is_stub  = 'stub' === $post_type;
-		$art      = prc_get_art( $post_id, $image_size );
+		$art      = PRC\get_art( $post_id, $image_size );
 		$image_id = false !== $art ? $art['id'] : false;
 		$chart_art = false !== $art ? $art['chartArt'] : false;
 
