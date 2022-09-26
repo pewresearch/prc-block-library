@@ -8,7 +8,7 @@ use \WPackio as WPackio;
  */
 
 class Carousel_Controller extends PRC_Block_Library {
-	public static $version = '1.10.0';
+	public static $version = '1.10.1';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {

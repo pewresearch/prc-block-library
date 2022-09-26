@@ -1,6 +1,6 @@
 {
-  "carousel-controller.js": "frontend/carousel-controller-64222915.js",
-  "carousel-controller.js.map": "frontend/carousel-controller-64222915.js.map",
+  "carousel-controller.js": "frontend/carousel-controller-13c3edc6.js",
+  "carousel-controller.js.map": "frontend/carousel-controller-13c3edc6.js.map",
   "chart-builder-data-wrapper.js": "frontend/chart-builder-data-wrapper-46101b9b.js",
   "chart-builder-data-wrapper.js.map": "frontend/chart-builder-data-wrapper-46101b9b.js.map",
   "chart-builder.css": "frontend/chart-builder-ddf9d855.css",
@@ -423,12 +423,12 @@
         "js": [
           "frontend/runtime-83e71da2.js",
           "frontend/vendors~carousel-controller-efaf4060.js",
-          "frontend/carousel-controller-64222915.js"
+          "frontend/carousel-controller-13c3edc6.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
           "frontend/vendors~carousel-controller-efaf4060.js.map",
-          "frontend/carousel-controller-64222915.js.map"
+          "frontend/carousel-controller-13c3edc6.js.map"
         ]
       }
     },

@@ -158,11 +158,11 @@ function initVerticalCarousel(id, elm) {
 
 function initHorizontalCarousel(id, elm) {
 	const { debug } = window.prcBlocks.carouselBlocks;
-	const height = elm.offsetHeight;
+	// const height = elm.offsetHeight;
 
 	const opts = {
 		direction: 'ltr',
-		height,
+		autoHeight: true,
 		arrows: true,
 		wheel: false,
 		waitForTransition: true,
