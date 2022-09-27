@@ -88,7 +88,7 @@ function Preview({ attributes }) {
 				</div>
 			)}
 
-			{enableHeader && <header className={headerClasses}>{title}</header>}
+			{enableHeader && <h3 className={headerClasses}>{title}</h3>}
 
 			{enableExcerpt && (
 				<RichText.Content

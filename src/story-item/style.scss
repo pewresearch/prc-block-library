@@ -381,12 +381,12 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
 
         display: inline-block;
-        font-family: $headerFont;
-        color: $headerColor;
+        // color: $headerColor;
         -ms-word-wrap: break-word;
         word-wrap: break-word;
 
         // .medium, mobile first.
+		font-family: $headerFont;
         font-size: $headerMediumFontSize;
         font-weight: $headerMediumFontWeight;
         line-height: $headerMediumLineHeight;
@@ -424,8 +424,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         grid-area: excerpt;
         margin: 10px 0 0 0;
         font-size: 16px;
+		color: colors.$textColor;
         line-height: variables.$lineHeight;
-        color: colors.$textColor;
         p {
             margin: 0 0 7px 0;
             &:last-child {
@@ -592,7 +592,9 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
  */
 
 /* Tablet Only */
-@media only screen and (min-width: variables.$tabletBreakpoint) and (max-width: variables.$largestTabletScreen) {}
+@media only screen and (min-width: variables.$tabletBreakpoint) and (max-width: variables.$largestTabletScreen) {
+
+}
 
 /* Mobile Only */
 // On mobile and items not explicitly defined as being unstackable should stack
@@ -604,9 +606,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
 
 /**
-Editor Only Styles
-**/
-
+ * Block Editor Only Styles
+*/
 .wp-block.wp-block-prc-block-story-item {
 	&.wp-block-prc-block-story-item__placeholder  {
 		padding: 16px;

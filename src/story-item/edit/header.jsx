@@ -26,7 +26,7 @@ function Header({ attributes, setAttributes }) {
 
 	return (
 		<RichText
-			tagName="header"
+			tagName={`h${headerSize}`}
 			value={title}
 			onChange={(t) => setAttributes({ title: t })}
 			allowedFormats={['italic']}

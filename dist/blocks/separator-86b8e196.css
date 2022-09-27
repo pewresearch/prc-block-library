@@ -15,6 +15,6 @@
  * Compiled with the help of https://wpack.io
  * A zero setup Webpack Bundler Script for WordPress
  */
-.wp-block-separator{border-bottom:none !important}.wp-block-separator.is-style-default{max-width:var(--wp--style--global--content-size) !important}.wp-block-separator.is-style-wide{max-width:var(--wp--style--global--wide-size) !important}
+.wp-block-separator{border-bottom:none !important;max-width:var(--wp--style--global--content-size)}.wp-block-separator.is-style-wide{max-width:var(--wp--style--global--wide-size) !important}
 
-/*# sourceMappingURL=separator-a99aa2e9.css.map*/
+/*# sourceMappingURL=separator-86b8e196.css.map*/
