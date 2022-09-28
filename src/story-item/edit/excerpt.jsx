@@ -28,7 +28,7 @@ function Excerpt({ attributes, setAttributes }) {
 		return <Fragment />;
 	}
 
-	const classes = classNames('excerpt', { 'sans-serif': !enableHeader });
+	const classes = classNames('description', { 'sans-serif': !enableHeader });
 
 	return (
 		<RichText

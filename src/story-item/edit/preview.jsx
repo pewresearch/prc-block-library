@@ -8,6 +8,7 @@ import classNames from 'classnames/bind';
  */
 import { RichText } from '@wordpress/block-editor';
 import { date as formatDate } from '@wordpress/date';
+import { RawHTML } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -59,7 +60,7 @@ function Preview({ attributes }) {
 		A1: 'A1' === imageSize,
 	});
 
-	const excerptClasses = classNames('excerpt');
+	const excerptClasses = classNames('description');
 
 	const displayImage =
 		undefined !== imageSlot &&
@@ -88,7 +89,9 @@ function Preview({ attributes }) {
 				</div>
 			)}
 
-			{enableHeader && <h3 className={headerClasses}>{title}</h3>}
+			{enableHeader && (
+				<RawHTML>{`<h${headerSize} className=${headerClasses}>${title}</h${headerSize}>`}</RawHTML>
+			)}
 
 			{enableExcerpt && (
 				<RichText.Content

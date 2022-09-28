@@ -2,7 +2,7 @@
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/staff-listing` block.
  *
  * @package gutenberg
  */

@@ -364,13 +364,14 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
     .meta {
         grid-area: meta;
+		padding-bottom: 1.5em;
+
 		font-size: 12px;
 		font-family: var(--wp--preset--font-family--sans-serif);
 		color: rgba(0,0,0,.6);
 		letter-spacing: 0.1em;
 		line-height: 1em;
 		text-transform: uppercase;
-		padding-bottom: 1.5em;
     }
 
     .header {
@@ -386,23 +387,23 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         word-wrap: break-word;
 
         // .medium, mobile first.
-		font-family: $headerFont;
-        font-size: $headerMediumFontSize;
-        font-weight: $headerMediumFontWeight;
-        line-height: $headerMediumLineHeight;
+		// font-family: $headerFont;
+        // font-size: $headerMediumFontSize;
+        // font-weight: $headerMediumFontWeight;
+        // line-height: $headerMediumLineHeight;
 
         // Find .large above
 
         &.small {
-            font-size: $headerSmallFontSize;
-            font-weight: $headerSmallFontWeight;
-            line-height: $headerSmallLineHeight;
+            // font-size: $headerSmallFontSize;
+            // font-weight: $headerSmallFontWeight;
+            // line-height: $headerSmallLineHeight;
         }
 
 		&.large {
-			font-size: $headerLargeFontSize;
-			font-weight: $headerLargeFontWeight;
-			line-height: $headerLargeLineHeight;
+			// font-size: $headerLargeFontSize;
+			// font-weight: $headerLargeFontWeight;
+			// line-height: $headerLargeLineHeight;
 		}
 
         &.light {
@@ -423,9 +424,9 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     .description {
         grid-area: excerpt;
         margin: 10px 0 0 0;
-        font-size: 16px;
-		color: colors.$textColor;
-        line-height: variables.$lineHeight;
+        // font-size: 16px;
+		// color: colors.$textColor;
+        // line-height: variables.$lineHeight;
         p {
             margin: 0 0 7px 0;
             &:last-child {
@@ -436,11 +437,11 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
     .description a,
     .extra a {
-        color: colors.$trueBlack;
+        // color: colors.$trueBlack;
         transition: color variables.$defaultDuration variables.$defaultEasing;
-        &:hover {
-            color: colors.$trueBlack;
-        }
+        // &:hover {
+        //     color: colors.$trueBlack;
+        // }
     }
 
     // For when breaking news is enabled but extras are not.
@@ -461,9 +462,11 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         display: block;
         margin: $extraMargin;
         width: 100%;
-        color: colors.$darkTextColor;
+
+		color: colors.$darkTextColor;
         font-family: variables.$sansSerifFont;
         font-size: 15px;
+
         transition: color variables.$defaultDuration variables.$defaultEasing;
 
         .kicker-breaking-news {

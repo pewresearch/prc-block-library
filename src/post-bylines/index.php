@@ -7,7 +7,7 @@ use PRC_Core\Hybrid_People\prc_get_bylines;
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/post-bylines` block.
  *
  * @package gutenberg
  */

@@ -5,7 +5,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/responsive-container-controller` block.
  *
  * @package gutenberg
  */
@@ -35,14 +35,14 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 			array_column( $blocks, 'blockName' ),
 			function( $e ) {
 				return 'prc-block/responsive-container-controller' === $e;
-			} 
+			}
 		);
 
 		// No data, return early,
 		if ( empty( $matched ) ) {
 			return;
 		}
-		
+
 		foreach ( array_keys( $matched ) as $i ) {
 			foreach ( $blocks[ $i ]['innerBlocks'] as $viewport_block ) {
 				$id  = $this->get_block_id_hash( $viewport_block );
@@ -86,10 +86,10 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div <?php echo $wrapper_attributes; ?>>
-			<?php 
+			<?php
 			foreach ( $block->parsed_block['innerBlocks'] as $i => $viewport_block ) {
 				$id = $this->get_block_id_hash( $viewport_block );
-				
+
 				$viewport_block['attrs']['id'] = $id;
 				echo render_block( $viewport_block );
 			}

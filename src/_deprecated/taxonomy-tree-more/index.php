@@ -5,7 +5,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/taxonomy-tree-menu` block.
  *
  * @package gutenberg
  */
@@ -52,7 +52,7 @@ class Taxonomy_Tree_More extends PRC_Block_Library {
 
 	public function register_block() {
 		$block_editor_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
-		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

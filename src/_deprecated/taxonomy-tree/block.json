@@ -6,7 +6,7 @@
 		"subHeading": {
             "type": "string"
         }
-    },          
+    },
 	"styles" : [
 		{
 			"name": "standard",
@@ -19,6 +19,7 @@
 		}
 	],
 	"supports": {
-		"html": false
+		"html": false,
+		"inserter": false
 	}
 }

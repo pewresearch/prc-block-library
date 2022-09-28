@@ -4,6 +4,7 @@
 	"category": "layout",
 	"parent": "prc-block/taxonomy-tree",
 	"supports": {
-		"html": false
+		"html": false,
+		"inserter": false
 	}
 }

@@ -2,12 +2,13 @@
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/quote-sorter` block.
  *
  * @package gutenberg
  */
 
 class PRC_Social_Share_Text_Link extends PRC_Block_Library {
+	public static $block_name = 'prc-block/social-share-text-link';
 	public static $version = '1.0.1';
 
 	public function __construct( $init = false ) {
@@ -17,7 +18,7 @@ class PRC_Social_Share_Text_Link extends PRC_Block_Library {
 	}
 
 	/**
-	 * Renders the `prc-block/menu-link` block.
+	 * Renders the `prc-block/social-share-text-link` block.
 	 *
 	 * @param array $attributes The block attributes.
 	 * @param array $content The saved content.

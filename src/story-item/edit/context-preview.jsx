@@ -8,7 +8,7 @@ import classNames from 'classnames/bind';
  */
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { useEntityRecord } from '@wordpress/core-data';
-import { useEffect } from '@wordpress/element';
+import { useEffect, RawHTML } from '@wordpress/element';
 import { date as formatDate } from '@wordpress/date';
 
 /**
@@ -55,7 +55,7 @@ export default function ContextPreview({ attributes, clientId, context }) {
 		A1: 'A1' === imageSize,
 	});
 
-	const excerptClasses = classNames('excerpt');
+	const excerptClasses = classNames('description');
 
 	const displayImage =
 		art &&
@@ -111,7 +111,7 @@ export default function ContextPreview({ attributes, clientId, context }) {
 				</div>
 			)}
 			{enableHeader && (
-				<header className={headerClasses}>{title.rendered}</header>
+				<RawHTML>{`<h${headerSize} className=${headerClasses}>${title.rendered}</h${headerSize}>`}</RawHTML>
 			)}
 			{enableExcerpt && (
 				<RichText.Content

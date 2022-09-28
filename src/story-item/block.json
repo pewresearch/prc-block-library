@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 2,
 	"name": "prc-block/story-item",
     "title": "Story Item",
@@ -112,6 +113,11 @@
 	},
 	"supports": {
 		"html": false,
+		"color": {
+			"background": true,
+			"link": true,
+			"text": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
@@ -123,7 +129,7 @@
 			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true,
-				"__experimentalFontFamily": true
+				"FontFamily": true
 			}
 		}
 	}

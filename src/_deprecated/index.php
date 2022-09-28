@@ -96,7 +96,7 @@ function render_prc_depreceated_block_post_publish_date( $attributes, $content, 
 }
 
 /**
- * Server-side rendering of the `prc-block/menu-link` block.
+ * Server-side rendering of the `prc-block/social-link` block.
  *
  * @package gutenberg
  */

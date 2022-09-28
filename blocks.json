@@ -267,14 +267,14 @@
 		},
 		{
 			"name": "taxonomy-tree",
-			"main": "./src/taxonomy-tree/index.js",
-			"php": "./src/taxonomy-tree/index.php"
+			"main": "./src/_deprecated/taxonomy-tree/index.js",
+			"php": "./src/_deprecated/taxonomy-tree/index.php"
 		},
 		{
 			"name": "taxonomy-tree-more",
-			"main": "./src/taxonomy-tree-more/index.js",
-			"php": "./src/taxonomy-tree-more/index.php",
-			"frontend": "./src/taxonomy-tree-more/frontend.js"
+			"main": "./src/_deprecated/taxonomy-tree-more/index.js",
+			"php": "./src/_deprecated/taxonomy-tree-more/index.php",
+			"frontend": "./src/_deprecated/taxonomy-tree-more/frontend.js"
 		},
 		{
 			"name": "topic-index-az",

@@ -15,8 +15,8 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Column'),
-    description: __('A single column within a row.'),
+    title: __('DEPRECATED: Column'),
+    description: __('DEPRECATED: A single column within a row.'),
     icon,
     edit,
     save,

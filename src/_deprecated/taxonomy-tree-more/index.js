@@ -11,16 +11,13 @@ import { registerBlockType } from '@wordpress/blocks';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
-import './style.scss';
 
 const { name } = metadata;
 
 const settings = {
-    title: __('Tree List'),
-    description: 'A tree list that can be expanded.',
+    title: __('DEPRECATED: Taxonomy Tree More'),
+    description: 'DEPRECATED: A collapsible list of more content for the Taxonomy Tree.',
     category: 'layout',
-    icon: 'networking',
-    keywords: [__('Taxonomy Tree'), __('Taxonomies'), __('Tree')],
     edit,
     save,
 };

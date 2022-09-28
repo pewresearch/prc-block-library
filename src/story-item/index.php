@@ -14,7 +14,7 @@ class Story_Item extends PRC_Block_Library {
 	public static $frontend_js_handle = false;
 	public static $version            = '4.0.9';
 	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = '09-19-2022';
+	public static $cache_invalidate   = false; //'09-19-2022';
 	public static $cache_ttl          = 10 * MINUTE_IN_SECONDS;
 	public static $experiments        = array(
 		'relative_date' => false,
@@ -131,6 +131,7 @@ class Story_Item extends PRC_Block_Library {
 			return 'Dataset';
 		}
 		$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'names' ) );
+		do_action('qm/debug', 'get_label' . print_r(array($post_id, $post_type, $taxonomy, $terms), true));
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
 			return array_shift( $terms );
 		}
@@ -317,10 +318,12 @@ class Story_Item extends PRC_Block_Library {
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
 		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
 		$excerpt     = false === $excerpt && is_object($post)  && !empty(get_the_excerpt($post)) ? get_the_excerpt($post) : false;
+		$taxonomy    = array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false;
+		$taxonomy    = 19 === get_current_blog_id() ? 'category' : $taxonomy;
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
 			$post_type,
-			array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false,
+			$taxonomy,
 		);
 		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date );
 		$url         = $this->get_url( $post_id, $post_type );
@@ -549,7 +552,7 @@ class Story_Item extends PRC_Block_Library {
 				$markup .= $image_markup;
 			}
 			if ( $enable_header ) {
-				$markup .= "<header class='{$header_class}'><a href='{$url}'>{$title}</a></header>";
+				$markup .= "<h{$header_size} class='{$header_class}'><a href='{$url}'>{$title}</a></h{$header_size}>";
 			}
 			if ( ! empty( $content ) ) {
 				$markup .= $content;

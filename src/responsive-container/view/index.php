@@ -1,6 +1,13 @@
 <?php
 require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
+
+/**
+ * Server-side rendering of the `prc-block/responsive-container-view` block.
+ *
+ * @package gutenberg
+ */
+
 class Responsive_Container_View extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
