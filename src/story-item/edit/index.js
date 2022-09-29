@@ -2,14 +2,11 @@
  * External Dependencies
  */
 import classNames from 'classnames/bind';
-import { getTermsAsOptions } from '@prc-app/shared';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment, useEffect, useState } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
-import { useEntityProp } from '@wordpress/core-data';
+import { Fragment } from '@wordpress/element';
 
 /**
  * Internal Dependencies

@@ -1,11 +1,10 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment, useEffect, useState } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import {
 	SelectControl,
 	Spinner,
-	TextControl,
 	DatePicker,
 	Button,
 	Popover,
@@ -13,6 +12,10 @@ import {
 import { cleanForSlug } from '@wordpress/url';
 import { useEntityRecords } from '@wordpress/core-data';
 import { date as formatDate } from '@wordpress/date';
+
+/**
+ * Internal Dependencies
+ */
 
 function Meta({ attributes, setAttributes }) {
 	const { date, label, enableMeta, metaTaxonomy } = attributes;
@@ -29,13 +32,6 @@ function Meta({ attributes, setAttributes }) {
 		{ per_page: -1, hide_empty: false, context: 'view' },
 	);
 	const hasRecords = entityTerms ? 0 < entityTerms.length : false;
-
-	useEffect(() => {
-		console.log('isResolving', isResolving, entityTerms);
-		if (entityTerms && entityTerms.length) {
-			console.log('Terms!', entityTerms);
-		}
-	}, [entityTerms, isResolving]);
 
 	const cleanedLabel =
 		undefined !== label ? cleanForSlug(label.toLowerCase()) : 'report';

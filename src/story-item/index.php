@@ -10,13 +10,17 @@ use \WPackio as WPackio;
 
 class Story_Item extends PRC_Block_Library {
 
-	public static $css_handle         = false;
-	public static $frontend_js_handle = false;
-	public static $version            = '4.0.9';
-	public static $date_format        = 'M j, Y';
-	public static $cache_invalidate   = false; //'09-19-2022';
-	public static $cache_ttl          = 10 * MINUTE_IN_SECONDS;
-	public static $experiments        = array(
+	public static $css_handle          = false;
+	public static $frontend_js_handle  = false;
+	public static $version             = '4.0.9';
+	public static $date_format         = 'M j, Y';
+	public static $cache_invalidate    = false; //'09-19-2022';
+	public static $cache_ttl           = 10 * MINUTE_IN_SECONDS;
+	public static $stub_disabled_sites = array(
+		17,
+		19
+	);
+	public static $experiments         = array(
 		'relative_date' => false,
 	);
 
@@ -131,10 +135,14 @@ class Story_Item extends PRC_Block_Library {
 			return 'Dataset';
 		}
 		$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'names' ) );
+
 		do_action('qm/debug', 'get_label' . print_r(array($post_id, $post_type, $taxonomy, $terms), true));
+
 		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
+			// Get the first term and capitalize its first letter.
 			return array_shift( $terms );
 		}
+
 		return 'Report';
 	}
 
@@ -319,12 +327,14 @@ class Story_Item extends PRC_Block_Library {
 		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
 		$excerpt     = false === $excerpt && is_object($post)  && !empty(get_the_excerpt($post)) ? get_the_excerpt($post) : false;
 		$taxonomy    = array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false;
-		$taxonomy    = 19 === get_current_blog_id() ? 'category' : $taxonomy;
+		$taxonomy    = in_array( get_current_blog_id(), self::$stub_disabled_sites ) ? 'category' : $taxonomy;
 		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
 			$post_id,
 			$post_type,
 			$taxonomy,
 		);
+		// @TODO: This can eventually be gotten rid of once we migrate fact-tank to its own short-reads subsite and these just become posts.
+		$label       = 'fact-tank' === $label ? 'short-read' : $label;
 		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date );
 		$url         = $this->get_url( $post_id, $post_type );
 		$url         = array_key_exists( 'url', $attributes ) && !empty( $attributes['url'] ) ? $attributes['url'] : $url;
@@ -542,8 +552,6 @@ class Story_Item extends PRC_Block_Library {
 				if ( !empty($label) ) {
 					// Ensure there are no dashes in labels.
 					$label = str_replace( '-', ' ', $label );
-					// If label is Fact Tank change to Short Read.
-					$label = 'Fact Tank' === $label ? 'Short Read' : $label;
 					$markup .= "<span class='report label'>{$label}</span> | ";
 				}
 				$markup .= "<span class='date'>{$date}</span></div>";

@@ -148,6 +148,8 @@ const useStoryItemBlockProps = (attributes) => {
 	return useBlockProps(blockPropsArgs);
 };
 
+// Everything except site's 19 and 17.
+// @TODO: I wish there was a more systemic way to approach this but it'll work for now
 const stubEnabledSiteIds = Array.from(Array(19).keys()).filter(
 	(id) => 17 !== id && 0 !== id,
 );

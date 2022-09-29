@@ -20,7 +20,7 @@ import { useEntityRecords, useEntityProp } from '@wordpress/core-data';
 import apiFetch from '@wordpress/api-fetch';
 
 export default function Placeholder({ attributes, setAttributes }) {
-	const { metaTaxonomy, imageSize } = attributes;
+	const { imageSize } = attributes;
 
 	const [siteId] = useEntityProp('root', 'site', 'siteId');
 	const postType = 1 === siteId ? 'stub' : 'post';
@@ -56,7 +56,7 @@ export default function Placeholder({ attributes, setAttributes }) {
 		}
 		return new Promise((resolve, reject) => {
 			apiFetch({
-				path: '/prc-api/v2/utils/get-post-by-url',
+				path: '/prc-api/v2/stub/get-post-by-url',
 				method: 'POST',
 				data: { url },
 			})

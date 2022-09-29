@@ -18,11 +18,33 @@ import {
 	TextControl,
 	ToolbarButton,
 } from '@wordpress/components';
+import {
+	__experimentalLinkControl as LinkControl,
+	__experimentalLinkControlSearchInput as LinkControlSearchInput,
+	__experimentalLinkControlSearchResults as LinkControlSearchResults,
+} from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import { setPostAttributes } from '../../helpers';
+
+function NewLinkControl() {
+	const [inputValue, setInputValue] = useState('');
+	const debouncedValue = useDebounce(inputValue, 500);
+
+	return (
+		<LinkControlSearchInput
+			value={inputValue}
+			onChange={(newVal) => setInputValue(newVal)}
+			renderSuggestions={(props) => <LinkControlSearchResults {...props} />}
+		>
+			<div className="block-editor-link-control__search-actions">
+				<p>Test</p>
+			</div>
+		</LinkControlSearchInput>
+	);
+}
 
 function URLControl({ url, imageSize = 'A1', setAttributes }) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +59,7 @@ function URLControl({ url, imageSize = 'A1', setAttributes }) {
 		if (value !== url) {
 			setIsLoading(true);
 			apiFetch({
-				path: '/prc-api/v2/utils/get-post-by-url',
+				path: '/prc-api/v2/stub/get-post-by-url',
 				method: 'POST',
 				data: { url: value },
 			})
@@ -79,7 +101,10 @@ function URLControl({ url, imageSize = 'A1', setAttributes }) {
 				aria-haspopup="true"
 				label={__('Set URL')}
 				icon="admin-links"
-				onClick={() => setIsLinkOpen(!isLinkOpen)}
+				// onClick={() => setIsLinkOpen(!isLinkOpen)}
+				onClick={() => {
+					setIsModalOpen(true);
+				}}
 				showTooltip
 			/>
 			{true === isModalOpen && (
@@ -87,7 +112,7 @@ function URLControl({ url, imageSize = 'A1', setAttributes }) {
 					title={__('Replace story item content', 'prc-blocks-story-item')}
 					onRequestClose={onModalClose}
 				>
-					<p>
+					{/* <p>
 						Replace this story item with <strong>{post.post_title}</strong>?
 					</p>
 					<ButtonGroup>
@@ -114,7 +139,7 @@ function URLControl({ url, imageSize = 'A1', setAttributes }) {
 						<Button variant="secondary" onClick={onModalClose}>
 							Cancel
 						</Button>
-					</ButtonGroup>
+					</ButtonGroup> */}
 				</Modal>
 			)}
 			{true === isLinkOpen && (

@@ -7,7 +7,7 @@ import {
 	InspectorControls,
 	InspectorAdvancedControls,
 } from '@wordpress/block-editor';
-import { Fragment, useState } from '@wordpress/element';
+import { Fragment, useState, useEffect } from '@wordpress/element';
 import {
 	BaseControl,
 	Button,
@@ -48,6 +48,14 @@ function Inspector({ attributes, setAttributes, context }) {
 	} = attributes;
 
 	const label = __('Story Item Options');
+
+	useEffect(() => {
+		// If this is not a stub enabled site then automatically switch the metaTaxonomy to category.
+		if (!stubEnabledSiteIds.includes(siteId) && 'formats' === metaTaxonomy) {
+			console.log("Doing this", siteId, metaTaxonomy);
+			setAttributes({ metaTaxonomy: 'category' });
+		}
+	}, [siteId]);
 
 	return (
 		<Fragment>
