@@ -46,6 +46,6 @@
 		],
 		"anchor": true,
 		"html": false,
-		"inserter": true
+		"inserter": false
 	}
 }

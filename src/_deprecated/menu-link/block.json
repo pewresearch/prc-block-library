@@ -56,7 +56,8 @@
 	"usesContext": ["prc-block/menu", "prc-block/taxonomy-tree", "prc-block/taxonomy-tree-more", "prc-block/hasDarkBackground"],
 	"supports": {
 		"reusable": false,
-		"html": false
+		"html": false,
+		"inserter": false
 	},
 	"styles": [
 		{

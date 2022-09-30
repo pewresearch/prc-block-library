@@ -28,7 +28,7 @@ const edit = ({ attributes, className, setAttributes }) => {
 		allowedBlocks: ALLOWED_BLOCKS,
 		orientation: 'vertical',
 		templateLock: 'all',
-		template: template,
+		template,
 	});
 
 	// Init the template.
@@ -67,8 +67,24 @@ const edit = ({ attributes, className, setAttributes }) => {
 							{
 								className: 'is-style-horizontal',
 								interest: '1d2638430b',
-								buttonColor: '#000',
 							},
+							[
+								[
+									'prc-block/form-input-field',
+									{
+										type: 'email',
+										placeholder: 'Enter your email address',
+										required: true,
+										label: 'Email Address',
+									},
+								],
+								[
+									'core/button',
+									{
+										text: 'Sign Up',
+									},
+								],
+							],
 						],
 					],
 				],
@@ -79,7 +95,7 @@ const edit = ({ attributes, className, setAttributes }) => {
 	// Set loaded to true when the template has data.
 	useEffect(() => {
 		// if template is not empty, set the loaded state to true
-		if (template.length > 0) {
+		if (0 < template.length) {
 			toggleLoaded(true);
 		}
 	}, [template]);

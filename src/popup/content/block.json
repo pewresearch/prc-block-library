@@ -3,7 +3,7 @@
 	"name": "prc-block/popup-content",
 	"title": "Popup Content",
 	"icon": "playlist-video",
-	"description": "The content here is the clickable trigger to display the modal.",
+	"description": "The content inside this block will act as the clickable trigger to display the modal.",
 	"category": "media",
 	"attributes": {},
 	"supports": {

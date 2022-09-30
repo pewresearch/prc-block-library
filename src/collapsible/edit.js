@@ -19,7 +19,7 @@ const ALLOWED_BLOCKS = [
 	'core/image',
 	'core/table',
 	'core/list',
-	'prc-block/menu-link',
+	'core/buttons',
 ];
 
 const TEMPLATE = [['core/paragraph', {}]];

@@ -18,7 +18,6 @@ class Core_Post_Title extends PRC_Block_Library {
 	 */
 	public function register_new_styles() {
 		ob_start();
-
 		?>
 		.wp-block-post-title.is-style-essay-title {
 			font-size: 48px!important;

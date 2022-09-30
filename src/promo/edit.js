@@ -26,7 +26,6 @@ import Icon from './icons';
 const ALLOWED_BLOCKS = [
 	'core/buttons',
 	'core/paragraph',
-	// 'prc-block/menu-link',
 	'prc-block/mailchimp-form',
 ];
 

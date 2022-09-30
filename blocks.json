@@ -142,14 +142,14 @@
 		},
 		{
 			"name": "menu",
-			"main": "./src/menu/index.js",
-			"php": "./src/menu/index.php"
+			"main": "./src/_deprecated/menu/index.js",
+			"php": "./src/_deprecated/menu/index.php"
 		},
 		{
 			"name": "menu-link",
-			"main": "./src/menu-link/index.js",
-			"php": "./src/menu-link/index.php",
-			"frontend": "./src/menu-link/frontend.js"
+			"main": "./src/_deprecated/menu-link/index.js",
+			"php": "./src/_deprecated/menu-link/index.php",
+			"frontend": "./src/_deprecated/menu-link/frontend.js"
 		},
 		{
 			"name": "page",
