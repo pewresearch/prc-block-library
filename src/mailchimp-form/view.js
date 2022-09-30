@@ -85,6 +85,7 @@ function Form({
 					background: 'none',
 					border: 'none',
 					padding: 0,
+					fontSize: 'inherit',
 				}}
 			>
 				<span style={buttonStylesObj} className={buttonClassesArr.join(' ')}>

@@ -1,6 +1,6 @@
 {
-  "mailchimp-form.js": "view/mailchimp-form-ca098ecf.js",
-  "mailchimp-form.js.map": "view/mailchimp-form-ca098ecf.js.map",
+  "mailchimp-form.js": "view/mailchimp-form-8777efc6.js",
+  "mailchimp-form.js.map": "view/mailchimp-form-8777efc6.js.map",
   "runtime.js": "view/runtime-f7d0718d.js",
   "runtime.js.map": "view/runtime-f7d0718d.js.map",
   "wpackioEp": {
@@ -8,11 +8,11 @@
       "assets": {
         "js": [
           "view/runtime-f7d0718d.js",
-          "view/mailchimp-form-ca098ecf.js"
+          "view/mailchimp-form-8777efc6.js"
         ],
         "js.map": [
           "view/runtime-f7d0718d.js.map",
-          "view/mailchimp-form-ca098ecf.js.map"
+          "view/mailchimp-form-8777efc6.js.map"
         ]
       }
     }
