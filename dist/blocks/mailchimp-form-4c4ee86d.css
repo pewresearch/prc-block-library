@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-prc-block-mailchimp-form.wp-block,.wp-block-prc-block-mailchimp-form>form{display:flex}.wp-block-prc-block-mailchimp-form.wp-block.is-style-standard,.wp-block-prc-block-mailchimp-form>form.is-style-standard{flex-direction:column}.wp-block-prc-block-mailchimp-form.wp-block.is-style-horizontal,.wp-block-prc-block-mailchimp-form>form.is-style-horizontal{flex-direction:row}.wp-block-prc-block-mailchimp-form.wp-block.is-style-horizontal input,.wp-block-prc-block-mailchimp-form>form.is-style-horizontal input{flex-grow:1;margin-right:5px}
+
+/*# sourceMappingURL=mailchimp-form-4c4ee86d.css.map*/

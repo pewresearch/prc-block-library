@@ -94,8 +94,7 @@ $maxWidth: 1058px;
 				padding-bottom: 7px;
 			}
 			.wp-block-prc-block-promo__text,
-			.wp-block-prc-block-promo__action,
-			.ui.mailchimp.form .field {
+			.wp-block-prc-block-promo__action {
 				text-align: center;
 			}
 		}
@@ -130,10 +129,6 @@ $maxWidth: 1058px;
 	.wp-block-prc-block-promo__action {
 		grid-area: action;
 		text-align: right;
-		.wp-block-prc-block-menu-link:not(.is-style-button):not(.ui.button) {
-			padding-top: 6px;
-			display: inline;
-		}
 	}
 }
 
