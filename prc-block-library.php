@@ -185,6 +185,17 @@ class PRC_Block_Library {
 			'title' => true,
 			'style' => true,
 		);
+		$allowed_tags['input'] = array(
+			'class' => true,
+			'id' => true,
+			'name' => true,
+			'type' => true,
+			'value' => true,
+			'placeholder' => true,
+			'required' => true,
+			'disabled' => true,
+			'style' => true,
+		);
 		$allowed_tags['div']['style']  = true;
 		$allowed_tags['img']['srcset'] = true;
 		$allowed_tags['img']['sizes']  = true;

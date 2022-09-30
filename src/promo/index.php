@@ -34,7 +34,7 @@ class Promo extends PRC_Block_Library {
 		ob_start();
 		?>
 		<!-- wp:prc-block/promo {"backgroundColor":"#fff","hasForm":true} -->
-		<div class="wp-block-prc-block-promo__text"><h2 class="heading sans-serif"><?php echo esc_html( $args['headline'] ); ?></h2><div class="sub-heading sans-serif"><p><?php echo esc_html( $args['subheadline'] ); ?></p></div></div><div class="wp-block-prc-block-promo__action"><!-- wp:prc-block/mailchimp-form {"interest":"<?php echo esc_html( $args['list_id'] ); ?>","buttonColor":"#000","className":"wp-block-prc-block-mailchimp-form is-style-horizontal"} /--></div>
+		<div class="wp-block-prc-block-promo__text"><h2 class="wp-block-prc-block-promo__heading"><?php echo esc_html( $args['headline'] ); ?></h2><div class="wp-block-prc-block-promo__sub_heading"><p><?php echo esc_html( $args['subheadline'] ); ?></p></div></div><div class="wp-block-prc-block-promo__action"><!-- wp:prc-block/mailchimp-form {"interest":"<?php echo esc_html( $args['list_id'] ); ?>","buttonColor":"#000","className":"wp-block-prc-block-mailchimp-form is-style-horizontal"} /--></div>
 		<!-- /wp:prc-block/promo -->
 		<?php
 		$promo_content = ob_get_clean();

@@ -1,0 +1,40 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/form-input-field",
+	"title": "Form Input Field",
+	"description": "A primitive block for a form input field",
+	"keywords": [],
+	"category": "design",
+	"attributes": {
+		"placeholder": {
+			"type": "string",
+			"default": "Enter email address..."
+		},
+		"type": {
+			"type": "string",
+			"default": "email"
+		}
+	},
+	"parent": ["prc-block/mailchimp-form"],
+	"supports": {
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
+		},
+		"html": false,
+		"reusable": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true
+		}
+	}
+}

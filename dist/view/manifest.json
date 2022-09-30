@@ -1,0 +1,20 @@
+{
+  "mailchimp-form.js": "view/mailchimp-form-bf53bc09.js",
+  "mailchimp-form.js.map": "view/mailchimp-form-bf53bc09.js.map",
+  "runtime.js": "view/runtime-f7d0718d.js",
+  "runtime.js.map": "view/runtime-f7d0718d.js.map",
+  "wpackioEp": {
+    "mailchimp-form": {
+      "assets": {
+        "js": [
+          "view/runtime-f7d0718d.js",
+          "view/mailchimp-form-bf53bc09.js"
+        ],
+        "js.map": [
+          "view/runtime-f7d0718d.js.map",
+          "view/mailchimp-form-bf53bc09.js.map"
+        ]
+      }
+    }
+  }
+}

@@ -16,11 +16,10 @@ import './style.scss';
 const { name } = metadata;
 
 const settings = {
-    title: __('Mailchimp Form'),
-    icon,
-    keywords: [__('mailchimp'), __('newsletter'), __('form')],
-    edit,
-    save,
+	title: __('Mailchimp Form'),
+	icon,
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

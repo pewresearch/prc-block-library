@@ -1,88 +1,44 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-import { mailChimpInterests } from '@prc-app/shared';
-/**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { ColorPalette, PanelBody, PanelRow, SelectControl } from '@wordpress/components';
-import { Fragment, useEffect } from '@wordpress/element';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { Fragment } from '@wordpress/element';
 
 /**
  * Internal Dependencies
  */
-import MailchimpForm from './component';
+import Controls from './controls';
 
-const BUTTON_COLORS = [
-    { name: 'primary', color: '#2185d0' },
-    { name: 'secondary', color: '#000' },
-    { name: 'mustard', color: '#d3aa20' },
-    { name: 'basic', color: '#fff' },
-];
+const ALLOWED_BLOCKS = ['prc-block/form-input-field', 'core/button'];
 
-const SidebarControls = ({ interest, buttonColor, setAttributes, hasDarkBackground }) => {
-    useEffect(() => {
-        if ( ('' === buttonColor || '#000' === buttonColor) && hasDarkBackground ) {
-            setAttributes({
-                buttonColor: '#d3aa20',
-            });
-        }
-    }, [ buttonColor, hasDarkBackground ]);
+export default function edit({ attributes, setAttributes, context }) {
+	const hasDarkBackground = context['prc-block/hasDarkBackground'];
 
-    return (
-        <InspectorControls>
-            <PanelBody title={__('Mailchimp Form Options')}>
-                <PanelRow>
-                    <SelectControl
-                        label="Choose Newsletter"
-                        value={interest}
-                        options={mailChimpInterests}
-                        onChange={id => {
-                            setAttributes({ interest: id });
-                        }}
-                    />
-                </PanelRow>
-                <PanelRow>
-                    <ColorPalette
-                        colors={BUTTON_COLORS}
-                        value={buttonColor}
-                        onChange={c => {
-                            setAttributes({ buttonColor: c });
-                        }}
-                        disableCustomColors
-                    />
-                </PanelRow>
-            </PanelBody>
-        </InspectorControls>
-    );
-};
+	const blockProps = useBlockProps({});
 
-const edit = ({ attributes, setAttributes, context }) => {
-    const { interest, buttonColor, className } = attributes;
-    const hasDarkBackground = context['prc-block/hasDarkBackground'];
-    const componentProps = {
-        display: false,
-        interest,
-        buttonColor,
-        hasDarkBackground,
-        blockProps: useBlockProps({
-            className: classnames(className),
-        }),
-    };
-    return (
-        <Fragment>
-            <SidebarControls
-                interest={interest}
-                buttonColor={buttonColor}
-                setAttributes={setAttributes}
-                hasDarkBackground={hasDarkBackground}
-            />
-            <MailchimpForm {...componentProps} />
-        </Fragment>
-    );
-};
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		templateLock: true,
+		template: [
+			['prc-block/form-input-field', {}],
+			[
+				'core/button',
+				{
+					text: 'Sign Up',
+				},
+			],
+		],
+	});
 
-export default edit;
+	return (
+		<Fragment>
+			<form {...innerBlocksProps} />
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+				}}
+			/>
+		</Fragment>
+	);
+}

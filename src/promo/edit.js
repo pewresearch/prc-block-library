@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import classnames from 'classnames';
+import { HeadingLevelToolbar } from '@prc-app/shared';
 
 /**
  * WordPress Dependencies
@@ -9,6 +10,7 @@ import classnames from 'classnames';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useEffect } from '@wordpress/element';
 import {
+	BlockControls,
 	RichText,
 	InnerBlocks,
 	useInnerBlocksProps,
@@ -19,28 +21,18 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
 import Icon from './icons';
 
 const ALLOWED_BLOCKS = [
 	'core/buttons',
 	'core/paragraph',
-	'prc-block/menu-link',
+	// 'prc-block/menu-link',
 	'prc-block/mailchimp-form',
 ];
 
 const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
-	const {
-		className,
-		hasDarkBackground,
-		heading,
-		headingLevel,
-		subHeading,
-		backgroundColor,
-		borderColor,
-		icon,
-		hasForm,
-	} = attributes;
+	const { className, heading, headingLevel, subHeading, icon, hasForm } =
+		attributes;
 
 	const hasSubheading =
 		undefined !== subHeading && '' !== subHeading && '<p></p>' !== subHeading;
@@ -67,16 +59,16 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 		setAttributes({ hasForm: hasMailchimpForm });
 	}, [hasMailchimpForm]);
 
-	const style = { borderColor, backgroundColor };
+	// const style = { borderColor, backgroundColor };
 
 	const blockProps = useBlockProps({
 		className: classnames(className, {
 			'has-icon': hasIcon,
 			'has-form': hasForm,
 			'has-large-icon': 'alexa' == icon,
-			'has-dark-background': hasDarkBackground,
+			// 'has-dark-background': hasDarkBackground,
 		}),
-		style,
+		// style,
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
@@ -93,16 +85,12 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 
 	return (
 		<Fragment>
-			<Controls
-				{...{
-					hasDarkBackground,
-					backgroundColor,
-					borderColor,
-					headingLevel,
-					icon,
-					setAttributes,
-				}}
-			/>
+			<BlockControls>
+				<HeadingLevelToolbar
+					selectedLevel={headingLevel}
+					onChange={(newLevel) => setAttributes({ headingLevel: newLevel })}
+				/>
+			</BlockControls>
 			<div {...blockProps}>
 				<div className="wp-block-prc-block-promo__inner-container">
 					{'is-style-asymmetrical' !== className && (
@@ -120,7 +108,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 							onChange={(h) => setAttributes({ heading: h })}
 							placeholder={__(`Promo title`)}
 							keepPlaceholderOnFocus
-							className="heading sans-serif"
+							className="wp-block-prc-block-promo__heading"
 						/>
 						{true === (isSelected || hasSubheading) && (
 							<RichText
@@ -130,7 +118,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 								placeholder={__(`Promo description`)}
 								multiline="p"
 								keepPlaceholderOnFocus
-								className="sub-heading sans-serif"
+								className="wp-block-prc-block-promo__sub_heading"
 							/>
 						)}
 					</div>

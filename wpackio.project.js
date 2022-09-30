@@ -4,15 +4,19 @@ const files = require('./blocks.json');
 
 const blockEntries = {};
 const frontendEntries = {};
+const viewEntries = {};
 const { blocks } = files;
 
 blocks.forEach((block) => {
-	const { name, main, frontend } = block;
+	const { name, main, frontend, view } = block;
 	if (undefined !== main) {
 		blockEntries[name] = main;
 	}
 	if (frontend) {
 		frontendEntries[name] = frontend;
+	}
+	if (view) {
+		viewEntries[name] = view;
 	}
 });
 
@@ -52,6 +56,11 @@ module.exports = {
 				// merge and return
 				return merge(config, customRules);
 			},
+		},
+		{
+			name: 'view',
+			entry: viewEntries,
+			optimizeForGutenberg: true,
 		},
 		{
 			name: 'frontend',

@@ -1,4 +1,8 @@
 /**
+ * External Dependencies
+ */
+import { HeadingLevelToolbar } from '@prc-app/shared';
+/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -18,6 +22,10 @@ import { setArtBySize } from '../../helpers';
 import URLControl from './url-control';
 
 const COLUMN_LIMIT = 6;
+
+function Icon({ level, isPressed }) {
+	return <HeadingLevelIcon selected={level} currentlyActive={isPressed} />;
+}
 
 function Toolbar({ attributes, setAttributes, context }) {
 	const { postId, url, imageSize, imageSlot, headerSize, isChartArt, title } =
@@ -40,13 +48,6 @@ function Toolbar({ attributes, setAttributes, context }) {
 		setArtBySize(newSize, postId, setAttributes); // @TODO LOOK INTO
 		console.log('new image size, check column context', context);
 	};
-
-	const MemoizedHeadingLevelIcon = useCallback(
-		() => (
-			<HeadingLevelIcon selected={headerSize} currentlyActive={headerSize} />
-		),
-		[headerSize],
-	);
 
 	const MemoizedImageSlotIcon = useCallback(
 		() => <ImageSlotIcon selected={imageSlot} />,
@@ -71,38 +72,12 @@ function Toolbar({ attributes, setAttributes, context }) {
 					/>
 				</ToolbarGroup>
 			)}
-			<ToolbarGroup>
-				<ToolbarDropdownMenu
-					icon={MemoizedHeadingLevelIcon}
-					label="Select Heading Size"
-					controls={[
-						{
-							title: 'Large',
-							icon: (
-								<HeadingLevelIcon selected={1} currentlyActive={headerSize} />
-							),
-							isActive: 1 === headerSize,
-							onClick: () => setAttributes({ headerSize: 1 }),
-						},
-						{
-							title: 'Medium',
-							icon: (
-								<HeadingLevelIcon selected={2} currentlyActive={headerSize} />
-							),
-							isActive: 2 === headerSize,
-							onClick: () => setAttributes({ headerSize: 2 }),
-						},
-						{
-							title: 'Small',
-							icon: (
-								<HeadingLevelIcon selected={3} currentlyActive={headerSize} />
-							),
-							isActive: 3 === headerSize,
-							onClick: () => setAttributes({ headerSize: 3 }),
-						},
-					]}
-				/>
-			</ToolbarGroup>
+			<HeadingLevelToolbar
+				selectedLevel={headerSize}
+				levels={[1, 2, 3]}
+				onChange={(newSize) => setAttributes({ headerSize: newSize })}
+				Icon={Icon}
+			/>
 			<ToolbarGroup>
 				<ToolbarDropdownMenu
 					icon={MemoizedImageSlotIcon}

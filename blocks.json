@@ -126,7 +126,7 @@
 			"name": "mailchimp-form",
 			"main": "./src/mailchimp-form/index.js",
 			"php": "./src/mailchimp-form/index.php",
-			"frontend": "./src/mailchimp-form/frontend.js"
+			"view": "./src/mailchimp-form/view.js"
 		},
 		{
 			"name": "mailchimp-opt-down",
@@ -151,7 +151,6 @@
 			"php": "./src/menu-link/index.php",
 			"frontend": "./src/menu-link/frontend.js"
 		},
-
 		{
 			"name": "page",
 			"main": "./src/page/index.js",
@@ -381,6 +380,11 @@
 			"name": "quote-sorter-dynamic-text",
 			"main": "./src/quote-sorter/child-blocks/dynamic-text/index.js",
 			"php": "./src/quote-sorter/child-blocks/dynamic-text/index.php"
+		},
+		{
+			"name": "form-input-field",
+			"main": "./src/form-input-field/index.js",
+			"php": "./src/form-input-field/index.php"
 		}
 	]
 }

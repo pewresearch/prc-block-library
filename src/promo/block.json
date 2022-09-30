@@ -6,7 +6,7 @@
 		"heading": {
 			"type": "string",
 			"source": "html",
-            "selector": ".heading"
+            "selector": ".wp-block-prc-block-promo__heading"
 		},
 		"headingLevel": {
 			"type": "integer",
@@ -15,11 +15,7 @@
 		"subHeading": {
 			"type": "string",
 			"source": "html",
-            "selector": ".sub-heading"
-		},
-		"hasDarkBackground": {
-			"type": "boolean",
-			"default": false
+            "selector": ".wp-block-prc-block-promo__sub_heading"
 		},
 		"icon": {
 			"type": "string",
@@ -49,32 +45,34 @@
 		},
 		"innerBlocks": [
 			{
-				"name": "prc-block/menu-link",
+				"name": "core/button",
 				"attributes": {
-					"className": "is-style-button",
-					"color": "#d3aa20",
-					"label": "DONATE",
-					"url": "#"
+					"text": "DONATE"
 				}
 			}
 		],
-		"viewPortWidth": 1000
+		"viewPortWidth": 1200
 	},
 	"providesContext": {
 		"prc-block/hasDarkBackground": "hasDarkBackground"
 	},
 	"supports": {
-		"html": false,
 		"align": ["full"],
 		"color": true,
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
+		},
+		"html": false,
 		"spacing": {
 			"margin": [ "top", "bottom" ],
 			"padding": true,
 			"blockGap": true
 		},
-		"__experimentalBorder": {
-			"color": true,
-			"width": true
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true
 		}
 	}
 }

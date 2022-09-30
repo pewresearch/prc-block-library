@@ -13,170 +13,144 @@ $subHeadingColorLight: #565656;
 $subHeadingLineHeight: 18px;
 
 // Disable margin-top on the first block and margin-bottom on the last block when inside a column block.
-.wp-block-prc-block-grid .column > .wp-block-prc-block-promo {
-  &:first-child {
-    margin-top: 0;
-  }
+.wp-block-prc-block-grid .column > .wp-block-prc-block-promo,
+.wp-block-column > .wp-block-prc-block-promo {
+	&:first-child {
+		margin-top: 0;
+	}
 
-  &:last-child {
-    margin-bottom: 0;
-  }
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
 .wp-block-prc-block-promo {
-  padding: $padding;
-  margin: $margin;
-  clear: both;
+	padding: $padding;
+	margin: $margin;
+	clear: both;
 
-  border: 1px solid transparent;
-  font-size: $fontSize;
+	border: 1px solid transparent;
+	font-size: $fontSize;
 
-  &.has-dark-background {
-    .heading {
-      color: $headingColorDark!important;
-    }
-    .sub-heading,
-    .wp-block-prc-block-promo__action .wp-block-prc-block-menu-link:not(.is-style-button):not(.ui.button) {
-      color: $subHeadingColorDark!important;
-    }
-  }
+	mark {
+		background: transparent!important;
+	}
 
-  .heading {
-    color: $headingColorLight;
-  }
+	.wp-block-prc-block-promo__sub_heading {
+		margin-top: 4px;
+		// & > p {
+		// 	line-height: $subHeadingLineHeight;
+		// }
+	}
 
-  .sub-heading {
-    color: $subHeadingColorLight;
-    //margin-top: 4px;
-    & > p {
-      line-height: $subHeadingLineHeight;
-    }
-  }
+	// Layout
+	.wp-block-prc-block-promo__inner-container {
+		max-width: $maxWidth;
+		display: grid;
+		grid-gap: $gridGap;
+		margin: 0 auto;
+	}
+	&.is-style-standard > .wp-block-prc-block-promo__inner-container,
+	&:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container {
+		grid-template-areas: 'text action';
+		grid-template-columns: 2fr 2fr;
+		align-items: center;
+	}
+	&.is-style-standard.has-icon > .wp-block-prc-block-promo__inner-container,
+	&:not(.is-style-asymmetrical).has-icon > .wp-block-prc-block-promo__inner-container {
+		grid-template-areas: 'icon text action';
+		grid-template-columns: $iconWidth 2fr 2fr;
+		align-items: center;
+	}
+	&.is-style-standard.has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container,
+	&:not(.is-style-asymmetrical).has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container {
+		grid-template-columns: $largeIconWidth 2fr 2fr;
+	}
 
-  .wp-block-prc-block-promo__inner-container {
-    max-width: $maxWidth;
-    display: grid;
-    grid-gap: $gridGap;
-    margin: 0 auto;
-  }
+	&.is-style-asymmetrical > .wp-block-prc-block-promo__inner-container {
+		grid-template-areas: 'text action';
+		grid-template-columns: 9fr 1fr;
+		align-items: center;
+		.wp-block-prc-block-promo__text {
+			display: grid;
+			grid-gap: 10px;
+			grid-template-columns: 330px auto;
+			align-items: center;
+		}
+	}
 
-  &.is-style-standard > .wp-block-prc-block-promo__inner-container,
-  &:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container {
-    grid-template-areas: 'text action';
-    grid-template-columns: 2fr 2fr;
-    align-items: center;
-  }
-  &.is-style-standard.has-icon > .wp-block-prc-block-promo__inner-container,
-  &:not(.is-style-asymmetrical).has-icon > .wp-block-prc-block-promo__inner-container {
-    grid-template-areas: 'icon text action';
-    grid-template-columns: $iconWidth 2fr 2fr;
-    align-items: center;
-  }
-  &.is-style-standard.has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container,
-  &:not(.is-style-asymmetrical).has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container {
-    grid-template-columns: $largeIconWidth 2fr 2fr;
-  }
+	// Convert everything to stacking on mobile.
+	@media screen and (max-width: 760px) {
+		padding: 20px;
+		.wp-block-prc-block-promo__inner-container {
+			grid-template-areas:
+				'icon'
+				'text'
+				'action'!important;
+			justify-content: center;
+			grid-template-columns: minmax(320px, 475px)!important;
 
-  &.is-style-asymmetrical > .wp-block-prc-block-promo__inner-container {
-    grid-template-areas: 'text action';
-    grid-template-columns: 9fr 1fr;
-    align-items: center;
-    .wp-block-prc-block-promo__text {
-      display: grid;
-      grid-gap: 10px;
-      grid-template-columns: 330px auto;
-      align-items: center;
-    }
-  }
+			.wp-block-prc-block-promo__text {
+				padding-bottom: 7px;
+			}
+			.wp-block-prc-block-promo__text,
+			.wp-block-prc-block-promo__action,
+			.ui.mailchimp.form .field {
+				text-align: center;
+			}
+		}
+	}
 
-  &.has-form .ui.mailchimp.form {
-    input[type="text"] {
-      font-size: 15px;
-      padding: .64em 1em;
-    }
-  }
+	.wp-block-prc-block-promo__heading,
+	p {
+		margin: 0!important;
+	}
 
-  // Convert everything to stacking on mobile.
-  @media screen and (max-width: 760px) {
-    padding: 20px;
-    .wp-block-prc-block-promo__inner-container {
-      grid-template-areas:
-        'icon'
-        'text'
-        'action'!important;
-      justify-content: center;
-      grid-template-columns: minmax(320px, 475px)!important;
+	&.has-large-icon .wp-block-prc-block-promo__icon {
+		& > img,
+		& > div > svg {
+			width: $largeIconWidth;
+		}
+	}
 
-      .wp-block-prc-block-promo__text {
-        padding-bottom: 7px;
-      }
-      .wp-block-prc-block-promo__text,
-      .wp-block-prc-block-promo__action,
-      .ui.mailchimp.form .field {
-        text-align: center;
-      }
-    }
-  }
+	.wp-block-prc-block-promo__icon {
+		grid-area: icon;
+		text-align: center;
+		& > img,
+		& > div > svg {
+			width: $iconWidth;
+		}
+	}
 
-  .heading,
-  p,
-  .fields,
-  .wp-block-prc-block-promo__action > .wp-block {
-    margin: 0!important;
-  }
+	.wp-block-prc-block-promo__text {
+		grid-area: text;
+		text-align: left;
+	}
 
-  &.has-large-icon .wp-block-prc-block-promo__icon {
-    & > img,
-    & > div > svg {
-      width: $largeIconWidth;
-    }
-  }
-  .wp-block-prc-block-promo__icon {
-    grid-area: icon;
-    text-align: center;
-    & > img,
-    & > div > svg {
-      width: $iconWidth;
-    }
-  }
-
-  .wp-block-prc-block-promo__text {
-    grid-area: text;
-    text-align: left;
-  }
-
-  .wp-block-prc-block-promo__action {
-    grid-area: action;
-    text-align: right;
-    .wp-block-prc-block-menu-link:not(.is-style-button):not(.ui.button) {
-      padding-top: 6px;
-      display: inline;
-    }
-  }
-}
-
-.wp-block-prc-block-promo.wp-block {
-  &.is-selected:focus {
-    border-color: transparent!important;
-  }
-
-  &.is-selected,
-  &.has-child-selected {
-    border-color: #007cba;
-  }
+	.wp-block-prc-block-promo__action {
+		grid-area: action;
+		text-align: right;
+		.wp-block-prc-block-menu-link:not(.is-style-button):not(.ui.button) {
+			padding-top: 6px;
+			display: inline;
+		}
+	}
 }
 
 // When in smaller columns:
+// @TODO: Add our new core columns support.
 .post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .column:not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical) {
-  padding: 21px;
+	padding: 21px;
 }
+
+// Layout:
 
 .ui.text.container > .prc-block-area .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container {
-  grid-template-columns: 1fr;
+	grid-template-columns: 1fr;
 }
 
 // When in columns that are not four and not sixteen (everything else) use this layout:
@@ -184,21 +158,21 @@ $subHeadingLineHeight: 18px;
 .post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
 .wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container {
-  grid-template-areas:
-  'text text'
-  'icon action';
-  grid-template-columns: $iconWidth minmax(320px, 475px);
-  align-items: flex-start;
-  justify-content: center!important;
+	grid-template-areas:
+	'text text'
+	'icon action';
+	grid-template-columns: $iconWidth minmax(320px, 475px);
+	align-items: flex-start;
+	justify-content: center!important;
 
-  .wp-block-prc-block-promo__text {
-    text-align: center;
-    padding-bottom: 7px;
-  }
-  .wp-block-prc-block-promo__action .wp-block-prc-block-mailchimp-form input[type="text"] {
-    max-width: 370px;
-    width: 100%;
-  }
+	.wp-block-prc-block-promo__text {
+		text-align: center;
+		padding-bottom: 7px;
+	}
+	.wp-block-prc-block-promo__action .wp-block-prc-block-mailchimp-form input[type="text"] {
+		max-width: 370px;
+		width: 100%;
+	}
 }
 
 // "Single Column" (4 column width) layout:
@@ -206,45 +180,45 @@ $subHeadingLineHeight: 18px;
 .wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .four.wide.column > .wp-block-prc-block-promo:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container,
 .wp-block-prc-block-promo.one-column-width:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container {
-  grid-template-areas:
-  'icon'
-  'text'
-  'action'!important;
-  grid-template-columns: 100%!important;
-  align-items: 'center'!important;
+	grid-template-areas:
+	'icon'
+	'text'
+	'action'!important;
+	grid-template-columns: 100%!important;
+	align-items: 'center'!important;
 
-  .wp-block-prc-block-promo__text,
-  .wp-block-prc-block-promo__action,
-  .ui.mailchimp.form .field {
-    text-align: center;
-  }
+	.wp-block-prc-block-promo__text,
+	.wp-block-prc-block-promo__action,
+	.ui.mailchimp.form .field {
+		text-align: center;
+	}
 
-  .wp-block-prc-block-promo__text {
-    padding-bottom: 7px;
-  }
+	.wp-block-prc-block-promo__text {
+		padding-bottom: 7px;
+	}
 
-  .wp-block-prc-block-promo__icon {
-    margin: 0 auto;
-  }
+	.wp-block-prc-block-promo__icon {
+		margin: 0 auto;
+	}
 
-  .wp-block-prc-block-promo__action {
-    @media screen and (min-width: 761px) {
-      .wp-block-prc-block-mailchimp-form {
-        width: 100%;
-      }
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .block-list-appender {
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 2em;
-    }
-  }
+	.wp-block-prc-block-promo__action {
+		@media screen and (min-width: 761px) {
+			.wp-block-prc-block-mailchimp-form {
+				width: 100%;
+			}
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.block-list-appender {
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: 2em;
+		}
+	}
 }
 
 .prc-block-area[data-post-type='fact-tank'] .wp-block-prc-block-promo,
 .prc-block-area[data-post-type='post'] .wp-block-prc-block-promo {
-  padding: 1rem;
+	padding: 1rem;
 }

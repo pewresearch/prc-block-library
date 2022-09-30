@@ -2,15 +2,17 @@
 	"apiVersion": 2,
 	"name": "prc-block/mailchimp-form",
 	"category": "marketing",
+	"keywords": [
+		"mailchimp",
+		"form",
+		"newsletter",
+		"subscribe"
+	],
 	"attributes": {
 		"interest": {
             "type": "string",
             "default": ""
-        },
-		"buttonColor": {
-			"type": "string",
-			"default": ""
-		}
+        }
 	},
 	"styles": [
 		{
@@ -24,7 +26,12 @@
 		}
 	],
 	"supports": {
-		"html": false
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		}
 	},
 	"usesContext": ["prc-block/hasDarkBackground"]
 }

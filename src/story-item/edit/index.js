@@ -1,9 +1,4 @@
 /**
- * External Dependencies
- */
-import classNames from 'classnames/bind';
-
-/**
  * WordPress Dependencies
  */
 import { Fragment } from '@wordpress/element';
@@ -66,13 +61,6 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 
 	return (
 		<Fragment>
-			<Controls
-				{...{
-					attributes,
-					setAttributes,
-					context,
-				}}
-			/>
 			<article {...blockProps}>
 				<Image
 					{...{
@@ -109,6 +97,13 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 					}}
 				/>
 			</article>
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+					context,
+				}}
+			/>
 		</Fragment>
 	);
 };
