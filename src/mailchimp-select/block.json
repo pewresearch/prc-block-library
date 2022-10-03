@@ -1,7 +1,10 @@
 {
 	"apiVersion": 2,
 	"name": "prc-block/mailchimp-select",
+	"title": "Mailchimp Select",
+	"description": "Select from multiple Mailchimp segment interests to subscribe to.",
 	"category": "marketing",
+	"keywords": ["mailchimp", "newsletters", "select"],
 	"attributes": {
 		"interests": {
             "type": "array",
@@ -10,6 +13,11 @@
     },          
 	"supports": {
 		"html": false,
-		"align": false
+		"align": false,
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": true
+		}
 	}
 }

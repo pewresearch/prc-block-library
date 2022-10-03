@@ -8,8 +8,13 @@ import { mailChimpInterests } from '@prc-app/shared';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { Fragment, useState } from '@wordpress/element';
+import {
+	InspectorControls,
+	useBlockProps,
+	useInnerBlocksProps,
+} from '@wordpress/block-editor';
+
 import {
 	PanelBody,
 	PanelRow,
@@ -20,7 +25,9 @@ import {
 /**
  * Internal dependencies
  */
-import FormList from './form';
+// import FormList from './form';
+
+const ALLOWED_BLOCKS = ['prc-block/form-input-checkbox', 'core/button'];
 
 const edit = ({ attributes, setAttributes }) => {
 	const { interests, className } = attributes;
@@ -44,32 +51,42 @@ const edit = ({ attributes, setAttributes }) => {
 		setSelected([...tmp]);
 	};
 
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		template: [
+			['prc-block/form-input-checkbox', {}],
+			[
+				'core/button',
+				{
+					text: 'Sign Up',
+				},
+			],
+		],
+	});
+
 	return (
-		<div {...blockProps}>
+		<Fragment>
 			<InspectorControls>
 				<PanelBody title={__('Mailchimp Interests')}>
 					<PanelRow>
 						<div>
-							{mailChimpInterests.map((i) => {
-								return false !== i.value ? (
+							{mailChimpInterests.map((i) =>
+								false !== i.value ? (
 									<ToggleControl
 										label={i.label}
 										checked={selected.includes(i.value)}
-										onChange={() =>
-											updateSelection(i.value)
-										}
+										onChange={() => updateSelection(i.value)}
 									/>
 								) : (
 									<HorizontalRule />
-								);
-							})}
+								))}
 						</div>
 					</PanelRow>
 				</PanelBody>
 			</InspectorControls>
-
-			<FormList interests={mailChimpInterests} selected={selected} />
-		</div>
+			<div {...innerBlocksProps} />
+			{/* <FormList interests={mailChimpInterests} selected={selected} /> */}
+		</Fragment>
 	);
 };
 

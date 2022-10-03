@@ -11,7 +11,6 @@ import {
 	Button,
 	SearchControl,
 	Spinner,
-	NavigableMenu,
 	Placeholder as WPComPlaceholder,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';

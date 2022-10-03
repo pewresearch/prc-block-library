@@ -15,14 +15,9 @@ import icon from './icon';
 const { name } = metadata;
 
 const settings = {
-    title: __('Mailchimp Select'),
-    description: __(
-        'Select from multiple Mailchimp segment interests to subscribe to.',
-    ),
-    icon,
-    keywords: [__('mailchimp'), __('newsletter'), __('form')],
-    edit,
-    save,
+	icon,
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

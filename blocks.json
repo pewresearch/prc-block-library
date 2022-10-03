@@ -382,9 +382,14 @@
 			"php": "./src/quote-sorter/child-blocks/dynamic-text/index.php"
 		},
 		{
-			"name": "form-input-field",
-			"main": "./src/form-input-field/index.js",
-			"php": "./src/form-input-field/index.php"
+			"name": "form-input-text",
+			"main": "./src/form-input-text/index.js",
+			"php": "./src/form-input-text/index.php"
+		},
+		{
+			"name": "form-input-checkbox",
+			"main": "./src/form-input-checkbox/index.js",
+			"php": "./src/form-input-checkbox/index.php"
 		}
 	]
 }

@@ -58,7 +58,11 @@
 	},
 	"supports": {
 		"align": ["full"],
-		"color": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
 		"__experimentalBorder": {
 			"color": true,
 			"width": true

@@ -7,8 +7,9 @@ import { HeadingLevelToolbar } from '@prc-app/shared';
  */
 import { __ } from '@wordpress/i18n';
 import { BlockControls } from '@wordpress/block-editor';
-import { Fragment, useCallback } from '@wordpress/element';
+import { Fragment, useCallback, useState } from '@wordpress/element';
 import {
+	Modal,
 	ToolbarButton,
 	ToolbarDropdownMenu,
 	ToolbarGroup,
@@ -19,7 +20,7 @@ import {
  */
 import { HeadingLevelIcon, ImageSizeIcon, ImageSlotIcon } from './icons';
 import { setArtBySize } from '../../helpers';
-import URLControl from './url-control';
+import URLSearchField from './url-search-field';
 
 const COLUMN_LIMIT = 6;
 
@@ -28,8 +29,9 @@ function Icon({ level, isPressed }) {
 }
 
 function Toolbar({ attributes, setAttributes, context }) {
-	const { postId, url, imageSize, imageSlot, headerSize, isChartArt, title } =
-		attributes;
+	const { postId, imageSize, imageSlot, headerSize, isChartArt } = attributes;
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const columnWidth =
 		undefined !== context['core/column/gridSpan']
@@ -63,13 +65,30 @@ function Toolbar({ attributes, setAttributes, context }) {
 		<BlockControls>
 			{!isUsingContext && (
 				<ToolbarGroup>
-					<URLControl
-						title={title}
-						id={postId}
-						url={url}
-						type="stub"
-						setAttributes={setAttributes}
+					<ToolbarButton
+						aria-expanded={isModalOpen}
+						aria-haspopup="true"
+						label={__('Set url, or search for and link to a post')}
+						icon="admin-links"
+						onClick={() => setIsModalOpen(true)}
+						showTooltip
 					/>
+					{true === isModalOpen && (
+						<Modal
+							title={__(
+								'Replace Story Item URL or Search for New Post',
+								'prc-blocks-story-item',
+							)}
+							onRequestClose={() => setIsModalOpen(false)}
+						>
+							<URLSearchField
+								{...{
+									attributes,
+									setAttributes,
+								}}
+							/>
+						</Modal>
+					)}
 				</ToolbarGroup>
 			)}
 			<HeadingLevelToolbar
