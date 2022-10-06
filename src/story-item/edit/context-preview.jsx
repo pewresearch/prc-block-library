@@ -111,7 +111,11 @@ export default function ContextPreview({ attributes, clientId, context }) {
 				</div>
 			)}
 			{enableHeader && (
-				<RawHTML>{`<h${headerSize} className=${headerClasses}>${title.rendered}</h${headerSize}>`}</RawHTML>
+				<RichText.Content
+					tagName={`h${headerSize}`}
+					value={title}
+					className={headerClasses}
+				/>
 			)}
 			{enableExcerpt && (
 				<RichText.Content

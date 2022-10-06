@@ -92,6 +92,7 @@ function Toolbar({ attributes, setAttributes, context }) {
 									{...{
 										attributes,
 										setAttributes,
+										onSelection: () => setIsModalOpen(false),
 									}}
 								/>
 							</div>

@@ -12,12 +12,12 @@ import {
 	Button,
 	Card,
 	CardBody,
-	CardDivider,
 	CardMedia,
 	SearchControl,
 	Spinner,
 	NavigableMenu,
 	TabbableContainer,
+	KeyboardShortcuts,
 } from '@wordpress/components';
 import { date as formatDate } from '@wordpress/date';
 import { useEntityRecords, useEntityProp } from '@wordpress/core-data';
@@ -26,7 +26,7 @@ import apiFetch from '@wordpress/api-fetch';
 /**
  * Internal Dependencies
  */
-import { setPostAttributes } from '../../helpers';
+import { getAttributesFromPost } from '../../helpers';
 
 function SearchRecords({ searchRecords, onSelect, imageSize = 'A3' }) {
 	return (
@@ -129,7 +129,11 @@ function SearchItem({ item, onSelect, imageSize = 'A3' }) {
 	);
 }
 
-export default function URLSearchField({ attributes, setAttributes }) {
+export default function URLSearchField({
+	attributes,
+	setAttributes,
+	onSelection,
+}) {
 	const { imageSize, url } = attributes;
 
 	const [siteId] = useEntityProp('root', 'site', 'siteId');
@@ -182,18 +186,17 @@ export default function URLSearchField({ attributes, setAttributes }) {
 				.catch((err) => reject(err));
 		});
 
-	const onReplace = (newPostId) => {
-		setPostAttributes({
-			postId: newPostId,
+	const onSelect = (newPost) => {
+		const postAttrs = getAttributesFromPost({
+			post: newPost,
 			imageSize,
 			isRefresh: false,
-			setAttributes,
 		});
-	};
-
-	const onSelect = (newSelection) => {
-		console.log('onSelect', newSelection);
-		setFoundObject(newSelection);
+		console.log('onSelect postAttrs', postAttrs);
+		setAttributes(postAttrs);
+		if ('function' === typeof onSelection) {
+			onSelection();
+		}
 	};
 
 	useEffect(() => {
@@ -202,16 +205,18 @@ export default function URLSearchField({ attributes, setAttributes }) {
 
 	useEffect(() => {
 		if (searchStringIsUrl) {
-			getPostByUrl(searchString).then((post) => {
-				setFoundObject(post);
-			});
+			getPostByUrl(searchString)
+				.then((post) => {
+					console.log('post...', post);
+					setFoundObject(post);
+				})
+				.catch((err) => {
+					console.log('getPostByUrl error', err);
+					setFoundObject(null);
+				});
 		}
 		console.log('searchStringIsUrl changed', searchStringIsUrl, searchString);
 	}, [searchString, searchStringIsUrl]);
-
-	useEffect(() => {
-		console.log('foundObject', foundObject);
-	}, [foundObject]);
 
 	return (
 		<TabbableContainer>
@@ -230,6 +235,7 @@ export default function URLSearchField({ attributes, setAttributes }) {
 								display: 'flex',
 								justifyContent: 'center',
 								alignItems: 'center',
+								color: '#666',
 							}}
 						>
 							<span>Loading... </span>
@@ -238,8 +244,21 @@ export default function URLSearchField({ attributes, setAttributes }) {
 					)}
 
 					{hasNothingFound && (
-						<div>
+						<div
+							style={{
+								textAlign: 'center',
+								color: '#666',
+								paddingTop: '1em',
+							}}
+						>
 							<span>{__('Nothing found.', 'prc-block-library')}</span>
+							{searchStringIsUrl && (
+								<div>
+									<span>
+										{__('Press enter to change the URL.', 'prc-block-library')}
+									</span>
+								</div>
+							)}
 						</div>
 					)}
 

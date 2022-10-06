@@ -90,7 +90,11 @@ function Preview({ attributes }) {
 			)}
 
 			{enableHeader && (
-				<RawHTML>{`<h${headerSize} className=${headerClasses}>${title}</h${headerSize}>`}</RawHTML>
+				<RichText.Content
+					tagName={`h${headerSize}`}
+					value={title}
+					className={headerClasses}
+				/>
 			)}
 
 			{enableExcerpt && (

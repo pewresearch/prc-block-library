@@ -382,28 +382,29 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
 
         display: inline-block;
+		margin: 0;
         // color: $headerColor;
         -ms-word-wrap: break-word;
         word-wrap: break-word;
 
         // .medium, mobile first.
-		// font-family: $headerFont;
-        // font-size: $headerMediumFontSize;
-        // font-weight: $headerMediumFontWeight;
-        // line-height: $headerMediumLineHeight;
+		font-family: $headerFont;
+        font-size: $headerMediumFontSize;
+        font-weight: $headerMediumFontWeight;
+        line-height: $headerMediumLineHeight;
 
         // Find .large above
 
         &.small {
-            // font-size: $headerSmallFontSize;
-            // font-weight: $headerSmallFontWeight;
-            // line-height: $headerSmallLineHeight;
+            font-size: $headerSmallFontSize;
+            font-weight: $headerSmallFontWeight;
+            line-height: $headerSmallLineHeight;
         }
 
 		&.large {
-			// font-size: $headerLargeFontSize;
-			// font-weight: $headerLargeFontWeight;
-			// line-height: $headerLargeLineHeight;
+			font-size: $headerLargeFontSize;
+			font-weight: $headerLargeFontWeight;
+			line-height: $headerLargeLineHeight;
 		}
 
         &.light {
@@ -424,9 +425,9 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     .description {
         grid-area: excerpt;
         margin: 10px 0 0 0;
-        // font-size: 16px;
+        font-size: 16px;
 		// color: colors.$textColor;
-        // line-height: variables.$lineHeight;
+        line-height: variables.$lineHeight;
         p {
             margin: 0 0 7px 0;
             &:last-child {
@@ -437,11 +438,11 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
     .description a,
     .extra a {
-        // color: colors.$trueBlack;
+        color: colors.$trueBlack;
         transition: color variables.$defaultDuration variables.$defaultEasing;
-        // &:hover {
-        //     color: colors.$trueBlack;
-        // }
+        &:hover {
+            color: colors.$trueBlack;
+        }
     }
 
     // For when breaking news is enabled but extras are not.

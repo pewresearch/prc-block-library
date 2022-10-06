@@ -20,32 +20,33 @@ export default function Placeholder({ attributes, setAttributes }) {
 	});
 
 	return (
-		<WPComPlaceholder
-			icon="admin-post"
-			label={__(' Story Item', 'prc-block-library')}
-			isColumnLayout
-			instructions={__(
-				`Search for a ${postType} or paste url here`,
-				'prc-block-library',
-			)}
-			{...blockProps}
-		>
-			<URLSearchField
-				{...{
-					attributes,
-					setAttributes,
-				}}
-			/>
-			<Button
-				isLink
-				onClick={() => {
-					setAttributes({ postId: 0 });
-				}}
-				text={__('Skip')}
-				style={{
-					paddingLeft: '9px',
-				}}
-			/>
-		</WPComPlaceholder>
+		<div {...blockProps}>
+			<WPComPlaceholder
+				icon="admin-post"
+				label={__(' Story Item', 'prc-block-library')}
+				isColumnLayout
+				instructions={__(
+					`Search for a ${postType} or paste url here`,
+					'prc-block-library',
+				)}
+			>
+				<URLSearchField
+					{...{
+						attributes,
+						setAttributes,
+					}}
+				/>
+				<Button
+					isLink
+					onClick={() => {
+						setAttributes({ postId: 0 });
+					}}
+					text={__('Skip')}
+					style={{
+						paddingLeft: '9px',
+					}}
+				/>
+			</WPComPlaceholder>
+		</div>
 	);
 }

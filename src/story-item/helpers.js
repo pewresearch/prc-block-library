@@ -2,12 +2,12 @@
  * External Dependencies
  */
 import classNames from 'classnames/bind';
-import * as moment from 'moment';
 
 /**
  * WordPress Dependencies
  */
 import apiFetch from '@wordpress/api-fetch';
+import { date as formatDate } from '@wordpress/date';
 import { useBlockProps } from '@wordpress/block-editor';
 
 const setArtBySize = (imageSize, postId, setAttributes) => {
@@ -37,23 +37,27 @@ const setArtBySize = (imageSize, postId, setAttributes) => {
  */
 const getAttributesFromPost = (opts) => {
 	const { post, imageSize, isRefresh = false } = opts;
-	console.log(getAttributesFromPost, post);
+	console.log('getAttributesFromPost', post);
 
-	const d = new Date(post.date);
-	const date = moment(d).format('MMM D, YYYY');
+	if (null === post) {
+		return {};
+	}
+
+	const date = formatDate('M j, Y', post.date || post.post_date);
 
 	const storyItem = {
-		title: post.title.hasOwnProperty('rendered')
-			? post.title.rendered
-			: post.title,
-		// @TODO change back to excerpt everywhere, write a deprecation transition for that and excerptBelow?
-		excerpt: post.excerpt.hasOwnProperty('rendered')
-			? post.excerpt.rendered
-			: post.excerpt,
-		url: post.link, // @TODO where is this `link` coming from, why is it not url or permalink.
-		label: post.hasOwnProperty('label') ? post.label : 'Report',
+		title:
+			post.hasOwnProperty('title') && post.title.hasOwnProperty('rendered')
+				? post.title.rendered
+				: post.post_title,
+		excerpt:
+			post.hasOwnProperty('excerpt') && post.excerpt.hasOwnProperty('rendered')
+				? post.excerpt.rendered
+				: post.post_excerpt,
+		url: post.canonical_url, // @TODO where is this `link` coming from, why is it not url or permalink.
+		label: post.hasOwnProperty('label') ? post.label : 'report',
 		date,
-		postId: post.id,
+		postId: post.id || post.ID,
 	};
 
 	if (true !== isRefresh) {
@@ -65,8 +69,6 @@ const getAttributesFromPost = (opts) => {
 		storyItem.image = art[imageSize].rawUrl;
 		storyItem.isChartArt = art[imageSize].chartArt;
 	}
-
-	console.log('getAttributesFromPost', post, storyItem);
 
 	return storyItem;
 };
@@ -156,6 +158,7 @@ const stubEnabledSiteIds = Array.from(Array(19).keys()).filter(
 
 export {
 	setArtBySize,
+	getAttributesFromPost,
 	setPostAttributes,
 	useStoryItemBlockProps,
 	stubEnabledSiteIds,
