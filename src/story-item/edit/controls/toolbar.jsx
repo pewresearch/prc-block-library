@@ -9,6 +9,7 @@ import { __ } from '@wordpress/i18n';
 import { BlockControls } from '@wordpress/block-editor';
 import { Fragment, useCallback, useState } from '@wordpress/element';
 import {
+	BaseControl,
 	Modal,
 	ToolbarButton,
 	ToolbarDropdownMenu,
@@ -68,25 +69,32 @@ function Toolbar({ attributes, setAttributes, context }) {
 					<ToolbarButton
 						aria-expanded={isModalOpen}
 						aria-haspopup="true"
-						label={__('Set url, or search for and link to a post')}
+						label={__('Search for a Stub or replace url', 'prc-block-library')}
 						icon="admin-links"
 						onClick={() => setIsModalOpen(true)}
 						showTooltip
 					/>
 					{true === isModalOpen && (
 						<Modal
-							title={__(
-								'Replace Story Item URL or Search for New Post',
-								'prc-blocks-story-item',
-							)}
+							title={__('Search for Stub', 'prc-block-library')}
 							onRequestClose={() => setIsModalOpen(false)}
+							shouldCloseOnClickOutside={false}
+							shouldCloseOnEsc={false}
 						>
-							<URLSearchField
-								{...{
-									attributes,
-									setAttributes,
+							<div
+								style={{
+									width: '100%',
+									maxWidth: '640px',
+									margin: '0 auto',
 								}}
-							/>
+							>
+								<URLSearchField
+									{...{
+										attributes,
+										setAttributes,
+									}}
+								/>
+							</div>
 						</Modal>
 					)}
 				</ToolbarGroup>

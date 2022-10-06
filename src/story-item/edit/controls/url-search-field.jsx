@@ -13,7 +13,7 @@ import {
 	Card,
 	CardBody,
 	CardDivider,
-	CardHeader,
+	CardMedia,
 	SearchControl,
 	Spinner,
 	NavigableMenu,
@@ -28,7 +28,7 @@ import apiFetch from '@wordpress/api-fetch';
  */
 import { setPostAttributes } from '../../helpers';
 
-function SearchRecords({ searchRecords, onSelect }) {
+function SearchRecords({ searchRecords, onSelect, imageSize = 'A3' }) {
 	return (
 		<NavigableMenu
 			tabIndex="0"
@@ -39,36 +39,90 @@ function SearchRecords({ searchRecords, onSelect }) {
 			}}
 		>
 			{searchRecords.map((item) => (
-				<SearchItem {...{ item, onSelect }} />
+				<SearchItem {...{ item, onSelect, imageSize }} />
 			))}
 		</NavigableMenu>
 	);
 }
 
-function SearchItem({ item, onSelect }) {
-	const title = item.title.rendered;
-	const { id, date } = item;
+function Image({ item, imageSize }) {
+	const { art } = item;
+	// Check if art has imageSize as a valid key. If so get the rawUrl, height and width. Then return an img tag accordingly.
+	if (art && art[imageSize]) {
+		const { rawUrl, height, width, caption } = art[imageSize];
+		return (
+			<CardMedia>
+				<img src={rawUrl} height={height} width={width} alt={caption} />
+			</CardMedia>
+		);
+	}
+	return null;
+}
+
+function SearchItem({ item, onSelect, imageSize = 'A3' }) {
+	if (!item) {
+		return null;
+	}
+	console.log('<SearchItem />', item);
+	// if item has post_title then use that otherwise use title.rendered
+	const title = item.post_title ? item.post_title : item.title.rendered;
+	console.log('title', title);
+	// if item has post_date then use that otherwise use date
+	const date = item.post_date ? item.post_date : item.date;
+	console.log('date', date);
+
+	const { label } = item;
+	console.log('label', label);
+	const canonicalUrl = item.canonical_url;
+	console.log('canonicalUrl', canonicalUrl);
+
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events
-		<Card onClick={() => onSelect(item)} size="small">
-			<CardBody>
+		<Card
+			onClick={() => onSelect(item)}
+			size="small"
+			style={{
+				cursor: 'pointer',
+				':hover': {
+					'background-color': '#f3f4f5',
+				},
+			}}
+		>
+			<CardBody
+				style={{
+					display: 'flex',
+				}}
+			>
 				<div
 					style={{
-						fontSize: '0.8em',
-						color: '#666',
+						width: '35%',
+						maxWidth: '200px',
+						paddingRight: '1em',
+						paddingTop: '0.5em',
 					}}
 				>
-					{`${item.label} | ${formatDate('M j, Y', date)}`}
+					<Image {...{ item, imageSize }} />
 				</div>
-				<strong>{title}</strong>
-				<div
-					style={{
-						fontSize: '0.8em',
-						fontStyle: 'italic',
-						color: '#666',
-					}}
-				>
-					{item.canonical_url}
+				<div>
+					<div
+						style={{
+							fontSize: '0.8em',
+							color: '#666',
+						}}
+					>
+						{`${label} | ${formatDate('M j, Y', date)}`}
+					</div>
+					<strong>{title}</strong>
+					<div
+						style={{
+							fontSize: '0.8em',
+							fontStyle: 'italic',
+							color: '#666',
+							lineHeight: '1.5em',
+						}}
+					>
+						{canonicalUrl}
+					</div>
 				</div>
 			</CardBody>
 		</Card>
@@ -104,20 +158,15 @@ export default function URLSearchField({ attributes, setAttributes }) {
 		},
 	);
 	const hasSearchRecords =
-		!isResolving && searchRecords ? 0 < searchRecords.length : false;
-	const hasNothingFound =
-		!isResolving && !hasSearchRecords && false === searchStringIsUrl;
+		!isResolving && !searchStringIsUrl && searchRecords
+			? 0 < searchRecords.length
+			: false;
 	const hasFoundObject =
-		!isResolving &&
-		!hasSearchRecords &&
-		searchStringIsUrl &&
-		null !== foundObject;
+		!isResolving && searchStringIsUrl && null !== foundObject;
+	const hasNothingFound = !isResolving && !hasSearchRecords && !hasFoundObject;
 
-	const getPostByUrl = (newUrl) => {
-		if (undefined === newUrl) {
-			return new Error('url is undefined');
-		}
-		return new Promise((resolve, reject) => {
+	const getPostByUrl = (newUrl) =>
+		new Promise((resolve, reject) => {
 			apiFetch({
 				path: '/prc-api/v2/stub/get-post-by-url',
 				method: 'POST',
@@ -132,11 +181,6 @@ export default function URLSearchField({ attributes, setAttributes }) {
 				})
 				.catch((err) => reject(err));
 		});
-	};
-
-	const getLabel = (item) => {
-		console.log('getLabel', item);
-	};
 
 	const onReplace = (newPostId) => {
 		setPostAttributes({
@@ -149,6 +193,7 @@ export default function URLSearchField({ attributes, setAttributes }) {
 
 	const onSelect = (newSelection) => {
 		console.log('onSelect', newSelection);
+		setFoundObject(newSelection);
 	};
 
 	useEffect(() => {
@@ -158,12 +203,15 @@ export default function URLSearchField({ attributes, setAttributes }) {
 	useEffect(() => {
 		if (searchStringIsUrl) {
 			getPostByUrl(searchString).then((post) => {
-				console.log('Complete =>', post);
+				setFoundObject(post);
 			});
 		}
+		console.log('searchStringIsUrl changed', searchStringIsUrl, searchString);
 	}, [searchString, searchStringIsUrl]);
 
-	// When making a selection, whether its from entity records or the rest api, clicking or selecting an entry and hitting enter should run a standarized action.
+	useEffect(() => {
+		console.log('foundObject', foundObject);
+	}, [foundObject]);
 
 	return (
 		<TabbableContainer>
@@ -177,7 +225,13 @@ export default function URLSearchField({ attributes, setAttributes }) {
 			{hasSearchString && (
 				<Fragment>
 					{isResolving && (
-						<div>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
 							<span>Loading... </span>
 							<Spinner />
 						</div>
@@ -191,14 +245,23 @@ export default function URLSearchField({ attributes, setAttributes }) {
 
 					{hasFoundObject && (
 						<div>
-							<span>
-								{__('Press enter to insert post.', 'prc-block-library')}
-							</span>
+							<SearchItem {...{ item: foundObject, onSelect, imageSize }} />
+							<div
+								style={{
+									textAlign: 'center',
+									color: '#666',
+									paddingTop: '1em',
+								}}
+							>
+								<span>
+									{__('Press enter to insert post.', 'prc-block-library')}
+								</span>
+							</div>
 						</div>
 					)}
 
-					{hasSearchRecords && (
-						<SearchRecords {...{ searchRecords, onSelect }} />
+					{hasSearchRecords && !searchStringIsUrl && (
+						<SearchRecords {...{ searchRecords, onSelect, imageSize }} />
 					)}
 				</Fragment>
 			)}
