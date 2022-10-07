@@ -8,7 +8,7 @@ import classNames from 'classnames/bind';
  */
 import { RichText } from '@wordpress/block-editor';
 import { date as formatDate } from '@wordpress/date';
-import { RawHTML } from '@wordpress/element';
+import { Placeholder } from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -79,13 +79,22 @@ function Preview({ attributes }) {
 
 			{displayImage && (
 				<div className={`${imageClasses}`}>
-					<picture>
-						<img
-							srcSet={image}
-							width={IMAGE_SIZES[imageSize][0]}
-							height={IMAGE_SIZES[imageSize][1]}
+					{(undefined === image || 0 === image.length) && (
+						<Placeholder
+							className="block-editor-media-placeholder"
+							withIllustration
 						/>
-					</picture>
+					)}
+					{undefined !== image && 0 < image.length && (
+						<picture>
+							<img
+								srcSet={image}
+								width={IMAGE_SIZES[imageSize][0]}
+								height={IMAGE_SIZES[imageSize][1]}
+								alt=""
+							/>
+						</picture>
+					)}
 				</div>
 			)}
 

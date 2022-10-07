@@ -15,7 +15,6 @@ import {
 	CardMedia,
 	SearchControl,
 	Spinner,
-	NavigableMenu,
 	TabbableContainer,
 	KeyboardShortcuts,
 } from '@wordpress/components';
@@ -29,20 +28,9 @@ import apiFetch from '@wordpress/api-fetch';
 import { getAttributesFromPost } from '../../helpers';
 
 function SearchRecords({ searchRecords, onSelect, imageSize = 'A3' }) {
-	return (
-		<NavigableMenu
-			tabIndex="0"
-			orientation="vertical"
-			onNavigate={(index, elm) => {
-				elm.focus();
-				console.log('onNavigate', index, elm);
-			}}
-		>
-			{searchRecords.map((item) => (
-				<SearchItem {...{ item, onSelect, imageSize }} />
-			))}
-		</NavigableMenu>
-	);
+	return searchRecords.map((item) => (
+		<SearchItem {...{ item, onSelect, imageSize }} />
+	));
 }
 
 function Image({ item, imageSize }) {
@@ -63,18 +51,13 @@ function SearchItem({ item, onSelect, imageSize = 'A3' }) {
 	if (!item) {
 		return null;
 	}
-	console.log('<SearchItem />', item);
 	// if item has post_title then use that otherwise use title.rendered
 	const title = item.post_title ? item.post_title : item.title.rendered;
-	console.log('title', title);
 	// if item has post_date then use that otherwise use date
 	const date = item.post_date ? item.post_date : item.date;
-	console.log('date', date);
 
 	const { label } = item;
-	console.log('label', label);
 	const canonicalUrl = item.canonical_url;
-	console.log('canonicalUrl', canonicalUrl);
 
 	return (
 		// eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -139,15 +122,19 @@ export default function URLSearchField({
 	const [siteId] = useEntityProp('root', 'site', 'siteId');
 	const postType = 1 === siteId ? 'stub' : 'post';
 
-	const [searchInput, setSearchInput] = useState('');
+	const [isLoading, toggleLoading] = useState(!!url);
+
+	const [searchInput, setSearchInput] = useState(url);
 	const searchString = useDebounce(searchInput, 500);
 	const searchStringIsUrl = useMemo(() => {
-		if (searchString.match(/^(http|https):\/\//)) {
+		if (
+			url.match(/^(http|https):\/\//) ||
+			searchString.match(/^(http|https):\/\//)
+		) {
 			return true;
 		}
 		return false;
-	}, [searchString]);
-
+	}, [searchString, url]);
 	const [foundObject, setFoundObject] = useState(null);
 
 	const hasSearchString = !!searchString.length;
@@ -162,12 +149,12 @@ export default function URLSearchField({
 		},
 	);
 	const hasSearchRecords =
-		!isResolving && !searchStringIsUrl && searchRecords
+		!isLoading && !searchStringIsUrl && searchRecords
 			? 0 < searchRecords.length
 			: false;
 	const hasFoundObject =
-		!isResolving && searchStringIsUrl && null !== foundObject;
-	const hasNothingFound = !isResolving && !hasSearchRecords && !hasFoundObject;
+		!isLoading && searchStringIsUrl && null !== foundObject;
+	const hasNothingFound = !isLoading && !hasSearchRecords && !hasFoundObject;
 
 	const getPostByUrl = (newUrl) =>
 		new Promise((resolve, reject) => {
@@ -177,7 +164,6 @@ export default function URLSearchField({
 				data: { url: newUrl },
 			})
 				.then((post) => {
-					console.log('getPostByUrl', newUrl, post);
 					if ('object' !== typeof post) {
 						reject(new Error('post is not an object'));
 					}
@@ -192,44 +178,63 @@ export default function URLSearchField({
 			imageSize,
 			isRefresh: false,
 		});
-		console.log('onSelect postAttrs', postAttrs);
+
 		setAttributes(postAttrs);
+
 		if ('function' === typeof onSelection) {
 			onSelection();
 		}
 	};
 
 	useEffect(() => {
-		console.log('searchRecords isResolving', isResolving, searchRecords);
-	}, [searchRecords, isResolving]);
-
-	useEffect(() => {
 		if (searchStringIsUrl) {
+			toggleLoading(true);
 			getPostByUrl(searchString)
 				.then((post) => {
-					console.log('post...', post);
 					setFoundObject(post);
+					toggleLoading(false);
 				})
 				.catch((err) => {
-					console.log('getPostByUrl error', err);
+					console.error('getPostByUrl error', err);
 					setFoundObject(null);
+					toggleLoading(false);
 				});
 		}
-		console.log('searchStringIsUrl changed', searchStringIsUrl, searchString);
 	}, [searchString, searchStringIsUrl]);
 
+	useEffect(() => {
+		toggleLoading(isResolving);
+	}, [isResolving]);
+
 	return (
-		<TabbableContainer>
-			<SearchControl
-				tabIndex="0"
-				value={searchInput}
-				onChange={(keyword) => setSearchInput(keyword)}
-				placeholder="Joe Biden climate change..."
-				autoComplete="off"
-			/>
+		<TabbableContainer
+			onNavigate={(index, elm) => console.log('onNavigate:', elm)}
+		>
+			<KeyboardShortcuts
+				shortcuts={{
+					enter: () => {
+						if (searchStringIsUrl) {
+							setAttributes({
+								url: searchString,
+							});
+							if ('function' === typeof onSelection) {
+								onSelection();
+							}
+						}
+					},
+				}}
+			>
+				<SearchControl
+					tabIndex="0"
+					value={searchInput}
+					onChange={(keyword) => setSearchInput(keyword)}
+					placeholder="Climate Change..."
+					autoComplete="off"
+				/>
+			</KeyboardShortcuts>
 			{hasSearchString && (
 				<Fragment>
-					{isResolving && (
+					{isLoading && (
 						<div
 							style={{
 								display: 'flex',

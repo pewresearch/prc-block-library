@@ -15,9 +15,7 @@ export default function Placeholder({ attributes, setAttributes }) {
 	const [siteId] = useEntityProp('root', 'site', 'siteId');
 	const postType = 1 === siteId ? 'stub' : 'post';
 
-	const blockProps = useBlockProps({
-		className: 'wp-block-prc-block-story-item__placeholder',
-	});
+	const blockProps = useBlockProps();
 
 	return (
 		<div {...blockProps}>
@@ -44,6 +42,7 @@ export default function Placeholder({ attributes, setAttributes }) {
 					text={__('Skip')}
 					style={{
 						paddingLeft: '9px',
+						marginTop: '10px',
 					}}
 				/>
 			</WPComPlaceholder>

@@ -7,9 +7,11 @@ import { Picture } from 'react-responsive-picture';
 /**
  * WordPress Dependencies
  */
+import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { addQueryArgs } from '@wordpress/url';
+import { Placeholder } from '@wordpress/components';
 
 const ALLOWED_MEDIA_TYPES = ['image'];
 
@@ -48,32 +50,9 @@ const XL = {
 	smallHidpi: '1380,776',
 };
 
-function ImageDisplay({
-	img,
-	size,
-	link,
-	onClick = false,
-	placeholder = false,
-}) {
+function ImageDisplay({ img, size, onClick = false }) {
 	// eslint-disable-next-line no-shadow
 	const getImgURL = (variant) => {
-		if (true === placeholder) {
-			let dimensions = '';
-			if ('A2' === size) {
-				dimensions = '536x301';
-			} else if ('A3' === size) {
-				dimensions = '388x220';
-			} else if ('A4' === size) {
-				dimensions = '536x302';
-			} else if ('XL' === size) {
-				dimensions = '1440x810';
-			} else {
-				// Default to A1
-				dimensions = '1128x634';
-			}
-			return `https://via.placeholder.com/${dimensions}.png?text=${size}`;
-		}
-
 		if ('' === img || false === img) {
 			return img;
 		}
@@ -112,56 +91,12 @@ function ImageDisplay({
 				onClick={onClick}
 				style={{ padding: 0, border: 'none', cursor: 'pointer' }}
 			>
-				{true === placeholder && (
-					<img src={getImgURL()} alt="Click to insert" />
-				)}
-				{true !== placeholder && (
-					<Picture sources={getImgSrcSet()} alt="Click to edit" />
-				)}
+				<Picture sources={getImgSrcSet()} alt="Click to edit" />
 			</button>
 		);
 	}
 
-	return (
-		<Fragment>
-			{'' === link && <Picture sources={getImgSrcSet()} />}
-			{'' !== link && (
-				<a href={link}>
-					<Picture sources={getImgSrcSet()} />
-				</a>
-			)}
-		</Fragment>
-	);
-}
-
-function Edit({ img, size, setAttributes }) {
-	return (
-		<MediaUploadCheck>
-			<MediaUpload
-				onSelect={(media) => setAttributes({ image: media.url })}
-				allowedTypes={ALLOWED_MEDIA_TYPES}
-				render={({ open }) => (
-					<Fragment>
-						{
-							// If we have an actual image here then display it otherwise give us the placeholder
-						}
-						{undefined !== img && 0 !== img.length && (
-							<ImageDisplay img={img} size={size} link="" onClick={open} />
-						)}
-						{(undefined === img || 0 === img.length) && (
-							<ImageDisplay
-								img={img}
-								size={size}
-								link=""
-								onClick={open}
-								placeholder
-							/>
-						)}
-					</Fragment>
-				)}
-			/>
-		</MediaUploadCheck>
-	);
+	return <Picture sources={getImgSrcSet()} />;
 }
 
 export default function Img({ attributes, setAttributes }) {
@@ -193,20 +128,42 @@ export default function Img({ attributes, setAttributes }) {
 		}
 
 		return classNames({
-			ui: true, // @TODO is this necessary?
+			image: true,
 			XL: isXL,
 			A1: isA1,
 			A2: isA2,
 			A3: isA3,
 			A4: isA4,
-			image: true,
 			bordered: isChartArt,
 		});
 	};
 
 	return (
 		<div className={classes()}>
-			<Edit img={image} size={imageSize} setAttributes={setAttributes} />
+			<MediaUploadCheck>
+				<MediaUpload
+					onSelect={(media) => setAttributes({ image: media.url })}
+					allowedTypes={ALLOWED_MEDIA_TYPES}
+					render={({ open }) => (
+						<Fragment>
+							{(undefined === image || 0 === image.length) && (
+								<Placeholder
+									className="block-editor-media-placeholder"
+									withIllustration
+									label={__('Image')}
+									instructions={__(
+										'Upload an image file, pick one from the media library, or add one with a URL.',
+									)}
+									onClick={open}
+								/>
+							)}
+							{undefined !== image && 0 < image.length && (
+								<ImageDisplay img={image} size={imageSize} onClick={open} />
+							)}
+						</Fragment>
+					)}
+				/>
+			</MediaUploadCheck>
 		</div>
 	);
 }

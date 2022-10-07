@@ -8,8 +8,9 @@ import classNames from 'classnames/bind';
  */
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { useEntityRecord } from '@wordpress/core-data';
-import { useEffect, RawHTML } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
 import { date as formatDate } from '@wordpress/date';
+import { Placeholder, Spinner } from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -57,6 +58,14 @@ export default function ContextPreview({ attributes, clientId, context }) {
 
 	const excerptClasses = classNames('description');
 
+	console.log('ContextPreview', {
+		attributes,
+		clientId,
+		context,
+		record,
+		isResolving,
+	});
+
 	const displayImage =
 		art &&
 		art[imageSize] &&
@@ -74,11 +83,14 @@ export default function ContextPreview({ attributes, clientId, context }) {
 	const blockPropsArgs = {
 		className: classNames('story item', className, logicalClasses),
 	};
+	console.log('blockPropsArgs', blockPropsArgs);
 	if (displayImage) {
 		blockPropsArgs['data-image-size'] = imageSize;
 	}
 
 	const blockProps = useBlockProps(blockPropsArgs);
+
+	console.log('blockProps', blockProps);
 
 	useEffect(() => {
 		if (record) {
@@ -87,7 +99,11 @@ export default function ContextPreview({ attributes, clientId, context }) {
 	}, [record]);
 
 	if (isResolving) {
-		return 'Loading...';
+		return (
+			<div {...blockProps}>
+				<span>Loading... </span> <Spinner />
+			</div>
+		);
 	}
 
 	return (
@@ -100,20 +116,28 @@ export default function ContextPreview({ attributes, clientId, context }) {
 			)}
 			{displayImage && (
 				<div className={`${imageClasses}`}>
-					<picture>
-						<img
-							srcSet={art[imageSize].url}
-							width={IMAGE_SIZES[imageSize][0]}
-							height={IMAGE_SIZES[imageSize][1]}
-							alt=""
+					{(undefined === art || false === art) && (
+						<Placeholder
+							className="block-editor-media-placeholder"
+							withIllustration
 						/>
-					</picture>
+					)}
+					{undefined !== art && false !== art && (
+						<picture>
+							<img
+								srcSet={art[imageSize].url}
+								width={IMAGE_SIZES[imageSize][0]}
+								height={IMAGE_SIZES[imageSize][1]}
+								alt=""
+							/>
+						</picture>
+					)}
 				</div>
 			)}
 			{enableHeader && (
 				<RichText.Content
 					tagName={`h${headerSize}`}
-					value={title}
+					value={title.rendered}
 					className={headerClasses}
 				/>
 			)}

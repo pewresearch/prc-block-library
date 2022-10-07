@@ -21,7 +21,7 @@ import { useEntityProp } from '@wordpress/core-data';
 /**
  * Internal Dependencies
  */
-import { setPostAttributes, stubEnabledSiteIds } from '../../helpers';
+import { refreshPostAttributes, stubEnabledSiteIds } from '../../helpers';
 
 function Inspector({ attributes, setAttributes, context }) {
 	const isUsingContext =
@@ -52,7 +52,7 @@ function Inspector({ attributes, setAttributes, context }) {
 	useEffect(() => {
 		// If this is not a stub enabled site then automatically switch the metaTaxonomy to category.
 		if (!stubEnabledSiteIds.includes(siteId) && 'formats' === metaTaxonomy) {
-			console.log("Doing this", siteId, metaTaxonomy);
+			console.log('Doing this', siteId, metaTaxonomy);
 			setAttributes({ metaTaxonomy: 'category' });
 		}
 	}, [siteId]);
@@ -71,6 +71,17 @@ function Inspector({ attributes, setAttributes, context }) {
 							checked={enableMeta}
 							onChange={() => {
 								setAttributes({ enableMeta: !enableMeta });
+							}}
+						/>
+						<ToggleControl
+							label={
+								'disabled' !== imageSlot ? 'Image Enabled' : 'Image Disabled'
+							}
+							checked={'disabled' !== imageSlot}
+							onChange={() => {
+								setAttributes({
+									imageSlot: 'disabled' === imageSlot ? 'top' : 'disabled',
+								});
 							}}
 						/>
 						<ToggleControl
@@ -201,7 +212,7 @@ function Inspector({ attributes, setAttributes, context }) {
 							onClick={() => {
 								refresh(true);
 								setTimeout(() => {
-									setPostAttributes({
+									refreshPostAttributes({
 										postId,
 										imageSize,
 										isRefresh: true,

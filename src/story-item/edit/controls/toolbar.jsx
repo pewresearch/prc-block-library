@@ -8,6 +8,7 @@ import { HeadingLevelToolbar } from '@prc-app/shared';
 import { __ } from '@wordpress/i18n';
 import { BlockControls } from '@wordpress/block-editor';
 import { Fragment, useCallback, useState } from '@wordpress/element';
+import { useEntityProp } from '@wordpress/core-data';
 import {
 	BaseControl,
 	Modal,
@@ -32,6 +33,9 @@ function Icon({ level, isPressed }) {
 function Toolbar({ attributes, setAttributes, context }) {
 	const { postId, imageSize, imageSlot, headerSize, isChartArt } = attributes;
 
+	const [siteId] = useEntityProp('root', 'site', 'siteId');
+	const postType = 1 === siteId ? 'stub' : 'post';
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const columnWidth =
@@ -49,7 +53,6 @@ function Toolbar({ attributes, setAttributes, context }) {
 	const handleImageSizeChange = (newSize) => {
 		setAttributes({ imageSize: newSize });
 		setArtBySize(newSize, postId, setAttributes); // @TODO LOOK INTO
-		console.log('new image size, check column context', context);
 	};
 
 	const MemoizedImageSlotIcon = useCallback(
@@ -69,14 +72,20 @@ function Toolbar({ attributes, setAttributes, context }) {
 					<ToolbarButton
 						aria-expanded={isModalOpen}
 						aria-haspopup="true"
-						label={__('Search for a Stub or replace url', 'prc-block-library')}
+						label={__(
+							`Search for a ${postType} or paste url here`,
+							'prc-block-library',
+						)}
 						icon="admin-links"
 						onClick={() => setIsModalOpen(true)}
 						showTooltip
 					/>
 					{true === isModalOpen && (
 						<Modal
-							title={__('Search for Stub', 'prc-block-library')}
+							title={__(
+								`Search for a ${postType} or paste url here`,
+								'prc-block-library',
+							)}
 							onRequestClose={() => setIsModalOpen(false)}
 							shouldCloseOnClickOutside={false}
 							shouldCloseOnEsc={false}
@@ -84,6 +93,7 @@ function Toolbar({ attributes, setAttributes, context }) {
 							<div
 								style={{
 									width: '100%',
+									minWidth: '340px',
 									maxWidth: '640px',
 									margin: '0 auto',
 								}}

@@ -43,17 +43,17 @@ const getAttributesFromPost = (opts) => {
 		return {};
 	}
 
-	const date = formatDate('M j, Y', post.date || post.post_date);
+	const date = formatDate('M j, Y', post.date);
 
 	const storyItem = {
 		title:
 			post.hasOwnProperty('title') && post.title.hasOwnProperty('rendered')
 				? post.title.rendered
-				: post.post_title,
+				: '',
 		excerpt:
 			post.hasOwnProperty('excerpt') && post.excerpt.hasOwnProperty('rendered')
 				? post.excerpt.rendered
-				: post.post_excerpt,
+				: '',
 		url: post.canonical_url, // @TODO where is this `link` coming from, why is it not url or permalink.
 		label: post.hasOwnProperty('label') ? post.label : 'report',
 		date,
@@ -82,7 +82,7 @@ const getAttributesFromPost = (opts) => {
  * @param {*} setAttributes
  * @returns
  */
-const setPostAttributes = (options) => {
+const refreshPostAttributes = (options) => {
 	const {
 		setAttributes,
 		postId = false,
@@ -99,7 +99,6 @@ const setPostAttributes = (options) => {
 		method: 'GET',
 	})
 		.then((post) => {
-			console.log('setPostAttributes -> by id:', postId, post);
 			if (false !== post) {
 				const attrs = getAttributesFromPost({
 					post,
@@ -116,19 +115,8 @@ const useStoryItemBlockProps = (attributes) => {
 	const {
 		imageSlot,
 		imageSize,
-		isChartArt,
-		postId,
-		headerSize,
 		enableEmphasis,
-		enableHeader,
-		enableExcerpt,
 		enableExcerptBelow,
-		enableExtra,
-		enableBreakingNews,
-		enableMeta,
-		metaTaxonomy,
-		inLoop,
-		isPreview,
 		className,
 	} = attributes;
 
@@ -159,7 +147,7 @@ const stubEnabledSiteIds = Array.from(Array(19).keys()).filter(
 export {
 	setArtBySize,
 	getAttributesFromPost,
-	setPostAttributes,
+	refreshPostAttributes,
 	useStoryItemBlockProps,
 	stubEnabledSiteIds,
 };

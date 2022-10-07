@@ -73,6 +73,7 @@ function Meta({ attributes, setAttributes }) {
 					onClick={() => {
 						setDatePickerVisible(!datePickerVisible);
 					}}
+					style={{ padding: '0px' }}
 				>
 					{formatDate('M j, Y', date)}
 				</Button>

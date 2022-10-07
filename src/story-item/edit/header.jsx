@@ -6,8 +6,19 @@ import classNames from 'classnames/bind';
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
+import { Fragment, useMemo } from '@wordpress/element';
 import { RichText } from '@wordpress/block-editor';
+
+const randomTitlePlaceholder = () => {
+	const opts = [
+		'The Role of Alternative Social Media in the News and Information Environment',
+		'How Global Public Opinion of China Has Shifted in the Xi Era',
+		'Most Latinos Say Democrats Care About Them and Work Hard for Their Vote, Far Fewer Say So of GOP',
+		'More Americans are joining the ‘cashless’ economy',
+		'Americans Anxious about Climate Change',
+	];
+	return opts[Math.floor(Math.random() * opts.length)];
+};
 
 function Header({ attributes, setAttributes }) {
 	const { title, headerSize, enableExcerpt, enableHeader } = attributes;
@@ -16,6 +27,8 @@ function Header({ attributes, setAttributes }) {
 		// eslint-disable-next-line react/jsx-no-useless-fragment
 		return <Fragment />;
 	}
+
+	const placeholder = useMemo(() => randomTitlePlaceholder(), []);
 
 	const classes = classNames('header', {
 		large: 1 === headerSize,
@@ -30,7 +43,7 @@ function Header({ attributes, setAttributes }) {
 			value={title}
 			onChange={(t) => setAttributes({ title: t })}
 			allowedFormats={['core/italic']}
-			placeholder="Title"
+			placeholder={placeholder}
 			multiline="br"
 			className={classes}
 		/>
