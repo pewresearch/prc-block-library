@@ -18,12 +18,14 @@ const { name } = metadata;
 // @TODO change this to `prc-block/ui-link`
 
 const settings = {
-    title: __('Link'),
-    icon: linkIcon,
-    description: __('Add a page, link, or another item to your navigation.'),
-    variations,
-    __experimentalLabel: ({ label }) => label,
-    edit,
-    save,
+	title: __('Link'),
+	icon: linkIcon,
+	description: __(
+		'DEPRECATED: Add a page, link, or another item to your navigation. (Use navigation or buttons/button block instead)',
+	),
+	variations,
+	__experimentalLabel: ({ label }) => label,
+	edit,
+	save,
 };
 registerBlockType(name, { ...metadata, ...settings });

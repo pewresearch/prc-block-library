@@ -17,7 +17,7 @@ const { name } = metadata;
 
 const settings = {
     title: __('DEPRECATED: Tree List'),
-    description: 'DEPRECATED: A tree list that can be expanded.',
+    description: 'DEPRECATED: A tree list that can be expanded. (Use navigation block instead)',
     category: 'layout',
     icon: 'networking',
     keywords: [__('Taxonomy Tree'), __('Taxonomies'), __('Tree')],

@@ -1,9 +1,18 @@
 /**
+ * External Dependencies
+ */
+import { URLSearchToolbar } from '@prc-app/shared';
+
+/**
  * WordPress Dependencies
  */
 
-import { useBlockProps, RichText } from '@wordpress/block-editor';
-import { useEffect } from '@wordpress/element';
+import {
+	useBlockProps,
+	RichText,
+	BlockControls,
+} from '@wordpress/block-editor';
+import { useEffect, Fragment } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -63,32 +72,43 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 	}, [blockIndex]);
 
 	if (undefined === postId) {
-		return (
-			<Placeholder setAttributes={setAttributes} blockProps={blockProps} />
-		);
+		return <Placeholder {...{ attributes, setAttributes, blockProps }} />;
 	}
 
 	return (
-		<div {...blockProps}>
-			{numberEnabled && 0 <= blockIndex && (
-				<span className="big-number">{blockIndex + 1}</span>
-			)}
-			{true !== isSelected && (
-				<RichText.Content className="title" tagName="h2" value={title} />
-			)}
-			{true === isSelected && (
-				<RichText
-					tagName="h2"
-					value={title}
-					allowedFormats={['core/bold', 'core/italic']}
-					onChange={(t) => setAttributes({ title: t })}
-					placeholder="Joe Biden does something about climate change..."
-					keepPlaceholderOnFocus
-					className="title"
-					multiline={false}
+		<Fragment>
+			<BlockControls>
+				<URLSearchToolbar
+					{...{
+						attributes,
+						setAttributes,
+						onSelect: (postAttrs) => {
+							setAttributes(postAttrs);
+						},
+					}}
 				/>
-			)}
-		</div>
+			</BlockControls>
+			<div {...blockProps}>
+				{numberEnabled && 0 <= blockIndex && (
+					<span className="big-number">{blockIndex + 1}</span>
+				)}
+				{true !== isSelected && (
+					<RichText.Content className="title" tagName="h2" value={title} />
+				)}
+				{true === isSelected && (
+					<RichText
+						tagName="h2"
+						value={title}
+						allowedFormats={['core/bold', 'core/italic']}
+						onChange={(t) => setAttributes({ title: t })}
+						placeholder="Political Typology"
+						keepPlaceholderOnFocus
+						className="title"
+						multiline={false}
+					/>
+				)}
+			</div>
+		</Fragment>
 	);
 };
 

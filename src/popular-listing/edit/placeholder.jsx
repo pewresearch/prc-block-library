@@ -1,47 +1,58 @@
 /**
  * External Dependencies
  */
-import { ContentPlaceholder } from '@prc-app/shared';
+import { URLSearchField } from '@prc-app/shared';
 
 /**
  * WordPress Dependencies
  */
+import { Button, Placeholder as WPComPlaceholder } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useEntityProp } from '@wordpress/core-data';
+import { trendingUp } from '@wordpress/icons';
 
 /**
- * Internal Dependencies
+ * Interanl Dependencies
  */
-// eslint-disable-next-line import/extensions
-import { setPostAttributes } from '../../story-item/helpers.js';
 
-function Placeholder({ setAttributes, blockProps }) {
-	const [loadingStub, setLoadingStub] = useState(false);
-
-	const onPick = (id) => {
-		setPostAttributes({
-			postId: id,
-			setAttributes,
-			isRefresh: false,
-		});
-	};
+export default function Placeholder({ attributes, setAttributes, blockProps }) {
+	const [siteId] = useEntityProp('root', 'site', 'siteId');
+	const postType = 1 === siteId ? 'stub' : 'post';
 
 	return (
-		<ContentPlaceholder
-			onChange={(pickedContent) => {
-				if (0 < pickedContent.length && undefined !== pickedContent[0].id) {
-					setLoadingStub(true);
-					onPick(pickedContent[0].id);
-				}
-			}}
-			onSkip={() => {
-				setAttributes({ postId: 0 });
-			}}
-			label={__('Search for a popular post', 'prc-block-library')}
-			blockProps={{ ...blockProps, style: { marginBottom: '16px' } }}
-			loadingComponent={loadingStub}
-		/>
+		<div {...blockProps}>
+			<WPComPlaceholder
+				icon={trendingUp}
+				label={__(' Popular Post', 'prc-block-library')}
+				isColumnLayout
+				instructions={__(
+					`Search for a ${postType} or paste url here`,
+					'prc-block-library',
+				)}
+			>
+				<URLSearchField
+					{...{
+						attributes,
+						setAttributes,
+						disableImage: true,
+						onSelect: (postAttrs) => {
+							const { title, url, postId } = postAttrs;
+							setAttributes({ title, url, postId });
+						},
+					}}
+				/>
+				<Button
+					isLink
+					onClick={() => {
+						setAttributes({ postId: 0 });
+					}}
+					text={__('Skip')}
+					style={{
+						paddingLeft: '9px',
+						marginTop: '10px',
+					}}
+				/>
+			</WPComPlaceholder>
+		</div>
 	);
 }
-
-export default Placeholder;

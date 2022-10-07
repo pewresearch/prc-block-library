@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { HeadingLevelToolbar } from '@prc-app/shared';
+import { HeadingLevelToolbar, URLSearchToolbar } from '@prc-app/shared';
 /**
  * WordPress Dependencies
  */
@@ -22,7 +22,6 @@ import {
  */
 import { HeadingLevelIcon, ImageSizeIcon, ImageSlotIcon } from './icons';
 import { setArtBySize } from '../../helpers';
-import URLSearchField from './url-search-field';
 
 const COLUMN_LIMIT = 6;
 
@@ -32,11 +31,6 @@ function Icon({ level, isPressed }) {
 
 function Toolbar({ attributes, setAttributes, context }) {
 	const { postId, imageSize, imageSlot, headerSize, isChartArt } = attributes;
-
-	const [siteId] = useEntityProp('root', 'site', 'siteId');
-	const postType = 1 === siteId ? 'stub' : 'post';
-
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const columnWidth =
 		undefined !== context['core/column/gridSpan']
@@ -68,47 +62,15 @@ function Toolbar({ attributes, setAttributes, context }) {
 	return (
 		<BlockControls>
 			{!isUsingContext && (
-				<ToolbarGroup>
-					<ToolbarButton
-						aria-expanded={isModalOpen}
-						aria-haspopup="true"
-						label={__(
-							`Search for a ${postType} or paste url here`,
-							'prc-block-library',
-						)}
-						icon="admin-links"
-						onClick={() => setIsModalOpen(true)}
-						showTooltip
-					/>
-					{true === isModalOpen && (
-						<Modal
-							title={__(
-								`Search for a ${postType} or paste url here`,
-								'prc-block-library',
-							)}
-							onRequestClose={() => setIsModalOpen(false)}
-							shouldCloseOnClickOutside={false}
-							shouldCloseOnEsc={false}
-						>
-							<div
-								style={{
-									width: '100%',
-									minWidth: '340px',
-									maxWidth: '640px',
-									margin: '0 auto',
-								}}
-							>
-								<URLSearchField
-									{...{
-										attributes,
-										setAttributes,
-										onSelection: () => setIsModalOpen(false),
-									}}
-								/>
-							</div>
-						</Modal>
-					)}
-				</ToolbarGroup>
+				<URLSearchToolbar
+					{...{
+						attributes,
+						setAttributes,
+						onSelect: (postAttrs) => {
+							setAttributes(postAttrs);
+						},
+					}}
+				/>
 			)}
 			<HeadingLevelToolbar
 				selectedLevel={headerSize}

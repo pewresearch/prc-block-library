@@ -8,13 +8,35 @@ import classNames from 'classnames/bind';
  */
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { useEntityRecord } from '@wordpress/core-data';
-import { useEffect } from '@wordpress/element';
+import { useEffect, useMemo } from '@wordpress/element';
 import { date as formatDate } from '@wordpress/date';
 import { Placeholder, Spinner } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
+
+const randomTitlePlaceholder = () => {
+	const opts = [
+		'The Role of Alternative Social Media in the News and Information Environment',
+		'How Global Public Opinion of China Has Shifted in the Xi Era',
+		'Most Latinos Say Democrats Care About Them and Work Hard for Their Vote, Far Fewer Say So of GOP',
+		'More Americans are joining the ‘cashless’ economy',
+		'Americans Anxious about Climate Change',
+	];
+	return opts[Math.floor(Math.random() * opts.length)];
+};
+
+const randomExcerptPlaceholder = () => {
+	const opts = [
+		'In recent years, several new options have emerged in the social media universe, many of which explicitly present themselves as alternatives to more established social media platforms. Free speech ideals and heated political themes prevail on these sites, which draw praise from their users and skepticism from other Americans.',
+		'Elections in Italy and Sweden have underscored the growing electoral strength that populist parties have displayed in Europe in recent years.',
+		'In less than a decade, the share of Americans who go “cashless” in a typical week has increased by double digits.',
+		'72% of U.S. adults say that, on the issues that matter to them, their side in politics has been losing more often than winning.',
+		'56% of U.S. adults say that oil executives should be tried for crimes against humanity for their role in climate change.',
+	];
+	return `<p>${opts[Math.floor(Math.random() * opts.length)]}</p>`;
+};
 
 const IMAGE_SIZES = {
 	A1: [1128, 634],
@@ -39,6 +61,9 @@ export default function ContextPreview({ attributes, clientId, context }) {
 		enableMeta,
 		className,
 	} = attributes;
+
+	const palceholderTitle = useMemo(() => randomTitlePlaceholder(), []);
+	const palceholderExcerpt = useMemo(() => randomExcerptPlaceholder(), []);
 
 	const headerClasses = classNames('header', {
 		large: 1 === headerSize,
@@ -83,14 +108,12 @@ export default function ContextPreview({ attributes, clientId, context }) {
 	const blockPropsArgs = {
 		className: classNames('story item', className, logicalClasses),
 	};
-	console.log('blockPropsArgs', blockPropsArgs);
+
 	if (displayImage) {
 		blockPropsArgs['data-image-size'] = imageSize;
 	}
 
 	const blockProps = useBlockProps(blockPropsArgs);
-
-	console.log('blockProps', blockProps);
 
 	useEffect(() => {
 		if (record) {
@@ -100,9 +123,44 @@ export default function ContextPreview({ attributes, clientId, context }) {
 
 	if (isResolving) {
 		return (
-			<div {...blockProps}>
-				<span>Loading... </span> <Spinner />
-			</div>
+			<article
+				{...{
+					...blockProps,
+					style: {
+						opacity: 0.8,
+					},
+				}}
+			>
+				{enableMeta && (
+					<div className="meta">
+						<span className="label">Report</span> |{' '}
+						<span className="date">{formatDate('M j, Y')}</span>
+					</div>
+				)}
+				{displayImage && (
+					<div className={`${imageClasses}`}>
+						<Placeholder
+							className="block-editor-media-placeholder"
+							withIllustration
+						/>
+					</div>
+				)}
+				{enableHeader && (
+					<RichText.Content
+						tagName={`h${headerSize}`}
+						value={palceholderTitle}
+						className={headerClasses}
+					/>
+				)}
+				{enableExcerpt && (
+					<RichText.Content
+						tagName="div"
+						value={palceholderExcerpt}
+						multiline="p"
+						className={excerptClasses}
+					/>
+				)}
+			</article>
 		);
 	}
 
@@ -137,7 +195,7 @@ export default function ContextPreview({ attributes, clientId, context }) {
 			{enableHeader && (
 				<RichText.Content
 					tagName={`h${headerSize}`}
-					value={title.rendered}
+					value={title.raw && !title.rendered ? title.raw : title.rendered}
 					className={headerClasses}
 				/>
 			)}

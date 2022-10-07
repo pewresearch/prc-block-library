@@ -1,4 +1,9 @@
 /**
+ * External Dependencies
+ */
+import { URLSearchField } from '@prc-app/shared';
+
+/**
  * WordPress Dependencies
  */
 import { Button, Placeholder as WPComPlaceholder } from '@wordpress/components';
@@ -9,7 +14,6 @@ import { useEntityProp } from '@wordpress/core-data';
 /**
  * Interanl Dependencies
  */
-import URLSearchField from './url-search-field';
 
 export default function Placeholder({ attributes, setAttributes }) {
 	const [siteId] = useEntityProp('root', 'site', 'siteId');
@@ -32,6 +36,7 @@ export default function Placeholder({ attributes, setAttributes }) {
 					{...{
 						attributes,
 						setAttributes,
+						onSelect: (postAttrs) => setAttributes(postAttrs),
 					}}
 				/>
 				<Button
