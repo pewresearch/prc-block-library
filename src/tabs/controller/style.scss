@@ -137,7 +137,7 @@
 		.wp-block-prc-block-tabs-pane {
 			flex-grow: 1;
 			margin: 0;
-			&:not([aria-hidden="true"]) {
+			&[aria-hidden="true"] {
 				display: none;
 			}
 			& > div:after {

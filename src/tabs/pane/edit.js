@@ -17,7 +17,6 @@ function Edit({ attributes, className, context, clientId }) {
 	const { uuid } = attributes;
 	// eslint-disable-next-line react/destructuring-assignment
 	const currentlyActive = context['prc-block/tabs/active'];
-	const isActive = uuid === currentlyActive;
 
 	const { hasChildBlocks } = useSelect(
 		(select) => {
@@ -30,7 +29,7 @@ function Edit({ attributes, className, context, clientId }) {
 	);
 
 	const blockProps = useBlockProps({
-		'aria-hidden': !isActive,
+		'aria-hidden': uuid !== currentlyActive,
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {

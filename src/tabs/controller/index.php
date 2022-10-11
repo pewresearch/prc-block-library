@@ -35,7 +35,7 @@ class Tabs_Controller extends PRC_Block_Library {
 		$this->enqueue_frontend();
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'id'    => md5( wp_json_encode( $attributes ) ),
+				'id'    => 'tabs-'. md5( wp_json_encode( $attributes ) ),
 				'class' => classnames( array(
 					'is-vertical-tabs' => $attributes['vertical'],
 					'is-horizontal-tabs' => ! $attributes['vertical'],

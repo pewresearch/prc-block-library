@@ -193,16 +193,16 @@
   "table-of-contents.css.map": "blocks/table-of-contents-38b1a3f6.css.map",
   "table-of-contents.js": "blocks/table-of-contents-802a9910.js",
   "table-of-contents.js.map": "blocks/table-of-contents-802a9910.js.map",
-  "tabs-controller.css": "blocks/tabs-controller-dfdebec2.css",
-  "tabs-controller.css.map": "blocks/tabs-controller-dfdebec2.css.map",
+  "tabs-controller.css": "blocks/tabs-controller-3681f28d.css",
+  "tabs-controller.css.map": "blocks/tabs-controller-3681f28d.css.map",
   "tabs-controller.js": "blocks/tabs-controller-a3c0ebfa.js",
   "tabs-controller.js.map": "blocks/tabs-controller-a3c0ebfa.js.map",
   "tabs-menu-item.js": "blocks/tabs-menu-item-2438c0bf.js",
   "tabs-menu-item.js.map": "blocks/tabs-menu-item-2438c0bf.js.map",
   "tabs-menu.js": "blocks/tabs-menu-9c288857.js",
   "tabs-menu.js.map": "blocks/tabs-menu-9c288857.js.map",
-  "tabs-pane.js": "blocks/tabs-pane-81f115b5.js",
-  "tabs-pane.js.map": "blocks/tabs-pane-81f115b5.js.map",
+  "tabs-pane.js": "blocks/tabs-pane-12848981.js",
+  "tabs-pane.js.map": "blocks/tabs-pane-12848981.js.map",
   "tabs-panes.js": "blocks/tabs-panes-f9e42a9a.js",
   "tabs-panes.js.map": "blocks/tabs-panes-f9e42a9a.js.map",
   "taxonomy-tree-more.js": "blocks/taxonomy-tree-more-12ae043b.js",
@@ -975,10 +975,10 @@
           "blocks/tabs-controller-a3c0ebfa.js.map"
         ],
         "css": [
-          "blocks/tabs-controller-dfdebec2.css"
+          "blocks/tabs-controller-3681f28d.css"
         ],
         "css.map": [
-          "blocks/tabs-controller-dfdebec2.css.map"
+          "blocks/tabs-controller-3681f28d.css.map"
         ]
       }
     },
@@ -1010,11 +1010,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/tabs-pane-81f115b5.js"
+          "blocks/tabs-pane-12848981.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/tabs-pane-81f115b5.js.map"
+          "blocks/tabs-pane-12848981.js.map"
         ]
       }
     },
