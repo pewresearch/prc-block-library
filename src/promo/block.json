@@ -57,7 +57,7 @@
 		"prc-block/hasDarkBackground": "hasDarkBackground"
 	},
 	"supports": {
-		"align": ["full"],
+		"align": ["full", "wide", "center"],
 		"color": {
 			"background": true,
 			"text": true,

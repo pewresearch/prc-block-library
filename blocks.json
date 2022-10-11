@@ -242,7 +242,7 @@
 			"name": "tabs-controller",
 			"main": "./src/tabs/controller/index.js",
 			"php": "./src/tabs/controller/index.php",
-			"frontend": "./src/tabs/controller/frontend.js"
+			"frontend": "./src/tabs/controller/view.js"
 		},
 		{
 			"name": "tabs-menu",

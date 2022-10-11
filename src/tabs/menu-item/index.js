@@ -15,10 +15,9 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Menu Item'),
-    description: __('Tabs menu item'),
-    edit,
-    save,
+	__experimentalLabel: ({ title }) => title || 'Menu Item', // Will change the label to match the title, #experimental.
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

@@ -14,10 +14,8 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Panes'),
-    description: __('Contains pane blocks'),
-    edit,
-    save,
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

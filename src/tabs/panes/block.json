@@ -1,28 +1,32 @@
 {
+    "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 2,
 	"name": "prc-block/tabs-panes",
+	"title": "Panes",
+	"description": "Contains the pane block that contains content for each tab.",
     "category": "layout",
     "attributes": {},
     "parent": ["prc-block/tabs"],
-    "providesContext":{
-        "prc-block/tabs-panes-style": "className"
-    },
-    "styles": [
-		{
-			"name": "bordered",
-			"label": "Bordered",
-			"isDefault": true
-		},
-		{
-			"name": "not-bordered",
-			"label": "Not Bordered"
-		}
-	],
     "supports": {
         "html": false,
         "align": false,
         "inserter": false,
-        "multiple": false
+        "multiple": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
     },
-    "usesContext": ["prc-block/tabs-vertical", "prc-block/tabs-style", "prc-block/tabs-active"]
+    "usesContext": ["prc-block/tabs/layout", "prc-block/tabs/active"]
 }

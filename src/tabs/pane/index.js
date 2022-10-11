@@ -15,10 +15,8 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Pane'),
-    description: __('A tab pane, contains tab content.'),
-    edit,
-    save,
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

@@ -21,34 +21,12 @@ class Tabs_Panes extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_tabs_panes( $attributes, $content, $block ) {
-		$is_vertical        = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : false;
-		$wrapper_attributes = get_block_wrapper_attributes(
-			array(
-				'class' => 'column twelve wide',
-			)
-		);
+		$wrapper_attributes = get_block_wrapper_attributes();
 		ob_start();
 		?>
-		<?php echo $is_vertical ? '<div ' . $wrapper_attributes . '>' : null; ?>
-		<?php
-		$uuids = array_map(
-			function( $item ) {
-				return $item['attrs']['uuid'];
-			},
-			$block->parsed_block['innerBlocks']
-		);
-		foreach ( $block->parsed_block['innerBlocks'] as $i => $pane ) {
-			if ( ! in_array( get_query_var( 'menuItem' ), $uuids ) && 0 === $i ) {
-				$pane['attrs']['active'] = true;
-			}
-			// We have to fake block context bc we're manually rendering block here.
-			$pane['attrs']['isVertical']      = $block->context['prc-block/tabs-vertical'];
-			$pane['attrs']['paneStyle']       = $attributes['className'];
-			$pane['attrs']['controllerStyle'] = $block->context['prc-block/tabs-style'];
-			echo render_block( $pane );
-		}
-		?>
-		<?php echo $is_vertical ? '</div> ' : null; ?>
+		<div <?php echo $wrapper_attributes; ?>>
+			<?php echo wp_kses( $content , 'post' );?>
+		</div>
 		<?php
 		return ob_get_clean();
 	}

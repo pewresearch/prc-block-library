@@ -1,54 +1,25 @@
 /**
- * External dependencies
+ * External Dependencies
  */
-import classnames from 'classnames';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
-import {
-    useBlockProps,
-    useInnerBlocksProps,
-} from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 const ALLOWED_BLOCKS = ['prc-block/topic-index-condensed-page'];
 
-const Edit = ({ attributes, context }) => {
-    const isVertical = context['prc-block/tabs-vertical'];
-    const style = context['prc-block/tabs-style'];
-    const { className } = attributes;
+function Edit({ attributes, context }) {
+	const blockProps = useBlockProps({});
 
-    const blockProps = useBlockProps({
-        className: classnames({
-            'column twelve wide': isVertical,
-        }),
-        style: {
-            marginTop:
-                !isVertical && 'is-style-tabular' === style
-                    ? '0px!important'
-                    : null,
-        },
-    });
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		orientation: 'vertical',
+		templateLock: false,
+		renderAppender: false,
+	});
 
-    const innerBlocksProps = useInnerBlocksProps(
-        {
-            className: classnames('ui segment tab', {
-                basic: 'is-style-not-bordered' === className,
-            }),
-        },
-        {
-            allowedBlocks: ALLOWED_BLOCKS,
-            orientation: 'vertical',
-            templateLock: false,
-            renderAppender: false,
-        },
-    );
-
-    return (
-        <div {...blockProps}>
-            <div {...innerBlocksProps} />
-        </div>
-    );
-};
+	return <div {...innerBlocksProps} />;
+}
 
 export default Edit;

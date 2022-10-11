@@ -25,7 +25,7 @@ class Mailchimp_Form extends PRC_Block_Library {
 				'data-segment-id'  => $attributes['interest'],
 			)
 		);
-		
+
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
 			$wrapper_attributes,

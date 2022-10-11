@@ -1,54 +1,45 @@
 /**
- * External dependencies
+ * External Dependencies
  */
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
 import {
-    InnerBlocks,
-    useBlockProps,
-    useInnerBlocksProps,
+	InnerBlocks,
+	useBlockProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
-const Edit = ({ attributes, className, context, clientId }) => {
-    const { uuid } = attributes;
-    // eslint-disable-next-line react/destructuring-assignment
-    const currentlyActive = context['prc-block/tabs-active'];
-    const isActive = uuid === currentlyActive;
+function Edit({ attributes, className, context, clientId }) {
+	const { uuid } = attributes;
+	// eslint-disable-next-line react/destructuring-assignment
+	const currentlyActive = context['prc-block/tabs/active'];
+	const isActive = uuid === currentlyActive;
 
-    if (!isActive) {
-        return <Fragment />;
-    }
+	const { hasChildBlocks } = useSelect(
+		(select) => {
+			const { getBlockOrder } = select('core/block-editor');
+			return {
+				hasChildBlocks: 0 < getBlockOrder(clientId).length,
+			};
+		},
+		[clientId],
+	);
 
-    const { hasChildBlocks } = useSelect(
-        select => {
-            const { getBlockOrder } = select('core/block-editor');
-            return {
-                hasChildBlocks: 0 < getBlockOrder(clientId).length,
-            };
-        },
-        [clientId],
-    );
+	const blockProps = useBlockProps({
+		'aria-hidden': !isActive,
+	});
 
-    const blockProps = useBlockProps({
-        className: classnames(className),
-    });
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		renderAppender: hasChildBlocks
+			? InnerBlocks.DefaultBlockAppender
+			: InnerBlocks.ButtonBlockAppender,
+	});
 
-    const innerBlocksProps = useInnerBlocksProps(blockProps, {
-        renderAppender: hasChildBlocks
-            ? InnerBlocks.DefaultBlockAppender
-            : InnerBlocks.ButtonBlockAppender,
-    });
-
-    return (
-        <div {...blockProps}>
-            <div {...innerBlocksProps} />
-        </div>
-    );
-};
+	return <div {...innerBlocksProps} />;
+}
 
 export default Edit;

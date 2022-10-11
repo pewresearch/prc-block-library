@@ -21,31 +21,24 @@ class Tabs_Menu_Item extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_menu_item( $attributes, $content, $block ) {
-		if ( array_key_exists( 'active', $attributes ) && true === $attributes['active'] ) {
-			$active = true;
-		} else {
-			$active = get_query_var( 'menuItem' ) === $attributes['uuid'];
-		}
 		$is_accordion = array_key_exists( 'asAccordion', $attributes ) ? $attributes['asAccordion'] : false;
-		$classes      = array(
-			'item',
-		);
-		if ( true === $is_accordion ) {
-			$classes = array( 'title' );
-		}
+
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class'     => classnames( $classes, array( 'active' => $active ) ),
-				'data-slug' => $attributes['slug'],
-				'data-uuid' => $attributes['uuid'],
+				'id'            => 'tab-' . $attributes['uuid'],
+				'href'          => '#panel-' . $attributes['uuid'],
+				'aria-controls' => 'panel-' . $attributes['uuid'],
+				'aria-role'     => 'tab',
+				'aria-selected' => 'false',
 			)
 		);
+
 		ob_start();
 		?>
-		<div <?php echo $wrapper_attributes; ?>>
+		<a <?php echo $wrapper_attributes; ?>>
 			<?php echo $is_accordion ? '<i class="dropdown icon"></i>' : null; ?>
 			<?php echo wp_kses( $attributes['title'], 'post' ); ?>
-		</div>
+		</a>
 		<?php
 		return ob_get_clean();
 	}
@@ -57,7 +50,6 @@ class Tabs_Menu_Item extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
@@ -66,7 +58,7 @@ class Tabs_Menu_Item extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

@@ -1,6 +1,8 @@
 {
+    "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 2,
 	"name": "prc-block/tabs-pane",
+	"title": "Pane",
     "category": "layout",
     "attributes": {
         "uuid": {
@@ -10,8 +12,12 @@
     "supports": {
         "html": false,
         "align": false,
-        "inserter": false
+        "inserter": false,
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
     },
-    "usesContext": ["prc-block/tabs-active", "prc-block/tabs-vertical", "prc-block/tabs-panes-style", "prc-block/tabs-style"],
+    "usesContext": ["prc-block/tabs/active", "prc-block/tabs/layout"],
     "parent": ["prc-block/tabs-panes"]
 }

@@ -31,6 +31,11 @@
 			"margin": true,
 			"padding": true,
 			"blockGap": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true
 		}
 	},
 	"usesContext": ["prc-block/hasDarkBackground"]

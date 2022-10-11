@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
+import { navigation as icon } from '@wordpress/icons';
 
 /**
  * Internal dependencies
@@ -15,12 +15,9 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Menu'),
-    description: __(
-        'A sub block of Topic Index - Condensed View, this block controls the left sidebar menu.',
-    ),
-    edit,
-    save,
+	icon,
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

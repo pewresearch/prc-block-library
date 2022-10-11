@@ -21,28 +21,12 @@ class Tabs_Menu extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_menu( $attributes, $content, $block ) {
-		$is_vertical        = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : false;
-		$style              = array_key_exists( 'prc-block/tabs-style', $block->context ) ? $block->context['prc-block/tabs-style'] : 'is-style-tabular';
-		$wrapper_attributes = get_block_wrapper_attributes(
-			array(
-				'class' => classnames(
-					'ui',
-					array(
-						'top attached' => ! $is_vertical && 'is-style-tabular' === $style,
-						'vertical'     => $is_vertical,
-						'pointing'     => 'is-style-pointing' === $style,
-						'secondary'    => 'is-style-secondary' === $style,
-						'tabular'      => 'is-style-tabular' === $style,
-						'text'         => 'is-style-text' === $style,
-					),
-					'fluid menu'
-				),
-			)
-		);
+		$wrapper_attributes = get_block_wrapper_attributes(array(
+			'aria-role' => 'tablist',
+		));
 		ob_start();
 		?>
-		<?php echo $is_vertical ? '<div class="column four wide">' : null; ?>
-		<div <?php echo $wrapper_attributes; ?>>
+		<ul <?php echo $wrapper_attributes; ?>>
 			<?php
 			$uuids = array_map(
 				function( $item ) {
@@ -54,11 +38,10 @@ class Tabs_Menu extends PRC_Block_Library {
 				if ( ! in_array( get_query_var( 'menuItem' ), $uuids ) && 0 === $i ) {
 					$menu_item['attrs']['active'] = true;
 				}
-				echo render_block( $menu_item );
+				echo '<li>' . render_block( $menu_item ) . '</li>';
 			}
 			?>
-		</div>
-		<?php echo $is_vertical ? '</div> ' : null; ?>
+		</ul>
 		<?php
 		return ob_get_clean();
 	}
@@ -70,7 +53,6 @@ class Tabs_Menu extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
@@ -79,7 +61,7 @@ class Tabs_Menu extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

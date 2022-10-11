@@ -21,43 +21,19 @@ class Tabs_Pane extends PRC_Block_Library {
 	 * @return string|false
 	 */
 	public function render_tab_pane( $attributes, $content, $block ) {
-		if ( array_key_exists( 'active', $attributes ) && true === $attributes['active'] ) {
-			$active = true;
-		} else {
-			$active = get_query_var( 'menuItem' ) === $attributes['uuid'];
-		}
-		$is_accordion = array_key_exists( 'asAccordion', $attributes ) ? $attributes['asAccordion'] : false;
-
-		/**
-		 * We have to fake block context bc we're manually rendering block here, but, we do
-		 * default to block context - if its available then use it (who knows what filters
-		 * will become available in the future for manual block rendering)
-		 */
-		$is_vertical = array_key_exists( 'prc-block/tabs-vertical', $block->context ) ? $block->context['prc-block/tabs-vertical'] : ( array_key_exists( 'isVertical', $attributes ) ? $attributes['isVertical'] : false );
-
-		$style = array_key_exists( 'prc-block/tabs-panes-style', $block->context ) ? $block->context['prc-block/tabs-panes-style'] : ( array_key_exists( 'paneStyle', $attributes ) ? $attributes['paneStyle'] : false );
-
-		$controller_style = array_key_exists( 'prc-block/tabs-style', $block->context ) ? $block->context['prc-block/tabs-style'] : ( array_key_exists( 'controllerStyle', $attributes ) ? $attributes['controllerStyle'] : false );
-
-		$classes = array(
-			'ui',
-			'bottom attached' => true !== $is_vertical && 'is-style-tabular' === $controller_style,
-			'basic'           => 'is-style-not-bordered' === $style,
-			'segment tab',
-		);
-		if ( true === $is_accordion ) {
-			$classes = array( 'content' );
-		}
-
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class'     => classnames( $classes, array( 'active' => $active ) ),
-				'data-uuid' => $attributes['uuid'],
+				'id'        => 'panel-' . $attributes['uuid'],
+				'aria-role' => 'tabpanel',
+				'aria-hidden' => 'true',
 			)
 		);
-		$open               = "<div {$wrapper_attributes}>";
 		ob_start();
-		echo wp_kses( $open . $content . '</div>', 'post' );
+		?>
+		<section <?php echo $wrapper_attributes;?>>
+			<?php echo wp_kses( $content , 'post' );?>
+		</section>
+		<?php
 		return ob_get_clean();
 	}
 
@@ -68,7 +44,6 @@ class Tabs_Pane extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
@@ -77,7 +52,7 @@ class Tabs_Pane extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

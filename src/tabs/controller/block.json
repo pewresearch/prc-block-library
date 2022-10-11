@@ -1,42 +1,55 @@
 {
+    "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 2,
 	"name": "prc-block/tabs",
+	"title": "Tabs",
+	"description": "Create horizontal or vertical tabbed content.",
+	"keywords": ["tabs", "tabbed content", "tabbed content"],
     "category": "layout",
+	"icon": "editor-kitchensink",
     "attributes": {
         "active": {
             "type": "string",
             "default": null
         },
-        "vertical": {
+		"vertical": {
             "type": "boolean",
             "default": false
         }
     },
     "providesContext":{
-        "prc-block/tabs-active": "active",
-        "prc-block/tabs-vertical": "vertical",
-        "prc-block/tabs-style": "className"
+        "prc-block/tabs/active": "active",
+        "prc-block/tabs/layout": "vertical"
     },
     "styles": [
 		{
-			"name": "tabular",
-			"label": "Tabular",
+			"name": "tabbed",
+			"label": "Tabbed",
 			"isDefault": true
 		},
 		{
-			"name": "secondary",
-			"label": "Secondary"
+			"name": "pills",
+			"label": "Pills"
 		},
         {
 			"name": "text",
 			"label": "Text"
-		},
-        {
-			"name": "pointing",
-			"label": "Pointing"
 		}
 	],
     "supports": {
-        "html": false
+        "html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true,
+			"blockGap": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
     }
 }

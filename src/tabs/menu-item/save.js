@@ -3,8 +3,6 @@
  */
 import { Fragment } from '@wordpress/element';
 
-const save = () => {
-    return <Fragment />;
-};
+const save = () => <Fragment />;
 
 export default save;

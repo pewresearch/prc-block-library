@@ -225,6 +225,14 @@ class PRC_Block_Library {
 			'height' => array(),
 			'fill'   => array(),
 		);
+		$allowed_tags['a'] = array_merge(
+			array(
+				'aria-controls' => true,
+				'aria-selected' => true,
+				'aria-role' => true,
+			),
+			$allowed_tags['a']
+		);
 		return $allowed_tags;
 	}
 
