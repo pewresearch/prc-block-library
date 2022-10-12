@@ -13,18 +13,18 @@ import './styles.css';
 
 const { name } = metadata;
 const settings = {
-    title: __('Chart'),
-    icon: 'chart-line',
-    description: __('Chart element for Chart Builder.'),
-    keywords: [__('chart')],
-    example: {
-        attributes: {
-            chartType: 'bar',
-            className: 'is-style-bar',
-        },
-    },
-    edit,
-    save,
+	title: __('Chart'),
+	icon: 'chart-line',
+	description: __('Chart element for Chart Builder.'),
+	keywords: [__('chart')],
+	example: {
+		attributes: {
+			chartType: 'bar',
+			className: 'is-style-bar',
+		},
+	},
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

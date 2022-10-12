@@ -4,6 +4,8 @@
 import { ResizableBox } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 import { select, useSelect } from '@wordpress/data';
+import { useBlockProps } from '@wordpress/block-editor';
+
 /**
  * External dependencies
  */
@@ -26,58 +28,6 @@ import {
 	formatLegacyAttrs,
 } from '../utils/helpers';
 import ChartControls from './ChartControls';
-
-const setChartTypeByClassName = (className, setAttributes) => {
-	ifMatchSetAttribute(
-		'is-style-bar',
-		className,
-		'chartType',
-		'bar',
-		setAttributes,
-	);
-	ifMatchSetAttribute(
-		'is-style-stacked-bar',
-		className,
-		'chartType',
-		'stacked-bar',
-		setAttributes,
-	);
-	ifMatchSetAttribute(
-		'is-style-line',
-		className,
-		'chartType',
-		'line',
-		setAttributes,
-	);
-	ifMatchSetAttribute(
-		'is-style-scatter',
-		className,
-		'chartType',
-		'scatter',
-		setAttributes,
-	);
-	ifMatchSetAttribute(
-		'is-style-pie',
-		className,
-		'chartType',
-		'pie',
-		setAttributes,
-	);
-	ifMatchSetAttribute(
-		'is-style-area',
-		className,
-		'chartType',
-		'area',
-		setAttributes,
-	);
-	ifMatchSetAttribute(
-		'is-style-dot-plot',
-		className,
-		'chartType',
-		'dot-plot',
-		setAttributes,
-	);
-};
 
 const edit = ({
 	attributes: attr,
@@ -164,11 +114,14 @@ const edit = ({
 	useEffect(() => {
 		if (isConvertedChart) {
 			console.log('converting ...');
-			const legacyMeta = select('core/editor').getEditedPostAttribute('meta');
+			const title = select('core/editor').getEditedPostAttribute('title');
+			const meta = select('core/editor').getEditedPostAttribute('meta');
+			const legacyMeta = { title, ...meta };
+			console.log({ legacyMeta });
 			const legacyAttrs = formatLegacyAttrs(legacyMeta, attr);
+			console.log({ legacyAttrs });
 			setAttributes(legacyAttrs);
 		}
-		setChartTypeByClassName(className, setAttributes);
 	}, [className, isConvertedChart]);
 	const xTicks = stringToArrayOfNums(xTickExact);
 	const yTicks = stringToArrayOfNums(yTickExact);
@@ -226,8 +179,12 @@ const edit = ({
 			grid: {
 				stroke: xGridStroke,
 			},
+			ticks: {
+				...masterConfig.xAxis.ticks,
+				strokeWidth: attr.xTickMarksActive ? 1 : 0,
+			},
 			axisLabel: {
-				...masterConfig.yAxis.axisLabel,
+				...masterConfig.xAxis.axisLabel,
 				fontSize: attr.xLabelFontSize,
 				padding: attr.xLabelPadding,
 			},
@@ -268,6 +225,10 @@ const edit = ({
 			grid: {
 				stroke: yGridStroke,
 			},
+			ticks: {
+				...masterConfig.yAxis.ticks,
+				strokeWidth: attr.yTickMarksActive ? 1 : 0,
+			},
 			axisLabel: {
 				...masterConfig.yAxis.axisLabel,
 				fontSize: attr.yLabelFontSize,
@@ -296,7 +257,7 @@ const edit = ({
 			caretPosition: attr.tooltipCaretPosition,
 		},
 		animate: {
-			active: true,
+			active: false,
 			duration: 500,
 		},
 		line: {
@@ -398,55 +359,59 @@ const edit = ({
 		renderedChart = <ChartBuilderWrapper config={config} data={chartData} />;
 	}
 	console.log({ chartData, config });
+	const blockProps = useBlockProps();
+
 	return (
-		<ChartBuilderTextWrapper
-			active={config.metadata.active}
-			width={config.layout.width}
-			horizontalRules={config.layout.horizontalRules}
-			title={config.metadata.title}
-			subtitle={config.metadata.subtitle}
-			note={config.metadata.note}
-			source={config.metadata.source}
-			tag={config.metadata.tag}
-		>
-			<ResizableBox
-				size={{
-					height,
-					width,
-				}}
-				minHeight="50"
-				minWidth="50"
-				enable={{
-					top: false,
-					right: false,
-					bottom: false,
-					left: false,
-					topRight: false,
-					bottomRight: !!isSelected,
-					bottomLeft: false,
-					topLeft: false,
-				}}
-				onResizeStop={(event, direction, elt, delta) => {
-					setAttributes({
-						height: parseInt(parseInt(height) + parseInt(delta.height), 10),
-						width: parseInt(parseInt(width) + parseInt(delta.width), 10),
-					});
-					toggleSelection(true);
-				}}
-				onResizeStart={() => {
-					toggleSelection(false);
-				}}
+		<div {...blockProps}>
+			<ChartBuilderTextWrapper
+				active={config.metadata.active}
+				width={width}
+				horizontalRules={config.layout.horizontalRules}
+				title={config.metadata.title}
+				subtitle={config.metadata.subtitle}
+				note={config.metadata.note}
+				source={config.metadata.source}
+				tag={config.metadata.tag}
 			>
-				<ChartControls
-					attributes={attr}
-					setAttributes={setAttributes}
-					parentBlock={parentBlockId}
-					clientId={clientId}
-				/>
-				{renderedChart}
-				<canvas id="canvas" width="800" height="400" />
-			</ResizableBox>
-		</ChartBuilderTextWrapper>
+				<ResizableBox
+					size={{
+						height,
+						width,
+					}}
+					minHeight="50"
+					minWidth="50"
+					enable={{
+						top: false,
+						right: false,
+						bottom: false,
+						left: false,
+						topRight: false,
+						bottomRight: !!isSelected,
+						bottomLeft: false,
+						topLeft: false,
+					}}
+					onResizeStop={(event, direction, elt, delta) => {
+						setAttributes({
+							height: parseInt(parseInt(height) + parseInt(delta.height), 10),
+							width: parseInt(parseInt(width) + parseInt(delta.width), 10),
+						});
+						toggleSelection(true);
+					}}
+					onResizeStart={() => {
+						toggleSelection(false);
+					}}
+				>
+					<ChartControls
+						attributes={attr}
+						setAttributes={setAttributes}
+						parentBlock={parentBlockId}
+						clientId={clientId}
+					/>
+					{renderedChart}
+					<canvas id="canvas" width="800" height="400" />
+				</ResizableBox>
+			</ChartBuilderTextWrapper>
+		</div>
 	);
 };
 

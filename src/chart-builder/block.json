@@ -1,4 +1,6 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
 	"name": "prc-block/chart-builder",
 	"category": "layout",
 	"parent": ["prc-block/chart-builder-data-wrapper"],
@@ -95,6 +97,10 @@
 		"xDomainPadding": {
 			"type": "number",
 			"default": 50
+		},
+		"xTickMarksActive": {
+			"type": "boolean",
+			"default": false
 		},
 		"xTickNum": {
 			"type": "integer",
@@ -201,6 +207,10 @@
 			"default": 20
 		},
 		"showYMinDomainLabel": {
+			"type": "boolean",
+			"default": false
+		},
+		"yTickMarksActive": {
 			"type": "boolean",
 			"default": false
 		},
@@ -429,38 +439,7 @@
 	},
 	"supports": {
 		"html": false,
-		"inserter": false
-	},
-	"styles": [
-		{
-			"name": "bar",
-			"label": "Bar",
-			"isDefault": true
-		},
-		{
-			"name": "stacked-bar",
-			"label": "Stacked Bar",
-			"isDefault": true
-		},
-		{
-			"name": "line",
-			"label": "Line"
-		},
-		{
-			"name": "scatter",
-			"label": "Scatter"
-		},
-		{
-			"name": "pie",
-			"label": "Pie"
-		},
-		{
-			"name": "area",
-			"label": "Area"
-		},
-		{
-			"name": "dot-plot",
-			"label": "Dot Plot"
-		}
-	]
+		"inserter": false,
+		"__experimentalMetadata": true
+	}
 }

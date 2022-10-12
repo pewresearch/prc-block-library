@@ -85,6 +85,10 @@ const getConfig = (el) => {
 			grid: {
 				stroke: attr.xGridStroke,
 			},
+			ticks: {
+				...masterConfig.xAxis.ticks,
+				strokeWidth: attr.xTickMarksActive ? 1 : 0,
+			},
 			axisLabel: {
 				...masterConfig.xAxis.axisLabel,
 				fontSize: attr.xLabelFontSize,
@@ -128,6 +132,10 @@ const getConfig = (el) => {
 			},
 			grid: {
 				stroke: attr.yGridStroke,
+			},
+			ticks: {
+				...masterConfig.yAxis.ticks,
+				strokeWidth: attr.yTickMarksActive ? 1 : 0,
 			},
 			axisLabel: {
 				...masterConfig.yAxis.axisLabel,
@@ -261,7 +269,8 @@ const arrayToDataObj = (arr, scale, chartType) => {
 				category: headers[i],
 				// yLabel: `${parseFloat(row[i])}`,
 			}));
-		seriesData.push(series);
+		console.log({ series, body });
+		seriesData.push(series.reverse());
 	}
 
 	return { categories, seriesData };
@@ -351,26 +360,37 @@ const renderCharts = () => {
 				menuItem: 'TABLE',
 				// render: () => <div dangerouslySetInnerHTML={createTable()} />,
 				render: () => (
-					<Table celled>
-						<Table.Header>
-							<Table.Row>
-								{dataArr[0].map((cell) => (
-									<Table.Cell>{cell}</Table.Cell>
-								))}
-							</Table.Row>
-						</Table.Header>
-						<Table.Body>
-							{dataArr
-								.filter((row, i) => 0 < i)
-								.map((row) => (
-									<Table.Row>
-										{row.map((cell) => (
-											<Table.Cell>{cell}</Table.Cell>
-										))}
-									</Table.Row>
-								))}
-						</Table.Body>
-					</Table>
+					<ChartBuilderTextWrapper
+						active={config.metadata.active}
+						width={config.layout.width}
+						horizontalRules={config.layout.horizontalRules}
+						title={config.metadata.title}
+						subtitle={config.metadata.subtitle}
+						note={config.metadata.note}
+						source={config.metadata.source}
+						tag={config.metadata.tag}
+					>
+						<Table celled>
+							<Table.Header>
+								<Table.Row>
+									{dataArr[0].map((cell) => (
+										<Table.Cell>{cell}</Table.Cell>
+									))}
+								</Table.Row>
+							</Table.Header>
+							<Table.Body>
+								{dataArr
+									.filter((row, i) => 0 < i)
+									.map((row) => (
+										<Table.Row>
+											{row.map((cell) => (
+												<Table.Cell>{cell}</Table.Cell>
+											))}
+										</Table.Row>
+									))}
+							</Table.Body>
+						</Table>
+					</ChartBuilderTextWrapper>
 				),
 			},
 			{
