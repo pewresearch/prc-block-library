@@ -1,8 +1,6 @@
 <?php
-
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
-
 use \WPackio as WPackio;
 
 class Promo_Rotator extends PRC_Block_Library {
@@ -49,7 +47,6 @@ class Promo_Rotator extends PRC_Block_Library {
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
 	 */
 	public function register_block() {
-		$block_js_deps = array( 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill' );
 		$enqueue       = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
@@ -58,7 +55,7 @@ class Promo_Rotator extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => false,
-				'js_dep'    => $block_js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',

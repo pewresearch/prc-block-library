@@ -1,10 +1,8 @@
 /**
  * WordPress Dependencies
  */
-import { InnerBlocks } from '@wordpress/block-editor';
+import { Fragment } from '@wordpress/element';
 
-const save = () => {
-    return <InnerBlocks.Content />;
-};
+const save = () => <Fragment />;
 
 export default save;

@@ -1,35 +1,25 @@
 /**
- * External dependencies
- */
-import classnames from 'classnames';
-
-/**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import {
-    InnerBlocks,
-    useBlockProps,
-    useInnerBlocksProps,
+	InnerBlocks,
+	useBlockProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 
 const ALLOWED_BLOCKS = ['prc-block/promo', 'prc-block/card'];
 
-const Edit = ({ className }) => {
-    const blockProps = useBlockProps();
+function Edit() {
+	const blockProps = useBlockProps();
 
-    const innerBlocksProps = useInnerBlocksProps(
-        blockProps,
-        {
-            allowedBlocks: ALLOWED_BLOCKS,
-            orientation: 'vertical',
-            templateLock: false,
-            renderAppender: InnerBlocks.ButtonBlockAppender,
-        },
-    );
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		orientation: 'vertical',
+		templateLock: false,
+		renderAppender: InnerBlocks.ButtonBlockAppender,
+	});
 
-    return (
-        <div {...innerBlocksProps} />
-    );
-};
+	return <div {...innerBlocksProps} />;
+}
 
 export default Edit;

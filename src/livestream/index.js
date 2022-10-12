@@ -1,8 +1,6 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -16,12 +14,8 @@ import './styles.scss';
 const { name } = metadata;
 
 const settings = {
-    title: __('Livestream'),
-    description: 'Create Embeddable Livestream with Chat.',
-    keywords: [__('Livestream'), __('Stream'), __('Chat')],
-    icon: 'embed-video',
-    edit,
-    save,
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

@@ -1,29 +1,21 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
 import apiFetch from '@wordpress/api-fetch';
-import { __, sprintf } from '@wordpress/i18n';
-import { Fragment, useEffect, useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
+import { Spinner } from '@wordpress/components';
 
 const ALLOWED_BLOCKS = ['prc-block/promo', 'prc-block/story-item'];
 
-const edit = ({ attributes, className, setAttributes }) => {
+const edit = () => {
 	const [loaded, toggleLoaded] = useState(false);
 
 	const [template, setTemplate] = useState([]);
 
-	const blockProps = useBlockProps({
-		className: classnames(className),
-	});
+	const blockProps = useBlockProps({});
 
 	// Get the latest post from daily briefing and give me story item attributes.
-
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		orientation: 'vertical',
@@ -41,7 +33,7 @@ const edit = ({ attributes, className, setAttributes }) => {
 			path: `/prc-api/v2/blocks/daily-briefing-signup`,
 			method: 'GET',
 		}).then((p) => {
-			console.log(p);
+			console.log('daily briefing signup post', p);
 			setTemplate([
 				[
 					'prc-block/story-item',
@@ -51,6 +43,7 @@ const edit = ({ attributes, className, setAttributes }) => {
 						excerpt: `<p>${p.post_content}</p>`,
 						imageSlot: 'disabled',
 						url: p.link,
+						isPreview: true,
 					},
 				],
 				[
@@ -70,11 +63,10 @@ const edit = ({ attributes, className, setAttributes }) => {
 							},
 							[
 								[
-									'prc-block/form-input-field',
+									'prc-block/form-input-text',
 									{
 										type: 'email',
 										placeholder: 'Enter your email address',
-										required: true,
 										label: 'Email Address',
 									},
 								],
@@ -101,7 +93,11 @@ const edit = ({ attributes, className, setAttributes }) => {
 	}, [template]);
 
 	if (!loaded) {
-		return <Fragment />;
+		return (
+			<div>
+				Loading Daily Briefing Signup... <Spinner />
+			</div>
+		);
 	}
 
 	return <div {...innerBlocksProps} />;

@@ -16,56 +16,13 @@ class Livestream extends PRC_Block_Library {
 		}
 	}
 
-	public function render_block_callback( $attributes ) {
-		$this->enqueue_frontend_assets();
-
-		$wrapper_attributes = get_block_wrapper_attributes(
-			array(
-				'id'               => md5( wp_json_encode( $attributes ) ),
-				'class'            => classnames(
-					$attributes['className'],
-				),
-				'data-stream-url'  => $attributes['streamUrl'],
-				'data-chat-url'    => $attributes['chatUrl'],
-			)
-		);
-		ob_start();
-		?>
-		<div <?php echo wp_kses($wrapper_attributes, 'post'); ?>>
-			<div class='prc-livestream-stream'>
-				<div class='ui fluid placeholder' style='height: 100%;'>
-					<div class='image' style='height: 100%;'></div>
-				</div>
-			</div>
-			<div class='prc-livestream-chat'>
-				<div class='ui placeholder' style='width: 100%; height: 100%; min-height: 560px;'>
-					<div class='paragraph'>
-						<?php for ( $i = 0; $i < 30; $i++ ) : ?>
-						<div class='line'></div>
-						<?php endfor; ?>
-					</div>
-				</div>
-			</div>
-		</div>
-		<?php
-		return ob_get_clean();
-	}
-	public function enqueue_frontend_assets() {
-		if ( is_admin() ) {
-			return;
-		}
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
-		$enqueue->enqueue(
-			'frontend',
-			'livestream',
-			array(
-				'js'        => true,
-				'css'       => true,
-				'js_dep'    => array(),
-				'css_dep'   => array(),
-				'in_footer' => true,
-				'media'     => 'all',
-			)
+	public function render_block_callback($attributes) {
+		$wrapper_attributes = get_block_wrapper_attributes();
+		return wp_sprintf(
+			'<div %1$s><div class="wp-block-prc-block-livestream--stream"><iframe title="Video" src="%2$s" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe></div><div class="wp-block-prc-block-livestream--chat"><iframe title="Slido" src="%3$s" frameBorder="0"></iframe></div></div>',
+			$wrapper_attributes,
+			$attributes['streamUrl'],
+			$attributes['chatUrl'],
 		);
 	}
 

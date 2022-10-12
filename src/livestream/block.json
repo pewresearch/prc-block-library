@@ -1,7 +1,17 @@
 {
+    "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 2,
     "name": "prc-block/livestream",
-    "category": "layout",
+    "title": "Livestream",
+	"description": "A structured livestream block with places for a live video and embeddable chat applet.",
+    "icon": "embed-video",
+	"keywords": [
+		"livestream",
+		"video",
+		"chat",
+		"stream"
+	],
+    "category": "marketing",
     "attributes": {
         "streamUrl": {
             "type": "string"

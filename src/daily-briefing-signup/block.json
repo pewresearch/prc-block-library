@@ -1,8 +1,17 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "prc-block/daily-briefing-signup",
+	"title": "Daily Briefing Signup",
+	"description": "Displays the latest Daily Briefing post and a MailChimp form to sign up for the newsletter.",
+	"keywords": [
+		"daily briefing",
+		"journalism",
+		"sign up",
+		"newsletter"
+	],
 	"category": "marketing",
-	"attributes": {},          
+	"attributes": {},
 	"supports": {
 		"html": false
 	}

@@ -1,45 +1,35 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-import { Input } from 'semantic-ui-react';
-// @TODO Change this to InputControl from @wordpress/components
-
-/**
  * WordPress Dependencies
  */
 import { useBlockProps } from '@wordpress/block-editor';
+import { __experimentalInputControl as InputControl } from '@wordpress/components';
 
 const edit = ({ attributes, setAttributes }) => {
-    const { className, streamUrl, chatUrl } = attributes;
-    const blockProps = useBlockProps({
-        className: classnames(className),
-    });
+	const { streamUrl, chatUrl } = attributes;
+	const blockProps = useBlockProps();
 
-    return (
-        <div {...blockProps}>
-            <div className="prc-livestream-stream">
-                Livestream video embed URL:
-                <Input
-                    type="text"
-                    placeholder="e.g. https://vimeo.com/event/1352567/embed"
-                    value={streamUrl}
-                    onChange={(e) =>
-                        setAttributes({ streamUrl: e.target.value })
-                    }
-                />
-            </div>
-            <div className="prc-livestream-chat">
-                Livestream chat embed URL:
-                <Input
-                    type="text"
-                    placeholder="e.g. https://app.sli.do/event/2jtxhrzn"
-                    value={chatUrl}
-                    onChange={(e) => setAttributes({ chatUrl: e.target.value })}
-                />
-            </div>
-        </div>
-    );
+	return (
+		<div {...blockProps}>
+			<div className="wp-block-prc-block-livestream--stream">
+				Livestream video embed URL:
+				<InputControl
+					type="text"
+					placeholder="e.g. https://vimeo.com/event/1352567/embed"
+					value={streamUrl}
+					onChange={(val) => setAttributes({ streamUrl: val })}
+				/>
+			</div>
+			<div className="wp-block-prc-block-livestream--chat">
+				Livestream chat embed URL:
+				<InputControl
+					type="text"
+					placeholder="e.g. https://app.sli.do/event/2jtxhrzn"
+					value={chatUrl}
+					onChange={(val) => setAttributes({ chatUrl: val })}
+				/>
+			</div>
+		</div>
+	);
 };
 
 export default edit;

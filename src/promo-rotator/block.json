@@ -1,5 +1,14 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "prc-block/promo-rotator",
-	"category": "layout"
+	"title": "Promo Rotator",
+	"description": "Rotates through each block once on page load.",
+	"keywords": [
+		"promo",
+		"rotator",
+		"ads",
+		"ad"
+	],
+	"category": "marketing"
 }

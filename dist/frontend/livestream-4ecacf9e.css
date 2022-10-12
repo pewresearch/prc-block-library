@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-prc-block-livestream{display:grid;grid-template-rows:1fr;grid-gap:1rem;margin-bottom:1rem;font-family:var(--wp--preset--font-family--sans-serif);font-size:1rem}.wp-block-prc-block-livestream.wp-block{border:1px solid #eaeaea;padding:1rem}.wp-block-prc-block-livestream:not(.is-style-chat-box-right){grid-template-columns:1fr 2fr;grid-template-rows:1fr;grid-template-areas:"chat livestream"}@media screen and (max-width: 640px){.wp-block-prc-block-livestream:not(.is-style-chat-box-right){grid-template-columns:1fr;grid-template-rows:1fr 1fr;grid-template-areas:"livestream" "chat"}}.wp-block-prc-block-livestream.is-style-chat-box-right{grid-template-columns:2fr 1fr;grid-template-rows:1fr;grid-template-areas:"livestream chat"}@media screen and (max-width: 640px){.wp-block-prc-block-livestream.is-style-chat-box-right{grid-template-columns:1fr;grid-template-rows:1fr 1fr;grid-template-areas:"livestream" "chat"}}.wp-block-prc-block-livestream .wp-block-prc-block-livestream--stream{grid-area:livestream;display:flex;flex-direction:column;position:relative;padding:0}.wp-block-prc-block-livestream .wp-block-prc-block-livestream--stream>iframe{position:absolute;top:0;left:0;width:100%;height:100%}.wp-block-prc-block-livestream .wp-block-prc-block-livestream--chat{grid-area:chat;display:flex;flex-direction:column}.wp-block-prc-block-livestream .wp-block-prc-block-livestream--chat>iframe{width:100%;height:100%;min-height:560px}
+
+/*# sourceMappingURL=livestream-4ecacf9e.css.map*/

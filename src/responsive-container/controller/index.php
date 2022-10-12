@@ -1,14 +1,7 @@
 <?php
-
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
-
-/**
- * Server-side rendering of the `prc-block/responsive-container-controller` block.
- *
- * @package gutenberg
- */
 
 class Responsive_Container_Controller extends PRC_Block_Library {
 	public function __construct( $init = false ) {
@@ -70,6 +63,7 @@ class Responsive_Container_Controller extends PRC_Block_Library {
 			return;
 		}
 
+		// @TODO: change this to use wp_add_inline_style OR something from the new style engine...
 		echo '<style>';
 		foreach ( $media_queries as $media_query ) {
 			echo $media_query;
