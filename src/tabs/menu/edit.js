@@ -1,7 +1,6 @@
 /**
  * WordPress Dependencies
  */
-import { useEffect } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
@@ -10,7 +9,7 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 const ALLOWED_BLOCKS = ['prc-block/tabs-menu-item'];
 const BLOCKS_TEMPLATE = [['prc-block/tabs-menu-item', {}]];
 
-function Edit({ attributes, setAttributes, context }) {
+function Edit({ className, context }) {
 	const isVerticalLayout = context['prc-block/tabs/layout'];
 
 	const blockProps = useBlockProps({});

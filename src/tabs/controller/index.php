@@ -45,7 +45,9 @@ class Tabs_Controller extends PRC_Block_Library {
 		ob_start();
 		?>
 		<div <?php echo $wrapper_attributes; ?>>
-			<?php echo wp_kses( $content, 'post' ); ?>
+			<div>
+				<?php echo wp_kses( $content, 'post' ); ?>
+			</div>
 		</div>
 		<?php
 		return ob_get_clean();

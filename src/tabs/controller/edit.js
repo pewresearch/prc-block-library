@@ -45,13 +45,16 @@ function ControllerEdit({ attributes, setAttributes, clientId }) {
 		}),
 	});
 
-	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: ALLOWED_BLOCKS,
-		renderAppender: false,
-		orientation: vertical ? 'vertical' : 'horizontal',
-		template: BLOCKS_TEMPLATE,
-		templateLock: 'all',
-	});
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			allowedBlocks: ALLOWED_BLOCKS,
+			renderAppender: false,
+			orientation: vertical ? 'vertical' : 'horizontal',
+			template: BLOCKS_TEMPLATE,
+			templateLock: 'all',
+		},
+	);
 
 	// Get menu blocks, get page blocks
 	const { menuBlocks, paneBlocks } = useSelect(
@@ -96,7 +99,9 @@ function ControllerEdit({ attributes, setAttributes, clientId }) {
 
 	return (
 		<Fragment>
-			<div {...innerBlocksProps} />
+			<div {...blockProps}>
+				<div {...innerBlocksProps} />
+			</div>
 			<Controls {...{ attributes, setAttributes }} />
 		</Fragment>
 	);

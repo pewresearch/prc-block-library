@@ -1,9 +1,4 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
 import { useEffect } from '@wordpress/element';
@@ -13,19 +8,16 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { cleanForSlug } from '@wordpress/url';
 
-function Edit({
-	attributes,
-	setAttributes,
-	className,
-	clientId,
-	isSelected,
-	context,
-}) {
+function Edit({ attributes, setAttributes, clientId, isSelected, context }) {
 	const { title, uuid } = attributes;
 	const currentlyActive = context['prc-block/tabs/active'];
 
-	const { insertBlock, updateBlockAttributes, moveBlockToPosition } =
-		useDispatch('core/block-editor');
+	const {
+		insertBlock,
+		updateBlockAttributes,
+		updateBlock,
+		moveBlockToPosition,
+	} = useDispatch('core/block-editor');
 
 	const movePane = (
 		targetClientId,
@@ -48,7 +40,12 @@ function Edit({
 		moveBlockToPosition(targetClientId, toClientId, toClientId, targetIndex);
 	};
 
-	const { controllerClientId, panesClientId, currentPositionIndex } = useSelect(
+	const {
+		controllerClientId,
+		panesClientId,
+		currentPositionIndex,
+		matchingPaneClientId,
+	} = useSelect(
 		(select) => {
 			if (undefined === clientId) {
 				return;
@@ -89,13 +86,14 @@ function Edit({
 				panesClientId: panesBlockClientId,
 				currentPositionIndex: currentIndex,
 				panePositionIndex: paneIndex,
+				matchingPaneClientId: paneClientId,
 			};
 		},
 		[clientId],
 	);
 
 	const onBlockInit = () => {
-		// If no uuid is set run init sequence, create a matching tab pane block.
+		// If no uuid is set then run init sequence, create a matching tab pane block.
 		if (null === uuid) {
 			// We will use the first client id assigned as a uuid.
 			console.log('onBlockInit', uuid, currentPositionIndex);
@@ -104,14 +102,17 @@ function Edit({
 			const newPaneBlock = createBlock('prc-block/tabs-pane', {
 				uuid: newUuid,
 			});
-			insertBlock(newPaneBlock, currentPositionIndex, panesClientId);
+			insertBlock(newPaneBlock, currentPositionIndex, panesClientId, false);
 		}
 	};
 
 	const onBlockSelection = () => {
-		console.log("onBlockSelection", currentlyActive, uuid);
 		if (null !== uuid && undefined !== controllerClientId) {
 			updateBlockAttributes(controllerClientId, { active: uuid });
+		}
+		if (matchingPaneClientId) {
+			// Blind update of the block to trigger a re-render.
+			updateBlock(matchingPaneClientId, {});
 		}
 	};
 
@@ -124,31 +125,26 @@ function Edit({
 	}, [clientId, isSelected]);
 
 	const blockProps = useBlockProps({
-		className: classnames(className, {
-			'aria-selected': uuid === currentlyActive,
-		}),
+		'aria-selected': uuid === currentlyActive,
 	});
 
 	return (
 		<div {...blockProps}>
 			{isSelected && (
 				<RichText
-					tagName="div" // The tag here is the element output and editable in the admin
-					value={title} // Any existing content, either from the database or an attribute default
-					allowedFormats={[]} // Allow the content to be made bold or italic, but do not allow other formatting options
+					tagName="div"
+					value={title}
+					allowedFormats={[]}
 					onChange={(newTitle) =>
 						setAttributes({
 							title: newTitle,
 							slug: cleanForSlug(newTitle),
 						})
-					} // Store updated content as a block attribute
-					placeholder={__('Tab Pane 1')} // Display this text before any content has been added by the user
-					style={{
-						textTransform: 'none',
-					}}
+					}
+					placeholder={__('Tab Title', 'prc-block-library')}
 				/>
 			)}
-			{!isSelected && <div>{title}</div>}
+			{!isSelected && <div>{title || `Tab Title`}</div>}
 		</div>
 	);
 }

@@ -1,9 +1,4 @@
 /**
- * External Dependencies
- */
-import classNames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
 import {
@@ -13,7 +8,7 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
-function Edit({ attributes, className, context, clientId }) {
+function Edit({ attributes, context, clientId }) {
 	const { uuid } = attributes;
 	// eslint-disable-next-line react/destructuring-assignment
 	const currentlyActive = context['prc-block/tabs/active'];

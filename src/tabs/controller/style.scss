@@ -10,13 +10,48 @@
 	--color-border: #ddd;
 	--color-active: #eee;
 
-	display: flex;
-	gap: 0px;
 	margin-block-end: 1.5em;
+	container-type: inline-size;
+
+	& > div {
+		display: flex;
+		gap: 0px;
+	}
 
 	.wp-block-prc-block-tabs-menu,
 	.wp-block-prc-block-tabs-panes {
 		margin: 0!important;
+	}
+
+	// When this block reaches 600px it will convert to an accordion.
+	// All of these are set to important to override all other styles, this must always become an accordion.
+	@container (max-width: 600px) {
+		& > div {
+			flex-direction: column!important;
+			border: 1px solid var(--color-border)!important;
+		}
+		.wp-block-prc-block-tabs-menu {
+			flex-direction: column!important;
+			align-items: stretch!important;
+			max-width: 100%!important;
+			gap: 0px!important;
+			border: none!important;
+			padding: 0px!important;
+			.wp-block-prc-block-tabs-menu-item {
+				width: 100%!important;
+				text-align: center!important;
+				border-radius: 0px!important;
+				border: none!important;
+				border-bottom: 1px solid var(--color-border)!important;
+				margin: 0px!important;
+				&:first-child {
+					border-top: none!important;
+				}
+			}
+		}
+		.wp-block-prc-block-tabs-panes {
+			padding: 1em!important;
+		}
 	}
 
 	// Default styling for all menu items:
@@ -45,9 +80,13 @@
 			margin: 0;
 			padding: 10px;
 
+			&:focus {
+				outline: none;
+				box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007cba;
+			}
+
 			&:focus,
 			&:hover {
-				outline: none;
 				background-color: var(--color-active);
 				opacity: 0.9;
 			}
@@ -59,7 +98,9 @@
 	}
 
 	&.is-horizontal-tabs {
-		flex-direction: column;
+		& > div {
+			flex-direction: column;
+		}
 		.wp-block-prc-block-tabs-menu {
 			flex-direction: row;
 		}
@@ -84,13 +125,17 @@
 	}
 
 	&.is-vertical-tabs {
-		flex-direction: row;
-		.wp-block-prc-block-tabs-menu {
-			max-width: 200px!important;
+		& > div {
+			flex-direction: row;
+		}
+		.wp-block-prc-block-tabs-menu,
+		div.wp-block-prc-block-tabs-menu.wp-block {
+			max-width: 200px;
 			width: 100%;
 			flex-direction: column;
+			align-items: flex-end;
 		}
-		.wp-block-prc-block-panes {
+		.wp-block-prc-block-tabs-panes {
 			padding-left: 1em;
 		}
 		&.is-style-tabbed {

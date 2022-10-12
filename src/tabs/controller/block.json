@@ -44,8 +44,7 @@
 		},
 		"spacing": {
 			"padding": true,
-			"margin": true,
-			"blockGap": true
+			"margin": true
 		},
 		"typography": {
 			"fontSize": true,
