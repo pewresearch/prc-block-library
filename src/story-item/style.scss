@@ -572,7 +572,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
 // Query Block support
 .wp-block-post-template > li {
-	margin-block-start: 0;
+	margin-block-start: 0!important;
 	&:not(:last-of-type) > .wp-block-prc-block-story-item {
         border-bottom: $dividedBorder;
         padding: 21px 0 21px 0;
