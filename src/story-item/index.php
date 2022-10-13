@@ -494,10 +494,6 @@ class Story_Item extends PRC_Block_Library {
 		ob_start();
 		?>
 		<?php
-		/**
-		 * These inline html comments are necessary for a filter to wrap consecutive story items, see 'wrap_consecutive_story_items'
-		 */
-		echo '<!-- .wp-block-prc-block-story-item -->';
 		?>
 		<article <?php echo $block_wrapper_attrs; ?>>
 			<?php
@@ -530,7 +526,6 @@ class Story_Item extends PRC_Block_Library {
 			?>
 		</article>
 		<?php
-		echo '<!-- /.wp-block-prc-block-story-item -->';
 		return ob_get_clean();
 	}
 
