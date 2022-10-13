@@ -185,8 +185,8 @@
   "staff.css.map": "blocks/staff-eece803c.css.map",
   "staff.js": "blocks/staff-5186c356.js",
   "staff.js.map": "blocks/staff-5186c356.js.map",
-  "story-item.css": "blocks/story-item-0049e8e9.css",
-  "story-item.css.map": "blocks/story-item-0049e8e9.css.map",
+  "story-item.css": "blocks/story-item-f2ac3663.css",
+  "story-item.css.map": "blocks/story-item-f2ac3663.css.map",
   "story-item.js": "blocks/story-item-e88f2b8d.js",
   "story-item.js.map": "blocks/story-item-e88f2b8d.js.map",
   "table-of-contents.css": "blocks/table-of-contents-38b1a3f6.css",
@@ -937,10 +937,10 @@
           "blocks/story-item-e88f2b8d.js.map"
         ],
         "css": [
-          "blocks/story-item-0049e8e9.css"
+          "blocks/story-item-f2ac3663.css"
         ],
         "css.map": [
-          "blocks/story-item-0049e8e9.css.map"
+          "blocks/story-item-f2ac3663.css.map"
         ]
       }
     },

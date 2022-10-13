@@ -313,7 +313,6 @@ class Story_Item extends PRC_Block_Library {
 		$column_width = array_key_exists( 'core/column/gridSpan', $context ) ? $context['core/column/gridSpan'] : false;
 
 		$post = get_post( $post_id );
-		error_log('----------------- /Story Item Post (START) -----------------');
 		// What should we do if no post can be found?
 
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
@@ -408,10 +407,6 @@ class Story_Item extends PRC_Block_Library {
 			'disable_mobile_styles'         => $disable_mobile_styles,
 			'enable_meta'                   => $enable_meta,
 		);
-
-		error_log( print_r($variables, true) );
-
-		error_log('----------------- /Story Item Post (END) -----------------');
 
 		wp_reset_postdata();
 

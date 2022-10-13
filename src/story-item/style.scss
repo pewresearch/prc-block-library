@@ -570,7 +570,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 }
 // End .wp-block-prc-block-story-item
 
-// Query Block support
+// Fallback consecutive story item styling.
+// This is for when style engine values are not set or available.
 .wp-block-post-template > li {
 	margin-block-start: 0!important;
 	&:not(:last-of-type) > .wp-block-prc-block-story-item {
@@ -584,80 +585,23 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         padding-top: 21px;
     }
 }
+.wp-block-group:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
+.ui.grid > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
+.ui.story.items > article.wp-block-prc-block-story-item {
+	border-bottom: $dividedBorder;
+	padding: 21px 0 21px 0;
 
-// A mobile tweak for spacing for a single story item...
-.wp-block-prc-block-column > .wp-block-prc-block-story-item:only-child {
-    @media only screen and (max-width: $largestMobileScreen) {
-        margin: $itemSpacing;
-        padding: $itemSpacing;
-        border-bottom: $dividedBorder;
+	&:first-of-type {
+		padding-top: 0px;
+	}
+	&:last-of-type {
+		padding-bottom: 0;
     }
-}
-
-// Handle Consecutive Items in the block editor.
-.block-editor-block-list__layout {
-    & > .wp-block-prc-block-story-item:not(:last-of-type) {
-        padding: $itemSpacing;
-        margin: $itemSpacing;
-
-        & + .story.item.bordered {
-            margin-top: -15px;
-        }
-    }
-    &.wp-block-prc-block-column > .wp-block-prc-block-story-item:not(:last-of-type) {
-        border-bottom: $dividedBorder;
-        padding: $relaxedItemSpacing;
-        margin: $relaxedItemSpacing;
-
-        & + .story.item.bordered {
-            margin-top: -22px;
-        }
-    }
-}
-
-/**
- * Consecutive Story Items
- */
-// Keeping these .ui for the time being for backwards compatibility.
-.ui.items,
-.ui[class*="story items"] {
-    & > .item,
-    & > .wp-block-prc-block-story-item {
-        font-size: 1em;
-    }
-
-    &.divided > .story.item:not(:last-of-type) {
-        border-bottom: $dividedBorder;
-    }
-
-    & > .wp-block-prc-block-story-item > .item:not(:last-of-type),
-    & > .item:not(:last-of-type) {
-        padding: $itemSpacing;
-        margin: $itemSpacing;
-
-        & + .story.item.bordered {
-            margin-top: -15px;
-        }
-    }
-
-    &.relaxed > .wp-block-prc-block-story-item > .item:not(:last-of-type),
-    &.relaxed > .item:not(:last-of-type) {
-        padding: $relaxedItemSpacing;
-        margin: $relaxedItemSpacing;
-
-        & + .story.item.bordered {
-            margin-top: -22px;
-        }
-    }
-
-    &[class*="very realxed"] > .wp-block-prc-block-story-item .item:not(:last-of-type),
-    &[class*="very relaxed"] > .item:not(:last-of-type) {
-        padding: $veryRelaxedItemSpacing;
-        margin: $veryRelaxedItemSpacing;
-        & + .story.item.bordered {
-            margin-top: -29px;
-        }
-    }
+	&:only-child {
+		padding-top: 0;
+		padding-bottom: 0;
+		border-bottom: none;
+	}
 }
 
 /**
@@ -672,11 +616,10 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 /* Mobile Only */
 // On mobile and items not explicitly defined as being unstackable should stack
 @media only screen and (max-width: $largestMobileScreen) {
-    .ui.items .item {
-        padding: $veryRelaxedItemSpacing;
-    }
+    // .ui.items .item {
+    //     padding: $veryRelaxedItemSpacing;
+    // }
 }
-
 
 /**
  * Block Editor Only Styles
@@ -707,3 +650,88 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 		}
 	}
 }
+
+///
+///
+///
+/// Everything below here is legacy, it should be reviewed and then removed. Most, if not all of it can be handled by the style engine.
+///
+///
+///
+
+// A mobile tweak for spacing for a single story item...
+// .wp-block-prc-block-column > .wp-block-prc-block-story-item:only-child {
+//     @media only screen and (max-width: $largestMobileScreen) {
+//         margin: $itemSpacing;
+//         padding: $itemSpacing;
+//         border-bottom: $dividedBorder;
+//     }
+// }
+
+// Handle Consecutive Items in the block editor.
+// .block-editor-block-list__layout {
+//     & > .wp-block-prc-block-story-item:not(:last-of-type) {
+//         padding: $itemSpacing;
+//         margin: $itemSpacing;
+
+//         & + .story.item.bordered {
+//             margin-top: -15px;
+//         }
+//     }
+//     &.wp-block-prc-block-column > .wp-block-prc-block-story-item:not(:last-of-type) {
+//         border-bottom: $dividedBorder;
+//         padding: $relaxedItemSpacing;
+//         margin: $relaxedItemSpacing;
+
+//         & + .story.item.bordered {
+//             margin-top: -22px;
+//         }
+//     }
+// }
+
+/**
+ * Consecutive Story Items
+ */
+// Keeping these .ui for the time being for backwards compatibility.
+// .ui.items,
+// .ui[class*="story items"] {
+//     & > .item,
+//     & > .wp-block-prc-block-story-item {
+//         font-size: 1em;
+//     }
+
+//     &.divided > .story.item:not(:last-of-type) {
+//         border-bottom: $dividedBorder;
+//     }
+
+//     & > .wp-block-prc-block-story-item > .item:not(:last-of-type),
+//     & > .item:not(:last-of-type) {
+//         padding: $itemSpacing;
+//         margin: $itemSpacing;
+
+//         & + .story.item.bordered {
+//             margin-top: -15px;
+//         }
+//     }
+
+//     &.relaxed > .wp-block-prc-block-story-item > .item:not(:last-of-type),
+//     &.relaxed > .item:not(:last-of-type) {
+//         padding: $relaxedItemSpacing;
+//         margin: $relaxedItemSpacing;
+
+//         & + .story.item.bordered {
+//             margin-top: -22px;
+//         }
+//     }
+
+//     &[class*="very realxed"] > .wp-block-prc-block-story-item .item:not(:last-of-type),
+//     &[class*="very relaxed"] > .item:not(:last-of-type) {
+//         padding: $veryRelaxedItemSpacing;
+//         margin: $veryRelaxedItemSpacing;
+//         & + .story.item.bordered {
+//             margin-top: -29px;
+//         }
+//     }
+// }
+
+
