@@ -26,8 +26,8 @@ class Story_Item extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
-			add_filter( 'prc_group_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
+			// add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
+			// add_filter( 'prc_group_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
 			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
 			add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
 			add_action( 'init', array( $this, 'register_block' ), 11 );

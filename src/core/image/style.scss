@@ -78,6 +78,7 @@ $alignRightMargin: 5px 0px 15px 15px;
 
 	&.aligncenter,
 	& > .aligncenter {
+		clear: none;
 		text-align: center;
 	}
 
