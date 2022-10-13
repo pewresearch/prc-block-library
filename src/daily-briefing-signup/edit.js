@@ -25,7 +25,6 @@ const edit = () => {
 
 	// Init the template.
 	useEffect(() => {
-		// Do something when the component mounts
 		// Go get the latest post from daily briefing
 		// Set the story item attributes
 		// Set the loaded state to true
@@ -33,7 +32,6 @@ const edit = () => {
 			path: `/prc-api/v2/blocks/daily-briefing-signup`,
 			method: 'GET',
 		}).then((p) => {
-			console.log('daily briefing signup post', p);
 			setTemplate([
 				[
 					'prc-block/story-item',
