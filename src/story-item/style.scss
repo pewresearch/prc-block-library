@@ -231,6 +231,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
     }
 }
 
+// @TODO after block themes go live on prc remove .story.item and convert sub itemt to use BEM naming convention (e.g. .wp-block-prc-block-story-item__title)
+
 .wp-block-prc-block-story-item,
 .story.item {
     display: grid;
@@ -575,40 +577,28 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 // .ui ones are fallbacks until we switch over to a block theme for prc.
 .wp-block-post-template > li {
 	margin-block-start: 0!important;
-	// &:not(:last-of-type) > .wp-block-prc-block-story-item {
-    //     border-bottom: $dividedBorder;
-    //     padding: 21px 0 21px 0;
-    // }
-	// &:first-of-type > .wp-block-prc-block-story-item {
-    //     padding-top: 0px;
-    // }
-	// &:last-of-type > .wp-block-prc-block-story-item {
-    //     padding-top: 21px;
-    // }
 }
 
-.wp-block-post-template > li,
-.wp-block-group:has(.wp-block-prc-block-story-item),
-.ui.grid > .column:has(.wp-block-prc-block-story-item),
-.ui.row > .column:has(.wp-block-prc-block-story-item),
-.ui.story.items {
-	& > article.wp-block-prc-block-story-item {
-		border-bottom: $dividedBorder;
-		padding: 21px 0 21px 0;
+.wp-block-post-template > li.column:has(.wp-block-prc-block-story-item),
+.wp-block-group:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
+.ui.grid > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
+.ui.row > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
+.ui.story.items > article.wp-block-prc-block-story-item {
+	border-bottom: $dividedBorder;
+	padding: 21px 0 21px 0;
 
-		&:first-child {
-			padding-top: 0px;
-		}
-		&:last-child {
-			padding-bottom: 0;
-			border-bottom: none;
-		}
-		&:only-of-type,
-		&:only-child {
-			padding-top: 0;
-			padding-bottom: 0;
-			border-bottom: none;
-		}
+	&:first-child {
+		padding-top: 0px;
+	}
+	&:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+	&:only-of-type,
+	&:only-child {
+		padding-top: 0;
+		padding-bottom: 0;
+		border-bottom: none;
 	}
 }
 
@@ -622,11 +612,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 }
 
 /* Mobile Only */
-// On mobile and items not explicitly defined as being unstackable should stack
 @media only screen and (max-width: $largestMobileScreen) {
-    // .ui.items .item {
-    //     padding: $veryRelaxedItemSpacing;
-    // }
 }
 
 /**
@@ -658,3 +644,4 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 		}
 	}
 }
+Copied
