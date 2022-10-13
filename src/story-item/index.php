@@ -10,11 +10,12 @@ use \WPackio as WPackio;
 
 class Story_Item extends PRC_Block_Library {
 
+	public static $block_name          = 'prc-block/story-item';
+	public static $version             = '4.0.10a';
 	public static $css_handle          = false;
 	public static $frontend_js_handle  = false;
-	public static $version             = '4.0.10';
 	public static $date_format         = 'M j, Y';
-	public static $cache_invalidate    = false; //'09-19-2022';
+	public static $cache_invalidate    = '10-13-2022'; //false; //'11-01-2022';
 	public static $cache_ttl           = 10 * MINUTE_IN_SECONDS;
 	public static $stub_disabled_sites = array(
 		17,
@@ -26,51 +27,10 @@ class Story_Item extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			// add_filter( 'prc_column_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
-			// add_filter( 'prc_group_block_content', array( $this, 'wrap_consecutive_story_items' ), 10, 2 );
 			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
 			add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 		}
-	}
-
-	//@TODO We need to look into a significantly more performant way to handle this.
-	public function wrap_consecutive_story_items( $content, $block ) {
-		$relaxed      = false;
-		$very_relaxed = false;
-		$block_name   = is_array( $block ) ? $block['blockName'] : $block->name;
-		$inner_blocks = is_object($block) && property_exists($block, 'parsed_block') && array_key_exists('innerBlocks', $block->parsed_block) ? $block->parsed_block['innerBlocks'] : false;
-		$inner_blocks = false === $inner_blocks && array_key_exists('innerBlocks', $block) ? $block['innerBlocks'] : $inner_blocks;
-
-		if ( 'prc-block/column' === $block_name ) {
-			$relaxed = true;
-		}
-
-		// Check for number of story item innerblocks, if 1 then just return and dont proceed any further.
-		$story_items = array_map( function( $block ) {
-			return 'prc-block/story-item' === $block['blockName'];
-		}, $inner_blocks );
-		if ( empty($story_items) || 1 === count( $story_items ) ) {
-			return $content;
-		}
-
-		$classnames = classNames(
-			'ui',
-			array(
-				'relaxed'             => $relaxed,
-				'very relaxed'        => $very_relaxed,
-				'divided story items' => true,
-			)
-		);
-		//@TODO Come back in here and make this regex more performant.
-		// regex search for adjacent .wp-block-prc-block-story-item divs and wrap in a div with class .ui.divided.very.relaxed.story.items
-		$content = preg_replace(
-			'/((?:\s*?<\!-- \.wp-block-prc-block-story-item -->.*?(?:(?!class=".*?(column|section-header).*?")\X)*?<\!-- \/\.wp-block-prc-block-story-item -->\s*?){2,})/i',
-			'<section class="' . $classnames . '" aria-role="feed">${1}</section>',
-			$content
-		);
-
-		return $content;
 	}
 
 	public function return_story_item( $args = array() ) {
@@ -304,7 +264,7 @@ class Story_Item extends PRC_Block_Library {
 			)
 		);
 
-		$cache = get_transient( $cache_key );
+		$cache = wp_cache_get( $cache_key, self::$block_name );
 		if ( $cache && ! is_preview() && false !== self::$cache_invalidate ) {
 			$cache['cached'] = true;
 			return $cache;
@@ -411,7 +371,7 @@ class Story_Item extends PRC_Block_Library {
 		wp_reset_postdata();
 
 		if ( ! is_preview() && false !== self::$cache_invalidate ) {
-			set_transient( $cache_key, $variables, self::$cache_ttl );
+			wp_cache_add( $cache_key, $variables, self::$block_name, self::$cache_ttl );
 		}
 
 		return $variables;
