@@ -575,11 +575,11 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 // Fallback consecutive story item styling.
 // This is for when style engine values are not set or available.
 // .ui ones are fallbacks until we switch over to a block theme for prc.
-.wp-block-post-template > li {
+.wp-block-post-template > li:has(.wp-block-prc-block-story-item) {
 	margin-block-start: 0!important;
 }
 
-.wp-block-post-template > li.column:has(.wp-block-prc-block-story-item),
+.wp-block-post-template > li:has(.wp-block-prc-block-story-item),
 .wp-block-group:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
 .ui.grid > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
 .ui.row > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
