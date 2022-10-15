@@ -23,6 +23,14 @@
 	&.alignright {
 		float: right;
 	}
+
+	.wp-block-prc-block-flip-card-back,
+	.wp-block-prc-block-flip-card-front {
+		// A little hack for the time being
+		& > .wp-block-group {
+			padding: 1em;
+		}
+	}
 }
 
 div[data-type="prc-block/flip-card"] {

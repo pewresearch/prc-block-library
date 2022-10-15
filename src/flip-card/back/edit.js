@@ -12,20 +12,18 @@ import { Controls, ALLOWED_BLOCKS } from '../_shared';
 const TEMPLATE = [['core/paragraph', {}]];
 
 const edit = ({ clientId, context }) => {
-	const { 'prc-block/flip-card/flipped': isFlipped } = context;
-
-	const blockProps = useBlockProps();
-
+	const { 'prc-block/flip-card/flipped': flipped } = context;
+	const blockProps = useBlockProps({
+		style: {
+			display: flipped ? 'block' : 'none',
+		},
+	});
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		orientation: 'vertical',
 		templateLock: false,
 		template: TEMPLATE,
 	});
-
-	if (!isFlipped) {
-		return <Fragment />;
-	}
 
 	return (
 		<Fragment>

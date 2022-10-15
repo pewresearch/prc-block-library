@@ -1,4 +1,6 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
 	"name": "prc-block/flip-card-front",
 	"title": "Flip Card Front",
 	"description": "Front of the flip card block",
@@ -21,9 +23,11 @@
 			"lineHeight": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
 		}
 	},
-	"usesContext": [
-		"prc-block/flip-card/flipped"
-	]
+	"usesContext": ["prc-block/flip-card/flipped"]
 }

@@ -60,12 +60,13 @@ function Controls({ clientId }) {
 
 	const { updateBlockAttributes } = useDispatch('core/block-editor');
 
-	const flipOver = () => {
-		console.log('flipOver', controllerClientId, flipped);
+	const toggleFlip = () => {
 		updateBlockAttributes(controllerClientId, {
 			flipped: !flipped,
 		});
 	};
+
+	const label = flipped ? __('Flip to Front') : __('Flip to Back');
 
 	return (
 		<Fragment>
@@ -73,24 +74,24 @@ function Controls({ clientId }) {
 				<ToolbarGroup>
 					<ToolbarButton
 						icon={icon}
-						label={__('Flip Card Over')}
+						label={label}
 						f
 						onClick={() => {
-							flipOver();
+							toggleFlip();
 						}}
 					/>
 				</ToolbarGroup>
 			</BlockControls>
 			<InspectorControls>
-				<PanelBody title={__('Flip Card Over')}>
+				<PanelBody title={label}>
 					<PanelRow>
 						<Button
-							isSecondary
+							variant="primary"
 							onClick={() => {
-								flipOver();
+								toggleFlip();
 							}}
 						>
-							Flip Card Over
+							Flip to <strong>{flipped ? ` Front` : ` Back`}</strong>
 						</Button>
 					</PanelRow>
 				</PanelBody>

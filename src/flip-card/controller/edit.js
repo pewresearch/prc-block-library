@@ -44,25 +44,19 @@ const TEMPLATE = [
 
 const edit = ({ clientId }) => {
 	const blockProps = useBlockProps();
-
-	const innerBlocksProps = useInnerBlocksProps(
-		{},
-		{
-			allowedBlocks: ALLOWED_BLOCKS,
-			orientation: 'vertical',
-			templateLock: 'all',
-			template: TEMPLATE,
-			__experimentalCaptureToolbars: true,
-			renderAppender: false,
-		},
-	);
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		orientation: 'vertical',
+		templateLock: 'insert',
+		template: TEMPLATE,
+		__experimentalCaptureToolbars: true,
+		renderAppender: false,
+	});
 
 	return (
 		<Fragment>
 			<Controls clientId={clientId} />
-			<div {...blockProps}>
-				<div {...innerBlocksProps} />
-			</div>
+			<div {...innerBlocksProps} />
 		</Fragment>
 	);
 };

@@ -1,4 +1,6 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
 	"name": "prc-block/flip-card",
 	"title": "Flip Card",
 	"description": "A card that can be flipped",
@@ -12,13 +14,11 @@
 	"supports": {
 		"align": ["left", "right"],
 		"color": {
-			"background": true,
 			"link": true,
 			"text": true
 		},
 		"html": false,
 		"spacing": {
-			"padding": true,
 			"margin": true
 		},
 		"typography": {
@@ -26,13 +26,9 @@
 			"lineHeight": true,
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true
-		},
-		"__experimentalBorder": {
-			"color": true,
-			"width": true
 		}
 	},
-	"provideContext": {
+	"providesContext": {
 		"prc-block/flip-card/flipped": "flipped"
 	}
 }

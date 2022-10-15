@@ -35,14 +35,14 @@
   "daily-briefing-signup.js.map": "blocks/daily-briefing-signup-b88d6a7c.js.map",
   "default~collection-kicker~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-list~aa0bc84c.js": "blocks/default~collection-kicker~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-list~aa0bc84c-658902d2.js",
   "default~collection-kicker~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-list~aa0bc84c.js.map": "blocks/default~collection-kicker~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-list~aa0bc84c-658902d2.js.map",
-  "flip-card-back.js": "blocks/flip-card-back-327cf8fb.js",
-  "flip-card-back.js.map": "blocks/flip-card-back-327cf8fb.js.map",
-  "flip-card-controller.css": "blocks/flip-card-controller-9a7923ed.css",
-  "flip-card-controller.css.map": "blocks/flip-card-controller-9a7923ed.css.map",
-  "flip-card-controller.js": "blocks/flip-card-controller-f71b7ae8.js",
-  "flip-card-controller.js.map": "blocks/flip-card-controller-f71b7ae8.js.map",
-  "flip-card-front.js": "blocks/flip-card-front-c418cfb5.js",
-  "flip-card-front.js.map": "blocks/flip-card-front-c418cfb5.js.map",
+  "flip-card-back.js": "blocks/flip-card-back-67416f25.js",
+  "flip-card-back.js.map": "blocks/flip-card-back-67416f25.js.map",
+  "flip-card-controller.css": "blocks/flip-card-controller-173a1c23.css",
+  "flip-card-controller.css.map": "blocks/flip-card-controller-173a1c23.css.map",
+  "flip-card-controller.js": "blocks/flip-card-controller-d87603e5.js",
+  "flip-card-controller.js.map": "blocks/flip-card-controller-d87603e5.js.map",
+  "flip-card-front.js": "blocks/flip-card-front-c75d6a45.js",
+  "flip-card-front.js.map": "blocks/flip-card-front-c75d6a45.js.map",
   "form-input-checkbox.css": "blocks/form-input-checkbox-421bc144.css",
   "form-input-checkbox.css.map": "blocks/form-input-checkbox-421bc144.css.map",
   "form-input-checkbox.js": "blocks/form-input-checkbox-16ef9f19.js",
@@ -524,17 +524,17 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/flip-card-controller-f71b7ae8.js"
+          "blocks/flip-card-controller-d87603e5.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/flip-card-controller-f71b7ae8.js.map"
+          "blocks/flip-card-controller-d87603e5.js.map"
         ],
         "css": [
-          "blocks/flip-card-controller-9a7923ed.css"
+          "blocks/flip-card-controller-173a1c23.css"
         ],
         "css.map": [
-          "blocks/flip-card-controller-9a7923ed.css.map"
+          "blocks/flip-card-controller-173a1c23.css.map"
         ]
       }
     },
@@ -542,11 +542,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/flip-card-back-327cf8fb.js"
+          "blocks/flip-card-back-67416f25.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/flip-card-back-327cf8fb.js.map"
+          "blocks/flip-card-back-67416f25.js.map"
         ]
       }
     },
@@ -554,11 +554,11 @@
       "assets": {
         "js": [
           "blocks/runtime-8f407741.js",
-          "blocks/flip-card-front-c418cfb5.js"
+          "blocks/flip-card-front-c75d6a45.js"
         ],
         "js.map": [
           "blocks/runtime-8f407741.js.map",
-          "blocks/flip-card-front-c418cfb5.js.map"
+          "blocks/flip-card-front-c75d6a45.js.map"
         ]
       }
     },
