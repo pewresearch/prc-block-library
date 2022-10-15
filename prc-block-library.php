@@ -204,6 +204,8 @@ class PRC_Block_Library {
 			'srcset' => true,
 			'media'  => true,
 			'type'   => true,
+			'height' => true,
+			'width'  => true,
 		);
 		// Add SVG Support
 		$allowed_tags['svg']  = array(

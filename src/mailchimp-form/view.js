@@ -87,6 +87,10 @@ function Form({
 					padding: 0,
 					fontSize: 'inherit',
 				}}
+				onClick={(e) => {
+					e.preventDefault();
+					console.log('Form submitted...', value);
+				}}
 			>
 				<span style={buttonStylesObj} className={buttonClassesArr.join(' ')}>
 					{button.text}

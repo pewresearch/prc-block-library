@@ -423,14 +423,18 @@ class Story_Item extends PRC_Block_Library {
 		// @TODO, i would like to re-model the art-direction data model to include hidpi and small sizes for image slots.
 		$sources = array(
 			'desktop' => wp_sprintf(
-				'<source srcset="%s 1x, %s 2x" media="(min-width: 768px)">',
+				'<source srcset="%s 1x, %s 2x" media="(min-width: 768px)" height="%s" width="%s">',
 				$image['desktop']['default'][0],
-				$image['desktop']['hidpi'][0]
+				$image['desktop']['hidpi'][0],
+				$image['desktop']['default'][1],
+				$image['desktop']['default'][2]
 			),
 			'mobile'  => wp_sprintf(
-				'<source srcset="%s 1x, %s 2x" media="(max-width: 767px)">',
+				'<source srcset="%s 1x, %s 2x" media="(max-width: 767px)" height="%s" width="%s">',
 				$image['mobile']['default'][0],
-				$image['mobile']['hidpi'][0]
+				$image['mobile']['hidpi'][0],
+				$image['mobile']['default'][1],
+				$image['mobile']['default'][2],
 			),
 		);
 
