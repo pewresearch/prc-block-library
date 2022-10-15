@@ -1,11 +1,8 @@
 .wp-block-prc-block-mailchimp-form {
 	display: flex;
-
-	&.is-style-standard {
-		flex-direction: column;
-	}
-
-	&.is-style-horizontal {
+	flex-direction: column;
+	gap: 1em;
+	@container (min-width: 362px) {
 		flex-direction: row;
 		input {
 			flex-grow: 1;

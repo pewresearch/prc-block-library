@@ -1,7 +1,10 @@
 {
   "dependencies": [
+    "react",
+    "wp-api-fetch",
     "wp-dom-ready",
-    "wp-element"
+    "wp-element",
+    "wp-url"
   ],
   "version": "686c36584b8eea2f0c38338e5ad195ed"
 }

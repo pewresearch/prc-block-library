@@ -1,44 +1,39 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import {
-    useInnerBlocksProps,
-    useBlockProps,
-} from '@wordpress/block-editor';
+import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from '../_shared';
+import { Controls, ALLOWED_BLOCKS } from '../_shared';
 
-const TEMPLATE =  [['core/paragraph',{}]];
+const TEMPLATE = [['core/paragraph', {}]];
 
-const edit = ({ attributes, className, clientId }) => {
-    const blockProps = useBlockProps({
-        className: classnames(className),
-    });
+const edit = ({ clientId, context }) => {
+	const { 'prc-block/flip-card/flipped': isFlipped } = context;
 
-    const innerBlocksProps = useInnerBlocksProps({}, {
-        orientation: 'vertical',
-        templateLock: false,
-        template: TEMPLATE
-    });
+	const blockProps = useBlockProps();
 
-    return(
-        <Fragment>
-            <Controls clientId={clientId} />
-            <div { ...blockProps }>
-                <div {...innerBlocksProps}/>
-            </div>
-        </Fragment>
-    );
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		orientation: 'vertical',
+		templateLock: false,
+		template: TEMPLATE,
+	});
+
+	if (isFlipped) {
+		return <Fragment />;
+	}
+
+
+	return (
+		<Fragment>
+			<Controls clientId={clientId} />
+			<div {...innerBlocksProps} />
+		</Fragment>
+	);
 };
 
 export default edit;

@@ -1,8 +1,29 @@
 {
 	"name": "prc-block/flip-card-back",
 	"title": "Flip Card Back",
-	"description": "A back of a flip card",
+	"description": "Back of the flip card block",
 	"category": "layout",
     "attributes": {},
-    "parent": ["prc-block/flip-card"]
+    "parent": ["prc-block/flip-card"],
+	"supports": {
+		"color": {
+			"background": true,
+			"link": true,
+			"text": true
+		},
+		"html": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true
+		}
+	},
+	"usesContext": [
+		"prc-block/flip-card/flipped"
+	]
 }

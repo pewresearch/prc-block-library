@@ -38,7 +38,8 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
-			"__experimentalFontFamily": true
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true
 		}
 	}
 }

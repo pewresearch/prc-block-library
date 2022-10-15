@@ -42,7 +42,7 @@ function Header({ attributes, setAttributes }) {
 			tagName={`h${headerSize}`}
 			value={title}
 			onChange={(t) => setAttributes({ title: t })}
-			allowedFormats={['core/italic']}
+			allowedFormats={['core/italic', 'core/bold']}
 			placeholder={placeholder}
 			multiline="br"
 			className={classes}

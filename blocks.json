@@ -104,7 +104,7 @@
 			"name": "flip-card-controller",
 			"main": "./src/flip-card/controller/index.js",
 			"php": "./src/flip-card/controller/index.php",
-			"frontend": "./src/flip-card/controller/frontend.js"
+			"frontend": "./src/flip-card/controller/view.js"
 		},
 		{
 			"name": "flip-card-back",
@@ -205,11 +205,13 @@
 		},
 		{
 			"name": "responsive-container-controller",
-			"main": "./src/responsive-container/controller/index.js"
+			"main": "./src/responsive-container/controller/index.js",
+			"php": "./src/responsive-container/controller/index.php"
 		},
 		{
 			"name": "responsive-container-view",
-			"main": "./src/responsive-container/view/index.js"
+			"main": "./src/responsive-container/view/index.js",
+			"php": "./src/responsive-container/view/index.php"
 		},
 		{
 			"name": "roper-db-search",

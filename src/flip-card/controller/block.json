@@ -4,26 +4,35 @@
 	"description": "A card that can be flipped",
 	"category": "layout",
 	"attributes": {
-		"width": {
-			"type": "integer",
-			"default": 310
-		},
-		"height": {
-			"type": "integer",
-			"default": 310
-		},
-		"borderColor": {
-			"type": "string"
-		},
-		"bgColor": {
-			"type": "string"
-		},
-		"fluid": {
-			"type": "boolean"
+		"flipped": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
 		"align": ["left", "right"],
-		"html": false
+		"color": {
+			"background": true,
+			"link": true,
+			"text": true
+		},
+		"html": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
+		}
+	},
+	"provideContext": {
+		"prc-block/flip-card/flipped": "flipped"
 	}
 }

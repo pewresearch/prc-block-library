@@ -32,6 +32,8 @@ $maxWidth: 1058px;
 	border: 1px solid transparent;
 	font-size: $fontSize;
 
+	container-type: inline-size;
+
 	mark {
 		background: transparent!important;
 	}
@@ -51,22 +53,23 @@ $maxWidth: 1058px;
 		margin: 0 auto;
 	}
 	&.is-style-standard > .wp-block-prc-block-promo__inner-container,
-	&:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container {
+	&:not(.is-style-asymmetrical):not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
 		grid-template-areas: 'text action';
 		grid-template-columns: 2fr 2fr;
 		align-items: center;
 	}
 	&.is-style-standard.has-icon > .wp-block-prc-block-promo__inner-container,
-	&:not(.is-style-asymmetrical).has-icon > .wp-block-prc-block-promo__inner-container {
+	&:not(.is-style-asymmetrical):not(.is-style-pancake).has-icon > .wp-block-prc-block-promo__inner-container {
 		grid-template-areas: 'icon text action';
 		grid-template-columns: $iconWidth 2fr 2fr;
 		align-items: center;
 	}
 	&.is-style-standard.has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container,
-	&:not(.is-style-asymmetrical).has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container {
+	&:not(.is-style-asymmetrical):not(.is-style-pancake).has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container {
 		grid-template-columns: $largeIconWidth 2fr 2fr;
 	}
 
+	&.is-style-pancake > .wp-block-prc-block-promo__inner-container,
 	&.is-style-asymmetrical > .wp-block-prc-block-promo__inner-container {
 		grid-template-areas: 'text action';
 		grid-template-columns: 9fr 1fr;
@@ -140,7 +143,6 @@ $maxWidth: 1058px;
 }
 
 // Layout:
-
 .ui.text.container > .prc-block-area .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
@@ -172,9 +174,13 @@ $maxWidth: 1058px;
 
 // "Single Column" (4 column width) layout:
 .column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
+.column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-pancake):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
+.wp-block-prc-block-promo.two-column-width:not(.is-style-pancake):not(.has-form) > .wp-block-prc-block-promo__inner-container,
 .four.wide.column > .wp-block-prc-block-promo:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container,
-.wp-block-prc-block-promo.one-column-width:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container {
+.four.wide.column > .wp-block-prc-block-promo:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container,
+.wp-block-prc-block-promo.one-column-width:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container,
+.wp-block-prc-block-promo.one-column-width:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
 	grid-template-areas:
 	'icon'
 	'text'

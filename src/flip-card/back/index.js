@@ -2,7 +2,6 @@
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
-import { __, sprintf } from '@wordpress/i18n';
 import { flipVertical as icon } from '@wordpress/icons';
 
 /**
@@ -15,9 +14,9 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    icon,
-    edit,
-    save,
+	icon,
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });
