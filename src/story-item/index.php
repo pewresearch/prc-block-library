@@ -15,7 +15,7 @@ class Story_Item extends PRC_Block_Library {
 	public static $css_handle          = false;
 	public static $frontend_js_handle  = false;
 	public static $date_format         = 'M j, Y';
-	public static $cache_invalidate    = '10-13-2022'; //false; //'11-01-2022';
+	public static $cache_invalidate    = false ; //'11-01-2022';
 	public static $cache_ttl           = 10 * MINUTE_IN_SECONDS;
 	public static $stub_disabled_sites = array(
 		17,
@@ -30,7 +30,11 @@ class Story_Item extends PRC_Block_Library {
 			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
 			add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
 			add_action( 'init', array( $this, 'register_block' ), 11 );
+			add_action('prc_core_on_stub_update', array( $this, 'clear_index_cache_on_stub_update' ), 10, 1 );
 		}
+	}
+	public function allow_debug_output() {
+		return true;
 	}
 
 	public function return_story_item( $args = array() ) {
@@ -39,20 +43,20 @@ class Story_Item extends PRC_Block_Library {
 			$args,
 			array(),
 			'',
-			'',
+			array(),
 		);
 		return render_block( (array) $parsed );
 	}
 
 	public function do_story_item( $args = array() ) {
-		$parsed = new WP_Block_Parser_Block(
-			'prc-block/story-item',
-			$args,
-			array(),
-			'',
-			'',
-		);
-		echo wp_kses( render_block( (array) $parsed ), 'post' );
+		$story_item = $this->return_story_item( $args );
+		echo wp_kses( $story_item, 'post' );
+	}
+
+	private function get_excerpt( int $post_id, $attributes = array() ) {
+		$excerpt = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
+		$excerpt = false === $excerpt && !empty(get_the_excerpt($post_id)) ? get_the_excerpt($post_id) : $excerpt;
+		return $excerpt;
 	}
 
 	/**
@@ -61,23 +65,29 @@ class Story_Item extends PRC_Block_Library {
 	 * @param mixed $attributes
 	 * @return void
 	 */
-	public function legacy_content( $attributes ) {
+	private function get_content( $attributes ) {
 		$excerpt = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
 		$extra   = array_key_exists( 'extra', $attributes ) ? $attributes['extra'] : false;
 		ob_start();
 		?>
 		<?php if ( false !== $excerpt ) : ?>
-			<div class="description migrated">
+			<div class="description">
 				<?php echo wpautop( $excerpt ); ?>
 			</div>
 		<?php endif; ?>
 		<?php if ( false !== $extra ) : ?>
-			<ul class="extra migrated">
+			<ul class="extra">
 				<?php echo $extra; ?>
 			</ul>
 		<?php endif; ?>
 		<?php
 		return ob_get_clean();
+	}
+
+	private function get_taxonomy( $attributes = array() ) {
+		$taxonomy = array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false;
+		$taxonomy = in_array( get_current_blog_id(), self::$stub_disabled_sites ) ? 'category' : $taxonomy;
+		return $taxonomy;
 	}
 
 	/**
@@ -87,49 +97,93 @@ class Story_Item extends PRC_Block_Library {
 	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
 	 * @return string
 	 */
-	private function get_label( int $post_id, $post_type = false, $taxonomy = false ) {
-		if ( 'disabled' === $taxonomy ) {
-			return '';
-		}
-		if ( false !== $post_type && 'dataset' === $post_type ) {
-			return 'Dataset';
-		}
-		$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'names' ) );
-
-		do_action('qm/debug', 'get_label' . print_r(array($post_id, $post_type, $taxonomy, $terms), true));
-
-		if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
-			// Get the first term and capitalize its first letter.
-			return array_shift( $terms );
+	private function get_label( int $post_id, $post_type = false, $attributes = array() ) {
+		if ( array_key_exists( 'label', $attributes ) ) {
+			$label = $attributes['label'];
 		}
 
-		return 'Report';
+		if ( empty( $label ) ) {
+			$taxonomy = $this->get_taxonomy( $attributes );
+			if ( 'disabled' === $taxonomy ) {
+				$label =  '';
+			}
+			if ('dataset' === $post_type ) {
+				$label = 'Dataset';
+			}
+
+			$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'names' ) );
+			if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
+				// Get the first term.
+				$label = array_shift( $terms );
+			}
+		}
+
+		if ( empty( $label ) ) {
+			$label = 'report';
+		}
+
+		// @TODO: This can eventually be gotten rid of once we migrate fact-tank to its own short-reads subsite and these just become posts.
+		$label = 'fact-tank' === $label ? 'short-read' : $label;
+
+		// Ensure label is lowercase and has no dashes.
+		return strtolower( str_replace( '-', ' ', $label ) );
 	}
 
-	private function get_url( int $post_id, $post_type = 'post' ) {
-		$permalink = false;
-		if ( 'stub' === $post_type ) {
-			return get_post_meta( $post_id, '_redirect', true );
-		} elseif ( 'news-item' === $post_type ) {
-			$url = get_post_meta( $post_id, 'news-item-options', true );
-			if ( is_array( $url ) && array_key_exists( 'url', $url ) ) {
-				$url = $url['url'];
+	private function get_url( int $post_id, $post_type = 'post', $attributes = array() ) {
+		$url = array_key_exists( 'url', $attributes ) ? $attributes['url'] : false;
+
+		if ( empty( $url ) ) {
+			if ( 'stub' === $post_type ) {
+				$url = get_post_meta( $post_id, '_redirect', true );
+			} elseif ( 'news-item' === $post_type ) {
+				$url = get_post_meta( $post_id, 'news-item-options', true );
+				if ( is_array( $url ) && array_key_exists( 'url', $url ) ) {
+					$url = $url['url'];
+				}
+				if ( ! empty( get_post_meta( $post_id, '_news_item_url', true ) ) ) {
+					$url = get_post_meta( $post_id, '_news_item_url', true );
+				}
+			} else {
+				$url = get_permalink( $post_id );
 			}
-			if ( ! empty( get_post_meta( $post_id, '_news_item_url', true ) ) ) {
-				$url = get_post_meta( $post_id, '_news_item_url', true );
-			}
-			return $url;
-		} else {
-			$permalink = get_permalink( $post_id );
 		}
-		return $permalink;
+
+		return $url;
 	}
 
-	private function get_date( $date ) {
+	private function get_date( int $post_id, $attributes = array() ) {
+		$date = array_key_exists( 'date', $attributes ) ? $attributes['date'] : false;
+		if ( false === $date ) {
+			return get_the_date(self::$date_format, $post_id);
+		}
 		return gmdate(
 			self::$date_format,
 			strtotime( $date )
 		);
+	}
+
+	private function get_image_slot( $attributes = array(), $in_loop = false, $is_mobile = false ) {
+		$image_slot = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
+		$image_slot = 'default' === $image_slot ? 'top' : $image_slot;
+		$image_slot = 'disabled' === $image_slot ? false : $image_slot;
+		$image_slot = empty($image_slot) ? false : $image_slot;
+		$image_slot = false !== $image_slot && $in_loop ? 'left' : $image_slot;
+		if ( $is_mobile ) {
+			// Set the image size to A1 on mobile, if its in a loop then set it to A3, otherwise deliver whats set in the attributes.
+			// Default to top for mobile...
+			$image_slot = false !== $image_slot ? 'top' : false;
+			$image_slot = $in_loop && !in_array( $image_slot, array( 'disabled', false ) ) ? 'right' : $image_slot;
+		}
+		return $image_slot;
+	}
+
+	private function get_image_size( $attributes, $in_loop = false, $is_mobile = false ) {
+		$image_slot = $this->get_image_slot( $attributes, $in_loop, $is_mobile );
+		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
+		$image_size = false === $image_slot ? false : $image_size;
+		$image_size = false !== $image_size && $is_mobile ? 'A2' : $image_size;
+		$image_size = false !== $image_size && $in_loop ? 'A3' : $image_size;
+		return $image_size;
 	}
 
 	/**
@@ -155,16 +209,19 @@ class Story_Item extends PRC_Block_Library {
 		);
 		extract( $args );
 
-		do_action('qm/debug', "get_img -> internal args -> " . print_r(array('args' => $args), true) );
+		if ( $this->allow_debug_output() ) {
+			do_action('qm/debug', "get_img -> internal args -> " . print_r(array('args' => $args), true) );
+		}
 
 		// Start new art function here:
 		$imgs = false;
 
-		$is_stub  = 'stub' === $post_type;
-		$art      = prc_get_art( $post_id, $image_size );
-		$image_id = false !== $art ? $art['id'] : false;
+		$is_stub   = 'stub' === $post_type;
+		$art       = prc_get_art( $post_id, $image_size );
+		$image_id  = false !== $art ? $art['id'] : false;
 		$chart_art = false !== $art ? $art['chartArt'] : false;
 
+		// Even if a static image is set we still want to ideally get an image_id for the image file and get the correct image assets.
 		if ( false !== $static_image ) {
 			$img  = array(
 				$static_image,
@@ -172,11 +229,13 @@ class Story_Item extends PRC_Block_Library {
 				null,
 			);
 			if ( function_exists('wpcom_vip_attachment_url_to_postid') ) {
-				$image_id = wpcom_vip_attachment_url_to_postid( $static_image );
+				$image_id = wpcom_vip_attachment_url_to_postid($static_image);
 			} else {
 				$image_id = attachment_url_to_postid($static_image);
 			}
-			do_action('qm/debug', "get_img -> static image -> " . print_r(array('imageid' => $image_id), true) );
+			if ( $this->allow_debug_output() ) {
+				do_action('qm/debug', "get_img -> static image -> " . print_r(array('imageid' => $image_id), true) );
+			}
 			if ( false != $image_id ) {
 				$imgs = array(
 					'desktop' => array(
@@ -235,6 +294,38 @@ class Story_Item extends PRC_Block_Library {
 		return $imgs;
 	}
 
+	public function get_cache_key( $attributes, $context ) {
+		if ( array_key_exists('inIndex', $attributes) && $attributes['inIndex'] ) {
+			$cache_key = array('index');
+		} else {
+			$cache_key = $attributes;
+		}
+
+		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
+		$post_id = array_key_exists( 'postId', $context ) ? $context['postId'] : $post_id;
+
+		$is_mobile = jetpack_is_mobile();
+
+		return md5(
+			wp_json_encode(
+				array_merge(
+					$cache_key,
+					array(
+						'id'          => $post_id,
+						'mobile'      => $is_mobile,
+						'invalidate'  => self::$cache_invalidate,
+						'version'     => self::$version,
+					)
+				)
+			)
+		);
+	}
+
+	public function clear_index_cache_on_stub_update( $stub_post_id ) {
+		$cache_key = $this->get_cache_key( array( 'inIndex' => true, 'postId' => $stub_post_id ), array() );
+		wp_cache_delete( $cache_key, self::$block_name );
+	}
+
 	/**
 	 * Apply business logic to attributes and return as an array ready for extracting into variables.
 	 *
@@ -249,74 +340,32 @@ class Story_Item extends PRC_Block_Library {
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
 		$post_id = array_key_exists( 'postId', $context ) ? $context['postId'] : $post_id;
 
-		$cache_key = md5(
-			wp_json_encode(
-				array_merge(
-					$attributes,
-					array(
-						'id'          => $post_id,
-						'mobile'      => $is_mobile,
-						'invalidate'  => self::$cache_invalidate,
-						'experiments' => self::$experiments,
-						'version'     => self::$version,
-					)
-				)
-			)
-		);
-
+		$cache_key = $this->get_cache_key( $attributes, $context );
 		$cache = wp_cache_get( $cache_key, self::$block_name );
 		if ( $cache && ! is_preview() && false !== self::$cache_invalidate ) {
 			$cache['cached'] = true;
 			return $cache;
 		}
 
-		$column_width = array_key_exists( 'core/column/gridSpan', $context ) ? $context['core/column/gridSpan'] : false;
+		$post_type = array_key_exists( 'postType', $attributes ) ? $attributes['postType'] : get_post_type( $post_id );
 
-		$post = get_post( $post_id );
-		// What should we do if no post can be found?
-
+		// @TODO: when we fully move over PRC to FSE we can remove inLoop attribute.
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
-		// @TODO when we fully move over PRC to FSE we can remove this next line and the attribute as this will be handled exclusively by the block context.
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
 
-		$post_type = array_key_exists( 'postType', $attributes ) ? $attributes['postType'] : $post->post_type;
-
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
-		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : $post->post_title );
-		$excerpt     = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
-		$excerpt     = false === $excerpt && is_object($post)  && !empty(get_the_excerpt($post)) ? get_the_excerpt($post) : false;
-		$taxonomy    = array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false;
-		$taxonomy    = in_array( get_current_blog_id(), self::$stub_disabled_sites ) ? 'category' : $taxonomy;
-		$label       = array_key_exists( 'label', $attributes ) ? $attributes['label'] : $this->get_label(
-			$post_id,
-			$post_type,
-			$taxonomy,
-		);
-		// @TODO: This can eventually be gotten rid of once we migrate fact-tank to its own short-reads subsite and these just become posts.
-		$label       = 'fact-tank' === $label ? 'short-read' : $label;
-		$date        = $this->get_date( array_key_exists( 'date', $attributes ) ? $attributes['date'] : $post->post_date );
-		$url         = $this->get_url( $post_id, $post_type );
-		$url         = array_key_exists( 'url', $attributes ) && !empty( $attributes['url'] ) ? $attributes['url'] : $url;
+		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : get_the_title($post_id) );
+		$excerpt     = $this->get_excerpt( $post_id, $attributes );
+		$label       = $this->get_label( $post_id, $post_type, $attributes );
+		$date        = $this->get_date( $post_id, $attributes );
+		$url         = $this->get_url( $post_id, $post_type, $attributes );
 
 		$header_size = array_key_exists( 'headerSize', $attributes ) ? $attributes['headerSize'] : 2;
 		$header_size = $is_mobile && 1 !== $header_size ? 2 : $header_size;
 
-		$image_slot = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
-		$image_slot = 'default' === $image_slot ? 'top' : $image_slot;
-		$image_slot = 'disabled' === $image_slot ? false : $image_slot;
-		$image_slot = empty($image_slot) ? false : $image_slot;
-		$image_slot = false !== $image_slot && $is_in_loop ? 'left' : $image_slot;
-		if ( $is_mobile ) {
-			// Default to top for mobile...
-			$image_slot = false !== $image_slot ? 'top' : false;
-			$image_slot = $is_in_loop && !in_array( $image_slot, array( 'disabled', false ) ) ? 'right' : $image_slot;
-		}
-		// Set the image size to A1 on mobile, if its in a loop then set it to A3, otherwise deliver whats set in the attributes.
-		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
-		$image_size = false === $image_slot ? false : $image_size;
-		$image_size = false !== $image_size && $is_mobile ? 'A2' : $image_size;
-		$image_size = false !== $image_size && $is_in_loop ? 'A3' : $image_size;
-
+		// Image:
+		$image_slot = $this->get_image_slot( $attributes, $is_in_loop, $is_mobile );
+		$image_size = $this->get_image_size( $attributes, $is_in_loop, $is_mobile );
 		$image = $this->get_img(
 			$image_size,
 			$image_slot,
@@ -328,20 +377,9 @@ class Story_Item extends PRC_Block_Library {
 		);
 		// If we can not find an image set the image slot to false to disable it.
 		$image_slot = false !== $image ? $image_slot : false;
-
 		// Check if the fetched image has a border, otherwise look for the attribute.
 		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : false; // We need to get the art status here....
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : $image_is_bordered;
-
-		$enable_breaking_news          = array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false;
-		$enable_excerpt                = array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : true;
-		$enable_alt_excerpt_layout     = array_key_exists( 'enableExcerptBelow', $attributes ) ? $attributes['enableExcerptBelow'] : false;
-		$enable_emphasis               = array_key_exists( 'enableEmphasis', $attributes ) ? $attributes['enableEmphasis'] : false;
-		$enable_extra                  = array_key_exists( 'enableExtra', $attributes ) ? $attributes['enableExtra'] : false;
-		$enable_header                 = array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : true;
-		$enable_alt_header_weight      = array_key_exists( 'enableAltHeaderWeight', $attributes ) ? $attributes['enableAltHeaderWeight'] : false;
-		$disable_mobile_styles         = array_key_exists( 'disableMobileStyles', $attributes ) ? $attributes['disableMobileStyles'] : false;
-		$enable_meta                   = array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : true;
 
 		$variables = array(
 			'post_id'                       => $post_id,
@@ -357,15 +395,15 @@ class Story_Item extends PRC_Block_Library {
 			'image_slot'                    => $image_slot,
 			'is_in_loop'                    => $is_in_loop,
 			'header_size'                   => $header_size,
-			'enable_breaking_news'          => $enable_breaking_news,
-			'enable_excerpt'                => $enable_excerpt,
-			'enable_alt_excerpt_layout'     => $enable_alt_excerpt_layout,
-			'enable_emphasis'               => $enable_emphasis,
-			'enable_extra'                  => $enable_extra,
-			'enable_header'                 => $enable_header,
-			'enable_alt_header_weight'      => $enable_alt_header_weight,
-			'disable_mobile_styles'         => $disable_mobile_styles,
-			'enable_meta'                   => $enable_meta,
+			'enable_breaking_news'          => array_key_exists( 'enableBreakingNews', $attributes ) ? $attributes['enableBreakingNews'] : false,
+			'enable_excerpt'                => array_key_exists( 'enableExcerpt', $attributes ) ? $attributes['enableExcerpt'] : true,
+			'enable_alt_excerpt_layout'     => array_key_exists( 'enableExcerptBelow', $attributes ) ? $attributes['enableExcerptBelow'] : false,
+			'enable_emphasis'               => array_key_exists( 'enableEmphasis', $attributes ) ? $attributes['enableEmphasis'] : false,
+			'enable_extra'                  => array_key_exists( 'enableExtra', $attributes ) ? $attributes['enableExtra'] : false,
+			'enable_header'                 => array_key_exists( 'enableHeader', $attributes ) ? $attributes['enableHeader'] : true,
+			'enable_alt_header_weight'      => array_key_exists( 'enableAltHeaderWeight', $attributes ) ? $attributes['enableAltHeaderWeight'] : false,
+			'disable_mobile_styles'         => array_key_exists( 'disableMobileStyles', $attributes ) ? $attributes['disableMobileStyles'] : false,
+			'enable_meta'                   => array_key_exists( 'enableMeta', $attributes ) ? $attributes['enableMeta'] : true,
 		);
 
 		wp_reset_postdata();
@@ -472,9 +510,9 @@ class Story_Item extends PRC_Block_Library {
 			)
 		);
 
-		// Fallback for non gutenberg story items and older story items from gutenberg.
-		if ( ( false === $content || empty( $content ) ) && ( array_key_exists( 'excerpt', $attrs ) || array_key_exists( 'extra', $attrs ) ) ) {
-			$content = $this->legacy_content( $attrs );
+		// Content fallback for Story Items generated dynamically.
+		if ( empty( $content ) && ( array_key_exists( 'excerpt', $attrs ) || array_key_exists( 'extra', $attrs ) ) ) {
+			$content = $this->get_content( $attrs );
 		}
 		// Regex remove div with class 'extra' from this string if $enable_extra is false.
 		$content = ! $enable_extra ? preg_replace( '/<ul class="extra">(.*?)<\/ul>/s', '', $content ) : $content;
@@ -502,7 +540,6 @@ class Story_Item extends PRC_Block_Library {
 				$markup .= '<div class="meta">';
 				if ( !empty($label) ) {
 					// Ensure there are no dashes in labels.
-					$label = str_replace( '-', ' ', $label );
 					$markup .= "<span class='report label'>{$label}</span> | ";
 				}
 				$markup .= "<span class='date'>{$date}</span></div>";
@@ -514,6 +551,7 @@ class Story_Item extends PRC_Block_Library {
 				$markup .= "<h{$header_size} class='{$header_class}'><a href='{$url}'>{$title}</a></h{$header_size}>";
 			}
 			if ( ! empty( $content ) ) {
+				do_action('qm/debug', 'prc_block_story_item_content_after = ' . $content);
 				$markup .= $content;
 			}
 			if ( $enable_breaking_news ) {

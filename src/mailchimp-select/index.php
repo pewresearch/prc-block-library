@@ -57,7 +57,7 @@ class Mailchimp_Select extends PRC_Block_Library {
 			'mailchimp-select',
 			array(
 				'js'        => true,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -69,7 +69,7 @@ class Mailchimp_Select extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/mailchimp-select',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'editor_style'    => array_pop( $registered['css'] )['handle'],
+				// 'editor_style'    => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
