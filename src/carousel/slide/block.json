@@ -8,7 +8,18 @@
 	"supports": {
 		"html": false,
 		"__experimentalMetadata": true,
-		"color": true
+		"color": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true
+		}
 	},
-	"parent": [ "prc-block/carousel" ]
+	"parent": [ "prc-block/carousel" ],
+	"styles": [
+		{
+			"name": "box-shadow",
+			"label": "Box Shadow"
+		}
+	]
 }

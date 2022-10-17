@@ -9,7 +9,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
-import { HorizontalIcon, VerticalIcon } from '../icons';
+import { HorizontalIcon } from '../icons';
 import './style.scss';
 
 const { name } = metadata;

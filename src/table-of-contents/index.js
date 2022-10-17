@@ -34,7 +34,7 @@ registerBlockVariation('core/group', {
         [
             'core/heading',
             {
-                className: 'is-style-sub-header',
+                className: 'is-style-sub-header toc-title',
                 level: 3,
                 content: 'Table of Contents',
 				backgroundColor: 'slate',
@@ -64,7 +64,7 @@ registerBlockVariation('core/group', {
         [
             'core/heading',
             {
-                className: 'is-style-sub-header',
+                className: 'is-style-sub-header toc-title',
                 level: 3,
                 content: 'Table of Contents',
 				backgroundColor: 'slate',

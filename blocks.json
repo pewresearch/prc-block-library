@@ -342,7 +342,7 @@
 			"php": "./src/collection-kicker/index.php"
 		},
 		{
-			"name": "carousel",
+			"name": "carousel-controller",
 			"main": "./src/carousel/controller/index.js",
 			"frontend": "./src/carousel/controller/frontend.js",
 			"php": "./src/carousel/controller/index.php"

@@ -1,6 +1,6 @@
 {
-  "carousel.js": "frontend/carousel-604e6f08.js",
-  "carousel.js.map": "frontend/carousel-604e6f08.js.map",
+  "carousel-controller.js": "frontend/carousel-controller-876c2fea.js",
+  "carousel-controller.js.map": "frontend/carousel-controller-876c2fea.js.map",
   "chart-builder-data-wrapper.js": "frontend/chart-builder-data-wrapper-1f2418a5.js",
   "chart-builder-data-wrapper.js.map": "frontend/chart-builder-data-wrapper-1f2418a5.js.map",
   "chart-builder.css": "frontend/chart-builder-ddf9d855.css",
@@ -39,8 +39,8 @@
   "story-item.js.map": "frontend/story-item-e9536c0f.js.map",
   "table-of-contents.css": "frontend/table-of-contents-38b1a3f6.css",
   "table-of-contents.css.map": "frontend/table-of-contents-38b1a3f6.css.map",
-  "table-of-contents.js": "frontend/table-of-contents-d06bb769.js",
-  "table-of-contents.js.map": "frontend/table-of-contents-d06bb769.js.map",
+  "table-of-contents.js": "frontend/table-of-contents-9deab810.js",
+  "table-of-contents.js.map": "frontend/table-of-contents-9deab810.js.map",
   "tabs-controller.js": "frontend/tabs-controller-646d5e4d.js",
   "tabs-controller.js.map": "frontend/tabs-controller-646d5e4d.js.map",
   "taxonomy-tree-more.js": "frontend/taxonomy-tree-more-04e873b1.js",
@@ -55,10 +55,10 @@
   "topic-index-condensed-controller.js.map": "frontend/topic-index-condensed-controller-4b615d00.js.map",
   "topic-index-search-field.css": "frontend/topic-index-search-field-019a240f.css",
   "topic-index-search-field.css.map": "frontend/topic-index-search-field-019a240f.css.map",
-  "topic-index-search-field.js": "frontend/topic-index-search-field-262fc789.js",
-  "topic-index-search-field.js.map": "frontend/topic-index-search-field-262fc789.js.map",
-  "vendors~carousel.js": "frontend/vendors~carousel-4654a7d1.js",
-  "vendors~carousel.js.map": "frontend/vendors~carousel-4654a7d1.js.map",
+  "topic-index-search-field.js": "frontend/topic-index-search-field-b2edc22a.js",
+  "topic-index-search-field.js.map": "frontend/topic-index-search-field-b2edc22a.js.map",
+  "vendors~carousel-controller.js": "frontend/vendors~carousel-controller-4654a7d1.js",
+  "vendors~carousel-controller.js.map": "frontend/vendors~carousel-controller-4654a7d1.js.map",
   "vendors~chart-builder~livestream~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field.js": "frontend/vendors~chart-builder~livestream~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field-5f9f8f1a.js",
   "vendors~chart-builder~livestream~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field.js.map": "frontend/vendors~chart-builder~livestream~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field-5f9f8f1a.js.map",
   "vendors~chart-builder~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field.js": "frontend/vendors~chart-builder~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field-969f1bf4.js",
@@ -242,11 +242,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/table-of-contents-d06bb769.js"
+          "frontend/table-of-contents-9deab810.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/table-of-contents-d06bb769.js.map"
+          "frontend/table-of-contents-9deab810.js.map"
         ],
         "css": [
           "frontend/table-of-contents-38b1a3f6.css"
@@ -328,13 +328,13 @@
           "frontend/runtime-83e71da2.js",
           "frontend/vendors~chart-builder~livestream~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field-5f9f8f1a.js",
           "frontend/vendors~chart-builder~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field-969f1bf4.js",
-          "frontend/topic-index-search-field-262fc789.js"
+          "frontend/topic-index-search-field-b2edc22a.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
           "frontend/vendors~chart-builder~livestream~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field-5f9f8f1a.js.map",
           "frontend/vendors~chart-builder~mailchimp-opt-down~mailchimp-select~quote-sorter~topic-index-search-field-969f1bf4.js.map",
-          "frontend/topic-index-search-field-262fc789.js.map"
+          "frontend/topic-index-search-field-b2edc22a.js.map"
         ],
         "css": [
           "frontend/topic-index-search-field-019a240f.css"
@@ -344,17 +344,17 @@
         ]
       }
     },
-    "carousel": {
+    "carousel-controller": {
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~carousel-4654a7d1.js",
-          "frontend/carousel-604e6f08.js"
+          "frontend/vendors~carousel-controller-4654a7d1.js",
+          "frontend/carousel-controller-876c2fea.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~carousel-4654a7d1.js.map",
-          "frontend/carousel-604e6f08.js.map"
+          "frontend/vendors~carousel-controller-4654a7d1.js.map",
+          "frontend/carousel-controller-876c2fea.js.map"
         ]
       }
     },

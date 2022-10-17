@@ -10,7 +10,9 @@
 		width: 100%;
 		max-width: 540px;
 		opacity: 0.9;
-		box-shadow: 1px 1px 4px 1px rgba(0,0,0,0.40);
 		padding: 1.2em;
+	}
+	&.is-style-box-shadow > div {
+		box-shadow: 1px 1px 4px 1px rgba(0,0,0,0.40);
 	}
 }

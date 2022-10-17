@@ -8,6 +8,10 @@
 	"supports": {
 		"html": false,
 		"align": [ "wide", "full" ],
+		"spacing": {
+			"margin": [ "top", "bottom" ],
+			"padding": true
+		},
 		"__experimentalMetadata": true
 	},
 	"providesContext": {

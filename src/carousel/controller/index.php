@@ -8,7 +8,7 @@ use \WPackio as WPackio;
  */
 
 class Carousel_Controller extends PRC_Block_Library {
-	public static $version = '1.0.9';
+	public static $version = '1.10.1';
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -43,7 +43,7 @@ class Carousel_Controller extends PRC_Block_Library {
 
 		$block = $enqueue->register(
 			'blocks',
-			'carousel',
+			'carousel-controller',
 			array(
 				'js'        => true,
 				'css'       => true,
@@ -56,7 +56,7 @@ class Carousel_Controller extends PRC_Block_Library {
 
 		$frontend = $enqueue->register(
 			'frontend',
-			'carousel',
+			'carousel-controller',
 			array(
 				'js'        => true,
 				'css'       => false, // This is already being included in the block registration above ^
@@ -72,7 +72,7 @@ class Carousel_Controller extends PRC_Block_Library {
 			array(
 				'editor_script'   => array_pop( $block['js'] )['handle'],
 				'style'           => array_pop( $block['css'] )['handle'],
-				'script' 		  => array_pop( $frontend['js'] )['handle'],
+				'script'    	  => array_pop( $frontend['js'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

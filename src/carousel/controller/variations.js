@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal Dependencies
  */
-import { HorizontalIcon, VerticalIcon } from '../icons';
+import { HorizontalIcon, VerticalIcon } from './icons';
 
 export default [
 	{

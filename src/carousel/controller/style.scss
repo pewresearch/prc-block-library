@@ -6,7 +6,7 @@ body.carousel-locked {
 .wp-block-prc-block-carousel:not(.wp-block) {
 	padding: 0;
 	width: 100%;
-	min-height: 50vh;
+	// min-height: 50vh;
 	&.alignwide {
 		--max-width: 1000px;
 		--gutter: calc(var(--max-width) - 640px);

@@ -2,6 +2,8 @@
 
 // Eventually we'll move the enqueuer into prc core, probably when we rewrite the theme base js and stylesheet.
 require_once PRC_VENDOR_DIR . '/autoload.php';
+
+use PRC_Core\Taxonomy_Topics;
 use \WPackio as WPackio;
 
 /**
@@ -56,12 +58,22 @@ class Topic_Index_Search_Field extends PRC_Block_Library {
 			'hierarchical' => true,
 			'hide_empty'   => false,
 		);
+
+		// pewresearch/pewresearch-org#3141 Hide experimental topic terms from Kelly.
+		$topic_tax = new Taxonomy_Topics();
+		$experiment_oct_22 = $topic_tax->experiments['oct-22'];
+		if ( $experiment_oct_22 ) {
+			$args['exclude'] = $experiment_oct_22;
+		}
+		//
+
 		if ( $search_term ) {
 			$args['search'] = $search_term;
 		}
 		if ( $parent && false === $this->parent_term_children ) {
 			$this->parent_term_children = get_term_children( $parent, 'topic' );
 		}
+
 		$terms = get_terms( $args );
 		$terms = array_map(
 			function( $term ) {
