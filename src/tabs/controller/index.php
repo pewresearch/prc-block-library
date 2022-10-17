@@ -78,7 +78,7 @@ class Tabs_Controller extends PRC_Block_Library {
 	}
 
 	/**
-	 * Register the prc-block/grid block.
+	 * Register the prc-block/tabs-controller block.
 	 *
 	 * @uses render_block_core_navigation()
 	 * @throws WP_Error An WP_Error exception parsing the block definition.
