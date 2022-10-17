@@ -4,7 +4,6 @@ The Flip Card block allows you to create a card that flips over when clicked. It
 
 
 ### @style-engine
-
 Until PRC has been fully upgraded to use the style engine you can use these manual classes for borders:
 ```
 has-black-border-color
@@ -12,3 +11,7 @@ has-gray-border-color
 has-white-border-color
 has-oatmeal-border-color
 ```
+
+
+#### TODOs:
+- [ ] add flip direction and speed attributes and controls to block.
