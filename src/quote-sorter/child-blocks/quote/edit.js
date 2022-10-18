@@ -36,8 +36,13 @@ const edit = ({ attributes, className, setAttributes }) => {
 	});
 
 	return (
-		<div {...blockProps}>
-			<div {...innerBlocksProps} />
+		<div {...innerBlocksProps}>
+			<div className="content">
+				<div className="description">{attributes.quote}</div>
+			</div>
+			<div className="extra content">
+				<div className="meta">{attributes.attribution}</div>
+			</div>
 		</div>
 	);
 };

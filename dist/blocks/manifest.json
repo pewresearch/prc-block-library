@@ -133,14 +133,14 @@
   "quote-sorter-dynamic-text.css.map": "blocks/quote-sorter-dynamic-text-41740f73.css.map",
   "quote-sorter-dynamic-text.js": "blocks/quote-sorter-dynamic-text-9bca8fa6.js",
   "quote-sorter-dynamic-text.js.map": "blocks/quote-sorter-dynamic-text-9bca8fa6.js.map",
-  "quote-sorter-quote.css": "blocks/quote-sorter-quote-28f5ada7.css",
-  "quote-sorter-quote.css.map": "blocks/quote-sorter-quote-28f5ada7.css.map",
-  "quote-sorter-quote.js": "blocks/quote-sorter-quote-4981e7a9.js",
-  "quote-sorter-quote.js.map": "blocks/quote-sorter-quote-4981e7a9.js.map",
+  "quote-sorter-quote.css": "blocks/quote-sorter-quote-37d9e58a.css",
+  "quote-sorter-quote.css.map": "blocks/quote-sorter-quote-37d9e58a.css.map",
+  "quote-sorter-quote.js": "blocks/quote-sorter-quote-4e01d050.js",
+  "quote-sorter-quote.js.map": "blocks/quote-sorter-quote-4e01d050.js.map",
   "quote-sorter-quotes.css": "blocks/quote-sorter-quotes-0f6af02f.css",
   "quote-sorter-quotes.css.map": "blocks/quote-sorter-quotes-0f6af02f.css.map",
-  "quote-sorter-quotes.js": "blocks/quote-sorter-quotes-a771cee9.js",
-  "quote-sorter-quotes.js.map": "blocks/quote-sorter-quotes-a771cee9.js.map",
+  "quote-sorter-quotes.js": "blocks/quote-sorter-quotes-f0252357.js",
+  "quote-sorter-quotes.js.map": "blocks/quote-sorter-quotes-f0252357.js.map",
   "quote-sorter-search-bar.js": "blocks/quote-sorter-search-bar-ddae1e76.js",
   "quote-sorter-search-bar.js.map": "blocks/quote-sorter-search-bar-ddae1e76.js.map",
   "quote-sorter.css": "blocks/quote-sorter-cb6fdf85.css",
@@ -1346,11 +1346,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-quotes-a771cee9.js"
+          "blocks/quote-sorter-quotes-f0252357.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-quotes-a771cee9.js.map"
+          "blocks/quote-sorter-quotes-f0252357.js.map"
         ],
         "css": [
           "blocks/quote-sorter-quotes-0f6af02f.css"
@@ -1364,17 +1364,17 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-quote-4981e7a9.js"
+          "blocks/quote-sorter-quote-4e01d050.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-quote-4981e7a9.js.map"
+          "blocks/quote-sorter-quote-4e01d050.js.map"
         ],
         "css": [
-          "blocks/quote-sorter-quote-28f5ada7.css"
+          "blocks/quote-sorter-quote-37d9e58a.css"
         ],
         "css.map": [
-          "blocks/quote-sorter-quote-28f5ada7.css.map"
+          "blocks/quote-sorter-quote-37d9e58a.css.map"
         ]
       }
     },

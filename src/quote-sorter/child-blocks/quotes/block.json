@@ -14,6 +14,10 @@
 			"type": "number",
 			"default": 20
 		},
+		"includeQuoteArt": {
+			"type": "boolean",
+			"default": true
+		},
 		"noResultsMessage": {
 			"type": "string",
 			"default": "No results found. Please try another search."
@@ -31,8 +35,33 @@
 		}
 	],
 	"supports": {
-		"html": false
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
+		},
+		"html": false,
+		"reusable": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true
+		}
 	},
 	"usesContext": ["prc-block/quote-sorter-hash"],
-	"ancestor": ["prc-block/quote-sorter"]
+	"ancestor": ["prc-block/quote-sorter"],
+	"providesContext": {
+		"prc-block/quote-sorter-art": "includeQuoteArt"
+	}
 }

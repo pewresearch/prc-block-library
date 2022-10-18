@@ -18,18 +18,20 @@ class Quote_Sorter_Quote_Block extends Quote_Sorter {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 
+
+		$quoteArt = array_key_exists('prc-block/quote-sorter-art', $block->context) && $block->context['prc-block/quote-sorter-art'] === true ? '' : 'no-art';
+
 		$block_attrs = get_block_wrapper_attributes(
 			array(
-				'class' => 'ui card fluid quote-component active-quote wp-block-prc-block-quote-sorter-quote',
+				'class' => $attributes['class'] . $quoteArt . ' quote-component active-quote wp-block-prc-block-quote-sorter-quote',
 				'data-typologies' => wp_json_encode($attributes['props']),
 			)
 		);
-
 		ob_start();
 		echo '<!-- .wp-block-prc-block-quote-sorter-quote -->';
 		?>
 
-		<div <?php echo $block_attrs;?>>
+		<div <?php echo $block_attrs;?> >
 			<div class="content">
 				<div class="description">“<?php echo $attributes['quote']; ?>”</div>
 			</div>

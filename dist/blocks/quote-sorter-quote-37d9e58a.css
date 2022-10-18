@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-prc-block-quote-sorter-quote{margin:1em 0;padding-bottom:20px;display:inline-block;margin:15px auto;width:100%;box-shadow:none;border-bottom:1px solid var(--wp--preset--color--gray-light)}.wp-block-prc-block-quote-sorter-quote.active-quote{padding-left:50px}.wp-block-prc-block-quote-sorter-quote.active-quote.no-art{padding-left:inherit}.wp-block-prc-block-quote-sorter-quote.active-quote.no-art:before{display:none}.wp-block-prc-block-quote-sorter-quote.active-quote:before{width:65px;content:" ";background-image:url("https://www.pewresearch.org/wp-content/uploads/2022/07/quote_art.png");background-repeat:no-repeat;background-size:contain;position:absolute;left:0px;top:25px;height:40px}.wp-block-prc-block-quote-sorter-quote.active-quote~.active-quote{padding-left:inherit}.wp-block-prc-block-quote-sorter-quote.active-quote~.active-quote:before{height:0px;width:0px}.wp-block-prc-block-quote-sorter-quote:last-of-type{border-bottom:none}.wp-block-prc-block-quote-sorter-quote .content{border-top:none;border-bottom:none}.wp-block-prc-block-quote-sorter-quote .description{text-align:center;line-height:1.8}.wp-block-prc-block-quote-sorter-quote .extra{border-top:none !important;padding:0em 1rem .75rem 1rem}.wp-block-prc-block-quote-sorter-quote .meta{font-weight:500;text-transform:none;letter-spacing:normal !important;text-align:center;font-size:15px}.wp-block-prc-block-quote-sorter-quote.hidden{display:none}
+
+/*# sourceMappingURL=quote-sorter-quote-37d9e58a.css.map*/

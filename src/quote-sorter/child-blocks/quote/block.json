@@ -19,8 +19,31 @@
 		}
 	},
 	"supports": {
-		"html": false
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
+		},
+		"html": false,
+		"reusable": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true
+		}
 	},
+	"usesContext": ["prc-block/quote-sorter-art"],
 	"parent": ["prc-block/quote-sorter-quotes"],
 	"ancestor": ["prc-block/quote-sorter"]
 }

@@ -7,13 +7,25 @@ import {
 	InspectorControls,
 	InspectorAdvancedControls,
 } from '@wordpress/block-editor';
-import { PanelBody, TextareaControl } from '@wordpress/components';
+import {
+	PanelBody,
+	TextareaControl,
+	ToggleControl,
+} from '@wordpress/components';
 
 function Controls({ attributes, setAttributes }) {
 	return (
 		<Fragment>
 			<InspectorControls>
 				<PanelBody title={__('Quote Wall Styles and Copy')}>
+					<ToggleControl
+						label={__('Include quote art')}
+						help={__('Adds stylized quote icon to first quote.')}
+						checked={attributes.includeQuoteArt}
+						onChange={() =>
+							setAttributes({ includeQuoteArt: !attributes.includeQuoteArt })
+						}
+					/>
 					<TextareaControl
 						label={__('No results message')}
 						help={__(
