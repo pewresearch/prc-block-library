@@ -34,12 +34,12 @@
 			"color": true,
 			"width": true
 		},
-		"html": false,
-		"reusable": false,
 		"spacing": {
 			"padding": true,
 			"margin": true
 		},
+		"html": false,
+		"reusable": false,
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,

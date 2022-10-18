@@ -145,8 +145,8 @@ const edit = ({
 
 	return (
 		<Fragment>
-			<Controls attributes={attributes} setAttributes={setAttributes} />
 			<div {...innerBlocksProps} />
+			<Controls attributes={attributes} setAttributes={setAttributes} />
 		</Fragment>
 	);
 };

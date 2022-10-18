@@ -19,11 +19,11 @@ class Quote_Sorter_Quote_Block extends Quote_Sorter {
 	public function render_block_callback( $attributes, $content, $block ) {
 
 
-		$quoteArt = array_key_exists('prc-block/quote-sorter-art', $block->context) && $block->context['prc-block/quote-sorter-art'] === true ? '' : 'no-art';
-
+		$quoteArt = array_key_exists('prc-block/quote-sorter-art', $block->context) ? $block->context['prc-block/quote-sorter-art'] : false;
+		print_r($quoteArt);
 		$block_attrs = get_block_wrapper_attributes(
 			array(
-				'class' => $attributes['class'] . $quoteArt . ' quote-component active-quote wp-block-prc-block-quote-sorter-quote',
+				'class' => $attributes['class'] . ' quote-component active-quote wp-block-prc-block-quote-sorter-quote',
 				'data-typologies' => wp_json_encode($attributes['props']),
 			)
 		);
