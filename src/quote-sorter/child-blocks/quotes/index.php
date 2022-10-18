@@ -39,7 +39,7 @@ class Quote_Sorter_Quotes_Block extends Quote_Sorter {
 		// for loop through quotes
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-quote-sorter-quotes">
+		<div <?php echo $block_attrs;?>>
 		<?php foreach ( $quotes['quotes'] as $quote ) {
 			$parsed = new WP_Block_Parser_Block(
 				'prc-block/quote-sorter-quote',
