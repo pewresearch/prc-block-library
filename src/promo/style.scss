@@ -132,6 +132,7 @@ $maxWidth: 1058px;
 	.wp-block-prc-block-promo__action {
 		grid-area: action;
 		text-align: right;
+		container-type: inline-size;
 	}
 }
 

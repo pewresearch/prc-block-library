@@ -9,4 +9,9 @@
 			margin-right: 5px;
 		}
 	}
+
+	.wp-block-button > .wp-block-button__link.has-success {
+		background-color: green!important;
+		color: white!important;
+	}
 }

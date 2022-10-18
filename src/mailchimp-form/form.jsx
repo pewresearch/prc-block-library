@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import classnames from 'classnames';
 
 /**
  * WordPress Dependencies
@@ -15,27 +16,27 @@ const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
 const submitHandler = ({
 	onSuccess,
 	onError,
-	onProcessing,
 	emailAddress,
-	token = false,
+	captchaToken = false,
+	closeCaptcha,
 	interest = false,
 }) => {
-	if (!token) {
+	if (!captchaToken) {
 		return onError("We couldn't verify you're not a robot. Please try again.");
 	}
 
-	const email = emailAddress;
+	closeCaptcha();
 
-	onProcessing(true);
+	const email = emailAddress;
 
 	const url = document.URL;
 	if (!isURL(url)) {
 		return onError('Invalid URL');
 	}
 
-	const path = `/prc-api/v2/mailchimp/subscribe/?=${buildQueryString({
+	const path = `/prc-api/v2/mailchimp/subscribe/?${buildQueryString({
 		email,
-		captcha_token: token,
+		captcha_token: captchaToken,
 		interests: interest,
 		api_key: 'mailchimp-form',
 		origin_url: url,
@@ -46,12 +47,27 @@ const submitHandler = ({
 		method: 'POST',
 	})
 		.then(() => onSuccess())
-		.catch((e) => {
-			onProcessing(false);
-			return onError(e);
-		});
+		.catch((e) => onError(e));
 
 	return apiPromise;
+};
+
+const hackCaptchaCheckboxStyle = () => {
+	let target = document.querySelector(
+		'iframe[title="Main content of the hCaptcha challenge"]',
+	);
+	target = target.parentElement.parentElement;
+	if (target) {
+		const checkbox = target.querySelector('div:last-of-type');
+		if (null !== checkbox) {
+			checkbox.style = {
+				...checkbox.style,
+				display: 'none',
+			};
+		}
+	} else {
+		hackCaptchaCheckboxStyle();
+	}
 };
 
 export default function Form({
@@ -72,8 +88,11 @@ export default function Form({
 	},
 }) {
 	const [processing, setProcessing] = useState(false);
-
-	const [value, setValue] = useState('');
+	const [disabled, setDisabled] = useState(false);
+	const [error, setError] = useState(false);
+	const [success, setSuccess] = useState(false);
+	const [value, setValue] = useState(null);
+	const [buttonText, setButtonText] = useState(button.text);
 
 	// Captcha:
 	const [token, setToken] = useState(false);
@@ -81,34 +100,47 @@ export default function Form({
 	const toggleCaptchaDisplay = () => setCaptchaDisplay(!displayCaptcha);
 	const captchaRef = useRef(null);
 
+	const buttonClassNames = classnames(button.className, {
+		'is-processing': processing,
+		'is-disabled': disabled,
+		'has-error': error,
+		'has-success': success,
+	});
+
 	useEffect(() => {
 		console.log('Form value...', value);
+		if (value) {
+			setDisabled(false);
+		} else {
+			setDisabled(true);
+		}
 	}, [value]);
 
 	useEffect(() => {
 		if (false !== token && true !== processing) {
+			setProcessing(true);
+			setButtonText('Processing...');
 			submitHandler({
 				onSuccess: () => {
+					setButtonText('Signed up!');
+					setSuccess(true);
 					setProcessing(false);
 					setValue('');
 					setToken(false);
-					setCaptchaDisplay(false);
+					setError(false);
 					console.log('Success!');
 					return true;
 				},
 				onError: (e) => {
+					setButtonText('Error!');
 					setProcessing(false);
 					setToken(false);
-					setCaptchaDisplay(false);
 					console.log('Error!', e);
 					return false;
 				},
-				onProcessing: (newProcessingState) => {
-					setProcessing(newProcessingState);
-					return processing;
-				},
 				emailAddress: value,
-				token: 'mailchimp-form',
+				captchaToken: token,
+				closeCaptcha: () => setCaptchaDisplay(false),
 				interest: form.segmentId,
 			});
 		}
@@ -129,19 +161,23 @@ export default function Form({
 					<button
 						type="submit"
 						className="wp-block-button"
+						disabled={processing || disabled}
 						style={{
 							background: 'none',
 							border: 'none',
 							padding: 0,
 							fontSize: 'inherit',
+							opacity: processing || disabled ? 0.5 : 1,
 						}}
 						onClick={(e) => {
 							e.preventDefault();
-							toggleCaptchaDisplay();
+							if (false === disabled) {
+								toggleCaptchaDisplay();
+							}
 						}}
 					>
-						<span style={button.style} className={button.className}>
-							{button.text}
+						<span style={button.style} className={buttonClassNames}>
+							{buttonText}
 						</span>
 					</button>
 				</Fragment>
@@ -150,10 +186,12 @@ export default function Form({
 				<HCaptcha
 					sitekey={CAPTCHA_SITE_KEY}
 					theme="light"
-					onVerify={setToken}
 					ref={captchaRef}
+					onVerify={(t) => {
+						setToken(t);
+					}}
 					onOpen={() => {
-						console.log('Captcha opened...');
+						hackCaptchaCheckboxStyle();
 					}}
 				/>
 			)}

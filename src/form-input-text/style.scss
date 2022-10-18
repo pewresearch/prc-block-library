@@ -3,6 +3,7 @@
 	text-align: left;
 	vertical-align: top;
 	-webkit-appearance: none;
+	padding: calc(0.667em + 2px) calc(1.333em + 2px); // cribbed from core/button styling.
 	border: 1px solid transparent;
 	border-radius: 3px;
 	box-shadow: inset 0 0 0 0 transparent;
