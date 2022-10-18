@@ -8,7 +8,7 @@
 	"attributes": {
 		"quote": {
 			"type": "string",
-			"default": "Pabst austin banjo intelligentsia. Synth venmo waistcoat woke shabby chic distillery swag kickstarter air plant tilde shaman humblebrag tumeric before they sold out."
+			"default": "This is a placeholder quote. Quotes from data will render here on frontend."
 		},
 		"props": {
 			"type": "array"
@@ -19,31 +19,13 @@
 		}
 	},
 	"supports": {
-		"color": {
-			"background": true,
-			"text": true
-		},
-		"__experimentalBorder": {
-			"color": true,
-			"width": true
-		},
 		"html": false,
-		"reusable": false,
-		"spacing": {
-			"padding": true,
-			"margin": true
-		},
-		"typography": {
-			"fontSize": true,
-			"lineHeight": true,
-			"__experimentalFontFamily": true,
-			"__experimentalFontWeight": true,
-			"__experimentalFontStyle": true,
-			"__experimentalTextTransform": true,
-			"__experimentalTextDecoration": true
-		}
+		"reusable": false
 	},
-	"usesContext": ["prc-block/quote-sorter-art"],
+	"usesContext": [
+		"prc-block/quote-sorter-art",
+		"prc-block/quote-sorter-attribution-styles"
+	],
 	"parent": ["prc-block/quote-sorter-quotes"],
 	"ancestor": ["prc-block/quote-sorter"]
 }

@@ -83,6 +83,8 @@ const ALLOWED_BLOCKS = [
 	'prc-block/quote-sorter-search-bar',
 	'prc-block/quote-sorter-quote',
 	'prc-block/quote-sorter-quotes',
+	'prc-block/quote-sorter-quote-text',
+	'prc-block/quote-sorter-quote-attribution',
 	'prc-block/quote-sorter-dynamic-text',
 	'prc-block/grid',
 	'core/group',

@@ -8,16 +8,19 @@ import {
 	InspectorAdvancedControls,
 } from '@wordpress/block-editor';
 import {
+	ColorPalette,
 	PanelBody,
 	TextareaControl,
 	ToggleControl,
 } from '@wordpress/components';
 
+import COLORS from '../../../_shared/colors';
+
 function Controls({ attributes, setAttributes }) {
 	return (
 		<Fragment>
 			<InspectorControls>
-				<PanelBody title={__('Quote Wall Styles and Copy')}>
+				<PanelBody title={__('Quote Wall Layout')}>
 					<ToggleControl
 						label={__('Include quote art')}
 						help={__('Adds stylized quote icon to first quote.')}
@@ -33,6 +36,35 @@ function Controls({ attributes, setAttributes }) {
 						)}
 						value={attributes.noResultsMessage}
 						onChange={(value) => setAttributes({ noResultsMessage: value })}
+					/>
+				</PanelBody>
+				<PanelBody title={__('Quote Wall Styles')}>
+					<ToggleControl
+						label={__('Use custom attribution styles')}
+						help={__(
+							'If checked, will apply custom styling to attribution element.',
+						)}
+						checked={attributes.customAttributionStyles}
+						onChange={() =>
+							setAttributes({
+								customAttributionStyles: !attributes.customAttributionStyles,
+							})
+						}
+					/>
+					<ColorPalette
+						label={__('Text Color')}
+						colors={COLORS}
+						color={attributes.attributionStyles.color}
+						disabled={!attributes.customAttributionStyles}
+						onChange={(c) =>
+							setAttributes({
+								attributionStyles: {
+									...attributes.attributionStyles,
+									color: c,
+								},
+							})
+						}
+						disableCustomColors
 					/>
 				</PanelBody>
 			</InspectorControls>
