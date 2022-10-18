@@ -145,8 +145,8 @@
   "quote-sorter-search-bar.js.map": "blocks/quote-sorter-search-bar-ddae1e76.js.map",
   "quote-sorter.css": "blocks/quote-sorter-cb6fdf85.css",
   "quote-sorter.css.map": "blocks/quote-sorter-cb6fdf85.css.map",
-  "quote-sorter.js": "blocks/quote-sorter-0b179f80.js",
-  "quote-sorter.js.map": "blocks/quote-sorter-0b179f80.js.map",
+  "quote-sorter.js": "blocks/quote-sorter-f5f8fad6.js",
+  "quote-sorter.js.map": "blocks/quote-sorter-f5f8fad6.js.map",
   "responsive-container-controller.css": "blocks/responsive-container-controller-806cd166.css",
   "responsive-container-controller.css.map": "blocks/responsive-container-controller-806cd166.css.map",
   "responsive-container-controller.js": "blocks/responsive-container-controller-b9280454.js",
@@ -1328,11 +1328,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-0b179f80.js"
+          "blocks/quote-sorter-f5f8fad6.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-0b179f80.js.map"
+          "blocks/quote-sorter-f5f8fad6.js.map"
         ],
         "css": [
           "blocks/quote-sorter-cb6fdf85.css"

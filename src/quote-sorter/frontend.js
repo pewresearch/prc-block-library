@@ -119,7 +119,7 @@ domReady(() => {
 				searchBar.setAttribute('data-search-string', str);
 				filterQuoteWall();
 			};
-			if (parent.querySelector(`${rootClass}-dropdown`)) {
+			if (parent.querySelector(`${rootClass}-search-bar`)) {
 				allSearchBars.forEach((searchBar) => {
 					const { placeholder } = searchBar.dataset;
 					render(

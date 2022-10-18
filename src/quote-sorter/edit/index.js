@@ -120,6 +120,8 @@ const edit = ({
 		className: classnames(className),
 	});
 
+	console.log({ blockProps });
+
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		orientation: 'vertical',

@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "prc-block/quote-sorter",
 	"title": "Quote Sorter",
@@ -25,7 +26,26 @@
 		}
 	},
 	"supports": {
-		"html": false
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
+		},
+		"html": false,
+		"reusable": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true
+		}
 	},
 	"providesContext": {
 		"prc-block/quote-sorter-hash": "sorterId",

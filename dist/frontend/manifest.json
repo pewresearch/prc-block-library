@@ -39,8 +39,8 @@
   "progress-bar.js.map": "frontend/progress-bar-db9cb3d2.js.map",
   "quote-sorter.css": "frontend/quote-sorter-cb6fdf85.css",
   "quote-sorter.css.map": "frontend/quote-sorter-cb6fdf85.css.map",
-  "quote-sorter.js": "frontend/quote-sorter-6caadc4a.js",
-  "quote-sorter.js.map": "frontend/quote-sorter-6caadc4a.js.map",
+  "quote-sorter.js": "frontend/quote-sorter-9ef12cf0.js",
+  "quote-sorter.js.map": "frontend/quote-sorter-9ef12cf0.js.map",
   "runtime.js": "frontend/runtime-24ad086e.js",
   "runtime.js.map": "frontend/runtime-24ad086e.js.map",
   "social-link.css": "frontend/social-link-250378c3.css",
@@ -438,13 +438,13 @@
           "frontend/runtime-24ad086e.js",
           "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-419bda9f.js",
           "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-03bb42be.js",
-          "frontend/quote-sorter-6caadc4a.js"
+          "frontend/quote-sorter-9ef12cf0.js"
         ],
         "js.map": [
           "frontend/runtime-24ad086e.js.map",
           "frontend/vendors~chart-builder~collapsible~livestream~mailchimp-form~mailchimp-opt-down~mailchimp-select~quot~0f9f2266-419bda9f.js.map",
           "frontend/vendors~chart-builder~collapsible~mailchimp-form~mailchimp-opt-down~mailchimp-select~quote-sorter~to~4c42df71-03bb42be.js.map",
-          "frontend/quote-sorter-6caadc4a.js.map"
+          "frontend/quote-sorter-9ef12cf0.js.map"
         ],
         "css": [
           "frontend/quote-sorter-cb6fdf85.css"
