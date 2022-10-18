@@ -76,7 +76,7 @@ export default function Dropzone({ attributes, setAttributes }) {
 	return (
 		<WPComPlaceholder
 			label={__(
-				'Drop a CSV of quotes in the space below. This may take a while if your file is very large.',
+				'Drop a CSV of quotes in the space below. This may take a while if your file is very large. Make sure your CSV has Quote and Attribtution columns.',
 			)}
 			isColumnLayout
 		>
