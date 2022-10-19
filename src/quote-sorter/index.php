@@ -27,7 +27,6 @@ class Quote_Sorter extends PRC_Block_Library {
 			if ( ! $db->exists() ) {
 				$db->install();
 			}
-
 			add_action( 'init', array( $this, 'register_block' ), 11 );
 			add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
 		}
@@ -171,6 +170,8 @@ class Quote_Sorter extends PRC_Block_Library {
 		);
 	}
 
+
+
 	public function register_block() {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
@@ -186,11 +187,17 @@ class Quote_Sorter extends PRC_Block_Library {
 				'media'     => 'all',
 			)
 		);
-
+		$script_handle = array_pop( $registered['js'] )['handle'];
+		$global_settings = wp_get_global_settings(array(), 'base');
+		$settings = array(
+			'color' => json_encode($global_settings['color']),
+			'typography' => json_encode($global_settings['typography']),
+		);
+		$localized = wp_localize_script($script_handle, 'prcThemeJsonSettings', $settings);
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/quote-sorter',
 			array(
-				'editor_script'   => array_pop( $registered['js'] )['handle'],
+				'editor_script'   => $script_handle,
 				// 'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
