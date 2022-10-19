@@ -189,11 +189,8 @@ class Quote_Sorter extends PRC_Block_Library {
 		);
 		$script_handle = array_pop( $registered['js'] )['handle'];
 		$global_settings = wp_get_global_settings(array(), 'base');
-		$settings = array(
-			'color' => json_encode($global_settings['color']),
-			'typography' => json_encode($global_settings['typography']),
-		);
-		$localized = wp_localize_script($script_handle, 'prcThemeJsonSettings', $settings);
+
+		$localized = wp_localize_script($script_handle, 'prcThemeJsonSettings', json_encode($global_settings));
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/quote-sorter',
 			array(

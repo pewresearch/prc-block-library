@@ -14,8 +14,8 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 
-import COLORS from '../../../_shared/colors';
-
+// eslint-disable-next-line no-undef
+const themeSettings = JSON.parse(prcThemeJsonSettings);
 function Controls({ attributes, setAttributes }) {
 	return (
 		<Fragment>
@@ -53,7 +53,7 @@ function Controls({ attributes, setAttributes }) {
 					/>
 					<ColorPalette
 						label={__('Text Color')}
-						colors={COLORS}
+						colors={themeSettings.color.palette.theme}
 						color={attributes.attributionStyles.color}
 						disabled={!attributes.customAttributionStyles}
 						onChange={(c) =>

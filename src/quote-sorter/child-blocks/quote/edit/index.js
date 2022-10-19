@@ -14,7 +14,6 @@ const edit = ({ attributes, className, context }) => {
 	const blockProps = useBlockProps({
 		className: classnames(className, 'ui list'),
 	});
-	console.log(styles.color);
 	return (
 		<div {...blockProps}>
 			<div className="content">
