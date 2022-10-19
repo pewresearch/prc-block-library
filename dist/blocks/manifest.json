@@ -137,10 +137,10 @@
   "quote-sorter-quote.css.map": "blocks/quote-sorter-quote-37d9e58a.css.map",
   "quote-sorter-quote.js": "blocks/quote-sorter-quote-96b2f106.js",
   "quote-sorter-quote.js.map": "blocks/quote-sorter-quote-96b2f106.js.map",
-  "quote-sorter-quotes.css": "blocks/quote-sorter-quotes-0f6af02f.css",
-  "quote-sorter-quotes.css.map": "blocks/quote-sorter-quotes-0f6af02f.css.map",
-  "quote-sorter-quotes.js": "blocks/quote-sorter-quotes-b798470c.js",
-  "quote-sorter-quotes.js.map": "blocks/quote-sorter-quotes-b798470c.js.map",
+  "quote-sorter-quotes.css": "blocks/quote-sorter-quotes-018d0aeb.css",
+  "quote-sorter-quotes.css.map": "blocks/quote-sorter-quotes-018d0aeb.css.map",
+  "quote-sorter-quotes.js": "blocks/quote-sorter-quotes-c4228f67.js",
+  "quote-sorter-quotes.js.map": "blocks/quote-sorter-quotes-c4228f67.js.map",
   "quote-sorter-search-bar.js": "blocks/quote-sorter-search-bar-6b0d027e.js",
   "quote-sorter-search-bar.js.map": "blocks/quote-sorter-search-bar-6b0d027e.js.map",
   "quote-sorter.css": "blocks/quote-sorter-cb6fdf85.css",
@@ -1346,17 +1346,17 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-quotes-b798470c.js"
+          "blocks/quote-sorter-quotes-c4228f67.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-quotes-b798470c.js.map"
+          "blocks/quote-sorter-quotes-c4228f67.js.map"
         ],
         "css": [
-          "blocks/quote-sorter-quotes-0f6af02f.css"
+          "blocks/quote-sorter-quotes-018d0aeb.css"
         ],
         "css.map": [
-          "blocks/quote-sorter-quotes-0f6af02f.css.map"
+          "blocks/quote-sorter-quotes-018d0aeb.css.map"
         ]
       }
     },

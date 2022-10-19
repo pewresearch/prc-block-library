@@ -18,13 +18,13 @@ class Quote_Sorter_Quote_Block extends Quote_Sorter {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 
-
+		$attributionStyles = array_key_exists('prc-block/quote-sorter-attribution-styles', $block->context) ? $block->context['prc-block/quote-sorter-attribution-styles'] : false;
 		$quoteArt = array_key_exists('prc-block/quote-sorter-art', $block->context) ? $block->context['prc-block/quote-sorter-art'] : false;
-		print_r($quoteArt);
 		$block_attrs = get_block_wrapper_attributes(
 			array(
 				'class' => $attributes['class'] . ' quote-component active-quote wp-block-prc-block-quote-sorter-quote',
 				'data-typologies' => wp_json_encode($attributes['props']),
+				'data-attributions' => wp_json_encode($block->context),
 			)
 		);
 		ob_start();
@@ -35,7 +35,7 @@ class Quote_Sorter_Quote_Block extends Quote_Sorter {
 			<div class="content">
 				<div class="description">“<?php echo $attributes['quote']; ?>”</div>
 			</div>
-			<div class="extra content">
+			<div class="extra content"  <?php echo $attributionStyles;?>>
 				<div class="meta">
 				<?php echo $attributes['attribution']; ?>
 				</div>
