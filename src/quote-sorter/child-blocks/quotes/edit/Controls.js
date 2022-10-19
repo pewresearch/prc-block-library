@@ -12,10 +12,12 @@ import {
 	PanelBody,
 	TextareaControl,
 	ToggleControl,
+	SelectControl,
 } from '@wordpress/components';
 
 // eslint-disable-next-line no-undef
 const themeSettings = JSON.parse(prcThemeJsonSettings);
+console.log({ themeSettings });
 function Controls({ attributes, setAttributes }) {
 	return (
 		<Fragment>
@@ -64,8 +66,20 @@ function Controls({ attributes, setAttributes }) {
 								},
 							})
 						}
-						disableCustomColors
 					/>
+					{/* <SelectControl
+						label="Font Size"
+						value={attributes.attributionStyles.fontSize}
+						options={themeSettings.typography.sizes}
+						onChange={(s) =>
+							setAttributes({
+								attributionStyles: {
+									...attributes.attributionStyles,
+									fontSize: s,
+								},
+							})
+						}
+					/> */}
 				</PanelBody>
 			</InspectorControls>
 			<InspectorAdvancedControls />

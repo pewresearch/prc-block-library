@@ -21,9 +21,17 @@ const edit = ({ attributes, className, context }) => {
 			</div>
 			<div className="extra content">
 				<div
-					className="meta"
+					className="attribution"
 					style={{
 						color: styles.color,
+						fontSize: styles.fontSize,
+						fontStyle: styles.fontStyle,
+						fontWeight: styles.fontWeight,
+						fontFamily: styles.fontFamily,
+						lineHeight: styles.lineHeight,
+						textDecoration: styles.textDecoration,
+						textTransform: styles.textTransform,
+						textAlign: styles.textAlign,
 					}}
 				>
 					{attribution}

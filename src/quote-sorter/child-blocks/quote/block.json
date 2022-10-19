@@ -10,9 +10,6 @@
 			"type": "string",
 			"default": "This is a placeholder quote. Quotes from data will render here on frontend."
 		},
-		"props": {
-			"type": "array"
-		},
 		"attribution": {
 			"type": "string",
 			"default": "Person, Age"

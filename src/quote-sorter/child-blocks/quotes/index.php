@@ -48,7 +48,6 @@ class Quote_Sorter_Quotes_Block extends Quote_Sorter {
 				'',
 				''
 			);
-			// print_r($parsed);
 			echo render_block((array) $parsed);
 		} ?>
 		<div class="wp-block-prc-block-quote-sorter-no-results hidden"><?php echo wp_kses($attributes['noResultsMessage'], 'post') ;?></div>

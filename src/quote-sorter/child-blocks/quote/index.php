@@ -36,7 +36,7 @@ class Quote_Sorter_Quote_Block extends Quote_Sorter {
 				<div class="description">“<?php echo $attributes['quote']; ?>”</div>
 			</div>
 			<div class="extra content"  <?php echo $attributionStyles;?>>
-				<div class="meta">
+				<div class="attribution">
 				<?php echo $attributes['attribution']; ?>
 				</div>
 			</div>
