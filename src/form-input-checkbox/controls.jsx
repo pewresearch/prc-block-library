@@ -10,7 +10,7 @@ import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
  */
 
 export default function Controls({ attributes, setAttributes }) {
-	const { type } = attributes;
+	const { type, value } = attributes;
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Form Input Field Settings')}>
@@ -23,6 +23,13 @@ export default function Controls({ attributes, setAttributes }) {
 					]}
 					onChange={(newType) => {
 						setAttributes({ type: newType });
+					}}
+				/>
+				<TextControl
+					label="Value"
+					value={value}
+					onChange={(newValue) => {
+						setAttributes({ value: newValue });
 					}}
 				/>
 			</PanelBody>

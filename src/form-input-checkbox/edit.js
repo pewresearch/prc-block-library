@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment, useState } from '@wordpress/element';
+import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 /**
@@ -14,6 +14,10 @@ const edit = ({ attributes, setAttributes }) => {
 
 	const [checked, setChecked] = useState(false);
 	const toggleChecked = () => setChecked(!checked);
+
+	useEffect(() => {
+		setAttributes({ defaultChecked: checked });
+	}, [checked]);
 
 	const blockProps = useBlockProps();
 

@@ -8,10 +8,13 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 import MailchimpOptDown from './component';
 
-const edit = props => {
+const edit = (props) => {
 	const blockProps = useBlockProps();
-	return <div {...blockProps}><MailchimpOptDown/></div>;
+	return (
+		<div {...blockProps}>
+			<MailchimpOptDown />
+		</div>
+	);
 };
-
 
 export default edit;

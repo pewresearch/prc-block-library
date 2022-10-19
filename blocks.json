@@ -138,7 +138,7 @@
 			"name": "mailchimp-select",
 			"main": "./src/mailchimp-select/index.js",
 			"php": "./src/mailchimp-select/index.php",
-			"frontend": "./src/mailchimp-select/frontend.js"
+			"frontend": "./src/mailchimp-select/view.js"
 		},
 		{
 			"name": "menu",

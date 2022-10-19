@@ -19,7 +19,7 @@
 			"default": "email"
 		}
 	},
-	"parent": ["prc-block/mailchimp-form"],
+	"ancestor": ["prc-block/mailchimp-form", "prc-block/mailchimp-select"],
 	"supports": {
 		"color": {
 			"background": true,

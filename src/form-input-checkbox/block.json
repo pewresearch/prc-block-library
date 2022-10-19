@@ -13,9 +13,17 @@
 		"type": {
 			"type": "string",
 			"default": "checkbox"
+		},
+		"value": {
+			"type": "string",
+			"default": ""
+		},
+		"defaultChecked": {
+			"type": "boolean",
+			"default": false
 		}
 	},
-	"parent": ["prc-block/mailchimp-select"],
+	"ancestor": ["prc-block/mailchimp-form", "prc-block/mailchimp-select"],
 	"supports": {
 		"color": {
 			"text": true
@@ -24,7 +32,8 @@
 		"reusable": false,
 		"spacing": {
 			"padding": true,
-			"margin": true
+			"margin": true,
+			"blockGap": true
 		},
 		"typography": {
 			"fontSize": true,

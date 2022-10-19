@@ -2,12 +2,13 @@
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/form-input-field` block.
+ * Server-side rendering of the `prc-block/form-input-checkbox` block.
  *
  * @package gutenberg
  */
 
 class Form_Input_Checkbox extends PRC_Block_Library {
+	public static $block_name = 'prc-block/form-input-checkbox';
 	public static $version = 1.0;
 
 	public function __construct( $init = false ) {
@@ -16,19 +17,40 @@ class Form_Input_Checkbox extends PRC_Block_Library {
 		}
 	}
 
+	public function array_as_attr_string($array) {
+		$attr_string = '';
+		foreach ($array as $key => $value) {
+			$attr_string .= $key . '="' . $value . '" ';
+		}
+		return $attr_string;
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
-		$label = array_key_exists( 'label', $attributes ) ? $attributes['label'] : 'Label';
-		$type  = array_key_exists( 'type', $attributes ) ? $attributes['type'] : 'checkbox'; 
-		
-		// If this block is going to be used in the theme or be called directly by PHP it is sometimes easier to use our internal function for of this function.
-		// See https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/prc-block-library.php#L131 for how to use `$this->_get_block_wrapper_attributes()`
+		$label   = array_key_exists( 'label', $attributes ) ? $attributes['label'] : false;
+		$name    = sanitize_title( $label );
+		$type    = array_key_exists( 'type', $attributes ) ? $attributes['type'] : 'checkbox';
+		$value   = array_key_exists( 'value', $attributes ) ? $attributes['value'] : '';
+		$checked = array_key_exists( 'defaultChecked', $attributes ) ? $attributes['defaultChecked'] : false;
+		$id      = md5( json_encode( $attributes ) );
+
 		$block_attrs = get_block_wrapper_attributes();
+		$input_attrs = array(
+			'type' => $type,
+			'id'   => $id,
+			'name' => $name,
+			'value' => $value,
+		);
+		if ( $checked ) {
+			$input_attrs['checked'] = true;
+		}
+		$input_attrs = $this->array_as_attr_string($input_attrs);
 
 		return wp_sprintf(
-			'<div %1$s><input type="%1$s"></input><label>%3$s</label></div>',
+			'<div %1$s><input %2$s/><label for="%3$s">%4$s</label></div>',
 			$block_attrs,
-			$type,
-			$label
+			$input_attrs,
+			$name,
+			$label,
 		);
 	}
 

@@ -21,15 +21,16 @@ class Mailchimp_Select extends PRC_Block_Library {
 		if ( is_admin() ) {
 			return $content;
 		}
-		$this->enqueue_frontend_assets();
+		// $this->enqueue_frontend_assets();
 
 		$block_attrs = get_block_wrapper_attributes(array(
 			'data-interests' => implode( ',', $attributes['interests'] ),
 		));
 
 		return wp_sprintf(
-			'<div %1$s></div>',
+			'<div %1$s>%2$s</div>',
 			$block_attrs,
+			$content,
 		);
 	}
 
@@ -50,7 +51,7 @@ class Mailchimp_Select extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue              = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

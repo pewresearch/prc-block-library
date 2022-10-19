@@ -1,91 +1,65 @@
 /**
- * External dependencies
+ * WordPress Dependencies
  */
-import classnames from 'classnames';
-import { mailChimpInterests } from '@prc-app/shared';
-
-/**
- * WordPress dependencies
- */
-import { __ } from '@wordpress/i18n';
 import { Fragment, useState } from '@wordpress/element';
-import {
-	InspectorControls,
-	useBlockProps,
-	useInnerBlocksProps,
-} from '@wordpress/block-editor';
-
-import {
-	PanelBody,
-	PanelRow,
-	ToggleControl,
-	HorizontalRule,
-} from '@wordpress/components';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
- * Internal dependencies
+ * Internal Dependencies
  */
-// import FormList from './form';
+import Controls from './controls';
 
 const ALLOWED_BLOCKS = ['prc-block/form-input-checkbox', 'core/button'];
-
-const edit = ({ attributes, setAttributes }) => {
-	const { interests, className } = attributes;
-	const [selected, setSelected] = useState(interests);
-
-	const blockProps = useBlockProps({
-		className: classnames(className),
-	});
-
-	const updateSelection = (s) => {
-		const tmp = selected;
-		if (tmp.includes(s)) {
-			const index = tmp.indexOf(s);
-			if (-1 !== index) {
-				tmp.splice(index, 1);
-			}
-		} else {
-			tmp.push(s);
-		}
-		setAttributes({ interests: tmp });
-		setSelected([...tmp]);
-	};
-
-	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: ALLOWED_BLOCKS,
-		template: [
-			['prc-block/form-input-checkbox', {}],
+const DEFAULT_TEMPLATE = [
+	[
+		'core/group',
+		{
+			lock: {
+				move: true,
+				remove: true,
+			},
+		},
+		[
+			[
+				'prc-block/form-input-text',
+				{
+					label: 'Email Address',
+					placeholder: 'Enter your email address',
+					type: 'email',
+					lock: {
+						move: true,
+						remove: true,
+					},
+				},
+			],
 			[
 				'core/button',
 				{
 					text: 'Sign Up',
+					lock: {
+						move: true,
+						remove: true,
+					},
 				},
 			],
 		],
+	],
+];
+
+const edit = ({ attributes, setAttributes, clientId }) => {
+	const blockProps = useBlockProps({});
+
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		template: DEFAULT_TEMPLATE,
+		templateLock: false,
+		renderAppender: false, // Here we're using the template to control whats loaded into the block.
 	});
 
 	return (
 		<Fragment>
-			<InspectorControls>
-				<PanelBody title={__('Mailchimp Interests')}>
-					<PanelRow>
-						<div>
-							{mailChimpInterests.map((i) =>
-								false !== i.value ? (
-									<ToggleControl
-										label={i.label}
-										checked={selected.includes(i.value)}
-										onChange={() => updateSelection(i.value)}
-									/>
-								) : (
-									<HorizontalRule />
-								))}
-						</div>
-					</PanelRow>
-				</PanelBody>
-			</InspectorControls>
+			<Controls {...{ attributes, setAttributes, clientId }} />
 			<div {...innerBlocksProps} />
-			{/* <FormList interests={mailChimpInterests} selected={selected} /> */}
 		</Fragment>
 	);
 };
