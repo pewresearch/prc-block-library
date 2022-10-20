@@ -25,7 +25,7 @@ function QuoteTemplateInnerBlocks() {
 		{ template: TEMPLATE },
 	);
 	console.log({ innerBlocksProps });
-	return <li {...innerBlocksProps} />;
+	return <div {...innerBlocksProps} />;
 }
 
 function QuoteTemplateBlockPreview({
@@ -50,7 +50,7 @@ function QuoteTemplateBlockPreview({
 	};
 	console.log({ blocks, blockContextId });
 	return (
-		<li
+		<div
 			{...blockPreviewProps}
 			tabIndex={0}
 			// eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
@@ -141,7 +141,7 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 	// This ensures that when it is displayed again, the cached rendering of the
 	// block preview is used, instead of having to re-render the preview from scratch.
 	return (
-		<ul {...blockProps}>
+		<div {...blockProps}>
 			{blockContexts &&
 				blockContexts.map((blockContext, index) => (
 					<BlockContextProvider
@@ -160,6 +160,6 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 						/> */}
 					</BlockContextProvider>
 				))}
-		</ul>
+		</div>
 	);
 }

@@ -7,7 +7,7 @@ use \WPackio as WPackio;
  * @package gutenberg
  */
 
-class Quote_Sorter_Dynamic_Text extends Quote_Sorter {
+class Quote_Sorter_Dynamic_Text extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );

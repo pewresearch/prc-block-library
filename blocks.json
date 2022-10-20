@@ -188,7 +188,7 @@
 			"php": "./src/query/index.php"
 		},
 		{
-			"name": "quote-sorter",
+			"name": "quote-sorter-controller",
 			"main": "./src/quote-sorter/controller/index.js",
 			"frontend": "./src/quote-sorter/controller/frontend.js",
 			"php": "./src/quote-sorter/index.php"

@@ -7,7 +7,7 @@ use \WPackio as WPackio;
  * @package gutenberg
  */
 
-class Quote_Sorter extends PRC_Block_Library {
+class Quote_Sorter_Controller extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			require_once plugin_dir_path( __FILE__ ) . '/db/class-shape.php';
@@ -181,7 +181,7 @@ class Quote_Sorter extends PRC_Block_Library {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'frontend',
-			'quote-sorter',
+			'quote-sorter-controller',
 			array(
 				'js'        => true,
 				'css'       => true,
@@ -200,7 +200,7 @@ class Quote_Sorter extends PRC_Block_Library {
 
 		$registered = $enqueue->register(
 			'blocks',
-			'quote-sorter',
+			'quote-sorter-controller',
 			array(
 				'js'        => true,
 				'css'       => false,
@@ -211,18 +211,14 @@ class Quote_Sorter extends PRC_Block_Library {
 			)
 		);
 		$script_handle = array_pop( $registered['js'] )['handle'];
-		$global_settings = wp_get_global_settings(array(), 'base');
 
-		$localized = wp_localize_script($script_handle, 'prcThemeJsonSettings', json_encode($global_settings));
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/controller',
 			array(
 				'editor_script'   => $script_handle,
-				// 'style'           => array_pop( $registered['css'] )['handle'],
-				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
 	}
 }
 
-new Quote_Sorter( true );
+new Quote_Sorter_Controller( true );

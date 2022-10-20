@@ -1,18 +1,9 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { Fragment } from '@wordpress/element';
-import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
-/**
- * Internal Dependencies
- */
 import Controls from './Controls';
 
 const ALLOWED_BLOCKS = [
@@ -25,29 +16,15 @@ const ALLOWED_BLOCKS = [
 	'prc-block/grid',
 	'core/group',
 ];
-const TEMPLATE = [
-	[
-		'prc-block/quote-sorter-search-bar',
-		{
-			placeholder: __('Search for a quote ...'),
-		},
-	],
-	['prc-block/quote-sorter-quote-template', {}],
-];
+const TEMPLATE = [];
 
-const edit = ({ attributes, className, setAttributes }) => {
-	const blockProps = useBlockProps({
-		className: classnames(className),
-	});
-
-	console.log({ blockProps });
-
+const edit = ({ attributes, setAttributes }) => {
+	const blockProps = useBlockProps();
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		orientation: 'vertical',
 		template: TEMPLATE,
 	});
-
 	return (
 		<Fragment>
 			<div {...innerBlocksProps} />

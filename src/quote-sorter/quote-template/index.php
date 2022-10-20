@@ -9,7 +9,7 @@ use \WPackio as WPackio;
 
 //  TODO: finish setting up Quotes block
 
-class Quote_Sorter_Quote_Template_Block extends Quote_Sorter {
+class Quote_Sorter_Quote_Template_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -41,14 +41,22 @@ class Quote_Sorter_Quote_Template_Block extends Quote_Sorter {
 		?>
 		<div <?php echo $block_attrs;?>>
 		<?php foreach ( $quotes['quotes'] as $quote ) {
-			$parsed = new WP_Block_Parser_Block(
-				'prc-block/quote-sorter-quote',
+			$text = new WP_Block_Parser_Block(
+				'prc-block/quote-sorter-quote-text',
 				$quote,
 				[],
 				'',
 				''
 			);
-			echo render_block((array) $parsed);
+			$attribute = new WP_Block_Parser_Block(
+				'prc-block/quote-sorter-quote-text',
+				$quote,
+				[],
+				'',
+				''
+			);
+			echo render_block((array) $text);
+			echo render_block((array) $attribute);
 		} ?>
 		<div class="wp-block-prc-block-quote-sorter-no-results hidden"><?php echo wp_kses($attributes['noResultsMessage'], 'post') ;?></div>
 		</div>
@@ -80,7 +88,7 @@ class Quote_Sorter_Quote_Template_Block extends Quote_Sorter {
 			plugin_dir_path( __DIR__ ) . '/quote-template',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'           => array_pop( $registered['css'] )['handle'],
+				// 'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

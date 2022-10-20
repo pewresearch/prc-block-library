@@ -9,7 +9,7 @@ use \WPackio as WPackio;
 
 //  TODO: finish setting up Quotes block
 
-class Quote_Sorter_Quote_Text_Block extends Quote_Sorter {
+class Quote_Sorter_Quote_Text_Block extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -66,7 +66,7 @@ class Quote_Sorter_Quote_Text_Block extends Quote_Sorter {
 			plugin_dir_path( __DIR__ ) . '/quote-text',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'			  => array_pop( $registered['css'] )['handle'],
+				// 'style'			  => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
