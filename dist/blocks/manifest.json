@@ -139,8 +139,8 @@
   "quote-sorter-quote-attribution.js.map": "blocks/quote-sorter-quote-attribution-f29e4883.js.map",
   "quote-sorter-quote-template.css": "blocks/quote-sorter-quote-template-60007d47.css",
   "quote-sorter-quote-template.css.map": "blocks/quote-sorter-quote-template-60007d47.css.map",
-  "quote-sorter-quote-template.js": "blocks/quote-sorter-quote-template-ec036d58.js",
-  "quote-sorter-quote-template.js.map": "blocks/quote-sorter-quote-template-ec036d58.js.map",
+  "quote-sorter-quote-template.js": "blocks/quote-sorter-quote-template-d9333b31.js",
+  "quote-sorter-quote-template.js.map": "blocks/quote-sorter-quote-template-d9333b31.js.map",
   "quote-sorter-quote-text.css": "blocks/quote-sorter-quote-text-daf4c099.css",
   "quote-sorter-quote-text.css.map": "blocks/quote-sorter-quote-text-daf4c099.css.map",
   "quote-sorter-quote-text.js": "blocks/quote-sorter-quote-text-54dd4580.js",
@@ -149,8 +149,8 @@
   "quote-sorter-search-bar.js.map": "blocks/quote-sorter-search-bar-eefc87a6.js.map",
   "quote-sorter.css": "blocks/quote-sorter-dfa38c9c.css",
   "quote-sorter.css.map": "blocks/quote-sorter-dfa38c9c.css.map",
-  "quote-sorter.js": "blocks/quote-sorter-16ebbfef.js",
-  "quote-sorter.js.map": "blocks/quote-sorter-16ebbfef.js.map",
+  "quote-sorter.js": "blocks/quote-sorter-cc330f71.js",
+  "quote-sorter.js.map": "blocks/quote-sorter-cc330f71.js.map",
   "responsive-container-controller.css": "blocks/responsive-container-controller-806cd166.css",
   "responsive-container-controller.css.map": "blocks/responsive-container-controller-806cd166.css.map",
   "responsive-container-controller.js": "blocks/responsive-container-controller-dbacefbd.js",
@@ -840,11 +840,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-16ebbfef.js"
+          "blocks/quote-sorter-cc330f71.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-16ebbfef.js.map"
+          "blocks/quote-sorter-cc330f71.js.map"
         ],
         "css": [
           "blocks/quote-sorter-dfa38c9c.css"
@@ -858,11 +858,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-quote-template-ec036d58.js"
+          "blocks/quote-sorter-quote-template-d9333b31.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-quote-template-ec036d58.js.map"
+          "blocks/quote-sorter-quote-template-d9333b31.js.map"
         ],
         "css": [
           "blocks/quote-sorter-quote-template-60007d47.css"
