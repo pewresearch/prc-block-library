@@ -1,0 +1,40 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/quote-sorter-quote-text",
+	"title": "Quote Sorter – Quote Text",
+	"icon": "format-quote",
+	"description": "Child block displaying a single quote",
+	"category": "layout",
+	"attributes": {},
+	"supports": {
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"html": false,
+		"reusable": false,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true
+		}
+	},
+	"usesContext": [
+		"prc-block/quote-sorter-art",
+		"prc-block/quote-sorter-attribution-styles"
+	],
+	"parent": ["prc-block/quote-sorter-quotes"],
+	"ancestor": ["prc-block/quote-sorter"]
+}
