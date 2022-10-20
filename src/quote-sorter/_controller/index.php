@@ -178,7 +178,7 @@ class Quote_Sorter_Controller extends PRC_Block_Library {
 		if ( is_admin() ) {
 			return;
 		}
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', 2.0, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'frontend',
 			'quote-sorter-controller',

@@ -125,8 +125,8 @@
   "pullquote.js.map": "blocks/pullquote-e0fa84eb.js.map",
   "query.js": "blocks/query-cc601534.js",
   "query.js.map": "blocks/query-cc601534.js.map",
-  "quote-sorter-controller.js": "blocks/quote-sorter-controller-e427e362.js",
-  "quote-sorter-controller.js.map": "blocks/quote-sorter-controller-e427e362.js.map",
+  "quote-sorter-controller.js": "blocks/quote-sorter-controller-d5178954.js",
+  "quote-sorter-controller.js.map": "blocks/quote-sorter-controller-d5178954.js.map",
   "quote-sorter-dropdown.css": "blocks/quote-sorter-dropdown-bad0d066.css",
   "quote-sorter-dropdown.css.map": "blocks/quote-sorter-dropdown-bad0d066.css.map",
   "quote-sorter-dropdown.js": "blocks/quote-sorter-dropdown-a20738f3.js",
@@ -838,11 +838,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-controller-e427e362.js"
+          "blocks/quote-sorter-controller-d5178954.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-controller-e427e362.js.map"
+          "blocks/quote-sorter-controller-d5178954.js.map"
         ]
       }
     },
