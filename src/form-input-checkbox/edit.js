@@ -10,16 +10,16 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
 import Controls from './controls';
 
 const edit = ({ attributes, setAttributes }) => {
-	const { anchor, label, type } = attributes;
+	const { anchor, label, type, defaultChecked } = attributes;
 
-	const [checked, setChecked] = useState(false);
+	const [checked, setChecked] = useState(defaultChecked);
 	const toggleChecked = () => setChecked(!checked);
 
 	useEffect(() => {
 		setAttributes({ defaultChecked: checked });
 	}, [checked]);
 
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps({});
 
 	return (
 		<Fragment>

@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/form-input-checkbox/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,wCACC,gBACA,mBACA,sBACA,S","file":"blocks/form-input-checkbox-bf6da599.css","sourcesContent":[".wp-block-prc-block-form-input-checkbox {\n\ttext-align: left;\n\tvertical-align: top;\n\tbox-sizing: border-box;\n\tmargin: 0;\n}\n"],"sourceRoot":""}

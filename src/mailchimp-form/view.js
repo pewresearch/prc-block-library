@@ -73,9 +73,7 @@ domReady(() => {
 						segmentId,
 					},
 				}}
-			>
-				{elm.innerHTML}
-			</Form>,
+			/>,
 			attachPoint,
 		);
 

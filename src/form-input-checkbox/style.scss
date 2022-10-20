@@ -1,6 +1,10 @@
 .wp-block-prc-block-form-input-checkbox {
+	display: flex;
+    align-items: center;
 	text-align: left;
 	vertical-align: top;
 	box-sizing: border-box;
 	margin: 0;
+	gap: 5px;
+	cursor: pointer;
 }
