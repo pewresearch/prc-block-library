@@ -139,6 +139,29 @@ class Quote_Sorter extends PRC_Block_Library {
 		);
 	}
 
+	public function retrieve_quotes( \WP_REST_Request $request) {
+		$data = $request->get_params();
+		$hash = $data['hash'];
+		$query = new Quote_Sorter_Query(
+			array(
+				'hash'    => $hash,
+				'number'  => 1, // Only retrieve a single record.
+				'fields'  => array( 'id' ),
+				)
+			);
+		if ( !empty($query->items)) {
+			$row = array_pop($query->items);
+			$row_id = $row->id;
+			$quoteData = $query->get_item( $row_id );
+			$quoteData = json_decode( $quoteData->quotes, true );
+			return array(
+				'hash' => $hash,
+				'data' => $quoteData,
+			);
+		} else {
+			return new \WP_Error( 'quote-sorter-error', 'No quotes found for hash: ' . $hash );
+		}
+	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$block_attrs = get_block_wrapper_attributes(array());

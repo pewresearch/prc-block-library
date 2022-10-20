@@ -8,75 +8,12 @@ import classnames from 'classnames';
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import { Button } from '@wordpress/components';
-import {
-	Inserter,
-	useInnerBlocksProps,
-	useBlockProps,
-} from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
+import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
-
-/**
- * useHasSelectedInnerBlock
- * Determine whether one of the inner blocks currently is selected
- *
- * @param {Object} props
- * @param props.clientId
- * @return {boolean} wether the block is the ancestor of selected blocks
- */
-const useHasSelectedInnerBlock = ({ clientId }) =>
-	useSelect((select) =>
-		select('core/block-editor').hasSelectedInnerBlock(clientId, true),
-	);
-
-/**
- * CustomBlockAppender.
- *
- * Provide a Button component to trigger the inserter.
- * Any undocumented props are spread onto the Button component.
- *
- * @param {Object} props              All props sent to this component.
- * @param {string} props.rootClientId Client ID of the block where this is being used.
- * @param {string} [props.buttonText] Text to display in the Button.
- * @param {string} [props.icon]       The icon to use.
- * @return {Function} The component.
- */
-function CustomBlockAppender({
-	rootClientId,
-	buttonText,
-	icon,
-	className = 'custom-block-appender',
-	...buttonProps
-}) {
-	return (
-		<Inserter
-			isAppender
-			rootClientId={rootClientId}
-			renderToggle={({ onToggle, disabled }) => (
-				<div
-					style={{
-						textAlign: 'center',
-					}}
-				>
-					<Button
-						className={`${className}`}
-						onClick={onToggle}
-						disabled={disabled}
-						icon={icon}
-						{...buttonProps}
-					>
-						{buttonText}
-					</Button>
-				</div>
-			)}
-		/>
-	);
-}
 
 const ALLOWED_BLOCKS = [
 	'prc-block/quote-sorter-dropdown',
@@ -98,21 +35,7 @@ const TEMPLATE = [
 	['prc-block/quote-sorter-quote-template', {}],
 ];
 
-const edit = ({
-	attributes,
-	className,
-	setAttributes,
-	clientId,
-	isSelected,
-}) => {
-	const hasSelectedInnerBlock = useHasSelectedInnerBlock({ clientId });
-	console.log(
-		'hasSelectedInnerBlock',
-		hasSelectedInnerBlock,
-		!hasSelectedInnerBlock,
-		isSelected,
-	);
-
+const edit = ({ attributes, className, setAttributes }) => {
 	const blockProps = useBlockProps({
 		className: classnames(className),
 	});

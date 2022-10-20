@@ -15,8 +15,8 @@ import {
 } from '@wordpress/components';
 
 // eslint-disable-next-line no-undef
-// const themeSettings = JSON.parse(prcThemeJsonSettings);
-// console.log({ themeSettings });
+const themeSettings = JSON.parse(prcThemeJsonSettings);
+console.log({ themeSettings });
 function Controls({ attributes, setAttributes }) {
 	return (
 		<Fragment>
@@ -52,7 +52,7 @@ function Controls({ attributes, setAttributes }) {
 							})
 						}
 					/>
-					{/* <ColorPalette
+					<ColorPalette
 						label={__('Text Color')}
 						colors={themeSettings.color.palette.theme}
 						color={attributes.attributionStyles.color}
@@ -65,7 +65,7 @@ function Controls({ attributes, setAttributes }) {
 								},
 							})
 						}
-					/> */}
+					/>
 					{/* <SelectControl
 						label="Font Size"
 						value={attributes.attributionStyles.fontSize}
