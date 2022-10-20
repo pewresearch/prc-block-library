@@ -49,14 +49,21 @@ class Quote_Sorter_Quote_Template_Block extends PRC_Block_Library {
 				''
 			);
 			$attribute = new WP_Block_Parser_Block(
-				'prc-block/quote-sorter-quote-text',
+				'prc-block/quote-sorter-quote-attribution',
 				$quote,
 				[],
 				'',
 				''
 			);
-			echo render_block((array) $text);
-			echo render_block((array) $attribute);
+			// render quote text and wrap in div
+			?>
+			<div class="quote-component active-quote wp-block-prc-block-quote-sorter-quote">
+				<?php echo render_block( (array)$text ); ?>
+				<?php echo render_block( (array)$attribute ); ?>
+			</div>
+			<?php
+			// echo render_block((array) $text);
+			// echo render_block((array) $attribute);
 		} ?>
 		<div class="wp-block-prc-block-quote-sorter-no-results hidden"><?php echo wp_kses($attributes['noResultsMessage'], 'post') ;?></div>
 		</div>

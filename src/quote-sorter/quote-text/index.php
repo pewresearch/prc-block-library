@@ -32,14 +32,7 @@ class Quote_Sorter_Quote_Text_Block extends PRC_Block_Library {
 		?>
 
 		<div <?php echo $block_attrs;?> >
-			<div class="content">
-				<div class="description">“<?php echo $attributes['quote']; ?>”</div>
-			</div>
-			<div class="extra content"  <?php echo $attributionStyles;?>>
-				<div class="attribution">
-				<?php echo $attributes['attribution']; ?>
-				</div>
-			</div>
+			“<?php echo $attributes['quote']; ?>”
 		</div>
 		<?php
 		echo '<!-- /.wp-block-prc-block-quote-sorter-quote -->';
