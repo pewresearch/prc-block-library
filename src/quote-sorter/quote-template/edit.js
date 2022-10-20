@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { memo, useMemo, useState } from '@wordpress/element';
+import { memo, useMemo, useState, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import {
@@ -24,6 +24,7 @@ function QuoteTemplateInnerBlocks() {
 		{ className: 'wp-block-prc-block-quote' },
 		{ template: TEMPLATE },
 	);
+	console.log({ innerBlocksProps });
 	return <li {...innerBlocksProps} />;
 }
 
@@ -47,7 +48,7 @@ function QuoteTemplateBlockPreview({
 	const style = {
 		display: isHidden ? 'none' : undefined,
 	};
-
+	console.log({ blocks, blockContextId });
 	return (
 		<li
 			{...blockPreviewProps}
@@ -67,40 +68,59 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 	const sorterId = context['prc-block/quote-sorter-hash'];
 
 	const [activeBlockContextId, setActiveBlockContextId] = useState();
+	const [entries, setEntries] = useState(false);
 
-	const { entries, blocks } = useSelect(
+	const { blocks } = useSelect(
 		(select) => {
 			const { getBlocks } = select(blockEditorStore);
-			// Do apifetch to get your entries by sorterId "hash"
-			// const entries = my entries....
-
-			const quotes = apiFetch({
-				path: `/prc-api/v2/block/quote-sorter/retrieve?hash=${sorterId}`,
-			})
-				.then((data) => {
-					console.log({ data });
-					return data?.quotes;
-				})
-				.catch((e) => {
-					console.log('Error!');
-					console.log({ e });
-				});
 			return {
-				entries: quotes,
 				blocks: getBlocks(clientId),
 			};
 		},
 		[clientId, sorterId],
 	);
 
-	const blockContexts = useMemo(
-		() =>
-			entries?.map((entry) => ({
-				quote: entry.quote,
-				attribution: entry.attribution,
-			})),
-		[entries],
-	);
+	useEffect(() => {
+		if (!entries && sorterId.length > 1) {
+			getQuotes(sorterId);
+		}
+	}, [sorterId]);
+
+	const getQuotes = (sorterId) => {
+		console.log('retrieving quotes for sorterId: ', sorterId);
+		apiFetch({
+			path: `/prc-api/v2/block/quote-sorter/retrieve?hash=${sorterId}`,
+		})
+			.then(({ data }) => {
+				console.log({ returnedData: data });
+				const { quotes } = data;
+				if (undefined !== quotes) {
+					console.log([...quotes]);
+					setEntries([...quotes]);
+				}
+				console.log('no quotes?', quotes);
+			})
+			.catch((error) => {
+				console.log({ error });
+			});
+	};
+
+	const blockContexts = useMemo(() => {
+		if (!entries) {
+			return [];
+		}
+		return entries?.map((entry) => ({
+			'prc-block/quote-sorter/quote': entry.quote,
+			'prc-block/quote-sorter/attribution': entry.attribution,
+			props: entry.props,
+		}));
+	}, [entries]);
+
+	useEffect(() => {
+		if (blockContexts) {
+			console.log({ blockContexts });
+		}
+	}, [blockContexts]);
 
 	const blockProps = useBlockProps();
 
@@ -123,26 +143,21 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 	return (
 		<ul {...blockProps}>
 			{blockContexts &&
-				blockContexts.map((blockContext) => (
+				blockContexts.map((blockContext, index) => (
 					<BlockContextProvider
-						key={JSON.stringify(blockContext)}
+						key={`context-key--${index}`}
 						value={blockContext}
 					>
-						{blockContext.quote ===
+						{/* {blockContext.quote ===
 						(activeBlockContextId ||
 							JSON.stringify(blockContexts[0]?.quote)) ? (
-							<QuoteTemplateInnerBlocks />
-						) : null}
-						<MemoizedQuoteTemplateBlockPreview
+							) : null} */}
+						<QuoteTemplateInnerBlocks />
+						{/* <MemoizedQuoteTemplateBlockPreview
 							blocks={blocks}
-							blockContextId={JSON.stringify(blockContexts[0]?.quote)}
+							blockContextId={`block-preview--${index}`}
 							setActiveBlockContextId={setActiveBlockContextId}
-							isHidden={
-								JSON.stringify(blockContexts[0]?.quote) ===
-								(activeBlockContextId ||
-									JSON.stringify(blockContexts[0]?.quote))
-							}
-						/>
+						/> */}
 					</BlockContextProvider>
 				))}
 		</ul>

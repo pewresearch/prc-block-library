@@ -8,12 +8,12 @@ import classnames from 'classnames';
  */
 import { useBlockProps } from '@wordpress/block-editor';
 
-const edit = ({ className, context }) => {
-	const quote = context['prc-block/quote-sorter/quote'];
+const edit = ({ attributes, className, context }) => {
+	const attribution = context?.['prc-block/quote-sorter/attribution'];
 	const blockProps = useBlockProps({
-		className: classnames(className, 'description'),
+		className: classnames(className, 'attribution'),
 	});
-	return <div {...blockProps}>{quote}</div>;
+	return <div {...blockProps}>{attribution}</div>;
 };
 
 export default edit;

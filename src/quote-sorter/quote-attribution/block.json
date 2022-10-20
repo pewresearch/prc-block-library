@@ -31,10 +31,6 @@
 			"__experimentalTextDecoration": true
 		}
 	},
-	"usesContext": [
-		"prc-block/quote-sorter-art",
-		"prc-block/quote-sorter-attribution-styles"
-	],
-	"parent": ["prc-block/quote-sorter-quotes"],
+	"usesContext": ["prc-block/quote-sorter/attribution"],
 	"ancestor": ["prc-block/quote-sorter"]
 }
