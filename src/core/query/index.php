@@ -5,6 +5,8 @@ use \WPackio as WPackio;
 /**
  * This code involves a lot of hijacking of the query block and its internal processes and should only be touched by someone well versed in the WordPress Core and Gutenberg development and source code.
  *
+ * DOC: https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/extending-the-query-loop-block/
+ *
  * @package prc-block-library
  */
 
@@ -14,8 +16,8 @@ class Core_Query extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_filter( 'query_loop_block_query_vars', array($this, 'default_query_args') );
-			add_filter( 'block_type_metadata', array( $this, 'default_tax_query_to_OR' ), 100, 3 );
+			add_filter( 'query_loop_block_query_vars', array($this, 'default_query_args'), 10, 3 );
+			add_filter( 'block_type_metadata', array( $this, 'default_tax_query_to_OR' ), 100, 1 );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'register_script' ) );
 		}
 	}
