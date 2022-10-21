@@ -1,3 +1,5 @@
+import md5 from 'md5';
+
 /**
  * WordPress dependencies
  */
@@ -24,7 +26,6 @@ function QuoteTemplateInnerBlocks() {
 		{ className: 'wp-block-prc-block-quote' },
 		{ template: TEMPLATE },
 	);
-	console.log({ innerBlocksProps });
 	return <div {...innerBlocksProps} />;
 }
 
@@ -48,7 +49,6 @@ function QuoteTemplateBlockPreview({
 	const style = {
 		display: isHidden ? 'none' : undefined,
 	};
-	console.log({ blocks, blockContextId });
 	return (
 		<div
 			{...blockPreviewProps}
@@ -67,7 +67,7 @@ const MemoizedQuoteTemplateBlockPreview = memo(QuoteTemplateBlockPreview);
 export default function QuoteTemplateEdit({ clientId, context }) {
 	const sorterId = context['prc-block/quote-sorter-hash'];
 
-	const [activeBlockContextId, setActiveBlockContextId] = useState();
+	const [activeBlockContextId, setActiveBlockContextId] = useState(null);
 	const [entries, setEntries] = useState(false);
 
 	const { blocks } = useSelect(
@@ -81,7 +81,7 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 	);
 
 	useEffect(() => {
-		if (!entries && sorterId.length > 1) {
+		if (sorterId) {
 			getQuotes(sorterId);
 		}
 	}, [sorterId]);
@@ -92,13 +92,13 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 			path: `/prc-api/v2/block/quote-sorter/retrieve?hash=${sorterId}`,
 		})
 			.then(({ data }) => {
-				console.log({ returnedData: data });
 				const { quotes } = data;
 				if (undefined !== quotes) {
-					console.log([...quotes]);
-					setEntries([...quotes]);
+					const quoteArray = [...quotes];
+					const firstTen = quoteArray.splice(0, 10);
+					console.log({ firstTen });
+					setEntries([...firstTen]);
 				}
-				console.log('no quotes?', quotes);
 			})
 			.catch((error) => {
 				console.log({ error });
@@ -115,12 +115,6 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 			props: entry.props,
 		}));
 	}, [entries]);
-
-	useEffect(() => {
-		if (blockContexts) {
-			console.log({ blockContexts });
-		}
-	}, [blockContexts]);
 
 	const blockProps = useBlockProps();
 
@@ -143,23 +137,27 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 	return (
 		<div {...blockProps}>
 			{blockContexts &&
-				blockContexts.map((blockContext, index) => (
-					<BlockContextProvider
-						key={`context-key--${index}`}
-						value={blockContext}
-					>
-						{/* {blockContext.quote ===
-						(activeBlockContextId ||
-							JSON.stringify(blockContexts[0]?.quote)) ? (
-							) : null} */}
-						<QuoteTemplateInnerBlocks />
-						{/* <MemoizedQuoteTemplateBlockPreview
-							blocks={blocks}
-							blockContextId={`block-preview--${index}`}
-							setActiveBlockContextId={setActiveBlockContextId}
-						/> */}
-					</BlockContextProvider>
-				))}
+				blockContexts.map((blockContext, index) => {
+					const contextId = md5(JSON.stringify(blockContext));
+
+					return (
+						<BlockContextProvider
+							key={`context-key--${index}`}
+							value={blockContext}
+						>
+							{activeBlockContextId === null ||
+							activeBlockContextId === contextId ? (
+								<QuoteTemplateInnerBlocks />
+							) : (
+								<MemoizedQuoteTemplateBlockPreview
+									blocks={blocks}
+									blockContextId={contextId}
+									setActiveBlockContextId={setActiveBlockContextId}
+								/>
+							)}
+						</BlockContextProvider>
+					);
+				})}
 		</div>
 	);
 }

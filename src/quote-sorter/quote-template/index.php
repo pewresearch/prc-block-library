@@ -41,29 +41,28 @@ class Quote_Sorter_Quote_Template_Block extends PRC_Block_Library {
 		?>
 		<div <?php echo $block_attrs;?>>
 		<?php foreach ( $quotes['quotes'] as $quote ) {
-			$text = new WP_Block_Parser_Block(
-				'prc-block/quote-sorter-quote-text',
-				$quote,
-				[],
-				'',
-				''
+			$block_instance = $block->parsed_block;
+
+			// Set the block name to one that does not correspond to an existing registered block.
+			// This ensures that for the inner instances of the Post Template block, we do not render any block supports.
+			$block_instance['blockName'] = 'core/null';
+
+			// Render the inner blocks of the Post Template block with `dynamic` set to `false` to prevent calling
+			// `render_callback` and ensure that no wrapper markup is included.
+			$block_content = (
+				new WP_Block(
+					$block_instance,
+					array(
+						'prc-block/quote-sorter/quote' => $quote['quote'],
+						'prc-block/quote-sorter/attribution'  => $quote['attribution'],
+					)
+				)
+			)->render( array( 'dynamic' => false ) );
+			echo wp_sprintf(
+				'<div %1$s>%2$s</div>',
+				$block_attrs,
+				$block_content
 			);
-			$attribute = new WP_Block_Parser_Block(
-				'prc-block/quote-sorter-quote-attribution',
-				$quote,
-				[],
-				'',
-				''
-			);
-			// render quote text and wrap in div
-			?>
-			<div class="quote-component active-quote wp-block-prc-block-quote-sorter-quote">
-				<?php echo render_block( (array)$text ); ?>
-				<?php echo render_block( (array)$attribute ); ?>
-			</div>
-			<?php
-			// echo render_block((array) $text);
-			// echo render_block((array) $attribute);
 		} ?>
 		<div class="wp-block-prc-block-quote-sorter-no-results hidden"><?php echo wp_kses($attributes['noResultsMessage'], 'post') ;?></div>
 		</div>

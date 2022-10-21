@@ -4,7 +4,7 @@
 	"name": "prc-block/quote-sorter-quote-template",
 	"title": "Quote Sorter - Quote Template",
 	"icon": "list-view",
-	"description": "Template for quotes in the Quote Sorter block",
+	"description": "Template for quotes in the Quote Sorter block. Preview shows up to 10 quotes.",
 	"category": "layout",
 	"attributes": {
 		"style": {

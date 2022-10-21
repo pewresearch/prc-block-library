@@ -18,25 +18,16 @@ class Quote_Sorter_Quote_Text_Block extends PRC_Block_Library {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 
-		$attributionStyles = array_key_exists('prc-block/quote-sorter-attribution-styles', $block->context) ? $block->context['prc-block/quote-sorter-attribution-styles'] : false;
 		$quoteArt = array_key_exists('prc-block/quote-sorter-art', $block->context) ? $block->context['prc-block/quote-sorter-art'] : false;
-		$block_attrs = get_block_wrapper_attributes(
-			array(
-				'class' => $attributes['class'] . ' quote-component active-quote wp-block-prc-block-quote-sorter-quote',
-				'data-typologies' => wp_json_encode($attributes['props']),
-				'data-attributions' => wp_json_encode($block->context),
-			)
+		$block_attrs = get_block_wrapper_attributes();
+		$quote_text = array_key_exists('prc-block/quote-sorter/quote', $block->context) ? $block->context['prc-block/quote-sorter/quote'] : '';
+		do_action('qm/debug', $quote_text);
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			$block_attrs,
+			$quote_text
 		);
-		ob_start();
-		echo '<!-- .wp-block-prc-block-quote-sorter-quote -->';
-		?>
 
-		<div <?php echo $block_attrs;?> >
-			“<?php echo $attributes['quote']; ?>”
-		</div>
-		<?php
-		echo '<!-- /.wp-block-prc-block-quote-sorter-quote -->';
-		return ob_get_clean();
 	}
 
 	public function register_block() {

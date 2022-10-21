@@ -178,7 +178,7 @@ class Quote_Sorter_Controller extends PRC_Block_Library {
 		if ( is_admin() ) {
 			return;
 		}
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		$enqueue->enqueue(
 			'frontend',
 			'quote-sorter-controller',
@@ -211,11 +211,13 @@ class Quote_Sorter_Controller extends PRC_Block_Library {
 			)
 		);
 		$script_handle = array_pop( $registered['js'] )['handle'];
-
+		$style_handle = array_pop( $registered['css'] )['handle'];
 		register_block_type_from_metadata(
 			plugin_dir_path( __DIR__ ) . '/controller',
 			array(
 				'editor_script'   => $script_handle,
+				'style' 		  => $style_handle,
+				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
 	}
