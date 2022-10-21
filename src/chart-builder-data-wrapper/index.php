@@ -37,8 +37,8 @@ class PRC_Chart_Builder_Data_Wrapper extends PRC_Block_Library {
 		}
 	}
 
-	public function render_chart_builder_data_wrapper( $attributes, $content = '', $block ) {
-		if ( empty( $block->inner_blocks ) ) {
+	public function render_chart_builder_data_wrapper( $attributes, $content = '', $block = null ) {
+		if ( null === $block || empty( $block->inner_blocks ) ) {
 			return '';
 		}
 		$id = $attributes['id'];

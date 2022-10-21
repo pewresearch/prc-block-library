@@ -1,6 +1,6 @@
 {
 	"name": "prc-block/chart-builder",
-	"category": "layout",
+	"category": "editorial-product",
 	"parent": ["prc-block/chart-builder-data-wrapper"],
 	"attributes": {
 		"id": {

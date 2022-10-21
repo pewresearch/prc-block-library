@@ -104,6 +104,27 @@ function Action({
 	);
 }
 
+function Checkbox({ className, style, value, checked, label, name, onChange }) {
+	return (
+		<div
+			className={className}
+			style={parseStylesString(style)}
+			onClick={() => onChange(value)}
+			role="checkbox"
+			aria-checked={checked}
+			tabIndex="0"
+			onKeyDown={(event) => {
+				if ('Enter' === event.key) {
+					onChange(value);
+				}
+			}}
+		>
+			<input type="checkbox" name={name} value={value} checked={checked} />
+			<label aria-controls={`${name}`}>{label}</label>
+		</div>
+	);
+}
+
 function Checkboxes({ checkboxes = [], selected = [], onChange }) {
 	const [boxes, setBoxes] = useState([]);
 
@@ -130,32 +151,19 @@ function Checkboxes({ checkboxes = [], selected = [], onChange }) {
 
 	return (
 		<Fragment>
-			{boxes.map(({ className, style, label, name, value }) => {
-				const checked = selected.includes(value);
-				return (
-					<div
-						className={className}
-						style={parseStylesString(style)}
-						onClick={() => onChange(value)}
-						role="checkbox"
-						aria-checked={checked}
-						tabIndex="0"
-						onKeyDown={(event) => {
-							if ('Enter' === event.key) {
-								onChange(value);
-							}
-						}}
-					>
-						<input
-							type="checkbox"
-							name={name}
-							value={value}
-							checked={checked}
-						/>
-						<label aria-controls={`${name}`}>{label}</label>
-					</div>
-				);
-			})}
+			{boxes.map(({ className, style, label, name, value }) => (
+				<Checkbox
+					{...{
+						className,
+						style,
+						label,
+						name,
+						value,
+						checked: selected.includes(value),
+						onChange,
+					}}
+				/>
+			))}
 		</Fragment>
 	);
 }
@@ -177,6 +185,7 @@ export default function Form({
 			initialChecked.push(checkbox.getAttribute('value'));
 		}
 	});
+	const [toggleAll, setToggleAll] = useState(false);
 	const [selected, updateSelection] = useState(initialChecked);
 	const [processing, setProcessing] = useState(false);
 	const [disabled, setDisabled] = useState(false);

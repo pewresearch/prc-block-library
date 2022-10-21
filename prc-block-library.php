@@ -153,6 +153,11 @@ class PRC_Block_Library {
 					'slug'  => 'marketing',
 					'title' => __( 'Marketing', 'prc-block-library-categories' ),
 				),
+				array(
+					'slug' => 'editorial-product',
+					'title' => __( 'Editorial Product', 'prc-block-library-categories' ),
+					'icon' => 'superhero-alt'
+				)
 			)
 		);
 	}
@@ -238,7 +243,7 @@ class PRC_Block_Library {
 		return $allowed_tags;
 	}
 
-	public function render_accordion_section( $label, $link = false, $inner_blocks ) {
+	public function render_accordion_section( $label, $link = false, $inner_blocks = array() ) {
 		$title_class_names   = classNames(
 			'title',
 			array(

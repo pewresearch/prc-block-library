@@ -5,7 +5,7 @@
 	"title": "Roper DB Search",
 	"description": "A frontend for the Roper DB Search API",
 	"keywords": [ "database", "roper", "cornell", "search", "polling" ],
-	"category": "layout",
+	"category": "editorial-product",
 	"attributes": {
 		"subText": {
             "type": "string",

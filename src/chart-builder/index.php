@@ -20,8 +20,8 @@ class PRC_Chart_Builder extends PRC_Block_Library {
 		return null;
 	}
 
-	public function render_chart_builder( $attributes, $content = '', $block ) {
-		if ( is_admin() ) {
+	public function render_chart_builder( $attributes, $content = '', $block = null ) {
+		if ( is_admin() || null === $block ) {
 			return $content;
 		}
 		$script_handle = $this->enqueue_frontend();

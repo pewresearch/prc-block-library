@@ -20,13 +20,12 @@ class PRC_Progress_Bar extends PRC_Block_Library {
 		return null;
 	}
 
-	public function render_progress_bar( $attributes, $content = '', $block ) {
+	public function render_progress_bar( $attributes, $content = '' ) {
 		if ( is_admin() ) {
 			return $content;
 		}
+
 		$this->enqueue_frontend();
-		$attrs         = wp_json_encode( $block->attributes );
-		$post_id 	   = get_the_ID();
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
@@ -45,7 +44,10 @@ class PRC_Progress_Bar extends PRC_Block_Library {
 				)
 		);
 
-		return wp_kses( "<div {$wrapper_attributes}><div class='ui active centered inline loader'></div></div>", 'post' );
+		return wp_sprintf(
+			'<div %1$s><div class="ui active centered inline loader"></div></div>',
+			$wrapper_attributes
+		);
 	}
 
 	public function register_frontend() {
