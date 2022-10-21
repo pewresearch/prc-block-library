@@ -22,8 +22,6 @@ class Core_Query extends PRC_Block_Library {
 		}
 	}
 
-
-
 	public function default_query_args($query, $block, $page) {
 		$query['post_status'] = array('publish', 'hidden_from_search');
 		return $query;
