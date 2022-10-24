@@ -55,7 +55,7 @@ class Quote_Sorter_Dropdown extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/dropdown',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				// 'style'           => array_pop( $registered['css'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

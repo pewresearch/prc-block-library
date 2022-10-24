@@ -57,7 +57,7 @@ domReady(() => {
 			};
 			const checkEmpty = () => {
 				const quotes = parent.querySelectorAll(
-					`${rootClass}-quote.active-quote`,
+					`.wp-block-prc-block-quote-sorter-quote-template.active-quote`,
 				);
 				if (0 === quotes.length) {
 					parent
@@ -80,12 +80,16 @@ domReady(() => {
 				const activeSearchStrings = [...allSearchBars]
 					.map((el) => el.dataset.searchString)
 					.filter((e) => e);
-				const quotes = parent.querySelectorAll(`${rootClass}-quote`);
+				const quotes = parent.querySelectorAll(
+					'.wp-block-prc-block-quote-sorter-quote-template',
+				);
+				console.log({ activeFilters, activeSearchStrings });
 				quotes.forEach((quote) => {
 					const quoteText = quote
-						.querySelector('.content .description')
+						.querySelector('.wp-block-prc-block-quote-sorter-quote-text')
 						.textContent.toLowerCase();
 					const quoteTypologies = JSON.parse(quote.dataset.typologies);
+					console.log({ quoteTypologies });
 					// iterate over the active filters and make sure that every item the active filter can be found in the quote typologies
 					const containsAllTypologies = activeFilters.every((element) =>
 						quoteTypologies.includes(element),

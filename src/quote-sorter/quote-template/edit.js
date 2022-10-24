@@ -69,7 +69,7 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 
 	const [activeBlockContextId, setActiveBlockContextId] = useState(null);
 	const [entries, setEntries] = useState(false);
-
+	const [currentSorterId, setCurrentSorterId] = useState(null);
 	const { blocks } = useSelect(
 		(select) => {
 			const { getBlocks } = select(blockEditorStore);
@@ -81,7 +81,7 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 	);
 
 	useEffect(() => {
-		if (sorterId) {
+		if (sorterId !== currentSorterId) {
 			getQuotes(sorterId);
 		}
 	}, [sorterId]);
@@ -96,8 +96,8 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 				if (undefined !== quotes) {
 					const quoteArray = [...quotes];
 					const firstTen = quoteArray.splice(0, 10);
-					console.log({ firstTen });
 					setEntries([...firstTen]);
+					setCurrentSorterId(sorterId);
 				}
 			})
 			.catch((error) => {

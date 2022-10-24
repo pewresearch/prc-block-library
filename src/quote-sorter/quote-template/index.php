@@ -39,7 +39,7 @@ class Quote_Sorter_Quote_Template_Block extends PRC_Block_Library {
 		// for loop through quotes
 		ob_start();
 		?>
-		<div <?php echo $block_attrs;?>>
+		<div class="wp-block-prc-block-quote-sorter-quotes">
 		<?php foreach ( $quotes['quotes'] as $quote ) {
 			$block_instance = $block->parsed_block;
 
@@ -58,9 +58,15 @@ class Quote_Sorter_Quote_Template_Block extends PRC_Block_Library {
 					)
 				)
 			)->render( array( 'dynamic' => false ) );
+
+			// get the props array, add quotation marks, then stringify
+			// print_r($quote['props'][0]);
+			$typologies_props = $quote['props'];
+			$typologies_str = $typologies_props ? '"' . implode('","', $quote['props']) . '"' : '';
 			echo wp_sprintf(
-				'<div %1$s>%2$s</div>',
+				'<div %1$s data-typologies=\'[%2$s]\'>%3$s</div>',
 				$block_attrs,
+				$typologies_str,
 				$block_content
 			);
 		} ?>
@@ -94,7 +100,7 @@ class Quote_Sorter_Quote_Template_Block extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/quote-template',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				// 'style'           => array_pop( $registered['css'] )['handle'],
+				'style'           => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
