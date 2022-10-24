@@ -13,7 +13,7 @@ const edit = ({ className, context }) => {
 	const blockProps = useBlockProps({
 		className: classnames(className, 'description'),
 	});
-	return <div {...blockProps}>{quote}</div>;
+	return <div {...blockProps}>“{quote}”</div>;
 };
 
 export default edit;

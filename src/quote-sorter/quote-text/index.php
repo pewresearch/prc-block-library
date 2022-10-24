@@ -23,7 +23,7 @@ class Quote_Sorter_Quote_Text_Block extends PRC_Block_Library {
 		$quote_text = array_key_exists('prc-block/quote-sorter/quote', $block->context) ? $block->context['prc-block/quote-sorter/quote'] : '';
 		do_action('qm/debug', $quote_text);
 		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
+			'<div %1$s>“%2$s”</div>',
 			$block_attrs,
 			$quote_text
 		);
