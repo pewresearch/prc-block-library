@@ -60,14 +60,39 @@ function Action({
 	input = null,
 	button = null,
 	value = null,
+	error = false,
+	success = false,
 	processing = false,
 	disabled = false,
 	onChange = () => {},
-	toggleCaptchaDisplay = () => {},
+	setToken = () => {},
 }) {
 	if (null === input || null === button) {
 		return null;
 	}
+	const buttonClassNames = classnames(button.className, {
+		'is-processing': processing,
+		'is-disabled': disabled,
+		'has-error': error,
+		'has-success': success,
+	});
+
+	const [buttonText, setButtonText] = useState(button.text);
+
+	useEffect(() => {
+		if (processing) {
+			setButtonText('Processing');
+		} else if (error) {
+			setButtonText('Error');
+		} else if (success) {
+			setButtonText('Success');
+		} else {
+			setButtonText(button.text);
+		}
+	}, [processing, error, success]);
+
+	const captchaRef = useRef(null);
+
 	return (
 		<div className={className} style={style}>
 			<input
@@ -78,26 +103,34 @@ function Action({
 				value={value}
 				onChange={(event) => onChange(event.target.value)}
 			/>
+			<HCaptcha
+				sitekey={CAPTCHA_SITE_KEY}
+				theme="light"
+				ref={captchaRef}
+				onVerify={(t) => {
+					setToken(t);
+				}}
+				onOpen={() => {
+					hackCaptchaCheckboxStyle();
+				}}
+			/>
 			<button
 				type="submit"
-				className="wp-block-button"
+				className={button.wrapperClassName}
 				disabled={processing || disabled}
 				style={{
-					background: 'none',
-					border: 'none',
-					padding: 0,
-					fontSize: 'inherit',
 					opacity: processing || disabled ? 0.5 : 1,
+					...button.wrapperStyle,
 				}}
 				onClick={(e) => {
 					e.preventDefault();
 					if (false === disabled) {
-						toggleCaptchaDisplay();
+						captchaRef.current.execute();
 					}
 				}}
 			>
-				<span style={button.style} className={button.className}>
-					{button.text}
+				<span style={button.style} className={buttonClassNames}>
+					{buttonText}
 				</span>
 			</button>
 		</div>
@@ -129,6 +162,7 @@ function Checkboxes({ checkboxes = [], selected = [], onChange }) {
 	const [boxes, setBoxes] = useState([]);
 
 	useEffect(() => {
+		// Get the first checkbox.
 		checkboxes.forEach((checkbox) => {
 			const className = checkbox.getAttribute('class') || '';
 			const style = checkbox.getAttribute('style') || '';
@@ -145,6 +179,7 @@ function Checkboxes({ checkboxes = [], selected = [], onChange }) {
 				name,
 				value,
 			};
+
 			setBoxes((oldBoxes) => [...oldBoxes, obj]);
 		});
 	}, [checkboxes]);
@@ -180,45 +215,37 @@ export default function Form({
 }) {
 	// get the values from the already "checked" checkboxes.
 	const initialChecked = [];
+	const allCheckboxValues = [];
 	checkboxes.forEach((checkbox) => {
-		if (checkbox.getAttribute('checked')) {
+		console.log('CHECKBOX=', checkbox);
+		const inputElm = checkbox.querySelector('input');
+		if (inputElm.getAttribute('checked')) {
 			initialChecked.push(checkbox.getAttribute('value'));
 		}
+		allCheckboxValues.push(inputElm.getAttribute('value'));
 	});
-	const [toggleAll, setToggleAll] = useState(false);
+
 	const [selected, updateSelection] = useState(initialChecked);
 	const [processing, setProcessing] = useState(false);
 	const [disabled, setDisabled] = useState(false);
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [value, setValue] = useState(null);
-	const [buttonText, setButtonText] = useState(action.button.text);
 
 	// Captcha:
 	const [token, setToken] = useState(false);
-	const [displayCaptcha, setCaptchaDisplay] = useState(false);
-	const toggleCaptchaDisplay = () => setCaptchaDisplay(!displayCaptcha);
-	const captchaRef = useRef(null);
-
-	// const buttonClassNames = classnames(button.className, {
-	// 	'is-processing': processing,
-	// 	'is-disabled': disabled,
-	// 	'has-error': error,
-	// 	'has-success': success,
-	// });
 
 	const onChange = (newValue) => {
 		setValue(newValue);
 	};
 
 	useEffect(() => {
-		console.log('Form value...', value);
-		if (value) {
+		if (token) {
 			setDisabled(false);
 		} else {
 			setDisabled(true);
 		}
-	}, [value]);
+	}, [token]);
 
 	return (
 		<form className={className}>
@@ -226,34 +253,30 @@ export default function Form({
 				checkboxes={checkboxes}
 				selected={selected}
 				onChange={(v) => {
-					if (selected.includes(v)) {
+					if ('select-all' === v) {
+						console.log('Select all...', allCheckboxValues);
+						if (selected.length === allCheckboxValues.length) {
+							updateSelection([]);
+						} else {
+							updateSelection(allCheckboxValues);
+						}
+					} else if (selected.includes(v)) {
 						updateSelection(selected.filter((e) => e !== v));
 					} else {
 						updateSelection([...selected, v]);
 					}
 				}}
 			/>
-			{displayCaptcha && (
-				<HCaptcha
-					sitekey={CAPTCHA_SITE_KEY}
-					theme="light"
-					ref={captchaRef}
-					onVerify={(t) => {
-						setToken(t);
-					}}
-					onOpen={() => {
-						hackCaptchaCheckboxStyle();
-					}}
-				/>
-			)}
 			<Action
 				{...{
 					...action,
 					processing,
 					disabled,
+					error,
+					success,
 					value,
 					onChange,
-					toggleCaptchaDisplay,
+					setToken,
 				}}
 			/>
 		</form>

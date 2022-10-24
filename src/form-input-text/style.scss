@@ -1,11 +1,15 @@
 .wp-block-prc-block-form-input-text {
+	--border-color: rgba(0, 0, 0, 0.2);
+	--wp--custom--border-radius: 3px;
+
 	flex-grow: 1;
 	text-align: left;
 	vertical-align: top;
 	-webkit-appearance: none;
-	padding: calc(0.667em + 2px) calc(1.333em + 2px); // cribbed from core/button styling.
+	padding: 9px 13px; // cribbed from core/button styling.
 	border: 1px solid transparent;
-	border-radius: 3px;
+	border-color: var(--border-color);
+	border-radius: var(--wp--custom--border-radius);
 	box-shadow: inset 0 0 0 0 transparent;
 	box-sizing: border-box;
 	margin: 0;

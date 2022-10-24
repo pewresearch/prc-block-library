@@ -30,7 +30,10 @@ domReady(() => {
 		const inputStyles = input.getAttribute('style') || '';
 		const inputClasses = input.getAttribute('class') || '';
 		// Button
+		const buttonOuter = groupBlock.querySelector('.wp-block-button');
 		const button = groupBlock.querySelector('.wp-block-button__link');
+		const buttonWrapperClasses = buttonOuter.getAttribute('class') || '';
+		const buttonWrapperStyles = buttonOuter.getAttribute('style') || '';
 		const buttonStyles = button.getAttribute('style') || '';
 		const buttonClasses = button.getAttribute('class') || '';
 
@@ -54,6 +57,8 @@ domReady(() => {
 							placeholder: input.getAttribute('placeholder'),
 						},
 						button: {
+							wrapperClassName: buttonWrapperClasses,
+							wrapperStyle: parseStylesString(buttonWrapperStyles),
 							style: parseStylesString(buttonStyles),
 							className: buttonClasses,
 							text: button.innerText,

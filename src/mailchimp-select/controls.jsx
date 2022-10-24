@@ -73,6 +73,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 			console.log('new block is: ', newBlock, clientId);
 			insertBlock(newBlock, false, clientId, false);
 		}
+
 		setAttributes({ interests: tmp });
 		setSelected([...tmp]);
 	};
