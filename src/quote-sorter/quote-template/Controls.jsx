@@ -39,47 +39,6 @@ function Controls({ attributes, setAttributes }) {
 						onChange={(value) => setAttributes({ noResultsMessage: value })}
 					/>
 				</PanelBody>
-				<PanelBody title={__('Quote Wall Styles')}>
-					<ToggleControl
-						label={__('Use custom attribution styles')}
-						help={__(
-							'If checked, will apply custom styling to attribution element.',
-						)}
-						checked={attributes.customAttributionStyles}
-						onChange={() =>
-							setAttributes({
-								customAttributionStyles: !attributes.customAttributionStyles,
-							})
-						}
-					/>
-					<ColorPalette
-						label={__('Text Color')}
-						colors={themeSettings.color.palette.theme}
-						color={attributes.attributionStyles.color}
-						disabled={!attributes.customAttributionStyles}
-						onChange={(c) =>
-							setAttributes({
-								attributionStyles: {
-									...attributes.attributionStyles,
-									color: c,
-								},
-							})
-						}
-					/>
-					{/* <SelectControl
-						label="Font Size"
-						value={attributes.attributionStyles.fontSize}
-						options={themeSettings.typography.sizes}
-						onChange={(s) =>
-							setAttributes({
-								attributionStyles: {
-									...attributes.attributionStyles,
-									fontSize: s,
-								},
-							})
-						}
-					/> */}
-				</PanelBody>
 			</InspectorControls>
 			<InspectorAdvancedControls />
 		</Fragment>

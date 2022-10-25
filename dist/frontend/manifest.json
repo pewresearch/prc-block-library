@@ -37,8 +37,8 @@
   "popup-controller.js.map": "frontend/popup-controller-0d8d1200.js.map",
   "progress-bar.js": "frontend/progress-bar-db9cb3d2.js",
   "progress-bar.js.map": "frontend/progress-bar-db9cb3d2.js.map",
-  "quote-sorter-controller.css": "frontend/quote-sorter-controller-dfa38c9c.css",
-  "quote-sorter-controller.css.map": "frontend/quote-sorter-controller-dfa38c9c.css.map",
+  "quote-sorter-controller.css": "frontend/quote-sorter-controller-a79cc685.css",
+  "quote-sorter-controller.css.map": "frontend/quote-sorter-controller-a79cc685.css.map",
   "quote-sorter-controller.js": "frontend/quote-sorter-controller-5cba07f5.js",
   "quote-sorter-controller.js.map": "frontend/quote-sorter-controller-5cba07f5.js.map",
   "runtime.js": "frontend/runtime-24ad086e.js",
@@ -297,10 +297,10 @@
           "frontend/quote-sorter-controller-5cba07f5.js.map"
         ],
         "css": [
-          "frontend/quote-sorter-controller-dfa38c9c.css"
+          "frontend/quote-sorter-controller-a79cc685.css"
         ],
         "css.map": [
-          "frontend/quote-sorter-controller-dfa38c9c.css.map"
+          "frontend/quote-sorter-controller-a79cc685.css.map"
         ]
       }
     },

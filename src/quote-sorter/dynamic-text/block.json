@@ -11,9 +11,28 @@
 		},
 		"dynamicText": {
 			"type": "string"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"color": {
+					"text": "#2a2a2a"
+				},
+				"typography": {
+					"fontSize": "large",
+					"lineHeight": "160%",
+					"fontFamily": "serif",
+					"fontStyle": "italic"
+				}
+			}
+		},
+		"align": {
+			"type": "string",
+			"default": "left"
 		}
 	},
 	"supports": {
+		"align": true,
 		"color": {
 			"background": true,
 			"text": true

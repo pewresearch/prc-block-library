@@ -1,12 +1,32 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "prc-block/quote-sorter-quote-text",
 	"title": "Quote Sorter – Quote Text",
 	"icon": "format-quote",
 	"description": "Child block displaying a single quote",
 	"category": "layout",
-	"attributes": {},
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"color": {
+					"text": "#2a2a2a"
+				},
+				"typography": {
+					"fontSize": "large",
+					"lineHeight": 1.8,
+					"fontFamily": "serif"
+				}
+			}
+		},
+		"align": {
+			"type": "string",
+			"default": "center"
+		}
+	},
 	"supports": {
+		"align": true,
 		"color": {
 			"background": true,
 			"text": true
