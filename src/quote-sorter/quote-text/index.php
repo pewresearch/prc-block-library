@@ -50,7 +50,7 @@ class Quote_Sorter_Quote_Text_Block extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/quote-text',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				// 'style'			  => array_pop( $registered['css'] )['handle'],
+				'style'			  => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

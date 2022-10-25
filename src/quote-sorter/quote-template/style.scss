@@ -34,7 +34,7 @@ $serif: var(--wp--preset--font-family--serif);
 
 .wp-block-prc-block-quote-sorter-quote-template,
 .wp-block-prc-block-quote {
-	padding-bottom: 20px;
+	padding: 1rem;
 	display: inline-block;
 	width: 100%;
 	box-shadow: none;
@@ -56,12 +56,12 @@ $serif: var(--wp--preset--font-family--serif);
 			background-size: contain;
 			position: absolute;
 			left: 0px;
-			top: 25px;
+			top: 0px;
 			height: 40px;
 		}
 	}
 	&.active-quote ~ .active-quote {
-		padding-left: inherit;
+		padding-left: 1rem;
 		&:before {
 			height: 0px;
 			width: 0px;

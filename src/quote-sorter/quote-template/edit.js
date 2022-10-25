@@ -16,6 +16,8 @@ import {
 import { Spinner } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 
+import Controls from './Controls.jsx';
+
 const TEMPLATE = [
 	['prc-block/quote-sorter-quote-text'],
 	['prc-block/quote-sorter-quote-attribution'],
@@ -64,7 +66,12 @@ function QuoteTemplateBlockPreview({
 
 const MemoizedQuoteTemplateBlockPreview = memo(QuoteTemplateBlockPreview);
 
-export default function QuoteTemplateEdit({ clientId, context }) {
+export default function QuoteTemplateEdit({
+	clientId,
+	context,
+	attributes,
+	setAttributes,
+}) {
 	const sorterId = context['prc-block/quote-sorter-hash'];
 
 	const [activeBlockContextId, setActiveBlockContextId] = useState(null);
@@ -158,6 +165,7 @@ export default function QuoteTemplateEdit({ clientId, context }) {
 						</BlockContextProvider>
 					);
 				})}
+			<Controls attributes={attributes} setAttributes={setAttributes} />
 		</div>
 	);
 }

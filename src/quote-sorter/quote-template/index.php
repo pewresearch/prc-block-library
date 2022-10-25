@@ -17,9 +17,12 @@ class Quote_Sorter_Quote_Template_Block extends PRC_Block_Library {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$block_attrs = get_block_wrapper_attributes(array());
 		// query db off of this hash
 		$hash = array_key_exists('prc-block/quote-sorter-hash', $block->context) ? $block->context['prc-block/quote-sorter-hash'] : false;
+		$hasQuoteArt = $attributes['includeQuoteArt'];
+		$block_attrs = get_block_wrapper_attributes( [
+			'class' => 'active-quote ' . ( $hasQuoteArt ? '' : 'no-art' ),
+		]);
 		if ( false === $hash) {
 			return new WP_Error( 'no-hash', 'No hash found in block context.' );
 		}

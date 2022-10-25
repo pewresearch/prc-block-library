@@ -8,15 +8,12 @@ import {
 	InspectorAdvancedControls,
 } from '@wordpress/block-editor';
 import {
-	ColorPalette,
 	PanelBody,
 	TextareaControl,
 	ToggleControl,
 } from '@wordpress/components';
 
 // eslint-disable-next-line no-undef
-const themeSettings = JSON.parse(prcThemeJsonSettings);
-console.log({ themeSettings });
 function Controls({ attributes, setAttributes }) {
 	return (
 		<Fragment>

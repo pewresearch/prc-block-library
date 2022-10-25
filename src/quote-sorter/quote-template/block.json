@@ -70,7 +70,6 @@
 	"usesContext": ["prc-block/quote-sorter-hash"],
 	"ancestor": ["prc-block/quote-sorter"],
 	"providesContext": {
-		"prc-block/quote-sorter-art": "includeQuoteArt",
-		"prc-block/quote-sorter-attribution-styles": "attributionStyles"
+		"prc-block/quote-sorter/art": "includeQuoteArt"
 	}
 }
