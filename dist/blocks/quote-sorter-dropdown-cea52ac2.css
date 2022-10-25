@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-prc-block-quote-sorter-dropdown .ui.selection.dropdown{text-transform:none;font-size:16px;border-radius:0 !important;height:44px !important}.wp-block-prc-block-quote-sorter-dropdown .ui.selection.dropdown .menu{border:none !important;border-radius:0 !important}.wp-block-prc-block-quote-sorter-dropdown .ui.selection.dropdown .menu{max-height:unset !important}.wp-block-prc-block-quote-sorter-dropdown .ui.input{width:100%;height:44px !important}.wp-block-prc-block-quote-sorter-dropdown .ui.input input{font-size:16px;border:none;border-radius:0}.wp-block-prc-block-quote-sorter-dropdown.is-style-list-inline{display:flex;flex-direction:column;align-items:center;justify-content:center}.wp-block-prc-block-quote-sorter-dropdown.is-style-list-inline .ui.list{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center}.wp-block-prc-block-quote-sorter-dropdown.is-style-list-inline .ui.list button{margin:0 .5rem .5rem 0;padding:.5rem;border:none}@media(max-width: 425px){.wp-block-prc-block-quote-sorter-dropdown.is-style-list-inline .ui.list{display:grid;grid-template-columns:repeat(2, 1fr);grid-template-rows:auto;grid-column-gap:0px;grid-row-gap:0px}.wp-block-prc-block-quote-sorter-dropdown.is-style-list-inline .ui.list .item{display:flex;align-items:center;justify-content:center;margin-left:0 !important}.wp-block-prc-block-quote-sorter-dropdown.is-style-list-inline .ui.list.reset-filter{grid-template-columns:repeat(1, 1fr)}}
+
+/*# sourceMappingURL=quote-sorter-dropdown-cea52ac2.css.map*/

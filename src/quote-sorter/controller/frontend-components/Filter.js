@@ -38,25 +38,25 @@ function QuoteSorterFilterInline({
 			<List horizontal>
 				{typologies.map((option) => (
 					<List.Item key={option.value}>
-						<Button
-							basic
-							active={selectedValue === option.value}
+						<button
+							type="button"
 							value={option.value}
 							onClick={(e, data) => {
 								console.log({ e, data });
 								onclick(e.target, data.value);
-								setSelectedValue(data.value);
+								setSelectedValue(option.value);
 							}}
 						>
 							{option.label}
-						</Button>
+						</button>
 					</List.Item>
 				))}
 			</List>
 			{includeResetFilter && (
 				<List horizontal className="reset-filter">
 					<List.Item>
-						<Button
+						<button
+							type="button"
 							basic
 							active={'' === selectedValue}
 							onClick={(e) => {
@@ -65,7 +65,7 @@ function QuoteSorterFilterInline({
 							}}
 						>
 							{resetLanguage}
-						</Button>
+						</button>
 					</List.Item>
 				</List>
 			)}

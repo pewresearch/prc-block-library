@@ -6,12 +6,22 @@ import { Fragment } from '@wordpress/element';
 import {
 	InspectorControls,
 	InspectorAdvancedControls,
+	PanelColorSettings,
+	withColors,
 } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
 import Sorter from '../../_shared/Sorter';
 
-function Controls({ attributes, options, setAttributes }) {
+function Controls({
+	attributes,
+	options,
+	setAttributes,
+	activeButtonBackgroundColor,
+	activeButtonTextColor,
+	buttonBackgroundColor,
+	buttonTextColor,
+}) {
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -22,8 +32,7 @@ function Controls({ attributes, options, setAttributes }) {
 						onChange={(value) => setAttributes({ placeholder: value })}
 					/>
 				</PanelBody>
-
-				<PanelBody title={__('Arrange dropdown order')}>
+				<PanelBody title={__('Arrange filter order')}>
 					<Sorter options={options} setAttributes={setAttributes} />
 				</PanelBody>
 				<PanelBody title={__('Filter Reset')}>
@@ -60,6 +69,37 @@ function Controls({ attributes, options, setAttributes }) {
 						onChange={(value) => setAttributes({ dynamicTextBlockId: value })}
 					/>
 				</PanelBody>
+				<PanelColorSettings
+					__experimentalHasMultipleOrigins
+					__experimentalIsRenderedInSidebar
+					title={__('Color')}
+					initialOpen={false}
+					colorSettings={[
+						{
+							value: buttonTextColor,
+							onChange: (value) => setAttributes({ buttonTextColor: value }),
+							label: __('Text'),
+						},
+						{
+							value: buttonBackgroundColor,
+							onChange: (value) =>
+								setAttributes({ buttonBackgroundColor: value }),
+							label: __('Background'),
+						},
+						{
+							value: activeButtonTextColor,
+							onChange: (value) =>
+								setAttributes({ activeButtonTextColor: value }),
+							label: __('Active text'),
+						},
+						{
+							value: activeButtonBackgroundColor,
+							onChange: (value) =>
+								setAttributes({ activeButtonBackgroundColor: value }),
+							label: __('Active background'),
+						},
+					]}
+				/>
 			</InspectorControls>
 			<InspectorAdvancedControls />
 		</Fragment>

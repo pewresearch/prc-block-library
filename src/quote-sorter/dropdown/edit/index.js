@@ -56,22 +56,26 @@ const edit = ({ attributes, className, setAttributes, context }) => {
 				attributes={attributes}
 				options={sortedTypologies}
 				setAttributes={setAttributes}
+				activeButtonBackgroundColor={attributes.activeButtonBackgroundColor}
+				activeButtonTextColor={attributes.activeButtonTextColor}
+				buttonBackgroundColor={attributes.buttonBackgroundColor}
+				buttonTextColor={attributes.buttonTextColor}
 			/>
 			{isStyle('is-style-list-inline', blockProps.className) && (
 				<Fragment>
-					<ButtonGroup className="ui list">
+					<div className="ui list">
 						{sortedTypologies
 							.filter((option) => !option.disabled)
 							.map((option) => (
-								<Button variant="secondary" key={option.value}>
+								<button type="button" variant="secondary" key={option.value}>
 									{option.label}
-								</Button>
+								</button>
 							))}
-					</ButtonGroup>
+					</div>
 					{includeResetFilter && (
-						<Button variant="secondary" key="reset">
+						<button type="button" variant="secondary" key="reset">
 							{resetLanguage}
-						</Button>
+						</button>
 					)}
 				</Fragment>
 			)}
@@ -80,14 +84,14 @@ const edit = ({ attributes, className, setAttributes, context }) => {
 					{sortedTypologies
 						.filter((option) => !option.disabled)
 						.map((option) => (
-							<Button variant="secondary" key={option.value}>
+							<button type="button" variant="secondary" key={option.value}>
 								{option.label}
-							</Button>
+							</button>
 						))}
 					{includeResetFilter && (
-						<Button variant="secondary" key="reset">
+						<button type="button" variant="secondary" key="reset">
 							{resetLanguage}
-						</Button>
+						</button>
 					)}
 				</div>
 			)}

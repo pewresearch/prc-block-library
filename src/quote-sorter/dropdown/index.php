@@ -28,6 +28,8 @@ class Quote_Sorter_Dropdown extends PRC_Block_Library {
 				'data-include-reset-filter' =>$attributes['includeResetFilter'],
 				'data-reset-language' => $attributes['resetLanguage'],
 				'data-dynamic-text-block-id' =>  'quote-sorter-dynamic-' . $attributes['dynamicTextBlockId'],
+				'data-selected-text-color' => $attributes['selectedOptionTextColor'],
+				'data-selected-background-color' => $attributes['selectedOptionBackgroundColor'],
 				)
 		);
 		return wp_kses( "<div {$wrapper_attributes}></div>", 'post' );
