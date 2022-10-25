@@ -28,8 +28,10 @@ class Quote_Sorter_Dropdown extends PRC_Block_Library {
 				'data-include-reset-filter' =>$attributes['includeResetFilter'],
 				'data-reset-language' => $attributes['resetLanguage'],
 				'data-dynamic-text-block-id' =>  'quote-sorter-dynamic-' . $attributes['dynamicTextBlockId'],
-				'data-selected-text-color' => $attributes['selectedOptionTextColor'],
-				'data-selected-background-color' => $attributes['selectedOptionBackgroundColor'],
+				'data-button-text-color' => $attributes['buttonTextColor'],
+				'data-button-background-color' => $attributes['buttonBackgroundColor'],
+				'data-active-button-text-color' => $attributes['activeButtonTextColor'],
+				'data-active-button-background-color' => $attributes['activeButtonBackgroundColor'],
 				)
 		);
 		return wp_kses( "<div {$wrapper_attributes}></div>", 'post' );

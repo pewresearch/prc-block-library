@@ -8,22 +8,6 @@
 		}
 	}
 
-	.wp-block-prc-block-quote-sorter-dropdown {
-		&.is-style-list-inline {
-			.ui.basic.button {
-				padding: 0.5em 1em;
-				box-shadow: none;
-				margin-left: 0px;
-				border-radius: 0;
-				font-size: var(--wp--preset--font-size--medium);
-				&.active {
-					color: var(--wp--preset--color--white) !important;
-					background-color: #5b7344 !important;
-					font-weight: 500 !important;
-				}
-			}
-		}
-	}
 	.show-more {
 		display: grid;
 		place-items: center;

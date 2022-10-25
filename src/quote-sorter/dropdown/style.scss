@@ -27,15 +27,29 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		.ui.list {
+		.button-group {
 			display: inline-flex;
 			flex-wrap: wrap;
 			justify-content: center;
 			align-items: center;
 			button {
-				margin: 0 0.5rem 0.5rem 0;
-				padding: 0.5rem;
+				padding: 0.5em 1em;
+				margin: 0 0.5em 0.5em 0;
+				box-shadow: none;
 				border: none;
+				font-size: var(--wp--preset--font-size--medium);
+				font-weight: 400;
+				&:hover {
+					cursor: pointer;
+					filter: brightness(85%);
+				}
+				&.active {
+					font-weight: 500;
+					&:hover {
+						cursor: pointer;
+						filter: brightness(100%);
+					}
+				}
 			}
 			// media query for mobile
 			@media (max-width: 425px) {

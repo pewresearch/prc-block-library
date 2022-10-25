@@ -49,7 +49,10 @@ const edit = ({ attributes, className, setAttributes, context }) => {
 		orientation: 'vertical',
 		templateLock: false,
 	});
-
+	const buttonStyles = {
+		backgroundColor: attributes.buttonBackgroundColor,
+		color: attributes.buttonTextColor,
+	};
 	return (
 		<div {...innerBlocksProps}>
 			<Controls
@@ -63,33 +66,55 @@ const edit = ({ attributes, className, setAttributes, context }) => {
 			/>
 			{isStyle('is-style-list-inline', blockProps.className) && (
 				<Fragment>
-					<div className="ui list">
+					<div className="button-group">
 						{sortedTypologies
 							.filter((option) => !option.disabled)
 							.map((option) => (
-								<button type="button" variant="secondary" key={option.value}>
+								<button
+									type="button"
+									variant="secondary"
+									key={option.value}
+									style={buttonStyles}
+								>
 									{option.label}
 								</button>
 							))}
 					</div>
 					{includeResetFilter && (
-						<button type="button" variant="secondary" key="reset">
-							{resetLanguage}
-						</button>
+						<div className="button-group">
+							<button
+								type="button"
+								variant="secondary"
+								key="reset"
+								style={buttonStyles}
+							>
+								{resetLanguage}
+							</button>
+						</div>
 					)}
 				</Fragment>
 			)}
 			{isStyle('is-style-list-column', blockProps.className) && (
-				<div className="ui list flex column">
+				<div className="button-group">
 					{sortedTypologies
 						.filter((option) => !option.disabled)
 						.map((option) => (
-							<button type="button" variant="secondary" key={option.value}>
+							<button
+								type="button"
+								variant="secondary"
+								key={option.value}
+								style={buttonStyles}
+							>
 								{option.label}
 							</button>
 						))}
 					{includeResetFilter && (
-						<button type="button" variant="secondary" key="reset">
+						<button
+							type="button"
+							variant="secondary"
+							key="reset"
+							style={buttonStyles}
+						>
 							{resetLanguage}
 						</button>
 					)}

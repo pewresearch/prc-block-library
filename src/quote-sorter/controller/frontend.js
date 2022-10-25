@@ -167,6 +167,12 @@ domReady(() => {
 						);
 					}
 					if (filter.classList.contains('is-style-list-inline')) {
+						const {
+							buttonTextColor,
+							buttonBackgroundColor,
+							activeButtonTextColor,
+							activeButtonBackgroundColor,
+						} = filter.dataset;
 						renderEl = (
 							<QuoteSorterFilterInline
 								typologies={
@@ -177,6 +183,10 @@ domReady(() => {
 								onclick={setFilterValue}
 								includeResetFilter={Boolean(includeResetFilter)}
 								resetLanguage={resetLanguage}
+								buttonTextColor={buttonTextColor}
+								buttonBackgroundColor={buttonBackgroundColor}
+								activeButtonTextColor={activeButtonTextColor}
+								activeButtonBackgroundColor={activeButtonBackgroundColor}
 							/>
 						);
 					}

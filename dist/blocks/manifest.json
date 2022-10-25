@@ -127,10 +127,10 @@
   "query.js.map": "blocks/query-5165fcfe.js.map",
   "quote-sorter-controller.js": "blocks/quote-sorter-controller-31a9e4ea.js",
   "quote-sorter-controller.js.map": "blocks/quote-sorter-controller-31a9e4ea.js.map",
-  "quote-sorter-dropdown.css": "blocks/quote-sorter-dropdown-cea52ac2.css",
-  "quote-sorter-dropdown.css.map": "blocks/quote-sorter-dropdown-cea52ac2.css.map",
-  "quote-sorter-dropdown.js": "blocks/quote-sorter-dropdown-e5e488a6.js",
-  "quote-sorter-dropdown.js.map": "blocks/quote-sorter-dropdown-e5e488a6.js.map",
+  "quote-sorter-dropdown.css": "blocks/quote-sorter-dropdown-ded2894c.css",
+  "quote-sorter-dropdown.css.map": "blocks/quote-sorter-dropdown-ded2894c.css.map",
+  "quote-sorter-dropdown.js": "blocks/quote-sorter-dropdown-a24cff4e.js",
+  "quote-sorter-dropdown.js.map": "blocks/quote-sorter-dropdown-a24cff4e.js.map",
   "quote-sorter-dynamic-text.css": "blocks/quote-sorter-dynamic-text-3e2a82e5.css",
   "quote-sorter-dynamic-text.css.map": "blocks/quote-sorter-dynamic-text-3e2a82e5.css.map",
   "quote-sorter-dynamic-text.js": "blocks/quote-sorter-dynamic-text-afc6a5e8.js",
@@ -920,17 +920,17 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-dropdown-e5e488a6.js"
+          "blocks/quote-sorter-dropdown-a24cff4e.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-dropdown-e5e488a6.js.map"
+          "blocks/quote-sorter-dropdown-a24cff4e.js.map"
         ],
         "css": [
-          "blocks/quote-sorter-dropdown-cea52ac2.css"
+          "blocks/quote-sorter-dropdown-ded2894c.css"
         ],
         "css.map": [
-          "blocks/quote-sorter-dropdown-cea52ac2.css.map"
+          "blocks/quote-sorter-dropdown-ded2894c.css.map"
         ]
       }
     },

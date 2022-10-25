@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /**
  * External dependencies
  */
@@ -31,43 +32,64 @@ function QuoteSorterFilterInline({
 	onclick,
 	includeResetFilter,
 	resetLanguage,
+	buttonTextColor,
+	buttonBackgroundColor,
+	activeButtonTextColor,
+	activeButtonBackgroundColor,
 }) {
 	const [selectedValue, setSelectedValue] = useState('');
+	const setButtonActive = (el) => {
+		el.style.color = activeButtonTextColor;
+		el.style.backgroundColor = activeButtonBackgroundColor;
+		el.classList.add('active');
+		const getSiblings = (node) =>
+			[...node.parentNode.children].filter((c) => c !== node);
+		getSiblings(el).forEach((sibling) => {
+			sibling.style.color = buttonTextColor;
+			sibling.style.backgroundColor = buttonBackgroundColor;
+			sibling.classList.remove('active');
+		});
+	};
 	return (
 		<>
-			<List horizontal>
+			<div className="button-group">
 				{typologies.map((option) => (
-					<List.Item key={option.value}>
-						<button
-							type="button"
-							value={option.value}
-							onClick={(e, data) => {
-								console.log({ e, data });
-								onclick(e.target, data.value);
-								setSelectedValue(option.value);
-							}}
-						>
-							{option.label}
-						</button>
-					</List.Item>
+					<button
+						type="button"
+						value={option.value}
+						style={{
+							color: buttonTextColor,
+							backgroundColor: buttonBackgroundColor,
+						}}
+						onClick={(e) => {
+							console.log({ e, option });
+							onclick(e.target, option.value);
+							setButtonActive(e.target);
+							setSelectedValue(option.value);
+						}}
+					>
+						{option.label}
+					</button>
 				))}
-			</List>
+			</div>
 			{includeResetFilter && (
-				<List horizontal className="reset-filter">
-					<List.Item>
-						<button
-							type="button"
-							basic
-							active={'' === selectedValue}
-							onClick={(e) => {
-								onclick(e.target, '');
-								setSelectedValue('');
-							}}
-						>
-							{resetLanguage}
-						</button>
-					</List.Item>
-				</List>
+				<div className="button-group">
+					<button
+						type="button"
+						basic
+						active={'' === selectedValue}
+						style={{
+							color: buttonTextColor,
+							backgroundColor: buttonBackgroundColor,
+						}}
+						onClick={(e) => {
+							onclick(e.target, '');
+							setSelectedValue('');
+						}}
+					>
+						{resetLanguage}
+					</button>
+				</div>
 			)}
 		</>
 	);
