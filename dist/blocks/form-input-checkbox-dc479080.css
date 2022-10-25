@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-prc-block-form-input-checkbox{display:flex;align-items:center;text-align:left;vertical-align:top;box-sizing:border-box;margin:0;gap:5px}.wp-block-prc-block-form-input-checkbox label,.wp-block-prc-block-form-input-checkbox input[type=checkbox]{cursor:pointer}.wp-block-prc-block-form-input-checkbox input[type=checkbox]{-webkit-appearance:none;appearance:none;background-color:inherit;margin:0;font:inherit;color:var(--wp--preset--color--gray-light);width:1.15em;height:1.15em;border:1px solid currentColor;border-radius:var(--wp--custom--border-radius, 3px);-webkit-transform:translateY(-0.075em);transform:translateY(-0.075em);display:grid;place-content:center}.wp-block-prc-block-form-input-checkbox input[type=checkbox]::before{content:"";margin:0 !important;width:.65em;height:.65em;-webkit-clip-path:polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);clip-path:polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);-webkit-transform:scale(0);transform:scale(0);-webkit-transform-origin:bottom left;transform-origin:bottom left;transition:120ms -webkit-transform ease-in-out;transition:120ms transform ease-in-out;transition:120ms transform ease-in-out, 120ms -webkit-transform ease-in-out;background-color:CanvasText}.wp-block-prc-block-form-input-checkbox input[type=checkbox]:checked::before{-webkit-transform:scale(1);transform:scale(1);float:none}.wp-block-prc-block-form-input-checkbox input[type=checkbox]:focus{outline:max(2px,.15em) solid currentColor;outline-offset:max(2px,.15em)}.wp-block-prc-block-form-input-checkbox input[type=checkbox]:disabled{color:var(--wp--preset--color--gray-medium);cursor:not-allowed}
+
+/*# sourceMappingURL=form-input-checkbox-dc479080.css.map*/

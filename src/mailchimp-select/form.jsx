@@ -8,6 +8,8 @@ import classnames from 'classnames';
  * WordPress Dependencies
  */
 import { useState, useEffect, Fragment, useRef } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
+import { isURL, buildQueryString } from '@wordpress/url';
 
 const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
 
@@ -66,6 +68,7 @@ function Action({
 	disabled = false,
 	onChange = () => {},
 	setToken = () => {},
+	onSubmit = () => {},
 }) {
 	if (null === input || null === button) {
 		return null;
@@ -125,7 +128,7 @@ function Action({
 				onClick={(e) => {
 					e.preventDefault();
 					if (false === disabled) {
-						captchaRef.current.execute();
+						onSubmit();
 					}
 				}}
 			>
@@ -217,10 +220,9 @@ export default function Form({
 	const initialChecked = [];
 	const allCheckboxValues = [];
 	checkboxes.forEach((checkbox) => {
-		console.log('CHECKBOX=', checkbox);
 		const inputElm = checkbox.querySelector('input');
 		if (inputElm.getAttribute('checked')) {
-			initialChecked.push(checkbox.getAttribute('value'));
+			initialChecked.push(inputElm.getAttribute('value'));
 		}
 		allCheckboxValues.push(inputElm.getAttribute('value'));
 	});
@@ -239,13 +241,42 @@ export default function Form({
 		setValue(newValue);
 	};
 
-	useEffect(() => {
-		if (token) {
-			setDisabled(false);
-		} else {
-			setDisabled(true);
+	const onSubmit = () => {
+		const url = document.URL;
+		if (!isURL(url)) {
+			console.error('Invalid URL');
+			return;
 		}
-	}, [token]);
+
+		setProcessing(true);
+
+		const path = buildQueryString({
+			email: value,
+			interests: selected.join(','),
+			captcha_token: token,
+			api_key: 'mailchimp-select',
+			origin_url: url,
+		});
+
+		apiFetch({
+			path: `/prc-api/v2/mailchimp/subscribe/?${path}`,
+			method: 'POST',
+		})
+			.then(() => {
+				setSuccess(true);
+			})
+			.catch((err) => {
+				console.error('Error', err);
+				setError(true);
+			})
+			.finally(() => {
+				setProcessing(false);
+			});
+	};
+
+	useEffect(() => {
+		setDisabled(0 === selected.length || false === token);
+	}, [token, selected]);
 
 	return (
 		<form className={className}>
@@ -254,7 +285,6 @@ export default function Form({
 				selected={selected}
 				onChange={(v) => {
 					if ('select-all' === v) {
-						console.log('Select all...', allCheckboxValues);
 						if (selected.length === allCheckboxValues.length) {
 							updateSelection([]);
 						} else {
@@ -277,6 +307,7 @@ export default function Form({
 					value,
 					onChange,
 					setToken,
+					onSubmit,
 				}}
 			/>
 		</form>

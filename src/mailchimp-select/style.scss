@@ -1,4 +1,11 @@
 .wp-block-prc-block-mailchimp-select {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	input {
+		max-width: 303px;
+		width: 100%;
+	}
 	button {
 		-webkit-appearance: none;
 		appearance: none;

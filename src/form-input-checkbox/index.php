@@ -31,12 +31,10 @@ class Form_Input_Checkbox extends PRC_Block_Library {
 		$type    = array_key_exists( 'type', $attributes ) ? $attributes['type'] : 'checkbox';
 		$value   = array_key_exists( 'value', $attributes ) ? $attributes['value'] : '';
 		$checked = array_key_exists( 'defaultChecked', $attributes ) ? $attributes['defaultChecked'] : false;
-		// $id      = md5( json_encode( $attributes ) );
 
 		$block_attrs = get_block_wrapper_attributes();
 		$input_attrs = array(
 			'type' => $type,
-			// 'id'   => $id,
 			'name' => $name,
 			'value' => $value,
 		);
