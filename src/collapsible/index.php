@@ -81,7 +81,6 @@ class Collapsible extends PRC_Block_Library {
 				'render_callback' => array( $this, 'render_collapsible_block' ),
 			)
 		);
-		do_action('qm/debug', 'Collapsible' . print_r($registered, true));
 	}
 }
 

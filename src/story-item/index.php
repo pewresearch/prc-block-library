@@ -144,7 +144,19 @@ class Story_Item extends PRC_Block_Library {
 					$url = get_post_meta( $post_id, '_news_item_url', true );
 				}
 			} else {
-				$url = get_permalink( $post_id );
+				// First, assume this is a stub post thats slightly malformed.
+				// If that's not the case, then we'll just use the permalink.
+				$url = get_post_meta( $post_id, '_redirect', true );
+				if ( empty( $url ) ) {
+					$url = get_permalink( $post_id );
+				}
+				if ( false === $url ) {
+					do_action('qm/debug', new WP_Error(
+						'401',
+						'Story item malformed, can not find a url for post id: ' . $post_id,
+						$attributes,
+					));
+				}
 			}
 		}
 
