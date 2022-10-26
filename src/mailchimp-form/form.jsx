@@ -14,6 +14,7 @@ import { isURL, buildQueryString } from '@wordpress/url';
 const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
 
 const submitHandler = ({
+	onStart,
 	onSuccess,
 	onError,
 	emailAddress,
@@ -25,6 +26,8 @@ const submitHandler = ({
 		return onError("We couldn't verify you're not a robot. Please try again.");
 	}
 
+	onStart();
+
 	closeCaptcha();
 
 	const email = emailAddress;
@@ -34,16 +37,16 @@ const submitHandler = ({
 		return onError('Invalid URL');
 	}
 
-	const path = `/prc-api/v2/mailchimp/subscribe/?${buildQueryString({
+	const path = buildQueryString({
 		email,
 		captcha_token: captchaToken,
 		interests: interest,
 		api_key: 'mailchimp-form',
 		origin_url: url,
-	})}`;
+	});
 
 	const apiPromise = apiFetch({
-		path,
+		path: `/prc-api/v2/mailchimp/subscribe/?${path}`,
 		method: 'POST',
 	})
 		.then(() => onSuccess())
@@ -79,6 +82,8 @@ export default function Form({
 		placeholder: '',
 	},
 	button = {
+		wrapperClassName: '',
+		wrapperStyle: '',
 		style: '',
 		className: '',
 		text: '',
@@ -95,7 +100,6 @@ export default function Form({
 	const [buttonText, setButtonText] = useState(button.text);
 
 	// Captcha:
-	const [token, setToken] = useState(false);
 	const [displayCaptcha, setCaptchaDisplay] = useState(false);
 	const toggleCaptchaDisplay = () => setCaptchaDisplay(!displayCaptcha);
 	const captchaRef = useRef(null);
@@ -116,37 +120,6 @@ export default function Form({
 		}
 	}, [value]);
 
-	useEffect(() => {
-		if (false !== token && true !== processing) {
-			setProcessing(true);
-			setButtonText('Processing...');
-			submitHandler({
-				onSuccess: () => {
-					setButtonText('Success');
-					setSuccess(true);
-					setProcessing(false);
-					setValue('');
-					setToken(false);
-					setError(false);
-					console.log('Success!');
-					return true;
-				},
-				onError: (e) => {
-					setError(true);
-					setButtonText('Error');
-					setProcessing(false);
-					setToken(false);
-					console.log('Error!', e);
-					return false;
-				},
-				closeCaptcha: () => setCaptchaDisplay(false),
-				emailAddress: value,
-				captchaToken: token,
-				interest: form.segmentId,
-			});
-		}
-	}, [token, processing]);
-
 	return (
 		<form className={className}>
 			{!displayCaptcha && (
@@ -161,14 +134,11 @@ export default function Form({
 					/>
 					<button
 						type="submit"
-						className="wp-block-button"
+						className={button.wrapperClassName}
 						disabled={processing || disabled}
 						style={{
-							background: 'none',
-							border: 'none',
-							padding: 0,
-							fontSize: 'inherit',
 							opacity: processing || disabled ? 0.5 : 1,
+							...button.wrapperStyle,
 						}}
 						onClick={(e) => {
 							e.preventDefault();
@@ -189,7 +159,33 @@ export default function Form({
 					theme="light"
 					ref={captchaRef}
 					onVerify={(t) => {
-						setToken(t);
+						if (false !== t && true !== processing) {
+							submitHandler({
+								onStart: () => {
+									setProcessing(true);
+									setButtonText('Processing...');
+								},
+								onSuccess: () => {
+									setButtonText('Success');
+									setSuccess(true);
+									setProcessing(false);
+									setValue('');
+									setError(false);
+									return true;
+								},
+								onError: (e) => {
+									setError(true);
+									setButtonText('Error');
+									setProcessing(false);
+									console.log('Error!', e);
+									return false;
+								},
+								closeCaptcha: () => setCaptchaDisplay(false),
+								emailAddress: value,
+								captchaToken: t,
+								interest: form.segmentId,
+							});
+						}
 					}}
 					onOpen={() => {
 						hackCaptchaCheckboxStyle();

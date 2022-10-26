@@ -26,6 +26,5 @@
 			"lineHeight": true,
 			"__experimentalFontFamily": true
 		}
-	},
-	"usesContext": ["prc-block/hasDarkBackground"]
+	}
 }

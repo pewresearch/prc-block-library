@@ -2,6 +2,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1em;
+
 	@container (min-width: 362px) {
 		flex-direction: row;
 		input {
@@ -10,8 +11,24 @@
 		}
 	}
 
-	.wp-block-button > .wp-block-button__link.has-success {
-		background-color: green!important;
-		color: white!important;
+	button {
+		-webkit-appearance: none;
+		appearance: none;
+		border: none;
+		margin: 0;
+		padding: 0;
+		background: none;
+		font-size: inherit;
+	}
+
+	.wp-block-button > .wp-block-button__link {
+		&.has-success {
+			background-color: green!important;
+			color: white!important;
+		}
+		&.has-error {
+			background-color: red!important;
+			color: white!important;
+		}
 	}
 }

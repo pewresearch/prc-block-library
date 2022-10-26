@@ -11,7 +11,7 @@ import Controls from './controls';
 
 const ALLOWED_BLOCKS = ['prc-block/form-input-text', 'core/button'];
 
-export default function edit({ attributes, setAttributes, context }) {
+export default function edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps({});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {

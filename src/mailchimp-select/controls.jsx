@@ -47,11 +47,6 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 			if (-1 !== index) {
 				tmp.splice(index, 1);
 			}
-			console.log(
-				'We should go find the block with the value of s and remove it...!!!',
-				innerBlocks,
-				findMatchingBlock(innerBlocks, s.value),
-			);
 			const matchingBlock = findMatchingBlock(innerBlocks, s.value);
 			if (matchingBlock) {
 				// Unlock the block then remove it.
@@ -70,7 +65,6 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 					remove: true,
 				},
 			});
-			console.log('new block is: ', newBlock, clientId);
 			insertBlock(newBlock, false, clientId, false);
 		}
 

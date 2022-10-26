@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment, useState } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**

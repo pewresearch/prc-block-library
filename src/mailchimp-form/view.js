@@ -41,11 +41,15 @@ domReady(() => {
 		const classes = elm.getAttribute('class');
 		const segmentId = elm.getAttribute('data-segment-id');
 
+		// Input
 		const input = elm.querySelector('.wp-block-prc-block-form-input-text');
-		const button = elm.querySelector('.wp-block-button__link');
-		console.log(input, button);
 		const inputStyles = input.getAttribute('style') || '';
 		const inputClasses = input.getAttribute('class') || '';
+		// Button
+		const buttonOuter = elm.querySelector('.wp-block-button');
+		const button = elm.querySelector('.wp-block-button__link');
+		const buttonWrapperClasses = buttonOuter.getAttribute('class') || '';
+		const buttonWrapperStyles = buttonOuter.getAttribute('style') || '';
 		const buttonStyles = button.getAttribute('style') || '';
 		const buttonClasses = button.getAttribute('class') || '';
 
@@ -65,6 +69,8 @@ domReady(() => {
 						placeholder: input.getAttribute('placeholder'),
 					},
 					button: {
+						wrapperClassName: buttonWrapperClasses,
+						wrapperStyle: parseStylesString(buttonWrapperStyles),
 						style: parseStylesString(buttonStyles),
 						className: buttonClasses,
 						text: button.innerText,
