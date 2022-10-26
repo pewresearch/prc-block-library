@@ -123,6 +123,13 @@ export default function QuoteTemplateEdit({
 		}));
 	}, [entries]);
 
+	useEffect(()=> {
+		if (blockContexts.length > 0) {
+			const firstBlockContext = blockContexts[0];
+			setActiveBlockContextId( md5( JSON.stringify(firstBlockContext) ) );
+		}
+	}, [blockContexts]);
+
 	const blockProps = useBlockProps();
 
 	if (!entries) {
