@@ -578,7 +578,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 .wp-block-post-template > li:has(.wp-block-prc-block-story-item) {
 	margin-block-start: 0!important;
 }
-.ui.story.items > article.wp-block-prc-block-story-item,
 .wp-block-post-template > li:has(.wp-block-prc-block-story-item),
 .wp-block-group:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
 .wp-block-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
@@ -587,16 +586,38 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 	border-bottom: $dividedBorder;
 	padding: 21px 0 21px 0;
 
-	&::first-child,
-	&::first-of-type {
+	&:first-child,
+	&:first-of-type {
 		padding-top: 0px;
 	}
-	&::last-child {
+	&:last-child {
 		padding-bottom: 0;
 		border-bottom: none;
 	}
-	&::only-of-type,
-	&::only-child {
+	&:only-of-type,
+	&:only-child {
+		padding-top: 0;
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+}
+
+// Fallback consecutive story item styling, specifically for Firefox.
+.ui.story.items > article.wp-block-prc-block-story-item,
+.ui.story.items.wp-block-post-template > li {
+	border-bottom: $dividedBorder;
+	padding: 21px 0 21px 0;
+
+	&:first-child,
+	&:first-of-type {
+		padding-top: 0px;
+	}
+	&:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+	&:only-of-type,
+	&:only-child {
 		padding-top: 0;
 		padding-bottom: 0;
 		border-bottom: none;
