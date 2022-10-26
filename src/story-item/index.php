@@ -11,7 +11,7 @@ use \WPackio as WPackio;
 class Story_Item extends PRC_Block_Library {
 
 	public static $block_name          = 'prc-block/story-item';
-	public static $version             = '4.0.10c';
+	public static $version             = '4.0.10d';
 	public static $css_handle          = false;
 	public static $frontend_js_handle  = false;
 	public static $date_format         = 'M j, Y';
