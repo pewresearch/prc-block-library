@@ -119,6 +119,7 @@ class Quote_Sorter_Controller extends PRC_Block_Library {
 		$existing_hash = $data['hash'];
 		$new_hash = md5( wp_json_encode( $quoteData ) );
 		// if hash is already set in data
+
 		$query = new Quote_Sorter_Query(
 			array(
 				'hash'    => $existing_hash,

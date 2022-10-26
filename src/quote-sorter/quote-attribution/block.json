@@ -27,7 +27,6 @@
 		}
 	},
 	"supports": {
-		"align": true,
 		"color": {
 			"background": true,
 			"text": true

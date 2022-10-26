@@ -88,6 +88,7 @@ export default function QuoteTemplateEdit({
 	);
 
 	useEffect(() => {
+		console.log({ sorterId, currentSorterId });
 		if (sorterId !== currentSorterId) {
 			getQuotes(sorterId);
 		}
@@ -123,10 +124,10 @@ export default function QuoteTemplateEdit({
 		}));
 	}, [entries]);
 
-	useEffect(()=> {
+	useEffect(() => {
 		if (blockContexts.length > 0) {
 			const firstBlockContext = blockContexts[0];
-			setActiveBlockContextId( md5( JSON.stringify(firstBlockContext) ) );
+			setActiveBlockContextId(md5(JSON.stringify(firstBlockContext)));
 		}
 	}, [blockContexts]);
 
@@ -135,7 +136,8 @@ export default function QuoteTemplateEdit({
 	if (!entries) {
 		return (
 			<p {...blockProps}>
-				<Spinner />
+				<p>Add data to populate the quote sorter</p>
+				<Spinner style={{ align: 'center' }} />
 			</p>
 		);
 	}
@@ -152,10 +154,16 @@ export default function QuoteTemplateEdit({
 		<div {...blockProps}>
 			{blockContexts &&
 				blockContexts.map((blockContext, index) => {
-					const contextId = md5( JSON.stringify(blockContext) );
-					console.log("ContextID", contextId);
-					console.log("First Block?", blockContexts[0], md5( JSON.stringify(blockContexts[0]) ));
-					const isVisible = contextId === ( activeBlockContextId || md5( JSON.stringify(blockContexts[0]) ) );
+					const contextId = md5(JSON.stringify(blockContext));
+					console.log('ContextID', contextId);
+					console.log(
+						'First Block?',
+						blockContexts[0],
+						md5(JSON.stringify(blockContexts[0])),
+					);
+					const isVisible =
+						contextId ===
+						(activeBlockContextId || md5(JSON.stringify(blockContexts[0])));
 					return (
 						<BlockContextProvider
 							key={`context-key--${index}`}

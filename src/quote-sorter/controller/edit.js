@@ -16,7 +16,10 @@ const ALLOWED_BLOCKS = [
 	'prc-block/grid',
 	'core/group',
 ];
-const TEMPLATE = [];
+const TEMPLATE = [
+	['prc-block/quote-sorter-search-bar'],
+	['prc-block/quote-sorter-quote-template'],
+];
 
 const edit = ({ attributes, setAttributes }) => {
 	const blockProps = useBlockProps();
