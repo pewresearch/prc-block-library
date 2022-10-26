@@ -155,13 +155,16 @@ export default function QuoteTemplateEdit({
 							{activeBlockContextId === null ||
 							activeBlockContextId === contextId ? (
 								<QuoteTemplateInnerBlocks />
-							) : (
-								<MemoizedQuoteTemplateBlockPreview
-									blocks={blocks}
-									blockContextId={contextId}
-									setActiveBlockContextId={setActiveBlockContextId}
-								/>
-							)}
+							) : null}
+							<MemoizedQuoteTemplateBlockPreview
+								blocks={blocks}
+								blockContextId={contextId}
+								setActiveBlockContextId={setActiveBlockContextId}
+								isHidden={
+									contextId ===
+									( activeBlockContextId || md5(JSON.stringify(blockContexts[0])) )
+								}
+							/>
 						</BlockContextProvider>
 					);
 				})}
