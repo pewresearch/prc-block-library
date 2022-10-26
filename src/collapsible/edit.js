@@ -26,8 +26,8 @@ const TEMPLATE = [['core/paragraph', {}]];
 
 function Icon({ onToggle, caretStyle = false }) {
 	const iconSet = caretStyle
-		? ['fa-solid fa-caret-down', 'fa-solid fa-caret-up']
-		: ['fa-thin fa-circle-minus', 'fa-thin fa-circle-plus'];
+		? ['icon caret right', 'icon caret down']
+		: ['icon outline plus circle', 'icon outline minus circle'];
 
 	return (
 		<button
@@ -53,6 +53,7 @@ const edit = ({ attributes, setAttributes }) => {
 
 	const [isOpen, setOpen] = useState(true);
 
+	// Convert to an array of classnames so we can easily check via `includes()`.
 	const style = undefined !== className ? className.split(' ') : [];
 
 	const blockProps = useBlockProps({
@@ -86,7 +87,7 @@ const edit = ({ attributes, setAttributes }) => {
 					onToggle={() => {
 						setOpen(!isOpen);
 					}}
-					caretStyle={style.includes('caret')}
+					caretStyle={style.includes('is-style-caret')}
 				/>
 			</div>
 			<div className="wp-block-prc-block-collapsible__content">

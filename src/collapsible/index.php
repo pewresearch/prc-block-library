@@ -32,10 +32,13 @@ class Collapsible extends PRC_Block_Library {
 			)
 		);
 
-		$starting_icon = 'plus circle outline';
+		$classnames = array_key_exists('className', $attributes) ? explode(' ', $attributes['className']) : [];
+		$is_caret = in_array('is-style-caret', $classnames);
+
+		$starting_icon = !$is_caret ? 'plus circle outline' : 'caret right';
 
 		return wp_sprintf(
-			'<div %1$s><div class="wp-block-prc-block-collapsible__title">%2$s<div class="wp-block-prc-block-collapsible__icon"><i aria-hidden="true" class="%4$s icon" style="margin-left: 0.5em;"></i></div></div><div class="wp-block-prc-block-collapsible__content">%3$s</div></div>',
+			'<div %1$s><div class="wp-block-prc-block-collapsible__title"><div>%2$s</div><button class="wp-block-prc-block-collapsible__icon"><i aria-hidden="true" class="%4$s icon" style="margin-left: 0.5em;"></i></button></div><div class="wp-block-prc-block-collapsible__content">%3$s</div></div>',
 			get_block_wrapper_attributes(),
 			array_key_exists( 'title', $attributes ) ? $attributes['title'] : 'How we did this',
 			$content,

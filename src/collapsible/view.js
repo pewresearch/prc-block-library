@@ -17,12 +17,20 @@ domReady(() => {
 				const icon = clickHandlerTarget.querySelector(
 					'.wp-block-prc-block-collapsible__icon > .icon',
 				);
+				const isCaret = icon.classList.contains('caret');
+
 				elm.classList.toggle('is-open');
 				// if icon has a class of plus then change to minus
-				if (icon.classList.contains('plus')) {
+				if (isCaret && icon.classList.contains('right')) {
+					icon.classList.remove('right');
+					icon.classList.add('down');
+				} else if (isCaret && icon.classList.contains('down')) {
+					icon.classList.remove('down');
+					icon.classList.add('right');
+				} else if (!isCaret && icon.classList.contains('plus')) {
 					icon.classList.remove('plus');
 					icon.classList.add('minus');
-				} else {
+				} else if (!isCaret && icon.classList.contains('minus')) {
 					icon.classList.remove('minus');
 					icon.classList.add('plus');
 				}

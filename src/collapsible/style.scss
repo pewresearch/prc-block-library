@@ -8,9 +8,11 @@
 	margin-block-end: 1.5em;
 
 	.wp-block-prc-block-collapsible__icon {
+		appearance: none;
 		cursor: pointer;
 		border: none!important;
 		background: transparent!important;
+		padding: 0px!important;
 		.opened {
 			display: none;
 		}

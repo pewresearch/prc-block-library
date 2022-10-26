@@ -7,8 +7,8 @@
   "chart-builder.css.map": "frontend/chart-builder-ddf9d855.css.map",
   "chart-builder.js": "frontend/chart-builder-079dee44.js",
   "chart-builder.js.map": "frontend/chart-builder-079dee44.js.map",
-  "collapsible.js": "frontend/collapsible-3fd6fca6.js",
-  "collapsible.js.map": "frontend/collapsible-3fd6fca6.js.map",
+  "collapsible.js": "frontend/collapsible-5d5725a5.js",
+  "collapsible.js.map": "frontend/collapsible-5d5725a5.js.map",
   "flip-card-controller.js": "frontend/flip-card-controller-e6e0f1ed.js",
   "flip-card-controller.js.map": "frontend/flip-card-controller-e6e0f1ed.js.map",
   "livestream.css": "frontend/livestream-4ecacf9e.css",
@@ -68,11 +68,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/collapsible-3fd6fca6.js"
+          "frontend/collapsible-5d5725a5.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/collapsible-3fd6fca6.js.map"
+          "frontend/collapsible-5d5725a5.js.map"
         ]
       }
     },

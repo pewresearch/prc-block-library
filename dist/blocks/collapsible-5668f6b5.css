@@ -1,0 +1,20 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+.wp-block-prc-block-collapsible{box-sizing:border-box;background-color:#f7f7f1;padding:12px 16px;border-color:rgba(34,36,38,.15);border-style:solid;border-width:1px;-webkit-margin-after:1.5em;margin-block-end:1.5em}.wp-block-prc-block-collapsible .wp-block-prc-block-collapsible__icon{-webkit-appearance:none;appearance:none;cursor:pointer;border:none !important;background:rgba(0,0,0,0) !important}.wp-block-prc-block-collapsible .wp-block-prc-block-collapsible__icon .opened{display:none}.wp-block-prc-block-collapsible .wp-block-prc-block-collapsible__title{display:flex;align-items:center;line-height:160%;font-family:var(--wp--preset--font-family--sans-serif);font-weight:700;font-size:1em;color:rgba(0,0,0,.95)}.wp-block-prc-block-collapsible .wp-block-prc-block-collapsible__content{display:none;padding-top:1em;font-size:14px;font-family:var(--wp--preset--font-family--sans-serif)}.wp-block-prc-block-collapsible:not(.wp-block) .wp-block-prc-block-collapsible__title{cursor:pointer}.wp-block-prc-block-collapsible.is-open .wp-block-prc-block-collapsible__content{display:block}.wp-block-prc-block-collapsible.is-open .wp-block-prc-block-collapsible__icon .closed{display:none}.wp-block-prc-block-collapsible.is-open .wp-block-prc-block-collapsible__icon .opened{display:inline-block}.wp-block-prc-block-collapsible.is-style-caret .wp-block-prc-block-collapsible__title>div,.wp-block-prc-block-collapsible.is-style-caret .wp-block-prc-block-collapsible__title>span{order:2}.wp-block-prc-block-collapsible.is-style-caret .wp-block-prc-block-collapsible__title button{order:1}
+
+/*# sourceMappingURL=collapsible-5668f6b5.css.map*/
