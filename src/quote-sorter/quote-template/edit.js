@@ -145,25 +145,23 @@ export default function QuoteTemplateEdit({
 		<div {...blockProps}>
 			{blockContexts &&
 				blockContexts.map((blockContext, index) => {
-					const contextId = md5(JSON.stringify(blockContext));
-
+					const contextId = md5( JSON.stringify(blockContext) );
+					console.log("ContextID", contextId);
+					console.log("First Block?", blockContexts[0], md5( JSON.stringify(blockContexts[0]) ));
+					const isVisible = contextId === ( activeBlockContextId || md5( JSON.stringify(blockContexts[0]) ) );
 					return (
 						<BlockContextProvider
 							key={`context-key--${index}`}
 							value={blockContext}
 						>
-							{activeBlockContextId === null ||
-							activeBlockContextId === contextId ? (
+							{activeBlockContextId === null || isVisible ? (
 								<QuoteTemplateInnerBlocks />
 							) : null}
 							<MemoizedQuoteTemplateBlockPreview
 								blocks={blocks}
 								blockContextId={contextId}
 								setActiveBlockContextId={setActiveBlockContextId}
-								isHidden={
-									contextId ===
-									( activeBlockContextId || md5(JSON.stringify(blockContexts[0])) )
-								}
+								isHidden={isVisible}
 							/>
 						</BlockContextProvider>
 					);
