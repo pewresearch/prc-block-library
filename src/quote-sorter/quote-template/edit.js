@@ -88,7 +88,6 @@ export default function QuoteTemplateEdit({
 	);
 
 	useEffect(() => {
-		console.log({ sorterId, currentSorterId });
 		if (sorterId !== currentSorterId) {
 			getQuotes(sorterId);
 		}
@@ -155,12 +154,6 @@ export default function QuoteTemplateEdit({
 			{blockContexts &&
 				blockContexts.map((blockContext, index) => {
 					const contextId = md5(JSON.stringify(blockContext));
-					console.log('ContextID', contextId);
-					console.log(
-						'First Block?',
-						blockContexts[0],
-						md5(JSON.stringify(blockContexts[0])),
-					);
 					const isVisible =
 						contextId ===
 						(activeBlockContextId || md5(JSON.stringify(blockContexts[0])));

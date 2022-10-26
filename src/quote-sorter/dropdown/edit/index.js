@@ -81,7 +81,7 @@ const edit = ({ attributes, className, setAttributes, context }) => {
 							))}
 					</div>
 					{includeResetFilter && (
-						<div className="button-group">
+						<div className="button-group button-group--reset">
 							<button
 								type="button"
 								variant="secondary"
@@ -109,14 +109,16 @@ const edit = ({ attributes, className, setAttributes, context }) => {
 							</button>
 						))}
 					{includeResetFilter && (
-						<button
-							type="button"
-							variant="secondary"
-							key="reset"
-							style={buttonStyles}
-						>
-							{resetLanguage}
-						</button>
+						<div className="button-group button-group--reset">
+							<button
+								type="button"
+								variant="secondary"
+								key="reset"
+								style={buttonStyles}
+							>
+								{resetLanguage}
+							</button>
+						</div>
 					)}
 				</div>
 			)}

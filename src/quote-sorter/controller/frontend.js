@@ -83,13 +83,11 @@ domReady(() => {
 				const quotes = parent.querySelectorAll(
 					'.wp-block-prc-block-quote-sorter-quote-template',
 				);
-				console.log({ activeFilters, activeSearchStrings });
 				quotes.forEach((quote) => {
 					const quoteText = quote
 						.querySelector('.wp-block-prc-block-quote-sorter-quote-text')
 						.textContent.toLowerCase();
 					const quoteTypologies = JSON.parse(quote.dataset.typologies);
-					console.log({ quoteTypologies });
 					// iterate over the active filters and make sure that every item the active filter can be found in the quote typologies
 					const containsAllTypologies = activeFilters.every((element) =>
 						quoteTypologies.includes(element),

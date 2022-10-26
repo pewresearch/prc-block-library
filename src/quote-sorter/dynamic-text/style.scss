@@ -4,3 +4,10 @@
 		height: 0;
 	}
 }
+// fallback to serif default if not explicitly set
+.wp-block-prc-block-quote-sorter-dynamic-text {
+	&:not(.has-serif-font-family),
+	&:not(.has-sans-serif-font-family) {
+		font-family: var(--wp--preset--font-family--serif);
+	}
+}

@@ -7,7 +7,6 @@ export function arrayToJson(arr: string | any[]) {
 	);
 	function returnAttribution(row: any[]) {
 		if (attributionPosition) {
-			console.log({ row });
 			const attribution = row[attributionPosition + 1];
 			row.splice(attributionPosition + 1, 1);
 			return attribution;
@@ -28,7 +27,6 @@ export function arrayToJson(arr: string | any[]) {
 		const quote = row[0];
 		const attribution = returnAttribution(row);
 		const props = row.slice(1);
-		console.log({ quote, attribution, props });
 		// create quotes object
 		quotes[i] = {
 			quote,

@@ -16,7 +16,7 @@
 				"typography": {
 					"fontSize": "large",
 					"lineHeight": 1.8,
-					"fontFamily": "serif"
+					"fontFamily": "var(--wp--preset--font-family--serif)"
 				}
 			}
 		},
@@ -26,7 +26,6 @@
 		}
 	},
 	"supports": {
-		"align": true,
 		"color": {
 			"background": true,
 			"text": true
@@ -48,7 +47,13 @@
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,
 			"__experimentalTextTransform": true,
-			"__experimentalTextDecoration": true
+			"__experimentalTextDecoration": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true,
+				"__experimentalFontWeight": true,
+				"__experimentalFontStyle": true
+			}
 		}
 	},
 	"usesContext": ["prc-block/quote-sorter-art", "prc-block/quote-sorter/quote"],

@@ -2,8 +2,7 @@
 /**
  * External dependencies
  */
-import { Dropdown, List, Button } from 'semantic-ui-react';
-import { useState } from '@wordpress/element';
+import { Dropdown } from 'semantic-ui-react';
 
 function QuoteSorterDropdown({ typologies, placeholder, onchange }) {
 	const options = typologies.map((option) => ({
@@ -20,7 +19,6 @@ function QuoteSorterDropdown({ typologies, placeholder, onchange }) {
 			search
 			clearable
 			onChange={(e, data) => {
-				console.log(data);
 				onchange(e.target, data.value);
 			}}
 		/>
@@ -37,7 +35,6 @@ function QuoteSorterFilterInline({
 	activeButtonTextColor,
 	activeButtonBackgroundColor,
 }) {
-	const [selectedValue, setSelectedValue] = useState('');
 	const setButtonActive = (el) => {
 		el.style.color = activeButtonTextColor;
 		el.style.backgroundColor = activeButtonBackgroundColor;
@@ -49,10 +46,33 @@ function QuoteSorterFilterInline({
 			sibling.style.backgroundColor = buttonBackgroundColor;
 			sibling.classList.remove('active');
 		});
+		const resetButton = el.parentNode.parentNode.querySelector(
+			'.button-group--reset button',
+		);
+		if (resetButton) {
+			resetButton.style.color = buttonTextColor;
+			resetButton.style.backgroundColor = buttonBackgroundColor;
+			resetButton.classList.remove('active');
+		}
+	};
+	const resetFilterStyles = (el) => {
+		el.style.color = activeButtonTextColor;
+		el.style.backgroundColor = activeButtonBackgroundColor;
+		el.classList.add('active');
+		const optionsContainer = el.parentNode.parentNode.querySelector(
+			'.button-group--options',
+		);
+		if (optionsContainer) {
+			optionsContainer.querySelectorAll('button').forEach((button) => {
+				button.style.color = buttonTextColor;
+				button.style.backgroundColor = buttonBackgroundColor;
+				button.classList.remove('active');
+			});
+		}
 	};
 	return (
 		<>
-			<div className="button-group">
+			<div className="button-group button-group--options">
 				{typologies.map((option) => (
 					<button
 						type="button"
@@ -62,10 +82,8 @@ function QuoteSorterFilterInline({
 							backgroundColor: buttonBackgroundColor,
 						}}
 						onClick={(e) => {
-							console.log({ e, option });
 							onclick(e.target, option.value);
 							setButtonActive(e.target);
-							setSelectedValue(option.value);
 						}}
 					>
 						{option.label}
@@ -73,18 +91,18 @@ function QuoteSorterFilterInline({
 				))}
 			</div>
 			{includeResetFilter && (
-				<div className="button-group">
+				<div className="button-group button-group--reset">
 					<button
 						type="button"
+						className="active"
 						basic
-						active={'' === selectedValue}
 						style={{
-							color: buttonTextColor,
-							backgroundColor: buttonBackgroundColor,
+							color: activeButtonTextColor,
+							backgroundColor: activeButtonBackgroundColor,
 						}}
 						onClick={(e) => {
 							onclick(e.target, '');
-							setSelectedValue('');
+							resetFilterStyles(e.target);
 						}}
 					>
 						{resetLanguage}

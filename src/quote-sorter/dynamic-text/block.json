@@ -53,7 +53,13 @@
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,
 			"__experimentalTextTransform": true,
-			"__experimentalTextDecoration": true
+			"__experimentalTextDecoration": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true,
+				"__experimentalFontWeight": true,
+				"__experimentalFontStyle": true
+			}
 		}
 	},
 	"ancestor": ["prc-block/quote-sorter"],

@@ -18,7 +18,6 @@ import { arrayToJson } from './data/dataFormatter.ts';
 export default function Dropzone({ attributes, setAttributes }) {
 	const { uploadStatus, sorterId } = attributes;
 	const csvToArray = (str) => {
-		console.log({ str });
 		const arr = [];
 		const rows = str.split('\n');
 		for (let i = 0; i < rows.length; i++) {
@@ -31,7 +30,6 @@ export default function Dropzone({ attributes, setAttributes }) {
 			}
 			arr.push(row);
 		}
-		console.log({ arr });
 		return arr;
 	};
 
@@ -106,7 +104,6 @@ export default function Dropzone({ attributes, setAttributes }) {
 				<DropZone
 					disabled={'processed' !== uploadStatus}
 					onFilesDrop={(c) => {
-						console.log('onFilesDrop', c);
 						onDropCSV(c);
 					}}
 					onDrop={(c) => {

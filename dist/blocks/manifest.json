@@ -129,24 +129,24 @@
   "quote-sorter-controller.js.map": "blocks/quote-sorter-controller-55be7ec1.js.map",
   "quote-sorter-dropdown.css": "blocks/quote-sorter-dropdown-ded2894c.css",
   "quote-sorter-dropdown.css.map": "blocks/quote-sorter-dropdown-ded2894c.css.map",
-  "quote-sorter-dropdown.js": "blocks/quote-sorter-dropdown-55714123.js",
-  "quote-sorter-dropdown.js.map": "blocks/quote-sorter-dropdown-55714123.js.map",
-  "quote-sorter-dynamic-text.css": "blocks/quote-sorter-dynamic-text-3e2a82e5.css",
-  "quote-sorter-dynamic-text.css.map": "blocks/quote-sorter-dynamic-text-3e2a82e5.css.map",
-  "quote-sorter-dynamic-text.js": "blocks/quote-sorter-dynamic-text-950984fd.js",
-  "quote-sorter-dynamic-text.js.map": "blocks/quote-sorter-dynamic-text-950984fd.js.map",
-  "quote-sorter-quote-attribution.css": "blocks/quote-sorter-quote-attribution-3ba37d71.css",
-  "quote-sorter-quote-attribution.css.map": "blocks/quote-sorter-quote-attribution-3ba37d71.css.map",
-  "quote-sorter-quote-attribution.js": "blocks/quote-sorter-quote-attribution-faf4c26a.js",
-  "quote-sorter-quote-attribution.js.map": "blocks/quote-sorter-quote-attribution-faf4c26a.js.map",
-  "quote-sorter-quote-template.css": "blocks/quote-sorter-quote-template-119d3dd1.css",
-  "quote-sorter-quote-template.css.map": "blocks/quote-sorter-quote-template-119d3dd1.css.map",
+  "quote-sorter-dropdown.js": "blocks/quote-sorter-dropdown-e7333886.js",
+  "quote-sorter-dropdown.js.map": "blocks/quote-sorter-dropdown-e7333886.js.map",
+  "quote-sorter-dynamic-text.css": "blocks/quote-sorter-dynamic-text-943aa464.css",
+  "quote-sorter-dynamic-text.css.map": "blocks/quote-sorter-dynamic-text-943aa464.css.map",
+  "quote-sorter-dynamic-text.js": "blocks/quote-sorter-dynamic-text-ca8dc28a.js",
+  "quote-sorter-dynamic-text.js.map": "blocks/quote-sorter-dynamic-text-ca8dc28a.js.map",
+  "quote-sorter-quote-attribution.css": "blocks/quote-sorter-quote-attribution-035563e0.css",
+  "quote-sorter-quote-attribution.css.map": "blocks/quote-sorter-quote-attribution-035563e0.css.map",
+  "quote-sorter-quote-attribution.js": "blocks/quote-sorter-quote-attribution-089cc397.js",
+  "quote-sorter-quote-attribution.js.map": "blocks/quote-sorter-quote-attribution-089cc397.js.map",
+  "quote-sorter-quote-template.css": "blocks/quote-sorter-quote-template-e4cdcdfd.css",
+  "quote-sorter-quote-template.css.map": "blocks/quote-sorter-quote-template-e4cdcdfd.css.map",
   "quote-sorter-quote-template.js": "blocks/quote-sorter-quote-template-a88adf38.js",
   "quote-sorter-quote-template.js.map": "blocks/quote-sorter-quote-template-a88adf38.js.map",
-  "quote-sorter-quote-text.css": "blocks/quote-sorter-quote-text-5ef5152d.css",
-  "quote-sorter-quote-text.css.map": "blocks/quote-sorter-quote-text-5ef5152d.css.map",
-  "quote-sorter-quote-text.js": "blocks/quote-sorter-quote-text-bb934bc2.js",
-  "quote-sorter-quote-text.js.map": "blocks/quote-sorter-quote-text-bb934bc2.js.map",
+  "quote-sorter-quote-text.css": "blocks/quote-sorter-quote-text-52f244dd.css",
+  "quote-sorter-quote-text.css.map": "blocks/quote-sorter-quote-text-52f244dd.css.map",
+  "quote-sorter-quote-text.js": "blocks/quote-sorter-quote-text-80336d5b.js",
+  "quote-sorter-quote-text.js.map": "blocks/quote-sorter-quote-text-80336d5b.js.map",
   "quote-sorter-search-bar.js": "blocks/quote-sorter-search-bar-220dcfc2.js",
   "quote-sorter-search-bar.js.map": "blocks/quote-sorter-search-bar-220dcfc2.js.map",
   "responsive-container-controller.css": "blocks/responsive-container-controller-806cd166.css",
@@ -857,10 +857,10 @@
           "blocks/quote-sorter-quote-template-a88adf38.js.map"
         ],
         "css": [
-          "blocks/quote-sorter-quote-template-119d3dd1.css"
+          "blocks/quote-sorter-quote-template-e4cdcdfd.css"
         ],
         "css.map": [
-          "blocks/quote-sorter-quote-template-119d3dd1.css.map"
+          "blocks/quote-sorter-quote-template-e4cdcdfd.css.map"
         ]
       }
     },
@@ -868,17 +868,17 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-quote-text-bb934bc2.js"
+          "blocks/quote-sorter-quote-text-80336d5b.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-quote-text-bb934bc2.js.map"
+          "blocks/quote-sorter-quote-text-80336d5b.js.map"
         ],
         "css": [
-          "blocks/quote-sorter-quote-text-5ef5152d.css"
+          "blocks/quote-sorter-quote-text-52f244dd.css"
         ],
         "css.map": [
-          "blocks/quote-sorter-quote-text-5ef5152d.css.map"
+          "blocks/quote-sorter-quote-text-52f244dd.css.map"
         ]
       }
     },
@@ -886,17 +886,17 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-quote-attribution-faf4c26a.js"
+          "blocks/quote-sorter-quote-attribution-089cc397.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-quote-attribution-faf4c26a.js.map"
+          "blocks/quote-sorter-quote-attribution-089cc397.js.map"
         ],
         "css": [
-          "blocks/quote-sorter-quote-attribution-3ba37d71.css"
+          "blocks/quote-sorter-quote-attribution-035563e0.css"
         ],
         "css.map": [
-          "blocks/quote-sorter-quote-attribution-3ba37d71.css.map"
+          "blocks/quote-sorter-quote-attribution-035563e0.css.map"
         ]
       }
     },
@@ -920,11 +920,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-dropdown-55714123.js"
+          "blocks/quote-sorter-dropdown-e7333886.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-dropdown-55714123.js.map"
+          "blocks/quote-sorter-dropdown-e7333886.js.map"
         ],
         "css": [
           "blocks/quote-sorter-dropdown-ded2894c.css"
@@ -938,17 +938,17 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-dynamic-text-950984fd.js"
+          "blocks/quote-sorter-dynamic-text-ca8dc28a.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-dynamic-text-950984fd.js.map"
+          "blocks/quote-sorter-dynamic-text-ca8dc28a.js.map"
         ],
         "css": [
-          "blocks/quote-sorter-dynamic-text-3e2a82e5.css"
+          "blocks/quote-sorter-dynamic-text-943aa464.css"
         ],
         "css.map": [
-          "blocks/quote-sorter-dynamic-text-3e2a82e5.css.map"
+          "blocks/quote-sorter-dynamic-text-943aa464.css.map"
         ]
       }
     },
