@@ -122,7 +122,7 @@ export default function Form({
 			setButtonText('Processing...');
 			submitHandler({
 				onSuccess: () => {
-					setButtonText('Signed up!');
+					setButtonText('Success');
 					setSuccess(true);
 					setProcessing(false);
 					setValue('');
@@ -132,15 +132,16 @@ export default function Form({
 					return true;
 				},
 				onError: (e) => {
-					setButtonText('Error!');
+					setError(true);
+					setButtonText('Error');
 					setProcessing(false);
 					setToken(false);
 					console.log('Error!', e);
 					return false;
 				},
+				closeCaptcha: () => setCaptchaDisplay(false),
 				emailAddress: value,
 				captchaToken: token,
-				closeCaptcha: () => setCaptchaDisplay(false),
 				interest: form.segmentId,
 			});
 		}

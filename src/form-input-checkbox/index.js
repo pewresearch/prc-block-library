@@ -11,10 +11,11 @@ import edit from './edit';
 import icon from './icon';
 import './style.scss';
 
-const { name } = metadata;
+const { name, title } = metadata;
 
 const settings = {
 	icon,
+	__experimentalLabel: ({ label }) => label || title, // Will change the label to match the label attr, #experimental.
 	edit,
 	save: () => null,
 };

@@ -17,8 +17,8 @@
   "livestream.js.map": "frontend/livestream-a6a56de9.js.map",
   "mailchimp-opt-down.js": "frontend/mailchimp-opt-down-baf06b08.js",
   "mailchimp-opt-down.js.map": "frontend/mailchimp-opt-down-baf06b08.js.map",
-  "mailchimp-select.js": "frontend/mailchimp-select-db5a0251.js",
-  "mailchimp-select.js.map": "frontend/mailchimp-select-db5a0251.js.map",
+  "mailchimp-select.js": "frontend/mailchimp-select-8ba69991.js",
+  "mailchimp-select.js.map": "frontend/mailchimp-select-8ba69991.js.map",
   "menu-link.css": "frontend/menu-link-d7897c3c.css",
   "menu-link.css.map": "frontend/menu-link-d7897c3c.css.map",
   "menu-link.js": "frontend/menu-link-5dbde044.js",
@@ -162,11 +162,11 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/mailchimp-select-db5a0251.js"
+          "frontend/mailchimp-select-8ba69991.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/mailchimp-select-db5a0251.js.map"
+          "frontend/mailchimp-select-8ba69991.js.map"
         ]
       }
     },
