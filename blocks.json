@@ -16,6 +16,16 @@
 			"php": "./src/_deprecated/row/index.php"
 		},
 		{
+			"name": "grid-controller",
+			"main": "./src/grid/controller/index.js",
+			"php": "./src/grid/controller/index.php"
+		},
+		{
+			"name": "grid-column",
+			"main": "./src/grid/column/index.js",
+			"php": "./src/grid/column/index.php"
+		},
+		{
 			"name": "cover",
 			"main": "./src/core/cover/index.js",
 			"php": "./src/core/cover/index.php"

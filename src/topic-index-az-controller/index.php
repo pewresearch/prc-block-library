@@ -43,7 +43,7 @@ class Topic_Index_AZ_Controller extends PRC_Block_Library {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
 		$enqueue->enqueue(
 			'frontend',
-			'topic-index-az',
+			'topic-index-az-controller',
 			array(
 				'js'        => true,
 				'css'       => false,

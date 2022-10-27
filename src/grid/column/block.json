@@ -1,0 +1,88 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/grid-column",
+	"title": "Column",
+	"category": "design",
+	"parent": [ "prc-block/grid-controller" ],
+	"description": "A single column within a grid block.",
+	"textdomain": "default",
+	"attributes": {
+		"gridLayout": {
+			"type": "object",
+			"default": {
+				"index": 0,
+				"desktopSpan": 4,
+				"tabletSpan": 4,
+				"mobileSpan": 4,
+				"desktopStart": 1,
+				"tabletStart": 1,
+				"mobileStart": 1,
+				"desktopRow": 1,
+				"tabletRow": 1,
+				"mobileRow": 1
+			}
+		},
+		"verticalAlignment": {
+			"type": "string"
+		},
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"templateLock": {
+			"type": [ "string", "boolean" ],
+			"enum": [ "all", "insert", "contentOnly", false ],
+			"default": false
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"reusable": false,
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"blockGap": {
+				"__experimentalDefault": "24px",
+				"sides": [ "vertical" ]
+			},
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		},
+		"__experimentalLayout": true
+	},
+	"providesContext": {
+		"prc-block/grid/column/desktop/span": "gridSpan",
+		"prc-block/grid/column/desktop/start": "gridStart",
+		"prc-block/grid/column/desktop/row": "gridRow",
+		"prc-block/grid/column/tablet/span": "tabletGridSpan",
+		"prc-block/grid/column/tablet/start": "tabletGridStart",
+		"prc-block/grid/column/tablet/row": "tabletGridRow",
+		"prc-block/grid/column/mobile/span": "mobileGridSpan",
+		"prc-block/grid/column/mobile/start": "mobileGridStart",
+		"prc-block/grid/column/mobile/row": "mobileGridRow"
+	}
+}
