@@ -20,15 +20,9 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import { Fragment } from '@wordpress/element';
 
-/**
- * Internal dependencies
- */
-import {
-	hasExplicitPercentColumnWidths,
-	getMappedColumnWidths,
-	getRedistributedColumnWidths,
-	toWidthPrecision,
-} from './utils';
+const DESKTOP_MAX = 12;
+const TABLET_MAX = 8;
+const MOBILE_MAX = 4;
 
 export default function Controls({
 	attributes,
@@ -50,11 +44,11 @@ export default function Controls({
 	const { updateBlockAttributes, replaceInnerBlocks } =
 		useDispatch(blockEditorStore);
 
-	const { count, innerBlockClientIds, getBlocks } = useSelect(
+	const { count, innerBlocks, innerBlockClientIds } = useSelect(
 		(select) => ({
 			count: select(blockEditorStore).getBlockCount(clientId),
 			innerBlockClientIds: select(blockEditorStore).getBlockOrder(clientId),
-			getBlocks: select(blockEditorStore).getBlocks,
+			innerBlocks: select(blockEditorStore).getBlock(clientId).innerBlocks,
 		}),
 		[clientId],
 	);
@@ -86,47 +80,78 @@ export default function Controls({
 	 * @param {number} newColumns      New column count.
 	 */
 	const updateColumns = (previousColumns, newColumns) => {
-		let innerBlocks = getBlocks(clientId);
-		const hasExplicitWidths = hasExplicitPercentColumnWidths(innerBlocks);
-		// Redistribute available width for existing inner blocks.
+		let columns = innerBlocks;
 		const isAddingColumn = newColumns > previousColumns;
-		if (isAddingColumn && hasExplicitWidths) {
-			// If adding a new column, assign width to the new column equal to
-			// as if it were `1 / columns` of the total available space.
-			const newColumnWidth = toWidthPrecision(100 / newColumns);
-			// Redistribute in consideration of pending block insertion as
-			// constraining the available working width.
-			const widths = getRedistributedColumnWidths(
-				innerBlocks,
-				100 - newColumnWidth,
-			);
-			innerBlocks = [
-				...getMappedColumnWidths(innerBlocks, widths),
-				...Array.from({
-					length: newColumns - previousColumns,
-				}).map(() =>
-					createBlock('prc-block/grid-column', {
-						width: `${newColumnWidth}%`,
-					}),
-				),
-			];
-		} else if (isAddingColumn) {
-			innerBlocks = [
-				...innerBlocks,
-				...Array.from({
-					length: newColumns - previousColumns,
-				}).map(() => createBlock('prc-block/grid-column')),
-			];
+
+		console.log(
+			'updateColumns -> ',
+			columns,
+			isAddingColumn,
+			previousColumns,
+			newColumns,
+		);
+		// See if there is available space, how much in terms of span count is available.
+
+		// get all the attributes.gridLayout.desktopSpan from the innerBlocks
+		let availableDesktopSpan = columns.reduce(
+			(acc, column) => acc - column.attributes.gridLayout.desktopSpan,
+			DESKTOP_MAX,
+		);
+		if (0 > availableDesktopSpan) {
+			availableDesktopSpan = 0;
+		}
+
+		let availableTabletSpan = columns.reduce(
+			(acc, column) => acc - column.attributes.gridLayout.tabletSpan,
+			TABLET_MAX,
+		);
+		if (0 > availableTabletSpan) {
+			availableTabletSpan = 0;
+		}
+
+		// Get available mobile spans but if its negative then just return 0
+		let availableMobileSpan = columns.reduce(
+			(acc, column) => acc - column.attributes.gridLayout.mobileSpan,
+			MOBILE_MAX,
+		);
+		if (0 > availableMobileSpan) {
+			availableMobileSpan = 0;
+		}
+
+		console.log('Available Spans:', {
+			availableDesktopSpan,
+			availableTabletSpan,
+			availableMobileSpan,
+		});
+
+		if (isAddingColumn) {
+			// createBlock('prc-block/grid-column', {
+			// 	gridLayout: {
+			// 		index: 0,
+			// 		desktopSpan: 4,
+			// 		tabletSpan: 4,
+			// 		mobileSpan: 4,
+			// 		desktopStart: 1,
+			// 		tabletStart: 1,
+			// 		mobileStart: 1,
+			// 		desktopRow: 1,
+			// 		tabletRow: 1,
+			// 		mobileRow: 1
+			// 	}
+			// }),
 		} else {
 			// The removed column will be the last of the inner blocks.
-			innerBlocks = innerBlocks.slice(0, -(previousColumns - newColumns));
-			if (hasExplicitWidths) {
-				// Redistribute as if block is already removed.
-				const widths = getRedistributedColumnWidths(innerBlocks, 100);
-				innerBlocks = getMappedColumnWidths(innerBlocks, widths);
-			}
+			columns = columns.slice(0, -(previousColumns - newColumns));
+			// We will need to redistribute the remaining space.
 		}
-		replaceInnerBlocks(clientId, innerBlocks);
+		console.log(
+			'"updateColumns" replaceInnerBlocks...',
+			isAddingColumn,
+			previousColumns,
+			newColumns,
+			columns,
+		);
+		// replaceInnerBlocks(clientId, innerBlocks);
 	};
 
 	return (

@@ -9,6 +9,7 @@ use \WPackio as WPackio;
 
 class Grid_Controller extends PRC_Block_Library {
 	public static $block_name = 'prc-block/grid-controller';
+	public static $version = 1.0;
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
@@ -31,7 +32,7 @@ class Grid_Controller extends PRC_Block_Library {
 	}
 
 	public function register_block() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',

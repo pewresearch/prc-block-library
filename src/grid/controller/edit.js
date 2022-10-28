@@ -12,54 +12,22 @@ import {
 	useBlockProps,
 	withColors,
 	getColorClassName,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
+import Placeholder from './Placeholder';
 
 const ALLOWED_BLOCKS = ['prc-block/grid-column'];
-
-const DEFAULT_TEMPLATE = [
-	[
-		'prc-block/grid-column',
-		{
-			gridLayout: {
-				index: 1,
-				desktopSpan: 3,
-				tabletSpan: 2,
-				mobileSpan: 4,
-			},
-		},
-	],
-	[
-		'prc-block/grid-column',
-		{
-			gridLayout: {
-				index: 2,
-				desktopSpan: 6,
-				tabletSpan: 4,
-				mobileSpan: 4,
-			},
-		},
-	],
-	[
-		'prc-block/grid-column',
-		{
-			gridLayout: {
-				index: 3,
-				desktopSpan: 3,
-				tabletSpan: 2,
-				mobileSpan: 4,
-			},
-		},
-	],
-];
 
 const edit = ({
 	attributes,
 	setAttributes,
+	clientId,
 	className,
 	textColor,
 	setTextColor,
@@ -69,6 +37,12 @@ const edit = ({
 	setDividerColor,
 }) => {
 	const { verticalAlignment } = attributes;
+
+	const hasInnerBlocks = useSelect(
+		( select ) =>
+			select( blockEditorStore ).getBlocks( clientId ).length > 0,
+		[ clientId ]
+	);
 
 	const blockProps = useBlockProps({
 		className: classnames( className, {
@@ -92,10 +66,13 @@ const edit = ({
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		orientation: 'horizontal',
-		template: DEFAULT_TEMPLATE,
-		templateLock: false,
 		renderAppender: false,
+		templateLock: false,
 	});
+
+	if ( ! hasInnerBlocks ) {
+		return <Placeholder {...{attributes, setAttributes, clientId}}/>;
+	}
 
 	return (
 		<Fragment>
@@ -103,6 +80,7 @@ const edit = ({
 				{...{
 					attributes,
 					setAttributes,
+					clientId,
 					colors: {
 						textColor,
 						setTextColor,

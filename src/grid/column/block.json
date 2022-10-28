@@ -36,8 +36,9 @@
 		}
 	},
 	"supports": {
-		"anchor": true,
+		"anchor": false,
 		"reusable": false,
+		"inserter": false,
 		"html": false,
 		"color": {
 			"background": true,
