@@ -48,7 +48,7 @@ class Row_Block extends PRC_Block_Library {
 			),
 			explode( ' ', $classnames )
 		);
-		$row_classes  = apply_filters( 'prc_grid_row_classes', $row_classes, $block->parsed_block );
+		$row_classes  = apply_filters( 'prc_grid_row_classes_DEPRECATED', $row_classes, $block->parsed_block );
 		remove_filter( 'the_content', 'wpautop' );
 		ob_start();
 		?>

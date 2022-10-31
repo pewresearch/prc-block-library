@@ -72,7 +72,8 @@
 			display: block;
 		}
 		a.wp-block-prc-block-tabs-menu-item {
-			text-decoration: none;
+			text-decoration: none!important;
+			color: inherit;
 			&:hover {
 				opacity: 0.8;
 			}
@@ -80,16 +81,14 @@
 				color: inherit;
 			}
 		}
-		a.wp-block-prc-block-tabs-menu-item {
-			text-decoration: none!important;
-		}
 		.wp-block-prc-block-tabs-menu-item {
 			display: inline-block;
 			cursor: pointer;
 			border-radius: var(--border-radius);
 			border: 1px solid var(--color-border);
 			margin: 0;
-			padding: 10px;
+			padding: 0.75em 1em;
+			line-height: 1;
 
 			&:focus {
 				outline: none;

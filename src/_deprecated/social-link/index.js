@@ -15,20 +15,18 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('Social Link'),
-    icon: shareIcon,
-    description: __(
-        'DEPRECATED: Use core "social links" block instead.',
-    ),
-    __experimentalLabel: ({ label }) => label,
-    merge(leftAttributes, { label: rightLabel = '' }) {
-        return {
-            ...leftAttributes,
-            label: leftAttributes.label + rightLabel,
-        };
-    },
-    edit,
-    save,
+	title: __('DEPRECATeD: Social Link'),
+	icon: shareIcon,
+	description: __('DEPRECATED: Use core/social-links block instead.'),
+	__experimentalLabel: ({ label }) => label,
+	merge(leftAttributes, { label: rightLabel = '' }) {
+		return {
+			...leftAttributes,
+			label: leftAttributes.label + rightLabel,
+		};
+	},
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

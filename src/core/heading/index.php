@@ -24,6 +24,7 @@ class Core_Heading extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_new_styles' ), 0 );
+			add_filter( 'prc_grid_row_classes_DEPRECATED', array( $this, 'add_section_header_class_to_row' ), 10, 2 );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'add_assets_to_block_editor' ) );
 			add_filter( 'render_block', array( $this, 'render' ), 10, 2 );
 		}
@@ -36,6 +37,41 @@ class Core_Heading extends PRC_Block_Library {
 				$style_args,
 			);
 		}
+	}
+
+	/**
+	 * DEPRECATED: Add section-header class to row if first block is a section header
+	 * @param mixed $classes
+	 * @param mixed $parsed_row_block
+	 * @return mixed
+	 */
+	public function add_section_header_class_to_row( $classes, $parsed_row_block ) {
+		$inner_blocks = array_pop( $parsed_row_block['innerBlocks'] );
+		if ( 'prc-block/column' !== $inner_blocks['blockName'] ) {
+			return $classes;
+		}
+		if ( array_key_exists('width', $inner_blocks['attrs']) && 16 === $inner_blocks['attrs']['width'] ) {
+			return $classes;
+		}
+		if ( empty($inner_blocks['innerBlocks'] ) ) {
+			return $classes;
+		}
+
+		$first_block = $inner_blocks['innerBlocks'][0];
+
+		if ( 'core/group' === $first_block['blockName'] ) {
+			$first_block = $first_block['innerBlocks'][0];
+		}
+
+		if ( ! is_array( $first_block ) ) {
+			return $classes;
+		}
+
+		if ( array_key_exists( 'className', $first_block['attrs'] ) && 'core/heading' === $first_block['blockName'] && 'is-style-section-header' === $first_block['attrs']['className'] ) {
+			$classes['has section heading'] = true;
+		}
+
+		return $classes;
 	}
 
 	/**

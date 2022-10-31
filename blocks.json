@@ -163,8 +163,8 @@
 		},
 		{
 			"name": "page",
-			"main": "./src/page/index.js",
-			"php": "./src/page/index.php"
+			"main": "./src/_deprecated/page/index.js",
+			"php": "./src/_deprecated/page/index.php"
 		},
 		{
 			"name": "popular-listing",

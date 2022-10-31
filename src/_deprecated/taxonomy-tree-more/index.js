@@ -16,7 +16,7 @@ const { name } = metadata;
 
 const settings = {
     title: __('DEPRECATED: Taxonomy Tree More'),
-    description: 'DEPRECATED: A collapsible list of more content for the Taxonomy Tree. (Use navigation block instead)',
+    description: 'DEPRECATED: Use core/navigation and submenu blocks instead.',
     category: 'layout',
     edit,
     save,

@@ -11,6 +11,7 @@ import { date as formatDate } from '@wordpress/date';
 import metadata from './block.json';
 import edit from './edit';
 import save from './save';
+import transforms from './transforms';
 import variations from './variations';
 import './style.scss';
 
@@ -43,6 +44,7 @@ const settings = {
 			fontSize: true,
 		},
 	},
+	transforms,
 	__experimentalLabel: ({ title }) => title || 'Story Item', // Will change the label to match the title, #experimental.
 	edit,
 	save,

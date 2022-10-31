@@ -1,6 +1,6 @@
 {
-  "carousel-controller.js": "frontend/carousel-controller-e0a0ee3f.js",
-  "carousel-controller.js.map": "frontend/carousel-controller-e0a0ee3f.js.map",
+  "carousel-controller.js": "frontend/carousel-controller-f912d97a.js",
+  "carousel-controller.js.map": "frontend/carousel-controller-f912d97a.js.map",
   "chart-builder-data-wrapper.js": "frontend/chart-builder-data-wrapper-dc284610.js",
   "chart-builder-data-wrapper.js.map": "frontend/chart-builder-data-wrapper-dc284610.js.map",
   "chart-builder.css": "frontend/chart-builder-ddf9d855.css",
@@ -55,8 +55,8 @@
   "topic-index-search-field.css.map": "frontend/topic-index-search-field-019a240f.css.map",
   "topic-index-search-field.js": "frontend/topic-index-search-field-570de45f.js",
   "topic-index-search-field.js.map": "frontend/topic-index-search-field-570de45f.js.map",
-  "vendors~carousel-controller.js": "frontend/vendors~carousel-controller-a5ed4062.js",
-  "vendors~carousel-controller.js.map": "frontend/vendors~carousel-controller-a5ed4062.js.map",
+  "vendors~carousel-controller.js": "frontend/vendors~carousel-controller-23c9b0e5.js",
+  "vendors~carousel-controller.js.map": "frontend/vendors~carousel-controller-23c9b0e5.js.map",
   "vendors~chart-builder~livestream~mailchimp-opt-down~quote-sorter~topic-index-search-field.js": "frontend/vendors~chart-builder~livestream~mailchimp-opt-down~quote-sorter~topic-index-search-field-9276cf80.js",
   "vendors~chart-builder~livestream~mailchimp-opt-down~quote-sorter~topic-index-search-field.js.map": "frontend/vendors~chart-builder~livestream~mailchimp-opt-down~quote-sorter~topic-index-search-field-9276cf80.js.map",
   "vendors~chart-builder~mailchimp-opt-down~quote-sorter~topic-index-search-field.js": "frontend/vendors~chart-builder~mailchimp-opt-down~quote-sorter~topic-index-search-field-3820e800.js",
@@ -336,13 +336,13 @@
       "assets": {
         "js": [
           "frontend/runtime-83e71da2.js",
-          "frontend/vendors~carousel-controller-a5ed4062.js",
-          "frontend/carousel-controller-e0a0ee3f.js"
+          "frontend/vendors~carousel-controller-23c9b0e5.js",
+          "frontend/carousel-controller-f912d97a.js"
         ],
         "js.map": [
           "frontend/runtime-83e71da2.js.map",
-          "frontend/vendors~carousel-controller-a5ed4062.js.map",
-          "frontend/carousel-controller-e0a0ee3f.js.map"
+          "frontend/vendors~carousel-controller-23c9b0e5.js.map",
+          "frontend/carousel-controller-f912d97a.js.map"
         ]
       }
     },

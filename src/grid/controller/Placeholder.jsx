@@ -34,7 +34,7 @@ export default function Placeholder({ clientId, setAttributes }) {
 		[clientId],
 	);
 	const { replaceInnerBlocks } = useDispatch(blockEditorStore);
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps({ className: 'is-placeholder' });
 
 	return (
 		<div {...blockProps}>
@@ -43,10 +43,10 @@ export default function Placeholder({ clientId, setAttributes }) {
 				label={get(blockType, ['title'])}
 				variations={variations}
 				onSelect={(nextVariation = defaultVariation) => {
-					console.log("Variation selected: ", nextVariation, defaultVariation);
-					// if (nextVariation.attributes) {
-					// 	setAttributes(nextVariation.attributes);
-					// }
+					console.log('Variation selected: ', nextVariation, defaultVariation);
+					if (nextVariation.attributes) {
+						setAttributes(nextVariation.attributes);
+					}
 					if (nextVariation.innerBlocks) {
 						replaceInnerBlocks(
 							clientId,
@@ -55,7 +55,6 @@ export default function Placeholder({ clientId, setAttributes }) {
 						);
 					}
 				}}
-				allowSkip
 			/>
 		</div>
 	);

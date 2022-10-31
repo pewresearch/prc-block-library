@@ -2,7 +2,7 @@
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
-import { columns as icon } from '@wordpress/icons';
+import { column as icon } from '@wordpress/icons';
 
 /**
  * Internal Dependencies

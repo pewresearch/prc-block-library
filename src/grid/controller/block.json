@@ -5,6 +5,12 @@
 	"title": "Grid",
 	"category": "design",
 	"description": "Display content in multiple columns using CSS grid with blocks added to each column.",
+	"keywords": [
+		"grid",
+		"columns",
+		"css grid",
+		"layout"
+	],
 	"textdomain": "default",
 	"attributes": {
 		"verticalAlignment": {

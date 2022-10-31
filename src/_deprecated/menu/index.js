@@ -17,11 +17,9 @@ import './style.scss';
 const { name } = metadata;
 
 const settings = {
-	title: __('Menu'),
+	title: __('DEPRECATED: Menu'),
 	icon,
-	description: __(
-		'DEPRECATED: A collection of links as blocks to create menus. (Use navigation block instead)',
-	),
+	description: __('DEPRECATED: Use core/navigation block instead'),
 	keywords: [__('menu'), __('navigation'), __('links')],
 	variations,
 	example: {

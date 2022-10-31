@@ -16,13 +16,14 @@ import './style.scss';
 const { name } = metadata;
 
 const settings = {
-    title: __('DEPRECATED: Tree List'),
-    description: 'DEPRECATED: A tree list that can be expanded. (Use navigation block instead)',
-    category: 'layout',
-    icon: 'networking',
-    keywords: [__('Taxonomy Tree'), __('Taxonomies'), __('Tree')],
-    edit,
-    save,
+	title: __('DEPRECATED: Tree List'),
+	description:
+		'DEPRECATED: Use core/navigation block and submenu blocks instead.',
+	category: 'layout',
+	icon: 'networking',
+	keywords: [__('Taxonomy Tree'), __('Taxonomies'), __('Tree')],
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

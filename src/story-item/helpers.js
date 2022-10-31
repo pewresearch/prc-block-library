@@ -111,6 +111,26 @@ const refreshPostAttributes = (options) => {
 		.catch((err) => console.error(err));
 };
 
+const getStoryItemByURL = (newUrl) =>
+	new Promise((resolve, reject) => {
+		apiFetch({
+			path: '/prc-api/v2/stub/get-post-by-url',
+			method: 'POST',
+			data: { url: newUrl },
+		})
+			.then((post) => {
+				if ('object' !== typeof post) {
+					reject(new Error('post is not an object'));
+				}
+				const newAttributes = getAttributesFromPost({
+					post,
+					imageSize: 'A1',
+				});
+				resolve(newAttributes);
+			})
+			.catch((err) => reject(err));
+	});
+
 const useStoryItemBlockProps = (attributes) => {
 	const {
 		imageSlot,
@@ -146,6 +166,7 @@ const stubEnabledSiteIds = Array.from(Array(19).keys()).filter(
 
 export {
 	setArtBySize,
+	getStoryItemByURL,
 	getAttributesFromPost,
 	refreshPostAttributes,
 	useStoryItemBlockProps,

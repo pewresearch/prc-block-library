@@ -13,9 +13,9 @@ const { name, category, attributes } = metadata;
 const settings = [
     name,
     {
-        title: __('PRC Chapter'),
+        title: __('DEPRECATED: PRC Chapter'),
         description: __(
-            'Build a table of contents for this post using the chapter block.',
+            'DEPRECATED: Use core/heading block with chapter set to true instead.',
         ),
         icon,
         category,

@@ -14,12 +14,10 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('PRC Post Publish Date'),
-    description: __(
-        'The post published date, useful when building out post headers.',
-    ),
-    edit,
-    save,
+	title: __('DEPRECATED: PRC Post Publish Date'),
+	description: __(`DEPRECATED: Use core/date block instead.`),
+	edit,
+	save,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

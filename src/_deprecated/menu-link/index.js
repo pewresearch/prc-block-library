@@ -18,10 +18,10 @@ const { name } = metadata;
 // @TODO change this to `prc-block/ui-link`
 
 const settings = {
-	title: __('Link'),
+	title: __('DEPRECATED: Link'),
 	icon: linkIcon,
 	description: __(
-		'DEPRECATED: Add a page, link, or another item to your navigation. (Use navigation or buttons/button block instead)',
+		'DEPRECATED: Use core/navigation or core/butons block instead.',
 	),
 	variations,
 	__experimentalLabel: ({ label }) => label,

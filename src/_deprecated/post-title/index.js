@@ -11,8 +11,8 @@ import save from './save';
 const { name } = metadata;
 
 const settings = {
-    title: __('PRC Post Title'),
-    description: __('Displays the post title.'),
+    title: __('DEPRECATED: PRC Post Title'),
+    description: __('DEPRECATED: Use core/post-title block instead.'),
     edit,
     save,
 };

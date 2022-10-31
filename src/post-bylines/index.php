@@ -9,6 +9,8 @@ use \WPackio as WPackio;
 /**
  * Server-side rendering of the `prc-block/post-bylines` block.
  *
+ * @TODO: look into taking over the appropriate core taxonomy block for this instead of creating a new block or maybe unregsitering their block variation.
+ *
  * @package gutenberg
  */
 
