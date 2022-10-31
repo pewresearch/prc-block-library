@@ -2,6 +2,7 @@
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
+import { column as icon } from '@wordpress/icons';
 
 /**
  * Internal Dependencies
@@ -15,6 +16,7 @@ import './style.scss';
 const { name } = metadata;
 
 const settings = {
+	icon,
 	edit,
 	save,
 	variations,

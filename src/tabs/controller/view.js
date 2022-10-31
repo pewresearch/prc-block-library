@@ -58,7 +58,7 @@ domReady(() => {
 				// Scroll to the tab
 				setTimeout(() => {
 					menuItem.scrollIntoView();
-				}, 100);
+				}, 1000);
 			}
 		});
 	});
