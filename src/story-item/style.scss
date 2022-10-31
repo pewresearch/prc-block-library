@@ -580,7 +580,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 }
 .wp-block-post-template > li:has(.wp-block-prc-block-story-item),
 .wp-block-group:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
-.wp-block-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
+.wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
 .ui.grid > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
 .ui.row > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item {
 	border-bottom: $dividedBorder;
