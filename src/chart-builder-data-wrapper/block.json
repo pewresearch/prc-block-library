@@ -2,8 +2,13 @@
 	"name": "prc-block/chart-builder-data-wrapper",
 	"category": "layout",
 	"textdomain": "chart-builder-data-wrapper",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
 	"attributes": {
 		"id": {
+			"type": "string"
+		},
+		"chartType": {
 			"type": "string"
 		},
 		"transformed": {
@@ -27,5 +32,8 @@
 	},
 	"providesContext": {
 		"prc-chart-builder/id": "id"
+	},
+	"supports": {
+		"__experimentalMetadata": true
 	}
 }

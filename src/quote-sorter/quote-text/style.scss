@@ -1,0 +1,8 @@
+.wp-block-prc-block-quote-sorter-quote-text {
+	margin-bottom: 1rem;
+	// fallback to serif default if not explicitly set
+	&:not(.has-serif-font-family),
+	&:not(.has-sans-serif-font-family) {
+		font-family: var(--wp--preset--font-family--serif);
+	}
+}

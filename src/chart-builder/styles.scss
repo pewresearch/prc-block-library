@@ -5,86 +5,86 @@ $franklin: franklin-gothic-urw, Verdana, Geneva, sans-serif;
 $abril: abril-text, Georgia, Times New Roman, Times, serif;
 
 .prc-tooltip {
-    border: 1px solid $gallery;
-    border-radius: 5px;
-    font-size: 10px;
-    padding: 0 0.25rem 0.25rem;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
-    box-shadow: 0px 1px 3px -1px rgba(0, 0, 0, 0.2);
-    background-color: $white;
-    color: black;
-    text-align: center;
-    margin: 0 auto;
+	border: 1px solid $gallery;
+	border-radius: 5px;
+	font-size: 10px;
+	padding: 0 0.25rem 0.25rem;
+	width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+	box-shadow: 0px 1px 3px -1px rgba(0, 0, 0, 0.2);
+	background-color: $white;
+	color: black;
+	text-align: center;
+	margin: 0 auto;
 }
 
 .cb__text-wrapper {
-    margin: 20px 0;
+	margin: 20px 0;
 }
 
 .cb__title {
-    font-size: 18px;
-    line-height: 20px;
-    font-family: $franklin;
-    font-weight: 700;
-    color: $thunder;
-    margin-bottom: 15px;
+	font-size: 18px;
+	line-height: 20px;
+	font-family: $franklin;
+	font-weight: 700;
+	color: $thunder;
+	margin-bottom: 15px;
 }
 
 .cb__subtitle {
-    font-style: 14px;
-    line-height: 18px;
-    color: rgba(100, 100, 100, 0.7);
-    font-style: italic;
-    font-family: $abril;
-    margin-bottom: 20px;
+	font-size: 14px;
+	line-height: 18px;
+	color: rgba(100, 100, 100, 0.7);
+	font-style: italic;
+	font-family: $abril;
+	margin-bottom: 20px;
 }
 
 .cb__note {
-    font-size: 12px;
-    line-height: 15px;
-    color: rgba(100, 100, 100, 0.6);
-    font-family: $franklin;
-    margin-top: 20px;
+	font-size: 12px;
+	line-height: 15px;
+	color: rgba(100, 100, 100, 0.6);
+	font-family: $franklin;
+	margin-top: 20px;
 }
 
 .cb__note ~ .cb__note {
-    margin-top: auto;
+	margin-top: auto;
 }
 
 .cb__tag {
-    font-size: 11px;
-    line-height: 14px;
-    font-family: $franklin;
-    color: $thunder;
-    margin-top: 10px;
+	font-size: 11px;
+	line-height: 14px;
+	font-family: $franklin;
+	color: $thunder;
+	margin-top: 10px;
 }
 
 .wp-chart-builder-wrapper {
-    .hidden {
-        display: none;
-    }
+	.hidden {
+		display: none;
+	}
 }
 
 .chart-builder-data-table--hidden {
-    display: none;
+	display: none;
 }
 
 .share-pane {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
-    font-family: $franklin;
-    .share-pane__prompt {
-        font-family: $franklin;
-        font-weight: 700;
-        font-size: 1.3rem;
-        line-height: 1.5rem;
-        margin-bottom: 20px;
-    }
-    .share-pane__link {
-        font-family: $franklin;
-        margin-bottom: 20px;
-    }
+	display: flex;
+	flex-direction: column;
+	padding: 20px 0;
+	font-family: $franklin;
+	.share-pane__prompt {
+		font-family: $franklin;
+		font-weight: 700;
+		font-size: 1.3rem;
+		line-height: 1.5rem;
+		margin-bottom: 20px;
+	}
+	.share-pane__link {
+		font-family: $franklin;
+		margin-bottom: 20px;
+	}
 }

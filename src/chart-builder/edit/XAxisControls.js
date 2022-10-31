@@ -27,6 +27,7 @@ function XAxisControls({ attributes, setAttributes }) {
 		xMinDomain,
 		xMaxDomain,
 		xDomainPadding,
+		xTickMarksActive,
 		xTickNum,
 		xTickExact,
 		xTickUnit,
@@ -154,6 +155,12 @@ function XAxisControls({ attributes, setAttributes }) {
 				}
 			/>
 			<PanelRow>Axis Ticks and Tick Labels</PanelRow>
+			<ToggleControl
+				label={__('Show tick marks')}
+				help={xTickMarksActive ? 'Shows tick marks.' : 'No tick marks.'}
+				checked={xTickMarksActive}
+				onChange={() => setAttributes({ xTickMarksActive: !xTickMarksActive })}
+			/>
 			<NumberControl
 				label={__('Number of ticks')}
 				value={xTickNum}

@@ -1,0 +1,19 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.17
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+(window.wpackioprcBlocksLibrarydeprecatedJsonp=window.wpackioprcBlocksLibrarydeprecatedJsonp||[]).push([[4],{1:function(e,t){e.exports=window.wp.i18n},10:function(e,t){e.exports=window.wp.data},12:function(e,t){e.exports=window.wp.primitives},2:function(e,t){e.exports=window.wp.element},22:function(e){e.exports=JSON.parse('{"apiVersion":2,"name":"prc-block/social-link","category":"layout","attributes":{"description":{"type":"string"},"label":{"type":"string"},"title":{"type":"string"},"icon":{"type":"string","default":"facebook"},"url":{"type":"string"},"asButton":{"type":"boolean","default":false}},"usesContext":["prc-block/menu"],"supports":{"reusable":false,"html":false,"inserter":false}}')},4:function(e,t){e.exports=window.wp.blockEditor},46:function(e,t,n){n(8),e.exports=n(53)},5:function(e,t){e.exports=window.wp.components},53:function(e,t,n){"use strict";n.r(t);var r=n(9),o=n(1),i=n(56),c=n(7),l=n(22),a=n(15),s=n.n(a),p=n(57),u=n(10),b=n(5),f=n(4),d=n(2),w=function(e){var t=e.attributes,n=e.setAttributes,r=e.className,i=e.isSelected,c=t.description,l=t.title,a=t.icon,w=Object(f.useBlockProps)({className:s()("item",r,{"is-selected":i})}),m=Object(u.useSelect)((function(e){console.log("Getting things");var t=e("core/editor").getEditedPostAttribute("meta"),n=!1;void 0!==t&&t.hasOwnProperty("bitly")&&(n=t.bitly);var r=e("core/editor").getEditedPostAttribute("title");return{postTitle:r||!1,shortUrl:n||!1}})),O=m.postTitle,y=m.shortUrl;return Object(d.useEffect)((function(){!1!==O&&!1!==y&&n({url:y,title:O})}),[O,y]),React.createElement(d.Fragment,null,React.createElement(f.InspectorControls,null,React.createElement(b.PanelBody,{title:Object(o.__)("Link settings")},React.createElement(b.TextareaControl,{value:c||"",onChange:function(e){n({description:e})},label:Object(o.__)("Description"),help:Object(o.__)("The description will be displayed in the menu if the current theme supports it.")}),React.createElement(b.TextControl,{value:l||"",onChange:function(e){n({title:e})},label:Object(o.__)("Link title"),autoComplete:"off"}),React.createElement(b.SelectControl,{label:"Select Icon",value:a,options:[{label:"(Click to select icon)",value:""},{label:"Facebook",value:"facebook"},{label:"Twitter",value:"twitter"},{label:"LinkedIn",value:"linkedin"},{label:"Print",value:"print"}],onChange:function(e){return n({icon:e})}}))),React.createElement("div",w,React.createElement(p.a,{name:a})))};function m(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,r)}return n}function O(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{};t%2?m(Object(n),!0).forEach((function(t){Object(r.a)(e,t,n[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):m(Object(n)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))}))}return e}var y=l.name,g={title:Object(o.__)("DEPRECATeD: Social Link"),icon:i.a,description:Object(o.__)("DEPRECATED: Use core/social-links block instead."),__experimentalLabel:function(e){return e.label},merge:function(e,t){var n=t.label,r=void 0===n?"":n;return O(O({},e),{},{label:e.label+r})},edit:w,save:function(){return React.createElement(d.Fragment,null)}};Object(c.registerBlockType)(y,O(O({},l),g))},6:function(e,t){e.exports=window.React},7:function(e,t){e.exports=window.wp.blocks}},[[46,0,6]]]);
+//# sourceMappingURL=social-link-e050b59c.js.map

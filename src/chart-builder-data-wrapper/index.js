@@ -11,6 +11,7 @@ import { select } from '@wordpress/data';
 import edit from './edit';
 import save from './save';
 import metadata from './block.json';
+import variations from './variations';
 
 const { name } = metadata;
 const settings = {
@@ -69,5 +70,6 @@ const settings = {
 	},
 	edit,
 	save,
+	variations,
 };
 registerBlockType(name, { ...metadata, ...settings });

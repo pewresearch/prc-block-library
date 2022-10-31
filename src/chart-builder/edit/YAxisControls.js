@@ -25,6 +25,7 @@ function YAxisControls({ attributes, setAttributes }) {
 		yMinDomain,
 		yMaxDomain,
 		yDomainPadding,
+		yTickMarksActive,
 		yTickNum,
 		yTickExact,
 		yTickUnit,
@@ -99,6 +100,12 @@ function YAxisControls({ attributes, setAttributes }) {
 				}
 			/>
 			<PanelRow>Axis Ticks and Tick Labels</PanelRow>
+			<ToggleControl
+				label={__('Show tick marks')}
+				help={yTickMarksActive ? 'Shows tick marks.' : 'No tick marks.'}
+				checked={yTickMarksActive}
+				onChange={() => setAttributes({ yTickMarksActive: !yTickMarksActive })}
+			/>
 			<NumberControl
 				label={__('Number of ticks')}
 				value={yTickNum}

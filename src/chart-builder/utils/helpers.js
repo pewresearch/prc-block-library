@@ -11,6 +11,12 @@ import horizontalBarConfig from '@pewresearch/chart-builder/dist/Templates/horiz
 import verticalBarConfig from '@pewresearch/chart-builder/dist/Templates/verticalBar';
 import lineConfig from '@pewresearch/chart-builder/dist/Templates/line';
 import scatterConfig from '@pewresearch/chart-builder/dist/Templates/scatter';
+import {
+	areaTemplate,
+	barTemplate,
+	columnTemplate,
+	lineTemplate,
+} from '../../chart-builder-data-wrapper/templateBlocks';
 // Transform data from table block into json useable for chart builder
 export const formattedData = (data, scale, chartType) => {
 	const { body, tableHeaders } = data;
@@ -146,13 +152,13 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
 	const getLegacyConfig = (type) => {
 		switch (type) {
 			case 'bar':
-				return verticalBarConfig;
+				return barTemplate[1][1];
 			case 'column':
-				return horizontalBarConfig;
+				return columnTemplate[1][1];
 			case 'line':
-				return lineConfig;
+				return lineTemplate[1][1];
 			case 'area':
-				return lineConfig;
+				return areaTemplate[1][1];
 			case 'scatter':
 				return scatterConfig;
 			case 'pie':
@@ -162,16 +168,17 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
 		}
 	};
 	const legacyConfig = getLegacyConfig(legacyMeta.cb_type);
-	const { layout, legend, bar, labels } = legacyConfig;
+	// const { layout, legend, bar, labels } = legacyConfig;
 	return {
-		chartType: layout.type,
-		chartOrientation: layout.orientation,
-		width: layout.width,
-		height: layout.height,
-		paddingTop: layout.padding.top,
-		paddingRight: layout.padding.right,
-		paddingBottom: layout.padding.bottom,
-		paddingLeft: layout.padding.left,
+		// chartType: layout.type,
+		// chartOrientation: layout.orientation,
+		// width: layout.width,
+		// height: layout.height,
+		// paddingTop: layout.padding.top,
+		// paddingRight: layout.padding.right,
+		// paddingBottom: layout.padding.bottom,
+		// paddingLeft: layout.padding.left,
+		...legacyConfig,
 		xScale: 'datetime' === legacyMeta.cb_xaxis_type ? 'time' : 'linear',
 		xLabel: checkEmptyStr(legacyMeta.cb_xaxis_label, attributes.xLabel),
 		yLabel: checkEmptyStr(legacyMeta.cb_yaxis_label, attributes.yLabel),
@@ -179,6 +186,7 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
 			legacyMeta.cb_yaxis_max_value,
 			attributes.yMaxDomain,
 		),
+		metaTitle: checkEmptyStr(legacyMeta.title, attributes.metaTitle),
 		metaSubtitle: checkEmptyStr(
 			legacyMeta.cb_subtitle,
 			attributes.metaSubtitle,
@@ -187,8 +195,8 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
 		xMaxDomain: 'datetime' === legacyMeta.cb_xaxis_type ? 2020 : 100,
 		lineNodes: legacyMeta.cb_hide_markers,
 		tooltipActive: legacyMeta.cb_enable_inline_tooltips,
-		labelPositionDX: labels.labelPositionDX,
-		labelPositionDY: labels.labelPositionDY,
+		// labelPositionDX: labels.labelPositionDX,
+		// labelPositionDY: labels.labelPositionDY,
 		isConvertedChart: false,
 	};
 };

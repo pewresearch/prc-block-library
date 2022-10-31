@@ -1,40 +1,40 @@
 {
-  "frontend.js": "fact-sheet-collection/frontend-ead8b3aa.js",
-  "frontend.js.map": "fact-sheet-collection/frontend-ead8b3aa.js.map",
-  "main.js": "fact-sheet-collection/main-f4d87b26.js",
-  "main.js.map": "fact-sheet-collection/main-f4d87b26.js.map",
-  "runtime.js": "fact-sheet-collection/runtime-f356125f.js",
-  "runtime.js.map": "fact-sheet-collection/runtime-f356125f.js.map",
-  "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-75bfe11b.js",
-  "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-75bfe11b.js.map",
-  "vendors~main.js": "fact-sheet-collection/vendors~main-981214f0.js",
-  "vendors~main.js.map": "fact-sheet-collection/vendors~main-981214f0.js.map",
+  "frontend.js": "fact-sheet-collection/frontend-87151969.js",
+  "frontend.js.map": "fact-sheet-collection/frontend-87151969.js.map",
+  "main.js": "fact-sheet-collection/main-7ae6b483.js",
+  "main.js.map": "fact-sheet-collection/main-7ae6b483.js.map",
+  "runtime.js": "fact-sheet-collection/runtime-a2639d86.js",
+  "runtime.js.map": "fact-sheet-collection/runtime-a2639d86.js.map",
+  "vendors~frontend.js": "fact-sheet-collection/vendors~frontend-8127f5c2.js",
+  "vendors~frontend.js.map": "fact-sheet-collection/vendors~frontend-8127f5c2.js.map",
+  "vendors~main.js": "fact-sheet-collection/vendors~main-089f4322.js",
+  "vendors~main.js.map": "fact-sheet-collection/vendors~main-089f4322.js.map",
   "wpackioEp": {
     "main": {
       "assets": {
         "js": [
-          "fact-sheet-collection/runtime-f356125f.js",
-          "fact-sheet-collection/vendors~main-981214f0.js",
-          "fact-sheet-collection/main-f4d87b26.js"
+          "fact-sheet-collection/runtime-a2639d86.js",
+          "fact-sheet-collection/vendors~main-089f4322.js",
+          "fact-sheet-collection/main-7ae6b483.js"
         ],
         "js.map": [
-          "fact-sheet-collection/runtime-f356125f.js.map",
-          "fact-sheet-collection/vendors~main-981214f0.js.map",
-          "fact-sheet-collection/main-f4d87b26.js.map"
+          "fact-sheet-collection/runtime-a2639d86.js.map",
+          "fact-sheet-collection/vendors~main-089f4322.js.map",
+          "fact-sheet-collection/main-7ae6b483.js.map"
         ]
       }
     },
     "frontend": {
       "assets": {
         "js": [
-          "fact-sheet-collection/runtime-f356125f.js",
-          "fact-sheet-collection/vendors~frontend-75bfe11b.js",
-          "fact-sheet-collection/frontend-ead8b3aa.js"
+          "fact-sheet-collection/runtime-a2639d86.js",
+          "fact-sheet-collection/vendors~frontend-8127f5c2.js",
+          "fact-sheet-collection/frontend-87151969.js"
         ],
         "js.map": [
-          "fact-sheet-collection/runtime-f356125f.js.map",
-          "fact-sheet-collection/vendors~frontend-75bfe11b.js.map",
-          "fact-sheet-collection/frontend-ead8b3aa.js.map"
+          "fact-sheet-collection/runtime-a2639d86.js.map",
+          "fact-sheet-collection/vendors~frontend-8127f5c2.js.map",
+          "fact-sheet-collection/frontend-87151969.js.map"
         ]
       }
     }

@@ -1,0 +1,31 @@
+// quote sorter parent styles
+.wp-block-prc-block-quote-sorter {
+	.wp-block-prc-block-quote-sorter-search-bar {
+		.ui.input input {
+			height: 44px !important;
+			border-radius: 0;
+			font-size: var(--wp--preset--font-size--small);
+		}
+	}
+
+	.show-more {
+		display: grid;
+		place-items: center;
+		.show-more__button {
+			width: 150px;
+			border-radius: 0;
+			background-color: #fff;
+			font-family: var(--wp--preset--font-family--sans-serif);
+			font-size: 15px;
+			font-weight: 400;
+			border: 1px solid #afafaf;
+			color: rgba(0, 0, 0, 0.6) !important;
+			&:hover {
+				background-color: #dadbdb !important;
+			}
+			&.hidden {
+				display: none;
+			}
+		}
+	}
+}

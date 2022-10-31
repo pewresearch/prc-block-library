@@ -1,0 +1,75 @@
+{
+	"apiVersion": 2,
+	"name": "prc-block/quote-sorter-dropdown",
+	"title": "Quote Sorter – Filter",
+	"icon": "arrow-down-alt2",
+	"description": "Child block for filtering the categories for the quote sorter block.",
+	"category": "layout",
+	"attributes": {
+		"typologies": {
+			"type": "string"
+		},
+		"placeholder": {
+			"type": "string",
+			"default": "Filter"
+		},
+		"sortedTypologies": {
+			"type": "array",
+			"default": []
+		},
+		"includeResetFilter": {
+			"type": "boolean",
+			"default": false
+		},
+		"resetLanguage": {
+			"type": "string",
+			"default": "View all"
+		},
+		"hasDynamicTextElement": {
+			"type": "boolean",
+			"default": false
+		},
+		"dynamicTextBlockId": {
+			"type": "string"
+		},
+		"buttonTextColor": {
+			"type": "string",
+			"default": "#2a2a2a"
+		},
+		"buttonBackgroundColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"activeButtonTextColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"activeButtonBackgroundColor": {
+			"type": "string",
+			"default": "#5b7344"
+		}
+	},
+	"styles": [
+		{
+			"name": "dropdown",
+			"label": "Dropdown",
+			"isDefault": true
+		},
+		{
+			"name": "list-inline",
+			"label": "List - Inline"
+		},
+		{
+			"name": "list-column",
+			"label": "List - Column"
+		}
+	],
+	"supports": {
+		"html": false
+	},
+	"ancestor": ["prc-block/quote-sorter"],
+	"usesContext": [
+		"prc-block/quote-sorter-hash",
+		"prc-block/quote-sorter-typologies"
+	]
+}

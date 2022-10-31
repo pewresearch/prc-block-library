@@ -214,6 +214,36 @@
 			"php": "./src/promo-rotator/index.php"
 		},
 		{
+			"name": "quote-sorter-controller",
+			"main": "./src/quote-sorter/controller/index.js",
+			"frontend": "./src/quote-sorter/controller/frontend.js",
+			"php": "./src/quote-sorter/index.php"
+		},
+		{
+			"name": "quote-sorter-quote-template",
+			"main": "./src/quote-sorter/quote-template/index.js"
+		},
+		{
+			"name": "quote-sorter-quote-text",
+			"main": "./src/quote-sorter/quote-text/index.js"
+		},
+		{
+			"name": "quote-sorter-quote-attribution",
+			"main": "./src/quote-sorter/quote-attribution/index.js"
+		},
+		{
+			"name": "quote-sorter-search-bar",
+			"main": "./src/quote-sorter/search-bar/index.js"
+		},
+		{
+			"name": "quote-sorter-dropdown",
+			"main": "./src/quote-sorter/dropdown/index.js"
+		},
+		{
+			"name": "quote-sorter-dynamic-text",
+			"main": "./src/quote-sorter/dynamic-text/index.js"
+		},
+		{
 			"name": "responsive-container-controller",
 			"main": "./src/responsive-container/controller/index.js",
 			"php": "./src/responsive-container/controller/index.php"
@@ -253,28 +283,24 @@
 		{
 			"name": "tabs-controller",
 			"main": "./src/tabs/controller/index.js",
-			"php": "./src/tabs/controller/index.php",
+			"php": "./src/tabs/index.php",
 			"frontend": "./src/tabs/controller/view.js"
 		},
 		{
 			"name": "tabs-menu",
-			"main": "./src/tabs/menu/index.js",
-			"php": "./src/tabs/menu/index.php"
+			"main": "./src/tabs/menu/index.js"
 		},
 		{
 			"name": "tabs-menu-item",
-			"main": "./src/tabs/menu-item/index.js",
-			"php": "./src/tabs/menu-item/index.php"
+			"main": "./src/tabs/menu-item/index.js"
 		},
 		{
 			"name": "tabs-pane",
-			"main": "./src/tabs/pane/index.js",
-			"php": "./src/tabs/pane/index.php"
+			"main": "./src/tabs/pane/index.js"
 		},
 		{
 			"name": "tabs-panes",
-			"main": "./src/tabs/panes/index.js",
-			"php": "./src/tabs/panes/index.php"
+			"main": "./src/tabs/panes/index.js"
 		},
 		{
 			"name": "taxonomy-tree",
@@ -361,37 +387,6 @@
 			"name": "carousel-slide",
 			"main": "./src/carousel/slide/index.js",
 			"php": "./src/carousel/slide/index.php"
-		},
-		{
-			"name": "quote-sorter",
-			"main": "./src/quote-sorter/index.js",
-			"frontend": "./src/quote-sorter/frontend.js",
-			"php": "./src/quote-sorter/index.php"
-		},
-		{
-			"name": "quote-sorter-quotes",
-			"main": "./src/quote-sorter/child-blocks/quotes/index.js",
-			"php": "./src/quote-sorter/child-blocks/quotes/index.php"
-		},
-		{
-			"name": "quote-sorter-quote",
-			"main": "./src/quote-sorter/child-blocks/quote/index.js",
-			"php": "./src/quote-sorter/child-blocks/quote/index.php"
-		},
-		{
-			"name": "quote-sorter-search-bar",
-			"main": "./src/quote-sorter/child-blocks/search-bar/index.js",
-			"php": "./src/quote-sorter/child-blocks/search-bar/index.php"
-		},
-		{
-			"name": "quote-sorter-dropdown",
-			"main": "./src/quote-sorter/child-blocks/dropdown/index.js",
-			"php": "./src/quote-sorter/child-blocks/dropdown/index.php"
-		},
-		{
-			"name": "quote-sorter-dynamic-text",
-			"main": "./src/quote-sorter/child-blocks/dynamic-text/index.js",
-			"php": "./src/quote-sorter/child-blocks/dynamic-text/index.php"
 		},
 		{
 			"name": "form-input-text",
