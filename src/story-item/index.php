@@ -15,7 +15,7 @@ class Story_Item extends PRC_Block_Library {
 	public static $css_handle          = false;
 	public static $frontend_js_handle  = false;
 	public static $date_format         = 'M j, Y';
-	public static $cache_invalidate    = '11-01-2022';
+	public static $cache_invalidate    = '11-01-2022a';
 	// public static $cache_invalidate    = false;
 	public static $cache_ttl           = 10 * MINUTE_IN_SECONDS;
 	public static $stub_disabled_sites = array(
@@ -107,14 +107,8 @@ class Story_Item extends PRC_Block_Library {
 
 		if ( empty( $label ) ) {
 			$taxonomy = $this->get_taxonomy( $attributes );
-			if ( 'disabled' === $taxonomy ) {
-				$label =  '';
-			}
 			if ('dataset' === $post_type ) {
 				$label = 'Dataset';
-			}
-			if ('news-item' === $post_type ) {
-				$label = '';
 			}
 
 			$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'names' ) );
@@ -130,6 +124,10 @@ class Story_Item extends PRC_Block_Library {
 
 		// @TODO: This can eventually be gotten rid of once we migrate fact-tank to its own short-reads subsite and these just become posts.
 		$label = 'fact-tank' === $label ? 'short-read' : $label;
+
+		if ( 'disabled' === $taxonomy || 'news-item' === $post_type ) {
+			$label =  '';
+		}
 
 		// Ensure label is lowercase and has no dashes.
 		return strtolower( str_replace( '-', ' ', $label ) );
