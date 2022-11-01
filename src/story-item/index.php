@@ -11,18 +11,15 @@ use \WPackio as WPackio;
 class Story_Item extends PRC_Block_Library {
 
 	public static $block_name          = 'prc-block/story-item';
-	public static $version             = '4.0.10f';
+	public static $version             = '4.0.10';
 	public static $css_handle          = false;
 	public static $frontend_js_handle  = false;
 	public static $date_format         = 'M j, Y';
-	public static $cache_invalidate    = false ; //'11-01-2022';
+	public static $cache_invalidate    = '10-31-2022';
 	public static $cache_ttl           = 10 * MINUTE_IN_SECONDS;
 	public static $stub_disabled_sites = array(
 		17,
 		19
-	);
-	public static $experiments         = array(
-		'relative_date' => false,
 	);
 
 	public function __construct( $init = false ) {
@@ -33,8 +30,9 @@ class Story_Item extends PRC_Block_Library {
 			add_action( 'prc_core_on_stub_update', array( $this, 'clear_index_cache_on_stub_update' ), 10, 1 );
 		}
 	}
+
 	public function allow_debug_output() {
-		return true;
+		return false;
 	}
 
 	public function return_story_item( $args = array() ) {
