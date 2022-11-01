@@ -368,12 +368,10 @@ class Story_Item extends PRC_Block_Library {
 		// @TODO: when we fully move over PRC to FSE we can remove inLoop attribute.
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
-		error_log("A");
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : get_the_title($post_id) );
 
 		$excerpt     = $this->get_excerpt( $post_id, $attributes );
-		error_log("B");
 		$label       = $this->get_label( $post_id, $post_type, $attributes );
 		$date        = $this->get_date( $post_id, $attributes );
 		$url         = $this->get_url( $post_id, $post_type, $attributes );
@@ -399,7 +397,6 @@ class Story_Item extends PRC_Block_Library {
 		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : false; // We need to get the art status here....
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : $image_is_bordered;
 
-		error_log("C");
 		$variables = array(
 			'post_id'                       => $post_id,
 			'post_type'                     => $post_type,
@@ -426,8 +423,6 @@ class Story_Item extends PRC_Block_Library {
 		);
 
 		wp_reset_postdata();
-
-		error_log("D");
 
 		if ( ! is_preview() && false !== self::$cache_invalidate ) {
 			wp_cache_add( $cache_key, $variables, self::$block_name, self::$cache_ttl );
