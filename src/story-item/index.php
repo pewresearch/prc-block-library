@@ -114,7 +114,7 @@ class Story_Item extends PRC_Block_Library {
 				$label = 'Dataset';
 			}
 			if ('news-item' === $post_type ) {
-				$label = 'daily briefing';
+				$label = '';
 			}
 
 			$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'names' ) );
