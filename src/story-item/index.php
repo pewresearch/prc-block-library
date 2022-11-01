@@ -15,7 +15,8 @@ class Story_Item extends PRC_Block_Library {
 	public static $css_handle          = false;
 	public static $frontend_js_handle  = false;
 	public static $date_format         = 'M j, Y';
-	public static $cache_invalidate    = '10-31-2022';
+	public static $cache_invalidate    = '11-01-2022';
+	// public static $cache_invalidate    = false;
 	public static $cache_ttl           = 10 * MINUTE_IN_SECONDS;
 	public static $stub_disabled_sites = array(
 		17,
@@ -44,6 +45,7 @@ class Story_Item extends PRC_Block_Library {
 			array(),
 		);
 		return render_block( (array) $parsed );
+		// return 'Hello World';
 	}
 
 	public function do_story_item( $args = array() ) {
@@ -52,9 +54,12 @@ class Story_Item extends PRC_Block_Library {
 	}
 
 	private function get_excerpt( int $post_id, $attributes = array() ) {
+		if ( array_key_exists('postType', $attributes) && 'news-item' === $attributes['postType'] ) {
+			return false;
+		}
 		$excerpt = array_key_exists( 'excerpt', $attributes ) ? $attributes['excerpt'] : false;
-		$excerpt = false === $excerpt && !empty(get_the_excerpt($post_id)) ? get_the_excerpt($post_id) : $excerpt;
-		return $excerpt;
+		$post_excerpt = get_the_excerpt($post_id);
+		return (false === $excerpt && !empty($post_excerpt)) ? $post_excerpt : $excerpt;
 	}
 
 	/**
@@ -108,9 +113,12 @@ class Story_Item extends PRC_Block_Library {
 			if ('dataset' === $post_type ) {
 				$label = 'Dataset';
 			}
+			if ('news-item' === $post_type ) {
+				$label = 'daily briefing';
+			}
 
 			$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'names' ) );
-			if ( ! is_wp_error( $terms ) || ! empty( $terms ) ) {
+			if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 				// Get the first term.
 				$label = array_shift( $terms );
 			}
@@ -362,10 +370,12 @@ class Story_Item extends PRC_Block_Library {
 		// @TODO: when we fully move over PRC to FSE we can remove inLoop attribute.
 		$is_in_loop = array_key_exists( 'queryId', $context ) ? true : false;
 		$is_in_loop = array_key_exists( 'inLoop', $attributes ) ? $attributes['inLoop'] : $is_in_loop;
-
+		error_log("A");
 		// Title, image, excerpt, url, label, date should all first default to the post value however if those values are set in the attributes array then use them.
 		$title       = wptexturize( array_key_exists( 'title', $attributes ) ? $attributes['title'] : get_the_title($post_id) );
+
 		$excerpt     = $this->get_excerpt( $post_id, $attributes );
+		error_log("B");
 		$label       = $this->get_label( $post_id, $post_type, $attributes );
 		$date        = $this->get_date( $post_id, $attributes );
 		$url         = $this->get_url( $post_id, $post_type, $attributes );
@@ -391,6 +401,7 @@ class Story_Item extends PRC_Block_Library {
 		$image_is_bordered = false !== $image && array_key_exists( 'bordered', $image ) ? $image['bordered'] : false; // We need to get the art status here....
 		$image_is_bordered = array_key_exists( 'isChartArt', $attributes ) ? $attributes['isChartArt'] : $image_is_bordered;
 
+		error_log("C");
 		$variables = array(
 			'post_id'                       => $post_id,
 			'post_type'                     => $post_type,
@@ -417,6 +428,8 @@ class Story_Item extends PRC_Block_Library {
 		);
 
 		wp_reset_postdata();
+
+		error_log("D");
 
 		if ( ! is_preview() && false !== self::$cache_invalidate ) {
 			wp_cache_add( $cache_key, $variables, self::$block_name, self::$cache_ttl );
