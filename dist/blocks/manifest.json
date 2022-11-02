@@ -15,10 +15,10 @@
   "chart-builder.css.map": "blocks/chart-builder-ddf9d855.css.map",
   "chart-builder.js": "blocks/chart-builder-90462fe0.js",
   "chart-builder.js.map": "blocks/chart-builder-90462fe0.js.map",
-  "collapsible.css": "blocks/collapsible-129e4780.css",
-  "collapsible.css.map": "blocks/collapsible-129e4780.css.map",
-  "collapsible.js": "blocks/collapsible-443dad9b.js",
-  "collapsible.js.map": "blocks/collapsible-443dad9b.js.map",
+  "collapsible.css": "blocks/collapsible-7b276669.css",
+  "collapsible.css.map": "blocks/collapsible-7b276669.css.map",
+  "collapsible.js": "blocks/collapsible-06289235.js",
+  "collapsible.js.map": "blocks/collapsible-06289235.js.map",
   "collection-kicker.css": "blocks/collection-kicker-3de6c070.css",
   "collection-kicker.css.map": "blocks/collection-kicker-3de6c070.css.map",
   "collection-kicker.js": "blocks/collection-kicker-1fb409f8.js",
@@ -490,17 +490,17 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/collapsible-443dad9b.js"
+          "blocks/collapsible-06289235.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/collapsible-443dad9b.js.map"
+          "blocks/collapsible-06289235.js.map"
         ],
         "css": [
-          "blocks/collapsible-129e4780.css"
+          "blocks/collapsible-7b276669.css"
         ],
         "css.map": [
-          "blocks/collapsible-129e4780.css.map"
+          "blocks/collapsible-7b276669.css.map"
         ]
       }
     },

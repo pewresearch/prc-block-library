@@ -156,7 +156,7 @@ class PRC_Block_Library {
 				array(
 					'slug' => 'editorial-product',
 					'title' => __( 'Editorial Product', 'prc-block-library-categories' ),
-					'icon' => 'superhero-alt'
+					'icon' => 'lightbulb'
 				)
 			)
 		);
