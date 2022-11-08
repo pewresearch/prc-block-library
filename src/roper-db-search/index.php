@@ -112,6 +112,9 @@ class Roper_DB_Search extends PRC_Block_Library {
 			</script>
 			<?php
 		} else {
+			wp_enqueue_script('roper-db-search');
+			wp_enqueue_style('roper-db-search');
+
 			$sub_text = $attributes['subText'];
 			$per_page = $attributes['perPage'];
 			?>
@@ -187,8 +190,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/roper-db-search',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style' 	=> 'roper-db-search',
-				'script' 	=> 'roper-db-search',
+				'style'   => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
