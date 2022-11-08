@@ -31,40 +31,17 @@ class Roper_DB_Search extends PRC_Block_Library {
 
 		ob_start();
 		if ( 'global' === $type ) {
-			$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/index.cfm';
-			$args = array();
-			$q_id = get_query_var('qid', false);
-			$cnt_ids = get_query_var('cntIDs', false);
-			$std_ids = get_query_var('stdIDs', false);
-			$keyword = false !== get_query_var('keyword', false) ? get_query_var('keyword', false) : get_query_var('keywordtext', false);
-			$topic = false !== get_query_var('topic', false) ? get_query_var('topic', false) : false;
-			$start_date = false !== get_query_var('startdate', false) ? get_query_var('startdate', false) : false;
-			$end_date = false !== get_query_var('enddate', false) ? get_query_var('enddate', false) : false;
-			if ( false !== $keyword ) {
-				$args['keywordText'] = $keyword;
-				$args['btnSubmit'] = 'Search';
-				$args['topic'] = $topic;
-				$args['startdate'] = $start_date;
-				$args['enddate'] = $end_date;
-				$args['txtAreaCntIDsStndr'] = '';
-				$args['txtAreaStdIDs'] = '';
-				//
-				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/search_results.cfm';
-			} elseif ( false !== $q_id ) {
-				$args['qid'] = $q_id;
-				$args['cntIDs'] = $cnt_ids;
-				$args['stdIDs'] = $std_ids;
-				//
-				$src = 'https://ropercenter.cornell.edu/CFIDE/pewglobal/question_view.cfm';
-			}
-			$iframe_url = add_query_arg($args, $src);
+			$this->enqueue_frontend();
 
+			$src = 'https://ropercenter.cornell.edu/pewglobal/';
 			echo wp_kses(
-				"<iframe src='{$iframe_url}' width='100%' height='1300' frameborder='0' hspace='0' vspace='0' scrolling='no' marginwidth='0' marginheight='0' allowtransparency='true' name='post' id='frameSec'></iframe>",
+				"<iframe src='{$src}'
+				id='frameSec' width: '100%' ></iframe>",
 				array( 'iframe' => array(
 						'src'               => true,
 						'height'            => true,
 						'width'             => true,
+						'min-width'         => true,
 						'frameborder'       => true,
 						'allowfullscreen'   => true,
 						'hspace'            => true,
@@ -78,6 +55,62 @@ class Roper_DB_Search extends PRC_Block_Library {
 					),
 				)
 			);
+			?>
+			<script>
+				window.addEventListener(
+					"message",
+					function (event) {
+					if (
+						event.origin === "https://www.pewresearch.org/" //iFrame host
+					) {
+						//Handle back button press
+						if ("backEvent" in event.data) {
+						history.back();
+						} else {
+						//Handle bookmarkable
+						let url =
+							window.location.href.split("?")[0] +
+							"?" +
+							event.data.searchParams;
+						if (
+							url != window.location.href &&
+							url != window.location.href + "?"
+						) {
+							history.pushState({ url: url }, "", url);
+						}
+						}
+					}
+					},
+					false
+				);
+				//Allows browser back button to work without reloading page
+				window.addEventListener("popstate", (event) => {
+					let iframe = document.getElementById("frameSec");
+					let iframeWindow = iframe.contentWindow || iframe.contentDocument;
+					let newParams =
+					location.href.split("?").length > 1
+						? location.href.split("?")[1]
+						: "";
+					iframeWindow.postMessage(
+					{
+						searchParams: newParams,
+						historyBack: true,
+					},
+					"https://www.pewresearch.org/" //iFrame Host
+					);
+				});
+
+				let iFrame = document.getElementById("frameSec");
+				let newSrc =
+						iFrame.src +
+						(window.location.href.split("?").length > 1
+						? "?" + window.location.href.split("?")[1]
+						: "");
+				if (iFrame.src != newSrc) {
+					iFrame.src = newSrc;
+				}
+			</script>
+			<?php
 		} else {
 			$sub_text = $attributes['subText'];
 			$per_page = $attributes['perPage'];
@@ -113,6 +146,27 @@ class Roper_DB_Search extends PRC_Block_Library {
 		wp_register_style('roper-db-search', 'https://s3.amazonaws.com/files.roper.center/partnersearch/'.self::$version.'/roper-ps.css', array(), self::$version);
 	}
 
+	public function enqueue_frontend() {
+		$registered = $this->register_frontend();
+		wp_enqueue_script( array_pop( $registered['js'] )['handle'] );
+		return array_pop( $registered['js'] )['handle'];
+	}
+	public function register_frontend() {
+		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
+		return $enqueue->register(
+			'frontend',
+			'roper-db-search',
+			array(
+				'js'        => true,
+				'css'       => true,
+				'js_dep'    => $js_deps,
+				'css_dep'   => array(),
+				'in_footer' => true,
+				'media'     => 'all',
+			)
+		);
+	}
 	public function register_block() {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
@@ -121,7 +175,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 			'roper-db-search',
 			array(
 				'js'        => true,
-				'css'       => false,
+				'css'       => true,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -133,8 +187,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/roper-db-search',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style' => 'roper-db-search',
-				'script' => 'roper-db-search',
+				'style'   => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);

@@ -256,7 +256,8 @@
 		{
 			"name": "roper-db-search",
 			"main": "./src/roper-db-search/index.js",
-			"php": "./src/roper-db-search/index.php"
+			"php": "./src/roper-db-search/index.php",
+			"frontend": "./src/roper-db-search/frontend.js"
 		},
 		{
 			"name": "staff",
