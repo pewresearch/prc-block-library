@@ -1,15 +1,16 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "prc-block/roper-db-search",
 	"title": "Roper DB Search",
 	"description": "A frontend for the Roper DB Search API",
-	"keywords": [ "database", "roper", "cornell", "search", "polling" ],
-	"category": "layout",
+	"keywords": ["database", "roper", "cornell", "search", "polling"],
+	"category": "editorial-product",
 	"attributes": {
 		"subText": {
-            "type": "string",
+			"type": "string",
 			"default": "Use this tool to search our database of polling questions."
-        },
+		},
 		"perPage": {
 			"type": "number",
 			"default": 10
@@ -18,7 +19,7 @@
 			"type": "string",
 			"default": "default"
 		}
-    },
+	},
 	"supports": {
 		"html": false
 	}
