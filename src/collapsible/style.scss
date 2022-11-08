@@ -16,6 +16,13 @@
 		.opened {
 			display: none;
 		}
+		.plus.icon,
+		.minus.icon {
+			margin-left: 0.5em;
+		}
+		.caret.icon {
+			margin-right: 0.5em;
+		}
 	}
 	.wp-block-prc-block-collapsible__title {
 		display: flex;

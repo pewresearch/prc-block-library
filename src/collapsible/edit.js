@@ -20,6 +20,9 @@ const ALLOWED_BLOCKS = [
 	'core/table',
 	'core/list',
 	'core/buttons',
+	'core/file',
+	'core/video',
+	'core/group',
 ];
 
 const TEMPLATE = [['core/paragraph', {}]];
