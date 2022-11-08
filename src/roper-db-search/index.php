@@ -187,7 +187,8 @@ class Roper_DB_Search extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/roper-db-search',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'   => array_pop( $registered['css'] )['handle'],
+				'style' 	=> 'roper-db-search',
+				'script' 	=> 'roper-db-search',
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
