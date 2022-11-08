@@ -105,8 +105,9 @@ class Story_Item extends PRC_Block_Library {
 			$label = $attributes['label'];
 		}
 
+		$taxonomy = $this->get_taxonomy( $attributes );
+
 		if ( empty( $label ) ) {
-			$taxonomy = $this->get_taxonomy( $attributes );
 			if ('dataset' === $post_type ) {
 				$label = 'Dataset';
 			}
