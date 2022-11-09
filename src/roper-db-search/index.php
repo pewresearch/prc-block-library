@@ -31,7 +31,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 
 		ob_start();
 		if ( 'global' === $type ) {
-			$this->enqueue_frontend();
+			$this->enqueue_global_frontend_assets();
 
 			$src = 'https://ropercenter.cornell.edu/pewglobal/';
 			echo wp_kses(
@@ -149,11 +149,12 @@ class Roper_DB_Search extends PRC_Block_Library {
 		wp_register_style('roper-db-search', 'https://s3.amazonaws.com/files.roper.center/partnersearch/'.self::$version.'/roper-ps.css', array(), self::$version);
 	}
 
-	public function enqueue_frontend() {
+	public function enqueue_global_frontend_assets() {
 		$registered = $this->register_frontend();
 		wp_enqueue_script( array_pop( $registered['js'] )['handle'] );
-		return array_pop( $registered['js'] )['handle'];
+		wp_enqueue_style( array_pop( $registered['css'] )['handle'] );
 	}
+
 	public function register_frontend() {
 		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
@@ -170,6 +171,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 			)
 		);
 	}
+
 	public function register_block() {
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 
@@ -178,7 +180,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 			'roper-db-search',
 			array(
 				'js'        => true,
-				'css'       => true,
+				'css'       => false,
 				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
@@ -190,7 +192,6 @@ class Roper_DB_Search extends PRC_Block_Library {
 			plugin_dir_path( __DIR__ ) . '/roper-db-search',
 			array(
 				'editor_script'   => array_pop( $registered['js'] )['handle'],
-				'style'   => array_pop( $registered['css'] )['handle'],
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
