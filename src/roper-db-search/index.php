@@ -156,7 +156,6 @@ class Roper_DB_Search extends PRC_Block_Library {
 	}
 
 	public function register_frontend() {
-		$js_deps = array( 'react', 'react-dom', 'wp-dom-ready', 'wp-element', 'wp-i18n', 'wp-polyfill', 'moment', 'wp-url' );
 		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', parent::$plugin_file );
 		return $enqueue->register(
 			'frontend',
@@ -164,7 +163,7 @@ class Roper_DB_Search extends PRC_Block_Library {
 			array(
 				'js'        => true,
 				'css'       => true,
-				'js_dep'    => $js_deps,
+				'js_dep'    => array(),
 				'css_dep'   => array(),
 				'in_footer' => true,
 				'media'     => 'all',
