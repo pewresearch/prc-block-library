@@ -6,6 +6,7 @@ import { Fragment } from '@wordpress/element';
 import {
 	InspectorControls,
 	InspectorAdvancedControls,
+	PanelColorSettings,
 } from '@wordpress/block-editor';
 import {
 	PanelBody,
@@ -26,6 +27,19 @@ function Controls({ attributes, setAttributes }) {
 						onChange={() =>
 							setAttributes({ includeQuoteArt: !attributes.includeQuoteArt })
 						}
+					/>
+					<PanelColorSettings
+						__experimentalHasMultipleOrigins
+						__experimentalIsRenderedInSidebar
+						title={__('Quote art color')}
+						initialOpen
+						colorSettings={[
+							{
+								value: attributes.quoteArtColor,
+								onChange: (value) => setAttributes({ quoteArtColor: value }),
+								label: __('Color'),
+							},
+						]}
 					/>
 					<TextareaControl
 						label={__('No results message')}

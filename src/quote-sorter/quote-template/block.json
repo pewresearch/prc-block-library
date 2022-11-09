@@ -25,6 +25,10 @@
 			"type": "boolean",
 			"default": true
 		},
+		"quoteArtColor": {
+			"type": "string",
+			"default": "#2a2a2a"
+		},
 		"noResultsMessage": {
 			"type": "string",
 			"default": "No results found. Please try another search."

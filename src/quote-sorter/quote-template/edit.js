@@ -25,7 +25,11 @@ const TEMPLATE = [
 
 function QuoteTemplateInnerBlocks() {
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'wp-block-prc-block-quote' },
+		{
+			className: `wp-block-prc-block-quote active-quote ${
+				!includeQuoteArt ? 'no-art' : ''
+			}`,
+		},
 		{ template: TEMPLATE },
 	);
 	return <div {...innerBlocksProps} />;
@@ -36,11 +40,14 @@ function QuoteTemplateBlockPreview({
 	blockContextId,
 	isHidden,
 	setActiveBlockContextId,
+	includeQuoteArt,
 }) {
 	const blockPreviewProps = useBlockPreview({
 		blocks,
 		props: {
-			className: 'wp-block-prc-block-quote',
+			className: `wp-block-prc-block-quote active-quote ${
+				!includeQuoteArt ? 'no-art' : ''
+			}`,
 		},
 	});
 
@@ -170,6 +177,7 @@ export default function QuoteTemplateEdit({
 								blockContextId={contextId}
 								setActiveBlockContextId={setActiveBlockContextId}
 								isHidden={isVisible}
+								includeQuoteArt={attributes.includeQuoteArt}
 							/>
 						</BlockContextProvider>
 					);

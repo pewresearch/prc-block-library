@@ -11,7 +11,13 @@ import {
 } from './frontend-components/Filter';
 import Search from './frontend-components/Search';
 
+import { Color, Solver } from '../utils/color';
+
 import './style.scss';
+
+// function to covert hex code to rgb
+const hexToRGBArray = (hex) =>
+	hex.match(/[A-Za-z0-9]{2}/g).map((v) => parseInt(v, 16));
 
 domReady(() => {
 	console.log('frontend loaded');
@@ -22,6 +28,23 @@ domReady(() => {
 			const allFilters = parent.querySelectorAll(`${rootClass}-dropdown`);
 			const allSearchBars = parent.querySelectorAll(`${rootClass}-search-bar`);
 			const expandQuotesButton = parent.querySelector('.show-more__button');
+			const quotesContainer = parent.querySelector(`${rootClass}-quotes`);
+			// check if the quotes should have art, then convert hex > rgb > filter and update css var
+			if (
+				'1' === quotesContainer.dataset.hasArt &&
+				quotesContainer.dataset.artColor
+			) {
+				const hex = quotesContainer.dataset.artColor;
+				const rgb = hexToRGBArray(hex);
+				const color = new Color(rgb[0], rgb[1], rgb[2]);
+				const solver = new Solver(color);
+				const result = solver.solve();
+				console.log({ hex, rgb, color, solver, result });
+				if (result) {
+					quotesContainer.style.setProperty('--svg-filter', result.filter);
+				}
+			}
+
 			expandQuotesButton.addEventListener('click', () => {
 				const quotes = parent.querySelector(`${rootClass}-quotes`);
 				quotes.classList.toggle('expanded');
@@ -83,6 +106,7 @@ domReady(() => {
 				const quotes = parent.querySelectorAll(
 					'.wp-block-prc-block-quote-sorter-quote-template',
 				);
+
 				quotes.forEach((quote) => {
 					const quoteText = quote
 						.querySelector('.wp-block-prc-block-quote-sorter-quote-text')

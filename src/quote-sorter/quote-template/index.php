@@ -2,7 +2,7 @@
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/quote-sorter` block.
+ * Server-side rendering of the `prc-block/menu-link` block.
  *
  * @package gutenberg
  */
@@ -42,7 +42,11 @@ class Quote_Sorter_Quote_Template_Block extends PRC_Block_Library {
 		// for loop through quotes
 		ob_start();
 		?>
-		<div class="wp-block-prc-block-quote-sorter-quotes">
+		<div
+			class="wp-block-prc-block-quote-sorter-quotes"
+			data-has-art=<?php echo $hasQuoteArt; ?>
+			data-art-color=<?php echo $attributes['quoteArtColor']; ?>
+		  >
 		<?php foreach ( $quotes['quotes'] as $quote ) {
 			$block_instance = $block->parsed_block;
 

@@ -2,6 +2,7 @@ $sans-serif: var(--wp--preset--font-family--sans-serif);
 $serif: var(--wp--preset--font-family--serif);
 
 .wp-block-prc-block-quote-sorter-quotes {
+	--svg-filter: 'invert(13%) sepia(0%) saturate(0%) hue-rotate(228deg) brightness(96%) contrast(89%)';
 	overflow: hidden;
 	max-height: clamp(200px, 125vh, 1200px);
 	transition: all 500ms ease;
@@ -51,13 +52,17 @@ $serif: var(--wp--preset--font-family--serif);
 		&:before {
 			width: 65px;
 			content: ' ';
-			background-image: url('https://www.pewresearch.org/wp-content/uploads/2022/07/quote_art.png');
+			background-image: url('https://www.pewresearch.org/wp-content/uploads/2022/10/quote-left-solid.svg');
 			background-repeat: no-repeat;
 			background-size: contain;
 			position: absolute;
 			left: 0px;
 			top: 1rem;
 			height: 40px;
+			// fallback filter
+			filter: invert(13%) sepia(4%) saturate(19%) hue-rotate(329deg)
+				brightness(98%) contrast(90%);
+			filter: var(--svg-filter);
 		}
 	}
 	&.active-quote ~ .active-quote {
