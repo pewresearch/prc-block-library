@@ -19,7 +19,6 @@ class Quote_Sorter_Search_Bar extends PRC_Block_Library {
 			array(
 				'id'               => md5( wp_json_encode( $attributes ) ),
 				'class'            => array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
-				'data-typologies'  =>  $block->context['prc-block/quote-sorter-typologies'],
 				'data-placeholder' =>  $attributes['placeholder'],
 				)
 		);

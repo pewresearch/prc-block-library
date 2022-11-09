@@ -30,9 +30,7 @@ const TEMPLATE = [
 function QuoteTemplateInnerBlocks() {
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: `wp-block-prc-block-quote active-quote ${
-				!includeQuoteArt ? 'no-art' : ''
-			}`,
+			className: 'wp-block-prc-block-quote active-quote',
 		},
 		{ template: TEMPLATE },
 	);
@@ -77,12 +75,7 @@ function QuoteTemplateBlockPreview({
 
 const MemoizedQuoteTemplateBlockPreview = memo(QuoteTemplateBlockPreview);
 
-export default function QuoteTemplateEdit({
-	clientId,
-	context,
-	attributes,
-	setAttributes,
-}) {
+export default function edit({ clientId, context, attributes, setAttributes }) {
 	const sorterId = context['prc-block/quote-sorter-hash'];
 
 	const [activeBlockContextId, setActiveBlockContextId] = useState(null);

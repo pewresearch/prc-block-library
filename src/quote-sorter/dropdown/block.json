@@ -7,7 +7,8 @@
 	"category": "layout",
 	"attributes": {
 		"typologies": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"placeholder": {
 			"type": "string",
@@ -30,7 +31,8 @@
 			"default": false
 		},
 		"dynamicTextBlockId": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"buttonTextColor": {
 			"type": "string",
