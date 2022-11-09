@@ -1,5 +1,7 @@
+/**
+ * External Dependencies
+ */
 import md5 from 'md5';
-import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
@@ -15,7 +17,9 @@ import {
 } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
-
+/**
+ * Internal Dependencies
+ */
 import Controls from './Controls.jsx';
 
 const TEMPLATE = [

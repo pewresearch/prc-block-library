@@ -3,7 +3,9 @@
  */
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { Fragment } from '@wordpress/element';
-
+/**
+ * Internal Dependencies
+ */
 import Controls from './Controls';
 
 const ALLOWED_BLOCKS = [

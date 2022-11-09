@@ -1,7 +1,8 @@
+/**
+ * WordPress Dependencies
+ */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
 import {
-	Button,
 	Placeholder as WPComPlaceholder,
 	Spinner,
 	DropZoneProvider,
@@ -12,7 +13,9 @@ import {
 } from '@wordpress/components';
 
 import apiFetch from '@wordpress/api-fetch';
-
+/**
+ * Internal Dependencies
+ */
 import { arrayToJson } from './data/dataFormatter.ts';
 
 export default function Dropzone({ attributes, setAttributes }) {

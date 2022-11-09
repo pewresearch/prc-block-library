@@ -1,3 +1,6 @@
+/**
+ * External Dependencies
+ */
 import { Input } from 'semantic-ui-react';
 import { debounce } from 'lodash';
 

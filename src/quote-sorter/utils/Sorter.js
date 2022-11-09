@@ -1,7 +1,12 @@
+/**
+ * External Dependencies
+ */
+import { List, arrayMove } from 'react-movable';
+/**
+ * Wordpress Dependencies
+ */
 import { useState } from '@wordpress/element';
 import { Icon } from '@wordpress/components';
-
-import { List, arrayMove } from 'react-movable';
 
 function Sorter({ options, setAttributes }) {
 	const [items, setItems] = useState(options);

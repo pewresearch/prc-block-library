@@ -1,3 +1,4 @@
+/* eslint-disable function-paren-newline */
 /* eslint-disable no-undef */
 /**
  * WordPress dependencies
@@ -9,8 +10,10 @@ import {
 	QuoteSorterDropdown,
 	QuoteSorterFilterInline,
 } from './frontend-components/Filter';
+/**
+ * Internal Dependencies
+ */
 import Search from './frontend-components/Search';
-
 import { Color, Solver } from '../utils/color';
 
 import './style.scss';

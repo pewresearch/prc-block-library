@@ -6,15 +6,13 @@ import classnames from 'classnames';
 /**
  * WordPress Dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import {
 	useInnerBlocksProps,
 	useBlockProps,
 	InnerBlocks,
 } from '@wordpress/block-editor';
-import { select, useSelect } from '@wordpress/data';
-import { useEffect } from 'react';
+import { select, useSelect, useEffect } from '@wordpress/data';
 import { Placeholder } from '@wordpress/components';
 
 const ALLOWED_BLOCKS = [];
