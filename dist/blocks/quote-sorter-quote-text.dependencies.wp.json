@@ -1,8 +1,7 @@
 {
   "dependencies": [
     "wp-block-editor",
-    "wp-blocks",
-    "wp-i18n"
+    "wp-blocks"
   ],
   "version": "b0b92eb70fed50609bce9b3a5161abbb"
 }

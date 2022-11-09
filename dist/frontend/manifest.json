@@ -29,8 +29,8 @@
   "progress-bar.js.map": "frontend/progress-bar-13bf90ab.js.map",
   "quote-sorter-controller.css": "frontend/quote-sorter-controller-5d67d85e.css",
   "quote-sorter-controller.css.map": "frontend/quote-sorter-controller-5d67d85e.css.map",
-  "quote-sorter-controller.js": "frontend/quote-sorter-controller-3abb6666.js",
-  "quote-sorter-controller.js.map": "frontend/quote-sorter-controller-3abb6666.js.map",
+  "quote-sorter-controller.js": "frontend/quote-sorter-controller-04ec7a96.js",
+  "quote-sorter-controller.js.map": "frontend/quote-sorter-controller-04ec7a96.js.map",
   "roper-db-search.css": "frontend/roper-db-search-68db8235.css",
   "roper-db-search.css.map": "frontend/roper-db-search-68db8235.css.map",
   "roper-db-search.js": "frontend/roper-db-search-731dc25c.js",
@@ -224,13 +224,13 @@
           "frontend/runtime-24ad086e.js",
           "frontend/vendors~chart-builder~livestream~mailchimp-opt-down~quote-sorter-controller~topic-index-search-field-e4ef861a.js",
           "frontend/vendors~chart-builder~mailchimp-opt-down~quote-sorter-controller~topic-index-search-field-756e15e3.js",
-          "frontend/quote-sorter-controller-3abb6666.js"
+          "frontend/quote-sorter-controller-04ec7a96.js"
         ],
         "js.map": [
           "frontend/runtime-24ad086e.js.map",
           "frontend/vendors~chart-builder~livestream~mailchimp-opt-down~quote-sorter-controller~topic-index-search-field-e4ef861a.js.map",
           "frontend/vendors~chart-builder~mailchimp-opt-down~quote-sorter-controller~topic-index-search-field-756e15e3.js.map",
-          "frontend/quote-sorter-controller-3abb6666.js.map"
+          "frontend/quote-sorter-controller-04ec7a96.js.map"
         ],
         "css": [
           "frontend/quote-sorter-controller-5d67d85e.css"
