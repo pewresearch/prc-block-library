@@ -11,7 +11,9 @@ function save({ attributes }) {
 		return;
 	}
 
+	// eslint-disable-next-line consistent-return
 	return (
+		// eslint-disable-next-line react/jsx-no-useless-fragment
 		<Fragment>
 			{!RichText.isEmpty(caption) && (
 				<RichText.Content tagName="figcaption" value={caption} />

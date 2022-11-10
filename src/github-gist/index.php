@@ -7,7 +7,7 @@ use \WPackio as WPackio;
  * @package gutenberg
  */
 
-class Github_Gist extends PRC_Block_Library {
+class GitHub_Gist extends PRC_Block_Library {
 	public static $version = '1.0.1';
 
 	public function __construct( $init = false ) {
@@ -57,4 +57,4 @@ class Github_Gist extends PRC_Block_Library {
 	}
 }
 
-new Github_Gist( true );
+new GitHub_Gist( true );

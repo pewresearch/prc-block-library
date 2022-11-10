@@ -2,7 +2,6 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
@@ -22,24 +21,24 @@ function Controls({ attributes, setAttributes, setPreview }) {
 
 	const getGistMetaHelp = (checked) =>
 		checked
-			? __('Showing gist meta data.', 'coblocks')
-			: __('Toggle to show the gist meta data.', 'coblocks');
+			? __('Showing gist meta data.', 'prc-block-library')
+			: __('Toggle to show the gist meta data.', 'prc-block-library');
 
 	return (
 		<InspectorControls>
-			<PanelBody title={__('Gist settings', 'coblocks')}>
+			<PanelBody title={__('Gist settings', 'prc-block-library')}>
 				<TextControl
-					label={__('Gist URL', 'coblocks')}
+					label={__('Gist URL', 'prc-block-library')}
 					value={url}
 					onChange={updateURL}
 				/>
 				<TextControl
-					label={__('Gist File', 'coblocks')}
+					label={__('Gist File', 'prc-block-library')}
 					value={file}
 					onChange={updateFile}
 				/>
 				<ToggleControl
-					label={__('Gist Meta', 'coblocks')}
+					label={__('Gist Meta', 'prc-block-library')}
 					checked={!!meta}
 					onChange={() => setAttributes({ meta: !meta })}
 					help={getGistMetaHelp}
