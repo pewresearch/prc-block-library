@@ -7,7 +7,7 @@ import domReady from '@wordpress/dom-ready';
 /**
  * Internal Dependencies
  */
-import Form from './form';
+import Form from './Form';
 
 function parseStylesString(stylesString) {
 	// check if stylesString is empty.

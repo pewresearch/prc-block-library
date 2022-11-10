@@ -6,7 +6,7 @@ require_once PRC_VENDOR_DIR . '/autoload.php';
 use \WPackio as WPackio;
 
 class Mailchimp_Form extends PRC_Block_Library {
-	public static $version = '1.0.2';
+	public static $version = '1.0.3';
 	public static $view_script_handle = null;
 
 	public function __construct( $init = false ) {

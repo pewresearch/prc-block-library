@@ -137,7 +137,7 @@ export default function Form({
 						className={button.wrapperClassName}
 						disabled={processing || disabled}
 						style={{
-							opacity: processing || disabled ? 0.5 : 1,
+							opacity: processing ? 0.5 : 1,
 							...button.wrapperStyle,
 						}}
 						onClick={(e) => {

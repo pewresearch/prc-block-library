@@ -83,8 +83,8 @@
   "livestream.js.map": "blocks/livestream-b574af1d.js.map",
   "mailchimp-form.css": "blocks/mailchimp-form-e770c15d.css",
   "mailchimp-form.css.map": "blocks/mailchimp-form-e770c15d.css.map",
-  "mailchimp-form.js": "blocks/mailchimp-form-ed846717.js",
-  "mailchimp-form.js.map": "blocks/mailchimp-form-ed846717.js.map",
+  "mailchimp-form.js": "blocks/mailchimp-form-88b01fd7.js",
+  "mailchimp-form.js.map": "blocks/mailchimp-form-88b01fd7.js.map",
   "mailchimp-opt-down.js": "blocks/mailchimp-opt-down-c1275aed.js",
   "mailchimp-opt-down.js.map": "blocks/mailchimp-opt-down-c1275aed.js.map",
   "mailchimp-select.css": "blocks/mailchimp-select-9cd6b526.css",
@@ -634,13 +634,13 @@
           "blocks/runtime-7729fc41.js",
           "blocks/vendors~chart-builder~collection-kicker~mailchimp-form~mailchimp-select~menu-link~popular-listing~pr~6754faee-49a51d78.js",
           "blocks/default~collection-kicker~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-list~aa0bc84c-22346ae0.js",
-          "blocks/mailchimp-form-ed846717.js"
+          "blocks/mailchimp-form-88b01fd7.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
           "blocks/vendors~chart-builder~collection-kicker~mailchimp-form~mailchimp-select~menu-link~popular-listing~pr~6754faee-49a51d78.js.map",
           "blocks/default~collection-kicker~mailchimp-form~mailchimp-select~menu-link~popular-listing~promo~staff-list~aa0bc84c-22346ae0.js.map",
-          "blocks/mailchimp-form-ed846717.js.map"
+          "blocks/mailchimp-form-88b01fd7.js.map"
         ],
         "css": [
           "blocks/mailchimp-form-e770c15d.css"

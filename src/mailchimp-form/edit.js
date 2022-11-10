@@ -7,7 +7,7 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
+import Controls from './Controls';
 
 const ALLOWED_BLOCKS = ['prc-block/form-input-text', 'core/button'];
 
