@@ -3,7 +3,7 @@
 	flex-direction: column;
 	gap: 1em;
 
-	@container (min-width: 362px) {
+	@container action (min-width: 362px) {
 		flex-direction: row;
 		input {
 			flex-grow: 1;

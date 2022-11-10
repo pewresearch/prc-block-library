@@ -1,16 +1,3 @@
-$breakpointTablet: 920px;
-$fontSize: 15px;
-$margin: 21px auto;
-$padding: 24px 40px;
-$gridGap: 16px;
-$iconWidth: 47px;
-$largeIconWidth: 106px;
-$maxWidth: 1058px;
-// $headingColorDark: #F8F8F8;
-// $subHeadingColorDark: #DADBDB;
-// $headingColorLight: #2A2A2A;
-// $subHeadingColorLight: #565656;
-// $subHeadingLineHeight: 18px;
 
 // Disable margin-top on the first block and margin-bottom on the last block when inside a column block.
 .wp-block-prc-block-grid .column > .wp-block-prc-block-promo,
@@ -24,15 +11,21 @@ $maxWidth: 1058px;
 	}
 }
 
-.wp-block-prc-block-promo {
-	padding: $padding;
-	margin: $margin;
-	clear: both;
+.prc-block-area[data-post-type='fact-tank'] .wp-block-prc-block-promo,
+.prc-block-area[data-post-type='post'] .wp-block-prc-block-promo {
+	padding: 1rem;
+}
 
+
+.wp-block-prc-block-promo {
+	padding: 24px 40px;
+	margin: 21px auto;
+	clear: both;
 	border: 1px solid transparent;
-	font-size: $fontSize;
+	font-size: 15px;
 
 	container-type: inline-size;
+	container-name: promo;
 
 	mark {
 		background: transparent!important;
@@ -40,48 +33,18 @@ $maxWidth: 1058px;
 
 	.wp-block-prc-block-promo__sub_heading {
 		margin-top: 4px;
-		// & > p {
-		// 	line-height: $subHeadingLineHeight;
-		// }
 	}
 
-	// Layout
+	// Default Layout
 	.wp-block-prc-block-promo__inner-container {
-		max-width: $maxWidth;
 		display: grid;
-		grid-gap: $gridGap;
+		max-width: var(--max-width, 1058px);
+		grid-gap: var(--grid-gap, 16px);
+		grid-template-areas: var(--grid-template-areas);
+		grid-template-columns: var(--grid-template-columns);
+		justify-content: var(--grid-justification, center);
+		align-items: var(--grid-alignment, center);
 		margin: 0 auto;
-	}
-	&.is-style-standard > .wp-block-prc-block-promo__inner-container,
-	&:not(.is-style-asymmetrical):not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
-		grid-template-areas: 'text action';
-		grid-template-columns: 2fr 2fr;
-		align-items: center;
-	}
-	&.is-style-standard.has-icon > .wp-block-prc-block-promo__inner-container,
-	&:not(.is-style-asymmetrical):not(.is-style-pancake).has-icon > .wp-block-prc-block-promo__inner-container {
-		grid-template-areas: 'icon text action';
-		grid-template-columns: $iconWidth 2fr 2fr;
-		align-items: center;
-	}
-	&.is-style-standard.has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container,
-	&:not(.is-style-asymmetrical):not(.is-style-pancake).has-icon.has-large-icon > .wp-block-prc-block-promo__inner-container {
-		grid-template-columns: $largeIconWidth 2fr 2fr;
-	}
-
-	&.is-style-pancake > .wp-block-prc-block-promo__inner-container,
-	&.is-style-asymmetrical > .wp-block-prc-block-promo__inner-container {
-		grid-template-areas: 'text action';
-		grid-template-columns: 9fr 1fr;
-		align-items: center;
-		.wp-block-prc-block-promo__text {
-			display: flex;
-			grid-gap: 10px;
-			align-items: center;
-		}
-		.wp-block-prc-block-promo__icon {
-			display: none;
-		}
 	}
 
 	// Add some padding on mobile...?
@@ -94,19 +57,19 @@ $maxWidth: 1058px;
 		margin: 0!important;
 	}
 
-	&.has-large-icon .wp-block-prc-block-promo__icon {
-		& > img,
-		& > div > svg {
-			width: $largeIconWidth;
-		}
-	}
-
 	.wp-block-prc-block-promo__icon {
 		grid-area: icon;
 		text-align: center;
 		& > img,
 		& > div > svg {
-			width: $iconWidth;
+			width: 47px;
+		}
+
+		.has-large-icon & {
+			& > img,
+			& > div > svg {
+				width: 106px;
+			}
 		}
 	}
 
@@ -119,21 +82,49 @@ $maxWidth: 1058px;
 		grid-area: action;
 		text-align: right;
 		container-type: inline-size;
+		container-name: action;
 	}
 }
 
-// Container Queries
-
-// Variant 1 ( Standard, with form, with icon )
-.wp-block-prc-block-promo.has-icon.has-form {
+// Standard Layout (With Icon)
+.wp-block-prc-block-promo.has-icon,
+.wp-block-prc-block-promo.is-style-standard.has-icon {
+	// Large Icon
+	&.has-large-icon {
+		--grid-template-columns: 106px 2fr 2fr;
+	}
+	// Default layouts for both with and without form variants
 	&:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
-		@container (max-width: 670px) {
-			grid-template-areas:
+		--grid-template-areas: 'icon text action';
+		--grid-template-columns: 47px 2fr 2fr;
+		--grid-alignment: center;
+
+		@container promo (max-width: 361px) {
+			--grid-template-areas:
+				'icon'
+				'text'
+				'action'!important;
+			--grid-template-columns: minmax(200px, 361px)!important;
+			--grid-justification: center!important;
+
+			.wp-block-prc-block-promo__text {
+				padding-bottom: 7px;
+			}
+			.wp-block-prc-block-promo__text,
+			.wp-block-prc-block-promo__action {
+				text-align: center;
+			}
+		}
+	}
+	// With Form
+	&.has-form:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
+		@container promo (max-width: 670px) {
+			--grid-template-areas:
 			'text text'
 			'icon action';
-			grid-template-columns: $iconWidth minmax(320px, 475px);
-			align-items: flex-start;
-			justify-content: center!important;
+			--grid-template-columns: 47px minmax(320px, 475px);
+			--grid-alignment: flex-start;
+			--grid-justification: center!important;
 
 			.wp-block-prc-block-promo__text {
 				text-align: center;
@@ -141,81 +132,69 @@ $maxWidth: 1058px;
 			}
 		}
 
-		@container (max-width: 480px) {
-			grid-template-areas:
+		@container promo (max-width: 480px) {
+			--grid-template-areas:
 			'icon text'
 			'action action';
-			grid-template-columns: $iconWidth minmax(320px, 475px);
-			align-items: flex-start;
-			justify-content: center!important;
+			--grid-template-columns: 47px minmax(320px, 475px);
+			--grid-alignment: flex-start;
+			--grid-justification: center!important;
 
 			.wp-block-prc-block-promo__text {
 				text-align: left;
 				padding-bottom: 7px;
 			}
 		}
-
-		@container (max-width: 361px) {
-			grid-template-areas:
-				'icon'
-				'text'
-				'action'!important;
-			justify-content: center;
-			grid-template-columns: minmax(200px, 475px)!important;
-
-			.wp-block-prc-block-promo__text {
-				padding-bottom: 7px;
-			}
-			.wp-block-prc-block-promo__text,
-			.wp-block-prc-block-promo__action {
-				text-align: center;
+	}
+	// Without Form
+	&:not(.has-form):not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
+		--grid-template-columns: 47px 2fr 1fr;
+		@container promo (max-width: 361px) {
+			.wp-block-prc-block-promo__action,
+			.wp-block-prc-block-promo__action > .is-content-justification-right {
+				justify-content: center!important;
 			}
 		}
 	}
 }
 
-// Variant 2 ( Standard, WITH OUT form, with icon )
-.wp-block-prc-block-promo.has-icon:not(.has-form) {
-	&:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
-		@container (max-width: 670px) {
-			grid-template-areas: 'icon text action';
-			grid-template-columns: $iconWidth 2fr 1fr;
+// Pancake Layout
+.wp-block-prc-block-promo.is-style-pancake {
+	&.has-form > .wp-block-prc-block-promo__inner-container {
+		--grid-template-columns: 7fr 3fr;
+		.wp-block-prc-block-promo__action > .wp-block-prc-block-mailchimp-form {
+			flex-direction: row;
+		}
+	}
+	& > .wp-block-prc-block-promo__inner-container {
+		--grid-template-areas: 'text action';
+		--grid-template-columns: 9fr 1fr;
+		--grid-alignment: center;
+
+		@container promo (max-width: 760px) {
+			--grid-template-areas: 'icon'
+			'text'
+			'action'!important;
+			--grid-template-columns: minmax(200px, 600px)!important;
+			--grid-justification: center!important;
+
+			.wp-block-prc-block-promo__text {
+				flex-direction: column;
+			}
+			.wp-block-prc-block-promo__action,
+			.wp-block-prc-block-promo__action > .is-content-justification-right {
+				justify-content: center!important;
+			}
+		}
+
+		.wp-block-prc-block-promo__text {
+			display: flex;
+			grid-gap: 10px;
 			align-items: center;
 		}
-
-		@container (max-width: 361px) {
-			--grid-template: 'icon' 'text' 'action';
-			grid-template-areas: var(--grid-template);
-			justify-content: center;
-			grid-template-columns: minmax(200px, 475px)!important;
-
-			.wp-block-prc-block-promo__text {
-				padding-bottom: 7px;
-			}
-			.wp-block-prc-block-promo__text,
-			.wp-block-prc-block-promo__action {
-				text-align: center;
-			}
-			.wp-block-prc-block-promo__action .is-content-justification-right {
-				justify-content: center;
-			}
+		.wp-block-prc-block-promo__icon {
+			display: none;
 		}
 	}
 }
 
-// Layout:
-
-// Non Form Styles
-.wp-block-prc-block-promo:not(.is-style-pancake):not(.has-form) > .wp-block-prc-block-promo__inner-container {
-	.ui.text.container > .prc-block-area &,
-	.post-content &,
-	.column:not(.four):not(.sixteen) & {
-		grid-template-columns: 1fr;
-	}
-
-}
-
-.prc-block-area[data-post-type='fact-tank'] .wp-block-prc-block-promo,
-.prc-block-area[data-post-type='post'] .wp-block-prc-block-promo {
-	padding: 1rem;
-}
