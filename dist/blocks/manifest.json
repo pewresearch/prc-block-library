@@ -131,8 +131,8 @@
   "progress-bar.js.map": "blocks/progress-bar-0d76baf4.js.map",
   "promo-rotator.js": "blocks/promo-rotator-c0069bcf.js",
   "promo-rotator.js.map": "blocks/promo-rotator-c0069bcf.js.map",
-  "promo.css": "blocks/promo-2f0724a6.css",
-  "promo.css.map": "blocks/promo-2f0724a6.css.map",
+  "promo.css": "blocks/promo-663c1ac3.css",
+  "promo.css.map": "blocks/promo-663c1ac3.css.map",
   "promo.js": "blocks/promo-37b81808.js",
   "promo.js.map": "blocks/promo-37b81808.js.map",
   "pullquote.css": "blocks/pullquote-6abe77e2.css",
@@ -875,10 +875,10 @@
           "blocks/promo-37b81808.js.map"
         ],
         "css": [
-          "blocks/promo-2f0724a6.css"
+          "blocks/promo-663c1ac3.css"
         ],
         "css.map": [
-          "blocks/promo-2f0724a6.css.map"
+          "blocks/promo-663c1ac3.css.map"
         ]
       }
     },

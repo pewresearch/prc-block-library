@@ -48,9 +48,9 @@
 	}
 
 	// Add some padding on mobile...?
-	@media screen and (max-width: 760px) {
-		padding: 20px;
-	}
+	// @media screen and (max-width: 760px) {
+	// 	padding: 20px;
+	// }
 
 	.wp-block-prc-block-promo__heading,
 	p {
@@ -83,18 +83,22 @@
 		text-align: right;
 		container-type: inline-size;
 		container-name: action;
+
+		a.wp-block-button__link {
+			text-decoration: none!important;
+		}
 	}
 }
 
 // Standard Layout (With Icon)
-.wp-block-prc-block-promo.has-icon,
-.wp-block-prc-block-promo.is-style-standard.has-icon {
+.wp-block-prc-block-promo.has-icon:not(.is-style-pancake),
+.wp-block-prc-block-promo.is-style-standard.has-icon:not(.is-style-pancake) {
 	// Large Icon
 	&.has-large-icon {
 		--grid-template-columns: 106px 2fr 2fr;
 	}
 	// Default layouts for both with and without form variants
-	&:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
+	& > .wp-block-prc-block-promo__inner-container {
 		--grid-template-areas: 'icon text action';
 		--grid-template-columns: 47px 2fr 2fr;
 		--grid-alignment: center;
@@ -112,12 +116,12 @@
 			}
 			.wp-block-prc-block-promo__text,
 			.wp-block-prc-block-promo__action {
-				text-align: center;
+				text-align: center!important;
 			}
 		}
 	}
 	// With Form
-	&.has-form:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
+	&.has-form > .wp-block-prc-block-promo__inner-container {
 		@container promo (max-width: 670px) {
 			--grid-template-areas:
 			'text text'
@@ -147,7 +151,7 @@
 		}
 	}
 	// Without Form
-	&:not(.has-form):not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
+	&:not(.has-form) > .wp-block-prc-block-promo__inner-container {
 		--grid-template-columns: 47px 2fr 1fr;
 		@container promo (max-width: 361px) {
 			.wp-block-prc-block-promo__action,
