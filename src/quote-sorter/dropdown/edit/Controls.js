@@ -7,11 +7,10 @@ import {
 	InspectorControls,
 	InspectorAdvancedControls,
 	PanelColorSettings,
-	withColors,
 } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
-import Sorter from '../../_shared/Sorter';
+import Sorter from '../../utils/Sorter';
 
 function Controls({
 	attributes,

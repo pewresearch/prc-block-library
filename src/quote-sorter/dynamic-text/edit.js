@@ -6,15 +6,14 @@ import classnames from 'classnames';
 /**
  * WordPress Dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { useEffect } from '@wordpress/element';
 import {
 	useInnerBlocksProps,
 	useBlockProps,
 	InnerBlocks,
 } from '@wordpress/block-editor';
 import { select, useSelect } from '@wordpress/data';
-import { useEffect } from 'react';
 import { Placeholder } from '@wordpress/components';
 
 const ALLOWED_BLOCKS = [];
@@ -109,7 +108,7 @@ const edit = ({
 			<Placeholder
 				label={__('Dynamic Text Block')}
 				instructions={__(`Click this area to change the dynamic text that will appear on the
-					frontend. This block’s ID is: ${id}`)}
+					 frontend. This block’s ID is: ${id}`)}
 				isColumnLayout
 			>
 				{isActive && <InnerBlocks template={TEMPLATE} templateLock="all" />}

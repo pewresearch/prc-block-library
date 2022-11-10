@@ -12,7 +12,9 @@ import {
 	InspectorAdvancedControls,
 } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
-
+/**
+ * Internal Dependencies
+ */
 import Dropzone from './Dropzone';
 
 function Controls({ attributes, setAttributes }) {

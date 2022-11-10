@@ -16,13 +16,13 @@ class Quote_Sorter_Dropdown extends PRC_Block_Library {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$block_attrs = get_block_wrapper_attributes(array());
-		$typologies = $block->context['prc-block/quote-sorter-typologies'];
+		$typologies = $block->context['prc-block/quote-sorter-typologies'] ?? '';
 		$placeholder = $attributes['placeholder'];
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'               => md5( wp_json_encode( $attributes ) ),
 				'class'            => array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
-				'data-typologies'  =>  $block->context['prc-block/quote-sorter-typologies'],
+				'data-typologies'  =>  $typologies,
 				'data-placeholder' =>  $attributes['placeholder'],
 				'data-sortedTypologies' =>  wp_json_encode($attributes['sortedTypologies']),
 				'data-include-reset-filter' =>$attributes['includeResetFilter'],

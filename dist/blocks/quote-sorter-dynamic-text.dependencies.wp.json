@@ -1,6 +1,5 @@
 {
   "dependencies": [
-    "react",
     "wp-block-editor",
     "wp-blocks",
     "wp-components",

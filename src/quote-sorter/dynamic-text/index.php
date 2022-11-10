@@ -2,7 +2,6 @@
 use \WPackio as WPackio;
 
 /**
- * Server-side rendering of the `prc-block/quote-sorter` block.
  *
  * @package gutenberg
  */

@@ -1,5 +1,7 @@
+/**
+ * External Dependencies
+ */
 import md5 from 'md5';
-import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
@@ -15,7 +17,9 @@ import {
 } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
-
+/**
+ * Internal Dependencies
+ */
 import Controls from './Controls.jsx';
 
 const TEMPLATE = [
@@ -25,7 +29,9 @@ const TEMPLATE = [
 
 function QuoteTemplateInnerBlocks() {
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'wp-block-prc-block-quote' },
+		{
+			className: 'wp-block-prc-block-quote active-quote',
+		},
 		{ template: TEMPLATE },
 	);
 	return <div {...innerBlocksProps} />;
@@ -36,11 +42,14 @@ function QuoteTemplateBlockPreview({
 	blockContextId,
 	isHidden,
 	setActiveBlockContextId,
+	includeQuoteArt,
 }) {
 	const blockPreviewProps = useBlockPreview({
 		blocks,
 		props: {
-			className: 'wp-block-prc-block-quote',
+			className: `wp-block-prc-block-quote active-quote ${
+				!includeQuoteArt ? 'no-art' : ''
+			}`,
 		},
 	});
 
@@ -66,12 +75,7 @@ function QuoteTemplateBlockPreview({
 
 const MemoizedQuoteTemplateBlockPreview = memo(QuoteTemplateBlockPreview);
 
-export default function QuoteTemplateEdit({
-	clientId,
-	context,
-	attributes,
-	setAttributes,
-}) {
+export default function edit({ clientId, context, attributes, setAttributes }) {
 	const sorterId = context['prc-block/quote-sorter-hash'];
 
 	const [activeBlockContextId, setActiveBlockContextId] = useState(null);
@@ -170,6 +174,7 @@ export default function QuoteTemplateEdit({
 								blockContextId={contextId}
 								setActiveBlockContextId={setActiveBlockContextId}
 								isHidden={isVisible}
+								includeQuoteArt={attributes.includeQuoteArt}
 							/>
 						</BlockContextProvider>
 					);
