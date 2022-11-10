@@ -75,32 +75,18 @@ $maxWidth: 1058px;
 		grid-template-columns: 9fr 1fr;
 		align-items: center;
 		.wp-block-prc-block-promo__text {
-			display: grid;
+			display: flex;
 			grid-gap: 10px;
-			grid-template-columns: 330px auto;
 			align-items: center;
+		}
+		.wp-block-prc-block-promo__icon {
+			display: none;
 		}
 	}
 
-	// Convert everything to stacking on mobile.
+	// Add some padding on mobile...?
 	@media screen and (max-width: 760px) {
 		padding: 20px;
-		.wp-block-prc-block-promo__inner-container {
-			grid-template-areas:
-				'icon'
-				'text'
-				'action'!important;
-			justify-content: center;
-			grid-template-columns: minmax(320px, 475px)!important;
-
-			.wp-block-prc-block-promo__text {
-				padding-bottom: 7px;
-			}
-			.wp-block-prc-block-promo__text,
-			.wp-block-prc-block-promo__action {
-				text-align: center;
-			}
-		}
 	}
 
 	.wp-block-prc-block-promo__heading,
@@ -136,88 +122,97 @@ $maxWidth: 1058px;
 	}
 }
 
-// When in smaller columns:
-// @TODO: Add our new core columns support.
-.post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
-.column:not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical) {
-	padding: 21px;
+// Container Queries
+
+// Variant 1 ( Standard, with form, with icon )
+.wp-block-prc-block-promo.has-icon.has-form {
+	&:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
+		@container (max-width: 670px) {
+			grid-template-areas:
+			'text text'
+			'icon action';
+			grid-template-columns: $iconWidth minmax(320px, 475px);
+			align-items: flex-start;
+			justify-content: center!important;
+
+			.wp-block-prc-block-promo__text {
+				text-align: center;
+				padding-bottom: 7px;
+			}
+		}
+
+		@container (max-width: 480px) {
+			grid-template-areas:
+			'icon text'
+			'action action';
+			grid-template-columns: $iconWidth minmax(320px, 475px);
+			align-items: flex-start;
+			justify-content: center!important;
+
+			.wp-block-prc-block-promo__text {
+				text-align: left;
+				padding-bottom: 7px;
+			}
+		}
+
+		@container (max-width: 361px) {
+			grid-template-areas:
+				'icon'
+				'text'
+				'action'!important;
+			justify-content: center;
+			grid-template-columns: minmax(200px, 475px)!important;
+
+			.wp-block-prc-block-promo__text {
+				padding-bottom: 7px;
+			}
+			.wp-block-prc-block-promo__text,
+			.wp-block-prc-block-promo__action {
+				text-align: center;
+			}
+		}
+	}
+}
+
+// Variant 2 ( Standard, WITH OUT form, with icon )
+.wp-block-prc-block-promo.has-icon:not(.has-form) {
+	&:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
+		@container (max-width: 670px) {
+			grid-template-areas: 'icon text action';
+			grid-template-columns: $iconWidth 2fr 1fr;
+			align-items: center;
+		}
+
+		@container (max-width: 361px) {
+			--grid-template: 'icon' 'text' 'action';
+			grid-template-areas: var(--grid-template);
+			justify-content: center;
+			grid-template-columns: minmax(200px, 475px)!important;
+
+			.wp-block-prc-block-promo__text {
+				padding-bottom: 7px;
+			}
+			.wp-block-prc-block-promo__text,
+			.wp-block-prc-block-promo__action {
+				text-align: center;
+			}
+			.wp-block-prc-block-promo__action .is-content-justification-right {
+				justify-content: center;
+			}
+		}
+	}
 }
 
 // Layout:
-.ui.text.container > .prc-block-area .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
-.post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
-.column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
-.wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container {
-	grid-template-columns: 1fr;
-}
 
-// When in columns that are not four and not sixteen (everything else) use this layout:
-.ui.text.container > .prc-block-area .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
-.post-content > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
-.column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container,
-.wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical).has-form > .wp-block-prc-block-promo__inner-container {
-	grid-template-areas:
-	'text text'
-	'icon action';
-	grid-template-columns: $iconWidth minmax(320px, 475px);
-	align-items: flex-start;
-	justify-content: center!important;
-
-	.wp-block-prc-block-promo__text {
-		text-align: center;
-		padding-bottom: 7px;
-	}
-	.wp-block-prc-block-promo__action .wp-block-prc-block-mailchimp-form input[type="text"] {
-		max-width: 370px;
-		width: 100%;
-	}
-}
-
-// "Single Column" (4 column width) layout:
-.column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
-.column:not(.four):not(.sixteen) > .wp-block-prc-block-promo:not(.is-style-pancake):not(.has-form) > .wp-block-prc-block-promo__inner-container,
-.wp-block-prc-block-promo.two-column-width:not(.is-style-asymmetrical):not(.has-form) > .wp-block-prc-block-promo__inner-container,
-.wp-block-prc-block-promo.two-column-width:not(.is-style-pancake):not(.has-form) > .wp-block-prc-block-promo__inner-container,
-.four.wide.column > .wp-block-prc-block-promo:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container,
-.four.wide.column > .wp-block-prc-block-promo:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container,
-.wp-block-prc-block-promo.one-column-width:not(.is-style-asymmetrical) > .wp-block-prc-block-promo__inner-container,
-.wp-block-prc-block-promo.one-column-width:not(.is-style-pancake) > .wp-block-prc-block-promo__inner-container {
-	grid-template-areas:
-	'icon'
-	'text'
-	'action'!important;
-	grid-template-columns: 100%!important;
-	align-items: 'center'!important;
-
-	.wp-block-prc-block-promo__text,
-	.wp-block-prc-block-promo__action,
-	.ui.mailchimp.form .field {
-		text-align: center;
+// Non Form Styles
+.wp-block-prc-block-promo:not(.is-style-pancake):not(.has-form) > .wp-block-prc-block-promo__inner-container {
+	.ui.text.container > .prc-block-area &,
+	.post-content &,
+	.column:not(.four):not(.sixteen) & {
+		grid-template-columns: 1fr;
 	}
 
-	.wp-block-prc-block-promo__text {
-		padding-bottom: 7px;
-	}
-
-	.wp-block-prc-block-promo__icon {
-		margin: 0 auto;
-	}
-
-	.wp-block-prc-block-promo__action {
-		@media screen and (min-width: 761px) {
-			.wp-block-prc-block-mailchimp-form {
-				width: 100%;
-			}
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
-		.block-list-appender {
-			margin-left: auto;
-			margin-right: auto;
-			padding-left: 2em;
-		}
-	}
 }
 
 .prc-block-area[data-post-type='fact-tank'] .wp-block-prc-block-promo,

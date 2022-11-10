@@ -56,6 +56,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 
 	useEffect(() => {
 		setAttributes({ hasForm: hasMailchimpForm });
+		console.log('hasMailchimpForm', hasMailchimpForm);
 	}, [hasMailchimpForm]);
 
 	// const style = { borderColor, backgroundColor };
@@ -64,10 +65,8 @@ const edit = ({ attributes, setAttributes, isSelected, clientId }) => {
 		className: classnames(className, {
 			'has-icon': hasIcon,
 			'has-form': hasForm,
-			'has-large-icon': 'alexa' == icon,
-			// 'has-dark-background': hasDarkBackground,
+			'has-large-icon': 'alexa' === icon,
 		}),
-		// style,
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(

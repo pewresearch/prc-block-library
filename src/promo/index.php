@@ -54,7 +54,7 @@ class Promo extends PRC_Block_Library {
 			)
 		);
 		$class_name         = array_key_exists( 'className', $attributes ) ? $attributes['className'] : 'is-style-standard';
-		$has_dark_bg        = $attributes['hasDarkBackground'];
+		$has_form           = array_key_exists( 'hasForm', $attributes ) ? $attributes['hasForm'] : false;
 		$has_icon           = ! empty( $attributes['icon'] ) && 'is-style-asymmetrical' !== $class_name;
 		$icon_url           = plugin_dir_url( parent::$plugin_file ) . 'src/promo/icons/' . $attributes['icon'] . '.svg';
 		$wrapper_attributes = get_block_wrapper_attributes(
@@ -65,8 +65,7 @@ class Promo extends PRC_Block_Library {
 					array(
 						'has-icon'            => $has_icon,
 						'has-large-icon'      => 'alexa' === $attributes['icon'],
-						'has-form'            => $attributes['hasForm'],
-						'has-dark-background' => $has_dark_bg,
+						'has-form'            => $has_form,
 					)
 				),
 				'style' => 'border-color: ' . $attributes['borderColor'] . '; background-color: ' . $attributes['backgroundColor'],

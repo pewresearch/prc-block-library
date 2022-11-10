@@ -69,7 +69,7 @@ function Icon({ value, icons, className }) {
 		return <Fragment />;
 	}
 	return (
-		<div className={className} style={{ width: selected[0].width }}>
+		<div className={className}>
 			<RawHTML>{selected[0].svg}</RawHTML>
 		</div>
 	);
