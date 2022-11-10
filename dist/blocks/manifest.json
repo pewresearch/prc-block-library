@@ -51,8 +51,8 @@
   "form-input-text.css.map": "blocks/form-input-text-24d4dde0.css.map",
   "form-input-text.js": "blocks/form-input-text-ec46400c.js",
   "form-input-text.js.map": "blocks/form-input-text-ec46400c.js.map",
-  "github-gist.js": "blocks/github-gist-5d141b5f.js",
-  "github-gist.js.map": "blocks/github-gist-5d141b5f.js.map",
+  "github-gist.js": "blocks/github-gist-fb3f0fee.js",
+  "github-gist.js.map": "blocks/github-gist-fb3f0fee.js.map",
   "grid-column.css": "blocks/grid-column-51c8ecb9.css",
   "grid-column.css.map": "blocks/grid-column-51c8ecb9.css.map",
   "grid-column.js": "blocks/grid-column-da3c327e.js",
@@ -560,11 +560,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/github-gist-5d141b5f.js"
+          "blocks/github-gist-fb3f0fee.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/github-gist-5d141b5f.js.map"
+          "blocks/github-gist-fb3f0fee.js.map"
         ]
       }
     },

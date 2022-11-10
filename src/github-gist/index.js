@@ -21,7 +21,8 @@ const settings = {
 	transforms,
 	edit,
 	save,
-	__experimentalLabel: ({ file }) => `Gist: ${file}` || 'GitHub Gist', // Will change the label to match the title, #experimental.
+	__experimentalLabel: ({ file }) =>
+		0 < file.length ? `Gist: ${file}` : 'GitHub Gist', // Will change the label to match the title, #experimental.
 };
 
 registerBlockType(name, { ...metadata, ...settings });
