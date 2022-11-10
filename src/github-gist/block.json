@@ -1,7 +1,10 @@
 {
     "apiVersion": 2,
 	"name": "prc-block/github-gist",
+	"title": "Github Gist",
+	"description": "Embed a Gist from Github",
 	"category": "embed",
+	"keywords": [ "gist", "code", "github", "python", "javascript" ],
 	"attributes": {
 		"url": {
 			"type": "string"

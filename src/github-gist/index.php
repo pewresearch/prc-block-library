@@ -8,6 +8,8 @@ use \WPackio as WPackio;
  */
 
 class Github_Gist extends PRC_Block_Library {
+	public static $version = '1.0.1';
+
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'register_block' ), 11 );
@@ -20,19 +22,17 @@ class Github_Gist extends PRC_Block_Library {
 				'id' => md5( wp_json_encode( $attributes ) ),
 			)
 		);
-		ob_start();
 		$src = $attributes['file'] ? "{$attributes['url']}.js?file={$attributes['file']}" : "{$attributes['url']}.js";
-		?>
-		 <div <?php echo $block_wrapper_attributes; ?>>
-			<script src="<?php echo $src; ?>"></script>
-			<?php echo wp_kses( $content, 'post' ); ?>
-		</div>
-		<?php
-		return ob_get_clean();
+		return wp_sprintf(
+			'<div %1$s><script src="%2$s"></script>%3$s</div>',
+			$block_wrapper_attributes,
+			$src,
+			$content
+		);
 	}
 
 	public function register_block() {
-		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', parent::$version, 'plugin', plugin_dir_path( __DIR__ ) );
+		$enqueue = new WPackio( 'prcBlocksLibrary', 'dist', self::$version, 'plugin', parent::$plugin_file );
 
 		$registered = $enqueue->register(
 			'blocks',
