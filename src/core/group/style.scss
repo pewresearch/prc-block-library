@@ -65,6 +65,9 @@ $breakpoint: 767px;
 	}
 
 	&.is-style-card-alt {
+		&.has-global-padding {
+			margin-left: calc( -1 * var(--wp--preset--spacing--30));
+		}
 		@media only screen and (min-width: $breakpoint) {
 			padding-left: $altCardMargin;
 			padding-right: $altCardMargin;
