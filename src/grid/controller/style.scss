@@ -13,8 +13,6 @@ $break-small: 600px;
 $break-mobile: 480px;
 $break-zoomed-in: 280px;
 
-$grid-gutter: 24px;
-
 /**
  * Grid Columns
  */
@@ -25,6 +23,9 @@ $grid-gutter: 24px;
 	margin-block-start: 0;
 }
 .wp-block-prc-block-grid-controller {
+	--grid-gutter: 24px;
+	--grid-gutter-half: calc(var(--grid-gutter) / 2);
+
 	box-sizing: border-box;
 	// Prevent long unbroken words from overflowing.
 	word-break: break-word; // For back-compat.
@@ -34,7 +35,7 @@ $grid-gutter: 24px;
 	&.wp-block.is-placeholder {
 		display: block;
 	}
-	gap: $grid-gutter;
+	gap: var(--grid-gutter);
 	grid-template-columns: $grid-mobile;
 
 	margin-block-start: 1.25em;
@@ -61,7 +62,7 @@ $grid-gutter: 24px;
 				content: "";
 				border-top: 1px solid;
 				display: block;
-				padding-bottom: $grid-gutter;
+				padding-bottom: var(--grid-gutter);
 			}
 			&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
 				display: none;
@@ -73,7 +74,7 @@ $grid-gutter: 24px;
 			position: absolute;
 			height: 100%;
 			top: 0;
-			left: calc( -1 * ( $grid-gutter / 2 ) );
+			left: calc( -1 * ( var(--grid-gutter) / 2 ) );
 			border-left: 1px solid;
 		}
 	}
@@ -126,7 +127,7 @@ $grid-gutter: 24px;
 					content: "";
 					border-top: 1px solid #eaeaea;
 					display: block;
-					padding-bottom: $grid-gutter;
+					padding-bottom: var(--grid-gutter);
 				}
 				&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
 					display: none!important;
@@ -205,4 +206,21 @@ $grid-gutter: 24px;
 			}
 		}
 	}
+}
+
+// Site Editor Hacks
+.wp-block-prc-block-grid-controller {
+
+}
+.wp-block-prc-block-grid-column.has-global-padding {
+	padding-left: inherit;
+	padding-right: inherit;
+}
+
+// Specific Grid Inner Block Styles
+
+// This will align "Baseball Cards" (Card Alt) with the new grid block gutter.
+.wp-block-prc-block-grid-column .wp-block-group.is-style-card-alt .is-style-sub-header {
+	margin-left: calc( -1 * var(--grid-gutter-half))!important;
+	margin-right: 0!important;
 }

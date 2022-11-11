@@ -10,6 +10,7 @@ $altCardLineHeight: 1.28571429em;
 $altCardMargin: 1rem;
 $breakpoint: 767px;
 
+// Legacy Theme Styles
 .column > .wp-block-group.is-style-card-alt,
 #secondary.column > .prc-block-area {
 	@media only screen and (min-width: $breakpoint) {
