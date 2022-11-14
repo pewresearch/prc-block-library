@@ -47,8 +47,6 @@ class Promo extends PRC_Block_Library {
 			$attributes,
 			array(
 				'hasDarkBackground' => false,
-				'backgroundColor'   => '#fff',
-				'borderColor'       => '#fff',
 				'icon'              => '',
 				'hasForm'           => false,
 			)
@@ -68,7 +66,6 @@ class Promo extends PRC_Block_Library {
 						'has-form'            => $has_form,
 					)
 				),
-				'style' => 'border-color: ' . $attributes['borderColor'] . '; background-color: ' . $attributes['backgroundColor'],
 			)
 		);
 		ob_start();
