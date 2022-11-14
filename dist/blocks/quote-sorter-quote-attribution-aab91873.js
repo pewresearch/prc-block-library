@@ -1,0 +1,24 @@
+/*!
+ * 
+ * prcBlocksLibrary
+ * 
+ * @author Seth Rubenstein
+ * @version 2.1.23
+ * @link UNLICENSED
+ * @license UNLICENSED
+ * 
+ * Copyright (c) 2022 Seth Rubenstein
+ * 
+ * This software is released under the UNLICENSED License
+ * https://opensource.org/licenses/UNLICENSED
+ * 
+ * Compiled with the help of https://wpack.io
+ * A zero setup Webpack Bundler Script for WordPress
+ */
+(window.wpackioprcBlocksLibraryblocksJsonp=window.wpackioprcBlocksLibraryblocksJsonp||[]).push([[49],{1004:function(t,e,r){"use strict";r.r(e);var o=r(8),n=r(7),i=r(371),c=r(19),a=r.n(c),u=r(4),l=r(5),s=function(t){var e=t.attributes,r=t.setAttributes,n=t.className,i=t.context,c=e.align,s=null==i?void 0:i["prc-block/quote-sorter/attribution"],p=Object(l.useBlockProps)({className:a()(n,Object(o.a)({},"has-text-align-".concat(c),c))});return React.createElement(u.Fragment,null,React.createElement(l.BlockControls,{group:"block"},React.createElement(l.AlignmentControl,{value:c,onChange:function(t){return r({align:t})}})),React.createElement("div",p,s))},p=function(){return React.createElement(l.InnerBlocks.Content,null)};function f(t,e){var r=Object.keys(t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(t);e&&(o=o.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),r.push.apply(r,o)}return r}function b(t){for(var e=1;e<arguments.length;e++){var r=null!=arguments[e]?arguments[e]:{};e%2?f(Object(r),!0).forEach((function(e){Object(o.a)(t,e,r[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(r)):f(Object(r)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(r,e))}))}return t}var y=i.name,m={edit:s,save:p};Object(n.registerBlockType)(y,b(b({},i),m))},12:function(t,e,r){var o="prcBlocksLibrarydist".replace(/[^a-zA-Z0-9_-]/g,"");r.p=window["__wpackIo".concat(o)]},15:function(t,e){function r(e){return t.exports=r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},t.exports.__esModule=!0,t.exports.default=t.exports,r(e)}t.exports=r,t.exports.__esModule=!0,t.exports.default=t.exports},19:function(t,e,r){var o,n=r(15);
+/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/!function(){"use strict";var i={}.hasOwnProperty;function c(){for(var t=[],e=0;e<arguments.length;e++){var r=arguments[e];if(r){var o=n(r);if("string"===o||"number"===o)t.push(r);else if(Array.isArray(r)){if(r.length){var a=c.apply(null,r);a&&t.push(a)}}else if("object"===o){if(r.toString!==Object.prototype.toString&&!r.toString.toString().includes("[native code]")){t.push(r.toString());continue}for(var u in r)i.call(r,u)&&r[u]&&t.push(u)}}}return t.join(" ")}t.exports?(c.default=c,t.exports=c):"object"===n(r(20))&&r(20)?void 0===(o=function(){return c}.apply(e,[]))||(t.exports=o):window.classNames=c}()},20:function(t,e){(function(e){t.exports=e}).call(this,{})},371:function(t){t.exports=JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"prc-block/quote-sorter-quote-attribution","title":"Quote Sorter – Quote Attribution","icon":"format-quote","description":"Child block displaying a single attribution","category":"layout","attributes":{"style":{"type":"object","default":{"color":{"background":"#ffffff","text":"#2a2a2a"},"typography":{"fontSize":"small","lineHeight":1.8,"fontFamily":"sans-serif"}}},"align":{"type":"string","default":"center"}},"supports":{"color":{"background":true,"text":true},"__experimentalBorder":{"color":true,"width":true},"spacing":{"padding":true,"margin":true},"html":false,"reusable":false,"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalDefaultControls":{"fontSize":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true}}},"usesContext":["prc-block/quote-sorter/attribution"],"ancestor":["prc-block/quote-sorter"]}')},4:function(t,e){t.exports=window.wp.element},5:function(t,e){t.exports=window.wp.blockEditor},7:function(t,e){t.exports=window.wp.blocks},8:function(t,e,r){"use strict";function o(t,e,r){return e in t?Object.defineProperty(t,e,{value:r,enumerable:!0,configurable:!0,writable:!0}):t[e]=r,t}r.d(e,"a",(function(){return o}))},932:function(t,e,r){r(12),t.exports=r(1004)}},[[932,0]]]);
+//# sourceMappingURL=quote-sorter-quote-attribution-aab91873.js.map

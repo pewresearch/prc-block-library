@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/related-posts",
+	"title": "Related Posts",
+	"category": "design",
+	"description": "Display related posts",
+	"keywords": [
+		"related posts"
+	],
+	"icon": "admin-links",
+	"textdomain": "default",
+	"attributes": {
+		"taxonomy": {
+			"type": "string"
+		},
+		"postType": {
+			"type": "string",
+			"default": "post"
+		},
+		"perPage": {
+			"type": "number",
+			"default": 6
+		},
+		"queryId": {
+			"type": "string",
+			"default": "related-posts-0"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": [ "wide", "full", "left", "right", "center" ],
+		"html": false,
+		"spacing": {
+			"blockGap": {
+				"__experimentalDefault": "24px",
+				"sides": [ "vertical" ]
+			},
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	}
+}

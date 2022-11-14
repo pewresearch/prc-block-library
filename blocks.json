@@ -398,6 +398,11 @@
 			"name": "form-input-checkbox",
 			"main": "./src/form-input-checkbox/index.js",
 			"php": "./src/form-input-checkbox/index.php"
+		},
+		{
+			"name": "related-posts",
+			"main": "./src/related-posts/index.js",
+			"php": "./src/related-posts/index.php"
 		}
 	]
 }

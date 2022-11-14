@@ -220,10 +220,16 @@ $break-zoomed-in: 280px;
 // Specific Grid Inner Block Styles
 
 // This will align "Baseball Cards" (Card Alt) with the new grid block gutter.
-.wp-block-prc-block-grid-column .wp-block-group.is-style-card-alt .is-style-sub-header {
+.wp-block-prc-block-grid-column:not(.is-selected) .wp-block-group.is-style-card-alt .is-style-sub-header {
 	@media (min-width: #{ ($break-small) }) {
 		margin-left: calc( -1 * var(--grid-gutter-half))!important;
 	}
 	margin-left:0!important;
 	margin-right: 0!important;
+}
+// This will align "Baseball Cards" (Card Alt) with the OLD grod block gutter.
+body:not(.has-block-theme) .wp-block-prc-block-grid-column:not(.is-selected) .wp-block-group.is-style-card-alt .is-style-sub-header {
+	margin-left: -1rem!important;
+	margin-right: -1rem!important;
+	max-width: calc(100% + 2rem) !important;
 }
