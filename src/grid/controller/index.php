@@ -81,26 +81,26 @@ class Grid_Controller extends PRC_Block_Library {
 	 *
 	 * @return array Font size CSS classes and inline styles.
 	 */
-	function block_core_navigation_build_css_font_sizes( $attributes ) {
-		// CSS classes.
-		$font_sizes = array(
-			'css_classes'   => array(),
-			'inline_styles' => '',
-		);
+	// function block_core_navigation_build_css_font_sizes( $attributes ) {
+	// 	// CSS classes.
+	// 	$font_sizes = array(
+	// 		'css_classes'   => array(),
+	// 		'inline_styles' => '',
+	// 	);
 
-		$has_named_font_size  = array_key_exists( 'fontSize', $attributes );
-		$has_custom_font_size = array_key_exists( 'customFontSize', $attributes );
+	// 	$has_named_font_size  = array_key_exists( 'fontSize', $attributes );
+	// 	$has_custom_font_size = array_key_exists( 'customFontSize', $attributes );
 
-		if ( $has_named_font_size ) {
-			// Add the font size class.
-			$font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $attributes['fontSize'] );
-		} elseif ( $has_custom_font_size ) {
-			// Add the custom font size inline style.
-			$font_sizes['inline_styles'] = sprintf( 'font-size: %spx;', $attributes['customFontSize'] );
-		}
+	// 	if ( $has_named_font_size ) {
+	// 		// Add the font size class.
+	// 		$font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $attributes['fontSize'] );
+	// 	} elseif ( $has_custom_font_size ) {
+	// 		// Add the custom font size inline style.
+	// 		$font_sizes['inline_styles'] = sprintf( 'font-size: %spx;', $attributes['customFontSize'] );
+	// 	}
 
-		return $font_sizes;
-	}
+	// 	return $font_sizes;
+	// }
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$css_classes = $this->build_css_colors($attributes);
