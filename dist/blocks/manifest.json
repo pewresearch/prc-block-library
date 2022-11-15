@@ -165,8 +165,8 @@
   "quote-sorter-quote-text.js.map": "blocks/quote-sorter-quote-text-32b81b14.js.map",
   "quote-sorter-search-bar.js": "blocks/quote-sorter-search-bar-a0cffdc3.js",
   "quote-sorter-search-bar.js.map": "blocks/quote-sorter-search-bar-a0cffdc3.js.map",
-  "related-posts.js": "blocks/related-posts-319f0102.js",
-  "related-posts.js.map": "blocks/related-posts-319f0102.js.map",
+  "related-posts.js": "blocks/related-posts-c2cc5807.js",
+  "related-posts.js.map": "blocks/related-posts-c2cc5807.js.map",
   "responsive-container-controller.css": "blocks/responsive-container-controller-806cd166.css",
   "responsive-container-controller.css.map": "blocks/responsive-container-controller-806cd166.css.map",
   "responsive-container-controller.js": "blocks/responsive-container-controller-dbcfe576.js",
@@ -1504,11 +1504,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/related-posts-319f0102.js"
+          "blocks/related-posts-c2cc5807.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/related-posts-319f0102.js.map"
+          "blocks/related-posts-c2cc5807.js.map"
         ]
       }
     }

@@ -4,7 +4,7 @@
 	"name": "prc-block/related-posts",
 	"title": "Related Posts",
 	"category": "design",
-	"description": "Display related posts",
+	"description": "Display custom related posts defaulting to posts with the same primary taxonomy term.",
 	"keywords": [
 		"related posts"
 	],

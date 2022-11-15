@@ -21,6 +21,8 @@ class Related_Posts_Block extends PRC_Block_Library {
 			'taxonomy' => $taxonomy,
 		) );
 
+		do_action('qm/debug', print_r($related_posts, true));
+
 		if ( empty( $related_posts ) ) {
 			return; // Exit Early No Related Posts.
 		}
@@ -31,12 +33,14 @@ class Related_Posts_Block extends PRC_Block_Library {
 
 		$block_instance = $block->parsed_block;
 
+		do_action('qm/debug', print_r($block_instance, true));
+
 		// Set the block name to one that does not correspond to an existing registered block.
-		// This ensures that for the inner instances of the Post Template block, we do not render any block supports.
+		// This ensures that for the inner instances of the Related Posts block, we do not render any block supports.
 		$block_instance['blockName'] = 'core/null';
 
 		foreach( $related_posts as $post ) {
-			// Render the inner blocks of the Post Template block with `dynamic` set to `false` to prevent calling
+			// Render the inner blocks of the Related Posts block with `dynamic` set to `false` to prevent calling
 			// `render_callback` and ensure that no wrapper markup is included.
 			$block_content .= (
 				new WP_Block(
@@ -49,11 +53,6 @@ class Related_Posts_Block extends PRC_Block_Library {
 				)
 			)->render( array( 'dynamic' => false ) );
 		}
-
-		return sprintf(
-			'<div %1$s></div>',
-			$block_attrs
-		);
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
