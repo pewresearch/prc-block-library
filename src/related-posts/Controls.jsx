@@ -20,7 +20,8 @@ export default function Controls({ attributes, setAttributes }) {
 		<InspectorControls>
 			<PanelBody title="Related Posts Query">
 				<SelectControl
-					label="Select Taxonomy To Display"
+					label="Select Taxonomy To Query"
+					help="Select the taxonomy to query for related posts. First we will query for custom related posts, if there are not enough we will then query posts with the same primary term in the selected taxonomy. If there are not enough posts, we will query for posts with any term in the selected taxonomy. Lastly, if no posts can be found we will use Jetpack's Related Posts feature."
 					value={taxonomy}
 					options={
 						stubEnabledSiteIds.includes(siteId)
