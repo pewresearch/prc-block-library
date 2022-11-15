@@ -40,7 +40,7 @@ const edit = ({ attributes, setAttributes, isSelected, clientId, context }) => {
 		);
 	}
 
-	const { postId, isPreview, url } = attributes;
+	const { postId, isPreview } = attributes;
 
 	if (undefined === postId) {
 		return (

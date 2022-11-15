@@ -10,7 +10,7 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { useEntityRecord } from '@wordpress/core-data';
 import { useEffect, useMemo } from '@wordpress/element';
 import { date as formatDate } from '@wordpress/date';
-import { Placeholder, Spinner } from '@wordpress/components';
+import { Placeholder } from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -47,8 +47,9 @@ const IMAGE_SIZES = {
 };
 
 export default function ContextPreview({ attributes, clientId, context }) {
-	const { postId, postType, queryId } = context;
+	const { postId, postType } = context;
 	const { record, isResolving } = useEntityRecord('postType', postType, postId);
+	console.log('record', postType, postId, record);
 
 	const { title, excerpt, label, date, art } = record;
 

@@ -7,7 +7,7 @@ import md5 from 'md5';
 /**
  * WordPress dependencies
  */
-import { memo, useMemo, useState, useEffect } from '@wordpress/element';
+import { memo, useMemo, useState, useEffect, Fragment } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import {
@@ -24,6 +24,7 @@ import { useEntityRecords, useEntityProp } from '@wordpress/core-data';
 /**
  * Internal Dependencies
  */
+import Controls from './Controls';
 
 const ALLOWED_BLOCKS = [
 	'prc-block/story-item',
@@ -81,7 +82,6 @@ export default function edit({ clientId, context, attributes, setAttributes }) {
 	const { taxonomy, perPage, postType } = attributes;
 
 	const [activeBlockContextId, setActiveBlockContextId] = useState(null);
-	const [entries, setEntries] = useState(false);
 	const { records, isResolving } = useEntityRecords(
 		'postType',
 		postType,
@@ -91,24 +91,6 @@ export default function edit({ clientId, context, attributes, setAttributes }) {
 			context: 'view',
 		},
 	);
-
-	// const getQuotes = (sorterId) => {
-	// 	console.log('retrieving quotes for sorterId: ', sorterId);
-	// 	apiFetch({
-	// 		path: `/prc-api/v2/block/quote-sorter/retrieve?hash=${sorterId}`,
-	// 	})
-	// 		.then(({ data }) => {
-	// 			const { quotes } = data;
-	// 			if (undefined !== quotes) {
-	// 				const quoteArray = [...quotes];
-	// 				const firstTen = quoteArray.splice(0, perPage);
-	// 				setEntries([...firstTen]);
-	// 			}
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log({ error });
-	// 		});
-	// };
 
 	const { blocks } = useSelect(
 		(select) => {
@@ -122,16 +104,19 @@ export default function edit({ clientId, context, attributes, setAttributes }) {
 
 	const blockContexts = useMemo(() => {
 		if (!records || isResolving) {
-			console.log("doing this");
+			console.log("No records! Is Resolving");
 			return [];
 		}
-		console.log("doing this instead...", records);
-		return records?.map((post) => ({
-			'queryId': 0,
-			'postId': post.id,
-			'postType': post.postType,
-			props: post.props,
-		}));
+		console.log("records...", records);
+		return records?.map((post) => {
+			console.log("post...", post);
+			return {
+				'queryId': 0,
+				'postId': post.id,
+				'postType': post.type,
+				props: post.props,
+			};
+		});
 	}, [records, isResolving]);
 
 	useEffect(() => {
@@ -145,7 +130,7 @@ export default function edit({ clientId, context, attributes, setAttributes }) {
 
 	const postTypeLabel = postType.charAt(0).toUpperCase() + postType.slice(1);
 
-	if (!records) {
+	if (!records || isResolving) {
 		return (
 			<div {...blockProps}>
 				<Spinner style={{ align: 'center' }} />
@@ -159,30 +144,38 @@ export default function edit({ clientId, context, attributes, setAttributes }) {
 	// This ensures that when it is displayed again, the cached rendering of the
 	// block preview is used, instead of having to re-render the preview from scratch.
 	return (
-		<div {...blockProps}>
-			{blockContexts &&
-				blockContexts.map((blockContext, index) => {
-					const contextId = md5(JSON.stringify(blockContext));
-					const isVisible =
-						contextId ===
-						(activeBlockContextId || md5(JSON.stringify(blockContexts[0])));
-					return (
-						<BlockContextProvider
-							key={`context-key--${index}`}
-							value={blockContext}
-						>
-							{activeBlockContextId === null || isVisible ? (
-								<RelatedPostsInnerBlocks />
-							) : null}
-							<MemoizedRelatedPostsBlockPreview
-								blocks={blocks}
-								blockContextId={contextId}
-								setActiveBlockContextId={setActiveBlockContextId}
-								isHidden={isVisible}
-							/>
-						</BlockContextProvider>
-					);
-				})}
-		</div>
+		<Fragment>
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+				}}
+			/>
+			<div {...blockProps}>
+				{blockContexts &&
+					blockContexts.map((blockContext, index) => {
+						const contextId = md5(JSON.stringify(blockContext));
+						const isVisible =
+							contextId ===
+							(activeBlockContextId || md5(JSON.stringify(blockContexts[0])));
+						return (
+							<BlockContextProvider
+								key={`context-key--${index}`}
+								value={blockContext}
+							>
+								{activeBlockContextId === null || isVisible ? (
+									<RelatedPostsInnerBlocks />
+								) : null}
+								<MemoizedRelatedPostsBlockPreview
+									blocks={blocks}
+									blockContextId={contextId}
+									setActiveBlockContextId={setActiveBlockContextId}
+									isHidden={isVisible}
+								/>
+							</BlockContextProvider>
+						);
+					})}
+			</div>
+		</Fragment>
 	);
 }

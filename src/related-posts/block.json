@@ -8,7 +8,6 @@
 	"keywords": [
 		"related posts"
 	],
-	"icon": "admin-links",
 	"textdomain": "default",
 	"attributes": {
 		"taxonomy": {
@@ -20,7 +19,7 @@
 		},
 		"perPage": {
 			"type": "number",
-			"default": 6
+			"default": 5
 		},
 		"queryId": {
 			"type": "string",
@@ -32,10 +31,7 @@
 		"align": [ "wide", "full", "left", "right", "center" ],
 		"html": false,
 		"spacing": {
-			"blockGap": {
-				"__experimentalDefault": "24px",
-				"sides": [ "vertical" ]
-			},
+			"blockGap": true,
 			"margin": [ "top", "bottom" ],
 			"padding": true,
 			"__experimentalDefaultControls": {

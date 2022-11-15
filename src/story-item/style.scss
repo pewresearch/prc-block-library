@@ -582,7 +582,9 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 .wp-block-group:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
 .wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
 .ui.grid > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
-.ui.row > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item {
+.ui.row > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
+.wp-block-prc-block-related-posts > div,
+.wp-block-prc-block-related-posts > article.wp-block-prc-block-story-item  {
 	border-bottom: $dividedBorder;
 	padding: 21px 0 21px 0;
 
@@ -601,6 +603,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 		border-bottom: none;
 	}
 }
+
 
 // Fallback consecutive story item styling, specifically for Firefox.
 .ui.story.items > article.wp-block-prc-block-story-item,

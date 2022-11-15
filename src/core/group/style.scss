@@ -166,3 +166,13 @@ $breakpoint: 767px;
 		flex-grow: 1;
 	}
 }
+
+
+// This will align "Baseball Cards" (Card Alt) with the OLD grod block gutter.
+// @TODO: remove when the new grid block is released on prc prime.
+body:not(.has-block-theme) .wp-block-group.is-style-card-alt .is-style-sub-header,
+div:not(.wp-site-blocks) .wp-block-group.is-style-card-alt .is-style-sub-header {
+	margin-left: -1rem!important;
+	margin-right: -1rem!important;
+	max-width: calc(100% + 2rem) !important;
+}
