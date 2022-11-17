@@ -21,8 +21,6 @@ class Related_Posts_Block extends PRC_Block_Library {
 			'taxonomy' => $taxonomy,
 		) );
 
-		do_action('qm/debug', print_r($related_posts, true));
-
 		if ( empty( $related_posts ) ) {
 			return; // Exit Early No Related Posts.
 		}
@@ -32,8 +30,6 @@ class Related_Posts_Block extends PRC_Block_Library {
 		$block_content = '';
 
 		$block_instance = $block->parsed_block;
-
-		do_action('qm/debug', print_r($block_instance, true));
 
 		// Set the block name to one that does not correspond to an existing registered block.
 		// This ensures that for the inner instances of the Related Posts block, we do not render any block supports.
