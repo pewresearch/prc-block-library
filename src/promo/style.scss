@@ -1,4 +1,3 @@
-
 // Disable margin-top on the first block and margin-bottom on the last block when inside a column block.
 .wp-block-prc-block-grid .column > .wp-block-prc-block-promo,
 .wp-block-column > .wp-block-prc-block-promo {
@@ -16,7 +15,6 @@
 	padding: 1rem;
 }
 
-
 .wp-block-prc-block-promo {
 	padding: 24px 40px;
 	margin: 21px auto;
@@ -28,7 +26,7 @@
 	container-name: promo;
 
 	mark {
-		background: transparent!important;
+		background: transparent !important;
 	}
 
 	.wp-block-prc-block-promo__sub_heading {
@@ -54,7 +52,7 @@
 
 	.wp-block-prc-block-promo__heading,
 	p {
-		margin: 0!important;
+		margin: 0 !important;
 	}
 
 	.wp-block-prc-block-promo__icon {
@@ -85,7 +83,7 @@
 		container-name: action;
 
 		a.wp-block-button__link {
-			text-decoration: none!important;
+			text-decoration: none !important;
 		}
 	}
 }
@@ -104,45 +102,38 @@
 		--grid-alignment: center;
 
 		@container promo (max-width: 361px) {
-			--grid-template-areas:
-				'icon'
-				'text'
-				'action'!important;
-			--grid-template-columns: minmax(200px, 361px)!important;
-			--grid-justification: center!important;
+			--grid-template-areas: 'icon' 'text' 'action' !important;
+			--grid-template-columns: minmax(200px, 361px) !important;
+			--grid-justification: center !important;
 
 			.wp-block-prc-block-promo__text {
 				padding-bottom: 7px;
 			}
 			.wp-block-prc-block-promo__text,
 			.wp-block-prc-block-promo__action {
-				text-align: center!important;
+				text-align: center !important;
 			}
 		}
 	}
 	// With Form
 	&.has-form > .wp-block-prc-block-promo__inner-container {
 		@container promo (max-width: 670px) {
-			--grid-template-areas:
-			'text text'
-			'icon action';
+			--grid-template-areas: 'text text' 'icon action';
 			--grid-template-columns: 47px minmax(320px, 475px);
 			--grid-alignment: flex-start;
-			--grid-justification: center!important;
+			--grid-justification: center !important;
 
 			.wp-block-prc-block-promo__text {
-				text-align: center;
+				text-align: left;
 				padding-bottom: 7px;
 			}
 		}
 
 		@container promo (max-width: 480px) {
-			--grid-template-areas:
-			'icon text'
-			'action action';
+			--grid-template-areas: 'icon text' 'action action';
 			--grid-template-columns: 47px minmax(320px, 475px);
 			--grid-alignment: flex-start;
-			--grid-justification: center!important;
+			--grid-justification: center !important;
 
 			.wp-block-prc-block-promo__text {
 				text-align: left;
@@ -156,7 +147,7 @@
 		@container promo (max-width: 361px) {
 			.wp-block-prc-block-promo__action,
 			.wp-block-prc-block-promo__action > .is-content-justification-right {
-				justify-content: center!important;
+				justify-content: center !important;
 			}
 		}
 	}
@@ -176,18 +167,16 @@
 		--grid-alignment: center;
 
 		@container promo (max-width: 760px) {
-			--grid-template-areas: 'icon'
-			'text'
-			'action'!important;
-			--grid-template-columns: minmax(200px, 600px)!important;
-			--grid-justification: center!important;
+			--grid-template-areas: 'icon' 'text' 'action' !important;
+			--grid-template-columns: minmax(200px, 600px) !important;
+			--grid-justification: center !important;
 
 			.wp-block-prc-block-promo__text {
 				flex-direction: column;
 			}
 			.wp-block-prc-block-promo__action,
 			.wp-block-prc-block-promo__action > .is-content-justification-right {
-				justify-content: center!important;
+				justify-content: center !important;
 			}
 		}
 
@@ -201,4 +190,3 @@
 		}
 	}
 }
-
