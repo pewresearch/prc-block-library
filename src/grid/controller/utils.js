@@ -1,5 +1,5 @@
 /**
- * External dependencies
+ * External Dependencies
  */
 import { merge, mapValues } from 'lodash';
 

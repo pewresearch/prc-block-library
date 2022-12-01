@@ -1,14 +1,8 @@
 /**
- * WordPress dependencies
+ * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import {
-	Notice,
-	PanelBody,
-	RangeControl,
-	ToggleControl,
-} from '@wordpress/components';
-
+import { Notice, PanelBody, RangeControl } from '@wordpress/components';
 import {
 	InspectorControls,
 	BlockControls,
