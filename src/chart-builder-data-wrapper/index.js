@@ -54,28 +54,6 @@ const settings = {
 					);
 				},
 			},
-			{
-				type: 'block',
-				blocks: ['core/table'],
-				transform: (attributes) => {
-					attributes.className = 'chart-builder-data-table';
-					return createBlock(
-						'prc-block/chart-builder-data-wrapper',
-						{
-							transformed: true,
-							isConvertedChart: true,
-							tableHead: attributes.head,
-							tableBody: attributes.body,
-						},
-						[
-							createBlock('core/table', { ...attributes }),
-							createBlock('prc-block/chart-builder', {
-								isConvertedChart: true,
-							}),
-						],
-					);
-				},
-			},
 		],
 		to: [
 			{
