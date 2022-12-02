@@ -240,7 +240,7 @@
 		},
 		"yTickLabelVerticalAnchor": {
 			"type": "string",
-			"default": "start"
+			"default": "middle"
 		},
 		"yAbbreviateTicks": {
 			"type": "boolean",

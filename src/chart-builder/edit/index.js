@@ -5,7 +5,7 @@ import { ResizableBox } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 import { select, useSelect } from '@wordpress/data';
 import { useBlockProps } from '@wordpress/block-editor';
-
+import { useEntityProp } from '@wordpress/core-data';
 /**
  * External dependencies
  */
@@ -14,7 +14,6 @@ import {
 	masterConfig,
 	ChartBuilderTextWrapper,
 } from '@pewresearch/chart-builder/dist';
-import { ifMatchSetAttribute } from '@prc-app/shared';
 
 /**
  * Internal dependencies
@@ -111,6 +110,8 @@ const edit = ({
 		metaTag,
 	} = attr;
 	// update chart type using styles
+	const [siteId] = useEntityProp('root', 'site', 'siteId');
+	console.log({ siteId });
 	useEffect(() => {
 		if (isConvertedChart) {
 			console.log('converting ...');
@@ -118,7 +119,7 @@ const edit = ({
 			const meta = select('core/editor').getEditedPostAttribute('meta');
 			const legacyMeta = { title, ...meta };
 			console.log({ legacyMeta });
-			const legacyAttrs = formatLegacyAttrs(legacyMeta, attr);
+			const legacyAttrs = formatLegacyAttrs(legacyMeta, attr, siteId);
 			console.log({ legacyAttrs });
 			setAttributes(legacyAttrs);
 		}
@@ -336,6 +337,7 @@ const edit = ({
 		const { body } = tableBlock.attributes;
 		return { tableHeaders, body };
 	}, []);
+
 	const tableJson = formattedData(tableData, xScale, chartType);
 	const tableCategories = tableData.tableHeaders;
 	let chartData;

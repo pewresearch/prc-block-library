@@ -11,8 +11,8 @@
   "social-link-frontend.js.map": "deprecated/social-link-frontend-1d112eab.js.map",
   "social-link.js": "deprecated/social-link-e050b59c.js",
   "social-link.js.map": "deprecated/social-link-e050b59c.js.map",
-  "vendors~social-link.js": "deprecated/vendors~social-link-f9788232.js",
-  "vendors~social-link.js.map": "deprecated/vendors~social-link-f9788232.js.map",
+  "vendors~social-link.js": "deprecated/vendors~social-link-a21246d1.js",
+  "vendors~social-link.js.map": "deprecated/vendors~social-link-a21246d1.js.map",
   "wpackioEp": {
     "chapter": {
       "assets": {
@@ -54,12 +54,12 @@
       "assets": {
         "js": [
           "deprecated/runtime-50e1e3bb.js",
-          "deprecated/vendors~social-link-f9788232.js",
+          "deprecated/vendors~social-link-a21246d1.js",
           "deprecated/social-link-e050b59c.js"
         ],
         "js.map": [
           "deprecated/runtime-50e1e3bb.js.map",
-          "deprecated/vendors~social-link-f9788232.js.map",
+          "deprecated/vendors~social-link-a21246d1.js.map",
           "deprecated/social-link-e050b59c.js.map"
         ]
       }

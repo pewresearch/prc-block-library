@@ -1,39 +1,45 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-plusplus */
 /* eslint-disable indent */
 /**
  * Wordpress dependencies
  */
 import { uploadMedia } from '@wordpress/media-utils';
+import { dispatch } from '@wordpress/data';
 /**
  * External dependencies
  */
 import html2canvas from 'html2canvas';
-import horizontalBarConfig from '@pewresearch/chart-builder/dist/Templates/horizontalBar';
-import verticalBarConfig from '@pewresearch/chart-builder/dist/Templates/verticalBar';
-import lineConfig from '@pewresearch/chart-builder/dist/Templates/line';
-import scatterConfig from '@pewresearch/chart-builder/dist/Templates/scatter';
 import {
-	areaTemplate,
-	barTemplate,
-	columnTemplate,
-	lineTemplate,
+	legacyBarTemplate,
+	legacyLineTemplate,
+	legacyColumnTemplate,
+	legacyAreaTemplate,
+	legacyScatterTemplate,
 } from '../../chart-builder-data-wrapper/templateBlocks';
+
+/**
+ *  Internal dependencies
+ */
+
 // Transform data from table block into json useable for chart builder
 export const formattedData = (data, scale, chartType) => {
+	console.log({ data });
 	const { body, tableHeaders } = data;
 	const seriesData = [];
-	const scaleData = (data, scale) => {
+	const scaleData = (d, s) => {
 		if (
 			'bar' === chartType ||
 			'stacked-bar' === chartType ||
 			'pie' === chartType ||
 			'dot-plot' === chartType
 		) {
-			return data;
+			return d;
 		}
-		if ('time' === scale) {
-			return new Date(data);
+		if ('time' === s) {
+			return new Date(d);
 		}
-		return parseFloat(data);
+		return parseFloat(d);
 	};
 	for (let i = 1; i < tableHeaders.length; i++) {
 		const series = body
@@ -58,10 +64,10 @@ export const stringToArrayOfNums = (str) =>
 	str
 		.split(',')
 		.map(Number)
-		.filter((num) => !isNaN(num));
+		.filter((num) => !Number.isNaN(num));
 
-export const getDomain = (min, max, type, scale, axis, orientation) => {
-	if (isNaN(min) || isNaN(max)) {
+export const getDomain = (min, max, type, scale, axis) => {
+	if (Number.isNaN(min) || Number.isNaN(max)) {
 		return [0, 100];
 	}
 	// x axis is a bit of a misnomer for bar types. It refers exclusively to the dependent axis.
@@ -93,7 +99,7 @@ export const getTicks = (ticks, scale) => {
 
 export const formatNum = (num, output) => {
 	if ('string' === typeof num && 'integer' === output) {
-		return parseInt(num);
+		return parseInt(num, 10);
 	}
 	if ('string' === typeof num && 'float' === output) {
 		return parseFloat(num);
@@ -142,44 +148,63 @@ export const createSvg = (clientId) => {
 	console.log(svg.outerHTML);
 	const blob = new Blob([svg.outerHTML], { type: 'image/svg+xml' });
 	const url = URL.createObjectURL(blob);
-	console.log({ blob, url });
 	upload(blob, `chart-${clientId}-${Date.now()}.svg`, 'image/svg+xml');
 };
 
-export const formatLegacyAttrs = (legacyMeta, attributes) => {
+export const formatLegacyAttrs = (legacyMeta, attributes, siteID) => {
 	const checkEmptyStr = (legacyAttr, attr) =>
 		0 !== legacyAttr.length ? legacyAttr : attr;
 	const getLegacyConfig = (type) => {
 		switch (type) {
 			case 'bar':
-				return barTemplate[1][1];
+				return legacyBarTemplate[1][1];
 			case 'column':
-				return columnTemplate[1][1];
+				return legacyColumnTemplate[1][1];
 			case 'line':
-				return lineTemplate[1][1];
+				return legacyLineTemplate[1][1];
 			case 'area':
-				return areaTemplate[1][1];
+				return legacyAreaTemplate[1][1];
 			case 'scatter':
-				return scatterConfig;
+				return legacyScatterTemplate[1][1];
 			case 'pie':
-				return verticalBarConfig;
+				return legacyColumnTemplate[1][1];
 			default:
-				return verticalBarConfig;
+				return legacyColumnTemplate[1][1];
+		}
+	};
+	const getColorSpectrum = (id) => {
+		switch (id) {
+			case 1:
+				return 'general';
+			case 2:
+				return 'global-spectrum';
+			case 3:
+				return 'social-trends-spectrum';
+			case 4:
+				return 'politics-spectrum';
+			case 5:
+				return 'hispanic-spectrum';
+			case 7:
+				return 'religion-spectrum';
+			case 8:
+				return 'journalism-spectrum';
+			case 9:
+				return 'internet-spectrum';
+			case 10:
+				return 'purple-spectrum';
+			case 18:
+				return 'hispanic-spectrum';
+			default:
+				return 'general';
 		}
 	};
 	const legacyConfig = getLegacyConfig(legacyMeta.cb_type);
-	// const { layout, legend, bar, labels } = legacyConfig;
 	return {
-		// chartType: layout.type,
-		// chartOrientation: layout.orientation,
-		// width: layout.width,
-		// height: layout.height,
-		// paddingTop: layout.padding.top,
-		// paddingRight: layout.padding.right,
-		// paddingBottom: layout.padding.bottom,
-		// paddingLeft: layout.padding.left,
 		...legacyConfig,
-		xScale: 'datetime' === legacyMeta.cb_xaxis_type ? 'time' : 'linear',
+		xScale:
+			'datetime' === legacyMeta.cb_xaxis_type && 'column' !== legacyMeta.cb_type
+				? 'time'
+				: 'linear',
 		xLabel: checkEmptyStr(legacyMeta.cb_xaxis_label, attributes.xLabel),
 		yLabel: checkEmptyStr(legacyMeta.cb_yaxis_label, attributes.yLabel),
 		yMaxDomain: checkEmptyStr(
@@ -193,10 +218,9 @@ export const formatLegacyAttrs = (legacyMeta, attributes) => {
 		),
 		xMinDomain: 'datetime' === legacyMeta.cb_xaxis_type ? 1960 : 0,
 		xMaxDomain: 'datetime' === legacyMeta.cb_xaxis_type ? 2020 : 100,
-		lineNodes: legacyMeta.cb_hide_markers,
+		lineNodes: !legacyMeta.cb_hide_markers,
 		tooltipActive: legacyMeta.cb_enable_inline_tooltips,
-		// labelPositionDX: labels.labelPositionDX,
-		// labelPositionDY: labels.labelPositionDY,
 		isConvertedChart: false,
+		colorValue: getColorSpectrum(siteID),
 	};
 };

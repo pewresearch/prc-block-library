@@ -8,6 +8,14 @@ import stackedBarTemplate from './stackedBar';
 import stackedColumnTemplate from './stackedColumn';
 import scatterTemplate from './scatter';
 import dotPlotTemplate from './dotPlot';
+import pieTemplate from './pie';
+
+// legacy variations
+import legacyBarTemplate from './legacyBar';
+import legacyLineTemplate from './legacyLine';
+import legacyColumnTemplate from './legacyColumn';
+import legacyAreaTemplate from './legacyArea';
+import legacyScatterTemplate from './legacyScatter';
 
 export {
 	areaTemplate,
@@ -20,4 +28,10 @@ export {
 	stackedColumnTemplate,
 	scatterTemplate,
 	dotPlotTemplate,
+	pieTemplate,
+	legacyBarTemplate,
+	legacyLineTemplate,
+	legacyColumnTemplate,
+	legacyAreaTemplate,
+	legacyScatterTemplate,
 };

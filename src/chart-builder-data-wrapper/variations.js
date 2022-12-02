@@ -10,6 +10,7 @@ import {
 	scatterTemplate,
 	stackedBarTemplate,
 	stackedColumnTemplate,
+	pieTemplate,
 } from './templateBlocks';
 
 import {
@@ -23,6 +24,7 @@ import {
 	scatterIcon,
 	stackedBarIcon,
 	stackedColumnIcon,
+	pieIcon,
 } from './icons';
 
 // variation schema:
@@ -107,7 +109,6 @@ const variations = [
 		attributes: { chartType: 'line' },
 		innerBlocks: lineTemplate,
 	},
-
 	{
 		name: 'cbScatter',
 		title: __('Scatter Plot Chart'),
@@ -136,6 +137,34 @@ const variations = [
 		attributes: { chartType: 'stacked-column' },
 		innerBlocks: stackedColumnTemplate,
 	},
+	// {
+	// 	name: 'cbPie',
+	// 	title: 'Pie Chart',
+	// 	keywords: [__('chart'), __('pie')],
+	// 	description: __('Create a pie chart.'),
+	// 	icon: pieIcon,
+	// 	attributes: { chartType: 'pie' },
+	// 	innerBlocks: pieTemplate,
+	// },
+	// legacy variations
+	// {
+	// 	name: 'cbBarLegacy',
+	// 	title: 'Bar Chart -- Legacy',
+	// 	keywords: [__('bar'), __('chart'), __('bar chart'), __('single bar')],
+	// 	description: __('Create a bar chart with Chart Builder 1.0 styling.'),
+	// 	icon: barIcon,
+	// 	attributes: { chartType: 'bar' },
+	// 	innerBlocks: legacyBarTemplate,
+	// },
+	// {
+	// 	name: 'cbLineLegacy',
+	// 	title: __('Line Chart -- Legacy'),
+	// 	keywords: [__('line'), __('chart'), __('line chart')],
+	// 	description: __('Create a line chart with Chart Builder 1.0 styling..'),
+	// 	icon: lineIcon,
+	// 	attributes: { chartType: 'line' },
+	// 	innerBlocks: legacyLineTemplate,
+	// },
 ];
 
 variations.forEach((variation) => {

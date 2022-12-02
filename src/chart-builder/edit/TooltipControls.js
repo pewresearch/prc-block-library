@@ -95,7 +95,7 @@ function TooltipControls({ attributes, setAttributes }) {
 			<TextControl
 				label={__('Tooltip Format')}
 				help={__(
-					"Tooltip formatter is a string that takes two variables. The first variable(%1$s) corresponds with the x value of a node, and the second(%2$s), the y value. (eg. '%1$s: %2$s people' would return something like '2010: 500 people')",
+					"Tooltip formatter is a string that takes two variables. The first variable(%1$s) corresponds with the x value of a node, and the second(%2$s), the y value. (eg. '%1$s: %2$s people' would return something like '2010: 500 people'). To create a % symobol, you must escape the string using another % (eg. '%1$s: %2$s%%' would return '2010: 500%'). For more information see <a href='https://www.w3schools.com/php/func_string_sprintf.asp'>this documentation</a>.",
 				)}
 				disabled={!tooltipActive}
 				value={tooltipFormat}

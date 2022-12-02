@@ -40,6 +40,8 @@ const stackedBarTemplate = [
 	[
 		'prc-block/chart-builder',
 		{
+			chartType: 'stacked-bar',
+			chartOrientation: 'vertical',
 			width: 240,
 			height: 320,
 			paddingLeft: 20,
