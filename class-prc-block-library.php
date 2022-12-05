@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name:       PRC Block Library
  * Plugin URI:        https://pewresearch.org
- * Description:       The core block library for Pew Research Center.
+ * Description:       The core block library for Pew Research Center (pewresearch.org).
  * Version:           2.2.0
  * Requires at least: 6.0
  * Requires PHP:      7.4

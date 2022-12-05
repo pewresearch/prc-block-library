@@ -3,7 +3,7 @@
 	"apiVersion": 2,
 	"name": "prc-block/mailchimp-select",
 	"version": "0.1.0",
-	"title": "MailChimp Selectt",
+	"title": "MailChimp Select",
 	"description": "Select from multiple MailChimp segment interests to subscribe to.",
 	"category": "marketing",
 	"keywords": ["mailchimp", "newsletters", "select"],

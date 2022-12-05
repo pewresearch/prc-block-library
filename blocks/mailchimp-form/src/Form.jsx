@@ -12,6 +12,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { isURL, buildQueryString } from '@wordpress/url';
 
 const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
+const ENDPOINT = '/prc-api/v2/mailchimp/subscribe';
 
 const submitHandler = ({
 	onStart,
@@ -46,7 +47,7 @@ const submitHandler = ({
 	});
 
 	const apiPromise = apiFetch({
-		path: `/prc-api/v2/mailchimp/subscribe/?${path}`,
+		path: `${ENDPOINT}/?${path}`,
 		method: 'POST',
 	})
 		.then(() => onSuccess())
