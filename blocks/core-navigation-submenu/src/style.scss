@@ -1,0 +1,74 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+ .wp-block-navigation .wp-block-navigation-item.wp-block-navigation-submenu.is-style-sub-tree,
+ .wp-block-navigation .wp-block-navigation-item.wp-block-navigation-submenu.is-style-sub-expand {
+	 flex-wrap: wrap;
+	 :where(.wp-block-navigation__submenu-container) {
+		 position: relative;
+		 flex-basis: 100%;
+		 border: transparent;
+		 left: 0;
+		 top: 0;
+	 }
+ }
+
+ // Sub Tree
+ .wp-block-navigation .wp-block-navigation-item.wp-block-navigation-submenu.is-style-sub-tree {
+	 & > .wp-block-navigation-item__content {
+		 padding-left: 0;
+		 // padding-right: 0; // This governs the spacing between the label and the caret icon.
+	 }
+ }
+
+ // Sub Expand
+ .wp-block-navigation .wp-block-navigation-item.wp-block-navigation-submenu.is-style-sub-expand {
+	 // Default Closed State
+	 & > .wp-block-navigation-item__content {
+		 padding-left: 0.375em;
+		 order: 1;
+		 .wp-block-navigation-submenu__label__opened {
+			 display: none;
+		 }
+	 }
+
+	 // Open State
+	 &:not(.open-on-click):hover,
+	 & > .wp-block-navigation-item__content[aria-expanded="true"] {
+		 .wp-block-navigation-submenu__label__opened {
+			 display: inline;
+		 }
+		 .wp-block-navigation-submenu__label__closed {
+			 display: none;
+		 }
+		 .wp-block-navigation__submenu-icon {
+			 &:after {
+				 content: "-";
+			 }
+		 }
+	 }
+
+	 & > .wp-block-navigation__submenu-icon {
+		 margin-left: 0;
+		 order: 0;
+		 &:after {
+			 content: "+";
+			 line-height: 10px;
+		 }
+		 svg {
+			 display: none;
+		 }
+	 }
+
+	 & > .wp-block-navigation__submenu-container {
+		 order: 2;
+		 & > .wp-block-navigation-item > .wp-block-navigation-item__content {
+			 padding-left: 0;
+			 padding-right: 0;
+		 }
+	 }
+ }

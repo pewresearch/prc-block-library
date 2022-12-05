@@ -1,0 +1,78 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/grid-controller",
+  "version": "0.1.0",
+  "title": "Grid",
+  "category": "design",
+  "description": "Display content in multiple columns using CSS grid with blocks added to each column.",
+  "keywords": [
+    "grid",
+    "columns",
+    "css grid",
+    "layout"
+  ],
+  "attributes": {
+    "verticalAlignment": {
+      "type": "string"
+    },
+    "backgroundColor": {
+      "type": "string"
+    },
+    "textColor": {
+      "type": "string"
+    },
+    "dividerColor": {
+      "type": "string",
+      "default": "gray"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "spacing": {
+      "blockGap": {
+        "__experimentalDefault": "24px",
+        "sides": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "style": true,
+        "width": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "grid-controller",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

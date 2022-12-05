@@ -1,0 +1,14 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-grid-column.wp-block {
+	color: inherit;
+	background: inherit;
+}
+
+.css-grid-column-controls .components-range-control__marks > span.components-range-control__mark-label {
+    padding-top: 10px;
+}

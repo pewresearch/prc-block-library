@@ -1,8 +1,0 @@
-{
-  "dependencies": [
-    "wp-blocks",
-    "wp-hooks",
-    "wp-i18n"
-  ],
-  "version": "b0b92eb70fed50609bce9b3a5161abbb"
-}

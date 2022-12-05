@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/grid/column/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,qGACI,iB","file":"blocks/grid-column-51c8ecb9.css","sourcesContent":[".css-grid-column-controls .components-range-control__marks > span.components-range-control__mark-label {\n    padding-top: 10px;\n}\n"],"sourceRoot":""}

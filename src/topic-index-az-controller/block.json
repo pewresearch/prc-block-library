@@ -1,9 +1,0 @@
-{
-	"apiVersion": 2,
-	"name": "prc-block/topic-index-az-controller",
-	"category": "layout",
-	"attributes": {},          
-	"supports": {
-		"html": false
-	}
-}

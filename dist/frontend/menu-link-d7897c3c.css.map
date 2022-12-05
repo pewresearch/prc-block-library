@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/_deprecated/menu-link/style.scss"],"names":[],"mappings":";;;;;;;;;;;;;;;;;AAAA,iBACI,qBACA,e","file":"frontend/menu-link-d7897c3c.css","sourcesContent":[".expand-sub-list {\n    display: inline-block;\n    cursor: pointer;\n}"],"sourceRoot":""}

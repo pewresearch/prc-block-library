@@ -1,7 +1,0 @@
-.wp-block-prc-block-quote-sorter-quote-attribution {
-	// fallback to serif default if not explicitly set
-	&:not(.has-serif-font-family),
-	&:not(.has-sans-serif-font-family) {
-		font-family: var(--wp--preset--font-family--sans-serif);
-	}
-}

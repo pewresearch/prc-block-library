@@ -1,0 +1,11 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/core-paragraph",
+	"version": "0.1.0",
+	"title": "Core Paragraph",
+	"category": "widgets",
+	"textdomain": "core-paragraph",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}
