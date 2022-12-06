@@ -1,0 +1,202 @@
+.wp-block-prc-block-tabs-menu.block-editor-block-list__block {
+    margin-bottom: 0!important;
+}
+.wp-block-prc-block-tabs-panes.block-editor-block-list__block {
+    margin-top: 0!important;
+}
+
+.wp-block-prc-block-tabs {
+	--border-radius: 3px;
+	--color-border: #ddd;
+	--color-active: #eee;
+	--color-hover: #eee;
+
+	margin-block-end: 1.5em;
+	container-type: inline-size;
+
+	& > div {
+		display: flex;
+		gap: 0px;
+	}
+
+	.wp-block-prc-block-tabs-menu,
+	.wp-block-prc-block-tabs-panes {
+		margin: 0!important;
+	}
+
+	// When this block reaches 600px it will convert to an accordion.
+	// All of these are set to important to override all other styles, this must always become an accordion.
+	@container (max-width: 600px) {
+		& > div {
+			flex-direction: column!important;
+			border: 1px solid var(--color-border)!important;
+		}
+		.wp-block-prc-block-tabs-menu {
+			flex-direction: column!important;
+			align-items: stretch!important;
+			max-width: 100%!important;
+			gap: 0px!important;
+			border: none!important;
+			padding: 0px!important;
+			.wp-block-prc-block-tabs-menu-item {
+				width: 100%!important;
+				text-align: center!important;
+				border-radius: 0px!important;
+				border: none!important;
+				border-bottom: 1px solid var(--color-border)!important;
+				margin: 0px!important;
+				&:first-child {
+					border-top: none!important;
+				}
+			}
+		}
+		.wp-block-prc-block-tabs-panes {
+			padding: 1em!important;
+		}
+	}
+
+	// Fallback font-family for when the block does not have a set style.
+	&:not(.is-style-tabbed) .wp-block-prc-block-tabs-menu,
+	&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
+	&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
+		font-family: var(--wp--preset--font-family--sans-serif);
+	}
+
+	// Default styling for all menu items:
+	.wp-block-prc-block-tabs-menu {
+		display: flex;
+		padding-left: 0;
+		list-style: none;
+		gap: 5px;
+		& > li {
+			display: block;
+		}
+		a.wp-block-prc-block-tabs-menu-item {
+			text-decoration: none!important;
+			color: inherit;
+			&:hover {
+				opacity: 0.8;
+			}
+			&:visited {
+				color: inherit;
+			}
+		}
+		.wp-block-prc-block-tabs-menu-item {
+			display: inline-block;
+			cursor: pointer;
+			border-radius: var(--border-radius);
+			border: 1px solid var(--color-border);
+			margin: 0;
+			padding: 0.75em 1em;
+			line-height: 1;
+
+			&:focus {
+				outline: none;
+				box-shadow: none;
+			}
+
+			&:focus,
+			&:hover {
+				background-color: var(--color-hover);
+				opacity: 0.9;
+			}
+
+			&[aria-selected="true"] {
+				// background-color: var(--color-active);
+				font-weight: bold;
+			}
+		}
+	}
+
+	&.is-horizontal-tabs {
+		& > div {
+			flex-direction: column;
+		}
+		.wp-block-prc-block-tabs-menu {
+			flex-direction: row;
+		}
+		.wp-block-prc-block-tabs-menu,
+		.wp-block-prc-block-tabs-panes {
+			width: 100%;
+		}
+		&.is-style-tabbed .wp-block-prc-block-tabs-menu,
+		&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
+		&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
+			border-bottom: 1px solid var(--color-border);
+			.wp-block-prc-block-tabs-menu-item {
+				border-bottom: 0;
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+				margin-right: 5px;
+				&:last-of-type {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+
+	&.is-vertical-tabs {
+		& > div {
+			flex-direction: row;
+		}
+		.wp-block-prc-block-tabs-menu,
+		div.wp-block-prc-block-tabs-menu.wp-block {
+			max-width: 200px;
+			width: 100%;
+			flex-direction: column;
+			align-items: flex-end;
+		}
+		.wp-block-prc-block-tabs-panes {
+			padding-left: 1em;
+		}
+		&.is-style-tabbed .wp-block-prc-block-tabs-menu,
+		&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
+		&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
+			border-right: 1px solid var(--color-border);
+			.wp-block-prc-block-tabs-menu-item {
+				border-right: 0;
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+				margin-bottom: 5px;
+				text-align: right;
+				&:last-of-type {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+
+	&.is-style-pills .wp-block-prc-block-tabs-menu {
+		padding-bottom: 1em;
+	}
+
+	&.is-style-text .wp-block-prc-block-tabs-menu {
+		.wp-block-prc-block-tabs-menu-item {
+			border-radius: 0;
+			border: none;
+			background: none;
+			&[aria-selected="true"] {
+				background-color: transparent;
+				font-weight: bold;
+			}
+		}
+	}
+
+	.wp-block-prc-block-tabs-panes {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		.wp-block-prc-block-tabs-pane {
+			flex-grow: 1;
+			margin: 0;
+			&[aria-hidden="true"] {
+				display: none;
+			}
+			& > div:after {
+				content: "";
+				display: table;
+				clear: both;
+			}
+		}
+	}
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/tabs-controller",
+  "version": "0.1.0",
+  "title": "Tabs",
+  "description": "Create horizontal or vertical tabbed content.",
+  "keywords": [
+    "tabs",
+    "tabbed content",
+    "tabbed content"
+  ],
+  "category": "design",
+  "icon": "editor-kitchensink",
+  "attributes": {
+    "active": {
+      "type": "string",
+      "default": null
+    },
+    "vertical": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "providesContext": {
+    "prc-block/tabs/active": "active",
+    "prc-block/tabs/layout": "vertical"
+  },
+  "styles": [
+    {
+      "name": "tabbed",
+      "label": "Tabbed",
+      "isDefault": true
+    },
+    {
+      "name": "pills",
+      "label": "Pills"
+    },
+    {
+      "name": "text",
+      "label": "Text"
+    }
+  ],
+  "supports": {
+    "html": false,
+    "color": {
+      "background": true,
+      "text": true
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true
+    }
+  },
+  "textdomain": "tabs-controller",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
+}

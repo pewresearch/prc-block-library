@@ -1,0 +1,52 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/tabs-menu-item",
+  "version": "0.1.0",
+  "title": "Tab Menu Item",
+  "category": "design",
+  "attributes": {
+    "slug": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "uuid": {
+      "type": "string",
+      "default": null
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": {
+      "background": true,
+      "text": true
+    },
+    "typography": {
+      "fontSize": true,
+      "fontAppearance": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true
+    },
+    "spacing": {
+      "padding": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "width": true
+    }
+  },
+  "usesContext": [
+    "prc-block/tabs/active"
+  ],
+  "parent": [
+    "prc-block/tabs-menu"
+  ],
+  "textdomain": "tabs-menu-item",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

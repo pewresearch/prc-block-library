@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/responsive-container-controller",
+	"version": "0.1.0",
+	"title": "Responsive Container",
+	"description": "A set of blocks to display content at specific viewport widths.",
+	"icon": "art",
+	"keywords": ["ai2html", "illustrator", "responsive", "container", "Illustrator", "AI2HTML"],
+	"category": "design",
+	"attributes": {},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"align": [
+			"left",
+			"right",
+			"wide",
+			"full"
+		],
+		"spacing": {
+			"blockGap": true,
+			"margin": [ "top", "bottom" ],
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"textdomain": "responsive-container-controller",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}
