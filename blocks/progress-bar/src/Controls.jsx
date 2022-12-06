@@ -37,8 +37,7 @@ export default function Controls({ attributes, setAttributes, colors }) {
 
 	return (
 		<InspectorControls>
-			<PanelBody title={__('Progress Bar Options')}>
-				<PanelRow>Layout</PanelRow>
+			<PanelBody title={__('Layout')}>
 				<RangeControl
 					label={__('Width')}
 					withInputField
@@ -51,7 +50,8 @@ export default function Controls({ attributes, setAttributes, colors }) {
 						})
 					}
 				/>
-				<PanelRow>Data and Formatting</PanelRow>
+			</PanelBody>
+			<PanelBody title={__('Data and Formatting')}>
 				<ToggleControl
 					label={__('Show Category')}
 					checked={showAxisLabel}
@@ -96,7 +96,8 @@ export default function Controls({ attributes, setAttributes, colors }) {
 					/>
 					<FlexItem />
 				</Flex>
-				<PanelRow>Labels</PanelRow>
+			</PanelBody>
+			<PanelBody title={__('Labels')}>
 				<SelectControl
 					label={__('Label format')}
 					value={labelFormat}
