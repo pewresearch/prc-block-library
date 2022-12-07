@@ -1,5 +1,5 @@
 {
-  "name": "prc-block-library",
+  "name": "@pewresearch/prc-block-library",
   "packageManager": "yarn@3.2.1",
   "devDependencies": {
     "@wordpress/create-block": "^4.6.0"

@@ -15,7 +15,6 @@ export default [
 		description: __('A vertical carousel.'),
 		icon: VerticalIcon(),
 		attributes: {
-			// direction: 'vertical',
 			className: 'is-style-vertical',
 		},
 		isDefault: true,

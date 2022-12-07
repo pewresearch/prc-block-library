@@ -49,7 +49,7 @@
 	],
 	"textdomain": "carousel-controller",
 	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css",
+	"style": ["file:./style-view.css", "splide"],
 	"render": "file:./render.php",
 	"viewScript": "file:./view.js"
 }

@@ -28,7 +28,10 @@ class MailchimpForm extends PRC_Block_Library {
 	*/
 	public function block_init() {
 		$block = register_block_type( self::$dir . '/build' );
-		do_action('qm/debug', print_r($block, true));
+		$view_script_handle = isset( $block->view_script_handles ) && ! empty( $block->view_script_handles ) ? $block->view_script_handles[0] : null;
+		wp_localize_script( $view_script_handle, 'mailChimpFormConfig', array(
+			'HCAPTCHA_KEY' => HCAPTCHA_KEY,
+		) );
 	}
 
 }

@@ -11,7 +11,7 @@ import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
- const ALLOWED_BLOCKS = ['prc-block/carousel-slide'];
+const ALLOWED_BLOCKS = ['prc-block/carousel-slide'];
 
 /**
  * The edit function describes the structure of your block in the context of the
