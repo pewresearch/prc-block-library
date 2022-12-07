@@ -14,8 +14,6 @@ import {
 	BlockControls,
 	AlignmentControl,
 } from '@wordpress/block-editor';
-import { KeyboardShortcuts } from '@wordpress/components';
-import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock, getDefaultBlockName } from '@wordpress/blocks';
 
 /**

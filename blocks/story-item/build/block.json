@@ -18,9 +18,9 @@
     "queryId",
     "postId",
     "postType",
-    "column/gridSpan",
-    "column/tabletGridSpan",
-    "column/mobileGridSpan"
+    "grid/column/desktop/span",
+    "grid/column/tablet/span",
+    "grid/column/mobile/span"
   ],
   "example": {
     "attributes": {

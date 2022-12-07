@@ -6,13 +6,12 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
-$block_attrs = get_block_wrapper_attributes(array(
-	'placeholder' => array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Enter email address...',
-	'type'        => array_key_exists( 'type', $attributes ) ? $attributes['type'] : 'email',
+$block_wrapper_attrs = get_block_wrapper_attributes(array(
+	'class' => 'splide__slide',
 ));
 
 echo wp_sprintf(
-	'<input %1$s></input>',
-	$block_attrs,
+	'<div %1$s><div>%2$s</div></div>',
+	$block_wrapper_attrs,
 	$content
 );

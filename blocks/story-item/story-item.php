@@ -27,7 +27,7 @@ class StoryItem extends PRC_Block_Library {
 			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
 			add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
 			add_action( 'prc_core_on_stub_update', array( $this, 'clear_index_cache_on_stub_update' ), 10, 1 );
-			add_action('init', array($this, 'block_init'));
+			add_action( 'init', array($this, 'block_init') );
 		}
 	}
 
@@ -44,7 +44,6 @@ class StoryItem extends PRC_Block_Library {
 			array(),
 		);
 		return render_block( (array) $parsed );
-		// return 'Hello World';
 	}
 
 	public function do_story_item( $args = array() ) {
@@ -122,7 +121,7 @@ class StoryItem extends PRC_Block_Library {
 			$label = 'report';
 		}
 
-		// @TODO: This can eventually be gotten rid of once we migrate fact-tank to its own short-reads subsite and these just become posts.
+		// @TODO: pewresearch/pewresearch-org#2890
 		$label = 'fact-tank' === $label ? 'short-read' : $label;
 
 		if ( 'disabled' === $taxonomy || 'news-item' === $post_type ) {
@@ -436,7 +435,6 @@ class StoryItem extends PRC_Block_Library {
 			return false;
 		}
 
-		// @TODO, i would like to re-model the art-direction data model to include hidpi and small sizes for image slots.
 		$sources = array(
 			'desktop' => wp_sprintf(
 				'<source srcset="%s 1x, %s 2x" media="(min-width: 768px)" width="%s" height="%s">',
@@ -571,7 +569,6 @@ class StoryItem extends PRC_Block_Library {
 				$markup .= "<h{$header_size} class='{$header_class}'><a href='{$url}'>{$title}</a></h{$header_size}>";
 			}
 			if ( ! empty( $content ) ) {
-				do_action('qm/debug', 'prc_block_story_item_content_after = ' . $content);
 				$markup .= $content;
 			}
 			if ( $enable_breaking_news ) {

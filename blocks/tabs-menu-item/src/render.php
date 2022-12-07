@@ -22,7 +22,7 @@ $content = $is_accordion ? '<i class="dropdown icon"></i>' : '';
 $content .= wp_kses( $attributes['title'], 'post' );
 
 echo wp_sprintf(
-	'<a %1$s>%2$s</div>',
+	'<a %1$s>%2$s</a>',
 	$block_wrapper_attrs,
 	$content,
 );

@@ -1,7 +1,7 @@
 <?php
 
 class UnitTests extends PRC_Block_Library {
-	protected static $dev_docs_site_id = 1;
+	protected static $site_id = 1;
 	protected static $page_id = null;
 	protected static $daily_update_check_cron_hook = 'prc_block_library_daily_update_check';
 
@@ -28,7 +28,7 @@ class UnitTests extends PRC_Block_Library {
 			);
 
 			// Create the page on the Dev Docs site.
-			switch_to_blog( self::$dev_docs_site_id );
+			switch_to_blog( self::$site_id );
 			$unit_tests_page_id = wp_insert_post($unit_tests_page);
 			restore_current_blog();
 
@@ -88,6 +88,14 @@ class UnitTests extends PRC_Block_Library {
 		);
 	}
 
+	/**
+	 * Provides structure for the unit test page.
+	 * Goes through each block and adds a todo list item for each block.
+	 * Then wraps each block in a group with heading.
+	 * @param string $blocks
+	 * @param array $block_names
+	 * @return string
+	 */
 	public function get_page_structure( $blocks = '', $block_names = array() ) {
 		ob_start();
 		?>
@@ -114,7 +122,6 @@ class UnitTests extends PRC_Block_Library {
 		$page_template = ob_get_clean();
 		$page_template = normalize_whitespace( $page_template );
 
-		// loop through the block names and replace dashes with spaces and capitalize each word
 		$todo_list_template = '<!-- wp:tabor/todo-item {"content":"%s"} /-->';
 		$todo_list = '';
 		foreach ( $block_names as $block_name ) {
@@ -125,7 +132,7 @@ class UnitTests extends PRC_Block_Library {
 	}
 
 	public function check_for_updates() {
-		if ( get_current_blog_id() !== self::$dev_docs_site_id ) {
+		if ( get_current_blog_id() !== self::$site_id ) {
 			return;
 		}
 

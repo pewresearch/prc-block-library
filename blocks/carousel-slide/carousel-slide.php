@@ -1,6 +1,6 @@
 <?php
 /**
- * Block Name:        MailChimp Form
+ * Block Name:        Carousel Slide
  * Version:           0.1.0
  * Requires at least: 6.1
  * Requires PHP:      7.0
@@ -9,7 +9,7 @@
  * @package           prc-block
  */
 
-class MailchimpForm extends PRC_Block_Library {
+class CarouselSlide extends PRC_Block_Library {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -27,10 +27,9 @@ class MailchimpForm extends PRC_Block_Library {
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
-		$block = register_block_type( self::$dir . '/build' );
-		do_action('qm/debug', print_r($block, true));
+		register_block_type( self::$dir . '/build' );
 	}
 
 }
 
-new MailchimpForm(true);
+new CarouselSlide(true);

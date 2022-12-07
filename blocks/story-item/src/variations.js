@@ -22,6 +22,8 @@ const variations = [
 			imageSlot: 'left',
 			imageSize: 'A3',
 		},
+		isActive: ({ imageSlot, imageSize }) =>
+			'left' === imageSlot && 'A3' === imageSize,
 	},
 	{
 		name: 'story-item-slim',
@@ -31,6 +33,8 @@ const variations = [
 			imageSlot: 'disabled',
 			enableExcerpt: false,
 		},
+		isActive: ({ imageSlot, enableExcerpt }) =>
+			'disabled' === imageSlot && false === enableExcerpt,
 	},
 ];
 

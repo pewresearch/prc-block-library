@@ -11,6 +11,7 @@ import { useState, useEffect, Fragment, useRef } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { isURL, buildQueryString } from '@wordpress/url';
 
+//@TODO: fetch this from the server from the HCAPTCHA_KEY constant in php...
 const CAPTCHA_SITE_KEY = '0fe85c0d-1c67-498a-9b51-eb9d3b473970';
 
 function hackCaptchaCheckboxStyle() {
@@ -234,7 +235,6 @@ export default function Form({
 	const [success, setSuccess] = useState(false);
 	const [value, setValue] = useState(null);
 
-	// Captcha:
 	const [token, setToken] = useState(false);
 
 	const onChange = (newValue) => {
