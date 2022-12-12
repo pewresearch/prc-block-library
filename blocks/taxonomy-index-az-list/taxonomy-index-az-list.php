@@ -30,7 +30,7 @@ class TaxonomyIndexAzList extends PRC_Block_Library {
 				'args'                => array(
 					'taxonomy' => array(
 						'validate_callback' => function( $param, $request, $key ) {
-							return is_array( $param );
+							return is_string( $param );
 						},
 					),
 					'letter' => array(
@@ -40,7 +40,7 @@ class TaxonomyIndexAzList extends PRC_Block_Library {
 					),
 				),
 				'permission_callback' => function () {
-					return true;
+					return current_user_can('read');
 				},
 			)
 		);
@@ -48,6 +48,7 @@ class TaxonomyIndexAzList extends PRC_Block_Library {
 
 	public function restfully_get_terms_by_letter( \WP_REST_Request $request ) {
 		$taxonomy = $request->get_param( 'taxonomy' );
+		$taxonomy = explode( ',', $taxonomy );
 		$letter = $request->get_param( 'letter' );
 		return $this->get_terms_by_letter( $taxonomy, $letter );
 	}
@@ -106,14 +107,17 @@ class TaxonomyIndexAzList extends PRC_Block_Library {
 		return $return;
 	}
 
-	public function render_block_callback( $attributes ) {
+	public function render_block_callback( $attributes, $content ) {
+		if ( is_admin() ) {
+			return $content;
+		}
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'id'          => $attributes['letter'],
 				'data-letter' => $attributes['letter'],
 			)
 		);
-		$terms = $this->get_terms_by_letter( $attributes['letter'], explode( ',', $attributes['exclude'] ) );
+		$terms = $this->get_terms_by_letter( $attributes['taxonomy'], $attributes['letter'], explode( ',', $attributes['exclude'] ) );
 		ob_start();
 		?>
 		<div <?php echo $block_wrapper_attrs; ?>>

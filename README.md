@@ -1,5 +1,9 @@
 # PRC-Block-Library
 
+Welcome to the Pew Research Center Block Library 👋 ( prc-block-library for short). First some caveats; this is the culmination of a refactor of our various blocks into new block libraries utilizing `@wordpress/create-block` and `@wordpress/scripts` removing our need to use `Wpack.io`, this release also includes a new method for handling asset dependencies across plugins. Given the nature of how we’re handling dependencies some blocks will not work for you until we release our subsequent `prc-scripts` plugin later in Q1 2023. Until then, use at your own risk with the understanding some blocks will not work for you and will cause an error in the editor due to missing components. Furthermore, some blocks will reference post types, taxonomies, and general data models you won’t  have; we have tried our best to ensure backwards compatibility with WP core post types and objects when this is activated off our platform. Some blocks you may have heard us speak about are not present in this collection; our quiz builder, quote sorter builder, and chart builder blocks will be released open source at a later date. This will serve as a base of blocks that other plugins we release will utilize. 
+
+---
+
 PRC Block Library is a collection of blocks for the [Gutenberg](
 https://wordpress.org/gutenberg/) editor. Treat this collection with care, as
 this provides the foundation for the display layer of the PRC website.
@@ -9,14 +13,6 @@ https://wordpress.org/gutenberg/handbook/block-api/), and are built using
 the WordPress variant of [React](https://reactjs.org/) called [@wordpress/element](
 https://wordpress.org/gutenberg/handbook/designers-developers/developers/packages/packages-element/).
 
-All code chanages here will require code review and approval before being merged into the
-`main` branch.
-
-## Getting Started
-
-To get started, you'll need to have [Node.js](https://nodejs.org/en/) installed
-on your machine. Once you have Node.js installed, you can start scaffolding a new block.
-
 ### Scaffolding a New Block
 
 To scaffold a new block, run the following command in the `/blocks` directory:
@@ -25,13 +21,13 @@ To scaffold a new block, run the following command in the `/blocks` directory:
 npx @wordpress/create-block -t ./.template
 ```
 
-This will start a new block scaffold, and prompt you first with choosing a variant. 
+This will start a new block scaffold and prompt you to chose a variant.
 
 ![Block Variants](.docs/block-variants.png)
 
 The variants are:
 
- - `default` - Our typical block, this block comes pre-configured with innerblocks and richtext should you need it. This block uses a render.php file to render the block dynamically on the frontend.
+ - `default` - Our typical block, this block comes pre-configured with `useInnerBlocks` and `<RichText/>` should you need it. This block uses a render.php file to render the block dynamically on the frontend.
  - `dynamic` - A dynamic block is a default block that needs the functionality of a PHP class to render the block AND/or registering data models, rest endpoints, additional server side functionality. This block uses a `render_callback` function to render the block dynamically on the frontend.
  - `static` - A block that uses static data to render content. This is primarily intended for primitive block types. This saves content as html directly to the database.
  - `coreBlock` - A modification to or extension of a core block. Adding attributes, context, new controls, or new styles to a core block should use this variant.

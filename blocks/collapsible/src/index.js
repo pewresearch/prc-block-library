@@ -7,7 +7,7 @@
 /**
  * WordPress Dependencies
  */
-import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
@@ -50,3 +50,25 @@ const settings = {
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
 registerBlockType(name, { ...metadata, ...settings });
+
+registerBlockVariation('core/group', {
+	name: 'accordion',
+	title: 'Accordion',
+	description: 'Display a set of collapsible blocks as an accordion',
+	attributes: {},
+	innerBlocks: [
+		[
+			'prc-block/collapsible',
+			{},
+			[
+				[
+					name,
+					{
+						className: 'is-style-accordion',
+					},
+				],
+			],
+		],
+	],
+	scope: ['block'],
+});

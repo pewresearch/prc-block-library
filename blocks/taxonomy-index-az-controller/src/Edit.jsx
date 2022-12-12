@@ -2,7 +2,6 @@
  * External Dependencies
  */
 
-
 /**
  * WordPress Dependencies
  */
@@ -12,11 +11,53 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+
+const BLOCKS_TEMPLATE = [
+	[
+		'prc-block/grid-controller',
+		{},
+		[
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 1,
+						desktopSpan: 4,
+						tabletSpan: 2,
+					},
+					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 2,
+						desktopSpan: 4,
+						tabletSpan: 4,
+					},
+					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 3,
+						desktopSpan: 4,
+						tabletSpan: 2,
+					},
+					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
+				},
+			],
+		],
+	],
+];
 
 const ALLOWED_BLOCKS = [
 	'core/group',
 	'core/paragraph',
+	'prc-block/grid-controller',
 	'prc-block/taxonomy-index-az-list',
 ];
 
@@ -28,17 +69,10 @@ const ALLOWED_BLOCKS = [
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({
-	attributes,
-	setAttributes,
-	context,
-	clientId,
-	isSelected,
-}) {
+export default function Edit({ attributes }) {
 	const blockProps = useBlockProps();
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
@@ -48,12 +82,8 @@ export default function Edit({
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 		orientation: orientation || 'vertical',
+		template: BLOCKS_TEMPLATE,
 	});
 
-	return (
-		<Fragment>
-			<Controls {...{ attributes, setAttributes, context: false }} />
-			<div {...innerBlocksProps} />
-		</Fragment>
-	);
+	return <div {...innerBlocksProps} />;
 }

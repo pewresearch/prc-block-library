@@ -45,6 +45,17 @@
       }
     }
   },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "accordion",
+      "label": "Accordion"
+    }
+  ],
   "textdomain": "collapsible",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",

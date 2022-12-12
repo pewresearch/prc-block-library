@@ -5,24 +5,13 @@ import { TaxonomySelect } from '@prc/components';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
 import { InspectorControls } from '@wordpress/block-editor';
-import {
-	BaseControl,
-	Button,
-	CardDivider,
-	PanelBody,
-	SelectControl,
-	TextControl,
-	ToggleControl,
-} from '@wordpress/components';
-import { getEntitiesByKind } from '@wordpress/core-data';
+import { CardDivider, PanelBody, SelectControl } from '@wordpress/components';
 
 export function LetterControl({ value, onChange }) {
 	return (
 		<SelectControl
-			label="Chose a letter"
+			label="Terms starting with letter"
 			value={value}
 			options={[
 				{ label: '(Click to select letter)', value: null },
@@ -58,20 +47,27 @@ export function LetterControl({ value, onChange }) {
 	);
 }
 
+export function TaxonomyControl({ value, onChange }) {
+	return <TaxonomySelect value={value} onChange={onChange} allowMultiple />;
+}
+
 export function Controls({ attributes, setAttributes }) {
 	const { letter, taxonomy } = attributes;
-
-	const test = getEntitiesByKind('taxonomy');
-	console.log("test", test);
 
 	return (
 		<InspectorControls>
 			<PanelBody title="Taxonomy Query">
+				<TaxonomyControl
+					value={taxonomy}
+					onChange={(newTaxonomy) => {
+						setAttributes({ taxonomy: [...newTaxonomy] });
+					}}
+				/>
+				<CardDivider />
 				<LetterControl
 					value={letter}
 					onChange={(newLetter) => setAttributes({ letter: newLetter })}
 				/>
-				<TaxonomySelect value={taxonomy} onSelect={setAttributes} />
 			</PanelBody>
 		</InspectorControls>
 	);

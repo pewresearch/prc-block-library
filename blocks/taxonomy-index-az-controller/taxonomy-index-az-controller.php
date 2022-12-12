@@ -12,59 +12,109 @@
 class TaxonomyIndexAzController extends PRC_Block_Library {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
+	public static $range = null;
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			if ( null === self::$range ) {
+				self::$range = range( 'A', 'Z' );
+			}
 			add_action('init', array($this, 'block_init'));
 		}
 	}
 
+	public function render_az_list( $block ) {
+		$present = array();
+		foreach ( $block->inner_blocks as $grid ) {
+			foreach ( $grid->inner_blocks as $column ) {
+				foreach ( $column->inner_blocks as $az_block ) {
+					if ( array_key_exists( 'letter', $az_block->attributes ) ) {
+						$present[] = strtoupper( $az_block->attributes['letter'] );
+					}
+				}
+			}
+		}
+		$list = '';
+		foreach ( self::$range as $letter ) {
+			$class = classNames( 'item', array( 'disabled' => ! in_array( $letter, $present ) ) );
+			$list .= "<a href='#{$letter}' class='{$class}'>{$letter}</a>";
+		}
+		return empty( $list ) ? false : $list;
+	}
+
+	public function render_as_accordion( $block ) {
+		$menu_items = array();
+		$panes = array();
+
+		foreach ( self::$range as $letter ) {
+			$menu_item_block = array(
+				'blockName' => 'prc-block/menu-item',
+				'attrs' => array(
+					'slug' => $letter,
+					'title' => $letter,
+				),
+			);
+			$menu_item_block['attrs']['uuid'] = md5( wp_json_encode( array(
+				'slug' => $letter,
+				'title' => $letter,
+			) ) );
+			$menu_items[] = $menu_item_block;
+		}
+
+		foreach ( $block->inner_blocks as $grid ) {
+			foreach ( $grid->inner_blocks as $column ) {
+				foreach ( $column->inner_blocks as $az_block ) {
+					if ( array_key_exists( 'letter', $az_block->attributes ) ) {
+						$pane_block = array(
+							'blockName' => 'prc-block/pane',
+							'attrs' => array(),
+							'innerBlocks' => array($az_block->parsed_block),
+						);
+						$pane_block['attrs']['uuid'] = md5( wp_json_encode( array(
+							'slug' => $az_block->attributes['letter'],
+							'title' => $az_block->attributes['letter'],
+						) ) );
+						$panes[] = $pane_block;
+					}
+				}
+			}
+		}
+
+		$block_args = new WP_Block_Parser_Block(
+			'prc-block/tabs',
+			array(
+				'className' => 'is-style-accordion',
+			),
+			array(
+				array(
+					'blockName' => 'prc-block/menu',
+					'innerBlocks' => $menu_items,
+				),
+				array(
+					'blockName' => 'prc-block/panes',
+					'innerBlocks' => $panes,
+				)
+			),
+			'',
+			'',
+		);
+
+		do_action('qm/debug', print_r((array) $block_args, true));
+
+		return render_block( (array) $block_args);
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
 		$wrapper_attributes = get_block_wrapper_attributes();
+		$is_mobile = jetpack_is_mobile();
+
+		$content = $this->render_az_list( $block ) . $content;
+		$content = $this->render_as_accordion( $block ) . $content;
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
 			$wrapper_attributes,
 			$content
-		);
-	}
-
-	public function render_as_accordion() {
-		// create a tabs block... but set it to is-style-accordion
-		$accordion_block = new WP_Block(
-			array(
-				'blockName' => 'prc-block/tabs',
-				'attrs' => array(
-					'className' => 'is-style-accordion',
-				),
-				'innerblocks' => array(
-					array(
-						'blockName' => 'prc-block/menu',
-						'innerblocks' => array(
-							array(
-								'blockName' => 'prc-block/menu-item',
-							),
-							array(
-								'blockName' => 'prc-block/menu-item',
-							),
-							array(
-								'blockName' => 'prc-block/menu-item',
-							)
-						)
-					),
-					array(
-						'blockName' => 'prc-block/panes',
-						'innerblocks' => array(
-							array(
-								'blockName' => 'prc-block/pane',
-							),
-							array(
-								'blockName' => 'prc-block/pane',
-							)
-						),
-					)
-				),
-			)
 		);
 	}
 

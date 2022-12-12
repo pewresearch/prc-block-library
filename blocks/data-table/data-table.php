@@ -20,6 +20,9 @@ class DataTable extends PRC_Block_Library {
 		}
 	}
 	public function render_block_callback( $attributes, $content, $block ) {
+		if ( is_admin() ) {
+			return $content;
+		}
 		$wrapper_attributes = get_block_wrapper_attributes();
 
 		return wp_sprintf(

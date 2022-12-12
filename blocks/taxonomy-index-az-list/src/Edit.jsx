@@ -8,13 +8,14 @@
 import apiFetch from '@wordpress/api-fetch';
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
-import { CheckboxControl } from '@wordpress/components';
+import { CheckboxControl, Spinner } from '@wordpress/components';
 import { decodeEntities } from '@wordpress/html-entities';
 
 /**
  * Internal Dependencies
  */
-import { Controls, LetterControl } from './Controls';
+import { Controls, LetterControl, TaxonomyControl } from './Controls';
+import Placeholder from './Placeholder';
 
 const getTermsByLetter = (letter, taxonomy) => {
 	console.log('getTermsByLetter fn...', letter, taxonomy);
@@ -101,19 +102,27 @@ export default function Edit({ attributes, setAttributes }) {
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, context: false }} />
+			<Controls {...{ attributes, setAttributes }} />
 			<div {...blockProps}>
 				{undefined === letter && (
-					<LetterControl
-						value={letter}
-						onChange={(newLetter) => setAttributes({ letter: newLetter })}
-					/>
+					<Placeholder>
+						<TaxonomyControl
+							value={taxonomy}
+							onChange={(newTaxonomy) => {
+								setAttributes({ taxonomy: [...newTaxonomy] });
+							}}
+						/>
+						<LetterControl
+							value={letter}
+							onChange={(newLetter) => setAttributes({ letter: newLetter })}
+						/>
+					</Placeholder>
 				)}
 				{undefined !== letter && (
 					<Fragment>
-						<h2 className="sans-serif">{letter}</h2>
+						<h2>{letter}</h2>
 						{false !== terms && (
-							<div className="ui list">
+							<ul>
 								{terms.map((term) => {
 									const checked = term.excluded;
 									const label =
@@ -121,16 +130,16 @@ export default function Edit({ attributes, setAttributes }) {
 											? decodeEntities(term.name)
 											: `${decodeEntities(term.name)} (${term.term_id})`;
 									return (
-										<div className="item">
+										<li>
 											<CheckboxControl
-												label={_(label)}
+												label={label}
 												checked={checked}
 												onChange={(b) => onSelect(b, term.term_id)}
 											/>
-										</div>
+										</li>
 									);
 								})}
-							</div>
+							</ul>
 						)}
 					</Fragment>
 				)}

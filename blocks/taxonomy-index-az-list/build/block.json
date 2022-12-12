@@ -5,13 +5,10 @@
   "version": "0.1.0",
   "title": "Taxonomy Index A-Z Listing",
   "category": "design",
-  "description": "A taxonomy list sorted alphabeticaly. Select terms you want to exclude",
+  "description": "A list of taxonomy terms sorted alphabeticaly. Select terms you want to exclude by checking the box.",
   "icon": "networking",
   "keywords": [
     "taxonomy",
-    "index",
-    "a-z",
-    "listing",
     "alphabetical"
   ],
   "attributes": {
@@ -22,8 +19,10 @@
       "type": "string"
     },
     "taxonomy": {
-      "type": "string",
-      "default": "topic"
+      "type": "array",
+      "default": [
+        "topic"
+      ]
     },
     "disableHeading": {
       "type": "boolean",
