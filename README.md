@@ -83,7 +83,7 @@ module.exports = {
 			requestToHandle(request) {
 				// Handle imports like `import {useDebounce} from '@prc/hooks'`
 				if ('@prc/hooks' === request) {
-					// `useModule` depends on the script with the 'prc-hooks' handle.
+					// `useDebounce` depends on the script with the 'prc-hooks' handle.
 					return 'prc-hooks';
 				}
 				if ('enquire.js' === request) {
