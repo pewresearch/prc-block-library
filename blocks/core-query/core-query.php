@@ -42,7 +42,7 @@ class CoreQuery extends PRC_Block_Library {
 	}
 
 	/**
-	 * Defaults the tax query arguments to OR instead of AND for relation match.
+	 * Defaults the tax query arguments to OR instead of AND for relational match.
 	 * @param mixed $metadata
 	 * @return mixed
 	 */

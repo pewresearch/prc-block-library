@@ -24,9 +24,11 @@ class StoryItem extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
-			add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
-			add_action( 'prc_core_on_stub_update', array( $this, 'clear_index_cache_on_stub_update' ), 10, 1 );
+			if ( defined('PRC_PLATFORM') && true === PRC_PLATFORM ) {
+				add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
+				add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
+				add_action( 'prc_core_on_stub_update', array( $this, 'clear_index_cache_on_stub_update' ), 10, 1 );
+			}
 			add_action( 'init', array($this, 'block_init') );
 		}
 	}

@@ -99,7 +99,7 @@ function ImageDisplay({ img, size, onClick = false }) {
 	return <Picture sources={getImgSrcSet()} />;
 }
 
-export default function Img({ attributes, setAttributes }) {
+export default function Image({ attributes, setAttributes }) {
 	const { image, imageSlot, imageSize, isChartArt } = attributes;
 
 	if ('disabled' === imageSlot) {

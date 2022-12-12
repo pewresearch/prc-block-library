@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/taxonomy-index-az-list",
+	"version": "0.1.0",
+	"title": "Taxonomy Index A-Z Listing",
+	"category": "design",
+	"description": "A taxonomy list sorted alphabeticaly. Select terms you want to exclude",
+	"icon": "networking",
+	"keywords": ["taxonomy", "index", "a-z", "listing", "alphabetical"],
+	"attributes": {
+		"letter": {
+            "type": "string"
+        },
+        "exclude": {
+            "type": "string"
+        },
+		"taxonomy": {
+            "type": "string",
+			"default": "topic"
+        },
+		"disableHeading": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": false,
+		"html": false,
+		"spacing": {
+			"blockGap": true,
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"textdomain": "taxonomy-index-az-list",
+	"editorScript": "file:./index.js"
+}

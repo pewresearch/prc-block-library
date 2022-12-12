@@ -23,7 +23,7 @@ const IMAGE_SIZES = {
 	XL: [1440, 810],
 };
 
-function Preview({ attributes }) {
+export default function Preview({ attributes }) {
 	const {
 		title,
 		excerpt,
@@ -134,5 +134,3 @@ function Preview({ attributes }) {
 		</article>
 	);
 }
-
-export default Preview;

@@ -20,7 +20,7 @@ const randomTitlePlaceholder = () => {
 	return opts[Math.floor(Math.random() * opts.length)];
 };
 
-function Header({ attributes, setAttributes }) {
+export default function Header({ attributes, setAttributes }) {
 	const { title, headerSize, enableExcerpt, enableHeader } = attributes;
 
 	if (!enableHeader) {
@@ -49,5 +49,3 @@ function Header({ attributes, setAttributes }) {
 		/>
 	);
 }
-
-export default Header;

@@ -43,9 +43,6 @@
       }
     }
   },
-  "providesContext": {
-    "prc-block/carousel/direction": "direction"
-  },
   "styles": [
     {
       "name": "vertical",
@@ -61,7 +58,7 @@
   "editorScript": "file:./index.js",
   "style": [
     "file:./style-view.css",
-    "splide"
+    "file:./view.css"
   ],
   "render": "file:./render.php",
   "viewScript": "file:./view.js"

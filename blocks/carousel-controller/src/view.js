@@ -13,6 +13,7 @@ import domReady from '@wordpress/dom-ready';
  * Internal Dependencies
  */
 import './style.scss';
+import '@splidejs/splide/css';
 
 // eslint-disable-next-line no-prototype-builtins
 if (!window.hasOwnProperty('prcBlocks')) {
@@ -186,7 +187,9 @@ function initHorizontalCarousel(id, elm) {
 }
 
 domReady(() => {
-	const carousels = document.querySelectorAll('.wp-block-prc-block-carousel');
+	const carousels = document.querySelectorAll(
+		'.wp-block-prc-block-carousel-controller',
+	);
 	const carouselBlocks = Array.from(carousels);
 	// eslint-disable-next-line prettier/prettier
 	window.prcBlocks.carouselBlocks.isMobile = carouselBlocks.some((e) => e.getAttribute('data-is-mobile'));

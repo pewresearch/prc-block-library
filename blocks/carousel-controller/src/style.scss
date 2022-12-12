@@ -10,7 +10,7 @@ body.carousel-locked {
 	overflow-y: hidden;
 }
 
-.wp-block-prc-block-carousel:not(.wp-block) {
+.wp-block-prc-block-carousel-controller:not(.wp-block) {
 	padding: 0;
 	width: 100%;
 	// min-height: 50vh;
@@ -30,7 +30,7 @@ body.carousel-locked {
 }
 
 .wp-block-cover {
-	.wp-block-prc-block-carousel:not(.wp-block) {
+	.wp-block-prc-block-carousel-controller:not(.wp-block) {
 		&:not(.is-style-horizontal) {
 			height: 100vh;
 		}

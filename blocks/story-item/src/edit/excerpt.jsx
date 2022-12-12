@@ -20,7 +20,7 @@ const randomExcerptPlaceholder = () => {
 	return opts[Math.floor(Math.random() * opts.length)];
 };
 
-function Excerpt({ attributes, setAttributes }) {
+export default function Excerpt({ attributes, setAttributes }) {
 	const { excerpt, enableHeader, enableExcerpt } = attributes;
 
 	if (!enableExcerpt) {
@@ -42,5 +42,3 @@ function Excerpt({ attributes, setAttributes }) {
 		/>
 	);
 }
-
-export default Excerpt;

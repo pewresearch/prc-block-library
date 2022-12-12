@@ -17,7 +17,7 @@ import {
 /**
  * Internal Dependencies
  */
-import { HeadingLevelIcon, ImageSizeIcon, ImageSlotIcon } from './icons';
+import { HeadingLevelIcon, ImageSizeIcon, ImageSlotIcon } from './Icons';
 import { setArtBySize } from '../../helpers';
 
 const COLUMN_LIMIT = 6;

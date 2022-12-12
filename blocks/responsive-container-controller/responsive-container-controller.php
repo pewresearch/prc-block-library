@@ -16,8 +16,7 @@ class ResponsiveContainerController extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_filter( 'safe_style_css', array( $this, 'safe_styles' ) );
-			add_action( 'wp_footer', array( $this, 'construct_media_queries' ) );
-			add_action('init', array($this, 'block_init'));
+			add_action( 'init', array($this, 'block_init') );
 		}
 	}
 
@@ -33,60 +32,30 @@ class ResponsiveContainerController extends PRC_Block_Library {
 		return substr( strtolower( preg_replace( '/[0-9_\/]+/', '', base64_encode( sha1( wp_json_encode( $block ) ) ) ) ), 0, 10 );
 	}
 
-	public function construct_media_queries() {
-		global $post;
-
-		if ( ! is_singular() && ! has_blocks( $post ) && ! has_block( 'prc-block/responsive-container-controller', $post ) ) {
-			return;
-		}
-
+	public function construct_media_queries($innerblocks) {
 		$media_queries = array();
-		$blocks        = parse_blocks( $post->post_content );
-		$matched       = array_filter(
-			array_column( $blocks, 'blockName' ),
-			function( $e ) {
-				return 'prc-block/responsive-container-controller' === $e;
-			}
-		);
+		foreach ( $innerblocks as $viewport_block ) {
+			$id = $id = $this->get_block_id_hash( $viewport_block );
+			$min = array_key_exists(
+				'min',
+				$viewport_block['attrs']
+			) && 0 !== $viewport_block['attrs']['min'] ? $viewport_block['attrs']['min'] : null;
+			$max = array_key_exists(
+				'max',
+				$viewport_block['attrs']
+			) && 0 !== $viewport_block['attrs']['max'] ? $viewport_block['attrs']['max'] : null;
 
-		// No data, return early,
-		if ( empty( $matched ) ) {
-			return;
-		}
-
-		foreach ( array_keys( $matched ) as $i ) {
-			foreach ( $blocks[ $i ]['innerBlocks'] as $viewport_block ) {
-				$id  = $this->get_block_id_hash( $viewport_block );
-				$min = array_key_exists(
-					'min',
-					$viewport_block['attrs']
-				) && 0 !== $viewport_block['attrs']['min'] ? $viewport_block['attrs']['min'] : null;
-				$max = array_key_exists(
-					'max',
-					$viewport_block['attrs']
-				) && 0 !== $viewport_block['attrs']['max'] ? $viewport_block['attrs']['max'] : null;
-
-				if ( null !== $min && null !== $max ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $min, $id );
-				} elseif ( null !== $max && null === $min ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $id );
-				} elseif ( null === $max && null !== $min ) {
-					$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $min, $id );
-				}
+			if ( null !== $min && null !== $max ) {
+				$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $min, $id );
+			} elseif ( null !== $max && null === $min ) {
+				$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $id );
+			} elseif ( null === $max && null !== $min ) {
+				$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $min, $id );
 			}
 		}
 
-		// No data, return early,
-		if ( empty( $media_queries ) ) {
-			return;
-		}
-
-		// @TODO: change this to use wp_add_inline_style OR something from the new style engine...
-		echo '<style>';
-		foreach ( $media_queries as $media_query ) {
-			echo $media_query;
-		}
-		echo '</style>';
+		// return $media_queries as a string
+		return implode( '', $media_queries );
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
@@ -101,15 +70,15 @@ class ResponsiveContainerController extends PRC_Block_Library {
 
 		foreach ( $block->parsed_block['innerBlocks'] as $i => $viewport_block ) {
 			$id = $this->get_block_id_hash( $viewport_block );
-
 			$viewport_block['attrs']['id'] = $id;
 			$content .= render_block( $viewport_block );
 		}
 
 		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
+			'<div %1$s>%2$s</div><style>%3$s</style>',
 			$wrapper_attributes,
-			$content
+			$content,
+			$this->construct_media_queries($block->parsed_block['innerBlocks']),
 		);
 	}
 

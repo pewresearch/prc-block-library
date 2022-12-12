@@ -39,6 +39,10 @@
     {
       "name": "text",
       "label": "Text"
+    },
+    {
+      "name": "accordion",
+      "label": "Accordion"
     }
   ],
   "supports": {

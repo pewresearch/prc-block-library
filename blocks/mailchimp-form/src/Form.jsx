@@ -14,7 +14,7 @@ import { isURL, buildQueryString } from '@wordpress/url';
 const CAPTCHA_SITE_KEY =
 	window.mailChimpFormConfig && window.mailChimpFormConfig.HCAPTCHA_KEY
 		? window.mailChimpFormConfig.HCAPTCHA_KEY
-		: '';
+		: false;
 
 const ENDPOINT = '/prc-api/v2/mailchimp/subscribe';
 
@@ -27,6 +27,9 @@ const submitHandler = ({
 	closeCaptcha,
 	interest = false,
 }) => {
+	if (!CAPTCHA_SITE_KEY) {
+		return onError('Invalid captcha key');
+	}
 	if (!captchaToken) {
 		return onError("We couldn't verify you're not a robot. Please try again.");
 	}

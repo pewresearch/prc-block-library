@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/data-table",
+	"version": "0.1.0",
+	"title": "Data Table",
+	"category": "media",
+	"description": "Beyond a simple html table, this block allows you to create rich data tables.",
+	"icon": "editor-table",
+	"attributes": {
+		"title": {
+			"type": "string"
+		},
+		"caption": {
+			"type": "string"
+		},
+		"data": {
+			"type": "array"
+		},
+		"cellBackgroundColor": {
+			"type": "string"
+		},
+		"cellTextColor": {
+			"type": "string"
+		},
+		"headerRowBackgroundColor": {
+			"type": "string",
+			"default": "gray"
+		},
+		"headerRowTextColor": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"margin": [ "top", "bottom" ]
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"textdomain": "data-table",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

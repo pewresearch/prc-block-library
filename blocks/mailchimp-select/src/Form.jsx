@@ -219,6 +219,10 @@ export default function Form({
 		button: null,
 	},
 }) {
+	if (!CAPTCHA_SITE_KEY) {
+		console.error('Invalid captcha key');
+		return '';
+	}
 	// get the values from the already "checked" checkboxes.
 	const initialChecked = [];
 	const allCheckboxValues = [];

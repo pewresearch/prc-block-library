@@ -9,7 +9,7 @@ import {
 registerBlockVariation('core/query', {
 	name: 'story-item-listing',
 	title: 'Story Item Listing',
-	description: 'Display a publication list of story items.',
+	description: 'Display a publication list of Story Items.',
 	attributes: {
 		className: 'is-story-item-listing',
 		query: {

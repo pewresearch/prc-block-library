@@ -14,6 +14,9 @@ class MailchimpForm extends PRC_Block_Library {
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
+		if ( defined('PRC_PLATFORM') && true !== PRC_PLATFORM ) {
+			return;
+		}
 		if ( true === $init ) {
 			add_action('init', array($this, 'block_init'));
 		}

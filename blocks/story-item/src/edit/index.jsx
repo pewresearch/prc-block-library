@@ -6,14 +6,14 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import { Controls, Placeholder } from './controls';
-import Image from './image';
-import Excerpt from './excerpt';
-import Extra from './extra';
-import Header from './header';
-import Meta from './meta';
-import Preview from './preview';
-import ContextPreview from './context-preview';
+import { Controls, Placeholder } from './Controls';
+import Image from './Image';
+import Excerpt from './Excerpt';
+import Extra from './Extra';
+import Header from './Header';
+import Meta from './Meta';
+import Preview from './Preview';
+import ContextPreview from './ContextPreview';
 import { useStoryItemBlockProps } from '../helpers';
 
 /**

@@ -182,7 +182,7 @@ class UnitTests extends PRC_Block_Library {
 					'post_content' => $page_content,
 				);
 
-				switch_to_blog( self::$dev_docs_site_id );
+				switch_to_blog( self::$site_id );
 				$success = wp_update_post( $unit_tests_page, $block_names );
 				restore_current_blog();
 			}

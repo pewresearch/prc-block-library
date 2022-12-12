@@ -14,6 +14,10 @@ class RoperDbSearch extends PRC_Block_Library {
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
+		// On blocks that require functions or api access to the data model of the PRC platform, we need to check if the platform is active before doing anything else.
+		if ( defined('PRC_PLATFORM') && true !== PRC_PLATFORM ) {
+			return;
+		}
 		if ( true === $init ) {
 			add_action( 'init', array($this, 'block_init') );
 			add_action( 'wp_enqueue_scripts', array($this, 'register_vendor_assets') );

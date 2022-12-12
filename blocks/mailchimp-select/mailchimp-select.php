@@ -14,6 +14,9 @@ class MailChimpSelect extends PRC_Block_Library {
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
+		if ( defined('PRC_PLATFORM') && true !== PRC_PLATFORM ) {
+			return;
+		}
 		if ( true === $init ) {
 			add_action('init', array($this, 'block_init'));
 		}
@@ -27,7 +30,11 @@ class MailChimpSelect extends PRC_Block_Library {
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
-		register_block_type( self::$dir . '/build' );
+		$block = register_block_type( self::$dir . '/build' );
+		$view_script_handle = isset( $block->view_script_handles ) && ! empty( $block->view_script_handles ) ? $block->view_script_handles[0] : null;
+		wp_localize_script( $view_script_handle, 'mailChimpFormConfig', array(
+			'HCAPTCHA_KEY' => HCAPTCHA_KEY,
+		) );
 	}
 
 }

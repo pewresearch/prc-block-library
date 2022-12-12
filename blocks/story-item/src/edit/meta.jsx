@@ -17,7 +17,7 @@ import { date as formatDate } from '@wordpress/date';
  * Internal Dependencies
  */
 
-function Meta({ attributes, setAttributes }) {
+export default function Meta({ attributes, setAttributes }) {
 	const { date, label, enableMeta, metaTaxonomy } = attributes;
 	const [datePickerVisible, setDatePickerVisible] = useState(false);
 
@@ -100,5 +100,3 @@ function Meta({ attributes, setAttributes }) {
 		</div>
 	);
 }
-
-export default Meta;

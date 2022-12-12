@@ -1,3 +1,32 @@
+@mixin accordion {
+	& > div {
+		flex-direction: column!important;
+		border: 1px solid var(--color-border)!important;
+	}
+	.wp-block-prc-block-tabs-menu {
+		flex-direction: column!important;
+		align-items: stretch!important;
+		max-width: 100%!important;
+		gap: 0px!important;
+		border: none!important;
+		padding: 0px!important;
+		.wp-block-prc-block-tabs-menu-item {
+			width: 100%!important;
+			text-align: center!important;
+			border-radius: 0px!important;
+			border: none!important;
+			border-bottom: 1px solid var(--color-border)!important;
+			margin: 0px!important;
+			&:first-child {
+				border-top: none!important;
+			}
+		}
+	}
+	.wp-block-prc-block-tabs-panes {
+		padding: 1em!important;
+	}
+}
+
 .wp-block-prc-block-tabs-menu.block-editor-block-list__block {
     margin-bottom: 0!important;
 }
@@ -27,32 +56,10 @@
 	// When this block reaches 600px it will convert to an accordion.
 	// All of these are set to important to override all other styles, this must always become an accordion.
 	@container (max-width: 600px) {
-		& > div {
-			flex-direction: column!important;
-			border: 1px solid var(--color-border)!important;
-		}
-		.wp-block-prc-block-tabs-menu {
-			flex-direction: column!important;
-			align-items: stretch!important;
-			max-width: 100%!important;
-			gap: 0px!important;
-			border: none!important;
-			padding: 0px!important;
-			.wp-block-prc-block-tabs-menu-item {
-				width: 100%!important;
-				text-align: center!important;
-				border-radius: 0px!important;
-				border: none!important;
-				border-bottom: 1px solid var(--color-border)!important;
-				margin: 0px!important;
-				&:first-child {
-					border-top: none!important;
-				}
-			}
-		}
-		.wp-block-prc-block-tabs-panes {
-			padding: 1em!important;
-		}
+		@include accordion;
+	}
+	&.is-style-accordion {
+		@include accordion;
 	}
 
 	// Fallback font-family for when the block does not have a set style.
