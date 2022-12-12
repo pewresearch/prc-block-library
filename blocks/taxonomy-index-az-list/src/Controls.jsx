@@ -17,7 +17,7 @@ import {
 	TextControl,
 	ToggleControl,
 } from '@wordpress/components';
-import { useEntityProp } from '@wordpress/core-data';
+import { getEntitiesByKind } from '@wordpress/core-data';
 
 export function LetterControl({ value, onChange }) {
 	return (
@@ -60,6 +60,10 @@ export function LetterControl({ value, onChange }) {
 
 export function Controls({ attributes, setAttributes }) {
 	const { letter, taxonomy } = attributes;
+
+	const test = getEntitiesByKind('taxonomy');
+	console.log("test", test);
+
 	return (
 		<InspectorControls>
 			<PanelBody title="Taxonomy Query">
