@@ -43,63 +43,34 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 	}
 
 	public function render_as_accordion( $block ) {
-		$menu_items = array();
-		$panes = array();
-
-		foreach ( self::$range as $letter ) {
-			$menu_item_block = array(
-				'blockName' => 'prc-block/menu-item',
-				'attrs' => array(
-					'slug' => $letter,
-					'title' => $letter,
-				),
-			);
-			$menu_item_block['attrs']['uuid'] = md5( wp_json_encode( array(
-				'slug' => $letter,
-				'title' => $letter,
-			) ) );
-			$menu_items[] = $menu_item_block;
-		}
+		$accordion_blocks = array();
 
 		foreach ( $block->inner_blocks as $grid ) {
 			foreach ( $grid->inner_blocks as $column ) {
 				foreach ( $column->inner_blocks as $az_block ) {
-					if ( array_key_exists( 'letter', $az_block->attributes ) ) {
-						$pane_block = array(
-							'blockName' => 'prc-block/pane',
-							'attrs' => array(),
+					if ( array_key_exists( 'letter', $az_block->parsed_block['attrs'] ) ) {
+						$accordion_block = array(
+							'blockName' => 'prc-block/accordion',
+							'attrs' => array(
+								'title' => $az_block->parsed_block['attrs']['letter'],
+							),
 							'innerBlocks' => array($az_block->parsed_block),
+							'innerHTML' => '',
+							'innerContent' => array(),
 						);
-						$pane_block['attrs']['uuid'] = md5( wp_json_encode( array(
-							'slug' => $az_block->attributes['letter'],
-							'title' => $az_block->attributes['letter'],
-						) ) );
-						$panes[] = $pane_block;
+						$accordion_blocks[] = $accordion_block;
 					}
 				}
 			}
 		}
 
 		$block_args = new WP_Block_Parser_Block(
-			'prc-block/tabs',
-			array(
-				'className' => 'is-style-accordion',
-			),
-			array(
-				array(
-					'blockName' => 'prc-block/menu',
-					'innerBlocks' => $menu_items,
-				),
-				array(
-					'blockName' => 'prc-block/panes',
-					'innerBlocks' => $panes,
-				)
-			),
+			'prc-block/accordion-controller',
+			array(),
+			$accordion_blocks,
 			'',
 			'',
 		);
-
-		do_action('qm/debug', print_r((array) $block_args, true));
 
 		return render_block( (array) $block_args);
 	}
@@ -108,8 +79,9 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 		$wrapper_attributes = get_block_wrapper_attributes();
 		$is_mobile = jetpack_is_mobile();
 
-		$content = $this->render_az_list( $block ) . $content;
 		$content = $this->render_as_accordion( $block ) . $content;
+
+		// $content = $this->render_az_list( $block ) . $content;
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',

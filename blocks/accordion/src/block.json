@@ -1,11 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "prc-block/collapsible",
+	"name": "prc-block/accordion",
 	"version": "0.1.0",
-	"title": "Collapsible",
+	"title": "Accordion",
 	"category": "design",
-	"keywords": [ "collapsible", "accordion", "how we did this" ],
 	"attributes": {
 		"title": {
 			"type": "string"
@@ -13,22 +12,26 @@
 		"allowedBlocks": {
 			"type": "array"
 		},
-		"orientation": {
+		"titleBackgroundColor": {
+			"type": "string"
+		},
+		"titleTextColor": {
+			"type": "string"
+		},
+		"contentBackgroundColor": {
+			"type": "string"
+		},
+		"contentTextColor": {
+			"type": "string"
+		},
+		"borderColor": {
 			"type": "string",
-			"default": "vertical"
+			"default": "gray-light"
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"spacing": {
-			"blockGap": true,
-			"margin": [ "top", "bottom" ],
-			"padding": true,
-			"__experimentalDefaultControls": {
-				"padding": true
-			}
-		},
 		"typography": {
 			"fontSize": true,
 			"__experimentalFontFamily": true,
@@ -38,9 +41,11 @@
 			}
 		}
 	},
-	"textdomain": "collapsible",
+	"parent": [
+		"prc-block/accordion-controller"
+	],
+	"textdomain": "accordion",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"render": "file:./render.php"
 }

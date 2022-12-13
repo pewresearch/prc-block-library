@@ -98,3 +98,19 @@ module.exports = {
 
 For an up to date list of all available scripts and their dependency extraction configuration see the [PRC-Scripts](
 	https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-scripts/webpack.config.js) plugin.
+
+
+#### Licensing
+
+This library utilizes Font Awesome for some block icons and interface elements. 
+
+ - Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc.
+
+This library also utilizes Handsontable for the data-table block.
+
+- Handsontable 9.0.2 by @handsontable - https://handsontable.com License - https://handsontable.com/docs/9.0.2/tutorial-license-info.html (Commercial License) Copyright 2021 Handsontable
+
+
+#### Contributing
+
+We are not currently accepting contributions to this repository at this time.
