@@ -43,45 +43,48 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 	}
 
 	public function render_as_accordion( $block ) {
-		$accordion_blocks = array();
-
-		foreach ( $block->inner_blocks as $grid ) {
-			foreach ( $grid->inner_blocks as $column ) {
-				foreach ( $column->inner_blocks as $az_block ) {
-					if ( array_key_exists( 'letter', $az_block->parsed_block['attrs'] ) ) {
-						$accordion_block = array(
-							'blockName' => 'prc-block/accordion',
-							'attrs' => array(
-								'title' => $az_block->parsed_block['attrs']['letter'],
-							),
-							'innerBlocks' => array($az_block->parsed_block),
-							'innerHTML' => '',
-							'innerContent' => array(),
-						);
-						$accordion_blocks[] = $accordion_block;
+		$accordion_blocks = '';
+		foreach ( $block->parsed_block['innerBlocks'] as $grid ) {
+			foreach ( $grid['innerBlocks'] as $column ) {
+				foreach ( $column['innerBlocks'] as $az_block ) {
+					if ( array_key_exists( 'letter', $az_block['attrs'] ) ) {
+						$letter = $az_block['attrs']['letter'];
+						$exclude = $az_block['attrs']['exclude'];
+						$taxonomy = $az_block['attrs']['taxonomy'];
+						ob_start();
+						?>
+						<!-- wp:prc-block/accordion {"title":"<?php echo $letter;?>"} -->
+						<!-- wp:prc-block/taxonomy-index-az-list {"letter":"<?php echo $letter;?>","disableHeading": true, "exclude":"<?php echo $exclude;?>","taxonomy":["topic","regions-countries"]} /-->
+						<!-- /wp:prc-block/accordion -->
+						<?php
+						$accordion_blocks .= ob_get_clean();
 					}
 				}
 			}
 		}
 
-		$block_args = new WP_Block_Parser_Block(
-			'prc-block/accordion-controller',
-			array(),
-			$accordion_blocks,
-			'',
-			'',
-		);
+		ob_start();
+		?>
+		<!-- wp:prc-block/accordion-controller {"borderColor":"light-gray"} -->
+		%s
+		<!-- /wp:prc-block/accordion-controller -->
+		<?php
+		$block_content = ob_get_clean();
+		$block_content = wp_sprintf( normalize_whitespace($block_content), $accordion_blocks );
 
-		return render_block( (array) $block_args);
+		$blocks = parse_blocks($block_content);
+		return render_block( array_pop($blocks) );
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$wrapper_attributes = get_block_wrapper_attributes();
 		$is_mobile = jetpack_is_mobile();
 
-		$content = $this->render_as_accordion( $block ) . $content;
-
-		// $content = $this->render_az_list( $block ) . $content;
+		if ( $is_mobile ) {
+			$content = $this->render_as_accordion( $block );
+		} else {
+			$content = $this->render_az_list( $block ) . $content;
+		}
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
