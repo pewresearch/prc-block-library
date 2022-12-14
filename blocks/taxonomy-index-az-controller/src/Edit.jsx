@@ -61,6 +61,28 @@ const ALLOWED_BLOCKS = [
 	'prc-block/taxonomy-index-az-list',
 ];
 
+// range from a to z
+const range = (start, end) => {
+	const length = end.charCodeAt(0) - start.charCodeAt(0) + 1;
+	return Array.from({ length }, (_, i) =>
+		String.fromCharCode(i + start.charCodeAt(0)),
+	);
+};
+
+const LETTERS = range('a', 'z');
+
+function Letters() {
+	return (
+		<ul className="wp-block-prc-block-taxonomy-index-az-controller--list">
+			{LETTERS.map((letter) => (
+				<li>
+					<span>{letter.toUpperCase()}</span>
+				</li>
+			))}
+		</ul>
+	);
+}
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -73,17 +95,25 @@ const ALLOWED_BLOCKS = [
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes }) {
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps({});
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	// The same applies for "orientation", defaults to "vertical".
 	const { allowedBlocks, orientation } = attributes;
-	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-		orientation: orientation || 'vertical',
-		template: BLOCKS_TEMPLATE,
-	});
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
+			orientation: orientation || 'vertical',
+			template: BLOCKS_TEMPLATE,
+		},
+	);
 
-	return <div {...innerBlocksProps} />;
+	return (
+		<div {...blockProps}>
+			<Letters />
+			<div {...innerBlocksProps} />
+		</div>
+	);
 }

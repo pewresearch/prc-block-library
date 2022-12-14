@@ -34,15 +34,16 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 				}
 			}
 		}
-		$list = '';
+		$list = '<ul class="wp-block-prc-block-taxonomy-index-az-controller--list">';
 		foreach ( self::$range as $letter ) {
 			$class = classNames( 'item', array( 'disabled' => ! in_array( $letter, $present ) ) );
-			$list .= "<a href='#{$letter}' class='{$class}'>{$letter}</a>";
+			$list .= "<li><a href='#{$letter}' class='{$class}'>{$letter}</a></li>";
 		}
+		$list .= '</ul>';
 		return empty( $list ) ? false : $list;
 	}
 
-	public function render_as_accordion( $block ) {
+	public function render_as_accordion_block( $block ) {
 		$accordion_blocks = '';
 		foreach ( $block->parsed_block['innerBlocks'] as $grid ) {
 			foreach ( $grid['innerBlocks'] as $column ) {
@@ -50,11 +51,16 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 					if ( array_key_exists( 'letter', $az_block['attrs'] ) ) {
 						$letter = $az_block['attrs']['letter'];
 						$exclude = $az_block['attrs']['exclude'];
-						$taxonomy = $az_block['attrs']['taxonomy'];
+						$taxonomy = array_key_exists('taxonomy', $az_block['attrs']) ? $az_block['attrs']['taxonomy'] : array('topic');
+						// convert $taxonomy to a comma separated string but wrap each item in quotes
+						// we need to do this because the taxonomy attribute is a printed array of strings in the block markup.
+						$taxonomy = implode(',', array_map(function($item) {
+							return '"' . $item . '"';
+						}, $taxonomy));
 						ob_start();
 						?>
 						<!-- wp:prc-block/accordion {"title":"<?php echo $letter;?>"} -->
-						<!-- wp:prc-block/taxonomy-index-az-list {"letter":"<?php echo $letter;?>","disableHeading": true, "exclude":"<?php echo $exclude;?>","taxonomy":["topic","regions-countries"]} /-->
+						<!-- wp:prc-block/taxonomy-index-az-list {"letter":"<?php echo $letter;?>","disableHeading": true, "exclude":"<?php echo $exclude;?>","taxonomy":[<?php echo $taxonomy;?>]} /-->
 						<!-- /wp:prc-block/accordion -->
 						<?php
 						$accordion_blocks .= ob_get_clean();
@@ -81,7 +87,7 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 		$is_mobile = jetpack_is_mobile();
 
 		if ( $is_mobile ) {
-			$content = $this->render_as_accordion( $block );
+			$content = $this->render_as_accordion_block( $block );
 		} else {
 			$content = $this->render_az_list( $block ) . $content;
 		}

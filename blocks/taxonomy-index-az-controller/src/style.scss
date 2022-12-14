@@ -1,19 +1,30 @@
-#prc-az-index-menu {
-    .item {
-        font-size: 18px;
-        font-weight: 700;
-        padding: 0.5em;
-        flex-grow: 1;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-}
-
-.wp-block-prc-block-topic-index-az-controller {
-    &.ui.accordion {
-        .wp-block-prc-block-topic-index-az {
-            padding-left: 2.4em;
-        }
-    }
+.wp-block-prc-block-taxonomy-index-az-controller {
+    .wp-block-prc-block-taxonomy-index-az-controller--list {
+		display: flex;
+		flex-direction: row;
+		list-style: none;
+		padding: 0;
+		font-family: var(--wp--preset--font-family--sans-serif);
+		// overflow-x: auto;
+		// overflow-y: hidden;
+		li {
+			text-align: center;
+			flex-grow: 1;
+			a,
+			span {
+				padding: 0.5em;
+				color: black;
+				font-size: 18px;
+				font-weight: 700;
+				line-height: 1;
+				&.disabled {
+					opacity: 0.2;
+				}
+				&:hover {
+					background-color: var(--wp--preset--color--gray);
+					text-decoration: underline;
+				}
+			}
+		}
+	}
 }
