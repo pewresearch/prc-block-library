@@ -25,11 +25,11 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 
 	public function render_az_list( $block ) {
 		$present = array();
-		foreach ( $block->inner_blocks as $grid ) {
-			foreach ( $grid->inner_blocks as $column ) {
-				foreach ( $column->inner_blocks as $az_block ) {
-					if ( array_key_exists( 'letter', $az_block->attributes ) ) {
-						$present[] = strtoupper( $az_block->attributes['letter'] );
+		foreach ( $block->parsed_block['innerBlocks'] as $grid ) {
+			foreach ( $grid['innerBlocks'] as $column ) {
+				foreach ( $column['innerBlocks'] as $az_block ) {
+					if ( array_key_exists( 'letter', $az_block['attrs'] ) ) {
+						$present[] = strtoupper( $az_block['attrs']['letter'] );
 					}
 				}
 			}
