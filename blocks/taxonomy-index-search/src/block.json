@@ -16,9 +16,6 @@
 		"taxonomy": {
             "type": "array",
 			"default": ["topic"]
-        },
-		"url": {
-            "type": "string"
         }
 	},
 	"supports": {
