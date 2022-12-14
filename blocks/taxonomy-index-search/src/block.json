@@ -5,19 +5,26 @@
 	"version": "0.1.0",
 	"title": "Taxonomy Index Search",
 	"category": "design",
-	"description": "Search terms in the selected taxonomy and redirect to the terms archive page",
+	"description": "Search terms in the selected taxonomy and redirect to the terms archive page.  Allows restricting searches to a root term.",
 	"attributes": {
-		"allowedBlocks": {
-			"type": "array"
+		"label": {
+            "type": "string"
+        },
+		"restrictToTermId": {
+			"type": "number"
 		},
-		"orientation": {
-			"type": "string",
-			"default": "vertical"
-		}
+		"taxonomy": {
+            "type": "array",
+			"default": ["topic"]
+        },
+		"url": {
+            "type": "string"
+        }
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
+		"reusable": false,
 		"spacing": {
 			"blockGap": true,
 			"margin": [ "top", "bottom" ],

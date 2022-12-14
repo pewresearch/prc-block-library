@@ -28,6 +28,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import Edit from './Edit';
 import Save from './Save';
+import variations from './variations';
 
 import metadata from './block.json';
 
@@ -42,6 +43,7 @@ const settings = {
 	 * @see ./Save.jsx
 	 */
 	save: Save,
+	variations,
 };
 
 /**

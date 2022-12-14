@@ -47,6 +47,8 @@ class PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			require_once plugin_dir_path( __FILE__ ) . '/inc/helpers.php';
+
 			// Remove the "Block Directory" from the block inserter.
 			remove_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 
