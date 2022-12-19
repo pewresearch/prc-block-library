@@ -7,34 +7,22 @@
   "category": "design",
   "description": "Display a menu of taxonomy terms.",
   "attributes": {
-    "ref": {
-      "type": "number"
+    "taxonomy": {
+      "type": "string",
+      "default": "topic"
     },
     "textColor": {
-      "type": "string"
-    },
-    "customTextColor": {
-      "type": "string"
-    },
-    "rgbTextColor": {
       "type": "string"
     },
     "backgroundColor": {
       "type": "string"
     },
-    "customBackgroundColor": {
-      "type": "string"
-    },
-    "rgbBackgroundColor": {
+    "borderColor": {
       "type": "string"
     },
     "showSubmenuIcon": {
       "type": "boolean",
       "default": true
-    },
-    "overlayMenu": {
-      "type": "string",
-      "default": "mobile"
     },
     "icon": {
       "type": "string",
@@ -44,21 +32,8 @@
       "type": "boolean",
       "default": true
     },
-    "overlayBackgroundColor": {
-      "type": "string"
-    },
-    "customOverlayBackgroundColor": {
-      "type": "string"
-    },
-    "overlayTextColor": {
-      "type": "string"
-    },
-    "customOverlayTextColor": {
-      "type": "string"
-    },
-    "maxNestingLevel": {
-      "type": "number",
-      "default": 5
+    "allowedBlocks": {
+      "type": "array"
     },
     "templateLock": {
       "type": [
@@ -74,21 +49,15 @@
     }
   },
   "providesContext": {
-    "textColor": "textColor",
-    "customTextColor": "customTextColor",
-    "backgroundColor": "backgroundColor",
-    "customBackgroundColor": "customBackgroundColor",
-    "overlayTextColor": "overlayTextColor",
-    "customOverlayTextColor": "customOverlayTextColor",
-    "overlayBackgroundColor": "overlayBackgroundColor",
-    "customOverlayBackgroundColor": "customOverlayBackgroundColor",
-    "fontSize": "fontSize",
-    "customFontSize": "customFontSize",
-    "showSubmenuIcon": "showSubmenuIcon",
-    "openSubmenusOnClick": "openSubmenusOnClick",
-    "style": "style",
-    "orientation": "orientation",
-    "maxNestingLevel": "maxNestingLevel"
+    "taxonomy-menu/taxonomy": "taxonomy",
+    "taxonomy-menu/textColor": "textColor",
+    "taxonomy-menu/backgroundColor": "backgroundColor",
+    "taxonomy-menu/borderColor": "borderColor",
+    "taxonomy-menu/fontSize": "fontSize",
+    "taxonomy-menu/customFontSize": "customFontSize",
+    "taxonomy-menu/showSubmenuIcon": "showSubmenuIcon",
+    "taxonomy-menu/layout": "layout",
+    "style": "style"
   },
   "supports": {
     "align": [

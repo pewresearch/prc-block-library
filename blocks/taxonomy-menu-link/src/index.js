@@ -7,7 +7,7 @@
 /**
  * External Dependencies
  */
-import { navigation as icon } from '@wordpress/icons';
+import { link as linkIcon } from '@wordpress/icons';
 
 /**
  * WordPress Dependencies
@@ -30,13 +30,14 @@ import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
 import Save from './Save';
+import variations from './variations';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	icon,
+	icon: linkIcon,
 	/**
 	 * @see ./Edit.jsx
 	 */
@@ -45,6 +46,10 @@ const settings = {
 	 * @see ./Save.jsx
 	 */
 	save: Save,
+	/**
+	 * @see ./variations.js
+	 */
+	variations,
 };
 
 /**

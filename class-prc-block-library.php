@@ -71,7 +71,7 @@ class PRC_Block_Library {
 			foreach ($block_files as $block) {
 				$block = basename($block);
 				self::$blocks[] = $block;
-				require_once plugin_dir_path( __FILE__ ) . '/blocks/' . $block . '/' . $block . '.php';
+				require_once plugin_dir_path( __FILE__ ) . 'blocks/' . $block . '/' . $block . '.php';
 			}
 		}
 	}

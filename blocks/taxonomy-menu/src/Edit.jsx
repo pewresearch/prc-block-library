@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
@@ -10,6 +11,7 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	withColors,
+	getColorClassName,
 } from '@wordpress/block-editor';
 
 /**
@@ -17,7 +19,7 @@ import {
  */
 import Controls from './Controls';
 
-const ALLOWED_BLOCKS = ['core/navigation-link', 'core/navigation-submenu'];
+const ALLOWED_BLOCKS = ['prc-block/taxonomy-menu-link'];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -34,33 +36,73 @@ const ALLOWED_BLOCKS = ['core/navigation-link', 'core/navigation-submenu'];
 function Edit({
 	attributes,
 	setAttributes,
+	className,
 	clientId,
+	context,
 	isSelected,
 	textColor,
 	setTextColor,
 	backgroundColor,
 	setBackgroundColor,
-	overlayBackgroundColor,
-	setOverlayBackgroundColor,
-	overlayTextColor,
-	setOverlayTextColor,
+	borderColor,
+	setBorderColor,
 }) {
-	const blockProps = useBlockProps();
+	const {
+		showSubmenuIcon,
+		templateLock,
+		layout: {
+			justifyContent,
+			orientation = 'horizontal',
+			flexWrap = 'wrap',
+		} = {},
+		hasIcon,
+		icon = 'handle',
+		allowedBlocks
+	} = attributes;
+
+	const textDecoration = attributes.style?.typography?.textDecoration;
+
+	const blockProps = useBlockProps({
+		className: classNames( className, {
+			'items-justified-right': justifyContent === 'right',
+			'items-justified-space-between': justifyContent === 'space-between',
+			'items-justified-left': justifyContent === 'left',
+			'items-justified-center': justifyContent === 'center',
+			'is-vertical': orientation === 'vertical',
+			'no-wrap': flexWrap === 'nowrap',
+		} ),
+		style: {
+			color: ! textColor?.slug && textColor?.color,
+			backgroundColor: ! backgroundColor?.slug && backgroundColor?.color,
+		},
+	});
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	// The same applies for "orientation", defaults to "vertical".
-	const { allowedBlocks, orientation } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-		orientation: orientation || 'vertical',
+		orientation: orientation,
 	});
 
 	console.log('Client ID: ', clientId);
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, context: false }} />
+			<Controls {...{
+				attributes,
+				setAttributes,
+				colors: {
+					textColor,
+					setTextColor,
+					backgroundColor,
+					setBackgroundColor,
+					borderColor,
+					setBorderColor,
+				},
+				context
+			}}
+			/>
 			<div {...innerBlocksProps} />
 		</Fragment>
 	);
@@ -69,6 +111,5 @@ function Edit({
 export default withColors(
 	{ textColor: 'color' },
 	{ backgroundColor: 'color' },
-	{ overlayBackgroundColor: 'color' },
-	{ overlayTextColor: 'color' },
+	{ borderColor: 'color' },
 )(Edit);

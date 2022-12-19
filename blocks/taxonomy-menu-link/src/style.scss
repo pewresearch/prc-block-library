@@ -1,0 +1,20 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+// For now we're only support sub menus on vertical list menus.
+.wp-block-prc-block-taxonomy-menu.is-horizontal .wp-block-prc-block-taxonomy-menu-link__sub-menu {
+	display: none;
+}
+
+.wp-block-prc-block-taxonomy-menu-link {
+	.wp-block-prc-block-taxonomy-menu-link__sub-menu {
+		display: flex;
+		flex-direction: column;
+		padding-left: 1em;
+		padding-top: 1em;
+	}
+}

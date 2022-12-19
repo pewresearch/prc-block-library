@@ -7,7 +7,6 @@
 /**
  * External Dependencies
  */
-import { navigation as icon } from '@wordpress/icons';
 
 /**
  * WordPress Dependencies
@@ -36,7 +35,6 @@ import metadata from './block.json';
 const { name } = metadata;
 
 const settings = {
-	icon,
 	/**
 	 * @see ./Edit.jsx
 	 */

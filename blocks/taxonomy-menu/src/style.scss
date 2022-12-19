@@ -6,6 +6,18 @@
  */
 
 .wp-block-prc-block-taxonomy-menu {
-	color: inherit;
-	background: inherit;
+	&.is-horizontal {
+		.wp-block-prc-block-taxonomy-menu-link {
+			&.has-border-color {
+				border-width: 1px;
+				border-radius: 3px;
+				border-color: transparent;
+				border-style: solid;
+			}
+			padding: .7857142857em 1.5em;
+			text-align: center;
+			text-decoration: none;
+			transition: opacity .1s ease, background-color .1s ease,color .1s ease, box-shadow .1s ease,background .1s ease;
+		}
+	}
 }
