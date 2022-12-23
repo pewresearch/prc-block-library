@@ -1,12 +1,12 @@
 /**
  * External Dependencies
  */
-import { TaxonomySelect } from '@prc/components';
 import styled from '@emotion/styled';
 
 /**
  * WordPress Dependencies
  */
+import { __ } from '@wordpress/i18n';
 import { __unstableStripHTML as stripHTML } from '@wordpress/dom';
 import { __experimentalLinkControl as WPComLinkControl } from '@wordpress/block-editor';
 import { Popover } from '@wordpress/components';
@@ -56,12 +56,6 @@ export default function LinkControl({
 		}
 	`;
 
-	const StyledTaxonomySelect = styled(TaxonomySelect)`
-		padding-top: 16px;
-		padding-left: 16px;
-		padding-right: 16px;
-	`;
-
 	return (
 		<StyledPopover
 			placement="bottom"
@@ -71,6 +65,10 @@ export default function LinkControl({
 			shift
 		>
 			<WPComLinkControl
+				searchInputPlaceholder={__(
+					`Search for ${taxonomy} term`,
+					'prc-block-library',
+				)}
 				hasTextControl
 				hasRichPreviews
 				value={link}
@@ -81,17 +79,6 @@ export default function LinkControl({
 				onChange={onChange}
 				onRemove={onRemove}
 				settings={[]}
-				renderControlBottom={() =>
-					!url && (
-						<StyledTaxonomySelect
-							value={taxonomy}
-							onChange={(newTaxonomy) => {
-								console.log('newTaxonomy', newTaxonomy);
-								setAttributes({ taxonomy: newTaxonomy });
-							}}
-						/>
-					)
-				}
 			/>
 		</StyledPopover>
 	);
