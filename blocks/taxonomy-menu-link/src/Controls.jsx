@@ -82,7 +82,7 @@ export default function Controls({
 					/>
 				)}
 			</ToolbarGroup>
-			{ 'vertical' !== orientation && (
+			{'vertical' === orientation && (
 				<ToolbarGroup>
 					{allowSubMenu && (
 						<ToolbarButton
