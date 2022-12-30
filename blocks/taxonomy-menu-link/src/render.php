@@ -8,18 +8,19 @@
 
 $block_wrapper_attrs = get_block_wrapper_attributes();
 
-$enable_sub_menu = $attributes['enableSubmenu'] ?? false;
-$term_id 	     = $attributes['termId'] ?? 0;
-$term_taxonomy 	 = $attributes['taxonomy'] ?? '';
+$enable_sub_menu = $attributes['enableSubMenu'] ?? false;
+$template        = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link__sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
+$label           = 'is-style-sub-tree' === $attributes['className'] ? $attributes['label'] . ' <span class="icon">+</span>' : $attributes['label'];
+$label           = 'is-style-sub-expand' === $attributes['className'] ? '<span class="icon">+</span> ' . $attributes['label'] : $label;
 
 // You can use this method...
 echo wp_sprintf(
-	'<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link__sub-menu">%3$s</div></div>',
+	$template,
 	$block_wrapper_attrs,
 	wp_sprintf(
-		"<a href='%s'>%s</a>",
+		!empty( $attributes['url'] ) ? '<a href="%1$s">%2$s</a>' : '%2$s',
 		$attributes['url'] ?? '',
-		$attributes['label'] ?? ''
+		$label,
 	),
 	$content,
 );
