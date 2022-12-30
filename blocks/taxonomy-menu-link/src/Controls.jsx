@@ -38,6 +38,7 @@ export default function Controls({
 	popoverAnchor
 }) {
 	const orientation = context['taxonomy-menu/layout']?.orientation;
+	const {className} = attributes;
 
 	const [isLinkOpen, setIsLinkOpen] = useState(false);
 
@@ -54,9 +55,11 @@ export default function Controls({
 			select(blockEditorStore).getBlockRootClientId(clientId);
 		const rootBlockName = select(blockEditorStore).getBlockName(rootClientId);
 		return {
-			allowSubMenu: 'prc-block/taxonomy-menu-link' !== rootBlockName,
+			allowSubMenu: 'prc-block/taxonomy-menu-link' !== rootBlockName && 'is-style-sub-heading' !== className,
 		};
 	}, []);
+
+	const allowLink = 'is-style-sub-expand' !== className;
 
 	return (
 		<Fragment>
@@ -71,17 +74,19 @@ export default function Controls({
 			</PanelBody>
 		</InspectorControls>
 		<BlockControls>
-			<ToolbarGroup>
-				<ToolbarButton isActive={isLinkOpen} icon={ linkIcon } label={__('Link', 'prc-block-library')} onClick={()=> setIsLinkOpen(!isLinkOpen)}/>
-				{isLinkOpen && (
-					<LinkControl
-						anchor={popoverAnchor}
-						onClose={onClose}
-						attributes={attributes}
-						setAttributes={setAttributes}
-					/>
-				)}
-			</ToolbarGroup>
+			{allowLink && (
+				<ToolbarGroup>
+					<ToolbarButton isActive={isLinkOpen} icon={ linkIcon } label={__('Link', 'prc-block-library')} onClick={()=> setIsLinkOpen(!isLinkOpen)}/>
+					{isLinkOpen && (
+						<LinkControl
+							anchor={popoverAnchor}
+							onClose={onClose}
+							attributes={attributes}
+							setAttributes={setAttributes}
+						/>
+					)}
+				</ToolbarGroup>
+			)}
 			{'vertical' === orientation && (
 				<ToolbarGroup>
 					{allowSubMenu && (

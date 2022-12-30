@@ -1,7 +1,11 @@
 /**
  * External Dependencies
  */
-import { addSubmenu as subMenuIcon, link as linkIcon } from '@wordpress/icons';
+import {
+	addSubmenu as subMenuIcon,
+	link as linkIcon,
+	heading as subHeadingIcon,
+} from '@wordpress/icons';
 
 /**
  * WordPress Dependencies
@@ -36,6 +40,19 @@ const variations = [
 		icon: subMenuIcon,
 		isActive: ({ className, enableSubMenu }) =>
 			className && className.includes('is-style-sub-expand') && enableSubMenu,
+	},
+	{
+		name: 'taxonomy-menu-link-sub-heading',
+		title: __('Sub Heading'),
+		attributes: {
+			enableSubMenu: false,
+			className: 'is-style-sub-heading',
+		},
+		icon: subHeadingIcon,
+		isActive: ({ className, enableSubMenu }) =>
+			className &&
+			className.includes('is-style-sub-heading') &&
+			false === enableSubMenu,
 	},
 ];
 

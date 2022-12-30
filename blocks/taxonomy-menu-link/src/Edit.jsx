@@ -16,6 +16,8 @@ import {
 } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useMergeRefs } from '@wordpress/compose';
+import { useDispatch } from '@wordpress/data';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -97,6 +99,8 @@ export default function Edit({
 		}),
 	});
 
+	const { insertBlock } = useDispatch( blockEditorStore );
+
 	const subMenuStyle = {
 		gap: getSpacingPresetCssVar(blockGap),
 	}
@@ -114,6 +118,8 @@ export default function Edit({
 		},
 	);
 
+	const allowedFormats = 'is-style-sub-heading' === className ? [] : ['core/bold', 'core/italic'];
+
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes, context, clientId, popoverAnchor }} />
@@ -124,12 +130,19 @@ export default function Edit({
 					value={label}
 					onChange={(newLabel) => setAttributes({ label: newLabel })}
 					placeholder={__('Add Label', 'prc-block-library')}
-					allowedFormats={['core/bold', 'core/italic']}
+					allowedFormats={allowedFormats}
 					multiline={false}
 					disableLineBreaks
-					__unstableOnSplitAtEnd={() =>
-						insertBlocksAfter(createBlock('prc-block/taxonomy-menu-link'))
-					}
+					__unstableOnSplitAtEnd={() => {
+						const newBlock = createBlock('prc-block/taxonomy-menu-link');
+						if ( enableSubMenu ) {
+							// Insert in this menu
+							insertBlock(newBlock, undefined, clientId);
+						} else {
+							// Insert after this menu
+							insertBlocksAfter(newBlock);
+						}
+					}}
 				/>
 				{enableSubMenu && <div {...innerBlocksProps} />}
 			</div>

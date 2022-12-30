@@ -12,6 +12,7 @@ import {
 	useInnerBlocksProps,
 	withColors,
 	getColorClassName,
+	InnerBlocks,
 } from '@wordpress/block-editor';
 
 /**
@@ -48,15 +49,12 @@ function Edit({
 	setBorderColor,
 }) {
 	const {
-		showSubmenuIcon,
 		templateLock,
 		layout: {
 			justifyContent,
 			orientation = 'horizontal',
 			flexWrap = 'wrap',
 		} = {},
-		hasIcon,
-		icon = 'handle',
 		allowedBlocks
 	} = attributes;
 
@@ -76,13 +74,15 @@ function Edit({
 			backgroundColor: ! backgroundColor?.slug && backgroundColor?.color,
 		},
 	});
+
+
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	// The same applies for "orientation", defaults to "vertical".
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-		orientation: orientation,
+		orientation,
 	});
 
 	console.log('Client ID: ', clientId);

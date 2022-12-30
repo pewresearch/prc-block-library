@@ -34,9 +34,10 @@ import variations from './variations';
 
 import metadata from './block.json';
 
-const { name } = metadata;
+const { name, title } = metadata;
 
 const settings = {
+	__experimentalLabel: ({ label }) => label || title, // Will change the label to match the block label, #experimental.
 	icon: linkIcon,
 	/**
 	 * @see ./Edit.jsx

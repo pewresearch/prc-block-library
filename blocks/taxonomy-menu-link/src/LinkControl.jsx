@@ -50,7 +50,6 @@ export default function LinkControl({
 	};
 
 	const StyledPopover = styled(Popover)`
-		margin-top: 16px;
 		.components-popover__content {
 			padding-bottom: 16px;
 		}

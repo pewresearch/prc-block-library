@@ -20,18 +20,6 @@
 		"borderColor": {
 			"type": "string"
 		},
-		"showSubmenuIcon": {
-			"type": "boolean",
-			"default": true
-		},
-		"icon": {
-			"type": "string",
-			"default": "handle"
-		},
-		"hasIcon": {
-			"type": "boolean",
-			"default": true
-		},
 		"allowedBlocks": {
 			"type": "array"
 		},
@@ -47,7 +35,6 @@
 		"taxonomy-menu/borderColor": "borderColor",
 		"taxonomy-menu/fontSize": "fontSize",
 		"taxonomy-menu/customFontSize": "customFontSize",
-		"taxonomy-menu/showSubmenuIcon": "showSubmenuIcon",
 		"taxonomy-menu/layout": "layout"
 	},
 	"supports": {
