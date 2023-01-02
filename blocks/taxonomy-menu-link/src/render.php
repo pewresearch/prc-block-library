@@ -6,21 +6,23 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
-$block_wrapper_attrs = get_block_wrapper_attributes();
-
 $enable_sub_menu = $attributes['enableSubMenu'] ?? false;
-$template        = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link__sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
-$label           = 'is-style-sub-tree' === $attributes['className'] ? $attributes['label'] . ' <span class="icon">+</span>' : $attributes['label'];
-$label           = 'is-style-sub-expand' === $attributes['className'] ? '<span class="icon">+</span> ' . $attributes['label'] : $label;
+$block_template  = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link--sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
+$label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>' : '<span class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</span>';
+$label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['url'] ) ? '<span class="wp-block-prc-block-taxonomy-menu-link--label wp-block-prc-block-taxonomy-menu-link--toggle">%2$s</span>%3$s' : '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>%3$s' ) : $label_template;
 
-// You can use this method...
+$block_wrapper_attrs = get_block_wrapper_attributes(array(
+	'id' => 'item-' . md5( wp_json_encode( $attributes ) ),
+));
+
 echo wp_sprintf(
-	$template,
+	$block_template,
 	$block_wrapper_attrs,
 	wp_sprintf(
-		!empty( $attributes['url'] ) ? '<a href="%1$s">%2$s</a>' : '%2$s',
+		$label_template,
 		$attributes['url'] ?? '',
-		$label,
+		$attributes['label'] ?? '',
+		$enable_sub_menu && !empty($content) ? '<button class="wp-block-prc-block-taxonomy-menu-link--icon wp-block-prc-block-taxonomy-menu-link--toggle"><span></span></button>' : ''
 	),
 	$content,
 );

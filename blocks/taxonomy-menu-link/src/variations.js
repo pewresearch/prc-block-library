@@ -16,12 +16,12 @@ const variations = [
 	{
 		name: 'taxonomy-menu-link-default',
 		isDefault: true,
-		title: __('Term Link'),
+		title: __('Link'),
 		icon: linkIcon,
 	},
 	{
 		name: 'taxonomy-menu-link-sub-tree',
-		title: __('Sub Tree (>)'),
+		title: __('Sub Tree'),
 		attributes: {
 			enableSubMenu: true,
 			className: 'is-style-sub-tree',
@@ -32,7 +32,7 @@ const variations = [
 	},
 	{
 		name: 'taxonomy-menu-link-sub-expand',
-		title: __('Sub Expand (+)'),
+		title: __('Sub Expand'),
 		attributes: {
 			enableSubMenu: true,
 			className: 'is-style-sub-expand',

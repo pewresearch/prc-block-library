@@ -20,7 +20,7 @@ import {
  */
 import Controls from './Controls';
 
-const ALLOWED_BLOCKS = ['prc-block/taxonomy-menu-link'];
+const ALLOWED_BLOCKS = ['prc-block/taxonomy-menu-link', 'prc-block/taxonomy-index-search'];
 
 /**
  * The edit function describes the structure of your block in the context of the

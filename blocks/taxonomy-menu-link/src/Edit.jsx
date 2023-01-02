@@ -96,6 +96,7 @@ export default function Edit({
 			[getColorClassName('background-color', backgroundColor)]: !!backgroundColor && 'horizontal' === orientation,
 			'has-border-color': !!borderColor && 'horizontal' === orientation,
 			[getColorClassName('border-color', borderColor)]: !!borderColor && 'horizontal' === orientation,
+			'is-active': subMenuIsOpen,
 		}),
 	});
 
@@ -108,7 +109,7 @@ export default function Edit({
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: classNames('wp-block-prc-block-taxonomy-menu-link__sub-menu'),
+			className: classNames('wp-block-prc-block-taxonomy-menu-link--sub-menu'),
 			style: {
 				...subMenuStyle
 			},
@@ -126,7 +127,7 @@ export default function Edit({
 			<div {...blockProps}>
 				<RichText
 					tagName="span"
-					className="wp-block-prc-block-taxonomy-menu-link__label"
+					className="wp-block-prc-block-taxonomy-menu-link--label"
 					value={label}
 					onChange={(newLabel) => setAttributes({ label: newLabel })}
 					placeholder={__('Add Label', 'prc-block-library')}
@@ -144,7 +145,14 @@ export default function Edit({
 						}
 					}}
 				/>
-				{enableSubMenu && <div {...innerBlocksProps} />}
+				{enableSubMenu && (
+					<Fragment>
+						<button className="wp-block-prc-block-taxonomy-menu-link--icon wp-block-prc-block-taxonomy-menu-link--toggle" onClick={() => toggleSubMenu(!subMenuIsOpen)}>
+							<span></span>
+						</button>
+						<div {...innerBlocksProps} />
+					</Fragment>
+				)}
 			</div>
 		</Fragment>
 	);

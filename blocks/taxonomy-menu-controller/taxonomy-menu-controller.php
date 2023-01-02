@@ -33,6 +33,7 @@ class TaxonomyMenuController extends PRC_Block_Library {
 					});
 					// Get the label from heading block
 					$label = $heading_block[0]['attrs']['label'];
+					$url = $heading_block[0]['attrs']['url'];
 
 					// Get the array index of the heading block in the inner_blocks array
 					$heading_block_index = array_search($heading_block[0], $inner_blocks);
@@ -40,6 +41,23 @@ class TaxonomyMenuController extends PRC_Block_Library {
 					unset($inner_blocks[$heading_block_index]);
 					// Reindex the array to cleanup data.
 					$inner_blocks = array_values($inner_blocks);
+
+					if ( $url ) {
+						$psuedo_accordion_title_term_link = array(
+							'blockName' => 'prc-block/taxonomy-menu-link',
+							'attrs' => array(
+								'label' => "Main $label page",
+								'url' => $url,
+							),
+							'innerBlocks' => array(),
+							'innerHTML' => '',
+							'innerContent' => array(),
+						);
+						// Add the psuedo accordion title term link to the beginning of the inner_blocks array
+						array_unshift($inner_blocks, $psuedo_accordion_title_term_link);
+					}
+
+					do_action('qm/debug', 'InnerBlocks: '. print_r($inner_blocks, true));
 
 					if ( $label && $inner_blocks ) {
 						ob_start();
