@@ -31,6 +31,23 @@
       "__experimentalFontFamily": true
     }
   },
+  "example": {
+    "attributes": {},
+    "innerBlocks": [
+      {
+        "name": "prc-block/form-input-text",
+        "attributes": {
+          "type": "email"
+        }
+      },
+      {
+        "name": "core/button",
+        "attributes": {
+          "text": "SIGN UP"
+        }
+      }
+    ]
+  },
   "textdomain": "mailchimp-form",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",

@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { TaxonomySelect } from '@prc/components';
+import { TaxonomySelect, WPObjectSearch } from '@prc/components';
 
 /**
  * WordPress Dependencies
@@ -37,9 +37,17 @@ export default function Controls({ attributes, setAttributes, context }) {
 				<TaxonomySelect
 					value={[taxonomy]}
 					onChange={(newTaxonomy) => {
-						console.log("newTaxonomy: ", newTaxonomy);
+						console.log('newTaxonomy: ', newTaxonomy);
 					}}
 					allowMultiple
+				/>
+				<WPObjectSearch
+					onSelectItem={(item) => {
+						console.log(item);
+					}}
+					label="Please select a Taxonomy or Topic Term:"
+					mode="term"
+					contentTypes={['topic']}
 				/>
 			</PanelBody>
 		</InspectorControls>
