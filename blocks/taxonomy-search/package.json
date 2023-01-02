@@ -1,7 +1,7 @@
 {
-	"name": "taxonomy-index-search",
+	"name": "taxonomy-search",
 	"version": "0.1.0",
-	"description": "Search terms in the selected taxonomy and redirect to the terms archive page",
+	"description": "Search for terms of a specified taxonomy.",
 	"author": "Seth Rubenstein",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
@@ -16,6 +16,6 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^24.6.0"
+		"@wordpress/scripts": "^25.1.0"
 	}
 }

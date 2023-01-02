@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
-  "name": "prc-block/taxonomy-index-search",
+  "name": "prc-block/taxonomy-search",
   "version": "0.1.0",
-  "title": "Taxonomy Index Search",
+  "title": "Taxonomy Search",
   "category": "design",
-  "description": "Search terms in the selected taxonomy and redirect to the terms archive page",
+  "description": "Search for terms of a specified taxonomy.",
   "attributes": {
     "allowedBlocks": {
       "type": "array"
@@ -38,7 +38,7 @@
       }
     }
   },
-  "textdomain": "taxonomy-index-search",
+  "textdomain": "taxonomy-search",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",

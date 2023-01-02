@@ -1,27 +1,23 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "prc-block/taxonomy-index-search",
+	"name": "prc-block/taxonomy-search",
 	"version": "0.1.0",
-	"title": "Taxonomy Index Search",
+	"title": "Taxonomy Search",
 	"category": "design",
-	"description": "Search terms in the selected taxonomy and redirect to the terms archive page.  Allows restricting searches to a root term.",
+	"description": "Search for terms of a specified taxonomy.",
 	"attributes": {
-		"label": {
-            "type": "string"
-        },
-		"restrictToTermId": {
-			"type": "number"
+		"allowedBlocks": {
+			"type": "array"
 		},
-		"taxonomy": {
-            "type": "array",
-			"default": ["topic"]
-        }
+		"orientation": {
+			"type": "string",
+			"default": "vertical"
+		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"reusable": false,
 		"spacing": {
 			"blockGap": true,
 			"margin": [ "top", "bottom" ],
@@ -39,7 +35,7 @@
 			}
 		}
 	},
-	"textdomain": "taxonomy-index-search",
+	"textdomain": "taxonomy-search",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

@@ -1,4 +1,4 @@
-# Taxonomy Index Search
+# Taxonomy Search
 Contributors:      Seth Rubenstein
 Tags:              block
 Tested up to:      6.1
@@ -6,7 +6,7 @@ Stable tag:        0.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Search terms in the selected taxonomy and redirect to the terms archive page
+Search for terms of a specified taxonomy.
 
 ## Description
 

@@ -1,7 +1,7 @@
 <?php
 /**
- * Block Name:        Taxonomy Index Search
- * Description:       Search terms in the selected taxonomy and redirect to the terms archive page
+ * Block Name:        Taxonomy Search
+ * Description:       Search for terms of a specified taxonomy.
  * Version:           0.1.0
  * Requires at least: 6.1
  * Requires PHP:      7.0
@@ -10,7 +10,7 @@
  * @package           prc-block
  */
 
-class TaxonomyIndexSearch extends PRC_Block_Library {
+class TaxonomySearch extends PRC_Block_Library {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -33,4 +33,4 @@ class TaxonomyIndexSearch extends PRC_Block_Library {
 
 }
 
-new TaxonomyIndexSearch(true);
+new TaxonomySearch(true);
