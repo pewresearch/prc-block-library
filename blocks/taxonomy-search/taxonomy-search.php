@@ -20,6 +20,22 @@ class TaxonomySearch extends PRC_Block_Library {
 		}
 	}
 
+	public function register_rest_endpoint() {
+
+	}
+
+	public function restfully_search_taxonomy( $request ) {
+		$taxonomy = $request->get_param('taxonomy');
+		$termId = $request->get_param('restrictToTerm');
+		$search_term = $request->get_param('searchTerm');
+		$terms = get_terms( array(
+			'taxonomy' => $taxonomy,
+			'search' => $search_term,
+			'parent' => $termId,
+		) );
+		return $terms;
+	}
+
 	/**
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued

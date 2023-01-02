@@ -29,7 +29,6 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
-import Save from './Save';
 
 import metadata from './block.json';
 
@@ -40,10 +39,6 @@ const settings = {
 	 * @see ./Edit.jsx
 	 */
 	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
 };
 
 /**
@@ -51,4 +46,4 @@ const settings = {
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-registerBlockType( name, { ...metadata, ...settings } );
+registerBlockType(name, { ...metadata, ...settings });

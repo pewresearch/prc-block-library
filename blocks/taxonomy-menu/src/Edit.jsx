@@ -20,7 +20,7 @@ import {
  */
 import Controls from './Controls';
 
-const ALLOWED_BLOCKS = ['prc-block/taxonomy-menu-link', 'prc-block/taxonomy-index-search'];
+const ALLOWED_BLOCKS = ['prc-block/taxonomy-menu-link', 'prc-block/taxonomy-search'];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -81,7 +81,7 @@ function Edit({
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	// The same applies for "orientation", defaults to "vertical".
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
+		allowedBlocks: 'horizontal' === orientation ? ['prc-block/taxonomy-menu-link'] : (allowedBlocks || ALLOWED_BLOCKS),
 		orientation,
 	});
 

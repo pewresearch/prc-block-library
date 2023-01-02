@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import { TaxonomySelect } from '@prc/components';
 
 /**
  * WordPress Dependencies
@@ -22,63 +23,18 @@ import {
 } from '@wordpress/components';
 import { useEntityProp } from '@wordpress/core-data';
 
-function InspectorPanel( { attributes, setAttributes } ) {
+export default function Controls({ attributes, setAttributes, context }) {
+	const { taxonomy, termId } = attributes;
 	return (
 		<InspectorControls>
-			<PanelBody title="Block Controls">
-				<BaseControl label="Do Something">
-					<Button variant="primary">Do Something</Button>
-				</BaseControl>
+			<PanelBody title="Taxonomy Controls">
+				<TaxonomySelect
+					value={taxonomy}
+					onChange={(newTaxonomy) => {
+						setAttributes({ taxonomy: newTaxonomy });
+					}}
+				/>
 			</PanelBody>
 		</InspectorControls>
-	);
-}
-
-function Toolbar( { attributes, setAttributes, context } ) {
-	const { myNewAttribute } = attributes;
-
-	const MemoizedIconValue = useCallback( () => {
-		if ( myNewAttribute ) {
-			return 'admin-site';
-		}
-		return 'admin-site-alt';
-	}, [ myNewAttribute ] );
-
-	return (
-		<BlockControls>
-			<ToolbarGroup>
-				<ToolbarDropdownMenu
-					icon={ MemoizedIconValue }
-					label="Select Option"
-					controls={ [
-						{
-							title: 'A',
-							icon: 'admin-site',
-							isActive: true === myNewAttribute,
-							onClick: () => {
-								setAttributes( { myNewAttribute: true } );
-							},
-						},
-						{
-							title: 'B',
-							icon: 'admin-site-alt',
-							isActive: false === myNewAttribute,
-							onClick: () => {
-								setAttributes( { myNewAttribute: false } );
-							},
-						},
-					] }
-				/>
-			</ToolbarGroup>
-		</BlockControls>
-	);
-}
-
-export default function Controls( { attributes, setAttributes, context } ) {
-	return (
-		<Fragment>
-			<InspectorPanel { ...{ attributes, setAttributes, context } } />
-			<Toolbar { ...{ attributes, setAttributes, context } } />
-		</Fragment>
 	);
 }

@@ -7,18 +7,12 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import {
-	useBlockProps,
-	RichText,
-	useInnerBlocksProps,
-} from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
-
-const ALLOWED_BLOCKS = [ 'core/group', 'core/paragraph' ];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -32,28 +26,21 @@ const ALLOWED_BLOCKS = [ 'core/group', 'core/paragraph' ];
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( {
+export default function Edit({
 	attributes,
 	setAttributes,
 	context,
 	clientId,
 	isSelected,
-} ) {
+}) {
 	const blockProps = useBlockProps();
-	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
-	// This gives us a good way to ensure greater template and pattern control.
-	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	// The same applies for "orientation", defaults to "vertical".
-	const { allowedBlocks, orientation } = attributes;
-	const innerBlocksProps = useInnerBlocksProps( blockProps, {
-		allowedBlocks: allowedBlocks ? allowedBlocks : ALLOWED_BLOCKS,
-		orientation: orientation ? orientation : 'vertical',
-	} );
 
 	return (
 		<Fragment>
-			<Controls { ...{ attributes, setAttributes, context: false } } />
-			<div { ...innerBlocksProps } />
+			<Controls {...{ attributes, setAttributes, context: false }} />
+			<div {...blockProps}>
+				<input type="text" placeholder="Search for term..." />
+			</div>
 		</Fragment>
 	);
 }

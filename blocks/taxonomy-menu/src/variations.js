@@ -13,6 +13,8 @@ const variations = [
 		title: __('Taxonomy Nav Menu'),
 		attributes: {
 			layout: {
+				justifyContent: 'left',
+				type: 'flex',
 				orientation: 'horizontal',
 			},
 		},
@@ -25,7 +27,7 @@ const variations = [
 		attributes: {
 			layout: {
 				justifyContent: 'left',
-				flexWrap: 'wrap',
+				type: 'flex',
 				orientation: 'vertical',
 			},
 		},

@@ -7,24 +7,19 @@
 	"category": "design",
 	"description": "Search for terms of a specified taxonomy.",
 	"attributes": {
-		"allowedBlocks": {
-			"type": "array"
-		},
-		"orientation": {
+		"taxonomy": {
 			"type": "string",
-			"default": "vertical"
+			"default": "topic"
+		},
+		"termId": {
+			"type": "integer"
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
 		"spacing": {
-			"blockGap": true,
-			"margin": [ "top", "bottom" ],
-			"padding": true,
-			"__experimentalDefaultControls": {
-				"padding": true
-			}
+			"margin": [ "top", "bottom" ]
 		},
 		"typography": {
 			"fontSize": true,
@@ -39,5 +34,6 @@
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
 }
