@@ -35,11 +35,18 @@ export default function Edit({
 }) {
 	const blockProps = useBlockProps();
 
+	const { taxonomy, parentTermId } = attributes;
+
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes, context: false }} />
 			<div {...blockProps}>
-				<input type="text" placeholder="Search for term..." />
+				<input
+					type="text"
+					placeholder={`Start typing to search for a ${
+						!taxonomy ? 'term' : taxonomy
+					}`}
+				/>
 			</div>
 		</Fragment>
 	);

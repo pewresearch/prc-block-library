@@ -34,6 +34,13 @@ export default function Controls({ attributes, setAttributes, context }) {
 						setAttributes({ taxonomy: newTaxonomy });
 					}}
 				/>
+				<TaxonomySelect
+					value={[taxonomy]}
+					onChange={(newTaxonomy) => {
+						console.log("newTaxonomy: ", newTaxonomy);
+					}}
+					allowMultiple
+				/>
 			</PanelBody>
 		</InspectorControls>
 	);

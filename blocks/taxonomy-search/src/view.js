@@ -53,18 +53,21 @@ const searchReducer = (state, action) => {
 	}
 };
 
-const doSearch = (searchTerm, restrictToTermId = 0) =>
+const doSearch = (searchValue, taxonomy, parentTermId = 0) =>
 	new Promise((resolve) => {
 		const args = { per_page: 25 };
-		if ('' !== searchTerm) {
-			args.search = searchTerm;
+		if ('' !== taxonomy) {
+			args.taxonomy = taxonomy;
 		}
-		if (0 !== restrictToTermId && '' !== restrictToTermId) {
-			args.parent = restrictToTermId;
+		if ('' !== searchValue) {
+			args.searchValue = searchValue;
+		}
+		if (0 !== parentTermId && '' !== parentTermId) {
+			args.parentTermId = parentTermId;
 		}
 		const request = {
 			method: 'GET',
-			path: addQueryArgs('/prc-api/v2/blocks/topic-index-search', args),
+			path: addQueryArgs('/prc-api/v2/blocks/taxonomy-search', args),
 		};
 		console.log('Search Request->', request);
 		apiFetch(request).then((d) => {
@@ -79,7 +82,7 @@ const doSearch = (searchTerm, restrictToTermId = 0) =>
 		});
 	});
 
-function TopicSearchField({ restrictToTermId = 0 }) {
+function SearchField({ taxonomy = '', parentTermId = 0 }) {
 	const [state, dispatch] = useReducer(searchReducer, INITIAL_STATE);
 	const { loading, results, value, selected } = state;
 
@@ -99,7 +102,7 @@ function TopicSearchField({ restrictToTermId = 0 }) {
 				return;
 			}
 
-			doSearch(data.value, restrictToTermId).then((r) => {
+			doSearch(data.value, taxonomy, parentTermId).then((r) => {
 				dispatch({
 					type: 'FINISH_SEARCH',
 					results: r,
@@ -119,7 +122,7 @@ function TopicSearchField({ restrictToTermId = 0 }) {
 		if (false !== selected) {
 			setTimeout(() => {
 				window.location = selected;
-			}, 1000);
+			}, 350);
 		}
 	}, [selected]);
 
@@ -138,14 +141,18 @@ function TopicSearchField({ restrictToTermId = 0 }) {
 }
 
 domReady(() => {
-	const fields = document.querySelectorAll(
-		'.js-react-topic-index-search-field',
+	const blocks = document.querySelectorAll(
+		'.wp-block-prc-block-taxonomy-search',
 	);
-	if (fields) {
-		fields.forEach((elm) => {
-			const restrictToTermId = elm.getAttribute('data-term-id');
-			console.log(elm, restrictToTermId);
-			render(<TopicSearchField restrictToTermId={restrictToTermId} />, elm);
+	if (blocks) {
+		blocks.forEach((elm) => {
+			const taxonomy = elm.getAttribute('data-taxonomy');
+			const parentTermId = elm.getAttribute('data-parent-term-id');
+			console.log(elm, parentTermId);
+			render(
+				<SearchField taxonomy={taxonomy} parentTermId={parentTermId} />,
+				elm,
+			);
 		});
 	}
 });

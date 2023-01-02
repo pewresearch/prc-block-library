@@ -6,12 +6,13 @@
   "title": "Taxonomy Search",
   "category": "design",
   "description": "Search for terms of a specified taxonomy.",
+  "icon": "search",
   "attributes": {
     "taxonomy": {
       "type": "string",
       "default": "topic"
     },
-    "termId": {
+    "parentTermId": {
       "type": "integer"
     }
   },
