@@ -25,6 +25,7 @@ export function TaxonomyTermControl({ attributes, setAttributes }) {
 				}}
 			/>
 			<TermSelect
+				maxTerms={1}
 				value={
 					has(restrictToTerm, 'name')
 						? [
@@ -37,7 +38,6 @@ export function TaxonomyTermControl({ attributes, setAttributes }) {
 				}
 				taxonomy={taxonomy}
 				onChange={(term) => {
-					console.log('Selected Term!! : ', term);
 					setAttributes({ restrictToTerm: term });
 				}}
 			/>
