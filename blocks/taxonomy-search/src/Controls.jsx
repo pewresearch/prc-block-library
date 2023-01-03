@@ -1,53 +1,57 @@
+/* eslint-disable indent */
 /**
  * External Dependencies
  */
-import { TaxonomySelect, WPObjectSearch } from '@prc/components';
+import { TaxonomySelect, TermSelect } from '@prc/components';
+import styled from '@emotion/styled';
 
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
-import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-import {
-	BaseControl,
-	Button,
-	CardDivider,
-	PanelBody,
-	SelectControl,
-	TextControl,
-	ToggleControl,
-	ToolbarButton,
-	ToolbarDropdownMenu,
-	ToolbarGroup,
-} from '@wordpress/components';
-import { useEntityProp } from '@wordpress/core-data';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody } from '@wordpress/components';
+import { has } from 'lodash';
 
-export default function Controls({ attributes, setAttributes, context }) {
-	const { taxonomy, termId } = attributes;
+const ComboControl = styled('div')``;
+
+export function TaxonomyTermControl({ attributes, setAttributes }) {
+	const { taxonomy, restrictToTerm } = attributes;
+	return (
+		<ComboControl>
+			<TaxonomySelect
+				value={taxonomy}
+				onChange={(newTaxonomy) => {
+					setAttributes({ taxonomy: newTaxonomy });
+				}}
+			/>
+			<TermSelect
+				value={
+					has(restrictToTerm, 'name')
+						? [
+								{
+									value: restrictToTerm.name,
+									title: restrictToTerm.name,
+								},
+						  ]
+						: []
+				}
+				taxonomy={taxonomy}
+				onChange={(term) => {
+					console.log('Selected Term!! : ', term);
+					setAttributes({ restrictToTerm: term });
+				}}
+			/>
+		</ComboControl>
+	);
+}
+
+export default function Controls({ attributes, setAttributes }) {
 	return (
 		<InspectorControls>
 			<PanelBody title="Taxonomy Controls">
-				<TaxonomySelect
-					value={taxonomy}
-					onChange={(newTaxonomy) => {
-						setAttributes({ taxonomy: newTaxonomy });
-					}}
-				/>
-				<TaxonomySelect
-					value={[taxonomy]}
-					onChange={(newTaxonomy) => {
-						console.log('newTaxonomy: ', newTaxonomy);
-					}}
-					allowMultiple
-				/>
-				<WPObjectSearch
-					onSelectItem={(item) => {
-						console.log(item);
-					}}
-					label="Please select a Taxonomy or Topic Term:"
-					mode="term"
-					contentTypes={['topic']}
+				<TaxonomyTermControl
+					attributes={attributes}
+					setAttributes={setAttributes}
 				/>
 			</PanelBody>
 		</InspectorControls>

@@ -42,7 +42,7 @@ class TaxonomySearch extends PRC_Block_Library {
 					),
 					'parentTermId' => array(
 						'validate_callback' => function( $param, $request, $key ) {
-							return is_int( $param );
+							return is_string( $param );
 						},
 					),
 				),
@@ -63,7 +63,7 @@ class TaxonomySearch extends PRC_Block_Library {
 	public function restfully_search_taxonomy( \WP_REST_Request $request ) {
 		$search_value   = $request->get_param( 'searchValue' );
 		$taxonomy       = $request->get_param( 'taxonomy' );
-		$parent_term_id = $request->get_param( 'parentTermId' );
+		$parent_term_id = (int) $request->get_param( 'parentTermId' );
 
 		$args = array(
 			'taxonomy'     => $taxonomy,
@@ -76,7 +76,7 @@ class TaxonomySearch extends PRC_Block_Library {
 			$args['search'] = $search_value;
 		}
 
-		// Store children of the parent termporarily so we can filter them out later.
+		// Store children of the parent termporarily so we can filter everything except them, later.
 		if ( $parent_term_id && false === $this->parent_term_children ) {
 			$this->parent_term_children = get_term_children( $parent_term_id, $taxonomy );
 		}
@@ -92,7 +92,7 @@ class TaxonomySearch extends PRC_Block_Library {
 			$terms
 		);
 
-		// If the parent term has children, then filter out the terms from our search results that are not children of the parent term using $this->parent_term_children.
+		// If a parent is set then only return the children of that parent.
 		if ( false !== $this->parent_term_children ) {
 			$terms = array_filter(
 				$terms,

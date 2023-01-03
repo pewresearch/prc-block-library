@@ -63,6 +63,7 @@ const doSearch = (searchValue, taxonomy, parentTermId = 0) =>
 			args.searchValue = searchValue;
 		}
 		if (0 !== parentTermId && '' !== parentTermId) {
+			// cast parentTermId as a whole number
 			args.parentTermId = parentTermId;
 		}
 		const request = {
@@ -82,7 +83,7 @@ const doSearch = (searchValue, taxonomy, parentTermId = 0) =>
 		});
 	});
 
-function SearchField({ taxonomy = '', parentTermId = 0 }) {
+function SearchField({ taxonomy = '', parentTermId = 0, parentTermName = '' }) {
 	const [state, dispatch] = useReducer(searchReducer, INITIAL_STATE);
 	const { loading, results, value, selected } = state;
 
@@ -135,7 +136,11 @@ function SearchField({ taxonomy = '', parentTermId = 0 }) {
 			value={value}
 			defaultValue={null}
 			fluid
-			placeholder={__(`Start typing to search for a topic...`)}
+			placeholder={__(
+				`Start typing to search ${
+					'' !== parentTermName ? parentTermName : 'for a topic'
+				}...`,
+			)}
 		/>
 	);
 }
@@ -147,10 +152,14 @@ domReady(() => {
 	if (blocks) {
 		blocks.forEach((elm) => {
 			const taxonomy = elm.getAttribute('data-taxonomy');
-			const parentTermId = elm.getAttribute('data-parent-term-id');
-			console.log(elm, parentTermId);
+			const parentTermId = elm.getAttribute('data-restrict-to-term-id');
+			const parentTermName = elm.getAttribute('data-restrict-to-term-name');
 			render(
-				<SearchField taxonomy={taxonomy} parentTermId={parentTermId} />,
+				<SearchField
+					taxonomy={taxonomy}
+					parentTermId={parentTermId}
+					parentTermName={parentTermName}
+				/>,
 				elm,
 			);
 		});

@@ -12,8 +12,8 @@
 			"type": "string",
 			"default": "topic"
 		},
-		"parentTermId": {
-			"type": "integer"
+		"restrictToTerm": {
+			"type": "object"
 		}
 	},
 	"supports": {

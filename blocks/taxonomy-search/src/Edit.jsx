@@ -26,26 +26,20 @@ import Controls from './Controls';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({
-	attributes,
-	setAttributes,
-	context,
-	clientId,
-	isSelected,
-}) {
+export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const blockProps = useBlockProps();
 
-	const { taxonomy, parentTermId } = attributes;
+	const { taxonomy, restrictToTerm } = attributes;
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, context: false }} />
+			<Controls {...{ attributes, setAttributes, context, clientId }} />
 			<div {...blockProps}>
 				<input
 					type="text"
-					placeholder={`Start typing to search for a ${
-						!taxonomy ? 'term' : taxonomy
-					}`}
+					placeholder={__(
+						`Start typing to search for a ${!taxonomy ? 'term' : taxonomy}`,
+					)}
 				/>
 			</div>
 		</Fragment>

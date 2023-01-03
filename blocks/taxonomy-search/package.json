@@ -19,6 +19,7 @@
 		"@wordpress/scripts": "^25.1.0"
 	},
 	"dependencies": {
+		"@emotion/styled": "^11.10.5",
 		"semantic-ui-react": "^2.1.4"
 	}
 }
