@@ -30,7 +30,9 @@ export default [
 			],
 			[
 				'prc-block/popup-modal',
-				{},
+				{
+					modalBackgroundColor: 'white',
+				},
 				[
 					[
 						'core/paragraph',

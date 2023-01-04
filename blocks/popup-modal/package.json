@@ -16,5 +16,8 @@
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^25.1.0"
+	},
+	"dependencies": {
+		"@emotion/styled": "^11.10.5"
 	}
 }

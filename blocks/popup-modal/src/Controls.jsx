@@ -7,56 +7,82 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
-import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import {
-	BaseControl,
-	Button,
-	CardDivider,
-	PanelBody,
-	SelectControl,
-	TextControl,
-	ToggleControl,
-	ToolbarButton,
-	ToolbarDropdownMenu,
-	ToolbarGroup,
-} from '@wordpress/components';
-import { useEntityProp } from '@wordpress/core-data';
+	BlockControls,
+	InspectorControls,
+	PanelColorSettings,
+} from '@wordpress/block-editor';
+import { ToolbarButton } from '@wordpress/components';
 
-function InspectorPanel( { attributes, setAttributes } ) {
+function InspectorPanel({ isVideoModal = false, colors }) {
+	const {
+		backgroundColor,
+		setBackgroundColor,
+		modalBackgroundColor,
+		setModalBackgroundColor,
+		textColor,
+		setTextColor,
+	} = colors;
+
+	const colorSettings = [
+		{
+			value: textColor.color,
+			onChange: setTextColor,
+			label: __('Text'),
+		},
+		{
+			value: modalBackgroundColor.color,
+			onChange: setModalBackgroundColor,
+			label: __('Modal Background'),
+		},
+		{
+			value: backgroundColor.color,
+			onChange: setBackgroundColor,
+			label: __('Background Color'),
+		},
+	];
+
+	if (isVideoModal) {
+		// remove the "Modal background" color setting
+		colorSettings.splice(1, 1);
+	}
+
 	return (
 		<InspectorControls>
-			<PanelBody title="Block Controls">
-				<BaseControl label="Do Something">
-					<Button variant="primary">Do Something</Button>
-				</BaseControl>
-			</PanelBody>
+			<PanelColorSettings
+				__experimentalHasMultipleOrigins
+				__experimentalIsRenderedInSidebar
+				title={__('Color')}
+				disableCustomColors
+				colorSettings={colorSettings}
+			/>
 		</InspectorControls>
 	);
 }
 
-function Toolbar( { attributes, setAttributes, context } ) {
+function Toolbar({ attributes, setAttributes, context }) {
 	const { myNewAttribute } = attributes;
 
-	const MemoizedIconValue = useCallback( () => {
-		if ( myNewAttribute ) {
+	const MemoizedIconValue = useCallback(() => {
+		if (myNewAttribute) {
 			return 'admin-site';
 		}
 		return 'admin-site-alt';
-	}, [ myNewAttribute ] );
+	}, [myNewAttribute]);
 
 	return (
 		<BlockControls>
 			<ToolbarGroup>
 				<ToolbarDropdownMenu
-					icon={ MemoizedIconValue }
+					icon={MemoizedIconValue}
 					label="Select Option"
-					controls={ [
+					controls={[
 						{
 							title: 'A',
 							icon: 'admin-site',
 							isActive: true === myNewAttribute,
 							onClick: () => {
-								setAttributes( { myNewAttribute: true } );
+								setAttributes({ myNewAttribute: true });
 							},
 						},
 						{
@@ -64,21 +90,21 @@ function Toolbar( { attributes, setAttributes, context } ) {
 							icon: 'admin-site-alt',
 							isActive: false === myNewAttribute,
 							onClick: () => {
-								setAttributes( { myNewAttribute: false } );
+								setAttributes({ myNewAttribute: false });
 							},
 						},
-					] }
+					]}
 				/>
 			</ToolbarGroup>
 		</BlockControls>
 	);
 }
 
-export default function Controls( { attributes, setAttributes, context } ) {
-	return (
-		<Fragment>
-			<InspectorPanel { ...{ attributes, setAttributes, context } } />
-			<Toolbar { ...{ attributes, setAttributes, context } } />
-		</Fragment>
-	);
+export default function Controls({
+	attributes,
+	setAttributes,
+	isVideoModal,
+	colors,
+}) {
+	return <InspectorPanel {...{ isVideoModal, colors }} />;
 }

@@ -1,17 +1,21 @@
 /**
  * External Dependencies
  */
+import styled from '@emotion/styled';
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useState, useEffect } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
+import { Button } from '@wordpress/components';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
  * Internal Dependencies
@@ -19,6 +23,81 @@ import {
 import Controls from './Controls';
 
 const ALLOWED_BLOCKS = ['core/group', 'core/paragraph'];
+
+function convertHexToRGBA(hexCode = '', opacity = 1) {
+	let hex = hexCode.replace('#', '');
+
+	if (3 === hex.length) {
+		hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+	}
+
+	const r = parseInt(hex.substring(0, 2), 16);
+	const g = parseInt(hex.substring(2, 4), 16);
+	const b = parseInt(hex.substring(4, 6), 16);
+
+	/* Backward compatibility for whole number based opacity values. */
+	if (1 < opacity && 100 >= opacity) {
+		opacity /= 100;
+	}
+
+	return `rgba(${r},${g},${b},${opacity})`;
+}
+
+const ModalWrapper = styled('div')`
+	display: none;
+	&.active {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: ${(props) =>
+			props.backgroundColor ? props.backgroundColor : 'rgba(0, 0, 0, 0.5)'};
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 30;
+	}
+
+	.wp-block-prc-block-popup-modal {
+		width: 100%;
+		max-width: 600px;
+		position: relative;
+		background: transparent;
+
+		&.has-background {
+			border-radius: 5px;
+			padding: 20px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+		}
+	}
+
+	.wp-block-prc-block-popup-modal--header {
+		margin-bottom: 15px;
+		padding-bottom: 15px;
+		border-bottom: 1px solid #eee;
+
+		h2 {
+			margin: 0;
+		}
+	}
+`;
+
+function ModalHeader({ attributes, setAttributes }) {
+	const { title } = attributes;
+	const onChangeTitle = (value) => setAttributes({ title: value });
+
+	return (
+		<div className="wp-block-prc-block-popup-modal--header">
+			<RichText
+				tagName="h2"
+				placeholder={__('Add a title', 'prc-block-library')}
+				value={title}
+				onChange={onChangeTitle}
+			/>
+		</div>
+	);
+}
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -35,24 +114,79 @@ const ALLOWED_BLOCKS = ['core/group', 'core/paragraph'];
 export default function Edit({
 	attributes,
 	setAttributes,
-	context,
 	clientId,
 	isSelected,
 }) {
 	const blockProps = useBlockProps();
+
+	const { selectBlock } = useDispatch('core/block-editor');
+
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	// The same applies for "orientation", defaults to "vertical".
 	const { allowedBlocks } = attributes;
-	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-	});
+	const innerBlocksProps = useInnerBlocksProps(
+		{
+			className: 'wp-block-prc-block-popup-modal--inner',
+		},
+		{
+			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
+			templateLock: false,
+		},
+	);
+
+	const { hasChildSelected, isVideoModal } = useSelect((select) => {
+		const { hasSelectedInnerBlock, getBlockRootClientId, getBlockAttributes } =
+			select('core/block-editor');
+		const rootClietnId = getBlockRootClientId(clientId);
+		const rootBlockAttributes = getBlockAttributes(rootClietnId);
+		const { className = '' } = rootBlockAttributes;
+		return {
+			hasChildSelected: hasSelectedInnerBlock(clientId, true),
+			isVideoModal: className.includes('is-style-video'),
+		};
+	}, []);
+
+	const isActive = isSelected || hasChildSelected;
+	const [initialOpen, setInitialOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const openModal = () => setIsOpen(true);
+	const closeModal = () => setIsOpen(false);
+	const toggleModal = () => setIsOpen(!isOpen);
+
+	useEffect(() => {
+		if (!isActive && isOpen && initialOpen) {
+			console.log('Closing modal');
+			closeModal();
+			setInitialOpen(false);
+		}
+		if (isOpen && !initialOpen) {
+			console.log('Opening modal');
+			setInitialOpen(true);
+			selectBlock(clientId);
+		}
+	}, [isActive, isOpen]);
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, context: false }} />
-			<div {...innerBlocksProps} />
+			{/* <Controls {...{ isVideoModal }} /> */}
+			<ModalWrapper
+				className={classNames('wp-block-prc-block-popup-modal--outer', {
+					active: isOpen,
+				})}
+				backgroundColor={convertHexToRGBA('#000', 0.5)}
+			>
+				<div {...blockProps}>
+					<ModalHeader {...{ attributes, setAttributes }} />
+					<div {...innerBlocksProps} />
+				</div>
+			</ModalWrapper>
+			<div>
+				<Button variant="primary" onClick={toggleModal}>
+					{__(`${isOpen ? 'Close' : 'Open'} Modal`, 'prc-block-library')}
+				</Button>
+			</div>
 		</Fragment>
 	);
 }

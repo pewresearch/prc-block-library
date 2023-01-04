@@ -43,6 +43,7 @@ export default function Edit({
 	const { allowedBlocks } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
+		templateLock: false,
 	});
 
 	return (
