@@ -12,6 +12,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { has } from 'lodash';
 
+// Why do just a simple fragment when you can set yourself up for future styling.
 const ComboControl = styled('div')``;
 
 export function TaxonomyTermControl({ attributes, setAttributes }) {

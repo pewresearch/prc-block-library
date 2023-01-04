@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/popup-controller",
+  "version": "0.1.0",
+  "title": "Popup Controller",
+  "description": "Render content in a modal popup",
+  "category": "media",
+  "keywords": [
+    "modal",
+    "popup",
+    "video",
+    "vimeo",
+    "youtube"
+  ],
+  "attributes": {},
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "full",
+      "wide",
+      "left",
+      "right",
+      "center"
+    ],
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "popup-controller",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
+}

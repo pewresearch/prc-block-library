@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/popup-modal",
+	"version": "0.1.0",
+	"title": "Modal",
+	"category": "media",
+	"attributes": {
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"title": {
+			"type": "string"
+		},
+		"transition": {
+			"type": "string",
+			"default": "scale"
+		},
+		"inverted": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+        "align": false,
+        "inserter": false,
+        "multiple": false,
+		"spacing": {
+			"blockGap": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"parent": ["prc-block/popup-controller"],
+	"textdomain": "popup-modal",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
