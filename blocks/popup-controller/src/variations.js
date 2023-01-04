@@ -31,7 +31,7 @@ export default [
 			[
 				'prc-block/popup-modal',
 				{
-					modalBackgroundColor: 'white',
+					backgroundColor: 'white',
 				},
 				[
 					[
@@ -75,6 +75,7 @@ export default [
 			[
 				'prc-block/popup-modal',
 				{
+					backgroundColor: 'black',
 					allowedBlocks: ['vimeo/create', 'core/video', 'core/embed'],
 				},
 				[['vimeo/create', {}]],

@@ -43,7 +43,7 @@ function convertHexToRGBA(hexCode = '', opacity = 1) {
 	return `rgba(${r},${g},${b},${opacity})`;
 }
 
-const ModalWrapper = styled('div')`
+const ModalShade = styled('div')`
 	display: none;
 	&.active {
 		position: fixed;
@@ -171,7 +171,7 @@ export default function Edit({
 	return (
 		<Fragment>
 			{/* <Controls {...{ isVideoModal }} /> */}
-			<ModalWrapper
+			<ModalShade
 				className={classNames('wp-block-prc-block-popup-modal--outer', {
 					active: isOpen,
 				})}
@@ -181,7 +181,7 @@ export default function Edit({
 					<ModalHeader {...{ attributes, setAttributes }} />
 					<div {...innerBlocksProps} />
 				</div>
-			</ModalWrapper>
+			</ModalShade>
 			<div>
 				<Button variant="primary" onClick={toggleModal}>
 					{__(`${isOpen ? 'Close' : 'Open'} Modal`, 'prc-block-library')}
