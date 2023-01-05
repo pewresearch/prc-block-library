@@ -10,16 +10,8 @@ $block_wrapper_attrs = get_block_wrapper_attributes();
 
 // You can use this method...
 echo wp_sprintf(
-	'<div %1$s>%2$s</div>',
+	'<div class="wp-block-prc-block-popup-modal--outer"><div %1$s><div class="wp-block-prc-block-modal--header">%2$s</div><div class="wp-block-prc-block-popup-modal--inner">%3$s</div></div></div>',
 	$block_wrapper_attrs,
+	$attributes['title'] ? '<h2>' . $attributes['title'] . '</h2>' : '',
 	$content,
 );
-
-// Or you can use this method...
-?>
-
-<div <?php echo $block_wrapper_attrs; ?>>
-	<?php esc_html_e( 'Example Dynamic – hello from a dynamic block!', 'story-item' ); ?>
-	<?php print_r( $attributes ); ?>
-	<?php echo $content; ?>
-</div>

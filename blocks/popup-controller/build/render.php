@@ -14,12 +14,3 @@ echo wp_sprintf(
 	$block_wrapper_attrs,
 	$content,
 );
-
-// Or you can use this method...
-?>
-
-<div <?php echo $block_wrapper_attrs; ?>>
-	<?php esc_html_e( 'Example Dynamic – hello from a dynamic block!', 'story-item' ); ?>
-	<?php print_r( $attributes ); ?>
-	<?php echo $content; ?>
-</div>

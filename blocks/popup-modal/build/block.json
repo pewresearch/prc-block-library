@@ -15,6 +15,14 @@
     "transition": {
       "type": "string",
       "default": "scale"
+    },
+    "shadeBackgroundEnabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "shadeBackgroundLite": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {

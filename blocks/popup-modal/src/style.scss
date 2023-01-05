@@ -5,7 +5,48 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-prc-block-popup-modal {
-	color: inherit;
-	background: inherit;
+.wp-block-prc-block-popup-modal--outer {
+	display: none;
+
+	&.active {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 30;
+	}
+
+	.wp-block-prc-block-popup-modal {
+		width: 100%;
+		max-width: 600px;
+		max-height: 80vh;
+		position: relative;
+		background: transparent;
+
+		&.has-background {
+			border-radius: 5px;
+			padding: 20px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+		}
+	}
+
+	.wp-block-prc-block-popup-modal--header {
+		margin-bottom: 15px;
+		padding-bottom: 15px;
+		border-bottom: 1px solid #eee;
+
+		h2 {
+			margin: 0;
+		}
+	}
+
+	.wp-block-prc-block-popup-modal--inner {
+		max-height: 60vh;
+		overflow-y: auto;
+	}
 }

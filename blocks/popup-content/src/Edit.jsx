@@ -5,16 +5,23 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
 
-const ALLOWED_BLOCKS = ['core/group', 'core/paragraph'];
+const ALLOWED_BLOCKS = [
+	'core/paragraph',
+	'core/image',
+	'core/heading',
+	'core/button',
+	'core/buttons',
+	'core/quote',
+	'core/pullquote',
+	'core/media-text',
+	'prc-block/story-item',
+];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -46,10 +53,5 @@ export default function Edit({
 		templateLock: false,
 	});
 
-	return (
-		<Fragment>
-			<Controls {...{ attributes, setAttributes, context: false }} />
-			<div {...innerBlocksProps} />
-		</Fragment>
-	);
+	return <div {...innerBlocksProps} />;
 }

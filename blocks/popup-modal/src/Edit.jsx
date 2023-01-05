@@ -25,6 +25,7 @@ import Controls from './Controls';
 const ALLOWED_BLOCKS = ['core/group', 'core/paragraph'];
 
 function convertHexToRGBA(hexCode = '', opacity = 1) {
+	let o = opacity;
 	let hex = hexCode.replace('#', '');
 
 	if (3 === hex.length) {
@@ -36,50 +37,17 @@ function convertHexToRGBA(hexCode = '', opacity = 1) {
 	const b = parseInt(hex.substring(4, 6), 16);
 
 	/* Backward compatibility for whole number based opacity values. */
-	if (1 < opacity && 100 >= opacity) {
-		opacity /= 100;
+	if (1 < o && 100 >= o) {
+		o /= 100;
 	}
 
-	return `rgba(${r},${g},${b},${opacity})`;
+	return `rgba(${r},${g},${b},${o})`;
 }
 
 const ModalShade = styled('div')`
-	display: none;
 	&.active {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
 		background-color: ${(props) =>
 			props.backgroundColor ? props.backgroundColor : 'rgba(0, 0, 0, 0.5)'};
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		z-index: 30;
-	}
-
-	.wp-block-prc-block-popup-modal {
-		width: 100%;
-		max-width: 600px;
-		position: relative;
-		background: transparent;
-
-		&.has-background {
-			border-radius: 5px;
-			padding: 20px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-		}
-	}
-
-	.wp-block-prc-block-popup-modal--header {
-		margin-bottom: 15px;
-		padding-bottom: 15px;
-		border-bottom: 1px solid #eee;
-
-		h2 {
-			margin: 0;
-		}
 	}
 `;
 
@@ -183,7 +151,7 @@ export default function Edit({
 				</div>
 			</ModalShade>
 			<div>
-				<Button variant="primary" onClick={toggleModal}>
+				<Button variant="secondary" onClick={toggleModal}>
 					{__(`${isOpen ? 'Close' : 'Open'} Modal`, 'prc-block-library')}
 				</Button>
 			</div>

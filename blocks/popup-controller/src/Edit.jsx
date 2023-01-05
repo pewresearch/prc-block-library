@@ -5,18 +5,11 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
-import {
-	useBlockProps,
-	RichText,
-	useInnerBlocksProps,
-} from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
 
 const TEMPLATE = [
 	['prc-block/popup-content', {}],
@@ -52,10 +45,5 @@ export default function Edit({
 		templateLock: 'all',
 	});
 
-	return (
-		<Fragment>
-			<Controls {...{ attributes, setAttributes, context: false }} />
-			<div {...innerBlocksProps} />
-		</Fragment>
-	);
+	return <div {...innerBlocksProps} />;
 }
