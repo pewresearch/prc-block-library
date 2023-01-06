@@ -19,7 +19,7 @@ function ProgressBar({
 		layout: {
 			name: 'progress-chart',
 			type: 'stacked-bar',
-			orientation: 'vertical',
+			orientation: 'horizontal',
 			theme: 'PewTheme',
 			width: maxWidth,
 			height: 30,

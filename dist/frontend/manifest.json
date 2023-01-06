@@ -25,8 +25,8 @@
   "menu-link.js.map": "frontend/menu-link-20a2e8f2.js.map",
   "popup-controller.js": "frontend/popup-controller-99900690.js",
   "popup-controller.js.map": "frontend/popup-controller-99900690.js.map",
-  "progress-bar.js": "frontend/progress-bar-41dfb2c4.js",
-  "progress-bar.js.map": "frontend/progress-bar-41dfb2c4.js.map",
+  "progress-bar.js": "frontend/progress-bar-4b4e8282.js",
+  "progress-bar.js.map": "frontend/progress-bar-4b4e8282.js.map",
   "quote-sorter-controller.css": "frontend/quote-sorter-controller-5d67d85e.css",
   "quote-sorter-controller.css.map": "frontend/quote-sorter-controller-5d67d85e.css.map",
   "quote-sorter-controller.js": "frontend/quote-sorter-controller-63679c8d.js",
@@ -209,12 +209,12 @@
         "js": [
           "frontend/runtime-24ad086e.js",
           "frontend/vendors~progress-bar-70023654.js",
-          "frontend/progress-bar-41dfb2c4.js"
+          "frontend/progress-bar-4b4e8282.js"
         ],
         "js.map": [
           "frontend/runtime-24ad086e.js.map",
           "frontend/vendors~progress-bar-70023654.js.map",
-          "frontend/progress-bar-41dfb2c4.js.map"
+          "frontend/progress-bar-4b4e8282.js.map"
         ]
       }
     },

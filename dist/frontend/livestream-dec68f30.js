@@ -3,11 +3,11 @@
  * prcBlocksLibrary
  * 
  * @author Seth Rubenstein
- * @version 2.1.26
+ * @version 2.1.27
  * @link UNLICENSED
  * @license UNLICENSED
  * 
- * Copyright (c) 2022 Seth Rubenstein
+ * Copyright (c) 2023 Seth Rubenstein
  * 
  * This software is released under the UNLICENSED License
  * https://opensource.org/licenses/UNLICENSED
