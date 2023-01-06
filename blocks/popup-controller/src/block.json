@@ -21,6 +21,9 @@
 			}
 		}
 	},
+	"providesContext": {
+		"popup-controller/className": "className"
+	},
 	"textdomain": "popup-controller",
 	"editorScript": "file:./index.js",
 	"render": "file:./render.php",

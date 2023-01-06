@@ -2,6 +2,7 @@
  * WordPress Dependencies
  */
 
+import { CardBody } from '@wordpress/components';
 import domReady from '@wordpress/dom-ready';
 
 domReady(() => {
@@ -15,15 +16,24 @@ domReady(() => {
 			const modal = popupController.querySelector(
 				'.wp-block-prc-block-popup-modal--outer',
 			);
+			const closeButton = popupController.querySelector(
+				'.wp-block-prc-block-popup-modal--close-button',
+			);
 
-			modal.addEventListenter('click', (event) => {
-				if (
-					event.target === modal &&
-					event.target.classList.contains('active')
-				) {
-					modal.classList.remove('active');
-				}
+			closeButton.addEventListener('click', (event) => {
+				event.preventDefault();
+				modal.classList.remove('active');
+				document.querySelector('body').classList.remove('has-active-modal');
 			});
+
+			// modal.addEventListenter('click', (event) => {
+			// 	if (
+			// 		event.target === modal &&
+			// 		event.target.classList.contains('active')
+			// 	) {
+			// 		modal.classList.remove('active');
+			// 	}
+			// });
 
 			trigger.addEventListener('click', (event) => {
 				event.preventDefault();
@@ -31,7 +41,24 @@ domReady(() => {
 				if (!modal.classList.contains('initialized')) {
 					modal.classList.add('initialized');
 				}
-				modal.classList.toggle('active');
+				setTimeout(() => {
+					modal.classList.toggle('active');
+					document.querySelector('body').classList.toggle('has-active-modal');
+				}, 100);
 			});
 		});
+
+	// Watch for clicks outside of the modal to close.
+	document.addEventListener('click', (event) => {
+		const activeModal = document.querySelector(
+			'.wp-block-prc-block-popup-modal--outer.active.initialized',
+		);
+		const modalWindow = document.querySelector(
+			'.wp-block-prc-block-popup-modal',
+		);
+		if (activeModal && !modalWindow.contains(event.target)) {
+			activeModal.classList.remove('active');
+			document.querySelector('body').classList.remove('has-active-modal');
+		}
+	});
 });

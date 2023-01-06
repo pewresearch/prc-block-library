@@ -82,6 +82,7 @@ function ModalHeader({ attributes, setAttributes }) {
 export default function Edit({
 	attributes,
 	setAttributes,
+	context,
 	clientId,
 	isSelected,
 }) {
@@ -104,15 +105,13 @@ export default function Edit({
 		},
 	);
 
-	const { hasChildSelected, isVideoModal } = useSelect((select) => {
-		const { hasSelectedInnerBlock, getBlockRootClientId, getBlockAttributes } =
-			select('core/block-editor');
-		const rootClietnId = getBlockRootClientId(clientId);
-		const rootBlockAttributes = getBlockAttributes(rootClietnId);
-		const { className = '' } = rootBlockAttributes;
+	const isVideoModal =
+		context['popup-controller/className'].includes('is-style-video');
+
+	const { hasChildSelected } = useSelect((select) => {
+		const { hasSelectedInnerBlock } = select('core/block-editor');
 		return {
 			hasChildSelected: hasSelectedInnerBlock(clientId, true),
-			isVideoModal: className.includes('is-style-video'),
 		};
 	}, []);
 
@@ -136,9 +135,13 @@ export default function Edit({
 		}
 	}, [isActive, isOpen]);
 
+	useEffect(() => {
+		console.log('Context', context);
+	}, [context]);
+
 	return (
 		<Fragment>
-			{/* <Controls {...{ isVideoModal }} /> */}
+			<Controls {...{ attributes, setAttributes }} />
 			<ModalShade
 				className={classNames('wp-block-prc-block-popup-modal--outer', {
 					active: isOpen,
@@ -146,7 +149,7 @@ export default function Edit({
 				backgroundColor={convertHexToRGBA('#000', 0.5)}
 			>
 				<div {...blockProps}>
-					<ModalHeader {...{ attributes, setAttributes }} />
+					{!isVideoModal && <ModalHeader {...{ attributes, setAttributes }} />}
 					<div {...innerBlocksProps} />
 				</div>
 			</ModalShade>

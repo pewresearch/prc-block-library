@@ -50,6 +50,9 @@
 			}
 		}
 	},
+	"usesContext": [
+		"popup-controller/className"
+	],
 	"parent": ["prc-block/popup-controller"],
 	"textdomain": "popup-modal",
 	"editorScript": "file:./index.js",

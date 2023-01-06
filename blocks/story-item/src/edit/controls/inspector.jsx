@@ -1,4 +1,9 @@
 /**
+ * External Dependencies
+ */
+import { TaxonomySelect } from '@prc/components';
+
+/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -145,23 +150,10 @@ function Inspector({ attributes, setAttributes, context }) {
 
 					<CardDivider />
 
-					<SelectControl
-						label="Select Taxonomy To Display"
+					<TaxonomySelect
 						value={metaTaxonomy}
-						options={
-							stubEnabledSiteIds.includes(siteId)
-								? [
-									{ label: 'Formats', value: 'formats' },
-									{ label: 'Research Teams', value: 'research-teams' },
-									{ label: 'Disabled', value: 'disabled' },
-								  ]
-								: [
-									{ label: 'Category', value: 'category' },
-									{ label: 'Disabled', value: 'disabled' },
-								  ]
-						}
-						onChange={(newMetaTaxonomy) => {
-							setAttributes({ metaTaxonomy: newMetaTaxonomy });
+						onChange={(newTaxonomy) => {
+							setAttributes({ metaTaxonomy: newTaxonomy });
 						}}
 					/>
 				</PanelBody>

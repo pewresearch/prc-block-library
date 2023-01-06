@@ -5,6 +5,12 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+$default_gutter: 20px;
+
+body.has-active-modal {
+	overflow: hidden;
+}
+
 .wp-block-prc-block-popup-modal--outer {
 	display: none;
 
@@ -30,23 +36,36 @@
 
 		&.has-background {
 			border-radius: 5px;
-			padding: 20px;
+			padding: var(--gutter, $default_gutter);
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 		}
-	}
 
-	.wp-block-prc-block-popup-modal--header {
-		margin-bottom: 15px;
-		padding-bottom: 15px;
-		border-bottom: 1px solid #eee;
+		.wp-block-prc-block-popup-modal--header {
+			margin-bottom: calc( var(--gutter, $default_gutter) * 1.3 );
+			padding-bottom: calc( var(--gutter, $default_gutter) * 1.3 );
+			border-bottom: 1px solid #eee;
 
-		h2 {
-			margin: 0;
+			h2 {
+				margin: 0;
+			}
 		}
-	}
 
-	.wp-block-prc-block-popup-modal--inner {
-		max-height: 60vh;
-		overflow-y: auto;
+		.wp-block-prc-block-popup-modal--inner {
+			max-height: 60vh;
+			overflow-y: auto;
+		}
+
+		.wp-block-prc-block-popup-modal--close-button {
+			position: absolute;
+			top: calc( var(--gutter, $default_gutter) * -1.5 );
+			right: calc( var(--gutter, $default_gutter) * -1.5 );
+			cursor: pointer;
+
+			&:before {
+				content: '×';
+				font-size: 20px;
+				color: white;
+			}
+		}
 	}
 }

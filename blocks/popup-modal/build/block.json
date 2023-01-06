@@ -16,9 +16,9 @@
       "type": "string",
       "default": "scale"
     },
-    "shadeBackgroundEnabled": {
-      "type": "boolean",
-      "default": true
+    "position": {
+      "type": "string",
+      "default": "center"
     },
     "shadeBackgroundLite": {
       "type": "boolean",
@@ -50,6 +50,9 @@
       }
     }
   },
+  "usesContext": [
+    "popup-controller/className"
+  ],
   "parent": [
     "prc-block/popup-controller"
   ],
