@@ -1,6 +1,10 @@
 export function arrayToJson(arr: string | any[]) {
-	const stripDowncase = (string: string) =>
-		string.replace(/\W/g, '').replace(/\s/g, '').toLowerCase();
+	const stripDowncase = (string: string) => {
+		// only return if value is indeed a string
+		if (typeof string === 'string') {
+			return string.replace(/\W/g, '').replace(/\s/g, '').toLowerCase();
+		}
+	};
 	const categories = arr[0].slice(1);
 	const categoriesFormatted = categories.map((category) =>
 		stripDowncase(category),

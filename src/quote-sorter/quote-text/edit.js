@@ -20,6 +20,7 @@ const edit = ({ className, context, attributes, setAttributes }) => {
 			[`has-text-align-${align}`]: align,
 		}),
 	});
+	console.log(quote);
 	return (
 		<>
 			<BlockControls group="block">
@@ -28,7 +29,7 @@ const edit = ({ className, context, attributes, setAttributes }) => {
 					onChange={(newAlign) => setAttributes({ align: newAlign })}
 				/>
 			</BlockControls>
-			<div {...blockProps}>“{quote}”</div>
+			<div {...blockProps} dangerouslySetInnerHTML={{ __html: `“${quote}”` }} />
 		</>
 	);
 };

@@ -141,8 +141,8 @@
   "pullquote.js.map": "blocks/pullquote-067d18f9.js.map",
   "query.js": "blocks/query-786e9aaf.js",
   "query.js.map": "blocks/query-786e9aaf.js.map",
-  "quote-sorter-controller.js": "blocks/quote-sorter-controller-e9b998fa.js",
-  "quote-sorter-controller.js.map": "blocks/quote-sorter-controller-e9b998fa.js.map",
+  "quote-sorter-controller.js": "blocks/quote-sorter-controller-341d822c.js",
+  "quote-sorter-controller.js.map": "blocks/quote-sorter-controller-341d822c.js.map",
   "quote-sorter-dropdown.css": "blocks/quote-sorter-dropdown-83a89fff.css",
   "quote-sorter-dropdown.css.map": "blocks/quote-sorter-dropdown-83a89fff.css.map",
   "quote-sorter-dropdown.js": "blocks/quote-sorter-dropdown-78a80b21.js",
@@ -161,8 +161,8 @@
   "quote-sorter-quote-template.js.map": "blocks/quote-sorter-quote-template-0c3cc9e5.js.map",
   "quote-sorter-quote-text.css": "blocks/quote-sorter-quote-text-52f244dd.css",
   "quote-sorter-quote-text.css.map": "blocks/quote-sorter-quote-text-52f244dd.css.map",
-  "quote-sorter-quote-text.js": "blocks/quote-sorter-quote-text-d53b5b22.js",
-  "quote-sorter-quote-text.js.map": "blocks/quote-sorter-quote-text-d53b5b22.js.map",
+  "quote-sorter-quote-text.js": "blocks/quote-sorter-quote-text-e7fac883.js",
+  "quote-sorter-quote-text.js.map": "blocks/quote-sorter-quote-text-e7fac883.js.map",
   "quote-sorter-search-bar.js": "blocks/quote-sorter-search-bar-c79bbf60.js",
   "quote-sorter-search-bar.js.map": "blocks/quote-sorter-search-bar-c79bbf60.js.map",
   "related-posts.js": "blocks/related-posts-576f6fca.js",
@@ -902,11 +902,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-controller-e9b998fa.js"
+          "blocks/quote-sorter-controller-341d822c.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-controller-e9b998fa.js.map"
+          "blocks/quote-sorter-controller-341d822c.js.map"
         ]
       }
     },
@@ -932,11 +932,11 @@
       "assets": {
         "js": [
           "blocks/runtime-7729fc41.js",
-          "blocks/quote-sorter-quote-text-d53b5b22.js"
+          "blocks/quote-sorter-quote-text-e7fac883.js"
         ],
         "js.map": [
           "blocks/runtime-7729fc41.js.map",
-          "blocks/quote-sorter-quote-text-d53b5b22.js.map"
+          "blocks/quote-sorter-quote-text-e7fac883.js.map"
         ],
         "css": [
           "blocks/quote-sorter-quote-text-52f244dd.css"
