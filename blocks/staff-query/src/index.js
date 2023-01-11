@@ -31,13 +31,17 @@ import './editor.scss';
 import Edit from './Edit';
 import Save from './Save';
 import Icon from './Icon';
-import variations from './variations';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
+	__experimentalLabel: (attributes) => {
+		const { staffType } = attributes;
+		const staffTypeName = staffType ? staffType.name : 'Staff';
+		return `${staffTypeName} Query`;
+	},
 	icon: Icon,
 	/**
 	 * @see ./Edit.jsx
@@ -47,7 +51,6 @@ const settings = {
 	 * @see ./Save.jsx
 	 */
 	save: Save,
-	variations,
 };
 
 /**

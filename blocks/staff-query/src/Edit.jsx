@@ -11,6 +11,7 @@ import {
 	useMemo,
 	useState,
 	useEffect,
+	useCallback,
 	Fragment,
 } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
@@ -29,10 +30,11 @@ import { useEntityRecords } from '@wordpress/core-data';
  * Internal Dependencies
  */
 import Controls from './Controls';
+import query from './query';
 
 const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group'];
 
-function BylinesInnerBlocks({ blockContextId, isVisible }) {
+function StaffInnerBlocks({ blockContextId, isVisible }) {
 	if ( ! isVisible ) {
 		return null;
 	}
@@ -47,7 +49,7 @@ function BylinesInnerBlocks({ blockContextId, isVisible }) {
 	return <div {...innerBlocksProps} />;
 }
 
-function BylinesBlockPreview({
+function StaffBlockPreview({
 	blocks,
 	blockContextId,
 	isHidden,
@@ -77,7 +79,7 @@ function BylinesBlockPreview({
 }
 
 // Keep the preview component memoized to avoid unnecessary re-renders, this only changes when InnerBlocks block changes.
-const MemoizedBylinesBlockPreview = memo(BylinesBlockPreview);
+const MemoizedStaffBlockPreview = memo(StaffBlockPreview);
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -105,29 +107,39 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 		}
 		setActiveBlockContextId(newContextId);
 	}
+	const [staffPosts, setStaffPosts] = useState(false);
 
-	const { blocks, bylineTermIds } = useSelect(
+	const { blocks } = useSelect(
 		(select) => {
 			const { getBlocks } = select(blockEditorStore);
 			// if postId is not undefined and has an integer then use apiFetch to
 			return {
 				blocks: getBlocks(clientId),
-				bylineTermIds: select('core/editor').getEditedPostAttribute('bylines'),
 			};
 		},
 		[clientId],
 	);
 
 	const blockContexts = useMemo(() => {
-		if (!bylineTermIds) {
+		console.log('staffPosts', staffPosts);
+		if (!staffPosts || staffPosts.length === 0) {
 			return [];
 		}
-		return bylineTermIds?.map((termId) => {
-			return {
-				bylineTermId: termId,
-			};
+
+		const newContext = staffPosts?.map((staffPost) => {
+			return staffPost;
 		});
-	}, [bylineTermIds]);
+
+		console.log("newContext: ", newContext);
+		return newContext;
+	}, [staffPosts]);
+
+	useEffect(() => {
+		query(attributes).then(newStaffPosts => {
+			console.log("Query results: ", newStaffPosts);
+			setStaffPosts(newStaffPosts);
+		});
+	}, [clientId, attributes]);
 
 	useEffect(() => {
 		if (blockContexts.length > 0) {
@@ -139,11 +151,11 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 
 	///////////////////////////
 
-	if (!bylineTermIds) {
+	if (!staffPosts) {
 		return (
 			<div {...blockProps}>
 				<Spinner style={{ align: 'center' }} />
-				<p>Loading bylines...</p>
+				<p>Loading staff members...</p>
 			</div>
 		);
 	}
@@ -173,8 +185,8 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 								key={`context-key--${index}`}
 								value={blockContext}
 							>
-								<BylinesInnerBlocks isVisible={activeBlockContextId === null || isVisible}/>
-								<MemoizedBylinesBlockPreview
+								<StaffInnerBlocks isVisible={activeBlockContextId === null || isVisible}/>
+								<MemoizedStaffBlockPreview
 									blocks={blocks}
 									blockContextId={contextId}
 									setContextId={setContextId}
