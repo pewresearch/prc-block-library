@@ -18,7 +18,7 @@
 		},
 		"position": {
 			"type": "string",
-			"default": "center"
+			"default": "center center"
 		},
 		"shadeBackgroundLite": {
 			"type": "boolean",
@@ -56,7 +56,5 @@
 	"parent": ["prc-block/popup-controller"],
 	"textdomain": "popup-modal",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
 	"render": "file:./render.php"
 }

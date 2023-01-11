@@ -16,6 +16,7 @@ import {
 } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { cleanForSlug } from '@wordpress/url';
 
 /**
  * Internal Dependencies
@@ -94,7 +95,7 @@ export default function Edit({
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	// The same applies for "orientation", defaults to "vertical".
-	const { allowedBlocks } = attributes;
+	const { allowedBlocks, position } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(
 		{
 			className: 'wp-block-prc-block-popup-modal--inner',
@@ -145,6 +146,7 @@ export default function Edit({
 			<ModalShade
 				className={classNames('wp-block-prc-block-popup-modal--outer', {
 					active: isOpen,
+					[`is-position-${cleanForSlug(position)}`]: position,
 				})}
 				backgroundColor={convertHexToRGBA('#000', 0.5)}
 			>

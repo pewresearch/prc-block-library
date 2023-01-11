@@ -1,0 +1,30 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-flip-card-controller {
+	color: inherit;
+	background: inherit;
+
+	&.is-flipped .wp-block-prc-block-flip-card-side {
+		&.is-style-front {
+			display: none;
+		}
+		&.is-style-back {
+			display: block;
+		}
+	}
+
+	.wp-block-prc-block-flip-card-side {
+		cursor: pointer;
+		&.is-style-front {
+			display: block;
+		}
+		&.is-style-back {
+			display: none;
+		}
+	}
+}

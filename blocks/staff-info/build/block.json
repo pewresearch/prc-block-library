@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/staff-info",
+  "version": "0.1.0",
+  "title": "Staff Info",
+  "category": "theme",
+  "description": "Display staff info from a byline; supports name, job title, twitter, and expertise.",
+  "attributes": {
+    "valueToFetch": {
+      "type": "string",
+      "enum": [
+        "name",
+        "jobTitle",
+        "twitter",
+        "expertise"
+      ]
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true
+    }
+  },
+  "usesContext": [
+    "bylineTermId",
+    "staffPostId"
+  ],
+  "ancestor": [
+    "prc-block/bylines-query",
+    "prc-block/staff-query"
+  ],
+  "textdomain": "staff-info",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

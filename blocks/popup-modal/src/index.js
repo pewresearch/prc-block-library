@@ -26,8 +26,6 @@ import { registerBlockType } from '@wordpress/blocks';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import './style.scss';
-import './editor.scss';
 import Edit from './Edit';
 import Icon from './Icon';
 import Save from './Save';

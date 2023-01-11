@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/flip-card-controller",
+  "version": "0.1.0",
+  "title": "Flip Card Controller",
+  "description": "A card that can be flipped",
+  "category": "media",
+  "attributes": {
+    "maxWidth": {
+      "type": "number",
+      "default": 640
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "left",
+      "right"
+    ],
+    "spacing": {
+      "margin": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "flip-card-controller",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
+}

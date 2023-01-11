@@ -18,7 +18,7 @@
     },
     "position": {
       "type": "string",
-      "default": "center"
+      "default": "center center"
     },
     "shadeBackgroundLite": {
       "type": "boolean",
@@ -58,7 +58,5 @@
   ],
   "textdomain": "popup-modal",
   "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
   "render": "file:./render.php"
 }

@@ -10,18 +10,12 @@ import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import {
 	BaseControl,
-	Button,
-	CardDivider,
 	PanelBody,
-	SelectControl,
-	TextControl,
-	ToggleControl,
 	ToolbarButton,
-	ToolbarDropdownMenu,
+	Popover,
 	ToolbarGroup,
 	__experimentalAlignmentMatrixControl as AlignmentMatrixControl,
 } from '@wordpress/components';
-import { useEntityProp } from '@wordpress/core-data';
 
 function InspectorPanel({ attributes, setAttributes }) {
 	const [alignment, setAlignment] = useState('center center');
@@ -41,45 +35,42 @@ function InspectorPanel({ attributes, setAttributes }) {
 }
 
 function Toolbar({ attributes, setAttributes }) {
-	const { myNewAttribute } = attributes;
+	const { position } = attributes;
 
-	const MemoizedIconValue = useCallback(() => {
-		if (myNewAttribute) {
-			return 'admin-site';
-		}
-		return 'admin-site-alt';
-	}, [myNewAttribute]);
+	const [alignmentIsOpen, toggleAlignmentOpen] = useState(false);
 
 	return (
 		<BlockControls>
 			<ToolbarGroup>
-				<ToolbarDropdownMenu
-					icon={MemoizedIconValue}
-					label="Select Option"
-					controls={[
-						{
-							title: 'A',
-							icon: 'admin-site',
-							isActive: true === myNewAttribute,
-							onClick: () => {
-								setAttributes({ myNewAttribute: true });
-							},
-						},
-						{
-							title: 'B',
-							icon: 'admin-site-alt',
-							isActive: false === myNewAttribute,
-							onClick: () => {
-								setAttributes({ myNewAttribute: false });
-							},
-						},
-					]}
+				<ToolbarButton
+					icon="admin-site"
+					label="Select Alignment"
+					isActive={alignmentIsOpen}
+					onClick={() => {
+						toggleAlignmentOpen(!alignmentIsOpen);
+					}}
 				/>
+				{alignmentIsOpen && (
+					<Popover>
+						<AlignmentMatrixControl
+							value={position}
+							onChange={(newPosition) => {
+								console.log(newPosition, position);
+								setAttributes({ position: newPosition });
+							}}
+						/>
+					</Popover>
+				)}
 			</ToolbarGroup>
 		</BlockControls>
 	);
 }
 
 export default function Controls({ attributes, setAttributes }) {
-	return <InspectorPanel {...{ attributes, setAttributes }} />;
+	return (
+		<Fragment>
+			<InspectorPanel {...{ attributes, setAttributes }} />
+			<Toolbar {...{ attributes, setAttributes }} />
+		</Fragment>
+	);
 }

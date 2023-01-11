@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/bylines-query",
+  "version": "0.1.0",
+  "title": "Bylines Query",
+  "category": "theme",
+  "description": "Query the current post for bylines.",
+  "usesContext": [
+    "queryId",
+    "postId",
+    "postType"
+  ],
+  "attributes": {
+    "allowedBlocks": {
+      "type": "array"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true
+    }
+  },
+  "textdomain": "bylines-query",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}
