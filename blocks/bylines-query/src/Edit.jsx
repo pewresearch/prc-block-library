@@ -28,7 +28,6 @@ import { useEntityRecords } from '@wordpress/core-data';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
 
 const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group'];
 
@@ -154,36 +153,28 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 	// block preview is used, instead of having to re-render the preview from scratch.
 	// @TODO: Make this into a reusable component...
 	return (
-		<Fragment>
-			<Controls
-				{...{
-					attributes,
-					setAttributes,
-				}}
-			/>
-			<div {...blockProps}>
-				{blockContexts &&
-					blockContexts.map((blockContext, index) => {
-						const contextId = md5(JSON.stringify(blockContext));
-						const isVisible =
-							contextId ===
-							(activeBlockContextId || md5(JSON.stringify(blockContexts[0])));
-						return (
-							<BlockContextProvider
-								key={`context-key--${index}`}
-								value={blockContext}
-							>
-								<BylinesInnerBlocks isVisible={activeBlockContextId === null || isVisible}/>
-								<MemoizedBylinesBlockPreview
-									blocks={blocks}
-									blockContextId={contextId}
-									setContextId={setContextId}
-									isHidden={isVisible}
-								/>
-							</BlockContextProvider>
-						);
-					})}
-			</div>
-		</Fragment>
+		<div {...blockProps}>
+			{blockContexts &&
+				blockContexts.map((blockContext, index) => {
+					const contextId = md5(JSON.stringify(blockContext));
+					const isVisible =
+						contextId ===
+						(activeBlockContextId || md5(JSON.stringify(blockContexts[0])));
+					return (
+						<BlockContextProvider
+							key={`context-key--${index}`}
+							value={blockContext}
+						>
+							<BylinesInnerBlocks isVisible={activeBlockContextId === null || isVisible}/>
+							<MemoizedBylinesBlockPreview
+								blocks={blocks}
+								blockContextId={contextId}
+								setContextId={setContextId}
+								isHidden={isVisible}
+							/>
+						</BlockContextProvider>
+					);
+				})}
+		</div>
 	);
 }
