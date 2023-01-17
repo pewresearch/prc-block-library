@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/popular-story",
+  "version": "0.1.0",
+  "description": "A popular post, must be placed in a group block for numbers to appear.",
+  "title": "Popular Story",
+  "category": "design",
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "postId": {
+      "type": "integer"
+    },
+    "blockIndexAttr": {
+      "type": "integer"
+    },
+    "enableNumber": {
+      "type": "boolean"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true
+    }
+  },
+  "textdomain": "popular-story",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}
