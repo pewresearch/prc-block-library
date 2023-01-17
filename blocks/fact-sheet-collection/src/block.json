@@ -1,0 +1,65 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/fact-sheet-collection",
+	"version": "0.1.0",
+	"title": "Fact Sheet Collection",
+	"category": "design",
+	"description": "Display the hierarchy of the fact sheet's collection term as well and a link to download an associated PDF.",
+	"attributes": {
+		"pdf" : {
+			"type": "object"
+		},
+		"altPostLabel": {
+			"type": "string"
+		},
+		"fontFamily": {
+			"type": "string",
+			"default": "sans-serif"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"blockGap": true,
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"example": {
+		"attributes": {}
+	},
+	"styles": [
+		{
+			"name": "list",
+			"label": "List",
+			"isDefault": true
+		},
+		{
+			"name": "dropdown",
+			"label": "Dropdown"
+		}
+	],
+	"textdomain": "collection",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

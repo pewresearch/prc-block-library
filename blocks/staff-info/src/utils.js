@@ -17,7 +17,6 @@ export function fetchStaff(staffId, valueToFetch) {
 		}).then((post) => {
 			// eslint-disable-next-line camelcase
 			const { staffInfo } = post;
-			console.log("Staff POST", post);
 			const value = staffInfo[`${valueToFetch}`];
 			return resolve(value);
 		});

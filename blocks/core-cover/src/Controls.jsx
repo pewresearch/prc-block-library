@@ -11,7 +11,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 
 function InspectorPanel({ attributes, setAttributes }) {
-	const { mobileId } = attributes;
+	const { mobileId, tabletId } = attributes;
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Media (mobile) settings')}>
@@ -22,6 +22,16 @@ function InspectorPanel({ attributes, setAttributes }) {
 						setAttributes({
 							mobileId: attachment.id,
 							mobileUrl: attachment.source_url,
+						});
+					}}
+				/>
+				<MediaDropZone
+					attachmentId={tabletId}
+					label={(__('Set Tablet Background'), 'prc-block-library')}
+					onUpdate={(attachment) => {
+						setAttributes({
+							tabletId: attachment.id,
+							tabletUrl: attachment.source_url,
 						});
 					}}
 				/>

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/table-of-contents",
+  "version": "0.1.0",
+  "title": "Table of Contents",
+  "category": "text",
+  "description": "Displays a list of all heading blocks set to chapter headings.",
+  "attributes": {
+    "showCurrentChapter": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "left",
+      "right"
+    ],
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType",
+    "core/group/isSticky",
+    "core/group/responsiveThreshold"
+  ],
+  "textdomain": "table-of-contents",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

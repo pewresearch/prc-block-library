@@ -26,7 +26,6 @@ class CoreCover extends PRC_Block_Library {
 			add_action( 'init', array( $this, 'register_new_styles' ), 0 );
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
 			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
-			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
 			add_filter( 'render_block', array( $this, 'render' ), 10, 2 );
 		}
 	}
@@ -74,25 +73,19 @@ class CoreCover extends PRC_Block_Library {
 			);
 		}
 
-		return $metadata;
-	}
-
-	/**
-	* Register additional settings, like context, for the "core/cover" block.
-	* @param mixed $settings
-	* @param mixed $metadata
-	* @return mixed
-	*/
-	public function add_settings(array $settings, array $metadata) {
-		if ( self::$block_name === $metadata['name'] ) {
-			$settings['provides_context'] = array_merge(
-				array_key_exists('provides_context', $settings) ? $settings['provides_context'] : array(),
-				array(
-					'core/core-cover}/myNewAttribute' => 'myNewAttribute',
-				)
+		if ( ! array_key_exists( 'tabletUrl', $metadata['attributes'] ) ) {
+			$metadata['attributes']['tabletUrl'] = array(
+				'type'    => 'string',
 			);
 		}
-		return $settings;
+
+		if ( ! array_key_exists( 'tabletId', $metadata['attributes'] ) ) {
+			$metadata['attributes']['tabletId'] = array(
+				'type'    => 'number',
+			);
+		}
+
+		return $metadata;
 	}
 
 	/**

@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/daily-briefing-signup",
+	"version": "0.1.0",
+	"title": "Daily Briefing Signup",
+	"category": "marketing",
+	"description": "Display the most recent Daily Briefing with a signup form",
+	"attributes": {
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"blockGap": true,
+			"margin": [ "top", "bottom" ],
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"example": {
+		"attributes": {
+			"isPreview": true
+		}
+	},
+	"textdomain": "daily-briefing-signup",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}

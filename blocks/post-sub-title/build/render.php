@@ -11,11 +11,11 @@ $sub_title = prc_get_subheadline( (int) get_the_ID() );
 if ( empty( $sub_title ) ) {
 	return;
 }
-$classnames = array(
-	'class' => 'has-text-align' . '-' . $text_align,
-);
+
 echo wp_sprintf(
 	'<h2 %1$s>%2$s</h2>',
-	get_block_wrapper_attributes($classnames),
+	get_block_wrapper_attributes(array(
+		'class' => 'has-text-align' . '-' . $text_align,
+	)),
 	$sub_title
 );

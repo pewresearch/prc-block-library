@@ -1,0 +1,97 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+// For posts with sidebar driven TOC.
+#prc-mobile-toc,
+.wp-block-group.mobile-toc {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	.wp-block-group.mobile-toc {
+		position: relative;
+	}
+}
+
+// Mobile Dropdown TOC
+.wp-block-group:not(.wp-block) {
+	&.mobile-toc {
+		margin-bottom: 1em;
+		padding-bottom: 1em;
+		background: var(--wp--preset--color--white)!important;
+		border-top: 1px solid #dadbdb;
+		border-bottom: 1px solid #dadbdb;
+		max-width: 100%!important;
+		// & > :where(:not(.alignleft):not(.alignright)) {
+		// }
+		h3 {
+			cursor: pointer;
+			padding-top: 1em;
+			margin-bottom: 0;
+			letter-spacing: .1em;
+			&:after {
+				font-family: var(--prc--icon--dropdown--family);
+				content: var(--prc--icon--dropdown--content);
+				display: block;
+				float: right;
+			}
+		}
+		.wp-block-prc-block-table-of-contents {
+			padding-top: 1em;
+		}
+		&.is-open {
+			h3:after {
+				transform: rotate(180deg) scaleX(-1);
+			}
+		}
+	}
+	&.mobile-toc:not(.is-open) .wp-block-prc-block-table-of-contents {
+		display: none;
+	}
+}
+
+
+// Mobile Toolbar Icons TOC
+.wp-block-group:not(.wp-block) {
+	&.mobile-toc-icons {
+		margin-bottom: 1em;
+		padding-bottom: 0;
+		background: var(--wp--preset--color--white)!important;
+		border-top: 1px solid #dadbdb;
+		border-bottom: 1px solid #dadbdb;
+		display: flex;
+		align-items: center;
+		h3 {
+			display: block;
+		}
+		.hidden-text {
+			display: none;
+		}
+		.wp-block-prc-block-table-of-contents {
+			padding-top: 0;
+			.ui.list {
+				display: flex;
+				align-items: stretch;
+				.item {
+					display: inline-block;
+					-webkit-box-flex: 1;
+					-ms-flex-positive: 1;
+					flex-grow: 1;
+					filter: grayscale(100%);
+					opacity: 0.7;
+					&.active {
+						filter: grayscale(0%);
+						opacity: 1.0;
+					}
+					&.hidden {
+						display: none!important;
+					}
+				}
+			}
+		}
+	}
+}
+

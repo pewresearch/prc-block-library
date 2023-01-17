@@ -14,11 +14,24 @@
     },
     "textAlign": {
       "type": "string"
+    },
+    "fontSize": {
+      "type": "string",
+      "default": "h2"
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "typography": {
+          "fontWeight": "400",
+          "fontStyle": "italic"
+        }
+      }
     }
   },
   "example": {
     "attributes": {
-      "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      "value": "Aute magna mollit id nisi Lorem incididunt eiusmod magna"
     }
   },
   "supports": {
@@ -30,22 +43,25 @@
       "background": true
     },
     "spacing": {
-      "blockGap": true,
       "margin": [
         "top",
         "bottom"
       ],
-      "padding": true,
-      "__experimentalDefaultControls": {
-        "padding": true
-      }
+      "padding": true
     },
     "typography": {
       "fontSize": true,
+      "lineHeight": true,
       "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
       "__experimentalDefaultControls": {
         "fontSize": true,
-        "__experimentalFontFamily": true
+        "fontAppearance": true,
+        "textTransform": true
       }
     }
   },
