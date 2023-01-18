@@ -118,34 +118,50 @@ export default function Controls({
 			availableMobileSpan,
 		});
 
+
+
 		if (isAddingColumn) {
-			// createBlock('prc-block/grid-column', {
-			// 	gridLayout: {
-			// 		index: 0,
-			// 		desktopSpan: 4,
-			// 		tabletSpan: 4,
-			// 		mobileSpan: 4,
-			// 		desktopStart: 1,
-			// 		tabletStart: 1,
-			// 		mobileStart: 1,
-			// 		desktopRow: 1,
-			// 		tabletRow: 1,
-			// 		mobileRow: 1
-			// 	}
-			// }),
+			const newBlock = createBlock('prc-block/grid-column', {
+				gridLayout: {
+					index: columns.length + 1,
+					desktopSpan: 4,
+					tabletSpan: 4,
+					mobileSpan: 4,
+					desktopStart: 1,
+					tabletStart: 1,
+					mobileStart: 1,
+					desktopRow: 1,
+					tabletRow: 1,
+					mobileRow: 1,
+				},
+			});
+			columns = [...columns, newBlock];
 		} else {
+			// Get the last column's innerBlocks and merge them with the second to last column's innerBlocks.
+			const lastColumnInnerBlocks = columns[columns.length - 1].innerBlocks;
+			const secondToLastColumnInnerBlocks =
+				columns[columns.length - 2].innerBlocks;
+			const mergedInnerBlocks = [
+				...secondToLastColumnInnerBlocks,
+				...lastColumnInnerBlocks,
+			];
+			// Replace the second to last column's innerBlocks with the merged innerBlocks.
+			columns[columns.length - 2].innerBlocks = mergedInnerBlocks;
 			// The removed column will be the last of the inner blocks.
 			columns = columns.slice(0, -(previousColumns - newColumns));
-			// We will need to redistribute the remaining space.
+			// We will need to redistribute the remaining space to the last column.
 		}
+
 		console.log(
 			'"updateColumns" replaceInnerBlocks...',
 			isAddingColumn,
 			previousColumns,
 			newColumns,
 			columns,
+			innerBlocks,
 		);
-		// replaceInnerBlocks(clientId, innerBlocks);
+
+		replaceInnerBlocks(clientId, columns);
 	};
 
 	return (
