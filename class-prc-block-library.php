@@ -10,13 +10,8 @@
  * @wordpress-plugin
  * Plugin Name:       PRC Block Library
  * Plugin URI:        https://pewresearch.org
-<<<<<<< HEAD:plugins/prc-block-library/class-prc-block-library.php
  * Description:       The core block library for Pew Research Center (pewresearch.org).
  * Version:           2.2.0
-=======
- * Description:       PRC Block Library
- * Version:           2.1.28
->>>>>>> release/4.0.10:plugins/prc-block-library/prc-block-library.php
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Pew Research Center
@@ -47,20 +42,8 @@ class PRC_Block_Library {
 	 *
 	 * @var string
 	 */
-<<<<<<< HEAD:plugins/prc-block-library/class-prc-block-library.php
 	public static $version = '2.2.0';
 	public static $blocks = array();
-=======
-	public static $version = '2.1.28';
-
-	/**
-	 * Registered wpackio assets
-	 *
-	 * @var array
-	 */
-	public $registered = array();
-	public $enqueue    = false;
->>>>>>> release/4.0.10:plugins/prc-block-library/prc-block-library.php
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
