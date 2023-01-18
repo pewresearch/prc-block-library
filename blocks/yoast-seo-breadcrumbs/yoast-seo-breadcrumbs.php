@@ -140,6 +140,11 @@ class YoastSEOBreadcrumbs extends PRC_Block_Library {
 			}
 		}
 
+		// Pop off the "Page #" crumb at the end.
+		if ( is_paged() ) {
+			array_pop( $crumbs );
+		}
+
 		// If there is only one element (like a lone home link) then return empty
 		if ( is_array( $crumbs ) && is_tax() && count( $crumbs ) <= 1 ) {
 			return array();
