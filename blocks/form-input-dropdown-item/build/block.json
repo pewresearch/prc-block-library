@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/form-input-dropdown-item",
+  "version": "0.1.0",
+  "title": "Form Input Dropdown Item",
+  "category": "design",
+  "description": "Insert options for form input dropdown",
+  "attributes": {
+    "orientation": {
+      "type": "string",
+      "default": "vertical"
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "value": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "form-input-dropdown-item",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

@@ -47,7 +47,9 @@ class TableOfContents extends PRC_Block_Library {
 	 */
 	public function prepare_chapter_blocks( $array, $post_id = false ) {
 		$results = array();
+
 		$needs_migration = false;
+
 		if ( is_array( $array ) ) {
 			// We get the first level of the array first, then sub levels...
 			if ( isset( $array[ 'blockName' ] ) && in_array($array[ 'blockName' ], array('core/heading', 'prc-block/chapter')) ) {

@@ -1,0 +1,74 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/form-input-dropdown",
+	"version": "0.1.0",
+	"title": "Form Input Dropdown",
+	"category": "design",
+	"description": "A dropdown selection for a form input",
+	"icon": "list-view",
+	"attributes": {
+		"orientation": {
+			"type": "string",
+			"default": "vertical"
+		},
+		"search": {
+			"type": "boolean",
+			"default": false
+		},
+		"multiple": {
+			"type": "boolean",
+			"default": false
+		},
+		"multipleSearch": {
+			"type": "boolean",
+			"default": false
+		},
+		"placeholder": {
+			"type": "string",
+			"default": "placeholder text..."
+		},
+		"inline": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+
+			"radius": true,
+
+			"style": true,
+
+			"width": true
+		},
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"margin": ["top", "bottom"]
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"styles": [
+		{ "name": "default", "label": "Default", "isDefault": true },
+		{ "name": "fluid", "label": "Fluid" }
+	],
+	"textdomain": "form-input-dropdown",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

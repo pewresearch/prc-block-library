@@ -35,7 +35,7 @@ export default function Edit({
 }) {
 	const blockProps = useBlockProps();
 
-	const { chapters = [] } = useSelect(
+	const { chapters = [], backChapters = [] } = useSelect(
 		(select) => {
 			const blocks = select('core/block-editor').getBlocks();
 			const placeholder = [
@@ -60,6 +60,7 @@ export default function Edit({
 			);
 			return {
 				chapters: 0 === foundChapters.length ? placeholder : foundChapters,
+				backChapters: [],
 			};
 		},
 		[clientId],
