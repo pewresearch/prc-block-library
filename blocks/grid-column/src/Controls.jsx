@@ -189,23 +189,9 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 						/>
 					</div>
 				</PanelBody>
-
-				<PanelBody title="Grid Start (Experimental)" initialOpen={false}>
+				{/* <PanelBody title="Grid Start" initialOpen={false}>
 					<div className="css-grid-column-controls">
-						<BaseControl help="These controls are experimental and currently a work-in-progress. Use them at your own risk, no support will be provided.">
-							<RangeControl
-								label="Desktop Start"
-								value={desktopStart}
-								onChange={(newStart) => {
-									handleGridStartChange(newStart, 'desktop');
-								}}
-								withInputField={false}
-								min={1}
-								max={12}
-								marks={MARKS}
-								initialPosition={0}
-							/>
-							<CardDivider />
+						<BaseControl help="Choose the start position on tablet and mobile for this column">
 							<RangeControl
 								label="Tablet Start"
 								value={tabletStart}
@@ -233,7 +219,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 							/>
 						</BaseControl>
 					</div>
-				</PanelBody>
+				</PanelBody> */}
 			</InspectorControls>
 		</Fragment>
 	);

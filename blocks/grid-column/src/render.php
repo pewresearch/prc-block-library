@@ -20,12 +20,6 @@ $grid_defaults = array(
 	"desktopSpan"  => 4,
 	"tabletSpan"   => 4,
 	"mobileSpan"   => 4,
-	"desktopStart" => 1,
-	"tabletStart"  => 1,
-	"mobileStart"  => 1,
-	"desktopRow"   => 1,
-	"tabletRow"    => 1,
-	"mobileRow"    => 1
 );
 $attrs = wp_parse_args( $attributes['gridLayout'], $grid_defaults );
 $index = $attrs['index'];
@@ -36,14 +30,8 @@ $vertical_alignment = array_key_exists( 'verticalAlignment', $attributes ) ? $at
 $column_classes = array(
 	'are-vertically-aligned-' . $vertical_alignment,
 	'column'.$index.'-desktop-grid__span-'.$attrs['desktopSpan'],
-	// 'column'.$index.'-desktop-grid__start-'.$attrs['desktopStart'],
-	// 'column'.$index.'-desktop-grid__row-'.$attrs['desktopRow'],
 	'column'.$index.'-tablet-grid__span-'.$attrs['tabletSpan'],
-	// 'column'.$index.'-tablet-grid__start-'.$attrs['tabletStart'],
-	// 'column'.$index.'-tablet-grid__row-'.$attrs['tabletRow'],
 	'column'.$index.'-mobile-grid__span-'.$attrs['mobileSpan'],
-	// 'column'.$index.'-mobile-grid__start-'.$attrs['mobileStart'],
-	// 'column'.$index.'-mobile-grid__row-'.$attrs['mobileRow'],
 );
 
 $block_attrs = get_block_wrapper_attributes(array(

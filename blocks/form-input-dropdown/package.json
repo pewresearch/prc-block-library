@@ -1,7 +1,7 @@
 {
 	"name": "form-input-dropdown",
 	"version": "0.1.0",
-	"author": "Pew Research Center",
+	"author": "Nick Zanetti",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
 	"main": "build/index.js",

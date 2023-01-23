@@ -5,7 +5,6 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { InnerBlocks } from '@wordpress/block-editor';
-import { Fragment } from '@wordpress/element';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -18,6 +17,6 @@ import { Fragment } from '@wordpress/element';
  * @param {Object} props.attributes Available block attributes.
  * @return {WPElement} Element to render.
  */
-export default function Save({ attributes }) {
+export default function Save() {
 	return <InnerBlocks.Content />;
 }

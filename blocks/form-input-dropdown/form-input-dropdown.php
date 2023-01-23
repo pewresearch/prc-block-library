@@ -1,10 +1,10 @@
 <?php
 /**
- * Block Name:       Form Input Dropdown
+ * Block Name:        Form Input Dropdown
  * Version:           0.1.0
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Author:            Pew Research Center
+ * Author:            Nick Zanetti
  *
  * @package           prc-block
  */

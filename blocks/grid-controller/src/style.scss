@@ -78,6 +78,13 @@ $break-zoomed-in: 280px;
 			border-left: 1px solid;
 		}
 	}
+	// If a section header is present, adjust the divider line height down below the section header.
+	&.has-divider:has(.is-style-section-header) {
+		& > .wp-block-prc-block-grid-column:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+			top: 28px;
+			height: calc(100% - 28px);
+		}
+	}
 
 	.wp-block-prc-block-grid-column {
 		height: 100%;
@@ -93,24 +100,8 @@ $break-zoomed-in: 280px;
 	// Mobile first.
 	@for $i from 1 through 12 {
 		@for $x from 1 through 4 {
-			& > .wp-block-prc-block-grid-column.column#{ $x }-mobile-grid__start-#{ $i } {
-				grid-column-start: $i;
-			}
-		}
-	}
-
-	@for $i from 1 through 12 {
-		@for $x from 1 through 4 {
 			& > .wp-block-prc-block-grid-column.column#{ $x }-mobile-grid__span-#{ $i }  {
 				grid-column-end: span $i; // Set it to span $i columns, regardless of starting position.
-			}
-		}
-	}
-
-	@for $i from 1 through 4 {
-		@for $x from 1 through 4 {
-			& > .wp-block-prc-block-grid-column.column#{ $x }-mobile-grid__row-#{ $i } {
-				grid-row-start: $i;
 			}
 		}
 	}
@@ -144,24 +135,8 @@ $break-zoomed-in: 280px;
 
 		@for $i from 1 through 12 {
 			@for $x from 1 through 4 {
-				& > .wp-block-prc-block-grid-column.column#{ $x }-tablet-grid__start-#{ $i } {
-					grid-column-start: $i;
-				}
-			}
-		}
-
-		@for $i from 1 through 12 {
-			@for $x from 1 through 4 {
 				& > .wp-block-prc-block-grid-column.column#{ $x }-tablet-grid__span-#{ $i }  {
 					grid-column-end: span $i; // Set it to span $i columns, regardless of starting position.
-				}
-			}
-		}
-
-		@for $i from 1 through 4 {
-			@for $x from 1 through 4 {
-				& > .wp-block-prc-block-grid-column.column#{ $x }-tablet-grid__row-#{ $i } {
-					grid-row-start: $i;
 				}
 			}
 		}
@@ -184,34 +159,66 @@ $break-zoomed-in: 280px;
 
 		@for $i from 1 through 12 {
 			@for $x from 1 through 6 {
-				& > .wp-block-prc-block-grid-column.column#{ $x }-desktop-grid__start-#{ $i } {
-					grid-column-start: $i;
-				}
-			}
-		}
-
-		@for $i from 1 through 12 {
-			@for $x from 1 through 6 {
 				& > .wp-block-prc-block-grid-column.column#{ $x }-desktop-grid__span-#{ $i }  {
 					grid-column-end: span $i; // Set it to span $i columns, regardless of starting position.
-				}
-			}
-		}
-
-		@for $i from 1 through 4 {
-			@for $x from 1 through 4 {
-				& > .wp-block-prc-block-grid-column.column#{ $x }-desktop-grid__row-#{ $i } {
-					grid-row-start: $i;
 				}
 			}
 		}
 	}
 }
 
-// Site Editor Hacks
-.wp-block-prc-block-grid-controller {
+// Patterns
 
+// "Featured" Layout Pattern
+.wp-block-prc-block-grid-controller.is-style-pattern-featured-layout {
+	// Mobile up to Tablet:
+	@media (max-width: #{ ($break-large) }) {
+		& > .wp-block-prc-block-grid-column[class*="column1-tablet-grid__span-4"]  {
+			grid-row-start: 2;
+		}
+		& > .wp-block-prc-block-grid-column[class*="column2-tablet-grid__span-8"]  {
+			grid-row-start: 1;
+		}
+		& > .wp-block-prc-block-grid-column[class*="column3-tablet-grid__span-4"]  {
+			grid-row-start: 3;
+		}
+		// Divider Lines
+		&.has-divider {
+			// Enable tablet horizontal divider
+			& > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-8"] {
+				&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+					content: "";
+					border-bottom: 1px solid #eaeaea!important;
+					display: block!important;
+					padding-bottom: var(--grid-gutter)!important;
+					position: relative!important;
+					height: 1px!important;
+					top: 0!important;
+					left: 0!important;
+					border-left: none!important;
+				}
+				&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+					display: none!important;
+				}
+			}
+			// Disable mobile horizontal divider
+			& > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"]:not([class*="-tablet-grid__span-8"]):not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+				display: none!important;
+			}
+			// & > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"]:not([class*="-tablet-grid__span-8"]):not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+			// 	display: block!important;
+			// }
+		}
+	}
+	// Tablet Only:
+	@media (min-width: #{ ($break-small) }) and (max-width: #{ ($break-large) }) {
+		& > .wp-block-prc-block-grid-column[class*="column3-tablet-grid__span-4"]  {
+			grid-row-start: 2!important;
+		}
+	}
 }
+
+// Site Editor Hacks
 .wp-block-prc-block-grid-column.has-global-padding {
 	padding-left: inherit;
 	padding-right: inherit;

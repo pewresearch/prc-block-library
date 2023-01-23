@@ -2,7 +2,7 @@
 	"name": "form-input-dropdown-item",
 	"version": "0.1.0",
 	"description": "Insert options for form input dropdown",
-	"author": "Pew Research Center",
+	"author": "Nick Zanetti",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
 	"main": "build/index.js",

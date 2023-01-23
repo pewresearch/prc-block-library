@@ -10,6 +10,9 @@
  * @package           prc-block
  */
 
+require_once PRC_VENDOR_DIR . '/autoload.php';
+use PHPHtmlParser\Dom;
+
 class TableOfContents extends PRC_Block_Library {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;

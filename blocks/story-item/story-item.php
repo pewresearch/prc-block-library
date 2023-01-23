@@ -12,10 +12,10 @@
 class StoryItem extends PRC_Block_Library {
 
 	public static $block_name          = 'prc-block/story-item';
-	public static $version             = '4.0.10';
+	public static $version             = '4.0.11';
 	public static $dir                 = __DIR__;
 	public static $date_format         = 'M j, Y';
-	public static $cache_invalidate    = '12-01-2022';
+	public static $cache_invalidate    = '01-22-2023';
 	public static $cache_ttl           = 10 * MINUTE_IN_SECONDS;
 	public static $stub_disabled_sites = array(
 		17,
@@ -94,10 +94,10 @@ class StoryItem extends PRC_Block_Library {
 	}
 
 	/**
-	 * Get first term in either formats or research-areas (as determined by $reasearch_areas flag)
-	 *
-	 * @param int  $post_id of post you want to fetch.
-	 * @param bool $reasearch_areas flag to enable fetching research-areas taxonomy instead of formats, defaults to false.
+	 * Get the label for the story item.
+	 * @param int $post_id - the post id of the post
+	 * @param bool $post_type - the post type of the post
+	 * @param array $attributes - the attributes of the block, used to get the label and the taxonomy.
 	 * @return string
 	 */
 	private function get_label( int $post_id, $post_type = false, $attributes = array() ) {
@@ -123,7 +123,7 @@ class StoryItem extends PRC_Block_Library {
 			$label = 'report';
 		}
 
-		// @TODO: pewresearch/pewresearch-org#2890
+		// @TODO: pewresearch/pewresearch-org#2890 - in progress as of 4.0.10, remove this when done.
 		$label = 'fact-tank' === $label ? 'short-read' : $label;
 
 		if ( 'disabled' === $taxonomy || 'news-item' === $post_type ) {
@@ -134,6 +134,13 @@ class StoryItem extends PRC_Block_Library {
 		return strtolower( str_replace( '-', ' ', $label ) );
 	}
 
+	/**
+	 * Get the url for the story item, run through a series of checks to ensure we have a valid url depending on post type and attributes.
+	 * @param int $post_id
+	 * @param string $post_type
+	 * @param array $attributes
+	 * @return mixed
+	 */
 	private function get_url( int $post_id, $post_type = 'post', $attributes = array() ) {
 		$url = array_key_exists( 'url', $attributes ) ? $attributes['url'] : false;
 
@@ -156,6 +163,7 @@ class StoryItem extends PRC_Block_Library {
 					$url = get_permalink( $post_id );
 				}
 				if ( false === $url ) {
+					//@TODO: change this to just return a wp_error, and let the caller handle it.
 					do_action('qm/debug', new WP_Error(
 						'401',
 						'Story item malformed, can not find a url for post id: ' . $post_id,
@@ -168,6 +176,12 @@ class StoryItem extends PRC_Block_Library {
 		return $url;
 	}
 
+	/**
+	 * Get the date for the story item.
+	 * @param int $post_id
+	 * @param array $attributes - the attributes of the block, used to get the date.
+	 * @return false|string
+	 */
 	private function get_date( int $post_id, $attributes = array() ) {
 		$date = array_key_exists( 'date', $attributes ) ? $attributes['date'] : false;
 		if ( false === $date ) {
@@ -179,6 +193,13 @@ class StoryItem extends PRC_Block_Library {
 		);
 	}
 
+	/**
+	 * Get the image slot for the story item.
+	 * @param array $attributes - the attributes of the block, used to get the image slot - left, right, top, bottom, default "top", and disabled.
+	 * @param bool $in_loop - whether or not the story item is in a loop, changes image slot on desktop and on mobile.
+	 * @param bool $is_mobile - whether or not the story item is viewed on a mobile device.
+	 * @return bool|string
+	 */
 	private function get_image_slot( $attributes = array(), $in_loop = false, $is_mobile = false ) {
 		$image_slot = array_key_exists( 'imageSlot', $attributes ) ? $attributes['imageSlot'] : false;
 		$image_slot = 'default' === $image_slot ? 'top' : $image_slot;
@@ -194,6 +215,13 @@ class StoryItem extends PRC_Block_Library {
 		return $image_slot;
 	}
 
+	/**
+	 * Get the image size for the story item.
+	 * @param mixed $attributes - used to pass the image slot through and determinze image size.
+	 * @param bool $in_loop
+	 * @param bool $is_mobile
+	 * @return mixed
+	 */
 	private function get_image_size( $attributes, $in_loop = false, $is_mobile = false ) {
 		$image_slot = $this->get_image_slot( $attributes, $in_loop, $is_mobile );
 		$image_size = array_key_exists( 'imageSize', $attributes ) ? $attributes['imageSize'] : false;
@@ -205,7 +233,7 @@ class StoryItem extends PRC_Block_Library {
 
 	/**
 	 * Given an image_size, image_slot, post_id, and post_type return an array of desktop and mobile 1x and 2x image urls.
-	 *
+	 * @TODO: migrate all of this to use args.
 	 * @param bool  $image_size
 	 * @param bool  $image_slot
 	 * @param array $args
@@ -250,10 +278,15 @@ class StoryItem extends PRC_Block_Library {
 			} else {
 				$image_id = attachment_url_to_postid($static_image);
 			}
+
+
 			if ( $this->allow_debug_output() ) {
 				do_action('qm/debug', "get_img -> static image -> " . print_r(array('imageid' => $image_id), true) );
 			}
 			if ( false != $image_id ) {
+				// get the caption and alt text from the image
+				$caption = get_post_field( 'post_excerpt', $image_id );
+				$alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
 				$imgs = array(
 					'desktop' => array(
 						'default' => wp_get_attachment_image_src( $image_id, $image_size ),
@@ -264,6 +297,8 @@ class StoryItem extends PRC_Block_Library {
 						'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
 					),
 					'bordered' => false,
+					'caption' => $caption,
+					'alt' => $alt,
 				);
 			} else {
 				$imgs = array(
@@ -276,12 +311,17 @@ class StoryItem extends PRC_Block_Library {
 						'hidpi'   => $img,
 					),
 					'bordered' => false,
+					'caption' => false,
+					'alt' => false,
 				);
 			}
 		} elseif ( $is_stub && false !== $image_id ) {
 			$stub_info      = get_post_meta( $post_id, '_stub_info', true );
 			$origin_site_id = (int) $stub_info['site_id'];
 			switch_to_blog( $origin_site_id );
+			// get the caption and alt text from the image
+			$caption = get_post_field( 'post_excerpt', $image_id );
+			$alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
 			$imgs = array(
 				'desktop' => array(
 					'default' => wp_get_attachment_image_src( $image_id, $image_size ),
@@ -292,9 +332,14 @@ class StoryItem extends PRC_Block_Library {
 					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
 				),
 				'bordered' => $chart_art,
+				'caption' => $caption,
+				'alt' => $alt,
 			);
 			restore_current_blog();
 		} elseif ( false !== $image_id ) {
+			// get the caption and alt text from the image
+			$caption = get_post_field( 'post_excerpt', $image_id );
+			$alt     = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
 			$imgs = array(
 				'desktop' => array(
 					'default' => wp_get_attachment_image_src( $image_id, $image_size ),
@@ -305,12 +350,20 @@ class StoryItem extends PRC_Block_Library {
 					'hidpi'   => wp_get_attachment_image_src( $image_id, $image_size . '-SMALL-HIDPI' ),
 				),
 				'bordered' => $chart_art,
+				'caption' => $caption,
+				'alt' => $alt,
 			);
 		}
 
 		return $imgs;
 	}
 
+	/**
+	 * Constructs a md5 hashed using using post id, is_mobile, block version, and a cache invalidation string for use as a cache key for individual blocks.
+	 * @param mixed $attributes
+	 * @param mixed $context
+	 * @return string
+	 */
 	public function get_cache_key( $attributes, $context ) {
 		if ( array_key_exists('inIndex', $attributes) && $attributes['inIndex'] ) {
 			$cache_key = array('index');
@@ -338,6 +391,11 @@ class StoryItem extends PRC_Block_Library {
 		);
 	}
 
+	/**
+	 * Clear the index cache when a stub is updated.
+	 * @param mixed $stub_post_id
+	 * @return void
+	 */
 	public function clear_index_cache_on_stub_update( $stub_post_id ) {
 		$cache_key = $this->get_cache_key( array( 'inIndex' => true, 'postId' => $stub_post_id ), array() );
 		wp_cache_delete( $cache_key, self::$block_name );
@@ -432,6 +490,15 @@ class StoryItem extends PRC_Block_Library {
 		return $variables;
 	}
 
+	/**
+	 * Return the responsive <picture> markup for the image.
+	 *
+	 * @param array $attributes The block attributes.
+	 * @param bool  $is_in_loop Is the block in a loop.
+	 * @param bool  $is_mobile Is the block on a mobile device.
+	 *
+	 * @return string
+	 */
 	public function render_image( $image, $image_size, $image_is_bordered, $link ) {
 		if ( false === $image ) {
 			return false;
@@ -469,10 +536,11 @@ class StoryItem extends PRC_Block_Library {
 				<?php echo $sources['desktop']; ?>
 				<?php echo $sources['mobile']; ?>
 				<?php echo wp_sprintf(
-					'<img srcset="%s" width="%s" height="%s">',
+					'<img srcset="%s" width="%s" height="%s" alt="%s>',
 					esc_url($image['desktop']['default'][0]),
 					esc_attr($image['desktop']['default'][1]),
-					esc_attr($image['desktop']['default'][2])
+					esc_attr($image['desktop']['default'][2]),
+					esc_attr($image['alt'])
 				);?>
 			</picture>
 		</a>
@@ -539,7 +607,7 @@ class StoryItem extends PRC_Block_Library {
 		// Regex remove div with class 'description' from this string if $enable_excerpt is false.
 		$content = ! $enable_excerpt ? preg_replace( '/<div class="description">(.*?)<\/div>/s', '', $content ) : $content;
 
-		// @TODO Right now this is only used by datasets...
+		// @TODO: Right now this is only used by datasets, but we should probably make this more generic or a better use of block api's to achieve this result.
 		$story_item_extras = ! array_key_exists( 'extraContent', $attributes ) ? apply_filters(
 			'prc_story_item_extra',
 			false,

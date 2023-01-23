@@ -73,12 +73,6 @@ export default function Edit({
 			[`column${index}-desktop-grid__span-${desktopSpan}`]: desktopSpan,
 			[`column${index}-tablet-grid__span-${tabletSpan}`]: tabletSpan,
 			[`column${index}-mobile-grid__span-${mobileSpan}`]: mobileSpan,
-			[`column${index}-desktop-grid__start-${desktopStart}`]: desktopStart,
-			[`column${index}-tablet-grid__start-${tabletStart}`]: tabletStart,
-			[`column${index}-mobile-grid__start-${mobileStart}`]: mobileStart,
-			// [`column${index}-desktop-grid__row-${desktopRow}`]: desktopRow,
-			// [`column${index}-tablet-grid__row-${tabletRow}`]: tabletRow,
-			// [`column${index}-mobile-grid__row-${mobileRow}`]: mobileRow,
 		}),
 	});
 

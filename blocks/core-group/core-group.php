@@ -141,8 +141,9 @@ class CoreGroup extends PRC_Block_Library {
 
 		if ( $is_sticky || $responsive_attach_id || $responsive_threshold ) {
 			wp_enqueue_script( self::$view_script_handle );
-			wp_enqueue_style( self::$style_handle );
 		}
+
+		wp_enqueue_style( self::$style_handle );
 
 		$block_content = apply_filters( 'prc_group_block_content', $block_content, $block );
 
