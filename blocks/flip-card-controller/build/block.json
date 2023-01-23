@@ -8,8 +8,8 @@
   "category": "media",
   "attributes": {
     "maxWidth": {
-      "type": "number",
-      "default": 640
+      "type": "string",
+      "default": "640"
     }
   },
   "supports": {

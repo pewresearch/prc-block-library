@@ -9,12 +9,8 @@ import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import {
-	BaseControl,
-	Button,
-	CardDivider,
 	PanelBody,
-	SelectControl,
-	TextControl,
+	RangeControl,
 	ToolbarButton,
 	ToolbarGroup,
 	ResizableBox as WPComResizableBox,
@@ -27,8 +23,8 @@ function Toolbar({ isFlipped, doFlip }) {
 				<ToolbarButton
 					onClick={() => doFlip()}
 					isActive={isFlipped}
-					label="Flip"
-					icon="image-flip-horizontal"
+					label="Flip Over"
+					icon="image-rotate"
 				/>
 			</ToolbarGroup>
 		</BlockControls>
@@ -42,5 +38,26 @@ export default function Controls({
 	isFlipped,
 	doFlip,
 }) {
-	return <Toolbar {...{ isFlipped, doFlip }} />;
+	const { maxWidth } = attributes;
+	return (
+		<Fragment>
+			<InspectorControls>
+				<PanelBody title={__('Layout')}>
+					<RangeControl
+						label={__('Width')}
+						withInputField
+						min={0}
+						max={640}
+						value={parseInt(maxWidth, 10)}
+						onChange={(num) =>
+							setAttributes({
+								maxWidth: parseInt(num, 10),
+							})
+						}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<Toolbar {...{ isFlipped, doFlip }} />
+		</Fragment>
+	);
 }
