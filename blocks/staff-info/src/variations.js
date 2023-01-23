@@ -33,6 +33,30 @@ const variations = [
 		},
 		isActive: ({ valueToFetch }) => 'twitter' === valueToFetch,
 	},
+	{
+		name: 'staff-bio',
+		title: __('Staff Bio'),
+		attributes: {
+			valueToFetch: 'bio',
+		},
+		isActive: ({ valueToFetch }) => 'bio' === valueToFetch,
+	},
+	{
+		name: 'staff-mini-bio',
+		title: __('Staff Mini Bio'),
+		attributes: {
+			valueToFetch: 'miniBio',
+		},
+		isActive: ({ valueToFetch }) => 'miniBio' === valueToFetch,
+	},
+	{
+		name: 'staff-image',
+		title: __('Staff Image'),
+		attributes: {
+			valueToFetch: 'image',
+		},
+		isActive: ({ valueToFetch }) => 'image' === valueToFetch,
+	},
 ];
 
 export default variations;

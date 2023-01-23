@@ -9,7 +9,10 @@
 	"attributes": {
 		"valueToFetch": {
 			"type":"string",
-			"enum": [ "name", "jobTitle", "twitter", "expertise" ]
+			"enum": [ "name", "jobTitle", "twitter", "expertise", "bio", "miniBio" ]
+		},
+		"prefix": {
+			"type": "string"
 		}
 	},
 	"supports": {
@@ -29,7 +32,9 @@
 		"staffPostId",
 		"staffName",
 		"staffJobTitle",
-		"staffTwitter"
+		"staffTwitter",
+		"staffBio",
+		"staffMiniBio"
 	],
 	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query" ],
 	"textdomain": "staff-info",

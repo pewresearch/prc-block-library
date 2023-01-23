@@ -16,19 +16,20 @@ export default function query({ staffType, researchArea }) {
 		newArgs,
 	);
 
-	console.log('Staff Query', endpointUrl);
-
 	return new Promise((resolve) => {
 		apiFetch({
 			url: endpointUrl,
 		}).then((posts) => {
-			console.log('Staff POSTS', posts);
 			resolve(
 				posts.map((item) => ({
 					staffPostId: item.id,
 					staffName: item.staffInfo.name,
-					staffJobTitle: item.staffInfo.title,
+					staffJobTitle: item.staffInfo.jobTitle,
 					staffTwitter: item.staffInfo.twitter,
+					staffBio: item.staffInfo.bio,
+					staffMiniBio: item.staffInfo.miniBio,
+					staffImage: item.staffInfo.image,
+					staffExpertise: item.staffInfo.expertise,
 				})),
 			);
 		});

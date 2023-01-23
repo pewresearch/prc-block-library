@@ -13,8 +13,13 @@
         "name",
         "jobTitle",
         "twitter",
-        "expertise"
+        "expertise",
+        "bio",
+        "miniBio"
       ]
+    },
+    "prefix": {
+      "type": "string"
     }
   },
   "supports": {
@@ -37,7 +42,9 @@
     "staffPostId",
     "staffName",
     "staffJobTitle",
-    "staffTwitter"
+    "staffTwitter",
+    "staffBio",
+    "staffMiniBio"
   ],
   "ancestor": [
     "prc-block/bylines-query",
