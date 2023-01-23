@@ -36,42 +36,10 @@ function InspectorPanel({ attributes, setAttributes }) {
 	);
 }
 
-function Toolbar({ attributes, setAttributes, context }) {
-	const { myNewAttribute } = attributes;
-
-	const MemoizedIconValue = useCallback(() => {
-		if (myNewAttribute) {
-			return 'admin-site';
-		}
-		return 'admin-site-alt';
-	}, [myNewAttribute]);
-
+function Toolbar() {
 	return (
 		<BlockControls>
-			<ToolbarGroup>
-				<ToolbarDropdownMenu
-					icon={MemoizedIconValue}
-					label="Select Option"
-					controls={[
-						{
-							title: 'A',
-							icon: 'admin-site',
-							isActive: true === myNewAttribute,
-							onClick: () => {
-								setAttributes({ myNewAttribute: true });
-							},
-						},
-						{
-							title: 'B',
-							icon: 'admin-site-alt',
-							isActive: false === myNewAttribute,
-							onClick: () => {
-								setAttributes({ myNewAttribute: false });
-							},
-						},
-					]}
-				/>
-			</ToolbarGroup>
+			<ToolbarGroup />
 		</BlockControls>
 	);
 }
