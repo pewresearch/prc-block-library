@@ -26,17 +26,19 @@ import { registerBlockType } from '@wordpress/blocks';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import Edit from './Edit';
+import Icon from './Icon';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
+	icon: Icon,
 	__experimentalLabel: ({ title }) => title || 'Menu Item', // Will change the label to match the title, #experimental.
 	/**
 	 * @see ./Edit.jsx
 	 */
-	edit: Edit
+	edit: Edit,
 };
 
 /**
@@ -44,4 +46,4 @@ const settings = {
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-registerBlockType( name, { ...metadata, ...settings } );
+registerBlockType(name, { ...metadata, ...settings });

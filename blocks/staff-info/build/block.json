@@ -15,11 +15,16 @@
         "twitter",
         "expertise",
         "bio",
-        "miniBio"
+        "miniBio",
+        "image"
       ]
     },
     "prefix": {
       "type": "string"
+    },
+    "imageWidth": {
+      "type": "number",
+      "default": 100
     }
   },
   "supports": {
@@ -44,7 +49,8 @@
     "staffJobTitle",
     "staffTwitter",
     "staffBio",
-    "staffMiniBio"
+    "staffMiniBio",
+    "staffImage"
   ],
   "ancestor": [
     "prc-block/bylines-query",

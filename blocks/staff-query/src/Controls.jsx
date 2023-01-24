@@ -37,6 +37,24 @@ export function TaxonomyTermControl({ attributes, setAttributes }) {
 					setAttributes({ staffType: term });
 				}}
 			/>
+			<TermSelect
+				maxTerms={1}
+				value={
+					has(staffType, 'name')
+						? [
+								{
+									value: staffType.name,
+									title: staffType.name,
+								},
+						  ]
+						: []
+				}
+				taxonomy="research-teams"
+				usePrimaryRestAPI
+				onChange={(term) => {
+					setAttributes({ staffType: term });
+				}}
+			/>
 		</ComboControl>
 	);
 }

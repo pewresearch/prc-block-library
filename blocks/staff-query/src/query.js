@@ -7,13 +7,19 @@ import { addQueryArgs } from '@wordpress/url';
 export default function query({ staffType, researchArea }) {
 	// extract id from staffType object if it exists.
 	const staffTypeId = staffType ? staffType.id : null;
-	const newArgs = {};
+	const args = {
+		per_page: 100,
+	};
 	if (staffTypeId) {
-		newArgs['staff-type'] = staffTypeId;
+		args['staff-type'] = staffTypeId;
+	}
+	if (researchArea) {
+		const researchAreaId = researchArea ? researchArea.id : null;
+		args['research-area'] = researchAreaId;
 	}
 	const endpointUrl = addQueryArgs(
 		`${window.location.origin}/wp-json/wp/v2/staff`,
-		newArgs,
+		args,
 	);
 
 	return new Promise((resolve) => {
