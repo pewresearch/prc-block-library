@@ -13,8 +13,10 @@
 .wp-block-prc-block-form-input-dropdown:not(.is-active) {
 	// display: none;
 	visibility: hidden;
+	height: 30px;
 }
 
 .wp-block-prc-block-form-input-dropdown:not(.is-active) > :first-child {
+	// display: block;
 	visibility: visible;
 }

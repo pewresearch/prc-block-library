@@ -72,6 +72,26 @@ domReady(() => {
 			value: option.attributes['data-value'].value,
 			index,
 		}));
+
+		const dropDownBlockArgs = {
+			active: false || 'wp-block-prc-block-form-input-dropdown--active',
+		};
+		if (!window.prcBlocks) {
+			window.prcBlocks = dropDownBlockArgs;
+		} else {
+			window.prcBlocks['form-input-dropdown'] = dropDownBlockArgs;
+		}
+
+		// Run this on dropdown initial click....
+		function checkId(elm) {
+			const id = elm.getAttribute('id');
+			const { active } = window.prcBlocks.dropDownBlockArgs;
+			if (false !== id && active !== id) {
+				// do close function against window.prcBlocks.dropDownBlockArgs.active id
+				console.log('CLOSING OTHER DROPDOWNS');
+			}
+		}
+
 		// Render the Dropdown component.
 		render(
 			<Dropdown
@@ -84,6 +104,7 @@ domReady(() => {
 					multipleSearch,
 					placeholder,
 					inline,
+					checkId,
 				}}
 			/>,
 			attachPoint,

@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('prc-components', 'wp-dom-ready', 'wp-element', 'wp-polyfill'), 'version' => 'b349e4a9d65f6efaf06d');
+<?php return array('dependencies' => array('prc-components', 'wp-dom-ready', 'wp-element', 'wp-polyfill'), 'version' => 'e87863e8cec0ec3e924d');
