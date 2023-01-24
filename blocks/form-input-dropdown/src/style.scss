@@ -10,6 +10,7 @@
 	background: inherit;
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
 
 .wp-block-prc-block-form-input-dropdown--inline {
@@ -58,14 +59,23 @@
 	margin-top: 0;
 	overflow: auto;
 	overflow-x: hidden;
+	position: absolute;
+	background-color: white;
+	width: 100%;
+	z-index: 4;
+	top: 100%;
+	border: 1px solid rgba(34, 36, 38, 0.15);
+	border-radius: 0.25rem;
 
 	&__item {
+		padding: 0.1rem 0.25rem 0.1rem 0.25rem;
 		&:hover {
 			cursor: pointer;
 			background-color: #f1f1f1;
 		}
 		&--selected {
 			background-color: #f1f1f1;
+			padding: 0.1rem 0.25rem 0.1rem 0.25rem;
 		}
 		&--no-results {
 			color: gray;
@@ -116,9 +126,17 @@
 	margin-top: 0;
 	overflow: auto;
 	overflow-x: hidden;
+	position: absolute;
+	background-color: white;
+	width: 100%;
+	z-index: 4;
+	top: 100%;
+	border: 1px solid rgba(34, 36, 38, 0.15);
+	border-radius: 0.25rem;
 
 	&__item {
 		list-style-type: none;
+		padding: 0.1rem 0.25rem 0.1rem 0.25rem;
 
 		&:hover {
 			cursor: pointer;
