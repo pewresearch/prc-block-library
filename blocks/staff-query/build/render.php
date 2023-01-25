@@ -18,22 +18,13 @@ $block_instance = $block->parsed_block;
 // This ensures that for the inner instances of the Staff Query block, we do not render any block supports.
 $block_instance['blockName'] = 'core/null';
 
-foreach( $staff_posts as $staff_post ) {
+foreach( $staff_posts as $staff_post_context ) {
 	// Render the inner blocks of the Staff Query block with `dynamic` set to `false` to prevent calling
 	// `render_callback` and ensure that no wrapper markup is included.
 	$block_content .= (
 		new WP_Block(
 			$block_instance,
-			array(
-				'staffPostId'  => '',
-				'staffName'   => '',
-				'staffJobTitle' => '',
-				'staffTwitter' => '',
-				'staffBio' => '',
-				'staffMiniBio' => '',
-				'staffImage' => '',
-				'staffExpertise' => '',
-			)
+			$staff_post_context
 		)
 	)->render( array( 'dynamic' => false ) );
 }

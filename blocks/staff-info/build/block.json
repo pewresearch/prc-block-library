@@ -10,13 +10,13 @@
     "valueToFetch": {
       "type": "string",
       "enum": [
-        "name",
-        "jobTitle",
-        "twitter",
-        "expertise",
-        "bio",
-        "miniBio",
-        "image"
+        "staffName",
+        "staffJobTitle",
+        "staffTwitter",
+        "staffExpertise",
+        "staffBio",
+        "staffMiniBio",
+        "staffImage"
       ]
     },
     "prefix": {
@@ -44,7 +44,6 @@
   },
   "usesContext": [
     "bylineTermId",
-    "staffPostId",
     "staffName",
     "staffJobTitle",
     "staffTwitter",

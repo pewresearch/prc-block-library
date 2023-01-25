@@ -21,6 +21,26 @@ class StaffQuery extends PRC_Block_Library {
 		}
 	}
 
+	public function get_expertise( $post_id ) {
+		$terms     = get_the_terms( $post_id, 'areas-of-expertise' );
+		$expertise = array();
+		if ( $terms ) {
+			foreach ( $terms as $term ) {
+				// if $term is wp error and or is not a term object then skip it.
+				if ( is_wp_error( $term ) || ! is_object( $term ) ) {
+					continue;
+				}
+				$link        = get_term_link( $term, 'areas-of-expertise' );
+				$expertise[] = array(
+					'url'   => $link,
+					'label' => $term->name,
+					'slug'  => $term->slug,
+				);
+			}
+		}
+		return $expertise;
+	}
+
 	public function query_staff_posts( $attributes = array() ) {
 		$staff_type = array_key_exists( 'staffType', $attributes ) ? $attributes['staffType'] : false;
 		$research_area = array_key_exists( 'researchArea', $attributes ) ? $attributes['researchArea'] : false;
@@ -50,12 +70,32 @@ class StaffQuery extends PRC_Block_Library {
 			'order' => 'ASC',
 		);
 		if ( count( $tax_query ) > 0 ) {
-			// $query_args['tax_query'] = $tax_query;
+			$query_args['tax_query'] = $tax_query;
 		}
+
+		$staff_posts = array();
 
 		switch_to_blog(1);
 
-		$staff_posts = new WP_Query($query_args);
+		$staff_query = new WP_Query($query_args);
+
+		if ( $staff_query->have_posts() ) {
+			while ( $staff_query->have_posts() ) {
+				$staff_query->the_post();
+				$staff_post_id = get_the_ID();
+				$name = get_the_title();
+				$expertise_term_links = $this->get_expertise( $staff_post_id );
+				$staff_posts[] = array(
+					'staffName'      => $name,
+					'staffJobTitle'  => get_post_meta( $staff_post_id, 'job_title', true ),
+					'staffImage'     => false,
+					'staffTwitter'   => get_post_meta( $staff_post_id, 'twitter', true ),
+					'staffExpertise' => $expertise_term_links,
+					'staffBio'       => get_the_content(null, false, $staff_post_id),
+					'staffMiniBio'   => get_post_meta( $staff_post_id, 'job_title_mini_bio', true ),
+				);
+			}
+		}
 
 		wp_reset_postdata();
 

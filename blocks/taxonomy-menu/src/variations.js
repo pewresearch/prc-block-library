@@ -19,6 +19,7 @@ const variations = [
 			},
 		},
 		isActive: ({ layout }) => 'horizontal' === layout.orientation,
+		scope: ['inserter', 'transform'],
 	},
 	{
 		name: 'taxonomy-menu-list',
@@ -32,6 +33,7 @@ const variations = [
 			},
 		},
 		isActive: ({ layout }) => 'vertical' === layout.orientation,
+		scope: ['inserter', 'transform'],
 	},
 ];
 

@@ -16,7 +16,7 @@ import { has } from 'lodash';
 const ComboControl = styled('div')``;
 
 export function TaxonomyTermControl({ attributes, setAttributes }) {
-	const { staffType } = attributes;
+	const { staffType, researchArea } = attributes;
 	return (
 		<ComboControl>
 			<TermSelect
@@ -40,11 +40,11 @@ export function TaxonomyTermControl({ attributes, setAttributes }) {
 			<TermSelect
 				maxTerms={1}
 				value={
-					has(staffType, 'name')
+					has(researchArea, 'name')
 						? [
 								{
-									value: staffType.name,
-									title: staffType.name,
+									value: researchArea.name,
+									title: researchArea.name,
 								},
 						  ]
 						: []
@@ -52,7 +52,7 @@ export function TaxonomyTermControl({ attributes, setAttributes }) {
 				taxonomy="research-teams"
 				usePrimaryRestAPI
 				onChange={(term) => {
-					setAttributes({ staffType: term });
+					setAttributes({ researchArea: term });
 				}}
 			/>
 		</ComboControl>

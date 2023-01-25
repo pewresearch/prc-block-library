@@ -65,7 +65,6 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const { maxWidth } = attributes;
 	const [isFlipped, toggleFlip] = useState(false);
 	const doFlip = () => {
 		toggleFlip(!isFlipped);
@@ -75,9 +74,6 @@ export default function Edit({
 		className: classNames({
 			'is-flipped': isFlipped,
 		}),
-		style: {
-			maxWidth: maxWidth ? `${maxWidth}px` : '100%',
-		},
 	});
 	const innerBlocksProps = useInnerBlocksProps(
 		{},

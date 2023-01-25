@@ -97,39 +97,15 @@ export default function Edit({
 	const [isImage, setIsImage] = useState(false);
 
 	useEffect(() => {
-		const {
-			bylineTermId,
-			staffName,
-			staffJobTitle,
-			staffTwitter,
-			staffBio,
-			staffMiniBio,
-			staffImage,
-		} = context;
-
-		if (undefined !== bylineTermId) {
-			fetchByline(bylineTermId, valueToFetch).then((v) => {
+		if (undefined !== context.bylineTermId) {
+			fetchByline(context.bylineTermId, valueToFetch).then((v) => {
 				setStaffValue(v);
 			});
-		}
-		if (undefined !== staffName && 'name' === valueToFetch) {
-			setStaffValue(staffName);
-		}
-		if (undefined !== staffJobTitle && 'jobTitle' === valueToFetch) {
-			setStaffValue(staffJobTitle);
-		}
-		if (undefined !== staffTwitter && 'twitter' === valueToFetch) {
-			setStaffValue(staffTwitter);
-		}
-		if (undefined !== staffBio && 'bio' === valueToFetch) {
-			setStaffValue(staffBio);
-		}
-		if (undefined !== staffMiniBio && 'miniBio' === valueToFetch) {
-			setStaffValue(staffMiniBio);
-		}
-		if (undefined !== staffImage && 'image' === valueToFetch) {
-			setStaffValue(staffImage);
-			setIsImage(true);
+		} else if (undefined !== context[valueToFetch]) {
+			setStaffValue(context[valueToFetch]);
+			if ('image' === valueToFetch) {
+				setIsImage(true);
+			}
 		}
 	}, [context, valueToFetch]);
 

@@ -30,6 +30,7 @@ import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
 import Save from './Save';
+import transforms from './transforms';
 import variations from './variations';
 
 import metadata from './block.json';
@@ -46,6 +47,11 @@ const settings = {
 	 * @see ./Save.jsx
 	 */
 	save: Save,
+	/**
+	 * @see ./transforms.js
+	 * @see https://developer.wordpress.org/block-editor/developers/block-api/block-registration/#transforms-optional
+	 */
+	transforms,
 	/**
 	 * @see ./variations.js
 	 * @see https://developer.wordpress.org/block-editor/developers/block-api/block-variations/
