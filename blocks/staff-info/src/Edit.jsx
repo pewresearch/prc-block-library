@@ -13,6 +13,7 @@ import { ResizableBox } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
+import Controls from './Controls';
 import { fetchByline } from './utils';
 
 function getPlaceholderValue(valueToFetch) {
@@ -112,27 +113,31 @@ export default function Edit({
 	const blockProps = useBlockProps();
 
 	if (isImage && !staffValue) {
+		// eslint-disable-next-line react/jsx-no-useless-fragment
 		return <Fragment />;
 	}
 
 	return (
-		<div {...blockProps}>
-			{!isImage && (
-				<StaffInfo
-					attributes={attributes}
-					setAttributes={setAttributes}
-					value={staffValue}
-				/>
-			)}
-			{isImage && (
-				<StaffImage
-					attributes={attributes}
-					setAttributes={setAttributes}
-					value={staffValue}
-					toggleSelection={toggleSelection}
-					isSelected={isSelected}
-				/>
-			)}
-		</div>
+		<Fragment>
+			<Controls {...{ attributes, setAttributes }} />
+			<div {...blockProps}>
+				{!isImage && (
+					<StaffInfo
+						attributes={attributes}
+						setAttributes={setAttributes}
+						value={staffValue}
+					/>
+				)}
+				{isImage && (
+					<StaffImage
+						attributes={attributes}
+						setAttributes={setAttributes}
+						value={staffValue}
+						toggleSelection={toggleSelection}
+						isSelected={isSelected}
+					/>
+				)}
+			</div>
+		</Fragment>
 	);
 }

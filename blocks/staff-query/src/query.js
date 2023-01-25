@@ -9,6 +9,9 @@ export default function query({ staffType, researchArea }) {
 	const staffTypeId = staffType ? staffType.id : null;
 	const args = {
 		per_page: 100,
+		orderby: 'last_name',
+		order: 'asc',
+		fields: 'id,slug,title,type,name,staffInfo',
 	};
 	if (staffTypeId) {
 		args['staff-type'] = staffTypeId;
@@ -36,6 +39,7 @@ export default function query({ staffType, researchArea }) {
 					staffMiniBio: item.staffInfo.miniBio,
 					staffImage: item.staffInfo.image,
 					staffExpertise: item.staffInfo.expertise,
+					staffLink: `/staff/${item.slug}`,
 				})),
 			);
 		});

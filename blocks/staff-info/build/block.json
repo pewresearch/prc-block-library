@@ -16,15 +16,16 @@
         "staffExpertise",
         "staffBio",
         "staffMiniBio",
-        "staffImage"
+        "staffImage",
+        "staffLink"
       ]
     },
     "prefix": {
       "type": "string"
     },
-    "imageWidth": {
-      "type": "number",
-      "default": 100
+    "enableLink": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {

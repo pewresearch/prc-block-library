@@ -170,6 +170,7 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 				{...{
 					attributes,
 					setAttributes,
+					clientId,
 				}}
 			/>
 			<div {...blockProps}>

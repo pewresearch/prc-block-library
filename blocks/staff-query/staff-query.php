@@ -16,7 +16,7 @@ class StaffQuery extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_action('init', array($this, 'block_init'));
+			add_action( 'init', array( $this, 'block_init' ) );
 			add_filter( 'prc_block_library_staff_query' , array( $this, 'query_staff_posts' ), 10, 1 );
 		}
 	}
@@ -66,7 +66,7 @@ class StaffQuery extends PRC_Block_Library {
 		$query_args = array(
 			'post_type' => 'staff',
 			'posts_per_page' => 100,
-			'orderby' => 'title',
+			'orderby' => 'last_name',
 			'order' => 'ASC',
 		);
 		if ( count( $tax_query ) > 0 ) {
@@ -93,6 +93,7 @@ class StaffQuery extends PRC_Block_Library {
 					'staffExpertise' => $expertise_term_links,
 					'staffBio'       => get_the_content(null, false, $staff_post_id),
 					'staffMiniBio'   => get_post_meta( $staff_post_id, 'job_title_mini_bio', true ),
+					'staffLink'      => get_the_permalink(),
 				);
 			}
 		}

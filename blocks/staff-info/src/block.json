@@ -9,14 +9,14 @@
 	"attributes": {
 		"valueToFetch": {
 			"type":"string",
-			"enum": [ "staffName", "staffJobTitle", "staffTwitter", "staffExpertise", "staffBio", "staffMiniBio", "staffImage" ]
+			"enum": [ "staffName", "staffJobTitle", "staffTwitter", "staffExpertise", "staffBio", "staffMiniBio", "staffImage", "staffLink" ]
 		},
 		"prefix": {
 			"type": "string"
 		},
-		"imageWidth": {
-			"type": "number",
-			"default": 100
+		"enableLink": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
