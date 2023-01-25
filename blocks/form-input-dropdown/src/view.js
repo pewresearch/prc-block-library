@@ -42,19 +42,34 @@ function onChange(value) {
 }
 
 domReady(() => {
+	const dropDownBlockArgs = {
+		active: false,
+	};
+	if (!window.prcBlocks) {
+		window.prcBlocks = {
+			'form-input-dropdown': dropDownBlockArgs,
+		};
+	} else {
+		window.prcBlocks['form-input-dropdown'] = dropDownBlockArgs;
+	}
+
 	const dropdowns = document.querySelectorAll(
 		'.wp-block-prc-block-form-input-dropdown',
 	);
 	dropdowns.forEach((elm) => {
 		// Gather the classes and styles from the dropdown element.
 		const classes = elm.getAttribute('class');
+		const id = elm.getAttribute('id');
 
 		// Variations attributes
 		const search = elm.getAttribute('search');
 		const multiple = elm.getAttribute('multiple');
 		const multipleSearch = elm.getAttribute('multiple-search');
+
+		// Control attributes
 		const placeholder = elm.getAttribute('placeholder');
 		const inline = elm.getAttribute('inline');
+		const animated = elm.getAttribute('animated');
 
 		// Create an element to render the dropdown into.
 		const attachPoint = document.createElement('div');
@@ -73,30 +88,12 @@ domReady(() => {
 			index,
 		}));
 
-		const dropDownBlockArgs = {
-			active: false || 'wp-block-prc-block-form-input-dropdown--active',
-		};
-		if (!window.prcBlocks) {
-			window.prcBlocks = dropDownBlockArgs;
-		} else {
-			window.prcBlocks['form-input-dropdown'] = dropDownBlockArgs;
-		}
-
-		// Run this on dropdown initial click....
-		function checkId(elm) {
-			const id = elm.getAttribute('id');
-			const { active } = window.prcBlocks.dropDownBlockArgs;
-			if (false !== id && active !== id) {
-				// do close function against window.prcBlocks.dropDownBlockArgs.active id
-				console.log('CLOSING OTHER DROPDOWNS');
-			}
-		}
-
 		// Render the Dropdown component.
 		render(
 			<Dropdown
 				{...{
 					className: classes,
+					id,
 					options: parsedOptions,
 					onChange,
 					search,
@@ -104,7 +101,7 @@ domReady(() => {
 					multipleSearch,
 					placeholder,
 					inline,
-					checkId,
+					animated,
 				}}
 			/>,
 			attachPoint,

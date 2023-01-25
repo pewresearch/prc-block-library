@@ -31,6 +31,10 @@
 		"inline": {
 			"type": "boolean",
 			"default": false
+		},
+		"animated": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

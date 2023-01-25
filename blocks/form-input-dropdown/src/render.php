@@ -7,11 +7,13 @@
 // $block (WP_Block): The block instance.
 
 $block_wrapper_attrs = get_block_wrapper_attributes( array(
+	'id' => md5(wp_json_encode($attributes)),
 	'search' => $attributes['search'],
 	'multiple' => $attributes['multiple'],
 	'multiple-search' => $attributes['multipleSearch'],
 	'placeholder' => $attributes['placeholder'],
 	'inline' => $attributes['inline'],
+	'animated' => $attributes['animated'],
 	
 ));
 

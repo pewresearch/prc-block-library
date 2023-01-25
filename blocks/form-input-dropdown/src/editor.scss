@@ -19,4 +19,7 @@
 .wp-block-prc-block-form-input-dropdown:not(.is-active) > :first-child {
 	// display: block;
 	visibility: visible;
+	border: 1px solid rgba(34, 36, 38, 0.15);
+	width: 100%;
+	text-align: center;
 }

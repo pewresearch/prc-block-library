@@ -23,7 +23,7 @@ import {
 import { useEntityProp } from '@wordpress/core-data';
 
 function InspectorPanel({ attributes, setAttributes }) {
-	const { placeholder, inline } = attributes;
+	const { placeholder, inline, animated } = attributes;
 
 	return (
 		<InspectorControls>
@@ -38,6 +38,13 @@ function InspectorPanel({ attributes, setAttributes }) {
 					checked={inline}
 					onChange={() => {
 						setAttributes({ inline: !inline });
+					}}
+				/>
+				<ToggleControl
+					label="Animated?"
+					checked={animated}
+					onChange={() => {
+						setAttributes({ animated: !animated });
 					}}
 				/>
 			</PanelBody>
