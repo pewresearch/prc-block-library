@@ -122,6 +122,7 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 			return [];
 		}
 		return bylineTermIds?.map((termId) => {
+			console.log("TERMID: ", termId);
 			return {
 				bylineTermId: termId,
 			};

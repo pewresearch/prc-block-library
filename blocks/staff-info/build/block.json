@@ -50,7 +50,8 @@
     "staffTwitter",
     "staffBio",
     "staffMiniBio",
-    "staffImage"
+    "staffImage",
+    "staffLink"
   ],
   "ancestor": [
     "prc-block/bylines-query",

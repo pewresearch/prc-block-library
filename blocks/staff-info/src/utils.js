@@ -34,10 +34,9 @@ export function fetchByline(termId, valueToFetch) {
 			path: `/wp/v2/bylines/${termId}`,
 		}).then((byline) => {
 			// eslint-disable-next-line camelcase
-			const { name, staff_info } = byline;
-			const value =
-				// eslint-disable-next-line camelcase
-				'name' !== valueToFetch ? staff_info[`${valueToFetch}`] : name;
+			const { staffInfo } = byline;
+			console.log('bylines staffInfo...', staffInfo);
+			const value = staffInfo[`${valueToFetch}`];
 			return resolve(value);
 		});
 	});

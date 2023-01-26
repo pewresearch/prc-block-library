@@ -31,14 +31,7 @@ export default function query({ staffType, researchArea }) {
 			resolve(
 				posts.map((item) => ({
 					staffPostId: item.id,
-					staffName: item.staffInfo.name,
-					staffJobTitle: item.staffInfo.jobTitle,
-					staffTwitter: item.staffInfo.twitter,
-					staffBio: item.staffInfo.bio,
-					staffMiniBio: item.staffInfo.miniBio,
-					staffImage: item.staffInfo.image,
-					staffExpertise: item.staffInfo.expertise,
-					staffLink: `/staff/${item.slug}`,
+					...item.staffInfo,
 				})),
 			);
 		});

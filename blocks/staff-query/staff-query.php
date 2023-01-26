@@ -93,7 +93,7 @@ class StaffQuery extends PRC_Block_Library {
 					'staffExpertise' => $expertise_term_links,
 					'staffBio'       => get_the_content(null, false, $staff_post_id),
 					'staffMiniBio'   => get_post_meta( $staff_post_id, 'job_title_mini_bio', true ),
-					'staffLink'      => get_the_permalink(),
+					'staffLink'      => home_url( '/staff/' . get_post_field( 'post_name' ) ),
 				);
 			}
 		}

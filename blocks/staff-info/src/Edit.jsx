@@ -8,7 +8,6 @@
  */
 import { Fragment, useState, useEffect, RawHTML } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
-import { ResizableBox } from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -22,18 +21,18 @@ function getPlaceholderValue(valueToFetch) {
 		0.5 > Math.random() ? 'Editor...' : 'Associate Director...';
 	/* eslint-disable indent */
 	switch (valueToFetch) {
-		case 'name':
+		case 'staffName':
 			// return randomly either John or Jane Doe
 			return 0.5 > Math.random() ? 'John Doe' : 'Jane Doe';
-		case 'jobTitle':
+		case 'staffJobTitle':
 			// return randomly either Editor or Associate Director
 			return randomJobTitle;
-		case 'twitter':
+		case 'staffTwitter':
 			// return randomly either @jane_doe or @john_doe
 			return 0.5 > Math.random() ? '@john_doe' : '@jane_doe';
-		case 'miniBio':
+		case 'staffMiniBio':
 			return `an ${randomJobTitle} at Pew Research Center `;
-		case 'bio':
+		case 'staffBio':
 			return `Laboris eiusmod culpa sit culpa qui aliqua esse excepteur aliquip. Quis reprehenderit eiusmod ipsum irure officia anim veniam fugiat labore officia reprehenderit velit in commodo. Tempor eu veniam sit culpa officia ullamco. Sit est commodo duis laborum. Dolor sint est exercitation enim ut in ea proident dolore officia. Ullamco est sit veniam aliquip tempor proident deserunt velit eiusmod pariatur velit. Irure nostrud mollit esse reprehenderit consectetur aliqua dolore fugiat ut enim. Magna cillum non deserunt laboris esse aliquip dolore esse voluptate reprehenderit nulla qui commodo commodo et. Deserunt fugiat minim aute excepteur irure voluptate pariatur reprehenderit cupidatat enim nisi in occaecat. Est incididunt esse aute do. Laboris ad eu et irure. Do quis laborum veniam minim in elit non ea dolore fugiat irure.`;
 		default:
 			return false;
@@ -56,14 +55,7 @@ function StaffInfo({ attributes, setAttributes, value }) {
 	);
 }
 
-function StaffImage({
-	attributes,
-	setAttributes,
-	value,
-	toggleSelection,
-	isSelected = false,
-}) {
-	const { imageWidth } = attributes;
+function StaffImage({ value }) {
 	const src = value[0];
 	const width = value[1];
 	const height = value[2];
@@ -101,10 +93,13 @@ export default function Edit({
 		if (undefined !== context.bylineTermId) {
 			fetchByline(context.bylineTermId, valueToFetch).then((v) => {
 				setStaffValue(v);
+				if ('staffImage' === valueToFetch) {
+					setIsImage(true);
+				}
 			});
 		} else if (undefined !== context[valueToFetch]) {
 			setStaffValue(context[valueToFetch]);
-			if ('image' === valueToFetch) {
+			if ('staffImage' === valueToFetch) {
 				setIsImage(true);
 			}
 		}
@@ -128,15 +123,7 @@ export default function Edit({
 						value={staffValue}
 					/>
 				)}
-				{isImage && (
-					<StaffImage
-						attributes={attributes}
-						setAttributes={setAttributes}
-						value={staffValue}
-						toggleSelection={toggleSelection}
-						isSelected={isSelected}
-					/>
-				)}
+				{isImage && <StaffImage value={staffValue} />}
 			</div>
 		</Fragment>
 	);

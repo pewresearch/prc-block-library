@@ -38,7 +38,8 @@
 		"staffTwitter",
 		"staffBio",
 		"staffMiniBio",
-		"staffImage"
+		"staffImage",
+		"staffLink"
 	],
 	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query" ],
 	"textdomain": "staff-info",

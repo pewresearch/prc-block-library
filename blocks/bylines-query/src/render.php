@@ -6,11 +6,31 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
-$block_wrapper_attrs = get_block_wrapper_attributes();
+$bylines = apply_filters( 'prc_block_library_bylines_query', get_the_ID() );
 
-// You can use this method...
+$block_attrs = get_block_wrapper_attributes();
+
+$block_content = '';
+
+$block_instance = $block->parsed_block;
+
+// Set the block name to one that does not correspond to an existing registered block.
+// This ensures that for the inner instances of the Staff Query block, we do not render any block supports.
+$block_instance['blockName'] = 'core/null';
+
+foreach( $bylines as $byline_context ) {
+	// Render the inner blocks of the Bylines Query block with `dynamic` set to `false` to prevent calling
+	// `render_callback` and ensure that no wrapper markup is included.
+	$block_content .= (
+		new WP_Block(
+			$block_instance,
+			$byline_context
+		)
+	)->render( array( 'dynamic' => false ) );
+}
+
 echo wp_sprintf(
 	'<div %1$s>%2$s</div>',
-	$block_wrapper_attrs,
-	$content,
+	$block_attrs,
+	$block_content
 );
