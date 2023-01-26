@@ -24,7 +24,6 @@ export default function query({ staffType, researchArea }) {
 		`${window.location.origin}/wp-json/wp/v2/staff`,
 		args,
 	);
-
 	return new Promise((resolve) => {
 		apiFetch({
 			url: endpointUrl,
