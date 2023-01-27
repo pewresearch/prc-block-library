@@ -136,7 +136,6 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 
 	useEffect(() => {
 		query(attributes).then(newStaffPosts => {
-			console.log("Query results: ", newStaffPosts);
 			setStaffPosts(newStaffPosts);
 		});
 	}, [clientId, attributes]);
@@ -171,6 +170,7 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 				{...{
 					attributes,
 					setAttributes,
+					clientId,
 				}}
 			/>
 			<div {...blockProps}>

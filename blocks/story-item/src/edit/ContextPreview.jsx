@@ -49,7 +49,7 @@ const IMAGE_SIZES = {
 export default function ContextPreview({ attributes, clientId, context }) {
 	const { postId, postType } = context;
 	const { record, isResolving } = useEntityRecord('postType', postType, postId);
-	console.log('record', postType, postId, record);
+	// console.log('record', postType, postId, record);
 
 	const { title, excerpt, label, date, art } = record;
 
@@ -84,13 +84,13 @@ export default function ContextPreview({ attributes, clientId, context }) {
 
 	const excerptClasses = classNames('description');
 
-	console.log('ContextPreview', {
-		attributes,
-		clientId,
-		context,
-		record,
-		isResolving,
-	});
+	// console.log('ContextPreview', {
+	// 	attributes,
+	// 	clientId,
+	// 	context,
+	// 	record,
+	// 	isResolving,
+	// });
 
 	const displayImage =
 		art &&
@@ -116,11 +116,11 @@ export default function ContextPreview({ attributes, clientId, context }) {
 
 	const blockProps = useBlockProps(blockPropsArgs);
 
-	useEffect(() => {
-		if (record) {
-			console.log('record', record);
-		}
-	}, [record]);
+	// useEffect(() => {
+	// 	if (record) {
+	// 		console.log('record', record);
+	// 	}
+	// }, [record]);
 
 	if (isResolving) {
 		return (

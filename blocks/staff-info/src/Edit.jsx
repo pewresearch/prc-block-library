@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /**
  * External Dependencies
  */
@@ -5,15 +6,61 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { useBlockProps } from '@wordpress/block-editor';
-import apiFetch from '@wordpress/api-fetch';
+import { Fragment, useState, useEffect, RawHTML } from '@wordpress/element';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
+import Controls from './Controls';
 import { fetchByline } from './utils';
+
+function getPlaceholderValue(valueToFetch) {
+	// console.log('getPlaceholderValue', valueToFetch);
+	const randomJobTitle =
+		0.5 > Math.random() ? 'Editor...' : 'Associate Director...';
+	/* eslint-disable indent */
+	switch (valueToFetch) {
+		case 'staffName':
+			// return randomly either John or Jane Doe
+			return 0.5 > Math.random() ? 'John Doe' : 'Jane Doe';
+		case 'staffJobTitle':
+			// return randomly either Editor or Associate Director
+			return randomJobTitle;
+		case 'staffTwitter':
+			// return randomly either @jane_doe or @john_doe
+			return 0.5 > Math.random() ? '@john_doe' : '@jane_doe';
+		case 'staffMiniBio':
+			return `an ${randomJobTitle} at Pew Research Center `;
+		case 'staffBio':
+			return `Laboris eiusmod culpa sit culpa qui aliqua esse excepteur aliquip. Quis reprehenderit eiusmod ipsum irure officia anim veniam fugiat labore officia reprehenderit velit in commodo. Tempor eu veniam sit culpa officia ullamco. Sit est commodo duis laborum. Dolor sint est exercitation enim ut in ea proident dolore officia. Ullamco est sit veniam aliquip tempor proident deserunt velit eiusmod pariatur velit. Irure nostrud mollit esse reprehenderit consectetur aliqua dolore fugiat ut enim. Magna cillum non deserunt laboris esse aliquip dolore esse voluptate reprehenderit nulla qui commodo commodo et. Deserunt fugiat minim aute excepteur irure voluptate pariatur reprehenderit cupidatat enim nisi in occaecat. Est incididunt esse aute do. Laboris ad eu et irure. Do quis laborum veniam minim in elit non ea dolore fugiat irure.`;
+		default:
+			return false;
+	}
+}
+
+function StaffInfo({ attributes, setAttributes, value }) {
+	const { prefix } = attributes;
+	return (
+		<Fragment>
+			<RichText
+				tagName="span"
+				value={prefix}
+				onChange={(newPrefix) => setAttributes({ prefix: newPrefix })}
+				allowedFormats={['']}
+				multiline={false}
+			/>
+			<RawHTML>{value}</RawHTML>
+		</Fragment>
+	);
+}
+
+function StaffImage({ value }) {
+	const src = value[0];
+	const width = value[1];
+	const height = value[2];
+	return <img src={src} width={width} height={height} />;
+}
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -33,33 +80,51 @@ export default function Edit({
 	context,
 	clientId,
 	isSelected,
+	toggleSelection,
 }) {
-	const { valueToFetch } = attributes;
+	const { valueToFetch, prefix } = attributes;
 
-	const { bylineTermId, staffName, staffJobTitle, staffTwitter } = context;
-
-	console.log('Context', context);
-
-	const [staffValue, setStaffValue] = useState('Jane Doe');
+	const [staffValue, setStaffValue] = useState(
+		getPlaceholderValue(valueToFetch),
+	);
+	const [isImage, setIsImage] = useState(false);
 
 	useEffect(() => {
-		if (undefined !== bylineTermId) {
-			fetchByline(bylineTermId, valueToFetch).then((v) => {
+		if (undefined !== context.bylineTermId) {
+			fetchByline(context.bylineTermId, valueToFetch).then((v) => {
 				setStaffValue(v);
+				if ('staffImage' === valueToFetch) {
+					setIsImage(true);
+				}
 			});
+		} else if (undefined !== context[valueToFetch]) {
+			setStaffValue(context[valueToFetch]);
+			if ('staffImage' === valueToFetch) {
+				setIsImage(true);
+			}
 		}
-		if (undefined !== staffName && 'name' === valueToFetch) {
-			setStaffValue(staffName);
-		}
-		if (undefined !== staffJobTitle && 'jobTitle' === valueToFetch) {
-			setStaffValue(staffJobTitle);
-		}
-		if (undefined !== staffTwitter && 'twitter' === valueToFetch) {
-			setStaffValue(staffTwitter);
-		}
-	}, [bylineTermId, staffName, staffJobTitle, staffTwitter, valueToFetch]);
+	}, [context, valueToFetch]);
 
 	const blockProps = useBlockProps();
 
-	return <div {...blockProps}>{staffValue}</div>;
+	if (isImage && !staffValue) {
+		// eslint-disable-next-line react/jsx-no-useless-fragment
+		return <Fragment />;
+	}
+
+	return (
+		<Fragment>
+			<Controls {...{ attributes, setAttributes }} />
+			<div {...blockProps}>
+				{!isImage && (
+					<StaffInfo
+						attributes={attributes}
+						setAttributes={setAttributes}
+						value={staffValue}
+					/>
+				)}
+				{isImage && <StaffImage value={staffValue} />}
+			</div>
+		</Fragment>
+	);
 }

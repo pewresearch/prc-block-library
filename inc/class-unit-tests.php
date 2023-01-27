@@ -3,19 +3,20 @@
 class UnitTests extends PRC_Block_Library {
 	protected static $site_id = 1;
 	protected static $page_id = null;
-	protected static $daily_update_check_cron_hook = 'prc_block_library_daily_update_check';
+	protected static $cron_hook = 'prc_job_run_at_10am';
 
 	public function __construct($init = false) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'initialize_unit_tests' ) );
 			add_action( 'wp_footer', array($this, 'inline_styling') );
 			add_action( 'admin_footer', array($this, 'inline_styling') );
+			add_action( self::$cron_hook, array( $this, 'run_cron_job' ) );
 		}
 	}
 
 	public function initialize_unit_tests() {
 		// Check if page already exists.
-		$unit_tests_page_id = get_network_option( null, 'prc_block_library_unit_tests_page_id' );
+		$unit_tests_page_id = get_site_option( 'prc_block_library_unit_tests_page_id', false );
 		self::$page_id = $unit_tests_page_id;
 		if ( false === $unit_tests_page_id ) {
 			// Create page for unit tests.
@@ -32,18 +33,15 @@ class UnitTests extends PRC_Block_Library {
 			$unit_tests_page_id = wp_insert_post($unit_tests_page);
 			restore_current_blog();
 
-			update_network_option( null, 'prc_block_library_unit_tests_page_id', $unit_tests_page_id );
+			update_site_option( 'prc_block_library_unit_tests_page_id', $unit_tests_page_id );
 		} else {
 			$updates = $this->check_for_updates();
 		}
 	}
 
-	public function schedule_cron_job() {
-	}
-
 	public function run_cron_job() {
 		// Check for updates.
-		// $this->check_for_updates();
+		$this->check_for_updates();
 	}
 
 	public function construct_unit_test($block_name, $input) {
@@ -79,7 +77,7 @@ class UnitTests extends PRC_Block_Library {
 			}
 		}
 
-		$unit_test_md5_hashes = get_network_option( null, 'prc_block_library_unit_tests_md5_hashes' );
+		$unit_test_md5_hashes = get_site_option( 'prc_block_library_unit_tests_md5_hashes', false );
 
 		return array(
 			'files' => $unit_test_files,
@@ -131,6 +129,10 @@ class UnitTests extends PRC_Block_Library {
 		return wp_sprintf( $page_template, $blocks, '66.66%', '33.33%', 2, $todo_list );
 	}
 
+	/**
+	 * Checks for changes to .unit-test.html files and updates the page if necessary.
+	 * @return void|array
+	 */
 	public function check_for_updates() {
 		if ( get_current_blog_id() !== self::$site_id ) {
 			return;
@@ -171,10 +173,10 @@ class UnitTests extends PRC_Block_Library {
 		// Check if the hashes have changed.
 		if ( $previous_md5_hashes !== $next_md5_hashes ) {
 			// Update the hashes.
-			update_network_option( null, 'prc_block_library_unit_tests_md5_hashes', $next_md5_hashes );
+			update_site_option( 'prc_block_library_unit_tests_md5_hashes', $next_md5_hashes );
 
 			// Update the unit test page.
-			$unit_tests_page_id = get_network_option( null, 'prc_block_library_unit_tests_page_id' );
+			$unit_tests_page_id = get_site_option( 'prc_block_library_unit_tests_page_id', false );
 			if ( false !== $unit_tests_page_id ) {
 				$page_content = $this->get_page_structure( $unit_test_content, $block_names );
 				$unit_tests_page = array(

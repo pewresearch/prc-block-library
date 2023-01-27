@@ -3,9 +3,9 @@
 	"apiVersion": 2,
 	"name": "prc-block/data-table",
 	"version": "0.1.0",
-	"title": "Data Table",
+	"title": "Data Table (WIP)",
 	"category": "media",
-	"description": "Beyond a simple html table, this block allows you to create rich data tables.",
+	"description": "WORK IN PROGRESS - DO NOT USE ON PRODUCTION. Beyond a simple html table, this block allows you to create rich data tables.",
 	"icon": "editor-table",
 	"attributes": {
 		"title": {

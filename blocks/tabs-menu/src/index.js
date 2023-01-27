@@ -5,11 +5,6 @@
  */
 
 /**
- * External Dependencies
- */
-import { navigation as icon } from '@wordpress/icons';
-
-/**
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
@@ -28,13 +23,14 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import Edit from './Edit';
 import Save from './Save';
+import Icon from './Icon';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	icon,
+	icon: Icon,
 	/**
 	 * @see ./Edit.jsx
 	 */

@@ -9,7 +9,14 @@
 	"attributes": {
 		"valueToFetch": {
 			"type":"string",
-			"enum": [ "name", "jobTitle", "twitter", "expertise" ]
+			"enum": [ "staffName", "staffJobTitle", "staffTwitter", "staffExpertise", "staffBio", "staffMiniBio", "staffImage", "staffLink" ]
+		},
+		"prefix": {
+			"type": "string"
+		},
+		"enableLink": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
@@ -26,10 +33,13 @@
 	},
 	"usesContext": [
 		"bylineTermId",
-		"staffPostId",
 		"staffName",
 		"staffJobTitle",
-		"staffTwitter"
+		"staffTwitter",
+		"staffBio",
+		"staffMiniBio",
+		"staffImage",
+		"staffLink"
 	],
 	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query" ],
 	"textdomain": "staff-info",

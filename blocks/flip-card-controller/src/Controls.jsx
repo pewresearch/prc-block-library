@@ -8,17 +8,7 @@
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-import {
-	BaseControl,
-	Button,
-	CardDivider,
-	PanelBody,
-	SelectControl,
-	TextControl,
-	ToolbarButton,
-	ToolbarGroup,
-	ResizableBox as WPComResizableBox,
-} from '@wordpress/components';
+import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 
 function Toolbar({ isFlipped, doFlip }) {
 	return (
@@ -27,8 +17,8 @@ function Toolbar({ isFlipped, doFlip }) {
 				<ToolbarButton
 					onClick={() => doFlip()}
 					isActive={isFlipped}
-					label="Flip"
-					icon="image-flip-horizontal"
+					label="Flip Over"
+					icon="image-rotate"
 				/>
 			</ToolbarGroup>
 		</BlockControls>
