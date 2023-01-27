@@ -15,7 +15,8 @@ import { Button, TreeSelect } from '@wordpress/components';
  * Internal Dependencies
  */
 import Controls from './Controls';
-import CollectionLinks from './CollectionLinks';
+import CollectionList from './CollectionList';
+import CollectionDropdown from './CollectionDropdown';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -38,7 +39,8 @@ export default function Edit({
 }) {
 	const blockProps = useBlockProps();
 
-	const { pdf } = attributes;
+	const { className, pdf } = attributes;
+	const classNames = className.split(' ');
 	const { id } = pdf || {
 		id: false,
 	};
@@ -47,12 +49,8 @@ export default function Edit({
 		<Fragment>
 			<Controls {...{ attributes, setAttributes, context }} />
 			<div {...blockProps}>
-				<CollectionLinks
-					records={records}
-					termIds={termIds}
-					isResolving={isResolving}
-					hasResolved={hasResolved}
-				/>
+				{!classNames.includes('is-style-dropdown') && <CollectionList />}
+				{classNames.includes('is-style-dropdown') && <CollectionDropdown />}
 				<MediaDropZone
 					attachmentId={id}
 					onUpdate={(attachment) => {

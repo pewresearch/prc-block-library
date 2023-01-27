@@ -41,7 +41,7 @@ const ParentCollection = styled('div')`
 	font-weight: bold;
 `;
 
-export default function CollectionLinks() {
+export default function CollectionList() {
 	const { termIds = [] } = useSelect((select) => {
 		const { getEditedPostAttribute } = select('core/editor');
 		return {
