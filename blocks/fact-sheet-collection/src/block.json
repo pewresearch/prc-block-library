@@ -12,10 +12,6 @@
 		},
 		"altPostLabel": {
 			"type": "string"
-		},
-		"fontFamily": {
-			"type": "string",
-			"default": "sans-serif"
 		}
 	},
 	"supports": {

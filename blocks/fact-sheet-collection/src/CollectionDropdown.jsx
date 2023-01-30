@@ -10,37 +10,10 @@ import styled from '@emotion/styled';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, Fragment } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useEntityRecords } from '@wordpress/core-data';
-
-const Collections = styled('div')`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	flex-direction: row;
-	padding-top: 1em;
-	padding-bottom: 1em;
-	margin-bottom: 1em;
-	border-top: 1px solid rgba(34, 36, 38, 0.15);
-	border-bottom: 1px solid rgba(34, 36, 38, 0.15);
-`;
-
-const Children = styled('div')`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	flex-direction: row;
-`;
-
-const Collection = styled('div')`
-	font-weight: ${(props) => (props.isActive ? 'bold' : 'inherit')};
-`;
-
-const ParentCollection = styled('div')`
-	font-weight: bold;
-`;
 
 export default function CollectionDropdown() {
 	const { termIds = [] } = useSelect((select) => {
@@ -75,26 +48,28 @@ export default function CollectionDropdown() {
 	}, [isResolving, hasResolved, records, termIds]);
 
 	return (
-		<Collections>
+		<Fragment>
 			{isResolving && <Spinner />}
 			{tree.map((term) => (
-				<Collection key={term.id ? term.id : md5(term.name)}>
-					<ParentCollection>
+				<Fragment>
+					<div className="wp-block-prc-block-fact-sheet-collection--parent-term">
 						{__(`${term.name}`, 'prc-block-library')}
-					</ParentCollection>
-					<Dropdown
-						options={term.children.map((child) => {
-							const isActive = termIds.includes(child.id);
-							return {
-								className: '',
-								value: child.id,
-								content: child.name,
-								style: {},
-							};
-						})}
-					/>
-				</Collection>
+					</div>
+					{term.children && (
+						<Dropdown
+							options={term.children.map((child) => {
+								const isActive = termIds.includes(child.id);
+								return {
+									className: '',
+									value: child.id,
+									content: child.name,
+									style: {},
+								};
+							})}
+						/>
+					)}
+				</Fragment>
 			))}
-		</Collections>
+		</Fragment>
 	);
 }

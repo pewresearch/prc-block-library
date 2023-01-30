@@ -9,12 +9,11 @@ import { MediaDropZone } from '@prc/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
-import { Button, TreeSelect } from '@wordpress/components';
+import { Button } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
 import CollectionList from './CollectionList';
 import CollectionDropdown from './CollectionDropdown';
 
@@ -40,51 +39,44 @@ export default function Edit({
 	const blockProps = useBlockProps();
 
 	const { className, pdf } = attributes;
-	const classNames = className.split(' ');
+	const classNames = undefined !== className ? className.split(' ') : [];
 	const { id } = pdf || {
 		id: false,
 	};
 
 	return (
-		<Fragment>
-			<Controls {...{ attributes, setAttributes, context }} />
-			<div {...blockProps}>
-				{!classNames.includes('is-style-dropdown') && <CollectionList />}
-				{classNames.includes('is-style-dropdown') && <CollectionDropdown />}
-				<MediaDropZone
-					attachmentId={id}
-					onUpdate={(attachment) => {
-						const newAttachment = {
-							id: attachment.id,
-							slug: attachment.slug,
-							title: attachment.title,
-							link: attachment.link,
-							description: attachment.description,
-							caption: attachment.caption,
-							alt_text: attachment.alt_text,
-							media_type: attachment.media_type,
-							mime_type: attachment.mime_type,
-							media_details: attachment.media_details,
-							post: attachment.post,
-							source_url: attachment.source_url,
-						};
-						setAttributes({ pdf: newAttachment });
-					}}
-					onClear={() => {
-						console.warn(
-							'Media DropZone Attachment, use onClear prop when using <MediaDropZone/>: ',
-						);
-						setAttributes({ pdf: null });
-					}}
-					mediaType={['application/pdf']}
-					label="Upload PDF"
-					singularLabel="PDF"
-				>
-					<Button variant="secondary" label="Update PDF" icon="pdf">
-						{`Update ${pdf ? `${pdf.title}.pdf` : 'PDF'}`}
-					</Button>
-				</MediaDropZone>
-			</div>
-		</Fragment>
+		<div {...blockProps}>
+			{!classNames.includes('is-style-dropdown') && <CollectionList />}
+			{classNames.includes('is-style-dropdown') && <CollectionDropdown />}
+			<MediaDropZone
+				className="wp-block-prc-block-fact-sheet-collection--pdf-link"
+				attachmentId={id}
+				onUpdate={(attachment) => {
+					const newAttachment = {
+						id: attachment.id,
+						slug: attachment.slug,
+						title: attachment.title,
+						link: attachment.link,
+						description: attachment.description,
+						caption: attachment.caption,
+						alt_text: attachment.alt_text,
+						media_type: attachment.media_type,
+						mime_type: attachment.mime_type,
+						media_details: attachment.media_details,
+						post: attachment.post,
+						source_url: attachment.source_url,
+					};
+					setAttributes({ pdf: newAttachment });
+				}}
+				onClear={() => setAttributes({ pdf: null })}
+				mediaType={['application/pdf']}
+				label="Upload PDF"
+				singularLabel="PDF"
+			>
+				<Button variant="secondary" label="Update PDF" icon="pdf">
+					{`Update ${pdf ? `${pdf.title}.pdf` : 'PDF'}`}
+				</Button>
+			</MediaDropZone>
+		</div>
 	);
 }
