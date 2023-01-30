@@ -3,7 +3,7 @@
 class UnitTests extends PRC_Block_Library {
 	protected static $site_id = 1;
 	protected static $page_id = null;
-	protected static $cron_hook = 'prc_job_run_at_10am';
+	protected static $cron_hook = 'prc_run_at_midnight';
 
 	public function __construct($init = false) {
 		if ( true === $init ) {

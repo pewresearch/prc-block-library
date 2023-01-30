@@ -27,7 +27,7 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import Edit from './Edit';
-
+import transforms from './transforms';
 import metadata from './block.json';
 
 const { name } = metadata;
@@ -37,6 +37,10 @@ const settings = {
 	 * @see ./Edit.jsx
 	 */
 	edit: Edit,
+	/**
+	 * @see ./transforms.js
+	 */
+	transforms,
 };
 
 /**

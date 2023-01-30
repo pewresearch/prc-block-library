@@ -23,10 +23,9 @@ $parent_term = array(
 
 // Get the parent term's children.
 $child_terms = get_term_children($parent_term_id, 'collection');
-// sort the child terms by name.
 $child_terms = array_map(function ($term_id) use ($collection_term) {
 	$child_term = get_term($term_id, 'collection');
-	// determine if this child term is the current term.
+	// Determine if this child term is the current term.
 	$child_term = array(
 		'term_id' => $child_term->term_id,
 		'name' => $child_term->name,
@@ -34,11 +33,11 @@ $child_terms = array_map(function ($term_id) use ($collection_term) {
 	);
 	return $child_term;
 }, $child_terms);
-// sort the child terms by name.
+// Sort the child terms by name.
 usort($child_terms, function ($a, $b) {
 	return strcmp($a['name'], $b['name']);
 });
-// convert the child terms to html links.
+// Convert the child terms to html links.
 $child_terms = array_map(function ($child_term) use ($collection_term) {
 	return wp_sprintf(
 		'<a href="%1$s" class="%2$s" download>%3$s</a>',
