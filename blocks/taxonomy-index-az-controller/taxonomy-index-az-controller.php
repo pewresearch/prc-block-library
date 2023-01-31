@@ -40,7 +40,7 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 			$list .= "<li><a href='#{$letter}' class='{$class}'>{$letter}</a></li>";
 		}
 		$list .= '</ul>';
-		return empty( $list ) ? false : $list;
+		return $list;
 	}
 
 	public function render_as_accordion_block( $block ) {

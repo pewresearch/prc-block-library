@@ -54,9 +54,9 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const loadTerms = () => {
 		getTermsByLetter(letter, taxonomy).then((t) => {
-			const tmpExclude =
-				undefined !== exclude ? exclude.split(',').map((i) => parseInt(i)) : [];
+			const tmpExclude = exclude;
 			const tmpT = t.map((s) => {
+				console.log('Load Terms... s?', s);
 				const tmpS = { ...s };
 				if (tmpExclude.includes(tmpS.term_id)) {
 					tmpS.excluded = true;
@@ -91,11 +91,11 @@ export default function Edit({ attributes, setAttributes }) {
 				.filter((t) => true === t.excluded)
 				.map((s) => s.term_id);
 			console.log('tmpExclude', tmpExclude);
-			setAttributes({ exclude: tmpExclude.join() });
+			setAttributes({ exclude: tmpExclude });
 		}
 	}, [terms]);
 
-	// Load terms for {letter} when {letter} changes.
+	// Load terms for {letter} when {taxonomy} changes.
 	useEffect(() => {
 		loadTerms();
 	}, [letter, taxonomy]);

@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "title": "Taxonomy Menu Link",
   "category": "design",
-  "description": "Display a link to a taxonomy term with the option to display a sub menu of taxonomy navigation links.",
+  "description": "Display a link to a taxonomy term, or optionally a manually set link.",
   "attributes": {
     "allowedBlocks": {
       "type": "array"

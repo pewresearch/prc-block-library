@@ -8,8 +8,13 @@ const transforms = {
 		{
 			type: 'block',
 			blocks: ['prc-block/topic-index-az'],
-			transform: (attributes) =>
-				createBlock('prc-block/taxonomy-index-az-list', attributes),
+			transform: (attributes) => {
+				const newAttributes = attributes;
+				if (newAttributes.exclude) {
+					newAttributes.exclude = newAttributes.exclude.split(',');
+				}
+				return createBlock('prc-block/taxonomy-index-az-list', newAttributes);
+			},
 		},
 	],
 };

@@ -11,8 +11,48 @@ $block_template  = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div cl
 $label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>' : '<span class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</span>';
 $label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['url'] ) ? '<span class="wp-block-prc-block-taxonomy-menu-link--label wp-block-prc-block-taxonomy-menu-link--toggle">%2$s</span>%3$s' : '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>%3$s' ) : $label_template;
 
+/**
+ * Build an array with CSS classes defining the colors
+ * which will be applied to the menu markup in the front-end.
+ */
+$context = $block->context;
+$css_classes = array();
+$text_color = $context['taxonomy-menu/textColor'];
+$background_color = $context['taxonomy-menu/backgroundColor'];
+$border_color = $context['taxonomy-menu/borderColor'];
+$text_decoration = $context->style['typography']['textDecoration'];
+$orientation = $context['taxonomy-menu/layout']['orientation'];
+
+do_action('qm/debug', 'taxonomy-menu-link/render.php: $context = ' . print_r($context, true));
+
+// If has text color.
+if ( ! is_null( $text_color ) ) {
+	// Add the color class.
+	array_push( $css_classes, 'has-text-color', sprintf( 'has-%s-color', $text_color ) );
+}
+
+// If has background color.
+if ( ! is_null( $background_color ) && 'horizontal' === $orientation ) {
+	// Add the background-color class.
+	array_push( $css_classes, 'has-background', sprintf( 'has-%s-background-color', $background_color ) );
+}
+
+// If has border color.
+if ( ! is_null( $border_color ) && 'horizontal' === $orientation ) {
+	// Add the border-color class.
+	array_push( $css_classes, 'has-border-color', sprintf( 'has-%s-border-color', $border_color ) );
+}
+
+// If has text decoration.
+if ( ! is_null( $text_decoration ) ) {
+	// Add the text-decoration class.
+	array_push( $css_classes, sprintf( 'has-text-decoration-%s', $text_decoration ) );
+}
+
+
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'id' => 'item-' . md5( wp_json_encode( $attributes ) ),
+	'class' => classNames($css_classes),
 ));
 
 echo wp_sprintf(

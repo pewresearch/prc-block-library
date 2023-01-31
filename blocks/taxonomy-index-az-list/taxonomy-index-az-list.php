@@ -117,7 +117,7 @@ class TaxonomyIndexAzList extends PRC_Block_Library {
 				'data-letter' => $attributes['letter'],
 			)
 		);
-		$terms = $this->get_terms_by_letter( $attributes['taxonomy'], $attributes['letter'], explode( ',', $attributes['exclude'] ) );
+		$terms = $this->get_terms_by_letter( $attributes['taxonomy'], $attributes['letter'], $attributes['exclude'] );
 		ob_start();
 		?>
 		<div <?php echo $block_wrapper_attrs; ?>>

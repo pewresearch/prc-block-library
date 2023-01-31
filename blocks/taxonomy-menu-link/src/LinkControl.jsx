@@ -7,11 +7,12 @@ import styled from '@emotion/styled';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { __unstableStripHTML as stripHTML } from '@wordpress/dom';
 import { __experimentalLinkControl as WPComLinkControl } from '@wordpress/block-editor';
 import { Popover } from '@wordpress/components';
+import { decodeEntities } from '@wordpress/html-entities';
 
 function updateLink(updatedValue, setAttributes) {
+	console.log('updateLink', updatedValue);
 	const { title, url, id } = updatedValue;
 	setAttributes({
 		url,
@@ -32,7 +33,7 @@ export default function LinkControl({
 	const link = {
 		url,
 		opensInNewTab: false,
-		title: label,
+		title: decodeEntities(label),
 	};
 
 	const onRemove = () => {

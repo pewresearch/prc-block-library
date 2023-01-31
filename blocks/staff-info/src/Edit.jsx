@@ -100,6 +100,7 @@ export default function Edit({
 		} else if (undefined !== context[valueToFetch]) {
 			setStaffValue(context[valueToFetch]);
 			if ('staffImage' === valueToFetch) {
+				console.log("Is Image context...", valueToFetch, context);
 				setIsImage(true);
 			}
 		}

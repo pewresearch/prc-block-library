@@ -18,6 +18,9 @@ const variations = [
 		isDefault: true,
 		title: __('Link'),
 		icon: linkIcon,
+		scope: ['inserter', 'transform'],
+		isActive: ({ className, enableSubMenu }) =>
+			!className || !className.includes('is-style-sub') || !enableSubMenu,
 	},
 	{
 		name: 'taxonomy-menu-link-sub-tree',
@@ -27,6 +30,7 @@ const variations = [
 			className: 'is-style-sub-tree',
 		},
 		icon: subMenuIcon,
+		scope: ['inserter', 'transform'],
 		isActive: ({ className, enableSubMenu }) =>
 			className && className.includes('is-style-sub-tree') && enableSubMenu,
 	},
@@ -38,6 +42,7 @@ const variations = [
 			className: 'is-style-sub-expand',
 		},
 		icon: subMenuIcon,
+		scope: ['inserter', 'transform'],
 		isActive: ({ className, enableSubMenu }) =>
 			className && className.includes('is-style-sub-expand') && enableSubMenu,
 	},
