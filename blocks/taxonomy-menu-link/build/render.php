@@ -24,7 +24,7 @@ $css_classes = array();
 $text_color = array_key_exists('taxonomy-menu/textColor', $context) ? $context['taxonomy-menu/textColor'] : null;
 $background_color = array_key_exists('taxonomy-menu/backgroundColor', $context) ? $context['taxonomy-menu/backgroundColor'] : null;
 $border_color = array_key_exists('taxonomy-menu/borderColor', $context) ? $context['taxonomy-menu/borderColor'] : null;
-$text_decoration = array_key_exists('textDecoration', $context->style['typography']) ? $context->style['typography']['textDecoration'] : null;
+$text_decoration = $context->style['typography']['textDecoration'] ?? null;
 $orientation = array_key_exists('orientation', $context['taxonomy-menu/layout']) ? $context['taxonomy-menu/layout']['orientation'] : null;
 
 // If has text color.
