@@ -6,6 +6,10 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
+if ( is_admin() ) {
+	return $content;
+}
+
 $enable_sub_menu = $attributes['enableSubMenu'] ?? false;
 $block_template  = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link--sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
 $label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>' : '<span class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</span>';
@@ -17,13 +21,11 @@ $label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['
  */
 $context = $block->context;
 $css_classes = array();
-$text_color = $context['taxonomy-menu/textColor'];
-$background_color = $context['taxonomy-menu/backgroundColor'];
-$border_color = $context['taxonomy-menu/borderColor'];
-$text_decoration = $context->style['typography']['textDecoration'];
-$orientation = $context['taxonomy-menu/layout']['orientation'];
-
-do_action('qm/debug', 'taxonomy-menu-link/render.php: $context = ' . print_r($context, true));
+$text_color = array_key_exists('taxonomy-menu/textColor', $context) ? $context['taxonomy-menu/textColor'] : null;
+$background_color = array_key_exists('taxonomy-menu/backgroundColor', $context) ? $context['taxonomy-menu/backgroundColor'] : null;
+$border_color = array_key_exists('taxonomy-menu/borderColor', $context) ? $context['taxonomy-menu/borderColor'] : null;
+$text_decoration = array_key_exists('textDecoration', $context->style['typography']) ? $context->style['typography']['textDecoration'] : null;
+$orientation = array_key_exists('orientation', $context['taxonomy-menu/layout']) ? $context['taxonomy-menu/layout']['orientation'] : null;
 
 // If has text color.
 if ( ! is_null( $text_color ) ) {
