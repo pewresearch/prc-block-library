@@ -135,7 +135,7 @@ class YoastSEOBreadcrumbs extends PRC_Block_Library {
 		if ( is_tax() ) {
 			$last_crumb = end( $crumbs );
 			$term_id    = get_queried_object()->term_id;
-			if ( $term_id === $last_crumb['term_id'] ) {
+			if ( array_key_exists('term_id', $last_crumb) && $term_id === $last_crumb['term_id'] ) {
 				array_pop( $crumbs );
 			}
 		}
@@ -155,10 +155,11 @@ class YoastSEOBreadcrumbs extends PRC_Block_Library {
 	public function modify_yoast_breadcrumb( $link, $breadcrumb ) {
 		$url  = false;
 		$text = $breadcrumb['text'];
-		$url  = $breadcrumb['url'];
 		if ( array_key_exists( 'term_id', $breadcrumb ) ) {
 			$taxonomy = get_queried_object()->taxonomy;
 			$url = $this->get_origin_term_link( $taxonomy, $breadcrumb['term_id'] );
+		} elseif ( array_key_exists('url', $breadcrumb) ) {
+			$url = $breadcrumb['url'];
 		}
 		if ( false === $url || is_wp_error($url) ) {
 			return "<span class='section'>{$text}</span>";
