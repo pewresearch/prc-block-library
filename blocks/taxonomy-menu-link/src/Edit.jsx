@@ -123,7 +123,7 @@ export default function Edit({
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, context, clientId, popoverAnchor }} />
+			<Controls {...{ attributes, setAttributes, isSelected, context, clientId, popoverAnchor }} />
 			<div {...blockProps}>
 				<RichText
 					tagName="span"

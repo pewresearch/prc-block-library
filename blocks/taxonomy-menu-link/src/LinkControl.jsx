@@ -28,10 +28,11 @@ export default function LinkControl({
 	onClose = () => {},
 }) {
 	const { label, url, id, taxonomy } = attributes;
+
 	const link = {
 		url,
 		opensInNewTab: false,
-		title: label && stripHTML(label),
+		title: label,
 	};
 
 	const onRemove = () => {

@@ -33,12 +33,13 @@ import LinkControl from './LinkControl';
 export default function Controls({
 	attributes,
 	setAttributes,
+	isSelected,
 	context,
 	clientId,
 	popoverAnchor
 }) {
 	const orientation = context['taxonomy-menu/layout']?.orientation;
-	const {className} = attributes;
+	const {className, url} = attributes;
 
 	const [isLinkOpen, setIsLinkOpen] = useState(false);
 
@@ -60,6 +61,26 @@ export default function Controls({
 	}, []);
 
 	const allowLink = 'is-style-sub-expand' !== className;
+
+	useEffect( () => {
+		// Show the LinkControl on mount if the URL is empty
+		// ( When adding a new menu item)
+		// This can't be done in the useState call because it conflicts
+		// with the autofocus behavior of the BlockListBlock component.
+		if ( ! url ) {
+			setIsLinkOpen( true );
+		}
+	}, [ url ] );
+
+	/**
+	 * The hook shouldn't be necessary but due to a focus loss happening
+	 * when selecting a suggestion in the link popover, we force close on block unselection.
+	 */
+	useEffect( () => {
+		if ( ! isSelected ) {
+			setIsLinkOpen( false );
+		}
+	}, [ isSelected ] );
 
 	return (
 		<Fragment>
