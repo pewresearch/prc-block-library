@@ -108,23 +108,6 @@ export default function Controls({
 					)}
 				</ToolbarGroup>
 			)}
-			{'vertical' === orientation && (
-				<ToolbarGroup>
-					{allowSubMenu && (
-						<ToolbarButton
-							icon={addSubmenu}
-							label={__(
-								`${enableSubMenu ? 'Disable' : 'Enable'} Sub Menu`,
-								'prc-block-library',
-							)}
-							onClick={() => {
-								setAttributes({ enableSubMenu: !enableSubMenu });
-							}}
-							isActive={enableSubMenu}
-						/>
-					)}
-				</ToolbarGroup>
-			)}
 		</BlockControls>
 		</Fragment>
 	);

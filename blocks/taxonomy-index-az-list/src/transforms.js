@@ -9,6 +9,10 @@ const transforms = {
 			type: 'block',
 			blocks: ['prc-block/topic-index-az'],
 			transform: (attributes) => {
+				console.log(
+					'Transforming from topic-index-az to taxonomy-index-az-list, attributes: ',
+					attributes,
+				);
 				const newAttributes = attributes;
 				if (newAttributes.exclude) {
 					// check if exclude is a string

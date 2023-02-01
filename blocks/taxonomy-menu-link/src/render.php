@@ -25,7 +25,7 @@ $text_color = array_key_exists('taxonomy-menu/textColor', $context) ? $context['
 $background_color = array_key_exists('taxonomy-menu/backgroundColor', $context) ? $context['taxonomy-menu/backgroundColor'] : null;
 $border_color = array_key_exists('taxonomy-menu/borderColor', $context) ? $context['taxonomy-menu/borderColor'] : null;
 $text_decoration = $context->style['typography']['textDecoration'] ?? null;
-$orientation = array_key_exists('orientation', $context['taxonomy-menu/layout']) ? $context['taxonomy-menu/layout']['orientation'] : null;
+$orientation = array_key_exists('taxonomy-menu/layout', $context) && array_key_exists('orientation', $context['taxonomy-menu/layout']) ? $context['taxonomy-menu/layout']['orientation'] : null;
 
 // If has text color.
 if ( ! is_null( $text_color ) ) {
