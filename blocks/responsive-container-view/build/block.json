@@ -21,6 +21,15 @@
     "orientation": {
       "type": "string",
       "default": "vertical"
+    },
+    "deviceType": {
+      "type": "string",
+      "enum": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "default": "desktop"
     }
   },
   "supports": {

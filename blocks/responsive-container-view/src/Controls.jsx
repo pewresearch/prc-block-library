@@ -17,39 +17,42 @@ import {
 import { useSelect } from '@wordpress/data';
 
 function DeviceSizeQuickSelect({ attributes, setAttributes }) {
-	const sizes = {
-		desktop: {
-			min: 980,
-			max: 0,
-		},
-		tablet: {
-			min: 480,
-			max: 979,
-		},
-		smartphone: {
-			min: 0,
-			max: 479,
-		},
-	};
+	const { deviceType } = attributes;
 
-	const existingSelection = Object.keys(sizes).filter(
-		(e) => sizes[e].max === attributes.max,
-	);
+	useEffect(() => {
+		const sizes = {
+			desktop: {
+				min: 980,
+				max: 0,
+			},
+			tablet: {
+				min: 480,
+				max: 979,
+			},
+			mobile: {
+				min: 0,
+				max: 479,
+			},
+		};
+		setAttributes({
+			min: sizes[deviceType].min,
+			max: sizes[deviceType].max,
+		});
+	}, [deviceType]);
 
 	return (
 		<SelectControl
-			value={0 === existingSelection.length ? false : existingSelection[0]}
+			value={deviceType}
 			options={[
-				{ label: 'Common Device Sizes...', value: false },
+				{ label: 'Devices...', value: null },
 				{ label: 'Desktop', value: 'desktop' },
 				{ label: 'Tablet', value: 'tablet' },
-				{ label: 'Smartphone', value: 'smartphone' },
+				{ label: 'Mobile', value: 'mobile' },
 			]}
 			onChange={(deviceSize) => {
-				if (false !== deviceSize) {
+				if (null !== deviceSize) {
 					setAttributes({
-						min: sizes[deviceSize].min,
-						max: sizes[deviceSize].max,
+						deviceType: deviceSize,
 					});
 				}
 			}}
@@ -100,7 +103,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 					maxWidth: '320px',
 					width: '100%',
 					paddingTop: '7px',
-					paddingLeft: '5px',
+					paddingLeft: '7px',
 				}}
 			>
 				<Flex align="center">

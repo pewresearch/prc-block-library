@@ -62,7 +62,7 @@ class ResponsiveContainerController extends PRC_Block_Library {
 		if ( is_admin() ) {
 			return $content;
 		}
-		
+
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id' => $this->get_block_id_hash( $block ),

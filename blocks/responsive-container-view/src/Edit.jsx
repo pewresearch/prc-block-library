@@ -13,7 +13,7 @@ import { Notice } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+// import Controls from './Controls';
 
 const TEMPLATE = [['core/html', {}]];
 
@@ -63,7 +63,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, clientId }} />
+			{/* <Controls {...{ attributes, setAttributes, clientId }} /> */}
 			<div {...blockProps}>
 				<Notice
 					isDismissible={false}

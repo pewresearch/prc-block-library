@@ -21,6 +21,7 @@ const TEMPLATE = [
 	[
 		'prc-block/responsive-container-view',
 		{
+			deviceType: 'desktop',
 			min: 980,
 			max: 0,
 		},
@@ -28,6 +29,7 @@ const TEMPLATE = [
 	[
 		'prc-block/responsive-container-view',
 		{
+			deviceType: 'tablet',
 			min: 480,
 			max: 979,
 		},
@@ -35,6 +37,7 @@ const TEMPLATE = [
 	[
 		'prc-block/responsive-container-view',
 		{
+			deviceType: 'mobile',
 			min: 0,
 			max: 479,
 		},
