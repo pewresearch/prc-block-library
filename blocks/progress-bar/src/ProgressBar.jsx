@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { ChartBuilderWrapper, masterConfig } from '@prc/chart-builder';
+import { ChartBuilderWrapper, baseConfig } from '@prc/chart-builder';
 
 function ProgressBar({
 	axisLabel,
@@ -32,7 +32,7 @@ function ProgressBar({
 			horizontalRules: false,
 		},
 		metadata: {
-			...masterConfig.metadata,
+			...baseConfig.metadata,
 			active: false,
 		},
 		colors: [barColor, '#ecece3'],
