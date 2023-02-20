@@ -29,7 +29,7 @@ import { Spinner } from '@wordpress/components';
 import Controls from './Controls';
 import query from './query';
 
-const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group'];
+const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group', 'something/else'];
 
 function StaffInnerBlocks({ isVisible }) {
 	const innerBlocksProps = useInnerBlocksProps(
@@ -74,21 +74,7 @@ function StaffBlockPreview({ blocks, blockContextId, isHidden, setContextId }) {
 // This only changes when InnerBlocks changes.
 const MemoizedStaffBlockPreview = memo(StaffBlockPreview);
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param            props.clientId
- * @param            props.context
- * @param {Function} props.setAttributes Function that updates individual attributes.
- *
- * @return {WPElement} Element to render.
- */
-export default function Edit({ clientId, context, attributes, setAttributes }) {
+const useBlockState = ({ attributes, clientId }) => {
 	const [activeBlockContextId, setActiveBlockContextId] = useState(null);
 	const setContextId = (b) => {
 		let newContextId = null;
@@ -115,7 +101,6 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 	);
 
 	const blockContexts = useMemo(() => {
-		console.log('staffPosts', staffPosts);
 		if (!staffPosts || 0 === staffPosts.length) {
 			return [];
 		}
@@ -124,7 +109,6 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 			return staffPost;
 		});
 
-		console.log('newContext: ', newContext);
 		return newContext;
 	}, [staffPosts]);
 
@@ -140,7 +124,82 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 		}
 	}, [blockContexts]);
 
+	return {
+		activeBlockContextId,
+		blockContexts,
+		blocks,
+		staffPosts,
+		setContextId,
+	};
+};
+
+// To avoid flicker when switching active block contexts, a preview is rendered
+// for each block context, but the preview for the active block context is hidden.
+// This ensures that when it is displayed again, the cached rendering of the
+// block preview is used, instead of having to re-render the preview from scratch.
+// @TODO: Make this into a reusable component...
+const BlockContextProviderMemoized = ({
+	blockContexts,
+	activeBlockContextId,
+	blocks,
+	setContextId,
+}) => {
+	return (
+		<Fragment>
+			{blockContexts.map((blockContext, index) => {
+				const contextId = md5(JSON.stringify(blockContext));
+				const isVisible =
+					contextId === activeBlockContextId ||
+					contextId === md5(JSON.stringify(blockContexts[0]));
+				return (
+					<BlockContextProvider
+						key={`context-key--${index}`}
+						value={blockContext}
+					>
+						<StaffInnerBlocks
+							isVisible={
+								null === activeBlockContextId || isVisible
+							}
+						/>
+						<MemoizedStaffBlockPreview
+							blocks={blocks}
+							blockContextId={contextId}
+							setContextId={setContextId}
+							isHidden={isVisible}
+						/>
+					</BlockContextProvider>
+				);
+			})}
+		</Fragment>
+	);
+};
+
+/**
+ * The edit function describes the structure of your block in the context of the
+ * editor. This represents what the editor will render when the block is used.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ *
+ * @param {Object}   props               Properties passed to the function.
+ * @param {Object}   props.attributes    Available block attributes.
+ * @param {string}   props.clientId      The block's client ID.
+ * @param {Function} props.setAttributes Function that updates individual attributes.
+ *
+ * @return {WPElement} Element to render.
+ */
+export default function Edit({ clientId, attributes, setAttributes }) {
 	const blockProps = useBlockProps();
+
+	const {
+		activeBlockContextId,
+		blockContexts,
+		blocks,
+		staffPosts,
+		setContextId,
+	} = useBlockState({
+		attributes,
+		clientId,
+	});
 
 	if (!staffPosts) {
 		return (
@@ -151,11 +210,6 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 		);
 	}
 
-	// To avoid flicker when switching active block contexts, a preview is rendered
-	// for each block context, but the preview for the active block context is hidden.
-	// This ensures that when it is displayed again, the cached rendering of the
-	// block preview is used, instead of having to re-render the preview from scratch.
-	// @TODO: Make this into a reusable component...
 	return (
 		<Fragment>
 			<Controls
@@ -166,32 +220,14 @@ export default function Edit({ clientId, context, attributes, setAttributes }) {
 				}}
 			/>
 			<div {...blockProps}>
-				{blockContexts &&
-					blockContexts.map((blockContext, index) => {
-						const contextId = md5(JSON.stringify(blockContext));
-						const isVisible =
-							contextId === activeBlockContextId ||
-							contextId === md5(JSON.stringify(blockContexts[0]));
-						return (
-							<BlockContextProvider
-								key={`context-key--${index}`}
-								value={blockContext}
-							>
-								<StaffInnerBlocks
-									isVisible={
-										null === activeBlockContextId ||
-										isVisible
-									}
-								/>
-								<MemoizedStaffBlockPreview
-									blocks={blocks}
-									blockContextId={contextId}
-									setContextId={setContextId}
-									isHidden={isVisible}
-								/>
-							</BlockContextProvider>
-						);
-					})}
+				{blockContexts && (
+					<BlockContextProviderMemoized
+						blockContexts={blockContexts}
+						activeBlockContextId={activeBlockContextId}
+						blocks={blocks}
+						setContextId={setContextId}
+					/>
+				)}
 			</div>
 		</Fragment>
 	);
