@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
+
 import { __experimentalLinkControl as WPComLinkControl } from '@wordpress/block-editor';
 import { Popover } from '@wordpress/components';
 import { decodeEntities } from '@wordpress/html-entities';
@@ -24,11 +24,10 @@ function updateLink(updatedValue, setAttributes) {
 export default function LinkControl({
 	attributes,
 	setAttributes,
-	context,
 	anchor,
 	onClose = () => {},
 }) {
-	const { label, url, id, taxonomy } = attributes;
+	const { label, url, taxonomy } = attributes;
 
 	const link = {
 		url,
@@ -66,10 +65,7 @@ export default function LinkControl({
 			shift
 		>
 			<WPComLinkControl
-				searchInputPlaceholder={__(
-					`Search for ${taxonomy} term`,
-					'prc-block-library',
-				)}
+				searchInputPlaceholder={`Search for ${taxonomy} term`}
 				hasTextControl
 				hasRichPreviews
 				value={link}
