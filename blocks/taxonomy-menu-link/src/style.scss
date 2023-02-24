@@ -23,6 +23,14 @@
 		order: 0;
 	}
 
+	a {
+		color: inherit!important;
+		text-decoration: none!important;
+		&:hover {
+			text-decoration: underline!important;
+		}
+	}
+
 	&--icon {
 		order: 1;
 		background: none;
@@ -53,6 +61,13 @@
 		width: 100%;
 		padding-left: 1em;
 		padding-top: 1em;
+	}
+
+	&.is-style-sub-heading {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 10px;
 	}
 
 	&.is-style-sub-heading &--label{

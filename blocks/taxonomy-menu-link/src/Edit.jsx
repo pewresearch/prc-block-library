@@ -13,11 +13,11 @@ import {
 	RichText,
 	useInnerBlocksProps,
 	getColorClassName,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useMergeRefs } from '@wordpress/compose';
 import { useDispatch } from '@wordpress/data';
-import { store as blockEditorStore } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -29,25 +29,24 @@ const ALLOWED_BLOCKS = ['prc-block/taxonomy-menu-link'];
 
 /**
  * Converts a spacing preset into a custom value.
- *
  * Function from @wordpress/block-editor/src/components/spacing-control/utils.js
  *
  * @param {string} value Value to convert.
  *
  * @return {string} CSS var string for given spacing preset value.
  */
-export function getSpacingPresetCssVar( value ) {
-	if ( ! value ) {
-		return;
+export function getSpacingPresetCssVar(value) {
+	if (!value) {
+		return null;
 	}
 
-	const slug = value.match( /var:preset\|spacing\|(.+)/ );
+	const slug = value.match(/var:preset\|spacing\|(.+)/);
 
-	if ( ! slug ) {
+	if (!slug) {
 		return value;
 	}
 
-	return `var(--wp--preset--spacing--${ slug[ 1 ] })`;
+	return `var(--wp--preset--spacing--${slug[1]})`;
 }
 
 /**
@@ -56,28 +55,33 @@ export function getSpacingPresetCssVar( value ) {
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                   Properties passed to the function.
+ * @param {Object}   props.attributes        Available block attributes.
+ * @param            props.className
+ * @param            props.context
+ * @param            props.clientId
+ * @param            props.isSelected
+ * @param            props.insertBlocksAfter
+ * @param {Function} props.setAttributes     Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
 export default function Edit({
 	attributes,
 	setAttributes,
-	className,
 	context,
 	clientId,
 	isSelected,
 	insertBlocksAfter,
 }) {
-	const { allowedBlocks, label, enableSubMenu, style } = attributes;
+	// eslint-disable-next-line prettier/prettier, object-curly-newline
+	const { allowedBlocks, className, label, enableSubMenu, style } = attributes;
 	const [subMenuIsOpen, toggleSubMenu] = useState(false);
 
 	// Use internal state instead of a ref to make sure that the component
 	// re-renders when the popover's anchor updates.
-	const [ popoverAnchor, setPopoverAnchor ] = useState( null );
-	const listItemRef = useRef( null );
+	const [popoverAnchor, setPopoverAnchor] = useState(null);
+	const listItemRef = useRef(null);
 
 	const textColor = context['taxonomy-menu/textColor'];
 	const backgroundColor = context['taxonomy-menu/backgroundColor'];
@@ -87,43 +91,62 @@ export default function Edit({
 	const blockGap = style?.spacing?.blockGap || 'var:preset|spacing|30';
 
 	const blockProps = useBlockProps({
-		ref: useMergeRefs( [ setPopoverAnchor, listItemRef ] ),
+		ref: useMergeRefs([setPopoverAnchor, listItemRef]),
 		className: classNames(className, {
 			'has-text-color': !!textColor,
 			[getColorClassName('color', textColor)]: !!textColor,
 			[`has-text-decoration-${textDecoration}`]: textDecoration,
 			'has-background': !!backgroundColor && 'horizontal' === orientation,
-			[getColorClassName('background-color', backgroundColor)]: !!backgroundColor && 'horizontal' === orientation,
+			[getColorClassName('background-color', backgroundColor)]:
+				!!backgroundColor && 'horizontal' === orientation,
 			'has-border-color': !!borderColor && 'horizontal' === orientation,
-			[getColorClassName('border-color', borderColor)]: !!borderColor && 'horizontal' === orientation,
+			[getColorClassName('border-color', borderColor)]:
+				!!borderColor && 'horizontal' === orientation,
 			'is-active': subMenuIsOpen,
 		}),
 	});
 
-	const { insertBlock } = useDispatch( blockEditorStore );
+	const { insertBlock } = useDispatch(blockEditorStore);
 
 	const subMenuStyle = {
 		gap: getSpacingPresetCssVar(blockGap),
-	}
+	};
 
-	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
+	// By defining a allowedBlocks attribute any block can
+	// now customize what inner blocks are allowed.
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: classNames('wp-block-prc-block-taxonomy-menu-link--sub-menu'),
+			className: classNames(
+				'wp-block-prc-block-taxonomy-menu-link--sub-menu'
+			),
 			style: {
-				...subMenuStyle
+				...subMenuStyle,
 			},
 		},
 		{
 			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-		},
+		}
 	);
 
-	const allowedFormats = 'is-style-sub-heading' === className ? [] : ['core/bold', 'core/italic'];
+	const allowedFormats =
+		'is-style-sub-heading' === className
+			? []
+			: ['core/bold', 'core/italic'];
+
+	console.log('className??: ', className);
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, isSelected, context, clientId, popoverAnchor }} />
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+					isSelected,
+					context,
+					clientId,
+					popoverAnchor,
+				}}
+			/>
 			<div {...blockProps}>
 				<RichText
 					tagName="span"
@@ -135,8 +158,10 @@ export default function Edit({
 					multiline={false}
 					disableLineBreaks
 					__unstableOnSplitAtEnd={() => {
-						const newBlock = createBlock('prc-block/taxonomy-menu-link');
-						if ( enableSubMenu ) {
+						const newBlock = createBlock(
+							'prc-block/taxonomy-menu-link'
+						);
+						if (enableSubMenu) {
 							// Insert in this menu
 							insertBlock(newBlock, undefined, clientId);
 						} else {
@@ -145,9 +170,16 @@ export default function Edit({
 						}
 					}}
 				/>
+				{'is-style-sub-heading' === className && (
+					<i className="chevron right small icon"></i>
+				)}
 				{enableSubMenu && (
 					<Fragment>
-						<button className="wp-block-prc-block-taxonomy-menu-link--icon wp-block-prc-block-taxonomy-menu-link--toggle" onClick={() => toggleSubMenu(!subMenuIsOpen)}>
+						<button
+							className="wp-block-prc-block-taxonomy-menu-link--icon wp-block-prc-block-taxonomy-menu-link--toggle"
+							onClick={() => toggleSubMenu(!subMenuIsOpen)}
+							type="button"
+						>
 							<span></span>
 						</button>
 						<div {...innerBlocksProps} />
