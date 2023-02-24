@@ -13,6 +13,8 @@
 // Semantic UI Styles
 // These have been hand ported from Semantic UI CSS
 .wp-block-prc-block-taxonomy-search {
+	max-width: 320px;
+
 	div.ui.search {
 		color: var(--wp--preset--color--text-color);
 		font-family: var(--wp--preset--font-family--default);
@@ -92,7 +94,7 @@
 					text-align: center;
 					top: 50%;
 					width: 100%;
-					content: "\f002"
+					// content: "\f002"
 				}
 			}
 		}

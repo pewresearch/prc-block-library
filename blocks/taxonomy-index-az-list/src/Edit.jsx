@@ -79,6 +79,8 @@ export default function Edit({ attributes, setAttributes }) {
 			return t;
 		});
 
+		console.log('onSelect', [...tmpTerms]);
+
 		setTerms([...tmpTerms]);
 	};
 
