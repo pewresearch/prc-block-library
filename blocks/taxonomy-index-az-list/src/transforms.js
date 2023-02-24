@@ -17,13 +17,21 @@ const transforms = {
 						newAttributes.exclude.length > 0
 					) {
 						// convert to array
-						newAttributes.exclude = newAttributes.exclude.split(',');
+						newAttributes.exclude =
+							newAttributes.exclude.split(',');
 					}
 				}
-				// Ensure all the value in the array are integers
-				newAttributes.exclude = newAttributes.exclude.map((item) =>
-					parseInt(item, 10)
-				);
+				// CHeck if exclude is an array and has values (not empty)
+				if (
+					Array.isArray(newAttributes.exclude) &&
+					newAttributes.exclude.length > 0
+				) {
+					// Ensure all the value in the array are integers
+					newAttributes.exclude = newAttributes.exclude.map((item) =>
+						parseInt(item, 10)
+					);
+				}
+
 				console.log(
 					'Transforming from topic-index-az to taxonomy-index-az-list, attributes: ',
 					attributes,
