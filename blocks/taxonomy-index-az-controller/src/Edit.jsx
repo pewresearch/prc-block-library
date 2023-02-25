@@ -25,7 +25,10 @@ const BLOCKS_TEMPLATE = [
 						desktopSpan: 4,
 						tabletSpan: 2,
 					},
-					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
+					allowedBlocks: [
+						'prc-block/taxonomy-index-az-list',
+						'core/separator',
+					],
 				},
 			],
 			[
@@ -36,7 +39,10 @@ const BLOCKS_TEMPLATE = [
 						desktopSpan: 4,
 						tabletSpan: 4,
 					},
-					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
+					allowedBlocks: [
+						'prc-block/taxonomy-index-az-list',
+						'core/separator',
+					],
 				},
 			],
 			[
@@ -47,7 +53,10 @@ const BLOCKS_TEMPLATE = [
 						desktopSpan: 4,
 						tabletSpan: 2,
 					},
-					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
+					allowedBlocks: [
+						'prc-block/taxonomy-index-az-list',
+						'core/separator',
+					],
 				},
 			],
 		],
@@ -65,7 +74,7 @@ const ALLOWED_BLOCKS = [
 const range = (start, end) => {
 	const length = end.charCodeAt(0) - start.charCodeAt(0) + 1;
 	return Array.from({ length }, (_, i) =>
-		String.fromCharCode(i + start.charCodeAt(0)),
+		String.fromCharCode(i + start.charCodeAt(0))
 	);
 };
 
@@ -89,8 +98,8 @@ function Letters() {
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
+ * @param {Object} props            Properties passed to the function.
+ * @param {Object} props.attributes Available block attributes.
  *
  * @return {WPElement} Element to render.
  */
@@ -107,7 +116,7 @@ export default function Edit({ attributes }) {
 			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 			orientation: orientation || 'vertical',
 			template: BLOCKS_TEMPLATE,
-		},
+		}
 	);
 
 	return (
