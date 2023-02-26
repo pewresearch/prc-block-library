@@ -10,86 +10,63 @@ import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 
-const selectFrontSideClientId = (rootClientId, select) => {
-	const { getBlock } = select('core/block-editor');
-	// get the front side of the flip card from the rootClientId innerBlocks
-	const { innerBlocks } = getBlock(rootClientId);
-	const frontSide = innerBlocks.find(
-		(block) => 'is-style-front' === block.attributes.className
-	);
-	return frontSide.clientId;
-};
-
 export default function FlipControl({ clientId }) {
-	const { frontCardClientId } = useSelect(
+	const { controllerId } = useSelect(
 		(select) => {
-			const { getBlock, getBlockRootClientId } =
+			const { getBlockName, getBlockRootClientId } =
 				select('core/block-editor');
 
-			const { name, attributes } = getBlock(clientId);
-			const { className } = attributes;
+			const name = getBlockName(clientId);
+			let id = clientId;
 
-			let frontSideClientId = clientId;
-
-			if ('is-style-back' === className) {
-				const rootClientId = getBlockRootClientId(clientId);
-				frontSideClientId = selectFrontSideClientId(
-					rootClientId,
-					select
-				);
-			}
-
-			if ('prc-block/flip-card-controller' === name) {
-				frontSideClientId = selectFrontSideClientId(clientId, select);
+			if ('prc-block/flip-card-controller' !== name) {
+				id = getBlockRootClientId(clientId);
 			}
 
 			return {
-				frontCardClientId: frontSideClientId,
+				controllerId: id,
 			};
 		},
 		[clientId]
 	);
 
-	// create an event listener to watch for the block elm for the frontCardClientId
+	// create an event listener to watch for the block elm for the controllerId
 	// to have data-flipped attribute change and then update the isFlipped state
 	const [isFlipped, setIsFlipped] = useState(false);
 	useEffect(() => {
 		const blockEditor = document.querySelector(
 			'.wp-block-post-content.block-editor-block-list__layout'
 		);
-		const frontCardElm = blockEditor.querySelector(
-			`[data-block="${frontCardClientId}"]`
+		const controllerBlock = blockEditor.querySelector(
+			`[data-block="${controllerId}"]`
 		);
-		if (frontCardElm) {
+		if (controllerBlock) {
 			const observer = new MutationObserver((mutations) => {
 				mutations.forEach((mutation) => {
 					console.log('mutation', mutation);
 					if (mutation.type === 'attributes') {
-						setIsFlipped('true' === frontCardElm.dataset.flipped);
+						setIsFlipped(
+							'true' === controllerBlock.dataset.flipped
+						);
 					}
 				});
 			});
-			observer.observe(frontCardElm, {
+			observer.observe(controllerBlock, {
 				attributes: true,
 			});
 		}
-	}, [frontCardClientId]);
+	}, [controllerId]);
 
 	const doFlip = () => {
 		const blockEditor = document.querySelector(
 			'.wp-block-post-content.block-editor-block-list__layout'
 		);
-		const frontCardElm = blockEditor.querySelector(
-			`[data-block="${frontCardClientId}"]`
+		const controllerBlock = blockEditor.querySelector(
+			`[data-block="${controllerId}"]`
 		);
-		if (frontCardElm) {
-			console.log(
-				'doFLIP = frontCardElm',
-				frontCardElm,
-				frontCardClientId
-			);
-			const { flipped } = frontCardElm.dataset;
-			frontCardElm.dataset.flipped =
+		if (controllerBlock) {
+			const { flipped } = controllerBlock.dataset;
+			controllerBlock.dataset.flipped =
 				'true' === flipped ? 'false' : 'true';
 		}
 	};
@@ -100,7 +77,9 @@ export default function FlipControl({ clientId }) {
 				<ToolbarButton
 					onClick={() => doFlip()}
 					isActive={isFlipped}
-					label="Flip Over"
+					label={
+						isFlipped ? 'Flip Over to Front' : 'Flip Over to Back'
+					}
 					icon="image-rotate"
 				/>
 			</ToolbarGroup>

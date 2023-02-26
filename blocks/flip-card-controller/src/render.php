@@ -10,7 +10,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes();
 
 // You can use this method...
 echo wp_sprintf(
-	'<div %1$s>%2$s</div>',
+	'<div %1$s><div class="wp-block-prc-block-flip-card-controller__inner-blocks">%2$s</div></div>',
 	$block_wrapper_attrs,
 	$content,
 );

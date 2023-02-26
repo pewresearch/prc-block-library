@@ -5,10 +5,55 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-prc-block-flip-card-controller {
-	color: inherit;
-	background: inherit;
-	.wp-block-prc-block-flip-card-side {
-		cursor: pointer;
+ .wp-block-prc-block-flip-card-controller {
+	perspective: 1000px;
+	&[data-flipped="true"] .wp-block-prc-block-flip-card-controller__inner-blocks {
+		transform: rotateY(180deg);
+	}
+	.wp-block-prc-block-flip-card-controller__inner-blocks {
+		transition: transform 0.8s ease 0s;
+		transform-style: preserve-3d;
+		position: relative;
+
+		// clearfix this element so our .wp-block-prc-block-flip-card-side can be absolute positioned
+		&:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
+
+		.wp-block-prc-block-flip-card-side {
+			&:not(.wp-block) {
+				cursor: pointer;
+			}
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+			width: 100%;
+			height: 100%;
+			&.is-style-back {
+				transform: rotateY(180deg);
+			}
+		}
+	}
+
+	&.is-initialized {
+		.wp-block-prc-block-flip-card-side {
+			position: absolute;
+		}
+	}
+	// &:not(.is-initialized) .wp-block-prc-block-flip-card-side.is-style-back {
+	// 	display: none;
+	// }
+	// Editor Specific:
+	// Wonky, but it works...
+	&.wp-block[data-flipped="true"] {
+		.wp-block-prc-block-flip-card-side.is-style-back {
+			display: block;
+		}
+		.wp-block-prc-block-flip-card-side.is-style-front {
+			display: none;
+		}
 	}
 }
+
+

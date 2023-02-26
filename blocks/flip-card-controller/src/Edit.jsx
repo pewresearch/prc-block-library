@@ -3,7 +3,7 @@
  */
 import { Fragment } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
-
+import { ResizableBox } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
@@ -65,11 +65,13 @@ export default function Edit({
 }) {
 	const blockProps = useBlockProps();
 	const innerBlocksProps = useInnerBlocksProps(
-		{},
+		{
+			className: 'wp-block-prc-block-flip-card-controller__inner-blocks',
+		},
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
-			templateLock: 'all',
+			templateLock: 'insert',
 			__experimentalCaptureToolbars: true,
 		}
 	);
