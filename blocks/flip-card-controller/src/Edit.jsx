@@ -1,18 +1,13 @@
 /**
- * External Dependencies
- */
-import classNames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
-import { Fragment, useState } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import FlipControl from './FlipControl';
 
 const ALLOWED_BLOCKS = ['prc-block/flip-card-side'];
 const TEMPLATE = [
@@ -54,6 +49,9 @@ const TEMPLATE = [
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param {obect}    props.context       Context object.
+ * @param {string}   props.clientId      Block client ID.
+ * @param {boolean}  props.isSelected    Whether the block is selected.
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -65,16 +63,7 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const [isFlipped, toggleFlip] = useState(false);
-	const doFlip = () => {
-		toggleFlip(!isFlipped);
-	};
-
-	const blockProps = useBlockProps({
-		className: classNames({
-			'is-flipped': isFlipped,
-		}),
-	});
+	const blockProps = useBlockProps();
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
@@ -82,12 +71,12 @@ export default function Edit({
 			template: TEMPLATE,
 			templateLock: 'all',
 			__experimentalCaptureToolbars: true,
-		},
+		}
 	);
 
 	return (
 		<Fragment>
-			<Controls {...{ isFlipped, doFlip }} />
+			<FlipControl {...{ clientId }} />
 			<div {...blockProps}>
 				<div {...innerBlocksProps} />
 			</div>
