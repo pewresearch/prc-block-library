@@ -36,7 +36,6 @@ function initFlipCardController(elm) {
 
 	// find the max height and width of the sides
 	sides.forEach((side) => {
-		console.log('side...', side, side.offsetWidth, side.offsetHeight);
 		widths.push(side.offsetWidth);
 		heights.push(side.offsetHeight);
 	});
