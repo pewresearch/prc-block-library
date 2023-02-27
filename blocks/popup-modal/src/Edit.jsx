@@ -105,9 +105,14 @@ export default function Edit({
 			templateLock: false,
 		},
 	);
+	// check that context has popup-controller/className
+	// if it does, check if it includes is-style-video
+	// if it does, set isVideoModal to true
+	// if it doesn't, set isVideoModal to false
 
-	const isVideoModal =
-		context['popup-controller/className'].includes('is-style-video');
+	const isVideoModal = context['popup-controller/className']
+		? context['popup-controller/className'].includes('is-style-video')
+		: false;
 
 	const { hasChildSelected } = useSelect((select) => {
 		const { hasSelectedInnerBlock } = select('core/block-editor');
