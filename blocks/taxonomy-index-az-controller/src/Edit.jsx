@@ -24,10 +24,7 @@ const BLOCKS_TEMPLATE = [
 						desktopSpan: 4,
 						tabletSpan: 2,
 					},
-					allowedBlocks: [
-						'prc-block/taxonomy-index-az-list',
-						'core/separator',
-					],
+					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
 				},
 			],
 			[
@@ -38,10 +35,7 @@ const BLOCKS_TEMPLATE = [
 						desktopSpan: 4,
 						tabletSpan: 4,
 					},
-					allowedBlocks: [
-						'prc-block/taxonomy-index-az-list',
-						'core/separator',
-					],
+					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
 				},
 			],
 			[
@@ -52,10 +46,7 @@ const BLOCKS_TEMPLATE = [
 						desktopSpan: 4,
 						tabletSpan: 2,
 					},
-					allowedBlocks: [
-						'prc-block/taxonomy-index-az-list',
-						'core/separator',
-					],
+					allowedBlocks: ['prc-block/taxonomy-index-az-list'],
 				},
 			],
 		],

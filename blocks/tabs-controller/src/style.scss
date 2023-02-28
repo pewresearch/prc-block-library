@@ -64,7 +64,6 @@
 
 	// Fallback font-family for when the block does not have a set style.
 	&:not(.is-style-tabbed) .wp-block-prc-block-tabs-menu,
-	&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
 	&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
 		font-family: var(--wp--preset--font-family--sans-serif);
 	}
@@ -127,7 +126,6 @@
 			width: 100%;
 		}
 		&.is-style-tabbed .wp-block-prc-block-tabs-menu,
-		&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
 		&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
 			border-bottom: 1px solid var(--color-border);
 			.wp-block-prc-block-tabs-menu-item {
@@ -142,22 +140,30 @@
 		}
 	}
 
+	&:not(.is-style-accordion).is-vertical-tabs {
+		.wp-block-prc-block-tabs-menu,
+		div.wp-block-prc-block-tabs-menu.wp-block {
+			max-width: 250px !important;
+		}
+	}
+
 	&.is-vertical-tabs {
 		& > div {
 			flex-direction: row;
 		}
 		.wp-block-prc-block-tabs-menu,
 		div.wp-block-prc-block-tabs-menu.wp-block {
-			max-width: 200px;
-			width: 100%;
+			max-width: 250px !important;
+			width: 100% !important;
 			flex-direction: column;
 			align-items: flex-end;
 		}
 		.wp-block-prc-block-tabs-panes {
 			padding-left: 1em;
+			flex-grow: 1;
+			width: 100%;
 		}
 		&.is-style-tabbed .wp-block-prc-block-tabs-menu,
-		&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
 		&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
 			border-right: 1px solid var(--color-border);
 			.wp-block-prc-block-tabs-menu-item {
@@ -171,10 +177,6 @@
 				}
 			}
 		}
-	}
-
-	&.is-style-pills .wp-block-prc-block-tabs-menu {
-		padding-bottom: 1em;
 	}
 
 	&.is-style-text .wp-block-prc-block-tabs-menu {
