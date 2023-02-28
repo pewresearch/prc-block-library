@@ -142,7 +142,17 @@ const transformDeprecatedTopicIndexCategorized = (attributes, innerBlocks) => {
 };
 
 const transformFromDeprecatedTaxonomyTree = (attributes, innerBlocks) => {
-	const innerBlocksTemplate = [];
+	const innerBlocksTemplate = [
+		[
+			'prc-block/taxonomy-menu-link',
+			{
+				label: attributes.heading,
+				url: attributes.url,
+				id: '',
+				className: 'is-style-sub-heading',
+			},
+		],
+	];
 
 	innerBlocks.forEach((block) => {
 		const { subHeading } = block.attributes;

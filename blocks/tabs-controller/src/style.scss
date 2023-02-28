@@ -1,12 +1,14 @@
 @mixin accordion {
-	& > div {
+	&:not(.is-vertical-tabs) > div {
 		flex-direction: column!important;
 		border: 1px solid var(--color-border)!important;
+		.wp-block-prc-block-tabs-menu {
+			max-width: 100%!important;
+		}
 	}
 	.wp-block-prc-block-tabs-menu {
 		flex-direction: column!important;
 		align-items: stretch!important;
-		max-width: 100%!important;
 		gap: 0px!important;
 		border: none!important;
 		padding: 0px!important;
@@ -39,6 +41,8 @@
 	--color-border: #ddd;
 	--color-active: #eee;
 	--color-hover: #eee;
+
+	box-sizing: border-box;
 
 	margin-block-end: 1.5em;
 	container-type: inline-size;
@@ -74,6 +78,7 @@
 		padding-left: 0;
 		list-style: none;
 		gap: 5px;
+		box-sizing: border-box;
 		& > li {
 			display: block;
 		}
@@ -89,6 +94,7 @@
 		}
 		.wp-block-prc-block-tabs-menu-item {
 			display: inline-block;
+			box-sizing: border-box;
 			cursor: pointer;
 			border-radius: var(--border-radius);
 			border: 1px solid var(--color-border);
