@@ -54,6 +54,14 @@
 			display: none;
 		}
 	}
+	&.wp-block[data-flipped="false"] {
+		.wp-block-prc-block-flip-card-side.is-style-back {
+			display: none;
+		}
+		.wp-block-prc-block-flip-card-side.is-style-front {
+			display: block;
+		}
+	}
 }
 
 
