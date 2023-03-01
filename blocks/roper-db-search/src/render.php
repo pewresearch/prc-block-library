@@ -89,8 +89,8 @@ if ( 'global' === $attributes['type'] ) {
 	</script>
 	<?php
 } else {
-	// wp_enqueue_script('roper-db-search');
-	// wp_enqueue_style('roper-db-search');
+	wp_enqueue_script('roper-db-search');
+	wp_enqueue_style('roper-db-search');
 	?>
 	<div id="partner">&nbsp;</div>
 	<script>

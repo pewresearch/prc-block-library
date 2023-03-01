@@ -31,17 +31,13 @@ import query from './query';
 
 const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group', 'something/else'];
 
-function StaffInnerBlocks({ isVisible }) {
+function StaffInnerBlocks({}) {
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
 			allowedBlocks: ALLOWED_BLOCKS,
 		}
 	);
-
-	if (!isVisible) {
-		return null;
-	}
 
 	return <div {...innerBlocksProps} />;
 }
@@ -156,11 +152,10 @@ const BlockContextProviderMemoized = ({
 						key={`context-key--${index}`}
 						value={blockContext}
 					>
-						<StaffInnerBlocks
-							isVisible={
-								null === activeBlockContextId || isVisible
-							}
-						/>
+
+						{activeBlockContextId === null || isVisible ? (
+							<StaffInnerBlocks />
+						) : null}
 						<MemoizedStaffBlockPreview
 							blocks={blocks}
 							blockContextId={contextId}

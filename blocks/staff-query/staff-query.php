@@ -46,15 +46,17 @@ class StaffQuery extends PRC_Block_Library {
 		$research_area = array_key_exists( 'researchArea', $attributes ) ? $attributes['researchArea'] : false;
 		$tax_query = array();
 		if ( $staff_type ) {
+			$staff_type = $staff_type['slug'];
 			$tax_query[] = array(
-				'taxonomy' => 'staff_type',
+				'taxonomy' => 'staff-type',
 				'field' => 'slug',
 				'terms' => $staff_type,
 			);
 		}
 		if ( $research_area ) {
+			$research_area = $research_area['slug'];
 			$tax_query[] = array(
-				'taxonomy' => 'research_area',
+			'taxonomy' => 'research-teams',
 				'field' => 'slug',
 				'terms' => $research_area,
 			);
@@ -65,7 +67,7 @@ class StaffQuery extends PRC_Block_Library {
 
 		$query_args = array(
 			'post_type' => 'staff',
-			'posts_per_page' => 100,
+			'posts_per_page' => 200,
 			'orderby' => 'last_name',
 			'order' => 'ASC',
 		);
@@ -105,6 +107,41 @@ class StaffQuery extends PRC_Block_Library {
 		return $staff_posts;
 	}
 
+	public function render_callback( $attributes, $content, $block ) {
+		$staff_posts = $this->query_staff_posts( $attributes );
+
+		$block_content = '';
+
+		if ( empty( $staff_posts ) ) {
+			$block_content = '<p>No staff found.</p>';
+		}
+
+		$block_attrs = get_block_wrapper_attributes();
+
+		$block_instance = $block->parsed_block;
+
+		// Set the block name to one that does not correspond to an existing registered block.
+		// This ensures that for the inner instances of the Staff Query block, we do not render any block supports.
+		$block_instance['blockName'] = 'core/null';
+
+		foreach( $staff_posts as $staff_post_context ) {
+			// Render the inner blocks of the Staff Query block with `dynamic` set to `false` to prevent calling
+			// `render_callback` and ensure that no wrapper markup is included.
+			$block_content .= (
+				new WP_Block(
+					$block_instance,
+					$staff_post_context
+				)
+			)->render( array( 'dynamic' => false ) );
+		}
+
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			$block_attrs,
+			$block_content
+		);
+	}
+
 	/**
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued
@@ -113,9 +150,14 @@ class StaffQuery extends PRC_Block_Library {
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
-		register_block_type( self::$dir . '/build' );
+		register_block_type(
+			self::$dir . '/build',
+			array(
+				'render_callback' => array( $this, 'render_callback' ),
+			)
+		);
 	}
 
 }
 
-new StaffQuery(true);
+$StaffQuery = new StaffQuery(true);
