@@ -10,7 +10,10 @@
 	background: inherit;
 	.wp-block-group.staff-listing {
 		display: flex;
-		.wp-block-prc-block-staff-info a {
+		.wp-block-prc-block-staff-info {
+			margin: 0!important;
+		}
+		a.wp-block-prc-block-staff-info {
 			color: var(--wp--preset--colors--link-color)!important;
 		}
 		.wp-block-prc-block-staff-info:last-child {
