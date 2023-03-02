@@ -11,7 +11,7 @@ import {
 	withColors,
 	getColorClassName,
 } from '@wordpress/block-editor';
-
+import { useEffect } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
@@ -33,30 +33,34 @@ import ProgressBar from './ProgressBar';
 function Edit({
 	attributes,
 	setAttributes,
-	className,
 	barColor,
 	setBarColor,
 	backgroundColor,
 	setBackgroundColor,
 }) {
-	const blockProps = useBlockProps({
-		className: classnames( className, {
-			'has-bar-color': !! barColor.color || !! barColor?.class,
-			[ getColorClassName( 'color', barColor?.slug ) ]:
-				!! barColor?.slug,
-			'has-background': !! backgroundColor.color || backgroundColor.class,
-			[ getColorClassName( 'background-color', backgroundColor?.slug ) ]:
-				!! backgroundColor?.slug,
-		} ),
-		style: {
-			backgroundColor: ! backgroundColor?.slug && backgroundColor?.color,
-		},
-	});
+	const blockProps = useBlockProps();
 
 	return (
 		<div {...blockProps}>
-			<Controls {...{ attributes, setAttributes, colors: { barColor, setBarColor, backgroundColor, setBackgroundColor } }} />
-			<ProgressBar {...attributes} />
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+					colors: {
+						barColor,
+						setBarColor,
+						backgroundColor,
+						setBackgroundColor,
+					},
+				}}
+			/>
+			<ProgressBar
+				{...{
+					...attributes,
+					barColor: barColor.color,
+					backgroundColor: backgroundColor.color,
+				}}
+			/>
 		</div>
 	);
 }
