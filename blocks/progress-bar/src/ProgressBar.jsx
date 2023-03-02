@@ -147,7 +147,7 @@ function ProgressBar({
 			y2: null,
 			sortKey: 'x',
 			sortOrder: 'none',
-			categories: ['y', 'z'],
+			categories: ['currentValue', 'restOfBar'],
 			xScale: 'linear',
 			yScale: 'linear',
 			xFormat: 'yyyy',
@@ -188,8 +188,8 @@ function ProgressBar({
 			labelUnit: '',
 			labelUnitPosition: 'end',
 			labelFormat: null,
-			customLabelFormat: (value) => {
-				if (currentValue === value) {
+			customLabelFormat: (value, category) => {
+				if ('currentValue' === category) {
 					return 'fractional' === labelFormat
 						? `${currentValue}/${maxValue}`
 						: `${currentValue}%	`;
@@ -202,8 +202,8 @@ function ProgressBar({
 	const data = [
 		{
 			x: axisLabel,
-			y: currentValue,
-			z: maxValue - currentValue,
+			currentValue,
+			restOfBar: maxValue - currentValue,
 		},
 	];
 
