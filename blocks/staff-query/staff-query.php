@@ -85,6 +85,10 @@ class StaffQuery extends PRC_Block_Library {
 			while ( $staff_query->have_posts() ) {
 				$staff_query->the_post();
 				$staff_post_id = get_the_ID();
+				// Skip former-staff.
+				if ( has_term( 'former-staff', 'staff-type', $staff_post_id ) ) {
+					continue;
+				}
 				$name = get_the_title();
 				$expertise_term_links = $this->get_expertise( $staff_post_id );
 				$enable_link = get_post_meta( $staff_post_id, 'linked_byline_term', true );
