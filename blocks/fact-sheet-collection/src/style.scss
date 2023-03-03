@@ -20,6 +20,16 @@
 			padding-right: 1em;
 		}
 	}
+	&.has-alt-languages {
+		border-top: 0;
+		padding-top: 0;
+		.wp-block-prc-block-fact-sheet-collection--alt-languages {
+			background: white;
+			border-bottom: 1px solid var(--border-color);
+			padding-bottom: 1em;
+			margin-bottom: 1em;
+		}
+	}
 
 	.wp-block-prc-block-fact-sheet-collection--parent-term {
 		font-weight: bold;
