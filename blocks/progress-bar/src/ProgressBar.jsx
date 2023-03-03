@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+// eslint-disable-next-line import/no-unresolved
 import { ChartBuilderWrapper, baseConfig } from '@prc/chart-builder';
 
 function ProgressBar({

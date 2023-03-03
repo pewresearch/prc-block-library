@@ -1,17 +1,7 @@
 /**
- * External Dependencies
- */
-import classnames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
-import {
-	useBlockProps,
-	withColors,
-	getColorClassName,
-} from '@wordpress/block-editor';
-import { useEffect } from '@wordpress/element';
+import { useBlockProps, withColors } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */

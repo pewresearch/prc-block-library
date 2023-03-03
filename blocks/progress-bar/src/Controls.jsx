@@ -10,7 +10,6 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, PanelColorSettings } from '@wordpress/block-editor';
 import {
 	PanelBody,
-	PanelRow,
 	SelectControl,
 	Flex,
 	FlexItem,
