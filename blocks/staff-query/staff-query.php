@@ -87,6 +87,9 @@ class StaffQuery extends PRC_Block_Library {
 				$staff_post_id = get_the_ID();
 				$name = get_the_title();
 				$expertise_term_links = $this->get_expertise( $staff_post_id );
+				$enable_link = get_post_meta( $staff_post_id, 'linked_byline_term', true );
+				$enable_link = $enable_link ? home_url( '/staff/' . get_post_field( 'post_name' ) ) : false;
+				
 				$staff_posts[] = array(
 					'staffName'      => $name,
 					'staffJobTitle'  => get_post_meta( $staff_post_id, 'job_title', true ),
@@ -95,7 +98,7 @@ class StaffQuery extends PRC_Block_Library {
 					'staffExpertise' => $expertise_term_links,
 					'staffBio'       => get_the_content(null, false, $staff_post_id),
 					'staffMiniBio'   => get_post_meta( $staff_post_id, 'job_title_mini_bio', true ),
-					'staffLink'      => home_url( '/staff/' . get_post_field( 'post_name' ) ),
+					'staffLink'      => $enable_link,
 				);
 			}
 		}

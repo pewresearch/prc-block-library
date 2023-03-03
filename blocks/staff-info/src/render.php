@@ -13,7 +13,7 @@ if ( false !== $value_to_fetch && array_key_exists( $value_to_fetch, $context ) 
 
 $template = '<div %1$s>%2$s</div>';
 $staff_link = false;
-if ( array_key_exists('enableLink', $attributes ) && $attributes['enableLink'] ) {
+if ( array_key_exists('enableLink', $attributes ) && $attributes['enableLink'] && array_key_exists( 'staffLink', $context ) && false !== $context['staffLink'] ) {
 	$template = '<a href="%3$s" %1$s>%2$s</a>';
 	$staff_link = array_key_exists( 'staffLink', $context ) ? $context['staffLink'] : false;
 }

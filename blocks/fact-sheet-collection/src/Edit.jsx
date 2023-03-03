@@ -29,13 +29,7 @@ import CollectionDropdown from './CollectionDropdown';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({
-	attributes,
-	setAttributes,
-	context,
-	clientId,
-	isSelected,
-}) {
+export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();
 
 	const { className, pdf } = attributes;

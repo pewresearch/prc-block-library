@@ -9,6 +9,7 @@ import { Fragment } from '@wordpress/element';
  * Internal Dependencies
  */
 import Controls from './Controls';
+import './style.scss';
 
 const BLOCKNAME = 'core/social-links';
 const BLOCKIDENTIFIER = 'prc-block-library/core-social-links';
@@ -27,11 +28,13 @@ addFilter(
 				return (
 					<Fragment>
 						<BlockEdit {...props} />
-						<Controls {...{ attributes, setAttributes, context: false }} />
+						<Controls
+							{...{ attributes, setAttributes, context: false }}
+						/>
 					</Fragment>
 				);
 			},
-		'withCoreSocialLinksControls',
+		'withCoreSocialLinksControls'
 	),
-	21,
+	21
 );
