@@ -5,7 +5,23 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-prc-block-bylines-query {
+.wp-block-prc-block-staff-query {
 	color: inherit;
 	background: inherit;
+	.wp-block-group.staff-listing {
+		display: flex;
+		.wp-block-prc-block-staff-info {
+			margin: 0!important;
+		}
+		a.wp-block-prc-block-staff-info {
+			color: var(--wp--preset--color--link-color)!important;
+		}
+		.wp-block-prc-block-staff-info:last-child {
+			flex-grow: 1;
+			&:before {
+				content: ", ";
+				padding-right: 0.3em;
+			}
+		}
+	}
 }

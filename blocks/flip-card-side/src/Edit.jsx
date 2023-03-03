@@ -7,17 +7,20 @@
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import {
-	useBlockProps,
-	RichText,
-	useInnerBlocksProps,
-} from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
+import FlipControl from '../../flip-card-controller/src/FlipControl';
 
-const ALLOWED_BLOCKS = [ "core/heading", "core/paragraph", "core/list", "core/image", "core/button" ];
+const ALLOWED_BLOCKS = [
+	'core/heading',
+	'core/paragraph',
+	'core/list',
+	'core/image',
+	'core/button',
+];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -27,26 +30,34 @@ const ALLOWED_BLOCKS = [ "core/heading", "core/paragraph", "core/list", "core/im
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
+ * @param            props.isSelected
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( {
+export default function Edit({
 	attributes,
 	setAttributes,
 	context,
 	clientId,
 	isSelected,
-} ) {
+}) {
 	const blockProps = useBlockProps();
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	const { allowedBlocks, orientation } = attributes;
-	const innerBlocksProps = useInnerBlocksProps( blockProps, {
-		allowedBlocks: allowedBlocks ? allowedBlocks : ALLOWED_BLOCKS,
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 		templateLock: false,
-	} );
+	});
 
-	return <div { ...innerBlocksProps } />;
+	return (
+		<Fragment>
+			<FlipControl {...{ clientId }} />
+			<div {...innerBlocksProps} />
+		</Fragment>
+	);
 }

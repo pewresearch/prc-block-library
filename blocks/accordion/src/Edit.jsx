@@ -29,12 +29,24 @@ const ALLOWED_BLOCKS = true;
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                           Properties passed to the function.
+ * @param {Object}   props.attributes                Available block attributes.
+ * @param {string}   props.className
+ * @param {string}   props.titleBackgroundColor
+ * @param {Function} props.setTitleBackgroundColor
+ * @param {string}   props.titleTextColor
+ * @param {Function} props.setTitleTextColor
+ * @param {string}   props.contentBackgroundColor
+ * @param {Function} props.setContentBackgroundColor
+ * @param {string}   props.contentTextColor
+ * @param {Function} props.setContentTextColor
+ * @param {string}   props.borderColor
+ * @param {Function} props.setBorderColor
+ * @param {Function} props.setAttributes             Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
+// eslint-disable-next-line max-lines-per-function
 function Edit({
 	attributes,
 	setAttributes,
@@ -67,12 +79,12 @@ function Edit({
 	};
 
 	const blockProps = useBlockProps({
-		className: classNames( className, {
+		className: classNames(className, {
 			'is-active': isOpen,
-			'has-border-color': !! borderColor.color || !! borderColor?.class,
-			[ getColorClassName( 'border-color', borderColor?.slug ) ]:
-				!! borderColor?.slug,
-		} ),
+			'has-border-color': !!borderColor.color || !!borderColor?.class,
+			[getColorClassName('border-color', borderColor?.slug)]:
+				!!borderColor?.slug,
+		}),
 	});
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
@@ -82,27 +94,33 @@ function Edit({
 		{
 			className: classNames('wp-block-prc-block-accordion--content', {
 				'is-open': isOpen,
-				'has-background': !! contentBackgroundColor.color || !! contentBackgroundColor?.class,
-				[ getColorClassName( 'background-color', contentBackgroundColor?.slug ) ]:
-					!! contentBackgroundColor?.slug,
-				'has-text-color': !! contentTextColor.color || !! contentTextColor?.class,
-				[ getColorClassName( 'color', contentTextColor?.slug ) ]:
-					!! contentTextColor?.slug,
+				'has-background':
+					!!contentBackgroundColor.color ||
+					!!contentBackgroundColor?.class,
+				[getColorClassName(
+					'background-color',
+					contentBackgroundColor?.slug
+				)]: !!contentBackgroundColor?.slug,
+				'has-text-color':
+					!!contentTextColor.color || !!contentTextColor?.class,
+				[getColorClassName('color', contentTextColor?.slug)]:
+					!!contentTextColor?.slug,
 			}),
 		},
 		{
 			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 			orientation: 'vertical',
-		},
+		}
 	);
 
 	const titleClassNames = classNames('wp-block-prc-block-accordion--title', {
-		'has-background': !! titleBackgroundColor.color || !! titleBackgroundColor?.class,
-		[ getColorClassName( 'background-color', titleBackgroundColor?.slug ) ]:
-			!! titleBackgroundColor?.slug,
-		'has-text-color': !! titleTextColor.color || !! titleTextColor?.class,
-		[ getColorClassName( 'color', titleTextColor?.slug ) ]:
-			!! titleTextColor?.slug,
+		'has-background':
+			!!titleBackgroundColor.color || !!titleBackgroundColor?.class,
+		[getColorClassName('background-color', titleBackgroundColor?.slug)]:
+			!!titleBackgroundColor?.slug,
+		'has-text-color': !!titleTextColor.color || !!titleTextColor?.class,
+		[getColorClassName('color', titleTextColor?.slug)]:
+			!!titleTextColor?.slug,
 	});
 
 	return (
@@ -110,12 +128,19 @@ function Edit({
 			<Controls colors={colors} />
 			<div {...blockProps}>
 				<div className={titleClassNames}>
-					<span class="wp-block-prc-block-accordion--icon" onClick={toggleOpen}>&#8227;</span>
+					<span
+						className="wp-block-prc-block-accordion--icon"
+						onClick={toggleOpen}
+					>
+						&#8227;
+					</span>
 					<RichText
 						tagName="h3"
 						placeholder={__('Title', 'prc-block-library')}
 						value={title}
-						onChange={(newTitle) => setAttributes({ title: newTitle })}
+						onChange={(newTitle) =>
+							setAttributes({ title: newTitle })
+						}
 						allowedFormats={[]}
 					/>
 				</div>
@@ -130,5 +155,5 @@ export default withColors(
 	{ titleTextColor: 'color' },
 	{ contentBackgroundColor: 'color' },
 	{ contentTextColor: 'color' },
-	{ borderColor: 'color' },
+	{ borderColor: 'color' }
 )(Edit);

@@ -13,7 +13,6 @@ import {
 	useCallback,
 	useRef,
 } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
 import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
@@ -70,9 +69,7 @@ const doSearch = (searchValue, taxonomy, parentTermId = 0) =>
 			method: 'GET',
 			path: addQueryArgs('/prc-api/v2/blocks/taxonomy-search', args),
 		};
-		console.log('Search Request->', request);
 		apiFetch(request).then((d) => {
-			console.log('... returns: ', d);
 			const tmpData = d.map((t) => ({
 				key: t.id,
 				value: t.link,
@@ -116,7 +113,7 @@ function SearchField({ taxonomy = '', parentTermId = 0, parentTermName = '' }) {
 		() => () => {
 			clearTimeout(timeoutRef.current);
 		},
-		[],
+		[]
 	);
 
 	useEffect(() => {
@@ -136,31 +133,31 @@ function SearchField({ taxonomy = '', parentTermId = 0, parentTermName = '' }) {
 			value={value}
 			defaultValue={null}
 			fluid
-			placeholder={__(
-				`Start typing to search ${
-					'' !== parentTermName ? parentTermName : 'for a topic'
-				}...`,
-			)}
+			placeholder={`Start typing to search ${
+				'' !== parentTermName ? parentTermName : 'for a topic'
+			}`}
 		/>
 	);
 }
 
 domReady(() => {
 	const blocks = document.querySelectorAll(
-		'.wp-block-prc-block-taxonomy-search',
+		'.wp-block-prc-block-taxonomy-search'
 	);
 	if (blocks) {
 		blocks.forEach((elm) => {
 			const taxonomy = elm.getAttribute('data-taxonomy');
 			const parentTermId = elm.getAttribute('data-restrict-to-term-id');
-			const parentTermName = elm.getAttribute('data-restrict-to-term-name');
+			const parentTermName = elm.getAttribute(
+				'data-restrict-to-term-name'
+			);
 			render(
 				<SearchField
 					taxonomy={taxonomy}
 					parentTermId={parentTermId}
 					parentTermName={parentTermName}
 				/>,
-				elm,
+				elm
 			);
 		});
 	}

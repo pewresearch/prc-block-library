@@ -1,12 +1,14 @@
 @mixin accordion {
-	& > div {
+	&:not(.is-vertical-tabs) > div {
 		flex-direction: column!important;
 		border: 1px solid var(--color-border)!important;
+		.wp-block-prc-block-tabs-menu {
+			max-width: 100%!important;
+		}
 	}
 	.wp-block-prc-block-tabs-menu {
 		flex-direction: column!important;
 		align-items: stretch!important;
-		max-width: 100%!important;
 		gap: 0px!important;
 		border: none!important;
 		padding: 0px!important;
@@ -40,6 +42,8 @@
 	--color-active: #eee;
 	--color-hover: #eee;
 
+	box-sizing: border-box;
+
 	margin-block-end: 1.5em;
 	container-type: inline-size;
 
@@ -64,7 +68,6 @@
 
 	// Fallback font-family for when the block does not have a set style.
 	&:not(.is-style-tabbed) .wp-block-prc-block-tabs-menu,
-	&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
 	&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
 		font-family: var(--wp--preset--font-family--sans-serif);
 	}
@@ -75,6 +78,7 @@
 		padding-left: 0;
 		list-style: none;
 		gap: 5px;
+		box-sizing: border-box;
 		& > li {
 			display: block;
 		}
@@ -90,6 +94,7 @@
 		}
 		.wp-block-prc-block-tabs-menu-item {
 			display: inline-block;
+			box-sizing: border-box;
 			cursor: pointer;
 			border-radius: var(--border-radius);
 			border: 1px solid var(--color-border);
@@ -127,7 +132,6 @@
 			width: 100%;
 		}
 		&.is-style-tabbed .wp-block-prc-block-tabs-menu,
-		&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
 		&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
 			border-bottom: 1px solid var(--color-border);
 			.wp-block-prc-block-tabs-menu-item {
@@ -142,22 +146,30 @@
 		}
 	}
 
+	&:not(.is-style-accordion).is-vertical-tabs {
+		.wp-block-prc-block-tabs-menu,
+		div.wp-block-prc-block-tabs-menu.wp-block {
+			max-width: 250px !important;
+		}
+	}
+
 	&.is-vertical-tabs {
 		& > div {
 			flex-direction: row;
 		}
 		.wp-block-prc-block-tabs-menu,
 		div.wp-block-prc-block-tabs-menu.wp-block {
-			max-width: 200px;
-			width: 100%;
+			max-width: 250px !important;
+			width: 100% !important;
 			flex-direction: column;
 			align-items: flex-end;
 		}
 		.wp-block-prc-block-tabs-panes {
 			padding-left: 1em;
+			flex-grow: 1;
+			width: 100%;
 		}
 		&.is-style-tabbed .wp-block-prc-block-tabs-menu,
-		&:not(.is-style-pills) .wp-block-prc-block-tabs-menu,
 		&:not(.is-style-text) .wp-block-prc-block-tabs-menu {
 			border-right: 1px solid var(--color-border);
 			.wp-block-prc-block-tabs-menu-item {
@@ -171,10 +183,6 @@
 				}
 			}
 		}
-	}
-
-	&.is-style-pills .wp-block-prc-block-tabs-menu {
-		padding-bottom: 1em;
 	}
 
 	&.is-style-text .wp-block-prc-block-tabs-menu {

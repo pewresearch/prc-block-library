@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "title": "Fact Sheet Collection",
   "category": "design",
-  "description": "Display the hierarchy of the fact sheet's collection term as well and a link to download an associated PDF.",
+  "description": "Display the hierarchy of the fact sheet's collection term and a link to download an associated PDF if provided.",
   "attributes": {
     "pdf": {
       "type": "object"
@@ -35,7 +35,13 @@
     },
     "typography": {
       "fontSize": true,
+      "lineHeight": true,
       "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
       "__experimentalDefaultControls": {
         "fontSize": true,
         "__experimentalFontFamily": true

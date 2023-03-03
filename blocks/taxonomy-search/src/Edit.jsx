@@ -5,7 +5,6 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 
@@ -22,6 +21,8 @@ import Controls from './Controls';
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -29,17 +30,24 @@ import Controls from './Controls';
 export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const blockProps = useBlockProps();
 
-	const { taxonomy, restrictToTerm } = attributes;
+	const { taxonomy } = attributes;
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, context, clientId }} />
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+					context,
+					clientId,
+				}}
+			/>
 			<div {...blockProps}>
 				<input
 					type="text"
-					placeholder={__(
-						`Start typing to search for a ${!taxonomy ? 'term' : taxonomy}`,
-					)}
+					placeholder={`Start typing to search for a ${
+						!taxonomy ? 'term' : taxonomy
+					}`}
 				/>
 			</div>
 		</Fragment>

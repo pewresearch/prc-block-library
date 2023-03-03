@@ -13,7 +13,6 @@ import { dispatch, useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
 
 const BLOCKS_TEMPLATE = [
 	['prc-block/tabs-menu', {}],
@@ -26,7 +25,7 @@ const findRemovedDiff = (past, present) => {
 	const comparer = (otherArray) => (current) =>
 		0 ===
 		otherArray.filter(
-			(other) => other.attributes.uuid === current.attributes.uuid,
+			(other) => other.attributes.uuid === current.attributes.uuid
 		).length;
 
 	const onlyInA = past.filter(comparer(present));
@@ -42,6 +41,9 @@ const findRemovedDiff = (past, present) => {
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
+ * @param            props.isSelected
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -71,7 +73,7 @@ export default function Edit({
 			orientation: vertical ? 'vertical' : 'horizontal',
 			template: BLOCKS_TEMPLATE,
 			templateLock: 'all',
-		},
+		}
 	);
 
 	// Get menu blocks, get page blocks
@@ -87,15 +89,19 @@ export default function Edit({
 					: [];
 			const pBlocks =
 				1 <= rootBlocks.length
-					? rootBlocks.filter((e) => 'prc-block/tabs-panes' === e.name)
+					? rootBlocks.filter(
+							(e) => 'prc-block/tabs-panes' === e.name
+					  )
 					: [];
 			// eslint-disable-next-line consistent-return
 			return {
-				menuBlocks: 1 <= mBlocks.length ? mBlocks[0].innerBlocks : false,
-				paneBlocks: 1 <= pBlocks.length ? pBlocks[0].innerBlocks : false,
+				menuBlocks:
+					1 <= mBlocks.length ? mBlocks[0].innerBlocks : false,
+				paneBlocks:
+					1 <= pBlocks.length ? pBlocks[0].innerBlocks : false,
 			};
 		},
-		[clientId],
+		[clientId]
 	);
 
 	// When a menu item block is removed find the matching page block by uuid and remove it.
@@ -107,20 +113,21 @@ export default function Edit({
 			// Find what the diff from menuBlocks and menuBlocksPast is, then get the uuid then search the pageBlocks and remove the block in question.
 			const removed = findRemovedDiff(menuBlocksPast, menuBlocks);
 			const matchedPane = paneBlocks.filter(
-				(e) => e.attributes.uuid === removed[0].attributes.uuid,
+				(e) => e.attributes.uuid === removed[0].attributes.uuid
 			);
-			dispatch('core/block-editor').removeBlock(matchedPane[0].clientId);
+			if (0 !== matchedPane.length) {
+				dispatch('core/block-editor').removeBlock(
+					matchedPane[0].clientId
+				);
+			}
 			// Need to set active the next available menu item block
 		}
 		setMenuBlocksPast(menuBlocks);
 	}, [menuBlocks]);
 
 	return (
-		<Fragment>
-			<div {...blockProps}>
-				<div {...innerBlocksProps} />
-			</div>
-			<Controls {...{ attributes, setAttributes }} />
-		</Fragment>
+		<div {...blockProps}>
+			<div {...innerBlocksProps} />
+		</div>
 	);
 }

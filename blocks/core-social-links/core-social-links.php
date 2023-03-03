@@ -16,6 +16,7 @@ class CoreSocialLinks extends PRC_Block_Library {
 	public static $block_json = null;
 	public static $editor_script_handle = null;
 	public static $view_script_handle = null;
+	public static $style_handle = null;
 
 	public function __construct($init = false) {
 		if ( true === $init ) {
@@ -34,11 +35,13 @@ class CoreSocialLinks extends PRC_Block_Library {
 	public function init_assets() {
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
 		self::$view_script_handle = register_block_script_handle( self::$block_json, 'viewScript' );
+		self::$style_handle = register_block_style_handle( self::$block_json, 'style' );
 	}
 
 
 	public function register_editor_assets() {
 		wp_enqueue_script( self::$editor_script_handle );
+		wp_enqueue_style( self::$style_handle );
 	}
 
 	/**
@@ -101,10 +104,26 @@ class CoreSocialLinks extends PRC_Block_Library {
 					'core/social-links/url',
 					'postId',
 					'queryId',
+					'prc-quiz/results/score',
 				)
 			);
 		}
 		return $settings;
+	}
+
+	public function get_description_context_value( $description, $block ) {
+		// if description does not have %s in it then just return $description
+		if ( false === strpos( $description, '%s' ) ) {
+			return $description;
+		}
+		// Right now we only support "score" as a value, from the quiz results block.
+		$score = array_key_exists( 'prc-quiz/results/score', $block->context ) ? $block->context['prc-quiz/results/score'] : false;
+
+		if ( false === $score ) {
+			return $description;
+		}
+
+		return sprintf( $description, $score );
 	}
 
 	/**
@@ -121,6 +140,7 @@ class CoreSocialLinks extends PRC_Block_Library {
 		}
 
 		wp_enqueue_script( self::$view_script_handle );
+		wp_enqueue_style( self::$style_handle );
 
 		$attributes = $block_args['attrs'];
 		$open_in_new_tab = isset( $block->context['openInNewTab'] ) ? $block->context['openInNewTab'] : false;
@@ -137,6 +157,7 @@ class CoreSocialLinks extends PRC_Block_Library {
 			$title = get_the_title($block->context['postId']);
 		}
 		$description = isset( $block->context['core/social-links/description'] ) ? $block->context['core/social-links/description'] : null;
+		$description = $this->get_description_context_value($description, $block);
 		if ( ! $description && isset($block->context['postId']) ) {
 			$description = get_the_excerpt($block->context['postId']);
 		}

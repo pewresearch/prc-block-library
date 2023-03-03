@@ -33,7 +33,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 			>
 				<PanelDescription>
 					{__(
-						'Use the filters below to filter the staff members that are displayed. Filter by staff type or research area.',
+						'Use the filters below to filter the staff members that are displayed. Filter by staff type or research area.'
 					)}
 				</PanelDescription>
 				<ToolsPanelItem

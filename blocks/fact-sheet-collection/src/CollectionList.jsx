@@ -3,10 +3,10 @@
  */
 import { wpRestApiTermsToTree } from '@prc/functions';
 import classNames from 'classnames';
+
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { useState, useEffect, Fragment } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
@@ -26,7 +26,7 @@ export default function CollectionList() {
 		{
 			per_page: 50,
 			context: 'view',
-		},
+		}
 	);
 
 	const [tree, setTree] = useState([
@@ -48,9 +48,9 @@ export default function CollectionList() {
 		<Fragment>
 			{isResolving && <Spinner />}
 			{tree.map((term) => (
-				<Fragment>
+				<Fragment key={Math.random().toString(10).substring(7)}>
 					<div className="wp-block-prc-block-fact-sheet-collection--parent-term">
-						{__(`${term.name}`, 'prc-block-library')}
+						{`${term.name}`}
 					</div>
 					{term.children && (
 						<div className="wp-block-prc-block-fact-sheet-collection--term-list">
@@ -62,10 +62,13 @@ export default function CollectionList() {
 											'wp-block-prc-block-fact-sheet-collection--term-link',
 											{
 												'is-active': isActive,
-											},
+											}
 										)}
+										key={Math.random()
+											.toString(10)
+											.substring(7)}
 									>
-										{__(`${child.name}`, 'prc-block-library')}
+										{`${child.name}`}
 									</div>
 								);
 							})}

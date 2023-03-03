@@ -18,8 +18,6 @@ import { Controls, LetterControl, TaxonomyControl } from './Controls';
 import Placeholder from './Placeholder';
 
 const getTermsByLetter = (letter, taxonomy) => {
-	console.log('getTermsByLetter fn...', letter, taxonomy);
-
 	return new Promise((resolve) => {
 		apiFetch({
 			path: `/prc-api/v2/blocks/taxonomy-index-az-list/?letter=${letter}&taxonomy=${taxonomy}`,
@@ -81,6 +79,8 @@ export default function Edit({ attributes, setAttributes }) {
 			return t;
 		});
 
+		console.log('onSelect', [...tmpTerms]);
+
 		setTerms([...tmpTerms]);
 	};
 
@@ -114,7 +114,9 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 						<LetterControl
 							value={letter}
-							onChange={(newLetter) => setAttributes({ letter: newLetter })}
+							onChange={(newLetter) =>
+								setAttributes({ letter: newLetter })
+							}
 						/>
 					</Placeholder>
 				)}
@@ -128,13 +130,17 @@ export default function Edit({ attributes, setAttributes }) {
 									const label =
 										true !== checked
 											? decodeEntities(term.name)
-											: `${decodeEntities(term.name)} (${term.term_id})`;
+											: `${decodeEntities(term.name)} (${
+													term.term_id
+											  })`;
 									return (
 										<li>
 											<CheckboxControl
 												label={label}
 												checked={checked}
-												onChange={(b) => onSelect(b, term.term_id)}
+												onChange={(b) =>
+													onSelect(b, term.term_id)
+												}
 											/>
 										</li>
 									);

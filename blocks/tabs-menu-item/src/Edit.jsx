@@ -7,13 +7,16 @@ import { createBlock } from '@wordpress/blocks';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { cleanForSlug } from '@wordpress/url';
+import { decodeEntities } from '@wordpress/html-entities';
 
+// eslint-disable-next-line max-lines-per-function
 export default function Edit({
 	attributes,
 	setAttributes,
 	clientId,
 	isSelected,
 	context,
+	insertBlocksAfter,
 }) {
 	const { title, uuid } = attributes;
 	const currentlyActive = context['prc-block/tabs/active'];
@@ -23,13 +26,14 @@ export default function Edit({
 		updateBlockAttributes,
 		updateBlock,
 		moveBlockToPosition,
+		selectNextBlock,
 	} = useDispatch('core/block-editor');
 
 	const movePane = (
 		targetClientId,
 		targetIndex,
 		currentPaneIndex,
-		toClientId,
+		toClientId
 	) => {
 		if (targetIndex === currentPaneIndex || -1 === currentPaneIndex) {
 			return;
@@ -40,10 +44,15 @@ export default function Edit({
 			targetClientId,
 			targetIndex,
 			currentPaneIndex,
-			toClientId,
+			toClientId
 		);
 
-		moveBlockToPosition(targetClientId, toClientId, toClientId, targetIndex);
+		moveBlockToPosition(
+			targetClientId,
+			toClientId,
+			toClientId,
+			targetIndex
+		);
 	};
 
 	const {
@@ -51,6 +60,7 @@ export default function Edit({
 		panesClientId,
 		currentPositionIndex,
 		matchingPaneClientId,
+		nextMenuItemClientId,
 	} = useSelect(
 		(select) => {
 			if (undefined === clientId) {
@@ -64,8 +74,10 @@ export default function Edit({
 			} = select('core/block-editor');
 
 			const menuBlockClientId = getBlockRootClientId(clientId);
-			const controllerBlockClientId = getBlockRootClientId(menuBlockClientId);
-			const panesBlockClientId = getAdjacentBlockClientId(menuBlockClientId);
+			const controllerBlockClientId =
+				getBlockRootClientId(menuBlockClientId);
+			const panesBlockClientId =
+				getAdjacentBlockClientId(menuBlockClientId);
 			const panesBlock = getBlock(panesBlockClientId);
 
 			let paneClientId = false;
@@ -76,26 +88,40 @@ export default function Edit({
 			) {
 				// console.log('panesBlock as seen from MenuItem', panesBlock);
 				const matchedPane = panesBlock.innerBlocks.filter(
-					(e) => e.attributes.uuid === uuid,
+					(e) => e.attributes.uuid === uuid
 				);
-				paneClientId = matchedPane[0].clientId;
+				if (0 !== matchedPane.length) {
+					paneClientId = matchedPane[0].clientId;
+				}
 			}
 
 			const currentIndex = getBlockIndex(clientId, menuBlockClientId);
-			const paneIndex = getBlockIndex(paneClientId, panesBlockClientId);
 
-			movePane(paneClientId, currentIndex, paneIndex, panesBlockClientId);
+			if (paneClientId) {
+				const paneIndex = getBlockIndex(
+					paneClientId,
+					panesBlockClientId
+				);
+				if (-1 !== paneIndex) {
+					movePane(
+						paneClientId,
+						currentIndex,
+						paneIndex,
+						panesBlockClientId
+					);
+				}
+			}
 
 			// eslint-disable-next-line consistent-return
 			return {
 				controllerClientId: controllerBlockClientId,
 				panesClientId: panesBlockClientId,
 				currentPositionIndex: currentIndex,
-				panePositionIndex: paneIndex,
 				matchingPaneClientId: paneClientId,
+				nextMenuItemClientId: getAdjacentBlockClientId(clientId),
 			};
 		},
-		[clientId],
+		[clientId]
 	);
 
 	const onBlockInit = () => {
@@ -108,7 +134,12 @@ export default function Edit({
 			const newPaneBlock = createBlock('prc-block/tabs-pane', {
 				uuid: newUuid,
 			});
-			insertBlock(newPaneBlock, currentPositionIndex, panesClientId, false);
+			insertBlock(
+				newPaneBlock,
+				currentPositionIndex,
+				panesClientId,
+				false
+			);
 		}
 	};
 
@@ -119,6 +150,21 @@ export default function Edit({
 		if (matchingPaneClientId) {
 			// Blind update of the block to trigger a re-render.
 			updateBlock(matchingPaneClientId, {});
+		}
+	};
+
+	const insertNewBlock = () => {
+		const attrs = {};
+		return insertBlocksAfter(
+			createBlock('prc-block/tabs-menu-item', attrs)
+		);
+	};
+
+	const onEnterSplit = () => {
+		if (null !== nextMenuItemClientId) {
+			selectNextBlock(clientId);
+		} else {
+			insertNewBlock();
 		}
 	};
 
@@ -139,7 +185,7 @@ export default function Edit({
 			{isSelected && (
 				<RichText
 					tagName="div"
-					value={title}
+					value={decodeEntities(title)}
 					allowedFormats={[]}
 					onChange={(newTitle) =>
 						setAttributes({
@@ -148,6 +194,7 @@ export default function Edit({
 						})
 					}
 					placeholder={__('Tab Title', 'prc-block-library')}
+					__unstableOnSplitAtEnd={() => onEnterSplit()}
 				/>
 			)}
 			{!isSelected && <div>{title || `Tab Title`}</div>}

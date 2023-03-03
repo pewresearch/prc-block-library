@@ -3,6 +3,11 @@
  */
 import { __ } from '@wordpress/i18n';
 
+/**
+ * Internal Dependencies
+ */
+import Icon from './Icon';
+
 export default [
 	{
 		name: 'flip-card-front',
@@ -35,6 +40,7 @@ export default [
 				},
 			],
 		],
+		icon: <Icon variant="back" />,
 		isActive: ({ className }) =>
 			className ? className.includes('is-style-back') : false,
 	},

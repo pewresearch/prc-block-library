@@ -7,5 +7,6 @@
   "category": "widgets",
   "textdomain": "core-social-links",
   "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
   "viewScript": "file:./view.js"
 }

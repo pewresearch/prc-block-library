@@ -504,20 +504,21 @@ class StoryItem extends PRC_Block_Library {
 			return false;
 		}
 
+
 		$sources = array(
 			'desktop' => wp_sprintf(
 				'<source srcset="%s 1x, %s 2x" media="(min-width: 768px)" width="%s" height="%s">',
-				$image['desktop']['default'][0],
-				$image['desktop']['hidpi'][0],
-				$image['desktop']['default'][1],
-				$image['desktop']['default'][2]
+				array_key_exists( 0, $image['desktop']['default'] ) ? $image['desktop']['default'][0] : null,
+				array_key_exists( 0, $image['desktop']['hidpi'] ) ? $image['desktop']['hidpi'][0] : null,
+				array_key_exists( 1, $image['desktop']['default'] ) ? $image['desktop']['default'][1] : null,
+				array_key_exists( 2, $image['desktop']['default'] ) ? $image['desktop']['default'][2] : null,
 			),
 			'mobile'  => wp_sprintf(
 				'<source srcset="%s 1x, %s 2x" media="(max-width: 767px)" width="%s" height="%s">',
-				$image['mobile']['default'][0],
-				$image['mobile']['hidpi'][0],
-				$image['mobile']['default'][1],
-				$image['mobile']['default'][2],
+				array_key_exists( 0, $image['mobile']['default'] ) ? $image['mobile']['default'][0] : null,
+				array_key_exists( 0, $image['mobile']['hidpi'] ) ? $image['mobile']['hidpi'][0] : null,
+				array_key_exists( 1, $image['mobile']['default'] ) ? $image['mobile']['default'][1] : null,
+				array_key_exists( 2, $image['mobile']['default'] ) ? $image['mobile']['default'][2] : null,
 			),
 		);
 

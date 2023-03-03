@@ -6,7 +6,16 @@
   "title": "Flip Card Controller",
   "description": "A card that can be flipped",
   "category": "media",
-  "attributes": {},
+  "attributes": {
+    "height": {
+      "type": "number",
+      "default": 300
+    },
+    "width": {
+      "type": "number",
+      "default": 300
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false,
