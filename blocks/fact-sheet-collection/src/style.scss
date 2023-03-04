@@ -8,18 +8,17 @@
 .wp-block-prc-block-fact-sheet-collection {
 	--border-color: rgba(34,36,38,.15);
 	--gap: 0.75em;
-	border-top: 1px solid var(--border-color);
-	padding-top: 1em;
-	margin-top: 1em;
+	
+	margin-top: 1.5em;
 	margin-bottom: 1em;
 
 	&.has-background {
-		padding-bottom: 1em;
 		& > * {
 			padding-left: 1em;
 			padding-right: 1em;
 		}
 	}
+
 	&.has-alt-languages {
 		border-top: 0;
 		padding-top: 0;
@@ -29,11 +28,33 @@
 			padding-bottom: 1em;
 			margin-bottom: 1em;
 		}
+		.wp-block-prc-block-fact-sheet-collection--parent-term {
+			border-bottom: none;
+			margin-bottom: 0;
+		}
 	}
 
 	.wp-block-prc-block-fact-sheet-collection--parent-term {
 		font-weight: bold;
 		text-transform: uppercase;
+		border-bottom: 1px solid var(--border-color);
+		padding-bottom: 0.5em;
+		margin-bottom: 1em;
+	}
+
+	.wp-block-prc-block-fact-sheet-collection--parent-term,
+	.wp-block-prc-block-fact-sheet-collection--pdf-link {
+		padding-left: 0;
+		padding-right: 0;
+		width: 100%;
+		background-color: white;
+		color: var(--wp--preset--color--text-color);
+		
+		a,
+		a:visited,
+		&:visited {
+			color: var(--wp--preset--color--text-color)!important;
+		}
 	}
 
 	.wp-block-prc-block-fact-sheet-collection--term-list {
@@ -62,7 +83,7 @@
 	}
 
 	.wp-block-prc-block-fact-sheet-collection--pdf-link {
-		margin-top: 1em;
+		padding-top: 1em;
 	}
 
 	a {

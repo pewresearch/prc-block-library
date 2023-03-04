@@ -8,7 +8,7 @@ if ( is_admin() ) {
 // $attributes (array): The block attributes.
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
-$cache_group = 'prc-block-library-fact-sheet-collection-markup-0.1.2';
+$cache_group = 'prc-block-library-fact-sheet-collection-markup-0.1.6';
 $cached = false;
 if ( !is_preview() ){
 	$cached = wp_cache_get( 
@@ -24,6 +24,9 @@ if ( false === $cached ) {
 	}
 	// Get the last term out of the collection_terms array.
 	$collection_term = array_pop($collection_terms);
+	if ( ! $collection_term instanceof WP_Term ) {
+		return;
+	}
 	$parent_term = get_term($collection_term->parent, 'collection');
 	$parent_term_id = $parent_term->term_id;
 	$parent_term = array(
@@ -82,6 +85,7 @@ if ( false === $cached ) {
 	$other_language_posts = get_posts(array(
 		'posts_per_page' => 24,
 		'post_type' => 'fact-sheets',
+		'post__not_in' => array(get_the_ID()),
 		'tax_query' => array(
 			array(
 				'taxonomy' => 'collection',
@@ -127,6 +131,7 @@ if ( false === $cached ) {
 			);
 		}, $other_language_posts), 
 		'collection_name' => $parent_term['name'],
+		'collection_link' => $parent_term['link'],
 	);
 
 	if ( !is_preview() ) {
@@ -144,7 +149,7 @@ if ($pdf) {
 	$pdf_id = $pdf['id'];
 	$pdf = wp_get_attachment_url($pdf_id);
 	$pdf = wp_sprintf(
-		'<a href="%1$s" class="wp-block-prc-block-fact-sheet-collection--pdf-link" download>%2$s</a>',
+		'<a href="%1$s" class="wp-block-prc-block-fact-sheet-collection--pdf-link" download><i class="file pdf icon"></i> %2$s</a>',
 		$pdf,
 		__('Download PDF', 'prc-block-library'),
 	);
@@ -157,7 +162,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 ));
 
 echo wp_sprintf(
-	'<div %1$s>%5$s<div class="wp-block-prc-block-fact-sheet-collection--parent-term">%2$s</div><div class="wp-block-prc-block-fact-sheet-collection--term-list">%3$s</div>%4$s</div>',
+	'<div %1$s><div class="wp-block-prc-block-fact-sheet-collection--parent-term"><a href="%6$s">%2$s</a></div>%5$s<div class="wp-block-prc-block-fact-sheet-collection--term-list">%3$s</div>%4$s</div>',
 	$block_wrapper_attrs,
 	$cached['collection_name'],
 	implode('', $cached['terms']),
@@ -166,4 +171,5 @@ echo wp_sprintf(
 		'<div class="wp-block-prc-block-fact-sheet-collection--alt-languages">%1$s</div>',
 		implode('', $cached['alt_languages']),
 	) : '',
+	$cached['collection_link'],
 );

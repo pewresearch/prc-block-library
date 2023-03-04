@@ -1,2 +1,715 @@
-(()=>{var e,t={472:(e,t)=>{var r;!function(){"use strict";var n={}.hasOwnProperty;function a(){for(var e=[],t=0;t<arguments.length;t++){var r=arguments[t];if(r){var o=typeof r;if("string"===o||"number"===o)e.push(r);else if(Array.isArray(r)){if(r.length){var i=a.apply(null,r);i&&e.push(i)}}else if("object"===o)if(r.toString===Object.prototype.toString)for(var s in r)n.call(r,s)&&r[s]&&e.push(s);else e.push(r.toString())}}return e.join(" ")}e.exports?(a.default=a,e.exports=a):void 0===(r=function(){return a}.apply(t,[]))||(e.exports=r)}()},852:(e,t,r)=>{"use strict";const n=window.wp.i18n,a=window.wp.blocks,o=window.wp.element,i=window.prcComponents,s=window.wp.blockEditor,c=window.wp.components,l=window.prcFunctions;var u=r(472),d=r.n(u);const p=window.wp.data,f=window.wp.coreData;function h(){const{termIds:e=[]}=(0,p.useSelect)((e=>{const{getEditedPostAttribute:t}=e("core/editor");return{termIds:t("collection")}}),[]),{records:t,isResolving:r,hasResolved:n}=(0,f.useEntityRecords)("taxonomy","collection",{per_page:50,context:"view"}),[a,i]=(0,o.useState)([{id:0,name:"Loading Collection...",children:[]}]);return(0,o.useEffect)((()=>{if(!r&&n){const r=(0,l.wpRestApiTermsToTree)(t,e);i(r)}}),[r,n,t,e]),(0,o.createElement)(o.Fragment,null,r&&(0,o.createElement)(c.Spinner,null),a.map((t=>(0,o.createElement)(o.Fragment,{key:Math.random().toString(10).substring(7)},(0,o.createElement)("div",{className:"wp-block-prc-block-fact-sheet-collection--parent-term"},`${t.name}`),t.children&&(0,o.createElement)("div",{className:"wp-block-prc-block-fact-sheet-collection--term-list"},t.children.map((t=>{const r=e.includes(t.id);return(0,o.createElement)("div",{className:d()("wp-block-prc-block-fact-sheet-collection--term-link",{"is-active":r}),key:Math.random().toString(10).substring(7)},`${t.name}`)})))))))}r(568);const m=window.React;function g(){return g=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},g.apply(this,arguments)}const v=function(e){var t=Object.create(null);return function(r){return void 0===t[r]&&(t[r]=e(r)),t[r]}};var y=/^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|download|draggable|encType|enterKeyHint|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/;const b=v((function(e){return y.test(e)||111===e.charCodeAt(0)&&110===e.charCodeAt(1)&&e.charCodeAt(2)<91}));var k=function(){function e(e){var t=this;this._insertTag=function(e){var r;r=0===t.tags.length?t.insertionPoint?t.insertionPoint.nextSibling:t.prepend?t.container.firstChild:t.before:t.tags[t.tags.length-1].nextSibling,t.container.insertBefore(e,r),t.tags.push(e)},this.isSpeedy=void 0===e.speedy||e.speedy,this.tags=[],this.ctr=0,this.nonce=e.nonce,this.key=e.key,this.container=e.container,this.prepend=e.prepend,this.insertionPoint=e.insertionPoint,this.before=null}var t=e.prototype;return t.hydrate=function(e){e.forEach(this._insertTag)},t.insert=function(e){this.ctr%(this.isSpeedy?65e3:1)==0&&this._insertTag(function(e){var t=document.createElement("style");return t.setAttribute("data-emotion",e.key),void 0!==e.nonce&&t.setAttribute("nonce",e.nonce),t.appendChild(document.createTextNode("")),t.setAttribute("data-s",""),t}(this));var t=this.tags[this.tags.length-1];if(this.isSpeedy){var r=function(e){if(e.sheet)return e.sheet;for(var t=0;t<document.styleSheets.length;t++)if(document.styleSheets[t].ownerNode===e)return document.styleSheets[t]}(t);try{r.insertRule(e,r.cssRules.length)}catch(e){}}else t.appendChild(document.createTextNode(e));this.ctr++},t.flush=function(){this.tags.forEach((function(e){return e.parentNode&&e.parentNode.removeChild(e)})),this.tags=[],this.ctr=0},e}(),w=Math.abs,x=String.fromCharCode,_=Object.assign;function S(e){return e.trim()}function C(e,t,r){return e.replace(t,r)}function A(e,t){return e.indexOf(t)}function T(e,t){return 0|e.charCodeAt(t)}function E(e,t,r){return e.slice(t,r)}function P(e){return e.length}function O(e){return e.length}function $(e,t){return t.push(e),e}var R=1,M=1,I=0,F=0,j=0,z="";function B(e,t,r,n,a,o,i){return{value:e,root:t,parent:r,type:n,props:a,children:o,line:R,column:M,length:i,return:""}}function N(e,t){return _(B("",null,null,"",null,null,0),e,{length:-e.length},t)}function L(){return j=F>0?T(z,--F):0,M--,10===j&&(M=1,R--),j}function D(){return j=F<I?T(z,F++):0,M++,10===j&&(M=1,R++),j}function H(){return T(z,F)}function U(){return F}function W(e,t){return E(z,e,t)}function G(e){switch(e){case 0:case 9:case 10:case 13:case 32:return 5;case 33:case 43:case 44:case 47:case 62:case 64:case 126:case 59:case 123:case 125:return 4;case 58:return 3;case 34:case 39:case 40:case 91:return 2;case 41:case 93:return 1}return 0}function q(e){return R=M=1,I=P(z=e),F=0,[]}function V(e){return z="",e}function X(e){return S(W(F-1,K(91===e?e+2:40===e?e+1:e)))}function Y(e){for(;(j=H())&&j<33;)D();return G(e)>2||G(j)>3?"":" "}function Z(e,t){for(;--t&&D()&&!(j<48||j>102||j>57&&j<65||j>70&&j<97););return W(e,U()+(t<6&&32==H()&&32==D()))}function K(e){for(;D();)switch(j){case e:return F;case 34:case 39:34!==e&&39!==e&&K(j);break;case 40:41===e&&K(e);break;case 92:D()}return F}function J(e,t){for(;D()&&e+j!==57&&(e+j!==84||47!==H()););return"/*"+W(t,F-1)+"*"+x(47===e?e:D())}function Q(e){for(;!G(H());)D();return W(e,F)}var ee="-ms-",te="-moz-",re="-webkit-",ne="comm",ae="rule",oe="decl",ie="@keyframes";function se(e,t){for(var r="",n=O(e),a=0;a<n;a++)r+=t(e[a],a,e,t)||"";return r}function ce(e,t,r,n){switch(e.type){case"@import":case oe:return e.return=e.return||e.value;case ne:return"";case ie:return e.return=e.value+"{"+se(e.children,n)+"}";case ae:e.value=e.props.join(",")}return P(r=se(e.children,n))?e.return=e.value+"{"+r+"}":""}function le(e,t){switch(function(e,t){return(((t<<2^T(e,0))<<2^T(e,1))<<2^T(e,2))<<2^T(e,3)}(e,t)){case 5103:return re+"print-"+e+e;case 5737:case 4201:case 3177:case 3433:case 1641:case 4457:case 2921:case 5572:case 6356:case 5844:case 3191:case 6645:case 3005:case 6391:case 5879:case 5623:case 6135:case 4599:case 4855:case 4215:case 6389:case 5109:case 5365:case 5621:case 3829:return re+e+e;case 5349:case 4246:case 4810:case 6968:case 2756:return re+e+te+e+ee+e+e;case 6828:case 4268:return re+e+ee+e+e;case 6165:return re+e+ee+"flex-"+e+e;case 5187:return re+e+C(e,/(\w+).+(:[^]+)/,re+"box-$1$2"+ee+"flex-$1$2")+e;case 5443:return re+e+ee+"flex-item-"+C(e,/flex-|-self/,"")+e;case 4675:return re+e+ee+"flex-line-pack"+C(e,/align-content|flex-|-self/,"")+e;case 5548:return re+e+ee+C(e,"shrink","negative")+e;case 5292:return re+e+ee+C(e,"basis","preferred-size")+e;case 6060:return re+"box-"+C(e,"-grow","")+re+e+ee+C(e,"grow","positive")+e;case 4554:return re+C(e,/([^-])(transform)/g,"$1"+re+"$2")+e;case 6187:return C(C(C(e,/(zoom-|grab)/,re+"$1"),/(image-set)/,re+"$1"),e,"")+e;case 5495:case 3959:return C(e,/(image-set\([^]*)/,re+"$1$`$1");case 4968:return C(C(e,/(.+:)(flex-)?(.*)/,re+"box-pack:$3"+ee+"flex-pack:$3"),/s.+-b[^;]+/,"justify")+re+e+e;case 4095:case 3583:case 4068:case 2532:return C(e,/(.+)-inline(.+)/,re+"$1$2")+e;case 8116:case 7059:case 5753:case 5535:case 5445:case 5701:case 4933:case 4677:case 5533:case 5789:case 5021:case 4765:if(P(e)-1-t>6)switch(T(e,t+1)){case 109:if(45!==T(e,t+4))break;case 102:return C(e,/(.+:)(.+)-([^]+)/,"$1"+re+"$2-$3$1"+te+(108==T(e,t+3)?"$3":"$2-$3"))+e;case 115:return~A(e,"stretch")?le(C(e,"stretch","fill-available"),t)+e:e}break;case 4949:if(115!==T(e,t+1))break;case 6444:switch(T(e,P(e)-3-(~A(e,"!important")&&10))){case 107:return C(e,":",":"+re)+e;case 101:return C(e,/(.+:)([^;!]+)(;|!.+)?/,"$1"+re+(45===T(e,14)?"inline-":"")+"box$3$1"+re+"$2$3$1"+ee+"$2box$3")+e}break;case 5936:switch(T(e,t+11)){case 114:return re+e+ee+C(e,/[svh]\w+-[tblr]{2}/,"tb")+e;case 108:return re+e+ee+C(e,/[svh]\w+-[tblr]{2}/,"tb-rl")+e;case 45:return re+e+ee+C(e,/[svh]\w+-[tblr]{2}/,"lr")+e}return re+e+ee+e+e}return e}function ue(e){return V(de("",null,null,null,[""],e=q(e),0,[0],e))}function de(e,t,r,n,a,o,i,s,c){for(var l=0,u=0,d=i,p=0,f=0,h=0,m=1,g=1,v=1,y=0,b="",k=a,w=o,_=n,S=b;g;)switch(h=y,y=D()){case 40:if(108!=h&&58==S.charCodeAt(d-1)){-1!=A(S+=C(X(y),"&","&\f"),"&\f")&&(v=-1);break}case 34:case 39:case 91:S+=X(y);break;case 9:case 10:case 13:case 32:S+=Y(h);break;case 92:S+=Z(U()-1,7);continue;case 47:switch(H()){case 42:case 47:$(fe(J(D(),U()),t,r),c);break;default:S+="/"}break;case 123*m:s[l++]=P(S)*v;case 125*m:case 59:case 0:switch(y){case 0:case 125:g=0;case 59+u:f>0&&P(S)-d&&$(f>32?he(S+";",n,r,d-1):he(C(S," ","")+";",n,r,d-2),c);break;case 59:S+=";";default:if($(_=pe(S,t,r,l,u,a,s,b,k=[],w=[],d),o),123===y)if(0===u)de(S,t,_,_,k,o,d,s,w);else switch(p){case 100:case 109:case 115:de(e,_,_,n&&$(pe(e,_,_,0,0,a,s,b,a,k=[],d),w),a,w,d,s,n?k:w);break;default:de(S,_,_,_,[""],w,0,s,w)}}l=u=f=0,m=v=1,b=S="",d=i;break;case 58:d=1+P(S),f=h;default:if(m<1)if(123==y)--m;else if(125==y&&0==m++&&125==L())continue;switch(S+=x(y),y*m){case 38:v=u>0?1:(S+="\f",-1);break;case 44:s[l++]=(P(S)-1)*v,v=1;break;case 64:45===H()&&(S+=X(D())),p=H(),u=d=P(b=S+=Q(U())),y++;break;case 45:45===h&&2==P(S)&&(m=0)}}return o}function pe(e,t,r,n,a,o,i,s,c,l,u){for(var d=a-1,p=0===a?o:[""],f=O(p),h=0,m=0,g=0;h<n;++h)for(var v=0,y=E(e,d+1,d=w(m=i[h])),b=e;v<f;++v)(b=S(m>0?p[v]+" "+y:C(y,/&\f/g,p[v])))&&(c[g++]=b);return B(e,t,r,0===a?ae:s,c,l,u)}function fe(e,t,r){return B(e,t,r,ne,x(j),E(e,2,-2),0)}function he(e,t,r,n){return B(e,t,r,oe,E(e,0,n),E(e,n+1,-1),n)}var me=function(e,t,r){for(var n=0,a=0;n=a,a=H(),38===n&&12===a&&(t[r]=1),!G(a);)D();return W(e,F)},ge=new WeakMap,ve=function(e){if("rule"===e.type&&e.parent&&!(e.length<1)){for(var t=e.value,r=e.parent,n=e.column===r.column&&e.line===r.line;"rule"!==r.type;)if(!(r=r.parent))return;if((1!==e.props.length||58===t.charCodeAt(0)||ge.get(r))&&!n){ge.set(e,!0);for(var a=[],o=function(e,t){return V(function(e,t){var r=-1,n=44;do{switch(G(n)){case 0:38===n&&12===H()&&(t[r]=1),e[r]+=me(F-1,t,r);break;case 2:e[r]+=X(n);break;case 4:if(44===n){e[++r]=58===H()?"&\f":"",t[r]=e[r].length;break}default:e[r]+=x(n)}}while(n=D());return e}(q(e),t))}(t,a),i=r.props,s=0,c=0;s<o.length;s++)for(var l=0;l<i.length;l++,c++)e.props[c]=a[s]?o[s].replace(/&\f/g,i[l]):i[l]+" "+o[s]}}},ye=function(e){if("decl"===e.type){var t=e.value;108===t.charCodeAt(0)&&98===t.charCodeAt(2)&&(e.return="",e.value="")}},be=[function(e,t,r,n){if(e.length>-1&&!e.return)switch(e.type){case oe:e.return=le(e.value,e.length);break;case ie:return se([N(e,{value:C(e.value,"@","@"+re)})],n);case ae:if(e.length)return function(e,t){return e.map(t).join("")}(e.props,(function(t){switch(function(e,t){return(e=/(::plac\w+|:read-\w+)/.exec(e))?e[0]:e}(t)){case":read-only":case":read-write":return se([N(e,{props:[C(t,/:(read-\w+)/,":-moz-$1")]})],n);case"::placeholder":return se([N(e,{props:[C(t,/:(plac\w+)/,":"+re+"input-$1")]}),N(e,{props:[C(t,/:(plac\w+)/,":-moz-$1")]}),N(e,{props:[C(t,/:(plac\w+)/,ee+"input-$1")]})],n)}return""}))}}];const ke=function(e){var t=e.key;if("css"===t){var r=document.querySelectorAll("style[data-emotion]:not([data-s])");Array.prototype.forEach.call(r,(function(e){-1!==e.getAttribute("data-emotion").indexOf(" ")&&(document.head.appendChild(e),e.setAttribute("data-s",""))}))}var n,a,o=e.stylisPlugins||be,i={},s=[];n=e.container||document.head,Array.prototype.forEach.call(document.querySelectorAll('style[data-emotion^="'+t+' "]'),(function(e){for(var t=e.getAttribute("data-emotion").split(" "),r=1;r<t.length;r++)i[t[r]]=!0;s.push(e)}));var c,l,u,d,p=[ce,(d=function(e){c.insert(e)},function(e){e.root||(e=e.return)&&d(e)})],f=(l=[ve,ye].concat(o,p),u=O(l),function(e,t,r,n){for(var a="",o=0;o<u;o++)a+=l[o](e,t,r,n)||"";return a});a=function(e,t,r,n){c=r,se(ue(e?e+"{"+t.styles+"}":t.styles),f),n&&(h.inserted[t.name]=!0)};var h={key:t,sheet:new k({key:t,container:n,nonce:e.nonce,speedy:e.speedy,prepend:e.prepend,insertionPoint:e.insertionPoint}),nonce:e.nonce,inserted:i,registered:{},insert:a};return h.sheet.hydrate(s),h};var we=(0,m.createContext)("undefined"!=typeof HTMLElement?ke({key:"css"}):null);we.Provider;var xe=function(e){return(0,m.forwardRef)((function(t,r){var n=(0,m.useContext)(we);return e(t,n,r)}))},_e=(0,m.createContext)({});function Se(e,t,r){var n="";return r.split(" ").forEach((function(r){void 0!==e[r]?t.push(e[r]+";"):n+=r+" "})),n}m.useInsertionEffect&&m.useInsertionEffect;var Ce=function(e,t,r){var n=e.key+"-"+t.name;!1===r&&void 0===e.registered[n]&&(e.registered[n]=t.styles)};const Ae=function(e){for(var t,r=0,n=0,a=e.length;a>=4;++n,a-=4)t=1540483477*(65535&(t=255&e.charCodeAt(n)|(255&e.charCodeAt(++n))<<8|(255&e.charCodeAt(++n))<<16|(255&e.charCodeAt(++n))<<24))+(59797*(t>>>16)<<16),r=1540483477*(65535&(t^=t>>>24))+(59797*(t>>>16)<<16)^1540483477*(65535&r)+(59797*(r>>>16)<<16);switch(a){case 3:r^=(255&e.charCodeAt(n+2))<<16;case 2:r^=(255&e.charCodeAt(n+1))<<8;case 1:r=1540483477*(65535&(r^=255&e.charCodeAt(n)))+(59797*(r>>>16)<<16)}return(((r=1540483477*(65535&(r^=r>>>13))+(59797*(r>>>16)<<16))^r>>>15)>>>0).toString(36)},Te={animationIterationCount:1,borderImageOutset:1,borderImageSlice:1,borderImageWidth:1,boxFlex:1,boxFlexGroup:1,boxOrdinalGroup:1,columnCount:1,columns:1,flex:1,flexGrow:1,flexPositive:1,flexShrink:1,flexNegative:1,flexOrder:1,gridRow:1,gridRowEnd:1,gridRowSpan:1,gridRowStart:1,gridColumn:1,gridColumnEnd:1,gridColumnSpan:1,gridColumnStart:1,msGridRow:1,msGridRowSpan:1,msGridColumn:1,msGridColumnSpan:1,fontWeight:1,lineHeight:1,opacity:1,order:1,orphans:1,tabSize:1,widows:1,zIndex:1,zoom:1,WebkitLineClamp:1,fillOpacity:1,floodOpacity:1,stopOpacity:1,strokeDasharray:1,strokeDashoffset:1,strokeMiterlimit:1,strokeOpacity:1,strokeWidth:1};var Ee=/[A-Z]|^ms/g,Pe=/_EMO_([^_]+?)_([^]*?)_EMO_/g,Oe=function(e){return 45===e.charCodeAt(1)},$e=function(e){return null!=e&&"boolean"!=typeof e},Re=v((function(e){return Oe(e)?e:e.replace(Ee,"-$&").toLowerCase()})),Me=function(e,t){switch(e){case"animation":case"animationName":if("string"==typeof t)return t.replace(Pe,(function(e,t,r){return Fe={name:t,styles:r,next:Fe},t}))}return 1===Te[e]||Oe(e)||"number"!=typeof t||0===t?t:t+"px"};function Ie(e,t,r){if(null==r)return"";if(void 0!==r.__emotion_styles)return r;switch(typeof r){case"boolean":return"";case"object":if(1===r.anim)return Fe={name:r.name,styles:r.styles,next:Fe},r.name;if(void 0!==r.styles){var n=r.next;if(void 0!==n)for(;void 0!==n;)Fe={name:n.name,styles:n.styles,next:Fe},n=n.next;return r.styles+";"}return function(e,t,r){var n="";if(Array.isArray(r))for(var a=0;a<r.length;a++)n+=Ie(e,t,r[a])+";";else for(var o in r){var i=r[o];if("object"!=typeof i)null!=t&&void 0!==t[i]?n+=o+"{"+t[i]+"}":$e(i)&&(n+=Re(o)+":"+Me(o,i)+";");else if(!Array.isArray(i)||"string"!=typeof i[0]||null!=t&&void 0!==t[i[0]]){var s=Ie(e,t,i);switch(o){case"animation":case"animationName":n+=Re(o)+":"+s+";";break;default:n+=o+"{"+s+"}"}}else for(var c=0;c<i.length;c++)$e(i[c])&&(n+=Re(o)+":"+Me(o,i[c])+";")}return n}(e,t,r);case"function":if(void 0!==e){var a=Fe,o=r(e);return Fe=a,Ie(e,t,o)}}if(null==t)return r;var i=t[r];return void 0!==i?i:r}var Fe,je=/label:\s*([^\s;\n{]+)\s*(;|$)/g,ze=function(e,t,r){if(1===e.length&&"object"==typeof e[0]&&null!==e[0]&&void 0!==e[0].styles)return e[0];var n=!0,a="";Fe=void 0;var o=e[0];null==o||void 0===o.raw?(n=!1,a+=Ie(r,t,o)):a+=o[0];for(var i=1;i<e.length;i++)a+=Ie(r,t,e[i]),n&&(a+=o[i]);je.lastIndex=0;for(var s,c="";null!==(s=je.exec(a));)c+="-"+s[1];return{name:Ae(a)+c,styles:a,next:Fe}},Be=!!m.useInsertionEffect&&m.useInsertionEffect,Ne=Be||function(e){return e()},Le=(Be||m.useLayoutEffect,b),De=function(e){return"theme"!==e},He=function(e){return"string"==typeof e&&e.charCodeAt(0)>96?Le:De},Ue=function(e,t,r){var n;if(t){var a=t.shouldForwardProp;n=e.__emotion_forwardProp&&a?function(t){return e.__emotion_forwardProp(t)&&a(t)}:a}return"function"!=typeof n&&r&&(n=e.__emotion_forwardProp),n},We=function(e){var t=e.cache,r=e.serialized,n=e.isStringTag;return Ce(t,r,n),Ne((function(){return function(e,t,r){Ce(e,t,r);var n=e.key+"-"+t.name;if(void 0===e.inserted[t.name]){var a=t;do{e.insert(t===a?"."+n:"",a,e.sheet,!0),a=a.next}while(void 0!==a)}}(t,r,n)})),null};var Ge=function e(t,r){var n,a,o=t.__emotion_real===t,i=o&&t.__emotion_base||t;void 0!==r&&(n=r.label,a=r.target);var s=Ue(t,r,o),c=s||He(i),l=!c("as");return function(){var u=arguments,d=o&&void 0!==t.__emotion_styles?t.__emotion_styles.slice(0):[];if(void 0!==n&&d.push("label:"+n+";"),null==u[0]||void 0===u[0].raw)d.push.apply(d,u);else{d.push(u[0][0]);for(var p=u.length,f=1;f<p;f++)d.push(u[f],u[0][f])}var h=xe((function(e,t,r){var n=l&&e.as||i,o="",u=[],p=e;if(null==e.theme){for(var f in p={},e)p[f]=e[f];p.theme=(0,m.useContext)(_e)}"string"==typeof e.className?o=Se(t.registered,u,e.className):null!=e.className&&(o=e.className+" ");var h=ze(d.concat(u),t.registered,p);o+=t.key+"-"+h.name,void 0!==a&&(o+=" "+a);var g=l&&void 0===s?He(n):c,v={};for(var y in e)l&&"as"===y||g(y)&&(v[y]=e[y]);return v.className=o,v.ref=r,(0,m.createElement)(m.Fragment,null,(0,m.createElement)(We,{cache:t,serialized:h,isStringTag:"string"==typeof n}),(0,m.createElement)(n,v))}));return h.displayName=void 0!==n?n:"Styled("+("string"==typeof i?i:i.displayName||i.name||"Component")+")",h.defaultProps=t.defaultProps,h.__emotion_real=h,h.__emotion_base=i,h.__emotion_styles=d,h.__emotion_forwardProp=s,Object.defineProperty(h,"toString",{value:function(){return"."+a}}),h.withComponent=function(t,n){return e(t,g({},r,n,{shouldForwardProp:Ue(h,n,!0)})).apply(void 0,d)},h}}.bind();function qe(){const{termIds:e=[]}=(0,p.useSelect)((e=>{const{getEditedPostAttribute:t}=e("core/editor");return{termIds:t("collection")}}),[]),{records:t,isResolving:r,hasResolved:a}=(0,f.useEntityRecords)("taxonomy","collection",{per_page:50,context:"view"}),[s,u]=(0,o.useState)([{id:0,name:"Loading Collection...",children:[]}]);return(0,o.useEffect)((()=>{if(!r&&a){const r=(0,l.wpRestApiTermsToTree)(t,e);u(r)}}),[r,a,t,e]),(0,o.createElement)(o.Fragment,null,r&&(0,o.createElement)(c.Spinner,null),s.map((t=>(0,o.createElement)(o.Fragment,null,(0,o.createElement)("div",{className:"wp-block-prc-block-fact-sheet-collection--parent-term"},(0,n.__)(`${t.name}`,"prc-block-library")),t.children&&(0,o.createElement)(i.Dropdown,{options:t.children.map((t=>(e.includes(t.id),{className:"",value:t.id,content:t.name,style:{}})))})))))}["a","abbr","address","area","article","aside","audio","b","base","bdi","bdo","big","blockquote","body","br","button","canvas","caption","cite","code","col","colgroup","data","datalist","dd","del","details","dfn","dialog","div","dl","dt","em","embed","fieldset","figcaption","figure","footer","form","h1","h2","h3","h4","h5","h6","head","header","hgroup","hr","html","i","iframe","img","input","ins","kbd","keygen","label","legend","li","link","main","map","mark","marquee","menu","menuitem","meta","meter","nav","noscript","object","ol","optgroup","option","output","p","param","picture","pre","progress","q","rp","rt","ruby","s","samp","script","section","select","small","source","span","strong","style","sub","summary","sup","table","tbody","td","textarea","tfoot","th","thead","time","title","tr","track","u","ul","var","video","wbr","circle","clipPath","defs","ellipse","foreignObject","g","image","line","linearGradient","mask","path","pattern","polygon","polyline","radialGradient","rect","stop","svg","text","tspan"].forEach((function(e){Ge[e]=Ge(e)}));const Ve=JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"prc-block/fact-sheet-collection","version":"0.1.0","title":"Fact Sheet Collection","category":"design","description":"Display the hierarchy of this fact sheet\'s collection term and a link to download an associated PDF if provided. If this collection has multiple language posts the main link will link to the English language post and then a listing of other languages will be provided automatically. These alternate language links will appear above the main collection.","attributes":{"pdf":{"type":"object"},"altPostLabel":{"type":"string"}},"supports":{"anchor":true,"html":false,"color":{"background":true,"text":true,"link":true},"spacing":{"blockGap":true,"margin":["top","bottom"],"padding":true,"__experimentalDefaultControls":{"padding":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true,"__experimentalFontFamily":true}}},"example":{"attributes":{}},"styles":[{"name":"list","label":"List","isDefault":true},{"name":"dropdown","label":"Dropdown"}],"textdomain":"collection","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php"}'),{name:Xe}=Ve,Ye={icon:function(){return(0,o.createElement)(c.SVG,{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 512 512",height:21,preserveAspectRatio:"xMidYMid meet"},(0,o.createElement)(c.Path,{d:"M32 24c0 13.3 10.7 24 24 24H456c13.3 0 24-10.7 24-24s-10.7-24-24-24H56C42.7 0 32 10.7 32 24zM48 160c-13.8 0-26.9 5.9-36 16.2S-1.3 200.3 .4 214l32 256c3 24 23.4 42 47.6 42H432c24.2 0 44.6-18 47.6-42l32-256c1.7-13.7-2.5-27.4-11.6-37.7s-22.2-16.2-36-16.2H48zM440 344c0 75.1-82.4 136-184 136S72 419.1 72 344s82.4-136 184-136s184 60.9 184 136zM256 376c17.7 0 32-10.7 32-24s-14.3-24-32-24s-32 10.7-32 24s14.3 24 32 24zM40 80c-13.3 0-24 10.7-24 24s10.7 24 24 24H472c13.3 0 24-10.7 24-24s-10.7-24-24-24H40z"}))},edit:function(e){let{attributes:t,setAttributes:r}=e;const n=(0,s.useBlockProps)(),{className:a,pdf:l}=t,u=void 0!==a?a.split(" "):[],{id:d}=l||{id:!1};return(0,o.createElement)("div",n,!u.includes("is-style-dropdown")&&(0,o.createElement)(h,null),u.includes("is-style-dropdown")&&(0,o.createElement)(qe,null),(0,o.createElement)(i.MediaDropZone,{className:"wp-block-prc-block-fact-sheet-collection--pdf-link",attachmentId:d,onUpdate:e=>{const t={id:e.id,slug:e.slug,title:e.title,link:e.link,description:e.description,caption:e.caption,alt_text:e.alt_text,media_type:e.media_type,mime_type:e.mime_type,media_details:e.media_details,post:e.post,source_url:e.source_url};r({pdf:t})},onClear:()=>r({pdf:null}),mediaType:["application/pdf"],label:"Upload PDF",singularLabel:"PDF"},(0,o.createElement)(c.Button,{variant:"secondary",label:"Update PDF",icon:"pdf"},"Update "+(l?`${l.title}.pdf`:"PDF"))))},save:function(e){let{attributes:t}=e;return(0,o.createElement)(s.InnerBlocks.Content,null)}};(0,a.registerBlockType)(Xe,{...Ve,...Ye})},487:e=>{var t={utf8:{stringToBytes:function(e){return t.bin.stringToBytes(unescape(encodeURIComponent(e)))},bytesToString:function(e){return decodeURIComponent(escape(t.bin.bytesToString(e)))}},bin:{stringToBytes:function(e){for(var t=[],r=0;r<e.length;r++)t.push(255&e.charCodeAt(r));return t},bytesToString:function(e){for(var t=[],r=0;r<e.length;r++)t.push(String.fromCharCode(e[r]));return t.join("")}}};e.exports=t},12:e=>{var t,r;t="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",r={rotl:function(e,t){return e<<t|e>>>32-t},rotr:function(e,t){return e<<32-t|e>>>t},endian:function(e){if(e.constructor==Number)return 16711935&r.rotl(e,8)|4278255360&r.rotl(e,24);for(var t=0;t<e.length;t++)e[t]=r.endian(e[t]);return e},randomBytes:function(e){for(var t=[];e>0;e--)t.push(Math.floor(256*Math.random()));return t},bytesToWords:function(e){for(var t=[],r=0,n=0;r<e.length;r++,n+=8)t[n>>>5]|=e[r]<<24-n%32;return t},wordsToBytes:function(e){for(var t=[],r=0;r<32*e.length;r+=8)t.push(e[r>>>5]>>>24-r%32&255);return t},bytesToHex:function(e){for(var t=[],r=0;r<e.length;r++)t.push((e[r]>>>4).toString(16)),t.push((15&e[r]).toString(16));return t.join("")},hexToBytes:function(e){for(var t=[],r=0;r<e.length;r+=2)t.push(parseInt(e.substr(r,2),16));return t},bytesToBase64:function(e){for(var r=[],n=0;n<e.length;n+=3)for(var a=e[n]<<16|e[n+1]<<8|e[n+2],o=0;o<4;o++)8*n+6*o<=8*e.length?r.push(t.charAt(a>>>6*(3-o)&63)):r.push("=");return r.join("")},base64ToBytes:function(e){e=e.replace(/[^A-Z0-9+\/]/gi,"");for(var r=[],n=0,a=0;n<e.length;a=++n%4)0!=a&&r.push((t.indexOf(e.charAt(n-1))&Math.pow(2,-2*a+8)-1)<<2*a|t.indexOf(e.charAt(n))>>>6-2*a);return r}},e.exports=r},738:e=>{function t(e){return!!e.constructor&&"function"==typeof e.constructor.isBuffer&&e.constructor.isBuffer(e)}e.exports=function(e){return null!=e&&(t(e)||function(e){return"function"==typeof e.readFloatLE&&"function"==typeof e.slice&&t(e.slice(0,0))}(e)||!!e._isBuffer)}},568:(e,t,r)=>{var n,a,o,i,s;n=r(12),a=r(487).utf8,o=r(738),i=r(487).bin,(s=function(e,t){e.constructor==String?e=t&&"binary"===t.encoding?i.stringToBytes(e):a.stringToBytes(e):o(e)?e=Array.prototype.slice.call(e,0):Array.isArray(e)||e.constructor===Uint8Array||(e=e.toString());for(var r=n.bytesToWords(e),c=8*e.length,l=1732584193,u=-271733879,d=-1732584194,p=271733878,f=0;f<r.length;f++)r[f]=16711935&(r[f]<<8|r[f]>>>24)|4278255360&(r[f]<<24|r[f]>>>8);r[c>>>5]|=128<<c%32,r[14+(c+64>>>9<<4)]=c;var h=s._ff,m=s._gg,g=s._hh,v=s._ii;for(f=0;f<r.length;f+=16){var y=l,b=u,k=d,w=p;l=h(l,u,d,p,r[f+0],7,-680876936),p=h(p,l,u,d,r[f+1],12,-389564586),d=h(d,p,l,u,r[f+2],17,606105819),u=h(u,d,p,l,r[f+3],22,-1044525330),l=h(l,u,d,p,r[f+4],7,-176418897),p=h(p,l,u,d,r[f+5],12,1200080426),d=h(d,p,l,u,r[f+6],17,-1473231341),u=h(u,d,p,l,r[f+7],22,-45705983),l=h(l,u,d,p,r[f+8],7,1770035416),p=h(p,l,u,d,r[f+9],12,-1958414417),d=h(d,p,l,u,r[f+10],17,-42063),u=h(u,d,p,l,r[f+11],22,-1990404162),l=h(l,u,d,p,r[f+12],7,1804603682),p=h(p,l,u,d,r[f+13],12,-40341101),d=h(d,p,l,u,r[f+14],17,-1502002290),l=m(l,u=h(u,d,p,l,r[f+15],22,1236535329),d,p,r[f+1],5,-165796510),p=m(p,l,u,d,r[f+6],9,-1069501632),d=m(d,p,l,u,r[f+11],14,643717713),u=m(u,d,p,l,r[f+0],20,-373897302),l=m(l,u,d,p,r[f+5],5,-701558691),p=m(p,l,u,d,r[f+10],9,38016083),d=m(d,p,l,u,r[f+15],14,-660478335),u=m(u,d,p,l,r[f+4],20,-405537848),l=m(l,u,d,p,r[f+9],5,568446438),p=m(p,l,u,d,r[f+14],9,-1019803690),d=m(d,p,l,u,r[f+3],14,-187363961),u=m(u,d,p,l,r[f+8],20,1163531501),l=m(l,u,d,p,r[f+13],5,-1444681467),p=m(p,l,u,d,r[f+2],9,-51403784),d=m(d,p,l,u,r[f+7],14,1735328473),l=g(l,u=m(u,d,p,l,r[f+12],20,-1926607734),d,p,r[f+5],4,-378558),p=g(p,l,u,d,r[f+8],11,-2022574463),d=g(d,p,l,u,r[f+11],16,1839030562),u=g(u,d,p,l,r[f+14],23,-35309556),l=g(l,u,d,p,r[f+1],4,-1530992060),p=g(p,l,u,d,r[f+4],11,1272893353),d=g(d,p,l,u,r[f+7],16,-155497632),u=g(u,d,p,l,r[f+10],23,-1094730640),l=g(l,u,d,p,r[f+13],4,681279174),p=g(p,l,u,d,r[f+0],11,-358537222),d=g(d,p,l,u,r[f+3],16,-722521979),u=g(u,d,p,l,r[f+6],23,76029189),l=g(l,u,d,p,r[f+9],4,-640364487),p=g(p,l,u,d,r[f+12],11,-421815835),d=g(d,p,l,u,r[f+15],16,530742520),l=v(l,u=g(u,d,p,l,r[f+2],23,-995338651),d,p,r[f+0],6,-198630844),p=v(p,l,u,d,r[f+7],10,1126891415),d=v(d,p,l,u,r[f+14],15,-1416354905),u=v(u,d,p,l,r[f+5],21,-57434055),l=v(l,u,d,p,r[f+12],6,1700485571),p=v(p,l,u,d,r[f+3],10,-1894986606),d=v(d,p,l,u,r[f+10],15,-1051523),u=v(u,d,p,l,r[f+1],21,-2054922799),l=v(l,u,d,p,r[f+8],6,1873313359),p=v(p,l,u,d,r[f+15],10,-30611744),d=v(d,p,l,u,r[f+6],15,-1560198380),u=v(u,d,p,l,r[f+13],21,1309151649),l=v(l,u,d,p,r[f+4],6,-145523070),p=v(p,l,u,d,r[f+11],10,-1120210379),d=v(d,p,l,u,r[f+2],15,718787259),u=v(u,d,p,l,r[f+9],21,-343485551),l=l+y>>>0,u=u+b>>>0,d=d+k>>>0,p=p+w>>>0}return n.endian([l,u,d,p])})._ff=function(e,t,r,n,a,o,i){var s=e+(t&r|~t&n)+(a>>>0)+i;return(s<<o|s>>>32-o)+t},s._gg=function(e,t,r,n,a,o,i){var s=e+(t&n|r&~n)+(a>>>0)+i;return(s<<o|s>>>32-o)+t},s._hh=function(e,t,r,n,a,o,i){var s=e+(t^r^n)+(a>>>0)+i;return(s<<o|s>>>32-o)+t},s._ii=function(e,t,r,n,a,o,i){var s=e+(r^(t|~n))+(a>>>0)+i;return(s<<o|s>>>32-o)+t},s._blocksize=16,s._digestsize=16,e.exports=function(e,t){if(null==e)throw new Error("Illegal argument "+e);var r=n.wordsToBytes(s(e,t));return t&&t.asBytes?r:t&&t.asString?i.bytesToString(r):n.bytesToHex(r)}}},r={};function n(e){var a=r[e];if(void 0!==a)return a.exports;var o=r[e]={exports:{}};return t[e](o,o.exports,n),o.exports}n.m=t,e=[],n.O=(t,r,a,o)=>{if(!r){var i=1/0;for(u=0;u<e.length;u++){r=e[u][0],a=e[u][1],o=e[u][2];for(var s=!0,c=0;c<r.length;c++)(!1&o||i>=o)&&Object.keys(n.O).every((e=>n.O[e](r[c])))?r.splice(c--,1):(s=!1,o<i&&(i=o));if(s){e.splice(u--,1);var l=a();void 0!==l&&(t=l)}}return t}o=o||0;for(var u=e.length;u>0&&e[u-1][2]>o;u--)e[u]=e[u-1];e[u]=[r,a,o]},n.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return n.d(t,{a:t}),t},n.d=(e,t)=>{for(var r in t)n.o(t,r)&&!n.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})},n.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{var e={826:0,431:0};n.O.j=t=>0===e[t];var t=(t,r)=>{var a,o,i=r[0],s=r[1],c=r[2],l=0;if(i.some((t=>0!==e[t]))){for(a in s)n.o(s,a)&&(n.m[a]=s[a]);if(c)var u=c(n)}for(t&&t(r);l<i.length;l++)o=i[l],n.o(e,o)&&e[o]&&e[o][0](),e[o]=0;return n.O(u)},r=self.webpackChunkfact_sheet_collection=self.webpackChunkfact_sheet_collection||[];r.forEach(t.bind(null,0)),r.push=t.bind(null,r.push.bind(r))})();var a=n.O(void 0,[431],(()=>n(852)));a=n.O(a)})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "../../../../node_modules/classnames/index.js":
+/*!****************************************************!*\
+  !*** ../../../../node_modules/classnames/index.js ***!
+  \****************************************************/
+/***/ ((module, exports) => {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2018 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames() {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				if (arg.length) {
+					var inner = classNames.apply(null, arg);
+					if (inner) {
+						classes.push(inner);
+					}
+				}
+			} else if (argType === 'object') {
+				if (arg.toString === Object.prototype.toString) {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				} else {
+					classes.push(arg.toString());
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
+
+
+/***/ }),
+
+/***/ "./src/CollectionList.jsx":
+/*!********************************!*\
+  !*** ./src/CollectionList.jsx ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CollectionList)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _prc_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @prc/functions */ "@prc/functions");
+/* harmony import */ var _prc_functions__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_prc_functions__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! classnames */ "../../../../node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/core-data */ "@wordpress/core-data");
+/* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_5__);
+
+/**
+ * External Dependencies
+ */
+
+
+
+/**
+ * WordPress Dependencies
+ */
+
+
+
+
+function CollectionList() {
+  const {
+    termIds = []
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.useSelect)(select => {
+    const {
+      getEditedPostAttribute
+    } = select('core/editor');
+    return {
+      termIds: getEditedPostAttribute('collection')
+    };
+  }, []);
+  const {
+    records,
+    isResolving,
+    hasResolved
+  } = (0,_wordpress_core_data__WEBPACK_IMPORTED_MODULE_5__.useEntityRecords)('taxonomy', 'collection', {
+    per_page: 50,
+    context: 'view'
+  });
+  const [tree, setTree] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    id: 0,
+    name: 'Loading Collection...',
+    children: []
+  }]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!isResolving && hasResolved) {
+      const newTree = (0,_prc_functions__WEBPACK_IMPORTED_MODULE_1__.wpRestApiTermsToTree)(records, termIds);
+      setTree(newTree);
+    }
+  }, [isResolving, hasResolved, records, termIds]);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, isResolving && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Spinner, null), tree.map(term => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: Math.random().toString(10).substring(7)
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wp-block-prc-block-fact-sheet-collection--parent-term"
+  }, `${term.name}`), term.children && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wp-block-prc-block-fact-sheet-collection--term-list"
+  }, term.children.map(child => {
+    const isActive = termIds.includes(child.id);
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: classnames__WEBPACK_IMPORTED_MODULE_2___default()('wp-block-prc-block-fact-sheet-collection--term-link', {
+        'is-active': isActive
+      }),
+      key: Math.random().toString(10).substring(7)
+    }, `${child.name}`);
+  })))));
+}
+
+/***/ }),
+
+/***/ "./src/Edit.jsx":
+/*!**********************!*\
+  !*** ./src/Edit.jsx ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Edit)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _prc_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @prc/components */ "@prc/components");
+/* harmony import */ var _prc_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_prc_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _CollectionList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CollectionList */ "./src/CollectionList.jsx");
+
+/**
+ * External Dependencies
+ */
+
+
+/**
+ * WordPress Dependencies
+ */
+
+
+
+/**
+ * Internal Dependencies
+ */
+
+// import CollectionDropdown from './CollectionDropdown';
+
+/**
+ * The edit function describes the structure of your block in the context of the
+ * editor. This represents what the editor will render when the block is used.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ *
+ * @param {Object}   props               Properties passed to the function.
+ * @param {Object}   props.attributes    Available block attributes.
+ * @param {Function} props.setAttributes Function that updates individual attributes.
+ *
+ * @return {WPElement} Element to render.
+ */
+function Edit(_ref) {
+  let {
+    attributes,
+    setAttributes
+  } = _ref;
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
+  const {
+    className,
+    pdf
+  } = attributes;
+  const classNames = undefined !== className ? className.split(' ') : [];
+  const {
+    id
+  } = pdf || {
+    id: false
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, !classNames.includes('is-style-dropdown') && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_CollectionList__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_prc_components__WEBPACK_IMPORTED_MODULE_1__.MediaDropZone, {
+    className: "wp-block-prc-block-fact-sheet-collection--pdf-link",
+    attachmentId: id,
+    onUpdate: attachment => {
+      const newAttachment = {
+        id: attachment.id,
+        slug: attachment.slug,
+        title: attachment.title,
+        link: attachment.link,
+        description: attachment.description,
+        caption: attachment.caption,
+        alt_text: attachment.alt_text,
+        media_type: attachment.media_type,
+        mime_type: attachment.mime_type,
+        media_details: attachment.media_details,
+        post: attachment.post,
+        source_url: attachment.source_url
+      };
+      setAttributes({
+        pdf: newAttachment
+      });
+    },
+    onClear: () => setAttributes({
+      pdf: null
+    }),
+    mediaType: ['application/pdf'],
+    label: "Upload PDF",
+    singularLabel: "PDF"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
+    variant: "secondary",
+    label: "Update PDF",
+    icon: "pdf"
+  }, `Update ${pdf ? `${pdf.title}.pdf` : 'PDF'}`)));
+}
+
+/***/ }),
+
+/***/ "./src/Icon.jsx":
+/*!**********************!*\
+  !*** ./src/Icon.jsx ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Icon)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+
+/**
+ * WordPress Dependencies
+ */
+
+function Icon() {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SVG, {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 512 512",
+    height: 21,
+    preserveAspectRatio: "xMidYMid meet"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Path, {
+    d: "M32 24c0 13.3 10.7 24 24 24H456c13.3 0 24-10.7 24-24s-10.7-24-24-24H56C42.7 0 32 10.7 32 24zM48 160c-13.8 0-26.9 5.9-36 16.2S-1.3 200.3 .4 214l32 256c3 24 23.4 42 47.6 42H432c24.2 0 44.6-18 47.6-42l32-256c1.7-13.7-2.5-27.4-11.6-37.7s-22.2-16.2-36-16.2H48zM440 344c0 75.1-82.4 136-184 136S72 419.1 72 344s82.4-136 184-136s184 60.9 184 136zM256 376c17.7 0 32-10.7 32-24s-14.3-24-32-24s-32 10.7-32 24s14.3 24 32 24zM40 80c-13.3 0-24 10.7-24 24s10.7 24 24 24H472c13.3 0 24-10.7 24-24s-10.7-24-24-24H40z"
+  }));
+}
+
+/***/ }),
+
+/***/ "./src/Save.jsx":
+/*!**********************!*\
+  !*** ./src/Save.jsx ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Save)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+
+/**
+ * External Dependencies
+ */
+
+/**
+ * WordPress Dependencies
+ */
+
+/**
+ * React hook that is used to mark the block wrapper element.
+ * It provides all the necessary props like the class name.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
+ */
+
+
+/**
+ * The save function defines the way in which the different attributes should
+ * be combined into the final markup, which is then serialized by the block
+ * editor into `post_content`.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
+ *
+ * @param {Object} props            Properties passed to the function.
+ * @param {Object} props.attributes Available block attributes.
+ * @return {WPElement} Element to render.
+ */
+function Save(_ref) {
+  let {
+    attributes
+  } = _ref;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, null);
+}
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
+/* harmony import */ var _Edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Edit */ "./src/Edit.jsx");
+/* harmony import */ var _Save__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Save */ "./src/Save.jsx");
+/* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Icon */ "./src/Icon.jsx");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
+/**
+ * Registers a new block provided a unique name and an object defining its behavior.
+ *
+ * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
+ */
+
+/**
+ * External Dependencies
+ */
+
+/**
+ * WordPress Dependencies
+ */
+
+
+
+/**
+ * Internal Dependencies
+ */
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * All files containing `style` keyword are bundled together. The code used
+ * gets applied both to the front of your site and to the editor. All other files
+ * get applied to the editor only.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+
+
+
+
+
+const {
+  name
+} = _block_json__WEBPACK_IMPORTED_MODULE_6__;
+const settings = {
+  icon: _Icon__WEBPACK_IMPORTED_MODULE_5__["default"],
+  /**
+   * @see ./Edit.jsx
+   */
+  edit: _Edit__WEBPACK_IMPORTED_MODULE_3__["default"],
+  /**
+   * @see ./Save.jsx
+   */
+  save: _Save__WEBPACK_IMPORTED_MODULE_4__["default"]
+};
+
+/**
+ * Every block starts by registering a new block type definition.
+ *
+ * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
+ */
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(name, {
+  ..._block_json__WEBPACK_IMPORTED_MODULE_6__,
+  ...settings
+});
+
+/***/ }),
+
+/***/ "./src/style.scss":
+/*!************************!*\
+  !*** ./src/style.scss ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "@prc/components":
+/*!********************************!*\
+  !*** external "prcComponents" ***!
+  \********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["prcComponents"];
+
+/***/ }),
+
+/***/ "@prc/functions":
+/*!*******************************!*\
+  !*** external "prcFunctions" ***!
+  \*******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["prcFunctions"];
+
+/***/ }),
+
+/***/ "@wordpress/block-editor":
+/*!*************************************!*\
+  !*** external ["wp","blockEditor"] ***!
+  \*************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["blockEditor"];
+
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/core-data":
+/*!**********************************!*\
+  !*** external ["wp","coreData"] ***!
+  \**********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["coreData"];
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["element"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "./src/block.json":
+/*!************************!*\
+  !*** ./src/block.json ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"prc-block/fact-sheet-collection","version":"0.1.0","title":"Fact Sheet Collection","category":"design","description":"Display the hierarchy of this fact sheet\'s collection term and a link to download an associated PDF if provided. If this collection has multiple language posts the main link will link to the English language post and then a listing of other languages will be provided automatically. These alternate language links will appear above the main collection.","attributes":{"pdf":{"type":"object"},"altPostLabel":{"type":"string"}},"supports":{"anchor":true,"html":false,"color":{"background":true,"text":true,"link":true},"spacing":{"blockGap":true,"margin":["top","bottom"],"padding":true,"__experimentalDefaultControls":{"padding":true}},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true,"__experimentalFontStyle":true,"__experimentalTextTransform":true,"__experimentalTextDecoration":true,"__experimentalLetterSpacing":true,"__experimentalDefaultControls":{"fontSize":true,"__experimentalFontFamily":true}}},"example":{"attributes":{}},"styles":[{"name":"list","label":"List","isDefault":true},{"name":"dropdown","label":"Dropdown"}],"textdomain":"collection","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php"}');
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"index": 0,
+/******/ 			"./style-index": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunkfact_sheet_collection"] = self["webpackChunkfact_sheet_collection"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./src/index.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
 //# sourceMappingURL=index.js.map
