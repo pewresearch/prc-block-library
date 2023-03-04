@@ -53,10 +53,6 @@
 			"name": "list",
 			"label": "List",
 			"isDefault": true
-		},
-		{
-			"name": "dropdown",
-			"label": "Dropdown"
 		}
 	],
 	"textdomain": "collection",
