@@ -18,7 +18,8 @@
       "type": "string"
     },
     "borderColor": {
-      "type": "string"
+      "type": "string",
+      "default": "gray-light"
     },
     "allowedBlocks": {
       "type": "array"
@@ -34,16 +35,24 @@
         "contentOnly",
         false
       ]
+    },
+    "fontFamily": {
+      "type": "string",
+      "default": "sans-serif"
+    },
+    "typography": {
+      "type": "object",
+      "default": {
+        "fontSize": "14px",
+        "lineHeight": "14px"
+      }
     }
   },
   "providesContext": {
     "taxonomy-menu/taxonomy": "taxonomy",
     "taxonomy-menu/textColor": "textColor",
     "taxonomy-menu/backgroundColor": "backgroundColor",
-    "taxonomy-menu/borderColor": "borderColor",
-    "taxonomy-menu/fontSize": "fontSize",
-    "taxonomy-menu/customFontSize": "customFontSize",
-    "taxonomy-menu/layout": "layout"
+    "taxonomy-menu/borderColor": "borderColor"
   },
   "supports": {
     "align": [
@@ -87,7 +96,10 @@
       "allowInheriting": false,
       "allowVerticalAlignment": false,
       "default": {
-        "type": "flex"
+        "type": "flex",
+        "justifyContent": "left",
+        "orientation": "horizontal",
+        "flexWrap": "nowrap"
       }
     },
     "__experimentalStyle": {
@@ -99,6 +111,45 @@
         }
       }
     }
+  },
+  "styles": [
+    {
+      "name": "standard",
+      "label": "Standard",
+      "isDefault": true
+    },
+    {
+      "name": "secondary",
+      "label": "Secondary"
+    }
+  ],
+  "example": {
+    "attributes": {
+      "borderColor": "gray-light"
+    },
+    "innerBlocks": [
+      {
+        "name": "prc-block/taxonomy-menu-link",
+        "attributes": {
+          "label": "Example",
+          "url": "https://example.com"
+        }
+      },
+      {
+        "name": "prc-block/taxonomy-menu-link",
+        "attributes": {
+          "label": "Example",
+          "url": "https://example.com"
+        }
+      },
+      {
+        "name": "prc-block/taxonomy-menu-link",
+        "attributes": {
+          "label": "Example",
+          "url": "https://example.com"
+        }
+      }
+    ]
   },
   "textdomain": "menu",
   "editorScript": "file:./index.js",

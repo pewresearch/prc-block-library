@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -17,7 +18,7 @@ import {
 } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useMergeRefs } from '@wordpress/compose';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 /**
  * Internal Dependencies
@@ -87,8 +88,23 @@ export default function Edit({
 	const backgroundColor = context['taxonomy-menu/backgroundColor'];
 	const borderColor = context['taxonomy-menu/borderColor'];
 	const textDecoration = context.style?.typography?.textDecoration;
-	const orientation = context['taxonomy-menu/layout']?.orientation;
 	const blockGap = style?.spacing?.blockGap || 'var:preset|spacing|30';
+
+	const { isInMenuBlock } = useSelect(
+		(select) => {
+			const { getBlockName, getBlockRootClientId } =
+				select(blockEditorStore);
+
+			return {
+				isInMenuBlock:
+					'prc-block/taxonomy-menu' ===
+					getBlockName(getBlockRootClientId(clientId)),
+			};
+		},
+		[clientId]
+	);
+
+	console.log('Menu Link Context', context, isInMenuBlock, !!borderColor);
 
 	const blockProps = useBlockProps({
 		ref: useMergeRefs([setPopoverAnchor, listItemRef]),
@@ -96,12 +112,12 @@ export default function Edit({
 			'has-text-color': !!textColor,
 			[getColorClassName('color', textColor)]: !!textColor,
 			[`has-text-decoration-${textDecoration}`]: textDecoration,
-			'has-background': !!backgroundColor && 'horizontal' === orientation,
+			'has-background': !!backgroundColor && isInMenuBlock,
 			[getColorClassName('background-color', backgroundColor)]:
-				!!backgroundColor && 'horizontal' === orientation,
-			'has-border-color': !!borderColor && 'horizontal' === orientation,
+				!!backgroundColor && isInMenuBlock,
+			'has-border-color': !!borderColor && isInMenuBlock,
 			[getColorClassName('border-color', borderColor)]:
-				!!borderColor && 'horizontal' === orientation,
+				!!borderColor && isInMenuBlock,
 			'is-active': subMenuIsOpen,
 		}),
 	});
@@ -133,8 +149,6 @@ export default function Edit({
 			? []
 			: ['core/bold', 'core/italic'];
 
-	console.log('className??: ', className);
-
 	return (
 		<Fragment>
 			<Controls
@@ -148,28 +162,37 @@ export default function Edit({
 				}}
 			/>
 			<div {...blockProps}>
-				<RichText
-					tagName="span"
-					className="wp-block-prc-block-taxonomy-menu-link--label"
-					value={label}
-					onChange={(newLabel) => setAttributes({ label: newLabel })}
-					placeholder={__('Add Label', 'prc-block-library')}
-					allowedFormats={allowedFormats}
-					multiline={false}
-					disableLineBreaks
-					__unstableOnSplitAtEnd={() => {
-						const newBlock = createBlock(
-							'prc-block/taxonomy-menu-link'
-						);
-						if (enableSubMenu) {
-							// Insert in this menu
-							insertBlock(newBlock, undefined, clientId);
-						} else {
-							// Insert after this menu
-							insertBlocksAfter(newBlock);
+				{'is-style-sub-expand' === className && (
+					<span className="wp-block-prc-block-taxonomy-menu-link--label">
+						{subMenuIsOpen ? 'Less' : 'More'}
+					</span>
+				)}
+				{'is-style-sub-expand' !== className && (
+					<RichText
+						tagName="span"
+						className="wp-block-prc-block-taxonomy-menu-link--label"
+						value={label}
+						onChange={(newLabel) =>
+							setAttributes({ label: newLabel })
 						}
-					}}
-				/>
+						placeholder={__('Add Label', 'prc-block-library')}
+						allowedFormats={allowedFormats}
+						multiline={false}
+						disableLineBreaks
+						__unstableOnSplitAtEnd={() => {
+							const newBlock = createBlock(
+								'prc-block/taxonomy-menu-link'
+							);
+							if (enableSubMenu) {
+								// Insert in this menu
+								insertBlock(newBlock, undefined, clientId);
+							} else {
+								// Insert after this menu
+								insertBlocksAfter(newBlock);
+							}
+						}}
+					/>
+				)}
 				{'is-style-sub-heading' === className && (
 					<i className="chevron right small icon"></i>
 				)}

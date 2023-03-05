@@ -1,11 +1,11 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "prc-block/taxonomy-menu-controller",
+	"name": "prc-block/taxonomy-index-list-controller",
 	"version": "0.1.0",
-	"title": "Taxonomy Menu Controller",
+	"title": "Taxonomy Index List Controller",
 	"category": "design",
-	"description": "Display a grid of taxonomy menu blocks that converts to an accordion on mobile",
+	"description": "Display a grid of taxonomy list blocks that converts to an accordion on mobile",
 	"attributes": {
 		"allowedBlocks": {
 			"type": "array"
@@ -30,12 +30,11 @@
 			"fontSize": true,
 			"__experimentalFontFamily": true,
 			"__experimentalDefaultControls": {
-				"fontSize": true,
 				"__experimentalFontFamily": true
 			}
 		}
 	},
-	"textdomain": "taxonomy-menu-controller",
+	"textdomain": "taxonomy-index-list-controller",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css"

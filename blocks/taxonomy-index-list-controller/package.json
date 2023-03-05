@@ -1,5 +1,5 @@
 {
-	"name": "taxonomy-menu-controller",
+	"name": "taxonomy-index-list-controller",
 	"version": "0.1.0",
 	"description": "Display a grid of taxonomy menu blocks that converts to an accordion on mobile",
 	"author": "Seth Rubenstein",
@@ -17,5 +17,8 @@
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^24.6.0"
+	},
+	"dependencies": {
+		"@wordpress/icons": "^9.19.0"
 	}
 }

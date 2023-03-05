@@ -25,6 +25,6 @@ import { InnerBlocks } from '@wordpress/block-editor';
  * @param {Object} props.attributes Available block attributes.
  * @return {WPElement} Element to render.
  */
-export default function Save( { attributes } ) {
+export default function Save() {
 	return <InnerBlocks.Content />;
 }

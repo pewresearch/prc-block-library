@@ -57,10 +57,13 @@ class TaxonomyIndexAzController extends PRC_Block_Library {
 						$taxonomy = implode(',', array_map(function($item) {
 							return '"' . $item . '"';
 						}, $taxonomy));
+						$exclude = implode(',', array_map(function($item) {
+							return '"' . $item . '"';
+						}, $exclude));
 						ob_start();
 						?>
 						<!-- wp:prc-block/accordion {"title":"<?php echo $letter;?>"} -->
-						<!-- wp:prc-block/taxonomy-index-az-list {"letter":"<?php echo $letter;?>","disableHeading": true, "exclude":"<?php echo $exclude;?>","taxonomy":[<?php echo $taxonomy;?>]} /-->
+						<!-- wp:prc-block/taxonomy-index-az-list {"letter":"<?php echo $letter;?>","disableHeading": true, "exclude":[<?php echo $exclude;?>],"taxonomy":[<?php echo $taxonomy;?>]} /-->
 						<!-- /wp:prc-block/accordion -->
 						<?php
 						$accordion_blocks .= ob_get_clean();

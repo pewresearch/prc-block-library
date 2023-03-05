@@ -185,11 +185,11 @@ export default function Edit({
 			{isSelected && (
 				<RichText
 					tagName="div"
-					value={decodeEntities(title)}
+					value={title}
 					allowedFormats={[]}
 					onChange={(newTitle) =>
 						setAttributes({
-							title: newTitle,
+							title: decodeEntities(title),
 							slug: cleanForSlug(newTitle),
 						})
 					}

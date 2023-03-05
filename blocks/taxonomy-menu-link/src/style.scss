@@ -5,6 +5,14 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+a.wp-block-prc-block-taxonomy-menu-link,
+.wp-block-prc-block-taxonomy-menu-link a {
+	color: inherit!important;
+	text-decoration: none!important;
+	&:hover {
+		text-decoration: underline!important;
+	}
+ }
 .wp-block-prc-block-taxonomy-menu-link {
 	display: flex;
 	flex-wrap: wrap;
@@ -21,14 +29,6 @@
 
 	&--label {
 		order: 0;
-	}
-
-	a {
-		color: inherit!important;
-		text-decoration: none!important;
-		&:hover {
-			text-decoration: underline!important;
-		}
 	}
 
 	&--icon {
@@ -95,9 +95,11 @@
 			font-weight: light;
 			width: 16px;
 			height: 16px;
-			display: inline-block;
 			text-align: center;
 			line-height: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 }

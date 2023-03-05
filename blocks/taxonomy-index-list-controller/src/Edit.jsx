@@ -12,7 +12,7 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
  * Internal Dependencies
  */
 
-const ALLOWED_BLOCKS = ['prc-block/taxonomy-menu'];
+const ALLOWED_BLOCKS = ['prc-block/taxonomy-list', 'core/block'];
 
 const BLOCKS_TEMPLATE = [
 	[
@@ -82,7 +82,7 @@ export default function Edit({
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ['prc-block/grid-controller'],
 		template: BLOCKS_TEMPLATE,
-		templateLock: 'all',
+		// templateLock: 'all',
 	});
 
 	return <div {...innerBlocksProps} />;

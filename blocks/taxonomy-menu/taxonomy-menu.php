@@ -11,7 +11,6 @@
  */
 
 class TaxonomyMenu extends PRC_Block_Library {
-	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {

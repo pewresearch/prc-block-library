@@ -1,4 +1,4 @@
-# Taxonomy Navigation Controller
+# Taxonomy List
 Contributors:      Seth Rubenstein
 Tags:              block
 Tested up to:      6.1
@@ -6,7 +6,7 @@ Stable tag:        0.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Display a grid of taxonomy navigation blocks that converts to an accordion on mobile
+This is not a navigation block, but it does have much of its functionality and styles. The difference is its data is saved in block format not WPNav
 
 ## Description
 

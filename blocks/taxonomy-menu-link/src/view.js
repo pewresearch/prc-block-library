@@ -5,7 +5,7 @@ import domReady from '@wordpress/dom-ready';
 
 domReady(() => {
 	const taxonomyMenuLinks = document.querySelectorAll(
-		'.wp-block-prc-block-taxonomy-menu-link.is-style-sub-expand, .wp-block-prc-block-taxonomy-menu-link.is-style-sub-tree',
+		'.wp-block-prc-block-taxonomy-menu-link.is-style-sub-expand, .wp-block-prc-block-taxonomy-menu-link.is-style-sub-tree'
 	);
 
 	// Get the hash at end of the URL, if present.
@@ -24,7 +24,7 @@ domReady(() => {
 
 	taxonomyMenuLinks.forEach((taxonomyMenuLink) => {
 		const subMenu = taxonomyMenuLink.querySelector(
-			'.wp-block-prc-block-taxonomy-menu-link--sub-menu',
+			'.wp-block-prc-block-taxonomy-menu-link--sub-menu'
 		);
 		console.log('subMenu', subMenu);
 
@@ -33,7 +33,7 @@ domReady(() => {
 		}
 
 		const subMenuToggles = taxonomyMenuLink.querySelectorAll(
-			'.wp-block-prc-block-taxonomy-menu-link--toggle',
+			'.wp-block-prc-block-taxonomy-menu-link--toggle'
 		);
 
 		console.log('toggle', subMenuToggles);

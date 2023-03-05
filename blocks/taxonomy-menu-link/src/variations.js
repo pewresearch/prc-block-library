@@ -23,6 +23,17 @@ const variations = [
 			!className || !className.includes('is-style-sub') || !enableSubMenu,
 	},
 	{
+		name: 'taxonomy-menu-link-sub-heading',
+		title: __('Sub Heading'),
+		attributes: {
+			enableSubMenu: false,
+			className: 'is-style-sub-heading',
+		},
+		icon: subHeadingIcon,
+		isActive: ({ className, enableSubMenu }) =>
+			className && className.includes('is-style-sub-heading'),
+	},
+	{
 		name: 'taxonomy-menu-link-sub-tree',
 		title: __('Sub Tree'),
 		attributes: {
@@ -32,7 +43,9 @@ const variations = [
 		icon: subMenuIcon,
 		scope: ['inserter', 'transform'],
 		isActive: ({ className, enableSubMenu }) =>
-			className && className.includes('is-style-sub-tree') && enableSubMenu,
+			className &&
+			className.includes('is-style-sub-tree') &&
+			enableSubMenu,
 	},
 	{
 		name: 'taxonomy-menu-link-sub-expand',
@@ -44,20 +57,9 @@ const variations = [
 		icon: subMenuIcon,
 		scope: ['inserter', 'transform'],
 		isActive: ({ className, enableSubMenu }) =>
-			className && className.includes('is-style-sub-expand') && enableSubMenu,
-	},
-	{
-		name: 'taxonomy-menu-link-sub-heading',
-		title: __('Sub Heading'),
-		attributes: {
-			enableSubMenu: false,
-			className: 'is-style-sub-heading',
-		},
-		icon: subHeadingIcon,
-		isActive: ({ className, enableSubMenu }) =>
 			className &&
-			className.includes('is-style-sub-heading') &&
-			false === enableSubMenu,
+			className.includes('is-style-sub-expand') &&
+			enableSubMenu,
 	},
 ];
 
