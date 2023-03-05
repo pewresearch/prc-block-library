@@ -4,7 +4,7 @@
 import { useEffect } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useSelect, useDispatch, select } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { cleanForSlug } from '@wordpress/url';
 import { decodeEntities } from '@wordpress/html-entities';
@@ -19,7 +19,6 @@ export default function Edit({
 	insertBlocksAfter,
 }) {
 	const { title, uuid } = attributes;
-	const currentlyActive = context['prc-block/tabs/active'];
 
 	const {
 		insertBlock,
@@ -144,12 +143,19 @@ export default function Edit({
 	};
 
 	const onBlockSelection = () => {
-		if (null !== uuid && undefined !== controllerClientId) {
-			updateBlockAttributes(controllerClientId, { active: uuid });
-		}
-		if (matchingPaneClientId) {
-			// Blind update of the block to trigger a re-render.
-			updateBlock(matchingPaneClientId, {});
+		// make sure all currently active panes are hidden.
+		const activePanes = document.querySelectorAll(
+			'[data-type^="prc-block/tabs-pane"][aria-hidden="false"]'
+		);
+		activePanes.forEach((e) => {
+			e.setAttribute('aria-hidden', 'true');
+		});
+
+		const matchingPaneElm = document.querySelector(
+			`[data-block="${matchingPaneClientId}"]`
+		);
+		if (matchingPaneElm) {
+			matchingPaneElm.setAttribute('aria-hidden', 'false');
 		}
 	};
 
@@ -173,11 +179,13 @@ export default function Edit({
 	}, [panesClientId, currentPositionIndex]);
 
 	useEffect(() => {
-		onBlockSelection();
+		if (isSelected) {
+			onBlockSelection();
+		}
 	}, [clientId, isSelected]);
 
 	const blockProps = useBlockProps({
-		'aria-selected': uuid === currentlyActive,
+		'aria-selected': isSelected,
 	});
 
 	return (

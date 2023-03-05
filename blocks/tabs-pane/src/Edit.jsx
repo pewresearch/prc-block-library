@@ -9,10 +9,6 @@ import {
 import { useSelect } from '@wordpress/data';
 
 export default function Edit({ attributes, context, clientId }) {
-	const { uuid } = attributes;
-	// eslint-disable-next-line react/destructuring-assignment
-	const currentlyActive = context['prc-block/tabs/active'];
-
 	const { hasChildBlocks } = useSelect(
 		(select) => {
 			const { getBlockOrder } = select('core/block-editor');
@@ -20,11 +16,11 @@ export default function Edit({ attributes, context, clientId }) {
 				hasChildBlocks: 0 < getBlockOrder(clientId).length,
 			};
 		},
-		[clientId],
+		[clientId]
 	);
 
 	const blockProps = useBlockProps({
-		'aria-hidden': uuid !== currentlyActive,
+		'aria-hidden': 'true',
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {

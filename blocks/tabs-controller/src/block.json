@@ -9,17 +9,12 @@
     "category": "design",
 	"icon": "editor-kitchensink",
 	"attributes": {
-		"active": {
-            "type": "string",
-            "default": null
-        },
 		"vertical": {
             "type": "boolean",
             "default": false
         }
 	},
 	"providesContext":{
-        "prc-block/tabs/active": "active",
         "prc-block/tabs/layout": "vertical"
     },
 	"example": {

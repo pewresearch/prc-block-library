@@ -26,7 +26,7 @@
 			"__experimentalFontFamily": true
 		}
 	},
-	"usesContext": ["prc-block/tabs/active", "prc-block/tabs/layout"],
+	"usesContext": ["prc-block/tabs/layout"],
     "parent": ["prc-block/tabs-panes"],
 	"textdomain": "tabs-pane",
 	"editorScript": "file:./index.js",

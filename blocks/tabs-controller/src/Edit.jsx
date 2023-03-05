@@ -120,7 +120,6 @@ export default function Edit({
 					matchedPane[0].clientId
 				);
 			}
-			// Need to set active the next available menu item block
 		}
 		setMenuBlocksPast(menuBlocks);
 	}, [menuBlocks]);

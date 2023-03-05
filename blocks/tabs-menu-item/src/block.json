@@ -38,7 +38,6 @@
 			"width": true
 		}
 	},
-	"usesContext": ["prc-block/tabs/active"],
     "parent": ["prc-block/tabs-menu"],
 	"textdomain": "tabs-menu-item",
 	"editorScript": "file:./index.js",

@@ -27,7 +27,6 @@
     }
   },
   "usesContext": [
-    "prc-block/tabs/active",
     "prc-block/tabs/layout"
   ],
   "parent": [

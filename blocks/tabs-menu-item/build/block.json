@@ -38,9 +38,6 @@
       "width": true
     }
   },
-  "usesContext": [
-    "prc-block/tabs/active"
-  ],
   "parent": [
     "prc-block/tabs-menu"
   ],
