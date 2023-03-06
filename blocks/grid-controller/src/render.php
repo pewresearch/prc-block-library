@@ -58,32 +58,15 @@ if ( $has_named_divider_color ) {
 	$color_css_classes[] = sprintf( 'has-%s-divider-color', $attributes['dividerColor'] );
 }
 
-// CSS classes.
-// $font_sizes = array(
-// 	'css_classes'   => array(),
-// 	'inline_styles' => '',
-// );
-
-// $has_named_font_size  = array_key_exists( 'fontSize', $attributes );
-// $has_custom_font_size = array_key_exists( 'customFontSize', $attributes );
-
-// if ( $has_named_font_size ) {
-// 	// Add the font size class.
-// 	$font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $attributes['fontSize'] );
-// } elseif ( $has_custom_font_size ) {
-// 	// Add the custom font size inline style.
-// 	$font_sizes['inline_styles'] = sprintf( 'font-size: %spx;', $attributes['customFontSize'] );
-// }
-
 $css_classes = $color_css_classes;
-
 
 $block_attrs = get_block_wrapper_attributes(array(
 	'class' => classNames($css_classes),
 ));
 
 echo wp_sprintf(
-	'<div %1$s>%2$s</div>',
+	'<div %1$s data-test="%3$s">%2$s</div>',
 	$block_attrs,
-	$content
+	$content,
+	$has_named_divider_color,
 );

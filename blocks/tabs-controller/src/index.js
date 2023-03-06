@@ -30,6 +30,7 @@ import Edit from './Edit';
 import Save from './Save';
 import Icon from './Icon';
 import variations from './variations';
+import transforms from './transforms';
 
 import metadata from './block.json';
 
@@ -46,6 +47,7 @@ const settings = {
 	 */
 	save: Save,
 	variations,
+	transforms,
 };
 
 /**

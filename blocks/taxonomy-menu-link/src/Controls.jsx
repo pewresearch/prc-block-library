@@ -7,25 +7,9 @@ import { TaxonomySelect } from '@prc/components';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import {
- Fragment, useState, useEffect, useCallback 
-} from '@wordpress/element';
-import {
-	BlockControls,
-	InspectorControls,
-	store as blockEditorStore,
-} from '@wordpress/block-editor';
-import {
-	BaseControl,
-	Button,
-	CardDivider,
-	PanelBody,
-	Popover,
-	ToolbarButton,
-	ToolbarGroup,
-} from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import { useEntityProp } from '@wordpress/core-data';
+import { Fragment, useState, useEffect } from '@wordpress/element';
+import { BlockControls, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, ToolbarButton, ToolbarGroup } from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -40,7 +24,6 @@ export default function Controls({
 	clientId,
 	popoverAnchor,
 }) {
-	const orientation = context['taxonomy-menu/layout']?.orientation;
 	const { className, url } = attributes;
 
 	const [isLinkOpen, setIsLinkOpen] = useState(false);
@@ -49,21 +32,7 @@ export default function Controls({
 		setIsLinkOpen(false);
 	};
 
-	const { enableSubMenu, taxonomy } = attributes;
-	const { allowSubMenu } = useSelect((select) => {
-		if ('vertical' !== orientation) {
-			return { allowSubMenu: false };
-		}
-		const rootClientId =
-			select(blockEditorStore).getBlockRootClientId(clientId);
-		const rootBlockName =
-			select(blockEditorStore).getBlockName(rootClientId);
-		return {
-			allowSubMenu:
-				'prc-block/taxonomy-menu-link' !== rootBlockName &&
-				'is-style-sub-heading' !== className,
-		};
-	}, []);
+	const { taxonomy } = attributes;
 
 	const allowLink = 'is-style-sub-expand' !== className;
 

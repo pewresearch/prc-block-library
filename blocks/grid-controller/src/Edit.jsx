@@ -39,27 +39,25 @@ function Edit({
 	const { verticalAlignment } = attributes;
 
 	const hasInnerBlocks = useSelect(
-		( select ) =>
-			select( blockEditorStore ).getBlocks( clientId ).length > 0,
-		[ clientId ]
+		(select) => select(blockEditorStore).getBlocks(clientId).length > 0,
+		[clientId]
 	);
 
 	const blockProps = useBlockProps({
-		className: classnames( className, {
-			'has-text-color': !! textColor.color || !! textColor?.class,
-			[ getColorClassName( 'color', textColor?.slug ) ]:
-				!! textColor?.slug,
-			'has-background': !! backgroundColor.color || backgroundColor.class,
-			[ getColorClassName( 'background-color', backgroundColor?.slug ) ]:
-				!! backgroundColor?.slug,
-			'has-divider': !! dividerColor.color || dividerColor.class,
-			[ getColorClassName( 'divider-color', dividerColor?.slug ) ]:
-				!! dividerColor?.slug,
+		className: classnames(className, {
+			'has-text-color': !!textColor.color || !!textColor?.class,
+			[getColorClassName('color', textColor?.slug)]: !!textColor?.slug,
+			'has-background': !!backgroundColor.color || backgroundColor.class,
+			[getColorClassName('background-color', backgroundColor?.slug)]:
+				!!backgroundColor?.slug,
+			'has-divider': !!dividerColor.color || dividerColor.class,
+			[getColorClassName('divider-color', dividerColor?.slug)]:
+				!!dividerColor?.slug,
 			[`are-vertically-aligned-${verticalAlignment}`]: verticalAlignment,
-		} ),
+		}),
 		style: {
-			color: ! textColor?.slug && textColor?.color,
-			backgroundColor: ! backgroundColor?.slug && backgroundColor?.color,
+			color: !textColor?.slug && textColor?.color,
+			backgroundColor: !backgroundColor?.slug && backgroundColor?.color,
 		},
 	});
 
@@ -70,8 +68,8 @@ function Edit({
 		templateLock: false,
 	});
 
-	if ( ! hasInnerBlocks ) {
-		return <Placeholder {...{attributes, setAttributes, clientId}}/>;
+	if (!hasInnerBlocks) {
+		return <Placeholder {...{ attributes, setAttributes, clientId }} />;
 	}
 
 	return (
@@ -94,10 +92,10 @@ function Edit({
 			<div {...innerBlocksProps} />
 		</Fragment>
 	);
-};
+}
 
 export default withColors(
 	{ textColor: 'color' },
 	{ backgroundColor: 'color' },
-	{ dividerColor: 'color' },
+	{ dividerColor: 'color' }
 )(Edit);

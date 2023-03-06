@@ -39,13 +39,6 @@
     "fontFamily": {
       "type": "string",
       "default": "sans-serif"
-    },
-    "typography": {
-      "type": "object",
-      "default": {
-        "fontSize": "14px",
-        "lineHeight": "14px"
-      }
     }
   },
   "providesContext": {

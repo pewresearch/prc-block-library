@@ -104,8 +104,6 @@ export default function Edit({
 		[clientId]
 	);
 
-	console.log('Menu Link Context', context, isInMenuBlock, !!borderColor);
-
 	const blockProps = useBlockProps({
 		ref: useMergeRefs([setPopoverAnchor, listItemRef]),
 		className: classNames(className, {

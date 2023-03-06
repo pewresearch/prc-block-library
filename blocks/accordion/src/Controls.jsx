@@ -23,7 +23,7 @@ export default function Controls({ colors }) {
 	} = colors;
 
 	return (
-		<InspectorControls>
+		<InspectorControls group="styles">
 			<PanelColorSettings
 				__experimentalHasMultipleOrigins
 				__experimentalIsRenderedInSidebar

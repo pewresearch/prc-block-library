@@ -31,6 +31,9 @@ const variations = [
 			</SVG>
 		),
 		isDefault: true,
+		attributes: {
+			dividerColor: 'gray',
+		},
 		innerBlocks: [
 			[
 				'prc-block/grid-column',
@@ -73,6 +76,9 @@ const variations = [
 				/>
 			</SVG>
 		),
+		attributes: {
+			dividerColor: 'gray',
+		},
 		innerBlocks: [
 			[
 				'prc-block/grid-column',
@@ -115,6 +121,9 @@ const variations = [
 				/>
 			</SVG>
 		),
+		attributes: {
+			dividerColor: 'gray',
+		},
 		innerBlocks: [
 			[
 				'prc-block/grid-column',
@@ -156,6 +165,9 @@ const variations = [
 				/>
 			</SVG>
 		),
+		attributes: {
+			dividerColor: 'gray',
+		},
 		innerBlocks: [
 			[
 				'prc-block/grid-column',
@@ -207,6 +219,9 @@ const variations = [
 				/>
 			</SVG>
 		),
+		attributes: {
+			dividerColor: 'gray',
+		},
 		innerBlocks: [
 			[
 				'prc-block/grid-column',

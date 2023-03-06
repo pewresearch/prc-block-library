@@ -31,6 +31,12 @@ a.wp-block-prc-block-taxonomy-menu-link,
 		order: 0;
 	}
 
+	// Little visual hack to center the icon vertically on frontend.
+	&:not(.wp-block) &--icon span:after {
+		position: relative;
+		top: -1px;
+	}
+
 	&--icon {
 		order: 1;
 		background: none;

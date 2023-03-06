@@ -4,7 +4,7 @@
 import { useEffect } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
-import { useSelect, useDispatch, select } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { cleanForSlug } from '@wordpress/url';
 import { decodeEntities } from '@wordpress/html-entities';
@@ -20,13 +20,8 @@ export default function Edit({
 }) {
 	const { title, uuid } = attributes;
 
-	const {
-		insertBlock,
-		updateBlockAttributes,
-		updateBlock,
-		moveBlockToPosition,
-		selectNextBlock,
-	} = useDispatch('core/block-editor');
+	const { insertBlock, moveBlockToPosition, selectNextBlock } =
+		useDispatch('core/block-editor');
 
 	const movePane = (
 		targetClientId,
@@ -55,16 +50,17 @@ export default function Edit({
 	};
 
 	const {
-		controllerClientId,
 		panesClientId,
 		currentPositionIndex,
 		matchingPaneClientId,
 		nextMenuItemClientId,
+		menuClientId,
 	} = useSelect(
 		(select) => {
 			if (undefined === clientId) {
 				return;
 			}
+
 			const {
 				getBlock,
 				getBlockRootClientId,
@@ -73,8 +69,6 @@ export default function Edit({
 			} = select('core/block-editor');
 
 			const menuBlockClientId = getBlockRootClientId(clientId);
-			const controllerBlockClientId =
-				getBlockRootClientId(menuBlockClientId);
 			const panesBlockClientId =
 				getAdjacentBlockClientId(menuBlockClientId);
 			const panesBlock = getBlock(panesBlockClientId);
@@ -85,7 +79,6 @@ export default function Edit({
 				1 <= panesBlock.innerBlocks.length &&
 				null !== uuid
 			) {
-				// console.log('panesBlock as seen from MenuItem', panesBlock);
 				const matchedPane = panesBlock.innerBlocks.filter(
 					(e) => e.attributes.uuid === uuid
 				);
@@ -113,11 +106,11 @@ export default function Edit({
 
 			// eslint-disable-next-line consistent-return
 			return {
-				controllerClientId: controllerBlockClientId,
 				panesClientId: panesBlockClientId,
 				currentPositionIndex: currentIndex,
 				matchingPaneClientId: paneClientId,
 				nextMenuItemClientId: getAdjacentBlockClientId(clientId),
+				menuClientId: menuBlockClientId,
 			};
 		},
 		[clientId]
@@ -145,14 +138,29 @@ export default function Edit({
 	const onBlockSelection = () => {
 		// make sure all currently active panes are hidden.
 		const activePanes = document.querySelectorAll(
-			'[data-type^="prc-block/tabs-pane"][aria-hidden="false"]'
+			`[data-block="${panesClientId}"] [data-type^="prc-block/tabs-pane"][aria-hidden="false"]`
 		);
 		activePanes.forEach((e) => {
 			e.setAttribute('aria-hidden', 'true');
 		});
+		const activeMenus = document.querySelectorAll(
+			`[data-block="${menuClientId}"] [data-type^="prc-block/tabs-menu-item"][aria-selected="true"]`
+		);
+		activeMenus.forEach((e) => {
+			e.setAttribute('aria-selected', 'false');
+		});
 
+		// .. Activate Menu Item
+		const menuItemElm = document.querySelector(
+			`[data-block="${menuClientId}"] [data-block="${clientId}"]`
+		);
+		if (menuItemElm) {
+			menuItemElm.setAttribute('aria-selected', 'true');
+		}
+
+		// .. Activate Pane
 		const matchingPaneElm = document.querySelector(
-			`[data-block="${matchingPaneClientId}"]`
+			`[data-block="${panesClientId}"] [data-uuid="${uuid}"]`
 		);
 		if (matchingPaneElm) {
 			matchingPaneElm.setAttribute('aria-hidden', 'false');
@@ -184,28 +192,23 @@ export default function Edit({
 		}
 	}, [clientId, isSelected]);
 
-	const blockProps = useBlockProps({
-		'aria-selected': isSelected,
-	});
+	const blockProps = useBlockProps();
 
 	return (
 		<div {...blockProps}>
-			{isSelected && (
-				<RichText
-					tagName="div"
-					value={title}
-					allowedFormats={[]}
-					onChange={(newTitle) =>
-						setAttributes({
-							title: decodeEntities(title),
-							slug: cleanForSlug(newTitle),
-						})
-					}
-					placeholder={__('Tab Title', 'prc-block-library')}
-					__unstableOnSplitAtEnd={() => onEnterSplit()}
-				/>
-			)}
-			{!isSelected && <div>{title || `Tab Title`}</div>}
+			<RichText
+				tagName="div"
+				value={title}
+				allowedFormats={[]}
+				onChange={(newTitle) =>
+					setAttributes({
+						title: decodeEntities(newTitle),
+						slug: cleanForSlug(newTitle),
+					})
+				}
+				placeholder={__('Tab Title', 'prc-block-library')}
+				__unstableOnSplitAtEnd={() => onEnterSplit()}
+			/>
 		</div>
 	);
 }

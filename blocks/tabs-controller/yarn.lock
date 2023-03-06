@@ -3007,6 +3007,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@wordpress/html-entities@npm:^3.28.0":
+  version: 3.28.0
+  resolution: "@wordpress/html-entities@npm:3.28.0"
+  dependencies:
+    "@babel/runtime": ^7.16.0
+  checksum: c1acedfab8f6837963d51866a14c42376bbada32a8c3506cf98c70990921ac1c06a9d724f89b7eec518430decd5edaf9bd384c609d88aeb1c700997daf610e59
+  languageName: node
+  linkType: hard
+
 "@wordpress/jest-console@npm:^6.5.0":
   version: 6.5.0
   resolution: "@wordpress/jest-console@npm:6.5.0"
@@ -11312,6 +11321,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "tabs-controller@workspace:."
   dependencies:
+    "@wordpress/html-entities": ^3.28.0
     "@wordpress/scripts": ^24.6.0
   languageName: unknown
   linkType: soft

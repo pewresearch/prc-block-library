@@ -72,7 +72,6 @@ export default function Edit({
 			renderAppender: false,
 			orientation: vertical ? 'vertical' : 'horizontal',
 			template: BLOCKS_TEMPLATE,
-			templateLock: 'all',
 		}
 	);
 

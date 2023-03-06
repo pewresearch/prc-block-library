@@ -6,7 +6,10 @@ import domReady from '@wordpress/dom-ready';
 
 /**
  * Switches the active tab and panel.
- * @param {elm} newTab The tab to activate.
+ *
+ * @param       id
+ * @param {elm} newTab     The tab to activate.
+ * @param       updateHash
  */
 function switchTab(id, newTab, updateHash = true) {
 	if (updateHash) {
@@ -17,14 +20,14 @@ function switchTab(id, newTab, updateHash = true) {
 	}
 
 	const oldTab = document.querySelector(
-		`#${id} .wp-block-prc-block-tabs-menu-item[aria-selected="true"]`,
+		`#${id} .wp-block-prc-block-tabs-menu-item[aria-selected="true"]`
 	);
 
 	const oldPanel = document.querySelector(
-		`#${id} .wp-block-prc-block-tabs-pane[aria-hidden="false"]`,
+		`#${id} .wp-block-prc-block-tabs-pane[aria-hidden="false"]`
 	);
 	const newPanel = document.getElementById(
-		newTab.getAttribute('aria-controls'),
+		newTab.getAttribute('aria-controls')
 	);
 
 	if (null !== oldTab && oldTab !== newTab) {
@@ -42,7 +45,9 @@ domReady(() => {
 	const tabs = document.querySelectorAll('.wp-block-prc-block-tabs');
 	tabs.forEach((t) => {
 		const id = t.getAttribute('id');
-		const menuItems = t.querySelectorAll('.wp-block-prc-block-tabs-menu-item');
+		const menuItems = t.querySelectorAll(
+			'.wp-block-prc-block-tabs-menu-item'
+		);
 		menuItems.forEach((menuItem, index) => {
 			menuItem.addEventListener('click', (elm) => {
 				elm.preventDefault();

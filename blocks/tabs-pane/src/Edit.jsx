@@ -9,6 +9,7 @@ import {
 import { useSelect } from '@wordpress/data';
 
 export default function Edit({ attributes, context, clientId }) {
+	const { uuid } = attributes;
 	const { hasChildBlocks } = useSelect(
 		(select) => {
 			const { getBlockOrder } = select('core/block-editor');
@@ -21,12 +22,14 @@ export default function Edit({ attributes, context, clientId }) {
 
 	const blockProps = useBlockProps({
 		'aria-hidden': 'true',
+		'data-uuid': `${uuid}`,
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		renderAppender: hasChildBlocks
 			? InnerBlocks.DefaultBlockAppender
 			: InnerBlocks.ButtonBlockAppender,
+		template: [['core/paragraph', { placeholder: 'Add content…' }]],
 	});
 
 	return <div {...innerBlocksProps} />;

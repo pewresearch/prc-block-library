@@ -153,6 +153,31 @@
 	}
 }
 
+// Standard Layout (Without Icon)
+.wp-block-prc-block-promo:not(.has-icon):not(.is-style-pancake),
+.wp-block-prc-block-promo.is-style-standard:not(.has-icon):not(.is-style-pancake) {
+	& > .wp-block-prc-block-promo__inner-container {
+		--grid-template-areas: 'text action';
+		--grid-template-columns: 2fr 1fr;
+		--grid-alignment: center;
+		--grid-justification: center !important;
+	}
+
+	& > .wp-block-prc-block-promo__inner-container {
+		@container promo (max-width: 670px) {
+			--grid-template-areas: 'text text' 'action action';
+			--grid-template-columns: minmax(320px, 475px) minmax(320px, 475px);
+			--grid-alignment: flex-start;
+			--grid-justification: center !important;
+
+			.wp-block-prc-block-promo__text {
+				text-align: left;
+				padding-bottom: 7px;
+			}
+		}
+	}
+}
+
 // Pancake Layout
 .wp-block-prc-block-promo.is-style-pancake {
 	&.has-form > .wp-block-prc-block-promo__inner-container {
