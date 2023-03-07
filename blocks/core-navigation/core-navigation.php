@@ -49,13 +49,74 @@ class CoreNavigation extends PRC_Block_Library {
 		.wp-block-navigation.is-style-pills .wp-block-navigation-item:hover {
 			background-color: #EAEAEA;
 		}
-		<?php $style = ob_get_clean();
+		<?php
+		$pills_style = ob_get_clean();
 		register_block_style(
 			'core/navigation',
 			array(
 				'name'   => 'pills',
 				'label'  => __( 'Pills', 'prc-block-library' ),
-				'inline_style' => $style,
+				'inline_style' => $pills_style,
+				'style_handle'  => self::$style_handle
+			)
+		);
+
+		// These styles are for the backend...
+		ob_start();
+		?>
+		.wp-block-navigation.is-style-divided .wp-block-navigation-item {
+			border-right: 1px solid #EAEAEA;
+			padding: .7857142857em 1.5em;
+		}
+		.wp-block-navigation.is-style-divided .wp-block-navigation-item:last-child {
+			border-right: none;
+			padding-right: 0;
+		}
+		<?php
+		$divided_style = ob_get_clean();
+		register_block_style(
+			'core/navigation',
+			array(
+				'name'   => 'divided',
+				'label'  => __( 'Divided', 'prc-block-library' ),
+				'inline_style' => $divided_style,
+				'style_handle'  => self::$style_handle
+			)
+		);
+
+		ob_start();
+		?>
+		.is-layout-constrained .wp-block-navigation.is-style-mega-menu,
+		.wp-block-navigation.is-style-mega-menu {
+			margin-left: -1em!important;
+			margin-right: -1em!important;
+			max-width: calc(var(--wp--style--global--wide-size) + 2em)!important;
+			width: 100%;
+			position: relative;
+			border-left: 1px solid black;
+		}
+		.wp-block-navigation.is-style-mega-menu .wp-block-navigation-item {
+			display: flex;
+			flex-grow: 1;
+		}
+		.wp-block-navigation.is-style-mega-menu .wp-block-navigation-item .wp-block-navigation-item__content {
+			display: block;
+			flex-grow: 1;
+			text-align: center;
+			padding: 1em 1em;
+		}
+		.wp-block-group:has( > .wp-block-navigation.is-style-mega-menu) {
+			display: flex;
+			justify-content: center;
+		}
+		<?php
+		$mega_menu_style = ob_get_clean();
+		register_block_style(
+			'core/navigation',
+			array(
+				'name'   => 'mega-menu',
+				'label'  => __( 'Mega Menu', 'prc-block-library' ),
+				'inline_style' => $mega_menu_style,
 				'style_handle'  => self::$style_handle
 			)
 		);

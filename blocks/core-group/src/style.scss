@@ -1,7 +1,3 @@
-@use "../../../../../themes/prc_parent/src/scss/master.variables.scss" as variables;
-@use "../../../../../themes/prc_parent/src/scss/colors.scss" as colors;
-@use "../../../../../themes/prc_parent/src/scss/functions.scss" as functions;
-@use "../../../../../themes/prc_parent/src/scss/mixins.scss" as mixins;
 @use "sass:math";
 
 $relaxedBorder: #e6e7e6;
@@ -9,6 +5,7 @@ $altCardHeaderPadding: 1em;
 $altCardLineHeight: 1.28571429em;
 $altCardMargin: 1rem;
 $breakpoint: 767px;
+$tabletBreakPoint: 992px;
 
 /**
  * The following styles get applied both on the front of your site
@@ -16,33 +13,6 @@ $breakpoint: 767px;
  *
  * Replace them with your own styles or remove the file completely.
  */
-
-.wp-block-prc-block-core-group {
-	color: inherit;
-	background: inherit;
-}
-
-body.admin-bar .prc-group-block--sticky.sticky {
-	top: 32px;
-}
-.prc-group-block--sticky.sticky {
-	position: -webkit-sticky;
-	position: sticky;
-	top: 0;
-	z-index: 10;
-	.wp-block-group.alignleft,
-	.wp-block-group.alignright {
-		background: rgb(255 255 255 / 50%);
-	}
-}
-
-// Legacy Theme Styles
-.column > .wp-block-group.is-style-card-alt,
-#secondary.column > .prc-block-area {
-	@media only screen and (min-width: $breakpoint) {
-		margin-left: -1.5rem;
-	}
-}
 
 // When a align full cover is before an alignfull group we want to add padding to the group.
 .wp-block-cover.alignfull + .wp-block-group.alignfull {
@@ -54,19 +24,6 @@ body.admin-bar .prc-group-block--sticky.sticky {
 }
 
 .wp-block-group {
-	& > :last-child {
-		margin-bottom: 0;
-	}
-
-	.block-editor-block-list__layout > .wp-block {
-		max-width: 1152px !important
-	}
-
-	&.has-background {
-		padding: 1em;
-		margin-bottom: 2em;
-	}
-
 	&.is-style-social-group {
 		border-bottom: 1px solid var(--wp--preset--color--gray);
 		margin-block-end: 1.5em;
@@ -112,21 +69,8 @@ body.admin-bar .prc-group-block--sticky.sticky {
 		}
 	}
 
-	&.relaxed {
-		.ui.button {
-			display: block;
-			margin-left: auto;
-			margin-right: auto;
-		}
-	}
-
-	// Ensures grid blocks take up the full width of a group.
-	div[data-type="prc-block/columns"] {
-		max-width: 100% !important;
-	}
-
 	&.alignright {
-		@media only screen and (min-width: variables.$largestTabletScreen) {
+		@media only screen and (min-width: $tabletBreakPoint) {
 			/*rtl:ignore*/
 			clear: right;
 			float: right;
@@ -135,7 +79,7 @@ body.admin-bar .prc-group-block--sticky.sticky {
 		}
 	}
 	&.alignleft {
-		@media only screen and (min-width: variables.$largestTabletScreen) {
+		@media only screen and (min-width: $tabletBreakPoint) {
 			/*rtl:ignore*/
 			clear: left;
 			float: left;
@@ -146,38 +90,8 @@ body.admin-bar .prc-group-block--sticky.sticky {
 
 }
 
-// Soon to be Deprecated Block Styles, utilize the new block layout options instead.
-.wp-block-group {
-	&.aligncenter {
-		&.is-style-640-wide,
-		&.is-style-420-wide,
-		&.is-style-300-wide,
-		&.is-style-200-wide {
-			margin-left: auto!important;
-			margin-right: auto!important;
-		}
-	}
-	&.is-style-200-wide {
-		width: 100%;
-		max-width: 200px!important;
-	}
-
-	&.is-style-300-wide {
-		width: 100%;
-		max-width: 300px!important;
-	}
-
-	&.is-style-420-wide {
-		width: 100%;
-		max-width: 420px!important;
-	}
-
-	&.is-style-640-wide {
-		width: 100%;
-		max-width: 640px!important;
-	}
-}
-
+// @TODO this feels more like something that should be in a block pattern??
+.wp-block-group.essay--toolbar,
 .wp-block-group.essay--toolbar {
     display: flex;
     align-items: center;
@@ -187,18 +101,95 @@ body.admin-bar .prc-group-block--sticky.sticky {
 		padding-top: 0!important;
 		margin-top: 0!important;
 	}
-
 	.wp-block-post-date {
 		flex-grow: 1;
 	}
 }
 
 
-// This will align "Baseball Cards" (Card Alt) with the OLD grid block gutter.
-// @TODO: remove when the new grid block is released on prc prime.
-body:not(.has-block-theme) .wp-block-group.is-style-card-alt .is-style-sub-header,
-div:not(.wp-site-blocks) .wp-block-group.is-style-card-alt .is-style-sub-header {
-	margin-left: -1rem!important;
-	margin-right: -1rem!important;
-	max-width: calc(100% + 2rem) !important;
+
+// Soon to be Deprecated Block Styles, utilize the new block layout options instead.
+// Legacy Theme Styles
+.column > .wp-block-group.is-style-card-alt,
+#secondary.column > .prc-block-area {
+	@media only screen and (min-width: $breakpoint) {
+		margin-left: -1.5rem;
+	}
 }
+body:not(.is-block-theme) {
+	// This will align "Baseball Cards" (Card Alt) with the OLD grid block gutter.
+	// @TODO: remove when the new grid block is released on prc prime.
+	.wp-block-group.is-style-card-alt .is-style-sub-header,
+	.wp-block-group.is-style-card-alt .is-style-sub-header {
+		margin-left: -1rem!important;
+		margin-right: -1rem!important;
+		max-width: calc(100% + 2rem) !important;
+	}
+	body.admin-bar .prc-group-block--sticky.sticky {
+		top: 32px;
+	}
+	.prc-group-block--sticky.sticky {
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		.wp-block-group.alignleft,
+		.wp-block-group.alignright {
+			background: rgb(255 255 255 / 50%);
+		}
+	}
+	.wp-block-group {
+		& > :last-child {
+			margin-bottom: 0;
+		}
+
+		.block-editor-block-list__layout > .wp-block {
+			max-width: 1152px !important
+		}
+
+		&.has-background {
+			padding: 1em;
+			margin-bottom: 2em;
+		}
+		&.relaxed {
+			.ui.button {
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		}
+		// Ensures grid blocks take up the full width of a group.
+		div[data-type="prc-block/columns"] {
+			max-width: 100% !important;
+		}
+		&.aligncenter {
+			&.is-style-640-wide,
+			&.is-style-420-wide,
+			&.is-style-300-wide,
+			&.is-style-200-wide {
+				margin-left: auto!important;
+				margin-right: auto!important;
+			}
+		}
+		&.is-style-200-wide {
+			width: 100%;
+			max-width: 200px!important;
+		}
+
+		&.is-style-300-wide {
+			width: 100%;
+			max-width: 300px!important;
+		}
+
+		&.is-style-420-wide {
+			width: 100%;
+			max-width: 420px!important;
+		}
+
+		&.is-style-640-wide {
+			width: 100%;
+			max-width: 640px!important;
+		}
+	}
+}
+
