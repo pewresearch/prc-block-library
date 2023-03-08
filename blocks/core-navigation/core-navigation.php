@@ -84,16 +84,16 @@ class CoreNavigation extends PRC_Block_Library {
 			)
 		);
 
+		$spacing = '1em';
 		ob_start();
 		?>
-		.is-layout-constrained .wp-block-navigation.is-style-mega-menu,
+		body .is-layout-constrained nav.wp-block-navigation.is-style-mega-menu.wp-block,
 		.wp-block-navigation.is-style-mega-menu {
-			margin-left: -1em!important;
-			margin-right: -1em!important;
+			margin-left: -<?php echo esc_attr($spacing);?>!important;
+			margin-right: -<?php echo esc_attr($spacing);?>!important;
 			max-width: calc(var(--wp--style--global--wide-size) + 2em)!important;
 			width: 100%;
 			position: relative;
-			border-left: 1px solid black;
 		}
 		.wp-block-navigation.is-style-mega-menu .wp-block-navigation-item {
 			display: flex;
@@ -103,7 +103,7 @@ class CoreNavigation extends PRC_Block_Library {
 			display: block;
 			flex-grow: 1;
 			text-align: center;
-			padding: 1em 1em;
+			padding: <?php echo esc_attr($spacing);?>;
 		}
 		.wp-block-group:has( > .wp-block-navigation.is-style-mega-menu) {
 			display: flex;
