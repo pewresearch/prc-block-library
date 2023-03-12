@@ -5,6 +5,11 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+// Ensures flip card starts at 200px wide for aligned group blocks.
+.wp-block-group[class*=align]:has(.wp-block-prc-block-flip-card-controller) {
+    min-width: 200px;
+}
+
  .wp-block-prc-block-flip-card-controller {
 	perspective: 1000px;
 	&[data-flipped="true"] .wp-block-prc-block-flip-card-controller__inner-blocks {

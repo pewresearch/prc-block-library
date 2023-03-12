@@ -104,6 +104,10 @@ export default function Edit({
 				}
 			}
 
+			console.log('menuBlockClientId', menuBlockClientId);
+			console.log('panesBlockClientId', panesBlockClientId);
+			console.log(clientId);
+
 			// eslint-disable-next-line consistent-return
 			return {
 				panesClientId: panesBlockClientId,
@@ -138,10 +142,10 @@ export default function Edit({
 	const onBlockSelection = () => {
 		// make sure all currently active panes are hidden.
 		const activePanes = document.querySelectorAll(
-			`[data-block="${panesClientId}"] [data-type^="prc-block/tabs-pane"][aria-hidden="false"]`
+			`[data-block="${panesClientId}"] [data-type^="prc-block/tabs-pane"][aria-selected="true"]`
 		);
 		activePanes.forEach((e) => {
-			e.setAttribute('aria-hidden', 'true');
+			e.setAttribute('aria-selected', 'false');
 		});
 		const activeMenus = document.querySelectorAll(
 			`[data-block="${menuClientId}"] [data-type^="prc-block/tabs-menu-item"][aria-selected="true"]`
@@ -162,8 +166,10 @@ export default function Edit({
 		const matchingPaneElm = document.querySelector(
 			`[data-block="${panesClientId}"] [data-uuid="${uuid}"]`
 		);
+		console.log(activePanes, activeMenus, menuItemElm, matchingPaneElm);
+		console.log(panesClientId, uuid, menuClientId);
 		if (matchingPaneElm) {
-			matchingPaneElm.setAttribute('aria-hidden', 'false');
+			matchingPaneElm.setAttribute('aria-selected', 'true');
 		}
 	};
 
