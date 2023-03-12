@@ -1,7 +1,11 @@
-.yoast-breadcrumbs > .ui.breadcrumbs {
-	overflow: hidden;
-    /* text-overflow: ellipsis; */
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+.yoast-breadcrumbs {
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+	& > .ui.breadcrumbs {
+		overflow: hidden;
+		/* text-overflow: ellipsis; */
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+	}
 }
