@@ -37,17 +37,16 @@ function switchTab(tabsControllerId, newTab, updateHash = true) {
 		oldPanel.setAttribute('aria-hidden', 'true');
 	}
 
+	newTab.setAttribute('aria-selected', 'true');
+	newPanel.setAttribute('aria-hidden', 'false');
+
 	console.log(
 		'switchTab',
 		tabsControllerId,
 		newTab,
 		updateHash,
 		newPanel,
-		newPanelId
 	);
-
-	newTab.setAttribute('aria-selected', 'true');
-	newPanel.setAttribute('aria-hidden', 'false');
 }
 
 domReady(() => {
@@ -58,19 +57,12 @@ domReady(() => {
 			'.wp-block-prc-block-tabs-menu-item'
 		);
 
-		console.log('menuItems', menuItems, controllerId);
-
 		menuItems.forEach((menuItem, index) => {
-			console.log('menuItem', menuItem, index, controllerId);
-
-			menuItem.addEventListener('click', (elm) => {
-				elm.preventDefault();
-				switchTab(controllerId, elm.target);
-			});
 			// Activate first tab
 			if (0 === index) {
 				switchTab(controllerId, menuItem, false);
 			}
+
 			// Activate tab from url hash
 			if (window.location.hash === menuItem.getAttribute('href')) {
 				switchTab(controllerId, menuItem);
@@ -79,6 +71,13 @@ domReady(() => {
 					menuItem.scrollIntoView();
 				}, 1000);
 			}
+
+			menuItem.addEventListener('click', (elm) => {
+				elm.preventDefault();
+				switchTab(controllerId, elm.target);
+			});
+
+			console.log('menuItem', menuItem, index, controllerId);
 		});
 	});
 });
