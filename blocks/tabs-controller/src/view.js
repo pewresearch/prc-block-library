@@ -19,6 +19,8 @@ function switchTab(id, newTab, updateHash = true) {
 		window.history.replaceState(null, null, href);
 	}
 
+	console.log('switchTab', id, newTab, updateHash);
+
 	const oldTab = document.querySelector(
 		`#${id} .wp-block-prc-block-tabs-menu-item[aria-selected="true"]`
 	);
@@ -48,7 +50,9 @@ domReady(() => {
 		const menuItems = t.querySelectorAll(
 			'.wp-block-prc-block-tabs-menu-item'
 		);
+		console.log('menuItems', menuItems, id);
 		menuItems.forEach((menuItem, index) => {
+			console.log('menuItem', menuItem, index, id);
 			menuItem.addEventListener('click', (elm) => {
 				elm.preventDefault();
 				switchTab(id, elm.target);
