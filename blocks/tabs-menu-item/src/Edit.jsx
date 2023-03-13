@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { useEffect, useRef } from '@wordpress/element';
+import { useEffect, useMemo } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -18,12 +18,15 @@ export default function Edit({
 	context,
 	insertBlocksAfter,
 }) {
+	const currentlySelectedUUID = context?.['prc-block/tabs/activeUUID'];
 	const { title, uuid } = attributes;
 
-	const paneRef = useRef();
-
-	const { insertBlock, moveBlockToPosition, selectNextBlock } =
-		useDispatch('core/block-editor');
+	const {
+		insertBlock,
+		moveBlockToPosition,
+		selectNextBlock,
+		updateBlockAttributes,
+	} = useDispatch('core/block-editor');
 
 	const movePane = (
 		targetClientId,
@@ -34,15 +37,6 @@ export default function Edit({
 		if (targetIndex === currentPaneIndex || -1 === currentPaneIndex) {
 			return;
 		}
-
-		console.log(
-			'movePane',
-			targetClientId,
-			targetIndex,
-			currentPaneIndex,
-			toClientId
-		);
-
 		moveBlockToPosition(
 			targetClientId,
 			toClientId,
@@ -52,6 +46,7 @@ export default function Edit({
 	};
 
 	const {
+		controllerClientId,
 		panesClientId,
 		currentPositionIndex,
 		matchingPaneClientId,
@@ -70,12 +65,15 @@ export default function Edit({
 				getBlockIndex,
 			} = select('core/block-editor');
 
+			let paneClientId = false;
 			const menuBlockClientId = getBlockRootClientId(clientId);
+			const controllerBlockClientId =
+				getBlockRootClientId(menuBlockClientId);
+
+			// Find the matching pane block.
 			const panesBlockClientId =
 				getAdjacentBlockClientId(menuBlockClientId);
 			const panesBlock = getBlock(panesBlockClientId);
-
-			let paneClientId = false;
 			if (
 				panesBlock.hasOwnProperty('innerBlocks') &&
 				1 <= panesBlock.innerBlocks.length &&
@@ -91,6 +89,7 @@ export default function Edit({
 
 			const currentIndex = getBlockIndex(clientId, menuBlockClientId);
 
+			// @TODO: This whole thing needs optimization, needs to be using useEffect or useCallback at least.
 			if (paneClientId) {
 				const paneIndex = getBlockIndex(
 					paneClientId,
@@ -106,8 +105,8 @@ export default function Edit({
 				}
 			}
 
-			// eslint-disable-next-line consistent-return
 			return {
+				controllerClientId: controllerBlockClientId,
 				panesClientId: panesBlockClientId,
 				currentPositionIndex: currentIndex,
 				matchingPaneClientId: paneClientId,
@@ -118,61 +117,22 @@ export default function Edit({
 		[clientId]
 	);
 
-	const onBlockInit = async () => {
+	const onBlockInit = () => {
 		// If no uuid is set then run init sequence, create a matching tab pane block.
 		if (null === uuid) {
 			// We will use the first client id assigned as a uuid.
-			console.log('onBlockInit', uuid, currentPositionIndex);
 			const newUuid = clientId;
 			setAttributes({ uuid: newUuid });
+
 			const newPaneBlock = createBlock('prc-block/tabs-pane', {
 				uuid: newUuid,
 			});
-
-			const newBlock = insertBlock(
+			insertBlock(
 				newPaneBlock,
 				currentPositionIndex,
 				panesClientId,
 				false
 			);
-
-			// Set the paneRef to the new block.
-			await newBlock.then((e) => {
-				paneRef.current = e;
-				console.log('e..', e);
-			});
-		}
-	};
-
-	const onBlockSelection = () => {
-		// make sure all currently active panes are hidden.
-		const activePanes = document.querySelectorAll(
-			`[data-block="${panesClientId}"] [data-type^="prc-block/tabs-pane"][aria-hidden="false"]`
-		);
-		activePanes.forEach((e) => {
-			e.setAttribute('aria-hidden', 'true');
-		});
-		const activeMenus = document.querySelectorAll(
-			`[data-block="${menuClientId}"] [data-type^="prc-block/tabs-menu-item"][aria-selected="true"]`
-		);
-		activeMenus.forEach((e) => {
-			e.setAttribute('aria-selected', 'false');
-		});
-
-		// .. Activate Menu Item
-		const menuItemElm = document.querySelector(
-			`[data-block="${menuClientId}"] [data-block="${clientId}"]`
-		);
-		if (menuItemElm) {
-			menuItemElm.setAttribute('aria-selected', 'true');
-		}
-
-		// .. Activate Pane
-		const matchingPaneElm = document.querySelector(
-			`[data-block="${panesClientId}"] [data-uuid="${uuid}"]`
-		);
-		if (matchingPaneElm) {
-			matchingPaneElm.setAttribute('aria-hidden', 'false');
 		}
 	};
 
@@ -197,11 +157,19 @@ export default function Edit({
 
 	useEffect(() => {
 		if (isSelected) {
-			onBlockSelection();
+			updateBlockAttributes(controllerClientId, {
+				activeUUID: uuid,
+			});
 		}
-	}, [clientId, isSelected]);
+	}, [isSelected, uuid, controllerClientId]);
 
-	const blockProps = useBlockProps();
+	const isActive = useMemo(() => {
+		return isSelected || currentlySelectedUUID === uuid;
+	}, [isSelected, currentlySelectedUUID, uuid]);
+
+	const blockProps = useBlockProps({
+		'aria-selected': isActive,
+	});
 
 	return (
 		<div {...blockProps}>

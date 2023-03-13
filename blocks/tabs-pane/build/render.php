@@ -5,12 +5,18 @@
 // $attributes (array): The block attributes.
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
+$uuid = array_key_exists( 'uuid', $attributes ) ? $attributes['uuid'] : false;
+if ( ! $uuid ) {
+	return;
+}
+$currently_selected_uuid = array_key_exists( 'prc-block/tabs/activeUUID', $block->context ) ? $block->context['prc-block/tabs/activeUUID'] : null;
+$is_selected = $currently_selected_uuid === $uuid;
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
-		'id'        => 'panel-' . $attributes['uuid'],
-		'aria-role' => 'tabpanel',
-		'aria-hidden' => 'true',
+		'id'          => 'panel-' . $attributes['uuid'],
+		'aria-role'   => 'tabpanel',
+		'aria-hidden' => !$is_selected ? 'true' : 'false',
 	)
 );
 echo wp_sprintf(

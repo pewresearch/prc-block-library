@@ -38,6 +38,9 @@
       "width": true
     }
   },
+  "usesContext": [
+    "prc-block/tabs/activeUUID"
+  ],
   "parent": [
     "prc-block/tabs-menu"
   ],

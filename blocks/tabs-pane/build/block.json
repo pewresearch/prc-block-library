@@ -27,7 +27,8 @@
     }
   },
   "usesContext": [
-    "prc-block/tabs/layout"
+    "prc-block/tabs/layout",
+    "prc-block/tabs/activeUUID"
   ],
   "parent": [
     "prc-block/tabs-panes"

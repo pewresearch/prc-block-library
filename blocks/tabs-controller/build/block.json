@@ -16,10 +16,14 @@
     "vertical": {
       "type": "boolean",
       "default": false
+    },
+    "activeUUID": {
+      "type": "string"
     }
   },
   "providesContext": {
-    "prc-block/tabs/layout": "vertical"
+    "prc-block/tabs/layout": "vertical",
+    "prc-block/tabs/activeUUID": "activeUUID"
   },
   "styles": [
     {

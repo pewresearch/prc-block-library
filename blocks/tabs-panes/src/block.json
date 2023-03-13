@@ -28,7 +28,7 @@
 			}
 		}
     },
-    "usesContext": ["prc-block/tabs/layout", "prc-block/tabs/active"],
+    "usesContext": ["prc-block/tabs/layout", "prc-block/tabs/activeUUID"],
 	"textdomain": "tabs-panes",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

@@ -32,7 +32,7 @@
   },
   "usesContext": [
     "prc-block/tabs/layout",
-    "prc-block/tabs/active"
+    "prc-block/tabs/activeUUID"
   ],
   "textdomain": "tabs-panes",
   "editorScript": "file:./index.js",

@@ -6,9 +6,9 @@ import classNames from 'classnames';
 /**
  * WordPress Dependencies
  */
-import { Fragment, useEffect, useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
-import { dispatch, useSelect } from '@wordpress/data';
+import { dispatch, useSelect, useDispatch } from '@wordpress/data';
 
 /**
  * Internal Dependencies
@@ -56,24 +56,9 @@ export default function Edit({
 	isSelected,
 }) {
 	const [menuBlocksPast, setMenuBlocksPast] = useState(false);
-	const { vertical } = attributes;
+	const { vertical, activeUUID } = attributes;
 
-	const blockProps = useBlockProps({
-		className: classNames({
-			'is-vertical-tabs': vertical,
-			'is-horizontal-tabs': !vertical,
-		}),
-	});
-
-	const innerBlocksProps = useInnerBlocksProps(
-		{},
-		{
-			allowedBlocks: ALLOWED_BLOCKS,
-			renderAppender: false,
-			orientation: vertical ? 'vertical' : 'horizontal',
-			template: BLOCKS_TEMPLATE,
-		}
-	);
+	const { removeBlock, selectBlock } = useDispatch('core/block-editor');
 
 	// Get menu blocks, get page blocks
 	const { menuBlocks, paneBlocks } = useSelect(
@@ -103,25 +88,52 @@ export default function Edit({
 		[clientId]
 	);
 
-	// When a menu item block is removed find the matching page block by uuid and remove it.
 	useEffect(() => {
-		// eslint-disable-next-line no-console
-		console.log('menuBlocks', menuBlocks);
+		// eslint-disable-next-line max-len
+		// Check for differences in menuBlocks and menuBlocksPast, if there are differences then we have added or removed a block and if removed then we'll need to remove the corresponding tab-pane block.
 		if (menuBlocks.length < menuBlocksPast.length) {
 			// We have removed something.
+			// eslint-disable-next-line max-len
 			// Find what the diff from menuBlocks and menuBlocksPast is, then get the uuid then search the pageBlocks and remove the block in question.
 			const removed = findRemovedDiff(menuBlocksPast, menuBlocks);
 			const matchedPane = paneBlocks.filter(
 				(e) => e.attributes.uuid === removed[0].attributes.uuid
 			);
 			if (0 !== matchedPane.length) {
-				dispatch('core/block-editor').removeBlock(
-					matchedPane[0].clientId
-				);
+				removeBlock(matchedPane[0].clientId);
 			}
 		}
 		setMenuBlocksPast(menuBlocks);
 	}, [menuBlocks]);
+
+	useEffect(() => {
+		if (undefined !== activeUUID) {
+			const matchedPane = paneBlocks.filter(
+				(e) => e.attributes.uuid === activeUUID
+			);
+			console.log('matchedPane', matchedPane, activeUUID);
+			if (0 !== matchedPane.length) {
+				selectBlock(matchedPane[0].clientId);
+			}
+		}
+	}, [activeUUID, paneBlocks]);
+
+	const blockProps = useBlockProps({
+		className: classNames({
+			'is-vertical-tabs': vertical,
+			'is-horizontal-tabs': !vertical,
+		}),
+	});
+
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			allowedBlocks: ALLOWED_BLOCKS,
+			renderAppender: false,
+			orientation: vertical ? 'vertical' : 'horizontal',
+			template: BLOCKS_TEMPLATE,
+		}
+	);
 
 	return (
 		<div {...blockProps}>

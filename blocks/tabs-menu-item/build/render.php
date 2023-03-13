@@ -7,17 +7,24 @@
 // $block (WP_Block): The block instance.
 
 $is_accordion = array_key_exists( 'asAccordion', $attributes ) ? $attributes['asAccordion'] : false;
+$uuid = array_key_exists( 'uuid', $attributes ) ? $attributes['uuid'] : false;
+if ( ! $uuid ) {
+	return;
+}
+$currently_selected_uuid = array_key_exists( 'prc-block/tabs/activeUUID', $block->context ) ? $block->context['prc-block/tabs/activeUUID'] : null;
+$is_selected = $currently_selected_uuid === $uuid;
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
-		'id'            => 'tab-' . $attributes['uuid'],
-		'href'          => '#panel-' . $attributes['uuid'],
-		'aria-controls' => 'panel-' . $attributes['uuid'],
+		'id'            => 'tab-' . $uuid,
+		'href'          => '#panel-' . $uuid,
+		'aria-controls' => 'panel-' . $uuid,
 		'aria-role'     => 'tab',
-		'aria-selected' => 'false',
+		'aria-selected' => $is_selected ? 'true' : 'false',
 	)
 );
 
+// @TODO: ICONS
 $content = $is_accordion ? '<i class="dropdown icon"></i>' : '';
 $content .= wp_kses( $attributes['title'], 'post' );
 
