@@ -8,8 +8,8 @@
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
-		'id'        => 'panel-' . $attributes['uuid'],
-		'aria-role' => 'tabpanel',
+		'id'          => 'panel-' . $attributes['uuid'],
+		'aria-role'   => 'tabpanel',
 		'aria-hidden' => 'true',
 	)
 );

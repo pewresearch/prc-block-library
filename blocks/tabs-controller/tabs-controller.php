@@ -1,7 +1,7 @@
 <?php
 /**
  * Block Name:        Tabs
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Author:            Seth Rubenstein
@@ -10,7 +10,7 @@
  */
 
 class TabsController extends PRC_Block_Library {
-	public static $version = '0.1.0';
+	public static $version = '0.1.1';
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
@@ -62,7 +62,7 @@ class TabsController extends PRC_Block_Library {
 				'innerBlocks' => $pane['innerBlocks']
 			);
 		}, $panes['innerBlocks']);
-		
+
 		// match up the menu items with the pane innerblocks by uuid attribute
 		$matched_items = array_map(function($item) use ($panes) {
 			$matched_pane = array_filter($panes, function($pane) use ($item) {
@@ -74,7 +74,7 @@ class TabsController extends PRC_Block_Library {
 				'pane_innerblocks' => $matched_pane['innerBlocks']
 			);
 		}, $menu_items);
-		
+
 		$accordion_blocks = '';
 		foreach ($matched_items as $item) {
 			$accordion_blocks .= $this->parse_menu_item(
@@ -127,7 +127,7 @@ class TabsController extends PRC_Block_Library {
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
-		register_block_type( 
+		register_block_type(
 			self::$dir . '/build',
 			array(
 				'render_callback' => array( $this, 'render_block_callback' ),
