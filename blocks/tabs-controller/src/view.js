@@ -7,11 +7,11 @@ import domReady from '@wordpress/dom-ready';
 /**
  * Switches the active tab and panel.
  *
- * @param       id
- * @param {elm} newTab     The tab to activate.
- * @param       updateHash
+ * @param       tabsControllerId The id of the tabs controller.
+ * @param {elm} newTab           The tab to activate.
+ * @param       updateHash       Whether to update the hash in the URL.
  */
-function switchTab(id, newTab, updateHash = true) {
+function switchTab(tabsControllerId, newTab, updateHash = true) {
 	if (updateHash) {
 		newTab.focus();
 		const href = newTab.getAttribute('href');
@@ -19,18 +19,16 @@ function switchTab(id, newTab, updateHash = true) {
 		window.history.replaceState(null, null, href);
 	}
 
-	console.log('switchTab', id, newTab, updateHash);
+	const newPanelId = newTab.getAttribute('aria-controls');
 
 	const oldTab = document.querySelector(
-		`#${id} .wp-block-prc-block-tabs-menu-item[aria-selected="true"]`
+		`#${tabsControllerId} .wp-block-prc-block-tabs-menu-item[aria-selected="true"]`
 	);
 
 	const oldPanel = document.querySelector(
-		`#${id} .wp-block-prc-block-tabs-pane[aria-hidden="false"]`
+		`#${tabsControllerId} .wp-block-prc-block-tabs-pane[aria-hidden="false"]`
 	);
-	const newPanel = document.getElementById(
-		newTab.getAttribute('aria-controls')
-	);
+	const newPanel = document.getElementById(newPanelId);
 
 	if (null !== oldTab && oldTab !== newTab) {
 		oldTab.setAttribute('aria-selected', 'false');
@@ -39,6 +37,15 @@ function switchTab(id, newTab, updateHash = true) {
 		oldPanel.setAttribute('aria-hidden', 'true');
 	}
 
+	console.log(
+		'switchTab',
+		tabsControllerId,
+		newTab,
+		updateHash,
+		newPanel,
+		newPanelId
+	);
+
 	newTab.setAttribute('aria-selected', 'true');
 	newPanel.setAttribute('aria-hidden', 'false');
 }
@@ -46,24 +53,27 @@ function switchTab(id, newTab, updateHash = true) {
 domReady(() => {
 	const tabs = document.querySelectorAll('.wp-block-prc-block-tabs');
 	tabs.forEach((t) => {
-		const id = t.getAttribute('id');
+		const controllerId = t.getAttribute('id');
 		const menuItems = t.querySelectorAll(
 			'.wp-block-prc-block-tabs-menu-item'
 		);
-		console.log('menuItems', menuItems, id);
+
+		console.log('menuItems', menuItems, controllerId);
+
 		menuItems.forEach((menuItem, index) => {
-			console.log('menuItem', menuItem, index, id);
+			console.log('menuItem', menuItem, index, controllerId);
+
 			menuItem.addEventListener('click', (elm) => {
 				elm.preventDefault();
-				switchTab(id, elm.target);
+				switchTab(controllerId, elm.target);
 			});
 			// Activate first tab
 			if (0 === index) {
-				switchTab(id, menuItem, false);
+				switchTab(controllerId, menuItem, false);
 			}
 			// Activate tab from url hash
 			if (window.location.hash === menuItem.getAttribute('href')) {
-				switchTab(id, menuItem);
+				switchTab(controllerId, menuItem);
 				// Scroll to the tab
 				setTimeout(() => {
 					menuItem.scrollIntoView();
