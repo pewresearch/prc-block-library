@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { useEffect } from '@wordpress/element';
+import { useEffect, useRef } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -19,6 +19,8 @@ export default function Edit({
 	insertBlocksAfter,
 }) {
 	const { title, uuid } = attributes;
+
+	const paneRef = useRef();
 
 	const { insertBlock, moveBlockToPosition, selectNextBlock } =
 		useDispatch('core/block-editor');
@@ -104,10 +106,6 @@ export default function Edit({
 				}
 			}
 
-			console.log('menuBlockClientId', menuBlockClientId);
-			console.log('panesBlockClientId', panesBlockClientId);
-			console.log(clientId);
-
 			// eslint-disable-next-line consistent-return
 			return {
 				panesClientId: panesBlockClientId,
@@ -120,7 +118,7 @@ export default function Edit({
 		[clientId]
 	);
 
-	const onBlockInit = () => {
+	const onBlockInit = async () => {
 		// If no uuid is set then run init sequence, create a matching tab pane block.
 		if (null === uuid) {
 			// We will use the first client id assigned as a uuid.
@@ -130,22 +128,29 @@ export default function Edit({
 			const newPaneBlock = createBlock('prc-block/tabs-pane', {
 				uuid: newUuid,
 			});
-			insertBlock(
+
+			const newBlock = insertBlock(
 				newPaneBlock,
 				currentPositionIndex,
 				panesClientId,
 				false
 			);
+
+			// Set the paneRef to the new block.
+			await newBlock.then((e) => {
+				paneRef.current = e;
+				console.log('e..', e);
+			});
 		}
 	};
 
 	const onBlockSelection = () => {
 		// make sure all currently active panes are hidden.
 		const activePanes = document.querySelectorAll(
-			`[data-block="${panesClientId}"] [data-type^="prc-block/tabs-pane"][aria-selected="true"]`
+			`[data-block="${panesClientId}"] [data-type^="prc-block/tabs-pane"][aria-hidden="false"]`
 		);
 		activePanes.forEach((e) => {
-			e.setAttribute('aria-selected', 'false');
+			e.setAttribute('aria-hidden', 'true');
 		});
 		const activeMenus = document.querySelectorAll(
 			`[data-block="${menuClientId}"] [data-type^="prc-block/tabs-menu-item"][aria-selected="true"]`
@@ -166,10 +171,8 @@ export default function Edit({
 		const matchingPaneElm = document.querySelector(
 			`[data-block="${panesClientId}"] [data-uuid="${uuid}"]`
 		);
-		console.log(activePanes, activeMenus, menuItemElm, matchingPaneElm);
-		console.log(panesClientId, uuid, menuClientId);
 		if (matchingPaneElm) {
-			matchingPaneElm.setAttribute('aria-selected', 'true');
+			matchingPaneElm.setAttribute('aria-hidden', 'false');
 		}
 	};
 

@@ -224,9 +224,8 @@
 		.wp-block-prc-block-tabs-pane {
 			flex-grow: 1;
 			margin: 0;
-			display: none;
-			&[aria-selected="true"] {
-				display: block;
+			&[aria-hidden="true"] {
+				display: none;
 			}
 			& > div:after {
 				content: "";
