@@ -11,19 +11,20 @@ $block_wrapper_attrs = get_block_wrapper_attributes();
 // get the logo.svg file contents as a string
 $logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo.svg' );
 $logo_alt = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo-alt.svg' );
+$site_url = get_site_url();
 
 ob_start();
 ?>
 <div class="wp-block-prc-block-logo__inner">
-	<div class="wp-block-prc-block-logo__inner__logo">
+	<a class="wp-block-prc-block-logo__inner__logo" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
 		<?php echo $logo;?>
-	</div>
+	</a>
 	<div class="wp-block-prc-block-logo__mobile__menu-trigger">
 		Menu
 	</div>
-	<div class="wp-block-prc-block-logo__inner__logo-alt">
+	<a class="wp-block-prc-block-logo__inner__logo-alt" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
 		<?php echo $logo_alt;?>
-	</div>
+	</a>
 	<div class="wp-block-prc-block-logo__mobile__search-trigger">
 		Search
 	</div>

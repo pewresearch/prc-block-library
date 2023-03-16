@@ -1,9 +1,11 @@
+$standard_logo_minimum_width: 360px;
+
 .wp-block-prc-block-logo {
 	min-width: 100px;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	container-type: inline-size;
+	container: prc-logo / inline-size;
 
 	svg,
 	img {
@@ -37,7 +39,8 @@
 	}
 
 	.wp-block-prc-block-logo__inner {
-		max-width: 320px!important;
+		max-width: $standard_logo_minimum_width !important;
+		width: $standard_logo_minimum_width;
 		margin: 0!important;
 		.wp-block-prc-block-logo__inner__logo-alt {
 			display: none;
@@ -54,7 +57,7 @@
 			.light { fill: #FFF; display: none; }
 		}
 	
-		@container (max-width: 400px) {
+		@container prc-logo (max-width: $standard_logo_minimum_width) {
 			.wp-block-prc-block-logo__inner__logo-alt {
 				display: flex;
 			}
