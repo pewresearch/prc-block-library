@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "title": "Pew Research Center Logo",
   "description": "Contextually aware logo that has dark mode support, and will change to the alternate position logo in smaller containers. (#dark-mode, #css-container-queries)",
-  "category": "design",
+  "category": "theme",
   "keywords": [
     "logo",
     "masthead",
