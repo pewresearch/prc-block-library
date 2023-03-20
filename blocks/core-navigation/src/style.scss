@@ -8,10 +8,17 @@
 .wp-block-navigation.is-style-default {
 	width: auto;
 	gap: 0px;
+	line-height: 1em;
 	.wp-block-navigation-link {
+		a {
+			color: var(--wp--preset--color--link-color);
+		}
+		a:hover > .wp-block-navigation-item__label {
+			text-decoration: underline!important;
+		}
 		.wp-block-navigation-item__label {
 			display: inline-block;
-			border-right: 1px solid #EAEAEA;
+			border-right: 1px solid black;
 			padding: 0 0.5em;
 		}
 		&:last-of-type .wp-block-navigation-item__label {
