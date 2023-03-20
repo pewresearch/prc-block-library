@@ -19,6 +19,9 @@
 		.wp-block-navigation-item__label {
 			display: inline-block;
 			border-right: 1px solid black;
+			@media (prefers-color-scheme: dark), (prefers-dark-interface) {
+				border-right: 1px solid white;
+			}
 			padding: 0 0.5em;
 		}
 		&:last-of-type .wp-block-navigation-item__label {
