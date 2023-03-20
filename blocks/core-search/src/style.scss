@@ -1,0 +1,27 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-search {
+	display: flex;
+    align-items: center;
+	.wp-block-search__inside-wrapper  {
+		padding: 0;
+	}
+	.wp-block-search__button.has-icon.wp-element-button {
+		margin: 0!important;
+		width: 36px;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 36px;
+	}
+	input {
+		border: none!important;
+		padding-left: 1em;
+	}
+}
