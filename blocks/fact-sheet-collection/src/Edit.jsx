@@ -6,16 +6,14 @@ import { MediaDropZone } from '@prc/components';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
 import CollectionList from './CollectionList';
-import CollectionDropdown from './CollectionDropdown';
+// import CollectionDropdown from './CollectionDropdown';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -41,7 +39,7 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<div {...blockProps}>
 			{!classNames.includes('is-style-dropdown') && <CollectionList />}
-			{classNames.includes('is-style-dropdown') && <CollectionDropdown />}
+			{/* {classNames.includes('is-style-dropdown') && <CollectionDropdown />} */}
 			<MediaDropZone
 				className="wp-block-prc-block-fact-sheet-collection--pdf-link"
 				attachmentId={id}

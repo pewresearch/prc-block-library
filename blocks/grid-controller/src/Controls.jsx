@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * WordPress Dependencies
  */
@@ -41,10 +42,12 @@ export default function Controls({
 	const { count, innerBlocks, innerBlockClientIds } = useSelect(
 		(select) => ({
 			count: select(blockEditorStore).getBlockCount(clientId),
-			innerBlockClientIds: select(blockEditorStore).getBlockOrder(clientId),
-			innerBlocks: select(blockEditorStore).getBlock(clientId).innerBlocks,
+			innerBlockClientIds:
+				select(blockEditorStore).getBlockOrder(clientId),
+			innerBlocks:
+				select(blockEditorStore).getBlock(clientId).innerBlocks,
 		}),
-		[clientId],
+		[clientId]
 	);
 
 	/**
@@ -53,6 +56,7 @@ export default function Controls({
 	 * to overide anything set on a individual column basis.
 	 *
 	 * @param {string} verticalAlignment the vertical alignment setting
+	 * @param          newAlignment
 	 */
 	const updateAlignment = (newAlignment) => {
 		// Update own alignment.
@@ -82,14 +86,14 @@ export default function Controls({
 			columns,
 			isAddingColumn,
 			previousColumns,
-			newColumns,
+			newColumns
 		);
 		// See if there is available space, how much in terms of span count is available.
 
 		// get all the attributes.gridLayout.desktopSpan from the innerBlocks
 		let availableDesktopSpan = columns.reduce(
 			(acc, column) => acc - column.attributes.gridLayout.desktopSpan,
-			DESKTOP_MAX,
+			DESKTOP_MAX
 		);
 		if (0 > availableDesktopSpan) {
 			availableDesktopSpan = 0;
@@ -97,7 +101,7 @@ export default function Controls({
 
 		let availableTabletSpan = columns.reduce(
 			(acc, column) => acc - column.attributes.gridLayout.tabletSpan,
-			TABLET_MAX,
+			TABLET_MAX
 		);
 		if (0 > availableTabletSpan) {
 			availableTabletSpan = 0;
@@ -106,7 +110,7 @@ export default function Controls({
 		// Get available mobile spans but if its negative then just return 0
 		let availableMobileSpan = columns.reduce(
 			(acc, column) => acc - column.attributes.gridLayout.mobileSpan,
-			MOBILE_MAX,
+			MOBILE_MAX
 		);
 		if (0 > availableMobileSpan) {
 			availableMobileSpan = 0;
@@ -117,8 +121,6 @@ export default function Controls({
 			availableTabletSpan,
 			availableMobileSpan,
 		});
-
-
 
 		if (isAddingColumn) {
 			const newBlock = createBlock('prc-block/grid-column', {
@@ -138,7 +140,8 @@ export default function Controls({
 			columns = [...columns, newBlock];
 		} else {
 			// Get the last column's innerBlocks and merge them with the second to last column's innerBlocks.
-			const lastColumnInnerBlocks = columns[columns.length - 1].innerBlocks;
+			const lastColumnInnerBlocks =
+				columns[columns.length - 1].innerBlocks;
 			const secondToLastColumnInnerBlocks =
 				columns[columns.length - 2].innerBlocks;
 			const mergedInnerBlocks = [
@@ -158,7 +161,7 @@ export default function Controls({
 			previousColumns,
 			newColumns,
 			columns,
-			innerBlocks,
+			innerBlocks
 		);
 
 		replaceInnerBlocks(clientId, columns);
@@ -184,11 +187,13 @@ export default function Controls({
 					{6 < count && (
 						<Notice status="warning" isDismissible={false}>
 							{__(
-								'This column count exceeds the recommended amount and may cause visual breakage.',
+								'This column count exceeds the recommended amount and may cause visual breakage.'
 							)}
 						</Notice>
 					)}
 				</PanelBody>
+			</InspectorControls>
+			<InspectorControls group="styles">
 				<PanelColorSettings
 					__experimentalHasMultipleOrigins
 					__experimentalIsRenderedInSidebar

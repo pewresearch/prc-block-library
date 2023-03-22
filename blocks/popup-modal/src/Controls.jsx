@@ -5,34 +5,15 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
-import { BlockControls, InspectorControls } from '@wordpress/block-editor';
+import { useState } from '@wordpress/element';
+import { BlockControls } from '@wordpress/block-editor';
 import {
-	BaseControl,
-	PanelBody,
 	ToolbarButton,
 	Popover,
 	ToolbarGroup,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalAlignmentMatrixControl as AlignmentMatrixControl,
 } from '@wordpress/components';
-
-function InspectorPanel({ attributes, setAttributes }) {
-	const [alignment, setAlignment] = useState('center center');
-
-	return (
-		<InspectorControls>
-			<PanelBody title="Modal Settings">
-				<BaseControl label="Viewport Position">
-					<AlignmentMatrixControl
-						value={alignment}
-						onChange={(newAlignment) => setAlignment(newAlignment)}
-					/>
-				</BaseControl>
-			</PanelBody>
-		</InspectorControls>
-	);
-}
 
 function Toolbar({ attributes, setAttributes }) {
 	const { position } = attributes;
@@ -44,7 +25,7 @@ function Toolbar({ attributes, setAttributes }) {
 			<ToolbarGroup>
 				<ToolbarButton
 					icon="admin-site"
-					label="Select Alignment"
+					label="Select Screen Position"
 					isActive={alignmentIsOpen}
 					onClick={() => {
 						toggleAlignmentOpen(!alignmentIsOpen);
@@ -55,7 +36,6 @@ function Toolbar({ attributes, setAttributes }) {
 						<AlignmentMatrixControl
 							value={position}
 							onChange={(newPosition) => {
-								console.log(newPosition, position);
 								setAttributes({ position: newPosition });
 							}}
 						/>
@@ -67,10 +47,5 @@ function Toolbar({ attributes, setAttributes }) {
 }
 
 export default function Controls({ attributes, setAttributes }) {
-	return (
-		<Fragment>
-			<InspectorPanel {...{ attributes, setAttributes }} />
-			<Toolbar {...{ attributes, setAttributes }} />
-		</Fragment>
-	);
+	return <Toolbar {...{ attributes, setAttributes }} />;
 }

@@ -20,7 +20,8 @@
       "type": "number"
     },
     "taxonomy": {
-      "type": "string"
+      "type": "string",
+      "default": "topic"
     },
     "enableSubMenu": {
       "type": "boolean",
@@ -70,9 +71,6 @@
     "taxonomy-menu/backgroundColor",
     "taxonomy-menu/hoverBackgroundColor",
     "taxonomy-menu/borderColor",
-    "taxonomy-menu/fontSize",
-    "taxonomy-menu/showSubMenuIcon",
-    "taxonomy-menu/layout",
     "style"
   ],
   "textdomain": "taxonomy-menu-link",

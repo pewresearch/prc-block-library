@@ -39,7 +39,7 @@
     }
   },
   "usesContext": [
-    "prc-block/tabs/active"
+    "prc-block/tabs/activeUUID"
   ],
   "parent": [
     "prc-block/tabs-menu"

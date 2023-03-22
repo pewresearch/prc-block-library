@@ -79,7 +79,7 @@ export default [
 					textColor: 'white',
 					allowedBlocks: ['vimeo/create', 'core/video', 'core/embed'],
 				},
-				[['vimeo/create', {}]],
+				[['core/video', {}]],
 			],
 		],
 		isActive: ({ className }) =>

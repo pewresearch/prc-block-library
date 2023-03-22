@@ -23,8 +23,7 @@
       "type": "string"
     },
     "dividerColor": {
-      "type": "string",
-      "default": "gray"
+      "type": "string"
     }
   },
   "supports": {

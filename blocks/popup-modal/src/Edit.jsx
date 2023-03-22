@@ -48,8 +48,16 @@ function convertHexToRGBA(hexCode = '', opacity = 1) {
 const ModalShade = styled('div')`
 	&.active {
 		background-color: ${(props) =>
-			props.backgroundColor ? props.backgroundColor : 'rgba(0, 0, 0, 0.5)'};
+			props.backgroundColor
+				? props.backgroundColor
+				: 'rgba(0, 0, 0, 0.5)'};
 	}
+`;
+
+const TriggerButton = styled('div')`
+	position: absolute;
+	margin-left: -150px;
+	top: 0;
 `;
 
 function ModalHeader({ attributes, setAttributes }) {
@@ -76,6 +84,9 @@ function ModalHeader({ attributes, setAttributes }) {
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
+ * @param            props.isSelected
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -103,7 +114,7 @@ export default function Edit({
 		{
 			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 			templateLock: false,
-		},
+		}
 	);
 	// check that context has popup-controller/className
 	// if it does, check if it includes is-style-video
@@ -156,15 +167,17 @@ export default function Edit({
 				backgroundColor={convertHexToRGBA('#000', 0.5)}
 			>
 				<div {...blockProps}>
-					{!isVideoModal && <ModalHeader {...{ attributes, setAttributes }} />}
+					{!isVideoModal && (
+						<ModalHeader {...{ attributes, setAttributes }} />
+					)}
 					<div {...innerBlocksProps} />
 				</div>
 			</ModalShade>
-			<div>
-				<Button variant="secondary" onClick={toggleModal}>
-					{__(`${isOpen ? 'Close' : 'Open'} Modal`, 'prc-block-library')}
+			<TriggerButton>
+				<Button variant="link" onClick={toggleModal}>
+					{`Click ${isOpen ? `To Close` : 'To Open'} Modal`}
 				</Button>
-			</div>
+			</TriggerButton>
 		</Fragment>
 	);
 }

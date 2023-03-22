@@ -1,4 +1,4 @@
-# Menu
+# Taxonomy Menu
 Contributors:      Seth Rubenstein
 Tags:              block
 Tested up to:      6.1

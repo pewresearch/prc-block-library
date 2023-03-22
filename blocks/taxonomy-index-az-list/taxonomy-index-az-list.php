@@ -66,7 +66,7 @@ class TaxonomyIndexAzList extends PRC_Block_Library {
 	}
 
 	public function get_cache_key( $taxonomy, $letter, $excludes ) {
-		return md5( wp_json_encode( array_merge( $taxonomy, $excludes, array( 'letter' => $letter ) ) ) );
+		return md5( wp_json_encode( array( 'letter' => $letter, 'taxonomy' => $taxonomy, 'excludes' => $excludes ) ) );
 	}
 
 	public function get_terms_by_letter( $taxonomy = array(), $letter = '', $excludes = array(), ) {
@@ -117,7 +117,11 @@ class TaxonomyIndexAzList extends PRC_Block_Library {
 				'data-letter' => $attributes['letter'],
 			)
 		);
-		$terms = $this->get_terms_by_letter( $attributes['taxonomy'], $attributes['letter'], $attributes['exclude'] );
+		$terms = $this->get_terms_by_letter(
+			$attributes['taxonomy'],
+			$attributes['letter'],
+			array_key_exists('exclude', $attributes) ? $attributes['exclude'] : array()
+		);
 		ob_start();
 		?>
 		<div <?php echo $block_wrapper_attrs; ?>>

@@ -12,15 +12,35 @@
 		gap: 0px!important;
 		border: none!important;
 		padding: 0px!important;
+		border-right: 1px solid var(--color-border)!important;
 		.wp-block-prc-block-tabs-menu-item {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
 			width: 100%!important;
-			text-align: center!important;
+			@container (max-width: 600px) {
+				text-align: center!important;
+				border-bottom: 1px solid var(--color-border)!important;
+			}
+			text-align: left!important;
 			border-radius: 0px!important;
 			border: none!important;
-			border-bottom: 1px solid var(--color-border)!important;
 			margin: 0px!important;
+			padding: 1.4em 1.8em!important;
 			&:first-child {
 				border-top: none!important;
+			}
+			&:after {
+				content: ">";
+				flex-grow: 1;
+				text-align: right;
+			}
+			&[aria-selected="true"],
+			&.wp-block.is-selected {
+				background-color: var(--color-active);
+				border-left: 1px solid var(--color-border)!important;
+				border-top: 1px solid var(--color-border)!important;
+				border-bottom: 1px solid var(--color-border)!important;
 			}
 		}
 	}

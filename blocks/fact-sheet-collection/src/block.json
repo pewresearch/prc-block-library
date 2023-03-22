@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Fact Sheet Collection",
 	"category": "design",
-	"description": "Display the hierarchy of the fact sheet's collection term and a link to download an associated PDF if provided.",
+	"description": "Display the hierarchy of this fact sheet's collection term and a link to download an associated PDF if provided. If this collection has multiple language posts the main link will link to the English language post and then a listing of other languages will be provided automatically. These alternate language links will appear above the main collection.",
 	"attributes": {
 		"pdf" : {
 			"type": "object"
@@ -53,10 +53,6 @@
 			"name": "list",
 			"label": "List",
 			"isDefault": true
-		},
-		{
-			"name": "dropdown",
-			"label": "Dropdown"
 		}
 	],
 	"textdomain": "collection",

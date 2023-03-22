@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { useEffect } from '@wordpress/element';
+import { useEffect, useMemo } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -18,15 +18,14 @@ export default function Edit({
 	context,
 	insertBlocksAfter,
 }) {
+	const currentlySelectedUUID = context?.['prc-block/tabs/activeUUID'];
 	const { title, uuid } = attributes;
-	const currentlyActive = context['prc-block/tabs/active'];
 
 	const {
 		insertBlock,
-		updateBlockAttributes,
-		updateBlock,
 		moveBlockToPosition,
 		selectNextBlock,
+		updateBlockAttributes,
 	} = useDispatch('core/block-editor');
 
 	const movePane = (
@@ -38,15 +37,6 @@ export default function Edit({
 		if (targetIndex === currentPaneIndex || -1 === currentPaneIndex) {
 			return;
 		}
-
-		console.log(
-			'movePane',
-			targetClientId,
-			targetIndex,
-			currentPaneIndex,
-			toClientId
-		);
-
 		moveBlockToPosition(
 			targetClientId,
 			toClientId,
@@ -61,11 +51,13 @@ export default function Edit({
 		currentPositionIndex,
 		matchingPaneClientId,
 		nextMenuItemClientId,
+		menuClientId,
 	} = useSelect(
 		(select) => {
 			if (undefined === clientId) {
 				return;
 			}
+
 			const {
 				getBlock,
 				getBlockRootClientId,
@@ -73,20 +65,20 @@ export default function Edit({
 				getBlockIndex,
 			} = select('core/block-editor');
 
+			let paneClientId = false;
 			const menuBlockClientId = getBlockRootClientId(clientId);
 			const controllerBlockClientId =
 				getBlockRootClientId(menuBlockClientId);
+
+			// Find the matching pane block.
 			const panesBlockClientId =
 				getAdjacentBlockClientId(menuBlockClientId);
 			const panesBlock = getBlock(panesBlockClientId);
-
-			let paneClientId = false;
 			if (
 				panesBlock.hasOwnProperty('innerBlocks') &&
 				1 <= panesBlock.innerBlocks.length &&
 				null !== uuid
 			) {
-				// console.log('panesBlock as seen from MenuItem', panesBlock);
 				const matchedPane = panesBlock.innerBlocks.filter(
 					(e) => e.attributes.uuid === uuid
 				);
@@ -97,6 +89,7 @@ export default function Edit({
 
 			const currentIndex = getBlockIndex(clientId, menuBlockClientId);
 
+			// @TODO: This whole thing needs optimization, needs to be using useEffect or useCallback at least.
 			if (paneClientId) {
 				const paneIndex = getBlockIndex(
 					paneClientId,
@@ -112,13 +105,13 @@ export default function Edit({
 				}
 			}
 
-			// eslint-disable-next-line consistent-return
 			return {
 				controllerClientId: controllerBlockClientId,
 				panesClientId: panesBlockClientId,
 				currentPositionIndex: currentIndex,
 				matchingPaneClientId: paneClientId,
 				nextMenuItemClientId: getAdjacentBlockClientId(clientId),
+				menuClientId: menuBlockClientId,
 			};
 		},
 		[clientId]
@@ -128,9 +121,9 @@ export default function Edit({
 		// If no uuid is set then run init sequence, create a matching tab pane block.
 		if (null === uuid) {
 			// We will use the first client id assigned as a uuid.
-			console.log('onBlockInit', uuid, currentPositionIndex);
 			const newUuid = clientId;
 			setAttributes({ uuid: newUuid });
+
 			const newPaneBlock = createBlock('prc-block/tabs-pane', {
 				uuid: newUuid,
 			});
@@ -140,16 +133,6 @@ export default function Edit({
 				panesClientId,
 				false
 			);
-		}
-	};
-
-	const onBlockSelection = () => {
-		if (null !== uuid && undefined !== controllerClientId) {
-			updateBlockAttributes(controllerClientId, { active: uuid });
-		}
-		if (matchingPaneClientId) {
-			// Blind update of the block to trigger a re-render.
-			updateBlock(matchingPaneClientId, {});
 		}
 	};
 
@@ -173,31 +156,36 @@ export default function Edit({
 	}, [panesClientId, currentPositionIndex]);
 
 	useEffect(() => {
-		onBlockSelection();
-	}, [clientId, isSelected]);
+		if (isSelected) {
+			updateBlockAttributes(controllerClientId, {
+				activeUUID: uuid,
+			});
+		}
+	}, [isSelected, uuid, controllerClientId]);
+
+	const isActive = useMemo(() => {
+		return isSelected || currentlySelectedUUID === uuid;
+	}, [isSelected, currentlySelectedUUID, uuid]);
 
 	const blockProps = useBlockProps({
-		'aria-selected': uuid === currentlyActive,
+		'aria-selected': isActive,
 	});
 
 	return (
 		<div {...blockProps}>
-			{isSelected && (
-				<RichText
-					tagName="div"
-					value={decodeEntities(title)}
-					allowedFormats={[]}
-					onChange={(newTitle) =>
-						setAttributes({
-							title: newTitle,
-							slug: cleanForSlug(newTitle),
-						})
-					}
-					placeholder={__('Tab Title', 'prc-block-library')}
-					__unstableOnSplitAtEnd={() => onEnterSplit()}
-				/>
-			)}
-			{!isSelected && <div>{title || `Tab Title`}</div>}
+			<RichText
+				tagName="div"
+				value={title}
+				allowedFormats={[]}
+				onChange={(newTitle) =>
+					setAttributes({
+						title: decodeEntities(newTitle),
+						slug: cleanForSlug(newTitle),
+					})
+				}
+				placeholder={__('Tab Title', 'prc-block-library')}
+				__unstableOnSplitAtEnd={() => onEnterSplit()}
+			/>
 		</div>
 	);
 }

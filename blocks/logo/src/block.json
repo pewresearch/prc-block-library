@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "prc-block/logo",
+    "version": "0.1.0",
+    "title": "Pew Research Center Logo",
+    "description": "Contextually aware logo that has dark mode support, and will change to the alternate position logo in smaller containers. (#dark-mode, #css-container-queries)",
+    "category": "theme",
+	"keywords": ["logo", "masthead", "dark-mode", "css-container-queries"],
+    "supports": {
+        "html": false,
+        "align": true,
+        "spacing": {
+            "padding": true,
+			"margin": true
+        }
+    },
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default (Dark Mode Sensitive)",
+			"isDefault": true
+		},
+		{
+			"name": "no-dark-mode",
+			"label": "Disable Dark Mode"
+		},
+		{
+			"name": "alt-only",
+			"label": "Alternate Style Always"
+		}
+	],
+	"example": {},
+    "usesContext": ["postType", "postId", "queryId"],
+    "textdomain": "pewresearch-logo",
+    "editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+    "render": "file:./render.php"
+}

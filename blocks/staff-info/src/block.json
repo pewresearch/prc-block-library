@@ -48,7 +48,8 @@
 		"staffBio",
 		"staffMiniBio",
 		"staffImage",
-		"staffLink"
+		"staffLink",
+		"staffId"
 	],
 	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query" ],
 	"textdomain": "staff-info",

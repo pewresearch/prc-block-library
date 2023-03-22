@@ -26,8 +26,6 @@ $css_classes = array();
 $text_color = array_key_exists('taxonomy-menu/textColor', $context) ? $context['taxonomy-menu/textColor'] : null;
 $background_color = array_key_exists('taxonomy-menu/backgroundColor', $context) ? $context['taxonomy-menu/backgroundColor'] : null;
 $border_color = array_key_exists('taxonomy-menu/borderColor', $context) ? $context['taxonomy-menu/borderColor'] : null;
-$text_decoration = $context->style['typography']['textDecoration'] ?? null;
-$orientation = array_key_exists('taxonomy-menu/layout', $context) && array_key_exists('orientation', $context['taxonomy-menu/layout']) ? $context['taxonomy-menu/layout']['orientation'] : null;
 
 // If has text color.
 if ( ! is_null( $text_color ) ) {
@@ -36,23 +34,20 @@ if ( ! is_null( $text_color ) ) {
 }
 
 // If has background color.
-if ( ! is_null( $background_color ) && 'horizontal' === $orientation ) {
+if ( ! is_null( $background_color ) ) {
 	// Add the background-color class.
 	array_push( $css_classes, 'has-background', sprintf( 'has-%s-background-color', $background_color ) );
 }
 
 // If has border color.
-if ( ! is_null( $border_color ) && 'horizontal' === $orientation ) {
+if ( ! is_null( $border_color ) ) {
 	// Add the border-color class.
 	array_push( $css_classes, 'has-border-color', sprintf( 'has-%s-border-color', $border_color ) );
 }
 
-// If has text decoration.
-if ( ! is_null( $text_decoration ) ) {
-	// Add the text-decoration class.
-	array_push( $css_classes, sprintf( 'has-text-decoration-%s', $text_decoration ) );
+if ( array_key_exists('className', $attributes) && 'is-style-sub-expand' === $attributes['className'] ) {
+	$attributes['label'] = "More";
 }
-
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'id' => 'item-' . md5( wp_json_encode( $attributes ) ),

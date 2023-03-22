@@ -22,7 +22,6 @@ import Controls from './Controls';
  */
 import './style.scss';
 
-// Because theres no good way to inject this in the build process we're defaulting to transforming the core block name like so. You can manually change this if you want.
 const BLOCKNAME = 'core-heading'.replace(/-/g, '/');
 const BLOCKIDENTIFIER = 'prc-block-library/core-heading';
 
@@ -40,13 +39,15 @@ addFilter(
 				return (
 					<Fragment>
 						<BlockEdit {...props} />
-						<Controls {...{ attributes, setAttributes, context: false }} />
+						<Controls
+							{...{ attributes, setAttributes, context: false }}
+						/>
 					</Fragment>
 				);
 			},
-		'withCoreHeadingControls',
+		'withCoreHeadingControls'
 	),
-	21,
+	21
 );
 
 /**
@@ -54,7 +55,7 @@ addFilter(
  *
  * @param {*} settings
  * @param {*} name
- * @returns
+ * @return
  */
 function modifyDefaultSettings(settings, name) {
 	if (BLOCKNAME !== name) {
