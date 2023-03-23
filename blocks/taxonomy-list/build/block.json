@@ -28,12 +28,18 @@
     }
   },
   "providesContext": {
-    "taxonomy-menu/taxonomy": "taxonomy"
+    "taxonomy": "taxonomy",
+    "textColor": "textColor"
   },
   "supports": {
     "html": false,
     "inserter": true,
     "reusable": true,
+    "color": {
+      "text": true,
+      "link": true,
+      "background": true
+    },
     "typography": {
       "fontSize": true,
       "lineHeight": true,

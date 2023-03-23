@@ -54,6 +54,9 @@
 	.wp-block-navigation-item {
 		display: flex;
 		flex-grow: 1;
+		&.current-menu-item {
+			font-weight: bold;
+		}
 	}
 	.wp-block-navigation-item .wp-block-navigation-item__content {
 		display: block;

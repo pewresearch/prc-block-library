@@ -1,0 +1,83 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/menu-link",
+	"version": "0.1.0",
+	"title": "Menu Link",
+	"category": "theme",
+	"description": "Display a link to a taxonomy term, page, or custom URL with optional settings.",
+	"attributes": {
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"label": {
+			"type": "string"
+		},
+		"url": {
+			"type": "string"
+		},
+		"id": {
+			"type": "number"
+		},
+		"description": {
+			"type": "string"
+		},
+		"rel": {
+			"type": "string"
+		},
+		"opensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"title": {
+			"type": "string"
+		},
+		"taxonomy": {
+			"type": "string",
+			"default": "topic"
+		}
+	},
+	"ancestor": [
+		"prc-block/menu"
+	],
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"reusable": false,
+		"spacing": {
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"fontAppearance": true,
+				"textTransform": true
+			}
+		}
+	},
+	"providesContext": {
+		"style": "style"
+	},
+	"usesContext": [
+		"menu/className",
+		"menu/taxonomy",
+		"menu/textColor",
+		"menu/backgroundColor",
+		"menu/hoverBackgroundColor",
+		"menu/borderColor",
+		"style"
+	],
+	"textdomain": "menu-link",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

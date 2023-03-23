@@ -56,6 +56,9 @@ class CoreGroup extends PRC_Block_Library {
 	}
 
 	public function register_new_styles() {
+		if ( 'prc-block-theme' === get_template() ) {
+			return;
+		}
 		foreach( self::$styles as $style_args ) {
 			register_block_style(
 				self::$block_name,
