@@ -28,14 +28,8 @@ export default function Edit() {
 				<div className="wp-block-prc-block-logo__inner__logo">
 					<Logo />
 				</div>
-				<div className="wp-block-prc-block-logo__mobile__menu-trigger">
-					Menu
-				</div>
 				<div className="wp-block-prc-block-logo__inner__logo-alt">
 					<LogoAlt />
-				</div>
-				<div className="wp-block-prc-block-logo__mobile__search-trigger">
-					Search
 				</div>
 			</div>
 		</div>

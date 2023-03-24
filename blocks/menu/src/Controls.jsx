@@ -26,20 +26,17 @@ function ColorsInspectorPanel({ attributes, colors }) {
 			onChange: setTextColor,
 			label: __('Menu Item Text'),
 		},
-	];
-
-	if ('horizontal' === orientation) {
-		colorSettings.push({
+		{
 			value: backgroundColor.color,
 			onChange: setBackgroundColor,
 			label: __('Menu Item Background'),
-		});
-		colorSettings.push({
+		},
+		{
 			value: borderColor.color,
 			onChange: setBorderColor,
 			label: __('Menu Item Border'),
-		});
-	}
+		},
+	];
 
 	return (
 		<InspectorControls group="styles">

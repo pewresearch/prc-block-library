@@ -42,6 +42,9 @@ class CoreGroup extends PRC_Block_Library {
 
 	public function __construct($init = false) {
 		if ( true === $init ) {
+			if ( 'prc-block-theme' === get_template() ) {
+				return;
+			}
 			$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-group/build/block.json';
 			self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
@@ -56,9 +59,6 @@ class CoreGroup extends PRC_Block_Library {
 	}
 
 	public function register_new_styles() {
-		if ( 'prc-block-theme' === get_template() ) {
-			return;
-		}
 		foreach( self::$styles as $style_args ) {
 			register_block_style(
 				self::$block_name,
@@ -72,7 +72,6 @@ class CoreGroup extends PRC_Block_Library {
 		self::$view_script_handle = register_block_script_handle( self::$block_json, 'viewScript' );
 		self::$style_handle    = register_block_style_handle( self::$block_json, 'style' );
 	}
-
 
 	public function register_editor_assets() {
 		wp_enqueue_script( self::$editor_script_handle );

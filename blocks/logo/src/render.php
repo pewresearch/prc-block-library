@@ -19,15 +19,9 @@ ob_start();
 	<a class="wp-block-prc-block-logo__inner__logo" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
 		<?php echo $logo;?>
 	</a>
-	<div class="wp-block-prc-block-logo__mobile__menu-trigger">
-		Menu
-	</div>
 	<a class="wp-block-prc-block-logo__inner__logo-alt" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
 		<?php echo $logo_alt;?>
 	</a>
-	<div class="wp-block-prc-block-logo__mobile__search-trigger">
-		Search
-	</div>
 </div>
 <?php
 $content = ob_get_clean();

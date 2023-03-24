@@ -82,12 +82,8 @@ export default function Edit({
 	const [popoverAnchor, setPopoverAnchor] = useState(null);
 	const listItemRef = useRef(null);
 
-	console.log('Context: ', context);
-
 	const menuClassName = context['menu/className'];
 	const isTextStyle = 'is-style-text' === menuClassName;
-
-	console.log('isTextStyle: ', isTextStyle ? 'true' : 'false');
 
 	const textColor = context['menu/textColor'];
 	const backgroundColor = context['menu/backgroundColor'];

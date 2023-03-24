@@ -29,14 +29,21 @@
 	}
 
 	&.is-style-text {
+		line-height: 1;
 		.wp-block-prc-block-menu-link {
 			&__label.has-border-color {
-				border-right: 1px solid black;
+				border-left: none;
+				border-top: none;
+				border-bottom: none;
+				border-right-width: 1px;
+				border-right-style: solid;
 				@media (prefers-color-scheme: dark), (prefers-dark-interface) {
 					border-right: 1px solid white;
 				}
 			}
-			&:last-of-type &__label.has-border-color {
+		}
+		.wp-block-prc-block-menu-link:last-of-type {
+			.wp-block-prc-block-menu-link__label.has-border-color {
 				border-right: none!important;
 				padding-right: 0;
 			}
