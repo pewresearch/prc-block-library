@@ -1,1 +1,137 @@
-.wp-block-cover.alignfull+.wp-block-group.alignfull{margin-top:-2em;padding:1em 2em 2em}.wp-block-group.is-style-social-group{border-bottom:1px solid var(--wp--preset--color--gray);margin-block-end:1.5em}.wp-block-group.is-style-social-group .wp-block-social-links{background:#fff;padding-bottom:.5em;padding-top:.65em}.wp-block-group.is-style-callout{border-top:1px solid #e6e7e6}.wp-block-group.is-style-callout p{font-family:var(--wp--preset--font-family--sans-serif);font-size:14px}.wp-block-group.is-style-callout .wp-block-group__inner-container ul li{font-family:var(--wp--preset--font-family--sans-serif)!important;font-size:13px}.wp-block-group.is-style-card-alt{padding-bottom:1rem}@media only screen and (min-width:767px){.wp-block-group.is-style-card-alt{padding-left:1rem;padding-right:1rem}}.wp-block-group.is-style-card-alt .is-style-sub-header{font-weight:400;letter-spacing:.1em;line-height:1.28571429em;margin-bottom:1rem;padding:9px 1em}.wp-block-group.is-style-card-alt .is-style-sub-header a{color:#fff}@media only screen and (min-width:992px){.wp-block-group.alignright{clear:right;float:right;margin-left:1em}.wp-block-group.alignleft{clear:left;float:left;margin-right:1em}}.wp-block-group.essay--toolbar{align-items:center;display:flex;padding:1em 0;width:100%}.wp-block-group.essay--toolbar .wp-block-social-links{margin-top:0!important;padding-top:0!important}.wp-block-group.essay--toolbar .wp-block-post-date{flex-grow:1}
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/style.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-cover.alignfull + .wp-block-group.alignfull {
+  margin-top: -2em;
+  padding-top: 1em;
+  padding-bottom: 2em;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.wp-block-group.is-style-social-group {
+  border-bottom: 1px solid var(--wp--preset--color--gray);
+  margin-block-end: 1.5em;
+}
+.wp-block-group.is-style-social-group .wp-block-social-links {
+  background: white;
+  padding-top: 0.65em;
+  padding-bottom: 0.5em;
+}
+.wp-block-group.is-style-callout {
+  border-top: 1px solid #e6e7e6;
+}
+.wp-block-group.is-style-callout p {
+  font-family: var(--wp--preset--font-family--sans-serif);
+  font-size: 14px;
+}
+.wp-block-group.is-style-callout .wp-block-group__inner-container ul li {
+  font-family: var(--wp--preset--font-family--sans-serif) !important;
+  font-size: 13px;
+}
+.wp-block-group.is-style-card-alt {
+  padding-bottom: 1rem;
+}
+@media only screen and (min-width: 767px) {
+  .wp-block-group.is-style-card-alt {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+.wp-block-group.is-style-card-alt .is-style-sub-header {
+  padding: 9px 1em;
+  margin-bottom: 1rem;
+  line-height: 1.28571429em;
+  font-weight: normal;
+  letter-spacing: 0.1em;
+}
+.wp-block-group.is-style-card-alt .is-style-sub-header a {
+  color: white;
+}
+@media only screen and (min-width: 992px) {
+  .wp-block-group.alignright {
+    /*rtl:ignore*/
+    clear: right;
+    float: right;
+    margin-left: 1em;
+    /*rtl:ignore*/
+  }
+}
+@media only screen and (min-width: 992px) {
+  .wp-block-group.alignleft {
+    /*rtl:ignore*/
+    clear: left;
+    float: left;
+    margin-right: 1em;
+    /*rtl:ignore*/
+  }
+}
+
+.wp-site-blocks,
+.is-root-container {
+  container: prc-responsive-container/inline-size;
+}
+
+@container prc-responsive-container (max-width: $mobileBreakpoint) {
+  .wp-block-group[data-hide-on-mobile=true].wp-block:before {
+    content: "This block is hidden on mobile.";
+    display: block;
+    text-align: center;
+    font-size: 0.8em;
+    color: #999;
+    padding: 1em;
+  }
+  .wp-block-group[data-hide-on-mobile=true] > * {
+    display: none !important;
+  }
+}
+@container prc-responsive-container (max-width: $tabletBreakpoint) {
+  .wp-block-group[data-hide-on-tablet=true].wp-block:before {
+    content: "This block is hidden on tablet.";
+    display: block;
+    text-align: center;
+    font-size: 0.8em;
+    color: #999;
+    padding: 1em;
+  }
+  .wp-block-group[data-hide-on-tablet=true] > * {
+    display: none !important;
+  }
+}
+@container prc-responsive-container (min-width: $desktopBreakPoint) {
+  .wp-block-group[data-hide-on-desktop=true].wp-block:before {
+    content: "This block is hidden on desktop.";
+    display: block;
+    text-align: center;
+    font-size: 0.8em;
+    color: #999;
+    padding: 1em;
+  }
+  .wp-block-group[data-hide-on-desktop=true] > * {
+    display: none !important;
+  }
+}
+.wp-block-group.essay--toolbar,
+.wp-block-group.essay--toolbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1em 0;
+}
+.wp-block-group.essay--toolbar .wp-block-social-links,
+.wp-block-group.essay--toolbar .wp-block-social-links {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+.wp-block-group.essay--toolbar .wp-block-post-date,
+.wp-block-group.essay--toolbar .wp-block-post-date {
+  flex-grow: 1;
+}
+
+/*# sourceMappingURL=style-index.css.map*/

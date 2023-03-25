@@ -30,7 +30,7 @@ export default function registerVariations() {
 		name: 'callout',
 		title: __('Callout'),
 		description: __(
-			'A Group block in the "Callout" style with a oatmeal background and pre-set innerblocks',
+			'A Group block in the "Callout" style with a oatmeal background and pre-set innerblocks'
 		),
 		attributes: {
 			className: 'is-style-callout',
@@ -50,7 +50,7 @@ export default function registerVariations() {
 		title: __('Card'),
 		icon: CardIcon,
 		description: __(
-			'A Group block in the "Card" format with a heading with a border, image, text, and read more link.',
+			'A Group block in the "Card" format with a heading with a border, image, text, and read more link.'
 		),
 		attributes: {
 			className: 'is-style-card',
@@ -78,7 +78,7 @@ export default function registerVariations() {
 		title: __('Card (Alt)'),
 		icon: CardAltIcon,
 		description: __(
-			'A Group block in the "Card" format with a sub header heading in a black background, image, text, and read more link.',
+			'A Group block in the "Card" format with a sub header heading in a black background, image, text, and read more link.'
 		),
 		attributes: {
 			className: 'is-style-card-alt',
@@ -107,7 +107,7 @@ export default function registerVariations() {
 		title: __('Social Group'),
 		icon: 'share-alt2',
 		description: __(
-			'A Group block that allows you to override the share meta for content inside.',
+			'A Group block that allows you to override the share meta for content inside.'
 		),
 		attributes: {
 			className: 'is-style-social-group',
@@ -119,7 +119,12 @@ export default function registerVariations() {
 				{
 					templateLock: false,
 				},
-				[['core/paragraph', { placeholder: 'Add visual content here...' }]],
+				[
+					[
+						'core/paragraph',
+						{ placeholder: 'Add visual content here...' },
+					],
+				],
 			],
 			[
 				'core/social-links',
