@@ -68,6 +68,7 @@ addFilter(
 			if (BLOCKNAME !== name) {
 				return <BlockListBlock {...props} />;
 			}
+
 			const {
 				responsiveContainerQuery: {
 					hideOnDesktop,
@@ -101,6 +102,18 @@ addFilter(
 		if (BLOCKNAME !== settings.name) {
 			return settings;
 		}
+
+		settings.attributes = {
+			...settings.attributes,
+			responsiveContainerQuery: {
+				type: 'object',
+				default: {
+					hideOnDesktop: false,
+					hideOnTablet: false,
+					hideOnMobile: false,
+				},
+			},
+		};
 
 		if ('undefined' !== typeof settings.supports.align) {
 			// During the group block's development the alignment options have changed, here we are enforcing all alignments to be available.
