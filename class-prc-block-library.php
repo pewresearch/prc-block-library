@@ -165,7 +165,8 @@ class PRC_Block_Library {
 	 * @return mixed
 	 */
 	public function allowed_inline_styles( $styles ) {
-		$styles[] = 'aspect-ratio'; // Adding this to support Vimeo block.
+		$styles[] = 'container';
+		$styles[] = '@container';
 		return $styles;
 	}
 

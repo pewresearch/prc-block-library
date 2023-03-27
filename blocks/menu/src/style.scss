@@ -1,0 +1,84 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-menu {
+	&:not(.wp-block) {
+		overflow-x: overlay;
+	}
+
+	&.is-style-pills {
+		.wp-block-prc-block-menu-link {
+			&.has-border-color {
+				border-width: 1px;
+				border-radius: 3px;
+				border-color: transparent;
+				border-style: solid;
+			}
+			padding: .7857142857em 1.5em;
+			line-height: 1.067em;
+			text-align: center;
+			text-decoration: none;
+			transition: opacity .1s ease, background-color .1s ease,color .1s ease, box-shadow .1s ease,background .1s ease;
+			min-width: -moz-fit-content;
+			min-width: fit-content;
+		}
+	}
+
+	&.is-style-text {
+		line-height: 1;
+		.wp-block-prc-block-menu-link {
+			&__label.has-border-color {
+				border-left: none;
+				border-top: none;
+				border-bottom: none;
+				border-right-width: 1px;
+				border-right-style: solid;
+				@media (prefers-color-scheme: dark), (prefers-dark-interface) {
+					border-right: 1px solid white;
+				}
+			}
+		}
+		.wp-block-prc-block-menu-link:last-of-type {
+			.wp-block-prc-block-menu-link__label.has-border-color {
+				border-right: none!important;
+				padding-right: 0;
+			}
+		}
+	}
+}
+	
+// 	&.is-style-standard .wp-block-prc-block-menu-link {
+// 		&.has-border-color {
+// 			border-width: 1px;
+// 			border-radius: 3px;
+// 			border-color: transparent;
+// 			border-style: solid;
+// 		}
+// 		padding: .7857142857em 1.5em;
+// 		line-height: 1.067em;
+// 		text-align: center;
+// 		text-decoration: none;
+// 		transition: opacity .1s ease, background-color .1s ease,color .1s ease, box-shadow .1s ease,background .1s ease;
+// 		min-width: -moz-fit-content;
+// 		min-width: fit-content;
+// 	}
+
+// 	&.is-style-secondary {
+// 		border-top: 0;
+// 		border-right: 0;
+// 		border-left: 0;
+// 		border-bottom-width: 2px;
+// 		.wp-block-prc-block-taxonomy-menu-link {
+// 			border: none;
+// 			&.is-active {
+// 				position: relative;
+// 				border-bottom: 2px solid #000;
+// 				margin-bottom: -2px;
+// 			}
+// 		}
+// 	}
+// }
