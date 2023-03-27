@@ -17,6 +17,10 @@
     "align": [
       "center"
     ],
+    "color": {
+      "background": true,
+      "gradients": true
+    },
     "spacing": {
       "padding": true,
       "margin": true
@@ -25,20 +29,16 @@
   "styles": [
     {
       "name": "default",
-      "label": "Default (Dark Mode Sensitive)",
+      "label": "Default (Dark Mode Aware)",
       "isDefault": true
     },
     {
       "name": "no-dark-mode",
-      "label": "Disable Dark Mode"
-    },
-    {
-      "name": "always-dark-mode",
-      "label": "Always Dark Mode"
+      "label": "Default (Dark Mode Ignored)"
     },
     {
       "name": "alt-only",
-      "label": "Alternate Style Always"
+      "label": "Alternate Layout"
     }
   ],
   "example": {},

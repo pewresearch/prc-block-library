@@ -12,13 +12,10 @@ import { Fragment, useState, useRef } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
-	useInnerBlocksProps,
 	getColorClassName,
-	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useMergeRefs } from '@wordpress/compose';
-import { useDispatch, useSelect } from '@wordpress/data';
 
 /**
  * Internal Dependencies

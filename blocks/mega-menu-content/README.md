@@ -1,4 +1,4 @@
-# Mega Menu
+# Mega Menu Content
 Contributors:      Seth Rubenstein
 Tags:              block
 Tested up to:      6.1

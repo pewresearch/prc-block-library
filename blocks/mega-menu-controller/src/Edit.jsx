@@ -1,24 +1,29 @@
 /**
  * External Dependencies
  */
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
 	useInnerBlocksProps,
+	getColorClassName,
+	withColors,
 } from '@wordpress/block-editor';
+import { createBlock } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
+import { ReactComponent as Icon } from '../assets/icon-caret-down.svg';
 
-const ALLOWED_BLOCKS = [ 'core/group', 'core/paragraph' ];
+const ALLOWED_BLOCKS = ['core/group', 'prc-block/mega-menu-content'];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -26,34 +31,135 @@ const ALLOWED_BLOCKS = [ 'core/group', 'core/paragraph' ];
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                      Properties passed to the function.
+ * @param {Object}   props.attributes           Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
+ * @param            props.isSelected
+ * @param            props.insertBlocksAfter
+ * @param            props.activeColor
+ * @param            props.setActiveColor
+ * @param            props.activeBorderColor
+ * @param            props.setActiveBorderColor
+ * @param {Function} props.setAttributes        Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( {
+function Edit({
 	attributes,
 	setAttributes,
 	context,
 	clientId,
 	isSelected,
-} ) {
-	const blockProps = useBlockProps();
-	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
-	// This gives us a good way to ensure greater template and pattern control.
-	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	// The same applies for "orientation", defaults to "vertical".
-	const { allowedBlocks, orientation } = attributes;
-	const innerBlocksProps = useInnerBlocksProps( blockProps, {
-		allowedBlocks: allowedBlocks ? allowedBlocks : ALLOWED_BLOCKS,
-		orientation: orientation ? orientation : 'vertical',
-	} );
+	insertBlocksAfter,
+	activeColor,
+	setActiveColor,
+	activeBorderColor,
+	setActiveBorderColor,
+}) {
+	const { className, label } = attributes;
+
+	const [isOpen, setIsOpen] = useState(false);
+	const toggleOpen = () => setIsOpen(!isOpen);
+
+	const menuClassName = context['menu/className'];
+	const isTextStyle = 'is-style-text' === menuClassName;
+
+	const textColor = context['menu/textColor'];
+	const backgroundColor = context['menu/backgroundColor'];
+	const borderColor = context['menu/borderColor'];
+	const textDecoration = context.style?.typography?.textDecoration;
+
+	const blockProps = useBlockProps({
+		className: classNames(className, {
+			'has-text-color': !!textColor,
+			[getColorClassName('color', textColor)]: !!textColor,
+			[`has-text-decoration-${textDecoration}`]: textDecoration,
+			'has-background': !!backgroundColor,
+			[getColorClassName('background-color', backgroundColor)]:
+				!!backgroundColor,
+			'has-border-color': !isTextStyle && !!borderColor,
+			[getColorClassName('border-color', borderColor)]:
+				!isTextStyle && !!borderColor,
+			'is-active': isOpen,
+			'has-active-color': !!activeColor.color || activeColor?.class,
+			[getColorClassName('active-color', activeColor?.slug)]:
+				!!activeColor?.slug,
+			'has-active-border-color':
+				!!activeBorderColor.color || activeBorderColor?.class,
+			[getColorClassName('active-border-color', activeBorderColor?.slug)]:
+				!!activeBorderColor?.slug,
+		}),
+	});
+
+	const labelClassNames = classNames('wp-block-prc-block-menu-link__label', {
+		'has-border-color': !!borderColor && isTextStyle,
+		[getColorClassName('border-color', borderColor)]:
+			!!borderColor && isTextStyle,
+	});
+
+	const allowedFormats = ['core/bold', 'core/italic'];
+
+	const innerBlocksProps = useInnerBlocksProps(
+		{
+			className: classNames(
+				'wp-block-prc-block-mega-menu__inner-container',
+				{
+					'has-background': !!activeColor.color || activeColor?.class,
+					[getColorClassName('background-color', activeColor?.slug)]:
+						!!activeColor?.slug,
+				}
+			),
+		},
+		{
+			allowedBlocks: ALLOWED_BLOCKS,
+			orientation: 'vertical',
+			template: [['prc-block/mega-menu-content', {}]],
+		}
+	);
 
 	return (
 		<Fragment>
-			<Controls { ...{ attributes, setAttributes, context: false } } />
-			<div { ...innerBlocksProps } />
+			<Controls
+				{...{
+					activeColor,
+					setActiveColor,
+					activeBorderColor,
+					setActiveBorderColor,
+				}}
+			/>
+			<div {...blockProps}>
+				<div className={labelClassNames}>
+					<RichText
+						tagName="span"
+						value={label}
+						onChange={(newLabel) =>
+							setAttributes({ label: newLabel })
+						}
+						placeholder={__('Add Label', 'prc-block-library')}
+						allowedFormats={allowedFormats}
+						multiline={false}
+						disableLineBreaks
+						__unstableOnSplitAtEnd={() => {
+							const newBlock = createBlock('prc-block/menu-link');
+							insertBlocksAfter(newBlock);
+						}}
+					/>
+					<button
+						onClick={toggleOpen}
+						className="wp-block-prc-block-mega-menu__toggle"
+						type="button"
+					>
+						<Icon />
+					</button>
+				</div>
+				<div {...innerBlocksProps} />
+			</div>
 		</Fragment>
 	);
 }
+
+export default withColors({
+	activeColor: 'color',
+	activeBorderColor: 'color',
+})(Edit);

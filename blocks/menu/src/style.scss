@@ -10,7 +10,8 @@
 		overflow-x: overlay;
 	}
 
-	&.is-style-pills {
+	&.is-style-pills,
+	&:not(.is-style-text) {
 		.wp-block-prc-block-menu-link {
 			&.has-border-color {
 				border-width: 1px;
@@ -18,7 +19,7 @@
 				border-color: transparent;
 				border-style: solid;
 			}
-			padding: .7857142857em 1.5em;
+			padding: 0.5em;
 			line-height: 1.067em;
 			text-align: center;
 			text-decoration: none;
