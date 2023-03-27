@@ -19,7 +19,11 @@ import {
  */
 import Controls from './Controls';
 
-const ALLOWED_BLOCKS = ['prc-block/menu-link', 'prc-block/mega-menu-link'];
+const ALLOWED_BLOCKS = [
+	'prc-block/menu-link',
+	'prc-block/mega-menu-controller',
+	'core/block',
+];
 
 /**
  * The edit function describes the structure of your block in the context of the

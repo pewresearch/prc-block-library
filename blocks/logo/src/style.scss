@@ -29,24 +29,6 @@ $standard_logo_minimum_width: 360px;
 		}
 	}
 
-	&.is-style-always-dark-mode.wp-block {
-		background: var(--wp--preset--color--dark-mode-primary);
-	}
-	&.is-style-always-dark-mode .wp-block-prc-block-logo__inner {
-		.wp-block-prc-block-logo__inner__logo {
-			.logo_svg__dark,
-			.dark { display: none; }
-			.logo_svg__light,
-			.light { display: inherit; }
-		}
-		.wp-block-prc-block-logo__inner__logo-alt {
-			.logo-alt_svg__dark,
-			.dark { display: none; }
-			.logo-alt_svg__light,
-			.light { display: inherit; }
-		}
-	}
-
 	&.is-style-alt-only .wp-block-prc-block-logo__inner {
 		.wp-block-prc-block-logo__inner__logo {
 			display: none!important;
@@ -58,7 +40,7 @@ $standard_logo_minimum_width: 360px;
 
 	.wp-block-prc-block-logo__inner {
 		max-width: $standard_logo_minimum_width !important;
-		width: $standard_logo_minimum_width;
+		width: 100%;
 		margin: 0!important;
 		.wp-block-prc-block-logo__inner__logo-alt {
 			display: none;
@@ -75,7 +57,7 @@ $standard_logo_minimum_width: 360px;
 			.light { fill: #FFF; display: none; }
 		}
 
-		@container prc-logo (max-width: $standard_logo_minimum_width) {
+		@container prc-logo (max-width: 360px) {
 			.wp-block-prc-block-logo__inner__logo-alt {
 				display: flex;
 			}

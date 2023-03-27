@@ -19,8 +19,8 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import { ReactComponent as LogoAlt } from '../assets/logo-alt.svg';
 
-export default function Edit() {
-	const blockProps = useBlockProps({});
+export default function Edit({ attributes, setAttributes }) {
+	const blockProps = useBlockProps();
 
 	return (
 		<div {...blockProps}>
