@@ -47,7 +47,7 @@ class CoreMediaText extends PRC_Block_Library {
 		ob_start();
 		?>
 		.wp-block-media-text {
-			margin-block-end: var(--wp--custom--margin-block-end, 1.5em);
+			margin-block-end: 1.5em;
 		}
 		@media (min-width: 768px) {
 			.wp-block-media-text > .wp-block-media-text__content {

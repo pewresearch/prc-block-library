@@ -1,4 +1,6 @@
 /* eslint-disable no-undef */
+// THIS IS A LEGACY FILE.
+
 /**
  * External Dependencies
  */

@@ -1,16 +1,17 @@
+/* eslint-disable max-len */
 /**
  * WordPress Dependencies
  */
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment } from '@wordpress/element';
-import { createBlock, rawHandler } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
 import registerVariations from './variations';
+import registerTransforms from './transforms';
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * All files containing `style` keyword are bundled together. The code used
@@ -22,31 +23,69 @@ import registerVariations from './variations';
 import './style.scss';
 
 const BLOCKNAME = 'core/group';
-const BLOCKIDENTIFIER = 'prc-block-library/core-group';
+const BLOCKIDENTIFIER = 'prc-block/core-group';
 
 registerVariations();
+registerTransforms();
 
+/**
+ * Add the responsiveContainerQuery controls to the core/group block.
+ */
 addFilter(
 	'editor.BlockEdit',
-	BLOCKIDENTIFIER,
+	`${BLOCKIDENTIFIER}-controls`,
 	createHigherOrderComponent(
 		(BlockEdit) =>
 			function CoreGroup(props) {
-				const { name, attributes, setAttributes } = props;
+				const { name, attributes, setAttributes, clientId } = props;
 				if (BLOCKNAME !== name) {
 					return <BlockEdit {...props} />;
 				}
 
 				return (
 					<Fragment>
-						<Controls {...{ attributes, setAttributes }} />
+						<Controls
+							{...{ attributes, setAttributes, clientId }}
+						/>
 						<BlockEdit {...props} />
 					</Fragment>
 				);
 			},
-		'withCoreGroupControls',
+		'withCoreGroupControls'
 	),
-	21,
+	21
+);
+
+/**
+ * Add html attributes for each responsiveContainerQuery attribute value on the core/group block.
+ */
+addFilter(
+	'editor.BlockListBlock',
+	`${BLOCKIDENTIFIER}-wrapper-props`,
+	createHigherOrderComponent((BlockListBlock) => {
+		return (props) => {
+			const { attributes, wrapperProps, name } = props;
+			if (BLOCKNAME !== name) {
+				return <BlockListBlock {...props} />;
+			}
+
+			const {
+				responsiveContainerQuery: {
+					hideOnDesktop,
+					hideOnTablet,
+					hideOnMobile,
+				} = {},
+			} = attributes;
+
+			const newWrapperProps = {
+				...wrapperProps,
+				'data-hide-on-desktop': hideOnDesktop,
+				'data-hide-on-tablet': hideOnTablet,
+				'data-hide-on-mobile': hideOnMobile,
+			};
+			return <BlockListBlock {...props} wrapperProps={newWrapperProps} />;
+		};
+	}, 'withCoreGroupResponsiveWrapper')
 );
 
 /**
@@ -56,58 +95,37 @@ addFilter(
  *
  * @return {Object} settings Modified settings.
  */
-addFilter('blocks.registerBlockType', 'prc-block/group', (settings) => {
-	if (BLOCKNAME !== settings.name) {
+addFilter(
+	'blocks.registerBlockType',
+	`${BLOCKIDENTIFIER}-supports`,
+	(settings) => {
+		if (BLOCKNAME !== settings.name) {
+			return settings;
+		}
+
+		settings.attributes = {
+			...settings.attributes,
+			responsiveContainerQuery: {
+				type: 'object',
+				default: {
+					hideOnDesktop: false,
+					hideOnTablet: false,
+					hideOnMobile: false,
+				},
+			},
+		};
+
+		if ('undefined' !== typeof settings.supports.align) {
+			// During the group block's development the alignment options have changed, here we are enforcing all alignments to be available.
+			settings.supports.align = [
+				'left',
+				'right',
+				'center',
+				'wide',
+				'full',
+			];
+		}
+
 		return settings;
 	}
-
-	if ('undefined' !== typeof settings.supports.align) {
-		// During the group block's development the alignment options have changed, here we are enforcing all alignments to be available.
-		settings.supports.align = ['left', 'right', 'center', 'wide', 'full'];
-	}
-
-	if ('undefined' !== typeof settings.transforms) {
-		// Handle legacy prc-block/callout block to be converted to a group with the callout style.
-		if ('undefined' !== typeof settings.transforms.from) {
-			settings.transforms.from.push({
-				type: 'block',
-				blocks: ['core/group', 'prc-block/callout'],
-				transform: (attributes, innerBlocks) =>
-					createBlock(
-						BLOCKNAME,
-						{
-							className: 'is-style-callout',
-							backgroundColor: 'beige',
-							...attributes,
-						},
-						innerBlocks,
-					),
-			});
-
-			// Handle converting div html with a class of `callout` to a group block with the same style.
-			settings.transforms.from.push({
-				type: 'raw',
-				isMatch: (node) =>
-					// If the element has a class of callout return true and proceed to trasnform...
-					node.classList.contains('callout'),
-				transform: (node) => {
-					// Loop through the node child nodes and get its outerHtml and create a block from the HTML string, then add that to innerBlocks.
-					const innerBlocks = rawHandler({ HTML: node.innerHTML });
-
-					const attrs = {
-						className: 'is-style-callout',
-						backgroundColor: 'beige',
-					};
-					if (node.getAttribute('align')) {
-						attrs.align = node.getAttribute('align');
-					}
-
-					return createBlock(BLOCKNAME, attrs, [...innerBlocks]);
-				},
-				priority: 11,
-			});
-		}
-	}
-
-	return settings;
-});
+);

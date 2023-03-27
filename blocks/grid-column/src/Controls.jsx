@@ -172,8 +172,8 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 							}}
 							withInputField={false}
 							min={1}
-							max={8}
-							marks={MARKS.filter((item) => 8 >= item.value)}
+							max={12}
+							marks={MARKS}
 						/>
 						<CardDivider />
 						<RangeControl

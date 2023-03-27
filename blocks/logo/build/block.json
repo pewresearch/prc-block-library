@@ -14,7 +14,9 @@
   ],
   "supports": {
     "html": false,
-    "align": true,
+    "align": [
+      "center"
+    ],
     "spacing": {
       "padding": true,
       "margin": true
@@ -29,6 +31,10 @@
     {
       "name": "no-dark-mode",
       "label": "Disable Dark Mode"
+    },
+    {
+      "name": "always-dark-mode",
+      "label": "Always Dark Mode"
     },
     {
       "name": "alt-only",
