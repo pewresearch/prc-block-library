@@ -10,7 +10,6 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, PanelColorSettings } from '@wordpress/block-editor';
 import {
 	PanelBody,
-	PanelRow,
 	SelectControl,
 	Flex,
 	FlexItem,
@@ -146,16 +145,15 @@ export default function Controls({ attributes, setAttributes, colors }) {
 				__experimentalHasMultipleOrigins
 				__experimentalIsRenderedInSidebar
 				title={__('Colors')}
-				disableCustomColors
 				colorSettings={[
 					{
 						value: barColor.color,
-						onChange: setBarColor,
+						onChange: (color) => setBarColor(color),
 						label: __('Bar'),
 					},
 					{
 						value: backgroundColor.color,
-						onChange: setBackgroundColor,
+						onChange: (color) => setBackgroundColor(color),
 						label: __('Background'),
 					},
 				]}
