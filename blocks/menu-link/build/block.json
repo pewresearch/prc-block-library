@@ -82,12 +82,6 @@
     "menu/borderColor",
     "style"
   ],
-  "__experimentalStyle": {
-    "color": {
-      "text": "black",
-      "link": "black"
-    }
-  },
   "textdomain": "menu-link",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

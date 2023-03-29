@@ -37,6 +37,10 @@
 			transition: opacity .1s ease, background-color .1s ease,color .1s ease, box-shadow .1s ease,background .1s ease;
 			min-width: -moz-fit-content;
 			min-width: fit-content;
+			&:hover {
+				background-color: var(--menu--active-color);
+				color: var(--menu--hover-text-color);
+			}
 		}
 	}
 
