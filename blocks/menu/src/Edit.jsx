@@ -11,7 +11,6 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	withColors,
-	getColorClassName,
 } from '@wordpress/block-editor';
 
 /**
@@ -42,6 +41,8 @@ const ALLOWED_BLOCKS = [
  * @param {Function} props.setBackgroundColor
  * @param {Object}   props.borderColor
  * @param {Function} props.setBorderColor
+ * @param            props.activeColor
+ * @param            props.setActiveColor
  * @param {Function} props.setAttributes      Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -52,6 +53,8 @@ function Edit({
 	clientId,
 	context,
 	isSelected,
+	activeColor,
+	setActiveColor,
 	textColor,
 	setTextColor,
 	backgroundColor,
@@ -69,8 +72,6 @@ function Edit({
 		} = {},
 	} = attributes;
 
-	const isTextStyle = className && className.includes('is-style-text');
-
 	const blockProps = useBlockProps({
 		className: classNames(className, {
 			'items-justified-right': justifyContent === 'right',
@@ -80,7 +81,17 @@ function Edit({
 			'is-vertical': orientation === 'vertical',
 			'is-horizontal': orientation === 'horizontal',
 			'no-wrap': flexWrap === 'nowrap',
+			'has-active': activeColor?.color,
+			'has-border': borderColor?.color,
+			'has-background': backgroundColor?.color,
+			'has-text': textColor?.color,
 		}),
+		style: {
+			'--menu--active-color': `var(--wp--preset--color--${activeColor?.slug})`,
+			'--menu--border-color': `var(--wp--preset--color--${borderColor?.slug})`,
+			'--menu--text-color': `var(--wp--preset--color--${textColor?.slug})`,
+			'--menu--background-color': `var(--wp--preset--color--${backgroundColor?.slug})`,
+		},
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
@@ -95,6 +106,8 @@ function Edit({
 					attributes,
 					setAttributes,
 					colors: {
+						activeColor,
+						setActiveColor,
 						textColor,
 						setTextColor,
 						backgroundColor,
@@ -111,6 +124,7 @@ function Edit({
 }
 
 export default withColors(
+	{ activeColor: 'color' },
 	{ textColor: 'color' },
 	{ backgroundColor: 'color' },
 	{ borderColor: 'color' }

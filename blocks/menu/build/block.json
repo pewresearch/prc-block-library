@@ -11,6 +11,9 @@
       "type": "string",
       "default": "topic"
     },
+    "activeColor": {
+      "type": "string"
+    },
     "textColor": {
       "type": "string"
     },
@@ -31,15 +34,12 @@
         "contentOnly",
         false
       ]
-    },
-    "fontFamily": {
-      "type": "string",
-      "default": "sans-serif"
     }
   },
   "providesContext": {
     "menu/className": "className",
     "menu/taxonomy": "taxonomy",
+    "menu/activeColor": "activeColor",
     "menu/textColor": "textColor",
     "menu/backgroundColor": "backgroundColor",
     "menu/borderColor": "borderColor"
@@ -62,12 +62,7 @@
       "__experimentalLetterSpacing": true,
       "__experimentalSkipSerialization": [
         "textDecoration"
-      ],
-      "__experimentalDefaultControls": {
-        "fontSize": true,
-        "fontAppearance": true,
-        "textTransform": true
-      }
+      ]
     },
     "spacing": {
       "blockGap": true,
@@ -107,19 +102,23 @@
   },
   "styles": [
     {
-      "name": "pills",
+      "name": "text",
       "label": "Pills",
       "isDefault": true
     },
     {
-      "name": "text",
+      "name": "text-only",
       "label": "Text"
+    },
+    {
+      "name": "pointing",
+      "label": "Pointing"
     }
   ],
   "example": {
     "attributes": {
       "borderColor": "gray-light",
-      "className": "is-style-standard"
+      "className": "is-style-pills"
     },
     "viewportWidth": 420,
     "innerBlocks": [

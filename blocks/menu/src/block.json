@@ -5,11 +5,14 @@
 	"version": "0.1.0",
 	"title": "Menu",
 	"category": "design",
-	"description": "Display a menu.",
+	"description": "Display a horizontal or vertical menu. Supports linking to: pages, custom links, or taxonomy term archives.",
 	"attributes": {
 		"taxonomy": {
 			"type": "string",
 			"default": "topic"
+		},
+		"activeColor": {
+			"type": "string"
 		},
 		"textColor": {
 			"type": "string"
@@ -23,15 +26,12 @@
 		"templateLock": {
 			"type": [ "string", "boolean" ],
 			"enum": [ "all", "insert", "contentOnly", false ]
-		},
-		"fontFamily": {
-			"type": "string",
-			"default": "sans-serif"
 		}
 	},
 	"providesContext": {
 		"menu/className": "className",
 		"menu/taxonomy": "taxonomy",
+		"menu/activeColor": "activeColor",
 		"menu/textColor": "textColor",
 		"menu/backgroundColor": "backgroundColor",
 		"menu/borderColor": "borderColor"
@@ -49,12 +49,7 @@
 			"__experimentalTextTransform": true,
 			"__experimentalTextDecoration": true,
 			"__experimentalLetterSpacing": true,
-			"__experimentalSkipSerialization": [ "textDecoration" ],
-			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"fontAppearance": true,
-				"textTransform": true
-			}
+			"__experimentalSkipSerialization": [ "textDecoration" ]
 		},
 		"spacing": {
 			"blockGap": true,
@@ -75,32 +70,27 @@
 				"orientation": "horizontal",
 				"flexWrap": "nowrap"
 			}
-		},
-		"__experimentalStyle": {
-			"elements": {
-				"link": {
-					"color": {
-						"text": "inherit"
-					}
-				}
-			}
 		}
 	},
 	"styles": [
 		{
-			"name": "pills",
+			"name": "text",
 			"label": "Pills",
 			"isDefault": true
 		},
 		{
-			"name": "text",
+			"name": "text-only",
 			"label": "Text"
+		},
+		{
+			"name": "pointing",
+			"label": "Pointing"
 		}
 	],
 	"example": {
 		"attributes": {
 			"borderColor": "gray-light",
-			"className": "is-style-standard"
+			"className": "is-style-pills"
 		},
 		"viewportWidth": 420,
 		"innerBlocks": [

@@ -78,35 +78,11 @@ export default function Edit({
 	// re-renders when the popover's anchor updates.
 	const [popoverAnchor, setPopoverAnchor] = useState(null);
 	const listItemRef = useRef(null);
-
-	const menuClassName = context['menu/className'];
-	const isTextStyle = 'is-style-text' === menuClassName;
-
-	const textColor = context['menu/textColor'];
-	const backgroundColor = context['menu/backgroundColor'];
-	const borderColor = context['menu/borderColor'];
-	const textDecoration = context.style?.typography?.textDecoration;
-
 	const blockProps = useBlockProps({
 		ref: useMergeRefs([setPopoverAnchor, listItemRef]),
-		className: classNames(className, {
-			'has-text-color': !!textColor,
-			[getColorClassName('color', textColor)]: !!textColor,
-			[`has-text-decoration-${textDecoration}`]: textDecoration,
-			'has-background': !!backgroundColor,
-			[getColorClassName('background-color', backgroundColor)]:
-				!!backgroundColor,
-			'has-border-color': !isTextStyle && !!borderColor,
-			[getColorClassName('border-color', borderColor)]:
-				!isTextStyle && !!borderColor,
-		}),
 	});
 
-	const labelClassNames = classNames('wp-block-prc-block-menu-link__label', {
-		'has-border-color': !!borderColor && isTextStyle,
-		[getColorClassName('border-color', borderColor)]:
-			!!borderColor && isTextStyle,
-	});
+	const labelClassNames = classNames('wp-block-prc-block-menu-link__label');
 
 	const allowedFormats = ['core/bold', 'core/italic'];
 

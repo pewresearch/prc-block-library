@@ -34,8 +34,6 @@ export default function Controls({
 
 	const { taxonomy } = attributes;
 
-	const allowLink = 'is-style-sub-expand' !== className;
-
 	useEffect(() => {
 		// Show the LinkControl on mount if the URL is empty
 		// ( When adding a new menu item)
@@ -74,24 +72,22 @@ export default function Controls({
 				</PanelBody>
 			</InspectorControls>
 			<BlockControls>
-				{allowLink && (
-					<ToolbarGroup>
-						<ToolbarButton
-							isActive={isLinkOpen}
-							icon={linkIcon}
-							label={__('Link', 'prc-block-library')}
-							onClick={() => setIsLinkOpen(!isLinkOpen)}
+				<ToolbarGroup>
+					<ToolbarButton
+						isActive={isLinkOpen}
+						icon={linkIcon}
+						label={__('Link', 'prc-block-library')}
+						onClick={() => setIsLinkOpen(!isLinkOpen)}
+					/>
+					{isLinkOpen && (
+						<LinkControl
+							anchor={popoverAnchor}
+							onClose={onClose}
+							attributes={attributes}
+							setAttributes={setAttributes}
 						/>
-						{isLinkOpen && (
-							<LinkControl
-								anchor={popoverAnchor}
-								onClose={onClose}
-								attributes={attributes}
-								setAttributes={setAttributes}
-							/>
-						)}
-					</ToolbarGroup>
-				)}
+					)}
+				</ToolbarGroup>
 			</BlockControls>
 		</Fragment>
 	);

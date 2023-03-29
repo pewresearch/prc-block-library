@@ -10,7 +10,7 @@
  * @package           prc-block
  */
 
-class TaxonomyMenuLink extends PRC_Block_Library {
+class MenuLink extends PRC_Block_Library {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -33,4 +33,4 @@ class TaxonomyMenuLink extends PRC_Block_Library {
 
 }
 
-new TaxonomyMenuLink(true);
+new MenuLink(true);

@@ -3,7 +3,7 @@
 	"apiVersion": 2,
 	"name": "prc-block/mega-menu-controller",
 	"version": "0.1.0",
-	"title": "Mega Menu",
+	"title": "WIP: Mega Menu",
 	"category": "theme",
 	"attributes": {
 		"label": {
@@ -42,6 +42,7 @@
 	"usesContext": [
 		"menu/className",
 		"menu/taxonomy",
+		"menu/activeColor",
 		"menu/textColor",
 		"menu/backgroundColor",
 		"menu/hoverBackgroundColor",

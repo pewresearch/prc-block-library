@@ -9,44 +9,20 @@
 if ( is_admin() ) {
 	return $content;
 }
+$menu_item_id = $attributes['id'] ?? null;
+$is_active = get_queried_object_id() === $menu_item_id;
 
 /**
  * Build an array with CSS classes defining the colors
  * which will be applied to the menu markup in the front-end.
  */
 $context = $block->context;
-$menu_class_names = array_key_exists('menu/className', $context) ? $context['menu/className'] : '';
-$menu_class_names = explode(' ', $menu_class_names);
-$is_text_style_menu = in_array('is-style-text', $menu_class_names);
-
-$link_class_names = array();
-$label_class_names = array('wp-block-prc-block-menu-link__label');
-$text_color = array_key_exists('menu/textColor', $context) ? $context['menu/textColor'] : null;
-$background_color = array_key_exists('menu/backgroundColor', $context) ? $context['menu/backgroundColor'] : null;
-$border_color = array_key_exists('menu/borderColor', $context) ? $context['menu/borderColor'] : null;
-// If has text color.
-if ( ! is_null( $text_color ) ) {
-	// Add the color class.
-	array_push( $link_class_names, 'has-text-color', sprintf( 'has-%s-color', $text_color ) );
-}
-// If has background color.
-if ( ! is_null( $background_color ) ) {
-	// Add the background-color class.
-	array_push( $link_class_names, 'has-background', sprintf( 'has-%s-background-color', $background_color ) );
-}
-// If has border color.
-if ( ! is_null( $border_color ) ) {
-	// Add the border-color class.
-	if ( $is_text_style_menu ) {
-		array_push( $label_class_names, 'has-border-color', sprintf( 'has-%s-border-color', $border_color ) );
-	} else {
-		array_push( $link_class_names, 'has-border-color', sprintf( 'has-%s-border-color', $border_color ) );
-	}
-}
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'id' => 'item-' . md5( wp_json_encode( $attributes ) ),
-	'class' => classNames($link_class_names),
+	'class' => classNames(array(
+		'is-active' => $is_active ?? false,
+	)),
 ));
 
 $block_template  = '<div %1$s>%2$s</div>';
@@ -59,7 +35,7 @@ echo wp_sprintf(
 		$label_template,
 		$attributes['url'] ?? '',
 		$attributes['label'] ?? '',
-		classNames($label_class_names),
+		classNames('wp-block-prc-block-menu-link__label'),
 	),
 	$content,
 );

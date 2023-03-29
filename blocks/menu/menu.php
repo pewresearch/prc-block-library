@@ -1,6 +1,6 @@
 <?php
 /**
- * Block Name:        Taxonomy Menu
+ * Block Name:        Menu
  * Description:       This is not a navigation block, but it does have much of its functionality and styles. The difference is its data is saved in block format not WPNav
  * Version:           0.1.0
  * Requires at least: 6.1
@@ -10,7 +10,7 @@
  * @package           prc-block
  */
 
-class TaxonomyMenu extends PRC_Block_Library {
+class Menu extends PRC_Block_Library {
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
@@ -32,4 +32,4 @@ class TaxonomyMenu extends PRC_Block_Library {
 
 }
 
-new TaxonomyMenu(true);
+new Menu(true);
