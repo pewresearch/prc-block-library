@@ -28,7 +28,9 @@
 		}
 	}
 
-	&.is-style-pills {
+	&.is-style-pills,
+	&.is-style-text {
+		font-size: 14px;
 		.wp-block-prc-block-menu-link {
 			padding: 0.5em;
 			line-height: 1.067em;
@@ -40,11 +42,16 @@
 			&:hover {
 				background-color: var(--menu--active-color);
 				color: var(--menu--hover-text-color);
+				text-decoration: none;
+				a {
+					text-decoration: none;
+				}
 			}
 		}
 	}
 
-	&.is-style-pills.has-border {
+	&.is-style-pills.has-border,
+	&.is-style-text.has-border {
 		.wp-block-prc-block-menu-link {
 			border-width: 1px;
 			border-radius: 3px;
@@ -53,11 +60,11 @@
 		}
 	}
 
-	&.is-style-text {
+	&.is-style-text-only {
 		line-height: 1;
 	}
 
-	&.is-style-text.has-border .wp-block-prc-block-menu-link {
+	&.is-style-text-only.has-border .wp-block-prc-block-menu-link {
 		&__label {
 			border-left: none;
 			border-top: none;

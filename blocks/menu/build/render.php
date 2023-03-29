@@ -10,31 +10,36 @@ $active_color = array_key_exists('activeColor', $attributes) ? $attributes['acti
 $background_color = array_key_exists('backgroundColor', $attributes) ? $attributes['backgroundColor'] : null;
 $text_color = array_key_exists('textColor', $attributes) ? $attributes['textColor'] : null;
 $border_color = array_key_exists('borderColor', $attributes) ? $attributes['borderColor'] : null;
-
-
-$css_classes = array();
 $classname = array_key_exists('className', $attributes) ? $attributes['className'] : null;
 
-// If has active color.
-if ( ! is_null( $active_color ) ) {
-	// Add the active-color class.
-	array_push( $css_classes, 'has-active' );
+// Default to pills if no classname is defined...
+if ( 'is-style-text' === $classname && null === $border_color ) {
+	$attributes['className'] = $classname;
+	$active_color = 'gray';
+	$background_color = 'white';
+	$text_color = 'gray-alt';
+	$border_color = 'gray-light';
 }
 
+$css_classes = array();
+// If has active color.
+if ( ! is_null( $active_color ) ) {
+	// Add the active color class.
+	array_push( $css_classes, 'has-active' );
+}
 // If has background color.
 if ( ! is_null( $background_color ) ) {
 	// Add the background-color class.
 	array_push( $css_classes, 'has-background' );
 }
-
 // If has border color.
 if ( ! is_null( $border_color ) ) {
 	// Add the border-color class.
 	array_push( $css_classes, 'has-border' );
 }
-
+// If has text color.
 if ( ! is_null( $text_color ) ) {
-	// Add the color class.
+	// Add the text color class.
 	array_push( $css_classes, 'has-text' );
 }
 
@@ -48,7 +53,6 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	',
 ));
 
-// You can use this method...
 echo wp_sprintf(
 	'<nav %1$s>%2$s</nav>',
 	$block_wrapper_attrs,

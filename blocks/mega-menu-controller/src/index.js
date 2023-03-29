@@ -30,12 +30,14 @@ import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
 import Save from './Save';
+import Icon from './Icon';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
+	icon: Icon,
 	/**
 	 * @see ./Edit.jsx
 	 */

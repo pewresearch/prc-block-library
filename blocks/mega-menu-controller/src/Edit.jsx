@@ -62,19 +62,15 @@ function Edit({
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleOpen = () => setIsOpen(!isOpen);
 
-	const menuClassName = context['menu/className'];
-	const isTextStyle = 'is-style-text' === menuClassName;
+	const menuActiveColor = context['menu/activeColor'];
 
-	const textColor = context['menu/textColor'];
-	const backgroundColor = context['menu/backgroundColor'];
-	const borderColor = context['menu/borderColor'];
+	const activeC = activeColor?.slug || menuActiveColor;
 
 	const blockProps = useBlockProps({
 		className: classNames(className, {
 			'is-active': isOpen,
-			'has-active-color': !!activeColor.color || activeColor?.class,
-			[getColorClassName('active-color', activeColor?.slug)]:
-				!!activeColor?.slug,
+			'has-active-color': !!activeC,
+			[getColorClassName('active-color', activeC)]: !!activeC,
 			'has-active-border-color':
 				!!activeBorderColor.color || activeBorderColor?.class,
 			[getColorClassName('active-border-color', activeBorderColor?.slug)]:
@@ -91,9 +87,8 @@ function Edit({
 			className: classNames(
 				'wp-block-prc-block-mega-menu__inner-container',
 				{
-					'has-background': !!activeColor.color || activeColor?.class,
-					[getColorClassName('background-color', activeColor?.slug)]:
-						!!activeColor?.slug,
+					'has-background': !!activeC,
+					[getColorClassName('background-color', activeC)]: !!activeC,
 				}
 			),
 		},

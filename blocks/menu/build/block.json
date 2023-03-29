@@ -62,12 +62,7 @@
       "__experimentalLetterSpacing": true,
       "__experimentalSkipSerialization": [
         "textDecoration"
-      ],
-      "__experimentalDefaultControls": {
-        "fontSize": true,
-        "fontAppearance": true,
-        "textTransform": true
-      }
+      ]
     },
     "spacing": {
       "blockGap": true,
@@ -107,12 +102,12 @@
   },
   "styles": [
     {
-      "name": "pills",
+      "name": "text",
       "label": "Pills",
       "isDefault": true
     },
     {
-      "name": "text",
+      "name": "text-only",
       "label": "Text"
     },
     {
