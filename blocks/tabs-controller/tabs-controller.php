@@ -98,6 +98,7 @@ class TabsController extends PRC_Block_Library {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$disable_mobile_accordion_behavior = array_key_exists('disableMobileAccordion', $attributes) ? $attributes['disableMobileAccordion'] : false;
+		$disable_mobile_accordion_behavior = array_key_exists('className', $attributes) && strpos($attributes['className'], 'is-style-minimal') !== false ? true : $disable_mobile_accordion_behavior;
 		if ( jetpack_is_mobile() && false === $disable_mobile_accordion_behavior ) {
 			return $this->render_as_accordion_block( $block );
 		}

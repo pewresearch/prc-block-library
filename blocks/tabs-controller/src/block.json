@@ -6,13 +6,13 @@
 	"title": "Tabs",
 	"description": "Create horizontal or vertical tabbed content.",
 	"keywords": ["tabs", "tabbed content", "tabbed content"],
-    "category": "design",
+	"category": "design",
 	"icon": "editor-kitchensink",
 	"attributes": {
 		"vertical": {
-            "type": "boolean",
-            "default": false
-        },
+			"type": "boolean",
+			"default": false
+		},
 		"activeUUID": {
 			"type": "string"
 		},
@@ -21,27 +21,31 @@
 			"default": false
 		}
 	},
-	"providesContext":{
-        "prc-block/tabs/layout": "vertical",
+	"providesContext": {
+		"prc-block/tabs/layout": "vertical",
 		"prc-block/tabs/activeUUID": "activeUUID"
-    },
-    "styles": [
+	},
+	"styles": [
 		{
 			"name": "tabbed",
 			"label": "Tabbed",
 			"isDefault": true
 		},
-        {
+		{
 			"name": "text",
 			"label": "Text"
 		},
 		{
 			"name": "accordion",
 			"label": "Accordion"
+		},
+		{
+			"name": "minimal",
+			"label": "Minimal"
 		}
 	],
-    "supports": {
-        "html": false,
+	"supports": {
+		"html": false,
 		"color": {
 			"background": true,
 			"text": true
@@ -54,7 +58,7 @@
 			"fontSize": true,
 			"__experimentalFontFamily": true
 		}
-    },
+	},
 	"textdomain": "tabs-controller",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
