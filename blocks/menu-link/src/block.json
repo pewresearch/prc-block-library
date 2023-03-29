@@ -7,9 +7,6 @@
 	"category": "theme",
 	"description": "Display a link to a taxonomy term, page, or custom URL with optional settings.",
 	"attributes": {
-		"allowedBlocks": {
-			"type": "array"
-		},
 		"label": {
 			"type": "string"
 		},
@@ -22,6 +19,9 @@
 		"description": {
 			"type": "string"
 		},
+		"title": {
+			"type": "string"
+		},
 		"rel": {
 			"type": "string"
 		},
@@ -29,8 +29,15 @@
 			"type": "boolean",
 			"default": false
 		},
-		"title": {
-			"type": "string"
+		"objectType": {
+			"type": "string",
+			"enum": [
+				"page",
+				"post",
+				"term",
+				"url"
+			],
+			"default": "term"
 		},
 		"taxonomy": {
 			"type": "string",
@@ -75,6 +82,12 @@
 		"menu/borderColor",
 		"style"
 	],
+	"__experimentalStyle": {
+		"color": {
+			"text": "black",
+			"link": "black"
+		}
+	},
 	"textdomain": "menu-link",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

@@ -11,6 +11,9 @@
 			"type": "string",
 			"default": "topic"
 		},
+		"activeColor": {
+			"type": "string"
+		},
 		"textColor": {
 			"type": "string"
 		},
@@ -23,15 +26,12 @@
 		"templateLock": {
 			"type": [ "string", "boolean" ],
 			"enum": [ "all", "insert", "contentOnly", false ]
-		},
-		"fontFamily": {
-			"type": "string",
-			"default": "sans-serif"
 		}
 	},
 	"providesContext": {
 		"menu/className": "className",
 		"menu/taxonomy": "taxonomy",
+		"menu/activeColor": "activeColor",
 		"menu/textColor": "textColor",
 		"menu/backgroundColor": "backgroundColor",
 		"menu/borderColor": "borderColor"
@@ -95,12 +95,16 @@
 		{
 			"name": "text",
 			"label": "Text"
+		},
+		{
+			"name": "pointing",
+			"label": "Pointing"
 		}
 	],
 	"example": {
 		"attributes": {
 			"borderColor": "gray-light",
-			"className": "is-style-standard"
+			"className": "is-style-pills"
 		},
 		"viewportWidth": 420,
 		"innerBlocks": [

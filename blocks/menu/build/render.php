@@ -6,25 +6,46 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
+$active_color = array_key_exists('activeColor', $attributes) ? $attributes['activeColor'] : null;
 $background_color = array_key_exists('backgroundColor', $attributes) ? $attributes['backgroundColor'] : null;
+$text_color = array_key_exists('textColor', $attributes) ? $attributes['textColor'] : null;
 $border_color = array_key_exists('borderColor', $attributes) ? $attributes['borderColor'] : null;
+
+
 $css_classes = array();
 $classname = array_key_exists('className', $attributes) ? $attributes['className'] : null;
 
+// If has active color.
+if ( ! is_null( $active_color ) ) {
+	// Add the active-color class.
+	array_push( $css_classes, 'has-active' );
+}
+
 // If has background color.
-if ( ! is_null( $background_color ) && 'is-style-secondary' === $classname) {
+if ( ! is_null( $background_color ) ) {
 	// Add the background-color class.
-	array_push( $css_classes, 'has-background', sprintf( 'has-%s-background-color', $background_color ) );
+	array_push( $css_classes, 'has-background' );
 }
 
 // If has border color.
-if ( ! is_null( $border_color ) && 'is-style-secondary' === $classname ) {
+if ( ! is_null( $border_color ) ) {
 	// Add the border-color class.
-	array_push( $css_classes, 'has-border-color', sprintf( 'has-%s-border-color', $border_color ) );
+	array_push( $css_classes, 'has-border' );
+}
+
+if ( ! is_null( $text_color ) ) {
+	// Add the color class.
+	array_push( $css_classes, 'has-text' );
 }
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
-	'class' => classNames($css_classes),
+	'class' => classNames($classname, $css_classes),
+	'style' => '
+		--menu--active-color: var(--wp--preset--color--' . $active_color . ');
+		--menu--border-color: var(--wp--preset--color--' . $border_color . ');
+		--menu--text-color: var(--wp--preset--color--' . $text_color . ');
+		--menu--background-color: var(--wp--preset--color--' . $background_color . ');
+	',
 ));
 
 // You can use this method...

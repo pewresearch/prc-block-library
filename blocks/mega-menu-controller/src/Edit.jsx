@@ -68,19 +68,9 @@ function Edit({
 	const textColor = context['menu/textColor'];
 	const backgroundColor = context['menu/backgroundColor'];
 	const borderColor = context['menu/borderColor'];
-	const textDecoration = context.style?.typography?.textDecoration;
 
 	const blockProps = useBlockProps({
 		className: classNames(className, {
-			'has-text-color': !!textColor,
-			[getColorClassName('color', textColor)]: !!textColor,
-			[`has-text-decoration-${textDecoration}`]: textDecoration,
-			'has-background': !!backgroundColor,
-			[getColorClassName('background-color', backgroundColor)]:
-				!!backgroundColor,
-			'has-border-color': !isTextStyle && !!borderColor,
-			[getColorClassName('border-color', borderColor)]:
-				!isTextStyle && !!borderColor,
 			'is-active': isOpen,
 			'has-active-color': !!activeColor.color || activeColor?.class,
 			[getColorClassName('active-color', activeColor?.slug)]:
@@ -92,11 +82,7 @@ function Edit({
 		}),
 	});
 
-	const labelClassNames = classNames('wp-block-prc-block-menu-link__label', {
-		'has-border-color': !!borderColor && isTextStyle,
-		[getColorClassName('border-color', borderColor)]:
-			!!borderColor && isTextStyle,
-	});
+	const labelClassNames = 'wp-block-prc-block-menu-link__label';
 
 	const allowedFormats = ['core/bold', 'core/italic'];
 

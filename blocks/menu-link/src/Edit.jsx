@@ -81,6 +81,8 @@ export default function Edit({
 
 	const menuClassName = context['menu/className'];
 	const isTextStyle = 'is-style-text' === menuClassName;
+	const isPointingStyle = 'is-style-pointing' === menuClassName;
+	const allowBorder = !isTextStyle && !isPointingStyle;
 
 	const textColor = context['menu/textColor'];
 	const backgroundColor = context['menu/backgroundColor'];
@@ -89,24 +91,20 @@ export default function Edit({
 
 	const blockProps = useBlockProps({
 		ref: useMergeRefs([setPopoverAnchor, listItemRef]),
-		className: classNames(className, {
-			'has-text-color': !!textColor,
-			[getColorClassName('color', textColor)]: !!textColor,
-			[`has-text-decoration-${textDecoration}`]: textDecoration,
-			'has-background': !!backgroundColor,
-			[getColorClassName('background-color', backgroundColor)]:
-				!!backgroundColor,
-			'has-border-color': !isTextStyle && !!borderColor,
-			[getColorClassName('border-color', borderColor)]:
-				!isTextStyle && !!borderColor,
-		}),
+		// className: classNames(className, {
+		// 	'has-text-color': !!textColor,
+		// 	[getColorClassName('color', textColor)]: !!textColor,
+		// 	[`has-text-decoration-${textDecoration}`]: textDecoration,
+		// 	'has-background': !!backgroundColor,
+		// 	[getColorClassName('background-color', backgroundColor)]:
+		// 		!!backgroundColor,
+		// 	'has-border-color': !isTextStyle && !!borderColor,
+		// 	[getColorClassName('border-color', borderColor)]:
+		// 		!isTextStyle && !!borderColor,
+		// }),
 	});
 
-	const labelClassNames = classNames('wp-block-prc-block-menu-link__label', {
-		'has-border-color': !!borderColor && isTextStyle,
-		[getColorClassName('border-color', borderColor)]:
-			!!borderColor && isTextStyle,
-	});
+	const labelClassNames = classNames('wp-block-prc-block-menu-link__label');
 
 	const allowedFormats = ['core/bold', 'core/italic'];
 

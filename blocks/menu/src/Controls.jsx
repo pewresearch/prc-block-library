@@ -12,6 +12,8 @@ function ColorsInspectorPanel({ attributes, colors }) {
 	const { layout: { orientation = 'horizontal' } = {} } = attributes;
 
 	const {
+		activeColor,
+		setActiveColor,
 		textColor,
 		setTextColor,
 		backgroundColor,
@@ -35,6 +37,11 @@ function ColorsInspectorPanel({ attributes, colors }) {
 			value: borderColor.color,
 			onChange: setBorderColor,
 			label: __('Menu Item Border'),
+		},
+		{
+			value: activeColor.color,
+			onChange: setActiveColor,
+			label: __('Active Menu Item'),
 		},
 	];
 
