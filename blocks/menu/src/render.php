@@ -12,8 +12,8 @@ $text_color = array_key_exists('textColor', $attributes) ? $attributes['textColo
 $border_color = array_key_exists('borderColor', $attributes) ? $attributes['borderColor'] : null;
 $classname = array_key_exists('className', $attributes) ? $attributes['className'] : null;
 
-// Default to pills if no classname is defined...
-if ( 'is-style-text' === $classname && null === $border_color ) {
+// Default to pills with specific style attributes if the default legacy menu is detected or a pills style with no border color defined. This is not intended to be a feature but rather a backwards compatibility fix.
+if ( in_array($classname, array('is-style-text', 'is-style-pills')) && null === $border_color ) {
 	$attributes['className'] = $classname;
 	$active_color = 'gray';
 	$background_color = 'white';

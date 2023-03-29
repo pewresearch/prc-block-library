@@ -504,6 +504,13 @@ class StoryItem extends PRC_Block_Library {
 			return false;
 		}
 
+		if ( ! is_array($image['desktop']['default']) ) {
+			return false;
+		}
+
+		if ( ! is_array($image['mobile']['default']) ) {
+			return false;
+		}
 
 		$sources = array(
 			'desktop' => wp_sprintf(
