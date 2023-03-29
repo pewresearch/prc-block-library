@@ -19,6 +19,10 @@
     },
     "activeUUID": {
       "type": "string"
+    },
+    "disableMobileAccordion": {
+      "type": "boolean",
+      "default": false
     }
   },
   "providesContext": {
@@ -38,6 +42,10 @@
     {
       "name": "accordion",
       "label": "Accordion"
+    },
+    {
+      "name": "minimal",
+      "label": "Minimal"
     }
   ],
   "supports": {
