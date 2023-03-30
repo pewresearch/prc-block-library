@@ -179,6 +179,9 @@ class CoreGroup extends PRC_Block_Library {
 	}
 
 	public function render_new( $block_content, $block ) {
+		if ( is_admin() ) {
+			return $block_content;
+		}
 		wp_enqueue_style( self::$style_handle );
 		$responsive_options = array_key_exists('responsiveContainerQuery', $block['attrs']) ? $block['attrs']['responsiveContainerQuery'] : array();
 		$hide_on_desktop = array_key_exists('hideOnDesktop', $responsive_options) ? $responsive_options['hideOnDesktop'] : false;

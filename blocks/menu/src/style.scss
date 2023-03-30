@@ -6,14 +6,20 @@
  */
 
 .wp-block-prc-block-menu {
+
+	.wp-block-prc-block-menu-link a {
+		&:visited {
+			color: var(--menu--text-color) !important;
+		}
+		&:hover {
+			color: var(--menu--text-color) !important;
+		}
+		text-decoration: none !important;
+	}
 	
 	&:not(.has-sans-serif-font-family),
 	&:not(.has-serif-font-family) {
 		font-family: var(--wp--preset--font-family--sans-serif);
-	}
-
-	&:not(.wp-block) {
-		overflow-x: overlay;
 	}
 
 	&.has-background .wp-block-prc-block-menu-link {
@@ -28,24 +34,28 @@
 		}
 	}
 
-	&.is-style-pills,
+	// .is-style-text is the legacy style name, so we need to keep it for backwards compatibility.
 	&.is-style-text {
 		font-size: 14px;
+		margin-block-start: 1em;
+		margin-block-end: 1em;
+	}
+
+	&.is-style-pills,
+	&.is-style-text {
+		&:not(.wp-block) {
+			overflow-x: overlay;
+		}
 		.wp-block-prc-block-menu-link {
-			padding: 0.5em;
+			padding: 0.7em 1em;
 			line-height: 1.067em;
 			text-align: center;
-			text-decoration: none;
-			transition: opacity .1s ease, background-color .1s ease,color .1s ease, box-shadow .1s ease,background .1s ease;
+			transition: background-color .1s ease,color .1s ease;
 			min-width: -moz-fit-content;
 			min-width: fit-content;
 			&:hover {
 				background-color: var(--menu--active-color);
 				color: var(--menu--hover-text-color);
-				text-decoration: none;
-				a {
-					text-decoration: none;
-				}
 			}
 		}
 	}
@@ -62,6 +72,9 @@
 
 	&.is-style-text-only {
 		line-height: 1;
+		.wp-block-prc-block-menu-link a.wp-block-prc-block-menu-link__label {
+			text-decoration: underline !important;
+		}
 	}
 
 	&.is-style-text-only.has-border .wp-block-prc-block-menu-link {
@@ -90,42 +103,22 @@
 		}
 		&.has-active {
 			.wp-block-prc-block-menu-link {
-				&.is-active {
+				border-bottom-width: 2px;
+				margin-bottom: -2px;
+				&.is-selected,
+				&.is-active,
+				&:hover {
 					border-bottom-color: var(--menu--active-color);
+					font-weight: bold;
 				}
 			}
 		}
+		.wp-block-prc-block-menu-link {
+			padding: 0.7em 0.6em;
+			line-height: 1.067em;
+			text-align: center;
+			transition: border-color .1s ease,color .1s ease;
+			border-radius: 0px;
+		}
 	}
 }
-	
-// 	&.is-style-standard .wp-block-prc-block-menu-link {
-// 		&.has-border-color {
-// 			border-width: 1px;
-// 			border-radius: 3px;
-// 			border-color: transparent;
-// 			border-style: solid;
-// 		}
-// 		padding: .7857142857em 1.5em;
-// 		line-height: 1.067em;
-// 		text-align: center;
-// 		text-decoration: none;
-// 		transition: opacity .1s ease, background-color .1s ease,color .1s ease, box-shadow .1s ease,background .1s ease;
-// 		min-width: -moz-fit-content;
-// 		min-width: fit-content;
-// 	}
-
-// 	&.is-style-secondary {
-// 		border-top: 0;
-// 		border-right: 0;
-// 		border-left: 0;
-// 		border-bottom-width: 2px;
-// 		.wp-block-prc-block-taxonomy-menu-link {
-// 			border: none;
-// 			&.is-active {
-// 				position: relative;
-// 				border-bottom: 2px solid #000;
-// 				margin-bottom: -2px;
-// 			}
-// 		}
-// 	}
-// }
