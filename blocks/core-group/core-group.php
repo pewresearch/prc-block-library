@@ -17,29 +17,44 @@ class CoreGroup extends PRC_Block_Library {
 	public static $editor_script_handle = null;
 	public static $style_handle = null;
 
-	// public static $styles = array(
-	// 	array(
-	// 		'name' => 'fluid',
-	// 		'label' => 'Fluid',
-	// 		'isDefault' => true,
-	// 	),
-	// 	array(
-	// 		'name' => '200-wide',
-	// 		'label' => '200px Wide',
-	// 	),
-	// 	array(
-	// 		'name' => '300-wide',
-	// 		'label' => '300px Wide',
-	// 	),
-	// 	array(
-	// 		'name' => '420-wide',
-	// 		'label' => '420px Wide',
-	// 	),
-	// 	array(
-	// 		'name' => '640-wide',
-	// 		'label' => '640px Wide',
-	// 	),
-	// );
+	public static $size_styles = array(
+		array(
+			'name' => 'fluid',
+			'label' => 'Fluid',
+			'isDefault' => true,
+			'inline_style' => '.wp-block-group.is-style-fluid{width: 100%; max-width: 100}%;'
+		),
+		array(
+			'name' => '200-wide',
+			'label' => '200px Wide',
+			'inline_style' => '.wp-block-group.is-style-200-wide, .wp-block[data-type="core/group"].is-style-200-wide {width: 100%!important; max-width: 200px!important}'
+		),
+		array(
+			'name' => '250-wide',
+			'label' => '250px Wide',
+			'inline_style' => '.wp-block-group.is-style-250-wide, .wp-block[data-type="core/group"].is-style-250-wide {width: 100%!important; max-width: 250px!important}'
+		),
+		array(
+			'name' => '300-wide',
+			'label' => '300px Wide',
+			'inline_style' => '.wp-block-group.is-style-300-wide, .wp-block[data-type="core/group"].is-style-300-wide {width: 100%!important; max-width: 300px!important}'
+		),
+		array(
+			'name' => '320-wide',
+			'label' => '320px Wide (half the content well)',
+			'inline_style' => '.wp-block-group.is-style-320-wide, .wp-block[data-type="core/group"].is-style-320-wide {width: 100%!important; max-width: 320px!important}'
+		),
+		array(
+			'name' => '420-wide',
+			'label' => '420px Wide',
+			'inline_style' => '.wp-block-group.is-style-420-wide, .wp-block[data-type="core/group"].is-style-420-wide {width: 100%!important; max-width: 420px!important}'
+		),
+		array(
+			'name' => '640-wide',
+			'label' => '640px Wide (full content well)',
+			'inline_style' => '.wp-block-group.is-style-640-wide, .wp-block[data-type="core/group"].is-style-640-wide {width: 100%!important; max-width: 640p!important}'
+		),
+	);
 
 	public function __construct($init = false) {
 		if ( true === $init ) {
@@ -47,7 +62,7 @@ class CoreGroup extends PRC_Block_Library {
 			self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 
-			// add_action( 'init', array($this, 'register_new_styles'), 0 );
+			add_action( 'init', array($this, 'register_new_styles'), 0 );
 			add_action( 'init', array($this, 'init_assets') );
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
 			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
@@ -56,14 +71,14 @@ class CoreGroup extends PRC_Block_Library {
 		}
 	}
 
-	// public function register_new_styles() {
-	// 	foreach( self::$styles as $style_args ) {
-	// 		register_block_style(
-	// 			self::$block_name,
-	// 			$style_args,
-	// 		);
-	// 	}
-	// }
+	public function register_new_styles() {
+		foreach( self::$size_styles as $style_args ) {
+			register_block_style(
+				self::$block_name,
+				$style_args,
+			);
+		}
+	}
 
 	public function init_assets() {
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
@@ -182,7 +197,9 @@ class CoreGroup extends PRC_Block_Library {
 		if ( is_admin() ) {
 			return $block_content;
 		}
+		
 		wp_enqueue_style( self::$style_handle );
+
 		$responsive_options = array_key_exists('responsiveContainerQuery', $block['attrs']) ? $block['attrs']['responsiveContainerQuery'] : array();
 		$hide_on_desktop = array_key_exists('hideOnDesktop', $responsive_options) ? $responsive_options['hideOnDesktop'] : false;
 		$hide_on_tablet = array_key_exists('hideOnTablet', $responsive_options) ? $responsive_options['hideOnTablet'] : false;
