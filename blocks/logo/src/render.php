@@ -9,8 +9,13 @@
 $block_wrapper_attrs = get_block_wrapper_attributes();
 
 // get the logo.svg file contents as a string
-$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo.svg' );
 $logo_alt = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo-alt.svg' );
+if ( 'decoded' === get_template() ) {
+	$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'decoded.svg' );
+	$logo_alt = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'decoded.svg' );
+} else {
+	$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo.svg' );
+}
 $site_url = get_site_url();
 
 ob_start();
