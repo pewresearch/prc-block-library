@@ -10,3 +10,10 @@
 		}
 	}
 }
+
+.wp-block-social-link-anchor {
+	text-decoration: none !important;
+	&:visited {
+		color: inherit;
+	}
+}

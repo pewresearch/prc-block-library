@@ -4,7 +4,7 @@ class NewsletterGlue extends StoryItem {
 	public function __construct($init = false) {
 		if ( true === $init ) {
 			// add_action( 'init', array( $this, 'init' ) );
-			add_filter('newsletterglue_get_blocks', array($this, 'register_block_with_NG'));
+			// add_filter('newsletterglue_get_blocks', array($this, 'register_block_with_NG'));
 		}
 	}
 
