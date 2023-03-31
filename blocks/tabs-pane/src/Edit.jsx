@@ -26,8 +26,6 @@ export default function Edit({ attributes, context, clientId }) {
 		return currentlySelectedUUID === uuid;
 	}, [currentlySelectedUUID, uuid]);
 
-	console.log('Pane: ', context, uuid, isActive, currentlySelectedUUID);
-
 	const blockProps = useBlockProps({
 		'aria-hidden': !isActive,
 		'data-uuid': `${uuid}`, // @TODO: This may not be necessary.

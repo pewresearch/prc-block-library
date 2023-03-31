@@ -19,6 +19,10 @@
     },
     "activeUUID": {
       "type": "string"
+    },
+    "disableMobileAccordion": {
+      "type": "boolean",
+      "default": false
     }
   },
   "providesContext": {

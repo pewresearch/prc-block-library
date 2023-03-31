@@ -6,7 +6,7 @@ import classNames from 'classnames';
 /**
  * WordPress Dependencies
  */
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useMemo } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { dispatch, useSelect, useDispatch } from '@wordpress/data';
 
@@ -61,7 +61,7 @@ export default function Edit({
 	const { removeBlock, selectBlock } = useDispatch('core/block-editor');
 
 	// Get menu blocks, get page blocks
-	const { menuBlocks, paneBlocks } = useSelect(
+	const { menuBlocks, paneBlocks, matchedPaneClientId } = useSelect(
 		(select) => {
 			if (undefined === clientId) {
 				return;
@@ -78,11 +78,21 @@ export default function Edit({
 					  )
 					: [];
 			// eslint-disable-next-line consistent-return
+			let activePaneClientId = false;
+			if (1 <= pBlocks.length) {
+				const activePane = pBlocks[0].innerBlocks.filter(
+					(e) => e.attributes.uuid === activeUUID
+				);
+				if (1 <= activePane.length) {
+					activePaneClientId = activePane[0].clientId;
+				}
+			}
 			return {
 				menuBlocks:
 					1 <= mBlocks.length ? mBlocks[0].innerBlocks : false,
 				paneBlocks:
 					1 <= pBlocks.length ? pBlocks[0].innerBlocks : false,
+				matchedPaneClientId: activePaneClientId,
 			};
 		},
 		[clientId]
@@ -107,16 +117,11 @@ export default function Edit({
 	}, [menuBlocks]);
 
 	useEffect(() => {
-		if (undefined !== activeUUID) {
-			const matchedPane = paneBlocks.filter(
-				(e) => e.attributes.uuid === activeUUID
-			);
-			console.log('matchedPane', matchedPane, activeUUID);
-			if (0 !== matchedPane.length) {
-				selectBlock(matchedPane[0].clientId);
-			}
+		if (undefined === activeUUID) {
+			return;
 		}
-	}, [activeUUID, paneBlocks]);
+		selectBlock(matchedPaneClientId);
+	}, [activeUUID, matchedPaneClientId]);
 
 	const blockProps = useBlockProps({
 		className: classNames({
