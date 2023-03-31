@@ -21,8 +21,7 @@ class CoreGroup extends PRC_Block_Library {
 		array(
 			'name' => 'fluid',
 			'label' => 'Fluid',
-			'isDefault' => true,
-			'inline_style' => '.wp-block-group.is-style-fluid{width: 100%; max-width: 100}%;'
+			'inline_style' => '.wp-block-group.is-style-fluid{width: 100%; max-width: 100%}'
 		),
 		array(
 			'name' => '200-wide',
@@ -62,7 +61,7 @@ class CoreGroup extends PRC_Block_Library {
 			self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 
-			add_action( 'init', array($this, 'register_new_styles'), 0 );
+			add_action( 'init', array($this, 'register_new_styles'), 10 );
 			add_action( 'init', array($this, 'init_assets') );
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
 			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
@@ -197,7 +196,7 @@ class CoreGroup extends PRC_Block_Library {
 		if ( is_admin() ) {
 			return $block_content;
 		}
-		
+
 		wp_enqueue_style( self::$style_handle );
 
 		$responsive_options = array_key_exists('responsiveContainerQuery', $block['attrs']) ? $block['attrs']['responsiveContainerQuery'] : array();
