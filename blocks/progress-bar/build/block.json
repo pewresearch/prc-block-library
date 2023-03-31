@@ -21,11 +21,11 @@
     },
     "barColor": {
       "type": "string",
-      "default": "#436983"
+      "default": "social-trends-teal"
     },
     "backgroundColor": {
       "type": "string",
-      "default": "#F1F1F1"
+      "default": "beige"
     },
     "maxValue": {
       "type": "number",
@@ -48,16 +48,19 @@
       "default": 60
     },
     "labelFormat": {
-      "type": "string",
+      "enum": [
+        "fractional",
+        "percentage"
+      ],
       "default": "fractional"
     },
     "labelPositionDX": {
       "type": "integer",
-      "default": -45
+      "default": 0
     },
     "labelPositionDY": {
       "type": "integer",
-      "default": -2
+      "default": 4
     }
   },
   "supports": {

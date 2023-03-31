@@ -42,6 +42,10 @@
     {
       "name": "accordion",
       "label": "Accordion"
+    },
+    {
+      "name": "minimal",
+      "label": "Minimal"
     }
   ],
   "supports": {

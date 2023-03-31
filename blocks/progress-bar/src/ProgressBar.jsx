@@ -1,12 +1,14 @@
 /**
  * External Dependencies
  */
-import { ChartBuilderWrapper, masterConfig } from '@prc/chart-builder';
+// eslint-disable-next-line import/no-unresolved
+import { ChartBuilderWrapper, baseConfig } from '@prc/chart-builder';
 
 function ProgressBar({
 	axisLabel,
 	axisPadding,
 	barColor,
+	backgroundColor,
 	currentValue,
 	labelFormat,
 	labelPositionDX,
@@ -17,12 +19,13 @@ function ProgressBar({
 }) {
 	const config = {
 		layout: {
+			...baseConfig.layout,
 			name: 'progress-chart',
 			type: 'stacked-bar',
 			orientation: 'horizontal',
 			theme: 'PewTheme',
 			width: maxWidth,
-			height: 30,
+			height: 50,
 			padding: {
 				top: 0,
 				bottom: 10,
@@ -32,16 +35,17 @@ function ProgressBar({
 			horizontalRules: false,
 		},
 		metadata: {
-			...masterConfig.metadata,
+			...baseConfig.metadata,
 			active: false,
 		},
-		colors: [barColor, '#ecece3'],
+		colors: [barColor, backgroundColor],
 
-		xAxis: {
+		independentAxis: {
+			...baseConfig.independentAxis,
 			active: showAxisLabel,
 			scale: 'linear',
 			dateFormat: 'yyyy',
-			domain: null,
+			domain: [0, 100],
 			domainPadding: 50,
 			offsetY: null,
 			padding: 50,
@@ -56,32 +60,38 @@ function ProgressBar({
 			tickUnitPosition: 'end',
 			customTickFormat: null,
 			tickLabels: {
+				...baseConfig.independentAxis.tickLabels,
 				fontSize: 12,
 				padding: 0,
 				angle: 0,
-				dx: 0,
+				dx: -5,
 				dy: 0,
 				textAnchor: 'end',
 				verticalAnchor: 'middle',
 			},
 			axisLabel: {
+				...baseConfig.independentAxis.axisLabel,
 				fontSize: 12,
 				padding: 30,
 				fill: 'rgba(35, 31, 32,0.7)',
 			},
 			axis: {
+				...baseConfig.independentAxis.axis,
 				stroke: '#756f6b00',
 			},
 			ticks: {
+				...baseConfig.independentAxis.ticks,
 				stroke: 'gray',
-				size: 5,
+				size: 0,
 				strokeWidth: 0,
 			},
 			grid: {
+				...baseConfig.independentAxis.grid,
 				stroke: '',
 			},
 		},
-		yAxis: {
+		dependentAxis: {
+			...baseConfig.dependentAxis,
 			active: false,
 			scale: 'linear',
 			padding: 20,
@@ -100,6 +110,7 @@ function ProgressBar({
 			tickUnitPosition: 'end',
 			customTickFormat: null,
 			tickLabels: {
+				...baseConfig.dependentAxis.tickLabels,
 				fontSize: 12,
 				padding: 15,
 				angle: 0,
@@ -109,31 +120,35 @@ function ProgressBar({
 				verticalAnchor: 'start',
 			},
 			axisLabel: {
+				...baseConfig.dependentAxis.axisLabel,
 				fontSize: 12,
 				padding: 30,
 				fill: 'rgba(35, 31, 32,0.7)',
 			},
 			ticks: {
+				...baseConfig.dependentAxis.ticks,
 				stroke: 'gray',
 				size: 5,
 				strokeWidth: 0,
 			},
 			axis: {
+				...baseConfig.dependentAxis.axis,
 				stroke: '#756f6a',
 			},
 			grid: {
+				...baseConfig.dependentAxis.grid,
 				stroke: '',
 			},
-			dateFormat: 'yyyy',
 		},
 		dataRender: {
+			...baseConfig.dataRender,
 			x: 'x',
 			y: 'y',
 			x2: null,
 			y2: null,
 			sortKey: 'x',
 			sortOrder: 'none',
-			categories: ['y', 'z'],
+			categories: ['currentValue', 'restOfBar'],
 			xScale: 'linear',
 			yScale: 'linear',
 			xFormat: 'yyyy',
@@ -144,6 +159,7 @@ function ProgressBar({
 			duration: 500,
 		},
 		tooltip: {
+			...baseConfig.tooltip,
 			active: false,
 		},
 		legend: {
@@ -156,6 +172,7 @@ function ProgressBar({
 			groupOffset: 20,
 		},
 		labels: {
+			...baseConfig.labels,
 			active: true,
 			showFirstLastPointsOnly: false,
 			color: 'black',
@@ -172,28 +189,23 @@ function ProgressBar({
 			labelUnit: '',
 			labelUnitPosition: 'end',
 			labelFormat: null,
-			customLabelFormat: null,
+			customLabelFormat: (value, category) => {
+				if ('currentValue' === category) {
+					return 'fractional' === labelFormat
+						? `${currentValue}/${maxValue}`
+						: `${currentValue}%	`;
+				}
+				return '';
+			},
 		},
 	};
 
 	const data = [
-		[
-			{
-				x: axisLabel,
-				y: currentValue,
-				yLabel:
-					'fractional' === labelFormat
-						? `${currentValue}/${maxValue}`
-						: `${((currentValue / maxValue) * 100).toFixed(0)}%`,
-			},
-		],
-		[
-			{
-				x: axisLabel,
-				y: maxValue - currentValue,
-				yLabel: ' ',
-			},
-		],
+		{
+			x: axisLabel,
+			currentValue,
+			restOfBar: maxValue - currentValue,
+		},
 	];
 
 	return <ChartBuilderWrapper config={config} data={data} />;
