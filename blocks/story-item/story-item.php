@@ -30,7 +30,7 @@ class StoryItem extends PRC_Block_Library {
 				add_action( 'prc_core_on_stub_update', array( $this, 'clear_index_cache_on_stub_update' ), 10, 1 );
 			}
 			add_action( 'init', array($this, 'block_init') );
-			require_once self::$dir . '/inc/newsletter-glue.php';
+			// require_once plugin_dir_path(self::$dir) . '/inc/newsletter-glue.php';
 		}
 	}
 
