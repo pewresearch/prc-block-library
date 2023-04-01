@@ -11,6 +11,13 @@
 	display: flex;
 	flex-direction: column;
 	position: relative;
+	&.is-style-fluid {
+		width: 100%;
+	}
+
+	&.is-style-default {
+		width: 50%;
+	}
 }
 
 .wp-block-prc-block-form-input-dropdown--inline {
@@ -19,14 +26,6 @@
 	background: inherit;
 	display: inline-flex;
 	flex-direction: column;
-}
-
-.is-style-fluid {
-	width: 100%;
-}
-
-.is-style-default {
-	width: 50%;
 }
 
 .selection {
