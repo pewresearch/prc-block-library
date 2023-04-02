@@ -33,7 +33,6 @@ class CoreListItem extends PRC_Block_Library {
 			),
 		);
 	}
-
 }
 
 new CoreListItem(true);

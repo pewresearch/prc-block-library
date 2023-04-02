@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -56,7 +57,10 @@ function Inspector({ attributes, setAttributes, context }) {
 
 	useEffect(() => {
 		// If this is not a stub enabled site then automatically switch the metaTaxonomy to category.
-		if (!stubEnabledSiteIds.includes(siteId) && 'formats' === metaTaxonomy) {
+		if (
+			!stubEnabledSiteIds.includes(siteId) &&
+			'formats' === metaTaxonomy
+		) {
 			console.log('Doing this', siteId, metaTaxonomy);
 			setAttributes({ metaTaxonomy: 'category' });
 		}
@@ -68,11 +72,13 @@ function Inspector({ attributes, setAttributes, context }) {
 				<PanelBody title={label}>
 					<BaseControl
 						help={__(
-							'Toggle specific features of a Story Item on or off, for example you can turn off the meta area (date and taxonomy).',
+							'Toggle specific features of a Story Item on or off, for example you can turn off the meta area (date and taxonomy).'
 						)}
 					>
 						<ToggleControl
-							label={enableMeta ? 'Meta Enabled' : 'Meta Disabled'}
+							label={
+								enableMeta ? 'Meta Enabled' : 'Meta Disabled'
+							}
 							checked={enableMeta}
 							onChange={() => {
 								setAttributes({ enableMeta: !enableMeta });
@@ -80,36 +86,57 @@ function Inspector({ attributes, setAttributes, context }) {
 						/>
 						<ToggleControl
 							label={
-								'disabled' !== imageSlot ? 'Image Enabled' : 'Image Disabled'
+								'disabled' !== imageSlot
+									? 'Image Enabled'
+									: 'Image Disabled'
 							}
 							checked={'disabled' !== imageSlot}
 							onChange={() => {
 								setAttributes({
-									imageSlot: 'disabled' === imageSlot ? 'top' : 'disabled',
+									imageSlot:
+										'disabled' === imageSlot
+											? 'top'
+											: 'disabled',
 								});
 							}}
 						/>
 						<ToggleControl
-							label={enableHeader ? 'Header Enabled' : 'Header Disabled'}
+							label={
+								enableHeader
+									? 'Header Enabled'
+									: 'Header Disabled'
+							}
 							checked={enableHeader}
 							onChange={() => {
 								setAttributes({ enableHeader: !enableHeader });
 							}}
 						/>
 						<ToggleControl
-							label={enableExcerpt ? 'Excerpt Enabled' : 'Excerpt Disabled'}
+							label={
+								enableExcerpt
+									? 'Excerpt Enabled'
+									: 'Excerpt Disabled'
+							}
 							checked={enableExcerpt}
 							onChange={() => {
-								setAttributes({ enableExcerpt: !enableExcerpt });
+								setAttributes({
+									enableExcerpt: !enableExcerpt,
+								});
 							}}
 						/>
 						{!isUsingContext && (
 							<Fragment>
 								<ToggleControl
-									label={enableExtra ? 'Extras Enabled' : 'Extras Disabled'}
+									label={
+										enableExtra
+											? 'Extras Enabled'
+											: 'Extras Disabled'
+									}
 									checked={enableExtra}
 									onChange={() => {
-										setAttributes({ enableExtra: !enableExtra });
+										setAttributes({
+											enableExtra: !enableExtra,
+										});
 									}}
 								/>
 								<ToggleControl
@@ -122,12 +149,13 @@ function Inspector({ attributes, setAttributes, context }) {
 									onChange={() => {
 										if (false !== window.prcBreakingNews) {
 											setAttributes({
-												enableBreakingNews: !enableBreakingNews,
+												enableBreakingNews:
+													!enableBreakingNews,
 											});
 										} else {
 											// eslint-disable-next-line no-alert
 											alert(
-												'There are no currently active authorized breaking news events. The breaking news toggle will be set back to false.',
+												'There are no currently active authorized breaking news events. The breaking news toggle will be set back to false.'
 											);
 											setAttributes({
 												enableBreakingNews: false,
@@ -137,11 +165,15 @@ function Inspector({ attributes, setAttributes, context }) {
 								/>
 								<ToggleControl
 									label={
-										enableEmphasis ? 'Emphasis Enabled' : 'Emphasis Disabled'
+										enableEmphasis
+											? 'Emphasis Enabled'
+											: 'Emphasis Disabled'
 									}
 									checked={enableEmphasis}
 									onChange={() => {
-										setAttributes({ enableEmphasis: !enableEmphasis });
+										setAttributes({
+											enableEmphasis: !enableEmphasis,
+										});
 									}}
 								/>
 							</Fragment>
@@ -166,11 +198,13 @@ function Inspector({ attributes, setAttributes, context }) {
 							: 'Mobile Styling Disabled'
 					}
 					help={__(
-						'If enabled your image slot will change to right aligned (if left aligned), and top aligned (if bottom aligned). Also, large headers will switch to medium headers on mobile.',
+						'If enabled your image slot will change to right aligned (if left aligned), and top aligned (if bottom aligned). Also, large headers will switch to medium headers on mobile.'
 					)}
 					checked={disableMobileStyles}
 					onChange={() => {
-						setAttributes({ disableMobileStyles: !disableMobileStyles });
+						setAttributes({
+							disableMobileStyles: !disableMobileStyles,
+						});
 					}}
 				/>
 				{true === enableExcerpt &&
@@ -183,7 +217,7 @@ function Inspector({ attributes, setAttributes, context }) {
 										: 'Excerpt Will Appear Normally'
 								}
 								help={__(
-									'If you have excerpts enabled and a right or left image slot you can force the excerpt to appear below an image.',
+									'If you have excerpts enabled and a right or left image slot you can force the excerpt to appear below an image.'
 								)}
 								checked={enableExcerptBelow}
 								onChange={() => {
