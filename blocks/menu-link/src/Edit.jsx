@@ -9,11 +9,7 @@ import classNames from 'classnames';
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useRef } from '@wordpress/element';
-import {
-	useBlockProps,
-	RichText,
-	getColorClassName,
-} from '@wordpress/block-editor';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { createBlock } from '@wordpress/blocks';
 import { useMergeRefs } from '@wordpress/compose';
 

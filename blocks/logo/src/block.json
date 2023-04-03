@@ -7,9 +7,19 @@
     "description": "Contextually aware logo that has dark mode support, and will change to the alternate position logo in smaller containers. (#dark-mode, #css-container-queries)",
     "category": "theme",
 	"keywords": ["logo", "masthead", "dark-mode", "css-container-queries"],
+	"attributes": {
+		"justification": {
+			"type": "string",
+			"enum": ["left", "center", "right"],
+			"default": "left"
+		},
+		"width": {
+			"type": "number",
+			"default": 360
+		}
+	},
     "supports": {
         "html": false,
-        "align": ["center"],
 		"color": {
 			"background": true,
 			"gradients": true

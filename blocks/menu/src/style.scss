@@ -16,7 +16,7 @@
 		}
 		text-decoration: none !important;
 	}
-	
+
 	&:not(.has-sans-serif-font-family),
 	&:not(.has-serif-font-family) {
 		font-family: var(--wp--preset--font-family--sans-serif);
@@ -43,6 +43,7 @@
 
 	&.is-style-pills,
 	&.is-style-text {
+		// align-items: stretch !important;
 		&:not(.wp-block) {
 			overflow-x: overlay;
 		}

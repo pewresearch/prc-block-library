@@ -12,6 +12,16 @@ $standard_logo_minimum_width: 360px;
 		width: 100%;
 	}
 
+	&.item-justified-left {
+		justify-content: flex-start;
+	}
+	&.item-justified-center {
+		justify-content: center;
+	}
+	&.item-justified-right {
+		justify-content: flex-end;
+	}
+
 	&:not(.is-style-no-dark-mode) .wp-block-prc-block-logo__inner {
 		@media (prefers-color-scheme: dark), (prefers-dark-interface) {
 			.wp-block-prc-block-logo__inner__logo {

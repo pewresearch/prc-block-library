@@ -12,11 +12,23 @@
     "dark-mode",
     "css-container-queries"
   ],
+  "attributes": {
+    "justification": {
+      "type": "string",
+      "enum": [
+        "left",
+        "center",
+        "right"
+      ],
+      "default": "left"
+    },
+    "width": {
+      "type": "number",
+      "default": 360
+    }
+  },
   "supports": {
     "html": false,
-    "align": [
-      "center"
-    ],
     "color": {
       "background": true,
       "gradients": true

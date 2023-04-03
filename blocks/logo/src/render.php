@@ -6,28 +6,46 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
-$block_wrapper_attrs = get_block_wrapper_attributes();
+$is_decoded = 'decoded' === get_template();
+$classname = array_key_exists('className', $attributes) ? $attributes['className'] : '';
+$width = array_key_exists('width', $attributes) ? $attributes['width'] . 'px' : '100%';
+$justification = array_key_exists('justification', $attributes) ? $attributes['justification'] : 'left';
+
+$block_wrapper_attrs = get_block_wrapper_attributes(array(
+	'class' => classNames($classname, array(
+		'item-justified-left' => 'left' === $justification,
+		'item-justified-center' => 'center' === $justification,
+		'item-justified-right' => 'right' === $justification,
+	))
+));
 
 // get the logo.svg file contents as a string
+$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo.svg' );
 $logo_alt = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo-alt.svg' );
-if ( 'decoded' === get_template() ) {
-	$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'decoded.svg' );
-	$logo_alt = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'decoded.svg' );
-} else {
-	$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo.svg' );
-}
 $site_url = get_site_url();
 
 ob_start();
 ?>
-<div class="wp-block-prc-block-logo__inner">
-	<a class="wp-block-prc-block-logo__inner__logo" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
-		<?php echo $logo;?>
-	</a>
-	<a class="wp-block-prc-block-logo__inner__logo-alt" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
-		<?php echo $logo_alt;?>
-	</a>
-</div>
+<div class="wp-block-prc-block-logo__dimensions" style="width: <?php echo $width;?>;">
+	<div class="wp-block-prc-block-logo__inner">
+		<a class="wp-block-prc-block-logo__inner__logo" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
+			<?php if (!$is_decoded) {
+				echo $logo;
+			} else {
+				$url = str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'decoded.svg';
+				echo '<img src="' . $url . '" alt="Return to Home" />';
+			}?>
+		</a>
+		<a class="wp-block-prc-block-logo__inner__logo-alt" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
+		<?php if (!$is_decoded) {
+				echo $logo_alt;
+			} else {
+				$url = str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'decoded.svg';
+				echo '<img src="' . $url . '" alt="Return to Home" />';
+			}?>
+		</a>
+	</div>
+		</div>
 <?php
 $content = ob_get_clean();
 

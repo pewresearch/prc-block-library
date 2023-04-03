@@ -5,11 +5,19 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+.wp-block-prc-block-menu.is-horizontal .wp-block-search {
+	align-self: stretch;
+}
+
 .wp-block-search {
 	display: flex;
     align-items: center;
 	.wp-block-search__inside-wrapper  {
 		padding: 0;
+		height: 100% !important;
+	}
+	.wp-block-search__button {
+		height: 100%!important;
 	}
 	.wp-block-search__button.has-icon.wp-element-button {
 		margin: 0!important;

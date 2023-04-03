@@ -22,6 +22,8 @@ const ALLOWED_BLOCKS = [
 	'prc-block/menu-link',
 	'prc-block/mega-menu-controller',
 	'core/block',
+	'core/search',
+	'core/group',
 ];
 
 /**
