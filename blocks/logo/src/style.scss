@@ -1,5 +1,15 @@
 $standard_logo_minimum_width: 360px;
 
+// create mixin called hasWhiteColor...
+@mixin hasWhiteColor() {
+	[data-browser-theme="dark"] {
+		display: flex;
+	}
+	[data-browser-theme="light"] {
+		display: none;
+	}
+}
+
 .wp-block-prc-block-logo {
 	min-width: 100px;
 	display: flex;
@@ -12,6 +22,15 @@ $standard_logo_minimum_width: 360px;
 		width: 100%;
 	}
 
+	.wp-block-prc-block-logo__dimensions {
+		display: flex;
+		align-items: center;
+	}
+
+	&:not(.is-selected) .wp-block-prc-block-logo__dimensions {
+		width: 100%!important;
+	}
+
 	&.item-justified-left {
 		justify-content: flex-start;
 	}
@@ -22,52 +41,25 @@ $standard_logo_minimum_width: 360px;
 		justify-content: flex-end;
 	}
 
-	&:not(.is-style-no-dark-mode) .wp-block-prc-block-logo__inner {
+	.wp-block-prc-block-logo__inner__logo {
+		display: flex;
+	}
+	.wp-block-prc-block-logo__inner__logo-alt,
+	[data-browser-theme="dark"] {
+		display: none;
+	}
+
+	&.has-white-color {
+		@include hasWhiteColor();
+	}
+	&.has-dark-mode-support .wp-block-prc-block-logo__inner {
 		@media (prefers-color-scheme: dark), (prefers-dark-interface) {
-			.wp-block-prc-block-logo__inner__logo {
-				.logo_svg__dark,
-				.dark { display: none; }
-				.logo_svg__light,
-				.light { display: inherit; }
-			}
-			.wp-block-prc-block-logo__inner__logo-alt {
-				.logo-alt_svg__dark,
-				.dark { display: none; }
-				.logo-alt_svg__light,
-				.light { display: inherit; }
-			}
+			@include hasWhiteColor();
 		}
 	}
 
-	&.is-style-alt-only .wp-block-prc-block-logo__inner {
-		.wp-block-prc-block-logo__inner__logo {
-			display: none!important;
-		}
-		.wp-block-prc-block-logo__inner__logo-alt {
-			display: flex!important;
-		}
-	}
-
-	.wp-block-prc-block-logo__inner {
-		max-width: $standard_logo_minimum_width !important;
-		width: 100%;
-		margin: 0!important;
-		.wp-block-prc-block-logo__inner__logo-alt {
-			display: none;
-			.logo-alt_svg__dark,
-			.dark { fill: #010101; display: inherit; }
-			.logo-alt_svg__light,
-			.light { fill: #FFF; display: none; }
-		}
-		.wp-block-prc-block-logo__inner__logo {
-			display: flex;
-			.logo_svg__dark,
-			.dark { fill: #010101; display: inherit; }
-			.logo_svg__light,
-			.light { fill: #FFF; display: none; }
-		}
-
-		@container prc-logo (max-width: 360px) {
+	&.is-style-container-aware .wp-block-prc-block-logo__inner {
+		@container prc-logo (min-width: 360px) {
 			.wp-block-prc-block-logo__inner__logo-alt {
 				display: flex;
 			}
@@ -75,5 +67,29 @@ $standard_logo_minimum_width: 360px;
 				display: none;
 			}
 		}
+	}
+
+	&.is-style-primary-only .wp-block-prc-block-logo__inner {
+		.wp-block-prc-block-logo__inner__logo-alt {
+			display: none;
+		}
+		.wp-block-prc-block-logo__inner__logo {
+			display: flex;
+		}
+	}
+
+	&.is-style-alt-only .wp-block-prc-block-logo__inner {
+		.wp-block-prc-block-logo__inner__logo-alt {
+			display: flex;
+		}
+		.wp-block-prc-block-logo__inner__logo {
+			display: none;
+		}
+	}
+
+	.wp-block-prc-block-logo__inner {
+		max-width: $standard_logo_minimum_width !important;
+		width: 100%;
+		margin: 0!important;
 	}
 }

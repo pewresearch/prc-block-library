@@ -13,6 +13,10 @@
     "css-container-queries"
   ],
   "attributes": {
+    "darkModeEnabled": {
+      "type": "boolean",
+      "default": true
+    },
     "justification": {
       "type": "string",
       "enum": [
@@ -40,17 +44,17 @@
   },
   "styles": [
     {
-      "name": "default",
-      "label": "Default (Dark Mode Aware)",
+      "name": "primary-only",
+      "label": "Primary",
       "isDefault": true
     },
     {
-      "name": "no-dark-mode",
-      "label": "Default (Dark Mode Ignored)"
+      "name": "alt-only",
+      "label": "Alternate"
     },
     {
-      "name": "alt-only",
-      "label": "Alternate Layout"
+      "name": "container-aware",
+      "label": "Container Aware"
     }
   ],
   "example": {},

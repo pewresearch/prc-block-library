@@ -20,29 +20,44 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 ));
 
 // get the logo.svg file contents as a string
-$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo.svg' );
-$logo_alt = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'logo-alt.svg' );
+$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'primary.svg' );
+// using wp_html_tag_processor add data-browser-theme="light" to the svg tag
+$logo = new WP_Html_Tag_Processor( $logo );
+$logo->next_tag();
+$logo->set_attribute('data-browser-theme', 'light');
+
+$logo_white = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'primary-white.svg' );
+$logo_white = new WP_Html_Tag_Processor( $logo_white );
+$logo_white->next_tag();
+$logo_white->set_attribute('data-browser-theme', 'dark');
+
+$logo_alt = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'alternate.svg' );
+$logo_alt = new WP_Html_Tag_Processor( $logo_alt );
+$logo_alt->next_tag();
+$logo_alt->set_attribute('data-browser-theme', 'light');
+
+$logo_alt_white = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'alternate-white.svg' );
+$logo_alt_white = new WP_Html_Tag_Processor( $logo_alt_white );
+$logo_alt_white->next_tag();
+$logo_alt_white->set_attribute('data-browser-theme', 'dark');
+
 $site_url = get_site_url();
 
 ob_start();
 ?>
-<div class="wp-block-prc-block-logo__dimensions" style="width: <?php echo $width;?>;">
+<div class="wp-block-prc-block-logo__dimensions" style="max-width: <?php echo $width;?>;">
 	<div class="wp-block-prc-block-logo__inner">
 		<a class="wp-block-prc-block-logo__inner__logo" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
-			<?php if (!$is_decoded) {
-				echo $logo;
-			} else {
-				$url = str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'decoded.svg';
-				echo '<img src="' . $url . '" alt="Return to Home" />';
-			}?>
+			<?php
+			echo $logo;
+			echo $logo_white;
+			?>
 		</a>
 		<a class="wp-block-prc-block-logo__inner__logo-alt" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
-		<?php if (!$is_decoded) {
-				echo $logo_alt;
-			} else {
-				$url = str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'decoded.svg';
-				echo '<img src="' . $url . '" alt="Return to Home" />';
-			}?>
+			<?php
+			echo $logo_alt;
+			echo $logo_alt_white;
+			?>
 		</a>
 	</div>
 		</div>

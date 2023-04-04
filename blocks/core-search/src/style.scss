@@ -6,18 +6,19 @@
  */
 
 .wp-block-prc-block-menu.is-horizontal .wp-block-search {
-	align-self: stretch;
+	align-items: stretch;
+    align-self: stretch;
+	.wp-block-search__button.has-icon.wp-element-button {
+		height: 100%!important;
+	}
 }
 
 .wp-block-search {
 	display: flex;
-    align-items: center;
+    align-items: stretch;
 	.wp-block-search__inside-wrapper  {
+		margin: 0;
 		padding: 0;
-		height: 100% !important;
-	}
-	.wp-block-search__button {
-		height: 100%!important;
 	}
 	.wp-block-search__button.has-icon.wp-element-button {
 		margin: 0!important;

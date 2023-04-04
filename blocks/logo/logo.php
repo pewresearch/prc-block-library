@@ -10,7 +10,7 @@
  */
 
 class Logo extends PRC_Block_Library {
-	public static $version = '0.1.0';
+	public static $version = '1.0.0';
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
@@ -40,9 +40,7 @@ class Logo extends PRC_Block_Library {
 			$slug = $color['slug'];
 			$color = $color['color'];
 			?>
-			.wp-block-prc-block-logo.has-<?php echo $slug; ?>-color .wp-block-prc-block-logo__inner .dark,
-			.wp-block-prc-block-logo.has-<?php echo $slug; ?>-color .wp-block-prc-block-logo__inner .logo_svg__dark,
-			.wp-block-prc-block-logo.has-<?php echo $slug; ?>-color .wp-block-prc-block-logo__inner .logo-alt_svg__dark {
+			.wp-block-prc-block-logo.has-<?php echo $slug; ?>-color .wp-block-prc-block-logo__inner [data-browser-theme="light"] path {
 				fill: <?php echo $color; ?> !important;
 			}
 			<?php

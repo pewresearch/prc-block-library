@@ -20,15 +20,18 @@ import { ResizableBox } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-import JustificationControl from './JustificationControl';
-import { ReactComponent as Logo } from '../assets/logo.svg';
-import { ReactComponent as LogoAlt } from '../assets/logo-alt.svg';
-import decodedSVGUrl, {
-	ReactComponent as LogoDecoded,
-} from '../assets/decoded.svg';
+import Controls from './Controls';
+// Assets
+import { ReactComponent as Logo } from '../assets/primary.svg';
+import { ReactComponent as LogoWhite } from '../assets/primary-white.svg';
+import { ReactComponent as LogoAlt } from '../assets/alternate.svg';
+import { ReactComponent as LogoAltWhite } from '../assets/alternate-white.svg';
+import { ReactComponent as Symbol } from '../assets/symbol.svg';
+import { ReactComponent as SymbolWhite } from '../assets/symbol-white.svg';
+import decodedSVGUrl from '../assets/decoded.svg';
 
 export default function Edit({ attributes, setAttributes, isSelected }) {
-	const { width, justification, className } = attributes;
+	const { width, justification, darkModeEnabled, className } = attributes;
 	const { currentTheme } = useSelect((select) => {
 		return {
 			currentTheme: select('core').getCurrentTheme().stylesheet,
@@ -40,12 +43,13 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 			'items-justified-left': 'left' === justification,
 			'items-justified-center': 'center' === justification,
 			'items-justified-right': 'right' === justification,
+			'has-dark-mode-support': darkModeEnabled,
 		}),
 	});
 
 	return (
 		<Fragment>
-			<JustificationControl {...{ attributes, setAttributes }} />
+			<Controls {...{ attributes, setAttributes }} />
 			<div {...blockProps}>
 				<ResizableBox
 					className="wp-block-prc-block-logo__dimensions"
@@ -53,7 +57,6 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						width,
 					}}
 					minWidth={100}
-					maxWidth={360}
 					enable={{
 						top: false,
 						right: isSelected,
@@ -65,29 +68,21 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						topLeft: false,
 					}}
 					onResizeStop={(event, direction, elt, delta) => {
-						console.log(
-							'delta',
-							width,
-							delta,
-							parseInt(width + delta.width, 10)
-						);
 						setAttributes({
 							width: parseInt(width + delta.width, 10),
 						});
 					}}
+					bounds="parent"
+					style={isSelected ? {} : { 'max-width': `${width}px` }}
 				>
 					<div className="wp-block-prc-block-logo__inner">
 						<div className="wp-block-prc-block-logo__inner__logo">
-							{'decoded' === currentTheme && (
-								<img src={decodedSVGUrl} alt="Decoded" />
-							)}
-							{'decoded' !== currentTheme && <Logo />}
+							<Logo data-browser-theme="light" />
+							<LogoWhite data-browser-theme="dark" />
 						</div>
 						<div className="wp-block-prc-block-logo__inner__logo-alt">
-							{'decoded' === currentTheme && (
-								<img src={decodedSVGUrl} alt="Decoded" />
-							)}
-							{'decoded' !== currentTheme && <LogoAlt />}
+							<LogoAlt data-browser-theme="light" />
+							<LogoAltWhite data-browser-theme="dark" />
 						</div>
 					</div>
 				</ResizableBox>
