@@ -27,6 +27,7 @@ import './style.scss';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import metadata from './block.json';
+import registerDashboardIcon from './dashboard-icon';
 import Icon from './Icon';
 import Edit from './Edit';
 
@@ -43,3 +44,5 @@ const settings = {
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
 registerBlockType(name, { ...metadata, ...settings });
+
+registerDashboardIcon();
