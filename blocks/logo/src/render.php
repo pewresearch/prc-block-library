@@ -10,12 +10,14 @@ $is_decoded = 'decoded' === get_template();
 $classname = array_key_exists('className', $attributes) ? $attributes['className'] : '';
 $width = array_key_exists('width', $attributes) ? $attributes['width'] . 'px' : '100%';
 $justification = array_key_exists('justification', $attributes) ? $attributes['justification'] : 'left';
+$dark_mode_enabled = array_key_exists('darkModeEnabled', $attributes) ? $attributes['darkModeEnabled'] : false;
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'class' => classNames($classname, array(
 		'item-justified-left' => 'left' === $justification,
 		'item-justified-center' => 'center' === $justification,
 		'item-justified-right' => 'right' === $justification,
+		'has-dark-mode-support' => $dark_mode_enabled,
 	))
 ));
 
