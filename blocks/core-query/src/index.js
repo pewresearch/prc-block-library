@@ -1,10 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import {
-	registerBlockVariation,
-	unregisterBlockVariation,
-} from '@wordpress/blocks';
+import { registerBlockVariation } from '@wordpress/blocks';
 
 registerBlockVariation('core/query', {
 	name: 'story-item-listing',
@@ -25,6 +22,7 @@ registerBlockVariation('core/query', {
 			search: '',
 			sticky: 'exclude',
 			inherit: false,
+			isStoryItemLoop: true,
 		},
 	},
 	innerBlocks: [
@@ -44,9 +42,3 @@ registerBlockVariation('core/query', {
 	],
 	scope: ['block'],
 });
-
-// unregisterBlockVariation('core/query', 'posts-list');
-// unregisterBlockVariation('core/query', 'title-date');
-// unregisterBlockVariation('core/query', 'title-excerpt');
-// unregisterBlockVariation('core/query', 'title-date-excerpt');
-// unregisterBlockVariation('core/query', 'image-date-title');

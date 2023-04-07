@@ -15,6 +15,11 @@ class CoreQuery extends PRC_Block_Library {
 	public static $block_json = null;
 	public static $editor_script_handle = null;
 
+	public static $default_query_args = array(
+		'post_status' => array('publish', 'hidden_from_search'),
+		'post_parent' => 0,
+	);
+
 	public function __construct($init = false) {
 		if ( true === $init ) {
 			$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-query/build/block.json';
@@ -23,6 +28,7 @@ class CoreQuery extends PRC_Block_Library {
 
 			add_action( 'init', array($this, 'init_assets') );
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
+			add_filter( 'rest_stub_query', array( $this, 'default_rest_query_args' ), 10, 2 );
 			add_filter( 'query_loop_block_query_vars', array($this, 'default_query_args'), 10, 3 );
 			add_filter( 'block_type_metadata', array( $this, 'default_tax_query_to_OR' ), 100, 1 );
 		}
@@ -36,9 +42,32 @@ class CoreQuery extends PRC_Block_Library {
 		wp_enqueue_script( self::$editor_script_handle );
 	}
 
-	public function default_query_args($query, $block, $page) {
-		$query['post_status'] = array('publish', 'hidden_from_search');
-		return $query;
+	public function default_rest_query_args( $args, $request ) {
+		$isStoryItemLoop = $request->get_param( 'isStoryItemLoop' );
+		if ( $isStoryItemLoop ) {
+			$args = array_merge( $args, self::$default_query_args );
+		}
+		return $args;
+	}
+
+	/**
+	 * Filters the query arguments for the Query Loop block to ensure we only return parent posts not hidden from the index.
+	 *
+	 * @param array    $query Array containing parameters for `WP_Query` as parsed by the block context.
+	 * @param WP_Block $block Block instance.
+	 * @param int      $page  Current query's page.
+	 * @return mixed
+	 */
+	public function default_query_args( $query, $block, $page ) {
+		if ( !$block->context['query'] || !array_key_exists( 'isStoryItemLoop', $block->context['query'] ) ) {
+			return $query;
+		}
+
+		if ( true !== $block->context['query']['isStoryItemLoop'] ) {
+			return $query;
+		}
+
+		return array_merge( $query, self::$default_query_args );
 	}
 
 	/**
