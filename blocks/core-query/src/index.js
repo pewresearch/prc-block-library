@@ -9,6 +9,7 @@ registerBlockVariation('core/query', {
 	description: 'Display a publication list of Story Items.',
 	attributes: {
 		className: 'is-story-item-listing',
+		namespace: 'prc-block/story-item-query',
 		query: {
 			perPage: 5,
 			pages: 1,
@@ -25,6 +26,10 @@ registerBlockVariation('core/query', {
 			isStoryItemLoop: true,
 		},
 	},
+	allowedControls: ['order', 'taxQuery', 'search'],
+	isActive: (blockAttributes) => {
+		return blockAttributes.query.isStoryItemLoop;
+	},
 	innerBlocks: [
 		[
 			'core/post-template',
@@ -40,5 +45,5 @@ registerBlockVariation('core/query', {
 			],
 		],
 	],
-	scope: ['block'],
+	scope: ['block', 'inserter'],
 });
