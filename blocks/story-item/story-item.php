@@ -263,7 +263,7 @@ class StoryItem extends PRC_Block_Library {
 		$imgs = false;
 
 		$is_stub   = 'stub' === $post_type;
-		$art       = prc_get_art( $post_id, $image_size );
+		$art       = function_exists('prc_get_art') ? prc_get_art( $post_id, $image_size ) : false;
 		$image_id  = false !== $art ? $art['id'] : false;
 		$chart_art = false !== $art ? $art['chartArt'] : false;
 
