@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -8,6 +9,7 @@
 
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, PanelColorSettings } from '@wordpress/block-editor';
+import { Fragment } from '@wordpress/element';
 import {
 	PanelBody,
 	SelectControl,
@@ -32,132 +34,143 @@ export default function Controls({ attributes, setAttributes, colors }) {
 		labelPositionDX,
 	} = attributes;
 
-	const { barColor, setBarColor, backgroundColor, setBackgroundColor } = colors;
+	const { barColor, setBarColor, backgroundColor, setBackgroundColor } =
+		colors;
 
 	return (
-		<InspectorControls>
-			<PanelBody title={__('Layout')}>
-				<RangeControl
-					label={__('Width')}
-					withInputField
-					min={0}
-					max={640}
-					value={parseInt(maxWidth, 10)}
-					onChange={(num) =>
-						setAttributes({
-							maxWidth: parseInt(num, 10),
-						})
-					}
-				/>
-			</PanelBody>
-			<PanelBody title={__('Data and Formatting')}>
-				<ToggleControl
-					label={__('Show Category')}
-					checked={showAxisLabel}
-					onChange={() =>
-						setAttributes({
-							showAxisLabel: !showAxisLabel,
-						})
-					}
-				/>
-				<TextControl
-					label={__('Category')}
-					value={axisLabel}
-					disabled={!showAxisLabel}
-					onChange={(val) => setAttributes({ axisLabel: val })}
-				/>
-				<NumberControl
-					label={__('Category Padding')}
-					value={axisPadding}
-					disabled={!showAxisLabel}
-					disableUnits
-					disabledUnits
-					onChange={(val) => setAttributes({ axisPadding: parseInt(val, 10) })}
-				/>
-				<Flex>
-					<FlexItem>
+		<Fragment>
+			<InspectorControls>
+				<PanelBody title={__('Layout')}>
+					<RangeControl
+						label={__('Width')}
+						withInputField
+						min={0}
+						max={640}
+						value={parseInt(maxWidth, 10)}
+						onChange={(num) =>
+							setAttributes({
+								maxWidth: parseInt(num, 10),
+							})
+						}
+					/>
+				</PanelBody>
+				<PanelBody title={__('Data and Formatting')}>
+					<ToggleControl
+						label={__('Show Category')}
+						checked={showAxisLabel}
+						onChange={() =>
+							setAttributes({
+								showAxisLabel: !showAxisLabel,
+							})
+						}
+					/>
+					<TextControl
+						label={__('Category')}
+						value={axisLabel}
+						disabled={!showAxisLabel}
+						onChange={(val) => setAttributes({ axisLabel: val })}
+					/>
+					<NumberControl
+						label={__('Category Padding')}
+						value={axisPadding}
+						disabled={!showAxisLabel}
+						disableUnits
+						disabledUnits
+						onChange={(val) =>
+							setAttributes({ axisPadding: parseInt(val, 10) })
+						}
+					/>
+					<Flex>
+						<FlexItem>
+							<NumberControl
+								label={__('Current value')}
+								value={currentValue}
+								disableUnits
+								disabledUnits
+								onChange={(val) =>
+									setAttributes({
+										currentValue: parseFloat(val),
+									})
+								}
+							/>
+						</FlexItem>
 						<NumberControl
-							label={__('Current value')}
-							value={currentValue}
+							label={__('Maximum value')}
+							value={maxValue}
 							disableUnits
 							disabledUnits
 							onChange={(val) =>
-								setAttributes({ currentValue: parseFloat(val) })
+								setAttributes({ maxValue: parseFloat(val) })
 							}
 						/>
-					</FlexItem>
-					<NumberControl
-						label={__('Maximum value')}
-						value={maxValue}
-						disableUnits
-						disabledUnits
-						onChange={(val) => setAttributes({ maxValue: parseFloat(val) })}
+						<FlexItem />
+					</Flex>
+				</PanelBody>
+				<PanelBody title={__('Labels')}>
+					<SelectControl
+						label={__('Label format')}
+						value={labelFormat}
+						options={[
+							{
+								value: 'fractional',
+								label: 'Fractional',
+							},
+							{
+								value: 'percentage',
+								label: 'Percentage',
+							},
+						]}
+						onChange={(format) => {
+							setAttributes({
+								labelFormat: format,
+							});
+						}}
 					/>
-					<FlexItem />
-				</Flex>
-			</PanelBody>
-			<PanelBody title={__('Labels')}>
-				<SelectControl
-					label={__('Label format')}
-					value={labelFormat}
-					options={[
+					<Flex>
+						<FlexItem>
+							<NumberControl
+								label={__('Label Position DX')}
+								value={labelPositionDX}
+								onChange={(value) =>
+									setAttributes({
+										labelPositionDX: parseInt(value, 10),
+									})
+								}
+							/>
+						</FlexItem>
+						<FlexItem>
+							<NumberControl
+								label={__('Label Position DY')}
+								value={labelPositionDY}
+								onChange={(value) =>
+									setAttributes({
+										labelPositionDY: parseInt(value, 10),
+									})
+								}
+							/>
+						</FlexItem>
+					</Flex>
+				</PanelBody>
+			</InspectorControls>
+			<InspectorControls group="styles">
+				<PanelColorSettings
+					__experimentalHasMultipleOrigins
+					__experimentalIsRenderedInSidebar
+					title={__('Colors')}
+					colorSettings={[
 						{
-							value: 'fractional',
-							label: 'Fractional',
+							value: barColor.color,
+							onChange: (color) => setBarColor(color),
+							label: __('Bar'),
 						},
 						{
-							value: 'percentage',
-							label: 'Percentage',
+							value: backgroundColor.color,
+							onChange: (color) => setBackgroundColor(color),
+							label: __('Background'),
 						},
 					]}
-					onChange={(format) => {
-						setAttributes({
-							labelFormat: format,
-						});
-					}}
 				/>
-				<Flex>
-					<FlexItem>
-						<NumberControl
-							label={__('Label Position DX')}
-							value={labelPositionDX}
-							onChange={(value) =>
-								setAttributes({
-									labelPositionDX: parseInt(value, 10),
-								})
-							}
-						/>
-					</FlexItem>
-					<FlexItem>
-						<NumberControl
-							label={__('Label Position DY')}
-							value={labelPositionDY}
-							onChange={(value) =>
-								setAttributes({
-									labelPositionDY: parseInt(value, 10),
-								})
-							}
-						/>
-					</FlexItem>
-				</Flex>
-			</PanelBody>
-			<PanelColorSettings
-				__experimentalHasMultipleOrigins
-				__experimentalIsRenderedInSidebar
-				title={__('Colors')}
-				colorSettings={[
-					{
-						value: barColor.color,
-						onChange: (color) => setBarColor(color),
-						label: __('Bar'),
-					},
-					{
-						value: backgroundColor.color,
-						onChange: (color) => setBackgroundColor(color),
-						label: __('Background'),
-					},
-				]}
-			/>
-		</InspectorControls>
+			</InspectorControls>
+		</Fragment>
 	);
 }

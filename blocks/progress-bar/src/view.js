@@ -11,7 +11,9 @@ import ProgressBar from './ProgressBar';
 
 domReady(() => {
 	if (document.querySelector('.wp-block-prc-block-progress-bar')) {
-		const bars = document.querySelectorAll('.wp-block-prc-block-progress-bar');
+		const bars = document.querySelectorAll(
+			'.wp-block-prc-block-progress-bar'
+		);
 		bars.forEach((bar) => {
 			const attrs = bar.dataset;
 			const props = {
@@ -25,6 +27,7 @@ domReady(() => {
 				labelPositionDX: parseInt(attrs.labelPositionDx, 10),
 				showAxisLabel: '1' === attrs.showAxisLabel,
 				barColor: attrs.barColor,
+				backgroundColor: attrs.backgroundColor,
 			};
 			render(<ProgressBar {...props} />, bar);
 		});
