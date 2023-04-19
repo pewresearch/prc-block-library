@@ -36,7 +36,7 @@ export default function Meta({ attributes, setAttributes }) {
 	const cleanedLabel =
 		undefined !== label ? cleanForSlug(label.toLowerCase()) : 'report';
 
-	const value = 'short-read' === cleanedLabel ? 'fact-tank' : cleanedLabel;
+	const value = 'short-read' === cleanedLabel ? 'short-read' : cleanedLabel;
 
 	return (
 		<div

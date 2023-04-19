@@ -125,7 +125,7 @@ class StoryItem extends PRC_Block_Library {
 		}
 
 		// @TODO: pewresearch/pewresearch-org#2890 - in progress as of 4.0.10, remove this when done.
-		$label = 'fact-tank' === $label ? 'short-read' : $label;
+		$label = 'short-read' === $label ? 'short-read' : $label;
 
 		if ( 'disabled' === $taxonomy || 'news-item' === $post_type ) {
 			$label =  '';
