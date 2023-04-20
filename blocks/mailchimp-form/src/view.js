@@ -35,7 +35,9 @@ function parseStylesString(stylesString) {
 }
 
 domReady(() => {
-	const forms = document.querySelectorAll('.wp-block-prc-block-mailchimp-form');
+	const forms = document.querySelectorAll(
+		'.wp-block-prc-block-mailchimp-form'
+	);
 	forms.forEach((elm) => {
 		// Gather the classes and styles from the form element.
 		const classes = elm.getAttribute('class');
@@ -80,7 +82,7 @@ domReady(() => {
 					},
 				}}
 			/>,
-			attachPoint,
+			attachPoint
 		);
 
 		// Remove the original element.
