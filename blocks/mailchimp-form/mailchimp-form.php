@@ -30,10 +30,14 @@ class MailchimpForm extends PRC_Block_Library {
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
+		if ( null === PRC_HCAPTCHA_KEY ) {
+			return;
+		}
+
 		$block = register_block_type( self::$dir . '/build' );
 		$view_script_handle = isset( $block->view_script_handles ) && ! empty( $block->view_script_handles ) ? $block->view_script_handles[0] : null;
 		wp_localize_script( $view_script_handle, 'mailChimpFormConfig', array(
-			'HCAPTCHA_KEY' => HCAPTCHA_KEY,
+			'HCAPTCHA_KEY' => PRC_HCAPTCHA_KEY,
 		) );
 	}
 
