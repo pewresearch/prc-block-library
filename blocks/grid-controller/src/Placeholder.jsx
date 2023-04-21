@@ -43,7 +43,6 @@ export default function Placeholder({ clientId, setAttributes }) {
 				label={get(blockType, ['title'])}
 				variations={variations}
 				onSelect={(nextVariation = defaultVariation) => {
-					console.log('Variation selected: ', nextVariation, defaultVariation);
 					if (nextVariation.attributes) {
 						setAttributes(nextVariation.attributes);
 					}

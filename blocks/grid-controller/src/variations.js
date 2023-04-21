@@ -41,7 +41,7 @@ const variations = [
 					gridLayout: {
 						index: 1,
 						desktopSpan: 6,
-						tabletSpan: 4,
+						tabletSpan: 6,
 					},
 				},
 			],
@@ -51,7 +51,7 @@ const variations = [
 					gridLayout: {
 						index: 2,
 						desktopSpan: 6,
-						tabletSpan: 4,
+						tabletSpan: 6,
 					},
 				},
 			],
@@ -86,7 +86,7 @@ const variations = [
 					gridLayout: {
 						index: 1,
 						desktopSpan: 4,
-						tabletSpan: 3,
+						tabletSpan: 4,
 					},
 				},
 			],
@@ -96,7 +96,7 @@ const variations = [
 					gridLayout: {
 						index: 2,
 						desktopSpan: 8,
-						tabletSpan: 5,
+						tabletSpan: 8,
 					},
 				},
 			],
@@ -131,7 +131,7 @@ const variations = [
 					gridLayout: {
 						index: 1,
 						desktopSpan: 8,
-						tabletSpan: 5,
+						tabletSpan: 8,
 					},
 				},
 			],
@@ -141,7 +141,7 @@ const variations = [
 					gridLayout: {
 						index: 2,
 						desktopSpan: 4,
-						tabletSpan: 3,
+						tabletSpan: 4,
 					},
 				},
 			],
@@ -175,7 +175,7 @@ const variations = [
 					gridLayout: {
 						index: 1,
 						desktopSpan: 4,
-						tabletSpan: 2,
+						tabletSpan: 4,
 					},
 				},
 			],
@@ -195,7 +195,7 @@ const variations = [
 					gridLayout: {
 						index: 3,
 						desktopSpan: 4,
-						tabletSpan: 2,
+						tabletSpan: 4,
 					},
 				},
 			],
@@ -229,7 +229,7 @@ const variations = [
 					gridLayout: {
 						index: 1,
 						desktopSpan: 3,
-						tabletSpan: 2,
+						tabletSpan: 3,
 					},
 				},
 			],
@@ -239,7 +239,7 @@ const variations = [
 					gridLayout: {
 						index: 2,
 						desktopSpan: 6,
-						tabletSpan: 4,
+						tabletSpan: 6,
 					},
 				},
 			],
@@ -249,7 +249,7 @@ const variations = [
 					gridLayout: {
 						index: 3,
 						desktopSpan: 3,
-						tabletSpan: 2,
+						tabletSpan: 3,
 					},
 				},
 			],

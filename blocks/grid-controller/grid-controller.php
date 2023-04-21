@@ -21,7 +21,7 @@ class GridController extends PRC_Block_Library {
 		}
 	}
 
-	
+
 	public function generate_grid_divider_styles() {
 		if ( !function_exists('wp_get_global_settings') ) {
 			return new WP_Error('missing_function', 'wp_get_global_settings() is missing');

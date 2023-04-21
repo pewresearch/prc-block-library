@@ -27,7 +27,7 @@ const constructGridController = (columns) => {
 	return createBlock(
 		'prc-block/grid-controller',
 		{},
-		createBlocksFromInnerBlocksTemplate(innerBlocksTemplate),
+		createBlocksFromInnerBlocksTemplate(innerBlocksTemplate)
 	);
 };
 
@@ -51,8 +51,11 @@ const transforms = {
 					return false;
 				}
 				console.log('transform rows...', attributes, rows);
+				const toReturn = rows.map((row) => {
+					return constructGridController(row.innerBlocks);
+				});
 
-				return constructGridController(rows[0].innerBlocks);
+				return toReturn;
 			},
 		},
 	],
@@ -71,7 +74,7 @@ const transforms = {
 				return createBlock(
 					'core/columns',
 					{},
-					createBlocksFromInnerBlocksTemplate(innerBlocksTemplate),
+					createBlocksFromInnerBlocksTemplate(innerBlocksTemplate)
 				);
 			},
 		},

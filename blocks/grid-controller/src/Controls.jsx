@@ -129,12 +129,8 @@ export default function Controls({
 					desktopSpan: 4,
 					tabletSpan: 4,
 					mobileSpan: 4,
-					desktopStart: 1,
 					tabletStart: 1,
 					mobileStart: 1,
-					desktopRow: 1,
-					tabletRow: 1,
-					mobileRow: 1,
 				},
 			});
 			columns = [...columns, newBlock];
