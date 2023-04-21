@@ -324,7 +324,7 @@ const variations = [
 				},
 			],
 		],
-		scope: ['inserter', 'transform'],
+		scope: ['inserter', 'block'],
 	},
 ];
 
