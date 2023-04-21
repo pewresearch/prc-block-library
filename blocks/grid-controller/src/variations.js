@@ -324,6 +324,8 @@ const variations = [
 				},
 			],
 		],
+		isActive: ({ className }) =>
+			className?.includes('is-pattern__featured-layout'),
 		scope: ['inserter', 'block'],
 	},
 ];
