@@ -185,7 +185,7 @@ $break-zoomed-in: 280px;
 // Patterns
 
 // "Featured" Layout Pattern
-.wp-block-prc-block-grid-controller.is-style-pattern-featured-layout {
+.wp-block-prc-block-grid-controller.is-pattern__featured-layout {
 	// Mobile up to Tablet:
 	@media (max-width: #{ ($break-large) }) {
 		& > .wp-block-prc-block-grid-column[class*="column1-tablet-grid__span-6"]  {

@@ -50,7 +50,6 @@ const transforms = {
 				if (!Array.isArray(rows) || 0 === rows.length) {
 					return false;
 				}
-				console.log('transform rows...', attributes, rows);
 				const toReturn = rows.map((row) => {
 					return constructGridController(row.innerBlocks);
 				});

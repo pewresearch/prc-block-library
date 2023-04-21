@@ -1,15 +1,13 @@
+/* eslint-disable max-lines */
 /**
  * WordPress Dependencies
  */
 import { Path, SVG } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-/** @typedef {import('@wordpress/blocks').WPBlockVariation} WPBlockVariation */
-
 /**
  * Template option choices for predefined columns layouts.
  *
- * @type {WPBlockVariation[]}
  */
 const variations = [
 	{
@@ -255,6 +253,63 @@ const variations = [
 			],
 		],
 		scope: ['block'],
+	},
+	{
+		name: 'three-columns-wider-center-container-sensitive',
+		title: __('Featured Lede Grid'),
+		description: __(
+			'Three columns; wide center column (container sensitive)'
+		),
+		icon: (
+			<SVG
+				width="48"
+				height="48"
+				viewBox="0 0 48 48"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<Path
+					fillRule="evenodd"
+					d="M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM31 34H17V14h14v20zm2 0V14h6v20h-6zm-18 0H9V14h6v20z"
+				/>
+			</SVG>
+		),
+		attributes: {
+			dividerColor: 'gray',
+			className: 'is-pattern__featured-layout',
+		},
+		innerBlocks: [
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 1,
+						desktopSpan: 3,
+						tabletSpan: 6,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 2,
+						desktopSpan: 6,
+						tabletSpan: 12,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 3,
+						desktopSpan: 3,
+						tabletSpan: 6,
+					},
+				},
+			],
+		],
+		scope: ['inserter', 'transform'],
 	},
 ];
 
