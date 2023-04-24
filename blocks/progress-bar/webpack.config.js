@@ -7,7 +7,7 @@ module.exports = {
 	plugins: [
 		...defaultConfig.plugins.filter(
 			(plugin) =>
-				'DependencyExtractionWebpackPlugin' !== plugin.constructor.name,
+				'DependencyExtractionWebpackPlugin' !== plugin.constructor.name
 		),
 		new DependencyExtractionWebpackPlugin({
 			injectPolyfill: true,
@@ -20,7 +20,7 @@ module.exports = {
 			// eslint-disable-next-line consistent-return
 			requestToHandle(request) {
 				if ('@prc/chart-builder' === request) {
-					return 'prc-chart-builder';
+					return 'prc-charting-library';
 				}
 			},
 		}),

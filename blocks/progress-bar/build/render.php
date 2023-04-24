@@ -8,7 +8,6 @@
 
 global $PRC_QUIZ;
 
-// @TODO: @sethrubenstein This needs to be rethought.
 $attributes['barColor'] = $PRC_QUIZ->get_color_by_slug($attributes['barColor'])['hex'];
 $attributes['backgroundColor'] = $PRC_QUIZ->get_color_by_slug($attributes['backgroundColor'])['hex'];
 
