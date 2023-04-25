@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -21,9 +22,10 @@ function ProgressBar({
 		layout: {
 			...baseConfig.layout,
 			name: 'progress-chart',
+			parentClass: 'wp-block-prc-block-progress-bar',
 			type: 'stacked-bar',
 			orientation: 'horizontal',
-			theme: 'PewTheme',
+			theme: 'light',
 			width: maxWidth,
 			height: 50,
 			padding: {
@@ -118,6 +120,7 @@ function ProgressBar({
 				dy: 0,
 				textAnchor: 'middle',
 				verticalAnchor: 'start',
+				fill: 'rgba(35, 31, 32,0.7)',
 			},
 			axisLabel: {
 				...baseConfig.dependentAxis.axisLabel,
