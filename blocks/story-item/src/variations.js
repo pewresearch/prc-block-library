@@ -36,6 +36,16 @@ const variations = [
 		isActive: ({ imageSlot, enableExcerpt }) =>
 			'disabled' === imageSlot && false === enableExcerpt,
 	},
+	{
+		name: 'story-item-newsletter-glue',
+		title: __('Story Item (Newsletter Glue)'),
+		excerpt: __('Newsletter Glue Story Item.'),
+		category: 'newsletterglue-blocks',
+		attributes: {
+			isNewsletterGlue: true,
+		},
+		isActive: ({ isNewsletterGlue }) => true === isNewsletterGlue,
+	},
 ];
 
 export default variations;

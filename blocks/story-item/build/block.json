@@ -129,6 +129,10 @@
     "isPreview": {
       "type": "boolean",
       "default": false
+    },
+    "isNewsletterGlue": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {

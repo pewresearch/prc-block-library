@@ -25,6 +25,7 @@ class StoryItem extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			if ( defined('PRC_PLATFORM') && true === PRC_PLATFORM ) {
+				add_filter( 'newsletterglue_allowed_block_list', array( $this, 'allow_in_newsletter_glue' ), 10, 1 );
 				add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
 				add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
 				add_action( 'prc_core_on_stub_update', array( $this, 'clear_index_cache_on_stub_update' ), 10, 1 );
@@ -32,6 +33,11 @@ class StoryItem extends PRC_Block_Library {
 			add_action( 'init', array($this, 'block_init') );
 			// require_once plugin_dir_path(self::$dir) . '/inc/newsletter-glue.php';
 		}
+	}
+
+	public function allow_in_newsletter_glue($blocks) {
+		$blocks[] = self::$block_name;
+		return $blocks;
 	}
 
 	public function allow_debug_output() {
