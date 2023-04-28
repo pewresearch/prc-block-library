@@ -39,7 +39,7 @@ const variations = [
 	{
 		name: 'story-item-newsletter-glue',
 		title: __('Story Item (Newsletter Glue)'),
-		excerpt: __('Newsletter Glue Story Item.'),
+		excerpt: __('Newsletter Glue Compatible'),
 		category: 'newsletterglue-blocks',
 		attributes: {
 			isNewsletterGlue: true,
