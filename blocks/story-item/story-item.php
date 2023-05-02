@@ -668,6 +668,10 @@ class StoryItem extends PRC_Block_Library {
 		return ob_get_clean();
 	}
 
+	public function render_newsletter_glue_variant( $attributes, $block_content, $block ) {
+
+	}
+
 	/**
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued
