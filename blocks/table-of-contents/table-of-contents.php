@@ -58,15 +58,29 @@ class TableOfContents extends PRC_Block_Library {
 			if ( isset( $array[ 'blockName' ] ) && in_array($array[ 'blockName' ], array('core/heading', 'prc-block/chapter')) ) {
 				if ( array_key_exists('isChapter', $array['attrs']) && true === $array['attrs']['isChapter'] ) {
 					$attrs = $this->extract_html_attributes($array['innerHTML']);
+					$id = $attrs['attributes']['id'];
+					// Ensure the ID is clean and none of the core/heading block id stuff gets added.
+					if ( preg_match( '/^h-\d+/', $id ) ) {
+						$id = preg_replace( '/^h-\d+-/', '', $id );
+					} elseif ( preg_match( '/^h-/', $id ) ) {
+						$id = preg_replace( '/^h-/', '', $id );
+					}
 					$results[] = array(
-						'id' => $attrs['attributes']['id'],
+						'id' => $id,
 						'icon' => !empty($array['attrs']['icon']) ? $array['attrs']['icon'] : false,
 						'content' => wp_strip_all_tags( !empty($array['attrs']['altTocText']) ? $array['attrs']['altTocText'] : $array['innerHTML'] ),
 					);
 				} elseif ( 'prc-block/chapter' === $array['blockName'] ) {
 					$needs_migration = true;
+					$id = $array['attrs']['id'];
+					// Ensure the ID is clean and none of the core/heading block id stuff gets added.
+					if ( preg_match( '/^h-\d+/', $id ) ) {
+						$id = preg_replace( '/^h-\d+-/', '', $id );
+					} elseif ( preg_match( '/^h-/', $id ) ) {
+						$id = preg_replace( '/^h-/', '', $id );
+					}
 					$results[] = array(
-						'id' => $array['attrs']['id'],
+						'id' => $id,
 						'icon' => false,
 						'content' => wp_strip_all_tags( $array['attrs']['value'] ),
 					);

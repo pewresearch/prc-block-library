@@ -152,10 +152,25 @@ class CoreHeading extends PRC_Block_Library {
 
 		wp_enqueue_style( self::$view_style_handle );
 
-		if ( array_key_exists('isChapter', $block['attrs']) && true === $block['attrs']['isChapter'] ) {
-			// regex add is-chapter="true" to the h element in $block_content.
-			$block_content = preg_replace( '/<h([1-6])/', '<h$1 data-is-chapter="true"', $block_content );
+		$heading_tag = new WP_HTML_Tag_Processor( $block_content );
+		$heading_tag->next_tag();
+		$id = $heading_tag->get_attribute('id');
+		
+		// if $id begins with an h- then remove the h- from the id. for example h-testing-a-heading-w-an-anchor-tag should just become testing-a-heading-w-an-anchor-tag and if it has an integer immediately following the h- then remove that too. for example h-1-testing-a-heading-w-an-anchor-tag should just become testing-a-heading-w-an-anchor-tag, be sure there isn't a - in the beginning of the new id.
+
+		if ( preg_match( '/^h-\d+/', $id ) ) {
+			$id = preg_replace( '/^h-\d+-/', '', $id );
+		} elseif ( preg_match( '/^h-/', $id ) ) {
+			$id = preg_replace( '/^h-/', '', $id );
 		}
+
+		$heading_tag->set_attribute( 'id', $id );
+
+		if ( array_key_exists('isChapter', $block['attrs']) && true === $block['attrs']['isChapter'] ) {
+			$heading_tag->set_attribute( 'data-is-chapter', 'true' );
+		}
+
+		$block_content = $heading_tag->get_updated_html();
 
 		return $block_content;
 	}
