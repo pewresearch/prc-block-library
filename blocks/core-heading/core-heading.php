@@ -143,7 +143,7 @@ class CoreHeading extends PRC_Block_Library {
 		if (!is_int($num)) {
 		  return new WP_Error('invalid_input', 'Input must be an integer.');
 		}
-	  
+
 		$ones = array(
 		  0 => 'zero', 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four',
 		  5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine'
@@ -155,29 +155,29 @@ class CoreHeading extends PRC_Block_Library {
 		$hundreds = array(
 		  'hundred', 'thousand'
 		);
-	  
+
 		if ($num < 0 || $num >= 1000) {
 		  return new WP_Error('out_of_range', 'Input must be between 0 and 999.');
 		}
-	  
+
 		if ($num == 0) {
 		  return esc_html($ones[0]);
 		}
-	  
+
 		$result = '';
 		$hundred = (int) ($num / 100);
 		$ten = (int) ($num / 10) % 10;
 		$one = $num % 10;
-	  
+
 		if ($hundred > 0) {
 		  $result .= $ones[$hundred] . ' ' . $hundreds[0];
 		}
-	  
+
 		if ($ten > 0 || $one > 0) {
 		  if (!empty($result)) {
 			$result .= ' ';
 		  }
-	  
+
 		  if ($ten < 2) {
 			$result .= $ones[$ten * 10 + $one];
 		  } else {
@@ -187,10 +187,9 @@ class CoreHeading extends PRC_Block_Library {
 			}
 		  }
 		}
-	  
+
 		return esc_html($result);
-	  }
-	  
+	}
 
 	/**
 	* Render the core-heading block
@@ -208,7 +207,7 @@ class CoreHeading extends PRC_Block_Library {
 		$heading_tag = new WP_HTML_Tag_Processor( $block_content );
 		$heading_tag->next_tag();
 		$id = $heading_tag->get_attribute('id');
-		
+
 		// if $id begins with an h- then remove the h- from the id. for example h-testing-a-heading-w-an-anchor-tag should just become testing-a-heading-w-an-anchor-tag and if it has an integer immediately following the h- then replace the integer with a word that too. for example h-1-testing-a-heading-w-an-anchor-tag should just become one-testing-a-heading-w-an-anchor-tag, and h-5-things-you-need-to-know would become five-things-you-need-to-know
 
 		if ( preg_match( '/^h-(\d+)-/', $id, $matches ) ) {
