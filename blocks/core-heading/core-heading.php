@@ -139,6 +139,59 @@ class CoreHeading extends PRC_Block_Library {
 		return $settings;
 	}
 
+	public function convert_number_to_words($num) {
+		if (!is_int($num)) {
+		  return new WP_Error('invalid_input', 'Input must be an integer.');
+		}
+	  
+		$ones = array(
+		  0 => 'zero', 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four',
+		  5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine'
+		);
+		$tens = array(
+		  0 => '', 1 => 'ten', 2 => 'twenty', 3 => 'thirty', 4 => 'forty',
+		  5 => 'fifty', 6 => 'sixty', 7 => 'seventy', 8 => 'eighty', 9 => 'ninety'
+		);
+		$hundreds = array(
+		  'hundred', 'thousand'
+		);
+	  
+		if ($num < 0 || $num >= 1000) {
+		  return new WP_Error('out_of_range', 'Input must be between 0 and 999.');
+		}
+	  
+		if ($num == 0) {
+		  return esc_html($ones[0]);
+		}
+	  
+		$result = '';
+		$hundred = (int) ($num / 100);
+		$ten = (int) ($num / 10) % 10;
+		$one = $num % 10;
+	  
+		if ($hundred > 0) {
+		  $result .= $ones[$hundred] . ' ' . $hundreds[0];
+		}
+	  
+		if ($ten > 0 || $one > 0) {
+		  if (!empty($result)) {
+			$result .= ' ';
+		  }
+	  
+		  if ($ten < 2) {
+			$result .= $ones[$ten * 10 + $one];
+		  } else {
+			$result .= $tens[$ten];
+			if ($one > 0) {
+			  $result .= '-' . $ones[$one];
+			}
+		  }
+		}
+	  
+		return esc_html($result);
+	  }
+	  
+
 	/**
 	* Render the core-heading block
 	* @param string $block_content
@@ -156,11 +209,18 @@ class CoreHeading extends PRC_Block_Library {
 		$heading_tag->next_tag();
 		$id = $heading_tag->get_attribute('id');
 		
-		// if $id begins with an h- then remove the h- from the id. for example h-testing-a-heading-w-an-anchor-tag should just become testing-a-heading-w-an-anchor-tag and if it has an integer immediately following the h- then remove that too. for example h-1-testing-a-heading-w-an-anchor-tag should just become testing-a-heading-w-an-anchor-tag, be sure there isn't a - in the beginning of the new id.
+		// if $id begins with an h- then remove the h- from the id. for example h-testing-a-heading-w-an-anchor-tag should just become testing-a-heading-w-an-anchor-tag and if it has an integer immediately following the h- then replace the integer with a word that too. for example h-1-testing-a-heading-w-an-anchor-tag should just become one-testing-a-heading-w-an-anchor-tag, and h-5-things-you-need-to-know would become five-things-you-need-to-know
 
-		if ( preg_match( '/^h-\d+/', $id ) ) {
-			$id = preg_replace( '/^h-\d+-/', '', $id );
-		} elseif ( preg_match( '/^h-/', $id ) ) {
+		if ( preg_match( '/^h-(\d+)-/', $id, $matches ) ) {
+			$number = $matches[1];
+			$number = intval( $number );
+			$number = $this->int_to_words( $number );
+			if ( is_wp_error( $number ) ) {
+				$id = preg_replace( '/^h-(\d+)-/', '', $id );
+			} else {
+				$id = preg_replace( '/^h-(\d+)-/', $number . '-', $id );
+			}
+		} else {
 			$id = preg_replace( '/^h-/', '', $id );
 		}
 
