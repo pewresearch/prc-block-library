@@ -214,7 +214,7 @@ class CoreHeading extends PRC_Block_Library {
 		if ( preg_match( '/^h-(\d+)-/', $id, $matches ) ) {
 			$number = $matches[1];
 			$number = intval( $number );
-			$number = $this->int_to_words( $number );
+			$number = $this->convert_number_to_words( $number );
 			if ( is_wp_error( $number ) ) {
 				$id = preg_replace( '/^h-(\d+)-/', '', $id );
 			} else {

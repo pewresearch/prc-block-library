@@ -12,17 +12,17 @@ import { __experimentalNavigationBackButton as NavigationBackButton } from '@wor
 /**
  * Internal Dependencies
  */
-import { ReactComponent as Symbol } from '../assets/symbol-white.svg';
+import { ReactComponent as Icon } from '../assets/dashboard-icon.svg';
 
 const SiteLogoBlockEditorDashboardButton = () => (
 	<BlockEditorDashboardButton>
-		<FullscreenModeClose icon={Symbol} />
+		<FullscreenModeClose icon={Icon} />
 	</BlockEditorDashboardButton>
 );
 
 const SiteLogoSiteEditorDashboardButton = () => (
 	<SiteEditorDashboardButton>
-		<NavigationBackButton icon={Symbol} />
+		<NavigationBackButton icon={Icon} />
 	</SiteEditorDashboardButton>
 );
 
