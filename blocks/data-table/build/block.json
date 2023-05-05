@@ -3,32 +3,45 @@
   "apiVersion": 2,
   "name": "prc-block/data-table",
   "version": "0.1.0",
-  "title": "Data Table",
-  "category": "text",
-  "description": "Beyond a simple html table, this block allows you to create rich data tables.",
+  "title": "Data Table (WIP)",
+  "category": "media",
+  "description": "WORK IN PROGRESS - DO NOT USE ON PRODUCTION. Beyond a simple html table, this block allows you to create rich data tables.",
   "icon": "editor-table",
   "attributes": {
-    "allowedBlocks": {
+    "title": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "data": {
       "type": "array"
     },
-    "orientation": {
+    "columnWidths": {
+      "type": "array"
+    },
+    "cellBackgroundColor": {
+      "type": "string"
+    },
+    "cellTextColor": {
+      "type": "string"
+    },
+    "headerRowBackgroundColor": {
       "type": "string",
-      "default": "vertical"
+      "default": "gray"
+    },
+    "headerRowTextColor": {
+      "type": "string"
     }
   },
   "supports": {
     "anchor": true,
     "html": false,
     "spacing": {
-      "blockGap": true,
       "margin": [
         "top",
         "bottom"
-      ],
-      "padding": true,
-      "__experimentalDefaultControls": {
-        "padding": true
-      }
+      ]
     },
     "typography": {
       "fontSize": true,

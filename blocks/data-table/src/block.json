@@ -17,6 +17,9 @@
 		"data": {
 			"type": "array"
 		},
+		"columnWidths": {
+			"type": "array"
+		},
 		"cellBackgroundColor": {
 			"type": "string"
 		},

@@ -1,23 +1,19 @@
 /**
  * External Dependencies
  */
-import { HotTable } from '@handsontable/react';
-import { registerAllModules } from 'handsontable/registry';
-import 'handsontable/dist/handsontable.full.min.css';
+
 
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
-
-registerAllModules();
+import Table from './Table';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -27,6 +23,9 @@ registerAllModules();
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
+ * @param            props.isSelected
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -40,24 +39,18 @@ export default function Edit({
 }) {
 	const blockProps = useBlockProps();
 
-	const data = [
-		['', 'Tesla', 'Volvo', 'Toyota', 'Ford'],
-		['2019', 10, 11, 12, 13],
-		['2020', 20, 11, 14, 13],
-		['2021', 30, 15, 12, 13],
-	];
-
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes, context: false }} />
 			<div {...blockProps}>
-				<HotTable
-					data={data}
-					rowHeaders
-					colHeaders
-					height="auto"
-					contextMenu
-					licenseKey="non-commercial-and-evaluation" // for non-commercial use only
+				<Table
+					{...{
+						attributes,
+						setAttributes,
+						context,
+						clientId,
+						isSelected,
+					}}
 				/>
 			</div>
 		</Fragment>

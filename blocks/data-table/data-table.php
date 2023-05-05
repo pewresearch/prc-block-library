@@ -50,4 +50,4 @@ class DataTable extends PRC_Block_Library {
 
 }
 
-// new DataTable(true);
+new DataTable(true);
