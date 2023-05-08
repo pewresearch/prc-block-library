@@ -3,9 +3,9 @@
   "apiVersion": 2,
   "name": "prc-block/data-table",
   "version": "0.1.0",
-  "title": "Data Table (WIP)",
+  "title": "Data Table",
   "category": "media",
-  "description": "WORK IN PROGRESS - DO NOT USE ON PRODUCTION. Beyond a simple html table, this block allows you to create rich data tables.",
+  "description": "This block enables you to build sophisticated data tables, not just basic HTML ones.",
   "icon": "editor-table",
   "attributes": {
     "title": {
@@ -17,8 +17,16 @@
     "data": {
       "type": "array"
     },
-    "columnWidths": {
+    "headers": {
       "type": "array"
+    },
+    "rowHeaders": {
+      "type": "boolean",
+      "default": true
+    },
+    "colHeaders": {
+      "type": "boolean",
+      "default": true
     },
     "cellBackgroundColor": {
       "type": "string"
@@ -55,5 +63,6 @@
   "textdomain": "data-table",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
 }

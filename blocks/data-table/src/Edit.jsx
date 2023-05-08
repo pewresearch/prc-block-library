@@ -2,18 +2,15 @@
  * External Dependencies
  */
 
-
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
-import Table from './Table';
+import TableEdit from './TableEdit';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -40,19 +37,16 @@ export default function Edit({
 	const blockProps = useBlockProps();
 
 	return (
-		<Fragment>
-			<Controls {...{ attributes, setAttributes, context: false }} />
-			<div {...blockProps}>
-				<Table
-					{...{
-						attributes,
-						setAttributes,
-						context,
-						clientId,
-						isSelected,
-					}}
-				/>
-			</div>
-		</Fragment>
+		<figure {...blockProps}>
+			<TableEdit
+				{...{
+					attributes,
+					setAttributes,
+					context,
+					clientId,
+					isSelected,
+				}}
+			/>
+		</figure>
 	);
 }

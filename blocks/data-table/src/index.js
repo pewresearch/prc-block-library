@@ -29,6 +29,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
+// import Save from './Save';
 
 import metadata from './block.json';
 
@@ -37,8 +38,14 @@ const { name } = metadata;
 const settings = {
 	/**
 	 * @see ./Edit.jsx
+	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
 	 */
 	edit: Edit,
+	/**
+	 * @see ./Save.jsx
+	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#save
+	 */
+	// save: Save,
 };
 
 /**
