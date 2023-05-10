@@ -1,4 +1,9 @@
 /**
+ * External Dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress Dependencies
  */
 import { useEffect, useMemo } from '@wordpress/element';
@@ -18,8 +23,8 @@ export default function Edit({
 	context,
 	insertBlocksAfter,
 }) {
-	const currentlySelectedUUID = context?.['prc-block/tabs/activeUUID'];
-	const { title, uuid } = attributes;
+	const currentlySelectedUUID = context?.['prc-block/tabs/activeUUID']; // @TODO: Convert this to use a wp data store registered by the tabs block.
+	const { title, uuid, className } = attributes;
 
 	const {
 		insertBlock,
@@ -136,6 +141,11 @@ export default function Edit({
 		}
 	};
 
+	/**
+	 * Inserts a new tabs menu item block after the current block.
+	 *
+	 * @return
+	 */
 	const insertNewBlock = () => {
 		const attrs = {};
 		return insertBlocksAfter(
@@ -143,6 +153,10 @@ export default function Edit({
 		);
 	};
 
+	/**
+	 * Insert a new block, or select the next block
+	 * if one is available when the user presses enter at the end of the block.
+	 */
 	const onEnterSplit = () => {
 		if (null !== nextMenuItemClientId) {
 			selectNextBlock(clientId);
@@ -168,7 +182,9 @@ export default function Edit({
 	}, [isSelected, currentlySelectedUUID, uuid]);
 
 	const blockProps = useBlockProps({
-		'aria-selected': isActive,
+		className: classnames(className, {
+			'is-active': isActive,
+		}),
 	});
 
 	return (

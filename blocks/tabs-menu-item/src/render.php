@@ -17,10 +17,12 @@ $is_selected = $currently_selected_uuid === $uuid;
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
 		'id'            => 'tab-' . $uuid,
-		'href'          => '#panel-' . $uuid,
-		'aria-controls' => 'panel-' . $uuid,
-		'aria-role'     => 'tab',
-		'aria-selected' => $is_selected ? 'true' : 'false',
+		'class' => classNames(
+			array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
+			array(
+				'is-active' => $is_selected,
+			),
+		),
 	)
 );
 
@@ -29,7 +31,7 @@ $content = $is_accordion ? '<i class="dropdown icon"></i>' : '';
 $content .= wp_kses( $attributes['title'], 'post' );
 
 echo wp_sprintf(
-	'<a %1$s>%2$s</a>',
+	'<button %1$s>%2$s</button>',
 	$block_wrapper_attrs,
 	$content,
 );

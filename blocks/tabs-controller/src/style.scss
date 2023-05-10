@@ -13,6 +13,7 @@
 		border: none !important;
 		padding: 0px !important;
 		border-right: 1px solid var(--color-border) !important;
+
 		.wp-block-prc-block-tabs-menu-item {
 			display: flex;
 			flex-direction: row;
@@ -104,9 +105,10 @@
 		& > li {
 			display: block;
 		}
-		a.wp-block-prc-block-tabs-menu-item {
-			text-decoration: none !important;
-			color: inherit;
+		button.wp-block-prc-block-tabs-menu-item {
+			-webkit-appearance: none;
+			appearance: none;
+			background-color: inherit;
 			&:hover {
 				opacity: 0.8;
 			}
@@ -135,7 +137,8 @@
 				opacity: 0.9;
 			}
 
-			&[aria-selected="true"] {
+			&[aria-selected="true"],
+			&.is-active {
 				// background-color: var(--color-active);
 				font-weight: bold;
 			}
@@ -212,7 +215,8 @@
 			border-radius: 0;
 			border: none;
 			background: none;
-			&[aria-selected="true"] {
+			&[aria-selected="true"],
+			&.is-active {
 				background-color: transparent;
 				font-weight: bold;
 			}
@@ -230,7 +234,8 @@
 				border-radius: 0;
 				border: none;
 				background: none;
-				&[aria-selected="true"] {
+				&[aria-selected="true"],
+				&.is-active {
 					background-color: transparent;
 					font-weight: bold;
 				}
@@ -244,7 +249,7 @@
 		.wp-block-prc-block-tabs-pane {
 			flex-grow: 1;
 			margin: 0;
-			&[aria-hidden="true"] {
+			&:not(.is-active) {
 				display: none;
 			}
 			& > div:after {

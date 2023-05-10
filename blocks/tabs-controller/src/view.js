@@ -3,6 +3,7 @@
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
+import { addQueryArgs, getQueryArg } from '@wordpress/url';
 
 /**
  * Switches the active tab and panel.
@@ -12,48 +13,45 @@ import domReady from '@wordpress/dom-ready';
  * @param       updateHash       Whether to update the hash in the URL.
  */
 function switchTab(tabsControllerId, newTab, updateHash = true) {
+	const tabId = newTab.getAttribute('id');
+	const newPanelId = tabId.replace('tab-', 'panel-');
+
 	if (updateHash) {
 		newTab.focus();
-		const href = newTab.getAttribute('href');
-		// Update the hash in the URL without scrolling the page.
-		window.history.replaceState(null, null, href);
+		// add a tabId query arg to the url with the id of the new tab
+		const { href } = window.location;
+		const newUrl = addQueryArgs(href, {
+			tabId,
+		});
+		window.history.pushState({ path: newUrl }, '', newUrl);
 	}
 
-	const newPanelId = newTab.getAttribute('aria-controls');
-
 	const oldTab = document.querySelector(
-		`#${tabsControllerId} .wp-block-prc-block-tabs-menu-item[aria-selected="true"]`
+		`#${tabsControllerId} > div > .wp-block-prc-block-tabs-menu > li > .wp-block-prc-block-tabs-menu-item.is-active`
 	);
 
 	const oldPanel = document.querySelector(
-		`#${tabsControllerId} .wp-block-prc-block-tabs-pane[aria-hidden="false"]`
+		`#${tabsControllerId} > div > .wp-block-prc-block-tabs-panes > .wp-block-prc-block-tabs-pane.is-active`
 	);
 	const newPanel = document.getElementById(newPanelId);
 
 	if (null !== oldTab && oldTab !== newTab) {
-		oldTab.setAttribute('aria-selected', 'false');
+		oldTab.classList.remove('is-active');
 	}
 	if (null !== oldPanel && oldPanel !== newPanel) {
-		oldPanel.setAttribute('aria-hidden', 'true');
+		oldPanel.classList.remove('is-active');
 	}
 
-	newTab.setAttribute('aria-selected', 'true');
-	newPanel.setAttribute('aria-hidden', 'false');
-
-	console.log(
-		'switchTab',
-		tabsControllerId,
-		newTab,
-		updateHash,
-		newPanel,
-	);
+	newTab.classList.add('is-active');
+	newPanel.classList.add('is-active');
 }
 
 domReady(() => {
 	const tabs = document.querySelectorAll('.wp-block-prc-block-tabs');
 	tabs.forEach((t) => {
 		const controllerId = t.getAttribute('id');
-		const menuItems = t.querySelectorAll(
+		const controllerMenu = t.querySelector('.wp-block-prc-block-tabs-menu');
+		const menuItems = controllerMenu.querySelectorAll(
 			'.wp-block-prc-block-tabs-menu-item'
 		);
 
@@ -62,22 +60,23 @@ domReady(() => {
 			if (0 === index) {
 				switchTab(controllerId, menuItem, false);
 			}
-
-			// Activate tab from url hash
-			if (window.location.hash === menuItem.getAttribute('href')) {
-				switchTab(controllerId, menuItem);
-				// Scroll to the tab
-				setTimeout(() => {
-					menuItem.scrollIntoView();
-				}, 1000);
-			}
-
 			menuItem.addEventListener('click', (elm) => {
 				elm.preventDefault();
 				switchTab(controllerId, elm.target);
 			});
-
-			console.log('menuItem', menuItem, index, controllerId);
 		});
 	});
+
+	// Activate tab from the ?tabId query arg
+	const tabId = getQueryArg(window.location.href, 'tabId');
+	if (tabId) {
+		const tab = document.getElementById(tabId);
+		if (tab) {
+			const closestController = tab.closest('.wp-block-prc-block-tabs');
+			const controllerId = closestController?.getAttribute('id');
+			if (controllerId) {
+				switchTab(controllerId, tab);
+			}
+		}
+	}
 });

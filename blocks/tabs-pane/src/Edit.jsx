@@ -1,4 +1,9 @@
 /**
+ * External Dependencies
+ */
+import classnames from 'classnames';
+
+/**
  * WordPress Dependencies
  */
 import { useMemo } from '@wordpress/element';
@@ -10,8 +15,8 @@ import {
 import { useSelect } from '@wordpress/data';
 
 export default function Edit({ attributes, context, clientId }) {
-	const currentlySelectedUUID = context['prc-block/tabs/activeUUID'];
-	const { uuid } = attributes;
+	const currentlySelectedUUID = context['prc-block/tabs/activeUUID']; // @TODO: Convert this to use a wp data store registered by the tabs block.
+	const { uuid, className } = attributes;
 	const { hasChildBlocks } = useSelect(
 		(select) => {
 			const { getBlockOrder } = select('core/block-editor');
@@ -27,8 +32,9 @@ export default function Edit({ attributes, context, clientId }) {
 	}, [currentlySelectedUUID, uuid]);
 
 	const blockProps = useBlockProps({
-		'aria-hidden': !isActive,
-		'data-uuid': `${uuid}`, // @TODO: This may not be necessary.
+		className: classnames(className, {
+			'is-active': isActive,
+		}),
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {

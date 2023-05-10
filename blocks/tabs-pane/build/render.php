@@ -16,7 +16,12 @@ $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
 		'id'          => 'panel-' . $attributes['uuid'],
 		'aria-role'   => 'tabpanel',
-		'aria-hidden' => !$is_selected ? 'true' : 'false',
+		'class' => classNames(
+			array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
+			array(
+				'is-active' => $is_selected,
+			),
+		),
 	)
 );
 echo wp_sprintf(
