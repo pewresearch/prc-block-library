@@ -191,7 +191,8 @@ class StoryItem extends PRC_Block_Library {
 	private function get_date( int $post_id, $attributes = array() ) {
 		$date = array_key_exists( 'date', $attributes ) ? $attributes['date'] : false;
 		if ( false === $date ) {
-			return get_the_date(self::$date_format, $post_id);
+			// If no date is set, use the today's date.
+			return $date = date(self::$date_format);
 		}
 		return gmdate(
 			self::$date_format,
@@ -420,7 +421,6 @@ class StoryItem extends PRC_Block_Library {
 		// Set post_id to the attribute value, however, if it is false then check block context for the post id.
 		$post_id = array_key_exists( 'postId', $attributes ) ? $attributes['postId'] : false;
 		$post_id = array_key_exists( 'postId', $context ) ? $context['postId'] : $post_id;
-
 		$cache_key = $this->get_cache_key( $attributes, $context );
 		$cache = wp_cache_get( $cache_key, self::$block_name );
 		if ( $cache && ! is_preview() && false !== self::$cache_invalidate ) {
