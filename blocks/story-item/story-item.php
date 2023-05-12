@@ -190,7 +190,6 @@ class StoryItem extends PRC_Block_Library {
 	 */
 	private function get_date( int $post_id, $attributes = array() ) {
 		$date = array_key_exists( 'date', $attributes ) ? $attributes['date'] : false;
-		$post_type = get_post_type( $post_id );
 		if ( false === $date ) {
 			return get_the_date(self::$date_format, $post_id);
 		}
