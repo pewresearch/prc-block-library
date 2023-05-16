@@ -25,11 +25,14 @@ export default function Meta({ attributes, setAttributes }) {
 		// eslint-disable-next-line react/jsx-no-useless-fragment
 		return <Fragment />;
 	}
-
+	// if date is undefined, set it to today by default
+	if (undefined === date) {
+		setAttributes({ date: formatDate('M j, Y', new Date()) });
+	}
 	const { records: entityTerms, isResolving } = useEntityRecords(
 		'taxonomy',
 		metaTaxonomy,
-		{ per_page: -1, hide_empty: false, context: 'view' },
+		{ per_page: -1, hide_empty: false, context: 'view' }
 	);
 	const hasRecords = entityTerms ? 0 < entityTerms.length : false;
 
@@ -90,7 +93,9 @@ export default function Meta({ attributes, setAttributes }) {
 							<DatePicker
 								currentDate={date}
 								onChange={(d) =>
-									setAttributes({ date: formatDate('M j, Y', d) })
+									setAttributes({
+										date: formatDate('M j, Y', d),
+									})
 								}
 							/>
 						</div>
