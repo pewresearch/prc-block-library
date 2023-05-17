@@ -31,7 +31,9 @@ const submitHandler = ({
 		return onError('Invalid captcha key');
 	}
 	if (!captchaToken) {
-		return onError("We couldn't verify you're not a robot. Please try again.");
+		return onError(
+			"We couldn't verify you're not a robot. Please try again."
+		);
 	}
 
 	onStart();
@@ -65,7 +67,7 @@ const submitHandler = ({
 
 const hackCaptchaCheckboxStyle = () => {
 	let target = document.querySelector(
-		'iframe[title="Main content of the hCaptcha challenge"]',
+		'iframe[title="Main content of the hCaptcha challenge"]'
 	);
 	target = target.parentElement.parentElement;
 	if (target) {
@@ -89,6 +91,7 @@ export default function Form({
 		type: 'email',
 		placeholder: '',
 	},
+	other = { one, two, three, four },
 	button = {
 		wrapperClassName: '',
 		wrapperStyle: '',
