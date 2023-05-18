@@ -94,7 +94,7 @@ class StaffQuery extends PRC_Block_Library {
 
 				$promote_to_byline = get_post_meta( $staff_post_id, 'promote_to_byline', true );
 				$enable_link = get_post_meta( $staff_post_id, 'linked_byline_term', true );
-				$enable_link = $enable_link ? home_url( '/staff/' . get_post_field( 'post_name' ) ) : false;
+				$enable_link = $enable_link ? home_url( '/staff/' . sanitize_title($name) ) : false;
 				$enable_link = $promote_to_byline ? $enable_link : false;
 
 				$staff_posts[] = array(
