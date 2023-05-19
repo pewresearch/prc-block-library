@@ -91,7 +91,6 @@ export default function Form({
 		type: 'email',
 		placeholder: '',
 	},
-	other = { one, two, three, four },
 	button = {
 		wrapperClassName: '',
 		wrapperStyle: '',
