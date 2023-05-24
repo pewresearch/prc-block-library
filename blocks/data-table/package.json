@@ -20,6 +20,7 @@
 	},
 	"dependencies": {
 		"@handsontable/react": "^12.2.0",
+		"comma-separated-values": "^3.6.4",
 		"handsontable": "^12.2.0"
 	}
 }
