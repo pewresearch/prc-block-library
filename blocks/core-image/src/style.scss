@@ -148,6 +148,21 @@ $alignRightMargin: 5px 0px 15px 15px;
 		margin-right: auto;
 	}
 
+	// Temporary block theme hack to ensure on mobile these collapse down to being middle aligned.
+	body.has-block-theme & {
+		&.alignleft,
+		& > .alignleft,
+		&.alignright,
+		& > .alignright {
+			@media only screen and (max-width: $largestTabletScreen) {
+				float: none!important;
+				clear: both!important;
+				margin-left: auto!important;
+				margin-right: auto!important;
+			}
+		}
+	}
+
 	&.alignleft,
 	& > .alignleft {
 		@media only screen and (min-width: $largestTabletScreen) {
