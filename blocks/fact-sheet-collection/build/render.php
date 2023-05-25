@@ -8,7 +8,7 @@ if ( is_admin() ) {
 // $attributes (array): The block attributes.
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
-$cache_group = 'prc-block-library-fact-sheet-collection-markup-0.1.6';
+$cache_group = 'prc-block-library-fact-sheet-collection-markup-0.1.7';
 $cached = false;
 if ( !is_preview() ){
 	$cached = wp_cache_get( 
