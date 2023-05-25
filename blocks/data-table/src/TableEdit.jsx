@@ -98,40 +98,24 @@ export default function TableEdit({
 	}, [tableData]);
 
 	return (
-		<Fragment>
-			<BlockControls>
-				<ToolbarGroup>
-					<ToolbarButton
-						label="Insert Row"
-						icon="plus-alt2"
-						onClick={insertNewRow}
-					/>
-					<ToolbarButton
-						label="Insert Column"
-						icon="plus-alt2"
-						onClick={insertNewColumn}
-					/>
-				</ToolbarGroup>
-			</BlockControls>
-			<HotTable
-				ref={hotTableComponent}
-				data={data}
-				rowHeaders={rowHeaders}
-				colHeaders={colHeaders}
-				contextMenu
-				persistentState
-				multiColumnSorting
-				manualColumnResize
-				colWidths={!!columnWidths ? columnWidths : 100}
-				height="auto"
-				width="100%"
-				afterChange={(changes) => handleAfterChange(changes)}
-				afterColumnResize={(newSize, column, isDoubleClick) =>
-					handleAfterColumnResize(newSize, column, isDoubleClick)
-				}
-				beforeKeyDown={handleBeforeKeyDown}
-				licenseKey="non-commercial-and-evaluation" // for non-commercial use only
-			/>
-		</Fragment>
+		<HotTable
+			ref={hotTableComponent}
+			data={data}
+			rowHeaders={rowHeaders}
+			colHeaders={colHeaders}
+			contextMenu
+			persistentState
+			multiColumnSorting
+			manualColumnResize
+			colWidths={!!columnWidths ? columnWidths : 100}
+			height="auto"
+			width="100%"
+			afterChange={(changes) => handleAfterChange(changes)}
+			afterColumnResize={(newSize, column, isDoubleClick) =>
+				handleAfterColumnResize(newSize, column, isDoubleClick)
+			}
+			beforeKeyDown={handleBeforeKeyDown}
+			licenseKey="non-commercial-and-evaluation" // for non-commercial use only
+		/>
 	);
 }

@@ -28,7 +28,7 @@ class CoreImage extends PRC_Block_Library {
 			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 
 			add_action( 'init', array($this, 'init_assets') );
-			add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		}
 	}
@@ -44,6 +44,10 @@ class CoreImage extends PRC_Block_Library {
 		$style = $wp_styles->registered[ self::$view_style_handle ];
 		$src = $style->src;
 		wp_register_style( 'wp-block-image', $src,  array(), self::$version );
+	}
+
+	public function register_admin_assets() {
+		$this->register_assets();
 		wp_enqueue_script( self::$editor_script );
 	}
 }

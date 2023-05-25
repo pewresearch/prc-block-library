@@ -4344,6 +4344,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"comma-separated-values@npm:^3.6.4":
+  version: 3.6.4
+  resolution: "comma-separated-values@npm:3.6.4"
+  checksum: c73ab9282fa8992839e49137a226a3625f7464c93ecccb4104b42da623c5cc85312ed1fe46e0e43f3be7f7528a0a6bcbba78ae7b1b376b2c18779da43d5b8323
+  languageName: node
+  linkType: hard
+
 "commander@npm:^2.20.0":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
@@ -4772,6 +4779,7 @@ __metadata:
   dependencies:
     "@handsontable/react": ^12.2.0
     "@wordpress/scripts": ^24.6.0
+    comma-separated-values: ^3.6.4
     handsontable: ^12.2.0
   languageName: unknown
   linkType: soft
