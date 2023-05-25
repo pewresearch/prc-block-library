@@ -46,20 +46,18 @@ class ColorPalette extends PRC_Block_Library {
 	public function restfully_get_color( \WP_REST_Request $request ) {
 		$color_slug = $request->get_param( 'color' );
 		$colors = wp_get_global_settings();
-		// $colors = $colors['color']['palette']['theme'];
-		error_log("PICKED COLOR: " . $color_slug);
-		error_log( print_r( $colors, true ) );
+		$colors = $colors['color']['palette']['theme'];
 		if ( ! is_array( $colors ) ) {
 			return new WP_Error( 'prc-platform-color-palette', 'Failed to get colors' );
 		}
-		
+
 		$picked_color = array_filter($colors, function($color) use ($color_slug) {
 			return $color['slug'] === $color_slug;
 		});
 		if ( empty( $picked_color ) ) {
 			return $colors;
 		}
-		return $picked_color;
+		return array_pop( $picked_color );
 	}
 
 
