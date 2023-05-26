@@ -1,10 +1,5 @@
 
 /**
- * External Dependencies
- */
-import classNames from 'classnames';
-
-/**
  * WordPress Dependencies
  */
 import { useEffect, useState } from '@wordpress/element';
@@ -15,13 +10,14 @@ export default function Palette({
     colorSlug
 }) {
 
-    const [hex, setHex] = useState('');
+    const [hex, setHex] = useState(null);
+    const [clicked, setClicked] = useState(false);
 
     console.log('colorSlug', colorSlug);
 
     useEffect(() => {
         // make GET request to /wp-json/prc-api/v2/utils/get-theme-color, passing in the color slug
-        fetch(`https://prc-local.vipdev.lndo.site/wp-json/prc-api/v2/utils/get-theme-color?color=${colorSlug}`)
+        fetch(`https://prc-local.vipdev.lndo.site/devdocs/wp-json/prc-api/v2/utils/get-theme-color?color=${colorSlug}`)
             .then(response => response.json())
             .then(data => {
                setHex(data.color)
@@ -30,12 +26,26 @@ export default function Palette({
 
     }, [])
 
-    // function that copies the hex value to the clipboard when element is clicked
-    function copyToClipboard() {
+    function handleClick() {
         navigator.clipboard.writeText(hex);
+        setClicked(true);
+        setTimeout(() => {
+            setClicked(false);
+        }
+        , 2000)
     }
 	
 	return (
-		<div className={className} onClick={copyToClipboard}>{hex}</div>
+		<div className={className} onClick={handleClick}>
+             <p className='color-text'>
+                {hex && !clicked && hex.toUpperCase()}
+                {hex && clicked && 'Copied!'}
+                {!hex && 'Loading...'}
+
+             </p>
+       
+  
+           
+            </div>
 	);
 }

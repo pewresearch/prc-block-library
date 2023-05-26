@@ -6,9 +6,16 @@
  */
 
 .wp-block-prc-block-color-palette {
+	display: flex;
+ 	align-items: flex-end;
 	color: inherit;
 	background: inherit;
-
 	width: 100px;
 	height: 100px;
+	cursor: pointer;
+
+	.color-text {
+		flex-basis: 100%;
+		background-color: rgba(255,255,255,0.5);
+	}
 }
