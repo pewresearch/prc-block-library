@@ -1,6 +1,6 @@
 # PRC-Block-Library
 
-Welcome to the Pew Research Center Block Library 👋 ( prc-block-library for short). First some caveats; this is the culmination of a refactor of our various blocks into new block libraries utilizing `@wordpress/create-block` and `@wordpress/scripts` removing our need to use `Wpack.io`, this release also includes a new method for handling asset dependencies across plugins. Given the nature of how we’re handling dependencies some blocks will not work for you until we release our subsequent `prc-scripts` plugin later in Q1 2023. Until then, use at your own risk with the understanding some blocks will not work for you and will cause an error in the editor due to missing components. Furthermore, some blocks will reference post types, taxonomies, and general data models you won’t  have; we have tried our best to ensure backwards compatibility with WP core post types and objects when this is activated off our platform. Some blocks you may have heard us speak about are not present in this collection; our quiz builder, quote sorter builder, and chart builder blocks will be released open source at a later date. This will serve as a base of blocks that other plugins we release will utilize. 
+Welcome to the Pew Research Center Block Library 👋 ( prc-block-library for short).
 
 ---
 
