@@ -20,16 +20,43 @@ class DataTable extends PRC_Block_Library {
 		}
 	}
 
+	public function register_data_table_post_type() {
+		register_post_type(
+			'prc-data-table',
+			array(
+				'labels' => array(
+					'name' => __('Data Tables'),
+					'singular_name' => __('Data Table'),
+					'description' => __('Data Tables are used to create rich data tables.'),
+				),
+				'public' => true,
+				'has_archive' => true,
+				'show_in_rest' => true,
+				'rest_base' => 'data-tables',
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
+				'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments'),
+			)
+		);
+	}
+
 	public function render_callback($attributes, $content, $block) {
 		if ( is_admin() ) {
 			return $content;
 		}
+
 		$block_wrapper_attrs = get_block_wrapper_attributes();
 
 		// Generate a dynamic ID for the table data.
 		$table_id = 'prc-table-' . wp_hash(wp_json_encode($attributes));
 
-		$tbody = isset($attributes['data']) ? $attributes['data'] : array();
+		// Get the table head.
+		$thead = isset($attributes['head']) ? $attributes['head'] : array();
+
+		// Get the table body.
+		$tbody = isset($attributes['body']) ? $attributes['body'] : array();
+
+		// Get the table foot.
+		$tfoot = isset($attributes['foot']) ? $attributes['foot'] : array();
 
 		// Fallback for no JavaScript.
 		ob_start();
@@ -38,7 +65,7 @@ class DataTable extends PRC_Block_Library {
 			<thead>
 				<tr>
 					<?php
-					foreach ($tbody[0] as $cell) {
+					foreach ($thead[0] as $cell) {
 						echo wp_sprintf('<th>%s</th>', esc_html($cell));
 					}
 					?>

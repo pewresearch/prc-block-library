@@ -11,7 +11,6 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -30,6 +29,7 @@ import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
 // import Save from './Save';
+import transforms from './transforms';
 
 import metadata from './block.json';
 
@@ -46,6 +46,7 @@ const settings = {
 	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#save
 	 */
 	// save: Save,
+	transforms,
 };
 
 /**

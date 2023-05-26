@@ -42,6 +42,5 @@ Answer to foo bar dilemma.
 
 ## Developer Notes
 
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-blocks where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+Need to use AsyncModeProvider https://developer.wordpress.org/block-editor/reference-guides/packages/packages-data/#asyncmodeprovider when using the data table on the backend. THis will ensure that typing can continue while the data is being fetched.
+

@@ -14,19 +14,29 @@
 		"caption": {
 			"type": "string"
 		},
-		"data": {
-			"type": "array"
+		"head": {
+			"type": "array",
+			"default": []
 		},
-		"headers": {
-			"type": "array"
+		"body": {
+			"type": "array",
+			"default": []
+		},
+		"foot": {
+			"type": "array",
+			"default": []
 		},
 		"rowHeaders": {
 			"type": "boolean",
 			"default": true
 		},
+		"colWidths": {
+			"type": "array",
+			"default": []
+		},
 		"colHeaders": {
-			"type": "boolean",
-			"default": true
+			"type": "array",
+			"default": []
 		},
 		"cellBackgroundColor": {
 			"type": "string"
@@ -47,6 +57,10 @@
 		"html": false,
 		"spacing": {
 			"margin": [ "top", "bottom" ]
+		},
+		"color": {
+			"text": true,
+			"background": true
 		},
 		"typography": {
 			"fontSize": true,

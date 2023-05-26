@@ -1,4 +1,16 @@
 /**
+ * External Dependencies
+ */
+import {
+	tableColumnAfter,
+	tableColumnBefore,
+	tableColumnDelete,
+	tableRowAfter,
+	tableRowBefore,
+	tableRowDelete,
+} from '@wordpress/icons';
+
+/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -16,9 +28,10 @@ import {
 /**
  * Internal Dependencies
  */
-import handleCSV from './csv-parser';
+import { useDataTable } from './context';
 
-function InspectorPanel({ attributes, setAttributes }) {
+function InspectorPanel() {
+	const { handleCSVImport } = useDataTable();
 	const hiddenFileInput = useRef(null);
 
 	return (
@@ -26,25 +39,26 @@ function InspectorPanel({ attributes, setAttributes }) {
 			<PanelBody title="CSV Import">
 				<PanelRow>
 					<Button
-						isPrimary
+						variant="primary"
 						onClick={() => {
 							hiddenFileInput.current.click();
 						}}
 					>
-						{__(`Import CSV to Table`, 'prc-block-library')}
+						<span>
+							Click or drag and drop
+							<br />a CSV file to import it.
+						</span>
 					</Button>
 					<input
 						ref={hiddenFileInput}
 						type="file"
 						accept="text/csv"
-						onChange={(e) =>
-							handleCSV(e.target.files, attributes, setAttributes)
-						}
+						onChange={(e) => handleCSVImport(e.target.files)}
 						style={{ display: 'none' }}
 					/>
 					<DropZone
 						onFilesDrop={(droppedFiles) =>
-							handleCSV(droppedFiles, attributes, setAttributes)
+							handleCSVImport(droppedFiles)
 						}
 					/>
 				</PanelRow>
@@ -53,18 +67,20 @@ function InspectorPanel({ attributes, setAttributes }) {
 	);
 }
 
-function BlockToolbar({ attributes, setAttributes }) {
+function BlockToolbar() {
+	const { insertNewColumn, insertNewRow } = useDataTable();
+
 	return (
 		<BlockControls>
 			<ToolbarGroup>
 				<ToolbarButton
 					label="Insert Row"
-					icon="plus-alt2"
+					icon={tableRowAfter}
 					onClick={insertNewRow}
 				/>
 				<ToolbarButton
 					label="Insert Column"
-					icon="plus-alt2"
+					icon={tableColumnAfter}
 					onClick={insertNewColumn}
 				/>
 			</ToolbarGroup>
@@ -72,11 +88,11 @@ function BlockToolbar({ attributes, setAttributes }) {
 	);
 }
 
-export default function Controls({ attributes, setAttributes, context }) {
+export default function Controls() {
 	return (
 		<Fragment>
-			<BlockToolbar {...{ attributes, setAttributes, context }} />
-			<InspectorPanel {...{ attributes, setAttributes, context }} />
+			<BlockToolbar />
+			<InspectorPanel />
 		</Fragment>
 	);
 }

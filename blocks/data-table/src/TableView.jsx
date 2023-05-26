@@ -9,6 +9,11 @@ import { registerAllModules } from 'handsontable/registry';
  */
 import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
 
+/**
+ * Internal Dependencies
+ */
+import { HOT_LICENSE_KEY } from './context';
+
 registerAllModules();
 
 /**
@@ -18,23 +23,23 @@ registerAllModules();
  * @return
  */
 export default function TableView({ attributes }) {
-	const { data, columnWidths, colHeaders, rowHeaders } = attributes;
+	const { head, body, foot, colWidths, colHeaders, rowHeaders } = attributes;
 	const hotTableComponent = useRef(null);
 	const hotInstance = hotTableComponent.current?.hotInstance;
 	return (
 		<HotTable
 			ref={hotTableComponent}
-			data={data}
+			data={body}
 			rowHeaders={rowHeaders}
 			colHeaders={colHeaders}
 			contextMenu
 			persistentState
 			multiColumnSorting
 			manualColumnResize
-			colWidths={!!columnWidths ? columnWidths : 100}
+			colWidths={!!colWidths ? colWidths : 100}
 			height="auto"
 			width="100%"
-			licenseKey="non-commercial-and-evaluation" // for non-commercial use only
+			licenseKey={HOT_LICENSE_KEY}
 		/>
 	);
 }

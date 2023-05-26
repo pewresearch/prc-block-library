@@ -5,14 +5,17 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useRef, Fragment } from '@wordpress/element';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
 import TableEdit from './TableEdit';
+import TableSetupWizard from './TableSetupWizard';
+
+import { ProvideDataTable } from './context';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -32,26 +35,47 @@ import TableEdit from './TableEdit';
 export default function Edit({
 	attributes,
 	setAttributes,
-	context,
 	clientId,
 	isSelected,
 }) {
 	const blockProps = useBlockProps();
+	const tableRef = useRef(null);
+
+	const isTableEmpty = attributes.colHeaders.length === 0;
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, context }} />
-			<figure {...blockProps}>
-				<TableEdit
-					{...{
-						attributes,
-						setAttributes,
-						context,
-						clientId,
-						isSelected,
+			{isTableEmpty && (
+				<TableSetupWizard
+					onFinish={(c) => {
+						const newAttributes = {
+							colHeaders: c,
+						};
+						// add a row of empty cells for each column to newAttributes.body
+						newAttributes.body = [Array(c.length).fill('')];
+						console.log(newAttributes);
+						setAttributes(newAttributes);
 					}}
 				/>
-			</figure>
+			)}
+			{!isTableEmpty && (
+				<ProvideDataTable clientId={clientId} tableRef={tableRef}>
+					<Controls />
+					<figure {...blockProps}>
+						<TableEdit tableRef={tableRef} />
+						{(isSelected || attributes.caption) && (
+							<RichText
+								tagName="figcaption"
+								placeholder="Caption"
+								value={attributes.caption}
+								onChange={(caption) =>
+									setAttributes({ caption })
+								}
+							/>
+						)}
+					</figure>
+				</ProvideDataTable>
+			)}
 		</Fragment>
 	);
 }

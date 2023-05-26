@@ -3,15 +3,29 @@
  */
 import { HotTable } from '@handsontable/react';
 import { registerAllModules } from 'handsontable/registry';
+import { ContextMenu } from 'handsontable/plugins/contextMenu';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
-import { BlockControls } from '@wordpress/block-editor';
-import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import { KeyboardShortcuts } from '@wordpress/components';
+
+/**
+ * Internal Dependencies
+ */
+import { useDataTable, HOT_LICENSE_KEY } from './context';
 
 registerAllModules();
+
+// at initialization, sort data by the first column, in descending order
+const COLUMN_SORTING_CONFIG = {
+	initialConfig: {
+		column: 1,
+		sortOrder: 'desc',
+	},
+};
+
+const { prompt } = window;
 
 /**
  * Table
@@ -19,103 +33,82 @@ registerAllModules();
  * @param {*} param0
  * @return
  */
-export default function TableEdit({
-	attributes,
-	setAttributes,
-	context,
-	clientId,
-	isSelected,
-}) {
-	const { data, columnWidths, colHeaders, rowHeaders } = attributes;
-	const hotTableComponent = useRef(null);
-	const hotInstance = hotTableComponent.current?.hotInstance;
-
-	const [tableData, setTableData] = useState(data);
-
-	const handleAfterChange = (changes) => {
-		if (changes === null) {
-			return;
-		}
-
-		const newData = changes.map(([row, prop, oldValue, newValue]) => {
-			return [row, prop, newValue];
-		});
-
-		if (tableData === undefined) {
-			setTableData(newData);
-		} else {
-			newData.forEach(([row, prop, value]) => {
-				tableData[row][prop] = value;
-			});
-			setTableData([...tableData]);
-		}
-	};
-
-	const handleBeforeKeyDown = (event) => {
-		if (
-			(event.ctrlKey || event.metaKey) &&
-			event.shiftKey &&
-			(event.key === 'Enter' || event.code === 'Enter')
-		) {
-			event.preventDefault();
-			insertNewRow();
-		} else if (event.metaKey && event.shiftKey && event.code === 'Space') {
-			event.preventDefault();
-			insertNewColumn();
-		}
-	};
-
-	const insertNewRow = () => {
-		const newData = [...tableData];
-		newData.push(['', '', '']);
-		setTableData(newData);
-	};
-
-	const insertNewColumn = () => {
-		const newData = [...tableData];
-		newData.forEach((row) => row.push(''));
-		setTableData(newData);
-	};
-
-	const handleAfterColumnResize = (newSize, column, isDoubleClick) => {
-		// check if columnWidths is undefined first
-		// if (columnWidths === undefined || null === newSize) {
-		// 	return;
-		// }
-		console.log('currentColumn', column, newSize, columnWidths);
-
-		const newColWidths =
-			undefined === columnWidths ? [] : [...columnWidths];
-		newColWidths[column] = newSize;
-		console.log('newColWidths', newColWidths);
-		setAttributes({ columnWidths: newColWidths });
-	};
-
-	useEffect(() => {
-		if (tableData) {
-			setAttributes({ data: tableData });
-		}
-	}, [tableData]);
+export default function TableEdit({ tableRef }) {
+	const {
+		tableData,
+		rowHeaders,
+		colHeaders,
+		colWidths,
+		handleAfterChange,
+		handleAfterColumnResize,
+		handleBeforeKeyDown,
+		handleColumnHeaderRename,
+		getColHeader,
+		insertNewRow,
+		insertNewRowAfter,
+		inserNewRowBefore,
+		insertNewColumn,
+		insertNewColumnAfter,
+		insertNewColumnBefore,
+	} = useDataTable();
 
 	return (
-		<HotTable
-			ref={hotTableComponent}
-			data={data}
-			rowHeaders={rowHeaders}
-			colHeaders={colHeaders}
-			contextMenu
-			persistentState
-			multiColumnSorting
-			manualColumnResize
-			colWidths={!!columnWidths ? columnWidths : 100}
-			height="auto"
-			width="100%"
-			afterChange={(changes) => handleAfterChange(changes)}
-			afterColumnResize={(newSize, column, isDoubleClick) =>
-				handleAfterColumnResize(newSize, column, isDoubleClick)
-			}
-			beforeKeyDown={handleBeforeKeyDown}
-			licenseKey="non-commercial-and-evaluation" // for non-commercial use only
-		/>
+		<KeyboardShortcuts
+			shortcuts={{
+				'option+shift+down': () => insertNewRowAfter(),
+				'option+shift+right': () => insertNewColumnAfter(),
+			}}
+		>
+			<HotTable
+				ref={tableRef}
+				data={tableData}
+				rowHeaders={rowHeaders}
+				colHeaders={colHeaders}
+				contextMenu={{
+					items: {
+						row_above: {},
+						row_below: {},
+						remove_row: {},
+						remove_col: {},
+						seperator: ContextMenu.SEPARATOR,
+						rename: {
+							name: 'Rename this column',
+							callback(key, selection, clickEvent) {
+								// get the column index from the selection
+								const colIndex = selection[0].end.col;
+								// get the value from the selected
+								const colName = getColHeader(colIndex);
+
+								const newColName = prompt(
+									'Enter a new column name',
+									colName
+								);
+								if (newColName) {
+									handleColumnHeaderRename(
+										newColName,
+										colIndex
+									);
+								}
+							},
+						},
+					},
+				}}
+				fixedColumnsStart={1}
+				persistentState={true}
+				columnSorting={COLUMN_SORTING_CONFIG}
+				dropdownMenu={true}
+				manualColumnResize={true}
+				manualColumnFreeze={true}
+				colWidths={!!colWidths ? colWidths : 100}
+				height="auto"
+				width="100%"
+				afterChange={(changes) => handleAfterChange(changes)}
+				afterColumnResize={(newSize, column, isDoubleClick) =>
+					handleAfterColumnResize(newSize, column, isDoubleClick)
+				}
+				beforeKeyDown={handleBeforeKeyDown}
+				licenseKey={HOT_LICENSE_KEY}
+			/>
+		</KeyboardShortcuts>
 	);
 }
