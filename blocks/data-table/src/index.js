@@ -42,10 +42,9 @@ const settings = {
 	 */
 	edit: Edit,
 	/**
-	 * @see ./Save.jsx
-	 * @link https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#save
+	 * @see ./transforms.js
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-transforms/
 	 */
-	// save: Save,
 	transforms,
 };
 

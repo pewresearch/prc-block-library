@@ -50,13 +50,10 @@ class DataTable extends PRC_Block_Library {
 		$table_id = 'prc-table-' . wp_hash(wp_json_encode($attributes));
 
 		// Get the table head.
-		$thead = isset($attributes['head']) ? $attributes['head'] : array();
+		$thead = isset($attributes['colHeaders']) ? $attributes['colHeaders'] : array();
 
 		// Get the table body.
-		$tbody = isset($attributes['body']) ? $attributes['body'] : array();
-
-		// Get the table foot.
-		$tfoot = isset($attributes['foot']) ? $attributes['foot'] : array();
+		$tbody = isset($attributes['data']) ? $attributes['data'] : array();
 
 		// Fallback for no JavaScript.
 		ob_start();

@@ -6,9 +6,13 @@ import styled from '@emotion/styled';
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import { Placeholder, Button } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+
+/**
+ * Internal Dependencies
+ */
+import CSVImport from './CSVImport';
 
 const InputContainer = styled.div`
 	display: flex;
@@ -20,7 +24,7 @@ const Input = styled.input`
 	margin: 0 10px 10px 0;
 `;
 
-export default function TableSetupWizard({ onFinish }) {
+export default function TableSetupWizard({ onFinish, setAttributes }) {
 	const [columnCount, setColumnCount] = useState(0);
 	const [columnNames, setColumnNames] = useState([]);
 	const [step, setStep] = useState(0);
@@ -75,6 +79,7 @@ export default function TableSetupWizard({ onFinish }) {
 					<Button isPrimary onClick={() => setStep(1)}>
 						Next
 					</Button>
+					<CSVImport setAttributes={setAttributes} />
 				</Fragment>
 			) : (
 				<Fragment>

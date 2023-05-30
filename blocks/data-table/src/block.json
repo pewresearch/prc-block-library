@@ -14,15 +14,7 @@
 		"caption": {
 			"type": "string"
 		},
-		"head": {
-			"type": "array",
-			"default": []
-		},
-		"body": {
-			"type": "array",
-			"default": []
-		},
-		"foot": {
+		"data": {
 			"type": "array",
 			"default": []
 		},
@@ -35,6 +27,10 @@
 			"default": []
 		},
 		"colHeaders": {
+			"type": "array",
+			"default": []
+		},
+		"frozenColumns": {
 			"type": "array",
 			"default": []
 		},
@@ -52,6 +48,17 @@
 			"type": "string"
 		}
 	},
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{
+			"name": "striped",
+			"label": "Striped"
+		}
+	],
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -61,14 +68,6 @@
 		"color": {
 			"text": true,
 			"background": true
-		},
-		"typography": {
-			"fontSize": true,
-			"__experimentalFontFamily": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"__experimentalFontFamily": true
-			}
 		}
 	},
 	"textdomain": "data-table",

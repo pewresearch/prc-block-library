@@ -41,22 +41,38 @@ export default function Edit({
 	const blockProps = useBlockProps();
 	const tableRef = useRef(null);
 
+	console.log(clientId);
+
 	const isTableEmpty = attributes.colHeaders.length === 0;
 
 	return (
 		<Fragment>
 			{isTableEmpty && (
-				<TableSetupWizard
-					onFinish={(c) => {
-						const newAttributes = {
-							colHeaders: c,
-						};
-						// add a row of empty cells for each column to newAttributes.body
-						newAttributes.body = [Array(c.length).fill('')];
-						console.log(newAttributes);
-						setAttributes(newAttributes);
-					}}
-				/>
+				<figure {...blockProps}>
+					<TableSetupWizard
+						onFinish={(c) => {
+							const newAttributes = {
+								colHeaders: c,
+							};
+
+							// generate an object with a key for each column
+							// and an empty array for each key
+							// newAttributes.data = c.reduce(
+							// 	(acc, cur) => ({ ...acc, [cur]: [] }),
+							// 	{}
+							// );
+
+							// add a row of empty cells for each column to newAttributes.body
+							newAttributes.data = [Array(c.length).fill('')];
+							console.log(
+								'Finish Table Setup Wizard: Yield = ',
+								newAttributes
+							);
+							setAttributes(newAttributes);
+						}}
+						setAttributes={setAttributes}
+					/>
+				</figure>
 			)}
 			{!isTableEmpty && (
 				<ProvideDataTable clientId={clientId} tableRef={tableRef}>

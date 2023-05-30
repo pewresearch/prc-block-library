@@ -17,49 +17,40 @@ import { __ } from '@wordpress/i18n';
 import { Fragment, useRef } from '@wordpress/element';
 import { InspectorControls, BlockControls } from '@wordpress/block-editor';
 import {
+	BaseControl,
 	Button,
 	DropZone,
 	PanelBody,
 	PanelRow,
 	ToolbarGroup,
 	ToolbarButton,
+	ToggleControl,
 } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
 import { useDataTable } from './context';
+import CSVImport from './CSVImport';
 
 function InspectorPanel() {
-	const { handleCSVImport } = useDataTable();
-	const hiddenFileInput = useRef(null);
+	const { updateAttributes, rowHeaders } = useDataTable();
 
 	return (
 		<InspectorControls>
 			<PanelBody title="CSV Import">
 				<PanelRow>
-					<Button
-						variant="primary"
-						onClick={() => {
-							hiddenFileInput.current.click();
+					<CSVImport setAttributes={updateAttributes} />
+				</PanelRow>
+			</PanelBody>
+			<PanelBody title="Table Options">
+				<PanelRow>
+					<ToggleControl
+						label={__('Row Headers')}
+						checked={rowHeaders}
+						onChange={() => {
+							updateAttributes({ rowHeaders: !rowHeaders });
 						}}
-					>
-						<span>
-							Click or drag and drop
-							<br />a CSV file to import it.
-						</span>
-					</Button>
-					<input
-						ref={hiddenFileInput}
-						type="file"
-						accept="text/csv"
-						onChange={(e) => handleCSVImport(e.target.files)}
-						style={{ display: 'none' }}
-					/>
-					<DropZone
-						onFilesDrop={(droppedFiles) =>
-							handleCSVImport(droppedFiles)
-						}
 					/>
 				</PanelRow>
 			</PanelBody>

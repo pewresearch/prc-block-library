@@ -10,6 +10,31 @@
 .wp-block-prc-block-data-table {
   color: inherit;
   background: inherit;
+  font-family: var(--wp--preset--font-family--sans-serif);
+  font-size: 14px;
+}
+.wp-block-prc-block-data-table.is-selected .handsontable thead th,
+.wp-block-prc-block-data-table.is-selected .handsontable tbody td {
+  border-right-style: dotted !important;
+}
+.wp-block-prc-block-data-table.is-selected .handsontable thead th:last-child,
+.wp-block-prc-block-data-table.is-selected .handsontable tbody td:last-child {
+  border-right-style: none !important;
+}
+.wp-block-prc-block-data-table .handsontable thead > tr > th {
+  background: white;
+  border-style: none !important;
+  font-weight: bold;
+}
+.wp-block-prc-block-data-table .handsontable tbody td {
+  border-left-style: none !important;
+  border-top-style: none !important;
+  border-right-style: none !important;
+  border-bottom-style: dotted !important;
+}
+.wp-block-prc-block-data-table figcaption {
+  font-size: 12px;
+  color: #999;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

@@ -41,13 +41,15 @@ export default function TableEdit({ tableRef }) {
 		colWidths,
 		handleAfterChange,
 		handleAfterColumnResize,
-		handleBeforeKeyDown,
+		handleAfterCreateCol,
+		handleAfterCreateRow,
 		handleColumnHeaderRename,
+		handleAfterRowMove,
+		handleColumnFreeze,
+		handleColumnSort,
 		getColHeader,
-		insertNewRow,
 		insertNewRowAfter,
-		inserNewRowBefore,
-		insertNewColumn,
+		insertNewRowBefore,
 		insertNewColumnAfter,
 		insertNewColumnBefore,
 	} = useDataTable();
@@ -55,7 +57,9 @@ export default function TableEdit({ tableRef }) {
 	return (
 		<KeyboardShortcuts
 			shortcuts={{
+				'option+shift+up': () => insertNewRowBefore(),
 				'option+shift+down': () => insertNewRowAfter(),
+				'option+shift+left': () => insertNewColumnBefore(),
 				'option+shift+right': () => insertNewColumnAfter(),
 			}}
 		>
@@ -69,6 +73,8 @@ export default function TableEdit({ tableRef }) {
 						row_above: {},
 						row_below: {},
 						remove_row: {},
+						col_left: {},
+						col_right: {},
 						remove_col: {},
 						seperator: ContextMenu.SEPARATOR,
 						rename: {
@@ -91,22 +97,32 @@ export default function TableEdit({ tableRef }) {
 								}
 							},
 						},
+						freeze_column: {
+							name: 'Freeze this column',
+							callback(key, selection, clickEvent) {
+								const colIndex = selection[0].end.col;
+								handleColumnFreeze(colIndex);
+							},
+						},
 					},
 				}}
+				manualRowMove={true}
 				fixedColumnsStart={1}
 				persistentState={true}
-				columnSorting={COLUMN_SORTING_CONFIG}
+				// columnSorting={COLUMN_SORTING_CONFIG}
+				multiColumnSorting={true}
 				dropdownMenu={true}
 				manualColumnResize={true}
 				manualColumnFreeze={true}
 				colWidths={!!colWidths ? colWidths : 100}
 				height="auto"
 				width="100%"
-				afterChange={(changes) => handleAfterChange(changes)}
-				afterColumnResize={(newSize, column, isDoubleClick) =>
-					handleAfterColumnResize(newSize, column, isDoubleClick)
-				}
-				beforeKeyDown={handleBeforeKeyDown}
+				afterChange={handleAfterChange}
+				afterColumnResize={handleAfterColumnResize}
+				afterRowMove={handleAfterRowMove}
+				afterCreateCol={handleAfterCreateCol}
+				afterCreateRow={handleAfterCreateRow}
+				beforeColumnSort={handleColumnSort}
 				licenseKey={HOT_LICENSE_KEY}
 			/>
 		</KeyboardShortcuts>
