@@ -23,15 +23,9 @@ domReady(() => {
         // Get the second class name from the list of classes.
         const [colorClass] = classes.split(' ').slice(1);
 
-        console.log('color class from view',colorClass);
-
-        // const color = 'has-global-spectrum-light-three-background-color'
-        // // trim off has- and -color
-        const colorSlug = colorClass.slice(4, -17)
         // Get the color slug from the class name.
-        // const colorSlug = className.split('-').slice(-1)[0];
-
-		// Render the Palette component.
+        const colorSlug = colorClass.slice(4, -17)
+    
 		render(
 			<Palette 
             {...{

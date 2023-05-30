@@ -13,16 +13,22 @@ export default function Palette({
     const [hex, setHex] = useState(null);
     const [clicked, setClicked] = useState(false);
 
-    console.log('colorSlug', colorSlug);
-
     useEffect(() => {
-        // make GET request to /wp-json/prc-api/v2/utils/get-theme-color, passing in the color slug
-        fetch(`https://prc-local.vipdev.lndo.site/devdocs/wp-json/prc-api/v2/utils/get-theme-color?color=${colorSlug}`)
-            .then(response => response.json())
+        fetch(`${window.siteDomain}/devdocs/wp-json/prc-api/v2/utils/get-theme-color?color=${colorSlug}`)
+        .then(response => {
+            if (!response.ok) {
+              throw new Error('Something went wrong, try refreshing the page.');
+            }
+            return response.json();
+          })
             .then(data => {
                setHex(data.color)
             }
         )
+        .catch(error => {
+            console.log('ERROR:', error);
+          });
+       
 
     }, [])
 
