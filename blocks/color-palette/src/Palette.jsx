@@ -3,6 +3,7 @@
  * WordPress Dependencies
  */
 import { useEffect, useState } from '@wordpress/element';
+import { Popover } from '@wordpress/components';
 
 export default function Palette({
 	className,
@@ -12,6 +13,7 @@ export default function Palette({
 
     const [hex, setHex] = useState(null);
     const [clicked, setClicked] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
         fetch(`${window.siteDomain}/devdocs/wp-json/prc-api/v2/utils/get-theme-color?color=${colorSlug}`)
@@ -40,16 +42,16 @@ export default function Palette({
         }
         , 2000)
     }
+ 
 	
 	return (
-		<div className={className} onClick={handleClick}>
+		<div className={className} onClick={handleClick} onMouseEnter={() => setVisible(true)} onMouseLeave={() => setVisible(false)}>
              <p className='color-text'>
                 {hex && !clicked && hex.toUpperCase()}
-                {hex && clicked && 'Copied!'}
+                {hex && clicked && '\u2713 Copied!'}
                 {!hex && 'Loading...'}
-
              </p>
-       
+            {visible && <Popover placement='right' >{colorSlug}</Popover>}
   
            
             </div>

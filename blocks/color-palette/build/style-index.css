@@ -8,17 +8,29 @@
  * Replace them with your own styles or remove the file completely.
  */
 .wp-block-prc-block-color-palette {
-  display: flex;
-  align-items: flex-end;
+  position: relative;
   color: inherit;
   background: inherit;
   width: 100px;
   height: 100px;
   cursor: pointer;
+  font-family: sans-serif;
 }
 .wp-block-prc-block-color-palette .color-text {
-  flex-basis: 100%;
+  position: absolute;
+  top: 80px;
+  width: 100%;
   background-color: rgba(255, 255, 255, 0.5);
+  padding-left: 5px;
+}
+.wp-block-prc-block-color-palette .components-popover {
+  outline: none;
+}
+.wp-block-prc-block-color-palette .components-popover__content {
+  width: 100%;
+  outline: none;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

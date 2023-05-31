@@ -10,5 +10,11 @@
   color: inherit;
   background: inherit;
 }
+.wp-block-prc-block-color-palette.wp-block .components-popover__content {
+  width: 100px;
+  outline: none;
+  padding-right: 5px;
+  padding-left: 5px;
+}
 
 /*# sourceMappingURL=index.css.map*/

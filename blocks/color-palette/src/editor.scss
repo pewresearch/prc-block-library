@@ -7,4 +7,11 @@
 .wp-block-prc-block-color-palette.wp-block {
 	color: inherit;
 	background: inherit;
+
+	.components-popover__content {
+		width: 100px;
+		outline: none;
+		padding-right: 5px;
+		padding-left: 5px;
+	}
 }

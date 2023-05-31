@@ -41,7 +41,7 @@
 	"textdomain": "color-palette",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
+	"style": ["file:./style-index.css", "wp-components"],
 	"render": "file:./render.php",
 	"viewScript": "file:./view.js"
 }
