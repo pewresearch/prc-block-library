@@ -1,21 +1,33 @@
 /**
+ * External Dependencies
+ */
+import DataTable from 'datatables.net-dt';
+import 'datatables.net-responsive-dt';
+
+/**
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { render } from '@wordpress/element';
 
 /**
  * Internal Dependencies
  */
-import TableView from './TableView';
+import './view-table.scss';
+
+const initDataTable = (id) => new DataTable(`#${id}`, {
+	searching: false,
+	info: false,
+	lengthChange: false,
+	paging: false,
+	responsive: true,
+});
 
 domReady(() => {
-	const tableBlocks = document.querySelectorAll(
-		'.wp-block-prc-block-data-table'
-	);
+	const tableBlocks = document.querySelectorAll('.wp-block-prc-block-data-table > table');
+
 	tableBlocks.forEach((tableBlock) => {
 		const tableId = tableBlock.getAttribute('id');
-		const tableAttributes = window.prcDataTables[tableId];
-		render(<TableView attributes={tableAttributes} />, tableBlock);
+		const dataTable = initDataTable(tableId);
+		console.log('dataTable', dataTable);
 	});
 });

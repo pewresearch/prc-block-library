@@ -55,14 +55,15 @@ class DataTable extends PRC_Block_Library {
 		// Get the table body.
 		$tbody = isset($attributes['data']) ? $attributes['data'] : array();
 
-		// Fallback for no JavaScript.
+		$caption = isset($attributes['caption']) ? $attributes['caption'] : '';
+
 		ob_start();
 		?>
 		<table id="<?php echo esc_attr($table_id); ?>">
 			<thead>
 				<tr>
 					<?php
-					foreach ($thead[0] as $cell) {
+					foreach ($thead as $cell) {
 						echo wp_sprintf('<th>%s</th>', esc_html($cell));
 					}
 					?>
@@ -79,6 +80,9 @@ class DataTable extends PRC_Block_Library {
 			</tbody>
 		</table>
 		<?php
+		if ( ! empty($caption) ) {
+			echo wp_sprintf('<figcaption>%s</figcaption>', esc_html($caption));
+		}
 		$table_markup = ob_get_clean();
 
 		$script = wp_sprintf(

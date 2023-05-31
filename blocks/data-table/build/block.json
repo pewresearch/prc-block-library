@@ -18,10 +18,6 @@
       "type": "array",
       "default": []
     },
-    "rowHeaders": {
-      "type": "boolean",
-      "default": true
-    },
     "colWidths": {
       "type": "array",
       "default": []
@@ -62,20 +58,23 @@
   "supports": {
     "anchor": true,
     "html": false,
+    "alignWide": true,
     "spacing": {
       "margin": [
         "top",
         "bottom"
       ]
-    },
-    "color": {
-      "text": true,
-      "background": true
     }
   },
   "textdomain": "data-table",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
-  "viewScript": "file:./view.js"
+  "style": [
+    "file:./style-index.css",
+    "file:./view.css"
+  ],
+  "viewScript": [
+    "file:./view.js",
+    "jquery"
+  ]
 }

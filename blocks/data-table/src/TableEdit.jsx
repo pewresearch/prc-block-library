@@ -17,14 +17,6 @@ import { useDataTable, HOT_LICENSE_KEY } from './context';
 
 registerAllModules();
 
-// at initialization, sort data by the first column, in descending order
-const COLUMN_SORTING_CONFIG = {
-	initialConfig: {
-		column: 1,
-		sortOrder: 'desc',
-	},
-};
-
 const { prompt } = window;
 
 /**
@@ -36,7 +28,6 @@ const { prompt } = window;
 export default function TableEdit({ tableRef }) {
 	const {
 		tableData,
-		rowHeaders,
 		colHeaders,
 		colWidths,
 		handleAfterChange,
@@ -66,7 +57,7 @@ export default function TableEdit({ tableRef }) {
 			<HotTable
 				ref={tableRef}
 				data={tableData}
-				rowHeaders={rowHeaders}
+				rowHeaders={false}
 				colHeaders={colHeaders}
 				contextMenu={{
 					items: {
@@ -107,14 +98,12 @@ export default function TableEdit({ tableRef }) {
 					},
 				}}
 				manualRowMove={true}
-				fixedColumnsStart={1}
 				persistentState={true}
-				// columnSorting={COLUMN_SORTING_CONFIG}
-				multiColumnSorting={true}
-				dropdownMenu={true}
+				columnSorting={true}
 				manualColumnResize={true}
 				manualColumnFreeze={true}
 				colWidths={!!colWidths ? colWidths : 100}
+				stretchH='all'
 				height="auto"
 				width="100%"
 				afterChange={handleAfterChange}

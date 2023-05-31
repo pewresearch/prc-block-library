@@ -11,6 +11,8 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
+import './editor.scss';
+import './editor-table.scss';
 import Controls from './Controls';
 import TableEdit from './TableEdit';
 import TableSetupWizard from './TableSetupWizard';

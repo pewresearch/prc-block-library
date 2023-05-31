@@ -4855,6 +4855,8 @@ __metadata:
     "@wordpress/icons": ^9.25.0
     "@wordpress/scripts": ^24.6.0
     comma-separated-values: ^3.6.4
+    datatables.net-dt: ^1.13.4
+    datatables.net-responsive-dt: ^2.4.1
     handsontable: ^12.2.0
   languageName: unknown
   linkType: soft
@@ -4867,6 +4869,46 @@ __metadata:
     whatwg-mimetype: ^2.3.0
     whatwg-url: ^8.0.0
   checksum: 97caf828aac25e25e04ba6869db0f99c75e6859bb5b424ada28d3e7841941ebf08ddff3c1b1bb4585986bd507a5d54c2a716853ea6cb98af877400e637393e71
+  languageName: node
+  linkType: hard
+
+"datatables.net-dt@npm:>=1.12.1, datatables.net-dt@npm:^1.13.4":
+  version: 1.13.4
+  resolution: "datatables.net-dt@npm:1.13.4"
+  dependencies:
+    datatables.net: ">=1.12.1"
+    jquery: ">=1.7"
+  checksum: 0f731ea859f1e6c135d2cfcc561faa40c2fe671136cbf934c9a0240414b72ce67f834d3977d900b92f4b6f3446c0c61bf3af6fcc2a2cb595ea074a57dc632cd3
+  languageName: node
+  linkType: hard
+
+"datatables.net-responsive-dt@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "datatables.net-responsive-dt@npm:2.4.1"
+  dependencies:
+    datatables.net-dt: ">=1.12.1"
+    datatables.net-responsive: ">=2.3.0"
+    jquery: ">=1.7"
+  checksum: 3bf284a42def845f7e15e79d3b4ff70dcfcd5f481c16c3fec13ece9f7f2f5b1afc27733907f621bf2e034702a5af60c1fefb69d60933dfa8559057c28e9089cf
+  languageName: node
+  linkType: hard
+
+"datatables.net-responsive@npm:>=2.3.0":
+  version: 2.4.1
+  resolution: "datatables.net-responsive@npm:2.4.1"
+  dependencies:
+    datatables.net: ">=1.12.1"
+    jquery: ">=1.7"
+  checksum: 49a773be2f5a1ff47f60f1462191f5992fa88b02d7ffea6ecf8876113dc602e678a81a7db2b61b793fac8898f9f0fff2209a49cb64b941896abd0edeada2e3d3
+  languageName: node
+  linkType: hard
+
+"datatables.net@npm:>=1.12.1":
+  version: 1.13.4
+  resolution: "datatables.net@npm:1.13.4"
+  dependencies:
+    jquery: ">=1.7"
+  checksum: 7fa718f0c93809ac3b66e0287ae007459e072dfab9b435ac026be8feddbec24274b7cd08259b4caae3635e4e212cfd4de44e0e450ece66baaf43a1054966fead
   languageName: node
   linkType: hard
 
@@ -7887,6 +7929,13 @@ __metadata:
     "@sideway/formula": ^3.0.0
     "@sideway/pinpoint": ^2.0.0
   checksum: 767a847936cb66787256c4351ff86e1b9e8d7383cbe81a5c827064032c2a8e8b6e938baef5ad32c4035fe4c56e537bd90aa2a952be8a0658601c920cdeb4fb3c
+  languageName: node
+  linkType: hard
+
+"jquery@npm:>=1.7":
+  version: 3.7.0
+  resolution: "jquery@npm:3.7.0"
+  checksum: 907785e133afc427650a131af5fccef66a404885037513b3d4d7d63aee6409bcc32a39836868c60e59b05aa0fb8ace8961c18b2ee3ffdf6ffdb571d6d7cd88ff
   languageName: node
   linkType: hard
 

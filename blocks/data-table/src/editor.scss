@@ -4,7 +4,32 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-prc-block-data-table.wp-block {
-	color: inherit;
-	background: inherit;
+.wp-block-prc-block-data-table {
+	&.is-selected .handsontable {
+		thead th,
+		tbody td {
+			border-right-style: dotted !important;
+			&:last-child {
+				border-right-style: none !important;
+			}
+		}
+	}
+
+	.handsontable {
+		thead {
+			& > tr > th {
+				background: white;
+				border-style: none !important;
+				font-weight: bold;
+			}
+		}
+		tbody {
+			td {
+				border-left-style: none !important;
+				border-top-style: none !important;
+				border-right-style: none !important;
+				border-bottom-style: dotted !important;
+			}
+		}
+	}
 }
