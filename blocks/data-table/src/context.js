@@ -214,6 +214,13 @@ const useProvideDataTable = ({ clientId, tableRef }) => {
 		return { rowIndex: selectedRow, columnIndex: selectedCol };
 	};
 
+	const getSelectedColumn = () => {
+		const selected = HOT?.getSelected();
+		console.log('selected', selected);
+		const selectedCol = selected[0][1];
+		return selectedCol;
+	};
+
 	const loading = useMemo(() => {
 		return processing;
 	}, [processing]);
@@ -249,6 +256,7 @@ const useProvideDataTable = ({ clientId, tableRef }) => {
 		insertNewColumnAfter,
 		insertNewColumnBefore,
 		getColHeader,
+		getSelectedColumn,
 		updateAttributes,
 	};
 };

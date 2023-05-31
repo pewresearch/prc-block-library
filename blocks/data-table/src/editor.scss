@@ -14,22 +14,4 @@
 			}
 		}
 	}
-
-	.handsontable {
-		thead {
-			& > tr > th {
-				background: white;
-				border-style: none !important;
-				font-weight: bold;
-			}
-		}
-		tbody {
-			td {
-				border-left-style: none !important;
-				border-top-style: none !important;
-				border-right-style: none !important;
-				border-bottom-style: dotted !important;
-			}
-		}
-	}
 }

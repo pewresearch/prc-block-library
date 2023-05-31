@@ -58,7 +58,7 @@
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"alignWide": true,
+		"align": ["wide", "full"],
 		"spacing": {
 			"margin": [ "top", "bottom" ]
 		}

@@ -13,6 +13,53 @@
 
 	figcaption {
 		font-size: 12px;
+		line-height: 1.5;
+		margin-top: 1.25em;
 		color: #999;
+	}
+
+	table {
+		border-bottom: 0px !important;
+	}
+
+	thead {
+		& > tr {
+			vertical-align: bottom;
+			& > th {
+				background: white;
+				border-style: none !important;
+				font-weight: bold;
+				font-family: var(--wp--preset--font-family--sans-serif);
+				text-align: left;
+				font-size: 12px !important;
+				line-height: 15px !important;
+
+				&.sorting:after,
+				&.sorting:before {
+					transform: scaleY(0.7);
+					opacity: 1.0;
+					display: none !important;
+				}
+				&.sorting_asc:before {
+					display: block !important;
+					color: var(--wp--preset--color--slate);
+				}
+				&.sorting_desc:after {
+					display: block !important;
+					color: var(--wp--preset--color--slate);
+				}
+			}
+		}
+	}
+
+	tbody {
+		td {
+			border-left-style: none !important;
+			border-top-style: none !important;
+			border-right-style: none !important;
+			border-bottom-style: dotted !important;
+			border-bottom-color: #ddd !important;
+			font-size: 12px !important;
+		}
 	}
 }

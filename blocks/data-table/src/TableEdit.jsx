@@ -43,6 +43,7 @@ export default function TableEdit({ tableRef }) {
 		insertNewRowBefore,
 		insertNewColumnAfter,
 		insertNewColumnBefore,
+		getSelectedColumn,
 	} = useDataTable();
 
 	return (
@@ -89,7 +90,11 @@ export default function TableEdit({ tableRef }) {
 							},
 						},
 						freeze_column: {
-							name: 'Freeze this column',
+							name() {
+								const currentColumn = getSelectedColumn();
+								console.log(currentColumn);
+								return 'Freeze this column';
+							},
 							callback(key, selection, clickEvent) {
 								const colIndex = selection[0].end.col;
 								handleColumnFreeze(colIndex);
@@ -97,13 +102,13 @@ export default function TableEdit({ tableRef }) {
 						},
 					},
 				}}
-				manualRowMove={true}
-				persistentState={true}
+				// persistentState={true}
 				columnSorting={true}
-				manualColumnResize={true}
 				manualColumnFreeze={true}
-				colWidths={!!colWidths ? colWidths : 100}
-				stretchH='all'
+				// manualColumnResize={true}
+				// colWidths={!!colWidths ? colWidths : 100}
+				wordWrap={true}
+				stretchH="all"
 				height="auto"
 				width="100%"
 				afterChange={handleAfterChange}

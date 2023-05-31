@@ -14,20 +14,30 @@ import domReady from '@wordpress/dom-ready';
  */
 import './view-table.scss';
 
-const initDataTable = (id) => new DataTable(`#${id}`, {
-	searching: false,
-	info: false,
-	lengthChange: false,
-	paging: false,
-	responsive: true,
-});
+const initDataTable = (id, extraConfigs = {}) =>
+	new DataTable(`#${id}`, {
+		searching: false,
+		info: false,
+		lengthChange: false,
+		paging: false,
+		responsive: true,
+		...extraConfigs,
+	});
 
 domReady(() => {
-	const tableBlocks = document.querySelectorAll('.wp-block-prc-block-data-table > table');
+	const tableBlocks = document.querySelectorAll(
+		'.wp-block-prc-block-data-table > table'
+	);
 
 	tableBlocks.forEach((tableBlock) => {
+		const { prcDataTables } = window;
 		const tableId = tableBlock.getAttribute('id');
-		const dataTable = initDataTable(tableId);
-		console.log('dataTable', dataTable);
+		const extraConfigs = {};
+		const frozenTargets = prcDataTables[tableId]?.frozenColumns;
+		extraConfigs.columnDefs = [
+			{ orderable: false, targets: frozenTargets },
+		];
+		const dataTable = initDataTable(tableId, extraConfigs);
+		console.log('dataTable', dataTable, prcDataTables[tableId]);
 	});
 });

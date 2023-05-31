@@ -43,7 +43,7 @@ function InspectorPanel() {
 					<CSVImport setAttributes={updateAttributes} />
 				</PanelRow>
 			</PanelBody>
-			<PanelBody title="Table Options">
+			{/* <PanelBody title="Table Options">
 				<PanelRow>
 					<ToggleControl
 						label={__('Row Headers')}
@@ -53,7 +53,7 @@ function InspectorPanel() {
 						}}
 					/>
 				</PanelRow>
-			</PanelBody>
+			</PanelBody> */}
 		</InspectorControls>
 	);
 }
