@@ -159,7 +159,14 @@ export default function Edit({
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes }} />
-			<ModalShade
+			<dialog open={isOpen}>
+				<p>Greetings, one and all!</p>
+				<div {...innerBlocksProps} />
+				<form method="dialog">
+					<button>OK</button>
+				</form>
+			</dialog>
+			{/* <ModalShade
 				className={classNames('wp-block-prc-block-popup-modal--outer', {
 					active: isOpen,
 					[`is-position-${cleanForSlug(position)}`]: position,
@@ -172,7 +179,7 @@ export default function Edit({
 					)}
 					<div {...innerBlocksProps} />
 				</div>
-			</ModalShade>
+			</ModalShade> */}
 			<TriggerButton>
 				<Button variant="link" onClick={toggleModal}>
 					{`Click ${isOpen ? `To Close` : 'To Open'} Modal`}
