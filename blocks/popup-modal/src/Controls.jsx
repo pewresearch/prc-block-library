@@ -6,9 +6,10 @@
  * WordPress Dependencies
  */
 import { useState } from '@wordpress/element';
-import { BlockControls } from '@wordpress/block-editor';
+import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import {
 	ToolbarButton,
+	PanelBody,
 	Popover,
 	ToolbarGroup,
 	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
@@ -47,5 +48,16 @@ function Toolbar({ attributes, setAttributes }) {
 }
 
 export default function Controls({ attributes, setAttributes }) {
-	return <Toolbar {...{ attributes, setAttributes }} />;
+	return (
+		<InspectorControls>
+			<PanelBody title="Popup Modal How-To" initialOpen={true}>
+				<p>
+					<strong>Keyboard shortcuts available:</strong>
+				</p>
+				<p>
+					<code>esc</code> will close the modal.
+				</p>
+			</PanelBody>
+		</InspectorControls>
+	);
 }

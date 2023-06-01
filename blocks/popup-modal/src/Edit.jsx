@@ -19,7 +19,7 @@ import {
 	RichText,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { Button } from '@wordpress/components';
+import { Button, KeyboardShortcuts } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { cleanForSlug } from '@wordpress/url';
 
@@ -32,7 +32,8 @@ const ALLOWED_BLOCKS = [
 	'core/group',
 	'core/paragraph',
 	'core/image',
-	'core/video',
+	'vimeo/create',
+	'core/embed',
 ];
 
 /**
@@ -150,6 +151,7 @@ export default function Edit({
 		{
 			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 			templateLock: false,
+			__experimentalCaptureToolbars: true,
 		}
 	);
 	// check that context has popup-controller/className
@@ -194,39 +196,46 @@ export default function Edit({
 
 	return (
 		<Fragment>
-			{/* <Controls {...{ attributes, setAttributes }} /> */}
+			<Controls {...{ attributes, setAttributes }} />
 			{isOpen && (
 				<ModalStylesWrapper>
-					<ModalShade
-						className={classNames(
-							'wp-block-prc-block-popup-modal--outer',
-							{
-								active: isOpen,
-								[`is-position-${cleanForSlug(position)}`]:
-									position,
-							}
-						)}
-						backgroundColor={convertHexToRGBA('#000', 0.5)}
+					<KeyboardShortcuts
+						bindGlobal
+						shortcuts={{
+							esc: closeModal,
+						}}
 					>
-						<div {...blockProps}>
-							{!isVideoModal && (
-								<div className="wp-block-prc-block-popup-modal--header">
-									<RichText
-										tagName="h2"
-										placeholder={__(
-											'Add a title',
-											'prc-block-library'
-										)}
-										value={title}
-										onChange={(value) =>
-											setAttributes({ title: value })
-										}
-									/>
-								</div>
+						<ModalShade
+							className={classNames(
+								'wp-block-prc-block-popup-modal--outer',
+								{
+									active: isOpen,
+									[`is-position-${cleanForSlug(position)}`]:
+										position,
+								}
 							)}
-							<div {...innerBlocksProps} />
-						</div>
-					</ModalShade>
+							backgroundColor={convertHexToRGBA('#000', 0.5)}
+						>
+							<div {...blockProps}>
+								{!isVideoModal && (
+									<div className="wp-block-prc-block-popup-modal--header">
+										<RichText
+											tagName="h2"
+											placeholder={__(
+												'Add a title',
+												'prc-block-library'
+											)}
+											value={title}
+											onChange={(value) =>
+												setAttributes({ title: value })
+											}
+										/>
+									</div>
+								)}
+								<div {...innerBlocksProps} />
+							</div>
+						</ModalShade>
+					</KeyboardShortcuts>
 				</ModalStylesWrapper>
 			)}
 			<TriggerButton>

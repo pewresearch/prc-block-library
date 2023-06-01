@@ -12,7 +12,7 @@
 
 function loadYoutubePlayer(videoProvider, popupController) {
 	const iframe = videoProvider.querySelector(
-		'.wp-block-embed__wrapper > iframe',
+		'.wp-block-embed__wrapper > iframe'
 	);
 
 	let id = iframe.getAttribute('id');
@@ -41,10 +41,10 @@ function loadYoutubePlayer(videoProvider, popupController) {
 
 function loadVimeoPlayer(videoProvider, popupController) {
 	const trigger = popupController.querySelector(
-		'.wp-block-prc-block-popup-content',
+		'.wp-block-prc-block-popup-content'
 	);
 
-	const iframe = videoProvider.querySelector('iframe.vimeo-core-video');
+	const iframe = videoProvider.querySelector('iframe');
 
 	let id = iframe.getAttribute('id');
 
@@ -67,6 +67,8 @@ function loadVimeoPlayer(videoProvider, popupController) {
 				console.log('the player is ready');
 			});
 		});
+	} else {
+		console.error('Vimeo player not found');
 	}
 
 	return {
@@ -103,17 +105,17 @@ function loadVimeoPlayer(videoProvider, popupController) {
 				})
 				.catch((error) => {
 					switch (error.name) {
-					case 'PasswordError':
-						// the video is password-protected and the viewer needs to enter the
+						case 'PasswordError':
+							// the video is password-protected and the viewer needs to enter the
 							// password first
-						break;
-
-						case 'PrivacyError':
-						// the video is private
 							break;
 
-					default:
-						// some other error occurred
+						case 'PrivacyError':
+							// the video is private
+							break;
+
+						default:
+							// some other error occurred
 							break;
 					}
 				});
@@ -122,41 +124,54 @@ function loadVimeoPlayer(videoProvider, popupController) {
 }
 
 export default function loadVideoHandler(popupController) {
+	let provider = false;
+
 	if (
 		!popupController ||
 		!popupController.classList.contains('is-style-video')
 	) {
 		return {
-			provider: false,
+			provider,
 		};
 	}
 
-	// const videoProvider = popupController.querySelector(
-	// 	'.wp-block-embed.is-type-video',
-	// );
-	// if (!videoProvider) {
-	// 	return {
-	// 		provider: false,
-	// 	};
-	// }
+	const isCoreEmbedBlock = popupController.querySelector(
+		'.wp-block-embed.is-type-video'
+	);
+	if (isCoreEmbedBlock) {
+		provider = isCoreEmbedBlock.classList
+			.toString()
+			.split(' ')
+			.find((className) => className.includes('is-provider-'))
+			.replace('is-provider-', '');
+	}
 
-	// const provider = videoProvider.classList
-	// 	.toString()
-	// 	.split(' ')
-	// 	.find((className) => className.includes('is-provider-'))
-	// 	.replace('is-provider-', '');
+	const isVimeoBlock = popupController.querySelector(
+		'.wp-block-vimeo-create'
+	);
+	if (isVimeoBlock) {
+		provider = 'vimeo';
+	}
 
-	const provider = 'vimeo';
-	const videoProvider = popupController.querySelector('.wp-block-vimeo-create');
+	const videoProvider = isCoreEmbedBlock || isVimeoBlock;
+
 	if (!videoProvider) {
 		return {
-			provider: false,
+			provider,
 		};
 	}
 
-	// eslint-disable-next-line consistent-return
 	return {
 		provider,
-		loadPlayer: () => loadVimeoPlayer(videoProvider, popupController),
+		loadPlayer: () => {
+			switch (provider) {
+				case 'youtube':
+					return loadYoutubePlayer(videoProvider, popupController);
+				case 'vimeo':
+					return loadVimeoPlayer(videoProvider, popupController);
+				default:
+					return false;
+			}
+		},
 	};
 }

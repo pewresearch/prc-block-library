@@ -22,7 +22,7 @@ export default [
 						{
 							placeholder: __(
 								'Add content to trigger your popup here.',
-								'prc-block-library',
+								'prc-block-library'
 							),
 						},
 					],
@@ -39,7 +39,7 @@ export default [
 						{
 							placeholder: __(
 								'Add content inside the modal here.',
-								'prc-block-library',
+								'prc-block-library'
 							),
 						},
 					],
@@ -56,6 +56,7 @@ export default [
 		attributes: {
 			className: 'is-style-video',
 		},
+		keywords: [__('video', 'prc-block-library')],
 		innerBlocks: [
 			[
 				'prc-block/popup-content',
@@ -66,7 +67,7 @@ export default [
 						{
 							placeholder: __(
 								'Add content to trigger your video popup here.',
-								'prc-block-library',
+								'prc-block-library'
 							),
 						},
 					],
@@ -79,7 +80,7 @@ export default [
 					textColor: 'white',
 					allowedBlocks: ['vimeo/create', 'core/video', 'core/embed'],
 				},
-				[['core/video', {}]],
+				[['vimeo/create', {}]],
 			],
 		],
 		isActive: ({ className }) =>

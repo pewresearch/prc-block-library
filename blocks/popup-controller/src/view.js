@@ -8,36 +8,46 @@ import domReady from '@wordpress/dom-ready';
  */
 import loadVideoHandler from './video-handlers';
 
+function closeModal(targetModal, provider, loadPlayer) {
+	if ('vimeo' === provider && 'function' === typeof loadPlayer) {
+		const p = loadPlayer();
+		p.stopVideo();
+	}
+	targetModal.classList.remove('animate-in');
+	targetModal.classList.add('animate-out');
+	setTimeout(() => {
+		targetModal.classList.remove('active');
+		targetModal.classList.remove('animate-out');
+	}, 1501);
+	document.querySelector('body').classList.toggle('has-active-modal');
+}
+
 function prepareController(popupController) {
 	const videoHandler = loadVideoHandler(popupController);
 	const { provider, loadPlayer } = videoHandler;
 
 	const trigger = popupController.querySelector(
-		'.wp-block-prc-block-popup-content',
+		'.wp-block-prc-block-popup-content'
 	);
 	const modal = popupController.querySelector(
-		'.wp-block-prc-block-popup-modal--outer',
+		'.wp-block-prc-block-popup-modal--outer'
 	);
 	const closeButton = popupController.querySelector(
-		'.wp-block-prc-block-popup-modal--close-button',
+		'.wp-block-prc-block-popup-modal--close-button'
 	);
+
 
 	closeButton.addEventListener('click', (event) => {
 		event.preventDefault();
-		if ('vimeo' === provider && 'function' === typeof loadPlayer) {
-			const p = loadPlayer();
-			p.stopVideo();
-		}
-		modal.classList.remove('active');
-		document.querySelector('body').classList.toggle('has-active-modal');
+		closeModal(modal, provider, loadPlayer);
 	});
 
 	trigger.addEventListener('click', (event) => {
 		event.preventDefault();
-		console.log('trigger clicked', provider);
 		if (!modal.classList.contains('initialized')) {
 			modal.classList.add('initialized');
 		}
+		modal.classList.toggle('animate-in');
 		setTimeout(() => {
 			modal.classList.toggle('active');
 			document.querySelector('body').classList.toggle('has-active-modal');
@@ -63,7 +73,7 @@ function initControllers() {
 function watchForOutsideClicks() {
 	document.addEventListener('click', (event) => {
 		const currentActiveModal = document.querySelector(
-			'.wp-block-prc-block-popup-modal--outer.active.initialized',
+			'.wp-block-prc-block-popup-modal--outer.active.initialized'
 		);
 		if (!currentActiveModal) {
 			return;
@@ -72,23 +82,20 @@ function watchForOutsideClicks() {
 		// Get currentActiveModal parent element and check if its class is .is-style-video.wp-block-prc-block-popup-controller
 		// If it is, then we need to stop the video.
 		const popupController = currentActiveModal.closest(
-			'.wp-block-prc-block-popup-controller',
+			'.wp-block-prc-block-popup-controller'
 		);
 		const modalWindow = currentActiveModal.querySelector(
-			'.wp-block-prc-block-popup-modal',
+			'.wp-block-prc-block-popup-modal'
 		);
 		if (currentActiveModal && !modalWindow.contains(event.target)) {
-			currentActiveModal.classList.remove('active');
-			document.querySelector('body').classList.toggle('has-active-modal');
-
+			let provider = false;
+			let loadPlayer = false;
 			if (popupController.classList.contains('is-style-video')) {
 				const videoHandler = loadVideoHandler(popupController);
-				const { provider, loadPlayer } = videoHandler;
-				if ('vimeo' === provider && 'function' === typeof loadPlayer) {
-					const p = loadPlayer();
-					p.stopVideo();
-				}
+				provider = videoHandler?.provider;
+				loadPlayer = videoHandler?.loadPlayer;
 			}
+			closeModal(currentActiveModal, provider, loadPlayer);
 		}
 	});
 }

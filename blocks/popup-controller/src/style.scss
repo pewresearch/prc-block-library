@@ -15,6 +15,10 @@ body.has-active-modal {
     margin-bottom: 0;
 }
 
+.wp-block-prc-block-popup-content {
+	cursor: pointer;
+}
+
 .wp-block-prc-block-popup-modal--outer {
 	display: none;
 
@@ -71,8 +75,7 @@ body.has-active-modal {
 
 	.wp-block-prc-block-popup-modal {
 		width: 100%;
-		max-width: 600px;
-		max-height: 80vh;
+		max-width: calc(640px * 1.5);
 		position: relative;
 		background: transparent;
 
@@ -93,7 +96,7 @@ body.has-active-modal {
 		}
 
 		.wp-block-prc-block-popup-modal--inner {
-			max-height: 60vh;
+			max-height: 90vh;
 			overflow-y: auto;
 		}
 
@@ -109,5 +112,49 @@ body.has-active-modal {
 				color: white;
 			}
 		}
+
+		.wp-block-vimeo-create.vimeo-create__video-container {
+			max-width: 100% !important;
+		}
 	}
+}
+
+/* Fade in outer div */
+.wp-block-prc-block-popup-modal--outer.active.animate-in {
+	opacity: 0;
+	animation: fade-in 1s forwards;
+	/* Pop in inner div */
+	.wp-block-prc-block-popup-modal {
+		transform: scale(0);
+		animation: pop-in 0.5s 1s forwards;
+	}
+}
+
+/* Pop out inner div and fade out outer div */
+.wp-block-prc-block-popup-modal--outer.animate-out {
+	animation: fade-out 1s forwards;
+	.wp-block-prc-block-popup-modal {
+		animation: pop-out 0.5s forwards;
+	}
+}
+
+/* Animations */
+@keyframes fade-in {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+@keyframes pop-in {
+from { transform: scale(0); }
+to { transform: scale(1); }
+}
+
+@keyframes fade-out {
+from { opacity: 1; }
+to { opacity: 0; }
+}
+
+@keyframes pop-out {
+from { transform: scale(1); }
+to { transform: scale(0); }
 }
