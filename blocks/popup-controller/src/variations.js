@@ -46,6 +46,7 @@ export default [
 				],
 			],
 		],
+		scope: ['inserter', 'transform'],
 		isActive: ({ className }) =>
 			className ? className.includes('is-style-standard') : false,
 	},
@@ -83,6 +84,7 @@ export default [
 				[['vimeo/create', {}]],
 			],
 		],
+		scope: ['inserter', 'transform'],
 		isActive: ({ className }) =>
 			className ? className.includes('is-style-video') : false,
 	},

@@ -99,7 +99,7 @@ function initVerticalCarousel(id, elm) {
 		arrows: false,
 		wheel: true,
 		waitForTransition: true,
-		wheelSleep: 700,
+		wheelSleep: 400,
 		speed: 700,
 		releaseWheel: true,
 		intersection: {
