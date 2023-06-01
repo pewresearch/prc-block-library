@@ -13,6 +13,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
+import domReady from '@wordpress/dom-ready';
 
 /**
  * Internal Dependencies

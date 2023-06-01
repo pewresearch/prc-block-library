@@ -8,7 +8,12 @@ import classNames from 'classnames';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
+import {
+	Fragment,
+	useState,
+	useEffect,
+	createPortal,
+} from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -23,7 +28,54 @@ import { cleanForSlug } from '@wordpress/url';
  */
 import Controls from './Controls';
 
-const ALLOWED_BLOCKS = ['core/group', 'core/paragraph'];
+const ALLOWED_BLOCKS = [
+	'core/group',
+	'core/paragraph',
+	'core/image',
+	'core/video',
+];
+
+/**
+ * Render modal in a portal inside the editor style wrapper to ensure styles are
+ * applied correctly.
+ *
+ * @param root0
+ * @param root0.children
+ */
+function ModalStylesWrapper({ children }) {
+	const editorStylesWrapper = document.querySelector(
+		'.editor-styles-wrapper'
+	);
+	console.log('editorStylesWrapper', editorStylesWrapper);
+	// create a div inside at the end of this wrapper
+	// check if modal-styles-wrapper exists and if it doesnt then create it
+	if (!editorStylesWrapper) {
+		return null;
+	}
+
+	// This stays in the DOM for the lifetime of the editor.
+	let modalStylesWrapper = editorStylesWrapper.querySelector(
+		'.modal-styles-wrapper'
+	);
+
+	if (!modalStylesWrapper) {
+		modalStylesWrapper = document.createElement('div');
+		modalStylesWrapper.classList.add('modal-styles-wrapper');
+		editorStylesWrapper.appendChild(modalStylesWrapper);
+	}
+
+	// This is ephemeral and will be removed when the component unmounts.
+	const modalEl = document.createElement('div');
+
+	useEffect(() => {
+		modalStylesWrapper.appendChild(modalEl);
+		return () => {
+			modalStylesWrapper.removeChild(modalEl);
+		};
+	}, [modalEl, modalStylesWrapper]);
+
+	return createPortal(children, modalEl);
+}
 
 function convertHexToRGBA(hexCode = '', opacity = 1) {
 	let o = opacity;
@@ -60,22 +112,6 @@ const TriggerButton = styled('div')`
 	top: 0;
 `;
 
-function ModalHeader({ attributes, setAttributes }) {
-	const { title } = attributes;
-	const onChangeTitle = (value) => setAttributes({ title: value });
-
-	return (
-		<div className="wp-block-prc-block-popup-modal--header">
-			<RichText
-				tagName="h2"
-				placeholder={__('Add a title', 'prc-block-library')}
-				value={title}
-				onChange={onChangeTitle}
-			/>
-		</div>
-	);
-}
-
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -106,7 +142,7 @@ export default function Edit({
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	// The same applies for "orientation", defaults to "vertical".
-	const { allowedBlocks, position } = attributes;
+	const { allowedBlocks, position, title } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(
 		{
 			className: 'wp-block-prc-block-popup-modal--inner',
@@ -158,31 +194,44 @@ export default function Edit({
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes }} />
-			<dialog open={isOpen}>
-				<p>Greetings, one and all!</p>
-				<div {...innerBlocksProps} />
-				<form method="dialog">
-					<button>OK</button>
-				</form>
-			</dialog>
-			{/* <ModalShade
-				className={classNames('wp-block-prc-block-popup-modal--outer', {
-					active: isOpen,
-					[`is-position-${cleanForSlug(position)}`]: position,
-				})}
-				backgroundColor={convertHexToRGBA('#000', 0.5)}
-			>
-				<div {...blockProps}>
-					{!isVideoModal && (
-						<ModalHeader {...{ attributes, setAttributes }} />
-					)}
-					<div {...innerBlocksProps} />
-				</div>
-			</ModalShade> */}
+			{/* <Controls {...{ attributes, setAttributes }} /> */}
+			{isOpen && (
+				<ModalStylesWrapper>
+					<ModalShade
+						className={classNames(
+							'wp-block-prc-block-popup-modal--outer',
+							{
+								active: isOpen,
+								[`is-position-${cleanForSlug(position)}`]:
+									position,
+							}
+						)}
+						backgroundColor={convertHexToRGBA('#000', 0.5)}
+					>
+						<div {...blockProps}>
+							{!isVideoModal && (
+								<div className="wp-block-prc-block-popup-modal--header">
+									<RichText
+										tagName="h2"
+										placeholder={__(
+											'Add a title',
+											'prc-block-library'
+										)}
+										value={title}
+										onChange={(value) =>
+											setAttributes({ title: value })
+										}
+									/>
+								</div>
+							)}
+							<div {...innerBlocksProps} />
+						</div>
+					</ModalShade>
+				</ModalStylesWrapper>
+			)}
 			<TriggerButton>
-				<Button variant="link" onClick={toggleModal}>
-					{`Click ${isOpen ? `To Close` : 'To Open'} Modal`}
+				<Button variant="secondary" onClick={toggleModal}>
+					{`${isOpen ? `Close` : 'Open'} Modal`}
 				</Button>
 			</TriggerButton>
 		</Fragment>
