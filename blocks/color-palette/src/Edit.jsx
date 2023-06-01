@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import styled from '@emotion/styled';
 
 /**
  * WordPress Dependencies
@@ -30,6 +31,12 @@ import { Popover } from '@wordpress/components';
  *
  * @return {WPElement} Element to render.
  */
+
+const StyledSlug = styled.span`
+	padding: 0px 10px;
+	white-space: nowrap;
+	`;
+	
 export default function Edit({
 	attributes,
 	setAttributes,
@@ -49,7 +56,7 @@ export default function Edit({
 
 	//get the color slug out of that class
 	const colorSlug = colorClass.slice(4, -17)
-	
+
 	const [visible, setVisible] = useState(false);
 
 	return (
@@ -59,7 +66,7 @@ export default function Edit({
 					{backgroundColor && backgroundColor.toUpperCase()}
 					{!backgroundColor && '#dadbdb'.toUpperCase()}
 				</p>
-				{visible && <Popover placement='right' >{colorSlug}</Popover>}
+				{visible && <Popover placement='right' noArrow={false}><StyledSlug>{colorSlug}</StyledSlug></Popover>}
 			</div>
 		</Fragment>
 	);

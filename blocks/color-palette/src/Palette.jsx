@@ -1,9 +1,18 @@
+/**
+ * External Dependencies
+ */
+import styled from '@emotion/styled';
 
 /**
  * WordPress Dependencies
  */
 import { useEffect, useState } from '@wordpress/element';
 import { Popover } from '@wordpress/components';
+
+const StyledSlug = styled.span`
+	padding: 0px 10px;
+	white-space: nowrap;
+	`;
 
 export default function Palette({
 	className,
@@ -51,7 +60,7 @@ export default function Palette({
                 {hex && clicked && '\u2713 Copied!'}
                 {!hex && 'Loading...'}
              </p>
-            {visible && <Popover placement='right' >{colorSlug}</Popover>}
+            {visible && <Popover placement='right' noArrow={false}><StyledSlug>{colorSlug}</StyledSlug></Popover>}
   
            
             </div>
