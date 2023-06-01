@@ -1,0 +1,17 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-color-palette.wp-block {
+	color: inherit;
+	background: inherit;
+
+	.components-popover__content {
+		width: 100px;
+		outline: none;
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+}
