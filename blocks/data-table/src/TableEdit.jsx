@@ -28,6 +28,7 @@ const { prompt } = window;
 export default function TableEdit({ tableRef }) {
 	const {
 		tableData,
+		debouncedTableData,
 		colHeaders,
 		colWidths,
 		handleAfterChange,

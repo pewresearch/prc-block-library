@@ -1,16 +1,11 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
  */
-import {
-	useBlockProps,
-	RichText, 
-} from '@wordpress/block-editor';
-import { Fragment, useEffect } from '@wordpress/element';
+import { RichText } from '@wordpress/block-editor';
 /**
  * React hook that is used to mark the block wrapper element.
  * It provides all the necessary props like the class name.
@@ -29,18 +24,16 @@ import { Fragment, useEffect } from '@wordpress/element';
  * @param {Object} props.attributes Available block attributes.
  * @return {WPElement} Element to render.
  */
-export default function Save( { attributes } ) {
+export default function Save({ attributes }) {
 	const { value, className } = attributes;
 
 	return (
-		<Fragment>
-			<pre>
-				<RichText.Content
-					className='wp-block-prc-block-code-syntax__edit'
-					tagName='code'
-					value={ value }
-				/>
-			</pre>
-		</Fragment>
+		<pre>
+			<RichText.Content
+				className="wp-block-prc-block-code-syntax__edit"
+				tagName="code"
+				value={value}
+			/>
+		</pre>
 	);
 }

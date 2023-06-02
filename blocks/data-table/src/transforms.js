@@ -15,12 +15,6 @@ export default {
 							return cell.content;
 						});
 					}),
-
-					foot: foot.map((row) => {
-						return row.cells.map((cell) => {
-							return cell.content;
-						});
-					}),
 					body: body.map((row) => {
 						return row.cells.map((cell) => {
 							return cell.content;

@@ -34,6 +34,13 @@ const CSVImportContainer = styled.div`
 	padding: 10px;
 `;
 
+const StyledNumberControl = styled(NumberControl)`
+	display: flex;
+	.components-base-control__field {
+		display: flex;
+	}
+`;
+
 export default function TableSetupWizard({ onFinish, setAttributes }) {
 	const [columnCount, setColumnCount] = useState(0);
 	const [columnNames, setColumnNames] = useState([]);
@@ -79,17 +86,26 @@ export default function TableSetupWizard({ onFinish, setAttributes }) {
 		>
 			{step === 0 ? (
 				<Fragment>
-					<NumberControl
-						isShiftStepEnabled={true}
-						onChange={(val) => handleColumnCountSubmit(val)}
-						shiftStep={1}
-						value={columnCount}
-					/>
-					<Button isPrimary onClick={() => setStep(1)}>
-						Next
-					</Button>
+					<InputContainer>
+						<StyledNumberControl
+							isShiftStepEnabled={true}
+							onChange={(val) => handleColumnCountSubmit(val)}
+							shiftStep={1}
+							value={columnCount}
+						/>
+						<Button isPrimary onClick={() => setStep(1)}>
+							Next
+						</Button>
+					</InputContainer>
 					<CSVImportContainer>
-						<CSVImport setAttributes={setAttributes} />
+						<CSVImport
+							onChange={(data, colHeaders) => {
+								setAttributes({
+									data,
+									colHeaders,
+								});
+							}}
+						/>
 					</CSVImportContainer>
 				</Fragment>
 			) : (

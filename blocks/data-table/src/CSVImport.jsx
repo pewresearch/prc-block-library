@@ -13,7 +13,7 @@ import { BaseControl, Button, DropZone } from '@wordpress/components';
  * Utilities for managing core/table data
  */
 
-function parseCSV(csvInput, setAttributes) {
+function parseCSV(csvInput, onChange) {
 	const opts = {
 		header: true,
 	};
@@ -29,28 +29,26 @@ function parseCSV(csvInput, setAttributes) {
 		Object.values(row).map((value) => (value === undefined ? '' : value))
 	);
 
-	const newAttributes = {
+	console.log('TO INIT:', {
 		data: newData,
 		colHeaders,
-	};
+	});
 
-	console.log("TO INIT:", newAttributes);
-
-	setAttributes(newAttributes);
+	onChange(newData, colHeaders);
 
 	return parsed;
 }
 
-function handleCSV(files, setAttributes) {
+function handleCSV(files, onChange) {
 	// eslint-disable-next-line no-undef
 	const reader = new FileReader();
 	reader.onload = () => {
-		parseCSV(reader.result, setAttributes);
+		parseCSV(reader.result, onChange);
 	};
 	Array.from(files).forEach((file) => reader.readAsBinaryString(file));
 }
 
-export default function CSVImport({ setAttributes }) {
+export default function CSVImport({ onChange }) {
 	const hiddenFileInput = useRef(null);
 
 	return (
@@ -70,12 +68,12 @@ export default function CSVImport({ setAttributes }) {
 				ref={hiddenFileInput}
 				type="file"
 				accept="text/csv"
-				onChange={(e) => handleCSV(e.target.files, setAttributes)}
+				onChange={(e) => handleCSV(e.target.files, onChange)}
 				style={{ display: 'none' }}
 			/>
 			<DropZone
 				onFilesDrop={(droppedFiles) =>
-					handleCSV(droppedFiles, setAttributes)
+					handleCSV(droppedFiles, onChange)
 				}
 			/>
 		</BaseControl>

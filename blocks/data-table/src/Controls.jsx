@@ -34,26 +34,20 @@ import { useDataTable } from './context';
 import CSVImport from './CSVImport';
 
 function InspectorPanel() {
-	const { updateAttributes, rowHeaders } = useDataTable();
+	const { updateAttributes, setTableData } = useDataTable();
 
 	return (
 		<InspectorControls>
 			<PanelBody title="CSV Import">
 				<PanelRow>
-					<CSVImport setAttributes={updateAttributes} />
-				</PanelRow>
-			</PanelBody>
-			{/* <PanelBody title="Table Options">
-				<PanelRow>
-					<ToggleControl
-						label={__('Row Headers')}
-						checked={rowHeaders}
-						onChange={() => {
-							updateAttributes({ rowHeaders: !rowHeaders });
+					<CSVImport
+						onChange={(data, colHeaders) => {
+							setTableData(data);
+							updateAttributes({ colHeaders });
 						}}
 					/>
 				</PanelRow>
-			</PanelBody> */}
+			</PanelBody>
 		</InspectorControls>
 	);
 }

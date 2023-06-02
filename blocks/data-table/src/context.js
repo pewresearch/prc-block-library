@@ -32,19 +32,18 @@ const useProvideDataTable = ({ clientId, tableRef }) => {
 		return tableRef.current?.hotInstance;
 	}, [current]);
 
-	const { data, colWidths, colHeaders, frozenColumns } =
-		useSelect(
-			(select) => {
-				const block = select('core/block-editor').getBlock(clientId);
-				return {
-					data: block.attributes.data,
-					colWidths: block.attributes.colWidths,
-					colHeaders: block.attributes.colHeaders,
-					frozenColumns: block.attributes.frozenColumns,
-				};
-			},
-			[clientId]
-		);
+	const { data, colWidths, colHeaders, frozenColumns } = useSelect(
+		(select) => {
+			const block = select('core/block-editor').getBlock(clientId);
+			return {
+				data: block.attributes.data,
+				colWidths: block.attributes.colWidths,
+				colHeaders: block.attributes.colHeaders,
+				frozenColumns: block.attributes.frozenColumns,
+			};
+		},
+		[clientId]
+	);
 
 	const [tableData, setTableData] = useState(data);
 
@@ -258,6 +257,7 @@ const useProvideDataTable = ({ clientId, tableRef }) => {
 		getColHeader,
 		getSelectedColumn,
 		updateAttributes,
+		setTableData,
 	};
 };
 

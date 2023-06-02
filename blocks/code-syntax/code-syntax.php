@@ -16,8 +16,7 @@ class CodeSyntax extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action('init', array($this, 'block_init'));
-			add_action( 'admin_enqueue_scripts', array( $this, 'register_typekit_font' ), 0 );
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_typekit_font' ), 0 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'register_typekit_font' ) );
 			add_action( 'after_setup_theme', function() {
 				// Load monospace font in editor
 				add_editor_style('https://use.typekit.net/lih4wwo.css');
