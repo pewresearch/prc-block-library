@@ -1,1 +1,59 @@
-.wp-block-prc-block-data-table{background:inherit;color:#000!important;font-family:var(--wp--preset--font-family--sans-serif);font-size:14px}.wp-block-prc-block-data-table figcaption{color:#999;font-size:12px;line-height:1.5;margin-top:1.25em}.wp-block-prc-block-data-table table{border-bottom:0!important}.wp-block-prc-block-data-table thead>tr{vertical-align:bottom}.wp-block-prc-block-data-table thead>tr>th{background:#fff;border-style:none!important;font-family:var(--wp--preset--font-family--sans-serif);font-size:12px!important;font-weight:700;line-height:15px!important;text-align:left}.wp-block-prc-block-data-table thead>tr>th.sorting:after,.wp-block-prc-block-data-table thead>tr>th.sorting:before{display:none!important;opacity:1;transform:scaleY(.7)}.wp-block-prc-block-data-table thead>tr>th.sorting_asc:before,.wp-block-prc-block-data-table thead>tr>th.sorting_desc:after{color:var(--wp--preset--color--slate);display:block!important}.wp-block-prc-block-data-table tbody td{border-bottom-color:#ddd!important;border-style:none none dotted!important;font-size:12px!important}
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/style.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-prc-block-data-table {
+  color: black !important;
+  background: inherit;
+  font-family: var(--wp--preset--font-family--sans-serif);
+  font-size: 14px;
+}
+.wp-block-prc-block-data-table figcaption {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 1.25em;
+  color: #999;
+}
+.wp-block-prc-block-data-table table {
+  border-bottom: 0px !important;
+}
+.wp-block-prc-block-data-table thead > tr {
+  vertical-align: bottom;
+}
+.wp-block-prc-block-data-table thead > tr > th {
+  background: white;
+  border-style: none !important;
+  font-weight: bold;
+  font-family: var(--wp--preset--font-family--sans-serif);
+  text-align: left;
+  font-size: 12px !important;
+  line-height: 15px !important;
+}
+.wp-block-prc-block-data-table thead > tr > th.sorting:after, .wp-block-prc-block-data-table thead > tr > th.sorting:before {
+  transform: scaleY(0.7);
+  opacity: 1;
+  display: none !important;
+}
+.wp-block-prc-block-data-table thead > tr > th.sorting_asc:before {
+  display: block !important;
+  color: var(--wp--preset--color--slate);
+}
+.wp-block-prc-block-data-table thead > tr > th.sorting_desc:after {
+  display: block !important;
+  color: var(--wp--preset--color--slate);
+}
+.wp-block-prc-block-data-table tbody td {
+  border-left-style: none !important;
+  border-top-style: none !important;
+  border-right-style: none !important;
+  border-bottom-style: dotted !important;
+  border-bottom-color: #ddd !important;
+  font-size: 12px !important;
+}
+
+/*# sourceMappingURL=style-index.css.map*/

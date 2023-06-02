@@ -7,7 +7,11 @@ import styled from '@emotion/styled';
  * WordPress Dependencies
  */
 import { Fragment, useState } from '@wordpress/element';
-import { Placeholder, Button } from '@wordpress/components';
+import {
+	Placeholder,
+	Button,
+	__experimentalNumberControl as NumberControl,
+} from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -22,6 +26,12 @@ const Input = styled.input`
 	flex-grow: 1;
 	width: 100%;
 	margin: 0 10px 10px 0;
+`;
+
+const CSVImportContainer = styled.div`
+	margin-top: 10px;
+	background-color: #f3f3f3;
+	padding: 10px;
 `;
 
 export default function TableSetupWizard({ onFinish, setAttributes }) {
@@ -69,17 +79,18 @@ export default function TableSetupWizard({ onFinish, setAttributes }) {
 		>
 			{step === 0 ? (
 				<Fragment>
-					<input
-						type="number"
+					<NumberControl
+						isShiftStepEnabled={true}
+						onChange={(val) => handleColumnCountSubmit(val)}
+						shiftStep={1}
 						value={columnCount}
-						onChange={(event) =>
-							handleColumnCountSubmit(event.target.value)
-						}
 					/>
 					<Button isPrimary onClick={() => setStep(1)}>
 						Next
 					</Button>
-					<CSVImport setAttributes={setAttributes} />
+					<CSVImportContainer>
+						<CSVImport setAttributes={setAttributes} />
+					</CSVImportContainer>
 				</Fragment>
 			) : (
 				<Fragment>
