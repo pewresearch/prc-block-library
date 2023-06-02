@@ -1,0 +1,68 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-code-syntax {
+	color: inherit;
+  font-family: 'Source Code pro', monospace !important;
+  background: var( --wp--preset--color--gray-cool );
+  padding: 20px;
+  margin: 1em 0;
+  
+  // Only used as root to mount the copy button on the frontend
+  .wp-block-prc-block-code-syntax__ui {
+    position:relative;
+    top:-20px;
+    margin-right:-20px;
+  }
+
+  button {
+    display:none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    width: 70px;
+    flex-direction: row;
+    align-items: center;
+    font-family: var(--wp--preset--font-family--sans-serif);
+    color: var(--wp--preset--color--text-color);
+    background: var(--wp--preset--color--gray);
+    padding: 3px;
+    border-radius: 5px;
+    border: solid 1px var(--wp--preset--color--gray-light);
+    z-index:2;
+    
+    span {
+      font-size: var(--wp--preset--font-size--small-label);
+      margin-left: 6px;
+      line-height: 16px;
+    }
+  }
+
+  &:hover {
+    button {
+      display: flex;
+    }
+  }
+
+  pre {
+    margin:0;
+    code {  
+      max-width: 100%;
+      overflow: auto;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  @import 'themes/github';
+
+  &.has-dark-theme, &.is-style-dark-mode {
+    background: var(--wp--preset--color--gray-darkest);
+    @import 'themes/github-dark';
+  }
+}
