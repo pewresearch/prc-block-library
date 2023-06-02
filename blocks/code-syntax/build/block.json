@@ -1,0 +1,78 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/code-syntax",
+  "version": "0.1.0",
+  "title": "Code Syntax",
+  "description": "Write syntax-highlighted code with automatic language detection.  Language can also be set manually.",
+  "category": "text",
+  "attributes": {
+    "orientation": {
+      "type": "string",
+      "default": "vertical"
+    },
+    "value": {
+      "type": "string",
+      "source": "html",
+      "selector": "code"
+    },
+    "forceLanguage": {
+      "type": "string",
+      "default": ""
+    },
+    "detectedLanguage": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "dark-mode",
+      "label": "Dark theme"
+    }
+  ],
+  "example": {
+    "attributes": {
+      "value": "<?php\n echo 'Hello World!';\n ?>"
+    }
+  },
+  "supports": {
+    "align": [
+      "full",
+      "wide",
+      "center"
+    ],
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": false,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": false
+      }
+    }
+  },
+  "textdomain": "code-syntax",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}
