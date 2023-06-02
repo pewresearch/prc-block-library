@@ -14,7 +14,6 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
-
 /**
  * Internal Dependencies
  */
@@ -42,7 +41,6 @@ const settings = {
 	/**
 	 * @see ./Edit.jsx
 	 */
-	
 	edit: Edit,
 	/**
 	 * @see ./Save.jsx
@@ -55,4 +53,4 @@ const settings = {
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-registerBlockType( name, { ...metadata, ...settings } );
+registerBlockType(name, { ...metadata, ...settings });

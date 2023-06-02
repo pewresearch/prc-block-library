@@ -10,6 +10,8 @@
 	background: inherit;
 	font-family: var(--wp--preset--font-family--sans-serif);
 	font-size: 14px;
+	line-height: 16px;
+
 
 	figcaption {
 		font-size: 12px;
@@ -20,6 +22,7 @@
 
 	table {
 		border-bottom: 0px !important;
+		border-spacing: 2px !important;
 	}
 
 	thead {
@@ -31,8 +34,6 @@
 				font-weight: bold;
 				font-family: var(--wp--preset--font-family--sans-serif);
 				text-align: left;
-				font-size: 12px !important;
-				line-height: 15px !important;
 
 				&.sorting:after,
 				&.sorting:before {
@@ -59,7 +60,11 @@
 			border-right-style: none !important;
 			border-bottom-style: dotted !important;
 			border-bottom-color: #ddd !important;
-			font-size: 12px !important;
 		}
+	}
+
+	td {
+		font-size: 14px !important;
+		line-height: 16px !important;
 	}
 }

@@ -17,7 +17,6 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
 import Controls from './Controls';
 import { CopyText } from './Copy';
 
-const ALLOWED_BLOCKS = [];
 const ALLOWED_LANGUAGES = [
 	'R',
 	'Python',
@@ -66,8 +65,11 @@ export default function Edit({
 	hljs.configure(configuration);
 
 	useEffect(() => {
+		if (codeRef.current === null) {
+			return;
+		}
 		// Flush any prior classNames on the code block that hljs might have assigned automatically
-		codeRef.current.removeAttribute('class');
+		codeRef.current?.removeAttribute('class');
 
 		const detected = hljs.highlightAuto(unescape(value), ALLOWED_LANGUAGES);
 		setAttributes({
@@ -75,7 +77,7 @@ export default function Edit({
 		});
 
 		hljs.highlightElement(codeRef.current);
-	}, [value, forceLanguage]);
+	}, [codeRef, value, forceLanguage]);
 
 	return (
 		<Fragment>
