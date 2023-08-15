@@ -7,7 +7,7 @@ import { useBlockProps, withColors } from '@wordpress/block-editor';
  */
 import Controls from './Controls';
 import ProgressBar from './ProgressBar';
-
+import CopyPasteStylesHandler from './CopyPasteStylesHandler';
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -27,35 +27,46 @@ function Edit({
 	setBarColor,
 	backgroundColor,
 	setBackgroundColor,
+	categoryLabelColor,
+	setCategoryLabelColor,
 }) {
 	const blockProps = useBlockProps();
 
 	return (
-		<div {...blockProps}>
-			<Controls
-				{...{
-					attributes,
-					setAttributes,
-					colors: {
-						barColor,
-						setBarColor,
-						backgroundColor,
-						setBackgroundColor,
-					},
-				}}
-			/>
-			<ProgressBar
-				{...{
-					...attributes,
-					barColor: barColor.color,
-					backgroundColor: backgroundColor.color,
-				}}
-			/>
-		</div>
+		<CopyPasteStylesHandler
+			attributes={attributes}
+			setAttributes={setAttributes}
+		>
+			<div {...blockProps}>
+				<Controls
+					{...{
+						attributes,
+						setAttributes,
+						colors: {
+							barColor,
+							setBarColor,
+							backgroundColor,
+							setBackgroundColor,
+							categoryLabelColor,
+							setCategoryLabelColor,
+						},
+					}}
+				/>
+				<ProgressBar
+					{...{
+						...attributes,
+						barColor: barColor.color,
+						backgroundColor: backgroundColor.color,
+						categoryLabelColor: categoryLabelColor.color,
+					}}
+				/>
+			</div>
+		</CopyPasteStylesHandler>
 	);
 }
 
 export default withColors(
 	{ barColor: 'color' },
 	{ backgroundColor: 'color' },
+	{ categoryLabelColor: 'color' }
 )(Edit);

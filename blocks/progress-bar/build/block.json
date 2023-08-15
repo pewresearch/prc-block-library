@@ -27,6 +27,10 @@
       "type": "string",
       "default": "beige"
     },
+    "categoryLabelColor": {
+      "type": "string",
+      "default": "text-color"
+    },
     "maxValue": {
       "type": "number",
       "default": 100
@@ -47,6 +51,10 @@
       "type": "number",
       "default": 60
     },
+    "axisLabelMaxWidth": {
+      "type": "number",
+      "default": 60
+    },
     "labelFormat": {
       "enum": [
         "fractional",
@@ -54,9 +62,16 @@
       ],
       "default": "fractional"
     },
+    "labelPosition": {
+      "enum": [
+        "inside",
+        "outside"
+      ],
+      "default": "inside"
+    },
     "labelPositionDX": {
       "type": "integer",
-      "default": 0
+      "default": -5
     },
     "labelPositionDY": {
       "type": "integer",

@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('prc-charting-library', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-element', 'wp-i18n', 'wp-polyfill'), 'version' => '6dbbe1ce86c10331d11e');
+<?php return array('dependencies' => array('prc-charting-library', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n', 'wp-polyfill'), 'version' => 'a9256e0c4b0bf6060005');

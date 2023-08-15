@@ -12,6 +12,7 @@
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
+import { register } from '@wordpress/data';
 
 /**
  * Internal Dependencies
@@ -28,8 +29,9 @@ import { registerBlockType } from '@wordpress/blocks';
 import Edit from './Edit';
 
 import metadata from './block.json';
+import store from './store';
 
-console.log("prc-block/progress-bar", metadata);
+console.log('prc-block/progress-bar', metadata);
 
 const { name } = metadata;
 
@@ -39,6 +41,8 @@ const settings = {
 	 */
 	edit: Edit,
 };
+
+register(store);
 
 /**
  * Every block starts by registering a new block type definition.

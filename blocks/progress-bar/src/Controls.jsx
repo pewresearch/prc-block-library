@@ -28,14 +28,22 @@ export default function Controls({ attributes, setAttributes, colors }) {
 		currentValue,
 		showAxisLabel,
 		axisLabel,
+		axisLabelMaxWidth,
 		axisPadding,
 		labelFormat,
+		labelPosition,
 		labelPositionDY,
 		labelPositionDX,
 	} = attributes;
 
-	const { barColor, setBarColor, backgroundColor, setBackgroundColor } =
-		colors;
+	const {
+		barColor,
+		setBarColor,
+		backgroundColor,
+		setBackgroundColor,
+		categoryLabelColor,
+		setCategoryLabelColor,
+	} = colors;
 
 	return (
 		<Fragment>
@@ -69,6 +77,18 @@ export default function Controls({ attributes, setAttributes, colors }) {
 						value={axisLabel}
 						disabled={!showAxisLabel}
 						onChange={(val) => setAttributes({ axisLabel: val })}
+					/>
+					<NumberControl
+						label={__('Category Label Max Width')}
+						value={axisLabelMaxWidth}
+						disabled={!showAxisLabel}
+						disableUnits
+						disabledUnits
+						onChange={(val) =>
+							setAttributes({
+								axisLabelMaxWidth: parseInt(val, 10),
+							})
+						}
 					/>
 					<NumberControl
 						label={__('Category Padding')}
@@ -126,6 +146,28 @@ export default function Controls({ attributes, setAttributes, colors }) {
 							});
 						}}
 					/>
+					<SelectControl
+						label={__('Label Position')}
+						value={labelPosition}
+						options={[
+							{
+								value: 'inside',
+								label: 'Inside',
+							},
+							{
+								value: 'outside',
+								label: 'Outside',
+							},
+						]}
+						help={__(
+							'Typically, the label should be inside the bar. However, with very small values, it may make more sense to position the label outside.'
+						)}
+						onChange={(position) => {
+							setAttributes({
+								labelPosition: position,
+							});
+						}}
+					/>
 					<Flex>
 						<FlexItem>
 							<NumberControl
@@ -167,6 +209,11 @@ export default function Controls({ attributes, setAttributes, colors }) {
 							value: backgroundColor.color,
 							onChange: (color) => setBackgroundColor(color),
 							label: __('Background'),
+						},
+						{
+							value: categoryLabelColor.color,
+							onChange: (color) => setCategoryLabelColor(color),
+							label: __('Category Label'),
 						},
 					]}
 				/>

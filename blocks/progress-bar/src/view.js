@@ -22,12 +22,15 @@ domReady(() => {
 				currentValue: parseFloat(attrs.currentValue),
 				labelFormat: attrs.labelFormat,
 				axisLabel: attrs.axisLabel,
+				axisLabelMaxWidth: parseFloat(attrs.axisLabelMaxWidth),
 				axisPadding: parseFloat(attrs.axisPadding),
+				labelBarPosition: attrs.labelPosition,
 				labelPositionDY: parseInt(attrs.labelPositionDy, 10),
 				labelPositionDX: parseInt(attrs.labelPositionDx, 10),
 				showAxisLabel: '1' === attrs.showAxisLabel,
 				barColor: attrs.barColor,
 				backgroundColor: attrs.backgroundColor,
+				categoryLabelColor: attrs.categoryLabelColor,
 			};
 			render(<ProgressBar {...props} />, bar);
 		});
