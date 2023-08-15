@@ -62,13 +62,6 @@
       ],
       "default": "fractional"
     },
-    "labelPosition": {
-      "enum": [
-        "inside",
-        "outside"
-      ],
-      "default": "inside"
-    },
     "labelPositionDX": {
       "type": "integer",
       "default": -5

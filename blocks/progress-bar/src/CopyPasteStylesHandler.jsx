@@ -24,7 +24,6 @@ const CopyPasteStylesHandler = ({ children, attributes, setAttributes }) => {
 		axisPadding,
 		axisLabelMaxWidth,
 		labelFormat,
-		labelPosition,
 		labelPositionDX,
 		labelPositionDY,
 	} = attributes;
@@ -37,7 +36,6 @@ const CopyPasteStylesHandler = ({ children, attributes, setAttributes }) => {
 		axisPadding,
 		axisLabelMaxWidth,
 		labelFormat,
-		labelPosition,
 		labelPositionDX,
 		labelPositionDY,
 	};

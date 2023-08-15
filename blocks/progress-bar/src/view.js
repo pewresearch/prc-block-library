@@ -32,6 +32,7 @@ domReady(() => {
 				backgroundColor: attrs.backgroundColor,
 				categoryLabelColor: attrs.categoryLabelColor,
 			};
+			console.log({ props });
 			render(<ProgressBar {...props} />, bar);
 		});
 	}

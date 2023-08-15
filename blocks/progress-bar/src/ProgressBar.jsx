@@ -14,7 +14,6 @@ function ProgressBar({
 	categoryLabelColor,
 	currentValue,
 	labelFormat,
-	labelPosition,
 	labelPositionDX,
 	labelPositionDY,
 	maxWidth,
@@ -30,10 +29,10 @@ function ProgressBar({
 			orientation: 'horizontal',
 			theme: 'light',
 			width: maxWidth,
-			height: 50,
+			height: 40,
 			padding: {
 				top: 0,
-				bottom: 10,
+				bottom: 0,
 				left: showAxisLabel ? axisPadding : 0,
 				right: 0,
 			},
@@ -50,7 +49,7 @@ function ProgressBar({
 			active: showAxisLabel,
 			scale: 'linear',
 			dateFormat: 'yyyy',
-			domain: [0, 100],
+			domain: [0, maxValue],
 			domainPadding: 50,
 			offsetY: null,
 			padding: 50,
@@ -186,7 +185,7 @@ function ProgressBar({
 			color: 'black',
 			fontWeight: 200,
 			fontSize: 12,
-			labelBarPosition: labelPosition,
+			labelBarPosition: 'inside',
 			labelCutoff: 0,
 			labelCutoffMobile: 0,
 			labelPositionDX,
@@ -201,7 +200,7 @@ function ProgressBar({
 				if ('currentValue' === category) {
 					return 'fractional' === labelFormat
 						? `${currentValue}/${maxValue}`
-						: `${currentValue}%	`;
+						: `${((currentValue / maxValue) * 100).toFixed(0)}%	`;
 				}
 				return '';
 			},

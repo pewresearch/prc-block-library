@@ -31,7 +31,6 @@ export default function Controls({ attributes, setAttributes, colors }) {
 		axisLabelMaxWidth,
 		axisPadding,
 		labelFormat,
-		labelPosition,
 		labelPositionDY,
 		labelPositionDX,
 	} = attributes;
@@ -143,28 +142,6 @@ export default function Controls({ attributes, setAttributes, colors }) {
 						onChange={(format) => {
 							setAttributes({
 								labelFormat: format,
-							});
-						}}
-					/>
-					<SelectControl
-						label={__('Label Position')}
-						value={labelPosition}
-						options={[
-							{
-								value: 'inside',
-								label: 'Inside',
-							},
-							{
-								value: 'outside',
-								label: 'Outside',
-							},
-						]}
-						help={__(
-							'Typically, the label should be inside the bar. However, with very small values, it may make more sense to position the label outside.'
-						)}
-						onChange={(position) => {
-							setAttributes({
-								labelPosition: position,
 							});
 						}}
 					/>
