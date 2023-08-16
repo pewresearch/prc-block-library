@@ -28,7 +28,7 @@ class Mailchimp_Form extends PRC_Block_Library {
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
-		$hcaptcha_key = vip_get_env_var( 'PRC_HCAPTCHA_KEY', null );
+		$hcaptcha_key = defined( 'PRC_HCAPTCHA_KEY' ) ? PRC_HCAPTCHA_KEY : null;
 
 		$block = register_block_type( self::$dir . '/build' );
 
