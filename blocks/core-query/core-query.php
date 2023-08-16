@@ -28,9 +28,12 @@ class CoreQuery extends PRC_Block_Library {
 
 			add_action( 'init', array($this, 'init_assets') );
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
-			add_filter( 'rest_stub_query', array( $this, 'default_rest_query_args' ), 10, 2 );
 			add_filter( 'query_loop_block_query_vars', array($this, 'default_query_args'), 10, 3 );
 			add_filter( 'block_type_metadata', array( $this, 'default_tax_query_to_OR' ), 100, 1 );
+			add_filter( 'rest_post_query', array( $this, 'default_rest_query_args' ), 10, 2 );
+			// @TODO: Deprecate this...
+			add_filter( 'rest_stub_query', array( $this, 'default_stub_rest_query_args' ), 10, 2 );
+
 		}
 	}
 
@@ -42,9 +45,29 @@ class CoreQuery extends PRC_Block_Library {
 		wp_enqueue_script( self::$editor_script_handle );
 	}
 
-	public function default_rest_query_args( $args, $request ) {
+	/**
+	 * DEPRECATED: Use default_query_args instead.
+	 * @param mixed $args
+	 * @param mixed $request
+	 * @return mixed
+	 */
+	public function default_stub_rest_query_args( $args, $request ) {
 		$isStoryItemLoop = $request->get_param( 'isStoryItemLoop' );
 		if ( $isStoryItemLoop ) {
+			$args = array_merge( $args, self::$default_query_args );
+		}
+		return $args;
+	}
+
+	public function default_rest_query_args( $args, $request ) {
+		$isPubListingQuery = $request->get_param( 'isPubListingQuery' );
+		if ( $isPubListingQuery ) {
+			// $new_args = array_merge( array('post_type' => array(
+			// 	'post',
+			// 	'fact-sheet',
+			// 	'interactive',
+			// 	'quiz'
+			// )), self::$default_query_args );
 			$args = array_merge( $args, self::$default_query_args );
 		}
 		return $args;
@@ -59,11 +82,22 @@ class CoreQuery extends PRC_Block_Library {
 	 * @return mixed
 	 */
 	public function default_query_args( $query, $block, $page ) {
-		if ( !$block->context['query'] || !array_key_exists( 'isStoryItemLoop', $block->context['query'] ) ) {
+		if ( empty( array_filter($block->context['query'], function($v) { return in_array($v, array(
+			'isStoryItemLoop',
+			'isPubListingQuery'
+		)); }) ) ) {
 			return $query;
 		}
 
-		if ( true !== $block->context['query']['isStoryItemLoop'] ) {
+		// if ( !$block->context['query'] || !array_key_exists( 'isStoryItemLoop', $block->context['query'] ) ) {
+		// 	return $query;
+		// }
+
+		if ( array_key_exists('isStoryItemLoop', $block->context['query']) && true !== $block->context['query']['isStoryItemLoop'] ) {
+			return $query;
+		}
+
+		if ( array_key_exists('isPubListingQuery', $block->context['query']) && true !== $block->context['query']['isPubListingQuery'] ) {
 			return $query;
 		}
 

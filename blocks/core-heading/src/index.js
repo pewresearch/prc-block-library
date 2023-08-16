@@ -5,12 +5,13 @@ import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment } from '@wordpress/element';
-import { createBlock, registerBlockVariation } from '@wordpress/blocks';
+import { createBlock, registerBlockVariation, registerBlockType } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
+import transforms from './transforms';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -64,16 +65,7 @@ function modifyDefaultSettings(settings, name) {
 	const s = settings;
 	s.transforms.from = [
 		...s.transforms.from,
-		{
-			type: 'block',
-			blocks: ['prc-block/chapter'],
-			transform: ({ value, level }) =>
-				createBlock('core/heading', {
-					content: value,
-					level,
-					isChapter: true,
-				}),
-		},
+		...transforms.from,
 	];
 	return s;
 }
@@ -82,8 +74,7 @@ addFilter('blocks.registerBlockType', BLOCKIDENTIFIER, modifyDefaultSettings);
 registerBlockVariation(BLOCKNAME, {
 	name: 'chapter',
 	title: __('Chapter'),
-	description: __('A chapter heading.'),
-	icon: 'editor-ol',
+	description: __('Chapter headings are no different from other headings visually, other than they are included in the table of contents.'),
 	attributes: {
 		isChapter: true,
 		level: 3,

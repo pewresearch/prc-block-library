@@ -9,16 +9,14 @@
  * @package           prc-block
  */
 
-class MailchimpForm extends PRC_Block_Library {
+class Mailchimp_Form extends PRC_Block_Library {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
-		if ( defined('PRC_PLATFORM') && true !== PRC_PLATFORM ) {
-			return;
-		}
 		if ( true === $init ) {
 			add_action('init', array($this, 'block_init'));
+			do_action('qm/debug', 'MAILCHIPOMG');
 		}
 	}
 
@@ -31,12 +29,11 @@ class MailchimpForm extends PRC_Block_Library {
 	*/
 	public function block_init() {
 		$hcaptcha_key = vip_get_env_var( 'PRC_HCAPTCHA_KEY', null );
-		if ( null === $hcaptcha_key ) {
-			return;
-		}
 
 		$block = register_block_type( self::$dir . '/build' );
+
 		$view_script_handle = isset( $block->view_script_handles ) && ! empty( $block->view_script_handles ) ? $block->view_script_handles[0] : null;
+
 		wp_localize_script( $view_script_handle, 'mailChimpFormConfig', array(
 			'HCAPTCHA_KEY' => $hcaptcha_key,
 		) );
@@ -44,4 +41,4 @@ class MailchimpForm extends PRC_Block_Library {
 
 }
 
-new MailchimpForm(true);
+new Mailchimp_Form(true);

@@ -11,7 +11,6 @@
  */
 
 require_once PRC_VENDOR_DIR . '/autoload.php';
-use PHPHtmlParser\Dom;
 
 class TableOfContents extends PRC_Block_Library {
 	public static $version = '0.1.0';
@@ -19,6 +18,8 @@ class TableOfContents extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
+			require_once self::$dir . '/class-wp-html-heading-processor.php';
+
 			add_action( 'init', array( $this, 'block_init' ) );
 			add_filter( 'prc_the_content_raw', array( $this, 'handle_legacy_content' ), 1, 1 );
 			add_filter( 'prc_get_chapters', array($this, 'construct_toc'), 10, 2 );
@@ -106,16 +107,21 @@ class TableOfContents extends PRC_Block_Library {
 		$needs_migration = false;
 
 		if ( is_array( $array ) ) {
+			$block_name = array_key_exists('blockName', $array) ? $array['blockName'] : false;
 			// We get the first level of the array first, then sub levels...
-			if ( isset( $array[ 'blockName' ] ) && in_array($array[ 'blockName' ], array('core/heading', 'prc-block/chapter')) ) {
+			if ( in_array($block_name, array('core/heading', 'prc-block/chapter')) ) {
 				if ( array_key_exists('isChapter', $array['attrs']) && true === $array['attrs']['isChapter'] ) {
-					$attrs = $this->extract_html_attributes($array['innerHTML']);
-					$id = $attrs['attributes']['id'];
+					$level = $array['attrs']['level'];
 
+					$tags = new WP_HTML_Heading_Processor($array['innerHTML']);
+					$tags->next_tag('H'.$level);
+					$id = $tags->get_attribute('id');
+
+					// Check if the heading has a number in it and if so then we'll convert it to words and remove the h-. Otherwise just ensure h- is removed.
 					if ( preg_match( '/^h-(\d+)-/', $id, $matches ) ) {
 						$number = $matches[1];
 						$number = intval( $number );
-						$number = $this->convert_number_to_words( $number );
+						$number = $this->convert_number_to_words( $level );
 						if ( is_wp_error( $number ) ) {
 							$id = preg_replace( '/^h-(\d+)-/', '', $id );
 						} else {
@@ -153,7 +159,7 @@ class TableOfContents extends PRC_Block_Library {
 		}
 
 		if ( $needs_migration && false !== $post_id ) {
-			update_post_meta($post_id, '_migration_flag_chapters', true);
+			update_post_meta($post_id, '_migration_legacy_prc_block_chapter_detected', true);
 		}
 
 		return $results;
@@ -166,49 +172,18 @@ class TableOfContents extends PRC_Block_Library {
 		if ( has_blocks($content) ) {
 			return false;
 		}
-		if ( !in_array( get_post_type($post_id), array( 'post', 'fact-sheets' ) ) ) {
+		if ( !in_array( get_post_type($post_id), array( 'post', 'fact-sheets', 'fact-sheet' ) ) ) {
 			return false;
 		}
 
-		// First see if there are any of the new blocks...
-		// If not then fallback to dom lookup.
-		// In either case we should update_post_meta($post_id, '_migration_flag_chapters', true);
-		// Then we can run a report on each site to see what posts need updating... maybe even add a flag or red light in the admin area for posts that require gutenberg mirgation assistance.
-
-		$dom = new Dom();
-		$dom->load(
-			$content,
-			array(
-				'whitespaceTextNode' => true,
-				'preserveLineBreaks' => true,
-			)
-		);
-
-		$chapters = array();
-		$headers = $dom->find( 'h2,h3' );
-
-		foreach ( $headers as $elm ) {
-			// If a heading element has a class of no-toc then skip it.
-			if ( $elm->getAttribute( 'no-toc' ) ) {
-				return;
-			}
-
-			$id = sanitize_title( $elm->text );
-
-			$text = $elm->text;
-			if ( ! empty( $alt_text = $elm->getAttribute( 'toc-title' ) ) ) {
-				$text = $alt_text;
-			}
-
-			$chapters[] = array(
-				'id'  => $id,
-				'icon' => false,
-				'content' => $text,
-			);
-		}
+		$chapters = parse_document_for_headings($content);
+		$chapters = array_map(function($chapter) {
+			$chapter['icon'] = false;
+			return $chapter;
+		}, $chapters);
 
 		if ( ! empty( $chapters ) ) {
-			update_post_meta($post_id, '_migration_flag_chapters', true);
+			update_post_meta($post_id, '_migration_legacy_headings_detected', true);
 		}
 
 		return $chapters;
@@ -222,28 +197,7 @@ class TableOfContents extends PRC_Block_Library {
 
 		// If this is in an authorized post type then find h2,h3 and set id's accordingly.
 		if ( in_array( get_post_type(), array( 'post', 'fact-sheets' ) ) ) {
-			$dom = new Dom();
-			$dom->load(
-				$content,
-				array(
-					'whitespaceTextNode' => true,
-					'preserveLineBreaks' => true,
-				)
-			);
-
-			$headers = $dom->find( 'h2,h3' );
-
-			foreach ( $headers as $elm ) {
-				// If a heading element has a class of no-toc then skip it.
-				if ( $elm->getAttribute( 'no-toc' ) ) {
-					return;
-				}
-
-				$id = sanitize_title( $elm->text );
-				$elm->setAttribute( 'id', $id );
-			}
-
-			$content = $dom;
+			$content = update_document_headings_with_ids( $content );
 		}
 
 		return $content;
@@ -256,15 +210,18 @@ class TableOfContents extends PRC_Block_Library {
 			$content = get_post_field( 'post_content', $post_id );
 		}
 
-		$legacy_chapters = $this->prepare_legacy_headings( $content, $post_id );
-		if ( false !== $legacy_chapters ) {
-			return $legacy_chapters;
+		if ( !has_blocks($content) ) {
+			$legacy_chapters = $this->prepare_legacy_headings( $content, $post_id );
+			if ( false !== $legacy_chapters ) {
+				return $legacy_chapters;
+			}
 		}
 
 		// If this post doesn't have blocks OR if it specifically does not have heading blocks then we can't do anything so just return false.
 		if ( !has_block( 'core/heading', $content ) && !has_block( 'prc-block/chapter', $content ) ) {
 			return false;
 		}
+
 		$blocks = parse_blocks($content);
 		return $this->prepare_chapter_blocks( $blocks, $post_id );
 	}
@@ -292,7 +249,9 @@ class TableOfContents extends PRC_Block_Library {
 		$post_id = $block->context['postId'];
 		$group_is_sticky = array_key_exists('core/group/isSticky', $block->context) ? $block->context['core/group/isSticky'] : false;
 		$mobile_threshold = array_key_exists('core/group/responsiveThreshold', $block->context) ? $block->context['core/group/responsiveThreshold'] : false;
+
 		$chapters = $this->construct_toc( $post_id );
+
 		$content = apply_filters( 'prc-block/table-of-contents', $this->get_list_items( $chapters ), $post_id );
 
 		if ( empty($content) ) {

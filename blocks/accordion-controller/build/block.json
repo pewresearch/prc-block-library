@@ -42,6 +42,40 @@
       }
     }
   },
+  "example": {
+    "attributes": {},
+    "innerBlocks": [
+      {
+        "name": "prc-block/accordion",
+        "attributes": {
+          "title": "Accordion 1"
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Content 1"
+            }
+          }
+        ]
+      },
+      {
+        "name": "prc-block/accordion",
+        "attributes": {
+          "title": "Accordion 2"
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Content 2"
+            }
+          }
+        ]
+      }
+    ],
+    "viewportWidth": 640
+  },
   "textdomain": "accordion-controller",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

@@ -64,8 +64,6 @@ class PRC_Block_Library {
 
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allowed_html_tags' ), 10, 2 );
 
-			require_once plugin_dir_path( __FILE__ ) . '/inc/class-unit-tests.php';
-
 			// get all folders in the blocks directory as an array
 			$block_files = glob( PRC_BLOCK_LIBRARY_DIR . '/blocks/*', GLOB_ONLYDIR );
 			foreach ($block_files as $block) {
@@ -78,6 +76,7 @@ class PRC_Block_Library {
 
 	/**
 	 * This mimics core get_block_wrapper_attributes($extra_attributes = array()) for when we're intercepting a block render and global $block data is lost.
+	 * @TODO: @sethrubenstein in #3584, move this to a new utils.php file.
 	 * @param array $extra_attributes
 	 * @return mixed
 	 */
@@ -141,10 +140,6 @@ class PRC_Block_Library {
 				array(
 					'slug'  => 'content-curation',
 					'title' => __( 'Content Curation', 'prc-block-library-categories' ),
-				),
-				array(
-					'slug'  => 'essay',
-					'title' => __( 'Essays', 'prc-block-library-categories' ),
 				),
 				array(
 					'slug'  => 'marketing',

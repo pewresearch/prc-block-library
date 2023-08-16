@@ -93,7 +93,35 @@ const stubQueryVariation = {
 	scope: ['inserter'],
 };
 
-registerBlockVariation('core/query', stubQueryVariation);
+const pubListingVariation = {
+	name: 'pub-listing-query',
+	title: 'Publication Listing Query',
+	description:
+		'Query published, parent posts.',
+	attributes: {
+		query: {
+			perPage: 10,
+			pages: 1,
+			offset: 0,
+			categoryIds: [],
+			// postType: ['post', 'fact-sheet', 'interactive', 'quiz'],
+			tagIds: [],
+			order: 'desc',
+			orderBy: 'date',
+			author: '',
+			search: '',
+			sticky: 'include',
+			inherit: false,
+			isPubListingQuery: true,
+		},
+	},
+	allowedControls: ['order', 'taxQuery', 'search', 'postType'],
+	isActive: (blockAttributes) => {
+		return blockAttributes.query.isPubListingQuery;
+	},
+	innerBlocks: StoryItemListingTemplate,
+	scope: ['inserter'],
+};
 
 const storyItemListingVariation = {
 	name: 'story-item-query',
@@ -137,4 +165,7 @@ const storyItemListingVariation = {
 	allowedControls: ['inherit', 'order', 'postType', 'taxQuery', 'search'],
 	innerBlocks: StoryItemListingTemplate,
 };
+
+registerBlockVariation('core/query', stubQueryVariation);
+registerBlockVariation('core/query', pubListingVariation);
 registerBlockVariation('core/query', storyItemListingVariation);

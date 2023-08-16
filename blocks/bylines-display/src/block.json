@@ -43,6 +43,13 @@
 			}
 		}
 	},
+	"example": {
+		"attributes": {
+			"textAlign": "left",
+			"prefix": "By"
+		},
+		"viewportWidth": 400
+	},
 	"usesContext": ["postId"],
 	"textdomain": "bylines-display",
 	"editorScript": "file:./index.js",

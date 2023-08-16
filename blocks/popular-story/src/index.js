@@ -5,11 +5,6 @@
  */
 
 /**
- * External Dependencies
- */
-import { trendingUp as icon } from '@wordpress/icons';
-
-/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -29,13 +24,17 @@ import { registerBlockType, createBlock } from '@wordpress/blocks';
  */
 import './style.scss';
 import Edit from './Edit';
+import Icon from './Icon';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	icon,
+	/**
+	 * @see ./Icon.jsx
+	 */
+	icon: Icon,
 	/**
 	 * @see ./Edit.jsx
 	 */

@@ -178,8 +178,8 @@ const variations = [
 				{
 					gridLayout: {
 						index: 1,
-						desktopSpan: 4,
-						tabletSpan: 4,
+						desktopSpan: 3,
+						tabletSpan: 3,
 						mobileSpan: 4,
 					},
 				},
@@ -189,8 +189,8 @@ const variations = [
 				{
 					gridLayout: {
 						index: 2,
-						desktopSpan: 4,
-						tabletSpan: 4,
+						desktopSpan: 6,
+						tabletSpan: 6,
 						mobileSpan: 4,
 					},
 				},
@@ -200,8 +200,8 @@ const variations = [
 				{
 					gridLayout: {
 						index: 3,
-						desktopSpan: 4,
-						tabletSpan: 4,
+						desktopSpan: 3,
+						tabletSpan: 3,
 						mobileSpan: 4,
 					},
 				},

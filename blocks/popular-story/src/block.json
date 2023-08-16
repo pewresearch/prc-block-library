@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"description": "A popular post, must be placed in a group block for numbers to appear.",
 	"title": "Popular Story",
-	"category": "design",
+	"category": "content-curation",
 	"attributes": {
 		"title": {
             "type": "string"

@@ -2,11 +2,10 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "prc-block/data-table",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"title": "Data Table",
-	"category": "media",
-	"description": "This block enables you to build sophisticated data tables, not just basic HTML ones.",
-	"icon": "editor-table",
+	"category": "text",
+	"description": "This block enables you to build sophisticated data tables in an easy to use interface with a familiar spreadsheet-like interface.",
 	"attributes": {
 		"title": {
 			"type": "string"
@@ -61,6 +60,27 @@
 		"align": ["wide", "full"],
 		"spacing": {
 			"margin": [ "top", "bottom" ]
+		}
+	},
+	"example": {
+		"attributes": {
+			"colHeaders": [
+				"Country",
+				"Year",
+				"Population"
+			],
+			"data": [
+				[
+					"United States",
+					"2000",
+					"1000"
+				],
+				[
+					"France",
+					"2000",
+					"1001"
+				]
+			]
 		}
 	},
 	"textdomain": "data-table",

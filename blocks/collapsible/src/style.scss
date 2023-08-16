@@ -12,16 +12,12 @@
 		cursor: pointer;
 		border: none!important;
 		background: transparent!important;
-		padding: 0px!important;
-		.opened {
+		padding: 0 0 0 0.5em!important;
+		.fa-circle-plus {
+			display: inherit;
+		}
+		.fa-circle-minus {
 			display: none;
-		}
-		.plus.icon,
-		.minus.icon {
-			margin-left: 0.5em;
-		}
-		.caret.icon {
-			margin-right: 0.5em;
 		}
 	}
 	.wp-block-prc-block-collapsible__title {
@@ -55,14 +51,15 @@
 			display: block;
 		}
 		.wp-block-prc-block-collapsible__icon {
-			.closed {
+			.fa-circle-plus {
 				display: none;
 			}
-			.opened {
-				display: inline-block;
+			.fa-circle-minus {
+				display: inherit;
 			}
 		}
 	}
+
 	&.is-style-caret {
 		.wp-block-prc-block-collapsible__title {
 			& > div,

@@ -17,7 +17,7 @@ class GridController extends PRC_Block_Library {
 		if ( true === $init ) {
 			add_action('init', array($this, 'block_init'));
 			add_action('wp_enqueue_scripts', array($this, 'enqueue_custom_divider_styles'));
-			add_action('enqueue_block_editor_assets', array($this, 'enqueue_custom_divider_styles'));
+			add_action('enqueue_block_assets', array($this, 'enqueue_custom_divider_styles'));
 		}
 	}
 

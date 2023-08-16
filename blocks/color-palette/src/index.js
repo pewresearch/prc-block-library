@@ -38,6 +38,10 @@ const { name } = metadata;
 
 const settings = {
 	/**
+	 * @see ./Icon.jsx
+	 */
+	icon: Icon,
+	/**
 	 * @see ./Edit.jsx
 	 */
 	edit: Edit,
@@ -45,10 +49,6 @@ const settings = {
 	 * @see ./Save.jsx
 	 */
 	save: Save,
-	/**
-	 * @see ./Icon.jsx
-	 */
-	icon: Icon,
 };
 
 /**

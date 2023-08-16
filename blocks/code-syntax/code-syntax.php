@@ -15,7 +15,7 @@ class CodeSyntax extends PRC_Block_Library {
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
-			add_action('init', array($this, 'block_init'));
+			add_action( 'init', array( $this, 'block_init' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_typekit_font' ) );
 			add_action( 'after_setup_theme', function() {
 				// Load monospace font in editor

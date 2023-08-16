@@ -6,6 +6,10 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
+if ( is_admin() ) {
+	return;
+}
+
 $is_decoded = 'decoded' === get_template();
 $classname = array_key_exists('className', $attributes) ? $attributes['className'] : '';
 $width = array_key_exists('width', $attributes) ? $attributes['width'] . 'px' : '100%';
@@ -22,26 +26,35 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 ));
 
 // get the logo.svg file contents as a string
-$logo = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'primary.svg' );
+$src_url = str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) );
+// if https is enabled, use the https version of the logo
+if ( is_ssl() ) {
+	$src_url = str_replace( 'http://', 'https://', $src_url );
+}
+$logo = wpcom_vip_file_get_contents( $src_url . 'primary.svg' );
 // using wp_html_tag_processor add data-browser-theme="light" to the svg tag
 $logo = new WP_Html_Tag_Processor( $logo );
-$logo->next_tag();
-$logo->set_attribute('data-browser-theme', 'light');
+if ( $logo->next_tag() ) {
+	$logo->set_attribute('data-browser-theme', 'light');
+}
 
-$logo_white = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'primary-white.svg' );
+$logo_white = wpcom_vip_file_get_contents( $src_url . 'primary-white.svg' );
 $logo_white = new WP_Html_Tag_Processor( $logo_white );
-$logo_white->next_tag();
-$logo_white->set_attribute('data-browser-theme', 'dark');
+if ( $logo_white->next_tag() ) {
+	$logo_white->set_attribute('data-browser-theme', 'dark');
+}
 
-$logo_alt = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'alternate.svg' );
+$logo_alt = wpcom_vip_file_get_contents( $src_url . 'alternate.svg' );
 $logo_alt = new WP_Html_Tag_Processor( $logo_alt );
-$logo_alt->next_tag();
-$logo_alt->set_attribute('data-browser-theme', 'light');
+if ( $logo_alt->next_tag() ) {
+	$logo_alt->set_attribute('data-browser-theme', 'light');
+}
 
-$logo_alt_white = file_get_contents( str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) ) . 'alternate-white.svg' );
+$logo_alt_white = wpcom_vip_file_get_contents( $src_url . 'alternate-white.svg' );
 $logo_alt_white = new WP_Html_Tag_Processor( $logo_alt_white );
-$logo_alt_white->next_tag();
-$logo_alt_white->set_attribute('data-browser-theme', 'dark');
+if ( $logo_alt_white->next_tag() ) {
+	$logo_alt_white->set_attribute('data-browser-theme', 'dark');
+}
 
 $site_url = get_site_url();
 

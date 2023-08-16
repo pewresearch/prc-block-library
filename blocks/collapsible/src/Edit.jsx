@@ -1,7 +1,8 @@
 /**
  * External Dependencies
  */
-import classnames from 'classnames';
+import classNames from 'classnames';
+import { icons, Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -30,30 +31,6 @@ const ALLOWED_BLOCKS = [
 
 const TEMPLATE = [['core/paragraph', {}]];
 
-function Icon({ onToggle, caretStyle = false }) {
-	const iconSet = caretStyle
-		? ['icon caret right', 'icon caret down']
-		: ['icon outline plus circle', 'icon outline minus circle'];
-
-	return (
-		<button
-			className="wp-block-prc-block-collapsible__icon"
-			onClick={() => {
-				onToggle();
-			}}
-			type="button"
-		>
-			{iconSet.map((icon, index) => (
-				<i
-					// eslint-disable-next-line react/no-array-index-key
-					key={`icon-${index}`}
-					className={`${icon} ${0 === index ? 'closed' : 'opened'}`}
-				/>
-			))}
-		</button>
-	);
-}
-
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -71,11 +48,11 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const [isOpen, setOpen] = useState(true);
 
-	// Convert to an array of classnames so we can easily check via `includes()`.
+	// Convert to an array of classNames so we can easily check via `includes()`.
 	const style = undefined !== className ? className.split(' ') : [];
 
 	const blockProps = useBlockProps({
-		className: classnames(className, {
+		className: classNames(className, {
 			'is-open': isOpen,
 		}),
 	});
@@ -101,12 +78,15 @@ export default function Edit({ attributes, setAttributes }) {
 					formattingControls={[]}
 					keepPlaceholderOnFocus
 				/>
-				<Icon
-					onToggle={() => {
+				<button
+					className="wp-block-prc-block-collapsible__icon"
+					onClick={() => {
 						setOpen(!isOpen);
 					}}
-					caretStyle={style.includes('is-style-caret')}
-				/>
+					type="button"
+				>
+					<Icon icon={isOpen ? icons.faCircleMinusLight : icons.faCirclePlusLight}/>
+				</button>
 			</div>
 			<div className="wp-block-prc-block-collapsible__content">
 				<div {...innerBlocksProps} />

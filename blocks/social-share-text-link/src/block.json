@@ -36,7 +36,8 @@
 				"fontSize": true,
 				"__experimentalFontFamily": true
 			}
-		}
+		},
+		"align": false
 	},
 	"example": {
         "attributes": {

@@ -35,6 +35,7 @@ const ALLOWED_BLOCKS = ['prc-block/accordion'];
  * @return {WPElement} Element to render.
  */
 function Edit({
+	attributes,
 	className,
 	titleBackgroundColor,
 	setTitleBackgroundColor,
@@ -47,6 +48,8 @@ function Edit({
 	borderColor,
 	setBorderColor,
 }) {
+	const { example } = attributes;
+
 	const colors = {
 		titleBackgroundColor,
 		setTitleBackgroundColor,

@@ -119,7 +119,7 @@ export default function Edit({
 					placeholder={itemLabelPlaceholder}
 					keepPlaceholderOnFocus
 					withoutInteractiveFormatting
-					allowedFormats={['bold']}
+					allowedFormats={['core/bold']}
 				/>
 				{isLinkOpen && (
 					<Popover

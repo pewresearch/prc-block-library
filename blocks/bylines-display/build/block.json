@@ -46,6 +46,13 @@
       }
     }
   },
+  "example": {
+    "attributes": {
+      "textAlign": "left",
+      "prefix": "By"
+    },
+    "viewportWidth": 400
+  },
   "usesContext": [
     "postId"
   ],

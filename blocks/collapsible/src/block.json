@@ -38,6 +38,20 @@
 			}
 		}
 	},
+	"example": {
+		"attributes": {
+			"title": "How we did this"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, quam sapien aliquet nunc, nec aliquam nisl nunc"
+				}
+			}
+		],
+		"viewportWidth": 640
+	},
 	"textdomain": "collapsible",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",

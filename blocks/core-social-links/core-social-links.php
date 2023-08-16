@@ -126,85 +126,72 @@ class CoreSocialLinks extends PRC_Block_Library {
 		return sprintf( $description, $score );
 	}
 
-	/**
-	 * Renders the `core/social-link` child block on server.
-	 *
-	 * @param String   $block_content The block content about to be appended.
-	 * @param WP_Block $block      Block array.
-	 *
-	 * @return string Rendered HTML of the referenced block.
-	 */
-	public function social_link_render_callback( $block_content, $block_args, $block ) {
-		if ( self::$child_block_name !== $block_args['blockName'] ) {
-			return $block_content;
+	public function social_link_render_callback( $block_content, $block, $instance ) {
+		if ( self::$child_block_name === $block['blockName'] && is_string($block_content) && !is_admin() ) {
+			wp_enqueue_script( self::$view_script_handle );
+
+			$attributes = $block['attrs'];
+			$context = $instance->context;
+
+			$tags = new WP_HTML_Tag_Processor($block_content);
+			$tags->next_tag('li');
+
+			$service = $attributes['service'];
+
+			$url = isset( $context['core/social-links/url'] ) ? $context['core/social-links/url'] : false;
+			$url = ( false === $url && isset( $attributes['url'] ) ) ? $attributes['url'] : $url;
+			// If after all that there is no url then try to fetch the short link.
+			if ( ! $url && isset($context['postId']) ) {
+				$url = wp_get_shortlink($context['postId']);
+			}
+
+			$title = isset( $context['core/social-links/title'] ) ? $context['core/social-links/title'] : null;
+			if ( ! $title && isset($context['postId']) ) {
+				$title = get_the_title($context['postId']);
+			}
+
+			$description = isset( $context['core/social-links/description'] ) ? $context['core/social-links/description'] : null;
+			if ( ! $description && isset($context['postId']) ) {
+				$description = get_the_excerpt($context['postId']);
+			}
+
+			if ( $url ) {
+				$tags->set_attribute('data-share-url', esc_url($url));
+			}
+			if ( $title ) {
+				$tags->set_attribute('data-share-title', esc_attr($title));
+			}
+			if ( $description ) {
+				$tags->set_attribute('data-share-description', esc_attr($description));
+			}
+
+			if ( $tags->next_tag('svg') ) {
+				$brands = array(
+					'facebook' => 'fa-brands fa-facebook',
+					'twitter' => 'fa-brands fa-twitter',
+					'instagram' => 'fa-brands fa-instagram',
+					'youtube' => 'fa-brands fa-youtube',
+					'linkedin' => 'fa-brands fa-linkedin',
+					'tumblr' => 'fa-brands fa-tumblr',
+				);
+
+				$standards = array(
+					'email' => 'fa-solid fa-envelope',
+					'mail' => 'fa-solid fa-envelope',
+					'feed' => 'fa-solid fa-rss',
+					'rss-feed' => 'fa-solid fa-rss',
+					'rss' => 'fa-solid fa-rss',
+				);
+
+				$icon = array_key_exists($service, $standards) ? $standards[$service] : $service;
+				$icon = array_key_exists($service, $brands) ? $brands[$service] : $icon;
+				$tags->add_class($icon);
+			}
+
+			return $tags->get_updated_html();
 		}
-
-		wp_enqueue_script( self::$view_script_handle );
-		wp_enqueue_style( self::$style_handle );
-
-		$attributes = $block_args['attrs'];
-		$open_in_new_tab = isset( $block->context['openInNewTab'] ) ? $block->context['openInNewTab'] : false;
-
-		$service = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
-		$url     = isset( $block->context['core/social-links/url'] ) ? $block->context['core/social-links/url'] : false;
-		$url     = ( false === $url && isset( $attributes['url'] ) ) ? $attributes['url'] : $url;
-		// If after all that there is no url then try to fetch the short link.
-		if ( ! $url && isset($block->context['postId']) ) {
-			$url = wp_get_shortlink($block->context['postId']);
-		}
-		$title = isset( $block->context['core/social-links/title'] ) ? $block->context['core/social-links/title'] : null;
-		if ( ! $title && isset($block->context['postId']) ) {
-			$title = get_the_title($block->context['postId']);
-		}
-		$description = isset( $block->context['core/social-links/description'] ) ? $block->context['core/social-links/description'] : null;
-		$description = $this->get_description_context_value($description, $block);
-		if ( ! $description && isset($block->context['postId']) ) {
-			$description = get_the_excerpt($block->context['postId']);
-		}
-
-		$label       = ( isset( $attributes['label'] ) ) ? $attributes['label'] : block_core_social_link_get_name( $service );
-		$show_labels = array_key_exists( 'showLabels', $block->context ) ? $block->context['showLabels'] : false;
-		$class_name  = isset( $attributes['className'] ) ? ' ' . $attributes['className'] : false;
-
-		// Don't render a link if there is no URL set.
-		if ( ! $url ) {
-			return '';
-		}
-
-		$rel_target_attributes = '';
-		if ( $open_in_new_tab ) {
-			$rel_target_attributes = 'rel="noopener nofollow" target="_blank"';
-		}
-
-		$icon = block_core_social_link_get_icon( $service );
-
-		$block_attrs = array(
-			'class' => 'wp-block-social-link wp-social-link wp-social-link-' . $service . $class_name,
-			'style' => \block_core_social_link_get_color_styles( $block->context ),
-		);
-		if ( $url ) {
-			$block_attrs['data-share-url'] = esc_url($url);
-		}
-		if ( $title ) {
-			$block_attrs['data-share-title'] = esc_attr($title);
-		}
-		if ( $description ) {
-			$block_attrs['data-share-description'] = esc_attr($description);
-		}
-
-		// @TODO: update this to use $block_content and just modify whats needed using wp html tag processor https://github.com/pewresearch/pewresearch-org/issues/3247
-		$wrapper_attributes = parent::_get_block_wrapper_attributes($block_attrs);
-
-		$link  = '<li ' . $wrapper_attributes . '>';
-		$link .= '<a href="' . esc_url( $url ) . '" ' . $rel_target_attributes . ' class="wp-block-social-link-anchor">';
-		$link .= $icon;
-		$link .= '<span class="wp-block-social-link-label' . ( $show_labels ? '' : ' screen-reader-text' ) . '">';
-		$link .= esc_html( $label );
-		$link .= '</span></a></li>';
-
-		return $link;
+		return $block_content;
 	}
-
 }
 
 new CoreSocialLinks(true);

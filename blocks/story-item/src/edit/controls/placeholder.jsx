@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import { URLSearchField } from '@prc/components';
+import { icons, Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -24,7 +25,7 @@ export default function Placeholder({ attributes, setAttributes }) {
 	return (
 		<div {...blockProps}>
 			<WPComPlaceholder
-				icon="admin-post"
+				icon={<Icon icon={icons.faNewspaper}/>}
 				label={__(' Story Item', 'prc-block-library')}
 				isColumnLayout
 				instructions={__(

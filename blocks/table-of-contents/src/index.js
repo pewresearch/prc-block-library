@@ -17,6 +17,7 @@ import {
 	registerBlockVariation,
 	unregisterBlockType,
 } from '@wordpress/blocks';
+import domReady	from '@wordpress/dom-ready';
 
 /**
  * Internal Dependencies
@@ -40,6 +41,9 @@ import metadata from './block.json';
 const { name } = metadata;
 
 const settings = {
+	/**
+	 * @see ./Icon.jsx
+	 */
 	icon: Icon,
 	/**
 	 * @see ./Edit.jsx
@@ -54,6 +58,30 @@ const settings = {
  */
 registerBlockType(name, { ...metadata, ...settings });
 
+const groupVariationsExample = {
+	attributes: {
+		className: 'is-style-card-alt',
+	},
+	innerBlocks: [
+		{
+			name: "core/heading",
+			attributes: {
+				className: "is-style-sub-header toc-title",
+				level: 3,
+				fontSize: "small-label",
+				content: "Table of Contents",
+				backgroundColor: "text-color",
+				textColor: "white"
+			}
+		},
+		{
+			name: "prc-block/table-of-contents",
+			attributes: {}
+		}
+	],
+	viewportWidth: 320
+}
+
 /**
  * Register `core/group` block variations that include a fully stylized and realized Table of Contents template block.
  */
@@ -63,6 +91,8 @@ registerBlockVariation('core/group', {
 	description: __(
 		'A Group block in the "alt-card" format with a table of contents list set to show the current chapter.',
 	),
+	category: 'widgets',
+	icon: Icon,
 	attributes: {
 		className: 'is-style-card-alt',
 		responsiveThreshold: 640,
@@ -73,8 +103,9 @@ registerBlockVariation('core/group', {
 			{
 				className: 'is-style-sub-header toc-title',
 				level: 3,
+				fontSize: 'small-label',
 				content: 'Table of Contents',
-				backgroundColor: 'slate',
+				backgroundColor: 'text-color',
 				textColor: 'white',
 			},
 		],
@@ -85,14 +116,18 @@ registerBlockVariation('core/group', {
 			},
 		],
 	],
+	example: groupVariationsExample,
 });
 
+groupVariationsExample.attributes.align = 'left';
 registerBlockVariation('core/group', {
 	name: 'toc-sticky',
 	title: __('Table of Contents Sticky Sidebar'),
 	description: __(
 		'A Group block in the "alt-card" format with a table of contents list that is sticky, watches for the current chapter, and collapses at 480px.',
 	),
+	category: 'widgets',
+	icon: Icon,
 	attributes: {
 		className: 'is-style-card-alt',
 		isSticky: true,
@@ -106,7 +141,8 @@ registerBlockVariation('core/group', {
 				className: 'is-style-sub-header toc-title',
 				level: 3,
 				content: 'Table of Contents',
-				backgroundColor: 'slate',
+				fontSize: 'small-label',
+				backgroundColor: 'text-color',
 				textColor: 'white',
 			},
 		],
@@ -117,9 +153,13 @@ registerBlockVariation('core/group', {
 			},
 		],
 	],
+	example: groupVariationsExample,
 });
 
 /**
  * Unregister the core/table-of-contents block, since we are replacing it with our own.
  */
-unregisterBlockType('core/table-of-contents');
+domReady(()=>{
+	unregisterBlockType('core/table-of-contents');
+	unregisterBlockType('yoast-seo/table-of-contents');
+});

@@ -4,9 +4,8 @@
 	"name": "prc-block/taxonomy-index-az-list",
 	"version": "0.1.0",
 	"title": "Taxonomy Index A-Z Listing",
-	"category": "design",
+	"category": "theme",
 	"description": "A list of taxonomy terms sorted alphabeticaly. Select terms you want to exclude by checking the box.",
-	"icon": "networking",
 	"keywords": ["taxonomy", "alphabetical"],
 	"attributes": {
 		"letter": {

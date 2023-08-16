@@ -16,11 +16,17 @@ module.exports = {
 				if (request.includes('@prc/chart-builder')) {
 					return 'prcChartBuilder';
 				}
+				if (request.includes('@prc/icons')) {
+					return 'prcIcons';
+				}
 			},
 			// eslint-disable-next-line consistent-return
 			requestToHandle(request) {
 				if ('@prc/chart-builder' === request) {
 					return 'prc-charting-library';
+				}
+				if ('@prc/icons' === request) {
+					return 'prc-icons';
 				}
 			},
 		}),

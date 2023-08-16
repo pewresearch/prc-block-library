@@ -4,7 +4,7 @@
   "name": "prc-block/taxonomy-search",
   "version": "0.1.0",
   "title": "Taxonomy Search",
-  "category": "design",
+  "category": "theme",
   "description": "Search for terms of a specified taxonomy.",
   "icon": "search",
   "attributes": {

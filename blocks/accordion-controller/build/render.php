@@ -30,7 +30,6 @@ if ( $has_named_border_color ) {
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'class' => classNames($wrapper_css_classes),
-	'data-currently-active' => '',
 ));
 
 echo wp_sprintf(

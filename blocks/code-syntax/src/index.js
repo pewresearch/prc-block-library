@@ -30,6 +30,7 @@ import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
 import Save from './Save';
+import Icon from './Icon';
 import transforms from './transforms';
 
 import metadata from './block.json';
@@ -37,7 +38,10 @@ import metadata from './block.json';
 const { name } = metadata;
 
 const settings = {
-	transforms,
+	/**
+	 * @see ./icon.jsx
+	 */
+	icon: Icon,
 	/**
 	 * @see ./Edit.jsx
 	 */
@@ -46,6 +50,10 @@ const settings = {
 	 * @see ./Save.jsx
 	 */
 	save: Save,
+	/**
+	 * @see ./transforms.js
+	 */
+	transforms,
 };
 
 /**

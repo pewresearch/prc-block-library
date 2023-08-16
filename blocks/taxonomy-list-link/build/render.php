@@ -14,8 +14,14 @@ $is_sub_heading  = array_key_exists('className', $attributes) && false !== strpo
 $enable_sub_menu = $attributes['enableSubMenu'] ?? false;
 $block_template  = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link--sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
 $label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>' : '<span class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</span>';
-$label_template  = $is_sub_heading ? $label_template . '<i class="chevron right small icon"></i>' : $label_template;
+$label_template  = $is_sub_heading ? $label_template . '<i class="fa-solid fa-chevron-right fa-xs"></i>' : $label_template;
 $label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['url'] ) ? '<span class="wp-block-prc-block-taxonomy-menu-link--label wp-block-prc-block-taxonomy-menu-link--toggle">%2$s</span>%3$s' : '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>%3$s' ) : $label_template;
+
+$icon_template = wp_sprintf(
+	'<i class="%1$s"></i><i class="%2$s"></i>',
+	'fa-light fa-circle-plus',
+	'fa-light fa-circle-minus'
+);
 
 /**
  * Build an array with CSS classes defining the colors
@@ -33,6 +39,11 @@ if ( ! is_null( $text_color ) ) {
 
 if ( array_key_exists('className', $attributes) && 'is-style-sub-expand' === $attributes['className'] ) {
 	$attributes['label'] = "More";
+	$icon_template = wp_sprintf(
+		'<i class="%1$s"></i><i class="%2$s"></i>',
+		'fa-light fa-plus fa-xs',
+		'fa-light fa-minus fa-xs'
+	);
 }
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
@@ -47,7 +58,7 @@ echo wp_sprintf(
 		$label_template,
 		$attributes['url'] ?? '',
 		$attributes['label'] ?? '',
-		$enable_sub_menu && !empty($content) ? '<button class="wp-block-prc-block-taxonomy-menu-link--icon wp-block-prc-block-taxonomy-menu-link--toggle"><span></span></button>' : ''
+		$enable_sub_menu && !empty($content) ? '<button class="wp-block-prc-block-taxonomy-menu-link--icon wp-block-prc-block-taxonomy-menu-link--toggle">'.$icon_template.'</button>' : ''
 	),
 	$content,
 );

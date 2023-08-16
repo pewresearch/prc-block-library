@@ -3,14 +3,14 @@
 class UnitTests extends PRC_Block_Library {
 	protected static $site_id = 1;
 	protected static $page_id = null;
-	protected static $cron_hook = 'prc_run_at_midnight';
+	// protected static $cron_hook = 'prc_run_at_midnight';
 
 	public function __construct($init = false) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'initialize_unit_tests' ) );
 			add_action( 'wp_footer', array($this, 'inline_styling') );
 			add_action( 'admin_footer', array($this, 'inline_styling') );
-			add_action( self::$cron_hook, array( $this, 'run_cron_job' ) );
+			// add_action( self::$cron_hook, array( $this, 'run_cron_job' ) );
 		}
 	}
 

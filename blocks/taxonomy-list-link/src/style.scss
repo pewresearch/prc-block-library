@@ -31,10 +31,25 @@ a.wp-block-prc-block-taxonomy-menu-link,
 		order: 0;
 	}
 
-	// Little visual hack to center the icon vertically on frontend.
-	&:not(.wp-block) &--icon span:after {
-		position: relative;
-		top: -1px;
+	&:not(.wp-block):not(.is-active) &--icon  {
+		.fa-circle-minus,
+		.fa-minus {
+			display: none;
+		}
+		.fa-circle-plus,
+		.fa-plus {
+			display: inherit;
+		}
+	}
+	&:not(.wp-block).is-active &--icon  {
+		.fa-circle-minus,
+		.fa-minus {
+			display: inherit;
+		}
+		.fa-circle-plus,
+		.fa-plus {
+			display: none;
+		}
 	}
 
 	&--icon {
@@ -45,14 +60,6 @@ a.wp-block-prc-block-taxonomy-menu-link,
 		margin: 0;
 		display: flex;
 		align-items: center;
-		span:after {
-			content: "+";
-		}
-		.is-active & {
-			span:after {
-				content: "-";
-			}
-		}
 	}
 
 	&--toggle {
@@ -92,20 +99,5 @@ a.wp-block-prc-block-taxonomy-menu-link,
 
 	&.is-style-sub-tree &--icon {
 		padding-left: 0.3em;
-		span {
-			--color: rgb(86 86 86);
-			color: var(--color);
-			border: 1px solid var(--color);
-			border-radius: 50%;
-			font-size: 15px;
-			font-weight: light;
-			width: 16px;
-			height: 16px;
-			text-align: center;
-			line-height: 12px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
 	}
 }

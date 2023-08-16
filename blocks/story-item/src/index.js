@@ -28,6 +28,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import Edit from './edit';
 import Save from './Save';
+import Icon from './Icon';
 import transforms from './transforms';
 import variations from './variations';
 
@@ -36,6 +37,7 @@ import metadata from './block.json';
 const { name } = metadata;
 
 const settings = {
+	icon: Icon,
 	variations,
 	transforms,
 	__experimentalLabel: ({ title }) => title || 'Story Item', // Will change the label to match the title, #experimental.

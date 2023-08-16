@@ -52,6 +52,7 @@
     "usesContext": ["postType", "postId", "queryId"],
     "textdomain": "pewresearch-logo",
     "editorScript": "file:./index.js",
+	"script": ["prc-icons"],
 	"style": "file:./style-index.css",
     "render": "file:./render.php"
 }

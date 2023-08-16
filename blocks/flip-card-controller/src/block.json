@@ -4,7 +4,7 @@
 	"name": "prc-block/flip-card-controller",
 	"version": "0.1.0",
 	"title": "Flip Card Controller",
-	"description": "A card that can be flipped",
+	"description": "A card that has two sides; one for the front and one for the back.",
 	"category": "media",
 	"attributes": {
 		"height": {

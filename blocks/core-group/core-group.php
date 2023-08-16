@@ -66,7 +66,7 @@ class CoreGroup extends PRC_Block_Library {
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
 			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
 			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
-			add_filter( 'render_block', array( $this, 'render' ), 10, 2 );
+			add_filter( 'render_block', array( $this, 'render' ), 100, 2 );
 		}
 	}
 
@@ -203,17 +203,19 @@ class CoreGroup extends PRC_Block_Library {
 		$hide_on_desktop = array_key_exists('hideOnDesktop', $responsive_options) ? $responsive_options['hideOnDesktop'] : false;
 		$hide_on_tablet = array_key_exists('hideOnTablet', $responsive_options) ? $responsive_options['hideOnTablet'] : false;
 		$hide_on_mobile = array_key_exists('hideOnMobile', $responsive_options) ? $responsive_options['hideOnMobile'] : false;
-		// using the new WP_HTML_Tag_Processor add data-hi
+
+		// using the new WP_HTML_Tag_Processor add data-hide-on-X to the block
 		$w = new WP_HTML_Tag_Processor( $block_content );
-		$w->next_tag();
-		if ( $hide_on_desktop ) {
-			$w->set_attribute( 'data-hide-on-desktop', 'true' );
-		}
-		if ( $hide_on_tablet ) {
-			$w->set_attribute( 'data-hide-on-tablet', 'true' );
-		}
-		if ( $hide_on_mobile ) {
-			$w->set_attribute( 'data-hide-on-mobile', 'true' );
+		if ( $w->next_tag() ) {
+			if ( $hide_on_desktop ) {
+				$w->set_attribute( 'data-hide-on-desktop', 'true' );
+			}
+			if ( $hide_on_tablet ) {
+				$w->set_attribute( 'data-hide-on-tablet', 'true' );
+			}
+			if ( $hide_on_mobile ) {
+				$w->set_attribute( 'data-hide-on-mobile', 'true' );
+			}
 		}
 		return $w;
 	}

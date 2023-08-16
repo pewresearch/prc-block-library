@@ -3,6 +3,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
+import { icons, Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -102,6 +103,9 @@ export default function Edit({
 		gap: getSpacingPresetCssVar(blockGap),
 	};
 
+	const plusIcon = 'is-style-sub-expand' === className ? icons.faPlus : icons.faCirclePlusThin;
+	const minusIcion = 'is-style-sub-expand' === className ? icons.faMinus : icons.faCircleMinusThin;
+
 	// By defining a allowedBlocks attribute any block can
 	// now customize what inner blocks are allowed.
 	const innerBlocksProps = useInnerBlocksProps(
@@ -168,7 +172,7 @@ export default function Edit({
 					/>
 				)}
 				{'is-style-sub-heading' === className && (
-					<i className="chevron right small icon"></i>
+					<Icon icon={icons.faChevronRight} size="xs"/>
 				)}
 				{enableSubMenu && (
 					<Fragment>
@@ -177,7 +181,9 @@ export default function Edit({
 							onClick={() => toggleSubMenu(!subMenuIsOpen)}
 							type="button"
 						>
-							<span></span>
+							<Icon icon={subMenuIsOpen ? minusIcion : plusIcon} size={
+								'is-style-sub-expand' === className ? 'xs' : null
+							}/>
 						</button>
 						<div {...innerBlocksProps} />
 					</Fragment>

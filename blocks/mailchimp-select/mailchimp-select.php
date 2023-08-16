@@ -14,9 +14,6 @@ class MailChimpSelect extends PRC_Block_Library {
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
-		if ( defined('PRC_PLATFORM') && true !== PRC_PLATFORM ) {
-			return;
-		}
 		if ( true === $init ) {
 			add_action('init', array($this, 'block_init'));
 		}
@@ -31,9 +28,6 @@ class MailChimpSelect extends PRC_Block_Library {
 	*/
 	public function block_init() {
 		$hcaptcha_key = vip_get_env_var( 'PRC_HCAPTCHA_KEY', null );
-		if ( null === $hcaptcha_key ) {
-			return;
-		}
 
 		$block = register_block_type( self::$dir . '/build' );
 		$view_script_handle = isset( $block->view_script_handles ) && ! empty( $block->view_script_handles ) ? $block->view_script_handles[0] : null;

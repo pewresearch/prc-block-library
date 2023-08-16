@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "title": "Taxonomy Index A-Z Controller",
   "description": "Provides a grid of A-Z Index blocks that transform to an accordion on mobile.",
-  "category": "design",
+  "category": "theme",
   "attributes": {
     "allowedBlocks": {
       "type": "array"

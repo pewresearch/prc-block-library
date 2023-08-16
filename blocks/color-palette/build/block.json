@@ -5,30 +5,11 @@
   "version": "0.1.0",
   "title": "Color Palette",
   "category": "design",
-  "description": "Outputs a color square",
-  "attributes": {
-    "allowedBlocks": {
-      "type": "array"
-    },
-    "orientation": {
-      "type": "string",
-      "default": "vertical"
-    }
-  },
+  "description": "Display a color from the palette defined in the currently active theme.",
+  "attributes": {},
   "supports": {
     "anchor": true,
     "html": false,
-    "spacing": {
-      "blockGap": true,
-      "margin": [
-        "top",
-        "bottom"
-      ],
-      "padding": true,
-      "__experimentalDefaultControls": {
-        "padding": true
-      }
-    },
     "typography": {
       "fontSize": true,
       "__experimentalFontFamily": true,
@@ -38,7 +19,8 @@
       }
     },
     "color": {
-      "background": true
+      "background": true,
+      "text": false
     }
   },
   "textdomain": "color-palette",

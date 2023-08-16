@@ -4,7 +4,7 @@
   "name": "prc-block/roper-db-search",
   "version": "0.1.0",
   "title": "Roper Database",
-  "description": "Embed a database from Roper.",
+  "description": "Embeddable Roper Database search tool.",
   "keywords": [
     "database",
     "roper",

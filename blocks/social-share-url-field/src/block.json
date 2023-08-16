@@ -4,7 +4,6 @@
 	"name": "prc-block/social-share-url-field",
 	"version": "0.1.0",
 	"title": "Social Share Url Field",
-	"icon": "admin-links",
 	"keywords": ["social"],
 	"category": "marketing",
 	"attributes": {
@@ -25,7 +24,8 @@
 				"fontSize": true,
 				"__experimentalFontFamily": true
 			}
-		}
+		},
+		"align": false
 	},
 	"parent": ["core/social-links"],
 	"usesContext": [

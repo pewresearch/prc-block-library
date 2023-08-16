@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('react', 'wp-components', 'wp-dom-ready', 'wp-element'), 'version' => '25904c6d117440a28dd2');
+<?php return array('dependencies' => array('prc-icons', 'react', 'wp-dom-ready', 'wp-element', 'wp-polyfill'), 'version' => 'a753b490cd6b9da044d1');

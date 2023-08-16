@@ -4,7 +4,7 @@
 	"name": "prc-block/taxonomy-index-list-controller",
 	"version": "0.1.0",
 	"title": "Taxonomy Index List Controller",
-	"category": "design",
+	"category": "theme",
 	"description": "Display a grid of taxonomy list blocks that converts to an accordion on mobile",
 	"attributes": {
 		"allowedBlocks": {

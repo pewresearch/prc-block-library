@@ -27,15 +27,18 @@ import { register } from '@wordpress/data';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import Edit from './Edit';
+import Icon from './Icon';
 
 import metadata from './block.json';
 import store from './store';
 
-console.log('prc-block/progress-bar', metadata);
-
 const { name } = metadata;
 
 const settings = {
+	/**
+	 * @see ./Icon.jsx
+	 */
+	icon: Icon,
 	/**
 	 * @see ./Edit.jsx
 	 */

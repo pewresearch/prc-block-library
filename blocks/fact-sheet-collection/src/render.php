@@ -11,7 +11,7 @@ if ( is_admin() ) {
 $cache_group = 'prc-block-library-fact-sheet-collection-markup-0.1.7';
 $cached = false;
 if ( !is_preview() ){
-	$cached = wp_cache_get( 
+	$cached = wp_cache_get(
 		get_the_ID(),
 		$cache_group,
 	);
@@ -28,13 +28,14 @@ if ( false === $cached ) {
 		return;
 	}
 	$parent_term = get_term($collection_term->parent, 'collection');
-	$parent_term_id = $parent_term->term_id;
+	$parent_term_id = isset($parent_term->term_id) ? $parent_term->term_id : null;
+	$parent_term_link = get_term_link($parent_term_id, 'collection');
 	$parent_term = array(
-		'name' => $parent_term->name,
-		'link' => get_term_link($parent_term->term_id, 'collection'),
+		'name' => isset($parent_term->name) ? $parent_term->name : '',
+		'link' => isset($parent_term_link) ? $parent_term_link : '',
 	);
 
-	// Get the parent term's children, returns a list of term ids. 
+	// Get the parent term's children, returns a list of term ids.
 	$child_terms = get_term_children($parent_term_id, 'collection');
 	$child_terms = array_map(function ($term_id) use ($collection_term) {
 		$child_term = get_term($term_id, 'collection');
@@ -72,7 +73,7 @@ if ( false === $cached ) {
 			'link' => $link,
 		);
 		return $child_term;
-	}, $child_terms);	
+	}, $child_terms);
 
 	// Filter out any null values.
 	$child_terms = array_filter($child_terms);
@@ -129,13 +130,13 @@ if ( false === $cached ) {
 				$other_language_post_permalink,
 				$other_language_post_language,
 			);
-		}, $other_language_posts), 
+		}, $other_language_posts),
 		'collection_name' => $parent_term['name'],
 		'collection_link' => $parent_term['link'],
 	);
 
 	if ( !is_preview() ) {
-		wp_cache_set( 
+		wp_cache_set(
 			get_the_ID(),
 			$cached,
 			$cache_group,
@@ -164,12 +165,12 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 echo wp_sprintf(
 	'<div %1$s><div class="wp-block-prc-block-fact-sheet-collection--parent-term"><a href="%6$s">%2$s</a></div>%5$s<div class="wp-block-prc-block-fact-sheet-collection--term-list">%3$s</div>%4$s</div>',
 	$block_wrapper_attrs,
-	$cached['collection_name'],
+	!is_wp_error($cached['collection_name']) ? $cached['collection_name'] : '',
 	implode('', $cached['terms']),
 	$pdf,
 	!empty($cached['alt_languages']) ? wp_sprintf(
 		'<div class="wp-block-prc-block-fact-sheet-collection--alt-languages">%1$s</div>',
 		implode('', $cached['alt_languages']),
 	) : '',
-	$cached['collection_link'],
+	!is_wp_error($cached['collection_link']) ? $cached['collection_link'] : '',
 );

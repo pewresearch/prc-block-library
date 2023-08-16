@@ -65,6 +65,10 @@ domReady(() => {
 				switchTab(controllerId, elm.target);
 			});
 		});
+
+		// Fire an event that signals the tabs are initialized, other plugins can use this.
+		const event = new CustomEvent('tabsReady', {});
+		document.dispatchEvent(event);
 	});
 
 	// Activate tab from the ?tabId query arg

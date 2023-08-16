@@ -3,6 +3,7 @@
   "apiVersion": 2,
   "name": "prc-block/mailchimp-form",
   "title": "MailChimp Form",
+  "description": "A block that allows you to add a MailChimp form to your page.",
   "version": "0.1.0",
   "category": "marketing",
   "keywords": [
@@ -46,7 +47,8 @@
           "text": "SIGN UP"
         }
       }
-    ]
+    ],
+    "viewportWidth": 640
   },
   "textdomain": "mailchimp-form",
   "editorScript": "file:./index.js",

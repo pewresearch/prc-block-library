@@ -4,7 +4,7 @@
 	"name": "prc-block/promo-rotator",
 	"version": "0.1.0",
 	"title": "Promo Rotator",
-	"description": "Rotates through each promo block once on page load.",
+	"description": "Rotates through a promo block randomly on page load.",
 	"keywords": [
 		"promo",
 		"rotator",

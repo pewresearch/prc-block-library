@@ -5,11 +5,6 @@
  */
 
 /**
- * External Dependencies
- */
-import { mapMarker as linkIcon } from '@wordpress/icons';
-
-/**
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
@@ -28,13 +23,17 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import Edit from './Edit';
+import Icon from './Icon';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	icon: linkIcon,
+	/**
+	 * @see ./Icon.jsx
+	 */
+	icon: Icon,
 	/**
 	 * @see ./Edit.jsx
 	 */

@@ -6,7 +6,6 @@
 	"title": "Responsive View",
 	"category": "design",
 	"description": "A block of blocks that appears and hides at specific viewport widths.",
-	"icon": "art",
 	"attributes": {
 		"min": {
             "type": "integer",

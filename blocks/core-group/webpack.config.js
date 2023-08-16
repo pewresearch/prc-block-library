@@ -26,6 +26,9 @@ module.exports = {
 				if (request.includes('@splidejs/splide-extension-intersection')) {
 					return 'splideInterscection';
 				}
+				if (request.includes('@prc/icons')) {
+					return 'prcIcons';
+				}
 				if (request.includes('enquire.js')) {
 					return 'enquire';
 				}
@@ -46,6 +49,9 @@ module.exports = {
 				}
 				if ('@splidejs/splide-extension-intersection' === request) {
 					return 'splide';
+				}
+				if (request.includes('@prc/icons')) {
+					return 'prc-icons';
 				}
 				if ('enquire.js' === request) {
 					return 'enquire.js';

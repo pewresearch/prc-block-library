@@ -63,6 +63,19 @@ export default function registerTransforms() {
 					},
 					priority: 11,
 				});
+
+				// Handle old [callout] shortcodes
+				settings.transforms.from.push({
+					type: 'shortcode',
+					tag: 'callout',
+					transform({}, {shortcode}) {
+						const {content} = shortcode;
+						return createBlock('core/group', {
+							className: 'is-style-callout',
+							backgroundColor: 'beige',
+						}, rawHandler({HTML: content}));
+					}
+				});
 			}
 		}
 

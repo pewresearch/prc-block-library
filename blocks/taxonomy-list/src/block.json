@@ -4,7 +4,7 @@
 	"name": "prc-block/taxonomy-list",
 	"version": "0.1.0",
 	"title": "Taxonomy List",
-	"category": "design",
+	"category": "theme",
 	"description": "Display a list of taxonomy terms.",
 	"attributes": {
 		"taxonomy": {

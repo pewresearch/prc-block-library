@@ -5,7 +5,6 @@
 	"title": "Story Item",
 	"version": "4.0.10",
 	"category": "content-curation",
-    "icon": "admin-post",
     "description": "A story item is a visual display of a post, usually referencing a stub post.",
     "keywords": ["prc", "story", "item", "story item", "stub"],
     "usesContext": [

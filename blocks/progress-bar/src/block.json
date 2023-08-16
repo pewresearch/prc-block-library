@@ -4,7 +4,7 @@
 	"name": "prc-block/progress-bar",
 	"version": "0.1.0",
 	"title": "Progress Bar",
-	"category": "design",
+	"category": "media",
 	"icon": "chart-bar",
 	"keywords": ["progress", "bar", "quiz", "result", "horizontal", "chart"],
 	"attributes": {
@@ -75,6 +75,9 @@
 		"typography": {
 			"fontSize": true
 		}
+	},
+	"example": {
+		"attributes": {}
 	},
 	"textdomain": "progress-bar",
 	"editorScript": "file:./index.js",

@@ -23,6 +23,9 @@ module.exports = {
 				if (request.includes('@prc/components')) {
 					return 'prcComponents';
 				}
+				if(request.includes('@prc/icons')) {
+					return 'prcIcons';
+				}
 				if (request.includes('enquire.js')) {
 					return 'enquire';
 				}
@@ -39,6 +42,9 @@ module.exports = {
 				}
 				if ('@prc/components' === request) {
 					return 'prc-components';
+				}
+				if ('@prc/icons' === request) {
+					return 'prc-icons';
 				}
 				if ('enquire.js' === request) {
 					return 'enquire.js';
