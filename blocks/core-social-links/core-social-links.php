@@ -128,6 +128,8 @@ class CoreSocialLinks extends PRC_Block_Library {
 	}
 
 	/**
+	 * Fallback to shortlink if no url is provided for social links.
+	 * @TODO: maybe refine this further by only applying this logic if the parent block has a specific classname or context on it?
 	 * @filter render_block_data
 	 * @param mixed $parsed_block
 	 * @param mixed $source_block
@@ -135,7 +137,6 @@ class CoreSocialLinks extends PRC_Block_Library {
 	 * @return void
 	 */
 	public function social_link_url_fallback( $parsed_block, $source_block, $parent_block ) {
-		// If the classname is social-share-buttons then we should look for post id or url and if not present then provide those via context.
 		if ( self::$child_block_name === $parsed_block['blockName'] && empty($parsed_block['attrs']['url']) ) {
 			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
 		}
