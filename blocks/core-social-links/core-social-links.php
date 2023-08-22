@@ -28,7 +28,8 @@ class CoreSocialLinks extends PRC_Block_Library {
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
 			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
 			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
-			add_filter( 'render_block', array( $this, 'social_link_render_callback' ), 100, 3 );
+			add_filter( 'render_block_data', array($this, 'social_link_url_fallback'), 10, 3 );
+			add_filter( 'render_block', array( $this, 'social_link_render_callback' ), 10, 3 );
 		}
 	}
 
@@ -99,11 +100,11 @@ class CoreSocialLinks extends PRC_Block_Library {
 			$settings['uses_context'] = array_merge(
 				array_key_exists('uses_context', $settings) ? $settings['uses_context'] : array(),
 				array(
+					'postId',
+					'queryId',
 					'core/social-links/title',
 					'core/social-links/description',
 					'core/social-links/url',
-					'postId',
-					'queryId',
 					'prc-quiz/results/score',
 				)
 			);
@@ -124,6 +125,21 @@ class CoreSocialLinks extends PRC_Block_Library {
 		}
 
 		return sprintf( $description, $score );
+	}
+
+	/**
+	 * @filter render_block_data
+	 * @param mixed $parsed_block
+	 * @param mixed $source_block
+	 * @param mixed $parent_block
+	 * @return void
+	 */
+	public function social_link_url_fallback( $parsed_block, $source_block, $parent_block ) {
+		// If the classname is social-share-buttons then we should look for post id or url and if not present then provide those via context.
+		if ( self::$child_block_name === $parsed_block['blockName'] && empty($parsed_block['attrs']['url']) ) {
+			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
+		}
+		return $parsed_block;
 	}
 
 	public function social_link_render_callback( $block_content, $block, $instance ) {
