@@ -28,7 +28,7 @@ class CoreSocialLinks extends PRC_Block_Library {
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
 			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
 			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
-			add_filter( 'render_block', array( $this, 'social_link_render_callback' ), 10, 3 );
+			add_filter( 'render_block', array( $this, 'social_link_render_callback' ), 100, 3 );
 		}
 	}
 
