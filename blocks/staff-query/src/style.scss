@@ -9,18 +9,19 @@
 	color: inherit;
 	background: inherit;
 	.wp-block-group.staff-listing {
-		display: flex;
+		display: block;
 		.wp-block-prc-block-staff-info {
-			margin: 0!important;
+			// Negative margin to remove the space between the inline blocks. Deeply dumb CSS hack.
+			margin: 0 -0.3em 0 0 !important;
+			display: inline;
 		}
 		a.wp-block-prc-block-staff-info {
-			color: var(--wp--preset--color--link-color)!important;
+			color: var(--wp--preset--color--link-color) !important;
 		}
 		.wp-block-prc-block-staff-info:last-child {
-			flex-grow: 1;
 			&:before {
+				display: inline;
 				content: ", ";
-				padding-right: 0.3em;
 			}
 		}
 	}

@@ -1,1 +1,29 @@
-.wp-block-prc-block-staff-query{background:inherit;color:inherit}.wp-block-prc-block-staff-query .wp-block-group.staff-listing{display:flex}.wp-block-prc-block-staff-query .wp-block-group.staff-listing .wp-block-prc-block-staff-info{margin:0!important}.wp-block-prc-block-staff-query .wp-block-group.staff-listing a.wp-block-prc-block-staff-info{color:var(--wp--preset--color--link-color)!important}.wp-block-prc-block-staff-query .wp-block-group.staff-listing .wp-block-prc-block-staff-info:last-child{flex-grow:1}.wp-block-prc-block-staff-query .wp-block-group.staff-listing .wp-block-prc-block-staff-info:last-child:before{content:", ";padding-right:.3em}
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/style.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-prc-block-staff-query {
+  color: inherit;
+  background: inherit;
+}
+.wp-block-prc-block-staff-query .wp-block-group.staff-listing {
+  display: block;
+}
+.wp-block-prc-block-staff-query .wp-block-group.staff-listing .wp-block-prc-block-staff-info {
+  margin: 0 -0.3em 0 0 !important;
+  display: inline;
+}
+.wp-block-prc-block-staff-query .wp-block-group.staff-listing a.wp-block-prc-block-staff-info {
+  color: var(--wp--preset--color--link-color) !important;
+}
+.wp-block-prc-block-staff-query .wp-block-group.staff-listing .wp-block-prc-block-staff-info:last-child:before {
+  display: inline;
+  content: ", ";
+}
+
+/*# sourceMappingURL=style-index.css.map*/
