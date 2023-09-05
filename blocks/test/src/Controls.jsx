@@ -12,7 +12,7 @@ import {
 	BaseControl,
 	Button,
 	CardDivider,
-	{{#isSyncedEntityVariant}}ExternalLink,{{/isSyncedEntityVariant}}
+	
 	PanelBody,
 	SelectControl,
 	TextControl,
@@ -26,29 +26,10 @@ import { useEntityProp } from '@wordpress/core-data';
 /**
  * Internal Dependencies
  */
-{{#isSyncedEntityVariant}}
-import { POST_TYPE, POST_TYPE_LABEL } from './constants';
-{{/isSyncedEntityVariant}}
 
 function InspectorPanel({ attributes, setAttributes }) {
-	{{#isSyncedEntityVariant}}
-	const { ref } = attributes;
-	const [title, setTitle] = useEntityProp('postType', POST_TYPE, 'title', ref);
-	const [permalink] = useEntityProp('postType', POST_TYPE, 'link', ref);
-	{{/isSyncedEntityVariant}}
 	return (
 		<InspectorControls>
-			{{#isSyncedEntityVariant}}
-			<div>
-				<TextControl
-					__nextHasNoMarginBottom
-					label={__(`${POST_TYPE_LABEL} Title}`)}
-					value={title}
-					onChange={setTitle}
-				/>
-				<ExternalLink href={permalink}>Open {POST_TYPE_LABEL.toLowerCase()} in new window</ExternalLink>
-			</div>
-			{{/isSyncedEntityVariant}}
 
 			// This is here for convenience, but should be removed if not used.
 			//<PanelBody title="Block Controls">

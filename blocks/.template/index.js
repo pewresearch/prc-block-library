@@ -65,6 +65,20 @@ module.exports = {
 				...EXTRA_SUPPORTS,
 			}
 		},
+		syncedEntity: {
+			attributes: {
+				ref: {
+					type: 'number',
+				},
+				allowedBlocks: {
+					type: 'array',
+				},
+			},
+			supports: {
+				...DEFAULT_SUPPORTS,
+				...EXTRA_SUPPORTS,
+			}
+		},
 		static: {
 			supports: {
 				...DEFAULT_SUPPORTS,
