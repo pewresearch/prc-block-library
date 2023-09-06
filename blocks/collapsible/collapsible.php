@@ -16,6 +16,10 @@ class Collapsible extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action('init', array($this, 'block_init'));
+			add_filter('query_vars', function($qvars){
+				$qvars[] = 'collapsibleId';
+				return $qvars;
+			});
 		}
 	}
 
