@@ -19,7 +19,7 @@
 		}
 	},
 	"supports": {
-		"anchor": true,
+		"anchor": false,
 		"html": false,
 		"spacing": {
 			"blockGap": true,
