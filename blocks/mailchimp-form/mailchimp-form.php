@@ -16,7 +16,6 @@ class Mailchimp_Form extends PRC_Block_Library {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action('init', array($this, 'block_init'));
-			do_action('qm/debug', 'MAILCHIPOMG');
 		}
 	}
 

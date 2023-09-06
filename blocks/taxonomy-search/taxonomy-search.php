@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Taxonomy Search
  * Description:       Search for terms of a specified taxonomy.
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class TaxonomySearch extends PRC_Block_Library {
+class TaxonomySearch extends Library {
 	public $parent_term_children = false;
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
