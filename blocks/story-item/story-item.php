@@ -15,7 +15,7 @@ class StoryItem extends PRC_Block_Library {
 	public static $version             = '4.0.11';
 	public static $dir                 = __DIR__;
 	public static $date_format         = 'M j, Y';
-	public static $cache_invalidate    = '01-22-2023';
+	public static $cache_invalidate    = '09-03-2023d';
 	public static $cache_ttl           = 10 * MINUTE_IN_SECONDS;
 	public static $stub_disabled_sites = array(
 		17,
@@ -94,7 +94,7 @@ class StoryItem extends PRC_Block_Library {
 	}
 
 	private function get_taxonomy( $attributes = array() ) {
-		$taxonomy = array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : false;
+		$taxonomy = array_key_exists( 'metaTaxonomy', $attributes ) ? $attributes['metaTaxonomy'] : 'formats';
 		$taxonomy = in_array( get_current_blog_id(), self::$stub_disabled_sites ) ? 'category' : $taxonomy;
 		return $taxonomy;
 	}
@@ -107,13 +107,20 @@ class StoryItem extends PRC_Block_Library {
 	 * @return string
 	 */
 	private function get_label( int $post_id, $post_type = false, $attributes = array() ) {
+		$label = false;
 		if ( array_key_exists( 'label', $attributes ) ) {
-			$label = $attributes['label'];
+			if ( array_key_exists('inLoop', $attributes) && false !== $attributes['inLoop'] ) {
+				$label = null;
+			} elseif ( array_key_exists('inIndex', $attributes) && false !== $attributes['inIndex'] ) {
+				$label = null;
+			} else {
+				$label = $attributes['label'];
+			}
 		}
 
 		$taxonomy = $this->get_taxonomy( $attributes );
-
-		if ( empty( $label ) ) {
+		do_action('qm/debug', print_r(array('post_id' => $post_id, 'taxonomy' => $taxonomy, 'label' => $label, 'title' => get_the_title($post_id)), true));
+		if ( empty( $label ) || null === $label ) {
 			if ('dataset' === $post_type ) {
 				$label = 'Dataset';
 			}
@@ -372,7 +379,7 @@ class StoryItem extends PRC_Block_Library {
 	 */
 	public function get_cache_key( $attributes, $context ) {
 		if ( array_key_exists('inIndex', $attributes) && $attributes['inIndex'] ) {
-			$cache_key = array('index');
+			$cache_key = array('index' => true);
 		} else {
 			$cache_key = $attributes;
 		}

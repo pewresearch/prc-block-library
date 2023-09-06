@@ -63,11 +63,14 @@ const StoryItemListingTemplate = [
 	],
 ];
 
+/**
+ * Legacy Stub Query
+ */
 const stubQueryVariation = {
 	name: 'stub-query',
-	title: 'Stub Query',
+	title: 'Stub Query (legacy)',
 	description:
-		'Display a list of Stub objects as Story Items configured in the style of a "Publication Listing".',
+		'Display a list of stub objects as Story Items in a "Publication Listing" style.',
 	attributes: {
 		query: {
 			perPage: 5,
@@ -82,29 +85,33 @@ const stubQueryVariation = {
 			search: '',
 			sticky: 'exclude',
 			inherit: false,
-			isStoryItemLoop: true,
+			isStubQuery: true,
 		},
 	},
 	allowedControls: ['order', 'taxQuery', 'search'],
 	isActive: (blockAttributes) => {
-		return blockAttributes.query.isStoryItemLoop;
+		return blockAttributes.query.isStubQuery;
 	},
 	innerBlocks: StoryItemListingTemplate,
 	scope: ['inserter'],
 };
 
+/**
+ * Publication Listing Query
+ * Changes the default query to only include posts that are published and have a parent, also sets the default post types to post, short-read, fact-sheet, interactives, and quizzes.
+ */
 const pubListingVariation = {
 	name: 'pub-listing-query',
-	title: 'Publication Listing Query',
+	title: 'Publication Listing Query (new)',
 	description:
-		'Query published, parent posts.',
+		'Query published, parent posts in the style of a "Publication Listing".',
 	attributes: {
 		query: {
 			perPage: 10,
 			pages: 1,
 			offset: 0,
 			categoryIds: [],
-			// postType: ['post', 'fact-sheet', 'interactive', 'quiz'],
+			postType: ['post', 'short-read', 'fact-sheet', 'interactive', 'quiz'],
 			tagIds: [],
 			order: 'desc',
 			orderBy: 'date',
@@ -123,6 +130,9 @@ const pubListingVariation = {
 	scope: ['inserter'],
 };
 
+/**
+ * This is a varaition inside the main query block, it acts as a shortcut to create a story item listing.
+ */
 const storyItemListingVariation = {
 	name: 'story-item-query',
 	title: 'Story Item',

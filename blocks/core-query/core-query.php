@@ -16,8 +16,8 @@ class CoreQuery extends PRC_Block_Library {
 	public static $editor_script_handle = null;
 
 	public static $default_query_args = array(
-		'post_status' => array('publish', 'hidden_from_search'),
-		'post_parent' => 0,
+		'post_status' => array('publish', 'hidden_from_search'), // Only return published posts
+		'post_parent' => 0, // Only return parent posts
 	);
 
 	public function __construct($init = false) {
@@ -28,12 +28,13 @@ class CoreQuery extends PRC_Block_Library {
 
 			add_action( 'init', array($this, 'init_assets') );
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
-			add_filter( 'query_loop_block_query_vars', array($this, 'default_query_args'), 10, 3 );
+
 			add_filter( 'block_type_metadata', array( $this, 'default_tax_query_to_OR' ), 100, 1 );
 			add_filter( 'rest_post_query', array( $this, 'default_rest_query_args' ), 10, 2 );
-			// @TODO: Deprecate this...
-			add_filter( 'rest_stub_query', array( $this, 'default_stub_rest_query_args' ), 10, 2 );
+			add_filter( 'query_loop_block_query_vars', array($this, 'default_query_args'), 10, 3 );
 
+			// Legacy for stub system:
+			add_filter( 'rest_stub_query', array( $this, 'default_rest_stub_query_args' ), 10, 2 );
 		}
 	}
 
@@ -45,36 +46,16 @@ class CoreQuery extends PRC_Block_Library {
 		wp_enqueue_script( self::$editor_script_handle );
 	}
 
-	/**
-	 * DEPRECATED: Use default_query_args instead.
-	 * @param mixed $args
-	 * @param mixed $request
-	 * @return mixed
-	 */
-	public function default_stub_rest_query_args( $args, $request ) {
-		$isStoryItemLoop = $request->get_param( 'isStoryItemLoop' );
-		if ( $isStoryItemLoop ) {
-			$args = array_merge( $args, self::$default_query_args );
-		}
-		return $args;
-	}
-
 	public function default_rest_query_args( $args, $request ) {
 		$isPubListingQuery = $request->get_param( 'isPubListingQuery' );
 		if ( $isPubListingQuery ) {
-			// $new_args = array_merge( array('post_type' => array(
-			// 	'post',
-			// 	'fact-sheet',
-			// 	'interactive',
-			// 	'quiz'
-			// )), self::$default_query_args );
 			$args = array_merge( $args, self::$default_query_args );
 		}
 		return $args;
 	}
 
 	/**
-	 * Filters the query arguments for the Query Loop block to ensure we only return parent posts not hidden from the index.
+	 * Filters the query arguments for the Query Loop block on the frontend.
 	 *
 	 * @param array    $query Array containing parameters for `WP_Query` as parsed by the block context.
 	 * @param WP_Block $block Block instance.
@@ -83,20 +64,16 @@ class CoreQuery extends PRC_Block_Library {
 	 */
 	public function default_query_args( $query, $block, $page ) {
 		if ( empty( array_filter($block->context['query'], function($v) { return in_array($v, array(
-			'isStoryItemLoop',
+			'isStubQuery', // Legacy
 			'isPubListingQuery'
 		)); }) ) ) {
 			return $query;
 		}
 
-		// if ( !$block->context['query'] || !array_key_exists( 'isStoryItemLoop', $block->context['query'] ) ) {
-		// 	return $query;
-		// }
-
-		if ( array_key_exists('isStoryItemLoop', $block->context['query']) && true !== $block->context['query']['isStoryItemLoop'] ) {
+		// Handle falsey values for isStubQuery or isPubListingQuery and default back to the main query.
+		if ( array_key_exists('isStubQuery', $block->context['query']) && true !== $block->context['query']['isStubQuery'] ) {
 			return $query;
 		}
-
 		if ( array_key_exists('isPubListingQuery', $block->context['query']) && true !== $block->context['query']['isPubListingQuery'] ) {
 			return $query;
 		}
@@ -106,6 +83,8 @@ class CoreQuery extends PRC_Block_Library {
 
 	/**
 	 * Defaults the tax query arguments to OR instead of AND for relational match.
+	 * We do this because we want most query blocks to be inclusive, not exclusive.
+	 * @TODO: When we start integrating facets into this we'll need to allow changing this.
 	 * @param mixed $metadata
 	 * @return mixed
 	 */
@@ -125,6 +104,20 @@ class CoreQuery extends PRC_Block_Library {
 		}
 
 		return $metadata;
+	}
+
+	/**
+	 * DEPRECATED: Use default_query_args instead.
+	 * @param mixed $args
+	 * @param mixed $request
+	 * @return mixed
+	 */
+	public function default_rest_stub_query_args( $args, $request ) {
+		$isStubQuery = $request->get_param( 'isStubQuery' );
+		if ( $isStubQuery ) {
+			$args = array_merge( $args, self::$default_query_args );
+		}
+		return $args;
 	}
 
 }
