@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Popup Modal
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class PopupModal extends PRC_Block_Library {
+class Popup_Modal {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class PopupModal extends PRC_Block_Library {
 
 }
 
-new PopupModal(true);
+new Popup_Modal(true);

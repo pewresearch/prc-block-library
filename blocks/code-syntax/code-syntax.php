@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Code Syntax
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CodeSyntax extends PRC_Block_Library {
+class Code_Syntax {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -40,4 +41,4 @@ class CodeSyntax extends PRC_Block_Library {
 	}
 }
 
-new CodeSyntax(true);
+new Code_Syntax(true);

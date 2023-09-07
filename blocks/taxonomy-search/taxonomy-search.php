@@ -1,5 +1,6 @@
 <?php
 namespace PRC\Platform\Blocks;
+use WP_REST_Request;
 /**
  * Block Name:        Taxonomy Search
  * Description:       Search for terms of a specified taxonomy.
@@ -11,7 +12,7 @@ namespace PRC\Platform\Blocks;
  * @package           prc-block
  */
 
-class TaxonomySearch extends Library {
+class Taxonomy_Search {
 	public $parent_term_children = false;
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
@@ -61,7 +62,7 @@ class TaxonomySearch extends Library {
 	 * @param WP_REST_Request $request
 	 * @return Semantic UI React Search[]|WP_Error
 	 */
-	public function restfully_search_taxonomy( \WP_REST_Request $request ) {
+	public function restfully_search_taxonomy( WP_REST_Request $request ) {
 		$search_value   = $request->get_param( 'searchValue' );
 		$taxonomy       = $request->get_param( 'taxonomy' );
 		$parent_term_id = (int) $request->get_param( 'parentTermId' );
@@ -121,4 +122,4 @@ class TaxonomySearch extends Library {
 
 }
 
-new TaxonomySearch(true);
+new Taxonomy_Search(true);

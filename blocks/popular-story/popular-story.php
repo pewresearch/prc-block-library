@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Popular Story
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class PopularStory extends PRC_Block_Library {
+class Popular_Story {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class PopularStory extends PRC_Block_Library {
 
 }
 
-new PopularStory(true);
+new Popular_Story(true);

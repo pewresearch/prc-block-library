@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Popup Controller
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class PopupController extends PRC_Block_Library {
+class Popup_Controller {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class PopupController extends PRC_Block_Library {
 
 }
 
-new PopupController(true);
+new Popup_Controller(true);

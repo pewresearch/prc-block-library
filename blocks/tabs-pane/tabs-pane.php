@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Tab Pane
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class TabsPane extends PRC_Block_Library {
+class Tabs_Pane {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class TabsPane extends PRC_Block_Library {
 
 }
 
-new TabsPane(true);
+new Tabs_Pane(true);

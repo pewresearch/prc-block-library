@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Progress Bar
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class ProgressBar extends PRC_Block_Library {
+class Progress_Bar {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class ProgressBar extends PRC_Block_Library {
 
 }
 
-new ProgressBar(true);
+new Progress_Bar(true);

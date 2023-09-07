@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Taxonomy Index A-Z Listing
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class TaxonomyIndexAzList extends PRC_Block_Library {
+class Taxonomy_Index_AZ_List {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -162,4 +163,4 @@ class TaxonomyIndexAzList extends PRC_Block_Library {
 
 }
 
-new TaxonomyIndexAzList(true);
+new Taxonomy_Index_AZ_List(true);

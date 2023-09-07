@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Flip Card Side
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class FlipCardSide extends PRC_Block_Library {
+class Flip_Card_Side {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class FlipCardSide extends PRC_Block_Library {
 
 }
 
-new FlipCardSide(true);
+new Flip_Card_Side(true);

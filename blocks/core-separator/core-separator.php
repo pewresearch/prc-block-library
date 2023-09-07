@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Core Separator
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CoreSeparator extends PRC_Block_Library {
+class Core_Separator {
 
 	public static $block_name = "core/separator";
 	public static $block_json = null;
@@ -54,4 +55,4 @@ class CoreSeparator extends PRC_Block_Library {
 
 }
 
-new CoreSeparator(true);
+new Core_Separator(true);

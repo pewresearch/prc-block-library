@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Fact Sheet Collection
  * Description:       Display the hierarchy of the fact sheet&#39;s collection term as well and a link to download an associated PDF.
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class FactSheetCollection extends PRC_Block_Library {
+class Fact_Sheet_Collection {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -33,4 +34,4 @@ class FactSheetCollection extends PRC_Block_Library {
 
 }
 
-new FactSheetCollection(true);
+new Fact_Sheet_Collection(true);

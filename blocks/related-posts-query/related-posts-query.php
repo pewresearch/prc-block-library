@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Related Posts Query
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class RelatedPostsQuery extends PRC_Block_Library {
+class Related_Posts_Query {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class RelatedPostsQuery extends PRC_Block_Library {
 
 }
 
-new RelatedPostsQuery(true);
+new Related_Posts_Query(true);

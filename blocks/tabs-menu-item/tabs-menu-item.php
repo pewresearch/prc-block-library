@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Tab Menu Item
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class TabsMenuItem extends PRC_Block_Library {
+class Tabs_Menu_Item {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class TabsMenuItem extends PRC_Block_Library {
 
 }
 
-new TabsMenuItem(true);
+new Tabs_Menu_Item(true);

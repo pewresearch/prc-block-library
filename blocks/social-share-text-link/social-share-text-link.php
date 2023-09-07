@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Social Share Text Link
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class SocialShareTextLink extends PRC_Block_Library {
+class Social_Share_Text_Link {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class SocialShareTextLink extends PRC_Block_Library {
 
 }
 
-new SocialShareTextLink(true);
+new Social_Share_Text_Link(true);

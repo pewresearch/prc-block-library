@@ -1,7 +1,8 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Bylines Display
- * Description:       Display the current posts bylines as 1, 2, and 3. 
+ * Description:       Display the current posts bylines as 1, 2, and 3.
  * Version:           0.1.0
  * Requires at least: 6.1
  * Requires PHP:      7.0
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class BylinesDisplay extends PRC_Block_Library {
+class Bylines_Display {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -33,4 +34,4 @@ class BylinesDisplay extends PRC_Block_Library {
 
 }
 
-new BylinesDisplay(true);
+new Bylines_Display(true);

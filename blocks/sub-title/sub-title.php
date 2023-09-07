@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Post Sub-Title
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class SubTitle extends PRC_Block_Library {
+class Sub_Title {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -63,4 +64,4 @@ class SubTitle extends PRC_Block_Library {
 
 }
 
-new SubTitle(true);
+new Sub_Title(true);

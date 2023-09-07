@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Form Input Dropdown
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class FormInputDropdown extends PRC_Block_Library {
+class Form_Input_Dropdown {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class FormInputDropdown extends PRC_Block_Library {
 
 }
 
-new FormInputDropdown(true);
+new Form_Input_Dropdown(true);

@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        MailChimp Form
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class Mailchimp_Form extends PRC_Block_Library {
+class Mailchimp_Form {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 

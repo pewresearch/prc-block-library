@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Tabs
  * Version:           0.1.1
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class TabsController extends PRC_Block_Library {
+class Tabs_Controller {
 	public static $version = '0.1.1';
 	public static $dir = __DIR__;
 
@@ -139,4 +140,4 @@ class TabsController extends PRC_Block_Library {
 
 }
 
-new TabsController(true);
+new Tabs_Controller(true);

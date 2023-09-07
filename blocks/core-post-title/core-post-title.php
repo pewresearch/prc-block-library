@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+
 /**
  * Block Name:        Core Post-Title
  * Version:           0.1.0
@@ -9,7 +11,7 @@
  * @package           prc-block
  */
 
-class CorePostTitle extends PRC_Block_Library {
+class Core_Post_Title {
 
 	public static $block_name = "core/post-title";
 
@@ -45,4 +47,4 @@ class CorePostTitle extends PRC_Block_Library {
 
 }
 
-new CorePostTitle(true);
+new Core_Post_Title(true);

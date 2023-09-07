@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Grid Controller
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class GridController extends PRC_Block_Library {
+class Grid_Controller {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -64,4 +65,4 @@ class GridController extends PRC_Block_Library {
 
 }
 
-new GridController(true);
+new Grid_Controller(true);

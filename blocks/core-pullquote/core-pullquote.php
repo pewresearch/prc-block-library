@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Core Pullquote
  * Version:           0.1.0
@@ -9,9 +10,9 @@
  * @package           prc-block
  */
 
-class CorePullquote extends PRC_Block_Library {
-
+class Core_Pullquote {
 	public static $block_name = "core/pullquote";
+	public static $version = null;
 	public static $block_json = null;
 	public static $style_handle = null;
 
@@ -20,6 +21,7 @@ class CorePullquote extends PRC_Block_Library {
 			$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-pullquote/build/block.json';
 			self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+			self::$version = self::$block_json['version'];
 
 			add_action( 'init', array($this, 'init_assets') );
 			add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ), 0 );
@@ -41,4 +43,4 @@ class CorePullquote extends PRC_Block_Library {
 
 }
 
-new CorePullquote(true);
+new Core_Pullquote(true);

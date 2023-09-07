@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Grid Column
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class GridColumn extends PRC_Block_Library {
+class Grid_Column {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class GridColumn extends PRC_Block_Library {
 
 }
 
-new GridColumn(true);
+new Grid_Column(true);

@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Form Input Checkbox
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class FormInputCheckbox extends PRC_Block_Library {
+class Form_Input_Checkbox {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class FormInputCheckbox extends PRC_Block_Library {
 
 }
 
-new FormInputCheckbox(true);
+new Form_Input_Checkbox(true);

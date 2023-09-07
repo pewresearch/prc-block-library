@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Core Cover
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CoreCover extends PRC_Block_Library {
+class Core_Cover {
 
 	public static $block_name = "core/cover";
 	public static $block_json = null;
@@ -122,4 +123,4 @@ class CoreCover extends PRC_Block_Library {
 
 }
 
-new CoreCover(true);
+new Core_Cover(true);

@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+use WP_HTML_Tag_Processor;
 /**
  * Block Name:
  * Version:           0.1.0
@@ -9,7 +11,7 @@
  * @package           prc-block
  */
 
-class CoreImage extends PRC_Block_Library {
+class Core_Image {
 
 	/**
 	 * Register a core block variant.
@@ -43,7 +45,7 @@ class CoreImage extends PRC_Block_Library {
 		global $wp_styles;
 		$style = $wp_styles->registered[ self::$view_style_handle ];
 		$src = $style->src;
-		wp_register_style( 'wp-block-image', $src,  array(), self::$version );
+		wp_register_style( 'wp-block-image', $src,  array(), PRC_BLOCK_LIBRARY_VERSION );
 	}
 
 	public function register_admin_assets() {
@@ -52,4 +54,4 @@ class CoreImage extends PRC_Block_Library {
 	}
 }
 
-new CoreImage(true);
+new Core_Image(true);

@@ -1,4 +1,7 @@
 <?php
+namespace PRC\Platform\Blocks;
+use WP_Error;
+use WP_HTML_Heading_Processor;
 /**
  * Block Name:        Table of Contents
  * Description:       Displays a list of all heading blocks set to chapter headings.
@@ -10,7 +13,7 @@
  * @package           prc-block
  */
 
-class TableOfContents extends PRC_Block_Library {
+class Table_Of_Contents {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -303,4 +306,4 @@ class TableOfContents extends PRC_Block_Library {
 
 }
 
-new TableOfContents(true);
+new Table_Of_Contents(true);

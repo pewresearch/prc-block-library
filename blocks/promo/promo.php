@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Promo
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class Promo extends PRC_Block_Library {
+class Promo {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 

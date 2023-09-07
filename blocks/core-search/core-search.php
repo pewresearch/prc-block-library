@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Core Search
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CoreSearch extends PRC_Block_Library {
+class Core_Search {
 
 	public static $block_name = 'core/search';
 	public static $block_json = null;
@@ -56,4 +57,4 @@ class CoreSearch extends PRC_Block_Library {
 
 }
 
-new CoreSearch(true);
+new Core_Search(true);

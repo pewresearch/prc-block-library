@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Input Text Field
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class FormInputText extends PRC_Block_Library {
+class Form_Input_Text {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class FormInputText extends PRC_Block_Library {
 
 }
 
-new FormInputText(true);
+new Form_Input_Text(true);

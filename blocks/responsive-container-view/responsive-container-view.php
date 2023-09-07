@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Responsive View
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class ResponsiveContainerView extends PRC_Block_Library {
+class Responsive_Container_View {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class ResponsiveContainerView extends PRC_Block_Library {
 
 }
 
-new ResponsiveContainerView(true);
+new Responsive_Container_View(true);

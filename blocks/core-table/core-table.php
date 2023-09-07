@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Core Table
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CoreTable extends PRC_Block_Library {
+class Core_Table {
 
 	public static $block_name = "core/table";
 	public static $block_json = null;
@@ -30,7 +31,6 @@ class CoreTable extends PRC_Block_Library {
 
 	public function init_assets() {
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
-		// self::$view_style_handle    = register_block_style_handle( self::$block_json, 'style' );
 	}
 
 
@@ -45,4 +45,4 @@ class CoreTable extends PRC_Block_Library {
 
 }
 
-new CoreTable(true);
+new Core_Table(true);

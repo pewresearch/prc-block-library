@@ -1,15 +1,20 @@
 <?php
+namespace PRC\Platform\Blocks;
+use WP_Block_Parser_Block;
+use WP_Error;
+
 /**
  * Block Name:        Story Item
  * Version:           4.0.10
- * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires at least: 6.3
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
-class StoryItem extends PRC_Block_Library {
+class Story_Item {
+	public $block_library_version;
 
 	public static $block_name          = 'prc-block/story-item';
 	public static $version             = '4.0.11';
@@ -22,16 +27,8 @@ class StoryItem extends PRC_Block_Library {
 		19
 	);
 
-	public function __construct( $init = false ) {
-		if ( true === $init ) {
-			if ( defined('PRC_PLATFORM') && true === PRC_PLATFORM ) {
-				add_filter( 'newsletterglue_allowed_block_list', array( $this, 'allow_in_newsletter_glue' ), 10, 1 );
-				add_filter( 'prc_return_story_item', array( $this, 'return_story_item' ), 10, 1 );
-				add_action( 'prc_do_story_item', array( $this, 'do_story_item' ), 10, 1 );
-				add_action( 'prc_core_on_stub_update', array( $this, 'clear_index_cache_on_stub_update' ), 10, 1 );
-			}
-			add_action( 'init', array($this, 'block_init') );
-		}
+	public function __construct( $block_library_version ) {
+		$this->block_library_version = $block_library_version;
 	}
 
 	public function allow_in_newsletter_glue($blocks) {
@@ -42,6 +39,95 @@ class StoryItem extends PRC_Block_Library {
 	public function allow_debug_output() {
 		return false;
 	}
+
+	// NEW: WIP
+	public function register_story_item_connections_meta() {
+		register_meta(
+			'post',
+			'_story_item_connections',
+			array(
+				'show_in_rest' => true,
+				'single' => true,
+				'type' => 'array',
+				'description' => 'An array of object ids that contain Story Item blocks pointing to this post.',
+				'sanitize_callback' => function( $value ) {
+					return array_map( 'intval', $value );
+				},
+				'auth_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+	}
+
+	public function update_connection( $referencing_post_id, $story_item_post_id ) {
+		$connections = get_post_meta( $story_item_post_id, '_story_item_connections', true );
+		if ( ! is_array( $connections ) ) {
+			$connections = array();
+		}
+		if ( in_array( $referencing_post_id, $connections ) ) {
+			return true;
+		}
+		$connections[] = $referencing_post_id;
+		$updated = update_post_meta( $story_item_post_id, '_story_item_connections', $connections );
+		return false !== $updated;
+	}
+
+	public function remove_connection( $referencing_post_id, $story_item_post_id ) {
+		$connections = get_post_meta( $story_item_post_id, '_story_item_connections', true );
+		if ( ! is_array( $connections ) ) {
+			$connections = array();
+		}
+		$connections = array_diff( $connections, array( $referencing_post_id ) );
+		$updated = update_post_meta( $story_item_post_id, '_story_item_connections', $connections );
+		return false !== $updated;
+	}
+
+	/**
+	 * Registers post meta for the story item variations. This is used to store data for specific story item variations that also correspond to theme placements of the story item, e.g. publication listing, search, a list item, newsletter glue, etc...
+	 * @return void
+	 */
+	public function register_story_item_variations_meta() {
+		$schema_properties = array();
+		$variations = json_decode( file_get_contents( __DIR__ . '/../src/variations.json' ), true );
+		foreach ( $variations as $variation_key => $variation ) {
+			// $properties should be an array containing all the attributes with their types.
+			$properties = array();
+			foreach ( $variation['attributes'] as $attribute ) {
+				$properties[$attribute] = array(
+					'type' => gettype( $attribute ),
+				);
+			}
+			$schema_properties[$variation_key] = array(
+				'type' => 'object',
+				'properties' => $properties,
+			);
+		}
+
+		register_meta(
+			'post',
+			'_story_items',
+			array(
+				'show_in_rest' => array(
+					'schema' => array(
+						'type' => 'object',
+						'properties' => $schema_properties,
+					),
+				),
+				'single' => true,
+				'type' => 'array',
+				'description' => 'An array of objects that contain Story Item variations and their data for this post.',
+				'sanitize_callback' => function( $value ) {
+					return array_map( 'intval', $value );
+				},
+				'auth_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+	}
+
+	// OLD: STABLE
 
 	public function return_story_item( $args = array() ) {
 		$parsed = new WP_Block_Parser_Block(
@@ -697,4 +783,3 @@ class StoryItem extends PRC_Block_Library {
 
 }
 
-new StoryItem(true);

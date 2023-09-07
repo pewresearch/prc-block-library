@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Carousel Controller
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CarouselController extends PRC_Block_Library {
+class Carousel_Controller {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class CarouselController extends PRC_Block_Library {
 
 }
 
-new CarouselController(true);
+new Carousel_Controller(true);

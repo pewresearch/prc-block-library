@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+use WP_HTML_Tag_Processor;
 /**
  * Block Name:
  * Version:           0.2.0
@@ -9,7 +11,7 @@
  * @package           prc-block
  */
 
-class CoreGroup extends PRC_Block_Library {
+class Core_Group {
 
 	public static $block_name = 'core/group';
 	public static $block_json = null;
@@ -234,4 +236,4 @@ class CoreGroup extends PRC_Block_Library {
 
 }
 
-new CoreGroup(true);
+new Core_Group(true);

@@ -1,6 +1,5 @@
 <?php
 namespace PRC\Platform\Blocks;
-
 use WP_Error;
 
 /**
@@ -14,7 +13,7 @@ use WP_Error;
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    PRC_Platform
+ * @package    PRC\Platform\Blocks
  * @author     Seth Rubenstein <srubenstein@pewresearch.org>
  */
 class Library {
@@ -57,16 +56,8 @@ class Library {
 		$this->plugin_name = 'prc-block-library';
 
 		$this->load_dependencies();
-
 		$this->gutenberg_config();
-	}
-
-	public function get_block_assets($block_name) {
-
-	}
-
-	public function get_active_theme_colors($color_key = null) {
-		// Well get all the colors from theme json and then if a color key is provided we'll return that object.
+		$this->define_story_item_hooks();
 	}
 
 	/**
@@ -74,20 +65,27 @@ class Library {
 	 * @param mixed $block_file_name
 	 * @return WP_Error|void
 	 */
-	private function include($block_file_name) {
-		if ( file_exists( plugin_dir_path( dirname(__FILE__) ) . 'blocks/' . $block_file_name ) ) {
-			require_once plugin_dir_path( dirname(__FILE__) ) . 'blocks/' . $block_file_name;
+	private function include_block($block_file_name) {
+		$file_path = 'blocks/' . $block_file_name . '/' . $block_file_name . '.php';
+		if ( file_exists( plugin_dir_path( dirname(__FILE__) ) . $file_path ) ) {
+			require_once plugin_dir_path( dirname(__FILE__) ) . $file_path;
 		} else {
 			return new WP_Error( 'prc_block_library_missing_block', __( 'Block missing.', 'prc' ) );
 		}
 	}
 
-	private function include_blocks() {
-		// get all folders in the blocks directory as an array
+	/**
+	 * Include all blocks from the plugin's /blocks directory.
+	 * @return void
+	 */
+	private function load_blocks() {
 		$block_files = glob( PRC_BLOCK_LIBRARY_DIR . '/blocks/*', GLOB_ONLYDIR );
 		foreach ($block_files as $block) {
 			$block = basename($block);
-			$this->include($block . '.php');
+			$loaded = $this->include_block($block);
+			if ( is_wp_error( $loaded ) ) {
+				error_log( $loaded->get_error_message() );
+			}
 		}
 	}
 
@@ -102,9 +100,9 @@ class Library {
 	 */
 	private function load_dependencies() {
 		// Load plugin loading class.
-		require_once plugin_dir_path( dirname(__FILE__) ) . 'class-loader.php';
+		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/class-loader.php';
 
-		$this->include_blocks();
+		$this->load_blocks();
 
 		// Initialize the loader.
 		$this->loader = new Loader();
@@ -137,14 +135,19 @@ class Library {
 	}
 
 	private function define_story_item_hooks() {
-		// register the block.
+		$story_item = new Story_Item( $this->version );
+		$this->loader->add_filter( 'newsletterglue_allowed_block_list', $story_item, 'allow_in_newsletter_glue', 10, 1 );
+		$this->loader->add_filter( 'prc_return_story_item', $story_item, 'return_story_item', 10, 1 );
+		$this->loader->add_action( 'prc_do_story_item', $story_item, 'do_story_item', 10, 1 );
+		$this->loader->add_action( 'prc_core_on_stub_update', $story_item, 'clear_index_cache_on_stub_update', 10, 1 );
+		$this->loader->add_action( 'init', $story_item, 'block_init' );
 	}
 
-	private function disable_remote_block_patterns($should_load_remote) {
+	public function disable_remote_block_patterns($should_load_remote) {
 		return false;
 	}
 
-	private function load_core_block_assets_separately($load_separate_assets) {
+	public function load_core_block_assets_separately($load_separate_assets) {
 		return true;
 	}
 
@@ -157,7 +160,7 @@ class Library {
 	 * @param mixed $block_editor_context
 	 * @return mixed
 	 */
-	private function register_block_categories( $block_categories, $block_editor_context ) {
+	public function register_block_categories( $block_categories, $block_editor_context ) {
 		return array_merge(
 			$block_categories,
 			array(

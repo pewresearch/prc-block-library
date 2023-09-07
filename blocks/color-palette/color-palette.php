@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Color Palette
  * Description:       Outputs a color square
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class ColorPalette extends PRC_Block_Library {
+class Color_Palette {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -74,4 +75,4 @@ class ColorPalette extends PRC_Block_Library {
 
 }
 
-new ColorPalette(true);
+new Color_Palette(true);

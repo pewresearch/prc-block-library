@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Carousel Slide
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CarouselSlide extends PRC_Block_Library {
+class Carousel_Slide {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class CarouselSlide extends PRC_Block_Library {
 
 }
 
-new CarouselSlide(true);
+new Carousel_Slide(true);

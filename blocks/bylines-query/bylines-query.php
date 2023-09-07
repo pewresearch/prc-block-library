@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Bylines Query
  * Description:       Query the current post for bylines.
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class BylinesQuery extends PRC_Block_Library {
+class Bylines_Query {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -70,4 +71,4 @@ class BylinesQuery extends PRC_Block_Library {
 
 }
 
-new BylinesQuery(true);
+new Bylines_Query(true);

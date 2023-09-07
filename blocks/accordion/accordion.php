@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+
 /**
  * Block Name:        Accordion
  * Version:           0.1.0
@@ -9,7 +11,7 @@
  * @package           prc-block
  */
 
-class Accordion extends PRC_Block_Library {
+class Accordion {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 

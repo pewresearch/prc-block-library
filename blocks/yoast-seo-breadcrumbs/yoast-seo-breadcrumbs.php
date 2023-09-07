@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:	      Yoast SEO Breadcrumbs
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class YoastSEOBreadcrumbs extends PRC_Block_Library {
+class Yoast_SEO_Breadcrumbs {
 
 	/**
 	 * Register a core block variant.
@@ -169,4 +170,4 @@ class YoastSEOBreadcrumbs extends PRC_Block_Library {
 
 }
 
-new YoastSEOBreadcrumbs(true);
+new Yoast_SEO_Breadcrumbs(true);

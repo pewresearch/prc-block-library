@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        MailChimp Select
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class MailChimpSelect extends PRC_Block_Library {
+class Mailchimp_Select {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -38,4 +39,4 @@ class MailChimpSelect extends PRC_Block_Library {
 
 }
 
-new MailChimpSelect(true);
+new Mailchimp_Select(true);

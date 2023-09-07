@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Core Query
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CoreQuery extends PRC_Block_Library {
+class Core_Query {
 
 	public static $block_name = "core/query";
 	public static $block_json = null;
@@ -122,4 +123,4 @@ class CoreQuery extends PRC_Block_Library {
 
 }
 
-new CoreQuery(true);
+new Core_Query(true);

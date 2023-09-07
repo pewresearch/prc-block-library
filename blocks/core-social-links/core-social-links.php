@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Core Social-Links
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CoreSocialLinks extends PRC_Block_Library {
+class Core_Social_Links {
 
 	public static $block_name = "core/social-links";
 	public static $child_block_name = 'core/social-link';
@@ -211,4 +212,4 @@ class CoreSocialLinks extends PRC_Block_Library {
 	}
 }
 
-new CoreSocialLinks(true);
+new Core_Social_Links(true);

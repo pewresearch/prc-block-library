@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Popup COntent
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class PopupContent extends PRC_Block_Library {
+class Popup_Content {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class PopupContent extends PRC_Block_Library {
 
 }
 
-new PopupContent(true);
+new Popup_Content(true);

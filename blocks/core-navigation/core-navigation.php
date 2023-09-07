@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+
 /**
  * Block Name:        Core Navigation
  * Version:           0.1.0
@@ -9,7 +11,7 @@
  * @package           prc-block
  */
 
-class CoreNavigation extends PRC_Block_Library {
+class Core_Navigation {
 
 	public static $block_name = "core/navigation";
 	public static $block_json = null;
@@ -41,4 +43,4 @@ class CoreNavigation extends PRC_Block_Library {
 	}
 }
 
-new CoreNavigation(true);
+new Core_Navigation(true);

@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+use WP_HTML_Tag_Processor;
 /**
  * Block Name:        Core Media-Text
  * Version:           0.1.0
@@ -9,7 +11,7 @@
  * @package           prc-block
  */
 
-class CoreMediaText extends PRC_Block_Library {
+class Core_Media_Text {
 
 	public static $block_name = "core/media-text";
 
@@ -92,4 +94,4 @@ class CoreMediaText extends PRC_Block_Library {
 
 }
 
-new CoreMediaText(true);
+new Core_Media_Text(true);

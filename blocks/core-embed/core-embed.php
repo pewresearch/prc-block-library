@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Core Embed
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class CoreEmbed extends PRC_Block_Library {
+class Core_Embed {
 
 	public static $block_name = "core/embed";
 	public static $block_json = null;
@@ -37,4 +38,4 @@ class CoreEmbed extends PRC_Block_Library {
 
 }
 
-new CoreEmbed(true);
+new Core_Embed(true);

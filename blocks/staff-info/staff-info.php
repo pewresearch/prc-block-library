@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Staff Info
  * Description:       Display staff info from a byline; supports name, job title, twitter, and expertise.
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class StaffInfo extends PRC_Block_Library {
+class Staff_Info {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -33,4 +34,4 @@ class StaffInfo extends PRC_Block_Library {
 
 }
 
-new StaffInfo(true);
+new Staff_Info(true);

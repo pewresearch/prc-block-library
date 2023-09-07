@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Taxonomy Index List Controller
  * Description:       Display a grid of taxonomy list blocks that converts to an accordion on mobile devices.
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class TaxonomyIndexListController extends PRC_Block_Library {
+class Taxonomy_Index_List_Controller {
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
@@ -21,7 +22,7 @@ class TaxonomyIndexListController extends PRC_Block_Library {
 
 	/**
 	 * Renders the `core/block` block on server.
-	 * 
+	 *
 	 * Cribbed from https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/block/index.php
 	 *
 	 * @param array $attributes The block attributes.
@@ -59,7 +60,7 @@ class TaxonomyIndexListController extends PRC_Block_Library {
 
 		$blocks = parse_blocks( $reusable_block->post_content );
 		do_action('qm/debug', 'Taxonomy Index List Controller: Found a taxonomy list block.' . print_r($blocks, true));
-		
+
 		// If the reusable block has a single block, and that block is a taxonomy list, then render it as an accordion.
 		if (count($blocks) === 1 && $blocks[0]['blockName'] === 'prc-block/taxonomy-list') {
 			$content = $this->parse_taxonomy_list_as_accordion($blocks[0]);
@@ -179,4 +180,4 @@ class TaxonomyIndexListController extends PRC_Block_Library {
 
 }
 
-new TaxonomyIndexListController(true);
+new Taxonomy_Index_List_Controller(true);

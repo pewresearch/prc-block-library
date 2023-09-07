@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Menu
  * Description:       This is not a navigation block, but it does have much of its functionality and styles. The difference is its data is saved in block format not WPNav
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class Menu extends PRC_Block_Library {
+class Menu {
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {

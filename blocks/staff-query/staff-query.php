@@ -1,4 +1,9 @@
 <?php
+namespace PRC\Platform\Blocks;
+use WP_Query;
+use WP_Block;
+use WP_Error;
+
 /**
  * Block Name:        Staff Query
  * Description:       Query the Staff post type.
@@ -10,14 +15,14 @@
  * @package           prc-block
  */
 
-class StaffQuery extends PRC_Block_Library {
+class Staff_Query {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'block_init' ) );
-			add_filter( 'prc_block_library_staff_query' , array( $this, 'query_staff_posts' ), 10, 1 );
+			// add_filter( 'prc_block_library_staff_query' , array( $this, 'query_staff_posts' ), 10, 1 );
 		}
 	}
 
@@ -171,4 +176,4 @@ class StaffQuery extends PRC_Block_Library {
 
 }
 
-$StaffQuery = new StaffQuery(true);
+$StaffQuery = new Staff_Query(true);

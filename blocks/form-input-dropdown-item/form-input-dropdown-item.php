@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Form Input Dropdown Item
  * Description:       Insert options for form input dropdown
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class FormInputDropdownItem extends PRC_Block_Library {
+class Form_Input_Dropdown_Item {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -33,4 +34,4 @@ class FormInputDropdownItem extends PRC_Block_Library {
 
 }
 
-new FormInputDropdownItem(true);
+new Form_Input_Dropdown_Item(true);

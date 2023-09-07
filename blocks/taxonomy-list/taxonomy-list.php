@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Taxonomy List
  * Description:       This is not a navigation block, but it does have much of its functionality and styles. The difference is its data is saved in block format not WPNav.
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class TaxonomyList extends PRC_Block_Library {
+class Taxonomy_List {
 	public static $dir = __DIR__;
 
 	public function __construct( $init = false ) {
@@ -32,4 +33,4 @@ class TaxonomyList extends PRC_Block_Library {
 
 }
 
-new TaxonomyList(true);
+new Taxonomy_List(true);

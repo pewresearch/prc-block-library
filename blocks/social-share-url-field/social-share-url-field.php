@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Social Share Url Field
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class SocialShareUrlField extends PRC_Block_Library {
+class Social_Share_URL_Field {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -32,4 +33,4 @@ class SocialShareUrlField extends PRC_Block_Library {
 
 }
 
-new SocialShareUrlField(true);
+new Social_Share_URL_Field(true);

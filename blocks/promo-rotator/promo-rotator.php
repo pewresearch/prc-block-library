@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Promo Rotator
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class PromoRotator extends PRC_Block_Library {
+class Promo_Rotator {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -61,4 +62,4 @@ class PromoRotator extends PRC_Block_Library {
 
 }
 
-new PromoRotator(true);
+new Promo_Rotator(true);

@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Data Table
  * Description:       Beyond a simple html table, this block allows you to create rich data tables.
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class DataTable extends PRC_Block_Library {
+class Data_Table {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -118,4 +119,4 @@ class DataTable extends PRC_Block_Library {
 
 }
 
-new DataTable(true);
+new Data_Table(true);

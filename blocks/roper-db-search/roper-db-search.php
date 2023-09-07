@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Roper Database
  * Version:           0.1.0
@@ -9,7 +10,7 @@
  * @package           prc-block
  */
 
-class RoperDbSearch extends PRC_Block_Library {
+class Roper_DB_Search {
 	public static $vendor_version = '1.0.11';
 	public static $dir = __DIR__;
 
@@ -48,4 +49,4 @@ class RoperDbSearch extends PRC_Block_Library {
 
 }
 
-new RoperDbSearch(true);
+new Roper_DB_Search(true);

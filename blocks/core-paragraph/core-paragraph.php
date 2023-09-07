@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+
 /**
  * Block Name:        Core Paragraph
  * Version:           0.1.0
@@ -9,7 +11,7 @@
  * @package           prc-block
  */
 
-class CoreParagraph extends PRC_Block_Library {
+class Core_Paragraph {
 
 	/**
 	* @TODO Search and replace "core/paragraph" for your block name, e.g. "core/group".
@@ -75,4 +77,4 @@ class CoreParagraph extends PRC_Block_Library {
 
 }
 
-new CoreParagraph(true);
+new Core_Paragraph(true);

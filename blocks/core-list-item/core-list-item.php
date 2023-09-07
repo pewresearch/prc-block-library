@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+use WP_HTML_Tag_Processor;
 /**
  * Block Name:        List Item
  * Version:           0.1.0
@@ -9,7 +11,7 @@
  * @package           prc-block
  */
 
-class CoreListItem extends PRC_Block_Library {
+class Core_List_Item {
 
 	/**
 	* @TODO Search and replace {coreBlockChangeMyName} for your block name, e.g. "core/list-item".
@@ -35,4 +37,4 @@ class CoreListItem extends PRC_Block_Library {
 	}
 }
 
-new CoreListItem(true);
+new Core_List_Item(true);

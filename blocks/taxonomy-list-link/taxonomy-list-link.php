@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Taxonomy Menu Link
  * Description:       Display a link to a taxonomy term with the option to display a sub menu of taxonomy navigation links.
@@ -10,7 +11,7 @@
  * @package           prc-block
  */
 
-class TaxonomyListLink extends PRC_Block_Library {
+class Taxonomy_List_Link {
 	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
@@ -33,4 +34,4 @@ class TaxonomyListLink extends PRC_Block_Library {
 
 }
 
-new TaxonomyListLink(true);
+new Taxonomy_List_Link(true);
