@@ -253,7 +253,6 @@ function Edit(_ref) {
     clientId,
     context
   });
-  console.log('useCollectChapters foundChapters: ', chapters, context, clientId);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Controls__WEBPACK_IMPORTED_MODULE_3__["default"], {
     attributes,
     setAttributes,
@@ -420,6 +419,66 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default()(() => {
 
 /***/ }),
 
+/***/ "./src/useBackChapters.js":
+/*!********************************!*\
+  !*** ./src/useBackChapters.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ useBackChapters)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/core-data */ "@wordpress/core-data");
+/* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__);
+/**
+ * WordPress Dependencies
+ */
+
+
+
+
+function useBackChapters(postId, postType) {
+  const [hiddenBackChapters, setHiddenBackChapters] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const {
+    records,
+    isResolving,
+    hasResolved
+  } = (0,_wordpress_core_data__WEBPACK_IMPORTED_MODULE_1__.useEntityRecords)('postType', postType, {
+    per_page: 50,
+    _fields: ['id', 'link', 'parent', 'title', 'type'],
+    parent: postId
+  });
+  const hideBackChapter = chapterId => {
+    if (hiddenBackChapters.includes(chapterId)) {
+      setHiddenBackChapters(hiddenBackChapters.filter(id => id !== chapterId));
+    } else {
+      setHiddenBackChapters([...hiddenBackChapters, chapterId]);
+    }
+  };
+  const backChapters = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
+    console.log('useBackChapters', records, isResolving, postId, postType);
+    if (!records || isResolving) {
+      return [];
+    }
+    return records;
+  }, [records, isResolving]);
+  return {
+    backChapters,
+    hiddenBackChapters,
+    hideBackChapter
+  };
+}
+
+/***/ }),
+
 /***/ "./src/useCollectChapters.js":
 /*!***********************************!*\
   !*** ./src/useCollectChapters.js ***!
@@ -435,6 +494,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _useBackChapters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useBackChapters */ "./src/useBackChapters.js");
 /**
  * External Dependencies
  */
@@ -444,11 +504,23 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
+/**
+ * Internal Dependencies
+ */
+
 function useCollectChapters(_ref) {
   let {
     clientId,
     context
   } = _ref;
+  const {
+    postId,
+    postType
+  } = context;
+  const {
+    backChapters
+  } = (0,_useBackChapters__WEBPACK_IMPORTED_MODULE_2__["default"])(postId, postType);
   const {
     chapters = [],
     childPostIds = []
@@ -474,6 +546,8 @@ function useCollectChapters(_ref) {
       childPostIds: []
     };
   }, [clientId]);
+  console.log('chapters', chapters);
+  console.log('backChapters', backChapters);
 
   // Memoize chapters, so that we don't have to recalculate them on every render.
   // This is important because we're using the chapters in a useEffect hook.
@@ -526,6 +600,17 @@ module.exports = window["prcIcons"];
 
 /***/ }),
 
+/***/ "@wordpress/api-fetch":
+/*!**********************************!*\
+  !*** external ["wp","apiFetch"] ***!
+  \**********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["apiFetch"];
+
+/***/ }),
+
 /***/ "@wordpress/block-editor":
 /*!*************************************!*\
   !*** external ["wp","blockEditor"] ***!
@@ -556,6 +641,17 @@ module.exports = window["wp"]["blocks"];
 
 "use strict";
 module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/core-data":
+/*!**********************************!*\
+  !*** external ["wp","coreData"] ***!
+  \**********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["coreData"];
 
 /***/ }),
 
@@ -600,6 +696,17 @@ module.exports = window["wp"]["element"];
 
 "use strict";
 module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "@wordpress/url":
+/*!*****************************!*\
+  !*** external ["wp","url"] ***!
+  \*****************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["url"];
 
 /***/ }),
 

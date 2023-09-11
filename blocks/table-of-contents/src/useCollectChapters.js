@@ -8,7 +8,16 @@
 import { useMemo } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
+/**
+ * Internal Dependencies
+ */
+import useBackChapters from './useBackChapters';
+
 export default function useCollectChapters( { clientId, context } ) {
+	const { postId, postType } = context;
+
+	const { backChapters } = useBackChapters(postId, postType);
+
 	const { chapters = [], childPostIds = [] } = useSelect(
 		(select) => {
 			// Currently we're just getting all blocks in the editor context, need to see what this brings in when on the site editor.
@@ -41,6 +50,9 @@ export default function useCollectChapters( { clientId, context } ) {
 		},
 		[clientId],
 	);
+
+	console.log('chapters', chapters);
+	console.log('backChapters', backChapters);
 
 	// Memoize chapters, so that we don't have to recalculate them on every render.
 	// This is important because we're using the chapters in a useEffect hook.

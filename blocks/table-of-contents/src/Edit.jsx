@@ -65,7 +65,6 @@ function Edit({
 	});
 
 	const { chapters = [], childPostIds = [] } = useCollectChapters({clientId, context});
-	console.log('useCollectChapters foundChapters: ', chapters, context, clientId);
 
 	return (
 		<Fragment>

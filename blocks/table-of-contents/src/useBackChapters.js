@@ -1,21 +1,23 @@
 /**
  * WordPress Dependencies
  */
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
+import { useEntityRecords } from '@wordpress/core-data';
 import { addQueryArgs } from '@wordpress/url';
 import apiFetch from '@wordpress/api-fetch';
 
-export default function useBackChapters(postId) {
+export default function useBackChapters(postId, postType) {
 	const [hiddenBackChapters, setHiddenBackChapters] = useState([]);
-	const [backChapters, setBackChapters] = useState([]);
 
-	useEffect(() => {
-		apiFetch({
-			path: `/prc-api/v2/report-package/${postId}`,
-		}).then((response) => {
-			setBackChapters(response);
-		});
-	}, [postId]);
+	const { records, isResolving, hasResolved } = useEntityRecords(
+		'postType',
+		postType,
+		{
+			per_page: 50,
+			_fields: [ 'id', 'link', 'parent', 'title', 'type' ],
+			parent: postId,
+		},
+	);
 
 	const hideBackChapter = (chapterId) => {
 		if (hiddenBackChapters.includes(chapterId)) {
@@ -27,8 +29,15 @@ export default function useBackChapters(postId) {
 		}
 	};
 
+	const backChapters = useMemo(() => {
+		console.log('useBackChapters', records, isResolving, postId, postType);
+		if (!records || isResolving) {
+			return [];
+		}
+		return records;
+	}, [records, isResolving]);
+
 	return {
-		postId,
 		backChapters,
 		hiddenBackChapters,
 		hideBackChapter,
