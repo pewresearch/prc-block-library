@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/table-of-contents",
 	"version": "0.1.0",
 	"title": "Table of Contents",
@@ -10,6 +10,26 @@
 		"showCurrentChapter": {
 			"type": "boolean",
 			"default": false
+		},
+		"headingBackgroundColor": {
+			"type": "string",
+			"default": "slate"
+		},
+		"headingTextColor": {
+			"type": "string",
+			"default": "white"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "white"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "slate"
+		},
+		"heading": {
+			"type": "string",
+			"default": "Table of Contents"
 		}
 	},
 	"supports": {
@@ -17,18 +37,17 @@
 		"html": false,
 		"align": ["left", "right"],
 		"spacing": {
-			"blockGap": true,
-			"margin": [ "top", "bottom" ],
-			"padding": true,
+			"margin": [ "top", "bottom", "left", "right" ],
 			"__experimentalDefaultControls": {
-				"padding": true
+				"margin": true
 			}
 		},
+		"position": {
+			"sticky": true
+		},
 		"typography": {
-			"fontSize": true,
 			"__experimentalFontFamily": true,
 			"__experimentalDefaultControls": {
-				"fontSize": true,
 				"__experimentalFontFamily": true
 			}
 		}
@@ -41,9 +60,7 @@
 	},
 	"usesContext": [
 		"postId",
-		"postType",
-		"core/group/isSticky",
-		"core/group/responsiveThreshold"
+		"postType"
 	],
 	"textdomain": "table-of-contents",
 	"editorScript": "file:./index.js",

@@ -1,9 +1,21 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
+
+.wp-block-prc-block-table-of-contents {
+	margin-top: 24px;
+
+	.wp-block-prc-block-table-of-contents__heading {
+		padding: 0.525em 1em;
+		font-size: 0.825em;
+		font-weight: 400;
+		letter-spacing: .1em;
+		line-height: 1.28571429em;
+		text-transform: uppercase;
+		margin-top: 0;
+	}
+
+	.wp-block-prc-block-table-of-contents__list {
+
+	}
+}
 
 // For posts with sidebar driven TOC.
 #prc-mobile-toc,

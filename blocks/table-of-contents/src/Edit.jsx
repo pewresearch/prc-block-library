@@ -1,18 +1,24 @@
 /**
  * External Dependencies
  */
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
  */
 import { Fragment } from '@wordpress/element';
-import { useBlockProps } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
+import {
+	useBlockProps,
+	RichText,
+	withColors,
+	getColorClassName,
+} from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
+import useCollectChapters from './useCollectChapters';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -26,51 +32,74 @@ import Controls from './Controls';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({
+function Edit({
 	attributes,
 	setAttributes,
 	context,
 	clientId,
+	className,
 	isSelected,
+	textColor,
+	setTextColor,
+	backgroundColor,
+	setBackgroundColor,
+	headingBackgroundColor,
+	setHeadingBackgroundColor,
+	headingTextColor,
+	setHeadingTextColor,
 }) {
-	const blockProps = useBlockProps();
-
-	const { chapters = [], backChapters = [] } = useSelect(
-		(select) => {
-			const blocks = select('core/block-editor').getBlocks();
-			const placeholder = [
-				{
-					attributes: {
-						content: 'Chapter 1...',
-					},
-				},
-				{
-					attributes: {
-						content: 'Chapter 2...',
-					},
-				},
-				{
-					attributes: {
-						content: 'Chapter 3...',
-					},
-				},
-			];
-			const foundChapters = blocks.filter(
-				(block) => 'core/heading' === block.name && block.attributes.isChapter,
-			);
-			return {
-				chapters: 0 === foundChapters.length ? placeholder : foundChapters,
-				backChapters: [],
-			};
+	const isSiteEditor = false;
+	const { heading, showCurrentChapter } = attributes;
+	const blockProps = useBlockProps({
+		className: classNames(className, {
+			'has-text-color': !!textColor.color || !!textColor?.class,
+			[getColorClassName('color', textColor?.slug)]: !!textColor?.slug,
+			'has-background': !!backgroundColor.color || backgroundColor.class,
+			[getColorClassName('background-color', backgroundColor?.slug)]:
+				!!backgroundColor?.slug,
+		}),
+		style: {
+			color: !textColor?.slug && textColor?.color,
+			backgroundColor: !backgroundColor?.slug && backgroundColor?.color,
 		},
-		[clientId],
-	);
+	});
+
+	const { chapters = [], childPostIds = [] } = useCollectChapters({clientId, context});
+	console.log('useCollectChapters foundChapters: ', chapters, context, clientId);
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes }} />
+			<Controls {...{
+				attributes,
+				setAttributes,
+				colors: {
+					textColor,
+					setTextColor,
+					backgroundColor,
+					setBackgroundColor,
+					headingBackgroundColor,
+					setHeadingBackgroundColor,
+					headingTextColor,
+					setHeadingTextColor,
+				}
+			}} />
 			<div {...blockProps}>
-				<ul>
+				<RichText
+				tagName="h2"
+				placeholder="Table of Contents"
+				value={heading}
+				onChange={(newHeading) => setAttributes({ heading: newHeading })}
+				className={classNames('wp-block-prc-block-table-of-contents__heading', {
+					'has-text-color': !!headingTextColor.color || !!headingTextColor?.class,
+					[getColorClassName('color', headingTextColor?.slug)]: !!headingTextColor?.slug,
+					'has-background': !!headingBackgroundColor.color || headingBackgroundColor.class,
+					[getColorClassName('background-color', headingBackgroundColor?.slug)]: !!headingBackgroundColor?.slug,
+				})}
+				style={{
+					color: !headingTextColor?.slug && headingTextColor?.color,
+					backgroundColor: !headingBackgroundColor?.slug && headingBackgroundColor?.color,
+				}}/>
+				<ul className="wp-block-prc-block-table-of-contents__list">
 					{0 !== chapters.length &&
 						chapters.map((chapter) => <li>{chapter.attributes.content}</li>)}
 				</ul>
@@ -78,3 +107,10 @@ export default function Edit({
 		</Fragment>
 	);
 }
+
+export default withColors(
+	{ textColor: 'color' },
+	{ backgroundColor: 'color' },
+	{ headingBackgroundColor: 'color' },
+	{ headingTextColor: 'color' },
+)(Edit);

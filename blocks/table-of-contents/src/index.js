@@ -14,7 +14,6 @@
 import { __ } from '@wordpress/i18n';
 import {
 	registerBlockType,
-	registerBlockVariation,
 	unregisterBlockType,
 } from '@wordpress/blocks';
 import domReady	from '@wordpress/dom-ready';
@@ -35,6 +34,7 @@ import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
 import Icon from './Icon';
+// import deprecated from './deprecated';
 
 import metadata from './block.json';
 
@@ -49,6 +49,7 @@ const settings = {
 	 * @see ./Edit.jsx
 	 */
 	edit: Edit,
+	// deprecated,
 };
 
 /**
@@ -57,104 +58,6 @@ const settings = {
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
 registerBlockType(name, { ...metadata, ...settings });
-
-const groupVariationsExample = {
-	attributes: {
-		className: 'is-style-card-alt',
-	},
-	innerBlocks: [
-		{
-			name: "core/heading",
-			attributes: {
-				className: "is-style-sub-header toc-title",
-				level: 3,
-				fontSize: "small-label",
-				content: "Table of Contents",
-				backgroundColor: "text-color",
-				textColor: "white"
-			}
-		},
-		{
-			name: "prc-block/table-of-contents",
-			attributes: {}
-		}
-	],
-	viewportWidth: 320
-}
-
-/**
- * Register `core/group` block variations that include a fully stylized and realized Table of Contents template block.
- */
-registerBlockVariation('core/group', {
-	name: 'toc',
-	title: __('Table of Contents Widget'),
-	description: __(
-		'A Group block in the "alt-card" format with a table of contents list set to show the current chapter.',
-	),
-	category: 'widgets',
-	icon: Icon,
-	attributes: {
-		className: 'is-style-card-alt',
-		responsiveThreshold: 640,
-	},
-	innerBlocks: [
-		[
-			'core/heading',
-			{
-				className: 'is-style-sub-header toc-title',
-				level: 3,
-				fontSize: 'small-label',
-				content: 'Table of Contents',
-				backgroundColor: 'text-color',
-				textColor: 'white',
-			},
-		],
-		[
-			'prc-block/table-of-contents',
-			{
-				showCurrentChapter: true,
-			},
-		],
-	],
-	example: groupVariationsExample,
-});
-
-groupVariationsExample.attributes.align = 'left';
-registerBlockVariation('core/group', {
-	name: 'toc-sticky',
-	title: __('Table of Contents Sticky Sidebar'),
-	description: __(
-		'A Group block in the "alt-card" format with a table of contents list that is sticky, watches for the current chapter, and collapses at 480px.',
-	),
-	category: 'widgets',
-	icon: Icon,
-	attributes: {
-		className: 'is-style-card-alt',
-		isSticky: true,
-		responsiveThreshold: 480,
-		align: 'left',
-	},
-	innerBlocks: [
-		[
-			'core/heading',
-			{
-				className: 'is-style-sub-header toc-title',
-				level: 3,
-				content: 'Table of Contents',
-				fontSize: 'small-label',
-				backgroundColor: 'text-color',
-				textColor: 'white',
-			},
-		],
-		[
-			'prc-block/table-of-contents',
-			{
-				showCurrentChapter: true,
-			},
-		],
-	],
-	example: groupVariationsExample,
-});
 
 /**
  * Unregister the core/table-of-contents block, since we are replacing it with our own.

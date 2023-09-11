@@ -1,5 +1,6 @@
 <?php
 namespace PRC\Platform\Blocks;
+use WP_HTML_Tag_Processor;
 /**
  * Block Name:        Core Social-Links
  * Version:           0.1.0
