@@ -3,6 +3,7 @@ namespace PRC\Platform\Blocks;
 use WP_Query;
 use WP_Block;
 use WP_Error;
+use PRC\Platform\Staff;
 
 /**
  * Block Name:        Staff Query
@@ -22,7 +23,6 @@ class Staff_Query {
 	public function __construct( $init = false ) {
 		if ( true === $init ) {
 			add_action( 'init', array( $this, 'block_init' ) );
-			// add_filter( 'prc_block_library_staff_query' , array( $this, 'query_staff_posts' ), 10, 1 );
 		}
 	}
 
@@ -82,36 +82,31 @@ class Staff_Query {
 
 		$staff_posts = array();
 
-		switch_to_blog(1);
+		switch_to_blog(20);
 
 		$staff_query = new WP_Query($query_args);
 
 		if ( $staff_query->have_posts() ) {
 			while ( $staff_query->have_posts() ) {
 				$staff_query->the_post();
-				$staff_post_id = get_the_ID();
-				// Skip former-staff.
-				if ( has_term( 'former-staff', 'staff-type', $staff_post_id ) ) {
+				$staff = new Staff( get_the_ID(), false );
+				if ( is_wp_error( $staff ) ) {
 					continue;
 				}
-				$name = get_the_title();
-				$expertise_term_links = $this->get_expertise( $staff_post_id );
-
-				$promote_to_byline = get_post_meta( $staff_post_id, 'promote_to_byline', true );
-				$enable_link = get_post_meta( $staff_post_id, 'linked_byline_term', true );
-				$enable_link = $enable_link ? home_url( '/staff/' . sanitize_title($name) ) : false;
-				$enable_link = $promote_to_byline ? $enable_link : false;
+				if ( ! $staff->is_currently_employed ) {
+					continue;
+				}
 
 				$staff_posts[] = array(
-					'staffName'      => $name,
-					'staffJobTitle'  => get_post_meta( $staff_post_id, 'job_title', true ),
-					'staffImage'     => false,
-					'staffTwitter'   => get_post_meta( $staff_post_id, 'twitter', true ),
-					'staffExpertise' => $expertise_term_links,
-					'staffBio'       => get_the_content(null, false, $staff_post_id),
-					'staffMiniBio'   => get_post_meta( $staff_post_id, 'job_title_mini_bio', true ),
-					'staffLink'      => $enable_link,
-					'staffId'        => $staff_post_id,
+					'staffName'      => $staff->name,
+					'staffJobTitle'  => $staff->job_title,
+					'staffImage'     => $staff->photo,
+					'staffTwitter'   => null,
+					'staffExpertise' => $staff->expertise,
+					'staffBio'       => $staff->bio,
+					'staffMiniBio'   => $staff->job_title_extended,
+					'staffLink'      => $staff->link,
+					'staffId'        => $staff->ID,
 				);
 			}
 		}
