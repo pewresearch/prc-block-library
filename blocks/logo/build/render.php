@@ -31,6 +31,7 @@ $src_url = str_replace( '/build', '/assets', plugin_dir_url( __FILE__ ) );
 if ( is_ssl() ) {
 	$src_url = str_replace( 'http://', 'https://', $src_url );
 }
+error_log("SRC URL: " . $src_url);
 $logo = wpcom_vip_file_get_contents( $src_url . 'primary.svg' );
 // using wp_html_tag_processor add data-browser-theme="light" to the svg tag
 $logo = new WP_Html_Tag_Processor( $logo );

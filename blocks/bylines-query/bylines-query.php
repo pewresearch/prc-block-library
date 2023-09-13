@@ -28,32 +28,21 @@ class Bylines_Query {
 		if ( $byline_terms ) {
 			foreach ( $byline_terms as $byline_term ) {
 				$byline_term_id = $byline_term['termId'];
-				$byline_term = get_term( $byline_term_id, 'bylines' );
-				if ( is_wp_error( $byline_term ) || ! is_object( $byline_term ) ) {
+				$staff = new \PRC\Platform\Staff(false, $byline_term_id);
+				if ( is_wp_error( $staff ) ) {
 					continue;
 				}
-				if ( get_term_meta( $byline_term->term_id, 'staff_post_id', true ) ) {
-					$staff_post_id = get_term_meta( $byline_term->term_id, 'staff_post_id', true );
-				}
-				if ( ! $staff_post_id ) {
-					continue;
-				}
-
-				switch_to_blog(1);
 				$bylines[] = array(
-					'staffName'      => $byline_term->name,
-					'staffJobTitle'  => get_post_meta( $staff_post_id, 'job_title', true ),
-					'staffImage'     => false,
-					'staffTwitter'   => get_post_meta( $staff_post_id, 'twitter', true ),
-					'staffExpertise' => null,
-					'staffBio'       => get_the_content(null, false, $staff_post_id),
-					'staffMiniBio'   => get_post_meta( $staff_post_id, 'job_title_mini_bio', true ),
-					'staffLink'      => home_url( '/staff/' . str_replace( 'bylines_', '', $byline_term->slug ) ),
+					'staffName'      => $staff->name,
+					'staffJobTitle'  => $staff->job_title,
+					'staffImage'     => $staff->photo['thumbnail'],
+					'staffTwitter'   => null,
+					'staffExpertise' => $staff->expertise,
+					'staffBio'       => $staff->bio,
+					'staffMiniBio'   => $staff->job_title_extended,
+					'staffLink'      => $staff->link,
 				);
-				restore_current_blog();
 			}
-
-			do_action('qm/debug', 'BYLINE TERM IDS FOR THIS POST:  ' .print_r($bylines, true));
 		}
 		return $bylines;
 	}

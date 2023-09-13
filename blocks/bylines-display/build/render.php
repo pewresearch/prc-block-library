@@ -11,7 +11,8 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'class' => 'has-text-align' . '-' . $text_align,
 ));
 $prefix = isset( $attributes['prefix'] ) ? $attributes['prefix'] : 'By';
-$bylines_output = apply_filters( 'prc_block_library_get_bylines', get_the_ID() );
+$bylines = new \PRC\Platform\Bylines(get_the_ID());
+$bylines_output = is_wp_error($bylines->bylines) ? '' : $bylines->format('html');
 
 echo wp_sprintf(
 	'<div %1$s>%2$s %3$s</div>',
