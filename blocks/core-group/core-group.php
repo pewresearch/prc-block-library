@@ -53,7 +53,12 @@ class Core_Group {
 		array(
 			'name' => '640-wide',
 			'label' => '640px Wide (full content well)',
-			'inline_style' => '.wp-block-group.is-style-640-wide, .wp-block[data-type="core/group"].is-style-640-wide {width: 100%!important; max-width: 640p!important}'
+			'inline_style' => '.wp-block-group.is-style-640-wide, .wp-block[data-type="core/group"].is-style-640-wide {width: 100%!important; max-width: 640px!important}'
+		),
+		array(
+			'name' => 'dynamic-wide',
+			'label' => 'Dynamic Wide Template',
+			'inline_style' => '.wp-block-group.is-style-dynamic-wide, .wp-block[data-type="core/group"].is-style-dynamic-wide {width: 100%!important; max-width: var(--wp--custom--content-size-wide)!important}'
 		),
 	);
 
@@ -102,7 +107,7 @@ class Core_Group {
 			return $metadata;
 		}
 
-		if ( 'prc-block-theme' === get_template() && ! array_key_exists( 'responsiveContainerQuery', $metadata['attributes'] ) ) {
+		if ( ! array_key_exists( 'responsiveContainerQuery', $metadata['attributes'] ) ) {
 			$metadata['attributes']['responsiveContainerQuery'] = array(
 				'type'    => 'object',
 				'default' => array(
@@ -113,88 +118,37 @@ class Core_Group {
 			);
 		}
 
-		if ( 'prc-block-theme' !== get_template() ) {
-			if ( ! array_key_exists( 'isSticky', $metadata['attributes'] ) ) {
-				$metadata['attributes']['isSticky'] = array(
-					'type'    => 'boolean',
-					'default' => false,
-				);
-			}
-
-			// If you pass an ID to the block, it will be used as the anchor for when the mobile viewpoint is reached.
-			if ( ! array_key_exists( 'responsiveAttachId', $metadata['attributes'] ) ) {
-				$metadata['attributes']['responsiveAttachId'] = array(
-					'type'    => 'string',
-				);
-			}
-			// If you pass a threshold it will be used for the mobile viewpoint attach. If not, the default is 640.
-			if ( ! array_key_exists( 'responsiveThreshold', $metadata['attributes'] ) ) {
-				$metadata['attributes']['responsiveThreshold'] = array(
-					'type'    => 'integer',
-					'default' => 640,
-				);
-			}
-
-		}
-
 		return $metadata;
 	}
 
 	/**
 	* Register additional settings, like context, for the core-group block.
+	* Currently we're allowing the group block to have grid context. There is not active use case for this, more an experiment to see what we may use it for once it's in place.
 	* @param mixed $settings
 	* @param mixed $metadata
 	* @return mixed
 	*/
 	public function add_settings(array $settings, array $metadata) {
-		if ( 'prc-block-theme' !== get_template() && self::$block_name === $metadata['name'] ) {
-			$settings['provides_context'] = array_merge(
-				array_key_exists('provides_context', $settings) ? $settings['provides_context'] : array(),
+		if ( self::$block_name === $metadata['name'] ) {
+			$settings['uses_context'] = array_merge(
+				array_key_exists('uses_context', $settings) ? $settings['uses_context'] : array(),
 				array(
-					'core/group/isSticky' => 'isSticky',
-					'core/group/responsiveAttachId' => 'responsiveAttachId',
-					'core/group/responsiveThreshold' => 'responsiveThreshold',
+					"grid/column/desktop/span",
+					"grid/column/desktop/start",
+					"grid/column/desktop/row",
+					"grid/column/tablet/span",
+					"grid/column/tablet/start",
+					"grid/column/tablet/row",
+					"grid/column/mobile/span",
+					"grid/column/mobile/start",
+					"grid/column/mobile/row",
 				)
 			);
 		}
 		return $settings;
 	}
 
-	public function render_legacy($block_content, $block) {
-		$is_sticky = is_array($block['attrs']) && array_key_exists('isSticky', $block['attrs']) ? $block['attrs']['isSticky'] : false;
-		$responsive_attach_id = is_array($block['attrs']) && array_key_exists('responsiveAttachId', $block['attrs']) ? $block['attrs']['responsiveAttachId'] : false;
-		$responsive_threshold = is_array($block['attrs']) && array_key_exists('responsiveThreshold', $block['attrs']) ? $block['attrs']['responsiveThreshold'] : false;
-
-		if ( $is_sticky || $responsive_attach_id || $responsive_threshold ) {
-			wp_enqueue_script( self::$view_script_handle );
-		}
-
-		wp_enqueue_style( self::$style_handle );
-
-		$block_content = apply_filters( 'prc_group_block_content', $block_content, $block );
-
-		if ( $is_sticky ) {
-			$block_content = wp_sprintf(
-				'<div class="prc-group-block--sticky">%s</div>',
-				$block_content
-			);
-		}
-
-		if ( $responsive_threshold && $responsive_attach_id ) {
-			$id = md5($block_content);
-			$block_content = wp_sprintf(
-				'<div class="prc-group-block--responsive" data-return-id="%1$s" data-attach-id="%2$s" data-responsive-threshold="%3$s">%4$s</div>',
-				$id,
-				$responsive_attach_id,
-				$responsive_threshold,
-				$block_content
-			);
-		}
-
-		return $block_content;
-	}
-
-	public function render_new( $block_content, $block ) {
+	public function render_prc_group_block( $block_content, $block ) {
 		if ( is_admin() ) {
 			return $block_content;
 		}
@@ -227,11 +181,7 @@ class Core_Group {
 			return $block_content;
 		}
 
-		if ( 'prc-block-theme' === get_template() ) {
-			return $this->render_new($block_content, $block);
-		} else {
-			return $this->render_legacy($block_content, $block);
-		}
+		return $this->render_prc_group_block($block_content, $block);
 	}
 
 }
