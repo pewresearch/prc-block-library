@@ -7,4 +7,10 @@
 .wp-block-prc-block-table-of-contents.wp-block {
 	color: inherit;
 	background: inherit;
+	.wp-block-prc-block-table-of-contents__heading {
+		&.is-hidden {
+			display: block;
+			opacity: 0.6;
+		}
+	}
 }

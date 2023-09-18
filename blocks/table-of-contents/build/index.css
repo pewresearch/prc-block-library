@@ -1,1 +1,18 @@
-.wp-block-prc-block-table-of-contents.wp-block{background:inherit;color:inherit}
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/editor.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-prc-block-table-of-contents.wp-block {
+  color: inherit;
+  background: inherit;
+}
+.wp-block-prc-block-table-of-contents.wp-block .wp-block-prc-block-table-of-contents__heading.is-hidden {
+  display: block;
+  opacity: 0.6;
+}
+
+/*# sourceMappingURL=index.css.map*/

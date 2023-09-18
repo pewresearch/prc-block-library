@@ -13,9 +13,9 @@ export default function useBackChapters(postId, postType) {
 		'postType',
 		postType,
 		{
-			per_page: 50,
-			_fields: [ 'id', 'link', 'parent', 'title', 'type' ],
-			parent: postId,
+			per_page: 25,
+			_fields: [ 'id', 'link', 'post_parent', 'title', 'type', 'menu_order' ],
+			post_parent: postId,
 		},
 	);
 

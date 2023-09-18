@@ -18,7 +18,7 @@ export default function useCollectChapters( { clientId, context } ) {
 
 	const { backChapters } = useBackChapters(postId, postType);
 
-	const { chapters = [], childPostIds = [] } = useSelect(
+	const { chapters = [] } = useSelect(
 		(select) => {
 			// Currently we're just getting all blocks in the editor context, need to see what this brings in when on the site editor.
 			const blocks = select('core/block-editor').getBlocks();
@@ -45,7 +45,6 @@ export default function useCollectChapters( { clientId, context } ) {
 
 			return {
 				chapters: 0 === foundChapters.length ? placeholder : foundChapters,
-				childPostIds: [],
 			};
 		},
 		[clientId],
@@ -58,11 +57,27 @@ export default function useCollectChapters( { clientId, context } ) {
 	// This is important because we're using the chapters in a useEffect hook.
 	// If we didn't memoize, the useEffect would run on every render.
 
-	const memoizedChapters = useMemo(() => chapters, [chapters]);
-	const memoizedChildPostIds = useMemo(() => childPostIds, [childPostIds]);
+	const memoizedChapters = useMemo(() => {
+		if (!chapters) {
+			return [];
+		}
+		return chapters.map((chapter) => ({
+			clientId: chapter.clientId,
+			title: chapter.attributes?.content,
+		}));
+	}, [chapters]);
+	const memoizedBackChapters = useMemo(() => {
+		if (!backChapters) {
+			return [];
+		}
+		return backChapters.map((chapter) => ({
+			id: chapter.id,
+			title: chapter.title?.rendered,
+		}));
+	}, [backChapters]);
 
 	return {
 		chapters: memoizedChapters,
-		childPostIds: memoizedChildPostIds,
+		backChapters: memoizedBackChapters,
 	};
 }

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
+import { Fragment, useMemo } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -19,6 +19,10 @@ import {
  */
 import Controls from './Controls';
 import useCollectChapters from './useCollectChapters';
+
+function getBlockPropsForVariation(variation, attributes, colors) {
+
+}
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -37,34 +41,104 @@ function Edit({
 	setAttributes,
 	context,
 	clientId,
-	className,
 	isSelected,
 	textColor,
 	setTextColor,
 	backgroundColor,
 	setBackgroundColor,
+	dropdownBackgroundColor,
+	setDropdownBackgroundColor,
+	dropdownTextColor,
+	setDropdownTextColor,
 	headingBackgroundColor,
 	setHeadingBackgroundColor,
 	headingTextColor,
 	setHeadingTextColor,
 }) {
 	const isSiteEditor = false;
-	const { heading, showCurrentChapter } = attributes;
-	const blockProps = useBlockProps({
-		className: classNames(className, {
-			'has-text-color': !!textColor.color || !!textColor?.class,
-			[getColorClassName('color', textColor?.slug)]: !!textColor?.slug,
-			'has-background': !!backgroundColor.color || backgroundColor.class,
-			[getColorClassName('background-color', backgroundColor?.slug)]:
-				!!backgroundColor?.slug,
-		}),
-		style: {
-			color: !textColor?.slug && textColor?.color,
-			backgroundColor: !backgroundColor?.slug && backgroundColor?.color,
-		},
-	});
+	const { chapters = [], backChapters = [] } = useCollectChapters({clientId, context});
+	const { heading, showCurrentChapter, className, hideHeading } = attributes;
+	// Construct a colors object that contains the color values and helper functions, re-compute whenever the color values change.
+	const colors = useMemo(() => ({
+		textColor,
+		setTextColor,
+		backgroundColor,
+		setBackgroundColor,
+		dropdownBackgroundColor,
+		setDropdownBackgroundColor,
+		dropdownTextColor,
+		setDropdownTextColor,
+		headingBackgroundColor,
+		setHeadingBackgroundColor,
+		headingTextColor,
+		setHeadingTextColor,
+	}), [
+		textColor,
+		setTextColor,
+		backgroundColor,
+		setBackgroundColor,
+		dropdownBackgroundColor,
+		setDropdownBackgroundColor,
+		dropdownTextColor,
+		setDropdownTextColor,
+		headingBackgroundColor,
+		setHeadingBackgroundColor,
+		headingTextColor,
+		setHeadingTextColor,
+	]);
 
-	const { chapters = [], childPostIds = [] } = useCollectChapters({clientId, context});
+	const blockWrapperClassNames = useMemo(() => {
+		return classNames(className, {
+			'has-text-color': !!colors.textColor.color || !!colors.textColor?.class,
+			[getColorClassName('color', colors.textColor?.slug)]: !!colors.textColor?.slug,
+			'has-background': !!colors.backgroundColor.color || colors.backgroundColor.class,
+			[getColorClassName('background-color', colors.backgroundColor?.slug)]:
+				!!colors.backgroundColor?.slug,
+		})
+	}, [
+		colors.textColor,
+		colors.backgroundColor,
+		className,
+	]);
+
+	const blockWrapperStyles = useMemo(() => {
+		return {
+			color: !colors.textColor?.slug && colors.textColor?.color,
+			backgroundColor: !colors.backgroundColor?.slug && colors.backgroundColor?.color,
+		}
+	}, [
+		colors.textColor,
+		colors.backgroundColor,
+	]);
+
+	const headingClassNames = useMemo(() => {
+		return classNames('wp-block-prc-block-table-of-contents__heading', {
+			'has-text-color': !!colors.headingTextColor.color || !!colors.headingTextColor?.class,
+			[getColorClassName('color', colors.headingTextColor?.slug)]: !!colors.headingTextColor?.slug,
+			'has-background': !!colors.headingBackgroundColor.color || colors.headingBackgroundColor.class,
+			[getColorClassName('background-color', colors.headingBackgroundColor?.slug)]: !!colors.headingBackgroundColor?.slug,
+			'is-hidden': hideHeading,
+		})
+	}, [
+		colors.headingTextColor,
+		colors.headingBackgroundColor,
+		hideHeading,
+	]);
+
+	const headingStyles = useMemo(() => {
+		return {
+			color: !colors.headingTextColor?.slug && colors.headingTextColor?.color,
+			backgroundColor: !colors.headingBackgroundColor?.slug && colors.headingBackgroundColor?.color,
+		}
+	}, [
+		colors.headingTextColor,
+		colors.headingBackgroundColor,
+	]);
+
+	const blockProps = useBlockProps({
+		className: blockWrapperClassNames,
+		style: blockWrapperStyles,
+	});
 
 	return (
 		<Fragment>
@@ -84,23 +158,25 @@ function Edit({
 			}} />
 			<div {...blockProps}>
 				<RichText
-				tagName="h2"
-				placeholder="Table of Contents"
-				value={heading}
-				onChange={(newHeading) => setAttributes({ heading: newHeading })}
-				className={classNames('wp-block-prc-block-table-of-contents__heading', {
-					'has-text-color': !!headingTextColor.color || !!headingTextColor?.class,
-					[getColorClassName('color', headingTextColor?.slug)]: !!headingTextColor?.slug,
-					'has-background': !!headingBackgroundColor.color || headingBackgroundColor.class,
-					[getColorClassName('background-color', headingBackgroundColor?.slug)]: !!headingBackgroundColor?.slug,
-				})}
-				style={{
-					color: !headingTextColor?.slug && headingTextColor?.color,
-					backgroundColor: !headingBackgroundColor?.slug && headingBackgroundColor?.color,
-				}}/>
+					{...{
+						tagName: 'h2',
+						placeholder: 'Table of Contents',
+						value: heading,
+						onChange: (newHeading) => setAttributes({ heading: newHeading }),
+						className: headingClassNames,
+						style: headingStyles,
+					}}
+				/>
 				<ul className="wp-block-prc-block-table-of-contents__list">
 					{0 !== chapters.length &&
-						chapters.map((chapter) => <li>{chapter.attributes.content}</li>)}
+						chapters.map((chapter) => <li>{chapter.title}</li>)}
+					{0 !== backChapters.length && (
+						<li className="wp-block-prc-block-table-of-contents__back-chapters">
+							{backChapters.map((chapter) => (
+								<span>{chapter.title}</span>
+							))}
+						</li>
+					)}
 				</ul>
 			</div>
 		</Fragment>
@@ -110,6 +186,8 @@ function Edit({
 export default withColors(
 	{ textColor: 'color' },
 	{ backgroundColor: 'color' },
+	{ dropdownBackgroundColor: 'color' },
+	{ dropdownTextColor: 'color' },
 	{ headingBackgroundColor: 'color' },
 	{ headingTextColor: 'color' },
 )(Edit);

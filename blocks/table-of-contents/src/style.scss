@@ -10,6 +10,10 @@
 		line-height: 1.28571429em;
 		text-transform: uppercase;
 		margin-top: 0;
+
+		&.is-hidden {
+			display: none;
+		}
 	}
 
 	.wp-block-prc-block-table-of-contents__list {

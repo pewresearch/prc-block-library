@@ -11,6 +11,14 @@
       "type": "boolean",
       "default": false
     },
+    "dropdownBackgroundColor": {
+      "type": "string",
+      "default": "white"
+    },
+    "dropdownTextColor": {
+      "type": "string",
+      "default": "slate"
+    },
     "headingBackgroundColor": {
       "type": "string",
       "default": "slate"
@@ -30,6 +38,10 @@
     "heading": {
       "type": "string",
       "default": "Table of Contents"
+    },
+    "hideHeading": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {

@@ -34,6 +34,7 @@ import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
 import Icon from './Icon';
+import variations from './variations';
 // import deprecated from './deprecated';
 
 import metadata from './block.json';
@@ -50,6 +51,7 @@ const settings = {
 	 */
 	edit: Edit,
 	// deprecated,
+	variations,
 };
 
 /**

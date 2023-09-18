@@ -134,7 +134,6 @@ class Table_Of_Contents {
 
 					$results[] = array(
 						'id' => $id,
-						'icon' => !empty($array['attrs']['icon']) ? $array['attrs']['icon'] : false,
 						'content' => wp_strip_all_tags( !empty($array['attrs']['altTocText']) ? $array['attrs']['altTocText'] : $array['innerHTML'] ),
 					);
 				} elseif ( 'prc-block/chapter' === $array['blockName'] ) {
@@ -148,7 +147,6 @@ class Table_Of_Contents {
 					}
 					$results[] = array(
 						'id' => $id,
-						'icon' => false,
 						'content' => wp_strip_all_tags( $array['attrs']['value'] ),
 					);
 				}
@@ -178,10 +176,6 @@ class Table_Of_Contents {
 		}
 
 		$chapters = parse_document_for_headings($content);
-		$chapters = array_map(function($chapter) {
-			$chapter['icon'] = false;
-			return $chapter;
-		}, $chapters);
 
 		if ( ! empty( $chapters ) ) {
 			update_post_meta($post_id, '_migration_legacy_headings_detected', true);
@@ -224,6 +218,7 @@ class Table_Of_Contents {
 		}
 
 		$blocks = parse_blocks($content);
+
 		return $this->prepare_chapter_blocks( $blocks, $post_id );
 	}
 
@@ -234,56 +229,72 @@ class Table_Of_Contents {
 		ob_start();
 		?>
 		<?php foreach ( $chapters as $chapter ) {
-			$icon = !empty($chapter['icon']) ? $chapter['icon'] : false;
-			$icon_src = wp_get_attachment_image_src( $icon, 'full' );
-			$extra = '';
-			if ( $icon_src ) {
-				$extra = "data-icon-src='{$icon_src[0]}'";
-			}
-			echo '<a role="listitem" class="item" href="#' . $chapter['id'] . '"'.$extra.'>' . $chapter['content'] . '</a>';
+			$link = '#' . $chapter['id'];
+			echo '<li><a role="listitem" class="item" href="' . $link . '">' . $chapter['content'] . '</a></li>';
 		} ?>
 		<?php
 		return ob_get_clean();
 	}
 
+	public function get_default_classnames() {
+
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
-		$group_is_sticky = array_key_exists('core/group/isSticky', $block->context) ? $block->context['core/group/isSticky'] : false;
-		$mobile_threshold = array_key_exists('core/group/responsiveThreshold', $block->context) ? $block->context['core/group/responsiveThreshold'] : false;
+
+		$heading = array_key_exists('heading', $attributes) ? $attributes['heading'] : false;
 
 		$chapters = $this->construct_toc( $post_id );
 
 		$content = apply_filters( 'prc-block/table-of-contents', $this->get_list_items( $chapters ), $post_id );
 
-		if ( empty($content) ) {
-			return;
-		}
-
-		$block_attrs = array();
-
-		if ( false !== $mobile_threshold && !empty($mobile_threshold) ) {
-			$block_attrs['data-mobile-threshold'] = $mobile_threshold;
-		}
+		$block_attrs = array(
+			'class' => classNames(
+				$attributes['className'],
+				array(
+					'has-text-color' => $attributes['textColor'],
+					'text-color-' . $attributes['textColor'] => $attributes['textColor'],
+					'has-background' => $attributes['backgroundColor'],
+					'background-color-' . $attributes['backgroundColor'] => $attributes['backgroundColor'],
+				),
+			),
+		);
 
 		if ( array_key_exists('showCurrentChapter', $attributes) && $attributes['showCurrentChapter'] ) {
 			$block_attrs['data-show-current-chapter'] = true;
 		}
 
-		if ( false !== $group_is_sticky && !empty($group_is_sticky) ) {
-			$block_attrs['data-is-sticky'] = true;
-		}
-
 		$block_attrs = get_block_wrapper_attributes($block_attrs);
 
-		// If this is a multisection report then we'll wrap the TOC with the multi section report list.
-		$content = wp_sprintf(
-			'<div role="list" class="ui link selection list">%s</div>',
-			$content
+		if ( empty($content) ) {
+			$content = '<p>No chapters found.</p>';
+		} else {
+			$content = wp_sprintf(
+				'<aside role="list">%s</side>',
+				$content
+			);
+		}
+
+		$heading = wp_sprintf(
+			'<h2 class="%s">%s</h2>',
+			classNames(
+				'wp-block-prc-block-table-of-contents__heading',
+				array(
+					'has-text-color' => $attributes['headingTextColor'],
+					'has-'.$attributes['headingTextColor'].'-color' => $attributes['headingTextColor'],
+					'has-background' => $attributes['headingBackgroundColor'],
+					'has-'.$attributes['headingBackgroundColor'].'-background-color' => $attributes['headingBackgroundColor'],
+					'is-hidden' => true === $attributes['hideHeading'],
+				),
+			),
+			$heading
 		);
 
 		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
+			'<div %1$s>%2$s %3$s</div>',
 			$block_attrs,
+			$heading,
 			$content
 		);
 	}
