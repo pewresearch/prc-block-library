@@ -37,7 +37,22 @@ class Core_Paragraph {
 			add_action( 'init', array($this, 'register_new_styles'), 0 );
 			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
 			add_filter( 'render_block', array( $this, 'render' ), 10, 2 );
+			add_filter( 'apple_news_initialize_components', array( $this, 'register_apple_news_callout_component' ), 10, 1 );
 		}
+	}
+
+	/**
+	 * @hook apple_news_initialize_components
+	 * @param mixed $components
+	 * @return void
+	 */
+	public function register_apple_news_callout_component($components) {
+		// Register Callout
+		if ( !array_key_exists('callout', $components) ) {
+			$components['callout'] = '\\Apple_Exporter\\Components\\Core_Paragraph_Big_Number';
+		}
+		// @TODO: Register a "Alt Card" variation.
+		return $components;
 	}
 
 	public function init_assets() {

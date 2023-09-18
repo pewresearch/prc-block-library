@@ -65,7 +65,7 @@ class Core_Group {
 	public function __construct($init = false) {
 		if ( true === $init ) {
 			$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-group/build/block.json';
-			self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+			self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 
 			add_action( 'init', array($this, 'register_new_styles'), 10 );
@@ -74,7 +74,22 @@ class Core_Group {
 			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
 			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
 			add_filter( 'render_block', array( $this, 'render' ), 100, 2 );
+			add_filter( 'apple_news_initialize_components', array( $this, 'register_apple_news_callout_component' ), 10, 1 );
 		}
+	}
+
+	/**
+	 * @hook apple_news_initialize_components
+	 * @param mixed $components
+	 * @return void
+	 */
+	public function register_apple_news_callout_component($components) {
+		// Register Callout
+		if ( !array_key_exists('callout', $components) ) {
+			$components['callout'] = '\\Apple_Exporter\\Components\\Core_Group_Callout';
+		}
+		// @TODO: Register a "Alt Card" variation.
+		return $components;
 	}
 
 	public function register_new_styles() {

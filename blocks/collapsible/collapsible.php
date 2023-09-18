@@ -21,7 +21,22 @@ class Collapsible {
 				$qvars[] = 'collapsibleId';
 				return $qvars;
 			});
+			add_filter( 'apple_news_initialize_components', array( $this, 'register_apple_news_callout_component' ), 10, 1 );
 		}
+	}
+
+	/**
+	 * @hook apple_news_initialize_components
+	 * @param mixed $components
+	 * @return void
+	 */
+	public function register_apple_news_callout_component($components) {
+		// Register Callout
+		if ( !array_key_exists('callout', $components) ) {
+			$components['callout'] = '\\Apple_Exporter\\Components\\Collapsible';
+		}
+		// @TODO: Register a "Alt Card" variation.
+		return $components;
 	}
 
 	/**

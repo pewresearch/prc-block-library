@@ -1,8 +1,7 @@
 <?php
 namespace Apple_Exporter\Components;
-use \Apple_Exporter\Exporter_Content;
 
-class Paragraph_Big_Number extends Component {
+class Core_Paragraph_Big_Number extends Component {
 	protected $can_be_anchor_target = true;
 	public $needs_layout_if_anchored = false;
 
