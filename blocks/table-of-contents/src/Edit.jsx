@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
+import { usePostReportPackage } from '@prc/postReportPackageHook';
 
 /**
  * WordPress Dependencies
@@ -13,12 +14,12 @@ import {
 	withColors,
 	getColorClassName,
 } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
-import useCollectChapters from './useCollectChapters';
 
 function getBlockPropsForVariation(variation, attributes, colors) {
 
@@ -56,8 +57,20 @@ function Edit({
 	setHeadingTextColor,
 }) {
 	const isSiteEditor = false;
-	const { chapters = [], backChapters = [] } = useCollectChapters({clientId, context});
+	const { postId, postType } = context;
+	const { chapters = [], backChapters = [] } = usePostReportPackage({clientId, postId, postType});
 	const { heading, showCurrentChapter, className, hideHeading } = attributes;
+
+	const {postTitle} = useSelect(
+		(select) => {
+			const { getEditedPostAttribute } = select('core/editor');
+			return {
+				postTitle: getEditedPostAttribute('title'),
+			};
+		},
+		[clientId]
+	);
+
 	// Construct a colors object that contains the color values and helper functions, re-compute whenever the color values change.
 	const colors = useMemo(() => ({
 		textColor,
@@ -168,15 +181,17 @@ function Edit({
 					}}
 				/>
 				<ul className="wp-block-prc-block-table-of-contents__list">
-					{0 !== chapters.length &&
-						chapters.map((chapter) => <li>{chapter.title}</li>)}
-					{0 !== backChapters.length && (
-						<li className="wp-block-prc-block-table-of-contents__back-chapters">
-							{backChapters.map((chapter) => (
-								<span>{chapter.title}</span>
-							))}
+					{0 !== chapters.length && (
+						<li>
+							<span>{postTitle}</span>
+							<ul>
+								{chapters.map((chapter) => <li>{chapter.title}</li>)}
+							</ul>
 						</li>
 					)}
+					{0 !== backChapters.length && backChapters.map((chapter) => (
+							<li><span>{chapter.title}</span></li>
+					))}
 				</ul>
 			</div>
 		</Fragment>

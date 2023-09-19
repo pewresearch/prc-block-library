@@ -4,7 +4,7 @@
 	"name": "prc-block/table-of-contents",
 	"version": "0.1.0",
 	"title": "Table of Contents",
-	"category": "text",
+	"category": "theme",
 	"description": "Displays a list of all heading blocks set to chapter headings.",
 	"attributes": {
 		"showCurrentChapter": {
