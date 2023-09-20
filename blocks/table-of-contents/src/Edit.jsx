@@ -2,7 +2,6 @@
  * External Dependencies
  */
 import classNames from 'classnames';
-import { usePostReportPackage } from '@prc/postReportPackageHook';
 
 /**
  * WordPress Dependencies
@@ -14,16 +13,13 @@ import {
 	withColors,
 	getColorClassName,
 } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
-
-function getBlockPropsForVariation(variation, attributes, colors) {
-
-}
+import useTOC from './use-toc';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -58,8 +54,9 @@ function Edit({
 }) {
 	const isSiteEditor = false;
 	const { postId, postType } = context;
-	const { chapters = [], backChapters = [] } = usePostReportPackage({clientId, postId, postType});
+	const { chapters = [], parentId, parentTitle } = useTOC({postId, postType});
 	const { heading, showCurrentChapter, className, hideHeading } = attributes;
+	const { selectBlock } = useDispatch('core/block-editor');
 
 	const {postTitle} = useSelect(
 		(select) => {
@@ -181,16 +178,19 @@ function Edit({
 					}}
 				/>
 				<ul className="wp-block-prc-block-table-of-contents__list">
-					{0 !== chapters.length && (
+					{0 !== chapters.length && chapters.map((chapter) => (
 						<li>
-							<span>{postTitle}</span>
-							<ul>
-								{chapters.map((chapter) => <li>{chapter.title}</li>)}
-							</ul>
+							<span>{chapter?.title}</span>
+							{postId === chapter?.id && chapter?.internalChapters && (
+								<ul>
+									{chapter.internalChapters.map((chapter) => <li><a onClick={()=>{
+										if (chapter.clientId) {
+											selectBlock(chapter.clientId);
+										}
+									}}>{chapter.title}</a></li>)}
+								</ul>
+							)}
 						</li>
-					)}
-					{0 !== backChapters.length && backChapters.map((chapter) => (
-							<li><span>{chapter.title}</span></li>
 					))}
 				</ul>
 			</div>

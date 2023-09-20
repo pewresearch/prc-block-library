@@ -26,9 +26,6 @@ module.exports = {
 				if(request.includes('@prc/icons')) {
 					return 'prcIcons';
 				}
-				if (request.includes('@prc/postReportPackageHook')) {
-					return 'prcPostReportPackageHook';
-				}
 				if (request.includes('enquire.js')) {
 					return 'enquire';
 				}
@@ -51,9 +48,6 @@ module.exports = {
 				}
 				if ('enquire.js' === request) {
 					return 'enquire.js';
-				}
-				if ('@prc/postReportPackageHook' === request) {
-					return 'prc-platform-post-report-package-hook';
 				}
 			},
 		}),
