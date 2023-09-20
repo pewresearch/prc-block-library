@@ -47,9 +47,10 @@ export default function registerVariations() {
 				{
 					name: 'core/paragraph',
 					attributes: {
-						placeholder: 'Minim non id non esse sint culpa irure cillum ex est. Consequat sint nisi nulla do nostrud veniam labore eu magna Lorem ad Lorem in. Esse est tempor elit voluptate et eiusmod velit consequat nulla esse irure. Elit velit tempor do cupidatat eu deserunt laboris nisi anim enim in ea minim exercitation ullamco. Laborum duis adipisicing ex incididunt veniam.',
+						placeholder:
+							'Minim non id non esse sint culpa irure cillum ex est. Consequat sint nisi nulla do nostrud veniam labore eu magna Lorem ad Lorem in. Esse est tempor elit voluptate et eiusmod velit consequat nulla esse irure. Elit velit tempor do cupidatat eu deserunt laboris nisi anim enim in ea minim exercitation ullamco. Laborum duis adipisicing ex incididunt veniam.',
 					},
-				}
+				},
 			],
 			viewportWidth: 320,
 		},
@@ -65,11 +66,13 @@ export default function registerVariations() {
 	registerBlockVariation(BLOCKNAME, {
 		name: 'card',
 		title: __('Card'),
-		icon: () => <Icon
-			icon={icons.faCardSpadeLight}
-			width={21}
-			preserveAspectRatio="xMidYMid meet"
-		/>,
+		icon: () => (
+			<Icon
+				icon={icons.faCardSpadeLight}
+				width={21}
+				preserveAspectRatio="xMidYMid meet"
+			/>
+		),
 		description: __(
 			'A Group block in the "Card" format with a heading with a border, image, text, and read more link.'
 		),
@@ -88,23 +91,22 @@ export default function registerVariations() {
 				},
 				{
 					name: 'core/image',
-					attributes: {
-
-					},
+					attributes: {},
 				},
 				{
 					name: 'prc-block/story-item',
 					attributes: {
-						title: "Ultricies Ipsum Nibh Egestas Purus",
-						excerpt: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>",
-						label: "Report",
-						date: "Jan 1, 2023",
-						image: "https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg",
-						imageSlot: "disabled",
-						imageSize: "A2",
+						title: 'Ultricies Ipsum Nibh Egestas Purus',
+						excerpt:
+							'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
+						label: 'Report',
+						date: 'Jan 1, 2023',
+						image: 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
+						imageSlot: 'disabled',
+						imageSize: 'A2',
 						isPreview: true,
 						className: 'is-style-disabled',
-						postId: 0
+						postId: 0,
 					},
 				},
 			],
@@ -131,11 +133,13 @@ export default function registerVariations() {
 	registerBlockVariation(BLOCKNAME, {
 		name: 'card-alt',
 		title: __('Card (Alt)'),
-		icon: () => <Icon
-			icon={icons.faCardSpadeSolid}
-			width={21}
-			preserveAspectRatio="xMidYMid meet"
-		/>,
+		icon: () => (
+			<Icon
+				icon={icons.faCardSpadeSolid}
+				width={21}
+				preserveAspectRatio="xMidYMid meet"
+			/>
+		),
 		description: __(
 			'A Group block in the "Card" format with a sub header heading in a black background, image, text, and read more link. Internally we call this the "Baseball Card" style.'
 		),
@@ -158,17 +162,18 @@ export default function registerVariations() {
 				{
 					name: 'prc-block/story-item',
 					attributes: {
-						title: "Ultricies Ipsum Nibh Egestas Purus",
-						excerpt: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>",
-						label: "Report",
-						date: "Jan 1, 2023",
-						image: "https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg",
-						imageSlot: "disabled",
-						imageSize: "A2",
+						title: 'Ultricies Ipsum Nibh Egestas Purus',
+						excerpt:
+							'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
+						label: 'Report',
+						date: 'Jan 1, 2023',
+						image: 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
+						imageSlot: 'disabled',
+						imageSize: 'A2',
 						isPreview: true,
 						className: 'is-style-disabled',
-						postId: 0
-					}
+						postId: 0,
+					},
 				},
 			],
 			viewportWidth: 320,
@@ -191,16 +196,74 @@ export default function registerVariations() {
 	});
 
 	/**
+	 * Post Infographics Block
+	 */
+	registerBlockVariation(BLOCKNAME, {
+		name: 'post-infographics',
+		title: __('Post Infographics Card'),
+		icon: () => (
+			<Icon
+				icon={icons.faChartBar}
+				width={21}
+				preserveAspectRatio="xMidYMid meet"
+			/>
+		),
+		description: __(
+			'A Group block in the "Card" style with a heading and list of attached images.'
+		),
+		attributes: {
+			className: 'is-style-card-alt',
+		},
+		example: {
+			innerBlocks: [
+				{
+					name: 'core/heading',
+					attributes: {
+						className: 'is-style-sub-header',
+						level: 3,
+						fontSize: 'small-label',
+						content: 'POST INFOGRAPHICS',
+						backgroundColor: 'text-color',
+						textColor: 'white',
+					},
+				},
+				{
+					name: 'prc-block/attachment-info',
+					attributes: {},
+				},
+			],
+			viewportWidth: 320,
+		},
+		innerBlocks: [
+			[
+				'core/heading',
+				{
+					className: 'is-style-sub-header',
+					level: 3,
+					fontSize: 'small-label',
+					placeholder: 'POST INFOGRAPHICS',
+					backgroundColor: 'text-color',
+					textColor: 'white',
+				},
+			],
+			['prc-block/attachment-info', {}],
+		],
+		isActive: ({ className }) => 'is-style-card-alt' === className,
+	});
+
+	/**
 	 * Social Group Block
 	 */
 	registerBlockVariation(BLOCKNAME, {
 		name: 'social-group',
 		title: __('Social Group'),
-		icon: () => <Icon
-			icon={icons.faShareFromSquare}
-			width={21}
-			preserveAspectRatio="xMidYMid meet"
-		/>,
+		icon: () => (
+			<Icon
+				icon={icons.faShareFromSquare}
+				width={21}
+				preserveAspectRatio="xMidYMid meet"
+			/>
+		),
 		description: __(
 			'A Group block that allows you to override the share meta for content inside.'
 		),
@@ -222,8 +285,8 @@ export default function registerVariations() {
 							attributes: {
 								placeholder: 'Add visual content here...',
 							},
-						}
-					]
+						},
+					],
 				},
 				{
 					name: 'core/social-links',
@@ -256,8 +319,8 @@ export default function registerVariations() {
 								service: 'linkedin',
 							},
 						},
-					]
-				}
+					],
+				},
 			],
 			viewportWidth: 640,
 		},

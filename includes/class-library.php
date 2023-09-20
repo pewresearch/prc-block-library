@@ -59,6 +59,7 @@ class Library {
 		$this->gutenberg_config();
 		$this->define_apple_news_hooks();
 		$this->define_story_item_hooks();
+		$this->define_attachment_info_hooks();
 	}
 
 	/**
@@ -148,6 +149,12 @@ class Library {
 		$this->loader->add_action( 'prc_core_on_stub_update', $story_item, 'clear_index_cache_on_stub_update', 10, 1 );
 		$this->loader->add_action( 'init', $story_item, 'block_init' );
 	}
+
+	private function define_attachment_info_hooks() {
+		$attachment_info = new Attachment_Info( $this->version, null );
+		$this->loader->add_action( 'init', $attachment_info, 'block_init' );
+	}
+
 
 	public function disable_remote_block_patterns($should_load_remote) {
 		return false;
