@@ -68,6 +68,5 @@
   "script": [
     "prc-icons"
   ],
-  "style": "file:./style-index.css",
-  "render": "file:./render.php"
+  "style": "file:./style-index.css"
 }
