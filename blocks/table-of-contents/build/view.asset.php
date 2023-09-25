@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('enquire.js', 'wp-dom-ready', 'wp-polyfill'), 'version' => 'a7455e4c49e2af10467f');
+<?php return array('dependencies' => array('wp-dom-ready', 'wp-polyfill'), 'version' => '14c60245b62018397071');

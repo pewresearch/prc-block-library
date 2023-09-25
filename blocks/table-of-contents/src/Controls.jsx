@@ -14,15 +14,14 @@ import {
 	PanelColorSettings,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { ToggleControl, __experimentalNumberControl as NumberControl } from '@wordpress/components';
+import { BaseControl, ToggleControl, __experimentalNumberControl as NumberControl } from '@wordpress/components';
 
 export default function Controls({
 	attributes,
 	setAttributes,
-	clientId,
 	colors
 }) {
-	const { showCurrentChapter, hideHeading, className, autoDropdownWidth } = attributes;
+	const { showCurrentChapter, hideHeading, className, autoDropdownWidth, autoDropdownEnabled } = attributes;
 
 	const colorSettings = useMemo(() => {
 		const {
@@ -38,6 +37,14 @@ export default function Controls({
 			setHeadingBackgroundColor,
 			headingTextColor,
 			setHeadingTextColor,
+			activeBackgroundColor,
+			setActiveBackgroundColor,
+			activeTextColor,
+			setActiveTextColor,
+			hoverBackgroundColor,
+			setHoverBackgroundColor,
+			hoverTextColor,
+			setHoverTextColor
 		} = colors;
 
 		const t = [
@@ -70,6 +77,26 @@ export default function Controls({
 				value: backgroundColor?.color,
 				onChange: setBackgroundColor,
 				label: __('Background'),
+			},
+			{
+				value: activeTextColor?.color,
+				onChange: setActiveTextColor,
+				label: __('Active Text'),
+			},
+			{
+				value: activeBackgroundColor?.color,
+				onChange: setActiveBackgroundColor,
+				label: __('Active Background'),
+			},
+			{
+				value: hoverTextColor?.color,
+				onChange: setHoverTextColor,
+				label: __('Hover Text'),
+			},
+			{
+				value: hoverBackgroundColor?.color,
+				onChange: setHoverBackgroundColor,
+				label: __('Hover Background'),
 			},
 		];
 		if ( 'is-style-dropdown' === className ) {
@@ -118,12 +145,26 @@ export default function Controls({
 									'prc-block-library',
 								)}
 							/>
-							<NumberControl
-								label={__('Dropdown Activation Width')}
-								onChange={ ( value ) => setAttributes( { autoDropdownWidth: value } ) }
-								shiftStep={ 10 }
-								value={ autoDropdownWidth }
-							/>
+							<BaseControl label={__('Auto Dropdown')} help={__(
+								'Automatically switch to the dropdown style when the container is less than the specified width.',
+								'prc-block-library',
+							)}>
+								<ToggleControl
+									label={__('Enable')}
+									checked={autoDropdownEnabled}
+									onChange={() => {
+										setAttributes({ autoDropdownEnabled: !autoDropdownEnabled });
+									}}
+								/>
+								{autoDropdownEnabled && (
+									<NumberControl
+										label={__('Container Width Threshold')}
+										onChange={ ( value ) => setAttributes( { autoDropdownWidth: value } ) }
+										shiftStep={ 10 }
+										value={ autoDropdownWidth }
+									/>
+								)}
+							</BaseControl>
 						</Fragment>
 					)}
 				</PanelBody>

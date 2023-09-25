@@ -37,11 +37,11 @@ Answer to foo bar dilemma.
 
 ## Changelog
 
-= 0.1.0 =
-* Release
+= 3.0.0 =
+* Major refactor
+* New color attributes for all possible styles and states
+* New dropdown logic
+* New auto conversion to dropdown mechanism to support block themes
+* Table of contents now renders the entire TOC graph, good for seo and deeplinks.
 
 ## Developer Notes
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-blocks where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.

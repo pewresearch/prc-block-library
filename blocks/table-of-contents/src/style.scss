@@ -1,16 +1,18 @@
-
 .wp-block-prc-block-table-of-contents {
 	margin-top: 24px;
+
+	&:not([data-auto-dropdown-enabled="true"].is-switched)
+	&:not(.is-style-dropdown) {
+		.wp-block-prc-block-table-of-contents__heading.is-hidden {
+			display: none;
+		}
+	}
 
 	.wp-block-prc-block-table-of-contents__heading {
 		display: flex;
 		align-items: center;
 		padding: 0.525em 1em;
 		margin-top: 0;
-
-		&.is-hidden {
-			display: none;
-		}
 
 		h2 {
 			font-size: 0.825em;
@@ -25,6 +27,10 @@
 		.wp-block-prc-block-table-of-contents__dropdown {
 			display: none;
 			cursor: pointer;
+			background: none;
+			appearance: none;
+			box-shadow: none;
+			border: none;
 		}
 	}
 
@@ -37,12 +43,12 @@
 
 		& > li {
 			padding: 0.525em 1em;
-			&:hover {
-				background-color: var(--wp--preset--color--oatmeal);
+			&:not(.is-active) ul {
+				display: none;
 			}
 			&.is-active {
-				background-color: var(--wp--preset--color--gray);
-				& > span {
+				& > span,
+				& > a {
 					font-weight: 700;
 				}
 			}
@@ -53,114 +59,28 @@
 			text-decoration: underline;
 		}
 	}
-
-	&.is-style-dropdown {
-		border-top: 1px solid var(--wp--preset--color--gray-light);
-		border-bottom: 1px solid var(--wp--preset--color--gray-light);
-		&:not(.is-open) .wp-block-prc-block-table-of-contents__list {
-			display: none;
-		}
-		&.is-open .wp-block-prc-block-table-of-contents__list {
-			display: block;
-		}
-		.wp-block-prc-block-table-of-contents__heading {
-			h2 {
-				font-weight: 700;
-			}
-			.wp-block-prc-block-table-of-contents__dropdown {
-				display: block;
-			}
-		}
-	}
 }
 
-// For posts with sidebar driven TOC.
-#prc-mobile-toc,
-.wp-block-group.mobile-toc {
-	position: sticky;
-	top: 0;
-	z-index: 100;
-	.wp-block-group.mobile-toc {
-		position: relative;
+.wp-block-prc-block-table-of-contents.is-style-dropdown,
+.wp-block-prc-block-table-of-contents[data-auto-dropdown-enabled="true"].is-switched {
+	border-top: 1px solid var(--wp--preset--color--gray-light);
+	border-bottom: 1px solid var(--wp--preset--color--gray-light);
+	.wp-block-prc-block-table-of-contents__list {
+		margin-top: 0;
 	}
-}
-
-// Mobile Dropdown TOC
-.wp-block-group:not(.wp-block) {
-	&.mobile-toc {
-		margin-bottom: 1em;
-		padding-bottom: 1em;
-		background: var(--wp--preset--color--white)!important;
-		border-top: 1px solid #dadbdb;
-		border-bottom: 1px solid #dadbdb;
-		max-width: 100%!important;
-		// & > :where(:not(.alignleft):not(.alignright)) {
-		// }
-		h3 {
-			cursor: pointer;
-			padding-top: 1em;
-			margin-bottom: 0;
-			letter-spacing: .1em;
-			&:after {
-				font-family: var(--prc--icon--dropdown--family);
-				content: var(--prc--icon--dropdown--content);
-				display: block;
-				float: right;
-			}
-		}
-		.wp-block-prc-block-table-of-contents {
-			padding-top: 1em;
-		}
-		&.is-open {
-			h3:after {
-				transform: rotate(180deg) scaleX(-1);
-			}
-		}
-	}
-	&.mobile-toc:not(.is-open) .wp-block-prc-block-table-of-contents {
+	&[aria-expanded] .wp-block-prc-block-table-of-contents__list,
+	&[aria-expanded="false"] .wp-block-prc-block-table-of-contents__list {
 		display: none;
 	}
-}
-
-
-// Mobile Toolbar Icons TOC
-.wp-block-group:not(.wp-block) {
-	&.mobile-toc-icons {
-		margin-bottom: 1em;
-		padding-bottom: 0;
-		background: var(--wp--preset--color--white)!important;
-		border-top: 1px solid #dadbdb;
-		border-bottom: 1px solid #dadbdb;
-		display: flex;
-		align-items: center;
-		h3 {
+	&[aria-expanded="true"] .wp-block-prc-block-table-of-contents__list {
+		display: block;
+	}
+	.wp-block-prc-block-table-of-contents__heading {
+		h2 {
+			font-weight: 700;
+		}
+		.wp-block-prc-block-table-of-contents__dropdown {
 			display: block;
-		}
-		.hidden-text {
-			display: none;
-		}
-		.wp-block-prc-block-table-of-contents {
-			padding-top: 0;
-			.ui.list {
-				display: flex;
-				align-items: stretch;
-				.item {
-					display: inline-block;
-					-webkit-box-flex: 1;
-					-ms-flex-positive: 1;
-					flex-grow: 1;
-					filter: grayscale(100%);
-					opacity: 0.7;
-					&.active {
-						filter: grayscale(0%);
-						opacity: 1.0;
-					}
-					&.hidden {
-						display: none!important;
-					}
-				}
-			}
 		}
 	}
 }
-

@@ -35,6 +35,22 @@
 			"type": "string",
 			"default": "slate"
 		},
+		"activeBackgroundColor": {
+			"type": "string",
+			"default": "gray"
+		},
+		"activeTextColor": {
+			"type": "string",
+			"default": "slate"
+		},
+		"hoverBackgroundColor": {
+			"type": "string",
+			"default": "oatmeal"
+		},
+		"hoverTextColor": {
+			"type": "string",
+			"default": "slate"
+		},
 		"heading": {
 			"type": "string",
 			"default": "Table of Contents"
@@ -42,6 +58,10 @@
 		"hideHeading": {
 			"type": "boolean",
 			"default": false
+		},
+		"autoDropdownEnabled": {
+			"type": "boolean",
+			"default": true
 		},
 		"autoDropdownWidth": {
 			"type": "number",

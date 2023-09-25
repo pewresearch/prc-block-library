@@ -6,7 +6,7 @@ import classNames from 'classnames';
 /**
  * WordPress Dependencies
  */
-import { Fragment, useMemo, useState } from '@wordpress/element';
+import { Fragment, useMemo, useState, useRef, useEffect } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -51,27 +51,47 @@ function Edit({
 	setHeadingBackgroundColor,
 	headingTextColor,
 	setHeadingTextColor,
+	activeBackgroundColor,
+	setActiveBackgroundColor,
+	activeTextColor,
+	setActiveTextColor,
+	hoverBackgroundColor,
+	setHoverBackgroundColor,
+	hoverTextColor,
+	setHoverTextColor
 }) {
 	const isSiteEditor = false;
 	const { postId, postType } = context;
 	const { chapters = [], parentId, parentTitle } = useTOC({postId, postType});
-	const { heading, showCurrentChapter, className, hideHeading } = attributes;
+	const { heading, showCurrentChapter, className, hideHeading, autoDropdownEnabled, autoDropdownWidth } = attributes;
 	const { selectBlock } = useDispatch('core/block-editor');
 	const [ isDropdownOpen, setDropdownOpen ] = useState(false);
+	const [ isAutoDropdownSwitched, setDropdownSwitch ] = useState(null);
 
-	const isDropdown = useMemo(() => {
-		return 'is-style-dropdown' === className;
-	}, [className]);
+	// Add a ref to the component
+	const componentRef = useRef(null);
 
-	const {postTitle} = useSelect(
-		(select) => {
-			const { getEditedPostAttribute } = select('core/editor');
-			return {
-				postTitle: getEditedPostAttribute('title'),
-			};
-		},
-		[clientId]
-	);
+	/**
+	 * @TODO: We can make this more performant.
+	 */
+	useEffect(() => {
+		if ( !autoDropdownEnabled ) {
+			return setDropdownSwitch(false);
+		}
+		const updateAutoDropdownSwitch = () => {
+			if (componentRef.current) {
+				setDropdownSwitch( componentRef.current.parentNode.offsetWidth <= autoDropdownWidth );
+			}
+		};
+
+		updateAutoDropdownSwitch();
+
+		window.addEventListener('resize', updateAutoDropdownSwitch); // Add a listener for the window resize event
+
+		return () => {
+			window.removeEventListener('resize', updateAutoDropdownSwitch); // Remove the listener when the component unmounts
+		};
+	}, [componentRef.current?.parentNode?.offsetWidth, componentRef.current?.parentNode, autoDropdownWidth]);
 
 	// Construct a colors object that contains the color values and helper functions, re-compute whenever the color values change.
 	const colors = useMemo(() => ({
@@ -87,6 +107,14 @@ function Edit({
 		setHeadingBackgroundColor,
 		headingTextColor,
 		setHeadingTextColor,
+		activeBackgroundColor,
+		setActiveBackgroundColor,
+		activeTextColor,
+		setActiveTextColor,
+		hoverBackgroundColor,
+		setHoverBackgroundColor,
+		hoverTextColor,
+		setHoverTextColor
 	}), [
 		textColor,
 		setTextColor,
@@ -100,22 +128,41 @@ function Edit({
 		setHeadingBackgroundColor,
 		headingTextColor,
 		setHeadingTextColor,
+		activeBackgroundColor,
+		setActiveBackgroundColor,
+		activeTextColor,
+		setActiveTextColor,
+		hoverBackgroundColor,
+		setHoverBackgroundColor,
+		hoverTextColor,
+		setHoverTextColor
 	]);
 
 	const blockWrapperClassNames = useMemo(() => {
 		return classNames(className, {
-			'is-open': isDropdown && isDropdownOpen,
 			'has-text-color': !!colors.textColor.color || !!colors.textColor?.class,
 			[getColorClassName('color', colors.textColor?.slug)]: !!colors.textColor?.slug,
 			'has-background': !!colors.backgroundColor.color || colors.backgroundColor.class,
 			[getColorClassName('background-color', colors.backgroundColor?.slug)]:
 				!!colors.backgroundColor?.slug,
+			'has-active-background': !!colors.activeBackgroundColor.color || colors.activeBackgroundColor.class,
+			[`has-active-${colors?.activeBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
+			'has-active-color': !!colors.activeTextColor.color || colors.activeTextColor.class,
+			[`has-active-${colors?.activeTextColor?.slug}-color`]: !!colors?.activeTextColor?.slug,
+			'has-hover-background': !!colors.hoverBackgroundColor.color || colors.hoverBackgroundColor.class,
+			[`has-hover-${colors?.hoverBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
+			'has-hover-color': !!colors.hoverTextColor.color || colors.hoverTextColor.class,
+			[`has-hover-${colors?.hoverTextColor?.slug}-color`]: !!colors?.hoverTextColor?.slug,
+			'is-switched': isAutoDropdownSwitched,
 		})
 	}, [
-		isDropdownOpen,
-		isDropdown,
 		colors.textColor,
 		colors.backgroundColor,
+		colors.hoverBackgroundColor,
+		colors.activeBackgroundColor,
+		colors.hoverTextColor,
+		colors.activeTextColor,
+		isAutoDropdownSwitched,
 		className,
 	]);
 
@@ -142,44 +189,38 @@ function Edit({
 			'is-hidden': hideHeading,
 		})
 	}, [
-		isDropdown,
 		colors,
 		hideHeading,
 	]);
 
-	const headingStyles = useMemo(() => {
-		const color = isDropdown ? colors.dropdownTextColor : colors.headingTextColor;
-		const backgroundColor = isDropdown ? colors.dropdownBackgroundColor : colors.headingBackgroundColor;
+	const blockPropArgs = useMemo(() => {
 		return {
-			color: !color?.slug && color?.color,
-			backgroundColor: !backgroundColor.slug && backgroundColor?.color,
-		}
+			className: blockWrapperClassNames,
+			style: blockWrapperStyles,
+			['data-auto-dropdown-enabled'] : autoDropdownEnabled,
+			['data-auto-dropdown-width'] : autoDropdownWidth,
+			['data-show-current-chapter'] : showCurrentChapter,
+			['aria-expanded'] : isDropdownOpen,
+		};
 	}, [
-		colors,
+		blockWrapperClassNames,
+		blockWrapperStyles,
+		autoDropdownEnabled,
+		autoDropdownWidth,
+		showCurrentChapter,
+		isDropdownOpen,
 	]);
 
-	const blockProps = useBlockProps({
-		className: blockWrapperClassNames,
-		style: blockWrapperStyles,
-	});
+	const blockProps = useBlockProps(blockPropArgs);
 
 	return (
 		<Fragment>
 			<Controls {...{
 				attributes,
 				setAttributes,
-				colors: {
-					textColor,
-					setTextColor,
-					backgroundColor,
-					setBackgroundColor,
-					headingBackgroundColor,
-					setHeadingBackgroundColor,
-					headingTextColor,
-					setHeadingTextColor,
-				}
+				colors,
 			}} />
-			<div {...blockProps}>
+			<div {...blockProps} ref={componentRef}>
 				<div className={headingClassNames}>
 					<RichText
 						{...{
@@ -187,14 +228,11 @@ function Edit({
 							placeholder: 'Table of Contents',
 							value: heading,
 							onChange: (newHeading) => setAttributes({ heading: newHeading }),
-							style: headingStyles,
 						}}
 					/>
-					{isDropdown && (
-						<div className="wp-block-prc-block-table-of-contents__dropdown" onClick={()=> setDropdownOpen(!isDropdownOpen)}>
-							+
-						</div>
-					)}
+					<div className="wp-block-prc-block-table-of-contents__dropdown" onClick={()=> setDropdownOpen(!isDropdownOpen)}>
+						+
+					</div>
 				</div>
 				<ul className="wp-block-prc-block-table-of-contents__list">
 					{0 !== chapters.length && chapters.map((chapter) => (
@@ -224,4 +262,8 @@ export default withColors(
 	{ dropdownTextColor: 'color' },
 	{ headingBackgroundColor: 'color' },
 	{ headingTextColor: 'color' },
+	{ activeBackgroundColor: 'color' },
+	{ activeTextColor: 'color' },
+	{ hoverBackgroundColor: 'color' },
+	{ hoverTextColor: 'color' },
 )(Edit);
