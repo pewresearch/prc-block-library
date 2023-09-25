@@ -1,8 +1,7 @@
 .wp-block-prc-block-table-of-contents {
 	margin-top: 24px;
 
-	&:not([data-auto-dropdown-enabled="true"].is-switched)
-	&:not(.is-style-dropdown) {
+	&:not(.is-style-dropdown):not(.is-switched) {
 		.wp-block-prc-block-table-of-contents__heading.is-hidden {
 			display: none;
 		}
