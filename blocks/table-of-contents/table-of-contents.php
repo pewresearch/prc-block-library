@@ -5,7 +5,7 @@ use WP_HTML_Heading_Processor;
 /**
  * Block Name:        Table of Contents
  * Description:       Displays a list of all heading blocks set to chapter headings.
- * Version:           0.1.0
+ * Version:           3.0
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Author:            Seth Rubenstein
@@ -14,17 +14,10 @@ use WP_HTML_Heading_Processor;
  */
 
 class Table_Of_Contents {
-	public static $version = '0.1.0';
 	public static $dir = __DIR__;
 
-	public function __construct( $init = false ) {
-		if ( true === $init ) {
-			require_once self::$dir . '/class-wp-html-heading-processor.php';
-
-			add_action( 'init', array( $this, 'block_init' ) );
-			add_filter( 'prc_the_content_raw', array( $this, 'handle_legacy_content' ), 1, 1 );
-			add_filter( 'prc_get_chapters', array($this, 'construct_toc'), 10, 2 );
-		}
+	public function __construct( $plugin_version ) {
+		require_once self::$dir . '/class-wp-html-heading-processor.php';
 	}
 
 	// Cribbed from https://codepad.co/snippet/extract-html-attributes-with-regex-in-php
@@ -240,7 +233,50 @@ class Table_Of_Contents {
 
 	}
 
+	public function generate_heading_and_dropdown_styles() {
+		if ( !function_exists('wp_get_global_settings') ) {
+			return new WP_Error('missing_function', 'wp_get_global_settings() is missing');
+		}
+
+		$colors = \wp_get_global_settings();
+		$colors = $colors['color']['palette']['theme'];
+
+		ob_start();
+		foreach( $colors as $color ) {
+			$slug = $color['slug'];
+			?>
+			.wp-block-prc-block-table-of-contents:not(.is-style-dropdown) .wp-block-prc-block-table-of-contents__heading.has-heading-<?php echo $slug; ?>-color {
+				color: var(--wp--preset--color--<?php echo $slug; ?>) !important;
+			}
+			.wp-block-prc-block-table-of-contents.is-style-dropdown .wp-block-prc-block-table-of-contents__heading.has-dropdown-<?php echo $slug; ?>-color {
+				color: var(--wp--preset--color--<?php echo $slug; ?>) !important;
+			}
+			.wp-block-prc-block-table-of-contents:not(.is-style-dropdown) .wp-block-prc-block-table-of-contents__heading.has-heading-<?php echo $slug; ?>-background-color {
+				background-color: var(--wp--preset--color--<?php echo $slug; ?>) !important;
+			}
+			.wp-block-prc-block-table-of-contents.is-style-dropdown .wp-block-prc-block-table-of-contents__heading.has-dropdown-<?php echo $slug; ?>-background-color {
+				background-color: var(--wp--preset--color--<?php echo $slug; ?>) !important;
+			}
+			<?php
+		}
+		$styles = ob_get_clean();
+		return $styles;
+	}
+
+	/**
+	 * @hook enqueue_block_assets, enqueue_block_editor_assets
+	 * @return void
+	 */
+	public function enqueue_custom_heading_and_dropdown_styles() {
+		$styles = $this->generate_heading_and_dropdown_styles();
+		if ( is_wp_error($styles) ) {
+			return;
+		}
+		wp_add_inline_style( 'prc-block-table-of-contents-style', $styles );
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
+		$is_dropdown = array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-dropdown');
 		$post_id = $block->context['postId'];
 
 		$heading = array_key_exists('heading', $attributes) ? $attributes['heading'] : false;
@@ -250,16 +286,21 @@ class Table_Of_Contents {
 		$content = apply_filters( 'prc-block/table-of-contents', $this->get_list_items( $chapters ), $post_id );
 
 		$block_attrs = array(
+			'aria-is-expanded' => !$is_dropdown,
 			'class' => classNames(
 				$attributes['className'],
 				array(
 					'has-text-color' => $attributes['textColor'],
-					'text-color-' . $attributes['textColor'] => $attributes['textColor'],
+					'has-text-color-' . $attributes['textColor'] => $attributes['textColor'],
 					'has-background' => $attributes['backgroundColor'],
-					'background-color-' . $attributes['backgroundColor'] => $attributes['backgroundColor'],
+					'has-background-color-' . $attributes['backgroundColor'] => $attributes['backgroundColor'],
 				),
 			),
 		);
+
+		if ( !$is_dropdown ) {
+			$block_attrs['data-auto-dropdown-width'] = $attributes['autoDropdownWidth'];
+		}
 
 		if ( array_key_exists('showCurrentChapter', $attributes) && $attributes['showCurrentChapter'] ) {
 			$block_attrs['data-show-current-chapter'] = true;
@@ -271,24 +312,29 @@ class Table_Of_Contents {
 			$content = '<p>No chapters found.</p>';
 		} else {
 			$content = wp_sprintf(
-				'<aside role="list">%s</side>',
+				'<ul class="wp-block-prc-block-table-of-contents__list" role="list">%s</ul>',
 				$content
 			);
 		}
 
 		$heading = wp_sprintf(
-			'<h2 class="%s">%s</h2>',
+			'<div class="%1$s"><h2>%2$s</h2>%3$s</div>',
 			classNames(
 				'wp-block-prc-block-table-of-contents__heading',
 				array(
-					'has-text-color' => $attributes['headingTextColor'],
-					'has-'.$attributes['headingTextColor'].'-color' => $attributes['headingTextColor'],
-					'has-background' => $attributes['headingBackgroundColor'],
-					'has-'.$attributes['headingBackgroundColor'].'-background-color' => $attributes['headingBackgroundColor'],
+					'has-heading-color' => $attributes['headingTextColor'],
+					'has-heading-'.$attributes['headingTextColor'].'-color' => $attributes['headingTextColor'],
+					'has-dropdown-color' => $attributes['dropdownTextColor'],
+					'has-dropdown-'.$attributes['dropdownTextColor'].'-color' => $attributes['dropdownTextColor'],
+					'has-heading-background' => $attributes['headingBackgroundColor'],
+					'has-heading-'.$attributes['headingBackgroundColor'].'-background-color' => $attributes['headingBackgroundColor'],
+					'has-dropdown-background' => $attributes['dropdownBackgroundColor'],
+					'has-dropdown-'.$attributes['dropdownBackgroundColor'].'-background-color' => $attributes['dropdownBackgroundColor'],
 					'is-hidden' => true === $attributes['hideHeading'],
 				),
 			),
-			$heading
+			$heading,
+			'<button class="wp-block-prc-block-table-of-contents__dropdown">+</button>',
 		);
 
 		return wp_sprintf(
@@ -304,6 +350,8 @@ class Table_Of_Contents {
 	* Behind the scenes, it registers also all assets so they can be enqueued
 	* through the block editor in the corresponding context.
 	*
+	* @hook init
+	*
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
@@ -317,4 +365,3 @@ class Table_Of_Contents {
 
 }
 
-new Table_Of_Contents(true);

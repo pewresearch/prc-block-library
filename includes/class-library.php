@@ -60,6 +60,7 @@ class Library {
 		$this->define_apple_news_hooks();
 		$this->define_story_item_hooks();
 		$this->define_attachment_info_hooks();
+		$this->define_table_of_contents_hooks();
 	}
 
 	/**
@@ -155,6 +156,11 @@ class Library {
 		$this->loader->add_action( 'init', $attachment_info, 'block_init' );
 	}
 
+	private function define_table_of_contents_hooks() {
+		$table_of_contents = new Table_Of_Contents( $this->version );
+		$this->loader->add_action( 'init', $table_of_contents, 'block_init' );
+		$this->loader->add_action( 'enqueue_block_assets', $table_of_contents, 'enqueue_custom_heading_and_dropdown_styles' );
+	}
 
 	public function disable_remote_block_patterns($should_load_remote) {
 		return false;

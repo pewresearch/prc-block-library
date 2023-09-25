@@ -42,6 +42,10 @@
     "hideHeading": {
       "type": "boolean",
       "default": false
+    },
+    "autoDropdownWidth": {
+      "type": "number",
+      "default": 300
     }
   },
   "supports": {
@@ -58,8 +62,10 @@
         "left",
         "right"
       ],
+      "blockGap": true,
       "__experimentalDefaultControls": {
-        "margin": true
+        "margin": true,
+        "blockGap": true
       }
     },
     "position": {

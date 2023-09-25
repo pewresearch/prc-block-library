@@ -6,7 +6,7 @@ import classNames from 'classnames';
 /**
  * WordPress Dependencies
  */
-import { Fragment, useMemo } from '@wordpress/element';
+import { Fragment, useMemo, useState } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -57,6 +57,11 @@ function Edit({
 	const { chapters = [], parentId, parentTitle } = useTOC({postId, postType});
 	const { heading, showCurrentChapter, className, hideHeading } = attributes;
 	const { selectBlock } = useDispatch('core/block-editor');
+	const [ isDropdownOpen, setDropdownOpen ] = useState(false);
+
+	const isDropdown = useMemo(() => {
+		return 'is-style-dropdown' === className;
+	}, [className]);
 
 	const {postTitle} = useSelect(
 		(select) => {
@@ -99,6 +104,7 @@ function Edit({
 
 	const blockWrapperClassNames = useMemo(() => {
 		return classNames(className, {
+			'is-open': isDropdown && isDropdownOpen,
 			'has-text-color': !!colors.textColor.color || !!colors.textColor?.class,
 			[getColorClassName('color', colors.textColor?.slug)]: !!colors.textColor?.slug,
 			'has-background': !!colors.backgroundColor.color || colors.backgroundColor.class,
@@ -106,6 +112,8 @@ function Edit({
 				!!colors.backgroundColor?.slug,
 		})
 	}, [
+		isDropdownOpen,
+		isDropdown,
 		colors.textColor,
 		colors.backgroundColor,
 		className,
@@ -123,26 +131,31 @@ function Edit({
 
 	const headingClassNames = useMemo(() => {
 		return classNames('wp-block-prc-block-table-of-contents__heading', {
-			'has-text-color': !!colors.headingTextColor.color || !!colors.headingTextColor?.class,
-			[getColorClassName('color', colors.headingTextColor?.slug)]: !!colors.headingTextColor?.slug,
-			'has-background': !!colors.headingBackgroundColor.color || colors.headingBackgroundColor.class,
-			[getColorClassName('background-color', colors.headingBackgroundColor?.slug)]: !!colors.headingBackgroundColor?.slug,
+			'has-heading-color': !!colors?.headingTextColor?.color || !!colors?.headingTextColor?.class,
+			[`has-heading-${colors?.headingTextColor?.slug}-color`]: !!colors?.headingTextColor?.slug,
+			'has-dropdown-color': !!colors?.dropdownTextColor?.color || !!colors?.dropdownTextColor?.class,
+			[`has-dropdown-${colors?.dropdownTextColor?.slug}-color`]: !!colors?.dropdownTextColor?.slug,
+			'has-heading-background': !!colors?.headingBackgroundColor?.color || !!colors?.headingBackgroundColor?.class,
+			[`has-heading-${colors?.headingBackgroundColor?.slug}-background-color`]: !!colors?.headingBackgroundColor?.slug,
+			'has-dropdown-background': !!colors?.dropdownBackgroundColor?.color || !!colors?.dropdownBackgroundColor?.class,
+			[`has-dropdown-${colors?.dropdownBackgroundColor?.slug}-background-color`]: !!colors?.dropdownBackgroundColor?.slug,
 			'is-hidden': hideHeading,
 		})
 	}, [
-		colors.headingTextColor,
-		colors.headingBackgroundColor,
+		isDropdown,
+		colors,
 		hideHeading,
 	]);
 
 	const headingStyles = useMemo(() => {
+		const color = isDropdown ? colors.dropdownTextColor : colors.headingTextColor;
+		const backgroundColor = isDropdown ? colors.dropdownBackgroundColor : colors.headingBackgroundColor;
 		return {
-			color: !colors.headingTextColor?.slug && colors.headingTextColor?.color,
-			backgroundColor: !colors.headingBackgroundColor?.slug && colors.headingBackgroundColor?.color,
+			color: !color?.slug && color?.color,
+			backgroundColor: !backgroundColor.slug && backgroundColor?.color,
 		}
 	}, [
-		colors.headingTextColor,
-		colors.headingBackgroundColor,
+		colors,
 	]);
 
 	const blockProps = useBlockProps({
@@ -167,19 +180,25 @@ function Edit({
 				}
 			}} />
 			<div {...blockProps}>
-				<RichText
-					{...{
-						tagName: 'h2',
-						placeholder: 'Table of Contents',
-						value: heading,
-						onChange: (newHeading) => setAttributes({ heading: newHeading }),
-						className: headingClassNames,
-						style: headingStyles,
-					}}
-				/>
+				<div className={headingClassNames}>
+					<RichText
+						{...{
+							tagName: 'h2',
+							placeholder: 'Table of Contents',
+							value: heading,
+							onChange: (newHeading) => setAttributes({ heading: newHeading }),
+							style: headingStyles,
+						}}
+					/>
+					{isDropdown && (
+						<div className="wp-block-prc-block-table-of-contents__dropdown" onClick={()=> setDropdownOpen(!isDropdownOpen)}>
+							+
+						</div>
+					)}
+				</div>
 				<ul className="wp-block-prc-block-table-of-contents__list">
 					{0 !== chapters.length && chapters.map((chapter) => (
-						<li>
+						<li className={postId === chapter?.id ? `is-active` : null}>
 							<span>{chapter?.title}</span>
 							{postId === chapter?.id && chapter?.internalChapters && (
 								<ul>

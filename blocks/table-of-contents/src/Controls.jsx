@@ -14,7 +14,7 @@ import {
 	PanelColorSettings,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, __experimentalNumberControl as NumberControl } from '@wordpress/components';
 
 export default function Controls({
 	attributes,
@@ -22,7 +22,7 @@ export default function Controls({
 	clientId,
 	colors
 }) {
-	const { showCurrentChapter, hideHeading, className } = attributes;
+	const { showCurrentChapter, hideHeading, className, autoDropdownWidth } = attributes;
 
 	const colorSettings = useMemo(() => {
 		const {
@@ -106,17 +106,25 @@ export default function Controls({
 						)}
 					/>
 					{'is-style-default' === className && (
-						<ToggleControl
-							label={__('Hide Heading')}
-							checked={hideHeading}
-							onChange={() => {
-								setAttributes({ hideHeading: !hideHeading });
-							}}
-							help={__(
-								'Hide the heading from the front end when in "Baseball Card" style.',
-								'prc-block-library',
-							)}
-						/>
+						<Fragment>
+							<ToggleControl
+								label={__('Hide Heading')}
+								checked={hideHeading}
+								onChange={() => {
+									setAttributes({ hideHeading: !hideHeading });
+								}}
+								help={__(
+									'Hide the heading from the front end when in "Baseball Card" style.',
+									'prc-block-library',
+								)}
+							/>
+							<NumberControl
+								label={__('Dropdown Activation Width')}
+								onChange={ ( value ) => setAttributes( { autoDropdownWidth: value } ) }
+								shiftStep={ 10 }
+								value={ autoDropdownWidth }
+							/>
+						</Fragment>
 					)}
 				</PanelBody>
 			</InspectorControls>

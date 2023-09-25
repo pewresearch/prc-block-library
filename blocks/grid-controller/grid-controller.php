@@ -44,6 +44,10 @@ class Grid_Controller {
 		return $styles;
 	}
 
+	/**
+	 * @hook enqueue_block_assets, enqueue_block_editor_assets
+	 * @return void
+	 */
 	public function enqueue_custom_divider_styles() {
 		$styles = $this->generate_grid_divider_styles();
 		if ( is_wp_error($styles) ) {

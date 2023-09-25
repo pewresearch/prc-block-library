@@ -42,6 +42,10 @@
 		"hideHeading": {
 			"type": "boolean",
 			"default": false
+		},
+		"autoDropdownWidth": {
+			"type": "number",
+			"default": 300
 		}
 	},
 	"supports": {
@@ -50,8 +54,10 @@
 		"align": ["left", "right"],
 		"spacing": {
 			"margin": [ "top", "bottom", "left", "right" ],
+			"blockGap": true,
 			"__experimentalDefaultControls": {
-				"margin": true
+				"margin": true,
+				"blockGap": true
 			}
 		},
 		"position": {

@@ -1,6 +1,6 @@
 {
 	"name": "table-of-contents",
-	"version": "0.1.0",
+	"version": "3.0.0",
 	"description": "Displays a list of all heading blocks set to chapter headings.",
 	"author": "Seth Rubenstein",
 	"license": "GPL-2.0-or-later",
