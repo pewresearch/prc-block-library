@@ -1,0 +1,32 @@
+{
+	"name": "staff-query",
+	"version": "0.1.0",
+	"description": "Query the Staff post type.",
+	"author": "Seth Rubenstein",
+	"license": "GPL-2.0-or-later",
+	"homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@wordpress/block-editor": "^11.4.0",
+		"@wordpress/components": "^23.4.0",
+		"@wordpress/core-data": "^6.4.0",
+		"@wordpress/data": "^8.4.0",
+		"@wordpress/element": "^5.4.0",
+		"@wordpress/i18n": "^4.27.0",
+		"@wordpress/scripts": "^25.1.0",
+		"lodash": "^4.17.21"
+	},
+	"dependencies": {
+		"@emotion/styled": "^11.10.5",
+		"md5": "^2.3.0"
+	}
+}

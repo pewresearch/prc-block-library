@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/taxonomy-search",
+	"version": "0.1.0",
+	"title": "Taxonomy Search",
+	"category": "theme",
+	"description": "Search for terms of a specified taxonomy.",
+	"icon": "search",
+	"attributes": {
+		"taxonomy": {
+			"type": "string",
+			"default": "topic"
+		},
+		"restrictToTerm": {
+			"type": "object"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"margin": [ "top", "bottom" ]
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"textdomain": "taxonomy-search",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/staff-info",
+	"version": "0.1.0",
+	"title": "Staff Info",
+	"category": "theme",
+	"description": "Display staff info from a byline; supports name, job title, twitter, and expertise.",
+	"attributes": {
+		"valueToFetch": {
+			"type":"string",
+			"enum": [ "staffName", "staffJobTitle", "staffTwitter", "staffExpertise", "staffBio", "staffMiniBio", "staffImage", "staffLink" ]
+		},
+		"prefix": {
+			"type": "string"
+		},
+		"enableLink": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"margin": [ "top", "bottom" ],
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"usesContext": [
+		"bylineTermId",
+		"staffName",
+		"staffJobTitle",
+		"staffTwitter",
+		"staffBio",
+		"staffMiniBio",
+		"staffImage",
+		"staffLink",
+		"staffId"
+	],
+	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query" ],
+	"textdomain": "staff-info",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

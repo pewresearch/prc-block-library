@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/social-share-text-link",
+  "version": "0.1.0",
+  "title": "Social Share Text Link",
+  "description": "Add a text link to a social share group.",
+  "category": "widgets",
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "opensInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "url": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "align": false
+  },
+  "example": {
+    "attributes": {
+      "label": "Read more..."
+    },
+    "viewPortWidth": 100
+  },
+  "parent": [
+    "core/social-links"
+  ],
+  "textdomain": "social-share-text-link",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

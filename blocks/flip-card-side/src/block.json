@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/flip-card-side",
+	"version": "0.1.0",
+	"title": "Flip Card Side",
+	"category": "media",
+	"attributes": {
+		"allowedBlocks": {
+			"type": "array"
+		}
+	},
+	"supports": {
+		"color": {
+			"background": true,
+			"link": true,
+			"text": true
+		},
+		"html": false,
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true
+		}
+	},
+	"parent": [
+		"prc-block/flip-card-controller"
+	],
+	"textdomain": "flip-card-side",
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/collapsible",
+	"version": "0.1.0",
+	"title": "Collapsible",
+	"category": "design",
+	"keywords": [ "collapsible", "accordion", "how we did this" ],
+	"attributes": {
+		"title": {
+			"type": "string"
+		},
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"orientation": {
+			"type": "string",
+			"default": "vertical"
+		}
+	},
+	"supports": {
+		"anchor": false,
+		"html": false,
+		"spacing": {
+			"blockGap": true,
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"example": {
+		"attributes": {
+			"title": "How we did this"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, quam sapien aliquet nunc, nec aliquam nisl nunc"
+				}
+			}
+		],
+		"viewportWidth": 640
+	},
+	"textdomain": "collapsible",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

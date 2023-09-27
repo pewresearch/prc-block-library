@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/attachment-info",
+  "version": "0.1.0",
+  "title": "Attachment Info",
+  "category": "text",
+  "description": "Displays the titles of other images attached to a post.",
+  "attributes": {
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": false,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": false,
+      "__experimentalDefaultControls": {
+        "padding": false
+      }
+    },
+    "typography": {
+      "fontSize": false,
+      "__experimentalFontFamily": false,
+      "__experimentalDefaultControls": {
+        "fontSize": false,
+        "__experimentalFontFamily": false
+      }
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "textdomain": "attachment-info",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

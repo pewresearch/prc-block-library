@@ -1,0 +1,103 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "prc-block/data-table",
+  "version": "1.0.0",
+  "title": "Data Table",
+  "category": "text",
+  "description": "This block enables you to build sophisticated data tables in an easy to use interface with a familiar spreadsheet-like interface.",
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "data": {
+      "type": "array",
+      "default": []
+    },
+    "colWidths": {
+      "type": "array",
+      "default": []
+    },
+    "colHeaders": {
+      "type": "array",
+      "default": []
+    },
+    "frozenColumns": {
+      "type": "array",
+      "default": []
+    },
+    "cellBackgroundColor": {
+      "type": "string"
+    },
+    "cellTextColor": {
+      "type": "string"
+    },
+    "headerRowBackgroundColor": {
+      "type": "string",
+      "default": "gray"
+    },
+    "headerRowTextColor": {
+      "type": "string"
+    }
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "striped",
+      "label": "Striped"
+    }
+  ],
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ]
+    }
+  },
+  "example": {
+    "attributes": {
+      "colHeaders": [
+        "Country",
+        "Year",
+        "Population"
+      ],
+      "data": [
+        [
+          "United States",
+          "2000",
+          "1000"
+        ],
+        [
+          "France",
+          "2000",
+          "1001"
+        ]
+      ]
+    }
+  },
+  "textdomain": "data-table",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": [
+    "file:./style-index.css",
+    "file:./view.css"
+  ],
+  "viewScript": [
+    "file:./view.js",
+    "jquery"
+  ]
+}

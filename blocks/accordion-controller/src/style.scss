@@ -1,0 +1,22 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-accordion-controller {
+	color: inherit;
+	background: inherit;
+	border: 1px solid var(--wp--preset--color--gray-light);
+	margin-block-end: 1.5em;
+
+	& > .block-list-appender.wp-block {
+		width: 100%;
+		position: relative;
+	}
+
+	& > .wp-block-prc-block-accordion:last-of-type {
+		border-bottom: none;
+	}
+}

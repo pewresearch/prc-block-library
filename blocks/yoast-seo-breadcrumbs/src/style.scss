@@ -1,0 +1,12 @@
+.yoast-breadcrumbs {
+	margin-top: 0.75em;
+	margin-bottom: 0.75em;
+	line-height: 1em;
+	& > .ui.breadcrumbs {
+		overflow: hidden;
+		/* text-overflow: ellipsis; */
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+	}
+}

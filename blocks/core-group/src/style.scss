@@ -1,0 +1,167 @@
+@use "sass:math";
+
+$relaxedBorder: #e6e7e6;
+$altCardHeaderPadding: 1em;
+$altCardLineHeight: 1.28571429em;
+$altCardMargin: 1rem;
+
+$mobileBreakpoint: 360px;
+$tabletBreakPoint: 790px;
+$desktopBreakPoint: 791px;
+
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+// When a align full cover is before an alignfull group we want to add padding to the group.
+.wp-block-cover.alignfull + .wp-block-group.alignfull {
+	margin-top: -2em;
+    padding-top: 1em;
+    padding-bottom: 2em;
+    padding-left: 2em;
+	padding-right: 2em;
+}
+
+.wp-block-group {
+	&.is-style-social-group {
+		border-bottom: 1px solid var(--wp--preset--color--gray);
+		margin-block-end: 1.5em;
+		.wp-block-social-links {
+			background: white;
+			padding-top: 0.65em;
+			padding-bottom: 0.5em;
+		}
+	}
+
+	&.is-style-callout {
+		border-top: 1px solid $relaxedBorder;
+
+		p {
+			font-family: var(--wp--preset--font-family--sans-serif);
+			font-size: 14px;
+		}
+
+		.wp-block-group__inner-container ul li {
+			font-family: var(--wp--preset--font-family--sans-serif) !important;
+			font-size: 13px;
+		}
+	}
+
+	&.is-style-card-alt {
+		@media only screen and (min-width: 767px) {
+			padding-left: $altCardMargin;
+			padding-right: $altCardMargin;
+		}
+
+		padding-bottom: $altCardMargin;
+
+		.is-style-sub-header {
+			padding: 9px $altCardHeaderPadding;
+			margin-bottom: $altCardMargin;
+			line-height: $altCardLineHeight;
+			font-weight: normal;
+			letter-spacing: 0.1em;
+
+			a {
+				color: white;
+			}
+		}
+	}
+
+	&.alignright {
+		@media only screen and (min-width: 992px) {
+			/*rtl:ignore*/
+			clear: right;
+			float: right;
+			margin-left: 1em;
+			/*rtl:ignore*/
+		}
+	}
+	&.alignleft {
+		@media only screen and (min-width: 992px) {
+			/*rtl:ignore*/
+			clear: left;
+			float: left;
+			margin-right: 1em;
+			/*rtl:ignore*/
+		}
+	}
+
+}
+
+.wp-site-blocks,
+.is-root-container {
+	container: prc-responsive-container / inline-size;
+}
+
+@container prc-responsive-container (max-width: 420px) {
+	.wp-block-group[data-hide-on-mobile="true"] {
+		&.wp-block:before {
+			content: "This block is hidden on mobile.";
+			display: block;
+			text-align: center;
+			font-size: 0.8em;
+			border: 1px dashed #DDD;
+			color: #999;
+			padding: 1em;
+		}
+		& > * {
+			display: none !important;
+		}
+	}
+}
+
+@container prc-responsive-container (min-width: 420px) and (max-width: 790px) {
+	.wp-block-group[data-hide-on-tablet="true"] {
+		&.wp-block:before {
+			content: "This block is hidden on tablet.";
+			display: block;
+			text-align: center;
+			font-size: 0.8em;
+			color: #999;
+			border: 1px dashed #DDD;
+			padding: 1em;
+		}
+		& > * {
+			display: none !important;
+		}
+	}
+}
+
+@container prc-responsive-container (min-width: 791px) {
+	.wp-block-group[data-hide-on-desktop="true"] {
+		&.wp-block:before {
+			content: "This block is hidden on desktop.";
+			display: block;
+			text-align: center;
+			font-size: 0.8em;
+			color: #999;
+			border: 1px dashed #DDD;
+			padding: 1em;
+		}
+		& > * {
+			display: none !important;
+		}
+	}
+}
+
+
+// @TODO this feels more like something that should be in a block pattern??
+.wp-block-group.essay--toolbar,
+.wp-block-group.essay--toolbar {
+    display: flex;
+    align-items: center;
+	width: 100%;
+	padding: 1em 0;
+	.wp-block-social-links {
+		padding-top: 0!important;
+		margin-top: 0!important;
+	}
+	.wp-block-post-date {
+		flex-grow: 1;
+	}
+}
+

@@ -1,0 +1,42 @@
+.wp-block-prc-block-taxonomy-index-az-controller {
+    .wp-block-prc-block-taxonomy-index-az-controller--list {
+		display: flex;
+		flex-direction: row;
+		list-style: none;
+		padding: 0;
+		font-family: var(--wp--preset--font-family--sans-serif);
+		margin-left: 0;
+		margin-right: 0;
+		margin-block-end: 3em;
+		margin-block-start: 1.5em;
+		li {
+			text-align: center;
+			flex-grow: 1;
+			a,
+			span {
+				padding: 0.5em;
+				color: black;
+				font-size: 18px;
+				font-weight: 700;
+				line-height: 1;
+				&.disabled {
+					opacity: 0.2;
+				}
+				&:hover {
+					background-color: var(--wp--preset--color--gray);
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	.wp-block-prc-block-taxonomy-index-az-list {
+		margin-block-end: 2em;
+		padding-bottom: 2em;
+		border-bottom: 1px solid var(--wp--preset--color--gray-light);
+	}
+
+	.wp-block-prc-block-grid-column .wp-block-prc-block-taxonomy-index-az-list:last-child {
+		border-bottom: none;
+	}
+}

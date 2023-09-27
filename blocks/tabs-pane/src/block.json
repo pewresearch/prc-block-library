@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/tabs-pane",
+	"version": "0.1.0",
+	"title": "Tab Pane",
+	"category": "design",
+	"attributes": {
+		"uuid": {
+            "type": "string"
+        },
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"orientation": {
+			"type": "string",
+			"default": "vertical"
+		}
+	},
+	"supports": {
+		"html": false,
+        "align": false,
+        "inserter": false,
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"usesContext": ["prc-block/tabs/layout", "prc-block/tabs/activeUUID"],
+    "parent": ["prc-block/tabs-panes"],
+	"textdomain": "tabs-pane",
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

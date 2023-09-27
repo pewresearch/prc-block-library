@@ -1,0 +1,62 @@
+.wp-block-prc-block-form-input-checkbox {
+	display: flex;
+    align-items: center;
+	text-align: left;
+	vertical-align: top;
+	box-sizing: border-box;
+	margin: 0;
+	gap: 5px;
+
+	label,
+	input[type="checkbox"] {
+		cursor: pointer;
+	}
+
+	input[type="checkbox"] {
+		/* Add if not using autoprefixer */
+		-webkit-appearance: none;
+		/* Remove most all native input styles */
+		appearance: none;
+		/* For iOS < 15 */
+		background-color: inherit;
+		/* Not removed via appearance */
+		margin: 0;
+
+		font: inherit;
+		color: var(--wp--preset--color--gray-light);
+		width: 1.15em;
+		height: 1.15em;
+		border: 1px solid currentColor;
+		border-radius: var(--wp--custom--border-radius, 3px);
+		transform: translateY(-0.075em);
+
+		display: grid;
+		place-content: center;
+
+		&::before {
+			content: "";
+			margin: 0!important;
+			width: 0.65em;
+			height: 0.65em;
+			clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+			transform: scale(0);
+			transform-origin: bottom left;
+			transition: 120ms transform ease-in-out;
+			// box-shadow: inset 1em 1em var(--wp--preset--color--text-color);
+			/* Windows High Contrast Mode */
+			background-color: CanvasText;
+		}
+		&:checked::before {
+			transform: scale(1);
+			float: none;
+		}
+		&:focus {
+			outline: max(2px, 0.15em) solid currentColor;
+			outline-offset: max(2px, 0.15em);
+		}
+		&:disabled {
+			color: var(--wp--preset--color--gray-medium);
+			cursor: not-allowed;
+		}
+	}
+}

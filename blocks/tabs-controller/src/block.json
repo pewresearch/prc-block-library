@@ -1,0 +1,66 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "prc-block/tabs",
+	"version": "0.1.0",
+	"title": "Tabs",
+	"description": "Create horizontal or vertical tabbed content.",
+	"keywords": ["tabs", "tabbed content", "tabbed content"],
+	"category": "design",
+	"icon": "editor-kitchensink",
+	"attributes": {
+		"vertical": {
+			"type": "boolean",
+			"default": false
+		},
+		"activeUUID": {
+			"type": "string"
+		},
+		"disableMobileAccordion": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"providesContext": {
+		"prc-block/tabs/layout": "vertical",
+		"prc-block/tabs/activeUUID": "activeUUID"
+	},
+	"styles": [
+		{
+			"name": "tabbed",
+			"label": "Tabbed",
+			"isDefault": true
+		},
+		{
+			"name": "text",
+			"label": "Text"
+		},
+		{
+			"name": "accordion",
+			"label": "Accordion"
+		},
+		{
+			"name": "minimal",
+			"label": "Minimal"
+		}
+	],
+	"supports": {
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"textdomain": "tabs-controller",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}
