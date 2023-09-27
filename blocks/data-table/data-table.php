@@ -21,6 +21,10 @@ class Data_Table {
 		}
 	}
 
+	/**
+	 * WORK IN PROGRESS. Eventually, once we come back to this block once Gutenberg team has settled on and advanced the Table component we'll look into using it instead of a 3rd party solution. If that doesn't come to fruition, we'll continue to use this block but either way we plan to move the data for data tables into a "synced entity" structure.
+	 * @return void
+	 */
 	public function register_data_table_post_type() {
 		register_post_type(
 			'prc-data-table',
