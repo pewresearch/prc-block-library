@@ -1,0 +1,62 @@
+/**
+ * External Dependencies
+ */
+import classNames from 'classnames';
+
+/**
+ * WordPress Dependencies
+ */
+import { Fragment, useMemo, useState, useRef, useEffect } from '@wordpress/element';
+import {
+	useBlockProps,
+	RichText,
+	withColors,
+	getColorClassName,
+} from '@wordpress/block-editor';
+import { useSelect, useDispatch } from '@wordpress/data';
+
+/**
+ * Internal Dependencies
+ */
+import useReportMaterials from './use-repport-materials';
+
+/**
+ * The edit function describes the structure of your block in the context of the
+ * editor. This represents what the editor will render when the block is used.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ *
+ * @param {Object}   props               Properties passed to the function.
+ * @param {Object}   props.attributes    Available block attributes.
+ * @param {Function} props.setAttributes Function that updates individual attributes.
+ *
+ * @return {WPElement} Element to render.
+ */
+export default function Edit({
+	attributes,
+	setAttributes,
+	context,
+	clientId,
+	isSelected,
+}) {
+	const isSiteEditor = false;
+	const { postId, postType } = context;
+	const { reportMaterials = [], parentId, parentTitle } = useReportMaterials({postId, postType});
+
+	const blockProps = useBlockProps({});
+
+	return (
+		<Fragment>
+			<div {...blockProps}>
+				<ul className="wp-block-prc-block-report-materials__list">
+					{0 !== reportMaterials.length && reportMaterials.map((material) => (
+						<li>
+							<span>{material?.key}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+		</Fragment>
+	);
+}
+

@@ -61,6 +61,7 @@ class Library {
 		$this->define_story_item_hooks();
 		$this->define_attachment_info_hooks();
 		$this->define_table_of_contents_hooks();
+		$this->define_report_materials_hooks();
 	}
 
 	/**
@@ -160,6 +161,11 @@ class Library {
 		$table_of_contents = new Table_Of_Contents( $this->version );
 		$this->loader->add_action( 'init', $table_of_contents, 'block_init' );
 		$this->loader->add_action( 'enqueue_block_assets', $table_of_contents, 'enqueue_custom_heading_and_dropdown_styles' );
+	}
+
+	private function define_report_materials_hooks() {
+		$table_of_contents = new Report_Materials( $this->version );
+		$this->loader->add_action( 'init', $table_of_contents, 'block_init' );
 	}
 
 	public function disable_remote_block_patterns($should_load_remote) {

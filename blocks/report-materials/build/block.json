@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/report-materials",
+  "version": "0.1.0",
+  "title": "Report Materials",
+  "category": "theme",
+  "description": "Displays a list of all materials from a post report package.",
+  "attributes": {},
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "blockGap": true,
+      "__experimentalDefaultControls": {
+        "margin": true,
+        "blockGap": true
+      }
+    },
+    "typography": {
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "textdomain": "report-materials",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}
