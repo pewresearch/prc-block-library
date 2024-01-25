@@ -5,64 +5,6 @@
  */
 
 /**
- * Port of classNames JS library, modernized with PHP 8 features.
- * Ported from https://github.com/cstro/classnames-php
- */
-if ( ! function_exists( 'classNames' ) ) {
-	/**
-	 * The classNames function takes any number of arguments which can be a string or array.
-	 * When using an array, if the value associated with a given key is falsy, that key won't be included in the output.
-	 * If no value is given the true is assumed.
-	 *
-	 * classNames('foo'); // 'foo'
-	 * classNames(['foo' => true]); // 'foo'
-	 * classNames('foo', ['bar' => false, 'baz' => true]); // 'foo baz'
-	 * classNames(['foo', 'bar' => true]) // 'foo bar'
-	 *
-	 * @return string
-	 */
-	function classNames(...$args): string {
-        $data = array_reduce($args, function($carry, $arg) {
-            if (is_array($arg)) {
-                return array_merge($carry, $arg);
-            }
-
-            $carry[] = $arg;
-            return $carry;
-        }, []);
-
-        $classes = array_map(function($key, $value) {
-            $condition = $value;
-            $return = $key;
-
-            if (is_int($key)) {
-                $condition = null;
-                $return = $value;
-            }
-
-            $is_array = is_array($return);
-            $is_object = is_object($return);
-            $is_stringable_type = !($is_array || $is_object);
-            $is_stringable_object = $is_object && method_exists($return, '__toString');
-
-            if (!$is_stringable_type && !$is_stringable_object) {
-                return null;
-            }
-
-            if ($condition === null) {
-                return $return;
-            }
-
-            return $condition ? $return : null;
-        }, array_keys($data), array_values($data));
-
-        $classes = array_filter($classes);
-
-        return implode(' ', $classes);
-    }
-}
-
-/**
  * Converts a number to a string of words. Stops at 999, we need to be sane about how many possibilities we support and text length.
  */
 if ( ! function_exists('conver_number_to_words') ) {
@@ -117,4 +59,40 @@ if ( ! function_exists('conver_number_to_words') ) {
 
 		return esc_html($result);
 	}
+}
+
+
+/**
+ * A standardized function to throw and log errors.
+ * @param string $group
+ * @param string $code
+ * @param string $message
+ * @param bool $post = WP_Post object
+ * @param bool $error_obj = WP_Error object
+ * @return Exception|false
+ */
+function prc_log_error( $group = 'GENERAL ALERT', $code = '', $message = '', $error_obj = array() ) {
+	$error = $group . ' | ' . $message;
+	$e = new WP_Error( $code, sprintf( '%s', $error ), $error_obj );
+	$exception = false;
+	if (is_wp_error($e)) {
+		$exception = new \Exception($e->get_error_message(), $e->get_error_code());
+	}
+
+	if ( function_exists( 'wp_sentry_safe' ) ) {
+		wp_sentry_safe(
+		function ( \Sentry\State\HubInterface $client ) use ( $exception ) {
+			$client->captureException($exception);
+		}
+		);
+	}
+
+	if ( 'production' !== wp_get_environment_type() ) {
+		error_log( $error );
+		if ( $error_obj ) {
+			error_log( print_r( $error_obj, true ) );
+		}
+	}
+
+	return $exception;
 }

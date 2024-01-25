@@ -1,12 +1,13 @@
 /**
  * External Dependencies
  */
-import { HeadingLevelToolbar, URLSearchToolbar } from '@prc/components';
+import { URLSearchToolbar } from '@prc/components';
+
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { BlockControls } from '@wordpress/block-editor';
+import { BlockControls, HeadingLevelDropdown } from '@wordpress/block-editor';
 import { Fragment, useCallback } from '@wordpress/element';
 import {
 	ToolbarButton,
@@ -17,17 +18,13 @@ import {
 /**
  * Internal Dependencies
  */
-import { HeadingLevelIcon, ImageSizeIcon, ImageSlotIcon } from './Icons';
-import { setArtBySize } from '../../helpers';
+import { ImageSizeIcon, ImageSlotIcon } from './Icons';
+import { setArtBySize, getAttributesFromPost } from '../../helpers';
 
 const COLUMN_LIMIT = 6;
 
-function Icon({ level, isPressed }) {
-	return <HeadingLevelIcon selected={level} currentlyActive={isPressed} />;
-}
-
 function Toolbar({ attributes, setAttributes, context }) {
-	const { postId, imageSize, imageSlot, headerSize, isChartArt } = attributes;
+	const { postId, postType, url, imageSize, imageSlot, headerSize, isChartArt } = attributes;
 
 	const columnWidth =
 		undefined !== context['column/gridSpan']
@@ -61,20 +58,26 @@ function Toolbar({ attributes, setAttributes, context }) {
 			{!isUsingContext && (
 				<URLSearchToolbar
 					{...{
-						attributes,
-						setAttributes,
+						postId,
+						postType,
+						url,
 						onSelect: (postAttrs) => {
-							setAttributes(postAttrs);
+							const newAttributes = getAttributesFromPost(postAttrs, {imageSize});
+							setAttributes(newAttributes);
 						},
+						onUpdateURL: (newURL) => {
+							setAttributes({url: newURL});
+						}
 					}}
 				/>
 			)}
-			<HeadingLevelToolbar
-				selectedLevel={headerSize}
-				levels={[1, 2, 3]}
-				onChange={(newSize) => setAttributes({ headerSize: newSize })}
-				Icon={Icon}
-			/>
+			<ToolbarGroup>
+				<HeadingLevelDropdown
+					options={[1, 2, 3]}
+					value={headerSize}
+					onChange={(newSize) => setAttributes({ headerSize: newSize })}
+				/>
+			</ToolbarGroup>
 			<ToolbarGroup>
 				<ToolbarDropdownMenu
 					icon={MemoizedImageSlotIcon}
@@ -82,7 +85,9 @@ function Toolbar({ attributes, setAttributes, context }) {
 					controls={[
 						{
 							title: 'Top',
-							icon: <ImageSlotIcon selected="top" />,
+							icon: (
+								<ImageSlotIcon selected="top" />
+							),
 							isActive: 'top' === imageSlot,
 							onClick: () => {
 								const newSlot = 'top';
@@ -91,7 +96,9 @@ function Toolbar({ attributes, setAttributes, context }) {
 						},
 						{
 							title: 'Bottom',
-							icon: <ImageSlotIcon selected="bottom" />,
+							icon: (
+								<ImageSlotIcon selected="bottom" />
+							),
 							isActive: 'bottom' === imageSlot,
 							onClick: () => {
 								const newSlot = 'bottom';
@@ -100,7 +107,9 @@ function Toolbar({ attributes, setAttributes, context }) {
 						},
 						{
 							title: 'Left',
-							icon: <ImageSlotIcon selected="left" />,
+							icon: (
+								<ImageSlotIcon selected="left" />
+							),
 							isActive: 'left' === imageSlot,
 							isDisabled: false !== columnWidth && columnWidth < COLUMN_LIMIT,
 							onClick: () => {
@@ -110,7 +119,9 @@ function Toolbar({ attributes, setAttributes, context }) {
 						},
 						{
 							title: 'Right',
-							icon: <ImageSlotIcon selected="right" />,
+							icon: (
+								<ImageSlotIcon selected="right" />
+							),
 							isActive: 'right' === imageSlot,
 							isDisabled: false !== columnWidth && columnWidth < COLUMN_LIMIT,
 							onClick: () => {
@@ -120,7 +131,9 @@ function Toolbar({ attributes, setAttributes, context }) {
 						},
 						{
 							title: 'Disabled',
-							icon: <ImageSlotIcon selected="disabled" />,
+							icon: (
+								<ImageSlotIcon selected="disabled" />
+							),
 							isActive: 'disabled' === imageSlot,
 							onClick: () => {
 								const newSlot = 'disabled';

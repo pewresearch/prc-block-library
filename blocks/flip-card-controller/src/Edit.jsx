@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { ResizableBox } from '@wordpress/components';
 /**
@@ -63,7 +63,10 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const blockProps = useBlockProps();
+	const [isFlipped, setIsFlipped] = useState(false);
+	const blockProps = useBlockProps({
+		'data-flipped': isFlipped,
+	});
 	const innerBlocksProps = useInnerBlocksProps(
 		{
 			className: 'wp-block-prc-block-flip-card-controller__inner-blocks',
@@ -78,7 +81,7 @@ export default function Edit({
 
 	return (
 		<Fragment>
-			<FlipControl {...{ clientId }} />
+			<FlipControl {...{ isFlipped, setIsFlipped, clientId }} />
 			<div {...blockProps}>
 				<div {...innerBlocksProps} />
 			</div>

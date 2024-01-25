@@ -6,10 +6,55 @@
   "title": "Report Materials",
   "category": "theme",
   "description": "Displays a list of all materials from a post report package.",
-  "attributes": {},
+  "attributes": {
+    "headingBackgroundColor": {
+      "type": "string",
+      "default": "ui-black"
+    },
+    "headingTextColor": {
+      "type": "string",
+      "default": "ui-white"
+    },
+    "hoverBackgroundColor": {
+      "type": "string",
+      "default": "ui-beige-very-light"
+    },
+    "hoverTextColor": {
+      "type": "string",
+      "default": "ui-black"
+    },
+    "activeBackgroundColor": {
+      "type": "string",
+      "default": "ui-gray-very-light"
+    },
+    "activeTextColor": {
+      "type": "string",
+      "default": "ui-black"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Report Materials"
+    },
+    "hideHeading": {
+      "type": "boolean",
+      "default": false
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|20"
+        }
+      }
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false,
+    "color": {
+      "background": true,
+      "text": true
+    },
     "spacing": {
       "margin": [
         "top",
@@ -25,6 +70,7 @@
     },
     "typography": {
       "__experimentalFontFamily": true,
+      "fontSize": true,
       "__experimentalDefaultControls": {
         "__experimentalFontFamily": true
       }
@@ -37,5 +83,9 @@
   "textdomain": "report-materials",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+  "style": [
+    "file:./style-index.css",
+    "prc-block-library--baseball-card",
+    "prc-block-library--additional-color-supports"
+  ]
 }

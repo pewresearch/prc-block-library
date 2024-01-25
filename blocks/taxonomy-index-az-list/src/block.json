@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/taxonomy-index-az-list",
 	"version": "0.1.0",
 	"title": "Taxonomy Index A-Z Listing",
@@ -17,7 +17,7 @@
         },
 		"taxonomy": {
             "type": "array",
-			"default": ["topic"]
+			"default": ["category"]
         },
 		"disableHeading": {
 			"type": "boolean",

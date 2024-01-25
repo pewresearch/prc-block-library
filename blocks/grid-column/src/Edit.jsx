@@ -19,7 +19,7 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -69,7 +69,7 @@ export default function Edit({
 
 	const blockProps = useBlockProps({
 		className: classnames({
-			[`are-vertically-aligned-${verticalAlignment}`]: verticalAlignment,
+			[`is-vertically-aligned-${verticalAlignment}`]: verticalAlignment,
 			[`column${index}-desktop-grid__span-${desktopSpan}`]: desktopSpan,
 			[`column${index}-tablet-grid__span-${tabletSpan}`]: tabletSpan,
 			[`column${index}-mobile-grid__span-${mobileSpan}`]: mobileSpan,

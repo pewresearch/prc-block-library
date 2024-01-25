@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/staff-query",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "title": "Staff Query",
   "category": "theme",
-  "description": "Query staff members.",
+  "description": "Query the Staff by Staff Type and Research Area.",
   "attributes": {
     "allowedBlocks": {
       "type": "array"
@@ -15,6 +15,14 @@
     },
     "researchArea": {
       "type": "object"
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|20"
+        }
+      }
     }
   },
   "supports": {
@@ -33,7 +41,7 @@
       "__experimentalFontFamily": true
     }
   },
-  "textdomain": "bylines-query",
+  "textdomain": "staff-query",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

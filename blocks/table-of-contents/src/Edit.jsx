@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
+import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
@@ -18,7 +19,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 import useTOC from './use-toc';
 
 /**
@@ -39,10 +40,6 @@ function Edit({
 	context,
 	clientId,
 	isSelected,
-	textColor,
-	setTextColor,
-	backgroundColor,
-	setBackgroundColor,
 	dropdownBackgroundColor,
 	setDropdownBackgroundColor,
 	dropdownTextColor,
@@ -60,10 +57,9 @@ function Edit({
 	hoverTextColor,
 	setHoverTextColor
 }) {
-	const isSiteEditor = false;
 	const { postId, postType } = context;
-	const { chapters = [], parentId, parentTitle } = useTOC({postId, postType});
-	const { heading, showCurrentChapter, className, hideHeading, autoDropdownEnabled, autoDropdownWidth } = attributes;
+	const { chapters = [] } = useTOC({postId, postType});
+	const { heading, showCurrentChapter, className, hideHeading, autoDropdownEnabled, autoDropdownWidth, style } = attributes;
 	const { selectBlock } = useDispatch('core/block-editor');
 	const [ isDropdownOpen, setDropdownOpen ] = useState(false);
 	const [ isAutoDropdownSwitched, setDropdownSwitch ] = useState(null);
@@ -71,16 +67,14 @@ function Edit({
 	// Add a ref to the component
 	const componentRef = useRef(null);
 
-	/**
-	 * @TODO: We can make this more performant.
-	 */
 	useEffect(() => {
 		if ( !autoDropdownEnabled ) {
 			return setDropdownSwitch(false);
 		}
+
 		const updateAutoDropdownSwitch = () => {
-			if (componentRef.current) {
-				setDropdownSwitch( componentRef.current.parentNode.offsetWidth <= autoDropdownWidth );
+			if (componentRef?.current) {
+				setDropdownSwitch( componentRef?.current.parentNode.parentNode.offsetWidth <= autoDropdownWidth );
 			}
 		};
 
@@ -91,14 +85,10 @@ function Edit({
 		return () => {
 			window.removeEventListener('resize', updateAutoDropdownSwitch); // Remove the listener when the component unmounts
 		};
-	}, [componentRef.current?.parentNode?.offsetWidth, componentRef.current?.parentNode, autoDropdownWidth]);
+	}, [autoDropdownEnabled, componentRef?.current?.parentNode?.parentNode.offsetWidth, componentRef?.current?.parentNode?.parentNode, autoDropdownWidth]);
 
 	// Construct a colors object that contains the color values and helper functions, re-compute whenever the color values change.
 	const colors = useMemo(() => ({
-		textColor,
-		setTextColor,
-		backgroundColor,
-		setBackgroundColor,
 		dropdownBackgroundColor,
 		setDropdownBackgroundColor,
 		dropdownTextColor,
@@ -116,10 +106,6 @@ function Edit({
 		hoverTextColor,
 		setHoverTextColor
 	}), [
-		textColor,
-		setTextColor,
-		backgroundColor,
-		setBackgroundColor,
 		dropdownBackgroundColor,
 		setDropdownBackgroundColor,
 		dropdownTextColor,
@@ -139,53 +125,20 @@ function Edit({
 	]);
 
 	const blockWrapperClassNames = useMemo(() => {
-		return classNames(className, {
-			'has-text-color': !!colors.textColor.color || !!colors.textColor?.class,
-			[getColorClassName('color', colors.textColor?.slug)]: !!colors.textColor?.slug,
-			'has-background': !!colors.backgroundColor.color || colors.backgroundColor.class,
-			[getColorClassName('background-color', colors.backgroundColor?.slug)]:
-				!!colors.backgroundColor?.slug,
-			'has-active-background': !!colors.activeBackgroundColor.color || colors.activeBackgroundColor.class,
-			[`has-active-${colors?.activeBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
-			'has-active-color': !!colors.activeTextColor.color || colors.activeTextColor.class,
-			[`has-active-${colors?.activeTextColor?.slug}-color`]: !!colors?.activeTextColor?.slug,
-			'has-hover-background': !!colors.hoverBackgroundColor.color || colors.hoverBackgroundColor.class,
-			[`has-hover-${colors?.hoverBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
-			'has-hover-color': !!colors.hoverTextColor.color || colors.hoverTextColor.class,
-			[`has-hover-${colors?.hoverTextColor?.slug}-color`]: !!colors?.hoverTextColor?.slug,
+		return classNames(className, 'common-block-style--baseball-card', {
 			'is-switched': isAutoDropdownSwitched,
 		})
 	}, [
-		colors.textColor,
-		colors.backgroundColor,
-		colors.hoverBackgroundColor,
-		colors.activeBackgroundColor,
-		colors.hoverTextColor,
-		colors.activeTextColor,
 		isAutoDropdownSwitched,
 		className,
 	]);
 
-	const blockWrapperStyles = useMemo(() => {
-		return {
-			color: !colors.textColor?.slug && colors.textColor?.color,
-			backgroundColor: !colors.backgroundColor?.slug && colors.backgroundColor?.color,
-		}
-	}, [
-		colors.textColor,
-		colors.backgroundColor,
-	]);
-
 	const headingClassNames = useMemo(() => {
 		return classNames('wp-block-prc-block-table-of-contents__heading', {
-			'has-heading-color': !!colors?.headingTextColor?.color || !!colors?.headingTextColor?.class,
-			[`has-heading-${colors?.headingTextColor?.slug}-color`]: !!colors?.headingTextColor?.slug,
-			'has-dropdown-color': !!colors?.dropdownTextColor?.color || !!colors?.dropdownTextColor?.class,
-			[`has-dropdown-${colors?.dropdownTextColor?.slug}-color`]: !!colors?.dropdownTextColor?.slug,
-			'has-heading-background': !!colors?.headingBackgroundColor?.color || !!colors?.headingBackgroundColor?.class,
-			[`has-heading-${colors?.headingBackgroundColor?.slug}-background-color`]: !!colors?.headingBackgroundColor?.slug,
-			'has-dropdown-background': !!colors?.dropdownBackgroundColor?.color || !!colors?.dropdownBackgroundColor?.class,
-			[`has-dropdown-${colors?.dropdownBackgroundColor?.slug}-background-color`]: !!colors?.dropdownBackgroundColor?.slug,
+			'has-text-color': !!colors?.headingTextColor?.color || !!colors?.headingTextColor?.class,
+			[`has-${colors?.headingTextColor?.slug}-color`]: !!colors?.headingTextColor?.slug,
+			'has-background': !!colors?.headingBackgroundColor?.color || !!colors?.headingBackgroundColor?.class,
+			[`has-${colors?.headingBackgroundColor?.slug}-background-color`]: !!colors?.headingBackgroundColor?.slug,
 			'is-hidden': hideHeading,
 		})
 	}, [
@@ -193,10 +146,20 @@ function Edit({
 		hideHeading,
 	]);
 
+	const dropDownClassNames = useMemo(() => {
+		return classNames('wp-block-prc-block-table-of-contents__dropdown__heading', {
+			'has-text-color': !!colors?.dropdownTextColor?.color || !!colors?.dropdownTextColor?.class,
+			[`has-${colors?.dropdownTextColor?.slug}-color`]: !!colors?.dropdownTextColor?.slug,
+			'has-background': !!colors?.dropdownBackgroundColor?.color || !!colors?.dropdownBackgroundColor?.class,
+			[`has-${colors?.dropdownBackgroundColor?.slug}-background-color`]: !!colors?.dropdownBackgroundColor?.slug,
+		})
+	}, [
+		colors,
+	]);
+
 	const blockPropArgs = useMemo(() => {
 		return {
 			className: blockWrapperClassNames,
-			style: blockWrapperStyles,
 			['data-auto-dropdown-enabled'] : autoDropdownEnabled,
 			['data-auto-dropdown-width'] : autoDropdownWidth,
 			['data-show-current-chapter'] : showCurrentChapter,
@@ -204,7 +167,6 @@ function Edit({
 		};
 	}, [
 		blockWrapperClassNames,
-		blockWrapperStyles,
 		autoDropdownEnabled,
 		autoDropdownWidth,
 		showCurrentChapter,
@@ -219,8 +181,10 @@ function Edit({
 				attributes,
 				setAttributes,
 				colors,
+				clientId,
 			}} />
-			<div {...blockProps} ref={componentRef}>
+			<div {...blockProps}>
+				<div ref={componentRef}>
 				<div className={headingClassNames}>
 					<RichText
 						{...{
@@ -230,16 +194,42 @@ function Edit({
 							onChange: (newHeading) => setAttributes({ heading: newHeading }),
 						}}
 					/>
-					<div className="wp-block-prc-block-table-of-contents__dropdown" onClick={()=> setDropdownOpen(!isDropdownOpen)}>
+				</div>
+				<div className={dropDownClassNames}>
+					<RichText
+						{...{
+							tagName: 'h2',
+							placeholder: 'Table of Contents',
+							value: heading,
+							onChange: (newHeading) => setAttributes({ heading: newHeading }),
+						}}
+					/>
+					<div className="wp-block-prc-block-table-of-contents__dropdown-trigger" onClick={()=> setDropdownOpen(!isDropdownOpen)}>
 						+
 					</div>
 				</div>
-				<ul className="wp-block-prc-block-table-of-contents__list">
+				<ul className="wp-block-prc-block-table-of-contents__list" style={{
+					'gap': getBlockGapSupportValue(attributes),
+				}}>
 					{0 !== chapters.length && chapters.map((chapter) => (
-						<li className={postId === chapter?.id ? `is-active` : null}>
+						<li className={classNames('wp-block-prc-block-table-of-contents__list-item', {
+							'is-active': postId === chapter?.id,
+							'has-active-background': !!colors.activeBackgroundColor.color || colors.activeBackgroundColor.class,
+							[`has-active-${colors?.activeBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
+							'has-active-color': !!colors.activeTextColor.color || colors.activeTextColor.class,
+							[`has-active-${colors?.activeTextColor?.slug}-color`]: !!colors?.activeTextColor?.slug,
+							'has-focus-background': !!colors.activeBackgroundColor.color || colors.activeBackgroundColor.class,
+							[`has-focus-${colors?.activeBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
+							'has-focus-color': !!colors.activeTextColor.color || colors.activeTextColor.class,
+							[`has-focus-${colors?.activeTextColor?.slug}-color`]: !!colors?.activeTextColor?.slug,
+							'has-hover-background': !!colors.hoverBackgroundColor.color || colors.hoverBackgroundColor.class,
+							[`has-hover-${colors?.hoverBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
+							'has-hover-color': !!colors.hoverTextColor.color || colors.hoverTextColor.class,
+							[`has-hover-${colors?.hoverTextColor?.slug}-color`]: !!colors?.hoverTextColor?.slug,
+						})}>
 							<span>{chapter?.title}</span>
 							{postId === chapter?.id && chapter?.internalChapters && (
-								<ul>
+								<ul className="wp-block-prc-block-table-of-contents__list">
 									{chapter.internalChapters.map((chapter) => <li><a onClick={()=>{
 										if (chapter.clientId) {
 											selectBlock(chapter.clientId);
@@ -250,14 +240,13 @@ function Edit({
 						</li>
 					))}
 				</ul>
+				</div>
 			</div>
 		</Fragment>
 	);
 }
 
 export default withColors(
-	{ textColor: 'color' },
-	{ backgroundColor: 'color' },
 	{ dropdownBackgroundColor: 'color' },
 	{ dropdownTextColor: 'color' },
 	{ headingBackgroundColor: 'color' },

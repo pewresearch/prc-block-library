@@ -21,7 +21,7 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import IconControl from './IconControl';
+import IconControl from './icon-control';
 
 const ALLOWED_BLOCKS = [
 	'core/buttons',

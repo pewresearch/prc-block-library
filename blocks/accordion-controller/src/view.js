@@ -1,45 +1,50 @@
 /**
  * WordPress Dependencies
  */
-import domReady from '@wordpress/dom-ready';
+import { store, getContext, getElement } from '@wordpress/interactivity';
 
-const TARGET = '.wp-block-prc-block-accordion-controller';
+function entityIframeSupport(ref) {
+	const entityIframe = ref.parentElement.querySelector(
+		'.wp-block-prc-block-entity-as-iframe > iframe',
+	);
+	if ( ! entityIframe ) {
+		return;
+	}
+	const entityIframeId = entityIframe?.getAttribute('id');
+	console.log('entityIframeId', entityIframeId);
+	const {state} = store('prc-block/entity-as-iframe');
+	console.log('store...', state);
+	state[entityIframeId].isActive = !state[entityIframeId].isActive;
+}
 
-domReady(() => {
-	const controllers = document.querySelectorAll(TARGET);
-	controllers.forEach((accordionController) => {
-		const accordions = accordionController.querySelectorAll(
-			'.wp-block-prc-block-accordion',
-		);
-		accordions.forEach((accordion) => {
-			const toggle = accordion.querySelector(
-				'.wp-block-prc-block-accordion--title',
-			);
-			const content = accordion.querySelector(
-				'.wp-block-prc-block-accordion--content',
-			);
-			toggle.addEventListener('click', () => {
-				// if accordion is already active, close it
-				if (accordion.classList.contains('is-active')) {
-					accordion.classList.remove('is-active');
-					content.classList.remove('is-open');
-					return;
-				}
-
-				// look for already is-active accordion and close it
-				accordions.forEach((acc) => {
-					if (acc.classList.contains('is-active')) {
-						acc.classList.remove('is-active');
-						acc
-							.querySelector('.wp-block-prc-block-accordion--content')
-							.classList.remove('is-open');
-					}
-				});
-
-				// toggle accordion
-				accordion.classList.toggle('is-active');
-				content.classList.toggle('is-open');
-			});
-		});
-	});
+store('prc-block/accordion-controller', {
+	actions: {
+		onClick: (event) => {
+			event.preventDefault();
+			const context = getContext();
+			const { ref } = getElement();
+			const id = ref.parentElement.getAttribute('id');
+			if ( ! ref || ! id ) {
+				return;
+			}
+			const { activeId } = context;
+			if ( id === activeId ) {
+				context.activeId = null;
+			} else {
+				context.activeId = id;
+			}
+			// If this accordion has an entity iframe, toggle it.
+			entityIframeSupport(ref);
+		}
+	},
+	callbacks: {
+		isActiveAccordion: () => {
+			const { activeId } = getContext();
+			const { ref } = getElement();
+			if ( ! ref || ! activeId ) {
+				return;
+			}
+			return ref.getAttribute('id') === activeId;
+		}
+	}
 });

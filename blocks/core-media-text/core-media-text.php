@@ -4,25 +4,37 @@ use WP_HTML_Tag_Processor;
 /**
  * Block Name:        Core Media-Text
  * Version:           0.1.0
- * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
 class Core_Media_Text {
+	public static $block_json = null;
+	public static $version;
+	public static $block_name = 'core/media-text';
+	public static $view_script_handle = null;
+	public static $editor_script_handle = null;
+	public static $style_handle = null;
 
-	public static $block_name = "core/media-text";
+	public function __construct($loader) {
+		$this->init($loader);
+	}
 
-	public function __construct( $init = false ) {
-		if ( true === $init ) {
-			add_filter( 'block_type_metadata', array( $this, 'default_align_center' ), 100, 1 );
-			add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ), 0 );
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_filter('block_type_metadata', $this, 'default_align_center', 100, 1);
+			$loader->add_action('enqueue_block_assets', $this, 'register_style');
 		}
 	}
 
+	/**
+	 * @hook block_type_metadata
+	 * @param mixed $metadata
+	 * @return mixed
+	 */
 	public function default_align_center( $metadata ) {
 		if ( self::$block_name !== $metadata['name'] ) {
 			return $metadata;
@@ -42,10 +54,11 @@ class Core_Media_Text {
 
 	/**
 	 * Add inline styles to the wp-block-media-text block
+	 * @hook enqueue_block_assets
 	 * @return void
 	 * @throws LogicException
 	 */
-	public function register_assets() {
+	public function register_style() {
 		ob_start();
 		?>
 		.wp-block-media-text {
@@ -93,5 +106,3 @@ class Core_Media_Text {
 	}
 
 }
-
-new Core_Media_Text(true);

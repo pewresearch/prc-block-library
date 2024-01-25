@@ -8,7 +8,6 @@
 .wp-block-prc-block-accordion-controller {
 	color: inherit;
 	background: inherit;
-	border: 1px solid var(--wp--preset--color--gray-light);
 	margin-block-end: 1.5em;
 
 	& > .block-list-appender.wp-block {
@@ -16,7 +15,20 @@
 		position: relative;
 	}
 
-	& > .wp-block-prc-block-accordion:last-of-type {
-		border-bottom: none;
+	&.has-border-color {
+		& > .wp-block-prc-block-accordion.has-border-color {
+			&:first-of-type {
+				border-top: none!important;
+			}
+			&:last-of-type {
+				border-bottom: none!important;
+			}
+			border-left-color: transparent!important;
+			border-right-color: transparent!important;
+		}
+	}
+
+	&:not(.has-block-gap) > .wp-block-prc-block-accordion.has-border-color:not(:last-of-type) {
+		border-bottom: none!important;
 	}
 }

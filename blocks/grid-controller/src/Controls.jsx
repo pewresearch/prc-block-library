@@ -1,14 +1,24 @@
 /* eslint-disable max-lines-per-function */
 /**
+ * External Dependencies
+ */
+import { MarkedRangeControl } from '@prc/components';
+
+/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Notice, PanelBody, RangeControl } from '@wordpress/components';
+import { 
+	Notice,
+	RangeControl,
+	__experimentalToolsPanelItem as ToolsPanelItem,
+} from '@wordpress/components';
 import {
 	InspectorControls,
 	BlockControls,
 	BlockVerticalAlignmentToolbar,
-	PanelColorSettings,
+	__experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
@@ -28,13 +38,11 @@ export default function Controls({
 	const { verticalAlignment } = attributes;
 
 	const {
-		backgroundColor,
-		textColor,
 		dividerColor,
-		setBackgroundColor,
-		setTextColor,
 		setDividerColor,
 	} = colors;
+
+	const colorSettings = useMultipleOriginColorsAndGradients();
 
 	const { updateBlockAttributes, replaceInnerBlocks } =
 		useDispatch(blockEditorStore);
@@ -171,14 +179,27 @@ export default function Controls({
 					value={verticalAlignment}
 				/>
 			</BlockControls>
-			<InspectorControls>
-				<PanelBody>
-					<RangeControl
+			<InspectorControls group="dimensions">
+				<ToolsPanelItem
+					label={__('Columns')}
+					hasValue={() => undefined !== count}
+					panelId={clientId}
+				>
+					<MarkedRangeControl
 						label={__('Columns')}
 						value={count}
 						onChange={(value) => updateColumns(count, value)}
 						min={1}
 						max={Math.max(6, count)}
+						withInputField={false}
+						marks={[
+							{ value: 1, label: '1' },
+							{ value: 2, label: '2' },
+							{ value: 3, label: '3' },
+							{ value: 4, label: '4' },
+							{ value: 5, label: '5' },
+							{ value: 6, label: '6' },
+						]}
 					/>
 					{6 < count && (
 						<Notice status="warning" isDismissible={false}>
@@ -187,31 +208,22 @@ export default function Controls({
 							)}
 						</Notice>
 					)}
-				</PanelBody>
+				</ToolsPanelItem>
 			</InspectorControls>
-			<InspectorControls group="styles">
-				<PanelColorSettings
-					__experimentalHasMultipleOrigins
+			<InspectorControls group="color">
+				<ColorGradientSettingsDropdown
+					settings={ [
+						{
+							colorValue: dividerColor?.color,
+							onColorChange: setDividerColor,
+							label: __('Column Divider'),
+						},
+					] }
+					panelId={ clientId }
+					hasColorsOrGradients={ false }
+					disableCustomColors={ true }
 					__experimentalIsRenderedInSidebar
-					title={__('Color')}
-					disableCustomColors
-					colorSettings={[
-						{
-							value: textColor.color,
-							onChange: setTextColor,
-							label: __('Text'),
-						},
-						{
-							value: backgroundColor.color,
-							onChange: setBackgroundColor,
-							label: __('Background'),
-						},
-						{
-							value: dividerColor.color,
-							onChange: setDividerColor,
-							label: __('Gutter Divider'),
-						},
-					]}
+					{ ...colorSettings }
 				/>
 			</InspectorControls>
 		</Fragment>

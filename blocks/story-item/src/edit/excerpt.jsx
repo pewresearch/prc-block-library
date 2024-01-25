@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
@@ -37,7 +37,7 @@ export default function Excerpt({ attributes, setAttributes }) {
 			value={excerpt}
 			onChange={(value) => setAttributes({ excerpt: value })}
 			placeholder={placeholder}
-			multiline="p"
+			// multiline="p"
 			className={classes}
 		/>
 	);

@@ -1,173 +1,23 @@
 /**
  * External Dependencies
  */
-import md5 from 'md5';
+import { InnerBlocksAsContextTemplate } from '@prc/components';
+import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
  */
-import {
-	memo,
-	useMemo,
-	useState,
-	useEffect,
-	Fragment,
-} from '@wordpress/element';
-import {
-	BlockContextProvider,
-	__experimentalUseBlockPreview as useBlockPreview,
-	useBlockProps,
-	useInnerBlocksProps,
-	store as blockEditorStore,
-} from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
-import { Spinner } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { Fragment } from '@wordpress/element';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './Controls';
-import query from './query';
+import useStaffBlockContextProvider from './use-staff-block-context-provider';
 
-const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group', 'something/else'];
-
-function StaffInnerBlocks({}) {
-	const innerBlocksProps = useInnerBlocksProps(
-		{},
-		{
-			allowedBlocks: ALLOWED_BLOCKS,
-		}
-	);
-
-	return <div {...innerBlocksProps} />;
-}
-
-function StaffBlockPreview({ blocks, blockContextId, isHidden, setContextId }) {
-	const blockPreviewProps = useBlockPreview({ blocks });
-
-	const handleOnClick = () => {
-		setContextId(blockContextId);
-	};
-
-	const style = {
-		display: isHidden ? 'none' : undefined,
-	};
-
-	return (
-		<div
-			{...blockPreviewProps}
-			tabIndex={0}
-			// eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
-			role="button"
-			onClick={handleOnClick}
-			onKeyPress={handleOnClick}
-			style={style}
-		/>
-	);
-}
-
-// Keep the preview component memoized to avoid unnecessary re-renders.
-// This only changes when InnerBlocks changes.
-const MemoizedStaffBlockPreview = memo(StaffBlockPreview);
-
-const useBlockState = ({ attributes, clientId }) => {
-	const [activeBlockContextId, setActiveBlockContextId] = useState(null);
-	const setContextId = (b) => {
-		let newContextId = null;
-		if (Array.isArray(b)) {
-			const firstBlockContext = b[0];
-			newContextId = md5(JSON.stringify(firstBlockContext));
-		}
-		if ('string' === typeof b) {
-			newContextId = b;
-		}
-		setActiveBlockContextId(newContextId);
-	};
-	const [staffPosts, setStaffPosts] = useState(false);
-
-	const { blocks } = useSelect(
-		(select) => {
-			const { getBlocks } = select(blockEditorStore);
-			// if postId is not undefined and has an integer then use apiFetch to
-			return {
-				blocks: getBlocks(clientId),
-			};
-		},
-		[clientId]
-	);
-
-	const blockContexts = useMemo(() => {
-		if (!staffPosts || 0 === staffPosts.length) {
-			return [];
-		}
-
-		const newContext = staffPosts?.map((staffPost) => {
-			return staffPost;
-		});
-
-		return newContext;
-	}, [staffPosts]);
-
-	useEffect(() => {
-		query(attributes).then((newStaffPosts) => {
-			setStaffPosts(newStaffPosts);
-		});
-	}, [clientId, attributes]);
-
-	useEffect(() => {
-		if (0 < blockContexts.length) {
-			setContextId(blockContexts);
-		}
-	}, [blockContexts]);
-
-	return {
-		activeBlockContextId,
-		blockContexts,
-		blocks,
-		staffPosts,
-		setContextId,
-	};
-};
-
-// To avoid flicker when switching active block contexts, a preview is rendered
-// for each block context, but the preview for the active block context is hidden.
-// This ensures that when it is displayed again, the cached rendering of the
-// block preview is used, instead of having to re-render the preview from scratch.
-// @TODO: Make this into a reusable component...
-const BlockContextProviderMemoized = ({
-	blockContexts,
-	activeBlockContextId,
-	blocks,
-	setContextId,
-}) => {
-	return (
-		<Fragment>
-			{blockContexts.map((blockContext, index) => {
-				const contextId = md5(JSON.stringify(blockContext));
-				const isVisible =
-					contextId === activeBlockContextId ||
-					contextId === md5(JSON.stringify(blockContexts[0]));
-				return (
-					<BlockContextProvider
-						key={`context-key--${index}`}
-						value={blockContext}
-					>
-
-						{activeBlockContextId === null || isVisible ? (
-							<StaffInnerBlocks />
-						) : null}
-						<MemoizedStaffBlockPreview
-							blocks={blocks}
-							blockContextId={contextId}
-							setContextId={setContextId}
-							isHidden={isVisible}
-						/>
-					</BlockContextProvider>
-				);
-			})}
-		</Fragment>
-	);
-};
+const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group'];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -183,27 +33,21 @@ const BlockContextProviderMemoized = ({
  * @return {WPElement} Element to render.
  */
 export default function Edit({ clientId, attributes, setAttributes }) {
-	const blockProps = useBlockProps();
+	const { allowedBlocks } = attributes;
 
 	const {
-		activeBlockContextId,
 		blockContexts,
-		blocks,
-		staffPosts,
-		setContextId,
-	} = useBlockState({
+		isResolving,
+	} = useStaffBlockContextProvider({
 		attributes,
 		clientId,
 	});
 
-	if (!staffPosts) {
-		return (
-			<div {...blockProps}>
-				<Spinner style={{ align: 'center' }} />
-				<p>Loading staff members...</p>
-			</div>
-		);
-	}
+	const blockProps = useBlockProps({
+		style: {
+			'gap': getBlockGapSupportValue(attributes),
+		},
+	});
 
 	return (
 		<Fragment>
@@ -215,14 +59,13 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 				}}
 			/>
 			<div {...blockProps}>
-				{blockContexts && (
-					<BlockContextProviderMemoized
-						blockContexts={blockContexts}
-						activeBlockContextId={activeBlockContextId}
-						blocks={blocks}
-						setContextId={setContextId}
-					/>
-				)}
+				<InnerBlocksAsContextTemplate {...{
+					clientId,
+					allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
+					blockContexts,
+					isResolving,
+					loadingLabel: __('Loading Staff Members...'),
+				}}/>
 			</div>
 		</Fragment>
 	);

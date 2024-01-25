@@ -19,7 +19,7 @@
 		}
 	}
 
-	&.has-alt-languages {
+	&:has(.wp-block-prc-block-fact-sheet-collection--alt-languages) {
 		border-top: 0;
 		padding-top: 0;
 		.wp-block-prc-block-fact-sheet-collection--alt-languages {

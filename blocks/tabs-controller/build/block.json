@@ -1,8 +1,8 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/tabs",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "title": "Tabs",
   "description": "Create horizontal or vertical tabbed content.",
   "keywords": [
@@ -17,17 +17,13 @@
       "type": "boolean",
       "default": false
     },
-    "activeUUID": {
-      "type": "string"
-    },
     "disableMobileAccordion": {
       "type": "boolean",
       "default": false
     }
   },
   "providesContext": {
-    "prc-block/tabs/layout": "vertical",
-    "prc-block/tabs/activeUUID": "activeUUID"
+    "prc-block/tabs/layout": "vertical"
   },
   "styles": [
     {
@@ -42,10 +38,6 @@
     {
       "name": "accordion",
       "label": "Accordion"
-    },
-    {
-      "name": "minimal",
-      "label": "Minimal"
     }
   ],
   "supports": {
@@ -61,10 +53,10 @@
     "typography": {
       "fontSize": true,
       "__experimentalFontFamily": true
-    }
+    },
+    "interactivity": true
   },
   "textdomain": "tabs-controller",
   "editorScript": "file:./index.js",
-  "style": "file:./style-index.css",
-  "viewScript": "file:./view.js"
+  "style": "file:./style-index.css"
 }

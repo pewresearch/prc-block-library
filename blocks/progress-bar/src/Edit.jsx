@@ -5,9 +5,9 @@ import { useBlockProps, withColors } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
-import ProgressBar from './ProgressBar';
-import CopyPasteStylesHandler from './CopyPasteStylesHandler';
+import Controls from './controls';
+import ProgressBar from './progress-bar';
+import CopyPasteStylesHandler from './copy-past-styles-handler';
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -23,6 +23,7 @@ import CopyPasteStylesHandler from './CopyPasteStylesHandler';
 function Edit({
 	attributes,
 	setAttributes,
+	clientId,
 	barColor,
 	setBarColor,
 	backgroundColor,
@@ -50,6 +51,7 @@ function Edit({
 							categoryLabelColor,
 							setCategoryLabelColor,
 						},
+						clientId,
 					}}
 				/>
 				<ProgressBar

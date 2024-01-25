@@ -7,7 +7,7 @@ import domReady from '@wordpress/dom-ready';
 /**
  * Internal Dependencies
  */
-import ProgressBar from './ProgressBar';
+import ProgressBar from './progress-bar';
 
 domReady(() => {
 	if (document.querySelector('.wp-block-prc-block-progress-bar')) {

@@ -7,7 +7,6 @@ import { addFilter } from '@wordpress/hooks';
 /**
  * Internal Dependencies
  */
-import metadata from './block.json';
 
 const BLOCKNAME = 'core/code';
 const BLOCKIDENTIFIER = 'prc-block/core-code-transforms';

@@ -27,15 +27,15 @@ import './style.scss';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import metadata from './block.json';
-import registerDashboardIcon from './dashboard-icon';
-import Icon from './Icon';
-import Edit from './Edit';
+// import registerDashboardIcon from './dashboard-icon';
+import icon from './icon';
+import edit from './edit';
 
 const { name } = metadata;
 
 const settings = {
-	icon: Icon,
-	edit: Edit,
+	icon,
+	edit,
 };
 
 /**
@@ -45,4 +45,4 @@ const settings = {
  */
 registerBlockType(name, { ...metadata, ...settings });
 
-registerDashboardIcon();
+// registerDashboardIcon();

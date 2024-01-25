@@ -30,8 +30,4 @@ export default function registerDashboardIcon() {
 	registerPlugin('block-editor-prc-logo', {
 		render: SiteLogoBlockEditorDashboardButton,
 	});
-
-	// registerPlugin('site-editor-prc-logo', {
-	// 	render: SiteLogoSiteEditorDashboardButton,
-	// });
 }

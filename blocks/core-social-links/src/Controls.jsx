@@ -9,6 +9,7 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
 
+
 function InspectorPanel({ attributes, setAttributes }) {
 	const { title, description, url } = attributes;
 	return (

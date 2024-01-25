@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/taxonomy-search",
 	"version": "0.1.0",
 	"title": "Taxonomy Search",
@@ -10,7 +10,7 @@
 	"attributes": {
 		"taxonomy": {
 			"type": "string",
-			"default": "topic"
+			"default": "category"
 		},
 		"restrictToTerm": {
 			"type": "object"

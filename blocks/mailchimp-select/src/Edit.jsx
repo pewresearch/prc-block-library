@@ -11,9 +11,9 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
-const ALLOWED_BLOCKS = ['prc-block/form-input-checkbox', 'core/button'];
+const ALLOWED_BLOCKS = ['prc-block/form-field', 'prc-block/form-input-checkbox', 'prc-block/form-input-text', 'core/button', 'core/group'];
 const DEFAULT_TEMPLATE = [
 	[
 		'core/group',
@@ -34,8 +34,14 @@ const DEFAULT_TEMPLATE = [
 						move: true,
 						remove: true,
 					},
+					isInteractive: true,
+					interactiveNamespace: 'prc-block/mailchimp-select'
 				},
 			],
+			['prc-block/form-captcha', {
+				isInteractive: true,
+				interactiveNamespace: 'prc-block/mailchimp-select'
+			}],
 			[
 				'core/button',
 				{
@@ -44,6 +50,8 @@ const DEFAULT_TEMPLATE = [
 						move: true,
 						remove: true,
 					},
+					isInteractive: true,
+					interactiveNamespace: 'prc-block/mailchimp-select'
 				},
 			],
 		],

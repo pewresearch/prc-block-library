@@ -6,6 +6,20 @@
  */
 
 .wp-block-prc-block-grid-column {
-	color: inherit;
-	background: inherit;
+	& > .align-to__column-divider,
+	& > .wp-block-template-part {
+		position: relative;
+		margin-left: calc(-1 * var(--grid-gutter)/2);
+		width: calc(100% + var(--grid-gutter)/2);
+
+		&.is-style-baseball-card,
+		.is-style-baseball-card {
+			.wp-block-group,
+			.wp-block-prc-block-table-of-contents__list {
+				padding-left: var(--grid-gutter);
+				margin-block-start: var(--grid-gutter);
+				margin-block-end: var(--grid-gutter);
+			}
+		}
+	}
 }

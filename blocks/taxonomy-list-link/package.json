@@ -19,6 +19,7 @@
 		"@wordpress/scripts": "^25.0.0"
 	},
 	"dependencies": {
+		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.10.5",
 		"@wordpress/icons": "^9.14.0"
 	}

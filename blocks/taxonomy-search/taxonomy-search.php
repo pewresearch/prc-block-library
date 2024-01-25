@@ -4,55 +4,72 @@ use WP_REST_Request;
 /**
  * Block Name:        Taxonomy Search
  * Description:       Search for terms of a specified taxonomy.
- * Version:           0.1.0
- * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
 class Taxonomy_Search {
-	public $parent_term_children = false;
-	public static $version = '0.1.0';
+	public static $block_json = null;
+	public static $version;
+	public static $block_name;
+	public static $view_script_handle = null;
+	public static $editor_script_handle = null;
+	public static $style_handle = null;
 	public static $dir = __DIR__;
+	public $parent_term_children = false;
 
-	public function __construct( $init = false ) {
-		if ( true === $init ) {
-			add_action( 'init', array($this, 'block_init') );
-			add_action( 'rest_api_init', array( $this, 'register_rest_endpoint' ) );
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/taxonomy-search/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
+		self::$block_name = self::$block_json['name'];
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'block_init');
+			$loader->add_filter( 'prc_api_endpoints', $this, 'register_endpoint') ;
 		}
 	}
 
-	public function register_rest_endpoint() {
-		register_rest_route(
-			'prc-api/v2',
-			'/blocks/taxonomy-search',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'restfully_search_taxonomy' ),
-				'args'                => array(
-					'searchValue' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-					'taxonomy' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-					'parentTermId' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
+	/**
+	 * Register endpoint for getting the AZ list of terms.
+	 * @hook prc_api_endpoints
+	 * @param array $endpoints
+	 * @return array $endpoints with new endpoint
+	 */
+	public function register_endpoint($endpoints) {
+		array_push($endpoints, array(
+			'route' => 'blocks/taxonomy-search',
+			'methods'             => 'GET',
+			'callback'            => array( $this, 'restfully_search_taxonomy' ),
+			'args'                => array(
+				'searchValue' => array(
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_string( $param );
+					},
 				),
-				'permission_callback' => function () {
-					return true;
-				},
-			)
-		);
+				'taxonomy' => array(
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_string( $param );
+					},
+				),
+				'parentTermId' => array(
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_string( $param );
+					},
+				),
+			),
+			'permission_callback' => function () {
+				return true;
+			},
+		));
+		return $endpoints;
 	}
 
 	/**
@@ -113,7 +130,7 @@ class Taxonomy_Search {
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued
 	* through the block editor in the corresponding context.
-	*
+	* @hook init
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
@@ -121,5 +138,3 @@ class Taxonomy_Search {
 	}
 
 }
-
-new Taxonomy_Search(true);

@@ -6,87 +6,72 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
-import { BlockControls, InspectorControls } from '@wordpress/block-editor';
+import { useMemo } from '@wordpress/element';
 import {
-	BaseControl,
-	Button,
-	CardDivider,
-	PanelBody,
-	SelectControl,
-	TextControl,
-	ToggleControl,
-	ToolbarButton,
-	ToolbarDropdownMenu,
-	ToolbarGroup,
-} from '@wordpress/components';
-import { useEntityProp } from '@wordpress/core-data';
+	InspectorControls,
+	__experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
+ } from '@wordpress/block-editor';
 
-/**
- * Internal Dependencies
- */
+export default function Controls({ colors, clientId }) {
+	const colorSettings = useMultipleOriginColorsAndGradients();
 
-function InspectorPanel( { attributes, setAttributes } ) {
+	const {
+		headingTextColor,
+		setHeadingTextColor,
+		headingBackgroundColor,
+		setHeadingBackgroundColor,
+		hoverTextColor,
+		setHoverTextColor,
+		hoverBackgroundColor,
+		setHoverBackgroundColor,
+		activeBackgroundColor,
+		setActiveBackgroundColor,
+		activeTextColor,
+		setActiveTextColor,
+	} = colors;
+
 	return (
-		<InspectorControls>
-			// This is here for convenience, but should be removed if not used.
-			//
-			<PanelBody title="Block Controls">
-				//{ ' ' }
-				<BaseControl label="Do Something">
-					// <Button variant="primary">Do Something</Button>
-					//{ ' ' }
-				</BaseControl>
-				//
-			</PanelBody>
+		<InspectorControls group="color">
+			<ColorGradientSettingsDropdown
+				settings={ [
+					{
+						colorValue: headingTextColor?.color,
+						onColorChange: setHeadingTextColor,
+						label: __('Heading Text'),
+					},
+					{
+						colorValue: headingBackgroundColor?.color,
+						onColorChange: setHeadingBackgroundColor,
+						label: __('Heading Background'),
+					},
+					{
+						colorValue: hoverTextColor?.color,
+						onColorChange: setHoverTextColor,
+						label: __('Hover Text'),
+					},
+					{
+						colorValue: hoverBackgroundColor?.color,
+						onColorChange: setHoverBackgroundColor,
+						label: __('Hover Background'),
+					},
+					{
+						colorValue: activeTextColor?.color,
+						onColorChange: setActiveTextColor,
+						label: __('Active Text'),
+					},
+					{
+						colorValue: activeBackgroundColor?.color,
+						onColorChange: setActiveBackgroundColor,
+						label: __('Active Background'),
+					},
+				] }
+				panelId={ clientId }
+				hasColorsOrGradients={ false }
+				disableCustomColors={ true }
+				__experimentalIsRenderedInSidebar
+				{ ...colorSettings }
+			/>
 		</InspectorControls>
-	);
-}
-
-function Toolbar( { attributes, setAttributes, context } ) {
-	// This is here for convenience, but if you do not need a toolbar it should be removed.
-	// const { myNewAttribute } = attributes;
-	// const MemoizedIconValue = useCallback(() => {
-	// 	if (myNewAttribute) {
-	// 		return 'admin-site';
-	// 	}
-	// 	return 'admin-site-alt';
-	// }, [myNewAttribute]);
-	// return (
-	// 	<BlockControls>
-	// 		<ToolbarGroup>
-	// 			<ToolbarDropdownMenu
-	// 				icon={MemoizedIconValue}
-	// 				label="Select Option"
-	// 				controls={[
-	// 					{
-	// 						title: 'A',
-	// 						icon: 'admin-site',
-	// 						isActive: true === myNewAttribute,
-	// 						onClick: () => {
-	// 							setAttributes({ myNewAttribute: true });
-	// 						},
-	// 					},
-	// 					{
-	// 						title: 'B',
-	// 						icon: 'admin-site-alt',
-	// 						isActive: false === myNewAttribute,
-	// 						onClick: () => {
-	// 							setAttributes({ myNewAttribute: false });
-	// 						},
-	// 					},
-	// 				]}
-	// 			/>
-	// 		</ToolbarGroup>
-	// 	</BlockControls>
-	// );
-}
-
-export default function Controls( { attributes, setAttributes, context } ) {
-	return (
-		<Fragment>
-			<InspectorPanel { ...{ attributes, setAttributes, context } } />
-			<Toolbar { ...{ attributes, setAttributes, context } } />
-		</Fragment>
 	);
 }

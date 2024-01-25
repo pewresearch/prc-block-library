@@ -34,6 +34,7 @@ const ALLOWED_BLOCKS = [
 	'core/image',
 	'vimeo/create',
 	'core/embed',
+	'videopress/video',
 ];
 
 /**
@@ -198,7 +199,7 @@ export default function Edit({
 		<Fragment>
 			<Controls {...{ attributes, setAttributes }} />
 			{isOpen && (
-				<ModalStylesWrapper>
+				// <ModalStylesWrapper>
 					<KeyboardShortcuts
 						bindGlobal
 						shortcuts={{
@@ -236,7 +237,7 @@ export default function Edit({
 							</div>
 						</ModalShade>
 					</KeyboardShortcuts>
-				</ModalStylesWrapper>
+				// </ModalStylesWrapper>
 			)}
 			<TriggerButton>
 				<Button variant="secondary" onClick={toggleModal}>

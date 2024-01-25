@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/grid-controller",
   "version": "0.1.0",
   "title": "Grid",
@@ -16,14 +16,19 @@
     "verticalAlignment": {
       "type": "string"
     },
-    "backgroundColor": {
-      "type": "string"
-    },
-    "textColor": {
-      "type": "string"
-    },
     "dividerColor": {
-      "type": "string"
+      "type": "string",
+      "default": "ui-gray-light"
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": {
+            "left": "var:preset|spacing|50"
+          }
+        }
+      }
     }
   },
   "supports": {
@@ -33,12 +38,15 @@
       "wide",
       "full"
     ],
+    "color": {
+      "background": true,
+      "link": true,
+      "text": true
+    },
     "spacing": {
       "blockGap": {
-        "__experimentalDefault": "24px",
         "sides": [
-          "horizontal",
-          "vertical"
+          "horizontal"
         ]
       },
       "margin": [
@@ -47,7 +55,9 @@
       ],
       "padding": true,
       "__experimentalDefaultControls": {
-        "padding": true
+        "blockGap": true,
+        "margin": false,
+        "padding": false
       }
     },
     "__experimentalBorder": {
@@ -72,7 +82,7 @@
   },
   "example": {
     "attributes": {
-      "dividerColor": "gray"
+      "dividerColor": "ui-gray-light"
     },
     "innerBlocks": [
       {

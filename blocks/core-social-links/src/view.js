@@ -12,23 +12,20 @@ function getArgs(elm) {
 	if (!description) {
 		// eslint-disable-next-line no-undef
 		description = document
-			.querySelector('meta[property="og:description"]')
-			.getAttribute('content');
+			.querySelector('meta[property="og:description"]')?.getAttribute('content') || null;
 	}
 	let title = elm.getAttribute('data-share-title');
 	if (!title) {
 		// eslint-disable-next-line no-undef
 		title = document
-			.querySelector('meta[property="og:title"]')
-			.getAttribute('content');
+			.querySelector('meta[property="og:title"]')?.getAttribute('content') || null;
 	}
 
 	let url = elm.getAttribute('data-share-url');
 	if (!url) {
 		// eslint-disable-next-line no-undef
 		url = document
-			.querySelector('meta[property="og:url"]')
-			.getAttribute('content');
+			.querySelector('meta[property="og:url"]')?.getAttribute('content') || null;
 	}
 	return {
 		url,

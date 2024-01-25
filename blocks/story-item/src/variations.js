@@ -8,13 +8,14 @@ import { __ } from '@wordpress/i18n';
  */
 import variationsJson from './variations.json';
 
-// loop through variationsJson and add a isActive function check checking the attributes against each other...
-
-const variations = variationsJson.map((variation, key) => {
+const variations = [];
+Object.keys(variationsJson).forEach((key) => {
+	const variation = variationsJson[key];
 	const { attributes } = variation;
-	return {
+	variations.push({
 		...variation,
 		name: `story-item-${key}`,
+		scope: ['block', 'inserter', 'transform'],
 		isActive: (currentAttributes) => {
 			let isActive = true;
 			Object.keys(attributes).forEach((key) => {
@@ -24,7 +25,7 @@ const variations = variationsJson.map((variation, key) => {
 			});
 			return isActive;
 		},
-	};
+	});
 });
 
 export default variations;

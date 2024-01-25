@@ -82,7 +82,6 @@ export default function Edit({
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ['prc-block/grid-controller'],
 		template: BLOCKS_TEMPLATE,
-		// templateLock: 'all',
 	});
 
 	return <div {...innerBlocksProps} />;

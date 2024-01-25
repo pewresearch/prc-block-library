@@ -6,7 +6,9 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
-$block_wrapper_attrs = get_block_wrapper_attributes();
+$block_wrapper_attrs = get_block_wrapper_attributes(array(
+	'id' => uniqid('prc-block-popup-controller-'),
+));
 
 // You can use this method...
 echo wp_sprintf(

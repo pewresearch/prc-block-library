@@ -1,17 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/subtitle",
   "version": "0.1.0",
   "title": "Sub-title",
   "description": "Displays the sub-title of a post.",
   "category": "layout",
   "attributes": {
-    "value": {
-      "type": "string",
-      "source": "meta",
-      "meta": "sub_headline"
-    },
     "textAlign": {
       "type": "string"
     },
@@ -31,7 +26,7 @@
   },
   "example": {
     "attributes": {
-      "value": "Aute magna mollit id nisi Lorem incididunt eiusmod magna"
+      "textAlign": "left"
     }
   },
   "supports": {
@@ -61,10 +56,15 @@
       "__experimentalDefaultControls": {
         "fontSize": true,
         "fontAppearance": true,
-        "textTransform": true
+        "textTransform": true,
+        "lineHeight": true
       }
     }
   },
+  "usesContext": [
+    "postType",
+    "postId"
+  ],
   "textdomain": "post-sub-title",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",

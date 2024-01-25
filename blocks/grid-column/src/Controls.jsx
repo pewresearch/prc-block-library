@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import { MarkedRangeControl } from '@prc/components';
 
 /**
  * WordPress Dependencies
@@ -13,10 +14,8 @@ import {
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import {
-	BaseControl,
 	CardDivider,
 	PanelBody,
-	RangeControl,
 } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 
@@ -152,7 +151,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 			<InspectorControls>
 				<PanelBody title="Grid Span">
 					<div className="css-grid-column-controls">
-						<RangeControl
+						<MarkedRangeControl
 							label="Desktop Span"
 							value={desktopSpan}
 							onChange={(newSpan) => {
@@ -164,7 +163,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 							marks={MARKS}
 						/>
 						<CardDivider />
-						<RangeControl
+						<MarkedRangeControl
 							label="Tablet Span"
 							value={tabletSpan}
 							onChange={(newSpan) => {
@@ -176,7 +175,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 							marks={MARKS}
 						/>
 						<CardDivider />
-						<RangeControl
+						<MarkedRangeControl
 							label="Mobile Span"
 							value={mobileSpan}
 							onChange={(newSpan) => {

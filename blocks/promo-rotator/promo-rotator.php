@@ -3,25 +3,40 @@ namespace PRC\Platform\Blocks;
 /**
  * Block Name:        Promo Rotator
  * Version:           0.1.0
- * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
 class Promo_Rotator {
-	public static $version = '0.1.0';
+	public static $block_json = null;
+	public static $version;
+	public static $block_name;
+	public static $view_script_handle = null;
+	public static $editor_script_handle = null;
+	public static $style_handle = null;
 	public static $dir = __DIR__;
 
-	public function __construct( $init = false ) {
-		if ( true === $init ) {
-			add_action('init', array($this, 'block_init'));
-			add_filter( 'render_block', array( $this, 'randomly_select_inner_block' ), 10, 2 );
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/promo-rotator/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
+		self::$block_name = self::$block_json['name'];
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'block_init');
 		}
 	}
 
-	// Randomly selects one inner block to display.
+	/**
+	 * @hook render_block
+	 */
 	public function randomly_select_inner_block( $block_content, $block ) {
 		if ( 'prc-block/promo-rotator' === $block['blockName'] ) {
 			$iteration = array_rand( $block['innerBlocks'] );
@@ -61,5 +76,3 @@ class Promo_Rotator {
 	}
 
 }
-
-new Promo_Rotator(true);

@@ -29,7 +29,6 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
-import Save from './Save';
 import Icon from './Icon';
 import variations from './variations';
 
@@ -43,10 +42,6 @@ const settings = {
 	 * @see ./Edit.jsx
 	 */
 	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
 	variations,
 };
 

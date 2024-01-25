@@ -1,0 +1,57 @@
+// For system defaults.
+// To add per-block styles, see filters:
+// prc_block_print_style: set your print specific modifications to the block style.
+// 
+@media print {
+	@page {
+		size: 8.5in 11in;
+	}
+	// Much of the print styles are stripping away web elements that are not needed in print.
+    header, 
+    #query-monitor-main,
+	#mobile-masthead,
+    #site-footer,
+    .yoast-breadcrumbs,
+    .wp-block-prc-block-grid-column,
+    .wp-block-navigation,
+    .wp-block-prc-block-promo,
+    .wp-block-social-links,
+    .wp-block-prc-block-collapsible__icon {
+        display: none!important;
+    }
+    .wp-block-prc-block-grid-column:has(.wp-block-post-content){
+		display: flex!important;
+		flex-direction: column!important;
+        width: 100%!important;
+        grid-column-start: 3;
+		.wp-block-template-part {
+			display: flex!important;
+			flex-direction: column!important;
+		}
+    }
+	// No borders on the grid.
+    .wp-block-prc-block-grid-controller {
+        border: 0!important;
+    }
+	// Reset rootpadding so that blocks are centered.
+    [class*="wp-container-"] > :where(:not(.alignleft):not(.alignright):not(.alignfull))[style] {
+        margin-left: auto!important;
+    }
+	[data-hide-on-print="true"] {
+		display: none;
+	}
+	[data-display-on-print="true"] {
+		display: block!important;
+	}
+	.prc-block-library-print-engine__cover-sheet {
+		order: -1;
+		width: 100%;
+		page-break-after: always;
+	}
+}
+
+@media screen {
+	[data-display-on-print="true"] {
+		display: none!important;
+	}
+}

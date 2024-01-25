@@ -1,15 +1,24 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/staff-info",
 	"version": "0.1.0",
 	"title": "Staff Info",
 	"category": "theme",
-	"description": "Display staff info from a byline; supports name, job title, twitter, and expertise.",
+	"description": "Display staff info from a byline; supports name, bio, mini bio, job title, twitter, expertise, and image.",
 	"attributes": {
 		"valueToFetch": {
 			"type":"string",
-			"enum": [ "staffName", "staffJobTitle", "staffTwitter", "staffExpertise", "staffBio", "staffMiniBio", "staffImage", "staffLink" ]
+			"enum": [
+				"staffName",
+				"staffJobTitle",
+				"staffTwitter",
+				"staffExpertise",
+				"staffBio",
+				"staffMiniBio",
+				"staffImage",
+				"staffLink"
+			]
 		},
 		"prefix": {
 			"type": "string"
@@ -22,10 +31,6 @@
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"spacing": {
-			"margin": [ "top", "bottom" ],
-			"padding": true
-		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,

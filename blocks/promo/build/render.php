@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 // PHP file to use when rendering the block type on the server to show on the front end.
 // The following variables are exposed to this file:
 
@@ -20,7 +21,7 @@ $icon_url           = plugin_dir_url( __DIR__ ) . 'assets/' . $attributes['icon'
 $wrapper_attributes = get_block_wrapper_attributes(
 	array(
 		'id'    => md5( wp_json_encode( $attributes ) ),
-		'class' => classnames(
+		'class' => \PRC\Platform\Block_Utils\classNames(
 			$class_name,
 			array(
 				'has-icon'            => $has_icon,
@@ -28,6 +29,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 				'has-form'            => $has_form,
 			)
 		),
+		// 'data-wp-interactive' => true,
 	)
 );
 
@@ -39,6 +41,6 @@ $wrapper_attributes = get_block_wrapper_attributes(
 			echo '<div class="wp-block-prc-block-promo__icon"><img src="' . esc_url( $icon_url ) . '"/></div>';
 		}
 		?>
-		<?php echo wp_kses( $content, 'post' ); ?>
+		<?php echo $content;?>
 	</div>
 </div>

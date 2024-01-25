@@ -1,13 +1,12 @@
 /**
  * External Dependencies
  */
-import { mailChimpInterests } from '@prc/functions';
+import { MailchimpSegmentList } from '@prc/components';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
 import {
 	InspectorControls,
 	store as blockEditorStore,
@@ -17,18 +16,19 @@ import { createBlock } from '@wordpress/blocks';
 import {
 	PanelBody,
 	PanelRow,
-	ToggleControl,
-	HorizontalRule,
 } from '@wordpress/components';
 
-const findMatchingBlock = (blocks, value) =>
-	blocks.find((block) => block.attributes.value === value);
-
-const BLOCKNAME = 'prc-block/form-input-checkbox';
+const findMatchingCheckboxBlockField = (blocks, value) =>
+	blocks.find((block) => {
+		if (block.name !== 'prc-block/form-input-checkbox') {
+			return false;
+		}
+		return block.attributes.value === value;
+	}
+);
 
 export default function Controls({ attributes, setAttributes, clientId }) {
 	const { interests } = attributes;
-	const [selected, setSelected] = useState(interests);
 
 	const { insertBlock, removeBlock, updateBlockAttributes } =
 		useDispatch(blockEditorStore);
@@ -39,54 +39,46 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 		return block.innerBlocks;
 	});
 
-	const updateSelection = (s) => {
-		const tmp = selected;
-		if (tmp.includes(s.value)) {
-			const index = tmp.indexOf(s.value);
-			if (-1 !== index) {
-				tmp.splice(index, 1);
-			}
-			const matchingBlock = findMatchingBlock(innerBlocks, s.value);
-			if (matchingBlock) {
-				// Unlock the block then remove it.
-				updateBlockAttributes(matchingBlock.clientId, {
-					lock: {
-						remove: false,
-					},
-				}).then(() => removeBlock(matchingBlock.clientId, false));
-			}
-		} else {
-			tmp.push(s.value);
-			const newBlock = createBlock(BLOCKNAME, {
-				value: s.value,
-				label: s.label,
+	const onRemove = (item) => {
+		const matchingBlock = findMatchingCheckboxBlockField(innerBlocks, item.value);
+		if (matchingBlock) {
+			// Unlock the block then remove it.
+			updateBlockAttributes(matchingBlock.clientId, {
 				lock: {
-					remove: true,
+					remove: false,
 				},
-			});
-			insertBlock(newBlock, false, clientId, false);
+			}).then(() => removeBlock(matchingBlock.clientId, false));
 		}
+	}
 
-		setAttributes({ interests: tmp });
-		setSelected([...tmp]);
-	};
+	const onAdd = (item) => {
+		const inputBlock = createBlock('prc-block/form-input-checkbox', {
+			value: item.value,
+			lock: {
+				remove: true,
+			},
+			label: item.label,
+			type: 'checkbox',
+			isInteractive: true,
+			interactiveNamespace: 'prc-block/mailchimp-select'
+		});
+		insertBlock(inputBlock, false, clientId, false);
+	}
+
+	const onUpdate = (updatedSelected) => {
+		setAttributes({ interests: [...updatedSelected] });
+	}
 
 	return (
 		<InspectorControls>
-			<PanelBody title={__('MailChimp Interests')}>
+			<PanelBody title={__('Mailchimp Interests')}>
 				<PanelRow>
-					<div>
-						{mailChimpInterests.map((i) =>
-							false !== i.value ? (
-								<ToggleControl
-									label={i.label}
-									checked={selected.includes(i.value)}
-									onChange={() => updateSelection(i)}
-								/>
-							) : (
-								<HorizontalRule />
-							))}
-					</div>
+					<MailchimpSegmentList
+						interests={interests}
+						onAdd={onAdd}
+						onRemove={onRemove}
+						onUpdate={onUpdate}
+					/>
 				</PanelRow>
 			</PanelBody>
 		</InspectorControls>

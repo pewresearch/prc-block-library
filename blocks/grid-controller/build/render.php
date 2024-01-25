@@ -1,4 +1,8 @@
 <?php
+namespace PRC\Platform\Blocks;
+if ( is_admin() ) {
+	return $content;
+}
 // PHP file to use when rendering the block type on the server to show on the front end.
 // The following variables are exposed to this file:
 
@@ -16,34 +20,6 @@
  */
 $color_css_classes = array();
 
-// Text color.
-$has_named_text_color  = array_key_exists( 'textColor', $attributes );
-
-// If has text color.
-if ( $has_named_text_color ) {
-	// Add has-text-color class.
-	$color_css_classes[] = 'has-text-color';
-}
-
-if ( $has_named_text_color ) {
-	// Add the color class.
-	$color_css_classes[] = sprintf( 'has-%s-color', $attributes['textColor'] );
-}
-
-// Background color.
-$has_named_background_color  = array_key_exists( 'backgroundColor', $attributes );
-
-// If has background color.
-if ( $has_named_background_color ) {
-	// Add has-background class.
-	$color_css_classes[] = 'has-background';
-}
-
-if ( $has_named_background_color ) {
-	// Add the background-color class.
-	$color_css_classes[] = sprintf( 'has-%s-background-color', $attributes['backgroundColor'] );
-}
-
 // Divider color.
 $has_named_divider_color  = array_key_exists( 'dividerColor', $attributes );
 
@@ -58,15 +34,20 @@ if ( $has_named_divider_color ) {
 	$color_css_classes[] = sprintf( 'has-%s-divider-color', $attributes['dividerColor'] );
 }
 
-$css_classes = $color_css_classes;
+$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal');
+$vertical_alignment = array_key_exists( 'verticalAlignment', $attributes ) ? $attributes['verticalAlignment'] : 'top';
+
+$css_classes = array_merge($color_css_classes, array(
+	'is-vertically-aligned-' . $vertical_alignment,
+));
 
 $block_attrs = get_block_wrapper_attributes(array(
-	'class' => classNames($css_classes),
+	'class' => \PRC\Platform\Block_Utils\classNames($css_classes),
+	'style' => '--grid-gutter: ' . $block_gap . ';',
 ));
 
 echo wp_sprintf(
-	'<div %1$s data-test="%3$s">%2$s</div>',
+	'<div %1$s>%2$s</div>',
 	$block_attrs,
 	$content,
-	$has_named_divider_color,
 );

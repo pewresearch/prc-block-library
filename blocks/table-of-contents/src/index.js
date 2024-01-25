@@ -32,25 +32,17 @@ import domReady	from '@wordpress/dom-ready';
  */
 import './style.scss';
 import './editor.scss';
-import Edit from './Edit';
-import Icon from './Icon';
+import edit from './edit';
+import icon from './icon';
 import variations from './variations';
-// import deprecated from './deprecated';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	/**
-	 * @see ./Icon.jsx
-	 */
-	icon: Icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	// deprecated,
+	icon,
+	edit,
 	variations,
 };
 

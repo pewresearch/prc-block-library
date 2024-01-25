@@ -16,6 +16,8 @@ $standard_logo_minimum_width: 360px;
 	align-items: center;
 	justify-content: flex-start;
 	container: prc-logo / inline-size;
+	margin-left: 0px !important;
+	margin-right: 0px !important;
 
 	svg,
 	img {
@@ -49,12 +51,13 @@ $standard_logo_minimum_width: 360px;
 		display: none;
 	}
 
-	&.has-white-color {
+	// If the text color is white then we need to show a different version of the logo as the color fill won't be correct for the approved white brand version.
+	&.has-ui-white-color {
 		@include hasWhiteColor();
 	}
 	&.has-dark-mode-support .wp-block-prc-block-logo__inner {
 		@media (prefers-color-scheme: dark), (prefers-dark-interface) {
-			@include hasWhiteColor();
+			// @include hasWhiteColor();
 		}
 	}
 

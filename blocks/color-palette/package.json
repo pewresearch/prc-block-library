@@ -16,10 +16,10 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^26.4.0"
+		"@wordpress/scripts": "^26.16.0"
 	},
 	"dependencies": {
-		"@emotion/react": "^11.11.0",
+		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0"
 	}
 }

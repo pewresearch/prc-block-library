@@ -26,6 +26,10 @@ function prepareController(popupController) {
 	const videoHandler = loadVideoHandler(popupController);
 	const { provider, loadPlayer } = videoHandler;
 
+	// get the id of the popupcontroller
+	const id = popupController.getAttribute('id');
+	// set that id on the modal
+
 	const trigger = popupController.querySelector(
 		'.wp-block-prc-block-popup-content'
 	);
@@ -36,6 +40,12 @@ function prepareController(popupController) {
 		'.wp-block-prc-block-popup-modal--close-button'
 	);
 
+	modal.setAttribute('data-controller-id', id);
+
+	// We need to move the modal to right before the end of the body element.
+	// This is because the modal is a child of the popup controller, and the popup controller
+	const body = document.querySelector('body');
+	body.appendChild(modal);
 
 	closeButton.addEventListener('click', (event) => {
 		event.preventDefault();
@@ -79,10 +89,14 @@ function watchForOutsideClicks() {
 			return;
 		}
 
+		const controllerId = currentActiveModal.getAttribute(
+			'data-controller-id'
+		);
+
 		// Get currentActiveModal parent element and check if its class is .is-style-video.wp-block-prc-block-popup-controller
 		// If it is, then we need to stop the video.
-		const popupController = currentActiveModal.closest(
-			'.wp-block-prc-block-popup-controller'
+		const popupController = document.querySelector(
+			'.wp-block-prc-block-popup-controller#' + controllerId
 		);
 		const modalWindow = currentActiveModal.querySelector(
 			'.wp-block-prc-block-popup-modal'

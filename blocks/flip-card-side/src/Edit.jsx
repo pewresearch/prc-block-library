@@ -12,7 +12,6 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
-import FlipControl from '../../flip-card-controller/src/FlipControl';
 
 const ALLOWED_BLOCKS = [
 	'core/heading',
@@ -55,9 +54,6 @@ export default function Edit({
 	});
 
 	return (
-		<Fragment>
-			<FlipControl {...{ clientId }} />
-			<div {...innerBlocksProps} />
-		</Fragment>
+		<div {...innerBlocksProps} />
 	);
 }

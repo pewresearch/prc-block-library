@@ -22,27 +22,31 @@ const PanelDescription = styled.div`
 
 export default function Controls({ attributes, setAttributes, clientId }) {
 	const { staffType, researchArea } = attributes;
+	const resetAll = () => {
+		setAttributes({
+			staffType: null,
+			researchArea: null,
+		});
+	};
 	return (
 		<InspectorControls>
 			<ToolsPanel
 				label={__('Staff Query Filters')}
 				resetAll={() => {
-					console.log('Reset All');
+					resetAll();
 				}}
 				panelId={clientId}
 			>
 				<PanelDescription>
 					{__(
-						'Use the filters below to filter the staff members that are displayed. Filter by staff type or research area.'
+						'Use the filters below to filter staff members by staff type or research area.'
 					)}
 				</PanelDescription>
 				<ToolsPanelItem
 					label={__('Filter by Staff Type')}
 					hasValue={() => staffType !== undefined}
-					onDeselect={() => console.log('onDeselect')}
-					resetAllFilter={(newAttributes) =>
-						console.log('reset all', newAttributes)
-					}
+					onDeselect={() => setAttributes({ staffType: null })}
+					resetAllFilter={() => resetAll()}
 					panelId={clientId}
 				>
 					<TermSelect
@@ -58,7 +62,6 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 								: []
 						}
 						taxonomy="staff-type"
-						usePrimaryRestAPI
 						onChange={(term) => {
 							setAttributes({ staffType: term });
 						}}
@@ -67,10 +70,8 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 				<ToolsPanelItem
 					label={__('Filter by Research Area')}
 					hasValue={() => researchArea !== undefined}
-					onDeselect={() => console.log('onDeselect')}
-					resetAllFilter={(newAttributes) =>
-						console.log('reset all', newAttributes)
-					}
+					onDeselect={() => setAttributes({ researchArea: null })}
+					resetAllFilter={() => resetAll()}
 					panelId={clientId}
 				>
 					<TermSelect

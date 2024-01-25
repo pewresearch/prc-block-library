@@ -13,6 +13,9 @@ module.exports = {
 			injectPolyfill: true,
 			// eslint-disable-next-line consistent-return
 			requestToExternal(request) {
+				if(request.includes('@prc/block-utils')) {
+					return 'prcBlockUtils';
+				}
 				if (request.includes('@prc/hooks')) {
 					return 'prcHooks';
 				}
@@ -22,12 +25,21 @@ module.exports = {
 				if (request.includes('@prc/components')) {
 					return 'prcComponents';
 				}
-				if (request.includes('@prc/icons')) {
+				if(request.includes('@prc/icons')) {
 					return 'prcIcons';
+				}
+				if (request.includes('enquire.js')) {
+					return 'enquire';
+				}
+				if (request.includes('classnames')) {
+					return 'classnames';
 				}
 			},
 			// eslint-disable-next-line consistent-return
 			requestToHandle(request) {
+				if ( '@prc/block-utils' === request ) {
+					return 'prc-block-utils';
+				}
 				if ('@prc/hooks' === request) {
 					return 'prc-hooks';
 				}
@@ -39,6 +51,12 @@ module.exports = {
 				}
 				if ('@prc/icons' === request) {
 					return 'prc-icons';
+				}
+				if ('enquire.js' === request) {
+					return 'enquire.js';
+				}
+				if (request.includes('classnames')) {
+					return 'classnames';
 				}
 			},
 		}),

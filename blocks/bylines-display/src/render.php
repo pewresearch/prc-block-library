@@ -6,16 +6,21 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
-$text_align = isset( $attributes['textAlign'] ) ? $attributes['textAlign'] : 'left';
-$block_wrapper_attrs = get_block_wrapper_attributes(array(
-	'class' => 'has-text-align' . '-' . $text_align,
-));
+$block_wrapper_attrs = get_block_wrapper_attributes();
 $prefix = isset( $attributes['prefix'] ) ? $attributes['prefix'] : 'By';
 $bylines = new \PRC\Platform\Bylines(get_the_ID());
-$bylines_output = is_wp_error($bylines->bylines) ? '' : $bylines->format('html');
+if ( is_wp_error($bylines->bylines) ) {
+	return;
+}
+
+$bylines_output = $bylines->format('html');
+
+if ( 2 >= strlen($bylines_output) ) {
+	return;
+}
 
 echo wp_sprintf(
-	'<div %1$s>%2$s %3$s</div>',
+	'<div %1$s><span>%2$s</span><div class="wp-block-prc-block-bylines-display__bylines">%3$s</div></div>',
 	$block_wrapper_attrs,
 	$prefix,
 	$bylines_output

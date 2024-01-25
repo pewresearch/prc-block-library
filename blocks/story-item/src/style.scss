@@ -11,7 +11,7 @@
 /* Colors */
 $textColor: var(--wp--preset--color--text-color);
 $darkTextColor: rgba(0, 0, 0, 0.85);
-$blackLinkColor: var(--wp--preset--color--slate);
+$blackLinkColor: var(--wp--preset--color--ui-black);
 
 $A1: 564px;
 $A1Small: 345px;
@@ -233,8 +233,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
 // @TODO after block themes go live on prc remove .story.item and convert sub itemt to use BEM naming convention (e.g. .wp-block-prc-block-story-item__title)
 
-.wp-block-prc-block-story-item,
-.story.item {
+.wp-block-prc-block-story-item {
     display: grid;
     gap: 0px;
     grid-auto-flow: column;
@@ -244,13 +243,12 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         "header"
         "excerpt"
         "extras"
-        "breakingnews"
         "extracontent";
     margin: 0;
     padding: 0;
     width: 100%;
     background: transparent;
-    border: none;
+    border: 0px solid transparent;
     transition: box-shadow $defaultDuration $defaultEasing;
     z-index: '';
 
@@ -260,15 +258,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 			"header"
 			"excerpt"
 			"extras"
-			"breakingnews"
 			"extracontent";
 	}
-
-    &.bordered {
-        padding: 21px!important;
-        border: 1px solid #d3d3d3;
-        margin-bottom: 2rem;
-    }
 
     &.aligned {
         grid-auto-flow: row;
@@ -289,7 +280,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
           "header"
           "excerpt"
           "extras"
-          "breakingnews"
           "extracontent";
         .image {
             margin: 0 0 21px 0;
@@ -304,7 +294,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
             "header"
             "excerpt"
             "extras"
-            "breakingnews"
             "extracontent"
             "image";
             .image {
@@ -341,7 +330,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
           "image header"
           "image excerpt"
           "image extras"
-          "image breakingnews"
           "image extracontent";
     }
 
@@ -354,7 +342,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
                 "header image"
                 "excerpt image"
                 "extras image"
-                "breakingnews image"
                 "extracontent image";
         }
 
@@ -436,12 +423,29 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         grid-area: meta;
 		padding-bottom: 1.5em;
 
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
 		font-size: 12px;
 		font-family: var(--wp--preset--font-family--sans-serif);
 		color: rgba(0,0,0,.6);
 		letter-spacing: 0.1em;
 		line-height: 1em;
 		text-transform: uppercase;
+		& > .label {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			&:after {
+				display: block;
+				content: "";
+				border-right: 1px solid rgba(0, 0, 0, 0.6);
+				height: 1em;
+				margin-right: 0.5em;
+				margin-left: 0.5em;
+			}
+		}
     }
 
     .header {
@@ -464,7 +468,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         line-height: $headerMediumLineHeight;
 
         // Find .large above
-
         &.small {
             font-size: $headerSmallFontSize;
             font-weight: $headerSmallFontWeight;
@@ -515,20 +518,8 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         }
     }
 
-    // For when breaking news is enabled but extras are not.
-    .description + ul.extra-breaking-news {
-        margin: $extraMargin;
-    }
-
     .extra {
-        grid-area: extras;
-    }
-    .extra-breaking-news {
-        grid-area: breakingnews;
-    }
-
-    .extra,
-    .extra-breaking-news {
+		grid-area: extras;
         @include clearfix();
         display: block;
         margin: $extraMargin;
@@ -539,31 +530,19 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
         font-size: 15px;
 
         transition: color $defaultDuration $defaultEasing;
+		
+		ul {
+			list-style-position: outside;
+			padding-left: 1em;
+			li {
+				margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
+			}
+		}
 
-        .kicker-breaking-news {
-            display: inline;
-        }
-    }
-
-    // Make extra and extra breaking news attached.
-    ul.extra + ul.extra-breaking-news {
-        margin: 0;
-    }
-
-    ul.extra,
-    ul.extra-breaking-news {
-        list-style-position: outside;
-        padding-left: 1em;
-
-        li {
-            margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
-        }
-    }
-
-    // @TODO what is this combination, where does this appear?
-    ul.extra-breaking-news > li,
-    div.extra > * {
-        margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
+		// @TODO what is this combination, where does this appear?
+		& > * {
+			margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
+		}
     }
 
     .extra-content {
@@ -581,33 +560,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 .wp-block-post-template > li:has(.wp-block-prc-block-story-item),
 .wp-block-group:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
 .wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
-.ui.grid > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
-.ui.row > .column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
-.wp-block-prc-block-related-posts > div,
-.wp-block-prc-block-related-posts > article.wp-block-prc-block-story-item  {
-	border-bottom: $dividedBorder;
-	padding: 21px 0 21px 0;
-
-	&:first-child,
-	&:first-of-type {
-		padding-top: 0px;
-	}
-	&:last-child {
-		padding-bottom: 0;
-		border-bottom: none;
-	}
-	&:only-of-type,
-	&:only-child {
-		padding-top: 0;
-		padding-bottom: 0;
-		border-bottom: none;
-	}
-}
-
-
-// Fallback consecutive story item styling, specifically for Firefox.
-.ui.story.items > article.wp-block-prc-block-story-item,
-.ui.story.items.wp-block-post-template > li {
+.has-story-items > article.wp-block-prc-block-story-item  {
 	border-bottom: $dividedBorder;
 	padding: 21px 0 21px 0;
 
@@ -638,34 +591,4 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
 /* Mobile Only */
 @media only screen and (max-width: $largestMobileScreen) {
-}
-
-/**
- * Block Editor Only Styles
-*/
-.wp-block.wp-block-prc-block-story-item {
-	.block-editor-media-placeholder {
-		cursor: pointer;
-	}
-	&.is-selected:not(:focus):after {
-		border-radius: 1px;
-		bottom: 1px;
-		box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-		content: "";
-		left: 1px;
-		outline: 2px solid #0000;
-		pointer-events: none;
-		position: absolute;
-		right: 1px;
-		top: 1px;
-		z-index: 1;
-	}
-	.components-placeholder__label > .dashicon {
-		margin-right: 10px;
-	}
-	.meta {
-		.components-base-control__field {
-			margin-bottom: 0!important;
-		}
-	}
 }

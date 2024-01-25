@@ -9,40 +9,37 @@ import { URLSearchField } from '@prc/components';
 import { Button, Placeholder as WPComPlaceholder } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useEntityProp } from '@wordpress/core-data';
-import { trendingUp } from '@wordpress/icons';
 
 /**
- * Interanl Dependencies
+ * Internal Dependencies
  */
+import Icon from './icon';
 
 export default function Placeholder({ attributes, setAttributes, blockProps }) {
-	const [siteId] = useEntityProp('root', 'site', 'siteId');
-	const postType = 1 === siteId ? 'stub' : 'post';
-
 	return (
 		<div {...blockProps}>
 			<WPComPlaceholder
-				icon={trendingUp}
+				icon={<Icon />}
 				label={__(' Popular Post', 'prc-block-library')}
 				isColumnLayout
 				instructions={__(
-					`Search for a ${postType} or paste url here`,
+					`Search for a post or paste url here`,
 					'prc-block-library',
 				)}
 			>
 				<URLSearchField
 					{...{
-						attributes,
-						setAttributes,
+						postId: attributes.postId,
+						postType: 'post',
 						disableImage: true,
 						onSelect: (postAttrs) => {
-							const { title, url, postId } = postAttrs;
-							setAttributes({ title, url, postId });
+							const { title, link, id } = postAttrs;
+							setAttributes({ title: title?.rendered, url: link, postId: id });
 						},
 					}}
 				/>
 				<Button
-					isLink
+					variant='link'
 					onClick={() => {
 						setAttributes({ postId: 0 });
 					}}

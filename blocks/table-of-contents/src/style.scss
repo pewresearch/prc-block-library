@@ -1,30 +1,20 @@
 .wp-block-prc-block-table-of-contents {
 	margin-top: 24px;
 
-	&:not(.is-style-dropdown):not(.is-switched) {
+
+
+	&:not(.is-style-dropdown):not(.is-switched),
+	&[data-auto-dropdown-enabled="false"] {
 		.wp-block-prc-block-table-of-contents__heading.is-hidden {
+			display: none;
+		}
+		.wp-block-prc-block-table-of-contents__dropdown__heading {
 			display: none;
 		}
 	}
 
-	.wp-block-prc-block-table-of-contents__heading {
-		display: flex;
-		align-items: center;
-		padding: 0.525em 1em;
-		margin-top: 0;
-
-		h2 {
-			font-size: 0.825em;
-			font-weight: 400;
-			letter-spacing: .1em;
-			line-height: 1.28571429em;
-			text-transform: uppercase;
-			flex-grow: 1;
-			margin: 0;
-		}
-
-		.wp-block-prc-block-table-of-contents__dropdown {
-			display: none;
+	.wp-block-prc-block-table-of-contents__dropdown__heading {
+		.wp-block-prc-block-table-of-contents__dropdown-trigger {
 			cursor: pointer;
 			background: none;
 			appearance: none;
@@ -32,54 +22,31 @@
 			border: none;
 		}
 	}
-
-	.wp-block-prc-block-table-of-contents__list {
-		list-style: none;
-		padding: 0;
-		li ul {
-			list-style: none;
-		}
-
-		& > li {
-			padding: 0.525em 1em;
-			&:not(.is-active) ul {
-				display: none;
-			}
-			&.is-active {
-				& > span,
-				& > a {
-					font-weight: 700;
-				}
-			}
-		}
-
-		a:hover,
-		span:hover {
-			text-decoration: underline;
-		}
-	}
 }
 
 .wp-block-prc-block-table-of-contents.is-style-dropdown,
 .wp-block-prc-block-table-of-contents[data-auto-dropdown-enabled="true"].is-switched {
-	border-top: 1px solid var(--wp--preset--color--gray-light);
-	border-bottom: 1px solid var(--wp--preset--color--gray-light);
+	// border-top: 1px solid var(--wp--preset--color--ui-gray-light);
+	// border-bottom: 1px solid var(--wp--preset--color--ui-gray-light);
+
+	.wp-block-prc-block-table-of-contents__heading {
+		display: none;
+	}
+
+	& > .wp-block-prc-block-table-of-contents__list {
+		height: 100vh;
+		overflow-y: auto;
+	}
+
 	.wp-block-prc-block-table-of-contents__list {
 		margin-top: 0;
 	}
+
 	&[aria-expanded] .wp-block-prc-block-table-of-contents__list,
 	&[aria-expanded="false"] .wp-block-prc-block-table-of-contents__list {
 		display: none;
 	}
 	&[aria-expanded="true"] .wp-block-prc-block-table-of-contents__list {
 		display: block;
-	}
-	.wp-block-prc-block-table-of-contents__heading {
-		h2 {
-			font-weight: 700;
-		}
-		.wp-block-prc-block-table-of-contents__dropdown {
-			display: block;
-		}
 	}
 }

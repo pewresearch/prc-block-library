@@ -7,31 +7,67 @@
 	"category": "text",
 	"description": "Displays the titles of other images attached to a post.",
 	"attributes": {
-		"allowedBlocks": {
-			"type": "array"
-		},
-		"orientation": {
+		"headingBackgroundColor": {
 			"type": "string",
-			"default": "vertical"
+			"default": "ui-black"
+		},
+		"headingTextColor": {
+			"type": "string",
+			"default": "ui-white"
+		},
+		"hoverBackgroundColor": {
+			"type": "string",
+			"default": "ui-beige-very-light"
+		},
+		"hoverTextColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"activeBackgroundColor": {
+			"type": "string",
+			"default": "ui-gray-very-light"
+		},
+		"activeTextColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"heading": {
+			"type": "string",
+			"default": "Attachment Info"
+		},
+		"hideHeading": {
+			"type": "boolean",
+			"default": false
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": "var:preset|spacing|20"
+				}
+			}
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
 		"spacing": {
-			"blockGap": false,
-			"margin": ["top", "bottom"],
-			"padding": false,
+			"blockGap": true,
+			"margin": ["top", "bottom", "left", "right"],
 			"__experimentalDefaultControls": {
-				"padding": false
+				"margin": true,
+				"blockGap": true
 			}
 		},
 		"typography": {
-			"fontSize": false,
+			"fontSize": true,
 			"__experimentalFontFamily": false,
 			"__experimentalDefaultControls": {
-				"fontSize": false,
-				"__experimentalFontFamily": false
+				"__experimentalFontFamily": true
 			}
 		}
 	},
@@ -39,6 +75,9 @@
 	"textdomain": "attachment-info",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": [
+		"file:./style-index.css",
+		"prc-block-library--baseball-card",
+		"prc-block-library--additional-color-supports"
+	]
 }

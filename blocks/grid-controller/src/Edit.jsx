@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import classnames from 'classnames';
+import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
@@ -19,8 +20,8 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
-import Placeholder from './Placeholder';
+import Controls from './controls';
+import Placeholder from './placeholder';
 
 const ALLOWED_BLOCKS = ['prc-block/grid-column'];
 
@@ -29,10 +30,6 @@ function Edit({
 	setAttributes,
 	clientId,
 	className,
-	textColor,
-	setTextColor,
-	backgroundColor,
-	setBackgroundColor,
 	dividerColor,
 	setDividerColor,
 }) {
@@ -45,19 +42,13 @@ function Edit({
 
 	const blockProps = useBlockProps({
 		className: classnames(className, {
-			'has-text-color': !!textColor.color || !!textColor?.class,
-			[getColorClassName('color', textColor?.slug)]: !!textColor?.slug,
-			'has-background': !!backgroundColor.color || backgroundColor.class,
-			[getColorClassName('background-color', backgroundColor?.slug)]:
-				!!backgroundColor?.slug,
 			'has-divider': !!dividerColor.color || dividerColor.class,
 			[getColorClassName('divider-color', dividerColor?.slug)]:
 				!!dividerColor?.slug,
-			[`are-vertically-aligned-${verticalAlignment}`]: verticalAlignment,
+			[`is-vertically-aligned-${verticalAlignment}`]: verticalAlignment,
 		}),
 		style: {
-			color: !textColor?.slug && textColor?.color,
-			backgroundColor: !backgroundColor?.slug && backgroundColor?.color,
+			'--grid-gutter': getBlockGapSupportValue(attributes, 'horizontal'),
 		},
 	});
 
@@ -80,10 +71,6 @@ function Edit({
 					setAttributes,
 					clientId,
 					colors: {
-						textColor,
-						setTextColor,
-						backgroundColor,
-						setBackgroundColor,
 						dividerColor,
 						setDividerColor,
 					},
@@ -95,7 +82,5 @@ function Edit({
 }
 
 export default withColors(
-	{ textColor: 'color' },
-	{ backgroundColor: 'color' },
 	{ dividerColor: 'color' }
 )(Edit);

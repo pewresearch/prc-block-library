@@ -69,3 +69,23 @@
 	display: flex;
 	justify-content: center;
 }
+
+
+
+
+// Main Mobile Menu Styling
+
+.wp-block-navigation.is-style-mega-mobile-menu:has(.wp-block-navigation__responsive-container.is-menu-open) {
+	// .wp-block-navigation__responsive-container-open {
+	// 	&:after {
+	// 		content: "X"
+	// 	}
+	// 	svg {
+	// 		display: none;
+	// 	}
+	// }
+	.wp-block-navigation__responsive-container {
+		top: 50px;
+	}
+}
+

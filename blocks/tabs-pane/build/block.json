@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/tabs-pane",
   "version": "0.1.0",
   "title": "Tab Pane",
@@ -8,6 +8,10 @@
   "attributes": {
     "uuid": {
       "type": "string"
+    },
+    "isDialog": {
+      "type": "boolean",
+      "default": false
     },
     "allowedBlocks": {
       "type": "array"
@@ -24,16 +28,17 @@
     "typography": {
       "fontSize": true,
       "__experimentalFontFamily": true
-    }
+    },
+    "interactivity": true
   },
   "usesContext": [
-    "prc-block/tabs/layout",
-    "prc-block/tabs/activeUUID"
+    "prc-block/tabs/layout"
   ],
   "parent": [
     "prc-block/tabs-panes"
   ],
   "textdomain": "tabs-pane",
   "editorScript": "file:./index.js",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "style": "file:./style-index.css"
 }

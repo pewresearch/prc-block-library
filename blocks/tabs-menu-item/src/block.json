@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/tabs-menu-item",
 	"version": "0.1.0",
 	"title": "Tab Menu Item",
@@ -36,9 +36,20 @@
 		"__experimentalBorder": {
 			"color": true,
 			"width": true
-		}
+		},
+		"interactivity": true
 	},
-	"usesContext": ["prc-block/tabs/activeUUID"],
+	"styles": [
+		{
+			"name": "default",
+			"label": "Tab",
+			"isDefault": true
+		},
+		{
+			"name": "dialog",
+			"label": "Dialog Link"
+		}
+	],
     "parent": ["prc-block/tabs-menu"],
 	"textdomain": "tabs-menu-item",
 	"editorScript": "file:./index.js",

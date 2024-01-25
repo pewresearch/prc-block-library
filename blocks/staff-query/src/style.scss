@@ -8,6 +8,8 @@
 .wp-block-prc-block-staff-query {
 	color: inherit;
 	background: inherit;
+	display: flex;
+	flex-direction: column;
 	.wp-block-group.staff-listing {
 		display: block;
 		.wp-block-prc-block-staff-info {
@@ -16,7 +18,7 @@
 			display: inline;
 		}
 		a.wp-block-prc-block-staff-info {
-			color: var(--wp--preset--color--link-color) !important;
+			color: var(--wp--preset--color--ui-link-color) !important;
 		}
 		.wp-block-prc-block-staff-info:last-child {
 			&:before {

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/grid-column",
 	"version": "0.1.0",
 	"title": "Grid Column",
@@ -38,7 +38,8 @@
 		"html": false,
 		"color": {
 			"background": true,
-			"text": true
+			"text": true,
+			"link": true
 		},
 		"spacing": {
 			"blockGap": {
@@ -85,5 +86,6 @@
 	"textdomain": "grid-column",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
 	"render": "file:./render.php"
 }

@@ -12,10 +12,12 @@
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
+import { register } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
+import { store } from './store';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -26,9 +28,9 @@ import { registerBlockType } from '@wordpress/blocks';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './style.scss';
-import Edit from './Edit';
-import Save from './Save';
-import Icon from './Icon';
+import edit from './edit';
+import save from './save';
+import icon from './icon';
 import variations from './variations';
 import transforms from './transforms';
 
@@ -37,18 +39,14 @@ import metadata from './block.json';
 const { name } = metadata;
 
 const settings = {
-	icon: Icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
+	icon,
+	edit,
+	save,
 	variations,
 	transforms,
 };
+
+register(store);
 
 /**
  * Every block starts by registering a new block type definition.

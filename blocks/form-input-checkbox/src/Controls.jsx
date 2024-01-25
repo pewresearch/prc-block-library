@@ -6,24 +6,17 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
-import { BlockControls, InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls } from '@wordpress/block-editor';
 import {
-	BaseControl,
-	Button,
-	CardDivider,
 	PanelBody,
 	SelectControl,
 	TextControl,
 	ToggleControl,
-	ToolbarButton,
-	ToolbarDropdownMenu,
-	ToolbarGroup,
 } from '@wordpress/components';
-import { useEntityProp } from '@wordpress/core-data';
 
 function InspectorPanel({ attributes, setAttributes }) {
-	const { type, value } = attributes;
+	const { type, value, defaultChecked, required } = attributes;
+	const name = attributes?.metadata?.name;
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Form Input Field Settings')}>
@@ -39,10 +32,31 @@ function InspectorPanel({ attributes, setAttributes }) {
 					}}
 				/>
 				<TextControl
-					label="Value"
+					label="Input Value"
 					value={value}
 					onChange={(newValue) => {
 						setAttributes({ value: newValue });
+					}}
+				/>
+				<TextControl
+					label="Input Name"
+					value={name}
+					onChange={(newName) => {
+						setAttributes({ metadata: {...attributes.metadata, name: newName } });
+					}}
+				/>
+				<ToggleControl
+					checked={defaultChecked}
+					label="Default Checked"
+					onChange={() => {
+						setAttributes({ defaultChecked: !defaultChecked });
+					}}
+				/>
+				<ToggleControl
+					checked={required}
+					label="Required"
+					onChange={() => {
+						setAttributes({ required: !required });
 					}}
 				/>
 			</PanelBody>

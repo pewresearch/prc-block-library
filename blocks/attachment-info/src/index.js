@@ -11,6 +11,7 @@
 /**
  * WordPress Dependencies
  */
+import { media as icon } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
@@ -28,22 +29,14 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import './editor.scss';
-import Edit from './Edit';
-import Save from './Save';
-
+import edit from './edit';
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
+	icon,
+	edit,
 };
 
 /**
@@ -51,4 +44,4 @@ const settings = {
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-registerBlockType( name, { ...metadata, ...settings } );
+registerBlockType(name, { ...metadata, ...settings });

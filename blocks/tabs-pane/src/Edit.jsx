@@ -15,7 +15,16 @@ import {
 import { useSelect } from '@wordpress/data';
 
 export default function Edit({ attributes, context, clientId }) {
-	const currentlySelectedUUID = context['prc-block/tabs/activeUUID']; // @TODO: Convert this to use a wp data store registered by the tabs block.
+	const { currentlySelectedUUID } = useSelect((select) => {
+		const { getBlockRootClientId } = select('core/block-editor');
+		const panesClientId = getBlockRootClientId(clientId);
+		const controllerClientId = getBlockRootClientId(panesClientId);
+		return {
+			currentlySelectedUUID: select('prc-block/tabs-controller')
+				.getActiveUUID(controllerClientId),
+		};
+	}, [clientId]);
+
 	const { uuid, className } = attributes;
 	const { hasChildBlocks } = useSelect(
 		(select) => {

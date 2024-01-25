@@ -34,7 +34,7 @@ export default function registerVariations() {
 		),
 		attributes: {
 			className: 'is-style-callout',
-			backgroundColor: 'beige',
+			backgroundColor: 'ui-beige-very-light',
 		},
 		example: {
 			innerBlocks: [
@@ -61,78 +61,11 @@ export default function registerVariations() {
 	});
 
 	/**
-	 * Card Block
+	 * Baseball Card Block
 	 */
 	registerBlockVariation(BLOCKNAME, {
-		name: 'card',
-		title: __('Card'),
-		icon: () => (
-			<Icon
-				icon={icons.faCardSpadeLight}
-				width={21}
-				preserveAspectRatio="xMidYMid meet"
-			/>
-		),
-		description: __(
-			'A Group block in the "Card" format with a heading with a border, image, text, and read more link.'
-		),
-		attributes: {
-			className: 'is-style-card',
-		},
-		example: {
-			innerBlocks: [
-				{
-					name: 'core/heading',
-					attributes: {
-						className: 'is-style-section-header',
-						level: 3,
-						placeholder: 'Signature Reports',
-					},
-				},
-				{
-					name: 'core/image',
-					attributes: {},
-				},
-				{
-					name: 'prc-block/story-item',
-					attributes: {
-						title: 'Ultricies Ipsum Nibh Egestas Purus',
-						excerpt:
-							'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
-						label: 'Report',
-						date: 'Jan 1, 2023',
-						image: 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
-						imageSlot: 'disabled',
-						imageSize: 'A2',
-						isPreview: true,
-						className: 'is-style-disabled',
-						postId: 0,
-					},
-				},
-			],
-			viewportWidth: 320,
-		},
-		innerBlocks: [
-			[
-				'core/heading',
-				{
-					className: 'is-style-section-header',
-					level: 3,
-					placeholder: 'Signature Reports...',
-				},
-			],
-			['core/image'],
-			['prc-block/story-item', { className: 'is-style-disabled' }],
-		],
-		isActive: ({ className }) => 'is-style-card' === className,
-	});
-
-	/**
-	 * Baseball Card "Alt" Block
-	 */
-	registerBlockVariation(BLOCKNAME, {
-		name: 'card-alt',
-		title: __('Card (Alt)'),
+		name: 'baseball-card',
+		title: __('Baseball Card'),
 		icon: () => (
 			<Icon
 				icon={icons.faCardSpadeSolid}
@@ -141,22 +74,21 @@ export default function registerVariations() {
 			/>
 		),
 		description: __(
-			'A Group block in the "Card" format with a sub header heading in a black background, image, text, and read more link. Internally we call this the "Baseball Card" style.'
+			'A Group block in the "Baseball Card" format with a card heading in a black background, image, text, and read more link.'
 		),
 		attributes: {
-			className: 'is-style-card-alt',
+			className: 'is-style-baseball-card',
 		},
 		example: {
 			innerBlocks: [
 				{
 					name: 'core/heading',
 					attributes: {
-						className: 'is-style-sub-header',
+						className: 'baseball-card__heading',
 						level: 3,
-						fontSize: 'small-label',
 						content: 'Most Popular Posts',
-						backgroundColor: 'text-color',
-						textColor: 'white',
+						backgroundColor: 'ui-black',
+						textColor: 'ui-white',
 					},
 				},
 				{
@@ -182,17 +114,17 @@ export default function registerVariations() {
 			[
 				'core/heading',
 				{
-					className: 'is-style-sub-header',
+					className: 'baseball-card__heading',
 					level: 3,
 					fontSize: 'small-label',
 					placeholder: 'Most Popular Posts...',
-					backgroundColor: 'text-color',
-					textColor: 'white',
+					backgroundColor: 'ui-black',
+					textColor: 'ui-white',
 				},
 			],
-			['prc-block/story-item', { className: 'is-style-disabled' }],
+			['core/paragraph', { placeholder: 'Add card content here...' }],
 		],
-		isActive: ({ className }) => 'is-style-card-alt' === className,
+		isActive: ({ className }) => 'is-style-baseball-card' === className,
 	});
 
 	/**
@@ -209,22 +141,22 @@ export default function registerVariations() {
 			/>
 		),
 		description: __(
-			'A Group block in the "Card" style with a heading and list of attached images.'
+			'A Group block in the "Baseball Card" style with a heading and list of attached images.'
 		),
 		attributes: {
-			className: 'is-style-card-alt',
+			className: 'is-style-baseball-card',
 		},
 		example: {
 			innerBlocks: [
 				{
 					name: 'core/heading',
 					attributes: {
-						className: 'is-style-sub-header',
+						className: 'baseball-card__heading',
 						level: 3,
 						fontSize: 'small-label',
 						content: 'POST INFOGRAPHICS',
-						backgroundColor: 'text-color',
-						textColor: 'white',
+						backgroundColor: 'ui-black',
+						textColor: 'ui-white',
 					},
 				},
 				{
@@ -238,12 +170,12 @@ export default function registerVariations() {
 			[
 				'core/heading',
 				{
-					className: 'is-style-sub-header',
+					className: 'baseball-card__heading',
 					level: 3,
 					fontSize: 'small-label',
 					placeholder: 'POST INFOGRAPHICS',
-					backgroundColor: 'text-color',
-					textColor: 'white',
+					backgroundColor: 'ui-black',
+					textColor: 'ui-white',
 				},
 			],
 			['prc-block/attachment-info', {}],
@@ -291,7 +223,7 @@ export default function registerVariations() {
 				{
 					name: 'core/social-links',
 					attributes: {
-						iconColor: 'text-color',
+						iconColor: 'ui-black',
 						iconColorValue: '#2a2a2a',
 						size: 'has-small-icon-size',
 						className: 'is-style-logos-only',
@@ -340,7 +272,7 @@ export default function registerVariations() {
 			[
 				'core/social-links',
 				{
-					iconColor: 'text-color',
+					iconColor: 'ui-black',
 					iconColorValue: '#2a2a2a',
 					size: 'has-small-icon-size',
 					className: 'is-style-logos-only',

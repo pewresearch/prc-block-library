@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/code-syntax",
   "version": "0.1.0",
   "title": "Code Syntax",
@@ -50,7 +50,6 @@
     "anchor": true,
     "html": false,
     "spacing": {
-      "blockGap": true,
       "margin": [
         "top",
         "bottom"
@@ -72,7 +71,10 @@
   "textdomain": "code-syntax",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
+  "style": [
+    "file:./style-index.css",
+    "prc-font-monospace"
+  ],
   "viewScript": "file:./view.js",
   "render": "file:./render.php"
 }

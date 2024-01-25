@@ -1,10 +1,22 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/tabs-menu",
 	"version": "0.1.0",
 	"title": "Tabs Menu",
 	"category": "design",
+	"attributes": {
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": {
+						"left":"var:preset|spacing|20"
+					}
+				}
+			}
+		}
+	},
 	"supports": {
         "html": false,
         "align": false,

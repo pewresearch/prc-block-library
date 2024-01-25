@@ -17,11 +17,19 @@
     },
     "dropdownTextColor": {
       "type": "string",
-      "default": "slate"
+      "default": "ui-black"
+    },
+    "autoDropdownEnabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "autoDropdownWidth": {
+      "type": "number",
+      "default": 300
     },
     "headingBackgroundColor": {
       "type": "string",
-      "default": "slate"
+      "default": "ui-black"
     },
     "headingTextColor": {
       "type": "string",
@@ -33,23 +41,23 @@
     },
     "textColor": {
       "type": "string",
-      "default": "slate"
+      "default": "ui-black"
     },
     "activeBackgroundColor": {
       "type": "string",
-      "default": "gray"
+      "default": "ui-gray-very-light"
     },
     "activeTextColor": {
       "type": "string",
-      "default": "slate"
+      "default": "ui-black"
     },
     "hoverBackgroundColor": {
       "type": "string",
-      "default": "oatmeal"
+      "default": "ui-beige-very-light"
     },
     "hoverTextColor": {
       "type": "string",
-      "default": "slate"
+      "default": "ui-black"
     },
     "heading": {
       "type": "string",
@@ -59,13 +67,13 @@
       "type": "boolean",
       "default": false
     },
-    "autoDropdownEnabled": {
-      "type": "boolean",
-      "default": true
-    },
-    "autoDropdownWidth": {
-      "type": "number",
-      "default": 300
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|20"
+        }
+      }
     }
   },
   "supports": {
@@ -75,6 +83,10 @@
       "left",
       "right"
     ],
+    "color": {
+      "background": true,
+      "text": true
+    },
     "spacing": {
       "margin": [
         "top",
@@ -93,9 +105,30 @@
     },
     "typography": {
       "__experimentalFontFamily": true,
+      "fontSizes": true,
+      "lineHeight": true,
       "__experimentalDefaultControls": {
-        "__experimentalFontFamily": true
+        "__experimentalFontFamily": true,
+        "fontSizes": true
       }
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "radius": false,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "radius": false,
+        "style": true,
+        "width": true
+      }
+    }
+  },
+  "selectors": {
+    "root": ".wp-block-prc-block-table-of-contents",
+    "spacing": {
+      "blockGap": ".wp-block-prc-block-table-of-contents__list"
     }
   },
   "example": {
@@ -111,6 +144,10 @@
   "textdomain": "table-of-contents",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
+  "style": [
+    "file:./style-index.css",
+    "prc-block-library--baseball-card",
+    "prc-block-library--additional-color-supports"
+  ],
   "viewScript": "file:./view.js"
 }

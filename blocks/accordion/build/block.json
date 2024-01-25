@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/accordion",
   "version": "0.1.0",
   "title": "Accordion",
@@ -23,13 +23,14 @@
     },
     "contentTextColor": {
       "type": "string"
-    },
-    "borderColor": {
-      "type": "string",
-      "default": "gray-light"
     }
   },
   "supports": {
+    "color": {
+      "link": true,
+      "text": false,
+      "background": false
+    },
     "anchor": true,
     "html": false,
     "typography": {
@@ -39,10 +40,27 @@
         "fontSize": true,
         "__experimentalFontFamily": true
       }
-    }
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "style": true,
+        "width": true
+      }
+    },
+    "interactivity": true
   },
   "parent": [
     "prc-block/accordion-controller"
+  ],
+  "usesContext": [
+    "prc-block/accordion-controller/content-background",
+    "prc-block/accordion-controller/content-text",
+    "prc-block/accordion-controller/title-background",
+    "prc-block/accordion-controller/title-text"
   ],
   "textdomain": "accordion",
   "editorScript": "file:./index.js",

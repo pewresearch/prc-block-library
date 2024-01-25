@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 // PHP file to use when rendering the block type on the server to show on the front end.
 // The following variables are exposed to this file:
 
@@ -28,14 +29,14 @@ $vertical_alignment = array_key_exists( 'verticalAlignment', $attributes ) ? $at
 
 // Build the CSS classes.
 $column_classes = array(
-	'are-vertically-aligned-' . $vertical_alignment,
+	'is-vertically-aligned-' . $vertical_alignment,
 	'column'.$index.'-desktop-grid__span-'.$attrs['desktopSpan'],
 	'column'.$index.'-tablet-grid__span-'.$attrs['tabletSpan'],
 	'column'.$index.'-mobile-grid__span-'.$attrs['mobileSpan'],
 );
 
 $block_attrs = get_block_wrapper_attributes(array(
-	'class' => classNames($column_classes),
+	'class' => \PRC\Platform\Block_Utils\classNames($column_classes),
 ));
 
 echo wp_sprintf(

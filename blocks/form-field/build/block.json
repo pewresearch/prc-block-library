@@ -1,0 +1,85 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/form-field",
+  "version": "0.1.0",
+  "title": "Form Field",
+  "description": "A simple form field wrapper for input text blocks. Provides a label and required indicator.",
+  "category": "design",
+  "attributes": {
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
+    },
+    "label": {
+      "type": "string",
+      "default": ""
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|10"
+        }
+      }
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "interactivity": true
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "only-label",
+      "label": "Only Label"
+    }
+  ],
+  "providesContext": {
+    "prc-block/form-field/required": "required",
+    "prc-block/form-field/label": "label"
+  },
+  "usesContext": [
+    "prc-facets/template/facetType",
+    "prc-facets/template/facetName",
+    "prc-facets/template/facetLabel"
+  ],
+  "textdomain": "form-field",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

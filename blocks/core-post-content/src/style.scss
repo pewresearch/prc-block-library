@@ -1,0 +1,19 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-post-content {
+	container: post-content-container / inline-size;
+}
+
+@container post-content-container (max-width: 480px) {
+	.wp-block-image.alignright,
+	.wp-block-image.alignleft {
+		margin-left: auto!important;
+		margin-right: auto!important;
+		float: none!important;
+	}
+}

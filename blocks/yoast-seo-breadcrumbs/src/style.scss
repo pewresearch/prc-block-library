@@ -2,11 +2,18 @@
 	margin-top: 0.75em;
 	margin-bottom: 0.75em;
 	line-height: 1em;
-	& > .ui.breadcrumbs {
+	& > .yoast-breadcrumbs__list {
 		overflow: hidden;
 		/* text-overflow: ellipsis; */
 		display: -webkit-box;
 		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
+
+		.fa-chevron-right {
+			font-size: 12px;
+			color: var(--wp--preset--color--ui-gray-light);
+			margin-inline-start: 0.3em;
+			margin-inline-end: 0.3em;
+		}
 	}
 }

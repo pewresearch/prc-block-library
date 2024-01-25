@@ -67,7 +67,7 @@ const doSearch = (searchValue, taxonomy, parentTermId = 0) =>
 		}
 		const request = {
 			method: 'GET',
-			path: addQueryArgs('/prc-api/v2/blocks/taxonomy-search', args),
+			path: addQueryArgs('/prc-api/v3/blocks/taxonomy-search', args),
 		};
 		apiFetch(request).then((d) => {
 			const tmpData = d.map((t) => ({
@@ -134,7 +134,7 @@ function SearchField({ taxonomy = '', parentTermId = 0, parentTermName = '' }) {
 			defaultValue={null}
 			fluid
 			placeholder={`Start typing to search ${
-				'' !== parentTermName ? parentTermName : 'for a topic'
+				'' !== parentTermName ? parentTermName : 'for a ' + taxonomy
 			}`}
 		/>
 	);

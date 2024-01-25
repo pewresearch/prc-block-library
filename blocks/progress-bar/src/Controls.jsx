@@ -21,7 +21,12 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 
-export default function Controls({ attributes, setAttributes, colors }) {
+/**
+ * Internal Dependencies
+ */
+import ColorControls from './color-controls';
+
+export default function Controls({ attributes, setAttributes, colors, clientId }) {
 	const {
 		maxWidth,
 		maxValue,
@@ -34,15 +39,6 @@ export default function Controls({ attributes, setAttributes, colors }) {
 		labelPositionDY,
 		labelPositionDX,
 	} = attributes;
-
-	const {
-		barColor,
-		setBarColor,
-		backgroundColor,
-		setBackgroundColor,
-		categoryLabelColor,
-		setCategoryLabelColor,
-	} = colors;
 
 	return (
 		<Fragment>
@@ -171,30 +167,7 @@ export default function Controls({ attributes, setAttributes, colors }) {
 					</Flex>
 				</PanelBody>
 			</InspectorControls>
-			<InspectorControls group="styles">
-				<PanelColorSettings
-					__experimentalHasMultipleOrigins
-					__experimentalIsRenderedInSidebar
-					title={__('Colors')}
-					colorSettings={[
-						{
-							value: barColor.color,
-							onChange: (color) => setBarColor(color),
-							label: __('Bar'),
-						},
-						{
-							value: backgroundColor.color,
-							onChange: (color) => setBackgroundColor(color),
-							label: __('Background'),
-						},
-						{
-							value: categoryLabelColor.color,
-							onChange: (color) => setCategoryLabelColor(color),
-							label: __('Category Label'),
-						},
-					]}
-				/>
-			</InspectorControls>
+			<ColorControls colors={colors} clientId={clientId} />
 		</Fragment>
 	);
 }

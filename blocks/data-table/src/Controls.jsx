@@ -31,7 +31,7 @@ import {
  * Internal Dependencies
  */
 import { useDataTable } from './context';
-import CSVImport from './CSVImport';
+import CSVImport from './csv-import';
 
 function InspectorPanel() {
 	const { updateAttributes, setTableData } = useDataTable();

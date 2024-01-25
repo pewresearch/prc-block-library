@@ -39,26 +39,20 @@ const ALLOWED_BLOCKS = [
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, className }) {
+export default function Edit({
+	attributes,
+	__unstableLayoutClassNames: layoutClassNames,
+}) {
 	const {
 		templateLock,
-		layout: {
-			justifyContent,
-			orientation = 'vertical',
-			flexWrap = 'wrap',
-		} = {},
+		layout,
 		allowedBlocks,
+		className,
 	} = attributes;
+	const orientation = layout?.orientation || 'vertical';
 
 	const blockProps = useBlockProps({
-		className: classNames(className, {
-			'items-justified-right': justifyContent === 'right',
-			'items-justified-space-between': justifyContent === 'space-between',
-			'items-justified-left': justifyContent === 'left',
-			'items-justified-center': justifyContent === 'center',
-			'is-vertical': orientation === 'vertical',
-			'no-wrap': flexWrap === 'nowrap',
-		}),
+		className: classNames(className, layoutClassNames),
 	});
 
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.

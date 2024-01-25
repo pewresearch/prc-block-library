@@ -17,8 +17,8 @@ import { createBlock, getDefaultBlockName } from '@wordpress/blocks';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
-import Placeholder from './Placeholder';
+import Controls from './controls';
+import Placeholder from './placeholder';
 
 /**
  * The edit function describes the structure of your block in the context of the

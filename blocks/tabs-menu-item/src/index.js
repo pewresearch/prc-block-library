@@ -25,20 +25,17 @@ import { registerBlockType } from '@wordpress/blocks';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import Edit from './Edit';
-import Icon from './Icon';
+import edit from './edit';
+import icon from './icon';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	icon: Icon,
+	icon,
 	__experimentalLabel: ({ title }) => title || 'Menu Item', // Will change the label to match the title, #experimental.
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
+	edit,
 };
 
 /**

@@ -1,20 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/related-posts-query",
-	"version": "0.1.0",
+	"version": "2.0.0",
 	"title": "Related Posts Query",
 	"category": "design",
 	"description": "Display custom related posts defaulting to posts with the same primary taxonomy term.",
 	"keywords": [ "related posts" ],
 	"attributes": {
-		"taxonomy": {
-			"type": "string"
-		},
-		"postType": {
-			"type": "string",
-			"default": "post"
-		},
 		"perPage": {
 			"type": "number",
 			"default": 5
@@ -29,6 +22,14 @@
 		"orientation": {
 			"type": "string",
 			"default": "vertical"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": "var:preset|spacing|20"
+				}
+			}
 		}
 	},
 	"supports": {
@@ -54,5 +55,5 @@
 	},
 	"textdomain": "related-posts-query",
 	"editorScript": "file:./index.js",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

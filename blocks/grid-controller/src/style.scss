@@ -1,3 +1,5 @@
+@import "../../../includes/common-styles/gutenberg-responsive-breaks";
+
 $grid-max-columns: 6;
 
 $grid-desktop: repeat(12, 1fr); // Same as 12 instances of 1fr.
@@ -5,13 +7,26 @@ $grid-tablet: repeat(12, 1fr);
 $grid-mobile: repeat(4, 1fr);
 
 // Standard Gutenberg Breakpoints
-$break-wide: 1280px;
-$break-xlarge: 1080px;
-$break-large: 960px;	// admin sidebar auto folds
-$break-medium: 782px;	// adminbar goes big
-$break-small: 600px;
-$break-mobile: 480px;
-$break-zoomed-in: 280px;
+// $break-wide: 1280px;
+// $break-xlarge: 1080px;
+// $break-large: 960px;	// admin sidebar auto folds
+// $break-medium: 782px;	// adminbar goes big
+// $break-small: 600px;
+// $break-mobile: 480px;
+// $break-zoomed-in: 280px;
+
+// create a simple mixin
+@mixin horizontal-divider() {
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+		content: "";
+		border-top: 1px solid var(--divider-color, transparent)!important;
+		display: block!important;
+		padding-bottom: var(--grid-gutter);
+	}
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+		display: none!important;
+	}
+}
 
 /**
  * Grid Columns
@@ -23,7 +38,7 @@ $break-zoomed-in: 280px;
 	margin-block-start: 0;
 }
 .wp-block-prc-block-grid-controller {
-	--grid-gutter: 24px;
+	--grid-gutter: var(--grid-gutter, 24px);
 	--grid-gutter-half: calc(var(--grid-gutter) / 2);
 
 	box-sizing: border-box;
@@ -44,43 +59,12 @@ $break-zoomed-in: 280px;
 	// Horizontal divider line for mobile columns that take up the entire grid of 4 column spans.
 	&.has-divider {
 		& > .wp-block-prc-block-grid-column:after {
-			// border-color: #eaeaea;
-			border-color: transparent;
-		}
-		&.has-slate-divider-color > .wp-block-prc-block-grid-column:after {
-			border-color: var(--wp--preset--color--slate)!important;
-		}
-		&.has-gray-divider-color > .wp-block-prc-block-grid-column:after {
-			border-color: var(--wp--preset--color--gray)!important;
-		}
-		&.has-gray-darkest-divider-color > .wp-block-prc-block-grid-column:after {
-			border-color: var(--wp--preset--color--gray-darkest)!important;
-		}
-		&.has-gray-dark-divider-color > .wp-block-prc-block-grid-column:after {
-			border-color: var(--wp--preset--color--gray-dark)!important;
-		}
-		&.has-gray-medium-divider-color > .wp-block-prc-block-grid-column:after {
-			border-color: var(--wp--preset--color--gray-medium)!important;
-		}
-		&.has-gray-light-divider-color > .wp-block-prc-block-grid-column:after {
-			border-color: var(--wp--preset--color--gray-light)!important;
-		}
-		&.has-black-divider-color > .wp-block-prc-block-grid-column:after {
-			border-color: var(--wp--preset--color--black)!important;
-		}
-		&.has-white-divider-color > .wp-block-prc-block-grid-column:after {
-			border-color: var(--wp--preset--color--white)!important;
+			border-color: var(--divider-color, transparent)!important; // By default lets just have a transparent border.
 		}
 		// Enable horizontal divider line for mobile columns that take up the entire grid of 4 column spans.
 		& > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"] {
-			&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
-				content: "";
-				border-top: 1px solid;
-				display: block;
-				padding-bottom: var(--grid-gutter);
-			}
-			&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
-				display: none;
+			&:not(:first-of-type){
+				@include horizontal-divider();
 			}
 		}
 		// Enable vertical divider line for all columns.
@@ -90,7 +74,7 @@ $break-zoomed-in: 280px;
 			height: 100%;
 			top: 0;
 			left: calc( -1 * ( var(--grid-gutter) / 2 ) );
-			border-left: 1px solid;
+			border-left: 1px solid transparent;
 		}
 	}
 	// If a section header is present, adjust the divider line height down below the section header.
@@ -101,13 +85,35 @@ $break-zoomed-in: 280px;
 		}
 	}
 
+	&.is-vertically-aligned-center .wp-block-prc-block-grid-column {
+		justify-content: center;
+	}
+	.wp-block-prc-block-grid-column.is-vertically-aligned-center {
+		justify-content: center !important;
+	}
+	&.is-vertically-aligned-bottom .wp-block-prc-block-grid-column {
+		justify-content: flex-end;
+	}
+	.wp-block-prc-block-grid-column.is-vertically-aligned-bottom {
+		justify-content: flex-end !important;
+	}
+	&.is-vertically-aligned-top .wp-block-prc-block-grid-column {
+		justify-content: flex-start;
+	}
+	.wp-block-prc-block-grid-column.is-vertically-aligned-top {
+		justify-content: flex-start !important;
+	}
+
 	.wp-block-prc-block-grid-column {
 		height: 100%;
 		width: 100%;
 		position: relative;
 		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
 		& > * {
 			box-sizing: border-box;
+			width: 100%;
 		}
 	}
 
@@ -129,14 +135,8 @@ $break-zoomed-in: 280px;
 		&.has-divider {
 			// Enable tablet horizontal divider
 			& > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-12"] {
-				&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
-					content: "";
-					border-top: 1px solid #eaeaea;
-					display: block;
-					padding-bottom: var(--grid-gutter);
-				}
-				&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
-					display: none!important;
+				&:not(:first-of-type){
+					@include horizontal-divider();
 				}
 			}
 			// Disable mobile horizontal divider
@@ -169,6 +169,9 @@ $break-zoomed-in: 280px;
 			}
 			& > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-12"]:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
 				display: block!important;
+			}
+			& > .wp-block-prc-block-grid-column:not(:first-of-type)[class*="-desktop-grid__span-12"] {
+				@include horizontal-divider();
 			}
 		}
 
@@ -237,15 +240,4 @@ $break-zoomed-in: 280px;
 .wp-block-prc-block-grid-column.has-global-padding {
 	padding-left: inherit;
 	padding-right: inherit;
-}
-
-// Specific Grid Inner Block Styles
-
-// This will align "Baseball Cards" (Card Alt) with the new grid block gutter.
-.wp-block-prc-block-grid-column:not(.is-selected) .wp-block-group.is-style-card-alt .is-style-sub-header {
-	@media (min-width: #{ ($break-small) }) {
-		margin-left: calc( -1 * var(--grid-gutter-half))!important;
-	}
-	margin-left:0!important;
-	margin-right: 0!important;
 }

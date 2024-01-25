@@ -5,21 +5,19 @@ namespace PRC\Platform\Blocks;
  * Block Name:        Core Paragraph
  * Version:           0.1.0
  * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
 class Core_Paragraph {
-
-	/**
-	* @TODO Search and replace "core/paragraph" for your block name, e.g. "core/group".
-	*/
-	public static $block_name = "core/paragraph";
 	public static $block_json = null;
+	public static $version;
+	public static $block_name = 'core/paragraph';
+	public static $view_script_handle = null;
+	public static $editor_script_handle = null;
 	public static $style_handle = null;
-	public static $script_handle = null;
 	public static $styles = array(
 		array(
 			'name' => 'has-big-number',
@@ -27,18 +25,32 @@ class Core_Paragraph {
 		)
 	);
 
-	public function __construct($init = false) {
-		if ( true === $init ) {
-			$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-paragraph/build/block.json';
-			self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
-			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-paragraph/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
+		$this->init($loader);
+	}
 
-			add_action( 'init', array($this, 'init_assets') );
-			add_action( 'init', array($this, 'register_new_styles'), 0 );
-			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
-			add_filter( 'render_block', array( $this, 'render' ), 10, 2 );
-			add_filter( 'apple_news_initialize_components', array( $this, 'register_apple_news_callout_component' ), 10, 1 );
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'register_assets');
+			$loader->add_action('enqueue_block_assets', $this, 'register_style');
+			$loader->add_action('enqueue_block_editor_assets', $this, 'register_editor_script');
+			$loader->add_filter('apple_news_initialize_components', $this, 'register_apple_news_callout_component', 10, 1);
+			$loader->add_filter('render_block', $this, 'render', 100, 2);
 		}
+	}
+
+	/**
+	 * @hook init
+	 * @return void
+	 */
+	public function register_assets() {
+		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
+		self::$style_handle    = register_block_style_handle( self::$block_json, 'style' );
+		$this->register_new_styles();
 	}
 
 	/**
@@ -55,11 +67,6 @@ class Core_Paragraph {
 		return $components;
 	}
 
-	public function init_assets() {
-		self::$script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
-		self::$style_handle    = register_block_style_handle( self::$block_json, 'style' );
-	}
-
 	public function register_new_styles() {
 		foreach( self::$styles as $style_args ) {
 			register_block_style(
@@ -69,13 +76,23 @@ class Core_Paragraph {
 		}
 	}
 
-	public function register_editor_assets() {
-		wp_enqueue_script( self::$script_handle );
+	/**
+	 * @hook enqueue_block_editor_assets
+	 */
+	public function register_editor_script() {
+		wp_enqueue_script( self::$editor_script_handle );
+	}
+
+	/**
+	 * @hook enqueue_block_assets
+	 */
+	public function register_style() {
 		wp_enqueue_style( self::$style_handle );
 	}
 
 	/**
 	* Render the "core/paragraph" block
+	* @hook render_block
 	* @param string $block_content
 	* @param mixed $block
 	* @return mixed
@@ -85,11 +102,9 @@ class Core_Paragraph {
 			return $block_content;
 		}
 
-		wp_enqueue_style( self::$style_handle );
+		// wp_enqueue_style( self::$style_handle );
 
 		return $block_content;
 	}
 
 }
-
-new Core_Paragraph(true);

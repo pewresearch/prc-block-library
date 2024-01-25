@@ -1,0 +1,109 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/post-taxonomy-terms",
+  "version": "0.1.0",
+  "title": "Post Taxonomy Terms",
+  "category": "theme",
+  "description": "Display the current post's selected taxonomy terms.",
+  "attributes": {
+    "taxonomy": {
+      "type": "string",
+      "default": "categories"
+    },
+    "perPage": {
+      "type": "number",
+      "default": 25
+    },
+    "separator": {
+      "type": "string"
+    },
+    "activeBackgroundColor": {
+      "type": "string",
+      "default": "ui-gray-very-light"
+    },
+    "activeTextColor": {
+      "type": "string",
+      "default": "ui-text-color"
+    },
+    "hoverBackgroundColor": {
+      "type": "string",
+      "default": "ui-beige-very-light"
+    },
+    "hoverTextColor": {
+      "type": "string",
+      "default": "ui-text-color"
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|20"
+        }
+      }
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "color": {
+      "background": true,
+      "text": true
+    },
+    "layout": {
+      "allowEditing": true,
+      "allowJustification": true,
+      "allowInheriting": false,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true,
+      "allowSwitching": false,
+      "allowVerticalAlignment": true,
+      "default": {
+        "type": "flex",
+        "justifyContent": "left",
+        "orientation": "vertical"
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalFontWeight": true,
+      "__experimentalTextTransform": true,
+      "__experimentalFontFamily": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalSkipSerialization": [
+        "textDecoration"
+      ],
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    },
+    "spacing": {
+      "blockGap": true,
+      "units": [
+        "px",
+        "em",
+        "rem",
+        "vh",
+        "vw"
+      ],
+      "__experimentalDefaultControls": {
+        "blockGap": true
+      }
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "textdomain": "post-taxonomy-terms",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": [
+    "file:./style-index.css",
+    "prc-block-library--baseball-card",
+    "prc-block-library--additional-color-supports"
+  ]
+}

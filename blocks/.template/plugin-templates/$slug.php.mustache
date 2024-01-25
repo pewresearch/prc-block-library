@@ -6,9 +6,8 @@ namespace PRC\Platform\Blocks;
 {{#description}}
  * Description:       {{description}}
 {{/description}}
- * Version:           {{version}}
- * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
 {{#author}}
  * Author:            {{author}}
 {{/author}}
@@ -17,18 +16,30 @@ namespace PRC\Platform\Blocks;
  */
 
 class {{slugSnakeCase}} {
-	public $block_library_version;
-	public $active_theme;
-
+	public static $block_library_version;
+	public static $active_theme;
+	public static $block_json;
+	public static $version;
+	
 	{{^isCoreBlockVariant}}
-	public static $version = '{{version}}';
 	public static $dir = __DIR__;
 
 	public function __construct( $block_library_version, $active_theme ) {
-		$this->block_library_version = $block_library_version ? $block_library_version : false;
-		$this->active_theme = $active_theme ? $active_theme : false;
+		self::$block_library_version = $block_library_version ? $block_library_version : null;
+		self::$active_theme = $active_theme ? $active_theme : null;
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/{{slug}}/build/block.json';
+		self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
 	}
 	{{#isDynamicVariant}}
+	/**
+	* Render the block
+	* @param array $attributes Block attributes
+	* @param string $content Block content
+	* @param array $block WP_Block object
+	* @return string
+	*/
 	public function render_block_callback( $attributes, $content, $block ) {
 		$wrapper_attributes = get_block_wrapper_attributes();
 
@@ -44,6 +55,7 @@ class {{slugSnakeCase}} {
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued
 	* through the block editor in the corresponding context.
+	* @hook init
 	*
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
@@ -67,36 +79,49 @@ class {{slugSnakeCase}} {
 	* @TODO Search and replace {coreBlockChangeMyName} for your block name, e.g. "core/group".
 	*/
 	public static $block_name = {coreBlockChangeMyName};
-	public static $block_json = null;
 	public static $view_style_handle = null;
 	public static $editor_script_handle = null;
 
-	public function __construct($init = false) {
-		if ( true === $init ) {
-			$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/{{slug}}/build/block.json';
-			self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
-			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
-
-			add_action( 'init', array($this, 'init_assets') );
-			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
-			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
-			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
-			add_filter( 'render_block', array( $this, 'render' ), 10, 2 );
-		}
+	public function __construct( $block_library_version, $active_theme ) {
+		self::$block_library_version = $block_library_version ? $block_library_version : null;
+		self::$active_theme = $active_theme ? $active_theme : null;
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/{{slug}}/build/block.json';
+		self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
 	}
 
-	public function init_assets() {
+	/**
+	* Register the block's assets.
+	* @hook init
+	*/
+	public function init() {
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
 		self::$view_style_handle    = register_block_style_handle( self::$block_json, 'style' );
 	}
 
-
+	/**
+	* Register the block's editor assets.
+	* @hook enqueue_block_editor_assets
+	*/
 	public function register_editor_assets() {
 		wp_enqueue_script( self::$editor_script_handle );
 	}
 
 	/**
+	* Register the block's style assets.
+	* @hook enqueue_block_assets
+	*/
+	public function register_style_assets() {
+		wp_enqueue_script( self::$editor_script_handle );
+	}
+
+	/**
 	* Register additional attributes for the {coreBlockChangeMyName} block.
+	*
+	* In the example we're adding a simple new attribute that is a boolean with a default value of false.
+	*
+	* @hook block_type_metadata
 	* @param mixed $metadata
 	* @return mixed
 	*/
@@ -117,6 +142,10 @@ class {{slugSnakeCase}} {
 
 	/**
 	* Register additional settings, like context, for the {coreBlockChangeMyName} block.
+	*
+	* In the example we're providing context for all innerblocks with the myNewAttribute attribute that we set in the add_attributes method above.
+	*
+	* @hook block_type_metadata_settings
 	* @param mixed $settings
 	* @param mixed $metadata
 	* @return mixed
@@ -135,6 +164,11 @@ class {{slugSnakeCase}} {
 
 	/**
 	* Render the {coreBlockChangeMyName} block
+	*
+	* In the example we're adding enqueueing the view script and style if the myNewAttribute attribute is set to true and modifying the block markup, otherwise the block loads normally.
+	* You should maintain the robust attributes check in your core block modification as other plugins may be modifying core block attributes as well. Always check for the block name and always return $block_content if you are not modifying it.
+	*
+	* @hook render_block
 	* @param string $block_content
 	* @param mixed $block
 	* @return mixed
@@ -150,9 +184,6 @@ class {{slugSnakeCase}} {
 			wp_enqueue_script( self::$view_script_handle );
 			wp_enqueue_style( self::$view_style_handle );
 		}
-
-		// A central point that other plugins can use to affect content without affecting asset loading for block's actual content.
-		$block_content = apply_filters( 'prc_{{slug}}_block_content', $block_content, $block );
 
 		// Everything below here is an example, you do not have to wrap your core block.
 		// You can use WP_HTML_Tag_Processor to modify the markup or override entirely depending on your use case.

@@ -1,32 +1,49 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/taxonomy-list",
 	"version": "0.1.0",
 	"title": "Taxonomy List",
 	"category": "theme",
 	"description": "Display a list of taxonomy terms.",
 	"attributes": {
-		"taxonomy": {
-			"type": "string",
-			"default": "topic"
-		},
 		"allowedBlocks": {
 			"type": "array"
 		},
 		"templateLock": {
 			"type": [ "string", "boolean" ],
 			"enum": [ "all", "insert", "contentOnly", false ]
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": "var:preset|spacing|20"
+				}
+			}
 		}
 	},
 	"providesContext": {
-		"taxonomy": "taxonomy",
 		"textColor": "textColor"
 	},
 	"supports": {
 		"html": false,
 		"inserter": true,
 		"reusable": true,
+		"layout": {
+			"allowEditing": true,
+			"allowJustification": true,
+			"allowInheriting": false,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true,
+			"allowSwitching": false,
+			"allowVerticalAlignment": true,
+			"default": {
+				"type": "flex",
+				"justifyContent": "left",
+				"orientation": "vertical"
+			}
+		},
 		"color": {
 			"text": true,
 			"link": true,
@@ -51,16 +68,6 @@
 			"units": [ "px", "em", "rem", "vh", "vw" ],
 			"__experimentalDefaultControls": {
 				"blockGap": true
-			}
-		},
-		"__experimentalLayout": {
-			"allowSwitching": false,
-			"allowInheriting": false,
-			"allowVerticalAlignment": false,
-			"default": {
-				"type": "flex",
-				"justifyContent": "left",
-				"orientation": "vertical"
 			}
 		},
 		"__experimentalStyle": {

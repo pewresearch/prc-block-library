@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/carousel-slide",
 	"version": "0.1.0",
 	"title": "Carousel Slide",
@@ -18,7 +18,13 @@
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"color": true,
+		"color": {
+			"background": true,
+			"enableContrastChecker": true,
+			"gradients": false,
+			"link": true,
+			"text": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,

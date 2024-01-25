@@ -1,8 +1,8 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/taxonomy-index-list-controller",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"title": "Taxonomy Index List Controller",
 	"category": "theme",
 	"description": "Display a grid of taxonomy list blocks that converts to an accordion on mobile",

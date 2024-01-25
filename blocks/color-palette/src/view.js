@@ -7,7 +7,7 @@ import domReady from '@wordpress/dom-ready';
 /**
  * Internal Dependencies
  */
-import Palette from './Palette';
+import Palette from './palette';
 
 
 domReady(() => {
@@ -18,7 +18,6 @@ domReady(() => {
 	palettes.forEach((elm) => {
 		// Gather the classes and styles from the palette element.
 		const classes = elm.getAttribute('class');
-		const id = elm.getAttribute('id');
 
         // Get the second class name from the list of classes.
         const [colorClass] = classes.split(' ').slice(1);
@@ -31,7 +30,6 @@ domReady(() => {
             {...{
                 className: classes,
                 colorSlug,
-                id,
             }}
             />,
 			elm,

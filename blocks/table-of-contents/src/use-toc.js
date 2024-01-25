@@ -48,27 +48,11 @@ function useCurrentChapters() {
 export default function useTOC( { postId, postType } ) {
 	const { record, isResolving } = useEntityRecord( 'postType', postType, postId );
 
-	const {reportPackage, parentTitle, parentId, tableOfContents} = useMemo(() => {
+	const tableOfContents = useMemo(() => {
 		if (!record || isResolving) {
-			return {};
-		}
-		return {
-			reportPackage: record?.report_package,
-			parentTitle: record?.report_package?.parent_title,
-			parentId: record?.report_package?.parent_id,
-			tableOfContents: record?.report_package?.table_of_contents,
-		}
-	}, [record, isResolving]);
-
-	const currentPostChapters = useCurrentChapters();
-
-	console.log('useTOC', postId, postType, reportPackage, currentPostChapters, tableOfContents);
-
-	const memoizedChapters = useMemo(() => {
-		if (!tableOfContents) {
 			return [
 				{
-					id: 1,
+					id: postId,
 					title: 'Chapter 1...',
 					internalChapters: [
 						{
@@ -95,6 +79,13 @@ export default function useTOC( { postId, postType } ) {
 				},
 			];
 		}
+
+		return record?.table_of_contents;
+	}, [record, isResolving]);
+
+	const currentPostChapters = useCurrentChapters();
+
+	const memoizedChapters = useMemo(() => {
 		return tableOfContents?.map((chapter) => {
 			const internalChapters = postId === chapter?.id ? currentPostChapters.map((chapter) => ({
 				title: chapter.attributes?.content,
@@ -113,8 +104,6 @@ export default function useTOC( { postId, postType } ) {
 	}, [currentPostChapters, tableOfContents]);
 
 	return {
-		parentId,
-		parentTitle,
 		chapters: memoizedChapters,
 	};
 }

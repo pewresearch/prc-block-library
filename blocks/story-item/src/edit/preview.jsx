@@ -1,12 +1,12 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
  */
-import { RichText } from '@wordpress/block-editor';
+import { RichText, useInnerBlocksProps } from '@wordpress/block-editor';
 import { date as formatDate } from '@wordpress/date';
 import { Placeholder } from '@wordpress/components';
 
@@ -27,7 +27,6 @@ export default function Preview({ attributes }) {
 	const {
 		title,
 		excerpt,
-		extra,
 		label,
 		date,
 		image,
@@ -38,11 +37,16 @@ export default function Preview({ attributes }) {
 		enableHeader,
 		enableExcerpt,
 		enableExtra,
-		enableBreakingNews,
 		enableMeta,
 	} = attributes;
 
 	const blockProps = useStoryItemBlockProps(attributes);
+	const innerBlocksProps = useInnerBlocksProps({
+		className: 'extra'
+	}, {
+		allowedBlocks: ['core/list', 'core/paragraph', 'core/html'],
+		templateLock: true,
+	});
 
 	const headerClasses = classNames('header', {
 		large: 1 === headerSize,
@@ -72,7 +76,7 @@ export default function Preview({ attributes }) {
 		<article {...blockProps}>
 			{enableMeta && (
 				<div className="meta">
-					<span className="label">{label}</span> |{' '}
+					<span className="label">{label}</span>
 					<span className="date">{formatDate('M j, Y', date)}</span>
 				</div>
 			)}
@@ -116,20 +120,7 @@ export default function Preview({ attributes }) {
 			)}
 
 			{enableExtra && (
-				<RichText.Content tagName="ul" value={extra} className="extra" />
-			)}
-
-			{true === enableBreakingNews && false !== window.prcBreakingNews && (
-				<ul className="extra-breaking-news">
-					<li>
-						<a
-							href={window.prcBreakingNews.url}
-							className="kicker-breaking-news"
-						>
-							{window.prcBreakingNews.label}
-						</a>
-					</li>
-				</ul>
+				<div {...innerBlocksProps} />
 			)}
 		</article>
 	);

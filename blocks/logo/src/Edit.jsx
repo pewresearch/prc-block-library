@@ -20,7 +20,8 @@ import { ResizableBox } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
+
 // Assets
 import { ReactComponent as Logo } from '../assets/primary.svg';
 import { ReactComponent as LogoWhite } from '../assets/primary-white.svg';
@@ -57,6 +58,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						width,
 					}}
 					minWidth={100}
+					maxWidth={360}
 					enable={{
 						top: false,
 						right: isSelected,

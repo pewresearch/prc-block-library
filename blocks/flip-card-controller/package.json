@@ -15,7 +15,7 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/dom-ready": "^3.24.0",
-		"@wordpress/scripts": "^25.1.0"
+		"@wordpress/dom-ready": "^3.44.0",
+		"@wordpress/scripts": "^26.15.0"
 	}
 }

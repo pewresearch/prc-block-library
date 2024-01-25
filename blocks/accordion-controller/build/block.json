@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/accordion-controller",
   "version": "0.1.0",
   "title": "Accordion Controller",
@@ -18,20 +18,36 @@
     },
     "contentTextColor": {
       "type": "string"
-    },
-    "borderColor": {
-      "type": "string",
-      "default": "gray-light"
     }
   },
   "supports": {
     "anchor": true,
     "html": false,
+    "color": {
+      "link": true,
+      "text": false,
+      "background": false
+    },
     "spacing": {
+      "blockGap": {
+        "sides": [
+          "vertical"
+        ]
+      },
       "margin": [
         "top",
         "bottom"
       ]
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "style": true,
+        "width": true
+      }
     },
     "typography": {
       "fontSize": true,
@@ -40,7 +56,15 @@
         "fontSize": true,
         "__experimentalFontFamily": true
       }
-    }
+    },
+    "layout": {
+      "allowEditing": false,
+      "default": {
+        "type": "flex",
+        "orientation": "vertical"
+      }
+    },
+    "interactivity": true
   },
   "example": {
     "attributes": {},
@@ -76,10 +100,16 @@
     ],
     "viewportWidth": 640
   },
+  "providesContext": {
+    "prc-block/accordion-controller/content-background": "contentBackgroundColor",
+    "prc-block/accordion-controller/content-text": "contentTextColor",
+    "prc-block/accordion-controller/title-background": "titleBackgroundColor",
+    "prc-block/accordion-controller/title-text": "titleTextColor"
+  },
   "textdomain": "accordion-controller",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
-  "viewScript": "file:./view.js"
+  "viewModule": "file:./view.js"
 }

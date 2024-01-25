@@ -1,15 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/bylines-display",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "title": "Bylines Display",
   "category": "theme",
   "description": "Display a post's bylines in the format: {prefix 'By'} 1, 2, and 3.",
   "attributes": {
-    "textAlign": {
-      "type": "string"
-    },
     "prefix": {
       "type": "string",
       "default": "By"
@@ -30,9 +27,23 @@
       ],
       "padding": true
     },
+    "layout": {
+      "allowEditing": true,
+      "allowJustification": true,
+      "allowInheriting": false,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true,
+      "allowSwitching": false,
+      "allowVerticalAlignment": false,
+      "default": {
+        "type": "flex",
+        "justifyContent": "left",
+        "orientation": "horizontal"
+      }
+    },
     "typography": {
       "fontSize": true,
-      "fontAppearance": false,
+      "fontAppearance": true,
       "__experimentalFontStyle": false,
       "__experimentalFontFamily": true,
       "__experimentalFontWeight": true,

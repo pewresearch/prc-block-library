@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/promo",
   "version": "0.1.0",
   "title": "Promo (Ad)",
@@ -28,6 +28,14 @@
     "hasForm": {
       "type": "boolean",
       "default": false
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|20"
+        }
+      }
     }
   },
   "styles": [
@@ -89,6 +97,7 @@
   },
   "textdomain": "promo",
   "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "render": "file:./render.php"
 }

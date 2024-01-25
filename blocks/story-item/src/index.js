@@ -25,10 +25,11 @@ import { registerBlockType } from '@wordpress/blocks';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
+import './editor.scss';
 import './style.scss';
-import Edit from './edit';
-import Save from './Save';
-import Icon from './Icon';
+import edit from './edit';
+import save from './save';
+import icon from './icon';
 import transforms from './transforms';
 import variations from './variations';
 
@@ -37,18 +38,12 @@ import metadata from './block.json';
 const { name } = metadata;
 
 const settings = {
-	icon: Icon,
+	icon,
 	variations,
 	transforms,
 	__experimentalLabel: ({ title }) => title || 'Story Item', // Will change the label to match the title, #experimental.
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
+	edit,
+	save
 };
 
 /**

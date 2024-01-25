@@ -1,32 +1,47 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/form-input-text",
   "version": "0.1.0",
   "title": "Input Text Field",
-  "description": "A primitive block for a form input text field",
+  "description": "A primtive block for a text input field in a form.",
   "category": "design",
   "attributes": {
-    "label": {
-      "type": "string"
-    },
     "placeholder": {
       "type": "string",
-      "default": "Enter email address..."
+      "default": "Enter text..."
     },
     "type": {
       "type": "string",
-      "default": "email"
+      "enum": [
+        "email",
+        "password",
+        "text",
+        "textarea",
+        "number"
+      ],
+      "default": "text"
+    },
+    "value": {
+      "type": "string"
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "typography": {
+          "lineHeight": "1"
+        }
+      }
     }
   },
-  "ancestor": [
-    "prc-block/mailchimp-form",
-    "prc-block/mailchimp-select"
+  "parent": [
+    "prc-block/form-field"
   ],
   "supports": {
     "anchor": true,
     "html": false,
     "reusable": false,
+    "inserter": false,
     "__experimentalBorder": {
       "color": true,
       "width": true
@@ -39,9 +54,23 @@
       "fontSize": true,
       "lineHeight": true,
       "__experimentalFontFamily": true,
-      "__experimentalFontWeight": true
-    }
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "interactivity": true
   },
+  "usesContext": [
+    "prc-block/form-field/required",
+    "prc-block/form-field/label",
+    "prc-block/form-input-target-namespace"
+  ],
   "textdomain": "form-input-text",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",

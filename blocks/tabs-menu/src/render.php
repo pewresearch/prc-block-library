@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 // PHP file to use when rendering the block type on the server to show on the front end.
 // The following variables are exposed to this file:
 
@@ -8,6 +9,7 @@
 
 $block_wrapper_attrs =  get_block_wrapper_attributes(array(
 	'aria-role' => 'tablist',
+	'style' => '--block-gap: ' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes) . ';',
 ));
 
 $uuids = array_map(
@@ -19,9 +21,6 @@ $uuids = array_map(
 
 $content = '';
 foreach ( $block->parsed_block['innerBlocks'] as $i => $menu_item ) {
-	if ( ! in_array( get_query_var( 'menuItem' ), $uuids ) && 0 === $i ) {
-		$menu_item['attrs']['active'] = true;
-	}
 	$content .= '<li>' . render_block( $menu_item ) . '</li>';
 }
 

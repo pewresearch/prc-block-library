@@ -12,7 +12,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { RichText } from '@wordpress/block-editor';
+import { RichText, InnerBlocks } from '@wordpress/block-editor';
 import { Fragment } from '@wordpress/element';
 
 /**
@@ -28,7 +28,7 @@ import { Fragment } from '@wordpress/element';
  */
 
 export default function Save({ attributes }) {
-	const { excerpt, extra } = attributes;
+	const { excerpt, enableExtra } = attributes;
 	return (
 		<Fragment>
 			{excerpt && (
@@ -38,8 +38,10 @@ export default function Save({ attributes }) {
 					value={excerpt}
 				/>
 			)}
-			{extra && (
-				<RichText.Content className="extra" tagName="ul" value={extra} />
+			{enableExtra && (
+				<div className="extra">
+					<InnerBlocks.Content />
+				</div>
 			)}
 		</Fragment>
 	);

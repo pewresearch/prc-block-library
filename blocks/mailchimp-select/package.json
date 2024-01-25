@@ -15,7 +15,10 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@hcaptcha/react-hcaptcha": "^1.4.4",
-		"@wordpress/scripts": "^24.6.0"
+		"@hcaptcha/react-hcaptcha": "^1.8.1",
+		"@wordpress/scripts": "^26.16.0"
+	},
+	"dependencies": {
+		"@wordpress/interactivity": "^2.6.0"
 	}
 }

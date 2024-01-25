@@ -6,9 +6,15 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, PanelColorSettings } from '@wordpress/block-editor';
+import { 
+	InspectorControls, 
+	__experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients
+ } from '@wordpress/block-editor';
 
-export default function Controls({ colors }) {
+export default function Controls({ colors, clientId }) {
+	const colorSettings = useMultipleOriginColorsAndGradients();
+
 	const {
 		titleBackgroundColor,
 		setTitleBackgroundColor,
@@ -18,44 +24,38 @@ export default function Controls({ colors }) {
 		setContentBackgroundColor,
 		contentTextColor,
 		setContentTextColor,
-		borderColor,
-		setBorderColor,
 	} = colors;
 
 	return (
-		<InspectorControls group="styles">
-			<PanelColorSettings
-				__experimentalHasMultipleOrigins
-				__experimentalIsRenderedInSidebar
-				title={__('Colors')}
-				disableCustomColors
-				colorSettings={[
+		<InspectorControls group="color">
+			<ColorGradientSettingsDropdown
+				settings={ [
 					{
-						value: titleBackgroundColor.color,
-						onChange: setTitleBackgroundColor,
-						label: __('Title Background'),
-					},
-					{
-						value: titleTextColor.color,
-						onChange: setTitleTextColor,
+						colorValue: titleTextColor?.color,
+						onColorChange: setTitleTextColor,
 						label: __('Title Text'),
 					},
 					{
-						value: contentBackgroundColor.color,
-						onChange: setContentBackgroundColor,
-						label: __('Content Background'),
+						colorValue: titleBackgroundColor?.color,
+						onColorChange: setTitleBackgroundColor,
+						label: __('Title Background'),
 					},
 					{
-						value: contentTextColor.color,
-						onChange: setContentTextColor,
+						colorValue: contentTextColor?.color,
+						onColorChange: setContentTextColor,
 						label: __('Content Text'),
 					},
 					{
-						value: borderColor.color,
-						onChange: setBorderColor,
-						label: __('Border'),
+						colorValue: contentBackgroundColor?.color,
+						onColorChange: setContentBackgroundColor,
+						label: __('Content Background'),
 					},
-				]}
+				] }
+				panelId={ clientId }
+				hasColorsOrGradients={ false }
+				disableCustomColors={ true }
+				__experimentalIsRenderedInSidebar
+				{ ...colorSettings }
 			/>
 		</InspectorControls>
 	);

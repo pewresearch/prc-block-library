@@ -23,7 +23,9 @@ export default function Edit({
 	context,
 	insertBlocksAfter,
 }) {
-	const currentlySelectedUUID = context?.['prc-block/tabs/activeUUID']; // @TODO: Convert this to use a wp data store registered by the tabs block.
+	const { setActiveUUIDPair } = useDispatch('prc-block/tabs-controller');
+
+
 	const { title, uuid, className } = attributes;
 
 	const {
@@ -122,6 +124,23 @@ export default function Edit({
 		[clientId]
 	);
 
+	useEffect(()=>{
+		if (matchingPaneClientId && className) {
+			console.log('matchingPaneClientId', matchingPaneClientId);
+			// Ensure that if the menu item is is-style-dialog that we enforce the attributes
+			updateBlockAttributes(matchingPaneClientId, {
+				isDialog: 'is-style-dialog' === className,
+			});
+		}
+	}, [className, matchingPaneClientId]);
+
+	const { currentlySelectedUUID } = useSelect((select) => {
+		return {
+			currentlySelectedUUID: select('prc-block/tabs-controller')
+				.getActiveUUID(controllerClientId),
+		};
+	}, [controllerClientId]);
+
 	const onBlockInit = () => {
 		// If no uuid is set then run init sequence, create a matching tab pane block.
 		if (null === uuid) {
@@ -171,9 +190,10 @@ export default function Edit({
 
 	useEffect(() => {
 		if (isSelected) {
-			updateBlockAttributes(controllerClientId, {
-				activeUUID: uuid,
-			});
+			setActiveUUIDPair(controllerClientId, uuid);
+			// updateBlockAttributes(controllerClientId, {
+			// 	activeUUID: uuid,
+			// });
 		}
 	}, [isSelected, uuid, controllerClientId]);
 

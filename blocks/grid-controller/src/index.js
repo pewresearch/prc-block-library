@@ -27,8 +27,8 @@ import { registerBlockType } from '@wordpress/blocks';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './style.scss';
-import Edit from './Edit';
-import Save from './Save';
+import edit from './edit';
+import save from './save';
 import transforms from './transforms';
 import variations from './variations';
 
@@ -38,14 +38,8 @@ const { name } = metadata;
 
 const settings = {
 	icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
+	edit,
+	save,
 	transforms,
 	variations,
 };

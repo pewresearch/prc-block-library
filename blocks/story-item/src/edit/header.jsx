@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
@@ -44,7 +44,6 @@ export default function Header({ attributes, setAttributes }) {
 			onChange={(t) => setAttributes({ title: t })}
 			allowedFormats={['core/italic', 'core/bold']}
 			placeholder={placeholder}
-			multiline="br"
 			className={classes}
 		/>
 	);

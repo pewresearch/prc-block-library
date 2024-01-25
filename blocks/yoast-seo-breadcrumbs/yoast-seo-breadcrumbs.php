@@ -3,89 +3,85 @@ namespace PRC\Platform\Blocks;
 /**
  * Block Name:	      Yoast SEO Breadcrumbs
  * Version:           0.1.0
- * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
 class Yoast_SEO_Breadcrumbs {
+	public static $block_json = null;
+	public static $version;
+	public static $block_name;
+	public static $style_handle = null;
+	public static $dir = __DIR__;
+
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/yoast-seo-breadcrumbs/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
+		self::$block_name = self::$block_json['name'];
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'init_assets');
+			$loader->add_action('enqueue_block_assets', $this, 'enqueue_assets');
+			$loader->add_filter('wpseo_breadcrumb_separator', $this, 'modify_separator', 10, 1);
+			$loader->add_filter('wpseo_breadcrumb_output_wrapper', $this, 'modify_container_tag', 10, 1);
+			$loader->add_filter('wpseo_breadcrumb_output_class', $this,
+			'modify_container_classname', 10, 1);
+			$loader->add_filter('wpseo_breadcrumb_links', $this, 'modify_breadcrumbs', 10, 1);
+			$loader->add_filter('wpseo_breadcrumb_single_link', $this, 'modify_breadcrumb', 10, 2);
+		}
+	}
 
 	/**
-	 * Register a core block variant.
-	 *
-	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
+	 * @hook init
+	 * @return void
 	 */
-	public static $block_name = "yoast-seo/breadcrumbs";
-	public static $block_json = null;
-	public static $view_style_handle = null;
-
-	public function __construct($init = false) {
-		if ( true === $init ) {
-			$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/yoast-seo-breadcrumbs/build/block.json';
-			self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
-			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
-
-			add_action( 'init', array($this, 'init_assets') );
-			add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
-
-			// Filter Yoast breadcrumb functionality
-			add_filter( 'wpseo_breadcrumb_links', array( $this, 'modify_yoast_breadcrumbs' ) );
-			add_filter( 'wpseo_breadcrumb_single_link', array( $this, 'modify_yoast_breadcrumb' ), 10, 2 );
-			add_filter(
-				'wpseo_breadcrumb_output_class',
-				function() {
-					return 'ui breadcrumb';
-				}
-			);
-			add_filter(
-				'wpseo_breadcrumb_output_wrapper',
-				function() {
-					return 'div';
-				}
-			);
-			// Change Yoast's breadcrumb divider to our chevron icon
-			add_filter(
-				'wpseo_breadcrumb_separator',
-				function() {
-					return '<i class="chevron right icon divider"></i>';
-				}
-			);
-		}
-	}
-
 	public function init_assets() {
-		self::$view_style_handle = register_block_style_handle( self::$block_json, 'style' );
+		self::$style_handle = register_block_style_handle( self::$block_json, 'style' );
 	}
 
-	public function register_assets() {
-		wp_enqueue_style( self::$view_style_handle );
+	/**
+	 * @init enqueue_block_assets
+	 * @return void
+	 */
+	public function enqueue_assets() {
+		wp_enqueue_style( self::$style_handle );
 	}
 
-	public function get_origin_term_link( $taxonomy = 'topic', $term_id = null ) {
-		if ( null === $term_id ) {
-			// $term_id = get_queried_object_id();
-			return false;
-		}
-		$link = false;
-		if ( get_current_blog_id() !== 1 ) {
-			$origin_term_id = get_term_meta( $term_id, '_origin_term_id', true );
-			switch_to_blog( 1 );
-			$link = get_term_link( (int) $origin_term_id, $taxonomy );
-			if ( is_wp_error( $link ) ) {
-				$link = false;
-			}
-			restore_current_blog();
-		} else {
-			$link = get_term_link( (int) $term_id, $taxonomy );
-		}
-
-		return $link;
+	/**
+	 * @hook wpseo_breadcrumb_separator
+	 */
+	public function modify_separator($separator) {
+		return '<i class="fa fa-solid fa-chevron-right"></i>';
 	}
 
-	public function modify_yoast_breadcrumbs( $crumbs ) {
+	/**
+	 * @hook wpseo_breadcrumb_output_wrapper
+	 */
+	public function modify_container_tag($tag) {
+		return 'div';
+	}
+
+	/**
+	 * @hook wpseo_breadcrumb_output_class
+	 */
+	public function modify_container_classname($classname) {
+		return 'yoast-breadcrumbs__list';
+	}
+
+	/**
+	 * @hook wpseo_breadcrumb_links
+	 * @param mixed $crumbs
+	 * @return array
+	 */
+	public function modify_breadcrumbs( $crumbs ) {
 		// If a post type archive is present in the crumbs, remove it.
 		foreach ( $crumbs as $crumb_key => $crumb_value ) {
 			if ( array_key_exists( 'ptarchive', $crumb_value ) ) {
@@ -153,12 +149,17 @@ class Yoast_SEO_Breadcrumbs {
 		return $crumbs;
 	}
 
-	public function modify_yoast_breadcrumb( $link, $breadcrumb ) {
+	/**
+	 * @hook wpseo_breadcrumb_single_link
+	 * @param mixed $link
+	 * @param mixed $breadcrumb
+	 * @return string
+	 */
+	public function modify_breadcrumb( $link, $breadcrumb ) {
 		$url  = false;
 		$text = $breadcrumb['text'];
 		if ( array_key_exists( 'term_id', $breadcrumb ) ) {
-			$taxonomy = get_queried_object()->taxonomy;
-			$url = $this->get_origin_term_link( $taxonomy, $breadcrumb['term_id'] );
+			$url = get_term_link( (int) $breadcrumb['term_id'], $breadcrumb['taxonomy'] );
 		} elseif ( array_key_exists('url', $breadcrumb) ) {
 			$url = $breadcrumb['url'];
 		}
@@ -167,7 +168,4 @@ class Yoast_SEO_Breadcrumbs {
 		}
 		return "<a href='{$url}' data-label='{$text}' class='section'>{$text}</a>";
 	}
-
 }
-
-new Yoast_SEO_Breadcrumbs(true);

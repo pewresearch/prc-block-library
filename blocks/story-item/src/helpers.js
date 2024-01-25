@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
@@ -13,7 +13,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 const setArtBySize = (imageSize, postId, setAttributes) => {
 	if (0 !== postId && false !== setAttributes) {
 		apiFetch({
-			path: `/prc-api/v2/get-art/?postId=${postId}`,
+			path: `/prc-api/v3/art-direction/get/?postId=${postId}`,
 		}).then((data) => {
 			if (false !== data) {
 				if (undefined !== data[imageSize] && false !== setAttributes) {
@@ -35,15 +35,14 @@ const setArtBySize = (imageSize, postId, setAttributes) => {
  * @param {*} isRefresh
  * @returns
  */
-const getAttributesFromPost = (opts) => {
-	const { post, imageSize, isRefresh = false } = opts;
-	console.log('getAttributesFromPost', post);
+const getAttributesFromPost = (post, options = {
+	imageSize: 'A1',
+}) => {
+	console.log('getAttributesFromPost', post, options);
 
 	if (null === post) {
 		return {};
 	}
-
-	const date = formatDate('M j, Y', post.date);
 
 	const storyItem = {
 		title:
@@ -54,20 +53,18 @@ const getAttributesFromPost = (opts) => {
 			post.hasOwnProperty('excerpt') && post.excerpt.hasOwnProperty('rendered')
 				? post.excerpt.rendered
 				: '',
-		url: post.canonical_url, // @TODO where is this `link` coming from, why is it not url or permalink.
+		url: post.link,
 		label: post.hasOwnProperty('label') ? post.label : 'report',
-		date,
-		postId: post.id || post.ID,
+		date: formatDate('M j, Y', post.date),
+		postId: post.id,
+		postType: post.type,
 	};
 
-	if (true !== isRefresh) {
-		storyItem.extra = '';
-	}
-
-	if (post.art) {
-		const { art } = post;
-		storyItem.image = art[imageSize].rawUrl;
-		storyItem.isChartArt = art[imageSize].chartArt;
+	if (post.artDirection) {
+		const { artDirection } = post;
+		const { imageSize } = options;
+		storyItem.image = artDirection[imageSize].rawUrl;
+		storyItem.isChartArt = artDirection[imageSize].chartArt;
 	}
 
 	return storyItem;
@@ -86,6 +83,7 @@ const refreshPostAttributes = (options) => {
 	const {
 		setAttributes,
 		postId = false,
+		postType = 'post',
 		imageSize = 'A1',
 		isRefresh = false,
 	} = options;
@@ -94,8 +92,10 @@ const refreshPostAttributes = (options) => {
 		return;
 	}
 
+	let type = 'post' === postType ? 'posts' : postType;
+
 	apiFetch({
-		path: `/wp/v2/stub/${postId}`,
+		path: `/wp/v2/${type}/${postId}`,
 		method: 'GET',
 	})
 		.then((post) => {
@@ -111,33 +111,14 @@ const refreshPostAttributes = (options) => {
 		.catch((err) => console.error(err));
 };
 
-const getStoryItemByURL = (newUrl) =>
-	new Promise((resolve, reject) => {
-		apiFetch({
-			path: '/prc-api/v2/stub/get-post-by-url',
-			method: 'POST',
-			data: { url: newUrl },
-		})
-			.then((post) => {
-				if ('object' !== typeof post) {
-					reject(new Error('post is not an object'));
-				}
-				const newAttributes = getAttributesFromPost({
-					post,
-					imageSize: 'A1',
-				});
-				resolve(newAttributes);
-			})
-			.catch((err) => reject(err));
-	});
-
-const useStoryItemBlockProps = (attributes) => {
+const useStoryItemBlockProps = (attributes, asSave = false) => {
 	const {
 		imageSlot,
 		imageSize,
 		enableEmphasis,
 		enableExcerptBelow,
 		className,
+		postId,
 	} = attributes;
 
 	const logicalClasses = {
@@ -150,6 +131,7 @@ const useStoryItemBlockProps = (attributes) => {
 	}
 	const blockPropsArgs = {
 		className: classNames('story item', className, logicalClasses),
+		'data-post-id': postId
 	};
 	if ('disabled' !== imageSlot && '' !== imageSize) {
 		blockPropsArgs['data-image-size'] = imageSize;
@@ -158,17 +140,9 @@ const useStoryItemBlockProps = (attributes) => {
 	return useBlockProps(blockPropsArgs);
 };
 
-// Everything except site's 19 and 17.
-// @TODO: I wish there was a more systemic way to approach this but it'll work for now
-const stubEnabledSiteIds = Array.from(Array(19).keys()).filter(
-	(id) => 17 !== id && 0 !== id,
-);
-
 export {
 	setArtBySize,
-	getStoryItemByURL,
 	getAttributesFromPost,
 	refreshPostAttributes,
 	useStoryItemBlockProps,
-	stubEnabledSiteIds,
 };

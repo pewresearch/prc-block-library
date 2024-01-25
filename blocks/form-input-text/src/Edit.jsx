@@ -7,7 +7,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -21,18 +21,20 @@ import Controls from './Controls';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, context }) {
+	const isRequired = context?.['prc-block/form-field-required'];
 	const { placeholder, type } = attributes;
 	const blockProps = useBlockProps({
 		placeholder,
 		onChange: (event) => event.preventDefault(),
 		type,
+		required: isRequired,
 	});
 
 	return (
 		<Fragment>
-			<input {...blockProps} />
 			<Controls {...{ attributes, setAttributes }} />
+			{'textarea' !== type ? (<input {...blockProps} />) : (<textarea {...blockProps} />)}
 		</Fragment>
 	);
 }

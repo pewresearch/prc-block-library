@@ -28,6 +28,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import Edit from './Edit';
 import Save from './Save';
 import Icon from './Icon';
+import './style.scss';
 
 import metadata from './block.json';
 

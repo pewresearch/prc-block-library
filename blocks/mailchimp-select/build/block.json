@@ -1,6 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "prc-block/mailchimp-select",
   "version": "0.1.0",
   "title": "MailChimp Select",
@@ -25,23 +25,28 @@
     "html": false,
     "color": {
       "background": true,
-      "text": true
+      "text": true,
+      "link": true
     },
     "spacing": {
       "margin": true,
       "padding": true,
-      "blockGap": true
+      "blockGap": {
+        "sides": [
+          "vertical"
+        ]
+      }
     },
     "typography": {
       "fontSize": true,
       "lineHeight": true,
       "__experimentalFontFamily": true,
       "__experimentalFontWeight": true
-    }
+    },
+    "interactivity": true
   },
   "textdomain": "mailchimp-select",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",
-  "render": "file:./render.php",
-  "viewScript": "file:./view.js"
+  "render": "file:./render.php"
 }

@@ -14,10 +14,12 @@ export default function Controls( { attributes, setAttributes, context } ) {
 		<BlockControls>
 			<URLSearchToolbar
 				{...{
-					attributes,
-					setAttributes,
+					postId: attributes.postId,
+					postType: 'post',
+					disableImage: true,
 					onSelect: (postAttrs) => {
-						setAttributes(postAttrs);
+						const { title, link, id } = postAttrs;
+						setAttributes({ title: title?.rendered, url: link, postId: id });
 					},
 				}}
 			/>

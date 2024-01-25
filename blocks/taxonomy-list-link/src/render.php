@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 // PHP file to use when rendering the block type on the server to show on the front end.
 // The following variables are exposed to this file:
 
@@ -48,7 +49,7 @@ if ( array_key_exists('className', $attributes) && 'is-style-sub-expand' === $at
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'id' => 'item-' . md5( wp_json_encode( $attributes ) ),
-	'class' => classNames($css_classes),
+	'class' => \PRC\Platform\Block_Utils\classNames($css_classes),
 ));
 
 echo wp_sprintf(

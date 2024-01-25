@@ -1,86 +1,75 @@
-/* eslint-disable no-undef */
 /**
- * WordPress Dependencies
- */
-import domReady from '@wordpress/dom-ready';
-import { addQueryArgs, getQueryArg } from '@wordpress/url';
+* WordPress Dependencies
+*/
+import { store, getContext, getElement } from "@wordpress/interactivity";
 
-/**
- * Switches the active tab and panel.
- *
- * @param       tabsControllerId The id of the tabs controller.
- * @param {elm} newTab           The tab to activate.
- * @param       updateHash       Whether to update the hash in the URL.
- */
-function switchTab(tabsControllerId, newTab, updateHash = true) {
-	const tabId = newTab.getAttribute('id');
-	const newPanelId = tabId.replace('tab-', 'panel-');
-
-	if (updateHash) {
-		newTab.focus();
-		// add a tabId query arg to the url with the id of the new tab
-		const { href } = window.location;
-		const newUrl = addQueryArgs(href, {
-			tabId,
-		});
-		window.history.pushState({ path: newUrl }, '', newUrl);
-	}
-
-	const oldTab = document.querySelector(
-		`#${tabsControllerId} > div > .wp-block-prc-block-tabs-menu > li > .wp-block-prc-block-tabs-menu-item.is-active`
-	);
-
-	const oldPanel = document.querySelector(
-		`#${tabsControllerId} > div > .wp-block-prc-block-tabs-panes > .wp-block-prc-block-tabs-pane.is-active`
-	);
-	const newPanel = document.getElementById(newPanelId);
-
-	if (null !== oldTab && oldTab !== newTab) {
-		oldTab.classList.remove('is-active');
-	}
-	if (null !== oldPanel && oldPanel !== newPanel) {
-		oldPanel.classList.remove('is-active');
-	}
-
-	newTab.classList.add('is-active');
-	newPanel.classList.add('is-active');
+function updateWindowHistory(tab, uuid) {
+	tab.focus();
+	// add a tabId query arg to the url with the id of the new tab
+	const { href } = window.location;
+	// add ?tabId=uuid to the url, check if there is already a query string and append accordingly
+	const newUrl = href.indexOf('?') > -1 ? `${href}&tabId=${uuid}` : `${href}?tabId=${uuid}`;
+	window.history.pushState({ path: newUrl }, '', newUrl);
 }
 
-domReady(() => {
-	const tabs = document.querySelectorAll('.wp-block-prc-block-tabs');
-	tabs.forEach((t) => {
-		const controllerId = t.getAttribute('id');
-		const controllerMenu = t.querySelector('.wp-block-prc-block-tabs-menu');
-		const menuItems = controllerMenu.querySelectorAll(
-			'.wp-block-prc-block-tabs-menu-item'
-		);
-
-		menuItems.forEach((menuItem, index) => {
-			// Activate first tab
-			if (0 === index) {
-				switchTab(controllerId, menuItem, false);
+const { state } = store( 'prc-block/tabs-controller', {
+	state: {
+		// A simple log of all the tab controller blocks on the page
+		onPage: [],
+	},
+	actions: {
+		setActiveTab: () => {
+			const { ref } = getElement();
+			const context = getContext();
+			const { uuid } = context;
+			if ( ref.classList.contains('is-style-dialog') ) {
+				context.activeDialogUUID = uuid;
+			} else {
+				context.activeUUID = uuid;
+				// When we select a new tab also update the browser history state and add the tab's uuid to the url. This allows users to copy the url and provide deep linking activation of a specific tab by url. Thats handled server side with a query var check on the block render.
+				updateWindowHistory(ref, uuid);
 			}
-			menuItem.addEventListener('click', (elm) => {
-				elm.preventDefault();
-				switchTab(controllerId, elm.target);
-			});
-		});
+			console.log("context...", context);
+		},
+		hideDialog: () => {
+			const context = getContext();
+			const { uuid } = context;
+			context.activeDialogUUID = null;
+		}
+	},
+	callbacks: {
+		onTabsInit: () => {
+			const { ref } = getElement();
+			const id = ref.getAttribute('id');
+			state.onPage.push(id);
 
-		// Fire an event that signals the tabs are initialized, other plugins can use this.
-		const event = new CustomEvent('tabsReady', {});
-		document.dispatchEvent(event);
-	});
-
-	// Activate tab from the ?tabId query arg
-	const tabId = getQueryArg(window.location.href, 'tabId');
-	if (tabId) {
-		const tab = document.getElementById(tabId);
-		if (tab) {
-			const closestController = tab.closest('.wp-block-prc-block-tabs');
-			const controllerId = closestController?.getAttribute('id');
-			if (controllerId) {
-				switchTab(controllerId, tab);
+			const event = new CustomEvent('tabsReady', {detail: {id}});
+			// Fire a custom event when the tabs are ready
+			document.dispatchEvent(event);
+		},
+		isActive: () => {
+			const { ref } = getElement();
+			const context = getContext();
+			console.log('isActive', ref, context);
+			// Each panel|tab has its own context containing its own uuid, we can then compare that to the activeUUID. The two contexts get merged.
+			const { uuid, activeUUID, dialogLinkUUID, activeDialogUUID } = context;
+			if (uuid === dialogLinkUUID && uuid === activeDialogUUID ) {
+				return true;
+			}
+			if ( ! uuid ) {
+				return false;
+			}
+			return activeUUID === uuid;
+		},
+		onTabWatch: () => {
+			const { ref } = getElement();
+			const context = getContext();
+			const { uuid, activeUuid } = context;
+			if ( uuid === activeUuid ) {
+				console.log("onTabWatch!!", uuid, activeUuid);
+			} else {
+				console.log('onTabWatch...', ref, context);
 			}
 		}
 	}
-});
+} );

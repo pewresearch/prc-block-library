@@ -11,36 +11,43 @@ import domReady from '@wordpress/dom-ready';
 
 import './style.scss';
 
-if (!window.hasOwnProperty('prcBlocks')) {
-	window.prcBlocks = {};
+const getInternalChaptersList = (elm) => {
+	// check if the first level of the list has list-items with is-top-level class
+	// if so, return the first level of the list
+	if (elm.querySelector('.wp-block-prc-block-table-of-contents__list .is-top-level')) {
+		console.log("THIS ONE");
+		return elm.querySelector('.wp-block-prc-block-table-of-contents__list');
+	}
+	console.log("THAT ONE");
+	return elm.querySelector('.wp-block-prc-block-table-of-contents__list .wp-block-prc-block-table-of-contents__list');
 }
-window.prcBlocks.tableOfContents = {
-	useIcons: false,
-	chapters: [],
-};
 
 const watchChapters = (block) => {
 	// We will need to watch the post content for changes. and create intersection observers for each chapter block.
 	// When we hit the chapter we should get the id and mark it as active...
-	const chapters = document.querySelectorAll('[data-is-chapter]');
+	const internalChaptersList = getInternalChaptersList(block);
+	const postContent = document.querySelector('.wp-block-post-content');
+	const chapters = postContent.querySelectorAll('[data-is-chapter]');
 	if (chapters.length) {
 		chapters.forEach((chapter) => {
 			const id = chapter.getAttribute('id');
-			window.prcBlocks.tableOfContents.chapters.push(id);
-			// Add a div at the start of the next chapter that marks the end of this chapter...
-			// eslint-disable-next-line no-new
+
 			new Waypoint.Inview({
 				element: chapter,
 				enter(direction) {
-					const currentlyActive = block.querySelector(`a.item.active`);
+					console.log("enter", direction, id);
+					const currentlyActive = internalChaptersList.querySelector(`.is-active`);
 					if (currentlyActive) {
-						currentlyActive.classList.remove('active');
+						console.log("currentlyActive", currentlyActive);
+						currentlyActive.classList.remove('is-active');
 					}
 				},
 				entered(direction) {
-					const target = block.querySelector(`a.item[href="#${id}"]`);
+					const target = internalChaptersList.querySelector(`a[href="#${id}"]`);
+					console.log("entered", direction, target, id);
 					if (target) {
-						target.classList.add('active');
+						console.log("target", target);
+						target.parentElement.classList.add('is-active');
 					}
 				},
 			});
@@ -49,7 +56,8 @@ const watchChapters = (block) => {
 };
 
 const initSmoothScrollClickHandler = (elm) => {
-	const links = elm.querySelectorAll('a.item');
+	const internalChaptersList = getInternalChaptersList(elm);
+	const links = internalChaptersList.querySelectorAll('a');
 	links.forEach((link) => {
 		link.addEventListener('click', (e) => {
 			const href = link.getAttribute('href');
@@ -91,9 +99,8 @@ function watchTableOfContentsDropdownThreshold(elm) {
 function initDropdownClickHandler(elm) {
 	const isDropdown = elm.classList.contains('is-style-dropdown');
 	const autoDropdownEnabled = elm.getAttribute('data-auto-dropdown-enabled');
-	if ( isDropdown || autoDropdownEnabled ) {
-		const dropdownButton = elm.querySelector('.wp-block-prc-block-table-of-contents__dropdown');
-
+	const dropdownButton = elm.querySelector('.wp-block-prc-block-table-of-contents__dropdown-trigger');
+	if ( (isDropdown || autoDropdownEnabled) && dropdownButton ) {
 		dropdownButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			const isExpanded = elm.getAttribute('aria-expanded');
@@ -114,13 +121,15 @@ domReady(() => {
 	if (tableOfContents.length) {
 		tableOfContents.forEach((block) => {
 			console.log("tableOfContents", block);
-			// if (block.getAttribute('data-show-current-chapter')) {
-			// 	watchChapters(block);
-			// }
+
+			if (block.getAttribute('data-show-current-chapter')) {
+				watchChapters(block);
+			}
+
 			watchTableOfContentsDropdownThreshold(block)
 
 			initDropdownClickHandler(block);
-
+			// console.log('block', block);
 			initSmoothScrollClickHandler(block);
 		});
 	}

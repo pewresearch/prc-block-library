@@ -20,7 +20,7 @@ import Placeholder from './Placeholder';
 const getTermsByLetter = (letter, taxonomy) => {
 	return new Promise((resolve) => {
 		apiFetch({
-			path: `/prc-api/v2/blocks/taxonomy-index-az-list/?letter=${letter}&taxonomy=${taxonomy}`,
+			path: `/prc-api/v3/blocks/taxonomy-index-az-list/?letter=${letter}&taxonomy=${taxonomy}`,
 		}).then((terms) => {
 			const newTerms = terms.map((t) => ({
 				name: t.name,

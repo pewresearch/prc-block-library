@@ -1,39 +1,49 @@
 <?php
 namespace PRC\Platform\Blocks;
-use WP_Html_Tag_Processor;
+use WP_HTML_Tag_Processor;
+use MatthiasMullie\Minify;
+use MatthiasMullie\Minify\Exceptions\IOException;
 
 /**
  * Block Name:        Logo
  * Version:           0.1.0
- * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
 class Logo {
-	public static $version = '1.0.0';
+	public static $block_json = null;
+	public static $version;
+	public static $block_name;
+	public static $style_handle = null;
 	public static $dir = __DIR__;
 
-	public function __construct( $init = false ) {
-		if ( defined('PRC_PLATFORM') && true !== PRC_PLATFORM ) {
-			return;
-		}
-		if ( true === $init ) {
-			add_action('init', array($this, 'block_init'));
-			add_action('wp_enqueue_scripts', array($this, 'enqueue_custom_fill_styles'));
-			add_action('enqueue_block_editor_assets', array($this, 'enqueue_custom_fill_styles'));
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/logo/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
+		self::$block_name = self::$block_json['name'];
+		self::$style_handle = 'prc-block-logo-style';
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_action( 'enqueue_block_assets', $this, 'enqueue_custom_fill_styles' );
 		}
 	}
 
-	public function get_file($path) {
+	public function get_logo($logo_file) {
+		$path = plugin_dir_path( __FILE__ ) . '/assets/' . $logo_file;
 		$path = realpath( $path );
-
 		if ( ! $path || ! @is_file( $path ) ) {
 			return '';
 		}
-
 		return @file_get_contents( $path );
 	}
 
@@ -42,7 +52,6 @@ class Logo {
 	 */
 	public function generate_text_color_svg_fill_styles() {
 		$colors = wp_get_global_settings(array('color', 'palette', 'theme'));
-
 		ob_start();
 		foreach( $colors as $color ) {
 			$slug = $color['slug'];
@@ -54,26 +63,31 @@ class Logo {
 			<?php
 		}
 		$styles = ob_get_clean();
-		return $styles;
+		$minifier = new Minify\CSS($styles);
+		return $minifier->minify();
 	}
 
+	/**
+	 * Enqueues the CSS for the text color SVG fill styles for the Logo block.
+	 * @hook enqueue_block_assets
+	 * @throws IOException
+	 */
 	public function enqueue_custom_fill_styles() {
 		$styles = $this->generate_text_color_svg_fill_styles();
 		if ( is_wp_error($styles) ) {
 			return;
 		}
-		wp_add_inline_style( 'prc-block-logo-style', $styles );
+		wp_add_inline_style( self::$style_handle, $styles );
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$is_decoded = 'decoded' === get_template();
 		$classname = array_key_exists('className', $attributes) ? $attributes['className'] : '';
 		$width = array_key_exists('width', $attributes) ? $attributes['width'] . 'px' : '100%';
 		$justification = array_key_exists('justification', $attributes) ? $attributes['justification'] : 'left';
 		$dark_mode_enabled = array_key_exists('darkModeEnabled', $attributes) ? $attributes['darkModeEnabled'] : false;
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(array(
-			'class' => classNames($classname, array(
+			'class' => \PRC\Platform\Block_Utils\classNames($classname, array(
 				'item-justified-left' => 'left' === $justification,
 				'item-justified-center' => 'center' === $justification,
 				'item-justified-right' => 'right' === $justification,
@@ -81,27 +95,22 @@ class Logo {
 			))
 		));
 
-		$logo = $this->get_file( plugin_dir_path( __FILE__ ) . '/assets/primary.svg');
-		// using wp_html_tag_processor add data-browser-theme="light" to the svg tag
-		$logo = new WP_Html_Tag_Processor( $logo );
+		$logo = new WP_HTML_Tag_Processor( $this->get_logo( 'primary.svg') );
 		if ( $logo->next_tag() ) {
 			$logo->set_attribute('data-browser-theme', 'light');
 		}
 
-		$logo_white = $this->get_file( plugin_dir_path( __FILE__ ) . '/assets/primary-white.svg' );
-		$logo_white = new WP_Html_Tag_Processor( $logo_white );
+		$logo_white = new WP_HTML_Tag_Processor( $this->get_logo( 'primary-white.svg' ) );
 		if ( $logo_white->next_tag() ) {
 			$logo_white->set_attribute('data-browser-theme', 'dark');
 		}
 
-		$logo_alt = $this->get_file( plugin_dir_path( __FILE__ ) . '/assets/alternate.svg' );
-		$logo_alt = new WP_Html_Tag_Processor( $logo_alt );
+		$logo_alt = new WP_HTML_Tag_Processor( $this->get_logo( 'alternate.svg' ) );
 		if ( $logo_alt->next_tag() ) {
 			$logo_alt->set_attribute('data-browser-theme', 'light');
 		}
 
-		$logo_alt_white = $this->get_file( plugin_dir_path( __FILE__ ) . '/assets/alternate-white.svg' );
-		$logo_alt_white = new WP_Html_Tag_Processor( $logo_alt_white );
+		$logo_alt_white = new WP_HTML_Tag_Processor( $this->get_logo( 'alternate-white.svg' ) );
 		if ( $logo_alt_white->next_tag() ) {
 			$logo_alt_white->set_attribute('data-browser-theme', 'dark');
 		}
@@ -142,6 +151,7 @@ class Logo {
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued
 	* through the block editor in the corresponding context.
+	* @hook init
 	*
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
@@ -152,5 +162,3 @@ class Logo {
 	}
 
 }
-
-new Logo(true);

@@ -1,13 +1,14 @@
 /**
  * External Dependencies
  */
-import { mailChimpInterests } from '@prc/functions';
+import { MailchimpSegmentSelect } from '@prc/components';
+
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, PanelRow, SelectControl } from '@wordpress/components';
+import { PanelBody, PanelRow } from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -15,18 +16,17 @@ import { PanelBody, PanelRow, SelectControl } from '@wordpress/components';
 
 export default function Controls({ attributes, setAttributes }) {
 	const { interest } = attributes;
-	console.log('mailChimpInterests', mailChimpInterests);
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Mailchimp Form Options')}>
 				<PanelRow>
-					<SelectControl
-						label="Choose Newsletter"
+					<MailchimpSegmentSelect
+						label="Choose Newsletter Segment"
 						value={interest}
-						options={mailChimpInterests}
-						onChange={(id) => {
-							setAttributes({ interest: id });
+						onChange={(newInterestId) => {
+							setAttributes({ interest: newInterestId });
 						}}
+						apiKey="mailchimp-form"
 					/>
 				</PanelRow>
 			</PanelBody>

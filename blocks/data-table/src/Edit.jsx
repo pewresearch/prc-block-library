@@ -13,9 +13,9 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
  */
 import './editor.scss';
 import './editor-table.scss';
-import Controls from './Controls';
-import TableEdit from './TableEdit';
-import TableSetupWizard from './TableSetupWizard';
+import Controls from './controls';
+import TableEdit from './table-edit';
+import TableSetupWizard from './table-setup-wizard';
 
 import { ProvideDataTable } from './context';
 

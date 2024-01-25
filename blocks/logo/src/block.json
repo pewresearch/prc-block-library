@@ -1,8 +1,8 @@
 {
     "$schema": "https://schemas.wp.org/trunk/block.json",
-    "apiVersion": 2,
+    "apiVersion": 3,
     "name": "prc-block/logo",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "title": "Pew Research Center Logo",
     "description": "Contextually aware logo that has dark mode support, and will change to the alternate position logo in smaller containers. (#dark-mode, #css-container-queries)",
     "category": "theme",

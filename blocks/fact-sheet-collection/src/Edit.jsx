@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import { MediaDropZone } from '@prc/components';
+import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
@@ -12,8 +13,8 @@ import { Button } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-import CollectionList from './CollectionList';
-// import CollectionDropdown from './CollectionDropdown';
+import CollectionList from './collection-list';
+// import CollectionDropdown from './collection-dropdown';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -27,18 +28,22 @@ import CollectionList from './CollectionList';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, setAttributes }) {
-	const blockProps = useBlockProps();
-
+export default function Edit({ attributes, setAttributes, clientId }) {
 	const { className, pdf } = attributes;
 	const classNames = undefined !== className ? className.split(' ') : [];
 	const { id } = pdf || {
 		id: false,
 	};
 
+	const blockProps = useBlockProps({
+		style: {
+			'gap': getBlockGapSupportValue(attributes),
+		},
+	});
+
 	return (
 		<div {...blockProps}>
-			{!classNames.includes('is-style-dropdown') && <CollectionList />}
+			{!classNames.includes('is-style-dropdown') && <CollectionList {...{clientId}} />}
 			{/* {classNames.includes('is-style-dropdown') && <CollectionDropdown />} */}
 			<MediaDropZone
 				className="wp-block-prc-block-fact-sheet-collection--pdf-link"
@@ -62,7 +67,7 @@ export default function Edit({ attributes, setAttributes }) {
 				}}
 				onClear={() => setAttributes({ pdf: null })}
 				mediaType={['application/pdf']}
-				label="Upload PDF"
+				label="Upload Fact Sheet PDF"
 				singularLabel="PDF"
 			>
 				<Button variant="secondary" label="Update PDF" icon="pdf">

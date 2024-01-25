@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/mailchimp-form",
 	"title": "MailChimp Form",
 	"description": "A block that allows you to add a MailChimp form to your page.",
@@ -25,7 +25,8 @@
 			"fontSize": true,
 			"lineHeight": true,
 			"__experimentalFontFamily": true
-		}
+		},
+		"interactivity" : true
 	},
 	"example": {
 		"attributes": {},
@@ -45,9 +46,11 @@
 		],
 		"viewportWidth": 640
 	},
+	"providesContext": {
+		"interactiveNamespace": "interactiveNamespace"
+	},
 	"textdomain": "mailchimp-form",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"render": "file:./render.php"
 }

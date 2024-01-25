@@ -1,19 +1,24 @@
 /**
+ * External Dependencies
+ */
+import { useHasSelectedInnerBlock } from '@prc/hooks';
+
+/**
  * WordPress Dependencies
  */
 import { Fragment } from '@wordpress/element';
+import { useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import { Controls, Placeholder } from './Controls';
-import Image from './Image';
-import Excerpt from './Excerpt';
-import Extra from './Extra';
-import Header from './Header';
-import Meta from './Meta';
-import Preview from './Preview';
-import ContextPreview from './ContextPreview';
+import { Controls, Placeholder } from './controls';
+import Image from './image';
+import Excerpt from './excerpt';
+import Header from './header';
+import Meta from './meta';
+import Preview from './preview';
+import ContextPreview from './context-preview';
 import { useStoryItemBlockProps } from '../helpers';
 
 /**
@@ -33,8 +38,17 @@ export default function Edit({
 	setAttributes,
 	context,
 	clientId,
-	isSelected,
 }) {
+	const isSelected = useHasSelectedInnerBlock(clientId);
+	const { postId, isPreview, enableExtra } = attributes;
+
+	const blockProps = useStoryItemBlockProps(attributes);
+	const innerBlocksProps = useInnerBlocksProps({
+		className: 'extra'
+	}, {
+		allowedBlocks: ['core/list', 'core/paragraph', 'core/html'],
+	});
+	
 	// If this block is being rendered in the scope of query context
 	// then render the ContextPreview component early.
 	if (
@@ -58,8 +72,6 @@ export default function Edit({
 		);
 	}
 
-	const { postId, isPreview } = attributes;
-
 	if (undefined === postId) {
 		return (
 			<Placeholder
@@ -74,8 +86,6 @@ export default function Edit({
 	if (!isSelected || isPreview) {
 		return <Preview {...{ attributes, context }} />;
 	}
-
-	const blockProps = useStoryItemBlockProps(attributes);
 
 	return (
 		<Fragment>
@@ -108,12 +118,9 @@ export default function Edit({
 					}}
 				/>
 
-				<Extra
-					{...{
-						attributes,
-						setAttributes,
-					}}
-				/>
+				{true === enableExtra && (
+					<div {...innerBlocksProps} />
+				)}
 			</article>
 			<Controls
 				{...{

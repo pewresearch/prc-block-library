@@ -9,6 +9,7 @@ import {
 	arrowRight,
 	arrowUp,
 	arrowDown,
+	Icon as WPIcon,
 } from '@wordpress/icons';
 
 function Icon({ svgPath = false, isPressed = false }) {
@@ -28,26 +29,25 @@ function Icon({ svgPath = false, isPressed = false }) {
 	);
 }
 
-function ImageSlotIcon({ selected }) {
-	if ('right' === selected) {
-		return arrowRight;
+function ImageSlotIcon({ selected, currentlyActive = '' }) {
+	const iconPaths = {
+		'right' : arrowRight,
+		'left': arrowLeft,
+		'top': arrowUp,
+		'bottom': arrowDown,
+		'disabled': close,
+		'more': more,
 	}
-	if ('left' === selected) {
-		return arrowLeft;
-	}
-	if ('top' === selected) {
-		return arrowUp;
-	}
-	if ('bottom' === selected) {
-		return arrowDown;
-	}
-	if ('disabled' === selected) {
-		return close;
-	}
-	return more;
+	return (
+		<WPIcon
+			icon={iconPaths[selected]}
+			isPressed={selected === currentlyActive}
+			size={24}
+		/>
+	);
 }
 
-function ImageSizeIcon({ selected, currentlyActive }) {
+function ImageSizeIcon({ selected, currentlyActive = '' }) {
 	const iconPaths = {
 		A1: 'M12.13,18.09h-3l-.74-2.46H4.49l-.75,2.46H1.27l3.84-12H8.36ZM7.72,13.41,6.44,9.2,5.16,13.41Z M13.31,8.35a7,7,0,0,0,4-2.44h2v10h3.33v2.19H13V15.9h3.63V9a23.54,23.54,0,0,1-3.33,1.78Z',
 		A2: 'M12.5,18.09h-3l-.74-2.46H4.86l-.75,2.46H1.64l3.83-12H8.73ZM8.09,13.41,6.81,9.2,5.53,13.41Z M22.16,18.09h-9V15.75l.72-.52,1.46-1a31.07,31.07,0,0,0,3.1-2.6,2.74,2.74,0,0,0,.9-1.87,1.55,1.55,0,0,0-1.66-1.6c-1.19,0-1.86.76-2,2.3l-2.48-.55c.56-2.67,2.11-4,4.66-4a4.37,4.37,0,0,1,3,.91A3.5,3.5,0,0,1,22.2,9.69c0,1.51-.69,2.61-2.52,4a33.64,33.64,0,0,1-3.06,2h5.74Z',
@@ -63,7 +63,7 @@ function ImageSizeIcon({ selected, currentlyActive }) {
 	);
 }
 
-function HeadingLevelIcon({ selected, currentlyActive }) {
+function LargeMediumSmallIcon({ selected, currentlyActive }) {
 	const iconPaths = {
 		1: 'M15.81,15.63V18H8.19V6H11v9.63Z', // Large
 		2: 'M7.81,8.21V18H5.46V6H9.83l2.11,7.18L14.17,6h4.37V18H15.72V8.21l-3,9.79H10.77Z', // Medium
@@ -77,4 +77,4 @@ function HeadingLevelIcon({ selected, currentlyActive }) {
 	);
 }
 
-export { ImageSizeIcon, ImageSlotIcon, HeadingLevelIcon };
+export { ImageSizeIcon, ImageSlotIcon };

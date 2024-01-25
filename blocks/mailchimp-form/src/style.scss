@@ -1,7 +1,7 @@
 .wp-block-prc-block-mailchimp-form {
 	display: flex;
 	flex-direction: column;
-	gap: 1em;
+	gap: var(--block-gap, 1em);
 
 	@container action (min-width: 362px) {
 		flex-direction: row;
@@ -11,24 +11,49 @@
 		}
 	}
 
-	button {
-		-webkit-appearance: none;
-		appearance: none;
-		border: none;
-		margin: 0;
-		padding: 0;
-		background: none;
-		font-size: inherit;
+	input {
+		margin: 0!important;
+	}
+
+	.wp-block-prc-block-form-input-text {
+		&.is-error {
+			border-color: var(--wp--preset--color--ui-error)!important;
+		}
+		&.is-success {
+			border-color: var(--wp--preset--color--ui-success)!important;
+		}
+		&.is-disabled {
+			border-color: gray!important;
+		}
 	}
 
 	.wp-block-button > .wp-block-button__link {
-		&.has-success {
-			background-color: green!important;
+		min-width: max-content!important;
+		&[hidden] {
+			display: none;
+		}
+		&.is-success {
+			background-color: var(--wp--preset--color--ui-success)!important;
 			color: white!important;
 		}
-		&.has-error {
-			background-color: red!important;
+		&.is-error {
+			background-color: var(--wp--preset--color--ui-error);
 			color: white!important;
+		}
+		&.is-disabled {
+			background-color: gray!important;
+			color: white!important;
+		}
+	}
+
+	&.wp-block {
+		.wp-block-prc-block-form-captcha {
+			position: absolute;
+			opacity: 0.5;
+			right: 50%;
+			top: 25%;
+			z-index: 1;
+			background: white;
 		}
 	}
 }

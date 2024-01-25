@@ -6,11 +6,9 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
-global $PRC_QUIZ;
-
-$attributes['barColor'] = $PRC_QUIZ->get_color_by_slug($attributes['barColor'])['hex'];
-$attributes['backgroundColor'] = $PRC_QUIZ->get_color_by_slug($attributes['backgroundColor'])['hex'];
-$attributes['categoryLabelColor'] = $PRC_QUIZ->get_color_by_slug($attributes['categoryLabelColor'])['hex'];
+$attributes['barColor'] = PRC\Platform\Block_Utils\get_color_by_slug($attributes['barColor'])['hex'];
+$attributes['backgroundColor'] = PRC\Platform\Block_Utils\get_color_by_slug($attributes['backgroundColor'])['hex'];
+$attributes['categoryLabelColor'] = PRC\Platform\Block_Utils\get_color_by_slug($attributes['categoryLabelColor'])['hex'];
 
 echo wp_sprintf(
 	'<div %1$s><div class="ui active centered inline loader"></div></div>',

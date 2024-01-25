@@ -1,9 +1,9 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
 import hljs from 'highlight.js';
 import { unescape } from 'underscore';
+
 /**
  * WordPress Dependencies
  */

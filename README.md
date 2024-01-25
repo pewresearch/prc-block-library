@@ -100,6 +100,15 @@ For an up to date list of all available scripts and their dependency extraction 
 	https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-scripts/webpack.config.js) plugin.
 
 
+## Guides
+
+## Layout
+example
+
+## Colors
+example
+
+
 #### Licensing
 
 This library utilizes Font Awesome for some block icons and interface elements. 

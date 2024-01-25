@@ -1,16 +1,20 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "prc-block/story-item",
 	"title": "Story Item",
-	"version": "4.0.10",
+	"version": "5.0.0",
 	"category": "content-curation",
-    "description": "A story item is a visual display of a post, usually referencing a stub post.",
+    "description": "A story item is a visual display of a post, with a title, excerpt, and image. Pre-compiled variations such as pub-listing, list-item, and newsletter-glue are available for each post.",
     "keywords": ["prc", "story", "item", "story item", "stub"],
     "usesContext": [
-		"queryId",
 		"postId",
 		"postType",
+		"query",
+		"queryId",
+		"enhancedPagination",
+		"displayLayout",
+		"previewPostType",
 		"grid/column/desktop/span",
 		"grid/column/tablet/span",
 		"grid/column/mobile/span"
@@ -38,12 +42,6 @@
             "multiline": "p",
             "selector": ".description"
         },
-        "extra": {
-            "type": "string",
-            "source": "html",
-            "multiline": "li",
-            "selector": ".extra"
-        },
         "url": {
 			"type": "string",
             "default": ""
@@ -66,20 +64,20 @@
             "default": "A1"
         },
         "isChartArt": {
-            "type": "boolean"
+            "type": "boolean",
+			"default": false
         },
         "postId": {
             "type": "integer"
+        },
+		"postType": {
+            "type": "string"
         },
         "headerSize": {
             "type": "integer",
             "default": 2
         },
         "enableAltHeaderWeight": {
-            "type": "boolean",
-            "default": false
-        },
-        "enableEmphasis": {
             "type": "boolean",
             "default": false
         },
@@ -91,19 +89,7 @@
             "type": "boolean",
             "default": true
         },
-        "enableExcerptBelow": {
-            "type": "boolean",
-            "default": false
-        },
         "enableExtra": {
-            "type": "boolean",
-            "default": false
-        },
-        "enableBreakingNews": {
-            "type": "boolean",
-            "default": false
-        },
-        "disableMobileStyles": {
             "type": "boolean",
             "default": false
         },
@@ -114,10 +100,6 @@
         "metaTaxonomy": {
             "type": "string",
             "default": "formats"
-        },
-        "inLoop": {
-            "type": "boolean",
-            "default": false
         },
         "isPreview": {
             "type": "boolean",
@@ -130,12 +112,17 @@
 	},
 	"supports": {
 		"html": false,
-		"color": {
-			"text": true,
-			"background": true
-		},
 		"spacing": {
-			"margin": [ "top", "bottom" ]
+			"margin": [ "top", "bottom" ],
+			"padding": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": false,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true
+			}
 		},
 		"typography": {
 			"fontSize": true,
@@ -144,6 +131,7 @@
 	},
 	"textdomain": "story-item",
 	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"viewScript": "file:./view.js"
 }

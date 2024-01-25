@@ -1,0 +1,23 @@
+.common-block-style--pagination	{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	.common-block-style--pagination__pagination-items {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		flex-grow: 1;
+		font-size: var(--wp--preset--font-size--small-label);
+		gap: var(--pagination-items-gap);
+
+		.common-block-style--pagination__pagination-item {
+			padding: 0.25em 0.5em;
+			line-height: 1em;
+			border-width: 1px;
+			&.is-active {
+				border-color: transparent!important;
+			}
+		}
+	}
+}

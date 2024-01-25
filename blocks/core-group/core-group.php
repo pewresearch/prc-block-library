@@ -1,21 +1,20 @@
 <?php
 namespace PRC\Platform\Blocks;
 use WP_HTML_Tag_Processor;
+
 /**
  * Block Name:
- * Version:           0.2.0
- * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Version:           1.0.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
  * Author:            Pew Research Center
  *
  * @package           prc-block
  */
 
 class Core_Group {
-
 	public static $block_name = 'core/group';
 	public static $block_json = null;
-	public static $view_script_handle = null;
 	public static $editor_script_handle = null;
 	public static $style_handle = null;
 
@@ -59,22 +58,26 @@ class Core_Group {
 			'name' => 'dynamic-wide',
 			'label' => 'Dynamic Wide Template',
 			'inline_style' => '.wp-block-group.is-style-dynamic-wide, .wp-block[data-type="core/group"].is-style-dynamic-wide {width: 100%!important; max-width: var(--wp--custom--content-size-wide)!important}'
-		),
+		)
 	);
 
-	public function __construct($init = false) {
-		if ( true === $init ) {
-			$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-group/build/block.json';
-			self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
-			self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-group/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		$this->init($loader);
+	}
 
-			add_action( 'init', array($this, 'register_new_styles'), 10 );
-			add_action( 'init', array($this, 'init_assets') );
-			add_action( 'enqueue_block_editor_assets', array($this, 'register_editor_assets') );
-			add_filter( 'block_type_metadata', array( $this, 'add_attributes' ), 100, 1 );
-			add_filter( 'block_type_metadata_settings', array( $this, 'add_settings' ), 100, 2 );
-			add_filter( 'render_block', array( $this, 'render' ), 100, 2 );
-			add_filter( 'apple_news_initialize_components', array( $this, 'register_apple_news_callout_component' ), 10, 1 );
+	public function init($loader = null) {
+		if (null !== $loader) {
+			$loader->add_action( 'init', $this, 'register_new_styles', 10 );
+			$loader->add_action( 'init', $this, 'register_assets' );
+			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
+			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
+			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
+			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
+			$loader->add_filter( 'render_block', $this, 'render', 100, 2 );
+			$loader->add_filter( 'apple_news_initialize_components', $this, 'register_apple_news_callout_component', 10, 1 );
 		}
 	}
 
@@ -92,6 +95,10 @@ class Core_Group {
 		return $components;
 	}
 
+	/**
+	 * @hook init
+	 * @return void
+	 */
 	public function register_new_styles() {
 		foreach( self::$size_styles as $style_args ) {
 			register_block_style(
@@ -101,19 +108,34 @@ class Core_Group {
 		}
 	}
 
-	public function init_assets() {
+	/**
+	 * @hook init
+	 * @return void
+	 */
+	public function register_assets() {
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
-		self::$view_script_handle = register_block_script_handle( self::$block_json, 'viewScript' );
 		self::$style_handle    = register_block_style_handle( self::$block_json, 'style' );
 	}
 
-	public function register_editor_assets() {
+	/**
+	 * @hook enqueue_block_editor_assets
+	 * @return void
+	 */
+	public function register_editor_script() {
 		wp_enqueue_script( self::$editor_script_handle );
+	}
+
+	/**
+	 * @hook enqueue_block_assets
+	 * @return void
+	 */
+	public function register_editor_style() {
 		wp_enqueue_style( self::$style_handle );
 	}
 
 	/**
 	* Register additional attributes for the core-group block.
+	* @hook block_type_metadata 100, 1
 	* @param mixed $metadata
 	* @return mixed
 	*/
@@ -139,6 +161,7 @@ class Core_Group {
 	/**
 	* Register additional settings, like context, for the core-group block.
 	* Currently we're allowing the group block to have grid context. There is not active use case for this, more an experiment to see what we may use it for once it's in place.
+	* @hook block_type_metadata_settings 100, 2
 	* @param mixed $settings
 	* @param mixed $metadata
 	* @return mixed
@@ -163,12 +186,21 @@ class Core_Group {
 		return $settings;
 	}
 
-	public function render_prc_group_block( $block_content, $block ) {
-		if ( is_admin() ) {
+	/**
+	 * @hook render_block 100, 2
+	 * @param mixed $block_content
+	 * @param mixed $block
+	 * @return mixed
+	 */
+	public function render( $block_content, $block ) {
+		if ( self::$block_name !== $block['blockName'] || is_admin() ) {
 			return $block_content;
 		}
 
 		wp_enqueue_style( self::$style_handle );
+		if ( array_key_exists('className', $block['attrs']) && 'is-style-baseball-card' === $block['attrs']['className'] ) {
+			wp_enqueue_style("prc-block-library--baseball-card");
+		}
 
 		$responsive_options = array_key_exists('responsiveContainerQuery', $block['attrs']) ? $block['attrs']['responsiveContainerQuery'] : array();
 		$hide_on_desktop = array_key_exists('hideOnDesktop', $responsive_options) ? $responsive_options['hideOnDesktop'] : false;
@@ -188,17 +220,8 @@ class Core_Group {
 				$w->set_attribute( 'data-hide-on-mobile', 'true' );
 			}
 		}
-		return $w;
-	}
 
-	public function render( $block_content, $block ) {
-		if ( self::$block_name !== $block['blockName'] || is_admin() ) {
-			return $block_content;
-		}
-
-		return $this->render_prc_group_block($block_content, $block);
+		return $w->get_updated_html();
 	}
 
 }
-
-new Core_Group(true);

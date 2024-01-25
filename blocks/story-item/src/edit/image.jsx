@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import { Picture } from 'react-responsive-picture';
 
 /**
@@ -108,32 +108,14 @@ export default function Image({ attributes, setAttributes }) {
 	}
 
 	const classes = () => {
-		let isXL = false;
-		let isA1 = false;
-		let isA2 = false;
-		let isA3 = false;
-		let isA4 = false;
-		if (false !== imageSlot) {
-			if ('XL' === imageSize) {
-				isXL = true;
-			} else if ('A1' === imageSize) {
-				isA1 = true;
-			} else if ('A2' === imageSize) {
-				isA2 = true;
-			} else if ('A3' === imageSize) {
-				isA3 = true;
-			} else if ('A4' === imageSize) {
-				isA4 = true;
-			}
-		}
-
+		const x = false !== imageSlot && undefined !== image;
 		return classNames({
 			image: true,
-			XL: isXL,
-			A1: isA1,
-			A2: isA2,
-			A3: isA3,
-			A4: isA4,
+			XL: 'XL' === imageSize,
+			A1: 'A1' === imageSize,
+			A2: 'A2' === imageSize,
+			A3: 'A3' === imageSize,
+			A4: 'A4' === imageSize,
 			bordered: isChartArt,
 		});
 	};

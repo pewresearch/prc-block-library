@@ -15,9 +15,9 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^24.6.0"
+		"@wordpress/scripts": "^27.0.0"
 	},
 	"dependencies": {
-		"@emotion/styled": "^11.10.6"
+		"@emotion/styled": "^11.11.0"
 	}
 }

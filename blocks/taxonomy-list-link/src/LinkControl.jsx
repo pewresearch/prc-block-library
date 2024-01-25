@@ -72,7 +72,7 @@ export default function LinkControl({
 				showInitialSuggestions
 				// noDirectEntry={!!type}
 				// noURLSuggestion={!!type}
-				suggestionsQuery={{ type: 'term', subtype: 'topic' }}
+				suggestionsQuery={{ type: 'term', subtype: taxonomy }}
 				onChange={onChange}
 				onRemove={onRemove}
 				settings={[]}

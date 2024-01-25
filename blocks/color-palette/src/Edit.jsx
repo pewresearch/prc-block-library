@@ -1,23 +1,19 @@
 /**
  * External Dependencies
  */
-import styled from '@emotion/styled';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState } from '@wordpress/element';
-import {
-	useBlockProps,
-	RichText,
-	useInnerBlocksProps,
-} from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 import { Popover } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
+import { StyledSlug } from './common';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -31,19 +27,8 @@ import { Popover } from '@wordpress/components';
  *
  * @return {WPElement} Element to render.
  */
-
-const StyledSlug = styled.span`
-	padding: 0px 10px;
-	white-space: nowrap;
-	`;
 	
-export default function Edit({
-	attributes,
-	setAttributes,
-	context,
-	clientId,
-	isSelected,
-}) {
+export default function Edit({attributes, clientId}) {
 	const blockProps = useBlockProps();
 
 	// get the backgroundColor from the style attribute
@@ -62,10 +47,10 @@ export default function Edit({
 	return (
 		<Fragment>
 			<div {...blockProps} style={{ backgroundColor: '#dadbdb' }} onMouseEnter={() => setVisible(true)} onMouseLeave={() => setVisible(false)}>
-				<p className='color-text'>
+				<span className='color-text'>
 					{backgroundColor && backgroundColor.toUpperCase()}
 					{!backgroundColor && '#dadbdb'.toUpperCase()}
-				</p>
+				</span>
 				{visible && <Popover placement='right' noArrow={false}><StyledSlug>{colorSlug}</StyledSlug></Popover>}
 			</div>
 		</Fragment>

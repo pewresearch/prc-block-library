@@ -43,11 +43,11 @@
 				}
 				&.sorting_asc:before {
 					display: block !important;
-					color: var(--wp--preset--color--slate);
+					color: var(--wp--preset--color--black);
 				}
 				&.sorting_desc:after {
 					display: block !important;
-					color: var(--wp--preset--color--slate);
+					color: var(--wp--preset--color--black);
 				}
 			}
 		}

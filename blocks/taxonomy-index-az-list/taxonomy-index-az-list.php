@@ -4,47 +4,62 @@ namespace PRC\Platform\Blocks;
  * Block Name:        Taxonomy Index A-Z Listing
  * Version:           0.1.0
  * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
 class Taxonomy_Index_AZ_List {
-	public static $version = '0.1.0';
+	public static $block_json = null;
+	public static $version;
+	public static $block_name;
 	public static $dir = __DIR__;
 
-	public function __construct( $init = false ) {
-		if ( true === $init ) {
-			add_action( 'rest_api_init', array( $this, 'register_endpoint' ) );
-			add_action( 'init', array($this, 'block_init') );
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/taxonomy-index-az-list/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
+		self::$block_name = self::$block_json['name'];
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'block_init');
+			$loader->add_filter('prc_api_endpoints', $this, 'register_endpoint');
 		}
 	}
 
-	public function register_endpoint() {
-		register_rest_route(
-			'prc-api/v2',
-			'/blocks/taxonomy-index-az-list',
-			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'restfully_get_terms_by_letter' ),
-				'args'                => array(
-					'taxonomy' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-					'letter' => array(
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
+	/**
+	 * Register endpoint for getting the AZ list of terms.
+	 * @hook prc_api_endpoints
+	 * @param array $endpoints
+	 * @return array $endpoints with new endpoint
+	 */
+	public function register_endpoint($endpoints) {
+		array_push($endpoints, array(
+			'route' => 'blocks/taxonomy-index-az-list',
+			'methods'             => 'GET',
+			'callback'            => array( $this, 'restfully_get_terms_by_letter' ),
+			'args'                => array(
+				'taxonomy' => array(
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_string( $param );
+					},
 				),
-				'permission_callback' => function () {
-					return current_user_can('read');
-				},
-			)
-		);
+				'letter' => array(
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_string( $param );
+					},
+				),
+			),
+			'permission_callback' => function () {
+				return current_user_can('read');
+			},
+		));
+		return $endpoints;
 	}
 
 	public function restfully_get_terms_by_letter( \WP_REST_Request $request ) {
@@ -98,6 +113,9 @@ class Taxonomy_Index_AZ_List {
 		$return = array();
 
 		foreach ( $terms as $term ) {
+			if ( ! $term instanceof \WP_Term || ! property_exists( $term, 'name' ) ) {
+				continue;
+			}
 			if ( true === $this->starts_with( $term->name, $letter ) ) {
 				$return[] = $term;
 			}
@@ -149,7 +167,7 @@ class Taxonomy_Index_AZ_List {
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued
 	* through the block editor in the corresponding context.
-	*
+	* @hook init
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
@@ -163,4 +181,3 @@ class Taxonomy_Index_AZ_List {
 
 }
 
-new Taxonomy_Index_AZ_List(true);

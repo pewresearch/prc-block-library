@@ -1,12 +1,11 @@
 /**
  * External Dependencies
  */
-import styled from '@emotion/styled';
 
 /**
  * WordPress Dependencies
  */
-import { useMemo } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import {
 	BlockControls,
 	JustifyToolbar,
@@ -34,7 +33,7 @@ function DarkModeControl({ attributes, setAttributes, clientId }) {
 	return (
 		<ToggleControl
 			label="Dark Mode"
-			help="When enabled, the logo will be displayed in white, regardles of color selection when the site is in dark mode."
+			help="Enable this option to display the logo in white when the user has dark mode enabled, overriding any color selection."
 			checked={darkModeEnabled}
 			onChange={(value) => setAttributes({ darkModeEnabled: value })}
 		/>
@@ -45,35 +44,37 @@ function WidthControl({ attributes, setAttributes, clientId }) {
 	const { width } = attributes;
 
 	return (
-		<div>
-			<NumberControl
-				lable="Max Width"
-				isShiftStepEnabled={true}
-				onChange={(value) => setAttributes({ width: value })}
-				shiftStep={10}
-				max={360}
-				value={width}
-			/>
-		</div>
+		<NumberControl
+			label="Max Width"
+			isShiftStepEnabled={true}
+			onChange={(value) => setAttributes({ width: value })}
+			shiftStep={10}
+			max={360}
+			value={width}
+		/>
 	);
 }
 
 export default function Controls({ attributes, setAttributes, clientId }) {
 	return (
-		<BlockControls>
-			<JustificationControl
-				{...{ attributes, setAttributes, clientId }}
-			/>
+		<Fragment>
+			<BlockControls>
+				<JustificationControl
+					{...{ attributes, setAttributes, clientId }}
+				/>
+			</BlockControls>
 			<InspectorControls group="styles">
-				<PanelBody title="Logo Settings">
-					<DarkModeControl
-						{...{ attributes, setAttributes, clientId }}
-					/>
-					<WidthControl
-						{...{ attributes, setAttributes, clientId }}
-					/>
+				<PanelBody title="Dynamic Logo Settings">
+					<div>
+						<DarkModeControl
+							{...{ attributes, setAttributes, clientId }}
+						/>
+						<WidthControl
+							{...{ attributes, setAttributes, clientId }}
+						/>
+					</div>
 				</PanelBody>
 			</InspectorControls>
-		</BlockControls>
+		</Fragment>
 	);
 }

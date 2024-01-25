@@ -5,18 +5,30 @@ namespace PRC\Platform\Blocks;
  * Description:       Display a grid of taxonomy list blocks that converts to an accordion on mobile devices.
  * Version:           0.1.0
  * Requires at least: 6.1
- * Requires PHP:      7.0
+ * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
 class Taxonomy_Index_List_Controller {
+	public static $block_json = null;
+	public static $version;
+	public static $block_name;
 	public static $dir = __DIR__;
 
-	public function __construct( $init = false ) {
-		if ( true === $init ) {
-			add_action('init', array($this, 'block_init'));
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/taxonomy-index-list-controller/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
+		self::$block_name = self::$block_json['name'];
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'block_init');
 		}
 	}
 
@@ -136,7 +148,7 @@ class Taxonomy_Index_List_Controller {
 
 		ob_start();
 		?>
-		<!-- wp:prc-block/accordion-controller {"borderColor":"light-gray"} -->
+		<!-- wp:prc-block/accordion-controller {"borderColor":"ui-light-gray"} -->
 		%s
 		<!-- /wp:prc-block/accordion-controller -->
 		<?php
@@ -148,7 +160,6 @@ class Taxonomy_Index_List_Controller {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-
 		if ( jetpack_is_mobile() ) {
 			return $this->render_as_accordion_block( $block );
 		}
@@ -166,7 +177,7 @@ class Taxonomy_Index_List_Controller {
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued
 	* through the block editor in the corresponding context.
-	*
+	* @hook init
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
@@ -179,5 +190,3 @@ class Taxonomy_Index_List_Controller {
 	}
 
 }
-
-new Taxonomy_Index_List_Controller(true);

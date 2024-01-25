@@ -1,11 +1,39 @@
 .wp-block-prc-block-form-input-checkbox {
 	display: flex;
+	flex-direction: row;
     align-items: center;
 	text-align: left;
 	vertical-align: top;
 	box-sizing: border-box;
 	margin: 0;
 	gap: 5px;
+
+	&.is-required label:after {
+		content: "*";
+		color: red;
+	}
+
+	& > input {
+		order: 0;
+	}
+	& > label {
+		order: 1;
+	}
+
+	&.is-selected {
+		font-weight: bold;
+	}
+
+	&.is-style-label-only {
+		&:not(.wp-block) {
+			input {
+				display: none;
+			}
+		}
+		input {
+			opacity: 0.4;
+		}
+	}
 
 	label,
 	input[type="checkbox"] {
@@ -58,5 +86,9 @@
 			color: var(--wp--preset--color--gray-medium);
 			cursor: not-allowed;
 		}
+	}
+
+	label {
+		flex-basis: fit-content;
 	}
 }

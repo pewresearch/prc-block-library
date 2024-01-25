@@ -3,6 +3,7 @@
  */
 import classNames from 'classnames';
 import { icons, Icon } from '@prc/icons';
+import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
@@ -44,24 +45,25 @@ const TEMPLATE = [['core/paragraph', {}]];
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { title, className, allowedBlocks, orientation } = attributes;
+	const { title, className, allowedBlocks } = attributes;
 
 	const [isOpen, setOpen] = useState(true);
-
-	// Convert to an array of classNames so we can easily check via `includes()`.
-	const style = undefined !== className ? className.split(' ') : [];
 
 	const blockProps = useBlockProps({
 		className: classNames(className, {
 			'is-open': isOpen,
 		}),
+		style: {
+			'--block-gap': getBlockGapSupportValue(attributes, 'vertical'),
+		}
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
-		{},
+		{
+			className: 'wp-block-prc-block-collapsible__content'
+		},
 		{
 			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-			orientation: orientation || 'vertical',
 			templateLock: false,
 			template: TEMPLATE,
 		},
@@ -88,9 +90,7 @@ export default function Edit({ attributes, setAttributes }) {
 					<Icon icon={isOpen ? icons.faCircleMinusLight : icons.faCirclePlusLight}/>
 				</button>
 			</div>
-			<div className="wp-block-prc-block-collapsible__content">
-				<div {...innerBlocksProps} />
-			</div>
+			<div {...innerBlocksProps} />
 		</div>
 	);
 }

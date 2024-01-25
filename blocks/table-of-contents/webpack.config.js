@@ -13,7 +13,9 @@ module.exports = {
 			injectPolyfill: true,
 			// eslint-disable-next-line consistent-return
 			requestToExternal(request) {
-				/* My externals */
+				if(request.includes('@prc/block-utils')) {
+					return 'prcBlockUtils';
+				}
 				if (request.includes('@prc/hooks')) {
 					return 'prcHooks';
 				}
@@ -29,12 +31,16 @@ module.exports = {
 				if (request.includes('enquire.js')) {
 					return 'enquire';
 				}
+				if (request.includes('classnames')) {
+					return 'classnames';
+				}
 			},
 			// eslint-disable-next-line consistent-return
 			requestToHandle(request) {
-				// Handle imports like `import myModule from 'my-module'`
+				if ( '@prc/block-utils' === request ) {
+					return 'prc-block-utils';
+				}
 				if ('@prc/hooks' === request) {
-					// `my-module` depends on the script with the 'my-module-script-handle' handle.
 					return 'prc-hooks';
 				}
 				if ('@prc/functions' === request) {
@@ -48,6 +54,9 @@ module.exports = {
 				}
 				if ('enquire.js' === request) {
 					return 'enquire.js';
+				}
+				if (request.includes('classnames')) {
+					return 'classnames';
 				}
 			},
 		}),

@@ -9,7 +9,7 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 import registerVariations from './variations';
 import registerTransforms from './transforms';
 /**
@@ -115,7 +115,7 @@ addFilter(
 			},
 		};
 
-		if ('undefined' !== typeof settings.supports.align) {
+		if (settings.supports.align) {
 			// During the group block's development the alignment options have changed, here we are enforcing all alignments to be available.
 			settings.supports.align = [
 				'left',

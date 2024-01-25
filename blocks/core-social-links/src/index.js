@@ -8,7 +8,7 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 import './style.scss';
 
 const BLOCKNAME = 'core/social-links';

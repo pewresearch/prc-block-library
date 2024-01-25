@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 // PHP file to use when rendering the block type on the server to show on the front end.
 // The following variables are exposed to this file:
 
@@ -14,22 +15,15 @@
  *
  * @return array Colors CSS classes.
  */
-$wrapper_css_classes = array();
-
-// Border color.
-$has_named_border_color  = array_key_exists( 'borderColor', $attributes );
-// If has border color.
-if ( $has_named_border_color ) {
-	// Add has-divider class.
-	$wrapper_css_classes[] = 'has-border-color';
-}
-if ( $has_named_border_color ) {
-	// Add the border color class.
-	$wrapper_css_classes[] = sprintf( 'has-%s-border-color', $attributes['borderColor'] );
-}
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
-	'class' => classNames($wrapper_css_classes),
+	'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/accordion-controller')),
+	'data-wp-context' => wp_json_encode(array(
+		'activeId' => null, // This is the id of the prc-block/accordion that is currently active, so that we can close the others.
+	)),
+	'class' => \PRC\Platform\Block_Utils\classNames(array(
+		'has-block-gap' => "0" !== \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'vertical'),
+	))
 ));
 
 echo wp_sprintf(

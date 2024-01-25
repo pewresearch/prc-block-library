@@ -4,15 +4,6 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-
-.wp-block-prc-block-menu.is-horizontal .wp-block-search {
-	align-items: stretch;
-    align-self: stretch;
-	.wp-block-search__button.has-icon.wp-element-button {
-		height: 100%!important;
-	}
-}
-
 .wp-block-search {
 	display: flex;
     align-items: stretch;
@@ -30,7 +21,7 @@
 		height: 36px;
 	}
 	input {
-		border: none!important;
-		padding-left: 1em;
+		// border: none!important;
+		// padding-left: 1em;
 	}
 }

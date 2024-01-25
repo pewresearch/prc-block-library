@@ -7,7 +7,7 @@ import classNames from 'classnames';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState } from '@wordpress/element';
+import { Fragment, useState, useEffect, useMemo } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -59,52 +59,58 @@ function Edit({
 	setContentBackgroundColor,
 	contentTextColor,
 	setContentTextColor,
-	borderColor,
-	setBorderColor,
+	clientId,
+	context,
 }) {
+
+	const titleBackground = useMemo(() => {
+		const key = 'prc-block/accordion-controller/title-background';
+		const parentBlockBackgroundTitleSlug = context?.[key];
+		return !titleBackgroundColor?.slug && parentBlockBackgroundTitleSlug ? { slug: parentBlockBackgroundTitleSlug } : titleBackgroundColor;
+	},[context, titleBackgroundColor]);
+
+	const titleText = useMemo(() => {
+		const key = 'prc-block/accordion-controller/title-text';
+		const parentBlockTextTitleSlug = context?.[key];
+		return !titleTextColor?.slug && parentBlockTextTitleSlug ? { slug: parentBlockTextTitleSlug } : titleTextColor;
+	},[context, titleTextColor]);
+
+	const contentBackground = useMemo(() => {
+		const key = 'prc-block/accordion-controller/content-background';
+		const parentBlockBackgroundContentSlug = context?.[key];
+		return !contentBackgroundColor?.slug && parentBlockBackgroundContentSlug ? { slug: parentBlockBackgroundContentSlug } : contentBackgroundColor;
+	},[context, contentBackgroundColor]);
+
+	const contentText = useMemo(() => {
+		const key = 'prc-block/accordion-controller/content-text';
+		const parentBlockTextContentSlug = context?.[key];
+		return !contentTextColor?.slug && parentBlockTextContentSlug ? { slug: parentBlockTextContentSlug } : contentTextColor;
+	},[context, contentTextColor]);
+
 	const [isOpen, setOpen] = useState(false);
 	const toggleOpen = () => setOpen(!isOpen);
-
-	const colors = {
-		titleBackgroundColor,
-		setTitleBackgroundColor,
-		titleTextColor,
-		setTitleTextColor,
-		contentBackgroundColor,
-		setContentBackgroundColor,
-		contentTextColor,
-		setContentTextColor,
-		borderColor,
-		setBorderColor,
-	};
 
 	const blockProps = useBlockProps({
 		className: classNames(className, {
 			'is-active': isOpen,
-			'has-border-color': !!borderColor.color || !!borderColor?.class,
-			[getColorClassName('border-color', borderColor?.slug)]:
-				!!borderColor?.slug,
 		}),
 	});
+
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	const { allowedBlocks, title } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: classNames('wp-block-prc-block-accordion--content', {
+			className: classNames('wp-block-prc-block-accordion__content', {
 				'is-open': isOpen,
 				'has-background':
-					!!contentBackgroundColor.color ||
-					!!contentBackgroundColor?.class,
-				[getColorClassName(
-					'background-color',
-					contentBackgroundColor?.slug
-				)]: !!contentBackgroundColor?.slug,
-				'has-text-color':
-					!!contentTextColor.color || !!contentTextColor?.class,
-				[getColorClassName('color', contentTextColor?.slug)]:
-					!!contentTextColor?.slug,
+					!!contentBackground?.slug,
+				[getColorClassName('background-color', contentBackground?.slug)]:
+					!!contentBackground?.slug,
+				'has-text-color': !!contentText?.slug,
+				[getColorClassName('color', contentText?.slug)]:
+					!!contentText?.slug,
 			}),
 		},
 		{
@@ -113,23 +119,32 @@ function Edit({
 		}
 	);
 
-	const titleClassNames = classNames('wp-block-prc-block-accordion--title', {
+	const titleClassNames = classNames('wp-block-prc-block-accordion__title', {
 		'has-background':
-			!!titleBackgroundColor.color || !!titleBackgroundColor?.class,
-		[getColorClassName('background-color', titleBackgroundColor?.slug)]:
-			!!titleBackgroundColor?.slug,
-		'has-text-color': !!titleTextColor.color || !!titleTextColor?.class,
-		[getColorClassName('color', titleTextColor?.slug)]:
-			!!titleTextColor?.slug,
+			!!titleBackground?.slug,
+		[getColorClassName('background-color', titleBackground?.slug)]:
+			!!titleBackground?.slug,
+		'has-text-color': !!titleText?.slug,
+		[getColorClassName('color', titleText?.slug)]:
+			!!titleText?.slug,
 	});
 
 	return (
 		<Fragment>
-			<Controls colors={colors} />
+			<Controls colors={{
+				titleBackgroundColor,
+				setTitleBackgroundColor,
+				titleTextColor,
+				setTitleTextColor,
+				contentBackgroundColor,
+				setContentBackgroundColor,
+				contentTextColor,
+				setContentTextColor,
+			}} clientId={clientId}/>
 			<div {...blockProps}>
 				<div className={titleClassNames}>
 					<span
-						className="wp-block-prc-block-accordion--icon"
+						className="wp-block-prc-block-accordion__icon"
 						onClick={toggleOpen}
 					>
 						&#8227;
@@ -151,9 +166,8 @@ function Edit({
 }
 
 export default withColors(
+	{ contentTextColor: 'color' },
+	{ contentBackgroundColor: 'color' },
 	{ titleBackgroundColor: 'color' },
 	{ titleTextColor: 'color' },
-	{ contentBackgroundColor: 'color' },
-	{ contentTextColor: 'color' },
-	{ borderColor: 'color' }
 )(Edit);

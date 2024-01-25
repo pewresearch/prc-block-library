@@ -10,6 +10,29 @@
 	background: inherit;
 }
 
+.search-box {
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+	-webkit-appearance: none;
+	background: #fff;
+	border: 1px solid #22242626;
+	border-radius: .2857142857rem;
+	box-shadow: none;
+	box-sizing: inherit;
+	color: #2a2a2a;
+	flex: 1 0 auto;
+	font-family: var(--wp--preset--font-family--sans-serif);
+	font-size: 100%;
+	line-height: 1.0625em;
+	margin: 0;
+	max-width: 100%;
+	outline: none;
+	overflow: visible;
+	padding: .7544642857em 1em;
+	padding-right: 2.6714285714em!important;
+	text-align: left;
+	transition: box-shadow .1s ease,border-color .1s ease;
+}
+
 // Semantic UI Styles
 // These have been hand ported from Semantic UI CSS
 .wp-block-prc-block-taxonomy-search {

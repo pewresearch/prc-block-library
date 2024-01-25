@@ -78,9 +78,9 @@
 		margin: 0 !important;
 	}
 
-	// When this block reaches 600px it will convert to an accordion.
+	// When this block reaches 480px it will convert to an accordion.
 	// All of these are set to important to override all other styles, this must always become an accordion.
-	@container (max-width: 600px) {
+	@container (max-width: 480px) {
 		&:not(.is-style-minimal) {
 			@include accordion;
 		}

@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
+import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
@@ -12,13 +13,12 @@ import {
 	useInnerBlocksProps,
 	InnerBlocks,
 	withColors,
-	getColorClassName,
 } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
 const ALLOWED_BLOCKS = ['prc-block/accordion'];
 
@@ -45,29 +45,14 @@ function Edit({
 	setContentBackgroundColor,
 	contentTextColor,
 	setContentTextColor,
-	borderColor,
-	setBorderColor,
+	__unstableLayoutClassNames: layoutClassNames,
+	clientId,
 }) {
-	const { example } = attributes;
-
-	const colors = {
-		titleBackgroundColor,
-		setTitleBackgroundColor,
-		titleTextColor,
-		setTitleTextColor,
-		contentBackgroundColor,
-		setContentBackgroundColor,
-		contentTextColor,
-		setContentTextColor,
-		borderColor,
-		setBorderColor,
-	};
+	const blockGap = getBlockGapSupportValue(attributes, 'vertical');
 
 	const blockProps = useBlockProps({
-		className: classNames( className, {
-			'has-border-color': !! borderColor.color || !! borderColor?.class,
-			[ getColorClassName( 'border-color', borderColor?.slug ) ]:
-				!! borderColor?.slug,
+		className: classNames( className, layoutClassNames, {
+			'has-block-gap': "0" !== blockGap,
 		} ),
 	});
 
@@ -79,16 +64,24 @@ function Edit({
 
 	return (
 		<Fragment>
-			<Controls colors={colors} />
+			<Controls colors={{
+				titleBackgroundColor,
+				setTitleBackgroundColor,
+				titleTextColor,
+				setTitleTextColor,
+				contentBackgroundColor,
+				setContentBackgroundColor,
+				contentTextColor,
+				setContentTextColor,
+			}} clientId={clientId} />
 			<div {...innerBlocksProps} />
 		</Fragment>
 	);
 }
 
 export default withColors(
+	{ contentTextColor: 'color' },
+	{ contentBackgroundColor: 'color' },
 	{ titleBackgroundColor: 'color' },
 	{ titleTextColor: 'color' },
-	{ contentBackgroundColor: 'color' },
-	{ contentTextColor: 'color' },
-	{ borderColor: 'color' },
 )(Edit);

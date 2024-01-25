@@ -1,17 +1,19 @@
 /**
  * External Dependencies
  */
+import classnames from 'classnames';
 
 /**
  * WordPress Dependencies
  */
+import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useEffect } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -32,16 +34,13 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const { anchor, label, type, defaultChecked } = attributes;
+	const { anchor, label, type, defaultChecked, required } = attributes;
 
-	const [checked, setChecked] = useState(defaultChecked);
-	const toggleChecked = () => setChecked(!checked);
-
-	useEffect(() => {
-		setAttributes({ defaultChecked: checked });
-	}, [checked]);
-
-	const blockProps = useBlockProps({});
+	const blockProps = useBlockProps({
+		className: classnames({
+			'is-required': required,
+		})
+	});
 
 	return (
 		<Fragment>
@@ -51,17 +50,17 @@ export default function Edit({
 					type={type}
 					id={anchor}
 					name={anchor}
-					checked={checked}
-					onChange={() => toggleChecked()}
+					required={required}
+					checked={defaultChecked}
 				/>
 				<RichText
 					tagName="label"
+					placeholder={__('Label', 'prc-block-library')}
 					value={label}
-					onChange={(value) => setAttributes({ label: value })}
-					placeholder="Label"
-					keepPlaceholderOnFocus
-					multiline={false}
-					allowedFormats={['core/bold', 'core/italic']}
+					onChange={(newLabel) => {
+						setAttributes({ label: newLabel });
+					}}
+					__unstableOnSplitAtEnd={() => onEnterSplit()}
 				/>
 			</div>
 		</Fragment>

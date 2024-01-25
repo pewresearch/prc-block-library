@@ -1,31 +1,65 @@
 <?php
-// PHP file to use when rendering the block type on the server to show on the front end.
-// The following variables are exposed to this file:
+namespace PRC\Platform\Blocks;
 
-// $attributes (array): The block attributes.
-// $content (string): The block default content.
-// $block (WP_Block): The block instance.
 $uuid = array_key_exists( 'uuid', $attributes ) ? $attributes['uuid'] : false;
 if ( ! $uuid ) {
 	return;
 }
-$currently_selected_uuid = array_key_exists( 'prc-block/tabs/activeUUID', $block->context ) ? $block->context['prc-block/tabs/activeUUID'] : null;
-$is_selected = $currently_selected_uuid === $uuid;
+$is_dialog = array_key_exists( 'isDialog', $attributes ) ? $attributes['isDialog'] : false;
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
-		'id'          => 'panel-' . $attributes['uuid'],
+		'class' => \PRC\Platform\Block_Utils\classNames( array(
+			'wp-block-prc-block-tabs-pane__dialog' => $is_dialog,
+		) ),
 		'aria-role'   => 'tabpanel',
-		'class' => classNames(
-			array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
-			array(
-				'is-active' => $is_selected,
-			),
-		),
+		'data-wp-interactive' => '{"namespace":"prc-block/tabs-controller"}',
+		'data-wp-key' => 'panel-' . $uuid,
+		'data-wp-class--is-active' => 'callbacks.isActive',
+		'data-wp-context' => wp_json_encode(array('uuid' => $uuid)),
 	)
 );
+
+ob_start();
+?>
+<div
+	class="wp-block-prc-block-tabs-pane__dialog-overlay"
+	id="pane-overlay-%1$s"
+	data-wp-interactive='{"namespace":"prc-block/tabs-controller"}'
+	data-wp-on--click="actions.hideDialog"
+></div>
+<div class="wp-block-prc-block-tabs-pane__dialog-modal" id="pane-modal-%1$s">
+	<div class="wp-block-prc-block-tabs-pane__dialog__inner">
+		<div class="wp-block-prc-block-tabs-pane__dialog__header">
+			<h2 class="wp-block-prc-block-tabs-pane__dialog__title">
+				%2$s
+			</h2>
+			<button
+				type="button"
+				aria-label="Close"
+				class="wp-block-prc-block-tabs-pane__dialog__close"
+				data-wp-interactive="1"
+				data-wp-on--click="actions.hideDialog"
+			>
+				X
+			</button>
+		</div>
+		<div class="wp-block-prc-block-tabs-pane__dialog__body">
+			%3$s
+		</div>
+	</div>
+</div>
+<?php
+$dialog_template = ob_get_clean();
+$dialog_template = wp_sprintf(
+	$dialog_template,
+	'xyz',
+	'Test Modal',
+	$content,
+);
+
 echo wp_sprintf(
 	'<section %1$s>%2$s</section>',
 	$block_wrapper_attrs,
-	wp_kses( $content , 'post' ),
+	! $is_dialog ? $content : $dialog_template,
 );

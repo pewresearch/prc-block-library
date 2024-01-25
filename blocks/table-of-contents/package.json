@@ -16,7 +16,7 @@
 		"start": "wp-scripts start --webpack-copy-php"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^25.2.0"
+		"@wordpress/scripts": "^26.18.0"
 	},
 	"dependencies": {
 		"waypoints": "^4.0.1"

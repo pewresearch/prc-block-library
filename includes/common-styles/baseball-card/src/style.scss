@@ -1,0 +1,103 @@
+@import "../../gutenberg-responsive-breaks";
+
+@media (min-width: #{ ($break-small) }) {
+.is-sidebar {
+	.common-block-style--baseball-card,
+	.is-style-baseball-card,
+	.wp-block-group[data-hide-on-mobile="true"]:has(.is-style-baseball-card),
+	.wp-block-group[data-hide-on-tablet="true"]:has(.is-style-baseball-card),
+	.wp-block-group[data-hide-on-mobile="true"]:has(.common-block-style--baseball-card),
+	.wp-block-group[data-hide-on-tablet="true"]:has(.common-block-style--baseball-card) {
+		margin-left: calc(var(--grid-gutter-half) * -1);
+		width: calc(100% + var(--grid-gutter-half));
+	}
+	& > .wp-block-group[data-hide-on-mobile="true"]:has(.is-style-baseball-card),
+	& > .wp-block-group[data-hide-on-tablet="true"]:has(.is-style-baseball-card),
+	& > .wp-block-group[data-hide-on-mobile="true"]:has(.common-block-style--baseball-card),
+	& > .wp-block-group[data-hide-on-tablet="true"]:has(.common-block-style--baseball-card) {
+		& > .common-block-style--baseball-card,
+		& > .is-style-baseball-card {
+			width: auto!important;
+		}
+	}
+}
+}
+
+.common-block-style--baseball-card,
+.is-style-baseball-card {
+	div[class*="__heading"] {
+		display: flex;
+		align-items: center;
+		padding: 0.525em 1em;
+		margin-top: 0;
+
+		h2,
+		h3 {
+			font-size: 0.825em;
+			font-weight: 400;
+			letter-spacing: .1em;
+			line-height: 1.28571429em;
+			text-transform: uppercase;
+			flex-grow: 1;
+			margin: 0;
+			color: inherit!important;
+		}
+	}
+
+	// If the card has a H element heading immediately in the dom and not a div for the heading use this.
+	& > h2[class*="__heading"],
+	& > h3[class*="__heading"] {
+		&:not(.wp-block) {
+			display: flex;
+		}
+		align-items: center;
+		padding: 0.525em 1em;
+		font-size: 0.825em;
+		font-weight: 400;
+		letter-spacing: .1em;
+		line-height: 1.28571429em;
+		text-transform: uppercase;
+		flex-grow: 1;
+		margin: 0;
+	}
+
+	// Main List
+	ul[class*="__list"] {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		padding: 0.48em;
+		li {
+			padding: 0.48em;
+			display: flex;
+			gap: 0.5em;
+			&.flex-align-center {
+				align-items: center;
+			}
+			&:has(ul) {
+				flex-direction: column;
+			}
+			&.is-active > span,
+			&.is-active > a {
+				font-weight: bold;
+			}
+			a:hover {
+				text-decoration: underline;
+			}
+			&:not(.is-active) ul {
+				display: none;
+			}
+		}
+
+		// Sub List
+		ul[class*="__list"]  {
+			padding-left: 1em;
+			li {
+				padding: 0.525em 0;
+				&:has(ul) {
+					padding: 0.525em 1em;
+				}
+			}
+		}
+	}
+}

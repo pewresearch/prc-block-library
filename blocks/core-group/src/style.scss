@@ -50,6 +50,7 @@ $desktopBreakPoint: 791px;
 		}
 	}
 
+	// Legacy baseball card style, this is now managed in common-styles/baseball-card
 	&.is-style-card-alt {
 		@media only screen and (min-width: 767px) {
 			padding-left: $altCardMargin;
@@ -92,6 +93,10 @@ $desktopBreakPoint: 791px;
 
 }
 
+/**
+* Responsive Group Blocks:
+*/
+
 .wp-site-blocks,
 .is-root-container {
 	container: prc-responsive-container / inline-size;
@@ -108,6 +113,7 @@ $desktopBreakPoint: 791px;
 			color: #999;
 			padding: 1em;
 		}
+		&:not(.wp-block),
 		& > * {
 			display: none !important;
 		}
@@ -125,6 +131,7 @@ $desktopBreakPoint: 791px;
 			border: 1px dashed #DDD;
 			padding: 1em;
 		}
+		&:not(.wp-block),
 		& > * {
 			display: none !important;
 		}
@@ -142,6 +149,7 @@ $desktopBreakPoint: 791px;
 			border: 1px dashed #DDD;
 			padding: 1em;
 		}
+		&:not(.wp-block),
 		& > * {
 			display: none !important;
 		}

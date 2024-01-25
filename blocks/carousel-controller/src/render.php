@@ -1,4 +1,5 @@
 <?php
+namespace PRC\Platform\Blocks;
 // PHP file to use when rendering the block type on the server to show on the front end.
 // The following variables are exposed to this file:
 
@@ -7,7 +8,7 @@
 // $block (WP_Block): The block instance.
 
 $attrs = array(
-	'class' => classNames('splide'),
+	'class' => \PRC\Platform\Block_Utils\classNames('splide'),
 	'aria-label' => 'A carousel alt...', // @TODO: Make this dynamic.
 );
 if ( function_exists('jetpack_is_mobile') && jetpack_is_mobile() ) {
