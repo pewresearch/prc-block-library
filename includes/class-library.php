@@ -109,8 +109,6 @@ class Library {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-		// Load composer dependencies.
-		require_once plugin_dir_path( dirname(__FILE__) ) . '/vendor/autoload.php';
 		// Load plugin loading class.
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/class-loader.php';
 		// Load support classes.

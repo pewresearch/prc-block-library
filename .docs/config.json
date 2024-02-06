@@ -1,0 +1,24 @@
+{
+    "opts": {
+        "template": "node_modules/wp-hookdoc/template",
+		"destination": ".docs-built",
+		"readme": "./README.md",
+		"recurse": true,
+		"tutorials": "./.docs/tutorials"
+    },
+    "source": {
+        "includePattern": ".+\\.(php|inc)?$"
+    },
+    "plugins": [
+        "node_modules/wp-hookdoc/plugin",
+		"plugins/markdown"
+    ],
+	"markdown": {
+		"idInHeadings": true
+	},
+	"templates": {
+		"default": {
+			"layoutFile": ".docs/layout.tmpl"
+		}
+	}
+}

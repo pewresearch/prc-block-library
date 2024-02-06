@@ -23,7 +23,7 @@ npx @wordpress/create-block -t ./.template
 
 This will start a new block scaffold and prompt you to chose a variant.
 
-![Block Variants](.docs/block-variants.png)
+![Block Variants](.docs/assets/block-variants.png)
 
 The variants are:
 
@@ -42,7 +42,7 @@ files you need to build your block.
 There are additional options during the scaffold process, but these are not
 required. Only name and title are required.
 
-![Run Command](.docs/run-command.gif)
+![Run Command](.docs/assets/run-command.gif)
 
 ## 3rd Party Dependency Extraction
 
