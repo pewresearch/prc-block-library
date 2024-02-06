@@ -2,10 +2,14 @@
   "name": "@pewresearch/prc-block-library",
   "packageManager": "yarn@3.2.1",
   "devDependencies": {
-    "@wordpress/create-block": "^4.6.0",
-    "@wordpress/scripts": "^26.9.0"
+    "@wordpress/create-block": "^4.34.0",
+    "@wordpress/scripts": "^27.1.0",
+    "axios": "^1.6.7",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "path": "^0.12.7"
   },
-	"scripts": {
-		"update:wp-scripts": "npx update-wp-scripts"
-	}
+  "scripts": {
+    "update:wp-scripts": "node update-wp-scripts.js"
+  }
 }

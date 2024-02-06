@@ -1,29 +1,29 @@
 {
-	"name": "related-posts-query",
-	"version": "0.1.0",
-	"author": "Seth Rubenstein",
-	"license": "GPL-2.0-or-later",
-	"homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
-	"main": "build/index.js",
-	"scripts": {
-		"build": "wp-scripts build",
-		"format": "wp-scripts format",
-		"lint:css": "wp-scripts lint-style",
-		"lint:js": "wp-scripts lint-js",
-		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start"
-	},
-	"devDependencies": {
-		"@wordpress/block-editor": "^12.12.0",
-		"@wordpress/components": "^25.10.0",
-		"@wordpress/core-data": "^6.21.0",
-		"@wordpress/data": "^9.14.0",
-		"@wordpress/element": "^5.21.0",
-		"@wordpress/i18n": "^4.44.0",
-		"@wordpress/scripts": "^26.15.0"
-	},
-	"dependencies": {
-		"md5": "^2.3.0"
-	}
+  "name": "related-posts-query",
+  "version": "0.1.0",
+  "author": "Seth Rubenstein",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "packages-update": "wp-scripts packages-update",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "start": "wp-scripts start"
+  },
+  "devDependencies": {
+    "@wordpress/block-editor": "^12.12.0",
+    "@wordpress/components": "^25.10.0",
+    "@wordpress/core-data": "^6.21.0",
+    "@wordpress/data": "^9.14.0",
+    "@wordpress/element": "^5.21.0",
+    "@wordpress/i18n": "^4.44.0",
+    "@wordpress/scripts": "^27.1.0"
+  },
+  "dependencies": {
+    "md5": "^2.3.0"
+  }
 }
