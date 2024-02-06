@@ -32,7 +32,16 @@ class Taxonomy_List_Link {
 	public function init($loader = null) {
 		if ( null !== $loader ) {
 			$loader->add_action('init', $this, 'block_init');
+			$loader->add_filter('prc_platform_rewrite_query_vars', $this, 'register_query_var');
 		}
+	}
+
+	/**
+	 * @hook prc_platform_rewrite_query_vars
+	 */
+	public function register_query_var($vars) {
+		$vars[] = 'taxonomyLink';
+		return $vars;
 	}
 
 	/**

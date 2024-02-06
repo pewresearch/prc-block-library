@@ -106,7 +106,7 @@ class Core_Button {
 
 			$button_id = $tag_processor->get_attribute('id') ?? wp_unique_id('core-button-');
 
-			wp_initial_state(
+			wp_interactivity_state(
 				$target_namespace,
 				array(
 					$button_id => array(

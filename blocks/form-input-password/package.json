@@ -7,15 +7,15 @@
 	"homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
 	"main": "build/index.js",
 	"scripts": {
-		"build": "wp-scripts build",
+		"build": "wp-scripts build --experimental-modules",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start"
+		"start": "wp-scripts start --experimental-modules"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^26.18.0"
+		"@wordpress/scripts": "^27.1.0"
 	}
 }

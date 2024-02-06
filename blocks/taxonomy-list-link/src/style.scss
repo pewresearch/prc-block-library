@@ -19,8 +19,8 @@ a.wp-block-prc-block-taxonomy-menu-link,
 	margin-left: 0!important;
 	margin-right: 0!important;
 
-	.is-horizontal &--sub-menu,
-	&:not(.is-active) &--sub-menu {
+	.is-horizontal &__sub-menu,
+	&:not(.is-active) &__sub-menu {
 		display: none;
 	}
 	&.is-active > &--label {
@@ -31,7 +31,7 @@ a.wp-block-prc-block-taxonomy-menu-link,
 		order: 0;
 	}
 
-	&:not(.wp-block):not(.is-active) &--icon  {
+	&:not(.wp-block):not(.is-active) &__icon  {
 		.fa-circle-minus,
 		.fa-minus {
 			display: none;
@@ -41,7 +41,7 @@ a.wp-block-prc-block-taxonomy-menu-link,
 			display: inherit;
 		}
 	}
-	&:not(.wp-block).is-active &--icon  {
+	&:not(.wp-block).is-active &__icon  {
 		.fa-circle-minus,
 		.fa-minus {
 			display: inherit;
@@ -52,7 +52,7 @@ a.wp-block-prc-block-taxonomy-menu-link,
 		}
 	}
 
-	&--icon {
+	&__icon {
 		order: 1;
 		background: none;
 		border: none;
@@ -62,11 +62,11 @@ a.wp-block-prc-block-taxonomy-menu-link,
 		align-items: center;
 	}
 
-	&--toggle {
+	&__toggle {
 		cursor: pointer;
 	}
 
-	&--sub-menu {
+	&__sub-menu {
 		order: 2;
 		display: flex;
 		flex-direction: column;
@@ -83,21 +83,21 @@ a.wp-block-prc-block-taxonomy-menu-link,
 		gap: 10px;
 	}
 
-	&.is-style-sub-heading &--label{
+	&.is-style-sub-heading &__label{
 		font-size: 1.125em;
 		font-weight: bold;
 	}
 
-	&.is-style-sub-expand &--label {
+	&.is-style-sub-expand &__label {
 		order: 1;
 	}
 
-	&.is-style-sub-expand &--icon {
+	&.is-style-sub-expand &__icon {
 		order: 0;
 		padding-right: 0.3em;
 	}
 
-	&.is-style-sub-tree &--icon {
+	&.is-style-sub-tree &__icon {
 		padding-left: 0.3em;
 	}
 }

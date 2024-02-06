@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = prc-block-library
+	branch = develop
+	commit = 076eaf97a903431208d9621704e53195b655932b
+	method = merge
+	cmdver = 0.4.6
+	parent = 91863dad8dcc9a4a2d6c059e0384b29e8c49772d

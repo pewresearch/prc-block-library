@@ -1,16 +1,30 @@
 <?php
-// PHP file to use when rendering the block type on the server to show on the front end.
-// The following variables are exposed to this file:
+$block_namespace = 'prc-block/popup-controller';
 
-// $attributes (array): The block attributes.
-// $content (string): The block default content.
-// $block (WP_Block): The block instance.
+$block_id = wp_unique_id('prc-block-popup-controller-');
 
-$block_wrapper_attrs = get_block_wrapper_attributes(array(
-	'id' => uniqid('prc-block-popup-controller-'),
+// Why not use context here? Because I want to be able to easily close and open this modal from other namespaces. By using state this is as easy as store('prc-block/popup-controller').state[blockId].isActive = true; would open the modal by the id. This is a very powerful feature when used in conjunction with other store's and the store's ability to listen to changes in state.
+wp_interactivity_state($block_namespace, array(
+	$block_id => array(
+		'isActive' => false,
+	),
 ));
 
-// You can use this method...
+$block_wrapper_attrs = get_block_wrapper_attributes(array(
+	'id' => $block_id,
+	'data-wp-interactive' => wp_json_encode(array(
+		'namespace' => $block_namespace,
+	)),
+	'data-wp-context' => wp_json_encode(array(
+		'id' => $block_id,
+		'isOpen' => false,
+	)),
+	'data-wp-class--is-active' => 'state.'.$block_id.'.isActive',
+	'data-wp-init' => 'callbacks.onInit',
+	'data-wp-on-document--keydown' => 'callbacks.onESCKey',
+	'data-wp-on-window--click' => 'callbacks.onWindowClickCloseModal',
+));
+
 echo wp_sprintf(
 	'<div %1$s>%2$s</div>',
 	$block_wrapper_attrs,

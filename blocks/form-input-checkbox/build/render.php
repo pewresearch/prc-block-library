@@ -13,7 +13,7 @@ $input_id               = md5( $target_namespace . $input_name . $input_type );
 // Hoist this block's values into the target interactive namespace state.
 // State is no longer "global" store, in the sense that it is not shared across all blocks on the page and is instead shared by all blocks of the same namespace on the page.
 // Whereas context is a "state" store instanced to each block of the namespace.
-wp_initial_state(
+wp_interactivity_state(
 	$target_namespace,
 	array(
 		$input_id => array(

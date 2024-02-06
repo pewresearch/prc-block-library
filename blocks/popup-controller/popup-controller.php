@@ -1,5 +1,7 @@
 <?php
 namespace PRC\Platform\Blocks;
+use WP_HTML_Processor;
+
 /**
  * Block Name:        Popup Controller
  * Version:           0.1.0

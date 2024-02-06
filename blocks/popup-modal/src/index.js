@@ -13,7 +13,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import domReady from '@wordpress/dom-ready';
 
 /**
  * Internal Dependencies
@@ -27,24 +26,18 @@ import domReady from '@wordpress/dom-ready';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import Edit from './Edit';
-import Icon from './Icon';
-import Save from './Save';
+import icon from './icon';
+import edit from './edit';
+import save from './save';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	icon: Icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
+	icon,
+	edit,
+	save,
 };
 
 /**

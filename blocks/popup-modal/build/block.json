@@ -48,7 +48,8 @@
         "fontSize": true,
         "__experimentalFontFamily": true
       }
-    }
+    },
+    "interactivity": true
   },
   "usesContext": [
     "popup-controller/className"

@@ -31,7 +31,8 @@
         "fontSize": true,
         "__experimentalFontFamily": true
       }
-    }
+    },
+    "interactivity": true
   },
   "providesContext": {
     "popup-controller/className": "className"
@@ -41,5 +42,5 @@
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
-  "viewScript": "file:./view.js"
+  "viewModule": "file:./view.js"
 }

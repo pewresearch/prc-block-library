@@ -2,7 +2,6 @@
 namespace PRC\Platform\Blocks;
 use PRC_HCAPTCHA_KEY;
 
-gutenberg_enqueue_module('prc-block/form-captcha-view');
 wp_enqueue_script('cloudflare-turnstile');
 
 $interactive_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;

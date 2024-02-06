@@ -50,5 +50,6 @@
 	"textdomain": "form-input-password",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"render": "file:./render.php",
+	"viewModule": "file:./view.js"
 }

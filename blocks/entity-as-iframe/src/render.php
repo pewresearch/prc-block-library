@@ -24,7 +24,7 @@ $iframe_height = $iframe_height . 'px';
 // @TODO figure out how to add external non module dependencies...
 wp_enqueue_script('prc-platform-iframe-embeds-resizer-script');
 
-wp_initial_state('prc-block/entity-as-iframe', array(
+wp_interactivity_state('prc-block/entity-as-iframe', array(
 	$iframe_id => array(
 		'isActive' => false,
 		'resizer' => null,

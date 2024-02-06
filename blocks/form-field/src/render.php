@@ -1,8 +1,6 @@
 <?php
 namespace PRC\Platform\Blocks;
 
-gutenberg_enqueue_module('prc-block/form-field-view');
-
 $block_wrapper_attrs = array(
     'aria-labelledby' => array_key_exists('label', $attributes) ? md5($attributes['label']) : false,
 	'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/form-field')),

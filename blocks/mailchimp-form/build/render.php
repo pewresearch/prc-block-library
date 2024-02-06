@@ -2,7 +2,6 @@
 namespace PRC\Platform\Blocks;
 
 //@benwormald see example of how to manually include @wordpress packages in a module for now... this will be automatic once the modules system is complete and wordpress/scripts is updated accordingly.
-gutenberg_enqueue_module('prc-block/mailchimp-form-view');
 wp_enqueue_script('wp-api-fetch');
 wp_enqueue_script('wp-url');
 

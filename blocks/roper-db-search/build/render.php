@@ -96,7 +96,7 @@ if ( 'global' === $attributes['type'] ) {
 	<script>
 	document.addEventListener("DOMContentLoaded", function(){
 		Roper.mountPartnerSearch(document.querySelector('#partner'), {
-			apiKey: "<?php echo ROPER_API_KEY;?>",
+			apiKey: "<?php echo PRC_PLATFORM_ROPER_API_KEY;?>",
 			subText: "<?php echo $attributes['subText'];?>",
 			perPage: <?php echo $attributes['perPage'];?>,
 			gridLines: false,

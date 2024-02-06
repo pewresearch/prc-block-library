@@ -1,7 +1,6 @@
 <?php
 namespace PRC\Platform\Blocks;
 
-gutenberg_enqueue_module('prc-block/mailchimp-select-view');
 wp_enqueue_script('wp-api-fetch');
 wp_enqueue_script('wp-url');
 

@@ -1,22 +1,18 @@
 <?php
 namespace PRC\Platform\Blocks;
-// PHP file to use when rendering the block type on the server to show on the front end.
-// The following variables are exposed to this file:
-
-// $attributes (array): The block attributes.
-// $content (string): The block default content.
-// $block (WP_Block): The block instance.
 
 if ( is_admin() ) {
 	return $content;
 }
 
+wp_enqueue_script('wp-url');
+
 $is_sub_heading  = array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-sub-heading');
 $enable_sub_menu = $attributes['enableSubMenu'] ?? false;
-$block_template  = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link--sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
-$label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>' : '<span class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</span>';
+$block_template  = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link__sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
+$label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link__label">%2$s</a>' : '<span class="wp-block-prc-block-taxonomy-menu-link__label">%2$s</span>';
 $label_template  = $is_sub_heading ? $label_template . '<i class="fa-solid fa-chevron-right fa-xs"></i>' : $label_template;
-$label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['url'] ) ? '<span class="wp-block-prc-block-taxonomy-menu-link--label wp-block-prc-block-taxonomy-menu-link--toggle">%2$s</span>%3$s' : '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link--label">%2$s</a>%3$s' ) : $label_template;
+$label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['url'] ) ? '<span class="wp-block-prc-block-taxonomy-menu-link__label wp-block-prc-block-taxonomy-menu-link__toggle">%2$s</span>%3$s' : '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link__label">%2$s</a>%3$s' ) : $label_template;
 
 $icon_template = wp_sprintf(
 	'<i class="%1$s"></i><i class="%2$s"></i>',
@@ -47,9 +43,18 @@ if ( array_key_exists('className', $attributes) && 'is-style-sub-expand' === $at
 	);
 }
 
+$block_id = 'item-' . md5( wp_json_encode( $attributes ) );
+
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
-	'id' => 'item-' . md5( wp_json_encode( $attributes ) ),
+	'id' => $block_id,
 	'class' => \PRC\Platform\Block_Utils\classNames($css_classes),
+	'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/taxonomy-list-link')),
+	'data-wp-context' => wp_json_encode(array(
+		'isActive' => get_query_var('taxonomyLink', false) === $block_id,
+		'id' => $block_id,
+	)),
+	'data-wp-class--is-active' => 'context.isActive',
+	'data-wp-init' => 'callbacks.onInit',
 ));
 
 echo wp_sprintf(
@@ -59,7 +64,7 @@ echo wp_sprintf(
 		$label_template,
 		$attributes['url'] ?? '',
 		$attributes['label'] ?? '',
-		$enable_sub_menu && !empty($content) ? '<button class="wp-block-prc-block-taxonomy-menu-link--icon wp-block-prc-block-taxonomy-menu-link--toggle">'.$icon_template.'</button>' : ''
+		$enable_sub_menu && !empty($content) ? '<button class="wp-block-prc-block-taxonomy-menu-link__icon wp-block-prc-block-taxonomy-menu-link__toggle" data-wp-on--click="actions.onClick">'.$icon_template.'</button>' : ''
 	),
 	$content,
 );

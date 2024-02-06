@@ -7,13 +7,8 @@ const PRODUCTION_KEY = '0x4AAAAAAAEXypGz9s3nd01Q';
 const DEV_KEY = '0x4AAAAAAAPM0JJJz5nbcTZZ';
 
 store('prc-block/form-captcha', {
-	state: {
-	},
-	actions: {
-	},
 	callbacks: {
 		onDisplayCaptcha: () => {
-			const { ref } = getElement();
 			const context = getContext();
 			const { targetNamespace } = context;
 			const targetContext = getContext(targetNamespace);
@@ -23,16 +18,20 @@ store('prc-block/form-captcha', {
 				// We need a way to "unmount" the captcha when the form is submitted.
 				return;
 			}
+
+			const { ref } = getElement();
 			const target = ref.querySelector(
 				'.wp-block-prc-block-form-captcha__captcha'
 			);
 			if (!target) {
 				return;
 			}
-			turnstile.ready(function () {
+			// eslint-disable-next-line no-undef
+			const { turnstile } = window;
+			turnstile.ready(() => {
 				turnstile.render(target, {
 					sitekey: DEV_KEY,
-					callback: function(token) {
+					callback: (token) => {
 						console.log(`Challenge Success ${token}`);
 						targetContext.captchaToken = token;
 					},

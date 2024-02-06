@@ -30,7 +30,8 @@
 				"fontSize": true,
 				"__experimentalFontFamily": true
 			}
-		}
+		},
+		"interactivity": true
 	},
 	"textdomain": "flip-card-controller",
 	"editorScript": "file:./index.js",

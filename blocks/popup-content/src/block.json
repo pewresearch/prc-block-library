@@ -31,7 +31,8 @@
 				"fontSize": true,
 				"__experimentalFontFamily": true
 			}
-		}
+		},
+		"interactivity": true
 	},
 	"parent": ["prc-block/popup-controller"],
 	"textdomain": "popup-content",

@@ -11,7 +11,6 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -28,24 +27,18 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import './editor.scss';
-import Edit from './Edit';
-import Icon from './Icon';
-import Save from './Save';
+import edit from './edit';
+import save from './save';
+import icon from './icon';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	icon: Icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
+	icon,
+	edit,
+	save,
 };
 
 /**

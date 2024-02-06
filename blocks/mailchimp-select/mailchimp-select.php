@@ -44,11 +44,6 @@ class Mailchimp_Select {
 	*/
 	public function block_init() {
 		register_block_type( self::$dir . '/build' );
-		gutenberg_register_module(
-			self::$block_name . '-view',
-			plugin_dir_url( __FILE__ ) . 'src/view.js',
-			array( '@wordpress/interactivity' ),
-		);
 	}
 
 }

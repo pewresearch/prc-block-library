@@ -137,6 +137,9 @@ class Print_Engine {
 		if ( 'core/post-content' === $block['blockName'] ) {
 			return $this->generate_dynamic_cover_sheet() . $block_content;
 		}
+		if ( !$block['attrs'] ) {
+			return $block_content;
+		}
 
 		$attributes = array_key_exists('attrs', $block) ? $block['attrs'] : array();
 		$print_options = array_key_exists('printEngine', $attributes) ? $attributes['printEngine'] : array();

@@ -20,7 +20,7 @@ $input_id = md5( $target_target_namespace . $target_namespace . $input_name . $i
 $input_value = array_key_exists('value', $attributes) ? $attributes['value'] : '';
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Enter text...';
 
-wp_initial_state(
+wp_interactivity_state(
 	$target_namespace,
 	array(
 		$input_id => array(

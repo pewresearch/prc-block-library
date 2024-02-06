@@ -1,6 +1,5 @@
 <?php
 namespace PRC\Platform\Blocks;
-gutenberg_enqueue_module('prc-block/form-input-password-view');
 
 $interactive_context = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
 $includes_confirmation = array_key_exists( 'includesConfirmation', $attributes ) ? $attributes['includesConfirmation'] : false;

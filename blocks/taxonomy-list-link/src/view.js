@@ -1,60 +1,40 @@
 /**
  * WordPress Dependencies
  */
-import { addQueryArgs, getQueryArg } from '@wordpress/url';
-import domReady from '@wordpress/dom-ready';
+import { store, getElement, getContext } from '@wordpress/interactivity';
 
-domReady(() => {
-	const taxonomyMenuLinks = document.querySelectorAll(
-		'.wp-block-prc-block-taxonomy-menu-link.is-style-sub-expand, .wp-block-prc-block-taxonomy-menu-link.is-style-sub-tree'
-	);
-
-	taxonomyMenuLinks.forEach((taxonomyMenuLink) => {
-		const subMenu = taxonomyMenuLink.querySelector(
-			'.wp-block-prc-block-taxonomy-menu-link--sub-menu'
-		);
-
-		if (!subMenu) {
-			return;
-		}
-
-		const subMenuToggles = taxonomyMenuLink.querySelectorAll(
-			'.wp-block-prc-block-taxonomy-menu-link--toggle'
-		);
-
-		if (!subMenuToggles) {
-			return;
-		}
-
-		subMenuToggles.forEach((subMenuToggle) => {
-			subMenuToggle.addEventListener('click', (event) => {
-				event.preventDefault();
-				taxonomyMenuLink.classList.toggle('is-active');
-
-				// Update the window history with the id from taxonomyMenuLink as a query parameter.
-				const { id } = taxonomyMenuLink;
+store('prc-block/taxonomy-list-link', {
+	actions: {
+		onClick: () => {
+			const context = getContext();
+			const { ref } = getElement();
+			const { id } = ref.parentElement;
+			// Toggle active state:
+			context.isActive = !context.isActive;
+			// Update the URL:
+			if (id) {
 				const { href } = window.location;
-				const newUrl = addQueryArgs(href, { taxonomyLink: id });
-
-				window.history.pushState({ id }, '', newUrl);
-			});
-		});
-	});
-
-	// Get the taxonomyLink from the URL, if present.
-	const taxonomyLink = getQueryArg(window.location.href, 'taxonomyLink');
-	// If there is a taxonomyLink, and it matches a taxonomy menu link, open the sub menu.
-	if (taxonomyLink && taxonomyMenuLinks.length) {
-		const taxonomyLinkElement = document.getElementById(taxonomyLink);
-		if (taxonomyLinkElement) {
-			taxonomyLinkElement.classList.add('is-active');
-			// Scroll to the taxonomyLink element.
-			setTimeout(() => {
-				taxonomyLinkElement.scrollIntoView({
-					behavior: 'smooth',
-					block: 'center',
+				const newUrl = window.wp.url.addQueryArgs(href, {
+					taxonomyLink: id,
 				});
-			}, 100);
-		}
-	}
+				window.history.pushState({ id }, '', newUrl);
+			}
+		},
+	},
+	callbacks: {
+		onInit: () => {
+			const context = getContext();
+			const { ref } = getElement();
+			const { id } = ref;
+			// If on init this is already active scroll it into view:
+			if (true === context.isActive && id) {
+				setTimeout(() => {
+					document.getElementById(id).scrollIntoView({
+						behavior: 'smooth',
+						block: 'center',
+					});
+				}, 100);
+			}
+		},
+	},
 });

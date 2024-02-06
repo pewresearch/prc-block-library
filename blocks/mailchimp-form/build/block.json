@@ -57,5 +57,6 @@
   "textdomain": "mailchimp-form",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "viewModule": "file:./view.js"
 }

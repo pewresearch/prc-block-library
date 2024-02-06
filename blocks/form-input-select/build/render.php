@@ -10,24 +10,24 @@ $input_name = array_key_exists('metadata', $attributes) && array_key_exists('nam
 $input_options = array_key_exists( 'options', $attributes ) ? $attributes['options'] : array();
 $input_id = md5( $target_namespace . $input_name );
 
-$options = '';
-foreach ($input_options as $option) {
-	$options .= wp_sprintf(
-		'<li role="option" aria-selected="%1$s" aria-controls="%2$s" data-wp-on--click="%3$s" data-wp-key="%4$s" class="wp-block-prc-block-form-input-select__list-item">%4$s</li>',
-		false, // aria-selected
-		$input_id, // aria-controls
-		'actions.onSelect', // data-wp-on--click
-		$option['value'], // data-wp-key
-		$option['label'], // label
-	);
-}
-$listbox = wp_sprintf(
-	'<ul aria-labelledby="%1$s" role="listbox" class="wp-block-prc-block-form-input-select__list">%2$s</ul>',
-	$input_id, // aria-labelledby
-	$options, // listbox content
-);
+// $options = '';
+// foreach ($input_options as $option) {
+// 	$options .= wp_sprintf(
+// 		'<li role="option" aria-selected="%1$s" aria-controls="%2$s" data-wp-on--click="%3$s" data-wp-key="%4$s" class="wp-block-prc-block-form-input-select__list-item">%4$s</li>',
+// 		false, // aria-selected
+// 		$input_id, // aria-controls
+// 		'actions.onSelect', // data-wp-on--click
+// 		$option['value'], // data-wp-key
+// 		$option['label'], // label
+// 	);
+// }
+// $listbox = wp_sprintf(
+// 	'<ul aria-labelledby="%1$s" role="listbox" class="wp-block-prc-block-form-input-select__list">%2$s</ul>',
+// 	$input_id, // aria-labelledby
+// 	$options, // listbox content
+// );
 
-wp_initial_state(
+wp_interactivity_state(
 	$target_namespace,
 	array(
 		$input_id => array(
@@ -39,6 +39,8 @@ wp_initial_state(
 			'isError'       => false,
 			'isSuccess'     => false,
 			'isProcessing'  => false,
+			'options'       => $input_options,
+			'filteredOptions' => $input_options,
 		)
 	)
 );
@@ -62,11 +64,49 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'data-wp-on--keyup' => 'callbacks.onESCKey',
 ));
 
-echo wp_sprintf(
-	'<div %1$s><button type="button" aria-controls="%2$s" class="wp-block-prc-block-form-input-select__button" data-wp-on--click="%3$s" data-wp-text="%4$s"></button>%5$s</div>',
-	$block_wrapper_attrs, // wrapper attributes
-	$input_id,
-	'actions.onOpen', // data-wp-on--click
-	$target_namespace.'::state.'.$input_id.'.label', // data-wp-text
-	$listbox, // listbox content
-);
+// echo wp_sprintf(
+// 	'<div %1$s><button type="button" aria-controls="%2$s" class="wp-block-prc-block-form-input-select__button" data-wp-on--click="%3$s" data-wp-text="%4$s"></button>%5$s</div>',
+// 	$block_wrapper_attrs, // wrapper attributes
+// 	$input_id,
+// 	'actions.onOpen', // data-wp-on--click
+// 	$target_namespace.'::state.'.$input_id.'.label', // data-wp-text
+// 	$listbox, // listbox content
+// );
+
+?>
+
+<div <?php echo $block_wrapper_attrs;?> >
+	<div aria-owns="autocomplete-demo-listbox">
+		<div>
+			<input
+				id="<?php echo $input_id; ?>-input"
+				placeholder=<?php echo $input_placeholder; ?>
+				value=""
+				data-wp-on--keyup="actions.onKeyUp"
+				data-wp-on--focus="actions.onOpen"
+				data-wp-on--blur="actions.onClose"
+				role="combobox"
+				aria-controls="<?php echo $input_id; ?>"
+			/>
+		</div>
+	</div>
+	<ul
+		role="listbox"
+	>
+			<!-- TODO: each-key doesn't seem to set in DOM? -->
+			<template
+				data-wp-each--option="<?php echo $target_namespace.'::state.'.$input_id.'.filteredOptions'; ?>"
+				data-wp-each-key="context.option.value"
+			>
+				<li
+					role="option"
+					aria-selected="false"
+					aria-controls="autocomplete-demo"
+					data-wp-on--click="actions.onSelect"
+					class="wp-block-prc-block-form-input-select__list-item"
+					data-wp-text="context.option.label"
+					data-wp-bind--refid="context.option.value"
+				/>
+			</template>
+	</ul>
+</div>

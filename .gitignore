@@ -11,7 +11,6 @@ node_modules/
 
 # VS Code
 .vscode/*
-!.vscode/settings.json
 !.vscode/launch.json
 
 # Logs
@@ -33,3 +32,4 @@ yarn-error.log*
 
 # Testing
 artifacts/
+.vscode/*

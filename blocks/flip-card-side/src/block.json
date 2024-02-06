@@ -30,7 +30,8 @@
 		"__experimentalBorder": {
 			"color": true,
 			"width": true
-		}
+		},
+		"interactivity": true
 	},
 	"parent": [
 		"prc-block/flip-card-controller"
