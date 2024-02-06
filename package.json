@@ -4,5 +4,8 @@
   "devDependencies": {
     "@wordpress/create-block": "^4.6.0",
     "@wordpress/scripts": "^26.9.0"
-  }
+  },
+	"scripts": {
+		"update:wp-scripts": "npx update-wp-scripts"
+	}
 }

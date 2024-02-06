@@ -1,12 +1,12 @@
 # PRC-Block-Library
 
-Welcome to the Pew Research Center Block Library 👋 ( prc-block-library for short). First some caveats; this is the culmination of a refactor of our various blocks into new block libraries utilizing `@wordpress/create-block` and `@wordpress/scripts` removing our need to use `Wpack.io`, this release also includes a new method for handling asset dependencies across plugins. Given the nature of how we’re handling dependencies some blocks will not work for you until we release our subsequent `prc-scripts` plugin later in Q1 2023. Until then, use at your own risk with the understanding some blocks will not work for you and will cause an error in the editor due to missing components. Furthermore, some blocks will reference post types, taxonomies, and general data models you won’t  have; we have tried our best to ensure backwards compatibility with WP core post types and objects when this is activated off our platform. Some blocks you may have heard us speak about are not present in this collection; our quiz builder, quote sorter builder, and chart builder blocks will be released open source at a later date. This will serve as a base of blocks that other plugins we release will utilize. 
+Welcome to the Pew Research Center Block Library 👋 ( prc-block-library for short).
 
 ---
 
 PRC Block Library is a collection of blocks for the [Gutenberg](
 https://wordpress.org/gutenberg/) editor. Treat this collection with care, as
-this provides the foundation for the display layer of the PRC website.
+this provides the foundation for the display layer of the pewresearch.org website.
 
 All blocks are built using the [Gutenberg Block API](
 https://wordpress.org/gutenberg/handbook/block-api/), and are built using
@@ -54,60 +54,11 @@ import { useDebounce } from '@prc/hooks';
 import enquire from 'enquire.js';
 ```
 
-In the example below we will include support for a 3rd party library called `enquire.js` and a 1st party library called `@prc/hooks`. Respectively their wp script handles are `enquire.js` and `prc-hooks`, their global scoped names are `window.enquire` and `window.prcHooks`, and their package names are `enquire.js` and `@prc/hooks`.
+For an up to date list of all available scripts and their dependency extraction configuration see the centralized [webpack.config.js](https://github.com/pewresearch/pewresearch-org/blob/main/webpack.config.js) file.
 
-```js
-const defaultConfig = require('@wordpress/scripts/config/webpack.config');
-const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
+#### Documentation
 
-module.exports = {
-	...defaultConfig,
-	devtool: 'source-map',
-	plugins: [
-		...defaultConfig.plugins.filter(
-			(plugin) =>
-				'DependencyExtractionWebpackPlugin' !== plugin.constructor.name,
-		),
-		new DependencyExtractionWebpackPlugin({
-			injectPolyfill: true,
-			// eslint-disable-next-line consistent-return
-			requestToExternal(request) {
-				/* My externals */
-				if (request.includes('@prc/hooks')) {
-					return 'prcHooks';
-				}
-				if (request.includes('enquire.js')) {
-					return 'enquire';
-				}
-			},
-			// eslint-disable-next-line consistent-return
-			requestToHandle(request) {
-				// Handle imports like `import myModule from 'my-module'`
-				if ('@prc/hooks' === request) {
-					// `my-module` depends on the script with the 'my-module-script-handle' handle.
-					return 'prc-hooks';
-				}
-				if ('enquire.js' === request) {
-					return 'enquire.js';
-				}
-			},
-		}),
-	],
-};
-```
-
-For an up to date list of all available scripts and their dependency extraction configuration see the [PRC-Scripts](
-	https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-scripts/webpack.config.js) plugin.
-
-
-## Guides
-
-## Layout
-example
-
-## Colors
-example
-
+For additional documentation, visit https://github.com/pewresearch/prc-block-library.
 
 #### Licensing
 
@@ -123,3 +74,4 @@ This library also utilizes Handsontable for the data-table block.
 #### Contributing
 
 We are not currently accepting contributions to this repository at this time.
+
