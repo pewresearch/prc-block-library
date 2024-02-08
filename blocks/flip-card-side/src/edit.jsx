@@ -5,8 +5,6 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
@@ -47,13 +45,11 @@ export default function Edit({
 	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	const { allowedBlocks, orientation } = attributes;
+	const { allowedBlocks } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 		templateLock: false,
 	});
 
-	return (
-		<div {...innerBlocksProps} />
-	);
+	return <div {...innerBlocksProps} />;
 }

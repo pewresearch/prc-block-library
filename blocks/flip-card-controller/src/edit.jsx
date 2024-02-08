@@ -7,7 +7,7 @@ import { ResizableBox } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-import FlipControl from './FlipControl';
+import FlipControl from './flip-control';
 
 const ALLOWED_BLOCKS = ['prc-block/flip-card-side'];
 const TEMPLATE = [
