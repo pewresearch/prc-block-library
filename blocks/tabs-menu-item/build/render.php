@@ -19,7 +19,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(
 $content = wp_kses( $attributes['title'], 'post' );
 
 echo wp_sprintf(
-	'<button %1$s>%2$s</button>',
+	'<li><button %1$s>%2$s</button></li>',
 	$block_wrapper_attrs,
 	$content,
 );

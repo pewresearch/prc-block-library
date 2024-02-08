@@ -12,18 +12,6 @@ $block_wrapper_attrs =  get_block_wrapper_attributes(array(
 	'style' => '--block-gap: ' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes) . ';',
 ));
 
-$uuids = array_map(
-	function( $item ) {
-		return $item['attrs']['uuid'];
-	},
-	$block->parsed_block['innerBlocks']
-);
-
-$content = '';
-foreach ( $block->parsed_block['innerBlocks'] as $i => $menu_item ) {
-	$content .= '<li>' . render_block( $menu_item ) . '</li>';
-}
-
 // You can use this method...
 echo wp_sprintf(
 	'<ul %1$s>%2$s</ul>',
