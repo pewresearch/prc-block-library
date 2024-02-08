@@ -8,7 +8,7 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.

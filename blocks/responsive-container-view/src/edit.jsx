@@ -13,7 +13,7 @@ import { Notice } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-// import Controls from './Controls';
+import Controls from './controls';
 
 const TEMPLATE = [['core/html', {}]];
 
@@ -25,6 +25,7 @@ const TEMPLATE = [['core/html', {}]];
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.clientId
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -45,7 +46,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			orientation: orientation || 'vertical',
 			templateLock: false,
 			template: TEMPLATE,
-		},
+		}
 	);
 
 	const [label, setLabel] = useState(`${min}px to ${max}px`);
@@ -63,11 +64,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	return (
 		<Fragment>
-			{/* <Controls {...{ attributes, setAttributes, clientId }} /> */}
+			<Controls {...{ attributes, setAttributes, clientId }} />
 			<div {...blockProps}>
 				<Notice
 					isDismissible={false}
-					spokenMessage={__(`Visible from ${min} pixels to ${max} pixels`)}
+					spokenMessage={__(
+						`Visible from ${min} pixels to ${max} pixels`
+					)}
 				>
 					<span className="sans-serif">
 						<strong>Viewport Range:</strong> {__(label)}

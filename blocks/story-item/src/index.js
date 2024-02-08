@@ -43,7 +43,7 @@ const settings = {
 	transforms,
 	__experimentalLabel: ({ title }) => title || 'Story Item', // Will change the label to match the title, #experimental.
 	edit,
-	save
+	save,
 };
 
 /**

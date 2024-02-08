@@ -14,8 +14,8 @@ import { useBlockProps, RichText } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
-import { CopyText } from './Copy';
+import Controls from './controls';
+import { CopyText } from './copy';
 
 const ALLOWED_LANGUAGES = [
 	'R',

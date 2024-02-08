@@ -56,9 +56,5 @@ export default function Edit({ attributes }) {
 		template,
 	});
 
-	return (
-		<Fragment>
-			<div {...innerBlocksProps}></div>
-		</Fragment>
-	);
+	return <div {...innerBlocksProps}></div>;
 }

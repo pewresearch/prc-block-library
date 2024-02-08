@@ -12,22 +12,25 @@ import { render } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import { CopyText } from './Copy';
+import { CopyText } from './copy';
 
 domReady(() => {
 	const codeBlocks = document.querySelectorAll(
 		'.wp-block-prc-block-code-syntax'
 	);
-	codeBlocks.forEach( ( codeBlock ) => {
-        const code = codeBlock.querySelector( 'code' );
-        const language = codeBlock.dataset.language;
-        
-        if ( language  && language.length > 0 ) {
-            code.classList.add( `language-${language}` );
-        }
+	codeBlocks.forEach((codeBlock) => {
+		const code = codeBlock.querySelector('code');
+		const { language } = codeBlock.dataset;
 
-        hljs.highlightElement( code );
+		if (language && language.length > 0) {
+			code.classList.add(`language-${language}`);
+		}
 
-        render( <CopyText value={code.textContent} />, codeBlock.querySelector( '.wp-block-prc-block-code-syntax__ui' ) );		
+		hljs.highlightElement(code);
+
+		render(
+			<CopyText value={code.textContent} />,
+			codeBlock.querySelector('.wp-block-prc-block-code-syntax__ui')
+		);
 	});
 });

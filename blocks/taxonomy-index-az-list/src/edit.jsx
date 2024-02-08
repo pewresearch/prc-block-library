@@ -14,8 +14,8 @@ import { decodeEntities } from '@wordpress/html-entities';
 /**
  * Internal Dependencies
  */
-import { Controls, LetterControl, TaxonomyControl } from './Controls';
-import Placeholder from './Placeholder';
+import { Controls, LetterControl, TaxonomyControl } from './controls';
+import Placeholder from './placeholder';
 
 const getTermsByLetter = (letter, taxonomy) => {
 	return new Promise((resolve) => {

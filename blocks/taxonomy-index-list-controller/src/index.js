@@ -28,8 +28,8 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import './editor.scss';
-import Edit from './Edit';
-import Save from './Save';
+import edit from './edit';
+import save from './save';
 
 import metadata from './block.json';
 
@@ -37,14 +37,8 @@ const { name } = metadata;
 
 const settings = {
 	icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
+	edit,
+	save,
 };
 
 /**

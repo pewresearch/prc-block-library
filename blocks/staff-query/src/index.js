@@ -28,9 +28,9 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import './editor.scss';
-import Edit from './Edit';
-import Save from './Save';
-import Icon from './Icon';
+import edit from './edit';
+import icon from './icon';
+import save from './save';
 
 import metadata from './block.json';
 
@@ -42,15 +42,9 @@ const settings = {
 		const staffTypeName = staffType ? staffType.name : 'Staff';
 		return `${staffTypeName} Query`;
 	},
-	icon: Icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
+	icon,
+	edit,
+	save,
 };
 
 /**

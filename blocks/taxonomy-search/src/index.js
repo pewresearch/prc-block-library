@@ -27,17 +27,14 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import './editor.scss';
-import Edit from './Edit';
+import edit from './edit';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
+	edit,
 };
 
 /**

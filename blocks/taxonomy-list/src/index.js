@@ -28,9 +28,9 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import './editor.scss';
-import Edit from './Edit';
-import Save from './Save';
 import transforms from './transforms';
+import edit from './edit';
+import save from './save';
 
 import metadata from './block.json';
 
@@ -38,18 +38,8 @@ const { name } = metadata;
 
 const settings = {
 	icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
-	/**
-	 * @see ./transforms.js
-	 * @see https://developer.wordpress.org/block-editor/developers/block-api/block-registration/#transforms-optional
-	 */
+	edit,
+	save,
 	transforms,
 };
 

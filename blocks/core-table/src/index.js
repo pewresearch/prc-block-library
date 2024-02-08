@@ -8,7 +8,7 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
 // Because theres no good way to inject this in the build process we're defaulting to transforming the core block name like so. You can manually change this if you want.
 const BLOCKNAME = 'core-table'.replace(/-/g, '/');

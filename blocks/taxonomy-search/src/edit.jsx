@@ -11,7 +11,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
 /**
  * The edit function describes the structure of your block in the context of the

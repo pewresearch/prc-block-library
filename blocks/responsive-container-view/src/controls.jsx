@@ -67,9 +67,9 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 	const newMax = useSelect((select) => {
 		const previousBlockClientId =
 			select('core/block-editor').getPreviousBlockClientId(clientId);
-		const previousBlockAttrs = select('core/block-editor').getBlockAttributes(
-			previousBlockClientId,
-		);
+		const previousBlockAttrs = select(
+			'core/block-editor'
+		).getBlockAttributes(previousBlockClientId);
 		if (null == previousBlockAttrs) {
 			return 0;
 		}

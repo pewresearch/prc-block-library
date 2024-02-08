@@ -28,20 +28,17 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './style.scss';
 import './editor.scss';
-import Edit from './Edit';
-import Icon from './Icon';
 import variations from './variations';
+import edit from './edit';
+import icon from './icon';
 
 import metadata from './block.json';
 
 const { name } = metadata;
 
 const settings = {
-	icon: Icon,
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
+	icon,
+	edit,
 	variations,
 };
 
