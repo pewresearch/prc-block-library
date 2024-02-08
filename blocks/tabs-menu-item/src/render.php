@@ -8,7 +8,7 @@ if ( ! $uuid ) {
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
-		'data-wp-interactive' => '{"namespace":"prc-block/tabs-controller"}',
+		'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/tabs-controller')),
 		'data-wp-key' => 'tab-'.$uuid,
 		'data-wp-class--is-active' => 'callbacks.isActive',
 		'data-wp-context' => wp_json_encode(array('uuid' => $uuid)),

@@ -162,9 +162,6 @@ class Tabs_Controller {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		// @benwormald look here for how to enqueue the view script
-		gutenberg_enqueue_module(self::$block_name . '-view');
-
 		$initial_context = array(
 			'activeUUID' => $this->get_first_menu_item_uuid($block),
 		);
@@ -182,7 +179,7 @@ class Tabs_Controller {
 					'is-vertical-tabs' => $attributes['vertical'],
 					'is-horizontal-tabs' => ! $attributes['vertical'],
 				) ),
-				'data-wp-interactive' => '{"namespace":"prc-block/tabs-controller"}',
+				'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/tabs-controller')),
 				'data-wp-context' => wp_json_encode($initial_context),
 				'data-wp-init' => 'callbacks.onTabsInit',
 			)
@@ -208,12 +205,6 @@ class Tabs_Controller {
 			array(
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
-		);
-		// @benwormald look here for how to register the view model
-		gutenberg_register_module(
-			self::$block_name . '-view',
-			plugin_dir_url( __FILE__ ) . 'src/view.js',
-			array( '@wordpress/interactivity' ),
 		);
 	}
 }

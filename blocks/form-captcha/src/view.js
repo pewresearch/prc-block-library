@@ -3,9 +3,6 @@
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
-const PRODUCTION_KEY = '0x4AAAAAAAEXypGz9s3nd01Q';
-const DEV_KEY = '0x4AAAAAAAPM0JJJz5nbcTZZ';
-
 store('prc-block/form-captcha', {
 	callbacks: {
 		onDisplayCaptcha: () => {
@@ -30,7 +27,7 @@ store('prc-block/form-captcha', {
 			const { turnstile } = window;
 			turnstile.ready(() => {
 				turnstile.render(target, {
-					sitekey: DEV_KEY,
+					sitekey: '0x4AAAAAAAPM0JJJz5nbcTZZ',
 					callback: (token) => {
 						console.log(`Challenge Success ${token}`);
 						targetContext.captchaToken = token;

@@ -21,9 +21,6 @@ $uuids = array_map(
 
 $content = '';
 foreach ( $block->parsed_block['innerBlocks'] as $i => $menu_item ) {
-	// if ( ! in_array( get_query_var( 'menuItem' ), $uuids ) && 0 === $i ) {
-	// 	$menu_item['attrs']['active'] = true;
-	// }
 	$content .= '<li>' . render_block( $menu_item ) . '</li>';
 }
 
