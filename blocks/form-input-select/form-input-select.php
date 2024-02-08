@@ -18,9 +18,10 @@ class Form_Input_Select {
 
 	public function __construct($loader) {
 		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/form-input-select/build/block.json';
-		self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 		self::$version = self::$block_json['version'];
+		self::$block_name = self::$block_json['name'];
 		$this->init($loader);
 	}
 
@@ -40,11 +41,7 @@ class Form_Input_Select {
 	*/
 	public function block_init() {
 		register_block_type( self::$dir . '/build' );
-		gutenberg_register_module(
-			'prc-block/form-input-select-view',
-			plugin_dir_url( __FILE__ ) . 'src/view.js',
-			array( '@wordpress/interactivity' ),
-		);
 	}
+
 
 }

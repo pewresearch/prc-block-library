@@ -1,6 +1,6 @@
-/*!***************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/style.scss ***!
-  \***************************************************************************************************************************************************************************************************************************************/
+/*!*********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!../../../../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/style.scss ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************/
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.
@@ -10,6 +10,7 @@
 .wp-block-prc-block-form-input-select {
   box-sizing: border-box;
   position: relative;
+  gap: var(--block-gap);
 }
 .wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__list {
   height: 200px;
@@ -18,7 +19,7 @@
   background: white;
   border: inherit;
   padding: inherit;
-  top: 1.15em;
+  top: 3em;
   left: -1px;
   scrollbar-width: none;
 }
@@ -37,7 +38,7 @@
   background: var(--wp--preset--color--ui-gray-light);
   color: var(--wp--preset--color--ui-gray-dark);
 }
-.wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__list .wp-block-prc-block-form-input-select__list-item:active, .wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__list .wp-block-prc-block-form-input-select__list-item.is-selected {
+.wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__list .wp-block-prc-block-form-input-select__list-item:active, .wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__list .wp-block-prc-block-form-input-select__list-item.is-selected, .wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__list .wp-block-prc-block-form-input-select__list-item[aria-selected=true] {
   background: var(--wp--preset--color--ui-link-color);
   color: var(--wp--preset--color--ui-white);
 }

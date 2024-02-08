@@ -1,14 +1,16 @@
 <?php
 namespace PRC\Platform\Blocks;
 
-gutenberg_enqueue_module('prc-block/form-input-select-view');
-
 $target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
+
+if ( ! $target_namespace ) {
+	$target_namespace = 'prc-block/form-input-select';
+}
 
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Click to select';
 $input_name = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : null;
 $input_options = array_key_exists( 'options', $attributes ) ? $attributes['options'] : array();
-$input_id = md5( $target_namespace . $input_name );
+$input_id = md5( $target_namespace . $input_name . $input_placeholder . wp_json_encode($input_options));
 
 // $options = '';
 // foreach ($input_options as $option) {
@@ -53,6 +55,9 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	)),
 	'data-wp-context' => wp_json_encode(array(
 		'targetNamespace' => $target_namespace,
+		'activeId' => 0,
+		'value' => '',
+		'filteredOptions' => $input_options,
 	)),
 	'data-wp-init--watch-for-outside-clicks' => 'callbacks.onInit',
 	'data-wp-class--is-open' => $target_namespace.'::state.'.$input_id.'.isOpen',
@@ -61,7 +66,9 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'data-wp-class--is-error' => $target_namespace.'::state.'.$input_id.'.isError',
 	'data-wp-class--is-success' => $target_namespace.'::state.'.$input_id.'.isSuccess',
 	'data-wp-class--is-processing' => $target_namespace.'::state.'.$input_id.'.isProcessing',
-	'data-wp-on--keyup' => 'callbacks.onESCKey',
+	'data-wp-on-document--keydown' => 'callbacks.onESCKey',
+	'data-wp-watch--on--value-change' => 'callbacks.onValueChange',
+	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
 ));
 
 // echo wp_sprintf(
@@ -73,40 +80,69 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 // 	$listbox, // listbox content
 // );
 
+$input_attrs = array(
+	'id' 					=> $input_id.'-input',
+	'role' 					=> 'combobox',
+	'type' 					=> 'search',
+	'aria-controls' 		=> $input_id,
+	'data-wp-interactive' 	=> wp_json_encode(array(
+		'namespace' => 'prc-block/form-input-select'
+	)),
+	'placeholder' 			=> $input_placeholder,
+	'data-wp-bind--value' 	=> $target_namespace.'::state.'.$input_id.'.inputText',
+	'data-wp-on--keyup' 	=> 'actions.onKeyUp',
+	'data-wp-on--focus' 	=> 'actions.onOpen',
+	'data-wp-on--blur' 		=> 'actions.onClose',
+);
+
+$input_attrs = get_block_wrapper_attributes($input_attrs);
+
+$input = wp_sprintf(
+	'<input %1$s />',
+	$input_attrs
+);
+
+$option_attrs = array(
+	'role' => 'option',
+	'data-wp-interactive' => wp_json_encode(array(
+		'namespace' => 'prc-block/form-input-select'
+	)),
+	'aria-selected' => 'false',
+	'aria-controls' => $input_id,
+	'data-wp-on--click' => 'actions.onSelect',
+	'class' => 'wp-block-prc-block-form-input-select__list-item',
+	'data-wp-text' => 'context.option.label',
+	'data-wp-bind--refid' => 'context.option.value',
+);
+
+$option_attrs = get_block_wrapper_attributes($option_attrs);
+
+$option = wp_sprintf(
+	'<li %1$s />',
+	$option_attrs
+);
+
 ?>
 
 <div <?php echo $block_wrapper_attrs;?> >
-	<div aria-owns="autocomplete-demo-listbox">
+	<div>You've selected <span data-wp-text="<?php echo $target_namespace.'::state.'.$input_id.'.label'; ?>"></span></div>
+	<div>
 		<div>
-			<input
-				id="<?php echo $input_id; ?>-input"
-				placeholder=<?php echo $input_placeholder; ?>
-				value=""
-				data-wp-on--keyup="actions.onKeyUp"
-				data-wp-on--focus="actions.onOpen"
-				data-wp-on--blur="actions.onClose"
-				role="combobox"
-				aria-controls="<?php echo $input_id; ?>"
-			/>
+			<?php echo $input; ?>
 		</div>
 	</div>
 	<ul
 		role="listbox"
+		class="wp-block-prc-block-form-input-select__list"
+		id="listbox-<?php echo $input_id; ?>"
+		aria-autocomplete="list"
 	>
 			<!-- TODO: each-key doesn't seem to set in DOM? -->
 			<template
 				data-wp-each--option="<?php echo $target_namespace.'::state.'.$input_id.'.filteredOptions'; ?>"
 				data-wp-each-key="context.option.value"
 			>
-				<li
-					role="option"
-					aria-selected="false"
-					aria-controls="autocomplete-demo"
-					data-wp-on--click="actions.onSelect"
-					class="wp-block-prc-block-form-input-select__list-item"
-					data-wp-text="context.option.label"
-					data-wp-bind--refid="context.option.value"
-				/>
+				<?php echo $option; ?>
 			</template>
 	</ul>
 </div>

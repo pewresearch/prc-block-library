@@ -2,6 +2,7 @@
  * External Dependencies
  */
 import classnames from 'classnames';
+import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
@@ -35,45 +36,41 @@ import Controls from './controls';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, setAttributes, clientId, isSelected }) {
-
+export default function Edit({
+	attributes,
+	setAttributes,
+	clientId,
+	isSelected,
+}) {
 	const ref = useRef();
 
 	const { options, placeholder, disabled, multiple, id, autocomplete } =
 		attributes;
 
-	const [isOpen, setIsOpen] = useState(false);
-
 	const blockProps = useBlockProps({
-		className: classnames({
-			'is-open': isOpen,
-		})
+		onChange: (event) => event.preventDefault(),
+		// style: {
+		// 	'--block-gap': getBlockGapSupportValue(attributes, 'horizontal'),
+		// },
 	});
 
 	// useEffect(() => {
-    //     function handleClickOutside(event) {
-    //         if (ref.current && !ref.current.contains(event.target)) {
-    //             setIsOpen(false);
-    //         }
-    //     }
+	//     function handleClickOutside(event) {
+	//         if (ref.current && !ref.current.contains(event.target)) {
+	//             setIsOpen(false);
+	//         }
+	//     }
 
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    // }, [ref]);
+	//     document.addEventListener("mousedown", handleClickOutside);
+	//     return () => {
+	//         document.removeEventListener("mousedown", handleClickOutside);
+	//     };
+	// }, [ref]);
 
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes, clientId }} />
-			<div {...blockProps} ref={ref}>
-				<div class="wp-block-prc-block-form-input-select__button">{placeholder || 'Click To Open'}</div>
-				{/* <ul className="wp-block-prc-block-form-input-select__list" aria-labelledby="%1$s" role="listbox">
-					{options.map(({ label, value }) => (
-						<li className="wp-block-prc-block-form-input-select__list-item" role="option">{label}</li>
-					))}
-				</ul> */}
-			</div>
+			<input {...blockProps} placeholder={placeholder}></input>
 		</Fragment>
 	);
 }

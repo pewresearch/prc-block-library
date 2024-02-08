@@ -30,28 +30,29 @@ function checkPasswordStrength(password) {
 	};
 }
 
-const {state} = store('prc-block/form-input-password', {
+const { state } = store('prc-block/form-input-password', {
 	actions: {
 		onInputChange: (event) => {
 			const context = getContext();
-			const {ref} = getElement();
-			const {id, name} = ref;
-			const {value} = event.target;
-			const {hasConfirmation, confirmationInputId} = context;
+			const { ref } = getElement();
+			const { id, name } = ref;
+			const { value } = event.target;
+			const { hasConfirmation, confirmationInputId } = context;
 
 			state[id].value = value;
 			if ('confirmPassword' === name) {
 				context.confirmationValue = value;
 				context.passwordMatch = context.value === value;
 			} else {
-				if ( hasConfirmation ) {
-					const passwordStrengthCheck = checkPasswordStrength( value );
+				if (hasConfirmation) {
+					const passwordStrengthCheck = checkPasswordStrength(value);
 					// check if all the values in passwordStrengthCheck are true
-					const disableConfirmInput = Object.values(passwordStrengthCheck).every(
-						(result) => result === true
-					);
+					const disableConfirmInput = Object.values(
+						passwordStrengthCheck
+					).every((result) => result === true);
 					// Disable the confirmationn input if the password does not meet the requirements
-					state[confirmationInputId].isDisabled = !disableConfirmInput;
+					state[confirmationInputId].isDisabled =
+						!disableConfirmInput;
 					// Report the password strength to the user
 					Object.keys(passwordStrengthCheck).forEach((key) => {
 						context[key] = passwordStrengthCheck[key];
@@ -64,16 +65,17 @@ const {state} = store('prc-block/form-input-password', {
 	callbacks: {
 		onValueChange: () => {
 			const context = getContext();
-			const { value, targetNamespace, hasConfirmation, passwordMatch } = context;
-			if ( value ) {
-				const { actions } = store( targetNamespace );
-				if ( actions.onPasswordChange ) {
-					console.log("PUSH", value, 'to', targetNamespace, context);
+			const { value, targetNamespace, hasConfirmation, passwordMatch } =
+				context;
+			if (value) {
+				const { actions } = store(targetNamespace);
+				if (actions.onPasswordChange) {
+					console.log('PUSH', value, 'to', targetNamespace, context);
 					// If the password is expecting confirmation then check if the passwords match before sending up the value
-					if ( hasConfirmation && passwordMatch ) {
-						actions.onPasswordChange( value );
-					} else if ( ! hasConfirmation ) {
-						actions.onPasswordChange( value );
+					if (hasConfirmation && passwordMatch) {
+						actions.onPasswordChange(value);
+					} else if (!hasConfirmation) {
+						actions.onPasswordChange(value);
 					}
 				}
 			}
@@ -88,6 +90,6 @@ const {state} = store('prc-block/form-input-password', {
 			);
 			context.confirmationInputId = confirmationInputKey;
 			state[confirmationInputKey].isDisabled = true;
-		}
+		},
 	},
 });

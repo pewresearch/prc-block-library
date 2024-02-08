@@ -119,17 +119,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "classnames");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _controls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./controls */ "./src/controls.jsx");
+/* harmony import */ var _prc_block_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @prc/block-utils */ "@prc/block-utils");
+/* harmony import */ var _prc_block_utils__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_prc_block_utils__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _controls__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./controls */ "./src/controls.jsx");
 
 /**
  * External Dependencies
  */
+
 
 
 /**
@@ -165,7 +168,7 @@ function Edit({
   clientId,
   isSelected
 }) {
-  const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useRef)();
+  const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useRef)();
   const {
     options,
     placeholder,
@@ -174,11 +177,11 @@ function Edit({
     id,
     autocomplete
   } = attributes;
-  const [isOpen, setIsOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.useBlockProps)({
-    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()({
-      'is-open': isOpen
-    })
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__.useBlockProps)({
+    onChange: event => event.preventDefault()
+    // style: {
+    // 	'--block-gap': getBlockGapSupportValue(attributes, 'horizontal'),
+    // },
   });
 
   // useEffect(() => {
@@ -194,16 +197,14 @@ function Edit({
   //     };
   // }, [ref]);
 
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls__WEBPACK_IMPORTED_MODULE_6__["default"], {
     attributes,
     setAttributes,
     clientId
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     ...blockProps,
-    ref: ref
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "wp-block-prc-block-form-input-select__button"
-  }, placeholder || 'Click To Open')));
+    placeholder: placeholder
+  }));
 }
 
 /***/ }),
@@ -351,6 +352,16 @@ module.exports = window["classnames"];
 
 /***/ }),
 
+/***/ "@prc/block-utils":
+/*!********************************!*\
+  !*** external "prcBlockUtils" ***!
+  \********************************/
+/***/ ((module) => {
+
+module.exports = window["prcBlockUtils"];
+
+/***/ }),
+
 /***/ "@prc/controls":
 /*!******************************!*\
   !*** external "prcControls" ***!
@@ -427,7 +438,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"prc-block/form-input-select","version":"0.1.0","title":"Form Input Select","category":"widgets","description":"Create a dropdown element with a list of options.","attributes":{"options":{"type":"array","default":[]},"placeholder":{"type":"string","default":"Select an option"},"disabled":{"type":"boolean","default":false},"backgroundColor":{"type":"string","default":"ui-white"},"textColor":{"type":"string","default":"ui-black"},"value":{"type":"string"},"style":{"type":"object","default":{"border":{"width":"1px","color":"#dadbdb","radius":"3px"},"spacing":{"padding":{"top":"0.3rem","bottom":"0.3rem","left":"var:preset|spacing|20","right":"var:preset|spacing|20"}}}}},"supports":{"anchor":true,"html":false,"reusable":true,"inserter":false,"__experimentalBorder":{"color":true,"width":true,"radius":true},"color":{"gradients":false},"spacing":{"padding":true,"margin":true},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true},"interactivity":true},"usesContext":["prc-block/form-field-required","prc-block/form-field-label","prc-facets/template/facetType","prc-facets/template/facetName","prc-facets/template/facetLabel"],"parent":["prc-block/form-field"],"textdomain":"form-input-select","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"prc-block/form-input-select","version":"0.1.0","title":"Form Input Select","category":"widgets","description":"Create a dropdown element with a list of options.","attributes":{"options":{"type":"array","default":[]},"placeholder":{"type":"string","default":"Select an option"},"disabled":{"type":"boolean","default":false},"backgroundColor":{"type":"string","default":"ui-white"},"textColor":{"type":"string","default":"ui-black"},"value":{"type":"string"},"style":{"type":"object","default":{"border":{"width":"1px","color":"#dadbdb","radius":"3px"},"spacing":{"padding":{"top":"0.3rem","bottom":"0.3rem","left":"var:preset|spacing|20","right":"var:preset|spacing|20"}}}}},"supports":{"anchor":true,"html":false,"reusable":true,"inserter":false,"__experimentalBorder":{"color":true,"width":true,"radius":true},"color":{"gradients":false},"spacing":{"padding":true,"margin":true},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true},"interactivity":true},"usesContext":["prc-block/form-field-required","prc-block/form-field-label","prc-facets/template/facetType","prc-facets/template/facetName","prc-facets/template/facetLabel"],"parent":["prc-block/form-field"],"textdomain":"form-input-select","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewModule":"file:./view.js"}');
 
 /***/ })
 

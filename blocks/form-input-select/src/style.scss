@@ -8,6 +8,7 @@
 .wp-block-prc-block-form-input-select {
 	box-sizing: border-box;
 	position: relative;
+	gap: var(--block-gap);
 
 	.wp-block-prc-block-form-input-select__list {
 		height: 200px;
@@ -17,7 +18,7 @@
 		background: white;
 		border: inherit;
 		padding: inherit;
-		top: 1.15em;
+		top: 3em;
 		// left: 0;
 		left: -1px;
 		// Hide scrollbar for Chrome, Safari and Opera
@@ -38,7 +39,8 @@
 				color: var(--wp--preset--color--ui-gray-dark);
 			}
 			&:active,
-			&.is-selected {
+			&.is-selected,
+			&[aria-selected="true"] {
 				background: var(--wp--preset--color--ui-link-color);
 				color: var(--wp--preset--color--ui-white);
 			}
