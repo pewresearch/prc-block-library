@@ -2,23 +2,23 @@
 namespace PRC\Platform\Blocks;
 
 /**
- * Block Name:        Interactive Island
- * Description:       Dynamically display and render changes server side to an island.
+ * Block Name:        Interactive Island Trigger
+ * Description:       Trigger an island&#39;s active status by click or by in viewport.
  * Requires at least: 6.4
  * Requires PHP:      8.1
- * Author:            Pew Research Center
+ * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
 
- class Interactive_Island {
+class interactive_island_trigger {
 	public static $block_json = null;
 	public static $version;
 	public static $block_name;
 	public static $dir = __DIR__;
 
 	public function __construct($loader) {
-		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/interactive-island/build/block.json';
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/interactive-island-trigger/build/block.json';
 		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 		self::$version = self::$block_json['version'];
@@ -31,6 +31,7 @@ namespace PRC\Platform\Blocks;
 			$loader->add_action('init', $this, 'block_init');
 		}
 	}
+
 
 	/**
 	* Registers the block using the metadata loaded from the `block.json` file.

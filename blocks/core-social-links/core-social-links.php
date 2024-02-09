@@ -96,6 +96,21 @@ class Core_Social_Links {
 			);
 		}
 
+		if ( ! array_key_exists( 'imageId', $metadata['attributes'] ) ) {
+			$metadata['attributes']['imageId'] = array(
+				'type'    => 'number',
+			);
+		}
+
+		if ( ! array_key_exists( 'hashtags', $metadata['attributes'] ) ) {
+			$metadata['attributes']['hashtags'] = array(
+				'type'    => 'array',
+				'items' => array(
+					'type' => 'string',
+				),
+			);
+		}
+
 		return $metadata;
 	}
 
@@ -115,6 +130,8 @@ class Core_Social_Links {
 					'core/social-links/title' => 'title',
 					'core/social-links/description' => 'description',
 					'core/social-links/url' => 'url',
+					'core/social-links/imageId' => 'imageId',
+					'core/social-links/hashtags' => 'hashtags',
 				)
 			);
 		}

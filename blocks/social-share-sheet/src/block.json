@@ -5,34 +5,7 @@
 	"version": "0.1.0",
 	"title": "Social Share Sheet",
 	"category": "widgets",
-	"description": "A share button to invoke the native share sheet in a visitors browser. When a browser does not support navigator.share this will fallback to a row of core/social-links.",
-	"attributes": {
-		"allowedBlocks": {
-			"type": "array"
-		},
-		"orientation": {
-			"type": "string",
-			"default": "vertical"
-		},
-		"title": {
-			"type": "string",
-			"default": ""
-		},
-		"text": {
-			"type": "string",
-			"default": ""
-		},
-		"url": {
-			"type": "string",
-			"default": ""
-		},
-		"imageId": {
-			"type": "integer"
-		},
-		"hashtags": {
-			"type": "array"
-		}
-	},
+	"description": "Invokes a browser's native navigator.share share sheet. If the browser does not support the Web Share API, a fallback share sheet is displayed.",
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -54,12 +27,16 @@
 		},
 		"interactivity": true
 	},
-	"providesContext": {
-		"prc-block/social-share-sheet/title": "title",
-		"prc-block/social-share-sheet/text": "text",
-		"prc-block/social-share-sheet/url": "url",
-		"prc-block/social-share-sheet/imageId": "imageId"
-	},
+	"usesContext": [
+		"postId",
+		"queryId",
+		"core/social-links/title",
+		"core/social-links/title",
+		"core/social-links/url",
+		"core/social-links/imageId",
+		"core/social-links/hashtags"
+	],
+	"parent": ["core/social-links"],
 	"textdomain": "social-share-sheet",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

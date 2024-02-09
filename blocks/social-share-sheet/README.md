@@ -1,4 +1,4 @@
-# Social Native Share
+# Social Share Sheet
 Contributors:      Seth Rubenstein
 Tags:              block
 Tested up to:      6.4

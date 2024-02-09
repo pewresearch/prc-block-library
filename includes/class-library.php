@@ -235,6 +235,7 @@ class Library {
 		new Responsive_Container_Controller($this->get_loader());
 		new Responsive_Container_View($this->get_loader());
 		new Roper_DB_Search($this->get_loader());
+		new Social_Share_Sheet($this->get_loader());
 		new Social_Share_Text_Link($this->get_loader());
 		new Social_Share_URL_Field($this->get_loader());
 		new Staff_Info($this->get_loader());

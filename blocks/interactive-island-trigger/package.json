@@ -1,7 +1,7 @@
 {
-	"name": "social-native-share",
+	"name": "interactive-island-trigger",
 	"version": "0.1.0",
-	"description": "A share button to invoke the native share sheet in a visitors browser. When a browser does not support navigator.share this will fallback to a row of core/social-links.",
+	"description": "Trigger an island's active status by click or by in viewport.",
 	"author": "Seth Rubenstein",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
@@ -16,6 +16,6 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^27.1.0"
+		"@wordpress/scripts": "^27.2.0"
 	}
 }

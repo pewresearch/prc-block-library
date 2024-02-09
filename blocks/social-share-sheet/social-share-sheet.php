@@ -11,21 +11,25 @@ namespace PRC\Platform\Blocks;
  * @package           prc-block
  */
 
-class social_native_share {
-	public static $block_library_version;
-	public static $active_theme;
-	public static $block_json;
+class Social_Share_Sheet {
+	public static $block_json = null;
 	public static $version;
-	
+	public static $block_name;
 	public static $dir = __DIR__;
 
-	public function __construct( $block_library_version, $active_theme ) {
-		self::$block_library_version = $block_library_version ? $block_library_version : null;
-		self::$active_theme = $active_theme ? $active_theme : null;
-		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/social-native-share/build/block.json';
-		self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/social-share-sheet/build/block.json';
+		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 		self::$version = self::$block_json['version'];
+		self::$block_name = self::$block_json['name'];
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'block_init');
+		}
 	}
 
 	/**
