@@ -16,12 +16,12 @@ import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
  */
 
 const DEFAULT_OPTIONS = [
-	{ "label": "North America", "value": "north-america" },
-	{ "label": "South America", "value": "south-america" },
-	{ "label": "Europe", "value": "europe" },
-	{ "label": "Asia", "value": "asia" },
-	{ "label": "Africa", "value": "africa" },
-	{ "label": "Australia", "value": "australia" }
+	{ label: 'North America', value: 'north-america' },
+	{ label: 'South America', value: 'south-america' },
+	{ label: 'Europe', value: 'europe' },
+	{ label: 'Asia', value: 'asia' },
+	{ label: 'Africa', value: 'africa' },
+	{ label: 'Australia', value: 'australia' },
 ];
 
 export default function Controls({ attributes, setAttributes, clientId }) {
@@ -47,9 +47,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 				<ToggleControl
 					label="Disabled"
 					checked={attributes.disabled}
-					help={
-						'If toggled on, the user cannot interact with this input.'
-					}
+					help="If toggled on, the user cannot interact with this input."
 					onChange={(val) => {
 						setAttributes({ disabled: val });
 					}}
@@ -59,7 +57,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 				<Sorter
 					options={options}
 					setAttributes={setAttributes}
-					attribute={'options'}
+					attribute="options"
 					clientId={clientId}
 				/>
 			</PanelBody>
