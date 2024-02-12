@@ -1,39 +1,64 @@
 <?php
 namespace PRC\Platform\Blocks;
 
-$interactive_context = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
-$includes_confirmation = array_key_exists( 'includesConfirmation', $attributes ) ? $attributes['includesConfirmation'] : false;
+$target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Enter text...';
 $confimation_placeholder = array_key_exists( 'confirmationPlaceholder', $attributes ) ? $attributes['confirmationPlaceholder'] : 'Confirm text...';
 $input_type = array_key_exists('type', $attributes) ? $attributes['type'] : 'text';
 $input_name = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : null;
+$includes_confirmation = array_key_exists( 'includesConfirmation', $attributes ) ? $attributes['includesConfirmation'] : false;
+$conditions = array();
 
+// @TODO: This could easily be some sort of "conditions checker" interactive block component used in other applications.
 if ( $includes_confirmation ) {
-	// @TODO: This could easily be some sort of "conditions checker" interactive block component used in other applications.
-	$conditions = array(
-		'hasLowerCase' => 'Includes one lowercase letter',
-		'hasUpperCase' => 'Includes one uppercase letter',
-		'hasNumber' => 'Includes one number',
-		'hasSpecialCharacter' => 'Includes one special character',
-		'hasLength' => 'Be at least 12 characters long',
-		'hasNoInvalidCharacters' => 'Not include invalid characters',
-	);
 	ob_start();
 	?>
 	<div class="wp-block-prc-block-form-input-password__analyzer">
 		<p>Password Must:</p>
 		<ul>
-			<?php foreach($conditions as $context_key => $label) {
-				echo wp_sprintf(
-					'<li data-wp-class--is-valid="context.%1$s"><span data-wp-class--icon-hidden="!context.%1$s"><i class="fa fa-solid fa-check"></i></span><span data-wp-class--icon-hidden="context.%1$s"><i class="fa fa-regular fa-xmark"></i></span><span class="password-analyzer__label">%2$s</span></li>',
-					$context_key,
-					$label
-				);
-			}?>
+		<template
+			data-wp-each--condition="context.conditionsList"
+			data-wp-each-key="context.condition.id"
+		>
+			<li data-wp-class--is-valid="context.condition.met"><span data-wp-class--icon-hidden="!context.condition.met"><i class="fa fa-solid fa-check"></i></span><span data-wp-class--icon-hidden="context.condition.met"><i class="fa fa-regular fa-xmark"></i></span><span class="password-analyzer__label" data-wp-text="context.condition.label"></span></li>
+		</template>
 		</ul>
 	</div>
 	<?php
 	$password_analyzer = ob_get_clean();
+
+	$conditions = array(
+		array(
+			'id' => 'hasLowerCase',
+			'label' => 'Includes one lowercase letter',
+			'met' => false,
+		),
+		array(
+			'id' => 'hasUpperCase',
+			'label' => 'Includes one uppercase letter',
+			'met' => false,
+		),
+		array(
+			'id' => 'hasNumber',
+			'label' => 'Includes one number',
+			'met' => false,
+		),
+		array(
+			'id' => 'hasSpecialCharacter',
+			'label' => 'Includes one special character',
+			'met' => false,
+		),
+		array(
+			'id' => 'hasLength',
+			'label' => 'Be at least 12 characters long',
+			'met' => false,
+		),
+		array(
+			'id' => 'hasNoInvalidCharacters',
+			'label' => 'Not include invalid characters',
+			'met' => false,
+		),
+	);
 }
 
 $block_attrs = array(
@@ -43,7 +68,7 @@ $block_attrs = array(
 	)),
 	'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/form-input-password')),
 	'data-wp-context' => wp_json_encode(array(
-		'targetNamespace' => $interactive_context,
+		'targetNamespace' => $target_namespace,
 		'hasConfirmation' => $includes_confirmation,
 		'value' => '',
 		'confirmationValue' => '',
@@ -56,6 +81,7 @@ $block_attrs = array(
 		'hasLength' => false,
 		'hasNoInvalidCharacters' => true,
 		'passwordsMatch' => false,
+		'conditionsList' => $conditions,
 	)),
 	'data-wp-watch--on--value-change' => 'callbacks.onValueChange',
 	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
