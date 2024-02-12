@@ -18,7 +18,8 @@
  * Author URI:        https://pewresearch.org
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       prc-block-library
+ * Text Domain:       prc-block-libraryRequires Plugins
+ * Requires Plugins:  prc-platform-core
  *
  */
 
