@@ -19,15 +19,18 @@
 		.wp-block-navigation-item__label {
 			display: inline-block;
 			border-right: 1px solid black;
-			@media (prefers-color-scheme: dark), (prefers-dark-interface) {
-				border-right: 1px solid white;
-			}
+			// @media (prefers-color-scheme: dark), (prefers-dark-interface) {
+			// 	border-right: 1px solid white;
+			// }
 			padding: 0 0.5em;
 		}
 		&:last-of-type .wp-block-navigation-item__label {
 			border-right: none!important;
 			padding-right: 0;
 		}
+	}
+	.has-text-color.has-ui-white-color .wp-block-navigation-item__label {
+		border-right-color: var(--wp--preset--color--ui-white)!important;
 	}
 }
 

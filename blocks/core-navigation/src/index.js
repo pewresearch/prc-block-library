@@ -24,4 +24,8 @@ domReady(() => {
 		name: 'mega-menu',
 		label: 'Mega Menu',
 	});
+	registerBlockStyle('core/navigation', {
+		name: 'divided-links',
+		label: 'Divided Links',
+	});
 });
