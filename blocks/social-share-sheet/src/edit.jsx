@@ -47,10 +47,8 @@ export default function Edit({ context, clientId }) {
 				type: 'button',
 			}}
 		>
+			<span className="wp-block-prc-block-social-share-sheet__label">Share</span>
 			<Icon />
-			<span className="wp-block-social-link-label screen-reader-text">
-				Share
-			</span>
 		</button>
 	);
 }

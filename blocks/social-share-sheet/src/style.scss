@@ -13,4 +13,10 @@ button.wp-block-prc-block-social-share-sheet {
 	background: none;
 	padding: 0;
 	cursor: pointer;
+
+	.wp-block-prc-block-social-share-sheet__label {
+		display: inline-block;
+		text-transform: uppercase;
+		padding-right: 0.5em;
+	}
 }

@@ -3,9 +3,9 @@ namespace PRC\Platform\Blocks;
 
 $context = $block->context;
 
-$title = array_key_exists('core/social-links/title', $context) ? $context['core/social-links/title'] : '';
-$description = array_key_exists('core/social-links/description', $context) ? $context['core/social-links/description'] : '';
-$url = array_key_exists('core/social-links/url', $context) ? $context['core/social-links/url'] : '';
+$link_title = array_key_exists('core/social-links/title', $context) ? $context['core/social-links/title'] : '';
+$link_description = array_key_exists('core/social-links/description', $context) ? $context['core/social-links/description'] : '';
+$link_url = array_key_exists('core/social-links/url', $context) ? $context['core/social-links/url'] : '';
 $hashtags = array_key_exists('core/social-links/hashtags', $context) ? $context['core/social-links/hashtags'] : array();
 // prepend every hashtag with a # and then return a comma separated string. i... just don't think the hashtags should be stored with actual hash in the db.
 $hashtags = implode(',', array_map(function($hashtag) {
@@ -18,9 +18,9 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 		'namespace' => 'prc-block/social-share-sheet',
 	)),
 	'data-wp-context' => wp_json_encode(array(
-		'title' => $title,
-		'text' => $description,
-		'url' => $url,
+		'title' => $link_title,
+		'text' => $link_description,
+		'url' => $link_url,
 		'hashtags' => $hashtags,
 		'image' => $image_id ? wp_get_attachment_image_url($image_id, 'full') : false,
 	)),
@@ -28,7 +28,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 ));
 
 echo wp_sprintf(
-	'<button %1$s><i class="fa-regular fa-share-from-square"></i></button>',
+	'<button %1$s><span class="wp-block-prc-block-social-share-sheet__label">Share</span><i class="fa-sharp fa-solid fa-up-from-bracket"></i></button>',
 	$block_wrapper_attrs,
 	$content,
 );

@@ -132,10 +132,10 @@ class Core_Button {
 				'data-wp-on--click',
 				$target_namespace.'::actions.onButtonClick'
 			);
-			// $tag_processor->set_attribute(
-			// 	'data-wp-on--mouseenter',
-			// 	$target_namespace.'::actions.onButtonMouseEnter'
-			// );
+			$tag_processor->set_attribute(
+				'data-wp-on--mouseenter',
+				$target_namespace.'::actions.onButtonMouseEnter'
+			);
 
 			// Inner Text Directive:
 			$tag_processor->set_attribute(
