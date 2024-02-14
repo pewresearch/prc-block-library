@@ -7,7 +7,7 @@ store('prc-block/form-captcha', {
 	callbacks: {
 		onDisplayCaptcha: () => {
 			const context = getContext();
-			const { targetNamespace } = context;
+			const { targetNamespace, siteKey } = context;
 			const targetContext = getContext(targetNamespace);
 			const isHidden = targetContext.captchaHidden;
 			// When we reach the point of the form where the captcha should be displayed, render it.
@@ -27,7 +27,7 @@ store('prc-block/form-captcha', {
 			const { turnstile } = window;
 			turnstile.ready(() => {
 				turnstile.render(target, {
-					sitekey: '0x4AAAAAAAPM0JJJz5nbcTZZ',
+					sitekey: siteKey,
 					callback: (token) => {
 						console.log(`Challenge Success ${token}`);
 						targetContext.captchaToken = token;

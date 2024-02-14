@@ -1,6 +1,5 @@
 <?php
 namespace PRC\Platform\Blocks;
-use PRC_HCAPTCHA_KEY;
 
 wp_enqueue_script('cloudflare-turnstile');
 
@@ -10,6 +9,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/form-captcha')),
 	'data-wp-context' => wp_json_encode(array(
 		'targetNamespace' => $interactive_namespace,
+		'siteKey' => PRC_PLATFORM_TURNSTILE_SITE_KEY
 	)),
 	'data-wp-watch--onDisplayCaptcha' => 'callbacks.onDisplayCaptcha',
 	'data-wp-bind--hidden' => $interactive_namespace . '::' . 'context.captchaHidden',
