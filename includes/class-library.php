@@ -168,6 +168,7 @@ class Library {
 	 */
 	private function define_core_blocks() {
 		new Core_Button($this->get_loader());
+		new Core_Categories($this->get_loader());
 		new Core_Cover($this->get_loader());
 		new Core_Embed($this->get_loader());
 		new Core_Group($this->get_loader());
