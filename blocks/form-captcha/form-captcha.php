@@ -48,6 +48,13 @@ class Form_Captcha {
 				'defer' => true,
 			)
 		);
+		wp_localize_script(
+			'cloudflare-turnstile',
+			'PRC_PLATFORM_TURNSTILE_SITE_KEY',
+			PRC_PLATFORM_TURNSTILE_SITE_KEY
+		);
+		do_action('qm/debug', 'PRC_PLATFORM_TURNSTILE_SITE_KEY: ' . PRC_PLATFORM_TURNSTILE_SITE_KEY);
+		do_action('qm/debug', 'PRC_PLATFORM_MAILCHIMP_KEY: ' .PRC_PLATFORM_MAILCHIMP_KEY);
 	}
 
 	/**
