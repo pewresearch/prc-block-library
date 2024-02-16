@@ -52,12 +52,14 @@
     "interactivity": true
   },
   "usesContext": [
-    "popup-controller/className"
+    "popup-controller/className",
+    "prc-block/popup-controller/id"
   ],
   "parent": [
     "prc-block/popup-controller"
   ],
   "textdomain": "popup-modal",
   "editorScript": "file:./index.js",
-  "render": "file:./render.php"
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
 }

@@ -33,7 +33,16 @@ class Popup_Controller {
 	public function init($loader = null) {
 		if ( null !== $loader ) {
 			$loader->add_action('init', $this, 'block_init');
+			// $loader->add_filter('render_block_context', $this, 'extend_block_id_to_modal_through_context', 10, 3);
 		}
+	}
+
+	public function extend_block_id_to_modal_through_context($context, $parsed_block, $parent_block) {
+		if ( $parsed_block['blockName'] !== 'prc-block/popup-modal' ) {
+			$block_id = md5($parent_block->inner_html);
+			$context['prc-block/popup-controller/id'] = $block_id;
+		}
+		return $context;
 	}
 
 	/**

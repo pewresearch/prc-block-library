@@ -15,7 +15,7 @@
     "start": "wp-scripts start--experimental-modules"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.1.0"
+    "@wordpress/scripts": "^27.2.0"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

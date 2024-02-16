@@ -5,16 +5,35 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 
 const { state } = store('prc-block/popup-controller', {
 	actions: {
+		/**
+		 * Great for when you need to close all modals from outside the modal.
+		 */
+		closeAll: () => {
+			Object.keys(state).forEach((key) => {
+				state[key].isActive = false;
+			});
+		},
 		open: () => {
 			const context = getContext();
-			const { id } = context;
-			state[id].isActive = true;
-			console.log('open', state[id].isActive, state);
+			const id = context?.id;
+			if ( ! id ) {
+				return;
+			}
+			state[id] = {
+				isActive: true,
+			};
+			console.log('open', id, state[id].isActive, state);
 		},
 		close: () => {
 			const context = getContext();
-			const { id } = context;
-			state[id].isActive = true;
+			const id = context?.id;
+			if ( ! id ) {
+				return;
+			}
+			state[id] = {
+				isActive: false,
+			};
+			console.log('close', id, state[id].isActive, state);
 		},
 		openAndThen: (andThen) => {
 			const context = getContext();
@@ -30,18 +49,28 @@ const { state } = store('prc-block/popup-controller', {
 		},
 	},
 	callbacks: {
-		onInit: () => {
-			const context = getContext();
-			const { id } = context;
-			const { ref } = getElement();
-		},
 		onWindowClickCloseModal: (event) => {
+			const elm = getElement();
+			const { ref } = elm;
+			console.log('onWindowClickCloseModal', elm, event.target);
+
+			// check elm for any of the event.target
+			// if present then return early
+			if (
+				ref.contains(event.target) &&
+				!event.target.classList.contains(
+					'wp-block-prc-block-popup-modal__outer'
+				)
+			) {
+				return;
+			}
+
 			const context = getContext();
 			const { id } = context;
 			if (!id) {
 				return;
 			}
-			const { ref } = getElement();
+
 			const modal = ref.querySelector('.wp-block-prc-block-popup-modal');
 			if (
 				!modal.innerHTML.includes(event.target.innerHTML) &&
@@ -62,6 +91,18 @@ const { state } = store('prc-block/popup-controller', {
 					state[id].isActive = false;
 				}
 			}
+		},
+		isModalActive: () => {
+			const context = getContext();
+			const elm = getElement();
+			const { id } = context;
+			console.log('isModalActive', state, id, elm);
+			return state[id]?.isActive;
+		},
+		soundOff: () => {
+			const context = getContext();
+			const elm = getElement();
+			console.log('soundOff', context, elm, state);
 		},
 	},
 });

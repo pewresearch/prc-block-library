@@ -6,7 +6,7 @@ namespace PRC\Platform\Blocks;
 // $attributes (array): The block attributes.
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
-
+$block_id = array_key_exists('prc-block/popup-controller/blockId', $block->context) ? $block->context['prc-block/popup-controller/blockId'] : null;
 $position = str_replace(' ', '-', strtolower($attributes['position']));
 $position = \jetpack_is_mobile() ? 'center-center' : $position;
 $outer_class = \PRC\Platform\Block_Utils\classNames('wp-block-prc-block-popup-modal__outer', 'is-position-' . $position);
@@ -15,6 +15,9 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'data-wp-interactive' => wp_json_encode(array(
 		'namespace' => 'prc-block/popup-controller',
 	)),
+	'data-wp-key' => wp_unique_id('popup-modal-'),
+	'data-wp-init' => 'callbacks.soundOff',
+	'data-wp-class--is-active' => 'callbacks.isModalActive'
 ));
 
 $is_video_modal = array_key_exists('popup-controller/className', $block->context) && 'is-style-video' === $block->context['popup-controller/className'];
