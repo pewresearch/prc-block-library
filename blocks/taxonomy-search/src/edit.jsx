@@ -5,13 +5,15 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
-import { useBlockProps } from '@wordpress/block-editor';
+import { Fragment } from 'react';
+import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './controls';
+
+const ALLOWED_BLOCKS = ['prc-block-library/form-input-text'];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -32,6 +34,21 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 	const { taxonomy } = attributes;
 
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: ALLOWED_BLOCKS,
+		templateLock: true,
+		template: [
+			[
+				'prc-block/form-input-text',
+				{
+					isInteractive: true,
+					interactiveNamespace: 'prc-block/taxonomy-search',
+					placeholder: `Search ${taxonomy}`,
+				},
+			],
+		],
+	});
+
 	return (
 		<Fragment>
 			<Controls
@@ -42,14 +59,7 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 					clientId,
 				}}
 			/>
-			<div {...blockProps}>
-				<input
-					type="text"
-					placeholder={`Start typing to search for a ${
-						!taxonomy ? 'term' : taxonomy
-					}`}
-				/>
-			</div>
+			<div {...innerBlocksProps} />
 		</Fragment>
 	);
 }

@@ -32,6 +32,9 @@ class Core_Button {
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
+			$loader->add_filter( 'prc-block-library/apple-news/components/layouts', $this, 'apple_news_layout' );
+			$loader->add_filter( 'prc-block-library/apple-news/components/styles', $this, 'apple_news_style' );
+			$loader->add_filter( 'prc-block-library/apple-news/components/text-styles', $this, 'apple_news_text_style' );
 			$loader->add_filter( 'render_block', $this, 'render', 10, 2 );
 		}
 	}
@@ -62,9 +65,7 @@ class Core_Button {
 	}
 
 	/**
-	* Register additional settings, like context, for the {coreBlockChangeMyName} block.
-	*
-	* In the example we're providing context for all innerblocks with the myNewAttribute attribute that we set in the add_attributes method above.
+	* Register additional settings, like context, for the core/button block.
 	*
 	* @hook block_type_metadata_settings
 	* @param mixed $settings
@@ -79,10 +80,65 @@ class Core_Button {
 	}
 
 	/**
-	* Adds @wordpress/interactivity api handlers for core/button.
+	 * @hook prc-block-library/apple-news/components/layouts
+	 * return $component_layouts
+	 */
+	public function apple_news_layout($component_layouts) {
+		// Define the default button styles and settings:
+		$component_layouts['link-button-layout'] = [
+			'margin' => [
+				'bottom' => 20,
+			],
+			'padding' => [
+				'top' => 10,
+				'bottom' => 10,
+				'left' => 15,
+				'right' => 15,
+			],
+		];
+		return $component_layouts;
+	}
+
+	/**
+	 * @hook prc-block-library/apple-news/components/styles
+	 * return $component_styles
+	 */
+	public function apple_news_style($component_styles) {
+		$component_styles['default-link-button'] = [
+			'backgroundColor' => '#000',
+			'mask' => [
+				'type' => 'corners',
+				'radius' => 0,
+			],
+		];
+		return $component_styles;
+	}
+
+	/**
+	 * @hook prc-block-library/apple-news/components/text-styles
+	 * return $component_text_styles
+	 */
+	public function apple_news_text_style($component_text_styles) {
+		$component_text_styles['default-link-button-text-style'] = [
+			'textColor' => '#FFF',
+			'fontName' => 'Helvetica-Bold',
+			'fontSize' => 18,
+		];
+		return $component_text_styles;
+	}
+
+	/**
+	* Adds @wordpress/interactivity api handlers for core/button block.
 	*
 	* @uses:
 	* - actions.onButtonClick
+	* - actions.onButtonMouseEnter
+	* - state.$button_id.text
+	* - state.$button_id.isHidden
+	* - state.$button_id.isDisabled
+	* - state.$button_id.isError
+	* - state.$button_id.isSuccess
+	* - state.$button_id.isProcessing
 	*
 	* @hook render_block
 	* @param string $block_content

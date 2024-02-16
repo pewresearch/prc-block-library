@@ -1,5 +1,6 @@
 <?php
 namespace PRC\Platform\Blocks;
+use WP_HTML_Tag_Processor;
 
 class Apple_News {
 	public function __construct($loader) {
@@ -14,6 +15,7 @@ class Apple_News {
 	 * @return string
 	 */
 	public function exporter_content_helper($content, $post_id) {
+		// @TODO: Correct all this using the WP_HTML_TAG_PROCESSOR and WP_HTML_PROCESSOR classes
 		// Get correct image width
 		$content = preg_replace(
 			'/\.(jpg|jpeg|png|gif|svg|webp).*?\"(.*)width=\"(\d{3})\"/i',
@@ -205,6 +207,61 @@ class Apple_News {
 		return false;
 	}
 
+	public function define_text_styles($json) {
+		$text_styles = $json['textStyles'];
+		$text_styles = apply_filters('prc-block-library/apple-news/text-styles', $text_styles);
+		$json['textStyles'] = $text_styles;
+		return $json;
+	}
+
+	public function define_components($json) {
+		$components = $json['components'];
+		$components = apply_filters('prc-block-library/apple-news/components', $components);
+		$json['components'] = $components;
+		return $json;
+	}
+
+	/**
+	 * @hook apple_news_initialize_components
+	 */
+	public function init_components($components) {
+		return apply_filters('prc-block-library/apple-news/components/init', $components);
+	}
+
+	public function define_component_layouts($json) {
+		$component_layouts = $json['componentLayouts'];
+		$component_layouts = apply_filters('prc-block-library/apple-news/components/layouts', $component_layouts);
+		$json['componentLayouts'] = $component_layouts;
+		return $json;
+	}
+
+	public function define_component_styles($json) {
+		$component_styles = $json['componentStyles'];
+		$component_styles = apply_filters('prc-block-library/apple-news/components/styles', $component_styles);
+		$json['componentStyles'] = $component_styles;
+		return $json;
+	}
+
+	public function define_component_text_styles($json) {
+		$component_text_styles = $json['componentTextStyles'];
+		$component_text_styles = apply_filters('prc-block-library/apple-news/components/text-styles', $component_text_styles);
+		$json['componentTextStyles'] = $component_text_styles;
+		return $json;
+	}
+
+	public function define_metadata($json, $post_id) {
+		$metadata = $json['metadata'];
+		$metadata['title'] = get_the_title($post_id);
+		$metadata['excerpt'] = preg_replace(
+			'/\&hellip\;/i',
+			'...',
+			get_the_excerpt($post_id)
+		);
+		$metadata = apply_filters('prc-block-library/apple-news/metadata', $metadata, $post_id);
+		$json['metadata'] = $metadata;
+		return $json;
+	}
+
 	/**
 	 * Sets up the default Apple News format for posts via JSON
 	 * @hook apple_news_generate_json
@@ -263,104 +320,21 @@ class Apple_News {
 			array_splice($json['components'], 1, 0, [$sub_title]);
 		}
 
+		// Add date/byline to the top of the article
 		array_unshift($json['components'], $date);
 
-		// Add default weekly newsletter promo
+		// Add default weekly newsletter promo to the bottom of the article
 		$json['components'] = array_merge(
 			$json['components'],
 			json_decode($this->newsletter_promo_json_string(), true)
 		);
 
-		$json['componentLayouts']['link-button-layout'] = [
-			'margin' => [
-				'bottom' => 20,
-			],
-			'padding' => [
-				'top' => 10,
-				'bottom' => 10,
-				'left' => 15,
-				'right' => 15,
-			],
-		];
-
-		$json['componentStyles']['default-link-button'] = [
-			'backgroundColor' => '#000',
-			'mask' => [
-				'type' => 'corners',
-				'radius' => 0,
-			],
-		];
-
-		$json['componentTextStyles']['default-link-button-text-style'] = [
-			'textColor' => '#FFF',
-			'fontName' => 'Helvetica-Bold',
-			'fontSize' => 18,
-		];
-
-		$json['textStyles']['default-tag-bignumstrong'] = [
-			'fontName' => 'Helvetica-Bold',
-			'fontSize' => 22,
-			'lineHeight' => 32,
-			'tracking' => -0.025,
-			'linkStyle' => [
-				'textColor' => '#346ead',
-				'underline' => true,
-			],
-		];
-
-		$json['componentTextStyles']['body-bignumber'] = [
-			'textAlignment' => 'left',
-			'fontName' => 'Georgia',
-			'fontSize' => 18,
-			'tracking' => 0,
-			'lineHeight' => 32,
-			'textColor' => '#2a2a2a',
-			'linkStyle' => [
-				'textColor' => '#346ead',
-				'underline' => true,
-			],
-			'dropCapStyle' => [
-				'numberOfLines' => 2,
-				'fontName' => 'Helvetica-Bold',
-				'textColor' => '#ec9f2e',
-				'padding' => 1,
-				'backgroundColor' => '#fff',
-				'numberOfCharacters' => 1,
-			],
-			'paragraphSpacingBefore' => 22,
-			'paragraphSpacingAfter' => 22,
-		];
-
-		$json['componentTextStyles']['body-bignumber-2-digit'] = [
-			'textAlignment' => 'left',
-			'fontName' => 'Georgia',
-			'fontSize' => 18,
-			'tracking' => 0,
-			'lineHeight' => 32,
-			'textColor' => '#2a2a2a',
-			'linkStyle' => [
-				'textColor' => '#346ead',
-				'underline' => true,
-			],
-			'dropCapStyle' => [
-				'numberOfLines' => 3,
-				'fontName' => 'Helvetica-Bold',
-				'textColor' => '#ec9f2e',
-				'padding' => 0,
-				'backgroundColor' => '#fff',
-				'numberOfCharacters' => 2,
-				'numberOfRaisedLines' => 0,
-			],
-			'paragraphSpacingBefore' => 22,
-			'paragraphSpacingAfter' => 22,
-		];
-
-		$json['metadata']['title'] = get_the_title($post_id);
-		$json['metadata']['excerpt'] = preg_replace(
-			'/\&hellip\;/i',
-			'...',
-			get_the_excerpt($post_id)
-		);
+		$json = $this->define_text_styles($json);
+		$json = $this->define_components($json);
+		$json = $this->define_component_layouts($json);
+		$json = $this->define_component_styles($json);
+		$json = $this->define_component_text_styles($json);
+		$json = $this->define_metadata($json, $post_id);
 
 		$json['componentLayouts']['anchor-layout-pullquote'] = [
 			'columnStart' => 0,

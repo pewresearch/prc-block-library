@@ -38,7 +38,9 @@ class Core_Paragraph {
 			$loader->add_action('init', $this, 'register_assets');
 			$loader->add_action('enqueue_block_assets', $this, 'register_style');
 			$loader->add_action('enqueue_block_editor_assets', $this, 'register_editor_script');
-			$loader->add_filter('apple_news_initialize_components', $this, 'register_apple_news_callout_component', 10, 1);
+			$loader->add_filter('prc-block-library/apple-news/components/init', $this, 'apple_news_init_component', 10, 1);
+			$loader->add_filter('prc-block-library/apple-news/text-styles', $this, 'apple_news_text_style');
+			$loader->add_filter('prc-block-library/apple-news/components/text-styles', $this, 'apple_news_component_text_style');
 			$loader->add_filter('render_block', $this, 'render', 100, 2);
 		}
 	}
@@ -54,17 +56,87 @@ class Core_Paragraph {
 	}
 
 	/**
-	 * @hook apple_news_initialize_components
+	 * @hook prc-block-library/apple-news/components/init
 	 * @param mixed $components
 	 * @return void
 	 */
-	public function register_apple_news_callout_component($components) {
-		// Register Callout
-		if ( !array_key_exists('callout', $components) ) {
-			$components['callout'] = '\\Apple_Exporter\\Components\\Core_Paragraph_Big_Number';
+	public function apple_news_init_component($components) {
+		if ( !array_key_exists('bignumber', $components) ) {
+			$components['bignumber'] = '\\Apple_Exporter\\Components\\Core_Paragraph_Big_Number';
 		}
-		// @TODO: Register a "Alt Card" variation.
 		return $components;
+	}
+
+	/**
+	 * @hook prc-block-library/apple-news/text-styles
+	 * return $text_styles
+	 */
+	public function apple_news_text_style($text_styles) {
+		$text_styles['default-tag-bignumstrong'] = [
+			'fontName' => 'Helvetica-Bold',
+			'fontSize' => 22,
+			'lineHeight' => 32,
+			'tracking' => -0.025,
+			'linkStyle' => [
+				'textColor' => '#346ead',
+				'underline' => true,
+			],
+		];
+		return $text_styles;
+	}
+
+	/**
+	 * @hook prc-block-library/apple-news/components/text-styles
+	 * return $component_text_styles
+	 */
+	public function apple_news_component_text_style($component_text_styles) {
+		$component_text_styles['body-bignumber'] = [
+			'textAlignment' => 'left',
+			'fontName' => 'Georgia',
+			'fontSize' => 18,
+			'tracking' => 0,
+			'lineHeight' => 32,
+			'textColor' => '#2a2a2a',
+			'linkStyle' => [
+				'textColor' => '#346ead',
+				'underline' => true,
+			],
+			'dropCapStyle' => [
+				'numberOfLines' => 2,
+				'fontName' => 'Helvetica-Bold',
+				'textColor' => '#ec9f2e',
+				'padding' => 1,
+				'backgroundColor' => '#fff',
+				'numberOfCharacters' => 1,
+			],
+			'paragraphSpacingBefore' => 22,
+			'paragraphSpacingAfter' => 22,
+		];
+
+		$component_text_styles['body-bignumber-2-digit'] = [
+			'textAlignment' => 'left',
+			'fontName' => 'Georgia',
+			'fontSize' => 18,
+			'tracking' => 0,
+			'lineHeight' => 32,
+			'textColor' => '#2a2a2a',
+			'linkStyle' => [
+				'textColor' => '#346ead',
+				'underline' => true,
+			],
+			'dropCapStyle' => [
+				'numberOfLines' => 3,
+				'fontName' => 'Helvetica-Bold',
+				'textColor' => '#ec9f2e',
+				'padding' => 0,
+				'backgroundColor' => '#fff',
+				'numberOfCharacters' => 2,
+				'numberOfRaisedLines' => 0,
+			],
+			'paragraphSpacingBefore' => 22,
+			'paragraphSpacingAfter' => 22,
+		];
+		return $component_text_styles;
 	}
 
 	public function register_new_styles() {

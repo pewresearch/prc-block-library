@@ -1,23 +1,48 @@
 <?php
-// PHP file to use when rendering the block type on the server to show on the front end.
-// The following variables are exposed to this file:
+wp_enqueue_script('wp-url');
+wp_enqueue_script('wp-api-fetch');
+wp_enqueue_script('wp-html-entities');
 
-// $attributes (array): The block attributes.
-// $content (string): The block default content.
-// $block (WP_Block): The block instance.
-
-// Extract the id from the "restrictToTerm" attribute object
 $restrict_to_term_id = $attributes['restrictToTerm']['id'] ?? null;
 $restrict_to_term_name = $attributes['restrictToTerm']['name'] ?? null;
 
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
-	'data-taxonomy' => $attributes['taxonomy'] ?? 'topic',
-	'data-restrict-to-term-id' => $restrict_to_term_id,
-	'data-restrict-to-term-name' => $restrict_to_term_name,
+	'data-wp-interactive' => wp_json_encode(array(
+		'namespace' => 'prc-block/taxonomy-search',
+	)),
+	'data-wp-context' => wp_json_encode(array(
+		'taxonomy' => $attributes['taxonomy'] ?? 'topic',
+		'restrictToTermId' => $restrict_to_term_id,
+		'restrictToTermName' => $restrict_to_term_name,
+		'searchValue' => '',
+		'isActive' => false,
+		'results' => array(),
+	)),
+	'data-wp-class--is-active' => 'callbacks.showResults',
+	'data-wp-watch--on-search-value-change' => 'callbacks.onSearchValueChange',
+	'data-wp-run' => 'callbacks.debounceSearchValueChange',
 ));
 
-// You can use this method...
+ob_start();
+?>
+<ul class="wp-block-prc-block-taxonomy-search__results-list">
+<template
+	data-wp-each--result="context.results"
+	data-wp-each-key="context.result.id"
+>
+	<li>
+		<a data-wp-bind--href="context.result.url">
+			<span data-wp-text="context.result.label"></span>
+		</a>
+	</li>
+</template>
+</ul>
+<?php
+$template = ob_get_clean();
+
 echo wp_sprintf(
-	'<div %1$s>Loading taxonomy search...</div>',
-	$block_wrapper_attrs
+	'<div %1$s>%2$s%3$s</div>',
+	$block_wrapper_attrs,
+	$content,
+	$template,
 );

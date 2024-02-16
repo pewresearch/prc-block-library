@@ -1,164 +1,135 @@
 /**
- * External Dependencies
- */
-import { Search } from 'semantic-ui-react';
-
-/**
- * WordPress Dpendencies
+ * WordPress Dependencies
  */
 import {
-	render,
+	store,
+	getContext,
+	getElement,
+	useState,
 	useEffect,
-	useReducer,
-	useCallback,
-	useRef,
-} from '@wordpress/element';
-import domReady from '@wordpress/dom-ready';
-import apiFetch from '@wordpress/api-fetch';
-import { addQueryArgs } from '@wordpress/url';
-import { decodeEntities } from '@wordpress/html-entities';
+} from '@wordpress/interactivity';
 
-const INITIAL_STATE = {
-	loading: false,
-	results: [
-		{
-			key: null,
-			value: null,
-			title: 'Start typing to search for a topic...',
-		},
-	],
-	value: '',
-	selected: false,
-};
+const { apiFetch } = window.wp;
+const { addQueryArgs } = window.wp.url;
+const { decodeEntities } = window.wp.htmlEntities;
 
-const searchReducer = (state, action) => {
-	switch (action.type) {
-		case 'CLEAN_QUERY':
-			return INITIAL_STATE;
-		case 'START_SEARCH':
-			return { ...state, loading: true, value: action.query };
-		case 'FINISH_SEARCH':
-			return { ...state, loading: false, results: action.results };
-		case 'UPDATE_SELECTION':
-			return {
-				...state,
-				loading: true,
-				value: action.selection.title,
-				selected: action.selection.value,
+const useDebounce = (value, delay) => {
+	// State and setters for debounced value
+	const [debouncedValue, setDebouncedValue] = useState(value);
+	useEffect(
+		() => {
+			// Update debounced value after delay
+			const handler = setTimeout(() => {
+				setDebouncedValue(value);
+			}, delay);
+			// Cancel the timeout if value changes (also on delay change or unmount)
+			// This is how we prevent debounced value from updating if value is changed ...
+			// .. within the delay period. Timeout gets cleared and restarted.
+			return () => {
+				clearTimeout(handler);
 			};
-
-		default:
-			throw new Error();
-	}
+		},
+		[value, delay] // Only re-call effect if value or delay changes
+	);
+	return debouncedValue;
 };
 
-const doSearch = (searchValue, taxonomy, parentTermId = 0) =>
-	new Promise((resolve) => {
-		const args = { per_page: 25 };
-		if ('' !== taxonomy) {
-			args.taxonomy = taxonomy;
-		}
-		if ('' !== searchValue) {
-			args.searchValue = searchValue;
-		}
-		if (0 !== parentTermId && '' !== parentTermId) {
-			// cast parentTermId as a whole number
-			args.parentTermId = parentTermId;
-		}
-		const request = {
-			method: 'GET',
-			path: addQueryArgs('/prc-api/v3/blocks/taxonomy-search', args),
-		};
-		apiFetch(request).then((d) => {
-			const tmpData = d.map((t) => ({
-				key: t.id,
-				value: t.link,
-				// description: decodeEntities(t.description), If enabled this would add helpful descriptions for terms that have them.
-				title: decodeEntities(t.name),
-			}));
-			resolve(tmpData);
-		});
-	});
-
-function SearchField({ taxonomy = '', parentTermId = 0, parentTermName = '' }) {
-	const [state, dispatch] = useReducer(searchReducer, INITIAL_STATE);
-	const { loading, results, value, selected } = state;
-
-	const timeoutRef = useRef();
-
-	const handleResultSelect = (e, { result }) => {
-		dispatch({ type: 'UPDATE_SELECTION', selection: result });
-	};
-
-	const handleSearchChange = useCallback((e, data) => {
-		clearTimeout(timeoutRef.current);
-		dispatch({ type: 'START_SEARCH', query: data.value });
-
-		timeoutRef.current = setTimeout(() => {
-			if (0 === data.value.length) {
-				dispatch({ type: 'CLEAN_QUERY' });
-				return;
-			}
-
-			doSearch(data.value, taxonomy, parentTermId).then((r) => {
-				dispatch({
-					type: 'FINISH_SEARCH',
-					results: r,
+const { state, actions } = store('prc-block/taxonomy-search', {
+	actions: {
+		async doSearch(searchValue, taxonomy, parentTermId = 0) {
+			console.log('doSearch', searchValue, taxonomy, parentTermId);
+			return new Promise((resolve) => {
+				const args = { per_page: 25 };
+				if ('' !== taxonomy) {
+					args.taxonomy = taxonomy;
+				}
+				if ('' !== searchValue) {
+					args.searchValue = searchValue;
+				}
+				if (0 !== parentTermId && '' !== parentTermId) {
+					// cast parentTermId as a whole number
+					args.parentTermId = parentTermId;
+				}
+				const request = {
+					method: 'GET',
+					path: addQueryArgs(
+						'/prc-api/v3/blocks/taxonomy-search',
+						args
+					),
+				};
+				console.log('doSearch', request);
+				apiFetch(request).then((d) => {
+					console.log('doSearch', d);
+					const tmpData = d.map((t) => ({
+						key: t.id,
+						id: t.id,
+						url: t.link,
+						description: decodeEntities(t.description),
+						label: decodeEntities(t.name),
+					}));
+					resolve(tmpData);
 				});
 			});
-		}, 300);
-	}, []);
-
-	useEffect(
-		() => () => {
-			clearTimeout(timeoutRef.current);
 		},
-		[]
-	);
-
-	useEffect(() => {
-		if (false !== selected) {
-			setTimeout(() => {
-				window.location = selected;
-			}, 350);
-		}
-	}, [selected]);
-
-	return (
-		<Search
-			loading={loading}
-			onResultSelect={handleResultSelect}
-			onSearchChange={handleSearchChange}
-			results={results}
-			value={value}
-			defaultValue={null}
-			fluid
-			placeholder={`Start typing to search ${
-				'' !== parentTermName ? parentTermName : 'for a ' + taxonomy
-			}`}
-		/>
-	);
-}
-
-domReady(() => {
-	const blocks = document.querySelectorAll(
-		'.wp-block-prc-block-taxonomy-search'
-	);
-	if (blocks) {
-		blocks.forEach((elm) => {
-			const taxonomy = elm.getAttribute('data-taxonomy');
-			const parentTermId = elm.getAttribute('data-restrict-to-term-id');
-			const parentTermName = elm.getAttribute(
-				'data-restrict-to-term-name'
+		onInputFocus: (event) => {
+			const context = getContext();
+			context.isActive = true;
+		},
+		onInputBlur: (event) => {
+			const context = getContext();
+			context.isActive = false;
+		},
+		onInputChange: (event) => {
+			const { value } = event.target;
+			const context = getContext();
+			const { ref } = getElement();
+			const { id } = ref;
+			// Store the value in the global state where we store all primitve inputs.
+			state[id].value = value;
+			// Also, store the value in this block's context so we can use it in the submitHandler.
+			context.searchValue = state[id].value;
+		},
+	},
+	callbacks: {
+		showResults: () => {
+			const context = getContext();
+			console.log('showResults', context, state);
+			return (
+				context.results &&
+				context.results.length >= 1 &&
+				context.isActive
 			);
-			render(
-				<SearchField
-					taxonomy={taxonomy}
-					parentTermId={parentTermId}
-					parentTermName={parentTermName}
-				/>,
-				elm
-			);
-		});
-	}
+		},
+		onSearchValueChange: () => {
+			const context = getContext();
+			const { debouncedSearchValue } = context;
+			if (debouncedSearchValue) {
+				console.log(
+					'onSearchValueChange',
+					context,
+					state,
+					debouncedSearchValue
+				);
+				// do the search
+				actions
+					.doSearch(debouncedSearchValue, context.taxonomy)
+					.then((d) => {
+						context.results = d;
+					});
+			}
+		},
+		debounceSearchValueChange: () => {
+			const context = getContext();
+			const debouncedSearchValue = useDebounce(context.searchValue, 1000);
+			if (debouncedSearchValue.length > 2) {
+				context.debouncedSearchValue = debouncedSearchValue;
+			}
+		},
+		onEscKey: (event) => {
+			if (27 === event.keyCode) {
+				const context = getContext();
+				context.isActive = false;
+			}
+		},
+	},
 });

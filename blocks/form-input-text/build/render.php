@@ -46,6 +46,8 @@ $block_attrs = get_block_wrapper_attributes(array(
 		'namespace' => $target_namespace,
 	)),
 	'data-wp-on--keyup'             => $target_namespace.'::actions.onInputChange',
+	'data-wp-on--focus'             => $target_namespace.'::actions.onInputFocus',
+	'data-wp-on--blur'              => $target_namespace.'::actions.onInputBlur',
 	'data-wp-bind--required'	    => $target_namespace.'::state.'.$input_id.'.required',
 	'data-wp-bind--type'	        => $target_namespace.'::state.'.$input_id.'.type',
 	'data-wp-bind--value'           => $target_namespace.'::state.'.$input_id.'.value',
