@@ -9,6 +9,10 @@
 	"attributes": {
 		"allowedBlocks": {
 			"type": "array"
+		},
+		"disengageClickHandler": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

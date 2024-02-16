@@ -58,6 +58,5 @@
 	"parent": ["prc-block/popup-controller"],
 	"textdomain": "popup-modal",
 	"editorScript": "file:./index.js",
-	"render": "file:./render.php",
-	"viewScriptModule": "file:./view.js"
+	"render": "file:./render.php"
 }

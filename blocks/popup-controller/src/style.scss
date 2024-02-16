@@ -80,6 +80,15 @@ body.has-active-modal {
 			position: relative;
 			background: transparent;
 
+			&__close-button {
+				--offset: var(--gutter, 20px);
+				position: absolute;
+				right: calc(-1*var(--offset));
+				top: calc(-1*var(--offset));
+				cursor: pointer;
+				color: white;
+			}
+
 			&.has-background {
 				border-radius: 5px;
 				padding: var(--gutter, $default_gutter);
@@ -99,19 +108,6 @@ body.has-active-modal {
 			.wp-block-prc-block-popup-modal--inner {
 				max-height: 90vh;
 				overflow-y: auto;
-			}
-
-			.wp-block-prc-block-popup-modal--close-button {
-				position: absolute;
-				top: calc( var(--gutter, $default_gutter) * -1.5 );
-				right: calc( var(--gutter, $default_gutter) * -1.5 );
-				cursor: pointer;
-
-				&:before {
-					content: '×';
-					font-size: 20px;
-					color: white;
-				}
 			}
 
 			.wp-block-vimeo-create.vimeo-create__video-container {

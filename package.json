@@ -10,6 +10,7 @@
     "path": "^0.12.7"
   },
   "scripts": {
+		"build:all": "bash build.sh",
     "update:wp-scripts": "node update-wp-scripts.js"
   }
 }

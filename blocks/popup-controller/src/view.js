@@ -13,10 +13,18 @@ const { state } = store('prc-block/popup-controller', {
 				state[key].isActive = false;
 			});
 		},
-		open: () => {
+		open: (event, passthroughId = false) => {
 			const context = getContext();
 			const id = context?.id;
-			if ( ! id ) {
+			console.log('open...', passthroughId);
+			if (passthroughId) {
+				state[passthroughId] = {
+					isActive: true,
+				};
+				return;
+			}
+			if (!id) {
+				console.log('no id', id, state);
 				return;
 			}
 			state[id] = {
@@ -24,10 +32,16 @@ const { state } = store('prc-block/popup-controller', {
 			};
 			console.log('open', id, state[id].isActive, state);
 		},
-		close: () => {
+		close: (event, passthroughId = false) => {
 			const context = getContext();
 			const id = context?.id;
-			if ( ! id ) {
+			if (passthroughId) {
+				state[passthroughId] = {
+					isActive: false,
+				};
+				return;
+			}
+			if (!id) {
 				return;
 			}
 			state[id] = {
@@ -50,6 +64,14 @@ const { state } = store('prc-block/popup-controller', {
 	},
 	callbacks: {
 		onWindowClickCloseModal: (event) => {
+			const context = getContext();
+			const { id } = context;
+			if (!id) {
+				return;
+			}
+			if (!state[id]?.isActive) {
+				return;
+			}
 			const elm = getElement();
 			const { ref } = elm;
 			console.log('onWindowClickCloseModal', elm, event.target);
@@ -62,12 +84,6 @@ const { state } = store('prc-block/popup-controller', {
 					'wp-block-prc-block-popup-modal__outer'
 				)
 			) {
-				return;
-			}
-
-			const context = getContext();
-			const { id } = context;
-			if (!id) {
 				return;
 			}
 
