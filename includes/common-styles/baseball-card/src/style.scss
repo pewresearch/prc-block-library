@@ -67,6 +67,7 @@
 		display: flex;
 		flex-direction: column;
 		padding: 0.48em;
+		gap: var(--gap);
 		li {
 			padding: 0.48em;
 			display: flex;
@@ -91,11 +92,17 @@
 
 		// Sub List
 		ul[class*="__list"]  {
+			--gap: calc(var(--gap) / 2);
+			padding: 0;
 			padding-left: 1em;
+			list-style: none;
+			display: flex;
+			flex-direction: column;
+			gap: var(--gap);
 			li {
-				padding: 0.525em 0;
+				padding: 0.48em 0;
 				&:has(ul) {
-					padding: 0.525em 1em;
+					padding: 0.48em 1em;
 				}
 			}
 		}

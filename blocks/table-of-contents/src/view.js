@@ -9,8 +9,6 @@ import 'waypoints/lib/shortcuts/inview';
  */
 import domReady from '@wordpress/dom-ready';
 
-import './style.scss';
-
 const getInternalChaptersList = (elm) => {
 	// check if the first level of the list has list-items with is-top-level class
 	// if so, return the first level of the list

@@ -11,12 +11,8 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import {
-	registerBlockType,
-	unregisterBlockType,
-} from '@wordpress/blocks';
-import domReady	from '@wordpress/dom-ready';
+import { registerBlockType, unregisterBlockType } from '@wordpress/blocks';
+import domReady from '@wordpress/dom-ready';
 
 /**
  * Internal Dependencies
@@ -56,7 +52,7 @@ registerBlockType(name, { ...metadata, ...settings });
 /**
  * Unregister the core/table-of-contents block, since we are replacing it with our own.
  */
-domReady(()=>{
+domReady(() => {
 	unregisterBlockType('core/table-of-contents');
 	unregisterBlockType('yoast-seo/table-of-contents');
 });

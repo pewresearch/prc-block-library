@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -209,7 +210,7 @@ function Edit({
 					</div>
 				</div>
 				<ul className="wp-block-prc-block-table-of-contents__list" style={{
-					'gap': getBlockGapSupportValue(attributes),
+					'--gap': getBlockGapSupportValue(attributes),
 				}}>
 					{0 !== chapters.length && chapters.map((chapter) => (
 						<li className={classNames('wp-block-prc-block-table-of-contents__list-item', {

@@ -43,6 +43,10 @@
 			"type": "string",
 			"default": "ui-black"
 		},
+		"linkColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
 		"activeBackgroundColor": {
 			"type": "string",
 			"default": "ui-gray-very-light"
@@ -82,7 +86,8 @@
 		"align": ["left", "right"],
 		"color": {
 			"background": true,
-			"text": true
+			"text": true,
+			"link": true
 		},
 		"spacing": {
 			"margin": [ "top", "bottom", "left", "right" ],

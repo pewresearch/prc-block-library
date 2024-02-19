@@ -13,11 +13,7 @@ import {
 	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 } from '@wordpress/block-editor';
 
-export default function ColorControls({
-	attributes,
-	colors,
-	clientId,
-}) {
+export default function ColorControls({ attributes, colors, clientId }) {
 	const { className } = attributes;
 
 	const colorProps = useMultipleOriginColorsAndGradients();
@@ -39,7 +35,7 @@ export default function ColorControls({
 			hoverBackgroundColor,
 			setHoverBackgroundColor,
 			hoverTextColor,
-			setHoverTextColor
+			setHoverTextColor,
 		} = colors;
 
 		const t = [
@@ -84,7 +80,7 @@ export default function ColorControls({
 				label: __('Hover Background'),
 			},
 		];
-		if ( 'is-style-dropdown' === className ) {
+		if ('is-style-dropdown' === className) {
 			// change the label of the first item to just be "Dropdown Text" and the second to just be "Dropdown Background", remove the 3rd and 4th items.
 			t[0].label = __('Dropdown Text');
 			t[1].label = __('Dropdown Background');
@@ -94,17 +90,15 @@ export default function ColorControls({
 	}, [colors, className]);
 
 	return (
-		<Fragment>
-			<InspectorControls group="color">
-				<ColorGradientSettingsDropdown
-					settings={ colorSettings }
-					panelId={ clientId }
-					hasColorsOrGradients={ false }
-					disableCustomColors={ true }
-					__experimentalIsRenderedInSidebar
-					{ ...colorProps }
-				/>
-			</InspectorControls>
-		</Fragment>
+		<InspectorControls group="color">
+			<ColorGradientSettingsDropdown
+				settings={colorSettings}
+				panelId={clientId}
+				hasColorsOrGradients={false}
+				disableCustomColors={true}
+				__experimentalIsRenderedInSidebar
+				{...colorProps}
+			/>
+		</InspectorControls>
 	);
 }

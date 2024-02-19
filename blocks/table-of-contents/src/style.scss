@@ -1,8 +1,6 @@
 .wp-block-prc-block-table-of-contents {
 	margin-top: 24px;
 
-
-
 	&:not(.is-style-dropdown):not(.is-switched),
 	&[data-auto-dropdown-enabled="false"] {
 		.wp-block-prc-block-table-of-contents__heading.is-hidden {
@@ -26,9 +24,6 @@
 
 .wp-block-prc-block-table-of-contents.is-style-dropdown,
 .wp-block-prc-block-table-of-contents[data-auto-dropdown-enabled="true"].is-switched {
-	// border-top: 1px solid var(--wp--preset--color--ui-gray-light);
-	// border-bottom: 1px solid var(--wp--preset--color--ui-gray-light);
-
 	.wp-block-prc-block-table-of-contents__heading {
 		display: none;
 	}
