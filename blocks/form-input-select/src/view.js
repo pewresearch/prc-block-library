@@ -66,9 +66,9 @@ const { actions } = store('prc-block/form-input-select', {
 		},
 		onClick: (event) => {
 			event.preventDefault();
-			console.log('setting value on click');
 			const { ref } = getElement();
 			const context = getContext();
+			console.log('setting value on click', context, ref);
 			const { options, targetNamespace } = context;
 			const { state: targetState } = store(targetNamespace);
 			// get parent with class 'wp-block-prc-block-form-input-select'
