@@ -79,12 +79,12 @@
 		"prc-block/form-field-label",
 		"prc-facets/template/facetType",
 		"prc-facets/template/facetName",
-		"prc-facets/template/facetLabel"
+		"prc-facets/template/facetLabel",
+		"prc-block/sortable-options"
 	],
 	"parent": ["prc-block/form-field"],
 	"textdomain": "form-input-select",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"render": "file:./render.php",
 	"viewModule": "file:./view.js"

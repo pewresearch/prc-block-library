@@ -1,95 +1,99 @@
+/* eslint-disable @wordpress/no-unused-vars-before-return */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
-const setOptionActive = (id, refid) => {
-	const listbox = document.getElementById(`listbox-${id}`);
-	const option = listbox.querySelector(`[refid="${refid}"]`);
-	if (option) {
-		option.setAttribute('aria-selected', true);
-		option.focus();
-		// set all siblings to false
-		const siblings = option.parentElement.children;
-		for (let i = 0; i < siblings.length; i++) {
-			if (siblings[i] !== option) {
-				siblings[i].setAttribute('aria-selected', false);
-			}
-		}
-	}
-};
-
-const moveThroughOptions = (direction, id) => {
-	const { state } = store('prc-block/form-input-select');
-	const context = getContext();
-	const { activeId } = context;
-	console.log({ context });
-	const { filteredOptions } = state[id];
-	let nextActive = null;
-	if (activeId === null || isNaN(activeId)) {
-		nextActive = 0;
-	} else {
-		nextActive = activeId + direction;
-	}
-	if (nextActive < 0) {
-		nextActive = filteredOptions.length - 1;
-	}
-	if (nextActive >= filteredOptions.length) {
-		nextActive = 0;
-	}
-	context.activeId = nextActive;
-	const highlightedOption = filteredOptions[nextActive];
-	setOptionActive(id, highlightedOption.value);
-};
-
-const setValueOnEnter = (id, state) => {
-	const context = getContext();
-	const { activeId } = context;
-	const { filteredOptions, options } = state[id];
-	console.log({ id });
-	console.log(state[id]);
-	console.log({ activeId });
-	const highlightedOption = filteredOptions[activeId];
-	if (highlightedOption) {
-		state[id].value = highlightedOption.value;
-		state[id].label = highlightedOption.label;
-		state[id].isOpen = false;
-		state[id].filteredOptions = options;
-		context.value = highlightedOption.value;
-		document.getElementById(`${id}-input`).value = highlightedOption.label;
-	}
-};
-
-const { state } = store('prc-block/form-input-select', {
+const { actions } = store('prc-block/form-input-select', {
 	actions: {
+		moveThroughOptions: (direction, id) => {
+			const context = getContext();
+			const { activeId, filteredOptions, options } = context;
+			let nextActive = null;
+			if (activeId === null || isNaN(activeId)) {
+				nextActive = 0;
+			} else {
+				nextActive = activeId + direction;
+			}
+			if (nextActive < 0) {
+				nextActive = filteredOptions.length - 1;
+			}
+			if (nextActive >= filteredOptions.length) {
+				nextActive = 0;
+			}
+			context.activeId = nextActive;
+			const highlightedOption = options[nextActive];
+			actions.setOptionActive(id, highlightedOption.value);
+		},
+		setOptionActive: (id, refid) => {
+			const listbox = document.getElementById(`listbox-${id}`);
+			const option = listbox.querySelector(`[refid="${refid}"]`);
+			if (option) {
+				option.setAttribute('aria-selected', true);
+				option.focus();
+				// set all siblings to false
+				const siblings = option.parentElement.children;
+				for (let i = 0; i < siblings.length; i++) {
+					if (siblings[i] !== option) {
+						siblings[i].setAttribute('aria-selected', false);
+					}
+				}
+			}
+		},
+		setValueOnEnter: (id) => {
+			console.log('setting value on enter');
+			const context = getContext();
+			const { targetNamespace } = context;
+			const { state: targetState } = store(targetNamespace);
+			const highlightedOption = context.filteredOptions[context.activeId];
+			context.filteredOptions = context.options;
+			context.value = highlightedOption.value;
+			context.label = highlightedOption.label;
+			targetState[id].value = highlightedOption.value;
+			targetState[id].isOpen = false;
+			document.getElementById(`${id}-input`).value =
+				highlightedOption.label;
+		},
 		onOpen: (event) => {
 			event.preventDefault();
 			const { ref } = getElement();
+			const context = getContext();
+			const { targetNamespace } = context;
 			const id = ref.getAttribute('aria-controls');
 			if (!id) {
 				return;
 			}
-			state[id].isOpen = true;
+
+			const { state: targetState } = store(targetNamespace);
+			targetState[id].isOpen = true;
 		},
-		onSelect: () => {
+		onClick: (event) => {
+			event.preventDefault();
+			console.log('setting value on click');
 			const { ref } = getElement();
+			const context = getContext();
+			const { options, targetNamespace } = context;
+			const { state: targetState } = store(targetNamespace);
 			// get parent with class 'wp-block-prc-block-form-input-select'
 			const id = ref.getAttribute('aria-controls');
-			const value = ref.getAttribute('refid');
-
-			setOptionActive(id, value);
-
-			const { options } = state[id];
+			const val = ref.getAttribute('refid');
+			actions.setOptionActive(id, val);
 			const selectedOption = options.find(
-				(option) => option.value === value
+				(option) => option.value === val
 			);
 			if (!selectedOption) {
 				return;
 			}
-			const context = getContext();
+			// find the object in the options array that matches the value
+			// then set the activeId to the index of that object
+			const index = options.findIndex(
+				(option) => option.value === selectedOption.value
+			);
+			context.filteredOptions = options;
+			context.activeId = index;
+			context.label = selectedOption.label;
 			context.value = selectedOption.value;
-			state[id].value = selectedOption.value;
-			state[id].label = selectedOption.label;
-			state[id].isOpen = false;
+			targetState[id].value = selectedOption.value;
+			targetState[id].isOpen = false;
+			console.log({ context });
 			document.getElementById(`${id}-input`).value = selectedOption.label;
-			// actions.onSelectChange(value, ref);
 		},
 		onKeyUp: (event) => {
 			event.preventDefault();
@@ -104,20 +108,21 @@ const { state } = store('prc-block/form-input-select', {
 			if (event.key === 'Escape') {
 				return;
 			}
-			state[id].isOpen = true;
+			const context = getContext();
+			const { targetNamespace, options } = context;
+			const { state: targetState } = store(targetNamespace);
+			targetState[id].isOpen = true;
 			if (event.key === 'Enter') {
-				setValueOnEnter(id, state);
+				actions.setValueOnEnter(id);
 			}
 			if (event.keyCode === 40 && event.key === 'ArrowDown') {
-				moveThroughOptions(1, id);
+				actions.moveThroughOptions(1, id);
 				return;
 			}
 			if (event.keyCode === 38 && event.key === 'ArrowUp') {
-				moveThroughOptions(-1, id);
+				actions.moveThroughOptions(-1, id);
 				return;
 			}
-
-			const { options } = state[id];
 
 			// check if any of the options contain the value of the input
 			const matches = options.filter((option) => {
@@ -127,11 +132,8 @@ const { state } = store('prc-block/form-input-select', {
 			// if there are matches, set the first match to active
 
 			if (matches.length) {
-				state[id].filteredOptions = matches;
-				setOptionActive(id, matches[0].value);
-			} else {
-				state[id].filteredOptions = options;
-				state[id].active = null;
+				context.filteredOptions = matches;
+				actions.setOptionActive(id, matches[0].value);
 			}
 		},
 		onClear: (event) => {
@@ -141,47 +143,56 @@ const { state } = store('prc-block/form-input-select', {
 			if (!id) {
 				return;
 			}
-			state[id].value = '';
-			state[id].label = '';
-			state[id].isOpen = false;
+			const context = getContext();
+			const { targetNamespace, options } = context;
+			const { state: targetState } = store(targetNamespace);
+			console.log({ targetState });
+			context.filteredOptions = options;
+			context.value = '';
+			context.label = '';
+			targetState[id].value = '';
+			targetState[id].isOpen = false;
 			document.getElementById(`${id}-input`).value = '';
 		},
 	},
 	callbacks: {
-		/**
-		 * Watch for clicks outside the ref and if the select is open close it.
-		 *
-		 * @return
-		 */
 		onInit: () => {
 			const context = getContext();
 			const { ref } = getElement();
 			const { id } = ref;
-			console.log({ context });
-			console.log({ state });
+			const { targetNamespace } = context;
+
 			if (!id) {
+				return;
 			}
 			window.addEventListener('click', (e) => {
-				// We call the store function directly on the click event because we need to get the latest state of the store at click time.
-				// const { state } = store(context.targetNamespace);
+				const { state: targetState } = store(targetNamespace);
 				if (
 					!ref.innerHTML.includes(e.target.innerHTML) &&
-					true === state[id].isOpen
+					true === targetState[id].isOpen
 				) {
-					state[id].isOpen = false;
+					targetState[id].isOpen = false;
+					console.log('on click outside');
+					console.log(context.filteredOptions);
 				} else {
+					console.log('on click inside');
+					console.log(context.filteredOptions);
 				}
 			});
 		},
 		onValueChange: () => {
+			console.log('value change detected');
+			const { ref } = getElement();
+			const { id } = ref;
+			if (!id) {
+				return;
+			}
 			const context = getContext();
-			const { value, targetNamespace } = context;
-			console.log('something is happening');
+			const { targetNamespace, value } = context;
 			if (value) {
 				const { actions } = store(targetNamespace);
 				if (actions.onSelectChange) {
-					console.log('PUSH', value, 'to', targetNamespace, context);
-					actions.onSelectChange(value);
+					actions.onSelectChange(value, ref, ref.id);
 				}
 			}
 		},
@@ -191,17 +202,20 @@ const { state } = store('prc-block/form-input-select', {
 			if (!id) {
 				return;
 			}
+			const context = getContext();
+			const { targetNamespace } = context;
+			const { state: targetState } = store(targetNamespace);
 			if (event.key === 'Escape') {
-				if (true === state[id].isOpen) {
+				if (true === targetState[id].isOpen) {
 					event.preventDefault();
-					state[id].isOpen = false;
+					targetState[id].isOpen = false;
 					return;
 				}
-				const context = getContext();
 				context.activeId = 0;
-				state[id].value = '';
-				state[id].label = '';
-				state[id].isOpen = false;
+				context.value = '';
+				context.label = '';
+				targetState[id].value = '';
+				targetState[id].isOpen = false;
 				document.getElementById(`${id}-input`).value = '';
 			}
 		},

@@ -8,7 +8,7 @@ import { Sorter } from '@prc/controls';
  */
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { useMemo } from 'react';
+import { useEffect } from '@wordpress/element';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
 /**
@@ -24,15 +24,42 @@ const DEFAULT_OPTIONS = [
 	{ label: 'Australia', value: 'australia' },
 ];
 
-export default function Controls({ attributes, setAttributes, clientId }) {
-	const { placeholder } = attributes;
-	const name = attributes?.metadata?.name;
-	const options = useMemo(() => {
-		if (!attributes.options) {
-			return DEFAULT_OPTIONS;
+export default function Controls({
+	attributes,
+	setAttributes,
+	clientId,
+	context,
+}) {
+	const { placeholder, options } = attributes;
+	// const name = attributes?.metadata?.name;
+	// const options = useMemo(() => {
+	// 	if (!attributes.options) {
+	// 		return DEFAULT_OPTIONS;
+	// 	}
+	// 	return attributes.options;
+	// }, [attributes.options]);
+	// make this a little more generic, abstract out and reuse in form-input-select
+	const sortableOptions = context['prc-block/sortable-options']
+		? JSON.parse(context['prc-block/sortable-options'])
+		: {};
+	useEffect(() => {
+		if (options.length > 0) {
+			return;
 		}
-		return attributes.options;
-	}, [attributes.options]);
+		const allSortableOptions = Object.keys(sortableOptions).map((key) => ({
+			label: sortableOptions[key].name,
+			name: sortableOptions[key].name,
+			value: key,
+			disabled: false,
+		}));
+		if (allSortableOptions.length > 0) {
+			setAttributes({
+				options: allSortableOptions,
+			});
+			return;
+		}
+		setAttributes({ options: DEFAULT_OPTIONS });
+	}, [options, sortableOptions]);
 
 	return (
 		<InspectorControls>

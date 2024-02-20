@@ -9,12 +9,7 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
-import {
-	useBlockProps,
-	RichText,
-	useInnerBlocksProps,
-	InnerBlocks,
-} from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -41,6 +36,7 @@ export default function Edit({
 	setAttributes,
 	clientId,
 	isSelected,
+	context,
 }) {
 	const ref = useRef();
 
@@ -54,22 +50,9 @@ export default function Edit({
 		// },
 	});
 
-	// useEffect(() => {
-	//     function handleClickOutside(event) {
-	//         if (ref.current && !ref.current.contains(event.target)) {
-	//             setIsOpen(false);
-	//         }
-	//     }
-
-	//     document.addEventListener("mousedown", handleClickOutside);
-	//     return () => {
-	//         document.removeEventListener("mousedown", handleClickOutside);
-	//     };
-	// }, [ref]);
-
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, clientId }} />
+			<Controls {...{ attributes, setAttributes, clientId, context }} />
 			<input {...blockProps} placeholder={placeholder}></input>
 		</Fragment>
 	);

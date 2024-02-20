@@ -20,8 +20,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
 
 /**
  * External Dependencies
@@ -41,42 +43,66 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const DEFAULT_OPTIONS = [{
-  "label": "North America",
-  "value": "north-america"
+  label: 'North America',
+  value: 'north-america'
 }, {
-  "label": "South America",
-  "value": "south-america"
+  label: 'South America',
+  value: 'south-america'
 }, {
-  "label": "Europe",
-  "value": "europe"
+  label: 'Europe',
+  value: 'europe'
 }, {
-  "label": "Asia",
-  "value": "asia"
+  label: 'Asia',
+  value: 'asia'
 }, {
-  "label": "Africa",
-  "value": "africa"
+  label: 'Africa',
+  value: 'africa'
 }, {
-  "label": "Australia",
-  "value": "australia"
+  label: 'Australia',
+  value: 'australia'
 }];
 function Controls({
   attributes,
   setAttributes,
-  clientId
+  clientId,
+  context
 }) {
   const {
-    placeholder
+    placeholder,
+    options
   } = attributes;
-  const name = attributes?.metadata?.name;
-  const options = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
-    if (!attributes.options) {
-      return DEFAULT_OPTIONS;
+  // const name = attributes?.metadata?.name;
+  // const options = useMemo(() => {
+  // 	if (!attributes.options) {
+  // 		return DEFAULT_OPTIONS;
+  // 	}
+  // 	return attributes.options;
+  // }, [attributes.options]);
+  // make this a little more generic, abstract out and reuse in form-input-select
+  const sortableOptions = context['prc-block/sortable-options'] ? JSON.parse(context['prc-block/sortable-options']) : {};
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
+    if (options.length > 0) {
+      return;
     }
-    return attributes.options;
-  }, [attributes.options]);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
+    const allSortableOptions = Object.keys(sortableOptions).map(key => ({
+      label: sortableOptions[key].name,
+      name: sortableOptions[key].name,
+      value: key,
+      disabled: false
+    }));
+    if (allSortableOptions.length > 0) {
+      setAttributes({
+        options: allSortableOptions
+      });
+      return;
+    }
+    setAttributes({
+      options: DEFAULT_OPTIONS
+    });
+  }, [options, sortableOptions]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Form Input Field Settings')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
     label: "Placeholder",
     value: placeholder,
     onChange: newPlaceholder => {
@@ -84,21 +110,21 @@ function Controls({
         placeholder: newPlaceholder
       });
     }
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.ToggleControl, {
     label: "Disabled",
     checked: attributes.disabled,
-    help: 'If toggled on, the user cannot interact with this input.',
+    help: "If toggled on, the user cannot interact with this input.",
     onChange: val => {
       setAttributes({
         disabled: val
       });
     }
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Form Input Field Options')
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_prc_controls__WEBPACK_IMPORTED_MODULE_1__.Sorter, {
     options: options,
     setAttributes: setAttributes,
-    attribute: 'options',
+    attribute: "options",
     clientId: clientId
   })));
 }
@@ -166,7 +192,8 @@ function Edit({
   attributes,
   setAttributes,
   clientId,
-  isSelected
+  isSelected,
+  context
 }) {
   const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useRef)();
   const {
@@ -183,24 +210,11 @@ function Edit({
     // 	'--block-gap': getBlockGapSupportValue(attributes, 'horizontal'),
     // },
   });
-
-  // useEffect(() => {
-  //     function handleClickOutside(event) {
-  //         if (ref.current && !ref.current.contains(event.target)) {
-  //             setIsOpen(false);
-  //         }
-  //     }
-
-  //     document.addEventListener("mousedown", handleClickOutside);
-  //     return () => {
-  //         document.removeEventListener("mousedown", handleClickOutside);
-  //     };
-  // }, [ref]);
-
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls__WEBPACK_IMPORTED_MODULE_6__["default"], {
     attributes,
     setAttributes,
-    clientId
+    clientId,
+    context
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     ...blockProps,
     placeholder: placeholder
@@ -438,7 +452,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"prc-block/form-input-select","version":"0.1.0","title":"Form Input Select","category":"widgets","description":"Create a dropdown element with a list of options.","attributes":{"options":{"type":"array","default":[]},"placeholder":{"type":"string","default":"Select an option"},"disabled":{"type":"boolean","default":false},"backgroundColor":{"type":"string","default":"ui-white"},"textColor":{"type":"string","default":"ui-black"},"value":{"type":"string"},"style":{"type":"object","default":{"border":{"width":"1px","color":"#dadbdb","radius":"3px"},"spacing":{"padding":{"top":"0.3rem","bottom":"0.3rem","left":"var:preset|spacing|20","right":"var:preset|spacing|20"}}}}},"supports":{"anchor":true,"html":false,"reusable":true,"inserter":false,"__experimentalBorder":{"color":true,"width":true,"radius":true},"color":{"gradients":false},"spacing":{"padding":true,"margin":true},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true},"interactivity":true},"usesContext":["prc-block/form-field-required","prc-block/form-field-label","prc-facets/template/facetType","prc-facets/template/facetName","prc-facets/template/facetLabel"],"parent":["prc-block/form-field"],"textdomain":"form-input-select","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewModule":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"prc-block/form-input-select","version":"0.1.0","title":"Form Input Select","category":"widgets","description":"Create a dropdown element with a list of options.","attributes":{"options":{"type":"array","default":[]},"placeholder":{"type":"string","default":"Select an option"},"disabled":{"type":"boolean","default":false},"backgroundColor":{"type":"string","default":"ui-white"},"textColor":{"type":"string","default":"ui-black"},"value":{"type":"string"},"style":{"type":"object","default":{"border":{"width":"1px","color":"#dadbdb","radius":"3px"},"spacing":{"padding":{"top":"0.3rem","bottom":"0.3rem","left":"var:preset|spacing|20","right":"var:preset|spacing|20"}}}}},"supports":{"anchor":true,"html":false,"reusable":true,"inserter":false,"__experimentalBorder":{"color":true,"width":true,"radius":true},"color":{"gradients":false},"spacing":{"padding":true,"margin":true},"typography":{"fontSize":true,"lineHeight":true,"__experimentalFontFamily":true,"__experimentalFontWeight":true},"interactivity":true},"usesContext":["prc-block/form-field-required","prc-block/form-field-label","prc-facets/template/facetType","prc-facets/template/facetName","prc-facets/template/facetLabel","prc-block/sortable-options"],"parent":["prc-block/form-field"],"textdomain":"form-input-select","editorScript":"file:./index.js","style":"file:./style-index.css","render":"file:./render.php","viewModule":"file:./view.js"}');
 
 /***/ })
 

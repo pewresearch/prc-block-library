@@ -53,7 +53,6 @@ const { state } = store('prc-block/form-input-password', {
 					// Disable the confirmationn input if the password does not meet the requirements
 					state[confirmationInputId].isDisabled =
 						!disableConfirmInput;
-
 					// Report the password strength to the user
 					Object.keys(passwordStrengthCheck).forEach((key) => {
 						const index = context.conditionsList.findIndex(
