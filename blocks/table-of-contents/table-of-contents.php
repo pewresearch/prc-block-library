@@ -109,7 +109,11 @@ class Table_Of_Contents {
 			return;
 		}
 
-		$content = apply_filters( 'prc-block/table-of-contents', $this->get_list_items( $chapters, 0, $attributes, $return_top_level ), $post_id );
+		$content = apply_filters(
+			'prc-block/table-of-contents',
+			$this->get_list_items( $chapters, 0, $attributes, $return_top_level ),
+			$post_id
+		);
 
 		if (empty($content)) {
 			return;
@@ -130,6 +134,7 @@ class Table_Of_Contents {
 					'has-' . $attributes['backgroundColor'] . '-background-color' => $attributes['backgroundColor'],
 				),
 			),
+			'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/table-of-contents'))
 		);
 
 		if ( !$is_dropdown ) {
@@ -149,7 +154,7 @@ class Table_Of_Contents {
 
 		$content = wp_sprintf(
 			'<ul class="wp-block-prc-block-table-of-contents__list" role="list" %1$s>%2$s</ul>',
-			'style="gap: ' . $block_gap . ';"',
+			'style="--gap: ' . $block_gap . ';"',
 			$content
 		);
 
