@@ -154,7 +154,7 @@ class Table_Of_Contents {
 
 		$content = wp_sprintf(
 			'<ul class="wp-block-prc-block-table-of-contents__list" role="list" %1$s>%2$s</ul>',
-			'style="--gap: ' . $block_gap . ';"',
+			'style="--block-gap: ' . $block_gap . ';"',
 			$content
 		);
 

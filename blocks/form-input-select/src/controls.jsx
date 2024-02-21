@@ -6,9 +6,9 @@ import { Sorter } from '@prc/controls';
 /**
  * WordPress Dependencies
  */
+import { useEffect, useMemo } from 'react';
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { useEffect } from '@wordpress/element';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
 /**
@@ -31,17 +31,13 @@ export default function Controls({
 	context,
 }) {
 	const { placeholder, options } = attributes;
-	// const name = attributes?.metadata?.name;
-	// const options = useMemo(() => {
-	// 	if (!attributes.options) {
-	// 		return DEFAULT_OPTIONS;
-	// 	}
-	// 	return attributes.options;
-	// }, [attributes.options]);
-	// make this a little more generic, abstract out and reuse in form-input-select
-	const sortableOptions = context['prc-block/sortable-options']
-		? JSON.parse(context['prc-block/sortable-options'])
-		: {};
+
+	const sortableOptions = useMemo(() => {
+		return context['prc-block/sortable-options']
+			? JSON.parse(context['prc-block/sortable-options'])
+			: {};
+	}, [context]);
+
 	useEffect(() => {
 		if (options.length > 0) {
 			return;

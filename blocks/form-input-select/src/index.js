@@ -11,7 +11,6 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -33,7 +32,7 @@ import icon from './icon';
 
 import metadata from './block.json';
 
-const { name, title } = metadata;
+const { name } = metadata;
 
 const settings = {
 	icon,

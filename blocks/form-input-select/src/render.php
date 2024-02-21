@@ -3,32 +3,52 @@ namespace PRC\Platform\Blocks;
 
 $target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
 
-if ( ! $target_namespace ) {
-	$target_namespace = 'prc-block/form-input-select';
-}
-
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Click to select';
-$input_name = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : null;
-$input_options = array_key_exists( 'options', $attributes ) ? $attributes['options'] : array();
-
-$block_context = array_key_exists( 'prc-block/form-input-options', $block->context) ? $block->context['prc-block/form-input-options'] : array();
-
-$input_options = empty($input_options) ? $block_context : $input_options;
-$input_id = md5( $target_namespace . $input_name . $input_placeholder . wp_json_encode($input_options));
-
-wp_interactivity_state(
-	$target_namespace,
+$input_name = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : 'prc-block/form-input-select';
+$input_value = array_key_exists('value', $attributes) ? $attributes['value'] : null;
+$input_options = array_key_exists( 'options', $attributes ) ? $attributes['options'] : array(
 	array(
-		$input_id => array(
-			'value'         => array_key_exists( 'value', $attributes ) ? $attributes['value'] : null,
-			'isOpen'        => false,
-			'isHidden'      => false,
-			'isDisabled'    => array_key_exists( 'disabled', $attributes ) ? $attributes['disabled'] : false,
-			'isError'       => false,
-			'isSuccess'     => false,
-			'isProcessing'  => false,
-		)
-	)
+		'label' => 'Option 1',
+		'value' => 'option-1',
+		'isSelected' => ( $input_value === 'option-1' ),
+	),
+);
+$input_disabled = array_key_exists( 'disabled', $attributes ) ? $attributes['disabled'] : false;
+$input_options = empty($input_options) && array_key_exists( 'prc-block/form-input-options', $block->context) ? $block->context['prc-block/form-input-options'] : $input_options;
+$input_id = md5( $target_namespace . $input_name );
+
+$input_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
+	'id' 					=> $input_id.'-input',
+	'role' 					=> 'combobox',
+	'type' 					=> 'search',
+	'aria-controls' 		=> $input_id,
+	'placeholder' 			=> $input_placeholder,
+	'data-wp-bind--value' 	=> 'context.label',
+	'data-wp-on--keyup' 	=> 'actions.onKeyUp', // filter the list when the input is interacted with via keyboard
+	'data-wp-on--focus' 	=> 'actions.onOpen', // open the list when the input is focused
+	// 'data-wp-on--blur' 		=> 'actions.onClose', // close the list when the input is blurred
+) );
+$input = wp_sprintf(
+	'<input %1$s />',
+	$input_attrs
+);
+
+$option_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
+	'role' => 'option',
+	'aria-controls' => $input_id,
+	'class' => 'wp-block-prc-block-form-input-select__list-item',
+	'data-wp-bind--aria-selected' => 'context.option.isSelected',
+	'data-wp-bind--data-ref-value' => 'context.option.value',
+	'data-wp-text' => 'context.option.label',
+	'data-wp-on--click' => 'actions.onClick',
+) );
+$option_template = wp_sprintf(
+	'<li %1$s />',
+	$option_attrs
+);
+$options_list = wp_sprintf(
+	'<template data-wp-each--option="context.filteredOptions" data-wp-each-key="context.option.value">%1$s</template>',
+	$option_template,
 );
 
 $block_wrapper_attrs = get_block_wrapper_attributes( array(
@@ -39,71 +59,38 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 	)),
 	'data-wp-context' => wp_json_encode(array(
 		'targetNamespace' => $target_namespace,
-		'activeId' => 0,
+		'activeIndex' => 0,
+		'value' => $input_value,
 		'label' => $input_placeholder,
-		'filteredOptions' => $input_options,
+		'isOpen' => false,
+		'isHidden' => false,
+		'isDisabled' => $input_disabled,
+		'isError' => false,
+		'isSuccess' => false,
+		'isProcessing' => false,
+		'filteredOptions' => array(),
 		'options' => $input_options,
 	)),
+	// 'data-wp-on-click' => 'actions.onOpen',
 	'data-wp-init' => 'callbacks.onInit',
-	'data-wp-class--is-open' => $target_namespace.'::state.'.$input_id.'.isOpen',
-	'data-wp-bind--hidden' => $target_namespace.'::state.'.$input_id.'.isHidden',
-	'data-wp-class--is-disabled' => $target_namespace.'::state.'.$input_id.'.isDisabled',
-	'data-wp-class--is-error' => $target_namespace.'::state.'.$input_id.'.isError',
-	'data-wp-class--is-success' => $target_namespace.'::state.'.$input_id.'.isSuccess',
-	'data-wp-class--is-processing' => $target_namespace.'::state.'.$input_id.'.isProcessing',
-	'data-wp-on-document--keydown' => 'callbacks.onESCKey',
+	'data-wp-bind--hidden' => 'context.isHidden',
+	'data-wp-class--is-open' => 'context.isOpen',
+	'data-wp-class--is-disabled' => 'context.isDisabled',
+	'data-wp-class--is-error' => 'context.isError',
+	'data-wp-class--is-success' => 'context.isSuccess',
+	'data-wp-class--is-processing' => 'context.isProcessing',
+	// 'data-wp-on-document--keydown--closeOnEscKey' => 'callbacks.onESCKeyClose',
+	'data-wp-on-window--click' => 'callbacks.onWindowClickClose',
 	'data-wp-watch--on--value-change' => 'callbacks.onValueChange',
 	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
 ) );
 
-$input_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
-	'id' 					=> $input_id.'-input',
-	'role' 					=> 'combobox',
-	'type' 					=> 'search',
-	'aria-controls' 		=> $input_id,
-	'placeholder' 			=> $input_placeholder,
-	'data-wp-bind--value' 	=> $target_namespace.'::state.'.$input_id.'.inputText',
-	'data-wp-on--keyup' 	=> 'actions.onKeyUp',
-	'data-wp-on--focus' 	=> 'actions.onOpen',
-	'data-wp-on--blur' 		=> 'actions.onClose',
-) );
-$input = wp_sprintf(
-	'<input %1$s />',
-	$input_attrs
+echo wp_sprintf(
+	'<div %1$s><div class="wp-block-prc-block-form-input-select__input">%2$s</div><ul class="wp-block-prc-block-form-input-select__list" role="listbox" id="%3$s-listbox" aria-autocomplete="list">%4$s</ul></div>',
+	$block_wrapper_attrs,
+	$input,
+	$input_id,
+	$options_list
 );
 
-$option_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
-	'role' => 'option',
-	'aria-selected' => 'false',
-	'aria-controls' => $input_id,
-	'class' => 'wp-block-prc-block-form-input-select__list-item',
-	'data-wp-on--click' => 'actions.onClick',
-	'data-wp-text' => 'context.option.label',
-	'data-wp-bind--refid' => 'context.option.value',
-) );
-$option = wp_sprintf(
-	'<li %1$s />',
-	$option_attrs
-);
-?>
 
-<div <?php echo $block_wrapper_attrs;?> >
-	<div>
-		<div>
-			<?php echo $input; ?>
-		</div>
-	</div>
-	<ul
-		role="listbox"
-		class="wp-block-prc-block-form-input-select__list"
-		id="listbox-<?php echo $input_id; ?>"
-		aria-autocomplete="list"
-	>
-			<template
-				data-wp-each--option="context.filteredOptions"
-				data-wp-each-key="context.option.value"
-			>
-				<?php echo $option; ?>
-			</template>
-	</ul>
-</div>

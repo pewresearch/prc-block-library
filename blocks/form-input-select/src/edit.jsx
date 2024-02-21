@@ -7,8 +7,7 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
+import { Fragment, useState, useRef, useEffect } from 'react';
 import { useBlockProps } from '@wordpress/block-editor';
 
 /**
@@ -38,22 +37,25 @@ export default function Edit({
 	isSelected,
 	context,
 }) {
-	const ref = useRef();
-
-	const { options, placeholder, disabled, multiple, id, autocomplete } =
-		attributes;
+	const { placeholder } = attributes;
 
 	const blockProps = useBlockProps({
 		onChange: (event) => event.preventDefault(),
-		// style: {
-		// 	'--block-gap': getBlockGapSupportValue(attributes, 'horizontal'),
-		// },
 	});
 
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes, clientId, context }} />
-			<input {...blockProps} placeholder={placeholder}></input>
+			<div {...blockProps}>
+				<div className="wp-block-prc-block-form-input-select__input">
+					<input
+						type="search"
+						role="combobox"
+						placeholder={placeholder}
+					/>
+				</div>
+				{/** TODO: Listbox goes here, eventually... use isSelected to open */}
+			</div>
 		</Fragment>
 	);
 }

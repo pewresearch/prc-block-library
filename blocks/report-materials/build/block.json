@@ -53,7 +53,8 @@
     "html": false,
     "color": {
       "background": true,
-      "text": true
+      "text": true,
+      "link": true
     },
     "spacing": {
       "margin": [

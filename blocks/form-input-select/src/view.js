@@ -3,220 +3,110 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 
 const { actions } = store('prc-block/form-input-select', {
 	actions: {
-		moveThroughOptions: (direction, id) => {
-			const context = getContext();
-			const { activeId, filteredOptions, options } = context;
-			let nextActive = null;
-			if (activeId === null || isNaN(activeId)) {
-				nextActive = 0;
-			} else {
-				nextActive = activeId + direction;
-			}
-			if (nextActive < 0) {
-				nextActive = filteredOptions.length - 1;
-			}
-			if (nextActive >= filteredOptions.length) {
-				nextActive = 0;
-			}
-			context.activeId = nextActive;
-			const highlightedOption = options[nextActive];
-			actions.setOptionActive(id, highlightedOption.value);
-		},
-		setOptionActive: (id, refid) => {
-			const listbox = document.getElementById(`listbox-${id}`);
-			const option = listbox.querySelector(`[refid="${refid}"]`);
-			if (option) {
-				option.setAttribute('aria-selected', true);
-				option.focus();
-				// set all siblings to false
-				const siblings = option.parentElement.children;
-				for (let i = 0; i < siblings.length; i++) {
-					if (siblings[i] !== option) {
-						siblings[i].setAttribute('aria-selected', false);
-					}
-				}
-			}
-		},
-		setValueOnEnter: (id) => {
-			console.log('setting value on enter');
-			const context = getContext();
-			const { targetNamespace } = context;
-			const { state: targetState } = store(targetNamespace);
-			const highlightedOption = context.filteredOptions[context.activeId];
-			context.filteredOptions = context.options;
-			context.value = highlightedOption.value;
-			context.label = highlightedOption.label;
-			targetState[id].value = highlightedOption.value;
-			targetState[id].isOpen = false;
-			document.getElementById(`${id}-input`).value =
-				highlightedOption.label;
-		},
 		onOpen: (event) => {
-			event.preventDefault();
-			const { ref } = getElement();
 			const context = getContext();
-			const { targetNamespace } = context;
-			const id = ref.getAttribute('aria-controls');
-			if (!id) {
-				return;
-			}
-
-			const { state: targetState } = store(targetNamespace);
-			targetState[id].isOpen = true;
+			context.isOpen = true;
+			console.log('onOpen', context, event);
 		},
-		onClick: (event) => {
-			event.preventDefault();
-			const { ref } = getElement();
+		onClose: (event) => {
 			const context = getContext();
-			console.log('setting value on click', context, ref);
-			const { options, targetNamespace } = context;
-			const { state: targetState } = store(targetNamespace);
-			// get parent with class 'wp-block-prc-block-form-input-select'
-			const id = ref.getAttribute('aria-controls');
-			const val = ref.getAttribute('refid');
-			actions.setOptionActive(id, val);
+			context.isOpen = false;
+			console.log('onClose', context, event);
+		},
+		onReset: () => {
+			const context = getContext();
+			context.activeIndex = 0;
+			context.value = '';
+			context.label = '';
+		},
+		getOptionByValue: (value) => {
+			console.log('getOptionByValue', value);
+			const context = getContext();
+			const { options } = context;
 			const selectedOption = options.find(
-				(option) => option.value === val
+				(option) => option.value === value
 			);
 			if (!selectedOption) {
-				return;
+				return null;
 			}
 			// find the object in the options array that matches the value
 			// then set the activeId to the index of that object
 			const index = options.findIndex(
 				(option) => option.value === selectedOption.value
 			);
-			context.filteredOptions = options;
-			context.activeId = index;
-			context.label = selectedOption.label;
-			context.value = selectedOption.value;
-			targetState[id].value = selectedOption.value;
-			targetState[id].isOpen = false;
-			console.log({ context });
-			document.getElementById(`${id}-input`).value = selectedOption.label;
+			return {
+				index,
+				...selectedOption,
+			};
 		},
-		onKeyUp: (event) => {
+		onClick: (event) => {
 			event.preventDefault();
-
 			const { ref } = getElement();
-			const { value } = ref;
-			const id = ref.getAttribute('aria-controls');
-			if (!id) {
-				return;
-			}
-
-			if (event.key === 'Escape') {
-				return;
-			}
 			const context = getContext();
-			const { targetNamespace, options } = context;
-			const { state: targetState } = store(targetNamespace);
-			targetState[id].isOpen = true;
-			if (event.key === 'Enter') {
-				actions.setValueOnEnter(id);
-			}
-			if (event.keyCode === 40 && event.key === 'ArrowDown') {
-				actions.moveThroughOptions(1, id);
-				return;
-			}
-			if (event.keyCode === 38 && event.key === 'ArrowUp') {
-				actions.moveThroughOptions(-1, id);
-				return;
-			}
+			const { filteredOptions } = context;
+			console.log('setting value on click', context, ref, event);
 
-			// check if any of the options contain the value of the input
-			const matches = options.filter((option) => {
-				const { label } = option;
-				return label.toLowerCase().includes(value.toLowerCase());
+			const id = ref.getAttribute('aria-controls');
+			const val = ref.getAttribute('data-ref-value');
+			const { index, label, value } = actions.getOptionByValue(val);
+
+			context.activeIndex = index;
+			context.label = label;
+			context.value = value;
+
+			// find any other isSelected and set to false and then set isSelected
+			// on the clicked option
+			filteredOptions.forEach((option) => {
+				option.isSelected = false;
 			});
-			// if there are matches, set the first match to active
+			filteredOptions[index].isSelected = true;
 
-			if (matches.length) {
-				context.filteredOptions = matches;
-				actions.setOptionActive(id, matches[0].value);
-			}
-		},
-		onClear: (event) => {
-			event.preventDefault();
-			const { ref } = getElement();
-			const id = ref.getAttribute('aria-controls');
-			if (!id) {
-				return;
-			}
-			const context = getContext();
-			const { targetNamespace, options } = context;
-			const { state: targetState } = store(targetNamespace);
-			console.log({ targetState });
-			context.filteredOptions = options;
-			context.value = '';
-			context.label = '';
-			targetState[id].value = '';
-			targetState[id].isOpen = false;
-			document.getElementById(`${id}-input`).value = '';
+			actions.onClose();
 		},
 	},
 	callbacks: {
 		onInit: () => {
 			const context = getContext();
 			const { ref } = getElement();
-			const { id } = ref;
-			const { targetNamespace } = context;
-
-			if (!id) {
-				return;
-			}
-			window.addEventListener('click', (e) => {
-				const { state: targetState } = store(targetNamespace);
-				if (
-					!ref.innerHTML.includes(e.target.innerHTML) &&
-					true === targetState[id].isOpen
-				) {
-					targetState[id].isOpen = false;
-					console.log('on click outside');
-					console.log(context.filteredOptions);
-				} else {
-					console.log('on click inside');
-					console.log(context.filteredOptions);
-				}
-			});
+			const { options } = context;
+			// set the filteredOptions immediately...
+			context.filteredOptions = options;
 		},
 		onValueChange: () => {
-			console.log('value change detected');
 			const { ref } = getElement();
-			const { id } = ref;
-			if (!id) {
-				return;
-			}
 			const context = getContext();
 			const { targetNamespace, value } = context;
 			if (value) {
-				const { actions } = store(targetNamespace);
-				if (actions.onSelectChange) {
-					actions.onSelectChange(value, ref, ref.id);
+				console.log('onValueChange', context);
+				const { actions: targetActions } = store(targetNamespace);
+				if (targetActions.onSelectChange) {
+					targetActions.onSelectChange(value, ref);
 				}
 			}
 		},
-		onESCKey: (event) => {
-			const { ref } = getElement();
-			const { id } = ref;
-			if (!id) {
+		onWindowClickClose: (event) => {
+			const context = getContext();
+			const { isOpen } = context;
+			if (!isOpen) {
 				return;
 			}
+			const elm = getElement();
+			const { ref } = elm;
+			console.log('onWindowClickClose', elm, event.target);
+			if (ref.contains(event.target)) {
+				return;
+			}
+			actions.onClose();
+		},
+		onESCKeyClose: (event) => {
 			const context = getContext();
-			const { targetNamespace } = context;
-			const { state: targetState } = store(targetNamespace);
 			if (event.key === 'Escape') {
-				if (true === targetState[id].isOpen) {
+				if (true === context.isOpen) {
 					event.preventDefault();
-					targetState[id].isOpen = false;
+					actions.onClose();
 					return;
 				}
-				context.activeId = 0;
-				context.value = '';
-				context.label = '';
-				targetState[id].value = '';
-				targetState[id].isOpen = false;
-				document.getElementById(`${id}-input`).value = '';
+				actions.onReset();
 			}
 		},
 	},

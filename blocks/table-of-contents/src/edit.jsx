@@ -274,7 +274,7 @@ function Edit({
 					<ul
 						className="wp-block-prc-block-table-of-contents__list"
 						style={{
-							'--gap': getBlockGapSupportValue(attributes),
+							'--block-gap': getBlockGapSupportValue(attributes),
 						}}
 					>
 						{0 !== chapters.length &&
