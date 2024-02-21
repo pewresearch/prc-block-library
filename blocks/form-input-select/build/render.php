@@ -71,7 +71,6 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 		'filteredOptions' => array(),
 		'options' => $input_options,
 	)),
-	// 'data-wp-on-click' => 'actions.onOpen',
 	'data-wp-init' => 'callbacks.onInit',
 	'data-wp-bind--hidden' => 'context.isHidden',
 	'data-wp-class--is-open' => 'context.isOpen',

@@ -53,7 +53,7 @@ class Table_Of_Contents {
 
 			$link = $chapter['link'];
 			if ( $depth > 0 ) {
-				// extract only the #anchor
+				// extract only the #anchor part of the link for deeper links
 				$link = substr($link, strpos($link, '#'));
 			}
 
@@ -84,11 +84,13 @@ class Table_Of_Contents {
 
 			echo wp_sprintf(
 				'<li class="%1$s">%2$s %3$s</li>',
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				\PRC\Platform\Block_Utils\classNames(
 					'wp-block-prc-block-table-of-contents__list-item',
 					$list_item_classnames,
 					$logical_classnames
 				),
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$chapter_link,
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$internal_chapters,
@@ -98,67 +100,9 @@ class Table_Of_Contents {
 		return normalize_whitespace( ob_get_clean() );
 	}
 
-	public function render_block_callback( $attributes, $content, $block ) {
-		$post_id = $block->context['postId'];
-
-		$report_package = new \PRC\Platform\Post_Report_Package(null, null);
-		$chapters = $report_package->get_constructed_toc( $post_id );
-		$return_top_level = false === $report_package->is_report_package( $post_id );
-
-		if ( empty($chapters) ) {
-			return;
-		}
-
-		$content = apply_filters(
-			'prc-block/table-of-contents',
-			$this->get_list_items( $chapters, 0, $attributes, $return_top_level ),
-			$post_id
-		);
-
-		if (empty($content)) {
-			return;
-		}
-
-		$is_dropdown = array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-dropdown');
-
+	private function get_heading_markup($attributes) {
 		$heading_text = array_key_exists('heading', $attributes) ? $attributes['heading'] : false;
-
-		$block_attrs = array(
-			'class' => \PRC\Platform\Block_Utils\classNames(
-				array_key_exists('className', $attributes) ? $attributes['className'] : '',
-				'common-block-style--baseball-card',
-				array(
-					'has-text-color' => $attributes['textColor'],
-					'has-' . $attributes['textColor'] .'-color' => $attributes['textColor'],
-					'has-background' => $attributes['backgroundColor'],
-					'has-' . $attributes['backgroundColor'] . '-background-color' => $attributes['backgroundColor'],
-				),
-			),
-			'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/table-of-contents'))
-		);
-
-		if ( !$is_dropdown ) {
-			$block_attrs['data-auto-dropdown-enabled'] = $attributes['autoDropdownEnabled'] ? 'true' : 'false';
-			$block_attrs['data-auto-dropdown-width'] = $attributes['autoDropdownWidth'];
-		} else {
-			$block_attrs['aria-expanded'] = false;
-		}
-
-		if ( array_key_exists('showCurrentChapter', $attributes) && $attributes['showCurrentChapter'] ) {
-			$block_attrs['data-show-current-chapter'] = true;
-		}
-
-		$block_attrs = get_block_wrapper_attributes($block_attrs);
-
-		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes);
-
-		$content = wp_sprintf(
-			'<ul class="wp-block-prc-block-table-of-contents__list" role="list" %1$s>%2$s</ul>',
-			'style="--block-gap: ' . $block_gap . ';"',
-			$content
-		);
-
-		$heading = wp_sprintf(
+		return  wp_sprintf(
 			'<div class="%1$s"><h2>%2$s</h2></div>',
 			\PRC\Platform\Block_Utils\classNames(
 				'wp-block-prc-block-table-of-contents__heading',
@@ -172,8 +116,11 @@ class Table_Of_Contents {
 			),
 			$heading_text,
 		);
+	}
 
-		$dropdown = wp_sprintf(
+	private function get_dropdown_markup($attributes) {
+		$heading_text = array_key_exists('heading', $attributes) ? $attributes['heading'] : false;
+		return wp_sprintf(
 			'<div class="%1$s"><h2>%2$s</h2>%3$s</div>',
 			\PRC\Platform\Block_Utils\classNames(
 				'wp-block-prc-block-table-of-contents__dropdown__heading',
@@ -185,15 +132,73 @@ class Table_Of_Contents {
 				),
 			),
 			$heading_text,
-			'<button class="wp-block-prc-block-table-of-contents__dropdown-trigger">+</button>',
+			'<button class="wp-block-prc-block-table-of-contents__dropdown-trigger" data-wp-on--click="actions.onDropdownClick">+</button>',
+		);
+	}
+
+	private function get_list_markup($attributes, $chapters, $return_top_level, $post_id) {
+		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes);
+
+		$list = apply_filters(
+			'prc-block/table-of-contents',
+			$this->get_list_items( $chapters, 0, $attributes, $return_top_level ),
+			$post_id
 		);
 
+		if (empty($list)) {
+			return;
+		}
+
 		return wp_sprintf(
-			'<div %1$s>%2$s %3$s</div>',
-			$block_attrs,
-			$heading . $dropdown,
-			$content
+			'<ul class="wp-block-prc-block-table-of-contents__list" role="list" %1$s>%2$s</ul>',
+			'style="--block-gap: ' . $block_gap . ';"',
+			$list
 		);
+	}
+
+	public function render_block_callback( $attributes, $content, $block ) {
+		$post_id = $block->context['postId'];
+		$report_package = new \PRC\Platform\Post_Report_Package(null, null);
+		$return_top_level = false === $report_package->is_report_package( $post_id );
+		$chapters = $report_package->get_constructed_toc( $post_id );
+
+		if ( empty($chapters) ) {
+			return;
+		}
+
+		$block_attrs = array(
+			'class' => \PRC\Platform\Block_Utils\classNames(
+				array_key_exists('className', $attributes) ? $attributes['className'] : '',
+				'common-block-style--baseball-card',
+				array(
+					'has-text-color' => $attributes['textColor'],
+					'has-' . $attributes['textColor'] .'-color' => $attributes['textColor'],
+					'has-background' => $attributes['backgroundColor'],
+					'has-' . $attributes['backgroundColor'] . '-background-color' => $attributes['backgroundColor'],
+				),
+			),
+			'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/table-of-contents')),
+			'data-wp-bind--aria-expanded' => 'context.isDropdownOpen',
+			'data-wp-context' => wp_json_encode(array(
+				'chapters' => $chapters,
+				'isDropdown' => array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-dropdown'),
+				'isDropdownOpen' => false,
+				'autoDropdownEnabled' =>  $attributes['autoDropdownEnabled'],
+				'autoDropdownWidth' => $attributes['autoDropdownWidth'],
+				'showCurrentChapter' => $attributes['showCurrentChapter'],
+			)),
+		);
+
+		$block_attrs = get_block_wrapper_attributes($block_attrs);
+
+		return wp_sprintf(
+			'<div %1$s>%2$s %3$s %4$s</div>',
+			$block_attrs,
+			$this->get_heading_markup($attributes),
+			$this->get_dropdown_markup($attributes),
+			$this->get_list_markup($attributes, $chapters, $return_top_level, $post_id),
+		);
+
 	}
 
 	/**

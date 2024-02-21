@@ -6,16 +6,16 @@ const { actions } = store('prc-block/form-input-select', {
 		onOpen: (event) => {
 			const context = getContext();
 			context.isOpen = true;
-			console.log('onOpen', context, event);
 		},
 		onClose: (event = null) => {
 			// By default this runs on the on-blur directive on the input element
-			// but we also use it as a shortcut to close the listbox on click so we need to
-			// support an event object being passed in as well as no event object
+			// but we also use it as a shortcut to close the listbox on click,
+			// so this is a quick check to see if we're using this as a shortcut or not.
 			if (null !== event) {
 				event.preventDefault();
 			}
 			const context = getContext();
+			// Because the on-blur event fires before the click event we need to slow things down a bit, 100 ms should do it
 			let isRunning = false;
 			if (!isRunning) {
 				isRunning = true;
@@ -30,6 +30,7 @@ const { actions } = store('prc-block/form-input-select', {
 			context.activeIndex = 0;
 			context.value = '';
 			context.label = '';
+			context.filteredOptions = context.options;
 		},
 		getOptionByValue: (value) => {
 			console.log('getOptionByValue', value);
@@ -91,7 +92,7 @@ const { actions } = store('prc-block/form-input-select', {
 			if (event.key === 'Escape') {
 				actions.onReset();
 				if (true === context.isOpen) {
-					actions.onClose();
+					ref.blur();
 				}
 				return;
 			}
@@ -123,7 +124,6 @@ const { actions } = store('prc-block/form-input-select', {
 			const { ref } = getElement();
 			const context = getContext();
 			const { options } = context;
-			console.log('setting value on click', context, ref, event);
 
 			const id = ref.getAttribute('aria-controls');
 			const val = ref.getAttribute('data-ref-value');
@@ -149,22 +149,28 @@ const { actions } = store('prc-block/form-input-select', {
 	callbacks: {
 		onInit: () => {
 			const context = getContext();
-			const { ref } = getElement();
 			const { options } = context;
-			// set the filteredOptions immediately...
+			// set filteredOptions immediately...
 			context.filteredOptions = options;
 		},
 		onValueChange: () => {
 			const { ref } = getElement();
 			const context = getContext();
 			const { targetNamespace, value } = context;
-			if (value) {
-				console.log('onValueChange', context);
+			// if the value is not empty and the targetNamespace is not the same as the current namespace
+			// then hoist the value up to the targetNamespace
+			if (value && 'prc-block/form-input-select' !== targetNamespace) {
 				const { actions: targetActions } = store(targetNamespace);
 				if (targetActions.onSelectChange) {
+					console.log(
+						'onValueChange -> onSelectChange:',
+						context,
+						value,
+						ref
+					);
 					targetActions.onSelectChange(value, ref);
 				}
 			}
-		}
+		},
 	},
 });

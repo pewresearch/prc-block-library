@@ -1,7 +1,7 @@
 <?php
 namespace PRC\Platform\Blocks;
 
-$target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
+$target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : 'prc-block/form-input-select';
 
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Click to select';
 $input_name = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : 'prc-block/form-input-select';
@@ -71,7 +71,6 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 		'filteredOptions' => array(),
 		'options' => $input_options,
 	)),
-	// 'data-wp-on-click' => 'actions.onOpen',
 	'data-wp-init' => 'callbacks.onInit',
 	'data-wp-bind--hidden' => 'context.isHidden',
 	'data-wp-class--is-open' => 'context.isOpen',

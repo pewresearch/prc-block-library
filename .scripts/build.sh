@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Start at the /blocks directory
-cd /blocks
+cd blocks || exit
 
 # Find all directories that contain a src/block.json file
 for dir in $(find . -type d -name 'src' -exec test -e '{}/block.json' ';' -print -prune | sed 's/\/src//g'); do
     # Go to the directory
-    cd $dir
+    cd $dir || exit
 	## Check for node_modules
 	if [ ! -d "node_modules" ]; then
 		echo "Running npm install in $dir"
@@ -16,5 +16,5 @@ for dir in $(find . -type d -name 'src' -exec test -e '{}/block.json' ';' -print
     echo "Running npm build in $dir"
     npm run build
     # Go back to the /blocks directory
-    cd -
+    cd - || exit
 done

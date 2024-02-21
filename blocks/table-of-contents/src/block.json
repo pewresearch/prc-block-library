@@ -142,5 +142,5 @@
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": ["file:./style-index.css","prc-block-library--baseball-card","prc-block-library--additional-color-supports"],
-	"viewScript": "file:./view.js"
+	"viewScriptModule": "file:./view.js"
 }
