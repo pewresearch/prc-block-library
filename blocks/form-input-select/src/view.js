@@ -8,10 +8,22 @@ const { actions } = store('prc-block/form-input-select', {
 			context.isOpen = true;
 			console.log('onOpen', context, event);
 		},
-		onClose: (event) => {
+		onClose: (event = null) => {
+			// By default this runs on the on-blur directive on the input element
+			// but we also use it as a shortcut to close the listbox on click so we need to
+			// support an event object being passed in as well as no event object
+			if (null !== event) {
+				event.preventDefault();
+			}
 			const context = getContext();
-			context.isOpen = false;
-			console.log('onClose', context, event);
+			let isRunning = false;
+			if (!isRunning) {
+				isRunning = true;
+				setTimeout(() => {
+					context.isOpen = false;
+					isRunning = false;
+				}, 100);
+			}
 		},
 		onReset: () => {
 			const context = getContext();
@@ -39,11 +51,74 @@ const { actions } = store('prc-block/form-input-select', {
 				...selectedOption,
 			};
 		},
+		moveThroughOptions: (direction, id) => {
+			const context = getContext();
+			const { activeIndex, filteredOptions } = context;
+			let nextActive = null;
+			if (activeIndex === null || isNaN(activeIndex)) {
+				nextActive = 0;
+			} else {
+				nextActive = activeIndex + direction;
+			}
+			if (nextActive < 0) {
+				nextActive = filteredOptions.length - 1;
+			}
+			if (nextActive >= filteredOptions.length) {
+				nextActive = 0;
+			}
+
+			filteredOptions.forEach((option) => {
+				option.isSelected = false;
+			});
+			filteredOptions[nextActive].isSelected = true;
+
+			context.activeIndex = nextActive;
+			context.filteredOptions = filteredOptions;
+			console.log('moveThroughOptions', context, nextActive, direction);
+		},
+		onKeyUp: (event) => {
+			event.preventDefault();
+			const { value } = event.target;
+
+			const context = getContext();
+			const { options } = context;
+			const { ref } = getElement();
+			const id = ref.getAttribute('aria-controls');
+			if (!id) {
+				return;
+			}
+
+			if (event.key === 'Escape') {
+				return;
+			}
+
+			if (event.key === 'Enter') {
+				// actions.setValueOnEnter(id);
+			}
+			if (event.keyCode === 40 && event.key === 'ArrowDown') {
+				actions.moveThroughOptions(1, id);
+				return;
+			}
+			if (event.keyCode === 38 && event.key === 'ArrowUp') {
+				actions.moveThroughOptions(-1, id);
+				return;
+			}
+
+			// check if any of the options contain the value of the input
+			const matches = options.filter((option) => {
+				const { label } = option;
+				return label.toLowerCase().includes(value.toLowerCase());
+			});
+			// if there are matches set the filteredOptions to the matches
+			if (matches.length) {
+				context.filteredOptions = matches;
+			}
+		},
 		onClick: (event) => {
 			event.preventDefault();
 			const { ref } = getElement();
 			const context = getContext();
-			const { filteredOptions } = context;
+			const { options } = context;
 			console.log('setting value on click', context, ref, event);
 
 			const id = ref.getAttribute('aria-controls');
@@ -56,10 +131,13 @@ const { actions } = store('prc-block/form-input-select', {
 
 			// find any other isSelected and set to false and then set isSelected
 			// on the clicked option
+			// also, reset the filteredOptions to the original options now that we have a value
+			const filteredOptions = options;
 			filteredOptions.forEach((option) => {
 				option.isSelected = false;
 			});
 			filteredOptions[index].isSelected = true;
+			context.filteredOptions = filteredOptions;
 
 			actions.onClose();
 		},
@@ -83,20 +161,6 @@ const { actions } = store('prc-block/form-input-select', {
 					targetActions.onSelectChange(value, ref);
 				}
 			}
-		},
-		onWindowClickClose: (event) => {
-			const context = getContext();
-			const { isOpen } = context;
-			if (!isOpen) {
-				return;
-			}
-			const elm = getElement();
-			const { ref } = elm;
-			console.log('onWindowClickClose', elm, event.target);
-			if (ref.contains(event.target)) {
-				return;
-			}
-			actions.onClose();
 		},
 		onESCKeyClose: (event) => {
 			const context = getContext();

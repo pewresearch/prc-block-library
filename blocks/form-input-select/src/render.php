@@ -23,10 +23,10 @@ $input_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
 	'type' 					=> 'search',
 	'aria-controls' 		=> $input_id,
 	'placeholder' 			=> $input_placeholder,
-	'data-wp-bind--value' 	=> 'context.label',
+	'data-wp-bind--value' 	=> 'context.label', // so, this can get confusing. The value is bound to the label, when set.
 	'data-wp-on--keyup' 	=> 'actions.onKeyUp', // filter the list when the input is interacted with via keyboard
 	'data-wp-on--focus' 	=> 'actions.onOpen', // open the list when the input is focused
-	// 'data-wp-on--blur' 		=> 'actions.onClose', // close the list when the input is blurred
+	'data-wp-on--blur' 		=> 'actions.onClose', // close the list when the input is blurred
 ) );
 $input = wp_sprintf(
 	'<input %1$s />',
@@ -80,7 +80,6 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 	'data-wp-class--is-success' => 'context.isSuccess',
 	'data-wp-class--is-processing' => 'context.isProcessing',
 	// 'data-wp-on-document--keydown--closeOnEscKey' => 'callbacks.onESCKeyClose',
-	'data-wp-on-window--click' => 'callbacks.onWindowClickClose',
 	'data-wp-watch--on--value-change' => 'callbacks.onValueChange',
 	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
 ) );
