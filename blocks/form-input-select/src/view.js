@@ -89,6 +89,10 @@ const { actions } = store('prc-block/form-input-select', {
 			}
 
 			if (event.key === 'Escape') {
+				actions.onReset();
+				if (true === context.isOpen) {
+					actions.onClose();
+				}
 				return;
 			}
 
@@ -161,17 +165,6 @@ const { actions } = store('prc-block/form-input-select', {
 					targetActions.onSelectChange(value, ref);
 				}
 			}
-		},
-		onESCKeyClose: (event) => {
-			const context = getContext();
-			if (event.key === 'Escape') {
-				if (true === context.isOpen) {
-					event.preventDefault();
-					actions.onClose();
-					return;
-				}
-				actions.onReset();
-			}
-		},
+		}
 	},
 });
