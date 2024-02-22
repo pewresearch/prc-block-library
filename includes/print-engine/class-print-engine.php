@@ -150,6 +150,7 @@ class Print_Engine {
 		$w = new WP_HTML_Tag_Processor( $block_content );
 		if ( $w->next_tag() ) {
 			if ( $hide_on_print ) {
+				// @TODO: Check for a query var and render the "print view" using /iframe support and exclude the hide on print blocks explicilty from the markup... but do that later.
 				$w->set_attribute( 'data-hide-on-print', 'true' );
 			}
 			if ( $display_on_print ) {

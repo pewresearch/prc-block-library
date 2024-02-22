@@ -11,13 +11,13 @@ Display a captcha form element, conditionally.
 ## Description
 
 This captcha is powered by Cloudflare's Turnstile. It is a simple captcha that can be used to protect block applications from bots and spam.
-It is conditionally displayed when it's parent and target namespace have a context.captchaHidden value of false, by default most applications will have this set to true.
+It is conditionally displayed when it's parent and target namespace have a `context.captchaHidden` value of `false`, by default most applications will have this set to `true`.
 
 Upon successful completion of the captcha, the challenge token will be returned back to the targetnamespace at `context.captchaToken` which you should further validate in your rest request. See `\PRC\Platform\Mailchimp->verify_captcha()` for an example of how to validate the captcha token.
 
 ## Instructions
 
-Drop block in block application, set the targetnamespace attribute in the PRC Interactiity API panel. This will be the namespace of the parent block that will control the captcha visibility. It is incumbent upon the parent block to handle toggling the block on|off and further validation of the returned challenge token.
+op block in block application, set the targetnamespace attribute in the PRC Interactiity API panel. This will be the namespace of the parent block that will control the captcha visibility. **It is incumbent upon the parent block to handle toggling the block on|off and further validation of the returned challenge token.**
 
 ## Frequently Asked Questions
 
@@ -25,9 +25,6 @@ Drop block in block application, set the targetnamespace attribute in the PRC In
 
 An answer to that question.
 
-### What about foo bar?
-
-Answer to foo bar dilemma.
 
 ## Screenshots
 
@@ -41,7 +38,3 @@ Answer to foo bar dilemma.
 * Release
 
 ## Developer Notes
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-blocks where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
