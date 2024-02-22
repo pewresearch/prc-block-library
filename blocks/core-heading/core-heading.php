@@ -170,6 +170,11 @@ class Core_Heading {
 
 		if ( array_key_exists('isChapter', $block['attrs']) && true === $block['attrs']['isChapter'] ) {
 			$heading_tag->set_attribute( 'data-is-chapter', 'true' );
+			$heading_tag->set_attribute( 'data-wp-interactive', wp_json_encode(array('namespace' => 'prc-block/table-of-contents')) );
+			$heading_tag->set_attribute( 'data-wp-context', wp_json_encode(array(
+				'id' => $id,
+			)));
+			$heading_tag->set_attribute( 'data-wp-on-document--scroll', 'callbacks.watchForChapterScroll' );
 		}
 
 		$block_content = $heading_tag->get_updated_html();

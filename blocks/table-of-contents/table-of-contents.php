@@ -83,7 +83,7 @@ class Table_Of_Contents {
 			);
 
 			echo wp_sprintf(
-				'<li class="%1$s">%2$s %3$s</li>',
+				'<li class="%1$s" %4$s>%2$s %3$s</li>',
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				\PRC\Platform\Block_Utils\classNames(
 					'wp-block-prc-block-table-of-contents__list-item',
@@ -94,6 +94,7 @@ class Table_Of_Contents {
 				$chapter_link,
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$internal_chapters,
+				0 !== $depth ? 'data-wp-class--is-active="state.isListItemActive" data-ref-value="'.$link.'"' : '',
 			);
 		} ?>
 		<?php
@@ -156,6 +157,41 @@ class Table_Of_Contents {
 		);
 	}
 
+	private function _get_list_markup($attributes, $chapters, $return_top_level, $post_id) {
+		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes);
+
+		$list = apply_filters(
+			'prc-block/table-of-contents',
+			$this->get_list_items( $chapters, 0, $attributes, $return_top_level ),
+			$post_id
+		);
+
+		if (empty($list)) {
+			return;
+		}
+
+		$sub_list_template = wp_sprintf(
+			'<ul class="wp-block-prc-block-table-of-contents__sub-list" role="list"><template data-wp-each--sub-chapter="context.chapter.internal_chapters" data-wp-each-key="context.subChapter.title">%2$s</template></ul>',
+			'<li class="wp-block-prc-block-table-of-contents__list-item" role="listitem" data-wp-on--click="actions.onItemClick" data-wp-text="context.subChapter.title"></li>',
+		);
+
+		$list_item_template = wp_sprintf(
+			'<li class="wp-block-prc-block-table-of-contents__list-item" role="listitem" data-wp-on--click="actions.onItemClick"><span data-wp-text="context.chapter.title"></span>%1$s</li>',
+			$sub_list_template,
+		);
+
+		$list_template = wp_sprintf(
+			'<template data-wp-each--chapter="state.chapters" data-wp-each-key="context.chapter.title">%1$s</template>',
+			$list_item_template,
+		);
+
+		return wp_sprintf(
+			'<ul class="wp-block-prc-block-table-of-contents__list" role="list" %1$s>%2$s</ul>',
+			'style="--block-gap: ' . $block_gap . ';"',
+			$list_template,
+		);
+	}
+
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
 		$report_package = new \PRC\Platform\Post_Report_Package(null, null);
@@ -165,6 +201,18 @@ class Table_Of_Contents {
 		if ( empty($chapters) ) {
 			return;
 		}
+
+		wp_interactivity_state('prc-block/table-of-contents', array(
+			'chapters' => $chapters,
+			'currentChapter' => null,
+			'enableWatchForChapterScroll' => false,
+			'postId' => $post_id,
+			'chaptersWatchList' => array(),
+		));
+
+		$default_to_dropdown = array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-dropdown');
+		// remove the is-style-dropdown class from the block attributes
+		$attributes['className'] = str_replace('is-style-dropdown', '', $attributes['className']);
 
 		$block_attrs = array(
 			'class' => \PRC\Platform\Block_Utils\classNames(
@@ -178,15 +226,19 @@ class Table_Of_Contents {
 				),
 			),
 			'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/table-of-contents')),
-			'data-wp-bind--aria-expanded' => 'context.isDropdownOpen',
 			'data-wp-context' => wp_json_encode(array(
-				'chapters' => $chapters,
-				'isDropdown' => array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-dropdown'),
+				'isDropdown' => $default_to_dropdown,
 				'isDropdownOpen' => false,
 				'autoDropdownEnabled' =>  $attributes['autoDropdownEnabled'],
 				'autoDropdownWidth' => $attributes['autoDropdownWidth'],
 				'showCurrentChapter' => $attributes['showCurrentChapter'],
 			)),
+			'data-wp-init' => 'callbacks.onInit',
+			'data-wp-class--is-style-dropdown' => 'context.isDropdown',
+			'data-wp-bind--aria-expanded' => 'context.isDropdownOpen',
+			'data-wp-bind--data-auto-dropdown-enabled' => 'context.autoDropdownEnabled',
+			'data-wp-bind--data-auto-dropdown-width' => 'context.autoDropdownWidth',
+			'data-wp-on-window--resize' => 'callbacks.onResize',
 		);
 
 		$block_attrs = get_block_wrapper_attributes($block_attrs);

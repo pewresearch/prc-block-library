@@ -12,13 +12,7 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
 /**
  * WordPress Dependencies
  */
-import {
-	Fragment,
-	useMemo,
-	useState,
-	useRef,
-	useEffect,
-} from 'react';
+import { Fragment, useMemo, useState, useRef, useEffect } from 'react';
 import {
 	useBlockProps,
 	RichText,
@@ -32,6 +26,32 @@ import { useDispatch } from '@wordpress/data';
  */
 import Controls from './controls';
 import useTOC from './use-toc';
+
+function InternalChapters({ internalChapters }) {
+	const { selectBlock } = useDispatch('core/block-editor');
+	return (
+		<ul className="wp-block-prc-block-table-of-contents__list">
+			{Object.values(internalChapters).map((internalChapter) => {
+				const title =
+					internalChapter.title?.originalHTML ||
+					internalChapter.title;
+				return (
+					<li key={internalChapter.id}>
+						<a
+							onClick={() => {
+								if (internalChapter.clientId) {
+									selectBlock(internalChapter.clientId);
+								}
+							}}
+						>
+							{title}
+						</a>
+					</li>
+				);
+			})}
+		</ul>
+	);
+}
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -98,9 +118,8 @@ function Edit({
 		autoDropdownWidth,
 		style,
 	} = attributes;
-	const { selectBlock } = useDispatch('core/block-editor');
 	const [isDropdownOpen, setDropdownOpen] = useState(false);
-	const [isAutoDropdownSwitched, setDropdownSwitch] = useState(null);
+	const [isAutoDropdownSwitched, setDropdownSwitch] = useState(false);
 
 	// Add a ref to the component
 	const componentRef = useRef(null);
@@ -278,90 +297,84 @@ function Edit({
 						}}
 					>
 						{0 !== chapters.length &&
-							chapters.map((chapter) => (
-								<li
-									key={chapter.id}
-									className={classNames(
-										'wp-block-prc-block-table-of-contents__list-item',
-										{
-											'is-active': postId === chapter?.id,
-											'has-active-background':
-												!!colors.activeBackgroundColor
-													.color ||
-												colors.activeBackgroundColor
-													.class,
-											[`has-active-${colors?.activeBackgroundColor?.slug}-background-color`]:
-												!!colors?.activeBackgroundColor
-													?.slug,
-											'has-active-color':
-												!!colors.activeTextColor
-													.color ||
-												colors.activeTextColor.class,
-											[`has-active-${colors?.activeTextColor?.slug}-color`]:
-												!!colors?.activeTextColor?.slug,
-											'has-focus-background':
-												!!colors.activeBackgroundColor
-													.color ||
-												colors.activeBackgroundColor
-													.class,
-											[`has-focus-${colors?.activeBackgroundColor?.slug}-background-color`]:
-												!!colors?.activeBackgroundColor
-													?.slug,
-											'has-focus-color':
-												!!colors.activeTextColor
-													.color ||
-												colors.activeTextColor.class,
-											[`has-focus-${colors?.activeTextColor?.slug}-color`]:
-												!!colors?.activeTextColor?.slug,
-											'has-hover-background':
-												!!colors.hoverBackgroundColor
-													.color ||
-												colors.hoverBackgroundColor
-													.class,
-											[`has-hover-${colors?.hoverBackgroundColor?.slug}-background-color`]:
-												!!colors?.activeBackgroundColor
-													?.slug,
-											'has-hover-color':
-												!!colors.hoverTextColor.color ||
-												colors.hoverTextColor.class,
-											[`has-hover-${colors?.hoverTextColor?.slug}-color`]:
-												!!colors?.hoverTextColor?.slug,
-										}
-									)}
-								>
-									<span>{chapter?.title}</span>
-									{postId === chapter?.id &&
-										chapter?.internalChapters && (
-											<ul className="wp-block-prc-block-table-of-contents__list">
-												{chapter.internalChapters.map(
-													(internalChapter) => (
-														<li
-															key={
-																internalChapter.id
-															}
-														>
-															<a
-																onClick={() => {
-																	if (
-																		internalChapter.clientId
-																	) {
-																		selectBlock(
-																			internalChapter.clientId
-																		);
-																	}
-																}}
-															>
-																{
-																	internalChapter.title
-																}
-															</a>
-														</li>
-													)
-												)}
-											</ul>
+							chapters.map((chapter) => {
+								return (
+									<li
+										key={chapter.id}
+										className={classNames(
+											'wp-block-prc-block-table-of-contents__list-item',
+											{
+												'is-active':
+													postId === chapter?.id,
+												'has-active-background':
+													!!colors
+														.activeBackgroundColor
+														.color ||
+													colors.activeBackgroundColor
+														.class,
+												[`has-active-${colors?.activeBackgroundColor?.slug}-background-color`]:
+													!!colors
+														?.activeBackgroundColor
+														?.slug,
+												'has-active-color':
+													!!colors.activeTextColor
+														.color ||
+													colors.activeTextColor
+														.class,
+												[`has-active-${colors?.activeTextColor?.slug}-color`]:
+													!!colors?.activeTextColor
+														?.slug,
+												'has-focus-background':
+													!!colors
+														.activeBackgroundColor
+														.color ||
+													colors.activeBackgroundColor
+														.class,
+												[`has-focus-${colors?.activeBackgroundColor?.slug}-background-color`]:
+													!!colors
+														?.activeBackgroundColor
+														?.slug,
+												'has-focus-color':
+													!!colors.activeTextColor
+														.color ||
+													colors.activeTextColor
+														.class,
+												[`has-focus-${colors?.activeTextColor?.slug}-color`]:
+													!!colors?.activeTextColor
+														?.slug,
+												'has-hover-background':
+													!!colors
+														.hoverBackgroundColor
+														.color ||
+													colors.hoverBackgroundColor
+														.class,
+												[`has-hover-${colors?.hoverBackgroundColor?.slug}-background-color`]:
+													!!colors
+														?.activeBackgroundColor
+														?.slug,
+												'has-hover-color':
+													!!colors.hoverTextColor
+														.color ||
+													colors.hoverTextColor.class,
+												[`has-hover-${colors?.hoverTextColor?.slug}-color`]:
+													!!colors?.hoverTextColor
+														?.slug,
+											}
 										)}
-								</li>
-							))}
+									>
+										<span>{chapter.title}</span>
+										{postId === chapter.id &&
+											chapter?.internalChapters && (
+												<InternalChapters
+													{...{
+														internalChapters:
+															chapter?.internalChapters,
+													}}
+												/>
+											)}
+									</li>
+								);
+							})}
 					</ul>
 				</div>
 			</div>

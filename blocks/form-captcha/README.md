@@ -6,18 +6,18 @@ Stable tag:        1.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Display a captcha form element
+Display a captcha form element, conditionally.
 
 ## Description
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+This captcha is powered by Cloudflare's Turnstile. It is a simple captcha that can be used to protect block applications from bots and spam.
+It is conditionally displayed when it's parent and target namespace have a context.captchaHidden value of false, by default most applications will have this set to true.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Upon successful completion of the captcha, the challenge token will be returned back to the targetnamespace at `context.captchaToken` which you should further validate in your rest request. See `\PRC\Platform\Mailchimp->verify_captcha()` for an example of how to validate the captcha token.
 
 ## Instructions
 
-This section describes how to use the block.
+Drop block in block application, set the targetnamespace attribute in the PRC Interactiity API panel. This will be the namespace of the parent block that will control the captcha visibility. It is incumbent upon the parent block to handle toggling the block on|off and further validation of the returned challenge token.
 
 ## Frequently Asked Questions
 
