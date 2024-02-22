@@ -94,7 +94,7 @@ class Table_Of_Contents {
 				$chapter_link,
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$internal_chapters,
-				0 !== $depth ? 'data-wp-class--is-active="state.isListItemActive" data-ref-value="'.$link.'"' : '',
+				0 !== $depth ? 'data-wp-class--is-active="callbacks.isListItemActive" data-ref-value="'.$link.'"' : '',
 			);
 		} ?>
 		<?php
