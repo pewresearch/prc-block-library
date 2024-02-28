@@ -29,15 +29,17 @@ import { ReactComponent as LogoAlt } from '../assets/alternate.svg';
 import { ReactComponent as LogoAltWhite } from '../assets/alternate-white.svg';
 import { ReactComponent as Symbol } from '../assets/symbol.svg';
 import { ReactComponent as SymbolWhite } from '../assets/symbol-white.svg';
-import decodedSVGUrl from '../assets/decoded.svg';
+import { ReactComponent as DecodedLogo } from '../assets/decoded.svg';
+import { ReactComponent as DecodedLogoWhite } from '../assets/decoded-white.svg';
 
 export default function Edit({ attributes, setAttributes, isSelected }) {
 	const { width, justification, darkModeEnabled, className } = attributes;
-	const { currentTheme } = useSelect((select) => {
-		return {
-			currentTheme: select('core').getCurrentTheme().stylesheet,
-		};
-	});
+	// disabling for now. not actually being used, and is causing block to break
+	// const { currentTheme } = useSelect((select) => {
+	// 	return {
+	// 		currentTheme: select('core').getCurrentTheme().stylesheet,
+	// 	};
+	// });
 
 	const blockProps = useBlockProps({
 		className: classNames(className, {
@@ -85,6 +87,10 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						<div className="wp-block-prc-block-logo__inner__logo-alt">
 							<LogoAlt data-browser-theme="light" />
 							<LogoAltWhite data-browser-theme="dark" />
+						</div>
+						<div className="wp-block-prc-block-logo__inner__decoded">
+							<DecodedLogo data-browser-theme="light" />
+							<DecodedLogoWhite data-browser-theme="dark" />
 						</div>
 					</div>
 				</ResizableBox>

@@ -1,11 +1,11 @@
 {
-    "$schema": "https://schemas.wp.org/trunk/block.json",
-    "apiVersion": 3,
-    "name": "prc-block/logo",
-    "version": "1.0.0",
-    "title": "Pew Research Center Logo",
-    "description": "Contextually aware logo that has dark mode support, and will change to the alternate position logo in smaller containers. (#dark-mode, #css-container-queries)",
-    "category": "theme",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/logo",
+	"version": "1.0.0",
+	"title": "Pew Research Center Logo",
+	"description": "Contextually aware logo that has dark mode support, and will change to the alternate position logo in smaller containers. (#dark-mode, #css-container-queries)",
+	"category": "theme",
 	"keywords": ["logo", "masthead", "dark-mode", "css-container-queries"],
 	"attributes": {
 		"darkModeEnabled": {
@@ -22,17 +22,17 @@
 			"default": 360
 		}
 	},
-    "supports": {
-        "html": false,
+	"supports": {
+		"html": false,
 		"color": {
 			"background": true,
 			"gradients": true
 		},
-        "spacing": {
-            "padding": true,
+		"spacing": {
+			"padding": true,
 			"margin": true
-        }
-    },
+		}
+	},
 	"styles": [
 		{
 			"name": "primary-only",
@@ -46,12 +46,16 @@
 		{
 			"name": "container-aware",
 			"label": "Container Aware"
+		},
+		{
+			"name": "decoded-only",
+			"label": "Decoded"
 		}
 	],
 	"example": {},
-    "usesContext": ["postType", "postId", "queryId"],
-    "textdomain": "pewresearch-logo",
-    "editorScript": "file:./index.js",
+	"usesContext": ["postType", "postId", "queryId"],
+	"textdomain": "pewresearch-logo",
+	"editorScript": "file:./index.js",
 	"script": ["prc-icons"],
 	"style": "file:./style-index.css"
 }
