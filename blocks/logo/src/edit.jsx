@@ -30,6 +30,7 @@ import { ReactComponent as LogoAltWhite } from '../assets/alternate-white.svg';
 import { ReactComponent as Symbol } from '../assets/symbol.svg';
 import { ReactComponent as SymbolWhite } from '../assets/symbol-white.svg';
 import { ReactComponent as DecodedLogo } from '../assets/decoded.svg';
+import { ReactComponent as DecodedLogoWhite } from '../assets/decoded-white.svg';
 
 export default function Edit({ attributes, setAttributes, isSelected }) {
 	const { width, justification, darkModeEnabled, className } = attributes;
@@ -89,6 +90,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						</div>
 						<div className="wp-block-prc-block-logo__inner__decoded">
 							<DecodedLogo data-browser-theme="light" />
+							<DecodedLogoWhite data-browser-theme="dark" />
 						</div>
 					</div>
 				</ResizableBox>
