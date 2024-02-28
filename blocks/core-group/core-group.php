@@ -58,6 +58,11 @@ class Core_Group {
 			'name' => 'dynamic-wide',
 			'label' => 'Dynamic Wide Template',
 			'inline_style' => '.wp-block-group.is-style-dynamic-wide, .wp-block[data-type="core/group"].is-style-dynamic-wide {width: 100%!important; max-width: var(--wp--custom--content-size-wide)!important}'
+		),
+		array(
+			'name' => 'collapse-row-on-mobile',
+			'label' => 'Collapse Row on Mobile',
+			'inline_style' => '.wp-block-group.is-style-collapse-row-on-mobile, .wp-block[data-type="core/group"].is-style-collapse-row-on-mobile {width: 100%!important; max-width: 100%!important}'
 		)
 	);
 

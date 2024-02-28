@@ -19,9 +19,9 @@ $desktopBreakPoint: 791px;
 // When a align full cover is before an alignfull group we want to add padding to the group.
 .wp-block-cover.alignfull + .wp-block-group.alignfull {
 	margin-top: -2em;
-    padding-top: 1em;
-    padding-bottom: 2em;
-    padding-left: 2em;
+	padding-top: 1em;
+	padding-bottom: 2em;
+	padding-left: 2em;
 	padding-right: 2em;
 }
 
@@ -90,7 +90,6 @@ $desktopBreakPoint: 791px;
 			/*rtl:ignore*/
 		}
 	}
-
 }
 
 /**
@@ -109,7 +108,7 @@ $desktopBreakPoint: 791px;
 			display: block;
 			text-align: center;
 			font-size: 0.8em;
-			border: 1px dashed #DDD;
+			border: 1px dashed #ddd;
 			color: #999;
 			padding: 1em;
 		}
@@ -128,13 +127,19 @@ $desktopBreakPoint: 791px;
 			text-align: center;
 			font-size: 0.8em;
 			color: #999;
-			border: 1px dashed #DDD;
+			border: 1px dashed #ddd;
 			padding: 1em;
 		}
 		&:not(.wp-block),
 		& > * {
 			display: none !important;
 		}
+	}
+}
+
+@container prc-responsive-container (max-width: 791px) {
+	.is-style-collapse-row-on-mobile {
+		flex-direction: column;
 	}
 }
 
@@ -146,7 +151,7 @@ $desktopBreakPoint: 791px;
 			text-align: center;
 			font-size: 0.8em;
 			color: #999;
-			border: 1px dashed #DDD;
+			border: 1px dashed #ddd;
 			padding: 1em;
 		}
 		&:not(.wp-block),
@@ -156,20 +161,18 @@ $desktopBreakPoint: 791px;
 	}
 }
 
-
 // @TODO this feels more like something that should be in a block pattern??
 .wp-block-group.essay--toolbar,
 .wp-block-group.essay--toolbar {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 	width: 100%;
 	padding: 1em 0;
 	.wp-block-social-links {
-		padding-top: 0!important;
-		margin-top: 0!important;
+		padding-top: 0 !important;
+		margin-top: 0 !important;
 	}
 	.wp-block-post-date {
 		flex-grow: 1;
 	}
 }
-
