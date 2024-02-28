@@ -55,6 +55,10 @@
     {
       "name": "container-aware",
       "label": "Container Aware"
+    },
+    {
+      "name": "decoded-only",
+      "label": "Decoded"
     }
   ],
   "example": {},

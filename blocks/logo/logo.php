@@ -115,6 +115,8 @@ class Logo {
 			$logo_alt_white->set_attribute('data-browser-theme', 'dark');
 		}
 
+		$decoded = new WP_HTML_Tag_Processor( $this->get_logo( 'decoded.svg' ) );
+
 		$site_url = get_site_url();
 
 		ob_start();
@@ -131,6 +133,11 @@ class Logo {
 					<?php
 					echo $logo_alt;
 					echo $logo_alt_white;
+					?>
+				</a>
+				<a class="wp-block-prc-block-logo__inner__decoded" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
+					<?php
+					echo $decoded;
 					?>
 				</a>
 			</div>
