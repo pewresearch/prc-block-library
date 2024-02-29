@@ -15,8 +15,6 @@
     "start": "wp-scripts start --webpack-copy-php"
   },
   "devDependencies": {
-    "@wordpress/core-data": "^5.5.0",
-    "@wordpress/dependency-extraction-webpack-plugin": "^4.5.0",
-    "@wordpress/scripts": "^27.1.0"
+    "@wordpress/scripts": "^27.3.0"
   }
 }

@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "@wordpress/dom-ready": "^3.22.0",
-    "@wordpress/scripts": "^27.1.0"
+    "@wordpress/scripts": "^27.3.0"
   }
 }

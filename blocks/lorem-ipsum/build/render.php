@@ -8,7 +8,6 @@
 
 $block_wrapper_attrs = get_block_wrapper_attributes();
 
-do_action('qm/debug', print_r($attributes, true));
 echo wp_sprintf(
 	'<div %1$s>%2$s</div>',
 	$block_wrapper_attrs,

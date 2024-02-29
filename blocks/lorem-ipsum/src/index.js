@@ -26,8 +26,8 @@ import { registerBlockType, createBlock } from '@wordpress/blocks';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import Edit from './Edit';
-import Save from './Save';
+import edit from './edit';
+import save from './save';
 
 import metadata from './block.json';
 
@@ -50,15 +50,8 @@ const transforms = {
 };
 
 const settings = {
-	/**
-	 * @see ./Edit.jsx
-	 */
-	edit: Edit,
-	/**
-	 * @see ./Save.jsx
-	 */
-	save: Save,
-
+	edit,
+	save,
 	transforms,
 };
 

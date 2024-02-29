@@ -6,13 +6,13 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment, useState, useEffect, RawHTML } from '@wordpress/element';
+import { Fragment, useState, useEffect, RawHTML } from 'react';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 import { fetchByline } from './utils';
 
 function getPlaceholderValue(valueToFetch) {

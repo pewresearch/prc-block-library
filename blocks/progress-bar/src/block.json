@@ -16,6 +16,10 @@
 			"type": "string",
 			"default": "social-trends-teal"
 		},
+		"barPadding": {
+			"type": "number",
+			"default": 15
+		},
 		"backgroundColor": {
 			"type": "string",
 			"default": "beige"

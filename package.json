@@ -11,6 +11,8 @@
   },
   "scripts": {
 		"build:all": "bash .scripts/build.sh",
+		"build::all": "bash .scripts/build.sh",
+		"clean": "bash .scripts/clean.sh",
 		"count": "bash .scripts/count.sh",
     "update:wp-scripts": "node update-wp-scripts.js"
   }

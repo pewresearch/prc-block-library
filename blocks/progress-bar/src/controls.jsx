@@ -33,6 +33,7 @@ export default function Controls({ attributes, setAttributes, colors, clientId }
 		currentValue,
 		showAxisLabel,
 		axisLabel,
+		barPadding,
 		axisLabelMaxWidth,
 		axisPadding,
 		labelFormat,
@@ -93,6 +94,16 @@ export default function Controls({ attributes, setAttributes, colors, clientId }
 						disabledUnits
 						onChange={(val) =>
 							setAttributes({ axisPadding: parseInt(val, 10) })
+						}
+					/>
+					<NumberControl
+						label={__('Bar Padding')}
+						value={barPadding}
+						disabled={!showAxisLabel}
+						disableUnits
+						disabledUnits
+						onChange={(val) =>
+							setAttributes({ barPadding: parseInt(val, 10) })
 						}
 					/>
 					<Flex>
