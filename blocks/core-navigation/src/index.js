@@ -33,7 +33,7 @@ domReady(() => {
 
 addFilter(
 	'blocks.registerBlockType',
-	'prc-user-accounts-login-logout',
+	'prc-core-navigation-allowedblocks',
 	(settings, name) => {
 		if (name === 'core/navigation') {
 			return {
@@ -41,6 +41,7 @@ addFilter(
 				allowedBlocks: [
 					...(settings.allowedBlocks ?? []),
 					'prc-user-accounts/login-logout',
+					'prc-block/logo',
 					'prc-block/navigation-mega-menu',
 				],
 			};
