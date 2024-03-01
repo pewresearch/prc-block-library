@@ -25,9 +25,9 @@ import { registerBlockType } from '@wordpress/blocks';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import edit from './edit';
-import save from './save';
-import icon from './icon';
+import Edit from './Edit';
+import Save from './Save';
+import Icon from './Icon';
 import './style.scss';
 
 import metadata from './block.json';
@@ -35,9 +35,15 @@ import metadata from './block.json';
 const { name } = metadata;
 
 const settings = {
-	icon,
-	edit,
-	save,
+	icon: Icon,
+	/**
+	 * @see ./Edit.jsx
+	 */
+	edit: Edit,
+	/**
+	 * @see ./Save.jsx
+	 */
+	save: Save,
 };
 
 /**

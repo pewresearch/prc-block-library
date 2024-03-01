@@ -10,7 +10,6 @@ function ProgressBar({
 	axisPadding,
 	axisLabelMaxWidth,
 	barColor,
-	barPadding,
 	backgroundColor,
 	categoryLabelColor,
 	currentValue,
@@ -22,7 +21,6 @@ function ProgressBar({
 	showAxisLabel,
 }) {
 	const config = {
-		...baseConfig,
 		layout: {
 			...baseConfig.layout,
 			name: 'progress-chart',
@@ -175,8 +173,10 @@ function ProgressBar({
 			active: false,
 		},
 		bar: {
-			...baseConfig.bar,
-			barPadding: barPadding / 100,
+			orientation: 'horizontal',
+			width: 30,
+			barToSpaceRatio: 0.8,
+			groupOffset: 20,
 		},
 		labels: {
 			...baseConfig.labels,

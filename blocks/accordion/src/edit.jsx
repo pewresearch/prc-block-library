@@ -19,7 +19,7 @@ import {
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
+import Controls from './Controls';
 
 const ALLOWED_BLOCKS = true;
 

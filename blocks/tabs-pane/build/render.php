@@ -13,11 +13,10 @@ $block_wrapper_attrs = get_block_wrapper_attributes(
 			'wp-block-prc-block-tabs-pane__dialog' => $is_dialog,
 		) ),
 		'aria-role'   => 'tabpanel',
-		'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/tabs-controller')),
+		'data-wp-interactive' => '{"namespace":"prc-block/tabs-controller"}',
 		'data-wp-key' => 'panel-' . $uuid,
 		'data-wp-class--is-active' => 'callbacks.isActive',
 		'data-wp-context' => wp_json_encode(array('uuid' => $uuid)),
-		'data-wp-watch' => 'callbacks.onTabWatch'
 	)
 );
 
@@ -26,7 +25,7 @@ ob_start();
 <div
 	class="wp-block-prc-block-tabs-pane__dialog-overlay"
 	id="pane-overlay-%1$s"
-	data-wp-interactive="<?php echo wp_json_encode(array('namespace' => 'prc-block/tabs-controller')); ?>"
+	data-wp-interactive='{"namespace":"prc-block/tabs-controller"}'
 	data-wp-on--click="actions.hideDialog"
 ></div>
 <div class="wp-block-prc-block-tabs-pane__dialog-modal" id="pane-modal-%1$s">

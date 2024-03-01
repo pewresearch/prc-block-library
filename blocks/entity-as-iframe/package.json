@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@wordpress/icons": "^9.40.0",
-    "@wordpress/scripts": "^27.3.0"
+    "@wordpress/scripts": "^27.1.0"
   },
   "dependencies": {
     "@emotion/styled": "^11.11.0"

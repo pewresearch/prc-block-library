@@ -1,14 +1,14 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment } from 'react';
+import { Fragment } from '@wordpress/element';
 
 /**
  * Internal Dependencies
  */
 import Inspector from './inspector';
 import Placeholder from './placeholder';
-import Toolbar from './toolbar';
+import Toolbar from './Toolbar';
 
 function Controls({ attributes, setAttributes, context }) {
 	return (

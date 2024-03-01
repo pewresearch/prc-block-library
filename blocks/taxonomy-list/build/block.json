@@ -7,6 +7,10 @@
   "category": "theme",
   "description": "Display a list of taxonomy terms.",
   "attributes": {
+    "taxonomy": {
+      "type": "string",
+      "default": "topic"
+    },
     "allowedBlocks": {
       "type": "array"
     },
@@ -32,6 +36,7 @@
     }
   },
   "providesContext": {
+    "taxonomy": "taxonomy",
     "textColor": "textColor"
   },
   "supports": {

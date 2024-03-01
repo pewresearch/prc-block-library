@@ -6,7 +6,7 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useRef } from 'react';
+import { Fragment, useState, useEffect, useRef } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -19,7 +19,7 @@ import { Popover } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
+import Controls from './Controls';
 
 /**
  * The edit function describes the structure of your block in the context of the

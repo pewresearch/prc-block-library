@@ -17,7 +17,6 @@ echo wp_sprintf(
 			'id'               		 => md5( wp_json_encode( $attributes ) ),
 			'data-max-width'   		 => $attributes['maxWidth'],
 			'data-bar-color'   		 => $attributes['barColor'],
-			'data-bar-padding' 		 => $attributes['barPadding'],
 			'data-background-color'  => $attributes['backgroundColor'],
 			'data-max-value' 		 => $attributes['maxValue'],
 			'data-current-value' 	 => $attributes['currentValue'],

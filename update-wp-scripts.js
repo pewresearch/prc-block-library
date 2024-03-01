@@ -10,18 +10,15 @@ async function updateWPScripts() {
 		);
 		const latestVersion = data['dist-tags'].latest;
 
-		const packageJsonPaths = glob.sync('blocks/*/package.json');
+		const packageJsonPaths = glob.sync('./blocks/*/package.json');
 
 		for (const packageJsonPath of packageJsonPaths) {
 			const packageJson = await fs.readJson(packageJsonPath);
 
-			packageJson.devDependencies['@wordpress/scripts'] =
-				`^${latestVersion}`;
+			packageJson.devDependencies['@wordpress/scripts'] = `^${latestVersion}`;
 
 			await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
-			console.log(
-				`Updated @wordpress/scripts in ${path.relative('./', packageJsonPath)}`
-			);
+			console.log(`Updated @wordpress/scripts in ${path.relative('./', packageJsonPath)}`);
 		}
 
 		console.log('All package.json files updated successfully');

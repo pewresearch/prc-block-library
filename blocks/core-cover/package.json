@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "@wordpress/dependency-extraction-webpack-plugin": "^4.5.0",
-    "@wordpress/scripts": "^27.3.0"
+    "@wordpress/scripts": "^27.1.0"
   }
 }

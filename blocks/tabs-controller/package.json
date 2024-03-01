@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "@wordpress/html-entities": "^3.47.0",
-    "@wordpress/scripts": "^27.3.0"
+    "@wordpress/scripts": "^27.1.0"
   }
 }

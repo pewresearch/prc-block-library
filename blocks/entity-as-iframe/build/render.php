@@ -53,8 +53,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 ));
 
 echo wp_sprintf(
-	'<div %1$s data-iframe-height>%2$s %3$s</div>',
+	'<div %1$s data-iframe-height>%2$s</div>',
 	$block_wrapper_attrs,
-	$placeholder,
 	$content,
 );

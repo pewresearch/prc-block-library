@@ -10,7 +10,7 @@ import { createBlock, registerBlockVariation, registerBlockType } from '@wordpre
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
+import Controls from './Controls';
 import transforms from './transforms';
 
 /**

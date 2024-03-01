@@ -8,13 +8,13 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from 'react';
+import { Fragment } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
+import Controls from './Controls';
 import useStaffBlockContextProvider from './use-staff-block-context-provider';
 
 const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group'];

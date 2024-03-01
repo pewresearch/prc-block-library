@@ -1,7 +1,13 @@
 <?php
 namespace PRC\Platform\Blocks;
+// PHP file to use when rendering the block type on the server to show on the front end.
+// The following variables are exposed to this file:
 
-$is_deprecated = array_key_exists( 'deprecated', $attributes ) ? true : false;
+// $attributes (array): The block attributes.
+// $content (string): The block default content.
+// $block (WP_Block): The block instance.
+
+$is_deprecated = array_key_exists('deprecated', $attributes) ? true : false;
 $collapsible_title = array_key_exists( 'title', $attributes ) ? $attributes['title'] : 'How we did this';
 $collapsible_title = wp_specialchars_decode($collapsible_title);
 // If someone has erroneously added bold to a collapsible title then remove that from the string.
