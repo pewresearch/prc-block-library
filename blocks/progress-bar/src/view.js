@@ -29,10 +29,10 @@ domReady(() => {
 				labelPositionDX: parseInt(attrs.labelPositionDx, 10),
 				showAxisLabel: '1' === attrs.showAxisLabel,
 				barColor: attrs.barColor,
+				barPadding: parseInt(attrs.barPadding, 10),
 				backgroundColor: attrs.backgroundColor,
 				categoryLabelColor: attrs.categoryLabelColor,
 			};
-			console.log({ props });
 			render(<ProgressBar {...props} />, bar);
 		});
 	}

@@ -195,6 +195,7 @@ class Library {
 		new Accordion($this->get_loader());
 		new Accordion_Controller($this->get_loader());
 		new Attachment_Info($this->get_loader());
+		new Audio_Player($this->get_loader());
 		new Bylines_Display($this->get_loader());
 		new Bylines_Query($this->get_loader());
 		new Carousel_Controller($this->get_loader());

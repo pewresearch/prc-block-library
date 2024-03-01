@@ -28,8 +28,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 				'has-large-icon'      => 'alexa' === $attributes['icon'],
 				'has-form'            => $has_form,
 			)
-		),
-		// 'data-wp-interactive' => true,
+		)
 	)
 );
 

@@ -16,7 +16,7 @@
     "start": "wp-scripts start"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.1.0"
+    "@wordpress/scripts": "^27.3.0"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

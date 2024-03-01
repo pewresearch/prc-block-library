@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('prc-block-utils', 'prc-components', 'prc-icons', 'wp-api-fetch', 'wp-block-editor', 'wp-blocks', 'wp-core-data', 'wp-element', 'wp-i18n', 'wp-polyfill'), 'version' => '27a000988e3964b460ee');
+<?php return array('dependencies' => array('prc-block-utils', 'prc-components', 'prc-icons', 'react', 'wp-api-fetch', 'wp-block-editor', 'wp-blocks', 'wp-core-data', 'wp-element', 'wp-i18n', 'wp-polyfill'), 'version' => '5fb8f6ea4390b58902fe');

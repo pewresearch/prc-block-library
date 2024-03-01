@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@hcaptcha/react-hcaptcha": "^1.9.3",
-    "@wordpress/scripts": "^27.1.0",
+    "@wordpress/scripts": "^27.3.0",
     "@wordpress/interactivity": "^4.0.0"
   }
 }

@@ -7,14 +7,14 @@ import { icons, Icon } from '@prc/icons';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment } from 'react';
 import { useBlockProps } from '@wordpress/block-editor';
 import { Placeholder } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
-import Controls from './Controls';
+import Controls from './controls';
 
 /**
  * The edit function describes the structure of your block in the context of the

@@ -15,7 +15,7 @@
     "start": "wp-scripts start"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.1.0"
+    "@wordpress/scripts": "^27.3.0"
   },
   "dependencies": {
     "comma-separated-values": "^3.6.4"

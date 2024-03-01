@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal Dependencies
  */
-import Icon from './Icon';
+import Icon from './icon';
 
 export default [
 	{

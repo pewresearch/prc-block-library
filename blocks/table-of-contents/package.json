@@ -14,9 +14,9 @@
     "packages-update": "wp-scripts packages-update",
     "plugin-zip": "wp-scripts plugin-zip",
     "start": "wp-scripts start --experimental-modules",
-		"watch": "wp-scripts start --experimental-modules"
+    "watch": "wp-scripts start --experimental-modules"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.2.0"
+    "@wordpress/scripts": "^27.3.0"
   }
 }
