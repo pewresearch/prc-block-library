@@ -1,5 +1,5 @@
 // Front-end specific styles.
-.wp-block-outermost-mega-menu__menu-container {
+.wp-block-prc-block-navigation-mega-menu__container {
     height: auto;
     left: -1px;
     opacity: 0;
@@ -25,7 +25,7 @@
         width: 100vw;
     }
 
-    .menu-container__close-button {
+    .wp-block-prc-block-navigation-mega-menu__container__close-button {
         align-items: center;
         -webkit-backdrop-filter: blur(16px) saturate(180%);
         backdrop-filter: blur(16px) saturate(180%);
@@ -52,7 +52,7 @@
 
     // Show the close button when the mega menu is hovered.
     &:hover {
-        .menu-container__close-button {
+        .wp-block-prc-block-navigation-mega-menu__container__close-button {
             opacity: 1;
         }
     }
@@ -66,7 +66,7 @@
 // Change the position of the menu depending on navigation alignment.
 .wp-block-navigation {
     &.items-justified-right {
-        .wp-block-outermost-mega-menu__menu-container {
+        .wp-block-prc-block-navigation-mega-menu__container {
           left: unset;
           right: -1px;
         }
@@ -74,7 +74,7 @@
 
     &.items-justified-center,
     &.items-justified-space-between {
-        .wp-block-outermost-mega-menu__menu-container {
+        .wp-block-prc-block-navigation-mega-menu__container {
             &.menu-width-content {
                 left: calc( ( -1 * var(--wp--style--global--content-size) / 2 ) + 50% );
             }
@@ -87,8 +87,8 @@
 }
 
 // Change the position of the menu depending on the menu alignment (override Navigation block).
-.wp-block-navigation { 
-    .wp-block-outermost-mega-menu__menu-container {
+.wp-block-navigation {
+    .wp-block-prc-block-navigation-mega-menu__container {
         &.menu-justified-left {
             left: -1px;
             right: unset;
@@ -114,24 +114,24 @@
 }
 
 // If there is a collapsed link, start hidden.
-.wp-block-outermost-mega-menu__collapsed-link {
+.wp-block-prc-block-navigation-mega-menu__container__collapsed-link {
     display: none;
 }
 
 // If a navigation modal is open, check if the mega menu should be displayed.
 html.has-modal-open {
-    .wp-block-outermost-mega-menu {
+    .wp-block-prc-block-navigation-mega-menu__container {
         &.disable-menu-when-collapsed {
             &:not(.has-collapsed-link) {
                 display: none;
             }
-    
-            .wp-block-outermost-mega-menu__collapsed-link {
+
+            .wp-block-prc-block-navigation-mega-menu__collapsed-link {
                 display: inherit;
             }
-    
-            .wp-block-outermost-mega-menu__toggle, 
-            .wp-block-outermost-mega-menu__menu-container {
+
+            .wp-block-prc-block-navigation-mega-menu__toggle,
+            .wp-block-prc-block-navigation-mega-menu__container {
                 display: none;
             }
         }

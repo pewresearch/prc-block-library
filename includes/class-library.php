@@ -221,6 +221,7 @@ class Library {
 		new Lorem_Ipsum($this->get_loader());
 		new Mailchimp_Form($this->get_loader());
 		new Mailchimp_Select($this->get_loader());
+		new Navigation_Mega_Menu($this->get_loader());
 		new Playground($this->get_loader());
 		new Popular_Story($this->get_loader());
 		new Popup_Content($this->get_loader());

@@ -1,6 +1,6 @@
 // Styles for both the Editor and the front end.
-.wp-block-outermost-mega-menu {
-    .wp-block-outermost-mega-menu__toggle {
+.wp-block-prc-block-navigation-mega-menu {
+    .wp-block-prc-block-navigation-mega-menu__toggle {
         background-color: initial;
         border: none;
         color: currentColor;
@@ -14,7 +14,7 @@
         text-align: left;
         text-transform: inherit;
 
-        .wp-block-outermost-mega-menu__toggle-icon {
+        .wp-block-prc-block-navigation-mega-menu__toggle-icon {
             align-self: center;
             display: inline-block;
             font-size: inherit;
@@ -36,17 +36,17 @@
         }
 
         &[aria-expanded=true] {
-            .wp-block-outermost-mega-menu__toggle-icon {    
+            .wp-block-prc-block-navigation-mega-menu__toggle-icon {
                 svg {
                     transform: rotate(0deg);
                 }
             }
 
-            &~.wp-block-outermost-mega-menu__menu-container {
+            &~.wp-block-prc-block-navigation-mega-menu__container {
                 opacity: 1;
                 overflow: visible;
                 visibility: visible;
             }
         }
-    }  
+    }
 }

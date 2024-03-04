@@ -48,7 +48,7 @@ class Navigation_Mega_Menu {
 	 * @param array $areas Existing array of template part areas.
 	 * @return array Modified array of template part areas including the new mega menu area.
 	 */
-	function outermost_mega_menu_template_part_areas( array $areas ) {
+	public function mega_menu_template_part_areas( array $areas ) {
 		$areas[] = array(
 			'area'        => 'menu',
 			'area_tag'    => 'div',
