@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/navigation-mega-menu",
+	"version": "0.1.0",
+	"title": "Navigation Mega Menu",
+	"category": "design",
+	"description": "Mega menu that supports multiple overlay types and animations.",
+	"parent": [ "core/navigation" ],
+	"example": {},
+	"attributes": {
+		"label": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"menuSlug": {
+			"type": "string"
+		},
+		"disableWhenCollapsed": {
+			"type": "boolean"
+		},
+		"collapsedUrl": {
+			"type": "string"
+		},
+		"justifyMenu": {
+			"type": "string"
+		},
+		"width": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false,
+		"interactivity": true,
+		"renaming": false,
+		"reusable": false,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"__experimentalSlashInserter": true
+	},
+	"textdomain": "mega-menu-block",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScriptModule": "file:./view.js",
+	"viewStyle": "file:./index.css"
+}
