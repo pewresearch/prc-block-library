@@ -34,12 +34,26 @@
     },
     "width": {
       "type": "string"
+    },
+    "containerType": {
+      "type": "string",
+      "enum": [
+        "cover",
+        "push"
+      ]
+    },
+    "animation": {
+      "type": "string",
+      "enum": [
+        "face",
+        "slide"
+      ]
     }
   },
   "supports": {
     "html": false,
     "interactivity": true,
-    "renaming": false,
+    "renaming": true,
     "reusable": false,
     "typography": {
       "fontSize": true,

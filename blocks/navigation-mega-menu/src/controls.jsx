@@ -4,14 +4,9 @@
  */
 import { __, sprintf } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { useEntityRecords } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
-// eslint-disable-next-line no-restricted-imports
-import { createInterpolateElement } from '@wordpress/element';
 import {
-	ComboboxControl,
 	PanelBody,
-	Notice,
 	TextControl,
 	TextareaControl,
 	ToggleControl,
@@ -28,6 +23,11 @@ import {
 	stretchFullWidth,
 } from '@wordpress/icons';
 
+/**
+ * Internal Dependencies
+ */
+import MenuTemplatePartControl from './control-menu-template-part';
+
 export default function Controls({ attributes, setAttributes, clientId }) {
 	const {
 		label,
@@ -40,74 +40,11 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 		width,
 	} = attributes;
 
-	// Get the Url for the template part screen in the Site Editor.
-	const siteUrl = useSelect((select) => select('core').getSite().url);
-	const menuTemplateUrl = siteUrl
-		? `${siteUrl}/wp-admin/site-editor.php?path=%2Fpatterns&categoryType=wp_template_part&categoryId=menu`
-		: '';
-
 	// Get the layout settings.
 	const layout = useSelect(
 		(select) =>
 			select('core/editor').getEditorSettings()?.__experimentalFeatures
 				?.layout
-	);
-
-	// Fetch all template parts.
-	const { hasResolved, records } = useEntityRecords(
-		'postType',
-		'wp_template_part',
-		{
-			per_page: -1,
-		}
-	);
-
-	let menuOptions = [];
-
-	// Filter the template parts for those in the 'menu' area.
-	if (hasResolved) {
-		menuOptions = records
-			.filter((item) => item.area === 'menu')
-			.map((item) => ({
-				label: item.title.rendered,
-				value: item.slug,
-			}));
-	}
-
-	const hasMenus = menuOptions.length > 0;
-	const selectedMenuAndExists = menuSlug
-		? menuOptions.some((option) => option.value === menuSlug)
-		: true;
-
-	// Notice for when no menus have been created.
-	const noMenusNotice = (
-		<Notice status="warning" isDismissible={false}>
-			{createInterpolateElement(
-				__(
-					'No menu templates could be found. Create a new one in the <a>Site Editor</a>.',
-					'mega-menu-block'
-				),
-				{
-					a: (
-						<a // eslint-disable-line
-							href={menuTemplateUrl}
-							target="_blank"
-							rel="noreferrer"
-						/>
-					),
-				}
-			)}
-		</Notice>
-	);
-
-	// Notice for when the selected menu template no longer exists.
-	const menuDoesntExistNotice = (
-		<Notice status="warning" isDismissible={false}>
-			{__(
-				'The selected menu template no longer exists. Choose another.',
-				'mega-menu-block'
-			)}
-		</Notice>
 	);
 
 	const justificationOptions = [
@@ -157,7 +94,6 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 	return (
 		<InspectorControls group="settings">
 			<PanelBody
-				className="outermost-mega-menu__settings-panel"
 				title={__('Settings', 'mega-menu-block')}
 				initialOpen={true}
 			>
@@ -168,32 +104,10 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 					onChange={(value) => setAttributes({ label: value })}
 					autoComplete="off"
 				/>
-				<ComboboxControl
-					label={__('Menu Template', 'mega-menu-block')}
-					value={menuSlug}
-					options={menuOptions}
+				<MenuTemplatePartControl
+					menuSlug={menuSlug}
 					onChange={(value) => setAttributes({ menuSlug: value })}
-					help={
-						hasMenus &&
-						createInterpolateElement(
-							__(
-								'Create and modify menu templates in the <a>Site Editor</a>.',
-								'mega-menu-block'
-							),
-							{
-								a: (
-								<a // eslint-disable-line
-										href={menuTemplateUrl}
-										target="_blank"
-										rel="noreferrer"
-									/>
-								),
-							}
-						)
-					}
 				/>
-				{!hasMenus && noMenusNotice}
-				{hasMenus && !selectedMenuAndExists && menuDoesntExistNotice}
 				<TextareaControl
 					className="settings-panel__description"
 					label={__('Description', 'mega-menu-block')}
@@ -256,7 +170,6 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 				)}
 			</PanelBody>
 			<PanelBody
-				className="outermost-mega-menu__layout-panel"
 				title={__('Layout', 'mega-menu-block')}
 				initialOpen={true}
 			>

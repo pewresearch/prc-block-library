@@ -3,13 +3,14 @@
  */
 import { __ } from '@wordpress/i18n';
 import { RichText, useBlockProps } from '@wordpress/block-editor';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 /**
  * Internal dependencies
  */
 import './edit.scss';
 import Controls from './controls';
+import EditMenuTemplatePart from './edit-menu-template-part';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -31,7 +32,10 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const { label, description } = attributes;
+	const { label, description, menuSlug } = attributes;
+	const [displayContainer, setDisplayContainer] = useState(false);
+	const toggleMenu = () => setDisplayContainer(!displayContainer);
+	window.toggleMegaMenu = () => toggleMenu();
 
 	// Modify block props.
 	const blockProps = useBlockProps({
@@ -45,6 +49,7 @@ export default function Edit({
 			<div {...blockProps}>
 				<button
 					className="wp-block-navigation-item__content wp-block-prc-block-navigation-mega-menu__toggle"
+					aria-expanded={displayContainer}
 					type="button"
 				>
 					<RichText
@@ -68,7 +73,17 @@ export default function Edit({
 							'core/strikethrough',
 						]}
 					/>
-					<span className="wp-block-prc-block-navigation-mega-menu__toggle-icon">
+					<span
+						{...{
+							className:
+								'wp-block-prc-block-navigation-mega-menu__toggle-icon',
+							onClick: () => {
+								if (isSelected) {
+									toggleMenu();
+								}
+							},
+						}}
+					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="12"
@@ -90,6 +105,9 @@ export default function Edit({
 						</span>
 					)}
 				</button>
+				{displayContainer && (
+					<EditMenuTemplatePart {...{ menuSlug, clientId }} />
+				)}
 			</div>
 		</Fragment>
 	);
