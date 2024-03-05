@@ -1,0 +1,4 @@
+// Ensure the container is above other innerblock and block instances.
+.wp-block-prc-block-navigation-mega-menu__container {
+	z-index: 11;
+}
