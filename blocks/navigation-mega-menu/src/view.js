@@ -113,7 +113,6 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 		setMenuPositions() {
 			const { ref } = getElement();
 
-			const context = getContext();
 			const menu = ref;
 
 			const navBlock = menu.closest('.wp-block-navigation');
@@ -124,23 +123,17 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 
 			if (
 				navBlock.classList.contains('items-justified-center') ||
-				navBlock.classList.contains(
-					'items-justified-space-between'
-				)
+				navBlock.classList.contains('items-justified-space-between')
 			) {
 				justification = 'center';
-			} else if (
-				navBlock.classList.contains('items-justified-right')
-			) {
+			} else if (navBlock.classList.contains('items-justified-right')) {
 				justification = 'right';
 			}
 
 			// TODO: Refactor
 			if (menu.classList.contains('menu-justified-center')) {
 				justification = 'center';
-			} else if (
-				menu.classList.contains('menu-justified-right')
-			) {
+			} else if (menu.classList.contains('menu-justified-right')) {
 				justification = 'right';
 			} else if (menu.classList.contains('menu-justified-left')) {
 				justification = 'right';
@@ -178,14 +171,13 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 					: navBlockRect.left - rootPaddingLeftValue;
 			const leftSpace = (windowSpace - menuWidth) / 2;
 
+			const context = getContext();
+
 			if (justification === 'center') {
 				if (menuWidth > windowSpace) {
 					menu.style.width = `${windowSpace}px`;
 					menu.style.left = `-${leftOffset}px`;
-				} else if (
-					menuRect.left > 0 &&
-					leftSpace >= menuRect.left
-				) {
+				} else if (menuRect.left > 0 && leftSpace >= menuRect.left) {
 					// Do nothing, the menu is positioned with CSS and it looks fine.
 					context.left = '';
 				} else if (leftOffset >= leftSpace) {
@@ -196,10 +188,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 					context.width = '';
 					context.left = `${leftSpace - leftOffset}px`;
 				}
-			} else if (
-				justification === 'left' ||
-				justification === 'right'
-			) {
+			} else if (justification === 'left' || justification === 'right') {
 				// The left value doesn't need to change for left and right justifications.
 				if (menuWidth > windowSpace) {
 					context.width = `${windowSpace}px`;
@@ -219,28 +208,19 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 		},
 	},
 	callbacks: {
-		initMenu() {
-			const context = getContext();
+		onInit() {
 			const { ref } = getElement();
 
 			// Set the menu reference when initialized.
 			if (state.isMenuOpen) {
+				const context = getContext();
 				context.megaMenu = ref;
 			}
-			// set the
+
+			actions.setMenuPositions();
 		},
 		onResize() {
 			actions.setMenuPositions();
 		},
 	},
 });
-
-// Adjust mega menu positions on window resize.
-// window.addEventListener('resize', adjustMegaMenus);
-
-// // // Initial adjustment on page load.
-// if (document.readyState === 'complete') {
-// 	adjustMegaMenus();
-// } else {
-// 	window.addEventListener('load', adjustMegaMenus);
-// }

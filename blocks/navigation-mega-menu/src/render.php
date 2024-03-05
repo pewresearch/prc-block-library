@@ -11,6 +11,7 @@
  */
 
 $disable_when_collapsed = $attributes['disableWhenCollapsed'] ?? false;
+$collapse_into_list     = $attributes['collapseIntoList'] ?? false;
 $label                  = esc_html( $attributes['label'] ?? '' );
 $menu_slug              = esc_attr( $attributes['menuSlug'] ?? '');
 $collapsed_url          = esc_url( $attributes['collapsedUrl'] ?? '');
@@ -22,21 +23,25 @@ if ( ! $label || ! $menu_slug ) {
 	return null;
 }
 
-$classes  = $disable_when_collapsed ? 'disable-menu-when-collapsed ' : '';
-$classes .= $collapsed_url ? 'has-collapsed-link ' : '';
-
 $wrapper_attributes = get_block_wrapper_attributes([
-	'class' => $classes,
-	'data-wp-interactive' => wp_json_encode(['namespace' => 'prc-block/navigation-mega-menu']),
+	'class' => \PRC\Platform\Block_Utils\classNames([
+		'disabled-menu-when-collapsed' => $disable_when_collapsed,
+		'has-collapsed-link' => !empty($collapsed_url),
+	]),
+	'data-wp-interactive' => wp_json_encode([
+		'namespace' => 'prc-block/navigation-mega-menu'
+	]),
 	'data-wp-context' => wp_json_encode(['menuOpenedBy' => []]),
 	'data-wp-on--focusout' => 'actions.handleMenuFocusout',
 	'data-wp-on--keydown' => 'actions.handleMenuKeydown',
-	'data-wp-watch' => 'callbacks.initMenu',
+	'data-wp-on-window--resize' => 'actions.onResize',
+	'data-wp-init' => 'callbacks.onInit',
 ]);
 
-$menu_classes  = 'wp-block-prc-block-navigation-mega-menu__container';
-$menu_classes .= ' menu-width-' . $menu_width;
-$menu_classes .= $justify_menu ? ' menu-justified-' . $justify_menu : '';
+$menu_classes = \PRC\Platform\Block_Utils\classNames('wp-block-prc-block-navigation-mega-menu__container', [
+	'menu-justified-' . $justify_menu => !!$justify_menu,
+	'menu-width-' . $menu_width => !!$menu_width,
+]);
 
 // Icons.
 $close_icon  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"></path></svg>';

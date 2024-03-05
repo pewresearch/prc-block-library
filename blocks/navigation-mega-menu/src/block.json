@@ -21,6 +21,9 @@
 		"menuSlug": {
 			"type": "string"
 		},
+		"collapseIntoList": {
+			"type": "boolean"
+		},
 		"disableWhenCollapsed": {
 			"type": "boolean"
 		},
