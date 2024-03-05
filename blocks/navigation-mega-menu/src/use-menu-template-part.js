@@ -35,17 +35,15 @@ export default function useMenuTemplatePart({
 		() => menuSlug && menuOptions.some((item) => item.value === menuSlug),
 		[menuSlug, menuOptions]
 	);
-	const menuId = useMemo(
-		() => {
-			const r = hasResolved &&
+	const menuId = useMemo(() => {
+		const r =
+			hasResolved &&
 			records &&
 			records.find((item) => item.slug === menuSlug);
-			if ( r.theme && r.slug ) {
-				return r.theme + '//' + r.slug;
-			}
-		},
-		[menuSlug, hasResolved, records]
-	);
+		if (r.theme && r.slug) {
+			return `${r.theme}//${r.slug}`;
+		}
+	}, [menuSlug, hasResolved, records]);
 
 	console.log(
 		'useMenuTemplatePart',

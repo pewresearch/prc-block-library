@@ -3,6 +3,28 @@
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
+// Function to convert a complex CSS value to pixels
+function convertCssValueToPixels(cssValue) {
+	// Create a temporary element
+	const tempElement = document.createElement('div');
+
+	// Apply the CSS value to the temporary element
+	// For example, setting its width to the complex CSS value
+	tempElement.style.width = cssValue;
+
+	// Append the temporary element to the body to make it part of the document
+	document.body.appendChild(tempElement);
+
+	// Use getComputedStyle to get the computed width in pixels
+	const computedWidth = window.getComputedStyle(tempElement).width;
+
+	// Remove the temporary element from the document
+	document.body.removeChild(tempElement);
+
+	// Return the computed width as a number
+	return parseFloat(computedWidth);
+}
+
 const { state, actions } = store('prc-block/navigation-mega-menu', {
 	state: {
 		get isMenuOpen() {
@@ -12,6 +34,14 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 		get menuOpenedBy() {
 			const context = getContext();
 			return context.menuOpenedBy;
+		},
+		get width() {
+			const context = getContext();
+			return context.width;
+		},
+		get left() {
+			const context = getContext();
+			return context.left;
 		},
 	},
 	actions: {
@@ -80,40 +110,12 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 				context.megaMenu = null;
 			}
 		},
-	},
-	callbacks: {
-		initMenu() {
-			const context = getContext();
+		setMenuPositions() {
 			const { ref } = getElement();
 
-			// Set the menu reference when initialized.
-			if (state.isMenuOpen) {
-				context.megaMenu = ref;
-			}
-		},
-	},
-});
+			const context = getContext();
+			const menu = ref;
 
-// TODO: Convert all the following to use the Interactivity API.
-// ----------------------------------------------------------------------------------------------- //
-
-// Get the root padding variables.
-const bodyStyles = window.getComputedStyle(document.body);
-const rootPaddingLeft = bodyStyles
-	.getPropertyValue('--wp--style--root--padding-left')
-	.trim();
-const rootPaddingRight = bodyStyles
-	.getPropertyValue('--wp--style--root--padding-left')
-	.trim();
-
-function adjustMegaMenus() {
-	// Convert the CSS variable value to pixels.
-	const rootPaddingLeftValue = convertCssValueToPixels(rootPaddingLeft);
-	const rootPaddingRightValue = convertCssValueToPixels(rootPaddingRight);
-
-	document
-		.querySelectorAll('.wp-block-prc-block-navigation-mega-menu__container')
-		.forEach((menu) => {
 			const navBlock = menu.closest('.wp-block-navigation');
 			if (!navBlock) return;
 
@@ -122,21 +124,40 @@ function adjustMegaMenus() {
 
 			if (
 				navBlock.classList.contains('items-justified-center') ||
-				navBlock.classList.contains('items-justified-space-between')
+				navBlock.classList.contains(
+					'items-justified-space-between'
+				)
 			) {
 				justification = 'center';
-			} else if (navBlock.classList.contains('items-justified-right')) {
+			} else if (
+				navBlock.classList.contains('items-justified-right')
+			) {
 				justification = 'right';
 			}
 
 			// TODO: Refactor
 			if (menu.classList.contains('menu-justified-center')) {
 				justification = 'center';
-			} else if (menu.classList.contains('menu-justified-right')) {
+			} else if (
+				menu.classList.contains('menu-justified-right')
+			) {
 				justification = 'right';
 			} else if (menu.classList.contains('menu-justified-left')) {
 				justification = 'right';
 			}
+
+			const bodyStyles = window.getComputedStyle(document.body);
+			const rootPaddingLeft = bodyStyles
+				.getPropertyValue('--wp--style--root--padding-left')
+				.trim();
+			const rootPaddingRight = bodyStyles
+				.getPropertyValue('--wp--style--root--padding-left')
+				.trim();
+			// Convert the CSS variable value to pixels.
+			const rootPaddingLeftValue =
+				convertCssValueToPixels(rootPaddingLeft);
+			const rootPaddingRightValue =
+				convertCssValueToPixels(rootPaddingRight);
 
 			console.log(justification);
 			// Get the window space and the native width of the mega menu.
@@ -161,65 +182,65 @@ function adjustMegaMenus() {
 				if (menuWidth > windowSpace) {
 					menu.style.width = `${windowSpace}px`;
 					menu.style.left = `-${leftOffset}px`;
-				} else if (menuRect.left > 0 && leftSpace >= menuRect.left) {
+				} else if (
+					menuRect.left > 0 &&
+					leftSpace >= menuRect.left
+				) {
 					// Do nothing, the menu is positioned with CSS and it looks fine.
-					menu.style.left = '';
+					context.left = '';
 				} else if (leftOffset >= leftSpace) {
 					// Reset width.
-					menu.style.width = '';
-					menu.style.left = `-${leftOffset - leftSpace}px`;
+					context.width = '';
+					context.left = `-${leftOffset - leftSpace}px`;
 				} else {
-					menu.style.width = '';
-					menu.style.left = `${leftSpace - leftOffset}px`;
+					context.width = '';
+					context.left = `${leftSpace - leftOffset}px`;
 				}
-			} else if (justification === 'left' || justification === 'right') {
+			} else if (
+				justification === 'left' ||
+				justification === 'right'
+			) {
 				// The left value doesn't need to change for left and right justifications.
 				if (menuWidth > windowSpace) {
-					menu.style.width = `${windowSpace}px`;
-					menu.style.left = `${leftOffset}px`;
+					context.width = `${windowSpace}px`;
+					context.left = `${leftOffset}px`;
 				} else {
-					menu.style.width = '';
+					context.width = '';
 
 					// Make sure the menu does not extend off the left-side of the screen.
 					if (menuRect.left <= 0) {
 						// TODO: This is not correct when justified right in some scenarios.
-						menu.style.left = `${leftOffset}px`;
+						context.left = `${leftOffset}px`;
 					} else {
-						menu.style.left = '';
+						context.left = '';
 					}
 				}
 			}
-		});
-}
+		},
+	},
+	callbacks: {
+		initMenu() {
+			const context = getContext();
+			const { ref } = getElement();
+
+			// Set the menu reference when initialized.
+			if (state.isMenuOpen) {
+				context.megaMenu = ref;
+			}
+			// set the
+		},
+		onResize() {
+			actions.setMenuPositions();
+		},
+	},
+});
 
 // Adjust mega menu positions on window resize.
-window.addEventListener('resize', adjustMegaMenus);
+// window.addEventListener('resize', adjustMegaMenus);
 
-// // Initial adjustment on page load.
-if (document.readyState === 'complete') {
-	adjustMegaMenus();
-} else {
-	window.addEventListener('load', adjustMegaMenus);
-}
-
-// Function to convert a complex CSS value to pixels
-function convertCssValueToPixels(cssValue) {
-	// Create a temporary element
-	const tempElement = document.createElement('div');
-
-	// Apply the CSS value to the temporary element
-	// For example, setting its width to the complex CSS value
-	tempElement.style.width = cssValue;
-
-	// Append the temporary element to the body to make it part of the document
-	document.body.appendChild(tempElement);
-
-	// Use getComputedStyle to get the computed width in pixels
-	const computedWidth = window.getComputedStyle(tempElement).width;
-
-	// Remove the temporary element from the document
-	document.body.removeChild(tempElement);
-
-	// Return the computed width as a number
-	return parseFloat(computedWidth);
-}
+// // // Initial adjustment on page load.
+// if (document.readyState === 'complete') {
+// 	adjustMegaMenus();
+// } else {
+// 	window.addEventListener('load', adjustMegaMenus);
+// }
