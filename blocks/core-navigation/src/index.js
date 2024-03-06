@@ -1,7 +1,6 @@
 /**
  * WordPress Dependencies
  */
-import { addFilter } from '@wordpress/hooks';
 import domReady from '@wordpress/dom-ready';
 import { registerBlockStyle, unregisterBlockStyle } from '@wordpress/blocks';
 
@@ -30,22 +29,3 @@ domReady(() => {
 		label: 'Divided Links',
 	});
 });
-
-addFilter(
-	'blocks.registerBlockType',
-	'prc-core-navigation-allowedblocks',
-	(settings, name) => {
-		if (name === 'core/navigation') {
-			return {
-				...settings,
-				allowedBlocks: [
-					...(settings.allowedBlocks ?? []),
-					'prc-user-accounts/login-logout',
-					'prc-block/logo',
-					'prc-block/navigation-mega-menu',
-				],
-			};
-		}
-		return settings;
-	}
-);

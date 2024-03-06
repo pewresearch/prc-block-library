@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "prc-block/grid-controller",
 	"version": "0.1.0",
-	"title": "Grid",
+	"title": "Grid Columns",
 	"category": "design",
 	"description": "Display content in multiple columns using CSS grid with blocks added to each column.",
 	"keywords": [

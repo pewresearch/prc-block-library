@@ -40,19 +40,18 @@ class Core_Query {
 
 	public function init($loader = null) {
 		if ( null !== $loader ) {
-			$loader->add_action('init', $this, 'register_assets');
-			$loader->add_action('init', $this, 'hard_enable_enhanced_pagination', 100);
-			$loader->add_action('enqueue_block_editor_assets', $this, 'register_editor_script');
-			$loader->add_filter('prc_platform_pub_listing_default_args', $this, 'set_starting_defaults_for_pub_listing_query_args', 1, 1);
-			// $this->loader->add_filter( 'pre_render_block', $core_query, 'filter_pub_listing_query_args', 10, 3);
+			$loader->add_action( 'init', $this, 'register_assets' );
+			$loader->add_action( 'init', $this, 'hard_enable_enhanced_pagination', 100 );
+			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script');
+			$loader->add_filter( 'prc_platform_pub_listing_default_args', $this, 'set_starting_defaults_for_pub_listing_query_args', 1, 1 );
+			$loader->add_filter( 'pre_render_block', $this, 'filter_pub_listing_query_args', 10, 3 );
 
-			$loader->add_filter( 'render_block_data', $this, 'default_enhanced_pagination_on', 1001, 1);
-			$loader->add_filter('render_block_context', $this, 'hijack_query_block_context', 100, 3);
+			$loader->add_filter( 'render_block_data', $this, 'default_enhanced_pagination_on', 1001, 1 );
+			$loader->add_filter( 'render_block_context', $this, 'hijack_query_block_context', 100, 3 );
 
 			$loader->add_filter( 'rest_post_query', $this, 'filter_pub_listing_rest_query', 10, 2 );
-			// $this->loader->add_filter( 'query_loop_block_query_vars', $core_query, 'filter_pub_listing_query_args', 10, 2 );
-			$loader->add_action('pre_get_posts', $this, 'set_starting_defaults_for_post_type_for_pre_get_posts', 10, 1);
-			$loader->add_filter( 'block_type_metadata', $this, 'default_tax_query_to_OR', 100, 1);
+			$loader->add_action( 'pre_get_posts', $this, 'set_starting_defaults_for_post_type_for_pre_get_posts', 10, 1 );
+			$loader->add_filter( 'block_type_metadata', $this, 'default_tax_query_to_OR', 100, 1 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'update_context', 100, 2 );
 		}
 	}
