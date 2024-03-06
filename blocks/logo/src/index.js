@@ -12,6 +12,7 @@
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
+import { addFilter } from '@wordpress/hooks';
 
 /**
  * Internal Dependencies
@@ -45,4 +46,22 @@ const settings = {
  */
 registerBlockType(name, { ...metadata, ...settings });
 
-// registerDashboardIcon();
+/**
+ * Make mega menu available to core/navigation block
+ */
+addFilter(
+	'blocks.registerBlockType',
+	'prc-block-logo-add-to-navigation',
+	(blockSettings, blockName) => {
+		if (blockName === 'core/navigation') {
+			return {
+				...blockSettings,
+				allowedBlocks: [
+					...(blockSettings.allowedBlocks ?? []),
+					'prc-block/logo',
+				],
+			};
+		}
+		return blockSettings;
+	}
+);
