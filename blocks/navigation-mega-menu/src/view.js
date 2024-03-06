@@ -88,6 +88,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 			const height = navBlock.offsetHeight;
 			context.top = height + 1;
 
+			// Everything below is heavily cribbed from Nick Diego for the js math window math.
 			const bodyStyles = window.getComputedStyle(document.body);
 			const rootPaddingLeft = bodyStyles
 				.getPropertyValue('--wp--style--root--padding-left')
