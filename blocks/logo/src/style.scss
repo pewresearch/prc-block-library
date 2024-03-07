@@ -25,12 +25,8 @@ $standard_logo_minimum_width: 360px;
 	}
 
 	.wp-block-prc-block-logo__dimensions {
-		display: flex;
-		align-items: center;
-	}
-
-	&:not(.is-selected) .wp-block-prc-block-logo__dimensions {
-		width: 100% !important;
+		// display: flex;
+		// align-items: center;
 	}
 
 	&.item-justified-left {
@@ -55,11 +51,6 @@ $standard_logo_minimum_width: 360px;
 	// If the text color is white then we need to show a different version of the logo as the color fill won't be correct for the approved white brand version.
 	&.has-ui-white-color {
 		@include hasWhiteColor();
-	}
-	&.has-dark-mode-support .wp-block-prc-block-logo__inner {
-		@media (prefers-color-scheme: dark), (prefers-dark-interface) {
-			// @include hasWhiteColor();
-		}
 	}
 
 	&.is-style-container-aware .wp-block-prc-block-logo__inner {
@@ -105,7 +96,6 @@ $standard_logo_minimum_width: 360px;
 	}
 
 	.wp-block-prc-block-logo__inner {
-		max-width: $standard_logo_minimum_width !important;
 		width: 100%;
 		margin: 0 !important;
 	}
