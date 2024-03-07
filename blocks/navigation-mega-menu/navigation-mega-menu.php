@@ -1,5 +1,7 @@
 <?php
 namespace PRC\Platform\Blocks;
+use MatthiasMullie\Minify;
+
 /**
  * Block Name:        Navigation Mega Menu
  * Version:           0.1.0
@@ -31,10 +33,56 @@ class Navigation_Mega_Menu {
 	public function init($loader = null) {
 		if ( null !== $loader ) {
 			$loader->add_action('init', $this, 'block_init');
-			$loader->add_filter('default_wp_template_part_areas', $this, 'mega_menu_template_part_areas' );
+			$loader->add_action('enqueue_block_assets', $this, 'enqueue_custom_mega_menu_styles');
+			$loader->add_filter('default_wp_template_part_areas', $this, 'mega_menu_template_part_areas', 10, 1);
 		}
 	}
 
+	public function generate_mega_menu_styles() {
+		$colors = wp_get_global_settings(array('color', 'palette', 'theme'));
+		ob_start();
+		foreach( $colors as $color ) {
+			$slug = $color['slug'];
+			?>
+			.wp-block-prc-block-navigation-mega-menu.has-active-menu-item-background.has-<?php echo $slug; ?>-active-menu-item-background.is-active {
+				background-color: var(--wp--preset--color--<?php echo $slug; ?>);
+			}
+			.wp-block-prc-block-navigation-mega-menu.has-active-menu-item-color.has-<?php echo $slug; ?>-active-menu-item-color.is-active {
+				color: var(--wp--preset--color--<?php echo $slug; ?>);
+			}
+
+			.wp-block-prc-block-navigation-mega-menu.has-menu-item-background.has-<?php echo $slug; ?>-menu-item-background {
+				background-color: var(--wp--preset--color--<?php echo $slug; ?>);
+			}
+			.wp-block-prc-block-navigation-mega-menu.has-menu-item-color.has-<?php echo $slug; ?>-active-menu-item-color {
+				color: var(--wp--preset--color--<?php echo $slug; ?>);
+			}
+
+			.wp-block-prc-block-navigation-mega-menu__container.has-overlay-background.has-<?php echo $slug; ?>-overlay-background {
+				background-color: var(--wp--preset--color--<?php echo $slug; ?>);
+			}
+			.wp-block-prc-block-navigation-mega-menu__container.has-<?php echo $slug; ?>-overlay-color,
+			.wp-block-prc-block-navigation-mega-menu__container.has-<?php echo $slug; ?>-overlay-color > * {
+				color: var(--wp--preset--color--<?php echo $slug; ?>);
+			}
+			<?php
+		}
+		$styles = ob_get_clean();
+		$minifier = new Minify\CSS($styles);
+		return $minifier->minify();
+	}
+
+	/**
+	 * @hook enqueue_block_assets, enqueue_block_editor_assets
+	 * @return void
+	 */
+	public function enqueue_custom_mega_menu_styles() {
+		$styles = $this->generate_mega_menu_styles();
+		if ( is_wp_error($styles) ) {
+			return;
+		}
+		wp_add_inline_style( 'prc-block-navigation-mega-menu-style', $styles );
+	}
 
 	/**
 	 * Adds a custom template part area for mega menus to the list of template part areas.
@@ -56,7 +104,6 @@ class Navigation_Mega_Menu {
 			'icon' 		  => 'layout',
 			'label'       => __( 'Menu', 'navigation-mega-menu' ),
 		);
-
 		return $areas;
 	}
 

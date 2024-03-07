@@ -13,7 +13,11 @@ import { createRef, useEffect, Fragment, useState, useRef } from 'react';
  */
 import useMenuTemplatePart from './use-menu-template-part';
 
-export default function EditMenuTemplatePart({ menuSlug, clientId }) {
+export default function EditMenuTemplatePart({
+	menuSlug,
+	overlayClassnames,
+	clientId,
+}) {
 	const ref = createRef();
 	const [topPosition, setTopPosition] = useState(0);
 	const [leftPosition, setLeftPosition] = useState(0);
@@ -22,7 +26,7 @@ export default function EditMenuTemplatePart({ menuSlug, clientId }) {
 
 	useEffect(() => {
 		const updateRefPositions = () => {
-			console.log('ref', ref);
+			console.log('EditMenuTemplatePart Ref:', ref);
 			if (ref.current) {
 				// THis is very specific and needs to be more abstract.
 				const navBlock =
@@ -56,8 +60,7 @@ export default function EditMenuTemplatePart({ menuSlug, clientId }) {
 					postType: 'wp_template_part',
 					postTypeLabel: 'Mega Menu',
 					blockProps: {
-						className:
-							'wp-block-prc-block-navigation-mega-menu__container',
+						className: `${overlayClassnames}`,
 						style: {
 							top: `${topPosition}px`,
 							left: `-${leftPosition}px`,

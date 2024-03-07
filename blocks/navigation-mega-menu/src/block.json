@@ -24,6 +24,33 @@
 		"menuSlug": {
 			"type": "string"
 		},
+		"menuItemBackgroundColor": {
+			"type": "string"
+		},
+		"menuItemTextColor": {
+			"type": "string"
+		},
+		"menuItemActiveBackgroundColor": {
+			"type": "string"
+		},
+		"menuItemActiveTextColor": {
+			"type": "string"
+		},
+		"menuOverlayBackgroundColor": {
+			"type": "string"
+		},
+		"menuOverlayTextColor": {
+			"type": "string"
+		},
+		"icon": {
+			"type": "string",
+			"default": "dropdown",
+			"enum": [
+				"dropdown",
+				"mobile",
+				"search"
+			]
+		},
 		"animation": {
 			"type": "string",
 			"enum": [
@@ -37,10 +64,6 @@
 		"interactivity": true,
 		"renaming": true,
 		"reusable": false,
-		"color": {
-			"background": true,
-			"text": true
-		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,

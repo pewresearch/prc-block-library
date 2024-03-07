@@ -27,10 +27,10 @@ function convertCssValueToPixels(cssValue) {
 
 const { state, actions } = store('prc-block/navigation-mega-menu', {
 	state: {
-		get isOpen() {
+		get isActive() {
 			const context = getContext();
 			const { id } = context;
-			return state[id]?.isOpen;
+			return state[id]?.isActive;
 		},
 		get width() {
 			const context = getContext();
@@ -46,6 +46,11 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 		},
 	},
 	actions: {
+		closeAll: () => {
+			Object.keys(state).forEach((key) => {
+				state[key].isActive = false;
+			});
+		},
 		toggleMenuOnClick() {
 			actions.toggleMenu();
 		},
@@ -56,17 +61,17 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 		toggleMenu() {
 			const context = getContext();
 			const { id } = context;
-			state[id].isOpen = !state[id].isOpen;
+			state[id].isActive = !state[id].isActive;
 		},
 		openMenu() {
 			const context = getContext();
 			const { id } = context;
-			state[id].isOpen = true;
+			state[id].isActive = true;
 		},
 		closeMenu() {
 			const context = getContext();
 			const { id } = context;
-			state[id].isOpen = false;
+			state[id].isActive = false;
 		},
 		setMenuPositions() {
 			const { ref } = getElement();
@@ -171,7 +176,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 			const { activeClassnames } = context;
 			// convert the array of activeClassnames to a string
 			console.log('getToggleClassname', defaults, activeClassnames);
-			if (state.isOpen) {
+			if (state.isActive) {
 				const newClassnames =
 					defaults.join(' ') + activeClassnames.join(' ');
 				return newClassnames;
@@ -180,6 +185,51 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 		},
 		onResize() {
 			actions.setMenuPositions();
+		},
+		onWindowClickCloseMegaMenu: (event) => {
+			const context = getContext();
+			const { id } = context;
+			if (!id) {
+				return;
+			}
+			if (!state[id]?.isActive) {
+				return;
+			}
+			const elm = getElement();
+			const { ref } = elm;
+			console.log('onWindowClickCloseMegaMenu', elm, event.target);
+
+			// check elm for any of the event.target
+			// if present then return early
+			if (
+				ref.contains(event.target) &&
+				!event.target.classList.contains(
+					'wp-block-prc-block-popup-modal__outer'
+				)
+			) {
+				return;
+			}
+
+			const megaMenuContainer = ref.querySelector('.wp-block-prc-block-navigation-mega-menu__container');
+			if (
+				!megaMenuContainer.innerHTML.includes(event.target.innerHTML) &&
+				true === state[id].isActive
+			) {
+				state[id].isActive = false;
+			}
+		},
+		onESCKey: (event) => {
+			const context = getContext();
+			const { id } = context;
+			if (!id) {
+				return;
+			}
+			if (event.key === 'Escape') {
+				if (true === state[id].isActive) {
+					event.preventDefault();
+					state[id].isActive = false;
+				}
+			}
 		},
 	},
 });

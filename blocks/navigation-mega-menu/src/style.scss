@@ -1,9 +1,10 @@
 // Styles for both the Editor and the front end.
 .wp-block-prc-block-navigation-mega-menu {
 	border-bottom-width: 0px!important; // No matter what, you can not set a bottom border.
-	&:not(.is-open) {
+	&:not(.is-active) {
 		border-color: white!important;
 	}
+
     .wp-block-prc-block-navigation-mega-menu__toggle {
         background-color: initial;
         border: none;
@@ -18,35 +19,41 @@
         text-align: left;
         text-transform: inherit;
 
-        .wp-block-prc-block-navigation-mega-menu__toggle-icon {
+        .wp-block-prc-block-navigation-mega-menu__toggle-dropdown-icon,
+		.wp-block-prc-block-navigation-mega-menu__toggle-search-icon,
+		.wp-block-prc-block-navigation-mega-menu__toggle-mobile-icon {
             align-self: center;
             display: inline-block;
             font-size: inherit;
             height: 0.6em;
             line-height: 0;
-            margin-left: 0.25em;
             padding: 0;
             width: 0.6em;
-
-            svg {
-                stroke: currentColor;
+        }
+		.wp-block-prc-block-navigation-mega-menu__toggle-dropdown-icon {
+			margin-left: 0.25em;
+			& > * {
                 display: inline-block;
-                height: inherit;
-                margin-top: 0.075em;
-                width: inherit;
                 transition: all .1s linear;
                 transform: rotate(-90deg);
             }
-        }
+		}
+		.wp-block-prc-block-navigation-mega-menu__toggle-mobile-icon {
+			& > * {
+				display: inline-block;
+                transition: all .1s linear;
+            }
+		}
 		&:hover {
 			background-color: transparent;
 		}
         &[aria-expanded=true] {
-            .wp-block-prc-block-navigation-mega-menu__toggle-icon {
-                svg {
-                    transform: rotate(0deg);
-                }
+            .wp-block-prc-block-navigation-mega-menu__toggle-dropdown-icon > * {
+				transform: rotate(0deg);
             }
+			.wp-block-prc-block-navigation-mega-menu__toggle-mobile-icon > * {
+				transform: rotate(-90deg);
+			}
 
             & ~ .wp-block-prc-block-navigation-mega-menu__container {
                 opacity: 1;
