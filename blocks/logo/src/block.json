@@ -4,7 +4,7 @@
 	"name": "prc-block/logo",
 	"version": "1.0.0",
 	"title": "Pew Research Center Logo",
-	"description": "Contextually aware logo that has dark mode support, and will change to the alternate position logo in smaller containers. (#dark-mode, #css-container-queries)",
+	"description": "Contextually aware logo block for Pew Research Center. Can display either the standard PRC logo set or Decoded logo.",
 	"category": "theme",
 	"keywords": ["logo", "masthead", "dark-mode", "css-container-queries"],
 	"attributes": {
@@ -14,12 +14,12 @@
 		},
 		"justification": {
 			"type": "string",
-			"enum": ["left", "center", "right"],
-			"default": "left"
+			"default": "left",
+			"enum" : ["left", "center", "right"]
 		},
 		"width": {
 			"type": "number",
-			"default": 360
+			"default": 280
 		}
 	},
 	"supports": {
@@ -52,7 +52,13 @@
 			"label": "Decoded"
 		}
 	],
-	"example": {},
+	"example": {
+		"viewportWidth": 400,
+		"attributes": {
+			"width": 300,
+			"className": "block-editor-block-types-list__prc-logo-example"
+		}
+	},
 	"usesContext": ["postType", "postId", "queryId"],
 	"textdomain": "pewresearch-logo",
 	"editorScript": "file:./index.js",

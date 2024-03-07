@@ -49,11 +49,11 @@
 
 
 .wp-block-navigation.is-style-mega-menu {
-	margin-left: -1em!important;
-	margin-right: -1em!important;
-	max-width: calc(var(--wp--style--global--wide-size) + 2em)!important;
 	width: 100%;
 	position: relative;
+	.wp-block-navigation__container {
+		width: 100%;
+	}
 	.wp-block-navigation-item {
 		display: flex;
 		flex-grow: 1;
@@ -68,27 +68,3 @@
 		padding: 1em!important;
 	}
 }
-.wp-block-group:has( > .wp-block-navigation.is-style-mega-menu) {
-	display: flex;
-	justify-content: center;
-}
-
-
-
-
-// Main Mobile Menu Styling
-
-.wp-block-navigation.is-style-mega-mobile-menu:has(.wp-block-navigation__responsive-container.is-menu-open) {
-	// .wp-block-navigation__responsive-container-open {
-	// 	&:after {
-	// 		content: "X"
-	// 	}
-	// 	svg {
-	// 		display: none;
-	// 	}
-	// }
-	.wp-block-navigation__responsive-container {
-		top: 50px;
-	}
-}
-
