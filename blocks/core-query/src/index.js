@@ -30,18 +30,19 @@ const PublicationListingTemplate = [
 		{
 			showLabel: true,
 		},
-	],
+	]
 ];
 
 /**
  * Publication Listing Query
  * Changes the default query to only include posts that are published and have a parent, also sets the default post types to post, short-read, fact-sheet, interactives, and quizzes.
  */
-const NAMESPACE = 'prc-block/pub-listing-query';
+const NAMESPACE = "prc-block/pub-listing-query"
 const pubListingVariation = {
 	name: NAMESPACE,
 	title: 'Publication Listing Query',
-	description: 'Query posts in the style of a "Publication Listing".',
+	description:
+		'Query posts in the style of a "Publication Listing".',
 	attributes: {
 		namespace: NAMESPACE,
 		query: {
@@ -54,15 +55,8 @@ const pubListingVariation = {
 		},
 		enhancedPagination: true,
 	},
-	allowedControls: [
-		'order',
-		'taxQuery',
-		'search',
-		'author',
-		'sticky',
-		'inherit',
-	],
-	isActive: ({ query }) => {
+	allowedControls: ['order', 'taxQuery', 'search', 'author', 'sticky', 'inherit'],
+	isActive: ({query}) => {
 		return query.isPubListingQuery;
 	},
 	innerBlocks: PublicationListingTemplate,
@@ -84,17 +78,14 @@ addFilter(
 			if (BLOCKNAME !== name || namespace !== NAMESPACE) {
 				return <BlockEdit {...props} />;
 			}
-			const blockAreaContextPostIds = useSelect((select) => {
-				return select('prc-platform/block-area-context').getPostIds();
+			const blockAreaContextPostIds = useSelect(select => {
+				return select('prc-platform/block-area-context').getPostIds()
 			});
 
 			const tmpExclude = attributes.query?.exclude || [];
-			attributes.query.exclude = [
-				...blockAreaContextPostIds,
-				...tmpExclude,
-			];
+			attributes.query.exclude = [...blockAreaContextPostIds, ...tmpExclude];
 
-			return <BlockEdit {...props} />;
+			return <BlockEdit {...props}/>;
 		};
 	}, 'withBlockAreaContextWatcher')
 );

@@ -5,17 +5,19 @@
 /**
  * WordPress Dependencies
  */
+import { Fragment } from '@wordpress/element';
 import {
 	BlockControls,
 	JustifyToolbar,
 	InspectorControls,
 } from '@wordpress/block-editor';
 import {
+	PanelBody,
+	ToggleControl,
 	__experimentalNumberControl as NumberControl,
-	__experimentalToolsPanelItem as ToolsPanelItem,
 } from '@wordpress/components';
 
-function JustificationControl({ attributes, setAttributes }) {
+function JustificationControl({ attributes, setAttributes, clientId }) {
 	const { justification } = attributes;
 	return (
 		<JustifyToolbar
@@ -26,32 +28,53 @@ function JustificationControl({ attributes, setAttributes }) {
 	);
 }
 
-function WidthControls({ attributes, setAttributes, clientId }) {
-	const { width } = attributes;
+function DarkModeControl({ attributes, setAttributes, clientId }) {
+	const { darkModeEnabled } = attributes;
 	return (
-		<InspectorControls group="dimensions">
-			<ToolsPanelItem
-				label="Logo Width"
-				hasValue={() => !!width}
-				panelId={clientId}
-			>
-				<NumberControl
-					isShiftStepEnabled={true}
-					onChange={(newValue) => setAttributes({ width: newValue })}
-					shiftStep={1}
-					value={width}
-					help="Control the width of the logo inside by entering a number in pixels."
-				/>
-			</ToolsPanelItem>
-		</InspectorControls>
+		<ToggleControl
+			label="Dark Mode"
+			help="Enable this option to display the logo in white when the user has dark mode enabled, overriding any color selection."
+			checked={darkModeEnabled}
+			onChange={(value) => setAttributes({ darkModeEnabled: value })}
+		/>
+	);
+}
+
+function WidthControl({ attributes, setAttributes, clientId }) {
+	const { width } = attributes;
+
+	return (
+		<NumberControl
+			label="Max Width"
+			isShiftStepEnabled={true}
+			onChange={(value) => setAttributes({ width: value })}
+			shiftStep={10}
+			max={360}
+			value={width}
+		/>
 	);
 }
 
 export default function Controls({ attributes, setAttributes, clientId }) {
 	return (
-		<BlockControls>
-			<JustificationControl {...{ attributes, setAttributes }} />
-			<WidthControls {...{ attributes, setAttributes, clientId }} />
-		</BlockControls>
+		<Fragment>
+			<BlockControls>
+				<JustificationControl
+					{...{ attributes, setAttributes, clientId }}
+				/>
+			</BlockControls>
+			<InspectorControls group="styles">
+				<PanelBody title="Dynamic Logo Settings">
+					<div>
+						<DarkModeControl
+							{...{ attributes, setAttributes, clientId }}
+						/>
+						<WidthControl
+							{...{ attributes, setAttributes, clientId }}
+						/>
+					</div>
+				</PanelBody>
+			</InspectorControls>
+		</Fragment>
 	);
 }
