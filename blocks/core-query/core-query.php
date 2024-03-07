@@ -137,7 +137,7 @@ class Core_Query {
 			return $pre_render;
 		}
 		$attributes = $parsed_block[ 'attrs' ] ?? array();
-		if( array_key_exists('namespace',$attributes) && 'prc-block/pub-listing-query' === $attributes['namespace'] ) {
+		if( array_key_exists('namespace', $attributes) && 'prc-block/pub-listing-query' === $attributes['namespace'] ) {
 			add_filter(
 				'query_loop_block_query_vars',
 				function( $query, $block, $page ) {
