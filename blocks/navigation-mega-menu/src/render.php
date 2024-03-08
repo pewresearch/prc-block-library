@@ -62,28 +62,10 @@ $wrapper_attributes = get_block_wrapper_attributes([
 
 // Icons.
 $close_icon  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"></path></svg>';
-// $toggle_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false" fill="none"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg>';
-// $mobile_menu_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>';
-// $search_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M23.707 22.293l-5.656-5.656c1.125-1.5 1.8-3.375 1.8-5.437 0-5.925-4.8-10.725-10.725-10.725S0.094 5.275 0.094 11.2s4.8 10.725 10.725 10.725c2.063 0 3.938-0.675 5.437-1.8l5.656 5.656c0.375 0.375 1 0.375 1.375 0s0.375-1 0-1.375zM1.875 11.2c0-4.95 4.05-9 9-9s9 4.05 9 9-4.05 9-9 9-9-4.05-9-9z"></path></svg>';
 
 $initial_state = [];
 $initial_state[$id] = ['isActive' => false];
 wp_interactivity_state('prc-block/navigation-mega-menu', $initial_state);
-
-// use wp html tag process to look inside mega_menu_template_part and see if theres a group block that has-background, if so lets get its has-background, has-*-background-color, has-text-color, and has-*-color classnames as an array
-$classname_directives = [];
-// $tag_processor = new WP_HTML_Tag_Processor($mega_menu_template_part);
-// if ( $tag_processor->next_tag() && $tag_processor->has_class('has-background') ) {
-// 	error_log("YISS".print_r($mega_menu_template_part, true));
-// 	$classnames = $tag_processor->get_attribute('class');
-// 	$classnames = explode(' ', $classnames);
-// 	$classnames = array_filter($classnames, function($classname) {
-// 		return preg_match('/^has-(background|text|.*-background-color|.*-color)$/', $classname);
-// 	});
-// 	$classname_directives = array_map(function($classname) {
-// 		return 'data-wp-class--' . $classname . '="state.isActive"';
-// 	}, $classnames);
-// }
 
 $overlay_classnames = \PRC\Platform\Block_Utils\classNames([
 	'wp-block-prc-block-navigation-mega-menu__container',
@@ -104,7 +86,6 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 		title="<?php echo esc_attr($url_title); ?>"
 		aria-description="<?php echo esc_attr($url_description); ?>"
 		aria-controls="<?php echo $id; ?>"
-		<?php echo implode(' ', $classname_directives); ?>
 	>
 		<?php echo esc_html($display_label);?>
 		<span class="wp-block-prc-block-navigation-mega-menu__toggle-<?php echo $icon;?>-icon">
@@ -132,7 +113,7 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 			data-wp-on--click="actions.closeMenuOnClick"
 			type="button"
 		>
-			<?php echo $close_icon; ?>
+			<i class="fa-light fa-circle-minus"></i>
 		</button>
 	</div>
 </li>

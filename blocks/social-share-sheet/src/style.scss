@@ -5,6 +5,15 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+.wp-block-prc-block-social-share-sheet {
+	display: inline-block;
+	cursor: pointer;
+	.wp-block-prc-block-social-share-sheet__label {
+		display: inline-block;
+		padding-right: 0.5em;
+	}
+}
+
 button.wp-block-prc-block-social-share-sheet {
 	appearance: none;
 	-webkit-appearance: none;
@@ -13,10 +22,6 @@ button.wp-block-prc-block-social-share-sheet {
 	background: none;
 	padding: 0;
 	cursor: pointer;
-
-	.wp-block-prc-block-social-share-sheet__label {
-		display: inline-block;
-		text-transform: uppercase;
-		padding-right: 0.5em;
-	}
 }
+
+

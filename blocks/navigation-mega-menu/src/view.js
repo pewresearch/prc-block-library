@@ -210,7 +210,9 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 				return;
 			}
 
-			const megaMenuContainer = ref.querySelector('.wp-block-prc-block-navigation-mega-menu__container');
+			const megaMenuContainer = ref.querySelector(
+				'.wp-block-prc-block-navigation-mega-menu__container'
+			);
 			if (
 				!megaMenuContainer.innerHTML.includes(event.target.innerHTML) &&
 				true === state[id].isActive

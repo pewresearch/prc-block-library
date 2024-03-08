@@ -31,11 +31,11 @@
             width: 0.6em;
         }
 		.wp-block-prc-block-navigation-mega-menu__toggle-dropdown-icon {
+			font-size: 14px;
 			margin-left: 0.25em;
 			& > * {
                 display: inline-block;
                 transition: all .1s linear;
-                transform: rotate(-90deg);
             }
 		}
 		.wp-block-prc-block-navigation-mega-menu__toggle-mobile-icon {
@@ -49,7 +49,7 @@
 		}
         &[aria-expanded=true] {
             .wp-block-prc-block-navigation-mega-menu__toggle-dropdown-icon > * {
-				transform: rotate(0deg);
+                transform: rotate(-180deg);
             }
 			.wp-block-prc-block-navigation-mega-menu__toggle-mobile-icon > * {
 				transform: rotate(-90deg);

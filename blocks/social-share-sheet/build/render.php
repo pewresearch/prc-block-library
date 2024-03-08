@@ -28,7 +28,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 ));
 
 echo wp_sprintf(
-	'<button %1$s><span class="wp-block-prc-block-social-share-sheet__label">Share</span><i class="fa-sharp fa-solid fa-up-from-bracket"></i></button>',
+	'<a %1$s><span class="wp-block-prc-block-social-share-sheet__label">Share</span><i class="fa-sharp fa-solid fa-up-from-bracket"></i></a>',
 	$block_wrapper_attrs,
 	$content,
 );

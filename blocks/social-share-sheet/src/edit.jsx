@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /**
  * External Dependencies
  */
@@ -38,17 +39,18 @@ export default function Edit({ context, clientId }) {
 	const blockProps = useBlockProps();
 
 	return (
-		<button
+		<div
 			{...{
 				...blockProps,
 				onClick: (e) => {
 					e.preventDefault();
 				},
-				type: 'button',
 			}}
 		>
-			<span className="wp-block-prc-block-social-share-sheet__label">Share</span>
+			<span className="wp-block-prc-block-social-share-sheet__label">
+				Share
+			</span>
 			<Icon />
-		</button>
+		</div>
 	);
 }
