@@ -5,15 +5,15 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-a.wp-block-prc-block-taxonomy-menu-link,
-.wp-block-prc-block-taxonomy-menu-link a {
+a.wp-block-prc-block-taxonomy-list-link,
+.wp-block-prc-block-taxonomy-list-link a {
 	color: inherit!important;
 	text-decoration: none!important;
 	&:hover {
 		text-decoration: underline!important;
 	}
  }
-.wp-block-prc-block-taxonomy-menu-link {
+.wp-block-prc-block-taxonomy-list-link {
 	display: flex;
 	flex-wrap: wrap;
 	margin-left: 0!important;

@@ -27,7 +27,7 @@ import { useDispatch } from '@wordpress/data';
 import Controls from './controls';
 
 // Allow only this block to be inserted into the inner blocks.
-const ALLOWED_BLOCKS = ['prc-block/taxonomy-menu-link'];
+const ALLOWED_BLOCKS = ['prc-block/taxonomy-list-link'];
 
 /**
  * Converts a spacing preset into a custom value.
@@ -117,7 +117,7 @@ export default function Edit({
 	const innerBlocksProps = useInnerBlocksProps(
 		{
 			className: classNames(
-				'wp-block-prc-block-taxonomy-menu-link__sub-menu'
+				'wp-block-prc-block-taxonomy-list-link__sub-menu'
 			),
 			style: {
 				...subMenuStyle,
@@ -147,14 +147,14 @@ export default function Edit({
 			/>
 			<div {...blockProps}>
 				{'is-style-sub-expand' === className && (
-					<span className="wp-block-prc-block-taxonomy-menu-link__label">
+					<span className="wp-block-prc-block-taxonomy-list-link__label">
 						{subMenuIsOpen ? 'Less' : 'More'}
 					</span>
 				)}
 				{'is-style-sub-expand' !== className && (
 					<RichText
 						tagName="span"
-						className="wp-block-prc-block-taxonomy-menu-link__label"
+						className="wp-block-prc-block-taxonomy-list-link__label"
 						value={label}
 						onChange={(newLabel) =>
 							setAttributes({ label: newLabel })
@@ -165,7 +165,7 @@ export default function Edit({
 						disableLineBreaks
 						__unstableOnSplitAtEnd={() => {
 							const newBlock = createBlock(
-								'prc-block/taxonomy-menu-link'
+								'prc-block/taxonomy-list-link'
 							);
 							if (enableSubMenu) {
 								// Insert in this menu
@@ -183,7 +183,7 @@ export default function Edit({
 				{enableSubMenu && (
 					<Fragment>
 						<button
-							className="wp-block-prc-block-taxonomy-menu-link__icon wp-block-prc-block-taxonomy-menu-link__toggle"
+							className="wp-block-prc-block-taxonomy-list-link__icon wp-block-prc-block-taxonomy-list-link__toggle"
 							onClick={() => toggleSubMenu(!subMenuIsOpen)}
 							type="button"
 						>

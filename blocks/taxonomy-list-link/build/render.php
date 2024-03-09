@@ -9,10 +9,10 @@ wp_enqueue_script('wp-url');
 
 $is_sub_heading  = array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-sub-heading');
 $enable_sub_menu = $attributes['enableSubMenu'] ?? false;
-$block_template  = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-menu-link__sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
-$label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link__label">%2$s</a>' : '<span class="wp-block-prc-block-taxonomy-menu-link__label">%2$s</span>';
+$block_template  = $enable_sub_menu && !empty($content) ? '<div %1$s>%2$s<div class="wp-block-prc-block-taxonomy-list-link__sub-menu">%3$s</div></div>' : '<div %1$s>%2$s</div>';
+$label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-block-prc-block-taxonomy-list-link__label">%2$s</a>' : '<span class="wp-block-prc-block-taxonomy-list-link__label">%2$s</span>';
 $label_template  = $is_sub_heading ? $label_template . '<i class="fa-solid fa-chevron-right fa-xs"></i>' : $label_template;
-$label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['url'] ) ? '<span class="wp-block-prc-block-taxonomy-menu-link__label wp-block-prc-block-taxonomy-menu-link__toggle">%2$s</span>%3$s' : '<a href="%1$s" class="wp-block-prc-block-taxonomy-menu-link__label">%2$s</a>%3$s' ) : $label_template;
+$label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['url'] ) ? '<span class="wp-block-prc-block-taxonomy-list-link__label wp-block-prc-block-taxonomy-list-link__toggle">%2$s</span>%3$s' : '<a href="%1$s" class="wp-block-prc-block-taxonomy-list-link__label">%2$s</a>%3$s' ) : $label_template;
 
 $icon_template = wp_sprintf(
 	'<i class="%1$s"></i><i class="%2$s"></i>',
@@ -64,7 +64,7 @@ echo wp_sprintf(
 		$label_template,
 		$attributes['url'] ?? '',
 		$attributes['label'] ?? '',
-		$enable_sub_menu && !empty($content) ? '<button class="wp-block-prc-block-taxonomy-menu-link__icon wp-block-prc-block-taxonomy-menu-link__toggle" data-wp-on--click="actions.onClick">'.$icon_template.'</button>' : ''
+		$enable_sub_menu && !empty($content) ? '<button class="wp-block-prc-block-taxonomy-list-link__icon wp-block-prc-block-taxonomy-list-link__toggle" data-wp-on--click="actions.onClick">'.$icon_template.'</button>' : ''
 	),
 	$content,
 );

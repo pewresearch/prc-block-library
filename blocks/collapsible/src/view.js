@@ -12,11 +12,11 @@ store('prc-block/collapsible', {
 			const context = getContext();
 			const { ref } = getElement();
 			// If the collapsible is open on init then scroll to it.
-			if ( context.isOpen ) {
-				setTimeout(()=> {
+			if (context.isOpen) {
+				setTimeout(() => {
 					ref.scrollIntoView({ behavior: 'smooth', block: 'start' });
 				}, 500);
 			}
-		}
-	}
+		},
+	},
 });

@@ -13,7 +13,7 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
  */
 
 const ALLOWED_BLOCKS = [
-	'prc-block/taxonomy-menu-link',
+	'prc-block/taxonomy-list-link',
 	'prc-block/taxonomy-search',
 ];
 
@@ -23,8 +23,8 @@ const ALLOWED_BLOCKS = [
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props                    Properties passed to the function.
- * @param {Object}   props.attributes         Available block attributes.
+ * @param {Object}   props                            Properties passed to the function.
+ * @param {Object}   props.attributes                 Available block attributes.
  * @param            props.className
  * @param            props.clientId
  * @param            props.context
@@ -35,7 +35,8 @@ const ALLOWED_BLOCKS = [
  * @param            props.setBackgroundColor
  * @param            props.borderColor
  * @param            props.setBorderColor
- * @param {Function} props.setAttributes      Function that updates individual attributes.
+ * @param            props.__unstableLayoutClassNames
+ * @param {Function} props.setAttributes              Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
@@ -43,12 +44,7 @@ export default function Edit({
 	attributes,
 	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const {
-		templateLock,
-		layout,
-		allowedBlocks,
-		className,
-	} = attributes;
+	const { templateLock, layout, allowedBlocks, className } = attributes;
 	const orientation = layout?.orientation || 'vertical';
 
 	const blockProps = useBlockProps({
@@ -62,7 +58,7 @@ export default function Edit({
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks:
 			'horizontal' === orientation
-				? ['prc-block/taxonomy-menu-link']
+				? ['prc-block/taxonomy-list-link']
 				: allowedBlocks || ALLOWED_BLOCKS,
 		orientation,
 	});

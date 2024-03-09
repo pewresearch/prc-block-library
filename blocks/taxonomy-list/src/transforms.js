@@ -14,7 +14,7 @@ import {
 const transformDeprecatedTopicIndexCategorized = (attributes, innerBlocks) => {
 	const innerBlocksTemplate = [
 		[
-			'prc-block/taxonomy-menu-link',
+			'prc-block/taxonomy-list-link',
 			{
 				label: attributes.heading,
 				url: attributes.url,
@@ -27,7 +27,7 @@ const transformDeprecatedTopicIndexCategorized = (attributes, innerBlocks) => {
 	innerBlocks.forEach((block) => {
 		const { subHeading } = block.attributes;
 		innerBlocksTemplate.push([
-			'prc-block/taxonomy-menu-link',
+			'prc-block/taxonomy-list-link',
 			{
 				label: subHeading || 'Key Topics',
 				url: '',
@@ -52,7 +52,7 @@ const transformDeprecatedTopicIndexCategorized = (attributes, innerBlocks) => {
 
 				subSubBlocks.forEach((subSubBlock) => {
 					subBlockStructure.push([
-						'prc-block/taxonomy-menu-link',
+						'prc-block/taxonomy-list-link',
 						{
 							label: subSubBlock.attributes.label,
 							url: subSubBlock.attributes.url,
@@ -63,7 +63,7 @@ const transformDeprecatedTopicIndexCategorized = (attributes, innerBlocks) => {
 						// Getting quite ridiculous here, no? Thats why we're flattening this and using CSS to provide structure.
 						subSubBlock.innerBlocks.forEach((subSubSubBlock) => {
 							subBlockStructure.push([
-								'prc-block/taxonomy-menu-link',
+								'prc-block/taxonomy-list-link',
 								{
 									label: subSubSubBlock.attributes.label,
 									url: subSubSubBlock.attributes.url,
@@ -75,7 +75,7 @@ const transformDeprecatedTopicIndexCategorized = (attributes, innerBlocks) => {
 				});
 
 				innerBlocksTemplate.push([
-					'prc-block/taxonomy-menu-link',
+					'prc-block/taxonomy-list-link',
 					{
 						label,
 						url,
