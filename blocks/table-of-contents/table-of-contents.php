@@ -198,7 +198,7 @@ class Table_Of_Contents {
 		$return_top_level = false === $report_package->is_report_package( $post_id );
 		$chapters = $report_package->get_constructed_toc( $post_id );
 
-		if ( empty($chapters) ) {
+		if ( false === $chapters || empty($chapters) ) {
 			return;
 		}
 
