@@ -225,6 +225,7 @@ class Table_Of_Contents {
 					'has-' . $attributes['backgroundColor'] . '-background-color' => $attributes['backgroundColor'],
 				),
 			),
+			'aria-role' => 'navigation',
 			'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/table-of-contents')),
 			'data-wp-context' => wp_json_encode(array(
 				'isDropdown' => $default_to_dropdown,

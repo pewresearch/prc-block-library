@@ -126,19 +126,19 @@ class Logo {
 		?>
 		<div class="wp-block-prc-block-logo__dimensions" style="max-width: <?php echo $width;?>;">
 			<div class="wp-block-prc-block-logo__inner">
-				<a class="wp-block-prc-block-logo__inner__logo" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
+				<a class="wp-block-prc-block-logo__inner__logo" href="<?php echo esc_url($site_url);?>" alt="Return to Home" name="Pew Research Center Logo">
 					<?php
 					echo $logo;
 					echo $logo_white;
 					?>
 				</a>
-				<a class="wp-block-prc-block-logo__inner__logo-alt" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
+				<a class="wp-block-prc-block-logo__inner__logo-alt" href="<?php echo esc_url($site_url);?>" alt="Return to Home" name="Pew Research Center Logo">
 					<?php
 					echo $logo_alt;
 					echo $logo_alt_white;
 					?>
 				</a>
-				<a class="wp-block-prc-block-logo__inner__decoded" href="<?php echo esc_url($site_url);?>" alt="Return to Home">
+				<a class="wp-block-prc-block-logo__inner__decoded" href="<?php echo esc_url($site_url);?>" alt="Return to Home" name="Pew Research Center Logo">
 					<?php
 					echo $decoded;
 					echo $decoded_white;

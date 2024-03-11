@@ -49,7 +49,6 @@ class Story_Item_API {
 			);
 		} elseif ( false !== $this->post_id ) {
 			$temp_post_data = get_post( $this->post_id );
-
 			if ( null === $temp_post_data ) {
 				return new WP_Error(
 					'404',
@@ -298,6 +297,13 @@ class Story_Item_API {
 			$label = $this->get_first_term($taxonomy);
 		}
 
+		do_action('qm/debug', 'get_label :: ' . print_r(array(
+			'taxonomy' => $taxonomy,
+			'post_id' => $this->post_id,
+			'post_data' => $this->post_data,
+			'label' => $label,
+		), true));
+
 		if ( empty( $label ) ) {
 			$label = 'Report';
 		}
@@ -353,6 +359,7 @@ class Story_Item_API {
 			$image_slot = 'top';
 			// Unless if we're in a query loop, then default right.
 			$image_slot = $this->in_query_loop ? 'right' : $image_slot;
+			do_action('qm/debug', 'get_image_slot :: ' . print_r($image_slot, true));
 		}
 		return $image_slot;
 	}

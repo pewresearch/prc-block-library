@@ -90,7 +90,7 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 		<?php echo esc_html($display_label);?>
 		<span class="wp-block-prc-block-navigation-mega-menu__toggle-<?php echo $icon;?>-icon">
 			<?php if ( 'dropdown' === $icon ) {
-				echo '<i class="fa-solid fa-caret-down"></i>';
+				echo PRC\Platform\Icons\Render('solid', 'caret-down');
 			} elseif( 'mobile' === $icon ) {
 				echo '<i class="fa-light fa-bars"></i>';
 			} elseif ( 'search' === $icon ) {

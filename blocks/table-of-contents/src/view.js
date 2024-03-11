@@ -55,7 +55,7 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			const context = getContext();
 			const { ref } = getElement();
 			actions.initSmoothScrollClickHandler();
-
+			console.log('onInit', ref, context, state);
 			// So long as there is one TOC block that has this enabled we will enable the watch for chapter scroll function.
 			const { showCurrentChapter } = context;
 			if (true === showCurrentChapter) {
