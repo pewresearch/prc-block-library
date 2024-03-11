@@ -92,9 +92,9 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 			<?php if ( 'dropdown' === $icon ) {
 				echo PRC\Platform\Icons\Render('solid', 'caret-down');
 			} elseif( 'mobile' === $icon ) {
-				echo '<i class="fa-light fa-bars"></i>';
+				echo PRC\Platform\Icons\Render('light', 'bars');
 			} elseif ( 'search' === $icon ) {
-				echo '<i class="fa-solid fa-magnifying-glass"></i>';
+				echo PRC\Platform\Icons\Render('solid', 'magnifying-glass');
 			}?>
 		</span>
 	</button>
@@ -113,7 +113,7 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 			data-wp-on--click="actions.closeMenuOnClick"
 			type="button"
 		>
-			<i class="fa-light fa-circle-minus"></i>
+			<?php echo PRC\Platform\Icons\Render('light', 'circle-minus');?>
 		</button>
 	</div>
 </li>
