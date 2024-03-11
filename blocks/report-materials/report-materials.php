@@ -72,27 +72,27 @@ class Report_Materials {
 	public function get_item_icon($item) {
 		switch ($item['type']) {
 			case 'detailTable':
-				return 'table';
+				return 'fa-regular fa-table';
 			case 'link':
-				return 'link';
+				return 'fa-regular fa-link';
 			case 'presentation':
-				return 'presentation-screen';
+				return 'fa-solid fa-presentation-screen';
 			case 'pressRelease':
-				return 'file';
+				return 'fa-solid fa-file';
 			case 'promo':
-				return 'file';
+				return 'fa-solid fa-file';
 			case 'qA':
-				return 'file';
+				return 'fa-solid fa-file';
 			case 'questionnaire':
-				return 'clipboard';
+				return 'fa-solid fa-clipboard';
 			case 'report':
-				return 'file';
+				return 'fa-solid fa-file';
 			case 'supplemental':
-				return 'file';
+				return 'fa-solid fa-file';
 			case 'topline':
-				return 'clipboard';
+				return 'fa-solid fa-clipboard';
 			default:
-				return 'file';
+				return 'fa-solid fa-file';
 		}
 	}
 
@@ -116,7 +116,10 @@ class Report_Materials {
 		) . ' flex-align-center';
 
 		foreach ($materials as $material) {
-			$icon = \PRC\Platform\Icons\Render('solid', $this->get_item_icon($material));
+			$icon = wp_sprintf(
+				'<i class="%1$s"></i>',
+				$this->get_item_icon($material),
+			);
 			$content .= wp_sprintf(
 				'<li class="%1$s">%2$s<a href="%3$s" target="_blank">%4$s</a></li>',
 				$list_item_classnames,
@@ -180,3 +183,4 @@ class Report_Materials {
 	}
 
 }
+
