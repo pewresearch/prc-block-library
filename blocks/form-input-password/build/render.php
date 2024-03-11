@@ -22,10 +22,10 @@ if ( $includes_confirmation ) {
 		>
 			<li data-wp-class--is-valid="context.condition.met">
 				<span data-wp-class--icon-hidden="!context.condition.met">
-					<?php \PRC\Platform\Icons\Render('solid', 'check'); ?>
+					<?php echo \PRC\Platform\Icons\Render('solid', 'check'); ?>
 				</span>
 				<span data-wp-class--icon-hidden="context.condition.met">
-					<?php \PRC\Platform\Icons\Render('regular', 'xmark'); ?>
+					<?php echo \PRC\Platform\Icons\Render('regular', 'xmark'); ?>
 				</span>
 				<span class="password-analyzer__label" data-wp-text="context.condition.label"></span>
 			</li>
