@@ -1,14 +1,8 @@
 /**
  * External Dependencies
  */
-import { icons, Icon } from '@prc/icons';
+import { NewIcon } from '@prc/icons';
 
 export default function () {
-	return (
-		<Icon
-			icon={icons.faListDropdown}
-			width={18}
-			preserveAspectRatio="xMidYMid meet"
-		/>
-	);
+	return <NewIcon icon="list-dropdown" />;
 }

@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { icons, Icon } from '@prc/icons';
+import { NewIcon } from '@prc/icons';
 
 export default function () {
 	return (

@@ -4,7 +4,7 @@
  * External Dependencies
  */
 import classnames from 'classnames';
-import { icons, Icon } from '@prc/icons';
+import { NewIcon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
