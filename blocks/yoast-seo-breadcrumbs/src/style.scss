@@ -8,12 +8,12 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
-		// override default icon styles
-		.icon {
-			font-size: 12px !important;
-			color: var(--wp--preset--color--ui-gray-light) !important;
-			margin-inline-start: 0.3em !important;
-			margin-inline-end: 0.3em !important;
+
+		.fa-chevron-right {
+			font-size: 12px;
+			color: var(--wp--preset--color--ui-gray-light);
+			margin-inline-start: 0.3em;
+			margin-inline-end: 0.3em;
 		}
 	}
 }

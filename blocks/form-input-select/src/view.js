@@ -3,7 +3,7 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 
 const { actions } = store('prc-block/form-input-select', {
 	actions: {
-		onOpen: (event) => {
+		onOpen: () => {
 			const context = getContext();
 			context.isOpen = true;
 		},
@@ -150,6 +150,10 @@ const { actions } = store('prc-block/form-input-select', {
 		onInit: () => {
 			const context = getContext();
 			const { options } = context;
+			// Loop through everything in options and add a isSelected property equal to false
+			options.forEach((option) => {
+				option.isSelected = false;
+			});
 			// set filteredOptions immediately...
 			context.filteredOptions = options;
 		},

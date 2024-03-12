@@ -231,29 +231,28 @@ class Core_Social_Links {
 				$tags->set_attribute('data-share-description', esc_attr($description));
 			}
 
-			// TODO: Use <use> tag to reference the svg icons from the font awesome sprites.
-			// if ( $tags->next_tag('svg') ) {
-			// 	$brands = array(
-			// 		'facebook' => 'fa-brands fa-facebook',
-			// 		'twitter' => 'fa-brands fa-twitter',
-			// 		'instagram' => 'fa-brands fa-instagram',
-			// 		'youtube' => 'fa-brands fa-youtube',
-			// 		'linkedin' => 'fa-brands fa-linkedin',
-			// 		'tumblr' => 'fa-brands fa-tumblr',
-			// 	);
+			if ( $tags->next_tag('svg') ) {
+				$brands = array(
+					'facebook' => 'fa-brands fa-facebook',
+					'twitter' => 'fa-brands fa-twitter',
+					'instagram' => 'fa-brands fa-instagram',
+					'youtube' => 'fa-brands fa-youtube',
+					'linkedin' => 'fa-brands fa-linkedin',
+					'tumblr' => 'fa-brands fa-tumblr',
+				);
 
-			// 	$standards = array(
-			// 		'email' => 'fa-solid fa-envelope',
-			// 		'mail' => 'fa-solid fa-envelope',
-			// 		'feed' => 'fa-solid fa-rss',
-			// 		'rss-feed' => 'fa-solid fa-rss',
-			// 		'rss' => 'fa-solid fa-rss',
-			// 	);
+				$standards = array(
+					'email' => 'fa-solid fa-envelope',
+					'mail' => 'fa-solid fa-envelope',
+					'feed' => 'fa-solid fa-rss',
+					'rss-feed' => 'fa-solid fa-rss',
+					'rss' => 'fa-solid fa-rss',
+				);
 
-			// 	$icon = array_key_exists($service, $standards) ? $standards[$service] : $service;
-			// 	$icon = array_key_exists($service, $brands) ? $brands[$service] : $icon;
-			// 	$tags->add_class($icon);
-			// }
+				$icon = array_key_exists($service, $standards) ? $standards[$service] : $service;
+				$icon = array_key_exists($service, $brands) ? $brands[$service] : $icon;
+				$tags->add_class($icon);
+			}
 
 			return $tags->get_updated_html();
 		}
