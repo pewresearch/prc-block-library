@@ -133,6 +133,8 @@ const { actions } = store('prc-block/form-input-select', {
 			context.label = label;
 			context.value = value;
 
+			console.log('onClick', context, index, label, value);
+
 			// find any other isSelected and set to false and then set isSelected
 			// on the clicked option
 			// also, reset the filteredOptions to the original options now that we have a value
@@ -150,12 +152,7 @@ const { actions } = store('prc-block/form-input-select', {
 		onInit: () => {
 			const context = getContext();
 			const { options } = context;
-			// Loop through everything in options and add a isSelected property equal to false
-			options.forEach((option) => {
-				option.isSelected = false;
-			});
-			// set filteredOptions immediately...
-			context.filteredOptions = options;
+			console.log("form-input-select -> onInit", context, options);
 		},
 		onValueChange: () => {
 			const { ref } = getElement();
