@@ -31,6 +31,10 @@
 			"type": "string",
 			"default": "ui-black"
 		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "ui-white"
+		},
 		"heading": {
 			"type": "string",
 			"default": "Attachment Info"

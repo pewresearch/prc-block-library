@@ -59,7 +59,8 @@ class Attachment_Info {
 		$to_return = array();
 
 		foreach ($attachments as $attachment) {
-			if ( $attachment->menu_order >= 0 ) {
+			do_action('qm/debug', print_r($attachment, true));
+			if ( $attachment->menu_order > 0 ) {
 				continue;
 			}
 			if ( false === strpos( $attachment->post_title, ' ' ) ) {
