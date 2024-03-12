@@ -58,15 +58,6 @@ class Attachment_Info {
 		$to_return = array();
 
 		foreach ($attachments as $attachment) {
-			if ( false === strpos( $attachment->post_title, ' ' ) ) {
-				continue;
-			}
-			if ( $attachment->menu_order <= 0 ) {
-				continue;
-			}
-			if ( 'application/pdf' === get_post_mime_type( $attachment->ID ) ) {
-				continue;
-			}
 			$to_return[] = array(
 				'link' => get_attachment_link($attachment->ID),
 				'title' => $attachment->post_title,

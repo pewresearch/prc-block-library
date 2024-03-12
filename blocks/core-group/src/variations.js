@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -242,7 +243,7 @@ export default function registerVariations() {
 						{
 							name: 'core/social-link',
 							attributes: {
-								service: 'twitter',
+								service: 'x',
 							},
 						},
 						{
