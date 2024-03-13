@@ -34,7 +34,8 @@ class Attachment_Info {
 	}
 
 	public function get_attachments($parent_post_id) {
-		$cached_data = wp_cache_get( $parent_post_id, 'attachment-info' );
+		$cached_data = false;
+		// $cached_data = wp_cache_get( $parent_post_id, 'attachment-info' );
 		if (false !== $cached_data) {
 			return $cached_data;
 		}
@@ -58,6 +59,15 @@ class Attachment_Info {
 		$to_return = array();
 
 		foreach ($attachments as $attachment) {
+			if ( $attachment->menu_order > 0 ) {
+				continue;
+      }
+			if ( false === strpos( $attachment->post_title, ' ' ) ) {
+				continue;
+			}
+			if ( 'application/pdf' === get_post_mime_type( $attachment->ID ) ) {
+				continue;
+			}
 			$to_return[] = array(
 				'link' => get_attachment_link($attachment->ID),
 				'title' => $attachment->post_title,
