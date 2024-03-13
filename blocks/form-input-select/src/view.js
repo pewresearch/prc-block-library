@@ -77,17 +77,6 @@ const { actions } = store('prc-block/form-input-select', {
 			context.filteredOptions = filteredOptions;
 			console.log('moveThroughOptions', context, nextActive, direction);
 		},
-		setValueOnEnter: () => {
-			console.log('setting value on enter');
-			const context = getContext();
-			const { activeId, filteredOptions, options } = context;
-			context.filteredOptions = options;
-
-			const highlightedOption = filteredOptions[activeId];
-			context.value = highlightedOption.value;
-			context.label = highlightedOption.label;
-			context.isOpen = false;
-		},
 		onKeyUp: (event) => {
 			event.preventDefault();
 			const { value } = event.target;
@@ -95,7 +84,6 @@ const { actions } = store('prc-block/form-input-select', {
 			const context = getContext();
 			const { options } = context;
 			const { ref } = getElement();
-			console.log('onKeyUp', ref);
 			const id = ref.getAttribute('aria-controls');
 			if (!id) {
 				return;
@@ -110,7 +98,7 @@ const { actions } = store('prc-block/form-input-select', {
 			}
 
 			if (event.key === 'Enter') {
-				actions.setValueOnEnter(id);
+				// actions.setValueOnEnter(id);
 			}
 			if (event.keyCode === 40 && event.key === 'ArrowDown') {
 				actions.moveThroughOptions(1, id);
@@ -145,13 +133,7 @@ const { actions } = store('prc-block/form-input-select', {
 			context.label = label;
 			context.value = value;
 
-			console.log(
-				'form-input-select::onClick',
-				context,
-				index,
-				label,
-				value
-			);
+			console.log('form-input-select::onClick', context, index, label, value);
 
 			// find any other isSelected and set to false and then set isSelected
 			// on the clicked option
@@ -170,7 +152,8 @@ const { actions } = store('prc-block/form-input-select', {
 		onInit: () => {
 			const context = getContext();
 			const { options } = context;
-			console.log('form-input-select -> onInit', context, options);
+
+			console.log("form-input-select -> onInit", context, options);
 		},
 		onValueChange: () => {
 			const { ref } = getElement();
@@ -190,16 +173,6 @@ const { actions } = store('prc-block/form-input-select', {
 					targetActions.onSelectChange(value, ref);
 				}
 			}
-		},
-		getInputValue: () => {
-			const { ref } = getElement();
-			const context = getContext();
-			const { value } = context;
-			console.log('getInputValue', context, value, ref);
-			if (!value) {
-				return null;
-			}
-			return value;
 		},
 	},
 });

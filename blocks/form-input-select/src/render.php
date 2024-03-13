@@ -15,7 +15,7 @@ $input_options = array_key_exists( 'options', $attributes ) ? $attributes['optio
 );
 $input_disabled = array_key_exists( 'disabled', $attributes ) ? $attributes['disabled'] : false;
 $input_options = empty($input_options) && array_key_exists( 'prc-block/form-input-options', $block->context) ? $block->context['prc-block/form-input-options'] : $input_options;
-
+// Map the currently selected value to the options
 $input_options = array_map( function( $option ) use ( $input_value ) {
 	$option['isSelected'] = $option['value'] === $input_value;
 	return $option;
@@ -28,8 +28,8 @@ $input_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
 	'type' 					=> 'search',
 	'aria-controls' 		=> $input_id.'-input',
 	'placeholder' 			=> $input_placeholder,
-	'data-wp-bind--value' 	=> 'context.label',
-	'data-wp-on--keyup' 	=> 'actions.onKeyUp',
+	'data-wp-bind--value' 	=> 'context.label', // so, this can get confusing. The value is bound to the label, when set.
+	'data-wp-on--keyup' 	=> 'actions.onKeyUp', // filter the list when the input is interacted with via keyboard
 	'data-wp-on--focus' 	=> 'actions.onOpen', // open the list when the input is focused
 	'data-wp-on--blur' 		=> 'actions.onClose', // close the list when the input is blurred
 ) );
@@ -51,9 +51,8 @@ $option_template = wp_sprintf(
 	'<li %1$s/>',
 	$option_attrs
 );
-// Generate the list of options from context.filteredOptions.
 $options_list = wp_sprintf(
-	'<template data-wp-each--option="context.filteredOptions" data-wp-each-key="context.option.value">%1$s</template>',
+	'<template data-wp-each--option="context.options" data-wp-each-key="context.option.value">%1$s</template>',
 	$option_template,
 );
 
@@ -67,7 +66,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 		'targetNamespace' => $target_namespace,
 		'activeIndex' => 0,
 		'value' => $input_value,
-		'label' => null,
+		'label' => $input_placeholder,
 		'isOpen' => false,
 		'isHidden' => false,
 		'isDisabled' => $input_disabled,
