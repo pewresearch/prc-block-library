@@ -25,6 +25,7 @@ class Progress_Bar {
 		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 		self::$version = self::$block_json['version'];
 		self::$block_name = self::$block_json['name'];
+		$this->init($loader);
 	}
 
 	public function init($loader = null) {
