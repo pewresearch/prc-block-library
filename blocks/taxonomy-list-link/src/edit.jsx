@@ -3,7 +3,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -175,7 +175,7 @@ export default function Edit({
 					/>
 				)}
 				{'is-style-sub-heading' === className && (
-					<NewIcon icon="chevron-right" />
+					<Icon icon="chevron-right" />
 				)}
 				{enableSubMenu && (
 					<Fragment>
@@ -184,7 +184,7 @@ export default function Edit({
 							onClick={() => toggleSubMenu(!subMenuIsOpen)}
 							type="button"
 						>
-							<NewIcon
+							<Icon
 								icon={subMenuIsOpen ? minusIcion : plusIcon}
 							/>
 						</button>

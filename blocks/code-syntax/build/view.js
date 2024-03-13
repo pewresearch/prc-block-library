@@ -7,5 +7,5 @@
 	cursor: pointer;
 	outline: inherit;
 	text-align: left;
-`,we=({value:t,asInputField:a=!1})=>{const[n,r]=(0,i.useState)(!1);return(0,e.createElement)(Le,{onClick:()=>{navigator.clipboard.writeText(t),r(!0),setTimeout((()=>r(!1)),2e3)},title:"Click to copy"},(0,e.createElement)(Me.NewIcon,{icon:"copy"}),(0,e.createElement)("span",null,n?"Copied":"Copy"))};r()((()=>{document.querySelectorAll(".wp-block-prc-block-code-syntax").forEach((a=>{const n=a.querySelector("code"),{language:r}=a.dataset;r&&r.length>0&&n.classList.add(`language-${r}`),t.highlightElement(n),(0,i.render)((0,e.createElement)(we,{value:n.textContent}),a.querySelector(".wp-block-prc-block-code-syntax__ui"))}))}))})()})();
+`,we=({value:t,asInputField:a=!1})=>{const[n,r]=(0,i.useState)(!1);return(0,e.createElement)(Le,{onClick:()=>{navigator.clipboard.writeText(t),r(!0),setTimeout((()=>r(!1)),2e3)},title:"Click to copy"},(0,e.createElement)(Me.Icon,{icon:"copy"}),(0,e.createElement)("span",null,n?"Copied":"Copy"))};r()((()=>{document.querySelectorAll(".wp-block-prc-block-code-syntax").forEach((a=>{const n=a.querySelector("code"),{language:r}=a.dataset;r&&r.length>0&&n.classList.add(`language-${r}`),t.highlightElement(n),(0,i.render)((0,e.createElement)(we,{value:n.textContent}),a.querySelector(".wp-block-prc-block-code-syntax__ui"))}))}))})()})();
 //# sourceMappingURL=view.js.map

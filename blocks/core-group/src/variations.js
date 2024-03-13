@@ -2,7 +2,7 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -67,7 +67,7 @@ export default function registerVariations() {
 	registerBlockVariation(BLOCKNAME, {
 		name: 'baseball-card',
 		title: __('Baseball Card'),
-		icon: () => <NewIcon icon="card-spade" library="solid" />,
+		icon: () => <Icon icon="card-spade" library="solid" />,
 		description: __(
 			'A Group block in the "Baseball Card" format with a card heading in a black background, image, text, and read more link.'
 		),
@@ -128,7 +128,7 @@ export default function registerVariations() {
 	registerBlockVariation(BLOCKNAME, {
 		name: 'post-infographics',
 		title: __('Post Infographics Card'),
-		icon: () => <NewIcon icon="chart-bar" />,
+		icon: () => <Icon icon="chart-bar" />,
 		description: __(
 			'A Group block in the "Baseball Card" style with a heading and list of attached images.'
 		),
@@ -178,7 +178,7 @@ export default function registerVariations() {
 	registerBlockVariation(BLOCKNAME, {
 		name: 'social-group',
 		title: __('Social Group'),
-		icon: () => <NewIcon icon="share-from-square" />,
+		icon: () => <Icon icon="share-from-square" />,
 		description: __(
 			'A Group block that allows you to override the share meta for content inside.'
 		),

@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import styled from '@emotion/styled';
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -29,7 +29,7 @@ const CopyText = ({ value, asInputField = false }) => {
 	};
 	return (
 		<UnstyledButton onClick={handleCopy} title="Click to copy">
-			<NewIcon icon="copy" />
+			<Icon icon="copy" />
 			<span>{isCopied ? 'Copied' : 'Copy'}</span>
 		</UnstyledButton>
 	);

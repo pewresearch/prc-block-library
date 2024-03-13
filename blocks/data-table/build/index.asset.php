@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('comma-separated-values', 'moment', 'prc-hooks', 'prc-icons', 'react', 'react-dom', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-primitives'), 'version' => '2c7dbb55d1e20a36b8d7');
+<?php return array('dependencies' => array('comma-separated-values', 'moment', 'prc-hooks', 'prc-icons', 'react', 'react-dom', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-primitives'), 'version' => 'be04e2b7dbeb75ea0abe');

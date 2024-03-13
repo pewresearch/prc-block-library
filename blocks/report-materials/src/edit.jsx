@@ -4,7 +4,7 @@
  */
 import classNames from 'classnames';
 import { getBlockGapSupportValue } from '@prc/block-utils';
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -183,7 +183,7 @@ function Edit({
 										}
 									)}
 								>
-									{null !== icon && <NewIcon icon={icon} />}
+									{null !== icon && <Icon icon={icon} />}
 									<span>{getItemLabel(material)}</span>
 								</li>
 							);

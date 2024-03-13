@@ -1,12 +1,12 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 export function VerticalIcon() {
-	return <NewIcon icon="rectangle-vertical-history" library="solid" />;
+	return <Icon icon="rectangle-vertical-history" library="solid" />;
 }
 
 export function HorizontalIcon() {
-	return <NewIcon icon="rectangle-history" library="solid" />;
+	return <Icon icon="rectangle-history" library="solid" />;
 }

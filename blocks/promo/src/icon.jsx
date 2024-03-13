@@ -1,8 +1,8 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 export default function () {
-	return <NewIcon icon="rectangle-ad" />;
+	return <Icon icon="rectangle-ad" />;
 }

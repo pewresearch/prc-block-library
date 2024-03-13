@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
@@ -87,7 +87,7 @@ export default function Edit({ attributes, setAttributes }) {
 					}}
 					type="button"
 				>
-					<NewIcon
+					<Icon
 						icon={isOpen ? 'circle-minus' : 'circle-plus'}
 						library="light"
 					/>

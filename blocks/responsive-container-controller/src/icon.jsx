@@ -1,8 +1,8 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 export default function () {
-	return <NewIcon icon="laptop-mobile" />;
+	return <Icon icon="laptop-mobile" />;
 }

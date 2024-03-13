@@ -19,9 +19,9 @@
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       prc-block-library
- * Requires Plugins:  prc-platform-core
- *
  */
+
+
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -80,4 +80,3 @@ function run_prc_block_library() {
 	$plugin->run();
 }
 run_prc_block_library();
-

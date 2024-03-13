@@ -4,7 +4,7 @@
  * External Dependencies
  */
 import classnames from 'classnames';
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -195,7 +195,7 @@ function Edit({
 							},
 						}}
 					>
-						<NewIcon icon={selectedIcon} />
+						<Icon icon={selectedIcon} />
 					</span>
 					{description && (
 						<span className="wp-block-navigation-item__description">

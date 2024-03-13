@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -37,7 +37,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			<Controls {...{ attributes, setAttributes, clientId }} />
 			<div {...blockProps}>
 				<Placeholder
-					icon={<NewIcon icon="database" />}
+					icon={<Icon icon="database" />}
 					label={__(' Roper DB Search')}
 					instructions={__(
 						'This block will render the Roper Database search on the frontend. You can edit the settings in the block inspector.'
