@@ -15,7 +15,7 @@ $input_options = array_key_exists( 'options', $attributes ) ? $attributes['optio
 );
 $input_disabled = array_key_exists( 'disabled', $attributes ) ? $attributes['disabled'] : false;
 $input_options = empty($input_options) && array_key_exists( 'prc-block/form-input-options', $block->context) ? $block->context['prc-block/form-input-options'] : $input_options;
-// Map the currently selected value to the options
+
 $input_options = array_map( function( $option ) use ( $input_value ) {
 	$option['isSelected'] = $option['value'] === $input_value;
 	return $option;
