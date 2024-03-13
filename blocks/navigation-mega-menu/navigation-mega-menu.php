@@ -45,7 +45,11 @@ class Navigation_Mega_Menu {
 			$slug = $color['slug'];
 			?>
 			.wp-block-prc-block-navigation-mega-menu.has-active-menu-item-background.has-<?php echo $slug; ?>-active-menu-item-background.is-active {
+				--overlay-background-color: var(--wp--preset--color--<?php echo $slug; ?>);
 				background-color: var(--wp--preset--color--<?php echo $slug; ?>);
+			}
+			.wp-block-prc-block-navigation-mega-menu.has-active-border-color.has-<?php echo $slug; ?>-active-border-color.is-active {
+				--active-border-color: var(--wp--preset--color--<?php echo $slug; ?>);
 			}
 			.wp-block-prc-block-navigation-mega-menu.has-active-menu-item-color.has-<?php echo $slug; ?>-active-menu-item-color.is-active {
 				color: var(--wp--preset--color--<?php echo $slug; ?>);
@@ -62,8 +66,8 @@ class Navigation_Mega_Menu {
 				background-color: var(--wp--preset--color--<?php echo $slug; ?>);
 			}
 			.wp-block-prc-block-navigation-mega-menu__container.has-<?php echo $slug; ?>-overlay-color,
-			.wp-block-prc-block-navigation-mega-menu__container.has-<?php echo $slug; ?>-overlay-color > * {
-				color: var(--wp--preset--color--<?php echo $slug; ?>);
+			.wp-block-prc-block-navigation-mega-menu__container.has-<?php echo $slug; ?>-overlay-color * {
+				color: var(--wp--preset--color--<?php echo $slug; ?>)!important;
 			}
 			<?php
 		}

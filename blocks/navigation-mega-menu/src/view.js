@@ -91,7 +91,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 
 			// Determine the height of the navigation block and set the mega menu top position.
 			const height = navBlock.offsetHeight;
-			context.top = height + 1;
+			context.top = height - 1;
 
 			// Everything below is heavily cribbed from Nick Diego for the js math window math.
 			const bodyStyles = window.getComputedStyle(document.body);

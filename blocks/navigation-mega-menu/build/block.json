@@ -44,6 +44,9 @@
     "menuOverlayTextColor": {
       "type": "string"
     },
+    "menuActiveBorderColor": {
+      "type": "string"
+    },
     "icon": {
       "type": "string",
       "default": "dropdown",

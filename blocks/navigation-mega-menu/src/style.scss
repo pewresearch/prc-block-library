@@ -1,8 +1,26 @@
 // Styles for both the Editor and the front end.
 .wp-block-prc-block-navigation-mega-menu {
-	border-bottom-width: 0px!important; // No matter what, you can not set a bottom border.
-	&:not(.is-active) {
-		border-color: white!important;
+	border-top: 1px solid transparent;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+	flex-direction: column;
+
+	&.is-active {
+		border-top-color: var(--active-border-color);
+		border-right-color: var(--active-border-color);
+		border-left-color: var(--active-border-color);
+		.wp-block-prc-block-navigation-mega-menu__tab-divider {
+			background-color: var(--overlay-background-color);
+		}
+	}
+
+	.wp-block-prc-block-navigation-mega-menu__tab-divider {
+		height: 1px;
+		width: 100%;
+		background-color: transparent;
+		position: relative;
+		z-index: 4;
+		top: 1px;
 	}
 
     .wp-block-prc-block-navigation-mega-menu__toggle {
@@ -18,6 +36,10 @@
         padding: 0;
         text-align: left;
         text-transform: inherit;
+		border-bottom: 1px solid transparent;
+		position: relative;
+		z-index: 3;
+		top: 0px;
 
         .wp-block-prc-block-navigation-mega-menu__toggle-dropdown-icon,
 		.wp-block-prc-block-navigation-mega-menu__toggle-search-icon,
@@ -25,14 +47,18 @@
             align-self: center;
             display: inline-block;
             font-size: inherit;
-            height: 0.6em;
-            line-height: 0;
+            // height: 0.6em;
+            // line-height: 0;
             padding: 0;
             width: 0.6em;
         }
 		.wp-block-prc-block-navigation-mega-menu__toggle-dropdown-icon {
 			font-size: 14px;
 			margin-left: 0.25em;
+			i {
+				position: relative;
+				top: -1px;
+			}
 			& > * {
                 display: inline-block;
                 transition: all .1s linear;
@@ -74,29 +100,29 @@
 		z-index: 2;
 		background: inherit; // Inherit the background color and border color set on the menu item.
 		border-bottom-width: 1px;
-		border-bottom-color: inherit;
+		border-bottom-color: var(--active-border-color);
 		border-bottom-style: solid;
+		border-top-width: 0px;
 		max-width: 100vw;
 		width: 100vw;
 
 		.wp-block-prc-block-navigation-mega-menu__container__close-button {
 			align-items: center;
-			-webkit-backdrop-filter: blur(16px) saturate(180%);
-			backdrop-filter: blur(16px) saturate(180%);
-			background-color: #ffffffba;
 			border: none;
-			border-radius: 999999px;
 			cursor: pointer;
 			display: flex;
 			justify-content: center;
 			opacity: 0;
 			padding: 4px;
 			position: absolute;
-			right: 12px;
+			right: 2em;
 			text-align: center;
-			top: 12px;
+			top: 1em;
 			transition: opacity .2s ease;
 			z-index: 100;
+			appearance: none;
+			-webkit-appearance: none;
+			background-color: transparent;
 
 			// Show the close button when focused (for keyboard navigation)
 			&:focus {

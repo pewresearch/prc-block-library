@@ -7,7 +7,8 @@
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build --experimental-modules",
-		"start": "wp-scripts start --experimental-modules"
+		"start": "wp-scripts start --experimental-modules",
+		"watch": "wp-scripts start --experimental-modules"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^27.3.0",

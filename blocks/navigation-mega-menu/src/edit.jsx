@@ -47,6 +47,8 @@ import EditMenuTemplatePart from './edit-menu-template-part';
  * @param          props.setMenuOverlayBackgroundColor
  * @param          props.menuOverlayTextColor
  * @param          props.setMenuOverlayTextColor
+ * @param          props.menuActiveBorderColor
+ * @param          props.setMenuActiveBorderColor
  * @param          props.setAttributes
  *
  * @return {Element} Element to render.
@@ -68,6 +70,8 @@ function Edit({
 	setMenuOverlayBackgroundColor,
 	menuOverlayTextColor,
 	setMenuOverlayTextColor,
+	menuActiveBorderColor,
+	setMenuActiveBorderColor,
 }) {
 	const { label, description, menuSlug, icon } = attributes;
 	const [isMenuVisible, setMenuVisibility] = useState(false);
@@ -88,6 +92,8 @@ function Edit({
 		setMenuOverlayBackgroundColor,
 		menuOverlayTextColor,
 		setMenuOverlayTextColor,
+		menuActiveBorderColor,
+		setMenuActiveBorderColor,
 	};
 
 	const menuItemClassnames = classnames('wp-block-navigation-item', {
@@ -115,6 +121,10 @@ function Edit({
 			!!menuItemTextColor.color || menuItemTextColor.class,
 		[getColorClassName('menu-item-color', menuItemTextColor?.slug)]:
 			!!menuItemTextColor?.slug,
+		'has-active-border-color':
+			!!menuActiveBorderColor.color || menuActiveBorderColor.class,
+		[getColorClassName('active-border-color', menuActiveBorderColor?.slug)]:
+			!!menuActiveBorderColor?.slug,
 	});
 
 	const overlayClassnames = classnames(
@@ -150,6 +160,18 @@ function Edit({
 		}
 		return 'caret-down';
 	}, [icon]);
+	/**
+	 * There are certain libraries we want to use for certain icons, this controls that.
+	 */
+	const selectedIconLibrary = useMemo(() => {
+		if ('caret-down' === selectedIcon) {
+			return 'sharp-solid';
+		}
+		if ('mobile' === icon) {
+			return 'light';
+		}
+		return 'solid';
+	}, [selectedIcon, icon]);
 
 	const showLabel = !icon || 'dropdown' === icon;
 
@@ -195,7 +217,10 @@ function Edit({
 							},
 						}}
 					>
-						<Icon icon={selectedIcon} />
+						<Icon
+							library={selectedIconLibrary}
+							icon={selectedIcon}
+						/>
 					</span>
 					{description && (
 						<span className="wp-block-navigation-item__description">
@@ -203,6 +228,7 @@ function Edit({
 						</span>
 					)}
 				</button>
+				<div className="wp-block-prc-block-navigation-mega-menu__tab-divider"></div>
 				{isMenuVisible && (
 					<EditMenuTemplatePart
 						{...{ menuSlug, clientId, overlayClassnames }}
@@ -219,5 +245,6 @@ export default withColors(
 	{ menuItemActiveBackgroundColor: 'color' },
 	{ menuItemActiveTextColor: 'color' },
 	{ menuOverlayBackgroundColor: 'color' },
-	{ menuOverlayTextColor: 'color' }
+	{ menuOverlayTextColor: 'color' },
+	{ menuActiveBorderColor: 'color' }
 )(Edit);

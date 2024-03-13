@@ -30,6 +30,8 @@ export default function ColorControls({ colors, clientId }) {
 			setMenuOverlayBackgroundColor,
 			menuOverlayTextColor,
 			setMenuOverlayTextColor,
+			menuActiveBorderColor,
+			setMenuActiveBorderColor,
 		} = colors;
 
 		const t = [
@@ -65,6 +67,11 @@ export default function ColorControls({ colors, clientId }) {
 				colorValue: menuOverlayTextColor?.color,
 				onColorChange: setMenuOverlayTextColor,
 				label: __('Menu Overlay Text Color', 'prc-block-library'),
+			},
+			{
+				colorValue: menuActiveBorderColor?.color,
+				onColorChange: setMenuActiveBorderColor,
+				label: __('Menu Active Border Color', 'prc-block-library'),
 			},
 		];
 		return t;

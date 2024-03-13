@@ -30,6 +30,7 @@ $colors = [
 	'menu-item-active-color' => $attributes['menuItemActiveTextColor'] ?? false,
 	'overlay-background' => $attributes['menuOverlayBackgroundColor'] ?? false,
 	'overlay-color' => $attributes['menuOverlayTextColor'] ?? false,
+	'active-border-color' => $attributes['menuActiveBorderColor'] ?? false,
 ];
 
 $wrapper_attributes = get_block_wrapper_attributes([
@@ -44,6 +45,8 @@ $wrapper_attributes = get_block_wrapper_attributes([
 		sprintf( 'has-%s-menu-item-background', $colors['menu-item-background'] ) => !!$colors['menu-item-background'],
 		'has-menu-item-color' => !!$colors['menu-item-color'],
 		sprintf( 'has-%s-menu-item-color', $colors['menu-item-color'] ) => !!$colors['menu-item-color'],
+		'has-active-border-color' => !!$colors['active-border-color'],
+		sprintf( 'has-%s-active-border-color', $colors['active-border-color'] ) => !!$colors['active-border-color'],
 	]),
 	'data-wp-interactive' => wp_json_encode([
 		'namespace' => 'prc-block/navigation-mega-menu'
@@ -59,9 +62,6 @@ $wrapper_attributes = get_block_wrapper_attributes([
 	'data-wp-on-document--keydown' => 'callbacks.onESCKey',
 	'data-wp-on-window--click' => 'callbacks.onWindowClickCloseMegaMenu',
 ]);
-
-// Icons.
-$close_icon  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"></path></svg>';
 
 $initial_state = [];
 $initial_state[$id] = ['isActive' => false];
@@ -90,7 +90,7 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 		<?php echo esc_html($display_label);?>
 		<span class="wp-block-prc-block-navigation-mega-menu__toggle-<?php echo $icon;?>-icon">
 			<?php if ( 'dropdown' === $icon ) {
-				echo \PRC\Platform\Icons\Render('solid', 'caret-down');
+				echo \PRC\Platform\Icons\Render('sharp-solid', 'caret-down');
 			} elseif( 'mobile' === $icon ) {
 				echo \PRC\Platform\Icons\Render('light', 'bars');
 			} elseif ( 'search' === $icon ) {
@@ -98,6 +98,8 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 			}?>
 		</span>
 	</button>
+
+	<div class="wp-block-prc-block-navigation-mega-menu__tab-divider"></div>
 
 	<div
 		class="<?php echo $overlay_classnames;?>"
@@ -113,7 +115,7 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 			data-wp-on--click="actions.closeMenuOnClick"
 			type="button"
 		>
-			<?php echo \PRC\Platform\Icons\Render('light', 'circle-minus');?>
+			<?php echo \PRC\Platform\Icons\Render('solid', 'circle-xmark');?>
 		</button>
 	</div>
 </li>
