@@ -41,12 +41,10 @@ class Core_Query {
 	public function init($loader = null) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'register_assets' );
-			$loader->add_action( 'init', $this, 'hard_enable_enhanced_pagination', 100 );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script');
 			$loader->add_filter( 'prc_platform_pub_listing_default_args', $this, 'set_starting_defaults_for_pub_listing_query_args', 1, 1 );
 			$loader->add_filter( 'pre_render_block', $this, 'filter_pub_listing_query_args', 10, 3 );
 
-			$loader->add_filter( 'render_block_data', $this, 'default_enhanced_pagination_on', 1001, 1 );
 			$loader->add_filter( 'render_block_context', $this, 'hijack_query_block_context', 100, 3 );
 
 			$loader->add_filter( 'rest_post_query', $this, 'filter_pub_listing_rest_query', 10, 2 );
@@ -62,16 +60,6 @@ class Core_Query {
 	 */
 	public function register_assets() {
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
-	}
-
-	/**
-	 * 😒 Dont tell me what to do, WordPress.
-	 * @hook init
-	 * @return void
-	 */
-	public function hard_enable_enhanced_pagination() {
-		remove_filter( 'render_block_data', 'block_core_query_disable_enhanced_pagination', 10, 1 );
-		remove_filter( 'render_block_data', 'gutenberg_block_core_query_disable_enhanced_pagination', 10, 1 );
 	}
 
 	/**
@@ -173,32 +161,9 @@ class Core_Query {
 			);
 		}
 
-		// Enforce ehanced pagination to be ON by default.
-		// @TODO: We should make this opt-in by some attribute using a different hook, but this will work for now.
-		// We removed this because on the editor side this was re-setting back to false via javascsript. Here we'll allow the editor to believe its false but set a hard true value before render.
-		$metadata['attributes']['enhancedPagination']['default'] = true;
-
 		return $metadata;
 	}
 
-	/**
-	 * @hook render_block_data
-	 * @var
-	 */
-	public function default_enhanced_pagination_on($parsed_block) {
-		if ( self::$block_name !== $parsed_block['blockName'] ) {
-			return $parsed_block;
-		}
-
-		// if ( 'prc-block/pub-listing-query' === $parsed_block['attrs']['namespace'] ) {
-
-		// }
-		// do_action('qm/debug', 'default_enhanced_pagination_on' . print_r($parsed_block, true) );
-		$parsed_block['attrs']['enhancedPagination'] = true;
-		// do_action('qm/debug', 'default_enhanced_pagination_on' . print_r($parsed_block, true) );
-
-		return $parsed_block;
-	}
 
 	/**
 	 * Hijacks core/post-template block context to pass along query and query id to its innerblocks context.

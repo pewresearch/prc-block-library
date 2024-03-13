@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
-import { NewIcon } from '@prc/icons';
+import { icons, Icon } from '@prc/icons';
 import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
@@ -55,18 +55,18 @@ export default function Edit({ attributes, setAttributes }) {
 		}),
 		style: {
 			'--block-gap': getBlockGapSupportValue(attributes, 'vertical'),
-		},
+		}
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: 'wp-block-prc-block-collapsible__content',
+			className: 'wp-block-prc-block-collapsible__content'
 		},
 		{
 			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 			templateLock: false,
 			template: TEMPLATE,
-		}
+		},
 	);
 
 	return (
@@ -87,10 +87,7 @@ export default function Edit({ attributes, setAttributes }) {
 					}}
 					type="button"
 				>
-					<NewIcon
-						icon={isOpen ? 'circle-minus' : 'circle-plus'}
-						library="light"
-					/>
+					<Icon icon={isOpen ? icons.faCircleMinusLight : icons.faCirclePlusLight}/>
 				</button>
 			</div>
 			<div {...innerBlocksProps} />

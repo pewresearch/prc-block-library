@@ -3,7 +3,7 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 
 const { actions } = store('prc-block/form-input-select', {
 	actions: {
-		onOpen: (event) => {
+		onOpen: () => {
 			const context = getContext();
 			context.isOpen = true;
 		},
@@ -133,6 +133,8 @@ const { actions } = store('prc-block/form-input-select', {
 			context.label = label;
 			context.value = value;
 
+			console.log('form-input-select::onClick', context, index, label, value);
+
 			// find any other isSelected and set to false and then set isSelected
 			// on the clicked option
 			// also, reset the filteredOptions to the original options now that we have a value
@@ -150,8 +152,8 @@ const { actions } = store('prc-block/form-input-select', {
 		onInit: () => {
 			const context = getContext();
 			const { options } = context;
-			// set filteredOptions immediately...
-			context.filteredOptions = options;
+
+			console.log("form-input-select -> onInit", context, options);
 		},
 		onValueChange: () => {
 			const { ref } = getElement();

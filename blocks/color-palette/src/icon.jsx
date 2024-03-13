@@ -1,8 +1,14 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { icons, Icon } from '@prc/icons';
 
-export default function () {
-	return <NewIcon icon="palette" />;
+export default function() {
+	return(
+		<Icon
+			icon={icons.faPalette}
+			width={21}
+			preserveAspectRatio="xMidYMid meet"
+		/>
+	);
 }

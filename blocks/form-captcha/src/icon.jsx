@@ -1,8 +1,14 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { icons, Icon } from '@prc/icons';
 
-export default function () {
-	return <NewIcon icon="symbols" />;
+export default function({width = 18}) {
+	return(
+		<Icon
+			icon={icons.faSymbols}
+			width={width}
+			preserveAspectRatio="xMidYMid meet"
+		/>
+	);
 }

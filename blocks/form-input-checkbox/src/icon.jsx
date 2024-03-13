@@ -1,8 +1,14 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { icons, Icon } from '@prc/icons';
 
-export default function () {
-	return <NewIcon icon="square-check" />;
+export default function() {
+	return(
+		<Icon
+			icon={icons.faSquareCheck}
+			width={18}
+			preserveAspectRatio="xMidYMid meet"
+		/>
+	);
 }

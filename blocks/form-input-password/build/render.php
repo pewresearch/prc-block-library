@@ -20,15 +20,7 @@ if ( $includes_confirmation ) {
 			data-wp-each--condition="context.conditionsList"
 			data-wp-each-key="context.condition.id"
 		>
-			<li data-wp-class--is-valid="context.condition.met">
-				<span data-wp-class--icon-hidden="!context.condition.met">
-					<?php echo \PRC\Platform\Icons\Render('solid', 'check'); ?>
-				</span>
-				<span data-wp-class--icon-hidden="context.condition.met">
-					<?php echo \PRC\Platform\Icons\Render('regular', 'xmark'); ?>
-				</span>
-				<span class="password-analyzer__label" data-wp-text="context.condition.label"></span>
-			</li>
+			<li data-wp-class--is-valid="context.condition.met"><span data-wp-class--icon-hidden="!context.condition.met"><i class="fa fa-solid fa-check"></i></span><span data-wp-class--icon-hidden="context.condition.met"><i class="fa fa-regular fa-xmark"></i></span><span class="password-analyzer__label" data-wp-text="context.condition.label"></span></li>
 		</template>
 		</ul>
 	</div>

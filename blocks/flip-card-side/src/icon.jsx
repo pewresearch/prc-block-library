@@ -1,8 +1,14 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { icons, Icon } from '@prc/icons';
 
-export default function () {
-	return <NewIcon icon="credit-card-front" library="light" />;
+export default function() {
+	return(
+		<Icon
+			icon={icons.faCreditCardFrontLight}
+			width={21}
+			preserveAspectRatio="xMidYMid meet"
+		/>
+	);
 }

@@ -3,7 +3,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
-import { NewIcon } from '@prc/icons';
+import { icons, Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -77,8 +77,7 @@ export default function Edit({
 	insertBlocksAfter,
 }) {
 	// eslint-disable-next-line prettier/prettier, object-curly-newline
-	const { allowedBlocks, className, label, enableSubMenu, style } =
-		attributes;
+	const { allowedBlocks, className, label, enableSubMenu, style } = attributes;
 	const [subMenuIsOpen, toggleSubMenu] = useState(false);
 
 	// Use internal state instead of a ref to make sure that the component

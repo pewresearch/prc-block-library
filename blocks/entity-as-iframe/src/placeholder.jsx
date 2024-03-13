@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import { icons, Icon } from '@prc/icons';
 import styled from '@emotion/styled';
 
 /**
@@ -30,9 +31,7 @@ const LoadingIndicator = styled.div`
 const ToggleLink = ({ showCreateForm, toggleCreateForm }) => {
 	return (
 		<Button variant="link" onClick={toggleCreateForm}>
-			{showCreateForm
-				? __('Cancel')
-				: __(`Create New ${POST_TYPE_LABEL}`)}
+			{showCreateForm ? __('Cancel') : __(`Create New ${POST_TYPE_LABEL}`)}
 		</Button>
 	);
 };
@@ -49,9 +48,7 @@ export default function Placeholder({
 
 	return (
 		<WPComPlaceholder
-			instructions={__(
-				`Search for an existing ${POST_TYPE_LABEL.toLowerCase()} or create a new one`
-			)}
+			instructions={__(`Search for an existing ${POST_TYPE_LABEL.toLowerCase()} or create a new one`)}
 			label={__(`Synced ${POST_TYPE_LABEL}`)}
 		>
 			<div>

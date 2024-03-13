@@ -1,8 +1,14 @@
 /**
  * External Dependencies
  */
-import { NewIcon } from '@prc/icons';
+import { icons, Icon } from '@prc/icons';
 
-export default function () {
-	return <NewIcon icon="mailchimp" library="brands" />;
+export default function() {
+	return(
+		<Icon
+			icon={icons.faMailchimp}
+			width={21}
+			preserveAspectRatio="xMidYMid meet"
+		/>
+	);
 }
