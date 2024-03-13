@@ -4,5 +4,5 @@
 import { NewIcon } from '@prc/icons';
 
 export default function () {
-	return <NewIcon icon="symbols" />;
+	return <NewIcon icon="symbols" library="light" />;
 }
