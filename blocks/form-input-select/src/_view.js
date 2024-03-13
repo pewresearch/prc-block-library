@@ -221,6 +221,6 @@ const { actions } = store('prc-block/form-input-select', {
 				targetState[id].value = '';
 				targetState[id].isOpen = false;
 			}
-		},
+		}
 	},
 });

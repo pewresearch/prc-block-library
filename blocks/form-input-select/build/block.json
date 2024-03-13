@@ -29,24 +29,6 @@
     },
     "value": {
       "type": "string"
-    },
-    "style": {
-      "type": "object",
-      "default": {
-        "border": {
-          "width": "1px",
-          "color": "#dadbdb",
-          "radius": "3px"
-        },
-        "spacing": {
-          "padding": {
-            "top": "0.3rem",
-            "bottom": "0.3rem",
-            "left": "var:preset|spacing|20",
-            "right": "var:preset|spacing|20"
-          }
-        }
-      }
     }
   },
   "supports": {
@@ -82,6 +64,17 @@
     "prc-facets/template/facetLabel",
     "prc-block/sortable-options"
   ],
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "autocomplete",
+      "label": "Autcomplete"
+    }
+  ],
   "parent": [
     "prc-block/form-field"
   ],
@@ -89,5 +82,5 @@
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
-  "viewModule": "file:./view.js"
+  "viewScriptModule": "file:./view.js"
 }
