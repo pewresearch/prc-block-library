@@ -1,20 +1,22 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
 import classNames from 'classnames';
 import { getBlockGapSupportValue } from '@prc/block-utils';
-import { Icon } from '@prc/icons';
+import { NewIcon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment, useMemo, useState, useRef, useEffect } from '@wordpress/element';
 import {
-	useBlockProps,
-	RichText,
-	withColors,
-	getColorClassName,
-} from '@wordpress/block-editor';
+	Fragment,
+	useMemo,
+	useState,
+	useRef,
+	useEffect,
+} from '@wordpress/element';
+import { useBlockProps, RichText, withColors } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -29,9 +31,24 @@ import Controls from './controls';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                           Properties passed to the function.
+ * @param {Object}   props.attributes                Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
+ * @param            props.isSelected
+ * @param            props.headingBackgroundColor
+ * @param            props.setHeadingBackgroundColor
+ * @param            props.headingTextColor
+ * @param            props.setHeadingTextColor
+ * @param            props.activeBackgroundColor
+ * @param            props.setActiveBackgroundColor
+ * @param            props.activeTextColor
+ * @param            props.setActiveTextColor
+ * @param            props.hoverBackgroundColor
+ * @param            props.setHoverBackgroundColor
+ * @param            props.hoverTextColor
+ * @param            props.setHoverTextColor
+ * @param {Function} props.setAttributes             Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
@@ -52,29 +69,32 @@ function Edit({
 	hoverBackgroundColor,
 	setHoverBackgroundColor,
 	hoverTextColor,
-	setHoverTextColor
+	setHoverTextColor,
 }) {
 	const { postId, postType } = context;
 	const { heading, className } = attributes;
-	const { reportMaterials = [], parentId, parentTitle } = useReportMaterials({postId, postType});
+	const {
+		reportMaterials = [],
+		parentId,
+		parentTitle,
+	} = useReportMaterials({ postId, postType });
 
 	const blockWrapperClassNames = useMemo(() => {
-		return classNames(className, 'common-block-style--baseball-card')
-	}, [
-		className,
-	]);
+		return classNames(className, 'common-block-style--baseball-card');
+	}, [className]);
 
 	const headingClassNames = useMemo(() => {
 		return classNames('wp-block-prc-block-report-materials__heading', {
-			'has-text-color': !!headingTextColor?.color || !!headingTextColor?.class,
+			'has-text-color':
+				!!headingTextColor?.color || !!headingTextColor?.class,
 			[`has-${headingTextColor?.slug}-color`]: !!headingTextColor?.slug,
-			'has-background': !!headingBackgroundColor?.color || !!headingBackgroundColor?.class,
-			[`has-${headingBackgroundColor?.slug}-background-color`]: !!headingBackgroundColor?.slug,
-		})
-	}, [
-		headingBackgroundColor,
-		headingTextColor,
-	]);
+			'has-background':
+				!!headingBackgroundColor?.color ||
+				!!headingBackgroundColor?.class,
+			[`has-${headingBackgroundColor?.slug}-background-color`]:
+				!!headingBackgroundColor?.slug,
+		});
+	}, [headingBackgroundColor, headingTextColor]);
 
 	const blockProps = useBlockProps({
 		className: blockWrapperClassNames,
@@ -82,23 +102,25 @@ function Edit({
 
 	return (
 		<Fragment>
-			<Controls {...{
-				colors: {
-					headingBackgroundColor,
-					setHeadingBackgroundColor,
-					headingTextColor,
-					setHeadingTextColor,
-					hoverBackgroundColor,
-					setHoverBackgroundColor,
-					hoverTextColor,
-					setHoverTextColor,
-					activeBackgroundColor,
-					setActiveBackgroundColor,
-					activeTextColor,
-					setActiveTextColor,
-				},
-				clientId,
-			}}/>
+			<Controls
+				{...{
+					colors: {
+						headingBackgroundColor,
+						setHeadingBackgroundColor,
+						headingTextColor,
+						setHeadingTextColor,
+						hoverBackgroundColor,
+						setHoverBackgroundColor,
+						hoverTextColor,
+						setHoverTextColor,
+						activeBackgroundColor,
+						setActiveBackgroundColor,
+						activeTextColor,
+						setActiveTextColor,
+					},
+					clientId,
+				}}
+			/>
 			<div {...blockProps}>
 				<div className={headingClassNames}>
 					<RichText
@@ -106,36 +128,66 @@ function Edit({
 							tagName: 'h2',
 							placeholder: 'Report Materials',
 							value: heading,
-							onChange: (newHeading) => setAttributes({ heading: newHeading }),
+							onChange: (newHeading) =>
+								setAttributes({ heading: newHeading }),
 						}}
 					/>
 				</div>
-				<ul className="wp-block-prc-block-report-materials__list" style={{
-					'--block-gap': getBlockGapSupportValue(attributes)
-				}}>
-					{0 !== reportMaterials.length && reportMaterials.map((material) => {
-						const type = material?.type;
-						const icon = type ? getItemIcon(type) : null;
-						return (
-							<li className={classNames('wp-block-prc-block-repor_materials__list-item', 'flex-align-center', {
-								'has-hover-background': !!hoverBackgroundColor.color || hoverBackgroundColor.class,
-								[`has-hover-${hoverBackgroundColor?.slug}-background-color`]: !!hoverBackgroundColor?.slug,
-								'has-hover-color': !!hoverTextColor.color || hoverTextColor.class,
-								[`has-hover-${hoverTextColor?.slug}-color`]: !!hoverTextColor?.slug,
-								'has-active-background': !!activeBackgroundColor.color || activeBackgroundColor.class,
-								[`has-active-${activeBackgroundColor?.slug}-background-color`]: !!activeBackgroundColor?.slug,
-								'has-active-color': !!activeTextColor.color || activeTextColor.class,
-								[`has-active-${activeTextColor?.slug}-color`]: !!activeTextColor?.slug,
-								'has-focus-background': !!activeBackgroundColor.color || activeBackgroundColor.class,
-								[`has-focus-${activeBackgroundColor?.slug}-background-color`]: !!activeBackgroundColor?.slug,
-								'has-focus-color': !!activeTextColor.color || activeTextColor.class,
-								[`has-focus-${activeTextColor?.slug}-color`]: !!activeTextColor?.slug,
-							})}>
-								{null !== icon && <Icon icon={icon} />}
-								<span>{getItemLabel(material)}</span>
-							</li>
-						)
-					})}
+				<ul
+					className="wp-block-prc-block-report-materials__list"
+					style={{
+						'--block-gap': getBlockGapSupportValue(attributes),
+					}}
+				>
+					{0 !== reportMaterials.length &&
+						reportMaterials.map((material, i) => {
+							const type = material?.type;
+							const icon = type ? getItemIcon(type) : null;
+							return (
+								<li
+									key={i}
+									className={classNames(
+										'wp-block-prc-block-repor_materials__list-item',
+										'flex-align-center',
+										{
+											'has-hover-background':
+												!!hoverBackgroundColor.color ||
+												hoverBackgroundColor.class,
+											[`has-hover-${hoverBackgroundColor?.slug}-background-color`]:
+												!!hoverBackgroundColor?.slug,
+											'has-hover-color':
+												!!hoverTextColor.color ||
+												hoverTextColor.class,
+											[`has-hover-${hoverTextColor?.slug}-color`]:
+												!!hoverTextColor?.slug,
+											'has-active-background':
+												!!activeBackgroundColor.color ||
+												activeBackgroundColor.class,
+											[`has-active-${activeBackgroundColor?.slug}-background-color`]:
+												!!activeBackgroundColor?.slug,
+											'has-active-color':
+												!!activeTextColor.color ||
+												activeTextColor.class,
+											[`has-active-${activeTextColor?.slug}-color`]:
+												!!activeTextColor?.slug,
+											'has-focus-background':
+												!!activeBackgroundColor.color ||
+												activeBackgroundColor.class,
+											[`has-focus-${activeBackgroundColor?.slug}-background-color`]:
+												!!activeBackgroundColor?.slug,
+											'has-focus-color':
+												!!activeTextColor.color ||
+												activeTextColor.class,
+											[`has-focus-${activeTextColor?.slug}-color`]:
+												!!activeTextColor?.slug,
+										}
+									)}
+								>
+									{null !== icon && <NewIcon icon={icon} />}
+									<span>{getItemLabel(material)}</span>
+								</li>
+							);
+						})}
 				</ul>
 			</div>
 		</Fragment>
@@ -148,5 +200,5 @@ export default withColors(
 	{ headingBackgroundColor: 'color' },
 	{ headingTextColor: 'color' },
 	{ hoverBackgroundColor: 'color' },
-	{ hoverTextColor: 'color' },
+	{ hoverTextColor: 'color' }
 )(Edit);

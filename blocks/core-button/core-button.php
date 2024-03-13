@@ -160,9 +160,7 @@ class Core_Button {
 			$tag_processor = new WP_HTML_Tag_Processor($block_content);
 			$tag_processor->next_tag('a');
 
-			$input_name = array_key_exists('metadata', $block['attrs']) && array_key_exists('name', $block['attrs']['metadata']) ? $block['attrs']['metadata']['name'] : null;
-
-			$button_id = null !== $input_name ? sanitize_title($input_name) : wp_unique_id('core-button-');
+			$button_id = $tag_processor->get_attribute('id') ?? wp_unique_id('core-button-');
 
 			wp_interactivity_state(
 				$target_namespace,

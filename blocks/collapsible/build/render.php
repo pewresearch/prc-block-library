@@ -37,9 +37,7 @@ $wrapper_attrs = get_block_wrapper_attributes($block_wrapper_attrs);
 
 do_action('qm/debug', print_r($content, true));
 
-ob_start();
-\PRC\Platform\Icons\Render('light', 'circle-plus');
-$icon = ob_get_clean();
+$icon = \PRC\Platform\Icons\Render('light', 'circle-plus');;
 
 if ( function_exists( 'apple_news_is_exporting' ) && apple_news_is_exporting() ) {
 	// echo wp_sprintf();

@@ -36,26 +36,26 @@ export function getItemLabel(item) {
 export function getItemIcon(type) {
 	switch (type) {
 		case 'detailedTable':
-			return icons.faTable;
+			return 'table';
 		case 'link':
-			return icons.faLink;
+			return 'link';
 		case 'presentation':
-			return icons.faPresentationScreen;
+			return 'presentation-screen';
 		case 'pressRelease':
-			return icons.faFile;
+			return 'file';
 		case 'promo':
-			return icons.faFile;
+			return 'file';
 		case 'qA':
-			return icons.faFile;
+			return 'file';
 		case 'questionnaire':
-			return icons.faClipboard;
+			return 'clipboard';
 		case 'report':
-			return icons.faFile;
+			return 'file';
 		case 'supplemental':
-			return icons.faFile;
+			return 'file';
 		case 'topline':
-			return icons.faClipboard;
+			return 'clipboard';
 		default:
-			return icons.faFile;
+			return 'file';
 	}
 }

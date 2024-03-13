@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { icons, Icon } from '@prc/icons';
+import { NewIcon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -24,6 +24,7 @@ import Controls from './controls';
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.clientId
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -36,14 +37,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			<Controls {...{ attributes, setAttributes, clientId }} />
 			<div {...blockProps}>
 				<Placeholder
-					icon={<Icon icon={icons.faDatabase}/>}
+					icon={<NewIcon icon="database" />}
 					label={__(' Roper DB Search')}
 					instructions={__(
-						'This block will render the Roper Database search on the frontend. You can edit the settings in the block inspector.',
+						'This block will render the Roper Database search on the frontend. You can edit the settings in the block inspector.'
 					)}
 				>
 					<p>
-						Will render <pre style={{ display: 'inline' }}>{type}</pre> Roper
+						Will render{' '}
+						<pre style={{ display: 'inline' }}>{type}</pre> Roper
 						Search
 					</p>
 				</Placeholder>

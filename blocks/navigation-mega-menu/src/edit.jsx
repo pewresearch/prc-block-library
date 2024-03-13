@@ -4,7 +4,7 @@
  * External Dependencies
  */
 import classnames from 'classnames';
-import { icons, Icon } from '@prc/icons';
+import { NewIcon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -140,15 +140,15 @@ function Edit({
 
 	const selectedIcon = useMemo(() => {
 		if ('dropdown' === icon) {
-			return icons.faCaretDown;
+			return 'caret-down';
 		}
 		if ('mobile' === icon) {
-			return icons.faBars;
+			return 'bars';
 		}
 		if ('search' === icon) {
-			return icons.faMagnifyingGlass;
+			return 'magnifying-glass';
 		}
-		return icons.faCaretDown;
+		return 'caret-down';
 	}, [icon]);
 
 	const showLabel = !icon || 'dropdown' === icon;
@@ -195,11 +195,7 @@ function Edit({
 							},
 						}}
 					>
-						<Icon
-							icon={selectedIcon}
-							height={18}
-							preserveAspectRatio="xMidYMid meet"
-						/>
+						<NewIcon icon={selectedIcon} />
 					</span>
 					{description && (
 						<span className="wp-block-navigation-item__description">

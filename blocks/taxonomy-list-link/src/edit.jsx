@@ -3,7 +3,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
-import { icons, Icon } from '@prc/icons';
+import { NewIcon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -77,7 +77,8 @@ export default function Edit({
 	insertBlocksAfter,
 }) {
 	// eslint-disable-next-line prettier/prettier, object-curly-newline
-	const { allowedBlocks, className, label, enableSubMenu, style } = attributes;
+	const { allowedBlocks, className, label, enableSubMenu, style } =
+		attributes;
 	const [subMenuIsOpen, toggleSubMenu] = useState(false);
 
 	// Use internal state instead of a ref to make sure that the component
@@ -104,13 +105,9 @@ export default function Edit({
 	};
 
 	const plusIcon =
-		'is-style-sub-expand' === className
-			? icons.faPlus
-			: icons.faCirclePlusThin;
+		'is-style-sub-expand' === className ? 'plus' : 'circle-plus';
 	const minusIcion =
-		'is-style-sub-expand' === className
-			? icons.faMinus
-			: icons.faCircleMinusThin;
+		'is-style-sub-expand' === className ? 'minus' : 'circle-minus';
 
 	// By defining a allowedBlocks attribute any block can
 	// now customize what inner blocks are allowed.
@@ -178,7 +175,7 @@ export default function Edit({
 					/>
 				)}
 				{'is-style-sub-heading' === className && (
-					<Icon icon={icons.faChevronRight} size="xs" />
+					<NewIcon icon="chevron-right" />
 				)}
 				{enableSubMenu && (
 					<Fragment>
@@ -187,13 +184,8 @@ export default function Edit({
 							onClick={() => toggleSubMenu(!subMenuIsOpen)}
 							type="button"
 						>
-							<Icon
+							<NewIcon
 								icon={subMenuIsOpen ? minusIcion : plusIcon}
-								size={
-									'is-style-sub-expand' === className
-										? 'xs'
-										: null
-								}
 							/>
 						</button>
 						<div {...innerBlocksProps} />

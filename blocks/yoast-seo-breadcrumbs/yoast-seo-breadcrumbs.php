@@ -59,7 +59,7 @@ class Yoast_SEO_Breadcrumbs {
 	 * @hook wpseo_breadcrumb_separator
 	 */
 	public function modify_separator($separator) {
-		return '<i class="fa fa-solid fa-chevron-right"></i>';
+		return \PRC\Platform\Icons\Render('solid', 'chevron-right');
 	}
 
 	/**

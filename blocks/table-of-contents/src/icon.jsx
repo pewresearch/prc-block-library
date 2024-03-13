@@ -1,14 +1,8 @@
 /**
  * External Dependencies
  */
-import { icons, Icon } from '@prc/icons';
+import { NewIcon } from '@prc/icons';
 
-export default function() {
-	return(
-		<Icon
-			icon={icons.faListTree}
-			height={18}
-			preserveAspectRatio="xMidYMid meet"
-		/>
-	);
+export default function () {
+	return <NewIcon icon="list-tree" />;
 }
