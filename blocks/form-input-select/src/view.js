@@ -15,14 +15,14 @@ const { actions } = store('prc-block/form-input-select', {
 				event.preventDefault();
 			}
 			const context = getContext();
-			// Because the on-blur event fires before the click event we need to slow things down a bit, 100 ms should do it
+			// Because the on-blur event fires before the click event we need to slow things down a bit, 150 ms should do it
 			let isRunning = false;
 			if (!isRunning) {
 				isRunning = true;
 				setTimeout(() => {
 					context.isOpen = false;
 					isRunning = false;
-				}, 100);
+				}, 150);
 			}
 		},
 		onReset: () => {
@@ -33,7 +33,7 @@ const { actions } = store('prc-block/form-input-select', {
 			context.filteredOptions = context.options;
 		},
 		getOptionByValue: (value) => {
-			console.log('getOptionByValue', value);
+			console.log('form-input-select::getOptionByValue', value);
 			const context = getContext();
 			const { options } = context;
 			const selectedOption = options.find(
@@ -52,7 +52,7 @@ const { actions } = store('prc-block/form-input-select', {
 				...selectedOption,
 			};
 		},
-		moveThroughOptions: (direction, id) => {
+		moveThroughOptions: (direction, ref) => {
 			const context = getContext();
 			const { activeIndex, filteredOptions } = context;
 			let nextActive = null;
@@ -68,6 +68,19 @@ const { actions } = store('prc-block/form-input-select', {
 				nextActive = 0;
 			}
 
+			// also scroll the listbox to the active item as you go...
+			const listbox = ref.parentElement.parentElement.querySelector(
+				'.wp-block-prc-block-form-input-select__list'
+			);
+			const activeItem = listbox.querySelector(
+				`[data-ref-value="${filteredOptions[nextActive].value}"]`
+			);
+			if (activeItem) {
+				activeItem.scrollIntoView({
+					block: 'nearest',
+				});
+			}
+
 			filteredOptions.forEach((option) => {
 				option.isSelected = false;
 			});
@@ -75,31 +88,39 @@ const { actions } = store('prc-block/form-input-select', {
 
 			context.activeIndex = nextActive;
 			context.filteredOptions = filteredOptions;
-			console.log('moveThroughOptions', context, nextActive, direction);
+			console.log(
+				'form-input-select::moveThroughOptions',
+				context,
+				nextActive,
+				direction
+			);
 		},
 		setValueOnEnter: () => {
-			console.log('setting value on enter');
 			const context = getContext();
-			const { activeId, filteredOptions, options } = context;
-			context.filteredOptions = options;
+			const { filteredOptions, activeIndex } = context;
 
-			const highlightedOption = filteredOptions[activeId];
-			context.value = highlightedOption.value;
-			context.label = highlightedOption.label;
+			const highlightedOption = filteredOptions[activeIndex];
+			console.log('ENTER === ', {
+				filteredOptions,
+				activeIndex,
+				highlightedOption,
+			});
+
+			context.value = highlightedOption?.value;
+			context.label = highlightedOption?.label;
 			context.isOpen = false;
+
+			// reset the filtered options
+			// context.filteredOptions = options;
 		},
 		onKeyUp: (event) => {
 			event.preventDefault();
+			// The input value.
 			const { value } = event.target;
 
 			const context = getContext();
 			const { options } = context;
 			const { ref } = getElement();
-			console.log('onKeyUp', ref);
-			const id = ref.getAttribute('aria-controls');
-			if (!id) {
-				return;
-			}
 
 			if (event.key === 'Escape') {
 				actions.onReset();
@@ -109,24 +130,24 @@ const { actions } = store('prc-block/form-input-select', {
 				return;
 			}
 
-			if (event.key === 'Enter') {
-				actions.setValueOnEnter(id);
-			}
 			if (event.keyCode === 40 && event.key === 'ArrowDown') {
-				actions.moveThroughOptions(1, id);
+				actions.moveThroughOptions(1, event.target);
 				return;
 			}
 			if (event.keyCode === 38 && event.key === 'ArrowUp') {
-				actions.moveThroughOptions(-1, id);
+				actions.moveThroughOptions(-1, event.target);
+				return;
+			}
+			if (event.key === 'Enter') {
+				actions.setValueOnEnter();
 				return;
 			}
 
-			// check if any of the options contain the value of the input
+			// Search options for the value and then set the filteredOptions to any matches...
 			const matches = options.filter((option) => {
 				const { label } = option;
 				return label.toLowerCase().includes(value.toLowerCase());
 			});
-			// if there are matches set the filteredOptions to the matches
 			if (matches.length) {
 				context.filteredOptions = matches;
 			}
@@ -135,30 +156,32 @@ const { actions } = store('prc-block/form-input-select', {
 			event.preventDefault();
 			const { ref } = getElement();
 			const context = getContext();
-			const { options } = context;
+			const { options, option } = context;
 
 			const id = ref.getAttribute('aria-controls');
 			const val = ref.getAttribute('data-ref-value');
-			const { index, label, value } = actions.getOptionByValue(val);
+			const { index } = actions.getOptionByValue(val);
+			const { label, value } = options[index];
 
 			context.activeIndex = index;
 			context.label = label;
 			context.value = value;
 
-			console.log(
-				'form-input-select::onClick',
+			console.log('form-input-select::onClick', {
 				context,
+				option,
+				options,
 				index,
 				label,
-				value
-			);
+				value,
+			});
 
 			// find any other isSelected and set to false and then set isSelected
 			// on the clicked option
 			// also, reset the filteredOptions to the original options now that we have a value
 			const filteredOptions = options;
-			filteredOptions.forEach((option) => {
-				option.isSelected = false;
+			filteredOptions.forEach((opt) => {
+				opt.isSelected = false;
 			});
 			filteredOptions[index].isSelected = true;
 			context.filteredOptions = filteredOptions;
@@ -167,11 +190,6 @@ const { actions } = store('prc-block/form-input-select', {
 		},
 	},
 	callbacks: {
-		onInit: () => {
-			const context = getContext();
-			const { options } = context;
-			console.log('form-input-select -> onInit', context, options);
-		},
 		onValueChange: () => {
 			const { ref } = getElement();
 			const context = getContext();
@@ -182,24 +200,13 @@ const { actions } = store('prc-block/form-input-select', {
 				const { actions: targetActions } = store(targetNamespace);
 				if (targetActions.onSelectChange) {
 					console.log(
-						'onValueChange -> onSelectChange:',
+						'form-input-select::onValueChange -> onSelectChange:',
 						context,
-						value,
-						ref
+						value
 					);
 					targetActions.onSelectChange(value, ref);
 				}
 			}
-		},
-		getInputValue: () => {
-			const { ref } = getElement();
-			const context = getContext();
-			const { value } = context;
-			console.log('getInputValue', context, value, ref);
-			if (!value) {
-				return null;
-			}
-			return value;
 		},
 	},
 });
