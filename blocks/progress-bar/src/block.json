@@ -22,7 +22,7 @@
 		},
 		"backgroundColor": {
 			"type": "string",
-			"default": "beige"
+			"default": "ui-beige-very-light"
 		},
 		"categoryLabelColor": {
 			"type": "string",

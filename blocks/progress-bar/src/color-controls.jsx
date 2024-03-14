@@ -13,10 +13,7 @@ import {
 	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 } from '@wordpress/block-editor';
 
-export default function ColorControls({
-	colors,
-	clientId,
-}) {
+export default function ColorControls({ colors, clientId }) {
 	const colorProps = useMultipleOriginColorsAndGradients();
 
 	const colorSettings = useMemo(() => {
@@ -49,17 +46,15 @@ export default function ColorControls({
 	}, [colors]);
 
 	return (
-		<Fragment>
-			<InspectorControls group="color">
-				<ColorGradientSettingsDropdown
-					settings={ colorSettings }
-					panelId={ clientId }
-					hasColorsOrGradients={ false }
-					disableCustomColors={ true }
-					__experimentalIsRenderedInSidebar
-					{ ...colorProps }
-				/>
-			</InspectorControls>
-		</Fragment>
+		<InspectorControls group="color">
+			<ColorGradientSettingsDropdown
+				settings={colorSettings}
+				panelId={clientId}
+				hasColorsOrGradients={false}
+				disableCustomColors={false}
+				__experimentalIsRenderedInSidebar
+				{...colorProps}
+			/>
+		</InspectorControls>
 	);
 }
