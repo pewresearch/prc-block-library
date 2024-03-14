@@ -124,6 +124,7 @@ class Post_Taxonomy_Terms {
 
 		// Create and register eligible taxonomy variations.
 		foreach ( $taxonomies as $taxonomy ) {
+			$taxonomy_name = !empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 			$variation = array(
 				'name'        => $taxonomy->name,
 				'title'       => $taxonomy->label,
@@ -133,7 +134,7 @@ class Post_Taxonomy_Terms {
 					$taxonomy->label
 				),
 				'attributes'  => array(
-					'taxonomy' => $taxonomy->rest_base,
+					'taxonomy' => $taxonomy_name,
 				),
 				'isActive'    => array( 'taxonomy' ),
 				'scope'       => array( 'inserter', 'transform' ),
