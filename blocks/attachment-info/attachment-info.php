@@ -33,17 +33,24 @@ class Attachment_Info {
 		}
 	}
 
-	public function get_attachments($parent_post_id) {
+	public function get_attachments($parent_post_id, $post_id = null) {
 		$cached_data = false;
 		// $cached_data = wp_cache_get( $parent_post_id, 'attachment-info' );
 		if (false !== $cached_data) {
 			return $cached_data;
 		}
 
+		// check if this is an attachment page and if so get it's id...
+		$post__not_in = [];
+		if ( is_attachment($post_id) ) {
+			$post__not_in = [$post_id];
+		}
+
 		$attachments = new WP_Query( array(
 			'post_type' => 'attachment',
 			'post_parent' => $parent_post_id,
 			'post_status' => 'inherit',
+			'post__not_in' => $post__not_in,
 			'posts_per_page' => 50,
 			'orderby' => 'date',
 			'order' => 'asc',
@@ -81,14 +88,15 @@ class Attachment_Info {
 
 	public function render_block_callback( $attributes, $content, $block ) {
 		$post_id = $block->context['postId'];
+
 		$parent_post_id = wp_get_post_parent_id($post_id);
 
 		$heading_text = array_key_exists('heading', $attributes) ? $attributes['heading'] : false;
 
-		$attachments = $this->get_attachments($parent_post_id);
+		$attachments = $this->get_attachments($parent_post_id, $post_id);
 
-		$post_title = get_the_title($post_id);
-		$post_url = get_the_permalink($post_id);
+		$parent_post_title = get_the_title($parent_post_id);
+		$parent_post_url = get_the_permalink($parent_post_id);
 
 		if (! $attachments ) {
 			return '';
@@ -110,15 +118,15 @@ class Attachment_Info {
 		);
 
 		$content .= wp_sprintf(
-			'<li class="%1$s"><a href="%2$s" target="_blank">%3$s</a></li>',
+			'<li class="%1$s"><a href="%2$s">%3$s</a></li>',
 			$list_item_classnames,
-			$post_url,
-			$post_title,
+			$parent_post_url,
+			$parent_post_title,
 		);
 
 		foreach ($attachments as $attachment) {
 			$content .= wp_sprintf(
-				'<li class="%1$s"><a href="%2$s" target="_blank">%3$s</a></li>',
+				'<li class="%1$s"><a href="%2$s">%3$s</a></li>',
 				$list_item_classnames,
 				$attachment['link'],
 				$attachment['title'],
