@@ -13,13 +13,23 @@ $input_options = array_key_exists( 'options', $attributes ) ? $attributes['optio
 		'isSelected' => false,
 	),
 );
+$input_label = null;
+if ( null !== $input_value ) {
+	foreach ( $input_options as $option ) {
+		if ( $option['value'] === $input_value ) {
+			$input_label = $option['label'];
+			break;
+		}
+	}
+
+}
 $input_disabled = array_key_exists( 'disabled', $attributes ) ? $attributes['disabled'] : false;
 $input_options = empty($input_options) && array_key_exists( 'prc-block/form-input-options', $block->context) ? $block->context['prc-block/form-input-options'] : $input_options;
 
-$input_options = array_map( function( $option ) use ( $input_value ) {
-	$option['isSelected'] = $option['value'] === $input_value;
-	return $option;
-}, $input_options );
+// $input_options = array_map( function( $option ) use ( $input_value ) {
+// 	$option['isSelected'] = $option['value'] === $input_value;
+// 	return $option;
+// }, $input_options );
 $input_id = md5( $target_namespace . $input_name );
 
 $input_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
@@ -67,7 +77,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 		'targetNamespace' => $target_namespace,
 		'activeIndex' => 0,
 		'value' => $input_value,
-		'label' => null,
+		'label' => $input_label,
 		'isOpen' => false,
 		'isHidden' => false,
 		'isDisabled' => $input_disabled,
@@ -84,7 +94,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 	'data-wp-class--is-error' => 'context.isError',
 	'data-wp-class--is-success' => 'context.isSuccess',
 	'data-wp-class--is-processing' => 'context.isProcessing',
-	'data-wp-watch--on-value-change' => 'callbacks.onValueChange',
+	// 'data-wp-watch--on-value-change' => 'callbacks.onValueChange',
 	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
 ) );
 

@@ -106,7 +106,7 @@ const { actions } = store('prc-block/form-input-select', {
 				highlightedOption,
 			});
 
-			context.value = highlightedOption?.value;
+			actions.setNewValue(highlightedOption?.value);
 			context.label = highlightedOption?.label;
 			context.isOpen = false;
 
@@ -165,7 +165,7 @@ const { actions } = store('prc-block/form-input-select', {
 
 			context.activeIndex = index;
 			context.label = label;
-			context.value = value;
+			actions.setNewValue(value);
 
 			console.log('form-input-select::onClick', {
 				context,
@@ -188,25 +188,44 @@ const { actions } = store('prc-block/form-input-select', {
 
 			actions.onClose();
 		},
-	},
-	callbacks: {
-		onValueChange: () => {
+		setNewValue: (newValue) => {
 			const { ref } = getElement();
 			const context = getContext();
-			const { targetNamespace, value } = context;
+			const { targetNamespace } = context;
 			// if the value is not empty and the targetNamespace is not the same as the current namespace
 			// then hoist the value up to the targetNamespace
-			if (value && 'prc-block/form-input-select' !== targetNamespace) {
+			context.value = newValue;
+			if (newValue && 'prc-block/form-input-select' !== targetNamespace) {
 				const { actions: targetActions } = store(targetNamespace);
 				if (targetActions.onSelectChange) {
 					console.log(
 						'form-input-select::onValueChange -> onSelectChange:',
 						context,
-						value
+						newValue
 					);
-					targetActions.onSelectChange(value, ref);
+					targetActions.onSelectChange(newValue, ref);
 				}
 			}
 		},
+	},
+	callbacks: {
+		// onValueChange: () => {
+		// 	const { ref } = getElement();
+		// 	const context = getContext();
+		// 	const { targetNamespace, value } = context;
+		// 	// if the value is not empty and the targetNamespace is not the same as the current namespace
+		// 	// then hoist the value up to the targetNamespace
+		// 	if (value && 'prc-block/form-input-select' !== targetNamespace) {
+		// 		const { actions: targetActions } = store(targetNamespace);
+		// 		if (targetActions.onSelectChange) {
+		// 			console.log(
+		// 				'form-input-select::onValueChange -> onSelectChange:',
+		// 				context,
+		// 				value
+		// 			);
+		// 			targetActions.onSelectChange(value, ref);
+		// 		}
+		// 	}
+		// },
 	},
 });
