@@ -8,7 +8,7 @@ import { MarkedRangeControl } from '@prc/components';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { 
+import {
 	Notice,
 	RangeControl,
 	__experimentalToolsPanelItem as ToolsPanelItem,
@@ -25,6 +25,9 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import { Fragment } from '@wordpress/element';
 
+const DESKTOP_MIN = 2;
+const TABLET_MIN = 2;
+const MOBILE_MIN = 2;
 const DESKTOP_MAX = 12;
 const TABLET_MAX = 8;
 const MOBILE_MAX = 4;
