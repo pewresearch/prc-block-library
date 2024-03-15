@@ -94,7 +94,6 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 	'data-wp-class--is-error' => 'context.isError',
 	'data-wp-class--is-success' => 'context.isSuccess',
 	'data-wp-class--is-processing' => 'context.isProcessing',
-	// 'data-wp-watch--on-value-change' => 'callbacks.onValueChange',
 	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
 ) );
 
