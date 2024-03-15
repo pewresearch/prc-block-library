@@ -3,12 +3,12 @@
   "apiVersion": 3,
   "name": "prc-block/grid-column",
   "version": "0.1.0",
-  "title": "Column",
+  "title": "Grid Column",
   "category": "design",
   "parent": [
     "prc-block/grid-controller"
   ],
-  "description": "A single column within a columns grid block.",
+  "description": "A single column within a grid block.",
   "attributes": {
     "gridLayout": {
       "type": "object",

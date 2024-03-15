@@ -3,9 +3,9 @@
   "apiVersion": 3,
   "name": "prc-block/grid-controller",
   "version": "0.1.0",
-  "title": "Grid Columns",
+  "title": "Grid Controller",
   "category": "design",
-  "description": "Display content in multiple columns using a customizable responsive css-grid layout. The grid consists of 12 columns on desktop and tablet, and 4 columns on mobile.",
+  "description": "Layout content in columns using custom PRC grid system.",
   "keywords": [
     "grid",
     "columns",
@@ -161,7 +161,7 @@
         ]
       }
     ],
-    "viewportWidth": 1350
+    "viewportWidth": 1200
   },
   "textdomain": "grid-controller",
   "editorScript": "file:./index.js",
