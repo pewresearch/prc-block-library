@@ -27,7 +27,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'data-wp-on--click' => 'actions.onClick',
 ));
 
-$icon = \PRC\Platform\Icons\Render('sharp', 'up-from-bracket');
+$icon = \PRC\Platform\Icons\Render('sharp-light', 'up-from-bracket');
 
 echo wp_sprintf(
 	'<a %1$s><span class="wp-block-prc-block-social-share-sheet__label">Share</span>%2$s</a>',
