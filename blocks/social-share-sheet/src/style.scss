@@ -8,6 +8,11 @@
 .wp-block-prc-block-social-share-sheet {
 	display: inline-block;
 	cursor: pointer;
+	font-size: inherit;
+	color: inherit;
+	line-height: inherit;
+	letter-spacing: inherit;
+	font-weight: inherit;
 	.wp-block-prc-block-social-share-sheet__label {
 		display: inline-block;
 		padding-right: 0.5em;
@@ -21,7 +26,13 @@ button.wp-block-prc-block-social-share-sheet {
 	border: none;
 	background: none;
 	padding: 0;
-	cursor: pointer;
 }
-
-
+// The social links block should inherit the font size from the parent element when we're using this block.
+.wp-block-social-links.has-small-icon-size:has(.wp-block-prc-block-social-share-sheet) {
+    font-size: inherit !important;
+	font-size: inherit!important;
+	color: inherit!important;
+	line-height: inherit!important;
+	letter-spacing: inherit!important;
+	font-weight: inherit!important;
+}

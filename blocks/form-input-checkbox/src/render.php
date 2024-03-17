@@ -10,21 +10,26 @@ $input_type             = array_key_exists('type', $attributes) ? $attributes['t
 $input_value            = array_key_exists('value', $attributes) ? $attributes['value'] : '';
 $input_id               = md5( $target_namespace . $input_name . $input_type );
 
-// Hoist this block's values into the target interactive namespace state.
-// State is no longer "global" store, in the sense that it is not shared across all blocks on the page and is instead shared by all blocks of the same namespace on the page.
-// Whereas context is a "state" store instanced to each block of the namespace.
-wp_interactivity_state(
-	$target_namespace,
-	array(
-		$input_id => array(
-			'value' => $input_value,
-			'checked' => $input_checked,
-			'type' => $input_type,
-			'required' => $input_required,
-			'name' => $input_name,
+$is_part_of_a_template = false;
+if ( false === $is_part_of_a_template ) {
+	// Hoist this block's values into the target interactive namespace state.
+	// State is no longer "global" store, in the sense that it is not shared across all blocks on the page and is instead shared by all blocks of the same namespace on the page.
+	// Whereas context is a "state" store instanced to each block of the namespace.
+	wp_interactivity_state(
+		$target_namespace,
+		array(
+			$input_id => array(
+				'value' => $input_value,
+				'checked' => $input_checked,
+				'type' => $input_type,
+				'required' => $input_required,
+				'name' => $input_name,
+			),
 		),
-	),
-);
+	);
+}
+
+// if this is part of a template then our attrs need to change to be bound to the template's context and actions and such... effectively wp interactivity template context should drive these values, not something else.
 
 $input_attrs = array(
 	'id'                    	=> $input_id,

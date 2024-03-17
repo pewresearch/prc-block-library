@@ -207,25 +207,24 @@ const { actions } = store('prc-block/form-input-select', {
 				}
 			}
 		},
+		getTargetProcessingState: () => {
+			const context = getContext();
+			const { targetNamespace } = context;
+			if ('prc-block/form-input-select' !== targetNamespace) {
+				const { state: targetState } = store(targetNamespace);
+				if (targetState.isProcessing) {
+					return true;
+				}
+			}
+			return false;
+		},
 	},
 	callbacks: {
-		// onValueChange: () => {
-		// 	const { ref } = getElement();
-		// 	const context = getContext();
-		// 	const { targetNamespace, value } = context;
-		// 	// if the value is not empty and the targetNamespace is not the same as the current namespace
-		// 	// then hoist the value up to the targetNamespace
-		// 	if (value && 'prc-block/form-input-select' !== targetNamespace) {
-		// 		const { actions: targetActions } = store(targetNamespace);
-		// 		if (targetActions.onSelectChange) {
-		// 			console.log(
-		// 				'form-input-select::onValueChange -> onSelectChange:',
-		// 				context,
-		// 				value
-		// 			);
-		// 			targetActions.onSelectChange(value, ref);
-		// 		}
-		// 	}
-		// },
+		isProcessing: () => {
+			return actions.getTargetProcessingState();
+		},
+		isDisabled: () => {
+			return actions.getTargetProcessingState();
+		},
 	},
 });

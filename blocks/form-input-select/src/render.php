@@ -42,6 +42,7 @@ $input_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
 	'data-wp-on--keyup' 	=> 'actions.onKeyUp',
 	'data-wp-on--focus' 	=> 'actions.onOpen', // open the list when the input is focused
 	'data-wp-on--blur' 		=> 'actions.onClose', // close the list when the input is blurred
+	'data-wp-bind--disabled' => 'callbacks.isDisabled',
 ) );
 $input = wp_sprintf(
 	'<input %1$s />',
@@ -79,21 +80,13 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 		'value' => $input_value,
 		'label' => $input_label,
 		'isOpen' => false,
-		'isHidden' => false,
 		'isDisabled' => $input_disabled,
-		'isError' => false,
-		'isSuccess' => false,
-		'isProcessing' => false,
 		'filteredOptions' => $input_options,
 		'options' => $input_options,
 	)),
 	'data-wp-init' => 'callbacks.onInit',
-	'data-wp-bind--hidden' => 'context.isHidden',
 	'data-wp-class--is-open' => 'context.isOpen',
-	'data-wp-class--is-disabled' => 'context.isDisabled',
-	'data-wp-class--is-error' => 'context.isError',
-	'data-wp-class--is-success' => 'context.isSuccess',
-	'data-wp-class--is-processing' => 'context.isProcessing',
+	'data-wp-class--is-processing' => 'callbacks.isProcessing',
 	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
 ) );
 
