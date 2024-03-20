@@ -48,11 +48,11 @@ function LogoInner({ onLoad, className, width }) {
 		const svgLoad = (svg) => {
 			const svgEl = svg();
 
-			const [w, h] = svgEl.props.viewBox.split(' ').slice(2);
+			const [width, height] = svgEl.props.viewBox.split(' ').slice(2);
 
-			console.log('svgEl', svgEl, svgEl.props.viewBox, w, h);
+			console.log('svgEl', svgEl, svgEl.props.viewBox, width, height);
 
-			onLoad(w, h);
+			onLoad(width, height);
 		};
 
 		switch (selectedStyle[1]) {
