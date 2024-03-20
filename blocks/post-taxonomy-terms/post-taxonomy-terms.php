@@ -55,8 +55,16 @@ class Post_Taxonomy_Terms {
 			)),
 			'style' => array_key_exists('separator', $attributes) ? '--separator: "' . $attributes['separator'] . '"' : null,
 		));
-
-		$post_terms = wp_get_post_terms( get_the_ID(), $taxonomy, array( 'number' => $per_page ) );
+		$post_id = get_the_ID();
+		$parent_id = wp_get_post_parent_id($post_id);
+		$post_terms = wp_get_post_terms( $post_id, $taxonomy, array( 'number' => $per_page ) );
+		// If this is a category taxonomy block we need to check if the only term being returned is "uncategorized" and if so, we need to return an empty array so that the block will look for the parent post's terms, if available.
+		if ( 'category' === $taxonomy && 1 === count($post_terms) && 'uncategorized' === $post_terms[0]->slug ) {
+			$post_terms = array();
+		}
+		if ( 0 !== $parent_id && empty($post_terms) ) {
+			$post_terms = wp_get_post_terms( $parent_id, $taxonomy, array( 'number' => $per_page ) );
+		}
 		$markup = '';
 		if ( !empty($post_terms) && !is_wp_error($post_terms) ) {
 			$markup .= '<ul class="wp-block-prc-block-post-taxonomy-terms__list">';
