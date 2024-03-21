@@ -26,6 +26,7 @@ class Core_Query {
 		'post',
 		'short-read',
 		'interactive',
+		'feature',
 		'fact-sheet',
 		'quiz',
 	);
