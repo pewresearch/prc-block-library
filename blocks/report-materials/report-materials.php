@@ -91,6 +91,8 @@ class Report_Materials {
 				return 'file';
 			case 'topline':
 				return 'clipboard';
+			case 'dataset':
+				return 'download';
 			default:
 				return 'file';
 		}
