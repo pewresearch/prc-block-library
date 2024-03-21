@@ -2,11 +2,13 @@
  * External Dependencies
  */
 
+import { getBlockGapSupportValue } from '@prc/block-utils';
+
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, RawHTML } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -17,9 +19,7 @@ import {
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
-
-const ALLOWED_BLOCKS = [ 'core/group', 'core/paragraph' ];
+import useShortcodeCollector from './shortcode-collector';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -36,34 +36,40 @@ const ALLOWED_BLOCKS = [ 'core/group', 'core/paragraph' ];
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( {
+export default function Edit({
 	attributes,
 	setAttributes,
 	context,
 	clientId,
 	isSelected,
-} ) {
-	const blockProps = useBlockProps();
-	/**
-	 * By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
-	 * This gives us a good way to ensure greater template and pattern control.
-	 * By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant,
-	 * ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	 *
-	 * The same applies for "orientation", defaults to "vertical".
-	 *
-	 * This behavior is being adopted in Core currently, so it's a good idea to get used to it.
-	 */
-	const { allowedBlocks, orientation } = attributes;
-	const innerBlocksProps = useInnerBlocksProps( blockProps, {
-		allowedBlocks: allowedBlocks ? allowedBlocks : ALLOWED_BLOCKS,
-		orientation: orientation ? orientation : 'vertical',
-	} );
+}) {
+	const footnotes = useShortcodeCollector();
 
-	return (
-		<Fragment>
-			<Controls { ...{ attributes, setAttributes, context: false } } />
-			<div { ...innerBlocksProps } />
-		</Fragment>
-	);
+	// loop through the footnotes and get all their content properties and create a list of them <li> and store as footnotesList variable that I can call in the ul below
+	const footnotesList = footnotes.map((footnote, index) => {
+		return (
+			<li
+				key={`footnote-${index}`}
+				className="wp-block-prc-block-footnotes__footnote"
+			>
+				<span>
+					<RawHTML>{footnote}</RawHTML>
+				</span>
+				<span className="wp-block-prc-block-footnotes__footnote__return">
+					↩
+				</span>
+			</li>
+		);
+	});
+
+	const blockProps = useBlockProps({
+		style: {
+			'--block-gap': getBlockGapSupportValue(attributes),
+		},
+	});
+
+	console.log('footnotes', footnotes);
+	// then we'll need to build the markup to go into blockProps...
+
+	return <ol {...blockProps}>{footnotesList}</ol>;
 }

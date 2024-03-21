@@ -209,6 +209,7 @@ class Library {
 		new Fact_Sheet_Collection($this->get_loader());
 		new Flip_Card_Controller( $this->get_loader() );
 		new Flip_Card_Side( $this->get_loader() );
+		new Footnotes($this->get_loader());
 		new Form_Captcha($this->get_loader());
 		new Form_Field($this->get_loader());
 		new Form_Input_Checkbox($this->get_loader());

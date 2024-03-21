@@ -7,17 +7,27 @@
 	"category": "theme",
 	"description": "A unique take on footnotes. Supports numoffset.",
 	"attributes": {
-		"allowedBlocks": {
-			"type": "array"
+		"numoffset": {
+			"type": "number",
+			"default": 0
 		},
-		"orientation": {
-			"type": "string",
-			"default": "vertical"
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": "var:preset|spacing|20"
+				}
+			}
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
 		"spacing": {
 			"blockGap": true,
 			"margin": [ "top", "bottom" ],
@@ -26,15 +36,32 @@
 				"padding": true
 			}
 		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true
+			}
+		},
 		"typography": {
 			"fontSize": true,
+			"lineHeight": true,
 			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true,
 				"__experimentalFontFamily": true
 			}
 		}
 	},
+	"usesContext": [ "postId" ],
 	"textdomain": "footnotes",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

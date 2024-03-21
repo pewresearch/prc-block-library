@@ -1,17 +1,6 @@
 /**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
- */
-
-/**
- * External Dependencies
- */
-
-/**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -29,7 +18,6 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import save from './save';
 
 import metadata from './block.json';
 
@@ -37,7 +25,6 @@ const { name } = metadata;
 
 const settings = {
 	edit,
-	save,
 };
 
 /**
@@ -45,4 +32,4 @@ const settings = {
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-registerBlockType( name, { ...metadata, ...settings } );
+registerBlockType(name, { ...metadata, ...settings });
