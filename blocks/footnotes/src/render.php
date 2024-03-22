@@ -7,10 +7,11 @@ $object_id = array_key_exists('postId', $block->context) && !empty($block->conte
 
 $footnotes = new Footnotes_API( $object_id );
 $footnotes = $footnotes->get_footnotes();
-$start = $footnotes['start'];
-if ( empty( $footnotes['footnotes'] ) ) {
+if ( false === $footnotes || empty( $footnotes['footnotes'] ) ) {
 	return;
 }
+
+$start = $footnotes['start'];
 $footnotes_callback = function($footnote, $index) use ($object_id, $start) {
 	$index = $index + $start;
 	$id = "fn-" . $object_id . "-" . $index;
