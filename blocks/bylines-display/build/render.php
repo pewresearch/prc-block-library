@@ -12,6 +12,9 @@ $bylines = new \PRC\Platform\Bylines(get_the_ID());
 if ( is_wp_error($bylines->bylines) ) {
 	return;
 }
+if ( false === $bylines->should_display ) {
+	return;
+}
 
 $bylines_output = $bylines->format('html');
 
