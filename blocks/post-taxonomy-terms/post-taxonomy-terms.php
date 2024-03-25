@@ -69,6 +69,15 @@ class Post_Taxonomy_Terms {
 		if ( !empty($post_terms) && !is_wp_error($post_terms) ) {
 			$markup .= '<ul class="wp-block-prc-block-post-taxonomy-terms__list">';
 			foreach ( $post_terms as $post_term ) {
+				$term_link = '';
+				// term link needs to be equal to the blog page url and appended with ?_{taxonomy}={term-slug}
+				$publications_page_link = get_permalink( get_option( 'page_for_posts' ) );
+				$term_link = add_query_arg(
+					array(
+						'_' . $taxonomy => $post_term->slug,
+					),
+					$publications_page_link
+				);
 				$classnames = $is_list ? $color_supports->get_list_classnames(
 					'wp-block-prc-block-post-taxonomy-terms',
 					false,
@@ -78,7 +87,7 @@ class Post_Taxonomy_Terms {
 					'<li class="%1$s"><a href="%3$s">%2$s</a></li>',
 					$classnames,
 					$post_term->name,
-					get_term_link( $post_term->term_id, $taxonomy ),
+					$term_link,
 				);
 			}
 			$markup .= '</ul>';

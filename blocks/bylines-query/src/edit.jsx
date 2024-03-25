@@ -7,7 +7,6 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 
 /**
@@ -23,27 +22,31 @@ const ALLOWED_BLOCKS = ['prc-block/staff-info', 'core/group'];
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                            Properties passed to the function.
+ * @param {Object}   props.attributes                 Available block attributes.
+ * @param            props.__unstableLayoutClassNames
+ * @param            props.clientId
+ * @param            props.context
+ * @param            props.isSelected
+ * @param {Function} props.setAttributes              Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ 
+export default function Edit({
 	attributes,
 	setAttributes,
 	__unstableLayoutClassNames: layoutClassNames,
 	clientId,
 	context,
-	isSelected
+	isSelected,
 }) {
 	const { allowedBlocks } = attributes;
-	const {postId, postType} = context;
+	const { postId, postType } = context;
 
-	const {
-		isResolving,
-		bylinesContext,
-	} = useBylinesBlockContextProvider({ postId, postType });
+	const { isResolving, bylinesContext } = useBylinesBlockContextProvider({
+		postId,
+		postType,
+	});
 
 	const blockProps = useBlockProps({
 		className: layoutClassNames,
@@ -55,12 +58,14 @@ export default function Edit({
 	// block preview is used, instead of having to re-render the preview from scratch.
 	return (
 		<div {...blockProps}>
-			<InnerBlocksAsContextTemplate {...{
-				clientId,
-				allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-				blockContexts: bylinesContext,
-				isResolving,
-			}}/>
+			<InnerBlocksAsContextTemplate
+				{...{
+					clientId,
+					allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
+					blockContexts: bylinesContext,
+					isResolving,
+				}}
+			/>
 		</div>
 	);
 }
