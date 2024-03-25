@@ -51,7 +51,7 @@ class Bylines_Query {
 					'staffExpertise' => $staff->expertise,
 					'staffBio'       => $staff->bio,
 					'staffBioShort'  => wp_sprintf(
-						'<a href="%1$s">%2$s</a> is %3$s',
+						'<a href="%1$s">%2$s</a> <span>is %3$s</span>',
 						$staff->link,
 						$staff->name,
 						$staff->job_title_extended
