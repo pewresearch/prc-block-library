@@ -9,31 +9,13 @@
   "supports": {
     "anchor": true,
     "html": false,
-    "spacing": {
-      "blockGap": true,
-      "margin": [
-        "top",
-        "bottom"
-      ],
-      "padding": true,
-      "__experimentalDefaultControls": {
-        "padding": true
-      }
-    },
-    "typography": {
-      "fontSize": true,
-      "lineHeight": true,
-      "__experimentalFontFamily": true,
-      "__experimentalFontWeight": true,
-      "__experimentalFontStyle": true,
-      "__experimentalTextTransform": true,
-      "__experimentalTextDecoration": true,
-      "__experimentalLetterSpacing": true,
-      "__experimentalDefaultControls": {
-        "fontSize": true
-      }
-    },
     "interactivity": true
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "default": "Share"
+    }
   },
   "usesContext": [
     "postId",
@@ -52,5 +34,5 @@
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
-  "viewModule": "file:./view.js"
+  "viewScriptModule": "file:./view.js"
 }

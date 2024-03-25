@@ -12,10 +12,11 @@
 			"enum": [
 				"staffName",
 				"staffJobTitle",
+				"staffJobTitleExtended",
 				"staffTwitter",
 				"staffExpertise",
 				"staffBio",
-				"staffMiniBio",
+				"staffBioShort",
 				"staffImage",
 				"staffLink"
 			]
@@ -31,6 +32,11 @@
 	"supports": {
 		"anchor": true,
 		"html": false,
+		"color": {
+			"background": true,
+			"link": true,
+			"text": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
@@ -49,9 +55,10 @@
 		"bylineTermId",
 		"staffName",
 		"staffJobTitle",
+		"staffJobTitleExtended",
 		"staffTwitter",
 		"staffBio",
-		"staffMiniBio",
+		"staffBioShort",
 		"staffImage",
 		"staffLink",
 		"staffId"
