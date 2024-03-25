@@ -37,7 +37,9 @@ function WidthControls({ attributes, setAttributes, clientId }) {
 			>
 				<NumberControl
 					isShiftStepEnabled={true}
-					onChange={(newValue) => setAttributes({ width: newValue })}
+					onChange={(newValue) =>
+						setAttributes({ width: parseInt(newValue) })
+					}
 					shiftStep={1}
 					value={width}
 					help="Control the width of the logo inside by entering a number in pixels."

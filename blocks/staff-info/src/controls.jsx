@@ -5,8 +5,6 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 

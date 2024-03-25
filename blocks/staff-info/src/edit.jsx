@@ -6,7 +6,7 @@
 /**
  * WordPress Dependencies
  */
-import { Fragment, useState, useEffect, RawHTML } from 'react';
+import { Fragment, useState, useEffect, RawHTML } from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 /**
@@ -16,7 +16,7 @@ import Controls from './controls';
 import { fetchByline } from './utils';
 
 function getPlaceholderValue(valueToFetch) {
-	// console.log('getPlaceholderValue', valueToFetch);
+	console.log('getPlaceholderValue', valueToFetch);
 	const randomJobTitle =
 		0.5 > Math.random() ? 'Editor...' : 'Associate Director...';
 	/* eslint-disable indent */
@@ -85,7 +85,7 @@ export default function Edit({
 	const { valueToFetch, prefix } = attributes;
 
 	const [staffValue, setStaffValue] = useState(
-		getPlaceholderValue(valueToFetch),
+		getPlaceholderValue(valueToFetch)
 	);
 	const [isImage, setIsImage] = useState(false);
 

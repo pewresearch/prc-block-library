@@ -18,6 +18,15 @@ const variations = [
 		isActive: ({ valueToFetch }) => 'staffName' === valueToFetch,
 	},
 	{
+		name: 'staff-link',
+		title: __('Staff Link'),
+		attributes: {
+			valueToFetch: 'staffLink',
+			enableLink: true,
+		},
+		isActive: ({ valueToFetch }) => 'staffLink' === valueToFetch,
+	},
+	{
 		name: 'staff-job-title',
 		title: __('Staff Job Title'),
 		attributes: {
@@ -26,12 +35,13 @@ const variations = [
 		isActive: ({ valueToFetch }) => 'staffJobTitle' === valueToFetch,
 	},
 	{
-		name: 'staff-twitter',
-		title: __('Staff Twitter'),
+		name: 'staff-job-title-extended',
+		title: __('Staff Job Title (Extended)'),
 		attributes: {
-			valueToFetch: 'staffTwitter',
+			valueToFetch: 'staffJobTitleExtended',
 		},
-		isActive: ({ valueToFetch }) => 'staffTwitter' === valueToFetch,
+		isActive: ({ valueToFetch }) =>
+			'staffJobTitleExtended' === valueToFetch,
 	},
 	{
 		name: 'staff-bio',
@@ -42,12 +52,12 @@ const variations = [
 		isActive: ({ valueToFetch }) => 'staffBio' === valueToFetch,
 	},
 	{
-		name: 'staff-mini-bio',
-		title: __('Staff Mini Bio'),
+		name: 'staff-bio-short',
+		title: __('Staff Bio (Short)'),
 		attributes: {
-			valueToFetch: 'staffMiniBio',
+			valueToFetch: 'staffBioShort',
 		},
-		isActive: ({ valueToFetch }) => 'staffMiniBio' === valueToFetch,
+		isActive: ({ valueToFetch }) => 'staffBioShort' === valueToFetch,
 	},
 	{
 		name: 'staff-image',
