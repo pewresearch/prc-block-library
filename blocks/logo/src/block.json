@@ -19,7 +19,7 @@
 		},
 		"width": {
 			"type": "number",
-			"default": 361
+			"default": 280
 		}
 	},
 	"supports": {
