@@ -45,17 +45,11 @@ class Bylines_Query {
 				$bylines[] = array(
 					'staffName'      => $staff->name,
 					'staffJobTitle'  => $staff->job_title,
-					'staffJobTitleExtended'  => $staff->job_title_extended,
 					'staffImage'     => is_array($staff->photo) && array_key_exists('thumbnail', $staff->photo) ? $staff->photo['thumbnail'] : null,
 					'staffTwitter'   => null,
 					'staffExpertise' => $staff->expertise,
 					'staffBio'       => $staff->bio,
-					'staffBioShort'  => wp_sprintf(
-						'<a href="%1$s">%2$s</a> is %3$s',
-						$staff->link,
-						$staff->name,
-						$staff->job_title_extended
-					),
+					'staffMiniBio'   => $staff->job_title_extended,
 					'staffLink'      => $staff->link,
 				);
 			}

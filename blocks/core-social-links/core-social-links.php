@@ -36,7 +36,6 @@ class Core_Social_Links {
 			$loader->add_action('enqueue_block_assets', $this, 'register_style');
 			$loader->add_filter('block_type_metadata', $this, 'add_attributes', 100, 1);
 			$loader->add_filter('block_type_metadata_settings', $this, 'add_settings', 100, 2);
-			$loader->add_filter('render_block_data', $this, 'social_links_url_fallback', 1, 3);
 			$loader->add_filter('render_block_data', $this, 'social_link_url_fallback', 100, 3);
 			$loader->add_filter('render_block', $this, 'social_link_render_callback', 100, 3);
 		}
@@ -179,23 +178,6 @@ class Core_Social_Links {
 	 * @param mixed $parent_block
 	 * @return void
 	 */
-	public function social_links_url_fallback( $parsed_block, $source_block, $parent_block ) {
-		if ( 'core/social-links' === $parsed_block['blockName'] && empty($parsed_block['attrs']['url']) ) {
-			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
-		}
-		return $parsed_block;
-	}
-
-	/**
-	 * Fallback to shortlink if no url is provided for social links.
-	 * @hook render_block_data
-	 * @TODO: maybe refine this further by only applying this logic if the parent block has a specific classname or context on it?
-	 * @filter render_block_data
-	 * @param mixed $parsed_block
-	 * @param mixed $source_block
-	 * @param mixed $parent_block
-	 * @return void
-	 */
 	public function social_link_url_fallback( $parsed_block, $source_block, $parent_block ) {
 		if ( self::$child_block_name === $parsed_block['blockName'] && empty($parsed_block['attrs']['url']) ) {
 			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
@@ -248,6 +230,30 @@ class Core_Social_Links {
 			if ( $description ) {
 				$tags->set_attribute('data-share-description', esc_attr($description));
 			}
+
+			// TODO: Use <use> tag to reference the svg icons from the font awesome sprites.
+			// if ( $tags->next_tag('svg') ) {
+			// 	$brands = array(
+			// 		'facebook' => 'fa-brands fa-facebook',
+			// 		'twitter' => 'fa-brands fa-twitter',
+			// 		'instagram' => 'fa-brands fa-instagram',
+			// 		'youtube' => 'fa-brands fa-youtube',
+			// 		'linkedin' => 'fa-brands fa-linkedin',
+			// 		'tumblr' => 'fa-brands fa-tumblr',
+			// 	);
+
+			// 	$standards = array(
+			// 		'email' => 'fa-solid fa-envelope',
+			// 		'mail' => 'fa-solid fa-envelope',
+			// 		'feed' => 'fa-solid fa-rss',
+			// 		'rss-feed' => 'fa-solid fa-rss',
+			// 		'rss' => 'fa-solid fa-rss',
+			// 	);
+
+			// 	$icon = array_key_exists($service, $standards) ? $standards[$service] : $service;
+			// 	$icon = array_key_exists($service, $brands) ? $brands[$service] : $icon;
+			// 	$tags->add_class($icon);
+			// }
 
 			return $tags->get_updated_html();
 		}

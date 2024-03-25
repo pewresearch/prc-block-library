@@ -8,13 +8,8 @@
 $context = $block->context;
 $value_to_fetch = array_key_exists( 'valueToFetch', $attributes ) ? $attributes['valueToFetch'] : false;
 if ( false !== $value_to_fetch && array_key_exists( $value_to_fetch, $context ) ) {
-	if ( 'staffLink' === $value_to_fetch ) {
-		$value_to_fetch = $attributes['prefix'] ? $attributes['prefix'] : '...';
-	} else {
-		$value_to_fetch = $context[$value_to_fetch];
-	}
+	$value_to_fetch = $context[$value_to_fetch];
 }
-
 
 $template = '<div %1$s>%2$s</div>';
 $staff_link = false;

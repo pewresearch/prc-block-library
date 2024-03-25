@@ -79,9 +79,9 @@ export default [
 				{
 					backgroundColor: 'black',
 					textColor: 'white',
-					allowedBlocks: ['core/video', 'core/embed', 'videopress/video', 'vimeo/create'],
+					allowedBlocks: ['vimeo/create', 'core/video', 'core/embed'],
 				},
-				[['videopress/video', {}]],
+				[['vimeo/create', {}]],
 			],
 		],
 		scope: ['inserter', 'transform'],

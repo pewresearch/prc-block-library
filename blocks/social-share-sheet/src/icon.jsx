@@ -4,5 +4,5 @@
 import { Icon } from '@prc/icons';
 
 export default function () {
-	return <Icon library="solid" icon="up-from-bracket" />;
+	return <Icon library="sharp-light" icon="up-from-bracket" />;
 }

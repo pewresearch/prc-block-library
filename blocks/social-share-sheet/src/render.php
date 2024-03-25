@@ -13,8 +13,6 @@ $hashtags = implode(',', array_map(function($hashtag) {
 }, $hashtags));
 $image_id = array_key_exists('core/social-links/imageId', $context) ? $context['core/social-links/imageId'] : '';
 
-$label = array_key_exists('label', $attributes) ? $attributes['label'] : 'Share';
-
 $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'data-wp-interactive' => wp_json_encode(array(
 		'namespace' => 'prc-block/social-share-sheet',
@@ -25,27 +23,15 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 		'url' => $link_url,
 		'hashtags' => $hashtags,
 		'image' => $image_id ? wp_get_attachment_image_url($image_id, 'full') : false,
-		'enabled' => jetpack_is_mobile() ? false : true,
 	)),
 	'data-wp-on--click' => 'actions.onClick',
-	'data-wp-class--web-share-supported' => 'context.enabled',
-	'data-wp-init' => 'callbacks.detectWebShareSupport',
-	'style' => '--block-gap:'. \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
 ));
 
-$icon = \PRC\Platform\Icons\Render('solid', 'up-from-bracket');
-
-$is_mobile = jetpack_is_mobile();
-
-$native_template = wp_sprintf(
-	'<a href="%s"><span class="wp-block-prc-block-social-share-sheet__label">%s</span>%s</a>',
-	get_permalink(),
-	$label,
-	$icon,
-);
+$icon = \PRC\Platform\Icons\Render('sharp-light', 'up-from-bracket');
 
 echo wp_sprintf(
-	'<div %s>%s</div>',
+	'<a %1$s><span class="wp-block-prc-block-social-share-sheet__label">Share</span>%2$s</a>',
 	$block_wrapper_attrs,
-	$content . $native_template,
+	$icon,
+	$content,
 );
