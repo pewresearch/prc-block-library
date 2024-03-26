@@ -21,7 +21,6 @@
         "html": false,
         "align": false,
         "inserter": false,
-        "multiple": false,
 		"spacing": {
 			"padding": true,
 			"blockGap": true
