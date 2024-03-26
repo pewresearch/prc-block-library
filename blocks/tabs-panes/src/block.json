@@ -11,6 +11,7 @@
         "html": false,
         "align": false,
         "inserter": false,
+        "multiple": false,
 		"color": {
 			"background": true,
 			"text": true
