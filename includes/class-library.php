@@ -182,6 +182,7 @@ class Library {
 		new Core_Post_Title($this->get_loader());
 		new Core_Pullquote($this->get_loader());
 		new Core_Query($this->get_loader());
+		new Core_Query_Pagination_Numbers($this->get_loader());
 		new Core_Search($this->get_loader());
 		new Core_Separator($this->get_loader());
 		new Core_Social_Links($this->get_loader());
