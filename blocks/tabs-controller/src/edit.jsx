@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -59,9 +58,7 @@ export default function Edit({
 	const { vertical } = attributes;
 
 	const { removeBlock, selectBlock } = useDispatch('core/block-editor');
-	const { setClientId, setActiveUUIDPair } = useDispatch(
-		'prc-block/tabs-controller'
-	);
+	const { setClientId, setActiveUUIDPair } = useDispatch('prc-block/tabs-controller');
 
 	// Get menu blocks, get pane blocks
 	const {
@@ -75,23 +72,18 @@ export default function Edit({
 			if (undefined === clientId) {
 				return;
 			}
-			const _activeUUID = select(
-				'prc-block/tabs-controller'
-			).getActiveUUID(clientId);
+			const _activeUUID = select('prc-block/tabs-controller').getActiveUUID(clientId);
 
-			const tabsControllerInnerBlocks =
-				select('core/block-editor').getBlocks(clientId);
+			const tabsControllerInnerBlocks = select('core/block-editor').getBlocks(clientId);
 			const mBlocks =
 				1 <= tabsControllerInnerBlocks.length
-					? tabsControllerInnerBlocks.filter(
-							(e) => 'prc-block/tabs-menu' === e.name
-						)
+					? tabsControllerInnerBlocks.filter((e) => 'prc-block/tabs-menu' === e.name)
 					: [];
 			const pBlocks =
 				1 <= tabsControllerInnerBlocks.length
 					? tabsControllerInnerBlocks.filter(
 							(e) => 'prc-block/tabs-panes' === e.name
-						)
+					  )
 					: [];
 
 			let activePaneClientId = false;
@@ -117,18 +109,9 @@ export default function Edit({
 		[clientId]
 	);
 
-	const isSelected = useSelect(
-		(select) => {
-			return (
-				_isSelected ||
-				select('core/block-editor').hasSelectedInnerBlock(
-					clientId,
-					true
-				)
-			);
-		},
-		[_isSelected, clientId]
-	);
+	const isSelected = useSelect((select) => {
+		return _isSelected || select('core/block-editor').hasSelectedInnerBlock(clientId, true);
+	}, [_isSelected, clientId]);
 
 	/**
 	 * When the block initializes we want to set the client id higher up in the prc-block/tabs-controller data store.
@@ -138,7 +121,7 @@ export default function Edit({
 		if (undefined === activeUUID) {
 			// If there is no activeUUID then we need to set one. Get the first menuBlock uuid from its attributes and set it.
 			if (1 <= menuBlocks.length) {
-				setActiveUUIDPair(clientId, menuBlocks[0].attributes.uuid);
+				setActiveUUIDPair(clientId, menuBlocks[0].attributes.uuid)
 			}
 		}
 	}, [clientId, activeUUID, menuBlocks, paneBlocks]);
@@ -150,18 +133,12 @@ export default function Edit({
 		// Check for differences in menuBlocks and menuBlocksPast
 		// if there are differences then we have added or removed a block
 		// and if removed then we'll need to remove the corresponding tab-pane block.
-		if (menuBlocks.length < menuBlocksPast.length) {
-			// This is the signal that we have removed something.
+		if (menuBlocks.length < menuBlocksPast.length) { // This is the signal that we have removed something.
 			// Find what the diff from menuBlocks and menuBlocksPast is,
 			// then get the uuid, then search the paneBlocks and remove the matched pane block in question.
-			const removedMenuItemBlock = findRemovedDiff(
-				menuBlocksPast,
-				menuBlocks
-			);
+			const removedMenuItemBlock = findRemovedDiff(menuBlocksPast, menuBlocks);
 			const matchedPaneBlock = paneBlocks.filter(
-				(e) =>
-					e.attributes.uuid ===
-					removedMenuItemBlock[0].attributes.uuid
+				(e) => e.attributes.uuid === removedMenuItemBlock[0].attributes.uuid
 			);
 			if (0 !== matchedPaneBlock.length) {
 				removeBlock(matchedPaneBlock[0].clientId);
