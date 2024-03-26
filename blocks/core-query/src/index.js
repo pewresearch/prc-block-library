@@ -74,27 +74,29 @@ registerBlockVariation('core/query', pubListingVariation);
 /**
  * Add html attributes for each responsiveContainerQuery attribute value on the core/group block.
  */
-addFilter(
-	'editor.BlockEdit',
-	`${BLOCKIDENTIFIER}-context-area-watcher`,
-	createHigherOrderComponent((BlockEdit) => {
-		return (props) => {
-			const { attributes, name, context, isSelected } = props;
-			const namespace = attributes?.namespace;
-			if (BLOCKNAME !== name || namespace !== NAMESPACE) {
-				return <BlockEdit {...props} />;
-			}
-			const blockAreaContextPostIds = useSelect((select) => {
-				return select('prc-platform/block-area-context').getPostIds();
-			});
+// @TODO Disabling for now, this is really just visual, and by introducing taxonomy preview in block-area-modules this will probably be less useful and can be removed.
+// addFilter(
+// 	'editor.BlockEdit',
+// 	`${BLOCKIDENTIFIER}-context-area-watcher`,
+// 	createHigherOrderComponent((BlockEdit) => {
+// 		return (props) => {
+// 			const { attributes, name, context, isSelected } = props;
+// 			const namespace = attributes?.namespace;
+// 			if (BLOCKNAME !== name || namespace !== NAMESPACE) {
+// 				return <BlockEdit {...props} />;
+// 			}
+// 			const blockAreaContextPostIds = useSelect((select) => {
+// 				return select('prc-platform/block-area-context').getPostIds();
+// 			});
 
-			const tmpExclude = attributes.query?.exclude || [];
-			attributes.query.exclude = [
-				...blockAreaContextPostIds,
-				...tmpExclude,
-			];
+// 			const tmpExclude = attributes.query?.exclude || [];
+// 			// @TODO: This only needs to be temporary nothing more...
+// 			// attributes.query.exclude = [
+// 			// 	...blockAreaContextPostIds,
+// 			// 	...tmpExclude,
+// 			// ];
 
-			return <BlockEdit {...props} />;
-		};
-	}, 'withBlockAreaContextWatcher')
-);
+// 			return <BlockEdit {...props} />;
+// 		};
+// 	}, 'withBlockAreaContextWatcher')
+// );
