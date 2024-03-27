@@ -26,6 +26,9 @@
 		"defaultChecked": {
 			"type": "boolean",
 			"default": false
+		},
+		"checkboxColor": {
+			"type": "string"
 		}
 	},
 	"styles": [
@@ -59,7 +62,10 @@
 		},
 		"interactivity": true
 	},
-	"usesContext": ["prc-block/form-field-label", "prc-block/form-field-required"],
+	"usesContext": [
+		"prc-block/form-field-label",
+		"prc-block/form-field-required"
+	],
 	"textdomain": "form-input-checkbox",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",

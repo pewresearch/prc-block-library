@@ -9,22 +9,27 @@ $input_checked          = array_key_exists('defaultChecked', $attributes) ? $att
 $input_type             = array_key_exists('type', $attributes) ? $attributes['type'] : 'checkbox';
 $input_value            = array_key_exists('value', $attributes) ? $attributes['value'] : '';
 $input_id               = md5( $target_namespace . $input_name . $input_type );
-
-// Hoist this block's values into the target interactive namespace state.
-// State is no longer "global" store, in the sense that it is not shared across all blocks on the page and is instead shared by all blocks of the same namespace on the page.
-// Whereas context is a "state" store instanced to each block of the namespace.
-wp_interactivity_state(
-	$target_namespace,
-	array(
-		$input_id => array(
-			'value' => $input_value,
-			'checked' => $input_checked,
-			'type' => $input_type,
-			'required' => $input_required,
-			'name' => $input_name,
+$input_border_color     = array_key_exists('checkboxColor', $attributes) ? $attributes['checkboxColor'] : 'ui-black';
+$is_part_of_a_template = false;
+if ( false === $is_part_of_a_template ) {
+	// Hoist this block's values into the target interactive namespace state.
+	// State is no longer "global" store, in the sense that it is not shared across all blocks on the page and is instead shared by all blocks of the same namespace on the page.
+	// Whereas context is a "state" store instanced to each block of the namespace.
+	wp_interactivity_state(
+		$target_namespace,
+		array(
+			$input_id => array(
+				'value' => $input_value,
+				'checked' => $input_checked,
+				'type' => $input_type,
+				'required' => $input_required,
+				'name' => $input_name,
+			),
 		),
-	),
-);
+	);
+}
+
+// if this is part of a template then our attrs need to change to be bound to the template's context and actions and such... effectively wp interactivity template context should drive these values, not something else.
 
 $input_attrs = array(
 	'id'                    	=> $input_id,
@@ -33,6 +38,7 @@ $input_attrs = array(
 	'type'                      => $input_type, // You may ask, why aren't these bound like the other two attributes? The answer is that we don't want these to be dynamic, we want them to be static and unchanging so that we know what to expect at different states.
 	'data-wp-bind--value'       => $target_namespace.'::state.'.$input_id.'.value',
 	'data-wp-bind--checked'		=> $target_namespace.'::state.'.$input_id.'.checked',
+	'class'						=> sprintf( 'has-border-%s-color', $input_border_color )
 );
 
 // Normalize input attributes as a html string.
