@@ -46,6 +46,19 @@ class Attachment_Info {
 			$post__not_in = [$post_id];
 		}
 
+		// Filter out Art Direction
+		// Get the art direction from the parent post and filter out any id's that are already in use
+		$art_direction = new \PRC\Platform\Art_Direction(null, null);
+		$art_direction = $art_direction->get_art( $parent_post_id, 'all' );
+		if ($art_direction) {
+			$image_slots = array_keys($art_direction);
+			foreach ($image_slots as $slot) {
+				if (isset($art_direction[$slot]['id']) && !in_array($art_direction[$slot]['id'], $post__not_in)) {
+					array_push($post__not_in, $art_direction[$slot]['id']);
+				}
+			}
+		}
+
 		$attachments = new WP_Query( array(
 			'post_type' => 'attachment',
 			'post_parent' => $parent_post_id,
@@ -75,6 +88,11 @@ class Attachment_Info {
 			if ( 'application/pdf' === get_post_mime_type( $attachment->ID ) ) {
 				continue;
 			}
+			// Filter out Getty copyrighted images
+			if ( false !== strpos( $attachment->post_content, 'Getty' ) ) {
+				continue;
+			}
+
 			$to_return[] = array(
 				'link' => get_attachment_link($attachment->ID),
 				'title' => $attachment->post_title,
