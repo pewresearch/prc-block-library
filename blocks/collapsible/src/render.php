@@ -43,7 +43,7 @@ if ( function_exists( 'apple_news_is_exporting' ) && apple_news_is_exporting() )
 	// echo wp_sprintf();
 } else {
 	echo wp_sprintf(
-		'<div %s><div class="wp-block-prc-block-collapsible__title"><div>%s</div><button class="wp-block-prc-block-collapsible__icon" data-wp-on--click="actions.onClick">%s</button></div><div class="wp-block-prc-block-collapsible__content">%s</div></div>',
+		'<div %s><div class="wp-block-prc-block-collapsible__title" data-wp-on--click="actions.onClick"><div>%s</div><button class="wp-block-prc-block-collapsible__icon">%s</button></div><div class="wp-block-prc-block-collapsible__content">%s</div></div>',
 		$wrapper_attrs,
 		esc_html($collapsible_title),
 		$icon,
