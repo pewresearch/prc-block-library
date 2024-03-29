@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/file';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 
