@@ -25,7 +25,6 @@ class Core_Query {
 	public static $post_type_query_arg = array(
 		'post',
 		'short-read',
-		'interactive',
 		'feature',
 		'fact-sheet',
 		'quiz',
