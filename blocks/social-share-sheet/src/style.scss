@@ -24,6 +24,9 @@
 		& > li {
 			display: none!important;
 		}
+		& > a {
+			display: inline-block!important;
+		}
 	}
 	&:not(.web-share-supported) {
 		& > a  {
