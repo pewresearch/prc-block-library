@@ -177,3 +177,7 @@ $alignRightMargin: 5px 0px 15px 15px;
 // figure.wp-block-image {
 // 	margin: 0;
 // }
+// Legacy Image Hack
+p > a.image-box {
+    float: right;
+}
