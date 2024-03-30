@@ -27,7 +27,7 @@ $desktopBreakPoint: 791px;
 
 .wp-block-group {
 	&.is-style-social-group {
-		border-bottom: 1px solid var(--wp--preset--color--gray);
+		border-bottom: 1px solid var(--wp--preset--color--ui-gray-light);
 		margin-block-end: 1.5em;
 		.wp-block-social-links {
 			background: white;
@@ -38,6 +38,11 @@ $desktopBreakPoint: 791px;
 
 	&.is-style-callout {
 		border-top: 1px solid $relaxedBorder;
+		padding: 1em;
+		// Legacy Support
+		&.has-beige-background-color {
+			background-color: var(--wp--preset--color--ui-beige-very-light);
+		}
 
 		p {
 			font-family: var(--wp--preset--font-family--sans-serif);
