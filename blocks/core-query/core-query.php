@@ -174,7 +174,14 @@ class Core_Query {
 			return $context;
 		}
 		$hoisted_context = $context;
+		// We need this to only run for the blocks inside the post-template block...
 		add_filter('render_block_context', function($context, $parsed_block, $parent_block) use ($hoisted_context) {
+			if ( null === $parent_block ) {
+				return $context;
+			}
+			if ( !in_array($parent_block->name, ['core/null', 'core/post-template']) ) {
+				return $context;
+			}
 			if ( 'prc-block/story-item' !== $parsed_block['blockName'] ) {
 				return $context;
 			}
