@@ -126,8 +126,7 @@ class Core_Query {
 	}
 
 	/**
-	 * This happens early in the block rendering process, hooking onto the short-circuit filter so that we can add new filters scoped to just this.
-	 * @TODO: This doesnt seem to work and may not be necessary.
+	 * This happens early in the block rendering process, hooking onto the short-circuit filter so that we can add new filters scoped to just this namespace.
 	 * @hook pre_render_block
 	 * @return void
 	 */
@@ -161,6 +160,7 @@ class Core_Query {
 	}
 
 	/**
+	 * DISABLED FOR NOW
 	 * This will catch everything else not being delievered by either the REST API or the Query Block
 	 * @hook pre_get_posts
 	 * @param mixed $query
@@ -175,7 +175,6 @@ class Core_Query {
 		}
 		$query->set('post_type', self::$post_type_query_arg);
 	}
-
 
 	/**
 	 * Hijacks core/post-template block context so that is passed along the queryId and the query down to stort-item blocks. This makes story item blocks "query" context aware and as such they will change their attributes if placed in a query block.
