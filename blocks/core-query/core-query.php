@@ -42,14 +42,18 @@ class Core_Query {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script');
-			$loader->add_filter( 'prc_platform_pub_listing_default_args', $this, 'set_starting_defaults_for_pub_listing_query_args', 1, 1 );
-			$loader->add_filter( 'pre_render_block', $this, 'filter_pub_listing_query_args', 10, 3 );
 
-			$loader->add_filter( 'render_block_context', $this, 'hijack_query_block_context', 100, 3 );
-
-			$loader->add_filter( 'rest_post_query', $this, 'filter_pub_listing_rest_query', 10, 2 );
-			$loader->add_action( 'pre_get_posts', $this, 'set_starting_defaults_for_post_type_for_pre_get_posts', 10, 1 );
+			// Setup Default Arguments for Queries:
+			$loader->add_filter( 'prc_platform_pub_listing_default_args', $this, 'set_pub_listing_starting_defaults', 1, 1 );
 			$loader->add_filter( 'block_type_metadata', $this, 'default_tax_query_to_OR', 100, 1 );
+
+			// Actually Filter Queries:
+			$loader->add_filter( 'rest_post_query', $this, 'filter_pub_listing_rest_query', 10, 2 );
+			$loader->add_filter( 'pre_render_block', $this, 'filter_pub_listing_query_args', 10, 3 );
+			// $loader->add_action( 'pre_get_posts', $this, 'filter_pub_listing_pre_get_posts_fallback', 10, 1 );
+
+
+			$loader->add_filter( 'render_block_context', $this, 'handle_story_item_query_context_awareness', 100, 3 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'update_context', 100, 2 );
 		}
 	}
@@ -71,72 +75,15 @@ class Core_Query {
 	}
 
 	/**
-	 * Add appropriate post_status arguments to restful queries.
-	 * @hook rest_{post_type}_query
-	 * @param mixed $args
-	 * @param mixed $request
-	 * @return void
-	 */
-	public function filter_pub_listing_rest_query( $args, $request ) {
-		if ( $request->get_param('isPubListingQuery') ) {
-			$args = $this->set_starting_defaults_for_pub_listing_query_args($args);
-		}
-		return $args;
-	}
-
-	/**
 	 * Sets the standard defaults for a pub listing query.
 	 * This is called early to set the post types. Other platform features will be able to modify this query later.
 	 * @hook prc_platform_pub_listing_default_args
 	 * @param array $query
 	 * @return array
 	 */
-	public function set_starting_defaults_for_pub_listing_query_args($query = array()) {
+	public function set_pub_listing_starting_defaults($query = array()) {
 		$query['post_type'] = self::$post_type_query_arg;
 		return $query;
-	}
-
-	/**
-	 * @hook pre_get_posts
-	 * @param mixed $query
-	 * @return void
-	 */
-	public function set_starting_defaults_for_post_type_for_pre_get_posts($query) {
-		if ( is_admin() ) {
-			return;
-		}
-		if ( ! $query->is_main_query() ) {
-			return;
-		}
-		if ( ! $query->is_home() ) {
-			return;
-		}
-		$query->set('post_type', self::$post_type_query_arg);
-	}
-
-	/**
-	 * This happens early in the block rendering process, hooking onto the short-circuit filter so that we can add new filters scoped to just this.
-	 * @TODO: This doesnt seem to work and may not be necessary.
-	 * @hook pre_render_block
-	 * @return void
-	 */
-	public function filter_pub_listing_query_args($pre_render, $parsed_block, $parent_block) {
-		if ( 'core/query' !== $parsed_block['blockName'] ) {
-			return $pre_render;
-		}
-		$attributes = $parsed_block[ 'attrs' ] ?? array();
-		if( array_key_exists('namespace', $attributes) && 'prc-block/pub-listing-query' === $attributes['namespace'] ) {
-			add_filter(
-				'query_loop_block_query_vars',
-				function( $query, $block, $page ) {
-					$query = apply_filters('prc_platform_pub_listing_default_args', $query);
-					return $query;
-				},
-				1,
-				3
-			);
-		}
-		return $pre_render;
 	}
 
 	/**
@@ -164,12 +111,77 @@ class Core_Query {
 		return $metadata;
 	}
 
+	/**
+	 * Add appropriate post_status arguments to restful queries.
+	 * @hook rest_{post_type}_query
+	 * @param mixed $args
+	 * @param mixed $request
+	 * @return void
+	 */
+	public function filter_pub_listing_rest_query( $args, $request ) {
+		if ( $request->get_param('isPubListingQuery') ) {
+			$args = $this->set_pub_listing_starting_defaults($args);
+		}
+		return $args;
+	}
 
 	/**
-	 * Hijacks core/post-template block context to pass along query and query id to its innerblocks context.
+	 * This happens early in the block rendering process, hooking onto the short-circuit filter so that we can add new filters scoped to just this.
+	 * @TODO: This doesnt seem to work and may not be necessary.
+	 * @hook pre_render_block
+	 * @return void
+	 */
+	public function filter_pub_listing_query_args($pre_render, $parsed_block, $parent_block) {
+		if ( 'core/query' !== $parsed_block['blockName'] ) {
+			return $pre_render;
+		}
+		$attributes = $parsed_block[ 'attrs' ] ?? array();
+		if( array_key_exists('namespace', $attributes) && 'prc-block/pub-listing-query' === $attributes['namespace'] ) {
+			if ( isset( $parsed_block['attrs']['query']['inherit'] ) && true === $parsed_block['attrs']['query']['inherit'] ) {
+				// Hack updated query vars into the global query, instead of using pre_get_posts.
+				global $wp_query;
+				$query_args = apply_filters('prc_platform_pub_listing_default_args', $wp_query->query_vars);
+				$wp_query = new WP_Query( $query_args );
+			} else {
+				add_filter(
+					'query_loop_block_query_vars',
+					function( $default_query, $block ) {
+						$block_query = $block->context['query'];
+						$query_args = apply_filters('prc_platform_pub_listing_default_args', $block_query);
+						return array_merge(
+							$default_query,
+							$query_args
+						);
+					},
+				);
+			}
+
+		}
+		return $pre_render;
+	}
+
+	/**
+	 * This will catch everything else not being delievered by either the REST API or the Query Block
+	 * @hook pre_get_posts
+	 * @param mixed $query
+	 * @return void
+	 */
+	public function filter_pub_listing_pre_get_posts_fallback($query) {
+		if ( is_admin() ) {
+			return;
+		}
+		if ( ! $query->is_main_query() ) {
+			return;
+		}
+		$query->set('post_type', self::$post_type_query_arg);
+	}
+
+
+	/**
+	 * Hijacks core/post-template block context so that is passed along the queryId and the query down to stort-item blocks. This makes story item blocks "query" context aware and as such they will change their attributes if placed in a query block.
 	 * @hook render_block_context
 	 */
-	public function hijack_query_block_context(array $context, array $parsed_block, WP_Block|null $parent_block) {
+	public function handle_story_item_query_context_awareness(array $context, array $parsed_block, WP_Block|null $parent_block) {
 		if ( 'core/post-template' !== $parsed_block['blockName'] ) {
 			return $context;
 		}
