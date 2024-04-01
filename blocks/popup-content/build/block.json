@@ -19,7 +19,6 @@
     "html": false,
     "align": false,
     "inserter": false,
-    "multiple": false,
     "spacing": {
       "blockGap": true,
       "margin": [
