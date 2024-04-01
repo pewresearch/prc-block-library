@@ -139,7 +139,7 @@ class Core_Query {
 			if ( isset( $parsed_block['attrs']['query']['inherit'] ) && true === $parsed_block['attrs']['query']['inherit'] ) {
 				// Hack updated query vars into the global query, instead of using pre_get_posts.
 				global $wp_query;
-				$query_args = apply_filters('prc_platform_pub_listing_default_args', $wp_query->query_vars);
+				$query_args = apply_filters('prc_platform_pub_listing_default_args', (array) $wp_query);
 				$wp_query = new WP_Query( $query_args );
 			} else {
 				add_filter(
@@ -152,6 +152,8 @@ class Core_Query {
 							$query_args
 						);
 					},
+					10,
+					2
 				);
 			}
 
