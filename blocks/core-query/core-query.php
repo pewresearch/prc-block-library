@@ -50,8 +50,7 @@ class Core_Query {
 			// Actually Filter Queries:
 			$loader->add_filter( 'rest_post_query', $this, 'filter_pub_listing_rest_query', 10, 2 );
 			$loader->add_filter( 'pre_render_block', $this, 'filter_pub_listing_query_args', 10, 3 );
-			// $loader->add_action( 'pre_get_posts', $this, 'filter_pub_listing_pre_get_posts_fallback', 10, 1 );
-
+			$loader->add_action( 'pre_get_posts', $this, 'filter_pub_listing_pre_get_posts_fallback', 10, 1 );
 
 			$loader->add_filter( 'render_block_context', $this, 'handle_story_item_query_context_awareness', 100, 3 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'update_context', 100, 2 );
@@ -136,11 +135,12 @@ class Core_Query {
 		}
 		$attributes = $parsed_block[ 'attrs' ] ?? array();
 		if( array_key_exists('namespace', $attributes) && 'prc-block/pub-listing-query' === $attributes['namespace'] ) {
+			// For core/query blocks that have inherit set to true
 			if ( isset( $parsed_block['attrs']['query']['inherit'] ) && true === $parsed_block['attrs']['query']['inherit'] ) {
-				// Hack updated query vars into the global query, instead of using pre_get_posts.
-				global $wp_query;
-				$query_args = apply_filters('prc_platform_pub_listing_default_args', (array) $wp_query);
-				$wp_query = new WP_Query( $query_args );
+				// global $wp_query;
+				// $query_args = apply_filters('prc_platform_pub_listing_default_args', array('facetwp' => true, 'isPubListingQuery' => true));
+				// $wp_query = new WP_Query( $query_args );
+				// Do nothing because pre_get_posts will take over inherit query...
 			} else {
 				add_filter(
 					'query_loop_block_query_vars',
@@ -152,7 +152,7 @@ class Core_Query {
 							$query_args
 						);
 					},
-					10,
+					999,
 					2
 				);
 			}
@@ -162,7 +162,6 @@ class Core_Query {
 	}
 
 	/**
-	 * DISABLED FOR NOW
 	 * This will catch everything else not being delievered by either the REST API or the Query Block
 	 * @hook pre_get_posts
 	 * @param mixed $query
@@ -170,6 +169,9 @@ class Core_Query {
 	 */
 	public function filter_pub_listing_pre_get_posts_fallback($query) {
 		if ( is_admin() ) {
+			return;
+		}
+		if ( empty($query->query) ) {
 			return;
 		}
 		if ( ! $query->is_main_query() ) {
