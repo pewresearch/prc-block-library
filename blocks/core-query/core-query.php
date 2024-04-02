@@ -168,6 +168,9 @@ class Core_Query {
 	 * @return void
 	 */
 	public function filter_pub_listing_pre_get_posts_fallback($query) {
+		if ( get_current_blog_id() !== PRC_PRIMARY_SITE_ID ) {
+			return;
+		}
 		if ( is_admin() ) {
 			return;
 		}
@@ -175,6 +178,9 @@ class Core_Query {
 			return;
 		}
 		if ( ! $query->is_main_query() ) {
+			return;
+		}
+		if ( ! $query->is_archive() ) {
 			return;
 		}
 		$query->set('post_type', self::$post_type_query_arg);
