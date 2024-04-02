@@ -11,22 +11,29 @@ function getArgs(elm) {
 	let description = elm.getAttribute('data-share-description');
 	if (!description) {
 		// eslint-disable-next-line no-undef
-		description = document
-			.querySelector('meta[property="og:description"]')?.getAttribute('content') || null;
+		description =
+			document
+				.querySelector('meta[property="og:description"]')
+				?.getAttribute('content') || null;
 	}
 	let title = elm.getAttribute('data-share-title');
 	if (!title) {
 		// eslint-disable-next-line no-undef
-		title = document
-			.querySelector('meta[property="og:title"]')?.getAttribute('content') || null;
+		title =
+			document
+				.querySelector('meta[property="og:title"]')
+				?.getAttribute('content') || null;
 	}
 
 	let url = elm.getAttribute('data-share-url');
 	if (!url) {
 		// eslint-disable-next-line no-undef
-		url = document
-			.querySelector('meta[property="og:url"]')?.getAttribute('content') || null;
+		url =
+			document
+				.querySelector('meta[property="og:url"]')
+				?.getAttribute('content') || null;
 	}
+	console.log({ url, description, title });
 	return {
 		url,
 		description,
@@ -117,10 +124,10 @@ function initLinkedInLinks() {
 	});
 }
 
-function initTwitterLinks() {
+function initXLinks() {
 	// eslint-disable-next-line no-undef
 	const items = document.querySelectorAll(
-		'.wp-block-social-link.wp-social-link-twitter, .share-tools .social-link.twitter'
+		'.wp-block-social-link.wp-social-link-x, .share-tools .social-link.x'
 	);
 	items.forEach((elm) => {
 		const { url, description } = getArgs(elm);
@@ -144,7 +151,46 @@ function initTwitterLinks() {
 				);
 				open(
 					actionUrl,
-					'twtrShareWindow',
+					'xShareWindow',
+					`height=450, width=550, top=${
+						innerHeight / 2 - 275
+					}, left=${
+						innerWidth / 2 - 225
+					}, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`
+				);
+				e.stopPropagation();
+			});
+		}
+	});
+}
+
+function initThreadsLinks() {
+	// eslint-disable-next-line no-undef
+	const items = document.querySelectorAll(
+		'.wp-block-social-link.wp-social-link-threads, .share-tools .social-link.threads'
+	);
+	items.forEach((elm) => {
+		const { url, description } = getArgs(elm);
+
+		let link = null;
+		if (elm.parentElement.classList.contains('share-tools')) {
+			link = elm;
+		} else {
+			link = elm.querySelector('a');
+		}
+
+		if (link) {
+			link.addEventListener('click', (e) => {
+				e.preventDefault();
+				const actionUrl = addQueryArgs(
+					'https://www.threads.net/intent/post',
+					{
+						text: `${description} ${url}`,
+					}
+				);
+				open(
+					actionUrl,
+					'threadsShareWindow',
 					`height=450, width=550, top=${
 						innerHeight / 2 - 275
 					}, left=${
@@ -160,7 +206,8 @@ function initTwitterLinks() {
 function start() {
 	initFacebookLinks();
 	initLinkedInLinks();
-	initTwitterLinks();
+	initXLinks();
+	initThreadsLinks();
 }
 
 domReady(() => start());

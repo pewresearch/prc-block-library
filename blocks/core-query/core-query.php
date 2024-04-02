@@ -168,9 +168,6 @@ class Core_Query {
 	 * @return void
 	 */
 	public function filter_pub_listing_pre_get_posts_fallback($query) {
-		if ( get_current_blog_id() !== PRC_PRIMARY_SITE_ID ) {
-			return;
-		}
 		if ( is_admin() ) {
 			return;
 		}

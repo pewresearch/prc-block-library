@@ -32,6 +32,7 @@ class Core_Navigation {
 			$loader->add_action('init', $this, 'register_assets');
 			$loader->add_action('enqueue_block_assets', $this, 'register_style');
 			$loader->add_action('enqueue_block_editor_assets', $this, 'register_editor_script');
+			$loader->add_filter('block_type_metadata_settings', $this, 'add_settings', 100, 2 );
 		}
 	}
 
@@ -43,6 +44,15 @@ class Core_Navigation {
 		self::$style_handle = register_block_style_handle( self::$block_json, 'style' );
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
 	}
+
+	public function add_settings(array $settings, array $metadata) {
+		if ( self::$block_name === $metadata['name'] ) {
+			// remove mobile collapse
+			$settings['attributes']['overlayMenu']['default'] = 'never';
+		}
+		return $settings;
+	}
+
 
 	/**
 	 * @hook enqueue_block_assets
@@ -60,4 +70,3 @@ class Core_Navigation {
 		wp_enqueue_script( self::$editor_script_handle );
 	}
 }
-

@@ -211,11 +211,13 @@ class Core_Social_Links {
 	 * @return mixed
 	 */
 	public function social_link_render_callback( $block_content, $block, $instance ) {
+
 		if ( self::$child_block_name === $block['blockName'] && is_string($block_content) && !is_admin() ) {
 			wp_enqueue_script( self::$view_script_handle );
 
 			$attributes = $block['attrs'];
 			$context = $instance->context;
+			do_action('qm/debug', print_r($context, true));
 
 			$tags = new WP_HTML_Tag_Processor($block_content);
 			$tags->next_tag('li');
@@ -225,10 +227,9 @@ class Core_Social_Links {
 			$url = isset( $context['core/social-links/url'] ) ? $context['core/social-links/url'] : false;
 			$url = ( false === $url && isset( $attributes['url'] ) ) ? $attributes['url'] : $url;
 			// If after all that there is no url then try to fetch the short link.
-			if ( ! $url && isset($context['postId']) ) {
+			if ( (! $url || '#' === $url) && isset($context['postId']) ) {
 				$url = wp_get_shortlink($context['postId']);
 			}
-
 			$title = isset( $context['core/social-links/title'] ) ? $context['core/social-links/title'] : null;
 			if ( ! $title && isset($context['postId']) ) {
 				$title = get_the_title($context['postId']);
