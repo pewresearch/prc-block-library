@@ -82,22 +82,7 @@ class Core_Group {
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 2 );
-			$loader->add_filter( 'apple_news_initialize_components', $this, 'register_apple_news_callout_component', 10, 1 );
 		}
-	}
-
-	/**
-	 * @hook apple_news_initialize_components
-	 * @param mixed $components
-	 * @return void
-	 */
-	public function register_apple_news_callout_component($components) {
-		// Register Callout
-		if ( !array_key_exists('callout', $components) ) {
-			$components['callout'] = '\\Apple_Exporter\\Components\\Core_Group_Callout';
-		}
-		// @TODO: Register a "Alt Card" variation.
-		return $components;
 	}
 
 	/**
