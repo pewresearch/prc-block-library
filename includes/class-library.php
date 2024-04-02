@@ -206,7 +206,6 @@ class Library {
 		new Collection_Kicker($this->get_loader());
 		new Color_Palette($this->get_loader());
 		new Data_Table($this->get_loader());
-		new Embed_Wrapper($this->get_loader());
 		new Entity_As_Iframe($this->get_loader());
 		new Fact_Sheet_Collection($this->get_loader());
 		new Flip_Card_Controller( $this->get_loader() );
