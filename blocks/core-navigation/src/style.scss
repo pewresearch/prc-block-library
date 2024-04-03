@@ -10,8 +10,9 @@
 	gap: 0px;
 	line-height: 1em;
 	.wp-block-navigation-link {
-		a {
+		a.wp-block-navigation-item__content {
 			color: var(--wp--preset--color--link-color);
+			padding: 0em !important;
 		}
 		a:hover > .wp-block-navigation-item__label {
 			text-decoration: underline !important;
