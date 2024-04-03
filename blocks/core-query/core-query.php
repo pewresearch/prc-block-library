@@ -137,9 +137,6 @@ class Core_Query {
 		if( array_key_exists('namespace', $attributes) && 'prc-block/pub-listing-query' === $attributes['namespace'] ) {
 			// For core/query blocks that have inherit set to true
 			if ( isset( $parsed_block['attrs']['query']['inherit'] ) && true === $parsed_block['attrs']['query']['inherit'] ) {
-				// global $wp_query;
-				// $query_args = apply_filters('prc_platform_pub_listing_default_args', array('facetwp' => true, 'isPubListingQuery' => true));
-				// $wp_query = new WP_Query( $query_args );
 				// Do nothing because pre_get_posts will take over inherit query...
 			} else {
 				add_filter(
@@ -177,19 +174,11 @@ class Core_Query {
 		if ( empty($query->query) ) {
 			return;
 		}
-		if ( ! $query->is_main_query() ) {
-			return;
+		if ( ( $query->is_home() || $query->is_main_query() || $query->is_tax() || $query->is_archive() || $query->is_category() || $query->post_type_archive() ) && ! $query->is_post_type_archive( [
+			'short-read',
+		] ) ) {
+			$query->set('post_type', self::$post_type_query_arg);
 		}
-		if ( ! $query->is_archive() ) {
-			return;
-		}
-		if ( ! $query->is_post_type_archive() ) {
-			return;
-		}
-		// if ( ! in_array($query->get('post_type'), self::$post_type_query_arg) ) {
-		// 	return;
-		// }
-		$query->set('post_type', self::$post_type_query_arg);
 	}
 
 	/**
