@@ -183,6 +183,12 @@ class Core_Query {
 		if ( ! $query->is_archive() ) {
 			return;
 		}
+		if ( ! $query->is_post_type_archive() ) {
+			return;
+		}
+		// if ( ! in_array($query->get('post_type'), self::$post_type_query_arg) ) {
+		// 	return;
+		// }
 		$query->set('post_type', self::$post_type_query_arg);
 	}
 
