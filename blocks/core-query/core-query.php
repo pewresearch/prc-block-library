@@ -177,7 +177,7 @@ class Core_Query {
 		if ( ( $query->is_home() || $query->is_main_query() || $query->is_tax() || $query->is_archive() || $query->is_category() || $query->post_type_archive() ) && ! $query->is_post_type_archive( [
 			'short-read',
 		] ) ) {
-			$query->set('post_type', self::$post_type_query_arg);
+			// $query->set('post_type', self::$post_type_query_arg);
 		}
 	}
 
