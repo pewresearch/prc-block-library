@@ -27,7 +27,6 @@ $block_wrapper_attrs = array(
 		'isOpen' => get_query_var('collapsibleId') === $collapsible_id,
 	)),
 	'data-wp-class--is-open' => 'context.isOpen',
-	'data-wp-init' => 'callbacks.onInit',
 	'data-wp-init--scroll-into-view' => 'callbacks.onInitScrollIntoView',
 );
 if ( $block_gap ) {
