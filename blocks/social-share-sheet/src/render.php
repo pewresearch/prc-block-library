@@ -1,8 +1,6 @@
 <?php
 namespace PRC\Platform\Blocks;
 
-$is_mobile = wp_is_mobile();
-
 $context = $block->context;
 
 $link_title = array_key_exists('core/social-links/title', $context) ? $context['core/social-links/title'] : '';
@@ -27,7 +25,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 		'url' => $link_url,
 		'hashtags' => $hashtags,
 		'image' => $image_id ? wp_get_attachment_image_url($image_id, 'full') : false,
-		'enabled' => $is_mobile,
+		'enabled' => jetpack_is_mobile() ? false : true,
 	)),
 	'data-wp-on--click' => 'actions.onClick',
 	'data-wp-class--web-share-supported' => 'context.enabled',
@@ -36,6 +34,8 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 ));
 
 $icon = \PRC\Platform\Icons\Render('solid', 'up-from-bracket');
+
+$is_mobile = jetpack_is_mobile();
 
 $native_template = wp_sprintf(
 	'<a href="%s"><span class="wp-block-prc-block-social-share-sheet__label">%s</span>%s</a>',

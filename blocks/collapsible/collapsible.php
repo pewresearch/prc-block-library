@@ -28,6 +28,7 @@ class Collapsible {
 	public function init($loader = null) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_filter( 'apple_news_initialize_components', $this, 'register_apple_news_collapsible_component', 10, 1 );
 			$loader->add_filter( 'query_vars', $this, 'register_qvar', 10, 1 );
 		}
 	}
@@ -40,6 +41,18 @@ class Collapsible {
 	public function register_qvar($query_vars) {
 		$query_vars[] = 'collapsibleId';
 		return $query_vars;
+	}
+
+	/**
+	 * @hook apple_news_initialize_components
+	 * @param mixed $components
+	 * @return void
+	 */
+	public function register_apple_news_collapsible_component($components) {
+		if ( !array_key_exists('callout', $components) ) {
+			$components['callout'] = '\\Apple_Exporter\\Components\\Collapsible';
+		}
+		return $components;
 	}
 
 	/**
