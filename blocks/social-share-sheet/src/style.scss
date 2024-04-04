@@ -24,6 +24,13 @@
 		& > li {
 			display: none!important;
 		}
+		& > a {
+			display: flex!important;
+			align-items: center;
+			span {
+				line-height: 1;
+			}
+		}
 	}
 	&:not(.web-share-supported) {
 		& > a  {

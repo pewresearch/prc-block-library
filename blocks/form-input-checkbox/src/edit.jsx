@@ -60,7 +60,6 @@ function Edit({
 		[getColorClassName('color', checkboxColor?.slug)]:
 			!!checkboxColor?.slug,
 	});
-	console.log({ inputClasses });
 
 	return (
 		<Fragment>
