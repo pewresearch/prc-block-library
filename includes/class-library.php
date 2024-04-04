@@ -236,6 +236,7 @@ class Library {
 		new Social_Share_Sheet($this->get_loader());
 		new Social_Share_Text_Link($this->get_loader());
 		new Social_Share_URL_Field($this->get_loader());
+		new Staff_Context_Provider($this->get_loader());
 		new Staff_Info($this->get_loader());
 		new Staff_Query($this->get_loader());
 		new Story_Item($this->get_loader());

@@ -1,24 +1,25 @@
 <?php
 namespace PRC\Platform\Blocks;
+use WP_Block;
 
 /**
- * Block Name:        Taxonomy Archive Context Provider
- * Description:       Provides information about a taxonomy archive page like the current queried taxonomy and the term id via block context to nested blocks
+ * Block Name:        Staff Context Provider
+ * Description:       Provides information about a Staff member via termId and passes that information via block context to its innerblocks.
  * Requires at least: 6.4
  * Requires PHP:      8.1
- * Author:            Seth Rubenstein
+ * Author:            Pew Research Center
  *
  * @package           prc-block
  */
 
-class taxonomy_archive_context_provider {
+class Staff_Context_Provider {
 	public static $block_json = null;
 	public static $version;
 	public static $block_name;
 	public static $dir = __DIR__;
 
 	public function __construct($loader) {
-		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/taxonomy-archive-context-provider/build/block.json';
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/staff-context-provider/build/block.json';
 		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 		self::$version = self::$block_json['version'];
@@ -32,18 +33,6 @@ class taxonomy_archive_context_provider {
 		}
 	}
 
-	public function get_taxonomy_info() {
-		if ( !is_tax() ) {
-			return false;
-		}
-		$taxonomy = get_queried_object()->taxonomy;
-		$term_id = get_queried_object_id();
-		return array(
-			'taxonomy' => $taxonomy,
-			'term_id' => $term_id,
-		);
-	}
-
 	/**
 	* Render the block
 	* @param array $attributes Block attributes
@@ -52,27 +41,46 @@ class taxonomy_archive_context_provider {
 	* @return string
 	*/
 	public function render_block_callback( $attributes, $content, $block ) {
-		$taxonomy_info = $this->get_taxonomy_info();
-		if ( !$taxonomy_info ) {
+		$taxonomy = get_queried_object()->taxonomy;
+		if ( 'bylines' !== $taxonomy ) {
 			return '';
 		}
 
-		$taxonomy = $taxonomy_info['taxonomy'];
-		$term_id = $taxonomy_info['term_id'];
+		$term_id = get_queried_object_id();
+		$staff = new \PRC\Platform\Staff( false, $term_id );
 
-		add_filter( 'render_block_context', function( $context ) use ( $taxonomy, $term_id ) {
-			$context['prc-block/taxonomy-archive-context-provider/taxonomy'] = $taxonomy;
-			$context['prc-block/taxonomy-archive-context-provider/term-id'] = $term_id;
-			return $context;
-		} );
+		if ( is_wp_error( $staff ) ) {
+			return '';
+		}
 
-		$wrapper_attributes = get_block_wrapper_attributes();
+		$block_instance = $block->parsed_block;
 
-		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
-			$wrapper_attributes,
-			$content
-		);
+		// Set the block name to one that does not correspond to an existing registered block.
+		// This ensures that for the inner instances of the Post Template block, we do not render any block supports.
+		$block_instance['blockName'] = 'core/null';
+
+		if ( ! $staff->is_currently_employed ) {
+			return '';
+		}
+
+		$block_content = (
+			new WP_Block(
+				$block_instance,
+				array(
+					'staffName'      => $staff->name,
+					'staffJobTitle'  => $staff->job_title,
+					'staffImage'     => $staff->photo,
+					'staffTwitter'   => null,
+					'staffExpertise' => $staff->expertise,
+					'staffBio'       => $staff->bio,
+					'staffMiniBio'   => $staff->job_title_extended,
+					'staffLink'      => $staff->link,
+					'staffId'        => $staff->ID,
+				)
+			)
+		)->render( array( 'dynamic' => false ) );
+
+		return $block_content;
 	}
 
 	/**

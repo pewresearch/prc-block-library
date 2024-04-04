@@ -1,8 +1,8 @@
 {
-	"name": "taxonomy-archive-context-provider",
+	"name": "staff-context-provider",
 	"version": "0.1.0",
-	"description": "Provides information about a taxonomy archive page like the current queried taxonomy and the term id via block context to nested blocks",
-	"author": "Seth Rubenstein",
+	"description": "Provides information about a Staff member via termId and passes that information via block context to its innerblocks.",
+	"author": "Pew Research Center",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
 	"main": "build/index.js",

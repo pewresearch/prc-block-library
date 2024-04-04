@@ -63,7 +63,7 @@
 		"staffLink",
 		"staffId"
 	],
-	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query" ],
+	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query", "prc-block/staff-context-provider" ],
 	"textdomain": "staff-info",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
