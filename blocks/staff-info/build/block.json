@@ -37,6 +37,18 @@
       "link": true,
       "text": true
     },
+    "spacing": {
+      "padding": true,
+      "margin": true,
+      "blockGap": true
+    },
+    "layout": {
+      "allowOrientation": true,
+      "allowJustification": true,
+      "default": {
+        "type": "flex"
+      }
+    },
     "typography": {
       "fontSize": true,
       "lineHeight": true,
@@ -51,6 +63,17 @@
       }
     }
   },
+  "styles": [
+    {
+      "isDefault": true,
+      "name": "default",
+      "label": "Default"
+    },
+    {
+      "name": "has-prefix",
+      "label": "Has Prefix/Label"
+    }
+  ],
   "usesContext": [
     "bylineTermId",
     "staffName",

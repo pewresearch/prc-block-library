@@ -33,7 +33,7 @@ function getPlaceholderValue(valueToFetch) {
 		case 'staffMiniBio':
 			return `an ${randomJobTitle} at Pew Research Center `;
 		case 'staffBio':
-			return `Laboris eiusmod culpa sit culpa qui aliqua esse excepteur aliquip. Quis reprehenderit eiusmod ipsum irure officia anim veniam fugiat labore officia reprehenderit velit in commodo. Tempor eu veniam sit culpa officia ullamco. Sit est commodo duis laborum. Dolor sint est exercitation enim ut in ea proident dolore officia. Ullamco est sit veniam aliquip tempor proident deserunt velit eiusmod pariatur velit. Irure nostrud mollit esse reprehenderit consectetur aliqua dolore fugiat ut enim. Magna cillum non deserunt laboris esse aliquip dolore esse voluptate reprehenderit nulla qui commodo commodo et. Deserunt fugiat minim aute excepteur irure voluptate pariatur reprehenderit cupidatat enim nisi in occaecat. Est incididunt esse aute do. Laboris ad eu et irure. Do quis laborum veniam minim in elit non ea dolore fugiat irure.`;
+			return `<p>Laboris eiusmod culpa sit culpa qui aliqua esse excepteur aliquip. Quis reprehenderit eiusmod ipsum irure officia anim veniam fugiat labore officia reprehenderit velit in commodo.</p><p>Tempor eu veniam sit culpa officia ullamco. Sit est commodo duis laborum. Dolor sint est exercitation enim ut in ea proident dolore officia. Ullamco est sit veniam aliquip tempor proident deserunt velit eiusmod pariatur velit. Irure nostrud mollit esse reprehenderit consectetur aliqua dolore fugiat ut enim.</p><p>Magna cillum non deserunt laboris esse aliquip dolore esse voluptate reprehenderit nulla qui commodo commodo et. Deserunt fugiat minim aute excepteur irure voluptate pariatur reprehenderit cupidatat enim nisi in occaecat. Est incididunt esse aute do. Laboris ad eu et irure. Do quis laborum veniam minim in elit non ea dolore fugiat irure.</p>`;
 		default:
 			return false;
 	}
@@ -49,6 +49,8 @@ function StaffInfo({ attributes, setAttributes, value }) {
 				onChange={(newPrefix) => setAttributes({ prefix: newPrefix })}
 				allowedFormats={['']}
 				multiline={false}
+				placeholder="Prefix"
+				className="wp-block-prc-staff-info__prefix"
 			/>
 			<RawHTML>{value}</RawHTML>
 		</Fragment>
@@ -68,9 +70,13 @@ function StaffImage({ value }) {
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                 Properties passed to the function.
+ * @param {Object}   props.attributes      Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
+ * @param            props.isSelected
+ * @param            props.toggleSelection
+ * @param {Function} props.setAttributes   Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
@@ -100,7 +106,7 @@ export default function Edit({
 		} else if (undefined !== context[valueToFetch]) {
 			setStaffValue(context[valueToFetch]);
 			if ('staffImage' === valueToFetch) {
-				console.log("Is Image context...", valueToFetch, context);
+				console.log('Is Image context...', valueToFetch, context);
 				setIsImage(true);
 			}
 		}
