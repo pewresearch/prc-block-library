@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/taxonomy-archive-context-provider",
+	"version": "0.1.0",
+	"title": "Taxonomy Archive Context Provider",
+	"category": "theme",
+	"description": "Provides information about a taxonomy archive page like the current queried taxonomy and the term id via block context to nested blocks",
+	"attributes": {
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"orientation": {
+			"type": "string",
+			"default": "vertical"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"blockGap": true,
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"textdomain": "taxonomy-archive-context-provider",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}
