@@ -4,7 +4,7 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-prc-block-staff-info.wp-block {
+.wp-block-prc-block-staff-info {
 	color: inherit;
 	background: inherit;
 	& > div {
@@ -17,7 +17,7 @@
 	p {
 		margin: 0!important;
 	}
-	&__staff-image {
+	&__staff-image{
 		min-width: 100px;
 		min-height: 100px;
 		position: relative;
