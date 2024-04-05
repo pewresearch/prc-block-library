@@ -41,13 +41,20 @@ class Staff_Context_Provider {
 	* @return string
 	*/
 	public function render_block_callback( $attributes, $content, $block ) {
-		$taxonomy = get_queried_object()->taxonomy;
-		if ( 'bylines' !== $taxonomy ) {
-			return '';
+		$context = $block->context;
+		$staff_id = false;
+		$term_id = false;
+		if ( array_key_exists('postType', $context) && array_key_exists('postId', $context) && 'staff' === $context['postType'] ) {
+			$staff_id = $context['postId'];
+		} else {
+			$taxonomy = get_queried_object()->taxonomy;
+			if ( 'bylines' !== $taxonomy ) {
+				return '';
+			}
+			$term_id = get_queried_object_id();
 		}
 
-		$term_id = get_queried_object_id();
-		$staff = new \PRC\Platform\Staff( false, $term_id );
+		$staff = new \PRC\Platform\Staff( $staff_id, $term_id );
 
 		if ( is_wp_error( $staff ) ) {
 			return '';
@@ -62,6 +69,8 @@ class Staff_Context_Provider {
 		if ( ! $staff->is_currently_employed ) {
 			return '';
 		}
+
+		do_action('qm/debug', 'STAFF: ' . print_r($staff, true) );
 
 		$block_content = (
 			new WP_Block(

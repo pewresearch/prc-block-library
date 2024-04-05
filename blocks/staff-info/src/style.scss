@@ -8,12 +8,34 @@
 .wp-block-prc-block-staff-info {
 	color: inherit;
 	background: inherit;
-	.wp-block-prc-staff-info__prefix {
+	.wp-block-prc-block-staff-info__prefix {
 		display: none;
 	}
 	&.is-style-has-prefix {
-		.wp-block-prc-staff-info__prefix {
+		.wp-block-prc-block-staff-info__prefix {
 			display: inline-block!important;
+		}
+	}
+	&__staff-expertise {
+		display: flex;
+		&.is-vertical span {
+			display: none;
+		}
+	}
+	&__staff-image {
+		min-width: 100px;
+		min-height: 100px;
+		position: relative;
+		&::before {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 60px;
+			height: 60px;
+			background-color: #ccc;
+			border-radius: 50%;
 		}
 	}
 }

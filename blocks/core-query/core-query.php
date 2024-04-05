@@ -194,9 +194,14 @@ class Core_Query {
 			$query->set('isPubListingQuery', true);
 		}
 
-		// if we're on a search page, we should also be in a publication listing context.
+		// If we're on a search page, we should also be in a publication listing context.
 		if ( $query->is_search() ) {
 			$query->set('isPubListingQuery', true);
+		}
+
+		// Sometimes it's easier to explicitly opt a page out:
+		if ( $query->is_tax( 'areas-of-expertise') ) {
+			$query->set('isPubListingQuery', false);
 		}
 
 	}

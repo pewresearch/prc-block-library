@@ -7,4 +7,14 @@
 .wp-block-prc-block-staff-info.wp-block {
 	color: inherit;
 	background: inherit;
+	& > div {
+		display: inherit;
+		gap: inherit;
+		flex-direction: inherit;
+		justify-content: inherit;
+		align-items: inherit;
+	}
+	p {
+		margin: 0!important;
+	}
 }

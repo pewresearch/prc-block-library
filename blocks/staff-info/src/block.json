@@ -27,6 +27,16 @@
 		"enableLink": {
 			"type": "boolean",
 			"default": false
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": {
+						"left":"var:preset|spacing|10"
+					}
+				}
+			}
 		}
 	},
 	"supports": {
@@ -83,6 +93,7 @@
 		"staffBio",
 		"staffBioShort",
 		"staffImage",
+		"staffExpertise",
 		"staffLink",
 		"staffId"
 	],

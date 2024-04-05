@@ -19,6 +19,10 @@
     "anchor": true,
     "html": false
   },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
   "textdomain": "staff-context-provider",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

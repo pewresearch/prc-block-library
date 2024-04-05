@@ -2,11 +2,17 @@
 /**
  * External Dependencies
  */
-
+import { getBlockGapSupportValue } from '@prc/block-utils';
 /**
  * WordPress Dependencies
  */
-import { Fragment, useState, useEffect, RawHTML } from '@wordpress/element';
+import {
+	Fragment,
+	useState,
+	useEffect,
+	RawHTML,
+	useMemo,
+} from '@wordpress/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 
 /**
@@ -34,6 +40,8 @@ function getPlaceholderValue(valueToFetch) {
 			return `an ${randomJobTitle} at Pew Research Center `;
 		case 'staffBio':
 			return `<p>Laboris eiusmod culpa sit culpa qui aliqua esse excepteur aliquip. Quis reprehenderit eiusmod ipsum irure officia anim veniam fugiat labore officia reprehenderit velit in commodo.</p><p>Tempor eu veniam sit culpa officia ullamco. Sit est commodo duis laborum. Dolor sint est exercitation enim ut in ea proident dolore officia. Ullamco est sit veniam aliquip tempor proident deserunt velit eiusmod pariatur velit. Irure nostrud mollit esse reprehenderit consectetur aliqua dolore fugiat ut enim.</p><p>Magna cillum non deserunt laboris esse aliquip dolore esse voluptate reprehenderit nulla qui commodo commodo et. Deserunt fugiat minim aute excepteur irure voluptate pariatur reprehenderit cupidatat enim nisi in occaecat. Est incididunt esse aute do. Laboris ad eu et irure. Do quis laborum veniam minim in elit non ea dolore fugiat irure.</p>`;
+		case 'staffExpertise':
+			return '<a>Demographics</a><span>,</span><a>U.S. Politics</a><span>,</span><a>Race & Ethnicity</a>';
 		default:
 			return false;
 	}
@@ -50,7 +58,7 @@ function StaffInfo({ attributes, setAttributes, value }) {
 				allowedFormats={['']}
 				multiline={false}
 				placeholder="Prefix"
-				className="wp-block-prc-staff-info__prefix"
+				className="wp-block-prc-block-staff-info__prefix"
 			/>
 			<RawHTML>{value}</RawHTML>
 		</Fragment>
@@ -87,13 +95,18 @@ export default function Edit({
 	clientId,
 	isSelected,
 	toggleSelection,
+	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const { valueToFetch, prefix } = attributes;
+	const { valueToFetch } = attributes;
 
 	const [staffValue, setStaffValue] = useState(
 		getPlaceholderValue(valueToFetch)
 	);
 	const [isImage, setIsImage] = useState(false);
+
+	const className = useMemo(() => {
+		return `${layoutClassNames} wp-block-prc-block-staff-info__${valueToFetch.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}`;
+	}, [valueToFetch, layoutClassNames]);
 
 	useEffect(() => {
 		if (undefined !== context.bylineTermId) {
@@ -112,7 +125,12 @@ export default function Edit({
 		}
 	}, [context, valueToFetch]);
 
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps({
+		className,
+		style: {
+			gap: getBlockGapSupportValue(attributes, 'horizontal'),
+		},
+	});
 
 	if (isImage && !staffValue) {
 		// eslint-disable-next-line react/jsx-no-useless-fragment
