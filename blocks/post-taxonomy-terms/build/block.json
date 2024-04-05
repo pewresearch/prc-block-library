@@ -7,10 +7,6 @@
   "category": "theme",
   "description": "Display the current post's selected taxonomy terms.",
   "attributes": {
-    "getAllTerms": {
-      "type": "boolean",
-      "default": false
-    },
     "taxonomy": {
       "type": "string",
       "default": "categories"
@@ -52,8 +48,7 @@
     "html": false,
     "color": {
       "background": true,
-      "text": true,
-      "link": true
+      "text": true
     },
     "layout": {
       "allowEditing": true,

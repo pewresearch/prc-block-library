@@ -27,16 +27,6 @@
 		"enableLink": {
 			"type": "boolean",
 			"default": false
-		},
-		"style": {
-			"type": "object",
-			"default": {
-				"spacing": {
-					"blockGap": {
-						"left":"var:preset|spacing|10"
-					}
-				}
-			}
 		}
 	},
 	"supports": {
@@ -46,18 +36,6 @@
 			"background": true,
 			"link": true,
 			"text": true
-		},
-		"spacing": {
-			"padding": true,
-			"margin": true,
-			"blockGap": true
-		},
-		"layout": {
-			"allowOrientation": true,
-			"allowJustification": true,
-			"default": {
-				"type": "flex"
-			}
 		},
 		"typography": {
 			"fontSize": true,
@@ -73,17 +51,6 @@
 			}
 		}
 	},
-	"styles": [
-		{
-			"isDefault": true,
-			"name": "default",
-			"label": "Default"
-		},
-		{
-			"name": "has-prefix",
-			"label": "Has Prefix/Label"
-		}
-	],
 	"usesContext": [
 		"bylineTermId",
 		"staffName",
@@ -93,11 +60,10 @@
 		"staffBio",
 		"staffBioShort",
 		"staffImage",
-		"staffExpertise",
 		"staffLink",
 		"staffId"
 	],
-	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query", "prc-block/staff-context-provider" ],
+	"ancestor": [ "prc-block/bylines-query", "prc-block/staff-query" ],
 	"textdomain": "staff-info",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

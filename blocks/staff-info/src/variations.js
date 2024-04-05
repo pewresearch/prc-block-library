@@ -67,14 +67,6 @@ const variations = [
 		},
 		isActive: ({ valueToFetch }) => 'staffImage' === valueToFetch,
 	},
-	{
-		name: 'staff-expertise',
-		title: __('Staff Expertise'),
-		attributes: {
-			valueToFetch: 'staffExpertise',
-		},
-		isActive: ({ valueToFetch }) => 'staffExpertise' === valueToFetch,
-	},
 ];
 
 export default variations;

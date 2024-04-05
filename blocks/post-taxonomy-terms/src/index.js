@@ -12,11 +12,8 @@ import { postCategories as icon } from '@wordpress/icons';
 /**
  * WordPress Dependencies
  */
-import {
-	registerBlockType,
-	unregisterBlockType,
-	unregisterBlockVariation,
-} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType, unregisterBlockType, unregisterBlockVariation } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
@@ -48,4 +45,4 @@ const settings = {
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-registerBlockType(name, { ...metadata, ...settings });
+registerBlockType( name, { ...metadata, ...settings } );

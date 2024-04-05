@@ -212,7 +212,7 @@ class Table_Of_Contents {
 
 		$default_to_dropdown = array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-dropdown');
 		// remove the is-style-dropdown class from the block attributes
-		$attributes['className'] = array_key_exists('className', $attributes) ? str_replace('is-style-dropdown', '', $attributes['className']) : '';
+		$attributes['className'] = str_replace('is-style-dropdown', '', $attributes['className']);
 
 		$block_attrs = array(
 			'class' => \PRC\Platform\Block_Utils\classNames(
