@@ -14,8 +14,7 @@ $label_template  = !empty( $attributes['url'] ) ? '<a href="%1$s" class="wp-bloc
 $label_template  = $is_sub_heading ? $label_template . \PRC\Platform\Icons\Render('solid', 'chevron-right') : $label_template;
 $label_template  = $enable_sub_menu && !empty($content) ? ( empty( $attributes['url'] ) ? '<span class="wp-block-prc-block-taxonomy-list-link__label wp-block-prc-block-taxonomy-list-link__toggle">%2$s</span>%3$s' : '<a href="%1$s" class="wp-block-prc-block-taxonomy-list-link__label">%2$s</a>%3$s' ) : $label_template;
 
-$plus_icon = \PRC\Platform\Icons\Render('light', 'circle-plus');
-$minus_icon = \PRC\Platform\Icons\Render('light', 'circle-minus');
+$icon_template =\PRC\Platform\Icons\Render('light', 'circle-plus') . \PRC\Platform\Icons\Render('light', 'circle-minus');
 
 /**
  * Build an array with CSS classes defining the colors
@@ -33,8 +32,7 @@ if ( ! is_null( $text_color ) ) {
 
 if ( array_key_exists('className', $attributes) && 'is-style-sub-expand' === $attributes['className'] ) {
 	$attributes['label'] = "More";
-	$plus_icon = \PRC\Platform\Icons\Render('light', 'plus');
-	$minus_icon = \PRC\Platform\Icons\Render('light', 'minus');
+	$icon_template = \PRC\Platform\Icons\Render('light', 'plus') . \PRC\Platform\Icons\Render('light', 'minus');
 }
 
 $block_id = 'item-' . md5( wp_json_encode( $attributes ) );
@@ -51,13 +49,6 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	'data-wp-init' => 'callbacks.onInit',
 ));
 
-$button = wp_sprintf(
-	'<button class="wp-block-prc-block-taxonomy-list-link__icon wp-block-prc-block-taxonomy-list-link__toggle" data-wp-on--click="actions.onClick"><span data-wp-bind--hidden="context.isActive">%s</span><span data-wp-bind--hidden="!context.isActive" hidden>%s</span></button>',
-	$plus_icon,
-	$minus_icon
-);
-
-
 echo wp_sprintf(
 	$block_template,
 	$block_wrapper_attrs,
@@ -65,7 +56,7 @@ echo wp_sprintf(
 		$label_template,
 		$attributes['url'] ?? '',
 		$attributes['label'] ?? '',
-		$enable_sub_menu && !empty($content) ? $button : ''
+		$enable_sub_menu && !empty($content) ? '<button class="wp-block-prc-block-taxonomy-list-link__icon wp-block-prc-block-taxonomy-list-link__toggle" data-wp-on--click="actions.onClick">'.$icon_template.'</button>' : ''
 	),
 	$content,
 );

@@ -24,8 +24,14 @@ store('prc-block/social-share-sheet', {
 			const context = getContext();
 			if (window.navigator.share === undefined) {
 				context.enabled = false;
+			} else if (undefined !== window.navigator.canShare()) {
+				if (true === window.navigator.canShare()) {
+					context.enabled = true;
+				} else {
+					context.enabled = false;
+				}
 			} else {
-				context.enabled = true;
+				context.enabled = false;
 			}
 			console.log('detect#WebShareSupport', context);
 		},

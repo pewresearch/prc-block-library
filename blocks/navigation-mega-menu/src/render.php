@@ -78,7 +78,7 @@ $overlay_classnames = \PRC\Platform\Block_Utils\classNames([
 $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 ?>
 
-<div <?php echo $wrapper_attributes; ?>>
+<li <?php echo $wrapper_attributes; ?>>
 	<button
 		class="wp-block-navigation-item__content wp-block-prc-block-navigation-mega-menu__toggle"
 		data-wp-on--click="actions.toggleMenuOnClick"
@@ -118,4 +118,4 @@ $display_label = !$icon || 'dropdown' === $icon ? $label : '';
 			<?php echo \PRC\Platform\Icons\Render('solid', 'circle-xmark');?>
 		</button>
 	</div>
-</div>
+</li>

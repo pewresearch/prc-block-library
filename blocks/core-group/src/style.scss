@@ -27,7 +27,7 @@ $desktopBreakPoint: 791px;
 
 .wp-block-group {
 	&.is-style-social-group {
-		border-bottom: 1px solid var(--wp--preset--color--ui-gray-light);
+		border-bottom: 1px solid var(--wp--preset--color--gray);
 		margin-block-end: 1.5em;
 		.wp-block-social-links {
 			background: white;
@@ -38,11 +38,6 @@ $desktopBreakPoint: 791px;
 
 	&.is-style-callout {
 		border-top: 1px solid $relaxedBorder;
-		padding: 1em;
-		// Legacy Support
-		&.has-beige-background-color {
-			background-color: var(--wp--preset--color--ui-beige-very-light);
-		}
 
 		p {
 			font-family: var(--wp--preset--font-family--sans-serif);
@@ -103,10 +98,10 @@ $desktopBreakPoint: 791px;
 
 .wp-site-blocks,
 .is-root-container {
-	// container: prc-responsive-container / inline-size;
+	container: prc-responsive-container / inline-size;
 }
-//@container prc-responsive-container
-@media only screen and (max-width: 420px) {
+
+@container prc-responsive-container (max-width: 420px) {
 	.wp-block-group[data-hide-on-mobile="true"] {
 		&.wp-block:before {
 			content: "This block is hidden on mobile.";
@@ -124,7 +119,7 @@ $desktopBreakPoint: 791px;
 	}
 }
 
-@media only screen and (min-width: 420px) and (max-width: 790px) {
+@container prc-responsive-container (min-width: 420px) and (max-width: 790px) {
 	.wp-block-group[data-hide-on-tablet="true"] {
 		&.wp-block:before {
 			content: "This block is hidden on tablet.";
@@ -142,13 +137,13 @@ $desktopBreakPoint: 791px;
 	}
 }
 
-@media only screen and (max-width: 791px) {
+@container prc-responsive-container (max-width: 791px) {
 	.is-style-collapse-row-on-mobile {
 		flex-direction: column;
 	}
 }
 
-@media only screen and (min-width: 791px) {
+@container prc-responsive-container (min-width: 791px) {
 	.wp-block-group[data-hide-on-desktop="true"] {
 		&.wp-block:before {
 			content: "This block is hidden on desktop.";

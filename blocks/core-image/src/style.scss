@@ -156,11 +156,6 @@ $alignRightMargin: 5px 0px 15px 15px;
 		}
 	}
 
-	&.alignright ~ p,
-	&.alignleft ~ p {
-		margin-top: 0;
-	}
-
 	&.alignwide figcaption,
 	.alignwide figcaption,
 	&.alignfull figcaption,
@@ -182,4 +177,3 @@ $alignRightMargin: 5px 0px 15px 15px;
 // figure.wp-block-image {
 // 	margin: 0;
 // }
-
