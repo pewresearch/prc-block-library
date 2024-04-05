@@ -19,10 +19,13 @@ if ( false !== $value_to_fetch && array_key_exists( $value_to_fetch_key, $contex
 }
 
 if ( $is_image && is_array($value_to_fetch) ) {
+	$img = $value_to_fetch;
+	$thumbnail = $img['thumbnail'];
 	$value_to_fetch = wp_sprintf(
-		'<img src="%1$s" alt="%2$s" />',
-		$value_to_fetch['thumbnail'],
-		'Photo of staff',
+		'<img src="%1$s" width="%2$s" height="%3$s" alt="Portrait photo of staff" />',
+		$thumbnail[0],
+		$thumbnail[1],
+		$thumbnail[2],
 	);
 } else if ( is_array($value_to_fetch) ) {
 	// see if $value_to_fetch contains any item with a 'url' and 'label' key
