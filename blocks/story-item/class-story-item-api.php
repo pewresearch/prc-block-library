@@ -37,7 +37,6 @@ class Story_Item_API {
 		$this->inner_content = normalize_whitespace($content);
 		// Setup variables:
 		$this->is_mobile = function_exists('jetpack_is_mobile') && \jetpack_is_mobile();
-		$this->in_query_loop = false !== $this->check_for_context('query');
 		$this->post_id = $this->get_post_id();
 		// Check if wp_post global is set, and if it is does it have the same post id as the one we're looking for, if so use that. This is to ensure we're getting the correct post data for the current post and so we don't have to make another query.
 		if ( isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post && $GLOBALS['post']->ID === $this->post_id ) {

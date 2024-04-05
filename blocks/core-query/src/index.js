@@ -74,7 +74,7 @@ registerBlockVariation('core/query', pubListingVariation);
 /**
  * Add html attributes for each responsiveContainerQuery attribute value on the core/group block.
  */
-// @TODO Disabling for now, this is really just visual, and by introducing taxonomy preview in block-area-modules this will probably be less useful and can be removed.
+// @TODO Disabling for now, this is really just visual and was introducing issues because it was saving thesea attributes.By introducing taxonomy preview in block-area-modules this will probably be less useful and can be removed.
 // addFilter(
 // 	'editor.BlockEdit',
 // 	`${BLOCKIDENTIFIER}-context-area-watcher`,

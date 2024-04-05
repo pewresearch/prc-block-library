@@ -127,6 +127,9 @@
 		"typography": {
 			"fontSize": true,
 			"__experimentalFontFamily": true
+		},
+		"interactivity": {
+			"clientNavigation": true
 		}
 	},
 	"textdomain": "story-item",

@@ -8,5 +8,21 @@
 .wp-block-prc-block-staff-info {
 	color: inherit;
 	background: inherit;
-	display: flex;
+	.wp-block-prc-block-staff-info__prefix {
+		display: none;
+	}
+	&.is-style-has-prefix {
+		.wp-block-prc-block-staff-info__prefix {
+			display: inline-block!important;
+		}
+	}
+	&__staff-expertise {
+		display: flex;
+		&.is-vertical span {
+			display: none;
+		}
+	}
+	&__staff-image {
+
+	}
 }

@@ -72,12 +72,7 @@ class Library {
 	 */
 	private function include_block($block_file_name) {
 		$block_file_path = 'blocks/' . $block_file_name . '/' . $block_file_name . '.php';
-		$apple_news_component_file_path = 'blocks/' . $block_file_name . '/apple-news.php';
 		if ( file_exists( plugin_dir_path( dirname(__FILE__) ) . $block_file_path ) ) {
-			// If Apple News component for this block exists load it and register it for the apple new helper later.
-			if ( file_exists( plugin_dir_path( dirname(__FILE__) ) . $apple_news_component_file_path ) && class_exists('Apple_Exporter\Components')) {
-				require_once plugin_dir_path( dirname(__FILE__) ) . $apple_news_component_file_path;
-			}
 			require_once plugin_dir_path( dirname(__FILE__) ) . $block_file_path;
 		} else {
 			return new WP_Error( 'prc_block_library_missing_block', __( 'Block missing.', 'prc' ) );
@@ -112,7 +107,6 @@ class Library {
 		// Load plugin loading class.
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/class-loader.php';
 		// Load support classes.
-		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/apple-news/class-apple-news.php';
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/common-styles/class-common-styles.php';
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/interactivity-api/class-interactivity-api.php';
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/print-engine/class-print-engine.php';
@@ -157,7 +151,6 @@ class Library {
 	 * 4. @wordpress/interactivity api supports
 	 */
 	private function define_library_dependencies() {
-		new Apple_News( $this->get_loader() );
 		new Common_Styles( $this->get_loader() );
 		new Print_Engine( $this->get_loader() );
 		new Interactivity_API( $this->get_loader() );
@@ -243,6 +236,7 @@ class Library {
 		new Social_Share_Sheet($this->get_loader());
 		new Social_Share_Text_Link($this->get_loader());
 		new Social_Share_URL_Field($this->get_loader());
+		new Staff_Context_Provider($this->get_loader());
 		new Staff_Info($this->get_loader());
 		new Staff_Query($this->get_loader());
 		new Story_Item($this->get_loader());

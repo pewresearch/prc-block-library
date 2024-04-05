@@ -35,6 +35,7 @@ class Navigation_Mega_Menu {
 			$loader->add_action('init', $this, 'block_init');
 			$loader->add_action('enqueue_block_assets', $this, 'enqueue_custom_mega_menu_styles');
 			$loader->add_filter('default_wp_template_part_areas', $this, 'mega_menu_template_part_areas', 10, 1);
+			$loader->add_filter('block_core_navigation_listable_blocks', $this, 'enable_mega_menu_list_wrapper', 10, 1);
 		}
 	}
 
@@ -74,6 +75,16 @@ class Navigation_Mega_Menu {
 		$styles = ob_get_clean();
 		$minifier = new Minify\CSS($styles);
 		return $minifier->minify();
+	}
+
+	/**
+	 * Enables the mega menu block to be auto-wrapped in an <li> element by the navigation block on the frontend.
+	 * @hook block_core_navigation_listable_blocks
+	 * @return array
+	 */
+	public function enable_mega_menu_list_wrapper( $blocks ) {
+		$blocks[] = self::$block_name;
+		return $blocks;
 	}
 
 	/**
