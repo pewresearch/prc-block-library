@@ -6,7 +6,7 @@
  */
 
 .wp-block-post-content {
-	container: post-content-container / inline-size;
+	// container: post-content-container / inline-size;
 }
 
 @container post-content-container (max-width: 480px) {
