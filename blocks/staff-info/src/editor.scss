@@ -4,33 +4,7 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-prc-block-staff-info {
+.wp-block-prc-block-staff-info.wp-block {
 	color: inherit;
 	background: inherit;
-	& > div {
-		display: inherit;
-		gap: inherit;
-		flex-direction: inherit;
-		justify-content: inherit;
-		align-items: inherit;
-	}
-	p {
-		margin: 0!important;
-	}
-	&__staff-image{
-		min-width: 100px;
-		min-height: 100px;
-		position: relative;
-		&::before {
-			content: "";
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			width: 60px;
-			height: 60px;
-			background-color: #ccc;
-			border-radius: 50%;
-		}
-	}
 }

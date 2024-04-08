@@ -50,7 +50,6 @@ class Core_Query {
 			// Actually Filter Queries:
 			$loader->add_filter( 'rest_post_query', $this, 'filter_pub_listing_rest_query', 10, 2 );
 			$loader->add_filter( 'pre_render_block', $this, 'filter_pub_listing_query_args', 10, 3 );
-			$loader->add_action( 'pre_get_posts', $this, 'flag_query_as_publication_listing', 1, 1 );
 			$loader->add_action( 'pre_get_posts', $this, 'filter_pub_listing_pre_get_posts_fallback', 10, 1 );
 
 			$loader->add_filter( 'render_block_context', $this, 'handle_story_item_query_context_awareness', 100, 3 );
@@ -82,11 +81,7 @@ class Core_Query {
 	 * @return array
 	 */
 	public function set_pub_listing_starting_defaults($query = array()) {
-		if ( is_array($query) && array_key_exists('post_type', $query) && is_array($query['post_type']) && count($query['post_type']) === 1 && in_array('dataset', $query['post_type']) ) {
-			$query['post_type'] = array('dataset');
-		} else {
-			$query['post_type'] = self::$post_type_query_arg;
-		}
+		$query['post_type'] = self::$post_type_query_arg;
 		return $query;
 	}
 
@@ -164,10 +159,12 @@ class Core_Query {
 	}
 
 	/**
-	 * This filter will determine if we are in a "publication listing" context and if so, will set a flag, early, on $query. This flag, `isPubListingQuery`, will be used later in other pre_get_posts filters to determine if we should be modifying the query.
+	 * This will catch everything else not being delievered by either the REST API or the Query Block
 	 * @hook pre_get_posts
+	 * @param mixed $query
+	 * @return void
 	 */
-	public function flag_query_as_publication_listing($query) {
+	public function filter_pub_listing_pre_get_posts_fallback($query) {
 		if ( get_current_blog_id() !== PRC_PRIMARY_SITE_ID ) {
 			return;
 		}
@@ -180,46 +177,15 @@ class Core_Query {
 		if ( !$query->is_main_query() ) {
 			return;
 		}
-
-		// If we are on "home" i.e. the "blog" page or in our case "Publications" page, then we are in a publication listing context. This is the primary way to access a "Pub Listing"
-		if ( $query->is_home() ) {
-			$query->set('isPubListingQuery', true);
-		}
-
-		if ($query->is_archive() && ! $query->is_post_type_archive( [
+		if ( ( $query->is_home() || $query->is_tax() || $query->is_archive() || $query->is_category() || $query->post_type_archive() ) && ! $query->is_post_type_archive( [
 			'short-read',
-			'dataset',
-			'staff',
 		] ) ) {
-			$query->set('isPubListingQuery', true);
-		}
-
-		// If we're on a search page, we should also be in a publication listing context.
-		if ( $query->is_search() ) {
-			$query->set('isPubListingQuery', true);
-		}
-
-		// Sometimes it's easier to explicitly opt a page out:
-		if ( $query->is_tax( 'areas-of-expertise') ) {
-			$query->set('isPubListingQuery', false);
-		}
-
-	}
-
-	/**
-	 * This will catch everything else not being delievered by either the REST API or the Query Block
-	 * @hook pre_get_posts
-	 * @param mixed $query
-	 * @return void
-	 */
-	public function filter_pub_listing_pre_get_posts_fallback($query) {
-		if ( true === $query->get('isPubListingQuery') ) {
 			$query->set('post_type', self::$post_type_query_arg);
 		}
 	}
 
 	/**
-	 * Hijacks core/post-template block context so that the queryId and the query are passed down to stort-item blocks. This makes story item blocks "query" context aware and as such they will change their attributes if placed in a query block. We also remove postId and postType for good measure.
+	 * Hijacks core/post-template block context so that is passed along the queryId and the query down to stort-item blocks. This makes story item blocks "query" context aware and as such they will change their attributes if placed in a query block.
 	 * @hook render_block_context
 	 */
 	public function handle_story_item_query_context_awareness(array $context, array $parsed_block, WP_Block|null $parent_block) {
