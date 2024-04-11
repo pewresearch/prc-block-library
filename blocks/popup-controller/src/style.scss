@@ -19,103 +19,108 @@ body.has-active-modal {
 	cursor: pointer;
 }
 
-.wp-block-prc-block-popup-controller {
-	&.is-active .wp-block-prc-block-popup-modal__outer {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
-		background-color: rgba(0, 0, 0, 0.5);
-		display: flex;
+.wp-block-prc-block-popup-modal__outer {
+	display: none;
+	.wp-block-prc-block-popup-modal {
+		display: none;
+	}
+	&.is-position-center-center {
 		align-items: center;
 		justify-content: center;
-		z-index: 30;
-		padding: 1em;
+	}
+	&.is-position-center-left {
+		align-items: center;
+		justify-content: flex-start;
+	}
+	&.is-position-center-right {
+		align-items: center;
+		justify-content: flex-end;
+	}
+	&.is-position-bottom-left {
+		align-items: flex-end;
+		justify-content: flex-start;
+	}
+	&.is-position-bottom-center {
+		align-items: flex-end;
+		justify-content: center;
+	}
+	&.is-position-bottom-right {
+		align-items: flex-end;
+		justify-content: flex-end;
+	}
+	&.is-position-top-left {
+		align-items: flex-start;
+		justify-content: flex-start;
+	}
+	&.is-position-top-center {
+		align-items: flex-start;
+		justify-content: center;
+	}
+	&.is-position-top-right {
+		align-items: flex-start;
+		justify-content: flex-end;
 	}
 
-	.wp-block-prc-block-popup-modal__outer {
-		display: none;
+	.wp-block-prc-block-popup-modal {
+		width: 100%;
+		max-width: calc(640px * 1.5);
+		position: relative;
+		background: transparent;
 
-		&.is-position-center-center {
-			align-items: center;
-			justify-content: center;
-		}
-		&.is-position-center-left {
-			align-items: center;
-			justify-content: flex-start;
-		}
-		&.is-position-center-right {
-			align-items: center;
-			justify-content: flex-end;
-		}
-		&.is-position-bottom-left {
-			align-items: flex-end;
-			justify-content: flex-start;
-		}
-		&.is-position-bottom-center {
-			align-items: flex-end;
-			justify-content: center;
-		}
-		&.is-position-bottom-right {
-			align-items: flex-end;
-			justify-content: flex-end;
-		}
-		&.is-position-top-left {
-			align-items: flex-start;
-			justify-content: flex-start;
-		}
-		&.is-position-top-center {
-			align-items: flex-start;
-			justify-content: center;
-		}
-		&.is-position-top-right {
-			align-items: flex-start;
-			justify-content: flex-end;
+		&__close-button {
+			--offset: var(--gutter, 20px);
+			position: absolute;
+			right: calc(-1*var(--offset));
+			top: calc(-1*var(--offset));
+			cursor: pointer;
+			color: white;
 		}
 
-		.wp-block-prc-block-popup-modal {
-			width: 100%;
-			max-width: calc(640px * 1.5);
-			position: relative;
-			background: transparent;
+		&.has-background {
+			border-radius: 5px;
+			padding: var(--gutter, $default_gutter);
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+		}
 
-			&__close-button {
-				--offset: var(--gutter, 20px);
-				position: absolute;
-				right: calc(-1*var(--offset));
-				top: calc(-1*var(--offset));
-				cursor: pointer;
-				color: white;
+		.wp-block-prc-block-popup-modal--header {
+			margin-bottom: calc( var(--gutter, $default_gutter) * 1.3 );
+			padding-bottom: calc( var(--gutter, $default_gutter) * 1.3 );
+			border-bottom: 1px solid #eee;
+
+			h2 {
+				margin: 0;
 			}
+		}
 
-			&.has-background {
-				border-radius: 5px;
-				padding: var(--gutter, $default_gutter);
-				box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-			}
+		.wp-block-prc-block-popup-modal--inner {
+			max-height: 90vh;
+			overflow-y: auto;
+		}
 
-			.wp-block-prc-block-popup-modal--header {
-				margin-bottom: calc( var(--gutter, $default_gutter) * 1.3 );
-				padding-bottom: calc( var(--gutter, $default_gutter) * 1.3 );
-				border-bottom: 1px solid #eee;
-
-				h2 {
-					margin: 0;
-				}
-			}
-
-			.wp-block-prc-block-popup-modal--inner {
-				max-height: 90vh;
-				overflow-y: auto;
-			}
-
-			.wp-block-vimeo-create.vimeo-create__video-container {
-				max-width: 100% !important;
-			}
+		.wp-block-vimeo-create.vimeo-create__video-container {
+			max-width: 100% !important;
 		}
 	}
+}
+.wp-block-prc-block-popup-modal__outer:has(.wp-block-prc-block-popup-modal.is-active) {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 30;
+	padding: 1em;
+	.wp-block-prc-block-popup-modal.is-active {
+		position: relative;
+		display: block;
+	}
+}
 
+.wp-block-prc-block-popup-controller {
 	&.is-active .wp-block-prc-block-popup-modal__outer.animate-in {
 		opacity: 0;
 		animation: fade-in 1s forwards;
@@ -133,12 +138,10 @@ body.has-active-modal {
 			animation: pop-out 0.5s forwards;
 		}
 	}
-
 }
 
 
 /* Fade in outer div */
-
 
 /* Animations */
 @keyframes fade-in {
