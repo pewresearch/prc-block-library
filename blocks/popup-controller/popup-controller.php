@@ -40,7 +40,7 @@ class Popup_Controller {
 		if ( null !== $loader ) {
 			$loader->add_action('init', $this, 'block_init');
 			$loader->add_filter('render_block_data', $this, 'capture_modals', 10, 3);
-			$loader->add_filter('render_block', $this, 'add_modals_to_end_of_footer_template_part', 10, 3);
+			$loader->add_filter('wp_footer', $this, 'add_modals_to_footer');
 		}
 	}
 
@@ -75,31 +75,31 @@ class Popup_Controller {
 	 * @TODO systemize this
 	 * @hook get_block_template
 	 */
-	public function add_modals_to_end_of_footer_template_part( $block_content, $block, $parent_block ){
-		if ( 'core/template-part' === $block['blockName'] && 'footer' === $block['attrs']['slug'] ) {
-			$outer_class = \PRC\Platform\Block_Utils\classNames('wp-block-prc-block-popup-modal__outer', 'is-position-center-center');
+	public function add_modals_to_footer(){
+		$outer_class = \PRC\Platform\Block_Utils\classNames('wp-block-prc-block-popup-modal__outer', 'is-position-center-center');
+		$content = '';
 
-			$index = 0;
-			$modals = array_map(function($modal) use (&$index) {
-				$controller_id = $this->controller_ids[$index];
-				$modal['attrs']['controllerId'] = $controller_id;
-				$block = new WP_Block_Parser_Block($modal['blockName'], $modal['attrs'], $modal['innerBlocks'], $modal['innerHTML'], $modal['innerContent']);
-				$block = new WP_Block((array)$block);
-				$index++;
-				return $block->render();
-			}, $this->found_modals);
+		$index = 0;
+		$modals = array_map(function($modal) use (&$index) {
+			$controller_id = $this->controller_ids[$index];
+			$modal['attrs']['controllerId'] = $controller_id;
+			$block = new WP_Block_Parser_Block($modal['blockName'], $modal['attrs'], $modal['innerBlocks'], $modal['innerHTML'], $modal['innerContent']);
+			$block = new WP_Block((array)$block);
+			$index++;
+			return $block->render();
+		}, $this->found_modals);
 
-			if ( empty($modals) ) {
-				return $block_content;
-			}
-
-			$block_content .= wp_sprintf(
-				'<div class="%1$s">%2$s</div>',
-				$outer_class,
-				implode('', $modals),
-			);
+		if ( empty($modals) ) {
+			return $content;
 		}
-		return $block_content;
+
+		$content .= wp_sprintf(
+			'<div class="%1$s">%2$s</div>',
+			$outer_class,
+			implode('', $modals),
+		);
+
+		echo $content;
 	}
 
 	public function render_block_callback($attributes, $content, $block) {
