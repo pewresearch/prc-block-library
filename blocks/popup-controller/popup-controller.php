@@ -1,5 +1,8 @@
 <?php
 namespace PRC\Platform\Blocks;
+
+use WP_Block;
+use WP_Block_Parser_Block;
 use WP_HTML_Processor;
 
 /**
@@ -20,6 +23,8 @@ class Popup_Controller {
 	public static $editor_script_handle = null;
 	public static $style_handle = null;
 	public static $dir = __DIR__;
+	public $current_controller_index = 0;
+	public $controller_ids = array();
 	public $found_modals = array();
 
 	public function __construct($loader) {
@@ -34,29 +39,69 @@ class Popup_Controller {
 	public function init($loader = null) {
 		if ( null !== $loader ) {
 			$loader->add_action('init', $this, 'block_init');
-			// $loader->add_filter('render_block_context', $this, 'extend_block_id_to_modal_through_context', 10, 3);
+			$loader->add_filter('render_block_data', $this, 'capture_modals', 10, 3);
+			$loader->add_filter('render_block', $this, 'add_modals_to_end_of_footer_template_part', 10, 3);
 		}
-	}
-
-	public function extend_block_id_to_modal_through_context($context, $parsed_block, $parent_block) {
-		if ( $parsed_block['blockName'] !== 'prc-block/popup-modal' ) {
-			$block_id = md5($parent_block->inner_html);
-			$context['prc-block/popup-controller/id'] = $block_id;
-		}
-		return $context;
 	}
 
 	/**
-	 * @hook wp_footer
+	 * Capture popup-modals before they are rendered and store in them in $this->found_modals. We will then render them at the end of the page.
+	 * @hook render_block_data
 	 */
-	public function move_popup_modals_to_end_of_page($post_content) {
-		// get the $found_modals and add them to the end of the page.
+	public function capture_modals($parsed_block, $source_block, $parent_block) {
+		if ( $parsed_block['blockName'] !== 'prc-block/popup-controller' ) {
+			return $parsed_block;
+		}
+		$this->controller_ids[] = wp_unique_id('popup-controller-');
+		// remove the prc-block/popup-modal block from $parsed_block['innerBlocks'] and store it in $this->found_modals
+		$found_modals = array_filter($parsed_block['innerBlocks'], function($block) {
+			if ( $block['blockName'] === 'prc-block/popup-modal' ) {
+				$this->found_modals[] = $block;
+				return false;
+			}
+			return true;
+		});
+		$parsed_block['innerBlocks'] = $found_modals;
+		return $parsed_block;
+	}
+
+	/**
+	 * Renders the modal blocks at the end of the page after the footer template part.
+	 * @hook get_block_template
+	 */
+	public function add_modals_to_end_of_footer_template_part( $block_content, $block, $parent_block ){
+		if ( 'core/template-part' === $block['blockName'] && 'footer' === $block['attrs']['slug'] ) {
+			$outer_class = \PRC\Platform\Block_Utils\classNames('wp-block-prc-block-popup-modal__outer', 'is-position-center-center');
+
+			$index = 0;
+			$modals = array_map(function($modal) use (&$index) {
+				$controller_id = $this->controller_ids[$index];
+				$modal['attrs']['controllerId'] = $controller_id;
+				$block = new WP_Block_Parser_Block($modal['blockName'], $modal['attrs'], $modal['innerBlocks'], $modal['innerHTML'], $modal['innerContent']);
+				$block = new WP_Block((array)$block);
+				$index++;
+				return $block->render();
+			}, $this->found_modals);
+
+			if ( empty($modals) ) {
+				return $block_content;
+			}
+
+			$block_content .= wp_sprintf(
+				'<div class="%1$s">%2$s</div>',
+				$outer_class,
+				implode('', $modals),
+			);
+		}
+		return $block_content;
 	}
 
 	public function render_block_callback($attributes, $content, $block) {
 		$block_namespace = 'prc-block/popup-controller';
 
-		$block_id = md5($content);
+		$index = $this->current_controller_index;
+		$block_id = $this->controller_ids[$index];
+		$this->current_controller_index++;
 
 		// Why not use context here? Because I want to be able to easily close and open this modal from other namespaces. By using state this is as easy as store('prc-block/popup-controller').state[blockId].isActive = true; would open the modal by the id. This is a very powerful feature when used in conjunction with other store's and the store's ability to listen to changes in state.
 		wp_interactivity_state($block_namespace, array(
@@ -64,6 +109,9 @@ class Popup_Controller {
 				'isActive' => false,
 			),
 		));
+
+		// remove the first div that's class contains wp-block-prc-block-popup-modal AND it's direct contents from $content
+		$content = preg_replace('/<div[^>]*class="[^"]*wp-block-prc-block-popup-modal[^"]*"[^>]*>.*<\/div>/s', '', $content, 1);
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(array(
 			'data-wp-interactive' => wp_json_encode(array(

@@ -63,6 +63,9 @@ const { state } = store('prc-block/popup-controller', {
 		},
 	},
 	callbacks: {
+		outerWatch: () => {
+			console.log('outerWatch', state);
+		},
 		onWindowClickCloseModal: (event) => {
 			const context = getContext();
 			const { id } = context;
@@ -87,7 +90,9 @@ const { state } = store('prc-block/popup-controller', {
 				return;
 			}
 
-			const modal = ref.querySelector('.wp-block-prc-block-popup-modal');
+			const modal = document.querySelector(
+				'.wp-block-prc-block-popup-modal.is-active'
+			);
 			if (
 				!modal.innerHTML.includes(event.target.innerHTML) &&
 				true === state[id].isActive
@@ -114,6 +119,12 @@ const { state } = store('prc-block/popup-controller', {
 			const { id } = context;
 			console.log('isModalActive', state, id, elm);
 			return state[id]?.isActive;
+		},
+		isAModalActive: () => {
+			const elm = getElement();
+			const s = state;
+			console.log('isAModalActive', s, elm);
+			return Object.keys(s).some((key) => state[key].isActive);
 		},
 		soundOff: () => {
 			const context = getContext();
