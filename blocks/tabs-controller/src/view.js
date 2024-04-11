@@ -8,14 +8,10 @@ function updateWindowHistory(tab, uuid) {
 	// add a tabId query arg to the url with the id of the new tab
 	const { href } = window.location;
 	// add ?tabId=uuid to the url, check if there is already a query string and append accordingly
-	let newUrl;
-	if (href.includes('tabId=')) {
-		newUrl = href.replace(/tabId=[^&]+/, `tabId=${uuid}`);
-	} else if (href.includes('?')) {
-		newUrl = `${href}&tabId=${uuid}`;
-	} else {
-		newUrl = `${href}?tabId=${uuid}`;
-	}
+	const newUrl =
+		href.indexOf('?') > -1
+			? `${href}&tabId=${uuid}`
+			: `${href}?tabId=${uuid}`;
 	window.history.pushState({ path: newUrl }, '', newUrl);
 }
 

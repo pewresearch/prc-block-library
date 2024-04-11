@@ -6,13 +6,12 @@
  */
 
 .wp-block-post-content {
-	container: post-content-container / inline-size;
+	// container: post-content-container / inline-size;
 }
 
-// @container post-content-container (max-width: 480px) {
-@media only screen and (max-width: 480px) {
-	.wp-block-post-content .wp-block-image.alignright,
-	.wp-block-post-content .wp-block-image.alignleft {
+@container post-content-container (max-width: 480px) {
+	.wp-block-image.alignright,
+	.wp-block-image.alignleft {
 		margin-left: auto!important;
 		margin-right: auto!important;
 		float: none!important;
