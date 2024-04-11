@@ -20,6 +20,7 @@ class Popup_Controller {
 	public static $editor_script_handle = null;
 	public static $style_handle = null;
 	public static $dir = __DIR__;
+	public $found_modals = array();
 
 	public function __construct($loader) {
 		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/popup-controller/build/block.json';
@@ -46,6 +47,47 @@ class Popup_Controller {
 	}
 
 	/**
+	 * @hook wp_footer
+	 */
+	public function move_popup_modals_to_end_of_page($post_content) {
+		// get the $found_modals and add them to the end of the page.
+	}
+
+	public function render_block_callback($attributes, $content, $block) {
+		$block_namespace = 'prc-block/popup-controller';
+
+		$block_id = md5($content);
+
+		// Why not use context here? Because I want to be able to easily close and open this modal from other namespaces. By using state this is as easy as store('prc-block/popup-controller').state[blockId].isActive = true; would open the modal by the id. This is a very powerful feature when used in conjunction with other store's and the store's ability to listen to changes in state.
+		wp_interactivity_state($block_namespace, array(
+			$block_id => array(
+				'isActive' => false,
+			),
+		));
+
+		$block_wrapper_attrs = get_block_wrapper_attributes(array(
+			'data-wp-interactive' => wp_json_encode(array(
+				'namespace' => $block_namespace,
+			)),
+			'data-wp-context' => wp_json_encode(array(
+				'id' => $block_id,
+			)),
+			'id' => $block_id,
+			'data-wp-key' => wp_unique_id('popup-controller-'),
+			'data-wp-class--is-active' => 'state.'.$block_id.'.isActive',
+			'data-wp-on-document--keydown' => 'callbacks.onESCKey',
+			'data-wp-on-window--click' => 'callbacks.onWindowClickCloseModal',
+		));
+
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			$block_wrapper_attrs,
+			$content,
+		);
+
+	}
+
+	/**
 	* Registers the block using the metadata loaded from the `block.json` file.
 	* Behind the scenes, it registers also all assets so they can be enqueued
 	* through the block editor in the corresponding context.
@@ -53,7 +95,9 @@ class Popup_Controller {
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
-		register_block_type( self::$dir . '/build' );
+		register_block_type( self::$dir . '/build', [
+			'render_callback' => [ $this, 'render_block_callback' ],
+		] );
 	}
 
 }
