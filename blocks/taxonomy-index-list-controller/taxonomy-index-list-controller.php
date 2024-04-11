@@ -71,7 +71,6 @@ class Taxonomy_Index_List_Controller {
 		$seen_refs[ $attributes['ref'] ] = true;
 
 		$blocks = parse_blocks( $reusable_block->post_content );
-		do_action('qm/debug', 'Taxonomy Index List Controller: Found a taxonomy list block.' . print_r($blocks, true));
 
 		// If the reusable block has a single block, and that block is a taxonomy list, then render it as an accordion.
 		if (count($blocks) === 1 && $blocks[0]['blockName'] === 'prc-block/taxonomy-list') {
