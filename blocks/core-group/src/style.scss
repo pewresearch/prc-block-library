@@ -100,7 +100,8 @@ $desktopBreakPoint: 791px;
 /**
 * Responsive Group Blocks:
 */
-.wp-site-blocks > *:not(.wp-block-prc-block-popup-modal__outer) {
+
+.wp-site-blocks {
 	container: prc-responsive-container / inline-size;
 }
 //@container prc-responsive-container

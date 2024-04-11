@@ -45,7 +45,12 @@ class Popup_Controller {
 	}
 
 	/**
+	 * @TODO Systemtize this capture and release method so that other blocks that need to be rendered at the end of the page (and outside the css container query) can do so.
+	 */
+
+	/**
 	 * Capture popup-modals before they are rendered and store in them in $this->found_modals. We will then render them at the end of the page.
+	 * @TODO systemize this
 	 * @hook render_block_data
 	 */
 	public function capture_modals($parsed_block, $source_block, $parent_block) {
@@ -66,7 +71,8 @@ class Popup_Controller {
 	}
 
 	/**
-	 * Renders the modal blocks at the end of the page after the footer template part.
+	 * Renders the modal blocks at the end of the page after the <footer/> template part.
+	 * @TODO systemize this
 	 * @hook get_block_template
 	 */
 	public function add_modals_to_end_of_footer_template_part( $block_content, $block, $parent_block ){
@@ -111,6 +117,7 @@ class Popup_Controller {
 		));
 
 		// remove the first div that's class contains wp-block-prc-block-popup-modal AND it's direct contents from $content
+		// @TODO systemize this
 		$content = preg_replace('/<div[^>]*class="[^"]*wp-block-prc-block-popup-modal[^"]*"[^>]*>.*<\/div>/s', '', $content, 1);
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(array(
@@ -125,6 +132,7 @@ class Popup_Controller {
 			'data-wp-class--is-active' => 'state.'.$block_id.'.isActive',
 			'data-wp-on-document--keydown' => 'callbacks.onESCKey',
 			'data-wp-on-window--click' => 'callbacks.onWindowClickCloseModal',
+			'data-wp-init' => 'callbacks.onInit',
 		));
 
 		return wp_sprintf(

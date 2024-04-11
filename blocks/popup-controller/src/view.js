@@ -63,6 +63,12 @@ const { state } = store('prc-block/popup-controller', {
 		},
 	},
 	callbacks: {
+		onInit: () => {
+			// Move the outer container to outside wp-site-blocks, to escape the css container query.
+			const prcBlock = document.querySelector('.wp-block-prc-block-popup-modal__outer');
+			const siteBlocks = document.querySelector('.wp-site-blocks');
+			siteBlocks.parentNode.insertBefore(prcBlock, siteBlocks);
+		},
 		outerWatch: () => {
 			console.log('outerWatch', state);
 		},
