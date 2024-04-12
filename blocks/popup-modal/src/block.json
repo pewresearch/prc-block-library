@@ -16,14 +16,11 @@
 			"type": "string",
 			"default": "scale"
 		},
+		"position": {
+			"type": "string",
+			"default": "center center"
+		},
 		"shadeBackgroundLite": {
-			"type": "boolean",
-			"default": false
-		},
-		"controllerId": {
-			"type": "string"
-		},
-		"isVideo": {
 			"type": "boolean",
 			"default": false
 		}

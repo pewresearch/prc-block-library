@@ -84,8 +84,6 @@ export default function registerVariations() {
 						content: 'Most Popular Posts',
 						backgroundColor: 'ui-black',
 						textColor: 'ui-white',
-						fontFamily: 'sans-serif',
-						fontSize: 'small-label',
 					},
 				},
 				{
@@ -114,7 +112,6 @@ export default function registerVariations() {
 					className: 'baseball-card__heading',
 					level: 3,
 					fontSize: 'small-label',
-					fontFamily: 'sans-serif',
 					placeholder: 'Most Popular Posts...',
 					backgroundColor: 'ui-black',
 					textColor: 'ui-white',

@@ -6,22 +6,23 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
+// if isadmin return;
+
 $image_attachment = wp_get_attachment_image_src( $attributes['imageSource']['id'], null);
 $image_url = $image_attachment[0];
-
-do_action('qm/debug', $image_url);
-
 $audio_url = wp_get_attachment_url( $attributes['source']['id'] );
-
-do_action('qm/debug', $attributes['source']);
+$input_title = array_key_exists('title', $attributes) ? $attributes['title'] : '';
+$input_description = array_key_exists('description', $attributes) ? $attributes['description'] : '';
+$input_meta_title = array_key_exists('source', $attributes) && array_key_exists('title', $attributes['source']) ? $attributes['source']['title'] : '';
+$input_meta_description = array_key_exists('source', $attributes) && array_key_exists('description', $attributes['source']) ? $attributes['source']['description'] : '';
 
 $block_wrapper_attrs = get_block_wrapper_attributes( array(
-	'data-title' => $attributes['title'],
-	'data-description' => $attributes['description'],
+	'data-title' => $input_title,
+	'data-description' => $input_description,
 	'data-source' => $audio_url,
 	'data-image' => $image_url,
-	'data-meta-title' => $attributes['source']['title'],
-	'data-meta-description' => $attributes['source']['description'],
+	'data-meta-title' => $input_meta_title,
+	'data-meta-description' => $input_meta_description,
 ));
 
 echo wp_sprintf(

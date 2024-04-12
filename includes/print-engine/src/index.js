@@ -15,7 +15,7 @@ import domReady from '@wordpress/dom-ready';
 import './print.scss';
 
 domReady(() => {
-	window.addEventListener('beforeprint', (event) => {
-		console.log('Before print do these actions:');
-	});
+	window.addEventListener("beforeprint", (event) => {
+		console.log("Before print do these actions:");
+	  });
 });

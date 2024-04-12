@@ -31,6 +31,8 @@ if ( false === $is_part_of_a_template ) {
 
 // if this is part of a template then our attrs need to change to be bound to the template's context and actions and such... effectively wp interactivity template context should drive these values, not something else.
 
+do_action('qm/debug', print_r($attributes, true));
+
 $input_attrs = array(
 	'id'                    	=> $input_id,
 	'name'                  	=> $input_name,

@@ -19,7 +19,7 @@
     "lodash": "^4.17.21"
   },
   "dependencies": {
-    "@wordpress/icons": "^9.46.0",
+    "@wordpress/icons": "^9.43.0",
     "classnames": "^2.5.1"
   }
 }

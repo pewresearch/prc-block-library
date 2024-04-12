@@ -6,11 +6,12 @@
  */
 
 .wp-block-prc-block-grid-column {
-	--margin-left: calc( -1 * var(--grid-gutter-half) );
 	& > .align-to__column-divider,
 	& > .wp-block-template-part {
-		width: calc(100% + var(--grid-gutter-half)) !important;
-		margin-left: calc( var(--margin-left) + 1px ) !important;
+		position: relative;
+		margin-left: calc(-1 * var(--grid-gutter)/2);
+		width: calc(100% + var(--grid-gutter)/2);
+
 		&.is-style-baseball-card,
 		.is-style-baseball-card {
 			.wp-block-group,

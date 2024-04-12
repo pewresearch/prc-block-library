@@ -35,6 +35,8 @@ if ( $block_gap ) {
 
 $wrapper_attrs = get_block_wrapper_attributes($block_wrapper_attrs);
 
+do_action('qm/debug', print_r($content, true));
+
 $plus_icon = \PRC\Platform\Icons\Render('light', 'circle-plus');
 $minus_icon = \PRC\Platform\Icons\Render('light', 'circle-minus');
 

@@ -101,11 +101,12 @@ $desktopBreakPoint: 791px;
 * Responsive Group Blocks:
 */
 
-.wp-site-blocks {
-	container: prc-responsive-container / inline-size;
+.wp-site-blocks,
+.is-root-container {
+	// container: prc-responsive-container / inline-size;
 }
 //@container prc-responsive-container
-@container prc-responsive-container (max-width: 420px) {
+@media only screen and (max-width: 420px) {
 	.wp-block-group[data-hide-on-mobile="true"] {
 		&.wp-block:before {
 			content: "This block is hidden on mobile.";
@@ -123,7 +124,7 @@ $desktopBreakPoint: 791px;
 	}
 }
 
-@container prc-responsive-container (min-width: 420px) and (max-width: 790px) {
+@media only screen and (min-width: 420px) and (max-width: 790px) {
 	.wp-block-group[data-hide-on-tablet="true"] {
 		&.wp-block:before {
 			content: "This block is hidden on tablet.";
@@ -141,13 +142,13 @@ $desktopBreakPoint: 791px;
 	}
 }
 
-@container prc-responsive-container (max-width: 791px) {
+@media only screen and (max-width: 791px) {
 	.is-style-collapse-row-on-mobile {
 		flex-direction: column;
 	}
 }
 
-@container prc-responsive-container (min-width: 791px) {
+@media only screen and (min-width: 791px) {
 	.wp-block-group[data-hide-on-desktop="true"] {
 		&.wp-block:before {
 			content: "This block is hidden on desktop.";

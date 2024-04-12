@@ -70,6 +70,8 @@ class Staff_Context_Provider {
 			return '';
 		}
 
+		do_action('qm/debug', 'STAFF: ' . print_r($staff, true) );
+
 		$block_content = (
 			new WP_Block(
 				$block_instance,
