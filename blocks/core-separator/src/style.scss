@@ -7,6 +7,9 @@
 
 .wp-block-separator {
 	border-bottom: none!important;
+	&:not(.wp-block) {
+		border-top-width: 1px!important;
+	}
 	max-width: var(--wp--style--global--content-size);
 
 	&.is-style-wide {

@@ -22,9 +22,9 @@ class Print_Engine {
 	public function init($loader) {
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_view_script' );
 		$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
-		$loader->add_action( 'enqueue_block_assets', $this, 'register_style' );
+		// $loader->add_action( 'enqueue_block_assets', $this, 'register_style' );
 		$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
-		$loader->add_filter( 'render_block', $this, 'render', 100, 2 );
+		// $loader->add_filter( 'render_block', $this, 'render', 100, 2 );
 	}
 
 	/**

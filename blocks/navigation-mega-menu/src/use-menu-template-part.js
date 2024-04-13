@@ -18,17 +18,26 @@ export default function useMenuTemplatePart({
 	);
 
 	// Filter the template parts for those in the 'menu' area.
-	const menuOptions = useMemo(
-		() =>
-			hasResolved &&
-			records
-				.filter((item) => item.area === 'menu')
-				.map((item) => ({
-					label: item.title.rendered,
-					value: item.slug,
-				})),
-		[hasResolved, records]
-	);
+	const menuOptions = useMemo(() => {
+		const selectedMenu = records.find((item) => item.slug === menuSlug);
+		if (selectedMenu) {
+			return [
+				{
+					label: selectedMenu.title.rendered,
+					value: selectedMenu.slug,
+				},
+			];
+		}
+		return records
+			.filter(
+				(item) =>
+					item.area === 'menu' || item.title.rendered.includes('menu')
+			)
+			.map((item) => ({
+				label: item.title.rendered,
+				value: item.slug,
+			}));
+	}, [menuSlug, records]);
 
 	const hasMenus = useMemo(() => menuOptions.length > 0, [menuOptions]);
 	const selectedMenuAndExists = useMemo(

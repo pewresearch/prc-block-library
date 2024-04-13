@@ -4,10 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
-import {
-	PanelBody,
-	ToggleControl,
-} from '@wordpress/components';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 
@@ -22,7 +19,8 @@ function Controls({ attributes, setAttributes }) {
 				label={__('Hide on Print')}
 				checked={hideOnPrint}
 				help={__(
-				`This will hide the block on print, on other media types this block will be displayed.`)}
+					`This will hide the block on print, on other media types this block will be displayed.`
+				)}
 				onChange={() =>
 					setAttributes({
 						printEngine: {
@@ -36,7 +34,8 @@ function Controls({ attributes, setAttributes }) {
 				label={__('Display on Print')}
 				checked={displayOnPrint}
 				help={__(
-				`This will only display the block on print, on other media types this block will be hidden.`)}
+					`This will only display the block on print, on other media types this block will be hidden.`
+				)}
 				onChange={() =>
 					setAttributes({
 						printEngine: {
@@ -63,9 +62,7 @@ addFilter(
 				return (
 					<Fragment>
 						<BlockEdit {...props} />
-						<Controls
-							{...{ attributes, setAttributes }}
-						/>
+						<Controls {...{ attributes, setAttributes }} />
 					</Fragment>
 				);
 			},

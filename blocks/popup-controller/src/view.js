@@ -63,6 +63,15 @@ const { state } = store('prc-block/popup-controller', {
 		},
 	},
 	callbacks: {
+		onInit: () => {
+			// Move the outer container to outside wp-site-blocks, to escape the css container query.
+			const prcBlock = document.querySelector('.wp-block-prc-block-popup-modal__outer');
+			const siteBlocks = document.querySelector('.wp-site-blocks');
+			siteBlocks.parentNode.insertBefore(prcBlock, siteBlocks);
+		},
+		outerWatch: () => {
+			console.log('outerWatch', state);
+		},
 		onWindowClickCloseModal: (event) => {
 			const context = getContext();
 			const { id } = context;
@@ -87,7 +96,9 @@ const { state } = store('prc-block/popup-controller', {
 				return;
 			}
 
-			const modal = ref.querySelector('.wp-block-prc-block-popup-modal');
+			const modal = document.querySelector(
+				'.wp-block-prc-block-popup-modal.is-active'
+			);
 			if (
 				!modal.innerHTML.includes(event.target.innerHTML) &&
 				true === state[id].isActive
@@ -114,6 +125,12 @@ const { state } = store('prc-block/popup-controller', {
 			const { id } = context;
 			console.log('isModalActive', state, id, elm);
 			return state[id]?.isActive;
+		},
+		isAModalActive: () => {
+			const elm = getElement();
+			const s = state;
+			console.log('isAModalActive', s, elm);
+			return Object.keys(s).some((key) => state[key].isActive);
 		},
 		soundOff: () => {
 			const context = getContext();

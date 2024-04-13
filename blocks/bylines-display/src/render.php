@@ -6,9 +6,16 @@
 // $content (string): The block default content.
 // $block (WP_Block): The block instance.
 
+// get the post id from context...
+if ( isset( $block->context['postId'] ) ) {
+	$object_id = $block->context['postId'];
+} else {
+	$object_id = get_the_ID();
+}
+
 $block_wrapper_attrs = get_block_wrapper_attributes();
 $prefix = isset( $attributes['prefix'] ) ? $attributes['prefix'] : 'By';
-$bylines = new \PRC\Platform\Bylines(get_the_ID());
+$bylines = new \PRC\Platform\Bylines((int) $object_id);
 if ( is_wp_error($bylines->bylines) ) {
 	return;
 }
