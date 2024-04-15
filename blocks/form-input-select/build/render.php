@@ -1,6 +1,8 @@
 <?php
 namespace PRC\Platform\Blocks;
-
+if ( is_admin() ) {
+	return;
+}
 $target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : 'prc-block/form-input-select';
 
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Click to select';

@@ -1,6 +1,8 @@
 <?php
 namespace PRC\Platform\Blocks;
-
+if ( is_admin() ) {
+	return;
+}
 wp_enqueue_script('cloudflare-turnstile');
 
 $interactive_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
