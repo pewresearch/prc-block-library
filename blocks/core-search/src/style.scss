@@ -18,10 +18,11 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: 36px;
+		height: inherit;
 	}
 	input {
 		// border: none!important;
 		// padding-left: 1em;
 	}
 }
+
