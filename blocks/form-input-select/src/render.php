@@ -4,7 +4,6 @@ if ( is_admin() ) {
 	return;
 }
 $target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : 'prc-block/form-input-select';
-
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Click to select';
 $input_name = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : 'prc-block/form-input-select';
 $input_value = array_key_exists('value', $attributes) ? $attributes['value'] : null;
