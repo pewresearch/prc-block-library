@@ -1,0 +1,10 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+ .wp-block-post-title[data-post-parent-id] {
+	font-size: var(--wp--preset--font-size--h-2) !important
+}

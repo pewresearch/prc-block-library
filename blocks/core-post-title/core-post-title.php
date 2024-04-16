@@ -18,18 +18,42 @@ class Core_Post_Title {
 	public static $block_name = 'core/post-title';
 	public static $view_script_handle = null;
 	public static $editor_script_handle = null;
-	public static $style_handle = null;
+	public static $view_style_handle = null;
 
 	public function __construct($loader) {
+		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/core-post-title/build/block.json';
+		self::$block_json = wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
+		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
+		self::$version = self::$block_json['version'];
 		$this->init($loader);
 	}
 
 	public function init($loader = null) {
 		if ( null !== $loader ) {
-			$loader->add_action( 'init', $this, 'register_new_styles', 0 );
+			$loader->add_action('init', $this, 'register_assets');
+			$loader->add_action('enqueue_block_assets', $this, 'register_style');
 			$loader->add_filter( 'render_block',  $this, 'render' , 100, 2 );
 			$loader->add_filter( 'prc_block_styles', $this, 'print_style' );
 		}
+	}
+
+	/**
+	* Register the block's assets.
+	* @hook init
+	*/
+	public function register_assets() {
+		self::$view_style_handle = register_block_style_handle( self::$block_json, 'style' );
+
+		$this->register_new_styles();
+	}
+
+
+	/**
+	* Register the block's style assets.
+	* @hook enqueue_block_assets
+	*/
+	public function register_style() {
+		wp_enqueue_style( self::$view_style_handle );
 	}
 
 	/**
@@ -54,10 +78,19 @@ class Core_Post_Title {
 		if ( is_admin() ) {
 			return $block_content;
 		}
+		wp_enqueue_style( self::$view_style_handle );
+		$post_id = get_the_ID();
+		$parent_id = wp_get_post_parent_id( $post_id );
 		$w = new WP_HTML_Tag_Processor( $block_content );
 		if ( $w->next_tag() ) {
 			// Add aria-level 1 for accessibility.
 			$w->set_attribute( 'aria-level', '1' );
+			if ( 0 !== $parent_id ) {
+				$w->set_attribute(
+					'data-post-parent-id',
+					$parent_id
+				);
+			}
 		}
 		return $w;
 	}
