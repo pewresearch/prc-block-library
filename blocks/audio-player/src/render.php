@@ -3,12 +3,20 @@ if ( is_admin() ) {
 	return;
 }
 
-$image_attachment = array_key_exists('imageSource', $attributes) && array_key_exists('id', $attributes['imageSource']) ? wp_get_attachment_image_src( $attributes['imageSource']['id'], null) : '';
+// PHP file to use when rendering the block type on the server to show on the front end.
+// The following variables are exposed to this file:
+
+// $attributes (array): The block attributes.
+// $content (string): The block default content.
+// $block (WP_Block): The block instance.
+
+// if isadmin return;
+
+$image_attachment = wp_get_attachment_image_src( $attributes['imageSource']['id'], null);
 $image_url = $image_attachment[0];
 if ( ! $image_url ) {
 	$image_url = '';
 }
-$image_url = $image_attachment[0];
 $audio_url = wp_get_attachment_url( $attributes['source']['id'] );
 $input_title = array_key_exists('title', $attributes) ? $attributes['title'] : '';
 $input_description = array_key_exists('description', $attributes) ? $attributes['description'] : '';

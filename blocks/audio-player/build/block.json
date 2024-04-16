@@ -16,17 +16,10 @@
       "default": ""
     },
     "source": {
-      "type": "object",
-      "default": {
-        "title": "",
-        "description": ""
-      }
+      "type": "object"
     },
     "imageSource": {
-      "type": "object",
-      "default": {
-        "id": ""
-      }
+      "type": "object"
     }
   },
   "styles": [
