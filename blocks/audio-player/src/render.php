@@ -3,7 +3,7 @@ if ( is_admin() ) {
 	return;
 }
 
-$image_attachment = wp_get_attachment_image_src( $attributes['imageSource']['id'], null);
+$image_attachment = array_key_exists('imageSource', $attributes) && array_key_exists('id', $attributes['imageSource']) ? wp_get_attachment_image_src( $attributes['imageSource']['id'], null) : '';
 $image_url = $image_attachment[0];
 if ( ! $image_url ) {
 	$image_url = '';
