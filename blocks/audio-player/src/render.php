@@ -3,15 +3,6 @@ if ( is_admin() ) {
 	return;
 }
 
-// PHP file to use when rendering the block type on the server to show on the front end.
-// The following variables are exposed to this file:
-
-// $attributes (array): The block attributes.
-// $content (string): The block default content.
-// $block (WP_Block): The block instance.
-
-// if isadmin return;
-
 $image_attachment = wp_get_attachment_image_src( $attributes['imageSource']['id'], null);
 $image_url = $image_attachment[0];
 if ( ! $image_url ) {

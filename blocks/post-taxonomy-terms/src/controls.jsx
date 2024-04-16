@@ -28,7 +28,7 @@ function InspectorPanel({
 	isList,
 	clientId,
 }) {
-	const { perPage, taxonomy, separator, getAllTerms, enableLink } = attributes;
+	const { perPage, taxonomy, separator, getAllTerms } = attributes;
 
 	return (
 		<Fragment>
@@ -68,17 +68,6 @@ function InspectorPanel({
 						}
 						help={__(
 							'If checked, all terms will be fetched, not just the terms assigned to the current post.',
-							'prc-block-library'
-						)}
-					/>
-					<ToggleControl
-						label="Enable Link"
-						checked={enableLink}
-						onChange={() =>
-							setAttributes({ enableLink: !enableLink })
-						}
-						help={__(
-							'If checked, the term(s) will be linked to the term archive page.',
 							'prc-block-library'
 						)}
 					/>

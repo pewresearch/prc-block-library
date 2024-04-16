@@ -79,8 +79,8 @@ const {state} = store( 'prc-block/mailchimp-select', {
 		// This is the callback that runs once the captcha has verified the user is not a robot.
 		onCaptchaVerify: () => {
 			const context = getContext();
-			const { NONCE, captchaToken, captchaHidden } = context;
-			const isCaptchaVisible = !captchaHidden;
+			const captchaToken = context.captchaToken;
+			const isCaptchaVisible = !context.captchaHidden;
 
 			if (!isCaptchaVisible) {
 				return;
@@ -110,7 +110,7 @@ const {state} = store( 'prc-block/mailchimp-select', {
 					interests: context?.interests.join(','),
 					api_key: 'mailchimp-select',
 					origin_url: url,
-					_wpnonce: NONCE,
+					// _wpnonce: NONCE,
 				},
 			}).then((response) => {
 				context.isSuccess = true;

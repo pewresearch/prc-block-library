@@ -1,12 +1,7 @@
 <?php
 namespace PRC\Platform\Blocks;
-if ( is_admin() ) {
-	return;
-}
+
 $target_namespace       = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
-if ( null === $target_namespace ) {
-	return;
-}
 $input_required         = array_key_exists('required', $attributes) ? $attributes['required'] : false;
 $input_label            = array_key_exists('label', $attributes) ? $attributes['label'] : '';
 $input_name             = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : null;

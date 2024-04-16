@@ -48,7 +48,6 @@ class Post_Taxonomy_Terms {
 		$taxonomy = 'categories' === $taxonomy ? 'category' : $taxonomy;
 		$per_page = $attributes['perPage'];
 		$is_list = array_key_exists('layout', $attributes) && array_key_exists('orientation', $attributes['layout']) ? 'vertical' === $attributes['layout']['orientation'] : false;
-		$enable_link = array_key_exists('enableLink', $attributes) && $attributes['enableLink'] ? true : false;
 
 		$wrapper_attributes = get_block_wrapper_attributes(array(
 			'class' => \PRC\Platform\Block_Utils\classNames(array(
@@ -100,22 +99,11 @@ class Post_Taxonomy_Terms {
 					false,
 					$attributes,
 				) : 'wp-block-prc-block-post-taxonomy-terms__list-item';
-				if ( $enable_link ) {
-					$item = wp_sprintf(
-						'<a href="%1$s">%2$s</a>',
-						$term_link,
-						$post_term->name,
-					);
-				} else {
-					$item = wp_sprintf(
-						'<span>%1$s</span>',
-						$post_term->name,
-					);
-				}
 				$markup .= wp_sprintf(
-					'<li class="%1$s">%2$s</li>',
+					'<li class="%1$s"><a href="%3$s">%2$s</a></li>',
 					$classnames,
-					$item
+					$post_term->name,
+					$term_link,
 				);
 			}
 			$markup .= '</ul>';

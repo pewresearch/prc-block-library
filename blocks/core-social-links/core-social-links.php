@@ -135,24 +135,6 @@ class Core_Social_Links {
 					'core/social-links/hashtags' => 'hashtags',
 				)
 			);
-
-			$settings['supports']['typography'] = array_merge(
-				array_key_exists('typography', $settings['supports']) ? $settings['supports']['typography'] : array(),
-				[
-					"fontSize"=> true,
-					"lineHeight"=> true,
-					"__experimentalFontFamily"=> true,
-					"__experimentalFontWeight"=> true,
-					"__experimentalFontStyle"=> true,
-					"__experimentalTextTransform"=> true,
-					"__experimentalTextDecoration"=> true,
-					"__experimentalLetterSpacing"=> true,
-					"__experimentalDefaultControls"=> [
-						"fontSize" => true,
-						"__experimentalFontFamily"=> true
-					]
-				]
-			);
 		}
 
 		// Ingest context on child block
