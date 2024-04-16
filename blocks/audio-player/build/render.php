@@ -8,6 +8,7 @@ $image_url = $image_attachment[0];
 if ( ! $image_url ) {
 	$image_url = '';
 }
+$image_url = $image_attachment[0];
 $audio_url = wp_get_attachment_url( $attributes['source']['id'] );
 $input_title = array_key_exists('title', $attributes) ? $attributes['title'] : '';
 $input_description = array_key_exists('description', $attributes) ? $attributes['description'] : '';

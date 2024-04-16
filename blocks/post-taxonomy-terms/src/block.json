@@ -22,6 +22,10 @@
 		"separator": {
 			"type": "string"
 		},
+		"enableLink": {
+			"type": "boolean",
+			"default": true
+		},
 		"activeBackgroundColor": {
 			"type": "string",
 			"default": "ui-gray-very-light"

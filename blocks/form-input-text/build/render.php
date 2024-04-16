@@ -1,9 +1,10 @@
 <?php
 namespace PRC\Platform\Blocks;
-
+if ( is_admin() ) {
+	return;
+}
 $target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
-
-if ( ! $target_namespace ) {
+if ( null === $target_namespace ) {
 	return;
 }
 // Sometimes, like the password form block, targets have their own target namespace. We will use that to construct a unique id for some of these if present.
