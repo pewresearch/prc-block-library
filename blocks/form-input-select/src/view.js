@@ -195,13 +195,16 @@ const { actions } = store('prc-block/form-input-select', {
 			// if the value is not empty and the targetNamespace is not the same as the current namespace
 			// then hoist the value up to the targetNamespace
 			context.value = newValue;
+			console.log('form-input-select::setNewValue():', context);
 			if (newValue && 'prc-block/form-input-select' !== targetNamespace) {
-				const { actions: targetActions } = store(targetNamespace);
+				const { actions: targetActions, state: targetState } =
+					store(targetNamespace);
 				if (targetActions.onSelectChange) {
 					console.log(
 						'form-input-select::onValueChange -> onSelectChange:',
 						context,
-						newValue
+						newValue,
+						targetState
 					);
 					targetActions.onSelectChange(newValue, ref);
 				}
