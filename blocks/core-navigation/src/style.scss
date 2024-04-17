@@ -29,6 +29,9 @@
 			border-right: none !important;
 			padding-right: 0;
 		}
+		&.current-menu-item {
+			font-weight: bold;
+		}
 	}
 	.has-text-color.has-ui-white-color .wp-block-navigation-item__label {
 		border-right-color: var(--wp--preset--color--ui-white) !important;
