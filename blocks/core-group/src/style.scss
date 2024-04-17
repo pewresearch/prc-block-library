@@ -101,66 +101,130 @@ $desktopBreakPoint: 791px;
 * Responsive Group Blocks:
 */
 
-.wp-site-blocks {
-	container: prc-responsive-container / inline-size;
-}
-//@container prc-responsive-container
-@container prc-responsive-container (max-width: 420px) {
-	.wp-block-group[data-hide-on-mobile="true"] {
-		&.wp-block:before {
-			content: "This block is hidden on mobile.";
-			display: block;
-			text-align: center;
-			font-size: 0.8em;
-			border: 1px dashed #ddd;
-			color: #999;
-			padding: 1em;
+body:not(.post-template-layout-no-container-query) {
+	.wp-site-blocks {
+		container: prc-responsive-container / inline-size;
+	}
+	//@container prc-responsive-container
+	@container prc-responsive-container (max-width: 420px) {
+		.wp-block-group[data-hide-on-mobile="true"] {
+			&.wp-block:before {
+				content: "This block is hidden on mobile.";
+				display: block;
+				text-align: center;
+				font-size: 0.8em;
+				border: 1px dashed #ddd;
+				color: #999;
+				padding: 1em;
+			}
+			&:not(.wp-block),
+			& > * {
+				display: none !important;
+			}
 		}
-		&:not(.wp-block),
-		& > * {
-			display: none !important;
+	}
+
+	@container prc-responsive-container (min-width: 420px) and (max-width: 790px) {
+		.wp-block-group[data-hide-on-tablet="true"] {
+			&.wp-block:before {
+				content: "This block is hidden on tablet.";
+				display: block;
+				text-align: center;
+				font-size: 0.8em;
+				color: #999;
+				border: 1px dashed #ddd;
+				padding: 1em;
+			}
+			&:not(.wp-block),
+			& > * {
+				display: none !important;
+			}
+		}
+	}
+
+	@container prc-responsive-container (max-width: 791px) {
+		.is-style-collapse-row-on-mobile {
+			flex-direction: column;
+		}
+	}
+
+	@container prc-responsive-container (min-width: 791px) {
+		.wp-block-group[data-hide-on-desktop="true"] {
+			&.wp-block:before {
+				content: "This block is hidden on desktop.";
+				display: block;
+				text-align: center;
+				font-size: 0.8em;
+				color: #999;
+				border: 1px dashed #ddd;
+				padding: 1em;
+			}
+			&:not(.wp-block),
+			& > * {
+				display: none !important;
+			}
 		}
 	}
 }
 
-@container prc-responsive-container (min-width: 420px) and (max-width: 790px) {
-	.wp-block-group[data-hide-on-tablet="true"] {
-		&.wp-block:before {
-			content: "This block is hidden on tablet.";
-			display: block;
-			text-align: center;
-			font-size: 0.8em;
-			color: #999;
-			border: 1px dashed #ddd;
-			padding: 1em;
-		}
-		&:not(.wp-block),
-		& > * {
-			display: none !important;
+body.post-template-layout-no-container-query {
+	@media only screen and (max-width: 420px) {
+		.wp-block-group[data-hide-on-mobile="true"] {
+			&.wp-block:before {
+				content: "This block is hidden on mobile.";
+				display: block;
+				text-align: center;
+				font-size: 0.8em;
+				border: 1px dashed #ddd;
+				color: #999;
+				padding: 1em;
+			}
+			&:not(.wp-block),
+			& > * {
+				display: none !important;
+			}
 		}
 	}
-}
 
-@container prc-responsive-container (max-width: 791px) {
-	.is-style-collapse-row-on-mobile {
-		flex-direction: column;
-	}
-}
-
-@container prc-responsive-container (min-width: 791px) {
-	.wp-block-group[data-hide-on-desktop="true"] {
-		&.wp-block:before {
-			content: "This block is hidden on desktop.";
-			display: block;
-			text-align: center;
-			font-size: 0.8em;
-			color: #999;
-			border: 1px dashed #ddd;
-			padding: 1em;
+	@media only screen and (min-width: 420px) and (max-width: 790px) {
+		.wp-block-group[data-hide-on-tablet="true"] {
+			&.wp-block:before {
+				content: "This block is hidden on tablet.";
+				display: block;
+				text-align: center;
+				font-size: 0.8em;
+				color: #999;
+				border: 1px dashed #ddd;
+				padding: 1em;
+			}
+			&:not(.wp-block),
+			& > * {
+				display: none !important;
+			}
 		}
-		&:not(.wp-block),
-		& > * {
-			display: none !important;
+	}
+
+	@media only screen and (max-width: 791px) {
+		.is-style-collapse-row-on-mobile {
+			flex-direction: column;
+		}
+	}
+
+	@media only screen and (min-width: 791px) {
+		.wp-block-group[data-hide-on-desktop="true"] {
+			&.wp-block:before {
+				content: "This block is hidden on desktop.";
+				display: block;
+				text-align: center;
+				font-size: 0.8em;
+				color: #999;
+				border: 1px dashed #ddd;
+				padding: 1em;
+			}
+			&:not(.wp-block),
+			& > * {
+				display: none !important;
+			}
 		}
 	}
 }
