@@ -190,6 +190,7 @@ class Core_Query {
 			'short-read',
 			'dataset',
 			'staff',
+			'decoded',
 		] ) ) {
 			$query->set('isPubListingQuery', true);
 		}
