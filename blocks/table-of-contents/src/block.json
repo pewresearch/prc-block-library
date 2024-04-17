@@ -25,7 +25,7 @@
 		},
 		"autoDropdownWidth": {
 			"type": "number",
-			"default": 480
+			"default": 300
 		},
 		"headingBackgroundColor": {
 			"type": "string",

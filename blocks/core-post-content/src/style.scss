@@ -19,6 +19,7 @@ body:not(.post-template-layout-no-container-query) {
 	}
 }
 body.post-template-layout-no-container-query {
+
 	@media only screen and (max-width: 480px) {
 		.wp-block-post-content .wp-block-image.alignright,
 		.wp-block-post-content .wp-block-image.alignleft {
@@ -29,8 +30,4 @@ body.post-template-layout-no-container-query {
 	}
 }
 
-.wp-block-post-content {
-	a {
-		text-decoration: underline;
-	}
-}
+
