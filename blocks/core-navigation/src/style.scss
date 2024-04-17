@@ -5,6 +5,12 @@
  * Replace them with your own styles or remove the file completely.
  */
 
+.wp-block-navigation-link {
+	&.current-menu-item {
+		font-weight: bold;
+	}
+}
+
 .wp-block-navigation.is-style-default {
 	width: auto;
 	gap: 0px;
@@ -28,9 +34,6 @@
 		&:last-of-type .wp-block-navigation-item__label {
 			border-right: none !important;
 			padding-right: 0;
-		}
-		&.current-menu-item {
-			font-weight: bold;
 		}
 	}
 	.has-text-color.has-ui-white-color .wp-block-navigation-item__label {
