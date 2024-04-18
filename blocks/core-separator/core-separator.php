@@ -23,7 +23,7 @@ class Core_Separator {
 		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 		self::$version = self::$block_json['version'];
-
+		$this->init($loader);
 	}
 
 	public function init($loader = null) {
@@ -52,21 +52,6 @@ class Core_Separator {
 
 	public function register_style() {
 		wp_enqueue_style( self::$style_handle );
-	}
-
-	/**
-	* Render the "core/separator" block
-	* @hook render_block
-	* @param string $block_content
-	* @param mixed $block
-	* @return mixed
-	*/
-	public function render( $block_content, $block ) {
-		if ( self::$block_name !== $block['blockName'] || is_admin() ) {
-			return $block_content;
-		}
-
-		return $block_content;
 	}
 
 }

@@ -126,20 +126,16 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 			const leftSpace = (windowSpace - menuWidth) / 2;
 
 			if (menuWidth > windowSpace) {
-				console.log('a');
 				context.width = `${window.innerWidth}px`;
 				context.left = `-${navBlockRect.left}px`;
 			} else if (menuRect.left > 0 && leftSpace >= menuRect.left) {
-				console.log('b');
 				// Do nothing, the menu is positioned with CSS and it looks fine.
 				context.left = '';
 			} else if (leftOffset >= leftSpace) {
-				console.log('c');
 				// Reset width.
 				context.width = '';
 				context.left = `-${leftOffset - leftSpace}px`;
 			} else {
-				console.log('d');
 				context.width = '';
 				context.left = `${leftSpace - leftOffset}px`;
 			}
@@ -153,7 +149,6 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 				'.wp-block-prc-block-navigation-mega-menu__container'
 			);
 			context.menuRef = menu;
-			console.log('onInit', ref, menu);
 
 			actions.setMenuPositions();
 
@@ -175,7 +170,6 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 			const context = getContext();
 			const { activeClassnames } = context;
 			// convert the array of activeClassnames to a string
-			console.log('getToggleClassname', defaults, activeClassnames);
 			if (state.isActive) {
 				const newClassnames =
 					defaults.join(' ') + activeClassnames.join(' ');
@@ -197,7 +191,6 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 			}
 			const elm = getElement();
 			const { ref } = elm;
-			console.log('onWindowClickCloseMegaMenu', elm, event.target);
 
 			// check elm for any of the event.target
 			// if present then return early

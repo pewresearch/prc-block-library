@@ -17,7 +17,22 @@ body:not(.post-template-layout-no-container-query) {
 			float: none!important;
 		}
 	}
+	@container post-content-container (max-width: 480px) {
+		.wp-block-post-content h1.wp-block-heading {
+			font-size: 26px;
+		}
+		.wp-block-post-content h2.wp-block-heading {
+			font-size: 18px;
+		}
+		.wp-block-post-content h3.wp-block-heading {
+			font-size: 18px;
+		}
+		.wp-block-post-content h4.wp-block-heading {
+			font-size: 16px;
+		}
+	}
 }
+
 body.post-template-layout-no-container-query {
 	@media only screen and (max-width: 480px) {
 		.wp-block-post-content .wp-block-image.alignright,
