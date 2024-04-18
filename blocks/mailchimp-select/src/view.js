@@ -100,6 +100,7 @@ const {state} = store( 'prc-block/mailchimp-select', {
 			if (!isURL(url)) {
 				return new Error('Invalid url', url);
 			}
+			apiFetch.use(apiFetch.createNonceMiddleware(NONCE));
 
 			apiFetch({
 				path: ENDPOINT,
@@ -110,7 +111,6 @@ const {state} = store( 'prc-block/mailchimp-select', {
 					interests: context?.interests.join(','),
 					api_key: 'mailchimp-select',
 					origin_url: url,
-					_wpnonce: NONCE,
 				},
 			}).then((response) => {
 				context.isSuccess = true;

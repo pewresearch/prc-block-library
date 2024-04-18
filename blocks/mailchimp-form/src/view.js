@@ -38,10 +38,10 @@ function submitHandler({
 		interests: interest,
 		api_key: 'mailchimp-form',
 		origin_url: url,
-		_wpnonce: NONCE,
 	});
 
 	return new Promise((resolve, reject) => {
+		apiFetch.use(apiFetch.createNonceMiddleware(NONCE));
 		apiFetch({
 			path: `${ENDPOINT}/?${path}`,
 			method: 'POST',
