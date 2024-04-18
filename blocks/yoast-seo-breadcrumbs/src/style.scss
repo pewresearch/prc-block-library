@@ -2,6 +2,7 @@
 	margin-top: 0.75em;
 	margin-bottom: 0.75em;
 	line-height: 1em;
+	font-family: var(--wp--preset--font--family--sans-serif) !important;
 	& > .yoast-breadcrumbs__list {
 		overflow: hidden;
 		/* text-overflow: ellipsis; */
