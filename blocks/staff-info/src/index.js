@@ -98,7 +98,7 @@ registerBlockVariation('core/paragraph', {
 	title: 'Staff Mini Bio Binding',
 	attributes: {
 		content:
-			'<p><a href="#>Commodo Duis</a> is a research analyst focusing on social and demographic research at Pew Research Center.</p>',
+			'<p><a href="#">Commodo Duis</a> is a research analyst focusing on social and demographic research at Pew Research Center.</p>',
 		metadata: {
 			bindings: {
 				content: {
