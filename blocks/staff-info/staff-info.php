@@ -94,6 +94,9 @@ class Staff_Info {
 			if ( 'bio' === $value_to_fetch && isset($this->block_bound_staff['bio']) ) {
 				$value_to_replace = $this->block_bound_staff['bio'];
 			}
+			if ( 'mini_bio' === $value_to_fetch && isset($this->block_bound_staff['mini_bio']) ) {
+				$value_to_replace = $this->block_bound_staff['mini_bio'];
+			}
 			if ( 'name' === $value_to_fetch && isset($this->block_bound_staff['name']) ) {
 				$value_to_replace = $this->block_bound_staff['name'];
 			}
