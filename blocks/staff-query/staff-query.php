@@ -108,15 +108,7 @@ class Staff_Query {
 				}
 
 				$staff_posts[] = array(
-					'staffName'      => $staff->name,
-					'staffJobTitle'  => $staff->job_title,
-					'staffImage'     => $staff->photo,
-					'staffTwitter'   => null,
-					'staffExpertise' => $staff->expertise,
-					'staffBio'       => $staff->bio,
-					'staffMiniBio'   => $staff->job_title_extended,
-					'staffLink'      => $staff->link,
-					'staffId'        => $staff->ID,
+					'staffId' => $staff->ID,
 				);
 			}
 		}

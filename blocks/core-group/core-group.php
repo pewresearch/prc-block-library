@@ -188,7 +188,8 @@ class Core_Group {
 		}
 
 		wp_enqueue_style( self::$style_handle );
-		if ( array_key_exists('className', $block['attrs']) && 'is-style-baseball-card' === $block['attrs']['className'] ) {
+		// Check if $block_content contains is-style-baseball-card
+		if ( strpos( $block_content, 'is-style-baseball-card' ) !== false ) {
 			wp_enqueue_style("prc-block-library--baseball-card");
 		}
 

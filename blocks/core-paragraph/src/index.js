@@ -2,6 +2,7 @@
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
+import { registerBlockVariation } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies

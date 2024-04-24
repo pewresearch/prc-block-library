@@ -162,6 +162,10 @@ class Tabs_Controller {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
+		if ( is_admin() ) {
+			return;
+		}
+
 		$initial_context = array(
 			'activeUUID' => $this->get_first_menu_item_uuid($block),
 		);

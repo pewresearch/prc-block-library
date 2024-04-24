@@ -34,6 +34,7 @@ class Popup_Controller {
 		self::$version = self::$block_json['version'];
 		self::$block_name = self::$block_json['name'];
 		$this->init($loader);
+		require_once(PRC_BLOCK_LIBRARY_DIR . '/blocks/popup-controller/util.php');
 	}
 
 	public function init($loader = null) {
@@ -54,19 +55,23 @@ class Popup_Controller {
 	 * @hook render_block_data
 	 */
 	public function capture_modals($parsed_block, $source_block, $parent_block) {
+		if ( is_admin() ) {
+			return $parsed_block;
+		}
 		if ( $parsed_block['blockName'] !== 'prc-block/popup-controller' ) {
 			return $parsed_block;
 		}
 		$this->controller_ids[] = wp_unique_id('popup-controller-');
-		// remove the prc-block/popup-modal block from $parsed_block['innerBlocks'] and store it in $this->found_modals
-		$found_modals = array_filter($parsed_block['innerBlocks'], function($block) {
-			if ( $block['blockName'] === 'prc-block/popup-modal' ) {
+		// check if innerBlocks is an array and has any elements
+		if ( !is_array($parsed_block['innerBlocks']) || empty($parsed_block['innerBlocks']) ) {
+			return $parsed_block;
+		}
+		// This just identifies the modals. We'll need to remove them from each render_callback.
+		foreach ($parsed_block['innerBlocks'] as $block) {
+			if ($block['blockName'] === 'prc-block/popup-modal') {
 				$this->found_modals[] = $block;
-				return false;
 			}
-			return true;
-		});
-		$parsed_block['innerBlocks'] = $found_modals;
+		}
 		return $parsed_block;
 	}
 
@@ -76,10 +81,17 @@ class Popup_Controller {
 	 * @hook get_block_template
 	 */
 	public function add_modals_to_footer(){
+		if ( is_iframe() ) {
+			return;
+		}
 		$outer_class = \PRC\Platform\Block_Utils\classNames('wp-block-prc-block-popup-modal__outer', 'is-position-center-center');
 		$content = '';
 
 		$index = 0;
+		$modals = $this->found_modals;
+		if ( empty($modals) ) {
+			return;
+		}
 		$modals = array_map(function($modal) use (&$index) {
 			$controller_id = $this->controller_ids[$index];
 			$modal['attrs']['controllerId'] = $controller_id;
@@ -87,7 +99,7 @@ class Popup_Controller {
 			$block = new WP_Block((array)$block);
 			$index++;
 			return $block->render();
-		}, $this->found_modals);
+		}, $modals);
 
 		if ( empty($modals) ) {
 			return $content;
@@ -103,10 +115,17 @@ class Popup_Controller {
 	}
 
 	public function render_block_callback($attributes, $content, $block) {
+		if ( is_admin() ) {
+			return;
+		}
+
 		$block_namespace = 'prc-block/popup-controller';
 
 		$index = $this->current_controller_index;
 		$block_id = $this->controller_ids[$index];
+		if ( !$block_id ) {
+			return;
+		}
 		$this->current_controller_index++;
 
 		// Why not use context here? Because I want to be able to easily close and open this modal from other namespaces. By using state this is as easy as store('prc-block/popup-controller').state[blockId].isActive = true; would open the modal by the id. This is a very powerful feature when used in conjunction with other store's and the store's ability to listen to changes in state.
@@ -157,3 +176,5 @@ class Popup_Controller {
 	}
 
 }
+
+

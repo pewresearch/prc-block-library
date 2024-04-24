@@ -41,53 +41,38 @@ class Staff_Context_Provider {
 	* @return string
 	*/
 	public function render_block_callback( $attributes, $content, $block ) {
-		$context = $block->context;
 		$staff_id = false;
 		$term_id = false;
+		$context = $block->context;
 		if ( array_key_exists('postType', $context) && array_key_exists('postId', $context) && 'staff' === $context['postType'] ) {
 			$staff_id = $context['postId'];
 		} else {
 			$taxonomy = get_queried_object()->taxonomy;
 			if ( 'bylines' !== $taxonomy ) {
-				return '';
+				return $context;
 			}
 			$term_id = get_queried_object_id();
 		}
 
 		$staff = new \PRC\Platform\Staff( $staff_id, $term_id );
-
 		if ( is_wp_error( $staff ) ) {
-			return '';
+			return '<!-- Staff not found -->';
 		}
 
 		$block_instance = $block->parsed_block;
-
-		// Set the block name to one that does not correspond to an existing registered block.
-		// This ensures that for the inner instances of the Post Template block, we do not render any block supports.
 		$block_instance['blockName'] = 'core/null';
-
-		if ( ! $staff->is_currently_employed ) {
-			return '';
-		}
-
-		$block_content = (
+		$content = (
 			new WP_Block(
 				$block_instance,
-				array(
-					'staffName'      => $staff->name,
-					'staffJobTitle'  => $staff->job_title,
-					'staffImage'     => $staff->photo,
-					'staffTwitter'   => null,
-					'staffExpertise' => $staff->expertise,
-					'staffBio'       => $staff->bio,
-					'staffMiniBio'   => $staff->job_title_extended,
-					'staffLink'      => $staff->link,
-					'staffId'        => $staff->ID,
-				)
+				['staffId' => $staff->ID]
 			)
 		)->render( array( 'dynamic' => false ) );
 
-		return $block_content;
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			get_block_wrapper_attributes(),
+			$content,
+		);
 	}
 
 	/**

@@ -43,20 +43,7 @@ class Bylines_Query {
 					continue;
 				}
 				$bylines[] = array(
-					'staffName'      => $staff->name,
-					'staffJobTitle'  => $staff->job_title,
-					'staffJobTitleExtended'  => $staff->job_title_extended,
-					'staffImage'     => $staff->photo,
-					'staffTwitter'   => null,
-					'staffExpertise' => $staff->expertise,
-					'staffBio'       => $staff->bio,
-					'staffBioShort'  => wp_sprintf(
-						'<a href="%1$s">%2$s</a> <span>is %3$s</span>',
-						$staff->link,
-						$staff->name,
-						$staff->job_title_extended
-					),
-					'staffLink'      => $staff->link,
+					'staffId' => $staff->ID,
 				);
 			}
 		}
