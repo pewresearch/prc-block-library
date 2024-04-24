@@ -198,7 +198,7 @@ class Core_Social_Links {
 	 * @return void
 	 */
 	public function social_links_url_fallback( $parsed_block, $source_block, $parent_block ) {
-		if ( 'core/social-links' === $parsed_block['blockName'] && empty($parsed_block['attrs']['url']) ) {
+		if ( 'core/social-links' === $parsed_block['blockName'] && (empty($parsed_block['attrs']['url']) || '#' === $parsed_block['attrs']['url']) ) {
 			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
 		}
 		return $parsed_block;
@@ -215,7 +215,7 @@ class Core_Social_Links {
 	 * @return void
 	 */
 	public function social_link_url_fallback( $parsed_block, $source_block, $parent_block ) {
-		if ( self::$child_block_name === $parsed_block['blockName'] && empty($parsed_block['attrs']['url']) ) {
+		if ( self::$child_block_name === $parsed_block['blockName'] && (empty($parsed_block['attrs']['url']) || '#' === $parsed_block['attrs']['url']) ) {
 			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
 		}
 		return $parsed_block;

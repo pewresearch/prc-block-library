@@ -87,23 +87,12 @@ const { actions } = store('prc-block/form-input-select', {
 
 			context.activeIndex = nextActive;
 			context.filteredOptions = filteredOptions;
-			console.log(
-				'form-input-select::moveThroughOptions',
-				context,
-				nextActive,
-				direction
-			);
 		},
 		setValueOnEnter: () => {
 			const context = getContext();
 			const { filteredOptions, activeIndex } = context;
 
 			const highlightedOption = filteredOptions[activeIndex];
-			console.log('ENTER === ', {
-				filteredOptions,
-				activeIndex,
-				highlightedOption,
-			});
 
 			actions.setNewValue(highlightedOption?.value);
 			context.label = highlightedOption?.label;

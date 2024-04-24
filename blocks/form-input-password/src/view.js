@@ -75,8 +75,6 @@ const { state } = store('prc-block/form-input-password', {
 			if (value) {
 				const { actions } = store(targetNamespace);
 				if (actions.onPasswordChange) {
-					console.log('PUSH', value, 'to', targetNamespace, context);
-					// If the password is expecting confirmation then check if the passwords match before sending up the value
 					if (hasConfirmation && passwordMatch) {
 						actions.onPasswordChange(value);
 					} else if (!hasConfirmation) {
@@ -87,7 +85,6 @@ const { state } = store('prc-block/form-input-password', {
 		},
 		onConfirmationInit: () => {
 			const context = getContext();
-			console.log('onConfirmationInit', context, state);
 			// get the confirmation input value id and store it so we can set it as disabled...
 			const confirmationInputKey = Object.keys(state).find(
 				(key) =>
