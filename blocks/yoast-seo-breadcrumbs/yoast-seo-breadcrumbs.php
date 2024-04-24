@@ -107,7 +107,7 @@ class Yoast_SEO_Breadcrumbs {
 			0,
 			array(
 				array(
-					'url'  => network_home_url(),
+					'url'  => get_bloginfo( 'url' ),
 					'text' => 'Home',
 					'id'   => null,
 				),
@@ -121,7 +121,7 @@ class Yoast_SEO_Breadcrumbs {
 				0,
 				array(
 					array(
-						'url'  => network_home_url( '/topics-categorized' ),
+						'url'  => get_bloginfo( 'url' ) . '/topics-categorized/',
 						'text' => 'Research Topics',
 						'id'   => null,
 					),

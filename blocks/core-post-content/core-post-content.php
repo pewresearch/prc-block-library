@@ -69,9 +69,23 @@ class Core_Post_Content {
 
 		// Simple hack to add the image to an attachment page
 		if ( is_attachment() ) {
-			$image_url = wp_get_attachment_image_src(get_the_ID(), 'full');
+			$image_id = get_the_ID();
+			$image_url = wp_get_attachment_image_src( $image_id, 'large' );
+			$full_url = wp_get_attachment_image_src( $image_id, 'full' );
 			if ($image_url) {
-				return '<img src="' . $image_url[0] . '" alt="' . get_the_title() . '" />';
+				$image_title = get_the_title( $image_id );
+
+				return wp_sprintf(
+					'<figure class="wp-block-image aligncenter size-large"><img width="%s" height="%s" src="%s" alt="%s" class="wp-image-%s">%s</figure><h5>Download</h5><a href="%s" download>%s</a>',
+					$image_url[1],
+					$image_url[2],
+					$image_url[0],
+					$image_title,
+					$image_id,
+					get_the_content($image_id) ? '<figcaption class="wp-element-caption"' . get_the_content($image_id) . '</figcaption>' : '',
+					$full_url[0],
+					$image_title
+				);
 			}
 		}
 

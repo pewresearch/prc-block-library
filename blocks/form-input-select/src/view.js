@@ -33,7 +33,6 @@ const { actions } = store('prc-block/form-input-select', {
 			context.filteredOptions = context.options;
 		},
 		getOptionByValue: (value) => {
-			console.log('form-input-select::getOptionByValue', value);
 			const context = getContext();
 			const { options } = context;
 			const selectedOption = options.find(
@@ -167,15 +166,6 @@ const { actions } = store('prc-block/form-input-select', {
 			context.label = label;
 			actions.setNewValue(value);
 
-			console.log('form-input-select::onClick', {
-				context,
-				option,
-				options,
-				index,
-				label,
-				value,
-			});
-
 			// find any other isSelected and set to false and then set isSelected
 			// on the clicked option
 			// also, reset the filteredOptions to the original options now that we have a value
@@ -195,17 +185,10 @@ const { actions } = store('prc-block/form-input-select', {
 			// if the value is not empty and the targetNamespace is not the same as the current namespace
 			// then hoist the value up to the targetNamespace
 			context.value = newValue;
-			console.log('form-input-select::setNewValue():', context);
 			if (newValue && 'prc-block/form-input-select' !== targetNamespace) {
 				const { actions: targetActions, state: targetState } =
 					store(targetNamespace);
 				if (targetActions.onSelectChange) {
-					console.log(
-						'form-input-select::onValueChange -> onSelectChange:',
-						context,
-						newValue,
-						targetState
-					);
 					targetActions.onSelectChange(newValue, ref);
 				}
 			}

@@ -62,7 +62,7 @@ class Taxonomy_Index_AZ_Controller {
 				foreach ( $column['innerBlocks'] as $az_block ) {
 					if ( array_key_exists( 'letter', $az_block['attrs'] ) ) {
 						$letter = $az_block['attrs']['letter'];
-						$exclude = $az_block['attrs']['exclude'];
+						$exclude = $az_block['attrs']['exclude'] ?? [];
 						$taxonomy = array_key_exists('taxonomy', $az_block['attrs']) ? $az_block['attrs']['taxonomy'] : array('topic');
 						// convert $taxonomy to a comma separated string but wrap each item in quotes
 						// we need to do this because the taxonomy attribute is a printed array of strings in the block markup.
@@ -100,6 +100,10 @@ class Taxonomy_Index_AZ_Controller {
 	public function render_block_callback( $attributes, $content, $block ) {
 		$wrapper_attributes = get_block_wrapper_attributes();
 		$is_mobile = jetpack_is_mobile();
+
+		if (is_admin()) {
+			return;
+		}
 
 		if ( $is_mobile ) {
 			$content = $this->render_as_accordion_block( $block );

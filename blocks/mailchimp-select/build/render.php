@@ -5,7 +5,7 @@ wp_enqueue_script('wp-api-fetch');
 wp_enqueue_script('wp-url');
 
 $mailchimp = new \PRC\Platform\Mailchimp(null, null);
-$nonce = $mailchimp->get_nonce('subscribe');
+$nonce = $mailchimp->get_nonce();
 
 $initial_context = wp_json_encode(array(
 	'NONCE' => $nonce,

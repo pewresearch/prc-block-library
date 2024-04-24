@@ -46,7 +46,7 @@ class Bylines_Query {
 					'staffName'      => $staff->name,
 					'staffJobTitle'  => $staff->job_title,
 					'staffJobTitleExtended'  => $staff->job_title_extended,
-					'staffImage'     => is_array($staff->photo) && array_key_exists('thumbnail', $staff->photo) ? $staff->photo['thumbnail'] : null,
+					'staffImage'     => $staff->photo,
 					'staffTwitter'   => null,
 					'staffExpertise' => $staff->expertise,
 					'staffBio'       => $staff->bio,

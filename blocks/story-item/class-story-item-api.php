@@ -341,6 +341,9 @@ class Story_Item_API {
 	}
 
 	public function get_image_slot() {
+		if ( false === $this->check_for_image() ) {
+			return false;
+		}
 		$image_slot = $this->check_for_attr('imageSlot');
 		$image_slot = 'default' === $image_slot ? 'top' : $image_slot;
 		$image_slot = 'disabled' === $image_slot ? false : $image_slot;
@@ -397,6 +400,23 @@ class Story_Item_API {
 
 	public function is_image_bordered() {
 		return $this->check_for_attr('isChartArt');
+	}
+
+	public function check_for_image() {
+		$image = $this->check_for_attr('image');
+		if ( false !== $image ) {
+			return true;
+		}
+		$image_id = false;
+		if ( function_exists('wpcom_vip_attachment_url_to_postid') ) {
+			$image_id = \wpcom_vip_attachment_url_to_postid($image);
+		} else {
+			$image_id = \attachment_url_to_postid($image);
+		}
+
+		$art = function_exists('prc_get_art') ? prc_get_art( $this->post_id, 'A1' ) : false;
+
+		return false !== $art || false !== $image_id;
 	}
 
 	/**
@@ -526,6 +546,7 @@ class Story_Item_API {
 		$post_id = $this->post_id;
 		$image_slot = $this->get_image_slot();
 		$image_size = $this->get_image_size();
+		$disable_mobile_styles = $this->check_for_attr('disableMobileStyles');
 		$block_wrapper_attrs = array(
 			'class' => \PRC\Platform\Block_Utils\classNames(
 				array(
@@ -540,10 +561,10 @@ class Story_Item_API {
 		if ( ! empty( $post_id ) ) {
 			$block_wrapper_attrs['id'] = 'post-' . $post_id;
 		}
-		// if ( true === $disable_mobile_styles ) {
-		// 	$block_wrapper_attrs['data-disable-mobile-styles'] = true;
-		// }
-		return get_block_wrapper_attributes( $block_wrapper_attrs );
+		if ( true === $disable_mobile_styles ) {
+			$block_wrapper_attrs['data-disable-mobile-styles'] = true;
+		}
+		return \get_block_wrapper_attributes( $block_wrapper_attrs );
 	}
 
 	// public function set_data() {

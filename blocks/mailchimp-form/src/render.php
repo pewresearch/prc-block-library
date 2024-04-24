@@ -6,7 +6,7 @@ wp_enqueue_script('wp-api-fetch');
 wp_enqueue_script('wp-url');
 
 $mailchimp = new \PRC\Platform\Mailchimp(null, null);
-$nonce = $mailchimp->get_nonce('subscribe');
+$nonce = $mailchimp->get_nonce();
 
 // Here we're setting up the "state" for just this instance of this block. There can be multiple instances of this block on a page, each with their own state. In the wordpress/interactivity api this is called "context". Think of this as "instanced state". Whereas "state" in wordpress/interactivity is global and shared for all instances of a block on a page.
 $initial_context = array(

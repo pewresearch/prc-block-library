@@ -18,7 +18,7 @@ if ( false !== $value_to_fetch && array_key_exists( $value_to_fetch_key, $contex
 	}
 }
 
-if ( $is_image && is_array($value_to_fetch) ) {
+if ( $is_image && is_array($value_to_fetch) && array_key_exists('thumbnail', $value_to_fetch) ) {
 	$img = $value_to_fetch;
 	$thumbnail = $img['thumbnail'];
 	$value_to_fetch = wp_sprintf(
