@@ -26,6 +26,7 @@ class Data_Table {
 		self::$block_json['file'] = wp_normalize_path( realpath( $block_json_file ) );
 		self::$version = self::$block_json['version'];
 		self::$block_name = self::$block_json['name'];
+		$this->init($loader);
 	}
 
 	public function init($loader = null) {
@@ -65,7 +66,7 @@ class Data_Table {
 		$block_wrapper_attrs = get_block_wrapper_attributes();
 
 		// Generate a dynamic ID for the table data.
-		$table_id = 'prc-table-' . wp_hash(wp_json_encode($attributes));
+		$table_id = wp_unique_id('prc-table-');
 
 		// Get the table head.
 		$thead = isset($attributes['colHeaders']) ? $attributes['colHeaders'] : array();
@@ -90,9 +91,10 @@ class Data_Table {
 			<tbody>
 				<?php
 				foreach ($tbody as $row) {
-					echo wp_sprintf('<tr>%s</tr>', implode('', array_map(function ($cell) {
+					$cells = array_map(function ($cell) {
 						return wp_sprintf('<td>%s</td>', esc_html($cell));
-					}, $row)));
+					}, $row);
+					echo wp_sprintf('<tr>%s</tr>', implode('', $cells));
 				}
 				?>
 			</tbody>

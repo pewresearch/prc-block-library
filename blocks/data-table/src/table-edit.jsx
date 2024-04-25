@@ -103,11 +103,11 @@ export default function TableEdit({ tableRef }) {
 						},
 					},
 				}}
-				// persistentState={true}
 				columnSorting={true}
 				manualColumnFreeze={true}
 				// manualColumnResize={true}
 				// colWidths={!!colWidths ? colWidths : 100}
+				// persistentState={true}
 				wordWrap={true}
 				stretchH="all"
 				height="auto"

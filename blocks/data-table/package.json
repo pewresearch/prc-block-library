@@ -21,11 +21,11 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@handsontable/react": "^13.1.0",
+    "@handsontable/react": "^14.3.0",
     "@wordpress/icons": "^9.37.0",
     "comma-separated-values": "^3.6.4",
     "datatables.net-dt": "^1.13.8",
     "datatables.net-responsive-dt": "^2.5.0",
-    "handsontable": "^13.1.0"
+    "handsontable": "^14.3.0"
   }
 }

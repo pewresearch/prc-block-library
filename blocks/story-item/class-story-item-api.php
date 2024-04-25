@@ -38,7 +38,7 @@ class Story_Item_API {
 		// Setup variables:
 		$this->is_mobile = function_exists('jetpack_is_mobile') && \jetpack_is_mobile();
 		$this->post_id = $this->get_post_id();
-		// Check if wp_post global is set, and if it is does it have the same post id as the one we're looking for, if so use that. This is to ensure we're getting the correct post data for the current post and so we don't have to make another query.
+		// Check if wp_post global is set, and if it is does it have the same post id as the one we're looking for, if so use that. This is to ensure we're getting the correct post data for the current post and so we don't have to make another query. This is the most effecient way to get post data.
 		if ( isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post && $GLOBALS['post']->ID === $this->post_id ) {
 			$this->post_data = array(
 				'post_title' => $GLOBALS['post']->post_title,
@@ -254,7 +254,7 @@ class Story_Item_API {
 		if ( 'short-read' === $post_type ) {
 			return 'short-read';
 		}
-		if ( 'interactive' === $post_type ) {
+		if ( 'feature' === $post_type ) {
 			return 'feature';
 		}
 	}
