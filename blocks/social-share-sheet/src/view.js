@@ -8,7 +8,6 @@ store('prc-block/social-share-sheet', {
 	actions: {
 		onClick: (event) => {
 			const context = getContext();
-			console.log('onClick', context, event);
 			if (true === context.enabled) {
 				event.preventDefault();
 				window.navigator.share({
