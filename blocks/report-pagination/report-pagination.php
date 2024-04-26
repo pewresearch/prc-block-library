@@ -33,9 +33,39 @@ class Report_Pagination {
 		}
 	}
 
+	public function get_active_pagenum($items) {
+		$active_item = array_filter($items, function($item) {
+			return $item['is_active'];
+		});
+		$active_item = array_shift($active_item);
+		return $active_item['pagenum'] ?? 1;
+	}
+
 	// Render out a list of each $items. $items is an array of arrays, each sub array has an id, title, link, and is_active attribute. This function should just render out a <li> elements for each item with a number and a link to the item. If it is active, it should have a class of 'is-active'.
 	public function get_pagination_markup($items, $attributes) {
-		$items = $items['pagination_items'] ?? false;
+		$items = $items['pagination_items'] ?? [];
+		// remap $items to include pagenum on the item
+		$items = array_map(function($item, $index) {
+			$item['pagenum'] = $index + 1;
+			return $item;
+		}, $items, array_keys($items));
+		$total = count($items);
+		$items_per_page = $items['items_per_page'] ?? 10;
+		$current = $this->get_active_pagenum($items);
+
+		if ( $current > ( $total - $items_per_page ) ) {
+			$start = max( $total - $items_per_page, 1 );
+			$end   = $total;
+		} elseif ( $current < $items_per_page ) {
+			$start = 1;
+			$end   = $items_per_page;
+		} else {
+			$start = $current - floor( $items_per_page / 2 );
+			$end   = $current + floor( $items_per_page / 2 );
+		}
+
+		$items = array_slice($items, $start, $end);
+
 		if ( !is_array($items) || empty($items) ) {
 			return false;
 		}
@@ -43,7 +73,7 @@ class Report_Pagination {
 		?>
 		<div class="wp-block-prc-block-report-pagination__pagination-items">
 			<?php foreach ( $items as $number => $item ) {
-				$number = (int) $number + 1;
+				$number = $item['pagenum'];
 				$is_active = $item['is_active'];
 				$link = $item['link'];
 				$title = $item['title'];
