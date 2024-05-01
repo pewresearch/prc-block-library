@@ -61,7 +61,7 @@ registerBlockVariation('core/paragraph', {
 	title: 'Staff Expertise Binding',
 	attributes: {
 		content:
-			'<a class="expertise-link" href="#">Expertise</a>, <a class="expertise-link" href="#">Expertise</a>',
+			'<a class="wp-block-prc-block-staff-context-provider__expertise-link" href="#">Expertise</a>, <a class="wp-block-prc-block-staff-context-provider__expertise-link" href="#">Expertise</a>',
 		metadata: {
 			bindings: {
 				content: {

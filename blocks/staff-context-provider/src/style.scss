@@ -8,18 +8,19 @@
 .wp-block-prc-block-staff-context-provider {
 	color: inherit;
 	background: inherit;
-}
 
-.wp-block-group.expertise-group {
-	border-top: 1px solid var(--wp--preset--color--ui-gray-light);
-	border-bottom: 1px solid var(--wp--preset--color--ui-gray-light);
-	margin-top: 1.25rem;
-	margin-bottom: 0;
-	padding-top: 0.67rem;
-	padding-right: 0px;
-	padding-bottom: 0.67rem;
-	padding-left: 0px;
-	.expertise-link {
+	p:has(.wp-block-prc-block-staff-context-provider__expertise-link) {
+		border-top: 1px solid var(--wp--preset--color--ui-gray-light);
+		border-bottom: 1px solid var(--wp--preset--color--ui-gray-light);
+		margin-top: 1.25rem;
+		margin-bottom: 0;
+		padding-top: 0.67rem;
+		padding-right: 0px;
+		padding-bottom: 0.67rem;
+		padding-left: 0px
+	}
+
+	.wp-block-prc-block-staff-context-provider__expertise-link {
 		font-weight: 700;
 		font-size: var(--wp--preset--font-size--small-label) !important;
 		color: var(--wp--preset--color--ui-link-color);

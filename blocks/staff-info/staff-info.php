@@ -121,17 +121,22 @@ class Staff_Info {
 			if ( 'expertise' === $value_to_fetch && !empty($this->block_bound_staff['expertise']) ) {
 				$expertise = $this->block_bound_staff['expertise'];
 				$tmp = '';
+				$total = count($expertise);
+				$sep = $total > 1 ? ', ' : '';
+				$i = 1;
 				foreach ($expertise as $term) {
+					if ( $i === $total ) {
+						$sep = '';
+					}
 					$tmp .= wp_sprintf(
-						'<a class="expertise-link" href="%1$s">%2$s</a>',
+						'<a class="wp-block-prc-block-staff-context-provider__expertise-link" href="%1$s">%2$s</a>%3$s',
 						$term['url'],
-						$term['label']
+						$term['label'],
+						$sep
 					);
+					$i++;
 				}
-				$value_to_replace = wp_sprintf(
-					'<div class="wp-block-group expertise-group">%1$s</div>',
-					$tmp
-				);
+				$value_to_replace = $tmp;
 			}
 			if ( 'expertise' === $value_to_fetch && empty($this->block_bound_staff['expertise']) ) {
 				$value_to_replace = '';
@@ -151,7 +156,7 @@ class Staff_Info {
 		register_block_bindings_source(
 			'prc-platform/staff-info',
 			[
-				'label'              => __( 'Staff Photo', 'prc-platform/staff-info' ),
+				'label'              => __( 'Staff Info', 'prc-platform/staff-info' ),
 				'get_value_callback' => [$this,'get_staff_info_for_block_binding'],
 				'uses_context'       => ['staffId'],
 			]
