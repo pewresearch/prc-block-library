@@ -7,4 +7,12 @@
 .wp-block-prc-block-bylines-display.wp-block {
 	color: inherit;
 	background: inherit;
+
+	.prc-platform-staff-bylines__separator {
+		margin-left: -0.3125em !important;
+	}
+
+	.prc-block-bylines__prefix {
+		margin: 0 !important;
+	}
 }

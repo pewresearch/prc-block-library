@@ -37,13 +37,13 @@ export default function Edit({
 	isSelected,
 	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const {postId} = context;
+	const { postId } = context;
 	const { prefix, className } = attributes;
 
 	const [bylines, setBylines] = useState(DEFAULT_BYLINES);
 	const bylineTerms = useSelect(
 		(select) => select('core/editor').getEditedPostAttribute('bylines'),
-		[clientId],
+		[clientId]
 	);
 	const blockProps = useBlockProps({
 		className: classNames(className, layoutClassNames),
@@ -77,6 +77,7 @@ export default function Edit({
 			<RichText
 				tagName="span"
 				placeholder="By"
+				className="prc-block-bylines__prefix"
 				value={prefix}
 				onChange={(value) => setAttributes({ prefix: value })}
 				allowedFormats={[]}
@@ -84,25 +85,38 @@ export default function Edit({
 					marginRight: '4px',
 				}}
 			/>
-			<div className="wp-block-prc-block-bylines-display__bylines">
+
 			{bylines.map((b, index) => {
 				const total = bylines.length;
 				const name = b;
 				let r = '';
 				let Sep = () => {};
-				if ( 1 < total && (index + 1) === total ) {
-					Sep = () => <span className="prc-platform-staff-bylines__separator">{' '}and{' '}</span>;
-				} else if ( 1 < total && index !== 0 ) {
-					Sep = () => <span className="prc-platform-staff-bylines__separator">,{' '}</span>;
+				if (1 < total && index + 1 === total) {
+					Sep = () => (
+						<span className="prc-platform-staff-bylines__separator">
+							{' '}
+							and{' '}
+						</span>
+					);
+				} else if (1 < total && index !== 0) {
+					Sep = () => (
+						<span className="prc-platform-staff-bylines__separator">
+							,{' '}
+						</span>
+					);
 				}
-				if ( index === 0 && !postId ) {
+				if (index === 0 && !postId) {
 					r = <a>{name}</a>;
 				} else {
-					r = <Fragment><Sep/><span>{name}</span></Fragment>;
+					r = (
+						<Fragment>
+							<Sep />
+							<span>{name}</span>
+						</Fragment>
+					);
 				}
 				return r;
 			})}
-			</div>
 		</div>
 	);
 }

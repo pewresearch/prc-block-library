@@ -30,7 +30,7 @@ if ( 2 >= strlen($bylines_output) ) {
 }
 
 echo wp_sprintf(
-	'<div %1$s><span>%2$s</span><div class="wp-block-prc-block-bylines-display__bylines">%3$s</div></div>',
+	'<div %1$s class="wp-block-prc-block-bylines-display__bylines"><span class="wp-block-prc-block-bylines-display__prefix">%2$s</span> %3$s</div>',
 	$block_wrapper_attrs,
 	$prefix,
 	$bylines_output
