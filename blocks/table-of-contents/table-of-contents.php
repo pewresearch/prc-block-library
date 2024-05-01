@@ -211,6 +211,7 @@ class Table_Of_Contents {
 		));
 
 		$default_to_dropdown = array_key_exists('className', $attributes) && false !== strpos($attributes['className'], 'is-style-dropdown');
+		$default_to_dropdown = \jetpack_is_mobile() ? true : $default_to_dropdown;
 		// remove the is-style-dropdown class from the block attributes
 		$attributes['className'] = array_key_exists('className', $attributes) ? str_replace('is-style-dropdown', '', $attributes['className']) : '';
 

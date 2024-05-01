@@ -55,7 +55,7 @@ class Staff_Info {
 	public function get_staff_info_for_block_binding($source_args, $block, $attribute_name) {
 		$block_context = $block->context;
 		$staff_post_id = array_key_exists('staffId', $block_context) ? $block_context['staffId'] : false;
-		do_action('qm/debug', 'get_staff_info_for_block_binding() context: ' .print_r($block_context, true));
+		do_action('qm/debug', 'get_staff_info_for_block_binding() context:: ' .print_r($block_context, true));
 		if ( false === $staff_post_id ) {
 			return null;
 		}
