@@ -3,6 +3,7 @@ namespace PRC\Platform\Blocks;
 if ( is_admin() ) {
 	return;
 }
+
 $target_namespace       = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : null;
 if ( null === $target_namespace ) {
 	return;
@@ -14,7 +15,7 @@ $input_checked          = array_key_exists('defaultChecked', $attributes) ? $att
 $input_type             = array_key_exists('type', $attributes) ? $attributes['type'] : 'checkbox';
 $input_value            = array_key_exists('value', $attributes) ? $attributes['value'] : '';
 $input_id               = md5( $target_namespace . $input_name . $input_type );
-$input_border_color     = array_key_exists('checkboxColor', $attributes) ? $attributes['checkboxColor'] : 'ui-black';
+$input_border_color     = array_key_exists('checkboxColor', $attributes) ? $attributes['checkboxColor'] : false;
 $is_part_of_a_template = false;
 if ( false === $is_part_of_a_template ) {
 	// Hoist this block's values into the target interactive namespace state.

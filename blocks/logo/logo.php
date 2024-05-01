@@ -138,7 +138,7 @@ class Logo {
 					echo $logo_alt_white;
 					?>
 				</a>
-				<a class="wp-block-prc-block-logo__inner__decoded" href="<?php echo esc_url($site_url);?>" alt="Return to Home" name="Pew Research Center Logo">
+				<a class="wp-block-prc-block-logo__inner__decoded" href="<?php echo esc_url($site_url);?>/decoded" alt="Return to Home" name="Pew Research Center Logo">
 					<?php
 					echo $decoded;
 					echo $decoded_white;

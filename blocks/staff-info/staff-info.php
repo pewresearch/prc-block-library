@@ -91,8 +91,13 @@ class Staff_Info {
 					);
 				}
 			}
-			if ( 'bio' === $value_to_fetch && isset($this->block_bound_staff['bio']) ) {
+			if ( 'bio' === $value_to_fetch && isset($this->block_bound_staff['bio']) && !empty($this->block_bound_staff['bio'])) {
 				$value_to_replace = $this->block_bound_staff['bio'];
+			}
+			// if we are looking for the bio and its not set, set as the mini_bio:
+			if ( 'bio' === $value_to_fetch && empty($this->block_bound_staff['bio']) ) {
+				do_action('qm/debug', 'staff bindings: bio empty');
+				$value_to_replace = $this->block_bound_staff['mini_bio'];
 			}
 			if ( 'mini_bio' === $value_to_fetch && isset($this->block_bound_staff['mini_bio']) ) {
 				$value_to_replace = $this->block_bound_staff['mini_bio'];
@@ -113,20 +118,23 @@ class Staff_Info {
 					$value_to_replace
 				);
 			}
-			if ( 'expertise' === $value_to_fetch && isset($this->block_bound_staff['expertise']) ) {
+			if ( 'expertise' === $value_to_fetch && !empty($this->block_bound_staff['expertise']) ) {
 				$expertise = $this->block_bound_staff['expertise'];
 				$tmp = '';
 				foreach ($expertise as $term) {
 					$tmp .= wp_sprintf(
-						'<a href="%1$s">%2$s</a>',
+						'<a class="expertise-link" href="%1$s">%2$s</a>',
 						$term['url'],
 						$term['label']
 					);
 				}
 				$value_to_replace = wp_sprintf(
-					'<p>%1$s</p>',
+					'<div class="wp-block-group expertise-group">%1$s</div>',
 					$tmp
 				);
+			}
+			if ( 'expertise' === $value_to_fetch && empty($this->block_bound_staff['expertise']) ) {
+				$value_to_replace = '';
 			}
 		}
 		return $value_to_replace;
@@ -151,4 +159,3 @@ class Staff_Info {
 	}
 
 }
-

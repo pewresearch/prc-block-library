@@ -17,7 +17,6 @@ import { registerBlockType } from '@wordpress/blocks';
 /**
  * Internal Dependencies
  */
-
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * All files containing `style` keyword are bundled together. The code used

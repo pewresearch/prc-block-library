@@ -60,7 +60,8 @@ registerBlockVariation('core/paragraph', {
 	name: 'Staff Expertise',
 	title: 'Staff Expertise Binding',
 	attributes: {
-		content: '<a href="#">Expertise</a>, <a href="#">Expertise</a>',
+		content:
+			'<a class="expertise-link" href="#">Expertise</a>, <a class="expertise-link" href="#">Expertise</a>',
 		metadata: {
 			bindings: {
 				content: {

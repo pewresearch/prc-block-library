@@ -13,10 +13,7 @@ import {
 } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
-import {
-	PanelBody,
-	PanelRow,
-} from '@wordpress/components';
+import { PanelBody, PanelRow } from '@wordpress/components';
 
 const findMatchingCheckboxBlockField = (blocks, value) =>
 	blocks.find((block) => {
@@ -24,8 +21,7 @@ const findMatchingCheckboxBlockField = (blocks, value) =>
 			return false;
 		}
 		return block.attributes.value === value;
-	}
-);
+	});
 
 export default function Controls({ attributes, setAttributes, clientId }) {
 	const { interests } = attributes;
@@ -40,7 +36,10 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 	});
 
 	const onRemove = (item) => {
-		const matchingBlock = findMatchingCheckboxBlockField(innerBlocks, item.value);
+		const matchingBlock = findMatchingCheckboxBlockField(
+			innerBlocks,
+			item.value
+		);
 		if (matchingBlock) {
 			// Unlock the block then remove it.
 			updateBlockAttributes(matchingBlock.clientId, {
@@ -49,7 +48,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 				},
 			}).then(() => removeBlock(matchingBlock.clientId, false));
 		}
-	}
+	};
 
 	const onAdd = (item) => {
 		const inputBlock = createBlock('prc-block/form-input-checkbox', {
@@ -60,14 +59,20 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 			label: item.label,
 			type: 'checkbox',
 			isInteractive: true,
-			interactiveNamespace: 'prc-block/mailchimp-select'
+			interactiveNamespace: 'prc-block/mailchimp-select',
+			metadata: {
+				name: item.label
+					.replace(/[^a-z0-9\s]/gi, '')
+					.toLowerCase()
+					.replace(/\s/g, '_'),
+			},
 		});
 		insertBlock(inputBlock, false, clientId, false);
-	}
+	};
 
 	const onUpdate = (updatedSelected) => {
 		setAttributes({ interests: [...updatedSelected] });
-	}
+	};
 
 	return (
 		<InspectorControls>
