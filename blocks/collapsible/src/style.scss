@@ -5,7 +5,7 @@
 	// Wrapper Fallback Defaults:
 	border: 1px solid transparent;
 	padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
-	
+
 	&:not(.has-background) {
 		background-color: var(--wp--preset--color--ui-beige-very-light);
 	}
@@ -68,7 +68,7 @@
 	&.is-open {
 		.wp-block-prc-block-collapsible__content {
 			display: flex;
-			
+
 		}
 		.wp-block-prc-block-collapsible__icon {
 			.fa-circle-plus {
@@ -89,6 +89,21 @@
 			button {
 				order: 1;
 			}
+		}
+	}
+
+	&.is-co-branded {
+		.wp-block-prc-block-collapsible__title {
+			& > div {
+				line-height: 1;
+			}
+			img  {
+				height: 35px;
+			}
+		}
+		.wp-block-prc-block-collapsible__icon {
+			flex-grow: 1;
+			text-align: right;
 		}
 	}
 }

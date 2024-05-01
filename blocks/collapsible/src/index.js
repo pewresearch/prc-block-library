@@ -25,6 +25,7 @@ import edit from './edit';
 import save from './save';
 import icon from './icon';
 import transforms from './transforms';
+import variations from './variations';
 
 import metadata from './block.json';
 
@@ -35,6 +36,7 @@ const settings = {
 	edit,
 	save,
 	transforms,
+	variations,
 };
 
 /**

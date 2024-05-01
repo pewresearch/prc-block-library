@@ -21,6 +21,10 @@
 			"type": "string",
 			"default": "ui-beige-dark"
 		},
+		"isCoBranded": {
+			"type": "boolean",
+			"default": false
+		},
 		"style": {
 			"type": "object",
 			"default": {
@@ -93,17 +97,6 @@
 		],
 		"viewportWidth": 640
 	},
-	"styles": [
-		{
-			"name": "default",
-			"label": "Default",
-			"isDefault": true
-		},
-		{
-			"name": "pew-knight-branded",
-			"label": "Pew Knight Branded"
-		}
-	],
 	"textdomain": "collapsible",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",

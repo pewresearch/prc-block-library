@@ -25,6 +25,10 @@
       "type": "string",
       "default": "ui-beige-dark"
     },
+    "isCoBranded": {
+      "type": "boolean",
+      "default": false
+    },
     "style": {
       "type": "object",
       "default": {

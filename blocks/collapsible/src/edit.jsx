@@ -18,6 +18,9 @@ import {
 /**
  * Internal Dependencies
  */
+// import the pew-knight-logo.svg file as a component...
+import pewKnightLogoUrl from '../assets/pew-knight-logo.svg';
+
 const ALLOWED_BLOCKS = [
 	'core/paragraph',
 	'core/heading',
@@ -45,13 +48,14 @@ const TEMPLATE = [['core/paragraph', {}]];
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { title, className, allowedBlocks } = attributes;
+	const { title, className, allowedBlocks, isCoBranded } = attributes;
 
 	const [isOpen, setOpen] = useState(true);
 
 	const blockProps = useBlockProps({
 		className: classNames(className, {
 			'is-open': isOpen,
+			'is-co-branded': isCoBranded,
 		}),
 		style: {
 			'--block-gap': getBlockGapSupportValue(attributes, 'vertical'),
@@ -72,14 +76,19 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<div {...blockProps}>
 			<div className="wp-block-prc-block-collapsible__title">
-				<RichText
-					tagName="div"
-					value={title}
-					onChange={(t) => setAttributes({ title: t })}
-					placeholder="How we did this..."
-					formattingControls={[]}
-					keepPlaceholderOnFocus
-				/>
+				{!isCoBranded && (
+					<RichText
+						tagName="div"
+						value={title}
+						onChange={(t) => setAttributes({ title: t })}
+						placeholder="How we did this..."
+						formattingControls={[]}
+						keepPlaceholderOnFocus
+					/>
+				)}
+				{isCoBranded && (
+					<img src={pewKnightLogoUrl} alt="Pew Knight Logo"/>
+				)}
 				<button
 					className="wp-block-prc-block-collapsible__icon"
 					onClick={() => {
