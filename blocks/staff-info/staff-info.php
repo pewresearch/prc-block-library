@@ -120,7 +120,7 @@ class Staff_Info {
 			}
 			if ( 'expertise' === $value_to_fetch && !empty($this->block_bound_staff['expertise']) ) {
 				$expertise = $this->block_bound_staff['expertise'];
-				$tmp = '';
+				$tmp = '<span class="wp-block-prc-block-staff-context-provider__expertise-label">Expertise:</span>';
 				$total = count($expertise);
 				$sep = $total > 1 ? ', ' : '';
 				$i = 1;
