@@ -75,7 +75,7 @@ class Library {
 		if ( file_exists( plugin_dir_path( dirname(__FILE__) ) . $block_file_path ) ) {
 			require_once plugin_dir_path( dirname(__FILE__) ) . $block_file_path;
 		} else {
-			return new WP_Error( 'prc_block_library_missing_block', __( 'Block missing.', 'prc' ) );
+			return new WP_Error( 'prc_block_library_missing_block', __( 'Block missing:: ' . $block_file_name, 'prc' ) );
 		}
 	}
 
