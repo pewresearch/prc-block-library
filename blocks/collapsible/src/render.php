@@ -14,7 +14,7 @@ $collapsible_title = str_replace(["u003cstrongu003e", "u003c/strongu003e"], "", 
 $collapsible_title = esc_html($collapsible_title);
 $classname = array_key_exists('className', $attributes) ? $attributes['className'] : '';
 $is_deprecated = array_key_exists( 'deprecated', $attributes ) ? true : false;
-$is_co_branded = array_key_exists( 'isCoBranded', $attributes ) ? true : false;
+$is_co_branded = array_key_exists( 'isCoBranded', $attributes ) && $attributes['isCoBranded'] === true ? true : false;
 
 $block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes);
 
