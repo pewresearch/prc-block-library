@@ -3,17 +3,38 @@
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
+// VideoPress API Docs: https://github.com/Automattic/videopress-player-api-doc/blob/trunk/public-js-api.md
+
 const { actions, state } = store('prc-block/popup-controller', {
 	state: {
 		videos: {},
 	},
 	actions: {
+		play: (id) => {
+			if (!id) {
+				return;
+			}
+			if (false === state[id].api) {
+				return;
+			}
+			state[id].api.controls.play();
+		},
+		pause: (id) => {
+			if (!id) {
+				return;
+			}
+			if (false === state[id].api) {
+				return;
+			}
+			state[id].api.controls.pause();
+		},
 		/**
 		 * Great for when you need to close all modals from outside the modal.
 		 */
 		closeAll: () => {
 			Object.keys(state).forEach((key) => {
 				state[key].isActive = false;
+				actions.pause(key);
 			});
 		},
 		open: (event, passthroughId = false) => {
@@ -22,6 +43,7 @@ const { actions, state } = store('prc-block/popup-controller', {
 			console.log('open...', passthroughId);
 			if (passthroughId) {
 				state[passthroughId].isActive = true;
+				actions.play(passthroughId);
 				return;
 			}
 			if (!id) {
@@ -29,7 +51,7 @@ const { actions, state } = store('prc-block/popup-controller', {
 				return;
 			}
 			state[id].isActive = true;
-			state[id].api?.play();
+			actions.play(id);
 			console.log('open', id, state[id].isActive, state);
 		},
 		close: (event, passthroughId = false) => {
@@ -37,6 +59,7 @@ const { actions, state } = store('prc-block/popup-controller', {
 			const id = context?.id;
 			if (passthroughId) {
 				state[passthroughId].isActive = false;
+				actions.pause(passthroughId);
 				return;
 			}
 			if (!id) {
@@ -44,7 +67,7 @@ const { actions, state } = store('prc-block/popup-controller', {
 			}
 			state[id].isActive = false;
 			console.log('stop...', state[id].api);
-			state[id].api.controls.pause();
+			actions.pause(id);
 			console.log('close', id, state[id].isActive, state);
 		},
 		openAndThen: (andThen) => {
@@ -64,6 +87,11 @@ const { actions, state } = store('prc-block/popup-controller', {
 		onInit: () => {
 			const context = getContext();
 			const { id } = context;
+
+			// check if window.prcPopupVideoPlayer exists if not create an empty object
+			if (!window.prcPopupVideoPlayer) {
+				window.prcPopupVideoPlayer = {};
+			}
 
 			// Move the outer container to outside wp-site-blocks, to escape the css container query.
 			const prcBlock = document.querySelector(
@@ -106,7 +134,9 @@ const { actions, state } = store('prc-block/popup-controller', {
 				console.log('iframe api loaded!');
 				api.customize.set({ shareButton: false });
 			});
+
 			state[id].api = api;
+			window.prcPopupVideoPlayer[id] = api;
 		},
 		outerWatch: () => {
 			console.log('outerWatch', state);
@@ -154,7 +184,7 @@ const { actions, state } = store('prc-block/popup-controller', {
 			if (event.key === 'Escape') {
 				if (true === state[id].isActive) {
 					event.preventDefault();
-					state[id].isActive = false;
+					actions.close(null, id);
 				}
 			}
 		},

@@ -97,8 +97,15 @@ body.has-active-modal {
 			overflow-y: auto;
 		}
 
+		// @TODO: Remove when videopress content conversion is complete
 		.wp-block-vimeo-create.vimeo-create__video-container {
 			max-width: 100% !important;
+		}
+
+		.jetpack-videopress-player,
+		.jetpack-videopress-player .jetpack-videopress-player__wrapper,
+		.jetpack-video-wrapper {
+			margin: 0!important;
 		}
 	}
 }
