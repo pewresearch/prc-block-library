@@ -3,14 +3,38 @@
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
-const { state } = store('prc-block/popup-controller', {
+// VideoPress API Docs: https://github.com/Automattic/videopress-player-api-doc/blob/trunk/public-js-api.md
+
+const { actions, state } = store('prc-block/popup-controller', {
+	state: {
+		videos: {},
+	},
 	actions: {
+		play: (id) => {
+			if (!id) {
+				return;
+			}
+			if (false === state[id].api) {
+				return;
+			}
+			state[id].api.controls.play();
+		},
+		pause: (id) => {
+			if (!id) {
+				return;
+			}
+			if (false === state[id].api) {
+				return;
+			}
+			state[id].api.controls.pause();
+		},
 		/**
 		 * Great for when you need to close all modals from outside the modal.
 		 */
 		closeAll: () => {
 			Object.keys(state).forEach((key) => {
 				state[key].isActive = false;
+				actions.pause(key);
 			});
 		},
 		open: (event, passthroughId = false) => {
@@ -18,35 +42,32 @@ const { state } = store('prc-block/popup-controller', {
 			const id = context?.id;
 			console.log('open...', passthroughId);
 			if (passthroughId) {
-				state[passthroughId] = {
-					isActive: true,
-				};
+				state[passthroughId].isActive = true;
+				actions.play(passthroughId);
 				return;
 			}
 			if (!id) {
 				console.log('no id', id, state);
 				return;
 			}
-			state[id] = {
-				isActive: true,
-			};
+			state[id].isActive = true;
+			actions.play(id);
 			console.log('open', id, state[id].isActive, state);
 		},
 		close: (event, passthroughId = false) => {
 			const context = getContext();
 			const id = context?.id;
 			if (passthroughId) {
-				state[passthroughId] = {
-					isActive: false,
-				};
+				state[passthroughId].isActive = false;
+				actions.pause(passthroughId);
 				return;
 			}
 			if (!id) {
 				return;
 			}
-			state[id] = {
-				isActive: false,
-			};
+			state[id].isActive = false;
+			console.log('stop...', state[id].api);
+			actions.pause(id);
 			console.log('close', id, state[id].isActive, state);
 		},
 		openAndThen: (andThen) => {
@@ -64,10 +85,58 @@ const { state } = store('prc-block/popup-controller', {
 	},
 	callbacks: {
 		onInit: () => {
+			const context = getContext();
+			const { id } = context;
+
+			// check if window.prcPopupVideoPlayer exists if not create an empty object
+			if (!window.prcPopupVideoPlayer) {
+				window.prcPopupVideoPlayer = {};
+			}
+
 			// Move the outer container to outside wp-site-blocks, to escape the css container query.
-			const prcBlock = document.querySelector('.wp-block-prc-block-popup-modal__outer');
+			const prcBlock = document.querySelector(
+				'.wp-block-prc-block-popup-modal__outer'
+			);
 			const siteBlocks = document.querySelector('.wp-site-blocks');
 			siteBlocks.parentNode.insertBefore(prcBlock, siteBlocks);
+
+			if (!id) {
+				return;
+			}
+			console.log('watchForVideoPress', state, context);
+			// Check if this is a videopress modal, does it have an iframe with aria videopress in it?
+			const modal = document.querySelector(
+				`.wp-block-prc-block-popup-modal[data-controller-id="${id}"]`
+			);
+			console.log('modal', modal);
+			if (!modal) {
+				return;
+			}
+			const isVideo = modal.classList.contains('is-video');
+			if (!isVideo) {
+				return;
+			}
+
+			const isVideoPress = modal.querySelector(
+				'.jetpack-videopress-player'
+			);
+			if (!isVideoPress) {
+				return;
+			}
+			const iframe = isVideoPress.querySelector('iframe');
+			console.log('iframe', iframe);
+			if (!iframe) {
+				return;
+			}
+
+			const { VideoPressIframeApi } = window;
+			const api = VideoPressIframeApi(iframe, () => {
+				console.log('iframe api loaded!');
+				api.customize.set({ shareButton: false });
+			});
+
+			state[id].api = api;
+			window.prcPopupVideoPlayer[id] = api;
 		},
 		outerWatch: () => {
 			console.log('outerWatch', state);
@@ -103,7 +172,7 @@ const { state } = store('prc-block/popup-controller', {
 				!modal.innerHTML.includes(event.target.innerHTML) &&
 				true === state[id].isActive
 			) {
-				state[id].isActive = false;
+				actions.close(null, id);
 			}
 		},
 		onESCKey: (event) => {
@@ -115,7 +184,7 @@ const { state } = store('prc-block/popup-controller', {
 			if (event.key === 'Escape') {
 				if (true === state[id].isActive) {
 					event.preventDefault();
-					state[id].isActive = false;
+					actions.close(null, id);
 				}
 			}
 		},

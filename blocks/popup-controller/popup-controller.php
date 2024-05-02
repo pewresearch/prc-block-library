@@ -132,6 +132,7 @@ class Popup_Controller {
 		wp_interactivity_state($block_namespace, array(
 			$block_id => array(
 				'isActive' => false,
+				'api' => false,
 			),
 		));
 
@@ -152,6 +153,7 @@ class Popup_Controller {
 			'data-wp-on-document--keydown' => 'callbacks.onESCKey',
 			'data-wp-on-window--click' => 'callbacks.onWindowClickCloseModal',
 			'data-wp-init' => 'callbacks.onInit',
+			'data-wp-watch--videopress' => 'callbacks.watchForVideoPress',
 		));
 
 		return wp_sprintf(

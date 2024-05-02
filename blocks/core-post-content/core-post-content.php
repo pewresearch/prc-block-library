@@ -69,23 +69,39 @@ class Core_Post_Content {
 
 		// Simple hack to add the image to an attachment page
 		if ( is_attachment() ) {
-			$image_id = get_the_ID();
-			$image_url = wp_get_attachment_image_src( $image_id, 'large' );
-			$full_url = wp_get_attachment_image_src( $image_id, 'full' );
-			if ($image_url) {
-				$image_title = get_the_title( $image_id );
-
-				return wp_sprintf(
-					'<figure class="wp-block-image aligncenter size-large"><img width="%s" height="%s" src="%s" alt="%s" class="wp-image-%s">%s</figure><h5>Download</h5><a href="%s" download>%s</a>',
-					$image_url[1],
-					$image_url[2],
-					$image_url[0],
-					$image_title,
-					$image_id,
-					get_the_content($image_id) ? '<figcaption class="wp-element-caption"' . get_the_content($image_id) . '</figcaption>' : '',
-					$full_url[0],
-					$image_title
-				);
+			$attachment_id = get_the_ID();
+			$mime_type = get_post_mime_type($attachment_id);
+			// check if mime_type is an image or video
+			$is_video = strpos($mime_type, 'video') !== false;
+			$is_image = strpos($mime_type, 'image') !== false;
+			$is_file = strpos($mime_type, 'application') !== false;
+			if ($is_video) {
+				$meta = get_metadata('post', $attachment_id);
+				$videopress_id = array_key_exists('videopress_guid', $meta) && !empty($meta['videopress_guid']) ? $meta['videopress_guid'][0] : null;
+				if ( $videopress_id ) {
+					$block_content = apply_filters('the_content', '[videopress ' . $videopress_id . ']');
+				}
+			} elseif ($is_image) {
+				$image_url = wp_get_attachment_image_src( $attachment_id, 'large' );
+				$full_url = wp_get_attachment_image_src( $attachment_id, 'full' );
+				if ($image_url) {
+					$image_title = get_the_title( $attachment_id );
+					$block_content = wp_sprintf(
+						'<figure class="wp-block-image aligncenter size-large"><img width="%s" height="%s" src="%s" alt="%s" class="wp-image-%s">%s</figure><h5>Download</h5><a href="%s" download>%s</a>',
+						$image_url[1],
+						$image_url[2],
+						$image_url[0],
+						$image_title,
+						$attachment_id,
+						get_the_content($attachment_id) ? '<figcaption class="wp-element-caption"' . get_the_content($attachment_id) . '</figcaption>' : '',
+						$full_url[0],
+						$image_title
+					);
+				}
+			} elseif ($is_file) {
+				$block_content = 'File';
+			} else {
+				$block_content = '<!--- Unsupported mime type --->';
 			}
 		}
 
