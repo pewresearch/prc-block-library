@@ -60,6 +60,6 @@ export default function useReportMaterials( { postId, postType } ) {
 	return {
 		parentId,
 		parentTitle,
-		reportMaterials
+		reportMaterials,
 	};
 }

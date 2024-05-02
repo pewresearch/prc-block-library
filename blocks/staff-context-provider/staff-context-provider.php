@@ -43,15 +43,23 @@ class Staff_Context_Provider {
 	public function render_block_callback( $attributes, $content, $block ) {
 		$staff_id = false;
 		$term_id = false;
-		$context = $block->context;
-		if ( array_key_exists('postType', $context) && array_key_exists('postId', $context) && 'staff' === $context['postType'] ) {
-			$staff_id = $context['postId'];
-		} else {
-			$taxonomy = get_queried_object()->taxonomy;
-			if ( 'bylines' !== $taxonomy ) {
-				return $context;
+		// check if staffSlug in attributes exists, if so get the staff post id by slug...
+		if ( array_key_exists('staffSlug', $attributes) ) {
+			$staff = get_page_by_path( $attributes['staffSlug'], OBJECT, 'staff' );
+			if ( $staff ) {
+				$staff_id = $staff->ID;
 			}
-			$term_id = get_queried_object_id();
+		} else {
+			$context = $block->context;
+			if ( array_key_exists('postType', $context) && array_key_exists('postId', $context) && 'staff' === $context['postType'] ) {
+				$staff_id = $context['postId'];
+			} else {
+				$taxonomy = get_queried_object()->taxonomy;
+				if ( 'bylines' !== $taxonomy ) {
+					return $context;
+				}
+				$term_id = get_queried_object_id();
+			}
 		}
 
 		$staff = new \PRC\Platform\Staff( $staff_id, $term_id );

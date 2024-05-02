@@ -13,6 +13,9 @@
     "orientation": {
       "type": "string",
       "default": "vertical"
+    },
+    "staffSlug": {
+      "type": "string"
     }
   },
   "supports": {

@@ -1,16 +1,19 @@
 /**
  * External Dependencies
  */
+import { InnerBlocksAsContextTemplate } from '@prc/components';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
+import { Fragment, useEffect, useState, useMemo } from 'react';
+import apiFetch from '@wordpress/api-fetch';
 
 /**
  * Internal Dependencies
  */
+import Controls from './controls';
 
 const ALLOWED_BLOCKS = ['core/group', 'core/paragraph', 'prc-block/staff-info'];
 
@@ -36,12 +39,73 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const blockProps = useBlockProps();
-	const { allowedBlocks, orientation } = attributes;
-	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-		orientation: orientation || 'vertical',
-	});
+	const { allowedBlocks, staffSlug } = attributes;
+	const { postId, postType } = context;
+	const [staffId, setStaffId] = useState(null);
 
-	return <div {...innerBlocksProps} />;
+	useEffect(() => {
+		if (postId && postType === 'staff') {
+			setStaffId(postId);
+		}
+		let slugToSearch = '';
+		if (staffSlug) {
+			slugToSearch = staffSlug;
+		} else {
+			slugToSearch = 'michael-dimock';
+		}
+		// If the staffSlug is set, we need to fetch the staff ID from the API.
+		const fetchStaffId = async () => {
+			console.log('fetchStaffId', slugToSearch);
+			await apiFetch({
+				path: `/wp/v2/staff?slug=${slugToSearch}&_fields=id`,
+			})
+				.then((staff) => {
+					if (
+						staff &&
+						staff.length &&
+						Object.prototype.hasOwnProperty.call(staff[0], 'id')
+					) {
+						console.log('...staff...', staff);
+						setStaffId(staff[0].id);
+					} else {
+						setStaffId(null);
+					}
+				})
+				.catch(() => {
+					setStaffId(null);
+				});
+		};
+
+		fetchStaffId();
+	}, [postId, postType, staffSlug]);
+
+	const blockContexts = useMemo(() => {
+		return [
+			{
+				staffId,
+			},
+		];
+	}, [staffId]);
+
+	const blockProps = useBlockProps();
+
+	// To avoid flicker when switching active block contexts, a preview is rendered
+	// for each block context, but the preview for the active block context is hidden.
+	// This ensures that when it is displayed again, the cached rendering of the
+	// block preview is used, instead of having to re-render the preview from scratch.
+	return (
+		<Fragment>
+			<Controls {...{ staffId, setAttributes }} />
+			<div {...blockProps}>
+				<InnerBlocksAsContextTemplate
+					{...{
+						clientId,
+						allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
+						blockContexts,
+						isResolving: !staffId,
+					}}
+				/>
+			</div>
+		</Fragment>
+	);
 }
