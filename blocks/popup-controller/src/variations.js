@@ -77,7 +77,6 @@ export default [
 			[
 				'prc-block/popup-modal',
 				{
-					isVideo: true,
 					backgroundColor: 'black',
 					textColor: 'white',
 					allowedBlocks: ['core/video', 'core/embed', 'videopress/video', 'vimeo/create'],
