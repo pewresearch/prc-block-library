@@ -31,9 +31,9 @@ $grid-mobile: repeat(4, 1fr);
 /**
  * Grid Columns
  */
-.wp-block-group > .wp-block-prc-block-grid-controller {
-	max-width: 100%;
-}
+// .wp-block-group > .wp-block-prc-block-grid-controller {
+// 	max-width: 100%;
+// }
 [class*="wp-block-"] .wp-block-prc-block-grid-controller {
 	margin-block-start: 0;
 }
