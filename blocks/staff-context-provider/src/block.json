@@ -20,7 +20,8 @@
 	},
 	"supports": {
 		"anchor": true,
-		"html": false
+		"html": false,
+		"interactivity": true
 	},
 	"usesContext": [
 		"postId",

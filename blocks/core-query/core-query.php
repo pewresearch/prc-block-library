@@ -204,7 +204,6 @@ class Core_Query {
 		if ( $query->is_tax( 'areas-of-expertise') ) {
 			$query->set('isPubListingQuery', false);
 		}
-
 	}
 
 	/**
