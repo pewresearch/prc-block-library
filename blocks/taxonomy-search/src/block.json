@@ -23,6 +23,11 @@
 			"padding": true,
 			"margin": true
 		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true
+		},
 		"interactivity": true
 	},
 	"textdomain": "taxonomy-search",

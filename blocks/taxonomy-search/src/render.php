@@ -11,7 +11,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 		'namespace' => 'prc-block/taxonomy-search',
 	)),
 	'data-wp-context' => wp_json_encode(array(
-		'taxonomy' => $attributes['taxonomy'] ?? 'topic',
+		'taxonomy' => $attributes['taxonomy'] ?? 'category',
 		'restrictToTermId' => $restrict_to_term_id,
 		'restrictToTermName' => $restrict_to_term_name,
 		'searchValue' => '',
@@ -30,7 +30,7 @@ ob_start();
 	data-wp-each--result="context.results"
 	data-wp-each-key="context.result.id"
 >
-	<li>
+	<li class="wp-block-prc-block-taxonomy-search__result">
 		<a data-wp-bind--href="context.result.url">
 			<span data-wp-text="context.result.label"></span>
 		</a>

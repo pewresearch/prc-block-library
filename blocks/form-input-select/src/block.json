@@ -57,6 +57,7 @@
 		"interactivity": true
 	},
 	"usesContext": [
+		"prc-block/form-input-select/options",
 		"prc-block/form-field-required",
 		"prc-block/form-field-label",
 		"prc-facets/template/facetType",

@@ -25,7 +25,7 @@ if ( null !== $input_value ) {
 
 }
 $input_disabled = array_key_exists( 'disabled', $attributes ) ? $attributes['disabled'] : false;
-$input_options = empty($input_options) && array_key_exists( 'prc-block/form-input-options', $block->context) ? $block->context['prc-block/form-input-options'] : $input_options;
+$input_options = empty($input_options) && array_key_exists( 'prc-block/form-input-select/options', $block->context) ? $block->context['prc-block/form-input-select/options'] : $input_options;
 
 // $input_options = array_map( function( $option ) use ( $input_value ) {
 // 	$option['isSelected'] = $option['value'] === $input_value;

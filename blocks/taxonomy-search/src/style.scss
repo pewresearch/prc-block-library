@@ -32,12 +32,17 @@
 		position: absolute;
 		text-align: left;
 		text-transform: none;
-		top: 100%;
 		transform-origin: center top;
 		white-space: normal;
-		z-index: 998;
+		z-index: 100;
 		width: 100%;
 		list-style-type: none;
+		padding: 0.5em;
+		max-height: 250px;
+		overflow-y: auto;
+	}
+	&__result {
+		border-bottom: 1px solid var(--wp--preset--color--ui-gray-light);
 		padding: 0.5em;
 	}
 }

@@ -64,6 +64,12 @@ class Taxonomy_Search {
 						return is_string( $param );
 					},
 				),
+				'perPage' => array(
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_int( $param );
+					},
+					'default' => 25
+				),
 			),
 			'permission_callback' => function () {
 				return true;
@@ -83,10 +89,11 @@ class Taxonomy_Search {
 		$search_value   = $request->get_param( 'searchValue' );
 		$taxonomy       = $request->get_param( 'taxonomy' );
 		$parent_term_id = (int) $request->get_param( 'parentTermId' );
+		$per_page       = $request->get_param( 'perPage' );
 
 		$args = array(
 			'taxonomy'     => $taxonomy,
-			'per_page'     => 25,
+			'per_page'     => $per_page,
 			'hierarchical' => true,
 			'hide_empty'   => false,
 		);

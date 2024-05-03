@@ -77,7 +77,9 @@ const { state, actions } = store('prc-block/taxonomy-search', {
 		},
 		onInputBlur: (event) => {
 			const context = getContext();
-			context.isActive = false;
+			setTimeout(() => {
+				context.isActive = false;
+			}, 300);
 		},
 		onInputChange: (event) => {
 			const { value } = event.target;
