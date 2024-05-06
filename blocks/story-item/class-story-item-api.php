@@ -32,8 +32,11 @@ class Story_Item_API {
 		$variations_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/story-item/src/variations.json';
 		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
 		// Setup data:
+		// do_action('qm/debug', 'Story_Item_API::'.print_r(['attrs' => $attributes, 'context' => $context,], true));
 		$this->attributes = wp_parse_args($attributes, $this->construct_attribute_defaults());
 		$this->context = is_array($context) ? $context : array();
+		// if $this->context contains 'query' and queryId
+		$this->in_query_loop = array_key_exists('query', $this->context) && array_key_exists('queryId', $this->context) && ! empty($this->context['queryId']) && ! empty($this->context['query']);
 		$this->inner_content = normalize_whitespace($content);
 		// Setup variables:
 		$this->is_mobile = function_exists('jetpack_is_mobile') && \jetpack_is_mobile();
