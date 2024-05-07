@@ -12,6 +12,7 @@
 	}
 
 	.wp-block-prc-block-table-of-contents__dropdown__heading {
+		padding: 1em 0.5em;
 		.wp-block-prc-block-table-of-contents__dropdown-trigger {
 			cursor: pointer;
 			background: none;
@@ -20,6 +21,7 @@
 			border: none;
 		}
 	}
+
 }
 
 .wp-block-prc-block-table-of-contents.is-style-dropdown,
@@ -29,7 +31,7 @@
 	}
 
 	& > .wp-block-prc-block-table-of-contents__list {
-		height: 100vh;
+		max-height: 60vh;
 		overflow-y: auto;
 	}
 

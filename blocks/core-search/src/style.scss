@@ -19,10 +19,14 @@
 		align-items: center;
 		justify-content: center;
 		height: inherit;
+		&.has-ui-white-color.has-ui-black-background-color {
+			svg path {
+				color: white!important;
+			}
+		}
 	}
 	input {
 		// border: none!important;
 		// padding-left: 1em;
 	}
 }
-

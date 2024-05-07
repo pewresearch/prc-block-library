@@ -121,8 +121,15 @@ class Table_Of_Contents {
 
 	private function get_dropdown_markup($attributes) {
 		$heading_text = array_key_exists('heading', $attributes) ? $attributes['heading'] : false;
+		$plus_icon = \PRC\Platform\Icons\Render('light', 'plus');
+		$minus_icon = \PRC\Platform\Icons\Render('light', 'minus');
+		$icon_button = wp_sprintf(
+			'<button class="wp-block-prc-block-table-of-contents__dropdown-trigger"><span data-wp-bind--hidden="context.isDropdownOpen">%s</span><span data-wp-bind--hidden="!context.isDropdownOpen">%s</span></button>',
+			$plus_icon,
+			$minus_icon,
+		);
 		return wp_sprintf(
-			'<div class="%1$s"><h2>%2$s</h2>%3$s</div>',
+			'<div class="%1$s" data-wp-on--click="actions.onDropdownClick"><h2>%2$s</h2>%3$s</div>',
 			\PRC\Platform\Block_Utils\classNames(
 				'wp-block-prc-block-table-of-contents__dropdown__heading',
 				array(
@@ -133,7 +140,7 @@ class Table_Of_Contents {
 				),
 			),
 			$heading_text,
-			'<button class="wp-block-prc-block-table-of-contents__dropdown-trigger" data-wp-on--click="actions.onDropdownClick">+</button>',
+			$icon_button,
 		);
 	}
 

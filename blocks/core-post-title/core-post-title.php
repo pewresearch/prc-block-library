@@ -80,6 +80,7 @@ class Core_Post_Title {
 		}
 		wp_enqueue_style( self::$view_style_handle );
 		$post_id = get_the_ID();
+		$post_type = get_post_type( $post_id );
 		$parent_id = wp_get_post_parent_id( $post_id );
 		$w = new WP_HTML_Tag_Processor( $block_content );
 		if ( $w->next_tag() ) {
@@ -91,6 +92,10 @@ class Core_Post_Title {
 					$parent_id
 				);
 			}
+			$w->set_attribute(
+				'data-post-type',
+				$post_type
+			);
 		}
 		return $w;
 	}

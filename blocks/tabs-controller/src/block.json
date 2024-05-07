@@ -55,5 +55,5 @@
 	"textdomain": "tabs-controller",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
-	"viewModule": "file:./view.js"
+	"viewScriptModule": "file:./view.js"
 }

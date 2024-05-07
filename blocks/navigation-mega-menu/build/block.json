@@ -47,6 +47,10 @@
     "menuActiveBorderColor": {
       "type": "string"
     },
+    "hasBoxShadow": {
+      "type": "boolean",
+      "default": false
+    },
     "icon": {
       "type": "string",
       "default": "dropdown",

@@ -1,5 +1,5 @@
 .wp-block-prc-block-subtitle {
-    --wp--preset--font-size--h-2: 24px;
+    --wp--preset--font-size--h-two: 24px;
 	// font-size: var(--wp--preset--font-size--h-2);
     // font-style: italic;
     // font-weight: normal;
@@ -14,6 +14,6 @@
 
 @media only screen and (max-width: 768px) {
 	.wp-block-prc-block-subtitle {
-		--wp--preset--font-size--h-2: 18.5px;
+		--wp--preset--font-size--h-two: 18.5px;
 	}
 }

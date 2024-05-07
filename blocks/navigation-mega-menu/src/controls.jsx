@@ -8,6 +8,7 @@ import {
 	PanelBody,
 	SelectControl,
 	TextControl,
+	ToggleControl,
 	TextareaControl,
 	__experimentalHStack as HStack, // eslint-disable-line
 	__experimentalToggleGroupControl as ToggleGroupControl, // eslint-disable-line
@@ -27,7 +28,8 @@ export default function Controls({
 	colors,
 	clientId,
 }) {
-	const { menuSlug, label, title, description, url, icon } = attributes;
+	const { menuSlug, label, title, description, url, icon, hasBoxShadow } =
+		attributes;
 
 	return (
 		<Fragment>
@@ -119,6 +121,17 @@ export default function Controls({
 						}}
 						help={__(
 							'Choose an icon to display next to the label. Mobile and Search options replace the label with an icon.',
+							'prc-navigation-mega-menu'
+						)}
+					/>
+					<ToggleControl
+						label={__('Has box shadow', 'prc-navigation-mega-menu')}
+						checked={hasBoxShadow}
+						onChange={(value) =>
+							setAttributes({ hasBoxShadow: value })
+						}
+						help={__(
+							'Enable to add a box shadow to the mega menu.',
 							'prc-navigation-mega-menu'
 						)}
 					/>

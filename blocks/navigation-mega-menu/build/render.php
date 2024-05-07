@@ -8,6 +8,7 @@ $url_description        = $attributes['description'] ?? false;
 $url_title				= $attributes['title'] ?? false;
 $url                    = $attributes['url'] ?? false;
 $icon 				    = $attributes['icon'] ?? 'dropdown';
+$has_box_shadow	        = $attributes['hasBoxShadow'] ?? false;
 
 // If no label or no menu slug return early.
 if ( ! $label || ! $menu_slug ) {
@@ -47,6 +48,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
 		sprintf( 'has-%s-menu-item-color', $colors['menu-item-color'] ) => !!$colors['menu-item-color'],
 		'has-active-border-color' => !!$colors['active-border-color'],
 		sprintf( 'has-%s-active-border-color', $colors['active-border-color'] ) => !!$colors['active-border-color'],
+		'has-box-shadow' => $has_box_shadow,
 	]),
 	'data-wp-interactive' => wp_json_encode([
 		'namespace' => 'prc-block/navigation-mega-menu'

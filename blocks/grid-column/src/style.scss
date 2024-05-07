@@ -7,8 +7,8 @@
 
 .wp-block-prc-block-grid-column {
 	--margin-left: calc( -1 * var(--grid-gutter-half) );
-	& > .align-to__column-divider,
-	& > .wp-block-template-part {
+	& > .wp-block-template-part:has(.align-to__column-divider),
+	& > .align-to__column-divider {
 		width: calc(100% + var(--grid-gutter-half)) !important;
 		margin-left: calc( var(--margin-left) + 1px ) !important;
 		&.is-style-baseball-card,

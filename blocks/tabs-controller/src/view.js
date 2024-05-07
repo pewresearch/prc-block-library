@@ -9,12 +9,12 @@ function updateWindowHistory(tab, uuid) {
 	const { href } = window.location;
 	// add ?tabId=uuid to the url, check if there is already a query string and append accordingly
 	let newUrl;
-	if (href.includes('tabId=')) {
-		newUrl = href.replace(/tabId=[^&]+/, `tabId=${uuid}`);
+	if (href.includes('tabItem=')) {
+		newUrl = href.replace(/tabItem=[^&]+/, `tabItem=${uuid}`);
 	} else if (href.includes('?')) {
-		newUrl = `${href}&tabId=${uuid}`;
+		newUrl = `${href}&tabItem=${uuid}`;
 	} else {
-		newUrl = `${href}?tabId=${uuid}`;
+		newUrl = `${href}?tabItem=${uuid}`;
 	}
 	window.history.pushState({ path: newUrl }, '', newUrl);
 }
@@ -58,7 +58,9 @@ const { state } = store('prc-block/tabs-controller', {
 			const { ref } = getElement();
 			const context = getContext();
 			console.log('isActive', ref, context);
-			// Each panel|tab has its own context containing its own uuid, we can then compare that to the activeUUID. The two contexts get merged.
+			// Each panel|tab has its own context containing its own uuid,
+			// we can then compare that to the activeUUID.
+			// The two contexts get merged.
 			const { uuid, activeUUID, dialogLinkUUID, activeDialogUUID } =
 				context;
 			if (uuid === dialogLinkUUID && uuid === activeDialogUUID) {

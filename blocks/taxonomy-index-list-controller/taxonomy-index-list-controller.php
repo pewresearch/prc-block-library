@@ -102,10 +102,11 @@ class Taxonomy_Index_List_Controller {
 
 		if ( $url ) {
 			$psuedo_accordion_title_term_link = array(
-				'blockName' => 'prc-block/taxonomy-menu-link',
+				'blockName' => 'prc-block/taxonomy-list-link',
 				'attrs' => array(
 					'label' => "Main $label page",
 					'url' => $url,
+					'fontFamily' => 'sans-serif',
 				),
 				'innerBlocks' => array(),
 				'innerHTML' => '',
@@ -120,7 +121,7 @@ class Taxonomy_Index_List_Controller {
 		if ( $label && $inner_blocks ) {
 			ob_start();
 			?>
-			<!-- wp:prc-block/accordion {"title":"<?php echo $label;?>"} -->
+			<!-- wp:prc-block/accordion {"title":"<?php echo $label;?>", "fontFamily":"sans-serif"} -->
 			<?php echo serialize_blocks($inner_blocks); ?>
 			<!-- /wp:prc-block/accordion -->
 			<?php
@@ -136,11 +137,7 @@ class Taxonomy_Index_List_Controller {
 		foreach ( $block->parsed_block['innerBlocks'] as $grid ) {
 			foreach ( $grid['innerBlocks'] as $column ) {
 				foreach ( $column['innerBlocks'] as $innerblock ) {
-					if ( $innerblock['blockName'] === 'core/block' ) {
-						$accordion_blocks .= $this->render_reusable_block($innerblock['attrs']);
-					} else {
-						$accordion_blocks .= $this->parse_taxonomy_list_as_accordion($innerblock);
-					}
+					$accordion_blocks .= $this->parse_taxonomy_list_as_accordion($innerblock);
 				}
 			}
 		}

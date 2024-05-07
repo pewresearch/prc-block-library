@@ -121,15 +121,15 @@ class Tabs_Controller {
 
 		$parsed_block = $block->parsed_block;
 		$tabs_controller_innerblocks = $parsed_block['innerBlocks'];
-		$menu_block = wp_get_first_block($tabs_controller_innerblocks, 'prc-block/tabs-menu');
-		$first_menu_item_block = wp_get_first_block($menu_block['innerBlocks'], 'prc-block/tabs-menu-item');
+		$menu_block = \wp_get_first_block($tabs_controller_innerblocks, 'prc-block/tabs-menu');
+		$first_menu_item_block = \wp_get_first_block($menu_block['innerBlocks'], 'prc-block/tabs-menu-item');
 		return $first_menu_item_block['attrs']['uuid'];
 	}
 
 	private function check_for_dialog_link_tab($block) {
 		$parsed_block = $block->parsed_block;
 		$tabs_controller_innerblocks = $parsed_block['innerBlocks'];
-		$menu_block = wp_get_first_block($tabs_controller_innerblocks, 'prc-block/tabs-menu');
+		$menu_block = \wp_get_first_block($tabs_controller_innerblocks, 'prc-block/tabs-menu');
 		$menu_items = $menu_block['innerBlocks'];
 		// go through menu items and see if any of them has an attributes classname is-style-dialog-link then return the uuid for that item
 		$dialog_link_item = array_filter($menu_items, function($item) {
@@ -143,7 +143,7 @@ class Tabs_Controller {
 		return false;
 	}
 
-	private function get_initial_context($block) {
+	protected function get_initial_context($block) {
 		$initial_context = array(
 			'activeUUID' => $this->get_first_menu_item_uuid($block),
 		);
@@ -166,13 +166,7 @@ class Tabs_Controller {
 			return;
 		}
 
-		$initial_context = array(
-			'activeUUID' => $this->get_first_menu_item_uuid($block),
-		);
-		$dialog_link = $this->check_for_dialog_link_tab($block);
-		if ( $dialog_link ) {
-			$initial_context['dialogLinkUUID'] = $dialog_link;
-		}
+		$initial_context = $this->get_initial_context($block);
 
 		$id = wp_unique_id('tabs-');
 

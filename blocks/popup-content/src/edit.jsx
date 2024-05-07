@@ -18,6 +18,7 @@ const ALLOWED_BLOCKS = [
 	'core/button',
 	'core/buttons',
 	'core/quote',
+	'core/group',
 	'core/pullquote',
 	'core/media-text',
 	'prc-block/story-item',
