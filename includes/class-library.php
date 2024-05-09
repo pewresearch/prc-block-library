@@ -212,6 +212,7 @@ class Library {
 		new Form_Input_Text($this->get_loader());
 		new Grid_Column($this->get_loader());
 		new Grid_Controller($this->get_loader());
+		new Icon($this->get_loader());
 		new Logo($this->get_loader());
 		new Lorem_Ipsum($this->get_loader());
 		new Mailchimp_Form($this->get_loader());
