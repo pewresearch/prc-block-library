@@ -9,6 +9,7 @@ import { addFilter } from '@wordpress/hooks';
  */
 import './style.scss';
 import edit from './edit';
+import variations from './variations';
 import metadata from './block.json';
 
 const megaMenuIcon = (
@@ -30,6 +31,7 @@ const megaMenuIcon = (
  */
 registerBlockType(metadata.name, {
 	icon: megaMenuIcon,
+	variations,
 	edit,
 });
 

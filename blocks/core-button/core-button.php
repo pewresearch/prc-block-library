@@ -150,15 +150,29 @@ class Core_Button {
 			return $block_content;
 		}
 
+		$tag_processor = new WP_HTML_Tag_Processor($block_content);
+		$tag_processor->next_tag('a');
+
 		$is_interactive = is_array($block['attrs']) && array_key_exists('isInteractive', $block['attrs']) ? $block['attrs']['isInteractive'] : false;
 		$target_namespace = array_key_exists( 'interactiveNamespace', $block['attrs'] ) ? $block['attrs']['interactiveNamespace'] : null;
+
+		$metadata = array_key_exists('metadata', $block['attrs']) ? $block['attrs']['metadata'] : null;
+		if (null !== $metadata) {
+			$bindings = array_key_exists('bindings', $metadata) ? $metadata['bindings'] : null;
+			if (null !== $bindings) {
+				$bound_url = array_key_exists('url', $bindings) ? $bindings['url'] : null;
+				$bound_url_src = array_key_exists('source', $bound_url) ? $bound_url['source'] : null;
+				$args_value_fetch = array_key_exists('valueToFetch', $bound_url['args']) ? $bound_url['args']['valueToFetch'] : null;
+			// if the button is bound to a staff photo, add the download attribute:
+				if ( $bound_url_src === 'prc-platform/staff-info' && $args_value_fetch === 'photo-full') {
+					$tag_processor->set_attribute('download', true);
+				}
+			}
+		}
 
 		if ( $is_interactive && null !== $target_namespace ) {
 			preg_match('/<a[^>]*>(.*?)<\/a>/', $block_content, $matches);
 			$button_text = $matches[1];
-
-			$tag_processor = new WP_HTML_Tag_Processor($block_content);
-			$tag_processor->next_tag('a');
 
 			$input_name = array_key_exists('metadata', $block['attrs']) && array_key_exists('name', $block['attrs']['metadata']) ? $block['attrs']['metadata']['name'] : null;
 
@@ -225,8 +239,9 @@ class Core_Button {
 				$target_namespace.'::state.'.$button_id.'.isHidden'
 			);
 
-			$block_content = $tag_processor->get_updated_html();
 		}
+
+		$block_content = $tag_processor->get_updated_html();
 
 		return $block_content;
 	}

@@ -1,17 +1,15 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
 import classnames from 'classnames';
-import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import {
-	RichText,
 	useBlockProps,
 	withColors,
 	getColorClassName,
@@ -23,6 +21,7 @@ import { Fragment, useState, useMemo } from 'react';
  */
 import './edit.scss';
 import Controls from './controls';
+import EditMenuItem from './edit-menu-item';
 import EditMenuTemplatePart from './edit-menu-template-part';
 
 /**
@@ -31,25 +30,25 @@ import EditMenuTemplatePart from './edit-menu-template-part';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object} props                                  Properties passed to the function.
- * @param {Object} props.attributes                       Available block attributes.
- * @param          props.clientId
- * @param          props.isSelected
- * @param          props.menuItemBackgroundColor
- * @param          props.setMenuItemBackgroundColor
- * @param          props.menuItemTextColor
- * @param          props.setMenuItemTextColor
- * @param          props.menuItemActiveBackgroundColor
- * @param          props.setMenuItemActiveBackgroundColor
- * @param          props.menuItemActiveTextColor
- * @param          props.setMenuItemActiveTextColor
- * @param          props.menuOverlayBackgroundColor
- * @param          props.setMenuOverlayBackgroundColor
- * @param          props.menuOverlayTextColor
- * @param          props.setMenuOverlayTextColor
- * @param          props.menuActiveBorderColor
- * @param          props.setMenuActiveBorderColor
- * @param          props.setAttributes
+ * @param {Object}   props                                  Properties passed to the function.
+ * @param {Object}   props.attributes                       Available block attributes.
+ * @param {string}   props.clientId                         The unique identifier for the block.
+ * @param {boolean}  props.isSelected                       Whether the block is currently selected.
+ * @param {Object}   props.menuItemBackgroundColor          The background color of the menu item.
+ * @param {Function} props.setMenuItemBackgroundColor       Function to set the background color of the menu item.
+ * @param {Object}   props.menuItemTextColor                The text color of the menu item.
+ * @param {Function} props.setMenuItemTextColor             Function to set the text color of the menu item.
+ * @param {Object}   props.menuItemActiveBackgroundColor    The background color of the active menu item.
+ * @param {Function} props.setMenuItemActiveBackgroundColor Function to set the background color of the active menu item.
+ * @param {Object}   props.menuItemActiveTextColor          The text color of the active menu item.
+ * @param {Function} props.setMenuItemActiveTextColor       Function to set the text color of the active menu item.
+ * @param {Object}   props.menuOverlayBackgroundColor       The background color of the menu overlay.
+ * @param {Function} props.setMenuOverlayBackgroundColor    Function to set the background color of the menu overlay.
+ * @param {Object}   props.menuOverlayTextColor             The text color of the menu overlay.
+ * @param {Function} props.setMenuOverlayTextColor          Function to set the text color of the menu overlay.
+ * @param {Object}   props.menuActiveBorderColor            The border color of the active menu.
+ * @param {Function} props.setMenuActiveBorderColor         Function to set the border color of the active menu.
+ * @param {Function} props.setAttributes                    Function to set the block attributes.
  *
  * @return {Element} Element to render.
  */
@@ -73,11 +72,9 @@ function Edit({
 	menuActiveBorderColor,
 	setMenuActiveBorderColor,
 }) {
-	const { label, description, menuSlug, icon } = attributes;
+	const { icon, label, description, menuSlug, isMobile } = attributes;
 	const [isMenuVisible, setMenuVisibility] = useState(false);
 	const toggleMenu = () => setMenuVisibility(!isMenuVisible);
-	// Little helper function for now...
-	window.toggleMegaMenu = () => toggleMenu();
 
 	const colors = {
 		menuItemBackgroundColor,
@@ -125,6 +122,7 @@ function Edit({
 			!!menuActiveBorderColor.color || menuActiveBorderColor.class,
 		[getColorClassName('active-border-color', menuActiveBorderColor?.slug)]:
 			!!menuActiveBorderColor?.slug,
+		'has-label': 'dropdown' === icon,
 	});
 
 	const overlayClassnames = classnames(
@@ -148,90 +146,29 @@ function Edit({
 		className: menuItemClassnames,
 	});
 
-	const selectedIcon = useMemo(() => {
-		if ('dropdown' === icon) {
-			return 'caret-down';
-		}
-		if ('mobile' === icon) {
-			return 'bars';
-		}
-		if ('search' === icon) {
-			return 'magnifying-glass';
-		}
-		return 'caret-down';
-	}, [icon]);
-	/**
-	 * There are certain libraries we want to use for certain icons, this controls that.
-	 */
-	const selectedIconLibrary = useMemo(() => {
-		if ('caret-down' === selectedIcon) {
-			return 'sharp-solid';
-		}
-		if ('mobile' === icon) {
-			return 'light';
-		}
-		return 'solid';
-	}, [selectedIcon, icon]);
-
-	const showLabel = !icon || 'dropdown' === icon;
-
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes, colors, clientId }} />
 			<div {...blockProps}>
-				<button
-					className="wp-block-navigation-item__content wp-block-prc-block-navigation-mega-menu__toggle"
-					aria-expanded={isMenuVisible}
-					type="button"
-				>
-					{showLabel && (
-						<RichText
-							identifier="label"
-							className="wp-block-navigation-item__label"
-							value={label}
-							onChange={(labelValue) =>
-								setAttributes({
-									label: labelValue,
-								})
-							}
-							aria-label={__(
-								'Mega menu link text',
-								'mega-menu-block'
-							)}
-							placeholder={__('Add label…', 'mega-menu-block')}
-							allowedFormats={[
-								'core/bold',
-								'core/italic',
-								'core/image',
-								'core/strikethrough',
-							]}
-						/>
-					)}
-					<span
-						{...{
-							className: `wp-block-prc-block-navigation-mega-menu__toggle-${icon}-icon`,
-							onClick: () => {
-								if (isSelected) {
-									toggleMenu();
-								}
-							},
-						}}
-					>
-						<Icon
-							library={selectedIconLibrary}
-							icon={selectedIcon}
-						/>
-					</span>
-					{description && (
-						<span className="wp-block-navigation-item__description">
-							{description}
-						</span>
-					)}
-				</button>
+				<EditMenuItem
+					{...{
+						attributes,
+						setAttributes,
+						isSelected,
+						isMenuVisible,
+						toggleMenu,
+					}}
+				/>
 				<div className="wp-block-prc-block-navigation-mega-menu__tab-divider"></div>
 				{isMenuVisible && (
 					<EditMenuTemplatePart
-						{...{ menuSlug, clientId, overlayClassnames }}
+						{...{
+							menuSlug,
+							clientId,
+							overlayClassnames,
+							toggleMenu,
+							isMobile,
+						}}
 					/>
 				)}
 			</div>

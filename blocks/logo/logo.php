@@ -148,8 +148,6 @@ class Logo {
 				</div>
 		<?php
 		$content = ob_get_clean();
-
-		// You can use this method...
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
 			$block_wrapper_attrs,

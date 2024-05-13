@@ -55,7 +55,6 @@ class Staff_Info {
 	public function get_staff_info_for_block_binding($source_args, $block, $attribute_name) {
 		$block_context = $block->context;
 		$staff_post_id = array_key_exists('staffId', $block_context) ? $block_context['staffId'] : false;
-		do_action('qm/debug', 'get_staff_info_for_block_binding() context:: ' .print_r($block_context, true));
 		if ( false === $staff_post_id ) {
 			return null;
 		}
@@ -67,13 +66,17 @@ class Staff_Info {
 
 		$block_name = $block->name;
 		$value_to_replace = null;
-		if ( in_array($block_name, ['core/image', 'core/paragraph', 'core/heading']) ) {
+		if ( in_array($block_name, ['core/image', 'core/paragraph', 'core/heading', 'core/button']) ) {
 			$value_to_fetch = array_key_exists('valueToFetch', $source_args) ? $source_args['valueToFetch'] : null;
 			if ( null === $value_to_fetch ) {
 				return null;
 			}
 			$output_link = array_key_exists('outputLink', $source_args);
-
+			if ( 'photo-full' === $value_to_fetch && isset($this->block_bound_staff['photo']['full'][0])) {
+				if ( 'url' === $attribute_name ) {
+					$value_to_replace = $this->block_bound_staff['photo']['full'][0];
+				}
+			}
 			if ( 'photo' === $value_to_fetch && isset($this->block_bound_staff['photo']['thumbnail'][0])) {
 				if ( 'url' === $attribute_name ) {
 					$value_to_replace = $this->block_bound_staff['photo']['thumbnail'][0];
@@ -86,7 +89,7 @@ class Staff_Info {
 				}
 				if ( 'alt' === $attribute_name ) {
 					$value_to_replace = wp_sprintf(
-						'%1$s\'s photo',
+						'Download %1$s\'s photo',
 						$this->block_bound_staff['name']
 					);
 				}

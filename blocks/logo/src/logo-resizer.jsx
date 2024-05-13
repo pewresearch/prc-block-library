@@ -7,90 +7,19 @@
 /**
  * External Dependencies
  */
-import classnames from 'classnames';
 import { useClientWidth } from '@prc/hooks';
 
 /**
  * WordPress Dependencies
  */
 import { Fragment, useRef, useState, useEffect } from 'react';
-import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { ResizableBox } from '@wordpress/components';
 import { useViewportMatch } from '@wordpress/compose';
 
-/**
- * Internal Dependencies
- */
-import Controls from './controls';
-import { ReactComponent as Logo } from '../assets/primary.svg';
-import { ReactComponent as LogoWhite } from '../assets/primary-white.svg';
-import { ReactComponent as LogoAlt } from '../assets/alternate.svg';
-import { ReactComponent as LogoAltWhite } from '../assets/alternate-white.svg';
-import { ReactComponent as DecodedLogo } from '../assets/decoded.svg';
-import { ReactComponent as DecodedLogoWhite } from '../assets/decoded-white.svg';
-
 const MIN_SIZE = 100;
 
-function LogoInner({ onLoad, className, width }) {
-	// we can know exactly which svg based on the classname is-style-x format.
-	// from that we can also extract the height and width from the viewBox attribute
-	// and use that to set the "natural" size of the image.
-
-	useEffect(() => {
-		// check that onLoad is a function and that className is a string...
-		if (typeof onLoad !== 'function' || typeof className !== 'string') {
-			return;
-		}
-
-		const selectedStyle = className.match(/is-style-([a-z0-9-]+)/);
-
-		const svgLoad = (svg) => {
-			const svgEl = svg();
-
-			const [w, h] = svgEl.props.viewBox.split(' ').slice(2);
-
-			onLoad(w, h);
-		};
-
-		switch (selectedStyle[1]) {
-			case 'primary-only':
-				svgLoad(Logo);
-				break;
-			case 'alt-only':
-				svgLoad(LogoAlt);
-				break;
-			case 'decoded':
-				svgLoad(DecodedLogo);
-				break;
-			default:
-				svgLoad(Logo);
-				break;
-		}
-	}, [className]);
-
-	return (
-		<div
-			className="wp-block-prc-block-logo__inner"
-			style={{ maxWidth: `${width}px` }}
-		>
-			<div className="wp-block-prc-block-logo__inner__logo">
-				<Logo data-browser-theme="light" />
-				<LogoWhite data-browser-theme="dark" />
-			</div>
-			<div className="wp-block-prc-block-logo__inner__logo-alt">
-				<LogoAlt data-browser-theme="light" />
-				<LogoAltWhite data-browser-theme="dark" />
-			</div>
-			<div className="wp-block-prc-block-logo__inner__decoded">
-				<DecodedLogo data-browser-theme="light" />
-				<DecodedLogoWhite data-browser-theme="dark" />
-			</div>
-		</div>
-	);
-}
-
-function LogoResize({
+export default function LogoResizer({
 	attributes,
 	setAttributes,
 	naturalMeasurements = {
@@ -102,6 +31,8 @@ function LogoResize({
 }) {
 	const { width, justification } = attributes;
 	const { naturalWidth, naturalHeight } = naturalMeasurements;
+	// Set the default width to a reasonable size.
+	const defaultWidth = 361;
 
 	// This image logic is taken directly from core/site-logo
 	const clientWidth = useClientWidth(logoRef, [justification]);
@@ -114,23 +45,11 @@ function LogoResize({
 			maxWidth: settings.maxWidth,
 		};
 	}, []);
-
 	let imageWidthWithinContainer;
-	console.log(
-		'imageWidthWithinContainer',
-		naturalWidth,
-		clientWidth,
-		logoRef
-	);
 	if (clientWidth && naturalWidth && naturalHeight) {
 		const exceedMaxWidth = naturalWidth > clientWidth;
 		imageWidthWithinContainer = exceedMaxWidth ? clientWidth : naturalWidth;
 	}
-
-	// Set the default width to a responsible size.
-	// Note that this width is also set in the attached frontend CSS file.
-	const defaultWidth = 280;
-
 	const currentWidth = width || defaultWidth;
 	const ratio = naturalWidth / naturalHeight;
 	const currentHeight = currentWidth / ratio;
@@ -149,9 +68,6 @@ function LogoResize({
 	// @todo It would be good to revisit this once a content-width variable
 	// becomes available.
 	const maxWidthBuffer = maxWidth * 2.5;
-
-	console.log('maxWidth', maxWidth, maxWidthBuffer);
-
 	let showRightHandle = false;
 	let showLeftHandle = false;
 
@@ -208,63 +124,6 @@ function LogoResize({
 					{imgWrapper}
 				</ResizableBox>
 			)}
-		</Fragment>
-	);
-}
-
-export default function Edit({
-	attributes,
-	setAttributes,
-	isSelected,
-	clientId,
-}) {
-	const { className, width } = attributes;
-	const ref = useRef();
-	const [{ naturalWidth, naturalHeight }, setNaturalSize] = useState({});
-
-	const blockProps = useBlockProps({
-		ref,
-		className: classnames(className, {
-			'item-justified-center': attributes.justification === 'center',
-			'item-justified-right': attributes.justification === 'right',
-			'item-justified-left': attributes.justification === 'left',
-		}),
-	});
-
-	const imgWrapper = (
-		<LogoInner
-			{...{
-				className,
-				width,
-				onLoad: (w, h) =>
-					setNaturalSize({
-						naturalWidth: w,
-						naturalHeight: h,
-					}),
-			}}
-		/>
-	);
-
-	return (
-		<Fragment>
-			<Controls {...{ attributes, setAttributes, clientId }} />
-			<div {...blockProps}>
-				{!isSelected && imgWrapper}
-				{isSelected && (
-					<LogoResize
-						{...{
-							attributes,
-							setAttributes,
-							naturalMeasurements: {
-								naturalWidth,
-								naturalHeight,
-							},
-							imgWrapper,
-							logoRef: ref,
-						}}
-					/>
-				)}
-			</div>
 		</Fragment>
 	);
 }

@@ -15,7 +15,12 @@ import apiFetch from '@wordpress/api-fetch';
  */
 import Controls from './controls';
 
-const ALLOWED_BLOCKS = ['core/group', 'core/paragraph', 'prc-block/staff-info'];
+const ALLOWED_BLOCKS = [
+	'core/group',
+	'core/paragraph',
+	'core/button',
+	'prc-block/staff-info',
+];
 
 /**
  * The edit function describes the structure of your block in the context of the

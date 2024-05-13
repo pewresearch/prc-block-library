@@ -1,20 +1,108 @@
 @use "sass:math";
+@import "../../../includes/common-styles/gutenberg-responsive-breaks";
 
 $relaxedBorder: #e6e7e6;
 $altCardHeaderPadding: 1em;
 $altCardLineHeight: 1.28571429em;
 $altCardMargin: 1rem;
 
-$mobileBreakpoint: 360px;
-$tabletBreakPoint: 790px;
-$desktopBreakPoint: 791px;
+/**
+* Responsive Group Blocks:
+*/
 
 /**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
+ * Hide On Mobile
  */
+@media only screen and (max-width:  #{ ($break-small) }) {
+	html.block-editor-block-preview__content-iframe .wp-block-group[data-hide-on-mobile="true"].wp-block,
+	.wp-block-group[data-hide-on-mobile="true"]:not(.wp-block) {
+		display: none !important;
+	}
+}
+// This will capture any block that adds the correct attribute to hide on mobile.
+body.is-mobile [data-hide-on-mobile="true"]:not(.wp-block):not(.wp-block-group) {
+	display: none !important;
+}
+.is-mobile-preview .wp-block-group[data-hide-on-mobile="true"] {
+	&.wp-block:before {
+		content: "This block is hidden on mobile.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		border: 1px dashed #ddd;
+		color: #999;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}
+
+/**
+ * Hide On Tablet
+ */
+@media only screen and (min-width:  #{ ($break-small) }) and (max-width:  #{ ($break-medium) }) {
+	html.block-editor-block-preview__content-iframe .wp-block-group[data-hide-on-tablet="true"].wp-block,
+	.wp-block-group[data-hide-on-tablet="true"]:not(.wp-block){
+		display: none !important;
+	}
+}
+body.is-tablet [data-hide-on-tablet="true"]:not(.wp-block):not(.wp-block-group) {
+	display: none !important;
+}
+.is-tablet-preview .wp-block-group[data-hide-on-tablet="true"]  {
+	&.wp-block:before {
+		content: "This block is hidden on tablet.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		color: #999;
+		border: 1px dashed #ddd;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}
+
+/**
+ * Hide On Desktop
+ */
+@media only screen and (min-width:  #{ ($break-medium) }) {
+	html.block-editor-block-preview__content-iframe .wp-block-group[data-hide-on-desktop="true"].wp-block,
+	.wp-block-group[data-hide-on-desktop="true"]:not(.wp-block){
+		display: none !important;
+	}
+}
+body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group) {
+	display: none !important;
+}
+.is-desktop-preview .wp-block-group[data-hide-on-desktop="true"] {
+	&.wp-block:before {
+		content: "This block is hidden on desktop.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		color: #999;
+		border: 1px dashed #ddd;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}
+
+@media only screen and (max-width: #{ ($break-medium) }) {
+	.is-style-collapse-row-on-mobile {
+		flex-direction: column;
+	}
+}
 
 // When a align full cover is before an alignfull group we want to add padding to the group.
 .wp-block-cover.alignfull + .wp-block-group.alignfull {
@@ -97,138 +185,6 @@ $desktopBreakPoint: 791px;
 	}
 }
 
-/**
-* Responsive Group Blocks:
-*/
-
-body:not(.post-template-layout-no-container-query) {
-	.wp-site-blocks {
-		container: prc-responsive-container / inline-size;
-	}
-	//@container prc-responsive-container
-	@container prc-responsive-container (max-width: 420px) {
-		.wp-block-group[data-hide-on-mobile="true"] {
-			&.wp-block:before {
-				content: "This block is hidden on mobile.";
-				display: block;
-				text-align: center;
-				font-size: 0.8em;
-				border: 1px dashed #ddd;
-				color: #999;
-				padding: 1em;
-			}
-			&:not(.wp-block),
-			& > * {
-				display: none !important;
-			}
-		}
-	}
-
-	@container prc-responsive-container (min-width: 420px) and (max-width: 790px) {
-		.wp-block-group[data-hide-on-tablet="true"] {
-			&.wp-block:before {
-				content: "This block is hidden on tablet.";
-				display: block;
-				text-align: center;
-				font-size: 0.8em;
-				color: #999;
-				border: 1px dashed #ddd;
-				padding: 1em;
-			}
-			&:not(.wp-block),
-			& > * {
-				display: none !important;
-			}
-		}
-	}
-
-	@container prc-responsive-container (max-width: 791px) {
-		.is-style-collapse-row-on-mobile {
-			flex-direction: column;
-		}
-	}
-
-	@container prc-responsive-container (min-width: 791px) {
-		.wp-block-group[data-hide-on-desktop="true"] {
-			&.wp-block:before {
-				content: "This block is hidden on desktop.";
-				display: block;
-				text-align: center;
-				font-size: 0.8em;
-				color: #999;
-				border: 1px dashed #ddd;
-				padding: 1em;
-			}
-			&:not(.wp-block),
-			& > * {
-				display: none !important;
-			}
-		}
-	}
-}
-
-body.post-template-layout-no-container-query {
-	@media only screen and (max-width: 420px) {
-		.wp-block-group[data-hide-on-mobile="true"] {
-			&.wp-block:before {
-				content: "This block is hidden on mobile.";
-				display: block;
-				text-align: center;
-				font-size: 0.8em;
-				border: 1px dashed #ddd;
-				color: #999;
-				padding: 1em;
-			}
-			&:not(.wp-block),
-			& > * {
-				display: none !important;
-			}
-		}
-	}
-
-	@media only screen and (min-width: 420px) and (max-width: 790px) {
-		.wp-block-group[data-hide-on-tablet="true"] {
-			&.wp-block:before {
-				content: "This block is hidden on tablet.";
-				display: block;
-				text-align: center;
-				font-size: 0.8em;
-				color: #999;
-				border: 1px dashed #ddd;
-				padding: 1em;
-			}
-			&:not(.wp-block),
-			& > * {
-				display: none !important;
-			}
-		}
-	}
-
-	@media only screen and (max-width: 791px) {
-		.is-style-collapse-row-on-mobile {
-			flex-direction: column;
-		}
-	}
-
-	@media only screen and (min-width: 791px) {
-		.wp-block-group[data-hide-on-desktop="true"] {
-			&.wp-block:before {
-				content: "This block is hidden on desktop.";
-				display: block;
-				text-align: center;
-				font-size: 0.8em;
-				color: #999;
-				border: 1px dashed #ddd;
-				padding: 1em;
-			}
-			&:not(.wp-block),
-			& > * {
-				display: none !important;
-			}
-		}
-	}
-}
-
 // @TODO this feels more like something that should be in a block pattern??
 .wp-block-group.essay--toolbar,
 .wp-block-group.essay--toolbar {
@@ -242,5 +198,11 @@ body.post-template-layout-no-container-query {
 	}
 	.wp-block-post-date {
 		flex-grow: 1;
+	}
+}
+
+body.admin-bar {
+	.wp-block-group.is-position-sticky.js-is-sticky {
+		top: calc(0px + var(--wp-admin--admin-bar--position-offset, 0px)) !important;
 	}
 }

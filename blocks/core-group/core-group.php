@@ -17,6 +17,7 @@ class Core_Group {
 	public static $block_json = null;
 	public static $editor_script_handle = null;
 	public static $style_handle = null;
+	public static $view_script_module_handle = null;
 
 	public static $size_styles = array(
 		array(
@@ -77,7 +78,7 @@ class Core_Group {
 		if (null !== $loader) {
 			$loader->add_action( 'init', $this, 'register_new_styles', 10 );
 			$loader->add_action( 'init', $this, 'register_assets' );
-			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
+			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_assets' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
@@ -105,13 +106,14 @@ class Core_Group {
 	public function register_assets() {
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
 		self::$style_handle    = register_block_style_handle( self::$block_json, 'style' );
+		self::$view_script_module_handle = register_block_script_module_id( self::$block_json, 'viewScriptModule' );
 	}
 
 	/**
 	 * @hook enqueue_block_editor_assets
 	 * @return void
 	 */
-	public function register_editor_script() {
+	public function register_editor_assets() {
 		wp_enqueue_script( self::$editor_script_handle );
 	}
 
@@ -124,7 +126,7 @@ class Core_Group {
 	}
 
 	/**
-	* Register additional attributes for the core-group block.
+	* Register additional attributes for the core-group block
 	* @hook block_type_metadata 100, 1
 	* @param mixed $metadata
 	* @return mixed
@@ -158,6 +160,7 @@ class Core_Group {
 	*/
 	public function add_settings(array $settings, array $metadata) {
 		if ( self::$block_name === $metadata['name'] ) {
+			$settings['supports']['interactivity'] = true;
 			$settings['uses_context'] = array_merge(
 				array_key_exists('uses_context', $settings) ? $settings['uses_context'] : array(),
 				array(
@@ -192,23 +195,35 @@ class Core_Group {
 		if ( strpos( $block_content, 'is-style-baseball-card' ) !== false ) {
 			wp_enqueue_style("prc-block-library--baseball-card");
 		}
+		$is_sticky = array_key_exists('style', $block['attrs']) && array_key_exists('position', $block['attrs']['style']) && array_key_exists('type', $block['attrs']['style']['position']) && $block['attrs']['style']['position']['type'] === 'sticky';
+		if ( $is_sticky ) {
+			wp_enqueue_script_module( self::$view_script_module_handle );
+		}
 
 		$responsive_options = array_key_exists('responsiveContainerQuery', $block['attrs']) ? $block['attrs']['responsiveContainerQuery'] : array();
 		$hide_on_desktop = array_key_exists('hideOnDesktop', $responsive_options) ? $responsive_options['hideOnDesktop'] : false;
 		$hide_on_tablet = array_key_exists('hideOnTablet', $responsive_options) ? $responsive_options['hideOnTablet'] : false;
 		$hide_on_mobile = array_key_exists('hideOnMobile', $responsive_options) ? $responsive_options['hideOnMobile'] : false;
+		$is_responsive = $hide_on_desktop || $hide_on_tablet || $hide_on_mobile;
 
 		// using the new WP_HTML_Tag_Processor add data-hide-on-X to the block
 		$w = new WP_HTML_Tag_Processor( $block_content );
 		if ( $w->next_tag() ) {
-			if ( $hide_on_desktop ) {
-				$w->set_attribute( 'data-hide-on-desktop', 'true' );
+			if ( $is_sticky ) {
+				$w->set_attribute('data-wp-interactive', wp_json_encode(array(
+					'namespace' => 'prc-block/core-group',
+				)));
+				$w->set_attribute('data-wp-init--sticky', 'callbacks.onInit');
 			}
-			if ( $hide_on_tablet ) {
-				$w->set_attribute( 'data-hide-on-tablet', 'true' );
+
+			if ( $is_responsive && $hide_on_desktop ) {
+				$w->set_attribute('data-hide-on-desktop', "true");
 			}
-			if ( $hide_on_mobile ) {
-				$w->set_attribute( 'data-hide-on-mobile', 'true' );
+			if ( $is_responsive && $hide_on_tablet ) {
+				$w->set_attribute('data-hide-on-tablet', "true");
+			}
+			if ( $is_responsive && $hide_on_mobile ) {
+				$w->set_attribute('data-hide-on-mobile', "true");
 			}
 		}
 

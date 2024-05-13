@@ -1,3 +1,5 @@
+@import "../../../includes/common-styles/gutenberg-responsive-breaks";
+
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.
@@ -7,17 +9,20 @@
 
 .wp-block-prc-block-grid-column {
 	--margin-left: calc( -1 * var(--grid-gutter-half) );
-	& > .wp-block-template-part:has(.align-to__column-divider),
-	& > .align-to__column-divider {
-		width: calc(100% + var(--grid-gutter-half)) !important;
-		margin-left: calc( var(--margin-left) + 1px ) !important;
-		&.is-style-baseball-card,
-		.is-style-baseball-card {
-			.wp-block-group,
-			.wp-block-prc-block-table-of-contents__list {
-				padding-left: var(--grid-gutter);
-				// margin-block-start: var(--grid-gutter);
-				// margin-block-end: var(--grid-gutter);
+	@media (min-width: #{ ($break-small) }) {
+		& > .wp-block-block:has(.align-to__column-divider),
+		& > .wp-block-template-part:has(.align-to__column-divider),
+		& > .align-to__column-divider {
+			width: calc(100% + var(--grid-gutter-half)) !important;
+			margin-left: calc( var(--margin-left) + 1px ) !important;
+			&.is-style-baseball-card,
+			.is-style-baseball-card {
+				.wp-block-group,
+				.wp-block-prc-block-table-of-contents__list {
+					padding-left: var(--grid-gutter);
+					// margin-block-start: var(--grid-gutter);
+					// margin-block-end: var(--grid-gutter);
+				}
 			}
 		}
 	}

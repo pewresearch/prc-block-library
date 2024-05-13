@@ -19,6 +19,9 @@ export default function useMenuTemplatePart({
 
 	// Filter the template parts for those in the 'menu' area.
 	const menuOptions = useMemo(() => {
+		if (!records || !records.length) {
+			return [];
+		}
 		const selectedMenu = records.find((item) => item.slug === menuSlug);
 		if (selectedMenu) {
 			return [
@@ -48,14 +51,13 @@ export default function useMenuTemplatePart({
 		[menuSlug, menuOptions]
 	);
 	const menuId = useMemo(() => {
-		if (!menuSlug || !hasResolved) {
+		if (!menuSlug || !hasResolved || !records || !records.length) {
 			return;
 		}
 		const r =
 			hasResolved &&
 			records &&
 			records.find((item) => item.slug === menuSlug);
-		console.log('r...', r);
 		if (r.theme && r.slug) {
 			return `${r.theme}//${r.slug}`;
 		}

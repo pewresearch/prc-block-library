@@ -28,7 +28,6 @@ import './style.scss';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import metadata from './block.json';
-// import registerDashboardIcon from './dashboard-icon';
 import icon from './icon';
 import edit from './edit';
 
@@ -47,7 +46,7 @@ const settings = {
 registerBlockType(name, { ...metadata, ...settings });
 
 /**
- * Make mega menu available to core/navigation block
+ * Make logo available to core/navigation block
  */
 addFilter(
 	'blocks.registerBlockType',

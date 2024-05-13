@@ -56,6 +56,30 @@ registerBlockVariation('core/image', {
 	},
 });
 
+registerBlockVariation('core/buttons', {
+	name: 'Staff Download Photo Button',
+	title: 'Staff Download Photo Button Binding',
+	innerBlocks: [
+		[
+			'core/button',
+			{
+				text: 'Download High-Res Photo',
+				url: '#',
+				metadata: {
+					bindings: {
+						url: {
+							source: 'prc-platform/staff-info',
+							args: {
+								valueToFetch: 'photo-full',
+							},
+						},
+					},
+				},
+			},
+		],
+	],
+});
+
 registerBlockVariation('core/paragraph', {
 	name: 'Staff Expertise',
 	title: 'Staff Expertise Binding',

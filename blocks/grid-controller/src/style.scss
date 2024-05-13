@@ -109,8 +109,6 @@ $grid-mobile: repeat(4, 1fr);
 		width: 100%;
 		position: relative;
 		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
 		& > * {
 			box-sizing: border-box;
 			width: 100%;

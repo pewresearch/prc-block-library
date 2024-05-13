@@ -248,6 +248,7 @@ class Table_Of_Contents {
 			'data-wp-bind--data-auto-dropdown-enabled' => 'context.autoDropdownEnabled',
 			'data-wp-bind--data-auto-dropdown-width' => 'context.autoDropdownWidth',
 			'data-wp-on-window--resize' => 'callbacks.onResize',
+			'data-wp-on-window--click' => 'callbacks.onWindowClick',
 		);
 
 		$block_attrs = get_block_wrapper_attributes($block_attrs);

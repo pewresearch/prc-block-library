@@ -137,5 +137,12 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				state.currentChapter = currentChapter;
 			}
 		},
+		onWindowClick: (event) => {
+			const context = getContext();
+			const { ref } = getElement();
+			if (!ref.contains(event.target) && context.isDropdown) {
+				context.isDropdownOpen = false;
+			}
+		},
 	},
 });

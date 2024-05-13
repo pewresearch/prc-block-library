@@ -46,4 +46,12 @@
 	&[aria-expanded="true"] .wp-block-prc-block-table-of-contents__list {
 		display: block;
 	}
+	.wp-block-prc-block-table-of-contents__list-item:not(.is-active) .wp-block-prc-block-table-of-contents__list {
+		display: none;
+	}
+}
+
+.wp-block-group.is-position-sticky.js-is-sticky.wp-block-prc-block-table-of-contents {
+    max-height: 100vh;
+    overflow-y: auto;
 }

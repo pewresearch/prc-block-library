@@ -70,6 +70,7 @@ class Report_Materials {
 	}
 
 	public function get_item_icon($item) {
+		error_log('get_item_icon'.print_r($item, true));
 		switch ($item['type']) {
 			case 'detailTable':
 				return 'table';
@@ -116,6 +117,7 @@ class Report_Materials {
 			false,
 			$attributes,
 		) . ' flex-align-center';
+		error_log(print_r($materials, true));
 
 		foreach ($materials as $material) {
 			$icon = \PRC\Platform\Icons\Render('solid', $this->get_item_icon($material));

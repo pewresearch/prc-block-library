@@ -1,7 +1,15 @@
 /**
  * WordPress dependencies
  */
-import { store, getContext, getElement } from '@wordpress/interactivity';
+import {
+	store,
+	getContext,
+	getElement,
+	useState,
+	useEffect,
+} from '@wordpress/interactivity';
+
+import { setValues } from './use-ref-resizer';
 
 // Function to convert a complex CSS value to pixels
 function convertCssValueToPixels(cssValue) {
@@ -89,56 +97,14 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 
 			const context = getContext();
 
-			// Determine the height of the navigation block and set the mega menu top position.
-			const height = navBlock.offsetHeight;
-			context.top = height - 1;
+			const { width, left, top } = setValues(
+				ref,
+				ref.closest('.wp-block-navigation')
+			);
 
-			// Everything below is heavily cribbed from Nick Diego for the js math window math.
-			const bodyStyles = window.getComputedStyle(document.body);
-			const rootPaddingLeft = bodyStyles
-				.getPropertyValue('--wp--style--root--padding-left')
-				.trim();
-			const rootPaddingRight = bodyStyles
-				.getPropertyValue('--wp--style--root--padding-left')
-				.trim();
-			// Convert the CSS variable value to pixels.
-			const rootPaddingLeftValue =
-				convertCssValueToPixels(rootPaddingLeft);
-			const rootPaddingRightValue =
-				convertCssValueToPixels(rootPaddingRight);
-
-			// Get the window space and the native width of the mega menu.
-			const windowSpace =
-				window.innerWidth -
-				rootPaddingRightValue -
-				rootPaddingLeftValue;
-			const menuWidth = menu.offsetWidth;
-
-			// Get the bounding rectangle of the navigation block containing the menu.
-			const menuRect = menu.getBoundingClientRect();
-			const navBlockRect = navBlock.getBoundingClientRect();
-
-			// Assumes that the navigation block is always offset by the root padding.
-			const leftOffset =
-				navBlockRect.left <= rootPaddingLeftValue
-					? rootPaddingLeftValue - navBlockRect.left
-					: navBlockRect.left - rootPaddingLeftValue;
-			const leftSpace = (windowSpace - menuWidth) / 2;
-
-			if (menuWidth > windowSpace) {
-				context.width = `${window.innerWidth}px`;
-				context.left = `-${navBlockRect.left}px`;
-			} else if (menuRect.left > 0 && leftSpace >= menuRect.left) {
-				// Do nothing, the menu is positioned with CSS and it looks fine.
-				context.left = '';
-			} else if (leftOffset >= leftSpace) {
-				// Reset width.
-				context.width = '';
-				context.left = `-${leftOffset - leftSpace}px`;
-			} else {
-				context.width = '';
-				context.left = `${leftSpace - leftOffset}px`;
-			}
+			context.width = width;
+			context.left = left;
+			context.top = top;
 		},
 	},
 	callbacks: {
@@ -162,6 +128,10 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 				context.activeClassnames = activeClassnames;
 			}
 		},
+
+		onResize() {
+			actions.setMenuPositions();
+		},
 		getToggleClassname() {
 			const defaults = [
 				'wp-block-navigation-item__content',
@@ -176,9 +146,6 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 				return newClassnames;
 			}
 			return defaults.join(' ');
-		},
-		onResize() {
-			actions.setMenuPositions();
 		},
 		onWindowClickCloseMegaMenu: (event) => {
 			const context = getContext();

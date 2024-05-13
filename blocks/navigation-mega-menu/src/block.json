@@ -49,6 +49,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"isMobile": {
+			"type": "boolean",
+			"default": false
+		},
 		"icon": {
 			"type": "string",
 			"default": "dropdown",

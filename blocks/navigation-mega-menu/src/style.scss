@@ -5,6 +5,12 @@
 	border-right: 1px solid transparent;
 	flex-direction: column;
 
+	&:not(.has-label) {
+		width: fit-content !important;
+		flex-grow: revert !important;
+		padding: 0;
+	}
+
 	&.is-active {
 		border-top-color: var(--active-border-color);
 		border-right-color: var(--active-border-color);
@@ -154,11 +160,11 @@
 }
 
 
-nav.wp-block-navigation.mobile-masthead {
-	.wp-block-navigation-item {
-		display: inline-block;
-	}
-	ul.wp-block-navigation__container.is-style-default.wp-block-navigation {
-		display: block;
-	}
-}
+// nav.wp-block-navigation.mobile-masthead {
+// 	.wp-block-navigation-item {
+// 		display: inline-block;
+// 	}
+// 	ul.wp-block-navigation__container.is-style-default.wp-block-navigation {
+// 		display: block;
+// 	}
+// }

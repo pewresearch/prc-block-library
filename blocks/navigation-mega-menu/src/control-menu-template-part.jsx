@@ -4,12 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 // eslint-disable-next-line no-restricted-imports
-import {
-	createInterpolateElement,
-	Fragment,
-	useRef,
-	useEffect,
-} from '@wordpress/element';
+import { createInterpolateElement, Fragment } from '@wordpress/element';
 import {
 	ComboboxControl,
 	Notice,

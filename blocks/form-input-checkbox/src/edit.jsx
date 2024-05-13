@@ -83,6 +83,9 @@ function Edit({
 					required={required}
 					checked={defaultChecked}
 					className={inputClasses}
+					onChange={(event) => {
+						event.preventDefault();
+					}}
 				/>
 				<RichText
 					tagName="label"
