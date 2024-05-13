@@ -144,7 +144,7 @@ class Taxonomy_Index_List_Controller {
 
 		ob_start();
 		?>
-		<!-- wp:prc-block/accordion-controller {"borderColor":"ui-light-gray"} -->
+		<!-- wp:prc-block/accordion-controller {"borderColor":"ui-gray-light"} -->
 		%s
 		<!-- /wp:prc-block/accordion-controller -->
 		<?php

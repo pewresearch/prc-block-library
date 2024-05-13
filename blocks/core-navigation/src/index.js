@@ -2,7 +2,7 @@
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { registerBlockStyle, unregisterBlockStyle } from '@wordpress/blocks';
+import { registerBlockStyle } from '@wordpress/blocks';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.

@@ -57,13 +57,14 @@ class Taxonomy_Index_AZ_Controller {
 
 	public function render_as_accordion_block( $block ) {
 		$accordion_blocks = '';
+		do_action('qm/debug', print_r($block->parsed_block['innerBlocks'], true));
 		foreach ( $block->parsed_block['innerBlocks'] as $grid ) {
 			foreach ( $grid['innerBlocks'] as $column ) {
 				foreach ( $column['innerBlocks'] as $az_block ) {
 					if ( array_key_exists( 'letter', $az_block['attrs'] ) ) {
 						$letter = $az_block['attrs']['letter'];
 						$exclude = $az_block['attrs']['exclude'] ?? [];
-						$taxonomy = array_key_exists('taxonomy', $az_block['attrs']) ? $az_block['attrs']['taxonomy'] : array('topic');
+						$taxonomy = array_key_exists('taxonomy', $az_block['attrs']) ? $az_block['attrs']['taxonomy'] : array('category');
 						// convert $taxonomy to a comma separated string but wrap each item in quotes
 						// we need to do this because the taxonomy attribute is a printed array of strings in the block markup.
 						$taxonomy = implode(',', array_map(function($item) {

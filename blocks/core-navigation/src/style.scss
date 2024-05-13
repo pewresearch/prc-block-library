@@ -105,3 +105,11 @@
 		padding: 1em !important;
 	}
 }
+
+.ot-sdk-show-settings.wp-block-navigation-link {
+	cursor: pointer;
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}

@@ -23,7 +23,8 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 	)),
 	'class' => \PRC\Platform\Block_Utils\classNames(array(
 		'has-block-gap' => "0" !== \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'vertical'),
-	))
+	)),
+	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'vertical'),
 ));
 
 echo wp_sprintf(

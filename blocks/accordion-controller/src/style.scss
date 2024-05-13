@@ -9,6 +9,7 @@
 	color: inherit;
 	background: inherit;
 	margin-block-end: 1.5em;
+	gap: var(--block-gap, 1em);
 
 	& > .block-list-appender.wp-block {
 		width: 100%;
