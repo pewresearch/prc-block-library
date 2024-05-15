@@ -5,7 +5,11 @@ import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment } from '@wordpress/element';
-import { createBlock, registerBlockVariation, registerBlockType } from '@wordpress/blocks';
+import {
+	createBlock,
+	registerBlockVariation,
+	registerBlockType,
+} from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
@@ -23,7 +27,7 @@ import transforms from './transforms';
  */
 import './style.scss';
 
-const BLOCKNAME = 'core-heading'.replace(/-/g, '/');
+const BLOCKNAME = 'core/heading';
 const BLOCKIDENTIFIER = 'prc-block-library/core-heading';
 
 addFilter(
@@ -63,10 +67,7 @@ function modifyDefaultSettings(settings, name) {
 		return settings;
 	}
 	const s = settings;
-	s.transforms.from = [
-		...s.transforms.from,
-		...transforms.from,
-	];
+	s.transforms.from = [...s.transforms.from, ...transforms.from];
 	return s;
 }
 addFilter('blocks.registerBlockType', BLOCKIDENTIFIER, modifyDefaultSettings);
@@ -74,7 +75,9 @@ addFilter('blocks.registerBlockType', BLOCKIDENTIFIER, modifyDefaultSettings);
 registerBlockVariation(BLOCKNAME, {
 	name: 'chapter',
 	title: __('Chapter'),
-	description: __('Chapter headings are no different from other headings visually, other than they are included in the table of contents.'),
+	description: __(
+		'Chapter headings are no different from other headings visually, other than they are included in the table of contents.'
+	),
 	attributes: {
 		isChapter: true,
 		level: 3,

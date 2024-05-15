@@ -53,6 +53,5 @@ registerBlockType(name, { ...metadata, ...settings });
  * Unregister the core/table-of-contents block, since we are replacing it with our own.
  */
 domReady(() => {
-	unregisterBlockType('core/table-of-contents');
 	unregisterBlockType('yoast-seo/table-of-contents');
 });

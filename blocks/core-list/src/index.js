@@ -23,7 +23,6 @@ const BLOCKIDENTIFIER = 'prc-block/core-list';
 const BLOCKNAME = 'core/list';
 
 domReady(() => {
-	console.log('HELLO!');
 	registerBlockStyle(BLOCKNAME, {
 		name: 'list-style-type-none',
 		label: 'Unstyled List',
@@ -65,7 +64,10 @@ domReady(() => {
 			if (BLOCKNAME !== settings.name) {
 				return settings;
 			}
-			settings.supports.spacing.blockGap = true;
+
+			if (settings.supports.spacing) {
+				settings.supports.spacing.blockGap = true;
+			}
 
 			return settings;
 		}
