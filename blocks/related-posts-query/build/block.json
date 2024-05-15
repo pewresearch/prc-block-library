@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/related-posts-query",
+  "version": "2.0.0",
+  "title": "Related Posts Query",
+  "category": "design",
+  "description": "Display custom related posts defaulting to posts with the same primary taxonomy term.",
+  "keywords": [
+    "related posts"
+  ],
+  "attributes": {
+    "perPage": {
+      "type": "number",
+      "default": 5
+    },
+    "queryId": {
+      "type": "string",
+      "default": "related-posts-0"
+    },
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical"
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|20"
+        }
+      }
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "wide",
+      "full",
+      "left",
+      "right",
+      "center"
+    ],
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "related-posts-query",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css"
+}

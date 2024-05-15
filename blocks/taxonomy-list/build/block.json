@@ -1,0 +1,104 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/taxonomy-list",
+  "version": "0.1.0",
+  "title": "Taxonomy List",
+  "category": "theme",
+  "description": "Display a list of taxonomy terms.",
+  "attributes": {
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "templateLock": {
+      "type": [
+        "string",
+        "boolean"
+      ],
+      "enum": [
+        "all",
+        "insert",
+        "contentOnly",
+        false
+      ]
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|20"
+        }
+      }
+    }
+  },
+  "providesContext": {
+    "textColor": "textColor"
+  },
+  "supports": {
+    "html": false,
+    "inserter": true,
+    "reusable": true,
+    "layout": {
+      "allowEditing": true,
+      "allowJustification": true,
+      "allowInheriting": false,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true,
+      "allowSwitching": false,
+      "allowVerticalAlignment": true,
+      "default": {
+        "type": "flex",
+        "justifyContent": "left",
+        "orientation": "vertical"
+      }
+    },
+    "color": {
+      "text": true,
+      "link": true,
+      "background": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalFontWeight": true,
+      "__experimentalTextTransform": true,
+      "__experimentalFontFamily": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalSkipSerialization": [
+        "textDecoration"
+      ],
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    },
+    "spacing": {
+      "blockGap": true,
+      "units": [
+        "px",
+        "em",
+        "rem",
+        "vh",
+        "vw"
+      ],
+      "__experimentalDefaultControls": {
+        "blockGap": true
+      }
+    },
+    "__experimentalStyle": {
+      "elements": {
+        "link": {
+          "color": {
+            "text": "inherit"
+          }
+        }
+      }
+    }
+  },
+  "textdomain": "menu",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

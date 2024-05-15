@@ -1,0 +1,44 @@
+
+{
+	"lede": {
+		"title": "Lede Story Item",
+		"description": "Default lede story item layout: top aligned A1 image with header and excerpt.",
+		"attributes": {
+			"imageSlot": "top",
+			"imageSize": "A1",
+			"headerSize": 1,
+			"enableExcerpt": true,
+			"enableHeader": true,
+			"isNewsletterGlue": false
+		}
+	},
+	"publication-listing": {
+		"title": "Publication Listing Story Item",
+		"description": "Story item layout for publication listing: left aligned A3 image (right when on mobile).",
+		"attributes": {
+			"imageSlot": "left",
+			"imageSize": "A3",
+			"headerSize": 2,
+			"enableExcerpt": true,
+			"enableHeader": true,
+			"isNewsletterGlue": false
+		}
+	},
+	"list-item": {
+		"title": "List Item",
+		"description": "Story item layout for list items: no excerpt, no image.",
+		"attributes": {
+			"imageSlot": "disabled",
+			"enableHeader": true,
+			"enableExcerpt": false,
+			"isNewsletterGlue": false
+		}
+	},
+	"newsletter-glue": {
+		"title": "Newsletter Glue",
+		"description": "Newsletter Glue compatible version of a Story Item, ready for Mailchimp markup.",
+		"attributes": {
+			"isNewsletterGlue": true
+		}
+	}
+}

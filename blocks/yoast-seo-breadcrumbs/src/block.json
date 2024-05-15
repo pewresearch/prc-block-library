@@ -1,0 +1,10 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "yoast-seo/breadcrumbs",
+	"version": "0.1.0",
+	"category": "widgets",
+	"textdomain": "prc-block-library",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}

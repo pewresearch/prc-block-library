@@ -1,0 +1,146 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/table-of-contents",
+	"version": "0.1.0",
+	"title": "Table of Contents",
+	"category": "theme",
+	"description": "Displays a list of all heading blocks set to chapter headings.",
+	"attributes": {
+		"showCurrentChapter": {
+			"type": "boolean",
+			"default": false
+		},
+		"dropdownBackgroundColor": {
+			"type": "string",
+			"default": "white"
+		},
+		"dropdownTextColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"autoDropdownEnabled": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoDropdownWidth": {
+			"type": "number",
+			"default": 480
+		},
+		"headingBackgroundColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"headingTextColor": {
+			"type": "string",
+			"default": "white"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "white"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"linkColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"activeBackgroundColor": {
+			"type": "string",
+			"default": "ui-gray-very-light"
+		},
+		"activeTextColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"hoverBackgroundColor": {
+			"type": "string",
+			"default": "ui-beige-very-light"
+		},
+		"hoverTextColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"heading": {
+			"type": "string",
+			"default": "Table of Contents"
+		},
+		"hideHeading": {
+			"type": "boolean",
+			"default": false
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": "var:preset|spacing|20"
+				}
+			}
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"align": ["left", "right"],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": [ "top", "bottom", "left", "right" ],
+			"blockGap": true,
+			"__experimentalDefaultControls": {
+				"margin": true,
+				"blockGap": true
+			}
+		},
+		"position": {
+			"sticky": true
+		},
+		"typography": {
+			"__experimentalFontFamily": true,
+			"fontSizes": true,
+			"lineHeight": true,
+			"__experimentalDefaultControls": {
+				"__experimentalFontFamily": true,
+				"fontSizes": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": false,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+			  "color": true,
+			  "radius": false,
+			  "style": true,
+			  "width": true
+			}
+		  }
+	},
+	"selectors": {
+		"root": ".wp-block-prc-block-table-of-contents",
+		"spacing": {
+			"blockGap": ".wp-block-prc-block-table-of-contents__list"
+		}
+	},
+	"example": {
+		"attributes": {
+			"className": "is-style-default"
+		},
+		"viewportWidth": 320
+	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"textdomain": "table-of-contents",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": ["file:./style-index.css","prc-block-library--baseball-card","prc-block-library--additional-color-supports"],
+	"viewScriptModule": "file:./view.js"
+}

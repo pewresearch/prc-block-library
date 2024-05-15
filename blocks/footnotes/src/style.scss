@@ -1,0 +1,23 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-footnotes {
+	color: inherit;
+	background: inherit;
+	list-style-position: inside;
+	display: flex;
+	flex-direction: column;
+	gap: var(--block-gap);
+	&__footnote {
+		span {
+			display: inline-block;
+		}
+	}
+	&__footnote__return {
+		margin-left: 0.25em;
+	}
+}

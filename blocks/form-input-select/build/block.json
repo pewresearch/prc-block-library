@@ -1,0 +1,86 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/form-input-select",
+  "version": "0.1.0",
+  "title": "Form Input Select",
+  "category": "widgets",
+  "description": "Create a dropdown element with a list of options.",
+  "attributes": {
+    "options": {
+      "type": "array",
+      "default": []
+    },
+    "placeholder": {
+      "type": "string",
+      "default": "Select an option"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "ui-white"
+    },
+    "textColor": {
+      "type": "string",
+      "default": "ui-black"
+    },
+    "value": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "reusable": true,
+    "inserter": false,
+    "__experimentalBorder": {
+      "color": true,
+      "width": true,
+      "radius": true
+    },
+    "color": {
+      "gradients": false
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true
+    },
+    "interactivity": true
+  },
+  "usesContext": [
+    "prc-block/form-field-required",
+    "prc-block/form-field-label",
+    "prc-facets/template/facetType",
+    "prc-facets/template/facetName",
+    "prc-facets/template/facetLabel",
+    "prc-block/sortable-options"
+  ],
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "autocomplete",
+      "label": "Autcomplete"
+    }
+  ],
+  "parent": [
+    "prc-block/form-field"
+  ],
+  "textdomain": "form-input-select",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
+}

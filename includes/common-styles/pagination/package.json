@@ -1,0 +1,18 @@
+{
+	"name": "pagination-style",
+	"version": "3.0.0",
+	"description": "Common pagination items styling for blocks in PRC Block Library.",
+	"author": "Seth Rubenstein",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"packages-update": "wp-scripts packages-update",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^27.2.0"
+	}
+}

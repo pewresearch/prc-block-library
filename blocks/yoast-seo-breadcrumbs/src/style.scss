@@ -1,0 +1,20 @@
+.yoast-breadcrumbs {
+	margin-top: 0.75em;
+	margin-bottom: 0.75em;
+	line-height: 1em;
+	font-family: var(--wp--preset--font--family--sans-serif) !important;
+	& > .yoast-breadcrumbs__list {
+		overflow: hidden;
+		/* text-overflow: ellipsis; */
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+		// override default icon styles
+		.icon {
+			font-size: 12px !important;
+			color: var(--wp--preset--color--ui-gray-light) !important;
+			margin-inline-start: 0.3em !important;
+			margin-inline-end: 0.3em !important;
+		}
+	}
+}

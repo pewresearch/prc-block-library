@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/popup-modal",
+	"version": "1.0.0",
+	"title": "Modal",
+	"category": "media",
+	"attributes": {
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"title": {
+			"type": "string"
+		},
+		"transition": {
+			"type": "string",
+			"default": "scale"
+		},
+		"shadeBackgroundLite": {
+			"type": "boolean",
+			"default": false
+		},
+		"controllerId": {
+			"type": "string"
+		},
+		"isVideo": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+        "align": false,
+        "inserter": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true,
+			"enableContrastChecker": true,
+			"gradients": true
+		},
+		"spacing": {
+			"blockGap": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		},
+		"interactivity": true
+	},
+	"usesContext": [
+		"popup-controller/className",
+		"prc-block/popup-controller/id"
+	],
+	"parent": ["prc-block/popup-controller"],
+	"textdomain": "popup-modal",
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

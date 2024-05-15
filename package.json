@@ -1,0 +1,19 @@
+{
+  "name": "@pewresearch/prc-block-library",
+  "packageManager": "yarn@3.2.1",
+  "devDependencies": {
+    "@wordpress/create-block": "^4.34.0",
+    "@wordpress/scripts": "^27.1.0",
+    "axios": "^1.6.7",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "path": "^0.12.7"
+  },
+  "scripts": {
+		"build:all": "bash .scripts/build.sh",
+		"build::all": "bash .scripts/build.sh",
+		"clean": "bash .scripts/clean.sh",
+		"count": "bash .scripts/count.sh",
+    "update:wp-scripts": "node update-wp-scripts.js"
+  }
+}

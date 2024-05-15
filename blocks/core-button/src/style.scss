@@ -1,0 +1,36 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-element-button {
+	&.is-error {
+		background-color: var(--wp--preset--color--ui-error);
+		color: #fff;
+	}
+	&.is-success {
+		background-color: var(--wp--preset--color--ui-success);
+		color: #fff;
+	}
+	&.is-processing {
+		cursor: wait;
+		@keyframes pulse {
+			0% {
+				opacity: 0.5;
+			}
+			50% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0.5;
+			}
+		}
+		animation: pulse 1s infinite;
+	}
+	&.is-disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}

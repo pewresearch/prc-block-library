@@ -1,0 +1,103 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/grid-column",
+  "version": "0.1.0",
+  "title": "Column",
+  "category": "design",
+  "parent": [
+    "prc-block/grid-controller"
+  ],
+  "description": "A single column within a columns grid block.",
+  "attributes": {
+    "gridLayout": {
+      "type": "object",
+      "default": {
+        "index": 0,
+        "desktopSpan": 4,
+        "tabletSpan": 4,
+        "mobileSpan": 4,
+        "tabletStart": 1,
+        "mobileStart": 1
+      }
+    },
+    "verticalAlignment": {
+      "type": "string"
+    },
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "templateLock": {
+      "type": [
+        "string",
+        "boolean"
+      ],
+      "enum": [
+        "all",
+        "insert",
+        "contentOnly",
+        false
+      ],
+      "default": false
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "reusable": false,
+    "inserter": false,
+    "html": false,
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true
+    },
+    "spacing": {
+      "blockGap": {
+        "__experimentalDefault": "24px",
+        "sides": [
+          "vertical"
+        ]
+      },
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "style": true,
+        "width": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "__experimentalLayout": true
+  },
+  "providesContext": {
+    "grid/column/desktop/span": "gridSpan",
+    "grid/column/desktop/start": "gridStart",
+    "grid/column/desktop/row": "gridRow",
+    "grid/column/tablet/span": "tabletGridSpan",
+    "grid/column/tablet/start": "tabletGridStart",
+    "grid/column/tablet/row": "tabletGridRow",
+    "grid/column/mobile/span": "mobileGridSpan",
+    "grid/column/mobile/start": "mobileGridStart",
+    "grid/column/mobile/row": "mobileGridRow"
+  },
+  "textdomain": "grid-column",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

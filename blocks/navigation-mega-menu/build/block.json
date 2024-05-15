@@ -1,0 +1,105 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/navigation-mega-menu",
+  "version": "0.1.0",
+  "title": "Navigation Mega Menu",
+  "category": "design",
+  "description": "Mega menu that supports multiple overlay types and animations.",
+  "parent": [
+    "core/navigation"
+  ],
+  "example": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "menuSlug": {
+      "type": "string"
+    },
+    "menuItemBackgroundColor": {
+      "type": "string"
+    },
+    "menuItemTextColor": {
+      "type": "string"
+    },
+    "menuItemActiveBackgroundColor": {
+      "type": "string"
+    },
+    "menuItemActiveTextColor": {
+      "type": "string"
+    },
+    "menuOverlayBackgroundColor": {
+      "type": "string"
+    },
+    "menuOverlayTextColor": {
+      "type": "string"
+    },
+    "menuActiveBorderColor": {
+      "type": "string"
+    },
+    "hasBoxShadow": {
+      "type": "boolean",
+      "default": false
+    },
+    "isMobile": {
+      "type": "boolean",
+      "default": false
+    },
+    "icon": {
+      "type": "string",
+      "default": "dropdown",
+      "enum": [
+        "dropdown",
+        "mobile",
+        "search"
+      ]
+    },
+    "animation": {
+      "type": "string",
+      "enum": [
+        "fade",
+        "slide"
+      ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "interactivity": true,
+    "renaming": true,
+    "reusable": false,
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "width": true
+    },
+    "__experimentalSlashInserter": true
+  },
+  "textdomain": "prc-navigation-mega-menu-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
+}

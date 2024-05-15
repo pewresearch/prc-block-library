@@ -1,0 +1,109 @@
+.wp-block-prc-block-collapsible {
+	box-sizing: border-box;
+	margin-block-end: 1.5em;
+
+	// Wrapper Fallback Defaults:
+	border: 1px solid transparent;
+	padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+
+	&:not(.has-background) {
+		background-color: var(--wp--preset--color--ui-beige-very-light);
+	}
+	&:not(.has-border) {
+		border-color: var(--wp--preset--color--ui-beige-dark);
+	}
+
+	.wp-block-prc-block-collapsible__icon {
+		appearance: none;
+		cursor: pointer;
+		border: none!important;
+		background: transparent!important;
+		padding: 0 0 0 0.5em!important;
+		.fa-circle-plus {
+			display: inherit;
+		}
+		.fa-circle-minus {
+			display: none;
+		}
+	}
+
+	.wp-block-prc-block-collapsible__title {
+		display: flex;
+		align-items: center;
+		line-height: 160%;
+		font-family: var(--wp--preset--font-family--sans-serif);
+		font-weight: 700;
+		font-size: 1em;
+		color: rgba(0,0,0,.95);
+	}
+
+	.wp-block-prc-block-collapsible__content {
+		display: none;
+		flex-direction: column;
+		padding-top: 1em;
+		font-size: 14px;
+		font-family: var(--wp--preset--font-family--sans-serif);
+		//Clearfix
+		&::after {
+			content: "";
+			display: table;
+			width: 100%;
+		}
+		& > * {
+			margin-block-start: 0;
+			// Default
+			margin-block-end: var(--block-gap, 1em);
+			&:last-child {
+				margin-block-end: 0;
+			}
+		}
+	}
+
+	&:not(.wp-block) {
+		.wp-block-prc-block-collapsible__title {
+			cursor: pointer;
+		}
+	}
+
+	&.is-open {
+		.wp-block-prc-block-collapsible__content {
+			display: flex;
+
+		}
+		.wp-block-prc-block-collapsible__icon {
+			.fa-circle-plus {
+				display: none;
+			}
+			.fa-circle-minus {
+				display: inherit;
+			}
+		}
+	}
+
+	&.is-style-caret {
+		.wp-block-prc-block-collapsible__title {
+			& > div,
+			& > span {
+				order: 2;
+			}
+			button {
+				order: 1;
+			}
+		}
+	}
+
+	&.is-co-branded {
+		.wp-block-prc-block-collapsible__title {
+			& > div {
+				line-height: 1;
+			}
+			img  {
+				height: 35px;
+			}
+		}
+		.wp-block-prc-block-collapsible__icon {
+			flex-grow: 1;
+			text-align: right;
+		}
+	}
+}

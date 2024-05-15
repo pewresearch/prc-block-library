@@ -1,0 +1,110 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/accordion-controller",
+	"version": "0.1.0",
+	"title": "Accordion Controller",
+	"category": "design",
+	"description": "Controls a group of accordion blocks.",
+	"attributes": {
+		"titleBackgroundColor": {
+			"type": "string"
+		},
+		"titleTextColor": {
+			"type": "string"
+		},
+		"contentBackgroundColor": {
+			"type": "string"
+		},
+		"contentTextColor": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"color": {
+			"link": true,
+			"text": false,
+			"background": false
+		},
+		"spacing": {
+			"blockGap": {
+				"sides": ["vertical"]
+			},
+			"margin": [ "top", "bottom" ]
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		},
+		"layout": {
+			"allowEditing": false,
+			"default": {
+				"type": "flex",
+				"orientation": "vertical"
+			}
+		},
+		"interactivity": true
+	},
+	"example": {
+		"attributes": {},
+		"innerBlocks": [
+			{
+				"name": "prc-block/accordion",
+				"attributes": {
+					"title": "Accordion 1"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Content 1"
+						}
+					}
+				]
+			},
+			{
+				"name": "prc-block/accordion",
+				"attributes": {
+					"title": "Accordion 2"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Content 2"
+						}
+					}
+				]
+			}
+		],
+		"viewportWidth": 640
+	},
+	"providesContext": {
+		"prc-block/accordion-controller/content-background": "contentBackgroundColor",
+		"prc-block/accordion-controller/content-text": "contentTextColor",
+		"prc-block/accordion-controller/title-background": "titleBackgroundColor",
+		"prc-block/accordion-controller/title-text": "titleTextColor"
+	},
+	"textdomain": "accordion-controller",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewModule": "file:./view.js"
+}

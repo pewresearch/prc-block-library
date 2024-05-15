@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/entity-as-iframe",
+	"version": "0.1.0",
+	"title": "Entity as Iframe",
+	"category": "embed",
+	"description": "Confusing name aside, this block allows you to render any entity (post, page, etc) as an IFRAME. Additionally, utilizing the interacitivty api you can toggle an on or off state. This is useful for creating a toggleable iframe that can be used to display a post or page. For developers: simply utilize `store('prc-block/entity-as-iframe').state[{{ref}}].open` to toggle the iframe on or off.",
+	"attributes": {
+		"ref": {
+			"type": "number"
+		},
+		"allowedBlocks": {
+			"type": "array"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"blockGap": true,
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true,
+				"margin": true
+			}
+		},
+		"interactivity": true
+	},
+	"textdomain": "entity-as-iframe",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewModule": "file:./view.js"
+}

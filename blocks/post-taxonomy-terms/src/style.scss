@@ -1,0 +1,39 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-post-taxonomy-terms {
+	color: inherit;
+	background: inherit;
+	flex-direction: row;
+	&.has-separator {
+		ul > li:not(:last-child):after {
+			content: var(--separator);
+			display: inline-block;
+		}
+	}
+	ul {
+		display: inherit;
+		flex-direction: inherit;
+		flex-wrap: inherit;
+		justify-content: inherit;
+		align-items: inherit;
+		gap: inherit;
+		list-style: none;
+	}
+	// Row
+	&.is-layout-flex.is-horizontal {
+		ul {
+			padding: 0;
+		}
+	}
+	// List
+	&.is-layout-flex.is-horizontal {
+
+	}
+}
+
+

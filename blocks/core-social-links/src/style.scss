@@ -1,0 +1,19 @@
+.wp-block-social-links.is-style-default {
+	.wp-block-social-link {
+		border-radius: 5px;
+		.wp-block-social-link-anchor {
+			padding: 0.4em 1.3em;
+			font-weight: bold;
+		}
+		svg {
+			opacity: 0.9;
+		}
+	}
+}
+
+.wp-block-social-link-anchor {
+	text-decoration: none !important;
+	&:visited {
+		color: inherit;
+	}
+}

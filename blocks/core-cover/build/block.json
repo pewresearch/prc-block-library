@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/core-cover",
+  "version": "0.1.0",
+  "title": "Core Cover",
+  "category": "widgets",
+  "textdomain": "core-cover",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css"
+}

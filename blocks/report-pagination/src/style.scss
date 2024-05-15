@@ -1,0 +1,83 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-report-pagination {
+	color: inherit;
+	background: inherit;
+	display: flex;
+	flex-direction: column;
+
+	.wp-block-prc-block-report-pagination__next-post-button {
+		display: flex;
+		width: 100%;
+		font-size: 0.875em;
+		padding: 1em;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		&:hover {
+			opacity: 0.65;
+		}
+	}
+
+	.wp-block-prc-block-report-pagination__pagination-next-prev {
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		font-size: var(--wp--preset--font-size--small-label);
+		&.is-disabled {
+			opacity: 0.5;
+		}
+	}
+
+	.wp-block-prc-block-report-pagination__pagination {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 100%;
+		column-gap: 10px;
+
+		.wp-block-prc-block-report-pagination__pagination-items {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			flex-grow: 1;
+			font-size: var(--wp--preset--font-size--small-label);
+			column-gap: inherit;
+
+			.wp-block-prc-block-report-pagination__pagination-item {
+				padding: 0.25em 0.5em;
+				line-height: 1em;
+				border-width: 1px;
+				&.is-active {
+					border-color: transparent!important;
+				}
+			}
+		}
+	}
+}
+
+
+@container prc-responsive-container (max-width: 750px) {
+	.wp-block-prc-block-report-pagination .wp-block-prc-block-report-pagination__pagination {
+		flex-wrap: wrap!important;
+		row-gap: 10px;
+	}
+	.wp-block-prc-block-report-pagination .wp-block-prc-block-report-pagination__pagination-next-prev {
+		flex-grow: 1;
+		&:first-of-type {
+			order: 1;
+		}
+		&:last-of-type {
+			order: 2;
+			text-align: right;
+		}
+	}
+	.wp-block-prc-block-report-pagination .wp-block-prc-block-report-pagination__pagination-items {
+		order: 3;
+	}
+}

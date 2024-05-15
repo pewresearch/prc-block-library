@@ -1,0 +1,30 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-staff-query {
+	color: inherit;
+	background: inherit;
+	display: flex;
+	flex-direction: column;
+	.wp-block-group.staff-listing {
+		display: block;
+		.wp-block-prc-block-staff-info {
+			// Negative margin to remove the space between the inline blocks. Deeply dumb CSS hack.
+			margin: 0 -0.3em 0 0 !important;
+			display: inline;
+		}
+		a.wp-block-prc-block-staff-info {
+			color: var(--wp--preset--color--ui-link-color) !important;
+		}
+		.wp-block-prc-block-staff-info:last-child {
+			&:before {
+				display: inline;
+				content: ", ";
+			}
+		}
+	}
+}

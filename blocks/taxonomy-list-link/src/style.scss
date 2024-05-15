@@ -1,0 +1,103 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+a.wp-block-prc-block-taxonomy-list-link,
+.wp-block-prc-block-taxonomy-list-link a {
+	color: inherit!important;
+	text-decoration: none!important;
+	&:hover {
+		text-decoration: underline!important;
+	}
+ }
+.wp-block-prc-block-taxonomy-list-link {
+	display: flex;
+	flex-wrap: wrap;
+	margin-left: 0!important;
+	margin-right: 0!important;
+
+	.is-horizontal &__sub-menu,
+	&:not(.is-active) &__sub-menu {
+		display: none;
+	}
+	&.is-active > &--label {
+		font-weight: bold;
+	}
+
+	&--label {
+		order: 0;
+	}
+
+	&:not(.wp-block):not(.is-active) &__icon  {
+		.fa-circle-minus,
+		.fa-minus {
+			display: none;
+		}
+		.fa-circle-plus,
+		.fa-plus {
+			display: inherit;
+		}
+	}
+	&:not(.wp-block).is-active &__icon  {
+		.fa-circle-minus,
+		.fa-minus {
+			display: inherit;
+		}
+		.fa-circle-plus,
+		.fa-plus {
+			display: none;
+		}
+	}
+
+	&__icon {
+		order: 1;
+		background: none;
+		border: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		align-items: center;
+	}
+
+	&__toggle {
+		cursor: pointer;
+	}
+
+	&__sub-menu {
+		order: 2;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		width: 100%;
+		padding-left: 1em;
+		padding-top: 1em;
+	}
+
+	&.is-style-sub-heading {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 10px;
+	}
+
+	&.is-style-sub-heading &__label{
+		font-size: 1.125em;
+		font-weight: bold;
+	}
+
+	&.is-style-sub-expand &__label {
+		order: 1;
+	}
+
+	&.is-style-sub-expand &__icon {
+		order: 0;
+		padding-right: 0.3em;
+	}
+
+	&.is-style-sub-tree &__icon {
+		padding-left: 0.3em;
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/playground",
+	"version": "0.1.0",
+	"title": "Playground",
+	"category": "design",
+	"description": "A dev only block: prc-block/playground provides a simple way to see all blocks and/or components at once, delete it and drop it back in to start fresh. We dont automatically include child blocks, but you can add them in the editor.",
+	"attributes": {
+		"playgroundType": {
+			"type": "string",
+			"enum": [ "blocks", "components" ],
+			"default": "blocks"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false
+	},
+	"textdomain": "playground",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}

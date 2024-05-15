@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/taxonomy-index-az-controller",
+  "version": "0.1.0",
+  "title": "Taxonomy Index A-Z Controller",
+  "description": "Provides a grid of A-Z Index blocks that transform to an accordion on mobile.",
+  "category": "theme",
+  "attributes": {
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "taxonomy-index-az-controller",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css"
+}

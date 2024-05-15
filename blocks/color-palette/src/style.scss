@@ -1,0 +1,36 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-color-palette {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	position: relative;
+	color: inherit;
+	background: inherit;
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
+	font-family: sans-serif;
+
+	.color-text {
+		width: 100%;
+		background-color: rgba(255,255,255,0.5);
+		padding: 5px;
+	}
+
+	.components-popover {
+		outline: none;
+	}
+
+	.components-popover__content {
+		width: 100%;
+		outline: none;
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/taxonomy-list-link",
+  "version": "0.1.0",
+  "title": "Taxonomy List Link",
+  "category": "theme",
+  "description": "Display a link to a taxonomy term or custom URL with optional settings.",
+  "attributes": {
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "label": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "id": {
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    },
+    "rel": {
+      "type": "string"
+    },
+    "opensInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "title": {
+      "type": "string"
+    },
+    "taxonomy": {
+      "type": "string",
+      "default": "category"
+    },
+    "enableSubMenu": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "parent": [
+    "prc-block/taxonomy-list"
+  ],
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "reusable": true,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "fontAppearance": true,
+        "textTransform": true
+      }
+    },
+    "interactivity": true
+  },
+  "providesContext": {
+    "style": "style"
+  },
+  "usesContext": [
+    "taxonomy",
+    "style"
+  ],
+  "textdomain": "taxonomy-list-link",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
+}

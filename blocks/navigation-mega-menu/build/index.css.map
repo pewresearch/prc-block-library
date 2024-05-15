@@ -1,0 +1,1 @@
+{"version":3,"file":"index.css","mappings":";;;AACA;EACC;AAAD,C","sources":["webpack://navigation-mega-menu/./src/edit.scss"],"sourcesContent":["// Ensure the container is above other innerblock and block instances.\n.wp-block-prc-block-navigation-mega-menu__container {\n\tz-index: 11!important;\n}\n"],"names":[],"sourceRoot":""}

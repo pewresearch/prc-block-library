@@ -1,0 +1,149 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/story-item",
+  "title": "Story Item",
+  "version": "5.0.0",
+  "category": "content-curation",
+  "description": "A story item is a visual display of a post, with a title, excerpt, and image. Pre-compiled variations such as pub-listing, list-item, and newsletter-glue are available for each post.",
+  "keywords": [
+    "prc",
+    "story",
+    "item",
+    "story item",
+    "stub"
+  ],
+  "usesContext": [
+    "postId",
+    "postType",
+    "query",
+    "queryId",
+    "enhancedPagination",
+    "displayLayout",
+    "previewPostType",
+    "grid/column/desktop/span",
+    "grid/column/tablet/span",
+    "grid/column/mobile/span"
+  ],
+  "example": {
+    "attributes": {
+      "title": "Ultricies Ipsum Nibh Egestas Purus",
+      "excerpt": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>",
+      "label": "Report",
+      "date": "Jan 1, 2023",
+      "image": "https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg",
+      "imageSlot": "top",
+      "imageSize": "A2",
+      "isPreview": true,
+      "postId": 0
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "excerpt": {
+      "type": "string",
+      "source": "html",
+      "multiline": "p",
+      "selector": ".description"
+    },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "label": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "imageSlot": {
+      "type": "string",
+      "default": "top"
+    },
+    "imageSize": {
+      "type": "string",
+      "default": "A1"
+    },
+    "isChartArt": {
+      "type": "boolean",
+      "default": false
+    },
+    "postId": {
+      "type": "integer"
+    },
+    "postType": {
+      "type": "string"
+    },
+    "headerSize": {
+      "type": "integer",
+      "default": 2
+    },
+    "enableAltHeaderWeight": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableHeader": {
+      "type": "boolean",
+      "default": true
+    },
+    "enableExcerpt": {
+      "type": "boolean",
+      "default": true
+    },
+    "enableExtra": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableMeta": {
+      "type": "boolean",
+      "default": true
+    },
+    "metaTaxonomy": {
+      "type": "string",
+      "default": "formats"
+    },
+    "isPreview": {
+      "type": "boolean",
+      "default": false
+    },
+    "isNewsletterGlue": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "html": false,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "style": false,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true
+    },
+    "interactivity": {
+      "clientNavigation": true
+    }
+  },
+  "textdomain": "story-item",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

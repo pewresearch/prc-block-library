@@ -1,0 +1,106 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-fact-sheet-collection {
+	--border-color: rgba(34,36,38,.15);
+	--gap: 0.75em;
+
+	margin-top: 1.5em;
+	margin-bottom: 1em;
+
+	&.has-background {
+		& > * {
+			padding-left: 1em;
+			padding-right: 1em;
+		}
+	}
+
+	&:has(.wp-block-prc-block-fact-sheet-collection--alt-languages) {
+		border-top: 0;
+		padding-top: 0;
+		.wp-block-prc-block-fact-sheet-collection--alt-languages {
+			background: white;
+			border-bottom: 1px solid var(--border-color);
+			padding-bottom: 1em;
+			margin-bottom: 1em;
+		}
+		.wp-block-prc-block-fact-sheet-collection--parent-term {
+			border-bottom: none;
+			margin-bottom: 0;
+		}
+	}
+
+	.wp-block-prc-block-fact-sheet-collection--parent-term {
+		font-weight: bold;
+		text-transform: uppercase;
+		border-bottom: 1px solid var(--border-color);
+		padding-bottom: 0.5em;
+		margin-bottom: 1em;
+	}
+
+	.wp-block-prc-block-fact-sheet-collection--parent-term,
+	.wp-block-prc-block-fact-sheet-collection--pdf-link {
+		padding-left: 0;
+		padding-right: 0;
+		width: 100%;
+		background-color: white;
+		color: var(--wp--preset--color--text-color);
+
+		a,
+		a:visited,
+		&:visited {
+			color: var(--wp--preset--color--text-color)!important;
+		}
+	}
+
+	.wp-block-prc-block-fact-sheet-collection--term-list {
+		border-bottom: 1px solid var(--border-color);
+		padding-bottom: 1em;
+
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		gap: var(--gap);
+
+		a {
+			color: black !important;
+		}
+
+		.wp-block-prc-block-fact-sheet-collection--term-link {
+			display: flex;
+			align-items: center;
+			&:not(:first-child)::before {
+				content: "";
+				display: block;
+				border-right: 1px solid var(--border-color);
+				height: 50%;
+				margin-right: var(--gap);
+			}
+			&.is-active {
+				font-weight: bold;
+			}
+		}
+	}
+
+	.wp-block-prc-block-fact-sheet-collection--pdf-link {
+		padding-top: 1em;
+	}
+
+	a {
+		text-decoration: none!important;
+		&:hover {
+			text-decoration: underline!important;
+		}
+	}
+}
+
+.wp-block-prc-block-fact-sheet-collection:not(.wp-block) {
+	.wp-block-prc-block-fact-sheet-collection--pdf-link {
+		display: inline-block;
+	}
+}
+

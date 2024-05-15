@@ -1,0 +1,40 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-social-share-url-field {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	.label {
+		font-family: var(--wp--preset--font-family--sans-serif);
+		line-height: 1;
+		color: rgba(0,0,0,.6);
+		font-weight: 400;
+		font-size: 12px;
+		text-transform: uppercase;
+		min-width: 120px;
+	}
+	.ui.input {
+		flex-grow: 1;
+		& > input {
+			font-size: 13px!important;
+		}
+	}
+	&:not(.wp-block) .ui.input > input {
+		cursor: pointer;
+	}
+}
+
+.wp-block-social-links > .wp-block-prc-block-social-share-url-field {
+	flex-grow: 1;
+	&:first-child {
+		justify-content: flex-start;
+	}
+	&:last-child {
+		justify-content: flex-end;
+	}
+}

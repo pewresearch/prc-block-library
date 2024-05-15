@@ -1,0 +1,73 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-form-input-password {
+	// --block-gap: 1rem;
+	// color: inherit;
+	// background: inherit;
+	// display: grid;
+	// grid-template-columns: repeat(2, 1fr);
+	// gap: var(--block-gap, 1rem);
+	// grid-auto-rows: max-content;
+	// .password-field {
+	// 	display: flex;
+	// 	flex-direction: column;
+	// 	gap: var(--block-gap);
+	// 	& > input {
+	// 		flex-grow: 1;
+	// 		text-align: left;
+	// 		vertical-align: top;
+	// 		-webkit-appearance: none;
+	// 		padding: 9px 13px; // cribbed from core/button styling.
+	// 		border: 1px solid transparent;
+	// 		border-color: rgba(0, 0, 0, 0.2);
+	// 		border-radius: 3px;
+	// 		box-shadow: inset 0 0 0 0 transparent;
+	// 		box-sizing: border-box;
+	// 		width: 100%;
+	// 		margin: 0;
+	// 		outline: none;
+	// 		transition: color 0.1s ease, border-color 0.1s ease;
+	// 	}
+	// 	&[required] label:after {
+	// 		content: "*";
+	// 		color: red;
+	// 	}
+	// }
+	display: flex;
+	gap: var(--block-gap);
+	&.is-hidden {
+		display: none;
+	}
+	&.has-confirmation {
+		.wp-block-prc-block-form-input-password__input {
+			display: flex;
+			flex-direction: column;
+			flex-basis: 300px;
+			gap: var(--block-gap);
+		}
+	}
+	.wp-block-prc-block-form-input-password__analyzer {
+		ul {
+			padding: 0;
+			list-style: none;
+			li {
+				display: flex;
+				flex-direction: row;
+				gap: 0.25em;
+				align-items: center;
+				color: var(--wp--preset--color--ui-error) !important;
+				&.is-valid {
+					color: var(--wp--preset--color--ui-success) !important;
+				}
+			}
+			.icon-hidden {
+				display: none;
+			}
+		}
+	}
+}

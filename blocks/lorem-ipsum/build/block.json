@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/lorem-ipsum",
+  "version": "0.1.0",
+  "title": "Lorem Ipsum",
+  "icon": "text",
+  "category": "text",
+  "description": "Lorem ipsum placeholder text.",
+  "attributes": {
+    "totalParagraphs": {
+      "type": "number",
+      "default": 1
+    }
+  },
+  "supports": {
+    "inserter": false,
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "lorem-ipsum",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

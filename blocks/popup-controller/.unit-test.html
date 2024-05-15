@@ -1,0 +1,51 @@
+<!-- wp:prc-block/popup-controller {"className":"is-style-standard"} -->
+<!-- wp:prc-block/popup-content -->
+<!-- wp:paragraph {"placeholder":"Add content to trigger your popup here."} -->
+<p>This is the trigger for a standard modal popup... it can be anything, for now I'm using a button...</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Open Modal</a></div>
+<!-- /wp:button -->
+<!-- /wp:prc-block/popup-content -->
+
+<!-- wp:prc-block/popup-modal {"title":"This is the actual modal","backgroundColor":"white"} -->
+<!-- wp:paragraph {"placeholder":"Add content inside the modal here."} -->
+<p>Any content can go in here...</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"backgroundColor":"beige","className":"is-style-callout"} -->
+<div class="wp-block-group is-style-callout has-beige-background-color has-background"><!-- wp:heading -->
+<h4 class="wp-block-heading" id="h-test-callout-inside-modal">Test Callout inside modal</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Testing....</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image -->
+<figure class="wp-block-image"><img alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- /wp:prc-block/popup-modal -->
+<!-- /wp:prc-block/popup-controller -->
+
+<!-- wp:prc-block/popup-controller {"className":"is-style-video"} -->
+<!-- wp:prc-block/popup-content -->
+<!-- wp:paragraph {"placeholder":"Add content to trigger your video popup here."} -->
+<p>This is the trigger for a video popup</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Open Video</a></div>
+<!-- /wp:button -->
+<!-- /wp:prc-block/popup-content -->
+
+<!-- wp:prc-block/popup-modal {"allowedBlocks":["vimeo/create","core/video","core/embed"],"backgroundColor":"black","textColor":"white"} -->
+<!-- wp:embed {"url":"https://www.youtube.com/watch?v=bvQYPa5vxVk\u0026t=861s","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+https://www.youtube.com/watch?v=bvQYPa5vxVk&amp;t=861s
+</div></figure>
+<!-- /wp:embed -->
+<!-- /wp:prc-block/popup-modal -->
+<!-- /wp:prc-block/popup-controller -->

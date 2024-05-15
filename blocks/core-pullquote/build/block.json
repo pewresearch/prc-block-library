@@ -1,0 +1,10 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/core-pullquote",
+  "version": "0.1.0",
+  "title": "Core Pullquote",
+  "category": "widgets",
+  "textdomain": "core-pullquote",
+  "style": "file:./style-index.css"
+}

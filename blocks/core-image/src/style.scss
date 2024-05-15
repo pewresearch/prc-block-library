@@ -1,0 +1,185 @@
+@use "sass:math";
+
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+$mobileBreakpoint : 320px;
+$iPhoneBreakpoint : 390px;
+$smallTabletBreakpoint : 666px;
+$tabletBreakpoint : 768px;
+$computerBreakpoint : 992px;
+$largeMonitorBreakpoint : 1200px;
+$widescreenMonitorBreakpoint : 1920px;
+$mediumMobileScreen : $iPhoneBreakpoint;
+$largestMobileScreen : ($tabletBreakpoint - 1px);
+$largestTabletScreen : ($computerBreakpoint - 1px);
+$largestSmallMonitor : ($largeMonitorBreakpoint - 1px);
+$largestLargeMonitor : ($widescreenMonitorBreakpoint - 1px);
+
+$A1: 564px;
+$A1Small: 345px;
+$A1SmallHeight: 194px;
+$A1Height: 317px;
+$A2: 268px;
+$A2Small: $A1Small;
+$A2SmallHeight: 194px;
+$A2Height: 151px;
+$A3: 194px;
+$A3Small: 148px;
+$A3SmallHeight: 84px;
+$A3Height: 110px;
+$A4: 268px;
+$A4Small: $A1Small;
+$A4SmallHeight: 194px;
+$A4Height: 151px;
+$XL: 720px;
+$XLHeight: 405px;
+
+$alignLeftMargin: 5px 15px 15px 0px;
+$alignRightMargin: 5px 0px 15px 15px;
+
+// We provide high level classnames for sizing images across the site.
+.size-A1 { max-width: $A1 !important; }
+.size-A2 { max-width: $A2 !important; }
+.size-A3 { max-width: $A3 !important; }
+.size-A4 { max-width: $A4 !important; }
+.size-XL { max-width: $XL !important; }
+.size-200-wide { max-width: 200px !important; }
+.size-260-wide { max-width: 260px !important; }
+.size-310-wide { max-width: 310px !important; }
+.size-420-wide { max-width: 420px !important; }
+.size-640-wide { max-width: 640px !important; }
+.size-740-wide { max-width: 740px !important; }
+.size-1400-wide { max-width: 1400px !important; }
+
+.wp-block-image {
+	&:not(.alignwide):not(.alignfull) {
+		max-width: 100%;
+	}
+
+	img {
+		height: auto;
+		max-width: 100%;
+		vertical-align: bottom;
+		box-sizing: border-box;
+	}
+
+	&:not(.is-style-rounded) {
+		> a,
+		img {
+			border-radius: inherit;
+		}
+	}
+
+	&.has-custom-border {
+		img {
+			box-sizing: border-box;
+		}
+	}
+
+	&.aligncenter {
+		clear: none;
+		text-align: center;
+	}
+
+	&.alignfull img,
+	&.alignwide img {
+		height: auto;
+		width: 100%;
+	}
+
+	&.alignleft,
+	&.alignright,
+	&.aligncenter,
+	.alignleft,
+	.alignright,
+	.aligncenter {
+		display: table;
+
+		> figcaption {
+			display: table-caption;
+			caption-side: bottom;
+		}
+	}
+
+	// &.alignright,
+	// &.alignleft,
+	// & > .alignright,
+	// & > .alignleft {
+	// 	clear: both;
+	// 	margin-left: auto;
+	// 	margin-right: auto;
+	// }
+
+	// Temporary block theme hack to ensure on mobile these collapse down to being middle aligned.
+	body.has-block-theme & {
+		&.alignleft,
+		& > .alignleft,
+		&.alignright,
+		& > .alignright {
+			@media only screen and (max-width: $largestTabletScreen) {
+				float: none!important;
+				clear: both!important;
+				margin-left: auto!important;
+				margin-right: auto!important;
+			}
+		}
+	}
+
+	.alignleft {
+		@media only screen and (min-width: $largestTabletScreen) {
+			/*rtl:ignore*/
+			float: left;
+			/*rtl:ignore*/
+			margin-left: 0;
+			/*rtl:ignore*/
+			margin-right: 1em;
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+	}
+
+	.alignright {
+		@media only screen and (min-width: $largestTabletScreen) {
+			/*rtl:ignore*/
+			float: right;
+			/*rtl:ignore*/
+			margin-right: 0;
+			/*rtl:ignore*/
+			margin-left: 1em;
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+	}
+
+	&.alignright ~ p,
+	&.alignleft ~ p {
+		// margin-top: 0;
+	}
+
+	&.alignwide figcaption,
+	.alignwide figcaption,
+	&.alignfull figcaption,
+	.alignfull figcaption {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	// Set some hard defaults on images that are not possible currently in the style engine.
+	figcaption {
+		max-width: var(--wp--custom--max-width);
+		margin-top: .5em;
+		text-align: left!important;
+	}
+}
+
+// figure. is the legacy structure for images
+// .wp-block-image > figure,
+// figure.wp-block-image {
+// 	margin: 0;
+// }
+

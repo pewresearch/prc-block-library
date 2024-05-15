@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/promo-rotator",
+	"version": "0.1.0",
+	"title": "Promo Rotator",
+	"description": "Rotates through a promo block randomly on page load.",
+	"keywords": [
+		"promo",
+		"rotator",
+		"ads",
+		"ad"
+	],
+	"category": "marketing",
+	"attributes": {
+		"allowedBlocks": {
+			"type": "array"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"blockGap": true,
+			"margin": [
+				"top",
+				"bottom"
+			],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"textdomain": "promo-rotator",
+	"editorScript": "file:./index.js"
+}

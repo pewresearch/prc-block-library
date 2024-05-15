@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/color-palette",
+	"version": "0.1.0",
+	"title": "Color Palette",
+	"category": "design",
+	"description": "Display a color from the palette defined in the currently active theme.",
+	"attributes": {},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"color": {
+			"background": true,
+			"text": false
+		}
+	},
+	"textdomain": "color-palette",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": ["file:./style-index.css", "wp-components"],
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

@@ -1,0 +1,11 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/core-post-title",
+	"version": "0.1.0",
+	"title": "Post Title",
+	"category": "widgets",
+	"textdomain": "core-post-title",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}

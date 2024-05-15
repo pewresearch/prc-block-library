@@ -6,7 +6,7 @@ Welcome to the Pew Research Center Block Library 👋 ( prc-block-library for s
 
 PRC Block Library is a collection of blocks for the [Gutenberg](
 https://wordpress.org/gutenberg/) editor. Treat this collection with care, as
-this provides the foundation for the display layer of the PRC website.
+this provides the foundation for the display layer of the pewresearch.org website.
 
 All blocks are built using the [Gutenberg Block API](
 https://wordpress.org/gutenberg/handbook/block-api/), and are built using
@@ -23,7 +23,7 @@ npx @wordpress/create-block -t ./.template
 
 This will start a new block scaffold and prompt you to chose a variant.
 
-![Block Variants](.docs/block-variants.png)
+![Block Variants](.docs/assets/block-variants.png)
 
 The variants are:
 
@@ -42,7 +42,7 @@ files you need to build your block.
 There are additional options during the scaffold process, but these are not
 required. Only name and title are required.
 
-![Run Command](.docs/run-command.gif)
+![Run Command](.docs/assets/run-command.gif)
 
 ## 3rd Party Dependency Extraction
 
@@ -54,43 +54,24 @@ import { useDebounce } from '@prc/hooks';
 import enquire from 'enquire.js';
 ```
 
-In the example below we will include support for a 3rd party library called `enquire.js` and a 1st party library called `@prc/hooks`. Respectively their wp script handles are `enquire.js` and `prc-hooks`, their global scoped names are `window.enquire` and `window.prcHooks`, and their package names are `enquire.js` and `@prc/hooks`.
+For an up to date list of all available scripts and their dependency extraction configuration see the centralized [webpack.config.js](https://github.com/pewresearch/pewresearch-org/blob/main/webpack.config.js) file.
 
-```js
-const defaultConfig = require('@wordpress/scripts/config/webpack.config');
-const DependencyExtractionWebpackPlugin = require('@wordpress/dependency-extraction-webpack-plugin');
+#### Documentation
 
-module.exports = {
-	...defaultConfig,
-	devtool: 'source-map',
-	plugins: [
-		...defaultConfig.plugins.filter(
-			(plugin) =>
-				'DependencyExtractionWebpackPlugin' !== plugin.constructor.name,
-		),
-		new DependencyExtractionWebpackPlugin({
-			injectPolyfill: true,
-			// eslint-disable-next-line consistent-return
-			requestToExternal(request) {
-				if (request.includes('@prc/hooks')) {
-					return 'prcHooks';
-				}
-				if (request.includes('enquire.js')) {
-					return 'enquire';
-				}
-			},
-			// eslint-disable-next-line consistent-return
-			requestToHandle(request) {
-				// Handle imports like `import {useDebounce} from '@prc/hooks'`
-				if ('@prc/hooks' === request) {
-					// `useDebounce` depends on the script with the 'prc-hooks' handle.
-					return 'prc-hooks';
-				}
-				if ('enquire.js' === request) {
-					return 'enquire.js';
-				}
-			},
-		}),
-	],
-};
-```
+For additional documentation, visit https://github.com/pewresearch/prc-block-library.
+
+#### Licensing
+
+This library utilizes Font Awesome for some block icons and interface elements. 
+
+ - Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc.
+
+This library also utilizes Handsontable for the data-table block.
+
+- Handsontable 9.0.2 by @handsontable - https://handsontable.com License - https://handsontable.com/docs/9.0.2/tutorial-license-info.html (Commercial License) Copyright 2021 Handsontable
+
+
+#### Contributing
+
+We are not currently accepting contributions to this repository at this time.
+

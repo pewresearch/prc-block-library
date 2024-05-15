@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('comma-separated-values', 'react', 'wp-block-editor', 'wp-components', 'wp-compose', 'wp-element', 'wp-hooks', 'wp-i18n', 'wp-polyfill'), 'version' => 'ef5dd4a3d56e5e278ef6');

@@ -1,0 +1,106 @@
+$standard_logo_minimum_width: 360px;
+
+// create mixin called hasWhiteColor...
+@mixin hasWhiteColor() {
+	[data-browser-theme="dark"] {
+		display: flex;
+	}
+	[data-browser-theme="light"] {
+		display: none;
+	}
+}
+
+.edit-site-layout__view-mode-toggle-icon.edit-site-site-icon {
+	padding: 10px;
+	background: #020202;
+}
+
+.wp-block-prc-block-logo {
+	min-width: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	container: prc-logo / inline-size;
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+
+	svg,
+	img {
+		width: 100%;
+	}
+
+	.wp-block-prc-block-logo__dimensions {
+		width: 100%;
+	}
+
+	&.item-justified-left {
+		justify-content: flex-start;
+	}
+	&.item-justified-center {
+		justify-content: center;
+	}
+	&.item-justified-right {
+		justify-content: flex-end;
+	}
+
+	.wp-block-prc-block-logo__inner__logo {
+		display: flex;
+	}
+	.wp-block-prc-block-logo__inner__logo-alt,
+	.wp-block-prc-block-logo__inner__decoded,
+	[data-browser-theme="dark"] {
+		display: none;
+	}
+
+	// If the text color is white then we need to show a different version of the logo as the color fill won't be correct for the approved white brand version.
+	&.has-ui-white-color {
+		@include hasWhiteColor();
+	}
+
+	&.is-style-container-aware .wp-block-prc-block-logo__inner {
+		@container prc-logo (min-width: 360px) {
+			.wp-block-prc-block-logo__inner__logo-alt {
+				display: flex;
+			}
+			.wp-block-prc-block-logo__inner__logo,
+			.wp-block-prc-block-logo__inner__decoded {
+				display: none;
+			}
+		}
+	}
+
+	&.is-style-primary-only .wp-block-prc-block-logo__inner {
+		.wp-block-prc-block-logo__inner__logo-alt,
+		.wp-block-prc-block-logo__inner__decoded {
+			display: none;
+		}
+		.wp-block-prc-block-logo__inner__logo {
+			display: flex;
+		}
+	}
+
+	&.is-style-alt-only .wp-block-prc-block-logo__inner {
+		.wp-block-prc-block-logo__inner__logo-alt {
+			display: flex;
+		}
+		.wp-block-prc-block-logo__inner__logo,
+		.wp-block-prc-block-logo__inner__decoded {
+			display: none;
+		}
+	}
+
+	&.is-style-decoded-only .wp-block-prc-block-logo__inner {
+		.wp-block-prc-block-logo__inner__decoded {
+			display: flex;
+		}
+		.wp-block-prc-block-logo__inner__logo,
+		.wp-block-prc-block-logo__inner__logo-alt {
+			display: none;
+		}
+	}
+
+	.wp-block-prc-block-logo__inner {
+		width: 100%;
+		margin: 0 !important;
+	}
+}

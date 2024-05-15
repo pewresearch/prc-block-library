@@ -1,0 +1,30 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-bylines-display {
+	color: inherit;
+	background: inherit;
+	gap: 0.3em !important;
+	a {
+		text-decoration: none !important;
+		&:hover {
+			text-decoration: underline !important;
+		}
+	}
+	.prc-platform-staff-bylines__separator {
+		margin-left: -0.3125em;
+	}
+	// Defaults, @TODO: remove these when we get to full block themes.
+	color: var(--wp--preset--color--text-color);
+	line-height: 120%;
+	box-sizing: inherit;
+	font-family: var(--wp--preset--font-family--sans-serif);
+	font-size: 0.9285714286rem;
+	font-weight: 600;
+	margin-bottom: 1rem;
+	text-transform: uppercase;
+}

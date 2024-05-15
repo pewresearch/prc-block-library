@@ -1,0 +1,52 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/carousel-controller",
+	"version": "0.1.0",
+	"title": "Carousel",
+	"category": "design",
+	"description": "Organize content in a vertical or horizontal carousel.",
+	"keywords": [ "scroll", "carousel", "slider" ],
+	"attributes": {
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"orientation": {
+			"type": "string",
+			"default": "vertical"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"spacing": {
+			"margin": [ "top", "bottom" ],
+			"padding": true
+		},
+		"__experimentalMetadata": true,
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"styles": [
+		{
+			"name": "vertical",
+			"label": "Vertical",
+			"isDefault": true
+		},
+		{
+			"name": "horizontal",
+			"label": "Horizontal"
+		}
+	],
+	"textdomain": "carousel-controller",
+	"editorScript": "file:./index.js",
+	"style": ["file:./style-view.css", "file:./view.css"],
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

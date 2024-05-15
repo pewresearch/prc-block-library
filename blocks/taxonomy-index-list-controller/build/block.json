@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/taxonomy-index-list-controller",
+  "version": "1.0.0",
+  "title": "Taxonomy Index List Controller",
+  "category": "theme",
+  "description": "Display a grid of taxonomy list blocks that converts to an accordion on mobile",
+  "attributes": {
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "taxonomy-index-list-controller",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

@@ -1,0 +1,105 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/collapsible",
+	"version": "0.1.0",
+	"title": "Collapsible",
+	"category": "design",
+	"keywords": [ "collapsible", "accordion", "how we did this" ],
+	"attributes": {
+		"title": {
+			"type": "string"
+		},
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "ui-beige-very-light"
+		},
+		"borderColor": {
+			"type": "string",
+			"default": "ui-beige-dark"
+		},
+		"isCoBranded": {
+			"type": "boolean",
+			"default": false
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"border": {
+					"width": "1px"
+				},
+				"spacing": {
+					"blockGap": {
+						"top":"var:preset|spacing|30"
+					},
+					"padding": {
+						"bottom": "var:preset|spacing|20",
+						"left": "var:preset|spacing|30",
+						"right": "var:preset|spacing|30",
+						"top": "var:preset|spacing|20"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"anchor": false,
+		"html": false,
+		"spacing": {
+			"blockGap": {
+				"sides": ["vertical"]
+			},
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		},
+		"interactivity": true
+	},
+	"example": {
+		"attributes": {
+			"title": "How we did this"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, quam sapien aliquet nunc, nec aliquam nisl nunc"
+				}
+			}
+		],
+		"viewportWidth": 640
+	},
+	"textdomain": "collapsible",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScriptModule": "file:./view.js"
+}

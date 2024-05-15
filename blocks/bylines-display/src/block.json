@@ -1,0 +1,71 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/bylines-display",
+	"version": "1.0.0",
+	"title": "Bylines Display",
+	"category": "theme",
+	"description": "Display a post's bylines in the format: {prefix 'By'} 1, 2, and 3.",
+	"attributes": {
+		"prefix": {
+			"type": "string",
+			"default": "By"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"color": {
+			"text": true,
+			"background": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": [ "top", "bottom" ],
+			"padding": true
+		},
+		"layout": {
+			"allowEditing": true,
+			"allowJustification": true,
+			"allowInheriting": false,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true,
+			"allowSwitching": false,
+			"allowVerticalAlignment": false,
+			"default": {
+				"type": "flex",
+				"justifyContent": "left",
+				"orientation": "horizontal"
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"fontAppearance": true,
+			"lineHeight": true,
+			"__experimentalFontStyle": false,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalLetterSpacing": true,
+				"__experimentalTextTransform": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"example": {
+		"attributes": {
+			"textAlign": "left",
+			"prefix": "By"
+		},
+		"viewportWidth": 400
+	},
+	"usesContext": ["postId"],
+	"textdomain": "bylines-display",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

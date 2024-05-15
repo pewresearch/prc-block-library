@@ -1,0 +1,162 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/grid-controller",
+	"version": "0.1.0",
+	"title": "Grid Columns",
+	"category": "design",
+	"description": "Display content in multiple columns using a customizable responsive css-grid layout. The grid consists of 12 columns on desktop and tablet, and 4 columns on mobile.",
+	"keywords": [
+		"grid",
+		"columns",
+		"css grid",
+		"layout"
+	],
+	"attributes": {
+		"verticalAlignment": {
+			"type": "string"
+		},
+		"dividerColor": {
+			"type": "string",
+			"default": "ui-gray-light"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": {
+						"left":"var:preset|spacing|50"
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"align": [ "wide", "full" ],
+		"color": {
+			"background": true,
+			"link": true,
+			"text": true
+		},
+		"spacing": {
+			"blockGap": {
+				"sides": [ "horizontal" ]
+			},
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"blockGap": true,
+				"margin": false,
+				"padding": false
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"example": {
+		"attributes": {
+			"dividerColor": "ui-gray-light"
+		},
+		"innerBlocks": [
+			{
+				"name": "prc-block/grid-column",
+				"attributes": {
+					"gridLayout": {
+						"index": 1,
+						"desktopSpan": 4,
+						"tabletSpan": 4,
+						"mobileSpan": 4
+					}
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"content": "Column 1"
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet urn"
+						}
+					}
+				]
+			},
+			{
+				"name": "prc-block/grid-column",
+				"attributes": {
+					"gridLayout": {
+						"index": 2,
+						"desktopSpan": 4,
+						"tabletSpan": 4,
+						"mobileSpan": 4
+					}
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"content": "Column 2"
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet urn"
+						}
+					}
+				]
+			},
+			{
+				"name": "prc-block/grid-column",
+				"attributes": {
+					"gridLayout": {
+						"index": 3,
+						"desktopSpan": 4,
+						"tabletSpan": 4,
+						"mobileSpan": 4
+					}
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"content": "Column 3"
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet urn"
+						}
+					}
+				]
+			}
+		],
+		"viewportWidth": 1350
+	},
+	"textdomain": "grid-controller",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

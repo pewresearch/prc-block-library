@@ -1,0 +1,51 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+body:not(.post-template-layout-no-container-query) {
+	.wp-block-post-content {
+		container: post-content-container / inline-size;
+	}
+	@container post-content-container (max-width: 480px) {
+		.wp-block-post-content .wp-block-image.alignright,
+		.wp-block-post-content .wp-block-image.alignleft {
+			margin-left: auto!important;
+			margin-right: auto!important;
+			float: none!important;
+		}
+	}
+	@container post-content-container (max-width: 480px) {
+		.wp-block-post-content h1.wp-block-heading {
+			font-size: 26px;
+		}
+		.wp-block-post-content h2.wp-block-heading {
+			font-size: 18px;
+		}
+		.wp-block-post-content h3.wp-block-heading {
+			font-size: 18px;
+		}
+		.wp-block-post-content h4.wp-block-heading {
+			font-size: 16px;
+		}
+	}
+}
+
+body.post-template-layout-no-container-query {
+	@media only screen and (max-width: 480px) {
+		.wp-block-post-content .wp-block-image.alignright,
+		.wp-block-post-content .wp-block-image.alignleft {
+			margin-left: auto!important;
+			margin-right: auto!important;
+			float: none!important;
+		}
+	}
+}
+
+.wp-block-post-content {
+	a {
+		text-decoration: underline;
+	}
+}

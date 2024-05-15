@@ -1,0 +1,12 @@
+nav {
+	display: flex;
+	flex-direction: column;
+}
+
+nav h3:first-of-type, nav ul:first-of-type {
+    order: 2;
+}
+
+nav h3:nth-of-type(2), nav ul:nth-of-type(2) {
+    order: 3;
+}

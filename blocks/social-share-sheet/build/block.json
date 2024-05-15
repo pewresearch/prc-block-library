@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/social-share-sheet",
+  "version": "0.1.0",
+  "title": "Social Share Sheet",
+  "category": "widgets",
+  "description": "Invokes a browser's native navigator.share share sheet. If the browser does not support the Web Share API, a fallback share sheet is displayed.",
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "interactivity": true
+  },
+  "attributes": {
+    "label": {
+      "type": "string",
+      "default": "Share"
+    }
+  },
+  "usesContext": [
+    "postId",
+    "queryId",
+    "core/social-links/title",
+    "core/social-links/title",
+    "core/social-links/url",
+    "core/social-links/imageId",
+    "core/social-links/hashtags"
+  ],
+  "parent": [
+    "core/social-links"
+  ],
+  "textdomain": "social-share-sheet",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/mailchimp-form",
+  "title": "MailChimp Form",
+  "description": "A block that allows you to add a MailChimp form to your page.",
+  "version": "0.1.0",
+  "category": "marketing",
+  "keywords": [
+    "mailchimp",
+    "form",
+    "newsletter",
+    "subscribe"
+  ],
+  "attributes": {
+    "interest": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "blockGap": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true
+    },
+    "interactivity": true
+  },
+  "example": {
+    "attributes": {},
+    "innerBlocks": [
+      {
+        "name": "prc-block/form-input-text",
+        "attributes": {
+          "type": "email"
+        }
+      },
+      {
+        "name": "core/button",
+        "attributes": {
+          "text": "SIGN UP"
+        }
+      }
+    ],
+    "viewportWidth": 640
+  },
+  "providesContext": {
+    "interactiveNamespace": "interactiveNamespace"
+  },
+  "textdomain": "mailchimp-form",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewModule": "file:./view.js"
+}

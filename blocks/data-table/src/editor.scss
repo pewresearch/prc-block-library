@@ -1,0 +1,17 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-data-table {
+	&.is-selected .handsontable {
+		thead th,
+		tbody td {
+			border-right-style: dotted !important;
+			&:last-child {
+				border-right-style: none !important;
+			}
+		}
+	}
+}

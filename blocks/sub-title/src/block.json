@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/subtitle",
+	"version": "0.1.0",
+	"title": "Sub-title",
+	"description": "Displays the sub-title of a post.",
+	"category": "layout",
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		},
+		"fontSize": {
+			"type": "string",
+			"default": "h2"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"typography": {
+					"fontWeight": "400",
+					"fontStyle": "italic"
+				}
+			}
+		}
+	},
+	"example": {
+		"attributes": {
+			"textAlign": "left"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"multiple": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"spacing": {
+			"margin": [
+				"top",
+				"bottom"
+			],
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"fontAppearance": true,
+				"textTransform": true,
+				"lineHeight": true
+			}
+		}
+	},
+	"usesContext": ["postType", "postId"],
+	"textdomain": "post-sub-title",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
