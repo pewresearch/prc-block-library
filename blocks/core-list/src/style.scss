@@ -1,0 +1,21 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-core-list {
+	color: inherit;
+	background: inherit;
+}
+
+.is-style-list-style-type-none {
+	list-style-type: none;
+}
+
+.wp-block-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--block-gap);
+}

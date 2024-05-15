@@ -108,6 +108,7 @@ class Library {
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/class-loader.php';
 		// Load support classes.
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/common-styles/class-common-styles.php';
+		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/custom-text-formats/class-custom-text-formats.php';
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/interactivity-api/class-interactivity-api.php';
 		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/print-engine/class-print-engine.php';
 		// Load blocks.
@@ -152,6 +153,7 @@ class Library {
 	 */
 	private function define_library_dependencies() {
 		new Common_Styles( $this->get_loader() );
+		new Custom_Text_Formats( $this->get_loader() );
 		new Print_Engine( $this->get_loader() );
 		new Interactivity_API( $this->get_loader() );
 	}
@@ -167,6 +169,7 @@ class Library {
 		new Core_Group($this->get_loader());
 		new Core_Heading($this->get_loader());
 		new Core_Image($this->get_loader());
+		new Core_List($this->get_loader());
 		new Core_List_Item($this->get_loader());
 		new Core_Media_text($this->get_loader());
 		new Core_Navigation($this->get_loader());

@@ -28,7 +28,31 @@ class Sub_Title {
 	public function init($loader = null) {
 		if ( null !== $loader ) {
 			$loader->add_action('init', $this, 'block_init');
+			$loader->add_filter( 'vip_block_data_api__sourced_block_result', $this, 'add_data_to_vip_blocks_api', 10, 4 );
 		}
+	}
+
+	/**
+	 * @hook vip_block_data_api__sourced_block_result
+	 * @param array $sourced_block
+	 * @param string $block_name
+	 * @param int $post_id
+	 * @param array $block
+	 * @return array
+	 */
+	public function add_data_to_vip_blocks_api( $sourced_block, $block_name, $post_id, $block ) {
+		if ( self::$block_name !== $block_name ) {
+			return $sourced_block;
+		}
+
+		// check for new value if it exists use it for $value otherwise check for legacy...
+		$new_value = get_post_meta( $post_id, 'sub_title', true );
+		$legacy_value = get_post_meta( $post_id, 'sub_headline', true );
+
+		// Add custom attribute to REST API result
+		$sourced_block['attributes']['content'] = $new_value ? $new_value : $legacy_value;
+
+		return $sourced_block;
 	}
 
 	/**
