@@ -43,47 +43,7 @@ const reverseFont = {
 	},
 };
 
-const underline = {
-	name: 'custom-text-formats/underline',
-	title: __('Underline'),
-	tagName: 'span',
-	icon: 'editor-underline',
-	className: null,
-	attributes: {
-		style: 'style',
-	},
-	edit: (params) => {
-		const { value, onChange, isActive } = params;
-		const onToggle = () => {
-			onChange(
-				toggleFormat(value, {
-					type: 'custom-text-formats/underline',
-					attributes: {
-						style: 'text-decoration: underline;',
-					},
-				})
-			);
-		};
-
-		return (
-			<Fragment>
-				<RichTextShortcut
-					type="primary"
-					character="u"
-					onUse={onToggle}
-				/>
-				<RichTextToolbarButton
-					icon="editor-underline"
-					title={__('Underline')}
-					onClick={onToggle}
-					isActive={isActive}
-				/>
-			</Fragment>
-		);
-	},
-};
-
-const formats = [reverseFont, underline];
+const formats = [reverseFont];
 
 formats.forEach((format) => {
 	registerFormatType(format.name, {

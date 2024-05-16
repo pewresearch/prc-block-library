@@ -39,7 +39,11 @@ function LogoInner({ onLoad, className, width }) {
 
 	useEffect(() => {
 		// check that onLoad is a function and that className is a string...
-		if (typeof onLoad !== 'function' || typeof className !== 'string') {
+		if (
+			typeof onLoad !== 'function' ||
+			typeof className !== 'string' ||
+			!className
+		) {
 			return;
 		}
 

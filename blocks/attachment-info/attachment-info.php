@@ -105,6 +105,9 @@ class Attachment_Info {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
+		if ( is_admin() ) {
+			return $content;
+		}
 		$post_id = $block->context['postId'];
 
 		$parent_post_id = wp_get_post_parent_id($post_id);

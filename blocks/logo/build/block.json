@@ -65,7 +65,7 @@
     "viewportWidth": 400,
     "attributes": {
       "width": 300,
-      "className": "block-editor-block-types-list__prc-logo-example"
+      "className": "is-style-logo-example"
     }
   },
   "usesContext": [

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External dependencies
  */
@@ -8,16 +9,13 @@ import { LoadingIndicator } from '@prc/components';
 /**
  * WordPress Dependencies
  */
-import {
-	useEntityRecord,
-	useEntityRecords,
-} from '@wordpress/core-data';
+import { useEntityRecord, useEntityRecords } from '@wordpress/core-data';
 import { select } from '@wordpress/data';
 import { getPath } from '@wordpress/url';
 import { useMemo } from 'react';
 import { getColorClassName, Warning } from '@wordpress/block-editor';
 
-export default function AttachmentsList ({
+export default function AttachmentsList({
 	attributes,
 	context,
 	hoverTextColor,
@@ -58,21 +56,21 @@ export default function AttachmentsList ({
 				attachmentRecords: [
 					{
 						title: {
-							rendered: 'Attachment Title',
+							rendered: 'Attachment Title 1',
 						},
 						id: null,
 						link: '#',
 					},
 					{
 						title: {
-							rendered: 'Attachment Title',
+							rendered: 'Attachment Title 2',
 						},
 						id: null,
 						link: '#',
 					},
 					{
 						title: {
-							rendered: 'Attachment Title',
+							rendered: 'Attachment Title 3',
 						},
 						id: null,
 						link: '#',
@@ -89,7 +87,7 @@ export default function AttachmentsList ({
 	const blockGapStyle = useMemo(() => {
 		return {
 			'--block-gap': getBlockGapSupportValue(attributes),
-		}
+		};
 	}, [attributes]);
 
 	const parentURL = useMemo(() => {
@@ -98,10 +96,17 @@ export default function AttachmentsList ({
 			: '';
 	}, [isSiteEditor, context.postId]);
 
-	//////////////////////////////
+	/// ///////////////////////////
 
 	if (isResolving) {
-		return <Warning><LoadingIndicator enabled={true} label="Loading Attachments..."/></Warning>;
+		return (
+			<Warning>
+				<LoadingIndicator
+					enabled={true}
+					label="Loading Attachments..."
+				/>
+			</Warning>
+		);
 	}
 
 	if (!records) {
@@ -130,9 +135,7 @@ export default function AttachmentsList ({
 					}
 				)}
 			>
-				<a href={null}>
-					{parentTitle}
-				</a>
+				<a href={null}>{parentTitle}</a>
 			</li>
 			<li
 				className={classNames(
@@ -152,9 +155,7 @@ export default function AttachmentsList ({
 					}
 				)}
 			>
-				<a href={null}>
-					Active Attachment
-				</a>
+				<a href={null}>Active Attachment</a>
 			</li>
 			{attachmentRecords
 				.filter(
@@ -191,14 +192,12 @@ export default function AttachmentsList ({
 										!!activeTextColor?.slug,
 								}
 							)}
-							key={record.id}
+							key={record.id || record.title.rendered}
 						>
-							<a href={null}>
-								{record.title.rendered}
-							</a>
+							<a href={null}>{record.title.rendered}</a>
 						</li>
 					);
 				})}
 		</ul>
 	);
-};
+}
