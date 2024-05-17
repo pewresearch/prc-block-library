@@ -43,9 +43,11 @@ class Story_Item_API {
 		$this->post_id = $this->get_post_id();
 		// Check if wp_post global is set, and if it is does it have the same post id as the one we're looking for, if so use that. This is to ensure we're getting the correct post data for the current post and so we don't have to make another query. This is the most effecient way to get post data.
 		if ( isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post && $GLOBALS['post']->ID === $this->post_id ) {
+			// If a post hasn't explicitly set an excerpt then it will be empty, so we'll get it using get_the_excerpt which will generate the excerpt for us if it doesn't exist.
+			$post_excerpt = get_the_excerpt($this->post_id);
 			$this->post_data = array(
 				'post_title' => $GLOBALS['post']->post_title,
-				'post_excerpt' => $GLOBALS['post']->post_excerpt,
+				'post_excerpt' => $post_excerpt,
 				'post_date' => $GLOBALS['post']->post_date,
 				'url' => get_permalink( $this->post_id ),
 			);
@@ -121,6 +123,7 @@ class Story_Item_API {
 		if ( !$allowed ) {
 			return false;
 		}
+		do_action('qm/debug', print_r($this->post_data, true));
 		$excerpt = preg_match( '/<div class="description">(.*?)<\/div>/s', $this->inner_content, $matches );
 		$excerpt = $excerpt ? $matches[1] : false;
 		$excerpt = $excerpt ? $excerpt : $this->post_data['post_excerpt'];
@@ -267,15 +270,32 @@ class Story_Item_API {
 	 * @param mixed $taxonomy
 	 * @return WP_Term|false
 	 */
-	private function get_first_term($taxonomy) {
+	private function get_first_term_name($taxonomy) {
 		$first_term = false;
-		$terms = wp_get_object_terms( $this->post_id, $taxonomy, array( 'fields' => 'names' ) );
-		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
-			// Get the first term.
-			$first_term = array_shift( $terms );
-		}
+		$terms = wp_get_object_terms( $this->post_id, $taxonomy, [] );
+		$tmp = $terms;
 		if ( 'formats' === $taxonomy && empty($terms) ) {
 			$first_term = $this->get_fallback_format_term();
+			if ( false !== $first_term ) {
+				return $first_term;
+			}
+		}
+		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+			// Get the yoast primary term if available
+			if ( count ( $terms ) > 1 ) {
+				$primary_term_id = \yoast_get_primary_term_id($taxonomy, $this->post_id);
+				$first_term = array_filter($terms, function ($term) use ($primary_term_id) {
+					return $term->term_id == $primary_term_id;
+				});
+				if ( ! empty( $first_term ) ) {
+					$first_term = array_pop( $first_term );
+					$first_term = $first_term->name;
+					return $first_term;
+				}
+			}
+			// Get the first term.
+			$first_term = array_shift( $tmp );
+			$first_term = $first_term->name;
 		}
 		return $first_term;
 	}
@@ -297,7 +317,7 @@ class Story_Item_API {
 		// We may want to check for if we're in a publication listing.
 		// If there is no label then we'll just automatically look at the first term for the selected meta taxonomy (default to formats) and return that.
 		if ( !$label ) {
-			$label = $this->get_first_term($taxonomy);
+			$label = $this->get_first_term_name($taxonomy);
 		}
 
 		if ( empty( $label ) ) {

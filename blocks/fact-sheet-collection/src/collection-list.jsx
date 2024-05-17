@@ -17,19 +17,18 @@ import { useSelect } from '@wordpress/data';
  */
 import useCollectionTerms from './use-collection-terms';
 
-export default function CollectionList({clientId}) {
-	const termIds = useSelect((select) => {
-		const { getEditedPostAttribute } = select('core/editor');
-		const collectionTerms = getEditedPostAttribute('collection');
-		return collectionTerms;
-	}, [clientId]);
+export default function CollectionList({ clientId }) {
+	const termIds = useSelect(
+		(select) => {
+			const { getEditedPostAttribute } = select('core/editor');
+			const collectionTerms = getEditedPostAttribute('collection');
+			return collectionTerms;
+		},
+		[clientId]
+	);
 
-	const {
-		isResolving,
-		records,
-		parentTerm,
-		altLanguagePosts,
-	} = useCollectionTerms(termIds);
+	const { isResolving, records, parentTerm, altLanguagePosts } =
+		useCollectionTerms(termIds);
 
 	return (
 		<Fragment>
@@ -40,7 +39,7 @@ export default function CollectionList({clientId}) {
 							<Spinner />
 						</FlexItem>
 						<FlexBlock>
-							{__('Loading Collection...', 'prc-block-library')}
+							{__('Loading Collection…', 'prc-block-library')}
 						</FlexBlock>
 					</Flex>
 				</Warning>
@@ -55,7 +54,9 @@ export default function CollectionList({clientId}) {
 							{altLanguagePosts?.map((post) => (
 								<div
 									className="wp-block-prc-block-fact-sheet-collection--alt-language-link"
-									key={Math.random().toString(10).substring(7)}
+									key={Math.random()
+										.toString(10)
+										.substring(7)}
 								>
 									{`${post.title.rendered}`}
 								</div>
@@ -63,26 +64,30 @@ export default function CollectionList({clientId}) {
 						</div>
 					)}
 					<div className="wp-block-prc-block-fact-sheet-collection--term-list">
-					{records?.map((term) => {
-						const isActive = termIds.includes(term.id);
-						return (
-							<Fragment key={Math.random().toString(10).substring(7)}>
-								<div
-									className={classNames(
-										'wp-block-prc-block-fact-sheet-collection--term-link',
-										{
-											'is-active': isActive,
-										}
-									)}
+						{records?.map((term) => {
+							const isActive = termIds.includes(term.id);
+							return (
+								<Fragment
 									key={Math.random()
 										.toString(10)
 										.substring(7)}
 								>
-									{`${term.name}`}
-								</div>
-							</Fragment>
-						)
-					})}
+									<div
+										className={classNames(
+											'wp-block-prc-block-fact-sheet-collection--term-link',
+											{
+												'is-active': isActive,
+											}
+										)}
+										key={Math.random()
+											.toString(10)
+											.substring(7)}
+									>
+										{`${term.name}`}
+									</div>
+								</Fragment>
+							);
+						})}
 					</div>
 				</Fragment>
 			)}

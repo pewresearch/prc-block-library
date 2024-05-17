@@ -24,6 +24,7 @@ class Fact_Sheet_Collection {
 	public static $dir = __DIR__;
 	public static $taxonomy = 'collection';
 	public static $post_type = 'fact-sheet';
+	public $languages = [];
 
 	public function __construct($loader) {
 		$block_json_file = PRC_BLOCK_LIBRARY_DIR . '/blocks/fact-sheet-collection/build/block.json';
@@ -36,22 +37,35 @@ class Fact_Sheet_Collection {
 
 	public function init($loader = null) {
 		if ( null !== $loader ) {
-			$loader->add_action('init', $this, 'block_init');
+			$loader->add_action('init', $this, 'get_languages', 10);
+			$loader->add_action('init', $this, 'block_init', 11);
 		}
 	}
 
+	public function get_languages() {
+		// get all the languages terms slugs even if they're empty
+		$languages = get_terms(array(
+			'taxonomy' => 'languages',
+			'hide_empty' => false,
+			'fields' => 'slugs',
+		));
+		$this->languages = $languages;
+	}
+
 	public function get_english_language_link($term_id) {
-		$post_status = array('publish');
+		$post_status = array('publish', 'hidden_from_index');
 		if ( is_user_logged_in() ) {
 			$post_status[] = 'draft';
 			$post_status[] = 'private';
 		}
+		$languages_to_filter_out = $this->languages;
+		$languages_to_filter_out = array_diff($languages_to_filter_out, array('en'));
 		// If this child term has english posts then use the english post link, otherwise fallback to the child term link.
 		$english_post = get_posts(array(
 			'posts_per_page' => 1,
 			'post_type' => self::$post_type,
 			'post_status' => $post_status,
-			'languages' => 'en',
+			'fields' => 'ids', // 'ids' returns an array of post IDs instead of full post objects.
 			'tax_query' => array(
 				'relation' => 'AND',
 				array(
@@ -62,13 +76,14 @@ class Fact_Sheet_Collection {
 				array(
 					'taxonomy' => 'languages',
 					'field' => 'slug',
-					'terms' => array('en'),
+					'operator' => 'NOT IN',
+					'terms' => $languages_to_filter_out,
 				),
 			),
 		));
 		if (!empty($english_post)) {
 			$english_post = array_pop($english_post);
-			return get_permalink($english_post->ID);
+			return get_permalink($english_post);
 		}
 		return false;
 	}

@@ -115,18 +115,35 @@ class Yoast_SEO_Breadcrumbs {
 		);
 
 		if ( ! is_singular( 'page' ) ) {
-			array_splice(
-				$crumbs,
-				1,
-				0,
-				array(
+			$queried_object = get_queried_object();
+			// check if queried object is a wp_term and if its taxonomy is datasets
+			if ( is_a( $queried_object, 'WP_Term' ) && 'datasets' === $queried_object->taxonomy ) {
+				array_splice(
+					$crumbs,
+					1,
+					0,
 					array(
-						'url'  => get_bloginfo( 'url' ) . '/topics-categorized/',
-						'text' => 'Research Topics',
-						'id'   => null,
-					),
-				)
-			);
+						array(
+							'url'  => get_bloginfo( 'url' ) . '/datasets/',
+							'text' => 'Datasets',
+							'id'   => null,
+						),
+					)
+				);
+			} else {
+				array_splice(
+					$crumbs,
+					1,
+					0,
+					array(
+						array(
+							'url'  => get_bloginfo( 'url' ) . '/topics-categorized/',
+							'text' => 'Research Topics',
+							'id'   => null,
+						),
+					)
+				);
+			}
 		}
 
 		if ( is_tax() ) {

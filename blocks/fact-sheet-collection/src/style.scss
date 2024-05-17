@@ -73,13 +73,13 @@
 		.wp-block-prc-block-fact-sheet-collection--term-link {
 			display: flex;
 			align-items: center;
-			&:not(:first-child)::before {
-				content: "";
-				display: block;
-				border-right: 1px solid var(--border-color);
-				height: 50%;
-				margin-right: var(--gap);
-			}
+			// &:not(:first-child)::before {
+			// 	content: "";
+			// 	display: block;
+			// 	border-right: 1px solid var(--border-color);
+			// 	height: 50%;
+			// 	margin-right: var(--gap);
+			// }
 			&.is-active {
 				font-weight: bold;
 			}

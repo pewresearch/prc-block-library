@@ -83,11 +83,16 @@ class Core_List {
 			return $block_content;
 		}
 
+		if ( ! array_key_exists( 'attrs', $block ) ) {
+			return $block_content;
+		}
+
 		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value($block['attrs'], 'vertical');
 
 		$tag_processor = new WP_HTML_Tag_Processor($block_content);
 		$html_tag = 'ul';
-		if (true === $block['attrs']['ordered']) {
+
+		if (array_key_exists( 'ordered', $block['attrs'] ) && true === $block['attrs']['ordered']) {
 			$html_tag = 'ol';
 		}
 		$tag_processor->next_tag($html_tag);

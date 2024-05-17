@@ -22,36 +22,53 @@ import {
  * Internal Dependencies
  */
 
-function InspectorPanel( { attributes, setAttributes, clientId, context } ) {
-	const {isInteractive, interactiveNamespace} = attributes;
+function InspectorPanel({ attributes, setAttributes, clientId, context }) {
+	const { isInteractive, interactiveNamespace } = attributes;
 	const namespace = interactiveNamespace || context?.interactiveNamespace;
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Interactivity API')}>
 				<ToggleControl
-					label={ __( 'Interactive', 'prc-block-library' ) }
-					checked={ isInteractive }
-					onChange={ ( isInteractive ) => setAttributes( { isInteractive } ) }
-					help={ __( 'When enabled, this block leverages the @wordpress/interactivity API.', 'prc-block-library' ) }
+					label={__('Interactive', 'prc-block-library')}
+					checked={isInteractive}
+					onChange={(isInteractive) =>
+						setAttributes({ isInteractive })
+					}
+					help={__(
+						'When enabled, this block leverages the @wordpress/interactivity API.',
+						'prc-block-library'
+					)}
 				/>
-				{ isInteractive && (
+				{isInteractive && (
 					<TextControl
-						label={ __( 'Namespace', 'prc-block-library' ) }
-						value={ namespace }
-						onChange={ ( newNamespace ) => setAttributes( { interactiveNamespace: newNamespace } ) }
-						help={ __( 'The namespace serves as a unique identifier for this block\s interactivity context, ensuring that interactions are confined within the scope of this block or its parent.', 'prc-block-library' ) }
+						label={__('Namespace', 'prc-block-library')}
+						value={namespace}
+						onChange={(newNamespace) =>
+							setAttributes({
+								interactiveNamespace: newNamespace,
+							})
+						}
+						help={__(
+							'The namespace serves as a unique identifier for this blocks interactivity context, ensuring that interactions are confined within the scope of this block or its parent.',
+							'prc-block-library'
+						)}
 					/>
 				)}
-				<ExternalLink href="https://github.com/WordPress/gutenberg/blob/trunk/packages/interactivity/docs/2-api-reference.md">API documentation</ExternalLink>
+				<ExternalLink href="https://developer.wordpress.org/block-editor/reference-guides/interactivity-api/api-reference/">
+					API documentation
+				</ExternalLink>
 			</PanelBody>
 		</InspectorControls>
 	);
 }
 
-export default function Controls( { attributes, setAttributes, clientId, context } ) {
+export default function Controls({
+	attributes,
+	setAttributes,
+	clientId,
+	context,
+}) {
 	return (
-		<Fragment>
-			<InspectorPanel { ...{ attributes, setAttributes, clientId, context } } />
-		</Fragment>
+		<InspectorPanel {...{ attributes, setAttributes, clientId, context }} />
 	);
 }

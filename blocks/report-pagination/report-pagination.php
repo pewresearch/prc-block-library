@@ -41,7 +41,14 @@ class Report_Pagination {
 		return $active_item['pagenum'] ?? 1;
 	}
 
-	// Render out a list of each $items. $items is an array of arrays, each sub array has an id, title, link, and is_active attribute. This function should just render out a <li> elements for each item with a number and a link to the item. If it is active, it should have a class of 'is-active'.
+
+	/**
+	 * Get the pagination markup
+	 *
+	 * @param array $items
+	 * @param array $attributes
+	 * @return string
+	 */
 	public function get_pagination_markup($items, $attributes) {
 		$items = $items['pagination_items'] ?? [];
 		// remap $items to include pagenum on the item

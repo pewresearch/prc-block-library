@@ -32,6 +32,7 @@ class Core_Navigation {
 			$loader->add_action('init', $this, 'register_assets');
 			$loader->add_action('enqueue_block_assets', $this, 'register_style');
 			$loader->add_action('enqueue_block_editor_assets', $this, 'register_editor_script');
+			$loader->add_filter('block_type_metadata', $this, 'enforce_no_mobile_menu', 100, 1);
 		}
 	}
 
@@ -58,6 +59,27 @@ class Core_Navigation {
 	 */
 	public function register_editor_script() {
 		wp_enqueue_script( self::$editor_script_handle );
+	}
+
+	/**
+	* Enforces the overlayMenu never attribute
+	* @hook block_type_metadata 100, 1
+	* @param mixed $metadata
+	* @return mixed
+	*/
+	public function enforce_no_mobile_menu( $metadata ) {
+		if ( self::$block_name !== $metadata['name'] ) {
+			return $metadata;
+		}
+
+		if ( array_key_exists( 'overlayMenu', $metadata['attributes'] ) ) {
+			$metadata['attributes']['overlayMenu'] = array(
+				'type'    => 'string',
+				'default' => 'never',
+			);
+		}
+
+		return $metadata;
 	}
 }
 

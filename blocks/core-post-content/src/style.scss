@@ -9,6 +9,7 @@ body:not(.post-template-layout-no-container-query) {
 	.wp-block-post-content {
 		container: post-content-container / inline-size;
 	}
+	// For images inside post content, this will center them on mobile.
 	@container post-content-container (max-width: 480px) {
 		.wp-block-post-content .wp-block-image.alignright,
 		.wp-block-post-content .wp-block-image.alignleft {
@@ -17,6 +18,7 @@ body:not(.post-template-layout-no-container-query) {
 			float: none!important;
 		}
 	}
+	// For headings inside post content, this will adjust their size on mobile.
 	@container post-content-container (max-width: 480px) {
 		.wp-block-post-content h1.wp-block-heading {
 			font-size: 26px;
@@ -45,7 +47,7 @@ body.post-template-layout-no-container-query {
 }
 
 .wp-block-post-content {
-	a {
+	p a {
 		text-decoration: underline;
 	}
 }

@@ -136,33 +136,6 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const blockProps = useBlockProps();
-
-	const { selectBlock } = useDispatch('core/block-editor');
-
-	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
-	// This gives us a good way to ensure greater template and pattern control.
-	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	// The same applies for "orientation", defaults to "vertical".
-	const { allowedBlocks, position, title } = attributes;
-	const innerBlocksProps = useInnerBlocksProps(
-		{
-			className: 'wp-block-prc-block-popup-modal--inner',
-		},
-		{
-			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
-			templateLock: false,
-			__experimentalCaptureToolbars: true,
-		}
-	);
-	// check that context has popup-controller/className
-	// if it does, check if it includes is-style-video
-	// if it does, set isVideoModal to true
-	// if it doesn't, set isVideoModal to false
-
-	const isVideoModal = context['popup-controller/className']
-		? context['popup-controller/className'].includes('is-style-video')
-		: false;
 
 	const { hasChildSelected } = useSelect((select) => {
 		const { hasSelectedInnerBlock } = select('core/block-editor');
@@ -178,6 +151,29 @@ export default function Edit({
 	const closeModal = () => setIsOpen(false);
 	const toggleModal = () => setIsOpen(!isOpen);
 
+	const blockProps = useBlockProps({
+		className: classNames('wp-block-prc-block-popup-modal__inner', {
+			'is-active': isOpen,
+		}),
+	});
+
+	const { allowedBlocks, position, title } = attributes;
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
+			templateLock: false,
+			__experimentalCaptureToolbars: true,
+		}
+	);
+
+	// Determine if this is a video modal
+	const isVideoModal = context['popup-controller/className']
+		? context['popup-controller/className'].includes('is-style-video')
+		: false;
+
+	const { selectBlock } = useDispatch('core/block-editor');
+
 	useEffect(() => {
 		if (!isActive && isOpen && initialOpen) {
 			console.log('Closing modal');
@@ -191,52 +187,47 @@ export default function Edit({
 		}
 	}, [isActive, isOpen]);
 
-	useEffect(() => {
-		console.log('Context', context);
-	}, [context]);
-
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes }} />
 			{isOpen && (
 				// <ModalStylesWrapper>
-					<KeyboardShortcuts
-						bindGlobal
-						shortcuts={{
-							esc: closeModal,
-						}}
+				<KeyboardShortcuts
+					bindGlobal
+					shortcuts={{
+						esc: closeModal,
+					}}
+				>
+					<ModalShade
+						className={classNames(
+							'wp-block-prc-block-popup-modal__outer',
+							{
+								[`is-position-${cleanForSlug(position)}`]:
+									position,
+							}
+						)}
+						backgroundColor={convertHexToRGBA('#000', 0.5)}
 					>
-						<ModalShade
-							className={classNames(
-								'wp-block-prc-block-popup-modal--outer',
-								{
-									active: isOpen,
-									[`is-position-${cleanForSlug(position)}`]:
-										position,
-								}
+						<div {...blockProps}>
+							{!isVideoModal && (
+								<div className="wp-block-prc-block-popup-modal__header">
+									<RichText
+										tagName="h2"
+										placeholder={__(
+											'Add a title',
+											'prc-block-library'
+										)}
+										value={title}
+										onChange={(value) =>
+											setAttributes({ title: value })
+										}
+									/>
+								</div>
 							)}
-							backgroundColor={convertHexToRGBA('#000', 0.5)}
-						>
-							<div {...blockProps}>
-								{!isVideoModal && (
-									<div className="wp-block-prc-block-popup-modal--header">
-										<RichText
-											tagName="h2"
-											placeholder={__(
-												'Add a title',
-												'prc-block-library'
-											)}
-											value={title}
-											onChange={(value) =>
-												setAttributes({ title: value })
-											}
-										/>
-									</div>
-								)}
-								<div {...innerBlocksProps} />
-							</div>
-						</ModalShade>
-					</KeyboardShortcuts>
+							<div {...innerBlocksProps} />
+						</div>
+					</ModalShade>
+				</KeyboardShortcuts>
 				// </ModalStylesWrapper>
 			)}
 			<TriggerButton>

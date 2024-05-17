@@ -78,14 +78,14 @@ body.has-active-modal {
 			cursor: pointer;
 			color: white;
 		}
-
-		&.has-background {
+		&:not(:has(.wp-block-videopress-video)).has-background {
 			border-radius: 5px;
 			padding: var(--gutter, $default_gutter);
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 		}
 
-		.wp-block-prc-block-popup-modal--header {
+		.wp-block-prc-block-popup-modal--header,
+		.wp-block-prc-block-popup-modal__header {
 			margin-bottom: calc( var(--gutter, $default_gutter) * 1.3 );
 			padding-bottom: calc( var(--gutter, $default_gutter) * 1.3 );
 			border-bottom: 1px solid #eee;
@@ -95,14 +95,10 @@ body.has-active-modal {
 			}
 		}
 
-		.wp-block-prc-block-popup-modal--inner {
+		.wp-block-prc-block-popup-modal--inner,
+		.wp-block-prc-block-popup-modal__inner {
 			max-height: 90vh;
 			overflow-y: auto;
-		}
-
-		// @TODO: Remove when videopress content conversion is complete
-		.wp-block-vimeo-create.vimeo-create__video-container {
-			max-width: 100% !important;
 		}
 
 		.jetpack-videopress-player,
@@ -130,6 +126,7 @@ body.has-active-modal {
 	}
 }
 
+// Handle Animations:
 .wp-block-prc-block-popup-controller {
 	&.is-active .wp-block-prc-block-popup-modal__outer.animate-in {
 		opacity: 0;

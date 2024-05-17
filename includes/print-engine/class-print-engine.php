@@ -20,11 +20,20 @@ class Print_Engine {
 	}
 
 	public function init($loader) {
-		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_view_script' );
+		$loader->add_filter( 'prc_platform_rewrite_query_vars', $this, 'add_query_vars' );
+		// $loader->add_action( 'wp_enqueue_scripts', $this, 'register_view_script' );
 		$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
 		// $loader->add_action( 'enqueue_block_assets', $this, 'register_style' );
 		$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 		// $loader->add_filter( 'render_block', $this, 'render', 100, 2 );
+	}
+
+	/**
+	 * @hook prc_platform_rewrite_query_vars
+	 */
+	public function add_query_vars($qvars) {
+		$qvars[] = 'print';
+		return $qvars;
 	}
 
 	/**
@@ -145,6 +154,8 @@ class Print_Engine {
 		$print_options = array_key_exists('printEngine', $attributes) ? $attributes['printEngine'] : array();
 		$hide_on_print = array_key_exists('hideOnPrint', $print_options) ? $print_options['hideOnPrint'] : false;
 		$display_on_print = array_key_exists('displayOnPrint', $print_options) ? $print_options['displayOnPrint'] : false;
+
+		// if the print query var is set we should drop css to just hide all the data-hide-on-print blocks
 
 		// using the new WP_HTML_Tag_Processor add data-hide-on-X to the block
 		$w = new WP_HTML_Tag_Processor( $block_content );
