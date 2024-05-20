@@ -56,3 +56,47 @@ class Common_Styles {
 		);
 	}
 }
+
+function generate_pagination_list(
+	$array = [[
+		// Should be on most lists
+		'ID' => '',
+		'title' => '',
+		'link' => '#',
+		// What you'll need to add
+		'pageNum' => 1,
+		'isActive' => true,
+	]],
+	$classnames = ''
+) {
+	wp_enqueue_style('prc-block-library--pagination');
+
+	$pagination_list = '';
+	foreach ($array as $item) {
+		$number = $item['pageNum'];
+		$is_active = $item['isActive'];
+		$link = $item['link'];
+		$title = $item['title'];
+		$tag_name = $is_active || ! $link ? 'span' : 'a';
+		$extra_attrs = 'a' === $tag_name ? wp_sprintf(
+			' href="%1$s" alt="%2$s"',
+			esc_url($link),
+			esc_attr($title)
+		) : '';
+		$classnames = \PRC\Platform\Block_Utils\classNames(
+			'common-block-style--pagination__pagination-item',
+			$classnames,
+			array(
+				'is-active' => $is_active,
+			)
+		);
+		$pagination_list .=  wp_sprintf(
+			'<%1$s class="%2$s"%3$s>%4$s</%1$s>',
+			$tag_name,
+			$classnames,
+			$extra_attrs,
+			esc_html($number)
+		);
+	}
+	return $pagination_list;
+}

@@ -43,6 +43,10 @@
       "type": "boolean",
       "default": false
     },
+    "variant": {
+      "type": "string",
+      "default": "list"
+    },
     "style": {
       "type": "object",
       "default": {
@@ -90,6 +94,7 @@
   "style": [
     "file:./style-index.css",
     "prc-block-library--baseball-card",
+    "prc-block-library--pagination",
     "prc-block-library--additional-color-supports"
   ]
 }

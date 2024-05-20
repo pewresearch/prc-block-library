@@ -12,7 +12,6 @@
  * WordPress Dependencies
  */
 import { media as icon } from '@wordpress/icons';
-import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -31,12 +30,14 @@ import './style.scss';
 import './editor.scss';
 import edit from './edit';
 import metadata from './block.json';
+import variations from './variations';
 
 const { name } = metadata;
 
 const settings = {
 	icon,
 	edit,
+	variations,
 };
 
 /**
