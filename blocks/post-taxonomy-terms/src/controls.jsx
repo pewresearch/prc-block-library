@@ -28,7 +28,14 @@ function InspectorPanel({
 	isList,
 	clientId,
 }) {
-	const { perPage, taxonomy, separator, getAllTerms, enableLink } = attributes;
+	const {
+		perPage,
+		taxonomy,
+		separator,
+		getAllTerms,
+		enableLink,
+		linkToPublicationsPage,
+	} = attributes;
 
 	return (
 		<Fragment>
@@ -82,6 +89,22 @@ function InspectorPanel({
 							'prc-block-library'
 						)}
 					/>
+					{enableLink && (
+						<ToggleControl
+							label="Link to Publications Page"
+							checked={linkToPublicationsPage}
+							onChange={() =>
+								setAttributes({
+									linkToPublicationsPage:
+										!linkToPublicationsPage,
+								})
+							}
+							help={__(
+								'If checked, the term(s) will be linked to pre-filter the publications page to the selected term(s).',
+								'prc-block-library'
+							)}
+						/>
+					)}
 				</PanelBody>
 			</InspectorControls>
 		</Fragment>

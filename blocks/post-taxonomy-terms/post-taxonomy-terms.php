@@ -49,6 +49,7 @@ class Post_Taxonomy_Terms {
 		$per_page = $attributes['perPage'];
 		$is_list = array_key_exists('layout', $attributes) && array_key_exists('orientation', $attributes['layout']) ? 'vertical' === $attributes['layout']['orientation'] : false;
 		$enable_link = array_key_exists('enableLink', $attributes) && $attributes['enableLink'] ? true : false;
+		$link_to_pub_page = array_key_exists('linkToPublicationsPage', $attributes) && $attributes['linkToPublicationsPage'] ? true : false;
 
 		$wrapper_attributes = get_block_wrapper_attributes(array(
 			'class' => \PRC\Platform\Block_Utils\classNames(array(
@@ -60,7 +61,7 @@ class Post_Taxonomy_Terms {
 			$post_id = get_the_ID();
 			$parent_id = wp_get_post_parent_id($post_id);
 			$post_terms = wp_get_post_terms( $post_id, $taxonomy, array( 'number' => $per_page ) );
-			// If this is a category taxonomy block we need to check if the only term being returned is "uncategorized" and if so, we need to return an empty array so that the block will look for the parent post's terms, if available.
+			// If this is a category taxonomy block we need to check if the only term being returned is "uncategorized" and if so we need to return an empty array so that the block will look for the parent post's terms, if available.
 			if ( 'category' === $taxonomy && 1 === count($post_terms) && 'uncategorized' === $post_terms[0]->slug ) {
 				$post_terms = array();
 			}
@@ -80,10 +81,7 @@ class Post_Taxonomy_Terms {
 			$markup .= '<ul class="wp-block-prc-block-post-taxonomy-terms__list">';
 			foreach ( $post_terms as $post_term ) {
 				$term_link = '';
-				if ( in_array($taxonomy, array(
-					'category',
-					'areas-of-expertise',
-				)) ) {
+				if ( true !== $link_to_pub_page ) {
 					$term_link = get_term_link( $post_term );
 				} else {
 					// term link needs to be equal to the blog page url and appended with ?_{taxonomy}={term-slug}

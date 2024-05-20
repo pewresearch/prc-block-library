@@ -26,6 +26,10 @@
 			"type": "boolean",
 			"default": true
 		},
+		"linkToPublicationsPage":{
+			"type": "boolean",
+			"default": false
+		},
 		"activeBackgroundColor": {
 			"type": "string",
 			"default": "ui-gray-very-light"
