@@ -9,15 +9,16 @@ import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
 import { decodeEntities } from '@wordpress/html-entities';
 
-export default function NextPrevButton({post, label = 'Next Page'}) {
+export default function NextPrevButton({
+	post,
+	label = 'Next Page',
+	className = 'common-block-style__pagination__pagination-next',
+}) {
 	if (!post) {
 		return null;
 	}
 	const { title, link } = post;
-
-	const className = classNames('wp-block-prc-block-report-pagination__pagination-next-prev');
-
-	return(
+	return (
 		<a href={link} className={className}>
 			{decodeEntities(label)}
 		</a>

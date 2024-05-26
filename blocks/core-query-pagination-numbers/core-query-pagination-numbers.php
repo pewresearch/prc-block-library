@@ -34,8 +34,9 @@ class Core_Query_Pagination_Numbers {
 	 * @return void
 	 */
 	public function enqueue_common_pagination_styles($block_content, $block) {
-		if ( $block['blockName'] === self::$block_name ) {
+		if ( $block['blockName'] === 'core/query-pagination' ) {
 			wp_enqueue_style('prc-block-library--pagination');
+			$block_content = '<div class="common-block-style__pagination__container">' . $block_content . '</div>';
 		}
 		return $block_content;
 	}

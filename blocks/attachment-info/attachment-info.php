@@ -3,7 +3,7 @@ namespace PRC\Platform\Blocks;
 use WP_Query;
 /**
  * Block Name:        Attachment Info
- * Description:       Displays the titles of other images attached to a post.
+ * Description:       Displays either a list of attachments or a pagination of attachments. This block is intended to be used on attachment pages only. It will display a list of attachments for the parent post of the current attachment.
  * Version:           0.1.0
  * Requires at least: 6.1
  * Requires PHP:      8.1
@@ -41,10 +41,6 @@ class Attachment_Info {
 
 		// check if this is an attachment page and if so get it's id...
 		$post__not_in = [];
-		// Okay... during testing they said they wanted this pulled. Now they want it back. Oy vey.
-		// if ( is_attachment($post_id) ) {
-		// 	$post__not_in = [$post_id];
-		// }
 
 		// Filter out Art Direction
 		// Get the art direction from the parent post and filter out any id's that are already in use
@@ -96,7 +92,7 @@ class Attachment_Info {
 			$to_return[] = array(
 				'link' => get_attachment_link($attachment->ID),
 				'title' => $attachment->post_title,
-				'ID' => $attachment->ID,
+				'id' => $attachment->ID,
 			);
 		}
 
@@ -131,7 +127,6 @@ class Attachment_Info {
 		$parent_post_url = get_the_permalink($parent_post_id);
 
 		$list_item_classnames = \PRC\Platform\Block_Utils\classNames(
-			'wp-block-prc-block-attachment-info__list-item',
 			'flex-align-center',
 			array(
 				'has-hover-color' => $attributes['hoverTextColor'],
@@ -145,24 +140,29 @@ class Attachment_Info {
 			)
 		);
 
-		$content .= wp_sprintf(
-			'<li class="%1$s"><a href="%2$s">%3$s</a></li>',
-			$list_item_classnames,
-			$parent_post_url,
-			$parent_post_title,
+		foreach ($attachments as $i => $attachment) {
+			$is_active = get_the_ID() === $attachment['id'];
+			$attachments[$i]['is_active'] = $is_active;
+		}
+		// Add the parent post to the list of attachments at the start.
+		$attachments = array_merge(
+			[
+				[
+					'link' => $parent_post_url,
+					'title' => $parent_post_title,
+					'is_active' => false,
+					'id' => null,
+				]
+			],
+			$attachments
 		);
 
-		foreach ($attachments as $attachment) {
-			$is_active = get_the_ID() === $attachment['ID'];
-			$content .= wp_sprintf(
-				'<li class="%1$s"><a href="%2$s">%3$s</a></li>',
-				\PRC\Platform\Block_Utils\classNames($list_item_classnames, [
-					'is-active' => $is_active,
-				]),
-				$attachment['link'],
-				$attachment['title'],
-			);
-		}
+		$baseball_card_list = new \PRC\Platform\Blocks\Baseball_Card_List($attachments);
+		$content .= $baseball_card_list->get_markup([
+			'item_classnames' => $list_item_classnames,
+			'ul_extra_attrs' => 'style="--block-gap: ' . $block_gap . ';"',
+			'classname_prefix' => 'wp-block-prc-block-attachment-info',
+		]);
 
 		$block_attrs = array(
 			'class' => \PRC\Platform\Block_Utils\classNames(
@@ -176,11 +176,7 @@ class Attachment_Info {
 			),
 		);
 
-		$content = $heading . wp_sprintf(
-			'<ul class="wp-block-prc-block-attachment-info__list" role="list" %1$s>%2$s</ul>',
-			'style="--block-gap: ' . $block_gap . ';"',
-			$content,
-		);
+		$content = $heading . $content;
 
 		return [
 			'content' => $content,
@@ -189,29 +185,18 @@ class Attachment_Info {
 	}
 
 	public function render_pagination($attributes, $attachments) {
-		$content = '';
-
+		// Determine which item is active:
 		foreach ($attachments as $i => $attachment) {
-			$is_active = get_the_ID() === $attachment['ID'];
-			$attachments[$i]['pageNum'] = $i + 1;
-			$attachments[$i]['isActive'] = $is_active;
+			$is_active = get_the_ID() === $attachment['id'];
+			$attachments[$i]['is_active'] = $is_active;
 		}
+		$pagination = new \PRC\Platform\Blocks\Pagination($attachments);
+		$pagination_content = $pagination->get_markup();
 
-		$block_attrs = array(
-			'class' => \PRC\Platform\Block_Utils\classNames(
-				'common-block-style--pagination',
-			),
-		);
-
-		$content = \PRC\Platform\Blocks\generate_pagination_list($attachments);
-
-		$content = wp_sprintf(
-			'<div class="common-block-style--pagination__pagination-items">%1$s</div>',
-			$content,
-		);
+		$block_attrs = array();
 
 		return [
-			'content' => $content,
+			'content' => $pagination_content,
 			'block_attrs' => $block_attrs,
 		];
 	}
@@ -222,7 +207,7 @@ class Attachment_Info {
 		}
 		$post_id = $block->context['postId'];
 
-		$parent_post_id = wp_get_post_parent_id($post_id);
+		$parent_post_id = array_key_exists('parentId', $attributes) && is_numeric($attributes['parentId']) && 0 != $attributes['parentId'] ? $attributes['parentId'] : wp_get_post_parent_id($post_id);
 
 		$variant = array_key_exists('variant', $attributes) ? $attributes['variant'] : 'list';
 

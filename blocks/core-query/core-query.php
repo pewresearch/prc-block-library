@@ -43,17 +43,20 @@ class Core_Query {
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script');
 
-			// Setup Default Arguments for Queries:
-			$loader->add_filter( 'prc_platform_pub_listing_default_args', $this, 'set_pub_listing_starting_defaults', 1, 1 );
 			$loader->add_filter( 'block_type_metadata', $this, 'default_tax_query_to_OR', 100, 1 );
 
-			// Actually Filter Queries:
-			$loader->add_filter( 'rest_post_query', $this, 'filter_pub_listing_rest_query', 10, 2 );
-			$loader->add_filter( 'pre_render_block', $this, 'filter_pub_listing_query_args', 10, 3 );
-			$loader->add_action( 'pre_get_posts', $this, 'flag_query_as_publication_listing', 1, 1 );
+			// Filter WP_Query Queries:
+			$loader->add_filter( 'rest_post_query', $this, 'filter_core_query_rest_queries', 10, 2 );
+			$loader->add_filter( 'pre_render_block', $this, 'filter_query_args', 10, 3 );
+			$loader->add_action( 'pre_get_posts', $this, 'flag_query_as_modified_query_variation', 1, 1 );
+			// "Pub Listing" Query
 			$loader->add_action( 'pre_get_posts', $this, 'filter_pub_listing_pre_get_posts_fallback', 10, 1 );
+			// Filter non WP_Query Queries::
+			$loader->add_filter( 'prc_platform_pub_listing_default_args', $this, 'set_pub_listing_starting_defaults', 1, 1 );
 
+			// Handles Story Item Contextual Awareness
 			$loader->add_filter( 'render_block_context', $this, 'handle_story_item_query_context_awareness', 100, 3 );
+			// Add's support for block area, postId, postType context.
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'update_context', 100, 2 );
 		}
 	}
@@ -122,7 +125,7 @@ class Core_Query {
 	 * @param mixed $request
 	 * @return void
 	 */
-	public function filter_pub_listing_rest_query( $args, $request ) {
+	public function filter_core_query_rest_queries( $args, $request ) {
 		if ( $request->get_param('isPubListingQuery') ) {
 			$args = $this->set_pub_listing_starting_defaults($args);
 		}
@@ -134,11 +137,12 @@ class Core_Query {
 	 * @hook pre_render_block
 	 * @return void
 	 */
-	public function filter_pub_listing_query_args($pre_render, $parsed_block, $parent_block) {
+	public function filter_query_args($pre_render, $parsed_block, $parent_block) {
 		if ( 'core/query' !== $parsed_block['blockName'] ) {
 			return $pre_render;
 		}
 		$attributes = $parsed_block[ 'attrs' ] ?? array();
+
 		if( array_key_exists('namespace', $attributes) && 'prc-block/pub-listing-query' === $attributes['namespace'] ) {
 			// For core/query blocks that have inherit set to true
 			if ( isset( $parsed_block['attrs']['query']['inherit'] ) && true === $parsed_block['attrs']['query']['inherit'] ) {
@@ -158,7 +162,6 @@ class Core_Query {
 					2
 				);
 			}
-
 		}
 		return $pre_render;
 	}
@@ -167,7 +170,7 @@ class Core_Query {
 	 * This filter will determine if we are in a "publication listing" context and if so, will set a flag, early, on $query. This flag, `isPubListingQuery`, will be used later in other pre_get_posts filters to determine if we should be modifying the query.
 	 * @hook pre_get_posts
 	 */
-	public function flag_query_as_publication_listing($query) {
+	public function flag_query_as_modified_query_variation($query) {
 		if ( get_current_blog_id() !== PRC_PRIMARY_SITE_ID ) {
 			return;
 		}
@@ -259,6 +262,7 @@ class Core_Query {
 
 	/**
 	* Register additional context for core/query blocks like prc-platform/block-area-context.
+	* This also addds postType and postId for querying child elements.
 	* @hook block_type_metadata_settings 100, 2
 	* @param mixed $settings
 	* @param mixed $metadata
@@ -270,6 +274,8 @@ class Core_Query {
 				array_key_exists('uses_context', $settings) ? $settings['uses_context'] : array(),
 				array(
 					"prc-platform/block-area-context",
+					"postId",
+					"postType",
 				)
 			);
 		}

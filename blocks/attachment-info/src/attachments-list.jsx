@@ -9,20 +9,26 @@ import { LoadingIndicator } from '@prc/components';
 /**
  * WordPress Dependencies
  */
+import { __ } from '@wordpress/i18n';
 import { useEntityRecord, useEntityRecords } from '@wordpress/core-data';
 import { select } from '@wordpress/data';
 import { getPath } from '@wordpress/url';
-import { useMemo } from 'react';
-import { getColorClassName, Warning } from '@wordpress/block-editor';
+import { useMemo, Fragment } from 'react';
+import { getColorClassName, Warning, RichText } from '@wordpress/block-editor';
 
 export default function AttachmentsList({
 	attributes,
+	setAttributes,
 	context,
+	headingBackgroundColor,
+	headingTextColor,
 	hoverTextColor,
 	hoverBackgroundColor,
 	activeBackgroundColor,
 	activeTextColor,
 }) {
+	const { heading } = attributes;
+
 	const isSiteEditor = getPath(window.location.href)?.includes(
 		'site-editor.php'
 	);
@@ -96,6 +102,19 @@ export default function AttachmentsList({
 			: '';
 	}, [isSiteEditor, context.postId]);
 
+	const headingClassNames = useMemo(() => {
+		return classNames('wp-block-prc-block-attachment-info__heading', {
+			'has-text-color':
+				!!headingTextColor?.color || !!headingTextColor?.class,
+			[`has-${headingTextColor?.slug}-color`]: !!headingTextColor?.slug,
+			'has-background':
+				!!headingBackgroundColor?.color ||
+				!!headingBackgroundColor?.class,
+			[`has-${headingBackgroundColor?.slug}-background-color`]:
+				!!headingBackgroundColor?.slug,
+		});
+	}, [headingBackgroundColor, headingTextColor]);
+
 	/// ///////////////////////////
 
 	if (isResolving) {
@@ -114,90 +133,103 @@ export default function AttachmentsList({
 	}
 
 	return (
-		<ul
-			className="wp-block-prc-block-attachment-info__list"
-			style={blockGapStyle}
-		>
-			<li
-				className={classNames(
-					'wp-block-prc-block-attachment-info__list-item',
-					'flex-align-center',
-					{
-						'has-hover-background':
-							!!hoverBackgroundColor.color ||
-							hoverBackgroundColor.class,
-						[`has-hover-${hoverBackgroundColor?.slug}-background-color`]:
-							!!hoverBackgroundColor?.slug,
-						'has-hover-color':
-							!!hoverTextColor.color || hoverTextColor.class,
-						[`has-hover-${hoverTextColor?.slug}-color`]:
-							!!hoverTextColor?.slug,
-					}
-				)}
+		<Fragment>
+			<div className={headingClassNames}>
+				<RichText
+					{...{
+						tagName: 'h2',
+						placeholder: __('Attachment Info'),
+						value: heading,
+						onChange: (val) => setAttributes({ heading: val }),
+					}}
+				/>
+			</div>
+			<ul
+				className="wp-block-prc-block-attachment-info__list"
+				style={blockGapStyle}
 			>
-				<a href={null}>{parentTitle}</a>
-			</li>
-			<li
-				className={classNames(
-					'wp-block-prc-block-attachment-info__list-item',
-					'flex-align-center',
-					'is-active',
-					{
-						'has-active-background':
-							!!activeBackgroundColor.color ||
-							activeBackgroundColor.class,
-						[`has-active-${activeBackgroundColor?.slug}-background-color`]:
-							!!activeBackgroundColor?.slug,
-						'has-active-color':
-							!!activeTextColor.color || activeTextColor.class,
-						[`has-active-${activeTextColor?.slug}-color`]:
-							!!activeTextColor?.slug,
-					}
-				)}
-			>
-				<a href={null}>Active Attachment</a>
-			</li>
-			{attachmentRecords
-				.filter(
-					(record) =>
-						record.title.rendered !== '' &&
-						record.title.rendered.includes(' ')
-				)
-				.map((record) => {
-					return (
-						<li
-							className={classNames(
-								'wp-block-prc-block-attachment-info__list-item',
-								'flex-align-center',
-								{
-									'has-hover-background':
-										!!hoverBackgroundColor.color ||
-										hoverBackgroundColor.class,
-									[`has-hover-${hoverBackgroundColor?.slug}-background-color`]:
-										!!hoverBackgroundColor?.slug,
-									'has-hover-color':
-										!!hoverTextColor.color ||
-										hoverTextColor.class,
-									[`has-hover-${hoverTextColor?.slug}-color`]:
-										!!hoverTextColor?.slug,
-									'has-focus-background':
-										!!activeBackgroundColor.color ||
-										activeBackgroundColor.class,
-									[`has-focus-${activeBackgroundColor?.slug}-background-color`]:
-										!!activeBackgroundColor?.slug,
-									'has-focus-color':
-										!!activeTextColor.color ||
-										activeTextColor.class,
-									[`has-focus-${activeTextColor?.slug}-color`]:
-										!!activeTextColor?.slug,
-								}
-							)}
-							key={record.id || record.title.rendered}
-						>
-							<a href={null}>{record.title.rendered}</a>
-						</li>
-					);
-				})}
-		</ul>
+				<li
+					className={classNames(
+						'wp-block-prc-block-attachment-info__list-item',
+						'flex-align-center',
+						{
+							'has-hover-background':
+								!!hoverBackgroundColor.color ||
+								hoverBackgroundColor.class,
+							[`has-hover-${hoverBackgroundColor?.slug}-background-color`]:
+								!!hoverBackgroundColor?.slug,
+							'has-hover-color':
+								!!hoverTextColor.color || hoverTextColor.class,
+							[`has-hover-${hoverTextColor?.slug}-color`]:
+								!!hoverTextColor?.slug,
+						}
+					)}
+				>
+					<a href={null}>{parentTitle}</a>
+				</li>
+				<li
+					className={classNames(
+						'wp-block-prc-block-attachment-info__list-item',
+						'flex-align-center',
+						'is-active',
+						{
+							'has-active-background':
+								!!activeBackgroundColor.color ||
+								activeBackgroundColor.class,
+							[`has-active-${activeBackgroundColor?.slug}-background-color`]:
+								!!activeBackgroundColor?.slug,
+							'has-active-color':
+								!!activeTextColor.color ||
+								activeTextColor.class,
+							[`has-active-${activeTextColor?.slug}-color`]:
+								!!activeTextColor?.slug,
+						}
+					)}
+				>
+					<a href={null}>Active Attachment</a>
+				</li>
+				{attachmentRecords
+					.filter(
+						(record) =>
+							record.title.rendered !== '' &&
+							record.title.rendered.includes(' ')
+					)
+					.map((record) => {
+						return (
+							<li
+								className={classNames(
+									'wp-block-prc-block-attachment-info__list-item',
+									'flex-align-center',
+									{
+										'has-hover-background':
+											!!hoverBackgroundColor.color ||
+											hoverBackgroundColor.class,
+										[`has-hover-${hoverBackgroundColor?.slug}-background-color`]:
+											!!hoverBackgroundColor?.slug,
+										'has-hover-color':
+											!!hoverTextColor.color ||
+											hoverTextColor.class,
+										[`has-hover-${hoverTextColor?.slug}-color`]:
+											!!hoverTextColor?.slug,
+										'has-focus-background':
+											!!activeBackgroundColor.color ||
+											activeBackgroundColor.class,
+										[`has-focus-${activeBackgroundColor?.slug}-background-color`]:
+											!!activeBackgroundColor?.slug,
+										'has-focus-color':
+											!!activeTextColor.color ||
+											activeTextColor.class,
+										[`has-focus-${activeTextColor?.slug}-color`]:
+											!!activeTextColor?.slug,
+									}
+								)}
+								key={record.id || record.title.rendered}
+							>
+								<a href={null}>{record.title.rendered}</a>
+							</li>
+						);
+					})}
+			</ul>
+		</Fragment>
 	);
 }

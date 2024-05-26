@@ -12,6 +12,10 @@
 
 .is-style-list-style-type-none {
 	list-style-type: none;
+	// block editor uses a ::before pseudo element to add the bullet
+	li::before {
+		content: none;
+	}
 }
 
 .wp-block-list {

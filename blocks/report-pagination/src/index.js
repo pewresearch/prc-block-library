@@ -12,7 +12,6 @@ import { queryPagination as icon } from '@wordpress/icons';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -30,7 +29,6 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import save from './save';
 
 import metadata from './block.json';
 
@@ -39,7 +37,6 @@ const { name } = metadata;
 const settings = {
 	icon,
 	edit,
-	save,
 };
 
 /**

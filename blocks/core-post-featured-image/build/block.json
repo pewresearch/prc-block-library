@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/core-post-featured-image",
+  "version": "0.1.0",
+  "title": "Post Feature Image",
+  "category": "widgets",
+  "textdomain": "core-post-featured-image",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

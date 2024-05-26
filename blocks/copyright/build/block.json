@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/copyright",
+  "version": "0.1.0",
+  "title": "Copyright Disclaimer",
+  "category": "text",
+  "description": "Renders a copywright disclaimer with the current year.",
+  "textdomain": "copyright",
+  "editorScript": "file:./index.js"
+}

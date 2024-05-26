@@ -1,35 +1,89 @@
-.common-block-style--pagination	{
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	.common-block-style--pagination__pagination-items {
-		font-size: var(--wp--preset--font-size--small-label);
+.common-block-style__pagination__container {
+	container: pagination / inline-size;
+	width: 100%;
+
+	.common-block-style__pagination,
+	.wp-block-query-pagination {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 100%;
+		a {
+			color: var(--wp--preset--color--ui-black);
+		}
 	}
 }
 
-.common-block-style--pagination__pagination-items,
+.wp-block-query-pagination-previous,
+.wp-block-query-pagination-next,
+.common-block-style__pagination__pagination-next,
+.common-block-style__pagination__pagination-previous {
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: var(--wp--preset--font-size--small-label);
+	&.is-disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+.wp-block-query-pagination-previous,
+.common-block-style__pagination__pagination-previous {
+	text-align: left;
+}
+.wp-block-query-pagination-next,
+.common-block-style__pagination__pagination-next {
+	text-align: right;
+}
+
+.common-block-style__pagination__pagination-numbers,
 .wp-block-query-pagination-numbers {
 	--pagination-item-border-color: var(--wp--preset--color--ui-gray-light);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	flex-grow: 1;
-	gap: var(--pagination-items-gap);
+	gap: var(--pagination-items-gap, 5px);
+	font-size: var(--wp--preset--font-size--small-label);
 
-	.common-block-style--pagination__pagination-item,
+	.common-block-style__pagination__page-numbers,
 	.page-numbers {
 		padding: 0.25em 0.5em;
 		line-height: 1em;
 		border-width: 1px;
 		border-style: solid;
 		border-color: var(--pagination-item-border-color, transparent);
-		&.current,
-		&.is-active {
+		&.is-active,
+		&.current {
 			border-color: transparent!important;
 		}
 	}
 }
 
-.wp-block-query-pagination-numbers {
-	// --pagination-item-border-color: var(--wp--preset--color--ui-gray-light);
+@container pagination (max-width: 480px) {
+	.common-block-style__pagination,
+	.wp-block-query-pagination {
+		flex-wrap: wrap!important;
+		row-gap: 10px;
+		.wp-block-query-pagination-previous,
+		.wp-block-query-pagination-next,
+		.common-block-style__pagination__pagination-next,
+		.common-block-style__pagination__pagination-previous {
+			flex-grow: 1;
+		}
+		.wp-block-query-pagination-previous,
+		.common-block-style__pagination__pagination-previous {
+			order: 1;
+		}
+		.wp-block-query-pagination-next,
+		.common-block-style__pagination__pagination-next {
+			order: 2;
+		}
+
+		.common-block-style__pagination__pagination-numbers,
+		.wp-block-query-pagination-numbers {
+			order: 3;
+			width: 100%;
+		}
+	}
 }

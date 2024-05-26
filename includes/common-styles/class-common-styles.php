@@ -4,6 +4,8 @@ namespace PRC\Platform\Blocks;
 class Common_Styles {
 	public function __construct($loader) {
 		require_once plugin_dir_path( __FILE__ ) . '/class-additional-color-supports.php';
+		require_once plugin_dir_path( __FILE__ ) . '/baseball-card/class-baseball-card-list.php';
+		require_once plugin_dir_path( __FILE__ ) . '/pagination/class-pagination.php';
 		$this->init($loader);
 	}
 
@@ -14,6 +16,7 @@ class Common_Styles {
 		$loader->add_action( 'enqueue_block_assets', $this, 'register_baseball_card_style', 2 );
 		$loader->add_action( 'enqueue_block_assets', $this, 'register_pagination_style', 2 );
 		$loader->add_action( 'enqueue_block_assets', $additional_color_supports, 'register_style', 2 );
+		$loader->add_action( 'admin_enqueue_scripts', $additional_color_supports, 'reigster_pagination_script', 100 );
 	}
 
 	/**
@@ -55,48 +58,18 @@ class Common_Styles {
 			$asset_file['version'],
 		);
 	}
-}
 
-function generate_pagination_list(
-	$array = [[
-		// Should be on most lists
-		'ID' => '',
-		'title' => '',
-		'link' => '#',
-		// What you'll need to add
-		'pageNum' => 1,
-		'isActive' => true,
-	]],
-	$classnames = ''
-) {
-	wp_enqueue_style('prc-block-library--pagination');
-
-	$pagination_list = '';
-	foreach ($array as $item) {
-		$number = $item['pageNum'];
-		$is_active = $item['isActive'];
-		$link = $item['link'];
-		$title = $item['title'];
-		$tag_name = $is_active || ! $link ? 'span' : 'a';
-		$extra_attrs = 'a' === $tag_name ? wp_sprintf(
-			' href="%1$s" alt="%2$s"',
-			esc_url($link),
-			esc_attr($title)
-		) : '';
-		$classnames = \PRC\Platform\Block_Utils\classNames(
-			'common-block-style--pagination__pagination-item',
-			$classnames,
-			array(
-				'is-active' => $is_active,
-			)
-		);
-		$pagination_list .=  wp_sprintf(
-			'<%1$s class="%2$s"%3$s>%4$s</%1$s>',
-			$tag_name,
-			$classnames,
-			$extra_attrs,
-			esc_html($number)
+	public function reigster_pagination_script() {
+		// Pagination
+		$asset_file = include(  plugin_dir_path( __FILE__ )  . 'pagination/build/index.asset.php' );
+		wp_register_script(
+			'prc-block-library--pagination',
+			plugins_url( 'pagination/build/index.js', __FILE__ ),
+			array_merge($asset_file['dependencies'], [
+				'prc-functions',
+			]),
+			$asset_file['version'],
+			true
 		);
 	}
-	return $pagination_list;
 }

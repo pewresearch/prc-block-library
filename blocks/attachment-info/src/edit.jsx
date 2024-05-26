@@ -21,6 +21,7 @@ import {
  */
 import Controls from './controls';
 import AttachmentsList from './attachments-list';
+import AttachmentsPagination from './attachments-pagination';
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -56,24 +57,55 @@ function Edit({
 	hoverTextColor,
 	setHoverTextColor,
 }) {
-	const { heading, className } = attributes;
+	const { className, variant } = attributes;
+
+	const SelectedVariant = useMemo(() => {
+		if ('list' === variant) {
+			return (
+				<AttachmentsList
+					{...{
+						attributes,
+						context,
+						setAttributes,
+						headingBackgroundColor,
+						headingTextColor,
+						hoverBackgroundColor,
+						hoverTextColor,
+						activeBackgroundColor,
+						activeTextColor,
+					}}
+				/>
+			);
+		} else if ('pagination' === variant) {
+			return (
+				<AttachmentsPagination
+					{...{
+						attributes,
+						context,
+						hoverBackgroundColor,
+						hoverTextColor,
+						activeBackgroundColor,
+						activeTextColor,
+					}}
+				/>
+			);
+		}
+	}, [
+		variant,
+		attributes,
+		setAttributes,
+		context,
+		headingBackgroundColor,
+		headingTextColor,
+		hoverBackgroundColor,
+		hoverTextColor,
+		activeBackgroundColor,
+		activeTextColor,
+	]);
 
 	const blockProps = useBlockProps({
 		className: classNames(className, 'common-block-style--baseball-card'),
 	});
-
-	const headingClassNames = useMemo(() => {
-		return classNames('wp-block-prc-block-attachment-info__heading', {
-			'has-text-color':
-				!!headingTextColor?.color || !!headingTextColor?.class,
-			[`has-${headingTextColor?.slug}-color`]: !!headingTextColor?.slug,
-			'has-background':
-				!!headingBackgroundColor?.color ||
-				!!headingBackgroundColor?.class,
-			[`has-${headingBackgroundColor?.slug}-background-color`]:
-				!!headingBackgroundColor?.slug,
-		});
-	}, [headingBackgroundColor, headingTextColor]);
 
 	return (
 		<Fragment>
@@ -96,28 +128,7 @@ function Edit({
 					clientId,
 				}}
 			/>
-			<div {...blockProps}>
-				<div className={headingClassNames}>
-					<RichText
-						{...{
-							tagName: 'h2',
-							placeholder: __('Attachment Info'),
-							value: heading,
-							onChange: (val) => setAttributes({ heading: val }),
-						}}
-					/>
-				</div>
-				<AttachmentsList
-					{...{
-						attributes,
-						context,
-						hoverBackgroundColor,
-						hoverTextColor,
-						activeBackgroundColor,
-						activeTextColor,
-					}}
-				/>
-			</div>
+			<div {...blockProps}>{SelectedVariant}</div>
 		</Fragment>
 	);
 }
@@ -128,5 +139,5 @@ export default withColors(
 	{ hoverBackgroundColor: 'color' },
 	{ hoverTextColor: 'color' },
 	{ activeBackgroundColor: 'color' },
-	{ activeTextColor: 'color' },
+	{ activeTextColor: 'color' }
 )(Edit);

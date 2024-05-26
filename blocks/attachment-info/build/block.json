@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "title": "Attachment Info",
   "category": "text",
-  "description": "Displays the titles of other images attached to a post.",
+  "description": "Displays either a list of attachments or a pagination of attachments. This block is intended to be used on attachment pages only. It will display a list of attachments for the parent post of the current attachment.",
   "attributes": {
     "headingBackgroundColor": {
       "type": "string",
@@ -54,6 +54,9 @@
           "blockGap": "var:preset|spacing|20"
         }
       }
+    },
+    "parentId": {
+      "type": "number"
     }
   },
   "supports": {
@@ -89,7 +92,10 @@
     "postType"
   ],
   "textdomain": "attachment-info",
-  "editorScript": "file:./index.js",
+  "editorScript": [
+    "file:./index.js",
+    "prc-block-library--pagination"
+  ],
   "editorStyle": "file:./index.css",
   "style": [
     "file:./style-index.css",

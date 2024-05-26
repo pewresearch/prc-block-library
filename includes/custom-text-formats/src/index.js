@@ -3,12 +3,8 @@
  */
 
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
 import { toggleFormat, registerFormatType } from '@wordpress/rich-text';
-import {
-	RichTextToolbarButton,
-	RichTextShortcut,
-} from '@wordpress/block-editor';
+import { RichTextToolbarButton } from '@wordpress/block-editor';
 
 // import { Icon } from '@prc/icons';
 

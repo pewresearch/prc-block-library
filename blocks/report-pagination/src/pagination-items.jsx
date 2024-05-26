@@ -22,11 +22,11 @@ export default function PaginationItems({
 	}
 
 	return (
-		<div className="wp-block-prc-block-report-pagination__pagination-items">
+		<div className="common-block-style__pagination__pagination-numbers">
 			{paginationItems.map((item, index) => {
 				const { title, link, isActive } = item;
 				const className = classNames(
-					'wp-block-prc-block-report-pagination__pagination-item',
+					'common-block-style__pagination__page-numbers',
 					{
 						'has-text-color':
 							!!textColor.color || !!textColor?.class,
@@ -64,7 +64,7 @@ export default function PaginationItems({
 						key={index}
 						href={link}
 						className={className}
-						alt={__(`Go to page ${index + 1} in report package`)}
+						alt={`Go to page ${index + 1} in report package`}
 					>
 						{index + 1}
 					</a>

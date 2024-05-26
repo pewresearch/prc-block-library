@@ -25,7 +25,16 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		},
 		initSmoothScrollClickHandler: () => {
 			const internalChaptersList = actions.getInternalChaptersList();
+
+			if (!internalChaptersList) {
+				return;
+			}
 			const links = internalChaptersList.querySelectorAll('a');
+
+			if (!links) {
+				return;
+			}
+
 			links.forEach((link) => {
 				link.addEventListener('click', (e) => {
 					const href = link.getAttribute('href');
@@ -121,9 +130,10 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			}
 
 			const chapterPosition = ref.getBoundingClientRect().top;
-			const nextChapterPosition = document
-				.getElementById(nextChapter?.id)
-				?.getBoundingClientRect().top;
+			const nextChapterPosition =
+				document
+					.getElementById(nextChapter?.id)
+					?.getBoundingClientRect().top - 50;
 
 			// When we cross the threshold of the current chapter (but not the next chapter), update the current chapter.
 			if (

@@ -5,14 +5,8 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
-import {
-	useBlockProps,
-	useInnerBlocksProps,
-	InnerBlocks,
-	withColors,
-} from '@wordpress/block-editor';
+import { useBlockProps, withColors } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -121,23 +115,36 @@ function Edit({
 						boxShadowColor: nextButtonBoxShadowColor,
 					}}
 				/>
-				<div className="wp-block-prc-block-report-pagination__pagination">
-					<NextPrevButton
-						{...{ post: previousPost, label: '&larr; Prev Page' }}
-					/>
-					<PaginationItems
-						{...{
-							paginationItems,
-							backgroundColor: itemBackgroundColor,
-							textColor: itemTextColor,
-							borderColor: itemBorderColor,
-							hoverBackgroundColor: itemHoverBackgroundColor,
-							activeBackgroundColor: itemActiveBackgroundColor,
-						}}
-					/>
-					<NextPrevButton
-						{...{ post: nextPost, label: 'Next Page &rarr;' }}
-					/>
+				<div className="common-block-style__pagination__container">
+					<div className="common-block-style__pagination">
+						<NextPrevButton
+							{...{
+								post: previousPost,
+								label: '&larr; Prev Page',
+								className:
+									'common-block-style__pagination__pagination-previous',
+							}}
+						/>
+						<PaginationItems
+							{...{
+								paginationItems,
+								backgroundColor: itemBackgroundColor,
+								textColor: itemTextColor,
+								borderColor: itemBorderColor,
+								hoverBackgroundColor: itemHoverBackgroundColor,
+								activeBackgroundColor:
+									itemActiveBackgroundColor,
+							}}
+						/>
+						<NextPrevButton
+							{...{
+								post: nextPost,
+								label: 'Next Page &rarr;',
+								className:
+									'common-block-style__pagination__pagination-next',
+							}}
+						/>
+					</div>
 				</div>
 			</div>
 		</Fragment>

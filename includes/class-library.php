@@ -175,6 +175,7 @@ class Library {
 		new Core_Navigation($this->get_loader());
 		new Core_Paragraph($this->get_loader());
 		new Core_Post_Content($this->get_loader());
+		new Core_Post_Featured_Image($this->get_loader());
 		new Core_Post_Title($this->get_loader());
 		new Core_Pullquote($this->get_loader());
 		new Core_Query($this->get_loader());
@@ -201,6 +202,7 @@ class Library {
 		new Collapsible($this->get_loader());
 		new Collection_Kicker($this->get_loader());
 		new Color_Palette($this->get_loader());
+		new Copyright($this->get_loader());
 		new Data_Table($this->get_loader());
 		new Entity_As_Iframe($this->get_loader());
 		new Fact_Sheet_Collection($this->get_loader());

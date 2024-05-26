@@ -43,7 +43,6 @@ domReady(() => {
 
 				const wrapperProps = {
 					...props.wrapperProps,
-					'data-block-gap': 'sad',
 					style: {
 						'--block-gap': blockGap || 0,
 					},
