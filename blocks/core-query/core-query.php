@@ -171,7 +171,7 @@ class Core_Query {
 	 * @hook pre_get_posts
 	 */
 	public function flag_query_as_modified_query_variation($query) {
-		if ( get_current_blog_id() !== PRC_PRIMARY_SITE_ID ) {
+		if ( 1 === get_current_blog_id() ) {
 			return;
 		}
 		if ( is_admin() ) {

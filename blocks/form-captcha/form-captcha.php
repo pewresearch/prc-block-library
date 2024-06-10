@@ -50,8 +50,10 @@ class Form_Captcha {
 		);
 		wp_localize_script(
 			'cloudflare-turnstile',
-			'PRC_PLATFORM_TURNSTILE_SITE_KEY',
-			PRC_PLATFORM_TURNSTILE_SITE_KEY
+			'prcFormInputCaptcha',
+			[
+				'turnstile_key' => PRC_PLATFORM_TURNSTILE_SITE_KEY,
+			]
 		);
 	}
 

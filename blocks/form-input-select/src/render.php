@@ -1,19 +1,42 @@
 <?php
 namespace PRC\Platform\Blocks;
+
 if ( is_admin() ) {
 	return;
+}
+// determine whether to automatically pull a list of country names or us states based on the attribute defaultOptions which can be either "custom", "countries", or "us-states".
+$default_options = array_key_exists( 'defaultOptions', $attributes ) ? $attributes['defaultOptions'] : 'custom';
+if ( 'countries' === $default_options ) {
+	$input_options = \PRC\Platform\get_list_of('countries');
+	$input_options = array_map( function( $option ) {
+		$option['isSelected'] = false;
+		return $option;
+	}, $input_options );
+} elseif ( 'us-states' === $default_options ) {
+	$input_options = \PRC\Platform\get_list_of('us-states');
+	$input_options = array_map( function( $option ) {
+		$option['isSelected'] = false;
+		return $option;
+	}, $input_options );
+} elseif ( 'industries' === $default_options ) {
+	$input_options = \PRC\Platform\get_list_of('industries');
+	$input_options = array_map( function( $option ) {
+		$option['isSelected'] = false;
+		return $option;
+	}, $input_options );
+} else {
+	$input_options = array_key_exists( 'options', $attributes ) ? $attributes['options'] : array(
+		array(
+			'label' => 'Option 1',
+			'value' => 'option-1',
+			'isSelected' => false,
+		),
+	);
 }
 $target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : 'prc-block/form-input-select';
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Click to select';
 $input_name = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : 'prc-block/form-input-select';
 $input_value = array_key_exists('value', $attributes) ? $attributes['value'] : null;
-$input_options = array_key_exists( 'options', $attributes ) ? $attributes['options'] : array(
-	array(
-		'label' => 'Option 1',
-		'value' => 'option-1',
-		'isSelected' => false,
-	),
-);
 $input_label = null;
 if ( null !== $input_value ) {
 	foreach ( $input_options as $option ) {

@@ -18,6 +18,7 @@ class Core_Post_Featured_Image {
 	public static $view_script_handle = null;
 	public static $editor_script_handle = null;
 	public static $style_handle = null;
+	public static $editor_style_handle = null;
 
 
 	public function __construct($loader) {
@@ -44,11 +45,13 @@ class Core_Post_Featured_Image {
 	 */
 	public function register_assets() {
 		self::$style_handle = register_block_style_handle( self::$block_json, 'style' );
+		self::$editor_style_handle = register_block_style_handle( self::$block_json, 'editorStyle' );
 		self::$editor_script_handle = register_block_script_handle( self::$block_json, 'editorScript' );
 	}
 
 	public function register_editor_assets() {
 		wp_enqueue_script( self::$editor_script_handle );
+		wp_enqueue_style( self::$editor_style_handle );
 	}
 
 	/**

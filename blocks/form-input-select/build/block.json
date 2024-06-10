@@ -7,6 +7,16 @@
   "category": "widgets",
   "description": "Create a dropdown element with a list of options.",
   "attributes": {
+    "defaultOptions": {
+      "type": "string",
+      "enum": [
+        "custom",
+        "industries",
+        "countries",
+        "us-states"
+      ],
+      "default": "custom"
+    },
     "options": {
       "type": "array",
       "default": []
@@ -57,6 +67,7 @@
     "interactivity": true
   },
   "usesContext": [
+    "prc-block/form-input-select/options",
     "prc-block/form-field-required",
     "prc-block/form-field-label",
     "prc-facets/template/facetType",

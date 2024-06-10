@@ -9,7 +9,7 @@ import { Sorter } from '@prc/controls';
 import { useEffect, useMemo } from 'react';
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
+import { PanelBody, TextControl, ToggleControl, SelectControl } from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -30,7 +30,7 @@ export default function Controls({
 	clientId,
 	context,
 }) {
-	const { placeholder, options } = attributes;
+	const { placeholder, options, defaultOptions } = attributes;
 
 	const sortableOptions = useMemo(() => {
 		return context['prc-block/sortable-options']
@@ -77,6 +77,19 @@ export default function Controls({
 				/>
 			</PanelBody>
 			<PanelBody title={__('Form Input Field Options')}>
+				<SelectControl
+					label="Select from default options"
+					value={defaultOptions}
+					options={[
+						{ label: 'Custom', value: 'custom' },
+						{ label: 'Countries', value: 'countries' },
+						{ label: 'U.S. States', value: 'us-states' },
+						{ label: 'Industries', value: 'industries' },
+					]}
+					onChange={(newDefaultOptions) => {
+						setAttributes({ defaultOptions: newDefaultOptions });
+					}}
+				/>
 				<Sorter
 					options={options}
 					setAttributes={setAttributes}

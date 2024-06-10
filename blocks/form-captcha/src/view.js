@@ -24,16 +24,19 @@ store('prc-block/form-captcha', {
 				return;
 			}
 			// eslint-disable-next-line no-undef
-			const { turnstile, PRC_PLATFORM_TURNSTILE_SITE_KEY } = window;
-			turnstile.ready(() => {
-				turnstile.render(target, {
-					sitekey: PRC_PLATFORM_TURNSTILE_SITE_KEY,
-					callback: (token) => {
-						console.log(`Challenge Success ${token}`);
-						targetContext.captchaToken = token;
-					},
+			const { turnstile, prcFormInputCaptcha } = window;
+			const key = prcFormInputCaptcha?.turnstile_key || false;
+			if (false !== key) {
+				turnstile.ready(() => {
+					turnstile.render(target, {
+						sitekey: key,
+						callback: (token) => {
+							console.log(`Challenge Success ${token}`);
+							targetContext.captchaToken = token;
+						},
+					});
 				});
-			});
+			}
 		},
 	},
 });
