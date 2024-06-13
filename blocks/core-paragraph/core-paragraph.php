@@ -38,7 +38,6 @@ class Core_Paragraph {
 			$loader->add_action('init', $this, 'register_assets');
 			$loader->add_action('enqueue_block_assets', $this, 'register_style');
 			$loader->add_action('enqueue_block_editor_assets', $this, 'register_editor_script');
-			$loader->add_filter('render_block', $this, 'render', 100, 2);
 		}
 	}
 
@@ -73,23 +72,6 @@ class Core_Paragraph {
 	 */
 	public function register_style() {
 		wp_enqueue_style( self::$style_handle );
-	}
-
-	/**
-	* Render the "core/paragraph" block
-	* @hook render_block
-	* @param string $block_content
-	* @param mixed $block
-	* @return mixed
-	*/
-	public function render( $block_content, $block ) {
-		if ( self::$block_name !== $block['blockName'] || is_admin() ) {
-			return $block_content;
-		}
-
-		// wp_enqueue_style( self::$style_handle );
-
-		return $block_content;
 	}
 
 }

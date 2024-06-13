@@ -27,10 +27,10 @@ if ( $is_deprecated ) {
 if ( $is_co_branded ) {
 	$classname = $classname . ' is-co-branded';
 	$collapsible_title = wp_sprintf(
-		'<a href="%s"><img src="%s" alt="%s" height="35px" class="wp-block-prc-block-collapsible__co-branding" /></a>',
+		'<a href="%1$s"><img src="%2$s" alt="%3$s" height="35px" class="wp-block-prc-block-collapsible__co-branding" title="%3$s" /></a>',
 		get_bloginfo('url') . '/pew-knight',
 		$assets_dir . '/pew-knight-logo.svg',
-		'Pew Knight Partnership'
+		'Learn more about the Pew Knight Initiative'
 	);
 	$collapsible_id = wp_unique_id('pew-knight-collapsible-');
 }

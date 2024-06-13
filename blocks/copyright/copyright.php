@@ -52,7 +52,7 @@ class Copyright {
 	}
 
 	public function get_copyright() {
-		$year = date('Y');
+		$year = gmdate('Y');
 		return wp_sprintf(
 			'© %s Pew Research Center',
 			$year
