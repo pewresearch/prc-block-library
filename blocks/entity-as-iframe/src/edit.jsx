@@ -60,11 +60,14 @@ function SyncedEntityEdit({
 	const { ref } = attributes;
 	const isNew = !ref;
 	/**
-	 * useHasRecursion pairs with <RecursionProvider /> to prevent infinite recursion (see final render below)
+	 * useHasRecursion pairs with <RecursionProvider /> to prevent
+	 * infinite recursion (see final render below)
 	 */
 	const hasAlreadyRendered = useHasRecursion(ref);
 	/**
-	 * Here we use useEntityRecord to get the entity record for the entity quickly and check if it has resolved or if there even is a record.
+	 * Here we use useEntityRecord to get the record for the entity, quickly,
+	 * and check if it has resolved or if there even is a record.
+	 * This is significantly quicker than a regular rest API request using apiFetch.
 	 */
 	const { record, hasResolved } = useEntityRecord('postType', POST_TYPE, ref);
 	const isResolving = !hasResolved;
@@ -78,7 +81,7 @@ function SyncedEntityEdit({
 	 *
 	 *
 	 * @param {string} entityName The name of the entity.
-	 * @param {string} postType   The type of the entity. "post type" or in the case of taxonomies "taxonomy type".
+	 * @param {string} postType   The type of the entity. "postType" or "taxonomy" or "user"
 	 * @param {Object} options    Options object.
 	 */
 	const [blocks, onInput, onChange] = useEntityBlockEditor(
@@ -106,7 +109,7 @@ function SyncedEntityEdit({
 		return (
 			<div {...blockProps}>
 				<Warning>
-					{__(`${POST_TYPE} cannot be rendered inside itself.`)}
+					{`${POST_TYPE} cannot be rendered inside itself.`}
 				</Warning>
 			</div>
 		);
@@ -119,7 +122,7 @@ function SyncedEntityEdit({
 		return (
 			<div {...blockProps}>
 				<Warning>
-					{__(` ${POST_TYPE}as been deleted or is unavailable.`)}
+					{`${POST_TYPE} has been deleted or is unavailable.`}
 				</Warning>
 			</div>
 		);

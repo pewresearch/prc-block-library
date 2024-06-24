@@ -44,11 +44,11 @@ const { state, actions } = store('prc-block/taxonomy-search', {
 					args.taxonomy = taxonomy;
 				}
 				if ('' !== searchValue) {
-					args.searchValue = searchValue;
+					args.search = searchValue;
 				}
 				if (0 !== parentTermId && '' !== parentTermId) {
 					// cast parentTermId as a whole number
-					args.parentTermId = parentTermId;
+					args.parent_term_id = parentTermId;
 				}
 				const request = {
 					method: 'GET',

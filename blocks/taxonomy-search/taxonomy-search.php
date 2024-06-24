@@ -49,7 +49,7 @@ class Taxonomy_Search {
 			'methods'             => 'GET',
 			'callback'            => array( $this, 'restfully_search_taxonomy' ),
 			'args'                => array(
-				'searchValue' => array(
+				'search' => array(
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_string( $param );
 					},
@@ -59,12 +59,12 @@ class Taxonomy_Search {
 						return is_string( $param );
 					},
 				),
-				'parentTermId' => array(
+				'parent_term_id' => array(
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_string( $param );
 					},
 				),
-				'perPage' => array(
+				'per_page' => array(
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_int( $param );
 					},
