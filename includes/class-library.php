@@ -293,6 +293,11 @@ class Library {
 					'slug' => 'editorial-product',
 					'title' => __( 'Editorial Product', 'prc-block-library-categories' ),
 					'icon' => 'lightbulb'
+				),
+				array(
+					'slug' => 'interactivity',
+					'title' => __( 'Interactivity API', 'prc-block-library-categories' ),
+					'icon' => 'lightbulb'
 				)
 			)
 		);

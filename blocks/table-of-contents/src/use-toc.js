@@ -15,38 +15,46 @@ import { useEntityRecord } from '@wordpress/core-data';
 
 function useCurrentChapters() {
 	// This loads the chapters currently in the editor context.
-	const { currentChapters = [] } = useSelect(
-		(select) => {
-			const foundChapters = select('core/block-editor').getBlocks().filter(
-				(block) => 'core/heading' === block.name && block.attributes?.isChapter === true,
+	const { currentChapters = [] } = useSelect((select) => {
+		const foundChapters = select('core/block-editor')
+			.getBlocks()
+			.filter(
+				(block) =>
+					'core/heading' === block.name &&
+					block.attributes?.isChapter === true
 			);
-			return {
-				currentChapters: 0 === foundChapters.length ? [
-					{
-						attributes: {
-							content: 'Chapter 1...',
-						},
-					},
-					{
-						attributes: {
-							content: 'Chapter 2...',
-						},
-					},
-					{
-						attributes: {
-							content: 'Chapter 3...',
-						},
-					},
-				] : foundChapters,
-			};
-		},
-		[],
-	);
+		return {
+			currentChapters:
+				0 === foundChapters.length
+					? [
+							{
+								attributes: {
+									content: 'Chapter 1...',
+								},
+							},
+							{
+								attributes: {
+									content: 'Chapter 2...',
+								},
+							},
+							{
+								attributes: {
+									content: 'Chapter 3...',
+								},
+							},
+						]
+					: foundChapters,
+		};
+	}, []);
 	return currentChapters;
 }
 
-export default function useTOC( { postId, postType } ) {
-	const { record, isResolving } = useEntityRecord( 'postType', postType, postId );
+export default function useTOC({ postId, postType }) {
+	const { record, isResolving } = useEntityRecord(
+		'postType',
+		postType,
+		postId
+	);
 
 	const tableOfContents = useMemo(() => {
 		if (!record || isResolving) {
@@ -67,7 +75,7 @@ export default function useTOC( { postId, postType } ) {
 							title: 'Chapter 1.3...',
 							id: 3,
 						},
-					]
+					],
 				},
 				{
 					id: 2,
@@ -86,20 +94,26 @@ export default function useTOC( { postId, postType } ) {
 	const currentPostChapters = useCurrentChapters();
 
 	const memoizedChapters = useMemo(() => {
+		if (!tableOfContents) {
+			return [];
+		}
 		return tableOfContents?.map((chapter) => {
-			const internalChapters = postId === chapter?.id ? currentPostChapters.map((chapter) => ({
-				title: chapter.attributes?.content,
-				id: chapter?.id,
-				clientId: chapter?.clientId,
-				link: chapter?.link,
-			})) : chapter?.internal_chapters;
+			const internalChapters =
+				postId === chapter?.id
+					? currentPostChapters.map((chapter) => ({
+							title: chapter.attributes?.content,
+							id: chapter?.id,
+							clientId: chapter?.clientId,
+							link: chapter?.link,
+						}))
+					: chapter?.internal_chapters;
 
 			return {
 				id: chapter.id,
 				title: chapter?.title,
 				link: chapter?.link,
-				internalChapters: internalChapters,
-			}
+				internalChapters,
+			};
 		});
 	}, [currentPostChapters, tableOfContents]);
 

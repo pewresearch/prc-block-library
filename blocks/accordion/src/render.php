@@ -89,7 +89,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(array(
 ));
 
 echo wp_sprintf(
-	'<div %1$s><button class="%2$s" data-wp-on--click="actions.onClick"><span class="wp-block-prc-block-accordion--icon">&#8227;</span><h3>%3$s</h3></button><div class="%4$s">%5$s</div></div>',
+	'<div %1$s><button class="%2$s" data-wp-on--click="actions.onClick"><span class="wp-block-prc-block-accordion__icon">&#8227;</span><h3>%3$s</h3></button><div class="%4$s">%5$s</div></div>',
 	$block_wrapper_attrs,
 	\PRC\Platform\Block_Utils\classNames($title_css_classes),
 	$attributes['title'],

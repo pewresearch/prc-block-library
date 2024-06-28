@@ -34,10 +34,10 @@
 		"anchor": true,
 		"html": false,
 		"typography": {
-			"fontSize": true,
+			"fontSize": false,
 			"__experimentalFontFamily": true,
 			"__experimentalDefaultControls": {
-				"fontSize": true,
+				"fontSize": false,
 				"__experimentalFontFamily": true
 			}
 		},
@@ -53,9 +53,7 @@
 		},
 		"interactivity": true
 	},
-	"parent": [
-		"prc-block/accordion-controller"
-	],
+	"parent": ["prc-block/accordion-controller"],
 	"usesContext": [
 		"prc-block/accordion-controller/content-background",
 		"prc-block/accordion-controller/content-text",

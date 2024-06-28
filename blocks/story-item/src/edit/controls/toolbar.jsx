@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -19,7 +20,8 @@ import {
  * Internal Dependencies
  */
 import { ImageSizeIcon, ImageSlotIcon } from './icons';
-import { setArtBySize, getAttributesFromPost } from '../../helpers';
+import { setArtBySize, getPostAttributes } from '../../helpers';
+import ToolbarURLSearch from './toolbar-url-search';
 
 const COLUMN_LIMIT = 6;
 
@@ -66,17 +68,28 @@ function Toolbar({ attributes, setAttributes, context }) {
 	return (
 		<BlockControls>
 			{!isUsingContext && (
-				<URLSearchToolbar
+				<ToolbarURLSearch
 					{...{
 						postId,
 						postType,
 						url,
-						onSelect: (postAttrs) => {
-							const newAttributes = getAttributesFromPost(
-								postAttrs,
-								{ imageSize }
-							);
-							setAttributes(newAttributes);
+						onSelect: (post) => {
+							return new Promise((resolve) => {
+								getPostAttributes(
+									post.entityId,
+									post.entitySubType,
+									imageSize
+								).then((attrs) => {
+									console.log(
+										'getPostAttributes attrs:',
+										attrs
+									);
+									setTimeout(() => {
+										setAttributes(attrs);
+									}, 500);
+									resolve(attrs);
+								});
+							});
 						},
 						onUpdateURL: (newURL) => {
 							setAttributes({ url: newURL });

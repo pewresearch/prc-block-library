@@ -13,7 +13,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 const setArtBySize = (imageSize, postId, setAttributes) => {
 	if (0 !== postId && false !== setAttributes) {
 		apiFetch({
-			path: `/prc-api/v3/art-direction/get/?postId=${postId}`,
+			path: `/prc-api/v3/art-direction/get/${postId}`,
 		}).then((data) => {
 			if (false !== data) {
 				if (undefined !== data[imageSize] && false !== setAttributes) {
@@ -32,12 +32,16 @@ const setArtBySize = (imageSize, postId, setAttributes) => {
  * @TODO Have moment clean up the date data.
  * @param {*} post
  * @param {*} imageSize
+ * @param     options
  * @param {*} isRefresh
- * @returns
+ * @return
  */
-const getAttributesFromPost = (post, options = {
-	imageSize: 'A1',
-}) => {
+const getAttributesFromPost = (
+	post,
+	options = {
+		imageSize: 'A1',
+	}
+) => {
 	console.log('getAttributesFromPost', post, options);
 
 	if (null === post) {
@@ -46,11 +50,13 @@ const getAttributesFromPost = (post, options = {
 
 	const storyItem = {
 		title:
-			post.hasOwnProperty('title') && post.title.hasOwnProperty('rendered')
+			post.hasOwnProperty('title') &&
+			post.title.hasOwnProperty('rendered')
 				? post.title.rendered
 				: '',
 		excerpt:
-			post.hasOwnProperty('excerpt') && post.excerpt.hasOwnProperty('rendered')
+			post.hasOwnProperty('excerpt') &&
+			post.excerpt.hasOwnProperty('rendered')
 				? post.excerpt.rendered
 				: '',
 		url: post.link,
@@ -60,11 +66,10 @@ const getAttributesFromPost = (post, options = {
 		postType: post.type,
 	};
 
-	if (post.artDirection) {
-		const { artDirection } = post;
+	if (post.art_direction) {
 		const { imageSize } = options;
-		storyItem.image = artDirection[imageSize].rawUrl;
-		storyItem.isChartArt = artDirection[imageSize].chartArt;
+		storyItem.image = post.art_direction[imageSize].rawUrl;
+		storyItem.isChartArt = post.art_direction[imageSize].chartArt;
 	}
 
 	return storyItem;
@@ -77,7 +82,8 @@ const getAttributesFromPost = (post, options = {
  * @param {*} imageSize
  * @param {*} isRefresh
  * @param {*} setAttributes
- * @returns
+ * @param     options
+ * @return
  */
 const refreshPostAttributes = (options) => {
 	const {
@@ -92,7 +98,7 @@ const refreshPostAttributes = (options) => {
 		return;
 	}
 
-	let type = 'post' === postType ? 'posts' : postType;
+	const type = 'post' === postType ? 'posts' : postType;
 
 	apiFetch({
 		path: `/wp/v2/${type}/${postId}`,
@@ -100,15 +106,29 @@ const refreshPostAttributes = (options) => {
 	})
 		.then((post) => {
 			if (false !== post) {
-				const attrs = getAttributesFromPost({
-					post,
+				const attrs = getAttributesFromPost(post, {
 					imageSize,
-					isRefresh,
 				});
 				setAttributes(attrs);
 			}
 		})
 		.catch((err) => console.error(err));
+};
+
+const getPostAttributes = (postId, postType, imageSize) => {
+	const restType = 'post' === postType ? 'posts' : postType;
+	return new Promise((resolve, reject) => {
+		apiFetch({
+			path: `/wp/v2/${restType}/${postId}`,
+			method: 'GET',
+		})
+			.then((post) => {
+				if (false !== post) {
+					resolve(getAttributesFromPost(post, { imageSize }));
+				}
+			})
+			.catch((err) => reject(err));
+	});
 };
 
 const useStoryItemBlockProps = (attributes, asSave = false) => {
@@ -131,7 +151,7 @@ const useStoryItemBlockProps = (attributes, asSave = false) => {
 	}
 	const blockPropsArgs = {
 		className: classNames('story item', className, logicalClasses),
-		'data-post-id': postId
+		'data-post-id': postId,
 	};
 	if ('disabled' !== imageSlot && '' !== imageSize) {
 		blockPropsArgs['data-image-size'] = imageSize;
@@ -143,6 +163,7 @@ const useStoryItemBlockProps = (attributes, asSave = false) => {
 export {
 	setArtBySize,
 	getAttributesFromPost,
+	getPostAttributes,
 	refreshPostAttributes,
 	useStoryItemBlockProps,
 };

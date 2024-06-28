@@ -7,6 +7,7 @@
 		display: flex;
 		align-items: center;
 		width: 100%;
+		font-family: inherit;
 		font-size: 1.25em;
 		font-weight: 600;
 		padding: 0.75em;
@@ -29,13 +30,15 @@
 		padding: 0;
 		cursor: pointer;
 	}
-	&.is-active .wp-block-prc-block-accordion__icon {
-		-webkit-transform: rotate(90deg);
-		transform: rotate(90deg);
-	}
-	&.is-active .wp-block-prc-block-accordion__content {
-		display: block;
-		transition: all 1s ease-in-out;
+	&.is-active {
+		.wp-block-prc-block-accordion__icon {
+			-webkit-transform: rotate(90deg);
+			transform: rotate(90deg);
+		}
+		.wp-block-prc-block-accordion__content {
+			display: block;
+			transition: all 1s ease-in-out;
+		}
 	}
 	.wp-block-prc-block-accordion__content {
 		display: none;

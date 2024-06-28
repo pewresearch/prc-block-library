@@ -298,9 +298,11 @@ function Edit({
 					>
 						{0 !== chapters.length &&
 							chapters.map((chapter) => {
+								const key =
+									chapter.id || `chptr-${Math.random()}`;
 								return (
 									<li
-										key={chapter.id}
+										key={key}
 										className={classNames(
 											'wp-block-prc-block-table-of-contents__list-item',
 											{

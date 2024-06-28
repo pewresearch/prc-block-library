@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { URLSearchField } from '@prc/components';
+import { WPEntitySearch } from '@prc/components';
 import { Icon } from '@prc/icons';
 
 /**
@@ -14,13 +14,11 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
-import { useEntityProp } from '@wordpress/core-data';
-import { useState, useEffect, useMemo } from '@wordpress/element';
 
 /**
  * Interanl Dependencies
  */
-import { getAttributesFromPost } from '../../helpers';
+import { refreshPostAttributes } from '../../helpers';
 
 export default function Placeholder({ attributes, setAttributes }) {
 	const { postId, postType, imageSize, url } = attributes;
@@ -30,13 +28,14 @@ export default function Placeholder({ attributes, setAttributes }) {
 	return (
 		<div {...blockProps}>
 			<WPComPlaceholder
-				icon={<Icon icon="newspaper" />}
+				icon={() => {
+					<div style={{ maxWidth: '64px' }}>
+						<Icon icon="newspaper" />
+					</div>;
+				}}
 				label={__(' Story Item', 'prc-block-library')}
 				isColumnLayout
-				instructions={__(
-					`Search for a ${postType}, or paste a url here to get started.`,
-					'prc-block-library'
-				)}
+				instructions={`Search for a ${postType}, or paste a url here to get started.`}
 			>
 				<SelectControl
 					label={__('Post Type', 'prc-block-library')}
@@ -51,31 +50,40 @@ export default function Placeholder({ attributes, setAttributes }) {
 							value: 'short-read',
 						},
 						{
-							label: __('Factsheet', 'prc-block-library'),
-							value: 'factsheet',
+							label: __('Fact Sheet', 'prc-block-library'),
+							value: 'fact-sheet',
 						},
 						{
-							label: __('Interactive', 'prc-block-library'),
-							value: 'interactive',
+							label: __('Editorial Feature', 'prc-block-library'),
+							value: 'feature',
 						},
 					]}
 					onChange={(value) => setAttributes({ postType: value })}
 				/>
-				<URLSearchField
+				<WPEntitySearch
 					{...{
-						postId,
-						postType,
-						url,
-						onSelect: (postAttrs) => {
-							const newAttributes = getAttributesFromPost(
-								postAttrs,
-								{ imageSize }
-							);
-							setAttributes(newAttributes);
+						placeholder: 'Climate Change', // placeholder for the search input
+						searchValue: url, // pre-populate the search input
+						onSelect: (post) => {
+							refreshPostAttributes({
+								setAttributes,
+								postId: post.entityId,
+								postType: post.entitySubType,
+								imageSize,
+							});
 						},
-						onUpdateURL: (newURL) => {
-							setAttributes({ url: newURL });
-						},
+						onKeyEnter: () => {},
+						onKeyESC: () => {},
+						entityId: postId,
+						entityType: 'postType', // taxonomy, user
+						entitySubType: postType, // ['post', 'page', 'staff'] || ['category', 'tag'] || 'user'
+						perPage: 10,
+						hideChildren: true,
+						clearOnSelect: false,
+						createNew: false,
+						showExcerpt: true,
+						showType: true,
+						searchSize: 'default', // compact also available
 					}}
 				/>
 				<Button

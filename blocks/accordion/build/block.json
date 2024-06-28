@@ -34,10 +34,10 @@
     "anchor": true,
     "html": false,
     "typography": {
-      "fontSize": true,
+      "fontSize": false,
       "__experimentalFontFamily": true,
       "__experimentalDefaultControls": {
-        "fontSize": true,
+        "fontSize": false,
         "__experimentalFontFamily": true
       }
     },

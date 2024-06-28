@@ -15,11 +15,11 @@
     "start": "wp-scripts start --webpack-copy-php"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.3.0",
+    "@wordpress/scripts": "^28.1.0",
     "lodash": "^4.17.21"
   },
   "dependencies": {
     "react-responsive-picture": "^3.2.2",
-		"@wordpress/icons": "^9.43.0"
+		"@wordpress/icons": "^10.1.0"
   }
 }
