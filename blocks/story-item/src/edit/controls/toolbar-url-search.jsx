@@ -7,14 +7,19 @@ import { WPEntitySearch } from '@prc/components';
  * WordPress Dependencies
  */
 import { useState } from '@wordpress/element';
-import { Modal, ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import {
+	Modal,
+	ToolbarButton,
+	ToolbarGroup,
+	Button,
+} from '@wordpress/components';
 
 export default function ToolbarURLSearch({
 	postId,
 	postType = 'post',
 	url,
 	onSelect = () => {},
-	onUpdateURL = () => {},
+	onURLChange = () => {},
 }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -63,6 +68,12 @@ export default function ToolbarURLSearch({
 								entitySubType: postType,
 								perPage: 10,
 								hideChildren: true,
+								onUpdateURL: (newVal) => {
+									onURLChange(newVal);
+									setTimeout(() => {
+										setIsModalOpen(false);
+									}, 500);
+								},
 								clearOnSelect: true,
 								createNew: false,
 								showExcerpt: true,

@@ -29,26 +29,26 @@ import { useStoryItemBlockProps } from '../helpers';
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.context
+ * @param            props.clientId
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({
-	attributes,
-	setAttributes,
-	context,
-	clientId,
-}) {
+export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const isSelected = useHasSelectedInnerBlock(clientId);
 	const { postId, isPreview, enableExtra } = attributes;
 
 	const blockProps = useStoryItemBlockProps(attributes);
-	const innerBlocksProps = useInnerBlocksProps({
-		className: 'extra'
-	}, {
-		allowedBlocks: ['core/list', 'core/paragraph', 'core/html'],
-	});
-	
+	const innerBlocksProps = useInnerBlocksProps(
+		{
+			className: 'extra',
+		},
+		{
+			allowedBlocks: ['core/list', 'core/paragraph', 'core/html'],
+		}
+	);
+
 	// If this block is being rendered in the scope of query context
 	// then render the ContextPreview component early.
 	if (
@@ -118,9 +118,7 @@ export default function Edit({
 					}}
 				/>
 
-				{true === enableExtra && (
-					<div {...innerBlocksProps} />
-				)}
+				{true === enableExtra && <div {...innerBlocksProps} />}
 			</article>
 			<Controls
 				{...{

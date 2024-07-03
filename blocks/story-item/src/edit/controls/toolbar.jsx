@@ -91,8 +91,8 @@ function Toolbar({ attributes, setAttributes, context }) {
 								});
 							});
 						},
-						onUpdateURL: (newURL) => {
-							setAttributes({ url: newURL });
+						onURLChange: (newVal) => {
+							setAttributes({ url: newVal });
 						},
 					}}
 				/>

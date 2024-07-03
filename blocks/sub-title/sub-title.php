@@ -65,7 +65,7 @@ class Sub_Title {
 	public function block_init() {
 		// Legacy
 		register_post_meta(
-			'post',
+			'',
 			'sub_headline',
 			array(
 				'show_in_rest'  => true,
@@ -81,7 +81,7 @@ class Sub_Title {
 		// New
 		// @TODO: switch block over to this when we start the ui/update
 		register_post_meta(
-			'post',
+			'',
 			'sub_title',
 			array(
 				'show_in_rest'  => true,
