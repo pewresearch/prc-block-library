@@ -188,6 +188,7 @@ class Core_Button {
 						'isSuccess' => false,
 						'isProcessing' => false,
 						'text' => $button_text,
+						'originalText' => $button_text,
 					),
 				)
 			);

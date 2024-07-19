@@ -35,6 +35,5 @@
     "parent": ["prc-block/tabs-panes"],
 	"textdomain": "tabs-pane",
 	"editorScript": "file:./index.js",
-	"render": "file:./render.php",
 	"style": "file:./style-index.css"
 }

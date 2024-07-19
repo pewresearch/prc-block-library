@@ -9,6 +9,14 @@
 	"category": "design",
 	"icon": "editor-kitchensink",
 	"attributes": {
+		"isSlider": {
+			"type": "boolean",
+			"default": false
+		},
+		"sliderHasButton": {
+			"type": "boolean",
+			"default": false
+		},
 		"vertical": {
 			"type": "boolean",
 			"default": false

@@ -83,7 +83,7 @@ $option_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
 	'data-wp-on--click' => 'actions.onClick',
 ) );
 $option_template = wp_sprintf(
-	'<li %1$s/>',
+	'<li %1$s></li>',
 	$option_attrs
 );
 // Generate the list of options from context.filteredOptions.

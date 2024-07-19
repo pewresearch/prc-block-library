@@ -81,7 +81,7 @@
 	// When this block reaches 480px it will convert to an accordion.
 	// All of these are set to important to override all other styles, this must always become an accordion.
 	@container (max-width: 480px) {
-		&:not(.is-style-minimal) {
+		&:not(.is-style-minimal, .is-slider) {
 			@include accordion;
 		}
 	}
@@ -102,6 +102,7 @@
 		list-style: none;
 		gap: 5px;
 		box-sizing: border-box;
+		overflow-x: scroll;
 		& > li {
 			display: block;
 		}
@@ -257,6 +258,273 @@
 				content: "";
 				display: table;
 				clear: both;
+			}
+		}
+	}
+}
+
+/*!
+ * # Fomantic-UI 2.9.3 - Slider
+ * https://github.com/fomantic/Fomantic-UI/
+ *
+ *
+ * Released under the MIT license
+ * https://opensource.org/licenses/MIT
+ *
+ */
+.wp-block-prc-block-tabs.is-slider {
+	.slider-group {
+		display: flex;
+		flex-direction: row;
+		@container (max-width: 600px) {
+			flex-direction: column-reverse;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+	.slider__button {
+		width: 100px;
+		height: 30px;
+		font-family: var(--wp--preset--font-family--sans-serif);
+		font-size: var(--wp--preset--font-size--small-label);
+		color: var(--wp--preset--color--ui-black);
+		margin-left: 0.5em;
+		margin-right: 1.2em;
+		margin-top: 0.2em;
+		margin-bottom: 0.2em;
+		background-color: var(--wp--preset--color--ui-white);
+		border-radius: 3px;
+		border: 1px solid var(--wp--preset--color--ui-gray-light);
+		&:hover {
+			background-color: var(--wp--preset--color--ui-gray-light);
+			cursor: pointer;
+		}
+	}
+	.wp-block-prc-block-tabs-menu:not(.block-editor-block-list__block) {
+		display: none;
+	}
+	.ui.slider:not(.vertical):not(.checkbox) {
+		width: 100%;
+		padding: 1em 0.5em;
+	}
+	.ui.slider:not(.checkbox) {
+		position: relative;
+	}
+	.ui.slider:not(.checkbox):focus {
+		outline: 0;
+	}
+	.ui.slider .inner {
+		position: relative;
+		z-index: 2;
+	}
+	.ui.slider:not(.vertical) .inner {
+		height: 1.5em;
+	}
+	.ui.slider .inner:hover {
+		cursor: auto;
+	}
+	.ui.slider .inner .track {
+		position: absolute;
+		border-radius: 4px;
+		background-color: rgba(0, 0, 0, 0.05);
+	}
+	.ui.slider:not(.vertical) .inner .track {
+		width: 100%;
+		height: 0.4em;
+		top: 0.5em;
+		left: 0;
+	}
+	.ui.slider .inner .track-fill {
+		position: absolute;
+		border-radius: 4px;
+		background-color: #1b1c1d;
+	}
+	.ui.slider:not(.vertical) .inner .track-fill {
+		height: 0.4em;
+		top: 0.5em;
+		left: 0;
+	}
+	.ui.slider .inner .thumb {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 1.5em;
+		width: 1.5em;
+		background: #fff linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+		border-radius: 100%;
+		box-shadow:
+			0 1px 2px 0 rgba(34, 36, 38, 0.15),
+			0 0 0 1px rgba(34, 36, 38, 0.15) inset;
+		transition: background 0.3s ease;
+	}
+	.ui.slider:not(.disabled) .inner .thumb:hover {
+		cursor: pointer;
+		background: #f2f2f2 linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+	}
+	.ui.slider:not(.disabled):focus .inner .thumb {
+		background: #f2f2f2 linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+	}
+	.ui.disabled.slider:not(.checkbox) {
+		opacity: 0.5;
+	}
+	.ui.disabled.slider .inner:hover {
+		cursor: auto;
+	}
+	.ui.disabled.slider .inner .track-fill {
+		background: #ccc;
+	}
+	.ui.reversed.slider .inner .track-fill {
+		left: auto;
+		right: 0;
+	}
+	.ui.reversed.slider:not(.vertical) .inner .thumb {
+		left: auto;
+		right: 0;
+	}
+	.ui.reversed.vertical.slider .inner .thumb {
+		left: 0.03em;
+	}
+	.ui.labeled.reversed.slider > .labels .label {
+		transform: translate(-100%, -100%);
+	}
+	.ui.vertical.slider {
+		height: 100%;
+		width: 1.5em;
+		padding: 0.5em 1em;
+	}
+	.ui.vertical.slider .inner {
+		height: 100%;
+	}
+	.ui.vertical.slider .inner .track {
+		height: 100%;
+		width: 0.4em;
+		left: 0.55em;
+		top: 0;
+	}
+	.ui.vertical.slider .inner .track-fill {
+		width: 0.4em;
+		left: 0.55em;
+		top: 0;
+	}
+	.ui.vertical.reversed.slider .inner .thumb {
+		top: auto;
+		bottom: 0;
+	}
+	.ui.vertical.reversed.slider .inner .track-fill {
+		top: auto;
+		bottom: 0;
+	}
+	.ui.labeled.slider > .labels {
+		height: 1.5em;
+		width: auto;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		top: 50%;
+		left: 0;
+		right: 0;
+	}
+	.ui.labeled.slider:not(.vertical) > .labels {
+		transform: translateY(-50%);
+	}
+	.ui.labeled.slider > .labels .label {
+		display: inline-flex;
+		padding: 0.2em 0;
+		position: absolute;
+		transform: translate(-50%, -100%);
+		white-space: nowrap;
+	}
+	.ui.bottom.aligned.labeled.slider > .labels .label {
+		bottom: 0;
+		transform: translate(-50%, 100%);
+	}
+	.ui.labeled.ticked.slider > .labels .label::after {
+		content: " ";
+		height: 1.5em;
+		width: 1px;
+		background: #ccc;
+		position: absolute;
+		top: 100%;
+		left: 50%;
+	}
+	.ui.bottom.aligned.labeled.ticked.slider > .labels .label::after {
+		top: auto;
+		bottom: 100%;
+	}
+	.ui.labeled.ticked.slider > .labels .halftick.label::after {
+		height: 0.75em;
+	}
+	.ui.labeled.vertical.slider > .labels {
+		width: 1.5em;
+		height: auto;
+		left: 50%;
+		top: 0;
+		bottom: 0;
+		transform: translateX(-50%);
+	}
+	.ui.labeled.vertical.slider > .labels .label {
+		transform: translate(-100%, -50%);
+	}
+	.ui.labeled.vertical.slider > .labels .label::after {
+		width: 1.5em;
+		height: 1px;
+		left: 100%;
+		top: 50%;
+	}
+	.ui.labeled.vertical.slider > .labels .halftick.label::after {
+		width: 0.75em;
+		height: 1px;
+	}
+	.ui.labeled.vertical.reversed.slider > .labels .label {
+		transform: translate(-100%, 50%);
+	}
+	.ui.hover.slider .inner .thumb {
+		opacity: 0;
+		transition: opacity 0.2s linear;
+	}
+	.ui.hover.slider:not(.disabled):focus .inner .thumb,
+	.ui.hover.slider:not(.disabled):hover .inner .thumb {
+		opacity: 1;
+	}
+
+	.ui.labeled.slider {
+		padding: 1em 0.5em 0em 0.5em !important;
+		&:focus .inner .thumb {
+			background-color: var(--wp--preset--color--ui-gray-dark);
+		}
+		.labels {
+			transform: translateY(0%) !important;
+			li.label {
+				font-family: var(--wp--preset--font-family--sans-serif);
+				font-size: var(--wp--preset--font-size--small-label);
+				text-transform: none;
+
+				.label-text--rotate {
+					transform: translate(0, -5px) rotate(-45deg);
+					@container (max-width: 300px) {
+						transform: none;
+					}
+				}
+				&:after {
+					height: 1em !important;
+				}
+			}
+		}
+		.inner {
+			.track {
+				border-radius: 0px;
+			}
+			.track-fill {
+				background-color: rgba(0, 0, 0, 0.05);
+			}
+			.thumb {
+				top: 4px;
+				height: 1em;
+				width: 1em;
+				background-color: var(--wp--preset--color--ui-black);
+				&:hover {
+					background-color: var(--wp--preset--color--ui-gray-dark);
+				}
 			}
 		}
 	}

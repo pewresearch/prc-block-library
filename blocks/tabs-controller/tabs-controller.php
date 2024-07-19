@@ -108,22 +108,39 @@ class Tabs_Controller {
 		return render_block( array_pop($blocks) );
 	}
 
+	public function get_menu_items($block) {
+		$parsed_block = $block->parsed_block;
+		$tabs_controller_innerblocks = $parsed_block['innerBlocks'];
+		$menu_block = \wp_get_first_block($tabs_controller_innerblocks, 'prc-block/tabs-menu');
+		$menu_items = $menu_block['innerBlocks'];
+		return array_map(function($item) {
+			return array(
+				'uuid' => $item['attrs']['uuid'],
+				'title' => $item['attrs']['title'],
+				'slug' => $item['attrs']['slug'],
+			);
+		}, $menu_items);
+	}
+
 	/**
 	 * Either return the uuid from the `tabItem` url var or get the uuid for the first menu item block.
 	 * @param mixed $block
 	 * @return mixed
 	 */
-	private function get_first_menu_item_uuid($block) {
+	private function get_first_menu_item_uuid($menu_items) {
 		$url_var_value = get_query_var('tabItem');
 		if ( $url_var_value ) {
-			return $url_var_value;
+			// check that the url var value matches a uuid in the menu items
+			$uuids = array_map(function($item) {
+				return $item['uuid'];
+			}, $menu_items);
+			if ( in_array($url_var_value, $uuids) ) {
+				return $url_var_value;
+			}
 		}
 
-		$parsed_block = $block->parsed_block;
-		$tabs_controller_innerblocks = $parsed_block['innerBlocks'];
-		$menu_block = \wp_get_first_block($tabs_controller_innerblocks, 'prc-block/tabs-menu');
-		$first_menu_item_block = \wp_get_first_block($menu_block['innerBlocks'], 'prc-block/tabs-menu-item');
-		return $first_menu_item_block['attrs']['uuid'];
+		$first_menu_item_block = $menu_items[0];
+		return $first_menu_item_block['uuid'];
 	}
 
 	private function check_for_dialog_link_tab($block) {
@@ -144,14 +161,49 @@ class Tabs_Controller {
 	}
 
 	protected function get_initial_context($block) {
+		$menu_items = $this->get_menu_items($block);
 		$initial_context = array(
-			'activeUUID' => $this->get_first_menu_item_uuid($block),
+			'activeUUID' => $this->get_first_menu_item_uuid($menu_items),
+			'menuItems' => $menu_items,
+			'isPlaying' => false,
+			'buttonText' => 'Play',
 		);
 		$dialog_link = $this->check_for_dialog_link_tab($block);
 		if ( $dialog_link ) {
 			$initial_context['dialogLinkUUID'] = $dialog_link;
 		}
 		return $initial_context;
+	}
+
+	public function render_slider( $attributes, $initial_context ) {
+		$slider_button_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
+			'type' => 'button',
+			'class' => 'slider__button',
+			'data-wp-on--click' => 'actions.onSliderButtonClick',
+			'data-wp-text'=>'context.buttonText'
+		));
+
+		$play_button = '';
+
+		if ( $attributes['sliderHasButton'] ) {
+			$play_button = wp_sprintf(
+				'<button %1$s></button>',
+				$slider_button_attrs
+			);
+		}
+
+		$slider_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
+			'id' => 'slider',
+			'class' => 'ui slider',
+			'data-menu-items-length' => count($initial_context['menuItems']),
+			'data-wp-watch' => "callbacks.isPlaying"
+		));
+
+		return wp_sprintf(
+			'<div class="slider-group">%1$s<div %2$s></div></div>',
+			$play_button,
+			$slider_attrs
+		);
 	}
 
 	/**
@@ -176,6 +228,7 @@ class Tabs_Controller {
 				'class' => \PRC\Platform\Block_Utils\classNames( array(
 					'is-vertical-tabs' => $attributes['vertical'],
 					'is-horizontal-tabs' => ! $attributes['vertical'],
+					'is-slider' => $attributes['isSlider'],
 				) ),
 				'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/tabs-controller')),
 				'data-wp-context' => wp_json_encode($initial_context),
@@ -183,9 +236,15 @@ class Tabs_Controller {
 			)
 		);
 
+		$slider = '';
+		if ( $attributes['isSlider'] ) {
+			$slider = $this->render_slider($attributes, $initial_context);
+		}
+
 		return wp_sprintf(
-			'<div %1$s><div>%2$s</div></div>',
+			'<div %1$s>%2$s<div>%3$s</div></div>',
 			$block_wrapper_attrs,
+			$slider,
 			$content,
 		);
 	}

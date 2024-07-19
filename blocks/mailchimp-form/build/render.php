@@ -21,6 +21,7 @@ $initial_context = array(
 	'isSuccess' => false,
 	'isDisabled' => false,
 	'isProcessing' => false,
+	'messages' => [],
 );
 
 $block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
@@ -37,6 +38,7 @@ echo wp_sprintf(
 			)),
 			'data-wp-context' => wp_json_encode($initial_context),
 			'data-wp-init' => 'callbacks.onInit',
+			'data-wp-on-document--keydown' => 'callbacks.onKeyDown',
 			'data-wp-watch--onInputChange' => 'callbacks.onInputChange',
 			'data-wp-watch--on--captchaDisplayHideFormElements' => 'callbacks.onCaptchaDisplayHideFormElements',
 			'data-wp-watch--on--captchaVerifyHideCaptcha' => 'callbacks.onCaptchaVerifyHideCaptcha',

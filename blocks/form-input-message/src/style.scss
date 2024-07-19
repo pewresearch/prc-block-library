@@ -1,0 +1,49 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-form-input-message {
+	color: inherit;
+	background: inherit;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	&:not(.is-style-overlay):has(.wp-block-prc-block-form-input-message__message) {
+		padding: 10px;
+		width: 100%;
+	}
+
+	&.is-style-overlay:not(.wp-block):has(.wp-block-prc-block-form-input-message__message) {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.85);
+		color: white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.wp-block-prc-block-form-input-message__message {
+		color: inherit;
+		padding: 10px;
+	}
+}
+
+.is-error .wp-block-prc-block-form-input-message {
+	background: red;
+}
+.is-warning .wp-block-prc-block-form-input-message {
+	background: yellow;
+}
+.is-success .wp-block-prc-block-form-input-message {
+	background: green;
+}

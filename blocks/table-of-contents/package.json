@@ -17,6 +17,6 @@
     "watch": "wp-scripts start --experimental-modules"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.3.0"
+    "@wordpress/scripts": "^28.3.0"
   }
 }

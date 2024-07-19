@@ -17,6 +17,7 @@ import Controls from './controls';
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.context
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -34,7 +35,11 @@ export default function Edit({ attributes, setAttributes, context }) {
 	return (
 		<Fragment>
 			<Controls {...{ attributes, setAttributes }} />
-			{'textarea' !== type ? (<input {...blockProps} />) : (<textarea {...blockProps} />)}
+			{'textarea' !== type ? (
+				<input {...blockProps} />
+			) : (
+				<textarea {...blockProps} />
+			)}
 		</Fragment>
 	);
 }

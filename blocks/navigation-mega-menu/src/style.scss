@@ -146,6 +146,12 @@
 		}
 
 		// Show the close button when the mega menu is hovered.
+		// When the viewport is less than 600px, the close button will always be visible.
+		@media (max-width: 600px) {
+			.wp-block-prc-block-navigation-mega-menu__container__close-button {
+				opacity: 1;
+			}
+		}
 		&:hover {
 			.wp-block-prc-block-navigation-mega-menu__container__close-button {
 				opacity: 1;

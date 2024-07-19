@@ -6,6 +6,8 @@ if ( ! $uuid ) {
 	return;
 }
 
+$title = array_key_exists( 'title', $attributes ) ? $attributes['title'] : '';
+
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
 		'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/tabs-controller')),
@@ -16,7 +18,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(
 	)
 );
 
-$content = wp_kses( $attributes['title'], 'post' );
+$content = wp_kses( $title, 'post' );
 
 echo wp_sprintf(
 	'<li><button %1$s>%2$s</button></li>',

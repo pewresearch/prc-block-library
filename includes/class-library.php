@@ -212,6 +212,7 @@ class Library {
 		new Form_Field($this->get_loader());
 		new Form_Input_Checkbox($this->get_loader());
 		new Form_Input_Select($this->get_loader());
+		new Form_Input_Message($this->get_loader());
 		new Form_Input_Password($this->get_loader());
 		new Form_Input_Text($this->get_loader());
 		new Grid_Column($this->get_loader());

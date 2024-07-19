@@ -11,10 +11,10 @@
 		"watch": "wp-scripts start --experimental-modules"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^27.3.0",
+		"@wordpress/scripts": "^28.3.0",
 		"react": "^18.2.0"
 	},
 	"dependencies": {
-		"@wordpress/icons": "^9.43.0"
+		"@wordpress/icons": "^10.3.0"
 	}
 }

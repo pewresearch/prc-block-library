@@ -60,6 +60,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 			});
 		},
 		toggleMenuOnClick() {
+			const { ref } = getElement();
 			actions.toggleMenu();
 		},
 		closeMenuOnClick() {
@@ -128,7 +129,6 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 				context.activeClassnames = activeClassnames;
 			}
 		},
-
 		onResize() {
 			actions.setMenuPositions();
 		},
@@ -192,6 +192,6 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 					state[id].isActive = false;
 				}
 			}
-		},
+		}
 	},
 });

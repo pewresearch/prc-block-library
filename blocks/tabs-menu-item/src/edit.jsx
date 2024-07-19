@@ -25,7 +25,6 @@ export default function Edit({
 }) {
 	const { setActiveUUIDPair } = useDispatch('prc-block/tabs-controller');
 
-
 	const { title, uuid, className } = attributes;
 
 	const {
@@ -124,41 +123,25 @@ export default function Edit({
 		[clientId]
 	);
 
-	useEffect(()=>{
+	useEffect(() => {
 		if (matchingPaneClientId && className) {
-			console.log('matchingPaneClientId', matchingPaneClientId);
 			// Ensure that if the menu item is is-style-dialog that we enforce the attributes
 			updateBlockAttributes(matchingPaneClientId, {
 				isDialog: 'is-style-dialog' === className,
 			});
 		}
-	}, [className, matchingPaneClientId]);
+	}, [className, matchingPaneClientId, updateBlockAttributes]);
 
-	const { currentlySelectedUUID } = useSelect((select) => {
-		return {
-			currentlySelectedUUID: select('prc-block/tabs-controller')
-				.getActiveUUID(controllerClientId),
-		};
-	}, [controllerClientId]);
-
-	const onBlockInit = () => {
-		// If no uuid is set then run init sequence, create a matching tab pane block.
-		if (null === uuid) {
-			// We will use the first client id assigned as a uuid.
-			const newUuid = clientId;
-			setAttributes({ uuid: newUuid });
-
-			const newPaneBlock = createBlock('prc-block/tabs-pane', {
-				uuid: newUuid,
-			});
-			insertBlock(
-				newPaneBlock,
-				currentPositionIndex,
-				panesClientId,
-				false
-			);
-		}
-	};
+	const { currentlySelectedUUID } = useSelect(
+		(select) => {
+			return {
+				currentlySelectedUUID: select(
+					'prc-block/tabs-controller'
+				).getActiveUUID(controllerClientId),
+			};
+		},
+		[controllerClientId]
+	);
 
 	/**
 	 * Inserts a new tabs menu item block after the current block.
@@ -184,18 +167,52 @@ export default function Edit({
 		}
 	};
 
+	/**
+	 * On block init mint a new UUID from the clientId at the time of block creation.
+	 */
 	useEffect(() => {
-		onBlockInit();
-	}, [panesClientId, currentPositionIndex]);
+		if (null === uuid && !matchingPaneClientId) {
+			const newUUID = clientId;
+			// We will use the first client id assigned as a uuid.
+			setAttributes({ uuid: newUUID });
+		}
+	}, [
+		matchingPaneClientId,
+		uuid,
+		clientId,
+		panesClientId,
+		currentPositionIndex,
+		setAttributes,
+		insertBlock,
+	]);
+
+	/**
+	 * After the block has been initialized, create a new tabs pane block if one does not exist.
+	 */
+	useEffect(() => {
+		if (null !== uuid && !matchingPaneClientId) {
+			const newPaneBlock = createBlock('prc-block/tabs-pane', { uuid });
+			insertBlock(
+				newPaneBlock,
+				currentPositionIndex,
+				panesClientId,
+				false
+			);
+		}
+	}, [
+		matchingPaneClientId,
+		uuid,
+		panesClientId,
+		currentPositionIndex,
+		setAttributes,
+		insertBlock,
+	]);
 
 	useEffect(() => {
 		if (isSelected) {
 			setActiveUUIDPair(controllerClientId, uuid);
-			// updateBlockAttributes(controllerClientId, {
-			// 	activeUUID: uuid,
-			// });
 		}
-	}, [isSelected, uuid, controllerClientId]);
+	}, [isSelected, uuid, controllerClientId, setActiveUUIDPair]);
 
 	const isActive = useMemo(() => {
 		return isSelected || currentlySelectedUUID === uuid;

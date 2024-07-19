@@ -8,6 +8,7 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
+import './style.scss';
 import Controls from './controls';
 
 // Because theres no good way to inject this in the build process we're defaulting to transforming the core block name like so. You can manually change this if you want.

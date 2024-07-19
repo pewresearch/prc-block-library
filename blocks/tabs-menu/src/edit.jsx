@@ -3,7 +3,6 @@
  */
 import { getBlockGapSupportValue } from '@prc/block-utils';
 
-
 /**
  * WordPress Dependencies
  */
@@ -20,8 +19,8 @@ export default function Edit({ attributes, context }) {
 
 	const blockProps = useBlockProps({
 		style: {
-			'--block-gap': getBlockGapSupportValue(attributes)
-		}
+			'--block-gap': getBlockGapSupportValue(attributes),
+		},
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {

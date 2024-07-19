@@ -11,6 +11,7 @@ if ( ! $label || ! $menu_slug ) {
 ob_start();
 block_template_part( $menu_slug );
 $mega_menu_template_part = ob_get_clean();
+// If the menu is empty return early.
 if ( empty($mega_menu_template_part) ) {
 	return;
 }
@@ -60,6 +61,19 @@ ob_start();?>
 <?php
 $toggle_icon = ob_get_clean();
 
+ob_start();
+?>
+<button
+	aria-label="<?php echo __( 'Close Menu', 'mega-menu' ); ?>"
+	class="wp-block-prc-block-navigation-mega-menu__container__close-button"
+	data-wp-on--click="actions.closeMenuOnClick"
+	type="button"
+>
+	<?php echo Icons\Render('solid', 'close');?>
+</button>
+<?php
+$close_button = ob_get_clean();
+
 $overlay_classnames = Block_Utils\classNames([
 	'wp-block-prc-block-navigation-mega-menu__container',
 	'has-overlay-background' => !!$colors['overlay-background'],
@@ -76,16 +90,10 @@ ob_start();
 	data-wp-style--left="state.left"
 	data-wp-style--width="state.width"
 >
+	<?php echo $close_button;?>
 	<?php echo $mega_menu_template_part; ?>
-	<button
-		aria-label="<?php echo __( 'Close menu', 'mega-menu' ); ?>"
-		class="wp-block-prc-block-navigation-mega-menu__container__close-button"
-		data-wp-on--click="actions.closeMenuOnClick"
-		type="button"
-	>
-		<?php echo Icons\Render('solid', 'close');?>
-	</button>
 </div>
+
 <?php
 $mega_menu_container__and__content = ob_get_clean();
 

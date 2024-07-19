@@ -1,0 +1,67 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/form-input-message",
+  "version": "0.1.0",
+  "title": "Form Input Message",
+  "category": "widgets",
+  "description": "Display a sucess, error, or warning message/alert in interactive applications.",
+  "attributes": {
+    "successMessage": {
+      "type": "string"
+    },
+    "errorMessage": {
+      "type": "string"
+    },
+    "warningMessage": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "anchor": false,
+    "html": false,
+    "interactivity": true,
+    "reusable": false,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true,
+      "button": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default (Inline)",
+      "isDefault": true
+    },
+    {
+      "name": "overlay",
+      "label": "Overlay"
+    }
+  ],
+  "textdomain": "form-input-message",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

@@ -60,7 +60,7 @@ function submitHandler({
 	});
 }
 
-const { state } = store('prc-block/mailchimp-form', {
+const { state, actions } = store('prc-block/mailchimp-form', {
 	actions: {
 		onInputChange: (event) => {
 			const { value } = event.target;
@@ -84,6 +84,23 @@ const { state } = store('prc-block/mailchimp-form', {
 		onButtonMouseEnter: () => {
 			console.log('prc-block/mailchimp-form', 'onButtonMouseEnter');
 		},
+		reset: (context) => {
+			const { buttonId, inputId } = context;
+			state[inputId].isError = false;
+			state[inputId].isSuccess = false;
+			state[inputId].value = '';
+			state[buttonId].isError = false;
+			state[buttonId].isSuccess = false;
+			state[buttonId].text = state[buttonId].originalText;
+			context.captchaToken = false;
+			context.isError = null;
+			context.isSuccess = null;
+			context.messages = [];
+		},
+		clearMessages: () => {
+			const context = getContext();
+			actions.reset(context);
+		},
 	},
 	callbacks: {
 		onInit: () => {
@@ -105,7 +122,25 @@ const { state } = store('prc-block/mailchimp-form', {
 			if (button?.id) {
 				context.buttonId = button?.id;
 			}
-			console.log('prc-block/mailchimp-form -> onInit', context);
+		},
+		onKeyDown: (event) => {
+			const { ref } = getElement();
+			const input = ref.querySelector(
+				'input.wp-block-prc-block-form-input-text'
+			);
+			// Check if the input is focused or not, if not then do nothing...
+			if (document.activeElement !== input) {
+				return;
+			}
+			const context = getContext();
+			if (event.key === 'Enter') {
+				// If the user presses the enter key, then submit the form.
+				actions.onButtonClick();
+			}
+			if (event.key === 'Escape') {
+				// If the user presses the escape key, then empty the value of the input.
+				state[context.inputId].value = '';
+			}
 		},
 		// When the input value changes, watch for an email address and enable/disable the button
 		onInputChange: () => {
@@ -139,7 +174,6 @@ const { state } = store('prc-block/mailchimp-form', {
 		onCaptchaVerifyHideCaptcha: () => {
 			const context = getContext();
 			if (false !== context.captchaToken) {
-				console.log('onCaptchaVerifyHideCaptcha', context);
 				context.captchaHidden = true;
 			}
 		},
@@ -158,7 +192,6 @@ const { state } = store('prc-block/mailchimp-form', {
 			} = context;
 
 			if (false !== captchaToken) {
-				console.log('onCaptchaVerifyThenSubscribe', context);
 				state[buttonId].text = 'Subscribing...';
 
 				submitHandler({
@@ -168,14 +201,25 @@ const { state } = store('prc-block/mailchimp-form', {
 					NONCE,
 				})
 					.then((response) => {
-						console.log('SUCCESS', response);
 						context.isSuccess = true;
-						// context.captchaToken = false;
+						// Clear the state after 10 seconds.
+						setTimeout(() => {
+							actions.reset(context);
+						}, 10000);
 					})
 					.catch((e) => {
-						console.error('ERROR', e);
+						console.error('ERROR', context, e);
 						context.isError = true;
-						// context.captchaToken = false;
+						context.messages = [
+							{
+								id: 'error',
+								text: e.message,
+							},
+						];
+						// Clear the error message after 10 seconds.
+						setTimeout(() => {
+							actions.reset(context);
+						}, 10000);
 					});
 			}
 		},
@@ -194,12 +238,12 @@ const { state } = store('prc-block/mailchimp-form', {
 		onError: () => {
 			const context = getContext();
 			const { isError, buttonId, inputId } = context;
-			if (null !== isError) {
-				state[inputId].isError = isError;
-				state[buttonId].isError = isError;
-				if (true === isError) {
-					state[buttonId].text = 'Error';
-				}
+			if (null !== isError && true === isError) {
+				state[inputId].isError = true;
+				state[buttonId].isError = true;
+				state[buttonId].text = 'Error';
+			} else if (null !== isError && false === isError) {
+				actions.reset(context);
 			}
 		},
 	},

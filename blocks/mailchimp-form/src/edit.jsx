@@ -14,23 +14,31 @@ import { Fragment } from '@wordpress/element';
  */
 import Controls from './controls';
 
-const ALLOWED_BLOCKS = ['prc-block/form-input-text', 'core/button'];
+const ALLOWED_BLOCKS = [
+	'prc-block/form-input-text',
+	'prc-block/form-input-captcha',
+	'prc-block/form-input-message',
+	'core/button',
+];
 
 export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps({
 		style: {
 			'--block-gap': getBlockGapSupportValue(attributes),
-		}
+		},
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
-		templateLock: true,
+		templateLock: false, // @TODO: We should determine if the user is an admin, if so then set this to false...
 		template: [
-			['prc-block/form-input-text', {
-				isInteractive: true,
-				interactiveNamespace: 'prc-block/mailchimp-form'
-			}],
+			[
+				'prc-block/form-input-text',
+				{
+					isInteractive: true,
+					interactiveNamespace: 'prc-block/mailchimp-form',
+				},
+			],
 			[
 				'core/button',
 				{
@@ -39,10 +47,13 @@ export default function Edit({ attributes, setAttributes }) {
 					interactiveNamespace: 'prc-block/mailchimp-form',
 				},
 			],
-			['prc-block/form-captcha', {
-				isInteractive: true,
-				interactiveNamespace: 'prc-block/mailchimp-form'
-			}],
+			[
+				'prc-block/form-captcha',
+				{
+					isInteractive: true,
+					interactiveNamespace: 'prc-block/mailchimp-form',
+				},
+			],
 		],
 	});
 

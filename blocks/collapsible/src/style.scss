@@ -38,7 +38,6 @@
 
 	.wp-block-prc-block-collapsible__content {
 		display: none;
-		flex-direction: column;
 		padding-top: 1em;
 		font-size: 14px;
 		font-family: var(--wp--preset--font-family--sans-serif);
@@ -56,6 +55,20 @@
 				margin-block-end: 0;
 			}
 		}
+
+		.alignright {
+			float: right;
+			margin: 0 0 1em 1em;
+		}
+		.alignleft {
+			float: left;
+			margin: 0 1em 1em 0;
+		}
+		.aligncenter {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+		}
 	}
 
 	&:not(.wp-block) {
@@ -66,7 +79,7 @@
 
 	&.is-open {
 		.wp-block-prc-block-collapsible__content {
-			display: flex;
+			display: block;
 
 		}
 		.wp-block-prc-block-collapsible__icon {

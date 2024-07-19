@@ -136,7 +136,6 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-
 	const { hasChildSelected } = useSelect((select) => {
 		const { hasSelectedInnerBlock } = select('core/block-editor');
 		return {
@@ -191,44 +190,44 @@ export default function Edit({
 		<Fragment>
 			<Controls {...{ attributes, setAttributes }} />
 			{isOpen && (
-				// <ModalStylesWrapper>
-				<KeyboardShortcuts
-					bindGlobal
-					shortcuts={{
-						esc: closeModal,
-					}}
-				>
-					<ModalShade
-						className={classNames(
-							'wp-block-prc-block-popup-modal__outer',
-							{
-								[`is-position-${cleanForSlug(position)}`]:
-									position,
-							}
-						)}
-						backgroundColor={convertHexToRGBA('#000', 0.5)}
+				<ModalStylesWrapper>
+					<KeyboardShortcuts
+						bindGlobal
+						shortcuts={{
+							esc: closeModal,
+						}}
 					>
-						<div {...blockProps}>
-							{!isVideoModal && (
-								<div className="wp-block-prc-block-popup-modal__header">
-									<RichText
-										tagName="h2"
-										placeholder={__(
-											'Add a title',
-											'prc-block-library'
-										)}
-										value={title}
-										onChange={(value) =>
-											setAttributes({ title: value })
-										}
-									/>
-								</div>
+						<ModalShade
+							className={classNames(
+								'wp-block-prc-block-popup-modal__outer',
+								{
+									[`is-position-${cleanForSlug(position)}`]:
+										position,
+								}
 							)}
-							<div {...innerBlocksProps} />
-						</div>
-					</ModalShade>
-				</KeyboardShortcuts>
-				// </ModalStylesWrapper>
+							backgroundColor={convertHexToRGBA('#000', 0.5)}
+						>
+							<div {...blockProps}>
+								{!isVideoModal && (
+									<div className="wp-block-prc-block-popup-modal__header">
+										<RichText
+											tagName="h2"
+											placeholder={__(
+												'Add a title',
+												'prc-block-library'
+											)}
+											value={title}
+											onChange={(value) =>
+												setAttributes({ title: value })
+											}
+										/>
+									</div>
+								)}
+								<div {...innerBlocksProps} />
+							</div>
+						</ModalShade>
+					</KeyboardShortcuts>
+				</ModalStylesWrapper>
 			)}
 			<TriggerButton>
 				<Button variant="secondary" onClick={toggleModal}>

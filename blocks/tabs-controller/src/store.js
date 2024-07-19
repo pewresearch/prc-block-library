@@ -9,7 +9,7 @@ const DEFAULT_STATE = {
 };
 
 const actions = {
-    setClientId(clientId) {
+	setClientId(clientId) {
 		return {
 			type: 'SET_CLIENT_ID',
 			clientId,
@@ -21,19 +21,19 @@ const actions = {
 			clientId,
 			uuid,
 		};
-	}
+	},
 };
 
-const store = createReduxStore( STORE_NAME, {
-    reducer( state = DEFAULT_STATE, action ) {
-        switch (action.type) {
+const store = createReduxStore(STORE_NAME, {
+	reducer(state = DEFAULT_STATE, action) {
+		switch (action.type) {
 			case 'SET_CLIENT_ID':
 				return {
 					...state,
 					clientIdsOnPage: [
 						...state.clientIdsOnPage,
 						action.clientId,
-					]
+					],
 				};
 			case 'SET_ACTIVE_UUID_PAIR':
 				return {
@@ -41,20 +41,20 @@ const store = createReduxStore( STORE_NAME, {
 					clientIdsActiveUUIDPairs: {
 						...state.clientIdsActiveUUIDPairs,
 						[action.clientId]: action.uuid,
-					}
+					},
 				};
 		}
-        return state;
-    },
-    actions,
-    selectors: {
-		getClientIdsOnPage( state ) {
+		return state;
+	},
+	actions,
+	selectors: {
+		getClientIdsOnPage(state) {
 			return state.clientIdsOnPage;
 		},
-        getActiveUUID( state, clientId ) {
+		getActiveUUID(state, clientId) {
 			return state.clientIdsActiveUUIDPairs[clientId];
-		}
-    },
-} );
+		},
+	},
+});
 
 export { store, STORE_NAME };
