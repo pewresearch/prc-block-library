@@ -95,6 +95,10 @@
 		font-family: var(--wp--preset--font-family--sans-serif);
 	}
 
+	&:not(.is-vertical-tabs) .wp-block-prc-block-tabs-menu {
+		overflow-x: auto;
+	}
+
 	// Default styling for all menu items:
 	.wp-block-prc-block-tabs-menu {
 		display: flex;
@@ -102,7 +106,6 @@
 		list-style: none;
 		gap: 5px;
 		box-sizing: border-box;
-		overflow-x: scroll;
 		& > li {
 			display: block;
 		}

@@ -38,12 +38,18 @@
 	}
 }
 
-.is-error .wp-block-prc-block-form-input-message {
+.is-error .wp-block-prc-block-form-input-message,
+.wp-block-prc-block-form-input-message.is-error {
 	background: red;
+	color: white;
 }
-.is-warning .wp-block-prc-block-form-input-message {
+.is-warning .wp-block-prc-block-form-input-message,
+.wp-block-prc-block-form-input-message.is-warning {
 	background: yellow;
+	color: black;
 }
-.is-success .wp-block-prc-block-form-input-message {
+.is-success .wp-block-prc-block-form-input-message,
+.wp-block-prc-block-form-input-message.is-success {
 	background: green;
+	color: white;
 }

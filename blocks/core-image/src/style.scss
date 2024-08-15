@@ -81,6 +81,7 @@ $alignRightMargin: 5px 0px 15px 15px;
 		}
 	}
 
+
 	&.aligncenter {
 		clear: none;
 		text-align: center;
@@ -104,6 +105,13 @@ $alignRightMargin: 5px 0px 15px 15px;
 			display: table-caption;
 			caption-side: bottom;
 		}
+	}
+
+	&.alignright {
+		clear: right;
+	}
+	&.alignleft {
+		clear: left;
 	}
 
 	// &.alignright,

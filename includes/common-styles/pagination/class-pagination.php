@@ -199,27 +199,21 @@ class Pagination {
 
 			// Create the start of the pagination. Item 1.
             $page_links[] = $this->render_item(1, $item_classnames);
-			do_action('qm/debug', 'Start');
             if ($start > 2) {
-				do_action('qm/debug', '...');
                 $page_links[] = '<span class="common-block-style__pagination__page-numbers dots">' . __( '&hellip;' ) . '</span>';
             }
             for ($i = $start; $i <= $end; $i++) {
-				do_action('qm/debug', $i);
                 $page_links[] = $this->render_item($i, $item_classnames);
             }
             if ($end < $this->total - 1) {
-				do_action('qm/debug', '...');
                 $page_links[] = '<span class="common-block-style__pagination__page-numbers dots">' . __( '&hellip;' ) . '</span>';
             }
-			do_action('qm/debug', 'End');
 			// Create the end of the pagination. Last item.
             $page_links[] = $this->render_item($this->total, $item_classnames);
         }
 
 
         ob_start();
-		do_action('qm/debug', print_r($page_links, true));
 		?>
 		<?php foreach ($page_links as $page_link) : ?>
 			<?php echo $page_link; ?>

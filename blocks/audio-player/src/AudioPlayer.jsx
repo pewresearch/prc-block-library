@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -43,10 +44,27 @@ const AudioPlayer = ({
 
 	const handleSeekMouseUp = (e) => {
 		setSeeking(false);
+		console.log('what the seek to is using', e.target.value);
 		playerRef.current.seekTo(parseFloat(e.target.value));
 	};
 
-	const type = classes.includes('is-style-card') ? 'card' : 'player';
+	const isCard = classes.includes('is-style-card');
+	const isMinimal = classes.includes('is-style-minimal');
+	const isPlayer = classes.includes('is-style-player');
+
+	let type;
+
+	if (isCard) {
+		type = 'card';
+	}
+
+	if (isMinimal) {
+		type = 'minimal';
+	}
+
+	if (isPlayer) {
+		type = 'player';
+	}
 
 	if (type === 'card') {
 		return (
@@ -67,10 +85,13 @@ const AudioPlayer = ({
 
 				<button
 					className="wp-block-prc-block-audio-player__card"
+					type="button"
 					onClick={() => {
 						setIsPlaying(!isPlaying);
 						{
-							/* The below fees like a somewhat hacky solution to pausing other players on the page when this one is played that should probably be revisited*/
+							/* The below fees like a somewhat hacky solution to pausing 
+							other players on the page when this 
+							one is played that should probably be revisited */
 						}
 						const buttons = document.querySelectorAll(
 							'.wp-block-prc-block-audio-player .wp-block-prc-block-audio-player__card'
@@ -122,6 +143,51 @@ const AudioPlayer = ({
 				</button>
 			</>
 		);
+	} else if (type === 'minimal') {
+		return (
+			<>
+				<ReactPlayer
+					url={source}
+					playing={isPlaying}
+					width={0}
+					height={0}
+					loop={true}
+					ref={playerRef}
+					onProgress={(e) => {
+						if (!seeking) {
+							setPlayed(e.played);
+						}
+					}}
+					onDuration={(e) => setDuration(e)}
+				/>
+
+				<div className="wp-block-prc-block-audio-player__player__controls">
+					<button
+						type="button"
+						onClick={() => setIsPlaying(!isPlaying)}
+						className="wp-block-prc-block-audio-player__player__button"
+					>
+						{!isPlaying ? '\u25B6' : '⏸'}
+					</button>
+
+					<input
+						className="wp-block-prc-block-audio-player__player__seeker"
+						type="range"
+						min={0}
+						max={0.999999}
+						step="any"
+						value={played}
+						onMouseDown={handleSeekMouseDown}
+						onChange={handleSeekChange}
+						onMouseUp={handleSeekMouseUp}
+					/>
+					<div className="wp-block-prc-block-audio-player__player__time">
+						<Duration seconds={duration * played} />/
+						<Duration seconds={duration} />
+					</div>
+				</div>
+			</>
+		);
 	}
 	return (
 		<div className="wp-block-prc-block-audio-player__player">
@@ -156,6 +222,7 @@ const AudioPlayer = ({
 			</div>
 			<div className="wp-block-prc-block-audio-player__player__controls">
 				<button
+					type="button"
 					onClick={() => setIsPlaying(!isPlaying)}
 					className="wp-block-prc-block-audio-player__player__button"
 				>

@@ -15,10 +15,14 @@ namespace PRC\Platform\Blocks;
  * @package           {{namespace}}
  */
 
-class {{namespacePascalCase}} {
+class {{slugPascalCase}} {
 	public static $block_json = null;
 	public static $version;
 	public static $block_name;
+	{{#isContextProviderVariant}}
+	public $data = [];
+	public $selected = [];
+	{{/isContextProviderVariant}}
 	{{^isCoreBlockVariant}}
 	public static $dir = __DIR__;
 
@@ -34,9 +38,77 @@ class {{namespacePascalCase}} {
 	public function init($loader = null) {
 		if ( null !== $loader ) {
 			$loader->add_action('init', $this, 'block_init');
+			{{#isContextProviderVariant}}
+			$loader->add_filter('pre_render_block', $this, 'hoist_data_to_pre_render_stage', 10, 3);
+			$loader->add_filter('render_block_context', $this, 'add_data_to_context', 10, 3);
+			{{/isContextProviderVariant}}
 		}
 	}
+	{{#isContextProviderVariant}}
+	/**
+	 * Fetch data once and store it in memory. Later, we'll make this data accessible via block context in the add_data_to_context method.
+	 * @hook pre_render_block
+	 * @param mixed $pre_render
+	 * @param mixed $parsed_block
+	 * @param mixed $parent_block_instance
+	 * @return null
+	 */
+	public function hoist_data_to_pre_render_stage($pre_render, $parsed_block, $parent_block_instance) {
+		if ( 'prc-block/{{slug}}' === $parsed_block['blockName'] ) {
+			global $wp_query;
+			$api = new Some_API($wp_query->query);
+			$this->data = $api->query();
+		}
+		return null;
+	}
 
+	/**
+	 * Get the data from memory and apply it to the block context for the context provider.
+	 * @hook render_block_context
+	 * @param mixed $context
+	 * @return mixed
+	 */
+	public function add_data_to_context($context, $parsed_block, $parent_block_instance) {
+		if ( !in_array($parsed_block['blockName'], [
+			'prc-block/my-context-provider',
+			'prc-block/my-context-enabled-template-block',
+		]) ) {
+			return $context;
+		}
+
+		$context['myContextProvider'] = [
+			'selected' => $this->selected,
+			'data' => $this->data,
+			'isProcessing' => false,
+			'isDisabled' => false,
+		];
+
+		return $context;
+	}
+
+	public function render_block_callback($attributes, $content, $block) {
+		wp_enqueue_script('wp-url');
+		wp_enqueue_script('wp-api-fetch');
+
+		wp_interactivity_state(
+			'prc-block/{{slug}}',
+			$block->context['myContextProvider']
+		);
+
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			get_block_wrapper_attributes(array(
+				'data-wp-interactive' => wp_json_encode(array(
+					'namespace' => 'prc-block/{{slug}}'
+				)),
+				'data-wp-init' => 'callbacks.onInit',
+				'data-wp-watch--on-selection' => 'callbacks.onSelection',
+				'data-wp-class--is-processing' => 'state.isProcessing',
+			)),
+			$content,
+		);
+	}
+	{{/isContextProviderVariant}}
 	{{#isDynamicVariant}}
 	/**
 	* Render the block
@@ -65,9 +137,14 @@ class {{namespacePascalCase}} {
 	* @see https://developer.wordpress.org/reference/functions/register_block_type/
 	*/
 	public function block_init() {
-		{{^isDynamicVariant}}
-		register_block_type( self::$dir . '/build' );
-		{{/isDynamicVariant}}
+		{{#isContextProviderVariant}}
+		register_block_type(
+			self::$dir . '/build',
+			array(
+				'render_callback' => array( $this, 'render_block_callback' ),
+			)
+		);
+		{{/isContextProviderVariant}}
 		{{#isDynamicVariant}}
 		register_block_type(
 			self::$dir . '/build',
@@ -75,6 +152,11 @@ class {{namespacePascalCase}} {
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
+		{{/isDynamicVariant}}
+		{{^isDynamicVariant}}
+		{{^isContextProviderVariant}}
+		register_block_type( self::$dir . '/build' );
+		{{/isContextProviderVariant}}
 		{{/isDynamicVariant}}
 	}
 	{{/isCoreBlockVariant}}

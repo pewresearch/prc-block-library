@@ -54,6 +54,14 @@ export default function Edit({ attributes, setAttributes }) {
 					interactiveNamespace: 'prc-block/mailchimp-form',
 				},
 			],
+			[
+				'prc-block/form-input-message',
+				{
+					isInteractive: true,
+					interactiveNamespace: 'prc-block/mailchimp-form',
+					className: 'is-style-overlay',
+				},
+			],
 		],
 	});
 

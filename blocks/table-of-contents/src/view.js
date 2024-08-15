@@ -4,7 +4,16 @@
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
 const { actions, state } = store('prc-block/table-of-contents', {
-	state: {},
+	state: {
+		get chapterEls() {
+			const internalChaptersList = state.chaptersWatchList;
+			const chapterEls = internalChaptersList.map((chapter) => {
+				const chapterRef = document.getElementById(chapter.id);
+				return chapterRef;
+			});
+			return chapterEls;
+		},
+	},
 	actions: {
 		getInternalChaptersList: () => {
 			const { ref } = getElement();
@@ -112,40 +121,46 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			if (!state.enableWatchForChapterScroll) {
 				return;
 			}
-			const { ref } = getElement();
 
-			// get the internal chapters list
-			const internalChaptersList = state.chaptersWatchList;
 			// get the current chapter
-			let { currentChapter } = state;
-			// loop through the internal chapters list
+			let { currentChapter, chapterEls } = state;
 
-			let nextChapter = false;
-			// get the current chapter position in the internalChaptersList by id
-			const currentChapterIndex = internalChaptersList.findIndex(
-				(chapter) => chapter.id === ref?.id
-			);
-			if (currentChapterIndex < internalChaptersList.length - 1) {
-				nextChapter = internalChaptersList[currentChapterIndex + 1];
-			}
+			// get the current scroll position
+			const scrollPosition = window.scrollY;
 
-			const chapterPosition = ref.getBoundingClientRect().top;
-			const nextChapterPosition =
-				document
-					.getElementById(nextChapter?.id)
-					?.getBoundingClientRect().top - 50;
+			const debounce = (func, wait) => {
+				let timeout;
+				return function executedFunction(...args) {
+					const later = () => {
+						timeout = null;
+						func(...args);
+					};
+					clearTimeout(timeout);
+					timeout = setTimeout(later, wait);
+				};
+			};
 
-			// When we cross the threshold of the current chapter (but not the next chapter), update the current chapter.
-			if (
-				chapterPosition < 0 &&
-				(nextChapterPosition > 0 || !nextChapter)
-			) {
-				currentChapter = ref?.id;
-			}
+			const getCurrentChapter = debounce(() => {
+				// iterate over the chapterEls array backwards
+				// if the top of the chapter is less than the scroll position
+				// set the currentChapter to the id of the chapter
+				currentChapter = null;
+				if (!chapterEls || chapterEls.length === 0) {
+					return;
+				}
+				for (let i = chapterEls.length - 1; i >= 0; i--) {
+					const chapterTop = chapterEls[i].offsetTop;
+					if (scrollPosition > chapterTop) {
+						currentChapter = chapterEls[i].id;
+						if (currentChapter !== state.currentChapter) {
+							state.currentChapter = currentChapter;
+						}
+						break;
+					}
+				}
+			}, 300);
 
-			if (currentChapter !== state.currentChapter) {
-				state.currentChapter = currentChapter;
-			}
+			getCurrentChapter();
 		},
 		onWindowClick: (event) => {
 			const context = getContext();

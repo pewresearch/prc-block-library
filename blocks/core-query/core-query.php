@@ -211,6 +211,9 @@ class Core_Query {
 		if ( $query->is_tax( 'areas-of-expertise') ) {
 			$query->set('isPubListingQuery', false);
 		}
+		if ( $query->is_tax( 'decoded-category') ) {
+			$query->set('isPubListingQuery', false);
+		}
 	}
 
 	/**

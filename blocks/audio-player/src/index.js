@@ -30,8 +30,10 @@ import './style.scss';
 import './editor.scss';
 import Edit from './Edit';
 import Save from './Save';
+import Icon from './icon';
 
 import metadata from './block.json';
+import { icon } from '@fortawesome/fontawesome-svg-core';
 
 const { name } = metadata;
 
@@ -44,6 +46,7 @@ const settings = {
 	 * @see ./Save.jsx
 	 */
 	save: Save,
+	icon: Icon,
 };
 
 /**
@@ -51,4 +54,4 @@ const settings = {
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-registerBlockType( name, { ...metadata, ...settings } );
+registerBlockType(name, { ...metadata, ...settings });

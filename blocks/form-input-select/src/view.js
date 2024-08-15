@@ -6,6 +6,17 @@ const { actions } = store('prc-block/form-input-select', {
 		onOpen: () => {
 			const context = getContext();
 			context.isOpen = true;
+
+			// set icon to up caret
+			const useElement = document.querySelector(
+				'.wp-block-prc-block-form-input-select__close-toggle use'
+			);
+			if (useElement) {
+				useElement.setAttribute(
+					'href',
+					`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-up`
+				);
+			}
 		},
 		onClose: (event = null) => {
 			// By default this runs on the on-blur directive on the input element
@@ -23,6 +34,16 @@ const { actions } = store('prc-block/form-input-select', {
 					context.isOpen = false;
 					isRunning = false;
 				}, 150);
+			}
+			// set icon to down caret
+			const useElement = document.querySelector(
+				'.wp-block-prc-block-form-input-select__close-toggle use'
+			);
+			if (useElement) {
+				useElement.setAttribute(
+					'href',
+					`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-down`
+				);
 			}
 		},
 		onReset: () => {
@@ -166,6 +187,20 @@ const { actions } = store('prc-block/form-input-select', {
 			context.filteredOptions = filteredOptions;
 
 			actions.onClose();
+
+			// set icon to xmark
+
+			if (context.hasClearIcon) {
+				const useElement = document.querySelector(
+					'.wp-block-prc-block-form-input-select__close-toggle use'
+				);
+				if (useElement) {
+					useElement.setAttribute(
+						'href',
+						`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#xmark`
+					);
+				}
+			}
 		},
 		setNewValue: (newValue) => {
 			const { ref } = getElement();
@@ -179,6 +214,70 @@ const { actions } = store('prc-block/form-input-select', {
 					store(targetNamespace);
 				if (targetActions.onSelectChange) {
 					targetActions.onSelectChange(newValue, ref);
+				}
+			}
+		},
+
+		onIconClick: () => {
+			const context = getContext();
+			const { targetNamespace, isOpen, value } = context;
+			const { ref } = getElement();
+			if (!isOpen && !value) {
+				actions.onOpen();
+				// focus the input
+				const input = ref.nextElementSibling.querySelector('input');
+				if (input) {
+					input.focus();
+				}
+				// set icon to up caret
+				const useElement = document.querySelector(
+					'.wp-block-prc-block-form-input-select__close-toggle use'
+				);
+				if (useElement) {
+					useElement.setAttribute(
+						'href',
+						`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-up`
+					);
+				}
+				return;
+			}
+			if (isOpen && !value) {
+				actions.onClose();
+				const useElement = document.querySelector(
+					'.wp-block-prc-block-form-input-select__close-toggle use'
+				);
+				if (useElement) {
+					useElement.setAttribute(
+						'href',
+						`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-down`
+					);
+				}
+				return;
+			}
+			if (
+				'prc-block/form-input-select' !== targetNamespace &&
+				!isOpen &&
+				value &&
+				context.hasClearIcon
+			) {
+				// clear the value and reset the label
+				context.activeIndex = 0;
+				context.value = '';
+				context.label = '';
+				context.filteredOptions = context.options;
+				const { actions: targetActions } = store(targetNamespace);
+				if (targetActions.onSelectClearIconClick) {
+					targetActions.onSelectClearIconClick(value, ref);
+				}
+				// reset icon to caret
+				const useElement = document.querySelector(
+					'.wp-block-prc-block-form-input-select__close-toggle use'
+				);
+				if (useElement) {
+					useElement.setAttribute(
+						'href',
+						`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-down`
+					);
 				}
 			}
 		},
@@ -200,6 +299,17 @@ const { actions } = store('prc-block/form-input-select', {
 		},
 		isDisabled: () => {
 			return actions.getTargetProcessingState();
+		},
+		onInit: () => {
+			const useElement = document.querySelector(
+				'.wp-block-prc-block-form-input-select__close-toggle use'
+			);
+			if (useElement) {
+				useElement.setAttribute(
+					'href',
+					`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-down`
+				);
+			}
 		},
 	},
 });

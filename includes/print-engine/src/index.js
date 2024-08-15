@@ -15,7 +15,15 @@ import domReady from '@wordpress/dom-ready';
 import './print.scss';
 
 domReady(() => {
+	console.log('🖨️ Print Engine (BETA) is ready!');
 	window.addEventListener('beforeprint', (event) => {
-		console.log('Before print do these actions:');
+		console.log('Before print do these actions...', event);
 	});
+	// Hook the print function onto the beta print engine report material:
+	document
+		.querySelector('li[data-material-type="printEngineBeta"] a')
+		.addEventListener('click', (event) => {
+			event.preventDefault();
+			window.print();
+		});
 });

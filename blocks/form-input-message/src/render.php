@@ -18,6 +18,8 @@ $content = '<template data-wp-each--message="context.messages" data-wp-each-key=
 $block_wrapper_attrs = get_block_wrapper_attributes([
 	'data-wp-interactive' => wp_json_encode(['namespace' => $target_namespace]),
 	'data-wp-on--click' => 'actions.clearMessages',
+	'data-wp-class--is-error' => 'context.isError',
+	'data-wp-class--is-success' => 'context.isSuccess',
 ]);
 
 echo wp_sprintf(

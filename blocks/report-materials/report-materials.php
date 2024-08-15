@@ -70,7 +70,6 @@ class Report_Materials {
 	}
 
 	public function get_item_icon($item) {
-		error_log('get_item_icon'.print_r($item, true));
 		switch ($item['type']) {
 			case 'detailTable':
 				return 'table';
@@ -107,6 +106,11 @@ class Report_Materials {
 		$heading_text = array_key_exists('heading', $attributes) ? $attributes['heading'] : false;
 
 		$materials = $this->construct_report_materials( $post_id );
+		if ( is_string($materials) && !empty($materials) ) {
+			do_action('qm/debug', 'MATERIALS IS STRING'. $materials);
+			$materials = json_decode($materials, true);
+			do_action('qm/debug', 'MATERIALS:'. print_r($materials, true));
+		}
 
 		if ( empty($materials) ) {
 			return '';
@@ -117,13 +121,13 @@ class Report_Materials {
 			false,
 			$attributes,
 		) . ' flex-align-center';
-		error_log(print_r($materials, true));
 
 		foreach ($materials as $material) {
 			$icon = \PRC\Platform\Icons\Render('solid', $this->get_item_icon($material));
 			$content .= wp_sprintf(
-				'<li class="%1$s">%2$s<a href="%3$s" target="_blank">%4$s</a></li>',
+				'<li class="%1$s" data-material-type="%2$s">%3$s<a href="%4$s" target="_blank">%5$s</a></li>',
 				$list_item_classnames,
+				$material['type'],
 				$icon,
 				$material['url'],
 				$this->get_item_label($material)

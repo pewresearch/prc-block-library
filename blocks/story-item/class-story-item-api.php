@@ -398,7 +398,7 @@ class Story_Item_API {
 		// On mobile we always want to use A2 (unless if in a query loop)
 		$image_size = false !== $image_size && $this->is_mobile ? 'A2' : $image_size;
 		// In a query loop, regardless if its left or right, we want to use the A3 size.
-		$image_size = false !== $image_size && $this->in_query_loop ? 'A3' : $image_size;
+		$image_size = false === $image_size && $this->in_query_loop ? 'A3' : $image_size;
 		return $image_size;
 	}
 

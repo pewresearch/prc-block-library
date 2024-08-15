@@ -6,7 +6,7 @@ Stable tag:        0.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Displays a list of all heading blocks set to chapter headings.
+Displays a list of all `core/heading` blocks in a post with an attribute of isChapter set to `true`.
 
 ## Description
 

@@ -79,6 +79,28 @@ module.exports = {
 				...EXTRA_SUPPORTS,
 			}
 		},
+		contextProvider: {
+			attributes: {
+				allowedBlocks: {
+					type: 'array',
+				},
+			},
+			supports: {
+				anchor: false,
+				html: false,
+				reusable: false,
+				multiple: false,
+				interactivity: {
+					clientNavigation: true
+				}
+			},
+			usesContext: [
+				"postType",
+				"templateSlug",
+				"previewPostType",
+			],
+			viewScriptModule: "file:./view.js"
+		},
 		static: {
 			supports: {
 				...DEFAULT_SUPPORTS,

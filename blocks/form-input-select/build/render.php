@@ -6,13 +6,21 @@ if ( is_admin() ) {
 }
 // determine whether to automatically pull a list of country names or us states based on the attribute defaultOptions which can be either "custom", "countries", or "us-states".
 $default_options = array_key_exists( 'defaultOptions', $attributes ) ? $attributes['defaultOptions'] : 'custom';
+
 if ( 'countries' === $default_options ) {
 	$input_options = \PRC\Platform\get_list_of('countries');
 	$input_options = array_map( function( $option ) {
 		$option['isSelected'] = false;
 		return $option;
 	}, $input_options );
-} elseif ( 'us-states' === $default_options ) {
+} elseif ( 'countries-and-regions' === $default_options ) {
+	$input_options = \PRC\Platform\get_list_of('countries-and-regions');
+	$input_options = array_map( function( $option ) {
+		$option['isSelected'] = false;
+		return $option;
+	}, $input_options );
+}
+elseif ( 'us-states' === $default_options ) {
 	$input_options = \PRC\Platform\get_list_of('us-states');
 	$input_options = array_map( function( $option ) {
 		$option['isSelected'] = false;
@@ -49,11 +57,8 @@ if ( null !== $input_value ) {
 }
 $input_disabled = array_key_exists( 'disabled', $attributes ) ? $attributes['disabled'] : false;
 $input_options = empty($input_options) && array_key_exists( 'prc-block/form-input-select/options', $block->context) ? $block->context['prc-block/form-input-select/options'] : $input_options;
+$clear_icon = array_key_exists( 'hasClearIcon', $attributes ) ? $attributes['hasClearIcon'] : false;
 
-// $input_options = array_map( function( $option ) use ( $input_value ) {
-// 	$option['isSelected'] = $option['value'] === $input_value;
-// 	return $option;
-// }, $input_options );
 $input_id = md5( $target_namespace . $input_name );
 
 $input_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
@@ -67,6 +72,8 @@ $input_attrs = \PRC\Platform\Block_Utils\get_block_html_attributes( array(
 	'data-wp-on--focus' 	=> 'actions.onOpen', // open the list when the input is focused
 	'data-wp-on--blur' 		=> 'actions.onClose', // close the list when the input is blurred
 	'data-wp-bind--disabled' => 'callbacks.isDisabled',
+	'data-1p-ignore' => 'true',
+	'data-lpignore' => 'true',
 ) );
 $input = wp_sprintf(
 	'<input %1$s />',
@@ -88,7 +95,7 @@ $option_template = wp_sprintf(
 );
 // Generate the list of options from context.filteredOptions.
 $options_list = wp_sprintf(
-	'<template data-wp-each--option="context.filteredOptions" data-wp-each-key="context.option.value">%1$s</template>',
+	/* html */'<template data-wp-each--option="context.filteredOptions" data-wp-each-key="context.option.value">%1$s</template>',
 	$option_template,
 );
 
@@ -105,6 +112,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 		'label' => $input_label,
 		'isOpen' => false,
 		'isDisabled' => $input_disabled,
+		'hasClearIcon' => $clear_icon,
 		'filteredOptions' => $input_options,
 		'options' => $input_options,
 	)),
@@ -114,8 +122,14 @@ $block_wrapper_attrs = get_block_wrapper_attributes( array(
 	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
 ) );
 
+$has_clear_icon = array_key_exists('hasClearIcon', $attributes) ? $attributes['hasClearIcon'] : false;
+
+$default_template = /* html */'<div %1$s><div class="wp-block-prc-block-form-input-select__input">%2$s</div><ul class="wp-block-prc-block-form-input-select__list" role="listbox" id="%3$s-listbox" aria-autocomplete="list">%4$s</ul></div>';
+
+$has_clear_icon_template = /* html */ '<div %1$s><div class="wp-block-prc-block-form-input-select__close-toggle" data-wp-on--click="actions.onIconClick"><i class="icon"><svg><use href=""></use></svg></i></div><div class="wp-block-prc-block-form-input-select__input">%2$s</div><ul class="wp-block-prc-block-form-input-select__list" role="listbox" id="%3$s-listbox" aria-autocomplete="list">%4$s</ul></div>';
+
 echo wp_sprintf(
-	'<div %1$s><div class="wp-block-prc-block-form-input-select__input">%2$s</div><ul class="wp-block-prc-block-form-input-select__list" role="listbox" id="%3$s-listbox" aria-autocomplete="list">%4$s</ul></div>',
+	$has_clear_icon ? $has_clear_icon_template : $default_template,
 	$block_wrapper_attrs,
 	$input,
 	$input_id,

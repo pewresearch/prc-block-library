@@ -58,6 +58,8 @@ $block_attrs = get_block_wrapper_attributes(array(
 	'data-wp-class--is-error'       => $target_namespace.'::state.'.$input_id.'.isError',
 	'data-wp-class--is-success'     => $target_namespace.'::state.'.$input_id.'.isSuccess',
 	'data-wp-class--is-processing'  => $target_namespace.'::state.'.$input_id.'.isProcessing',
+	'data-1p-ignore' => 'true',
+	'data-lpignore' => 'true',
 ));
 
 echo wp_sprintf(

@@ -7,8 +7,8 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
-import { useBlockProps, RichText {{^isStaticVariant}}, useInnerBlocksProps, InnerBlocks{{/isStaticVariant}} {{#isSyncedEntityVariant}}, __experimentalRecursionProvider as RecursionProvider,__experimentalUseHasRecursion as useHasRecursion, Warning{{/isSyncedEntityVariant}} } from '@wordpress/block-editor';
+import { Fragment, useMemo } from '@wordpress/element';
+import { useBlockProps, RichText,{{^isStaticVariant}} useInnerBlocksProps, InnerBlocks,{{/isStaticVariant}} {{#isSyncedEntityVariant}} __experimentalRecursionProvider as RecursionProvider, __experimentalUseHasRecursion as useHasRecursion, Warning,{{/isSyncedEntityVariant}}{{#isContextProviderVariant}} BlockContextProvider,{{/isContextProviderVariant}} } from '@wordpress/block-editor';
 {{#isSyncedEntityVariant}}
 import { withNotices } from '@wordpress/components';
 import { useEntityBlockEditor, useEntityRecord } from '@wordpress/core-data';
@@ -149,6 +149,12 @@ export default withNotices(SyncedEntityEdit);
 {{/isSyncedEntityVariant}}
 {{^isSyncedEntityVariant}}
 
+{{#isContextProviderVariant}}
+const useContextProvider = () => {
+	return { settings: {}, isLoading: false, data: [] };
+};
+{{/isContextProviderVariant}}
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -183,10 +189,32 @@ export default function Edit({ attributes, setAttributes, context, clientId, isS
 		orientation: orientation ? orientation : 'vertical',
 	});
 
+	{{#isContextProviderVariant}}
+	const { settings, isLoading, data } = useContextProvider();
+	const newContext = useMemo(() => {
+		return {
+			myContextProvider: {
+				...{testSetting: 'testValue'},
+			},
+			...context,
+		};
+	}, [settings, isLoading, data, context]);
+	{{/isContextProviderVariant}}
+
 	return (
 		<Fragment>
 			<Controls {...{attributes, setAttributes, context: false}}/>
+			{{#isContextProviderVariant}}
+			<BlockContextProvider
+				key={`my-context-provider-${clientId}`}
+				value={newContext}
+			>
+				<div {...innerBlocksProps} />
+			</BlockContextProvider>
+			{{/isContextProviderVariant}}
+			{{^isContextProviderVariant}}
 			<div { ...innerBlocksProps }/>
+			{{/isContextProviderVariant}}
 		</Fragment>
 	);
 	{{/isStaticVariant}}

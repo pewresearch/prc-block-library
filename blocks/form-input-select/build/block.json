@@ -13,6 +13,7 @@
         "custom",
         "industries",
         "countries",
+        "countries-and-regions",
         "us-states"
       ],
       "default": "custom"
@@ -39,6 +40,10 @@
     },
     "value": {
       "type": "string"
+    },
+    "hasClearIcon": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {
@@ -80,10 +85,6 @@
       "name": "default",
       "label": "Default",
       "isDefault": true
-    },
-    {
-      "name": "autocomplete",
-      "label": "Autcomplete"
     }
   ],
   "parent": [

@@ -9,6 +9,9 @@ body:not(.post-template-layout-no-container-query) {
 	.wp-block-post-content {
 		container: post-content-container / inline-size;
 	}
+	.wp-block-post-content > figure:first-child.alignright + p {
+		margin-top: 0;
+	}
 	// For images inside post content, this will center them on mobile.
 	@container post-content-container (max-width: 480px) {
 		.wp-block-post-content .wp-block-image.alignright,

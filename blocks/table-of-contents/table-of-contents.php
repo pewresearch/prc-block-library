@@ -44,15 +44,19 @@ class Table_Of_Contents {
 		if ( $return_top_level ) {
 			$chapters = $chapters[0]['internal_chapters'];
 		}
+		$post_type = get_post_type();
 		ob_start();
 		?>
 		<?php foreach ( $chapters as $chapter ) {
 			$is_active = $chapter['id'] === get_the_ID();
+
 			$internal_chapters = array_key_exists('internal_chapters', $chapter) ? $chapter['internal_chapters'] : false;
 			$internal_chapters = $this->get_list_items( $internal_chapters, $depth + 1, $attributes, $return_top_level ); // Increment the depth parameter
 
 			$link = $chapter['link'];
-			if ( $depth > 0 ) {
+			// check if there are internal chapters, or if the link is not a post link.
+			// both of these conditions will cause the link to be an anchor link vs. an href
+			if ( 0 !== $depth || 'post' !== $post_type ) {
 				// extract only the #anchor part of the link for deeper links
 				$link = substr($link, strpos($link, '#'));
 			}
@@ -94,7 +98,7 @@ class Table_Of_Contents {
 				$chapter_link,
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$internal_chapters,
-				0 !== $depth ? 'data-wp-class--is-active="callbacks.isListItemActive" data-ref-value="'.$link.'"' : '',
+				0 !== $depth || 'post' !== $post_type ? 'data-wp-class--is-active="callbacks.isListItemActive" data-ref-value="'.$link.'"' : '',
 			);
 		} ?>
 		<?php
@@ -282,4 +286,3 @@ class Table_Of_Contents {
 	}
 
 }
-

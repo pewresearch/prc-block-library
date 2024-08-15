@@ -21,11 +21,11 @@ class Print_Engine {
 
 	public function init($loader) {
 		$loader->add_filter( 'prc_platform_rewrite_query_vars', $this, 'add_query_vars' );
-		// $loader->add_action( 'wp_enqueue_scripts', $this, 'register_view_script' );
+		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_view_script' );
 		$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
-		// $loader->add_action( 'enqueue_block_assets', $this, 'register_style' );
+		$loader->add_action( 'enqueue_block_assets', $this, 'register_style' );
 		$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
-		// $loader->add_filter( 'render_block', $this, 'render', 100, 2 );
+		$loader->add_filter( 'render_block', $this, 'render', 100, 2 );
 	}
 
 	/**
@@ -33,6 +33,7 @@ class Print_Engine {
 	 */
 	public function add_query_vars($qvars) {
 		$qvars[] = 'print';
+		$qvars[] = 'printEngineBeta';
 		return $qvars;
 	}
 
@@ -50,11 +51,18 @@ class Print_Engine {
 		);
 	}
 
+	public function allow_print_engine() {
+		return true == get_query_var('printEngineBeta', false);
+	}
+
 	/**
 	 * @hook wp_enqueue_scripts
 	 * @return void
 	 */
 	public function register_view_script() {
+		if ( true !== $this->allow_print_engine() ) {
+			return;
+		}
 		wp_enqueue_script(
 			self::$handle,
 			plugins_url( 'build/index.js', __FILE__ ),
@@ -91,6 +99,9 @@ class Print_Engine {
 	 * @return void
 	 */
 	public function register_style() {
+		if ( true !== $this->allow_print_engine() ) {
+			return;
+		}
 		wp_enqueue_style(
 			self::$handle,
 			plugins_url( 'build/index.css', __FILE__ ),
@@ -137,6 +148,9 @@ class Print_Engine {
 	 * @return mixed
 	 */
 	public function render( $block_content, $block ) {
+		if ( true !== $this->allow_print_engine() ) {
+			return $block_content;
+		}
 		if ( is_admin() || !is_string($block_content) ) {
 			return $block_content;
 		}

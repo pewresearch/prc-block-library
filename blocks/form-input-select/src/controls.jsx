@@ -9,7 +9,12 @@ import { Sorter } from '@prc/controls';
 import { useEffect, useMemo } from 'react';
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, ToggleControl, SelectControl } from '@wordpress/components';
+import {
+	PanelBody,
+	TextControl,
+	ToggleControl,
+	SelectControl,
+} from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -30,7 +35,8 @@ export default function Controls({
 	clientId,
 	context,
 }) {
-	const { placeholder, options, defaultOptions } = attributes;
+	const { placeholder, options, defaultOptions, hasClearIcon, disabled } =
+		attributes;
 
 	const sortableOptions = useMemo(() => {
 		return context['prc-block/sortable-options']
@@ -69,10 +75,18 @@ export default function Controls({
 				/>
 				<ToggleControl
 					label="Disabled"
-					checked={attributes.disabled}
+					checked={disabled}
 					help="If toggled on, the user cannot interact with this input."
 					onChange={(val) => {
 						setAttributes({ disabled: val });
+					}}
+				/>
+				<ToggleControl
+					label="Clear Icon Enabled"
+					checked={hasClearIcon}
+					help="If toggled on, a clear icon will be displayed in the input field."
+					onChange={(val) => {
+						setAttributes({ hasClearIcon: val });
 					}}
 				/>
 			</PanelBody>
@@ -81,8 +95,13 @@ export default function Controls({
 					label="Select from default options"
 					value={defaultOptions}
 					options={[
+						// @TODO: @nick-zanetti Add a "Countries and Regions" option to this list.
 						{ label: 'Custom', value: 'custom' },
 						{ label: 'Countries', value: 'countries' },
+						{
+							label: 'Countries and Regions',
+							value: 'countries-and-regions',
+						},
 						{ label: 'U.S. States', value: 'us-states' },
 						{ label: 'Industries', value: 'industries' },
 					]}
@@ -95,6 +114,8 @@ export default function Controls({
 					setAttributes={setAttributes}
 					attribute="options"
 					clientId={clientId}
+					isRemovable
+					hasSetActive
 				/>
 			</PanelBody>
 		</InspectorControls>
