@@ -1,6 +1,6 @@
 {
   "name": "form-input-checkbox",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Seth Rubenstein",
   "license": "GPL-2.0-or-later",
   "homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
@@ -15,6 +15,6 @@
     "start": "wp-scripts start --experimental-modules"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.3.0"
+    "@wordpress/scripts": "^28.6.0"
   }
 }

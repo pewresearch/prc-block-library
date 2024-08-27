@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "prc-block/form-input-password",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "title": "Password Field",
   "category": "design",
   "description": "A block for password input in a form with optional confirmation field and analyzer.",
@@ -44,12 +44,9 @@
     },
     "interactivity": true
   },
-  "providesContext": {
-    "prc-block/form-input-target-namespace": "interactiveNamespace"
-  },
   "textdomain": "form-input-password",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
-  "viewModule": "file:./view.js"
+  "viewScriptModule": "file:./view.js"
 }

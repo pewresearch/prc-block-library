@@ -46,9 +46,6 @@ export function setValues(menuContainer, navBlock) {
 	if (!menuContainer && !navBlock) {
 		return;
 	}
-	let width;
-	let left;
-	let top;
 
 	const navBlockHeight = navBlock.offsetHeight;
 
@@ -58,16 +55,24 @@ export function setValues(menuContainer, navBlock) {
 
 	// Get the bounding rectangle of the navigation block containing the menu.
 	const menuRect = menuContainer.getBoundingClientRect();
+	const menuWidth = menuRect.width;
 	const menuLeftPosition = menuRect?.left;
+	// console.log("setValue...", {
+	// 	menuRect,
+	// 	menuWidth,
+	// 	menuLeftPosition,
+	// 	windowWidth,
+	// });
 
-	top = `${navBlockHeight - 1}px`;
-	width = `${windowWidth}px`;
-	left = `-${menuLeftPosition}px`;
+	// Determine the new value:
+	const newTop = `${navBlockHeight - 1}px`;
+	const newWidth = `${windowWidth}px`; // We want all menus to extend the full width of the screen, for now.
+	const newLeft = `-${menuLeftPosition}px`;
 
 	return {
-		width,
-		left,
-		top,
+		width: newWidth,
+		left: newLeft,
+		top: newTop,
 	};
 }
 

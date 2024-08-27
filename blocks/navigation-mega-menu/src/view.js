@@ -38,7 +38,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 		get isActive() {
 			const context = getContext();
 			const { id } = context;
-			return state[id]?.isActive;
+			return state[id]?.isActive || false;
 		},
 		get width() {
 			const context = getContext();

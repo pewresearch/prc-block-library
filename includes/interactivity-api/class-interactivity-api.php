@@ -58,7 +58,7 @@ class Interactivity_API {
 	}
 
 	/**
-	* Add interactiveNamespace to the uses_context array for blocks that support interactivity api.
+	* Add prc-block/interactiveNamespace to the uses_context array for blocks that support interactivity api.
 	* @hook block_type_metadata_settings 100, 2
 	* @param mixed $settings
 	* @param mixed $metadata
@@ -69,7 +69,13 @@ class Interactivity_API {
 			$settings['uses_context'] = array_merge(
 				array_key_exists('uses_context', $settings) ? $settings['uses_context'] : array(),
 				array(
-					"interactiveNamespace"
+					"prc-block/interactiveNamespace"
+				)
+			);
+			$settings['provides_context'] = array_merge(
+				array_key_exists('provides_context', $settings) ? $settings['provides_context'] : array(),
+				array(
+					"prc-block/interactiveNamespace" => "interactiveNamespace"
 				)
 			);
 		}

@@ -1,6 +1,6 @@
 {
   "name": "form-input-select",
-  "version": "0.1.0",
+  "version": "1.5.0",
   "description": "Create a dropdown element with a list of options.",
   "author": "Pew Research Center",
   "license": "GPL-2.0-or-later",
@@ -17,7 +17,7 @@
 		"watch": "wp-scripts start --experimental-modules"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^28.3.0",
+    "@wordpress/scripts": "^28.5.0",
     "react": "^18.3.1"
   }
 }

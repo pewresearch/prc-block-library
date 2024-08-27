@@ -45,6 +45,9 @@ export default function Controls({
 	}, [context]);
 
 	useEffect(() => {
+		if ('custom' === defaultOptions) {
+			return;
+		}
 		if (options.length > 0) {
 			return;
 		}
@@ -95,7 +98,6 @@ export default function Controls({
 					label="Select from default options"
 					value={defaultOptions}
 					options={[
-						// @TODO: @nick-zanetti Add a "Countries and Regions" option to this list.
 						{ label: 'Custom', value: 'custom' },
 						{ label: 'Countries', value: 'countries' },
 						{
@@ -112,7 +114,7 @@ export default function Controls({
 				<Sorter
 					options={options}
 					setAttributes={setAttributes}
-					attribute="options"
+					attribute="sortedOptions"
 					clientId={clientId}
 					isRemovable
 					hasSetActive

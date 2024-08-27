@@ -28,6 +28,37 @@ $grid-mobile: repeat(4, 1fr);
 	}
 }
 
+@mixin vertical-divider() {
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+		content: "";
+		position: absolute;
+		height: 100%;
+		top: 0;
+		left: calc( -1 * ( var(--grid-gutter) / 2 ) );
+		border-left: 1px solid var(--divider-color, transparent);
+	}
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+		display: none!important;
+	}
+}
+
+@mixin transform-vertical-to-horizontal() {
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+		content: "";
+		border-bottom: 1px solid #eaeaea!important;
+		display: block!important;
+		padding-bottom: var(--grid-gutter)!important;
+		position: relative!important;
+		height: 1px!important;
+		top: 0!important;
+		left: 0!important;
+		border-left: none!important;
+	}
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+		display: none!important;
+	}
+}
+
 /**
  * Grid Columns
  */
@@ -47,34 +78,30 @@ $grid-mobile: repeat(4, 1fr);
 	overflow-wrap: break-word; // New standard.
 
 	display: grid;
-	&.wp-block.is-placeholder {
-		display: block;
-	}
 	gap: var(--grid-gutter);
 	grid-template-columns: $grid-mobile;
 
 	margin-block-start: 1.25em;
 	margin-block-end: 1.25em;
 
+	&.wp-block.is-placeholder {
+		display: block;
+	}
+
 	// Horizontal divider line for mobile columns that take up the entire grid of 4 column spans.
 	&.has-divider {
-		& > .wp-block-prc-block-grid-column:after {
-			border-color: var(--divider-color, transparent)!important; // By default lets just have a transparent border.
-		}
-		// Enable horizontal divider line for mobile columns that take up the entire grid of 4 column spans.
+		// & > .wp-block-prc-block-grid-column:after {
+		// 	border-color: var(--divider-color, transparent)!important; // By default lets just have a transparent border.
+		// }
+		// Enable horizontal divider line for mobile columns that take up the entire grid of 4 column spans, these appear on top of columns, except for the first column.
 		& > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"] {
 			&:not(:first-of-type){
 				@include horizontal-divider();
 			}
 		}
 		// Enable vertical divider line for all columns.
-		& > .wp-block-prc-block-grid-column:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
-			content: "";
-			position: absolute;
-			height: 100%;
-			top: 0;
-			left: calc( -1 * ( var(--grid-gutter) / 2 ) );
-			border-left: 1px solid transparent;
+		& > .wp-block-prc-block-grid-column:not(:first-of-type) {
+			@include vertical-divider();
 		}
 	}
 	// If a section header is present, adjust the divider line height down below the section header.
@@ -187,8 +214,20 @@ $grid-mobile: repeat(4, 1fr);
 
 // "Featured" Layout Pattern
 .wp-block-prc-block-grid-controller.is-pattern__featured-layout {
+	.wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item {
+		margin: 0!important;
+	}
 	// Mobile up to Tablet:
 	@media (max-width: #{ ($break-large) }) {
+		.wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item {
+			padding: var(--grid-gutter) 0!important;
+			&:first-of-type {
+				padding-top: 0!important;
+			}
+			&:last-of-type {
+				padding-bottom: 0!important;
+			}
+		}
 		& > .wp-block-prc-block-grid-column[class*="column1-tablet-grid__span-6"]  {
 			grid-row-start: 2;
 		}
@@ -199,31 +238,8 @@ $grid-mobile: repeat(4, 1fr);
 			grid-row-start: 3;
 		}
 		// Divider Lines
-		&.has-divider {
-			// Enable tablet horizontal divider
-			& > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-12"] {
-				&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
-					content: "";
-					border-bottom: 1px solid #eaeaea!important;
-					display: block!important;
-					padding-bottom: var(--grid-gutter)!important;
-					position: relative!important;
-					height: 1px!important;
-					top: 0!important;
-					left: 0!important;
-					border-left: none!important;
-				}
-				&:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
-					display: none!important;
-				}
-			}
-			// Disable mobile horizontal divider
-			& > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"]:not([class*="-tablet-grid__span-12"]):not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
-				display: none!important;
-			}
-			// & > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"]:not([class*="-tablet-grid__span-12"]):not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
-			// 	display: block!important;
-			// }
+		&.has-divider > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-12"] {
+			@include transform-vertical-to-horizontal();
 		}
 	}
 	// Tablet Only:

@@ -2,10 +2,10 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "prc-block/form-input-select",
-  "version": "0.1.0",
+  "version": "1.5.0",
   "title": "Form Input Select",
   "category": "widgets",
-  "description": "Create a dropdown element with a list of options.",
+  "description": "Create a dropdown component with a list of options.",
   "attributes": {
     "defaultOptions": {
       "type": "string",
@@ -19,6 +19,10 @@
       "default": "custom"
     },
     "options": {
+      "type": "array",
+      "default": []
+    },
+    "sortedOptions": {
       "type": "array",
       "default": []
     },

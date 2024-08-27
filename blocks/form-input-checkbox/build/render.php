@@ -10,7 +10,7 @@ if ( null === $target_namespace ) {
 }
 $input_required         = array_key_exists('required', $attributes) ? $attributes['required'] : false;
 $input_label            = array_key_exists('label', $attributes) ? $attributes['label'] : '';
-$input_name             = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : null;
+$input_name             = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : sanitize_title( $input_label );
 $input_checked          = array_key_exists('defaultChecked', $attributes) ? $attributes['defaultChecked'] : false;
 $input_type             = array_key_exists('type', $attributes) ? $attributes['type'] : 'checkbox';
 $input_value            = array_key_exists('value', $attributes) ? $attributes['value'] : '';
@@ -18,7 +18,7 @@ $input_id               = md5( $target_namespace . $input_name . $input_type );
 $input_border_color     = array_key_exists('checkboxColor', $attributes) ? $attributes['checkboxColor'] : false;
 $is_part_of_a_template = false;
 if ( false === $is_part_of_a_template ) {
-	// Hoist this block's values into the target interactive namespace state.
+	// Hoist this block's values into the target's global state.
 	// State is no longer "global" store, in the sense that it is not shared across all blocks on the page and is instead shared by all blocks of the same namespace on the page.
 	// Whereas context is a "state" store instanced to each block of the namespace.
 	wp_interactivity_state(

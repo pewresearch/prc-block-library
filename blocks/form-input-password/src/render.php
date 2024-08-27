@@ -9,20 +9,21 @@ if ( null === $target_namespace ) {
 }
 $input_placeholder = array_key_exists( 'placeholder', $attributes ) ? $attributes['placeholder'] : 'Enter text...';
 $confimation_placeholder = array_key_exists( 'confirmationPlaceholder', $attributes ) ? $attributes['confirmationPlaceholder'] : 'Confirm text...';
-$input_type = array_key_exists('type', $attributes) ? $attributes['type'] : 'text';
 $input_name = array_key_exists('metadata', $attributes) && array_key_exists('name', $attributes['metadata']) ? $attributes['metadata']['name'] : null;
 $includes_confirmation = array_key_exists( 'includesConfirmation', $attributes ) ? $attributes['includesConfirmation'] : false;
-$conditions = array();
+$input_id = md5( $target_namespace . '/password/' . $input_name . '/' . $includes_confirmation );
+$conditions = [];
 
 // @TODO: This could easily be some sort of "conditions checker" interactive block component used in other applications.
 if ( $includes_confirmation ) {
+	$condition_state = 'state.' . $input_id . '.conditionsList';
 	ob_start();
 	?>
 	<div class="wp-block-prc-block-form-input-password__analyzer">
 		<p>Password Must:</p>
 		<ul>
 		<template
-			data-wp-each--condition="context.conditionsList"
+			data-wp-each--condition="<?php echo $condition_state; ?>"
 			data-wp-each-key="context.condition.id"
 		>
 			<li data-wp-class--is-valid="context.condition.met">
@@ -40,48 +41,47 @@ if ( $includes_confirmation ) {
 	<?php
 	$password_analyzer = ob_get_clean();
 
-	$conditions = array(
-		array(
+	$conditions = [
+		[
 			'id' => 'hasLowerCase',
 			'label' => 'Includes one lowercase letter',
 			'met' => false,
-		),
-		array(
+		],
+		[
 			'id' => 'hasUpperCase',
 			'label' => 'Includes one uppercase letter',
 			'met' => false,
-		),
-		array(
+		],
+		[
 			'id' => 'hasNumber',
 			'label' => 'Includes one number',
 			'met' => false,
-		),
-		array(
+		],
+		[
 			'id' => 'hasSpecialCharacter',
 			'label' => 'Includes one special character',
 			'met' => false,
-		),
-		array(
+		],
+		[
 			'id' => 'hasLength',
 			'label' => 'Be at least 12 characters long',
 			'met' => false,
-		),
-		array(
+		],
+		[
 			'id' => 'hasNoInvalidCharacters',
 			'label' => 'Not include invalid characters',
 			'met' => false,
-		),
-	);
+		],
+		[
+			'id' => 'hasMatch',
+			'label' => 'Confirmation matches password',
+			'met' => false,
+		],
+	];
 }
 
-$block_attrs = array(
-	'id' => wp_unique_id('wp-block-prc-block-form-input-password-'),
-	'class' => \PRC\Platform\Block_Utils\classNames(array(
-		'has-confirmation' => $includes_confirmation,
-	)),
-	'data-wp-interactive' => wp_json_encode(array('namespace' => 'prc-block/form-input-password')),
-	'data-wp-context' => wp_json_encode(array(
-		'targetNamespace' => $target_namespace,
+wp_interactivity_state( 'prc-block/form-input-password', [
+	$input_id => [
 		'hasConfirmation' => $includes_confirmation,
 		'value' => '',
 		'confirmationValue' => '',
@@ -95,12 +95,27 @@ $block_attrs = array(
 		'hasNoInvalidCharacters' => true,
 		'passwordsMatch' => false,
 		'conditionsList' => $conditions,
-	)),
+	]
+]);
+
+$block_attrs = [
+	'id' => $input_id,
+	'class' => \PRC\Platform\Block_Utils\classNames([
+		'has-confirmation' => $includes_confirmation,
+	]),
+	'data-wp-interactive' => wp_json_encode([
+		'namespace' => 'prc-block/form-input-password'
+	]),
+	'data-wp-context' => wp_json_encode([
+		'id' => $input_id,
+		'targetNamespace' => $target_namespace,
+	]),
 	'data-wp-watch--on--value-change' => 'callbacks.onValueChange',
 	'style' => '--block-gap:' . \PRC\Platform\Block_Utils\get_block_gap_support_value($attributes, 'horizontal') . ';',
-);
+];
 if ( $includes_confirmation ) {
 	$block_attrs['data-wp-init--on-confirmation-init'] = 'callbacks.onConfirmationInit';
+	$block_attrs['data-wp-watch--on--password-analyzer'] = 'callbacks.onPasswordAnalyzer';
 }
 $block_attrs = get_block_wrapper_attributes($block_attrs);
 

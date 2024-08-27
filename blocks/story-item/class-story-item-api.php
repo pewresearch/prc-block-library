@@ -123,7 +123,6 @@ class Story_Item_API {
 		if ( !$allowed ) {
 			return false;
 		}
-		do_action('qm/debug', print_r($this->post_data, true));
 		$excerpt = preg_match( '/<div class="description">(.*?)<\/div>/s', $this->inner_content, $matches );
 		$excerpt = $excerpt ? $matches[1] : false;
 		$excerpt = $excerpt ? $excerpt : $this->post_data['post_excerpt'];

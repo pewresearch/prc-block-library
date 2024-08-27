@@ -1,64 +1,108 @@
+/* eslint-disable max-lines */
 /* eslint-disable @wordpress/no-unused-vars-before-return */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
-const { actions } = store('prc-block/form-input-select', {
+const { state, actions } = store('prc-block/form-input-select', {
+	state: {
+		get activeIndex() {
+			const id = actions.getId();
+			return state[id]?.activeIndex || 0;
+		},
+		get value() {
+			const id = actions.getId();
+			return state[id]?.value || '';
+		},
+		get isOpen() {
+			const id = actions.getId();
+			return state[id]?.isOpen || false;
+		},
+		get isDisabled() {
+			const id = actions.getId();
+			return state[id]?.isDisabled || false;
+		},
+		get label() {
+			const id = actions.getId();
+			return state[id]?.label || '';
+		},
+		get hasClearIcon() {
+			const id = actions.getId();
+			return state[id]?.hasClearIcon || false;
+		},
+		get filteredOptions() {
+			const id = actions.getId();
+			return state[id]?.filteredOptions || [];
+		},
+		get options() {
+			const id = actions.getId();
+			return state[id]?.options || [];
+		},
+		get hasValue() {
+			const id = actions.getId();
+			return !!state[id]?.value;
+		},
+	},
 	actions: {
-		onOpen: () => {
+		getId: () => {
 			const context = getContext();
-			context.isOpen = true;
+			const { id } = context;
+			return id;
+		},
+		setIsOpen: (isOpen, id) => {
+			state[id].isOpen = isOpen;
+		},
+		setActiveIndex: (activeIndex, id) => {
+			state[id].activeIndex = activeIndex;
+		},
+		setNewValue: (newValue, id) => {
+			const { ref } = getElement();
+			const context = getContext();
+			const { targetNamespace } = context;
 
-			// set icon to up caret
-			const useElement = document.querySelector(
-				'.wp-block-prc-block-form-input-select__close-toggle use'
-			);
-			if (useElement) {
-				useElement.setAttribute(
-					'href',
-					`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-up`
-				);
+			state[id].value = newValue;
+			// if the value is not empty and the targetNamespace is not the same as the current namespace
+			// then hoist the value up to the targetNamespace
+			if (newValue && 'prc-block/form-input-select' !== targetNamespace) {
+				const { actions: targetActions } = store(targetNamespace);
+				if (targetActions.onSelectChange) {
+					targetActions.onSelectChange(
+						newValue,
+						ref,
+						id,
+						state[id].filteredOptions,
+						state,
+						context
+					);
+				}
 			}
 		},
-		onClose: (event = null) => {
-			// By default this runs on the on-blur directive on the input element
-			// but we also use it as a shortcut to close the listbox on click,
-			// so this is a quick check to see if we're using this as a shortcut or not.
-			if (null !== event) {
-				event.preventDefault();
-			}
-			const context = getContext();
-			// Because the on-blur event fires before the click event we need to slow things down a bit, 150 ms should do it
-			let isRunning = false;
-			if (!isRunning) {
-				isRunning = true;
-				setTimeout(() => {
-					context.isOpen = false;
-					isRunning = false;
-				}, 150);
-			}
-			// set icon to down caret
-			const useElement = document.querySelector(
-				'.wp-block-prc-block-form-input-select__close-toggle use'
-			);
-			if (useElement) {
-				useElement.setAttribute(
-					'href',
-					`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-down`
-				);
-			}
+		setLabel: (label, id) => {
+			state[id].label = label;
 		},
-		onReset: () => {
-			const context = getContext();
-			context.activeIndex = 0;
-			context.value = '';
-			context.label = '';
-			context.filteredOptions = context.options;
+		setFilteredOptions: (filteredOptions, id) => {
+			state[id].filteredOptions = filteredOptions;
 		},
-		getOptionByValue: (value) => {
+		resetValues: (id) => {
+			state[id].value = '';
+			state[id].label = '';
+			state[id].activeIndex = 0;
+			state[id].filteredOptions = state[id].options;
+		},
+		getTargetProcessingState: () => {
 			const context = getContext();
-			const { options } = context;
-			const selectedOption = options.find(
-				(option) => option.value === value
-			);
+			const { targetNamespace } = context;
+			if ('prc-block/form-input-select' !== targetNamespace) {
+				const { state: targetState } = store(targetNamespace);
+				if (targetState.isProcessing) {
+					return true;
+				}
+			}
+			return false;
+		},
+		getOptionByValue: (value, id) => {
+			const { options } = state[id];
+			const selectedOption = options.find((option) => {
+				return option.value == value;
+			});
 			if (!selectedOption) {
 				return null;
 			}
@@ -72,9 +116,32 @@ const { actions } = store('prc-block/form-input-select', {
 				...selectedOption,
 			};
 		},
+		onOpen: () => {
+			const id = actions.getId();
+			actions.setIsOpen(true, id);
+		},
+		onClose: () => {
+			// By default this runs on the on-blur directive on the input element
+			// but we also use it as a shortcut to close the listbox on click,
+
+			// Because the on-blur event fires before the click event
+			// we need to slow things down a bit, 150 ms should do it...
+			let isRunning = false;
+			if (!isRunning) {
+				isRunning = true;
+				const id = actions.getId();
+				setTimeout(() => {
+					actions.setIsOpen(false, id);
+					isRunning = false;
+				}, 150);
+			}
+		},
+		onReset: () => {
+			const id = actions.getId();
+			actions.resetValues(id);
+		},
 		moveThroughOptions: (direction, ref) => {
-			const context = getContext();
-			const { activeIndex, filteredOptions } = context;
+			const { activeIndex, filteredOptions } = state;
 			let nextActive = null;
 			if (activeIndex === null || isNaN(activeIndex)) {
 				nextActive = 0;
@@ -106,34 +173,37 @@ const { actions } = store('prc-block/form-input-select', {
 			});
 			filteredOptions[nextActive].isSelected = true;
 
-			context.activeIndex = nextActive;
-			context.filteredOptions = filteredOptions;
+			const id = actions.getId();
+
+			actions.setActiveIndex(nextActive, id);
+			actions.setFilteredOptions(filteredOptions, id);
 		},
 		setValueOnEnter: () => {
-			const context = getContext();
-			const { filteredOptions, activeIndex } = context;
+			const { filteredOptions, activeIndex } = state;
+
+			const id = actions.getId();
 
 			const highlightedOption = filteredOptions[activeIndex];
 
-			actions.setNewValue(highlightedOption?.value);
-			context.label = highlightedOption?.label;
-			context.isOpen = false;
+			actions.setNewValue(highlightedOption.value, id);
+			actions.setLabel(highlightedOption.label, id);
+			actions.setIsOpen(false, id);
 
 			// reset the filtered options
 			// context.filteredOptions = options;
 		},
 		onKeyUp: (event) => {
+			const id = actions.getId();
 			event.preventDefault();
 			// The input value.
 			const { value } = event.target;
 
-			const context = getContext();
-			const { options } = context;
+			const { options } = state;
 			const { ref } = getElement();
 
 			if (event.key === 'Escape') {
 				actions.onReset();
-				if (true === context.isOpen) {
+				if (true === state.isOpen) {
 					ref.blur();
 				}
 				return;
@@ -158,139 +228,53 @@ const { actions } = store('prc-block/form-input-select', {
 				return label.toLowerCase().includes(value.toLowerCase());
 			});
 			if (matches.length) {
-				context.filteredOptions = matches;
+				actions.setFilteredOptions(matches, id);
 			}
 		},
 		onClick: (event) => {
 			event.preventDefault();
 			const { ref } = getElement();
-			const context = getContext();
-			const { options, option } = context;
+			// This gets the context of the option <li> element inside the <wp-template/>...
+			const { options } = state;
 
 			const id = ref.getAttribute('aria-controls');
 			const val = ref.getAttribute('data-ref-value');
-			const { index } = actions.getOptionByValue(val);
+			const { index } = actions.getOptionByValue(val, id);
 			const { label, value } = options[index];
 
-			context.activeIndex = index;
-			context.label = label;
-			actions.setNewValue(value);
+			actions.setActiveIndex(index, id);
+			actions.setLabel(label, id);
+			actions.setNewValue(value, id);
 
-			// find any other isSelected and set to false and then set isSelected
-			// on the clicked option
-			// also, reset the filteredOptions to the original options now that we have a value
+			// Reset any other "isSelected" options to false and then set the clicked on option to true...
+			// Additionally, reset the filtered options back to options.
 			const filteredOptions = options;
 			filteredOptions.forEach((opt) => {
 				opt.isSelected = false;
 			});
 			filteredOptions[index].isSelected = true;
-			context.filteredOptions = filteredOptions;
+			actions.setFilteredOptions(filteredOptions, id);
 
-			actions.onClose();
-
-			// set icon to xmark
-
-			if (context.hasClearIcon) {
-				const useElement = document.querySelector(
-					'.wp-block-prc-block-form-input-select__close-toggle use'
-				);
-				if (useElement) {
-					useElement.setAttribute(
-						'href',
-						`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#xmark`
-					);
-				}
-			}
+			actions.onClose(id);
 		},
-		setNewValue: (newValue) => {
-			const { ref } = getElement();
-			const context = getContext();
-			const { targetNamespace } = context;
-			// if the value is not empty and the targetNamespace is not the same as the current namespace
-			// then hoist the value up to the targetNamespace
-			context.value = newValue;
-			if (newValue && 'prc-block/form-input-select' !== targetNamespace) {
-				const { actions: targetActions, state: targetState } =
-					store(targetNamespace);
-				if (targetActions.onSelectChange) {
-					targetActions.onSelectChange(newValue, ref);
-				}
+		onIconClick: (event) => {
+			event.preventDefault();
+			const id = actions.getId();
+			const { isOpen, value, hasClearIcon } = state[id];
+			if (isOpen) {
+				actions.onClose(id);
+			} else {
+				actions.onOpen(id);
 			}
-		},
-
-		onIconClick: () => {
-			const context = getContext();
-			const { targetNamespace, isOpen, value } = context;
-			const { ref } = getElement();
-			if (!isOpen && !value) {
-				actions.onOpen();
-				// focus the input
-				const input = ref.nextElementSibling.querySelector('input');
-				if (input) {
-					input.focus();
-				}
-				// set icon to up caret
-				const useElement = document.querySelector(
-					'.wp-block-prc-block-form-input-select__close-toggle use'
-				);
-				if (useElement) {
-					useElement.setAttribute(
-						'href',
-						`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-up`
-					);
-				}
-				return;
-			}
-			if (isOpen && !value) {
-				actions.onClose();
-				const useElement = document.querySelector(
-					'.wp-block-prc-block-form-input-select__close-toggle use'
-				);
-				if (useElement) {
-					useElement.setAttribute(
-						'href',
-						`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-down`
-					);
-				}
-				return;
-			}
-			if (
-				'prc-block/form-input-select' !== targetNamespace &&
-				!isOpen &&
-				value &&
-				context.hasClearIcon
-			) {
-				// clear the value and reset the label
-				context.activeIndex = 0;
-				context.value = '';
-				context.label = '';
-				context.filteredOptions = context.options;
+			if (!isOpen && value && hasClearIcon) {
+				const { ref } = getElement();
+				actions.resetValues(id);
+				const { targetNamespace } = getContext();
 				const { actions: targetActions } = store(targetNamespace);
 				if (targetActions.onSelectClearIconClick) {
-					targetActions.onSelectClearIconClick(value, ref);
-				}
-				// reset icon to caret
-				const useElement = document.querySelector(
-					'.wp-block-prc-block-form-input-select__close-toggle use'
-				);
-				if (useElement) {
-					useElement.setAttribute(
-						'href',
-						`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-down`
-					);
+					targetActions.onSelectClearIconClick(ref, value, id);
 				}
 			}
-		},
-		getTargetProcessingState: () => {
-			const context = getContext();
-			const { targetNamespace } = context;
-			if ('prc-block/form-input-select' !== targetNamespace) {
-				const { state: targetState } = store(targetNamespace);
-				if (targetState.isProcessing) {
-					return true;
-				}
-			}
-			return false;
 		},
 	},
 	callbacks: {
@@ -299,17 +283,6 @@ const { actions } = store('prc-block/form-input-select', {
 		},
 		isDisabled: () => {
 			return actions.getTargetProcessingState();
-		},
-		onInit: () => {
-			const useElement = document.querySelector(
-				'.wp-block-prc-block-form-input-select__close-toggle use'
-			);
-			if (useElement) {
-				useElement.setAttribute(
-					'href',
-					`${window.location.origin}/wp-content/plugins/prc-icon-library/build/icons/sprites/solid.svg#caret-down`
-				);
-			}
 		},
 	},
 });
