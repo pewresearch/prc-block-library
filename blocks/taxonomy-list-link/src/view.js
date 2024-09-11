@@ -13,6 +13,20 @@ store('prc-block/taxonomy-list-link', {
 			context.isActive = !context.isActive;
 			// Update the URL:
 			if (id) {
+				// Check if the URL already has a taxonomyLink query arg, if so remove it:
+				const existingArgs = window.wp.url.getQueryArg(
+					window.location.href,
+					'taxonomyLink'
+				);
+				if (existingArgs && existingArgs === id) {
+					const newUrl = window.wp.url.removeQueryArgs(
+						window.location.href,
+						'taxonomyLink'
+					);
+					window.history.pushState({}, '', newUrl);
+					return;
+				}
+
 				const { href } = window.location;
 				const newUrl = window.wp.url.addQueryArgs(href, {
 					taxonomyLink: id,
@@ -22,6 +36,11 @@ store('prc-block/taxonomy-list-link', {
 		},
 	},
 	callbacks: {
+		getExpandedMenuLabel: () => {
+			const context = getContext();
+			const { isActive } = context;
+			return isActive ? 'Less' : 'More';
+		},
 		onInit: () => {
 			const context = getContext();
 			const { ref } = getElement();

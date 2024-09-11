@@ -66,7 +66,7 @@ class Taxonomy_Search {
 				),
 				'per_page' => array(
 					'validate_callback' => function( $param, $request, $key ) {
-						return is_int( $param );
+						return intval( $param ) > 0;
 					},
 					'default' => 25
 				),

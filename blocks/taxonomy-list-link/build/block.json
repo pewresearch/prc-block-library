@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "prc-block/taxonomy-list-link",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "title": "Taxonomy List Link",
   "category": "theme",
   "description": "Display a link to a taxonomy term or custom URL with optional settings.",
