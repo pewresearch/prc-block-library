@@ -10,10 +10,7 @@ Create a dropdown element with a list of options.
 
 ## Description
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
-
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Form Input Select is a Gutenberg block that creates a dropdown element with a list of options. It supports a wide range of use cases and is ready to be used with targetNamespace or subsumption.
 
 ## Instructions
 

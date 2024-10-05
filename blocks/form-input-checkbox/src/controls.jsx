@@ -34,6 +34,7 @@ function InspectorPanel({ attributes, setAttributes, colors, clientId }) {
 						options={[
 							{ label: 'Checkbox', value: 'checkbox' },
 							{ label: 'Radio', value: 'radio' },
+							{ label: 'Toggle', value: 'toggle' },
 						]}
 						onChange={(newType) => {
 							setAttributes({ type: newType });

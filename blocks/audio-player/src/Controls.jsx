@@ -7,16 +7,18 @@ import { MediaDropZone } from '@prc/components';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
-import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, Button } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, Button, ToggleControl } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
 
 function InspectorPanel({ attributes, setAttributes, type }) {
-	const { source, imageSource } = attributes;
+	const { source, imageSource, enableEventTracking } = attributes;
+
+	console.log('event tracking from InspectorPanel:', enableEventTracking);
 
 	return (
 		<InspectorControls>
@@ -54,15 +56,26 @@ function InspectorPanel({ attributes, setAttributes, type }) {
 						{`Update ${source ? `${source.title}` : 'Audio File'}`}
 					</Button>
 				</MediaDropZone>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label="Event Tracking"
+					help={
+						enableEventTracking
+							? 'Event tracking enabled.'
+							: 'Event tracking disabled.'
+					}
+					checked={enableEventTracking}
+					onChange={() => {
+						setAttributes({
+							enableEventTracking: !enableEventTracking,
+						});
+					}}
+				/>
 			</PanelBody>
 		</InspectorControls>
 	);
 }
 
 export default function Controls({ attributes, setAttributes, context, type }) {
-	return (
-		<Fragment>
-			<InspectorPanel {...{ attributes, setAttributes, context, type }} />
-		</Fragment>
-	);
+	return <InspectorPanel {...{ attributes, setAttributes, context, type }} />;
 }

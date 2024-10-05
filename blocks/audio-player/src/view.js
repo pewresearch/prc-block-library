@@ -25,6 +25,7 @@ domReady(() => {
 		const imageSource = elm.getAttribute('data-image');
 		const metaTitle = elm.getAttribute('data-meta-title');
 		const metaDescription = elm.getAttribute('data-meta-description');
+		const enableTracking = elm.getAttribute('data-enable-tracking');
 
 		render(
 			<AudioPlayer
@@ -36,6 +37,7 @@ domReady(() => {
 				metaTitle={metaTitle}
 				metaDescription={metaDescription}
 				classes={classes}
+				enableTracking={enableTracking}
 			/>,
 			elm
 		);

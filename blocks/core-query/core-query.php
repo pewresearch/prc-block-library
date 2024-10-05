@@ -229,7 +229,7 @@ class Core_Query {
 	}
 
 	/**
-	 * Hijacks core/post-template block context so that the queryId and the query are passed down to stort-item blocks. This makes story item blocks "query" context aware and as such they will change their attributes if placed in a query block. We also remove postId and postType for good measure.
+	 * Hijacks core/post-template block context so that the queryId and the query are passed down to story-item blocks. This makes story item blocks "query" context aware and as such they will change their attributes if placed in a query block. We also remove postId and postType for good measure.
 	 * @hook render_block_context
 	 */
 	public function handle_story_item_query_context_awareness(array $context, array $parsed_block, WP_Block|null $parent_block) {

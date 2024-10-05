@@ -98,5 +98,56 @@
 
 	label {
 		flex-basis: fit-content;
+		&:empty {
+			&:after {
+				content: "Loading...";
+			}
+			animation: pulse 0.5s infinite;
+		}
+	}
+}
+
+.wp-block-prc-block-form-input-checkbox.is-type-toggle {
+	// gap: 0;
+	input {
+		display: none;
+	}
+}
+
+.wp-block-prc-block-form-input-checkbox__toggle {
+	font-size: 16px;
+	display: inline-block;
+	position: relative;
+	--animationTimer: 0.35s;
+
+	&.is-selected {
+		.wp-block-prc-block-form-input-checkbox__toggle__switch {
+			background-color: var(--wp--preset--color--ui-black);
+			&:before {
+				transform: translateX(0.8em);
+			}
+		}
+	}
+
+	.wp-block-prc-block-form-input-checkbox__toggle__switch {
+		cursor: pointer;
+		background-color: #ccc;
+		border-radius: 34px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 2em;
+		height: 1em;
+		padding: 0.2em;
+		transition: var(--animationTimer) background-color ease;
+		&:before {
+			display: block;
+			content: "";
+			height: 0.8em;
+			width: 0.8em;
+			background-color: var(--wp--preset--color--ui-white);
+			border-radius: 50%;
+			transition: var(--animationTimer) transform ease;
+		}
 	}
 }

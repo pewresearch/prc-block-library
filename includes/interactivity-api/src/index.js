@@ -23,11 +23,21 @@ addFilter(
 	createHigherOrderComponent(
 		(BlockEdit) =>
 			function BlockInteractivityControls(props) {
-				const { name, attributes, setAttributes, clientId, isSelected, context } = props;
+				const {
+					name,
+					attributes,
+					setAttributes,
+					clientId,
+					isSelected,
+					context,
+				} = props;
 
 				const supportsInteractivity = useSelect(
 					(select) =>
-						select('core/blocks').getBlockSupport(name, 'interactivity'),
+						select('core/blocks').getBlockSupport(
+							name,
+							'interactivity'
+						),
 					[name]
 				);
 
@@ -39,7 +49,12 @@ addFilter(
 					<Fragment>
 						<BlockEdit {...props} />
 						<Controls
-							{...{ attributes, setAttributes, clientId, context }}
+							{...{
+								attributes,
+								setAttributes,
+								clientId,
+								context,
+							}}
 						/>
 					</Fragment>
 				);
@@ -53,8 +68,7 @@ addFilter(
 	'blocks.registerBlockType',
 	`${BLOCKIDENTIFIER}-supports`,
 	(settings) => {
-
-		if ( settings?.supports?.interactivity ) {
+		if (settings?.supports?.interactivity) {
 			settings.attributes = {
 				...settings.attributes,
 				isInteractive: {
@@ -64,10 +78,14 @@ addFilter(
 				interactiveNamespace: {
 					type: 'string',
 				},
+				interactiveSubsumption: {
+					type: 'boolean',
+					default: false,
+				},
 			};
 			settings.usesContext = [
 				...settings.usesContext,
-				'interactiveNamespace'
+				'interactiveNamespace',
 			];
 		}
 

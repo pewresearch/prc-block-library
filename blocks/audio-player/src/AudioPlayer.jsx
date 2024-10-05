@@ -9,7 +9,7 @@ import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 /**
  * WordPress Dependencies
  */
-import { Fragment, useState, useRef, useEffect } from '@wordpress/element';
+import { useState, useRef, useEffect } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -24,14 +24,41 @@ const AudioPlayer = ({
 	metaTitle,
 	metaDescription,
 	classes,
+	enableTracking,
 }) => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [played, setPlayed] = useState(0);
 	const [seeking, setSeeking] = useState(false);
 	const [duration, setDuration] = useState(0);
+	const [firstPlay, setFirstPlay] = useState(false);
 
 	//refs and effects
 	const playerRef = useRef(null);
+
+	useEffect(() => {
+		const eventHandler = (x) => console.log('test', x);
+		window.addEventListener(
+			'prc-block/audio-player::firstPlay',
+			eventHandler
+		);
+
+		return () => {
+			window.removeEventListener(
+				'prc-block/audio-player::firstPlay',
+				eventHandler
+			);
+		};
+	}, []);
+
+	useEffect(() => {
+		const event = new CustomEvent('prc-block/audio-player::firstPlay', {
+			url: window.location.href,
+		});
+		if (enableTracking && firstPlay) {
+			console.log('Tracking turned on');
+			window.dispatchEvent(event);
+		}
+	}, [firstPlay, enableTracking]);
 
 	//helpers
 	const handleSeekChange = (e) => {
@@ -88,6 +115,9 @@ const AudioPlayer = ({
 					type="button"
 					onClick={() => {
 						setIsPlaying(!isPlaying);
+						if (!firstPlay) {
+							setFirstPlay(true);
+						}
 						{
 							/* The below fees like a somewhat hacky solution to pausing 
 							other players on the page when this 
@@ -164,7 +194,12 @@ const AudioPlayer = ({
 				<div className="wp-block-prc-block-audio-player__player__controls">
 					<button
 						type="button"
-						onClick={() => setIsPlaying(!isPlaying)}
+						onClick={() => {
+							setIsPlaying(!isPlaying);
+							if (!firstPlay) {
+								setFirstPlay(true);
+							}
+						}}
 						className="wp-block-prc-block-audio-player__player__button"
 					>
 						{!isPlaying ? '\u25B6' : '⏸'}
@@ -223,7 +258,12 @@ const AudioPlayer = ({
 			<div className="wp-block-prc-block-audio-player__player__controls">
 				<button
 					type="button"
-					onClick={() => setIsPlaying(!isPlaying)}
+					onClick={() => {
+						setIsPlaying(!isPlaying);
+						if (!firstPlay) {
+							setFirstPlay(true);
+						}
+					}}
 					className="wp-block-prc-block-audio-player__player__button"
 				>
 					{!isPlaying ? '\u25B6' : '⏸'}

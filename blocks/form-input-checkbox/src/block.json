@@ -9,7 +9,7 @@
 	"attributes": {
 		"type": {
 			"type": "string",
-			"enum": ["checkbox", "radio"],
+			"enum": ["checkbox", "radio", "toggle"],
 			"default": "checkbox"
 		},
 		"label": {

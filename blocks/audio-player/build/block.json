@@ -27,6 +27,10 @@
       "default": {
         "id": ""
       }
+    },
+    "enableEventTracking": {
+      "type": "boolean",
+      "default": false
     }
   },
   "styles": [

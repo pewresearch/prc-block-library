@@ -9,6 +9,10 @@
 	background: inherit;
 }
 
+.css-1pifbk2 {
+	margin-bottom: 1em;
+}
+
 .player {
 	display: flex;
 	flex-wrap: wrap;
@@ -49,7 +53,9 @@
 		padding: 10px 20px;
 		cursor: pointer;
 		font-size: 1rem;
-		transition: background 0.3s, transform 0.3s;
+		transition:
+			background 0.3s,
+			transform 0.3s;
 		outline: none;
 		display: inline-block;
 		text-align: center;

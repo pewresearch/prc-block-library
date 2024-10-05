@@ -119,7 +119,7 @@ $option_li_template = wp_sprintf(
 );
 $options_template = wp_sprintf(
 	/* html */'<template data-wp-each--option="%s" data-wp-each-key="context.option.value">%s</template>',
-	'state.'.$input_id.'.filteredOptions',
+	'state.filteredOptions',
 	$option_li_template,
 );
 $has_clear_icon = array_key_exists('hasClearIcon', $attributes) ? $attributes['hasClearIcon'] : false;
@@ -135,7 +135,6 @@ $block_wrapper_attrs = get_block_wrapper_attributes([
 	'data-wp-context' => wp_json_encode([
 		'targetNamespace' => $target_namespace,
 		'id' => $input_id,
-		'md5Hash' => md5( $target_namespace . '/dropdown/' . $input_name . wp_json_encode($filtered_options) ), // This is used to force the interactivity api to re-render the block when the filteredOptions change.
 	]),
 	'data-wp-class--is-open' => 'state.isOpen',
 	'data-wp-class--is-processing' => 'callbacks.isProcessing',

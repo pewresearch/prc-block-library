@@ -12,6 +12,6 @@
 		"start": "wp-scripts start src/index.js"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^27.9.0"
+		"@wordpress/scripts": "^28.6.0"
 	}
 }

@@ -1,7 +1,7 @@
 {
   "name": "form-input-select",
   "version": "1.5.0",
-  "description": "Create a dropdown element with a list of options.",
+  "description": "Create a select list of options, complete with autocomplete and search functionality.",
   "author": "Pew Research Center",
   "license": "GPL-2.0-or-later",
   "homepage": "https://github.com/pewresearch/pewresearch-org/blob/main/plugins/prc-block-library/blocks/",
@@ -17,7 +17,7 @@
 		"watch": "wp-scripts start --experimental-modules"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^28.5.0",
+    "@wordpress/scripts": "^30.0.2",
     "react": "^18.3.1"
   }
 }

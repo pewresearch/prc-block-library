@@ -1,6 +1,11 @@
 /* eslint-disable max-lines */
 /* eslint-disable @wordpress/no-unused-vars-before-return */
-import { store, getContext, getElement } from '@wordpress/interactivity';
+import {
+	store,
+	getContext,
+	getElement,
+	getServerState,
+} from '@wordpress/interactivity';
 
 const { state, actions } = store('prc-block/form-input-select', {
 	state: {
@@ -30,11 +35,12 @@ const { state, actions } = store('prc-block/form-input-select', {
 		},
 		get filteredOptions() {
 			const id = actions.getId();
-			return state[id]?.filteredOptions || [];
+			return getServerState()[id]?.filteredOptions || [];
 		},
 		get options() {
 			const id = actions.getId();
-			return state[id]?.options || [];
+			const serverState = getServerState();
+			return serverState[id]?.options || [];
 		},
 		get hasValue() {
 			const id = actions.getId();

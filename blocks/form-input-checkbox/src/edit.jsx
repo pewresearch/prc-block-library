@@ -52,6 +52,9 @@ function Edit({
 	const blockProps = useBlockProps({
 		className: classnames({
 			'is-required': required,
+			'is-type-checkbox': 'checkbox' === type,
+			'is-type-radio': 'radio' === type,
+			'is-type-toggle': 'toggle' === type,
 		}),
 	});
 
@@ -77,7 +80,7 @@ function Edit({
 			/>
 			<div {...blockProps}>
 				<input
-					type={type}
+					type={'toggle' === type ? 'checkbox' : type}
 					id={anchor}
 					name={anchor}
 					required={required}
@@ -87,6 +90,18 @@ function Edit({
 						event.preventDefault();
 					}}
 				/>
+				{'toggle' === type && (
+					<div
+						className={classnames(
+							'wp-block-prc-block-form-input-checkbox__toggle',
+							{
+								'is-selected': defaultChecked,
+							}
+						)}
+					>
+						<div className="wp-block-prc-block-form-input-checkbox__toggle__switch"></div>
+					</div>
+				)}
 				<RichText
 					tagName="label"
 					placeholder={__('Label', 'prc-block-library')}

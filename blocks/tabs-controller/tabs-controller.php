@@ -113,11 +113,14 @@ class Tabs_Controller {
 		$tabs_controller_innerblocks = $parsed_block['innerBlocks'];
 		$menu_block = \wp_get_first_block($tabs_controller_innerblocks, 'prc-block/tabs-menu');
 		$menu_items = $menu_block['innerBlocks'];
+		if ( ! $menu_items ) {
+			return array();
+		}
 		return array_map(function($item) {
 			return array(
-				'uuid' => $item['attrs']['uuid'],
-				'title' => $item['attrs']['title'],
-				'slug' => $item['attrs']['slug'],
+				'uuid' => $item['attrs']['uuid'] ?? '',
+				'title' => $item['attrs']['title'] ?? '',
+				'slug' => $item['attrs']['slug'] ?? '',
 			);
 		}, $menu_items);
 	}
@@ -149,6 +152,9 @@ class Tabs_Controller {
 		$menu_block = \wp_get_first_block($tabs_controller_innerblocks, 'prc-block/tabs-menu');
 		$menu_items = $menu_block['innerBlocks'];
 		// go through menu items and see if any of them has an attributes classname is-style-dialog-link then return the uuid for that item
+		if ( ! $menu_items ) {
+			return false;
+		}
 		$dialog_link_item = array_filter($menu_items, function($item) {
 			$classnames = array_key_exists('className', $item['attrs']) ? explode(' ', $item['attrs']['className']) : array();
 			return in_array('is-style-dialog', $classnames);
@@ -167,7 +173,9 @@ class Tabs_Controller {
 			'menuItems' => $menu_items,
 			'isPlaying' => false,
 			'buttonText' => 'Play',
+			'timer' => null,
 		);
+		// If this is a timeline slider lets set the timer to the attribute...
 		$dialog_link = $this->check_for_dialog_link_tab($block);
 		if ( $dialog_link ) {
 			$initial_context['dialogLinkUUID'] = $dialog_link;

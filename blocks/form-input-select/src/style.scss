@@ -6,18 +6,14 @@
  */
 
 .wp-block-prc-block-form-input-select {
-	// --border-color: rgba(0, 0, 0, 0.2);
-	// --wp--custom--border-radius: 3px;
 	position: relative;
 	input {
 		flex-grow: 1;
 		text-align: left;
 		vertical-align: top;
 		-webkit-appearance: none;
-		padding: 9px 13px; // cribbed from core/button styling.
+		padding: 9px 13px;
 		border: 1px solid transparent;
-		// border-color: var(--border-color);
-		// border-radius: var(--wp--custom--border-radius);
 		box-shadow: inset 0 0 0 0 transparent;
 		box-sizing: border-box;
 		width: 100%;
@@ -47,7 +43,7 @@
 		display: inline-block;
 		width: 100%;
 		max-height: 200px;
-		border: 1px solid #ccc;
+		border: inherit;
 		border-radius: 1px;
 		box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 		background: var(--wp--preset--color--ui-white);
@@ -55,7 +51,6 @@
 		padding: 0;
 		margin: 0;
 		transition: visbility 1s ease-in-out;
-		// gap: var(--block-gap);
 		.wp-block-prc-block-form-input-select__list-item {
 			display: block;
 			position: relative;
@@ -86,6 +81,17 @@
 	&.is-open > ul[role="listbox"] {
 		z-index: 99999;
 		visibility: visible;
+		// make a subtle fade in animation
+		opacity: 0;
+		animation: fadeIn 0.3s ease-in-out forwards;
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
 	}
 
 	// We have a value but is not open
@@ -123,6 +129,14 @@
 		appearance: none;
 		border: none;
 		background: transparent;
+	}
+
+	.wp-block-prc-block-form-input-select__input {
+		border-radius: inherit;
+		input {
+			border: none;
+			border-radius: inherit;
+		}
 	}
 
 	.wp-block-prc-block-form-input-select__button {
