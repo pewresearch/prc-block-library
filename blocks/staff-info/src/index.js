@@ -63,10 +63,15 @@ registerBlockVariation('core/buttons', {
 		[
 			'core/button',
 			{
-				text: 'Download High-Res Photo',
 				url: '#',
 				metadata: {
 					bindings: {
+						text: {
+							source: 'prc-platform/staff-info',
+							args: {
+								valueToFetch: 'photo-full-download-text',
+							},
+						},
 						url: {
 							source: 'prc-platform/staff-info',
 							args: {
@@ -167,6 +172,24 @@ registerBlockVariation('core/paragraph', {
 					source: 'prc-platform/staff-info',
 					args: {
 						valueToFetch: 'job_title_extended',
+					},
+				},
+			},
+		},
+	},
+});
+
+registerBlockVariation('core/paragraph', {
+	name: 'Staff Name and Job Title Full with Link',
+	title: 'Staff Name and Job Title Full with Link Binding',
+	attributes: {
+		content: '<a href="#">Jane Doe</a>, Senior Researcher, Research Team',
+		metadata: {
+			bindings: {
+				content: {
+					source: 'prc-platform/staff-info',
+					args: {
+						valueToFetch: 'name_and_job_title',
 					},
 				},
 			},

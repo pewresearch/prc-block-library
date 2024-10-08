@@ -11,7 +11,7 @@ $collapsible_title = array_key_exists( 'title', $attributes ) ? $attributes['tit
 $collapsible_title = wp_specialchars_decode($collapsible_title);
 // If someone has erroneously added bold to a collapsible title then remove that from the string.
 $collapsible_title = str_replace(["u003cstrongu003e", "u003c/strongu003e"], "", $collapsible_title);
-$collapsible_title = esc_html($collapsible_title);
+$collapsible_title = wp_kses_post($collapsible_title);
 $classname = array_key_exists('className', $attributes) ? $attributes['className'] : '';
 $is_deprecated = array_key_exists( 'deprecated', $attributes ) ? true : false;
 $is_co_branded = array_key_exists( 'isCoBranded', $attributes ) && $attributes['isCoBranded'] === true ? true : false;

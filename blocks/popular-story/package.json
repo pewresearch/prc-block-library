@@ -15,9 +15,9 @@
     "start": "wp-scripts start"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.3.0"
+    "@wordpress/scripts": "^30.1.0"
   },
   "dependencies": {
-    "@wordpress/icons": "^9.35.0"
+    "@wordpress/icons": "^10.9.0"
   }
 }

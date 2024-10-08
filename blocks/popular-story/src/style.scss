@@ -17,15 +17,13 @@
     padding-bottom: .15rem;
     padding-top: .15rem;
     opacity: 81%;
+	line-height: 1;
 }
 
 .wp-block-prc-block-popular-story {
 	display: flex;
 	padding-bottom: 15px;
 	margin-bottom: 15px;
-	&:not(:last-child) {
-		border-bottom: 1px solid var(--wp--preset--color--gray-cool);
-	}
 	.title {
 		font-family: var(--wp--preset--font-family--serif);
 		font-size: 18px;

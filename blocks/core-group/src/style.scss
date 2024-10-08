@@ -7,6 +7,20 @@ $altCardLineHeight: 1.28571429em;
 $altCardMargin: 1rem;
 
 /**
+* Divided Group Blocks
+*/
+.wp-block-group.has-interior-divider {
+	& > [class*="wp-block-"] {
+		border-bottom: 1px solid var(--divider-color);
+		padding-bottom: var(--grid-gutter) !important;
+		&:last-child {
+			border-bottom: none;
+			padding-bottom: 0 !important;
+		}
+	}
+}
+
+/**
 * Responsive Group Blocks:
 */
 
@@ -127,6 +141,7 @@ body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group
 	&.is-style-callout {
 		border-top: 1px solid $relaxedBorder;
 		padding: 1em;
+		clear: both;
 		// Legacy Support
 		&.has-beige-background-color {
 			background-color: var(--wp--preset--color--ui-beige-very-light);

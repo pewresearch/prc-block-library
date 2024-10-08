@@ -259,6 +259,7 @@ class Library {
 		new Taxonomy_List($this->get_loader());
 		new Taxonomy_List_Link($this->get_loader());
 		new Taxonomy_Search($this->get_loader());
+		new Version($this->get_loader());
 		new Yoast_SEO_Breadcrumbs($this->get_loader());
 	}
 

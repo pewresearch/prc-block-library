@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/version",
+  "version": "1.0.0",
+  "title": "Version",
+  "category": "theme",
+  "description": "Get the latest version for various PRC_ constants.",
+  "textdomain": "version",
+  "editorScript": "file:./index.js"
+}

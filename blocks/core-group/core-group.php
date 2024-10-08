@@ -1,6 +1,7 @@
 <?php
 namespace PRC\Platform\Blocks;
 use WP_HTML_Tag_Processor;
+use MatthiasMullie\Minify;
 
 /**
  * Block Name:
@@ -123,6 +124,27 @@ class Core_Group {
 	 */
 	public function register_editor_style() {
 		wp_enqueue_style( self::$style_handle );
+		$styles = $this->generate_interior_divider_styles();
+		if ( is_wp_error($styles) ) {
+			return;
+		}
+		wp_add_inline_style( self::$style_handle, $styles );
+	}
+
+	public function generate_interior_divider_styles() {
+		$colors = wp_get_global_settings(array('color', 'palette', 'theme'));
+		ob_start();
+		foreach( $colors as $color ) {
+			$slug = $color['slug'];
+			?>
+			.wp-block-group.has-interior-divider.has-<?php echo $slug; ?>-interior-divider-color {
+				--divider-color: var(--wp--preset--color--<?php echo $slug; ?>);
+			}
+			<?php
+		}
+		$styles = ob_get_clean();
+		$minifier = new Minify\CSS($styles);
+		return $minifier->minify();
 	}
 
 	/**
@@ -146,7 +168,11 @@ class Core_Group {
 				),
 			);
 		}
-
+		if ( ! array_key_exists( 'dividerColor', $metadata['attributes'] ) ) {
+			$metadata['attributes']['dividerColor'] = array(
+				'type'    => 'string',
+			);
+		}
 		return $metadata;
 	}
 
@@ -205,6 +231,7 @@ class Core_Group {
 		$hide_on_tablet = array_key_exists('hideOnTablet', $responsive_options) ? $responsive_options['hideOnTablet'] : false;
 		$hide_on_mobile = array_key_exists('hideOnMobile', $responsive_options) ? $responsive_options['hideOnMobile'] : false;
 		$is_responsive = $hide_on_desktop || $hide_on_tablet || $hide_on_mobile;
+		$has_divider_color = array_key_exists('dividerColor', $block['attrs']) && !empty($block['attrs']['dividerColor']);
 
 		// using the new WP_HTML_Tag_Processor add data-hide-on-X to the block
 		$w = new WP_HTML_Tag_Processor( $block_content );
@@ -224,6 +251,10 @@ class Core_Group {
 			}
 			if ( $is_responsive && $hide_on_mobile ) {
 				$w->set_attribute('data-hide-on-mobile', "true");
+			}
+			if ($has_divider_color) {
+				$w->add_class('has-interior-divider');
+				$w->add_class('has-' . $block['attrs']['dividerColor'] . '-interior-divider-color');
 			}
 		}
 

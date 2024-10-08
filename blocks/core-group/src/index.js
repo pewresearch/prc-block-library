@@ -1,10 +1,16 @@
 /* eslint-disable max-len */
 /**
+ * External Dependencies
+ */
+import { getBlockGapSupportValue } from '@prc/block-utils';
+
+/**
  * WordPress Dependencies
  */
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment } from '@wordpress/element';
+import { withColors } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -28,6 +34,8 @@ const BLOCKIDENTIFIER = 'prc-block/core-group';
 registerVariations();
 registerTransforms();
 
+const CoreGroupControls = withColors('dividerColor')(Controls);
+
 /**
  * Add the responsiveContainerQuery controls to the core/group block.
  */
@@ -44,7 +52,7 @@ addFilter(
 
 				return (
 					<Fragment>
-						<Controls
+						<CoreGroupControls
 							{...{ attributes, setAttributes, clientId }}
 						/>
 						<BlockEdit {...props} />
@@ -75,6 +83,7 @@ addFilter(
 					hideOnTablet,
 					hideOnMobile,
 				} = {},
+				dividerColor,
 			} = attributes;
 
 			const newWrapperProps = {
@@ -82,6 +91,15 @@ addFilter(
 				'data-hide-on-desktop': hideOnDesktop,
 				'data-hide-on-tablet': hideOnTablet,
 				'data-hide-on-mobile': hideOnMobile,
+			};
+			if (undefined !== dividerColor) {
+				newWrapperProps.className = `has-interior-divider has-${dividerColor}-interior-divider-color`;
+			}
+			newWrapperProps.style = {
+				'--grid-gutter': getBlockGapSupportValue(
+					attributes,
+					'vertical'
+				),
 			};
 			return <BlockListBlock {...props} wrapperProps={newWrapperProps} />;
 		};

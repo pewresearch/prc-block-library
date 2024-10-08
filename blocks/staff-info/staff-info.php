@@ -72,12 +72,31 @@ class Staff_Info {
 				return null;
 			}
 			$output_link = array_key_exists('outputLink', $source_args);
+
 			if ( 'photo-full' === $value_to_fetch && isset($this->block_bound_staff['photo']['full'][0])) {
+				// If there is no photo we need to bail...
 				if ( 'url' === $attribute_name ) {
 					$value_to_replace = $this->block_bound_staff['photo']['full'][0];
 				}
 			}
+			if ( 'photo-full-download-text' === $value_to_fetch ) {
+				if ( !empty($this->block_bound_staff['photo']) ) {
+					// If there is no photo we need to bail...
+					if ( 'text' === $attribute_name ) {
+						$value_to_replace = wp_sprintf(
+							'Download %1$s\'s photo',
+							$this->block_bound_staff['name']
+						);
+					}
+				} else {
+					if ( 'text' === $attribute_name ) {
+						$value_to_replace = null;
+					}
+				}
+			}
+
 			if ( 'photo' === $value_to_fetch && isset($this->block_bound_staff['photo']['thumbnail'][0])) {
+				// If there is no photo we need to bail...
 				if ( 'url' === $attribute_name ) {
 					$value_to_replace = $this->block_bound_staff['photo']['thumbnail'][0];
 				}
@@ -143,6 +162,25 @@ class Staff_Info {
 			if ( 'expertise' === $value_to_fetch && empty($this->block_bound_staff['expertise']) ) {
 				$value_to_replace = '';
 			}
+			if ( 'name_and_job_title' === $value_to_fetch && !empty($this->block_bound_staff['name']) && !empty($this->block_bound_staff['job_title']) ) {
+				$name = $this->block_bound_staff['name'];
+				$job_title = $this->block_bound_staff['job_title'];
+				$link = $this->block_bound_staff['link'];
+				if (empty($link)) {
+					$value_to_replace = wp_sprintf(
+						'<strong>%1$s</strong>, %2$s',
+						$name,
+						$job_title
+					);
+				} else {
+					$value_to_replace = wp_sprintf(
+						'<strong><a href="%2$s">%1$s</a></strong>, %3$s',
+						$name,
+						$link,
+						$job_title
+					);
+				}
+			}
 		}
 		return $value_to_replace;
 	}
@@ -158,7 +196,7 @@ class Staff_Info {
 		register_block_bindings_source(
 			'prc-platform/staff-info',
 			[
-				'label'              => __( 'Staff Info', 'prc-platform/staff-info' ),
+				'label'              => __( 'Staff Info API', 'prc-platform/staff-info' ),
 				'get_value_callback' => [$this,'get_staff_info_for_block_binding'],
 				'uses_context'       => ['staffId'],
 			]

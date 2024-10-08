@@ -81,6 +81,4 @@ function Edit({
 	);
 }
 
-export default withColors(
-	{ dividerColor: 'color' }
-)(Edit);
+export default withColors({ dividerColor: 'color' })(Edit);

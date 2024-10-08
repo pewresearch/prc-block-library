@@ -6,10 +6,9 @@ import { URLSearchToolbar } from '@prc/components';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { BlockControls } from '@wordpress/block-editor';
 
-export default function Controls( { attributes, setAttributes, context } ) {
+export default function Controls({ attributes, setAttributes }) {
 	return (
 		<BlockControls>
 			<URLSearchToolbar
@@ -19,7 +18,11 @@ export default function Controls( { attributes, setAttributes, context } ) {
 					disableImage: true,
 					onSelect: (postAttrs) => {
 						const { title, link, id } = postAttrs;
-						setAttributes({ title: title?.rendered, url: link, postId: id });
+						setAttributes({
+							title: title?.rendered,
+							url: link,
+							postId: id,
+						});
 					},
 				}}
 			/>
