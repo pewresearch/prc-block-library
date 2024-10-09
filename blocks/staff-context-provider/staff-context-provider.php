@@ -54,7 +54,12 @@ class Staff_Context_Provider {
 			if ( array_key_exists('postType', $context) && array_key_exists('postId', $context) && 'staff' === $context['postType'] ) {
 				$staff_id = $context['postId'];
 			} else {
-				$taxonomy = get_queried_object()->taxonomy;
+				$queried_object = get_queried_object();
+				// check if taxonomy exists on the queried object, if so get the term id...
+				if ( !is_a( $queried_object, 'WP_Term' ) ) {
+					return $context;
+				}
+				$taxonomy = $queried_object->taxonomy;
 				if ( 'bylines' !== $taxonomy ) {
 					return $context;
 				}
