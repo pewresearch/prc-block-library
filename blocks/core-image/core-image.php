@@ -128,7 +128,7 @@ class Core_Image {
 	/**
 	 * @hook dominant_color_img_tag_add_dominant_color
 	 */
-	public function disable_dominate_color_for_no_lazy_loading($enabled = true, $attachment_id, $image_meta, $filtered_image, $context) {
+	public function disable_dominate_color_for_no_lazy_loading($enabled, $attachment_id, $image_meta, $filtered_image, $context) {
 		if ( strpos( $filtered_image, 'no-lazy-load' ) !== false ) {
 			return false;
 		}
