@@ -36,8 +36,7 @@ class Core_Social_Links {
 			$loader->add_action('enqueue_block_assets', $this, 'register_style');
 			$loader->add_filter('block_type_metadata', $this, 'add_attributes', 100, 1);
 			$loader->add_filter('block_type_metadata_settings', $this, 'add_settings', 100, 2);
-			$loader->add_filter('render_block_data', $this, 'social_links_url_fallback', 1, 3);
-			$loader->add_filter('render_block_data', $this, 'social_link_url_fallback', 100, 3);
+			$loader->add_filter('render_block_context', $this, 'social_link_url_context', 100, 3);
 			$loader->add_filter('render_block', $this, 'social_link_render_callback', 100, 3);
 		}
 	}
@@ -188,37 +187,36 @@ class Core_Social_Links {
 	}
 
 	/**
-	 * Fallback to shortlink if no url is provided for social links.
-	 * @hook render_block_data
-	 * @TODO: maybe refine this further by only applying this logic if the parent block has a specific classname or context on it?
-	 * @filter render_block_data
-	 * @param mixed $parsed_block
-	 * @param mixed $source_block
-	 * @param mixed $parent_block
-	 * @return void
+	 * Get the facet data from server memory and apply it to the block context for the context provider, facet template, and selected tokens blocks.
+	 * @hook render_block_context
+	 * @param mixed $context
+	 * @return mixed
 	 */
-	public function social_links_url_fallback( $parsed_block, $source_block, $parent_block ) {
-		if ( 'core/social-links' === $parsed_block['blockName'] && (empty($parsed_block['attrs']['url']) || '#' === $parsed_block['attrs']['url']) ) {
-			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
+	public function social_link_url_context($context, $parsed_block, $parent_block) {
+		$allowed_blocks = [
+			self::$block_name,
+			self::$child_block_name,
+			'prc-block/social-share-text-link',
+			'prc-block/social-share-sheet',
+		];
+		if ( !in_array($parsed_block['blockName'], $allowed_blocks) ) {
+			return $context;
 		}
-		return $parsed_block;
-	}
 
-	/**
-	 * Fallback to shortlink if no url is provided for social links.
-	 * @hook render_block_data
-	 * @TODO: maybe refine this further by only applying this logic if the parent block has a specific classname or context on it?
-	 * @filter render_block_data
-	 * @param mixed $parsed_block
-	 * @param mixed $source_block
-	 * @param mixed $parent_block
-	 * @return void
-	 */
-	public function social_link_url_fallback( $parsed_block, $source_block, $parent_block ) {
-		if ( self::$child_block_name === $parsed_block['blockName'] && (empty($parsed_block['attrs']['url']) || '#' === $parsed_block['attrs']['url']) ) {
-			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
+		$attributes = $parsed_block['attrs'];
+
+		if ( isset($attributes['url']) && !empty($attributes['url']) && '#' !== $attributes['url'] ) {
+			$context['core/social-links/url'] = $attributes['url'];
+		} else {
+			$post_id = array_key_exists('postId', $context) ? $context['postId'] : get_the_ID();
+			$shortlink = wp_get_shortlink($post_id);
+			if ( empty($shortlink) ) {
+				$shortlink = get_permalink($post_id);
+			}
+			$context['core/social-links/url'] = $shortlink;
 		}
-		return $parsed_block;
+
+		return $context;
 	}
 
 	/**
@@ -241,7 +239,7 @@ class Core_Social_Links {
 			$service = $attributes['service'];
 
 			$url = isset( $context['core/social-links/url'] ) ? $context['core/social-links/url'] : false;
-			$url = ( false === $url && isset( $attributes['url'] ) ) ? $attributes['url'] : $url;
+			$url = ( false === $url && !empty( $attributes['url'] ) ) ? $attributes['url'] : $url;
 			// If after all that there is no url then try to fetch the short link.
 			if ( ! $url && isset($context['postId']) ) {
 				$url = wp_get_shortlink($context['postId']);

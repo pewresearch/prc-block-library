@@ -38,37 +38,33 @@ const { actions, state } = store('prc-block/popup-controller', {
 			});
 		},
 		open: (event, passthroughId = false) => {
-			const context = getContext();
-			const id = context?.id;
 			console.log('open...', passthroughId);
 			if (passthroughId) {
 				state[passthroughId].isActive = true;
 				actions.play(passthroughId);
 				return;
 			}
+			const context = getContext();
+			const id = context?.id;
 			if (!id) {
-				console.log('no id', id, state);
 				return;
 			}
 			state[id].isActive = true;
 			actions.play(id);
-			console.log('open', id, state[id].isActive, state);
 		},
 		close: (event, passthroughId = false) => {
-			const context = getContext();
-			const id = context?.id;
 			if (passthroughId) {
 				state[passthroughId].isActive = false;
 				actions.pause(passthroughId);
 				return;
 			}
+			const context = getContext();
+			const id = context?.id;
 			if (!id) {
 				return;
 			}
 			state[id].isActive = false;
-			console.log('stop...', state[id].api);
 			actions.pause(id);
-			console.log('close', id, state[id].isActive, state);
 		},
 		openAndThen: (andThen) => {
 			const context = getContext();
@@ -103,12 +99,10 @@ const { actions, state } = store('prc-block/popup-controller', {
 			if (!id) {
 				return;
 			}
-			console.log('watchForVideoPress', state, context);
 			// Check if this is a videopress modal, does it have an iframe with aria videopress in it?
 			const modal = document.querySelector(
 				`.wp-block-prc-block-popup-modal[data-controller-id="${id}"]`
 			);
-			console.log('modal', modal);
 			if (!modal) {
 				return;
 			}
@@ -124,14 +118,12 @@ const { actions, state } = store('prc-block/popup-controller', {
 				return;
 			}
 			const iframe = isVideoPress.querySelector('iframe');
-			console.log('iframe', iframe);
 			if (!iframe) {
 				return;
 			}
 
 			const { VideoPressIframeApi } = window;
 			const api = VideoPressIframeApi(iframe, () => {
-				console.log('iframe api loaded!');
 				api.customize.set({ shareButton: false });
 			});
 
@@ -139,7 +131,7 @@ const { actions, state } = store('prc-block/popup-controller', {
 			window.prcPopupVideoPlayer[id] = api;
 		},
 		outerWatch: () => {
-			console.log('outerWatch', state);
+			return;
 		},
 		onWindowClickCloseModal: (event) => {
 			const context = getContext();
@@ -152,7 +144,6 @@ const { actions, state } = store('prc-block/popup-controller', {
 			}
 			const elm = getElement();
 			const { ref } = elm;
-			console.log('onWindowClickCloseModal', elm, event.target);
 
 			// check elm for any of the event.target
 			// if present then return early
@@ -192,19 +183,16 @@ const { actions, state } = store('prc-block/popup-controller', {
 			const context = getContext();
 			const elm = getElement();
 			const { id } = context;
-			console.log('isModalActive', state, id, elm);
 			return state[id]?.isActive;
 		},
 		isAModalActive: () => {
 			const elm = getElement();
 			const s = state;
-			console.log('isAModalActive', s, elm);
 			return Object.keys(s).some((key) => state[key].isActive);
 		},
 		soundOff: () => {
 			const context = getContext();
 			const elm = getElement();
-			console.log('soundOff', context, elm, state);
 		},
 	},
 });
