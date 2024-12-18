@@ -35,8 +35,19 @@ const AudioPlayer = ({
 	//refs and effects
 	const playerRef = useRef(null);
 
+	// Setup the event listener and signal to Google Tag Manager that the event exists
 	useEffect(() => {
-		const eventHandler = (x) => console.log('test', x);
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({
+			event: 'prc-block/audio-player::firstPlay',
+		});
+
+		const eventHandler = (x) =>
+			console.log(
+				'prc-block/audio-player::firstPlay::eventHandler -> ',
+				x
+			);
+
 		window.addEventListener(
 			'prc-block/audio-player::firstPlay',
 			eventHandler
@@ -119,8 +130,8 @@ const AudioPlayer = ({
 							setFirstPlay(true);
 						}
 						{
-							/* The below fees like a somewhat hacky solution to pausing 
-							other players on the page when this 
+							/* The below fees like a somewhat hacky solution to pausing
+							other players on the page when this
 							one is played that should probably be revisited */
 						}
 						const buttons = document.querySelectorAll(
