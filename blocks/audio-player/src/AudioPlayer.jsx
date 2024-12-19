@@ -35,39 +35,13 @@ const AudioPlayer = ({
 	//refs and effects
 	const playerRef = useRef(null);
 
-	// Setup the event listener and signal to Google Tag Manager that the event exists
 	useEffect(() => {
-		window.dataLayer = window.dataLayer || [];
-		window.dataLayer.push({
-			event: 'prc-block/audio-player::firstPlay',
-		});
-
-		const eventHandler = (x) =>
-			console.log(
-				'prc-block/audio-player::firstPlay::eventHandler -> ',
-				x
-			);
-
-		window.addEventListener(
-			'prc-block/audio-player::firstPlay',
-			eventHandler
-		);
-
-		return () => {
-			window.removeEventListener(
-				'prc-block/audio-player::firstPlay',
-				eventHandler
-			);
-		};
-	}, []);
-
-	useEffect(() => {
-		const event = new CustomEvent('prc-block/audio-player::firstPlay', {
-			url: window.location.href,
-		});
 		if (enableTracking && firstPlay) {
-			console.log('Tracking turned on');
-			window.dispatchEvent(event);
+			window.dataLayer = window.dataLayer || [];
+			window.dataLayer.push({
+				event: 'audio_play',
+				audio_title: title,
+			});
 		}
 	}, [firstPlay, enableTracking]);
 
@@ -82,7 +56,6 @@ const AudioPlayer = ({
 
 	const handleSeekMouseUp = (e) => {
 		setSeeking(false);
-		console.log('what the seek to is using', e.target.value);
 		playerRef.current.seekTo(parseFloat(e.target.value));
 	};
 
