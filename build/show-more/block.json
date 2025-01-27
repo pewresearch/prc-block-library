@@ -1,0 +1,96 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/show-more",
+  "version": "0.1.0",
+  "title": "Show More",
+  "category": "widgets",
+  "description": "A block that hides content until a user clicks a button to reveal it. Useful for long content that you want to hide by default. You can select the previewable surface area and height based on device.",
+  "attributes": {
+    "allowedBlocks": {
+      "type": "array"
+    },
+    "heights": {
+      "type": "object",
+      "default": {
+        "desktop": 200,
+        "tablet": 150,
+        "mobile": 100
+      }
+    },
+    "buttonBackground": {
+      "type": "string"
+    },
+    "customButtonBackground": {
+      "type": "string"
+    },
+    "buttonColor": {
+      "type": "string"
+    },
+    "customButtonColor": {
+      "type": "string"
+    },
+    "showLabel": {
+      "type": "string",
+      "default": "Show More"
+    },
+    "hideLabel": {
+      "type": "string",
+      "default": "Hide"
+    },
+    "splitAtViewportWidth": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true
+    },
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "card",
+      "label": "Card"
+    }
+  ],
+  "textdomain": "hide-in-view",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
+}

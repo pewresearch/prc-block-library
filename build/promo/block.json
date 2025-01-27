@@ -1,0 +1,105 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/promo",
+  "version": "0.1.0",
+  "title": "Promo (Ad)",
+  "description": "Stylized block to create promos/ads.",
+  "category": "marketing",
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "source": "html",
+      "selector": ".wp-block-prc-block-promo__heading",
+      "role": "content"
+    },
+    "headingLevel": {
+      "type": "integer",
+      "default": 2
+    },
+    "subHeading": {
+      "type": "string",
+      "source": "html",
+      "selector": ".wp-block-prc-block-promo__sub_heading",
+      "role": "content"
+    },
+    "icon": {
+      "type": "string",
+      "default": "weekly"
+    },
+    "hasForm": {
+      "type": "boolean",
+      "default": false
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": "var:preset|spacing|20"
+        }
+      }
+    }
+  },
+  "styles": [
+    {
+      "name": "standard",
+      "label": "Standard",
+      "isDefault": true
+    },
+    {
+      "name": "pancake",
+      "label": "Pancake"
+    }
+  ],
+  "example": {
+    "attributes": {
+      "heading": "Facts are more important than ever",
+      "subHeading": "<p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p>"
+    },
+    "innerBlocks": [
+      {
+        "name": "core/button",
+        "attributes": {
+          "text": "DONATE"
+        }
+      }
+    ],
+    "viewPortWidth": 1200
+  },
+  "supports": {
+    "align": [
+      "full",
+      "wide",
+      "center"
+    ],
+    "anchor": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "width": true
+    },
+    "html": false,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "blockGap": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true
+    }
+  },
+  "textdomain": "promo",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

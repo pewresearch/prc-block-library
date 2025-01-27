@@ -1,0 +1,257 @@
+@import "../../includes/common-styles/gutenberg-responsive-breaks";
+
+$grid-max-columns: 6;
+$grid-desktop: repeat(12, 1fr); // Same as 12 instances of 1fr.
+$grid-tablet: repeat(12, 1fr);
+$grid-mobile: repeat(4, 1fr);
+
+// Standard Gutenberg Breakpoints
+// $break-wide: 1280px;
+// $break-xlarge: 1080px;
+// $break-large: 960px;	// admin sidebar auto folds
+// $break-medium: 782px;	// adminbar goes big
+// $break-small: 600px;
+// $break-mobile: 480px;
+// $break-zoomed-in: 280px;
+
+// create a simple mixin
+@mixin horizontal-divider() {
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+		content: "";
+		border-top: 1px solid var(--divider-color, transparent)!important;
+		display: block!important;
+		padding-bottom: var(--grid-gutter);
+	}
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+		display: none!important;
+	}
+}
+
+@mixin vertical-divider() {
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+		content: "";
+		position: absolute;
+		height: 100%;
+		top: 0;
+		left: calc( -1 * ( var(--grid-gutter) / 2 ) );
+		border-left: 1px solid var(--divider-color, transparent);
+	}
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+		display: none!important;
+	}
+}
+
+@mixin transform-vertical-to-horizontal() {
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+		content: "";
+		border-bottom: 1px solid #eaeaea!important;
+		display: block!important;
+		padding-bottom: var(--grid-gutter)!important;
+		position: relative!important;
+		height: 1px!important;
+		top: 0!important;
+		left: 0!important;
+		border-left: none!important;
+	}
+	&:not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+		display: none!important;
+	}
+}
+
+/**
+ * Grid Columns
+ */
+// .wp-block-group > .wp-block-prc-block-grid-controller {
+// 	max-width: 100%;
+// }
+[class*="wp-block-"] .wp-block-prc-block-grid-controller {
+	margin-block-start: 0;
+}
+.wp-block-prc-block-grid-controller {
+	--grid-gutter: var(--grid-gutter, 24px);
+	--grid-gutter-half: calc(var(--grid-gutter) / 2);
+
+	box-sizing: border-box;
+	// Prevent long unbroken words from overflowing.
+	word-break: break-word; // For back-compat.
+	overflow-wrap: break-word; // New standard.
+
+	display: grid;
+	gap: var(--grid-gutter);
+	grid-template-columns: $grid-mobile;
+
+	margin-block-start: 1.25em;
+	margin-block-end: 1.25em;
+
+	&.wp-block.is-placeholder {
+		display: block;
+	}
+
+	// Horizontal divider line for mobile columns that take up the entire grid of 4 column spans.
+	&.has-divider {
+		// & > .wp-block-prc-block-grid-column:after {
+		// 	border-color: var(--divider-color, transparent)!important; // By default lets just have a transparent border.
+		// }
+		// Enable horizontal divider line for mobile columns that take up the entire grid of 4 column spans, these appear on top of columns, except for the first column.
+		& > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"] {
+			&:not(:first-of-type){
+				@include horizontal-divider();
+			}
+		}
+		// Enable vertical divider line for all columns.
+		& > .wp-block-prc-block-grid-column:not(:first-of-type) {
+			@include vertical-divider();
+		}
+	}
+	// If a section header is present, adjust the divider line height down below the section header.
+	&.has-divider:has(.is-style-section-header) {
+		& > .wp-block-prc-block-grid-column:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+			top: 28px;
+			height: calc(100% - 28px);
+		}
+	}
+
+	&.is-vertically-aligned-center .wp-block-prc-block-grid-column {
+		justify-content: center;
+	}
+	.wp-block-prc-block-grid-column.is-vertically-aligned-center {
+		justify-content: center !important;
+	}
+	&.is-vertically-aligned-bottom .wp-block-prc-block-grid-column {
+		justify-content: flex-end;
+	}
+	.wp-block-prc-block-grid-column.is-vertically-aligned-bottom {
+		justify-content: flex-end !important;
+	}
+	&.is-vertically-aligned-top .wp-block-prc-block-grid-column {
+		justify-content: flex-start;
+	}
+	.wp-block-prc-block-grid-column.is-vertically-aligned-top {
+		justify-content: flex-start !important;
+	}
+
+	.wp-block-prc-block-grid-column {
+		height: 100%;
+		width: 100%;
+		position: relative;
+		box-sizing: border-box;
+		& > * {
+			box-sizing: border-box;
+			width: 100%;
+		}
+	}
+
+	// Grid rules.
+	// Mobile first.
+	@for $i from 1 through 12 {
+		@for $x from 1 through 4 {
+			& > .wp-block-prc-block-grid-column.column#{ $x }-mobile-grid__span-#{ $i }  {
+				grid-column-end: span $i; // Set it to span $i columns, regardless of starting position.
+			}
+		}
+	}
+
+	// Tablet grid rules.
+	@media (min-width: #{ ($break-small) }) {
+		grid-template-columns: $grid-tablet;
+
+		// Divider Lines
+		&.has-divider {
+			// Enable tablet horizontal divider
+			& > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-12"] {
+				&:not(:first-of-type){
+					@include horizontal-divider();
+				}
+			}
+			// Disable mobile horizontal divider
+			& > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"]:not([class*="-tablet-grid__span-12"]):not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+				display: none!important;
+			}
+			& > .wp-block-prc-block-grid-column[class*="-mobile-grid__span-4"]:not([class*="-tablet-grid__span-12"]):not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+				display: block!important;
+			}
+		}
+
+		@for $i from 1 through 12 {
+			@for $x from 1 through 4 {
+				& > .wp-block-prc-block-grid-column.column#{ $x }-tablet-grid__span-#{ $i }  {
+					grid-column-end: span $i; // Set it to span $i columns, regardless of starting position.
+				}
+			}
+		}
+	}
+
+
+	// Desktop grid rules.
+	@media (min-width: #{ ($break-large) }) {
+		grid-template-columns: $grid-desktop;
+
+		// Setup vertical divider lines
+		&.has-divider {
+			& > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-12"]:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):before {
+				display: none!important;
+			}
+			& > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-12"]:not(:first-of-type):not(.is-selected):not(.is-highlighted):not(.is-hovered):after {
+				display: block!important;
+			}
+			& > .wp-block-prc-block-grid-column:not(:first-of-type)[class*="-desktop-grid__span-12"] {
+				@include horizontal-divider();
+			}
+		}
+
+		@for $i from 1 through 12 {
+			@for $x from 1 through 6 {
+				& > .wp-block-prc-block-grid-column.column#{ $x }-desktop-grid__span-#{ $i }  {
+					grid-column-end: span $i; // Set it to span $i columns, regardless of starting position.
+				}
+			}
+		}
+	}
+}
+
+// Patterns
+
+// "Featured" Layout Pattern
+.wp-block-prc-block-grid-controller.is-pattern__featured-layout {
+	.wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item {
+		margin: 0!important;
+	}
+	// Mobile up to Tablet:
+	@media (max-width: #{ ($break-large) }) {
+		.wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item {
+			padding: var(--grid-gutter) 0!important;
+			&:first-of-type {
+				padding-top: 0!important;
+			}
+			&:last-of-type {
+				padding-bottom: 0!important;
+			}
+		}
+		& > .wp-block-prc-block-grid-column[class*="column1-tablet-grid__span-6"]  {
+			grid-row-start: 2;
+		}
+		& > .wp-block-prc-block-grid-column[class*="column2-tablet-grid__span-12"]  {
+			grid-row-start: 1;
+		}
+		& > .wp-block-prc-block-grid-column[class*="column3-tablet-grid__span-6"]  {
+			grid-row-start: 3;
+		}
+		// Divider Lines
+		&.has-divider > .wp-block-prc-block-grid-column[class*="-tablet-grid__span-12"] {
+			@include transform-vertical-to-horizontal();
+		}
+	}
+	// Tablet Only:
+	@media (min-width: #{ ($break-small) }) and (max-width: #{ ($break-large) }) {
+		& > .wp-block-prc-block-grid-column[class*="column3-tablet-grid__span-6"]  {
+			grid-row-start: 2!important;
+		}
+	}
+}
+
+// Site Editor Hacks
+.wp-block-prc-block-grid-column.has-global-padding {
+	padding-left: inherit;
+	padding-right: inherit;
+}
+

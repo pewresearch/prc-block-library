@@ -1,0 +1,171 @@
+{{^isCoreBlockVariant}}
+/**
+ * External Dependencies
+ */
+
+/**
+ * WordPress Dependencies
+ */
+import { __ } from '@wordpress/i18n';
+import { Fragment, useMemo } from '@wordpress/element';
+import { useBlockProps, RichText, useInnerBlocksProps, InnerBlocks, {{#isSyncedEntityVariant}} __experimentalRecursionProvider as RecursionProvider, __experimentalUseHasRecursion as useHasRecursion, Warning,{{/isSyncedEntityVariant}}{{#isContextProviderVariant}} BlockContextProvider,{{/isContextProviderVariant}} } from '@wordpress/block-editor';
+{{#isSyncedEntityVariant}}
+import { withNotices } from '@wordpress/components';
+import { useEntityBlockEditor, useEntityRecord } from '@wordpress/core-data';
+{{/isSyncedEntityVariant}}
+
+/**
+ * Internal Dependencies
+ */
+import Controls from './controls';
+{{#isSyncedEntityVariant}}
+import Placeholder from './placeholder';
+import { POST_TYPE } from './constants';
+{{/isSyncedEntityVariant}}
+
+const ALLOWED_BLOCKS = ['core/group', 'core/paragraph'];
+
+{{#isSyncedEntityVariant}}
+/**
+ * @param {Object}   props               Properties passed to the function.
+ * @param {Object}   props.attributes    Available block attributes.
+ * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {string}   props.clientId      Unique ID of the block.
+ * @param {Object}   props.noticeOperations Object with operations for managing notices.
+ * @param {Object}   props.noticeUI      Object with operations for displaying notices.
+ *
+ * @return {WPElement} Element to render.
+ */
+function SyncedEntityEdit({
+	attributes,
+	setAttributes,
+	clientId,
+	noticeOperations,
+	noticeUI,
+}) {
+	const { ref } = attributes;
+	const isNew = !ref;
+	const hasAlreadyRendered = useHasRecursion(ref);
+	const { record, hasResolved } = useEntityRecord('postType', POST_TYPE, ref);
+	const isResolving = !hasResolved;
+	const isMissing = hasResolved && !record && !isNew;
+
+	const [blocks, onInput, onChange] = useEntityBlockEditor(
+		'postType',
+		POST_TYPE,
+		{ id: ref }
+	);
+
+	const blockProps = useBlockProps();
+
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		value: blocks,
+		onInput,
+		onChange,
+		allowedBlocks: ALLOWED_BLOCKS,
+		renderAppender: blocks?.length
+			? undefined
+			: InnerBlocks.ButtonBlockAppender,
+	});
+
+	if (hasAlreadyRendered) {
+		return (
+			<div {...blockProps}>
+				<Warning>
+					{__(`${POST_TYPE} cannot be rendered inside itself.`)}
+				</Warning>
+			</div>
+		);
+	}
+
+	if (isMissing) {
+		return (
+			<div {...blockProps}>
+				<Warning>
+					{__(` ${POST_TYPE}as been deleted or is unavailable.`)}
+				</Warning>
+			</div>
+		);
+	}
+
+	if (isResolving || isNew) {
+		return (
+			<div {...blockProps}>
+				<Placeholder
+					{...{
+						attributes,
+						setAttributes,
+						clientId,
+						isResolving,
+						isNew,
+					}}
+				/>
+			</div>
+		);
+	}
+
+	return (
+		<RecursionProvider uniqueId={ref}>
+			<Controls
+				{...{
+					attributes,
+					clientId,
+					blocks,
+					postType: POST_TYPE,
+				}}
+			/>
+			<div {...innerBlocksProps} />
+		</RecursionProvider>
+	);
+}
+
+export default withNotices(SyncedEntityEdit);
+{{/isSyncedEntityVariant}}
+{{^isSyncedEntityVariant}}
+
+{{#isContextProviderVariant}}
+const useContextProvider = () => {
+	return { settings: {}, isLoading: false, data: [] };
+};
+{{/isContextProviderVariant}}
+
+export default function Edit({ attributes, setAttributes, context, clientId, isSelected }) {
+	const blockProps = useBlockProps();
+
+	const { allowedBlocks, orientation } = attributes;
+	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		allowedBlocks: allowedBlocks ? allowedBlocks : ALLOWED_BLOCKS,
+		orientation: orientation ? orientation : 'vertical',
+	});
+
+	{{#isContextProviderVariant}}
+	const { settings, isLoading, data } = useContextProvider();
+	const newContext = useMemo(() => {
+		return {
+			myContextProvider: {
+				...{testSetting: 'testValue'},
+			},
+			...context,
+		};
+	}, [settings, isLoading, data, context]);
+	{{/isContextProviderVariant}}
+
+	return (
+		<Fragment>
+			<Controls {...{attributes, setAttributes, context: false}}/>
+			{{#isContextProviderVariant}}
+			<BlockContextProvider
+				key={`my-context-provider-${clientId}`}
+				value={newContext}
+			>
+				<div {...innerBlocksProps} />
+			</BlockContextProvider>
+			{{/isContextProviderVariant}}
+			{{^isContextProviderVariant}}
+			<div { ...innerBlocksProps }/>
+			{{/isContextProviderVariant}}
+		</Fragment>
+	);
+}
+{{/isSyncedEntityVariant}}
+{{/isCoreBlockVariant}}

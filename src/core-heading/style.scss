@@ -1,0 +1,82 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+ h1.is-style-hidden:not(.wp-block-heading),
+ h2.is-style-hidden:not(.wp-block-heading),
+ h3.is-style-hidden:not(.wp-block-heading),
+ h4.is-style-hidden:not(.wp-block-heading),
+ h5.is-style-hidden:not(.wp-block-heading),
+ h6.is-style-hidden:not(.wp-block-heading) {
+	 font-size: 0px!important;
+	 opacity: 0!important;
+	 height: 0px!important;
+	 line-height: 0px!important;
+	 margin: none!important
+ }
+ h1[data-type="core/heading"].is-style-hidden,
+ h2[data-type="core/heading"].is-style-hidden,
+ h3[data-type="core/heading"].is-style-hidden,
+ h4[data-type="core/heading"].is-style-hidden,
+ h5[data-type="core/heading"].is-style-hidden,
+ h6[data-type="core/heading"].is-style-hidden {
+	 opacity: 0.5;
+ }
+
+ // Replacmenet for "section-header" style
+ h1.is-style-layout-heading,
+ h2.is-style-layout-heading,
+ h3.is-style-layout-heading,
+ h4.is-style-layout-heading,
+ h5.is-style-layout-heading,
+ h6.is-style-layout-heading,
+ h1[data-type="core/heading"].is-style-layout-heading,
+ h2[data-type="core/heading"].is-style-layout-heading,
+ h3[data-type="core/heading"].is-style-layout-heading,
+ h4[data-type="core/heading"].is-style-layout-heading,
+ h5[data-type="core/heading"].is-style-layout-heading,
+ h6[data-type="core/heading"].is-style-layout-heading {
+	 border-bottom: 1px solid black;
+	 padding-bottom: 4px;
+	 margin-bottom: 24px;
+ }
+
+ // Legacy
+ h1.is-style-section-header,
+ h2.is-style-section-header,
+ h3.is-style-section-header,
+ h4.is-style-section-header,
+ h5.is-style-section-header,
+ h6.is-style-section-header,
+ h1[data-type="core/heading"].is-style-section-header,
+ h2[data-type="core/heading"].is-style-section-header,
+ h3[data-type="core/heading"].is-style-section-header,
+ h4[data-type="core/heading"].is-style-section-header,
+ h5[data-type="core/heading"].is-style-section-header,
+ h6[data-type="core/heading"].is-style-section-header {
+	 border-bottom: 1px solid black;
+	 padding-bottom: 4px;
+	 margin-bottom: 24px;
+ }
+ h2.is-style-section-header,
+ h2[data-type="core/heading"].is-style-section-header {
+	 font-size: 21px;
+ }
+ h1.is-style-sub-header-alt,
+ h2.is-style-sub-header-alt,
+ h3.is-style-sub-header-alt,
+ h4.is-style-sub-header-alt,
+ h5.is-style-sub-header-alt,
+ h6.is-style-sub-header-alt,
+ h1[data-type="core/heading"].is-style-sub-header-alt,
+ h2[data-type="core/heading"].is-style-sub-header-alt,
+ h3[data-type="core/heading"].is-style-sub-header-alt,
+ h4[data-type="core/heading"].is-style-sub-header-alt,
+ h5[data-type="core/heading"].is-style-sub-header-alt,
+ h6[data-type="core/heading"].is-style-sub-header-alt {
+	 background: black;
+	 color: white;
+	 display: block;
+ }

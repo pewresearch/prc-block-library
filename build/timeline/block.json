@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/timeline",
+  "version": "0.1.0",
+  "title": "Timeline",
+  "category": "design",
+  "description": "Display a series of blocks in a timeline",
+  "allowedBlocks": [
+    "prc-block/timeline-slide"
+  ],
+  "attributes": {
+    "defaultLabel": {
+      "type": "string",
+      "default": "Timeline"
+    },
+    "currentActiveIndex": {
+      "type": "number",
+      "default": 0
+    },
+    "enableAutoPlay": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "interactivity": true,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "providesContext": {
+    "timeline/currentActiveIndex": "currentActiveIndex"
+  },
+  "textdomain": "timeline",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
+}

@@ -1,0 +1,44 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/social-share-url-field",
+	"version": "0.1.0",
+	"title": "Social Share Url Field",
+	"keywords": ["social"],
+	"category": "marketing",
+	"allowedBlocks": ["prc-block/form-input-text"],
+	"attributes": {
+		"url": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": false,
+		"html": false,
+		"spacing": {
+			"margin": [ "top", "bottom" ]
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		},
+		"align": false,
+		"interactivity": true
+	},
+	"parent": ["core/social-links"],
+	"usesContext": [
+		"postId",
+		"core/social-links/title",
+		"core/social-links/description",
+		"core/social-links/url"
+	],
+	"textdomain": "social-share-url-field",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScriptModule": "file:./view.js"
+}

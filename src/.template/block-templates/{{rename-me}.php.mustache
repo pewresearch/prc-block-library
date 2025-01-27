@@ -1,0 +1,283 @@
+<?php
+namespace PRC\Platform\Blocks;
+
+/**
+ * Block Name:        {{title}}
+{{#description}}
+ * Description:       {{description}}
+{{/description}}
+ * Requires at least: 6.7
+ * Requires PHP:      8.2
+{{#author}}
+ * Author:            {{author}}
+{{/author}}
+ *
+ * @package           {{namespace}}
+ */
+
+class {{capitalizedSnakeCase}} {
+	{{#isContextProviderVariant}}
+	public $data = [];
+	public $selected = [];
+	{{/isContextProviderVariant}}
+	{{^isCoreBlockVariant}}
+
+	public function __construct($loader) {
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'block_init');
+			{{#isContextProviderVariant}}
+			$loader->add_filter('pre_render_block', $this, 'hoist_data_to_pre_render_stage', 10, 3);
+			$loader->add_filter('render_block_context', $this, 'add_data_to_context', 10, 3);
+			{{/isContextProviderVariant}}
+		}
+	}
+	{{#isContextProviderVariant}}
+	/**
+	 * Fetch data once and store it in memory. Later, we'll make this data accessible via block context in the add_data_to_context method.
+	 * @hook pre_render_block
+	 * @param mixed $pre_render
+	 * @param mixed $parsed_block
+	 * @param mixed $parent_block_instance
+	 * @return null
+	 */
+	public function hoist_data_to_pre_render_stage($pre_render, $parsed_block, $parent_block_instance) {
+		if ( 'prc-block/{{slug}}' === $parsed_block['blockName'] ) {
+			global $wp_query;
+			$api = new Some_API($wp_query->query);
+			$this->data = $api->query();
+		}
+		return null;
+	}
+
+	/**
+	 * Get the data from memory and apply it to the block context for the context provider.
+	 * @hook render_block_context
+	 * @param mixed $context
+	 * @return mixed
+	 */
+	public function add_data_to_context($context, $parsed_block, $parent_block_instance) {
+		if ( !in_array($parsed_block['blockName'], [
+			'prc-block/my-context-provider',
+			'prc-block/my-context-enabled-template-block',
+		]) ) {
+			return $context;
+		}
+
+		$context['myContextProvider'] = [
+			'selected' => $this->selected,
+			'data' => $this->data,
+			'isProcessing' => false,
+			'isDisabled' => false,
+		];
+
+		return $context;
+	}
+
+	public function render_block_callback($attributes, $content, $block) {
+		wp_enqueue_script('wp-url');
+		wp_enqueue_script('wp-api-fetch');
+
+		wp_interactivity_state(
+			'prc-block/{{slug}}',
+			$block->context['myContextProvider']
+		);
+
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			get_block_wrapper_attributes(array(
+				'data-wp-interactive' => wp_json_encode(array(
+					'namespace' => 'prc-block/{{slug}}'
+				)),
+				'data-wp-init' => 'callbacks.onInit',
+				'data-wp-watch--on-selection' => 'callbacks.onSelection',
+				'data-wp-class--is-processing' => 'state.isProcessing',
+			)),
+			$content,
+		);
+	}
+	{{/isContextProviderVariant}}
+	{{#isDynamicVariant}}
+	/**
+	* Render the block
+	* @param array $attributes Block attributes
+	* @param string $content Block content
+	* @param array $block WP_Block object
+	* @return string
+	*/
+	public function render_block_callback( $attributes, $content, $block ) {
+		$wrapper_attributes = get_block_wrapper_attributes();
+
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
+			$content
+		);
+	}
+	{{/isDynamicVariant}}
+
+	/**
+	* Registers the block using the block manifest (if registered). Fails over to the metadata loaded from the `block.json` file.
+	* Behind the scenes, it registers also all assets so they can be enqueued
+	* through the block editor in the corresponding context.
+	* @hook init
+	*
+	* @see https://developer.wordpress.org/reference/functions/register_block_type/
+	*/
+	public function block_init() {
+		{{#isContextProviderVariant}}
+		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/{{slug}}', [
+			'render_callback' => array( $this, 'render_block_callback' ),
+		]);
+		{{/isContextProviderVariant}}
+		{{#isDynamicVariant}}
+		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/{{slug}}', [
+			'render_callback' => array( $this, 'render_block_callback' ),
+		]);
+		{{/isDynamicVariant}}
+		{{^isDynamicVariant}}
+		{{^isContextProviderVariant}}
+		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/{{slug}}');
+		{{/isContextProviderVariant}}
+		{{/isDynamicVariant}}
+	}
+	{{/isCoreBlockVariant}}
+
+	{{#isCoreBlockVariant}}
+	/**
+	* @TODO Search and replace {coreBlockChangeMyName} for your block name, e.g. "core/group".
+	*/
+	public $block_name = '{{coreBlockName}}';
+	public $block_json;
+	public $editor_style_handle;
+	public $editor_script_handle;
+	public $view_script_handle;
+	public $view_style_handle;
+
+	public function __construct($loader) {
+		$this->block_json = prc_block_library_manifest('{{slug}}');
+		$this->init($loader);
+	}
+
+	public function init($loader = null) {
+		if ( null !== $loader ) {
+			$loader->add_action('init', $this, 'init');
+			$loader->add_action('enqueue_block_editor_assets', $this, 'register_editor_assets');
+			$loader->add_action('enqueue_block_assets', $this, 'register_style_assets');
+			$loader->add_filter('block_type_metadata', $this, 'add_attributes');
+			$loader->add_filter('block_type_metadata_settings', $this, 'add_settings', 10, 2);
+			$loader->add_filter('render_block', $this, 'render', 10, 2);
+		}
+	}
+
+	/**
+	* Register the block's assets.
+	* @hook init
+	*/
+	public function init() {
+		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
+		$this->view_style_handle    = register_block_style_handle( $this->block_json, 'style' );
+	}
+
+	/**
+	* Register the block's editor assets.
+	* @hook enqueue_block_editor_assets
+	*/
+	public function register_editor_assets() {
+		wp_enqueue_script( $this->editor_script_handle );
+	}
+
+	/**
+	* Register the block's style assets.
+	* @hook enqueue_block_assets
+	*/
+	public function register_style_assets() {
+		wp_enqueue_script( $this->editor_script_handle );
+	}
+
+	/**
+	* Register additional attributes for the {coreBlockChangeMyName} block.
+	*
+	* In the example we're adding a simple new attribute that is a boolean with a default value of false.
+	*
+	* @hook block_type_metadata
+	* @param mixed $metadata
+	* @return mixed
+	*/
+	public function add_attributes( $metadata ) {
+		if ( $this->block_name !== $metadata['name'] ) {
+			return $metadata;
+		}
+
+		if ( ! array_key_exists( 'isSticky', $metadata['attributes'] ) ) {
+			$metadata['attributes']['myNewAttribute'] = array(
+				'type'    => 'boolean',
+				'default' => false,
+			);
+		}
+
+		return $metadata;
+	}
+
+	/**
+	* Register additional settings, like context, for the {{coreBlockName}} block.
+	*
+	* In the example we're providing context for all innerblocks with the myNewAttribute attribute that we set in the add_attributes method above.
+	*
+	* @hook block_type_metadata_settings
+	* @param mixed $settings
+	* @param mixed $metadata
+	* @return mixed
+	*/
+	public function add_settings(array $settings, array $metadata) {
+		if ( $this->block_name === $metadata['name'] ) {
+			$settings['provides_context'] = array_merge(
+				array_key_exists('provides_context', $settings) ? $settings['provides_context'] : array(),
+				array(
+					'{{coreBlockName}}}/myNewAttribute' => 'myNewAttribute',
+				)
+			);
+		}
+		return $settings;
+	}
+
+	/**
+	* Render the {{coreBlockName}} block
+	*
+	* In the example we're adding enqueueing the view script and style if the myNewAttribute attribute is set to true and modifying the block markup, otherwise the block loads normally.
+	* You should maintain the robust attributes check in your core block modification as other plugins may be modifying core block attributes as well. Always check for the block name and always return $block_content if you are not modifying it.
+	*
+	* @hook render_block
+	* @param string $block_content
+	* @param mixed $block
+	* @return mixed
+	*/
+	public function render( $block_content, $block ) {
+		if ( $this->block_name !== $block['blockName'] || is_admin() ) {
+			return $block_content;
+		}
+
+		$my_new_attribute = is_array($block['attrs']) && array_key_exists('isSticky', $block['attrs']) ? $block['attrs']['isSticky'] : false;
+
+		if ( $my_new_attribute ) {
+			wp_enqueue_script( $this->view_script_handle );
+			wp_enqueue_style( $this->view_style_handle );
+		}
+
+		// Everything below here is an example, you do not have to wrap your core block.
+		// You can use WP_HTML_Tag_Processor to modify the markup or override entirely depending on your use case.
+		if ( $my_new_attribute ) {
+			$block_content = wp_sprintf(
+				'<div class="prc-example-block">%s</div>',
+				$block_content
+			);
+		}
+
+		return $block_content;
+	}
+
+	{{/isCoreBlockVariant}}
+}

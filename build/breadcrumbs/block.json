@@ -1,0 +1,140 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/breadcrumbs",
+  "version": "1.0.0",
+  "title": "Breadcrumbs",
+  "category": "theme",
+  "attributes": {
+    "contentJustification": {
+      "type": "string"
+    },
+    "separator": {
+      "type": "string",
+      "default": "/"
+    },
+    "showCurrentPageTitle": {
+      "type": "boolean",
+      "default": false
+    },
+    "showLeadingSeparator": {
+      "type": "boolean",
+      "default": false
+    },
+    "showHome": {
+      "type": "boolean",
+      "default": false
+    },
+    "homeCrumb": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "asIcon": {
+          "type": "boolean"
+        }
+      }
+    },
+    "crumbs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "is_current_page": {
+            "type": "boolean"
+          },
+          "crumbs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "is_current_page": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "blockGap": {
+            "left": "var:preset|spacing|50"
+          }
+        }
+      }
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true,
+      "heading": true
+    },
+    "spacing": {
+      "blockGap": {
+        "sides": [
+          "horizontal"
+        ]
+      },
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "usesContext": [
+    "postId",
+    "postType",
+    "query",
+    "queryId",
+    "previewPostType"
+  ],
+  "textdomain": "breadcrumbs",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

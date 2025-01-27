@@ -1,0 +1,86 @@
+.wp-block-prc-block-dialog-element {
+	border: inherit;
+	background: inherit;
+	padding: inherit;
+	z-index: 10;
+	max-width: 95vw;
+	min-width: var(--min-width, 25vw);
+	&.has-border-color {
+		border-style: solid;
+	}
+	&.is-mobile {
+		max-height: 90vh;
+		padding: 1em !important;
+	}
+	&.is-video {
+		padding: 0 !important;
+		min-width: 400px;
+	}
+	&:not(.has-backdrop-color)::backdrop {
+		background-color: black;
+		opacity: 0.8;
+	}
+	&::backdrop {
+		opacity: 0.5;
+		cursor: zoom-out;
+	}
+	&__inner {
+		& > *:first-child {
+			margin-top: 0;
+		}
+	}
+	&__close-button {
+		appearance: none;
+		background: none;
+		border: none;
+		padding: 0px;
+		padding-inline: 0px;
+		margin: 0px;
+		float: right;
+		margin: 0.25em;
+		cursor: pointer;
+		position: relative;
+		z-index: 1;
+
+		i.icon {
+			font-size: 18px;
+			transition: transform 0.3s;
+		}
+		&:hover i.icon {
+			transform: scale(1.2);
+		}
+	}
+}
+
+// Opening and closing animations:
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -100%, 0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+@keyframes fadeOutDown {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+		transform: translate3d(0, 100%, 0);
+	}
+}
+.wp-block-prc-block-dialog {
+	dialog[open] {
+		animation-duration: var(--animation-duration, 0.5s);
+		animation-name: fadeInDown;
+		&.is-closing {
+			animation-duration: var(--animation-duration, 0.5s);
+			animation-name: fadeOutDown;
+		}
+	}
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/collection-kicker",
+  "version": "1.0.0",
+  "title": "Collection Kicker",
+  "category": "theme",
+  "description": "Display the 'kicker' for a collection term. You can select a specific term or default behavior is to display the term for the current post.",
+  "attributes": {
+    "termId": {
+      "type": "integer"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false
+  },
+  "usesContext": [
+    "postType",
+    "postId",
+    "templateSlug",
+    "previewPostType"
+  ],
+  "textdomain": "collection-kicker",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

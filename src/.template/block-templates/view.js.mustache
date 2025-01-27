@@ -1,0 +1,228 @@
+/**
+ * WordPress Dependencies
+ */
+import { store, getElement, getContext, getServerState, getServerContext } from '@wordpress/interactivity';
+
+{{^isContextProviderVariant}}
+const { state, actions } = store('prc-block/{{slug}}', {
+	state:  {
+		// This gets derived state, it does not point to a direct value in state but rather acts as a callback in the state object.
+		// Getting a value from state.myValueFromServer would in this case yield that value using the getServerState function
+		//  which gets state from the server.
+		get myValueFromServer() {
+			const {myValue} = getServerState();
+			return myValue;
+		}
+	},
+	actions: {
+		// This is a simple action that updates the client state.
+		updateValue: (value) => {
+			state.myValue = value;
+		},
+		// This updates the client state with the server value so its always in sync. You can attach this as a callback or call it after a router action.
+		updateClientValueWithServerValue: () => {
+			const serverState = getServerState();
+			const {myValue} = serverState;
+			state.myValue = myValue;
+		},
+		*doNavigateAction(newUrl) => {
+			// Process the new url. This will hit the server and update state server side accordingly.
+			// We load the router dynamically for increased performance, only when we first need it.
+			const router = yield import('@wordpress/interactivity-router');
+			yield router.actions.navigate(newUrl);
+
+			// Update the client state with the server state.
+			actions.updateClientValueWithServerValue();
+		}
+	},
+	callbacks: {
+
+	}
+});
+{{/isContextProviderVariant}}
+{{#isContextProviderVariant}}
+const { addQueryArgs } = window.wp.url;
+
+function constructNewUrl(selected = false) {
+	const tmp = {};
+	if (false === selected) {
+		return;
+	}
+	// Construct a comma separated string
+	Object.keys(selected).forEach((key) => {
+		if (Array.isArray(selected[key])) {
+			tmp[`_${key}`] = selected[key].join(',');
+		} else {
+			tmp[`_${key}`] = selected[key];
+		}
+	});
+	// Double check tmp, if it has a key with empty value, remove it.
+	Object.keys(tmp).forEach((key) => {
+		// Check if tmp[key] is an empty string or an empty array.
+		if (tmp[key] === '') {
+			delete tmp[key];
+		}
+	});
+	// Remove any query args on the current url.
+	const stableUrl = window.location.href.split('?')[0];
+	const newUrl = addQueryArgs(stableUrlClean, tmp);
+	return newUrl;
+}
+
+const { state, actions } = store('prc-block/{{slug}}', {
+	state: {
+		mouseEnterPreFetchTimer: 500,
+		navigateTimer: 1000,
+		get getSelected() {
+			return state.selected;
+		},
+		get getUpdatedUrl() {
+			if (undefined === state.selected) {
+				return;
+			}
+			return constructNewUrl(state.selected);
+		},
+	},
+	actions: {
+		*updateResults() {
+			const selected = state.getSelected;
+			const currentUrl = window.location.href;
+			const newUrl = state.getUpdatedUrl;
+
+			if (newUrl === currentUrl) {
+				console.log(
+					'my-context-provider::updateResults (NO CHANGE)',
+					'No change...'
+				);
+				return;
+			}
+
+			state.isProcessing = true;
+
+			console.log(
+				'my-context-provider::updateResults (CHANGE DETECTED)',
+				Object.keys(selected),
+				newUrl,
+				currentUrl
+			);
+
+			const router = yield import('@wordpress/interactivity-router');
+			yield router.actions.navigate(newUrl);
+
+			state.isProcessing = false;
+		},
+		onCheckboxClick: (event) => {
+			if (event.target.tagName === 'LABEL') {
+				event.preventDefault();
+			}
+			const context = getContext();
+			const { ref } = getElement();
+			const input = ref.querySelector('input');
+			const { id } = input;
+			const { checked, value, type } = state[id];
+
+			console.log(
+				'my-context-provider::onCheckboxClick',
+				ref,
+				state,
+				id,
+				context
+			);
+
+		},
+		onSelectChange: (value, ref) => {
+			const currentSelected = state.getSelected;
+			const newSelected = currentSelected;
+			console.log(
+				'my-context-provider::onSelectChange',
+				ref,
+				state,
+				currentSelected,
+				newSelected,
+				context
+			);
+		},
+		*prefetch(newUrl) {
+			const router = yield import('@wordpress/interactivity-router');
+
+			if (state.prefetched.includes(newUrl)) {
+				return;
+			}
+
+			state.prefetched.push(newUrl);
+
+			console.log(
+				'my-context-provider::prefetch',
+				ref,
+				state,
+				newUrl,
+			);
+		},
+		*onCheckboxMouseEnter(event) {
+			if (event.target.tagName === 'LABEL') {
+				event.preventDefault();
+			}
+			const context = getContext();
+			const { ref } = getElement();
+			const input = ref.querySelector('input');
+			const { id } = input;
+			const { value } = state[id];
+
+			console.log(
+				'my-context-provider::onCheckboxMouseEnter',
+				ref,
+				state,
+				value,
+			);
+		},
+		onClear: (slug, value = null) => {
+			const tmp = state.selected;
+			// if there is no slug then clear all...
+			if (!slug) {
+				state.selected = {};
+				// lets also re-run the updateResults.
+				actions.updateResults();
+				return;
+			}
+			// If there is a facet value then lets remove it for the slug but keep the rest.
+			if (value) {
+				tmp[slug] = tmp[slug].filter(
+					(item) => item !== value
+				);
+				state.selected = { ...tmp };
+				return;
+			}
+
+			// Clear all inputs that have the value of the slug.
+			Object.keys(state).find((key) => {
+				if (
+					typeof state[key] === 'object' &&
+					tmp[slug].includes(state[key]?.value)
+				) {
+					state[key].checked = false;
+				}
+			});
+			delete tmp[slug];
+			state.selected = { ...tmp };
+		},
+	},
+	callbacks: {
+		onSelection() {
+			const selected = state.getSelected;
+			const keysLength = Object.keys(selected).length;
+			console.log(
+				'my-context-provider::onSelection()',
+				selected,
+				Object.keys(selected),
+				keysLength
+			);
+			if (keysLength <= 0) {
+				state.isDisabled = true;
+			} else {
+				actions.updateResults();
+				state.isDisabled = false;
+			}
+		},
+	},
+});
+{{/isContextProviderVariant}}

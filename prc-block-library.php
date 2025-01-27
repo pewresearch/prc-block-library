@@ -11,9 +11,9 @@
  * Plugin Name:       PRC Block Library
  * Plugin URI:        https://github.com/pewresearch/prc-block-library
  * Description:       The core block library for the PRC Platform.
- * Version:           2.3.0
- * Requires at least: 6.3
- * Requires PHP:      8.1
+ * Version:           3.0.0
+ * Requires at least: 6.7
+ * Requires PHP:      8.2
  * Author:            Seth Rubenstein, Ben Wormald
  * Author URI:        https://pewresearch.org
  * License:           GPL-2.0+
@@ -33,7 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'PRC_BLOCK_LIBRARY_FILE', __FILE__ );
 define( 'PRC_BLOCK_LIBRARY_DIR', __DIR__ );
-define( 'PRC_BLOCK_LIBRARY_VERSION', '2.3.0' );
+define( 'PRC_BLOCK_LIBRARY_VERSION', '3.0.0' );
+define( 'PRC_BLOCK_LIBRARY_MANIFEST_FILE', __DIR__ . '/build/block-manifest.php' );
 
 /**
  * The code that runs during plugin activation.

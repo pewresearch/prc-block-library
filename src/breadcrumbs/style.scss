@@ -1,0 +1,46 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-breadcrumbs {
+	color: inherit;
+	background: transparent;
+	ol {
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		gap: var(--breadcrumbs-gap, 1em);
+		padding: 0;
+		li {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			gap: calc(var(--breadcrumbs-gap, 1em) / 2);
+			a {
+				display: flex;
+			}
+		}
+		li > ol {
+			display: none;
+		}
+		li:hover > ol {
+			align-self: self-start;
+			display: block;
+			position: absolute;
+			background: white;
+			box-shadow: var(--wp--preset--shadow--natural);
+			padding: 10px;
+			z-index: 100;
+			transform: translateY(1.5em);
+			border-radius: 12px;
+			border: 1px solid var(--wp--preset--color--ui-gray);
+		}
+		a[aria-current="page"] {
+			font-weight: bold;
+		}
+	}
+}

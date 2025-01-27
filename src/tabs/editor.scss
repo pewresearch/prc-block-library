@@ -1,0 +1,11 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-tabs.wp-block {
+	&__content > .block-list-appender {
+		top: -38px;
+	}
+}

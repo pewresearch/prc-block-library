@@ -1,6 +1,6 @@
 {
 	"name": "baseball-card-style",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"description": "Baseball Card styling for blocks in PRC Block Library.",
 	"author": "Seth Rubenstein",
 	"license": "GPL-2.0-or-later",
@@ -13,6 +13,6 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^25.2.0"
+		"@wordpress/scripts": "^30.9.0"
 	}
 }

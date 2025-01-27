@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/timeline-slide",
+	"title": "Timeline Slide",
+	"version": "1.0.0",
+	"category": "design",
+	"attributes": {
+		"metadata": {
+			"type": "object",
+			"default": {
+				"name": "2020"
+			}
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"reusable": false,
+		"interactivity": true,
+		"spacing": {
+			"blockGap": true,
+			"margin": [
+				"top",
+				"bottom"
+			],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"parent": [
+		"prc-block/timeline"
+	],
+	"usesContext": ["timeline/currentActiveIndex"],
+	"textdomain": "timeline-slide",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

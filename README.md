@@ -15,7 +15,7 @@ https://wordpress.org/gutenberg/handbook/designers-developers/developers/package
 
 ### Scaffolding a New Block
 
-To scaffold a new block, run the following command in the `/blocks` directory:
+To scaffold a new block, run the following command in the `/src` directory:
 
 ```bash
 npx @wordpress/create-block -t ./.template
@@ -43,6 +43,24 @@ There are additional options during the scaffold process, but these are not
 required. Only name and title are required.
 
 ![Run Command](.docs/assets/run-command.gif)
+
+### Building a Block
+
+Couldn't be easier. Just run the following command anywhere in the plugin directory to build the entire library:
+
+```bash
+npm run build:library
+```
+
+Or, to build just 1 block run:
+
+```bash
+npm run build {block-name}
+
+e.g. 
+npm run build grid-controller
+```
+
 
 ## 3rd Party Dependency Extraction
 

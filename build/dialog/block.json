@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/dialog",
+  "version": "1.0.0",
+  "title": "Dialog",
+  "description": "Render content in a <dialog/> element modal. Includes a trigger to open the dialog and dialog element to render content.",
+  "category": "media",
+  "keywords": [
+    "dialog",
+    "modal",
+    "popup"
+  ],
+  "attributes": {
+    "dialogType": {
+      "type": "string",
+      "enum": [
+        "dialog",
+        "modal"
+      ],
+      "default": "modal"
+    },
+    "animationDuration": {
+      "type": "number",
+      "default": 500
+    },
+    "autoActivationTimer": {
+      "type": "number",
+      "default": -1
+    },
+    "widths": {
+      "type": "object",
+      "default": {
+        "desktop": 640,
+        "tablet": 480
+      }
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "full",
+      "wide",
+      "left",
+      "right",
+      "center"
+    ],
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "interactivity": true
+  },
+  "providesContext": {
+    "dialog/id": "anchor",
+    "dialog/className": "className",
+    "dialog/widths": "widths",
+    "dialog/animationDuration": "animationDuration",
+    "dialog/type": "dialogType",
+    "dialog/autoActivationTimer": "autoActivationTimer"
+  },
+  "textdomain": "dialog",
+  "editorScript": "file:./index.js",
+  "viewScriptModule": "file:./view.js",
+  "render": "file:./render.php"
+}

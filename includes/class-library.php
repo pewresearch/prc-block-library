@@ -1,5 +1,6 @@
 <?php
 namespace PRC\Platform\Blocks;
+
 use WP_Error;
 
 /**
@@ -54,8 +55,8 @@ class Library {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		$this->version = '1.0.0';
-		$this->plugin_name = 'prc-block-library';
+		$this->version      = '3.0.0';
+		$this->plugin_name  = 'prc-block-library';
 		$this->active_theme = wp_get_theme();
 
 		$this->load_dependencies();
@@ -67,29 +68,35 @@ class Library {
 
 	/**
 	 * Include a file from the plugin's includes directory.
+	 *
 	 * @param mixed $block_file_name
 	 * @return WP_Error|void
 	 */
-	private function include_block($block_file_name) {
-		$block_file_path = 'blocks/' . $block_file_name . '/' . $block_file_name . '.php';
-		if ( file_exists( plugin_dir_path( dirname(__FILE__) ) . $block_file_path ) ) {
-			require_once plugin_dir_path( dirname(__FILE__) ) . $block_file_path;
+	private function include_block( $block_file_name ) {
+		$dev_mode        = 'local' === wp_get_environment_type();
+		$block_src       = $dev_mode ? 'src' : 'build';
+		$block_file_path = $block_src . '/' . $block_file_name . '/' . $block_file_name . '.php';
+		if ( file_exists( plugin_dir_path( __DIR__ ) . $block_file_path ) ) {
+			require_once plugin_dir_path( __DIR__ ) . $block_file_path;
 		} else {
-			return new WP_Error( 'prc_block_library_missing_block', __( 'Block missing:: ' . $block_file_name, 'prc' ) );
+			// return new WP_Error( 'prc_block_library_missing_block', __( 'Block missing:: ' . $block_file_name, 'prc' ) );
 		}
 	}
 
 	/**
 	 * Include all blocks from the plugin's /blocks directory.
+	 *
 	 * @return void
 	 */
 	private function load_blocks() {
-		$block_files = glob( PRC_BLOCK_LIBRARY_DIR . '/blocks/*', GLOB_ONLYDIR );
-		foreach ($block_files as $block) {
-			$block = basename($block);
-			$loaded = $this->include_block($block);
+		$dev_mode    = 'local' === wp_get_environment_type();
+		$block_src   = $dev_mode ? 'src' : 'build';
+		$block_files = glob( PRC_BLOCK_LIBRARY_DIR . '/' . $block_src . '/*', GLOB_ONLYDIR );
+		foreach ( $block_files as $block ) {
+			$block  = basename( $block );
+			$loaded = $this->include_block( $block );
 			if ( is_wp_error( $loaded ) ) {
-				error_log( $loaded->get_error_message() );
+				// error_log( $loaded->get_error_message() );
 			}
 		}
 	}
@@ -105,12 +112,12 @@ class Library {
 	 */
 	private function load_dependencies() {
 		// Load plugin loading class.
-		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/class-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/class-loader.php';
 		// Load support classes.
-		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/common-styles/class-common-styles.php';
-		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/custom-text-formats/class-custom-text-formats.php';
-		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/interactivity-api/class-interactivity-api.php';
-		require_once plugin_dir_path( dirname(__FILE__) ) . '/includes/print-engine/class-print-engine.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/common-styles/class-common-styles.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/custom-text-formats/class-custom-text-formats.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/interactivity-api/class-interactivity-api.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/print-engine/class-print-engine.php';
 		// Load blocks.
 		$this->load_blocks();
 		// Initialize the loader.
@@ -125,6 +132,10 @@ class Library {
 	 */
 	private function gutenberg_config() {
 		/**
+		 * Register the block library manifest file.
+		 */
+		$this->register_block_library_manifest();
+		/**
 		 * Load core block assets separately
 		 * Very advantageous for performance and allows for easier un-registering of core block styles. e.g. core/image
 		 *
@@ -138,10 +149,10 @@ class Library {
 			10,
 			1
 		);
-		// Add additional categories
-		$this->loader->add_filter('block_categories_all', $this, 'register_block_categories', 10, 2);
-		// Add additional allowed HTML tags
-		$this->loader->add_filter('wp_kses_allowed_html', $this, 'allowed_html_tags', 10, 2);
+		// Add additional categories.
+		$this->loader->add_filter( 'block_categories_all', $this, 'register_block_categories', 10, 1 );
+		// Add additional allowed HTML tags.
+		$this->loader->add_filter( 'wp_kses_allowed_html', $this, 'allowed_html_tags', 10, 2 );
 	}
 
 	/**
@@ -162,105 +173,114 @@ class Library {
 	 * Init Core Blocks
 	 */
 	private function define_core_blocks() {
-		new Core_Button($this->get_loader());
-		new Core_Categories($this->get_loader());
-		new Core_Cover($this->get_loader());
-		new Core_Embed($this->get_loader());
-		new Core_Group($this->get_loader());
-		new Core_Heading($this->get_loader());
-		new Core_Image($this->get_loader());
-		new Core_List($this->get_loader());
-		new Core_List_Item($this->get_loader());
-		new Core_Media_text($this->get_loader());
-		new Core_Navigation($this->get_loader());
-		new Core_Paragraph($this->get_loader());
-		new Core_Post_Content($this->get_loader());
-		new Core_Post_Featured_Image($this->get_loader());
-		new Core_Post_Title($this->get_loader());
-		new Core_Pullquote($this->get_loader());
-		new Core_Query($this->get_loader());
-		new Core_Query_Pagination_Numbers($this->get_loader());
-		new Core_Search($this->get_loader());
-		new Core_Separator($this->get_loader());
-		new Core_Social_Links($this->get_loader());
-		new Core_Table($this->get_loader());
+		new Core_Button( $this->get_loader() );
+		new Core_Categories( $this->get_loader() );
+		new Core_Cover( $this->get_loader() );
+		new Core_Details( $this->get_loader() );
+		new Core_Embed( $this->get_loader() );
+		new Core_Group( $this->get_loader() );
+		new Core_Heading( $this->get_loader() );
+		new Core_Image( $this->get_loader() );
+		new Core_List( $this->get_loader() );
+		new Core_List_Item( $this->get_loader() );
+		new Core_Media_text( $this->get_loader() );
+		new Core_Navigation( $this->get_loader() );
+		new Core_Paragraph( $this->get_loader() );
+		new Core_Post_Content( $this->get_loader() );
+		new Core_Post_Featured_Image( $this->get_loader() );
+		new Core_Post_Title( $this->get_loader() );
+		new Core_Pullquote( $this->get_loader() );
+		new Core_Query( $this->get_loader() );
+		new Core_Query_Pagination_Numbers( $this->get_loader() );
+		new Core_Search( $this->get_loader() );
+		new Core_Separator( $this->get_loader() );
+		new Core_Social_Links( $this->get_loader() );
+		new Core_Table( $this->get_loader() );
 	}
 
 	/**
 	 * Init PRC Blocks
 	 */
 	private function define_prc_blocks() {
-		new Accordion($this->get_loader());
-		new Accordion_Controller($this->get_loader());
-		new Attachment_Info($this->get_loader());
-		new Audio_Player($this->get_loader());
-		new Bylines_Display($this->get_loader());
-		new Bylines_Query($this->get_loader());
-		new Carousel_Controller($this->get_loader());
-		new Carousel_Slide($this->get_loader());
-		new Code_Syntax($this->get_Loader());
-		new Collapsible($this->get_loader());
-		new Collection_Kicker($this->get_loader());
-		new Color_Palette($this->get_loader());
-		new Copyright($this->get_loader());
-		new Entity_As_Iframe($this->get_loader());
-		new Fact_Sheet_Collection($this->get_loader());
+		new Accordion( $this->get_loader() );
+		new Accordion_Controller( $this->get_loader() );
+		new Attachment_Info( $this->get_loader() );
+		new Audio_Player( $this->get_loader() );
+		new Breadcrumbs( $this->get_loader() );
+		new Bylines_Display( $this->get_loader() );
+		new Bylines_Query( $this->get_loader() );
+		new Carousel_Controller( $this->get_loader() );
+		new Carousel_Slide( $this->get_loader() );
+		new Code_Syntax( $this->get_Loader() );
+		new Collapsible( $this->get_loader() );
+		new Collection_Kicker( $this->get_loader() );
+		new Color_Palette( $this->get_loader() );
+		new Copyright( $this->get_loader() );
+		new Entity_As_Iframe( $this->get_loader() );
+		new Fact_Sheet_Collection( $this->get_loader() );
 		new Flip_Card_Controller( $this->get_loader() );
 		new Flip_Card_Side( $this->get_loader() );
-		new Footnotes($this->get_loader());
-		new Form_Captcha($this->get_loader());
-		new Form_Field($this->get_loader());
-		new Form_Input_Checkbox($this->get_loader());
-		new Form_Input_Select($this->get_loader());
-		new Form_Input_Message($this->get_loader());
-		new Form_Input_Password($this->get_loader());
-		new Form_Input_Text($this->get_loader());
-		new Grid_Column($this->get_loader());
-		new Grid_Controller($this->get_loader());
-		new Icon($this->get_loader());
-		new Logo($this->get_loader());
-		new Lorem_Ipsum($this->get_loader());
-		new Mailchimp_Form($this->get_loader());
-		new Mailchimp_Select($this->get_loader());
-		new Navigation_Mega_Menu($this->get_loader());
-		new Playground($this->get_loader());
-		new Popular_Story($this->get_loader());
-		new Popup_Content($this->get_loader());
-		new Popup_Controller($this->get_loader());
-		new Popup_Modal($this->get_loader());
-		new Post_Parent_Title($this->get_loader());
-		new Post_Taxonomy_Terms($this->get_loader());
-		new Progress_Bar($this->get_loader());
-		new Promo($this->get_loader());
-		new Promo_Rotator($this->get_loader());
-		new Related_Posts_Query($this->get_loader());
-		new Report_Materials($this->get_loader());
-		new Report_Pagination($this->get_loader());
-		new Responsive_Container_Controller($this->get_loader());
-		new Responsive_Container_View($this->get_loader());
-		new Roper_DB_Search($this->get_loader());
-		new Social_Share_Sheet($this->get_loader());
-		new Social_Share_Text_Link($this->get_loader());
-		new Social_Share_URL_Field($this->get_loader());
-		new Staff_Context_Provider($this->get_loader());
-		new Staff_Info($this->get_loader());
-		new Staff_Query($this->get_loader());
-		new Story_Item($this->get_loader());
-		new Sub_Title($this->get_loader());
-		new Table_Of_Contents($this->get_loader());
-		new Tabs_Controller($this->get_loader());
-		new Tabs_Menu($this->get_loader());
-		new Tabs_Menu_Item($this->get_loader());
-		new Tabs_Pane($this->get_loader());
-		new Tabs_Panes($this->get_loader());
-		new Taxonomy_Index_AZ_Controller($this->get_loader());
-		new Taxonomy_Index_AZ_List($this->get_loader());
-		new Taxonomy_Index_List_Controller($this->get_loader());
-		new Taxonomy_List($this->get_loader());
-		new Taxonomy_List_Link($this->get_loader());
-		new Taxonomy_Search($this->get_loader());
-		new Version($this->get_loader());
-		new Yoast_SEO_Breadcrumbs($this->get_loader());
+		new Footnotes( $this->get_loader() );
+		new Form_Captcha( $this->get_loader() );
+		new Form_Field( $this->get_loader() );
+		new Form_Input_Checkbox( $this->get_loader() );
+		new Form_Input_Select( $this->get_loader() );
+		new Form_Input_Message( $this->get_loader() );
+		new Form_Input_Password( $this->get_loader() );
+		new Form_Input_Text( $this->get_loader() );
+		new Grid_Column( $this->get_loader() );
+		new Grid_Controller( $this->get_loader() );
+		new Icon( $this->get_loader() );
+		new Logo( $this->get_loader() );
+		new Lorem_Ipsum( $this->get_loader() );
+		new Mailchimp_Form( $this->get_loader() );
+		new Mailchimp_Select( $this->get_loader() );
+		new Navigation_Mega_Menu( $this->get_loader() );
+		new Playground( $this->get_loader() );
+		new Popular_Story( $this->get_loader() );
+		new Dialog( $this->get_loader() );
+		new Dialog_Trigger( $this->get_loader() );
+		new Dialog_Element( $this->get_loader() );
+		new Post_Parent_Title( $this->get_loader() );
+		new Post_Taxonomy_Terms( $this->get_loader() );
+		new Progress_Bar( $this->get_loader() );
+		new Promo( $this->get_loader() );
+		new Promo_Rotator( $this->get_loader() );
+		new Related_Posts_Query( $this->get_loader() );
+		new Report_Materials( $this->get_loader() );
+		new Report_Pagination( $this->get_loader() );
+		new Responsive_Container_Controller( $this->get_loader() );
+		new Responsive_Container_View( $this->get_loader() );
+		new Roper_DB_Search( $this->get_loader() );
+		new Show_More( $this->get_loader() );
+		new Social_Share_Sheet( $this->get_loader() );
+		new Social_Share_Text_Link( $this->get_loader() );
+		new Social_Share_URL_Field( $this->get_loader() );
+		new Staff_Context_Provider( $this->get_loader() );
+		new Staff_Info( $this->get_loader() );
+		new Staff_Query( $this->get_loader() );
+		new Story_Item( $this->get_loader() );
+		new Sub_Title( $this->get_loader() );
+		new Table_Of_Contents( $this->get_loader() );
+		new Tab( $this->get_loader() );
+		new Tabs( $this->get_loader() );
+		new Taxonomy_Index_AZ_Controller( $this->get_loader() );
+		new Taxonomy_Index_AZ_List( $this->get_loader() );
+		new Taxonomy_Index_List_Controller( $this->get_loader() );
+		new Taxonomy_List( $this->get_loader() );
+		new Taxonomy_List_Link( $this->get_loader() );
+		new Taxonomy_Search( $this->get_loader() );
+		new Timeline( $this->get_loader() );
+		new Timeline_Slide( $this->get_loader() );
+		new Version( $this->get_loader() );
+		new Yoast_SEO_Breadcrumbs( $this->get_loader() );
+	}
+
+	public function register_block_library_manifest() {
+		wp_register_block_metadata_collection(
+			PRC_BLOCK_LIBRARY_DIR . '/build',
+			PRC_BLOCK_LIBRARY_DIR . '/build/blocks-manifest.php'
+		);
 	}
 
 	/**
@@ -275,7 +295,7 @@ class Library {
 	 * @param mixed $block_editor_context
 	 * @return mixed
 	 */
-	public function register_block_categories( $block_categories, $block_editor_context ) {
+	public function register_block_categories( $block_categories ) {
 		return array_merge(
 			$block_categories,
 			array(
@@ -292,15 +312,15 @@ class Library {
 					'title' => __( 'Forms', 'prc-block-library-categories' ),
 				),
 				array(
-					'slug' => 'editorial-product',
+					'slug'  => 'editorial-product',
 					'title' => __( 'Editorial Product', 'prc-block-library-categories' ),
-					'icon' => 'lightbulb'
+					'icon'  => 'lightbulb',
 				),
 				array(
-					'slug' => 'interactivity',
+					'slug'  => 'interactivity',
 					'title' => __( 'Interactivity API', 'prc-block-library-categories' ),
-					'icon' => 'lightbulb'
-				)
+					'icon'  => 'lightbulb',
+				),
 			)
 		);
 	}
@@ -315,27 +335,27 @@ class Library {
 	 * @return array Allowed tags.
 	 */
 	public static function allowed_html_tags( $allowed_tags, $context ) {
-		$allowed_tags['iframe'] = array(
-			'class' => true,
-			'loading' => true,
-			'src' => true,
-			'width' => true,
-			'height' => true,
-			'frameborder' => true,
+		$allowed_tags['iframe']        = array(
+			'class'           => true,
+			'loading'         => true,
+			'src'             => true,
+			'width'           => true,
+			'height'          => true,
+			'frameborder'     => true,
 			'allowfullscreen' => true,
-			'title' => true,
-			'style' => true,
+			'title'           => true,
+			'style'           => true,
 		);
-		$allowed_tags['input'] = array(
-			'class' => true,
-			'id' => true,
-			'name' => true,
-			'type' => true,
-			'value' => true,
+		$allowed_tags['input']         = array(
+			'class'       => true,
+			'id'          => true,
+			'name'        => true,
+			'type'        => true,
+			'value'       => true,
 			'placeholder' => true,
-			'required' => true,
-			'disabled' => true,
-			'style' => true,
+			'required'    => true,
+			'disabled'    => true,
+			'style'       => true,
 		);
 		$allowed_tags['div']['style']  = true;
 		$allowed_tags['img']['srcset'] = true;
@@ -375,7 +395,7 @@ class Library {
 			array(
 				'aria-controls' => true,
 				'aria-selected' => true,
-				'aria-role' => true,
+				'aria-role'     => true,
 			),
 			$allowed_tags['a']
 		);
@@ -421,5 +441,4 @@ class Library {
 	public function get_version() {
 		return $this->version;
 	}
-
 }

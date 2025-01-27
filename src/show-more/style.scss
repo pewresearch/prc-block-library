@@ -1,0 +1,59 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+// Standard Gutenberg Breakpoints
+$break-wide: 1280px;
+$break-xlarge: 1080px;
+$break-large: 960px;	// admin sidebar auto folds
+$break-medium: 782px;	// adminbar goes big
+$break-small: 600px;
+$break-mobile: 480px;
+$break-zoomed-in: 280px;
+
+
+.wp-block-prc-block-show-more {
+	color: inherit;
+	background: inherit;
+	&:not(.is-expanded) .prc-show-more__inner-blocks {
+		overflow: hidden;
+		height: var(--collapsed-height);
+	}
+	&.is-expanded .prc-show-more__inner-blocks {
+		transition: height 0.5s;
+		height: auto;
+		padding-bottom: 1em;
+		// animate when is-expanded the height auto
+	}
+	&.is-style-default:not(.is-expanded) .prc-show-more__expand-button {
+		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+	}
+	&.is-style-card:not(.is-expanded) .prc-show-more__expand-button {
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		border: 1px solid var(--wp--preset--color--ui-gray-light);
+	}
+	.prc-show-more__expand-button {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		position: relative;
+		z-index: 1;
+		appearance: none;
+		background-color: var(--button-background-color, inherit);
+		color: var(--button-color, inherit);
+		text-align: center;
+		padding: 1em;
+		border-top: 1px solid var(--wp--preset--color--ui-gray-light);
+		border-left: none;
+		border-right: none;
+		border-bottom: none;
+		width: 100%;
+		cursor: pointer;
+	}
+	.prc-show-more__expand-button__label {
+		margin-left: 0.5em;
+	}
+}

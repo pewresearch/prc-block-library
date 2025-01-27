@@ -96,3 +96,15 @@ function prc_log_error( $group = 'GENERAL ALERT', $code = '', $message = '', $er
 
 	return $exception;
 }
+
+function prc_block_library_manifest($block_name) {
+	$manifest = include PRC_BLOCK_LIBRARY_DIR . '/build/blocks-manifest.php';
+	if ( ! isset( $manifest[ $block_name ] ) ) {
+		return [];
+	}
+	$manifest = array_key_exists($block_name, $manifest) ? $manifest[$block_name] : [];
+	if ( !empty($manifest) ) {
+		$manifest['file'] = wp_normalize_path( realpath( PRC_BLOCK_LIBRARY_DIR . '/build/'.$block_name.'/block.json' ) );
+	}
+	return $manifest;
+}

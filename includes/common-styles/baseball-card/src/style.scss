@@ -63,13 +63,14 @@
 
 	// Main List
 	ul[class*="__list"] {
+		--padding: 0.48em;
 		list-style: none;
 		display: flex;
 		flex-direction: column;
-		padding: 0.48em;
+		padding: var(--padding);
 		gap: var(--block-gap);
 		li {
-			padding: 0.48em;
+			padding: var(--padding);
 			display: flex;
 			gap: 0.5em;
 			&.flex-align-center {
@@ -93,16 +94,15 @@
 		// Sub List
 		ul[class*="__list"]  {
 			--block-gap: calc(var(--block-gap) / 2);
-			padding: 0;
-			padding-left: 1em;
+			padding: 0 0 0 var(--padding);
 			list-style: none;
 			display: flex;
 			flex-direction: column;
 			gap: var(--block-gap);
 			li {
-				padding: 0.48em 0;
+				padding: var(--padding) 0;
 				&:has(ul) {
-					padding: 0.48em 1em;
+					padding: var(--padding);
 				}
 			}
 		}

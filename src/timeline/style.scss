@@ -1,0 +1,46 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-timeline {
+	--height: 20px;
+	color: inherit;
+	background: inherit;
+
+	input[type="range"] {
+		width: 100%;
+		margin: 20px 0;
+		height: var(--height);
+		background: #d3d3d3;
+		outline: none;
+	}
+
+	.ticks {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		list-style-type: none;
+		padding: 0;
+		font-size: 12px;
+		.tick {
+			color: #555;
+			span {
+				font-size: 0.8em;
+				position: absolute;
+				transform: translateX(-50%) rotate(-45deg);
+				width: fit-content;
+			}
+		}
+	}
+
+	// make it so that only the first, last, and middle elements are visible, the rest should still exist and be clickable but have no text in them...
+	.tick:not(:first-child):not(:last-child):not(:nth-child(3n)) {
+		display: none;
+	}
+}
+
+
