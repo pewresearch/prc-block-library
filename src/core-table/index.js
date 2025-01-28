@@ -14,7 +14,7 @@ import Controls from './controls';
 // Because theres no good way to inject this in the build process we're defaulting to transforming the core block name like so. You can manually change this if you want.
 const BLOCKNAME = 'core/table';
 const BLOCKIDENTIFIER = 'prc-block-library/core-table';
-const SUPPORTED_BLOCKS = [BLOCKNAME, 'flexible-table-block/table'];
+const SUPPORTED_BLOCKS = [BLOCKNAME];
 
 addFilter(
 	'editor.BlockEdit',

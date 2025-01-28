@@ -2952,7 +2952,8 @@ return array(
 				'type' => 'integer'
 			),
 			'enableNumber' => array(
-				'type' => 'boolean'
+				'type' => 'boolean',
+				'default' => true
 			)
 		),
 		'supports' => array(

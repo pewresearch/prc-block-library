@@ -48,7 +48,7 @@ class Collection_Kicker {
 		// Now from here we need to get the collection post's assigned kicker synced pattern id and use that for the content...
 
 		// If there is not an associated Collection post then we should return.
-		if ( false === $collection_post ) {
+		if ( false === $collection_post || null === $collection_post ) {
 			return;
 		}
 		$kicker_slug = get_post_meta( $collection_post->ID, 'kicker_pattern_slug', true );

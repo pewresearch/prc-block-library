@@ -8,11 +8,19 @@
 
 $block_wrapper_attrs = get_block_wrapper_attributes();
 
+$block_index         = array_key_exists( 'blockIndexAttr', $attributes ) ? $attributes['blockIndexAttr'] : 0;
+$block_index         = true == $attributes['enableNumber'] ? $block_index + 1 : $block_index;
+$popular_story_title = array_key_exists( 'title', $attributes ) ? $attributes['title'] : '';
+$popular_story_url   = array_key_exists( 'url', $attributes ) ? $attributes['url'] : '';
+if ( empty( $popular_story_title ) || empty( $popular_story_url ) ) {
+	return;
+}
+
 // You can use this method...
 echo wp_sprintf(
-	'<aside %1$s><div class="big-number">%2$s</div><a href="%3$s" class="title">%4$s</a></aside>',
+	'<aside %1$s>%2$s<a href="%3$s" class="title">%4$s</a></aside>',
 	$block_wrapper_attrs,
-	$attributes['enableNumber'] == true ? $attributes['blockIndexAttr'] + 1 : $attributes['blockIndexAttr'],
-	esc_url( $attributes['url'] ),
-	$attributes['title']
+	0 !== $block_index ? wp_sprintf( '<div class="big-number">%s</div>', $block_index ) : '',
+	esc_url( $popular_story_url ),
+	$popular_story_title
 );

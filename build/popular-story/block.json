@@ -21,7 +21,8 @@
       "type": "integer"
     },
     "enableNumber": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     }
   },
   "supports": {
