@@ -91,6 +91,9 @@ export default function Edit({
 			role: 'tabpanel',
 		},
 		{
+			template: [
+				['core/paragraph', { placeholder: 'Timeline Slide Content' }],
+			],
 			renderAppender: hasChildBlocks
 				? undefined
 				: InnerBlocks.ButtonBlockAppender,

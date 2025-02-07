@@ -7,6 +7,10 @@
 
 namespace PRC\Platform\Blocks;
 
+if ( empty( $attributes['metadata']['name'] ) ) {
+	return;
+}
+
 $block_id = md5( $attributes['metadata']['name'] );
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
@@ -17,7 +21,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(
 				'id' => $block_id,
 			)
 		),
-		'data-wp-class--is-active' => 'callbacks.isTimlineSlideActive',
+		'data-wp-class--is-active' => 'callbacks.isTimelineSlideActive',
 	)
 );
 

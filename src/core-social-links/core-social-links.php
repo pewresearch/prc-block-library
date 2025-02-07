@@ -34,7 +34,7 @@ class Core_Social_Links {
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
 			$loader->add_filter( 'render_block_data', $this, 'social_links_url_fallback', 1, 3 );
-			$loader->add_filter( 'render_block_data', $this, 'social_link_url_fallback', 100, 3 );
+			$loader->add_filter( 'render_block_context', $this, 'social_links_context_handler', 100, 3 );
 			$loader->add_filter( 'render_block', $this, 'social_link_render_callback', 100, 3 );
 		}
 	}
@@ -127,11 +127,11 @@ class Core_Social_Links {
 			$settings['provides_context'] = array_merge(
 				array_key_exists( 'provides_context', $settings ) ? $settings['provides_context'] : array(),
 				array(
-					'core/social-links/title'       => 'title',
-					'core/social-links/description' => 'description',
-					'core/social-links/url'         => 'url',
-					'core/social-links/imageId'     => 'imageId',
-					'core/social-links/hashtags'    => 'hashtags',
+					'core/socialLinksTitle'       => 'title',
+					'core/socialLinksDescription' => 'description',
+					'core/socialLinksUrl'         => 'url',
+					'core/socialLinksImageId'     => 'imageId',
+					'core/socialLinksHashtags'    => 'hashtags',
 				)
 			);
 
@@ -154,16 +154,16 @@ class Core_Social_Links {
 			);
 		}
 
-		// Ingest context on child block
+		// Ingest context on child block.
 		if ( $this->child_block_name === $metadata['name'] ) {
 			$settings['uses_context'] = array_merge(
 				array_key_exists( 'uses_context', $settings ) ? $settings['uses_context'] : array(),
 				array(
 					'postId',
 					'queryId',
-					'core/social-links/title',
-					'core/social-links/description',
-					'core/social-links/url',
+					'core/socialLinksTitle',
+					'core/socialLinksDescription',
+					'core/socialLinksUrl',
 					'prc-quiz/results/score',
 				)
 			);
@@ -190,36 +190,37 @@ class Core_Social_Links {
 	 * Fallback to shortlink if no url is provided for social links.
 	 *
 	 * @hook render_block_data
-	 * @TODO: maybe refine this further by only applying this logic if the parent block has a specific classname or context on it?
-	 * @filter render_block_data
 	 * @param mixed $parsed_block
 	 * @param mixed $source_block
 	 * @param mixed $parent_block
-	 * @return void
+	 * @return mixed
 	 */
-	public function social_links_url_fallback( $parsed_block, $source_block, $parent_block ) {
-		if ( 'core/social-links' === $parsed_block['blockName'] && ( empty( $parsed_block['attrs']['url'] ) || '#' === $parsed_block['attrs']['url'] ) ) {
+	public function social_links_url_fallback( $parsed_block ) {
+		if ( 'core/social-links' === $parsed_block['blockName'] ) {
 			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
 		}
 		return $parsed_block;
 	}
 
 	/**
-	 * Fallback to shortlink if no url is provided for social links.
+	 * Handle defining the context value for blocks that may appear inside core/social-links.
 	 *
-	 * @hook render_block_data
-	 * @TODO: maybe refine this further by only applying this logic if the parent block has a specific classname or context on it?
-	 * @filter render_block_data
+	 * @hook render_block_context
+	 * @param mixed $context
 	 * @param mixed $parsed_block
-	 * @param mixed $source_block
-	 * @param mixed $parent_block
-	 * @return void
 	 */
-	public function social_link_url_fallback( $parsed_block, $source_block, $parent_block ) {
-		if ( $this->child_block_name === $parsed_block['blockName'] && ( empty( $parsed_block['attrs']['url'] ) || '#' === $parsed_block['attrs']['url'] ) ) {
-			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
+	public function social_links_context_handler( $context, $parsed_block ) {
+		if ( in_array(
+			$parsed_block['blockName'],
+			array(
+				'core/social-link',
+				'prc-block/social-share-sheet',
+				'prc-block/social-share-url-field',
+			)
+		) ) {
+			$context['core/socialLinksUrl'] = wp_get_shortlink( get_the_ID() );
 		}
-		return $parsed_block;
+		return $context;
 	}
 
 	/**
@@ -240,20 +241,21 @@ class Core_Social_Links {
 			$tags->next_tag( 'li' );
 
 			$service = $attributes['service'];
-
-			$url = isset( $context['core/social-links/url'] ) ? $context['core/social-links/url'] : false;
-			$url = ( false === $url && isset( $attributes['url'] ) ) ? $attributes['url'] : $url;
-			// If after all that there is no url then try to fetch the short link.
+			// First, check for a url set on the block.
+			$url = isset( $attributes['url'] ) && ! empty( $attributes['url'] ) && '#' !== $attributes['url'] ? $attributes['url'] : false;
+			// Check context for the url.
+			$url = false === $url && isset( $context['core/socialLinksUrl'] ) && ! empty( $context['core/socialLinksUrl'] ) ? $context['core/socialLinksUrl'] : false;
+			// If after all that there is no url then try to fetch the short link for the current post id.
 			if ( ! $url && isset( $context['postId'] ) ) {
 				$url = wp_get_shortlink( $context['postId'] );
 			}
 
-			$title = isset( $context['core/social-links/title'] ) ? $context['core/social-links/title'] : null;
+			$title = isset( $context['core/socialLinksTitle'] ) ? $context['core/socialLinksTitle'] : null;
 			if ( ! $title && isset( $context['postId'] ) ) {
 				$title = get_the_title( $context['postId'] );
 			}
 
-			$description = isset( $context['core/social-links/description'] ) ? $context['core/social-links/description'] : null;
+			$description = isset( $context['core/socialLinksDescription'] ) ? $context['core/socialLinksDescription'] : null;
 			if ( ! $description && isset( $context['postId'] ) ) {
 				$description = get_the_excerpt( $context['postId'] );
 			}

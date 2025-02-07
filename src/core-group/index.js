@@ -15,7 +15,11 @@ import { withColors } from '@wordpress/block-editor';
 /**
  * Internal Dependencies
  */
-import {ResponsiveControls, ColorControls} from './controls';
+import {
+	ResponsiveControls,
+	ColorControls,
+	MaxWidthControls,
+} from './controls';
 import registerVariations from './variations';
 import registerTransforms from './transforms';
 /**
@@ -53,7 +57,6 @@ addFilter(
 				if (BLOCKNAME !== name) {
 					return <BlockEdit {...props} />;
 				}
-
 				return (
 					<Fragment>
 						<GroupColorControls
@@ -62,13 +65,16 @@ addFilter(
 						<ResponsiveControls
 							{...{ attributes, setAttributes }}
 						/>
+						<MaxWidthControls
+							{...{ attributes, setAttributes, clientId }}
+						/>
 						<BlockEdit {...props} />
 					</Fragment>
 				);
 			},
 		'withCoreGroupControls'
 	),
-	21
+	100
 );
 
 /**
@@ -79,7 +85,7 @@ addFilter(
 	`${BLOCKIDENTIFIER}-wrapper-props`,
 	createHigherOrderComponent((BlockListBlock) => {
 		return (props) => {
-			const { attributes, wrapperProps, name } = props;
+			const { attributes, wrapperProps, name, className } = props;
 			if (BLOCKNAME !== name) {
 				return <BlockListBlock {...props} />;
 			}
@@ -92,7 +98,8 @@ addFilter(
 				} = {},
 				dividerColor,
 				isStuckBackground,
-				isStuckText
+				isStuckText,
+				maxWidth,
 			} = attributes;
 
 			const newWrapperProps = {
@@ -116,6 +123,43 @@ addFilter(
 					'vertical'
 				),
 			};
+			if (undefined !== maxWidth) {
+				// We need to add the data attr for each device type to the wrapper element.
+				if (null !== maxWidth.desktop) {
+					newWrapperProps.style = {
+						...newWrapperProps.style,
+						'--max-width__desktop': maxWidth.desktop,
+					};
+				}
+				if (null !== maxWidth.tablet) {
+					newWrapperProps.style = {
+						...newWrapperProps.style,
+						'--max-width__tablet': maxWidth.tablet,
+					};
+				}
+				if (null !== maxWidth.mobile) {
+					newWrapperProps.style = {
+						...newWrapperProps.style,
+						'--max-width__mobile': maxWidth.mobile,
+					};
+				}
+				if (
+					!className.includes('has-max-width-constraint') &&
+					maxWidth.desktop !== null
+				) {
+					newWrapperProps.className = `${className} has-max-width-constraint`;
+				} else {
+					newWrapperProps.className = className.replace(
+						'has-max-width-constraint',
+						''
+					);
+				}
+			} else if (className.includes('has-max-width-constraint')) {
+				newWrapperProps.className = className.replace(
+					'has-max-width-constraint',
+					''
+				);
+			}
 			return <BlockListBlock {...props} wrapperProps={newWrapperProps} />;
 		};
 	}, 'withCoreGroupResponsiveWrapper')
@@ -144,6 +188,14 @@ addFilter(
 					hideOnDesktop: false,
 					hideOnTablet: false,
 					hideOnMobile: false,
+				},
+			},
+			maxWidth: {
+				type: 'object',
+				default: {
+					desktop: null,
+					tablet: null,
+					mobile: null,
 				},
 			},
 		};

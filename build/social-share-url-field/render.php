@@ -1,21 +1,11 @@
 <?php
-// PHP file to use when rendering the block type on the server to show on the front end.
-// The following variables are exposed to this file:
-
-// $attributes (array): The block attributes.
-// $content (string): The block default content.
-// $block (WP_Block): The block instance.
-
 $context = $block->context;
 
-$url = isset( $context['core/social-links/url'] ) ? $context['core/social-links/url'] : false;
-$url = ( false === $url && isset( $attributes['url'] ) ) ? $attributes['url'] : $url;
-// If after all that there is no url then try to fetch the short link.
+// Check context for the url.
+$url = array_key_exists( 'core/socialLinksUrl', $context ) ? $context['core/socialLinksUrl'] : '';
+// If after all that there is no url then try to fetch the short link for the current post id.
 if ( ! $url && isset( $context['postId'] ) ) {
 	$url = wp_get_shortlink( $context['postId'] );
-}
-if ( ! $url ) {
-	$url = get_permalink( $context['postId'] );
 }
 
 $state = wp_interactivity_state(

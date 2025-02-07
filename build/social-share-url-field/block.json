@@ -11,11 +11,7 @@
   "allowedBlocks": [
     "prc-block/form-input-text"
   ],
-  "attributes": {
-    "url": {
-      "type": "string"
-    }
-  },
+  "attributes": {},
   "supports": {
     "anchor": false,
     "html": false,
@@ -41,9 +37,9 @@
   ],
   "usesContext": [
     "postId",
-    "core/social-links/title",
-    "core/social-links/description",
-    "core/social-links/url"
+    "core/socialLinksTitle",
+    "core/socialLinksDescription",
+    "core/socialLinksUrl"
   ],
   "textdomain": "social-share-url-field",
   "editorScript": "file:./index.js",

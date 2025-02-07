@@ -31,7 +31,11 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const { dialogType } = attributes;
+	// add dialog id attribute to the block
+	const { dialogType, dialogId } = attributes;
+	if (!dialogId) {
+		setAttributes({ dialogId: clientId });
+	}
 	// Set up a ref so that we can query for the dialog element and memoize it.
 	const ref = useRef(null);
 	const dialogElm = useMemo(() => {

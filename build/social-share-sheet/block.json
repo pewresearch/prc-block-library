@@ -15,16 +15,19 @@
     "label": {
       "type": "string",
       "default": "Share"
+    },
+    "url": {
+      "type": "string",
+      "default": ""
     }
   },
   "usesContext": [
     "postId",
     "queryId",
-    "core/social-links/title",
-    "core/social-links/title",
-    "core/social-links/url",
-    "core/social-links/imageId",
-    "core/social-links/hashtags"
+    "core/socialLinksTitle",
+    "core/socialLinksUrl",
+    "core/socialLinksImageId",
+    "core/socialLinksHashtags"
   ],
   "parent": [
     "core/social-links"

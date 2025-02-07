@@ -4,8 +4,8 @@
 $current_device = \PRC\Platform\get_current_device();
 
 $block_namespace = 'prc-block/dialog';
-// Instead of using wp_unique_id which can change depending on the number of blocks on a page, this gives us a unique but predictable id.
-$block_id = md5( wp_json_encode( $block ) );
+
+$block_id = array_key_exists( 'dialogId', $attributes ) ? $attributes['dialogId'] : null;
 
 $auto_activation_timer = array_key_exists( 'autoActivationTimer', $attributes ) ? $attributes['autoActivationTimer'] : -1;
 
@@ -18,12 +18,17 @@ $widths = array_key_exists( 'widths', $attributes ) ? $attributes['widths'] : ar
 
 $animation_duration = array_key_exists( 'animationDuration', $attributes ) ? $attributes['animationDuration'] : 500;
 
+if ( ! $block_id ) {
+	return;
+}
+
 // Why not use context here? Because I want to be able to easily close and open this dialog from other namespaces. By using state this is as easy as `store('prc-block/dialog').state[blockId].isOpen = true;` which would open the dialog given the blockId.
 wp_interactivity_state(
 	$block_namespace,
 	array(
 		'currentDevice' => $current_device,
 		$block_id       => array(
+			'id'                      => $block_id,
 			'type'                    => $dialog_type,
 			'activationTimerDuration' => (int) $auto_activation_timer,
 			'animationDuration'       => (int) $animation_duration,
@@ -37,11 +42,7 @@ wp_interactivity_state(
 );
 
 $block_wrapper_attrs = array(
-	'data-wp-interactive'              => wp_json_encode(
-		array(
-			'namespace' => $block_namespace,
-		)
-	),
+	'data-wp-interactive'              => $block_namespace,
 	'data-wp-context'                  => wp_json_encode(
 		array(
 			'id' => $block_id,

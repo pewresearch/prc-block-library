@@ -11,9 +11,10 @@ namespace PRC\Platform\Blocks\Dialog;
  * }
  */
 function create_dialog( $args = array() ) {
-	$args = wp_parse_args(
+	$args      = wp_parse_args(
 		$args,
 		array(
+			'id'                    => null,
 			'content'               => '',
 			'trigger'               => '',
 			'dialogAttributes'      => array(
@@ -36,9 +37,10 @@ function create_dialog( $args = array() ) {
 			'disengageClickHandler' => false,
 		)
 	);
+	$dialog_id = $args['id'] ?? md5( wp_json_encode( $args ) );
 	ob_start();
 	?>
-<!-- wp:prc-block/dialog {"className":"is-style-standard"} -->
+<!-- wp:prc-block/dialog {"className":"is-style-standard", "dialogId": "<?php echo $dialog_id; ?>"} -->
 <!-- wp:prc-block/dialog-trigger {"disengageClickHandler": "<?php echo $args['disengageClickHandler']; ?>"} -->
 	<?php echo $args['trigger']; ?>
 <!-- /wp:prc-block/dialog-trigger -->

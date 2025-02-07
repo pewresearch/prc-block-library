@@ -21,6 +21,10 @@
     "enableAutoPlay": {
       "type": "boolean",
       "default": false
+    },
+    "autoPlayInterval": {
+      "type": "number",
+      "default": 3000
     }
   },
   "supports": {

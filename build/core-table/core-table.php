@@ -33,6 +33,24 @@ class Core_Table {
 		}
 	}
 
+	public function register_new_styles() {
+		ob_start();
+		?>
+		.wp-block-table > tbody > td {
+			background: inherit;
+		}
+		<?php
+		$style = normalize_whitespace( ob_get_clean() );
+		register_block_style(
+			'core/table',
+			array(
+				'name'         => 'plain-table',
+				'label'        => 'Plain Table',
+				'inline_style' => $style,
+			)
+		);
+	}
+
 	/**
 	 * @hook init
 	 * @return void
@@ -41,6 +59,7 @@ class Core_Table {
 		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
 		$this->style_handle         = register_block_style_handle( $this->block_json, 'style' );
 		$this->view_script_handle   = register_block_script_handle( $this->block_json, 'viewScript' );
+		$this->register_new_styles();
 	}
 
 	/**

@@ -52,6 +52,7 @@ function EditComponent({ attributes, clientId, setAttributes }) {
 	const blockProps = useBlockProps();
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
+		template: [['core/paragraph', { placeholder: 'Tab Content' }]],
 		renderAppender: hasChildBlocks
 			? undefined
 			: InnerBlocks.ButtonBlockAppender,

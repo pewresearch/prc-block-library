@@ -107,7 +107,7 @@ class Core_Details {
 			array(
 				'name'         => 'pew-knight-co-branded',
 				'label'        => 'Knight Co-Branded',
-				'inline_style' => wp_sprintf( '.wp-block-details.is-style-pew-knight-co-branded > summary:before { display: flex; background-image: url(%s); width: 183px; height: 35px; content: ""; background-repeat: no-repeat; background-size: contain; background-position: center;} .wp-block-details.is-style-pew-knight-co-branded > summary:after { background-position: right; width: 100%% !important; } .wp-block-details.is-style-pew-knight-co-branded > summary { text-indent: -9999px; }', 'https://prc-platform.vipdev.lndo.site/wp/wp-content/plugins/prc-block-library/assets/pew-knight-logo.svg' ) . self::get_new_icon_styles( 'pew-knight-co-branded' ),
+				'inline_style' => wp_sprintf( '.wp-block-details.is-style-pew-knight-co-branded > summary:before { display: flex; background-image: url(%s); width: 183px; height: 35px; content: ""; background-repeat: no-repeat; background-size: contain; background-position: center;} .wp-block-details.is-style-pew-knight-co-branded > summary:after { background-position: right; width: 100%% !important; } .wp-block-details.is-style-pew-knight-co-branded > summary { text-indent: -9999px; }', 'https://pewresearch.org/wp-content/plugins/prc-block-library/assets/pew-knight-logo.svg' ) . self::get_new_icon_styles( 'pew-knight-co-branded' ),
 			)
 		);
 	}

@@ -6,16 +6,61 @@
  */
 
 .wp-block-prc-block-timeline {
-	--height: 20px;
+	--height: 4px;
+	--thumb-size: 16px;
+	--tick-height: 8px;
 	color: inherit;
 	background: inherit;
 
 	input[type="range"] {
-		width: 100%;
-		margin: 20px 0;
-		height: var(--height);
-		background: #d3d3d3;
+		width: calc(100% - var(--thumb-size));
+		margin: var(--thumb-size) 0;
+		height: var(--thumb-size);
+		background: transparent;
 		outline: none;
+		-webkit-appearance: none;
+		appearance: none;
+		position: relative;
+
+		&::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 50%;
+			height: var(--height);
+			background: #d3d3d3;
+			transform: translateY(-50%);
+			pointer-events: none;
+		}
+
+		&::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			width: var(--thumb-size);
+			height: var(--thumb-size);
+			background: var(--wp--preset--color--primary, #000);
+			cursor: pointer;
+			border-radius: 50%;
+			position: relative;
+			z-index: 2;
+		}
+
+		&::-moz-range-thumb {
+			width: var(--thumb-size);
+			height: var(--thumb-size);
+			background: var(--wp--preset--color--primary, #000);
+			cursor: pointer;
+			border-radius: 50%;
+			border: none;
+			position: relative;
+			z-index: 2;
+		}
+
+		&::-moz-range-track {
+			height: var(--height);
+			background: #d3d3d3;
+		}
 	}
 
 	.ticks {
@@ -25,21 +70,174 @@
 		align-items: center;
 		list-style-type: none;
 		padding: 0;
+		margin-left: 1.8em;
 		font-size: 12px;
+		font-family: var(--wp--preset--font-family--sans-serif);
+		width: calc(100% - 1.8em);
+
 		.tick {
 			color: #555;
+			position: absolute;
+			flex: 0;
+
+			left: var(--tick-position, 0%);
+			transform: translateX(-50%);
+
+			&:first-child {
+				left: 0;
+				span {
+					left: 0;
+				}
+			}
+
+			&:last-child {
+				left: 100%;
+				span {
+					left: 0;
+				}
+			}
+
+			&::before {
+				content: '';
+				position: absolute;
+				top: -12px;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 2px;
+				height: var(--tick-height);
+				background: #555;
+			}
+
 			span {
 				font-size: 0.8em;
 				position: absolute;
-				transform: translateX(-50%) rotate(-45deg);
-				width: fit-content;
+				width: max-content;
+				top: 4px;
+				transform: translateX(-50%);
+				left: 50%;
 			}
 		}
 	}
 
-	// make it so that only the first, last, and middle elements are visible, the rest should still exist and be clickable but have no text in them...
+	.timeline-controls {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		button {
+			order: 1;
+			appearance: none;
+			border: none;
+			background: none;
+			padding: 0;
+			margin: 0;
+			font-size: 0.8em;
+			cursor: pointer;
+			&:hover {
+				color: var(--wp--preset--color--primary);
+			}
+			&:not(.is-playing) i.icon__pause {
+				display: none;
+			}
+			&.is-playing i.icon__play {
+				display: none;
+			}
+		}
+		input {
+			order: 2;
+		}
+	}
+
 	.tick:not(:first-child):not(:last-child):not(:nth-child(3n)) {
-		display: none;
+		span {
+			opacity: 0.5;
+			font-size: 0.7em;
+		}
+	}
+
+	// Hide every other tick when there are more than 10 ticks
+	&[data-tick-count="many"] {
+		.tick:not(:first-child):not(:last-child) {
+			&:nth-child(even) {
+				opacity: 0;
+				pointer-events: none;
+
+				&::before {
+					display: none;
+				}
+			}
+		}
+	}
+
+	// Visibility rules for different tick densities
+	&[data-tick-density="sparse"] {
+		// Default view - show all ticks
+		.tick {
+			opacity: 1;
+		}
+	}
+
+	&[data-tick-density="medium"] {
+		// Show every 3rd tick
+		.tick:not(:first-child):not(:last-child) {
+			&:not(:nth-child(3n)) {
+				opacity: 0;
+				pointer-events: none;
+
+				&::before {
+					display: none;
+				}
+
+				span {
+					display: none;
+				}
+			}
+		}
+	}
+
+	&[data-tick-density="dense"] {
+		// Show only major intervals (every 5th tick)
+		.tick:not(:first-child):not(:last-child) {
+			&:not(:nth-child(5n)) {
+				opacity: 0;
+				pointer-events: none;
+
+				&::before {
+					display: none;
+				}
+
+				span {
+					display: none;
+				}
+			}
+		}
+	}
+
+	&[data-tick-density="very-dense"] {
+		// Show only major intervals (every 10th tick)
+		.tick:not(:first-child):not(:last-child) {
+			&:not(:nth-child(10n)) {
+				opacity: 0;
+				pointer-events: none;
+
+				&::before {
+					display: none;
+				}
+
+				span {
+					display: none;
+				}
+			}
+
+			// Make the visible ticks more prominent
+			&:nth-child(10n) {
+				&::before {
+					height: calc(var(--tick-height) * 1.5);
+				}
+				span {
+					font-weight: bold;
+				}
+			}
+		}
 	}
 }
 

@@ -176,6 +176,16 @@ class Core_Group {
 				),
 			);
 		}
+		if ( ! array_key_exists( 'maxWidth', $metadata['attributes'] ) ) {
+			$metadata['attributes']['maxWidth'] = array(
+				'type'    => 'object',
+				'default' => array(
+					'desktop' => null,
+					'tablet'  => null,
+					'mobile'  => null,
+				),
+			);
+		}
 		if ( ! array_key_exists( 'dividerColor', $metadata['attributes'] ) ) {
 			$metadata['attributes']['dividerColor'] = array(
 				'type' => 'string',
@@ -254,9 +264,11 @@ class Core_Group {
 		$has_divider_color              = array_key_exists( 'dividerColor', $block['attrs'] ) && ! empty( $block['attrs']['dividerColor'] );
 		$has_is_sticky_background_color = array_key_exists( 'isStuckBackground', $block['attrs'] ) && ! empty( $block['attrs']['isStuckBackground'] );
 		$has_is_sticky_text_color       = array_key_exists( 'isStuckText', $block['attrs'] ) && ! empty( $block['attrs']['isStuckText'] );
+		$max_width                      = array_key_exists( 'maxWidth', $block['attrs'] ) ? $block['attrs']['maxWidth'] : array();
 
 		$w = new WP_HTML_Tag_Processor( $block_content );
 		if ( $w->next_tag() ) {
+
 			if ( $is_sticky ) {
 				$w->set_attribute(
 					'data-wp-interactive',
@@ -299,6 +311,22 @@ class Core_Group {
 			if ( $has_divider_color ) {
 				$w->add_class( 'has-interior-divider' );
 				$w->add_class( 'has-' . $block['attrs']['dividerColor'] . '-interior-divider-color' );
+			}
+			if ( $max_width ) {
+				$w->add_class( 'has-max-width-constraint' );
+
+				$styles = array(
+					'--max-width__desktop: ' . $max_width['desktop'],
+					'--max-width__tablet: ' . $max_width['tablet'],
+					'--max-width__mobile: ' . $max_width['mobile'],
+				);
+				$styles = implode( ';', $styles );
+				// Add the styles to the style attribute, create if it doesnt exist, add to if it does.
+				$existing_styles = $w->get_attribute( 'style' );
+				if ( $existing_styles ) {
+					$styles = $existing_styles . $styles;
+				}
+				$w->set_attribute( 'style', $styles );
 			}
 		}
 

@@ -10,6 +10,8 @@
 
 namespace PRC\Platform\Blocks;
 
+$context_id = isset( $block->context['dialog/id'] ) ? $block->context['dialog/id'] : null;
+
 // Check for and apply our custom backdropColor class names.
 $color_css_classes        = array();
 $has_named_backdrop_color = array_key_exists( 'backdropColor', $attributes ) && ! empty( $attributes['backdropColor'] );
@@ -22,18 +24,14 @@ if ( $has_named_backdrop_color ) {
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
-		'id'                            => wp_unique_id( 'dialog-element-' ),
-		'class'                         => implode( ' ', $color_css_classes ),
-		'data-wp-interactive'           => wp_json_encode(
-			array(
-				'namespace' => 'prc-block/dialog',
-			)
-		),
-		'data-wp-bind--aria-labelledby' => 'state.id',
-		'data-wp-class--is-mobile'      => 'state.isMobile',
-		'data-wp-class--is-video'       => 'state.isVideo',
-		'data-wp-class--is-closing'     => 'state.isClosing',
-		'data-wp-on--click'             => 'callbacks.onBackdropClick',
+		'id'                        => wp_unique_id( 'dialog-element-' ),
+		'class'                     => implode( ' ', $color_css_classes ),
+		'aria-labelledby'           => $context_id,
+		'data-wp-interactive'       => 'prc-block/dialog',
+		'data-wp-class--is-mobile'  => 'state.isMobile',
+		'data-wp-class--is-video'   => 'state.isVideo',
+		'data-wp-class--is-closing' => 'state.isClosing',
+		'data-wp-on--click'         => 'callbacks.onBackdropClick',
 	)
 );
 

@@ -21,6 +21,9 @@ class Breadcrumbs {
 		}
 	}
 
+	public function generate_json_schema() {
+	}
+
 	/**
 	 * Render the block
 	 *
@@ -112,7 +115,11 @@ class Breadcrumbs {
 			$show_separator  = $index < count( $breadcrumbs ) - 1;
 			$child_crumbs    = $breadcrumb['crumbs'] ?? array();
 			$is_current_page = $breadcrumb['is_current_page'] ?? ( $show_current_page && count( $breadcrumbs ) - 1 === $index );
-			$inner_markup   .= $this->build_crumb_markup(
+			$crumb_visible   = $breadcrumb['visible'] ?? true;
+			if ( ! $crumb_visible ) {
+				continue;
+			}
+			$inner_markup .= $this->build_crumb_markup(
 				$breadcrumb['url'],
 				$breadcrumb['text'],
 				$attributes,

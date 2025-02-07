@@ -1260,6 +1260,10 @@ return array(
 			'popup'
 		),
 		'attributes' => array(
+			'dialogId' => array(
+				'type' => 'string',
+				'default' => ''
+			),
 			'dialogType' => array(
 				'type' => 'string',
 				'enum' => array(
@@ -1285,7 +1289,7 @@ return array(
 			)
 		),
 		'supports' => array(
-			'anchor' => true,
+			'anchor' => false,
 			'html' => false,
 			'align' => array(
 				'full',
@@ -1305,7 +1309,7 @@ return array(
 			'interactivity' => true
 		),
 		'providesContext' => array(
-			'dialog/id' => 'anchor',
+			'dialog/id' => 'dialogId',
 			'dialog/className' => 'className',
 			'dialog/widths' => 'widths',
 			'dialog/animationDuration' => 'animationDuration',
@@ -3945,16 +3949,19 @@ return array(
 			'label' => array(
 				'type' => 'string',
 				'default' => 'Share'
+			),
+			'url' => array(
+				'type' => 'string',
+				'default' => ''
 			)
 		),
 		'usesContext' => array(
 			'postId',
 			'queryId',
-			'core/social-links/title',
-			'core/social-links/title',
-			'core/social-links/url',
-			'core/social-links/imageId',
-			'core/social-links/hashtags'
+			'core/socialLinksTitle',
+			'core/socialLinksUrl',
+			'core/socialLinksImageId',
+			'core/socialLinksHashtags'
 		),
 		'parent' => array(
 			'core/social-links'
@@ -4038,9 +4045,7 @@ return array(
 			'prc-block/form-input-text'
 		),
 		'attributes' => array(
-			'url' => array(
-				'type' => 'string'
-			)
+			
 		),
 		'supports' => array(
 			'anchor' => false,
@@ -4067,9 +4072,9 @@ return array(
 		),
 		'usesContext' => array(
 			'postId',
-			'core/social-links/title',
-			'core/social-links/description',
-			'core/social-links/url'
+			'core/socialLinksTitle',
+			'core/socialLinksDescription',
+			'core/socialLinksUrl'
 		),
 		'textdomain' => 'social-share-url-field',
 		'editorScript' => 'file:./index.js',
@@ -5152,6 +5157,10 @@ return array(
 			'enableAutoPlay' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'autoPlayInterval' => array(
+				'type' => 'number',
+				'default' => 3000
 			)
 		),
 		'supports' => array(

@@ -39,12 +39,12 @@ const { actions, state } = store('prc-block/table-of-contents', {
 					const href = link.getAttribute('href');
 					// If the link is a hash link, we need to smooth scroll to the hash.
 					if (0 === href.indexOf('#')) {
-						e.preventDefault();
 						const target = document.getElementById(
 							href.replace('#', '')
 						);
 						if (target) {
 							target.scrollIntoView({ behavior: 'smooth' }, true);
+							console.log('smooth scroll to', href);
 							// Add the hash to the end of the URL.
 							window.history.pushState(null, null, href);
 						}
@@ -201,6 +201,7 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			console.log('scrollSmoothly::', key, target);
 			if (target) {
 				target.scrollIntoView({ behavior: 'smooth' }, true);
+				window.history.pushState(null, null, `#${key}`);
 			}
 		},
 		// Section Scroll

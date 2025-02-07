@@ -148,4 +148,20 @@ const { state, actions } = store('prc-block/tabs', {
 			context.activeTabIndex = tabIndex;
 		},
 	},
+	callbacks: {
+		focusActiveTabIndex: () => {
+			const context = getContext();
+			const { activeTabIndexQueryVar } = context;
+			if (false !== activeTabIndexQueryVar) {
+				console.log('focusActiveTabIndex...', context);
+				// find the a.prc-block-tabs__tab-label with a data-tab-hash attribute that matches activeTabIndexValue then scroll to it smoothly
+				const tabLabel = document.querySelector(
+					`a.prc-block-tabs__tab-label[data-tab-hash="${activeTabIndexQueryVar}"]`
+				);
+				if (tabLabel) {
+					tabLabel.scrollIntoView({ behavior: 'smooth' });
+				}
+			}
+		},
+	},
 });

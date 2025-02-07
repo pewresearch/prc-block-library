@@ -23,7 +23,22 @@ $altCardMargin: 1rem;
 /**
 * Responsive Group Blocks:
 */
-
+/**
+ * Max Width
+ */
+.wp-block-group.has-max-width-constraint {
+	max-width: var(--max-width__desktop, inherit) !important;
+}
+.wp-block-group.has-max-width-constraint {
+	@media only screen and (max-width:  #{ ($break-medium) }) {
+		max-width: var(--max-width__tablet, inherit) !important;
+	}
+}
+.wp-block-group.has-max-width-constraint {
+	@media only screen and (max-width:  #{ ($break-small) }) {
+		max-width: var(--max-width_mobile, inherit) !important;
+	}
+}
 /**
  * Hide On Mobile
  */

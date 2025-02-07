@@ -12,6 +12,10 @@
     "popup"
   ],
   "attributes": {
+    "dialogId": {
+      "type": "string",
+      "default": ""
+    },
     "dialogType": {
       "type": "string",
       "enum": [
@@ -37,7 +41,7 @@
     }
   },
   "supports": {
-    "anchor": true,
+    "anchor": false,
     "html": false,
     "align": [
       "full",
@@ -57,7 +61,7 @@
     "interactivity": true
   },
   "providesContext": {
-    "dialog/id": "anchor",
+    "dialog/id": "dialogId",
     "dialog/className": "className",
     "dialog/widths": "widths",
     "dialog/animationDuration": "animationDuration",

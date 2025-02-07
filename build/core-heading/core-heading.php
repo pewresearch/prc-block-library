@@ -198,7 +198,8 @@ class Core_Heading {
 		}
 		// If this has postId, then lets check the date and determine if its before 2022, if it is then we should add to context 'prcLegacyChapter' => true...
 		if ( array_key_exists( 'postId', $context ) && false === $this->legacy_heading_check_completed ) {
-			$post_date = get_the_date( 'Y-m-d H:i:s', $context['postId'] );
+			$post_date    = get_the_date( 'Y-m-d H:i:s', $context['postId'] );
+			$last_updated = get_the_modified_date( 'Y-m-d H:i:s', $context['postId'] );
 			// We set this to true so we don't run this check again.
 			$this->legacy_heading_check_completed = true;
 			if ( strtotime( $post_date ) < strtotime( '2022-01-01 00:00:00' ) ) {
@@ -260,7 +261,10 @@ class Core_Heading {
 		// @TODO: Update this to isSection in the future.
 		// If the current post is older than 2021 we should automatically set isChapter to true if its an h3...
 		if ( array_key_exists( 'prcLegacyChapter', $context ) && true == $context['prcLegacyChapter'] ) {
-			$attributes['isChapter'] = 'H3' === $heading_tag->get_tag();
+			// Only set isChapter if it hasn't been explicitly set already
+			if ( ! array_key_exists( 'isChapter', $attributes ) ) {
+				$attributes['isChapter'] = 'H3' === $heading_tag->get_tag();
+			}
 		}
 		if ( array_key_exists( 'isChapter', $attributes ) && true === $attributes['isChapter'] ) {
 			// If this is a chapter heading then some information like its ID and desired TOC label will be injected into prc-block/table-of-contents iAPI state.

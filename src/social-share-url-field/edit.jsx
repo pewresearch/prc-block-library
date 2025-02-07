@@ -25,8 +25,8 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
  */
 export default function Edit({ attributes, context }) {
 	const url = useMemo(() => {
-		if (context['core/social-links/url']) {
-			return context['core/social-links/url'];
+		if (context['core/socialLinksUrl']) {
+			return context['core/socialLinksUrl'];
 		}
 		if (attributes.url) {
 			return attributes.url;

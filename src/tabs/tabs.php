@@ -93,14 +93,16 @@ class Tabs {
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class'               => 'vertical' === $attributes['orientation'] ? 'is-orientation-vertical' : 'is-orientation-horizontal',
-				'data-wp-interactive' => 'prc-block/tabs',
-				'data-wp-context'     => wp_json_encode(
+				'class'                                => 'vertical' === $attributes['orientation'] ? 'is-orientation-vertical' : 'is-orientation-horizontal',
+				'data-wp-interactive'                  => 'prc-block/tabs',
+				'data-wp-context'                      => wp_json_encode(
 					array(
-						'activeTabIndex' => $active_tab_index,
+						'activeTabIndex'         => $active_tab_index,
+						'activeTabIndexQueryVar' => get_query_var( 'activeTabIndex', false ),
 					)
 				),
-				'style'               => $styles,
+				'style'                                => $styles,
+				'data-wp-init--focus-active-tab-index' => 'callbacks.focusActiveTabIndex',
 			)
 		);
 

@@ -20,8 +20,25 @@ class Dialog {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_filter( 'render_block_data', $this, 'dialog_id_fallback', 100, 2 );
 			$loader->add_filter( 'query_vars', $this, 'add_dialog_id_query_var' );
 		}
+	}
+
+	/**
+	 * Fallback to dialogID if not set by the block
+	 *
+	 * @hook render_block_data
+	 * @param mixed $parsed_block
+	 * @param mixed $source_block
+	 * @param mixed $parent_block
+	 * @return mixed
+	 */
+	public function dialog_id_fallback( $block, $source_block ) {
+		if ( 'prc-block/dialog' === $block['blockName'] && ( ! isset( $block['attrs']['dialogId'] ) || ! empty( $block['attrs']['dialogId'] ) ) ) {
+			$block['attrs']['dialogId'] = md5( wp_json_encode( $block ) );
+		}
+		return $block;
 	}
 
 	/**
@@ -34,7 +51,7 @@ class Dialog {
 
 	public function block_init() {
 		register_block_type_from_metadata(
-			PRC_BLOCK_LIBRARY_DIR . '/build/dialog',
+			PRC_BLOCK_LIBRARY_DIR . '/build/dialog'
 		);
 	}
 }

@@ -1,4 +1,4 @@
-.wp-block-table {
+.wp-block-table:not(.is-style-plain-table) {
 	color: black !important;
 	background: inherit;
 
