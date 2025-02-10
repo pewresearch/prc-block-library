@@ -90,9 +90,7 @@ class Report_Materials {
 		$report_package = new \PRC\Platform\Post_Report_Package( null, null );
 		$materials      = $report_package->get_report_materials( $post_id );
 		if ( is_string( $materials ) && ! empty( $materials ) ) {
-			do_action( 'qm/debug', 'MATERIALS IS STRING' . $materials );
 			$materials = json_decode( $materials, true );
-			do_action( 'qm/debug', 'MATERIALS:' . print_r( $materials, true ) );
 		}
 
 		if ( empty( $materials ) ) {

@@ -3,12 +3,14 @@
  */
 import { store, getContext } from '@wordpress/interactivity';
 
-store('prc-block/social-share-sheet', {
-	state: {},
+const { state } = store('prc-block/social-share-sheet', {
+	state: {
+		enabled: false,
+	},
 	actions: {
 		onClick: (event) => {
 			const context = getContext();
-			if (true === context.enabled) {
+			if (true === state.enabled) {
 				event.preventDefault();
 				window.navigator.share({
 					title: context?.title,
@@ -20,13 +22,11 @@ store('prc-block/social-share-sheet', {
 	},
 	callbacks: {
 		detectWebShareSupport: () => {
-			const context = getContext();
 			if (window.navigator.share === undefined) {
-				context.enabled = false;
+				state.enabled = false;
 			} else {
-				context.enabled = true;
+				state.enabled = true;
 			}
-			console.log('detect#WebShareSupport', context);
 		},
 	},
 });

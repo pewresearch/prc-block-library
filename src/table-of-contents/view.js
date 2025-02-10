@@ -192,13 +192,12 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		 * @param {*} event
 		 */
 		scrollSmoothly: (event) => {
-			console.log('scrollSmoothly::', state, event);
 			const context = getContext();
 			const { section } = context;
 			const { key } = section;
 			event.preventDefault();
 			const target = document.getElementById(key);
-			console.log('scrollSmoothly::', key, target);
+
 			if (target) {
 				target.scrollIntoView({ behavior: 'smooth' }, true);
 				window.history.pushState(null, null, `#${key}`);

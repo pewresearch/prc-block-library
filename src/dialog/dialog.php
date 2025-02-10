@@ -35,8 +35,11 @@ class Dialog {
 	 * @return mixed
 	 */
 	public function dialog_id_fallback( $block, $source_block ) {
-		if ( 'prc-block/dialog' === $block['blockName'] && ( ! isset( $block['attrs']['dialogId'] ) || ! empty( $block['attrs']['dialogId'] ) ) ) {
-			$block['attrs']['dialogId'] = md5( wp_json_encode( $block ) );
+		if ( 'prc-block/dialog' === $block['blockName'] ) {
+			if ( ! isset( $block['attrs']['dialogId'] ) || empty( $block['attrs']['dialogId'] ) ) {
+				do_action( 'qm/debug', 'Dialog ID fallback' . print_r( $block['attrs'], true ) );
+				$block['attrs']['dialogId'] = md5( wp_json_encode( $block ) );
+			}
 		}
 		return $block;
 	}

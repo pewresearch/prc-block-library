@@ -192,7 +192,6 @@ class Table_Of_Contents {
 		);
 		ob_start();
 		if ( ! $parts_enabled ) {
-			do_action( 'qm/debug', 'Standard TOC' );
 			// If there are no parts then we're just going to display the chapters. So we're going to start the structure at `chapter`
 			?>
 			<template data-wp-each--chapter="state.items">
@@ -206,7 +205,6 @@ class Table_Of_Contents {
 			</template>
 			<?php
 		} else {
-			do_action( 'qm/debug', 'Parts TOC' );
 			// This has parts, so we're going to start the structure at `part`
 			?>
 		<template data-wp-each--part="state.items">

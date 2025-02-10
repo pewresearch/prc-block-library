@@ -1280,6 +1280,10 @@ return array(
 				'type' => 'number',
 				'default' => -1
 			),
+			'enableDeepLink' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
 			'widths' => array(
 				'type' => 'object',
 				'default' => array(
@@ -1314,7 +1318,8 @@ return array(
 			'dialog/widths' => 'widths',
 			'dialog/animationDuration' => 'animationDuration',
 			'dialog/type' => 'dialogType',
-			'dialog/autoActivationTimer' => 'autoActivationTimer'
+			'dialog/autoActivationTimer' => 'autoActivationTimer',
+			'dialog/enableDeepLink' => 'enableDeepLink'
 		),
 		'textdomain' => 'dialog',
 		'editorScript' => 'file:./index.js',
@@ -3960,6 +3965,7 @@ return array(
 			'queryId',
 			'core/socialLinksTitle',
 			'core/socialLinksUrl',
+			'core/socialLinksDescription',
 			'core/socialLinksImageId',
 			'core/socialLinksHashtags'
 		),

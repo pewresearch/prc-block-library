@@ -26,6 +26,7 @@
     "queryId",
     "core/socialLinksTitle",
     "core/socialLinksUrl",
+    "core/socialLinksDescription",
     "core/socialLinksImageId",
     "core/socialLinksHashtags"
   ],

@@ -14,14 +14,17 @@ const { VideoPressIframeApi } = window;
 function addDialogIdToUrl(id) {
 	const url = new URL(window.location.href);
 	url.searchParams.set('dialogId', id);
-	window.history.pushState({}, '', url);
+	// Update the URL without adding to history
+	window.history.replaceState({}, '', url);
 }
 
 function removeDialogIdFromUrl() {
 	const url = new URL(window.location.href);
 	url.searchParams.delete('dialogId');
-	window.history.pushState({}, '', url);
+	// Update the URL without adding to history
+	window.history.replaceState({}, '', url);
 }
+
 
 const { actions, state } = store('prc-block/dialog', {
 	state: {
@@ -59,6 +62,10 @@ const { actions, state } = store('prc-block/dialog', {
 		},
 		get isMobile() {
 			return 'mobile' === state.currentDevice;
+		},
+		get enableDeepLink() {
+			const { id } = getContext();
+			return state[id].enableDeepLink;
 		},
 		// VideoPress Functionality (non-core)
 		get isVideo() {
@@ -195,7 +202,7 @@ const { actions, state } = store('prc-block/dialog', {
 			);
 			const dialogId = dialog?.getAttribute('id');
 			state[id].dialogElemId = dialogId;
-			console.log('OnInit', state);
+			console.log('onInitIdentifyDialogElem', state);
 		},
 		onESCKey: (event) => {
 			const { id, isOpen } = state;
@@ -207,7 +214,7 @@ const { actions, state } = store('prc-block/dialog', {
 			}
 		},
 		onOpen: () => {
-			const { dialogElement, isOpen, id, type } = state;
+			const { dialogElement, isOpen, id, type, enableDeepLink } = state;
 			// Sanity check, if we don't have an id or dialogElement then we can't proceed.
 			if (!id || !dialogElement) {
 				return;
@@ -216,7 +223,10 @@ const { actions, state } = store('prc-block/dialog', {
 			if (!isOpen) {
 				return;
 			}
-			addDialogIdToUrl(id);
+			if (enableDeepLink) {
+				addDialogIdToUrl(id);
+			}
+			state[id].isOpen = true;
 			if ('modal' === type) {
 				dialogElement.showModal();
 			} else {
@@ -245,14 +255,14 @@ const { actions, state } = store('prc-block/dialog', {
 			setTimeout(
 				withScope(() => {
 					dialogElement.close();
-					removeDialogIdFromUrl(id);
-					// Fire off a custom event like prc-block-dialog-closed to let other blocks know the dialog has closed.
+					removeDialogIdFromUrl(id); // We always clean the dialog id regardless of whether deep linking is enabled or not.
+					// Fire off a custom event to let other blocks know the dialog has closed, it's explicit and only runs when a user closes the dialog.
 					const event = new CustomEvent('prc-block-dialog-closed', {
 						detail: { id },
 					});
-					console.log('I have fired the event', event);
 					document.dispatchEvent(event);
 					state[id].isClosing = false;
+					state[id].isOpen = false;
 				}),
 				animationDuration
 			);
@@ -291,10 +301,14 @@ const { actions, state } = store('prc-block/dialog', {
 		},
 		onAutoActivation: () => {
 			const { id, activationTimerDuration } = state;
-			console.log('onAutoActivation', id, activationTimerDuration, state);
-			if (!id || !activationTimerDuration) {
+			if (
+				!id &&
+				!activationTimerDuration &&
+				-1 !== activationTimerDuration
+			) {
 				return;
 			}
+			console.log('onAutoActivation', id, activationTimerDuration, state);
 			if (1 <= activationTimerDuration) {
 				setTimeout(
 					withScope(() => {

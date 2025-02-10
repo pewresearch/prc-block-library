@@ -27,7 +27,7 @@ function create_dialog( $args = array() ) {
 						'bottom' => 'var:preset|spacing|30',
 						'left'   => 'var:preset|spacing|30',
 					),
-					'shadow'  => 'var:preset|shadow|deep',
+					'shadow'  => 'var:preset|shadow|shallow',
 					'border'  => array(
 						'radius' => '12px',
 						'width'  => '1px',

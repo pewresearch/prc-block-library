@@ -50,23 +50,6 @@ export default function Edit({
 	const { selectBlock, updateBlockAttributes } =
 		useDispatch(blockEditorStore);
 
-	/**
-	 * Block props for the timeline block.
-	 */
-	const blockProps = useBlockProps({
-		'data-tick-density': getTickDensity(ticks.length),
-	});
-	/**
-	 * Innerblocks props for the timeline content.
-	 */
-	const innerBlockProps = useInnerBlocksProps(
-		{},
-		{
-			__experimentalCaptureToolbars: true,
-			clientId,
-			orientation: 'horizontal',
-		}
-	);
 
 	const { maxSteps, ticks } = useSelect(
 		(select) => {
@@ -96,6 +79,28 @@ export default function Edit({
 			selectBlock(ticksClientIds[index], ticksClientIds, index);
 		},
 		[setAttributes, selectBlock, ticksClientIds]
+	);
+
+	const tickDensity = useMemo(() => {
+		return getTickDensity(ticks?.length);
+	}, [ticks]);
+
+	/**
+	 * Block props for the timeline block.
+	 */
+	const blockProps = useBlockProps({
+		'data-tick-density': tickDensity,
+	});
+	/**
+	 * Innerblocks props for the timeline content.
+	 */
+	const innerBlockProps = useInnerBlocksProps(
+		{},
+		{
+			__experimentalCaptureToolbars: true,
+			clientId,
+			orientation: 'horizontal',
+		}
 	);
 
 	/**

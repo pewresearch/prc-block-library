@@ -25,6 +25,10 @@
 			"type": "number",
 			"default": -1
 		},
+		"enableDeepLink": {
+			"type": "boolean",
+			"default": false
+		},
 		"widths": {
 			"type": "object",
 			"default": {
@@ -53,7 +57,8 @@
 		"dialog/widths": "widths",
 		"dialog/animationDuration": "animationDuration",
 		"dialog/type": "dialogType",
-		"dialog/autoActivationTimer": "autoActivationTimer"
+		"dialog/autoActivationTimer": "autoActivationTimer",
+		"dialog/enableDeepLink": "enableDeepLink"
 	},
 	"textdomain": "dialog",
 	"editorScript": "file:./index.js",

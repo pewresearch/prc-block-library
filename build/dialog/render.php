@@ -18,6 +18,8 @@ $widths = array_key_exists( 'widths', $attributes ) ? $attributes['widths'] : ar
 
 $animation_duration = array_key_exists( 'animationDuration', $attributes ) ? $attributes['animationDuration'] : 500;
 
+$enable_deep_link = array_key_exists( 'enableDeepLink', $attributes ) ? $attributes['enableDeepLink'] : false;
+
 if ( ! $block_id ) {
 	return;
 }
@@ -33,6 +35,7 @@ wp_interactivity_state(
 			'activationTimerDuration' => (int) $auto_activation_timer,
 			'animationDuration'       => (int) $animation_duration,
 			'isOpen'                  => get_query_var( 'dialogId' ) === $block_id,
+			'enableDeepLink'          => $enable_deep_link,
 			'isClosing'               => false,
 			'videoPressAPI'           => false,
 			'dialogElemId'            => null,

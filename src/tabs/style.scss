@@ -63,6 +63,22 @@
 		}
 	}
 
+	// A default tabbed style when no other style is applied.
+	// &:not(.is-style-underlined):not(.is-style-underlined-pills):not(.is-style-pills):not(.is-style-tabbed):not(.is-style-tabbed-outline) {
+	// 	.prc-block-tabs__list {
+	// 		border-bottom: 1px solid var(--custom-tab-active-color);
+	// 	}
+	// 	.prc-block-tabs__tab-label {
+	// 		border-radius: 0.5em 0.5em 0 0;
+	// 		&:hover {
+	// 			background-color: var(--custom-tab-hover-color);
+	// 		}
+	// 	}
+	// 	.prc-block-tabs__tab-label[aria-selected="true"] {
+	// 		background-color: var(--custom-tab-active-color);
+	// 	}
+	// }
+
 	&.is-style-tabbed {
 		.prc-block-tabs__list {
 			border-bottom: 1px solid var(--custom-tab-active-color);

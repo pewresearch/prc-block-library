@@ -171,20 +171,20 @@ class Core_Social_Links {
 		return $settings;
 	}
 
-	public function get_description_context_value( $description, $block ) {
-		// if description does not have %s in it then just return $description
-		if ( false === strpos( $description, '%s' ) ) {
-			return $description;
-		}
-		// Right now we only support "score" as a value, from the quiz results block.
-		$score = array_key_exists( 'prc-quiz/results/score', $block->context ) ? $block->context['prc-quiz/results/score'] : false;
+	// public function get_description_context_value( $description, $block ) {
+	// if description does not have %s in it then just return $description
+	// if ( false === strpos( $description, '%s' ) ) {
+	// return $description;
+	// }
+	// Right now we only support "score" as a value, from the quiz results block.
+	// $score = array_key_exists( 'prc-quiz/results/score', $block->context ) ? $block->context['prc-quiz/results/score'] : false;
 
-		if ( false === $score ) {
-			return $description;
-		}
+	// if ( false === $score ) {
+	// return $description;
+	// }
 
-		return sprintf( $description, $score );
-	}
+	// return sprintf( $description, $score );
+	// }
 
 	/**
 	 * Fallback to shortlink if no url is provided for social links.
@@ -197,7 +197,9 @@ class Core_Social_Links {
 	 */
 	public function social_links_url_fallback( $parsed_block ) {
 		if ( 'core/social-links' === $parsed_block['blockName'] ) {
-			$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
+			if ( ! isset( $parsed_block['attrs']['url'] ) || empty( $parsed_block['attrs']['url'] ) ) {
+				$parsed_block['attrs']['url'] = wp_get_shortlink( get_the_ID() );
+			}
 		}
 		return $parsed_block;
 	}
@@ -218,7 +220,17 @@ class Core_Social_Links {
 				'prc-block/social-share-url-field',
 			)
 		) ) {
-			$context['core/socialLinksUrl'] = wp_get_shortlink( get_the_ID() );
+			if ( ! isset( $context['core/socialLinksUrl'] ) || empty( $context['core/socialLinksUrl'] ) ) {
+				$context['core/socialLinksUrl'] = wp_get_shortlink( get_the_ID() );
+			}
+			// Check if description is set and if it isnt then lets set the context accoridngly...
+			if ( ! isset( $context['core/socialLinksDescription'] ) ) {
+				$context['core/socialLinksDescription'] = get_the_excerpt( get_the_ID() );
+			}
+			// Check if title is set and if it isnt then lets set the context accordingly...
+			if ( ! isset( $context['core/socialLinksTitle'] ) ) {
+				$context['core/socialLinksTitle'] = get_the_title( get_the_ID() );
+			}
 		}
 		return $context;
 	}
@@ -234,31 +246,16 @@ class Core_Social_Links {
 		if ( $this->child_block_name === $block['blockName'] && is_string( $block_content ) && ! is_admin() ) {
 			wp_enqueue_script( $this->view_script_handle );
 
-			$attributes = $block['attrs'];
-			$context    = $instance->context;
+			$context = $instance->context;
 
 			$tags = new WP_HTML_Tag_Processor( $block_content );
 			$tags->next_tag( 'li' );
 
-			$service = $attributes['service'];
-			// First, check for a url set on the block.
-			$url = isset( $attributes['url'] ) && ! empty( $attributes['url'] ) && '#' !== $attributes['url'] ? $attributes['url'] : false;
-			// Check context for the url.
-			$url = false === $url && isset( $context['core/socialLinksUrl'] ) && ! empty( $context['core/socialLinksUrl'] ) ? $context['core/socialLinksUrl'] : false;
-			// If after all that there is no url then try to fetch the short link for the current post id.
-			if ( ! $url && isset( $context['postId'] ) ) {
-				$url = wp_get_shortlink( $context['postId'] );
-			}
+			$url = isset( $context['core/socialLinksUrl'] ) ? $context['core/socialLinksUrl'] : false;
 
 			$title = isset( $context['core/socialLinksTitle'] ) ? $context['core/socialLinksTitle'] : null;
-			if ( ! $title && isset( $context['postId'] ) ) {
-				$title = get_the_title( $context['postId'] );
-			}
 
 			$description = isset( $context['core/socialLinksDescription'] ) ? $context['core/socialLinksDescription'] : null;
-			if ( ! $description && isset( $context['postId'] ) ) {
-				$description = get_the_excerpt( $context['postId'] );
-			}
 
 			if ( $url ) {
 				$tags->set_attribute( 'data-share-url', esc_url( $url ) );

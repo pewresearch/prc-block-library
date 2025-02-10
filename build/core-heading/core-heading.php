@@ -273,7 +273,8 @@ class Core_Heading {
 			if ( ! in_array( $id, $sections_found, true ) ) {
 				if ( preg_match( '/<h[2-4][^>]*>(.*?)<\/h[2-4]>/', $block_content, $matches ) ) {
 					// Check for altTocText and use it as the label instead of the heading text if present.
-					$sections_found[ $id ] = ! empty( $attributes['altTocText'] ) ? $attributes['altTocText'] : $matches[1];
+					$section_label         = ! empty( $attributes['altTocText'] ) ? $attributes['altTocText'] : $matches[1];
+					$sections_found[ $id ] = strip_tags( $section_label );
 				}
 			}
 			$state['sectionsFound'] = $sections_found;
