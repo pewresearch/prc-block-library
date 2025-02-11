@@ -32,11 +32,11 @@ class Fact_Sheet_Collection {
 	}
 
 	public function get_collection_term_post_link( $term_id ) {
-		$related_collection = \TDS\get_related_post( $term_id, 'collection' );
-		if ( ! $related_collection ) {
-			return false;
+		$matched_post_id = get_term_meta( $term_id, 'tds_post_id', true );
+		if ( $matched_post_id ) {
+			return get_permalink( $matched_post_id );
 		}
-		return get_permalink( $related_collection->ID );
+		return false;
 	}
 
 	public function get_languages() {
@@ -153,7 +153,7 @@ class Fact_Sheet_Collection {
 					return;
 				}
 				$english_link = $this->get_english_language_link( $child_term->term_id );
-				$link         = $english_link ? $english_link : $this->get_collection_term_post_link( $child_term->term_id, self::$taxonomy );
+				$link         = $english_link ? $english_link : $this->get_collection_term_post_link( $child_term->term_id );
 				$child_term   = array(
 					'term_id' => $child_term->term_id,
 					'name'    => $child_term->name,
@@ -192,6 +192,7 @@ class Fact_Sheet_Collection {
 		if ( ! $collection ) {
 			return;
 		}
+		do_action( 'qm/debug', 'Collection:' . print_r( $collection, true ) );
 		$collection_term    = $collection['collection_term'];
 		$parent_term        = $collection['parent_term'];
 		$child_terms        = $collection['child_terms'];
@@ -250,17 +251,23 @@ class Fact_Sheet_Collection {
 
 		$block_wrapper_attrs = get_block_wrapper_attributes();
 
+		$disable_heading = array_key_exists( 'disableHeading', $attributes ) ? $attributes['disableHeading'] : false;
+
 		return wp_sprintf(
-			'<div %1$s><div class="wp-block-prc-block-fact-sheet-collection--parent-term"><a href="%6$s">%2$s</a></div>%5$s<div class="wp-block-prc-block-fact-sheet-collection--term-list">%3$s</div>%4$s</div>',
+			'<div %1$s>%2$s%3$s<div class="wp-block-prc-block-fact-sheet-collection--term-list">%4$s</div>%5$s</div>',
 			$block_wrapper_attrs,
-			! is_wp_error( $collection['collection_name'] ) ? $collection['collection_name'] : '',
-			implode( '', $collection['terms'] ),
-			$pdf,
+			$disable_heading ? '' : wp_sprintf(
+				'<div class="wp-block-prc-block-fact-sheet-collection--parent-term"><a href="%1$s">%2$s</a></div>',
+				! is_wp_error( $collection['collection_link'] ) ? $collection['collection_link'] : '',
+				! is_wp_error( $collection['collection_name'] ) ? $collection['collection_name'] : '',
+			),
 			! empty( $collection['alt_languages'] ) ? wp_sprintf(
 				'<div class="wp-block-prc-block-fact-sheet-collection--alt-languages">%1$s</div>',
 				implode( '', $collection['alt_languages'] ),
 			) : '',
-			! is_wp_error( $collection['collection_link'] ) ? $collection['collection_link'] : '',
+			implode( '', $collection['terms'] ),
+			$pdf,
+
 		);
 	}
 

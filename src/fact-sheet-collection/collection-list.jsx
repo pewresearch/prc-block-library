@@ -17,7 +17,7 @@ import { useSelect } from '@wordpress/data';
  */
 import useCollectionTerms from './use-collection-terms';
 
-export default function CollectionList({ clientId }) {
+export default function CollectionList({ clientId, disableHeading }) {
 	const termIds = useSelect(
 		(select) => {
 			const { getEditedPostAttribute } = select('core/editor');
@@ -46,9 +46,11 @@ export default function CollectionList({ clientId }) {
 			)}
 			{!isResolving && (
 				<Fragment>
-					<div className="wp-block-prc-block-fact-sheet-collection--parent-term">
-						{`${parentTerm?.name}`}
-					</div>
+					{!disableHeading && (
+						<div className="wp-block-prc-block-fact-sheet-collection--parent-term">
+							{`${parentTerm?.name}`}
+						</div>
+					)}
 					{altLanguagePosts?.length > 0 && (
 						<div className="wp-block-prc-block-fact-sheet-collection--alt-languages">
 							{altLanguagePosts?.map((post) => (

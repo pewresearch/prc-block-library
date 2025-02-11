@@ -1498,8 +1498,9 @@ return array(
 			'pdf' => array(
 				'type' => 'object'
 			),
-			'altPostLabel' => array(
-				'type' => 'string'
+			'disableHeading' => array(
+				'type' => 'boolean',
+				'default' => false
 			),
 			'style' => array(
 				'type' => 'object',

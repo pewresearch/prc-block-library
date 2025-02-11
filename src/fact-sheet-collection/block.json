@@ -10,8 +10,9 @@
 		"pdf" : {
 			"type": "object"
 		},
-		"altPostLabel": {
-			"type": "string"
+		"disableHeading": {
+			"type": "boolean",
+			"default": false
 		},
 		"style": {
 			"type": "object",
