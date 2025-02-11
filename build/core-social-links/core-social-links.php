@@ -220,18 +220,40 @@ class Core_Social_Links {
 				'prc-block/social-share-url-field',
 			)
 		) ) {
+			if ( ! isset( $context['postId'] ) ) {
+				return $context;
+			}
+			$post_obj = false;
+			// Save for shortlinks, we handle these values primitively for efficiency and speed.
 			if ( ! isset( $context['core/socialLinksUrl'] ) || empty( $context['core/socialLinksUrl'] ) ) {
-				$context['core/socialLinksUrl'] = wp_get_shortlink( get_the_ID() );
+				$context['core/socialLinksUrl'] = wp_get_shortlink( $context['postId'] );
+			}
+			if ( ! isset( $context['core/socialLinksDescription'] ) || ! isset( $context['core/socialLinksTitle'] ) ) {
+				if ( isset( $context['postId'] ) ) {
+					$post_obj = get_post( $context['postId'] );
+				}
 			}
 			// Check if description is set and if it isnt then lets set the context accoridngly...
 			if ( ! isset( $context['core/socialLinksDescription'] ) ) {
-				$context['core/socialLinksDescription'] = get_the_excerpt( get_the_ID() );
+				// Get the excerpt directly from the post object, do not try to auto-generate it.
+				if ( $post_obj ) {
+					$excerpt = $post_obj->post_excerpt;
+					if ( ! empty( $excerpt ) ) {
+						$context['core/socialLinksDescription'] = $excerpt;
+					}
+				}
 			}
 			// Check if title is set and if it isnt then lets set the context accordingly...
 			if ( ! isset( $context['core/socialLinksTitle'] ) ) {
-				$context['core/socialLinksTitle'] = get_the_title( get_the_ID() );
+				if ( $post_obj ) {
+					$title = $post_obj->post_title;
+					if ( ! empty( $title ) ) {
+						$context['core/socialLinksTitle'] = apply_filters( 'the_title', $title );
+					}
+				}
 			}
 		}
+
 		return $context;
 	}
 

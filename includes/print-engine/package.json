@@ -12,6 +12,6 @@
 		"start": "wp-scripts start src/index.js src/controls.js"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^25.2.0"
+		"@wordpress/scripts": "^30.10.0"
 	}
 }
