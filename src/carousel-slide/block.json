@@ -2,14 +2,11 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "prc-block/carousel-slide",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"title": "Carousel Slide",
 	"description": "A slide for use in the carousel block.",
 	"category": "design",
 	"attributes": {
-		"allowedBlocks": {
-			"type": "array"
-		},
 		"orientation": {
 			"type": "string",
 			"default": "vertical"
@@ -25,19 +22,30 @@
 			"link": true,
 			"text": true
 		},
+		"layout": {
+			"default": {
+				"type": "flex",
+				"orientation": "horizontal"
+			},
+			"allowOrientation": false,
+			"allowVerticalAlignment": true,
+			"allowJustification": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
 			"__experimentalFontFamily": true
+		},
+		"shadow": true,
+		"interactivity": true,
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true
 		}
 	},
-	"parent": [ "prc-block/carousel" ],
-	"styles": [
-		{
-			"name": "box-shadow",
-			"label": "Box Shadow"
-		}
-	],
+	"parent": [ "prc-block/carousel-controller" ],
 	"textdomain": "carousel-slide",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",

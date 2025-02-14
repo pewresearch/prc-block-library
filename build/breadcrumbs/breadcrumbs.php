@@ -150,6 +150,7 @@ class Breadcrumbs {
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
+				'id'         => 'breadcrumbs',
 				'class'      => $classnames,
 				'aria-label' => __( 'Breadcrumbs' ),
 				'style'      => '--breadcrumbs-gap: ' . $block_gap . ';',

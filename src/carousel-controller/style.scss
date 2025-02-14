@@ -1,42 +1,155 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
-// We need to use intersection scroll observer to apply this is-style-snap-groups active and not active
-body.carousel-locked {
-	overflow-y: hidden;
-}
-
-.wp-block-prc-block-carousel-controller:not(.wp-block) {
-	padding: 0;
+.wp-block-prc-block-carousel-controller {
+	position: relative;
 	width: 100%;
-	// min-height: 50vh;
-	&.alignwide {
-		--max-width: 1000px;
-		--gutter: calc(var(--max-width) - 640px);
-		--offset-calc: calc(var(--gutter) / 2);
-		margin-left: calc(-1 * var(--offset-calc)) !important;
-		margin-right: calc(-1 * var(--offset-calc)) !important;
-		max-width: var(--max-width) !important;
-		width: 100vw;
-	}
-	&:not(.is-style-horizontal),
-	&.alignfull {
-		max-width: 100%!important;
-	}
-}
+	min-height: 400px;
+	overflow: hidden;
+	display: flex;
+	gap: 1rem;
+	flex-direction: column;
 
-.wp-block-cover {
-	.wp-block-prc-block-carousel-controller:not(.wp-block) {
-		&:not(.is-style-horizontal) {
-			height: 100vh;
+	&:not(.is-enabled) {
+		pointer-events: none;
+		opacity: 0.5;
+		.prc-block-carousel-controller__track {
+			overflow: hidden;
 		}
-		max-width: 100%!important;
+	}
+
+	.prc-block-carousel-controller__track {
+		width: 100%;
+		display: flex;
+		flex-grow: 1;
+		scroll-snap-type: x mandatory;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch; // For iOS momentum scrolling
+		scrollbar-width: none; // Hide scrollbar in Firefox
+		-ms-overflow-style: none; // Hide scrollbar in IE/Edge
+		&::-webkit-scrollbar {
+			display: none; // Hide scrollbar in Chrome/Safari
+		}
+
+		.wp-block-prc-block-carousel-slide {
+			scroll-snap-align: start;
+			scroll-snap-stop: always;
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			flex-shrink: 0;
+			flex-basis: 100%;
+			// align-items: center;
+			// justify-content: center;
+			width: 100%;
+			height: auto;
+			min-height: 100%;
+			max-width: 100%;
+			overflow: hidden;
+		}
+	}
+
+	// Vertical orientation styles
+	&.is-style-vertical {
+		flex-direction: row;
+		.prc-block-carousel-controller__dots {
+			flex-direction: column;
+			order: 1;
+		}
+		.prc-block-carousel-controller__track {
+			flex-direction: column;
+			scroll-snap-type: y mandatory;
+			overflow-y: scroll;
+			overflow-x: hidden;
+			order: 2;
+		}
+	}
+
+	.prc-block-carousel-controller__arrows {
+		position: absolute;
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		padding: 0 1rem;
+
+		// Default horizontal layout
+		top: 50%;
+		transform: translateY(-50%);
+
+		// // Vertical layout
+		// .is-style-vertical & {
+		// 	flex-direction: column;
+		// 	height: 100%;
+		// 	left: 50%;
+		// 	top: 0;
+		// 	transform: translateX(-50%);
+		// 	padding: 1rem 0;
+		// }
+
+		@media (max-width: 768px) {
+			padding: 0 0.5rem;
+
+			.is-style-vertical & {
+				padding: 0.5rem 0;
+			}
+		}
+
+		.prc-block-carousel-controller__arrow {
+			background: rgba(0, 0, 0, 0.5);
+			color: white;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		.prc-block-carousel-controller__arrow--prev {
+			margin-right: 1rem;
+		}
+
+		.prc-block-carousel-controller__arrow--next {
+			margin-left: 1rem;
+		}
+	}
+
+	&.flipped-dots {
+		.prc-block-carousel-controller__dots {
+			order: 1;
+		}
+		.prc-block-carousel-controller__track {
+			order: 2;
+		}
+	}
+
+	.prc-block-carousel-controller__dots {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		.prc-block-carousel-controller__dot {
+			border: none;
+			cursor: pointer;
+			padding: 0;
+			margin: 0;
+			box-shadow: none;
+			appearance: none;
+			background: transparent;
+			opacity: 0.4;
+			transition: opacity 0.3s ease;
+			i {
+				font-size: 0.5rem;
+			}
+			&[data-active="true"] {
+				opacity: 1;
+			}
+		}
 	}
 }
 
-// Splide JS Minimum Core Styles
-// @import './splide.core.min.css';
+// Slide styles
+// .wp-block-prc-block-carousel-slide {
+// 	opacity: 1;
+// 	transition: opacity 300ms ease-in-out;
+
+// 	& > div {
+// 		max-width: 540px;
+// 		padding: 1.2em;
+// 		margin: 0 auto;
+// 	}
+// }

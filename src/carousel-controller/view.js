@@ -1,218 +1,172 @@
-/* eslint-disable no-undef */
-/** External Dependencies */
-import { randomId } from '@prc/functions';
-import { Splide } from '@splidejs/splide';
-import { Intersection } from '@splidejs/splide-extension-intersection';
-
 /**
  * WordPress Dependencies
  */
-import domReady from '@wordpress/dom-ready';
+import {
+	store,
+	getContext,
+	getElement,
+	withScope,
+} from '@wordpress/interactivity';
 
-/**
- * Internal Dependencies
- */
-import './style.scss';
-import '@splidejs/splide/css';
-
-// eslint-disable-next-line no-prototype-builtins
-if (!window.hasOwnProperty('prcBlocks')) {
-	window.prcBlocks = {};
-}
-window.prcBlocks.carouselBlocks = {
-	debug: true,
-	isMobile: false,
-	watched: [],
-	toggleBodyLock: (enable = true) => {
-		const body = document.querySelector('body');
-		if (true === enable) {
-			body.classList.add('carousel-locked');
-		} else {
-			body.classList.remove('carousel-locked');
-		}
-	},
-	unlockCarousel: (id) => {
-		const elm = document.getElementById(id);
-		const index = window.prcBlocks.carouselBlocks.watched.findIndex(
-			(e) => e.id === id,
-		);
-		const { isMobile } = window.prcBlocks.carouselBlocks;
-		const { controller } = window.prcBlocks.carouselBlocks.watched[index];
-		if (!isMobile) {
-			window.prcBlocks.carouselBlocks.toggleBodyLock(true);
-		} else {
-			controller.Components.Drag.disable(false);
-		}
-
-		// Little hack to snap the carousel into the viewport fully.
-		setTimeout(() => {
-			elm.parentElement.parentElement.scrollIntoView(true);
-		}, 200);
-
-		window.prcBlocks.carouselBlocks.watched[index].enabled = true;
-	},
-	lockCarousel: (id) => {
-		const index = window.prcBlocks.carouselBlocks.watched.findIndex(
-			(e) => e.id === id,
-		);
-		const { isMobile } = window.prcBlocks.carouselBlocks;
-		const { controller } = window.prcBlocks.carouselBlocks.watched[index];
-		if (!isMobile) {
-			window.prcBlocks.carouselBlocks.toggleBodyLock(false);
-		} else {
-			controller.Components.Drag.disable(true);
-		}
-		window.prcBlocks.carouselBlocks.watched[index].enabled = false;
-	},
-};
-
-/**
- * Helper Functions:
- */
-
-function watch(id, controller = null) {
-	// If the element is not in the watched list, then add it.
-	if (!window.prcBlocks.carouselBlocks.watched.some((e) => e.id === id)) {
-		window.prcBlocks.carouselBlocks.watched.push({
-			id,
-			y: 0, // When we add horizontal support we need to add X.
-			ratio: 0,
-			enabled: false,
-			controller,
-		});
-	}
-}
-
-/**
- * Initialize Carousel(s):
- */
-
-function initVerticalCarousel(id, elm) {
-	// Setup classes...
-	const { lockCarousel, unlockCarousel, isMobile, debug } =
-		window.prcBlocks.carouselBlocks;
-	const height = elm.offsetHeight;
-
-	const opts = {
-		direction: 'ttb',
-		height,
-		arrows: false,
-		wheel: true,
-		waitForTransition: true,
-		wheelSleep: 400,
-		speed: 700,
-		releaseWheel: true,
-		intersection: {
-			threshold: 0.95,
+const { state, actions } = store('prc-block/carousel-controller', {
+	state: {
+		lastScrollY: 0,
+		scrollLocking: false,
+		bodyObj: null,
+		hasEngaged: false,
+		scrollLockTimeout: null,
+		get isInsideCover() {
+			const { ref } = getElement();
+			const x = ref.closest('.wp-block-cover');
+			return x !== null;
 		},
-	};
-	const carousel = new Splide(elm, opts);
-
-	// Mount the carousel, the intersection extension and watch the carousel.
-	carousel.mount({ Intersection });
-	watch(id, carousel);
-
-	if (debug) {
-		console.warn(
-			'Carousel (vertical) initialized:',
-			carousel,
-			window.prcBlocks.carouselBlocks,
-		);
-	}
-
-	const numberOfSlides = carousel.length;
-
-	// Disallow scrolling while the carousel is not enabled:
-	carousel.root.addEventListener(
-		'wheel',
-		(e) => {
-			const { enabled } = window.prcBlocks.carouselBlocks.watched.find(
-				(a) => a.id === id,
-			);
-			if (!enabled) {
-				e.stopPropagation();
-			}
+		get coverRef() {
+			const { ref } = getElement();
+			return ref.closest('.wp-block-cover');
 		},
-		{ capture: true, passive: true },
-	);
-
-	// On carousel init, on mobile, disable initial drag ability.
-	if (isMobile) {
-		carousel.Components.Drag.disable(true);
-	}
-
-	// If we are on the first slide and the carousel is enabled OR
-	// if this is the last slide then lock the carousel so the user can continue on with the page:
-	carousel.on('active', (slide) => {
-		const { index } = slide;
-		const { enabled } = window.prcBlocks.carouselBlocks.watched.find(
-			(a) => a.id === id,
-		);
-		if ((0 === index && enabled) || numberOfSlides === index + 1) {
-			lockCarousel(id, isMobile);
-		}
-	});
-
-	// When the user scrolls into the carousel unlock it:
-	carousel.on('intersection:in', (entry) => {
-		unlockCarousel(id, isMobile, entry);
-	});
-}
-
-function initHorizontalCarousel(id, elm) {
-	const { debug } = window.prcBlocks.carouselBlocks;
-	// const height = elm.offsetHeight;
-
-	const opts = {
-		direction: 'ltr',
-		autoHeight: true,
-		arrows: true,
-		wheel: false,
-		waitForTransition: true,
-		speed: 700,
-	};
-	const carousel = new Splide(elm, opts);
-
-	// Mount the carousel and add it to watch list.
-	watch(id, carousel);
-	carousel.mount();
-
-	if (debug) {
-		console.warn(
-			'Carousel (horizontal) initialized:',
-			carousel,
-			window.prcBlocks.carouselBlocks,
-		);
-	}
-}
-
-domReady(() => {
-	const carousels = document.querySelectorAll(
-		'.wp-block-prc-block-carousel-controller',
-	);
-	const carouselBlocks = Array.from(carousels);
-	// eslint-disable-next-line prettier/prettier
-	window.prcBlocks.carouselBlocks.isMobile = carouselBlocks.some((e) => e.getAttribute('data-is-mobile'));
-
-	if (carousels.length) {
-		carousels.forEach((carousel) => {
-			// Track elements:
-			const carouselId = randomId();
-			carousel.setAttribute('id', carouselId);
-
-			const slideBlocks = carousel.querySelectorAll(
-				'ul.splide__list > .wp-block-prc-block-carousel-slide',
-			);
-			slideBlocks.forEach((block) => {
-				block.classList.add('splide__slide');
+		get isVertical() {
+			return getContext().orientation === 'vertical';
+		},
+		get track() {
+			const { id } = getContext();
+			return document
+				.getElementById(id)
+				.querySelector('.prc-block-carousel-controller__track');
+		},
+	},
+	actions: {
+		navigateToSlide: (index) => {
+			const { track, isVertical } = state;
+			getContext().slideIndex = index;
+			track.scrollTo({
+				[isVertical ? 'top' : 'left']: index * track.offsetWidth,
+				behavior: 'smooth',
 			});
+		},
+		goToDot: () => {
+			const { attributes } = getElement();
+			const index = parseInt(attributes['data-slide-index'], 10);
+			actions.navigateToSlide(index);
+		},
+		goToNextSlide: () => {
+			const context = getContext();
+			const { count, slideIndex } = context;
+			const nextIndex = Math.min(slideIndex + 1, count - 1);
+			actions.navigateToSlide(nextIndex);
+		},
+		goToPreviousSlide: () => {
+			const context = getContext();
+			const { slideIndex } = context;
+			const previousIndex = Math.max(slideIndex - 1, 0);
+			actions.navigateToSlide(previousIndex);
+		},
+	},
+	callbacks: {
+		onInit: () => {
+			const context = getContext();
+			const { ref } = getElement();
+			const { orientation, count } = context;
 
-			const isHorizontal = carousel.classList.contains('is-style-horizontal');
-			if (isHorizontal) {
-				initHorizontalCarousel(carouselId, carousel);
-			} else {
-				initVerticalCarousel(carouselId, carousel);
+			console.log(context);
+
+			const isVertical = orientation === 'vertical';
+			state.bodyObj = document.body;
+
+			const _track = ref.querySelector(
+				'.prc-block-carousel-controller__track'
+			);
+
+			// Add scroll event listener with debounce
+			let scrollTimeout;
+			_track.addEventListener(
+				'scroll',
+				withScope((event) => {
+					// Clear existing timeout
+					clearTimeout(scrollTimeout);
+
+					// Set new timeout to ensure we get the final position after scroll stops
+					scrollTimeout = setTimeout(() => {
+						// Get container and content dimensions based on orientation
+						const containerSize = isVertical
+							? _track.clientHeight
+							: _track.clientWidth;
+						const contentSize = isVertical
+							? _track.scrollHeight
+							: _track.scrollWidth;
+						const scrollPos = isVertical
+							? _track.scrollTop
+							: _track.scrollLeft;
+
+						// Calculate progress as a percentage (0 to 1)
+						const maxScroll = contentSize - containerSize;
+						const progress = maxScroll ? scrollPos / maxScroll : 0;
+
+						// Calculate slide index from progress
+						const slideIndex = Math.round(progress * (count - 1));
+
+						// Ensure index is within bounds
+						const boundedIndex = Math.max(
+							0,
+							Math.min(slideIndex, count - 1)
+						);
+
+						context.slideIndex = boundedIndex;
+					}, 10);
+				})
+			);
+
+			if (!state.isInsideCover) {
+				context.enabled = true;
 			}
-		});
-	}
+		},
+		isDotActive: () => {
+			const context = getContext();
+			const { attributes } = getElement();
+			const index = parseInt(attributes['data-slide-index'], 10);
+			return context.slideIndex === index;
+		},
+		onCoverScroll: () => {
+			const { isInsideCover, coverRef } = state;
+			const context = getContext();
+
+			if (isInsideCover) {
+				const coverRect = coverRef.getBoundingClientRect();
+
+				// Get the bottom position relative to viewport
+				const coverBottom = coverRect.bottom;
+				const coverTop = coverRect.top;
+
+				// Enable only when cover is at the top of viewport and scrolling down
+				if (
+					coverTop <= 0 &&
+					coverBottom > 0 &&
+					window.scrollY > state.lastScrollY &&
+					!state.hasEngaged
+				) {
+					context.enabled = true;
+					state.bodyObj.style.overflow = 'hidden';
+					state.hasEngaged = true;
+
+					// Release body lock after 2 seconds
+					setTimeout(
+						withScope(() => {
+							state.bodyObj.style.overflow = 'auto';
+						}),
+						2000
+					);
+				}
+				// On the way out, set context.enabled to false
+				if (coverBottom <= 0 || coverTop >= window.innerHeight) {
+					context.enabled = false;
+					setTimeout(
+						withScope(() => {
+							state.hasEngaged = false;
+						}),
+						2000
+					);
+				}
+				state.lastScrollY = window.scrollY;
+			}
+		},
+	},
 });

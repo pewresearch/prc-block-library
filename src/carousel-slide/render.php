@@ -1,15 +1,16 @@
 <?php
 namespace PRC\Platform\Blocks;
-// PHP file to use when rendering the block type on the server to show on the front end.
-// The following variables are exposed to this file:
 
-// $attributes (array): The block attributes.
-// $content (string): The block default content.
-// $block (WP_Block): The block instance.
-
-$block_wrapper_attrs = get_block_wrapper_attributes(array(
-	'class' => 'splide__slide',
-));
+$block_wrapper_attrs = get_block_wrapper_attributes(
+	array(
+		'data-wp-interactive' => 'prc-block/carousel-controller',
+		'data-wp-context'     => wp_json_encode(
+			array(
+				'isActive' => false,
+			)
+		),
+	)
+);
 
 echo wp_sprintf(
 	'<div %1$s><div>%2$s</div></div>',

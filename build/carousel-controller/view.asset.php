@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('prc-functions', 'wp-dom-ready', 'wp-polyfill'), 'version' => '03cecc82540bba7a54b3');
+<?php return array('dependencies' => array('@wordpress/interactivity', 'wp-polyfill'), 'version' => '192c9754bc5921609c5d', 'type' => 'module');

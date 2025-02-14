@@ -21,7 +21,7 @@ const transforms = {
 							newAttributes.exclude.split(',');
 					}
 				}
-				// CHeck if exclude is an array and has values (not empty)
+				// Check if exclude is an array and has values (not empty)
 				if (
 					Array.isArray(newAttributes.exclude) &&
 					newAttributes.exclude.length > 0

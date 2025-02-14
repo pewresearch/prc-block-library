@@ -8,10 +8,12 @@
 // Default Cover Style:
 .wp-block-cover {
 	margin-bottom: 2em;
+	align-items: stretch;
+	justify-content: stretch;
 	.wp-block-cover__inner-container {
 		color: inherit!important; // If you need to set a color for text do so on each element or child group.
 	}
-	.wp-block-cover__inner-container > [class*="wp-block-"] {
+	.wp-block-cover__inner-container:not(:has(.wp-block-prc-block-carousel-controller)) > [class*="wp-block-"] {
 		--cover-content-width: var(--wp--custom--content-size);
 		&.wp-block-post-title {
 			--cover-content-width: calc(var(--wp--custom--content-size) + 280px);
@@ -19,6 +21,9 @@
 		margin-left: auto;
 		margin-right: auto;
 		max-width: var(--cover-content-width);
+	}
+	.wp-block-cover__inner-container:has(.wp-block-prc-block-carousel-controller) .wp-block-prc-block-carousel-controller {
+		height: 100%;
 	}
 	& > .wp-block-cover__inner-container {
 		& > .wp-block-prc-block-post-bylines,

@@ -34,9 +34,8 @@ export default function Edit({
 	// This gives us a good way to ensure greater template and pattern control.
 	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
 	// The same applies for "orientation", defaults to "vertical".
-	const { allowedBlocks, orientation } = attributes;
+	const { orientation } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: allowedBlocks || '',
 		orientation: orientation || 'vertical',
 		templateLock: false,
 		template: [
@@ -50,9 +49,5 @@ export default function Edit({
 		],
 	});
 
-	return (
-		<div {...blockProps}>
-			<div {...innerBlocksProps} />
-		</div>
-	);
+	return <div {...innerBlocksProps} />;
 }

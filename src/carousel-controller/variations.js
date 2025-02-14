@@ -10,24 +10,28 @@ import { HorizontalIcon, VerticalIcon } from './icons';
 
 export default [
 	{
-		name: 'carousel-vertical',
-		title: __('Carousel Vertical'),
-		description: __('A vertical carousel.'),
-		icon: VerticalIcon(),
-		attributes: {
-			className: 'is-style-vertical',
-		},
-		isDefault: true,
-		isActive: ({ className }) => 'is-style-vertical' === className,
-	},
-	{
 		name: 'carousel-horizontal',
-		title: __('Carousel Horizontal'),
+		title: __('Carousel: Horizontal'),
 		description: __('A horizontal carousel.'),
 		icon: HorizontalIcon(),
 		attributes: {
-			className: 'is-style-horizontal',
+			orientation: 'horizontal',
 		},
-		isActive: ({ className }) => 'is-style-horizontal' === className,
+		scope: ['inserter'],
+		isDefault: true,
+		isActive: (blockAttributes, variationAttributes) =>
+			blockAttributes.orientation === variationAttributes.orientation,
+	},
+	{
+		name: 'carousel-vertical',
+		title: __('Carousel: Vertical'),
+		description: __('A vertical carousel.'),
+		icon: VerticalIcon(),
+		attributes: {
+			orientation: 'vertical',
+		},
+		scope: [],
+		isActive: (blockAttributes, variationAttributes) =>
+			blockAttributes.orientation === variationAttributes.orientation,
 	},
 ];

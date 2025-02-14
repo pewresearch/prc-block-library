@@ -81,6 +81,17 @@ function modifyDefaultSettings(settings, name) {
 addFilter('blocks.registerBlockType', BLOCKIDENTIFIER, modifyDefaultSettings);
 
 registerBlockVariation(BLOCKNAME, {
+	name: 'heading',
+	title: __('Heading'),
+	isDefault: true,
+	keywords: ['heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+	attributes: {
+		level: 4,
+	},
+	isActive: ({ level }) => level === 4,
+});
+
+registerBlockVariation(BLOCKNAME, {
 	name: 'section',
 	title: __('Section'),
 	icon: 'book-alt',

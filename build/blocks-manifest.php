@@ -659,7 +659,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/carousel-controller',
-		'version' => '0.1.0',
+		'version' => '1.0.0',
 		'title' => 'Carousel',
 		'category' => 'design',
 		'description' => 'Organize content in a vertical or horizontal carousel.',
@@ -668,13 +668,13 @@ return array(
 			'carousel',
 			'slider'
 		),
+		'allowedBlocks' => array(
+			'prc-block/carousel-slide'
+		),
 		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
 			'orientation' => array(
 				'type' => 'string',
-				'default' => 'vertical'
+				'default' => 'horizontal'
 			)
 		),
 		'supports' => array(
@@ -690,7 +690,7 @@ return array(
 				),
 				'padding' => true
 			),
-			'__experimentalMetadata' => true,
+			'interactivity' => true,
 			'typography' => array(
 				'fontSize' => true,
 				'__experimentalFontFamily' => true,
@@ -698,40 +698,55 @@ return array(
 					'fontSize' => true,
 					'__experimentalFontFamily' => true
 				)
+			),
+			'shadow' => true,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'button' => true,
+				'enableContrastChecker' => true,
+				'gradients' => true,
+				'heading' => true,
+				'link' => true
+			),
+			'background' => array(
+				'color' => true,
+				'gradient' => true,
+				'image' => true
+			),
+			'__experimentalBorder' => array(
+				'radius' => true,
+				'color' => true,
+				'width' => true,
+				'style' => true
 			)
 		),
 		'styles' => array(
 			array(
-				'name' => 'vertical',
-				'label' => 'Vertical',
+				'name' => 'arrows-navigation',
+				'label' => 'Arrows Navigation',
 				'isDefault' => true
 			),
 			array(
-				'name' => 'horizontal',
-				'label' => 'Horizontal'
+				'name' => 'dots-navigation',
+				'label' => 'Dots Navigation'
 			)
 		),
 		'textdomain' => 'carousel-controller',
 		'editorScript' => 'file:./index.js',
-		'style' => array(
-			'file:./style-view.css',
-			'file:./view.css'
-		),
+		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js'
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'carousel-slide' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/carousel-slide',
-		'version' => '0.1.0',
+		'version' => '1.0.0',
 		'title' => 'Carousel Slide',
 		'description' => 'A slide for use in the carousel block.',
 		'category' => 'design',
 		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
 			'orientation' => array(
 				'type' => 'string',
 				'default' => 'vertical'
@@ -747,20 +762,31 @@ return array(
 				'link' => true,
 				'text' => true
 			),
+			'layout' => array(
+				'default' => array(
+					'type' => 'flex',
+					'orientation' => 'horizontal'
+				),
+				'allowOrientation' => false,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true
+			),
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
 				'__experimentalFontFamily' => true
+			),
+			'shadow' => true,
+			'interactivity' => true,
+			'__experimentalBorder' => array(
+				'radius' => true,
+				'color' => true,
+				'width' => true,
+				'style' => true
 			)
 		),
 		'parent' => array(
-			'prc-block/carousel'
-		),
-		'styles' => array(
-			array(
-				'name' => 'box-shadow',
-				'label' => 'Box Shadow'
-			)
+			'prc-block/carousel-controller'
 		),
 		'textdomain' => 'carousel-slide',
 		'editorScript' => 'file:./index.js',

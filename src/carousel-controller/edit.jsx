@@ -1,53 +1,119 @@
 /**
  * External Dependencies
  */
-import classnames from 'classnames';
+import classNames from 'classnames';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
  */
-import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
+import {
+	useInnerBlocksProps,
+	useBlockProps,
+	store as blockEditorStore,
+} from '@wordpress/block-editor';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { Fragment } from '@wordpress/element';
 
 /**
  * Internal Dependencies
  */
-const ALLOWED_BLOCKS = ['prc-block/carousel-slide'];
+import Controls from './controls';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
- *
- * @return {WPElement} Element to render.
- */
-export default function Edit({ className }) {
+export default function Edit({
+	attributes,
+	setAttributes,
+	clientId,
+	isSelected,
+}) {
+	const { orientation } = attributes;
+
+	const { selectBlock } = useDispatch(blockEditorStore);
+
+	const { innerBlocks, selectedCarouselSlideClientId, _isSelected } =
+		useSelect((select) => {
+			const {
+				getBlocks,
+				getSelectedBlockClientId,
+				getBlockParentsByBlockName,
+				hasSelectedInnerBlock,
+			} = select(blockEditorStore);
+			const currentlySelectedBlockClientId = getSelectedBlockClientId();
+			const blockParents = getBlockParentsByBlockName(
+				currentlySelectedBlockClientId,
+				'prc-block/carousel-slide'
+			);
+			const blockParentClientId =
+				blockParents?.[0] || currentlySelectedBlockClientId;
+			return {
+				innerBlocks: getBlocks(clientId),
+				selectedCarouselSlideClientId: blockParentClientId,
+				_isSelected:
+					isSelected || hasSelectedInnerBlock(clientId, true),
+			};
+		});
+
 	const blockProps = useBlockProps({
-		className: classnames(className),
+		className: classNames('prc-block-carousel-controller', {
+			'is-style-vertical': orientation === 'vertical',
+			'is-enabled': _isSelected,
+		}),
 	});
 
-	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: ALLOWED_BLOCKS,
-		templateLock: false,
-		template: [
-			[
-				'prc-block/carousel-slide',
-				{},
+	const innerBlocksProps = useInnerBlocksProps(
+		{
+			className: 'prc-block-carousel-controller__track',
+		},
+		{
+			orientation,
+			templateLock: false,
+			__experiementalCaptureToolbars: true,
+			template: [
 				[
+					'prc-block/carousel-slide',
+					{},
 					[
-						'core/paragraph',
-						{
-							placeholder: 'You can use any blocks inside this carousel slide.',
-						},
+						[
+							'core/paragraph',
+							{
+								placeholder:
+									'Place blocks inside the carousel slide.',
+							},
+						],
 					],
 				],
 			],
-		],
-	});
+		}
+	);
 
-	return <div {...innerBlocksProps} />;
+	return (
+		<Fragment>
+			<Controls
+				attributes={attributes}
+				setAttributes={setAttributes}
+				clientId={clientId}
+			/>
+			<div {...blockProps}>
+				<div {...innerBlocksProps} />
+				<div className="prc-block-carousel-controller__dots">
+					{innerBlocks.map((block, index) => {
+						return (
+							<button
+								key={block.clientId}
+								className="prc-block-carousel-controller__dot"
+								onClick={() => selectBlock(block.clientId)}
+								aria-label={`Go to slide ${index + 1}`}
+								data-active={
+									selectedCarouselSlideClientId ===
+									block.clientId
+								}
+							>
+								<Icon library="solid" icon="circle" />
+							</button>
+						);
+					})}
+				</div>
+			</div>
+		</Fragment>
+	);
 }
