@@ -4492,6 +4492,15 @@ return array(
 		'category' => 'theme',
 		'description' => 'Displays a list of all heading blocks set to chapter headings.',
 		'attributes' => array(
+			'displayType' => array(
+				'type' => 'string',
+				'default' => 'list',
+				'enum' => array(
+					'list',
+					'accordion',
+					'dropdown'
+				)
+			),
 			'showCurrentChapter' => array(
 				'type' => 'boolean',
 				'default' => false

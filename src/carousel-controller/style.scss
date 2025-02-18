@@ -69,6 +69,7 @@
 		justify-content: space-between;
 		width: 100%;
 		padding: 0 1rem;
+		box-sizing: border-box;
 
 		// Default horizontal layout
 		top: 50%;
@@ -93,11 +94,14 @@
 		}
 
 		.prc-block-carousel-controller__arrow {
-			background: rgba(0, 0, 0, 0.5);
-			color: white;
+			background: none;
+			appearance: none;
 			border: none;
 			border-radius: 4px;
 			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		.prc-block-carousel-controller__arrow--prev {

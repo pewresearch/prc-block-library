@@ -7,6 +7,11 @@
 	"category": "theme",
 	"description": "Displays a list of all heading blocks set to chapter headings.",
 	"attributes": {
+		"displayType": {
+			"type": "string",
+			"default": "list",
+			"enum": ["list", "accordion", "dropdown"]
+		},
 		"showCurrentChapter": {
 			"type": "boolean",
 			"default": false

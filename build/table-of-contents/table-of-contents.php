@@ -30,6 +30,47 @@ class Table_Of_Contents {
 	}
 
 	/**
+	 * Returns the CSS styles for adding the plus/minus icon to any defined style of the details block.
+	 *
+	 * @param string $part_slug The slug of the part.
+	 * @return string The CSS styles.
+	 */
+	public static function get_new_icon_styles( $part_slug, $icon = false ) {
+		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-plus', 'black' );
+		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-minus', 'black' );
+		if ( $icon ) {
+			$open_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', $icon );
+		}
+		return wp_sprintf( '.is-style-rls-accordion details[part-slug="%1$s"] > summary:before { --icon: url(%2$s);} .is-style-rls-accordion details[part-slug="%1$s"][open] > summary:before { --icon: url(%3$s); }', $part_slug, $open_icon, $close_icon );
+	}
+
+	/**
+	 * Register the block's style assets.
+	 * This is for the front end.
+	 *
+	 * @hook init
+	 */
+	public function register_styles() {
+		$style_buffer  = '';
+		$style_buffer .= self::get_new_icon_styles( 'i-religious-affiliation-and-religious-switching', 'person-walking-arrow-loop-left' );
+		$style_buffer .= self::get_new_icon_styles( 'ii-religion-and-family-life', 'family-dress' );
+		$style_buffer .= self::get_new_icon_styles( 'iii-religious-or-spiritual-beliefs-and-practices', 'person-praying' );
+		$style_buffer .= self::get_new_icon_styles( 'iv-social-and-political-views', 'person-booth' );
+		$style_buffer .= self::get_new_icon_styles( 'v-opinions-on-religions-place-in-society', 'hands-praying' );
+		$style_buffer .= self::get_new_icon_styles( 'vi-demographics-of-u-s-religious-groups', 'user-plus' );
+		$style_buffer .= self::get_new_icon_styles( 'methodology' );
+		$style_buffer .= self::get_new_icon_styles( 'appendices' );
+		register_block_style(
+			'prc-block/table-of-contents',
+			array(
+				'name'         => 'rls-accordion',
+				'label'        => 'RLS Accordion',
+				'inline_style' => $style_buffer,
+			)
+		);
+	}
+
+	/**
 	 * This function structures raw multiSectionReport and package_parts data.
 	 * First it checks for if we have package parts or not. If not then it assumes this is a simple report and returns the chapters.
 	 *
@@ -37,7 +78,14 @@ class Table_Of_Contents {
 	 * @param int $current_post_id The current post id.
 	 * @return array
 	 */
-	protected function parce_toc_items( $parent_id, $current_post_id ) {
+	protected function parse_toc_items( $parent_id, $current_post_id ) {
+		// Check cached items first.
+		$cached_items = wp_cache_get( 'prc_toc', $current_post_id );
+		// Always serve the freshest TOC items to logged in users. This also lets logged in users "reset" the cache by refreshing the page.
+		if ( $cached_items || ! is_user_logged_in() ) {
+			return $cached_items;
+		}
+
 		$package_parts        = get_post_meta( $parent_id, 'package_parts', true );
 		$chapters             = get_post_meta( $parent_id, 'multiSectionReport', true );
 		$chapters_not_in_part = array();
@@ -48,6 +96,7 @@ class Table_Of_Contents {
 			$toc_items = array_map(
 				function ( $chapter ) use ( $current_post_id ) {
 					$chapter['label']     = html_entity_decode( get_the_title( $chapter['postId'] ) );
+					$chapter['slug']      = sanitize_title( $chapter['label'] );
 					$chapter['url']       = get_permalink( $chapter['postId'] );
 					$chapter['is_active'] = $chapter['postId'] === $current_post_id;
 					$chapter['sections']  = array();
@@ -79,6 +128,7 @@ class Table_Of_Contents {
 					$part['chapters'] = array_map(
 						function ( $chapter ) use ( $current_post_id ) {
 							$chapter['label']     = html_entity_decode( get_the_title( $chapter['postId'] ) );
+							$chapter['slug']      = sanitize_title( $chapter['label'] );
 							$chapter['url']       = get_permalink( $chapter['postId'] );
 							$chapter['is_active'] = $chapter['postId'] === $current_post_id;
 							$chapter['sections']  = array();
@@ -94,7 +144,8 @@ class Table_Of_Contents {
 			$toc_items = array_map(
 				function ( $part ) {
 					// Make the url point to the first chapter.
-					$part['url'] = $part['chapters'][0]['url'];
+					$part['url']  = $part['chapters'][0]['url'];
+					$part['slug'] = sanitize_title( $part['label'] );
 					// This part is active if any of the chapters are active.
 					$part['is_active'] = array_reduce(
 						$part['chapters'],
@@ -129,6 +180,7 @@ class Table_Of_Contents {
 				function ( $chapter ) use ( $current_post_id ) {
 					$chapter['key']       = 'unattachedPackagePart_' . $chapter['postId'];
 					$chapter['label']     = html_entity_decode( get_the_title( $chapter['postId'] ) );
+					$chapter['slug']      = sanitize_title( $chapter['label'] );
 					$chapter['url']       = get_permalink( $chapter['postId'] );
 					$chapter['is_active'] = $chapter['postId'] === $current_post_id;
 					$chapter['sections']  = array();
@@ -144,6 +196,7 @@ class Table_Of_Contents {
 		$package_root        = array(
 			'key'       => 'unattachedPackagePart_' . $parent_id,
 			'label'     => html_entity_decode( get_the_title( $parent_id ) ),
+			'slug'      => sanitize_title( get_the_title( $parent_id ) ),
 			'url'       => get_permalink( $parent_id ),
 			'postId'    => $parent_id,
 			'is_active' => $parent_id === $current_post_id,
@@ -166,6 +219,9 @@ class Table_Of_Contents {
 		$toc_items = array_merge( $unattached_chapters, $toc_items );
 		// Reset the indexes of the array.
 		$toc_items = array_values( $toc_items );
+
+		// Cache the items for 1 hour.
+		wp_cache_set( 'prc_toc', $toc_items, 'prc_toc', 3600 );
 
 		return $toc_items;
 	}
@@ -239,6 +295,33 @@ class Table_Of_Contents {
 		);
 	}
 
+	public function get_accordion_markup( $attributes ) {
+		$color_supports       = new Additional_Color_Supports();
+		$list_item_classnames = $color_supports->get_list_classnames(
+			'wp-block-prc-block-table-of-contents',
+			false,
+			$attributes,
+		);
+		ob_start();
+		?>
+		<template data-wp-each--part="state.items">
+			<details data-wp-bind--name="state.parentSlug" data-wp-bind--part-slug="context.part.slug">
+				<summary>
+					<span data-wp-text="context.part.label"></span>
+				</summary>
+				<ul class="wp-block-prc-block-table-of-contents__list chapters" data-wp-hidden="callbacks.hasListItems">
+					<template data-wp-each--chapter="context.part.chapters">
+						<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="callbacks.isActive">
+							<a data-wp-bind--href="context.chapter.url" data-wp-text="context.chapter.label"></a>
+						</li>
+					</template>
+				</ul>
+			</details>
+		</template>
+		<?php
+		return ob_get_clean();
+	}
+
 	protected function get_heading_markup( $attributes ) {
 		$heading_text = array_key_exists( 'heading', $attributes ) ? $attributes['heading'] : false;
 		return wp_sprintf(
@@ -283,11 +366,27 @@ class Table_Of_Contents {
 	}
 
 	public function render_block_callback( $attributes, $content, $block ) {
-		$post_id   = $block->context['postId'];
-		$parent_id = wp_get_post_parent_id( $post_id );
-		$parent_id = 0 === $parent_id ? $post_id : $parent_id;
+		$post_id    = $block->context['postId'];
+		$parent_id  = wp_get_post_parent_id( $post_id );
+		$parent_id  = 0 === $parent_id ? $post_id : $parent_id;
+		$attributes = \PRC\Platform\Block_Utils\get_block_attributes( 'prc-block/table-of-contents', $attributes );
 
-		$items = $this->parce_toc_items( $parent_id, $post_id );
+		// By default, the TOC renders as a simple list.
+		// Aditional configurations of this block can render the TOC as an accordion or a dropdown.
+
+		$is_accordion = 'accordion' === $attributes['displayType'];
+
+		// Determine if this should be present in the "Dropdown" user interface or not.
+		$is_dropdown = 'dropdown' === $attributes['displayType'];
+		$is_dropdown = ! $is_dropdown ? array_key_exists( 'className', $attributes ) && false !== strpos( $attributes['className'], 'is-style-dropdown' ) : $is_dropdown;
+		$is_dropdown = 'mobile' === \PRC\Platform\get_current_device() ? true : $is_dropdown;
+
+		$items = $this->parse_toc_items( $parent_id, $post_id );
+
+		// If this is an accordion we want to pop off the first item from the items array.
+		if ( $is_accordion ) {
+			array_shift( $items );
+		}
 
 		$parts_enabled               = (bool) get_post_meta( $parent_id, 'package_parts__enabled', true );
 		$parts_enabled               = (bool) ( $parts_enabled && ! empty( $items ) );
@@ -306,11 +405,12 @@ class Table_Of_Contents {
 			}
 		}
 
-		wp_interactivity_state(
+		$interactive_state = wp_interactivity_state(
 			'prc-block/table-of-contents',
 			array(
 				'postId'                      => $post_id,
 				'parentId'                    => $parent_id,
+				'parentSlug'                  => sanitize_title( get_the_title( $parent_id ) ) . '_package',
 				'partsEnabled'                => $parts_enabled,
 				'currentlyActivePartLabel'    => $currently_active_part_label,
 				'items'                       => $items,
@@ -320,11 +420,21 @@ class Table_Of_Contents {
 			)
 		);
 
-		// Determine if this should be present in the "Dropdown" user interface or not.
-		$default_to_dropdown = array_key_exists( 'className', $attributes ) && false !== strpos( $attributes['className'], 'is-style-dropdown' );
-		$default_to_dropdown = 'mobile' === \PRC\Platform\get_current_device() ? true : $default_to_dropdown;
-		// remove the is-style-dropdown class from the block attributes ???
-		$attributes['className'] = array_key_exists( 'className', $attributes ) ? str_replace( 'is-style-dropdown', '', $attributes['className'] ) : '';
+		$interactive_context = array(
+			'isDropdown'              => $is_dropdown,
+			'isDropdownOpen'          => false,
+			'autoDropdownEnabled'     => $attributes['autoDropdownEnabled'],
+			'autoDropdownWidth'       => $attributes['autoDropdownWidth'],
+			'highlightCurrentSection' => $attributes['showCurrentChapter'],
+		);
+
+		if ( $is_accordion ) {
+			$interactive_context['isDropdown']          = false;
+			$interactive_context['autoDropdownEnabled'] = false;
+			$interior_content                           = $this->get_accordion_markup( $attributes );
+		} else {
+			$interior_content = $this->get_heading_markup( $attributes ) . $this->get_dropdown_markup( $attributes ) . $this->get_list_template( $attributes, $parts_enabled );
+		}
 
 		$block_attrs = get_block_wrapper_attributes(
 			array(
@@ -341,13 +451,7 @@ class Table_Of_Contents {
 				'aria-role'                                => 'navigation',
 				'data-wp-interactive'                      => 'prc-block/table-of-contents',
 				'data-wp-context'                          => wp_json_encode(
-					array(
-						'isDropdown'              => $default_to_dropdown,
-						'isDropdownOpen'          => false,
-						'autoDropdownEnabled'     => $attributes['autoDropdownEnabled'],
-						'autoDropdownWidth'       => $attributes['autoDropdownWidth'],
-						'highlightCurrentSection' => $attributes['showCurrentChapter'],
-					)
+					$interactive_context,
 				),
 				'data-wp-init--map-sections-to-chapters'   => 'callbacks.mapFoundSectionsToChapters',
 				'data-wp-init--watch-for-section-scroll'   => 'callbacks.initWatchForSectionScroll',
@@ -359,11 +463,11 @@ class Table_Of_Contents {
 				'data-wp-bind--data-auto-dropdown-width'   => 'context.autoDropdownWidth',
 			)
 		);
+
 		return wp_sprintf(
-			'<div %1$s>%2$s %3$s</div>',
+			'<div %1$s>%2$s</div>',
 			$block_attrs,
-			$this->get_heading_markup( $attributes ) . $this->get_dropdown_markup( $attributes ),
-			$this->get_list_template( $attributes, $parts_enabled ),
+			$interior_content,
 		);
 	}
 
@@ -383,5 +487,6 @@ class Table_Of_Contents {
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
+		$this->register_styles();
 	}
 }

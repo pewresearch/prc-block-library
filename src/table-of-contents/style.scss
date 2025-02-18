@@ -55,3 +55,36 @@
     max-height: 100vh;
     overflow-y: auto;
 }
+
+
+.wp-block-prc-block-table-of-contents.is-style-accordion {
+	details > summary {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.5em;
+		font-weight: bold;
+		font-size: 1.125em;
+		cursor: pointer;
+		&:before {
+			background-image: var(--icon);
+		}
+	}
+	details > summary::marker,
+	details > summary::-webkit-details-marker {
+		display: none
+	}
+	details > summary:before {
+		content: "";
+		display: block;
+		width: 1.25em;
+		height: 1.25em;
+		background-size: contain;
+		background-repeat: no-repeat;
+	}
+	ul.wp-block-prc-block-table-of-contents__list {
+		padding: 0;
+		margin: 0;
+		margin-left: 1.2em;
+	}
+}

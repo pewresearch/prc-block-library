@@ -61,8 +61,8 @@ $block_wrapper_attrs = get_block_wrapper_attributes( $wrapper_attrs );
 if ( $arrows_navigation ) {
 	$navigation_element = wp_sprintf(
 		'<div class="prc-block-carousel-controller__arrows"><button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow--prev" data-wp-on--click="actions.goToPreviousSlide" aria-label="Previous slide">%s</button><button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow--next" data-wp-on--click="actions.goToNextSlide" aria-label="Next slide">%s</button></div>',
-		\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'arrow-up' : 'arrow-left' ),
-		\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'arrow-down' : 'arrow-right' )
+		\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-up' : 'chevron-left' ),
+		\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-down' : 'chevron-right' )
 	);
 }
 

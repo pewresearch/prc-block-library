@@ -39,23 +39,28 @@ $auto_play_interval = $attributes['autoPlayInterval'] ?? 3000;
  * @param int $count The number of ticks.
  * @return string The tick density.
  */
-function get_tick_density( $count ) {
-	if ( $count <= 10 ) {
-		return 'sparse';
-	} elseif ( $count <= 20 ) {
-		return 'medium';
-	} elseif ( $count <= 40 ) {
-		return 'dense';
-	} else {
-		return 'very-dense';
-	}
+
+$density = 'sparse';
+switch ( $tick_count ) {
+	case $tick_count <= 10:
+		$density = 'sparse';
+		break;
+	case $tick_count <= 20:
+		$density = 'medium';
+		break;
+	case $tick_count <= 40:
+		$density = 'dense';
+		break;
+	default:
+		$density = 'very-dense';
+		break;
 }
 
 $tick_count          = count( $ticks );
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
 		'data-wp-interactive' => 'prc-block/timeline',
-		'data-tick-density'   => get_tick_density( $tick_count ),
+		'data-tick-density'   => $density,
 		'data-wp-context'     => wp_json_encode(
 			array(
 				'id'           => $block_id,

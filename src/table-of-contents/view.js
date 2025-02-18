@@ -76,7 +76,7 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		mapFoundSectionsToChapters: () => {
 			const { sectionsFound, postId, items, partsEnabled } = state;
 
-			console.log('mapFoundSectionsToChapters::', state);
+			console.log('mapFoundSectionsToChapters::', state, getContext());
 
 			// if no sectionsFound, return
 			if (!sectionsFound) {

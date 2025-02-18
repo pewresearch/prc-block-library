@@ -12,7 +12,7 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
 /**
  * WordPress Dependencies
  */
-import { Fragment, useMemo, useState, useRef, useEffect } from 'react';
+import { Fragment, useMemo, useState, useRef, useEffect } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -20,6 +20,7 @@ import {
 	getColorClassName,
 } from '@wordpress/block-editor';
 import { useDispatch } from '@wordpress/data';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal Dependencies
