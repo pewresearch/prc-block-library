@@ -69,6 +69,9 @@
 		flex-direction: column;
 		padding: var(--padding);
 		gap: var(--block-gap);
+		&:empty {
+			display: none!important;
+		}
 		li {
 			padding: var(--padding);
 			display: flex;

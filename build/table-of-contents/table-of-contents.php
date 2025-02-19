@@ -41,7 +41,7 @@ class Table_Of_Contents {
 		if ( $icon ) {
 			$open_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', $icon );
 		}
-		return wp_sprintf( '.is-style-rls-accordion details[part-slug="%1$s"] > summary:before { --icon: url(%2$s);} .is-style-rls-accordion details[part-slug="%1$s"][open] > summary:before { --icon: url(%3$s); }', $part_slug, $open_icon, $close_icon );
+		return wp_sprintf( '.wp-block-prc-block-table-of-contents details > summary:before { --icon: url(%2$s);} .wp-block-prc-block-table-of-contents details[part-slug="%1$s"] > summary:before { --icon: url(%2$s);} .wp-block-prc-block-table-of-contents details[part-slug="%1$s"][open] > summary:before { --icon: url(%3$s); }', $part_slug, $open_icon, $close_icon );
 	}
 
 	/**
@@ -80,9 +80,9 @@ class Table_Of_Contents {
 	 */
 	protected function parse_toc_items( $parent_id, $current_post_id ) {
 		// Check cached items first.
-		$cached_items = wp_cache_get( 'prc_toc', $current_post_id );
+		$cached_items = wp_cache_get( 'prc_toc', 'post_' . $current_post_id );
 		// Always serve the freshest TOC items to logged in users. This also lets logged in users "reset" the cache by refreshing the page.
-		if ( $cached_items || ! is_user_logged_in() ) {
+		if ( $cached_items && ! is_user_logged_in() ) {
 			return $cached_items;
 		}
 
@@ -221,7 +221,7 @@ class Table_Of_Contents {
 		$toc_items = array_values( $toc_items );
 
 		// Cache the items for 1 hour.
-		wp_cache_set( 'prc_toc', $toc_items, 'prc_toc', 3600 );
+		wp_cache_set( 'prc_toc', $toc_items, 'post_' . $current_post_id, 1 * HOUR_IN_SECONDS );
 
 		return $toc_items;
 	}
@@ -250,7 +250,7 @@ class Table_Of_Contents {
 		if ( ! $parts_enabled ) {
 			// If there are no parts then we're just going to display the chapters. So we're going to start the structure at `chapter`
 			?>
-			<template data-wp-each--chapter="state.items">
+			<template data-wp-each--chapter="context.items">
 				<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="callbacks.isActive">
 					<a data-wp-bind--href="context.chapter.url" data-wp-text="context.chapter.label"></a>
 				<?php // Sections. ?>
@@ -263,7 +263,7 @@ class Table_Of_Contents {
 		} else {
 			// This has parts, so we're going to start the structure at `part`
 			?>
-		<template data-wp-each--part="state.items">
+		<template data-wp-each--part="context.items">
 			<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="callbacks.isActive">
 				<a data-wp-bind--href="context.part.url" data-wp-text="context.part.label"></a>
 			<?php // Top level sections. ?>
@@ -295,7 +295,8 @@ class Table_Of_Contents {
 		);
 	}
 
-	public function get_accordion_markup( $attributes ) {
+	protected function get_accordion_markup( $attributes ) {
+		$block_gap            = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
 		$color_supports       = new Additional_Color_Supports();
 		$list_item_classnames = $color_supports->get_list_classnames(
 			'wp-block-prc-block-table-of-contents',
@@ -304,7 +305,9 @@ class Table_Of_Contents {
 		);
 		ob_start();
 		?>
-		<template data-wp-each--part="state.items">
+		<div style="--block-gap: <?php echo $block_gap; ?>;">
+		<?php // @TODO: Render the top level package item here ?>
+		<template data-wp-each--part="context.items">
 			<details data-wp-bind--name="state.parentSlug" data-wp-bind--part-slug="context.part.slug">
 				<summary>
 					<span data-wp-text="context.part.label"></span>
@@ -318,6 +321,7 @@ class Table_Of_Contents {
 				</ul>
 			</details>
 		</template>
+		</div>
 		<?php
 		return ob_get_clean();
 	}
@@ -383,11 +387,6 @@ class Table_Of_Contents {
 
 		$items = $this->parse_toc_items( $parent_id, $post_id );
 
-		// If this is an accordion we want to pop off the first item from the items array.
-		if ( $is_accordion ) {
-			array_shift( $items );
-		}
-
 		$parts_enabled               = (bool) get_post_meta( $parent_id, 'package_parts__enabled', true );
 		$parts_enabled               = (bool) ( $parts_enabled && ! empty( $items ) );
 		$currently_active_part_label = '';
@@ -413,7 +412,6 @@ class Table_Of_Contents {
 				'parentSlug'                  => sanitize_title( get_the_title( $parent_id ) ) . '_package',
 				'partsEnabled'                => $parts_enabled,
 				'currentlyActivePartLabel'    => $currently_active_part_label,
-				'items'                       => $items,
 				'enableWatchForSectionScroll' => false,
 				'currentSection'              => null,
 				'sectionsWatchList'           => array(),
@@ -421,14 +419,18 @@ class Table_Of_Contents {
 		);
 
 		$interactive_context = array(
+			'isAccordion'             => $is_accordion,
 			'isDropdown'              => $is_dropdown,
 			'isDropdownOpen'          => false,
+			'items'                   => $items,
 			'autoDropdownEnabled'     => $attributes['autoDropdownEnabled'],
 			'autoDropdownWidth'       => $attributes['autoDropdownWidth'],
 			'highlightCurrentSection' => $attributes['showCurrentChapter'],
 		);
 
 		if ( $is_accordion ) {
+			// Remove teh first item...
+			$interactive_context['items']               = array_slice( $items, 1 );
 			$interactive_context['isDropdown']          = false;
 			$interactive_context['autoDropdownEnabled'] = false;
 			$interior_content                           = $this->get_accordion_markup( $attributes );

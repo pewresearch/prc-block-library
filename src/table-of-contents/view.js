@@ -74,9 +74,7 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		 * to their respective part or chapter in their `sections` property.
 		 */
 		mapFoundSectionsToChapters: () => {
-			const { sectionsFound, postId, items, partsEnabled } = state;
-
-			console.log('mapFoundSectionsToChapters::', state, getContext());
+			const { sectionsFound, postId, partsEnabled } = state;
 
 			// if no sectionsFound, return
 			if (!sectionsFound) {
@@ -94,6 +92,8 @@ const { actions, state } = store('prc-block/table-of-contents', {
 					is_active: false,
 				})
 			);
+
+			const { items } = getContext();
 
 			const unattachedPackagePartIndex = items.findIndex(
 				(part) => part.key === `unattachedPackagePart_${postId}`
@@ -118,6 +118,9 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				items[activePartIndex].chapters[activeChapterIndex].sections =
 					mappedSections;
 			}
+
+			// // Set the local items.
+			// getContext().items = items;
 		},
 		/**
 		 * Determine if the current part or chapter has list items.
@@ -237,8 +240,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				return;
 			}
 
-			const { currentSection } = state;
-
 			// Get the element of the core/heading block.
 			const { ref } = getElement();
 			const { id } = getContext();
@@ -254,7 +255,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			) {
 				state.currentSection = id;
 			}
-
 		},
 	},
 });
