@@ -43,24 +43,42 @@ class Collection_Kicker {
 				return;
 			}
 		}
-		// Get the associated Collection post.
-		$collection_post = \TDS\get_related_post( $collection_term->term_id, $collection_term->taxonomy );
-		// Now from here we need to get the collection post's assigned kicker synced pattern id and use that for the content...
+		// get term meta for the collection term, using object cache
+		$cache_key = 'collection_kicker_data_' . $collection_term->term_id;
+		$cached_data = wp_cache_get( $cache_key, 'prc_collection_kicker' );
 
-		// If there is not an associated Collection post then we should return.
-		if ( false === $collection_post || null === $collection_post ) {
-			return;
-		}
-		$kicker_slug = get_post_meta( $collection_post->ID, 'kicker_pattern_slug', true );
-		if ( false === $kicker_slug ) {
-			return;
+		if ( false === $cached_data || empty( $cached_data ) ) {
+			do_action('qm/debug', 'cached_data is false');
+			$tds_post_id = get_term_meta( $collection_term->term_id, 'tds_post_id', true );
+			if ( empty( $tds_post_id ) ) {
+				return;
+			}
+
+			$collection_post = get_post( $tds_post_id );
+			if ( false === $collection_post || null === $collection_post ) {
+				return;
+			}
+
+			$kicker_slug = get_post_meta( $collection_post->ID, 'kicker_pattern_slug', true );
+			if ( false === $kicker_slug ) {
+				return;
+			}
+
+			$found_part = get_page_by_path( $kicker_slug, OBJECT, 'wp_template_part' );
+			if ( null === $found_part ) {
+				return;
+			}
+
+			$cached_data = array(
+				'tds_post_id' => $tds_post_id,
+				'collection_post' => $collection_post,
+				'kicker_slug' => $kicker_slug,
+				'found_part' => $found_part,
+			);
+			wp_cache_set( $cache_key, $cached_data, 'prc_collection_kicker', HOUR_IN_SECONDS );
 		}
 
-		$found_part = get_page_by_path( $kicker_slug, OBJECT, 'wp_template_part' );
-
-		if ( null === $found_part ) {
-			return;
-		}
+		$found_part = $cached_data['found_part'];
 
 		return do_blocks( $found_part->post_content );
 	}

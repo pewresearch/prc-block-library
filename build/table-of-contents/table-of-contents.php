@@ -35,13 +35,13 @@ class Table_Of_Contents {
 	 * @param string $part_slug The slug of the part.
 	 * @return string The CSS styles.
 	 */
-	public static function get_new_icon_styles( $part_slug, $icon = false ) {
+	public static function get_new_icon_styles( $part_slug, $icon = false, $library = 'solid' ) {
 		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-plus', 'black' );
 		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-minus', 'black' );
 		if ( $icon ) {
-			$open_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', $icon );
+			$open_icon = \PRC\Platform\Icons\get_icon_as_data_uri( $library, $icon );
 		}
-		return wp_sprintf( '.wp-block-prc-block-table-of-contents details > summary:before { --icon: url(%2$s);} .wp-block-prc-block-table-of-contents details[part-slug="%1$s"] > summary:before { --icon: url(%2$s);} .wp-block-prc-block-table-of-contents details[part-slug="%1$s"][open] > summary:before { --icon: url(%3$s); }', $part_slug, $open_icon, $close_icon );
+		return wp_sprintf( '.wp-block-prc-block-table-of-contents details[part-slug="%1$s"] > summary:before { --icon: url(%2$s);} .wp-block-prc-block-table-of-contents details[part-slug="%1$s"][open] > summary:before { --icon: url(%3$s); }', $part_slug, $open_icon, $close_icon );
 	}
 
 	/**
@@ -52,14 +52,13 @@ class Table_Of_Contents {
 	 */
 	public function register_styles() {
 		$style_buffer  = '';
+		$style_buffer .= self::get_new_icon_styles( 'executive-summary', 'clipboard-list', 'regular' );
 		$style_buffer .= self::get_new_icon_styles( 'i-religious-affiliation-and-religious-switching', 'person-walking-arrow-loop-left' );
 		$style_buffer .= self::get_new_icon_styles( 'ii-religion-and-family-life', 'family-dress' );
 		$style_buffer .= self::get_new_icon_styles( 'iii-religious-or-spiritual-beliefs-and-practices', 'person-praying' );
 		$style_buffer .= self::get_new_icon_styles( 'iv-social-and-political-views', 'person-booth' );
 		$style_buffer .= self::get_new_icon_styles( 'v-opinions-on-religions-place-in-society', 'hands-praying' );
 		$style_buffer .= self::get_new_icon_styles( 'vi-demographics-of-u-s-religious-groups', 'user-plus' );
-		$style_buffer .= self::get_new_icon_styles( 'methodology' );
-		$style_buffer .= self::get_new_icon_styles( 'appendices' );
 		register_block_style(
 			'prc-block/table-of-contents',
 			array(
