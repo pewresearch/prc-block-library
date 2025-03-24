@@ -25,7 +25,6 @@ function removeDialogIdFromUrl() {
 	window.history.replaceState({}, '', url);
 }
 
-
 const { actions, state } = store('prc-block/dialog', {
 	state: {
 		get id() {
@@ -92,12 +91,11 @@ const { actions, state } = store('prc-block/dialog', {
 				) {
 					return;
 				}
-				const id = key;
-				if (dialogType && dialogType !== state[id].type) {
+				if (null !== dialogType && dialogType !== state[key].type) {
 					return;
 				}
-				state[id].isOpen = false;
-				actions.pause(id);
+				state[key].isOpen = false;
+				actions.pause(key);
 			});
 		},
 		/**
@@ -202,7 +200,6 @@ const { actions, state } = store('prc-block/dialog', {
 			);
 			const dialogId = dialog?.getAttribute('id');
 			state[id].dialogElemId = dialogId;
-			console.log('onInitIdentifyDialogElem', state);
 		},
 		onESCKey: (event) => {
 			const { id, isOpen } = state;
@@ -237,16 +234,13 @@ const { actions, state } = store('prc-block/dialog', {
 		 * This callback is used to close the dialog element, it runs when the isOpen state changes and is set to false.
 		 */
 		onClose: () => {
-			console.log('running dialog onClose');
 			const { dialogElement, isOpen, id, animationDuration } = state;
 			// Sanity check, if we don't have an id or dialogElement then we can't proceed.
 			if (!id || !dialogElement) {
-				console.log('onClose -> no id or dialogElement');
 				return;
 			}
 			// If the dialog is meant to be open, don't proceed.
 			if (isOpen) {
-				console.log('onClose -> isOpen');
 				return;
 			}
 			// Start isClosing animation...
@@ -296,7 +290,6 @@ const { actions, state } = store('prc-block/dialog', {
 				return;
 			}
 			const { id } = state;
-			console.log('onBackdropClick -> close', event, ref, state, id);
 			actions.close(id);
 		},
 		onAutoActivation: () => {
@@ -308,11 +301,9 @@ const { actions, state } = store('prc-block/dialog', {
 			) {
 				return;
 			}
-			console.log('onAutoActivation', id, activationTimerDuration, state);
 			if (1 <= activationTimerDuration) {
 				setTimeout(
 					withScope(() => {
-						console.log('onAutoActivation -> closeAll', id);
 						actions.closeAll('modal');
 						actions.open(id);
 					}),

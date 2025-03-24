@@ -37,11 +37,13 @@ addFilter(
 				return (
 					<Fragment>
 						<BlockEdit {...props} />
-						<Controls {...{ attributes, setAttributes, context: false }} />
+						<Controls
+							{...{ attributes, setAttributes, context: false }}
+						/>
 					</Fragment>
 				);
 			},
-		'withCoreCoverControls',
+		'withCoreCoverControls'
 	),
-	21,
+	21
 );

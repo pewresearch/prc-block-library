@@ -49,14 +49,6 @@ const { state, actions } = store('prc-block/tabs', {
 			const tabIndex = isNumeric(tabIndexValue)
 				? parseInt(tabIndexValue, 10)
 				: 0;
-
-			console.log(
-				'isActiveTab...',
-				context,
-				attributes,
-				tabIndexValue,
-				tabIndex
-			);
 			return context.activeTabIndex === tabIndex;
 		},
 		/**

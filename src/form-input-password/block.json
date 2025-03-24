@@ -6,6 +6,10 @@
 	"title": "Password Field",
 	"category": "forms",
 	"description": "A block for password input in a form with optional confirmation field and analyzer.",
+	"allowedBlocks": [
+		"prc-block/form-input-text",
+		"prc-block/form-field"
+	],
 	"attributes": {
 		"includesConfirmation": {
 			"type": "boolean",

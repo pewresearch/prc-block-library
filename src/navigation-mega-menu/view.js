@@ -192,6 +192,6 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 					state[id].isActive = false;
 				}
 			}
-		}
+		},
 	},
 });

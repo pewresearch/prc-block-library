@@ -46,7 +46,9 @@
 	border: none;
 	background: none;
 	padding: 0;
-	display: inline-block;
+	display: flex;
+	justify-content: center;
+    align-items: center;
 	text-transform: inherit;
 }
 // The social links block should inherit the font size from the parent element when we're using this block.

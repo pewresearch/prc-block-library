@@ -36,6 +36,11 @@ export default function registerVariations() {
 		attributes: {
 			className: 'is-style-callout',
 			backgroundColor: 'ui-beige-very-light',
+			style: {
+				spacing: {
+					blockGap: 'var:preset|spacing|40',
+				},
+			},
 		},
 		example: {
 			innerBlocks: [
@@ -55,7 +60,10 @@ export default function registerVariations() {
 			],
 			viewportWidth: 320,
 		},
-		innerBlocks: [['core/heading'], ['core/paragraph']],
+		innerBlocks: [
+			['core/heading', { fontSize: 'small' }],
+			['core/paragraph'],
+		],
 		isActive: (blockAttributes, variationAttributes) =>
 			blockAttributes.className &&
 			blockAttributes.className === variationAttributes.className,

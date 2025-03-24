@@ -15,6 +15,7 @@ export default [
 		description: __('A horizontal carousel.'),
 		icon: HorizontalIcon(),
 		attributes: {
+			className: 'is-style-arrows-navigation',
 			orientation: 'horizontal',
 		},
 		scope: ['inserter'],
@@ -29,6 +30,7 @@ export default [
 		icon: VerticalIcon(),
 		attributes: {
 			orientation: 'vertical',
+			className: 'is-style-dots-navigation',
 		},
 		scope: [],
 		isActive: (blockAttributes, variationAttributes) =>

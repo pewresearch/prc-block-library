@@ -10,11 +10,24 @@
 		"orientation": {
 			"type": "string",
 			"default": "vertical"
+		},
+		"layout": {
+			"type": "object",
+			"default": {
+				"type": "flex",
+				"orientation": "vertical",
+				"justifyContent": "center",
+				"verticalAlignment": "center"
+			}
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true
+		},
 		"color": {
 			"background": true,
 			"enableContrastChecker": true,
@@ -25,11 +38,13 @@
 		"layout": {
 			"default": {
 				"type": "flex",
-				"orientation": "horizontal"
+				"orientation": "vertical",
+				"verticalAlignment": "stretch"
 			},
 			"allowOrientation": false,
 			"allowVerticalAlignment": true,
-			"allowJustification": true
+			"allowJustification": true,
+			"allowSizingOnChildren": true
 		},
 		"typography": {
 			"fontSize": true,

@@ -16,24 +16,28 @@ body:not(.post-template-layout-no-container-query) {
 	@container post-content-container (max-width: 480px) {
 		.wp-block-post-content .wp-block-image.alignright,
 		.wp-block-post-content .wp-block-image.alignleft {
-			margin-left: auto!important;
-			margin-right: auto!important;
-			float: none!important;
+			margin-left: auto !important;
+			margin-right: auto !important;
+			float: none !important;
 		}
 	}
 	// For headings inside post content, this will adjust their size on mobile.
 	@container post-content-container (max-width: 480px) {
 		.wp-block-post-content h1.wp-block-heading {
-			font-size: 26px;
+			font-size: 26px !important;
+			line-height: 30px !important;
 		}
 		.wp-block-post-content h2.wp-block-heading {
-			font-size: 18px;
+			font-size: 22px !important;
+			line-height: 22px !important;
 		}
 		.wp-block-post-content h3.wp-block-heading {
-			font-size: 18px;
+			font-size: 20px !important;
+			line-height: 26px !important;
 		}
 		.wp-block-post-content h4.wp-block-heading {
-			font-size: 16px;
+			font-size: 18px !important;
+			line-height: 20px !important;
 		}
 	}
 }
@@ -42,9 +46,9 @@ body.post-template-layout-no-container-query {
 	@media only screen and (max-width: 480px) {
 		.wp-block-post-content .wp-block-image.alignright,
 		.wp-block-post-content .wp-block-image.alignleft {
-			margin-left: auto!important;
-			margin-right: auto!important;
-			float: none!important;
+			margin-left: auto !important;
+			margin-right: auto !important;
+			float: none !important;
 		}
 	}
 }

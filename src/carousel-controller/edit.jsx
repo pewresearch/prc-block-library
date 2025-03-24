@@ -11,6 +11,7 @@ import {
 	useInnerBlocksProps,
 	useBlockProps,
 	store as blockEditorStore,
+	InnerBlocks,
 } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { Fragment } from '@wordpress/element';
@@ -97,17 +98,43 @@ export default function Edit({
 			orientation,
 			templateLock: false,
 			__experiementalCaptureToolbars: true,
+			renderAppender: false,
 			template: [
 				[
 					'prc-block/carousel-slide',
-					{},
+					{
+						layout: {
+							type: 'flex',
+							orientation: 'vertical',
+							verticalAlignment: 'center',
+							justifyContent: 'center',
+						},
+					},
 					[
 						[
-							'core/paragraph',
+							'core/group',
 							{
-								placeholder:
-									'Place blocks inside the carousel slide.',
+								layout: {
+									type: 'flex',
+									orientation: 'vertical',
+									verticalAlignment: 'center',
+									justifyContent: 'center',
+								},
+								style: {
+									layout: {
+										selfStretch: 'fill',
+									},
+								},
 							},
+							[
+								[
+									'core/paragraph',
+									{
+										placeholder:
+											'Type / to add blocks inside the carousel slide.',
+									},
+								],
+							],
 						],
 					],
 				],
@@ -164,6 +191,9 @@ export default function Edit({
 			/>
 			<div {...blockProps}>
 				<div {...innerBlocksProps} />
+				<div className="prc-block-carousel-controller__insert-block">
+					<InnerBlocks.ButtonBlockAppender />
+				</div>
 				{className?.includes('dots-navigation') && dots}
 				{className?.includes('arrows-navigation') && arrows}
 			</div>

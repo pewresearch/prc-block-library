@@ -750,11 +750,24 @@ return array(
 			'orientation' => array(
 				'type' => 'string',
 				'default' => 'vertical'
+			),
+			'layout' => array(
+				'type' => 'object',
+				'default' => array(
+					'type' => 'flex',
+					'orientation' => 'vertical',
+					'justifyContent' => 'center',
+					'verticalAlignment' => 'center'
+				)
 			)
 		),
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
+			'background' => array(
+				'backgroundImage' => true,
+				'backgroundSize' => true
+			),
 			'color' => array(
 				'background' => true,
 				'enableContrastChecker' => true,
@@ -765,11 +778,13 @@ return array(
 			'layout' => array(
 				'default' => array(
 					'type' => 'flex',
-					'orientation' => 'horizontal'
+					'orientation' => 'vertical',
+					'verticalAlignment' => 'stretch'
 				),
 				'allowOrientation' => false,
 				'allowVerticalAlignment' => true,
-				'allowJustification' => true
+				'allowJustification' => true,
+				'allowSizingOnChildren' => true
 			),
 			'typography' => array(
 				'fontSize' => true,
@@ -1297,6 +1312,10 @@ return array(
 					'modal'
 				),
 				'default' => 'modal'
+			),
+			'autoActivateOnRender' => array(
+				'type' => 'boolean',
+				'default' => false
 			),
 			'animationDuration' => array(
 				'type' => 'number',
@@ -2034,6 +2053,10 @@ return array(
 		'title' => 'Password Field',
 		'category' => 'forms',
 		'description' => 'A block for password input in a form with optional confirmation field and analyzer.',
+		'allowedBlocks' => array(
+			'prc-block/form-input-text',
+			'prc-block/form-field'
+		),
 		'attributes' => array(
 			'includesConfirmation' => array(
 				'type' => 'boolean',
@@ -2834,7 +2857,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/navigation-mega-menu',
-		'version' => '0.1.0',
+		'version' => '1.0.0',
 		'title' => 'Navigation Mega Menu',
 		'category' => 'design',
 		'description' => 'Mega menu that supports multiple overlay types and animations.',
@@ -4661,6 +4684,10 @@ return array(
 			'prc-block/tab'
 		),
 		'attributes' => array(
+			'defaultActiveTabIndex' => array(
+				'type' => 'number',
+				'default' => 0
+			),
 			'orientation' => array(
 				'type' => 'string',
 				'default' => 'horizontal',

@@ -9,6 +9,10 @@
     "prc-block/tab"
   ],
   "attributes": {
+    "defaultActiveTabIndex": {
+      "type": "number",
+      "default": 0
+    },
     "orientation": {
       "type": "string",
       "default": "horizontal",

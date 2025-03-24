@@ -1,8 +1,7 @@
 .wp-block-prc-block-carousel-controller {
 	position: relative;
 	width: 100%;
-	min-height: 400px;
-	overflow: hidden;
+	min-height: 300px;
 	display: flex;
 	gap: 1rem;
 	flex-direction: column;
@@ -67,8 +66,8 @@
 		position: absolute;
 		display: flex;
 		justify-content: space-between;
-		width: 100%;
-		padding: 0 1rem;
+		width: min(var(--wp--style--global--wide-size), calc(100% + 4em));
+		margin-left: -2em;
 		box-sizing: border-box;
 
 		// Default horizontal layout
@@ -86,11 +85,12 @@
 		// }
 
 		@media (max-width: 768px) {
-			padding: 0 0.5rem;
+			width: 100%;
+			margin-left: 0;
 
-			.is-style-vertical & {
-				padding: 0.5rem 0;
-			}
+			// .is-style-vertical & {
+			// 	padding: 0.5rem 0;
+			// }
 		}
 
 		.prc-block-carousel-controller__arrow {
@@ -102,14 +102,15 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			position: absolute;
 		}
 
 		.prc-block-carousel-controller__arrow--prev {
-			margin-right: 1rem;
+			left: 0;
 		}
 
 		.prc-block-carousel-controller__arrow--next {
-			margin-left: 1rem;
+			right: 0;
 		}
 	}
 
@@ -143,6 +144,13 @@
 				opacity: 1;
 			}
 		}
+	}
+
+	.prc-block-carousel-controller__insert-block {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		z-index: 10;
 	}
 }
 

@@ -85,7 +85,7 @@ addFilter(
 	`${BLOCKIDENTIFIER}-wrapper-props`,
 	createHigherOrderComponent((BlockListBlock) => {
 		return (props) => {
-			const { attributes, wrapperProps, name, className } = props;
+			const { attributes, wrapperProps, name, className = '' } = props;
 			if (BLOCKNAME !== name) {
 				return <BlockListBlock {...props} />;
 			}

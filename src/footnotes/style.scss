@@ -21,3 +21,14 @@
 		margin-left: 0.25em;
 	}
 }
+
+sup.footnote {
+	position: relative;
+	top: -0.5em;
+	font-size: 75%;
+	line-height: 0;
+	vertical-align: baseline;
+	a {
+		text-decoration: inherit !important;
+	}
+}

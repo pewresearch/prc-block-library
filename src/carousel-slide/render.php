@@ -1,4 +1,10 @@
 <?php
+/**
+ * Render the Carousel Slide block.
+ *
+ * @package PRC\Platform\Blocks
+ */
+
 namespace PRC\Platform\Blocks;
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
@@ -13,7 +19,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(
 );
 
 echo wp_sprintf(
-	'<div %1$s><div>%2$s</div></div>',
+	'<div %1$s>%2$s</div>',
 	$block_wrapper_attrs,
 	$content
 );

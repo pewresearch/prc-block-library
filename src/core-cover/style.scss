@@ -4,12 +4,13 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-
 // Default Cover Style:
 .wp-block-cover {
 	margin-bottom: 2em;
-	align-items: stretch;
-	justify-content: stretch;
+	&:not(.has-custom-content-position) {
+		justify-content: center;
+		align-items: center;
+	}
 	.wp-block-cover__inner-container {
 		color: inherit!important; // If you need to set a color for text do so on each element or child group.
 	}
@@ -63,7 +64,7 @@
 			text-align: left!important;
 		}
 		.has-text-color {
-			color: inherit!important;
+			color: var(--wp--preset--color--ui-text-color)!important;
 		}
 		.wp-block-cover__inner-container {
 			padding-top: 1em;

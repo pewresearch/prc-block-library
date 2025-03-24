@@ -5,7 +5,7 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-prc-block-form-input-message {
+.wp-block-prc-block-form-input-message:not(.wp-block) {
 	color: inherit;
 	background: inherit;
 
@@ -35,21 +35,50 @@
 	.wp-block-prc-block-form-input-message__message {
 		color: inherit;
 		padding: 10px;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px;
+	}
+
+	button {
+		background: none;
+		background-color: black;
+		color: white;
+		border: none;
+		appearance: none;
+		color: inherit;
+		margin: 0;
+		cursor: pointer;
+		padding: 0.5em;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5em;
+		&:hover {
+			background-color: rgba(0, 0, 0, 0.7);
+		}
 	}
 }
 
 .is-error .wp-block-prc-block-form-input-message,
 .wp-block-prc-block-form-input-message.is-error {
 	background: red;
-	color: white;
+	color: white
 }
 .is-warning .wp-block-prc-block-form-input-message,
 .wp-block-prc-block-form-input-message.is-warning {
-	background: yellow;
+	background: rgb(255, 255, 135);
 	color: black;
 }
 .is-success .wp-block-prc-block-form-input-message,
 .wp-block-prc-block-form-input-message.is-success {
 	background: green;
 	color: white;
+	button {
+		background-color: rgba(0, 128, 0, 0.5);
+		color: white;
+	}
 }

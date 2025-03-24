@@ -21,11 +21,6 @@ export default function registerTransforms() {
 			return settings;
 		}
 
-		console.log(
-			'Registering a transform for the core/details block.',
-			settings
-		);
-
 		if ('undefined' !== typeof settings.transforms) {
 			if ('undefined' !== typeof settings.transforms.from) {
 				settings.transforms.from.push({

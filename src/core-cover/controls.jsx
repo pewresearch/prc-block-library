@@ -17,7 +17,7 @@ function InspectorPanel({ attributes, setAttributes }) {
 			<PanelBody title={__('Media (mobile) settings')}>
 				<MediaDropZone
 					attachmentId={mobileId}
-					label={(__('Set Mobile Background'), 'prc-block-library')}
+					label={'Set Mobile Background'}
 					onUpdate={(attachment) => {
 						setAttributes({
 							mobileId: attachment.id,
@@ -27,7 +27,7 @@ function InspectorPanel({ attributes, setAttributes }) {
 				/>
 				<MediaDropZone
 					attachmentId={tabletId}
-					label={(__('Set Tablet Background'), 'prc-block-library')}
+					label={'Set Tablet Background'}
 					onUpdate={(attachment) => {
 						setAttributes({
 							tabletId: attachment.id,

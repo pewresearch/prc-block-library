@@ -26,7 +26,8 @@ function generate_tab( $label, $content, $index = 0 ) {
 	$inner_html_end   = '</section>';
 	$inner_html       = $inner_html_start . $inner_html_end;
 	$nulls            = count( $parsed_content );
-	$tab_block        = new WP_Block_Parser_Block(
+	// https://prc-platform.vipdev.lndo.site/pewresearch-org/religious-landscape-study/age-distribution/18-29/?activeChartId=76c7ee9e4967f189010073e95bce97a5&dialogId=a3c4125554ca8d51ba71a2ab5036e0c7
+	$tab_block = new WP_Block_Parser_Block(
 		'prc-block/tab',
 		array(
 			'label'    => $label,

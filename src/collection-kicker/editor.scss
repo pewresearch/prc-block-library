@@ -7,4 +7,10 @@
 .wp-block-prc-block-collection-kicker.wp-block {
 	color: inherit;
 	background: inherit;
+	& > div {
+		flex-grow: 1!important;
+	}
+	.block-editor-warning__contents {
+		justify-content: center;
+	}
 }

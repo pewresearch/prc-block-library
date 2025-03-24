@@ -24,12 +24,10 @@ import Controls from './controls';
  * @param {*} attributes
  * @param {*} label
  * @param {*} name
- * @returns
+ * @return
  */
 const getTemplate = (attributes, label = 'Password', name = 'password') => {
-	const {
-		includesConfirmation,
-	} = attributes;
+	const { includesConfirmation } = attributes;
 
 	return [
 		'prc-block/form-field',
@@ -37,19 +35,23 @@ const getTemplate = (attributes, label = 'Password', name = 'password') => {
 			label,
 			required: true,
 		},
-		[[
-			'prc-block/form-input-text',
-			{
-				type: 'password',
-				placeholder: includesConfirmation ? 'Password...' : 'Confirm Password...',
-				isInteractive: true,
-				interactiveNamespace: 'prc-block/form-input-password',
-				metadata: {
-					name
-				}
-			},
-		]]
-	]
+		[
+			[
+				'prc-block/form-input-text',
+				{
+					type: 'password',
+					placeholder: includesConfirmation
+						? 'Password...'
+						: 'Confirm Password...',
+					isInteractive: true,
+					interactiveNamespace: 'prc-block/form-input-password',
+					metadata: {
+						name,
+					},
+				},
+			],
+		],
+	];
 };
 
 /**
@@ -66,15 +68,19 @@ const getTemplate = (attributes, label = 'Password', name = 'password') => {
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const {
-		includesConfirmation,
-	} = attributes;
+	const { includesConfirmation } = attributes;
 
 	const template = useMemo(() => {
-		return includesConfirmation ? [
-			getTemplate(attributes),
-			getTemplate(attributes, 'Confirm Password', 'confirmPassword'),
-		] : [getTemplate(attributes)];
+		return includesConfirmation
+			? [
+					getTemplate(attributes),
+					getTemplate(
+						attributes,
+						'Confirm Password',
+						'confirmPassword'
+					),
+				]
+			: [getTemplate(attributes)];
 	}, [includesConfirmation]);
 
 	const orientation = useMemo(() => {
@@ -87,19 +93,18 @@ export default function Edit({ attributes, setAttributes }) {
 		}),
 		style: {
 			'--block-gap': getBlockGapSupportValue(attributes, 'horizontal'),
+		},
+	});
+	const innerBlocksProps = useInnerBlocksProps(
+		{
+			className: 'wp-block-prc-block-form-input-password__input',
+		},
+		{
+			templateLock: true,
+			template,
+			orientation,
 		}
-	});
-	const innerBlocksProps = useInnerBlocksProps({
-		className: 'wp-block-prc-block-form-input-password__input',
-	}, {
-		allowedBlocks: [
-			'prc-block/form-input-text',
-			'prc-block/form-field',
-		],
-		templateLock: true,
-		template,
-		orientation,
-	});
+	);
 
 	return (
 		<Fragment>
@@ -110,12 +115,30 @@ export default function Edit({ attributes, setAttributes }) {
 					<div className="wp-block-prc-block-form-input-password__analyzer">
 						<p>Password Must:</p>
 						<ul>
-							<li classname="is-valid"><span classname="fa fa-solid fa-check"></span> Includes one lowercase letter</li>
-							<li><span classname="fa fa-regular fa-xmark"></span> Includes one uppercase letter</li>
-							<li><span classname="fa fa-regular fa-xmark"></span> Includes one number</li>
-							<li><span classname="fa fa-regular fa-xmark"></span> Includes one special character</li>
-							<li><span classname="fa fa-regular fa-xmark"></span> Be at least 12 characters long</li>
-							<li><span classname="fa fa-regular fa-xmark"></span> Not include invalid characters</li>
+							<li className="is-valid">
+								<span className="fa fa-solid fa-check"></span>{' '}
+								Includes one lowercase letter
+							</li>
+							<li>
+								<span className="fa fa-regular fa-xmark"></span>{' '}
+								Includes one uppercase letter
+							</li>
+							<li>
+								<span className="fa fa-regular fa-xmark"></span>{' '}
+								Includes one number
+							</li>
+							<li>
+								<span className="fa fa-regular fa-xmark"></span>{' '}
+								Includes one special character
+							</li>
+							<li>
+								<span className="fa fa-regular fa-xmark"></span>{' '}
+								Be at least 12 characters long
+							</li>
+							<li>
+								<span className="fa fa-regular fa-xmark"></span>{' '}
+								Not include invalid characters
+							</li>
 						</ul>
 					</div>
 				)}

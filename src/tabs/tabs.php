@@ -84,12 +84,13 @@ class Tabs {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		$styles = $this->get_color_variables( $attributes );
+		$styles                   = $this->get_color_variables( $attributes );
+		$default_active_tab_index = (int) \PRC\Platform\Block_Utils\get_block_attributes( 'prc-block/tabs', $attributes, 'defaultActiveTabIndex' );
 
 		$url_encoded_active_tab_index = get_query_var( 'activeTabIndex', 0 );
 		$url_encoded_active_tab_index = base64_decode( $url_encoded_active_tab_index );
 		preg_match( '/__(\d+)$/', $url_encoded_active_tab_index, $matches );
-		$active_tab_index = isset( $matches[1] ) ? (int) $matches[1] : 0;
+		$active_tab_index = isset( $matches[1] ) ? (int) $matches[1] : $default_active_tab_index;
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(

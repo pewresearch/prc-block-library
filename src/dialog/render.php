@@ -1,5 +1,4 @@
 <?php
-
 // This is the only non core function we use. It's a wrapper for deep usage of the Jetpack device detection class.
 $current_device = \PRC\Platform\get_current_device();
 
@@ -7,7 +6,16 @@ $block_namespace = 'prc-block/dialog';
 
 $block_id = array_key_exists( 'dialogId', $attributes ) ? $attributes['dialogId'] : null;
 
+// If no block id, don't render, stop early.
+if ( ! $block_id ) {
+	return;
+}
+
+$auto_activate_on_render = array_key_exists( 'autoActivateOnRender', $attributes ) ? $attributes['autoActivateOnRender'] : false;
+$default_is_open         = $auto_activate_on_render;
+
 $auto_activation_timer = array_key_exists( 'autoActivationTimer', $attributes ) ? $attributes['autoActivationTimer'] : -1;
+$auto_activation_timer = $default_is_open ? 0 : $auto_activation_timer;
 
 $dialog_type = array_key_exists( 'dialogType', $attributes ) ? $attributes['dialogType'] : 'modal';
 
@@ -19,10 +27,6 @@ $widths = array_key_exists( 'widths', $attributes ) ? $attributes['widths'] : ar
 $animation_duration = array_key_exists( 'animationDuration', $attributes ) ? $attributes['animationDuration'] : 500;
 
 $enable_deep_link = array_key_exists( 'enableDeepLink', $attributes ) ? $attributes['enableDeepLink'] : false;
-
-if ( ! $block_id ) {
-	return;
-}
 
 // Why not use context here? Because I want to be able to easily close and open this dialog from other namespaces. By using state this is as easy as `store('prc-block/dialog').state[blockId].isOpen = true;` which would open the dialog given the blockId.
 wp_interactivity_state(

@@ -17,6 +17,10 @@
 			"enum": ["dialog", "modal"],
 			"default": "modal"
 		},
+		"autoActivateOnRender": {
+			"type": "boolean",
+			"default": false
+		},
 		"animationDuration": {
 			"type": "number",
 			"default": 500

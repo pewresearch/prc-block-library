@@ -197,11 +197,46 @@ function initThreadLinks() {
 	});
 }
 
+function initBlueskyLinks() {
+	// eslint-disable-next-line no-undef
+	const items = document.querySelectorAll(
+		'.wp-block-social-link.wp-social-link-bluesky'
+	);
+	items.forEach((elm) => {
+		const { url, description } = getArgs(elm);
+
+		const link = elm.querySelector('a');
+
+		if (link) {
+			link.addEventListener('click', (e) => {
+				e.preventDefault();
+				const actionUrl = addQueryArgs(
+					'https://bsky.app/intent/compose',
+					{
+						text: `${description} ${url}`,
+					}
+				);
+				open(
+					actionUrl,
+					'bskyShareWindow',
+					`height=450, width=550, top=${
+						innerHeight / 2 - 275
+					}, left=${
+						innerWidth / 2 - 225
+					}, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`
+				);
+				e.stopPropagation();
+			});
+		}
+	});
+}
+
 function start() {
 	initFacebookLinks();
 	initLinkedInLinks();
 	initTwitterLinks();
 	initThreadLinks();
+	initBlueskyLinks();
 }
 
 domReady(() => start());

@@ -6,6 +6,9 @@
  */
 
 .wp-element-button {
+	&[hidden] {
+		display: none;
+	}
 	&.is-error {
 		background-color: var(--wp--preset--color--ui-error);
 		color: #fff;
