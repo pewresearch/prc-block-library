@@ -14,12 +14,6 @@ import { Fragment } from '@wordpress/element';
  */
 import Controls from './controls';
 
-const ALLOWED_BLOCKS = [
-	'prc-block/form-input-text',
-	'prc-block/form-input-captcha',
-	'prc-block/form-input-message',
-	'core/button',
-];
 
 export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps({
@@ -29,8 +23,7 @@ export default function Edit({ attributes, setAttributes }) {
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: ALLOWED_BLOCKS,
-		templateLock: false, // @TODO: We should determine if the user is an admin, if so then set this to false...
+		templateLock: false,
 		template: [
 			[
 				'prc-block/form-input-text',

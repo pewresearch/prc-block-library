@@ -2748,6 +2748,13 @@ return array(
 			'newsletter',
 			'subscribe'
 		),
+		'allowedBlocks' => array(
+			'prc-block/form-input-text',
+			'prc-block/form-input-captcha',
+			'prc-block/form-input-message',
+			'core/button',
+			'core/group'
+		),
 		'attributes' => array(
 			'interest' => array(
 				'type' => 'string',

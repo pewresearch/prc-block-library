@@ -47,6 +47,18 @@
 	}
 
 	&.wp-block {
+		&:not(.is-selected) {
+			.wp-block-prc-block-form-captcha,
+			.wp-block-prc-block-form-input-message {
+				display: none;
+			}
+		}
+		&.is-selected {
+			.wp-block-prc-block-form-captcha,
+			.wp-block-prc-block-form-input-message {
+				display: block;
+			}
+		}
 		.wp-block-prc-block-form-captcha {
 			position: absolute;
 			opacity: 0.5;

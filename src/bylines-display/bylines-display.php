@@ -1,21 +1,31 @@
 <?php
+/**
+ * Bylines Display Block
+ *
+ * @package PRC\Platform\Blocks
+ */
 namespace PRC\Platform\Blocks;
 
 /**
- * Block Name:        Bylines Display
- * Description:       Display the current posts bylines as 1, 2, and 3.
- * Requires at least: 6.4
- * Requires PHP:      8.1
- * Author:            Seth Rubenstein
+ * Bylines Display Block
  *
- * @package           prc-block
+ * @package PRC\Platform\Blocks
  */
-
 class Bylines_Display {
+	/**
+	 * Constructor
+	 *
+	 * @param object $loader
+	 */
 	public function __construct( $loader ) {
 		$this->init( $loader );
 	}
 
+	/**
+	 * Initialize the block
+	 *
+	 * @param object $loader
+	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );

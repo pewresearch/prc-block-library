@@ -44,6 +44,7 @@
 		flex-direction: column!important;
 		margin-bottom: 0; // The content inside should provide its own bottom margin.
 		min-height: auto!important;
+		padding-top: 0;
 		.wp-block-prc-block-post-bylines,
 		.wp-block-post-date,
 		.wp-block-post-title {

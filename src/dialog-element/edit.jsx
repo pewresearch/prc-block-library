@@ -15,23 +15,13 @@ import {
 	withColors,
 	getColorClassName,
 } from '@wordpress/block-editor';
-import { Button, KeyboardShortcuts, ResizableBox } from '@wordpress/components';
+import { KeyboardShortcuts, ResizableBox } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
 import { Toolbar, InspectorPanel } from './controls';
-
-const ALLOWED_BLOCKS = [
-	'core/group',
-	'core/paragraph',
-	'core/heading',
-	'core/details',
-	'core/image',
-	'core/embed',
-	'videopress/video',
-];
 
 function Edit({
 	attributes,
@@ -45,7 +35,6 @@ function Edit({
 }) {
 	const widths = useMemo(() => context?.['dialog/widths'] || {}, [context]);
 	const dialogType = context?.['dialog/type'] || 'modal';
-	const { allowedBlocks } = attributes;
 	const { selectBlock } = useDispatch('core/block-editor');
 	const { deviceType, rootClientId } = useSelect((select) => {
 		return {
@@ -105,6 +94,7 @@ function Edit({
 				!!backdropColor?.slug,
 			'is-mobile': 'mobile' === deviceType,
 		}),
+		'data-wp-dialog-type': dialogType,
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
@@ -112,7 +102,6 @@ function Edit({
 			className: 'wp-block-prc-block-dialog-element__inner',
 		},
 		{
-			// allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 			templateLock: false,
 			__experimentalCaptureToolbars: true,
 		}

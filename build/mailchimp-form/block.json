@@ -12,6 +12,13 @@
     "newsletter",
     "subscribe"
   ],
+  "allowedBlocks": [
+    "prc-block/form-input-text",
+    "prc-block/form-input-captcha",
+    "prc-block/form-input-message",
+    "core/button",
+    "core/group"
+  ],
   "attributes": {
     "interest": {
       "type": "string",

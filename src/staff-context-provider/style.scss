@@ -25,4 +25,9 @@
 	.wp-block-prc-block-staff-context-provider__expertise-link {
 		font-weight: 700;
 	}
+
+	// Hide the download photo button if the image is not present
+	:where(.wp-block-group) > :where(.wp-block-group) > :is(.wp-block-group:has(.wp-element-button[hidden])) {
+		display: none;
+	}
 }

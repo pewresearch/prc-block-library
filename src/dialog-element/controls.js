@@ -28,13 +28,18 @@ export function Toolbar({ openDialog, closeDialog, isOpen, clientId }) {
 	/**
 	 * Setup the icon and label for the block toolbar.
 	 */
-	const {selectBlock} = useDispatch('core/block-editor');
-	const {rootClientId} = useSelect((select) => {
+	const { selectBlock } = useDispatch('core/block-editor');
+	const { rootClientId } = useSelect((select) => {
 		return {
-			rootClientId: select('core/block-editor').getBlockRootClientId(clientId),
-		}
+			rootClientId:
+				select('core/block-editor').getBlockRootClientId(clientId),
+		};
 	}, []);
-	const label = useMemo(() => (isOpen ? 'Close Dialog' : 'Open Dialog'), [isOpen]);
+
+	const label = useMemo(
+		() => (isOpen ? 'Close Dialog' : 'Open Dialog'),
+		[isOpen]
+	);
 
 	return (
 		<BlockControls>
@@ -58,18 +63,25 @@ export function Toolbar({ openDialog, closeDialog, isOpen, clientId }) {
 	);
 }
 
-export function InspectorPanel({ openDialog, closeDialog, colors, clientId, context }) {
+export function InspectorPanel({
+	openDialog,
+	closeDialog,
+	colors,
+	clientId,
+	context,
+}) {
 	const autoActivationTimer = context?.['dialog/autoActivationTimer'] || -1;
 	const animationDuration = context?.['dialog/animationDuration'] || 500;
 	const dialogType = context?.['dialog/type'] || 'modal';
 	/**
 	 * Setup the icon and label for the block toolbar.
 	 */
-	const {updateBlockAttributes} = useDispatch('core/block-editor');
-	const {rootClientId} = useSelect((select) => {
+	const { updateBlockAttributes } = useDispatch('core/block-editor');
+	const { rootClientId } = useSelect((select) => {
 		return {
-			rootClientId: select('core/block-editor').getBlockRootClientId(clientId),
-		}
+			rootClientId:
+				select('core/block-editor').getBlockRootClientId(clientId),
+		};
 	}, []);
 	const { backdropColor, setBackdropColor } = colors;
 	const colorSettings = useMultipleOriginColorsAndGradients();
@@ -81,39 +93,56 @@ export function InspectorPanel({ openDialog, closeDialog, colors, clientId, cont
 					<SelectControl
 						label="Dialog Type"
 						help="Choose the type of dialog to display. A modal dialog will block the rest of the page from being interacted with. A dialog will allow the user to interact with the rest of the page. Changing this value will close the current dialog."
-						value={ dialogType }
-						options={ [
-							{ label: __('Modal', 'prc-block-library'), value: 'modal' },
-							{ label: __('Dialog', 'prc-block-library'), value: 'dialog' },
-						] }
-						onChange={ (newType) => {
+						value={dialogType}
+						options={[
+							{
+								label: __('Modal', 'prc-block-library'),
+								value: 'modal',
+							},
+							{
+								label: __('Dialog', 'prc-block-library'),
+								value: 'dialog',
+							},
+						]}
+						onChange={(newType) => {
 							updateBlockAttributes(rootClientId, {
 								dialogType: newType,
 							});
 							closeDialog();
-						} }
+						}}
 					/>
 					{'modal' === dialogType && (
 						<Fragment>
-								<ToggleControl
-									label={__('Auto Activation Timer', 'prc-block-library')}
-									help={__('Automatically open the dialog after the specified time, in milliseconds.', 'prc-block-library')}
-									checked={ 1 <= autoActivationTimer }
-									onChange={ (newAutoActivationTimer) => updateBlockAttributes(rootClientId, {
-										autoActivationTimer: newAutoActivationTimer ? 5000 : -1,
-									}) }
-								/>
-								{ 1 <= autoActivationTimer && (
-									<NumberControl
-										label="Activation Timer Duration"
-										isShiftStepEnabled={ true }
-										onChange={ (newDuration) => updateBlockAttributes(rootClientId, {
-											autoActivationTimer: newDuration,
-										}) }
-										shiftStep={ 100 }
-										value={ autoActivationTimer }
-									/>
+							<ToggleControl
+								label={__(
+									'Auto Activation Timer',
+									'prc-block-library'
 								)}
+								help={__(
+									'Automatically open the dialog after the specified time, in milliseconds.',
+									'prc-block-library'
+								)}
+								checked={1 <= autoActivationTimer}
+								onChange={(newAutoActivationTimer) =>
+									updateBlockAttributes(rootClientId, {
+										autoActivationTimer:
+											newAutoActivationTimer ? 5000 : -1,
+									})
+								}
+							/>
+							{1 <= autoActivationTimer && (
+								<NumberControl
+									label="Activation Timer Duration"
+									isShiftStepEnabled={true}
+									onChange={(newDuration) =>
+										updateBlockAttributes(rootClientId, {
+											autoActivationTimer: newDuration,
+										})
+									}
+									shiftStep={100}
+									value={autoActivationTimer}
+								/>
+							)}
 						</Fragment>
 					)}
 				</PanelBody>
@@ -121,29 +150,31 @@ export function InspectorPanel({ openDialog, closeDialog, colors, clientId, cont
 					<NumberControl
 						label="Animation Duration"
 						help="The duration of the dialog animation in milliseconds."
-						isShiftStepEnabled={ true }
-						onChange={ (newDuration) => updateBlockAttributes(rootClientId, {
-							animationDuration: newDuration,
-						}) }
-						shiftStep={ 100 }
-						value={ animationDuration }
+						isShiftStepEnabled={true}
+						onChange={(newDuration) =>
+							updateBlockAttributes(rootClientId, {
+								animationDuration: newDuration,
+							})
+						}
+						shiftStep={100}
+						value={animationDuration}
 					/>
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="color">
 				<ColorGradientSettingsDropdown
-					settings={ [
+					settings={[
 						{
 							colorValue: backdropColor?.color,
 							onColorChange: setBackdropColor,
 							label: __('Backdrop', 'prc-block-library'),
 						},
-					] }
-					panelId={ clientId }
-					hasColorsOrGradients={ false }
-					disableCustomColors={ true }
+					]}
+					panelId={clientId}
+					hasColorsOrGradients={false}
+					disableCustomColors={true}
 					__experimentalIsRenderedInSidebar
-					{ ...colorSettings }
+					{...colorSettings}
 				/>
 			</InspectorControls>
 		</Fragment>

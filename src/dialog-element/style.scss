@@ -5,6 +5,9 @@
 	z-index: 10;
 	max-width: 95vw;
 	min-width: var(--min-width, 25vw);
+	&[data-wp-dialog-type="dialog"] {
+		position: absolute;
+	}
 	&.has-border-color {
 		border-style: solid;
 	}
@@ -74,13 +77,38 @@
 		transform: translate3d(0, 100%, 0);
 	}
 }
-.wp-block-prc-block-dialog {
-	dialog[open] {
+
+// A pop in animation for "dialog" type dialogs.
+@keyframes popIn {
+	from {
+		transform: scale(0.9);
+		opacity: 0;
+	}
+
+}
+@keyframes popOut {
+	to {
+		transform: scale(0.9);
+		opacity: 0;
+	}
+}
+
+// Modal "fade in" animation.
+.wp-block-prc-block-dialog .wp-block-prc-block-dialog-element[data-wp-dialog-type="modal"][open] {
+	animation-duration: var(--animation-duration, 0.5s);
+	animation-name: fadeInDown;
+	&.is-closing {
 		animation-duration: var(--animation-duration, 0.5s);
-		animation-name: fadeInDown;
-		&.is-closing {
-			animation-duration: var(--animation-duration, 0.5s);
-			animation-name: fadeOutDown;
-		}
+		animation-name: fadeOutDown;
+	}
+}
+
+
+.wp-block-prc-block-dialog .wp-block-prc-block-dialog-element[data-wp-dialog-type="dialog"][open] {
+	animation-name: popIn;
+	animation-duration: var(--animation-duration, 0.5s);
+	&.is-closing {
+		animation-name: popOut;
+		animation-duration: var(--animation-duration, 0.5s);
 	}
 }

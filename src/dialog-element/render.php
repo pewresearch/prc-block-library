@@ -21,6 +21,7 @@ if ( $has_named_backdrop_color ) {
 if ( $has_named_backdrop_color ) {
 	$color_css_classes[] = sprintf( 'has-%s-backdrop-color', $attributes['backdropColor'] );
 }
+$dialog_type = isset( $block->context['dialog/type'] ) ? $block->context['dialog/type'] : 'modal';
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
@@ -32,6 +33,7 @@ $block_wrapper_attrs = get_block_wrapper_attributes(
 		'data-wp-class--is-video'   => 'state.isVideo',
 		'data-wp-class--is-closing' => 'state.isClosing',
 		'data-wp-on--click'         => 'callbacks.onBackdropClick',
+		'data-wp-dialog-type'       => $dialog_type,
 	)
 );
 

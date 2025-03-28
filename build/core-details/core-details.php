@@ -83,7 +83,7 @@ class Core_Details {
 	public static function get_new_icon_styles( $style_name ) {
 		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-plus', 'black' );
 		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-minus', 'black' );
-		return wp_sprintf( '.wp-block-details.is-style-%1$s > summary::-webkit-details-marker { display: none } .wp-block-details.is-style-%1$s > summary { font-weight: bold; display: flex; align-items: center; font-size: 1.125em; } .wp-block-details.is-style-%1$s > summary:after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; } .wp-block-details.is-style-%1$s[open] > summary:after { background-image: url(%3$s); }', $style_name, $open_icon, $close_icon );
+		return wp_sprintf( '.wp-block-details.is-style-%1$s > summary::-webkit-details-marker { display: none } .wp-block-details.is-style-%1$s > summary { font-weight: bold; display: flex; align-items: center; font-size: 1rem; } .wp-block-details.is-style-%1$s > summary:after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; } .wp-block-details.is-style-%1$s[open] > summary:after { background-image: url(%3$s); }', $style_name, $open_icon, $close_icon );
 	}
 
 	/**
