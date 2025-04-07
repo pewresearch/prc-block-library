@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { store, getElement, getContext } from "@wordpress/interactivity";
+import { store, getElement, getContext } from '@wordpress/interactivity';
 
 /**
  * Internal Dependencies
@@ -9,14 +9,14 @@ import { store, getElement, getContext } from "@wordpress/interactivity";
 const NAMESPACE = 'prc-block/mailchimp-select';
 const ENDPOINT = '/prc-api/v3/mailchimp/subscribe';
 
-const {state} = store( 'prc-block/mailchimp-select', {
+const { state } = store('prc-block/mailchimp-select', {
 	state: {},
 	actions: {
 		onInputChange: (event) => {
-			const {value} = event.target;
+			const { value } = event.target;
 			const context = getContext();
-			const {ref} = getElement();
-			const {id} = ref;
+			const { ref } = getElement();
+			const { id } = ref;
 			// Store the value in the global state where we store all primitve inputs.
 			state[id].value = value;
 			// Also, store the value in this block's context so we can use it in the submitHandler.
@@ -24,19 +24,19 @@ const {state} = store( 'prc-block/mailchimp-select', {
 		},
 		onButtonClick: (event) => {
 			const context = getContext();
-			const {ref} = getElement();
-			const {id} = ref;
+			const { ref } = getElement();
+			const { id } = ref;
 			context.captchaHidden = false;
 		},
 		onCheckboxClick: (event) => {
-			if ( event.target.tagName === 'LABEL' ) {
+			if (event.target.tagName === 'LABEL') {
 				event.preventDefault();
 			}
 			const context = getContext();
-			const {ref} = getElement();
+			const { ref } = getElement();
 			const input = ref.querySelector('input');
-			const {id} = input;
-			const {checked, value, type} = state[id];
+			const { id } = input;
+			const { checked, value, type } = state[id];
 
 			state[id].checked = !checked;
 
@@ -46,22 +46,18 @@ const {state} = store( 'prc-block/mailchimp-select', {
 			} else {
 				context.interests.push(value);
 			}
-
-			console.log('onCheckboxClick', ref, state, id, context);
 		},
-		onCheckboxMouseEnter: () => {
-			console.log('prc-block/mailchimp-select', 'onCheckboxMouseEnter');
-		},
-		onButtonMouseEnter: () => {
-			console.log('prc-block/mailchimp-select', 'onButtonMouseEnter');
-		}
+		onCheckboxMouseEnter: () => {},
+		onButtonMouseEnter: () => {},
 	},
 	callbacks: {
 		onInit: () => {
-			const {ref} = getElement();
+			const { ref } = getElement();
 			const context = getContext();
 
-			const input = ref.querySelector('input.wp-block-prc-block-form-input-text');
+			const input = ref.querySelector(
+				'input.wp-block-prc-block-form-input-text'
+			);
 			if (input?.id) {
 				context.inputId = input?.id;
 			}
@@ -69,12 +65,13 @@ const {state} = store( 'prc-block/mailchimp-select', {
 			if (button?.id) {
 				context.buttonId = button?.id;
 			}
-			console.log("prc-block/mailchimp-select -> onInit", context);
 		},
 		onInputChange: () => {
 			// An exercise in how concise can we make this function.
-			const {emailAddress, buttonId} = getContext();
-			state[buttonId].isDisabled = emailAddress && emailAddress.includes('@') ? false : true;
+			const { emailAddress, buttonId } = getContext();
+			state[buttonId].isDisabled = !(
+				emailAddress && emailAddress.includes('@')
+			);
 		},
 		// This is the callback that runs once the captcha has verified the user is not a robot.
 		onCaptchaVerify: () => {
@@ -90,9 +87,7 @@ const {state} = store( 'prc-block/mailchimp-select', {
 				return;
 			}
 
-			console.log("onCaptchaVerify", context);
-
-			const apiFetch = window.wp.apiFetch;
+			const { apiFetch } = window.wp;
 			const { isURL, buildQueryString } = window.wp.url;
 
 			const url = document.URL;
@@ -112,36 +107,35 @@ const {state} = store( 'prc-block/mailchimp-select', {
 					api_key: 'mailchimp-select',
 					origin_url: url,
 				},
-			}).then((response) => {
-				context.isSuccess = true;
-				console.log("SUCCESS", response, context);
-			}).catch((e) => {
-				context.isError = true;
-				console.error("ERROR", e, context);
-			});
+			})
+				.then((response) => {
+					context.isSuccess = true;
+				})
+				.catch((e) => {
+					context.isError = true;
+				});
 		},
 		onSuccess: () => {
 			const context = getContext();
-			const {isSuccess, buttonId, inputId} = context;
-			if ( null !== isSuccess ) {
+			const { isSuccess, buttonId, inputId } = context;
+			if (null !== isSuccess) {
 				state[inputId].isSuccess = isSuccess;
 				state[buttonId].isSuccess = isSuccess;
-				if ( true === isSuccess ) {
+				if (true === isSuccess) {
 					state[buttonId].text = 'Success';
 				}
 			}
 		},
 		onError: () => {
 			const context = getContext();
-			const {isError, buttonId, inputId} = context;
-			if ( null !== isError ) {
+			const { isError, buttonId, inputId } = context;
+			if (null !== isError) {
 				state[inputId].isError = isError;
 				state[buttonId].isError = isError;
-				if ( true === isError ) {
+				if (true === isError) {
 					state[buttonId].text = 'Error';
 				}
 			}
-		}
+		},
 	},
-} );
-
+});

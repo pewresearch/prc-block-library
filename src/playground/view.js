@@ -137,7 +137,6 @@ const top100Films = [
 ];
 
 const Group = () => {
-	console.log('time to complete??');
 	return (
 		<div>
 			<Select
@@ -165,14 +164,11 @@ const Group = () => {
 };
 
 domReady(() => {
-	if (
-		document.querySelector('.wp-block-prc-block-playground')
-	) {
+	if (document.querySelector('.wp-block-prc-block-playground')) {
 		const playgrounds = document.querySelectorAll(
 			'.wp-block-prc-block-playground'
 		);
 		playgrounds.forEach((playground) => {
-			console.log('Playground Render: ', playground);
 			render(<Group />, playground);
 		});
 	}

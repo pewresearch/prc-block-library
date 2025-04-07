@@ -30,6 +30,7 @@ import save from './save';
 import { HorizontalIcon as icon } from './icons';
 import variations from './variations';
 import './style.scss';
+import './editor.scss';
 
 import metadata from './block.json';
 

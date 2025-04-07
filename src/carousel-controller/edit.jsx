@@ -12,6 +12,7 @@ import {
 	useBlockProps,
 	store as blockEditorStore,
 	InnerBlocks,
+	withColors,
 } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { Fragment } from '@wordpress/element';
@@ -21,13 +22,69 @@ import { Fragment } from '@wordpress/element';
  */
 import Controls from './controls';
 
-export default function Edit({
+const TEMPLATE = [
+	[
+		'prc-block/carousel-slide',
+		{
+			layout: {
+				type: 'flex',
+				orientation: 'vertical',
+				verticalAlignment: 'center',
+				justifyContent: 'center',
+			},
+		},
+		[
+			[
+				'core/group',
+				{
+					layout: {
+						type: 'flex',
+						orientation: 'vertical',
+						verticalAlignment: 'center',
+						justifyContent: 'center',
+					},
+					style: {
+						layout: {
+							selfStretch: 'fill',
+						},
+					},
+				},
+				[
+					[
+						'core/paragraph',
+						{
+							placeholder: 'Type / to add blocks to the slide.',
+						},
+					],
+				],
+			],
+		],
+	],
+];
+
+const DEFAULT_BLOCK = {
+	name: 'prc-block/carousel-slide',
+	attributesToCopy: [
+		'className',
+		'color',
+		'fontFamily',
+		'fontSize',
+		'spacing',
+	],
+};
+
+function Edit({
 	attributes,
 	setAttributes,
 	clientId,
 	isSelected,
+	dotColor,
+	setDotColor,
+	arrowColor,
+	setArrowColor,
 }) {
-	const { orientation, className } = attributes;
+	const { orientation, enableDots, enableArrows, arrowsSize, dotsSize } =
+		attributes;
 
 	const { selectBlock } = useDispatch(blockEditorStore);
 
@@ -44,50 +101,58 @@ export default function Edit({
 			getSelectedBlockClientId,
 			getBlockParentsByBlockName,
 			hasSelectedInnerBlock,
+			getNextBlockClientId,
+			getPreviousBlockClientId,
 		} = select(blockEditorStore);
 		const currentlySelectedBlockClientId = getSelectedBlockClientId();
 		const blockParents = getBlockParentsByBlockName(
 			currentlySelectedBlockClientId,
-			'prc-block/carousel-slide'
+			'prc-block/carousel-controller'
 		);
+
 		const blockParentClientId =
 			blockParents?.[0] || currentlySelectedBlockClientId;
 		const currentlySelectedBlock = getBlock(currentlySelectedBlockClientId);
 		const _innerBlocks = getBlocks(clientId);
 		const currentlySelectedSlideBlock =
-			'prc-block/carousel-slide' === currentlySelectedBlock?.blockName
+			'prc-block/carousel-slide' === currentlySelectedBlock?.name
 				? currentlySelectedBlockClientId
 				: null;
+		const blockIsSelected =
+			isSelected || hasSelectedInnerBlock(clientId, true);
 		if (null === currentlySelectedSlideBlock) {
 			return {
 				innerBlocks: _innerBlocks,
 				selectedCarouselSlideClientId: blockParentClientId,
 				nextClientId: null,
 				previousClientId: null,
-				_isSelected:
-					isSelected || hasSelectedInnerBlock(clientId, true),
+				_isSelected: blockIsSelected,
 			};
 		}
-		const nextIndex = _innerBlocks.indexOf(currentlySelectedSlideBlock) + 1;
-		const previousIndex =
-			_innerBlocks.indexOf(currentlySelectedSlideBlock) - 1;
-		const _nextClientId = _innerBlocks[nextIndex]?.clientId;
-		const _previousClientId = _innerBlocks[previousIndex]?.clientId;
-
 		return {
 			innerBlocks: _innerBlocks,
 			selectedCarouselSlideClientId: blockParentClientId,
-			nextClientId: _nextClientId,
-			previousClientId: _previousClientId,
-			_isSelected: isSelected || hasSelectedInnerBlock(clientId, true),
+			nextClientId: getNextBlockClientId(currentlySelectedSlideBlock),
+			previousClientId: getPreviousBlockClientId(
+				currentlySelectedSlideBlock
+			),
+			_isSelected: blockIsSelected,
 		};
 	});
 
 	const blockProps = useBlockProps({
-		className: classNames('prc-block-carousel-controller', {
+		className: classNames({
 			'is-style-vertical': orientation === 'vertical',
 			'is-enabled': _isSelected,
+			[`has-arrows-${arrowsSize}`]: enableArrows && arrowsSize,
+			[`has-dots-${dotsSize}`]: enableDots && dotsSize,
+			[`has-dot-color`]: dotColor,
+			[`has-arrow-color`]: arrowColor,
 		}),
+		style: {
+			'--prc-carousel-controller-dot-color': dotColor?.color,
+			'--prc-carousel-controller-arrow-color': arrowColor?.color,
+		},
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
@@ -99,46 +164,9 @@ export default function Edit({
 			templateLock: false,
 			__experiementalCaptureToolbars: true,
 			renderAppender: false,
-			template: [
-				[
-					'prc-block/carousel-slide',
-					{
-						layout: {
-							type: 'flex',
-							orientation: 'vertical',
-							verticalAlignment: 'center',
-							justifyContent: 'center',
-						},
-					},
-					[
-						[
-							'core/group',
-							{
-								layout: {
-									type: 'flex',
-									orientation: 'vertical',
-									verticalAlignment: 'center',
-									justifyContent: 'center',
-								},
-								style: {
-									layout: {
-										selfStretch: 'fill',
-									},
-								},
-							},
-							[
-								[
-									'core/paragraph',
-									{
-										placeholder:
-											'Type / to add blocks inside the carousel slide.',
-									},
-								],
-							],
-						],
-					],
-				],
-			],
+			template: TEMPLATE,
+			defaultBlock: DEFAULT_BLOCK,
+			directInsert: true,
 		}
 	);
 
@@ -170,14 +198,28 @@ export default function Edit({
 				type="button"
 				onClick={() => selectBlock(previousClientId)}
 			>
-				<Icon library="solid" icon="chevron-left" />
+				<Icon
+					library="solid"
+					icon={
+						orientation === 'vertical'
+							? 'chevron-up'
+							: 'chevron-left'
+					}
+				/>
 			</button>
 			<button
 				className="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow--next"
 				type="button"
 				onClick={() => selectBlock(nextClientId)}
 			>
-				<Icon library="solid" icon="chevron-right" />
+				<Icon
+					library="solid"
+					icon={
+						orientation === 'vertical'
+							? 'chevron-down'
+							: 'chevron-right'
+					}
+				/>
 			</button>
 		</div>
 	);
@@ -188,15 +230,24 @@ export default function Edit({
 				attributes={attributes}
 				setAttributes={setAttributes}
 				clientId={clientId}
+				dotColor={dotColor}
+				setDotColor={setDotColor}
+				arrowColor={arrowColor}
+				setArrowColor={setArrowColor}
 			/>
 			<div {...blockProps}>
 				<div {...innerBlocksProps} />
+				{enableArrows && arrows}
+				{enableDots && dots}
 				<div className="prc-block-carousel-controller__insert-block">
 					<InnerBlocks.ButtonBlockAppender />
 				</div>
-				{className?.includes('dots-navigation') && dots}
-				{className?.includes('arrows-navigation') && arrows}
 			</div>
 		</Fragment>
 	);
 }
+
+export default withColors({
+	dotColor: 'color',
+	arrowColor: 'color',
+})(Edit);

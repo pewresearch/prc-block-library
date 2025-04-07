@@ -231,7 +231,8 @@ const { actions, state } = store('prc-block/dialog', {
 			}
 		},
 		/**
-		 * This callback is used to close the dialog element, it runs when the isOpen state changes and is set to false.
+		 * This callback is used to close the dialog element,
+		 * it runs when the isOpen state changes and is set to false.
 		 */
 		onClose: () => {
 			const { dialogElement, isOpen, id, animationDuration } = state;
@@ -335,9 +336,10 @@ const { actions, state } = store('prc-block/dialog', {
 			}
 			const { id } = state;
 			// Set up the VideoPress API object and also set it to turn off shareButton's by default.
-			state[id].videoPressAPI = VideoPressIframeApi(iframe, () => {
-				api.customize.set({ shareButton: false });
+			const videoPressInstance = VideoPressIframeApi(iframe, () => {
+				videoPressInstance.customize.set({ shareButton: false });
 			});
+			state[id].videoPressAPI = videoPressInstance;
 		},
 	},
 });

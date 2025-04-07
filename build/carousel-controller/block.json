@@ -18,6 +18,44 @@
     "orientation": {
       "type": "string",
       "default": "horizontal"
+    },
+    "enableDots": {
+      "type": "boolean",
+      "default": true
+    },
+    "enableArrows": {
+      "type": "boolean",
+      "default": true
+    },
+    "enableRewind": {
+      "type": "boolean",
+      "default": true
+    },
+    "arrowsSize": {
+      "type": "string",
+      "default": "medium",
+      "enum": [
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    "dotsSize": {
+      "type": "string",
+      "default": "small",
+      "enum": [
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    "dotColor": {
+      "type": "string",
+      "default": "var(--wp--preset--color--black)"
+    },
+    "arrowColor": {
+      "type": "string",
+      "default": "var(--wp--preset--color--black)"
     }
   },
   "supports": {
@@ -64,20 +102,9 @@
       "style": true
     }
   },
-  "styles": [
-    {
-      "name": "arrows-navigation",
-      "label": "Arrows Navigation",
-      "isDefault": true
-    },
-    {
-      "name": "dots-navigation",
-      "label": "Dots Navigation"
-    }
-  ],
   "textdomain": "carousel-controller",
   "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
-  "render": "file:./render.php",
   "viewScriptModule": "file:./view.js"
 }

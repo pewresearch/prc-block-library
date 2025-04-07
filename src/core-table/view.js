@@ -22,10 +22,8 @@ domReady(() => {
 	const tableBlocks = document.querySelectorAll(
 		'.wp-block-table.sortable-table'
 	);
-	console.log('tableBlocks...', tableBlocks);
 	tableBlocks.forEach((tableBlock) => {
 		const tableId = tableBlock.getAttribute('id');
 		const dataTable = initSortableTable(tableId, {});
-		console.log('core/table sortableTable...', dataTable);
 	});
 });

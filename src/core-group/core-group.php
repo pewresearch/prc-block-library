@@ -316,15 +316,18 @@ class Core_Group {
 				$w->add_class( 'has-max-width-constraint' );
 
 				$styles = array(
-					'--max-width__desktop: ' . $max_width['desktop'],
-					'--max-width__tablet: ' . $max_width['tablet'],
-					'--max-width__mobile: ' . $max_width['mobile'],
+					'--max-width__desktop: ' . $max_width['desktop'] . ';',
+					'--max-width__tablet: ' . $max_width['tablet'] . ';',
+					'--max-width__mobile: ' . $max_width['mobile'] . ';',
 				);
-				$styles = implode( ';', $styles );
+				$styles = implode( ' ', $styles );
 				// Add the styles to the style attribute, create if it doesnt exist, add to if it does.
 				$existing_styles = $w->get_attribute( 'style' );
 				if ( $existing_styles ) {
-					$styles = $existing_styles . $styles;
+					// Sanity check.
+					$existing_styles = rtrim( $existing_styles );
+					$existing_styles = rtrim( $existing_styles, ';' ) . ';';
+					$styles          = $existing_styles . ' ' . $styles;
 				}
 				$w->set_attribute( 'style', $styles );
 			}

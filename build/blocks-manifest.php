@@ -675,6 +675,44 @@ return array(
 			'orientation' => array(
 				'type' => 'string',
 				'default' => 'horizontal'
+			),
+			'enableDots' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'enableArrows' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'enableRewind' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'arrowsSize' => array(
+				'type' => 'string',
+				'default' => 'medium',
+				'enum' => array(
+					'small',
+					'medium',
+					'large'
+				)
+			),
+			'dotsSize' => array(
+				'type' => 'string',
+				'default' => 'small',
+				'enum' => array(
+					'small',
+					'medium',
+					'large'
+				)
+			),
+			'dotColor' => array(
+				'type' => 'string',
+				'default' => 'var(--wp--preset--color--black)'
+			),
+			'arrowColor' => array(
+				'type' => 'string',
+				'default' => 'var(--wp--preset--color--black)'
 			)
 		),
 		'supports' => array(
@@ -721,21 +759,10 @@ return array(
 				'style' => true
 			)
 		),
-		'styles' => array(
-			array(
-				'name' => 'arrows-navigation',
-				'label' => 'Arrows Navigation',
-				'isDefault' => true
-			),
-			array(
-				'name' => 'dots-navigation',
-				'label' => 'Dots Navigation'
-			)
-		),
 		'textdomain' => 'carousel-controller',
 		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'carousel-slide' => array(
@@ -793,6 +820,9 @@ return array(
 			),
 			'shadow' => true,
 			'interactivity' => true,
+			'spacing' => array(
+				'padding' => true
+			),
 			'__experimentalBorder' => array(
 				'radius' => true,
 				'color' => true,

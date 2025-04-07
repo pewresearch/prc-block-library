@@ -63,7 +63,8 @@ const { actions } = store('prc-block/timeline', {
 			if (tickElement) {
 				tickElement.focus();
 			}
-			// Update the input range to match, use the index of the given tick from context.ticks given the id
+			// Update the input range to match, use the index of the
+			// given tick from context.ticks given the id
 			const slider = document.getElementById(context.id);
 			const index = context.ticks.findIndex((t) => t.id === id);
 			slider.value = index;
@@ -80,7 +81,9 @@ const { actions } = store('prc-block/timeline', {
 				const value = parseFloat(event.target.value);
 				// Find the nearest tick index based on the current value
 				const tickIndex = Math.min(
-					Math.round((value / (ticks.length - 1)) * (ticks.length - 1)),
+					Math.round(
+						(value / (ticks.length - 1)) * (ticks.length - 1)
+					),
 					ticks.length - 1
 				);
 				const tick = ticks[tickIndex];
@@ -92,7 +95,9 @@ const { actions } = store('prc-block/timeline', {
 				const value = parseFloat(event.target.value);
 				// Calculate the nearest tick position
 				const tickIndex = Math.min(
-					Math.round((value / (ticks.length - 1)) * (ticks.length - 1)),
+					Math.round(
+						(value / (ticks.length - 1)) * (ticks.length - 1)
+					),
 					ticks.length - 1
 				);
 				// Update the slider value to the nearest tick position
@@ -117,7 +122,6 @@ const { actions } = store('prc-block/timeline', {
 		},
 		getTickPosition: () => {
 			const context = getContext();
-			console.log('getTickPosition', context);
 			const { tick } = context;
 			const activePosition = tick.position;
 			return `left: ${activePosition}%`;

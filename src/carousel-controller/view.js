@@ -6,6 +6,7 @@ import {
 	getContext,
 	getElement,
 	withScope,
+	withSyncEvent,
 } from '@wordpress/interactivity';
 
 const { state, actions } = store('prc-block/carousel-controller', {
@@ -33,6 +34,14 @@ const { state, actions } = store('prc-block/carousel-controller', {
 				.getElementById(id)
 				.querySelector('.prc-block-carousel-controller__track');
 		},
+		get hasNextSlide() {
+			const { slideIndex, count } = getContext();
+			return slideIndex < count - 1;
+		},
+		get hasPreviousSlide() {
+			const { slideIndex } = getContext();
+			return slideIndex > 0;
+		},
 	},
 	actions: {
 		navigateToSlide: (index) => {
@@ -44,75 +53,85 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			});
 		},
 		goToDot: () => {
-			const { attributes } = getElement();
-			const index = parseInt(attributes['data-slide-index'], 10);
+			const context = getContext();
+			const { dot } = context;
+			const { index } = dot;
 			actions.navigateToSlide(index);
 		},
 		goToNextSlide: () => {
 			const context = getContext();
 			const { count, slideIndex } = context;
-			const nextIndex = Math.min(slideIndex + 1, count - 1);
+			const nextIndex = count === slideIndex + 1 ? 0 : slideIndex + 1;
 			actions.navigateToSlide(nextIndex);
 		},
 		goToPreviousSlide: () => {
 			const context = getContext();
-			const { slideIndex } = context;
-			const previousIndex = Math.max(slideIndex - 1, 0);
+			const { slideIndex, count } = context;
+			const previousIndex = slideIndex === 0 ? count - 1 : slideIndex - 1;
 			actions.navigateToSlide(previousIndex);
+		},
+		resetCarousel: () => {
+			actions.navigateToSlide(0);
 		},
 	},
 	callbacks: {
 		onInit: () => {
 			const context = getContext();
-			const { ref } = getElement();
 			const { orientation, count } = context;
-
-			console.log(context);
 
 			const isVertical = orientation === 'vertical';
 			state.bodyObj = document.body;
 
-			const _track = ref.querySelector(
-				'.prc-block-carousel-controller__track'
-			);
-
 			// Add scroll event listener with debounce
+			const { track } = state;
 			let scrollTimeout;
-			_track.addEventListener(
+			track.addEventListener(
 				'scroll',
-				withScope((event) => {
-					// Clear existing timeout
-					clearTimeout(scrollTimeout);
+				withScope(
+					withSyncEvent((event) => {
+						// Clear existing timeout
+						clearTimeout(scrollTimeout);
 
-					// Set new timeout to ensure we get the final position after scroll stops
-					scrollTimeout = setTimeout(() => {
-						// Get container and content dimensions based on orientation
-						const containerSize = isVertical
-							? _track.clientHeight
-							: _track.clientWidth;
-						const contentSize = isVertical
-							? _track.scrollHeight
-							: _track.scrollWidth;
-						const scrollPos = isVertical
-							? _track.scrollTop
-							: _track.scrollLeft;
+						// Set new timeout to ensure we get the final position after scroll stops
+						scrollTimeout = setTimeout(() => {
+							// Get container and content dimensions based on orientation
+							const containerSize = isVertical
+								? track.clientHeight
+								: track.clientWidth;
+							const contentSize = isVertical
+								? track.scrollHeight
+								: track.scrollWidth;
+							const scrollPos = isVertical
+								? track.scrollTop
+								: track.scrollLeft;
 
-						// Calculate progress as a percentage (0 to 1)
-						const maxScroll = contentSize - containerSize;
-						const progress = maxScroll ? scrollPos / maxScroll : 0;
+							// Calculate progress as a percentage (0 to 1)
+							const maxScroll = contentSize - containerSize;
+							const progress = maxScroll
+								? scrollPos / maxScroll
+								: 0;
 
-						// Calculate slide index from progress
-						const slideIndex = Math.round(progress * (count - 1));
+							// Calculate slide index from progress
+							const slideIndex = Math.round(
+								progress * (count - 1)
+							);
 
-						// Ensure index is within bounds
-						const boundedIndex = Math.max(
-							0,
-							Math.min(slideIndex, count - 1)
-						);
+							// Ensure index is within bounds
+							const boundedIndex = Math.max(
+								0,
+								Math.min(slideIndex, count - 1)
+							);
 
-						context.slideIndex = boundedIndex;
-					}, 10);
-				})
+							context.slideIndex = boundedIndex;
+
+							// console.log('onTrackScroll::', {
+							// 	slideIndex,
+							// 	boundedIndex,
+							// 	progress,
+							// });
+						}, 10);
+					})
+				)
 			);
 
 			if (!state.isInsideCover) {
@@ -124,6 +143,15 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			const { attributes } = getElement();
 			const index = parseInt(attributes['data-slide-index'], 10);
 			return context.slideIndex === index;
+		},
+		onCoverFinalSideDisable: () => {
+			const { ref } = getElement();
+			const context = getContext();
+			const { slideIndex, count } = context;
+			const cover = ref.closest('.wp-block-cover');
+			if (cover && slideIndex === count - 1) {
+				context.enabled = false;
+			}
 		},
 		onCoverScroll: () => {
 			const { isInsideCover, coverRef } = state;
@@ -155,12 +183,12 @@ const { state, actions } = store('prc-block/carousel-controller', {
 						2000
 					);
 				}
-				// On the way out, set context.enabled to false
+				// On the way out, set engaged to false
 				if (coverBottom <= 0 || coverTop >= window.innerHeight) {
-					context.enabled = false;
 					setTimeout(
 						withScope(() => {
 							state.hasEngaged = false;
+							actions.resetCarousel();
 						}),
 						2000
 					);

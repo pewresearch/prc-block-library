@@ -1,0 +1,10 @@
+.wp-block-prc-block-carousel-controller.wp-block {
+	&:not(.is-selected):not(.has-child-selected) .prc-block-carousel-controller__insert-block {
+		display: none;
+	}
+	.prc-block-carousel-controller__insert-block {
+		.block-editor-default-block-appender {
+			display: flex;
+		}
+	}
+}

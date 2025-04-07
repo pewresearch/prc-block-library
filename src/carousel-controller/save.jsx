@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import classNames from 'classnames';
 
 /**
  * WordPress Dependencies
@@ -12,7 +13,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { InnerBlocks } from '@wordpress/block-editor';
+import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -25,6 +26,39 @@ import { InnerBlocks } from '@wordpress/block-editor';
  * @param {Object} props.attributes Available block attributes.
  * @return {WPElement} Element to render.
  */
-export default function Save() {
-	return <InnerBlocks.Content />;
+export default function Save({ attributes }) {
+	const {
+		orientation,
+		enableArrows,
+		enableDots,
+		arrowsSize,
+		dotsSize,
+		dotColor,
+		arrowColor,
+	} = attributes;
+
+	const blockProps = useBlockProps.save({
+		className: classNames({
+			'is-style-vertical': orientation === 'vertical',
+			[`has-arrows-${arrowsSize}`]: enableArrows && arrowsSize,
+			[`has-dots-${dotsSize}`]: enableDots && dotsSize,
+			[`has-dot-color`]: dotColor,
+			[`has-arrow-color`]: arrowColor,
+		}),
+	});
+	const innerBlocksProps = useInnerBlocksProps.save({
+		className: 'prc-block-carousel-controller__track',
+	});
+
+	return (
+		<div {...blockProps}>
+			<div {...innerBlocksProps} />
+			{enableArrows && (
+				<div className="prc-block-carousel-controller__arrows"></div>
+			)}
+			{enableDots && (
+				<div className="prc-block-carousel-controller__dots"></div>
+			)}
+		</div>
+	);
 }

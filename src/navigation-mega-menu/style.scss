@@ -11,6 +11,9 @@
 		padding: 0;
 	}
 
+	&:not(.is-active) .wp-block-prc-block-navigation-mega-menu__container {
+		width: 0;
+	}
 	&.is-active {
 		border-top-color: var(--active-border-color);
 		border-right-color: var(--active-border-color);

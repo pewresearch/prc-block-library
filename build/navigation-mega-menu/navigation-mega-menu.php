@@ -1,23 +1,38 @@
 <?php
+/**
+ * Navigation Mega Menu Block.
+ *
+ * @package PRC\Platform\Blocks
+ */
+
 namespace PRC\Platform\Blocks;
 
 use MatthiasMullie\Minify;
 
 /**
  * Block Name:        Navigation Mega Menu
- * Version:           0.1.0
+ * Version:           1.0.0
  * Requires at least: 6.1
  * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
  * @package           prc-block
  */
-
 class Navigation_Mega_Menu {
+	/**
+	 * Constructor.
+	 *
+	 * @param array $loader The loader.
+	 */
 	public function __construct( $loader ) {
 		$this->init( $loader );
 	}
 
+	/**
+	 * Initialize the block.
+	 *
+	 * @param array $loader The loader.
+	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
@@ -27,6 +42,11 @@ class Navigation_Mega_Menu {
 		}
 	}
 
+	/**
+	 * Generate mega menu styles.
+	 *
+	 * @return string The generated styles.
+	 */
 	public function generate_mega_menu_styles() {
 		$colors = wp_get_global_settings( array( 'color', 'palette', 'theme' ) );
 		ob_start();
@@ -69,7 +89,8 @@ class Navigation_Mega_Menu {
 	 * Enables the mega menu block to be auto-wrapped in an <li> element by the navigation block on the frontend.
 	 *
 	 * @hook block_core_navigation_listable_blocks
-	 * @return array
+	 * @param array $blocks The blocks to enable.
+	 * @return array The modified blocks.
 	 */
 	public function enable_mega_menu_list_wrapper( $blocks ) {
 		$blocks[] = 'prc-block/navigation-mega-menu';
@@ -77,8 +98,9 @@ class Navigation_Mega_Menu {
 	}
 
 	/**
+	 * Enqueue custom mega menu styles.
+	 *
 	 * @hook enqueue_block_assets, enqueue_block_editor_assets
-	 * @return void
 	 */
 	public function enqueue_custom_mega_menu_styles() {
 		$styles = $this->generate_mega_menu_styles();
@@ -103,10 +125,10 @@ class Navigation_Mega_Menu {
 	public function mega_menu_template_part_areas( array $areas ) {
 		$areas[] = array(
 			'area'        => 'menu',
-			'area_tag'    => 'div',
+			'label'       => __( 'Menu', 'navigation-mega-menu' ),
 			'description' => __( 'Menu templates are used to create sections of a mega menu.', 'navigation-mega-menu' ),
 			'icon'        => 'layout',
-			'label'       => __( 'Menu', 'navigation-mega-menu' ),
+			'area_tag'    => 'div',
 		);
 		return $areas;
 	}

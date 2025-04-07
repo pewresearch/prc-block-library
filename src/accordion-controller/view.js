@@ -13,7 +13,7 @@ function entityIframeSupport(ref) {
 	const entityIframeId = entityIframe?.getAttribute('id');
 	console.log('entityIframeId', entityIframeId);
 	const { state } = store('prc-block/entity-as-iframe');
-	console.log('store...', state);
+	console.log('entityStore...', state);
 	state[entityIframeId].isActive = !state[entityIframeId].isActive;
 }
 

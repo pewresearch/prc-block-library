@@ -37,7 +37,6 @@ const useDebounce = (value, delay) => {
 const { state, actions } = store('prc-block/taxonomy-search', {
 	actions: {
 		async doSearch(searchValue, taxonomy, parentTermId = 0) {
-			console.log('doSearch', searchValue, taxonomy, parentTermId);
 			return new Promise((resolve) => {
 				const args = { per_page: 25 };
 				if ('' !== taxonomy) {
@@ -57,9 +56,7 @@ const { state, actions } = store('prc-block/taxonomy-search', {
 						args
 					),
 				};
-				console.log('doSearch', request);
 				apiFetch(request).then((d) => {
-					console.log('doSearch', d);
 					const tmpData = d.map((t) => ({
 						key: t.id,
 						id: t.id,
@@ -95,7 +92,6 @@ const { state, actions } = store('prc-block/taxonomy-search', {
 	callbacks: {
 		showResults: () => {
 			const context = getContext();
-			console.log('showResults', context, state);
 			return (
 				context.results &&
 				context.results.length >= 1 &&
@@ -106,13 +102,6 @@ const { state, actions } = store('prc-block/taxonomy-search', {
 			const context = getContext();
 			const { debouncedSearchValue } = context;
 			if (debouncedSearchValue) {
-				console.log(
-					'onSearchValueChange',
-					context,
-					state,
-					debouncedSearchValue
-				);
-				// do the search
 				actions
 					.doSearch(debouncedSearchValue, context.taxonomy)
 					.then((d) => {

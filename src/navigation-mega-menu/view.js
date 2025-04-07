@@ -1,37 +1,9 @@
 /**
  * WordPress dependencies
  */
-import {
-	store,
-	getContext,
-	getElement,
-	useState,
-	useEffect,
-} from '@wordpress/interactivity';
+import { store, getContext, getElement } from '@wordpress/interactivity';
 
-import { setValues } from './use-ref-resizer';
-
-// Function to convert a complex CSS value to pixels
-function convertCssValueToPixels(cssValue) {
-	// Create a temporary element
-	const tempElement = document.createElement('div');
-
-	// Apply the CSS value to the temporary element
-	// For example, setting its width to the complex CSS value
-	tempElement.style.width = cssValue;
-
-	// Append the temporary element to the body to make it part of the document
-	document.body.appendChild(tempElement);
-
-	// Use getComputedStyle to get the computed width in pixels
-	const computedWidth = window.getComputedStyle(tempElement).width;
-
-	// Remove the temporary element from the document
-	document.body.removeChild(tempElement);
-
-	// Return the computed width as a number
-	return parseFloat(computedWidth);
-}
+import { getValues } from './use-ref-resizer';
 
 const { state, actions } = store('prc-block/navigation-mega-menu', {
 	state: {
@@ -98,7 +70,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 
 			const context = getContext();
 
-			const { width, left, top } = setValues(
+			const { width, left, top } = getValues(
 				ref,
 				ref.closest('.wp-block-navigation')
 			);
@@ -117,6 +89,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 			);
 			context.menuRef = menu;
 
+			// Set the initial menu positions
 			actions.setMenuPositions();
 
 			const innerGroup = menu.querySelector(
@@ -130,6 +103,7 @@ const { state, actions } = store('prc-block/navigation-mega-menu', {
 			}
 		},
 		onResize() {
+			// Watch for window resize events and update the menu positions
 			actions.setMenuPositions();
 		},
 		getToggleClassname() {

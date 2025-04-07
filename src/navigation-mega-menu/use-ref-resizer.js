@@ -42,32 +42,34 @@ function getRootPaddingValues() {
 	};
 }
 
-export function setValues(menuContainer, navBlock) {
+export function getValues(menuContainer, navBlock) {
 	if (!menuContainer && !navBlock) {
 		return;
 	}
 
+	// Get the height of the navigation block containingthe menu
+	// we use this to position the menu directly below the navigation block.
 	const navBlockHeight = navBlock.offsetHeight;
 
-	// find the body of menuContainer, remember iframes can have their own body.
+	// Find the body of menuContainer, remember iframes can have their own body.
 	const body = menuContainer.closest('body');
 	const windowWidth = body.offsetWidth;
 
-	// Get the bounding rectangle of the navigation block containing the menu.
+	// Get the bounding rectangle of the menu container.
 	const menuRect = menuContainer.getBoundingClientRect();
-	const menuWidth = menuRect.width;
+	// Then the left position of the menu container.
+	// This is used to position the menu negatively to the left of the navigation block
+	// so that it is flush with the left edge of the navigation block.
 	const menuLeftPosition = menuRect?.left;
-	// console.log("setValue...", {
-	// 	menuRect,
-	// 	menuWidth,
-	// 	menuLeftPosition,
-	// 	windowWidth,
-	// });
 
-	// Determine the new value:
+	// Determine the new values:
+	// The top position of the menu is the height of
+	// the navigation block minus 1px ( to account for borders )
 	const newTop = `${navBlockHeight - 1}px`;
-	const newWidth = `${windowWidth}px`; // We want all menus to extend the full width of the screen, for now.
+	// The left position of the menu is the negative of the left position of the menu container.
 	const newLeft = `-${menuLeftPosition}px`;
+	// We want all menus to extend the full width of the screen, for now.
+	const newWidth = `${windowWidth}px`;
 
 	return {
 		width: newWidth,
@@ -99,7 +101,7 @@ export default function useRefResizer({ ref, isMobile, useState, useEffect }) {
 				let navBlock = menuContainer.closest('.wp-block-navigation'); // That which menu options are derived from.
 				navBlock = navBlock.parentElement;
 
-				const { width, left, top } = setValues(menuContainer, navBlock);
+				const { width, left, top } = getValues(menuContainer, navBlock);
 
 				setTopPosition(top);
 				setLeftPosition(left);

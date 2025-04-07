@@ -15,7 +15,6 @@ function submitHandler({
 	interest = false,
 	NONCE = false,
 }) {
-	console.log('submitHandler', window.wp.url, window.wp.apiFetch);
 	const { apiFetch } = window.wp;
 	const { isURL, buildQueryString } = window.wp.url;
 
@@ -47,7 +46,6 @@ function submitHandler({
 			method: 'POST',
 		})
 			.then((response) => {
-				console.log('RESPONSE:', response);
 				if (response.success) {
 					resolve(response);
 				} else {
@@ -78,12 +76,8 @@ const { state, actions } = store('prc-block/mailchimp-form', {
 			const { id } = ref;
 			context.captchaHidden = false;
 		},
-		onCheckboxMouseEnter: () => {
-			console.log('prc-block/mailchimp-form', 'onCheckboxMouseEnter');
-		},
-		onButtonMouseEnter: () => {
-			console.log('prc-block/mailchimp-form', 'onButtonMouseEnter');
-		},
+		onCheckboxMouseEnter: () => {},
+		onButtonMouseEnter: () => {},
 		reset: (context) => {
 			const { buttonId, inputId } = context;
 			state[inputId].isError = false;

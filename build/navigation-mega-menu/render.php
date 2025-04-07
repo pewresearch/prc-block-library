@@ -71,7 +71,7 @@ $toggle_icon = ob_get_clean();
 ob_start();
 ?>
 <button
-	aria-label="<?php echo __( 'Close Menu', 'mega-menu' ); ?>"
+	aria-label="<?php echo esc_attr__( 'Close Menu', 'prc-block-library' ); ?>"
 	class="wp-block-prc-block-navigation-mega-menu__container__close-button"
 	data-wp-on--click="actions.closeMenuOnClick"
 	type="button"
@@ -138,7 +138,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 			)
 		),
 		'data-wp-class--is-active'     => 'state.isActive',
-		'data-wp-watch'                => 'callbacks.onInit',
+		'data-wp-init'                 => 'callbacks.onInit',
 		'data-wp-on-window--resize'    => 'callbacks.onResize',
 		'data-wp-on-document--keydown' => 'callbacks.onESCKey',
 		'data-wp-on-window--click'     => 'callbacks.onWindowClickCloseMegaMenu',

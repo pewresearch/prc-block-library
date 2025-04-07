@@ -8,7 +8,7 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
 	BaseControl,
@@ -24,40 +24,59 @@ import { useSelect, select } from '@wordpress/data';
  * Internal Dependencies
  */
 
-
 function InspectorPanel({ attributes, setAttributes, clientId, context }) {
 	const { isInteractive, interactiveNamespace, interactiveSubsumption } =
 		attributes;
 	const namespace = interactiveNamespace || context?.interactiveNamespace;
-	const { interactiveNamespaceOptions } = useSelect((select) => {
-		const { getBlockParents, getBlock } = select('core/block-editor');
-		const { getBlockSupport } = select('core/blocks');
-		const _blockNames = getBlockParents(clientId);
-		const blockArray = [];
-		_blockNames.forEach((block) => {
-			const _block = getBlock(block);
-			const blockName = _block.name;
-			const supportsInteractivity = getBlockSupport(
-				blockName,
-				'interactivity'
-			);
-			if (supportsInteractivity) {
-				if (!blockArray.includes(blockName)) {
-					blockArray.push(blockName);
+	const { interactiveNamespaceOptions, defaultNamespace } = useSelect(
+		(select) => {
+			const { getBlockParents, getBlock } = select('core/block-editor');
+			const { getBlockSupport } = select('core/blocks');
+			const _blockNames = getBlockParents(clientId);
+			const blockArray = [];
+			_blockNames.forEach((block) => {
+				const _block = getBlock(block);
+				const blockName = _block.name;
+				const supportsInteractivity = getBlockSupport(
+					blockName,
+					'interactivity'
+				);
+				if (supportsInteractivity) {
+					if (!blockArray.includes(blockName)) {
+						blockArray.push(blockName);
+					}
 				}
-			}
-		});
+			});
 
-		// Construct new options array for a select control with the names.
-		const options = blockArray.map((blockName) => ({
-			value: blockName,
-			label: blockName,
-		}));
+			// Construct new options array for a select control with the names.
+			const options = blockArray.map((blockName) => ({
+				value: blockName,
+				label: blockName,
+			}));
 
-		return {
-			interactiveNamespaceOptions: options,
-		};
-	});
+			return {
+				interactiveNamespaceOptions: options,
+				defaultNamespace: options[0]?.value,
+			};
+		}
+	);
+
+	/**
+	 * Handles setting the default namespace when the block is first made interactive.
+	 * And also unsetting the namespace when the block is no longer interactive.
+	 */
+	useEffect(() => {
+		if (isInteractive && !namespace && defaultNamespace) {
+			setAttributes({
+				interactiveNamespace: defaultNamespace,
+			});
+		} else if (!isInteractive && namespace) {
+			setAttributes({
+				interactiveNamespace: null,
+			});
+		}
+	}, [isInteractive, namespace, defaultNamespace, setAttributes]);
+
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Interactivity API')}>

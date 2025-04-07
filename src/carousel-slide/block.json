@@ -53,6 +53,9 @@
 		},
 		"shadow": true,
 		"interactivity": true,
+		"spacing": {
+			"padding": true
+		},
 		"__experimentalBorder": {
 			"radius": true,
 			"color": true,

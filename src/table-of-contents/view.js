@@ -44,7 +44,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 						);
 						if (target) {
 							target.scrollIntoView({ behavior: 'smooth' }, true);
-							console.log('smooth scroll to', href);
 							// Add the hash to the end of the URL.
 							window.history.pushState(null, null, href);
 						}
@@ -111,6 +110,9 @@ const { actions, state } = store('prc-block/table-of-contents', {
 						(chapter) => chapter.is_active === true
 					);
 				});
+				if (-1 === activePartIndex) {
+					return;
+				}
 				const activeChapterIndex = items[
 					activePartIndex
 				].chapters.findIndex((chapter) => chapter.is_active === true);
@@ -128,7 +130,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		 */
 		hasListItems() {
 			const context = getContext();
-			console.log('hasListItems::', { ...context });
 			const { part, chapter } = { ...context };
 			if (undefined === chapter && undefined !== part) {
 				return part.sections.length > 0;
@@ -146,7 +147,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			const { part, chapter, section } = { ...context };
 
 			const itemType = actions.getContextClue(context);
-			console.log('isActive::', itemType, { ...context });
 			if ('part' === itemType) {
 				return part.is_active;
 			}
@@ -225,7 +225,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			) {
 				return;
 			}
-			console.log('watchForCurrentSection::', state, { ...context });
 			const { key } = context.section;
 			const { currentSection } = state;
 			context.section.is_active = key === currentSection;
