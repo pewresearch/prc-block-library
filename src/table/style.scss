@@ -1,0 +1,57 @@
+.wp-block-prc-block-table {
+	box-sizing: border-box;
+
+	> table {
+
+		&.has-fixed-layout {
+			table-layout: fixed;
+		}
+
+		&.is-sticky-header:not(.is-stacked-on-mobile) thead {
+			position: sticky;
+			top: 0;
+			z-index: 1;
+		}
+
+		&.is-sticky-first-column tr > *:first-child {
+			position: sticky;
+			left: 0;
+			z-index: 1;
+		}
+
+		th,
+		td {
+			box-sizing: border-box;
+			min-width: auto;
+			word-break: normal;
+			overflow-wrap: anywhere;
+
+			img {
+				max-width: 100%;
+			}
+		}
+	}
+
+	&.is-content-justification-left,
+	&.is-content-justification-center,
+	&.is-content-justification-right {
+		display: flex;
+		flex-flow: column;
+
+		figcaption {
+			align-self: stretch;
+		}
+	}
+
+	&.is-content-justification-left {
+		align-items: flex-start;
+	}
+
+	&.is-content-justification-center {
+		align-items: center;
+	}
+
+	&.is-content-justification-right {
+		align-items: flex-end;
+	}
+}

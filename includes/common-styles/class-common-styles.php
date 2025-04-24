@@ -1,15 +1,35 @@
 <?php
+/**
+ * Common Styles
+ *
+ * @package PRC\Platform\Blocks
+ */
+
 namespace PRC\Platform\Blocks;
 
+/**
+ * Common Styles
+ *
+ * @package PRC\Platform\Blocks
+ */
 class Common_Styles {
-	public function __construct($loader) {
+	/**
+	 * Constructor
+	 *
+	 * @param mixed $loader The loader.
+	 */
+	public function __construct( $loader ) {
 		require_once plugin_dir_path( __FILE__ ) . '/class-additional-color-supports.php';
 		require_once plugin_dir_path( __FILE__ ) . '/baseball-card/class-baseball-card-list.php';
-		require_once plugin_dir_path( __FILE__ ) . '/pagination/class-pagination.php';
-		$this->init($loader);
+		$this->init( $loader );
 	}
 
-	public function init($loader) {
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @param mixed $loader The loader.
+	 */
+	public function init( $loader ) {
 		$additional_color_supports = new Additional_Color_Supports();
 
 		$loader->add_filter( 'safe_style_css', $this, 'allowed_inline_styles', 10, 1 );
@@ -24,8 +44,8 @@ class Common_Styles {
 	 *
 	 * @hook safe_style_css
 	 *
-	 * @param mixed $styles
-	 * @return mixed
+	 * @param mixed $styles The styles.
+	 * @return mixed The styles.
 	 */
 	public function allowed_inline_styles( $styles ) {
 		$styles[] = 'container';
@@ -35,11 +55,11 @@ class Common_Styles {
 
 	/**
 	 * Register the "Baseball Card" `prc-block-library--baseball-card` support style.
+	 *
 	 * @hook enqueue_block_assets
 	 */
 	public function register_baseball_card_style() {
-		// Baseball Card
-		$asset_file = include(  plugin_dir_path( __FILE__ )  . 'baseball-card/build/index.asset.php' );
+		$asset_file = include plugin_dir_path( __FILE__ ) . 'baseball-card/build/index.asset.php';
 		wp_register_style(
 			'prc-block-library--baseball-card',
 			plugins_url( 'baseball-card/build/style-index.css', __FILE__ ),
@@ -48,9 +68,13 @@ class Common_Styles {
 		);
 	}
 
+	/**
+	 * Register the "Pagination" `prc-block-library--pagination` support style.
+	 *
+	 * @hook enqueue_block_assets
+	 */
 	public function register_pagination_style() {
-		// Pagination
-		$asset_file = include(  plugin_dir_path( __FILE__ )  . 'pagination/build/index.asset.php' );
+		$asset_file = include plugin_dir_path( __FILE__ ) . 'pagination/build/index.asset.php';
 		wp_register_style(
 			'prc-block-library--pagination',
 			plugins_url( 'pagination/build/style-index.css', __FILE__ ),
@@ -59,15 +83,22 @@ class Common_Styles {
 		);
 	}
 
+	/**
+	 * Register the "Pagination" `prc-block-library--pagination` support script.
+	 *
+	 * @hook admin_enqueue_scripts
+	 */
 	public function reigster_pagination_script() {
-		// Pagination
-		$asset_file = include(  plugin_dir_path( __FILE__ )  . 'pagination/build/index.asset.php' );
+		$asset_file = include plugin_dir_path( __FILE__ ) . 'pagination/build/index.asset.php';
 		wp_register_script(
 			'prc-block-library--pagination',
 			plugins_url( 'pagination/build/index.js', __FILE__ ),
-			array_merge($asset_file['dependencies'], [
-				'prc-functions',
-			]),
+			array_merge(
+				$asset_file['dependencies'],
+				array(
+					'prc-functions',
+				)
+			),
 			$asset_file['version'],
 			true
 		);

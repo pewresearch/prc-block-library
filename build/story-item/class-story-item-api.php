@@ -456,7 +456,11 @@ class Story_Item_API {
 			$image_id = \attachment_url_to_postid( $image );
 		}
 
-		$art = function_exists( 'prc_get_art' ) ? prc_get_art( $this->post_id, 'A1' ) : false;
+		if ( ! function_exists( '\PRC\Platform\Art_Direction\get' ) ) {
+			do_action( 'qm/debug', 'NO ART DIRECTION API FOUND' );
+		}
+
+		$art = function_exists( '\PRC\Platform\Art_Direction\get' ) ? \PRC\Platform\Art_Direction\get( $this->post_id, 'A1' ) : false;
 
 		return false !== $art || false !== $image_id;
 	}
@@ -507,7 +511,7 @@ class Story_Item_API {
 			return $imgs;
 		}
 
-		$art      = function_exists( 'prc_get_art' ) ? prc_get_art( $this->post_id, $image_size ) : false;
+		$art      = function_exists( '\PRC\Platform\Art_Direction\get' ) ? \PRC\Platform\Art_Direction\get( $this->post_id, $image_size ) : false;
 		$image_id = false !== $art ? $art['id'] : false;
 		$bordered = false !== $art ? $art['chartArt'] : $bordered;
 		if ( false !== $image_id ) {

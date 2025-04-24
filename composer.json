@@ -1,0 +1,23 @@
+{
+	"name": "pewresearch/prc-block-library",
+	"description": "Pew Research Center Block Library",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0"
+    },
+    "require": {
+		"matthiasmullie/minify": "^1.3"
+    },
+    "config": {
+		"vendor-dir": "./vendor",
+        "allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/installers": true,
+			"alleyinteractive/composer-wordpress-autoloader": true
+		},
+		"platform": {
+			"php": "8.2"
+		}
+    }
+}

@@ -1,0 +1,105 @@
+.ftb-global-setting-modal {
+
+	@media (min-width: 600px) {
+		width: calc(100% - 32px);
+		height: calc(100% - 120px);
+	}
+
+	@media (min-width: 782px) {
+		width: 750px;
+	}
+
+	@media (min-width: 960px) {
+		height: 75%;
+	}
+}
+
+.ftb-global-setting-modal__tab-panel {
+
+	.components-tab-panel__tabs {
+		position: absolute;
+		top: 84px;
+		left: 16px;
+		flex-flow: column;
+		width: 170px;
+
+		@media screen and (max-width: 782px) {
+			position: static;
+			width: 100%;
+			margin-bottom: 24px;
+		}
+	}
+
+	.components-tab-panel__tabs-item {
+
+		&:focus {
+			box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+		}
+
+		&:focus-visible::before {
+			content: none;
+		}
+
+		&.is-active {
+			background: #f0f0f0;
+
+			&::after {
+				content: none;
+			}
+		}
+	}
+
+	.components-tab-panel__tab-content {
+		padding-left: 24px;
+		margin-left: 170px;
+
+		@media screen and (max-width: 782px) {
+			padding-left: 0;
+			margin-left: 0;
+		}
+	}
+}
+
+.ftb-global-setting-modal__styles-item {
+	width: calc(50% - 4px);
+	border: 1px var(--wp-admin-theme-color) solid;
+
+	@media screen and (max-width: 782px) {
+		width: 100%;
+	}
+}
+
+.ftb-global-setting-modal__buttons {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 56px;
+	background: #fff;
+	z-index: 2;
+}
+
+.ftb-global-setting-modal__confirm-popover {
+	white-space: nowrap;
+}
+
+.ftb-global-setting-modal__notice {
+	position: absolute !important;
+	right: 24px;
+	bottom: 56px;
+	left: 24px;
+	z-index: 6;
+}
+
+.ftb-global-setting-modal__loading {
+	position: absolute;
+	inset: 0;
+	z-index: 5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.ftb-global-help-modal {
+	max-width: 600px;
+}

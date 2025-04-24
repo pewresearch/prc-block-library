@@ -30,8 +30,8 @@ registerBlockVariation('core/paragraph', {
 	name: 'version-info',
 	title: 'Version Info',
 	attributes: {
+		placeholder: 'Version: 1.2.0 "Spiteful Washington"',
 		metadata: {
-			content: 'Version: 1.0.0',
 			bindings: {
 				content: {
 					source: 'prc-platform/version',

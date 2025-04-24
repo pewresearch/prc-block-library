@@ -4,16 +4,23 @@
   "description": "Pew Research Center Block Library",
   "license": "GPL-2.0-or-later",
   "scripts": {
-		"build": "node .scripts/build-block.js",
-		"build:block": "node .scripts/build-block.js",
-		"start:library": "wp-scripts build-blocks-manifest; wp-scripts start --experimental-modules --webpack-copy-php;",
-		"start": "node .scripts/start-block.js",
+    "build": "node bin/build-block.js",
+    "build:block": "node bin/build-block.js",
     "build:library": "wp-scripts build --webpack-copy-php; wp-scripts build --experimental-modules --webpack-copy-php; wp-scripts build-blocks-manifest",
     "build:manifest": "wp-scripts build-blocks-manifest",
-    "count": "bash .scripts/count.sh"
+    "start:library": "wp-scripts build-blocks-manifest; wp-scripts start --experimental-modules --webpack-copy-php;",
+    "start": "node bin/start-block.js",
+    "test": "wp-scripts test-playwright",
+    "test:env:start": "wp-env start",
+    "test:env:stop": "wp-env stop",
+    "test:env:clean": "wp-env clean all && wp-env start",
+    "test:env:destroy": "wp-env destroy",
+    "composer": "wp-env run tests-cli --env-cwd=wp-content/plugins/prc-block-library composer"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.1",
     "@wordpress/create-block": "^4.54.0",
+    "@wordpress/e2e-test-utils-playwright": "^1.21.0",
     "@wordpress/scripts": "^30.4.0",
     "axios": "^1.7.7",
     "fs-extra": "^11.2.0",
@@ -31,6 +38,7 @@
     "@splidejs/splide": "^4.1.4",
     "@splidejs/splide-extension-intersection": "^0.2.0",
     "@wordpress/icons": "^10.11.0",
+    "clsx": "^2.1.1",
     "highlight.js": "^11.10.0",
     "hls.js": "^1.5.17",
     "iframe-resizer": "^4.3.2",
@@ -38,7 +46,6 @@
     "mediaelement": "^7.0.5",
     "react-highlight": "^0.15.0",
     "react-player": "^2.16.0",
-    "react-responsive-picture": "^3.2.2",
-    "semantic-ui-react": "^2.1.5"
+    "react-responsive-picture": "^3.2.2"
   }
 }

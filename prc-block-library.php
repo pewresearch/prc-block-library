@@ -1,4 +1,6 @@
 <?php
+namespace PRC\Platform\Blocks;
+
 /**
  * PRC Block Library
  *
@@ -19,6 +21,7 @@
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       prc-block-library
+ * Requires Plugins:  prc-platform-core
  */
 
 
@@ -54,8 +57,8 @@ function deactivate_prc_block_library() {
 	PRC_Block_Library_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_prc_block_library' );
-register_deactivation_hook( __FILE__, 'deactivate_prc_block_library' );
+register_activation_hook( __FILE__, '\PRC\Platform\Blocks\activate_prc_block_library' );
+register_deactivation_hook( __FILE__, '\PRC\Platform\Blocks\deactivate_prc_block_library' );
 
 /**
  * Helper utilities
@@ -65,7 +68,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/utils.php';
 /**
  * The core plugin class that is used to define the hooks that initialize the various platform components.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-library.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-plugin.php';
 
 /**
  * Begins execution of the plugin.
@@ -77,7 +80,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-library.php';
  * @since    1.0.0
  */
 function run_prc_block_library() {
-	$plugin = new \PRC\Platform\Blocks\Library();
+	$plugin = new Plugin();
 	$plugin->run();
 }
 run_prc_block_library();

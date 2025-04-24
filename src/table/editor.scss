@@ -1,0 +1,396 @@
+@use "settings/global-settings/style" as globalSettings;
+@use "controls/style" as controls;
+
+.editor-styles-wrapper .wp-block-prc-block-table {
+	box-sizing: border-box;
+
+	> table {
+
+		&.has-fixed-layout {
+			table-layout: fixed;
+		}
+
+		thead,
+		tbody,
+		tfoot {
+
+			th,
+			td {
+				position: relative;
+				min-width: auto;
+
+				&.is-selected::after {
+					position: absolute;
+					top: 2px;
+					right: 2px;
+					bottom: 2px;
+					left: 2px;
+					pointer-events: none;
+					content: "";
+					border: 2px solid var(--wp-admin-theme-color);
+				}
+
+				.block-editor-rich-text__editable {
+					word-break: normal;
+					overflow-wrap: anywhere;
+				}
+			}
+		}
+	}
+
+	> figcaption {
+		position: relative;
+		z-index: 1;
+	}
+
+	&.is-selected {
+
+		> table {
+
+			th,
+			td {
+
+				.block-editor-rich-text__editable {
+					border: 1px dotted #ccc;
+				}
+			}
+		}
+
+		&.show-dot-on-th th::before {
+			position: absolute;
+			top: 6px;
+			right: 6px;
+			z-index: 1;
+			width: 6px;
+			height: 6px;
+			content: "";
+			background: var(--wp-admin-theme-color);
+			border-radius: 50%;
+		}
+
+		&.show-control-button:not(.is-content-only) {
+			padding-left: 40px;
+
+			&.is-caption-side-bottom {
+				padding-top: 40px;
+			}
+
+			&.is-caption-side-top > table {
+				margin-top: 40px;
+			}
+		}
+	}
+
+	&.is-content-justification-left,
+	&.is-content-justification-center,
+	&.is-content-justification-right {
+		display: flex;
+		flex-flow: column;
+
+		figcaption {
+			align-self: stretch;
+		}
+	}
+
+	&.is-content-justification-left {
+		align-items: flex-start;
+	}
+
+	&.is-content-justification-center {
+		align-items: center;
+	}
+
+	&.is-content-justification-right {
+		align-items: flex-end;
+	}
+
+	.ftb-placeholder {
+		// Reset typography support styles
+		font-style: normal;
+		font-weight: normal;
+		line-height: initial;
+		text-transform: none;
+		letter-spacing: 0;
+
+		code {
+			padding: 3px 5px 2px;
+			margin: 0 1px;
+			font-family: Consolas, Monaco, monospace;
+			font-size: 13px;
+			background: #f0f0f1;
+		}
+	}
+
+	.ftb-placeholder__table-wrap {
+		width: 100%;
+		background-color: #eaeaea;
+		box-sizing: border-box;
+	}
+
+	.ftb-placeholder__table {
+		width: 100%;
+		max-width: 330px;
+		vertical-align: middle;
+		table-layout: fixed;
+		border-spacing: 3px;
+		border-collapse: separate;
+
+		th,
+		td {
+			padding: 0 !important;
+		}
+
+		thead th {
+			background-color: var(--wp-admin-theme-color);
+			border: 1px #1e1e1e solid;
+		}
+
+		tbody td,
+		tfoot td {
+			background-color: #fff;
+			border: 1px #1e1e1e solid;
+		}
+
+		&.is-overflow-col tr *:nth-last-child(2) {
+			position: relative;
+			text-align: center;
+			background-color: transparent;
+			border: none;
+
+			&::before {
+				display: block;
+				font-weight: normal;
+				line-height: 0;
+				content: "...";
+			}
+		}
+
+		&.is-overflow-row {
+
+			tbody tr:nth-last-child(2) td {
+				position: relative;
+				text-align: center;
+				background-color: transparent;
+				border: none;
+
+				&::before {
+					display: block;
+					line-height: 0;
+					content: "...";
+				}
+			}
+		}
+	}
+
+	.ftb-placeholder__input {
+		width: 112px;
+	}
+
+	.ftb-table-cell-label {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		height: auto;
+		padding: 0 4px;
+		font-size: 11px;
+		line-height: 16px;
+		border-radius: 0;
+	}
+
+	.ftb-row-before-inserter,
+	.ftb-row-after-inserter,
+	.ftb-column-before-inserter,
+	.ftb-column-after-inserter {
+		position: absolute;
+		width: 18px;
+		min-width: 0;
+		height: 18px;
+		padding: 0;
+		color: transparent;
+		background: transparent;
+		border-radius: 50%;
+
+		&::before {
+			position: absolute;
+			top: 6px;
+			left: 6px;
+			width: 6px;
+			height: 6px;
+			padding: 0;
+			content: "";
+			background: #eaeaea;
+			border-radius: 50%;
+		}
+
+		&:hover,
+		&:focus {
+			color: #fff;
+			background: var(--wp-admin-theme-color);
+
+			&::before {
+				content: none;
+			}
+
+			&:active {
+				color: #fff;
+			}
+		}
+	}
+
+	.ftb-row-before-inserter {
+		top: -9px;
+		left: -44px;
+	}
+
+	.ftb-row-before-inserter--has-prev-section {
+		top: 3px;
+	}
+
+	.ftb-row-after-inserter {
+		bottom: -9px;
+		left: -44px;
+	}
+
+	.ftb-row-after-inserter--has-next-section {
+		bottom: 3px;
+	}
+
+	.ftb-column-before-inserter {
+		top: -44px;
+		left: -10px;
+	}
+
+	.ftb-column-after-inserter {
+		top: -44px;
+		right: -10px;
+	}
+
+	.ftb-row-selector,
+	.ftb-column-selector {
+		position: absolute;
+		justify-content: center;
+		min-width: 0;
+		padding: 0;
+		color: #1e1e1e;
+		background: #eaeaea;
+
+		svg {
+			margin-right: 0;
+		}
+	}
+
+	.ftb-row-selector {
+		top: 1px;
+		left: -20px;
+		width: 18px;
+		height: calc(100% - 2px);
+		border-radius: 2px 0 0 2px;
+	}
+
+	.ftb-column-selector {
+		top: -20px;
+		left: 1px;
+		width: calc(100% - 2px);
+		height: 18px;
+		border-radius: 2px 2px 0 0;
+	}
+
+	.ftb-row-deleter,
+	.ftb-column-deleter {
+		position: absolute;
+		z-index: 1;
+		width: 30px;
+		min-width: 0;
+		height: 30px;
+		padding: 0;
+		background: #fff;
+		border: 1px solid #ccc;
+		border-radius: 2px;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	}
+
+	.ftb-row-deleter {
+		top: -15px;
+		left: -55px;
+	}
+
+	.ftb-column-deleter {
+		top: -55px;
+		left: 50%;
+		margin-left: -15px;
+	}
+
+	@media screen and (max-width: 782px) {
+
+		&.is-selected.show-control-button {
+			padding-left: 20px;
+
+			&.is-caption-side-bottom {
+				padding-top: 20px;
+			}
+
+			&.is-caption-side-top > table {
+				margin-top: 20px;
+			}
+		}
+
+		.ftb-row-selector,
+		.ftb-column-selector {
+
+			svg {
+				width: 10px;
+				height: 10px;
+			}
+		}
+
+		.ftb-row-selector {
+			left: -12px;
+			width: 10px;
+		}
+
+		.ftb-column-selector {
+			top: -12px;
+			height: 10px;
+		}
+
+		.ftb-column-before-inserter,
+		.ftb-column-after-inserter {
+			top: -34px;
+		}
+
+		.ftb-row-before-inserter,
+		.ftb-row-after-inserter {
+			left: -34px;
+		}
+	}
+}
+
+// Setting Component Styles
+.ftb-button-group {
+	display: block;
+
+	.components-button {
+		vertical-align: top;
+
+		&.components-button.is-small {
+			width: auto;
+			min-width: auto;
+			padding: 6px;
+		}
+	}
+}
+
+.ftb-base-control-label {
+	display: inline-block;
+	margin-bottom: 8px;
+	font-size: 11px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+// Backwards compatible styles for WordPress 6.6
+// See: https://github.com/WordPress/gutenberg/issues/53374
+.is-outline-mode .wp-block-flexible-table-block-table.is-selected .rich-text {
+	cursor: initial;
+}

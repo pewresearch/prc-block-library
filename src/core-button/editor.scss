@@ -8,3 +8,8 @@
 	color: inherit;
 	background: inherit;
 }
+
+// Hide parent wp-block-group when button is hidden
+.editor-styles-wrapper :where(.wp-block-group:has(.wp-block-prc-button .wp-element-button[hidden])) {
+    display: none;
+}

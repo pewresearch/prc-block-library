@@ -48,7 +48,11 @@ const IMAGE_SIZES = {
 
 export default function ContextPreview({ attributes, clientId, context }) {
 	const { postId, postType } = context;
-	const { record, isResolving } = useEntityRecord('postType', postType, postId);
+	const { record, isResolving } = useEntityRecord(
+		'postType',
+		postType,
+		postId
+	);
 
 	const { title, excerpt, label, date, artDirection } = useMemo(() => {
 		if (!record) {
@@ -57,7 +61,7 @@ export default function ContextPreview({ attributes, clientId, context }) {
 		return {
 			title: record?.title,
 			excerpt: record?.excerpt,
-			label: record?.label,
+			label: record?.label ? record?.label : 'Format Label',
 			date: record?.date,
 			artDirection: record?.artDirection,
 		};
@@ -107,7 +111,10 @@ export default function ContextPreview({ attributes, clientId, context }) {
 	});
 
 	const imageClasses = classNames('image', {
-		bordered: artDirection && artDirection[imageSize] && artDirection[imageSize].chartArt,
+		bordered:
+			artDirection &&
+			artDirection[imageSize] &&
+			artDirection[imageSize].chartArt,
 		XL: 'XL' === imageSize,
 		A4: 'A4' === imageSize,
 		A3: 'A3' === imageSize,
@@ -188,8 +195,10 @@ export default function ContextPreview({ attributes, clientId, context }) {
 		<article {...blockProps}>
 			{enableMeta && (
 				<div className="meta">
-					<span className="label">{label}</span> |{' '}
-					<span className="date">{date ? formatDate('M j, Y', date) : ''}</span>
+					<span className="label">{label}</span>
+					<span className="date">
+						{date ? formatDate('M j, Y', date) : ''}
+					</span>
 				</div>
 			)}
 			{displayImage && (

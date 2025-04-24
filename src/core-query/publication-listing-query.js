@@ -2,40 +2,6 @@
  * WordPress Dependencies
  */
 import { registerBlockVariation } from '@wordpress/blocks';
-import { addFilter } from '@wordpress/hooks';
-import { createHigherOrderComponent } from '@wordpress/compose';
-import { useSelect } from '@wordpress/data';
-
-/**
- * Add html attributes for each responsiveContainerQuery attribute value on the core/group block.
- */
-// @TODO Disabling for now, this is really just visual and was introducing issues because it was saving thesea attributes.By introducing taxonomy preview in block-area-modules this will probably be less useful and can be removed.
-// addFilter(
-// 	'editor.BlockEdit',
-// 	`${BLOCKIDENTIFIER}-context-area-watcher`,
-// 	createHigherOrderComponent((BlockEdit) => {
-// 		return (props) => {
-// 			const { attributes, name, context, isSelected } = props;
-// 			const namespace = attributes?.namespace;
-// 			if (BLOCKNAME !== name || namespace !== NAMESPACE) {
-// 				return <BlockEdit {...props} />;
-// 			}
-// 			const blockAreaContextPostIds = useSelect((select) => {
-// 				return select('prc-platform/block-area-context').getPostIds();
-// 			});
-
-// 			const tmpExclude = attributes.query?.exclude || [];
-// 			// @TODO: This only needs to be temporary nothing more...
-// 			// attributes.query.exclude = [
-// 			// 	...blockAreaContextPostIds,
-// 			// 	...tmpExclude,
-// 			// ];
-
-// 			return <BlockEdit {...props} />;
-// 		};
-// 	}, 'withBlockAreaContextWatcher')
-// );
-
 
 export default function registerPubListingQueryVariation() {
 	const PublicationListingTemplate = [

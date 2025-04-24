@@ -18,7 +18,7 @@ https://wordpress.org/gutenberg/handbook/designers-developers/developers/package
 To scaffold a new block, run the following command in the `/src` directory:
 
 ```bash
-npx @wordpress/create-block -t ./.template
+npx @wordpress/create-block --no-plugin -t ./.template
 ```
 
 This will start a new block scaffold and prompt you to chose a variant.

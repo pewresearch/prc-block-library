@@ -513,148 +513,6 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
-	'bylines-display' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/bylines-display',
-		'version' => '1.0.0',
-		'title' => 'Bylines Display',
-		'category' => 'theme',
-		'description' => 'Display a post\'s bylines in the format: {prefix \'By\'} 1, 2, and 3.',
-		'attributes' => array(
-			'prefix' => array(
-				'type' => 'string',
-				'default' => 'By'
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'color' => array(
-				'text' => true,
-				'background' => true,
-				'link' => true
-			),
-			'spacing' => array(
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true
-			),
-			'layout' => array(
-				'allowEditing' => true,
-				'allowJustification' => true,
-				'allowInheriting' => false,
-				'allowOrientation' => true,
-				'allowSizingOnChildren' => true,
-				'allowSwitching' => false,
-				'allowVerticalAlignment' => false,
-				'default' => array(
-					'type' => 'flex',
-					'justifyContent' => 'left',
-					'orientation' => 'horizontal'
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'fontAppearance' => true,
-				'lineHeight' => true,
-				'__experimentalFontStyle' => false,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalLetterSpacing' => true,
-					'__experimentalTextTransform' => true,
-					'__experimentalFontFamily' => true
-				)
-			)
-		),
-		'example' => array(
-			'attributes' => array(
-				'textAlign' => 'left',
-				'prefix' => 'By'
-			),
-			'viewportWidth' => 400
-		),
-		'usesContext' => array(
-			'postId'
-		),
-		'textdomain' => 'bylines-display',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
-	),
-	'bylines-query' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/bylines-query',
-		'version' => '1.0.0',
-		'title' => 'Bylines Query',
-		'category' => 'theme',
-		'description' => 'Query the current post for bylines.',
-		'usesContext' => array(
-			'queryId',
-			'postId',
-			'postType'
-		),
-		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
-			'style' => array(
-				'type' => 'object',
-				'default' => array(
-					'spacing' => array(
-						'blockGap' => 'var:preset|spacing|20'
-					)
-				)
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'spacing' => array(
-				'blockGap' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true
-			),
-			'layout' => array(
-				'allowEditing' => true,
-				'allowJustification' => true,
-				'allowInheriting' => false,
-				'allowOrientation' => true,
-				'allowSizingOnChildren' => true,
-				'allowSwitching' => false,
-				'allowVerticalAlignment' => true,
-				'default' => array(
-					'type' => 'flex',
-					'justifyContent' => 'left',
-					'orientation' => 'vertical'
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'fontAppearance' => true,
-				'__experimentalFontStyle' => false,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalTextTransform' => true
-			)
-		),
-		'textdomain' => 'bylines-query',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
-	),
 	'carousel-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1035,34 +893,6 @@ return array(
 		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
-	'collection-kicker' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/collection-kicker',
-		'version' => '1.0.0',
-		'title' => 'Collection Kicker',
-		'category' => 'theme',
-		'description' => 'Display the \'kicker\' for a collection term. You can select a specific term or default behavior is to display the term for the current post.',
-		'attributes' => array(
-			'termId' => array(
-				'type' => 'integer'
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false
-		),
-		'usesContext' => array(
-			'postType',
-			'postId',
-			'templateSlug',
-			'previewPostType'
-		),
-		'textdomain' => 'collection-kicker',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
-	),
 	'color-palette' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1224,18 +1054,6 @@ return array(
 		'title' => 'Post Content',
 		'category' => 'widgets',
 		'textdomain' => 'core-post-content',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
-	),
-	'core-post-featured-image' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/core-post-featured-image',
-		'version' => '0.1.0',
-		'title' => 'Post Feature Image',
-		'category' => 'widgets',
-		'textdomain' => 'core-post-featured-image',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
@@ -1560,86 +1378,6 @@ return array(
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php',
 		'viewModule' => 'file:./view.js'
-	),
-	'fact-sheet-collection' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/fact-sheet-collection',
-		'version' => '1.0.0',
-		'title' => 'Fact Sheet Collection',
-		'category' => 'design',
-		'description' => 'Display the hierarchy of this fact sheet\'s collection term and a link to download an associated PDF if provided. If this collection has multiple language posts the main link will link to the English language post and then a listing of other languages will be provided automatically. These alternate language links will appear above the main collection.',
-		'attributes' => array(
-			'pdf' => array(
-				'type' => 'object'
-			),
-			'disableHeading' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'style' => array(
-				'type' => 'object',
-				'default' => array(
-					'spacing' => array(
-						'blockGap' => 'var:preset|spacing|20'
-					)
-				)
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'color' => array(
-				'background' => true,
-				'text' => false,
-				'link' => true
-			),
-			'spacing' => array(
-				'blockGap' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalFontFamily' => true
-				)
-			)
-		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'example' => array(
-			'attributes' => array(
-				
-			)
-		),
-		'styles' => array(
-			array(
-				'name' => 'list',
-				'label' => 'List',
-				'isDefault' => true
-			)
-		),
-		'textdomain' => 'collection',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
 	),
 	'flip-card-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3524,266 +3262,60 @@ return array(
 		'textdomain' => 'promo-rotator',
 		'editorScript' => 'file:./index.js'
 	),
-	'related-posts-query' => array(
+	'render-to-region' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'prc-block/related-posts-query',
-		'version' => '2.0.0',
-		'title' => 'Related Posts Query',
-		'category' => 'design',
-		'description' => 'Display custom related posts defaulting to posts with the same primary taxonomy term.',
-		'keywords' => array(
-			'related posts'
-		),
-		'attributes' => array(
-			'perPage' => array(
-				'type' => 'number',
-				'default' => 5
-			),
-			'queryId' => array(
-				'type' => 'string',
-				'default' => 'related-posts-0'
-			),
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
-			'orientation' => array(
-				'type' => 'string',
-				'default' => 'vertical'
-			),
-			'style' => array(
-				'type' => 'object',
-				'default' => array(
-					'spacing' => array(
-						'blockGap' => 'var:preset|spacing|20'
-					)
-				)
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'align' => array(
-				'wide',
-				'full',
-				'left',
-				'right',
-				'center'
-			),
-			'spacing' => array(
-				'blockGap' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalFontFamily' => true
-				)
-			)
-		),
-		'textdomain' => 'related-posts-query',
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
-	),
-	'report-materials' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/report-materials',
-		'version' => '0.1.0',
-		'title' => 'Report Materials',
+		'name' => 'prc-block/render-to-region',
+		'version' => '1.0.0',
+		'title' => 'Render To Region',
 		'category' => 'theme',
-		'description' => 'Displays a list of all materials from a post report package.',
+		'description' => 'This block allows other blocks to "render to" this defined region upon certain conditions.',
 		'attributes' => array(
-			'headingBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
+			'regionName' => array(
+				'type' => 'string'
 			),
-			'headingTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-white'
-			),
-			'hoverBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-beige-very-light'
-			),
-			'hoverTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
-			),
-			'activeBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-gray-very-light'
-			),
-			'activeTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
-			),
-			'heading' => array(
-				'type' => 'string',
-				'default' => 'Report Materials'
-			),
-			'hideHeading' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'style' => array(
+			'activationConditions' => array(
 				'type' => 'object',
-				'default' => array(
-					'spacing' => array(
-						'blockGap' => 'var:preset|spacing|20'
+				'properties' => array(
+					'isDesktop' => array(
+						'type' => 'boolean',
+						'default' => true
+					),
+					'isMobile' => array(
+						'type' => 'boolean',
+						'default' => false
+					),
+					'isTablet' => array(
+						'type' => 'boolean',
+						'default' => false
+					),
+					'isPortrait' => array(
+						'type' => 'boolean',
+						'default' => false
+					),
+					'isLandscape' => array(
+						'type' => 'boolean',
+						'default' => false
 					)
+				),
+				'default' => array(
+					'isDesktop' => false,
+					'isMobile' => false,
+					'isTablet' => false,
+					'isPortrait' => false,
+					'isLandscape' => false
 				)
 			)
 		),
 		'supports' => array(
-			'anchor' => true,
 			'html' => false,
-			'color' => array(
-				'background' => true,
-				'text' => true,
-				'link' => true
-			),
-			'spacing' => array(
-				'margin' => array(
-					'top',
-					'bottom',
-					'left',
-					'right'
-				),
-				'blockGap' => true,
-				'__experimentalDefaultControls' => array(
-					'margin' => true,
-					'blockGap' => true
-				)
-			),
-			'typography' => array(
-				'__experimentalFontFamily' => true,
-				'fontSize' => true,
-				'__experimentalDefaultControls' => array(
-					'__experimentalFontFamily' => true
-				)
-			)
+			'interactivity' => true
 		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'textdomain' => 'report-materials',
+		'textdomain' => 'render-to-region',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => array(
-			'file:./style-index.css',
-			'prc-block-library--baseball-card',
-			'prc-block-library--additional-color-supports'
-		)
-	),
-	'report-pagination' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/report-pagination',
-		'version' => '0.1.0',
-		'title' => 'Report Pagination',
-		'category' => 'theme',
-		'description' => 'Provides a stylized pagination for use with reports',
-		'attributes' => array(
-			'backgroundColor' => array(
-				'type' => 'string',
-				'default' => 'white'
-			),
-			'textColor' => array(
-				'type' => 'string',
-				'default' => 'white'
-			),
-			'itemBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'white'
-			),
-			'itemTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
-			),
-			'itemBorderColor' => array(
-				'type' => 'string',
-				'default' => 'gray'
-			),
-			'itemHoverBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-beige-very-light'
-			),
-			'itemActiveBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'white'
-			),
-			'nextButtonBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-beige-very-light'
-			),
-			'nextButtonTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
-			),
-			'nextButtonBoxShadowColor' => array(
-				'type' => 'string',
-				'default' => 'gray-alt'
-			)
-		),
-		'supports' => array(
-			'color' => array(
-				'background' => true,
-				'text' => true,
-				'link' => true
-			),
-			'anchor' => true,
-			'html' => false,
-			'spacing' => array(
-				'blockGap' => array(
-					'horizontal',
-					'vertical'
-				),
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true
-			),
-			'layout' => array(
-				'allowSwitching' => false,
-				'allowInheriting' => false,
-				'allowEditing' => false,
-				'default' => array(
-					'type' => 'flex',
-					'flexWrap' => 'wrap'
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalFontFamily' => true
-				)
-			)
-		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'textdomain' => 'report-pagination',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => array(
-			'file:./style-index.css',
-			'prc-block-library--pagination'
-		)
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'responsive-container-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4175,96 +3707,6 @@ return array(
 		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
-	'staff-context-provider' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/staff-context-provider',
-		'version' => '0.1.0',
-		'title' => 'Staff Context Provider',
-		'category' => 'widgets',
-		'description' => 'Provides information about a Staff member via termId and passes that information via block context to its innerblocks.',
-		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
-			'orientation' => array(
-				'type' => 'string',
-				'default' => 'vertical'
-			),
-			'staffSlug' => array(
-				'type' => 'string'
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'interactivity' => true
-		),
-		'usesContext' => array(
-			'postId',
-			'postType'
-		),
-		'textdomain' => 'staff-context-provider',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
-	),
-	'staff-info' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/staff-info',
-		'version' => '0.1.0',
-		'title' => 'Staff Info',
-		'editorScript' => 'file:./index.js'
-	),
-	'staff-query' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/staff-query',
-		'version' => '1.0.0',
-		'title' => 'Staff Query',
-		'category' => 'theme',
-		'description' => 'Query the Staff by Staff Type and Research Area.',
-		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
-			'staffType' => array(
-				'type' => 'object'
-			),
-			'researchArea' => array(
-				'type' => 'object'
-			),
-			'style' => array(
-				'type' => 'object',
-				'default' => array(
-					'spacing' => array(
-						'blockGap' => 'var:preset|spacing|20'
-					)
-				)
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'spacing' => array(
-				'blockGap' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'__experimentalFontFamily' => true
-			)
-		),
-		'textdomain' => 'staff-query',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
-	),
 	'story-item' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -4541,6 +3983,319 @@ return array(
 		),
 		'textdomain' => 'tab',
 		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css'
+	),
+	'table' => array(
+		'apiVersion' => 3,
+		'name' => 'prc-block/table',
+		'version' => '1.0.0',
+		'title' => 'Table',
+		'category' => 'text',
+		'keywords' => array(
+			'table',
+			'cell',
+			'data'
+		),
+		'description' => 'Create a powerful and flexible table complete with responsive design and sorting/filtering options.',
+		'textdomain' => 'prc-block-library',
+		'attributes' => array(
+			'contentJustification' => array(
+				'type' => 'string'
+			),
+			'hasFixedLayout' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'isScrollOnPc' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'isScrollOnMobile' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'isStackedOnMobile' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'sticky' => array(
+				'type' => 'string'
+			),
+			'tableStyles' => array(
+				'type' => 'string',
+				'source' => 'attribute',
+				'selector' => 'table',
+				'attribute' => 'style'
+			),
+			'rowHoverBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'captionSide' => array(
+				'type' => 'string',
+				'default' => 'bottom'
+			),
+			'caption' => array(
+				'type' => 'string',
+				'source' => 'html',
+				'selector' => 'figcaption',
+				'__experimentalRole' => 'content'
+			),
+			'captionStyles' => array(
+				'type' => 'string',
+				'source' => 'attribute',
+				'selector' => 'figcaption',
+				'attribute' => 'style'
+			),
+			'head' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				),
+				'source' => 'query',
+				'selector' => 'thead tr',
+				'query' => array(
+					'cells' => array(
+						'type' => 'array',
+						'default' => array(
+							
+						),
+						'source' => 'query',
+						'selector' => 'td,th',
+						'query' => array(
+							'content' => array(
+								'type' => 'string',
+								'source' => 'html',
+								'__experimentalRole' => 'content'
+							),
+							'styles' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'style'
+							),
+							'tag' => array(
+								'type' => 'string',
+								'default' => 'td',
+								'source' => 'tag'
+							),
+							'className' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'class'
+							),
+							'id' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'id'
+							),
+							'headers' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'headers'
+							),
+							'scope' => array(
+								'enum' => array(
+									'row',
+									'col',
+									'rowgroup',
+									'colgroup'
+								),
+								'source' => 'attribute',
+								'attribute' => 'scope'
+							),
+							'rowSpan' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'rowspan'
+							),
+							'colSpan' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'colspan'
+							)
+						)
+					)
+				)
+			),
+			'body' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				),
+				'source' => 'query',
+				'selector' => 'tbody tr',
+				'query' => array(
+					'cells' => array(
+						'type' => 'array',
+						'default' => array(
+							
+						),
+						'source' => 'query',
+						'selector' => 'td,th',
+						'query' => array(
+							'content' => array(
+								'type' => 'string',
+								'source' => 'html',
+								'__experimentalRole' => 'content'
+							),
+							'styles' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'style'
+							),
+							'tag' => array(
+								'type' => 'string',
+								'default' => 'td',
+								'source' => 'tag'
+							),
+							'className' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'class'
+							),
+							'id' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'id'
+							),
+							'headers' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'headers'
+							),
+							'scope' => array(
+								'enum' => array(
+									'row',
+									'col',
+									'rowgroup',
+									'colgroup'
+								),
+								'source' => 'attribute',
+								'attribute' => 'scope'
+							),
+							'rowSpan' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'rowspan'
+							),
+							'colSpan' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'colspan'
+							)
+						)
+					)
+				)
+			),
+			'foot' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				),
+				'source' => 'query',
+				'selector' => 'tfoot tr',
+				'query' => array(
+					'cells' => array(
+						'type' => 'array',
+						'default' => array(
+							
+						),
+						'source' => 'query',
+						'selector' => 'td,th',
+						'query' => array(
+							'content' => array(
+								'type' => 'string',
+								'source' => 'html',
+								'__experimentalRole' => 'content'
+							),
+							'styles' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'style'
+							),
+							'tag' => array(
+								'type' => 'string',
+								'default' => 'td',
+								'source' => 'tag'
+							),
+							'className' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'class'
+							),
+							'id' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'id'
+							),
+							'headers' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'headers'
+							),
+							'scope' => array(
+								'enum' => array(
+									'row',
+									'col',
+									'rowgroup',
+									'colgroup'
+								),
+								'source' => 'attribute',
+								'attribute' => 'scope'
+							),
+							'rowSpan' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'rowspan'
+							),
+							'colSpan' => array(
+								'type' => 'string',
+								'source' => 'attribute',
+								'attribute' => 'colspan'
+							)
+						)
+					)
+				)
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'align' => array(
+				'left',
+				'right',
+				'wide',
+				'full'
+			),
+			'color' => array(
+				'__experimentalSkipSerialization' => array(
+					'text',
+					'background',
+					'gradients'
+				),
+				'gradients' => true,
+				'link' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => false
+				)
+			),
+			'spacing' => array(
+				'margin' => true,
+				'__experimentalDefaultControls' => array(
+					'margin' => false
+				)
+			),
+			'__experimentalSelector' => '.wp-block-prc-block-table > table'
+		),
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
 	'table-of-contents' => array(

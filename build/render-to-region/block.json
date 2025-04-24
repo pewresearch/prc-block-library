@@ -1,0 +1,55 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/render-to-region",
+  "version": "1.0.0",
+  "title": "Render To Region",
+  "category": "theme",
+  "description": "This block allows other blocks to \"render to\" this defined region upon certain conditions.",
+  "attributes": {
+    "regionName": {
+      "type": "string"
+    },
+    "activationConditions": {
+      "type": "object",
+      "properties": {
+        "isDesktop": {
+          "type": "boolean",
+          "default": true
+        },
+        "isMobile": {
+          "type": "boolean",
+          "default": false
+        },
+        "isTablet": {
+          "type": "boolean",
+          "default": false
+        },
+        "isPortrait": {
+          "type": "boolean",
+          "default": false
+        },
+        "isLandscape": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "default": {
+        "isDesktop": false,
+        "isMobile": false,
+        "isTablet": false,
+        "isPortrait": false,
+        "isLandscape": false
+      }
+    }
+  },
+  "supports": {
+    "html": false,
+    "interactivity": true
+  },
+  "textdomain": "render-to-region",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js"
+}

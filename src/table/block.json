@@ -1,0 +1,273 @@
+{
+	"apiVersion": 3,
+	"name": "prc-block/table",
+	"version": "1.0.0",
+	"title": "Table",
+	"category": "text",
+	"keywords": [ "table", "cell", "data" ],
+	"description": "Create a powerful and flexible table complete with responsive design and sorting/filtering options.",
+	"textdomain": "prc-block-library",
+	"attributes": {
+		"contentJustification": {
+			"type": "string"
+		},
+		"hasFixedLayout": {
+			"type": "boolean",
+			"default": true
+		},
+		"isScrollOnPc": {
+			"type": "boolean",
+			"default": false
+		},
+		"isScrollOnMobile": {
+			"type": "boolean",
+			"default": false
+		},
+		"isStackedOnMobile": {
+			"type": "boolean",
+			"default": false
+		},
+		"sticky": {
+			"type": "string"
+		},
+		"tableStyles": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "table",
+			"attribute": "style"
+		},
+		"rowHoverBackgroundColor": {
+			"type": "string"
+		},
+		"captionSide": {
+			"type": "string",
+			"default": "bottom"
+		},
+		"caption": {
+			"type": "string",
+			"source": "html",
+			"selector": "figcaption",
+			"__experimentalRole": "content"
+		},
+		"captionStyles": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figcaption",
+			"attribute": "style"
+		},
+		"head": {
+			"type": "array",
+			"default": [],
+			"source": "query",
+			"selector": "thead tr",
+			"query": {
+				"cells": {
+					"type": "array",
+					"default": [],
+					"source": "query",
+					"selector": "td,th",
+					"query": {
+						"content": {
+							"type": "string",
+							"source": "html",
+							"__experimentalRole": "content"
+						},
+						"styles": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "style"
+						},
+						"tag": {
+							"type": "string",
+							"default": "td",
+							"source": "tag"
+						},
+						"className": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "class"
+						},
+						"id": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "id"
+						},
+						"headers": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "headers"
+						},
+						"scope": {
+							"enum": [ "row", "col", "rowgroup", "colgroup" ],
+							"source": "attribute",
+							"attribute": "scope"
+						},
+						"rowSpan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "rowspan"
+						},
+						"colSpan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "colspan"
+						}
+					}
+				}
+			}
+		},
+		"body": {
+			"type": "array",
+			"default": [],
+			"source": "query",
+			"selector": "tbody tr",
+			"query": {
+				"cells": {
+					"type": "array",
+					"default": [],
+					"source": "query",
+					"selector": "td,th",
+					"query": {
+						"content": {
+							"type": "string",
+							"source": "html",
+							"__experimentalRole": "content"
+						},
+						"styles": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "style"
+						},
+						"tag": {
+							"type": "string",
+							"default": "td",
+							"source": "tag"
+						},
+						"className": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "class"
+						},
+						"id": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "id"
+						},
+						"headers": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "headers"
+						},
+						"scope": {
+							"enum": [ "row", "col", "rowgroup", "colgroup" ],
+							"source": "attribute",
+							"attribute": "scope"
+						},
+						"rowSpan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "rowspan"
+						},
+						"colSpan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "colspan"
+						}
+					}
+				}
+			}
+		},
+		"foot": {
+			"type": "array",
+			"default": [],
+			"source": "query",
+			"selector": "tfoot tr",
+			"query": {
+				"cells": {
+					"type": "array",
+					"default": [],
+					"source": "query",
+					"selector": "td,th",
+					"query": {
+						"content": {
+							"type": "string",
+							"source": "html",
+							"__experimentalRole": "content"
+						},
+						"styles": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "style"
+						},
+						"tag": {
+							"type": "string",
+							"default": "td",
+							"source": "tag"
+						},
+						"className": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "class"
+						},
+						"id": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "id"
+						},
+						"headers": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "headers"
+						},
+						"scope": {
+							"enum": [ "row", "col", "rowgroup", "colgroup" ],
+							"source": "attribute",
+							"attribute": "scope"
+						},
+						"rowSpan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "rowspan"
+						},
+						"colSpan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "colspan"
+						}
+					}
+				}
+			}
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": [ "left", "right", "wide", "full" ],
+		"color": {
+			"__experimentalSkipSerialization": [ "text", "background", "gradients" ],
+			"gradients": true,
+			"link": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalTextTransform": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": false
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"__experimentalDefaultControls": {
+				"margin": false
+			}
+		},
+		"__experimentalSelector": ".wp-block-prc-block-table > table"
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

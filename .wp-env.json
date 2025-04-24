@@ -1,0 +1,25 @@
+{
+	"$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/wp-env.json",
+	"core": "WordPress/WordPress",
+	"plugins": [
+		"../prc-platform-core",
+		"../prc-block-library",
+		"https://github.com/johnbillion/query-monitor/archive/refs/tags/3.17.2.zip",
+		"."
+	],
+	"mappings": {
+		"wp-content/private": "../../private"
+	},
+	"themes": [
+		"../../themes/prc-design-system"
+	],
+	"lifecycleScripts": {
+		"afterStart": "wp-env run tests-cli wp theme activate prc-design-system; wp-env run tests-cli wp rewrite flush;"
+	},
+	"config": {
+		"PRC_PLATFORM_TESTING_MODE": true,
+		"PRC_PRIMARY_SITE_ID": 1,
+		"DEFAULT_TECHNICAL_CONTACT": "srubenstein@pewresearch.org",
+		"TAXONOMY_TECHNICAL_CONTACT": "srubenstein@pewresearch.org"
+	}
+}
