@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "_copilot": {
+      "feature": "get-table-data",
+      "userId": 359,
+      "timestamp": "2025-05-01T16:08:49.897Z",
+      "modelVersion": "gemini-2.0-flash-thinking-exp-01-21",
+      "citationMetadata": {
+        "citationSources": [
+          {
+            "startIndex": 4937,
+            "endIndex": 5062,
+            "uri": "https://urbanmilwaukee.com/2023/05/17/data-wonk-two-issues-show-decline-of-democracy-in-wisconsin/",
+            "license": ""
+          }
+        ]
+      },
+      "usageMetadata": {
+        "promptTokenCount": 109,
+        "candidatesTokenCount": 359,
+        "totalTokenCount": 2278,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 109
+          }
+        ],
+        "thoughtsTokenCount": 1810
+      },
+      "prompt": "Public approval and disapproval of abortion for the last 10 years"
+    }
+  }
+}

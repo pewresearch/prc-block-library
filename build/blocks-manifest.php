@@ -3986,10 +3986,11 @@ return array(
 		'style' => 'file:./style-index.css'
 	),
 	'table' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/table',
-		'version' => '1.0.0',
-		'title' => 'Table',
+		'version' => '1.1.0',
+		'title' => 'Power Table',
 		'category' => 'text',
 		'keywords' => array(
 			'table',
@@ -4027,12 +4028,27 @@ return array(
 				'selector' => 'table',
 				'attribute' => 'style'
 			),
-			'rowHoverBackgroundColor' => array(
-				'type' => 'string'
+			'sourceNote' => array(
+				'type' => 'string',
+				'source' => 'html',
+				'selector' => 'p',
+				'__experimentalRole' => 'content'
+			),
+			'tableTitle' => array(
+				'type' => 'string',
+				'source' => 'html',
+				'selector' => 'h4',
+				'__experimentalRole' => 'content'
+			),
+			'tableTitleStyles' => array(
+				'type' => 'string',
+				'source' => 'attribute',
+				'selector' => 'h4',
+				'attribute' => 'style'
 			),
 			'captionSide' => array(
 				'type' => 'string',
-				'default' => 'bottom'
+				'default' => 'top'
 			),
 			'caption' => array(
 				'type' => 'string',
@@ -4276,25 +4292,43 @@ return array(
 			),
 			'typography' => array(
 				'fontSize' => true,
-				'lineHeight' => true,
 				'__experimentalFontFamily' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalLetterSpacing' => true,
 				'__experimentalDefaultControls' => array(
 					'fontSize' => false
 				)
 			),
 			'spacing' => array(
 				'margin' => true,
+				'padding' => true,
 				'__experimentalDefaultControls' => array(
 					'margin' => false
 				)
 			),
-			'__experimentalSelector' => '.wp-block-prc-block-table > table'
+			'__experimentalBorder' => array(
+				'color' => true,
+				'radius' => false,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'radius' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'__experimentalSelector' => array(
+				'root' => '.wp-block-prc-block-table',
+				'typography' => array(
+					'root' => '.wp-block-prc-block-table',
+					'fontFamily' => '.wp-block-prc-block-table',
+					'fontSize' => '.wp-block-prc-block-table > table'
+				)
+			)
 		),
-		'editorScript' => 'file:./index.js',
+		'editorScript' => array(
+			'ais-ai',
+			'file:./index.js'
+		),
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),

@@ -120,7 +120,7 @@ export default function TablePlaceholder({ setAttributes }: Props) {
 
 	return (
 		<Placeholder
-			label={__('Table', 'prc-block')}
+			label={__('Power Table', 'prc-block')}
 			className="ftb-placeholder"
 			icon={<BlockIcon icon={icon} showColors />}
 		>

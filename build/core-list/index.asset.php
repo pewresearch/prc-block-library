@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('prc-block-utils', 'react', 'react-jsx-runtime', 'wp-blocks', 'wp-compose', 'wp-dom-ready', 'wp-hooks', 'wp-polyfill'), 'version' => '5fac24e50b825be6a88d');
+<?php return array('dependencies' => array('prc-block-utils', 'react', 'react-jsx-runtime', 'wp-blocks', 'wp-compose', 'wp-dom-ready', 'wp-hooks', 'wp-polyfill'), 'version' => '68c8a4b714a89898f230');

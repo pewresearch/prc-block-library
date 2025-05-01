@@ -83,6 +83,9 @@ class Helper {
 				case 'cell_background_color_td':
 					$styles[ "{$selector} > table tr td" ] .= "background-color:{$value};";
 					break;
+				case 'cell_hover_background_color':
+					$styles[ "{$selector} > table tr:hover td" ] .= "background-color:{$value};";
+					break;
 				case 'cell_padding':
 					$padding_styles = self::get_padding_styles( $value );
 					if ( $padding_styles ) {

@@ -78,6 +78,7 @@ class Settings {
 				'cell_text_color_td'       => null,
 				'cell_background_color_th' => '#f0f0f1',
 				'cell_background_color_td' => '#ffffff',
+				// 'cell_hover_background_color' => '#f0f0f1',
 				'cell_padding'             => array(
 					'top'    => '0.5em',
 					'right'  => '0.5em',

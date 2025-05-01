@@ -5,3 +5,4 @@ export { default as BorderWidthControl } from './border-width-control';
 export { default as BorderSpacingControl } from './border-spacing-control';
 export { default as ColorControl } from './color-control';
 export { default as PaddingControl } from './padding-control';
+export { default as GoToCellModal } from './go-to-cell-modal';

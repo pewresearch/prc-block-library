@@ -1,3 +1,4 @@
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
 /**
  * External Dependencies
  */
@@ -13,6 +14,7 @@ import {
 	Button,
 	Flex,
 	FlexBlock,
+	FlexItem,
 	SelectControl,
 	TextControl,
 	__experimentalHStack as HStack,
@@ -71,6 +73,7 @@ import type {
 const PERCENTAGE_WIDTHS = [25, 50, 75, 100];
 
 type Props = {
+	attributes: BlockAttributes;
 	setAttributes: (attrs: Partial<BlockAttributes>) => void;
 	vTable: VTable;
 	selectedCells: VSelectedCells;
@@ -78,6 +81,7 @@ type Props = {
 
 /* eslint-disable max-lines-per-function */
 export default function TableCellSettings({
+	attributes,
 	setAttributes,
 	vTable,
 	selectedCells = [],
@@ -125,11 +129,16 @@ export default function TableCellSettings({
 		scope?: CellScopeValue;
 	}) => {
 		const newVTable = updateCells(vTable, state, selectedCells);
+		console.log('updateCellsState', newVTable);
 		setAttributes(toTableAttributes(newVTable));
 	};
 
 	const onChangeFontSize = (value: string | undefined) => {
 		updateCellsState({ styles: { fontSize: sanitizeUnitValue(value) } });
+	};
+
+	const onChangeFontWeight = (value: string | undefined) => {
+		updateCellsState({ styles: { fontWeight: value } });
 	};
 
 	const onChangeLineHeight = (value: Property.LineHeight) => {
@@ -142,6 +151,12 @@ export default function TableCellSettings({
 
 	const onChangeBackgroundColor = (value: Property.BackgroundColor) => {
 		updateCellsState({ styles: { backgroundColor: value } });
+	};
+
+	const onChangeCellHoverBackgroundColor = (
+		value: Property.BackgroundColor
+	) => {
+		updateCellsState({ styles: { hoverBackgroundColor: value } });
 	};
 
 	const onChangeWidth = (value: string | number | undefined) => {
@@ -223,9 +238,11 @@ export default function TableCellSettings({
 			styles: {
 				fontSize: undefined,
 				lineHeight: undefined,
+				fontWeight: undefined,
 				width: undefined,
 				color: undefined,
 				backgroundColor: undefined,
+				hoverBackgroundColor: undefined,
 				padding: {
 					top: undefined,
 					right: undefined,
@@ -302,6 +319,25 @@ export default function TableCellSettings({
 					/>
 				</FlexBlock>
 			</Spacer>
+			<Spacer marginBottom="4" as={Flex}>
+				<FlexBlock>
+					<SelectControl
+						label={__('Cell font weight', 'flexible-table-block')}
+						value={cellStylesObj?.fontWeight || ''}
+						onChange={onChangeFontWeight}
+						options={[
+							{
+								label: __('Normal', 'flexible-table-block'),
+								value: '400',
+							},
+							{
+								label: __('Bold', 'flexible-table-block'),
+								value: '700',
+							},
+						]}
+					/>
+				</FlexBlock>
+			</Spacer>
 			<HStack alignment="start">
 				<UnitControl
 					label={__('Cell width', 'flexible-table-block')}
@@ -362,6 +398,21 @@ export default function TableCellSettings({
 					},
 				]}
 				onChange={onChangeBackgroundColor}
+			/>
+			<ColorControl
+				label={__(
+					'Cell hover background color',
+					'flexible-table-block'
+				)}
+				value={cellStylesObj?.hoverBackgroundColor}
+				colors={[
+					{
+						name: __('Transparent', 'flexible-table-block'),
+						slug: 'transparent',
+						color: 'transparent',
+					},
+				]}
+				onChange={onChangeCellHoverBackgroundColor}
 			/>
 			<hr />
 			<PaddingControl

@@ -18,6 +18,7 @@ import { createHigherOrderComponent } from '@wordpress/compose';
 import { PanelBody, SelectControl, BaseControl } from '@wordpress/components';
 import { store as editorStore } from '@wordpress/editor';
 import { useSelect } from '@wordpress/data';
+import { useMemo } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -36,6 +37,7 @@ import './editor.scss';
 import edit from './edit';
 import save from './save';
 import metadata from './block.json';
+import useRegionsFromPost from './get-regions-from-wp-template';
 
 const { name } = metadata;
 
@@ -57,6 +59,8 @@ addFilter(
 			function RenderToRegion(props) {
 				const { name, attributes, setAttributes, clientId } = props;
 				const { metadata } = attributes;
+				// we need to check if the block has the metadata.renderToRegion property and if it doesnt we dont need to be running these expensive queries. Also we should have an "is control open" state to prevent unnecessary re-renders...
+
 				const { postId, postType, templateId } = useSelect((select) => {
 					const {
 						getCurrentPostId,
@@ -67,8 +71,28 @@ addFilter(
 						postId: getCurrentPostId(),
 						postType: getCurrentPostType(),
 						templateId: getCurrentTemplateId(),
+						templateRegions,
 					};
 				});
+
+				const postRegions = useRegionsFromPost(postId, postType);
+				const templateRegions = useRegionsFromPost(
+					templateId,
+					'wp_template'
+				);
+
+				/**
+				 * Combine the regions from the post and the template and remove duplicates.
+				 */
+				const uniqueRegions = useMemo(() => {
+					const combinedRegions = [
+						...postRegions,
+						...templateRegions,
+					];
+					console.log('combinedRegions', combinedRegions);
+					return [...new Set(combinedRegions)];
+				}, [postRegions, templateRegions]);
+
 				return (
 					<>
 						<InspectorAdvancedControls>

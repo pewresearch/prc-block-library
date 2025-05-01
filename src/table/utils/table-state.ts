@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /**
  * External Dependencies
  */
@@ -966,6 +967,7 @@ export function toVirtualTable(state: TableAttributes): VTable {
  * @return {Object} Table attributes.
  */
 export function toTableAttributes(vTable: VTable): TableAttributes {
+	console.log('toTableAttributes', vTable);
 	return Object.entries(vTable).reduce(
 		(newTableAttributes: TableAttributes, [sectionName, section]) => {
 			if (!section.length) {

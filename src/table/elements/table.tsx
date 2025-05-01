@@ -1,3 +1,4 @@
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
 /* eslint-disable max-lines */
 /**
  * External dependencies
@@ -17,28 +18,16 @@ import type {
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
 import {
-	RichText,
 	// @ts-ignore: has no exported member
 	__experimentalUseColorProps as useColorProps,
 } from '@wordpress/block-editor';
-import {
-	Button,
-	Popover,
-	SlotFillProvider,
-	createSlotFill,
-	Modal,
-	TextControl,
-} from '@wordpress/components';
-import { plus, trash, chevronRight, chevronDown } from '@wordpress/icons';
+import { SlotFillProvider, createSlotFill } from '@wordpress/components';
 import { store as noticesStore } from '@wordpress/notices';
 import { useDispatch } from '@wordpress/data';
-import { useKeyboardShortcut } from '@wordpress/compose';
-import { useCommand } from '@wordpress/commands';
 
 /**
  * Internal dependencies
  */
-import { CELL_ARIA_LABEL } from '../constants';
 import {
 	insertRow,
 	deleteRow,
@@ -62,6 +51,10 @@ import type {
 	BlockAttributes,
 } from '../block-attributes';
 import type { StoreOptions } from '../store';
+
+import ContextMenu from './context-menu';
+import GoToCellModal from '../controls/go-to-cell-modal';
+import TableCellControls from './table-cell-controls';
 
 // Create the SlotFill for the context menu
 const { Fill: TableCellContextMenuFill, Slot: TableCellContextMenuSlot } =
@@ -311,10 +304,11 @@ export default function Table({
 		if (key === 'Shift' || key === 'Control' || key === 'Meta') {
 			// range-select mode or multi-select mode.
 			setIsSelectMode(true);
+			console.log('range-select mode or multi-select mode.');
 		} else if (key === 'Tab' && options.tab_move && tableRef.current) {
 			const isInsideTableBlock =
 				(event.target as HTMLElement).closest(
-					'.wp-block-flexible-table-block-table'
+					'.wp-block-prc-block-table'
 				) !== null;
 
 			if (!isInsideTableBlock) {
@@ -393,7 +387,7 @@ export default function Table({
 		if (key === 'Shift' || key === 'Control' || key === 'Meta') {
 			const isInsideTableBlock =
 				(event.target as HTMLElement).closest(
-					'.wp-block-flexible-table-block-table'
+					'.wp-block-prc-block-table'
 				) !== null;
 
 			if (!isInsideTableBlock) {
@@ -405,10 +399,11 @@ export default function Table({
 	};
 
 	const onClickCell = (event: MouseEvent, clickedCell: VCell) => {
+		// console.log('onClickCell', event, clickedCell);
 		const { shiftKey, ctrlKey, metaKey } = event;
 		const isInsideTableBlock =
 			(event.target as HTMLElement).closest(
-				'.wp-block-flexible-table-block-table'
+				'.wp-block-prc-block-table'
 			) !== null;
 
 		if (!isInsideTableBlock) {
@@ -588,36 +583,6 @@ export default function Table({
 		}
 	}, [contextMenu?.isOpen]);
 
-	useKeyboardShortcut(
-		'mod+g',
-		(event: KeyboardEvent) => {
-			event.preventDefault();
-			setIsGoToModalOpen(true);
-			// Focus the input on next tick after modal opens
-			setTimeout(() => {
-				goToInputRef.current?.focus();
-			}, 0);
-		},
-		{
-			bindGlobal: true,
-		}
-	);
-
-	// Register the command for hiding/showing all tables
-	// useCommand({
-	// 	name: 'prc-block/table__go-to-cell',
-	// 	label: 'Go to cell',
-	// 	icon: 'arrow-right',
-	// 	callback: ({ close }) => {
-	// 		setIsGoToModalOpen(true);
-	// 		// // Focus the input on next tick after modal opens
-	// 		// setTimeout(() => {
-	// 		// 	goToInputRef.current?.focus();
-	// 		// }, 0);
-	// 		close();
-	// 	},
-	// });
-
 	const navigateToCell = (value: string) => {
 		// Parse input in format "row:column" (1-based indices)
 		const [rowStr, colStr] = value.split(':');
@@ -661,7 +626,7 @@ export default function Table({
 							cellElement.scrollIntoView({
 								behavior: 'smooth',
 								block: 'center',
-								inline: 'center'
+								inline: 'center',
 							});
 
 							// Focus the editable content after scrolling
@@ -742,6 +707,15 @@ export default function Table({
 
 											const cellStylesObj =
 												convertToObject(styles);
+											// If there is a hoverBackgroundColor, recast it as --hover-background-color
+											if (
+												cellStylesObj?.hoverBackgroundColor
+											) {
+												cellStylesObj[
+													'--hover-background-color'
+												] =
+													cellStylesObj.hoverBackgroundColor;
+											}
 
 											return (
 												<Cell
@@ -781,377 +755,38 @@ export default function Table({
 														)
 													}
 												>
-													{isSelected &&
-														!isContentOnlyMode &&
-														options.show_label_on_section &&
-														rowIndex === 0 &&
-														vColIndex === 0 && (
-															<Button
-																className="ftb-table-cell-label"
-																tabIndex={
-																	options.focus_control_button
-																		? 0
-																		: -1
-																}
-																variant="primary"
-																onClick={(
-																	event: MouseEvent
-																) => {
-																	onSelectSectionCells(
-																		sectionName
-																	);
-																	event.stopPropagation();
-																}}
-															>
-																{`t${sectionName}`}
-															</Button>
-														)}
-													{isSelected &&
-														!isContentOnlyMode &&
-														options.show_control_button && (
-															<>
-																{rowIndex ===
-																	0 &&
-																	vColIndex ===
-																		0 && (
-																		<Button
-																			className={clsx(
-																				'ftb-row-before-inserter',
-																				{
-																					'ftb-row-before-inserter--has-prev-section':
-																						sectionIndex >
-																						0,
-																				}
-																			)}
-																			label={__(
-																				'Insert row before',
-																				'flexible-table-block'
-																			)}
-																			tabIndex={
-																				options.focus_control_button
-																					? 0
-																					: -1
-																			}
-																			icon={
-																				plus
-																			}
-																			iconSize={
-																				18
-																			}
-																			onClick={(
-																				event: MouseEvent
-																			) => {
-																				onInsertRow(
-																					sectionName,
-																					rowIndex
-																				);
-																				event.stopPropagation();
-																			}}
-																		/>
-																	)}
-																{vColIndex ===
-																	0 && (
-																	<>
-																		<Button
-																			className="ftb-row-selector"
-																			label={__(
-																				'Select row',
-																				'flexible-table-block'
-																			)}
-																			tabIndex={
-																				options.focus_control_button
-																					? 0
-																					: -1
-																			}
-																			icon={
-																				chevronRight
-																			}
-																			iconSize={
-																				16
-																			}
-																			variant={
-																				isRowSelected &&
-																				selectedLine.sectionName ===
-																					sectionName &&
-																				selectedLine.rowIndex ===
-																					rowIndex
-																					? 'primary'
-																					: undefined
-																			}
-																			onClick={(
-																				event: MouseEvent
-																			) => {
-																				onSelectRow(
-																					sectionName,
-																					rowIndex
-																				);
-																				event.stopPropagation();
-																			}}
-																		/>
-																		{isRowSelected &&
-																			selectedLine.sectionName ===
-																				sectionName &&
-																			selectedLine.rowIndex ===
-																				rowIndex && (
-																				<Button
-																					className="ftb-row-deleter"
-																					label={__(
-																						'Delete row',
-																						'flexible-table-block'
-																					)}
-																					tabIndex={
-																						options.focus_control_button
-																							? 0
-																							: -1
-																					}
-																					icon={
-																						trash
-																					}
-																					iconSize={
-																						20
-																					}
-																					onClick={(
-																						event: MouseEvent
-																					) => {
-																						onDeleteRow(
-																							sectionName,
-																							rowIndex
-																						);
-																						event.stopPropagation();
-																					}}
-																				/>
-																			)}
-																	</>
-																)}
-																{sectionIndex ===
-																	0 &&
-																	rowIndex ===
-																		0 &&
-																	vColIndex ===
-																		0 && (
-																		<Button
-																			className="ftb-column-before-inserter"
-																			label={__(
-																				'Insert column before',
-																				'flexible-table-block'
-																			)}
-																			tabIndex={
-																				options.focus_control_button
-																					? 0
-																					: -1
-																			}
-																			icon={
-																				plus
-																			}
-																			iconSize={
-																				18
-																			}
-																			onClick={(
-																				event: MouseEvent
-																			) => {
-																				onInsertColumn(
-																					cell,
-																					0
-																				);
-																				event.stopPropagation();
-																			}}
-																		/>
-																	)}
-																{sectionIndex ===
-																	0 &&
-																	rowIndex ===
-																		0 && (
-																		<>
-																			<Button
-																				className="ftb-column-selector"
-																				label={__(
-																					'Select column',
-																					'flexible-table-block'
-																				)}
-																				tabIndex={
-																					options.focus_control_button
-																						? 0
-																						: -1
-																				}
-																				icon={
-																					chevronDown
-																				}
-																				iconSize={
-																					18
-																				}
-																				variant={
-																					isColumnSelected &&
-																					selectedLine.vColIndex ===
-																						vColIndex
-																						? 'primary'
-																						: undefined
-																				}
-																				onClick={(
-																					event: MouseEvent
-																				) => {
-																					onSelectColumn(
-																						vColIndex
-																					);
-																					event.stopPropagation();
-																				}}
-																			/>
-																			{isColumnSelected &&
-																				selectedLine.vColIndex ===
-																					vColIndex && (
-																					<Button
-																						className="ftb-column-deleter"
-																						label={__(
-																							'Delete column',
-																							'flexible-table-block'
-																						)}
-																						tabIndex={
-																							options.focus_control_button
-																								? 0
-																								: -1
-																						}
-																						icon={
-																							trash
-																						}
-																						iconSize={
-																							20
-																						}
-																						onClick={(
-																							event: MouseEvent
-																						) => {
-																							onDeleteColumn(
-																								vColIndex
-																							);
-																							event.stopPropagation();
-																						}}
-																					/>
-																				)}
-																		</>
-																	)}
-																{vColIndex ===
-																	0 && (
-																	<Button
-																		className={clsx(
-																			'ftb-row-after-inserter',
-																			{
-																				'ftb-row-after-inserter--has-next-section':
-																					sectionIndex <
-																						Object.keys(
-																							filteredVTable
-																						)
-																							.length -
-																							1 &&
-																					rowIndex +
-																						rowSpan -
-																						1 ===
-																						filteredVTable[
-																							sectionName
-																						]
-																							.length -
-																							1,
-																			}
-																		)}
-																		label={__(
-																			'Insert row after',
-																			'flexible-table-block'
-																		)}
-																		tabIndex={
-																			options.focus_control_button
-																				? 0
-																				: -1
-																		}
-																		icon={
-																			plus
-																		}
-																		iconSize={
-																			18
-																		}
-																		onClick={(
-																			event: MouseEvent
-																		) => {
-																			onInsertRow(
-																				sectionName,
-																				rowIndex +
-																					rowSpan
-																			);
-																			event.stopPropagation();
-																		}}
-																	/>
-																)}
-															</>
-														)}
-													<RichText
-														key={vColIndex}
-														value={content}
-														onChange={(value) =>
-															onChangeCellContent(
-																value,
-																cell
-															)
-														}
-														{...((!isSelectMode ||
-															isTabMove) && {
-															onFocus: () => {
-																isTabMove =
-																	false;
-																setSelectedLine(
-																	undefined
-																);
-																setSelectedCells(
-																	[
-																		{
-																			...cell,
-																			isFirstSelected:
-																				true,
-																		},
-																	]
-																);
-															},
-														})}
-														aria-label={
-															CELL_ARIA_LABEL[
-																sectionName as SectionName
-															]
-														}
-														allowedFormats={[
-															'core/link',
-															'core/bold',
-															'core/italic',
-															'core/underline',
-															'core/strikethrough',
-															'core/code',
-															'core/superscript',
-															'core/subscript',
-														]}
+													<TableCellControls
+														{...{
+															isSelected,
+															isContentOnlyMode,
+															options,
+															rowIndex,
+															vColIndex,
+															sectionIndex,
+															sectionName,
+															cell,
+															rowSpan,
+															isRowSelected:
+																!!isRowSelected,
+															isColumnSelected:
+																!!isColumnSelected,
+															selectedLine,
+															onInsertRow,
+															onDeleteRow,
+															onInsertColumn,
+															onDeleteColumn,
+															onSelectRow,
+															onSelectColumn,
+															filteredVTable,
+															content,
+															onChangeCellContent,
+															isSelectMode,
+															isTabMove,
+															setSelectedLine,
+															setSelectedCells,
+															onSelectSectionCells,
+														}}
 													/>
-													{isSelected &&
-														!isContentOnlyMode &&
-														options.show_control_button &&
-														sectionIndex === 0 &&
-														rowIndex === 0 && (
-															<Button
-																className="ftb-column-after-inserter"
-																label={__(
-																	'Insert column after',
-																	'flexible-table-block'
-																)}
-																tabIndex={
-																	options.focus_control_button
-																		? 0
-																		: -1
-																}
-																icon={plus}
-																iconSize={18}
-																onClick={(
-																	event: MouseEvent
-																) => {
-																	onInsertColumn(
-																		cell,
-																		1
-																	);
-																	event.stopPropagation();
-																}}
-															/>
-														)}
 												</Cell>
 											);
 										})}
@@ -1164,91 +799,29 @@ export default function Table({
 			</table>
 
 			{/* Single Popover instance outside the table */}
-			{contextMenu?.isOpen && (
-				<Popover
-					anchor={contextMenu.anchorElement}
-					position="bottom right"
-					onClose={closeContextMenu}
-					expandOnMobile={true}
-					focusOnMount="firstElement"
-					className="ftb-table-cell-context-menu"
-				>
-					<div
-						className="ftb-table-cell-context-menu__content"
-						onClick={(event) => event.stopPropagation()}
-					>
-						<Button
-							variant="tertiary"
-							onClick={() => {
-								if (contextMenu.cell?.content) {
-									copyToClipboard(contextMenu.cell.content);
-								}
-								closeContextMenu();
-							}}
-							className="ftb-table-cell-context-menu__button"
-						>
-							{__('Copy Cell Content', 'flexible-table-block')}
-						</Button>
+			<ContextMenu
+				isOpen={!!contextMenu?.isOpen}
+				anchorElement={contextMenu?.anchorElement || null}
+				cell={contextMenu?.cell || null}
+				onClose={closeContextMenu}
+				copyToClipboard={copyToClipboard}
+				TableCellContextMenuSlot={TableCellContextMenuSlot}
+			/>
 
-						<TableCellContextMenuSlot
-							fillProps={{
-								cell: contextMenu.cell,
-							}}
-						/>
-					</div>
-				</Popover>
-			)}
-
-			{isGoToModalOpen && (
-				<Modal
-					title={__('Go to Cell', 'flexible-table-block')}
-					onRequestClose={() => {
-						setIsGoToModalOpen(false);
-						setGoToValue('');
-					}}
-					className="ftb-goto-cell-modal"
-				>
-					<div className="ftb-goto-cell-modal__content">
-						<p>
-							{__(
-								'Enter the cell coordinates in row:column format (e.g., "1:1" for first cell)',
-								'flexible-table-block'
-							)}
-						</p>
-						<TextControl
-							ref={goToInputRef}
-							value={goToValue}
-							onChange={setGoToValue}
-							placeholder="row:column"
-							onKeyDown={(event: KeyboardEvent) => {
-								if (event.key === 'Enter') {
-									navigateToCell(goToValue);
-								} else if (event.key === 'Escape') {
-									setIsGoToModalOpen(false);
-									setGoToValue('');
-								}
-							}}
-						/>
-						<div className="ftb-goto-cell-modal__buttons">
-							<Button
-								variant="primary"
-								onClick={() => navigateToCell(goToValue)}
-							>
-								{__('Go to Cell', 'flexible-table-block')}
-							</Button>
-							<Button
-								variant="secondary"
-								onClick={() => {
-									setIsGoToModalOpen(false);
-									setGoToValue('');
-								}}
-							>
-								{__('Cancel', 'flexible-table-block')}
-							</Button>
-						</div>
-					</div>
-				</Modal>
-			)}
+			<GoToCellModal
+				isOpen={isGoToModalOpen}
+				value={goToValue}
+				onChange={setGoToValue}
+				onOpen={() => {
+					setIsGoToModalOpen(true);
+				}}
+				onClose={() => {
+					setIsGoToModalOpen(false);
+					setGoToValue('');
+				}}
+				onGoTo={navigateToCell}
+				inputRef={goToInputRef}
+			/>
 		</SlotFillProvider>
 	);
 }

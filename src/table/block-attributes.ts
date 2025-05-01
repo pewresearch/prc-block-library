@@ -67,6 +67,9 @@ export interface BlockAttributes extends TableAttributes {
 	captionSide: CaptionSideValue;
 	caption?: string;
 	style: NestedObject;
+	tableTitle?: string;
+	tableTitleStyles?: string;
+	sourceNote?: string;
 }
 
 // Core Table Block attributes

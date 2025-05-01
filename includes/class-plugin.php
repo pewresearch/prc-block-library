@@ -257,7 +257,7 @@ class Plugin {
 		new Promo_Rotator( $this->get_loader() );
 		new Responsive_Container_Controller( $this->get_loader() );
 		new Responsive_Container_View( $this->get_loader() );
-		// new Render_To_Region( $this->get_loader() ); // WIP
+		// new Render_To_Region( $this->get_loader() );
 		new Roper_DB_Search( $this->get_loader() );
 		new Show_More( $this->get_loader() );
 		new Social_Share_Sheet( $this->get_loader() );

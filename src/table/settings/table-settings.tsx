@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /**
  * External Dependencies
  */
@@ -100,7 +101,6 @@ export default function TableSettings({
 		sticky,
 		head,
 		foot,
-		rowHoverBackgroundColor,
 	} = attributes;
 
 	const options = useSelect((select) => {
@@ -564,14 +564,6 @@ export default function TableSettings({
 					onChange={onChangeBorderSpacing}
 				/>
 			)}
-			<hr />
-			<ColorControl
-				label={__('Row hover', 'flexible-table-block')}
-				value={rowHoverBackgroundColor}
-				onChange={(value) =>
-					setAttributes({ rowHoverBackgroundColor: value })
-				}
-			/>
 		</>
 	);
 }

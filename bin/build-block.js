@@ -2,10 +2,10 @@ const { exec } = require('child_process');
 const prompts = require('prompts');
 const readline = require('readline');
 const fs = require('fs');
+const path = require('path');
 
 const args = process.argv.slice(2);
 let blockName = args[0];
-let isInteractive = args[1] === 'true';
 
 (async () => {
 	if (!blockName) {
@@ -17,14 +17,31 @@ let isInteractive = args[1] === 'true';
 		blockName = response.blockName;
 	}
 
-	if (isInteractive === false) {
-		const response = await prompts({
-			type: 'confirm',
-			name: 'isInteractive',
-			message: 'Does this block utilize the Interactivity API?',
-			initial: true,
-		});
-		isInteractive = response.isInteractive;
+	const src = `./src/${blockName}/`;
+	const output = `./build/${blockName}/`;
+
+	// Check if src directory exists
+	if (!fs.existsSync(src)) {
+		process.stdout.write(
+			`Block does not exist at ${src}. Build process stopped.`
+		);
+		process.exit(1);
+	}
+
+	// Check block.json for interactivity support
+	let isInteractive = false;
+	const blockJsonPath = path.join(src, 'block.json');
+	if (fs.existsSync(blockJsonPath)) {
+		try {
+			const blockJson = JSON.parse(
+				fs.readFileSync(blockJsonPath, 'utf8')
+			);
+			isInteractive = blockJson.supports?.interactivity || false;
+		} catch (error) {
+			process.stdout.write(
+				`Warning: Could not parse block.json: ${error.message}\n`
+			);
+		}
 	}
 
 	const ellipses = ['.', '..', '...', ''];
@@ -37,22 +54,8 @@ let isInteractive = args[1] === 'true';
 		ellipsesIndex = (ellipsesIndex + 1) % ellipses.length;
 	}, 500);
 
-	console.log(
-		`Building ${isInteractive ? 'Interactive' : 'Non-Interactive'} Block`
-	);
-
-	const src = `./src/${blockName}`;
-	const output = `./build/${blockName}`;
-
-	// Check if src directory exists
-	if (!fs.existsSync(src)) {
-		console.warn(`Block does not exist at ${src}. Build process stopped.`);
-		clearInterval(interval);
-		process.exit(1);
-	}
-
 	// Clear the interval when the build process is done
-	let command = `npx wp-scripts build --webpack-src-dir=${src} --output-path=${output} --webpack-copy-php`;
+	let command = `npx wp-scripts build --source-path=${src} --output-path=${output} --webpack-copy-php`;
 	if (isInteractive) {
 		command += ' --experimental-modules';
 	}
@@ -60,16 +63,19 @@ let isInteractive = args[1] === 'true';
 	command +=
 		'; npx wp-scripts build-blocks-manifest --input=./src --output=./build/blocks-manifest.php';
 
+	// Execute everything:
 	exec(command, (error, stdout, stderr) => {
+		process.stdout.write(`Running command: ${command}\n`);
 		clearInterval(interval);
 		readline.cursorTo(process.stdout, 0);
-		console.log(' '.repeat(50)); // Clear the line
+		process.stdout.write(' '.repeat(50)); // Clear the line
 		readline.cursorTo(process.stdout, 0);
+		process.stdout.write('Build complete!\n');
 
 		if (error) {
-			console.error(`Error: ${stderr}`);
+			process.stdout.write(`Error: ${stderr}`);
 		} else {
-			console.log(stdout);
+			process.stdout.write(stdout);
 		}
 	});
 })();

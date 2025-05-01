@@ -38,6 +38,9 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 		caption,
 		captionSide,
 		captionStyles,
+		tableTitle,
+		tableTitleStyles,
+		sourceNote,
 	} = attributes;
 
 	const isEmpty: boolean = !head?.length && !body?.length && !foot?.length;
@@ -48,7 +51,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 
 	const tableStylesObj: Properties = convertToObject(tableStyles);
 	const captionStylesObj: Properties = convertToObject(captionStyles);
-
+	const tableTitleStylesObj: Properties = convertToObject(tableTitleStyles);
 	const colorProps = getColorClassesAndStyles(attributes);
 
 	const blockProps = useBlockProps.save({
@@ -67,6 +70,10 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 	});
 
 	const hasCaption: boolean = !RichText.isEmpty(caption || '');
+
+	const hasTableTitle: boolean = !RichText.isEmpty(tableTitle || '');
+
+	const hasSourceNote: boolean = !RichText.isEmpty(sourceNote || '');
 
 	const Section = ({ type, rows }: { type: SectionName; rows: Row[] }) => {
 		if (!rows.length) {
@@ -124,14 +131,33 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 
 	const Caption = () => (
 		<RichText.Content
+			className="prc-block-table-caption"
 			tagName="figcaption"
 			value={caption || ''}
 			style={captionStylesObj}
 		/>
 	);
 
+	const TableTitle = () => (
+		<RichText.Content
+			className="prc-block-table-title"
+			tagName="h4"
+			value={tableTitle || ''}
+			style={tableTitleStylesObj}
+		/>
+	);
+
+	const SourceNote = () => (
+		<RichText.Content
+			className="prc-block-table-source-note"
+			tagName="p"
+			value={sourceNote || ''}
+		/>
+	);
+
 	return (
 		<figure {...blockProps}>
+			{hasTableTitle && <TableTitle />}
 			{hasCaption && 'top' === captionSide && <Caption />}
 			<table
 				className={tableClasses ?? undefined}
@@ -142,6 +168,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 				<Section type="foot" rows={foot} />
 			</table>
 			{hasCaption && 'bottom' === captionSide && <Caption />}
+			{hasSourceNote && <SourceNote />}
 		</figure>
 	);
 }

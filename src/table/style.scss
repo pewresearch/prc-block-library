@@ -54,4 +54,32 @@
 	&.is-content-justification-right {
 		align-items: flex-end;
 	}
+
+	td {
+		&:hover {
+			background-color: var(--hover-background-color) !important;
+		}
+	}
+
+	figcaption {
+		font-style: italic;
+	}
+
+	h4 {
+		font-family: inherit;
+		margin: 0;
+		width: 100%;
+	}
+
+	.prc-block-table-title {
+
+	}
+
+	.prc-block-table-source-note {
+		margin-top: 1em;
+	}
+
+	.prc-block-table-caption {
+		margin-top: 1em;
+	}
 }

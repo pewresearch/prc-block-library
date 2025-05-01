@@ -20,11 +20,11 @@ import { usePrevious } from '@wordpress/compose';
  */
 import type { BlockAttributes } from '../block-attributes';
 import type { VSelectedCells, VSelectedLine } from '../utils/table-state';
+import { GenerateCaptionButton } from '../utils/ai-generators';
 
 type Props = {
 	attributes: BlockAttributes;
 	setAttributes: (attrs: Partial<BlockAttributes>) => void;
-	insertBlocksAfter: (blocks: BlockInstance[]) => void;
 	setSelectedLine: Dispatch<SetStateAction<VSelectedLine>>;
 	setSelectedCells: Dispatch<SetStateAction<VSelectedCells>>;
 	captionStylesObj: Properties;
@@ -35,7 +35,6 @@ type Props = {
 export default function TableCaption({
 	attributes,
 	setAttributes,
-	insertBlocksAfter,
 	setSelectedLine,
 	setSelectedCells,
 	captionStylesObj,
@@ -46,6 +45,7 @@ export default function TableCaption({
 	const isCaptionEmpty = RichText.isEmpty(caption);
 	const isPrevCaptionEmpty = RichText.isEmpty(prevCaption || '');
 	const [showCaption, setShowCaption] = useState(!isCaptionEmpty);
+	const [isGeneratingCaption, setIsGeneratingCaption] = useState(false);
 
 	const onChange = (value: string | undefined) =>
 		setAttributes({ caption: value });
@@ -93,26 +93,48 @@ export default function TableCaption({
 				</BlockControls>
 			)}
 			{showCaption && (!RichText.isEmpty(caption) || isSelected) && (
-				<RichText
-					aria-label={__(
-						'Table caption text',
-						'flexible-table-block'
-					)}
-					placeholder={__('Add caption', 'flexible-table-block')}
-					tagName="figcaption"
-					style={captionStylesObj}
-					value={caption}
-					ref={ref}
-					onChange={onChange}
-					onFocus={() => {
-						setSelectedLine(undefined);
-						setSelectedCells(undefined);
+				<div
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: '10px',
+						flexDirection: 'row',
+						cursor: isGeneratingCaption ? 'not-allowed' : 'auto',
+						opacity: isGeneratingCaption ? 0.5 : 1,
 					}}
-					// @ts-ignore: `__unstableOnSplitAtEnd` prop is not exist at @types
-					__unstableOnSplitAtEnd={() =>
-						insertBlocksAfter(createBlock('core/paragraph'))
-					}
-				/>
+					className="prc-block-table-caption"
+				>
+					<RichText
+						aria-label={__(
+							'Table caption text',
+							'flexible-table-block'
+						)}
+						placeholder={__('Add caption', 'flexible-table-block')}
+						tagName="figcaption"
+						style={captionStylesObj}
+						value={caption}
+						ref={ref}
+						onChange={onChange}
+						onFocus={() => {
+							setSelectedLine(undefined);
+							setSelectedCells(undefined);
+						}}
+						// // @ts-ignore: `__unstableOnSplitAtEnd` prop is not exist at @types
+						// __unstableOnSplitAtEnd={() =>
+						// 	insertBlocksAfter(createBlock('core/paragraph'))
+						// }
+					/>
+					{isSelected && (
+						<GenerateCaptionButton
+							{...{
+								attributes,
+								setAttributes,
+								isGeneratingCaption,
+								setIsGeneratingCaption,
+							}}
+						/>
+					)}
+				</div>
 			)}
 		</>
 	);
