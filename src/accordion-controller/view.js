@@ -21,23 +21,45 @@ store('prc-block/accordion-controller', {
 	actions: {
 		onClick: (event) => {
 			event.preventDefault();
-			const context = getContext();
 			const { ref } = getElement();
 			const id = ref.parentElement.getAttribute('id');
 			if (!ref || !id) {
 				return;
 			}
+			const context = getContext();
 			const { activeId } = context;
 			if (id === activeId) {
 				context.activeId = null;
 			} else {
 				context.activeId = id;
 			}
+			// Set the hash on the url.
+			window.location.hash = id;
+			// Scroll to the top of the accordion after a 100ms delay.
+			setTimeout(() => {
+				ref.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}, 100);
 			// If this accordion has an entity iframe, toggle it.
 			entityIframeSupport(ref);
 		},
 	},
 	callbacks: {
+		onInit: () => {
+			// Get the id's of the section elements inside the accordion.
+			const { ref } = getElement();
+			const sections = ref.querySelectorAll('section');
+			const sectionIds = Array.from(sections).map((section) =>
+				section.getAttribute('id')
+			);
+			// Check if the url hash is one of the section ids, if so, set the activeId to that id.
+			const { hash } = window.location;
+			if (hash) {
+				const id = hash.slice(1);
+				if (sectionIds.includes(id)) {
+					getContext().activeId = id;
+				}
+			}
+		},
 		isActiveAccordion: () => {
 			const { activeId } = getContext();
 			const { ref } = getElement();

@@ -1,35 +1,10 @@
 .wp-block-prc-block-accordion {
+	--icon-size: 14px;
 	align-self: stretch;
 	& > * {
 		box-sizing: border-box;
 	}
-	.wp-block-prc-block-accordion__title {
-		display: flex;
-		align-items: center;
-		width: 100%;
-		font-family: inherit;
-		font-size: 1.25em;
-		font-weight: 600;
-		padding: 0.75em;
-		margin: 0;
-		h3 {
-			margin: 0;
-			padding-left: 0.75em;
-			font-family: inherit;
-		}
-	}
-	button.wp-block-prc-block-accordion__title {
-		background: none;
-		border: none;
-		color: inherit;
-		cursor: pointer;
-	}
-	.wp-block-prc-block-accordion__icon {
-		display: inline-block;
-		margin: 0;
-		padding: 0;
-		cursor: pointer;
-	}
+
 	&.is-active {
 		.wp-block-prc-block-accordion__icon {
 			-webkit-transform: rotate(90deg);
@@ -40,9 +15,63 @@
 			transition: all 1s ease-in-out;
 		}
 	}
+
+	&:first-child:not(.is-active) + .wp-block-prc-block-accordion:nth-child(2).is-active {
+		.wp-block-prc-block-accordion__title {
+			border-top: none;
+		}
+	}
+
+	&:last-of-type.is-active .wp-block-prc-block-accordion__title {
+		border-top: none;
+	}
+
+	&:not(.is-active) + .wp-block-prc-block-accordion:not(.is-active) {
+		.wp-block-prc-block-accordion__title {
+			border-top: none;
+		}
+	}
+
+	.wp-block-prc-block-accordion__title {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		margin: 0;
+		gap: calc(var(--icon-size) / 2);
+		cursor: pointer;
+		span {
+			margin: 0;
+			font-family: inherit;
+			font-size: inherit;
+			font-weight: 600;
+		}
+		button {
+			background: none;
+			border: none;
+			padding: 0;
+			margin: 0;
+			cursor: pointer;
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+	.wp-block-prc-block-accordion__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+		padding: 0;
+		cursor: pointer;
+		.icon > svg {
+			width: var(--icon-size) !important;
+			height: var(--icon-size) !important;
+		}
+	}
 	.wp-block-prc-block-accordion__content {
 		display: none;
-		padding: 0.75em;
+		padding-top: 12px;
+		padding-bottom: 12px;
 		& > *:last-of-type {
 			margin-bottom: 0;
 		}

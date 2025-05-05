@@ -1,27 +1,35 @@
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
+import clsx from 'clsx';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useMemo } from '@wordpress/element';
+import { useRef, useEffect, useMemo, useState } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
 	useInnerBlocksProps,
-	withColors,
-	getColorClassName,
+	__experimentalUseColorProps as useColorProps,
+	__experimentalUseBorderProps as useBorderProps,
+	__experimentalGetSpacingClassesAndStyles as getSpacingClassesAndStyles,
+	__experimentalGetGapCSSValue as getGapCSSValue,
+	getTypographyClassesAndStyles,
 } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 
-/**
- * Internal Dependencies
- */
-import Controls from './controls';
-
-const ALLOWED_BLOCKS = true;
+const TEMPLATE = [
+	[
+		'core/paragraph',
+		{
+			placeholder: 'Type / to add a new block to the accordion',
+		},
+	],
+];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -29,145 +37,135 @@ const ALLOWED_BLOCKS = true;
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props                           Properties passed to the function.
- * @param {Object}   props.attributes                Available block attributes.
+ * @param {Object}   props                            Properties passed to the function.
+ * @param {Object}   props.attributes                 Available block attributes.
  * @param {string}   props.className
- * @param {string}   props.titleBackgroundColor
- * @param {Function} props.setTitleBackgroundColor
- * @param {string}   props.titleTextColor
- * @param {Function} props.setTitleTextColor
- * @param {string}   props.contentBackgroundColor
- * @param {Function} props.setContentBackgroundColor
- * @param {string}   props.contentTextColor
- * @param {Function} props.setContentTextColor
- * @param {string}   props.borderColor
- * @param {Function} props.setBorderColor
- * @param {Function} props.setAttributes             Function that updates individual attributes.
+ * @param            props.clientId
+ * @param            props.context
+ * @param            props.isSelected
+ * @param            props.__unstableLayoutClassNames
+ * @param {Function} props.setAttributes              Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
 // eslint-disable-next-line max-lines-per-function
-function Edit({
+export default function Edit({
 	attributes,
 	setAttributes,
 	className,
-	titleBackgroundColor,
-	setTitleBackgroundColor,
-	titleTextColor,
-	setTitleTextColor,
-	contentBackgroundColor,
-	setContentBackgroundColor,
-	contentTextColor,
-	setContentTextColor,
 	clientId,
 	context,
+	__unstableLayoutClassNames: layoutClassNames,
+	isSelected,
 }) {
+	const titleRef = useRef(null);
+	const { title } = attributes;
 
-	const titleBackground = useMemo(() => {
-		const key = 'prc-block/accordion-controller/title-background';
-		const parentBlockBackgroundTitleSlug = context?.[key];
-		return !titleBackgroundColor?.slug && parentBlockBackgroundTitleSlug ? { slug: parentBlockBackgroundTitleSlug } : titleBackgroundColor;
-	},[context, titleBackgroundColor]);
+	const hasChildSelected = useSelect(
+		(select) => {
+			const { hasSelectedInnerBlock } = select('core/block-editor');
+			return hasSelectedInnerBlock(clientId, true);
+		},
+		[clientId]
+	);
 
-	const titleText = useMemo(() => {
-		const key = 'prc-block/accordion-controller/title-text';
-		const parentBlockTextTitleSlug = context?.[key];
-		return !titleTextColor?.slug && parentBlockTextTitleSlug ? { slug: parentBlockTextTitleSlug } : titleTextColor;
-	},[context, titleTextColor]);
+	const isActive = useMemo(() => {
+		return isSelected || hasChildSelected;
+	}, [isSelected, hasChildSelected]);
 
-	const contentBackground = useMemo(() => {
-		const key = 'prc-block/accordion-controller/content-background';
-		const parentBlockBackgroundContentSlug = context?.[key];
-		return !contentBackgroundColor?.slug && parentBlockBackgroundContentSlug ? { slug: parentBlockBackgroundContentSlug } : contentBackgroundColor;
-	},[context, contentBackgroundColor]);
+	const [isOpen, setIsOpen] = useState(isActive);
 
-	const contentText = useMemo(() => {
-		const key = 'prc-block/accordion-controller/content-text';
-		const parentBlockTextContentSlug = context?.[key];
-		return !contentTextColor?.slug && parentBlockTextContentSlug ? { slug: parentBlockTextContentSlug } : contentTextColor;
-	},[context, contentTextColor]);
-
-	const [isOpen, setOpen] = useState(false);
-	const toggleOpen = () => setOpen(!isOpen);
+	useEffect(() => {
+		setIsOpen(isActive);
+	}, [isActive]);
 
 	const blockProps = useBlockProps({
-		className: classNames(className, {
+		className: clsx(className, {
 			'is-active': isOpen,
 		}),
 	});
 
-	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
-	// This gives us a good way to ensure greater template and pattern control.
-	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	const { allowedBlocks, title } = attributes;
+	const colorProps = useColorProps(attributes);
+	const borderProps = useBorderProps(attributes);
+	const spacingProps = getSpacingClassesAndStyles(attributes);
+	const typographyProps = getTypographyClassesAndStyles(attributes);
+	const blockGap = getGapCSSValue(
+		attributes?.style?.spacing?.blockGap,
+		'0.5em'
+	);
+	const gapStyle = useMemo(() => {
+		return `.wp-block-prc-block-accordion[data-block="${clientId}"] .wp-block-prc-block-accordion__content > .wp-block:not(:first-child) {
+					margin-block-start: ${blockGap};
+				}`;
+	}, [blockGap, clientId]);
+
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: classNames('wp-block-prc-block-accordion__content', {
-				'is-open': isOpen,
-				'has-background':
-					!!contentBackground?.slug,
-				[getColorClassName('background-color', contentBackground?.slug)]:
-					!!contentBackground?.slug,
-				'has-text-color': !!contentText?.slug,
-				[getColorClassName('color', contentText?.slug)]:
-					!!contentText?.slug,
-			}),
+			className: clsx(
+				'wp-block-prc-block-accordion__content',
+				layoutClassNames,
+				{
+					'is-open': isOpen,
+				}
+			),
 		},
 		{
-			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 			orientation: 'vertical',
+			template: TEMPLATE,
 		}
 	);
 
-	const titleClassNames = classNames('wp-block-prc-block-accordion__title', {
-		'has-background':
-			!!titleBackground?.slug,
-		[getColorClassName('background-color', titleBackground?.slug)]:
-			!!titleBackground?.slug,
-		'has-text-color': !!titleText?.slug,
-		[getColorClassName('color', titleText?.slug)]:
-			!!titleText?.slug,
-	});
+	// If isSelected and title is empty, focus the title after a 100ms delay.
+	useEffect(() => {
+		if (isSelected && !title) {
+			setTimeout(() => {
+				titleRef.current.focus();
+			}, 100);
+		}
+	}, [isSelected, title]);
 
 	return (
-		<Fragment>
-			<Controls colors={{
-				titleBackgroundColor,
-				setTitleBackgroundColor,
-				titleTextColor,
-				setTitleTextColor,
-				contentBackgroundColor,
-				setContentBackgroundColor,
-				contentTextColor,
-				setContentTextColor,
-			}} clientId={clientId}/>
-			<div {...blockProps}>
-				<div className={titleClassNames}>
-					<span
-						className="wp-block-prc-block-accordion__icon"
-						onClick={toggleOpen}
-					>
-						&#8227;
-					</span>
-					<RichText
-						tagName="h3"
-						placeholder={__('Title', 'prc-block-library')}
-						value={title}
-						onChange={(newTitle) =>
-							setAttributes({ title: newTitle })
+		<section {...blockProps}>
+			<h3
+				className={clsx(
+					'wp-block-prc-block-accordion__title',
+					colorProps.className,
+					borderProps.className,
+					spacingProps.className,
+					typographyProps.className
+				)}
+				style={{
+					...colorProps.style,
+					...borderProps.style,
+					...spacingProps.style,
+					...typographyProps.style,
+				}}
+				ref={titleRef}
+			>
+				<button
+					type="button"
+					className="wp-block-prc-block-accordion__icon"
+					tabIndex={0}
+					onClick={() => setIsOpen(!isOpen)}
+					onKeyDown={(e) => {
+						if (e.key === 'Escape') {
+							e.preventDefault();
+							setIsOpen(false);
 						}
-						allowedFormats={[]}
-					/>
-				</div>
-				<div {...innerBlocksProps} />
-			</div>
-		</Fragment>
+					}}
+				>
+					<Icon icon="caret-right" size="14px" />
+				</button>
+				<RichText
+					tagName="span"
+					placeholder={__('Title', 'prc-block-library')}
+					value={title}
+					onChange={(newTitle) => setAttributes({ title: newTitle })}
+					allowedFormats={[]}
+				/>
+			</h3>
+			{isActive && <div {...innerBlocksProps} />}
+			<style>{gapStyle}</style>
+		</section>
 	);
 }
-
-export default withColors(
-	{ contentTextColor: 'color' },
-	{ contentBackgroundColor: 'color' },
-	{ titleBackgroundColor: 'color' },
-	{ titleTextColor: 'color' },
-)(Edit);

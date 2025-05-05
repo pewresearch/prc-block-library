@@ -5,45 +5,45 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/accordion',
-		'version' => '0.1.0',
-		'title' => 'Accordion',
+		'version' => '1.0.0',
+		'title' => 'Accordion Section',
 		'category' => 'design',
+		'description' => 'A collapsible section that can be expanded or collapsed to show or hide content. Useful for any content you want to keep organized and compact. Click the title to expand or collapse the section.',
 		'attributes' => array(
 			'title' => array(
-				'type' => 'string'
-			),
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
-			'titleBackgroundColor' => array(
-				'type' => 'string'
-			),
-			'titleTextColor' => array(
-				'type' => 'string'
-			),
-			'contentBackgroundColor' => array(
-				'type' => 'string'
-			),
-			'contentTextColor' => array(
-				'type' => 'string'
+				'type' => 'string',
+				'source' => 'html',
+				'selector' => '.wp-block-prc-block-accordion__title-text',
+				'__experimentalRole' => 'content'
 			)
 		),
 		'supports' => array(
-			'color' => array(
-				'link' => true,
-				'text' => false,
-				'background' => false
-			),
 			'anchor' => true,
 			'html' => false,
+			'interactivity' => true,
+			'color' => array(
+				'text' => true,
+				'background' => true,
+				'__experimentalSkipSerialization' => true
+			),
 			'typography' => array(
-				'fontSize' => false,
+				'fontSize' => true,
+				'lineHeight' => true,
+				'textAlign' => true,
 				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
 				'__experimentalDefaultControls' => array(
 					'fontSize' => false,
 					'__experimentalFontFamily' => true
-				)
+				),
+				'__experimentalSkipSerialization' => true
 			),
+			'spacing' => array(
+				'padding' => true,
+				'blockGap' => true,
+				'__experimentalSkipSerialization' => true
+			),
+			'layout' => true,
 			'__experimentalBorder' => array(
 				'color' => true,
 				'style' => true,
@@ -52,49 +52,46 @@ return array(
 					'color' => true,
 					'style' => true,
 					'width' => true
-				)
+				),
+				'__experimentalSkipSerialization' => true
 			),
-			'interactivity' => true
+			'__experimentalSelector' => array(
+				'root' => '.wp-block-prc-block-accordion',
+				'color' => '.wp-block-prc-block-accordion > .wp-block-prc-block-accordion__title',
+				'typography' => '.wp-block-prc-block-accordion > .wp-block-prc-block-accordion__title',
+				'spacing' => array(
+					'root' => '.wp-block-prc-block-accordion',
+					'padding' => '.wp-block-prc-block-accordion > .wp-block-prc-block-accordion__title'
+				)
+			)
 		),
 		'parent' => array(
 			'prc-block/accordion-controller'
 		),
-		'usesContext' => array(
-			'prc-block/accordion-controller/content-background',
-			'prc-block/accordion-controller/content-text',
-			'prc-block/accordion-controller/title-background',
-			'prc-block/accordion-controller/title-text'
-		),
 		'textdomain' => 'accordion',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
 	),
 	'accordion-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/accordion-controller',
-		'version' => '0.1.0',
-		'title' => 'Accordion Controller',
+		'version' => '1.0.0',
+		'title' => 'Accordion',
 		'category' => 'design',
-		'description' => 'Controls a group of accordion blocks.',
+		'description' => 'A collection of collapsible sections that can be expanded or collapsed to show or hide content. Useful for FAQs, lists, or any content you want to keep organized and compact. Click the title to expand or collapse the section.',
+		'allowedBlocks' => array(
+			'prc-block/accordion'
+		),
 		'attributes' => array(
-			'titleBackgroundColor' => array(
-				'type' => 'string'
-			),
-			'titleTextColor' => array(
-				'type' => 'string'
-			),
-			'contentBackgroundColor' => array(
-				'type' => 'string'
-			),
-			'contentTextColor' => array(
-				'type' => 'string'
-			)
+			
 		),
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
+			'interactivity' => true,
+			'align' => true,
 			'color' => array(
 				'link' => true,
 				'text' => false,
@@ -106,9 +103,22 @@ return array(
 						'vertical'
 					)
 				),
-				'margin' => array(
-					'top',
-					'bottom'
+				'margin' => true,
+				'padding' => true
+			),
+			'layout' => array(
+				'allowEditing' => false,
+				'default' => array(
+					'type' => 'flex',
+					'orientation' => 'vertical'
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'__experimentalFontFamily' => true
 				)
 			),
 			'__experimentalBorder' => array(
@@ -120,23 +130,7 @@ return array(
 					'style' => true,
 					'width' => true
 				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalFontFamily' => true
-				)
-			),
-			'layout' => array(
-				'allowEditing' => false,
-				'default' => array(
-					'type' => 'flex',
-					'orientation' => 'vertical'
-				)
-			),
-			'interactivity' => true
+			)
 		),
 		'example' => array(
 			'attributes' => array(
@@ -174,17 +168,10 @@ return array(
 			),
 			'viewportWidth' => 640
 		),
-		'providesContext' => array(
-			'prc-block/accordion-controller/content-background' => 'contentBackgroundColor',
-			'prc-block/accordion-controller/content-text' => 'contentTextColor',
-			'prc-block/accordion-controller/title-background' => 'titleBackgroundColor',
-			'prc-block/accordion-controller/title-text' => 'titleTextColor'
-		),
 		'textdomain' => 'accordion-controller',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'attachment-info' => array(

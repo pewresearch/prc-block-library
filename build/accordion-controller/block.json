@@ -2,27 +2,19 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "prc-block/accordion-controller",
-  "version": "0.1.0",
-  "title": "Accordion Controller",
+  "version": "1.0.0",
+  "title": "Accordion",
   "category": "design",
-  "description": "Controls a group of accordion blocks.",
-  "attributes": {
-    "titleBackgroundColor": {
-      "type": "string"
-    },
-    "titleTextColor": {
-      "type": "string"
-    },
-    "contentBackgroundColor": {
-      "type": "string"
-    },
-    "contentTextColor": {
-      "type": "string"
-    }
-  },
+  "description": "A collection of collapsible sections that can be expanded or collapsed to show or hide content. Useful for FAQs, lists, or any content you want to keep organized and compact. Click the title to expand or collapse the section.",
+  "allowedBlocks": [
+    "prc-block/accordion"
+  ],
+  "attributes": {},
   "supports": {
     "anchor": true,
     "html": false,
+    "interactivity": true,
+    "align": true,
     "color": {
       "link": true,
       "text": false,
@@ -34,19 +26,14 @@
           "vertical"
         ]
       },
-      "margin": [
-        "top",
-        "bottom"
-      ]
+      "margin": true,
+      "padding": true
     },
-    "__experimentalBorder": {
-      "color": true,
-      "style": true,
-      "width": true,
-      "__experimentalDefaultControls": {
-        "color": true,
-        "style": true,
-        "width": true
+    "layout": {
+      "allowEditing": false,
+      "default": {
+        "type": "flex",
+        "orientation": "vertical"
       }
     },
     "typography": {
@@ -57,14 +44,16 @@
         "__experimentalFontFamily": true
       }
     },
-    "layout": {
-      "allowEditing": false,
-      "default": {
-        "type": "flex",
-        "orientation": "vertical"
+    "__experimentalBorder": {
+      "color": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "style": true,
+        "width": true
       }
-    },
-    "interactivity": true
+    }
   },
   "example": {
     "attributes": {},
@@ -100,16 +89,9 @@
     ],
     "viewportWidth": 640
   },
-  "providesContext": {
-    "prc-block/accordion-controller/content-background": "contentBackgroundColor",
-    "prc-block/accordion-controller/content-text": "contentTextColor",
-    "prc-block/accordion-controller/title-background": "titleBackgroundColor",
-    "prc-block/accordion-controller/title-text": "titleTextColor"
-  },
   "textdomain": "accordion-controller",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
-  "render": "file:./render.php",
   "viewScriptModule": "file:./view.js"
 }

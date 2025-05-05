@@ -9,27 +9,4 @@
 	color: inherit;
 	background: inherit;
 	margin-block-end: 1.5em;
-	gap: var(--block-gap, 1em);
-
-	& > .block-list-appender.wp-block {
-		width: 100%;
-		position: relative;
-	}
-
-	&.has-border-color {
-		& > .wp-block-prc-block-accordion.has-border-color {
-			&:first-of-type {
-				border-top: none!important;
-			}
-			&:last-of-type {
-				border-bottom: none!important;
-			}
-			border-left-color: transparent!important;
-			border-right-color: transparent!important;
-		}
-	}
-
-	&:not(.has-block-gap) > .wp-block-prc-block-accordion.has-border-color:not(:last-of-type) {
-		border-bottom: none!important;
-	}
 }

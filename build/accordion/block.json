@@ -2,45 +2,45 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "prc-block/accordion",
-  "version": "0.1.0",
-  "title": "Accordion",
+  "version": "1.0.0",
+  "title": "Accordion Section",
   "category": "design",
+  "description": "A collapsible section that can be expanded or collapsed to show or hide content. Useful for any content you want to keep organized and compact. Click the title to expand or collapse the section.",
   "attributes": {
     "title": {
-      "type": "string"
-    },
-    "allowedBlocks": {
-      "type": "array"
-    },
-    "titleBackgroundColor": {
-      "type": "string"
-    },
-    "titleTextColor": {
-      "type": "string"
-    },
-    "contentBackgroundColor": {
-      "type": "string"
-    },
-    "contentTextColor": {
-      "type": "string"
+      "type": "string",
+      "source": "html",
+      "selector": ".wp-block-prc-block-accordion__title-text",
+      "__experimentalRole": "content"
     }
   },
   "supports": {
-    "color": {
-      "link": true,
-      "text": false,
-      "background": false
-    },
     "anchor": true,
     "html": false,
+    "interactivity": true,
+    "color": {
+      "text": true,
+      "background": true,
+      "__experimentalSkipSerialization": true
+    },
     "typography": {
-      "fontSize": false,
+      "fontSize": true,
+      "lineHeight": true,
+      "textAlign": true,
       "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
       "__experimentalDefaultControls": {
         "fontSize": false,
         "__experimentalFontFamily": true
-      }
+      },
+      "__experimentalSkipSerialization": true
     },
+    "spacing": {
+      "padding": true,
+      "blockGap": true,
+      "__experimentalSkipSerialization": true
+    },
+    "layout": true,
     "__experimentalBorder": {
       "color": true,
       "style": true,
@@ -49,21 +49,24 @@
         "color": true,
         "style": true,
         "width": true
-      }
+      },
+      "__experimentalSkipSerialization": true
     },
-    "interactivity": true
+    "__experimentalSelector": {
+      "root": ".wp-block-prc-block-accordion",
+      "color": ".wp-block-prc-block-accordion > .wp-block-prc-block-accordion__title",
+      "typography": ".wp-block-prc-block-accordion > .wp-block-prc-block-accordion__title",
+      "spacing": {
+        "root": ".wp-block-prc-block-accordion",
+        "padding": ".wp-block-prc-block-accordion > .wp-block-prc-block-accordion__title"
+      }
+    }
   },
   "parent": [
     "prc-block/accordion-controller"
   ],
-  "usesContext": [
-    "prc-block/accordion-controller/content-background",
-    "prc-block/accordion-controller/content-text",
-    "prc-block/accordion-controller/title-background",
-    "prc-block/accordion-controller/title-text"
-  ],
   "textdomain": "accordion",
   "editorScript": "file:./index.js",
-  "style": "file:./style-index.css",
-  "render": "file:./render.php"
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
 }

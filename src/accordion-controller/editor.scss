@@ -7,4 +7,13 @@
 .wp-block-prc-block-accordion-controller.wp-block {
 	color: inherit;
 	background: inherit;
+
+	&:not(.has-child-selected):not(.is-selected) > .block-list-appender.wp-block {
+		display: none;
+	}
+
+	& > .block-list-appender.wp-block {
+		width: 100%;
+		position: relative;
+	}
 }

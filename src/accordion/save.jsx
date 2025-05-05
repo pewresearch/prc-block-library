@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-
+import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
@@ -12,7 +12,16 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { InnerBlocks } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	useInnerBlocksProps,
+	RichText,
+	__experimentalGetBorderClassesAndStyles as getBorderClassesAndStyles,
+	__experimentalGetColorClassesAndStyles as getColorClassesAndStyles,
+	__experimentalGetSpacingClassesAndStyles as getSpacingClassesAndStyles,
+	getTypographyClassesAndStyles,
+	__experimentalGetElementClassName,
+} from '@wordpress/block-editor';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -25,6 +34,39 @@ import { InnerBlocks } from '@wordpress/block-editor';
  * @param {Object} props.attributes Available block attributes.
  * @return {WPElement} Element to render.
  */
-export default function Save() {
-	return <InnerBlocks.Content />;
+export default function Save({ attributes }) {
+	const blockProps = useBlockProps.save();
+	const innerBlocksProps = useInnerBlocksProps.save();
+	const borderProps = getBorderClassesAndStyles(attributes);
+	const colorProps = getColorClassesAndStyles(attributes);
+	const spacingProps = getSpacingClassesAndStyles(attributes);
+	const typographyProps = getTypographyClassesAndStyles(attributes);
+	const titleClassName = clsx(
+		'wp-block-prc-block-accordion__title',
+		borderProps.className,
+		colorProps.className,
+		spacingProps.className,
+		typographyProps.className
+	);
+	const titleStyle = {
+		...borderProps.style,
+		...colorProps.style,
+		...spacingProps.style,
+		...typographyProps.style,
+	};
+	return (
+		<section {...blockProps}>
+			<h3 className={titleClassName} style={titleStyle}>
+				<span className="wp-block-prc-block-accordion__icon"></span>
+				<RichText.Content
+					className="wp-block-prc-block-accordion__title-text"
+					value={attributes.title}
+					tagName="span"
+				/>
+			</h3>
+			<div className="wp-block-prc-block-accordion__content">
+				{innerBlocksProps.children}
+			</div>
+		</section>
+	);
 }

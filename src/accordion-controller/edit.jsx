@@ -1,26 +1,33 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
-import { getBlockGapSupportValue } from '@prc/block-utils';
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
 	InnerBlocks,
-	withColors,
 } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
 
-const ALLOWED_BLOCKS = ['prc-block/accordion'];
+const DEFAULT_BLOCK = {
+	name: 'prc-block/accordion',
+	attributesToCopy: [
+		'className',
+		'backgroundColor',
+		'fontFamily',
+		'fontSize',
+		'style',
+	],
+};
+
+const TEMPLATE = [['prc-block/accordion', {}, []]];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -28,60 +35,31 @@ const ALLOWED_BLOCKS = ['prc-block/accordion'];
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                            Properties passed to the function.
+ * @param {Object}   props.attributes                 Available block attributes.
+ * @param {string}   props.className
+ * @param {string}   props.__unstableLayoutClassNames
+ * @param {string}   props.clientId
+ * @param {Function} props.setAttributes              Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
-function Edit({
+export default function Edit({
 	attributes,
 	className,
-	titleBackgroundColor,
-	setTitleBackgroundColor,
-	titleTextColor,
-	setTitleTextColor,
-	contentBackgroundColor,
-	setContentBackgroundColor,
-	contentTextColor,
-	setContentTextColor,
 	__unstableLayoutClassNames: layoutClassNames,
-	clientId,
 }) {
-	const blockGap = getBlockGapSupportValue(attributes, 'vertical');
-
 	const blockProps = useBlockProps({
-		className: classNames( className, layoutClassNames, {
-			'has-block-gap': "0" !== blockGap,
-		} ),
+		className: clsx(className, layoutClassNames),
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: ALLOWED_BLOCKS,
+		defaultBlock: DEFAULT_BLOCK,
+		directInsert: true,
 		orientation: 'vertical',
 		renderAppender: InnerBlocks.ButtonBlockAppender,
+		template: TEMPLATE,
 	});
 
-	return (
-		<Fragment>
-			<Controls colors={{
-				titleBackgroundColor,
-				setTitleBackgroundColor,
-				titleTextColor,
-				setTitleTextColor,
-				contentBackgroundColor,
-				setContentBackgroundColor,
-				contentTextColor,
-				setContentTextColor,
-			}} clientId={clientId} />
-			<div {...innerBlocksProps} />
-		</Fragment>
-	);
+	return <div {...innerBlocksProps} />;
 }
-
-export default withColors(
-	{ contentTextColor: 'color' },
-	{ contentBackgroundColor: 'color' },
-	{ titleBackgroundColor: 'color' },
-	{ titleTextColor: 'color' },
-)(Edit);
