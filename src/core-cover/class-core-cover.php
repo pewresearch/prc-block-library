@@ -113,7 +113,7 @@ class Core_Cover {
 	 *
 	 * @hook block_type_metadata
 	 * @param mixed $metadata Metadata.
-	 * @return mixed
+	 * @return mixed Metadata.
 	 */
 	public function add_attributes( $metadata ) {
 		if ( $this->block_name !== $metadata['name'] ) {
@@ -151,9 +151,9 @@ class Core_Cover {
 	 * Render the "core/cover" block
 	 *
 	 * @hook render_block
-	 * @param string $block_content
-	 * @param mixed  $block
-	 * @return mixed
+	 * @param string $block_content The block content.
+	 * @param mixed  $block         The block.
+	 * @return mixed The block content.
 	 */
 	public function render( $block_content, $block ) {
 		if ( $this->block_name !== $block['blockName'] || is_admin() ) {
@@ -162,7 +162,7 @@ class Core_Cover {
 
 		wp_enqueue_style( $this->style_handle );
 
-		if ( ! function_exists( 'jetpack_is_mobile' ) ) {
+		if ( ! function_exists( '\PRC\Platform\get_current_device' ) ) {
 			return $block_content;
 		}
 
@@ -170,11 +170,20 @@ class Core_Cover {
 		$mobile_image    = $mobile_image_id ? wp_get_attachment_image_src( $mobile_image_id, 'full' ) : false;
 		$mobile_image    = $mobile_image ? $mobile_image[0] : false;
 
+		$tablet_image_id = array_key_exists( 'tabletId', $block['attrs'] ) ? $block['attrs']['tabletId'] : false;
+		$tablet_image    = $tablet_image_id ? wp_get_attachment_image_src( $tablet_image_id, 'full' ) : false;
+		$tablet_image    = $tablet_image ? $tablet_image[0] : false;
+
 		// Replace the image with the mobile image if on a mobile device.
 		$image_attrs = null;
 		if ( 'mobile' === \PRC\Platform\get_current_device() && preg_match( '/<img(.*?)>/', $block_content, $matches ) && false !== $mobile_image ) {
 			$image_attrs   = $matches[1];
 			$image_attrs   = preg_replace( '/src=".*?"/', 'src="' . $mobile_image . '"', $image_attrs );
+			$block_content = preg_replace( '/<img(.*?)>/', '<img' . $image_attrs . '>', $block_content );
+		}
+		if ( 'tablet' === \PRC\Platform\get_current_device() && preg_match( '/<img(.*?)>/', $block_content, $matches ) && false !== $tablet_image ) {
+			$image_attrs   = $matches[1];
+			$image_attrs   = preg_replace( '/src=".*?"/', 'src="' . $tablet_image . '"', $image_attrs );
 			$block_content = preg_replace( '/<img(.*?)>/', '<img' . $image_attrs . '>', $block_content );
 		}
 

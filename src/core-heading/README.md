@@ -1,55 +1,98 @@
-===  ===
-Contributors:      Seth Rubenstein
-Tags:              block
-Tested up to:      6.1
-Stable tag:        0.1.0
-License:           GPL-2.0-or-later
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+# Customizations: `core/heading` Block & Table of Contents Integration
 
+## Overview
 
+The `core/heading` block in this platform is extended to support dynamic Table of Contents (TOC) generation and enhanced editorial workflows. These customizations ensure that headings can be programmatically identified as chapter/section headings, support alternate TOC labels, and interact seamlessly with the `prc-block/table-of-contents` block using WordPress Interactivity API global state.
 
-== Description ==
+---
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+## Key Additions & Features
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+### 1. New Block Attributes
 
-== Installation ==
+- **`isChapter`** (`boolean`, default: `false`)
+  - Marks a heading as a chapter/section for TOC purposes.
+  - Automatically set for legacy content (see below).
+- **`altTocText`** (`string`, default: `""`)
+  - Allows editors to specify alternate text for the TOC entry, overriding the heading's visible text.
 
-This section describes how to install the plugin and get it working.
+### 2. Legacy Content Detection
 
-e.g.
+- For posts published before 2022, any `<h3>` heading is automatically treated as a chapter heading (`isChapter: true`), unless explicitly overridden.
+- This is determined once per post using the post's date and stored in block context as `prcLegacyChapter`.
 
-1. Upload the plugin files to the `/wp-content/plugins/core-heading` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
+### 3. Heading ID Normalization
 
+- Heading IDs are normalized for consistency and readability:
+  - IDs starting with `h-` have the prefix removed.
+  - IDs like `h-1-title` become `one-title` (number converted to word).
+  - If no ID is present, a reproducible hash is generated from the heading content.
 
-== Frequently Asked Questions ==
+### 4. Interactivity API State for TOC
 
-= A question that someone might have =
+- When a heading is marked as a chapter (`isChapter: true`), its ID and label (from `altTocText` or heading text) are injected into the Interactivity API state under the namespace `prc-block/table-of-contents`.
+- This state is used by the `prc-block/table-of-contents` block to dynamically build the TOC in the editor and on the frontend.
 
-An answer to that question.
+### 5. Data Attributes for Dynamic Behavior
 
-= What about foo bar? =
+- Chapter headings receive:
+  - `data-is-section="true"`
+  - `data-wp-interactive` and `data-wp-context` for Interactivity API
+  - `data-wp-on-document--scroll="callbacks.watchForSectionScroll"` for scroll tracking
 
-Answer to foo bar dilemma.
+---
 
-== Screenshots ==
+## How It Works with `prc-block/table-of-contents`
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. **Marking Sections:**  
+   Editors can mark any heading as a chapter/section via the block controls (`isChapter`). For legacy posts, this is automatic for `<h3>`.
 
-== Changelog ==
+2. **TOC Label Customization:**  
+   Editors can provide an alternate label for the TOC via `altTocText`.
 
-= 0.1.0 =
-* Release
+3. **TOC Global State Population:**  
+   On render, each chapter heading updates the Interactivity API state with its ID and label. The `prc-block/table-of-contents` block reads this state to build the TOC.
 
-== Arbitrary section ==
+4. **Dynamic Updates:**  
+   Changes to headings or their attributes are reflected in the TOC in real time, both in the editor and on the frontend.
 
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+---
+
+## Example: Block Markup
+
+A chapter heading might render as:
+
+```html
+<h3
+  id="one-introduction"
+  data-is-section="true"
+  data-wp-interactive='{"namespace":"prc-block/table-of-contents"}'
+  data-wp-context='{"id":"one-introduction"}'
+  data-wp-on-document--scroll="callbacks.watchForSectionScroll"
+>
+  Introduction
+</h3>
+```
+
+---
+
+## Editorial Workflow
+
+- **To add a section to the TOC:**  
+  Use the heading block, enable "Chapter/Section" in block controls, and (optionally) set an alternate TOC label.
+- **For legacy content:**  
+  `<h3>` headings in posts before 2022 are auto-included in the TOC.
+- **TOC Block:**  
+  Insert the `prc-block/table-of-contents` block anywhere in the post. It will auto-populate based on the headings marked as chapters/sections.
+
+---
+
+## Technical Notes
+
+- All customizations follow WordPress and VIP coding standards.
+- Server-side rendering ensures dynamic, up-to-date TOC generation.
+- The system is optimized for cache coherence and performance on VIP infrastructure.
+
+---
+
+For further details, see the implementation in `class-core-heading.php` and the TOC block in `src/table-of-contents/`.

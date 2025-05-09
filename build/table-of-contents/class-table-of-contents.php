@@ -248,7 +248,7 @@ class Table_Of_Contents {
 		ob_start();
 		?>
 		<template data-wp-each--section="context.<?php echo $sections_source; ?>.sections">
-			<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="callbacks.isActive" data-wp-watch--for-current-section="callbacks.watchForCurrentSection">
+			<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="state.isActive" data-wp-watch--for-current-section="callbacks.watchForCurrentSection">
 				<a data-wp-bind--href="context.section.url" data-wp-text="context.section.label" data-wp-on--click="callbacks.scrollSmoothly"></a>
 			</li>
 		</template>
@@ -276,7 +276,7 @@ class Table_Of_Contents {
 			// If there are no parts then we're just going to display the chapters. So we're going to start the structure at `chapter`
 			?>
 			<template data-wp-each--chapter="context.items">
-				<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="callbacks.isActive">
+				<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="state.isActive">
 					<a data-wp-bind--href="context.chapter.url" data-wp-text="context.chapter.label"></a>
 				<?php // Sections. ?>
 					<ul class="wp-block-prc-block-table-of-contents__list sections" data-wp-hidden="callbacks.hasSections">
@@ -289,7 +289,7 @@ class Table_Of_Contents {
 			// This has parts, so we're going to start the structure at `part`
 			?>
 		<template data-wp-each--part="context.items">
-			<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="callbacks.isActive">
+			<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="state.isActive">
 				<a data-wp-bind--href="context.part.url" data-wp-text="context.part.label"></a>
 			<?php // Top level sections. ?>
 				<ul class="wp-block-prc-block-table-of-contents__list sections" data-wp-hidden="callbacks.hasListItems">
@@ -508,6 +508,7 @@ class Table_Of_Contents {
 				),
 				'data-wp-init--map-sections-to-chapters'   => 'callbacks.mapFoundSectionsToChapters',
 				'data-wp-init--watch-for-section-scroll'   => 'callbacks.initWatchForSectionScroll',
+				'data-wp-on-document--scroll'              => 'callbacks.watchForSectionScroll',
 				'data-wp-on-window--resize'                => 'callbacks.onResizeToggleDropdown',
 				'data-wp-on-window--click'                 => 'callbacks.onWindowClickCloseDropdown',
 				'data-wp-class--is-style-dropdown'         => 'context.isDropdown',

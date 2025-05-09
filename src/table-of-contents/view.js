@@ -4,6 +4,24 @@
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
 const { actions, state } = store('prc-block/table-of-contents', {
+	state: {
+		get isActive() {
+			const context = getContext();
+			const { part, chapter, section } = { ...context };
+
+			const itemType = actions.getContextClue(context);
+			if ('part' === itemType) {
+				return part.is_active;
+			}
+			if ('chapter' === itemType) {
+				return chapter.is_active;
+			}
+			if ('section' === itemType) {
+				return section.is_active;
+			}
+			return false;
+		},
+	},
 	actions: {
 		getInternalChaptersList: () => {
 			const { ref } = getElement();
@@ -239,21 +257,27 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				return;
 			}
 
-			// Get the element of the core/heading block.
-			const { ref } = getElement();
-			const { id } = getContext();
-
-			// Get the current window scroll position.
+			const sections = state.sectionsFound;
+			const sectionKeys = Object.keys(sections);
+			const threshold = 50;
 			const scrollPosition = window.scrollY;
-			const elementPosition = ref.offsetTop;
-			const elementHeight = ref.offsetHeight;
 
-			if (
-				scrollPosition >= elementPosition &&
-				scrollPosition <= elementPosition + elementHeight
-			) {
-				state.currentSection = id;
+			let currentSectionKey = null;
+
+			for (let i = 0; i < sectionKeys.length; i++) {
+				const key = sectionKeys[i];
+				const sectionElement = document.getElementById(key);
+				if (!sectionElement) continue;
+				const sectionTop = sectionElement.offsetTop;
+				if (sectionTop - scrollPosition <= threshold) {
+					currentSectionKey = key;
+				} else {
+					// As soon as we find a section below the threshold, stop
+					break;
+				}
 			}
+
+			state.currentSection = currentSectionKey;
 		},
 	},
 });

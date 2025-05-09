@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import classNames from 'classnames';
-import { Picture } from 'react-responsive-picture';
+import { ResponsiveImage } from '@prc/components';
 
 /**
  * WordPress Dependencies
@@ -91,12 +91,12 @@ function ImageDisplay({ img, size, onClick = false }) {
 				onClick={onClick}
 				style={{ padding: 0, border: 'none', cursor: 'pointer' }}
 			>
-				<Picture sources={getImgSrcSet()} alt="Click to edit" />
+				<ResponsiveImage sources={getImgSrcSet()} alt="Click to edit" />
 			</button>
 		);
 	}
 
-	return <Picture sources={getImgSrcSet()} />;
+	return <ResponsiveImage sources={getImgSrcSet()} />;
 }
 
 export default function Image({ attributes, setAttributes }) {

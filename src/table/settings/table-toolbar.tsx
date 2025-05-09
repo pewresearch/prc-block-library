@@ -1,15 +1,15 @@
 /**
  * External Dependencies
  */
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { blockTable, justifyLeft } from '@wordpress/icons';
-import { Icon } from '@prc/icons';
+import { addToCopilotToolbar } from '@prc/copilot';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { ToolbarDropdownMenu } from '@wordpress/components';
+import { ToolbarDropdownMenu, Button, MenuItem } from '@wordpress/components';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 import { useKeyboardShortcut } from '@wordpress/compose';
@@ -44,7 +44,8 @@ import {
 	type VSelectedCells,
 } from '../utils/table-state';
 import { BlockAttributes, ContentJustifyValue } from '../block-attributes';
-import { GenerateAiToolbarControls } from '../utils/ai-generators';
+import { aiGenerateTableData } from '../utils/ai-generators';
+
 type Props = {
 	contentJustification: string;
 	vTable: VTable;
@@ -53,6 +54,7 @@ type Props = {
 	setSelectedCells: (selectedCells: VSelectedCells) => void;
 	setSelectedLine: (selectedLine: VSelectedLine) => void;
 	attributes: BlockAttributes;
+	clientId: string;
 };
 
 export default function ToolbarControls({
@@ -63,6 +65,7 @@ export default function ToolbarControls({
 	setSelectedCells,
 	setSelectedLine,
 	attributes,
+	clientId,
 }: Props) {
 	// Create a warning notice.
 	const { createWarningNotice } = useDispatch(noticesStore);
@@ -78,6 +81,61 @@ export default function ToolbarControls({
 			dropdownRef.current.focus();
 		}
 	});
+
+	// Register the copilot toolbar when the component mounts.
+	useEffect(() => {
+		addToCopilotToolbar({
+			title: 'Generate Table',
+			icon: blockTable,
+			toolType: 'request',
+			tool: 'get-table-data',
+			clientId,
+			onRequest: async (request, instructions, tool, notices) => {
+				try{
+					const { data, metadata } = await aiGenerateTableData(
+						request,
+						instructions
+					);
+					console.log('...data...', data);
+					if (!data) {
+						notices.createErrorNotice('No data could be generated for your request.');
+						return;
+					}
+					if (data.length > 1) {
+						notices.createSuccessNotice(
+							'Table generated. Please review results.'
+						);
+					}
+
+					console.log('data...', clientId, data, metadata);
+
+					const tableData = data.data;
+					const textData = data.text;
+
+					const newAttributes = {
+						...tableData,
+						caption: textData?.before,
+						sourceNote: textData?.after,
+					};
+
+					setAttributes({
+						...newAttributes,
+						metadata: {
+							...attributes.metadata,
+							_copilot: [
+								{
+									feature: tool,
+									...metadata,
+								},
+							],
+						},
+					});
+				} catch ( error ){
+					notices.createErrorNotice(error?.message || String(error));
+				}
+			},
+		});
+	}, [attributes, setAttributes]);
 
 	// Handle chaning the content justification of the table.
 	const onChangeContentJustification = (value: ContentJustifyValue) => {
@@ -267,15 +325,10 @@ export default function ToolbarControls({
 				controls={TableJustifyControls}
 			/>
 			<ToolbarDropdownMenu
-				id="table-edit-dropdown"
 				label={__('Edit table', 'flexible-table-block')}
 				icon={blockTable}
 				controls={TableEditControls}
 				ref={dropdownRef}
-			/>
-			<GenerateAiToolbarControls
-				attributes={attributes}
-				setAttributes={setAttributes}
 			/>
 		</>
 	);

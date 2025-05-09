@@ -1,6 +1,4 @@
 <?php
-namespace PRC\Platform\Blocks;
-
 /**
  * PRC Block Library
  *
@@ -21,10 +19,10 @@ namespace PRC\Platform\Blocks;
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       prc-block-library
- * Requires Plugins:  prc-platform-core, prc-copilot
+ * Requires Plugins:  prc-platform-core
  */
 
-
+namespace PRC\Platform\Blocks;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {

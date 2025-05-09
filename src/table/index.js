@@ -6,7 +6,6 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { registerPlugin } from '@wordpress/plugins';
 
 /**
  * Internal dependencies
@@ -21,7 +20,6 @@ import save from './save';
 import transforms from './transforms';
 import deprecated from './deprecated';
 import { GlobalSettings } from './settings';
-import AICopilotPrePublishCheck from './components/ai-pre-publish-check';
 
 const { name } = metadata;
 
@@ -68,7 +66,3 @@ registerBlockType(name, { ...metadata, ...settings });
 // 	'prc-block-library/withInspectorControls',
 // 	withInspectorControls
 // );
-
-registerPlugin('prc-block-library-ai-pre-publish-check', {
-	render: () => <AICopilotPrePublishCheck />,
-});

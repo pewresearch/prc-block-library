@@ -12,6 +12,9 @@
   ],
   "description": "Create a powerful and flexible table complete with responsive design and sorting/filtering options.",
   "textdomain": "prc-block-library",
+  "usesContext": [
+    "remote-data-blocks/remoteData"
+  ],
   "attributes": {
     "contentJustification": {
       "type": "string"

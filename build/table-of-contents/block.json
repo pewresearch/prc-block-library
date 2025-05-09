@@ -101,6 +101,7 @@
       "text": true,
       "link": true
     },
+    "interactivity": true,
     "spacing": {
       "margin": [
         "top",

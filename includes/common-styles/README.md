@@ -151,4 +151,20 @@ $list_item_classnames = $color_supports->get_list_classnames(
 );
 ```
 
-						
+### Core Shared Styles
+
+All blocks that have a `wp-block-` classname prefix will automatically be styled with these shared styles.
+
+#### Responsive Content Justification
+
+- **`.is-content-justification-space-between__on-mobile__right`**
+  - On mobile (`max-width: 768px`), sets `justify-content: flex-end;` (aligns content to the right), when already set to `space-between` on desktop.
+
+- **`.is-content-justification-space-between__on-mobile__left`**
+  - On mobile, sets `justify-content: flex-start;` (aligns content to the left), when already set to `space-between` on desktop.
+
+- **`.is-content-justification-right__on-mobile__space-between`**
+  - On mobile, sets `justify-content: space-between;` (evenly distributes content with space between each item), when already set to `right` on desktop.
+
+- **`.is-content-justification-left__on-mobile__space-between`**
+  - On mobile, sets `justify-content: space-between;` (evenly distributes content with space between each item), when already set to `left` on desktop.

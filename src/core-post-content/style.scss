@@ -1,9 +1,24 @@
+@use '../../includes/common-styles/gutenberg-responsive-breaks' as *;
+
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
  */
+
+ .wp-block-post-content {
+	counter-reset: big-number;
+	p a {
+		text-decoration: underline;
+	}
+	h5 {
+		font-family: var(--wp--preset--font-family--georgia) !important;
+		font-style: italic !important;
+		text-transform: none !important;
+		font-size: 1em !important;
+		letter-spacing: 0 !important;
+	}
+}
+
 
 body:not(.post-template-layout-no-container-query) {
 	.wp-block-post-content {
@@ -12,15 +27,36 @@ body:not(.post-template-layout-no-container-query) {
 	.wp-block-post-content > figure:first-child.alignright + p {
 		margin-top: 0;
 	}
-	// For images inside post content, this will center them on mobile.
-	@container post-content-container (max-width: 480px) {
-		.wp-block-post-content .wp-block-image.alignright,
-		.wp-block-post-content .wp-block-image.alignleft {
-			margin-left: auto !important;
-			margin-right: auto !important;
-			float: none !important;
+	// This handles alignment for blocks inside post-content.
+	@container post-content-container (min-width: 860px) {
+		.wp-block-post-content > .alignleft {
+			margin-left: max(0px, calc((100% - var(--wp--style--global--wide-size)) / 2)) !important;
+			margin-bottom: 1em;
+		}
+		.wp-block-post-content > .alignright {
+			margin-right: max(0px, calc((100% - var(--wp--style--global--wide-size)) / 2)) !important;
+			margin-bottom: 1em;
 		}
 	}
+	@container post-content-container (min-width: 639px) {
+		.wp-block-post-content > .alignleft {
+				margin-left: max(0px, calc((100% - var(--wp--style--global--content-size)) / 2));
+				margin-bottom: 1em;
+		}
+		.wp-block-post-content > .alignright {
+			margin-right: max(0px, calc((100% - var(--wp--style--global--content-size)) / 2));
+			margin-bottom: 1em;
+		}
+	}
+	@container post-content-container (max-width: 638px) {
+		.wp-block-post-content > .alignright,
+		.wp-block-post-content > .alignleft {
+			margin-left: auto;
+			margin-right: auto;
+			float: none;
+		}
+	}
+
 	// For headings inside post content, this will adjust their size on mobile.
 	@container post-content-container (max-width: 480px) {
 		.wp-block-post-content h1.wp-block-heading {
@@ -50,11 +86,5 @@ body.post-template-layout-no-container-query {
 			margin-right: auto !important;
 			float: none !important;
 		}
-	}
-}
-
-.wp-block-post-content {
-	p a {
-		text-decoration: underline;
 	}
 }

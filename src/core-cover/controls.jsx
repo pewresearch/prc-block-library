@@ -14,10 +14,11 @@ function InspectorPanel({ attributes, setAttributes }) {
 	const { mobileId, tabletId } = attributes;
 	return (
 		<InspectorControls>
-			<PanelBody title={__('Media (mobile) settings')}>
+			<PanelBody title={__('Responsive Backgrounds')}>
 				<MediaDropZone
 					attachmentId={mobileId}
 					label={'Set Mobile Background'}
+					singularLabel={'Mobile Background'}
 					onUpdate={(attachment) => {
 						setAttributes({
 							mobileId: attachment.id,
@@ -28,6 +29,7 @@ function InspectorPanel({ attributes, setAttributes }) {
 				<MediaDropZone
 					attachmentId={tabletId}
 					label={'Set Tablet Background'}
+					singularLabel={'Tablet Background'}
 					onUpdate={(attachment) => {
 						setAttributes({
 							tabletId: attachment.id,

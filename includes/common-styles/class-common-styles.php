@@ -37,6 +37,7 @@ class Common_Styles {
 		$loader->add_action( 'enqueue_block_assets', $this, 'register_pagination_style', 2 );
 		$loader->add_action( 'enqueue_block_assets', $additional_color_supports, 'register_style', 2 );
 		$loader->add_action( 'admin_enqueue_scripts', $additional_color_supports, 'reigster_pagination_script', 100 );
+		$loader->add_action( 'enqueue_block_assets', $this, 'register_core_style', 2 );
 	}
 
 	/**
@@ -78,6 +79,21 @@ class Common_Styles {
 		wp_register_style(
 			'prc-block-library--pagination',
 			plugins_url( 'pagination/build/style-index.css', __FILE__ ),
+			array(),
+			$asset_file['version'],
+		);
+	}
+
+	/**
+	 * Enqueue the "Core" `prc-block-library--core` support style everywhere.
+	 *
+	 * @hook enqueue_block_assets
+	 */
+	public function register_core_style() {
+		$asset_file = include plugin_dir_path( __FILE__ ) . 'core/build/index.asset.php';
+		wp_enqueue_style(
+			'prc-block-library--core',
+			plugins_url( 'core/build/style-index.css', __FILE__ ),
 			array(),
 			$asset_file['version'],
 		);

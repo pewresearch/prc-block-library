@@ -94,6 +94,7 @@
 			"text": true,
 			"link": true
 		},
+		"interactivity": true,
 		"spacing": {
 			"margin": [ "top", "bottom", "left", "right" ],
 			"blockGap": true,

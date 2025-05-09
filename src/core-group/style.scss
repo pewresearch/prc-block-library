@@ -1,5 +1,5 @@
 @use "sass:math";
-@import "../../includes/common-styles/gutenberg-responsive-breaks";
+@use "../../includes/common-styles/gutenberg-responsive-breaks" as *;
 
 $relaxedBorder: #e6e7e6;
 $altCardHeaderPadding: 1em;
@@ -175,12 +175,12 @@ body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group
 
 	// Legacy baseball card style, this is now managed in common-styles/baseball-card
 	&.is-style-card-alt {
+		padding-bottom: $altCardMargin;
+
 		@media only screen and (min-width: 767px) {
 			padding-left: $altCardMargin;
 			padding-right: $altCardMargin;
 		}
-
-		padding-bottom: $altCardMargin;
 
 		.is-style-sub-header {
 			padding: 9px $altCardHeaderPadding;

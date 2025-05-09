@@ -82,6 +82,14 @@ class Core_Button {
 	public function register_assets() {
 		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
 		$this->view_style_handle    = register_block_style_handle( $this->block_json, 'style' );
+
+		register_block_style(
+			'core/buttons',
+			array(
+				'name'  => 'flex-buttons',
+				'label' => 'Flex Buttons',
+			)
+		);
 	}
 
 	/**
@@ -227,6 +235,24 @@ class Core_Button {
 				}
 			}
 		}
+
+		$has_subsumption = array_key_exists( 'interactiveSubsumption', $attributes ) ? $attributes['interactiveSubsumption'] : false;
+
+		if ( $has_subsumption ) {
+			$tag_processor->set_attribute( 'data-wp-interactive', $target_namespace );
+			preg_match( '/<a[^>]*>(.*?)<\/a>/', $block_content, $matches );
+			$button_text = $matches[1];
+
+			$input_name = array_key_exists( 'metadata', $block['attrs'] ) && array_key_exists( 'name', $block['attrs']['metadata'] ) ? $block['attrs']['metadata']['name'] : null;
+
+			$button_id = null !== $input_name ? sanitize_title( $input_name ) : wp_unique_id( 'core-button-' );
+			$tag_processor->set_attribute( 'id', $button_id );
+			$tag_processor->set_attribute( 'data-wp-text', 'state.getButtonText' );
+			$tag_processor->set_attribute( 'data-wp-on--click', 'actions.onButtonClick' );
+
+			return $tag_processor->get_updated_html();
+		}
+
 
 		if ( $is_interactive && null !== $target_namespace ) {
 			preg_match( '/<a[^>]*>(.*?)<\/a>/', $block_content, $matches );

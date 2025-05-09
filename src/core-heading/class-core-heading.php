@@ -305,7 +305,6 @@ class Core_Heading {
 					)
 				)
 			);
-			$heading_tag->set_attribute( 'data-wp-on-document--scroll', 'callbacks.watchForSectionScroll' );
 		}
 
 		$block_content = $heading_tag->get_updated_html();

@@ -1,7 +1,7 @@
 {
-  "name": "@pewresearch/prc-block-library",
+  "name": "@prc/block-library",
   "version": "3.0.0",
-  "description": "Pew Research Center Block Library",
+  "description": "PRC Block Library",
   "license": "GPL-2.0-or-later",
   "scripts": {
     "build": "node bin/build-block.js",
@@ -10,7 +10,7 @@
     "build:manifest": "wp-scripts build-blocks-manifest",
     "start:library": "wp-scripts build-blocks-manifest; wp-scripts start --experimental-modules --webpack-copy-php;",
     "start": "node bin/start-block.js",
-		"watch": "node bin/start-block.js",
+    "watch": "node bin/start-block.js",
     "test": "wp-scripts test-playwright",
     "test:env:start": "wp-env start",
     "test:env:stop": "wp-env stop",
@@ -19,9 +19,9 @@
     "composer": "wp-env run tests-cli --env-cwd=wp-content/plugins/prc-block-library composer"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.1",
-    "@wordpress/create-block": "^4.54.0",
-    "@wordpress/e2e-test-utils-playwright": "^1.21.0",
+    "@playwright/test": "^1.52.0",
+    "@wordpress/create-block": "^4.66.0",
+    "@wordpress/e2e-test-utils-playwright": "^1.22.0",
     "@wordpress/scripts": "^30.15.0",
     "axios": "^1.7.7",
     "fs-extra": "^11.2.0",
@@ -38,18 +38,15 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@splidejs/splide": "^4.1.4",
     "@splidejs/splide-extension-intersection": "^0.2.0",
-    "@types/react-window": "^1.8.8",
-    "@wordpress/icons": "^10.11.0",
+    "@wordpress/icons": "^10.22.0",
     "clsx": "^2.1.1",
-    "highlight.js": "^11.10.0",
-    "hls.js": "^1.5.17",
+    "highlight.js": "^11.11.1",
+    "hls.js": "^1.6.2",
     "iframe-resizer": "^4.3.2",
     "md5": "^2.3.0",
-    "mediaelement": "^7.0.5",
+    "mediaelement": "^7.0.7",
     "react-highlight": "^0.15.0",
     "react-player": "^2.16.0",
-    "react-responsive-picture": "^3.2.2",
-    "react-window": "^1.8.10",
     "turndown": "^7.2.0"
   }
 }

@@ -4,6 +4,21 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+ @import '../../includes/common-styles/_gutenberg-responsive-breaks.scss';
+
+@mixin button-group-borders {
+	.wp-block-button {
+		&:not(:last-of-type) .wp-element-button {
+			border-right: 0;
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+		&:not(:first-child) .wp-element-button {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+	}
+}
 
 .wp-element-button {
 	&[hidden] {
@@ -39,4 +54,20 @@
 }
 .wp-block-button__link {
 	text-decoration: none !important;
+}
+
+.is-style-flex-buttons .wp-element-button {
+	padding-left: 0.85em;
+	padding-right: 0.85em;
+}
+
+.is-style-flex-buttons.is-content-justification-right__on-mobile__space-between,
+.is-style-flex-buttons.is-content-justification-left__on-mobile__space-between {
+	@media only screen and (min-width: $break-medium) {
+		@include button-group-borders;
+	}
+}
+
+.is-style-flex-buttons:not(.is-content-justification-space-between):not(.is-content-justification-right__on-mobile__space-between):not(.is-content-justification-left__on-mobile__space-between) {
+	@include button-group-borders;
 }

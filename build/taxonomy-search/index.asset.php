@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('lodash', 'prc-components', 'react', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-polyfill'), 'version' => 'e01d6a84a7d40c3913b7');
+<?php return array('dependencies' => array('lodash', 'prc-components', 'react', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-polyfill'), 'version' => '3ad10e201b56a204abda');

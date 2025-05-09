@@ -60,6 +60,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		isSelected: isSingleSelected, // cast as isSingleSelected because isSelected is used below.
 		// @ts-ignore: `insertBlocksAfter` prop is not exist at @types
 		insertBlocksAfter,
+		clientId,
 	} = props;
 	const {
 		contentJustification,
@@ -205,6 +206,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		setAttributes,
 		setSelectedCells,
 		setSelectedLine,
+		clientId,
 	};
 
 	const tableDataSettingsProps = {
@@ -222,8 +224,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 				</div>
 			)}
 			{!isEmpty && (
-				<figure {...tableFigureProps}>
-					<TableTitle {...tableTitleProps} />
+				<>
 					{!isContentOnlyMode && (
 						<BlockControls group="block">
 							<TableToolbar {...tableToolbarProps} />
@@ -267,6 +268,11 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 							/>
 						</PanelBody>
 					</InspectorControls>
+				</>
+			)}
+			{!isEmpty && (
+				<figure {...tableFigureProps}>
+					<TableTitle {...tableTitleProps} />
 					{'top' === captionSide && (
 						<TableCaption {...tableCaptionProps} />
 					)}

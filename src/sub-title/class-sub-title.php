@@ -18,25 +18,53 @@ namespace PRC\Platform\Blocks;
  */
 class Sub_Title {
 	/**
+	 * Whether the sub title has already been rendered.
+	 *
+	 * @var bool
+	 */
+	public $render_counts = 0;
+
+	/**
+	 * Loader.
+	 *
+	 * @var mixed
+	 */
+	public $loader;
+
+	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
 	 */
 	public function __construct( $loader ) {
-		$this->init( $loader );
+		$this->loader = $loader;
+		$this->init();
 	}
 
 	/**
 	 * Initialize the block
-	 *
-	 * @param mixed $loader Loader.
 	 */
-	public function init( $loader = null ) {
-		if ( null !== $loader ) {
-			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'vip_block_data_api__sourced_block_result', $this, 'add_data_to_vip_blocks_api', 10, 4 );
-			$loader->add_filter( 'render_block', $this, 'remove_sub_title_from_post_content', 10, 3 );
+	public function init() {
+		$this->loader->add_action( 'init', $this, 'block_init' );
+		$this->loader->add_filter( 'vip_block_data_api__sourced_block_result', $this, 'add_data_to_vip_blocks_api', 10, 4 );
+		$this->loader->add_filter( 'render_block_prc-block/subtitle', $this, 'render_hooks', 10, 3 );
+		$this->loader->add_filter( 'render_block_core/post-content', $this, 'remove_unneeded_sub_title_blocks', 10, 3 );
+	}
+
+	/**
+	 * Render hooks for the subtitle block
+	 *
+	 * @hook render_block_prc-block/subtitle
+	 * @param string $block_content The block content.
+	 * @param array  $block The block.
+	 * @param array  $wp_block The WP block.
+	 * @return string The block content.
+	 */
+	public function render_hooks( $block_content, $block, $wp_block ) {
+		if ( 'prc-block/subtitle' === $block['blockName'] ) {
+			++$this->render_counts;
 		}
+		return $block_content;
 	}
 
 	/**
@@ -50,9 +78,13 @@ class Sub_Title {
 	 * @param array  $wp_block The WP block.
 	 * @return string The block content.
 	 */
-	public function remove_sub_title_from_post_content( $block_content, $block, $wp_block ) {
-		if ( is_singular( 'post' ) && 'core/post-content' === $block['blockName'] ) {
-			$block_content = preg_replace( '/<h2[^>]*class="[^"]*\bwp-block-prc-block-subtitle\b[^"]*"[^>]*>.*?<\/h2>/s', '', $block_content );
+	public function remove_unneeded_sub_title_blocks( $block_content, $block, $wp_block ) {
+		if ( is_singular( 'post' ) && $this->render_counts > 2 ) {
+			$block_content = preg_replace(
+				'/<h2[^>]*class="[^"]*\bwp-block-prc-block-subtitle\b[^"]*"[^>]*>.*?<\/h2>/s',
+				'<!-- Sub Title Was Here -->',
+				$block_content
+			);
 		}
 		return $block_content;
 	}

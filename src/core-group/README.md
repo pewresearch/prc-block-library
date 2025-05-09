@@ -1,55 +1,83 @@
-===  ===
-Contributors:      Pew Research Center
-Tags:              block
-Tested up to:      6.1
-Stable tag:        0.1.0
-License:           GPL-2.0-or-later
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+# `core/group` Block Modifications
 
+This directory contains customizations and enhancements for the WordPress `core/group` block, as used in the PRC Platform.
 
+## Overview
 
-== Description ==
+The `core/group` block is extended here to provide advanced layout, style, and responsive features, as well as several custom block variations. These enhancements are available both in the block editor and on the frontend, and are optimized for dynamic, server-side rendering.
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+## Key Additions & Modifications
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+### 1. **Custom Block Styles**
 
-== Installation ==
+Several new styles are registered for `core/group`, including:
 
-This section describes how to install the plugin and get it working.
+- **Fluid**: Full-width, max-width 100%.
+- **200/250/300/320/420/640-wide**: Constrained max-widths for various use cases.
+- **Dynamic Wide Template**: Uses a CSS variable for dynamic width.
+- **Collapse Row on Mobile**: Stacks children vertically on mobile.
 
-e.g.
+These styles can be selected in the block editor and are registered via PHP for both editor and frontend.
 
-1. Upload the plugin files to the `/wp-content/plugins/core-group` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
+### 2. **Responsive Controls**
 
+The block supports device-specific visibility and max-width constraints:
 
-== Frequently Asked Questions ==
+- **Hide on Desktop/Tablet/Mobile**: Toggle block visibility per device.
+- **Max Width per Device**: Set different max-widths for desktop, tablet, and mobile.
+- **Responsive container queries**: Data attributes and CSS variables are used for fine-grained control.
 
-= A question that someone might have =
+### 3. **Color & Divider Controls**
 
-An answer to that question.
+- **Interior Divider**: Adds a divider between inner blocks, with customizable color.
+- **Sticky Background/Text Colors**: Set background and text colors for sticky states.
 
-= What about foo bar? =
+### 4. **Custom Block Variations**
 
-Answer to foo bar dilemma.
+Several pre-configured variations are available:
 
-== Screenshots ==
+- **Callout**: Oatmeal background, heading, and paragraph.
+- **Baseball Card**: Card-style layout with heading, image, and text.
+- **Post Infographics Card**: Card with heading and attached images.
+- **Social Group**: For sharing/social meta override.
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+Each variation provides a unique layout and style, with example inner blocks and default attributes.
 
-== Changelog ==
+### 5. **Editor Enhancements**
 
-= 0.1.0 =
-* Release
+- **Custom Controls**: Additional controls for color, responsive settings, and max width are injected into the block sidebar.
+- **Block Filters**: Filters are used to add attributes, wrapper props, and support for left/right alignment.
+- **Transforms**: Supports transforms from other custom blocks (e.g., `prc-block/callout`).
 
-== Arbitrary section ==
+### 6. **Custom Styles**
 
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+The included `style.scss` provides:
+
+- Styles for all custom block styles and variations.
+- Responsive CSS for device-specific visibility.
+- Visual enhancements for divider, callout, card, and social group styles.
+
+### 7. **Server-Side Enhancements**
+
+- **Dynamic Inline Styles**: PHP generates and injects inline styles for divider colors and sticky backgrounds based on global theme palette.
+- **Block Rendering**: The block's render callback ensures all enhancements are reflected on the frontend.
+
+---
+
+## Usage
+
+Add a `core/group` block in the editor. Use the block sidebar to:
+
+- Select a custom style (e.g., "Baseball Card", "Callout").
+- Set device-specific visibility and max-width.
+- Choose divider and sticky colors.
+
+Choose a variation from the inserter for pre-configured layouts.
+
+---
+
+## Developer Notes
+
+- All enhancements are registered via PHP and JavaScript for full compatibility with the block editor and server-side rendering.
+- Styles and scripts are enqueued using block.json and PHP registration functions.
+- The block is optimized for WordPress VIP and follows WordPress coding standards.

@@ -3986,6 +3986,9 @@ return array(
 		),
 		'description' => 'Create a powerful and flexible table complete with responsive design and sorting/filtering options.',
 		'textdomain' => 'prc-block-library',
+		'usesContext' => array(
+			'remote-data-blocks/remoteData'
+		),
 		'attributes' => array(
 			'contentJustification' => array(
 				'type' => 'string'
@@ -4422,6 +4425,7 @@ return array(
 				'text' => true,
 				'link' => true
 			),
+			'interactivity' => true,
 			'spacing' => array(
 				'margin' => array(
 					'top',

@@ -20,7 +20,7 @@ import { usePrevious } from '@wordpress/compose';
  */
 import type { BlockAttributes } from '../block-attributes';
 import type { VSelectedCells, VSelectedLine } from '../utils/table-state';
-import { GenerateTitleButton } from '../utils/ai-generators';
+import { GenerateTableTitleButton } from '../utils/ai-generators';
 
 type Props = {
 	attributes: BlockAttributes;
@@ -122,7 +122,7 @@ export default function TableTitle({
 							}}
 						/>
 						{isSelected && (
-							<GenerateTitleButton
+							<GenerateTableTitleButton
 								attributes={attributes}
 								setAttributes={setAttributes}
 							/>

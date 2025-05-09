@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('classnames', 'lodash', 'prc-block-utils', 'prc-components', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-primitives'), 'version' => '5d0d0bed9d49137e7acc');
+<?php return array('dependencies' => array('classnames', 'lodash', 'prc-block-utils', 'prc-components', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n', 'wp-polyfill', 'wp-primitives'), 'version' => 'f5f89ee497e4142071fc');

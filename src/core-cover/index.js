@@ -25,7 +25,7 @@ const BLOCKIDENTIFIER = 'prc-block-library/core-cover';
 
 addFilter(
 	'editor.BlockEdit',
-	BLOCKIDENTIFIER,
+	`${BLOCKIDENTIFIER}-controls`,
 	createHigherOrderComponent(
 		(BlockEdit) =>
 			function CoreCover(props) {
@@ -46,4 +46,39 @@ addFilter(
 		'withCoreCoverControls'
 	),
 	21
+);
+
+/**
+ * Add responsive background attributes to the core/cover block.
+ *
+ * @param {Object} settings Settings for the block.
+ *
+ * @return {Object} settings Modified settings.
+ */
+addFilter(
+	'blocks.registerBlockType',
+	`${BLOCKIDENTIFIER}-supports`,
+	(settings) => {
+		if (BLOCKNAME !== settings.name) {
+			return settings;
+		}
+
+		settings.attributes = {
+			...settings.attributes,
+			mobileId: {
+				type: 'number',
+			},
+			mobileUrl: {
+				type: 'string',
+			},
+			tabletId: {
+				type: 'number',
+			},
+			tabletUrl: {
+				type: 'string',
+			},
+		};
+
+		return settings;
+	}
 );

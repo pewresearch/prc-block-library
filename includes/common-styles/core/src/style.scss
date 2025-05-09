@@ -1,0 +1,46 @@
+/**
+Gutenberg Responsive Breaks
+**/
+@import '../../_gutenberg-responsive-breaks.scss';
+
+// Give all blocks and the site blocks a border box model.
+.wp-site-blocks *,
+.wp-block {
+	box-sizing: border-box;
+}
+
+[class*="wp-block-"] {
+	/**
+	* Responsive content justification
+	**/
+	.is-content-justification-space-between__on-mobile__right.is-content-justification-space-between {
+		@media only screen and (max-width: $break-medium) {
+			justify-content: flex-end;
+		}
+	}
+
+	.is-content-justification-space-between__on-mobile__left.is-content-justification-space-between {
+		@media only screen and (max-width: $break-medium) {
+			justify-content: flex-start;
+		}
+	}
+
+	.is-content-justification-right__on-mobile__space-between.is-content-justification-right,
+	.is-content-justification-left__on-mobile__space-between.is-content-justification-left {
+		@media only screen and (max-width: $break-medium) {
+			justify-content: space-between;
+		}
+	}
+}
+
+.clearfix {
+	&::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+.no-border {
+	border: none !important;
+}
