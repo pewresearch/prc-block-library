@@ -17,7 +17,7 @@ namespace PRC\Platform\Blocks;
  * @package           prc-block
  */
 class Render_To_Region {
-	public static $post_meta_key = 'prc_block__render_to_regions';
+	public static $option_key = 'prc_block__render_to_regions';
 
 	public $defined_regions = array();
 
@@ -43,7 +43,7 @@ class Render_To_Region {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
 			$loader->add_action( 'render_block', $this, 'add_region_attribute_to_block_wrapper', 10, 2 );
-			$loader->add_action( 'prc_platform_on_incremental_save', $this, 'update_post_meta_with_regions', 10, 1 );
+			$loader->add_filter( 'prc_api_endpoints', $this, 'define_regions_api_endpoint', 10, 1 );
 		}
 	}
 
@@ -78,38 +78,110 @@ class Render_To_Region {
 	 * @param object $post The post object
 	 */
 	public function schedule_update_post_meta_with_regions( $post ) {
-		as_enqueue_async_action( 'prc_platform_on_render_to_region_update', array( 'post_id' => $post->ID ) );
+		as_enqueue_async_action(
+			'prc_platform_on_render_to_region_update',
+			array(
+				'post_id' => $post->ID,
+			)
+		);
 	}
 
 	/**
-	 * Update the post meta with the regions.
+	 * Get the regions.
 	 *
-	 * @hook prc_platform_on_incremental_save
-	 *
-	 * @param object $post The post object
+	 * @return array The regions.
 	 */
-	public function update_post_meta_with_regions( $post ) {
-		$regions = get_post_meta( $post->ID, self::$post_meta_key, true );
+	public function get_regions() {
+		$regions = get_option( self::$option_key, array() );
 		if ( empty( $regions ) ) {
-			$regions = array();
+			return array(
+				'template-name' => array(
+					'region-1',
+					'region-2',
+				),
+				'single'        => array(
+					'test',
+				),
+			);
+			return array();
 		}
-		$post_content  = $post->post_content;
-		$tag_processor = new \WP_HTML_Tag_Processor( $post_content );
-		while ( $tag_processor->next_tag(
+		return $regions;
+	}
+
+	/**
+	 * Get the regions for the template.
+	 *
+	 * @param string $template_name The template name.
+	 * @return array The regions.
+	 */
+	public function get_regions_for_template( $template_name ) {
+		$regions = $this->get_regions();
+		return $regions[ $template_name ] ?? array();
+	}
+
+	/**
+	 * Get the regions for the post.
+	 *
+	 * @param int $post_id The post ID.
+	 * @return array The regions.
+	 */
+	public function get_regions_for_post( $post_id ) {
+		$post_template = get_post_meta( $post_id, '_wp_template', true );
+		if ( ! $post_template ) {
+			$post_template = 'single';
+		}
+		return $this->get_regions_for_template( $post_template );
+	}
+
+	/**
+	 * Get the regions for the restfully.
+	 *
+	 * @param object $rest_request The rest request.
+	 * @return array The regions.
+	 */
+	public function get_regions_for_restfully( $rest_request ) {
+		$post_id       = $rest_request->get_param( 'post' );
+		$template_name = $rest_request->get_param( 'template' );
+		if ( $post_id ) {
+			return $this->get_regions_for_post( $post_id );
+		}
+		if ( $template_name ) {
+			return $this->get_regions_for_template( $template_name );
+		}
+		return null;
+	}
+
+	/**
+	 * Define the regions API endpoint.
+	 *
+	 * @hook prc_api_endpoints
+	 *
+	 * @param array $endpoints The endpoints.
+	 * @return array The endpoints.
+	 */
+	public function define_regions_api_endpoint( $endpoints ) {
+		array_push(
+			$endpoints,
 			array(
-				'class_name' => 'wp-block-prc-block-render-to-region',
+				'route'               => 'render-to-regions',
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_regions_for_restfully' ),
+				'args'                => array(
+					'post'     => array(
+						'type'     => 'integer',
+						'required' => false,
+					),
+					'template' => array(
+						'type'     => 'string',
+						'required' => false,
+					),
+				),
+				'permission_callback' => function () {
+					return true;
+				},
 			)
-		) ) {
-			$region_name = $tag_processor->get_attribute( 'data-prc-block--render-to-region--name' );
-			if ( ! in_array( $region_name, $regions ) ) {
-				$regions[] = $region_name;
-			}
-		}
-		// Make sure there are no empty regions.
-		$regions = array_filter( $regions );
-		if ( ! empty( $regions ) ) {
-			update_post_meta( $post->ID, self::$post_meta_key, $regions );
-		}
+		);
+		return $endpoints;
 	}
 
 	/**
@@ -153,7 +225,7 @@ class Render_To_Region {
 		$block_content = $tag_processor->get_updated_html();
 
 		// Add some additional html right after the block that can be used to "re-attach" the block when it is no longer needed in the active region.
-		$block_content .= '<div class="prc-block-render-to-region-re-attach"
+		$block_content .= '<div class="prc-block-render-to-region__re-attach"
 		data-prc-block--render-to-region--block-name="' . esc_attr( $block['name'] ) . '"
 		data-prc-block--render-to-region--name="' . esc_attr( $region_name ) . '"
 		data-prc-block--render-to-region--attach-id="' . esc_attr( $region_attach_id ) . '"></div>';

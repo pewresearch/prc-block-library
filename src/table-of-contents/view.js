@@ -248,7 +248,7 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			context.section.is_active = key === currentSection;
 		},
 		/**
-		 * This runs exclusivley on core/heading blocks.
+		 * This runs exclusivley against core/heading blocks.
 		 * This function watches the scroll position of the page and determines if the current
 		 * heading is in view. If it is, it sets the currentSection to the id of the heading.
 		 */

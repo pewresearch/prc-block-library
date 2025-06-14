@@ -1,0 +1,31 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-tokens-list {
+	color: inherit;
+	background: inherit;
+	.prc-block-tokens-list__tokens {
+		display: inherit;
+		gap: inherit;
+		flex: inherit;
+		flex-wrap: inherit;
+		flex-direction: inherit;
+		flex-grow: 1;
+	}
+	&:not(.has-tokens):not(.wp-block) {
+		display: none;
+	}
+	.prc-block-tokens-list__clear-button button {
+		background-color: transparent !important;
+	}
+	button {
+		width: inherit;
+	}
+	&:not(.wp-block) label:empty {
+		display: none;
+	}
+}

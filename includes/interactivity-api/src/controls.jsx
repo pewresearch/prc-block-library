@@ -3,6 +3,7 @@
 /**
  * External Dependencies
  */
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -25,9 +26,8 @@ import { useSelect, select } from '@wordpress/data';
  */
 
 function InspectorPanel({ attributes, setAttributes, clientId, context }) {
-	const { isInteractive, interactiveNamespace, interactiveSubsumption } =
-		attributes;
-	const namespace = interactiveNamespace || context?.interactiveNamespace;
+	const { interactiveNamespace, interactiveSubsumption } = attributes;
+	const targetNamespace = interactiveNamespace || context?.interactiveNamespace;
 	const { interactiveNamespaceOptions, defaultNamespace } = useSelect(
 		(select) => {
 			const { getBlockParents, getBlock } = select('core/block-editor');
@@ -49,85 +49,77 @@ function InspectorPanel({ attributes, setAttributes, clientId, context }) {
 			});
 
 			// Construct new options array for a select control with the names.
-			const options = blockArray.map((blockName) => ({
-				value: blockName,
-				label: blockName,
-			}));
+			const options = [
+				{
+					value: null,
+					label: 'None',
+				},
+				...blockArray.map((blockName) => ({
+					value: blockName,
+					label: blockName,
+				})),
+			];
 
 			return {
 				interactiveNamespaceOptions: options,
 				defaultNamespace: options[0]?.value,
 			};
-		}
+		},
+		[clientId]
 	);
-
-	/**
-	 * Handles setting the default namespace when the block is first made interactive.
-	 * And also unsetting the namespace when the block is no longer interactive.
-	 */
-	useEffect(() => {
-		if (isInteractive && !namespace && defaultNamespace) {
-			setAttributes({
-				interactiveNamespace: defaultNamespace,
-			});
-		} else if (!isInteractive && namespace) {
-			setAttributes({
-				interactiveNamespace: null,
-			});
-		}
-	}, [isInteractive, namespace, defaultNamespace, setAttributes]);
 
 	return (
 		<InspectorControls>
-			<PanelBody title={__('Interactivity API')}>
-				<ToggleControl
-					label={__('Interactive', 'prc-block-library')}
-					checked={isInteractive}
-					onChange={() =>
-						setAttributes({ isInteractive: !isInteractive })
-					}
-					help={__(
-						'When enabled, this block leverages the @wordpress/interactivity API.',
-						'prc-block-library'
-					)}
-				/>
-				{isInteractive && (
-					<Fragment>
-						<ToggleControl
-							label={__('Subsumption', 'prc-block-library')}
-							checked={interactiveSubsumption}
-							onChange={() =>
-								setAttributes({
-									interactiveSubsumption:
-										!interactiveSubsumption,
-								})
-							}
-							help={__(
-								'When enabled, this block will inherit interactivity directly from its parent rather than any given namespace.',
-								'prc-block-library'
-							)}
-						/>
-						{!interactiveSubsumption && (
-							<SelectControl
-								label={__('Namespace', 'prc-block-library')}
-								value={namespace}
-								options={interactiveNamespaceOptions}
-								onChange={(newNamespace) =>
-									setAttributes({
-										interactiveNamespace: newNamespace,
-									})
-								}
-								help={__(
-									'The namespace serves as a unique identifier for this blocks interactivity context, ensuring that interactions are confined within the scope of this block to its parent.',
-									'prc-block-library'
-								)}
+			<PanelBody
+				title={__('Interactivity API')}
+				initialOpen={false}
+				buttonProps={{
+					isDestructive:
+						(targetNamespace?.length > 0 || interactiveSubsumption),
+					icon: (
+						<div style={{ paddingLeft: '0.25em', color: 'inherit' }}>
+							<Icon
+								icon="plug-circle-bolt"
+								size="1em"
 							/>
+						</div>
+					),
+				}}
+			>
+				<div>
+					<ToggleControl
+						label={__('Subsumption', 'prc-block-library')}
+						checked={interactiveSubsumption}
+						onChange={() =>
+							setAttributes({
+								interactiveSubsumption:
+									!interactiveSubsumption,
+								// interactiveNamespace: null,
+							})
+						}
+						help={__(
+							'When enabled, this block will inherit primitives like name, value, and type directly. This is useful for blocks that are used inside interactive templates (<template/>).',
+							'prc-block-library'
 						)}
-					</Fragment>
-				)}
-				<ExternalLink href="https://developer.wordpress.org/block-editor/reference-guides/interactivity-api/api-reference/">
-					API documentation
-				</ExternalLink>
+					/>
+					<SelectControl
+						label={__('Target Namespace', 'prc-block-library')}
+						value={targetNamespace}
+						options={interactiveNamespaceOptions}
+						onChange={(newNamespace) =>
+							setAttributes({
+								interactiveNamespace: newNamespace
+							})
+						}
+						help={__(
+							`The target namespace uniquely identifies this block's interactivity context, ensuring interactions remain within the block and its parent. You can see parent blocks that support interactivity, which this block can "hook" into. If you don't see the desired namespace, it means the parent block does not support interactivity.`,
+							'prc-block-library'
+						)}
+					/>
+					<ExternalLink href="https://developer.wordpress.org/block-editor/reference-guides/interactivity-api/api-reference/">
+						API documentation
+					</ExternalLink>
+				</div>
 			</PanelBody>
 		</InspectorControls>
 	);

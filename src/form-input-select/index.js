@@ -29,7 +29,7 @@ import './style.scss';
 import './editor.scss';
 import edit from './edit';
 import icon from './icon';
-
+import save from './save';
 import metadata from './block.json';
 
 const { name } = metadata;
@@ -37,6 +37,7 @@ const { name } = metadata;
 const settings = {
 	icon,
 	edit,
+	save,
 };
 
 /**

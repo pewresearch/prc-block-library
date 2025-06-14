@@ -29,7 +29,6 @@ const EXTRA_SUPPORTS = {
 
 const VARIANTS = {
 	default: {
-		render: 'file:./render.php',
 		attributes: {
 			allowedBlocks: {
 				type: 'array',
@@ -37,29 +36,13 @@ const VARIANTS = {
 			orientation: {
 				type: 'string',
 				default: 'vertical',
-			}
+			},
 		},
 		supports: {
 			...DEFAULT_SUPPORTS,
 			...EXTRA_SUPPORTS,
 		},
 		templateVariant: 'default',
-	},
-	dynamic: {
-		attributes: {
-			allowedBlocks: {
-				type: 'array',
-			},
-			orientation: {
-				type: 'string',
-				default: 'vertical',
-			}
-		},
-		supports: {
-			...DEFAULT_SUPPORTS,
-			...EXTRA_SUPPORTS,
-		},
-		templateVariant: 'dynamic',
 	},
 	syncedEntity: {
 		attributes: {
@@ -88,19 +71,15 @@ const VARIANTS = {
 			reusable: false,
 			multiple: false,
 			interactivity: {
-				clientNavigation: true
-			}
+				clientNavigation: true,
+			},
 		},
-		usesContext: [
-			"postType",
-			"templateSlug",
-			"previewPostType",
-		],
-		viewScriptModule: "file:./view.js",
+		usesContext: ['postType', 'templateSlug', 'previewPostType'],
+		viewScriptModule: 'file:./view.js',
 		templateVariant: 'contextProvider',
 	},
 	coreBlock: {
-		templateVariant: 'core'
+		templateVariant: 'core',
 	},
 };
 
@@ -111,10 +90,10 @@ const VARIANTS = {
  */
 function escapeHtml(unsafe) {
 	return unsafe
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;");
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;');
 }
 
 module.exports = {
@@ -122,18 +101,18 @@ module.exports = {
 		namespace: 'prc-block',
 		author: 'Pew Research Center',
 		pluginURI: `https://github.com/pewresearch/prc-block-library/`,
-		transformer: ( view ) => {
+		transformer: (view) => {
 			const { slug } = view;
 			const capitalizedSnakeCase = slug
 				.split('-')
-				.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 				.join('_');
-			const coreBlockName = escapeHtml(slug.replace( 'core-', 'core/' ));
+			const coreBlockName = escapeHtml(slug.replace('core-', 'core/'));
 			return {
 				...view,
 				capitalizedSnakeCase,
 				coreBlockName,
-			}
+			};
 		},
 	},
 	variants: VARIANTS,

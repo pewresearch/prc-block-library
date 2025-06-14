@@ -2,18 +2,24 @@
 /**
  * External Dependencies
  */
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 import {
+	store as blockEditorStore,
 	useBlockProps,
 	RichText,
-	withColors,
 	getColorClassName,
+	__experimentalUseBorderProps as useBorderProps,
+	__experimentalUseColorProps as useColorProps,
+	__experimentalGetSpacingClassesAndStyles as useSpacingProps,
+	__experimentalGetShadowClassesAndStyles as useShadowProps,
+	__experimentalGetElementClassName,
+	getTypographyClassesAndStyles as useTypographyProps,
 } from '@wordpress/block-editor';
 
 /**
@@ -38,82 +44,90 @@ import Controls from './controls';
  *
  * @return {WPElement} Element to render.
  */
-function Edit({
+export default function Edit({
 	attributes,
 	setAttributes,
 	context,
 	clientId,
 	isSelected,
-	checkboxColor,
-	setCheckboxColor,
 }) {
-	const { anchor, label, type, defaultChecked, required } = attributes;
+	const { label, type, defaultChecked, required, metadata } = attributes;
+	const { name } = metadata || {};
+
+	const [ checked, setChecked ] = useState( defaultChecked );
+
+	// const borderProps = useBorderProps( attributes );
+	const colorProps = useColorProps( attributes );
+
+	const backgroundColorProps = useMemo(() => {
+		const backgroundColor = colorProps?.style?.backgroundColor;
+		const backgroundColorClass = colorProps?.className?.split(' ').filter(
+			(className) => className.includes('-background-color') || className.includes('has-background')
+		);
+		return { backgroundColor, backgroundColorClass };
+	}, [colorProps]);
+
+	const textColorProps = useMemo(() => {
+		const { backgroundColorClass } = backgroundColorProps;
+		const textColor = colorProps?.style?.color;
+		const textColorClass = colorProps?.className?.split(' ').filter(
+			(className) => !backgroundColorClass.includes(className)
+		);
+		return { textColor, textColorClass };
+	}, [colorProps, backgroundColorProps,]);
 
 	const blockProps = useBlockProps({
-		className: classnames({
-			'is-required': required,
-			'is-type-checkbox': 'checkbox' === type,
-			'is-type-radio': 'radio' === type,
-			'is-type-toggle': 'toggle' === type,
-		}),
+		className: clsx(textColorProps.textColorClass),
+		style: {
+			color: textColorProps.textColor,
+		},
 	});
 
-	const inputClasses = classnames({
-		'has-border-color': checkboxColor.slug,
-		[getColorClassName('color', checkboxColor?.slug)]:
-			!!checkboxColor?.slug,
-	});
+	useEffect(() => {
+		setChecked( defaultChecked );
+	}, [defaultChecked]);
 
 	return (
-		<Fragment>
+		<>
 			<Controls
 				{...{
 					attributes,
 					setAttributes,
 					context: false,
 					clientId,
-					colors: {
-						checkboxColor,
-						setCheckboxColor,
-					},
 				}}
 			/>
 			<div {...blockProps}>
 				<input
+					className={clsx(backgroundColorProps.backgroundColorClass)}
+					style={{ backgroundColor: backgroundColorProps.backgroundColor }}
 					type={'toggle' === type ? 'checkbox' : type}
-					id={anchor}
-					name={anchor}
+					name={name}
 					required={required}
-					checked={defaultChecked}
-					className={inputClasses}
+					checked={checked}
 					onChange={(event) => {
 						event.preventDefault();
+						const _checked = event.target.checked;
+						setChecked( _checked );
+						setAttributes({ defaultChecked: _checked });
 					}}
 				/>
 				{'toggle' === type && (
-					<div
-						className={classnames(
-							'wp-block-prc-block-form-input-checkbox__toggle',
-							{
-								'is-selected': defaultChecked,
-							}
-						)}
-					>
+					<div className={clsx('wp-block-prc-block-form-input-checkbox__toggle', backgroundColorProps.backgroundColorClass)} style={{ backgroundColor: backgroundColorProps.backgroundColor }}>
 						<div className="wp-block-prc-block-form-input-checkbox__toggle__switch"></div>
 					</div>
 				)}
 				<RichText
 					tagName="label"
-					placeholder={__('Label', 'prc-block-library')}
+					placeholder={__('Checkbox Label...', 'prc-block-library')}
 					value={label}
 					onChange={(newLabel) => {
-						setAttributes({ label: newLabel });
+						const camelCaseLabel = newLabel.replace(/<[^>]*>/g, '').replace(/(?:^| )(\w)/g, (_, letter) => letter.toUpperCase()).replace(/^./, str => str.toLowerCase());
+						setAttributes({ label: newLabel, metadata: { ...attributes.metadata, name: camelCaseLabel } });
 					}}
 					__unstableOnSplitAtEnd={() => onEnterSplit()}
 				/>
 			</div>
-		</Fragment>
+		</>
 	);
 }
-
-export default withColors({ checkboxColor: 'color' })(Edit);

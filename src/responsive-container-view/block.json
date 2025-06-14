@@ -8,23 +8,21 @@
 	"description": "A block of blocks that appears and hides at specific viewport widths.",
 	"attributes": {
 		"min": {
-            "type": "integer",
-            "default": 0
+            "type": "number"
         },
         "max": {
-            "type": "integer"
+            "type": "number"
         },
-		"allowedBlocks": {
-			"type": "array"
-		},
 		"orientation": {
 			"type": "string",
 			"default": "vertical"
 		},
 		"deviceType": {
 			"type": "string",
-			"enum": ["desktop", "tablet", "mobile"],
-			"default": "desktop"
+			"enum": ["desktop", "tablet", "mobile"]
+		},
+		"additionalStyles": {
+			"type": "string"
 		}
 	},
 	"supports": {

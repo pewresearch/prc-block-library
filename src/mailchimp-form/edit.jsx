@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import clsx from 'clsx';
 import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
@@ -26,34 +27,40 @@ export default function Edit({ attributes, setAttributes }) {
 		templateLock: false,
 		template: [
 			[
-				'prc-block/form-input-text',
+				'prc-block/form',
 				{
-					isInteractive: true,
 					interactiveNamespace: 'prc-block/mailchimp-form',
 				},
-			],
-			[
-				'core/button',
-				{
-					text: 'Sign Up',
-					isInteractive: true,
-					interactiveNamespace: 'prc-block/mailchimp-form',
-				},
-			],
-			[
-				'prc-block/form-captcha',
-				{
-					isInteractive: true,
-					interactiveNamespace: 'prc-block/mailchimp-form',
-				},
-			],
-			[
-				'prc-block/form-input-message',
-				{
-					isInteractive: true,
-					interactiveNamespace: 'prc-block/mailchimp-form',
-					className: 'is-style-overlay',
-				},
+				[
+					[
+						'prc-block/form-input-text',
+						{
+							label: 'Email Address',
+							type: 'email',
+							required: true,
+							metdata: {
+								name: 'emailAddress',
+							},
+							placeholder: 'Email Address',
+						},
+					],
+					[
+						'prc-block/form-submit',
+						{}
+					],
+					[
+						'prc-block/form-message',
+						{},
+						[
+							[
+								'core/paragraph',
+								{
+									content: 'Thank you for subscribing!',
+								},
+							],
+						],
+					],
+				]
 			],
 		],
 	});
@@ -66,7 +73,7 @@ export default function Edit({ attributes, setAttributes }) {
 					setAttributes,
 				}}
 			/>
-			<form {...innerBlocksProps} />
+			<div {...innerBlocksProps} />
 		</Fragment>
 	);
 }

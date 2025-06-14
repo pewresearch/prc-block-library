@@ -214,13 +214,25 @@ export function GenerateTableTitleButton({ attributes, setAttributes }) {
 					}
 				},
 				onSelect: (selectedCandidate, metadata) => {
+					const meta =
+						typeof attributes?.metadata === 'object' &&
+						attributes?.metadata !== null
+							? attributes.metadata
+							: {};
+					const copilot = Array.isArray(meta._copilot)
+						? meta._copilot
+						: [];
 					setAttributes({
 						tableTitle: selectedCandidate,
 						metadata: {
-							_copilot: {
-								feature: 'get-table-title',
-								...metadata,
-							},
+							...meta,
+							_copilot: [
+								...copilot,
+								{
+									feature: 'get-table-title',
+									...metadata,
+								},
+							],
 						},
 					});
 				},
@@ -256,13 +268,25 @@ export function GenerateTableCaptionButton({ attributes, setAttributes }) {
 					}
 				},
 				onSelect: (selectedCandidate, metadata) => {
+					const meta =
+						typeof attributes?.metadata === 'object' &&
+						attributes?.metadata !== null
+							? attributes.metadata
+							: {};
+					const copilot = Array.isArray(meta._copilot)
+						? meta._copilot
+						: [];
 					setAttributes({
 						caption: selectedCandidate,
 						metadata: {
-							_copilot: {
-								feature: 'get-table-caption',
-								...metadata,
-							},
+							...meta,
+							_copilot: [
+								...copilot,
+								{
+									feature: 'get-table-caption',
+									...metadata,
+								},
+							],
 						},
 					});
 				},

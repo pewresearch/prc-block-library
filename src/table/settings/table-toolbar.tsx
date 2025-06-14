@@ -10,9 +10,10 @@ import { addToCopilotToolbar } from '@prc/copilot';
  */
 import { __ } from '@wordpress/i18n';
 import { ToolbarDropdownMenu, Button, MenuItem } from '@wordpress/components';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, select } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 import { useKeyboardShortcut } from '@wordpress/compose';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -69,6 +70,7 @@ export default function ToolbarControls({
 }: Props) {
 	// Create a warning notice.
 	const { createWarningNotice } = useDispatch(noticesStore);
+	const { updateBlockAttributes } = useDispatch(blockEditorStore);
 
 	// Create a ref to store the dropdown button element
 	const dropdownRef = useRef<HTMLButtonElement>(null);
@@ -89,8 +91,7 @@ export default function ToolbarControls({
 			icon: blockTable,
 			toolType: 'request',
 			tool: 'get-table-data',
-			clientId,
-			onRequest: async (request, instructions, tool, notices) => {
+			onRequest: async (request, instructions, tool, clientId, notices) => {
 				try{
 					const { data, metadata } = await aiGenerateTableData(
 						request,
@@ -118,24 +119,29 @@ export default function ToolbarControls({
 						sourceNote: textData?.after,
 					};
 
-					setAttributes({
+					const currentAttributes = select(blockEditorStore).getBlockAttributes(clientId);
+
+					const payload = {
 						...newAttributes,
 						metadata: {
-							...attributes.metadata,
+							...currentAttributes.metadata,
 							_copilot: [
+								...((currentAttributes.metadata && currentAttributes.metadata._copilot) ?? []),
 								{
 									feature: tool,
 									...metadata,
 								},
 							],
 						},
-					});
+					};
+
+					updateBlockAttributes(clientId, payload);
 				} catch ( error ){
 					notices.createErrorNotice(error?.message || String(error));
 				}
 			},
 		});
-	}, [attributes, setAttributes]);
+	}, [attributes, updateBlockAttributes, select]);
 
 	// Handle chaning the content justification of the table.
 	const onChangeContentJustification = (value: ContentJustifyValue) => {

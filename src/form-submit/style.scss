@@ -1,0 +1,22 @@
+.wp-block-prc-block-form-submit:not(.wp-block) {
+	&.captcha-hidden {
+		.wp-block-prc-block-form-submit__captcha {
+			display: none;
+		}
+	}
+	&:not(.captcha-hidden) {
+		.wp-block-prc-block-form-submit__captcha {
+			display: block;
+		}
+		button,
+		mark {
+			display: none;
+		}
+	}
+	button {
+		&[disabled] {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+	}
+}

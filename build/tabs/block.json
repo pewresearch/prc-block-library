@@ -8,6 +8,9 @@
   "allowedBlocks": [
     "prc-block/tab"
   ],
+  "usesContext": [
+    "remote-data-blocks/pivotedData"
+  ],
   "attributes": {
     "defaultActiveTabIndex": {
       "type": "number",

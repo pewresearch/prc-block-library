@@ -6,6 +6,9 @@
 	"version": "1.0.0",
 	"category": "design",
 	"allowedBlocks": [ "prc-block/tab" ],
+	"usesContext": [
+		"remote-data-blocks/pivotedData"
+	],
 	"attributes": {
 		"defaultActiveTabIndex": {
 			"type": "number",

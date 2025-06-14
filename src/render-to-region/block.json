@@ -5,7 +5,7 @@
 	"version": "1.0.0",
 	"title": "Render To Region",
 	"category": "theme",
-	"description": "This block allows other blocks to \"render to\" this defined region upon certain conditions.",
+	"description": "This block allows other blocks to \"render to\" the defined region upon certain conditions.",
 	"attributes": {
 		"regionName": {
 			"type": "string"
@@ -45,6 +45,8 @@
 	},
 	"supports": {
 		"html": false,
+		"anchor": true,
+		"reusable": false,
 		"interactivity": true
 	},
 	"textdomain": "render-to-region",

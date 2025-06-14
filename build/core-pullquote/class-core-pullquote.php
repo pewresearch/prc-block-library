@@ -76,6 +76,19 @@ class Core_Pullquote {
 	 */
 	public function register_assets() {
 		$this->style_handle = register_block_style_handle( $this->block_json, 'style' );
+
+		register_block_style(
+			$this->block_name,
+			array(
+				'name'         => 'fancy-quote',
+				'label'        => 'Fancy Quote',
+				'inline_style' => '
+					.wp-block-pullquote.is-style-fancy-quote {
+						text-align: left;
+					}
+				',
+			)
+		);
 	}
 
 	/**

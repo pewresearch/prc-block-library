@@ -96,8 +96,6 @@ class Responsive_Container_Controller {
 				$media_queries[ $id ] = sprintf( '@media screen and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $min, $id );
 			}
 		}
-
-		// return $media_queries as a string
 		return implode( '', $media_queries );
 	}
 

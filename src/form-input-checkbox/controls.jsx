@@ -19,11 +19,10 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
-import ColorControls from './color-controls';
 
 function InspectorPanel({ attributes, setAttributes, colors, clientId }) {
-	const { type, value, defaultChecked, required } = attributes;
-	const name = attributes?.metadata?.name;
+	const { type, value, defaultChecked, required, metadata } = attributes;
+	const { name } = metadata || {};
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -49,6 +48,7 @@ function InspectorPanel({ attributes, setAttributes, colors, clientId }) {
 					/>
 					<TextControl
 						label="Input Name"
+						help={__('This is the name of the input field. It is used to identify the input field in the form submission data. We recommend using a camelCase name.', 'prc-block-library')}
 						value={name}
 						onChange={(newName) => {
 							setAttributes({
@@ -75,7 +75,6 @@ function InspectorPanel({ attributes, setAttributes, colors, clientId }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<ColorControls colors={colors} clientId={clientId} />
 		</Fragment>
 	);
 }

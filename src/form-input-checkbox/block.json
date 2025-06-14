@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "prc-block/form-input-checkbox",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"title": "Form Input Checkbox",
 	"description": "A primitive block for a form input checkbox field",
 	"category": "forms",
@@ -13,7 +13,9 @@
 			"default": "checkbox"
 		},
 		"label": {
-			"type": "string"
+			"type": "string",
+			"source": "html",
+			"selector": "label"
 		},
 		"value": {
 			"type": "string",
@@ -26,9 +28,6 @@
 		"defaultChecked": {
 			"type": "boolean",
 			"default": false
-		},
-		"checkboxColor": {
-			"type": "string"
 		}
 	},
 	"styles": [
@@ -42,12 +41,23 @@
 			"label": "Label Only"
 		}
 	],
+	"example": {
+		"attributes": {
+			"label": "Form Input Checkbox Label",
+			"defaultChecked": true
+		},
+		"viewportWidth": 320
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
 		"reusable": false,
+		"interactivity": true,
 		"color": {
-			"text": true
+			"background": true,
+			"text": true,
+			"link": true,
+			"__experimentalSkipSerialization": true
 		},
 		"spacing": {
 			"padding": true,
@@ -60,7 +70,15 @@
 			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true
 		},
-		"interactivity": true
+		"selectors": {
+			"root": ".wp-block-prc-block-form-input-checkbox",
+			"color": {
+				"root": ".wp-block-prc-block-form-input-checkbox",
+				"text": ".wp-block-prc-block-form-input-checkbox label",
+				"background": ".wp-block-prc-block-form-input-checkbox input"
+			},
+			"border": ".wp-block-prc-block-form-input-checkbox input"
+		}
 	},
 	"usesContext": [
 		"prc-block/form-field-label",

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/form",
+  "title": "Form",
+  "description": "A form element with input validation and a centralized form actions registry and api.",
+  "category": "common",
+  "allowedBlocks": [
+    "core/paragraph",
+    "core/heading",
+    "core/group",
+    "core/columns",
+    "core/image",
+    "core/button",
+    "prc-block/form-input-checkbox",
+    "prc-block/form-input-password",
+    "prc-block/form-input-select",
+    "prc-block/form-input-text",
+    "prc-block/form-input-textarea",
+    "prc-block/form-message",
+    "prc-block/form-submit"
+  ],
+  "keywords": [
+    "form",
+    "captcha",
+    "field",
+    "input"
+  ],
+  "icon": "feedback",
+  "attributes": {
+    "method": {
+      "type": "string",
+      "enum": [
+        "server",
+        "rest",
+        "api"
+      ],
+      "default": "api"
+    },
+    "namespace": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "redirectUrl": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "className": false,
+    "interactivity": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true,
+      "heading": true,
+      "button": true
+    },
+    "layout": {
+      "type": "constrained",
+      "default": {
+        "type": "constrained",
+        "orientation": "vertical",
+        "verticalAlignment": "center",
+        "allowOrientation": true,
+        "contentSize": "420px"
+      },
+      "allowSwitching": true,
+      "allowInheriting": false,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true
+    },
+    "spacing": {
+      "blockGap": true,
+      "margin": true,
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true,
+        "blockGap": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "__experimentalSelector": "form"
+  },
+  "providesContext": {
+    "form/displayMessage": "displayMessage"
+  },
+  "textdomain": "form",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view/index.js"
+}

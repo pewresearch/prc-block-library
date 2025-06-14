@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/form-message",
+  "version": "1.0.0",
+  "title": "Form Message",
+  "category": "forms",
+  "description": "Display a message to the user upon successful form submission.",
+  "attributes": {},
+  "supports": {
+    "anchor": false,
+    "html": false,
+    "reusable": true,
+    "interactivity": true,
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true,
+      "button": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "form-message",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

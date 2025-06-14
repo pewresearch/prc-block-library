@@ -213,6 +213,62 @@ body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group
 			/*rtl:ignore*/
 		}
 	}
+
+	/**
+	 * Group Block Styles
+	 */
+	&.is-style-fluid {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	&.is-style-200-wide,
+	&[data-type="core/group"].is-style-200-wide {
+		width: 100% !important;
+		max-width: 200px !important;
+	}
+
+	&.is-style-250-wide,
+	&[data-type="core/group"].is-style-250-wide {
+		width: 100% !important;
+		max-width: 250px !important;
+	}
+
+	&.is-style-300-wide,
+	&[data-type="core/group"].is-style-300-wide {
+		width: 100% !important;
+		max-width: 300px !important;
+	}
+
+	&.is-style-320-wide,
+	&[data-type="core/group"].is-style-320-wide {
+		width: 100% !important;
+		max-width: 320px !important;
+	}
+
+	&.is-style-420-wide,
+	&[data-type="core/group"].is-style-420-wide {
+		width: 100% !important;
+		max-width: 420px !important;
+	}
+
+	&.is-style-640-wide,
+	&[data-type="core/group"].is-style-640-wide {
+		width: 100% !important;
+		max-width: 640px !important;
+	}
+
+	&.is-style-dynamic-wide,
+	&[data-type="core/group"].is-style-dynamic-wide {
+		width: 100% !important;
+		max-width: var(--wp--custom--content-size-wide) !important;
+	}
+
+	&.is-style-collapse-row-on-mobile,
+	&[data-type="core/group"].is-style-collapse-row-on-mobile {
+		width: 100% !important;
+		max-width: 100% !important;
+	}
 }
 
 // @TODO this feels more like something that should be in a block pattern??

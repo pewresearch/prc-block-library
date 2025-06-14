@@ -5,9 +5,9 @@
   "version": "1.5.0",
   "title": "Form Input Select",
   "category": "forms",
-  "description": "Create a dropdown component with a list of options.",
+  "description": "A select element that supports search and autocomplete.",
   "attributes": {
-    "defaultOptions": {
+    "type": {
       "type": "string",
       "enum": [
         "custom",
@@ -18,34 +18,55 @@
       ],
       "default": "custom"
     },
+    "rawOptions": {
+      "type": "array",
+      "default": []
+    },
     "options": {
       "type": "array",
       "default": []
     },
-    "sortedOptions": {
-      "type": "array",
-      "default": []
-    },
-    "placeholder": {
-      "type": "string",
-      "default": "Select an option"
-    },
-    "disabled": {
+    "hasClearIcon": {
       "type": "boolean",
       "default": false
     },
-    "backgroundColor": {
-      "type": "string",
-      "default": "ui-white"
+    "displayLabel": {
+      "type": "boolean",
+      "default": true
     },
-    "textColor": {
+    "label": {
       "type": "string",
-      "default": "ui-black"
+      "source": "html",
+      "selector": "label"
+    },
+    "placeholder": {
+      "type": "string",
+      "default": "A hint or example...",
+      "source": "attribute",
+      "selector": "input",
+      "attribute": "placeholder"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "source": "attribute",
+      "selector": "input",
+      "attribute": "required"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "source": "attribute",
+      "selector": "input",
+      "attribute": "disabled"
     },
     "value": {
-      "type": "string"
+      "type": "string",
+      "source": "attribute",
+      "selector": "input",
+      "attribute": "value"
     },
-    "hasClearIcon": {
+    "allowMultiple": {
       "type": "boolean",
       "default": false
     }
@@ -54,49 +75,74 @@
     "anchor": true,
     "html": false,
     "reusable": true,
-    "inserter": false,
+    "interactivity": true,
+    "layout": {
+      "type": "flex",
+      "default": {
+        "type": "flex",
+        "orientation": "vertical",
+        "verticalAlignment": "center",
+        "allowOrientation": true
+      },
+      "allowInheriting": false,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true
+    },
+    "spacing": {
+      "blockGap": true,
+      "padding": true,
+      "margin": true
+    },
     "__experimentalBorder": {
       "color": true,
       "width": true,
-      "radius": true
+      "radius": true,
+      "__experimentalSkipSerialization": true
     },
     "color": {
-      "gradients": false
-    },
-    "spacing": {
-      "padding": true,
-      "margin": true
+      "background": true,
+      "text": true,
+      "enableContrastChecker": true,
+      "__experimentalSkipSerialization": true
     },
     "typography": {
       "fontSize": true,
       "lineHeight": true,
       "__experimentalFontFamily": true,
-      "__experimentalFontWeight": true
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
     },
-    "interactivity": true
+    "selectors": {
+      "root": ".wp-block-prc-block-form-input-text",
+      "color": ".wp-block-prc-block-form-input-text > input",
+      "border": ".wp-block-prc-block-form-input-text > input"
+    }
   },
   "usesContext": [
-    "prc-block/form-input-select/options",
-    "prc-block/form-field-required",
-    "prc-block/form-field-label",
-    "prc-facets/template/facetType",
-    "prc-facets/template/facetName",
-    "prc-facets/template/facetLabel",
-    "prc-block/sortable-options"
+    "form-input-select/options"
   ],
   "styles": [
     {
       "name": "default",
       "label": "Default",
       "isDefault": true
+    },
+    {
+      "name": "inline-label",
+      "label": "Inline Label"
     }
-  ],
-  "parent": [
-    "prc-block/form-field"
   ],
   "textdomain": "form-input-select",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",
-  "render": "file:./render.php",
   "viewScriptModule": "file:./view.js"
 }

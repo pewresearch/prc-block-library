@@ -28,15 +28,17 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import edit from './edit';
 import icon from './icon';
-
+import save from './save';
 import metadata from './block.json';
 
 const { name, title } = metadata;
 
 const settings = {
 	icon,
-	__experimentalLabel: ({ label }) => label || title, // Will change the label to match the label attr, 
 	edit,
+	save,
+	__experimentalLabel: ({ label }) =>
+		label && label.length > 0 && label.lenth < 20 ? label : title,
 };
 
 /**

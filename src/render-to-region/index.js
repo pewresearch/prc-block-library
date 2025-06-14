@@ -71,27 +71,38 @@ addFilter(
 						postId: getCurrentPostId(),
 						postType: getCurrentPostType(),
 						templateId: getCurrentTemplateId(),
-						templateRegions,
 					};
-				});
+				}, []);
 
-				const postRegions = useRegionsFromPost(postId, postType);
-				const templateRegions = useRegionsFromPost(
-					templateId,
-					'wp_template'
+				const memoizedPostId = useMemo(() => postId, [postId]);
+				const memoizedPostType = useMemo(() => postType, [postType]);
+				const memoizedTemplateId = useMemo(
+					() => templateId,
+					[templateId]
 				);
+
+				const postRegions = useRegionsFromPost(
+					memoizedPostId,
+					memoizedPostType
+				);
+
+				// const templateRegions = useRegionsFromPost(
+				// 	templateId,
+				// 	'wp_template'
+				// );
 
 				/**
 				 * Combine the regions from the post and the template and remove duplicates.
 				 */
 				const uniqueRegions = useMemo(() => {
+					if (!postRegions) return [];
 					const combinedRegions = [
 						...postRegions,
-						...templateRegions,
+						// ...templateRegions,
 					];
 					console.log('combinedRegions', combinedRegions);
 					return [...new Set(combinedRegions)];
-				}, [postRegions, templateRegions]);
+				}, [postRegions]);
 
 				return (
 					<>
@@ -104,7 +115,7 @@ addFilter(
 								<p>
 									Regions available on this post and on this
 									posts template will be available here...
-									{`postId: ${postId}, postType: ${postType}, templateId: ${templateId}`}
+									{`postId: ${memoizedPostId}, postType: ${memoizedPostType}, templateId: ${memoizedTemplateId}`}
 								</p>
 							</BaseControl>
 						</InspectorAdvancedControls>

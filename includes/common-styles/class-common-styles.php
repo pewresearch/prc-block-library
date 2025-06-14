@@ -38,6 +38,7 @@ class Common_Styles {
 		$loader->add_action( 'enqueue_block_assets', $additional_color_supports, 'register_style', 2 );
 		$loader->add_action( 'admin_enqueue_scripts', $additional_color_supports, 'reigster_pagination_script', 100 );
 		$loader->add_action( 'enqueue_block_assets', $this, 'register_core_style', 2 );
+		$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_core_style_helper', 2 );
 	}
 
 	/**
@@ -96,6 +97,24 @@ class Common_Styles {
 			plugins_url( 'core/build/style-index.css', __FILE__ ),
 			array(),
 			$asset_file['version'],
+		);
+	}
+
+	/**
+	 * Register the "Core" `prc-block-library--core-helper` support script.
+	 *
+	 * @hook enqueue_block_editor_assets
+	 */
+	public function register_core_style_helper() {
+		$asset_file = include plugin_dir_path( __FILE__ ) . 'core/build/index.asset.php';
+		wp_enqueue_script(
+			'prc-block-library--core-helper',
+			plugins_url( 'core/build/index.js', __FILE__ ),
+			array_merge(
+				$asset_file['dependencies'],
+			),
+			$asset_file['version'],
+			true
 		);
 	}
 

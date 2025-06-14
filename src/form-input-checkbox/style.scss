@@ -8,9 +8,29 @@
 	margin: 0;
 	gap: 5px;
 
-	&.is-required label:after {
-		content: "*";
-		color: red;
+	&.is-style-label-only {
+		input {
+			display: none;
+		}
+		&:has(input:checked) {
+			font-weight: bold;
+		}
+	}
+
+	&:has(input[required]) {
+		label:after {
+			content: "*";
+			color: red;
+			margin-left: 5px;
+		}
+	}
+
+	&:has(input[disabled]) {
+		opacity: 0.5;
+		input,
+		label {
+			cursor: not-allowed;
+		}
 	}
 
 	& > input {
@@ -18,82 +38,6 @@
 	}
 	& > label {
 		order: 1;
-	}
-
-	&.is-selected {
-		font-weight: bold;
-	}
-
-	&.is-style-label-only {
-		&:not(.wp-block) {
-			input {
-				display: none;
-			}
-		}
-		input {
-			opacity: 0.4;
-		}
-	}
-
-	label,
-	input[type="checkbox"] {
-		cursor: pointer;
-	}
-
-	input[type="checkbox"] {
-		/* Add if not using autoprefixer */
-		-webkit-appearance: none;
-		/* Remove most all native input styles */
-		appearance: none;
-		/* For iOS < 15 */
-		background-color: inherit;
-		/* Not removed via appearance */
-		margin: 0;
-
-		font: inherit;
-		color: var(--wp--preset--color--gray-light);
-		width: 1.15em;
-		height: 1.15em;
-		border: 1px;
-		border-style: solid;
-		border-radius: var(--wp--custom--border-radius, 3px);
-		transform: translateY(-0.075em);
-
-		display: grid;
-		place-content: center;
-
-		&::before {
-			content: "";
-			margin: 0 !important;
-			width: 0.65em;
-			height: 0.65em;
-			clip-path: polygon(
-				14% 44%,
-				0 65%,
-				50% 100%,
-				100% 16%,
-				80% 0%,
-				43% 62%
-			);
-			transform: scale(0);
-			transform-origin: bottom left;
-			transition: 120ms transform ease-in-out;
-			// box-shadow: inset 1em 1em var(--wp--preset--color--text-color);
-			/* Windows High Contrast Mode */
-			background-color: CanvasText;
-		}
-		&:checked::before {
-			transform: scale(1);
-			float: none;
-		}
-		&:focus {
-			outline: max(2px, 0.15em) solid currentColor;
-			outline-offset: max(2px, 0.15em);
-		}
-		&:disabled {
-			color: var(--wp--preset--color--gray-medium);
-			cursor: not-allowed;
-		}
 	}
 
 	label {
@@ -105,22 +49,92 @@
 			animation: pulse 0.5s infinite;
 		}
 	}
+
+	label,
+	input[type="checkbox"],
+	input[type="radio"] {
+		cursor: pointer;
+	}
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		/* Add if not using autoprefixer */
+		-webkit-appearance: none;
+		/* Remove most all native input styles */
+		appearance: none;
+		/* For iOS < 15 */
+		background-color: inherit;
+		/* Not removed via appearance */
+		margin: 0 !important;
+		font: inherit;
+		color: var(--wp--preset--color--gray-light);
+		width: 1.15em;
+		height: 1.15em;
+		border: 1px;
+		border-style: solid;
+		&:disabled {
+			color: var(--wp--preset--color--gray-medium);
+			cursor: not-allowed;
+		}
+	}
+
+	input[type="checkbox"] {
+		border-radius: var(--wp--custom--border-radius, 3px);
+		transform: translateY(-0.075em);
+
+		display: grid;
+		place-content: center;
+
+		&::before {
+			content: "";
+			margin: 0 !important;
+			clip-path: polygon(
+				14% 44%,
+				0 65%,
+				50% 100%,
+				100% 16%,
+				80% 0%,
+				43% 62%
+			);
+			width: 1.15em;
+			height: 1.15em;
+			transform: scale(0);
+			transform-origin: bottom left;
+			transition: 120ms transform ease-in-out;
+			// box-shadow: inset 1em 1em var(--wp--preset--color--text-color);
+			/* Windows High Contrast Mode */
+			background-color: CanvasText;
+		}
+		&:checked::before {
+			transform: scale(1);
+			float: none;
+			height: 0.8em;
+			width: 0.8em;
+		}
+		&:focus {
+			outline: max(2px, 0.15em) solid currentColor;
+			outline-offset: max(2px, 0.15em);
+		}
+
+	}
+	input[type="radio"] {
+		border-radius: 50%;
+	}
 }
 
-.wp-block-prc-block-form-input-checkbox.is-type-toggle {
-	// gap: 0;
+
+.wp-block-prc-block-form-input-checkbox:has(.wp-block-prc-block-form-input-checkbox__toggle) {
 	input {
 		display: none;
 	}
 }
-
 .wp-block-prc-block-form-input-checkbox__toggle {
 	font-size: 16px;
 	display: inline-block;
 	position: relative;
 	--animationTimer: 0.35s;
 
-	&.is-selected {
+	&:has(input:checked) {
 		.wp-block-prc-block-form-input-checkbox__toggle__switch {
 			background-color: var(--wp--preset--color--ui-black);
 			&:before {

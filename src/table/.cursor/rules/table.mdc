@@ -1,0 +1,17 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# PRC Power Table Block
+A fork of Aki Hamano's Flexible Table Block https://github.com/Aki-Hamano/flexible-table-block
+
+## Things I've added
+- A "go to column/row" modal
+- A right click context menu on the cell with a slotfill so other devs can hook in and add menu items
+- A csv import and export functionality and inspector panel as well as a dropzone for the block itself
+
+## Things to add
+- A table row settings to set a "row hover background color"
+- Column sorting
+- Responsive row collapsing

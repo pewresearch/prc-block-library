@@ -6,7 +6,7 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { Notice } from '@wordpress/components';
 
@@ -31,53 +31,45 @@ const TEMPLATE = [['core/html', {}]];
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes, clientId }) {
-	const { min, max } = attributes;
+	const { min, max, orientation } = attributes;
 
 	const blockProps = useBlockProps();
-	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
-	// This gives us a good way to ensure greater template and pattern control.
-	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	// The same applies for "orientation", defaults to "vertical".
-	const { allowedBlocks, orientation } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
-			allowedBlocks: allowedBlocks || true,
 			orientation: orientation || 'vertical',
 			templateLock: false,
 			template: TEMPLATE,
 		}
 	);
 
-	const [label, setLabel] = useState(`${min}px to ${max}px`);
-
-	useEffect(() => {
-		let l = `between ${min}px and ${max}px`;
-		if (!max) {
-			l = `minimum ${min}px`;
+	const label = useMemo(() => {
+		if (max && !min) {
+			return `maximum ${max}px`;
 		}
-		if (!min) {
-			l = `maximum ${max}px`;
+		if (!max && min) {
+			return `minimum ${min}px`;
 		}
-		setLabel(l);
+		if (max && min) {
+			return `between ${min}px and ${max}px`;
+		}
+		return 'No range set';
 	}, [min, max]);
 
 	return (
-		<Fragment>
+		<>
 			<Controls {...{ attributes, setAttributes, clientId }} />
 			<div {...blockProps}>
 				<Notice
 					isDismissible={false}
-					spokenMessage={__(
-						`Visible from ${min} pixels to ${max} pixels`
-					)}
+					spokenMessage={label}
 				>
 					<span className="sans-serif">
-						<strong>Viewport Range:</strong> {__(label)}
+						<strong>Viewport Range:</strong> {label}
 					</span>
 				</Notice>
 				<div {...innerBlocksProps} />
 			</div>
-		</Fragment>
+		</>
 	);
 }

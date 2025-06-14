@@ -38,7 +38,6 @@ function LogoInner({ onLoad, className, width }) {
 	// and use that to set the "natural" size of the image.
 
 	useEffect(() => {
-		// check that onLoad is a function and that className is a string...
 		if (
 			typeof onLoad !== 'function' ||
 			typeof className !== 'string' ||
@@ -52,7 +51,33 @@ function LogoInner({ onLoad, className, width }) {
 		const svgLoad = (svg) => {
 			const svgEl = svg();
 
-			const [w, h] = svgEl.props.viewBox.split(' ').slice(2);
+			const findSvgTag = (children, depth = 0) => {
+				if (!children || depth > 2) return null;
+
+				// Check if current level has type 'svg'
+				if (children.type === 'svg') {
+					return children;
+				}
+
+				// Check children's props if they exist
+				if (children.props && children.props.children) {
+					const result = findSvgTag(children.props.children, depth + 1);
+					if (result) return result;
+				}
+
+				// If children is an array, check each item
+				if (Array.isArray(children)) {
+					for (const child of children) {
+						const result = findSvgTag(child, depth + 1);
+						if (result) return result;
+					}
+				}
+
+				return null;
+			};
+
+			const svgTag = findSvgTag(svgEl.props.children);
+			const [w, h] = svgTag.props.viewBox.split(' ').slice(2);
 
 			onLoad(w, h);
 		};

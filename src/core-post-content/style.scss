@@ -1,11 +1,6 @@
 @use '../../includes/common-styles/gutenberg-responsive-breaks' as *;
 
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- */
-
- .wp-block-post-content {
+.wp-block-post-content {
 	counter-reset: big-number;
 	p a {
 		text-decoration: underline;
@@ -27,17 +22,21 @@ body:not(.post-template-layout-no-container-query) {
 	.wp-block-post-content > figure:first-child.alignright + p {
 		margin-top: 0;
 	}
-	// This handles alignment for blocks inside post-content.
+
+	// "Wide" content well, like in an essay.
+	// We prevent this when the post-content block is the root container,
+	// i.e. when the user is editing the post content BUT NOT previewing the full template.
 	@container post-content-container (min-width: 860px) {
-		.wp-block-post-content > .alignleft {
+		.wp-block-post-content:not(.is-root-container) > .alignleft {
 			margin-left: max(0px, calc((100% - var(--wp--style--global--wide-size)) / 2)) !important;
 			margin-bottom: 1em;
 		}
-		.wp-block-post-content > .alignright {
+		.wp-block-post-content:not(.is-root-container) > .alignright {
 			margin-right: max(0px, calc((100% - var(--wp--style--global--wide-size)) / 2)) !important;
 			margin-bottom: 1em;
 		}
 	}
+	// "Standard" content well.
 	@container post-content-container (min-width: 639px) {
 		.wp-block-post-content > .alignleft {
 				margin-left: max(0px, calc((100% - var(--wp--style--global--content-size)) / 2));

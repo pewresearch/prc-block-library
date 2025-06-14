@@ -3,14 +3,14 @@
  */
 import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
 
 export default function Controls({ attributes, setAttributes }) {
-	const { placeholder, type } = attributes;
+	const { placeholder, type, required, displayLabel } = attributes;
 	const name = attributes?.metadata?.name;
 	return (
 		<InspectorControls>
@@ -20,7 +20,6 @@ export default function Controls({ attributes, setAttributes }) {
 					value={type}
 					options={[
 						{ label: 'Text', value: 'text' },
-						{ label: 'Text Area', value: 'textarea' },
 						{ label: 'Email', value: 'email' },
 						{ label: 'Password', value: 'password' },
 					]}
@@ -30,6 +29,7 @@ export default function Controls({ attributes, setAttributes }) {
 				/>
 				<TextControl
 					label="Input Name"
+					help={__('This is the name of the input field. It is used to identify the input field in the form submission data. We recommend using a camelCase name.', 'prc-block-library')}
 					value={name}
 					onChange={(newName) => {
 						setAttributes({
@@ -42,6 +42,20 @@ export default function Controls({ attributes, setAttributes }) {
 					value={placeholder}
 					onChange={(newPlaceholder) => {
 						setAttributes({ placeholder: newPlaceholder });
+					}}
+				/>
+				<ToggleControl
+					label="Display Label"
+					checked={displayLabel}
+					onChange={(newDisplayLabel) => {
+						setAttributes({ displayLabel: newDisplayLabel });
+					}}
+				/>
+				<ToggleControl
+					label="Required"
+					checked={required}
+					onChange={(newRequired) => {
+						setAttributes({ required: newRequired });
 					}}
 				/>
 			</PanelBody>

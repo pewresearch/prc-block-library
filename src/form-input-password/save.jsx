@@ -1,18 +1,11 @@
 /**
  * External Dependencies
  */
-
+import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { InnerBlocks } from '@wordpress/block-editor';
+import { useInnerBlocksProps, useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -26,5 +19,24 @@ import { InnerBlocks } from '@wordpress/block-editor';
  * @return {WPElement} Element to render.
  */
 export default function Save( { attributes } ) {
-	return <InnerBlocks.Content />;
+	const { includesConfirmation } = attributes;
+	const blockProps = useBlockProps.save({
+		className: clsx(
+			'wp-block-prc-block-form-input-password',
+			{
+				'has-confirmation': includesConfirmation,
+			}
+		),
+	});
+
+	const innerBlocksProps = useInnerBlocksProps.save({});
+
+	return (
+		<div {...blockProps}>
+			{innerBlocksProps.children}
+			{includesConfirmation && (
+				<div className="prc-block-form-input-password__analyzer"></div>
+			)}
+		</div>
+	);
 }

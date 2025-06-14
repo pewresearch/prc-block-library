@@ -8,4 +8,11 @@
 .wp-block-prc-block-form-captcha {
 	color: inherit;
 	background: inherit;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	&[hidden] {
+		display: none!important;
+	}
 }

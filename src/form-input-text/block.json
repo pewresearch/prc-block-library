@@ -2,43 +2,89 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "prc-block/form-input-text",
-	"version": "0.1.0",
+	"version": "1.0.1",
 	"title": "Input Text Field",
-	"description": "A primtive block for a text input field in a form.",
+	"description": "A primitive <input> element.",
 	"category": "forms",
 	"attributes": {
+		"displayLabel": {
+			"type": "boolean",
+			"default": true
+		},
+		"label": {
+			"type": "string",
+			"source": "html",
+			"selector": "label"
+		},
 		"placeholder": {
 			"type": "string",
-			"default": "Enter text..."
+			"default": "A hint or example...",
+			"source": "attribute",
+			"selector": "input",
+			"attribute": "placeholder"
 		},
 		"type": {
 			"type": "string",
 			"enum": ["email", "password", "text", "textarea", "number"],
-			"default": "text"
+			"default": "text",
+			"source": "attribute",
+			"selector": "input",
+			"attribute": "type"
 		},
 		"value": {
-			"type": "string"
+			"type": "string",
+			"source": "attribute",
+			"selector": "input",
+			"attribute": "value"
 		},
-		"style": {
-			"type": "object",
-			"default": {
-				"typography": {
-					"lineHeight": "1"
-				}
-			}
+		"required": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"example": {
+		"viewportWidth": 320,
+		"attributes": {
+			"label": "Name",
+			"placeholder": "Enter your name",
+			"required": true
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"reusable": false,
-		"__experimentalBorder": {
-			"color": true,
-			"width": true
+		"reusable": true,
+		"interactivity": true,
+		"layout": {
+			"type": "flex",
+			"default": {
+				"type": "flex",
+				"orientation": "vertical",
+				"verticalAlignment": "center",
+				"allowOrientation": true
+			},
+			"allowInheriting": false,
+			"allowVerticalAlignment": true,
+			"allowJustification": true,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true
 		},
 		"spacing": {
+			"blockGap": true,
 			"padding": true,
 			"margin": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true,
+			"radius": true,
+			"__experimentalSkipSerialization": true
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"enableContrastChecker": true,
+			"__experimentalSkipSerialization": true
 		},
 		"typography": {
 			"fontSize": true,
@@ -54,15 +100,24 @@
 				"__experimentalFontFamily": true
 			}
 		},
-		"interactivity": true
+		"selectors": {
+			"root": ".wp-block-prc-block-form-input-text",
+			"color": ".wp-block-prc-block-form-input-text > input",
+			"border": ".wp-block-prc-block-form-input-text > input"
+		}
 	},
-	"usesContext": [
-		"prc-block/form-field/required",
-		"prc-block/form-field/label",
-		"prc-block/form-input-target-namespace"
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{
+			"name": "inline-label",
+			"label": "Inline Label"
+		}
 	],
 	"textdomain": "form-input-text",
 	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

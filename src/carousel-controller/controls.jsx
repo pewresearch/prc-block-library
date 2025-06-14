@@ -12,9 +12,11 @@ import {
 	SelectControl,
 	ToggleControl,
 	CardDivider,
+	Button,
 } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import { useMemo } from '@wordpress/element';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { createBlock } from '@wordpress/blocks';
+import { useMemo, useCallback } from '@wordpress/element';
 
 export default function Controls({
 	attributes,
@@ -34,22 +36,27 @@ export default function Controls({
 		dotsSize,
 	} = attributes;
 
+	const { insertBlock, replaceBlock } = useDispatch('core/block-editor');
+
 	const colorSettings = useMultipleOriginColorsAndGradients();
 
 	// detect if the parent block is a cover block or not...
-	const { isInsideCover } = useSelect(
+	const { isInsideCover, innerBlocks } = useSelect(
 		(select) => {
 			const { getBlockRootClientId, getBlock } =
 				select('core/block-editor');
 			const rootClientId = getBlockRootClientId(clientId);
+			const innerBlocks = getBlock(clientId)?.innerBlocks;
 			if (!rootClientId) {
 				return {
 					isInsideCover: false,
+					innerBlocks,
 				};
 			}
 			const parentBlock = getBlock(rootClientId);
 			return {
 				isInsideCover: parentBlock.name === 'core/cover',
+				innerBlocks,
 			};
 		},
 		[clientId]
@@ -75,6 +82,31 @@ export default function Controls({
 				];
 	}, [isInsideCover]);
 
+	const onConvertToVertical = useCallback(() => {
+		replaceBlock(
+			clientId,
+			createBlock(
+				'core/cover',
+				{
+					dimRatio: 50,
+					overlayColor: 'black',
+					minHeight: 400,
+					contentPosition: 'center',
+				},
+				[
+					createBlock(
+						'prc-block/carousel-controller',
+						{
+							...attributes,
+							orientation: 'vertical',
+						},
+						innerBlocks
+					),
+				]
+			)
+		);
+	}, [insertBlock, attributes, innerBlocks]);
+
 	return (
 		<>
 			<InspectorControls>
@@ -95,6 +127,14 @@ export default function Controls({
 								: 'When the carousel is inside a cover block, you can select between the default horizontal or vertical orientation.'
 						}
 					/>
+					{'horizontal' === orientation && (
+						<Button
+							variant="primary"
+							onClick={onConvertToVertical}
+						>
+							Convert to vertical
+						</Button>
+					)}
 				</PanelBody>
 				<PanelBody title={'Carousel Navigation'} initialOpen={true}>
 					<ToggleControl

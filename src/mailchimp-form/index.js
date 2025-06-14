@@ -29,6 +29,7 @@ import './style.scss';
 import edit from './edit';
 import save from './save';
 import icon from './icon';
+import registerForms from './register-forms';
 
 import metadata from './block.json';
 
@@ -40,9 +41,6 @@ const settings = {
 	save,
 };
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
- */
-registerBlockType( name, { ...metadata, ...settings } );
+registerForms();
+
+registerBlockType(name, { ...metadata, ...settings });

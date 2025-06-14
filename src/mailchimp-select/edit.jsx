@@ -13,46 +13,42 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
  */
 import Controls from './controls';
 
-const ALLOWED_BLOCKS = ['prc-block/form-field', 'prc-block/form-input-checkbox', 'prc-block/form-input-text', 'core/button', 'core/group'];
 const DEFAULT_TEMPLATE = [
 	[
-		'core/group',
+		'prc-block/form',
 		{
-			lock: {
-				move: true,
-				remove: true,
-			},
+			namespace: 'prc-block/mailchimp-select',
+			action: 'subscribe',
+			interactiveNamespace: 'prc-block/mailchimp-form',
 		},
 		[
 			[
 				'prc-block/form-input-text',
 				{
 					label: 'Email Address',
-					placeholder: 'Enter your email address',
-					type: 'email',
-					lock: {
-						move: true,
-						remove: true,
+					required: true,
+					metdata: {
+						name: 'emailAddress',
 					},
-					isInteractive: true,
-					interactiveNamespace: 'prc-block/mailchimp-select'
+					placeholder: 'Email Address',
 				},
+				[],
 			],
-			['prc-block/form-captcha', {
-				isInteractive: true,
-				interactiveNamespace: 'prc-block/mailchimp-select'
-			}],
 			[
-				'core/button',
-				{
-					text: 'Sign Up',
-					lock: {
-						move: true,
-						remove: true,
-					},
-					isInteractive: true,
-					interactiveNamespace: 'prc-block/mailchimp-select'
-				},
+				'prc-block/form-submit',
+				{}
+			],
+			[
+				'prc-block/form-message',
+				{},
+				[
+					[
+						'core/paragraph',
+						{
+							content: 'Thank you for subscribing!',
+						},
+					],
+				],
 			],
 		],
 	],
@@ -73,9 +69,7 @@ const DEFAULT_TEMPLATE = [
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const blockProps = useBlockProps();
 
-	const { allowedBlocks } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 		template: DEFAULT_TEMPLATE,
 		templateLock: false,
 		renderAppender: false, // Here we're using the template to control whats loaded into the block.

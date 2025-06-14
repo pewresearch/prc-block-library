@@ -11,24 +11,17 @@
 /**
  * WordPress Dependencies
  */
-import { registerBlockType } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
  */
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor. All other files
- * get applied to the editor only.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import edit from './edit';
 import save from './save';
-import { HorizontalIcon as icon } from './icons';
+import { HorizontalIcon as icon, VerticalIcon } from './icons';
 import variations from './variations';
+import transforms from './transforms';
 import './style.scss';
 import './editor.scss';
 
@@ -41,6 +34,7 @@ const settings = {
 	edit,
 	save,
 	variations,
+	transforms,
 };
 
 /**
@@ -49,3 +43,23 @@ const settings = {
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
 registerBlockType(name, { ...metadata, ...settings });
+
+registerBlockVariation('core/cover', {
+	name: 'cover-carousel-vertical',
+	title: __('Carousel (Cover): Vertical'),
+	description: __('A vertical carousel wrapped in a cover block.'),
+	icon: VerticalIcon(),
+	attributes: {
+		dimRatio: 50,
+		overlayColor: 'black',
+		minHeight: 400,
+		contentPosition: 'center',
+		className: 'is-carousel-cover',
+	},
+	innerBlocks: [
+		['prc-block/carousel-controller', { orientation: 'vertical' }],
+	],
+	scope: ['inserter', 'block'],
+	isActive: (blockAttributes, variationAttributes) =>
+		blockAttributes === variationAttributes,
+});

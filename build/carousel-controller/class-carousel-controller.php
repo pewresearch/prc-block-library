@@ -36,29 +36,28 @@ class Carousel_Controller {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'render_block', $this, 'render_callback', 10, 3 );
 		}
 	}
 
 	/**
 	 * Adds iAPI directives to the Carousel Controller block.
 	 *
-	 * @param string $content The content.
-	 * @param array  $block The block.
-	 * @param array  $wp_block The WordPress block.
+	 * @param array    $attributes The attributes.
+	 * @param string   $content The content.
+	 * @param WP_Block $block The block.
 	 */
-	public function render_callback( $content, $block, $wp_block ) {
-		if ( 'prc-block/carousel-controller' !== $block['blockName'] ) {
+	public function render_block_callback( $attributes, $content, $block ) {
+		if ( 'prc-block/carousel-controller' !== $block->parsed_block['blockName'] ) {
 			return $content;
 		}
 		$attributes     = \PRC\Platform\Block_Utils\get_block_attributes(
 			'prc-block/carousel-controller',
-			$block['attrs']
+			$attributes
 		);
 		$is_vertical    = 'vertical' === $attributes['orientation'];
 		$arrows_eanbled = $attributes['enableArrows'];
 		$dots_enabled   = $attributes['enableDots'];
-		$count          = count( $wp_block->parsed_block['innerBlocks'] );
+		$count          = count( $block->parsed_block['innerBlocks'] );
 
 		// Create an array of the number of slides.
 		$slides      = array();
@@ -146,6 +145,9 @@ class Carousel_Controller {
 	public function block_init() {
 		register_block_type_from_metadata(
 			PRC_BLOCK_LIBRARY_DIR . '/build/carousel-controller',
+			array(
+				'render_callback' => array( $this, 'render_block_callback' ),
+			)
 		);
 	}
 }

@@ -3,7 +3,20 @@
  */
 import { store, getElement } from '@wordpress/interactivity';
 
-store('prc-block/social-share-url-field', {
+const { state, actions } = store('prc-block/social-share-url-field', {
+	state: {
+		get inputType() {
+			return 'text';
+		},
+		get inputValue() {
+			const context = getContext();
+			const { url } = context;
+			return url;
+		},
+		get inputName() {
+			return 'shareUrl';
+		},
+	},
 	actions: {
 		onInputClick: () => {
 			const { ref } = getElement();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Render the sub title block.
  *

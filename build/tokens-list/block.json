@@ -1,0 +1,93 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/tokens-list",
+  "title": "Tokens List",
+  "version": "1.0.0",
+  "category": "theme",
+  "allowedBlocks": [
+    "core/button"
+  ],
+  "attributes": {
+    "label": {
+      "type": "string",
+      "source": "html",
+      "selector": "label"
+    },
+    "tokens": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "interactivity": true,
+    "layout": {
+      "type": "flex",
+      "default": {
+        "type": "flex",
+        "orientation": "horizontal",
+        "verticalAlignment": "center",
+        "allowOrientation": true
+      },
+      "allowInheriting": false,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true,
+      "__experimentalSkipSerialization": true
+    },
+    "spacing": {
+      "blockGap": true,
+      "padding": true,
+      "margin": true
+    },
+    "color": {
+      "background": true,
+      "text": true,
+      "button": true,
+      "enableContrastChecker": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "usesContext": [
+    "tokens/list"
+  ],
+  "textdomain": "tokens-list",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js"
+}

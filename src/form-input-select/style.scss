@@ -1,165 +1,162 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
 .wp-block-prc-block-form-input-select {
+	--wp--custom--border-radius: 3px;
+	box-sizing: border-box;
 	position: relative;
-	input {
-		flex-grow: 1;
-		text-align: left;
-		vertical-align: top;
-		-webkit-appearance: none;
-		padding: 9px 13px;
-		border: 1px solid transparent;
-		box-shadow: inset 0 0 0 0 transparent;
-		box-sizing: border-box;
-		width: 100%;
-		margin: 0;
-		outline: none;
-		transition:
-			color 0.1s ease,
-			border-color 0.1s ease;
-	}
-	&[required]:after {
-		content: "*";
-		color: red;
-		font-size: 1.1em;
-		position: absolute;
-		top: 5px;
-		right: 5px;
-	}
 
-	.wp-block-prc-block-form-input-select__list {
-		// write some css for a listbox
-		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
-		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option
-		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/optgroup
-
-		// The listbox is a container for a list of options, which can be collapsed or expanded.
-		position: absolute;
-		display: inline-block;
-		width: 100%;
-		max-height: 200px;
-		border: inherit;
-		border-radius: 1px;
-		box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-		background: var(--wp--preset--color--ui-white);
-		overflow-y: auto;
-		padding: 0;
-		margin: 0;
-		transition: visbility 1s ease-in-out;
-		.wp-block-prc-block-form-input-select__list-item {
-			display: block;
-			position: relative;
-			cursor: pointer;
-			list-style: none;
-			padding: 0.5em 1em;
-			border-bottom: 1px solid var(--wp--preset--color--ui-gray-light);
-			&:last-of-type {
-				border-bottom: none;
-			}
-			&:hover {
-				background: var(--wp--preset--color--ui-gray-light);
-				color: var(--wp--preset--color--ui-gray-dark);
-			}
-			&:active,
-			&.is-selected,
-			&[aria-selected="true"] {
-				background: var(--wp--preset--color--ui-gray-very-light);
-				color: var(--wp--preset--color--ui-text-color);
-				font-weight: bold;
-			}
-		}
-	}
-	&:not(.is-open) > ul[role="listbox"] {
-		// display: none;
-		visibility: hidden;
-	}
-	&.is-open > ul[role="listbox"] {
-		z-index: 99999;
-		visibility: visible;
-		// make a subtle fade in animation
-		opacity: 0;
-		animation: fadeIn 0.3s ease-in-out forwards;
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
-			}
-		}
-	}
-
-	// We have a value but is not open
-	&.has-clear-icon.has-value .wp-block-prc-block-form-input-select__close-toggle {
-		.icon__caret-up,
-		.icon__caret-down {
-			display: none!important;
-		}
-		.icon__circle-xmark {
-			display: block!important;
-		}
-	}
-	// Not open, display caret down
-	&:not(.is-open) .wp-block-prc-block-form-input-select__close-toggle {
-		.icon__caret-up,
-		.icon__circle-xmark {
-			display: none!important;
-		}
-		.icon__caret-down {
-			display: block!important;
-		}
-	}
-	// We don't have a value but it is open, display caret up
-	&.is-open .wp-block-prc-block-form-input-select__close-toggle {
-			.icon__caret-down,
-			.icon__circle-xmark {
-				display: none!important;
-			}
-			.icon__caret-up {
-				display: block!important;
-			}
-	}
-
+	/**
+	Button styling
+	*/
 	button {
 		appearance: none;
 		border: none;
 		background: transparent;
+		cursor: pointer;
+		font-size: inherit;
+		color: inherit;
 	}
 
-	.wp-block-prc-block-form-input-select__input {
-		border-radius: inherit;
-		input {
-			border: none;
-			border-radius: inherit;
+	/**
+	Required field styling
+	*/
+	&:where(:has(input[required])) {
+		label:after {
+			content: "*";
+			color: red;
+			position: absolute;
+			top: 5px;
+			right: 5px;
+		}
+		&:not(:has(label)):after {
+			content: "*";
+			color: red;
+			position: absolute;
+			top: 5px;
+			right: 5px;
 		}
 	}
 
-	.wp-block-prc-block-form-input-select__button {
+
+	label {
+		cursor: pointer;
+	}
+
+	/**
+	Input styling
+	*/
+	.wp-block-prc-block-form-input-select__input {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 4px;
+		min-height: 38px;
+		border: 1px solid transparent;
+		border-color: rgba(0, 0, 0, 0.2);
+		border-radius: var(--wp--custom--border-radius);
+		padding: 4px;
+		position: relative;
 		width: 100%;
 		cursor: pointer;
-		text-align: left;
+
+		input {
+			background-color: transparent;
+			text-align: left;
+			vertical-align: top;
+			margin: 0;
+			padding: 4px 7px !important;
+			outline: none;
+			border: none;
+			box-shadow: none;
+			flex-grow: 1;
+			min-width: 120px;
+			font-size: inherit;
+			&:focus {
+				outline: none!important;
+				box-shadow: none!important;
+				border: none!important;
+			}
+		}
 	}
-	.wp-block-prc-block-form-input-select__close-toggle {
-		cursor: pointer;
-		display: inline-block;
-		text-align: center;
-		border-radius: 50%;
-		background-color: #fff;
-		color: black;
-		font-weight: bold;
-		font-size: 14px;
-		user-select: none;
+
+	/**
+	Listbox styling
+	*/
+	&:not(.is-open) .wp-block-prc-block-form-input-select__list {
+		visibility: hidden;
+		opacity: 0;
+		transition: opacity 0.15s ease-in-out;
+	}
+	.wp-block-prc-block-form-input-select__list {
 		position: absolute;
-		top: 25%;
-		right: 10px;
-		svg {
-			width: 1em;
-			height: 1em;
+		top: calc(100% - 1px);
+		left: 0;
+		right: 0;
+		width: 100%;
+		max-height: 200px;
+		background: #fff;
+		border: 1px solid #ccd0d4;
+		border-radius: 0 0 var(--wp--custom--border-radius) var(--wp--custom--border-radius);
+		margin-top: 2px;
+		box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+		overflow-y: auto;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		z-index: 1000;
+		transition: opacity 0.15s ease-in-out;
+
+		li {
+			padding: 8px 12px;
+			cursor: pointer;
+			color: #1d2327;
+			background: transparent;
+			&:hover {
+				background: var(--wp--preset--color--ui-gray-light, #f0f0f1);
+				color: var(--wp--preset--color--ui-gray-dark, #1d2327);
+			}
+			&:active,
+			&.is-selected,
+			&[aria-selected="true"] {
+				background: #f0f0f1;
+				color: #1d2327;
+				font-weight: bold;
+			}
+		}
+	}
+
+	&.is-style-inline-label {
+		display: flex;
+		gap: 10px;
+		padding: 1em;
+		&:not(.has-border-color) {
+			border: 1px solid transparent;
+			border-color: rgba(0, 0, 0, 0.2);
+			border-radius: var(--wp--custom--border-radius);
+		}
+		label {
+			display: inline-block;
+			margin-bottom: 0;
+		}
+		.wp-block-prc-block-form-input-select__input {
+			border-color: transparent;
+		}
+		input {
+			background-color: transparent !important;
+			border: none;
+			border-radius: 0;
+			padding: 0;
+			margin: 0;
+			box-shadow: none;
+			flex-grow: 1;
+			width: fit-content;
+			&:focus {
+				border-color: transparent !important;
+			}
+		}
+		.wp-block-prc-block-form-input-select__list {
+			top: calc(100% + 1em);
+			width: calc(100% + 2em);
+			left: -1em;
+			right: -1em;
 		}
 	}
 }

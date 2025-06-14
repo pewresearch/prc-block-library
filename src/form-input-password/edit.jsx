@@ -1,58 +1,21 @@
 /**
  * External Dependencies
  */
-import classnames from 'classnames';
-import { getBlockGapSupportValue } from '@prc/block-utils';
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
-	RichText,
 } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
-
-/**
- * Construct a simple form field template for the input text block.
- * @param {*} attributes
- * @param {*} label
- * @param {*} name
- * @return
- */
-const getTemplate = (attributes, label = 'Password', name = 'password') => {
-	const { includesConfirmation } = attributes;
-
-	return [
-		'prc-block/form-field',
-		{
-			label,
-			required: true,
-		},
-		[
-			[
-				'prc-block/form-input-text',
-				{
-					type: 'password',
-					placeholder: includesConfirmation
-						? 'Password...'
-						: 'Confirm Password...',
-					isInteractive: true,
-					interactiveNamespace: 'prc-block/form-input-password',
-					metadata: {
-						name,
-					},
-				},
-			],
-		],
-	];
-};
+import { getTemplate, doublePasswordTemplate } from './utils';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -67,52 +30,32 @@ const getTemplate = (attributes, label = 'Password', name = 'password') => {
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, __unstableLayoutClassNames: layoutClassNames, clientId }) {
 	const { includesConfirmation } = attributes;
 
-	const template = useMemo(() => {
-		return includesConfirmation
-			? [
-					getTemplate(attributes),
-					getTemplate(
-						attributes,
-						'Confirm Password',
-						'confirmPassword'
-					),
-				]
-			: [getTemplate(attributes)];
-	}, [includesConfirmation]);
-
-	const orientation = useMemo(() => {
-		return includesConfirmation ? 'vertical' : 'horizontal';
-	}, [includesConfirmation]);
-
 	const blockProps = useBlockProps({
-		className: classnames({
-			'has-confirmation': includesConfirmation,
-		}),
-		style: {
-			'--block-gap': getBlockGapSupportValue(attributes, 'horizontal'),
-		},
+		className: clsx(
+			layoutClassNames,
+			{
+				'has-confirmation': includesConfirmation,
+			}
+		),
 	});
+
 	const innerBlocksProps = useInnerBlocksProps(
+		{},
 		{
-			className: 'wp-block-prc-block-form-input-password__input',
-		},
-		{
-			templateLock: true,
-			template,
-			orientation,
+			renderAppender: false,
+			template: includesConfirmation ? doublePasswordTemplate : getTemplate(attributes),
 		}
 	);
 
 	return (
-		<Fragment>
-			<Controls {...{ attributes, setAttributes }} />
+		<>
 			<div {...blockProps}>
-				<div {...innerBlocksProps} />
+				{innerBlocksProps.children}
 				{includesConfirmation && (
-					<div className="wp-block-prc-block-form-input-password__analyzer">
+					<div className="prc-block-form-input-password__analyzer">
 						<p>Password Must:</p>
 						<ul>
 							<li className="is-valid">
@@ -143,6 +86,6 @@ export default function Edit({ attributes, setAttributes }) {
 					</div>
 				)}
 			</div>
-		</Fragment>
+		</>
 	);
 }

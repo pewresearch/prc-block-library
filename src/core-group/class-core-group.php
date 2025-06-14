@@ -55,49 +55,8 @@ class Core_Group {
 	 */
 	public static $size_styles = array(
 		array(
-			'name'         => 'fluid',
-			'label'        => 'Fluid',
-			'inline_style' => '.wp-block-group.is-style-fluid{width: 100%; max-width: 100%}',
-		),
-		array(
-			'name'         => '200-wide',
-			'label'        => '200px Wide',
-			'inline_style' => '.wp-block-group.is-style-200-wide, .wp-block[data-type="core/group"].is-style-200-wide {width: 100%!important; max-width: 200px!important}',
-		),
-		array(
-			'name'         => '250-wide',
-			'label'        => '250px Wide',
-			'inline_style' => '.wp-block-group.is-style-250-wide, .wp-block[data-type="core/group"].is-style-250-wide {width: 100%!important; max-width: 250px!important}',
-		),
-		array(
-			'name'         => '300-wide',
-			'label'        => '300px Wide',
-			'inline_style' => '.wp-block-group.is-style-300-wide, .wp-block[data-type="core/group"].is-style-300-wide {width: 100%!important; max-width: 300px!important}',
-		),
-		array(
-			'name'         => '320-wide',
-			'label'        => '320px Wide (half the content well)',
-			'inline_style' => '.wp-block-group.is-style-320-wide, .wp-block[data-type="core/group"].is-style-320-wide {width: 100%!important; max-width: 320px!important}',
-		),
-		array(
-			'name'         => '420-wide',
-			'label'        => '420px Wide',
-			'inline_style' => '.wp-block-group.is-style-420-wide, .wp-block[data-type="core/group"].is-style-420-wide {width: 100%!important; max-width: 420px!important}',
-		),
-		array(
-			'name'         => '640-wide',
-			'label'        => '640px Wide (full content well)',
-			'inline_style' => '.wp-block-group.is-style-640-wide, .wp-block[data-type="core/group"].is-style-640-wide {width: 100%!important; max-width: 640px!important}',
-		),
-		array(
-			'name'         => 'dynamic-wide',
-			'label'        => 'Dynamic Wide Template',
-			'inline_style' => '.wp-block-group.is-style-dynamic-wide, .wp-block[data-type="core/group"].is-style-dynamic-wide {width: 100%!important; max-width: var(--wp--custom--content-size-wide)!important}',
-		),
-		array(
-			'name'         => 'collapse-row-on-mobile',
-			'label'        => 'Collapse Row on Mobile',
-			'inline_style' => '.wp-block-group.is-style-collapse-row-on-mobile, .wp-block[data-type="core/group"].is-style-collapse-row-on-mobile {width: 100%!important; max-width: 100%!important}',
+			'name'  => 'dynamic-wide',
+			'label' => 'Dynamic Width',
 		),
 	);
 

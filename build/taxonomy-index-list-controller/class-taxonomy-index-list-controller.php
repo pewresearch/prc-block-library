@@ -104,9 +104,12 @@ class Taxonomy_Index_List_Controller {
 				return array_key_exists( 'attrs', $block ) && array_key_exists( 'className', $block['attrs'] ) && strpos( $block['attrs']['className'], 'is-style-sub-heading' ) !== false;
 			}
 		);
+		if ( empty( $heading_block ) ) {
+			return '';
+		}
 		// Get the label from heading block
-		$label = $heading_block[0]['attrs']['label'];
-		$url   = $heading_block[0]['attrs']['url'];
+		$label = $heading_block[0]['attrs']['label'] ?? '';
+		$url   = $heading_block[0]['attrs']['url'] ?? '';
 
 		// Get the array index of the heading block in the inner_blocks array
 		$heading_block_index = array_search( $heading_block[0], $inner_blocks );

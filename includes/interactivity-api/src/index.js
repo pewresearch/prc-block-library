@@ -71,10 +71,6 @@ addFilter(
 		if (settings?.supports?.interactivity) {
 			settings.attributes = {
 				...settings.attributes,
-				isInteractive: {
-					type: 'boolean',
-					default: false,
-				},
 				interactiveNamespace: {
 					type: 'string',
 				},

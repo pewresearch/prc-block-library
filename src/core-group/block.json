@@ -7,5 +7,8 @@
 	"textdomain": "core-group",
 	"editorScript": "file:./index.js",
 	"viewScriptModule": "file:./view.js",
-	"style": ["file:./style-index.css", "prc-block-library--baseball-card"]
+	"style": ["file:./style-index.css", "prc-block-library--baseball-card"],
+	"supports": {
+		"interactivity": true
+	}
 }

@@ -9,13 +9,23 @@ import { __ } from '@wordpress/i18n';
 
 const variations = [
 	{
-		name: 'desktop',
+		name: 'responsive-container-view',
 		isDefault: true,
+		title: __('Responsive Container View'),
+		attributes: {
+			min: 980,
+			max: 0,
+		},
+		scope: ['inserter'],
+		isActive: ({ deviceType }) => !deviceType,
+	},
+	{
+		name: 'desktop',
 		title: __('Desktop'),
 		attributes: {
 			deviceType: 'desktop',
 			min: 980,
-			max: 0,
+			max: null,
 		},
 		scope: ['inserter', 'transform'],
 		isActive: ({ deviceType }) => 'desktop' === deviceType,

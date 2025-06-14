@@ -2,29 +2,16 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "prc-block/form-captcha",
-	"version": "1.0.0",
+	"version": "1.0.3",
 	"title": "Form Captcha",
 	"category": "forms",
 	"description": "Display a captcha form element. Powered by Cloudflare Turnstile. This Captcha is mostly invisible and does not require user interaction.",
 	"attributes": {},
 	"supports": {
-		"anchor": true,
+		"anchor": false,
 		"html": false,
 		"spacing": {
-			"blockGap": true,
-			"margin": [ "top", "bottom" ],
-			"padding": true,
-			"__experimentalDefaultControls": {
-				"padding": true
-			}
-		},
-		"typography": {
-			"fontSize": true,
-			"__experimentalFontFamily": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"__experimentalFontFamily": true
-			}
+			"margin": [ "top", "bottom" ]
 		},
 		"interactivity": true
 	},
@@ -32,6 +19,5 @@
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
 	"viewScriptModule": "file:./view.js"
 }

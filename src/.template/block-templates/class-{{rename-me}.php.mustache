@@ -89,9 +89,7 @@ class {{capitalizedSnakeCase}} {
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
 			get_block_wrapper_attributes(array(
-				'data-wp-interactive' => wp_json_encode(array(
-					'namespace' => 'prc-block/{{slug}}'
-				)),
+				'data-wp-interactive' => 'prc-block/{{slug}}',
 				'data-wp-init' => 'callbacks.onInit',
 				'data-wp-watch--on-selection' => 'callbacks.onSelection',
 				'data-wp-class--is-processing' => 'state.isProcessing',
@@ -100,7 +98,7 @@ class {{capitalizedSnakeCase}} {
 		);
 	}
 	{{/isContextProviderVariant}}
-	{{#isDynamicVariant}}
+	{{#isDefaultVariant}}
 	/**
 	* Render the block
 	* @param array $attributes Block attributes
@@ -109,15 +107,12 @@ class {{capitalizedSnakeCase}} {
 	* @return string
 	*/
 	public function render_block_callback( $attributes, $content, $block ) {
-		$wrapper_attributes = get_block_wrapper_attributes();
-
-		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
-			$wrapper_attributes,
-			$content
-		);
+		$tag = new \WP_HTML_Tag_Processor( $content );
+		$tag->next_tag( 'div' );
+		$tag->set_attribute( 'data-wp-interactive', 'prc-block/{{slug}}' );
+		return $tag->get_updated_html();
 	}
-	{{/isDynamicVariant}}
+	{{/isDefaultVariant}}
 
 	/**
 	* Registers the block using the block manifest (if registered). Fails over to the metadata loaded from the `block.json` file.
@@ -133,16 +128,16 @@ class {{capitalizedSnakeCase}} {
 			'render_callback' => array( $this, 'render_block_callback' ),
 		]);
 		{{/isContextProviderVariant}}
-		{{#isDynamicVariant}}
+		{{#isDefaultVariant}}
 		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/{{slug}}', [
 			'render_callback' => array( $this, 'render_block_callback' ),
 		]);
-		{{/isDynamicVariant}}
-		{{^isDynamicVariant}}
+		{{/isDefaultVariant}}
+		{{^isDefaultVariant}}
 		{{^isContextProviderVariant}}
 		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/{{slug}}');
 		{{/isContextProviderVariant}}
-		{{/isDynamicVariant}}
+		{{/isDefaultVariant}}
 	}
 	{{/isCoreBlockVariant}}
 

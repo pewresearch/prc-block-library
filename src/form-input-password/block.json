@@ -5,52 +5,44 @@
 	"version": "1.0.0",
 	"title": "Password Field",
 	"category": "forms",
-	"description": "A block for password input in a form with optional confirmation field and analyzer.",
+	"description": "A block for password input in a form with optional confirmation field and strength analyzer.",
 	"allowedBlocks": [
 		"prc-block/form-input-text",
-		"prc-block/form-field"
+		"core/group"
 	],
 	"attributes": {
 		"includesConfirmation": {
 			"type": "boolean",
 			"default": false
-		},
-		"style": {
-			"type": "object",
-			"default": {
-				"spacing": {
-					"blockGap": "var:preset|spacing|10"
-				},
-				"typography": {
-					"lineHeight": "1"
-				}
-			}
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
 		"reusable": false,
-		"__experimentalBorder": {
-			"color": true,
-			"width": true
-		},
+		"interactivity": true,
 		"spacing": {
 			"blockGap": true,
 			"padding": true,
 			"margin": true
 		},
-		"typography": {
-			"fontSize": true,
-			"lineHeight": true,
-			"__experimentalFontFamily": true,
-			"__experimentalFontWeight": true
-		},
-		"interactivity": true
+		"layout": {
+			"type": "flex",
+			"default": {
+				"type": "flex",
+				"orientation": "vertical",
+				"verticalAlignment": "center",
+				"allowOrientation": true
+			},
+			"allowInheriting": false,
+			"allowVerticalAlignment": true,
+			"allowJustification": true,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true
+		}
 	},
 	"textdomain": "form-input-password",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
 	"viewScriptModule": "file:./view.js"
 }

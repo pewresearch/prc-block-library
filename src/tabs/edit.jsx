@@ -31,6 +31,7 @@ const TABS_TEMPLATE = [
 function Edit({
 	clientId,
 	attributes,
+	context,
 	setAttributes,
 	tabBackgroundColor,
 	setTabBackgroundColor,
@@ -45,6 +46,7 @@ function Edit({
 	tabHoverTextColor,
 	setTabHoverTextColor,
 }) {
+	console.log("Tabs Context:", context);
 	const {
 		customTabBackgroundColor,
 		customTabHoverColor,

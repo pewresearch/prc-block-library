@@ -40,13 +40,46 @@ class Form_Captcha {
 	}
 
 	/**
+	 * Render the block callback
+	 *
+	 * @param array  $attributes The attributes of the block.
+	 * @param string $content The content of the block.
+	 * @param object $block The block object.
+	 * @return string The rendered block.
+	 */
+	public function render_block_callback( $attributes, $content, $block ) {
+		wp_enqueue_script( 'cloudflare-turnstile' );
+
+		$target_namespace    = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : 'prc-block/form';
+		$target_store        = $target_namespace . '::';
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'data-wp-interactive'             => 'prc-block/form-captcha',
+				'data-wp-context'                 => wp_json_encode(
+					array(
+						'targetNamespace' => $target_namespace,
+					)
+				),
+				'data-wp-watch--onDisplayCaptcha' => 'callbacks.onDisplayCaptcha',
+				'data-wp-bind--hidden'            => $target_store . 'context.captchaHidden',
+			)
+		);
+
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			$block_wrapper_attrs,
+			'<div class="wp-block-prc-block-form-captcha__captcha"></div>',
+		);
+	}
+
+	/**
 	 * Register the cloudflare turnstile script
 	 *
 	 * @hook wp_enqueue_scripts
 	 * @return void
 	 */
 	public function register_turnstile_script() {
-		// If no site key is defined, don't register the script
+		// If no site key is defined, don't register the script.
 		if ( ! defined( 'PRC_PLATFORM_TURNSTILE_SITE_KEY' ) ) {
 			return;
 		}
@@ -78,6 +111,11 @@ class Form_Captcha {
 	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
 	 */
 	public function block_init() {
-		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/form-captcha' );
+		register_block_type_from_metadata(
+			PRC_BLOCK_LIBRARY_DIR . '/build/form-captcha',
+			array(
+				'render_callback' => array( $this, 'render_block_callback' ),
+			)
+		);
 	}
 }

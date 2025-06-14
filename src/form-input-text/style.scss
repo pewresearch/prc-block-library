@@ -6,29 +6,84 @@
  */
 
 .wp-block-prc-block-form-input-text {
-	--border-color: rgba(0, 0, 0, 0.2);
 	--wp--custom--border-radius: 3px;
-
-	flex-grow: 1;
-	text-align: left;
-	vertical-align: top;
-	-webkit-appearance: none;
-	padding: 9px 13px; // cribbed from core/button styling.
-	border: 1px solid transparent;
-	border-color: var(--border-color);
-	border-radius: var(--wp--custom--border-radius);
-	box-shadow: inset 0 0 0 0 transparent;
 	box-sizing: border-box;
-	// width: 100%;
-	margin: 0;
-	outline: none;
-	transition: color .1s ease,border-color .1s ease;
-	&[required]:after {
-		content: "*";
-		color: red;
-		font-size: 1.1em;
-		position: absolute;
-		top: 5px;
-		right: 5px;
+
+	label,
+	input,
+	input::placeholder {
+		font-size: 1em;
+	}
+
+	label {
+		cursor: pointer;
+	}
+
+	input {
+		text-align: left;
+		vertical-align: top;
+		outline: none;
+		transition: color .1s ease,border-color .1s ease;
+		margin: 0;
+		padding: 9px 13px;
+		border: 1px solid transparent;
+		border-color: rgba(0, 0, 0, 0.2);
+		border-radius: var(--wp--custom--border-radius);
+		box-shadow: inset 0 0 0 0 transparent;
+		flex-grow: 1;
+		font-size: inherit;
+		&:focus {
+			outline: none !important;
+			box-shadow: none !important;
+		}
+	}
+
+	&:where(:has(input[required])) {
+		label:after {
+			content: "*";
+			color: red;
+			margin-left: 5px;
+		}
+		&:not(:has(label)):after {
+			content: "*";
+			color: red;
+			margin-left: 5px;
+		}
+	}
+
+	&.is-success > input {
+		border-color: var(--wp--preset--color--ui-success) !important;
+	}
+
+	&.is-error > input {
+		border-color: var(--wp--preset--color--ui-error) !important;
+	}
+
+	&.is-style-inline-label {
+		display: flex;
+		gap: 10px;
+		padding: 1em;
+		&:not(.has-border-color) {
+			border: 1px solid transparent;
+			border-color: rgba(0, 0, 0, 0.2);
+			border-radius: var(--wp--custom--border-radius);
+		}
+		label {
+			display: inline-block;
+			margin-bottom: 0;
+		}
+		input {
+			background-color: transparent !important;
+			border: none;
+			border-radius: 0;
+			padding: 0;
+			margin: 0;
+			box-shadow: none;
+			flex-grow: 0;
+			width: auto;
+			&:focus {
+				border-color: transparent !important;
+			}
+		}
 	}
 }

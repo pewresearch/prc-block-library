@@ -20,6 +20,14 @@
 	}
 }
 
+.wp-block-button {
+	&.wp-block-button__width-100 {
+		.wp-element-button {
+			width: 100%;
+		}
+	}
+}
+
 .wp-element-button {
 	&[hidden] {
 		display: none;

@@ -25,7 +25,7 @@
 	container-type: inline-size;
 	container-name: promo;
 
-	mark {
+	mark:not([class*='wp-block-prc-block-']) {
 		background: transparent !important;
 	}
 

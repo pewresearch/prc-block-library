@@ -41,6 +41,8 @@ export default function Edit( {
 	const blockProps = useBlockProps();
 
 	return (
-		<div { ...blockProps }><Icon width={24}/></div>
+		<div { ...blockProps }>
+			<Icon width={24}/>
+		</div>
 	);
 }

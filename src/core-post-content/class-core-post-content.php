@@ -79,9 +79,11 @@ class Core_Post_Content {
 	}
 
 	/**
-	 * Render the core/post-content block
+	 * Render the core/post-content block.
+	 * This is a simple hack to get post-content to only render the
+	 * image, video, or file on attachment template pages.
 	 *
-	 * Add image to post content on attachment template pages.
+	 * TODO: Commit a core Gutenberg method to handle this.
 	 *
 	 * @hook render_block
 	 * @param string $block_content Block content.
@@ -95,11 +97,11 @@ class Core_Post_Content {
 
 		wp_enqueue_style( $this->view_style_handle );
 
-		// Simple hack to add the image to an attachment page
+		// Simple hack to add the image to an attachment page.
 		if ( is_attachment() ) {
 			$attachment_id = get_the_ID();
 			$mime_type     = get_post_mime_type( $attachment_id );
-			// check if mime_type is an image or video
+			// Check if mime_type is an image or video.
 			$is_video = strpos( $mime_type, 'video' ) !== false;
 			$is_image = strpos( $mime_type, 'image' ) !== false;
 			$is_file  = strpos( $mime_type, 'application' ) !== false;
@@ -126,10 +128,8 @@ class Core_Post_Content {
 						$image_title
 					);
 				}
-			} elseif ( $is_file ) {
-				$block_content = 'File';
 			} else {
-				$block_content = '<!--- Unsupported mime type --->';
+				$block_content = '<p>File type (' . $mime_type . ') not yet supported.</p>';
 			}
 		}
 

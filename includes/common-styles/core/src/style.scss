@@ -1,7 +1,7 @@
 /**
 Gutenberg Responsive Breaks
 **/
-@import '../../_gutenberg-responsive-breaks.scss';
+@use '../../_gutenberg-responsive-breaks.scss' as *;
 
 // Give all blocks and the site blocks a border box model.
 .wp-site-blocks *,
@@ -31,8 +31,23 @@ Gutenberg Responsive Breaks
 			justify-content: space-between;
 		}
 	}
-}
 
+	/**
+	* Responsive layout direction
+	**/
+	.is-horizontal__on-mobile__vertical.is-horizontal,
+	.is-horizontal__on-mobile__vertical.is-layout-flex:not(.is-vertical) {
+		@media only screen and (max-width: $break-medium) {
+			flex-direction: column !important;
+		}
+	}
+
+	.is-vertical__on-mobile__horizontal.is-vertical {
+		@media only screen and (max-width: $break-medium) {
+			flex-direction: row !important;
+		}
+	}
+}
 .clearfix {
 	&::after {
 		content: "";
@@ -43,4 +58,20 @@ Gutenberg Responsive Breaks
 
 .no-border {
 	border: none !important;
+}
+
+.prc-block-library--core-helper-list {
+	li {
+		padding: 5px;
+		border-bottom: 1px solid #e0e0e0;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		&:last-child {
+			border-bottom: none;
+		}
+		// &:nth-child(even) {
+		// 	background-color: #f0f0f0;
+		// }
+	}
 }

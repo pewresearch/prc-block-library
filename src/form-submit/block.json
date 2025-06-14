@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/form-submit",
+	"title": "Form Submit Actions",
+	"category": "design",
+	"icon": "button",
+	"ancestor": [ "prc-block/form" ],
+	"allowedBlocks": [ "core/button", "prc-block/form-captcha" ],
+	"description": "Submission actions for forms. Includes submit button, captcha, and optional response message.",
+	"keywords": [ "submit", "button", "form" ],
+	"supports": {
+		"anchor": true,
+		"spacing": {
+			"margin": ["top", "bottom"],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"usesContext": [ "form/displayMessage" ],
+	"textdomain": "form-submit",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

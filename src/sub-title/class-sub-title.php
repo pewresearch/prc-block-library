@@ -79,7 +79,8 @@ class Sub_Title {
 	 * @return string The block content.
 	 */
 	public function remove_unneeded_sub_title_blocks( $block_content, $block, $wp_block ) {
-		if ( is_singular( 'post' ) && $this->render_counts > 2 ) {
+		do_action( 'qm/debug', 'Counts: ' . $this->render_counts );
+		if ( is_singular( 'post' ) && $this->render_counts >= 2 ) {
 			$block_content = preg_replace(
 				'/<h2[^>]*class="[^"]*\bwp-block-prc-block-subtitle\b[^"]*"[^>]*>.*?<\/h2>/s',
 				'<!-- Sub Title Was Here -->',

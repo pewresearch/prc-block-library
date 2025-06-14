@@ -11,6 +11,7 @@ import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment } from '@wordpress/element';
 import { withColors } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal Dependencies

@@ -1,0 +1,6 @@
+.wp-block-prc-block-form-submit {
+	// Theres no reason to show the captcha block interface in the editor, it' messy and there are no settings.
+	.wp-block-prc-block-form-captcha {
+		display: none !important;
+	}
+}

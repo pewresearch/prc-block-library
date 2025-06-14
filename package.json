@@ -5,7 +5,6 @@
   "license": "GPL-2.0-or-later",
   "scripts": {
     "build": "node bin/build-block.js",
-    "build:block": "node bin/build-block.js",
     "build:library": "wp-scripts build --webpack-copy-php; wp-scripts build --experimental-modules --webpack-copy-php; wp-scripts build-blocks-manifest",
     "build:manifest": "wp-scripts build-blocks-manifest",
     "start:library": "wp-scripts build-blocks-manifest; wp-scripts start --experimental-modules --webpack-copy-php;",
@@ -24,6 +23,7 @@
     "@wordpress/e2e-test-utils-playwright": "^1.22.0",
     "@wordpress/scripts": "^30.15.0",
     "axios": "^1.7.7",
+    "chalk": "4.1.2",
     "fs-extra": "^11.2.0",
     "glob": "^11.0.0",
     "path": "^0.12.7",

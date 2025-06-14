@@ -1,8 +1,26 @@
+/* eslint-disable no-restricted-imports */
+/**
+ * External Dependencies
+ */
+import clsx from 'clsx';
+
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
-import { useBlockProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { useMemo, useState, useEffect } from '@wordpress/element';
+import {
+	store as blockEditorStore,
+	useBlockProps,
+	RichText,
+	getColorClassName,
+	__experimentalUseBorderProps as useBorderProps,
+	__experimentalUseColorProps as useColorProps,
+	__experimentalGetSpacingClassesAndStyles as useSpacingProps,
+	__experimentalGetShadowClassesAndStyles as useShadowProps,
+	__experimentalGetElementClassName,
+	getTypographyClassesAndStyles as useTypographyProps,
+} from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -15,31 +33,106 @@ import Controls from './controls';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
+ * @param {Object}   props                  Properties passed to the function.
+ * @param {Object}   props.attributes       Available block attributes.
  * @param            props.context
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param            props.clientId
+ * @param            props.isSelected
+ * @param            props.checkboxColor
+ * @param            props.setCheckboxColor
+ * @param {Function} props.setAttributes    Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, setAttributes, context }) {
-	const isRequired = context?.['prc-block/form-field-required'];
-	const { placeholder, type } = attributes;
+export default function Edit({
+	attributes,
+	setAttributes,
+	context,
+	clientId,
+	isSelected,
+	insertBlocksAfter,
+	__unstableLayoutClassNames: layoutClassNames,
+}) {
+	const { anchor, label, placeholder, required, type, value, metadata, displayLabel, className } = attributes;
+	const { name } = metadata || {};
+
+	const isInlineLabel = useMemo(() => {
+		console.log('isInlineLabel', className, className?.includes('is-style-inline-label'));
+		return className?.includes('is-style-inline-label');
+	}, [className]);
+
+	const borderProps = useBorderProps( attributes );
+	const colorProps = useColorProps( attributes );
+
+	const supportedClassNames = useMemo(() => {
+		return clsx({
+			...colorProps.className,
+			...borderProps.className,
+		});
+	}, [colorProps.className, borderProps.className]);
+
+	const supportedStyles = useMemo(() => {
+		return {
+			...colorProps.style,
+			...borderProps.style,
+		};
+	}, [colorProps.style, borderProps.style]);
+
+	const inputClassNames = useMemo(() => {
+		return !isInlineLabel ? supportedClassNames : [];
+	}, [isInlineLabel, supportedClassNames]);
+
+	const inputStyles = useMemo(() => {
+		return !isInlineLabel ? supportedStyles : {};
+	}, [isInlineLabel, supportedStyles]);
+
+	const blockClassNames = useMemo(() => {
+		return isInlineLabel ? [layoutClassNames, ...supportedClassNames] : layoutClassNames;
+	}, [layoutClassNames, supportedClassNames, isInlineLabel]);
+
+	const blockStyles = useMemo(() => {
+		return isInlineLabel ? supportedStyles : {};
+	}, [isInlineLabel, supportedStyles]);
+
 	const blockProps = useBlockProps({
-		placeholder,
-		onChange: (event) => event.preventDefault(),
-		type,
-		required: isRequired,
+		className: clsx(blockClassNames),
+		style: blockStyles,
 	});
 
 	return (
-		<Fragment>
-			<Controls {...{ attributes, setAttributes }} />
-			{'textarea' !== type ? (
-				<input {...blockProps} />
-			) : (
-				<textarea {...blockProps} />
-			)}
-		</Fragment>
+		<>
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+					context: false,
+					clientId,
+				}}
+			/>
+			<div {...blockProps}>
+				{displayLabel && <RichText
+					tagName="label"
+					placeholder={__('Label...', 'prc-block-library')}
+					value={label}
+					onChange={(newLabel) => {
+						const camelCaseLabel = newLabel.replace(/<[^>]*>/g, '').replace(/(?:^| )(\w)/g, (_, letter) => letter.toUpperCase()).replace(/^./, str => str.toLowerCase());
+						setAttributes({ label: newLabel, metadata: { ...attributes.metadata, name: camelCaseLabel } });
+					}}
+				/>}
+				<input
+					className={clsx(inputClassNames)}
+					style={inputStyles}
+					type={type ?? 'text'}
+					id={anchor}
+					name={name}
+					required={required}
+					placeholder={placeholder}
+					value={value}
+					onChange={(event) => {
+						event.preventDefault();
+					}}
+				/>
+			</div>
+		</>
 	);
 }

@@ -11,6 +11,12 @@
 		}
 	}
 
+	@container action (max-width: 362px) {
+		.wp-block-prc-block-form-submit {
+			flex-basis: 100%
+		}
+	}
+
 	input {
 		margin: 0!important;
 	}
@@ -43,29 +49,6 @@
 		&.is-disabled {
 			background-color: gray!important;
 			color: white!important;
-		}
-	}
-
-	&.wp-block {
-		&:not(.is-selected) {
-			.wp-block-prc-block-form-captcha,
-			.wp-block-prc-block-form-input-message {
-				display: none;
-			}
-		}
-		&.is-selected {
-			.wp-block-prc-block-form-captcha,
-			.wp-block-prc-block-form-input-message {
-				display: block;
-			}
-		}
-		.wp-block-prc-block-form-captcha {
-			position: absolute;
-			opacity: 0.5;
-			right: 50%;
-			top: 25%;
-			z-index: 1;
-			background: white;
 		}
 	}
 }

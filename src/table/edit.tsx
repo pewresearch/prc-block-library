@@ -61,6 +61,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		// @ts-ignore: `insertBlocksAfter` prop is not exist at @types
 		insertBlocksAfter,
 		clientId,
+		context,
 	} = props;
 	const {
 		contentJustification,
@@ -69,6 +70,8 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		captionSide,
 		tableTitleStyles,
 	} = attributes;
+
+	console.log('PowerTable context', context);
 
 	// Manage cell(s) and line(row) selection.
 	const [selectedCells, setSelectedCells] =

@@ -158,24 +158,24 @@ class Logo {
 		?>
 		<div class="wp-block-prc-block-logo__dimensions" style="max-width: <?php echo $width; ?>;">
 			<div class="wp-block-prc-block-logo__inner">
-				<a class="wp-block-prc-block-logo__inner__logo" href="<?php echo esc_url( $site_url ); ?>" alt="Return to Home" name="Pew Research Center Logo">
+				<div class="wp-block-prc-block-logo__inner__logo" alt="Return to Home" name="Pew Research Center Logo">
 					<?php
-					echo $logo;
-					echo $logo_white;
+					echo str_replace( '%site_url%', $site_url, $logo ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo str_replace( '%site_url%', $site_url, $logo_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
-				</a>
-				<a class="wp-block-prc-block-logo__inner__logo-alt" href="<?php echo esc_url( $site_url ); ?>" alt="Return to Home" name="Pew Research Center Logo">
+				</div>
+				<div class="wp-block-prc-block-logo__inner__logo-alt" alt="Return to Home" name="Pew Research Center Logo">
 					<?php
-					echo $logo_alt;
-					echo $logo_alt_white;
+					echo str_replace( '%site_url%', $site_url, $logo_alt ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo str_replace( '%site_url%', $site_url, $logo_alt_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
-				</a>
-				<a class="wp-block-prc-block-logo__inner__decoded" href="<?php echo esc_url( $site_url ); ?>/decoded" alt="Return to Home" name="Pew Research Center Logo">
+				</div>
+				<div class="wp-block-prc-block-logo__inner__decoded" alt="Return to Home" name="Pew Research Center Logo">
 					<?php
-					echo $decoded;
-					echo $decoded_white;
+					echo str_replace( '%site_url%', $site_url, $decoded ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo str_replace( '%site_url%', $site_url, $decoded_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
-				</a>
+				</div>
 			</div>
 				</div>
 		<?php

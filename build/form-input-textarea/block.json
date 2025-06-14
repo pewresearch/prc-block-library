@@ -1,0 +1,160 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/form-input-textarea",
+  "version": "1.0.0",
+  "title": "Input Textarea Field",
+  "description": "A primitive <textarea> element.",
+  "keywords": [
+    "textarea",
+    "form",
+    "input",
+    "field"
+  ],
+  "category": "forms",
+  "attributes": {
+    "displayLabel": {
+      "type": "boolean",
+      "default": true
+    },
+    "label": {
+      "type": "string",
+      "source": "html",
+      "selector": "label"
+    },
+    "placeholder": {
+      "type": "string",
+      "default": "A hint or example...",
+      "source": "attribute",
+      "selector": "textarea",
+      "attribute": "placeholder"
+    },
+    "value": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "textarea",
+      "attribute": "value"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
+    },
+    "maxLength": {
+      "type": "number",
+      "source": "attribute",
+      "selector": "textarea",
+      "attribute": "maxlength",
+      "default": 1000
+    },
+    "minLength": {
+      "type": "number",
+      "source": "attribute",
+      "selector": "textarea",
+      "attribute": "minlength",
+      "default": 10
+    },
+    "rows": {
+      "type": "number",
+      "source": "attribute",
+      "selector": "textarea",
+      "attribute": "rows",
+      "default": 4
+    },
+    "cols": {
+      "type": "number",
+      "source": "attribute",
+      "selector": "textarea",
+      "attribute": "cols",
+      "default": 20
+    },
+    "wrap": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "textarea",
+      "attribute": "wrap",
+      "enum": [
+        "hard",
+        "soft",
+        "off"
+      ]
+    }
+  },
+  "example": {
+    "viewportWidth": 320,
+    "attributes": {
+      "label": "Message",
+      "placeholder": "Enter your message",
+      "required": true
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "reusable": false,
+    "interactivity": true,
+    "layout": {
+      "type": "flex",
+      "default": {
+        "type": "flex",
+        "orientation": "vertical",
+        "verticalAlignment": "center",
+        "allowOrientation": true
+      },
+      "allowInheriting": false,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true
+    },
+    "spacing": {
+      "blockGap": true,
+      "padding": true,
+      "margin": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "width": true,
+      "radius": true,
+      "__experimentalSkipSerialization": true
+    },
+    "color": {
+      "background": true,
+      "text": true,
+      "enableContrastChecker": true,
+      "__experimentalSkipSerialization": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "selectors": {
+      "root": ".wp-block-prc-block-form-input-textarea",
+      "color": ".wp-block-prc-block-form-input-textarea > textarea",
+      "border": ".wp-block-prc-block-form-input-textarea > textarea"
+    }
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "inline-label",
+      "label": "Inline Label"
+    }
+  ],
+  "textdomain": "form-input-textarea",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css"
+}

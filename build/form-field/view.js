@@ -1,2 +1,0 @@
-import*as e from"@wordpress/interactivity";var t={d:(e,r)=>{for(var o in r)t.o(r,o)&&!t.o(e,o)&&Object.defineProperty(e,o,{enumerable:!0,get:r[o]})},o:(e,t)=>Object.prototype.hasOwnProperty.call(e,t)};const r=(o={getElement:()=>e.getElement,store:()=>e.store},n={},t.d(n,o),n);var o,n;(0,r.store)("prc-block/form-field",{actions:{onLabelClick:()=>{const{ref:e}=(0,r.getElement)(),t=e?.parentElement.querySelector("input");t&&t.focus()}}});
-//# sourceMappingURL=view.js.map

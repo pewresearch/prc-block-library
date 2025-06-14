@@ -4,5 +4,5 @@
 import { Icon } from '@prc/icons';
 
 export default function () {
-	return <Icon icon="symbols" library="light" />;
+	return <Icon icon="shield-exclamation" library="light" />;
 }

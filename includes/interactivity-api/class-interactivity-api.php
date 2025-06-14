@@ -74,14 +74,6 @@ class Interactivity_API {
 			return $metadata;
 		}
 
-		// Should this block be interactive?
-		if ( ! array_key_exists( 'isInteractive', $metadata['attributes'] ) ) {
-			$metadata['attributes']['isInteractive'] = array(
-				'type'    => 'boolean',
-				'default' => false,
-			);
-		}
-
 		// The namespace that this block will use to interact with the interactivity api.
 		if ( ! array_key_exists( 'interactiveNamespace', $metadata['attributes'] ) ) {
 			$metadata['attributes']['interactiveNamespace'] = array(

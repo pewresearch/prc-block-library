@@ -230,13 +230,15 @@ class Plugin {
 		new Flip_Card_Controller( $this->get_loader() );
 		new Flip_Card_Side( $this->get_loader() );
 		new Footnotes( $this->get_loader() );
+		new Form( $this->get_loader() );
 		new Form_Captcha( $this->get_loader() );
-		new Form_Field( $this->get_loader() );
 		new Form_Input_Checkbox( $this->get_loader() );
 		new Form_Input_Select( $this->get_loader() );
-		new Form_Input_Message( $this->get_loader() );
 		new Form_Input_Password( $this->get_loader() );
 		new Form_Input_Text( $this->get_loader() );
+		new Form_Input_Textarea( $this->get_loader() );
+		new Form_Message( $this->get_loader() );
+		new Form_Submit( $this->get_loader() );
 		new Grid_Column( $this->get_loader() );
 		new Grid_Controller( $this->get_loader() );
 		new Icon( $this->get_loader() );
@@ -257,7 +259,9 @@ class Plugin {
 		new Promo_Rotator( $this->get_loader() );
 		new Responsive_Container_Controller( $this->get_loader() );
 		new Responsive_Container_View( $this->get_loader() );
-		// new Render_To_Region( $this->get_loader() );
+		/**
+		 * TODO: new Render_To_Region( $this->get_loader() );
+		 */
 		new Roper_DB_Search( $this->get_loader() );
 		new Show_More( $this->get_loader() );
 		new Social_Share_Sheet( $this->get_loader() );
@@ -277,6 +281,7 @@ class Plugin {
 		new Taxonomy_Search( $this->get_loader() );
 		new Timeline( $this->get_loader() );
 		new Timeline_Slide( $this->get_loader() );
+		new Tokens_List( $this->get_loader() );
 		new Version( $this->get_loader() );
 		new Yoast_SEO_Breadcrumbs( $this->get_loader() );
 	}
@@ -397,6 +402,7 @@ class Plugin {
 			),
 			$allowed_tags['a']
 		);
+
 		return $allowed_tags;
 	}
 

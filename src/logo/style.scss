@@ -24,6 +24,10 @@ $standard_logo_minimum_width: 360px;
 	margin-left: 0px !important;
 	margin-right: 0px !important;
 
+	a {
+		width: 100%;
+	}
+
 	svg,
 	img {
 		width: 100%;
@@ -43,6 +47,9 @@ $standard_logo_minimum_width: 360px;
 		justify-content: flex-end;
 	}
 
+	.wp-block-prc-block-logo__inner > div {
+		flex-direction: column;
+	}
 	.wp-block-prc-block-logo__inner__logo {
 		display: flex;
 	}

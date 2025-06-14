@@ -36,8 +36,11 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 	});
 
 	const onRemove = (item) => {
+		const formInnerBlocks = innerBlocks.find(
+			(block) => block.name === 'prc-block/form'
+		)?.innerBlocks || [];
 		const matchingBlock = findMatchingCheckboxBlockField(
-			innerBlocks,
+			formInnerBlocks,
 			item.value
 		);
 		if (matchingBlock) {
@@ -58,8 +61,6 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 			},
 			label: item.label,
 			type: 'checkbox',
-			isInteractive: true,
-			interactiveNamespace: 'prc-block/mailchimp-select',
 			metadata: {
 				name: item.label
 					.replace(/[^a-z0-9\s]/gi, '')
@@ -67,7 +68,10 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 					.replace(/\s/g, '_'),
 			},
 		});
-		insertBlock(inputBlock, false, clientId, false);
+		const formBlockClientId = innerBlocks.find(
+			(block) => block.name === 'prc-block/form'
+		)?.clientId;
+		insertBlock(inputBlock, false, formBlockClientId, false);
 	};
 
 	const onUpdate = (updatedSelected) => {

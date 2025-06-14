@@ -3,16 +3,20 @@
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
-store('prc-block/form-captcha', {
+const { state, actions } = store('prc-block/form-captcha', {
 	callbacks: {
 		onDisplayCaptcha: () => {
 			const context = getContext();
 			const { targetNamespace } = context;
 			const targetContext = getContext(targetNamespace);
-			const isHidden = targetContext.captchaHidden;
+			if (!targetContext) {
+				return;
+			}
+
+			const isHidden = targetContext?.captchaHidden;
 			// When we reach the point of the form where the captcha should be displayed, render it.
 			if (true === isHidden) {
-				// We need a way to "unmount" the captcha when the form is submitted.
+				// "Unmount" the captcha when the form is submitted.
 				return;
 			}
 
@@ -33,6 +37,7 @@ store('prc-block/form-captcha', {
 						callback: (token) => {
 							console.log(`Challenge Success ${token}`);
 							targetContext.captchaToken = token;
+							targetContext.captchaPassed = true;
 						},
 					});
 				});

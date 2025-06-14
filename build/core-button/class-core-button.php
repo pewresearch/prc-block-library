@@ -64,6 +64,7 @@ class Core_Button {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'register_assets' );
+			$loader->add_action( 'init', $this, 'register_core_button_block_styles' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
@@ -186,6 +187,102 @@ class Core_Button {
 	}
 
 	/**
+	 * Registers additional icon styles for core/button.
+	 */
+	public function register_core_button_block_styles() {
+		/**
+		 * Internal function to generate a style template for a button.
+		 *
+		 * @param string $style_name The style name.
+		 * @param string $icon The icon name.
+		 * @param string $icon_color The icon color.
+		 * @return string The style template.
+		 */
+		function style_template( $style_name, $icon, $icon_library = 'solid', $icon_color = 'black' ) {
+			return wp_sprintf(
+				'.wp-block-button.is-style-%1$s { display: flex; align-items: center; } .wp-block-button.is-style-%1$s > .wp-element-button { display: flex; align-items: center; justify-content: space-between; text-align: left; } .wp-block-button.is-style-%1$s > .wp-element-button:after { content: ""; display: inline-block; margin-left: 0.5em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; flex-basis: 0.875em; flex-grow: 0; flex-shrink: 0; }',
+				$style_name,
+				\PRC\Platform\Icons\get_icon_as_data_uri( $icon_library, $icon, $icon_color ),
+			);
+		}
+
+		register_block_style(
+			'core/button',
+			array(
+				'name'         => 'icon__arrow-right-long',
+				'label'        => 'Arrow Right Icon',
+				'inline_style' => style_template(
+					'icon__arrow-right-long',
+					'arrow-right-long',
+				),
+			)
+		);
+
+		register_block_style(
+			'core/button',
+			array(
+				'name'         => 'icon__up-right-and-down-left-from-center',
+				'label'        => 'Expand Icon',
+				'inline_style' => style_template(
+					'icon__up-right-and-down-left-from-center',
+					'up-right-and-down-left-from-center'
+				),
+			)
+		);
+
+		register_block_style(
+			'core/button',
+			array(
+				'name'         => 'icon__magnifying-glass',
+				'label'        => 'Magnifying Glass Icon',
+				'inline_style' => style_template(
+					'icon__magnifying-glass',
+					'magnifying-glass',
+					'solid',
+					'#346EAD'
+				),
+			)
+		);
+
+		register_block_style(
+			'core/button',
+			array(
+				'name'         => 'icon__clear',
+				'label'        => 'Clear Icon',
+				'inline_style' => style_template(
+					'icon__clear',
+					'circle-x',
+					'light',
+				),
+			)
+		);
+
+		register_block_style(
+			'core/button',
+			array(
+				'name'         => 'icon__clear__filled',
+				'label'        => 'Clear Icon Filled',
+				'inline_style' => style_template(
+					'icon__clear__filled',
+					'circle-x',
+					'solid',
+				),
+			)
+		);
+	}
+
+	/**
+	 * Get the button text
+	 *
+	 * @param string $block_content Block content.
+	 * @return string
+	 */
+	public static function get_button_text( $block_content ) {
+		preg_match( '/<(a|button)[^>]*>(.*?)<\/(a|button)>/', $block_content, $matches );
+		return $matches[2];
+	}
+
+	/**
 	 * Adds @wordpress/interactivity api handlers for core/button block.
 	 *
 	 * @uses:
@@ -209,15 +306,40 @@ class Core_Button {
 			return $block_content;
 		}
 
+		$button_text = self::get_button_text( $block_content );
+
 		$attributes = $block['attrs'];
+
+		$target_namespace = array_key_exists( 'interactiveNamespace', $block['attrs'] ) ? $block['attrs']['interactiveNamespace'] : null;
+		$has_subsumption  = array_key_exists( 'interactiveSubsumption', $attributes ) ? $attributes['interactiveSubsumption'] : false;
 
 		$tag_processor = new WP_HTML_Tag_Processor( $block_content );
 		$tag_processor->next_tag( 'a' );
 
-		$is_interactive   = is_array( $block['attrs'] ) && array_key_exists( 'isInteractive', $block['attrs'] ) ? $block['attrs']['isInteractive'] : false;
-		$target_namespace = array_key_exists( 'interactiveNamespace', $block['attrs'] ) ? $block['attrs']['interactiveNamespace'] : null;
-
 		$metadata = array_key_exists( 'metadata', $block['attrs'] ) ? $block['attrs']['metadata'] : null;
+
+		$input_name = array_key_exists( 'metadata', $block['attrs'] ) && array_key_exists( 'name', $block['attrs']['metadata'] ) ? $block['attrs']['metadata']['name'] : null;
+
+		// Generate a unique ID for the button if one is not provided either by anchor or input name.
+		$button_id = array_key_exists( 'anchor', $block['attrs'] ) ? $block['attrs']['anchor'] : null;
+		if ( null === $button_id && null !== $input_name ) {
+			$button_id = sanitize_title( $input_name );
+		}
+		if ( null === $button_id ) {
+			$button_id = wp_unique_id( 'core-button-' );
+		}
+
+		$tag_processor->set_attribute( 'id', $button_id );
+		$tag_processor->set_attribute( 'data-core-button-original-text', $button_text );
+
+		/**
+		 * BLOCK BINDINGS:
+		 *
+		 * - url
+		 * - source
+		 * - valueToFetch
+		 * - args
+		 */
 		if ( null !== $metadata ) {
 			$bindings = array_key_exists( 'bindings', $metadata ) ? $metadata['bindings'] : null;
 			if ( null !== $bindings ) {
@@ -236,17 +358,20 @@ class Core_Button {
 			}
 		}
 
-		$has_subsumption = array_key_exists( 'interactiveSubsumption', $attributes ) ? $attributes['interactiveSubsumption'] : false;
-
+		/**
+		 * INTERACTIVITY API DIRECTIVES:
+		 * - data-wp-interactive
+		 * - data-wp-on--click
+		 * - data-wp-text
+		 * - data-wp-class--is-error
+		 * - data-wp-class--is-success
+		 * - data-wp-class--is-processing
+		 * - data-wp-class--is-disabled
+		 *
+		 * Note: These are generalized directives available to any consumer. For more specific form related directives, see the form-submit block.
+		 */
 		if ( $has_subsumption ) {
 			$tag_processor->set_attribute( 'data-wp-interactive', $target_namespace );
-			preg_match( '/<a[^>]*>(.*?)<\/a>/', $block_content, $matches );
-			$button_text = $matches[1];
-
-			$input_name = array_key_exists( 'metadata', $block['attrs'] ) && array_key_exists( 'name', $block['attrs']['metadata'] ) ? $block['attrs']['metadata']['name'] : null;
-
-			$button_id = null !== $input_name ? sanitize_title( $input_name ) : wp_unique_id( 'core-button-' );
-			$tag_processor->set_attribute( 'id', $button_id );
 			$tag_processor->set_attribute( 'data-wp-text', 'state.getButtonText' );
 			$tag_processor->set_attribute( 'data-wp-on--click', 'actions.onButtonClick' );
 
@@ -254,14 +379,7 @@ class Core_Button {
 		}
 
 
-		if ( $is_interactive && null !== $target_namespace ) {
-			preg_match( '/<a[^>]*>(.*?)<\/a>/', $block_content, $matches );
-			$button_text = $matches[1];
-
-			$input_name = array_key_exists( 'metadata', $block['attrs'] ) && array_key_exists( 'name', $block['attrs']['metadata'] ) ? $block['attrs']['metadata']['name'] : null;
-
-			$button_id = null !== $input_name ? sanitize_title( $input_name ) : wp_unique_id( 'core-button-' );
-
+		if ( null !== $target_namespace ) {
 			wp_interactivity_state(
 				$target_namespace,
 				array(
@@ -277,18 +395,12 @@ class Core_Button {
 				)
 			);
 
-			// Re-set the ID attribute to the button_id.
+			// Re-set the ID attribute to the newly generated button_id.
 			$tag_processor->set_attribute( 'id', $button_id );
-
-			$has_subsumption = array_key_exists( 'interactiveSubsumption', $attributes ) ? $attributes['interactiveSubsumption'] : false;
 
 			$tag_processor->set_attribute(
 				'data-wp-interactive',
-				wp_json_encode(
-					array(
-						'namespace' => $target_namespace,
-					)
-				)
+				$target_namespace
 			);
 
 			// Action Directives.
