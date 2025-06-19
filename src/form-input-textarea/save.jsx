@@ -35,6 +35,7 @@ export default function Save( { attributes } ) {
 		rows: rows,
 		cols: cols,
 		wrap: wrap,
+		required: required,
 		className: clsx(
 			colorProps.className,
 			{
@@ -46,9 +47,6 @@ export default function Save( { attributes } ) {
 			...(!isInlineLabel ? borderProps.style : {}),
 		},
 	};
-	if ( required ) {
-		textareaProps.required = true;
-	}
 	const useLabel = true === displayLabel && label && label.length > 0;
 
 	const blockProps = useBlockProps.save({

@@ -18,7 +18,7 @@ export default [
 			className: 'is-style-arrows-navigation',
 			orientation: 'horizontal',
 		},
-		scope: ['inserter'],
+		scope: ['inserter', 'block'],
 		isDefault: true,
 		isActive: (blockAttributes, variationAttributes) =>
 			blockAttributes.orientation === variationAttributes.orientation,
@@ -32,7 +32,7 @@ export default [
 			orientation: 'vertical',
 			className: 'is-style-dots-navigation',
 		},
-		scope: [],
+		scope: ['inserter', 'block'],
 		isActive: (blockAttributes, variationAttributes) =>
 			blockAttributes.orientation === variationAttributes.orientation,
 	},

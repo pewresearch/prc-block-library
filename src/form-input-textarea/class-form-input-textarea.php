@@ -66,9 +66,9 @@ class Form_Input_Textarea {
 		}
 		$tag->remove_attribute( 'id' );
 
-
-		if ( $tag->next_tag( 'label' ) ) {
+		if ( true === $attributes['displayLabel'] && $tag->next_tag( 'label' ) ) {
 			$tag->set_attribute( 'data-wp-on--click', $target_store . 'actions.onLabelClick' );
+			$tag->set_attribute( 'for', $block_id );
 		}
 
 		$input_name        = $attributes['name'] ?? '';

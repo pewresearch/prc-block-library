@@ -6,7 +6,7 @@
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
-		"build": "wp-scripts build",
+		"build": "wp-scripts build src/index.js src/view.js",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"packages-update": "wp-scripts packages-update",

@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('jabber', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-polyfill'), 'version' => '415e30d8a0645e74704a');
+<?php return array('dependencies' => array('jabber', 'wp-blocks', 'wp-data', 'wp-i18n', 'wp-notices', 'wp-polyfill'), 'version' => 'e89f06172d1fca977535');

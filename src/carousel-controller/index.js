@@ -43,23 +43,3 @@ const settings = {
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
 registerBlockType(name, { ...metadata, ...settings });
-
-registerBlockVariation('core/cover', {
-	name: 'cover-carousel-vertical',
-	title: __('Carousel (Cover): Vertical'),
-	description: __('A vertical carousel wrapped in a cover block.'),
-	icon: VerticalIcon(),
-	attributes: {
-		dimRatio: 50,
-		overlayColor: 'black',
-		minHeight: 400,
-		contentPosition: 'center',
-		className: 'is-carousel-cover',
-	},
-	innerBlocks: [
-		['prc-block/carousel-controller', { orientation: 'vertical' }],
-	],
-	scope: ['inserter', 'block'],
-	isActive: (blockAttributes, variationAttributes) =>
-		blockAttributes === variationAttributes,
-});

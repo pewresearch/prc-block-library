@@ -6,21 +6,7 @@
 	"title": "Carousel Slide",
 	"description": "A slide for use in the carousel block.",
 	"category": "design",
-	"attributes": {
-		"orientation": {
-			"type": "string",
-			"default": "vertical"
-		},
-		"layout": {
-			"type": "object",
-			"default": {
-				"type": "flex",
-				"orientation": "vertical",
-				"justifyContent": "center",
-				"verticalAlignment": "center"
-			}
-		}
-	},
+	"attributes": {},
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -39,8 +25,11 @@
 			"default": {
 				"type": "flex",
 				"orientation": "vertical",
-				"verticalAlignment": "stretch"
+				"justifyContent": "center",
+				"verticalAlignment": "center"
 			},
+			"allowSwitching": false,
+			"allowInheriting": false,
 			"allowOrientation": false,
 			"allowVerticalAlignment": true,
 			"allowJustification": true,
@@ -52,7 +41,6 @@
 			"__experimentalFontFamily": true
 		},
 		"shadow": true,
-		"interactivity": true,
 		"spacing": {
 			"padding": true
 		},
@@ -66,6 +54,6 @@
 	"parent": [ "prc-block/carousel-controller" ],
 	"textdomain": "carousel-slide",
 	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

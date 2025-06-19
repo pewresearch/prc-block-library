@@ -31,7 +31,7 @@ class Carousel_Controller {
 	/**
 	 * Initialize the block.
 	 *
-	 * @param array $loader The loader.
+	 * @param object $loader The loader.
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
@@ -59,18 +59,6 @@ class Carousel_Controller {
 		$dots_enabled   = $attributes['enableDots'];
 		$count          = count( $block->parsed_block['innerBlocks'] );
 
-		// Create an array of the number of slides.
-		$slides      = array();
-		$i           = 0;
-		$innerblocks = array_fill( 0, $count, null );
-		foreach ( $innerblocks as $innerblock ) {
-			$slides[] = array(
-				'label' => 'Go to slide ' . ( $i + 1 ),
-				'index' => $i,
-			);
-			++$i;
-		}
-
 		$block_id = wp_unique_id( 'prc-block-carousel-controller-' );
 
 		$tag_processor = new WP_HTML_Tag_Processor( $content );
@@ -84,36 +72,75 @@ class Carousel_Controller {
 			$tag_processor->set_attribute( 'id', $block_id );
 			// Set up and add iAPI directives to the Carousel Controller block.
 			$tag_processor->set_attribute( 'data-wp-interactive', 'prc-block/carousel-controller' );
-			$tag_processor->set_attribute(
-				'data-wp-context',
-				wp_json_encode(
-					array(
-						'id'                 => $block_id,
-						'enabled'            => false,
-						'containerMaxHeight' => 0,
-						'slideIndex'         => 0,
-						'count'              => $count,
-						'orientation'        => $attributes['orientation'],
-						'slides'             => $slides,
-					)
-				)
-			);
+			$tag_processor->set_bookmark( 'start' );
 			$tag_processor->set_attribute( 'data-wp-init', 'callbacks.onInit' );
 			$tag_processor->set_attribute( 'data-wp-class--is-enabled', 'context.enabled' );
+			$tag_processor->set_attribute( 'data-wp-class--is-selected', 'context.isSelected' );
+			$tag_processor->set_attribute( 'data-wp-on--mouseenter', 'callbacks.onMouseEnter' );
+			$tag_processor->set_attribute( 'data-wp-on--mouseleave', 'callbacks.onMouseLeave' );
 			$tag_processor->set_attribute( 'data-wp-on-document--scroll', 'callbacks.onCoverScroll' );
-			$tag_processor->set_attribute( 'data-wp-watch--cover-final-side-disable', 'callbacks.onCoverFinalSideDisable' );
+			$tag_processor->set_attribute(
+				'data-wp-watch--cover-final-side-disable',
+				'callbacks.onCoverFinalSideDisable'
+			);
 
 			$style  = '';
 			$style .= '--prc-carousel-controller-dot-color: var(--wp--preset--color--' . $attributes['dotColor'] . ');';
 			$style .= '--prc-carousel-controller-arrow-color: var(--wp--preset--color--' . $attributes['arrowColor'] . ');';
 			$tag_processor->set_attribute( 'style', $style );
 
+			$i = 0;
+			while ( $tag_processor->next_tag(
+				array(
+					'tag_name'   => 'div',
+					'class_name' => 'wp-block-prc-block-carousel-slide',
+				)
+			) ) {
+				$slide_id = wp_unique_id( 'wp-block-prc-block-carousel-slide-' );
+				$tag_processor->set_attribute( 'id', $slide_id );
+				$tag_processor->set_attribute( 'data-wp-class--is-active', 'state.isActive' );
+				$tag_processor->set_attribute(
+					'data-wp-context',
+					wp_json_encode(
+						array(
+							'isActive' => false,
+							'id'       => $slide_id,
+							'index'    => $i,
+						)
+					)
+				);
+				$slides[] = array(
+					'label' => 'Go to slide ' . ( $i + 1 ),
+					'index' => $i,
+					'id'    => $slide_id,
+				);
+				++$i;
+			}
+
+			$tag_processor->seek( 'start' );
+
+			$tag_processor->set_attribute(
+				'data-wp-context',
+				wp_json_encode(
+					array(
+						'id'          => $block_id,
+						'enabled'     => false,
+						'slideIndex'  => 0,
+						'count'       => $count,
+						'orientation' => $attributes['orientation'],
+						'slides'      => $slides,
+					)
+				)
+			);
+
+			$tag_processor->release_bookmark( 'start' );
+
 			$content = $tag_processor->get_updated_html();
 
 			// Inject the arrows to the markup if enabled.
 			if ( $arrows_eanbled ) {
 				$arrows  = wp_sprintf(
-					'<div class="prc-block-carousel-controller__arrows"><button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow--prev" data-wp-on--click="actions.goToPreviousSlide" aria-label="Previous slide">%s</button><button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow--next" data-wp-on--click="actions.goToNextSlide" aria-label="Next slide">%s</button></div>',
+					'<button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__prev" data-wp-on--click="actions.goToPreviousSlide" aria-label="Previous slide">%s</button><button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__next" data-wp-on--click="actions.goToNextSlide" aria-label="Next slide">%s</button>',
 					\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-up' : 'chevron-left' ),
 					\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-down' : 'chevron-right' )
 				);

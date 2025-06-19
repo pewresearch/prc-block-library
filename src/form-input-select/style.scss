@@ -26,13 +26,13 @@
 			top: 5px;
 			right: 5px;
 		}
-		&:not(:has(label)):after {
-			content: "*";
-			color: red;
-			position: absolute;
-			top: 5px;
-			right: 5px;
-		}
+		// &:not(:has(label)):after {
+		// 	content: "*";
+		// 	color: red;
+		// 	position: absolute;
+		// 	top: 5px;
+		// 	right: 5px;
+		// }
 	}
 
 

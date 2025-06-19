@@ -35,14 +35,12 @@ export default function Save( { attributes } ) {
 		value: value,
 		name: name,
 		type: type,
+		required: required,
 		className: clsx(inputClassNames),
 		style: {
 			...(!isInlineLabel ? {...colorProps.style, ...borderProps.style} : {}),
 		},
 	};
-	if ( required ) {
-		inputProps.required = true;
-	}
 	const useLabel = true === displayLabel && label && label.length > 0;
 
 	const blockClassNames = isInlineLabel && colorProps.className && borderProps.className ? [

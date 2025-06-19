@@ -152,6 +152,16 @@ class Logo {
 		if ( $decoded_white->next_tag() ) {
 			$decoded_white->set_attribute( 'data-browser-theme', 'dark' );
 		}
+
+		$symbol = new WP_HTML_Tag_Processor( $this->get_logo( 'symbol.svg' ) );
+		if ( $symbol->next_tag() ) {
+			$symbol->set_attribute( 'data-browser-theme', 'light' );
+		}
+		$symbol_white = new WP_HTML_Tag_Processor( $this->get_logo( 'symbol-white.svg' ) );
+		if ( $symbol_white->next_tag() ) {
+			$symbol_white->set_attribute( 'data-browser-theme', 'dark' );
+		}
+
 		$site_url = get_site_url();
 
 		ob_start();
@@ -174,6 +184,12 @@ class Logo {
 					<?php
 					echo str_replace( '%site_url%', $site_url, $decoded ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo str_replace( '%site_url%', $site_url, $decoded_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					?>
+				</div>
+				<div class="wp-block-prc-block-logo__inner__symbol" alt="Return to Home" name="Pew Research Center Logo">
+					<?php
+					echo str_replace( '%site_url%', $site_url, $symbol ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo str_replace( '%site_url%', $site_url, $symbol_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
 				</div>
 			</div>

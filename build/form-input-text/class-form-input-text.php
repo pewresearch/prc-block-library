@@ -65,10 +65,14 @@ class Form_Input_Text {
 			$block_id = wp_unique_id( 'prc-block-form-input-text-' );
 		}
 		$tag->remove_attribute( 'id' );
+		$tag->set_bookmark( 'start' );
 
-		if ( $tag->next_tag( 'label' ) ) {
+		if ( true === $attributes['displayLabel'] && $tag->next_tag( 'label' ) ) {
 			$tag->set_attribute( 'data-wp-on--click', $target_store . 'actions.onLabelClick' );
+			$tag->set_attribute( 'for', $block_id );
 		}
+
+		$tag->seek( 'start' );
 
 		$input_name        = $attributes['name'] ?? '';
 		$input_type        = $attributes['type'] ?? 'text';

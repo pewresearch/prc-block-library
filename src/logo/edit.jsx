@@ -29,8 +29,10 @@ import { ReactComponent as LogoAlt } from './assets/alternate.svg';
 import { ReactComponent as LogoAltWhite } from './assets/alternate-white.svg';
 import { ReactComponent as DecodedLogo } from './assets/decoded.svg';
 import { ReactComponent as DecodedLogoWhite } from './assets/decoded-white.svg';
+import { ReactComponent as LogoSymbol } from './assets/symbol.svg';
+import { ReactComponent as LogoSymbolWhite } from './assets/symbol-white.svg';
 
-const MIN_SIZE = 100;
+const MIN_SIZE = 24;
 
 function LogoInner({ onLoad, className, width }) {
 	// we can know exactly which svg based on the classname is-style-x format.
@@ -92,6 +94,12 @@ function LogoInner({ onLoad, className, width }) {
 			case 'decoded':
 				svgLoad(DecodedLogo);
 				break;
+			case 'symbol-only':
+				svgLoad(LogoSymbol);
+				break;
+			case 'symbol-only-white':
+				svgLoad(LogoSymbolWhite);
+				break;
 			default:
 				svgLoad(Logo);
 				break;
@@ -114,6 +122,10 @@ function LogoInner({ onLoad, className, width }) {
 			<div className="wp-block-prc-block-logo__inner__decoded">
 				<DecodedLogo data-browser-theme="light" />
 				<DecodedLogoWhite data-browser-theme="dark" />
+			</div>
+			<div className="wp-block-prc-block-logo__inner__symbol">
+				<LogoSymbol data-browser-theme="light" />
+				<LogoSymbolWhite data-browser-theme="dark" />
 			</div>
 		</div>
 	);

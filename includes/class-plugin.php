@@ -166,7 +166,7 @@ class Plugin {
 		// Add additional categories.
 		$this->loader->add_filter( 'block_categories_all', $this, 'register_block_categories', 10, 1 );
 		// Add additional allowed HTML tags.
-		$this->loader->add_filter( 'wp_kses_allowed_html', $this, 'allowed_html_tags', 10, 2 );
+		$this->loader->add_filter( 'wp_kses_allowed_html', $this, 'allowed_html_tags', 100, 2 );
 	}
 
 	/**
@@ -360,6 +360,36 @@ class Plugin {
 			'required'    => true,
 			'disabled'    => true,
 			'style'       => true,
+			'checked'     => true,
+		);
+		$allowed_tags['textarea']      = array(
+			'class'       => true,
+			'id'          => true,
+			'name'        => true,
+			'type'        => true,
+			'value'       => true,
+			'placeholder' => true,
+			'required'    => true,
+			'disabled'    => true,
+			'style'       => true,
+			'checked'     => true,
+		);
+		$allowed_tags['input']         = array(
+			'class'       => true,
+			'id'          => true,
+			'name'        => true,
+			'type'        => true,
+			'value'       => true,
+			'placeholder' => true,
+			'required'    => true,
+			'disabled'    => true,
+			'style'       => true,
+			'checked'     => true,
+		);
+		$allowed_tags['form']          = array(
+			'class' => true,
+			'id'    => true,
+			'style' => true,
 		);
 		$allowed_tags['div']['style']  = true;
 		$allowed_tags['img']['srcset'] = true;

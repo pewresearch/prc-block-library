@@ -4,7 +4,15 @@
 	padding: inherit;
 	z-index: 10;
 	max-width: 95vw;
-	min-width: var(--min-width, 25vw);
+	&.is-size-small {
+		min-width: 25vw !important;
+	}
+	&.is-size-medium {
+		min-width: 50vw !important;
+	}
+	&.is-size-large {
+		min-width: 75vw !important;
+	}
 	&[data-wp-dialog-type="dialog"] {
 		position: absolute;
 	}
@@ -15,7 +23,8 @@
 		max-height: 90vh;
 		padding: 1em !important;
 	}
-	&.is-video {
+	&:has(.wp-block-jetpack-videopress:only-child) {
+		background: black;
 		padding: 0 !important;
 		min-width: 400px;
 	}

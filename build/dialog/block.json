@@ -40,12 +40,14 @@
       "type": "boolean",
       "default": false
     },
-    "widths": {
-      "type": "object",
-      "default": {
-        "desktop": 640,
-        "tablet": 480
-      }
+    "dialogSize": {
+      "type": "string",
+      "enum": [
+        "small",
+        "medium",
+        "large"
+      ],
+      "default": "small"
     }
   },
   "supports": {
@@ -71,7 +73,7 @@
   "providesContext": {
     "dialog/id": "dialogId",
     "dialog/className": "className",
-    "dialog/widths": "widths",
+    "dialog/size": "dialogSize",
     "dialog/animationDuration": "animationDuration",
     "dialog/type": "dialogType",
     "dialog/autoActivationTimer": "autoActivationTimer",

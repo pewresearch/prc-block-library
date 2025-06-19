@@ -137,8 +137,8 @@ class Form_Input_Select {
 		if ( $has_subsumption ) {
 			$target_store = '';
 		}
-		$input_name      = array_key_exists( 'metadata', $attributes ) && array_key_exists( 'name', $attributes['metadata'] ) ? $attributes['metadata']['name'] : '';
-		$block_id        = null;
+		$input_name = array_key_exists( 'metadata', $attributes ) && array_key_exists( 'name', $attributes['metadata'] ) ? $attributes['metadata']['name'] : '';
+		$block_id   = null;
 
 		$tag = new \WP_HTML_Tag_Processor( $content );
 		if ( $tag->next_tag(
@@ -178,11 +178,12 @@ class Form_Input_Select {
 			);
 		}
 
-		if ( $tag->next_tag( 'label' ) ) {
+		if ( true === $attributes['displayLabel'] && $tag->next_tag( 'label' ) ) {
 			$tag->set_attribute( 'data-wp-on--click', 'actions.onLabelClick' );
-		} else {
-			$tag->seek( 'start' );
+			$tag->set_attribute( 'for', $block_id );
 		}
+
+		$tag->seek( 'start' );
 
 		$options_list = $this->construct_options_list( $attributes, $block );
 

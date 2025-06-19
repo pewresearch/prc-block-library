@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
@@ -38,7 +38,7 @@ export default function Save({ attributes }) {
 	} = attributes;
 
 	const blockProps = useBlockProps.save({
-		className: classNames({
+		className: clsx('wp-block-prc-block-carousel-controller', {
 			'is-style-vertical': orientation === 'vertical',
 			[`has-arrows-${arrowsSize}`]: enableArrows && arrowsSize,
 			[`has-dots-${dotsSize}`]: enableDots && dotsSize,
@@ -47,18 +47,16 @@ export default function Save({ attributes }) {
 		}),
 	});
 	const innerBlocksProps = useInnerBlocksProps.save({
-		className: 'prc-block-carousel-controller__track',
+		className: 'prc-block-carousel-controller__track__inner',
 	});
 
 	return (
 		<div {...blockProps}>
-			<div {...innerBlocksProps} />
-			{enableArrows && (
-				<div className="prc-block-carousel-controller__arrows"></div>
-			)}
-			{enableDots && (
-				<div className="prc-block-carousel-controller__dots"></div>
-			)}
+			<div className="prc-block-carousel-controller__track">
+				<div {...innerBlocksProps} />
+			</div>
+			{enableArrows && <div className="prc-block-carousel-controller__arrows"></div>}
+			{enableDots && <div className="prc-block-carousel-controller__dots"></div>}
 		</div>
 	);
 }

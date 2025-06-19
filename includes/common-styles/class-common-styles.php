@@ -39,6 +39,7 @@ class Common_Styles {
 		$loader->add_action( 'admin_enqueue_scripts', $additional_color_supports, 'reigster_pagination_script', 100 );
 		$loader->add_action( 'enqueue_block_assets', $this, 'register_core_style', 2 );
 		$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_core_style_helper', 2 );
+		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_core_style_view', 2 );
 	}
 
 	/**
@@ -110,6 +111,24 @@ class Common_Styles {
 		wp_enqueue_script(
 			'prc-block-library--core-helper',
 			plugins_url( 'core/build/index.js', __FILE__ ),
+			array_merge(
+				$asset_file['dependencies'],
+			),
+			$asset_file['version'],
+			true
+		);
+	}
+
+	/**
+	 * Register the "Core" `prc-block-library--core-view` support script.
+	 *
+	 * @hook wp_enqueue_scripts
+	 */
+	public function register_core_style_view() {
+		$asset_file = include plugin_dir_path( __FILE__ ) . 'core/build/view.asset.php';
+		wp_enqueue_script(
+			'prc-block-library--core-view',
+			plugins_url( 'core/build/view.js', __FILE__ ),
 			array_merge(
 				$asset_file['dependencies'],
 			),

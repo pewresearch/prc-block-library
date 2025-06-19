@@ -15,26 +15,8 @@
 	},
 	"supports": {
 		"inserter": false,
-		"anchor": true,
-		"html": false,
-		"spacing": {
-			"blockGap": true,
-			"margin": ["top", "bottom"],
-			"padding": true,
-			"__experimentalDefaultControls": {
-				"padding": true
-			}
-		},
-		"typography": {
-			"fontSize": true,
-			"__experimentalFontFamily": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"__experimentalFontFamily": true
-			}
-		}
+		"html": false
 	},
 	"textdomain": "lorem-ipsum",
-	"editorScript": "file:./index.js",
-	"render": "file:./render.php"
+	"editorScript": "file:./index.js"
 }

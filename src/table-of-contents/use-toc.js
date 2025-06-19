@@ -16,34 +16,32 @@ import { useEntityRecord } from '@wordpress/core-data';
 function useCurrentChapters() {
 	// This loads the chapters currently in the editor context.
 	const { currentChapters = [] } = useSelect((select) => {
-		const foundChapters = select('core/block-editor')
-			.getBlocks()
-			.filter(
-				(block) =>
-					'core/heading' === block.name &&
-					block.attributes?.isChapter === true
-			);
+		const { getBlocksByName, getBlock } = select('core/block-editor');
+		const foundChapters = getBlocksByName(['core/heading']);
+		const filteredChapters =
+			foundChapters.length > 0
+				? []
+				: [
+						{
+							clientId: '1',
+							title: 'Chapter 1...',
+						},
+						{
+							clientId: '2',
+							title: 'Chapter 2...',
+						},
+					];
+		foundChapters.forEach((clientId) => {
+			const block = getBlock(clientId);
+			if (block.attributes?.isChapter === true) {
+				filteredChapters.push({
+					clientId,
+					title: block.attributes?.content?.originalHTML,
+				});
+			}
+		});
 		return {
-			currentChapters:
-				0 === foundChapters.length
-					? [
-							{
-								attributes: {
-									content: 'Chapter 1...',
-								},
-							},
-							{
-								attributes: {
-									content: 'Chapter 2...',
-								},
-							},
-							{
-								attributes: {
-									content: 'Chapter 3...',
-								},
-							},
-						]
-					: foundChapters,
+			currentChapters: filteredChapters,
 		};
 	}, []);
 	return currentChapters;
@@ -94,14 +92,17 @@ export default function useTOC({ postId, postType }) {
 	const currentPostChapters = useCurrentChapters();
 
 	const memoizedChapters = useMemo(() => {
-		if (!tableOfContents) {
+		if (!tableOfContents || tableOfContents?.length === 0) {
+			if (currentPostChapters.length > 0) {
+				return currentPostChapters;
+			}
 			return [];
 		}
 		return tableOfContents?.map((chapter) => {
 			const internalChapters =
 				postId === chapter?.id
 					? currentPostChapters.map((chapter) => ({
-							title: chapter.attributes?.content,
+							title: chapter.title,
 							id: chapter?.id,
 							clientId: chapter?.clientId,
 							link: chapter?.link,

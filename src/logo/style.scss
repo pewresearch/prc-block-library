@@ -55,6 +55,7 @@ $standard_logo_minimum_width: 360px;
 	}
 	.wp-block-prc-block-logo__inner__logo-alt,
 	.wp-block-prc-block-logo__inner__decoded,
+	.wp-block-prc-block-logo__inner__symbol,
 	[data-browser-theme="dark"] {
 		display: none;
 	}
@@ -98,6 +99,17 @@ $standard_logo_minimum_width: 360px;
 
 	&.is-style-decoded-only .wp-block-prc-block-logo__inner {
 		.wp-block-prc-block-logo__inner__decoded {
+			display: flex;
+		}
+		.wp-block-prc-block-logo__inner__logo,
+		.wp-block-prc-block-logo__inner__logo-alt {
+			display: none;
+		}
+	}
+
+	&.is-style-symbol-only .wp-block-prc-block-logo__inner,
+	&.is-style-symbol-only-white .wp-block-prc-block-logo__inner {
+		.wp-block-prc-block-logo__inner__symbol {
 			display: flex;
 		}
 		.wp-block-prc-block-logo__inner__logo,

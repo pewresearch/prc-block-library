@@ -619,19 +619,7 @@ return array(
 		'description' => 'A slide for use in the carousel block.',
 		'category' => 'design',
 		'attributes' => array(
-			'orientation' => array(
-				'type' => 'string',
-				'default' => 'vertical'
-			),
-			'layout' => array(
-				'type' => 'object',
-				'default' => array(
-					'type' => 'flex',
-					'orientation' => 'vertical',
-					'justifyContent' => 'center',
-					'verticalAlignment' => 'center'
-				)
-			)
+			
 		),
 		'supports' => array(
 			'anchor' => true,
@@ -651,8 +639,11 @@ return array(
 				'default' => array(
 					'type' => 'flex',
 					'orientation' => 'vertical',
-					'verticalAlignment' => 'stretch'
+					'justifyContent' => 'center',
+					'verticalAlignment' => 'center'
 				),
+				'allowSwitching' => false,
+				'allowInheriting' => false,
 				'allowOrientation' => false,
 				'allowVerticalAlignment' => true,
 				'allowJustification' => true,
@@ -664,7 +655,6 @@ return array(
 				'__experimentalFontFamily' => true
 			),
 			'shadow' => true,
-			'interactivity' => true,
 			'spacing' => array(
 				'padding' => true
 			),
@@ -680,8 +670,8 @@ return array(
 		),
 		'textdomain' => 'carousel-slide',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
 	),
 	'code-syntax' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1167,12 +1157,14 @@ return array(
 				'type' => 'boolean',
 				'default' => false
 			),
-			'widths' => array(
-				'type' => 'object',
-				'default' => array(
-					'desktop' => 640,
-					'tablet' => 480
-				)
+			'dialogSize' => array(
+				'type' => 'string',
+				'enum' => array(
+					'small',
+					'medium',
+					'large'
+				),
+				'default' => 'small'
 			)
 		),
 		'supports' => array(
@@ -1198,7 +1190,7 @@ return array(
 		'providesContext' => array(
 			'dialog/id' => 'dialogId',
 			'dialog/className' => 'className',
-			'dialog/widths' => 'widths',
+			'dialog/size' => 'dialogSize',
 			'dialog/animationDuration' => 'animationDuration',
 			'dialog/type' => 'dialogType',
 			'dialog/autoActivationTimer' => 'autoActivationTimer',
@@ -1259,7 +1251,7 @@ return array(
 		'usesContext' => array(
 			'dialog/id',
 			'dialog/className',
-			'dialog/widths',
+			'dialog/size',
 			'dialog/animationDuration',
 			'dialog/type',
 			'dialog/autoActivationTimer'
@@ -2731,6 +2723,14 @@ return array(
 			array(
 				'name' => 'decoded-only',
 				'label' => 'Decoded'
+			),
+			array(
+				'name' => 'symbol-only',
+				'label' => 'Symbol Only'
+			),
+			array(
+				'name' => 'symbol-only-white',
+				'label' => 'Symbol Only (White)'
 			)
 		),
 		'example' => array(
@@ -2769,31 +2769,10 @@ return array(
 		),
 		'supports' => array(
 			'inserter' => false,
-			'anchor' => true,
-			'html' => false,
-			'spacing' => array(
-				'blockGap' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalFontFamily' => true
-				)
-			)
+			'html' => false
 		),
 		'textdomain' => 'lorem-ipsum',
-		'editorScript' => 'file:./index.js',
-		'render' => 'file:./render.php'
+		'editorScript' => 'file:./index.js'
 	),
 	'mailchimp-form' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

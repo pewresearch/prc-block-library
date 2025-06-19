@@ -1,4 +1,5 @@
 .wp-block-prc-block-carousel-slide {
+	// If a carousel slide has a background, add some padding so the content is not cut off.
 	&.has-background {
 		padding: var(--wp--preset--spacing--20);
 	}

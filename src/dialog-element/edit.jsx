@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import { Icon, cancelCircleFilled } from '@wordpress/icons';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
@@ -15,7 +15,7 @@ import {
 	withColors,
 	getColorClassName,
 } from '@wordpress/block-editor';
-import { KeyboardShortcuts, ResizableBox } from '@wordpress/components';
+import { KeyboardShortcuts } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
@@ -33,7 +33,7 @@ function Edit({
 	setBackdropColor,
 	isSelected,
 }) {
-	const widths = useMemo(() => context?.['dialog/widths'] || {}, [context]);
+	const dialogSize = context?.['dialog/size'] || 'medium';
 	const dialogType = context?.['dialog/type'] || 'modal';
 	const { selectBlock } = useDispatch('core/block-editor');
 	const { deviceType, rootClientId } = useSelect((select) => {
@@ -56,12 +56,6 @@ function Edit({
 		return false;
 	}, [dialogElementRef.current, dialogElementRef.current?.open]);
 
-	/**
-	 * Setup state for the resizable box
-	 */
-	const targetWidth = useMemo(() => {
-		return widths?.[deviceType] || 0;
-	}, [widths, deviceType]);
 
 	/**
 	 * Helper functions:
@@ -88,11 +82,14 @@ function Edit({
 
 	const blockProps = useBlockProps({
 		ref: dialogElementRef,
-		className: classNames(className, {
+		className: clsx(className, {
 			'has-backdrop-color': !!backdropColor.color || backdropColor.class,
 			[getColorClassName('backdrop-color', backdropColor?.slug)]:
 				!!backdropColor?.slug,
 			'is-mobile': 'mobile' === deviceType,
+			'is-size-small': 'small' === dialogSize,
+			'is-size-medium': 'medium' === dialogSize,
+			'is-size-large': 'large' === dialogSize,
 		}),
 		'data-wp-dialog-type': dialogType,
 	});
@@ -149,34 +146,7 @@ function Edit({
 						}
 						<Icon icon={cancelCircleFilled} />
 					</button>
-					<ResizableBox
-						size={{
-							width:
-								'mobile' !== deviceType ? targetWidth : 'auto',
-						}}
-						minWidth="320"
-						maxWidth="800"
-						__experimentalShowTooltip={true}
-						__experimentalTooltipProps={{
-							showPx: true,
-							fadeTimeout: 1000,
-						}}
-						enable={{
-							top: false,
-							right: 'mobile' !== deviceType,
-							bottom: false,
-							left: false,
-							topRight: false,
-							bottomRight: false,
-							bottomLeft: false,
-							topLeft: false,
-						}}
-						onResizeStop={(event, direction, elt, delta) => {
-							setWidth(deviceType, delta.width);
-						}}
-					>
-						<div {...innerBlocksProps} />
-					</ResizableBox>
+					<div {...innerBlocksProps} />
 				</dialog>
 			</KeyboardShortcuts>
 		</Fragment>

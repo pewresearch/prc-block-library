@@ -63,23 +63,16 @@ export default function Controls({
 	);
 
 	const options = useMemo(() => {
-		return isInsideCover
-			? [
-					{
-						label: 'Horizontal',
-						value: 'horizontal',
-					},
-					{
-						label: 'Vertical',
-						value: 'vertical',
-					},
-				]
-			: [
-					{
-						label: 'Horizontal',
-						value: 'horizontal',
-					},
-				];
+		return [
+			{
+				label: 'Horizontal',
+				value: 'horizontal',
+			},
+			{
+				label: 'Vertical',
+				value: 'vertical',
+			},
+		];
 	}, [isInsideCover]);
 
 	const onConvertToVertical = useCallback(() => {
@@ -112,7 +105,7 @@ export default function Controls({
 			<InspectorControls>
 				<PanelBody
 					title={'Carousel Orientation'}
-					initialOpen={isInsideCover}
+					initialOpen={true}
 				>
 					<SelectControl
 						label={'Orientation'}
@@ -121,20 +114,7 @@ export default function Controls({
 						onChange={(value) =>
 							setAttributes({ orientation: value })
 						}
-						help={
-							!isInsideCover
-								? 'To use a vertical carousel, the carousel must be inside a cover block.'
-								: 'When the carousel is inside a cover block, you can select between the default horizontal or vertical orientation.'
-						}
 					/>
-					{'horizontal' === orientation && (
-						<Button
-							variant="primary"
-							onClick={onConvertToVertical}
-						>
-							Convert to vertical
-						</Button>
-					)}
 				</PanelBody>
 				<PanelBody title={'Carousel Navigation'} initialOpen={true}>
 					<ToggleControl

@@ -50,6 +50,14 @@
 		{
 			"name": "decoded-only",
 			"label": "Decoded"
+		},
+		{
+			"name": "symbol-only",
+			"label": "Symbol Only"
+		},
+		{
+			"name": "symbol-only-white",
+			"label": "Symbol Only (White)"
 		}
 	],
 	"example": {

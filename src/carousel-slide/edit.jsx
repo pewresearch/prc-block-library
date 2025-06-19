@@ -5,41 +5,24 @@
 /**
  * WordPress Dependencies
  */
+import clsx from 'clsx';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 const TEMPLATE = [
 	[
-		'core/group',
+		'core/paragraph',
 		{
-			layout: {
-				type: 'flex',
-				orientation: 'vertical',
-				verticalAlignment: 'center',
-				justifyContent: 'center',
-			},
-			style: {
-				layout: {
-					selfStretch: 'fill',
-				},
-			},
+			placeholder:
+				'Type / to add blocks inside the carousel slide.',
 		},
-		[
-			[
-				'core/paragraph',
-				{
-					placeholder:
-						'Type / to add blocks inside the carousel slide.',
-				},
-			],
-		],
 	],
 ];
 
-export default function Edit({ attributes }) {
-	const blockProps = useBlockProps();
-	const { orientation } = attributes;
+export default function Edit({ attributes, __unstableLayoutClassNames: layoutClassNames }) {
+	const blockProps = useBlockProps({
+		className: clsx(layoutClassNames),
+	});
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		orientation: orientation || 'vertical',
 		templateLock: false,
 		template: TEMPLATE,
 	});

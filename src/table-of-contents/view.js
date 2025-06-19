@@ -23,6 +23,11 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		},
 	},
 	actions: {
+		onClick: (event) => {
+			event.preventDefault();
+			const context = getContext();
+			context.isDropdownOpen = !context.isDropdownOpen;
+		},
 		getInternalChaptersList: () => {
 			const { ref } = getElement();
 			// check if the first level of the list has list-items with is-top-level class
@@ -223,6 +228,7 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				target.scrollIntoView({ behavior: 'smooth' }, true);
 				window.history.pushState(null, null, `#${key}`);
 			}
+			context.isDropdownOpen = false;
 		},
 		// Section Scroll
 		/**
@@ -258,7 +264,13 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			}
 
 			const sections = state.sectionsFound;
+			if (!sections) {
+				return;
+			}
 			const sectionKeys = Object.keys(sections);
+			if (!sectionKeys.length) {
+				return;
+			}
 			const threshold = 50;
 			const scrollPosition = window.scrollY;
 

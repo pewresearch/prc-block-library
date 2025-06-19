@@ -48,7 +48,7 @@
   "usesContext": [
     "dialog/id",
     "dialog/className",
-    "dialog/widths",
+    "dialog/size",
     "dialog/animationDuration",
     "dialog/type",
     "dialog/autoActivationTimer"

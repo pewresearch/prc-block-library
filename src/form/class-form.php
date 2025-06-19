@@ -92,105 +92,6 @@ class Form {
 	}
 
 	/**
-	 * Get the form fields
-	 *
-	 * @param string $content Content.
-	 * @return array
-	 */
-	public function get_form_fields( $content ) {
-		$tag = new \WP_HTML_Tag_Processor( $content );
-		$tag->next_tag( 'form' );
-		$tag->set_bookmark( 'start' );
-		// First lets get the checkboxes, they're the only input element with a wrapper.
-		$checkboxes  = array();
-		$text_fields = array();
-		while ( $tag->next_tag(
-			array(
-				'tag_name'   => 'div',
-				'class_name' => 'wp-block-prc-block-form-input-checkbox',
-			)
-		) ) {
-			$tag->set_bookmark( 'checkbox-div' );
-			$label_text = '';
-			while ( $tag->next_tag( array( 'tag_name' => 'label' ) ) ) {
-				$label_text = '';
-				// Step into the label and collect all text tokens until the closing tag.
-				while ( $tag->next_token() ) {
-					if ( $tag->is_tag_closer( 'label' ) ) {
-						break;
-					}
-					if ( '#text' === $tag->get_token_type() ) {
-						$label_text .= $tag->get_modifiable_text();
-					}
-				}
-				// Now $label_text contains the full inner text of the label, even with nested tags.
-			}
-			$tag->seek( 'checkbox-div' );
-			while ( $tag->next_tag(
-				array(
-					'tag_name' => 'input',
-				)
-			) ) {
-				$checkboxes[] = array(
-					'id'       => $tag->get_attribute( 'id' ),
-					'name'     => $tag->get_attribute( 'name' ),
-					'value'    => $tag->get_attribute( 'value' ),
-					'label'    => $label_text,
-					'type'     => $tag->get_attribute( 'type' ),
-					'required' => $tag->get_attribute( 'required' ),
-					'checked'  => $tag->get_attribute( 'checked' ),
-				);
-			}
-		}
-		$tag->seek( 'start' );
-		while ( $tag->next_tag(
-			array(
-				'tag_name'   => 'div',
-				'class_name' => 'wp-block-prc-block-form-field',
-			)
-		) ) {
-			$tag->set_bookmark( 'field-div' );
-			$label_text = '';
-			while ( $tag->next_tag( array( 'tag_name' => 'label' ) ) ) {
-				$label_text = '';
-				// Step into the label and collect all text tokens until the closing tag.
-				while ( $tag->next_token() ) {
-					if ( $tag->is_tag_closer( 'label' ) ) {
-						break;
-					}
-					if ( '#text' === $tag->get_token_type() ) {
-						$label_text .= $tag->get_modifiable_text();
-					}
-				}
-				// Now $label_text contains the full inner text of the label, even with nested tags.
-			}
-			$tag->seek( 'field-div' );
-			while ( $tag->next_tag(
-				array(
-					'tag_name'   => 'input',
-					'class_name' => 'wp-block-prc-block-form-input-text',
-				)
-			) ) {
-				$text_fields[] = array(
-					'id'          => $tag->get_attribute( 'id' ),
-					'name'        => $tag->get_attribute( 'name' ),
-					'value'       => $tag->get_attribute( 'value' ),
-					'label'       => $label_text,
-					'type'        => $tag->get_attribute( 'type' ),
-					'placeholder' => $tag->get_attribute( 'placeholder' ),
-					'required'    => $tag->get_attribute( 'required' ),
-					'disabled'    => $tag->get_attribute( 'disabled' ),
-					'readonly'    => $tag->get_attribute( 'readonly' ),
-					'hidden'      => $tag->get_attribute( 'hidden' ),
-				);
-			}
-		}
-
-		$merged_fields = array_merge( $checkboxes, $text_fields );
-		return $merged_fields;
-	}
-
-	/**
 	 * Render the errors
 	 *
 	 * @return string
@@ -240,7 +141,6 @@ class Form {
 			'data-wp-context',
 			wp_json_encode(
 				array(
-					'formFields'           => array(),
 					'formId'               => $block_id,
 					'errors'               => array(),
 					'captchaPassed'        => false,

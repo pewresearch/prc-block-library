@@ -44,11 +44,11 @@
 			color: red;
 			margin-left: 5px;
 		}
-		&:not(:has(label)):after {
-			content: "*";
-			color: red;
-			margin-left: 5px;
-		}
+		// &:not(:has(label)):after {
+		// 	content: "*";
+		// 	color: red;
+		// 	margin-left: 5px;
+		// }
 	}
 
 	&.is-success > input {

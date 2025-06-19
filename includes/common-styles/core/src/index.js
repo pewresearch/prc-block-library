@@ -173,6 +173,11 @@ addFilter(
 						selector: 'is-vertical__on-mobile__horizontal',
 						help: 'Convert vertical layout to horizontal on mobile devices.',
 					},
+					{
+						label: 'Fade In Down',
+						selector: 'prc-animations__fade-in-down',
+						help: 'Apply a fade in down animation to the element when it first enters the viewport.',
+					},
 				];
 
 				return (

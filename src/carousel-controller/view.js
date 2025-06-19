@@ -16,6 +16,7 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		bodyObj: null,
 		hasEngaged: false,
 		scrollLockTimeout: null,
+		wheelTimeout: null,
 		get isInsideCover() {
 			const { ref } = getElement();
 			const x = ref.closest('.wp-block-cover');
@@ -32,7 +33,7 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			const { id } = getContext();
 			return document
 				.getElementById(id)
-				.querySelector('.prc-block-carousel-controller__track');
+				.querySelector('.prc-block-carousel-controller__track__inner');
 		},
 		get hasNextSlide() {
 			const { slideIndex, count } = getContext();
@@ -41,6 +42,14 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		get hasPreviousSlide() {
 			const { slideIndex } = getContext();
 			return slideIndex > 0;
+		},
+		get trackStyle() {
+			const { containerMinHeight } = getContext();
+			return `min-height: ${containerMinHeight}px;`;
+		},
+		get isActive() {
+			const { index, slideIndex } = getContext();
+			return index === slideIndex;
 		},
 	},
 	actions: {
@@ -76,14 +85,19 @@ const { state, actions } = store('prc-block/carousel-controller', {
 	},
 	callbacks: {
 		onInit: () => {
+			const { track } = state;
 			const context = getContext();
 			const { orientation, count } = context;
+
+			// Get all the heights of the slides, wp-block-prc-block-carousel-slide and set the context.minHeight to the highest height
+			const slides = track.querySelectorAll(
+				'.wp-block-prc-block-carousel-slide'
+			);
 
 			const isVertical = orientation === 'vertical';
 			state.bodyObj = document.body;
 
-			// Add scroll event listener with debounce
-			const { track } = state;
+			// We add a debounced scroll event listend to the track to calculate the current slideIndex value based on the scroll position.
 			let scrollTimeout;
 			track.addEventListener(
 				'scroll',
@@ -123,12 +137,6 @@ const { state, actions } = store('prc-block/carousel-controller', {
 							);
 
 							context.slideIndex = boundedIndex;
-
-							// console.log('onTrackScroll::', {
-							// 	slideIndex,
-							// 	boundedIndex,
-							// 	progress,
-							// });
 						}, 10);
 					})
 				)
@@ -144,6 +152,16 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			const index = parseInt(attributes['data-slide-index'], 10);
 			return context.slideIndex === index;
 		},
+		onMouseEnter: withSyncEvent(() => {
+			const context = getContext();
+			console.log('onMouseEnter::', context);
+			context.isSelected = true;
+		}),
+		onMouseLeave: withSyncEvent(() => {
+			const context = getContext();
+			console.log('onMouseLeave::', context);
+			context.isSelected = false;
+		}),
 		onCoverFinalSideDisable: () => {
 			const { ref } = getElement();
 			const context = getContext();

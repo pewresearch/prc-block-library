@@ -22,11 +22,12 @@ if ( $has_named_backdrop_color ) {
 	$color_css_classes[] = sprintf( 'has-%s-backdrop-color', $attributes['backdropColor'] );
 }
 $dialog_type = isset( $block->context['dialog/type'] ) ? $block->context['dialog/type'] : 'modal';
+$dialog_size = isset( $block->context['dialog/size'] ) ? $block->context['dialog/size'] : 'small';
 
 $block_wrapper_attrs = get_block_wrapper_attributes(
 	array(
 		'id'                        => wp_unique_id( 'dialog-element-' ),
-		'class'                     => implode( ' ', $color_css_classes ),
+		'class'                     => implode( ' ', $color_css_classes ) . ' is-size-' . $dialog_size,
 		'aria-labelledby'           => $context_id,
 		'data-wp-interactive'       => 'prc-block/dialog',
 		'data-wp-class--is-mobile'  => 'state.isMobile',

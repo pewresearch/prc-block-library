@@ -1,8 +1,7 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
-import { Icon } from '@prc/icons';
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
@@ -21,42 +20,18 @@ import { Fragment } from '@wordpress/element';
  * Internal Dependencies
  */
 import Controls from './controls';
+import { Dots, PreviousArrow, NextArrow } from './navigation-components';
 
 const TEMPLATE = [
 	[
 		'prc-block/carousel-slide',
-		{
-			layout: {
-				type: 'flex',
-				orientation: 'vertical',
-				verticalAlignment: 'center',
-				justifyContent: 'center',
-			},
-		},
+		{},
 		[
 			[
-				'core/group',
+				'core/paragraph',
 				{
-					layout: {
-						type: 'flex',
-						orientation: 'vertical',
-						verticalAlignment: 'center',
-						justifyContent: 'center',
-					},
-					style: {
-						layout: {
-							selfStretch: 'fill',
-						},
-					},
+					placeholder: 'Type / to add blocks inside the carousel slide.',
 				},
-				[
-					[
-						'core/paragraph',
-						{
-							placeholder: 'Type / to add blocks to the slide.',
-						},
-					],
-				],
 			],
 		],
 	],
@@ -94,6 +69,7 @@ function Edit({
 		_isSelected,
 		nextClientId,
 		previousClientId,
+		userIsTyping
 	} = useSelect((select) => {
 		const {
 			getBlock,
@@ -103,6 +79,7 @@ function Edit({
 			hasSelectedInnerBlock,
 			getNextBlockClientId,
 			getPreviousBlockClientId,
+			isTyping,
 		} = select(blockEditorStore);
 		const currentlySelectedBlockClientId = getSelectedBlockClientId();
 		const blockParents = getBlockParentsByBlockName(
@@ -127,6 +104,7 @@ function Edit({
 				nextClientId: null,
 				previousClientId: null,
 				_isSelected: blockIsSelected,
+				userIsTyping: isTyping(),
 			};
 		}
 		return {
@@ -137,17 +115,20 @@ function Edit({
 				currentlySelectedSlideBlock
 			),
 			_isSelected: blockIsSelected,
+			userIsTyping: isTyping(),
 		};
 	});
 
+
 	const blockProps = useBlockProps({
-		className: classNames({
+		className: clsx({
 			'is-style-vertical': orientation === 'vertical',
 			'is-enabled': _isSelected,
 			[`has-arrows-${arrowsSize}`]: enableArrows && arrowsSize,
 			[`has-dots-${dotsSize}`]: enableDots && dotsSize,
 			[`has-dot-color`]: dotColor,
 			[`has-arrow-color`]: arrowColor,
+			'is-typing': userIsTyping,
 		}),
 		style: {
 			'--prc-carousel-controller-dot-color': dotColor?.color,
@@ -157,7 +138,7 @@ function Edit({
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: 'prc-block-carousel-controller__track',
+			className: 'prc-block-carousel-controller__track__inner',
 		},
 		{
 			orientation,
@@ -167,61 +148,32 @@ function Edit({
 			template: TEMPLATE,
 			defaultBlock: DEFAULT_BLOCK,
 			directInsert: true,
+			__experiementalCaptureToolbars: true,
 		}
 	);
 
 	const dots = (
-		<div className="prc-block-carousel-controller__dots">
-			{innerBlocks.map((block, index) => {
-				return (
-					<button
-						key={block.clientId}
-						className="prc-block-carousel-controller__dot"
-						type="button"
-						onClick={() => selectBlock(block.clientId)}
-						aria-label={`Go to slide ${index + 1}`}
-						data-active={
-							selectedCarouselSlideClientId === block.clientId
-						}
-					>
-						<Icon library="solid" icon="circle" />
-					</button>
-				);
-			})}
-		</div>
+		<Dots
+			innerBlocks={innerBlocks}
+			selectBlock={selectBlock}
+			selectedCarouselSlideClientId={selectedCarouselSlideClientId}
+		/>
 	);
 
-	const arrows = (
-		<div className="prc-block-carousel-controller__arrows">
-			<button
-				className="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow--prev"
-				type="button"
-				onClick={() => selectBlock(previousClientId)}
-			>
-				<Icon
-					library="solid"
-					icon={
-						orientation === 'vertical'
-							? 'chevron-up'
-							: 'chevron-left'
-					}
-				/>
-			</button>
-			<button
-				className="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow--next"
-				type="button"
-				onClick={() => selectBlock(nextClientId)}
-			>
-				<Icon
-					library="solid"
-					icon={
-						orientation === 'vertical'
-							? 'chevron-down'
-							: 'chevron-right'
-					}
-				/>
-			</button>
-		</div>
+	const previousArrow = (
+		<PreviousArrow
+			selectBlock={selectBlock}
+			previousClientId={previousClientId}
+			orientation={orientation}
+		/>
+	);
+
+	const nextArrow = (
+		<NextArrow
+			selectBlock={selectBlock}
+			nextClientId={nextClientId}
+			orientation={orientation}
+		/>
 	);
 
 	return (
@@ -236,8 +188,11 @@ function Edit({
 				setArrowColor={setArrowColor}
 			/>
 			<div {...blockProps}>
-				<div {...innerBlocksProps} />
-				{enableArrows && arrows}
+				<div className="prc-block-carousel-controller__track">
+					<div {...innerBlocksProps} />
+				</div>
+				{enableArrows && previousArrow}
+				{enableArrows && nextArrow}
 				{enableDots && dots}
 				<div className="prc-block-carousel-controller__insert-block">
 					<InnerBlocks.ButtonBlockAppender />

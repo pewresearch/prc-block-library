@@ -73,6 +73,7 @@ export function InspectorPanel({
 	const autoActivationTimer = context?.['dialog/autoActivationTimer'] || -1;
 	const animationDuration = context?.['dialog/animationDuration'] || 500;
 	const dialogType = context?.['dialog/type'] || 'modal';
+	const dialogSize = context?.['dialog/size'] || 'medium';
 	/**
 	 * Setup the icon and label for the block toolbar.
 	 */
@@ -109,6 +110,30 @@ export function InspectorPanel({
 								dialogType: newType,
 							});
 							closeDialog();
+						}}
+					/>
+					<SelectControl
+						label="Dialog Size"
+						help="Choose the size of the dialog to display."
+						value={dialogSize}
+						options={[
+							{
+								label: __('Small', 'prc-block-library'),
+								value: 'small',
+							},
+							{
+								label: __('Medium', 'prc-block-library'),
+								value: 'medium',
+							},
+							{
+								label: __('Large', 'prc-block-library'),
+								value: 'large',
+							},
+						]}
+						onChange={(newSize) => {
+							updateBlockAttributes(rootClientId, {
+								dialogSize: newSize,
+							});
 						}}
 					/>
 					{'modal' === dialogType && (
