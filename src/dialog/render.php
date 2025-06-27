@@ -19,11 +19,6 @@ $auto_activation_timer = $default_is_open ? 0 : $auto_activation_timer;
 
 $dialog_type = array_key_exists( 'dialogType', $attributes ) ? $attributes['dialogType'] : 'modal';
 
-$widths = array_key_exists( 'widths', $attributes ) ? $attributes['widths'] : array(
-	'desktop' => 640,
-	'tablet'  => 480,
-);
-
 $animation_duration = array_key_exists( 'animationDuration', $attributes ) ? $attributes['animationDuration'] : 500;
 
 $enable_deep_link = array_key_exists( 'enableDeepLink', $attributes ) ? $attributes['enableDeepLink'] : false;
@@ -43,7 +38,6 @@ wp_interactivity_state(
 			'isClosing'               => false,
 			'videoPressAPI'           => false,
 			'dialogElemId'            => null,
-			'widths'                  => $widths,
 		),
 	)
 );

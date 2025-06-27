@@ -47,6 +47,7 @@
 	.prc-block-carousel-controller__track {
 		grid-area: track;
 		display: flex;
+		overflow: hidden;
 	}
 	.prc-block-carousel-controller__arrow__next {
 		grid-area: arrow-next;
@@ -82,9 +83,6 @@
 	&:not(.is-enabled) {
 		pointer-events: none;
 		position: relative;
-		.prc-block-carousel-controller__track {
-			overflow: hidden;
-		}
 		// &:not(.wp-block):before {
 		// 	content: "Loading Carousel...";
 		// 	display: flex;

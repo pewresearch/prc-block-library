@@ -47,10 +47,6 @@ const { actions, state } = store('prc-block/dialog', {
 			const { id } = getContext();
 			return document.getElementById(state[id].dialogElemId);
 		},
-		get widths() {
-			const { id } = getContext();
-			return state[id].widths;
-		},
 		get isOpen() {
 			const { id } = getContext();
 			return state[id].isOpen;
@@ -182,12 +178,8 @@ const { actions, state } = store('prc-block/dialog', {
 	},
 	callbacks: {
 		getStyle: () => {
-			const { widths, currentDevice, animationDuration } = state;
-			if (!widths[currentDevice]) {
-				return '';
-			}
-			const width = widths[currentDevice];
-			return `--min-width: ${width}px; --animation-duration: ${animationDuration}ms;`;
+			const { animationDuration } = state;
+			return `--animation-duration: ${animationDuration}ms;`;
 		},
 		/**
 		 * When the block initializes we need to capture the id of the dialog element and store it in state, this is later used by derived state.dialogElement. This is better than querying the dom every single time state.dialogElm is accessed.
