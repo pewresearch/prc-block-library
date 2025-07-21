@@ -23,6 +23,8 @@ class Form {
 	 */
 	public function __construct( $loader ) {
 		$this->init( $loader );
+		require_once PRC_BLOCK_LIBRARY_DIR . '/build/form/class-form-send-email.php';
+		new Form_Send_Email( $loader );
 	}
 
 	/**
@@ -50,7 +52,7 @@ class Form {
 				array(
 					'namespace'   => 'prc-block-library/forms',
 					'action'      => 'email',
-					'method'      => 'server',
+					'method'      => 'api',
 					'label'       => 'Email',
 					'description' => 'Email form',
 				),
@@ -116,6 +118,10 @@ class Form {
 		if ( empty( $form_method ) || empty( $form_action ) || empty( $form_namespace ) ) {
 			return '';
 		}
+		if ( 'rest' === $form_method ) {
+			wp_enqueue_script( 'wp-api-fetch' );
+			wp_enqueue_script( 'wp-url' );
+		}
 		$redirect_url = $attributes['redirectUrl'] ?? false;
 		// If redirectUrl is / then set it to the current URL.
 		if ( '/' === $redirect_url ) {
@@ -142,6 +148,7 @@ class Form {
 			wp_json_encode(
 				array(
 					'formId'               => $block_id,
+					'formName'             => $attributes['formName'] ?? get_the_title() . ' Form',
 					'errors'               => array(),
 					'captchaPassed'        => false,
 					'captchaHidden'        => true,

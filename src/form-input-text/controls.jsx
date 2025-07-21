@@ -22,6 +22,13 @@ export default function Controls({ attributes, setAttributes }) {
 						{ label: 'Text', value: 'text' },
 						{ label: 'Email', value: 'email' },
 						{ label: 'Password', value: 'password' },
+						{ label: 'Number', value: 'number' },
+						{ label: 'Date', value: 'date' },
+						{ label: 'Time', value: 'time' },
+						{ label: 'Date and Time', value: 'datetime-local' },
+						{ label: 'URL', value: 'url' },
+						{ label: 'Tel', value: 'tel' },
+						{ label: 'Search', value: 'search' }
 					]}
 					onChange={(newType) => {
 						setAttributes({ type: newType });

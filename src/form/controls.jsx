@@ -132,8 +132,9 @@ export default function Controls({
 		[]
 	);
 
-	const { method, action, namespace, redirectUrl } = attributes;
+	const { method, action, namespace, redirectUrl, formName } = attributes;
 
+	const [ _formName, setFormName ] = useState(formName);
 	const [ _method, setMethod ] = useState(method);
 	const [ _action, setAction ] = useState(action);
 	const [ _namespace, setNamespace ] = useState(namespace);
@@ -215,22 +216,23 @@ export default function Controls({
 	}, [namespace, action]);
 
 	useEffect(() => {
-		console.log('updating attributes', _method, _action, _namespace, methods);
+		console.log('updating attributes', _formName, _method, _action, _namespace, methods);
 		setAttributes({
+			formName: _formName,
 			method: _method,
 			action: _action,
 			namespace: _namespace,
 			redirectUrl: _redirectUrl,
 		});
-	}, [_method, _action, _namespace, _redirectUrl]);
+	}, [_formName, _method, _action, _namespace, _redirectUrl]);
 
 	useEffect(() => {
-		console.log('getting updates from attributes', method, action, namespace);
+		console.log('getting updates from attributes', formName, method, action, namespace);
 		setMethod(method);
 		setAction(action);
 		setNamespace(namespace);
 		setRedirectUrl(redirectUrl);
-	}, [method, action, namespace, redirectUrl]);
+	}, [formName, method, action, namespace, redirectUrl]);
 
 	const hasMessageBlock = useFormMessageBlockDetector(clientId);
 
@@ -248,13 +250,19 @@ export default function Controls({
 		)}
 		<InspectorControls>
 			<PanelBody title={__('Form Settings')}>
+				<TextControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={__('Form Name')}
+					value={_formName}
+					onChange={(value) => setFormName(value)}
+				/>
 				<SelectControl
 					__next40pxDefaultSize
 					__nextHasNoMarginBottom
 					label={__('Method')}
 					options={[
 						{ label: 'API', value: 'api' },
-						{ label: 'SERVER', value: 'server' },
 						{ label: 'REST', value: 'rest' },
 					]}
 					value={_method}
@@ -283,7 +291,7 @@ export default function Controls({
 				<TextControl
 					__next40pxDefaultSize
 					__nextHasNoMarginBottom
-					label={__('Redirect URL')}
+					label={__('Redirect Target')}
 					value={_redirectUrl}
 					onChange={(value) => setRedirectUrl(value)}
 					help={__('This can be a URL, an email address, or any other value you want to pass to the end of form submission action. More often than not, this is a URL to redirect to after the form has been submitted. You can pass values in the form of %field_name% to insert the value of a form field into the URL. For example, if you want to redirect to a page that displays the value of the "name" field, you can use %name% in the URL.')}

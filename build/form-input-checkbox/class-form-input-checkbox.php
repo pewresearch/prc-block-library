@@ -102,6 +102,7 @@ class Form_Input_Checkbox {
 				$tag->set_attribute( 'data-wp-bind--name', $target_store . 'state.inputName' );
 			}
 
+			$label_text = '';
 			while ( $tag->next_tag( 'label' ) ) {
 				// Set the for attribute to the block id.
 				$tag->set_attribute( 'for', $block_id );
@@ -114,7 +115,16 @@ class Form_Input_Checkbox {
 						$tag->set_attribute( 'data-wp-text', $target_store . 'state.inputLabel' );
 					}
 				}
+				if ( $tag->next_token() ) {
+					if ( '#text' === $tag->get_token_type() ) {
+						$label_text = $tag->get_modifiable_text();
+						$label_text = trim( $label_text );
+					}
+				}
 			}
+		}
+		if ( empty( $label_text ) ) {
+			$label_text = $attributes['label'] ?? '';
 		}
 
 		if ( ! $has_subsumption ) {
@@ -123,7 +133,7 @@ class Form_Input_Checkbox {
 			$existing_form_fields[] = array(
 				'id'       => $block_id,
 				'name'     => $input_name,
-				'label'    => $attributes['label'] ?? '',
+				'label'    => $label_text,
 				'type'     => $attributes['type'] ?? 'checkbox',
 				'value'    => $input_value ?? '',
 				'checked'  => $input_checked ?? false,

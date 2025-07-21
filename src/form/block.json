@@ -23,9 +23,12 @@
 	"keywords": [ "form", "captcha", "field", "input" ],
 	"icon": "feedback",
 	"attributes": {
+		"formName": {
+			"type": "string"
+		},
 		"method": {
 			"type": "string",
-			"enum": [ "server", "rest", "api" ],
+			"enum": [ "rest", "api" ],
 			"default": "api"
 		},
 		"namespace": {

@@ -25,7 +25,7 @@
 		},
 		"type": {
 			"type": "string",
-			"enum": ["email", "password", "text", "textarea", "number"],
+			"enum": ["email", "password", "text", "textarea", "number", "date", "url", "tel", "time", "search", "datetime-local"],
 			"default": "text",
 			"source": "attribute",
 			"selector": "input",

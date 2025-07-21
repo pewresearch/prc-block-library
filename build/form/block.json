@@ -28,10 +28,12 @@
   ],
   "icon": "feedback",
   "attributes": {
+    "formName": {
+      "type": "string"
+    },
     "method": {
       "type": "string",
       "enum": [
-        "server",
         "rest",
         "api"
       ],

@@ -9,7 +9,6 @@ import {
 } from '@wordpress/interactivity';
 
 import { FormResponse } from './form-response';
-import { FormField } from './interfaces';
 
 /**
  * LocalStorage utilities for form persistence
@@ -389,6 +388,7 @@ const { state, actions } = store('prc-block/form', {
 			context.stopProcessing = false;
 			context.allowSubmit = true;
 			context.errors = [];
+			context._isSubmitting = false; // Reset submission flag
 			FormPersistence.clearFormData(context.formId);
 		},
 		/**
@@ -458,15 +458,24 @@ const { state, actions } = store('prc-block/form', {
 				stopProcessing,
 				submitMethod,
 				formId,
+				formName,
 				redirectUrl,
 			} = context;
+
+			// Enhanced guard conditions to prevent double execution
 			if (
 				!captchaPassed ||
 				stopProcessing ||
-				false === submissionProcessing
+				false === submissionProcessing ||
+				true === submissionProcessing || // Prevent re-execution if already processing
+				context._isSubmitting // Flag to prevent re-execution
 			) {
 				return;
 			}
+
+			// Set flag to prevent re-execution
+			context._isSubmitting = true;
+
 			// Now that we're on to actually submitting the form, we can hide the captcha.
 			context.captchaHidden = true;
 
@@ -492,18 +501,55 @@ const { state, actions } = store('prc-block/form', {
 			// 	fieldsForSubmission,
 			// 	fieldsForSubmissionWithCaptcha
 			// );
-			if (method === 'server') {
-				// TODO: Implement server side submission.
-				// console.log('onSubmit (SERVER)', context);
-			} else if (method === 'rest') {
-				// TODO: Implement REST submission.
-				// console.log('onSubmit (REST)', context);
-			} else if ('api' === method && 'sendToEmail' === action) {
-				// TODO: Implement Send To Email.
+			if (method === 'rest') {
+				// Convert the action from camelCase to hyphenated form.
+				const slugifiedAction = action
+					.replace(/([A-Z])/g, '-$1')
+					.toLowerCase();
+
+				console.log('onSubmit (REST) context:', { ...context });
 				console.log(
-					'onSubmit (API)',
-					'Send To Email is still being worked on. \nWhen finished this will allow editors to easily create forms that submit the contents/fields to an email address of their choosing.\nCoupled with the new PCT IT "create group email in MS Teams" feature this will allow for a more streamlined process for creating forms that submit to an email address.'
+					'onSubmit (REST) fields:',
+					fieldsForSubmissionWithCaptcha
 				);
+				console.log(
+					'onSubmit (REST) slugifiedAction:',
+					slugifiedAction
+				);
+				console.log('onSubmit (REST) formId:', formId);
+				console.log('onSubmit (REST) formName:', formName);
+				try {
+					const response = await window.wp.apiFetch({
+						path: `/prc-api/v3/form/${slugifiedAction}?nonce=${nonceToken}`,
+						method: 'POST',
+						data: {
+							formName,
+							formId,
+							redirectTarget: redirectUrl,
+							formFields: fieldsForSubmissionWithCaptcha,
+						},
+					});
+					console.log('onSubmit (REST) response:', response);
+					const formResponse = new FormResponse(response);
+					if (formResponse.isSuccess) {
+						state.success = true;
+						context.formMessage =
+							formResponse?.message ||
+							'Form submitted successfully.';
+					} else {
+						state.error = true;
+					}
+				} catch (error) {
+					console.error('onSubmit (REST) error:', error);
+					state.error = true;
+					context.errors.push({
+						id: `error-${Math.random().toString(36).substring(2, 15)}`,
+						message: error?.message || 'An error occurred.',
+						actionUrl: error?.actionUrl || null,
+					});
+				}
+				context.submissionProcessing = false;
+				context._isSubmitting = false; // Reset flag
 			} else if (method === 'api') {
 				const _store = store(namespace);
 				// console.log('onSubmit (iAPI)', context, state, _store);
@@ -557,6 +603,7 @@ const { state, actions } = store('prc-block/form', {
 						});
 					} finally {
 						context.submissionProcessing = false;
+						context._isSubmitting = false; // Reset flag
 					}
 				}
 			}

@@ -45,7 +45,7 @@ form.wp-block-prc-block-form {
 
 	&:has(.wp-block-prc-block-form-message):not(.is-displaying-form-message) {
 		.wp-block-prc-block-form-message {
-			display: none;
+			display: none !important;
 		}
 	}
 

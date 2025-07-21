@@ -30,7 +30,13 @@
         "password",
         "text",
         "textarea",
-        "number"
+        "number",
+        "date",
+        "url",
+        "tel",
+        "time",
+        "search",
+        "datetime-local"
       ],
       "default": "text",
       "source": "attribute",

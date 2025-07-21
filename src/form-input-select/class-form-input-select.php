@@ -178,9 +178,19 @@ class Form_Input_Select {
 			);
 		}
 
+		$label_text = '';
 		if ( true === $attributes['displayLabel'] && $tag->next_tag( 'label' ) ) {
 			$tag->set_attribute( 'data-wp-on--click', 'actions.onLabelClick' );
 			$tag->set_attribute( 'for', $block_id );
+			if ( $tag->next_token() ) {
+				if ( '#text' === $tag->get_token_type() ) {
+					$label_text = $tag->get_modifiable_text();
+					$label_text = trim( $label_text );
+				}
+			}
+		}
+		if ( empty( $label_text ) ) {
+			$label_text = $attributes['label'] ?? '';
 		}
 
 		$tag->seek( 'start' );
@@ -225,7 +235,7 @@ class Form_Input_Select {
 					$block_id => array(
 						'isOpen'      => false,
 						'name'        => $input_name,
-						'label'       => $attributes['label'] ?? '',
+						'label'       => $label_text,
 						'value'       => $input_value ?? '',
 						'required'    => $is_required ?? false,
 						'placeholder' => $input_placeholder ?? '',
@@ -247,7 +257,7 @@ class Form_Input_Select {
 			$existing_form_fields[] = array(
 				'id'          => $block_id,
 				'name'        => $input_name,
-				'label'       => $attributes['label'] ?? '',
+				'label'       => $label_text,
 				'type'        => 'select',
 				'value'       => $input_value ?? '',
 				'required'    => $is_required ?? false,

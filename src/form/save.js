@@ -9,11 +9,9 @@ import clsx from 'clsx';
 import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
 export default function Save({ attributes }) {
-	const blockProps = useBlockProps.save();
+	const blockProps = useBlockProps.save({
+		className: 'wp-block-prc-block-form',
+	});
 	const innerBlocksProps = useInnerBlocksProps.save();
-	return (
-		<form className="wp-block-prc-block-form" {...blockProps}>
-			{innerBlocksProps.children}
-		</form>
-	);
+	return <form {...blockProps}>{innerBlocksProps.children}</form>;
 }

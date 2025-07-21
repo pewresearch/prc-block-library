@@ -55,6 +55,7 @@ class Form_Input_Text {
 
 		$tag = new \WP_HTML_Tag_Processor( $content );
 
+
 		$tag->next_tag(
 			array(
 				'class_name' => 'wp-block-prc-block-form-input-text',
@@ -67,9 +68,19 @@ class Form_Input_Text {
 		$tag->remove_attribute( 'id' );
 		$tag->set_bookmark( 'start' );
 
+		$label_text = '';
 		if ( true === $attributes['displayLabel'] && $tag->next_tag( 'label' ) ) {
 			$tag->set_attribute( 'data-wp-on--click', $target_store . 'actions.onLabelClick' );
 			$tag->set_attribute( 'for', $block_id );
+			if ( $tag->next_token() ) {
+				if ( '#text' === $tag->get_token_type() ) {
+					$label_text = $tag->get_modifiable_text();
+					$label_text = trim( $label_text );
+				}
+			}
+		}
+		if ( empty( $label_text ) ) {
+			$label_text = $attributes['label'] ?? '';
 		}
 
 		$tag->seek( 'start' );
@@ -91,7 +102,11 @@ class Form_Input_Text {
 			// Events.
 			$tag->set_attribute( 'data-wp-on--mouseenter', $target_store . 'actions.onInputMouseEnter' );
 			$tag->set_attribute( 'data-wp-on--mouseleave', $target_store . 'actions.onInputMouseLeave' );
-			$tag->set_attribute( 'data-wp-on--keyup', $target_store . 'actions.onInputChange' );
+			if ( in_array( $input_type, array( 'date', 'time', 'datetime-local' ), true ) ) {
+				$tag->set_attribute( 'data-wp-on--change', $target_store . 'actions.onInputChange' );
+			} else {
+				$tag->set_attribute( 'data-wp-on--keyup', $target_store . 'actions.onInputChange' );
+			}
 			$tag->set_attribute( 'data-wp-on--focus', $target_store . 'actions.onInputFocus' );
 			$tag->set_attribute( 'data-wp-on--blur', $target_store . 'actions.onInputBlur' );
 
@@ -118,7 +133,7 @@ class Form_Input_Text {
 			$existing_form_fields[] = array(
 				'id'          => $block_id,
 				'name'        => $input_name,
-				'label'       => $attributes['label'] ?? '',
+				'label'       => $label_text,
 				'type'        => $input_type,
 				'value'       => $input_value,
 				'required'    => $input_required,

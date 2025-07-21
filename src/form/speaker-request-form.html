@@ -1,0 +1,169 @@
+<!-- wp:prc-block/form {"formName":"Speaker Request Form","method":"rest","namespace":"prc-block/form","action":"sendToEmail","redirectUrl":"srubenstein@pewresearch.org","fontFamily":"sans-serif"} -->
+<form class="wp-block-prc-block-form has-sans-serif-font-family"><!-- wp:group {"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
+	<div class="wp-block-group"><!-- wp:heading -->
+	<h4 class="wp-block-heading" id="h-contact-information">Contact Information</h4>
+	<!-- /wp:heading -->
+
+	<!-- wp:prc-block/form-input-text {"required":true,"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"fullName"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Full Name</label><input placeholder="Enter your name" name="fullName" type="text" required class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-text {"required":true,"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"email"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Email</label><input placeholder="Enter your email" name="email" type="email" required class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-text {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"organization"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Organization</label><input placeholder="" name="organization" type="text" class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-text {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"organizationWebsite"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Organization Website</label><input placeholder="" name="organizationWebsite" type="url" class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-text {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"jobTitle"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Job Title</label><input placeholder="" name="jobTitle" type="text" class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-textarea {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"conveningOrgInfo"}} -->
+	<div class="wp-block-prc-block-form-input-textarea"><label>Please share additional information about the convening organization (e.g. sector, mission/purpose, etc.)</label><textarea placeholder="" name="conveningOrgInfo" maxlength="1000" minlength="10" rows="4" cols="20" class="undefined"></textarea></div>
+	<!-- /wp:prc-block/form-input-textarea -->
+
+	<!-- wp:heading -->
+	<h4 class="wp-block-heading" id="h-topic-and-event-information">Topic and Event Information</h4>
+	<!-- /wp:heading -->
+
+	<!-- wp:prc-block/form-input-text {"required":true,"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"topicOfThePresentation"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Topic of the presentation</label><input placeholder="" name="topicOfThePresentation" type="text" required class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-text {"required":true,"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"speakersExpertiseRequested"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Speaker(s) or Expertise Requested</label><input placeholder="" name="speakersExpertiseRequested" type="text" required class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-select {"options":[{"label":"Virtual","value":"Virtual","isActive":false,"disabled":false},{"label":"In Person","value":"In Person","isActive":false,"disabled":false},{"label":"Hybrid","value":"Hybrid","isActive":false,"disabled":false}],"metadata":{"name":"typeOfEvent"}} -->
+	<div class="wp-block-prc-block-form-input-select"><label>Type of Event</label><div class="wp-block-prc-block-form-input-select__input"><input placeholder="" name="typeOfEvent" type="text" role="combobox" required/><div class="prc-block-form-input-select__list__placeholder"></div></div></div>
+	<!-- /wp:prc-block/form-input-select -->
+
+	<!-- wp:prc-block/form-input-text {"metadata":{"name":"inPersonEventLocation"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>If the event is in-person, where will it be held?</label><input placeholder="" name="inPersonEventLocation" type="text" class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-select {"options":[{"label":"Yes","value":"Yes","isActive":false,"disabled":false},{"label":"No","value":"No","isActive":false,"disabled":false},{"label":"Not Sure","value":"Not Sure","isActive":false,"disabled":false}],"metadata":{"name":"inPersonTravelExpenseCovered"}} -->
+	<div class="wp-block-prc-block-form-input-select"><label>If the event is in-person, will travel costs be covered?</label><div class="wp-block-prc-block-form-input-select__input"><input placeholder="" name="inPersonTravelExpenseCovered" type="text" role="combobox"/><div class="prc-block-form-input-select__list__placeholder"></div></div></div>
+	<!-- /wp:prc-block/form-input-select -->
+
+	<!-- wp:group {"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
+	<div class="wp-block-group"><!-- wp:paragraph -->
+	<p>Event Format (select all that apply)</p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"panelDiscussion"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="panelDiscussion" class="" value=""/><label>Panel discussion</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"formalPresentation"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="formalPresentation" class="" value=""/><label>Formal presentation</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"closed-doorBriefing"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="closed-doorBriefing" class="" value=""/><label>Closed-door briefing</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"roundtableDiscussion"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="roundtableDiscussion" class="" value=""/><label>Roundtable discussion</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"q_and_a"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="q_and_a" class="" value=""/><label>Q&amp;A</label></div>
+	<!-- /wp:prc-block/form-input-checkbox --></div>
+	<!-- /wp:group -->
+
+	<!-- wp:prc-block/form-input-textarea {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"additionalEventFormatDetails"}} -->
+	<div class="wp-block-prc-block-form-input-textarea"><label>Please share additional details about the format.</label><textarea placeholder="" name="additionalEventFormatDetails" maxlength="1000" minlength="10" rows="4" cols="20" class="undefined"></textarea></div>
+	<!-- /wp:prc-block/form-input-textarea -->
+
+	<!-- wp:prc-block/form-input-text {"metadata":{"name":"dateAndTimeOfTheEvent"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Date and time of the event</label><input placeholder="" name="dateAndTimeOfTheEvent" type="datetime-local" class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-text {"metadata":{"name":"durationOfPresentationAndEvent"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Duration of the presentation and the event</label><input placeholder="" name="durationOfPresentationAndEvent" type="text" class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-textarea {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"additionalDetailsModerator"}} -->
+	<div class="wp-block-prc-block-form-input-textarea"><label>If you have additional details about the event moderator and additional participants, please share them.</label><textarea placeholder="" name="additionalDetailsModerator" maxlength="1000" minlength="10" rows="4" cols="20" class="undefined"></textarea></div>
+	<!-- /wp:prc-block/form-input-textarea -->
+
+	<!-- wp:group {"layout":{"type":"constrained"}} -->
+	<div class="wp-block-group"><!-- wp:paragraph -->
+	<p>Event audiences (select all that apply)</p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"academics"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="academics" class="" value=""/><label>Academics</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"journalists"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="journalists" class="" value=""/><label>Journalists</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"policymakers"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="policymakers" class="" value=""/><label>Policymakers</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"public"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="public" class="" value=""/><label>Public</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"students"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="students" class="" value=""/><label>Students</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"topicExperts"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="topicExperts" class="" value=""/><label>Topic experts</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-checkbox {"metadata":{"name":"other"}} -->
+	<div class="wp-block-prc-block-form-input-checkbox"><input type="checkbox" name="other" class="" value=""/><label>Other</label></div>
+	<!-- /wp:prc-block/form-input-checkbox -->
+
+	<!-- wp:prc-block/form-input-text {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"eventAudienceDetails"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>If other, please provide more details</label><input placeholder="" name="eventAudienceDetails" type="text" class=""/></div>
+	<!-- /wp:prc-block/form-input-text --></div>
+	<!-- /wp:group -->
+
+	<!-- wp:prc-block/form-input-textarea {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"additionalDetailsAudience"}} -->
+	<div class="wp-block-prc-block-form-input-textarea"><label>Please share additional details about the audience, including the estimated size and whether the event will be open to the public</label><textarea placeholder="" name="additionalDetailsAudience" maxlength="1000" minlength="10" rows="4" cols="20" class="undefined"></textarea></div>
+	<!-- /wp:prc-block/form-input-textarea -->
+
+	<!-- wp:prc-block/form-input-select {"options":[{"label":"Yes","value":"Yes","isActive":false,"disabled":false},{"label":"No","value":"No","isActive":false,"disabled":false},{"label":"Not sure","value":"Not Sure","isActive":false,"disabled":false}],"metadata":{"name":"mediaAttendance"}} -->
+	<div class="wp-block-prc-block-form-input-select"><label>Do you expect members of the media to attend the event?</label><div class="wp-block-prc-block-form-input-select__input"><input placeholder="" name="mediaAttendance" type="text" role="combobox" required/><div class="prc-block-form-input-select__list__placeholder"></div></div></div>
+	<!-- /wp:prc-block/form-input-select -->
+
+	<!-- wp:prc-block/form-input-text {"required":true,"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"responseDueDate"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>By when will you need a response from us?</label><input placeholder="" name="responseDueDate" type="date" required class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-text {"required":true,"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"honorariumOffer"}} -->
+	<div class="wp-block-prc-block-form-input-text"><label>Will an honorarium be offered? If yes, what is the amount?<br><em><em> <br> (Please note: Honoraria must be given to Pew Research Center, as individual Center employees are not permitted to accept personal honoraria.)</em></em></label><input placeholder="" name="honorariumOffer" type="text" required class=""/></div>
+	<!-- /wp:prc-block/form-input-text -->
+
+	<!-- wp:prc-block/form-input-textarea {"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"center","allowOrientation":true,"justifyContent":"stretch"},"metadata":{"name":"additionalInfo"}} -->
+	<div class="wp-block-prc-block-form-input-textarea"><label>Is there anything else you'd like to share with us?</label><textarea placeholder="" name="additionalInfo" maxlength="1000" minlength="10" rows="4" cols="20" class="undefined"></textarea></div>
+	<!-- /wp:prc-block/form-input-textarea --></div>
+	<!-- /wp:group -->
+
+	<!-- wp:prc-block/form-submit -->
+	<!-- wp:button {"tagName":"button","type":"submit"} -->
+	<div class="wp-block-button"><button type="submit" class="wp-block-button__link wp-element-button">Submit</button></div>
+	<!-- /wp:button -->
+
+	<!-- wp:prc-block/form-captcha /-->
+	<!-- /wp:prc-block/form-submit -->
+
+	<!-- wp:prc-block/form-message -->
+	<div><!-- wp:paragraph -->
+	<p>%%message%%</p>
+	<!-- /wp:paragraph --></div>
+	<!-- /wp:prc-block/form-message --></form>
+	<!-- /wp:prc-block/form -->

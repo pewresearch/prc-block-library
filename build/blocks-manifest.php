@@ -1553,10 +1553,12 @@ return array(
 		),
 		'icon' => 'feedback',
 		'attributes' => array(
+			'formName' => array(
+				'type' => 'string'
+			),
 			'method' => array(
 				'type' => 'string',
 				'enum' => array(
-					'server',
 					'rest',
 					'api'
 				),
@@ -1989,7 +1991,13 @@ return array(
 					'password',
 					'text',
 					'textarea',
-					'number'
+					'number',
+					'date',
+					'url',
+					'tel',
+					'time',
+					'search',
+					'datetime-local'
 				),
 				'default' => 'text',
 				'source' => 'attribute',

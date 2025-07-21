@@ -17,7 +17,7 @@ export default function registerDefaultForms() {
 		description: 'Contact form',
 		namespace: 'prc-block/form',
 		action: 'sendToEmail',
-		method: 'api',
+		method: 'rest',
 		template: DEFAULT_FORM_TEMPLATE,
 	});
 }

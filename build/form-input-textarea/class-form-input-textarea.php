@@ -66,9 +66,19 @@ class Form_Input_Textarea {
 		}
 		$tag->remove_attribute( 'id' );
 
+		$label_text = '';
 		if ( true === $attributes['displayLabel'] && $tag->next_tag( 'label' ) ) {
 			$tag->set_attribute( 'data-wp-on--click', $target_store . 'actions.onLabelClick' );
 			$tag->set_attribute( 'for', $block_id );
+			if ( $tag->next_token() ) {
+				if ( '#text' === $tag->get_token_type() ) {
+					$label_text = $tag->get_modifiable_text();
+					$label_text = trim( $label_text );
+				}
+			}
+		}
+		if ( empty( $label_text ) ) {
+			$label_text = $attributes['label'] ?? '';
 		}
 
 		$input_name        = $attributes['name'] ?? '';
