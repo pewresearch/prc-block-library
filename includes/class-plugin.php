@@ -215,6 +215,7 @@ class Plugin {
 	 * Init PRC Blocks
 	 */
 	private function define_prc_blocks() {
+		new Animation( $this->get_loader() );
 		new Accordion( $this->get_loader() );
 		new Accordion_Controller( $this->get_loader() );
 		new Attachment_Info( $this->get_loader() );

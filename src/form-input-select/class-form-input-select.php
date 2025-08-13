@@ -130,6 +130,7 @@ class Form_Input_Select {
 	 * @return string The updated HTML.
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
+		$allow_search     = $attributes['allowSearch'] ?? true;
 		$target_namespace = array_key_exists( 'interactiveNamespace', $attributes ) ? $attributes['interactiveNamespace'] : 'prc-block/form';
 		$target_store     = $target_namespace . '::';
 		// If this block has subsumption, it's directives and context/state will be handled by it's parent.
@@ -173,6 +174,7 @@ class Form_Input_Select {
 						'searchTerm'      => '',
 						'activeIndex'     => 0,
 						'processing'      => false,
+						'allowSearch'     => $attributes['allowSearch'] ?? true,
 					)
 				)
 			);
@@ -219,6 +221,7 @@ class Form_Input_Select {
 			$tag->set_attribute( 'data-wp-bind--placeholder', 'state.inputPlaceholder' );
 			$tag->set_attribute( 'data-wp-bind--disabled', 'state.isInputDisabled' );
 			$tag->set_attribute( 'data-wp-bind--required', 'state.isInputRequired' );
+			$tag->set_attribute( 'data-wp-bind--readonly', 'state.isInputReadonly' );
 			// Prevent 1password, lastpass, and so on from adding their addons to the input.
 			$tag->set_attribute( 'data-1p-ignore', 'true' );
 			$tag->set_attribute( 'data-lpignore', 'true' );
@@ -240,7 +243,7 @@ class Form_Input_Select {
 						'required'    => $is_required ?? false,
 						'placeholder' => $input_placeholder ?? '',
 						'hidden'      => null,
-						'readonly'    => null,
+						'readonly'    => ! $allow_search,
 						'disabled'    => $is_disabled ?? false,
 						'error'       => null,
 						'options'     => $options_list,
@@ -263,7 +266,7 @@ class Form_Input_Select {
 				'required'    => $is_required ?? false,
 				'placeholder' => $input_placeholder ?? '',
 				'hidden'      => null,
-				'readonly'    => null,
+				'readonly'    => ! $allow_search,
 				'disabled'    => $is_disabled ?? false,
 				'error'       => null,
 				'options'     => $options_list,

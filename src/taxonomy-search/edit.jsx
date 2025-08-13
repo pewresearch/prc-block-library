@@ -13,8 +13,6 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
  */
 import Controls from './controls';
 
-const ALLOWED_BLOCKS = ['prc-block-library/form-input-text'];
-
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -35,7 +33,6 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 	const { taxonomy } = attributes;
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: ALLOWED_BLOCKS,
 		templateLock: true,
 		template: [
 			[

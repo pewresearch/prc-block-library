@@ -451,6 +451,7 @@ class Form_Send_Email {
 				</table>
 				<div style="margin-top: 30px; padding: 15px; background-color: #ecf0f1; border-left: 4px solid #3498db; color: #2c3e50;">
 					<p style="margin: 0; font-size: 14px;"><strong>Submission Time:</strong> ' . current_time( 'F j, Y, g:i a' ) . '</p>
+					<p style="margin: 0; font-size: 13px;"><strong>Powered by:</strong> PRC Platform Forms</p>
 				</div>
 			</div>
 		</body>
@@ -488,10 +489,10 @@ class Form_Send_Email {
 			return new \WP_Error( 'invalid_form_data', 'Invalid form data provided.', array( 'status' => 400 ) );
 		}
 
-		$form_id   = $form_data['formId'] ?? '';
-		$form_name = $form_data['formName'] ?? '';
-		$target    = $form_data['redirectTarget'] ?? false;
+		$form_id   = sanitize_text_field( $form_data['formId'] ?? '' );
+		$form_name = sanitize_text_field( $form_data['formName'] ?? '' );
 
+		$target = $form_data['redirectTarget'] ?? false;
 		// Verify $target is a valid email address.
 		if ( ! filter_var( $target, FILTER_VALIDATE_EMAIL ) ) {
 			return new \WP_Error( 'invalid_target', 'Invalid target provided by form. Must be a valid email address.', array( 'status' => 400 ) );
@@ -517,14 +518,17 @@ class Form_Send_Email {
 		}
 
 		// Validate all form fields efficiently.
+		$validated_fields = array();
 		foreach ( $form_fields as $field ) {
 			$validation_result = $this->validate_field( $field );
 			if ( is_wp_error( $validation_result ) ) {
 				return $validation_result;
+			} else {
+				$validated_fields[] = $field;
 			}
 		}
 
-		$subject = 'New Form Submission from: ' . sanitize_text_field( $form_name );
+		$subject = 'New Form Submission from: ' . $form_name;
 		$message = $this->format_message( $form_fields, $form_name );
 
 		$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
@@ -534,7 +538,17 @@ class Form_Send_Email {
 		$sent = \wp_mail( $target, $subject, $message, $headers ); //phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.wp_mail_wp_mail
 
 		if ( $sent ) {
-			return new \WP_REST_Response( array( 'message' => 'Form submission sent successfully' ), 200 );
+			return new \WP_REST_Response(
+				array(
+					'status'     => 'success',
+					'message'    => wp_sprintf(
+						'%s submitted successfully!',
+						$form_name,
+					),
+					'formFields' => $validated_fields,
+				),
+				200
+			);
 		} else {
 			return new \WP_Error( 'form_submission_failed', 'Form submission failed to send', array( 'status' => 500 ) );
 		}

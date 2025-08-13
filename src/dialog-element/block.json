@@ -17,6 +17,7 @@
 		"html": false,
         "align": false,
         "inserter": false,
+		"animations": true,
 		"color": {
 			"background": true,
 			"text": true,

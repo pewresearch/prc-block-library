@@ -67,6 +67,7 @@ export default function Edit({
 		options = [],
 		allowMultiple = false,
 		className,
+		allowSearch = true,
 	} = attributes;
 
 	const isInlineLabel = useMemo(() => {
@@ -197,6 +198,14 @@ export default function Edit({
 						help="If toggled on, a clear icon will be displayed in the input field."
 						onChange={(val) => {
 							setAttributes({ hasClearIcon: val });
+						}}
+					/>
+					<ToggleControl
+						label="Allow Search"
+						checked={allowSearch}
+						help="If toggled on, the user can search and filter through the options."
+						onChange={(val) => {
+							setAttributes({ allowSearch: val });
 						}}
 					/>
 				</PanelBody>

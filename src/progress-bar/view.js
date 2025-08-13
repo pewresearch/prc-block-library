@@ -1,39 +1,26 @@
 /**
  * WordPress Dependencies
  */
-import { render } from '@wordpress/element';
-import domReady from '@wordpress/dom-ready';
+import { store, getContext, getElement } from '@wordpress/interactivity';
 
-/**
- * Internal Dependencies
- */
-import ProgressBar from './progress-bar';
-
-domReady(() => {
-	if (document.querySelector('.wp-block-prc-block-progress-bar')) {
-		const bars = document.querySelectorAll(
-			'.wp-block-prc-block-progress-bar'
-		);
-		bars.forEach((bar) => {
-			const attrs = bar.dataset;
-			const props = {
-				maxWidth: parseFloat(attrs.maxWidth),
-				maxValue: parseFloat(attrs.maxValue),
-				currentValue: parseFloat(attrs.currentValue),
-				labelFormat: attrs.labelFormat,
-				axisLabel: attrs.axisLabel,
-				axisLabelMaxWidth: parseFloat(attrs.axisLabelMaxWidth),
-				axisPadding: parseFloat(attrs.axisPadding),
-				labelBarPosition: attrs.labelPosition,
-				labelPositionDY: parseInt(attrs.labelPositionDy, 10),
-				labelPositionDX: parseInt(attrs.labelPositionDx, 10),
-				showAxisLabel: '1' === attrs.showAxisLabel,
-				barColor: attrs.barColor,
-				barPadding: parseInt(attrs.barPadding, 10),
-				backgroundColor: attrs.backgroundColor,
-				categoryLabelColor: attrs.categoryLabelColor,
-			};
-			render(<ProgressBar {...props} />, bar);
-		});
-	}
+const { state, actions } = store('prc-block/progress-bar', {
+	state: {
+		get barStyle() {
+			const context = getContext();
+			console.log('barStyle context', context);
+			const { blockId } = context;
+			console.log('barStyle attributes', state);
+			const { value, maxValue, barHeight, barColor } = state[blockId];
+			const width = (value / maxValue) * 100;
+			return `height: ${barHeight}px; width: ${width}%; background-color: var(--wp--preset--color--${barColor});`;
+		},
+		get value() {
+			const context = getContext();
+			const { blockId } = context;
+			const { value } = state[blockId];
+			return value;
+		},
+	},
+	actions: {},
+	callbacks: {},
 });

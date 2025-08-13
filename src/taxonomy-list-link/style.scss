@@ -97,6 +97,12 @@ a.wp-block-prc-block-taxonomy-list-link,
 		padding-right: 0.3em;
 	}
 
+	&.is-style-sub-tree &__icon {
+		order: 1;
+		padding-left: 0.3em;
+		padding-right: 0;
+	}
+
 	&:not(.is-style-sub-expand) &__icon,
 	&:not(.is-style-sub-heading) &__icon {
 		padding-left: 0.3em;

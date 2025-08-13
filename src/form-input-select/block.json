@@ -69,6 +69,10 @@
 		"allowMultiple": {
 			"type": "boolean",
 			"default": false
+		},
+		"allowSearch": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {

@@ -213,7 +213,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_email( $value, $type ) {
+	private function validate_email( $value, $type = 'email' ) {
 		if ( ! filter_var( $value, FILTER_VALIDATE_EMAIL ) ) {
 			return new \WP_Error( 'invalid_email', 'Invalid email address format.', array( 'status' => 400 ) );
 		}
@@ -227,7 +227,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_text( $value, $type ) {
+	private function validate_text( $value, $type = 'text' ) {
 		// Basic sanitization check.
 		if ( sanitize_text_field( $value ) !== $value && 'textarea' !== $type ) {
 			return new \WP_Error( 'invalid_text', 'Text field contains invalid characters.', array( 'status' => 400 ) );
@@ -242,7 +242,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_number( $value, $type ) {
+	private function validate_number( $value, $type = 'number' ) {
 		if ( ! is_numeric( $value ) ) {
 			return new \WP_Error( 'invalid_number', 'Number field must contain a valid number.', array( 'status' => 400 ) );
 		}
@@ -256,7 +256,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_tel( $value, $type ) {
+	private function validate_tel( $value, $type = 'tel' ) {
 		// Basic phone number validation - allows numbers, spaces, dashes, parentheses, plus.
 		if ( ! preg_match( '/^[\d\s\-\(\)\+\.]+$/', $value ) ) {
 			return new \WP_Error( 'invalid_tel', 'Telephone field contains invalid characters.', array( 'status' => 400 ) );
@@ -271,7 +271,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_url( $value, $type ) {
+	private function validate_url( $value, $type = 'url' ) {
 		if ( ! filter_var( $value, FILTER_VALIDATE_URL ) ) {
 			return new \WP_Error( 'invalid_url', 'URL field must contain a valid URL.', array( 'status' => 400 ) );
 		}
@@ -285,7 +285,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_date( $value, $type ) {
+	private function validate_date( $value, $type = 'date' ) {
 		$date = \DateTime::createFromFormat( 'Y-m-d', $value );
 		if ( ! $date || $date->format( 'Y-m-d' ) !== $value ) {
 			return new \WP_Error( 'invalid_date', 'Date field must be in YYYY-MM-DD format.', array( 'status' => 400 ) );
@@ -300,7 +300,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_datetime( $value, $type ) {
+	private function validate_datetime( $value, $type = 'datetime-local' ) {
 		$datetime = \DateTime::createFromFormat( 'Y-m-d\TH:i', $value );
 		if ( ! $datetime || $datetime->format( 'Y-m-d\TH:i' ) !== $value ) {
 			return new \WP_Error( 'invalid_datetime', 'Datetime field must be in YYYY-MM-DDTHH:MM format.', array( 'status' => 400 ) );
@@ -315,7 +315,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_time( $value, $type ) {
+	private function validate_time( $value, $type = 'time' ) {
 		$time = \DateTime::createFromFormat( 'H:i', $value );
 		if ( ! $time || $time->format( 'H:i' ) !== $value ) {
 			return new \WP_Error( 'invalid_time', 'Time field must be in HH:MM format.', array( 'status' => 400 ) );
@@ -330,7 +330,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_week( $value, $type ) {
+	private function validate_week( $value, $type = 'week' ) {
 		if ( ! preg_match( '/^\d{4}-W\d{2}$/', $value ) ) {
 			return new \WP_Error( 'invalid_week', 'Week field must be in YYYY-WNN format.', array( 'status' => 400 ) );
 		}
@@ -344,7 +344,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_month( $value, $type ) {
+	private function validate_month( $value, $type = 'month' ) {
 		$date = \DateTime::createFromFormat( 'Y-m', $value );
 		if ( ! $date || $date->format( 'Y-m' ) !== $value ) {
 			return new \WP_Error( 'invalid_month', 'Month field must be in YYYY-MM format.', array( 'status' => 400 ) );
@@ -359,7 +359,7 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_captcha( $value, $type ) {
+	private function validate_captcha( $value, $type = 'captchaToken' ) {
 		return true;
 	}
 
@@ -370,8 +370,50 @@ class Form_Send_Email {
 	 * @param string $type The field type.
 	 * @return \WP_Error|true
 	 */
-	private function validate_nonce( $value, $type ) {
-		return true;
+	private function validate_nonce( $value, $type = 'nonceToken', ) {
+		return wp_verify_nonce( $value, 'prc-block-form' );
+	}
+
+	/**
+	 * Format the email body with HTML table styling.
+	 * Safely sanitizes the values and labels before outputting them.
+	 *
+	 * @param array  $form_fields The form fields data.
+	 * @param string $form_name The name of the form.
+	 * @return string The formatted HTML message.
+	 */
+	private function format_body( $form_fields, $form_name ) {
+		$message = '';
+		foreach ( $form_fields as $index => $field ) {
+			// Skip system fields like captcha and nonce tokens.
+			if ( in_array( $field['type'], array( 'captchaToken', 'nonceToken' ), true ) ) {
+				continue;
+			}
+
+			$label = isset( $field['label'] ) ? sanitize_text_field( $field['label'] ) : 'Unlabeled Field';
+			$value = sanitize_text_field( $field['value'] );
+
+			// Handle checkbox values.
+			if ( 'checkbox' === $field['type'] ) {
+				$value = isset( $field['checked'] ) && $field['checked'] ? 'Yes' : 'No';
+			}
+
+			// Handle empty values.
+			if ( empty( $value ) && 'checkbox' !== $field['type'] ) {
+				$value = '<em style="color: #95a5a6;">Not provided</em>';
+			}
+
+			// Alternate row colors.
+			$row_color = ( 0 === $index % 2 ) ? '#f8f9fa' : '#ffffff';
+
+			$message .= '
+						<tr style="background-color: ' . $row_color . ';">
+							<td style="padding: 12px 15px; border-bottom: 1px solid #ecf0f1; font-weight: 600; color: #2c3e50;">' . esc_html( $label ) . '</td>
+							<td style="padding: 12px 15px; border-bottom: 1px solid #ecf0f1;">' . $value . '</td>
+						</tr>';
+		}
+
+		return $message;
 	}
 
 	/**
@@ -402,40 +444,14 @@ class Form_Send_Email {
 					</thead>
 					<tbody>';
 
-		foreach ( $form_fields as $index => $field ) {
-			// Skip system fields like captcha and nonce tokens.
-			if ( in_array( $field['type'], array( 'captchaToken', 'nonceToken' ), true ) ) {
-				continue;
-			}
-
-			$label = isset( $field['label'] ) ? sanitize_text_field( $field['label'] ) : 'Unlabeled Field';
-			$value = sanitize_text_field( $field['value'] );
-
-			// Handle checkbox values.
-			if ( 'checkbox' === $field['type'] ) {
-				$value = isset( $field['checked'] ) && $field['checked'] ? 'Yes' : 'No';
-			}
-
-			// Handle empty values.
-			if ( empty( $value ) && 'checkbox' !== $field['type'] ) {
-				$value = '<em style="color: #95a5a6;">Not provided</em>';
-			}
-
-			// Alternate row colors.
-			$row_color = ( 0 === $index % 2 ) ? '#f8f9fa' : '#ffffff';
-
-			$message .= '
-						<tr style="background-color: ' . $row_color . ';">
-							<td style="padding: 12px 15px; border-bottom: 1px solid #ecf0f1; font-weight: 600; color: #2c3e50;">' . esc_html( $label ) . '</td>
-							<td style="padding: 12px 15px; border-bottom: 1px solid #ecf0f1;">' . $value . '</td>
-						</tr>';
-		}
+		$message .= $this->format_body( $form_fields, $form_name );
 
 		$message .= '
 					</tbody>
 				</table>
 				<div style="margin-top: 30px; padding: 15px; background-color: #ecf0f1; border-left: 4px solid #3498db; color: #2c3e50;">
 					<p style="margin: 0; font-size: 14px;"><strong>Submission Time:</strong> ' . current_time( 'F j, Y, g:i a' ) . '</p>
+					<p style="margin: 0; font-size: 13px;"><strong>Powered by:</strong> PRC Platform Forms</p>
 				</div>
 			</div>
 		</body>
@@ -463,7 +479,7 @@ class Form_Send_Email {
 	 */
 	public function handle_email_submission( $request ) {
 		$nonce = $request->get_param( 'nonce' );
-		if ( ! wp_verify_nonce( $nonce, 'prc-block-form' ) ) {
+		if ( ! $this->validate_nonce( $nonce ) ) {
 			return new \WP_Error( 'invalid_nonce', 'Unauthorized access, NONCE invalid. ERROR CODE: 403', array( 'status' => 403 ) );
 		}
 
@@ -473,16 +489,16 @@ class Form_Send_Email {
 			return new \WP_Error( 'invalid_form_data', 'Invalid form data provided.', array( 'status' => 400 ) );
 		}
 
-		$form_id   = $form_data['formId'] ?? '';
-		$form_name = $form_data['formName'] ?? '';
-		$target    = $form_data['redirectTarget'] ?? false;
+		$form_id   = sanitize_text_field( $form_data['formId'] ?? '' );
+		$form_name = sanitize_text_field( $form_data['formName'] ?? '' );
 
+		$target = $form_data['redirectTarget'] ?? false;
 		// Verify $target is a valid email address.
 		if ( ! filter_var( $target, FILTER_VALIDATE_EMAIL ) ) {
 			return new \WP_Error( 'invalid_target', 'Invalid target provided by form. Must be a valid email address.', array( 'status' => 400 ) );
 		}
-		$form_fields = $form_data['formFields'] ?? array();
 
+		$form_fields = $form_data['formFields'] ?? array();
 		if ( ! is_array( $form_fields ) || empty( $form_fields ) ) {
 			return new \WP_Error( 'empty_form_fields', 'No form fields provided.', array( 'status' => 400 ) );
 		}
@@ -502,14 +518,17 @@ class Form_Send_Email {
 		}
 
 		// Validate all form fields efficiently.
+		$validated_fields = array();
 		foreach ( $form_fields as $field ) {
 			$validation_result = $this->validate_field( $field );
 			if ( is_wp_error( $validation_result ) ) {
 				return $validation_result;
+			} else {
+				$validated_fields[] = $field;
 			}
 		}
 
-		$subject = 'New Form Submission from ' . sanitize_text_field( $form_name );
+		$subject = 'New Form Submission from: ' . $form_name;
 		$message = $this->format_message( $form_fields, $form_name );
 
 		$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
@@ -519,7 +538,17 @@ class Form_Send_Email {
 		$sent = \wp_mail( $target, $subject, $message, $headers ); //phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.wp_mail_wp_mail
 
 		if ( $sent ) {
-			return new \WP_REST_Response( array( 'message' => 'Form submission sent successfully' ), 200 );
+			return new \WP_REST_Response(
+				array(
+					'status'     => 'success',
+					'message'    => wp_sprintf(
+						'%s submitted successfully!',
+						$form_name,
+					),
+					'formFields' => $validated_fields,
+				),
+				200
+			);
 		} else {
 			return new \WP_Error( 'form_submission_failed', 'Form submission failed to send', array( 'status' => 500 ) );
 		}

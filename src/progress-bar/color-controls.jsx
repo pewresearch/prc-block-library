@@ -20,10 +20,8 @@ export default function ColorControls({ colors, clientId }) {
 		const {
 			barColor,
 			setBarColor,
-			backgroundColor,
-			setBackgroundColor,
-			categoryLabelColor,
-			setCategoryLabelColor,
+			valueColor,
+			setValueColor,
 		} = colors;
 
 		return [
@@ -33,14 +31,9 @@ export default function ColorControls({ colors, clientId }) {
 				label: __('Bar Color'),
 			},
 			{
-				colorValue: backgroundColor?.color,
-				onColorChange: setBackgroundColor,
-				label: __('Bar Background'),
-			},
-			{
-				colorValue: categoryLabelColor?.color,
-				onColorChange: setCategoryLabelColor,
-				label: __('Category Label'),
+				colorValue: valueColor?.color,
+				onColorChange: setValueColor,
+				label: __('Value Color'),
 			},
 		];
 	}, [colors]);

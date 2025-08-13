@@ -7,6 +7,9 @@
   "category": "theme",
   "description": "Search for terms of a specified taxonomy.",
   "icon": "search",
+  "allowedBlocks": [
+    "prc-block/form-input-text"
+  ],
   "attributes": {
     "taxonomy": {
       "type": "string",

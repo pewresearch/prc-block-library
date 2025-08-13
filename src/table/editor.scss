@@ -5,7 +5,6 @@
 	box-sizing: border-box;
 
 	> table {
-
 		&.has-fixed-layout {
 			table-layout: fixed;
 		}
@@ -13,7 +12,6 @@
 		thead,
 		tbody,
 		tfoot {
-
 			th,
 			td {
 				position: relative;
@@ -44,12 +42,10 @@
 	}
 
 	&.is-selected {
-
 		> table {
 			margin-top: 3em;
 			th,
 			td {
-
 				.block-editor-rich-text__editable {
 					border: 1px dotted #ccc;
 				}
@@ -70,6 +66,8 @@
 
 		&.show-control-button:not(.is-content-only) {
 			padding-left: 40px;
+			// hacky solution to force the toolbar editor not to overlap the table
+			padding-top: 1px;
 
 			&.is-caption-side-bottom {
 				padding-top: 40px;
@@ -177,7 +175,6 @@
 		}
 
 		&.is-overflow-row {
-
 			tbody tr:nth-last-child(2) td {
 				position: relative;
 				text-align: center;
@@ -333,7 +330,6 @@
 	}
 
 	@media screen and (max-width: 782px) {
-
 		&.is-selected.show-control-button {
 			padding-left: 20px;
 
@@ -348,7 +344,6 @@
 
 		.ftb-row-selector,
 		.ftb-column-selector {
-
 			svg {
 				width: 10px;
 				height: 10px;

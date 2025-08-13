@@ -30,6 +30,17 @@
         "padding": true
       }
     },
+    "layout": {
+      "default": {
+        "type": "flex"
+      },
+      "allowSwitching": true,
+      "allowInheriting": true,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true
+    },
     "typography": {
       "fontSize": true,
       "__experimentalFontFamily": true,
@@ -54,6 +65,5 @@
   "textdomain": "dialog-trigger",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
-  "render": "file:./render.php"
+  "style": "file:./style-index.css"
 }

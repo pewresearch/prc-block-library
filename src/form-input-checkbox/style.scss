@@ -115,15 +115,29 @@
 			outline: max(2px, 0.15em) solid currentColor;
 			outline-offset: max(2px, 0.15em);
 		}
-
 	}
 	input[type="radio"] {
 		border-radius: 50%;
+		&:checked {
+			&::before {
+				content: "";
+				display: block;
+				width: 0.7em;
+				height: 0.7em;
+				background-color: var(--wp--preset--color--ui-black);
+				border-radius: 50%;
+				position: relative;
+				top: 0%;
+				left: 0%;
+				transform: translate(22%, 22%);
+			}
+		}
 	}
 }
 
-
-.wp-block-prc-block-form-input-checkbox:has(.wp-block-prc-block-form-input-checkbox__toggle) {
+.wp-block-prc-block-form-input-checkbox:has(
+		.wp-block-prc-block-form-input-checkbox__toggle
+	) {
 	input {
 		display: none;
 	}

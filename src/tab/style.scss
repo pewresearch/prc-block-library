@@ -1,14 +1,19 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
 .wp-block-prc-block-tab {
-	padding: 1em 0;
+	max-width: 100%;
+	flex-basis: 100%;
+	flex-grow: 1;
+	box-sizing: border-box;
 
-	& > *:first-child {
-		margin-top: 0;
+	&[hidden],
+	&:empty {
+		display: none !important;
 	}
+	&:not(.wp-block):focus {
+		outline: none;
+	}
+}
+
+.wp-block-prc-block-tab.wp-block section.has-background,
+.wp-block-prc-block-tab:not(.wp-block).has-background {
+	padding: var(--wp--preset--spacing--30);
 }

@@ -12,7 +12,6 @@
  * WordPress Dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
-import { register } from '@wordpress/data';
 
 /**
  * Internal Dependencies
@@ -28,18 +27,20 @@ import { register } from '@wordpress/data';
  */
 import edit from './edit';
 import icon from './icon';
+import save from './save';
+import deprecated from './deprecated';
+import './style.scss';
 
 import metadata from './block.json';
-import store from './store';
 
 const { name } = metadata;
 
 const settings = {
 	icon,
 	edit,
+	save,
+	deprecated,
 };
-
-register(store);
 
 /**
  * Every block starts by registering a new block type definition.

@@ -447,7 +447,7 @@ const { state, actions } = store('prc-block/form', {
 				context.submitButtonText = 'Submit';
 			}
 		},
-		sendSubmission: async () => {
+		*sendSubmission() {
 			const context = getContext();
 			const {
 				captchaPassed,
@@ -506,20 +506,8 @@ const { state, actions } = store('prc-block/form', {
 				const slugifiedAction = action
 					.replace(/([A-Z])/g, '-$1')
 					.toLowerCase();
-
-				console.log('onSubmit (REST) context:', { ...context });
-				console.log(
-					'onSubmit (REST) fields:',
-					fieldsForSubmissionWithCaptcha
-				);
-				console.log(
-					'onSubmit (REST) slugifiedAction:',
-					slugifiedAction
-				);
-				console.log('onSubmit (REST) formId:', formId);
-				console.log('onSubmit (REST) formName:', formName);
 				try {
-					const response = await window.wp.apiFetch({
+					const response = yield window.wp.apiFetch({
 						path: `/prc-api/v3/form/${slugifiedAction}?nonce=${nonceToken}`,
 						method: 'POST',
 						data: {
@@ -529,7 +517,6 @@ const { state, actions } = store('prc-block/form', {
 							formFields: fieldsForSubmissionWithCaptcha,
 						},
 					});
-					console.log('onSubmit (REST) response:', response);
 					const formResponse = new FormResponse(response);
 					if (formResponse.isSuccess) {
 						state.success = true;
@@ -551,12 +538,18 @@ const { state, actions } = store('prc-block/form', {
 				context.submissionProcessing = false;
 				context._isSubmitting = false; // Reset flag
 			} else if (method === 'api') {
-				const _store = store(namespace);
-				// console.log('onSubmit (iAPI)', context, state, _store);
+				const _store = yield store(namespace);
+				// console.log('onSubmit (iAPI)', {
+				// 	namespace,
+				// 	action,
+				// 	context,
+				// 	state,
+				// 	_store,
+				// });
 				// Run the requested action and wait for it to complete.
 				if (!!_store?.actions[action]) {
 					try {
-						const result = await _store.actions[action](
+						const result = yield _store.actions[action](
 							fieldsForSubmissionWithCaptcha
 						);
 						const formResponse = new FormResponse(result);

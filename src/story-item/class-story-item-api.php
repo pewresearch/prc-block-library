@@ -5,6 +5,12 @@ use WP_Error;
 use WP_Post;
 use WP_Term;
 
+// 1. A class where manually entered attributes are stored.
+	// a. The class should also check block context for postId and postType and if available use that to override the manually entered attributes.
+	// 2. Block Bindings that have edit ability that post back to attributes. So block bindings will need to declare usesContext story-item/title
+	// 3. Class is called in the context handler and all values are passed down that way. to story-item/title etc...
+	// 4. The block bindings display the context value story-item/{attribute}
+
 /**
  * Pass in attributes, a variation name, and a context array to get a Story Item's constituent markup and data.
  *

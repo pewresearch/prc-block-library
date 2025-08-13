@@ -8,6 +8,7 @@
 .wp-block-prc-block-taxonomy-search {
 	color: inherit;
 	background: inherit;
+	position: relative;
 	&.is-active &__results-list {
 		display: block!important;
 		visibility: visible!important;
@@ -35,7 +36,7 @@
 		transform-origin: center top;
 		white-space: normal;
 		z-index: 100;
-		width: 100%;
+		width: max-content;
 		list-style-type: none;
 		padding: 0.5em;
 		max-height: 250px;

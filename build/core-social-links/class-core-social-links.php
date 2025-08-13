@@ -97,7 +97,7 @@ class Core_Social_Links {
 	 */
 	public function register_assets() {
 		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
-		$this->view_script_handle   = register_block_script_handle( $this->block_json, 'viewScript' );
+		$this->view_script_handle   = register_block_script_module_id( $this->block_json, 'viewScriptModule' );
 		$this->style_handle         = register_block_style_handle( $this->block_json, 'style' );
 	}
 
@@ -321,7 +321,8 @@ class Core_Social_Links {
 	 */
 	public function social_link_render_callback( $block_content, $block, $instance ) {
 		if ( $this->child_block_name === $block['blockName'] && is_string( $block_content ) && ! is_admin() ) {
-			wp_enqueue_script( $this->view_script_handle );
+			wp_enqueue_script_module( $this->view_script_handle );
+			wp_enqueue_script( 'wp-url' );
 
 			$context = $instance->context;
 
@@ -334,15 +335,23 @@ class Core_Social_Links {
 
 			$description = isset( $context['core/socialLinksDescription'] ) ? $context['core/socialLinksDescription'] : null;
 
-			if ( $url ) {
-				$tags->set_attribute( 'data-share-url', esc_url( $url ) );
-			}
-			if ( $title ) {
-				$tags->set_attribute( 'data-share-title', esc_attr( $title ) );
-			}
-			if ( $description ) {
-				$tags->set_attribute( 'data-share-description', esc_attr( $description ) );
-			}
+			$tags->set_attribute( 'data-wp-interactive', 'core/social-links' );
+
+			$platform = preg_replace( '/^wp-social-link-/', '', $tags->get_attribute( 'class' ) );
+
+			$tags->set_attribute(
+				'data-wp-context',
+				wp_json_encode(
+					array(
+						'url'         => $url,
+						'title'       => $title,
+						'description' => $description,
+						'platform'    => $platform,
+					)
+				)
+			);
+
+			$tags->set_attribute( 'data-wp-on--click', 'actions.onShareClick' );
 
 			return $tags->get_updated_html();
 		}

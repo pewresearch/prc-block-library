@@ -97,7 +97,18 @@ class Core_Search {
 			return $block_content;
 		}
 
+		$post_type = get_post_type();
+
 		wp_enqueue_style( $this->style_handle );
+
+		// For Decoded searches, ensure submissions include ep_filter_formats=decoded via hidden input.
+		if ( is_string( $block_content ) && 'decoded' === $post_type ) {
+			$already_present = ( false !== stripos( $block_content, 'name="ep_filter_formats"' ) ) || ( false !== stripos( $block_content, "name='ep_filter_formats'" ) );
+			if ( ! $already_present ) {
+				$hidden_input  = '<input type="hidden" name="ep_filter_formats" value="decoded" />';
+				$block_content = preg_replace( '/<\\/form>/i', $hidden_input . '</form>', $block_content, 1 );
+			}
+		}
 
 		return $block_content;
 	}

@@ -6,6 +6,7 @@ import {
 	getContext,
 	getElement,
 	withScope,
+	withSyncEvent,
 } from '@wordpress/interactivity';
 
 // VideoPress API Docs: https://github.com/Automattic/videopress-player-api-doc/blob/trunk/public-js-api.md
@@ -74,6 +75,31 @@ const { actions, state } = store('prc-block/dialog', {
 	},
 	actions: {
 		/**
+		 * Checks the element for any available animations and dispatches them with the animations store.
+		 */
+		runAnimation: () => {
+			const { isOpen } = state;
+			if (!isOpen) {
+				return;
+			}
+			const { ref } = getElement();
+			const animationStore = store('prc-block/animation');
+			const animationElements = ref.querySelectorAll(
+				'.wp-block-prc-block-animation'
+			);
+			if (animationElements.length) {
+				animationElements.forEach((element) => {
+					const animationId = element.getAttribute('id');
+					const { parentElement } = element;
+					const isHidden =
+						null !== parentElement?.getAttribute('hidden');
+					if (animationId && !isHidden) {
+						animationStore.state[animationId].enabled = true;
+					}
+				});
+			}
+		},
+		/**
 		 * Helper function to close all open dialogs.
 		 * @param dialogType
 		 */
@@ -98,21 +124,21 @@ const { actions, state } = store('prc-block/dialog', {
 		 * This function is used entirely by dialog-trigger to open the dialog.
 		 * @param event
 		 */
-		onClickOpen: (event) => {
+		onClickOpen: withSyncEvent((event) => {
 			// We are hijacking all clicks on the trigger and any children to prevent the default click behavior.
 			event.preventDefault();
 			const { id } = state;
 			actions.open(id);
-		},
+		}),
 		/**
 		 * This function is used entirely by the close button in the dialog element.
 		 * @param event
 		 */
-		onClickClose: (event) => {
+		onClickClose: withSyncEvent((event) => {
 			event.preventDefault();
 			const { id } = state;
 			actions.close(id);
-		},
+		}),
 		/**
 		 * This function allows you to directly open a dialog by passing an id from another store, like so:
 		 * store('prc-block/dialog').actions.open('xyz123');
@@ -131,6 +157,7 @@ const { actions, state } = store('prc-block/dialog', {
 			}
 			state[id].isOpen = true;
 			state[id].closingModal = false;
+			//TODO: Implement animation dispatch here.
 			if (!!state.videoPressAPI) {
 				setTimeout(
 					withScope(() => {
@@ -154,6 +181,7 @@ const { actions, state } = store('prc-block/dialog', {
 				console.error('No id found to close dialog.');
 				return;
 			}
+			console.log('close:::id', id);
 			state[id].isOpen = false;
 			if (!!state[id].videoPressAPI) {
 				actions.pause(id);
@@ -215,11 +243,11 @@ const { actions, state } = store('prc-block/dialog', {
 			if (enableDeepLink) {
 				addDialogIdToUrl(id);
 			}
-			state[id].isOpen = true;
+			console.log('onOpen:::dialogElement', dialogElement);
 			if ('modal' === type) {
-				dialogElement.showModal();
+				dialogElement?.showModal();
 			} else {
-				dialogElement.show();
+				dialogElement?.show();
 			}
 		},
 		/**
@@ -241,7 +269,7 @@ const { actions, state } = store('prc-block/dialog', {
 			// Allow for animation to complete...
 			setTimeout(
 				withScope(() => {
-					dialogElement.close();
+					dialogElement?.close();
 					removeDialogIdFromUrl(id); // We always clean the dialog id regardless of whether deep linking is enabled or not.
 					// Fire off a custom event to let other blocks know the dialog has closed, it's explicit and only runs when a user closes the dialog.
 					const event = new CustomEvent('prc-block-dialog-closed', {
@@ -267,7 +295,7 @@ const { actions, state } = store('prc-block/dialog', {
 				state.currentDevice = 'desktop';
 			}
 		},
-		onBackdropClick: (event) => {
+		onBackdropClick: withSyncEvent((event) => {
 			const { ref } = getElement();
 			const boundingRects = ref.getBoundingClientRect();
 			// make sure the event x and y are within the dialog element, if they are continue...
@@ -284,7 +312,7 @@ const { actions, state } = store('prc-block/dialog', {
 			}
 			const { id } = state;
 			actions.close(id);
-		},
+		}),
 		onAutoActivation: () => {
 			const { id, activationTimerDuration } = state;
 			if (

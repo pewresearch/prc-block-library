@@ -5,36 +5,34 @@ import {
 	store,
 	getContext,
 	getElement,
-	useState,
-	useEffect,
+	withSyncEvent,
+	withScope,
 } from '@wordpress/interactivity';
 
 const { apiFetch } = window.wp;
 const { addQueryArgs } = window.wp.url;
 const { decodeEntities } = window.wp.htmlEntities;
 
-const useDebounce = (value, delay) => {
-	// State and setters for debounced value
-	const [debouncedValue, setDebouncedValue] = useState(value);
-	useEffect(
-		() => {
-			// Update debounced value after delay
-			const handler = setTimeout(() => {
-				setDebouncedValue(value);
-			}, delay);
-			// Cancel the timeout if value changes (also on delay change or unmount)
-			// This is how we prevent debounced value from updating if value is changed ...
-			// .. within the delay period. Timeout gets cleared and restarted.
-			return () => {
-				clearTimeout(handler);
-			};
-		},
-		[value, delay] // Only re-call effect if value or delay changes
-	);
-	return debouncedValue;
-};
-
 const { state, actions } = store('prc-block/taxonomy-search', {
+	state: {
+		get inputValue() {
+			const { attributes } = getElement();
+			const { id } = attributes;
+			const { formFields } = state;
+			return formFields.find((field) => field.id === id)?.value;
+		},
+		get inputName() {
+			const context = getContext();
+			const { taxonomy } = context;
+			return `search__${taxonomy}`;
+		},
+		get inputPlaceholder() {
+			const { attributes } = getElement();
+			const { id } = attributes;
+			const { formFields } = state;
+			return formFields.find((field) => field.id === id)?.placeholder;
+		},
+	},
 	actions: {
 		async doSearch(searchValue, taxonomy, parentTermId = 0) {
 			return new Promise((resolve) => {
@@ -56,7 +54,9 @@ const { state, actions } = store('prc-block/taxonomy-search', {
 						args
 					),
 				};
+				console.log('doSearch request', request);
 				apiFetch(request).then((d) => {
+					console.log('doSearch response', d);
 					const tmpData = d.map((t) => ({
 						key: t.id,
 						id: t.id,
@@ -68,26 +68,31 @@ const { state, actions } = store('prc-block/taxonomy-search', {
 				});
 			});
 		},
-		onInputFocus: (event) => {
+		onInputFocus: withSyncEvent((event) => {
 			const context = getContext();
 			context.isActive = true;
-		},
-		onInputBlur: (event) => {
+		}),
+		onInputBlur: withSyncEvent((event) => {
 			const context = getContext();
 			setTimeout(() => {
 				context.isActive = false;
 			}, 300);
-		},
-		onInputChange: (event) => {
+		}),
+		onInputChange: withSyncEvent((event) => {
 			const { value } = event.target;
 			const context = getContext();
 			const { ref } = getElement();
 			const { id } = ref;
 			// Store the value in the global state where we store all primitve inputs.
-			state[id].value = value;
 			// Also, store the value in this block's context so we can use it in the submitHandler.
-			context.searchValue = state[id].value;
-		},
+			const { formFields } = state;
+			const formField = formFields.find((f) => f.id === id);
+			if (formField) {
+				formField.value = value;
+			}
+			state.formFields = formFields;
+			context.searchValue = value;
+		}),
 	},
 	callbacks: {
 		showResults: () => {
@@ -98,24 +103,20 @@ const { state, actions } = store('prc-block/taxonomy-search', {
 				context.isActive
 			);
 		},
-		onSearchValueChange: () => {
+		onSearchValueChange: withSyncEvent(() => {
 			const context = getContext();
-			const { debouncedSearchValue } = context;
-			if (debouncedSearchValue) {
-				actions
-					.doSearch(debouncedSearchValue, context.taxonomy)
-					.then((d) => {
-						context.results = d;
-					});
+			const { searchValue, taxonomy } = context;
+			if (searchValue && searchValue.length > 4) {
+				withScope(
+					setTimeout(() => {
+						console.log('onSearchValueChange', { ...context });
+						actions.doSearch(searchValue, taxonomy).then((d) => {
+							context.results = d;
+						});
+					}, 1200)
+				);
 			}
-		},
-		debounceSearchValueChange: () => {
-			const context = getContext();
-			const debouncedSearchValue = useDebounce(context.searchValue, 1000);
-			if (debouncedSearchValue.length > 2) {
-				context.debouncedSearchValue = debouncedSearchValue;
-			}
-		},
+		}),
 		onEscKey: (event) => {
 			if (27 === event.keyCode) {
 				const context = getContext();

@@ -74,6 +74,12 @@ const { state, actions } = store('prc-block/form-input-select', {
 			}
 			return state[id].isDisabled || false;
 		},
+		get isInputReadonly() {
+			const context = getContext();
+			const { allowSearch } = context;
+			// If allowSearch is false, make the input readonly
+			return !allowSearch;
+		},
 		get inputId() {
 			const context = getContext();
 			const { id } = context;
@@ -178,36 +184,79 @@ const { state, actions } = store('prc-block/form-input-select', {
 			);
 		},
 		onInputKeyDown: withSyncEvent((event) => {
-			// if enter key, select the active item
-			event.preventDefault();
+			const { activeIndex, id, targetNamespace, allowSearch } =
+				getContext();
+
+			// Define navigation keys that should always work
+			const navigationKeys = [
+				'ArrowDown',
+				'ArrowUp',
+				'Enter',
+				'Escape',
+				'Tab',
+			];
+			const isNavigationKey = navigationKeys.includes(event.key);
+
+			// Handle arrow keys specifically to prevent page scrolling
+			if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+				event.preventDefault();
+				event.stopPropagation();
+				// Let onInputKeyUp handle the actual navigation logic
+				return;
+			}
+
+			// If search is not allowed and this is not a navigation key, prevent the default behavior
+			if (!allowSearch && !isNavigationKey) {
+				event.preventDefault();
+				event.stopPropagation();
+				return;
+			}
+
+			// Handle specific key actions
 			if (event.key === 'Enter') {
-				const { activeIndex, id, targetNamespace } = getContext();
+				event.preventDefault();
+				event.stopPropagation();
 				const { inputOptions } = state;
-				const { label, value } = inputOptions[activeIndex];
+				if (inputOptions && inputOptions[activeIndex]) {
+					const { label, value } = inputOptions[activeIndex];
 
-				state[id].value = value;
-				state[id].label = label;
-				state[id].isOpen = false;
+					state[id].value = value;
+					state[id].label = label;
+					state[id].isOpen = false;
 
-				actions.hoistValueToTargetState(id, targetNamespace);
+					actions.hoistValueToTargetState(id, targetNamespace);
+				}
 			}
 		}),
 		onInputKeyUp: withSyncEvent((event) => {
 			const context = getContext();
-			const { id } = context;
-			context.searchTerm = event.target.value;
+			const { id, allowSearch } = context;
+
+			// Only update search term if search is allowed
+			if (allowSearch) {
+				context.searchTerm = event.target.value;
+			}
+
+			// Open dropdown if not already open
 			if (!state[id].isOpen) {
 				state[id].isOpen = true;
 			}
-			if (event.keyCode === 40 && event.key === 'ArrowDown') {
+
+			// Handle arrow key navigation (works regardless of allowSearch)
+			if (event.key === 'ArrowDown') {
+				event.preventDefault();
+				event.stopPropagation();
 				actions.moveThroughChoices(1, event.target);
 				return;
 			}
-			if (event.keyCode === 38 && event.key === 'ArrowUp') {
+			if (event.key === 'ArrowUp') {
+				event.preventDefault();
+				event.stopPropagation();
 				actions.moveThroughChoices(-1, event.target);
 				return;
 			}
-			// if escape key, close the listbox
+
+			// Close dropdown on escape key
 			if (event.key === 'Escape') {
 				state[id].isOpen = false;
 			}

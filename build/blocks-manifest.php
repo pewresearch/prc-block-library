@@ -174,6 +174,52 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
 	),
+	'animation' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/animation',
+		'title' => 'Animation',
+		'version' => '1.0.0',
+		'category' => 'design',
+		'attributes' => array(
+			'animation' => array(
+				'type' => 'string',
+				'enum' => array(
+					'confetti',
+					'emoji'
+				)
+			),
+			'emoji' => array(
+				'type' => 'string'
+			),
+			'effect' => array(
+				'type' => 'string',
+				'enum' => array(
+					'center',
+					'fireworks',
+					'rain'
+				)
+			),
+			'speed' => array(
+				'type' => 'number',
+				'default' => 5000
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'reusable' => true,
+			'interactivity' => true,
+			'spacing' => array(
+				'padding' => true,
+				'margin' => true
+			)
+		),
+		'textdomain' => 'animation',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
+	),
 	'attachment-info' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1101,7 +1147,7 @@ return array(
 		'textdomain' => 'core-social-links',
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css',
-		'viewScript' => 'file:./view.js'
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'core-table' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1220,6 +1266,7 @@ return array(
 			'html' => false,
 			'align' => false,
 			'inserter' => false,
+			'animations' => true,
 			'color' => array(
 				'background' => true,
 				'text' => true,
@@ -1297,6 +1344,17 @@ return array(
 					'padding' => true
 				)
 			),
+			'layout' => array(
+				'default' => array(
+					'type' => 'flex'
+				),
+				'allowSwitching' => true,
+				'allowInheriting' => true,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true,
+				'allowOrientation' => true,
+				'allowSizingOnChildren' => true
+			),
 			'typography' => array(
 				'fontSize' => true,
 				'__experimentalFontFamily' => true,
@@ -1321,8 +1379,7 @@ return array(
 		'textdomain' => 'dialog-trigger',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'entity-as-iframe' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1882,6 +1939,10 @@ return array(
 			'allowMultiple' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'allowSearch' => array(
+				'type' => 'boolean',
+				'default' => true
 			)
 		),
 		'supports' => array(
@@ -3313,93 +3374,102 @@ return array(
 			'chart'
 		),
 		'attributes' => array(
-			'maxWidth' => array(
-				'type' => 'number',
-				'default' => '640'
-			),
 			'barColor' => array(
 				'type' => 'string',
 				'default' => 'social-trends-teal'
 			),
-			'barPadding' => array(
-				'type' => 'number',
-				'default' => 15
+			'valueColor' => array(
+				'type' => 'string',
+				'default' => 'ui-black'
 			),
 			'backgroundColor' => array(
 				'type' => 'string',
 				'default' => 'ui-beige-very-light'
 			),
-			'categoryLabelColor' => array(
-				'type' => 'string',
-				'default' => 'text-color'
+			'barHeight' => array(
+				'type' => 'number',
+				'default' => 10
 			),
 			'maxValue' => array(
 				'type' => 'number',
 				'default' => 100
 			),
-			'currentValue' => array(
-				'type' => 'number',
-				'default' => 50
-			),
-			'showAxisLabel' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'axisLabel' => array(
+			'label' => array(
 				'type' => 'string',
-				'default' => 'Total'
+				'source' => 'html',
+				'selector' => 'label',
+				'default' => 'Progress'
 			),
-			'axisPadding' => array(
+			'value' => array(
 				'type' => 'number',
-				'default' => 60
-			),
-			'axisLabelMaxWidth' => array(
-				'type' => 'number',
-				'default' => 60
+				'default' => 0
 			),
 			'labelFormat' => array(
+				'type' => 'string',
+				'default' => 'percentage',
 				'enum' => array(
-					'fractional',
-					'percentage'
-				),
-				'default' => 'fractional'
+					'percentage',
+					'fractional'
+				)
 			),
-			'labelPositionDX' => array(
-				'type' => 'integer',
-				'default' => -5
+			'labelPosition' => array(
+				'type' => 'string',
+				'default' => 'left',
+				'enum' => array(
+					'left',
+					'right'
+				)
 			),
-			'labelPositionDY' => array(
-				'type' => 'integer',
-				'default' => 4
+			'valuePosition' => array(
+				'type' => 'string',
+				'default' => 'outside',
+				'enum' => array(
+					'inside',
+					'outside'
+				)
+			),
+			'valueFontSize' => array(
+				'type' => 'number',
+				'default' => 12
 			)
 		),
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
+			'interactivity' => true,
+			'animations' => true,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'__experimentalSkipSerialization' => true
+			),
 			'spacing' => array(
 				'blockGap' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
+				'margin' => true,
 				'padding' => true,
 				'__experimentalDefaultControls' => array(
 					'padding' => true
 				)
 			),
 			'typography' => array(
-				'fontSize' => true
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalFontFamily' => true
 			)
 		),
 		'example' => array(
 			'attributes' => array(
-				
+				'label' => 'Progress',
+				'value' => 35,
+				'maxValue' => 100
 			)
 		),
 		'textdomain' => 'progress-bar',
 		'editorScript' => 'file:./index.js',
-		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js'
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'promo' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4221,19 +4291,13 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'prc-block/tab',
 		'title' => 'Tab',
+		'description' => 'Content for a tab in a tabbed interface.',
 		'version' => '1.0.0',
 		'category' => 'design',
 		'attributes' => array(
 			'label' => array(
 				'type' => 'string',
 				'default' => ''
-			),
-			'slug' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'tabIndex' => array(
-				'type' => 'number'
 			)
 		),
 		'parent' => array(
@@ -4243,17 +4307,21 @@ return array(
 			'anchor' => true,
 			'html' => false,
 			'reusable' => false,
-			'color' => array(
-				'background' => true,
-				'heading' => true,
-				'text' => true
+			'layout' => array(
+				'default' => array(
+					'type' => 'default'
+				),
+				'allowSwitching' => true,
+				'allowInheriting' => false,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true,
+				'allowOrientation' => true,
+				'allowSizingOnChildren' => true
 			),
 			'spacing' => array(
-				'padding' => true,
 				'blockGap' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true
-				)
+				'padding' => true,
+				'margin' => false
 			),
 			'typography' => array(
 				'fontSize' => true,
@@ -4261,15 +4329,17 @@ return array(
 				'__experimentalDefaultControls' => array(
 					'fontSize' => true,
 					'__experimentalFontFamily' => true
-				)
+				),
+				'__experimentalSkipSerialization' => true
 			)
 		),
 		'providesContext' => array(
-			'tab/label' => 'label',
-			'tab/slug' => 'slug',
-			'tab/index' => 'tabIndex'
+			'tab/label' => 'label'
 		),
-		'textdomain' => 'tab',
+		'usesContext' => array(
+			'tabs/id'
+		),
+		'textdomain' => 'prc-block-library',
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css'
 	),
@@ -4796,18 +4866,16 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'prc-block/tabs',
 		'title' => 'Tabs',
+		'description' => 'Display content in a tabbed interface to help users navigate detailed content with ease.',
 		'version' => '1.0.0',
 		'category' => 'design',
 		'allowedBlocks' => array(
 			'prc-block/tab'
 		),
-		'usesContext' => array(
-			'remote-data-blocks/pivotedData'
-		),
 		'attributes' => array(
-			'defaultActiveTabIndex' => array(
-				'type' => 'number',
-				'default' => 0
+			'tabsId' => array(
+				'type' => 'string',
+				'default' => ''
 			),
 			'orientation' => array(
 				'type' => 'string',
@@ -4817,10 +4885,14 @@ return array(
 					'vertical'
 				)
 			),
-			'tabBackgroundColor' => array(
+			'activeTabIndex' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'tabInactiveColor' => array(
 				'type' => 'string'
 			),
-			'customTabBackgroundColor' => array(
+			'customTabInactiveColor' => array(
 				'type' => 'string'
 			),
 			'tabHoverColor' => array(
@@ -4854,54 +4926,15 @@ return array(
 				'type' => 'string'
 			)
 		),
-		'example' => array(
-			'attributes' => array(
-				'className' => 'is-example'
-			),
-			'innerBlocks' => array(
-				array(
-					'name' => 'prc-block/tab',
-					'attributes' => array(
-						'label' => 'Tab 1',
-						'slug' => 'tab-1',
-						'tabIndex' => 0
-					),
-					'innerBlocks' => array(
-						array(
-							'name' => 'core/paragraph',
-							'attributes' => array(
-								'content' => 'Tab 1 content'
-							)
-						)
-					)
-				),
-				array(
-					'name' => 'prc-block/tab',
-					'attributes' => array(
-						'label' => 'Tab 2',
-						'slug' => 'tab-2',
-						'tabIndex' => 1
-					)
-				),
-				array(
-					'name' => 'prc-block/tab',
-					'attributes' => array(
-						'label' => 'Tab 3',
-						'slug' => 'tab-3',
-						'tabIndex' => 2
-					)
-				)
-			)
-		),
 		'styles' => array(
 			array(
-				'name' => 'tabbed',
-				'label' => 'Tabbed',
+				'name' => 'fill',
+				'label' => 'Fill',
 				'isDefault' => true
 			),
 			array(
-				'name' => 'tabbed-outline',
-				'label' => 'Tabbed Outline'
+				'name' => 'outline',
+				'label' => 'Outline'
 			),
 			array(
 				'name' => 'underlined',
@@ -4925,16 +4958,61 @@ return array(
 			'html' => false,
 			'interactivity' => true,
 			'spacing' => array(
-				'blockGap' => true,
+				'blockGap' => array(
+					'horizontal',
+					'vertical'
+				),
 				'margin' => true,
-				'padding' => true
+				'padding' => false
 			),
 			'typography' => array(
 				'fontSize' => true,
-				'fontFamily' => true
+				'__experimentalFontFamily' => true
 			)
 		),
-		'textdomain' => 'tabs',
+		'example' => array(
+			'attributes' => array(
+				'className' => 'is-example'
+			),
+			'innerBlocks' => array(
+				array(
+					'name' => 'prc-block/tab',
+					'attributes' => array(
+						'label' => 'Tab 1'
+					),
+					'innerBlocks' => array(
+						array(
+							'name' => 'core/paragraph',
+							'attributes' => array(
+								'content' => 'Pariatur commodo sint mollit. Veniam Lorem labore voluptate fugiat. Ad nulla est labore cillum cillum qui nostrud do incididunt eiusmod. Aliqua aliqua sunt consequat consequat in duis deserunt.'
+							)
+						),
+						array(
+							'name' => 'core/paragraph',
+							'attributes' => array(
+								'content' => 'Adipisicing ullamco nisi in eu laborum adipisicing aliquip aliqua. Fugiat labore officia consequat nisi veniam velit commodo cillum enim duis quis ad.'
+							)
+						)
+					)
+				),
+				array(
+					'name' => 'prc-block/tab',
+					'attributes' => array(
+						'label' => 'Tab 2'
+					)
+				),
+				array(
+					'name' => 'prc-block/tab',
+					'attributes' => array(
+						'label' => 'Tab 3'
+					)
+				)
+			)
+		),
+		'providesContext' => array(
+			'tabs/id' => 'tabsId'
+		),
+		'textdomain' => 'prc-block-library',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
@@ -5294,6 +5372,9 @@ return array(
 		'category' => 'theme',
 		'description' => 'Search for terms of a specified taxonomy.',
 		'icon' => 'search',
+		'allowedBlocks' => array(
+			'prc-block/form-input-text'
+		),
 		'attributes' => array(
 			'taxonomy' => array(
 				'type' => 'string',

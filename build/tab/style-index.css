@@ -1,1 +1,1 @@
-.wp-block-prc-block-tab{padding:1em 0}.wp-block-prc-block-tab>:first-child{margin-top:0}
+.wp-block-prc-block-tab{box-sizing:border-box;flex-basis:100%;flex-grow:1;max-width:100%}.wp-block-prc-block-tab:empty,.wp-block-prc-block-tab[hidden]{display:none!important}.wp-block-prc-block-tab:not(.wp-block):focus{outline:none}.wp-block-prc-block-tab.wp-block section.has-background,.wp-block-prc-block-tab:not(.wp-block).has-background{padding:var(--wp--preset--spacing--30)}

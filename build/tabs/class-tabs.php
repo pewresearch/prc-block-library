@@ -1,76 +1,59 @@
 <?php
 /**
- * Tabs Block
+ * Tabs Block (PRC)
  *
  * @package PRC\Platform\Blocks
  */
 
+declare(strict_types=1);
+
 namespace PRC\Platform\Blocks;
 
-use WP_HTML_Tag_Processor, WP_Query;
+use WP_HTML_Tag_Processor;
 
 /**
- * Block Name:        Tabs
- * Requires at least: 6.7
- * Requires PHP:      8.2
- * Author:            Pew Research Center
- *
- * @package           prc-block
+ * Server-side handling for `prc-block/tabs`.
  */
 class Tabs {
-
 	/**
-	 * Stores the tabs in memory for passage to block context later.
+	 * Constructor wires hooks.
 	 *
-	 * @var array
-	 */
-	public $tabs = array();
-
-	/**
-	 * Constructor for the Tabs class.
-	 *
-	 * @param mixed $loader The loader instance to register hooks with.
+	 * @param mixed $loader Loader to register actions with.
 	 */
 	public function __construct( $loader ) {
-		require_once PRC_BLOCK_LIBRARY_DIR . '/src/tabs/util.php';
+		// Ensure utility functions are loaded.
+		require_once PRC_BLOCK_LIBRARY_DIR . '/build/tabs/util.php';
 		$this->init( $loader );
 	}
 
-	public function init( $loader = null ) {
+	/**
+	 * Wire hooks.
+	 *
+	 * @param mixed $loader Loader instance.
+	 */
+	public function init( $loader = null ): void {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'prc_platform_rewrite_query_vars', $this, 'register_active_tab_index_query_var' );
+			$loader->add_filter( 'render_block_data', $this, 'add_unique_id_to_attributes', 10, 1 );
 		}
 	}
 
 	/**
-	 * Register the active tab index query var
+	 * Build inline CSS custom properties for color settings.
 	 *
-	 * @hook prc_platform_rewrite_query_vars
-	 * @param array $query_vars Query vars.
-	 * @return array
+	 * @param array $attributes Block attributes.
+	 * @return string Inline CSS string.
 	 */
-	public function register_active_tab_index_query_var( $query_vars ) {
-		$query_vars[] = 'activeTabIndex';
-		return $query_vars;
-	}
-
-	/**
-	 * Get the color variables
-	 *
-	 * @param array $attributes Attributes.
-	 * @return array
-	 */
-	public function get_color_variables( $attributes ) {
-		$tab_background = array_key_exists( 'customTabBackgroundColor', $attributes ) ? $attributes['customTabBackgroundColor'] : '';
-		$tab_hover      = array_key_exists( 'customTabHoverColor', $attributes ) ? $attributes['customTabHoverColor'] : '';
-		$tab_active     = array_key_exists( 'customTabActiveColor', $attributes ) ? $attributes['customTabActiveColor'] : '';
-		$tab_text       = array_key_exists( 'customTabTextColor', $attributes ) ? $attributes['customTabTextColor'] : '';
-		$hover_text     = array_key_exists( 'customTabHoverTextColor', $attributes ) ? $attributes['customTabHoverTextColor'] : '';
-		$active_text    = array_key_exists( 'customTabActiveTextColor', $attributes ) ? $attributes['customTabActiveTextColor'] : '';
+	private function generate_color_styles( array $attributes, bool $is_vertical ): string {
+		$tab_inactive = $attributes['customTabInactiveColor'] ?? '';
+		$tab_hover    = $attributes['customTabHoverColor'] ?? '';
+		$tab_active   = $attributes['customTabActiveColor'] ?? '';
+		$tab_text     = $attributes['customTabTextColor'] ?? '';
+		$hover_text   = $attributes['customTabHoverTextColor'] ?? '';
+		$active_text  = $attributes['customTabActiveTextColor'] ?? '';
 
 		$styles = array(
-			'--custom-tab-background-color'  => $tab_background,
+			'--custom-tab-inactive-color'    => $tab_inactive,
 			'--custom-tab-hover-color'       => $tab_hover,
 			'--custom-tab-active-color'      => $tab_active,
 			'--custom-tab-text-color'        => $tab_text,
@@ -79,84 +62,195 @@ class Tabs {
 		);
 
 		$style_string = array_map(
-			function ( $key, $value ) {
+			static function ( string $key, string $value ): string {
 				return ! empty( $value ) ? $key . ': ' . $value . ';' : '';
 			},
 			array_keys( $styles ),
 			$styles
 		);
-		$style_string = implode( ' ', array_filter( $style_string ) );
 
-		return $style_string;
+		return implode( ' ', array_filter( $style_string ) );
 	}
 
 	/**
-	 * Render the block
+	 * Build inline CSS custom properties for gap settings.
 	 *
-	 * @param array    $attributes Block attributes.
-	 * @param string   $content Block content.
-	 * @param WP_Block $block WP_Block object.
-	 * @return string
+	 * @param array $attributes Block attributes.
+	 * @param bool  $is_vertical Whether the tabs are vertical.
+	 * @return string Inline CSS string.
 	 */
-	public function render_block_callback( $attributes, $content, $block ) {
-		$styles                   = $this->get_color_variables( $attributes );
-		$default_active_tab_index = (int) \PRC\Platform\Block_Utils\get_block_attributes( 'prc-block/tabs', $attributes, 'defaultActiveTabIndex' );
+	private function generate_gap_styles( array $attributes, bool $is_vertical ): string {
+		if ( empty( $attributes['style'] ) || ! is_array( $attributes['style'] ) ) {
+			return '--wp--style--tabs-gap-default: 0.5em;';
+		}
+		if ( empty( $attributes['style']['spacing'] ) || ! is_array( $attributes['style']['spacing'] ) ) {
+			return '--wp--style--tabs-gap-default: 0.5em;';
+		}
+		if ( ! array_key_exists( 'blockGap', $attributes['style']['spacing'] ) ) {
+			return '--wp--style--tabs-gap-default: 0.5em;';
+		}
 
-		$url_encoded_active_tab_index = get_query_var( 'activeTabIndex', 0 );
-		$url_encoded_active_tab_index = base64_decode( $url_encoded_active_tab_index );
-		preg_match( '/__(\d+)$/', $url_encoded_active_tab_index, $matches );
-		$active_tab_index = isset( $matches[1] ) ? (int) $matches[1] : $default_active_tab_index;
+		$block_gap = $attributes['style']['spacing']['blockGap'];
 
-		$wrapper_attributes = get_block_wrapper_attributes(
-			array(
-				'class'                                => 'vertical' === $attributes['orientation'] ? 'is-orientation-vertical' : 'is-orientation-horizontal',
-				'data-wp-interactive'                  => 'prc-block/tabs',
-				'data-wp-context'                      => wp_json_encode(
-					array(
-						'activeTabIndex'         => $active_tab_index,
-						'activeTabIndexQueryVar' => get_query_var( 'activeTabIndex', false ),
-					)
-				),
-				'style'                                => $styles,
-				'data-wp-init--focus-active-tab-index' => 'callbacks.focusActiveTabIndex',
-			)
+		if ( is_array( $block_gap ) ) {
+			if ( array_key_exists( 'left', $block_gap ) && array_key_exists( 'top', $block_gap ) ) {
+				$block_gap_horizontal = $block_gap['left'];
+				$block_gap_vertical   = $block_gap['top'];
+			} elseif ( array_key_exists( 'left', $block_gap ) ) {
+				$block_gap_horizontal = $block_gap['left'];
+				$block_gap_vertical   = '0.5em';
+			} elseif ( array_key_exists( 'top', $block_gap ) ) {
+				$block_gap_horizontal = '0.5em';
+				$block_gap_vertical   = $block_gap['top'];
+			} else {
+				return '--wp--style--tabs-gap-default: 0.5em;';
+			}
+		} elseif ( is_string( $block_gap ) ) {
+			return '--wp--style--tabs-gap-default: 0.5em;';
+		}
+
+		$block_gap_horizontal = preg_match( '/^var:preset\|spacing\|\d+$/', (string) $block_gap_horizontal )
+			? 'var(--wp--preset--spacing--' . substr( (string) $block_gap_horizontal, strrpos( (string) $block_gap_horizontal, '|' ) + 1 ) . ')'
+			: (string) $block_gap_horizontal;
+
+		$block_gap_vertical = preg_match( '/^var:preset\|spacing\|\d+$/', (string) $block_gap_vertical )
+			? 'var(--wp--preset--spacing--' . substr( (string) $block_gap_vertical, strrpos( (string) $block_gap_vertical, '|' ) + 1 ) . ')'
+			: (string) $block_gap_vertical;
+
+		$list_gap  = $block_gap_horizontal;
+		$block_gap = $block_gap_vertical;
+
+		if ( $is_vertical ) {
+			$list_gap  = $block_gap_vertical;
+			$block_gap = $block_gap_horizontal;
+		}
+
+		return wp_sprintf(
+			'--wp--style--unstable-tabs-list-gap: %s;--wp--style--unstable-tabs-gap: %s;',
+			$list_gap,
+			$block_gap
 		);
+	}
 
-		$innerblocks = $block->parsed_block['innerBlocks'];
-		$tabs_list   = array_map(
-			function ( $tab ) {
-				$attrs = $tab['attrs'];
+	/**
+	 * Extract tabs list from inner blocks for context hydration.
+	 *
+	 * @param array $innerblocks Parsed inner blocks.
+	 * @return array List of tabs with id, label, index.
+	 */
+	private function generate_tabs_list_from_innerblocks( array $innerblocks = array() ): array {
+		$tab_index = 0;
+
+		return array_map(
+			static function ( array $tab ) use ( &$tab_index ): array {
+				$attrs = $tab['attrs'] ?? array();
+
+				$tag_processor = new WP_HTML_Tag_Processor( $tab['innerHTML'] ?? '' );
+				$tag_processor->next_tag( array( 'class_name' => 'wp-block-prc-block-tab' ) );
+
+				$tab_id    = $tag_processor->get_attribute( 'id' );
+				$tab_label = $attrs['label'] ?? '';
+
+				$attrs['id']    = $tab_id;
+				$attrs['label'] = esc_html( (string) $tab_label );
+
+				$tab_index++;
+
 				return $attrs;
 			},
 			$innerblocks
 		);
-		$tabs_markup = '<ul class="prc-block-tabs__list" role="tablist">';
-		foreach ( $tabs_list as $tab_index => $tab ) {
-			$tab_slug     = $tab['slug'];
-			$tab_label    = $tab['label'];
-			$tabs_markup .= wp_sprintf( '<li class="prc-block-tabs__list-item"><a id="%1$s" class="prc-block-tabs__tab-label" href="%1$s" data-wp-on--click="actions.handleTabClick" data-tab-index="%2$s" data-wp-bind--aria-selected="state.isActiveTab" data-tab-hash="%4$s">%3$s</a></li>', $tab_slug, $tab_index, $tab_label, base64_encode( $tab_label . '__' . $tab_index ) );
-		}
-		$tabs_markup .= '</ul>';
-
-		return wp_sprintf(
-			'<div %1$s><h3 class="prc-block-tabs__title">%2$s</h3>%3$s%4$s</div>',
-			$wrapper_attributes,
-			'Contents',
-			$tabs_markup,
-			$content
-		);
 	}
 
 	/**
-	 * Registers the block using the block manifest (if registered). Fails over to the metadata loaded from the `block.json` file.
-	 * Behind the scenes, it registers also all assets so they can be enqueued
-	 * through the block editor in the corresponding context.
+	 * Add unique id to attributes.
 	 *
-	 * @hook init
+	 * @hook render_block_data
 	 *
-	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
+	 * @param array     $parsed_block The parsed block.
+	 * @param array     $source_block The source block.
+	 * @param \WP_Block $parent_block The parent block.
+	 * @return array Updated attributes.
 	 */
-	public function block_init() {
+	public function add_unique_id_to_attributes( array $parsed_block ): array {
+		if ( ! in_array( $parsed_block['blockName'], array( 'prc-block/tabs' ), true ) ) {
+			return $parsed_block;
+		}
+		$attrs = $parsed_block['attrs'] ?? array();
+		$id    = $attrs['tabsId'] ?? false;
+		if ( ! $id ) {
+			$attrs['tabsId']       = wp_unique_id( 'tabs__' );
+			$parsed_block['attrs'] = $attrs;
+		}
+		return $parsed_block;
+	}
+
+	/**
+	 * Render callback for prc-block/tabs.
+	 *
+	 * @param array     $attributes Block attributes.
+	 * @param string    $content    Block content.
+	 * @param \WP_Block $block      WP_Block instance.
+	 * @return string Updated HTML.
+	 */
+	public function render_block_callback( array $attributes, string $content, \WP_Block $block ): string {
+		$active_tab_index = $attributes['activeTabIndex'] ?? 0;
+
+		$is_vertical = 'vertical' === ( $attributes['orientation'] ?? 'horizontal' );
+
+		$tag_processor = new WP_HTML_Tag_Processor( $content );
+		$tag_processor->next_tag( array( 'class_name' => 'wp-block-prc-block-tabs' ) );
+		$tag_processor->add_class( $is_vertical ? 'is-vertical' : 'is-horizontal' );
+		$tag_processor->set_attribute( 'data-wp-interactive', 'prc-block/tabs' );
+		$tag_processor->set_attribute(
+			'data-wp-context',
+			wp_json_encode(
+				array(
+					'tabsId'         => $attributes['tabsId'] ?? '',
+					'activeTabIndex' => $active_tab_index,
+					'isVertical'     => $is_vertical,
+				)
+			)
+		);
+		$tag_processor->set_attribute( 'data-wp-init', 'callbacks.onTabsInit' );
+		$tag_processor->set_attribute( 'data-wp-on--keydown', 'actions.handleTabKeyDown' );
+
+		$color_styles = $this->generate_color_styles( $attributes, $is_vertical );
+		$gap_styles   = $this->generate_gap_styles( $attributes, $is_vertical );
+
+		$style  = (string) $tag_processor->get_attribute( 'style' );
+		$style .= $color_styles;
+		$style .= $gap_styles;
+		$tag_processor->set_attribute( 'style', $style );
+
+		$updated_content = $tag_processor->get_updated_html();
+
+		$tabs_list        = $this->generate_tabs_list_from_innerblocks( $block->parsed_block['innerBlocks'] ?? array() );
+		$tabs_list_markup = array_map(
+			static function ( array $tab ): string {
+				return wp_sprintf(
+					'<a id="tab__%1$s" class="tabs__tab-label" href="#%1$s" role="tab" aria-controls="%1$s" data-wp-on--click="actions.handleTabClick" data-wp-on--keydown="actions.handleTabKeyDown" data-wp-bind--aria-selected="state.isActiveTab" data-wp-bind--tabindex="state.tabIndexAttribute">%2$s</a>',
+					$tab['id'],
+					$tab['label']
+				);
+			},
+			$tabs_list
+		);
+		$tabs_list_markup = implode( '', $tabs_list_markup );
+
+		$content = preg_replace(
+			'/<ul\s+class="tabs__list">\s*<\/ul>/i',
+			'<div class="tabs__list" role="tablist">' . $tabs_list_markup . '</div>',
+			(string) $updated_content
+		);
+
+		return is_string( $content ) ? $content : (string) $updated_content;
+	}
+
+	/**
+	 * Register the block with render callback.
+	 */
+	public function block_init(): void {
 		register_block_type_from_metadata(
 			PRC_BLOCK_LIBRARY_DIR . '/build/tabs',
 			array(

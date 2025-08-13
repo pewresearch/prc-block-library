@@ -1,39 +1,37 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/tab",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "prc-block/tab",
 	"title": "Tab",
+	"description": "Content for a tab in a tabbed interface.",
 	"version": "1.0.0",
-	"category": "design",
+    "category": "design",
 	"attributes": {
 		"label": {
 			"type": "string",
 			"default": ""
-		},
-		"slug": {
-			"type": "string",
-			"default": ""
-		},
-		"tabIndex": {
-			"type": "number"
 		}
 	},
-	"parent": [ "prc-block/tabs" ],
+    "parent": [ "prc-block/tabs" ],
 	"supports": {
 		"anchor": true,
 		"html": false,
 		"reusable": false,
-		"color": {
-			"background": true,
-			"heading": true,
-			"text": true
+		"layout": {
+			"default": {
+				"type": "default"
+			},
+			"allowSwitching": true,
+			"allowInheriting": false,
+			"allowVerticalAlignment": true,
+			"allowJustification": true,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true
 		},
 		"spacing": {
-			"padding": true,
 			"blockGap": true,
-			"__experimentalDefaultControls": {
-				"padding": true
-			}
+			"padding": true,
+			"margin": false
 		},
 		"typography": {
 			"fontSize": true,
@@ -41,15 +39,17 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true,
 				"__experimentalFontFamily": true
-			}
+			},
+			"__experimentalSkipSerialization": true
 		}
 	},
-	"providesContext": {
-		"tab/label": "label",
-		"tab/slug": "slug",
-		"tab/index": "tabIndex"
-	},
-	"textdomain": "tab",
+    "providesContext": {
+        "tab/label": "label"
+    },
+	"usesContext": [
+		"tabs/id"
+	],
+    "textdomain": "prc-block-library",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css"
 }

@@ -1,158 +1,145 @@
 /**
  * WordPress dependencies
  */
-import { store, getContext, getElement } from '@wordpress/interactivity';
-
-/**
- * Determines whether a value is numeric.
- *
- * @param {*} value A vlue to check.
- * @return {boolean} Whether the value is numeric.
- */
-function isNumeric(value) {
-	return !isNaN(parseFloat(value));
-}
+import {
+	store,
+	getContext,
+	getElement,
+	withSyncEvent,
+} from '@wordpress/interactivity';
 
 // Interactivy store for the tabs block.
 const { state, actions } = store('prc-block/tabs', {
 	state: {
-		get roleAttribute() {
-			const el = getElement();
-			const classList = el?.attributes?.class ?? '';
-			const classArray = classList.split(' ');
-
-			const classToRoleMap = new Map([
-				['wp-block-tabs__list', 'tablist'],
-				['wp-block-tabs__list-item', 'presentation'],
-				['wp-block-tabs__tab-label', 'tab'],
-				['wp-block-tab', 'tabpanel'],
-			]);
-
-			for (const className of classArray) {
-				const role = classToRoleMap.get(className);
-				if (role) {
-					return role;
-				}
-			}
-
-			return false;
+		get tabsList() {
+			const { tabsId } = getContext();
+			const tabsList = state[tabsId];
+			return tabsList;
 		},
 		/**
-		 * Whether the tab is the active tab.
+		 * Gets the index of the active tab element whether it
+		 * is a tab label or tab panel.
+		 *
+		 * @type {number|null}
+		 */
+		get tabIndex() {
+			const { attributes } = getElement();
+			const tabId = attributes?.id?.replace('tab__', '') || null;
+			if (!tabId) {
+				return null;
+			}
+			const { tabsList } = state;
+			const tabIndex = tabsList.findIndex((t) => t.id === tabId);
+			return tabIndex;
+		},
+		/**
+		 * Whether the tab panel or tab label is the active tab.
 		 *
 		 * @type {boolean}
 		 */
 		get isActiveTab() {
-			const context = getContext();
-			const { attributes } = getElement();
-			const tabIndexValue = attributes?.['data-tab-index'];
-			const tabIndex = isNumeric(tabIndexValue)
-				? parseInt(tabIndexValue, 10)
-				: 0;
-			return context.activeTabIndex === tabIndex;
+			const { activeTabIndex } = getContext();
+			const tabIndex = state.tabIndex;
+			return activeTabIndex === tabIndex;
 		},
 		/**
-		 * The value of the tabindex attribute for the tab label.
+		 * The value of the tabindex attribute.
 		 *
 		 * @type {false|string}
 		 */
-		get tabindexLabelAttribute() {
-			return state.isActiveTab ? false : '-1';
-		},
-		/**
-		 * The value of the tabindex attribute for the tab panel.
-		 *
-		 * @type {false|string}
-		 */
-		get tabindexPanelAttribute() {
-			return state.isActiveTab ? '0' : false;
+		get tabIndexAttribute() {
+			return state.isActiveTab ? -1 : 0;
 		},
 	},
 	actions: {
 		/**
-		 * Handles the keydown event for the tab label.
+		 * Handles the keydown events for the tab label and tabs controller.
 		 *
 		 * @param {KeyboardEvent} event The keydown event.
 		 */
-		handleTabKeyDown: (event) => {
-			const { key, target } = event;
-
-			if (!target) {
-				return;
+		handleTabKeyDown: withSyncEvent((event) => {
+			// If this is the enter key then lets get the tab index from context and set the active tab to that index.
+			const { isVertical } = getContext();
+			if (event.key === 'Enter') {
+				const tabIndex = state.tabIndex;
+				if (tabIndex !== null) {
+					actions.setActiveTab(tabIndex);
+				}
+			} else if (event.key === 'ArrowRight' && !isVertical) {
+				const tabIndex = state.tabIndex;
+				if (tabIndex !== null) {
+					actions.setActiveTab(tabIndex + 1);
+				}
+			} else if (event.key === 'ArrowLeft' && !isVertical) {
+				const tabIndex = state.tabIndex;
+				if (tabIndex !== null) {
+					actions.setActiveTab(tabIndex - 1);
+				}
+			} else if (event.key === 'ArrowDown' && isVertical) {
+				const tabIndex = state.tabIndex;
+				if (tabIndex !== null) {
+					actions.setActiveTab(tabIndex + 1);
+				}
+			} else if (event.key === 'ArrowUp' && isVertical) {
+				const tabIndex = state.tabIndex;
+				if (tabIndex !== null) {
+					actions.setActiveTab(tabIndex - 1);
+				}
 			}
-
-			const { ref } = getElement();
-			const container = ref?.closest('.wp-block-tabs');
-			const tabs = Array.from(
-				container?.querySelectorAll('.wp-block-tabs__tab-label') || []
-			);
-
-			const currentIndex = tabs.indexOf(target);
-			let nextIndex = currentIndex;
-
-			switch (key) {
-				case 'ArrowRight':
-					event.stopPropagation();
-					event.preventDefault();
-
-					// Loop back to the first tab if the last tab is reached.
-					nextIndex = (currentIndex + 1) % tabs.length;
-					actions.setActiveTab(nextIndex);
-					tabs[nextIndex]?.focus();
-					break;
-				case 'ArrowLeft':
-					event.stopPropagation();
-					event.preventDefault();
-
-					// Loop back to the last tab if the first tab is reached.
-					nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-					actions.setActiveTab(nextIndex);
-					tabs[nextIndex]?.focus();
-					break;
-				default:
-					break;
-			}
-		},
+		}),
 		/**
 		 * Handles the click event for the tab label.
 		 *
 		 * @param {MouseEvent} event The click event.
 		 */
-		handleTabClick: (event) => {
+		handleTabClick: withSyncEvent((event) => {
 			event.preventDefault();
 
-			const tabIndexValue = event.target?.getAttribute('data-tab-index');
-			const tabIndex = isNumeric(tabIndexValue)
-				? parseInt(tabIndexValue, 10)
-				: null;
-
+			const tabIndex = state.tabIndex;
 			if (tabIndex !== null) {
 				actions.setActiveTab(tabIndex);
 			}
-		},
+		}),
 		/**
 		 * Sets the active tab index.
 		 *
 		 * @param {number} tabIndex The index of the active tab.
 		 */
-		setActiveTab: (tabIndex) => {
+		setActiveTab: (tabIndex, scrollToTab = false) => {
 			const context = getContext();
 			context.activeTabIndex = tabIndex;
+			if (scrollToTab) {
+				const tabId = state.tabsList[tabIndex].id;
+				const tabElement = document.getElementById(tabId);
+				if (tabElement) {
+					setTimeout(() => {
+						tabElement.scrollIntoView({ behavior: 'smooth' });
+					}, 100);
+				}
+			}
+		},
+		signalTabsReady: () => {
+			// Fire a custom browser event calles tabsReady.
+			window.dispatchEvent(new CustomEvent('tabsReady'));
 		},
 	},
 	callbacks: {
-		focusActiveTabIndex: () => {
-			const context = getContext();
-			const { activeTabIndexQueryVar } = context;
-			if (false !== activeTabIndexQueryVar) {
-				// find the a.prc-block-tabs__tab-label with a data-tab-hash attribute that matches activeTabIndexValue then scroll to it smoothly
-				const tabLabel = document.querySelector(
-					`a.prc-block-tabs__tab-label[data-tab-hash="${activeTabIndexQueryVar}"]`
-				);
-				if (tabLabel) {
-					tabLabel.scrollIntoView({ behavior: 'smooth' });
-				}
+		/**
+		 * When the tabs are initialized, we need to check if there is a hash in the url and if so if it exists in the current tabsList, set the active tab to that index.
+		 */
+		onTabsInit: () => {
+			const { tabsList } = state;
+			if (tabsList.length === 0) {
+				return;
 			}
+			const hash = window.location.hash;
+			const tabId = hash.replace('#', '');
+			const tabIndex = tabsList.findIndex((t) => t.id === tabId);
+			// Check if tabIndex is a positive number and if so we'll auto activate that tab.
+			if (tabIndex >= 0) {
+				actions.setActiveTab(tabIndex, true);
+			}
+			actions.signalTabsReady();
 		},
 	},
 });

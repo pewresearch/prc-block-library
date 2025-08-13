@@ -1,0 +1,29 @@
+.wp-block-prc-block-progress-bar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 10px;
+	label {
+		flex-shrink: 0;
+		margin-right: 10px;
+	}
+	.prc-progress-bar {
+		flex-grow: 1 !important;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 10px;
+		.prc-progress-bar-value {
+			padding: 2px 4px;
+		}
+	}
+	&.prc-progress-bar-label-right {
+		flex-direction: row-reverse;
+		label {
+			margin-right: 0;
+			margin-left: 10px;
+		}
+	}
+}

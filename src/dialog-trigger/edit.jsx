@@ -41,12 +41,15 @@ const ALLOWED_BLOCKS = [
  */
 export default function Edit({
 	attributes,
+	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps({
+		className: layoutClassNames,
+	});
 	const { allowedBlocks } = attributes;
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
 		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 		templateLock: false,
 	});
-	return <button {...innerBlocksProps} />;
+	return <div {...innerBlocksProps} />;
 }

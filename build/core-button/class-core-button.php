@@ -187,31 +187,32 @@ class Core_Button {
 	}
 
 	/**
+	 * Internal function to generate a style template for a button.
+	 *
+	 * @param string $style_name The style name.
+	 * @param string $icon The icon name.
+	 * @param string $icon_color The icon color.
+	 * @return string The style template.
+	 */
+	public function style_template( $style_name, $icon, $icon_library = 'solid', $icon_color = 'black' ) {
+		$icon_url = \PRC\Platform\Icons\get_icon_as_data_uri( $icon_library, $icon, $icon_color );
+		return wp_sprintf(
+			'.wp-block-button.is-style-%1$s { display: flex; align-items: center; } .wp-block-button.is-style-%1$s > .wp-element-button { display: flex; align-items: center; justify-content: space-between; text-align: left; } .wp-block-button.is-style-%1$s > .wp-element-button:after { content: ""; display: inline-block; margin-left: 0.5em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; flex-basis: 0.875em; flex-grow: 0; flex-shrink: 0; }',
+			$style_name,
+			$icon_url,
+		);
+	}
+
+	/**
 	 * Registers additional icon styles for core/button.
 	 */
 	public function register_core_button_block_styles() {
-		/**
-		 * Internal function to generate a style template for a button.
-		 *
-		 * @param string $style_name The style name.
-		 * @param string $icon The icon name.
-		 * @param string $icon_color The icon color.
-		 * @return string The style template.
-		 */
-		function style_template( $style_name, $icon, $icon_library = 'solid', $icon_color = 'black' ) {
-			return wp_sprintf(
-				'.wp-block-button.is-style-%1$s { display: flex; align-items: center; } .wp-block-button.is-style-%1$s > .wp-element-button { display: flex; align-items: center; justify-content: space-between; text-align: left; } .wp-block-button.is-style-%1$s > .wp-element-button:after { content: ""; display: inline-block; margin-left: 0.5em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; flex-basis: 0.875em; flex-grow: 0; flex-shrink: 0; }',
-				$style_name,
-				\PRC\Platform\Icons\get_icon_as_data_uri( $icon_library, $icon, $icon_color ),
-			);
-		}
-
 		register_block_style(
 			'core/button',
 			array(
 				'name'         => 'icon__arrow-right-long',
 				'label'        => 'Arrow Right Icon',
-				'inline_style' => style_template(
+				'inline_style' => $this->style_template(
 					'icon__arrow-right-long',
 					'arrow-right-long',
 				),
@@ -223,7 +224,7 @@ class Core_Button {
 			array(
 				'name'         => 'icon__up-right-and-down-left-from-center',
 				'label'        => 'Expand Icon',
-				'inline_style' => style_template(
+				'inline_style' => $this->style_template(
 					'icon__up-right-and-down-left-from-center',
 					'up-right-and-down-left-from-center'
 				),
@@ -235,7 +236,7 @@ class Core_Button {
 			array(
 				'name'         => 'icon__magnifying-glass',
 				'label'        => 'Magnifying Glass Icon',
-				'inline_style' => style_template(
+				'inline_style' => $this->style_template(
 					'icon__magnifying-glass',
 					'magnifying-glass',
 					'solid',
@@ -249,7 +250,7 @@ class Core_Button {
 			array(
 				'name'         => 'icon__clear',
 				'label'        => 'Clear Icon',
-				'inline_style' => style_template(
+				'inline_style' => $this->style_template(
 					'icon__clear',
 					'circle-x',
 					'light',
@@ -262,9 +263,35 @@ class Core_Button {
 			array(
 				'name'         => 'icon__clear__filled',
 				'label'        => 'Clear Icon Filled',
-				'inline_style' => style_template(
+				'inline_style' => $this->style_template(
 					'icon__clear__filled',
 					'circle-x',
+					'solid',
+				),
+			)
+		);
+
+		register_block_style(
+			'core/button',
+			array(
+				'name'         => 'icon__arrows-rotate',
+				'label'        => 'Arrows Rotate Icon',
+				'inline_style' => $this->style_template(
+					'icon__arrows-rotate',
+					'arrows-rotate',
+					'solid',
+				),
+			)
+		);
+
+		register_block_style(
+			'core/button',
+			array(
+				'name'         => 'icon__graduation-cap',
+				'label'        => 'Graduation Cap Icon',
+				'inline_style' => $this->style_template(
+					'icon__graduation-cap',
+					'graduation-cap',
 					'solid',
 				),
 			)

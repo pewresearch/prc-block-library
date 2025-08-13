@@ -1,28 +1,30 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/tabs",
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "prc-block/tabs",
 	"title": "Tabs",
+	"description": "Display content in a tabbed interface to help users navigate detailed content with ease.",
 	"version": "1.0.0",
-	"category": "design",
-	"allowedBlocks": [ "prc-block/tab" ],
-	"usesContext": [
-		"remote-data-blocks/pivotedData"
-	],
+    "category": "design",
+    "allowedBlocks": [ "prc-block/tab" ],
 	"attributes": {
-		"defaultActiveTabIndex": {
-			"type": "number",
-			"default": 0
+		"tabsId": {
+			"type": "string",
+			"default": ""
 		},
 		"orientation": {
 			"type": "string",
 			"default": "horizontal",
 			"enum": [ "horizontal", "vertical" ]
 		},
-		"tabBackgroundColor": {
+		"activeTabIndex": {
+			"type": "number",
+			"default": 0
+		},
+		"tabInactiveColor": {
 			"type": "string"
 		},
-		"customTabBackgroundColor": {
+		"customTabInactiveColor": {
 			"type": "string"
 		},
 		"tabHoverColor": {
@@ -56,66 +58,27 @@
 			"type": "string"
 		}
 	},
-	"example": {
-		"attributes": {
-			"className": "is-example"
-		},
-		"innerBlocks": [
-			{
-				"name": "prc-block/tab",
-				"attributes": {
-					"label": "Tab 1",
-					"slug": "tab-1",
-					"tabIndex": 0
-				},
-				"innerBlocks": [
-					{
-						"name": "core/paragraph",
-						"attributes": {
-							"content": "Tab 1 content"
-						}
-					}
-				]
-			},
-			{
-				"name": "prc-block/tab",
-				"attributes": {
-					"label": "Tab 2",
-					"slug": "tab-2",
-					"tabIndex": 1
-				}
-			},
-			{
-				"name": "prc-block/tab",
-				"attributes": {
-					"label": "Tab 3",
-					"slug": "tab-3",
-					"tabIndex": 2
-				}
-			}
-		]
-	},
 	"styles": [
 		{
-			"name": "tabbed",
-			"label": "Tabbed",
+			"name": "fill",
+			"label": "Fill",
 			"isDefault": true
 		},
 		{
-			"name": "tabbed-outline",
-			"label": "Tabbed Outline"
-		},
-		{
-			"name": "underlined",
-			"label": "Underlined"
-		},
-		{
-			"name": "pills",
-			"label": "Pills"
-		},
-		{
-			"name": "underlined-pills",
-			"label": "Underlined Pills"
+			"name": "outline",
+			"label": "Outline"
+        },
+        {
+            "name": "underlined",
+            "label": "Underlined"
+        },
+        {
+            "name": "pills",
+            "label": "Pills"
+        },
+        {
+            "name": "underlined-pills",
+            "label": "Underlined Pills"
 		}
 	],
 	"supports": {
@@ -127,16 +90,58 @@
 		"html": false,
 		"interactivity": true,
 		"spacing": {
-			"blockGap": true,
+			"blockGap": [ "horizontal", "vertical" ],
 			"margin": true,
-			"padding": true
+			"padding": false
 		},
 		"typography": {
 			"fontSize": true,
-			"fontFamily": true
+			"__experimentalFontFamily": true
 		}
 	},
-	"textdomain": "tabs",
+	"example": {
+		"attributes": {
+			"className": "is-example"
+		},
+		"innerBlocks": [
+            {
+                "name": "prc-block/tab",
+				"attributes": {
+					"label": "Tab 1"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Pariatur commodo sint mollit. Veniam Lorem labore voluptate fugiat. Ad nulla est labore cillum cillum qui nostrud do incididunt eiusmod. Aliqua aliqua sunt consequat consequat in duis deserunt."
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Adipisicing ullamco nisi in eu laborum adipisicing aliquip aliqua. Fugiat labore officia consequat nisi veniam velit commodo cillum enim duis quis ad."
+						}
+					}
+				]
+			},
+			{
+                "name": "prc-block/tab",
+				"attributes": {
+					"label": "Tab 2"
+				}
+			},
+			{
+                "name": "prc-block/tab",
+				"attributes": {
+					"label": "Tab 3"
+				}
+			}
+		]
+	},
+	"providesContext": {
+		"tabs/id": "tabsId"
+	},
+    "textdomain": "prc-block-library",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

@@ -1,242 +1,137 @@
 /**
  * WordPress Dependencies
  */
-import domReady from '@wordpress/dom-ready';
-import { addQueryArgs } from '@wordpress/url';
+import { store, getContext } from '@wordpress/interactivity';
 
-// eslint-disable-next-line no-undef
+const { addQueryArgs } = wp.url;
+
 const { innerWidth, innerHeight, open } = window;
 
-function getArgs(elm) {
-	let description = elm.getAttribute('data-share-description');
+/**
+ * Get social sharing arguments from context
+ * @param {Object} context - The block context
+ * @returns {Object} - Object containing url, title, and description
+ */
+function getShareArgs(context) {
+	let { url, title, description } = context;
+
+	// Fallback to meta tags if not provided in context
 	if (!description) {
-		// eslint-disable-next-line no-undef
 		description =
 			document
 				.querySelector('meta[property="og:description"]')
-				?.getAttribute('content') || null;
+				?.getAttribute('content') || '';
 	}
-	let title = elm.getAttribute('data-share-title');
+
 	if (!title) {
-		// eslint-disable-next-line no-undef
 		title =
 			document
 				.querySelector('meta[property="og:title"]')
-				?.getAttribute('content') || null;
+				?.getAttribute('content') || '';
 	}
 
-	let url = elm.getAttribute('data-share-url');
 	if (!url) {
-		// eslint-disable-next-line no-undef
 		url =
 			document
 				.querySelector('meta[property="og:url"]')
-				?.getAttribute('content') || null;
+				?.getAttribute('content') || window.location.href;
 	}
-	return {
+
+	return { url, title, description };
+}
+
+/**
+ * Open a popup window for social sharing
+ * @param {string} url - The URL to open
+ * @param {string} windowName - The name of the window
+ */
+function openShareWindow(url, windowName) {
+	open(
 		url,
-		description,
-		title,
+		windowName,
+		`height=450, width=550, top=${innerHeight / 2 - 275}, left=${innerWidth / 2 - 225}, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`
+	);
+}
+
+/**
+ * Generate share URL for different platforms
+ * @param {string} platform - The social platform
+ * @param {Object} shareArgs - The sharing arguments
+ * @returns {string} - The share URL
+ */
+function generateShareUrl(platform, shareArgs) {
+	const { url, title, description } = shareArgs;
+
+	switch (platform) {
+		case 'facebook':
+			return addQueryArgs('https://www.facebook.com/sharer/sharer.php', {
+				u: url,
+			});
+
+		case 'linkedin':
+			return addQueryArgs('https://www.linkedin.com/shareArticle', {
+				summary: description,
+				url,
+				title,
+				source: 'PewResearch',
+			});
+
+		case 'twitter':
+			return addQueryArgs('https://twitter.com/intent/tweet', {
+				text: description,
+				url,
+			});
+
+		case 'threads':
+			return addQueryArgs('https://www.threads.net/intent/post', {
+				text: `${description} ${url}`,
+			});
+
+		case 'bluesky':
+			return addQueryArgs('https://bsky.app/intent/compose', {
+				text: `${description} ${url}`,
+			});
+
+		default:
+			return url;
+	}
+}
+
+/**
+ * Get window name for different platforms
+ * @param {string} platform - The social platform
+ * @returns {string} - The window name
+ */
+function getWindowName(platform) {
+	const windowNames = {
+		facebook: 'fbShareWindow',
+		linkedin: 'linkedinShareWindow',
+		twitter: 'twtrShareWindow',
+		threads: 'threadsShareWindow',
+		bluesky: 'bskyShareWindow',
 	};
+
+	return windowNames[platform] || 'shareWindow';
 }
 
-function initFacebookLinks() {
-	// eslint-disable-next-line no-undef
-	const items = document.querySelectorAll(
-		'.wp-block-social-link.wp-social-link-facebook, .share-tools .social-link.facebook'
-	);
-	items.forEach((elm) => {
-		const { url } = getArgs(elm);
+store('core/social-links', {
+	actions: {
+		onShareClick: (event) => {
+			event.preventDefault();
+			event.stopPropagation();
 
-		let link = null;
-		if (elm.parentElement.classList.contains('share-tools')) {
-			link = elm;
-		} else {
-			link = elm.querySelector('a');
-		}
+			const context = getContext();
+			const { platform } = context;
+			const shareArgs = getShareArgs(context);
 
-		if (link) {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const actionUrl = addQueryArgs(
-					'https://www.facebook.com/sharer/sharer.php',
-					{
-						u: url,
-					}
-				);
+			if (!platform) {
+				return;
+			}
 
-				open(
-					actionUrl,
-					'fbShareWindow',
-					`height=450, width=550, top=${
-						innerHeight / 2 - 275
-					}, left=${
-						innerWidth / 2 - 225
-					}, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`
-				);
-				e.stopPropagation();
-			});
-		}
-	});
-}
+			const shareUrl = generateShareUrl(platform, shareArgs);
+			const windowName = getWindowName(platform);
 
-function initLinkedInLinks() {
-	// eslint-disable-next-line no-undef
-	const items = document.querySelectorAll(
-		'.wp-block-social-link.wp-social-link-linkedin, .share-tools .social-link.linkedin'
-	);
-	items.forEach((elm) => {
-		const { url, title, description } = getArgs(elm);
-
-		let link = null;
-		if (elm.parentElement.classList.contains('share-tools')) {
-			link = elm;
-		} else {
-			link = elm.querySelector('a');
-		}
-
-		if (link) {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const actionUrl = addQueryArgs(
-					'https://www.linkedin.com/shareArticle',
-					{
-						// mini: true,
-						summary: description,
-						url,
-						title,
-						source: 'PewResearch',
-					}
-				);
-				open(
-					actionUrl,
-					'linkedinShareWindow',
-					`height=450, width=550, top=${
-						innerHeight / 2 - 275
-					}, left=${
-						innerWidth / 2 - 225
-					}, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`
-				);
-				e.stopPropagation();
-			});
-		}
-	});
-}
-
-function initTwitterLinks() {
-	// eslint-disable-next-line no-undef
-	const items = document.querySelectorAll(
-		'.wp-block-social-link.wp-social-link-x, .share-tools .social-link.twitter'
-	);
-	items.forEach((elm) => {
-		const { url, description } = getArgs(elm);
-
-		let link = null;
-		if (elm.parentElement.classList.contains('share-tools')) {
-			link = elm;
-		} else {
-			link = elm.querySelector('a');
-		}
-
-		if (link) {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const actionUrl = addQueryArgs(
-					'https://twitter.com/intent/tweet',
-					{
-						text: description,
-						url,
-					}
-				);
-				open(
-					actionUrl,
-					'twtrShareWindow',
-					`height=450, width=550, top=${
-						innerHeight / 2 - 275
-					}, left=${
-						innerWidth / 2 - 225
-					}, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`
-				);
-				e.stopPropagation();
-			});
-		}
-	});
-}
-
-function initThreadLinks() {
-	// eslint-disable-next-line no-undef
-	const items = document.querySelectorAll(
-		'.wp-block-social-link.wp-social-link-threads'
-	);
-	items.forEach((elm) => {
-		const { url, description } = getArgs(elm);
-
-		const link = elm.querySelector('a');
-
-		if (link) {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const actionUrl = addQueryArgs(
-					'https://www.threads.net/intent/post',
-					{
-						text: `${description} ${url}`,
-					}
-				);
-				open(
-					actionUrl,
-					'threadsShareWindow',
-					`height=450, width=550, top=${
-						innerHeight / 2 - 275
-					}, left=${
-						innerWidth / 2 - 225
-					}, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`
-				);
-				e.stopPropagation();
-			});
-		}
-	});
-}
-
-function initBlueskyLinks() {
-	// eslint-disable-next-line no-undef
-	const items = document.querySelectorAll(
-		'.wp-block-social-link.wp-social-link-bluesky'
-	);
-	items.forEach((elm) => {
-		const { url, description } = getArgs(elm);
-
-		const link = elm.querySelector('a');
-
-		if (link) {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const actionUrl = addQueryArgs(
-					'https://bsky.app/intent/compose',
-					{
-						text: `${description} ${url}`,
-					}
-				);
-				open(
-					actionUrl,
-					'bskyShareWindow',
-					`height=450, width=550, top=${
-						innerHeight / 2 - 275
-					}, left=${
-						innerWidth / 2 - 225
-					}, toolbar=0, location=0, menubar=0, directories=0, scrollbars=0`
-				);
-				e.stopPropagation();
-			});
-		}
-	});
-}
-
-function start() {
-	initFacebookLinks();
-	initLinkedInLinks();
-	initTwitterLinks();
-	initThreadLinks();
-	initBlueskyLinks();
-}
-
-domReady(() => start());
+			openShareWindow(shareUrl, windowName);
+		},
+	},
+});

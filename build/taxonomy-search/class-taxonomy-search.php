@@ -20,13 +20,6 @@ use WP_REST_Request;
  */
 class Taxonomy_Search {
 	/**
-	 * Parent term children
-	 *
-	 * @var bool
-	 */
-	public $parent_term_children = false;
-
-	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
@@ -101,25 +94,32 @@ class Taxonomy_Search {
 	 * @return Semantic UI React Search[]|WP_Error
 	 */
 	public function restfully_search_taxonomy( WP_REST_Request $request ) {
-		$search_value   = $request->get_param( 'searchValue' );
+		$search_value   = $request->get_param( 'search' );
 		$taxonomy       = $request->get_param( 'taxonomy' );
-		$parent_term_id = (int) $request->get_param( 'parentTermId' );
-		$per_page       = $request->get_param( 'perPage' );
+		$parent_term_id = (int) $request->get_param( 'parent_term_id' );
+		$per_page       = $request->get_param( 'per_page' );
 
 		$args = array(
 			'taxonomy'     => $taxonomy,
 			'per_page'     => $per_page,
 			'hierarchical' => true,
-			'hide_empty'   => false,
+			'hide_empty'   => true,
 		);
 
 		if ( $search_value ) {
 			$args['search'] = $search_value;
 		}
 
+		$cache_key    = 'taxonomy_search_' . md5( json_encode( $args ) );
+		$cached_terms = wp_cache_get( $cache_key );
+		if ( false !== $cached_terms ) {
+			return $cached_terms;
+		}
+
+		$parent_term_children = false;
 		// Store children of the parent termporarily so we can filter everything except them, later.
-		if ( $parent_term_id && false === $this->parent_term_children ) {
-			$this->parent_term_children = get_term_children( $parent_term_id, $taxonomy );
+		if ( $parent_term_id && false === $parent_term_children ) {
+			$parent_term_children = get_term_children( $parent_term_id, $taxonomy );
 		}
 
 		$terms = get_terms( $args );
@@ -134,18 +134,22 @@ class Taxonomy_Search {
 		);
 
 		// If a parent is set then only return the children of that parent.
-		if ( false !== $this->parent_term_children ) {
+		if ( false !== $parent_term_children ) {
 			$terms = array_filter(
 				$terms,
-				function ( $v ) {
-					return false !== $this->parent_term_children && in_array( $v->term_id, $this->parent_term_children );
+				function ( $v ) use ( $parent_term_children ) {
+					return false !== $parent_term_children && in_array( $v->term_id, $parent_term_children );
 				}
 			);
 			// Reset value.
-			$this->parent_term_children = false;
+			$parent_term_children = false;
 		}
 
-		return array_values( $terms );
+		$to_return = array_values( $terms );
+
+		wp_cache_set( $cache_key, $to_return, 'prc_block_library', 1 * DAY_IN_SECONDS );
+
+		return $to_return;
 	}
 
 	/**

@@ -1,27 +1,32 @@
 <?php
-wp_enqueue_script('wp-url');
-wp_enqueue_script('wp-api-fetch');
-wp_enqueue_script('wp-html-entities');
+wp_enqueue_script( 'wp-url' );
+wp_enqueue_script( 'wp-api-fetch' );
+wp_enqueue_script( 'wp-html-entities' );
 
-$restrict_to_term_id = $attributes['restrictToTerm']['id'] ?? null;
+$restrict_to_term_id   = $attributes['restrictToTerm']['id'] ?? null;
 $restrict_to_term_name = $attributes['restrictToTerm']['name'] ?? null;
 
-$block_wrapper_attrs = get_block_wrapper_attributes(array(
-	'data-wp-interactive' => wp_json_encode(array(
-		'namespace' => 'prc-block/taxonomy-search',
-	)),
-	'data-wp-context' => wp_json_encode(array(
-		'taxonomy' => $attributes['taxonomy'] ?? 'category',
-		'restrictToTermId' => $restrict_to_term_id,
-		'restrictToTermName' => $restrict_to_term_name,
-		'searchValue' => '',
-		'isActive' => false,
-		'results' => array(),
-	)),
-	'data-wp-class--is-active' => 'callbacks.showResults',
-	'data-wp-watch--on-search-value-change' => 'callbacks.onSearchValueChange',
-	'data-wp-run' => 'callbacks.debounceSearchValueChange',
-));
+$block_wrapper_attrs = get_block_wrapper_attributes(
+	array(
+		'data-wp-interactive'                   => wp_json_encode(
+			array(
+				'namespace' => 'prc-block/taxonomy-search',
+			)
+		),
+		'data-wp-context'                       => wp_json_encode(
+			array(
+				'taxonomy'           => $attributes['taxonomy'] ?? 'category',
+				'restrictToTermId'   => $restrict_to_term_id,
+				'restrictToTermName' => $restrict_to_term_name,
+				'searchValue'        => '',
+				'isActive'           => false,
+				'results'            => array(),
+			)
+		),
+		'data-wp-class--is-active'              => 'callbacks.showResults',
+		'data-wp-watch--on-search-value-change' => 'callbacks.onSearchValueChange',
+	)
+);
 
 ob_start();
 ?>

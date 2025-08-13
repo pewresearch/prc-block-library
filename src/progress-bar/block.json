@@ -8,83 +8,91 @@
 	"icon": "chart-bar",
 	"keywords": ["progress", "bar", "quiz", "result", "horizontal", "chart"],
 	"attributes": {
-		"maxWidth": {
-			"type": "number",
-			"default": "640"
-		},
 		"barColor": {
 			"type": "string",
 			"default": "social-trends-teal"
 		},
-		"barPadding": {
-			"type": "number",
-			"default": 15
+		"valueColor": {
+			"type": "string",
+			"default": "ui-black"
 		},
 		"backgroundColor": {
 			"type": "string",
 			"default": "ui-beige-very-light"
 		},
-		"categoryLabelColor": {
-			"type": "string",
-			"default": "text-color"
+		"barHeight": {
+			"type": "number",
+			"default": 10
 		},
 		"maxValue": {
 			"type": "number",
 			"default": 100
 		},
-		"currentValue": {
-			"type": "number",
-			"default": 50
-		},
-		"showAxisLabel": {
-			"type": "boolean",
-			"default": true
-		},
-		"axisLabel": {
+		"label": {
 			"type": "string",
-			"default": "Total"
+			"source": "html",
+			"selector": "label",
+			"default": "Progress"
 		},
-		"axisPadding": {
+		"value": {
 			"type": "number",
-			"default": 60
-		},
-		"axisLabelMaxWidth": {
-			"type": "number",
-			"default": 60
+			"default": 0
 		},
 		"labelFormat": {
-			"enum": ["fractional", "percentage"],
-			"default": "fractional"
+			"type": "string",
+			"default": "percentage",
+			"enum": ["percentage", "fractional"]
 		},
-		"labelPositionDX": {
-			"type": "integer",
-			"default": -5
+		"labelPosition": {
+			"type": "string",
+			"default": "left",
+			"enum": ["left", "right"]
 		},
-		"labelPositionDY": {
-			"type": "integer",
-			"default": 4
+		"valuePosition": {
+			"type": "string",
+			"default": "outside",
+			"enum": ["inside", "outside"]
+		},
+		"valueFontSize": {
+			"type": "number",
+			"default": 12
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"html": false,
+		"interactivity": true,
+		"animations": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalSkipSerialization": true
+		},
 		"spacing": {
 			"blockGap": true,
-			"margin": ["top", "bottom"],
+			"margin": true,
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
 			}
 		},
 		"typography": {
-			"fontSize": true
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalFontFamily": true
 		}
 	},
 	"example": {
-		"attributes": {}
+		"attributes": {
+			"label": "Progress",
+			"value": 35,
+			"maxValue": 100
+		}
 	},
 	"textdomain": "progress-bar",
 	"editorScript": "file:./index.js",
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js"
 }

@@ -42,7 +42,9 @@ function create_dialog( $args = array() ) {
 	?>
 <!-- wp:prc-block/dialog {"className":"is-style-standard", "dialogId": "<?php echo $dialog_id; ?>"} -->
 <!-- wp:prc-block/dialog-trigger {"disengageClickHandler": "<?php echo $args['disengageClickHandler']; ?>"} -->
-	<?php echo $args['trigger']; ?>
+	<div class="wp-block-prc-block-dialog-trigger">
+		<?php echo $args['trigger']; ?>
+	</div>
 <!-- /wp:prc-block/dialog-trigger -->
 
 <!-- wp:prc-block/dialog-element <?php echo wp_json_encode( $args['dialogAttributes'] ); ?> -->

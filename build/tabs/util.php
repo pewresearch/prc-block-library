@@ -1,23 +1,26 @@
 <?php
 /**
- * Utility functions for working with tabs
+ * Utility functions for working with PRC Tabs block.
  *
  * @package prc-block-library
  */
 
+declare(strict_types=1);
+
 namespace PRC\Platform\Blocks;
 
-use WP_Block_Parser_Block, WP_Block;
+use WP_Block_Parser_Block;
+use WP_Block;
 
 /**
- * Generate a new tab
+ * Generate a new tab block.
  *
- * @param string $label The label of the tab.
- * @param string $content The content of the tab.
- * @param int    $index The index of the tab.
- * @return WP_Block_Parser_Block The tab block
+ * @param string $label   The label of the tab.
+ * @param string $content The content of the tab (raw HTML or parsed blocks array).
+ * @param int    $index   The index of the tab.
+ * @return WP_Block_Parser_Block The tab block.
  */
-function generate_tab( $label, $content, $index = 0 ) {
+function generate_tab( string $label, string|array $content = '' ): WP_Block_Parser_Block { // phpcs:ignore Universal.Functions.ForbiddenFunctions.parse_blocksFound
 	$parsed_content   = is_array( $content ) ? $content : parse_blocks( $content );
 	$inner_html_start = wp_sprintf(
 		'<section id="%s" class="wp-block-prc-block-tab">',
@@ -26,13 +29,11 @@ function generate_tab( $label, $content, $index = 0 ) {
 	$inner_html_end   = '</section>';
 	$inner_html       = $inner_html_start . $inner_html_end;
 	$nulls            = count( $parsed_content );
-	// https://prc-platform.vipdev.lndo.site/pewresearch-org/religious-landscape-study/age-distribution/18-29/?activeChartId=76c7ee9e4967f189010073e95bce97a5&dialogId=a3c4125554ca8d51ba71a2ab5036e0c7
+	// Link example retained for reference.
 	$tab_block = new WP_Block_Parser_Block(
 		'prc-block/tab',
 		array(
-			'label'    => $label,
-			'slug'     => sanitize_title( str_replace( '&', 'and', $label ) ),
-			'tabIndex' => $index,
+			'label' => $label,
 		),
 		$parsed_content,
 		$inner_html,
@@ -46,49 +47,63 @@ function generate_tab( $label, $content, $index = 0 ) {
 }
 
 /**
- * Create a new set of tabs
+ * Create a new set of tabs.
  *
- * @param array $tabs An array of tabs to create.
- * @return array An array of blocks representing the tabs
+ * @param array $tabs       An array of tabs to create. Each item should be an
+ *                          associative array with 'label' and 'content' keys.
+ * @param array $attributes Attributes for the wrapper `prc-block/tabs` block.
+ * @return WP_Block_Parser_Block An array-like block representing the tabs.
  */
-function create_tabs( $tabs = array(), $attributes = array() ) {
-	$inner_html    = '';
+function create_tabs( array $tabs = array(), array $attributes = array() ): WP_Block_Parser_Block {
+	// do_action( 'qm/start', 'prc-block/tabs::create_tabs' );
 	$inner_content = array();
 	$inner_blocks  = array();
 	$tab_index     = 0;
 
+	// Build inner blocks for each tab.
 	foreach ( $tabs as $tab ) {
-		$new_tab = generate_tab( $tab['label'], $tab['content'], $tab_index );
-		do_action( 'qm/lap', 'prc-block/tabs::create_tabs' );
-		$inner_html     .= $new_tab->innerHTML; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
-		$new_tab         = (array) $new_tab;
-		$inner_blocks[]  = $new_tab;
+		$label   = isset( $tab['label'] ) ? (string) $tab['label'] : '';
+		$content = $tab['content'] ?? '';
+		$new_tab = generate_tab( $label, $content );
+		// do_action( 'qm/lap', 'prc-block/tabs::generate_tab' );
+		$new_tab_array   = (array) $new_tab;
+		$inner_blocks[]  = $new_tab_array;
 		$inner_content[] = null;
 		++$tab_index;
 	}
 
-	$tabs = new WP_Block_Parser_Block(
+	// Match save.js structure: wrapper div, title, and empty ul placeholder.
+	$title         = 'Tab Contents';
+	$wrapper_start = wp_sprintf( '<div class="wp-block-prc-block-tabs %s"><h3 class="tabs__title">%s</h3><ul class="tabs__list"></ul>', esc_attr( $attributes['className'] ?? '' ), esc_html( $title ) );
+	$wrapper_end   = '</div>';
+	$tabs_block    = new WP_Block_Parser_Block(
 		'prc-block/tabs',
 		$attributes,
 		$inner_blocks,
-		'',
-		$inner_content
+		$wrapper_start . $wrapper_end,
+		array_merge( array( $wrapper_start ), $inner_content, array( $wrapper_end ) )
 	);
 
-	return $tabs;
+	// do_action( 'qm/stop', 'prc-block/tabs::create_tabs' );
+	return $tabs_block;
 }
 
 /**
- * Render a set of tabs
+ * Render a set of tabs.
  *
- * @param array $tabs An array of tabs to render.
- * @return string The rendered tabs
+ * @param array $tabs       An array of tabs to render. Each item should be an
+ *                          associative array with 'label' and 'content' keys.
+ * @param array $attributes Attributes for the wrapper `prc-block/tabs` block.
+ * @return string The rendered tabs HTML.
  */
-function render_tabs( $tabs = array(), $attributes = array() ) {
-	$tabs = create_tabs( $tabs, $attributes );
+function render_tabs( array $tabs = array(), array $attributes = array() ): string {
+	// Because we're manually generating a tabs block the render_block_data filter won't be triggered.
+	// So we need to generate our own unique ID for the tabs block.
+	$attributes['tabsId'] = wp_unique_id( 'tabs__' );
+	$tabs_block           = create_tabs( $tabs, $attributes );
 	return (
 		new WP_Block(
-			(array) $tabs,
+			(array) $tabs_block,
 			array()
 		)
 	)->render();
