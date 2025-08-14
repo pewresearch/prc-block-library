@@ -89,28 +89,21 @@ class Tab {
 	/**
 	 * Render callback for prc-block/tab.
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content.
+	 * @param array     $attributes Block attributes.
+	 * @param string    $content    Block content.
+	 * @param \WP_Block $block The block.
 	 * @return string Updated HTML.
 	 */
 	public function render_block_callback( array $attributes, string $content, \WP_Block $block ): string {
-		$tabs_id = $block->context['tabs/id'] ?? false;
-		if ( ! $tabs_id ) {
-			return $content;
-		}
-
 		$tag_processor = new WP_HTML_Tag_Processor( $content );
 		$tag_processor->next_tag( array( 'class_name' => 'wp-block-prc-block-tab' ) );
 
-		$tab_id = (string) $tag_processor->get_attribute( 'id' );
-
-		$state               = wp_interactivity_state( 'prc-block/tabs', array() );
-		$state[ $tabs_id ][] = array(
-			'id'    => $tab_id,
-			'label' => $attributes['label'],
-			'href'  => '#' . $tab_id,
+		$tag_processor->set_attribute(
+			'data-wp-interactive',
+			'prc-block/tabs'
 		);
-		wp_interactivity_state( 'prc-block/tabs', $state );
+
+		$tab_id = (string) $tag_processor->get_attribute( 'id' );
 
 		$tag_processor->set_attribute(
 			'data-wp-context',
@@ -195,7 +188,7 @@ class Tab {
 			array(
 				'label'              => __( 'Tab Label', 'prc-block/tab' ),
 				'get_value_callback' => array( $this, 'get_tab_label_binding' ),
-				'uses_context'       => array( 'tab/label', 'tab/index', 'tab/slug' ),
+				'uses_context'       => array( 'tab/label', 'tab/slug' ),
 			)
 		);
 	}

@@ -391,11 +391,28 @@ class Form_Send_Email {
 			}
 
 			$label = isset( $field['label'] ) ? sanitize_text_field( $field['label'] ) : 'Unlabeled Field';
+			// if the label is an empty string, set it to the field name
+			if ( empty( $label ) ) {
+				$label = sanitize_text_field( $field['name'] );
+			}
+
 			$value = sanitize_text_field( $field['value'] );
 
 			// Handle checkbox values.
 			if ( 'checkbox' === $field['type'] ) {
 				$value = isset( $field['checked'] ) && $field['checked'] ? 'Yes' : 'No';
+			}
+
+			if ( 'radio' === $field['type'] ) {
+				// if not checked, skip
+				if ( ! isset( $field['checked'] ) ||
+					! $field['checked'] ||
+					! isset( $field['value'] ) ||
+					! $field['value'] ) {
+					continue;
+				}
+				$label = sanitize_text_field( $field['name'] );
+				$value = sanitize_text_field( $field['value'] );
 			}
 
 			// Handle empty values.

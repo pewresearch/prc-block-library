@@ -48,9 +48,6 @@
   "providesContext": {
     "tab/label": "label"
   },
-  "usesContext": [
-    "tabs/id"
-  ],
   "textdomain": "prc-block-library",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css"

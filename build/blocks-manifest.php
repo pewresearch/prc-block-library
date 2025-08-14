@@ -4336,9 +4336,6 @@ return array(
 		'providesContext' => array(
 			'tab/label' => 'label'
 		),
-		'usesContext' => array(
-			'tabs/id'
-		),
 		'textdomain' => 'prc-block-library',
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css'

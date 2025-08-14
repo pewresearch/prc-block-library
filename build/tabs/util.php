@@ -97,9 +97,6 @@ function create_tabs( array $tabs = array(), array $attributes = array() ): WP_B
  * @return string The rendered tabs HTML.
  */
 function render_tabs( array $tabs = array(), array $attributes = array() ): string {
-	// Because we're manually generating a tabs block the render_block_data filter won't be triggered.
-	// So we need to generate our own unique ID for the tabs block.
-	$attributes['tabsId'] = wp_unique_id( 'tabs__' );
 	$tabs_block           = create_tabs( $tabs, $attributes );
 	return (
 		new WP_Block(

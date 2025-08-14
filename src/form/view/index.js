@@ -270,14 +270,6 @@ const { state, actions } = store('prc-block/form', {
 				formField[prop] = value;
 			}
 			const { formId } = getContext();
-			// console.log('updateInputStateProp', {
-			// 	formId,
-			// 	id,
-			// 	prop,
-			// 	value,
-			// 	formFields,
-			// 	state,
-			// });
 			state.formFields = formFields;
 			FormPersistence.saveFormData(formId, formFields);
 		},
@@ -319,15 +311,9 @@ const { state, actions } = store('prc-block/form', {
 			// Clear error and timer on focus
 			actions.updateInputStateProp(id, 'error', false);
 		}),
-		onInputBlur: withSyncEvent((event) => {
-			// console.log('onInputBlur', event);
-		}),
-		onInputMouseEnter: withSyncEvent((event) => {
-			// console.log('onInputMouseEnter', event);
-		}),
-		onInputMouseLeave: withSyncEvent((event) => {
-			// console.log('onInputMouseLeave', event);
-		}),
+		onInputBlur: withSyncEvent((event) => {}),
+		onInputMouseEnter: withSyncEvent((event) => {}),
+		onInputMouseLeave: withSyncEvent((event) => {}),
 		checkForRequiredFieldsWithoutValues: () => {
 			const context = getContext();
 			const { fieldsForSubmission } = state;
@@ -494,13 +480,7 @@ const { state, actions } = store('prc-block/form', {
 					value: nonceToken,
 				},
 			];
-			// console.log(
-			// 	'onSubmit',
-			// 	context,
-			// 	state,
-			// 	fieldsForSubmission,
-			// 	fieldsForSubmissionWithCaptcha
-			// );
+
 			if (method === 'rest') {
 				// Convert the action from camelCase to hyphenated form.
 				const slugifiedAction = action
@@ -539,13 +519,6 @@ const { state, actions } = store('prc-block/form', {
 				context._isSubmitting = false; // Reset flag
 			} else if (method === 'api') {
 				const _store = yield store(namespace);
-				// console.log('onSubmit (iAPI)', {
-				// 	namespace,
-				// 	action,
-				// 	context,
-				// 	state,
-				// 	_store,
-				// });
 				// Run the requested action and wait for it to complete.
 				if (!!_store?.actions[action]) {
 					try {
@@ -553,7 +526,6 @@ const { state, actions } = store('prc-block/form', {
 							fieldsForSubmissionWithCaptcha
 						);
 						const formResponse = new FormResponse(result);
-						// console.log('onSubmit = ', result, formResponse);
 						if (formResponse.isSuccess) {
 							// Clear the form data from localStorage.
 							FormPersistence.clearFormData(formId);

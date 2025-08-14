@@ -16,6 +16,13 @@ use WP_HTML_Tag_Processor;
  */
 class Tabs {
 	/**
+	 * The tabs id.
+	 *
+	 * @var string
+	 */
+	public static $tabs_id = null;
+
+	/**
 	 * Constructor wires hooks.
 	 *
 	 * @param mixed $loader Loader to register actions with.
@@ -34,7 +41,6 @@ class Tabs {
 	public function init( $loader = null ): void {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'render_block_data', $this, 'add_unique_id_to_attributes', 10, 1 );
 		}
 	}
 
@@ -163,29 +169,6 @@ class Tabs {
 	}
 
 	/**
-	 * Add unique id to attributes.
-	 *
-	 * @hook render_block_data
-	 *
-	 * @param array     $parsed_block The parsed block.
-	 * @param array     $source_block The source block.
-	 * @param \WP_Block $parent_block The parent block.
-	 * @return array Updated attributes.
-	 */
-	public function add_unique_id_to_attributes( array $parsed_block ): array {
-		if ( ! in_array( $parsed_block['blockName'], array( 'prc-block/tabs' ), true ) ) {
-			return $parsed_block;
-		}
-		$attrs = $parsed_block['attrs'] ?? array();
-		$id    = $attrs['tabsId'] ?? false;
-		if ( ! $id ) {
-			$attrs['tabsId']       = wp_unique_id( 'tabs__' );
-			$parsed_block['attrs'] = $attrs;
-		}
-		return $parsed_block;
-	}
-
-	/**
 	 * Render callback for prc-block/tabs.
 	 *
 	 * @param array     $attributes Block attributes.
@@ -195,6 +178,17 @@ class Tabs {
 	 */
 	public function render_block_callback( array $attributes, string $content, \WP_Block $block ): string {
 		$active_tab_index = $attributes['activeTabIndex'] ?? 0;
+
+		$tabs_list = $this->generate_tabs_list_from_innerblocks( $block->parsed_block['innerBlocks'] ?? array() );
+
+		$tabs_id = wp_unique_id( 'tabs_' );
+
+		$state = wp_interactivity_state(
+			'prc-block/tabs',
+			array(
+				$tabs_id => $tabs_list,
+			)
+		);
 
 		$is_vertical = 'vertical' === ( $attributes['orientation'] ?? 'horizontal' );
 
@@ -206,7 +200,7 @@ class Tabs {
 			'data-wp-context',
 			wp_json_encode(
 				array(
-					'tabsId'         => $attributes['tabsId'] ?? '',
+					'tabsId'         => $tabs_id,
 					'activeTabIndex' => $active_tab_index,
 					'isVertical'     => $is_vertical,
 				)
@@ -225,13 +219,12 @@ class Tabs {
 
 		$updated_content = $tag_processor->get_updated_html();
 
-		$tabs_list        = $this->generate_tabs_list_from_innerblocks( $block->parsed_block['innerBlocks'] ?? array() );
 		$tabs_list_markup = array_map(
 			static function ( array $tab ): string {
 				return wp_sprintf(
 					'<a id="tab__%1$s" class="tabs__tab-label" href="#%1$s" role="tab" aria-controls="%1$s" data-wp-on--click="actions.handleTabClick" data-wp-on--keydown="actions.handleTabKeyDown" data-wp-bind--aria-selected="state.isActiveTab" data-wp-bind--tabindex="state.tabIndexAttribute">%2$s</a>',
 					$tab['id'],
-					$tab['label']
+					html_entity_decode( $tab['label'] ),
 				);
 			},
 			$tabs_list

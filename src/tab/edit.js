@@ -125,6 +125,7 @@ export default function Edit({
 		if (isSelected || hasInnerBlocksSelected || forceDisplay) {
 			return true;
 		}
+		console.log('isDefaultTab running...');
 		if (
 			isDefaultTab &&
 			!isTabsClientSelected &&
@@ -148,9 +149,10 @@ export default function Edit({
 	 */
 	useEffect(() => {
 		if (isSelected && !hasInnerBlocksSelected) {
-			timeoutRef.current = setTimeout(() => {
-				labelRef.current.focus();
-			}, 0);
+			// timeoutRef.current = setTimeout(() => {
+			// 	console.log('focusing tab label');
+			// 	labelRef.current.focus();
+			// }, 100);
 		}
 	}, [isSelected, hasInnerBlocksSelected]);
 
@@ -191,14 +193,14 @@ export default function Edit({
 
 	return (
 		<>
-			<Controls
-				attributes={attributes}
-				setAttributes={setAttributes}
-				tabsClientId={tabsClientId}
-				blockIndex={blockIndex}
-				isDefaultTab={isDefaultTab}
-			/>
 			<div {...blockProps}>
+				<Controls
+					attributes={attributes}
+					setAttributes={setAttributes}
+					tabsClientId={tabsClientId}
+					blockIndex={blockIndex}
+					isDefaultTab={isDefaultTab}
+				/>
 				<TabFill tabsClientId={tabsClientId}>
 					<button
 						aria-controls={tabPanelId}
@@ -218,7 +220,8 @@ export default function Edit({
 							selectBlock(clientId);
 						}}
 						onKeyDown={(event) => {
-							if (event.key === 'Enter') {
+							// If shift is also pressed, do not select the block.
+							if (event.key === 'Enter' && !event.shiftKey) {
 								event.preventDefault();
 								selectBlock(clientId);
 								timeoutRef.current = setTimeout(() => {
@@ -230,8 +233,11 @@ export default function Edit({
 						<RichText
 							ref={labelRef}
 							tagName="span"
-							allowedFormats={[]}
-							withoutInteractiveFormatting
+							allowedFormats={[
+								'core/bold',
+								'core/italic',
+								'core/strikethrough',
+							]}
 							placeholder={__('Add tab label…')}
 							value={decodeEntities(label)}
 							onChange={(value) =>
