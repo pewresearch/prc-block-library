@@ -14,7 +14,7 @@ import {
 	withColors,
 	getColorClassName,
 } from '@wordpress/block-editor';
-import { Fragment, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 /**
  * Internal Dependencies
@@ -147,32 +147,30 @@ function Edit({
 	});
 
 	return (
-		<Fragment>
+		<div {...blockProps}>
 			<Controls {...{ attributes, setAttributes, colors, clientId }} />
-			<div {...blockProps}>
-				<EditMenuItem
+			<EditMenuItem
+				{...{
+					attributes,
+					setAttributes,
+					isSelected,
+					isMenuVisible,
+					toggleMenu,
+				}}
+			/>
+			<div className="wp-block-prc-block-navigation-mega-menu__tab-divider"></div>
+			{isMenuVisible && (
+				<EditMenuTemplatePart
 					{...{
-						attributes,
-						setAttributes,
-						isSelected,
-						isMenuVisible,
+						menuSlug,
+						clientId,
+						overlayClassnames,
 						toggleMenu,
+						isMobile,
 					}}
 				/>
-				<div className="wp-block-prc-block-navigation-mega-menu__tab-divider"></div>
-				{isMenuVisible && (
-					<EditMenuTemplatePart
-						{...{
-							menuSlug,
-							clientId,
-							overlayClassnames,
-							toggleMenu,
-							isMobile,
-						}}
-					/>
-				)}
-			</div>
-		</Fragment>
+			)}
+		</div>
 	);
 }
 

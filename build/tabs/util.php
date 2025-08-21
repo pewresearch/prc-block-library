@@ -96,8 +96,17 @@ function create_tabs( array $tabs = array(), array $attributes = array() ): WP_B
  * @param array $attributes Attributes for the wrapper `prc-block/tabs` block.
  * @return string The rendered tabs HTML.
  */
-function render_tabs( array $tabs = array(), array $attributes = array() ): string {
-	$tabs_block           = create_tabs( $tabs, $attributes );
+function render_tabs( array $tabs = array(
+	array(
+		'label'   => 'Tab 1',
+		'content' => 'Tab 1 content...',
+	),
+	array(
+		'label'   => 'Tab 2',
+		'content' => 'Tab 2 content...',
+	),
+), array $attributes = array() ): string {
+	$tabs_block = create_tabs( $tabs, $attributes );
 	return (
 		new WP_Block(
 			(array) $tabs_block,

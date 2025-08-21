@@ -28,13 +28,14 @@
 		padding: 0 !important;
 		min-width: 400px;
 	}
-	&:not(.has-backdrop-color)::backdrop {
-		background-color: black;
-		opacity: 0.8;
-	}
+	// &:not(.has-backdrop-color)::backdrop {
+	// 	background-color: black;
+	// 	opacity: 0.8;
+	// }
 	&::backdrop {
 		opacity: 0.5;
 		cursor: zoom-out;
+		background-color: var(--backdrop-color);
 	}
 	&__inner {
 		& > *:first-child {

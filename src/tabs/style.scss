@@ -39,6 +39,7 @@
 		flex-grow: 1;
 		flex-basis: 100%;
 		gap: var(--wp--style--unstable-tabs-list-gap, var(--wp--style--tabs-gap-default));
+		min-width: 100px;
 
 		button.tabs__tab-label {
 			font-size: inherit;

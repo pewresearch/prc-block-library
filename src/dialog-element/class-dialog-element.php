@@ -50,8 +50,8 @@ class Dialog_Element {
 		ob_start();
 		foreach ( $colors as $color ) {
 			?>
-			.wp-block-prc-block-dialog-element.has-backdrop-color.has-<?php echo esc_attr( $color['slug'] ); ?>-backdrop-color::backdrop  {
-				background-color: var(--wp--preset--color--<?php echo esc_attr( $color['slug'] ); ?>);
+			.wp-block-prc-block-dialog-element.has-backdrop-color.has-<?php echo esc_attr( $color['slug'] ); ?>-backdrop-color  {
+				--backdrop-color: var(--wp--preset--color--<?php echo esc_attr( $color['slug'] ); ?>);
 				// We add opacity globally to the backdrop in style.scss.
 			}
 			<?php
