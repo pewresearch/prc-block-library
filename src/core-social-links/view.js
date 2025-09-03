@@ -117,16 +117,15 @@ function getWindowName(platform) {
 store('core/social-links', {
 	actions: {
 		onShareClick: (event) => {
-			event.preventDefault();
-			event.stopPropagation();
-
 			const context = getContext();
 			const { platform } = context;
-			const shareArgs = getShareArgs(context);
-
 			if (!platform) {
 				return;
 			}
+			const shareArgs = getShareArgs(context);
+
+			event.preventDefault();
+			event.stopPropagation();
 
 			const shareUrl = generateShareUrl(platform, shareArgs);
 			const windowName = getWindowName(platform);

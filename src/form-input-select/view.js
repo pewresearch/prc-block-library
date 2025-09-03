@@ -355,6 +355,13 @@ const { state, actions } = store('prc-block/form-input-select', {
 				}, 150);
 			}
 		}),
+		onDropdownArrowClick: withSyncEvent((event) => {
+			const context = getContext();
+			const { id } = context;
+			if (state[id]) {
+				state[id].isOpen = !state[id].isOpen;
+			}
+		}),
 	},
 	callbacks: {},
 });

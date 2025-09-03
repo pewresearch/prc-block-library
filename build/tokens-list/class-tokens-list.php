@@ -114,8 +114,7 @@ class Tokens_List {
 
 		$processed = $tag_processor->get_updated_html();
 		// Now we're going to splice in a <template/> to take our innerblocks and iterate that multiple times for each token, in context.tokens, also retrieved by derived state at state.tokens, which will get this block's local tokens.
-		do_action( 'qm/debug', 'IN: ' . $processed );
-		// Get the template element, the prc-block-tokens-list__tokens div
+		// Get the template element, the prc-block-tokens-list__tokens div.
 		$template_inner = preg_match(
 			'/<div[^>]*class="[^"]*prc-block-tokens-list__tokens[^"]*"[^>]*>(.*?)<\/div>/s',
 			$processed,
@@ -139,7 +138,6 @@ class Tokens_List {
 			$template,
 			$processed
 		);
-		do_action( 'qm/debug', 'OUT: ' . $processed );
 		return $processed;
 	}
 

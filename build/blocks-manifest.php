@@ -1147,7 +1147,10 @@ return array(
 		'textdomain' => 'core-social-links',
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css',
-		'viewScriptModule' => 'file:./view.js'
+		'viewScriptModule' => 'file:./view.js',
+		'supports' => array(
+			'interactivity' => true
+		)
 	),
 	'core-table' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

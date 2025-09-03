@@ -8,6 +8,7 @@
     "build:library": "wp-scripts build --webpack-copy-php; wp-scripts build --experimental-modules --webpack-copy-php; wp-scripts build-blocks-manifest",
     "build:manifest": "wp-scripts build-blocks-manifest",
     "start:library": "wp-scripts build-blocks-manifest; wp-scripts start --experimental-modules --webpack-copy-php;",
+		"build:block-visibility": "wp-scripts build --source-path=includes/block-visibility/src --output-path=includes/block-visibility/build",
     "start": "node bin/start-block.js",
     "watch": "node bin/start-block.js",
     "test": "wp-scripts test-playwright",

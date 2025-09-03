@@ -78,6 +78,24 @@
 	}
 
 	/**
+	Icon styling
+	*/
+	&.is-open {
+		.prc-block-form-input-select__icon-wrapper {
+			.wp-block-prc-block-form-input-select__dropdown-arrow {
+				transform: rotate(180deg);
+			}
+		}
+	}
+	&.has-selection {
+		.prc-block-form-input-select__icon-wrapper {
+			.wp-block-prc-block-form-input-select__dropdown-arrow {
+				display: none;
+			}
+		}
+	}
+
+	/**
 	Listbox styling
 	*/
 	&:not(.is-open) .wp-block-prc-block-form-input-select__list {

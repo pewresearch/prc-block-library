@@ -128,6 +128,7 @@ class Plugin {
 		require_once plugin_dir_path( __DIR__ ) . '/includes/custom-text-formats/class-custom-text-formats.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/interactivity-api/class-interactivity-api.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/print-engine/class-print-engine.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/block-visibility/class-block-visibility.php';
 		// Load blocks.
 		$this->load_blocks();
 		// Initialize the loader.
@@ -181,6 +182,7 @@ class Plugin {
 		new Custom_Text_Formats( $this->get_loader() );
 		new Print_Engine( $this->get_loader() );
 		new Interactivity_API( $this->get_loader() );
+		new Block_Visibility( $this->get_loader() );
 	}
 
 	/**

@@ -152,6 +152,9 @@ class Form_Input_Select {
 				$tag->set_attribute( 'data-wp-interactive', 'prc-block/form-input-select' );
 			}
 			$tag->set_attribute( 'data-wp-class--is-open', 'state.isOpen' );
+			if ( $attributes['hasClearIcon'] ?? false ) {
+				$tag->set_attribute( 'data-wp-class--has-selection', 'state.hasValue' );
+			}
 			$block_id = $tag->get_attribute( 'id' );
 			// Get, store, and remove the id attribute from the block wrapper.
 			$tag->remove_attribute( 'id' );
@@ -279,12 +282,14 @@ class Form_Input_Select {
 			);
 		}
 
+		// Options list, clear button, and dropdown arrow.
 		$options_list_template = wp_sprintf(
-			'<button class="wp-block-prc-block-form-input-select__clear-button" data-wp-on--click="actions.onInputClearButtonClick" data-wp-bind--hidden="!state.hasClearIcon" type="button">%4$s</button><ul role="listbox" id="dropdown-list-%1$s" class="wp-block-prc-block-form-input-select__list" ><template data-wp-each--option="%2$s" data-wp-each-key="context.option.value">%3$s</template></ul>',
+			'<div class="prc-block-form-input-select__icon-wrapper"><button class="wp-block-prc-block-form-input-select__clear-button" data-wp-on--click="actions.onInputClearButtonClick" data-wp-bind--hidden="!state.hasClearIcon" type="button">%4$s</button><button class="wp-block-prc-block-form-input-select__dropdown-arrow" data-wp-on--click="actions.onDropdownArrowClick" data-wp-class--is-open="context.isOpen" type="button">%5$s</button></div><ul role="listbox" id="dropdown-list-%1$s" class="wp-block-prc-block-form-input-select__list" ><template data-wp-each--option="%2$s" data-wp-each-key="context.option.value">%3$s</template></ul>',
 			$block_id,
 			'state.inputOptions',
 			'<li role="option" data-wp-on--click="actions.onInputOptionClick" data-wp-text="context.option.label" data-wp-bind--data-ref-value="context.option.value"></li>',
 			\PRC\Platform\Icons\render( 'solid', 'circle-xmark' ),
+			\PRC\Platform\Icons\render( 'solid', 'chevron-down' ),
 		);
 
 		return str_replace( '<div class="prc-block-form-input-select__list__placeholder"></div>', $options_list_template, $content );

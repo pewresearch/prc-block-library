@@ -321,13 +321,7 @@ class Core_Social_Links {
 	 */
 	public function social_link_render_callback( $block_content, $block, $instance ) {
 		if ( $this->child_block_name === $block['blockName'] && is_string( $block_content ) && ! is_admin() ) {
-			wp_enqueue_script_module( $this->view_script_handle );
-			wp_enqueue_script( 'wp-url' );
-
 			$context = $instance->context;
-
-			$tags = new WP_HTML_Tag_Processor( $block_content );
-			$tags->next_tag( 'li' );
 
 			$url = isset( $context['core/socialLinksUrl'] ) ? $context['core/socialLinksUrl'] : false;
 
@@ -335,23 +329,39 @@ class Core_Social_Links {
 
 			$description = isset( $context['core/socialLinksDescription'] ) ? $context['core/socialLinksDescription'] : null;
 
-			$tags->set_attribute( 'data-wp-interactive', 'core/social-links' );
+			$tags = new WP_HTML_Tag_Processor( $block_content );
+			$tags->next_tag( 'li' );
+			$tags->set_bookmark( 'social-link' );
 
-			$platform = preg_replace( '/^wp-social-link-/', '', $tags->get_attribute( 'class' ) );
+			// Most of the time, social links are used to share a post and not point to a specific url.
+			// We'll assume we want to add iAPI support by default.
+			$add_interactivity = true;
+			if ( $tags->next_tag( 'a' ) ) {
+				$href = $tags->get_attribute( 'href' );
+				if ( ! empty( $href ) && '#' !== $href ) {
+					$add_interactivity = false;
+				}
+			}
 
-			$tags->set_attribute(
-				'data-wp-context',
-				wp_json_encode(
-					array(
-						'url'         => $url,
-						'title'       => $title,
-						'description' => $description,
-						'platform'    => $platform,
+			if ( $add_interactivity ) {
+				wp_enqueue_script_module( $this->view_script_handle );
+				wp_enqueue_script( 'wp-url' );
+				$tags->seek( 'social-link' );
+				$tags->set_attribute( 'data-wp-interactive', 'core/social-links' );
+				$platform = preg_replace( '/^wp-social-link-/', '', $tags->get_attribute( 'class' ) );
+				$tags->set_attribute(
+					'data-wp-context',
+					wp_json_encode(
+						array(
+							'url'         => $url,
+							'title'       => $title,
+							'description' => $description,
+							'platform'    => $platform,
+						)
 					)
-				)
-			);
-
-			$tags->set_attribute( 'data-wp-on--click', 'actions.onShareClick' );
+				);
+				$tags->set_attribute( 'data-wp-on--click', 'actions.onShareClick' );
+			}
 
 			return $tags->get_updated_html();
 		}

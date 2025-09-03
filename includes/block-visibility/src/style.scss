@@ -1,0 +1,58 @@
+
+// This will capture any block that adds the correct attribute to hide on mobile.
+.is-mobile-preview .prc-block-visibility-small {
+	&.wp-block:before {
+		content: "This block is hidden on small screen sizes.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		border: 1px dashed #ddd;
+		color: #999;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}
+
+/**
+ * Hide On Tablet
+ */
+.is-tablet-preview .prc-block-visibility-medium {
+	&.wp-block:before {
+		content: "This block is hidden on medium screen sizes.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		color: #999;
+		border: 1px dashed #ddd;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}
+
+/**
+ * Hide On Desktop
+ */
+.is-desktop-preview .prc-block-visibility-large {
+	&.wp-block:before {
+		content: "This block is hidden on large screen sizes.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		color: #999;
+		border: 1px dashed #ddd;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}

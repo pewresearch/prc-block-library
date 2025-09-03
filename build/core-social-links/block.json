@@ -8,5 +8,8 @@
   "textdomain": "core-social-links",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",
-  "viewScriptModule": "file:./view.js"
+  "viewScriptModule": "file:./view.js",
+  "supports": {
+    "interactivity": true
+  }
 }
