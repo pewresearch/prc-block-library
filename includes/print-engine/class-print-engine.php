@@ -1,5 +1,6 @@
 <?php
 namespace PRC\Platform\Blocks;
+
 use MatthiasMullie\Minify;
 use WP_HTML_Tag_Processor;
 use WP_Block_Type_Registry;
@@ -12,14 +13,14 @@ class Print_Engine {
 	public static $controls_asset_file;
 	public static $version;
 
-	public function __construct($loader) {
-		self::$view_asset_file = include(  plugin_dir_path( __FILE__ )  . 'build/index.asset.php' );
-		self::$version = self::$view_asset_file['version'];
-		self::$controls_asset_file = include(  plugin_dir_path( __FILE__ )  . 'build/controls.asset.php' );
-		$this->init($loader);
+	public function __construct( $loader ) {
+		self::$view_asset_file     = include plugin_dir_path( __FILE__ ) . 'build/view.asset.php';
+		self::$version             = self::$view_asset_file['version'];
+		self::$controls_asset_file = include plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
+		$this->init( $loader );
 	}
 
-	public function init($loader) {
+	public function init( $loader ) {
 		$loader->add_filter( 'prc_platform_rewrite_query_vars', $this, 'add_query_vars' );
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_view_script' );
 		$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
@@ -31,7 +32,7 @@ class Print_Engine {
 	/**
 	 * @hook prc_platform_rewrite_query_vars
 	 */
-	public function add_query_vars($qvars) {
+	public function add_query_vars( $qvars ) {
 		$qvars[] = 'print';
 		$qvars[] = 'printEngineBeta';
 		return $qvars;
@@ -44,7 +45,7 @@ class Print_Engine {
 	public function register_editor_script() {
 		wp_enqueue_script(
 			self::$handle . '-controls',
-			plugins_url( 'build/controls.js', __FILE__ ),
+			plugins_url( 'build/index.js', __FILE__ ),
 			self::$controls_asset_file['dependencies'],
 			self::$version,
 			true
@@ -52,7 +53,7 @@ class Print_Engine {
 	}
 
 	public function allow_print_engine() {
-		return true == get_query_var('printEngineBeta', false);
+		return true == get_query_var( 'printEngineBeta', false );
 	}
 
 	/**
@@ -65,20 +66,20 @@ class Print_Engine {
 		}
 		wp_enqueue_script(
 			self::$handle,
-			plugins_url( 'build/index.js', __FILE__ ),
+			plugins_url( 'build/view.js', __FILE__ ),
 			self::$view_asset_file['dependencies'],
 			self::$version,
 			true
 		);
 	}
 
-	public function get_block_names($filter_by_namespace = null) {
+	public function get_block_names( $filter_by_namespace = null ) {
 		$block_names = array();
 		$block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
 		foreach ( $block_types as $block_type ) {
-			if ( !is_null($filter_by_namespace) && strpos($block_type->name, $filter_by_namespace) === 0 ) {
+			if ( ! is_null( $filter_by_namespace ) && strpos( $block_type->name, $filter_by_namespace ) === 0 ) {
 				$block_names[] = $block_type->name;
-			} else if ( is_null($filter_by_namespace) ) {
+			} elseif ( is_null( $filter_by_namespace ) ) {
 				$block_names[] = $block_type->name;
 			}
 		}
@@ -86,10 +87,10 @@ class Print_Engine {
 	}
 
 	public function register_block_styles() {
-		$block_names = $this->get_block_names('prc-block');
-		$block_styles = apply_filters('prc_block_styles', '', $block_names);
+		$block_names  = $this->get_block_names( 'prc-block' );
+		$block_styles = apply_filters( 'prc_block_styles', '', $block_names );
 		$block_styles = '@media print { ' . $block_styles . ' }';
-		$minifier = new Minify\CSS($block_styles);
+		$minifier     = new Minify\CSS( $block_styles );
 		$block_styles = $minifier->minify();
 		return wp_add_inline_style( self::$handle, $block_styles );
 	}
@@ -104,7 +105,7 @@ class Print_Engine {
 		}
 		wp_enqueue_style(
 			self::$handle,
-			plugins_url( 'build/index.css', __FILE__ ),
+			plugins_url( 'build/view.css', __FILE__ ),
 			array(),
 			self::$version,
 		);
@@ -112,18 +113,19 @@ class Print_Engine {
 	}
 
 	/**
-	* Register additional attributes for the core-group block.
-	* @hook block_type_metadata 100, 1
-	* @param mixed $metadata
-	* @return mixed
-	*/
+	 * Register additional attributes for the core-group block.
+	 *
+	 * @hook block_type_metadata 100, 1
+	 * @param mixed $metadata
+	 * @return mixed
+	 */
 	public function add_attributes( $metadata ) {
-		if ( is_array($metadata) && array_key_exists('attributes', $metadata) && ! array_key_exists( 'printEngine', $metadata['attributes'] ) ) {
+		if ( is_array( $metadata ) && array_key_exists( 'attributes', $metadata ) && ! array_key_exists( 'printEngine', $metadata['attributes'] ) ) {
 			$metadata['attributes']['printEngine'] = array(
 				'type'    => 'object',
 				'default' => array(
-					'hideOnPrint' => false,
-					'displayOnPrint'  => false,
+					'hideOnPrint'    => false,
+					'displayOnPrint' => false,
 				),
 			);
 		}
@@ -132,9 +134,9 @@ class Print_Engine {
 	}
 
 	public function generate_dynamic_cover_sheet() {
-		$cover_sheet = '<div class="prc-block-library-print-engine__cover-sheet" data-display-on-print="true">';
+		$cover_sheet  = '<div class="prc-block-library-print-engine__cover-sheet" data-display-on-print="true">';
 		$cover_sheet .= '<div class="prc-block-library-print-engine__cover-sheet__content">';
-		$cover_sheet .= '<h1 class="prc-block-library-print-engine__cover-sheet__title wp-block-post-title">'.get_the_title().'</h1>';
+		$cover_sheet .= '<h1 class="prc-block-library-print-engine__cover-sheet__title wp-block-post-title">' . get_the_title() . '</h1>';
 		$cover_sheet .= '<p class="prc-block-library-print-engine__cover-sheet__description">This is a preview of how your content will look when printed by the print engine...</p>';
 		$cover_sheet .= '</div>';
 		$cover_sheet .= '</div>';
@@ -151,23 +153,30 @@ class Print_Engine {
 		if ( true !== $this->allow_print_engine() ) {
 			return $block_content;
 		}
-		if ( is_admin() || !is_string($block_content) ) {
+		if ( is_admin() || ! is_string( $block_content ) ) {
 			return $block_content;
 		}
-		if (is_singular('page')) {
+		if ( is_singular( 'page' ) ) {
 			return $block_content;
 		}
 		if ( 'core/post-content' === $block['blockName'] ) {
 			return $this->generate_dynamic_cover_sheet() . $block_content;
 		}
-		if ( !$block['attrs'] ) {
+		if ( ! $block['attrs'] ) {
 			return $block_content;
 		}
 
-		$attributes = array_key_exists('attrs', $block) ? $block['attrs'] : array();
-		$print_options = array_key_exists('printEngine', $attributes) ? $attributes['printEngine'] : array();
-		$hide_on_print = array_key_exists('hideOnPrint', $print_options) ? $print_options['hideOnPrint'] : false;
-		$display_on_print = array_key_exists('displayOnPrint', $print_options) ? $print_options['displayOnPrint'] : false;
+		$attributes = array_key_exists( 'attrs', $block ) ? $block['attrs'] : array();
+		/**
+		 * Support both legacy root-level printEngine attribute and the new
+		 * Block Visibility nested attribute at blockVisibility.printEngine.
+		 */
+		$print_options = array();
+		if ( array_key_exists( 'blockVisibility', $attributes ) && is_array( $attributes['blockVisibility'] ) && array_key_exists( 'printEngine', $attributes['blockVisibility'] ) ) {
+			$print_options = $attributes['blockVisibility']['printEngine'];
+		}
+		$hide_on_print    = is_array( $print_options ) && array_key_exists( 'hideOnPrint', $print_options ) ? $print_options['hideOnPrint'] : false;
+		$display_on_print = is_array( $print_options ) && array_key_exists( 'displayOnPrint', $print_options ) ? $print_options['displayOnPrint'] : false;
 
 		// if the print query var is set we should drop css to just hide all the data-hide-on-print blocks
 

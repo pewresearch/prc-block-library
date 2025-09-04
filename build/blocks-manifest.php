@@ -3624,6 +3624,56 @@ return array(
 		'textdomain' => 'promo-rotator',
 		'editorScript' => 'file:./index.js'
 	),
+	'remote-pivot-table' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/remote-pivot-table',
+		'version' => '1.0.0',
+		'title' => 'Remote Pivot Table',
+		'description' => 'Pivots the data of a remote tabular data source allowing for pseudo-pivot-table like functionality. Select a data source like column or row and then select the columns to pivot by.',
+		'category' => 'media',
+		'keywords' => array(
+			'remote',
+			'data',
+			'row',
+			'table',
+			'pivot',
+			'tabular'
+		),
+		'attributes' => array(
+			'primaryKey' => array(
+				'type' => 'string'
+			),
+			'selectedColumns' => array(
+				'type' => 'array',
+				'items' => array(
+					'type' => 'string'
+				),
+				'default' => array(
+					
+				)
+			),
+			'dataSource' => array(
+				'type' => 'string',
+				'enum' => array(
+					'column',
+					'row'
+				),
+				'default' => 'row'
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false
+		),
+		'usesContext' => array(
+			'remote-data-blocks/remoteData',
+			'remote-data-blocks/pivotedData'
+		),
+		'textdomain' => 'remote-pivot-table',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css'
+	),
 	'render-to-region' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

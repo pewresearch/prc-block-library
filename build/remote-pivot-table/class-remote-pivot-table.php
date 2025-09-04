@@ -1,0 +1,273 @@
+<?php
+/**
+ * The loader block class.
+ *
+ * @package PRC\Platform\Blocks
+ */
+
+namespace PRC\Platform\Blocks;
+
+use RemoteDataBlocks\Editor\DataBinding\BlockBindings;
+
+/**
+ * Block Name:        Remote Pivot Table
+ * Description:       A block that pivots the data of a remote tabular data source.
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
+ * Author:            Seth Rubenstein
+ *
+ * @package           prc-platform
+ */
+class Remote_Pivot_Table {
+	/**
+	 * Constructor.
+	 *
+	 * @param object $loader The loader object.
+	 */
+	public function __construct( $loader = null ) {
+		if ( null !== $loader ) {
+			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_filter( 'remote_data_blocks_template_blocks', $this, 'register_rdb_template' );
+			$loader->add_filter( 'render_block_context', $this, 'pivot_in_context', 10, 2 );
+		}
+	}
+
+	/**
+	 * Register the remote data blocks template.
+	 *
+	 * @param array $template_blocks The template blocks.
+	 * @return array The template blocks.
+	 */
+	public function register_rdb_template( $template_blocks ) {
+		$template_blocks[] = 'prc-block/remote-pivot-table';
+		$template_blocks[] = 'prc-block/tabs';
+		return $template_blocks;
+	}
+
+	/**
+	 * Pivots the data based on the data source.
+	 *
+	 * Mirrors the editor JS behavior:
+	 * - dataSource 'row': object keyed by primary key value, each value contains only selected columns (excluding the primary key itself)
+	 * - dataSource 'column': object keyed by each selected column, each value maps primary key values to that column's value
+	 *
+	 * @param array  $columns          List of column names available in the dataset.
+	 * @param array  $rows             List of row arrays (field => value). Primary key field may be an array with a 'value' key.
+	 * @param string $data_source      Either 'row' or 'column'.
+	 * @param array  $selected_columns Column names selected by the user.
+	 * @param string $primary_key      Column name to use as primary key.
+	 * @return array                   Pivoted data structure.
+	 */
+	public function pivot_data( $columns, $rows, $data_source, $selected_columns, $primary_key ) {
+		$pivoted = array();
+
+		if ( 'row' === $data_source ) {
+			foreach ( $rows as $item ) {
+				$pk_field = $item[ $primary_key ] ?? null;
+				$pk_value = is_array( $pk_field ) && array_key_exists( 'value', $pk_field ) ? $pk_field['value'] : $pk_field;
+				if ( empty( $pk_value ) ) {
+					continue;
+				}
+				$pivoted[ $pk_value ] = array_filter(
+					$item,
+					function ( $value, $key ) use ( $selected_columns, $primary_key ) {
+						return ( $key !== $primary_key ) && in_array( $key, $selected_columns, true );
+					},
+					ARRAY_FILTER_USE_BOTH
+				);
+			}
+		} elseif ( 'column' === $data_source ) {
+			foreach ( $columns as $column_name ) {
+				if ( ! in_array( $column_name, $selected_columns, true ) ) {
+					continue;
+				}
+				if ( ! isset( $pivoted[ $column_name ] ) ) {
+					$pivoted[ $column_name ] = array();
+				}
+				foreach ( $rows as $item ) {
+					$pk_field = $item[ $primary_key ] ?? null;
+					$pk_value = is_array( $pk_field ) && array_key_exists( 'value', $pk_field ) ? $pk_field['value'] : $pk_field;
+					if ( empty( $pk_value ) ) {
+						continue;
+					}
+					$pivoted[ $column_name ][ $pk_value ] = $item[ $column_name ] ?? null;
+				}
+			}
+		}
+
+		return $pivoted;
+	}
+
+	/**
+	 * Renders a pivoted table.
+	 *
+	 * @param array $data The pivoted data.
+	 * @return string HTML table markup
+	 */
+	public function render_pivoted_table( $data, $table_block_markup ) {
+		if ( empty( $data ) || ! is_array( $data ) ) {
+			return '';
+		}
+
+		// Sort data by raw values (highest to lowest).
+		uasort(
+			$data,
+			function ( $a, $b ) {
+				$value_a = ( is_array( $a ) && array_key_exists( 'value', $a ) ) ? $a['value'] : $a;
+				$value_b = ( is_array( $b ) && array_key_exists( 'value', $b ) ) ? $b['value'] : $b;
+
+				// Handle numeric values for proper sorting.
+				if ( is_numeric( $value_a ) && is_numeric( $value_b ) ) {
+					return $value_b <=> $value_a; // Descending order (highest first).
+				}
+
+				// For non-numeric values, convert to string and compare.
+				$str_a = (string) $value_a;
+				$str_b = (string) $value_b;
+				return strcasecmp( $str_b, $str_a ); // Descending order.
+			}
+		);
+
+		$rows_html = '';
+		foreach ( $data as $key => $raw_value ) {
+			$value      = ( is_array( $raw_value ) && array_key_exists( 'value', $raw_value ) ) ? $raw_value['value'] : $raw_value;
+			$value      = ( is_scalar( $value ) || null === $value ) ? $value : wp_json_encode( $value );
+			$rows_html .= wp_sprintf(
+				'<tr><td>%1$s</td><td>%2$s</td></tr>',
+				esc_html( (string) $key ),
+				esc_html( (string) $value )
+			);
+		}
+
+		// Regex replace whatever is inside <tbody> with the $rows_html.
+		$table_block_markup = preg_replace( '/<tbody>.*<\/tbody>/s', $rows_html, $table_block_markup );
+
+		return $table_block_markup;
+	}
+
+	/**
+	 * Pivots the data in context.
+	 *
+	 * @hook render_block_context
+	 *
+	 * @param array $block_context The block context.
+	 * @param array $parsed_block  The parsed block.
+	 * @return array The block context.
+	 */
+	public function pivot_in_context( $block_context, $parsed_block ) {
+		if ( 'prc-block/remote-pivot-table' !== $parsed_block['blockName'] ) {
+			return $block_context;
+		}
+		$remote_data_context = $block_context['remote-data-blocks/remoteData'] ?? array();
+		if ( empty( $remote_data_context ) ) {
+			return $block_context;
+		}
+		$attributes = $parsed_block['attrs'] ?? array();
+		if ( empty( $attributes ) ) {
+			return $block_context;
+		}
+		$data_source      = $attributes['dataSource'] ?? 'row';
+		$selected_columns = $attributes['selectedColumns'] ?? array();
+		$primary_key      = $attributes['primaryKey'] ?? 'id';
+		$columns          = array_keys( $remote_data_context['results'][0]['result'] );
+		$rows             = array_map(
+			function ( $result ) {
+				return $result['result'];
+			},
+			$remote_data_context['results']
+		);
+		$pivoted_data     = $this->pivot_data(
+			$columns,
+			$rows,
+			$data_source,
+			$selected_columns,
+			$primary_key
+		);
+		$data_to_return   = array();
+		foreach ( $pivoted_data as $key => $value ) {
+			$data_to_return[] = array(
+				'key'  => $key,
+				'data' => $value,
+			);
+		}
+		$block_context['remote-data-blocks/pivotedData'] = $data_to_return;
+		return $block_context;
+	}
+
+	/**
+	 * Render callback for the Remote Data Inverter block.
+	 *
+	 * Consumes remote data from context, pivots it to match editor behavior,
+	 * and renders the inner blocks within a wrapper element.
+	 *
+	 * @param array  $attributes Block attributes (expects dataSource, selectedColumns, primaryKey).
+	 * @param string $content    Block content (inner blocks markup).
+	 * @param object $block      WP_Block instance providing context.
+	 * @return string            Rendered HTML.
+	 */
+	public function render_remote_pivot_table_callback( $attributes, $content, $block ) {
+		$inner_blocks = $block->inner_blocks;
+		if ( empty( $inner_blocks ) ) {
+			error_log( 'No inner blocks found for remote pivot table!!!' );
+			return '';
+		}
+		// Check if the first block is prc-block/tabs.
+		$first_block = $inner_blocks[0];
+		if ( 'prc-block/tabs' !== $first_block->name ) {
+			error_log( 'First block is not a tabs block!!!' );
+			return '';
+		}
+		$tabs_attributes = $first_block->attributes;
+		// Get the tabs block's first tab innerblock and then get it's inner_blocks.
+		$first_tab_block = $first_block->inner_blocks[0];
+		if ( 'prc-block/tab' !== $first_tab_block->name ) {
+			error_log( 'First tab block is not a tab block!!!' );
+			return '';
+		}
+		$first_tab_inner_blocks = $first_tab_block->inner_blocks;
+		if ( empty( $first_tab_inner_blocks ) ) {
+			error_log( 'No inner blocks found for first tab block!!!' );
+			return '';
+		}
+		$first_tab_inner_block = $first_tab_inner_blocks[0];
+		if ( 'core/table' !== $first_tab_inner_block->name ) {
+			error_log( 'First tab inner block is not a table block!!!' );
+			return '';
+		}
+		$table_block        = $first_tab_inner_block;
+		$table_block_markup = $table_block->render();
+
+		$pivoted_data = $block->context['remote-data-blocks/pivotedData'] ?? array();
+		if ( empty( $pivoted_data ) ) {
+			error_log( 'No pivoted data found for remote pivot table!!!' );
+			return '';
+		}
+
+		$tabs = array();
+		foreach ( $pivoted_data as $item ) {
+			$tabs[] = array(
+				'label'   => $item['key'],
+				'content' => $this->render_pivoted_table( $item['data'], $table_block_markup ),
+			);
+		}
+		$tabs                     = \PRC\Platform\Blocks\render_tabs( $tabs, $tabs_attributes );
+		$block_wrapper_attributes = get_block_wrapper_attributes();
+		return wp_sprintf(
+			'<div %1$s>%2$s</div>',
+			$block_wrapper_attributes,
+			$tabs
+		);
+	}
+
+	/**
+	 * Initialize the block.
+	 */
+	public function block_init() {
+		register_block_type_from_metadata(
+			PRC_BLOCK_LIBRARY_DIR . '/build/remote-pivot-table',
+			array(
+				'render_callback' => array( $this, 'render_remote_pivot_table_callback' ),
+			)
+		);
+	}
+}

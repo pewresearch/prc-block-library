@@ -168,6 +168,22 @@ class Plugin {
 		$this->loader->add_filter( 'block_categories_all', $this, 'register_block_categories', 10, 1 );
 		// Add additional allowed HTML tags.
 		$this->loader->add_filter( 'wp_kses_allowed_html', $this, 'allowed_html_tags', 100, 2 );
+		// Disable Remote Data Blocks example block.
+		add_filter( 'remote_data_blocks_register_example_block', '__return_false' );
+		// Signal support for PRC Blocks to RDB.
+		$this->loader->add_filter( 'remote_data_blocks_template_blocks', $this, 'signal_rdb_template_support' );
+	}
+
+	/**
+	 * Signal support to Remote Data Blocks which PRC Blocks are supported as "RDB templates".
+	 *
+	 * @param array $template_blocks The template blocks.
+	 * @return array The template blocks.
+	 */
+	public function signal_rdb_template_support( $template_blocks ) {
+		$template_blocks[] = 'prc-block/remote-pivot-table';
+		$template_blocks[] = 'prc-block/tabs';
+		return $template_blocks;
 	}
 
 	/**
@@ -287,6 +303,7 @@ class Plugin {
 		new Tokens_List( $this->get_loader() );
 		new Version( $this->get_loader() );
 		new Yoast_SEO_Breadcrumbs( $this->get_loader() );
+		new Remote_Pivot_Table( $this->get_loader() );
 	}
 
 	/**
