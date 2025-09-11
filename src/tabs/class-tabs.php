@@ -16,20 +16,11 @@ use WP_HTML_Tag_Processor;
  */
 class Tabs {
 	/**
-	 * The tabs id.
-	 *
-	 * @var string
-	 */
-	public static $tabs_id = null;
-
-	/**
 	 * Constructor wires hooks.
 	 *
 	 * @param mixed $loader Loader to register actions with.
 	 */
 	public function __construct( $loader ) {
-		// Ensure utility functions are loaded.
-		require_once PRC_BLOCK_LIBRARY_DIR . '/build/tabs/util.php';
 		$this->init( $loader );
 	}
 
@@ -48,6 +39,8 @@ class Tabs {
 	 * Build inline CSS custom properties for color settings.
 	 *
 	 * @param array $attributes Block attributes.
+	 * @param bool  $is_vertical Whether the tabs are vertical.
+	 *
 	 * @return string Inline CSS string.
 	 */
 	private function generate_color_styles( array $attributes, bool $is_vertical ): string {
@@ -83,6 +76,7 @@ class Tabs {
 	 *
 	 * @param array $attributes Block attributes.
 	 * @param bool  $is_vertical Whether the tabs are vertical.
+	 *
 	 * @return string Inline CSS string.
 	 */
 	private function generate_gap_styles( array $attributes, bool $is_vertical ): string {
@@ -132,16 +126,17 @@ class Tabs {
 		}
 
 		return wp_sprintf(
-			'--wp--style--unstable-tabs-list-gap: %s;--wp--style--unstable-tabs-gap: %s;',
+			'--wp--style--unstable-tabs-list-gap: %s; --wp--style--unstable-tabs-gap: %s;',
 			$list_gap,
 			$block_gap
 		);
 	}
 
 	/**
-	 * Extract tabs list from inner blocks for context hydration.
+	 * Extract tabs list from inner blocks for hydration.
 	 *
 	 * @param array $innerblocks Parsed inner blocks.
+	 *
 	 * @return array List of tabs with id, label, index.
 	 */
 	private function generate_tabs_list_from_innerblocks( array $innerblocks = array() ): array {
@@ -174,6 +169,7 @@ class Tabs {
 	 * @param array     $attributes Block attributes.
 	 * @param string    $content    Block content.
 	 * @param \WP_Block $block      WP_Block instance.
+	 *
 	 * @return string Updated HTML.
 	 */
 	public function render_block_callback( array $attributes, string $content, \WP_Block $block ): string {
@@ -183,7 +179,12 @@ class Tabs {
 
 		$tabs_id = wp_unique_id( 'tabs_' );
 
-		$state = wp_interactivity_state(
+		/**
+		 * Builds a client side state for just this tabs instance.
+		 * This allows 3rd party extensibility of tabs while retaining
+		 * client side state management per prc-block/tabs instance, like context.
+		 */
+		wp_interactivity_state(
 			'prc-block/tabs',
 			array(
 				$tabs_id => $tabs_list,
@@ -209,16 +210,21 @@ class Tabs {
 		$tag_processor->set_attribute( 'data-wp-init', 'callbacks.onTabsInit' );
 		$tag_processor->set_attribute( 'data-wp-on--keydown', 'actions.handleTabKeyDown' );
 
-		$color_styles = $this->generate_color_styles( $attributes, $is_vertical );
-		$gap_styles   = $this->generate_gap_styles( $attributes, $is_vertical );
-
+		/**
+		 * Process style attribute.
+		 */
 		$style  = (string) $tag_processor->get_attribute( 'style' );
-		$style .= $color_styles;
-		$style .= $gap_styles;
+		$style .= $this->generate_color_styles( $attributes, $is_vertical );
+		$style .= $this->generate_gap_styles( $attributes, $is_vertical );
 		$tag_processor->set_attribute( 'style', $style );
 
 		$updated_content = $tag_processor->get_updated_html();
 
+		/**
+		 * Build the tabs list markup.
+		 * We're doing this manually instead of using <template/> to make it possible
+		 * for other blocks to exten the tabs list via HTML api.
+		 */
 		$tabs_list_markup = array_map(
 			static function ( array $tab ): string {
 				return wp_sprintf(
@@ -231,12 +237,19 @@ class Tabs {
 		);
 		$tabs_list_markup = implode( '', $tabs_list_markup );
 
+		/**
+		 * Splice the tabs list into the content.
+		 */
 		$content = preg_replace(
 			'/<ul\s+class="tabs__list">\s*<\/ul>/i',
 			'<div class="tabs__list" role="tablist">' . $tabs_list_markup . '</div>',
 			(string) $updated_content
 		);
 
+		/**
+		 * In the event preg_replace fails, return the tabs content without the list spliced in.
+		 * This ensures the block content is still rendered, albeit without the tabs list.
+		 */
 		return is_string( $content ) ? $content : (string) $updated_content;
 	}
 

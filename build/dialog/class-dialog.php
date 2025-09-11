@@ -23,7 +23,6 @@ class Dialog {
 	 * @param mixed $loader Loader.
 	 */
 	public function __construct( $loader ) {
-		require_once PRC_BLOCK_LIBRARY_DIR . '/src/dialog/util.php';
 		$this->init( $loader );
 	}
 
@@ -36,7 +35,6 @@ class Dialog {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
 			$loader->add_filter( 'render_block_data', $this, 'dialog_id_fallback', 100, 1 );
-			$loader->add_filter( 'query_vars', $this, 'add_dialog_id_query_var' );
 		}
 	}
 
@@ -50,22 +48,10 @@ class Dialog {
 	public function dialog_id_fallback( $block ) {
 		if ( 'prc-block/dialog' === $block['blockName'] ) {
 			if ( ! isset( $block['attrs']['dialogId'] ) || empty( $block['attrs']['dialogId'] ) ) {
-				$block['attrs']['dialogId'] = md5( wp_json_encode( $block ) );
+				$block['attrs']['dialogId'] = wp_unique_id( 'dialog-' );
 			}
 		}
 		return $block;
-	}
-
-	/**
-	 * Add dialog ID query var
-	 *
-	 * @hook query_vars
-	 * @param mixed $qvars Query vars.
-	 * @return mixed
-	 */
-	public function add_dialog_id_query_var( $qvars ) {
-		$qvars[] = 'dialogId';
-		return $qvars;
 	}
 
 	/**

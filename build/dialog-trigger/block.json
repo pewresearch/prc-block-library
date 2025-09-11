@@ -6,21 +6,12 @@
   "title": "Dialog Trigger",
   "description": "The content inside this block will act as the clickable 'trigger' to display the dialog element.",
   "category": "media",
-  "attributes": {
-    "allowedBlocks": {
-      "type": "array"
-    },
-    "disengageClickHandler": {
-      "type": "boolean",
-      "default": false
-    }
-  },
+  "attributes": {},
   "supports": {
     "html": false,
     "align": false,
     "inserter": false,
     "spacing": {
-      "blockGap": true,
       "margin": [
         "top",
         "bottom"
@@ -29,17 +20,6 @@
       "__experimentalDefaultControls": {
         "padding": true
       }
-    },
-    "layout": {
-      "default": {
-        "type": "flex"
-      },
-      "allowSwitching": true,
-      "allowInheriting": true,
-      "allowVerticalAlignment": true,
-      "allowJustification": true,
-      "allowOrientation": true,
-      "allowSizingOnChildren": true
     },
     "typography": {
       "fontSize": true,
@@ -53,11 +33,7 @@
   },
   "usesContext": [
     "dialog/id",
-    "dialog/className",
-    "dialog/widths",
-    "dialog/animationDuration",
-    "dialog/type",
-    "dialog/autoActivationTimer"
+    "dialog/className"
   ],
   "parent": [
     "prc-block/dialog"

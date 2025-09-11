@@ -1,0 +1,11 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/core-tabs",
+	"version": "0.1.0",
+	"title": "Core Tabs",
+	"category": "widgets",
+	"textdomain": "core-tabs",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}

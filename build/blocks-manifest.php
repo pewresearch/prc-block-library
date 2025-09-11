@@ -968,6 +968,16 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
+	'core-code' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/core-code',
+		'version' => '0.1.0',
+		'title' => 'Core Code',
+		'category' => 'widgets',
+		'textdomain' => 'core-code',
+		'style' => 'file:./style-index.css'
+	),
 	'core-cover' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -990,6 +1000,21 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css'
 	),
+	'core-dialog' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/core-dialog',
+		'version' => '0.1.0',
+		'title' => 'Core Dialog',
+		'category' => 'widgets',
+		'textdomain' => 'core-dialog',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js',
+		'supports' => array(
+			'interactivity' => true
+		)
+	),
 	'core-embed' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -999,6 +1024,16 @@ return array(
 		'category' => 'embed',
 		'textdomain' => 'core-embed',
 		'editorScript' => 'file:./index.js'
+	),
+	'core-file' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/core-file',
+		'version' => '0.1.0',
+		'title' => 'Core File',
+		'category' => 'widgets',
+		'textdomain' => 'core-file',
+		'style' => 'file:./style-index.css'
 	),
 	'core-group' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1164,56 +1199,38 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
 	),
+	'core-tabs' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/core-tabs',
+		'version' => '0.1.0',
+		'title' => 'Core Tabs',
+		'category' => 'widgets',
+		'textdomain' => 'core-tabs',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css'
+	),
 	'dialog' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/dialog',
 		'version' => '1.0.0',
 		'title' => 'Dialog',
-		'description' => 'Render content in a <dialog/> element modal. Includes a trigger to open the dialog and dialog element to render content.',
+		'description' => 'Render content in a <dialog/> element modal. Includes a trigger to open the dialog, and dialog element to render content.',
 		'category' => 'media',
 		'keywords' => array(
 			'dialog',
 			'modal',
 			'popup'
 		),
+		'allowedBlocks' => array(
+			'prc-block/dialog-element',
+			'prc-block/dialog-trigger'
+		),
 		'attributes' => array(
 			'dialogId' => array(
 				'type' => 'string',
 				'default' => ''
-			),
-			'dialogType' => array(
-				'type' => 'string',
-				'enum' => array(
-					'dialog',
-					'modal'
-				),
-				'default' => 'modal'
-			),
-			'autoActivateOnRender' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'animationDuration' => array(
-				'type' => 'number',
-				'default' => 500
-			),
-			'autoActivationTimer' => array(
-				'type' => 'number',
-				'default' => -1
-			),
-			'enableDeepLink' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'dialogSize' => array(
-				'type' => 'string',
-				'enum' => array(
-					'small',
-					'medium',
-					'large'
-				),
-				'default' => 'small'
 			)
 		),
 		'supports' => array(
@@ -1237,18 +1254,11 @@ return array(
 			'interactivity' => true
 		),
 		'providesContext' => array(
-			'dialog/id' => 'dialogId',
-			'dialog/className' => 'className',
-			'dialog/size' => 'dialogSize',
-			'dialog/animationDuration' => 'animationDuration',
-			'dialog/type' => 'dialogType',
-			'dialog/autoActivationTimer' => 'autoActivationTimer',
-			'dialog/enableDeepLink' => 'enableDeepLink'
+			'dialog/id' => 'dialogId'
 		),
 		'textdomain' => 'dialog',
-		'editorScript' => 'file:./index.js',
-		'viewScriptModule' => 'file:./view.js',
-		'render' => 'file:./render.php'
+		'render' => 'file:./render.php',
+		'editorScript' => 'file:./index.js'
 	),
 	'dialog-element' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1258,11 +1268,69 @@ return array(
 		'title' => 'Dialog Element',
 		'category' => 'media',
 		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
+			'dialogLabel' => array(
+				'type' => 'string',
+				'default' => ''
 			),
 			'backdropColor' => array(
 				'type' => 'string'
+			),
+			'customBackdropColor' => array(
+				'type' => 'string'
+			),
+			'autoActivateOnRender' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'animation' => array(
+				'type' => 'string',
+				'enum' => array(
+					'fade',
+					'pop',
+					'bounce',
+					'slide',
+					'slide-up',
+					'slide-left',
+					'slide-right',
+					'zoom'
+				),
+				'default' => 'fade'
+			),
+			'animationDuration' => array(
+				'type' => 'number',
+				'default' => 500
+			),
+			'autoActivationTimer' => array(
+				'type' => 'number',
+				'default' => -1
+			),
+			'enableDeepLink' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'dialogSize' => array(
+				'type' => 'string',
+				'enum' => array(
+					'small',
+					'medium',
+					'large'
+				),
+				'default' => 'small'
+			),
+			'dialogPosition' => array(
+				'type' => 'string',
+				'enum' => array(
+					'center',
+					'top',
+					'bottom',
+					'center left',
+					'center right',
+					'top left',
+					'top right',
+					'bottom left',
+					'bottom right'
+				),
+				'default' => 'center'
 			)
 		),
 		'supports' => array(
@@ -1276,6 +1344,9 @@ return array(
 				'link' => true,
 				'enableContrastChecker' => true,
 				'gradients' => true
+			),
+			'layout' => array(
+				'allowEditing' => true
 			),
 			'shadow' => true,
 			'__experimentalBorder' => array(
@@ -1300,11 +1371,10 @@ return array(
 		),
 		'usesContext' => array(
 			'dialog/id',
-			'dialog/className',
-			'dialog/size',
-			'dialog/animationDuration',
-			'dialog/type',
-			'dialog/autoActivationTimer'
+			'dialog/className'
+		),
+		'providesContext' => array(
+			'dialog/label' => 'dialogLabel'
 		),
 		'parent' => array(
 			'prc-block/dialog'
@@ -1312,8 +1382,8 @@ return array(
 		'textdomain' => 'dialog-element',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'render' => 'file:./render.php',
-		'style' => 'file:./style-index.css'
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'dialog-trigger' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1324,20 +1394,13 @@ return array(
 		'description' => 'The content inside this block will act as the clickable \'trigger\' to display the dialog element.',
 		'category' => 'media',
 		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
-			'disengageClickHandler' => array(
-				'type' => 'boolean',
-				'default' => false
-			)
+			
 		),
 		'supports' => array(
 			'html' => false,
 			'align' => false,
 			'inserter' => false,
 			'spacing' => array(
-				'blockGap' => true,
 				'margin' => array(
 					'top',
 					'bottom'
@@ -1346,17 +1409,6 @@ return array(
 				'__experimentalDefaultControls' => array(
 					'padding' => true
 				)
-			),
-			'layout' => array(
-				'default' => array(
-					'type' => 'flex'
-				),
-				'allowSwitching' => true,
-				'allowInheriting' => true,
-				'allowVerticalAlignment' => true,
-				'allowJustification' => true,
-				'allowOrientation' => true,
-				'allowSizingOnChildren' => true
 			),
 			'typography' => array(
 				'fontSize' => true,
@@ -1370,11 +1422,7 @@ return array(
 		),
 		'usesContext' => array(
 			'dialog/id',
-			'dialog/className',
-			'dialog/widths',
-			'dialog/animationDuration',
-			'dialog/type',
-			'dialog/autoActivationTimer'
+			'dialog/className'
 		),
 		'parent' => array(
 			'prc-block/dialog'
@@ -4361,9 +4409,6 @@ return array(
 			'html' => false,
 			'reusable' => false,
 			'layout' => array(
-				'default' => array(
-					'type' => 'default'
-				),
 				'allowSwitching' => true,
 				'allowInheriting' => false,
 				'allowVerticalAlignment' => true,
@@ -4978,25 +5023,17 @@ return array(
 		),
 		'styles' => array(
 			array(
-				'name' => 'fill',
-				'label' => 'Fill',
+				'name' => 'tab',
+				'label' => 'Tabs',
 				'isDefault' => true
 			),
 			array(
-				'name' => 'outline',
-				'label' => 'Outline'
+				'name' => 'links',
+				'label' => 'Links'
 			),
 			array(
-				'name' => 'underlined',
-				'label' => 'Underlined'
-			),
-			array(
-				'name' => 'pills',
-				'label' => 'Pills'
-			),
-			array(
-				'name' => 'underlined-pills',
-				'label' => 'Underlined Pills'
+				'name' => 'button',
+				'label' => 'Button'
 			)
 		),
 		'supports' => array(

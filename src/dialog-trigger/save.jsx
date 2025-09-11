@@ -6,7 +6,7 @@
  * WordPress Dependencies
  */
 
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -20,12 +20,5 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
  * @return {WPElement} Element to render.
  */
 export default function Save( { attributes } ) {
-	const blockProps = useBlockProps.save();
-	const innerBlocksProps = useInnerBlocksProps.save();
-
-	return (
-		<div {...blockProps}>
-			{innerBlocksProps.children}
-		</div>
-	);
+	return <InnerBlocks.Content />
 }

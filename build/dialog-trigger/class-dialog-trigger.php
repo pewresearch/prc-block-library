@@ -47,23 +47,22 @@ class Dialog_Trigger {
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
 		$context_id = isset( $block->context['dialog/id'] ) ? $block->context['dialog/id'] : null;
-
-		$disengage_click_handler = array_key_exists( 'disengageClickHandler', $attributes ) && true === $attributes['disengageClickHandler'];
-
-		$tag_processor = new \WP_HTML_Tag_Processor( $content );
-		$tag_processor->next_tag(
-			array(
-				'class_name' => 'wp-block-prc-block-dialog-trigger',
-			)
+		return wp_sprintf(
+			'<button %1$s>%2$s</button>',
+			get_block_wrapper_attributes(
+				array(
+					'class'                       => 'wp-block-prc-block-dialog-trigger',
+					'id'                          => wp_unique_id( 'dialog-trigger-' ),
+					'aria-haspopup'               => 'dialog',
+					'aria-controls'               => $context_id,
+					'data-wp-bind--aria-expanded' => 'state.isOpen',
+					'data-wp-interactive'         => 'prc-block/dialog',
+					'data-wp-on--click'           => 'actions.onClickOpen',
+					'type'                        => 'button',
+				)
+			), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$content,
 		);
-		$tag_processor->set_attribute( 'data-wp-interactive', 'prc-block/dialog' );
-		if ( true !== $disengage_click_handler ) {
-			while ( $tag_processor->next_tag() ) {
-				$tag_processor->set_attribute( 'aria-labelledby', $context_id );
-				$tag_processor->set_attribute( 'data-wp-on--click', 'actions.onClickOpen' );
-			}
-		}
-		return $tag_processor->get_updated_html();
 	}
 
 	/**

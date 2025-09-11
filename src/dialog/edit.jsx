@@ -1,80 +1,192 @@
 /**
- * External Dependencies
- */
-
-/**
- * WordPress Dependencies
+ * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useRef, useMemo } from '@wordpress/element';
+import { useRef, useMemo } from '@wordpress/element';
 import {
 	BlockControls,
 	useBlockProps,
 	useInnerBlocksProps,
+	InspectorControls,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import {
+	Button,
+	ToolbarButton,
+	ToolbarGroup,
+	PanelBody,
+	TextControl,
+} from '@wordpress/components';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
- * Internal Dependencies
+ * Internal dependencies
  */
+import { STORE_NAME } from './store';
 const TEMPLATE = [
-	['prc-block/dialog-trigger', {}],
-	['prc-block/dialog-element', {}],
+	[
+		'prc-block/dialog-trigger',
+		{
+			lock: {
+				move: true,
+				remove: false,
+			},
+		},
+		[
+			[
+				'core/paragraph',
+				{
+					placeholder: __(
+						'Start typing to add Dialog trigger text…'
+					),
+				},
+			],
+		],
+	],
+	[
+		'prc-block/dialog-element',
+		{
+			lock: {
+				move: true,
+				remove: true,
+			},
+		},
+		[
+			[
+				'core/heading',
+				{
+					level: 2,
+					placeholder: __( 'Add a dialog label…' ),
+					metadata: {
+						bindings: {
+							content: {
+								source: 'prc-block/dialog-element-label',
+							},
+						},
+					},
+				},
+			],
+		],
+	],
 ];
 
-const ALLOWED_BLOCKS = ['prc-block/dialog-trigger', 'prc-block/dialog-element'];
-
-export default function Edit({
-	attributes,
-	setAttributes,
-	context,
-	clientId,
-	isSelected,
-}) {
+export default function Edit( { attributes, setAttributes, clientId } ) {
 	// add dialog id attribute to the block
-	const { dialogType, dialogId } = attributes;
-	if (!dialogId) {
-		setAttributes({ dialogId: clientId });
+	const { dialogId } = attributes;
+	if ( ! dialogId ) {
+		setAttributes( { dialogId: clientId } );
 	}
-	// Set up a ref so that we can query for the dialog element and memoize it.
-	const ref = useRef(null);
-	const dialogElm = useMemo(() => {
-		return (
-			ref.current?.querySelector('.wp-block-prc-block-dialog-element') ||
-			null
-		);
-	}, [ref, ref.current]);
 
-	const blockProps = useBlockProps({
+	// Get the dialog-element block from inner blocks
+	const { dialogElementClientId, isDialogOpen } = useSelect(
+		( select ) => {
+			const { getBlock } = select( blockEditorStore );
+			const block = getBlock( clientId );
+			const dialogElementBlock = block?.innerBlocks?.find(
+				( innerBlock ) => innerBlock.name === 'prc-block/dialog-element'
+			);
+			const dialogElementId = dialogElementBlock?.clientId;
+
+			return {
+				dialogElementClientId: dialogElementId,
+				isDialogOpen: dialogElementId
+					? select( STORE_NAME ).isOpen( dialogElementId )
+					: false,
+			};
+		},
+		[ clientId ]
+	);
+
+	// Get store actions
+	const { open, close } = useDispatch( STORE_NAME );
+
+	// Set up a ref for the block container
+	const ref = useRef( null );
+
+	const blockProps = useBlockProps( {
 		ref,
-	});
+	} );
 
 	// We're locking down the template and allowed blocks to only allow the dialog trigger and dialog element.
-	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: ALLOWED_BLOCKS,
+	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		template: TEMPLATE,
-		templateLock: 'all',
-	});
+		templateLock: 'insert',
+	} );
 
-	const buttonLabel = __('Edit Dialog Element', 'prc-block-library');
+	const buttonLabel = useMemo(
+		() => ( isDialogOpen ? __( 'Close Dialog' ) : __( 'Edit Dialog' ) ),
+		[ isDialogOpen ]
+	);
 
 	return (
-		<Fragment>
-			<BlockControls __experimentalShareWithChildBlocks={true}>
+		<>
+			<BlockControls __experimentalShareWithChildBlocks>
 				<ToolbarGroup>
 					<ToolbarButton
-						label={buttonLabel}
-						onClick={() =>
-							'modal' === dialogType
-								? dialogElm.showModal()
-								: dialogElm.show()
-						}
+						label={ buttonLabel }
+						onClick={ () => {
+							if ( ! dialogElementClientId ) {
+								console.warn(
+									'No dialog-element block found. Please add a dialog-element block.'
+								);
+								return;
+							}
+							if ( isDialogOpen ) {
+								console.log('closing');
+								close( dialogElementClientId );
+							} else {
+								console.log('opening');
+								open( dialogElementClientId );
+							}
+						} }
 					>
-						{buttonLabel}
+						{ buttonLabel }
 					</ToolbarButton>
 				</ToolbarGroup>
 			</BlockControls>
-			<div {...innerBlocksProps} />
-		</Fragment>
+			<InspectorControls>
+				<PanelBody title={ __( 'Dialog Settings' ) }>
+					<div>
+						<p>
+							{ __(
+								'The dialog element requires a dialog trigger and a dialog element. You can edit the text of the trigger and the content of the dialog by clicking the "Edit Dialog" button above.'
+							) }
+						</p>
+						<TextControl
+							label={ __( 'Dialog ID' ) }
+							value={ dialogId }
+							onChange={ ( value ) =>
+								setAttributes( { dialogId: value } )
+							}
+							help={ __(
+								'The ID of the dialog element. This should be unique on the page.'
+							) }
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+						/>
+						<Button
+							__next40pxDefaultSize
+							variant="tertiary"
+							onClick={ () => {
+								if ( dialogElementClientId ) {
+									if ( isDialogOpen ) {
+										close( dialogElementClientId );
+									} else {
+										open( dialogElementClientId );
+									}
+								}
+							} }
+							disabled={ ! dialogElementClientId }
+							accessibleWhenDisabled
+						>
+							{ isDialogOpen
+								? __( 'Close Dialog' )
+								: __( 'Edit Dialog' ) }
+						</Button>
+					</div>
+				</PanelBody>
+			</InspectorControls>
+			<div { ...innerBlocksProps } />
+		</>
 	);
 }

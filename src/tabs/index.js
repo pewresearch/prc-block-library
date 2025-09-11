@@ -6,10 +6,10 @@ import { registerBlockType } from '@wordpress/blocks';
 /**
  * Internal dependencies
  */
-
 import edit from './edit';
 import save from './save';
 import icon from './icon';
+import transforms from './transforms';
 import './style.scss';
 import './editor.scss';
 
@@ -23,6 +23,7 @@ export const settings = {
 	icon,
 	edit,
 	save,
+	transforms,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

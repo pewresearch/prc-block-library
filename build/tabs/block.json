@@ -65,25 +65,17 @@
   },
   "styles": [
     {
-      "name": "fill",
-      "label": "Fill",
+      "name": "tab",
+      "label": "Tabs",
       "isDefault": true
     },
     {
-      "name": "outline",
-      "label": "Outline"
+      "name": "links",
+      "label": "Links"
     },
     {
-      "name": "underlined",
-      "label": "Underlined"
-    },
-    {
-      "name": "pills",
-      "label": "Pills"
-    },
-    {
-      "name": "underlined-pills",
-      "label": "Underlined Pills"
+      "name": "button",
+      "label": "Button"
     }
   ],
   "supports": {

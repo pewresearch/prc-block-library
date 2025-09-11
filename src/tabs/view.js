@@ -11,8 +11,14 @@ import {
 // Interactivy store for the tabs block.
 const { state, actions } = store('prc-block/tabs', {
 	state: {
+		/**
+		 * Gets a contextually aware list of tabs for the current tabs block.
+		 *
+		 * @type {Array}
+		 */
 		get tabsList() {
-			const { tabsId } = getContext();
+			const context = getContext();
+			const tabsId = context?.tabsId;
 			const tabsList = state[tabsId];
 			return tabsList;
 		},
@@ -39,7 +45,7 @@ const { state, actions } = store('prc-block/tabs', {
 		 */
 		get isActiveTab() {
 			const { activeTabIndex } = getContext();
-			const tabIndex = state.tabIndex;
+			const { tabIndex } = state;
 			return activeTabIndex === tabIndex;
 		},
 		/**
@@ -61,27 +67,27 @@ const { state, actions } = store('prc-block/tabs', {
 			// If this is the enter key then lets get the tab index from context and set the active tab to that index.
 			const { isVertical } = getContext();
 			if (event.key === 'Enter') {
-				const tabIndex = state.tabIndex;
+				const { tabIndex } = state;
 				if (tabIndex !== null) {
 					actions.setActiveTab(tabIndex);
 				}
 			} else if (event.key === 'ArrowRight' && !isVertical) {
-				const tabIndex = state.tabIndex;
+				const { tabIndex } = state;
 				if (tabIndex !== null) {
 					actions.setActiveTab(tabIndex + 1);
 				}
 			} else if (event.key === 'ArrowLeft' && !isVertical) {
-				const tabIndex = state.tabIndex;
+				const { tabIndex } = state;
 				if (tabIndex !== null) {
 					actions.setActiveTab(tabIndex - 1);
 				}
 			} else if (event.key === 'ArrowDown' && isVertical) {
-				const tabIndex = state.tabIndex;
+				const { tabIndex } = state;
 				if (tabIndex !== null) {
 					actions.setActiveTab(tabIndex + 1);
 				}
 			} else if (event.key === 'ArrowUp' && isVertical) {
-				const tabIndex = state.tabIndex;
+				const { tabIndex } = state;
 				if (tabIndex !== null) {
 					actions.setActiveTab(tabIndex - 1);
 				}
@@ -95,7 +101,7 @@ const { state, actions } = store('prc-block/tabs', {
 		handleTabClick: withSyncEvent((event) => {
 			event.preventDefault();
 
-			const tabIndex = state.tabIndex;
+			const { tabIndex } = state;
 			if (tabIndex !== null) {
 				actions.setActiveTab(tabIndex);
 			}
@@ -103,7 +109,8 @@ const { state, actions } = store('prc-block/tabs', {
 		/**
 		 * Sets the active tab index.
 		 *
-		 * @param {number} tabIndex The index of the active tab.
+		 * @param {number} tabIndex    The index of the active tab.
+		 * @param          scrollToTab
 		 */
 		setActiveTab: (tabIndex, scrollToTab = false) => {
 			const context = getContext();
@@ -118,21 +125,26 @@ const { state, actions } = store('prc-block/tabs', {
 				}
 			}
 		},
+		/**
+		 * Signals that the tabs are ready by firing a custom browser event.
+		 * This provides extensibility for other scripts to hook into when tabs are initialized.
+		 */
 		signalTabsReady: () => {
-			// Fire a custom browser event calles tabsReady.
+			// @TODO: change this from tabsReady to wpTabsReady when migrating to Gutenberg core.
 			window.dispatchEvent(new CustomEvent('tabsReady'));
 		},
 	},
 	callbacks: {
 		/**
 		 * When the tabs are initialized, we need to check if there is a hash in the url and if so if it exists in the current tabsList, set the active tab to that index.
+		 *
 		 */
 		onTabsInit: () => {
 			const { tabsList } = state;
 			if (tabsList.length === 0) {
 				return;
 			}
-			const hash = window.location.hash;
+			const { hash } = window.location;
 			const tabId = hash.replace('#', '');
 			const tabIndex = tabsList.findIndex((t) => t.id === tabId);
 			// Check if tabIndex is a positive number and if so we'll auto activate that tab.

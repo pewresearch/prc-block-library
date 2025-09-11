@@ -207,9 +207,12 @@ class Plugin {
 	private function define_core_blocks() {
 		new Core_Button( $this->get_loader() );
 		new Core_Categories( $this->get_loader() );
+		new Core_Code( $this->get_loader() );
 		new Core_Cover( $this->get_loader() );
 		new Core_Details( $this->get_loader() );
+		new Core_Dialog( $this->get_loader() );
 		new Core_Embed( $this->get_loader() );
+		new Core_File( $this->get_loader() );
 		new Core_Group( $this->get_loader() );
 		new Core_Heading( $this->get_loader() );
 		new Core_Image( $this->get_loader() );
@@ -227,6 +230,7 @@ class Plugin {
 		new Core_Separator( $this->get_loader() );
 		new Core_Social_Links( $this->get_loader() );
 		new Core_Table( $this->get_loader() );
+		new Core_Tabs( $this->get_loader() );
 	}
 
 	/**

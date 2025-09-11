@@ -4,39 +4,14 @@
 	"name": "prc-block/dialog",
 	"version": "1.0.0",
 	"title": "Dialog",
-	"description": "Render content in a <dialog/> element modal. Includes a trigger to open the dialog and dialog element to render content.",
+	"description": "Render content in a <dialog/> element modal. Includes a trigger to open the dialog, and dialog element to render content.",
 	"category": "media",
 	"keywords": ["dialog", "modal", "popup"],
+	"allowedBlocks": ["prc-block/dialog-element", "prc-block/dialog-trigger"],
 	"attributes": {
 		"dialogId": {
 			"type": "string",
 			"default": ""
-		},
-		"dialogType": {
-			"type": "string",
-			"enum": ["dialog", "modal"],
-			"default": "modal"
-		},
-		"autoActivateOnRender": {
-			"type": "boolean",
-			"default": false
-		},
-		"animationDuration": {
-			"type": "number",
-			"default": 500
-		},
-		"autoActivationTimer": {
-			"type": "number",
-			"default": -1
-		},
-		"enableDeepLink": {
-			"type": "boolean",
-			"default": false
-		},
-		"dialogSize": {
-			"type": "string",
-			"enum": ["small", "medium", "large"],
-			"default": "small"
 		}
 	},
 	"supports": {
@@ -54,16 +29,9 @@
 		"interactivity": true
 	},
 	"providesContext": {
-		"dialog/id": "dialogId",
-		"dialog/className": "className",
-		"dialog/size": "dialogSize",
-		"dialog/animationDuration": "animationDuration",
-		"dialog/type": "dialogType",
-		"dialog/autoActivationTimer": "autoActivationTimer",
-		"dialog/enableDeepLink": "enableDeepLink"
+		"dialog/id": "dialogId"
 	},
 	"textdomain": "dialog",
-	"editorScript": "file:./index.js",
-	"viewScriptModule": "file:./view.js",
-	"render": "file:./render.php"
+	"render": "file:./render.php",
+	"editorScript": "file:./index.js"
 }

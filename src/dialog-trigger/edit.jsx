@@ -5,24 +5,21 @@
 /**
  * WordPress Dependencies
  */
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { useRef, useMemo } from '@wordpress/element';
+import {
+	BlockControls,
+	useBlockProps,
+	useInnerBlocksProps,
+	store as blockEditorStore
+} from '@wordpress/block-editor';
+import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
-
-const ALLOWED_BLOCKS = [
-	'core/paragraph',
-	'core/image',
-	'core/heading',
-	'core/button',
-	'core/buttons',
-	'core/quote',
-	'core/group',
-	'core/pullquote',
-	'core/media-text',
-	'prc-block/story-item',
-];
+import { STORE_NAME } from '../dialog/store';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -41,15 +38,78 @@ const ALLOWED_BLOCKS = [
  */
 export default function Edit({
 	attributes,
-	__unstableLayoutClassNames: layoutClassNames,
+	context,
+	clientId,
 }) {
+	const dialogId = context['dialog/id'] ?? null;
+
+	// Get the dialog-element block from the parent dialog block
+	const { dialogElementClientId, isDialogOpen } = useSelect(
+		( select ) => {
+			const { getBlock, getBlockRootClientId } = select( blockEditorStore );
+			const parentClientId = getBlockRootClientId( clientId );
+			const parentBlock = getBlock( parentClientId );
+
+			// Find the dialog-element block in the parent's inner blocks
+			const dialogElementBlock = parentBlock?.innerBlocks?.find(
+				( innerBlock ) => innerBlock.name === 'prc-block/dialog-element'
+			);
+			const dialogElementId = dialogElementBlock?.clientId;
+
+			return {
+				dialogElementClientId: dialogElementId,
+				isDialogOpen: dialogElementId
+					? select( STORE_NAME ).isOpen( dialogElementId )
+					: false,
+			};
+		},
+		[ clientId ]
+	);
+
+	// Get store actions
+	const { open, close } = useDispatch( STORE_NAME );
+
 	const blockProps = useBlockProps({
-		className: layoutClassNames,
+		'aria-haspopup': 'dialog',
+		'aria-controls': dialogId,
+		'aria-expanded': isDialogOpen ? 'true' : 'false',
+		'type': 'button',
 	});
-	const { allowedBlocks } = attributes;
+
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 		templateLock: false,
 	});
-	return <div {...innerBlocksProps} />;
+
+	const buttonLabel = useMemo(
+		() => ( isDialogOpen ? __( 'Close Dialog' ) : __( 'Edit Dialog' ) ),
+		[ isDialogOpen ]
+	);
+
+	return (
+		<>
+			<BlockControls __experimentalShareWithChildBlocks>
+				<ToolbarGroup>
+					<ToolbarButton
+						label={ buttonLabel }
+						onClick={ () => {
+							if ( ! dialogElementClientId ) {
+								console.warn(
+									'No dialog-element block found. Please add a dialog-element block to the parent dialog.'
+								);
+								return;
+							}
+							if ( isDialogOpen ) {
+								close( dialogElementClientId );
+							} else {
+								open( dialogElementClientId );
+							}
+						} }
+					>
+						{ buttonLabel }
+					</ToolbarButton>
+				</ToolbarGroup>
+			</BlockControls>
+			<button {...innerBlocksProps} />
+		</>
+	);
 }

@@ -11,7 +11,7 @@ import { registerBlockType } from '@wordpress/blocks';
 /**
  * Internal Dependencies
  */
-
+import registerBlockBindings from './block-bindings';
 import edit from './edit';
 import save from './save';
 import icon from './icon';
@@ -26,3 +26,6 @@ const settings = {
 };
 
 registerBlockType(name, { ...metadata, ...settings });
+
+// Register client-side block bindings
+registerBlockBindings();

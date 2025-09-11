@@ -1,10 +1,7 @@
 /**
  * WordPress dependencies
  */
-import {
-	registerBlockType,
-	registerBlockBindingsSource,
-} from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
 /**
  * Internal dependencies
  */
@@ -12,7 +9,6 @@ import edit from './edit';
 import save from './save';
 import metadata from './block.json';
 import icon from './icon';
-import registerTabLabelBinding from './tab-label-binding';
 import './style.scss';
 
 const { name } = metadata;
@@ -26,5 +22,3 @@ export const settings = {
 };
 
 registerBlockType(name, { ...metadata, ...settings });
-
-registerTabLabelBinding();

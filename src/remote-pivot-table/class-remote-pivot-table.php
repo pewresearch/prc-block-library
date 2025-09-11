@@ -27,8 +27,107 @@ class Remote_Pivot_Table {
 	public function __construct( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_action( 'init', $this, 'register_block_bindings' );
 			$loader->add_filter( 'render_block_context', $this, 'pivot_in_context', 10, 2 );
 		}
+	}
+
+	/**
+	 * Register block bindings for remote pivot table sum functionality.
+	 *
+	 * Registers a block binding source 'prc-block/remote-pivot-table-sum' that allows
+	 * other blocks to display the sum of raw values for a specified column from remote
+	 * pivot table data.
+	 *
+	 * Usage example in block attributes:
+	 * {
+	 *   "metadata": {
+	 *     "bindings": {
+	 *       "content": {
+	 *         "source": "prc-block/remote-pivot-table-sum",
+	 *         "args": {
+	 *           "column": "revenue"
+	 *         }
+	 *       }
+	 *     }
+	 *   }
+	 * }
+	 *
+	 * This binding will extract and sum all numeric 'value' fields from the specified
+	 * column in the remote data context. It handles both array-based raw_value
+	 * structures with a 'value' key and simple numeric values.
+	 *
+	 * @hook init
+	 */
+	public function register_block_bindings() {
+		register_block_bindings_source(
+			'prc-block/remote-pivot-table-sum',
+			array(
+				'label'              => __( 'Remote Pivot Table Sum', 'prc-block-library' ),
+				'get_value_callback' => array( $this, 'get_column_sum_binding' ),
+				'uses_context'       => array( 'remote-data-blocks/remoteData' ),
+			)
+		);
+	}
+
+	/**
+	 * Get the sum of raw values for a specified column from pivot table data.
+	 *
+	 * @param array    $source_args   The source arguments containing the column name.
+	 * @param WP_Block $block         The block object with context.
+	 * @param string   $attribute_name The attribute name being bound.
+	 * @return string|int|float       The sum of raw values for the specified column.
+	 */
+	public function get_column_sum_binding( $source_args, $block, $attribute_name ) {
+		$column_name = $source_args['column'] ?? null;
+		if ( empty( $column_name ) ) {
+			return 0;
+		}
+
+		$block_context       = $block->context;
+		$remote_data_context = $block_context['remote-data-blocks/remoteData'] ?? array();
+
+		if ( empty( $remote_data_context ) || empty( $remote_data_context['results'] ) ) {
+			return 0;
+		}
+
+		return $this->calculate_column_sum( $remote_data_context['results'], $column_name );
+	}
+
+	/**
+	 * Calculate the sum of raw values for a specified column.
+	 *
+	 * @param array  $results     The remote data results array.
+	 * @param string $column_name The column name to sum.
+	 * @return int|float          The sum of raw values for the column.
+	 */
+	public function calculate_column_sum( $results, $column_name ) {
+		$sum = 0;
+
+		foreach ( $results as $result ) {
+			if ( ! isset( $result['result'] ) || ! is_array( $result['result'] ) ) {
+				continue;
+			}
+
+			$row_data = $result['result'];
+			if ( ! isset( $row_data[ $column_name ] ) ) {
+				continue;
+			}
+
+			$raw_value = $row_data[ $column_name ];
+
+			// Extract the numeric value from the raw_value structure.
+			$value = ( is_array( $raw_value ) && array_key_exists( 'value', $raw_value ) )
+				? $raw_value['value']
+				: $raw_value;
+
+			// Only sum numeric values.
+			if ( is_numeric( $value ) ) {
+				$sum += (float) $value;
+			}
+		}
+
+		return $sum;
 	}
 
 	/**
@@ -88,7 +187,8 @@ class Remote_Pivot_Table {
 	/**
 	 * Renders a pivoted table.
 	 *
-	 * @param array $data The pivoted data.
+	 * @param array  $data The pivoted data.
+	 * @param string $table_block_markup The original table block markup to use as a template.
 	 * @return string HTML table markup
 	 */
 	public function render_pivoted_table( $data, $table_block_markup ) {
@@ -115,6 +215,24 @@ class Remote_Pivot_Table {
 			}
 		);
 
+		// Add comma separators to numeric values.
+		$data = array_map(
+			function ( $raw_value ) {
+				$value = ( is_array( $raw_value ) && array_key_exists( 'value', $raw_value ) ) ? $raw_value['value'] : $raw_value;
+				if ( is_numeric( $value ) ) {
+					$formatted_value = number_format( (float) $value );
+					// Preserve additional data if present.
+					if ( is_array( $raw_value ) ) {
+						$raw_value['value'] = $formatted_value;
+						return $raw_value;
+					}
+					return $formatted_value;
+				}
+				return $raw_value;
+			},
+			$data
+		);
+
 		$rows_html = '';
 		foreach ( $data as $key => $raw_value ) {
 			$value      = ( is_array( $raw_value ) && array_key_exists( 'value', $raw_value ) ) ? $raw_value['value'] : $raw_value;
@@ -126,7 +244,8 @@ class Remote_Pivot_Table {
 			);
 		}
 
-		// Regex replace whatever is inside <tbody> with the $rows_html.
+		// Regex replace whatever is inside <tbody>.*?</tbody> with $rows_html.
+
 		$table_block_markup = preg_replace( '/<tbody>.*<\/tbody>/s', $rows_html, $table_block_markup );
 
 		return $table_block_markup;

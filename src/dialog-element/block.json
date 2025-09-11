@@ -6,17 +6,71 @@
 	"title": "Dialog Element",
 	"category": "media",
 	"attributes": {
-		"allowedBlocks": {
-			"type": "array"
+		"dialogLabel": {
+			"type": "string",
+			"default": ""
 		},
 		"backdropColor": {
 			"type": "string"
+		},
+		"customBackdropColor": {
+			"type": "string"
+		},
+		"autoActivateOnRender": {
+			"type": "boolean",
+			"default": false
+		},
+		"animation": {
+			"type": "string",
+			"enum": [
+				"fade",
+				"pop",
+				"bounce",
+				"slide",
+				"slide-up",
+				"slide-left",
+				"slide-right",
+				"zoom"
+			],
+			"default": "fade"
+		},
+		"animationDuration": {
+			"type": "number",
+			"default": 500
+		},
+		"autoActivationTimer": {
+			"type": "number",
+			"default": -1
+		},
+		"enableDeepLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"dialogSize": {
+			"type": "string",
+			"enum": ["small", "medium", "large"],
+			"default": "small"
+		},
+		"dialogPosition": {
+			"type": "string",
+			"enum": [
+				"center",
+				"top",
+				"bottom",
+				"center left",
+				"center right",
+				"top left",
+				"top right",
+				"bottom left",
+				"bottom right"
+			],
+			"default": "center"
 		}
 	},
 	"supports": {
 		"html": false,
-        "align": false,
-        "inserter": false,
+		"align": false,
+		"inserter": false,
 		"animations": true,
 		"color": {
 			"background": true,
@@ -24,6 +78,9 @@
 			"link": true,
 			"enableContrastChecker": true,
 			"gradients": true
+		},
+		"layout": {
+			"allowEditing": true
 		},
 		"shadow": true,
 		"__experimentalBorder": {
@@ -46,18 +103,14 @@
 		},
 		"interactivity": true
 	},
-	"usesContext": [
-		"dialog/id",
-		"dialog/className",
-		"dialog/size",
-		"dialog/animationDuration",
-		"dialog/type",
-		"dialog/autoActivationTimer"
-	],
+	"usesContext": ["dialog/id", "dialog/className"],
+	"providesContext": {
+		"dialog/label": "dialogLabel"
+	},
 	"parent": ["prc-block/dialog"],
 	"textdomain": "dialog-element",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"render": "file:./render.php",
-	"style": "file:./style-index.css"
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js"
 }

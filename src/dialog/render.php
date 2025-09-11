@@ -1,71 +1,31 @@
 <?php
-// This is the only non core function we use. It's a wrapper for deep usage of the Jetpack device detection class.
-$current_device = \PRC\Platform\get_current_device();
-
-$block_namespace = 'prc-block/dialog';
+/**
+ * Server-side rendering of the `prc-block/dialog` block.
+ *
+ * @package prc-block-library
+ */
 
 $block_id = array_key_exists( 'dialogId', $attributes ) ? $attributes['dialogId'] : null;
 
-// If no block id, don't render, stop early.
 if ( ! $block_id ) {
-	return;
+	_doing_it_wrong( 'dialog/render', esc_html__( 'The dialog block requires a dialogId attribute.', 'prc-block-library' ), '1.0.0' );
+	return '';
 }
 
-$auto_activate_on_render = array_key_exists( 'autoActivateOnRender', $attributes ) ? $attributes['autoActivateOnRender'] : false;
-$default_is_open         = $auto_activate_on_render;
-
-$auto_activation_timer = array_key_exists( 'autoActivationTimer', $attributes ) ? $attributes['autoActivationTimer'] : -1;
-$auto_activation_timer = $default_is_open ? 0 : $auto_activation_timer;
-
-$dialog_type = array_key_exists( 'dialogType', $attributes ) ? $attributes['dialogType'] : 'modal';
-
-$animation_duration = array_key_exists( 'animationDuration', $attributes ) ? $attributes['animationDuration'] : 500;
-
-$enable_deep_link = array_key_exists( 'enableDeepLink', $attributes ) ? $attributes['enableDeepLink'] : false;
-
-// Why not use context here? Because I want to be able to easily close and open this dialog from other namespaces. By using state this is as easy as `store('prc-block/dialog').state[blockId].isOpen = true;` which would open the dialog given the blockId.
-wp_interactivity_state(
-	$block_namespace,
-	array(
-		'currentDevice' => $current_device,
-		$block_id       => array(
-			'id'                      => $block_id,
-			'type'                    => $dialog_type,
-			'activationTimerDuration' => (int) $auto_activation_timer,
-			'animationDuration'       => (int) $animation_duration,
-			'isOpen'                  => get_query_var( 'dialogId' ) === $block_id,
-			'enableDeepLink'          => $enable_deep_link,
-			'isClosing'               => false,
-			'videoPressAPI'           => false,
-			'dialogElemId'            => null,
-		),
-	)
-);
-
 $block_wrapper_attrs = array(
-	'data-wp-interactive'              => $block_namespace,
-	'data-wp-context'                  => wp_json_encode(
+	'data-wp-interactive' => 'prc-block/dialog',
+	'data-wp-context'     => wp_json_encode(
 		array(
 			'id' => $block_id,
 		)
 	),
-	'id'                               => $block_id,
-	'data-wp-key'                      => $block_id,
-	'data-wp-init--dialog-elm'         => 'callbacks.onInitIdentifyDialogElem',
-	'data-wp-init--on-auto-activation' => 'callbacks.onAutoActivation',
-	'data-wp-on-document--keydown'     => 'callbacks.onESCKey',
-	'data-wp-watch--on-dialog-open'    => 'callbacks.onOpen',
-	'data-wp-watch--on-dialog-close'   => 'callbacks.onClose',
-	'data-wp-on-window--resize'        => 'callbacks.onResize',
-	'data-wp-bind--style'              => 'callbacks.getStyle',
+	'data-wp-key'         => $block_id,
 );
 
-// Non Core Addition for VideoPress Support:
-$block_wrapper_attrs['data-wp-init--videopress'] = 'callbacks.onVideoPressInit';
-$block_wrapper_attrs                             = get_block_wrapper_attributes( $block_wrapper_attrs );
+$block_wrapper_attrs = get_block_wrapper_attributes( $block_wrapper_attrs );
 
 echo wp_sprintf(
 	'<div %1$s>%2$s</div>',
-	$block_wrapper_attrs,
-	$content,
+	$block_wrapper_attrs, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	$content, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 );

@@ -20,9 +20,6 @@
     "html": false,
     "reusable": false,
     "layout": {
-      "default": {
-        "type": "default"
-      },
       "allowSwitching": true,
       "allowInheriting": false,
       "allowVerticalAlignment": true,

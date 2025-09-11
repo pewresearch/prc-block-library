@@ -1,26 +1,23 @@
 {
-    "$schema": "https://schemas.wp.org/trunk/block.json",
-    "apiVersion": 3,
-    "name": "prc-block/tab",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/tab",
 	"title": "Tab",
 	"description": "Content for a tab in a tabbed interface.",
 	"version": "1.0.0",
-    "category": "design",
+	"category": "design",
 	"attributes": {
 		"label": {
 			"type": "string",
 			"default": ""
 		}
 	},
-    "parent": [ "prc-block/tabs" ],
+	"parent": ["prc-block/tabs"],
 	"supports": {
 		"anchor": true,
 		"html": false,
 		"reusable": false,
 		"layout": {
-			"default": {
-				"type": "default"
-			},
 			"allowSwitching": true,
 			"allowInheriting": false,
 			"allowVerticalAlignment": true,
@@ -43,10 +40,10 @@
 			"__experimentalSkipSerialization": true
 		}
 	},
-    "providesContext": {
-        "tab/label": "label"
-    },
-    "textdomain": "prc-block-library",
+	"providesContext": {
+		"tab/label": "label"
+	},
+	"textdomain": "prc-block-library",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css"
 }

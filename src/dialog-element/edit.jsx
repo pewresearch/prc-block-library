@@ -7,23 +7,24 @@ import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useMemo, useRef } from '@wordpress/element';
+import { useMemo, useRef, useEffect } from '@wordpress/element';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
 	withColors,
-	getColorClassName,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { KeyboardShortcuts } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
- * Internal Dependencies
+ * Internal dependencies
  */
 import { Toolbar, InspectorPanel } from './controls';
+import StyleEngine from './style-engine';
+import { STORE_NAME } from '../dialog/store';
 
-function Edit({
+function Edit( {
 	attributes,
 	setAttributes,
 	context,
@@ -31,68 +32,74 @@ function Edit({
 	className,
 	backdropColor,
 	setBackdropColor,
-	isSelected,
-}) {
-	const dialogSize = context?.['dialog/size'] || 'medium';
-	const dialogType = context?.['dialog/type'] || 'modal';
-	const { selectBlock } = useDispatch('core/block-editor');
-	const { deviceType, rootClientId } = useSelect((select) => {
-		return {
-			deviceType: select('core/editor').getDeviceType().toLowerCase(),
-			rootClientId:
-				select('core/block-editor').getBlockRootClientId(clientId),
-		};
-	}, []);
+} ) {
+	const { dialogSize = 'medium', animation = 'fade' } = attributes;
+	const { selectBlock } = useDispatch( blockEditorStore );
+	const { init, destroy, open, close } = useDispatch( STORE_NAME );
 
-	const { updateBlockAttributes } = useDispatch('core/block-editor');
+	const { rootClientId, isOpen, isClosingModal } = useSelect(
+		( select ) => {
+			return {
+				rootClientId:
+					select( blockEditorStore ).getBlockRootClientId( clientId ),
+				isOpen: select( STORE_NAME ).isOpen( clientId ),
+				isClosingModal: select( STORE_NAME ).isClosingModal( clientId ),
+			};
+		},
+		[ clientId ]
+	);
+
 	/**
 	 * Setup state and ref for the dialog.
 	 */
-	const dialogElementRef = useRef(null);
-	const isOpen = useMemo(() => {
-		if (dialogElementRef.current) {
-			return dialogElementRef.current.open;
-		}
-		return false;
-	}, [dialogElementRef.current, dialogElementRef.current?.open]);
+	const dialogElementRef = useRef( null );
 
+	// Initialize dialog in store and cleanup on unmount
+	useEffect( () => {
+		init( clientId );
+
+		return () => {
+			destroy( clientId );
+		};
+	}, [ clientId, init, destroy ] );
+
+	// Sync DOM state with store state
+	useEffect( () => {
+		if ( dialogElementRef.current ) {
+			if ( isOpen && ! dialogElementRef.current.open ) {
+				dialogElementRef.current.showModal();
+			} else if ( ! isOpen && dialogElementRef.current.open ) {
+				dialogElementRef.current.close();
+			}
+		}
+	}, [ isOpen ] );
 
 	/**
 	 * Helper functions:
 	 */
-	const openDialog = () =>
-		'modal' === dialogType
-			? dialogElementRef.current.showModal()
-			: dialogElementRef.current.show();
+	const openDialog = () => open( clientId );
 	const closeDialog = () => {
-		dialogElementRef.current.close();
-		selectBlock(rootClientId);
+		close( clientId );
+		selectBlock( rootClientId );
 	};
-	const onEscHandler = (e) => {
+	const onEscHandler = ( e ) => {
 		e.preventDefault();
 		closeDialog();
 	};
-	const setWidth = (device, newWidth) =>
-		updateBlockAttributes(rootClientId, {
-			widths: {
-				...widths,
-				[device]: parseInt(targetWidth + newWidth, 10),
-			},
-		});
 
-	const blockProps = useBlockProps({
+	const blockProps = useBlockProps( {
 		ref: dialogElementRef,
-		className: clsx(className, {
-			'has-backdrop-color': !!backdropColor.color || backdropColor.class,
-			[getColorClassName('backdrop-color', backdropColor?.slug)]:
-				!!backdropColor?.slug,
-			'is-mobile': 'mobile' === deviceType,
+		className: clsx( className, {
 			'is-size-small': 'small' === dialogSize,
 			'is-size-medium': 'medium' === dialogSize,
 			'is-size-large': 'large' === dialogSize,
-		}),
-		'data-wp-dialog-type': dialogType,
-	});
+			[ `is-animation-${ animation }` ]: animation,
+			'is-closing-modal': isClosingModal,
+		} ),
+		role: 'dialog',
+		'aria-modal': 'true',
+		'aria-labelledby': '',
+	} );
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
@@ -105,52 +112,48 @@ function Edit({
 	);
 
 	return (
-		<Fragment>
-			<InspectorPanel
-				{...{
-					colors: {
+		<KeyboardShortcuts
+			bindGlobal
+			shortcuts={ {
+				esc: onEscHandler,
+			} }
+		>
+			<dialog { ...blockProps }>
+				<StyleEngine attributes={ attributes } clientId={ clientId } />
+				<InspectorPanel
+					colors={ {
 						backdropColor,
 						setBackdropColor,
-					},
-					openDialog,
-					closeDialog,
-					clientId,
-					context,
-				}}
-			/>
-			<KeyboardShortcuts
-				bindGlobal
-				shortcuts={{
-					esc: onEscHandler,
-				}}
-			>
-				<dialog {...blockProps}>
+					} }
+					openDialog={ openDialog }
+					closeDialog={ closeDialog }
+					clientId={ clientId }
+					context={ context }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+				<Toolbar
+					openDialog={ openDialog }
+					closeDialog={ closeDialog }
+					isOpen={ isOpen }
+					clientId={ clientId }
+					attributes={ attributes }
+				/>
+				<button
+					className="wp-block-prc-block-dialog-element__close-button"
+					type="button"
+					aria-label="Close dialog"
+					onClick={ () => closeDialog() }
+				>
 					{
-						<Toolbar
-							{...{
-								openDialog,
-								closeDialog,
-								isOpen,
-								clientId,
-							}}
-						/>
-					}
-					<button
-						className="wp-block-prc-block-dialog-element__close-button"
-						type="button"
-						aria-label="Close dialog"
-						onClick={() => closeDialog()}
-					>
-						{
-							// @TODO We need to probably add a slotfill here for the icon. We can and should reference the icon library work in Gutenberg to determine if we can hook in to that for this.
-						}
-						<Icon icon={cancelCircleFilled} />
-					</button>
-					<div {...innerBlocksProps} />
-				</dialog>
-			</KeyboardShortcuts>
-		</Fragment>
+						// @TODO We need to probably add a slotfill here for the icon. We should reference the icon library work in Gutenberg to determine if we can hook in to that for this.
+					 }
+					<Icon icon={ cancelCircleFilled } />
+				</button>
+				<div { ...innerBlocksProps } />
+			</dialog>
+		</KeyboardShortcuts>
 	);
 }
 
-export default withColors({ backdropColor: 'backdrop-color' })(Edit);
+export default withColors( { backdropColor: 'backdrop-color' } )( Edit );

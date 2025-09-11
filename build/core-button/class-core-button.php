@@ -115,8 +115,10 @@ class Core_Button {
 	 * Register additional settings, like context, for the core/button block.
 	 *
 	 * @hook block_type_metadata_settings
-	 * @param mixed $settings
-	 * @param mixed $metadata
+	 *
+	 * @param array $settings Current block settings.
+	 * @param array $metadata Block metadata.
+	 *
 	 * @return mixed
 	 */
 	public function add_settings( array $settings, array $metadata ) {
@@ -191,7 +193,9 @@ class Core_Button {
 	 *
 	 * @param string $style_name The style name.
 	 * @param string $icon The icon name.
+	 * @param string $icon_library The icon library (solid, light, etc).
 	 * @param string $icon_color The icon color.
+	 *
 	 * @return string The style template.
 	 */
 	public function style_template( $style_name, $icon, $icon_library = 'solid', $icon_color = 'black' ) {
@@ -405,7 +409,6 @@ class Core_Button {
 			return $tag_processor->get_updated_html();
 		}
 
-
 		if ( null !== $target_namespace ) {
 			wp_interactivity_state(
 				$target_namespace,
@@ -422,7 +425,7 @@ class Core_Button {
 				)
 			);
 
-			// Re-set the ID attribute to the newly generated button_id.
+			// Reset the ID attribute to the newly generated $button_id.
 			$tag_processor->set_attribute( 'id', $button_id );
 
 			$tag_processor->set_attribute(

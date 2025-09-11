@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/core-dialog",
+	"version": "0.1.0",
+	"title": "Core Dialog",
+	"category": "widgets",
+	"textdomain": "core-dialog",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js",
+	"supports": {
+		"interactivity": true
+	}
+}

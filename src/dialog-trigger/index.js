@@ -29,8 +29,8 @@ import edit from './edit';
 import save from './save';
 import icon from './icon';
 import deprecated from './deprecated';
-import './style.scss';
 import metadata from './block.json';
+import './style.scss';
 
 const { name } = metadata;
 

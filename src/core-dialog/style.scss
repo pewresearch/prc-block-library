@@ -1,0 +1,32 @@
+@mixin video-style {
+	background: black;
+	padding: 0 !important;
+	min-width: 400px;
+
+	figure.is-type-video,
+	figure.jetpack-videopress-player,
+	.jetpack-video-wrapper {
+		margin: 0 !important;
+	}
+}
+
+/**
+ * Styles for the dialog block when it explicitly is set to be a video dialog.
+*/
+.wp-block-prc-block-dialog {
+	&.is-style-video {
+		.wp-block-prc-block-dialog-element {
+			@include video-style;
+		}
+	}
+}
+
+/**
+ * Smarter styles for the dialog element block that check if it contains a supported video block.
+*/
+.wp-block-prc-block-dialog-element {
+	&:has(.wp-block-jetpack-videopress:only-child),
+	&:has(.wp-block-video:only-child) {
+		@include video-style;
+	}
+}

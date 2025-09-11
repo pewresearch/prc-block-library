@@ -1,12 +1,12 @@
 {
-    "$schema": "https://schemas.wp.org/trunk/block.json",
-    "apiVersion": 3,
-    "name": "prc-block/tabs",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/tabs",
 	"title": "Tabs",
 	"description": "Display content in a tabbed interface to help users navigate detailed content with ease.",
 	"version": "1.0.0",
-    "category": "design",
-    "allowedBlocks": [ "prc-block/tab" ],
+	"category": "design",
+	"allowedBlocks": ["prc-block/tab"],
 	"attributes": {
 		"tabsId": {
 			"type": "string",
@@ -15,7 +15,7 @@
 		"orientation": {
 			"type": "string",
 			"default": "horizontal",
-			"enum": [ "horizontal", "vertical" ]
+			"enum": ["horizontal", "vertical"]
 		},
 		"activeTabIndex": {
 			"type": "number",
@@ -60,25 +60,17 @@
 	},
 	"styles": [
 		{
-			"name": "fill",
-			"label": "Fill",
+			"name": "tab",
+			"label": "Tabs",
 			"isDefault": true
 		},
 		{
-			"name": "outline",
-			"label": "Outline"
-        },
-        {
-            "name": "underlined",
-            "label": "Underlined"
-        },
-        {
-            "name": "pills",
-            "label": "Pills"
-        },
-        {
-            "name": "underlined-pills",
-            "label": "Underlined Pills"
+			"name": "links",
+			"label": "Links"
+		},
+		{
+			"name": "button",
+			"label": "Button"
 		}
 	],
 	"supports": {
@@ -90,7 +82,7 @@
 		"html": false,
 		"interactivity": true,
 		"spacing": {
-			"blockGap": [ "horizontal", "vertical" ],
+			"blockGap": ["horizontal", "vertical"],
 			"margin": true,
 			"padding": false
 		},
@@ -104,8 +96,8 @@
 			"className": "is-example"
 		},
 		"innerBlocks": [
-            {
-                "name": "prc-block/tab",
+			{
+				"name": "prc-block/tab",
 				"attributes": {
 					"label": "Tab 1"
 				},
@@ -125,13 +117,13 @@
 				]
 			},
 			{
-                "name": "prc-block/tab",
+				"name": "prc-block/tab",
 				"attributes": {
 					"label": "Tab 2"
 				}
 			},
 			{
-                "name": "prc-block/tab",
+				"name": "prc-block/tab",
 				"attributes": {
 					"label": "Tab 3"
 				}
@@ -141,7 +133,7 @@
 	"providesContext": {
 		"tabs/id": "tabsId"
 	},
-    "textdomain": "prc-block-library",
+	"textdomain": "prc-block-library",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

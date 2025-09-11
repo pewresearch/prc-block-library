@@ -16,6 +16,7 @@ import { registerBlockType } from '@wordpress/blocks';
 /**
  * Internal Dependencies
  */
+import transforms from './transforms';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -39,6 +40,7 @@ const settings = {
 	icon,
 	edit,
 	save,
+	transforms,
 };
 
 /**

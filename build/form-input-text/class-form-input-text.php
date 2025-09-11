@@ -55,7 +55,6 @@ class Form_Input_Text {
 
 		$tag = new \WP_HTML_Tag_Processor( $content );
 
-
 		$tag->next_tag(
 			array(
 				'class_name' => 'wp-block-prc-block-form-input-text',

@@ -17,6 +17,7 @@ import edit from './edit';
 import save from './save';
 import './style.scss';
 import './editor.scss';
+import registerDialogElementLabelBinding from './block-bindings';
 
 import metadata from './block.json';
 
@@ -29,3 +30,5 @@ const settings = {
 };
 
 registerBlockType(name, { ...metadata, ...settings });
+
+registerDialogElementLabelBinding();

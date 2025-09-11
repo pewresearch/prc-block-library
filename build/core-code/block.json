@@ -1,0 +1,10 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/core-code",
+  "version": "0.1.0",
+  "title": "Core Code",
+  "category": "widgets",
+  "textdomain": "core-code",
+  "style": "file:./style-index.css"
+}

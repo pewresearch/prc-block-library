@@ -17,7 +17,11 @@ import {
 	PanelBody,
 	PanelRow,
 	SelectControl,
+	Button,
+	Modal,
 } from '@wordpress/components';
+import { useDispatch } from '@wordpress/data';
+import { createBlock } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
@@ -32,6 +36,13 @@ export default function Edit({
 }) {
 	const { dataSource, primaryKey, pivotedData, selectedColumns } = attributes;
 	const remoteDataContext = context?.['remote-data-blocks/remoteData'] || {};
+	
+	// State for column sum binding modal
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedColumn, setSelectedColumn] = useState('');
+	
+	// Block editor dispatch for inserting blocks
+	const { insertBlock } = useDispatch('core/block-editor');
 
 	const blockProps = useBlockProps({});
 	const innerBlocksProps = useInnerBlocksProps({
@@ -57,6 +68,37 @@ export default function Edit({
 		}
 		return results.map(result => result.result);
 	}, [remoteDataContext]);
+
+	/**
+	 * Handle inserting a block with column sum binding
+	 */
+	const handleInsertColumnSumBlock = () => {
+		if (!selectedColumn) {
+			return;
+		}
+
+		// Create a new paragraph block with the binding metadata
+		const newBlock = createBlock('core/paragraph', {
+			content: __('Column Sum', 'remote-pivot-table'),
+			metadata: {
+				bindings: {
+					content: {
+						source: 'prc-block/remote-pivot-table-sum',
+						args: {
+							column: selectedColumn,
+						},
+					},
+				},
+			},
+		});
+
+		// Insert the block after the current block
+		insertBlock(newBlock, undefined, clientId);
+		
+		// Close modal and reset selection
+		setIsModalOpen(false);
+		setSelectedColumn('');
+	};
 
 	/**
 	 /**
@@ -139,7 +181,60 @@ export default function Edit({
 						/>
 					</div>
 				</PanelBody>
+				<PanelBody title={__('Column Sum Block Binding', 'remote-pivot-table')} initialOpen={false}>
+					<PanelRow>
+						<p style={{ margin: 0 }}>
+							{__('Create a block that displays the sum of values for a selected column.', 'remote-pivot-table')}
+						</p>
+					</PanelRow>
+					<PanelRow>
+						<Button
+							variant="secondary"
+							onClick={() => setIsModalOpen(true)}
+							disabled={columns.length === 0}
+						>
+							{__('Add Column Sum Block', 'remote-pivot-table')}
+						</Button>
+					</PanelRow>
+				</PanelBody>
 			</InspectorControls>
+			{isModalOpen && (
+				<Modal
+					title={__('Select Column for Sum Block', 'remote-pivot-table')}
+					onRequestClose={() => setIsModalOpen(false)}
+					className="prc-block-remote-pivot-table-column-modal"
+				>
+					<div style={{ padding: '16px' }}>
+						<SelectControl
+							label={__('Column to Sum', 'remote-pivot-table')}
+							value={selectedColumn}
+							onChange={setSelectedColumn}
+							options={[
+								{ value: '', label: __('Select a column...', 'remote-pivot-table') },
+								...columns.map(column => ({
+									value: column,
+									label: column,
+								}))
+							]}
+						/>
+						<div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+							<Button
+								variant="primary"
+								onClick={handleInsertColumnSumBlock}
+								disabled={!selectedColumn}
+							>
+								{__('Insert Block', 'remote-pivot-table')}
+							</Button>
+							<Button
+								variant="secondary"
+								onClick={() => setIsModalOpen(false)}
+							>
+								{__('Cancel', 'remote-pivot-table')}
+							</Button>
+						</div>
+					</div>
+				</Modal>
+			)}
 			<div {...innerBlocksProps} />
 		</div>
 	);

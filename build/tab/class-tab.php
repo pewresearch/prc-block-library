@@ -32,8 +32,6 @@ class Tab {
 	public function init( $loader = null ): void {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_action( 'init', $this, 'register_tab_block_bindings' );
-			$loader->add_filter( 'render_block_context', $this, 'filter_render_block_context', 10, 2 );
 		}
 	}
 
@@ -92,19 +90,21 @@ class Tab {
 	 * @param array     $attributes Block attributes.
 	 * @param string    $content    Block content.
 	 * @param \WP_Block $block The block.
+	 *
 	 * @return string Updated HTML.
 	 */
 	public function render_block_callback( array $attributes, string $content, \WP_Block $block ): string {
 		$tag_processor = new WP_HTML_Tag_Processor( $content );
 		$tag_processor->next_tag( array( 'class_name' => 'wp-block-prc-block-tab' ) );
+		$tab_id = (string) $tag_processor->get_attribute( 'id' );
 
+		/**
+		 * Add interactivity to the tab element.
+		 */
 		$tag_processor->set_attribute(
 			'data-wp-interactive',
 			'prc-block/tabs'
 		);
-
-		$tab_id = (string) $tag_processor->get_attribute( 'id' );
-
 		$tag_processor->set_attribute(
 			'data-wp-context',
 			wp_json_encode(
@@ -116,15 +116,24 @@ class Tab {
 			)
 		);
 
+		/**
+		 * Process style classnames.
+		 */
 		$classname  = (string) $tag_processor->get_attribute( 'class' );
 		$classname .= ' ' . $this->get_typography_classes( $attributes );
 		$tag_processor->set_attribute( 'class', $classname );
 
+		/**
+		 * Process accessibility and interactivity attributes.
+		 */
 		$tag_processor->set_attribute( 'role', 'tabpanel' );
 		$tag_processor->set_attribute( 'aria-labelledby', 'tab__' . $tab_id );
 		$tag_processor->set_attribute( 'data-wp-bind--hidden', '!state.isActiveTab' );
 		$tag_processor->set_attribute( 'data-wp-bind--tabindex', 'state.tabIndexAttribute' );
 
+		/**
+		 * Process style attribute.
+		 */
 		$style  = (string) $tag_processor->get_attribute( 'style' );
 		$style .= $this->get_typography_styles( $attributes );
 		$tag_processor->set_attribute( 'style', $style );
@@ -140,55 +149,6 @@ class Tab {
 			PRC_BLOCK_LIBRARY_DIR . '/build/tab',
 			array(
 				'render_callback' => array( $this, 'render_block_callback' ),
-			)
-		);
-	}
-
-	/**
-	 * Add slugified label to context as tab/slug for children.
-	 *
-	 * @param array $context      The current context.
-	 * @param array $parsed_block The parsed block array.
-	 * @return array Updated context.
-	 */
-	public function filter_render_block_context( array $context, array $parsed_block ): array {
-		if ( ( $parsed_block['blockName'] ?? '' ) !== 'prc-block/tab' ) {
-			return $context;
-		}
-		$attrs = $parsed_block['attrs'] ?? array();
-		$label = isset( $attrs['label'] ) ? wp_strip_all_tags( (string) $attrs['label'] ) : '';
-		if ( $label ) {
-			$label               = str_replace( '&', 'and', $label );
-			$context['tab/slug'] = sanitize_title( $label );
-		}
-		return $context;
-	}
-
-	/**
-	 * Get the tab label binding.
-	 *
-	 * @param array    $source_args Source arguments.
-	 * @param WP_Block $block The block.
-	 * @param string   $attribute_name The attribute name.
-	 * @return string The tab label binding.
-	 */
-	public function get_tab_label_binding( $source_args, $block, $attribute_name ) {
-		$context = $block->context;
-		return $context['tab/label'] ?? 'Tab Label...';
-	}
-
-	/**
-	 * Register the tab block bindings.
-	 *
-	 * @hook init
-	 */
-	public function register_tab_block_bindings() {
-		register_block_bindings_source(
-			'tab/label',
-			array(
-				'label'              => __( 'Tab Label', 'prc-block/tab' ),
-				'get_value_callback' => array( $this, 'get_tab_label_binding' ),
-				'uses_context'       => array( 'tab/label', 'tab/slug' ),
 			)
 		);
 	}

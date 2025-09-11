@@ -1,0 +1,88 @@
+/* Variant styles for core-tabs (ported from tabs/style.scss) */
+
+// "Tabs (Outline)" style.
+.wp-block-prc-block-tabs.is-style-outline {
+	/* Outline draws a 1px box and keeps transparent background */
+	--tab-outline-width: 1px;
+	--tab-bg: transparent;
+	--tab-bg-hover: transparent;
+	--tab-bg-active: transparent;
+	--tab-text: var(--custom-tab-text-color, #000);
+	--tab-text-hover: var(--custom-tab-hover-text-color, #000);
+	--tab-text-active: var(--custom-tab-active-text-color, #000);
+	--tab-border-color: var(--custom-tab-inactive-color, transparent);
+	--tab-border-color-hover: var(--custom-tab-hover-color, #000);
+	--tab-border-color-active: var(--custom-tab-active-color, #000);
+
+	.tabs__tab-label {
+		border-style: solid;
+		border-color: var(--tab-border-color);
+		border-top-width: 1px;
+		border-left-width: 1px;
+		border-right-width: 1px;
+		border-bottom-width: 0px;
+		&:hover {
+			border-color: var(--tab-border-color-hover);
+		}
+		&[aria-selected="true"] {
+			border-color: var(--tab-border-color-active);
+		}
+	}
+
+	&.is-vertical {
+		.tabs__tab-label {
+			/* Match previous behavior: no right border in vertical */
+			border-inline-end: 0;
+			border-bottom-width: 1px;
+		}
+	}
+}
+
+// "Links With Hover Button" style
+.wp-block-prc-block-tabs.is-style-links-button {
+	--tabs-divider-color: var(--custom-tab-hover-color, #000);
+	--tab-bg: transparent;
+	--tab-bg-hover: var(--custom-tab-hover-color, #000);
+	--tab-bg-active: transparent;
+	--tab-text: var(--custom-tab-text-color, #000);
+	--tab-text-hover: var(--custom-tab-hover-text-color, #000);
+	--tab-text-active: var(--custom-tab-active-text-color, #000);
+	--tab-border-color: var(--custom-tab-inactive-color, transparent);
+	--tab-border-color-hover: transparent; /* hover pill hides underline */
+	--tab-border-color-active: var(--custom-tab-active-color, #000);
+	--tab-underline-width: 2px;
+	--tab-padding-block: 0.5em;
+	--tab-padding-inline: 1em;
+
+	.tabs__list {
+		border-block-end: 1px solid var(--tabs-divider-color);
+	}
+
+	.tabs__tab-label {
+		/* extra bottom padding before hover */
+		padding-block-end: 1em;
+		&:hover:not([aria-selected="true"]) {
+			border-radius: 9999px;
+			margin-block-end: 0.5em;
+			padding-block-end: 0.5em;
+		}
+	}
+
+	&.is-vertical {
+		.tabs__list {
+			border-block-end: none;
+			border-inline-end: 1px solid var(--tabs-divider-color);
+		}
+		.tabs__tab-label {
+			/* move underline to side for vertical */
+			--tab-side-border-width: 2px;
+			--tab-underline-width: 0;
+			padding: 0.5em 1em 0.5em 0.75em;
+			&:hover:not([aria-selected="true"]) {
+				margin-block-end: 0;
+				margin-inline-end: 0.25em;
+				padding-inline-end: 0.75em;
+			}
+		}
+	}
+}
