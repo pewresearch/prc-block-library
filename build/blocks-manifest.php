@@ -1214,9 +1214,9 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/dialog',
-		'version' => '1.0.0',
+		'version' => '1.1.0',
 		'title' => 'Dialog',
-		'description' => 'Render content in a <dialog/> element modal. Includes a trigger to open the dialog, and dialog element to render content.',
+		'description' => 'Render content in a `<dialog/>` element modal. Includes a trigger to open the dialog, and dialog element to render content.',
 		'category' => 'media',
 		'keywords' => array(
 			'dialog',
@@ -1264,7 +1264,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/dialog-element',
-		'version' => '1.0.0',
+		'version' => '1.1.0',
 		'title' => 'Dialog Element',
 		'category' => 'media',
 		'attributes' => array(
@@ -1389,7 +1389,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/dialog-trigger',
-		'version' => '1.0.0',
+		'version' => '1.1.0',
 		'title' => 'Dialog Trigger',
 		'description' => 'The content inside this block will act as the clickable \'trigger\' to display the dialog element.',
 		'category' => 'media',
@@ -2077,7 +2077,7 @@ return array(
 		'name' => 'prc-block/form-input-text',
 		'version' => '1.0.1',
 		'title' => 'Input Text Field',
-		'description' => 'A primitive <input> element.',
+		'description' => 'A primitive `<input>` element.',
 		'category' => 'forms',
 		'attributes' => array(
 			'displayLabel' => array(
@@ -2212,7 +2212,7 @@ return array(
 		'name' => 'prc-block/form-input-textarea',
 		'version' => '1.0.0',
 		'title' => 'Input Textarea Field',
-		'description' => 'A primitive <textarea> element.',
+		'description' => 'A primitive `<textarea>` element.',
 		'keywords' => array(
 			'textarea',
 			'form',

@@ -4,13 +4,8 @@
 	"name": "prc-block/form-input-textarea",
 	"version": "1.0.0",
 	"title": "Input Textarea Field",
-	"description": "A primitive <textarea> element.",
-	"keywords": [
-		"textarea",
-		"form",
-		"input",
-		"field"
-	],
+	"description": "A primitive `<textarea>` element.",
+	"keywords": ["textarea", "form", "input", "field"],
 	"category": "forms",
 	"attributes": {
 		"displayLabel": {
@@ -72,11 +67,7 @@
 			"source": "attribute",
 			"selector": "textarea",
 			"attribute": "wrap",
-			"enum": [
-				"hard",
-				"soft",
-				"off"
-			]
+			"enum": ["hard", "soft", "off"]
 		}
 	},
 	"example": {

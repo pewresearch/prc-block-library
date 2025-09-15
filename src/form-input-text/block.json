@@ -4,7 +4,7 @@
 	"name": "prc-block/form-input-text",
 	"version": "1.0.1",
 	"title": "Input Text Field",
-	"description": "A primitive <input> element.",
+	"description": "A primitive `<input>` element.",
 	"category": "forms",
 	"attributes": {
 		"displayLabel": {
@@ -25,7 +25,19 @@
 		},
 		"type": {
 			"type": "string",
-			"enum": ["email", "password", "text", "textarea", "number", "date", "url", "tel", "time", "search", "datetime-local"],
+			"enum": [
+				"email",
+				"password",
+				"text",
+				"textarea",
+				"number",
+				"date",
+				"url",
+				"tel",
+				"time",
+				"search",
+				"datetime-local"
+			],
 			"default": "text",
 			"source": "attribute",
 			"selector": "input",

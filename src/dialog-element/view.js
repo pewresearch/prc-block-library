@@ -173,7 +173,6 @@ const { actions, state } = store('prc-block/dialog', {
 			if (enableDeepLink) {
 				addDialogIdToUrl(id);
 			}
-			console.log('onOpen:::dialogElement', dialogElement);
 			dialogElement?.showModal();
 		},
 		/**
@@ -242,6 +241,7 @@ const { actions, state } = store('prc-block/dialog', {
 			) {
 				return;
 			}
+			console.log('onAutoActivation:::id', id, activationTimerDuration);
 			// Check if any of the dialogs are already open,
 			// if so we don't want to close or auto active another dialog.
 			const dialogIds = Object.keys(dialogs);

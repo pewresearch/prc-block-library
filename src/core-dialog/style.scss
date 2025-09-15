@@ -1,12 +1,25 @@
 @mixin video-style {
 	background: black;
 	padding: 0 !important;
-	min-width: 400px;
 
 	figure.is-type-video,
 	figure.jetpack-videopress-player,
 	.jetpack-video-wrapper {
 		margin: 0 !important;
+	}
+
+	.jetpack-video-wrapper {
+		position: relative;
+		padding-bottom: 56.25%;
+		height: 0;
+		iframe {
+			margin: 0px;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+		}
 	}
 }
 
