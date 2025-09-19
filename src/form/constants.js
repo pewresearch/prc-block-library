@@ -1,3 +1,20 @@
+
+const BASE_TEMPLATE = [
+	['prc-block/form-submit', {}],
+	[
+		'prc-block/form-message',
+		{},
+		[
+			[
+				'core/paragraph',
+				{
+					content: 'Thank you for your message!',
+				},
+			],
+		],
+	],
+];
+
 const DEFAULT_FORM_TEMPLATE = [
 	[
 		'prc-block/form-input-text',
@@ -34,19 +51,9 @@ const DEFAULT_FORM_TEMPLATE = [
 			},
 		},
 	],
-	['prc-block/form-submit', {}],
-	[
-		'prc-block/form-message',
-		{},
-		[
-			[
-				'core/paragraph',
-				{
-					content: 'Thank you for your message!',
-				},
-			],
-		],
-	],
+	...BASE_TEMPLATE,
 ];
+
+export { BASE_TEMPLATE, DEFAULT_FORM_TEMPLATE };
 
 export default DEFAULT_FORM_TEMPLATE;

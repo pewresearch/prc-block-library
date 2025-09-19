@@ -29,6 +29,7 @@ import './style.scss';
 import edit from './edit';
 import icon from './icon';
 import save from './save';
+import variations from './variations';
 import metadata from './block.json';
 
 const { name, title } = metadata;
@@ -37,6 +38,7 @@ const settings = {
 	icon,
 	edit,
 	save,
+	variations,
 	__experimentalLabel: ({ label }) =>
 		label && label.length > 0 && label.lenth < 20 ? label : title,
 };

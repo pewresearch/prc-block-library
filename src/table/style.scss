@@ -2,7 +2,6 @@
 	box-sizing: border-box;
 
 	> table {
-
 		&.has-fixed-layout {
 			table-layout: fixed;
 		}
@@ -72,7 +71,6 @@
 	}
 
 	.prc-block-table-title {
-
 	}
 
 	.prc-block-table-source-note {
@@ -81,5 +79,33 @@
 
 	.prc-block-table-caption {
 		margin-top: 1em;
+	}
+}
+
+/**
+ * Responsive Tables
+ */
+@media screen and (min-width: 641px) {
+	.wp-block-prc-block-table.is-scroll-on-pc {
+		overflow-x: scroll;
+	}
+	.wp-block-prc-block-table.is-scroll-on-pc table {
+		max-width: none;
+		align-self: self-start;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	.wp-block-prc-block-table.is-scroll-on-mobile {
+		overflow-x: scroll;
+	}
+	.wp-block-prc-block-table.is-scroll-on-mobile table {
+		max-width: none;
+		align-self: self-start;
+	}
+	.wp-block-prc-block-table table.is-stacked-on-mobile th,
+	.wp-block-prc-block-table table.is-stacked-on-mobile td {
+		width: 100% !important;
+		display: block;
 	}
 }

@@ -129,9 +129,9 @@ const FormPersistence = {
 };
 
 const collectFormFields = (ref) => {
-	// find all the input elements in the ref that have a class name that contains at least 'wp-block-prc-block-form-input-*' with a wildcard at the end
+	// find all the input elements in the ref that have a class name that contains at least 'wp-block-prc-block-form-input-*'
 	const inputElements = ref.querySelectorAll(
-		'input, select, textarea, .wp-block-prc-block-form-input-password'
+		'input, select, textarea, .wp-block-prc-block-form-input-password, .wp-block-prc-block-form-input-radio-group'
 	);
 	// Find all that have a name attribute and return an array of objects with the name, the value, and the ref
 	const formFields = [];
@@ -253,6 +253,35 @@ const { state, actions } = store('prc-block/form', {
 			const context = getContext();
 			return context?.formMessage || false;
 		},
+		get isPageHidden() {
+			const context = getContext();
+			const { pageId } = context;
+			if (!pageId) {
+				return true;
+			}
+			return context.activePage !== pageId;
+		},
+		get submitButtonText() {
+			const context = getContext();
+			const { formPages, activePage } = context;
+
+			// If currently processing, always show "Processing..."
+			if (context.submissionProcessing) {
+				return 'Processing...';
+			}
+
+			// If form has pages
+			if (formPages) {
+				const currentPageIndex = formPages.findIndex(
+					(pageId) => pageId === activePage
+				);
+				const isLastPage = currentPageIndex === formPages.length - 1;
+				return isLastPage ? 'Submit' : 'Next';
+			} else {
+				// No pages, simple form
+				return 'Submit';
+			}
+		}
 	},
 	actions: {
 		/**
@@ -345,6 +374,25 @@ const { state, actions } = store('prc-block/form', {
 		onSubmit: withSyncEvent(async (event) => {
 			event.preventDefault();
 			const context = getContext();
+			const { formPages, activePage } = context;
+			if (formPages && formPages.length > 0) {
+				// If there are form pages, then we need to check if we're on the last page.
+				const currentPageIndex = formPages.findIndex(
+					(pageId) => pageId === activePage
+				);
+				if (currentPageIndex < formPages.length - 1) {
+					// Not on the last page, so go to the next page.
+					context.activePage = formPages[currentPageIndex + 1];
+					return;
+				}
+				// If we're here, then we're on the last page and can continue with submission.
+
+			}
+
+			if (context.submissionProcessing) {
+				// Prevent double submission
+				return;
+			}
 
 			// First, we do form validation.
 			actions.checkForRequiredFieldsWithoutValues();
@@ -418,6 +466,8 @@ const { state, actions } = store('prc-block/form', {
 					return field;
 				});
 			}
+
+
 		},
 		onCaptchaPassing: () => {
 			const context = getContext();
@@ -425,14 +475,29 @@ const { state, actions } = store('prc-block/form', {
 				context.captchaHidden = true;
 			}
 		},
-		onProcessing: () => {
-			const context = getContext();
-			if (context.submissionProcessing) {
-				context.submitButtonText = 'Processing...';
-			} else {
-				context.submitButtonText = 'Submit';
-			}
-		},
+		// onProcessing: () => {
+		// 	const context = getContext();
+		// 	const { formPages, activePage } = context;
+
+		// 	// If currently processing, always show "Processing..."
+		// 	if (context.submissionProcessing) {
+		// 		context.submitButtonText = 'Processing...';
+		// 		return;
+		// 	}
+
+		// 	// If form has pages
+		// 	console.log('formPages', formPages);
+		// 	if (formPages) {
+		// 		const currentPageIndex = formPages.findIndex(
+		// 			(pageId) => pageId === activePage
+		// 		);
+		// 		const isLastPage = currentPageIndex === formPages.length - 1;
+		// 		context.submitButtonText = isLastPage ? 'Submit' : 'Next';
+		// 	} else {
+		// 		// No pages, simple form
+		// 		context.submitButtonText = 'Submit';
+		// 	}
+		// },
 		*sendSubmission() {
 			const context = getContext();
 			const {

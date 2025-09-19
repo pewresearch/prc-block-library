@@ -14,13 +14,15 @@
 		"core/button",
 		"prc-block/form-input-checkbox",
 		"prc-block/form-input-password",
+		"prc-block/form-input-radio-group",
 		"prc-block/form-input-select",
 		"prc-block/form-input-text",
 		"prc-block/form-input-textarea",
 		"prc-block/form-message",
+		"prc-block/form-page",
 		"prc-block/form-submit"
 	],
-	"keywords": [ "form", "captcha", "field", "input" ],
+	"keywords": ["form", "captcha", "field", "input"],
 	"icon": "feedback",
 	"attributes": {
 		"formName": {
@@ -28,7 +30,7 @@
 		},
 		"method": {
 			"type": "string",
-			"enum": [ "rest", "api" ],
+			"enum": ["rest", "api"],
 			"default": "api"
 		},
 		"namespace": {

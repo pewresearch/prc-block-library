@@ -55,7 +55,7 @@ class Form_Submit {
 				$button_text = Core_Button::get_button_text( $content );
 				$tag->set_attribute( 'data-wp-bind--disabled', 'prc-block/form::state.submissionDisabled' );
 				if ( null !== $button_text ) {
-					$tag->set_attribute( 'data-wp--text', 'prc-block/form::context.submitButtonText' );
+					$tag->set_attribute( 'data-wp-text', 'prc-block/form::state.submitButtonText' );
 				}
 			}
 		}

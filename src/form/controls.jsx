@@ -16,7 +16,7 @@ import { useDispatch, useSelect, select } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
-import DEFAULT_FORM_TEMPLATE from './constants';
+import {BASE_TEMPLATE, DEFAULT_FORM_TEMPLATE} from './constants';
 
 function useFormInputBlockDetector(clientId) {
 	const foundBlocks = useSelect((select) => {
@@ -338,7 +338,9 @@ export default function Controls({
 								variant="tertiary"
 								onClick={() => {
 									setIsTemplateDialogOpen(false);
-									replaceInnerBlocks(clientId, []);
+									replaceInnerBlocks(clientId, [
+										...createBlocksFromInnerBlocksTemplate(BASE_TEMPLATE),
+									]);
 								}}
 							>
 								Start blank

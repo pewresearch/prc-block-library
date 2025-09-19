@@ -142,6 +142,50 @@ class Form {
 		// Define the interactivity namespace.
 		$tag->set_attribute( 'data-wp-interactive', 'prc-block/form' );
 
+		// Events.
+		$tag->set_attribute( 'data-wp-init', 'callbacks.onFormMount' );
+		$tag->set_attribute( 'data-wp-on--submit', 'actions.onSubmit' );
+		$tag->set_attribute( 'data-wp-class--has-errors', 'state.hasErrors' );
+		$tag->set_attribute( 'data-wp-class--is-displaying-form-message', 'state.formMessage' );
+		$tag->set_attribute( 'data-wp-class--is-processing', 'context.submissionProcessing' );
+		$tag->set_attribute( 'data-wp-watch--onCaptchaPassing', 'callbacks.onCaptchaPassing' );
+		$tag->set_attribute( 'data-wp-watch--sendSubmission', 'callbacks.sendSubmission' );
+		$tag->set_attribute( 'data-wp-watch--onProcessing', 'callbacks.onProcessing' );
+
+		// Rewind.
+		$tag->set_bookmark( 'form_start' );
+
+		$form_pages = array();
+		while ( $tag->next_tag(
+			array(
+				'class_name' => 'wp-block-prc-block-form-page',
+			)
+		) ) {
+			$form_pages[] = $tag->get_attribute( 'id' );
+		}
+
+		// Rewind.
+		$tag->seek( 'form_start' );
+
+		// $button_text = null;
+
+		// while ( $tag->next_tag(
+		// array(
+		// 'tag_name' => 'button',
+		// )
+		// ) ) {
+		// if ( 'submit' === $tag->get_attribute( 'type' ) ) {
+		// $button_text = Core_Button::get_button_text( $content );
+		// $tag->set_attribute( 'data-wp-bind--disabled', 'prc-block/form::state.submissionDisabled' );
+		// if ( null !== $button_text ) {
+		// $tag->set_attribute( 'data-wp--text', 'prc-block/form::state.submitButtonText' );
+		// }
+		// }
+		// }
+
+		// // Rewind.
+		// $tag->seek( 'form_start' );
+
 		// Define the interactivity context.
 		$tag->set_attribute(
 			'data-wp-context',
@@ -159,25 +203,18 @@ class Form {
 					'submissionProcessing' => false,
 					'allowSubmit'          => true,
 					'formMessage'          => false,
-					'submitButtonText'     => __( 'Submit' ),
+					'submitButtonText'     => 'SUBMIT',
 					'submitMethod'         => array(
 						'method'    => $form_method,
 						'action'    => $form_action,
 						'namespace' => $form_namespace,
 					),
 					'redirectUrl'          => $redirect_url,
+					'formPages'            => empty( $form_pages ) ? false : $form_pages,
+					'activePage'           => empty( $form_pages ) ? false : $form_pages[0],
 				)
 			)
 		);
-		// Events.
-		$tag->set_attribute( 'data-wp-init', 'callbacks.onFormMount' );
-		$tag->set_attribute( 'data-wp-on--submit', 'actions.onSubmit' );
-		$tag->set_attribute( 'data-wp-class--has-errors', 'state.hasErrors' );
-		$tag->set_attribute( 'data-wp-class--is-displaying-form-message', 'state.formMessage' );
-		$tag->set_attribute( 'data-wp-class--is-processing', 'context.submissionProcessing' );
-		$tag->set_attribute( 'data-wp-watch--onCaptchaPassing', 'callbacks.onCaptchaPassing' );
-		$tag->set_attribute( 'data-wp-watch--onProcessing', 'callbacks.onProcessing' );
-		$tag->set_attribute( 'data-wp-watch--sendSubmission', 'callbacks.sendSubmission' );
 
 		$content = $tag->get_updated_html();
 

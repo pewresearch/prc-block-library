@@ -80,10 +80,6 @@
 			"border": ".wp-block-prc-block-form-input-checkbox input"
 		}
 	},
-	"usesContext": [
-		"prc-block/form-field-label",
-		"prc-block/form-field-required"
-	],
 	"textdomain": "form-input-checkbox",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",

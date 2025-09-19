@@ -258,9 +258,11 @@ class Plugin {
 		new Form_Input_Checkbox( $this->get_loader() );
 		new Form_Input_Select( $this->get_loader() );
 		new Form_Input_Password( $this->get_loader() );
+		new Form_Input_Radio_Group( $this->get_loader() );
 		new Form_Input_Text( $this->get_loader() );
 		new Form_Input_Textarea( $this->get_loader() );
 		new Form_Message( $this->get_loader() );
+		new Form_Page( $this->get_loader() );
 		new Form_Submit( $this->get_loader() );
 		new Grid_Column( $this->get_loader() );
 		new Grid_Controller( $this->get_loader() );

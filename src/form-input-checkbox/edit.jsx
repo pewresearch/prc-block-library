@@ -3,12 +3,13 @@
  * External Dependencies
  */
 import clsx from 'clsx';
+import { useDebounce } from '@prc/hooks';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useMemo, useState, useEffect } from '@wordpress/element';
+import { useMemo, useState, useEffect, useRef } from '@wordpress/element';
 import {
 	store as blockEditorStore,
 	useBlockProps,
@@ -21,6 +22,9 @@ import {
 	__experimentalGetElementClassName,
 	getTypographyClassesAndStyles as useTypographyProps,
 } from '@wordpress/block-editor';
+import { cleanForSlug } from '@wordpress/url';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { createBlock } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
@@ -50,11 +54,23 @@ export default function Edit({
 	context,
 	clientId,
 	isSelected,
+	insertBlocksAfter,
 }) {
-	const { label, type, defaultChecked, required, metadata } = attributes;
+	const { label, type, defaultChecked, required, metadata, value } = attributes;
 	const { name } = metadata || {};
+	const MAX_LENGTH = 20;
+
+	// Strip HTML and truncate to MAX_LENGTH
+	const truncatePlain = (str) => {
+		if (typeof str !== 'string') return str;
+		const plain = str.replace(/<[^>]*>/g, '');
+		return plain.length > MAX_LENGTH ? plain.slice(0, MAX_LENGTH) : plain;
+	};
+
+	const debouncedLabel = useDebounce(label, 750);
 
 	const [ checked, setChecked ] = useState( defaultChecked );
+	const richTextRef = useRef();
 
 	// const borderProps = useBorderProps( attributes );
 	const colorProps = useColorProps( attributes );
@@ -87,6 +103,38 @@ export default function Edit({
 		setChecked( defaultChecked );
 	}, [defaultChecked]);
 
+	useEffect(() => {
+		if (richTextRef.current && isSelected && (!label || label.length === 0)) {
+			richTextRef.current.focus();
+		}
+	}, [isSelected, label]);
+
+	/**
+	 * Update metadata.name and value based on label changes.
+	 * @TODO: Expand this logic to form-input-text.
+	 */
+	useEffect(() => {
+		if ( debouncedLabel && debouncedLabel.length > 4 ) {
+			const truncated = truncatePlain(debouncedLabel);
+			const camelCaseLabel = truncated
+				.replace(/[^a-zA-Z0-9 ]/g, '')
+				.replace(/(?:^| )(\w)/g, (_, letter) => letter.toUpperCase())
+				.replace(/\s+/g, '')
+				.replace(/^./, str => str.toLowerCase())
+				.slice(0, MAX_LENGTH);
+			const payload = {
+				metadata: {
+					...attributes.metadata,
+					name: camelCaseLabel
+				}
+			};
+			if ( ! value || value.length <= 0 ) {
+				payload.value = cleanForSlug(camelCaseLabel);
+			}
+			setAttributes( payload );
+		}
+	}, [debouncedLabel]);
+
 	return (
 		<>
 			<Controls
@@ -118,14 +166,18 @@ export default function Edit({
 					</div>
 				)}
 				<RichText
+					ref={richTextRef}
 					tagName="label"
 					placeholder={__('Checkbox Label...', 'prc-block-library')}
 					value={label}
 					onChange={(newLabel) => {
-						const camelCaseLabel = newLabel.replace(/<[^>]*>/g, '').replace(/(?:^| )(\w)/g, (_, letter) => letter.toUpperCase()).replace(/^./, str => str.toLowerCase());
-						setAttributes({ label: newLabel, metadata: { ...attributes.metadata, name: camelCaseLabel } });
+						setAttributes({
+							label: newLabel,
+						});
 					}}
-					__unstableOnSplitAtEnd={() => onEnterSplit()}
+					__unstableOnSplitAtEnd={() => {
+						insertBlocksAfter(createBlock('prc-block/form-input-checkbox', { type }));
+					}}
 				/>
 			</div>
 		</>

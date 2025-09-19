@@ -1,0 +1,8 @@
+.wp-block-prc-block-form-page {
+	&[hidden] {
+		display: none;
+	}
+	&:not(.wp-block) {
+		margin-block-start: 0;
+	}
+}

@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/form-page",
+	"version": "1.0.1",
+	"title": "Form Page",
+	"description": "A primitive block for a form page",
+	"category": "forms",
+	"ancestor": ["prc-block/form"],
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"reusable": false,
+		"interactivity": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"layout": {
+			"type": "flex",
+			"default": {
+				"type": "flex",
+				"orientation": "vertical",
+				"verticalAlignment": "center",
+				"allowOrientation": true
+			},
+			"allowInheriting": false,
+			"allowVerticalAlignment": true,
+			"allowJustification": true,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true
+		},
+		"spacing": {
+			"blockGap": true,
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true
+		}
+	},
+	"textdomain": "form-page",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css"
+}

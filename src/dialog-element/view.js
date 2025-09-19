@@ -70,12 +70,6 @@ const { actions, state } = store('prc-block/dialog', {
 					return;
 				}
 				state.dialogs[id].isOpen = false;
-
-				// Fire off a custom event to let other blocks know the dialog has closed, it's explicit and only runs when a user closes the dialog.
-				// @TODO: change this from dialogClosed to wpDialogClosed when migrating to Gutenberg core.
-				window.dispatchEvent(
-					new CustomEvent('dialogClosed', { detail: { id } })
-				);
 			});
 		},
 		/**
@@ -110,15 +104,11 @@ const { actions, state } = store('prc-block/dialog', {
 			}
 			// Finally, if there is no id then we can't proceed and should exit early.
 			if (!id) {
-				console.error('No id found to open dialog.');
+
 				return;
 			}
 			state.dialogs[id].isOpen = true;
 			state.dialogs[id].closingModal = false;
-			// @TODO: change this from dialogOpened to wpDialogOpened when migrating to Gutenberg core.
-			window.dispatchEvent(
-				new CustomEvent('dialogOpened', { detail: { id } })
-			);
 		},
 		/**
 		 * This function allows you to directly close a dialog by passing an id from another store, like so:
@@ -131,14 +121,10 @@ const { actions, state } = store('prc-block/dialog', {
 				id = state.id;
 			}
 			if (!id) {
-				console.error('No id found to close dialog.');
+
 				return;
 			}
 			state.dialogs[id].isOpen = false;
-			// @TODO: change this from dialogClosed to wpDialogClosed when migrating to Gutenberg core.
-			window.dispatchEvent(
-				new CustomEvent('dialogClosed', { detail: { id } })
-			);
 		},
 	},
 	callbacks: {
@@ -150,7 +136,6 @@ const { actions, state } = store('prc-block/dialog', {
 		onESCKey: (event) => {
 			const { id, isOpen } = state;
 			if (id && event.key === 'Escape') {
-				console.log('onESCKey:::id', id);
 				if (true === isOpen) {
 					event.preventDefault();
 					actions.close(id);
@@ -241,7 +226,6 @@ const { actions, state } = store('prc-block/dialog', {
 			) {
 				return;
 			}
-			console.log('onAutoActivation:::id', id, activationTimerDuration);
 			// Check if any of the dialogs are already open,
 			// if so we don't want to close or auto active another dialog.
 			const dialogIds = Object.keys(dialogs);

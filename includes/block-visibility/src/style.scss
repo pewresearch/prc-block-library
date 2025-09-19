@@ -1,5 +1,19 @@
+/**
+ * Block Visibility Editor Styles
+ *
+ * @package prc-block-library
+ */
+.prc-block-visibility-small.wp-block:not(.is-selected),
+.prc-block-visibility-medium.wp-block:not(.is-selected),
+.prc-block-visibility-large.wp-block:not(.is-selected) {
+	&:after {
+		// display: none;
+	}
+}
 
-// This will capture any block that adds the correct attribute to hide on mobile.
+/**
+ * Hide On Mobile
+ */
 .is-mobile-preview .prc-block-visibility-small {
 	&.wp-block:before {
 		content: "This block is hidden on small screen sizes.";

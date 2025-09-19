@@ -1,0 +1,78 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/form-input-radio-group",
+	"version": "1.0.1",
+	"title": "Form Input Radio Group",
+	"description": "A primitive block for a form input radio group field",
+	"category": "forms",
+	"allowedBlocks": ["prc-block/form-input-checkbox"],
+	"attributes": {
+		"label": {
+			"type": "string",
+			"source": "html",
+			"selector": "label"
+		},
+		"required": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"styles": [
+		{
+			"name": "default",
+			"label": "Default",
+			"isDefault": true
+		},
+		{
+			"name": "label-only",
+			"label": "Label Only"
+		}
+	],
+	"example": {
+		"attributes": {
+			"label": "Form Input Radio Group Label"
+		},
+		"viewportWidth": 320
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"reusable": false,
+		"interactivity": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"link": false
+		},
+		"layout": {
+			"type": "flex",
+			"default": {
+				"type": "flex",
+				"orientation": "vertical",
+				"verticalAlignment": "center",
+				"allowOrientation": true
+			},
+			"allowInheriting": false,
+			"allowVerticalAlignment": true,
+			"allowJustification": true,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true
+		},
+		"spacing": {
+			"blockGap": true,
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true
+		}
+	},
+	"textdomain": "form-input-checkbox",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js"
+}

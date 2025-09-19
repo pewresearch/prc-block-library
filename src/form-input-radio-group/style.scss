@@ -1,0 +1,16 @@
+.wp-block-prc-block-form-input-radio-group {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	gap: 5px;
+
+	label {
+		flex-basis: fit-content;
+		&:empty {
+			&:after {
+				content: "Loading...";
+			}
+			animation: pulse 0.5s infinite;
+		}
+	}
+}
