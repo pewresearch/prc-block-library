@@ -149,7 +149,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<div>
 						<p>
 							{ __(
-								'The dialog element requires a dialog trigger and a dialog element. You can edit the text of the trigger and the content of the dialog by clicking the "Edit Dialog" button above.'
+								'The dialog element requires a dialog trigger and a dialog element. You can edit the text of the trigger and the content of the dialog by clicking the "Edit Dialog" button below.'
 							) }
 						</p>
 						<TextControl

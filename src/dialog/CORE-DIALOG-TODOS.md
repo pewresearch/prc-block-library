@@ -9,3 +9,6 @@
 - [x] Change animation duration, and backdrop color to utilize https://github.com/WordPress/gutenberg/blob/trunk/packages/style-engine/README.md on server side. Register the stylesheet and enqueue along with dialog. Potentially update the client side implementation to use style-engine as well.
 - [x] Consider other accessibility improvements to dialog trigger.
 - [x] Implement redux store for editing dialog state.
+- [ ] Move dialog element close button to utilize the upcoming `core/icon` block. See: https://github.com/WordPress/gutenberg/pull/71227 and https://github.com/WordPress/gutenberg/pull/71618#issuecomment-3321504746
+- [ ] Make iAPI implementation updates per Luis. See:
+    - https://github.com/WordPress/gutenberg/pull/71618#issuecomment-3301370029 and https://github.com/WordPress/gutenberg/pull/71618#pullrequestreview-3222909478

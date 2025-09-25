@@ -1,11 +1,11 @@
 @use "sass:math";
 
 @mixin clearfix() {
-    &:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
 }
 
 /* Colors */
@@ -36,27 +36,27 @@ $XLHeight: 405px;
      Transitions
 --------------------*/
 
-$defaultDuration : 0.1s;
-$defaultEasing : ease;
+$defaultDuration: 0.1s;
+$defaultEasing: ease;
 
 /*-------------------
      Breakpoints
 --------------------*/
 
-$mobileBreakpoint : 320px;
-$iPhoneBreakpoint : 390px;
-$smallTabletBreakpoint : 666px;
-$tabletBreakpoint : 768px;
-$computerBreakpoint : 992px;
-$largeMonitorBreakpoint : 1200px;
-$widescreenMonitorBreakpoint : 1920px;
+$mobileBreakpoint: 320px;
+$iPhoneBreakpoint: 390px;
+$smallTabletBreakpoint: 666px;
+$tabletBreakpoint: 768px;
+$computerBreakpoint: 992px;
+$largeMonitorBreakpoint: 1200px;
+$widescreenMonitorBreakpoint: 1920px;
 
 /* Responsive */
-$mediumMobileScreen : $iPhoneBreakpoint;
-$largestMobileScreen : ($tabletBreakpoint - 1px);
-$largestTabletScreen : ($computerBreakpoint - 1px);
-$largestSmallMonitor : ($largeMonitorBreakpoint - 1px);
-$largestLargeMonitor : ($widescreenMonitorBreakpoint - 1px);
+$mediumMobileScreen: $iPhoneBreakpoint;
+$largestMobileScreen: ($tabletBreakpoint - 1px);
+$largestTabletScreen: ($computerBreakpoint - 1px);
+$largestSmallMonitor: ($largeMonitorBreakpoint - 1px);
+$largestLargeMonitor: ($widescreenMonitorBreakpoint - 1px);
 
 $mobileImageWidth: 690px;
 
@@ -102,155 +102,160 @@ $dividedBorder: 1px solid rgba(34, 36, 38, 0.15);
 /* Glow Gradient */
 $placeholderLoadingAnimationDuration: 2s;
 $placeholderLoadingGradientWidth: 1200px;
-$placeholderLoadingGradient: linear-gradient(to right,
-    rgba(0, 0, 0, 0.08) 0%,
-    rgba(0, 0, 0, 0.15) 15%,
-    rgba(0, 0, 0, 0.08) 30%);
-$placeholderInvertedLoadingGradient: linear-gradient(to right,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.14) 15%,
-    rgba(255, 255, 255, 0.08) 30%);
+$placeholderLoadingGradient: linear-gradient(
+	to right,
+	rgba(0, 0, 0, 0.08) 0%,
+	rgba(0, 0, 0, 0.15) 15%,
+	rgba(0, 0, 0, 0.08) 30%
+);
+$placeholderInvertedLoadingGradient: linear-gradient(
+	to right,
+	rgba(255, 255, 255, 0.08) 0%,
+	rgba(255, 255, 255, 0.14) 15%,
+	rgba(255, 255, 255, 0.08) 30%
+);
 
 @mixin imageSize($size) {
-    // Mobile first
-    &:not(.loaded) > picture > img {
-        @media only screen and (min-width: $largestMobileScreen) {
-            animation: placeholderShimmer $placeholderLoadingAnimationDuration linear;
-            animation-iteration-count: infinite;
-            background-color: white;
-            background-image: $placeholderLoadingGradient;
-            background-size: $placeholderLoadingGradientWidth 100%;
-        }
-    }
+	// Mobile first
+	&:not(.loaded) > picture > img {
+		@media only screen and (min-width: $largestMobileScreen) {
+			animation: placeholderShimmer $placeholderLoadingAnimationDuration
+				linear;
+			animation-iteration-count: infinite;
+			background-color: white;
+			background-image: $placeholderLoadingGradient;
+			background-size: $placeholderLoadingGradientWidth 100%;
+		}
+	}
 
-    @if $size == "A1" {
+	@if $size == "A1" {
 		& > .block-editor-media-placeholder,
 		& > button > img,
 		& > button > picture > img,
-        & > button > picture > source,
-        & > picture > img,
-        & > picture > source {
-            max-width: $mobileImageWidth;
-            @media only screen and (min-width: $largestMobileScreen) {
-                max-width: $A1;
-            }
-        }
+		& > button > picture > source,
+		& > picture > img,
+		& > picture > source {
+			max-width: $mobileImageWidth;
+			@media only screen and (min-width: $largestMobileScreen) {
+				max-width: $A1;
+			}
+		}
 		& > .block-editor-media-placeholder,
-        &:not(.loaded) > picture > img {
-            @media only screen and (min-width: $largestMobileScreen) {
-                height: $A1Height;
-            }
-        }
-    }
+		&:not(.loaded) > picture > img {
+			@media only screen and (min-width: $largestMobileScreen) {
+				height: $A1Height;
+			}
+		}
+	}
 
-    @if $size == "A2" {
+	@if $size == "A2" {
 		& > .block-editor-media-placeholder,
 		& > button > img,
 		& > button > picture > img,
-        & > button > picture > source,
-        & > picture > img,
-        & > picture > source {
-            max-width: $mobileImageWidth;
-            @media only screen and (min-width: $largestMobileScreen) {
-                max-width: $A2;
-            }
-        }
+		& > button > picture > source,
+		& > picture > img,
+		& > picture > source {
+			max-width: $mobileImageWidth;
+			@media only screen and (min-width: $largestMobileScreen) {
+				max-width: $A2;
+			}
+		}
 		& > .block-editor-media-placeholder,
-        &:not(.loaded) > picture > img {
-            @media only screen and (min-width: $largestMobileScreen) {
-                height: $A2Height;
-            }
-        }
-    }
+		&:not(.loaded) > picture > img {
+			@media only screen and (min-width: $largestMobileScreen) {
+				height: $A2Height;
+			}
+		}
+	}
 
-    @if $size == "A3" {
+	@if $size == "A3" {
 		& > .block-editor-media-placeholder,
 		& > button > img,
 		& > button > picture > img,
-        & > button > picture > source,
-        & > picture > img,
-        & > picture > source {
-            max-width: $A3Small;
-            @media only screen and (min-width: $largestMobileScreen) {
-                max-width: $A3;
-            }
-        }
+		& > button > picture > source,
+		& > picture > img,
+		& > picture > source {
+			max-width: $A3Small;
+			@media only screen and (min-width: $largestMobileScreen) {
+				max-width: $A3;
+			}
+		}
 		& > .block-editor-media-placeholder,
-        &:not(.loaded) > picture > img {
-            @media only screen and (min-width: $largestMobileScreen) {
-                height: $A3Height;
-            }
-        }
-    }
+		&:not(.loaded) > picture > img {
+			@media only screen and (min-width: $largestMobileScreen) {
+				height: $A3Height;
+			}
+		}
+	}
 
-    @if $size == "A4" {
+	@if $size == "A4" {
 		& > .block-editor-media-placeholder,
 		& > button > img,
 		& > button > picture > img,
-        & > button > picture > source,
-        & > picture > img,
-        & > picture > source {
-            max-width: $mobileImageWidth;
-            @media only screen and (min-width: $largestMobileScreen) {
-                max-width: $A4;
-            }
-        }
+		& > button > picture > source,
+		& > picture > img,
+		& > picture > source {
+			max-width: $mobileImageWidth;
+			@media only screen and (min-width: $largestMobileScreen) {
+				max-width: $A4;
+			}
+		}
 		& > .block-editor-media-placeholder,
-        &:not(.loaded) > picture > img {
-            @media only screen and (min-width: $largestMobileScreen) {
-                height: $A4Height;
-            }
-        }
-    }
+		&:not(.loaded) > picture > img {
+			@media only screen and (min-width: $largestMobileScreen) {
+				height: $A4Height;
+			}
+		}
+	}
 }
 
 @mixin rightAlignedA3($mobile: false) {
-    @include clearfix();
-    display: block!important;
-    .image {
-        float: right!important;
-        padding-left: 21px!important;
-        // Force A3 image size.
-        @if $mobile == true {
-            @include imageSize("A3");
-        }
-    }
-    .description {
-        clear: right!important;
-        padding-top: 10px!important;
-    }
+	@include clearfix();
+	display: block !important;
+	.image {
+		float: right !important;
+		padding-left: 21px !important;
+		// Force A3 image size.
+		@if $mobile == true {
+			@include imageSize("A3");
+		}
+	}
+	.description {
+		clear: right !important;
+		padding-top: 10px !important;
+	}
 }
 
 @keyframes placeholderShimmer {
-    0% {
-        background-position: -$placeholderLoadingGradientWidth 0;
-    }
+	0% {
+		background-position: -$placeholderLoadingGradientWidth 0;
+	}
 
-    100% {
-        background-position: $placeholderLoadingGradientWidth 0;
-    }
+	100% {
+		background-position: $placeholderLoadingGradientWidth 0;
+	}
 }
 
 // @TODO after block themes go live on prc remove .story.item and convert sub itemt to use BEM naming convention (e.g. .wp-block-prc-block-story-item__title)
 
 .wp-block-prc-block-story-item {
-    display: grid;
-    gap: 0px;
-    grid-auto-flow: column;
-    grid-template-areas:
-        "image"
-        "meta"
-        "header"
-        "excerpt"
-        "extras"
-        "extracontent";
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    background: transparent;
-    border: 0px solid transparent;
-    transition: box-shadow $defaultDuration $defaultEasing;
-    z-index: '';
+	display: grid;
+	gap: 0px;
+	grid-auto-flow: column;
+	grid-template-areas:
+		"image"
+		"meta"
+		"header"
+		"excerpt"
+		"extras"
+		"extracontent";
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	background: transparent;
+	border: 0px solid transparent;
+	transition: box-shadow $defaultDuration $defaultEasing;
+	z-index: "";
 
 	&:not(.aligned) {
 		grid-template-areas:
@@ -261,166 +266,166 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 			"extracontent";
 	}
 
-    &.aligned {
-        grid-auto-flow: row;
-    }
+	&.aligned {
+		grid-auto-flow: row;
+	}
 
-    &.top,
-    &.bottom {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-    }
+	&.top,
+	&.bottom {
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+	}
 
-    // Mobile first, both top and bottom are the same. Bottom only gets aligned to the bottom on desktop.
-    &.top.aligned,
-    &.bottom.aligned {
-        grid-template-areas:
-          "image"
-          "meta"
-          "header"
-          "excerpt"
-          "extras"
-          "extracontent";
-        .image {
-            margin: 0 0 21px 0;
-        }
-    }
+	// Mobile first, both top and bottom are the same. Bottom only gets aligned to the bottom on desktop.
+	&.top.aligned,
+	&.bottom.aligned {
+		grid-template-areas:
+			"image"
+			"meta"
+			"header"
+			"excerpt"
+			"extras"
+			"extracontent";
+		.image {
+			margin: 0 0 21px 0;
+		}
+	}
 
-    // On desktop make bottom aligned images actually bottom aligned
-    &.bottom.aligned {
-        @media only screen and (min-width: $largestMobileScreen) {
-            grid-template-areas:
-            "meta"
-            "header"
-            "excerpt"
-            "extras"
-            "extracontent"
-            "image";
-            .image {
-                margin: 21px 0 0 0;
-            }
-        }
-    }
+	// On desktop make bottom aligned images actually bottom aligned
+	&.bottom.aligned {
+		@media only screen and (min-width: $largestMobileScreen) {
+			grid-template-areas:
+				"meta"
+				"header"
+				"excerpt"
+				"extras"
+				"extracontent"
+				"image";
+			.image {
+				margin: 21px 0 0 0;
+			}
+		}
+	}
 
-    &.left,
-    &.right {
-        grid-column-gap: 23px;
-    }
+	&.left,
+	&.right {
+		grid-column-gap: 23px;
+	}
 
-    &.left.aligned {
-        grid-template-columns: 1fr 2fr;
-        &[data-image-size="A1"] {
-            grid-template-columns: $A1 2fr;
-        }
-        &[data-image-size="A2"] {
-            grid-template-columns: $A2 2fr;
-        }
-        &[data-image-size="A3"] {
-            grid-template-columns: $A3 2fr;
-        }
-        &[data-image-size="A4"] {
-            grid-template-columns: $A4 2fr;
-        }
-        &[data-image-size="XL"] {
-            grid-template-columns: $A1 2fr;
-        }
-        grid-template-rows: auto;
-        grid-template-areas:
-          "image meta"
-          "image header"
-          "image excerpt"
-          "image extras"
-          "image extracontent";
-    }
+	&.left.aligned {
+		grid-template-columns: 1fr 2fr;
+		&[data-image-size="A1"] {
+			grid-template-columns: $A1 2fr;
+		}
+		&[data-image-size="A2"] {
+			grid-template-columns: $A2 2fr;
+		}
+		&[data-image-size="A3"] {
+			grid-template-columns: $A3 2fr;
+		}
+		&[data-image-size="A4"] {
+			grid-template-columns: $A4 2fr;
+		}
+		&[data-image-size="XL"] {
+			grid-template-columns: $A1 2fr;
+		}
+		grid-template-rows: auto;
+		grid-template-areas:
+			"image meta"
+			"image header"
+			"image excerpt"
+			"image extras"
+			"image extracontent";
+	}
 
-    &.right.aligned {
-        grid-template-columns: 2fr 1fr;
-        grid-template-rows: auto;
-        @media only screen and (min-width: $largestMobileScreen) {
-            grid-template-areas:
-                "meta image"
-                "header image"
-                "excerpt image"
-                "extras image"
-                "extracontent image";
-        }
+	&.right.aligned {
+		grid-template-columns: 2fr 1fr;
+		grid-template-rows: auto;
+		@media only screen and (min-width: $largestMobileScreen) {
+			grid-template-areas:
+				"meta image"
+				"header image"
+				"excerpt image"
+				"extras image"
+				"extracontent image";
+		}
 
-        &[data-image-size="A1"] {
-            grid-template-columns: 2fr $A1Small;
-            @media only screen and (min-width: $largestMobileScreen) {
-                grid-template-columns: 2fr $A1;
-            }
-        }
-        &[data-image-size="A2"] {
-            grid-template-columns: 2fr $A2Small;
-            @media only screen and (min-width: $largestMobileScreen) {
-                grid-template-columns: 2fr $A2;
-            }
-        }
-        &[data-image-size="A3"] {
-            @include rightAlignedA3(false);
-        }
-        &[data-image-size="A4"] {
-            grid-template-columns: 2fr $A4;
-        }
-        &[data-image-size="XL"] {
-            grid-template-columns: 2fr $A1;
-        }
-    }
+		&[data-image-size="A1"] {
+			grid-template-columns: 2fr $A1Small;
+			@media only screen and (min-width: $largestMobileScreen) {
+				grid-template-columns: 2fr $A1;
+			}
+		}
+		&[data-image-size="A2"] {
+			grid-template-columns: 2fr $A2Small;
+			@media only screen and (min-width: $largestMobileScreen) {
+				grid-template-columns: 2fr $A2;
+			}
+		}
+		&[data-image-size="A3"] {
+			@include rightAlignedA3(false);
+		}
+		&[data-image-size="A4"] {
+			grid-template-columns: 2fr $A4;
+		}
+		&[data-image-size="XL"] {
+			grid-template-columns: 2fr $A1;
+		}
+	}
 
-    // Mobile switch over for left and right to be right aligned in the loop.
-    &.left.aligned,
-    &.right.aligned {
-        @media only screen and (max-width: $largestMobileScreen) {
-            @include rightAlignedA3(true);
-        }
-    }
+	// Mobile switch over for left and right to be right aligned in the loop.
+	&.left.aligned,
+	&.right.aligned {
+		@media only screen and (max-width: $largestMobileScreen) {
+			@include rightAlignedA3(true);
+		}
+	}
 
-    /* Image */
-    .image {
-        grid-area: image;
+	/* Image */
+	.image {
+		grid-area: image;
 
-        // Chart Art
-        &.bordered > picture > img {
-            border: 1px solid #dadada;
-        }
+		// Chart Art
+		&.bordered > picture > img {
+			border: 1px solid #dadada;
+		}
 
-        &.A1 {
-            @include imageSize("A1");
-        }
+		&.A1 {
+			@include imageSize("A1");
+		}
 
-        &.A2 {
-            @include imageSize("A2");
-        }
+		&.A2 {
+			@include imageSize("A2");
+		}
 
-        &.A3 {
-            @include imageSize("A3");
-        }
+		&.A3 {
+			@include imageSize("A3");
+		}
 
-        &.A4 {
-            @include imageSize("A4");
-        }
+		&.A4 {
+			@include imageSize("A4");
+		}
 
-        &.XL > picture > img,
-        &.XL > picture > source {
-            max-width: $XL;
-        }
+		&.XL > picture > img,
+		&.XL > picture > source {
+			max-width: $XL;
+		}
 
 		& > button > picture > img,
-        & > button > picture > source,
-        & > picture > img,
-        & > picture > source,
-        & > a {
-            display: block;
-            margin: 0;
-            width: 100%;
-            height: auto;
-            border-radius: 0px;
-        }
-    }
+		& > button > picture > source,
+		& > picture > img,
+		& > picture > source,
+		& > a {
+			display: block;
+			margin: 0;
+			width: 100%;
+			height: auto;
+			border-radius: 0px;
+		}
+	}
 
-    .meta {
-        grid-area: meta;
+	.meta {
+		grid-area: meta;
 		padding-bottom: 1.5em;
 
 		display: flex;
@@ -429,7 +434,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
 		font-size: 12px;
 		font-family: var(--wp--preset--font-family--sans-serif);
-		color: rgba(0,0,0,.6);
+		color: rgba(0, 0, 0, 0.6);
 		letter-spacing: 0.1em;
 		line-height: 1em;
 		text-transform: uppercase;
@@ -446,33 +451,33 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 				margin-left: 0.5em;
 			}
 		}
-    }
+	}
 
-    .header {
-        grid-area: header;
+	.header {
+		grid-area: header;
 
-        @media only screen and (max-width: $largestMobileScreen) {
-            display: block;
-        }
+		@media only screen and (max-width: $largestMobileScreen) {
+			display: block !important;
+		}
 
-        display: inline-block;
+		display: inline-block;
 		margin: 0;
-        // color: $headerColor;
-        -ms-word-wrap: break-word;
-        word-wrap: break-word;
+		// color: $headerColor;
+		-ms-word-wrap: break-word;
+		word-wrap: break-word;
 
-        // .medium, mobile first.
+		// .medium, mobile first.
 		font-family: $headerFont;
-        font-size: $headerMediumFontSize;
-        font-weight: $headerMediumFontWeight;
-        line-height: $headerMediumLineHeight;
+		font-size: $headerMediumFontSize;
+		font-weight: $headerMediumFontWeight;
+		line-height: $headerMediumLineHeight;
 
-        // Find .large above
-        &.small {
-            font-size: $headerSmallFontSize;
-            font-weight: $headerSmallFontWeight;
-            line-height: $headerSmallLineHeight;
-        }
+		// Find .large above
+		&.small {
+			font-size: $headerSmallFontSize;
+			font-weight: $headerSmallFontWeight;
+			line-height: $headerSmallLineHeight;
+		}
 
 		&.large {
 			font-size: $headerLargeFontSize;
@@ -480,62 +485,63 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 			line-height: $headerLargeLineHeight;
 		}
 
-        &.light {
-            font-weight: normal;
-        }
+		&.light {
+			font-weight: normal;
+		}
 
-        & > a {
-            color: $headerColor;
-            text-decoration: none;
+		& > a {
+			color: $headerColor;
+			text-decoration: none;
 
-            &:hover {
-                color: $headerColor !important;
-                text-decoration: underline;
-            }
-        }
-    }
+			&:hover {
+				color: $headerColor !important;
+				text-decoration: underline;
+			}
+		}
+	}
 
-    .description {
-        grid-area: excerpt;
-        margin: 10px 0 0 0;
-        font-size: 16px;
+	.description {
+		grid-area: excerpt;
+		margin: 10px 0 0 0;
+		font-size: 16px;
 		color: $textColor;
-        line-height: $lineHeight;
-        p {
-            margin: 0 0 7px 0;
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-    }
+		line-height: $lineHeight;
+		p {
+			margin: 0 0 7px 0;
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
 
-    .description a,
-    .extra a {
-        color: $blackLinkColor;
-        transition: color $defaultDuration $defaultEasing;
-        &:hover {
-            color: $blackLinkColor;
-        }
-    }
+	.description a,
+	.extra a {
+		color: $blackLinkColor;
+		transition: color $defaultDuration $defaultEasing;
+		&:hover {
+			color: $blackLinkColor;
+		}
+	}
 
-    .extra {
+	.extra {
 		grid-area: extras;
-        @include clearfix();
-        display: block;
-        margin: $extraMargin;
-        width: 100%;
+		@include clearfix();
+		display: block;
+		margin: $extraMargin;
+		width: 100%;
 
 		color: $darkTextColor;
-        font-family: $sansSerifFont;
-        font-size: 15px;
+		font-family: $sansSerifFont;
+		font-size: 15px;
 
-        transition: color $defaultDuration $defaultEasing;
-		
+		transition: color $defaultDuration $defaultEasing;
+
 		ul {
 			list-style-position: outside;
 			padding-left: 1em;
 			li {
-				margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
+				margin: $extraRowSpacing $extraHorizontalSpacing
+					$extraRowSpacing 0;
 			}
 		}
 
@@ -543,11 +549,11 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 		& > * {
 			margin: $extraRowSpacing $extraHorizontalSpacing $extraRowSpacing 0;
 		}
-    }
+	}
 
-    .extra-content {
-        grid-area: extracontent;
-    }
+	.extra-content {
+		grid-area: extracontent;
+	}
 }
 // End .wp-block-prc-block-story-item
 
@@ -555,12 +561,14 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 // This is for when style engine values are not set or available.
 // .ui ones are fallbacks until we switch over to a block theme for prc.
 .wp-block-post-template > li:has(.wp-block-prc-block-story-item) {
-	margin-block-start: 0!important;
+	margin-block-start: 0 !important;
 }
 .wp-block-post-template > li:has(.wp-block-prc-block-story-item),
-.wp-block-group:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
-.wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item) > article.wp-block-prc-block-story-item,
-.has-story-items > article.wp-block-prc-block-story-item  {
+.wp-block-group:has(.wp-block-prc-block-story-item)
+	> article.wp-block-prc-block-story-item,
+.wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item)
+	> article.wp-block-prc-block-story-item,
+.has-story-items > article.wp-block-prc-block-story-item {
 	border-bottom: $dividedBorder;
 	padding: 21px 0 21px 0;
 
@@ -586,7 +594,6 @@ $placeholderInvertedLoadingGradient: linear-gradient(to right,
 
 /* Tablet Only */
 @media only screen and (min-width: $tabletBreakpoint) and (max-width: $largestTabletScreen) {
-
 }
 
 /* Mobile Only */

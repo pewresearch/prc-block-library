@@ -129,7 +129,7 @@ export function InspectorPanel({
 							'prc-block-library'
 						)}
 						help={__(
-							'Allow the dialog to be opened via a URL hash (e.g., #dialog-id).',
+							'Allow the dialog to be opened via a URL hash (e.g., ?dialogId=<dialog id>).',
 							'prc-block-library'
 						)}
 						checked={enableDeepLink}

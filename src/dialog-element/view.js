@@ -104,9 +104,9 @@ const { actions, state } = store('prc-block/dialog', {
 			}
 			// Finally, if there is no id then we can't proceed and should exit early.
 			if (!id) {
-
 				return;
 			}
+			console.log("dialog/element open() for id:", id);
 			state.dialogs[id].isOpen = true;
 			state.dialogs[id].closingModal = false;
 		},
@@ -124,6 +124,7 @@ const { actions, state } = store('prc-block/dialog', {
 
 				return;
 			}
+			console.log("dialog/element close() for id:", id);
 			state.dialogs[id].isOpen = false;
 		},
 	},
@@ -158,6 +159,7 @@ const { actions, state } = store('prc-block/dialog', {
 			if (enableDeepLink) {
 				addDialogIdToUrl(id);
 			}
+			console.log('dialog/element callbacks.onOpen for id:', id);
 			dialogElement?.showModal();
 		},
 		/**
@@ -180,11 +182,7 @@ const { actions, state } = store('prc-block/dialog', {
 				withScope(() => {
 					dialogElement?.close();
 					removeDialogIdFromUrl(id); // We always clean the dialog id regardless of whether deep linking is enabled or not.
-					// Fire off a custom event to let other blocks know the dialog has closed, it's explicit and only runs when a user closes the dialog.
-					const event = new CustomEvent('prc-block-dialog-closed', {
-						detail: { id },
-					});
-					document.dispatchEvent(event);
+					console.log('dialog/element callbacks.onClose for id:', id);
 					state.dialogs[id].isClosing = false;
 					state.dialogs[id].isOpen = false;
 				}),
@@ -212,6 +210,7 @@ const { actions, state } = store('prc-block/dialog', {
 				return;
 			}
 			const { id } = state;
+			console.log("dialog/element callbacks.onBackdropClick for id:", id);
 			actions.close(id);
 		}),
 		/**

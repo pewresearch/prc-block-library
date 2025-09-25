@@ -67,7 +67,7 @@ export default function Edit({
 		return plain.length > MAX_LENGTH ? plain.slice(0, MAX_LENGTH) : plain;
 	};
 
-	const debouncedLabel = useDebounce(label, 750);
+	const debouncedLabel = useDebounce(label, 200);
 
 	const [ checked, setChecked ] = useState( defaultChecked );
 	const richTextRef = useRef();
@@ -114,7 +114,7 @@ export default function Edit({
 	 * @TODO: Expand this logic to form-input-text.
 	 */
 	useEffect(() => {
-		if ( debouncedLabel && debouncedLabel.length > 4 ) {
+		if ( debouncedLabel && debouncedLabel.length > 1 ) {
 			const truncated = truncatePlain(debouncedLabel);
 			const camelCaseLabel = truncated
 				.replace(/[^a-zA-Z0-9 ]/g, '')

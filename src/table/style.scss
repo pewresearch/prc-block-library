@@ -56,7 +56,7 @@
 
 	td {
 		&:hover {
-			background-color: var(--hover-background-color) !important;
+			background-color: var(--hover-background-color);
 		}
 	}
 
@@ -85,6 +85,10 @@
 /**
  * Responsive Tables
  */
+.wp-block-prc-block-table.is-scroll-on-pc,
+.wp-block-prc-block-table.is-scroll-on-mobile {
+	max-width: 100%;
+}
 @media screen and (min-width: 641px) {
 	.wp-block-prc-block-table.is-scroll-on-pc {
 		overflow-x: scroll;
