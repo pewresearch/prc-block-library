@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useRef, useMemo } from '@wordpress/element';
+import { useRef, useMemo, useEffect } from '@wordpress/element';
 import {
 	BlockControls,
 	useBlockProps,
@@ -71,11 +71,14 @@ const TEMPLATE = [
 ];
 
 export default function Edit( { attributes, setAttributes, clientId } ) {
-	// add dialog id attribute to the block
 	const { dialogId } = attributes;
-	if ( ! dialogId ) {
-		setAttributes( { dialogId: clientId } );
-	}
+
+	// Initialize dialogId only once after mount if not set.
+	useEffect( () => {
+		if ( ! dialogId ) {
+			setAttributes( { dialogId: clientId } );
+		}
+	}, [ dialogId, clientId, setAttributes ] );
 
 	// Get the dialog-element block from inner blocks
 	const { dialogElementClientId, isDialogOpen } = useSelect(
@@ -132,10 +135,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								return;
 							}
 							if ( isDialogOpen ) {
-								console.log('closing');
 								close( dialogElementClientId );
 							} else {
-								console.log('opening');
 								open( dialogElementClientId );
 							}
 						} }
@@ -149,7 +150,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<div>
 						<p>
 							{ __(
-								'The dialog element requires a dialog trigger and a dialog element. You can edit the text of the trigger and the content of the dialog by clicking the "Edit Dialog" button below.'
+								'The dialog element requires a dialog trigger and a dialog element. You can edit the text of the trigger directly, to edit the content of the dialog click the "Edit Dialog" button below.'
 							) }
 						</p>
 						<TextControl

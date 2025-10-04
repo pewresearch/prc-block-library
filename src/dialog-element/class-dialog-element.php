@@ -154,6 +154,7 @@ class Dialog_Element {
 		$is_open                 = get_query_var( 'dialogId', false ) === $context_id;
 		$dialog_size             = isset( $attributes['dialogSize'] ) ? $attributes['dialogSize'] : 'small';
 		$animation               = isset( $attributes['animation'] ) ? $attributes['animation'] : 'fade';
+		$animation_duration      = $attributes['animationDuration'] ?? 500;
 		$auto_activate_on_render = array_key_exists( 'autoActivateOnRender', $attributes ) ? $attributes['autoActivateOnRender'] : false;
 		$default_is_open         = $auto_activate_on_render;
 		$auto_activation_timer   = array_key_exists( 'autoActivationTimer', $attributes ) ? $attributes['autoActivationTimer'] : -1;
@@ -161,22 +162,19 @@ class Dialog_Element {
 		$enable_deep_link        = array_key_exists( 'enableDeepLink', $attributes ) ? $attributes['enableDeepLink'] : false;
 
 		// By using state any 3rd party can interact as easy as `store('prc-block/dialog').state[blockId].isOpen = true;` which would open the dialog given the blockId.
-		$dialog_state           = wp_interactivity_state(
-			'prc-block/dialog',
-			array()
-		);
-		$dialogs                = $dialog_state['dialogs'] ?? array();
-		$dialogs[ $context_id ] = array(
-			'id'                      => $context_id,
-			'activationTimerDuration' => (int) $auto_activation_timer,
-			'isOpen'                  => $is_open,
-			'enableDeepLink'          => $enable_deep_link,
-			'isClosing'               => false,
-		);
 		wp_interactivity_state(
 			'prc-block/dialog',
 			array(
-				'dialogs' => $dialogs,
+				'dialogs' => array(
+					$context_id => array(
+						'id'                      => $context_id,
+						'activationTimerDuration' => (int) $auto_activation_timer,
+						'animationDuration'       => (int) $animation_duration,
+						'isOpen'                  => $is_open,
+						'enableDeepLink'          => $enable_deep_link,
+						'isClosing'               => false,
+					),
+				),
 			)
 		);
 
@@ -218,6 +216,7 @@ class Dialog_Element {
 				'data-wp-watch--on-dialog-open'    => 'callbacks.onOpen',
 				'data-wp-watch--on-dialog-close'   => 'callbacks.onClose',
 				'style'                            => $block_styles,
+				// Don't bind `open`, per the Dialog spec (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog) that will not open a dialog in "modal" mode.
 			)
 		);
 

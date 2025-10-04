@@ -3,7 +3,7 @@
  */
 import React, { useRef, useEffect } from 'react';
 import { blockTable, justifyLeft } from '@wordpress/icons';
-import { addToCopilotToolbar } from '@prc/copilot';
+import { addToNexusToolbar } from '@prc/nexus';
 
 /**
  * WordPress Dependencies
@@ -84,9 +84,9 @@ export default function ToolbarControls({
 		}
 	});
 
-	// Register the copilot toolbar when the component mounts.
+	// Register the nexus toolbar when the component mounts.
 	useEffect(() => {
-		addToCopilotToolbar({
+		addToNexusToolbar({
 			title: 'Generate Table',
 			icon: blockTable,
 			toolType: 'request',
@@ -125,8 +125,8 @@ export default function ToolbarControls({
 						...newAttributes,
 						metadata: {
 							...currentAttributes.metadata,
-							_copilot: [
-								...((currentAttributes.metadata && currentAttributes.metadata._copilot) ?? []),
+							_nexus: [
+								...((currentAttributes.metadata && currentAttributes.metadata._nexus) ?? []),
 								{
 									feature: tool,
 									...metadata,

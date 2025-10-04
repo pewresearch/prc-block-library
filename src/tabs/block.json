@@ -56,6 +56,14 @@
 		},
 		"customTabHoverTextColor": {
 			"type": "string"
+		},
+		"mobileDropdown": {
+			"type": "boolean",
+			"default": false
+		},
+		"mobileDropdownWidth": {
+			"type": "number",
+			"default": 768
 		}
 	},
 	"styles": [

@@ -33,6 +33,30 @@
 		display: none;
 	}
 
+	.tabs__select {
+		display: none;
+		width: 100%;
+		padding: var(--tab-padding-block) var(--tab-padding-inline);
+		font-size: inherit;
+		font-family: inherit;
+		border: 1px solid var(--tab-border-color-active);
+		border-radius: var(--tab-border-radius);
+		background-color: var(--tab-bg);
+		color: var(--tab-text);
+		appearance: none;
+		background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+		background-repeat: no-repeat;
+		background-position: right 0.5em center;
+		background-size: 1em;
+		padding-right: 2.5em;
+		cursor: pointer;
+
+		&:focus {
+			outline: 2px solid var(--tab-border-color-active);
+			outline-offset: 2px;
+		}
+	}
+
 	.tabs__list {
 		display: flex;
 		list-style: none;
@@ -114,6 +138,28 @@
 		.tabs__tab-label {
 			max-width: 100%;
 			text-align: end;
+		}
+	}
+
+	// Mobile dropdown styles
+	&.is-mobile-dropdown {
+		.tabs__list {
+			display: none;
+		}
+
+		.tabs__select {
+			display: block;
+		}
+
+		// Hide vertical mode styles when in mobile dropdown
+		&.is-vertical {
+			flex-wrap: wrap;
+
+			.tabs__list {
+				max-width: 100%;
+				border-inline-end: none;
+				border-block-end: 1px solid var(--tabs-divider-color);
+			}
 		}
 	}
 }

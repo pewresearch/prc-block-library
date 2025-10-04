@@ -1,149 +1,149 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "prc-block/tabs",
-  "title": "Tabs",
-  "description": "Display content in a tabbed interface to help users navigate detailed content with ease.",
-  "version": "1.0.0",
-  "category": "design",
-  "allowedBlocks": [
-    "prc-block/tab"
-  ],
-  "attributes": {
-    "tabsId": {
-      "type": "string",
-      "default": ""
-    },
-    "orientation": {
-      "type": "string",
-      "default": "horizontal",
-      "enum": [
-        "horizontal",
-        "vertical"
-      ]
-    },
-    "activeTabIndex": {
-      "type": "number",
-      "default": 0
-    },
-    "tabInactiveColor": {
-      "type": "string"
-    },
-    "customTabInactiveColor": {
-      "type": "string"
-    },
-    "tabHoverColor": {
-      "type": "string"
-    },
-    "customTabHoverColor": {
-      "type": "string"
-    },
-    "tabActiveColor": {
-      "type": "string"
-    },
-    "customTabActiveColor": {
-      "type": "string"
-    },
-    "tabTextColor": {
-      "type": "string"
-    },
-    "customTabTextColor": {
-      "type": "string"
-    },
-    "tabActiveTextColor": {
-      "type": "string"
-    },
-    "customTabActiveTextColor": {
-      "type": "string"
-    },
-    "tabHoverTextColor": {
-      "type": "string"
-    },
-    "customTabHoverTextColor": {
-      "type": "string"
-    }
-  },
-  "styles": [
-    {
-      "name": "tab",
-      "label": "Tabs",
-      "isDefault": true
-    },
-    {
-      "name": "links",
-      "label": "Links"
-    },
-    {
-      "name": "button",
-      "label": "Button"
-    }
-  ],
-  "supports": {
-    "align": true,
-    "color": {
-      "text": false,
-      "background": false
-    },
-    "html": false,
-    "interactivity": true,
-    "spacing": {
-      "blockGap": [
-        "horizontal",
-        "vertical"
-      ],
-      "margin": true,
-      "padding": false
-    },
-    "typography": {
-      "fontSize": true,
-      "__experimentalFontFamily": true
-    }
-  },
-  "example": {
-    "attributes": {
-      "className": "is-example"
-    },
-    "innerBlocks": [
-      {
-        "name": "prc-block/tab",
-        "attributes": {
-          "label": "Tab 1"
-        },
-        "innerBlocks": [
-          {
-            "name": "core/paragraph",
-            "attributes": {
-              "content": "Pariatur commodo sint mollit. Veniam Lorem labore voluptate fugiat. Ad nulla est labore cillum cillum qui nostrud do incididunt eiusmod. Aliqua aliqua sunt consequat consequat in duis deserunt."
-            }
-          },
-          {
-            "name": "core/paragraph",
-            "attributes": {
-              "content": "Adipisicing ullamco nisi in eu laborum adipisicing aliquip aliqua. Fugiat labore officia consequat nisi veniam velit commodo cillum enim duis quis ad."
-            }
-          }
-        ]
-      },
-      {
-        "name": "prc-block/tab",
-        "attributes": {
-          "label": "Tab 2"
-        }
-      },
-      {
-        "name": "prc-block/tab",
-        "attributes": {
-          "label": "Tab 3"
-        }
-      }
-    ]
-  },
-  "providesContext": {
-    "tabs/id": "tabsId"
-  },
-  "textdomain": "prc-block-library",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
-  "viewScriptModule": "file:./view.js"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/tabs",
+	"title": "Tabs",
+	"description": "Display content in a tabbed interface to help users navigate detailed content with ease.",
+	"version": "1.0.0",
+	"category": "design",
+	"allowedBlocks": ["prc-block/tab"],
+	"attributes": {
+		"tabsId": {
+			"type": "string",
+			"default": ""
+		},
+		"orientation": {
+			"type": "string",
+			"default": "horizontal",
+			"enum": ["horizontal", "vertical"]
+		},
+		"activeTabIndex": {
+			"type": "number",
+			"default": 0
+		},
+		"tabInactiveColor": {
+			"type": "string"
+		},
+		"customTabInactiveColor": {
+			"type": "string"
+		},
+		"tabHoverColor": {
+			"type": "string"
+		},
+		"customTabHoverColor": {
+			"type": "string"
+		},
+		"tabActiveColor": {
+			"type": "string"
+		},
+		"customTabActiveColor": {
+			"type": "string"
+		},
+		"tabTextColor": {
+			"type": "string"
+		},
+		"customTabTextColor": {
+			"type": "string"
+		},
+		"tabActiveTextColor": {
+			"type": "string"
+		},
+		"customTabActiveTextColor": {
+			"type": "string"
+		},
+		"tabHoverTextColor": {
+			"type": "string"
+		},
+		"customTabHoverTextColor": {
+			"type": "string"
+		},
+		"mobileDropdown": {
+			"type": "boolean",
+			"default": false
+		},
+		"mobileDropdownWidth": {
+			"type": "number",
+			"default": 768
+		}
+	},
+	"styles": [
+		{
+			"name": "tab",
+			"label": "Tabs",
+			"isDefault": true
+		},
+		{
+			"name": "links",
+			"label": "Links"
+		},
+		{
+			"name": "button",
+			"label": "Button"
+		}
+	],
+	"supports": {
+		"align": true,
+		"color": {
+			"text": false,
+			"background": false
+		},
+		"html": false,
+		"interactivity": true,
+		"spacing": {
+			"blockGap": ["horizontal", "vertical"],
+			"margin": true,
+			"padding": false
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"example": {
+		"attributes": {
+			"className": "is-example"
+		},
+		"innerBlocks": [
+			{
+				"name": "prc-block/tab",
+				"attributes": {
+					"label": "Tab 1"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Pariatur commodo sint mollit. Veniam Lorem labore voluptate fugiat. Ad nulla est labore cillum cillum qui nostrud do incididunt eiusmod. Aliqua aliqua sunt consequat consequat in duis deserunt."
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Adipisicing ullamco nisi in eu laborum adipisicing aliquip aliqua. Fugiat labore officia consequat nisi veniam velit commodo cillum enim duis quis ad."
+						}
+					}
+				]
+			},
+			{
+				"name": "prc-block/tab",
+				"attributes": {
+					"label": "Tab 2"
+				}
+			},
+			{
+				"name": "prc-block/tab",
+				"attributes": {
+					"label": "Tab 3"
+				}
+			}
+		]
+	},
+	"providesContext": {
+		"tabs/id": "tabsId"
+	},
+	"textdomain": "prc-block-library",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js"
 }

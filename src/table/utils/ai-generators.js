@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { processToolRequest, CandidatesButton } from '@prc/copilot';
+import { processToolRequest, CandidatesButton } from '@prc/nexus';
 
 /**
  * Internal Dependencies
@@ -219,15 +219,15 @@ export function GenerateTableTitleButton({ attributes, setAttributes }) {
 						attributes?.metadata !== null
 							? attributes.metadata
 							: {};
-					const copilot = Array.isArray(meta._copilot)
-						? meta._copilot
+					const nexus = Array.isArray(meta._nexus)
+						? meta._nexus
 						: [];
 					setAttributes({
 						tableTitle: selectedCandidate,
 						metadata: {
 							...meta,
-							_copilot: [
-								...copilot,
+							_nexus: [
+								...nexus,
 								{
 									feature: 'get-table-title',
 									...metadata,
@@ -273,15 +273,15 @@ export function GenerateTableCaptionButton({ attributes, setAttributes }) {
 						attributes?.metadata !== null
 							? attributes.metadata
 							: {};
-					const copilot = Array.isArray(meta._copilot)
-						? meta._copilot
+					const nexus = Array.isArray(meta._nexus)
+						? meta._nexus
 						: [];
 					setAttributes({
 						caption: selectedCandidate,
 						metadata: {
 							...meta,
-							_copilot: [
-								...copilot,
+							_nexus: [
+								...nexus,
 								{
 									feature: 'get-table-caption',
 									...metadata,

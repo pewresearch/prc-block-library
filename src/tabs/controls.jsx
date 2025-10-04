@@ -5,7 +5,8 @@ import { __ } from '@wordpress/i18n';
 import {
 	ToggleControl,
 	PanelBody,
-	ColorIndicator
+	ColorIndicator,
+	RangeControl
 } from '@wordpress/components';
 import { useMemo } from '@wordpress/element';
 import {
@@ -127,6 +128,8 @@ export default function Controls( {
 		customTabActiveTextColor,
 		customTabHoverTextColor,
 		orientation,
+		mobileDropdown,
+		mobileDropdownWidth,
 	} = attributes;
 	/**
 	 * Get the color settings for the block.
@@ -150,6 +153,32 @@ export default function Controls( {
 						}
 						__nextHasNoMarginBottom
 					/>
+					<ToggleControl
+						label={ __( 'Mobile Dropdown' ) }
+						help={ __( 'Convert tabs to a dropdown select element on mobile devices' ) }
+						checked={ mobileDropdown }
+						onChange={ ( value ) =>
+							setAttributes( {
+								mobileDropdown: value,
+							} )
+						}
+						__nextHasNoMarginBottom
+					/>
+					{ mobileDropdown && (
+						<RangeControl
+							label={ __( 'Mobile Breakpoint (px)' ) }
+							help={ __( 'Convert to dropdown below this screen width' ) }
+							value={ mobileDropdownWidth }
+							onChange={ ( value ) =>
+								setAttributes( {
+									mobileDropdownWidth: value,
+								} )
+							}
+							min={ 320 }
+							max={ 1024 }
+							step={ 1 }
+						/>
+					) }
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="color">

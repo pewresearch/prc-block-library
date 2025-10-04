@@ -15,7 +15,10 @@ export default function Save( { attributes } ) {
 	return (
 		<div { ...blockProps }>
 			<h3 className="tabs__title">{ title }</h3>
-			<ul className="tabs__list"></ul>
+			<div className="tabs__list" role="tablist"></div>
+			<select className="tabs__select" role="listbox" aria-label={ title }>
+				<option value="">{ title }</option>
+			</select>
 			{ innerBlocksProps.children }
 		</div>
 	);

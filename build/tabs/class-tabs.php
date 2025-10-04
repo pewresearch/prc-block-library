@@ -174,6 +174,8 @@ class Tabs {
 	 */
 	public function render_block_callback( array $attributes, string $content, \WP_Block $block ): string {
 		$active_tab_index = $attributes['activeTabIndex'] ?? 0;
+		$mobile_dropdown = $attributes['mobileDropdown'] ?? false;
+		$mobile_dropdown_width = $attributes['mobileDropdownWidth'] ?? 768;
 
 		$tabs_list = $this->generate_tabs_list_from_innerblocks( $block->parsed_block['innerBlocks'] ?? array() );
 
@@ -201,14 +203,18 @@ class Tabs {
 			'data-wp-context',
 			wp_json_encode(
 				array(
-					'tabsId'         => $tabs_id,
-					'activeTabIndex' => $active_tab_index,
-					'isVertical'     => $is_vertical,
+					'tabsId'              => $tabs_id,
+					'activeTabIndex'      => $active_tab_index,
+					'isVertical'          => $is_vertical,
+					'mobileDropdown'      => $mobile_dropdown,
+					'mobileDropdownWidth' => $mobile_dropdown_width,
+					'isMobileDropdown'    => false,
 				)
 			)
 		);
 		$tag_processor->set_attribute( 'data-wp-init', 'callbacks.onTabsInit' );
 		$tag_processor->set_attribute( 'data-wp-on--keydown', 'actions.handleTabKeyDown' );
+		$tag_processor->set_attribute( 'data-wp-class--is-mobile-dropdown', 'state.isMobileDropdown' );
 
 		/**
 		 * Process style attribute.
@@ -238,12 +244,37 @@ class Tabs {
 		$tabs_list_markup = implode( '', $tabs_list_markup );
 
 		/**
+		 * Build the select dropdown options.
+		 */
+		$select_options_markup = array_map(
+			static function ( array $tab, int $index ): string {
+				return wp_sprintf(
+					'<option value="%1$d">%2$s</option>',
+					$index,
+					html_entity_decode( $tab['label'] )
+				);
+			},
+			$tabs_list,
+			array_keys( $tabs_list )
+		);
+		$select_options_markup = implode( '', $select_options_markup );
+
+		/**
 		 * Splice the tabs list into the content.
 		 */
 		$content = preg_replace(
-			'/<ul\s+class="tabs__list">\s*<\/ul>/i',
+			'/<div\s+class="tabs__list"[^>]*>\s*<\/div>/i',
 			'<div class="tabs__list" role="tablist">' . $tabs_list_markup . '</div>',
 			(string) $updated_content
+		);
+
+		/**
+		 * Splice the select dropdown into the content.
+		 */
+		$content = preg_replace(
+			'/<select\s+class="tabs__select"[^>]*>.*?<\/select>/is',
+			'<select class="tabs__select" role="listbox" data-wp-on--change="actions.handleSelectChange"><option value="">' . esc_html( $attributes['metadata']['name'] ?? 'Select a tab' ) . '</option>' . $select_options_markup . '</select>',
+			(string) $content
 		);
 
 		/**

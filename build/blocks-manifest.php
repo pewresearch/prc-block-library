@@ -5148,6 +5148,14 @@ return array(
 			),
 			'customTabHoverTextColor' => array(
 				'type' => 'string'
+			),
+			'mobileDropdown' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'mobileDropdownWidth' => array(
+				'type' => 'number',
+				'default' => 768
 			)
 		),
 		'styles' => array(
