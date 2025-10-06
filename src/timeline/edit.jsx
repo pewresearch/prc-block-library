@@ -45,7 +45,7 @@ export default function Edit({
 	clientId,
 	isSelected,
 }) {
-	const { currentActiveIndex } = attributes;
+	const { currentActiveIndex, tickMarkInterval, tickMarkHeight, showAllTickMarks, hideLastTick, tickLabelAngle, visibleTicks } = attributes;
 	const inputRef = useRef();
 	const { selectBlock, updateBlockAttributes } =
 		useDispatch(blockEditorStore);
@@ -81,15 +81,29 @@ export default function Edit({
 		[setAttributes, selectBlock, ticksClientIds]
 	);
 
+	const useManualControl = useMemo(() => {
+		return showAllTickMarks || tickMarkInterval !== 1;
+	}, [showAllTickMarks, tickMarkInterval]);
+
 	const tickDensity = useMemo(() => {
+		// Only calculate density when not using manual control
+		if (useManualControl) {
+			return 'sparse';
+		}
 		return getTickDensity(ticks?.length);
-	}, [ticks]);
+	}, [ticks, useManualControl]);
 
 	/**
 	 * Block props for the timeline block.
 	 */
 	const blockProps = useBlockProps({
 		'data-tick-density': tickDensity,
+		'data-show-all-ticks': showAllTickMarks ? 'true' : 'false',
+		'data-manual-control': useManualControl ? 'true' : 'false',
+		style: {
+			'--tick-height': `${tickMarkHeight}px`,
+			'--tick-label-angle': `${tickLabelAngle ?? 0}deg`,
+		},
 	});
 	/**
 	 * Innerblocks props for the timeline content.
@@ -134,7 +148,7 @@ export default function Edit({
 
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, clientId }} />
+			<Controls {...{ attributes, setAttributes, clientId, ticks }} />
 			<div {...blockProps}>
 				<div className="tick-slider">
 					<ul className="ticks">
@@ -143,6 +157,26 @@ export default function Edit({
 							const { name } = metadata;
 							const position = tickPositions[index];
 
+							// Determine if this tick should be visible based on settings
+							const isFirst = index === 0;
+							const isLast = index === ticks.length - 1;
+							const isFirstOrLast = isFirst || isLast;
+
+							// Check if we should hide the last tick
+							const hideThisTick = hideLastTick && isLast;
+
+							// Check if using specific tick selection
+							const useSpecificSelection = visibleTicks && visibleTicks.length > 0;
+							const isSpecificallySelected = useSpecificSelection && visibleTicks.includes(index);
+
+							const shouldShowTick = !hideThisTick && (
+								useSpecificSelection ? isSpecificallySelected : (
+									showAllTickMarks ||
+									isFirstOrLast ||
+									(index % tickMarkInterval === 0)
+								)
+							);
+
 							return (
 								<li
 									key={tick.clientId}
@@ -150,6 +184,8 @@ export default function Edit({
 									role="presentation"
 									style={{
 										left: `${position}%`,
+										opacity: shouldShowTick ? 1 : 0,
+										pointerEvents: shouldShowTick ? 'auto' : 'none',
 									}}
 								>
 									<RichText

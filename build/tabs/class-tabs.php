@@ -173,8 +173,8 @@ class Tabs {
 	 * @return string Updated HTML.
 	 */
 	public function render_block_callback( array $attributes, string $content, \WP_Block $block ): string {
-		$active_tab_index = $attributes['activeTabIndex'] ?? 0;
-		$mobile_dropdown = $attributes['mobileDropdown'] ?? false;
+		$active_tab_index      = $attributes['activeTabIndex'] ?? 0;
+		$mobile_dropdown       = $attributes['mobileDropdown'] ?? false;
 		$mobile_dropdown_width = $attributes['mobileDropdownWidth'] ?? 768;
 
 		$tabs_list = $this->generate_tabs_list_from_innerblocks( $block->parsed_block['innerBlocks'] ?? array() );
@@ -263,9 +263,10 @@ class Tabs {
 		 * Splice the tabs list into the content.
 		 */
 		$content = preg_replace(
-			'/<div\s+class="tabs__list"[^>]*>\s*<\/div>/i',
+			'/<(?:div|ul)\s+[^>]*class="[^"]*\btabs__list\b[^"]*"[^>]*>.*?<\/(?:div|ul)>/is',
 			'<div class="tabs__list" role="tablist">' . $tabs_list_markup . '</div>',
-			(string) $updated_content
+			(string) $updated_content,
+			1
 		);
 
 		/**

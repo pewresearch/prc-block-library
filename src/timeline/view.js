@@ -126,5 +126,10 @@ const { actions } = store('prc-block/timeline', {
 			const activePosition = tick.position;
 			return `left: ${activePosition}%`;
 		},
+		isTickHidden: () => {
+			const context = getContext();
+			const { tick } = context;
+			return !tick.visible;
+		},
 	},
 });

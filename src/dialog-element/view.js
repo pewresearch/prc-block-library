@@ -18,9 +18,7 @@ function addDialogIdToUrl( id ) {
 
 function removeDialogIdFromUrl() {
 	const url = new URL( window.location.href );
-	console.log('removeDialogIdFromUrl fired, current URL:', url.toString());
 	url.searchParams.delete( 'dialogId' );
-	console.log('Updated URL after removing dialogId:', url.toString());
 	// Update the URL without adding to history
 	window.history.replaceState( {}, '', url );
 }
@@ -67,7 +65,6 @@ const { actions, state } = store( 'prc-block/dialog', {
 		 */
 		onClickOpen: withSyncEvent( ( event ) => {
 			// We are hijacking all clicks on the trigger and any children to prevent the default click behavior.
-			console.log('onClickOpen fired');
 			event.preventDefault();
 			const { id } = state;
 			actions.open( id );
@@ -143,12 +140,9 @@ const { actions, state } = store( 'prc-block/dialog', {
 			if ( ! dialog.isOpen ) {
 				return;
 			}
-			console.log('onOpen fired');
 			if ( dialog.enableDeepLink ) {
-				console.log('Adding dialogId to URL:', id);
 				addDialogIdToUrl( id );
 			}
-			console.log("Showing dialog element:", dialogElement);
 			dialogElement?.showModal();
 		},
 		/**
@@ -174,16 +168,13 @@ const { actions, state } = store( 'prc-block/dialog', {
 			if ( ! dialogElement.open ) {
 				return;
 			}
-			console.log('onClose fired');
 			// Start isClosing animation...
 			state.dialogs[ id ].isClosing = true;
 			// Allow for animation to complete...
 			setTimeout(
 				withScope( () => {
-					console.log("Closing dialog element:", dialogElement);
 					dialogElement?.close();
-					console.log('Removing dialogId from URL', id);
-					removeDialogIdFromUrl( id ); // We always clean the dialog id regardless of whether deep linking is enabled or not.
+					removeDialogIdFromUrl( id );
 					state.dialogs[ id ].isClosing = false;
 					state.dialogs[ id ].isOpen = false;
 				} ),
@@ -214,11 +205,11 @@ const { actions, state } = store( 'prc-block/dialog', {
 			actions.close( id );
 		} ),
 		/**
+		 * Initializes the Dialog element.
 		 * Activates the current dialog element if there is an auto activation timer set.
 		 */
-		onAutoActivation: () => {
+		onInit: () => {
 			const { id, dialog, dialogs } = state;
-			console.log('Dialog: init', id);
 			if (
 				! id &&
 				! dialog.activationTimerDuration &&

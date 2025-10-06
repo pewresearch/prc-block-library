@@ -10,6 +10,7 @@ import edit from './edit';
 import save from './save';
 import icon from './icon';
 import transforms from './transforms';
+import deprecated from './deprecated';
 import './style.scss';
 import './editor.scss';
 
@@ -24,6 +25,7 @@ export const settings = {
 	edit,
 	save,
 	transforms,
+	deprecated,
 };
 
 registerBlockType(name, { ...metadata, ...settings });

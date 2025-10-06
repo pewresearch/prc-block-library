@@ -1,1 +1,1 @@
-.wp-block-prc-block-timeline.wp-block{background:inherit;color:inherit}
+.wp-block-prc-block-timeline.wp-block{background:inherit;color:inherit}.wp-block-prc-block-timeline.wp-block .tick span{transform:translateX(-50%) rotate(var(--tick-label-angle,0deg))!important;transform-origin:center top}

@@ -5656,6 +5656,32 @@ return array(
 			'autoPlayInterval' => array(
 				'type' => 'number',
 				'default' => 3000
+			),
+			'tickMarkInterval' => array(
+				'type' => 'number',
+				'default' => 1
+			),
+			'tickMarkHeight' => array(
+				'type' => 'number',
+				'default' => 8
+			),
+			'showAllTickMarks' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'hideLastTick' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'tickLabelAngle' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'visibleTicks' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				)
 			)
 		),
 		'supports' => array(

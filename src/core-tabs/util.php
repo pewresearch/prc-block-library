@@ -69,7 +69,7 @@ function create_tabs( array $tabs = array(), array $attributes = array() ): WP_B
 
 	// Match save.js structure: wrapper div, title, and empty ul placeholder.
 	$title         = 'Tab Contents';
-	$wrapper_start = wp_sprintf( '<div class="wp-block-prc-block-tabs %s"><h3 class="tabs__title">%s</h3><ul class="tabs__list"></ul>', esc_attr( $attributes['className'] ?? '' ), esc_html( $title ) );
+	$wrapper_start = wp_sprintf( '<div class="wp-block-prc-block-tabs %s"><h3 class="tabs__title">%s</h3><div class="tabs__list"></div>', esc_attr( $attributes['className'] ?? '' ), esc_html( $title ) );
 	$wrapper_end   = '</div>';
 	$tabs_block    = new WP_Block_Parser_Block(
 		'prc-block/tabs',

@@ -23,7 +23,7 @@
 		position: relative;
 
 		&::before {
-			content: '';
+			content: "";
 			position: absolute;
 			left: 0;
 			right: 0;
@@ -83,6 +83,19 @@
 			left: var(--tick-position, 0%);
 			transform: translateX(-50%);
 
+			&.is-hidden {
+				opacity: 0;
+				pointer-events: none;
+
+				&::before {
+					display: none;
+				}
+
+				span {
+					display: none;
+				}
+			}
+
 			&:first-child {
 				left: 0;
 				span {
@@ -98,7 +111,7 @@
 			}
 
 			&::before {
-				content: '';
+				content: "";
 				position: absolute;
 				top: -12px;
 				left: 50%;
@@ -113,8 +126,10 @@
 				position: absolute;
 				width: max-content;
 				top: 4px;
-				transform: translateX(-50%);
 				left: 50%;
+				transform-origin: center top;
+				transform: translateX(-50%)
+					rotate(var(--tick-label-angle, 0deg));
 			}
 		}
 	}
@@ -168,77 +183,81 @@
 		}
 	}
 
-	// Visibility rules for different tick densities
-	&[data-tick-density="sparse"] {
-		// Default view - show all ticks
-		.tick {
-			opacity: 1;
+	// When in manual control mode (custom interval or showAllTickMarks),
+	// visibility is controlled by the .is-hidden class from the visible attribute.
+	// Automatic density-based visibility rules below only apply when data-manual-control="false"
+
+	// Automatic density-based visibility (only when not in manual control)
+	&[data-manual-control="false"] {
+		&[data-tick-density="sparse"] {
+			// Default view - show all ticks
+			.tick {
+				opacity: 1;
+			}
 		}
-	}
 
-	&[data-tick-density="medium"] {
-		// Show every 3rd tick
-		.tick:not(:first-child):not(:last-child) {
-			&:not(:nth-child(3n)) {
-				opacity: 0;
-				pointer-events: none;
+		&[data-tick-density="medium"] {
+			// Show every 3rd tick
+			.tick:not(:first-child):not(:last-child) {
+				&:not(:nth-child(3n)) {
+					opacity: 0;
+					pointer-events: none;
 
-				&::before {
-					display: none;
-				}
+					&::before {
+						display: none;
+					}
 
-				span {
-					display: none;
+					span {
+						display: none;
+					}
 				}
 			}
 		}
-	}
 
-	&[data-tick-density="dense"] {
-		// Show only major intervals (every 5th tick)
-		.tick:not(:first-child):not(:last-child) {
-			&:not(:nth-child(5n)) {
-				opacity: 0;
-				pointer-events: none;
+		&[data-tick-density="dense"] {
+			// Show only major intervals (every 5th tick)
+			.tick:not(:first-child):not(:last-child) {
+				&:not(:nth-child(5n)) {
+					opacity: 0;
+					pointer-events: none;
 
-				&::before {
-					display: none;
-				}
+					&::before {
+						display: none;
+					}
 
-				span {
-					display: none;
+					span {
+						display: none;
+					}
 				}
 			}
 		}
-	}
 
-	&[data-tick-density="very-dense"] {
-		// Show only major intervals (every 10th tick)
-		.tick:not(:first-child):not(:last-child) {
-			&:not(:nth-child(10n)) {
-				opacity: 0;
-				pointer-events: none;
+		&[data-tick-density="very-dense"] {
+			// Show only major intervals (every 10th tick)
+			.tick:not(:first-child):not(:last-child) {
+				&:not(:nth-child(10n)) {
+					opacity: 0;
+					pointer-events: none;
 
-				&::before {
-					display: none;
+					&::before {
+						display: none;
+					}
+
+					span {
+						display: none;
+					}
 				}
 
-				span {
-					display: none;
-				}
-			}
-
-			// Make the visible ticks more prominent
-			&:nth-child(10n) {
-				&::before {
-					height: calc(var(--tick-height) * 1.5);
-				}
-				span {
-					font-weight: bold;
+				// Make the visible ticks more prominent
+				&:nth-child(10n) {
+					&::before {
+						height: calc(var(--tick-height) * 1.5);
+					}
+					span {
+						font-weight: bold;
+					}
 				}
 			}
 		}
 	}
 }
-
-

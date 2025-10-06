@@ -203,19 +203,19 @@ class Dialog_Element {
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'id'                               => $context_id,
-				'class'                            => 'is-size-' . $dialog_size . ' is-animation-' . $animation,
-				'role'                             => 'dialog',
-				'aria-modal'                       => 'true',
-				'aria-labelledby'                  => $aria_labelledby,
-				'data-wp-interactive'              => 'prc-block/dialog',
-				'data-wp-class--is-closing'        => 'state.isClosing',
-				'data-wp-on--click'                => 'callbacks.onBackdropClick',
-				'data-wp-init--on-auto-activation' => 'callbacks.onAutoActivation',
-				'data-wp-on-document--keydown'     => 'callbacks.onESCKey',
-				'data-wp-watch--on-dialog-open'    => 'callbacks.onOpen',
-				'data-wp-watch--on-dialog-close'   => 'callbacks.onClose',
-				'style'                            => $block_styles,
+				'id'                             => $context_id,
+				'class'                          => 'is-size-' . $dialog_size . ' is-animation-' . $animation,
+				'role'                           => 'dialog',
+				'aria-modal'                     => 'true',
+				'aria-labelledby'                => $aria_labelledby,
+				'data-wp-interactive'            => 'prc-block/dialog',
+				'data-wp-init'                   => 'callbacks.onInit',
+				'data-wp-class--is-closing'      => 'state.isClosing',
+				'data-wp-on--click'              => 'callbacks.onBackdropClick',
+				'data-wp-on-document--keydown'   => 'callbacks.onESCKey',
+				'data-wp-watch--on-dialog-open'  => 'callbacks.onOpen',
+				'data-wp-watch--on-dialog-close' => 'callbacks.onClose',
+				'style'                          => $block_styles,
 				// Don't bind `open`, per the Dialog spec (https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog) that will not open a dialog in "modal" mode.
 			)
 		);
