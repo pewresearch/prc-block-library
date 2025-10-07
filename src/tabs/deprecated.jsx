@@ -69,9 +69,6 @@ const v1 = {
 			<div { ...blockProps }>
 				<h3 className="tabs__title">{ title }</h3>
 				<ul className="tabs__list" role="tablist"></ul>
-				<select className="tabs__select" role="listbox" aria-label={ title }>
-					<option value="">{ title }</option>
-				</select>
 				{ innerBlocksProps.children }
 			</div>
 		);

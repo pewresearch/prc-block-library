@@ -244,22 +244,6 @@ class Tabs {
 		$tabs_list_markup = implode( '', $tabs_list_markup );
 
 		/**
-		 * Build the select dropdown options.
-		 */
-		$select_options_markup = array_map(
-			static function ( array $tab, int $index ): string {
-				return wp_sprintf(
-					'<option value="%1$d">%2$s</option>',
-					$index,
-					html_entity_decode( $tab['label'] )
-				);
-			},
-			$tabs_list,
-			array_keys( $tabs_list )
-		);
-		$select_options_markup = implode( '', $select_options_markup );
-
-		/**
 		 * Splice the tabs list into the content.
 		 */
 		$content = preg_replace(
@@ -272,11 +256,31 @@ class Tabs {
 		/**
 		 * Splice the select dropdown into the content.
 		 */
-		$content = preg_replace(
-			'/<select\s+class="tabs__select"[^>]*>.*?<\/select>/is',
-			'<select class="tabs__select" role="listbox" data-wp-on--change="actions.handleSelectChange"><option value="">' . esc_html( $attributes['metadata']['name'] ?? 'Select a tab' ) . '</option>' . $select_options_markup . '</select>',
-			(string) $content
-		);
+		if ( $mobile_dropdown ) {
+			/**
+			 * Build the select dropdown options.
+			 */
+			$select_options_markup = array_map(
+				static function ( array $tab, int $index ): string {
+					return wp_sprintf(
+						'<option value="%1$d">%2$s</option>',
+						$index,
+						html_entity_decode( $tab['label'] )
+					);
+				},
+				$tabs_list,
+				array_keys( $tabs_list )
+			);
+			$select_options_markup = implode( '', $select_options_markup );
+			$select_markup         = '<select class="tabs__select" role="listbox" data-wp-on--change="actions.handleSelectChange"><option value="">' . esc_html( $attributes['metadata']['name'] ?? 'Select a tab' ) . '</option>' . $select_options_markup . '</select>';
+			// Using regex, add after the div class="tabs__list".
+			$content = preg_replace(
+				'/<div\s+[^>]*class="[^"]*\btabs__list\b[^"]*"[^>]*>.*?<\/div>/is',
+				'$0' . $select_markup,
+				(string) $content,
+				1
+			);
+		}
 
 		/**
 		 * In the event preg_replace fails, return the tabs content without the list spliced in.
