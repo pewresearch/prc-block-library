@@ -10,7 +10,7 @@ import type { MouseEvent } from 'react';
 import { useMemo } from '@wordpress/element';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { plus, trash, chevronRight, chevronDown } from '@wordpress/icons';
+import { plus, trash, chevronRight, chevronDown, seen, unseen } from '@wordpress/icons';
 import { RichText } from '@wordpress/block-editor';
 
 /**
@@ -38,6 +38,7 @@ interface TableCellControlsProps {
 	onDeleteRow: (sectionName: SectionName, rowIndex: number) => void;
 	onInsertColumn: (cell: any, offset: number) => void;
 	onDeleteColumn: (vColIndex: number) => void;
+	onHideColumn: (vColIndex: number) => void;
 	onSelectRow: (sectionName: SectionName, rowIndex: number) => void;
 	onSelectColumn: (vColIndex: number) => void;
 	filteredVTable: any;
@@ -48,6 +49,7 @@ interface TableCellControlsProps {
 	setSelectedLine: (selectedLine: any) => void;
 	setSelectedCells: (selectedCells: any) => void;
 	onSelectSectionCells: (sectionName: SectionName) => void;
+	hiddenColumns: number[];
 }
 
 const TableCellControls = ({
@@ -67,6 +69,7 @@ const TableCellControls = ({
 	onDeleteRow,
 	onInsertColumn,
 	onDeleteColumn,
+	onHideColumn,
 	onSelectRow,
 	onSelectColumn,
 	filteredVTable,
@@ -77,10 +80,15 @@ const TableCellControls = ({
 	setSelectedLine,
 	setSelectedCells,
 	onSelectSectionCells,
+	hiddenColumns,
 }: TableCellControlsProps) => {
 	const showControl = useMemo(() => {
 		return isSelected && !isContentOnlyMode;
 	}, [isSelected, isContentOnlyMode]);
+
+	const isColumnHidden = useMemo(() => {
+		return hiddenColumns.includes(vColIndex);
+	}, [hiddenColumns, vColIndex]);
 
 	return (
 		<>
@@ -184,20 +192,38 @@ const TableCellControls = ({
 					/>
 					{isColumnSelected &&
 						selectedLine.vColIndex === vColIndex && (
-							<Button
-								className="ftb-column-deleter"
-								label={__(
-									'Delete column',
-									'flexible-table-block'
-								)}
-								tabIndex={options.focus_control_button ? 0 : -1}
-								icon={trash}
-								iconSize={20}
-								onClick={(event: MouseEvent) => {
-									onDeleteColumn(vColIndex);
-									event.stopPropagation();
-								}}
-							/>
+							<>
+								<Button
+									className="ftb-column-hider"
+									label={__(
+										isColumnHidden
+											? 'Unhide column'
+											: 'Hide column',
+										'flexible-table-block'
+									)}
+									tabIndex={options.focus_control_button ? 0 : -1}
+									icon={isColumnHidden ? seen : unseen}
+									iconSize={20}
+									onClick={(event: MouseEvent) => {
+										onHideColumn(vColIndex);
+										event.stopPropagation();
+									}}
+								/>
+								<Button
+									className="ftb-column-deleter"
+									label={__(
+										'Delete column',
+										'flexible-table-block'
+									)}
+									tabIndex={options.focus_control_button ? 0 : -1}
+									icon={trash}
+									iconSize={20}
+									onClick={(event: MouseEvent) => {
+										onDeleteColumn(vColIndex);
+										event.stopPropagation();
+									}}
+								/>
+							</>
 						)}
 				</>
 			)}

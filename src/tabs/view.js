@@ -49,15 +49,6 @@ const { state, actions } = store('prc-block/tabs', {
 			return activeTabIndex === tabIndex;
 		},
 		/**
-		 * Whether tabs should display as mobile dropdown.
-		 *
-		 * @type {boolean}
-		 */
-		get isMobileDropdown() {
-			const context = getContext();
-			return context?.isMobileDropdown || false;
-		},
-		/**
 		 * The value of the tabindex attribute.
 		 *
 		 * @type {false|string}
@@ -116,38 +107,6 @@ const { state, actions } = store('prc-block/tabs', {
 			}
 		}),
 		/**
-		 * Handles the change event for the mobile dropdown select element.
-		 *
-		 * @param {Event} event The select change event.
-		 */
-		handleSelectChange: withSyncEvent((event) => {
-			const selectedIndex = event.target.selectedIndex - 1; // Subtract 1 for the default option
-			if (selectedIndex >= 0) {
-				actions.setActiveTab(selectedIndex);
-			}
-		}),
-		/**
-		 * Updates the mobile dropdown state based on viewport width.
-		 */
-		updateMobileDropdownState: () => {
-			const context = getContext();
-			const { mobileDropdown, mobileDropdownWidth } = context;
-			
-			if (!mobileDropdown) {
-				context.isMobileDropdown = false;
-				return;
-			}
-
-			const width = window.innerWidth;
-			// If the width is less than the mobileDropdownWidth and mobileDropdown is enabled
-			// set isMobileDropdown to true
-			if (width < mobileDropdownWidth && mobileDropdown) {
-				context.isMobileDropdown = true;
-			} else {
-				context.isMobileDropdown = false;
-			}
-		},
-		/**
 		 * Sets the active tab index.
 		 *
 		 * @param {number} tabIndex    The index of the active tab.
@@ -166,19 +125,10 @@ const { state, actions } = store('prc-block/tabs', {
 				}
 			}
 		},
-		/**
-		 * Signals that the tabs are ready by firing a custom browser event.
-		 * This provides extensibility for other scripts to hook into when tabs are initialized.
-		 */
-		signalTabsReady: () => {
-			// @TODO: change this from tabsReady to wpTabsReady when migrating to Gutenberg core.
-			window.dispatchEvent(new CustomEvent('tabsReady'));
-		},
 	},
 	callbacks: {
 		/**
 		 * When the tabs are initialized, we need to check if there is a hash in the url and if so if it exists in the current tabsList, set the active tab to that index.
-		 * Also setup mobile dropdown responsiveness.
 		 */
 		onTabsInit: () => {
 			const { tabsList } = state;
@@ -192,14 +142,6 @@ const { state, actions } = store('prc-block/tabs', {
 			if (tabIndex >= 0) {
 				actions.setActiveTab(tabIndex, true);
 			}
-			
-			// Initialize mobile dropdown state
-			actions.updateMobileDropdownState();
-			
-			// Add resize listener to update mobile dropdown state
-			window.addEventListener('resize', actions.updateMobileDropdownState);
-			
-			actions.signalTabsReady();
 		},
 	},
 });

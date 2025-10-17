@@ -70,6 +70,7 @@ export interface BlockAttributes extends TableAttributes {
 	tableTitle?: string;
 	tableTitleStyles?: string;
 	sourceNote?: string;
+	hiddenColumns?: number[];
 }
 
 // Core Table Block attributes

@@ -41,6 +41,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 		tableTitle,
 		tableTitleStyles,
 		sourceNote,
+		hiddenColumns = [],
 	} = attributes;
 
 	const isEmpty: boolean = !head?.length && !body?.length && !foot?.length;
@@ -86,43 +87,45 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 			<Tag>
 				{rows.map(({ cells }, rowIndex) => (
 					<tr key={rowIndex}>
-						{cells.map(
-							(
-								{
-									content,
-									tag,
-									className,
-									id,
-									headers,
-									scope,
-									rowSpan,
-									colSpan,
-									styles,
-								},
-								cellIndex
-							) => (
-								<RichText.Content
-									key={cellIndex}
-									tagName={tag}
-									className={className || undefined}
-									id={(tag === 'th' && id) || undefined}
-									headers={headers || undefined}
-									scope={(tag === 'th' && scope) || undefined}
-									value={content}
-									rowSpan={
-										toInteger(rowSpan) > 1
-											? toInteger(rowSpan)
-											: undefined
-									}
-									colSpan={
-										toInteger(colSpan) > 1
-											? toInteger(colSpan)
-											: undefined
-									}
-									style={convertToObject(styles)}
-								/>
-							)
-						)}
+						{cells
+							.filter((_, cellIndex) => !hiddenColumns.includes(cellIndex))
+							.map(
+								(
+									{
+										content,
+										tag,
+										className,
+										id,
+										headers,
+										scope,
+										rowSpan,
+										colSpan,
+										styles,
+									},
+									cellIndex
+								) => (
+									<RichText.Content
+										key={cellIndex}
+										tagName={tag}
+										className={className || undefined}
+										id={(tag === 'th' && id) || undefined}
+										headers={headers || undefined}
+										scope={(tag === 'th' && scope) || undefined}
+										value={content}
+										rowSpan={
+											toInteger(rowSpan) > 1
+												? toInteger(rowSpan)
+												: undefined
+										}
+										colSpan={
+											toInteger(colSpan) > 1
+												? toInteger(colSpan)
+												: undefined
+										}
+										style={convertToObject(styles)}
+									/>
+								)
+							)}
 					</tr>
 				))}
 			</Tag>

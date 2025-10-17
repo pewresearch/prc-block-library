@@ -48,6 +48,16 @@ class Core_Tabs {
 	public $style_handle;
 
 	/**
+	 * View script module handle
+	 *
+	 * @var string
+	 */
+	public $view_script_module_handle;
+
+	public $view_script_module_deps;
+	public $view_script_module_ver;
+
+	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
@@ -72,6 +82,7 @@ class Core_Tabs {
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_assets' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'render_block_context', $this, 'filter_render_block_context', 10, 2 );
+			$loader->add_filter( 'render_block_' . $this->block_name, $this, 'render', 10, 2 );
 		}
 	}
 
@@ -82,8 +93,12 @@ class Core_Tabs {
 	 * @return void
 	 */
 	public function register_assets() {
-		$this->style_handle         = register_block_style_handle( $this->block_json, 'style' );
-		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
+		$this->style_handle              = register_block_style_handle( $this->block_json, 'style' );
+		$this->editor_script_handle      = register_block_script_handle( $this->block_json, 'editorScript' );
+		$this->view_script_module_handle = register_block_script_handle( $this->block_json, 'viewScriptModule' );
+		$view_asset                      = include PRC_BLOCK_LIBRARY_DIR . '/build/core-tabs/view.asset.php';
+		$this->view_script_module_deps   = $view_asset['dependencies'];
+		$this->view_script_module_ver    = $view_asset['version'];
 	}
 
 	/**
@@ -179,5 +194,108 @@ class Core_Tabs {
 				'uses_context'       => array( 'tab/label', 'tab/slug' ),
 			)
 		);
+	}
+	/**
+	 * Adds @wordpress/interactivity api handlers for core/tabs block.
+	 *
+	 * @uses:
+	 * - callbacks.onTabsInit
+	 *
+	 * @hook render_block
+	 *
+	 * @param string $block_content Block content.
+	 * @param mixed  $block Block.
+	 * @return mixed
+	 */
+	public function render( $block_content, $block ) {
+		wp_enqueue_script_module(
+			$this->view_script_module_handle,
+			plugins_url( '/build/core-tabs/view.js', PRC_BLOCK_LIBRARY_FILE ),
+			$this->view_script_module_deps,
+			$this->view_script_module_ver
+		);
+
+		// Handle mobile dropdown functionality.
+		$attributes            = $block['attrs'] ?? array();
+		$mobile_dropdown       = $attributes['mobileDropdown'] ?? false;
+		$mobile_dropdown_width = $attributes['mobileDropdownWidth'] ?? 768;
+
+		$tag_processor = new WP_HTML_Tag_Processor( $block_content );
+		$tag_processor->next_tag( array( 'class_name' => 'wp-block-prc-block-tabs' ) );
+		$tag_processor->set_attribute( 'data-wp-init--add-event-listeners', 'callbacks.addEventListeners' );
+
+		// Add mobile dropdown context properties.
+		$existing_context = $tag_processor->get_attribute( 'data-wp-context' );
+		if ( $existing_context ) {
+			$context                        = json_decode( $existing_context, true );
+			$context['mobileDropdown']      = $mobile_dropdown;
+			$context['mobileDropdownWidth'] = $mobile_dropdown_width;
+			$context['isMobileDropdown']    = false;
+			$tag_processor->set_attribute( 'data-wp-context', wp_json_encode( $context ) );
+		}
+
+		// Add CSS class for mobile dropdown state.
+		if ( $mobile_dropdown ) {
+			$tag_processor->set_attribute( 'data-wp-class--is-mobile-dropdown', 'state.isMobileDropdown' );
+		}
+
+		$content = $tag_processor->get_updated_html();
+
+		if ( $mobile_dropdown ) {
+			// Extract tabs list for dropdown options.
+			$tabs_list = $this->extract_tabs_from_content( $content );
+
+			// Build the select dropdown options.
+			$select_options_markup = array_map(
+				static function ( array $tab, int $index ): string {
+					return wp_sprintf(
+						'<option value="%1$d">%2$s</option>',
+						$index,
+						html_entity_decode( $tab['label'] )
+					);
+				},
+				$tabs_list,
+				array_keys( $tabs_list )
+			);
+			$select_options_markup = implode( '', $select_options_markup );
+
+			$block_name    = $attributes['metadata']['name'] ?? 'Select a tab';
+			$select_markup = '<select class="tabs__select" role="listbox" data-wp-on--change="actions.handleSelectChange"><option value="">' . esc_html( $block_name ) . '</option>' . $select_options_markup . '</select>';
+
+			// Using regex, add select after the tabs list div.
+			$content = preg_replace(
+				'/<div\s+[^>]*class="[^"]*\btabs__list\b[^"]*"[^>]*>.*?<\/div>/is',
+				'$0' . $select_markup,
+				(string) $content,
+				1
+			);
+		}
+
+		return is_string( $content ) ? $content : $tag_processor->get_updated_html();
+	}
+
+	/**
+	 * Extract tabs list from rendered content for mobile dropdown.
+	 *
+	 * @param string $content The rendered block content.
+	 * @return array List of tabs with label.
+	 */
+	private function extract_tabs_from_content( string $content ): array {
+		$tabs = array();
+
+		// Extract all tab label links from the tabs__list.
+		preg_match_all(
+			'/<a[^>]*class="[^"]*tabs__tab-label[^"]*"[^>]*>([^<]+)<\/a>/i',
+			$content,
+			$matches
+		);
+
+		if ( ! empty( $matches[1] ) ) {
+			foreach ( $matches[1] as $label ) {
+				$tabs[] = array( 'label' => html_entity_decode( $label ) );
+			}
+		}
+
+		return $tabs;
 	}
 }

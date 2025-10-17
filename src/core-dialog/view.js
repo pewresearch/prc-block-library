@@ -2,7 +2,13 @@
  * WordPress Dependencies
  */
 
-import { store, getContext, getElement, withSyncEvent, withScope } from '@wordpress/interactivity';
+import {
+	store,
+	getContext,
+	getElement,
+	withSyncEvent,
+	withScope,
+} from '@wordpress/interactivity';
 
 const { VideoPressIframeApi } = window;
 
@@ -166,7 +172,7 @@ const { state, actions } = store('prc-block/dialog', {
 				// Disable the share button by default.
 				VideoPressInstance.customize.set({ shareButton: false });
 				// Set up a listener to get the initial duration once loaded.
-				VideoPressInstance.info.onInfoUpdated( async () => {
+				VideoPressInstance.info.onInfoUpdated(async () => {
 					// Get the duration and store it in state for later use.
 					duration = await VideoPressInstance.info.duration();
 				});
@@ -188,11 +194,14 @@ const { state, actions } = store('prc-block/dialog', {
 			 * then rewinds and watches the first 10 seconds again, this value will be 20 seconds.
 			 */
 			VideoPressInstance.status.onPlaybackTimeUpdated(
-				( newPlaybackTime ) => {
-					const percentage = (( newPlaybackTime / duration ) * 100 ).toFixed(2);
+				(newPlaybackTime) => {
+					const percentage = (
+						(newPlaybackTime / duration) *
+						100
+					).toFixed(2);
 					// If the user has watched more cumulatively more than 70 percent of the video duration, log that they've watched it.
-					if ( percentage >= 70 && ! state.watchedVideos.includes( id ) ) {
-						state.watchedVideos = [ ...state.watchedVideos, id ];
+					if (percentage >= 70 && !state.watchedVideos.includes(id)) {
+						state.watchedVideos = [...state.watchedVideos, id];
 					}
 				}
 			);
@@ -210,7 +219,9 @@ const { state, actions } = store('prc-block/dialog', {
 			const { ref } = getElement();
 			// Check for YouTube iframes
 			// YouTube embeds typically have src containing "youtube.com/embed/" or "youtu.be/"
-			const youtubeIframe = ref.querySelector('iframe[src*="youtube.com/embed/"], iframe[src*="youtu.be/"]');
+			const youtubeIframe = ref.querySelector(
+				'iframe[src*="youtube.com/embed/"], iframe[src*="youtu.be/"]'
+			);
 			if (!youtubeIframe) {
 				return;
 			}
@@ -232,15 +243,18 @@ const { state, actions } = store('prc-block/dialog', {
 				// Initialize the YouTube player with the iframe
 				const youTubePlayer = new YT.Player(youtubeIframe, {
 					events: {
-						'onReady': (event) => {
+						onReady: (event) => {
 							state.youTubeAPIReady = true;
 						},
-						'onStateChange': (event) => {
+						onStateChange: (event) => {
 							const eventId = event.data;
 							// Track video completion (state 0 = ended)
 							if (eventId === YT.PlayerState.ENDED) {
 								if (!state.watchedVideos.includes(id)) {
-									state.watchedVideos = [...state.watchedVideos, id];
+									state.watchedVideos = [
+										...state.watchedVideos,
+										id,
+									];
 								}
 							}
 
@@ -248,37 +262,77 @@ const { state, actions } = store('prc-block/dialog', {
 							if (eventId === YT.PlayerState.PLAYING) {
 								// Set up an interval to check progress
 								if (state.dialogs[id].youTubeProgressInterval) {
-									clearInterval(state.dialogs[id].youTubeProgressInterval);
+									clearInterval(
+										state.dialogs[id]
+											.youTubeProgressInterval
+									);
 								}
 
-								state.dialogs[id].youTubeProgressInterval = setInterval(() => {
-									const player = state.dialogs[id].youTubePlayer;
-									if (player && typeof player.getCurrentTime === 'function') {
-										const currentTime = player.getCurrentTime();
-										const duration = player.getDuration();
-										const percentage = ((currentTime / duration) * 100).toFixed(2);
+								state.dialogs[id].youTubeProgressInterval =
+									setInterval(() => {
+										const player =
+											state.dialogs[id].youTubePlayer;
+										if (
+											player &&
+											typeof player.getCurrentTime ===
+												'function'
+										) {
+											const currentTime =
+												player.getCurrentTime();
+											const duration =
+												player.getDuration();
+											const percentage = (
+												(currentTime / duration) *
+												100
+											).toFixed(2);
 
-										// If the user has watched more than 70 percent of the video duration, log that they've watched it
-										if (percentage >= 70 && !state.watchedVideos.includes(id)) {
-											console.log("Marking YouTube video as watched:", id, percentage, state.dialogs[id]);
-											state.watchedVideos = [...state.watchedVideos, id];
-											// Clear the interval once we've marked as watched
-											clearInterval(state.dialogs[id].youTubeProgressInterval);
-											state.dialogs[id].youTubeProgressInterval = null;
+											// If the user has watched more than 70 percent of the video duration, log that they've watched it
+											if (
+												percentage >= 70 &&
+												!state.watchedVideos.includes(
+													id
+												)
+											) {
+												console.log(
+													'Marking YouTube video as watched:',
+													id,
+													percentage,
+													state.dialogs[id]
+												);
+												state.watchedVideos = [
+													...state.watchedVideos,
+													id,
+												];
+												// Clear the interval once we've marked as watched
+												clearInterval(
+													state.dialogs[id]
+														.youTubeProgressInterval
+												);
+												state.dialogs[
+													id
+												].youTubeProgressInterval =
+													null;
+											}
 										}
-									}
-								}, 2000); // Check every 2 seconds
+									}, 2000); // Check every 2 seconds
 							}
 
 							// Clear interval when paused or ended
-							if (eventId === YT.PlayerState.PAUSED || eventId === YT.PlayerState.ENDED) {
+							if (
+								eventId === YT.PlayerState.PAUSED ||
+								eventId === YT.PlayerState.ENDED
+							) {
 								if (state.dialogs[id].youTubeProgressInterval) {
-									clearInterval(state.dialogs[id].youTubeProgressInterval);
-									state.dialogs[id].youTubeProgressInterval = null;
+									clearInterval(
+										state.dialogs[id]
+											.youTubeProgressInterval
+									);
+									state.dialogs[id].youTubeProgressInterval =
+										null;
 								}
 							}
-						}
-					}
+						},
+					},
 				});
 
 				// Store the YouTube player instance in state
@@ -295,7 +349,7 @@ const { state, actions } = store('prc-block/dialog', {
 			if (!id) {
 				return;
 			}
-			if ( isOpen ) {
+			if (isOpen) {
 				actions.play(id);
 			}
 		},
@@ -305,16 +359,31 @@ const { state, actions } = store('prc-block/dialog', {
 				return;
 			}
 			// Check if there's a video player (VideoPress or YouTube)
-			const hasVideoPlayer = undefined !== state.dialogs[id].videoPressAPI || undefined !== state.dialogs[id].youTubePlayer;
-			if ( ! isOpen && hasVideoPlayer ) {
+			const hasVideoPlayer =
+				undefined !== state.dialogs[id].videoPressAPI ||
+				undefined !== state.dialogs[id].youTubePlayer;
+			if (!isOpen && hasVideoPlayer) {
 				// When the dialog closes, check if the video has been marked watch, if so reset it, otherwise pause it.
 				actions.pause(id);
-				if ( state.watchedVideos.includes( id ) ) {
+				if (state.watchedVideos.includes(id)) {
 					// If we've already logged this video as watched, reset to the beginning.
 					actions.reset(id);
 					return;
 				}
 			}
+		},
+		/**
+		 * Handles the animation end event, fires an event when the animation completes.
+		 */
+		onAnimationEnd: () => {
+			const { id, dialog } = state;
+			const animationDuration = dialog.animationDuration || 0;
+			if (!id || !dialog.isOpen) {
+				return;
+			}
+			setTimeout(() => {
+				window.dispatchEvent(new CustomEvent('wpDialogAnimationEnd'));
+			}, animationDuration);
 		},
 		/**
 		 * Initialize both VideoPress and YouTube players when the dialog content is loaded.
@@ -324,6 +393,6 @@ const { state, actions } = store('prc-block/dialog', {
 			actions.initVideoPressAPI();
 			// Initialize YouTube
 			actions.initYouTubeAPI();
-		}
+		},
 	},
 });

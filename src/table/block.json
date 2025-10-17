@@ -5,12 +5,10 @@
 	"version": "1.1.0",
 	"title": "Power Table",
 	"category": "text",
-	"keywords": [ "table", "cell", "data" ],
+	"keywords": ["table", "cell", "data"],
 	"description": "Create a powerful and flexible table complete with responsive design and sorting/filtering options.",
 	"textdomain": "prc-block-library",
-	"usesContext": [
-		"remote-data-blocks/remoteData"
-	],
+	"usesContext": ["remote-data-blocks/remoteData"],
 	"attributes": {
 		"contentJustification": {
 			"type": "string"
@@ -117,7 +115,7 @@
 							"attribute": "headers"
 						},
 						"scope": {
-							"enum": [ "row", "col", "rowgroup", "colgroup" ],
+							"enum": ["row", "col", "rowgroup", "colgroup"],
 							"source": "attribute",
 							"attribute": "scope"
 						},
@@ -178,7 +176,7 @@
 							"attribute": "headers"
 						},
 						"scope": {
-							"enum": [ "row", "col", "rowgroup", "colgroup" ],
+							"enum": ["row", "col", "rowgroup", "colgroup"],
 							"source": "attribute",
 							"attribute": "scope"
 						},
@@ -239,7 +237,7 @@
 							"attribute": "headers"
 						},
 						"scope": {
-							"enum": [ "row", "col", "rowgroup", "colgroup" ],
+							"enum": ["row", "col", "rowgroup", "colgroup"],
 							"source": "attribute",
 							"attribute": "scope"
 						},
@@ -258,11 +256,19 @@
 			}
 		}
 	},
+	"hiddenColumns": {
+		"type": "array",
+		"default": []
+	},
 	"supports": {
 		"anchor": true,
-		"align": [ "left", "right", "wide", "full" ],
+		"align": ["left", "right", "wide", "full"],
 		"color": {
-			"__experimentalSkipSerialization": [ "text", "background", "gradients" ],
+			"__experimentalSkipSerialization": [
+				"text",
+				"background",
+				"gradients"
+			],
 			"gradients": true,
 			"link": true
 		},

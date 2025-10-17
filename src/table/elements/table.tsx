@@ -192,6 +192,25 @@ export default function Table({
 		setSelectedLine(undefined);
 	};
 
+	const onHideColumn = (vColIndex: number) => {
+		const hiddenColumns = attributes.hiddenColumns || [];
+		const isHidden = hiddenColumns.includes(vColIndex);
+
+		if (isHidden) {
+			// Unhide the column
+			setAttributes({
+				hiddenColumns: hiddenColumns.filter((col) => col !== vColIndex),
+			});
+		} else {
+			// Hide the column
+			setAttributes({
+				hiddenColumns: [...hiddenColumns, vColIndex],
+			});
+		}
+		setSelectedCells(undefined);
+		setSelectedLine(undefined);
+	};
+
 	const onSelectSectionCells = (sectionName: SectionName) => {
 		setSelectedCells(
 			vTable[sectionName].reduce((cells: VCell[], row) => {
@@ -724,6 +743,8 @@ export default function Table({
 													className={clsx(className, {
 														'is-selected':
 															isCellSelected,
+														'is-column-hidden':
+															(attributes.hiddenColumns || []).includes(vColIndex),
 													})}
 													data-row={rowIndex}
 													data-col={vColIndex}
@@ -775,6 +796,7 @@ export default function Table({
 															onDeleteRow,
 															onInsertColumn,
 															onDeleteColumn,
+															onHideColumn,
 															onSelectRow,
 															onSelectColumn,
 															filteredVTable,
@@ -785,6 +807,7 @@ export default function Table({
 															setSelectedLine,
 															setSelectedCells,
 															onSelectSectionCells,
+															hiddenColumns: attributes.hiddenColumns || [],
 														}}
 													/>
 												</Cell>

@@ -6,7 +6,7 @@ import {
 	ToggleControl,
 	PanelBody,
 	ColorIndicator,
-	RangeControl
+	RangeControl,
 } from '@wordpress/components';
 import { useMemo } from '@wordpress/element';
 import {
@@ -16,7 +16,7 @@ import {
 	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 } from '@wordpress/block-editor';
 
-function ContrastCheckerMatrix({attributes}) {
+function ContrastCheckerMatrix({ attributes }) {
 	const {
 		className,
 		fontSize,
@@ -82,7 +82,7 @@ function ContrastCheckerMatrix({attributes}) {
 		return customTabHoverTextColor;
 	}, [tabHoverTextColor, customTabHoverTextColor]);
 
-	return(
+	return (
 		<>
 			<ContrastChecker
 				backgroundColor={activeBackground}
@@ -103,7 +103,7 @@ function ContrastCheckerMatrix({attributes}) {
 	);
 }
 
-export default function Controls( {
+export default function Controls({
 	attributes,
 	setAttributes,
 	clientId,
@@ -119,7 +119,7 @@ export default function Controls( {
 	setTabActiveTextColor,
 	tabHoverTextColor,
 	setTabHoverTextColor,
-} ) {
+}) {
 	const {
 		customTabInactiveColor,
 		customTabActiveColor,
@@ -128,8 +128,6 @@ export default function Controls( {
 		customTabActiveTextColor,
 		customTabHoverTextColor,
 		orientation,
-		mobileDropdown,
-		mobileDropdownWidth,
 	} = attributes;
 	/**
 	 * Get the color settings for the block.
@@ -139,125 +137,99 @@ export default function Controls( {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Tabs Settings' ) }>
+				<PanelBody title={__('Tabs Settings')}>
 					<ToggleControl
 						label="Vertical Tabs"
-						checked={ 'vertical' === orientation }
-						onChange={ () =>
-							setAttributes( {
+						checked={'vertical' === orientation}
+						onChange={() =>
+							setAttributes({
 								orientation:
 									'vertical' === orientation
 										? 'horizontal'
 										: 'vertical',
-							} )
+							})
 						}
 						__nextHasNoMarginBottom
 					/>
-					<ToggleControl
-						label={ __( 'Mobile Dropdown' ) }
-						help={ __( 'Convert tabs to a dropdown select element on mobile devices' ) }
-						checked={ mobileDropdown }
-						onChange={ ( value ) =>
-							setAttributes( {
-								mobileDropdown: value,
-							} )
-						}
-						__nextHasNoMarginBottom
-					/>
-					{ mobileDropdown && (
-						<RangeControl
-							label={ __( 'Mobile Breakpoint (px)' ) }
-							help={ __( 'Convert to dropdown below this screen width' ) }
-							value={ mobileDropdownWidth }
-							onChange={ ( value ) =>
-								setAttributes( {
-									mobileDropdownWidth: value,
-								} )
-							}
-							min={ 320 }
-							max={ 1024 }
-							step={ 1 }
-						/>
-					) }
 				</PanelBody>
 			</InspectorControls>
 			<InspectorControls group="color">
 				<ColorGradientSettingsDropdown
-					settings={ [
+					settings={[
 						{
-							label: __( 'Tab Active Background' ),
+							label: __('Tab Active Background'),
 							colorValue:
 								tabActiveColor?.color ?? customTabActiveColor,
-							onColorChange: ( value ) => {
-								setTabActiveColor( value );
-								setAttributes( {
+							onColorChange: (value) => {
+								setTabActiveColor(value);
+								setAttributes({
 									customTabActiveColor: value,
-								} );
+								});
 							},
 						},
 						{
-							label: __( 'Tab Active Text' ),
+							label: __('Tab Active Text'),
 							colorValue:
 								tabActiveTextColor?.color ??
 								customTabActiveTextColor,
-							onColorChange: ( value ) => {
-								setTabActiveTextColor( value );
-								setAttributes( {
+							onColorChange: (value) => {
+								setTabActiveTextColor(value);
+								setAttributes({
 									customTabActiveTextColor: value,
-								} );
+								});
 							},
 						},
 						{
-							label: __( 'Tab Inactive Background' ),
+							label: __('Tab Inactive Background'),
 							colorValue:
 								tabInactiveColor?.color ??
 								customTabInactiveColor,
-							onColorChange: ( value ) => {
-								setTabInactiveColor( value );
-								setAttributes( {
+							onColorChange: (value) => {
+								setTabInactiveColor(value);
+								setAttributes({
 									customTabInactiveColor: value,
-								} );
+								});
 							},
 						},
 						{
-							label: __( 'Tab Inactive Text' ),
+							label: __('Tab Inactive Text'),
 							colorValue:
 								tabTextColor?.color ?? customTabTextColor,
-							onColorChange: ( value ) => {
-								setTabTextColor( value );
-								setAttributes( {
+							onColorChange: (value) => {
+								setTabTextColor(value);
+								setAttributes({
 									customTabTextColor: value,
-								} );
+								});
 							},
 						},
 						{
-							label: __( 'Tab Hover Background' ),
+							label: __('Tab Hover Background'),
 							colorValue:
 								tabHoverColor?.color ?? customTabHoverColor,
-							onColorChange: ( value ) => {
-								setTabHoverColor( value );
-								setAttributes( {
+							onColorChange: (value) => {
+								setTabHoverColor(value);
+								setAttributes({
 									customTabHoverColor: value,
-								} );
+								});
 							},
 						},
 						{
-							label: __( 'Tab Hover Text' ),
+							label: __('Tab Hover Text'),
 							colorValue:
 								tabHoverTextColor?.color ??
 								customTabHoverTextColor,
-							onColorChange: ( value ) => {
-								setTabHoverTextColor( value );
-								setAttributes( {
+							onColorChange: (value) => {
+								setTabHoverTextColor(value);
+								setAttributes({
 									customTabHoverTextColor: value,
-								} );
+								});
 							},
 						},
-					] }
-					panelId={ clientId }
-					disableCustomColors={ false }
+					]}
+					panelId={clientId}
+					disableCustomColors={false}
 					__experimentalIsRenderedInSidebar
-					{ ...colorSettings }
+					{...colorSettings}
 				/>
 				<ContrastCheckerMatrix attributes={attributes} />
 			</InspectorControls>

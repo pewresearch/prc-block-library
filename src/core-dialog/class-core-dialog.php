@@ -125,6 +125,7 @@ class Core_Dialog {
 		$tag->set_attribute( 'data-wp-init--videoSupport', 'callbacks.onVideoInit' );
 		$tag->set_attribute( 'data-wp-watch--on-open-start-video', 'callbacks.onOpenStartVideo' );
 		$tag->set_attribute( 'data-wp-watch--on-close-stop-video', 'callbacks.onCloseStopVideo' );
+		$tag->set_attribute( 'data-wp-watch--on-open-watch-animation-end', 'callbacks.onAnimationEnd' );
 		return $tag->get_updated_html();
 	}
 }

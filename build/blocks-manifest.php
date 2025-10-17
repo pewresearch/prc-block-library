@@ -1208,7 +1208,11 @@ return array(
 		'category' => 'widgets',
 		'textdomain' => 'core-tabs',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js',
+		'supports' => array(
+			'interactivity' => true
+		)
 	),
 	'dialog' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4858,6 +4862,12 @@ return array(
 				)
 			)
 		),
+		'hiddenColumns' => array(
+			'type' => 'array',
+			'default' => array(
+				
+			)
+		),
 		'supports' => array(
 			'anchor' => true,
 			'align' => array(
@@ -5148,14 +5158,6 @@ return array(
 			),
 			'customTabHoverTextColor' => array(
 				'type' => 'string'
-			),
-			'mobileDropdown' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'mobileDropdownWidth' => array(
-				'type' => 'number',
-				'default' => 768
 			)
 		),
 		'styles' => array(

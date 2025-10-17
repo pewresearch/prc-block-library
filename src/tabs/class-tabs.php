@@ -173,9 +173,7 @@ class Tabs {
 	 * @return string Updated HTML.
 	 */
 	public function render_block_callback( array $attributes, string $content, \WP_Block $block ): string {
-		$active_tab_index      = $attributes['activeTabIndex'] ?? 0;
-		$mobile_dropdown       = $attributes['mobileDropdown'] ?? false;
-		$mobile_dropdown_width = $attributes['mobileDropdownWidth'] ?? 768;
+		$active_tab_index = $attributes['activeTabIndex'] ?? 0;
 
 		$tabs_list = $this->generate_tabs_list_from_innerblocks( $block->parsed_block['innerBlocks'] ?? array() );
 
@@ -203,18 +201,14 @@ class Tabs {
 			'data-wp-context',
 			wp_json_encode(
 				array(
-					'tabsId'              => $tabs_id,
-					'activeTabIndex'      => $active_tab_index,
-					'isVertical'          => $is_vertical,
-					'mobileDropdown'      => $mobile_dropdown,
-					'mobileDropdownWidth' => $mobile_dropdown_width,
-					'isMobileDropdown'    => false,
+					'tabsId'         => $tabs_id,
+					'activeTabIndex' => $active_tab_index,
+					'isVertical'     => $is_vertical,
 				)
 			)
 		);
 		$tag_processor->set_attribute( 'data-wp-init', 'callbacks.onTabsInit' );
 		$tag_processor->set_attribute( 'data-wp-on--keydown', 'actions.handleTabKeyDown' );
-		$tag_processor->set_attribute( 'data-wp-class--is-mobile-dropdown', 'state.isMobileDropdown' );
 
 		/**
 		 * Process style attribute.
@@ -252,35 +246,6 @@ class Tabs {
 			(string) $updated_content,
 			1
 		);
-
-		/**
-		 * Splice the select dropdown into the content.
-		 */
-		if ( $mobile_dropdown ) {
-			/**
-			 * Build the select dropdown options.
-			 */
-			$select_options_markup = array_map(
-				static function ( array $tab, int $index ): string {
-					return wp_sprintf(
-						'<option value="%1$d">%2$s</option>',
-						$index,
-						html_entity_decode( $tab['label'] )
-					);
-				},
-				$tabs_list,
-				array_keys( $tabs_list )
-			);
-			$select_options_markup = implode( '', $select_options_markup );
-			$select_markup         = '<select class="tabs__select" role="listbox" data-wp-on--change="actions.handleSelectChange"><option value="">' . esc_html( $attributes['metadata']['name'] ?? 'Select a tab' ) . '</option>' . $select_options_markup . '</select>';
-			// Using regex, add after the div class="tabs__list".
-			$content = preg_replace(
-				'/<div\s+[^>]*class="[^"]*\btabs__list\b[^"]*"[^>]*>.*?<\/div>/is',
-				'$0' . $select_markup,
-				(string) $content,
-				1
-			);
-		}
 
 		/**
 		 * In the event preg_replace fails, return the tabs content without the list spliced in.
