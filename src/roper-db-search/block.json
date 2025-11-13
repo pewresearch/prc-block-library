@@ -28,6 +28,5 @@
 	"textdomain": "roper-db-search",
 	"editorScript": "file:./index.js",
 	"style": ["file:./style-index.css", "roper-db-search"],
-	"render": "file:./render.php",
 	"viewScript": ["file:./view.js", "roper-db-search"]
 }

@@ -30,6 +30,8 @@ import './editor.scss';
 import './style.scss';
 import edit from './edit';
 import save from './save';
+import deprecated from './deprecated';
+import registerAlignToGutterFilter from './align-to-gutter-filter';
 
 import metadata from './block.json';
 
@@ -39,6 +41,7 @@ const settings = {
 	icon,
 	edit,
 	save,
+	deprecated,
 };
 
 /**
@@ -47,3 +50,5 @@ const settings = {
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
 registerBlockType( name, { ...metadata, ...settings } );
+
+registerAlignToGutterFilter();

@@ -21,13 +21,13 @@ addFilter(
 		// If the block is set to be hidden on a specific screen size,
 		// we add the screen size to the class name.
 		if (screenSizes?.large === true) {
-			classes += ' prc-block-visibility-large';
+			classes += ' prc-block-visibility__desktop';
 		}
 		if (screenSizes?.medium === true) {
-			classes += ' prc-block-visibility-medium';
+			classes += ' prc-block-visibility__tablet';
 		}
 		if (screenSizes?.small === true) {
-			classes += ' prc-block-visibility-small';
+			classes += ' prc-block-visibility__mobile';
 		}
 		return classes;
 	},

@@ -19,10 +19,49 @@
 
 	.color-text {
 		width: 100%;
-		background-color: rgba(255,255,255,0.5);
+		background-color: rgba(255, 255, 255, 0.5);
 		padding: 5px;
 	}
 
+	/* Custom tooltip styles to replace Popover component */
+	.color-tooltip {
+		display: none;
+		position: absolute;
+		left: 100%;
+		top: 50%;
+		transform: translateY(-50%);
+		margin-left: 8px;
+		z-index: 1000000;
+
+		&.visible {
+			display: block;
+		}
+
+		.color-tooltip-content {
+			display: inline-block;
+			background-color: #1e1e1e;
+			color: #fff;
+			padding: 4px 8px;
+			border-radius: 2px;
+			font-size: 13px;
+			white-space: nowrap;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+		}
+
+		.color-tooltip-arrow {
+			position: absolute;
+			left: -4px;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 0;
+			height: 0;
+			border-top: 4px solid transparent;
+			border-bottom: 4px solid transparent;
+			border-right: 4px solid #1e1e1e;
+		}
+	}
+
+	/* Editor-only styles for components-popover */
 	.components-popover {
 		outline: none;
 	}

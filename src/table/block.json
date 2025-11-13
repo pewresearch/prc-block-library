@@ -254,11 +254,11 @@
 					}
 				}
 			}
+		},
+		"hiddenColumns": {
+			"type": "array",
+			"default": []
 		}
-	},
-	"hiddenColumns": {
-		"type": "array",
-		"default": []
 	},
 	"supports": {
 		"anchor": true,

@@ -35,7 +35,32 @@ class Taxonomy_List {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			// @TODO: Eventually we'll want to come in and clean this out in say April 2026.
+			$loader->add_filter( 'render_block_prc-block/taxonomy-list', $this, 'fallback_render_wrapper', 10, 2 );
 		}
+	}
+
+	/**
+	 * Fallback render wrapper for the taxonomy list block.
+	 *
+	 * @hook render_block_prc-block/taxonomy-list
+	 *
+	 * @return string Rendered HTML.
+	 */
+	public function fallback_render_wrapper( $content, $block ) {
+		// Check if the block has nav wrapper already.
+		if ( str_contains( $content, '<nav' ) ) {
+			return $content;
+		}
+
+		$block_wrapper_attrs = get_block_wrapper_attributes();
+
+		// You can use this method...
+		return wp_sprintf(
+			'<nav %1$s>%2$s</nav>',
+			$block_wrapper_attrs,
+			$content,
+		);
 	}
 
 	/**

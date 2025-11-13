@@ -1,14 +1,16 @@
-@use "sass:math";
-@use "../../includes/common-styles/gutenberg-responsive-breaks" as *;
-
-$relaxedBorder: #e6e7e6;
-$altCardHeaderPadding: 1em;
-$altCardLineHeight: 1.28571429em;
-$altCardMargin: 1rem;
+// When a align full cover is before an alignfull group we want to add padding to the group.
+.wp-block-cover.alignfull + .wp-block-group.alignfull {
+	margin-top: 0em;
+	padding-top: 1em;
+	padding-bottom: 2em;
+	padding-left: 2em;
+	padding-right: 2em;
+}
 
 /**
-* Divided Group Blocks
-*/
+ * Interior Divider
+ * Adds dividing lines between child blocks within a group.
+ */
 .wp-block-group.has-interior-divider {
 	& > [class*="wp-block-"] {
 		border-bottom: 1px solid var(--divider-color);
@@ -18,128 +20,6 @@ $altCardMargin: 1rem;
 			padding-bottom: 0 !important;
 		}
 	}
-}
-
-/**
-* Responsive Group Blocks:
-*/
-/**
- * Max Width
- */
-.wp-block-group.has-max-width-constraint {
-	max-width: var(--max-width__desktop, inherit) !important;
-}
-.wp-block-group.has-max-width-constraint {
-	@media only screen and (max-width:  #{ ($break-medium) }) {
-		max-width: var(--max-width__tablet, inherit) !important;
-	}
-}
-.wp-block-group.has-max-width-constraint {
-	@media only screen and (max-width:  #{ ($break-small) }) {
-		max-width: var(--max-width_mobile, inherit) !important;
-	}
-}
-/**
- * Hide On Mobile
- */
-@media only screen and (max-width:  #{ ($break-small) }) {
-	html.block-editor-block-preview__content-iframe .wp-block-group[data-hide-on-mobile="true"].wp-block,
-	.wp-block-group[data-hide-on-mobile="true"]:not(.wp-block) {
-		display: none !important;
-	}
-}
-// This will capture any block that adds the correct attribute to hide on mobile.
-body.is-mobile [data-hide-on-mobile="true"]:not(.wp-block):not(.wp-block-group) {
-	display: none !important;
-}
-.is-mobile-preview .wp-block-group[data-hide-on-mobile="true"] {
-	&.wp-block:before {
-		content: "This block is hidden on mobile.";
-		font-family: var(--wp--preset--font-family--sans-serif);
-		display: block;
-		text-align: center;
-		font-size: 0.8em;
-		border: 1px dashed #ddd;
-		color: #999;
-		padding: 1em;
-	}
-	&:not(.wp-block),
-	& > * {
-		display: none !important;
-	}
-}
-
-/**
- * Hide On Tablet
- */
-@media only screen and (min-width:  #{ ($break-small) }) and (max-width:  #{ ($break-medium) }) {
-	html.block-editor-block-preview__content-iframe .wp-block-group[data-hide-on-tablet="true"].wp-block,
-	.wp-block-group[data-hide-on-tablet="true"]:not(.wp-block){
-		display: none !important;
-	}
-}
-body.is-tablet [data-hide-on-tablet="true"]:not(.wp-block):not(.wp-block-group) {
-	display: none !important;
-}
-.is-tablet-preview .wp-block-group[data-hide-on-tablet="true"]  {
-	&.wp-block:before {
-		content: "This block is hidden on tablet.";
-		font-family: var(--wp--preset--font-family--sans-serif);
-		display: block;
-		text-align: center;
-		font-size: 0.8em;
-		color: #999;
-		border: 1px dashed #ddd;
-		padding: 1em;
-	}
-	&:not(.wp-block),
-	& > * {
-		display: none !important;
-	}
-}
-
-/**
- * Hide On Desktop
- */
-@media only screen and (min-width:  #{ ($break-medium) }) {
-	html.block-editor-block-preview__content-iframe .wp-block-group[data-hide-on-desktop="true"].wp-block,
-	.wp-block-group[data-hide-on-desktop="true"]:not(.wp-block){
-		display: none !important;
-	}
-}
-body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group) {
-	display: none !important;
-}
-.is-desktop-preview .wp-block-group[data-hide-on-desktop="true"] {
-	&.wp-block:before {
-		content: "This block is hidden on desktop.";
-		font-family: var(--wp--preset--font-family--sans-serif);
-		display: block;
-		text-align: center;
-		font-size: 0.8em;
-		color: #999;
-		border: 1px dashed #ddd;
-		padding: 1em;
-	}
-	&:not(.wp-block),
-	& > * {
-		display: none !important;
-	}
-}
-
-@media only screen and (max-width: #{ ($break-medium) }) {
-	.is-style-collapse-row-on-mobile {
-		flex-direction: column;
-	}
-}
-
-// When a align full cover is before an alignfull group we want to add padding to the group.
-.wp-block-cover.alignfull + .wp-block-group.alignfull {
-	margin-top: 0em;
-	padding-top: 1em;
-	padding-bottom: 2em;
-	padding-left: 2em;
-	padding-right: 2em;
 }
 
 .wp-block-group {
@@ -154,7 +34,7 @@ body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group
 	}
 
 	&.is-style-callout {
-		border-top: 1px solid $relaxedBorder;
+		border-top: 1px solid #e6e7e6;
 		padding: 1em;
 		clear: both;
 		// Legacy Support
@@ -175,17 +55,17 @@ body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group
 
 	// Legacy baseball card style, this is now managed in common-styles/baseball-card
 	&.is-style-card-alt {
-		padding-bottom: $altCardMargin;
+		padding-bottom: 1rem;
 
 		@media only screen and (min-width: 767px) {
-			padding-left: $altCardMargin;
-			padding-right: $altCardMargin;
+			padding-left: 1rem;
+			padding-right: 1rem;
 		}
 
 		.is-style-sub-header {
-			padding: 9px $altCardHeaderPadding;
-			margin-bottom: $altCardMargin;
-			line-height: $altCardLineHeight;
+			padding: 9px 1em;
+			margin-bottom: 1rem;
+			line-height: 1.28571429em;
 			font-weight: normal;
 			letter-spacing: 0.1em;
 
@@ -271,6 +151,12 @@ body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group
 	}
 }
 
+@media only screen and (max-width: 782px) {
+	.is-style-collapse-row-on-mobile {
+		flex-direction: column;
+	}
+}
+
 // @TODO this feels more like something that should be in a block pattern??
 .wp-block-group.essay--toolbar,
 .wp-block-group.essay--toolbar {
@@ -284,11 +170,5 @@ body.is-desktop [data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group
 	}
 	.wp-block-post-date {
 		flex-grow: 1;
-	}
-}
-
-body.admin-bar {
-	.wp-block-group.is-position-sticky.js-is-sticky {
-		top: calc(0px + var(--wp-admin--admin-bar--position-offset, 0px)) !important;
 	}
 }

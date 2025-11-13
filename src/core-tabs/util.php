@@ -27,8 +27,7 @@ function generate_tab( string $label, string|array $content = '' ): WP_Block_Par
 	$inner_html_end   = '</section>';
 	$inner_html       = $inner_html_start . $inner_html_end;
 	$nulls            = count( $parsed_content );
-	// Link example retained for reference.
-	$tab_block = new WP_Block_Parser_Block(
+	$tab_block        = new WP_Block_Parser_Block(
 		'prc-block/tab',
 		array(
 			'label' => $label,

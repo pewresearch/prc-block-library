@@ -9,17 +9,15 @@ import { Icon } from '@prc/icons';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useEffect } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
-	BaseControl,
 	SelectControl,
 	ExternalLink,
-	TextControl,
 	ToggleControl,
 	PanelBody,
 } from '@wordpress/components';
-import { useSelect, select } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal Dependencies
@@ -28,12 +26,12 @@ import { useSelect, select } from '@wordpress/data';
 function InspectorPanel({ attributes, setAttributes, clientId, context }) {
 	const { interactiveNamespace, interactiveSubsumption } = attributes;
 	const targetNamespace = interactiveNamespace || context?.interactiveNamespace;
-	const { interactiveNamespaceOptions, defaultNamespace } = useSelect(
+	const blockArray = useSelect(
 		(select) => {
 			const { getBlockParents, getBlock } = select('core/block-editor');
 			const { getBlockSupport } = select('core/blocks');
 			const _blockNames = getBlockParents(clientId);
-			const blockArray = [];
+			const blocks = [];
 			_blockNames.forEach((block) => {
 				const _block = getBlock(block);
 				const blockName = _block.name;
@@ -42,30 +40,29 @@ function InspectorPanel({ attributes, setAttributes, clientId, context }) {
 					'interactivity'
 				);
 				if (supportsInteractivity) {
-					if (!blockArray.includes(blockName)) {
-						blockArray.push(blockName);
+					if (!blocks.includes(blockName)) {
+						blocks.push(blockName);
 					}
 				}
 			});
 
-			// Construct new options array for a select control with the names.
-			const options = [
-				{
-					value: null,
-					label: 'None',
-				},
-				...blockArray.map((blockName) => ({
-					value: blockName,
-					label: blockName,
-				})),
-			];
-
-			return {
-				interactiveNamespaceOptions: options,
-				defaultNamespace: options[0]?.value,
-			};
+			return blocks;
 		},
 		[clientId]
+	);
+
+	const interactiveNamespaceOptions = useMemo(
+		() => [
+			{
+				value: null,
+				label: 'None',
+			},
+			...blockArray.map((blockName) => ({
+				value: blockName,
+				label: blockName,
+			})),
+		],
+		[blockArray]
 	);
 
 	return (
@@ -75,13 +72,12 @@ function InspectorPanel({ attributes, setAttributes, clientId, context }) {
 				initialOpen={false}
 				buttonProps={{
 					isDestructive:
-						(targetNamespace?.length > 0 || interactiveSubsumption),
+						targetNamespace?.length > 0 || interactiveSubsumption,
 					icon: (
-						<div style={{ paddingLeft: '0.25em', color: 'inherit' }}>
-							<Icon
-								icon="plug-circle-bolt"
-								size="1em"
-							/>
+						<div
+							style={{ paddingLeft: '0.25em', color: 'inherit' }}
+						>
+							<Icon icon="plug-circle-bolt" size="1em" />
 						</div>
 					),
 				}}
@@ -92,8 +88,7 @@ function InspectorPanel({ attributes, setAttributes, clientId, context }) {
 						checked={interactiveSubsumption}
 						onChange={() =>
 							setAttributes({
-								interactiveSubsumption:
-									!interactiveSubsumption,
+								interactiveSubsumption: !interactiveSubsumption,
 								// interactiveNamespace: null,
 							})
 						}
@@ -108,7 +103,7 @@ function InspectorPanel({ attributes, setAttributes, clientId, context }) {
 						options={interactiveNamespaceOptions}
 						onChange={(newNamespace) =>
 							setAttributes({
-								interactiveNamespace: newNamespace
+								interactiveNamespace: newNamespace,
 							})
 						}
 						help={__(

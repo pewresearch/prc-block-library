@@ -13,21 +13,13 @@ import {
 	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 } from '@wordpress/block-editor';
 
-export default function ColorControls({ attributes, colors, clientId }) {
-	const { className } = attributes;
+export default function ColorControls({ attributes, colors, clientId, setAttributes }) {
+	const { customHoverBackgroundColor, customHoverTextColor, customActiveBackgroundColor, customActiveTextColor } = attributes;
 
 	const colorProps = useMultipleOriginColorsAndGradients();
 
 	const colorSettings = useMemo(() => {
 		const {
-			dropdownBackgroundColor,
-			setDropdownBackgroundColor,
-			dropdownTextColor,
-			setDropdownTextColor,
-			headingBackgroundColor,
-			setHeadingBackgroundColor,
-			headingTextColor,
-			setHeadingTextColor,
 			activeBackgroundColor,
 			setActiveBackgroundColor,
 			activeTextColor,
@@ -38,56 +30,41 @@ export default function ColorControls({ attributes, colors, clientId }) {
 			setHoverTextColor,
 		} = colors;
 
-		const t = [
+		return [
 			{
-				colorValue: dropdownTextColor?.color,
-				onColorChange: setDropdownTextColor,
-				label: __('(Mobile) Dropdown Text'),
-			},
-			{
-				colorValue: dropdownBackgroundColor?.color,
-				onColorChange: setDropdownBackgroundColor,
-				label: __('(Mobile) Dropdown Background'),
-			},
-			{
-				colorValue: headingTextColor?.color,
-				onColorChange: setHeadingTextColor,
-				label: __('(Desktop) Heading Text'),
-			},
-			{
-				colorValue: headingBackgroundColor?.color,
-				onColorChange: setHeadingBackgroundColor,
-				label: __('(Desktop) Heading Background'),
-			},
-			{
-				colorValue: activeTextColor?.color,
-				onColorChange: setActiveTextColor,
+				colorValue: activeTextColor?.color ?? customActiveTextColor,
+				onColorChange: (value) => {
+					setActiveTextColor(value);
+					setAttributes({ customActiveTextColor: value });
+				},
 				label: __('Active Text'),
 			},
 			{
-				colorValue: activeBackgroundColor?.color,
-				onColorChange: setActiveBackgroundColor,
+				colorValue: activeBackgroundColor?.color ?? customActiveBackgroundColor,
+				onColorChange: (value) => {
+					setActiveBackgroundColor(value);
+					setAttributes({ customActiveBackgroundColor: value });
+				},
 				label: __('Active Background'),
 			},
 			{
-				colorValue: hoverTextColor?.color,
-				onColorChange: setHoverTextColor,
+				colorValue: hoverTextColor?.color ?? customHoverTextColor,
+				onColorChange: (value) => {
+					setHoverTextColor(value);
+					setAttributes({ customHoverTextColor: value });
+				},
 				label: __('Hover Text'),
 			},
 			{
-				colorValue: hoverBackgroundColor?.color,
-				onColorChange: setHoverBackgroundColor,
+				colorValue: hoverBackgroundColor?.color ?? customHoverBackgroundColor,
+				onColorChange: (value) => {
+					setHoverBackgroundColor(value);
+					setAttributes({ customHoverBackgroundColor: value });
+				},
 				label: __('Hover Background'),
 			},
 		];
-		if ('is-style-dropdown' === className) {
-			// change the label of the first item to just be "Dropdown Text" and the second to just be "Dropdown Background", remove the 3rd and 4th items.
-			t[0].label = __('Dropdown Text');
-			t[1].label = __('Dropdown Background');
-			t.splice(2, 2);
-		}
-		return t;
-	}, [colors, className]);
+	}, [colors, customHoverBackgroundColor, customHoverTextColor, customActiveBackgroundColor, customActiveTextColor, setAttributes]);
 
 	return (
 		<InspectorControls group="color">

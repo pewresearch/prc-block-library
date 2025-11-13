@@ -7,6 +7,8 @@
 
 namespace PRC\Platform\Blocks;
 
+use WP_Block_Type_Registry, WP_HTML_Tag_Processor;
+
 /**
  * Block Name:        Accordion
  * Version:           1.0.0

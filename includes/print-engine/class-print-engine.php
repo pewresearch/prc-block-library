@@ -1,13 +1,19 @@
 <?php
+/**
+ * Print Engine
+ *
+ * @package PRC\Platform\Blocks
+ */
 namespace PRC\Platform\Blocks;
 
 use MatthiasMullie\Minify;
 use WP_HTML_Tag_Processor;
 use WP_Block_Type_Registry;
 
+/**
+ * Print Engine Supports
+ */
 class Print_Engine {
-	public static $block_library_version;
-	public static $active_theme;
 	public static $handle = 'prc-block-library-print-engine';
 	public static $view_asset_file;
 	public static $controls_asset_file;

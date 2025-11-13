@@ -1,0 +1,93 @@
+/**
+ * Hide On Mobile
+ */
+@media only screen and (max-width:  #{ ($break-small) }) {
+	html.block-editor-block-preview__content-iframe
+		.wp-block-group[data-hide-on-mobile="true"].wp-block,
+	.wp-block-group[data-hide-on-mobile="true"]:not(.wp-block) {
+		display: none !important;
+	}
+}
+// This will capture any block that adds the correct attribute to hide on mobile.
+body.is-mobile
+	[data-hide-on-mobile="true"]:not(.wp-block):not(.wp-block-group) {
+	display: none !important;
+}
+.is-mobile-preview .wp-block-group[data-hide-on-mobile="true"] {
+	&.wp-block:before {
+		content: "This block is hidden on mobile.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		border: 1px dashed #ddd;
+		color: #999;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}
+
+/**
+ * Hide On Tablet
+ */
+@media only screen and (min-width:  #{ ($break-small) }) and (max-width:  #{ ($break-medium) }) {
+	html.block-editor-block-preview__content-iframe
+		.wp-block-group[data-hide-on-tablet="true"].wp-block,
+	.wp-block-group[data-hide-on-tablet="true"]:not(.wp-block) {
+		display: none !important;
+	}
+}
+body.is-tablet
+	[data-hide-on-tablet="true"]:not(.wp-block):not(.wp-block-group) {
+	display: none !important;
+}
+.is-tablet-preview .wp-block-group[data-hide-on-tablet="true"] {
+	&.wp-block:before {
+		content: "This block is hidden on tablet.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		color: #999;
+		border: 1px dashed #ddd;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}
+
+/**
+ * Hide On Desktop
+ */
+@media only screen and (min-width:  #{ ($break-medium) }) {
+	html.block-editor-block-preview__content-iframe
+		.wp-block-group[data-hide-on-desktop="true"].wp-block,
+	.wp-block-group[data-hide-on-desktop="true"]:not(.wp-block) {
+		display: none !important;
+	}
+}
+body.is-desktop
+	[data-hide-on-desktop="true"]:not(.wp-block):not(.wp-block-group) {
+	display: none !important;
+}
+.is-desktop-preview .wp-block-group[data-hide-on-desktop="true"] {
+	&.wp-block:before {
+		content: "This block is hidden on desktop.";
+		font-family: var(--wp--preset--font-family--sans-serif);
+		display: block;
+		text-align: center;
+		font-size: 0.8em;
+		color: #999;
+		border: 1px dashed #ddd;
+		padding: 1em;
+	}
+	&:not(.wp-block),
+	& > * {
+		display: none !important;
+	}
+}

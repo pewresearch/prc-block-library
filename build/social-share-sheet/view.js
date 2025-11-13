@@ -1,2 +1,1 @@
-import{getContext as e,store as t}from"@wordpress/interactivity";const{state:a}=t("prc-block/social-share-sheet",{state:{enabled:!1},actions:{onClick:t=>{const r=e();!0===a.enabled&&(t.preventDefault(),window.navigator.share({title:r?.title,text:r?.text,url:r?.url}))}},callbacks:{detectWebShareSupport:()=>{void 0===window.navigator.share?a.enabled=!1:a.enabled=!0}}});
-//# sourceMappingURL=view.js.map
+import{getContext as e,store as t}from"@wordpress/interactivity";const{state:a}=t("prc-block/social-share-sheet",{state:{enabled:!1},actions:{onClick:t=>{const o=e();!0===a.enabled&&(t.preventDefault(),window.navigator.share({title:o?.title,text:o?.text,url:o?.url}))}},callbacks:{detectWebShareSupport:()=>{void 0===window.navigator.share?a.enabled=!1:a.enabled=!0}}});

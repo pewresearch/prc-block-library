@@ -113,3 +113,14 @@
 		display: block;
 	}
 }
+
+/**
+ * Hide columns marked as hidden (frontend only)
+ * Note: In the editor, these columns are styled with opacity/background in editor.scss
+ */
+.wp-block-prc-block-table:not(.editor-styles-wrapper *) {
+	td.is-column-hidden,
+	th.is-column-hidden {
+		display: none;
+	}
+}

@@ -1,0 +1,71 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-prc-block-attachments-list {
+	color: inherit;
+	background: inherit;
+	font-family: var(--wp--preset--font-family--sans-serif);
+
+	&:empty {
+		display: none !important;
+	}
+
+	// List item hover and active states using CSS custom properties
+	.wp-block-prc-block-attachments-list__list-item {
+		&:hover {
+			background-color: var(--hover-background-color);
+			color: var(--hover-text-color);
+
+			> a {
+				color: var(--hover-text-color);
+			}
+		}
+
+		&.is-active {
+			background-color: var(--active-background-color);
+			color: var(--active-text-color);
+
+			> a {
+				color: var(--active-text-color);
+			}
+		}
+	}
+}
+
+// Baseball card styles - list
+.wp-block-prc-block-attachments-list__list {
+	--padding: 0.48em;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	padding: var(--padding);
+	margin: 0;
+	gap: var(--block-gap);
+
+	&:empty {
+		display: none !important;
+	}
+
+	li {
+		padding: var(--padding);
+		display: flex;
+		gap: 0.5em;
+
+		&.flex-align-center {
+			align-items: center;
+		}
+
+		&.is-active > span,
+		&.is-active > a {
+			font-weight: bold;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+	}
+}

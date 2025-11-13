@@ -1,42 +1,61 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "prc-block/flip-card-side",
-  "version": "0.1.0",
-  "title": "Flip Card Side",
-  "category": "media",
-  "attributes": {
-    "allowedBlocks": {
-      "type": "array"
-    }
-  },
-  "supports": {
-    "color": {
-      "background": true,
-      "link": true,
-      "text": true
-    },
-    "html": false,
-    "spacing": {
-      "padding": true,
-      "margin": true
-    },
-    "typography": {
-      "fontSize": true,
-      "lineHeight": true,
-      "__experimentalFontFamily": true,
-      "__experimentalFontWeight": true
-    },
-    "__experimentalBorder": {
-      "color": true,
-      "width": true
-    },
-    "interactivity": true
-  },
-  "parent": [
-    "prc-block/flip-card-controller"
-  ],
-  "textdomain": "flip-card-side",
-  "editorScript": "file:./index.js",
-  "render": "file:./render.php"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/flip-card-side",
+	"version": "1.0.0",
+	"title": "Flip Card Side",
+	"category": "media",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"interactivity": true,
+		"layout": {
+			"type": "constrained",
+			"default": {
+				"type": "constrained",
+				"orientation": "vertical",
+				"verticalAlignment": "center",
+				"allowOrientation": true,
+				"contentSize": "420px"
+			},
+			"allowSwitching": true,
+			"allowInheriting": false,
+			"allowVerticalAlignment": true,
+			"allowJustification": true,
+			"allowOrientation": true,
+			"allowSizingOnChildren": true
+		},
+		"spacing": {
+			"blockGap": true,
+			"padding": true,
+			"margin": false
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"width": true,
+			"radius": true
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"enableContrastChecker": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"parent": ["prc-block/flip-card-controller"],
+	"textdomain": "flip-card-side",
+	"editorScript": "file:./index.js"
 }

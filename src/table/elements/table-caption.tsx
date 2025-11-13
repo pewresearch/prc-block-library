@@ -9,7 +9,6 @@ import type { Dispatch, SetStateAction } from 'react';
  */
 import { __ } from '@wordpress/i18n';
 import { BlockControls, RichText } from '@wordpress/block-editor';
-import { createBlock, type BlockInstance } from '@wordpress/blocks';
 import { ToolbarButton } from '@wordpress/components';
 import { caption as captionIcon } from '@wordpress/icons';
 import { useState, useEffect, useCallback } from '@wordpress/element';
@@ -20,7 +19,6 @@ import { usePrevious } from '@wordpress/compose';
  */
 import type { BlockAttributes } from '../block-attributes';
 import type { VSelectedCells, VSelectedLine } from '../utils/table-state';
-import { GenerateTableCaptionButton } from '../utils/ai-generators';
 
 type Props = {
 	attributes: BlockAttributes;
@@ -124,16 +122,6 @@ export default function TableCaption({
 						// 	insertBlocksAfter(createBlock('core/paragraph'))
 						// }
 					/>
-					{isSelected && (
-						<GenerateTableCaptionButton
-							{...{
-								attributes,
-								setAttributes,
-								isGeneratingCaption,
-								setIsGeneratingCaption,
-							}}
-						/>
-					)}
 				</div>
 			)}
 		</>

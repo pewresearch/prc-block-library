@@ -1,110 +1,90 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "prc-block/carousel-controller",
-  "version": "1.0.0",
-  "title": "Carousel",
-  "category": "design",
-  "description": "Organize content in a vertical or horizontal carousel.",
-  "keywords": [
-    "scroll",
-    "carousel",
-    "slider"
-  ],
-  "allowedBlocks": [
-    "prc-block/carousel-slide"
-  ],
-  "attributes": {
-    "orientation": {
-      "type": "string",
-      "default": "horizontal"
-    },
-    "enableDots": {
-      "type": "boolean",
-      "default": true
-    },
-    "enableArrows": {
-      "type": "boolean",
-      "default": true
-    },
-    "enableRewind": {
-      "type": "boolean",
-      "default": true
-    },
-    "arrowsSize": {
-      "type": "string",
-      "default": "medium",
-      "enum": [
-        "small",
-        "medium",
-        "large"
-      ]
-    },
-    "dotsSize": {
-      "type": "string",
-      "default": "small",
-      "enum": [
-        "small",
-        "medium",
-        "large"
-      ]
-    },
-    "dotColor": {
-      "type": "string",
-      "default": "var(--wp--preset--color--black)"
-    },
-    "arrowColor": {
-      "type": "string",
-      "default": "var(--wp--preset--color--black)"
-    }
-  },
-  "supports": {
-    "html": false,
-    "align": [
-      "wide",
-      "full"
-    ],
-    "spacing": {
-      "margin": [
-        "top",
-        "bottom"
-      ],
-      "padding": true
-    },
-    "interactivity": true,
-    "typography": {
-      "fontSize": true,
-      "__experimentalFontFamily": true,
-      "__experimentalDefaultControls": {
-        "fontSize": true,
-        "__experimentalFontFamily": true
-      }
-    },
-    "shadow": true,
-    "color": {
-      "background": true,
-      "text": true,
-      "button": true,
-      "enableContrastChecker": true,
-      "gradients": true,
-      "heading": true,
-      "link": true
-    },
-    "background": {
-      "color": true,
-      "gradient": true,
-      "image": true
-    },
-    "__experimentalBorder": {
-      "radius": true,
-      "color": true,
-      "width": true,
-      "style": true
-    }
-  },
-  "textdomain": "carousel-controller",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css",
-  "viewScriptModule": "file:./view.js"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/carousel-controller",
+	"version": "1.0.0",
+	"title": "Carousel",
+	"category": "design",
+	"description": "Organize content in a vertical or horizontal CSS carousel.",
+	"keywords": ["scroll", "carousel", "slider"],
+	"allowedBlocks": ["prc-block/carousel-slide"],
+	"attributes": {
+		"orientation": {
+			"type": "string",
+			"default": "horizontal"
+		},
+		"enableDots": {
+			"type": "boolean",
+			"default": true
+		},
+		"enableArrows": {
+			"type": "boolean",
+			"default": true
+		},
+		"enableRewind": {
+			"type": "boolean",
+			"default": true
+		},
+		"arrowsSize": {
+			"type": "string",
+			"default": "medium",
+			"enum": ["small", "medium", "large"]
+		},
+		"dotsSize": {
+			"type": "string",
+			"default": "small",
+			"enum": ["small", "medium", "large"]
+		},
+		"dotColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--black)"
+		},
+		"arrowColor": {
+			"type": "string",
+			"default": "var(--wp--preset--color--black)"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": ["top", "bottom"],
+			"padding": true
+		},
+		"interactivity": true,
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"__experimentalFontFamily": true
+			}
+		},
+		"shadow": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"button": true,
+			"enableContrastChecker": true,
+			"gradients": true,
+			"heading": true,
+			"link": true
+		},
+		"background": {
+			"color": true,
+			"gradient": true,
+			"image": true
+		},
+		"__experimentalBorder": {
+			"radius": true,
+			"color": true,
+			"width": true,
+			"style": true
+		}
+	},
+	"textdomain": "carousel-controller",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js"
 }

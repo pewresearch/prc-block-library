@@ -3,9 +3,9 @@
 	"apiVersion": 3,
 	"name": "prc-block/accordion",
 	"version": "1.0.0",
-	"title": "Accordion Section",
+	"title": "Accordion Item",
 	"category": "design",
-	"description": "A collapsible section that can be expanded or collapsed to show or hide content. Useful for any content you want to keep organized and compact. Click the title to expand or collapse the section.",
+	"description": "An item inside an accordion that can be expanded or collapsed to show or hide content. Useful for any content you want to keep organized and compact. Click the title to expand or collapse the section.",
 	"attributes": {
 		"title": {
 			"type": "string",

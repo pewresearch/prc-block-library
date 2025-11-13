@@ -37,9 +37,10 @@ class Form_Input_Radio_Group {
 		}
 	}
 
-	// pre render block data, change any inner blocks that are form-input-checkbox to type = radio and interactiveNamespace = prc-block/form-input-radio-group.
 	/**
-	 * Modify inner blocks to be radio inputs.
+	 * Modify inner blocks to be radio inputs and set interactiveNamespace.
+	 *
+	 * @TODO: Move to this pattern throughout all form input blocks and then all other iAPI blocks.
 	 *
 	 * @hook render_block_data
 	 *

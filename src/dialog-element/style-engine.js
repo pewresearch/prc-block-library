@@ -4,7 +4,6 @@
 import { useStyleOverride } from '@wordpress/block-editor';
 
 const calculatePositionStyles = ( position ) => {
-	console.log('calculatePositionStyles', position);
 	switch ( position ) {
 		case 'top left':
 			return `margin-top: 1em; margin-left: 1em;`;

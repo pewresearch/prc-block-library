@@ -3,20 +3,13 @@
  *
  * @package prc-block-library
  */
-.prc-block-visibility-small.wp-block:not(.is-selected),
-.prc-block-visibility-medium.wp-block:not(.is-selected),
-.prc-block-visibility-large.wp-block:not(.is-selected) {
-	&:after {
-		// display: none;
-	}
-}
 
 /**
  * Hide On Mobile
  */
-.is-mobile-preview .prc-block-visibility-small {
+.is-mobile-preview .prc-block-visibility__mobile {
 	&.wp-block:before {
-		content: "This block is hidden on small screen sizes.";
+		content: "This block is hidden on mobile.";
 		font-family: var(--wp--preset--font-family--sans-serif);
 		display: block;
 		text-align: center;
@@ -34,9 +27,9 @@
 /**
  * Hide On Tablet
  */
-.is-tablet-preview .prc-block-visibility-medium {
+.is-tablet-preview .prc-block-visibility__tablet {
 	&.wp-block:before {
-		content: "This block is hidden on medium screen sizes.";
+		content: "This block is hidden on tablet.";
 		font-family: var(--wp--preset--font-family--sans-serif);
 		display: block;
 		text-align: center;
@@ -54,9 +47,9 @@
 /**
  * Hide On Desktop
  */
-.is-desktop-preview .prc-block-visibility-large {
+.is-desktop-preview .prc-block-visibility__desktop {
 	&.wp-block:before {
-		content: "This block is hidden on large screen sizes.";
+		content: "This block is hidden on desktop.";
 		font-family: var(--wp--preset--font-family--sans-serif);
 		display: block;
 		text-align: center;

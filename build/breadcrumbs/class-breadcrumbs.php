@@ -7,6 +7,8 @@
 
 namespace PRC\Platform\Blocks;
 
+use WP_Block_Type_Registry;
+
 /**
  * Block Name:        Breadcrumbs
  * Requires at least: 6.7
@@ -32,8 +34,35 @@ class Breadcrumbs {
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
+			$loader->add_filter( 'allowed_block_types_all', $this, 'disable_other_breadcrumb_blocks', 10, 2 );
 			$loader->add_action( 'init', $this, 'block_init' );
 		}
+	}
+
+	/**
+	 * Filter the allowed blocks in the editor.
+	 *
+	 * @hook allowed_block_types_all
+	 *
+	 * @internal
+	 * @param array|bool $allowed_block_types Array of allowed block types or a boolean.
+	 * @param object     $editor_context The editor context.
+	 * @return array Array of allowed block types.
+	 */
+	public function disable_other_breadcrumb_blocks( $allowed_block_types, $editor_context ) {
+		$registry         = WP_Block_Type_Registry::get_instance();
+		$registerd_blocks = $registry->get_all_registered();
+		$registerd_blocks = array_keys( $registerd_blocks );
+
+		$blocks_to_remove = array(
+			'yoast-seo/breadcrumbs',
+			'core/breadcrumbs',
+		);
+
+		$allowed_block_types = array_diff( $registerd_blocks, $blocks_to_remove );
+		$allowed_block_types = array_values( $allowed_block_types );
+
+		return $allowed_block_types;
 	}
 
 	/**
@@ -47,44 +76,87 @@ class Breadcrumbs {
 	/**
 	 * Render the block
 	 *
-	 * @param array  $attributes Block attributes
-	 * @param string $content Block content
-	 * @param array  $block WP_Block object
+	 * @param array  $attributes Block attributes.
+	 * @param string $content Block content.
+	 * @param object $block WP_Block object.
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		$context = $block->context;
-		if ( ! isset( $context['postId'] ) ) {
-			return '';
-		}
-		$post_id            = $context['postId'];
-		$post_type          = get_post_type( $post_id );
-		$ancestor_ids       = array();
-		$has_post_hierarchy = is_post_type_hierarchical( $post_type );
+		$context            = $block->context;
 		$show_current_page  = ! empty( $attributes['showCurrentPageTitle'] );
+		$current_object     = get_queried_object();
+		$type_of_object     = '';
+		$ancestor_ids       = array();
+		$has_post_hierarchy = false;
+		if ( $current_object instanceof \WP_Post ) {
+			$type_of_object = 'WP_Post';
+		} elseif ( $current_object instanceof \WP_Term ) {
+			$type_of_object = 'WP_Term';
+		} elseif ( $current_object instanceof \WP_Post_Type ) {
+			$type_of_object = 'WP_Post_Type';
+		} elseif ( $current_object instanceof \WP_User ) {
+			$type_of_object = 'WP_User';
+		}
 
-		if ( $has_post_hierarchy ) {
-			$ancestor_ids = get_post_ancestors( $post_id );
-		} else {
-			$terms = get_the_terms( $post_id, 'category' );
-
-			if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
-				$term = get_term( $terms[0], 'category' );
-
-				$ancestor_ids[] = $term->term_id;
-				$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
-			}
+		switch ( $type_of_object ) {
+			case 'WP_Post':
+				// If this a wp_post type object and is attachment then lets "fail over" to the parent post.
+				if ( 'attachment' === $current_object->post_type && $current_object->post_parent ) {
+					$parent_post    = get_post( $current_object->post_parent );
+					$current_object = $parent_post;
+				}
+				$has_post_hierarchy = is_post_type_hierarchical( $current_object->post_type );
+				// If this is a hierarchical post type, which, Post is not by default. Thats why our "reports"
+				// post-like type does not get picked up. Instead, posts rely on their primary term.
+				// This is really intended for Pages and any custom post types that are hierarchical.
+				// If not hierarchical, then we will look for primary term in 'category' taxonomy.
+				if ( $has_post_hierarchy ) {
+					$ancestor_ids = get_ancestors( $current_object->ID, $current_object->post_type, 'post_type' );
+				} else {
+					$primary_term_id = \PRC\Platform\get_primary_term_id( 'category', $current_object->ID );
+					if ( ! empty( $primary_term_id ) && ! is_wp_error( $primary_term_id ) ) {
+						$term           = get_term( $primary_term_id, 'category' );
+						$ancestor_ids[] = $term->term_id;
+						$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
+					}
+				}
+				break;
+			case 'WP_Term':
+				$ancestor_ids = get_ancestors( $current_object->term_id, $current_object->taxonomy, 'taxonomy' );
+				break;
+			case 'WP_Post_Type':
+				// No ancestors.
+				break;
+			case 'WP_User':
+				// No ancestors.
+				break;
+			default:
+				return '';
 		}
 
 		$breadcrumbs = array();
 
 		// Set up the home crumb if set to show.
-		if ( ! empty( $attributes['showHome'] ) ) {
+		if ( $attributes['showHome'] && ! empty( $attributes['homeCrumb']['text'] ) ) {
 			$home_url      = $attributes['homeCrumb']['url'] ?? home_url();
 			$home_label    = $attributes['homeCrumb']['text'] ?? \PRC\Platform\Icons\render( 'solid', 'house' );
 			$breadcrumbs[] = array(
 				'url'  => $home_url,
 				'text' => $home_label,
+			);
+		}
+
+		// Set up the index crumb if it exists.
+		if ( $attributes['showIndex'] && ! empty( $attributes['indexCrumb']['text'] ) ) {
+			$index_url = $attributes['indexCrumb']['url'] ?? '';
+			// Check if $index_url is a fully qualified URL.
+			if ( $index_url && ! preg_match( '/^https?:\/\//', $index_url ) ) {
+				$index_url = home_url( $index_url );
+			}
+			$index_label   = $attributes['indexCrumb']['text'];
+			$breadcrumbs[] = array(
+				'url'  => $index_url,
+				'text' => $index_label,
 			);
 		}
 
@@ -109,13 +181,22 @@ class Breadcrumbs {
 
 		// Append current page title if set to show.
 		if ( $show_current_page ) {
+			$current_page_url   = null;
+			$current_page_title = null;
+			// If a wp_post object then we'll look at post_id and post_type.
+			if ( 'WP_Post' === $type_of_object ) {
+				$current_page_url   = get_the_permalink( $current_object->ID );
+				$current_page_title = $current_object->post_title;
+			}
+			if ( 'WP_Term' === $type_of_object ) {
+				$current_page_url   = get_term_link( $current_object, $current_object->taxonomy );
+				$current_page_title = $current_object->name;
+			}
 			$breadcrumbs[] = array(
-				'url'  => get_the_permalink( $post_id ),
-				'text' => get_the_title( $post_id ),
+				'url'  => $current_page_url,
+				'text' => $current_page_title,
 			);
 		}
-
-		$inner_markup = '';
 
 		/**
 		 * Filters the list of breadcrumb links within the Breadcrumbs block render callback.
@@ -131,6 +212,7 @@ class Breadcrumbs {
 			return '';
 		}
 
+		$inner_markup = '';
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			$show_separator  = $index < count( $breadcrumbs ) - 1;
 			$child_crumbs    = $breadcrumb['crumbs'] ?? array();
@@ -151,7 +233,6 @@ class Breadcrumbs {
 		}
 
 		$classnames = '';
-
 		if ( ! empty( $attributes['contentJustification'] ) ) {
 			if ( 'left' === $attributes['contentJustification'] ) {
 				$classnames = 'is-content-justification-left';
@@ -170,7 +251,7 @@ class Breadcrumbs {
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'id'         => 'breadcrumbs',
+				'id'         => wp_unique_id( 'breadcrumbs-' ),
 				'class'      => $classnames,
 				'aria-label' => __( 'Breadcrumbs' ),
 				'style'      => '--breadcrumbs-gap: ' . $block_gap . ';',
@@ -178,7 +259,7 @@ class Breadcrumbs {
 		);
 
 		return wp_sprintf(
-			'<nav %1$s><ol>%2$s</ol></nav>',
+			'<nav %1$s><div class="prc-block-breadcrumbs__list">%2$s</div></nav>',
 			$wrapper_attributes,
 			$inner_markup
 		);
@@ -195,16 +276,16 @@ class Breadcrumbs {
 	 * @param int    $index           The position in a list of ids.
 	 * @param bool   $show_separator  Whether to show the separator character where available.
 	 * @param bool   $is_current_page Whether to mark the breadcrumb item as the current page.
+	 * @param array  $child_crumbs    Optional nested breadcrumbs.
 	 *
 	 * @return string The markup for a single breadcrumb item wrapped in an `li` element.
 	 */
 	public function build_crumb_markup( $url, $title, $attributes, $index, $show_separator = true, $is_current_page = false, $child_crumbs = array() ) {
-		$li_class        = 'prc-block-breadcrumbs__item';
 		$separator_class = 'prc-block-breadcrumbs__separator';
 
 		$markup = '';
 
-		// Render leading separator if specified.
+		// Render leading separator, if enabled.
 		if (
 			! empty( $attributes['showLeadingSeparator'] ) &&
 			! empty( $attributes['separator'] ) &&
@@ -217,12 +298,33 @@ class Breadcrumbs {
 			);
 		}
 
+		// Wrap the entire crumb (link + child crumbs) in a container.
+		$markup .= '<div class="prc-block-breadcrumbs__item">';
+
+		// Build the link.
 		$markup .= wp_sprintf(
-			'<a href="%s"%s>%s</a>',
+			'<a href="%s"%s><span>%s</span></a>',
 			esc_url( $url ),
 			$is_current_page ? ' aria-current="page"' : '',
 			$title,
 		);
+
+		if ( ! empty( $child_crumbs ) ) {
+			$markup .= '<div class="prc-block-breadcrumbs__sub_list">';
+			foreach ( $child_crumbs as $child_crumb_index => $child_crumb ) {
+				$markup .= $this->build_crumb_markup(
+					$child_crumb['url'],
+					$child_crumb['text'],
+					array(),
+					$child_crumb_index,
+					false,
+					$child_crumb['is_current_page'] ?? false
+				);
+			}
+			$markup .= '</div>';
+		}
+
+		$markup .= '</div>'; // Close the crumb container.
 
 		if (
 			$show_separator &&
@@ -235,27 +337,7 @@ class Breadcrumbs {
 			);
 		}
 
-		$child_crumbs_template = '';
-		if ( ! empty( $child_crumbs ) ) {
-			$child_crumbs_template = '<ol>';
-			foreach ( $child_crumbs as $child_crumb_index => $child_crumb ) {
-				$child_crumbs_template .= $this->build_crumb_markup(
-					$child_crumb['url'],
-					$child_crumb['text'],
-					array(),
-					$child_crumb_index,
-					false,
-					$child_crumb['is_current_page']
-				);
-			}
-			$child_crumbs_template .= '</ol>';
-		}
-
-		return wp_sprintf(
-			'<li class="%1$s">%2$s</li>',
-			$li_class,
-			$markup . $child_crumbs_template
-		);
+		return $markup;
 	}
 
 	/**

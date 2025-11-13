@@ -196,10 +196,7 @@ class Core_Tabs {
 		);
 	}
 	/**
-	 * Adds @wordpress/interactivity api handlers for core/tabs block.
-	 *
-	 * @uses:
-	 * - callbacks.onTabsInit
+	 * Adds support for mobile dropdown functionality.
 	 *
 	 * @hook render_block
 	 *

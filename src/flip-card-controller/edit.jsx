@@ -1,15 +1,19 @@
 /**
+ * External Dependencies
+ */
+import clsx from 'clsx';
+
+/**
  * WordPress Dependencies
  */
-import { Fragment, useState } from '@wordpress/element';
+import { useState, useRef, useEffect, useMemo } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
-import { ResizableBox } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
 import FlipControl from './flip-control';
 
-const ALLOWED_BLOCKS = ['prc-block/flip-card-side'];
 const TEMPLATE = [
 	[
 		'prc-block/flip-card-side',
@@ -62,17 +66,60 @@ export default function Edit({
 	context,
 	clientId,
 	isSelected,
+	__unstableLayoutClassNames: layoutClassNames,
 }) {
+	const ref = useRef( null );
 	const [isFlipped, setIsFlipped] = useState(false);
+
+	// Get the first flip-card-side block and check its inner blocks count
+	const firstFlipCardInnerBlocksCount = useSelect(
+		( select ) => {
+			const { getBlocksByClientId, getBlockOrder } = select( 'core/block-editor' );
+			const innerBlockIds = getBlockOrder( clientId );
+			if ( innerBlockIds.length === 0 ) {
+				return 0;
+			}
+			const firstBlockId = innerBlockIds[0];
+			const firstBlock = getBlocksByClientId( firstBlockId )[0];
+			return firstBlock ? getBlockOrder( firstBlockId ).length : 0;
+		},
+		[ clientId ]
+	);
+
+	// Calculate height from the first flip-card-side block only if it has more than 1 inner block
+	const maxHeight = useMemo(() => {
+		if ( ! ref.current || firstFlipCardInnerBlocksCount < 1 ) {
+			return null;
+		}
+
+		const firstSide = ref.current.querySelector(
+			'.wp-block-prc-block-flip-card-side'
+		);
+
+		return firstSide ? firstSide.offsetHeight : null;
+	}, [isSelected, ref.current, firstFlipCardInnerBlocksCount] );
+
+	// Check if component is initialized (has calculated height)
+	const isInitialized = useMemo(() => {
+		return maxHeight !== null;
+	}, [maxHeight] );
+
 	const blockProps = useBlockProps({
-		'data-flipped': isFlipped,
+		ref,
+		className: clsx(layoutClassNames, {
+			'is-flipped': isFlipped,
+			'is-initialized': isInitialized,
+		}),
+		style: {
+			minHeight: isInitialized && maxHeight ? `${maxHeight}px` : null,
+		},
 	});
+
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: 'wp-block-prc-block-flip-card-controller__inner-blocks',
+			className: clsx('wp-block-prc-block-flip-card-controller__inner-blocks'),
 		},
 		{
-			allowedBlocks: ALLOWED_BLOCKS,
 			template: TEMPLATE,
 			templateLock: 'insert',
 			__experimentalCaptureToolbars: true,
@@ -80,11 +127,11 @@ export default function Edit({
 	);
 
 	return (
-		<Fragment>
+		<>
 			<FlipControl {...{ isFlipped, setIsFlipped, clientId }} />
 			<div {...blockProps}>
 				<div {...innerBlocksProps} />
 			</div>
-		</Fragment>
+		</>
 	);
 }

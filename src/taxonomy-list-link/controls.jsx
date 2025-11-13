@@ -7,7 +7,7 @@ import { TaxonomySelect } from '@prc/components';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, ToolbarButton, ToolbarGroup } from '@wordpress/components';
 
@@ -32,7 +32,12 @@ export default function Controls({
 		setIsLinkOpen(false);
 	};
 
-	const { taxonomy } = attributes;
+	const taxonomy = useMemo(
+		() => {
+			return !!attributes.taxonomy ? attributes.taxonomy : context?.taxonomy
+		},
+		[attributes, context?.taxonomy]
+	);
 
 	const allowLink = 'is-style-sub-expand' !== className;
 
@@ -57,11 +62,11 @@ export default function Controls({
 	}, [isSelected]);
 
 	return (
-		<Fragment>
+		<>
 			<InspectorControls>
 				<PanelBody
 					title={__(
-						'Taxonomy Menu Link Settings',
+						'Taxonomy Settings',
 						'prc-block-library'
 					)}
 				>
@@ -86,6 +91,7 @@ export default function Controls({
 							<LinkControl
 								anchor={popoverAnchor}
 								onClose={onClose}
+								taxonomy={taxonomy}
 								attributes={attributes}
 								setAttributes={setAttributes}
 							/>
@@ -93,6 +99,6 @@ export default function Controls({
 					</ToolbarGroup>
 				)}
 			</BlockControls>
-		</Fragment>
+		</>
 	);
 }

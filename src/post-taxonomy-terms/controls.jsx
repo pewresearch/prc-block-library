@@ -42,6 +42,7 @@ function InspectorPanel({
 			<ColorControls
 				{...{
 					attributes,
+					setAttributes,
 					colors,
 					isList,
 					clientId,

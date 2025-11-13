@@ -370,70 +370,6 @@ export default function registerVariations() {
 	});
 
 	/**
-	 * Baseball Card Block
-	 */
-	registerBlockVariation(BLOCKNAME, {
-		name: 'baseball-card',
-		title: __('Baseball Card'),
-		icon: () => <Icon icon="card-spade" library="solid" />,
-		description: __(
-			'A Group block in the "Baseball Card" format with a card heading in a black background, image, text, and read more link.'
-		),
-		attributes: {
-			className: 'is-style-baseball-card',
-		},
-		example: {
-			innerBlocks: [
-				{
-					name: 'core/heading',
-					attributes: {
-						className: 'baseball-card__heading',
-						level: 3,
-						content: 'Most Popular Posts',
-						backgroundColor: 'ui-black',
-						textColor: 'ui-white',
-						fontFamily: 'sans-serif',
-						fontSize: 'small-label',
-					},
-				},
-				{
-					name: 'prc-block/story-item',
-					attributes: {
-						title: 'Ultricies Ipsum Nibh Egestas Purus',
-						excerpt:
-							'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
-						label: 'Report',
-						date: 'Jan 1, 2023',
-						image: 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
-						imageSlot: 'disabled',
-						imageSize: 'A2',
-						isPreview: true,
-						className: 'is-style-disabled',
-						postId: 0,
-					},
-				},
-			],
-			viewportWidth: 320,
-		},
-		innerBlocks: [
-			[
-				'core/heading',
-				{
-					className: 'baseball-card__heading',
-					level: 3,
-					fontSize: 'small-label',
-					fontFamily: 'sans-serif',
-					placeholder: 'Most Popular Posts...',
-					backgroundColor: 'ui-black',
-					textColor: 'ui-white',
-				},
-			],
-			['core/paragraph', { placeholder: 'Add card content here...' }],
-		],
-		isActive: ({ className }) => 'is-style-baseball-card' === className,
-	});
-
-	/**
 	 * Post Infographics Block
 	 */
 	registerBlockVariation(BLOCKNAME, {
@@ -582,5 +518,69 @@ export default function registerVariations() {
 		isActive: (blockAttributes, variationAttributes) =>
 			blockAttributes.className &&
 			blockAttributes.className === variationAttributes.className,
+	});
+
+	/**
+	 * Baseball Card Block
+	 *
+	 * @deprecated Use Card block instead.
+	 */
+	registerBlockVariation(BLOCKNAME, {
+		name: 'baseball-card',
+		title: __('Baseball Card (DEPRECATED)'),
+		icon: () => <Icon icon="card-spade" library="solid" />,
+		description: __('DEPRECATED: Update to Card block.'),
+		attributes: {
+			className: 'is-style-baseball-card',
+		},
+		example: {
+			innerBlocks: [
+				{
+					name: 'core/heading',
+					attributes: {
+						className: 'baseball-card__heading',
+						level: 3,
+						content: 'Most Popular Posts',
+						backgroundColor: 'ui-black',
+						textColor: 'ui-white',
+						fontFamily: 'sans-serif',
+						fontSize: 'small-label',
+					},
+				},
+				{
+					name: 'prc-block/story-item',
+					attributes: {
+						title: 'Ultricies Ipsum Nibh Egestas Purus',
+						excerpt:
+							'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
+						label: 'Report',
+						date: 'Jan 1, 2023',
+						image: 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',
+						imageSlot: 'disabled',
+						imageSize: 'A2',
+						isPreview: true,
+						className: 'is-style-disabled',
+						postId: 0,
+					},
+				},
+			],
+			viewportWidth: 320,
+		},
+		innerBlocks: [
+			[
+				'core/heading',
+				{
+					className: 'baseball-card__heading',
+					level: 3,
+					fontSize: 'small-label',
+					fontFamily: 'sans-serif',
+					placeholder: 'Most Popular Posts...',
+					backgroundColor: 'ui-black',
+					textColor: 'ui-white',
+				},
+			],
+			['core/paragraph', { placeholder: 'Add card content here...' }],
+		],
+		isActive: ({ className }) => 'is-style-baseball-card' === className,
 	});
 }

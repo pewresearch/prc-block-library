@@ -32,6 +32,5 @@
 		"dialog/id": "dialogId"
 	},
 	"textdomain": "dialog",
-	"render": "file:./render.php",
 	"editorScript": "file:./index.js"
 }

@@ -6,26 +6,24 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment, useMemo, useState, useRef, useEffect } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import {
 	useBlockProps,
-	RichText,
 	withColors,
-	getColorClassName,
 } from '@wordpress/block-editor';
 import { useDispatch } from '@wordpress/data';
-import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal Dependencies
  */
 import Controls from './controls';
+import StyleEngine from './style-engine';
 import useTOC from './use-toc';
 
 function InternalChapters({ internalChapters }) {
@@ -65,14 +63,6 @@ function InternalChapters({ internalChapters }) {
  * @param            props.context
  * @param            props.clientId
  * @param            props.isSelected
- * @param            props.dropdownBackgroundColor
- * @param            props.setDropdownBackgroundColor
- * @param            props.dropdownTextColor
- * @param            props.setDropdownTextColor
- * @param            props.headingBackgroundColor
- * @param            props.setHeadingBackgroundColor
- * @param            props.headingTextColor
- * @param            props.setHeadingTextColor
  * @param            props.activeBackgroundColor
  * @param            props.setActiveBackgroundColor
  * @param            props.activeTextColor
@@ -91,14 +81,6 @@ function Edit({
 	context,
 	clientId,
 	isSelected,
-	dropdownBackgroundColor,
-	setDropdownBackgroundColor,
-	dropdownTextColor,
-	setDropdownTextColor,
-	headingBackgroundColor,
-	setHeadingBackgroundColor,
-	headingTextColor,
-	setHeadingTextColor,
 	activeBackgroundColor,
 	setActiveBackgroundColor,
 	activeTextColor,
@@ -107,63 +89,26 @@ function Edit({
 	setHoverBackgroundColor,
 	hoverTextColor,
 	setHoverTextColor,
+	customHoverBackgroundColor,
+	setCustomHoverBackgroundColor,
+	customHoverTextColor,
+	setCustomHoverTextColor,
+	customActiveBackgroundColor,
+	setCustomActiveBackgroundColor,
+	customActiveTextColor,
+	setCustomActiveTextColor,
 }) {
 	const { postId, postType } = context;
 	const { chapters = [] } = useTOC({ postId, postType });
 	const {
-		heading,
 		showCurrentChapter,
 		className,
-		hideHeading,
-		autoDropdownEnabled,
-		autoDropdownWidth,
 		style,
 	} = attributes;
-	const [isDropdownOpen, setDropdownOpen] = useState(false);
-	const [isAutoDropdownSwitched, setDropdownSwitch] = useState(false);
-
-	// Add a ref to the component
-	const componentRef = useRef(null);
-
-	useEffect(() => {
-		if (!autoDropdownEnabled) {
-			return setDropdownSwitch(false);
-		}
-
-		const updateAutoDropdownSwitch = () => {
-			if (componentRef?.current) {
-				setDropdownSwitch(
-					componentRef?.current.parentNode.parentNode.offsetWidth <=
-						autoDropdownWidth
-				);
-			}
-		};
-
-		updateAutoDropdownSwitch();
-
-		window.addEventListener('resize', updateAutoDropdownSwitch); // Add a listener for the window resize event
-
-		return () => {
-			window.removeEventListener('resize', updateAutoDropdownSwitch); // Remove the listener when the component unmounts
-		};
-	}, [
-		autoDropdownEnabled,
-		componentRef?.current?.parentNode?.parentNode.offsetWidth,
-		componentRef?.current?.parentNode?.parentNode,
-		autoDropdownWidth,
-	]);
 
 	// Construct a colors object that contains the color values and helper functions, re-compute whenever the color values change.
 	const colors = useMemo(
 		() => ({
-			dropdownBackgroundColor,
-			setDropdownBackgroundColor,
-			dropdownTextColor,
-			setDropdownTextColor,
-			headingBackgroundColor,
-			setHeadingBackgroundColor,
-			headingTextColor,
-			setHeadingTextColor,
 			activeBackgroundColor,
 			setActiveBackgroundColor,
 			activeTextColor,
@@ -174,14 +119,6 @@ function Edit({
 			setHoverTextColor,
 		}),
 		[
-			dropdownBackgroundColor,
-			setDropdownBackgroundColor,
-			dropdownTextColor,
-			setDropdownTextColor,
-			headingBackgroundColor,
-			setHeadingBackgroundColor,
-			headingTextColor,
-			setHeadingTextColor,
 			activeBackgroundColor,
 			setActiveBackgroundColor,
 			activeTextColor,
@@ -194,65 +131,25 @@ function Edit({
 	);
 
 	const blockWrapperClassNames = useMemo(() => {
-		return classNames(className, 'common-block-style--baseball-card', {
-			'is-switched': isAutoDropdownSwitched,
-		});
-	}, [isAutoDropdownSwitched, className]);
-
-	const headingClassNames = useMemo(() => {
-		return classNames('wp-block-prc-block-table-of-contents__heading', {
-			'has-text-color':
-				!!colors?.headingTextColor?.color ||
-				!!colors?.headingTextColor?.class,
-			[`has-${colors?.headingTextColor?.slug}-color`]:
-				!!colors?.headingTextColor?.slug,
-			'has-background':
-				!!colors?.headingBackgroundColor?.color ||
-				!!colors?.headingBackgroundColor?.class,
-			[`has-${colors?.headingBackgroundColor?.slug}-background-color`]:
-				!!colors?.headingBackgroundColor?.slug,
-			'is-hidden': hideHeading,
-		});
-	}, [colors, hideHeading]);
-
-	const dropDownClassNames = useMemo(() => {
-		return classNames(
-			'wp-block-prc-block-table-of-contents__dropdown__heading',
-			{
-				'has-text-color':
-					!!colors?.dropdownTextColor?.color ||
-					!!colors?.dropdownTextColor?.class,
-				[`has-${colors?.dropdownTextColor?.slug}-color`]:
-					!!colors?.dropdownTextColor?.slug,
-				'has-background':
-					!!colors?.dropdownBackgroundColor?.color ||
-					!!colors?.dropdownBackgroundColor?.class,
-				[`has-${colors?.dropdownBackgroundColor?.slug}-background-color`]:
-					!!colors?.dropdownBackgroundColor?.slug,
-			}
-		);
-	}, [colors]);
+		return clsx(className);
+	}, [className]);
 
 	const blockPropArgs = useMemo(() => {
 		return {
-			className: blockWrapperClassNames,
-			'data-auto-dropdown-enabled': autoDropdownEnabled,
-			'data-auto-dropdown-width': autoDropdownWidth,
-			'data-show-current-chapter': showCurrentChapter,
-			'aria-expanded': isDropdownOpen,
+			className: clsx(
+				'wp-block-prc-block-table-of-contents__list',
+				className,
+			),
 		};
 	}, [
 		blockWrapperClassNames,
-		autoDropdownEnabled,
-		autoDropdownWidth,
 		showCurrentChapter,
-		isDropdownOpen,
 	]);
 
 	const blockProps = useBlockProps(blockPropArgs);
 
 	return (
-		<Fragment>
+		<>
 			<Controls
 				{...{
 					attributes,
@@ -261,137 +158,46 @@ function Edit({
 					clientId,
 				}}
 			/>
-			<div {...blockProps}>
-				<div ref={componentRef}>
-					<div className={headingClassNames}>
-						<RichText
-							{...{
-								tagName: 'h2',
-								placeholder: 'Table of Contents',
-								value: heading,
-								onChange: (newHeading) =>
-									setAttributes({ heading: newHeading }),
-							}}
-						/>
-					</div>
-					<div className={dropDownClassNames}>
-						<RichText
-							{...{
-								tagName: 'h2',
-								placeholder: 'Table of Contents',
-								value: heading,
-								onChange: (newHeading) =>
-									setAttributes({ heading: newHeading }),
-							}}
-						/>
-						<div
-							className="wp-block-prc-block-table-of-contents__dropdown-trigger"
-							onClick={() => setDropdownOpen(!isDropdownOpen)}
+			<ol {...blockProps}>
+				<StyleEngine attributes={attributes} clientId={clientId} />
+				{0 !== chapters.length && chapters.map((chapter) => {
+					const key =
+						chapter.id || `chptr-${Math.random()}`;
+					return (
+						<li
+							key={key}
+							className={classNames(
+								'wp-block-prc-block-table-of-contents__list-item',
+								{
+									'is-active': postId === chapter?.id,
+								}
+							)}
 						>
-							+
-						</div>
-					</div>
-					<ul
-						className="wp-block-prc-block-table-of-contents__list"
-						style={{
-							'--block-gap': getBlockGapSupportValue(attributes),
-						}}
-					>
-						{0 !== chapters.length &&
-							chapters.map((chapter) => {
-								const key =
-									chapter.id || `chptr-${Math.random()}`;
-								return (
-									<li
-										key={key}
-										className={classNames(
-											'wp-block-prc-block-table-of-contents__list-item',
-											{
-												'is-active':
-													postId === chapter?.id,
-												'has-active-background':
-													!!colors
-														.activeBackgroundColor
-														.color ||
-													colors.activeBackgroundColor
-														.class,
-												[`has-active-${colors?.activeBackgroundColor?.slug}-background-color`]:
-													!!colors
-														?.activeBackgroundColor
-														?.slug,
-												'has-active-color':
-													!!colors.activeTextColor
-														.color ||
-													colors.activeTextColor
-														.class,
-												[`has-active-${colors?.activeTextColor?.slug}-color`]:
-													!!colors?.activeTextColor
-														?.slug,
-												'has-focus-background':
-													!!colors
-														.activeBackgroundColor
-														.color ||
-													colors.activeBackgroundColor
-														.class,
-												[`has-focus-${colors?.activeBackgroundColor?.slug}-background-color`]:
-													!!colors
-														?.activeBackgroundColor
-														?.slug,
-												'has-focus-color':
-													!!colors.activeTextColor
-														.color ||
-													colors.activeTextColor
-														.class,
-												[`has-focus-${colors?.activeTextColor?.slug}-color`]:
-													!!colors?.activeTextColor
-														?.slug,
-												'has-hover-background':
-													!!colors
-														.hoverBackgroundColor
-														.color ||
-													colors.hoverBackgroundColor
-														.class,
-												[`has-hover-${colors?.hoverBackgroundColor?.slug}-background-color`]:
-													!!colors
-														?.activeBackgroundColor
-														?.slug,
-												'has-hover-color':
-													!!colors.hoverTextColor
-														.color ||
-													colors.hoverTextColor.class,
-												[`has-hover-${colors?.hoverTextColor?.slug}-color`]:
-													!!colors?.hoverTextColor
-														?.slug,
-											}
-										)}
-									>
-										<span>{chapter.title}</span>
-										{postId === chapter.id &&
-											chapter?.internalChapters && (
-												<InternalChapters
-													{...{
-														internalChapters:
-															chapter?.internalChapters,
-													}}
-												/>
-											)}
-									</li>
-								);
-							})}
-					</ul>
-				</div>
-			</div>
-		</Fragment>
+							<span>{chapter.title}</span>
+							{postId === chapter.id &&
+								chapter?.internalChapters && (
+									<InternalChapters
+										{...{
+											internalChapters:
+												chapter?.internalChapters,
+										}}
+									/>
+								)}
+						</li>
+					);
+				})}
+			</ol>
+		</>
 	);
 }
 
 export default withColors(
-	{ dropdownBackgroundColor: 'color' },
-	{ dropdownTextColor: 'color' },
-	{ headingBackgroundColor: 'color' },
-	{ headingTextColor: 'color' },
 	{ activeBackgroundColor: 'color' },
 	{ activeTextColor: 'color' },
 	{ hoverBackgroundColor: 'color' },
-	{ hoverTextColor: 'color' }
+	{ hoverTextColor: 'color' },
+	'customHoverBackgroundColor',
+	'customHoverTextColor',
+	'customActiveBackgroundColor',
+	'customActiveTextColor'
 )(Edit);

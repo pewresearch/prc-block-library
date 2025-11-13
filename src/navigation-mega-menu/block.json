@@ -6,7 +6,7 @@
 	"title": "Navigation Mega Menu",
 	"category": "design",
 	"description": "Mega menu that supports multiple overlay types and animations.",
-	"parent": [ "core/navigation" ],
+	"parent": ["core/navigation"],
 	"example": {},
 	"attributes": {
 		"label": {
@@ -27,27 +27,44 @@
 		"menuItemBackgroundColor": {
 			"type": "string"
 		},
+		"customMenuItemBackgroundColor": {
+			"type": "string"
+		},
 		"menuItemTextColor": {
+			"type": "string"
+		},
+		"customMenuItemTextColor": {
 			"type": "string"
 		},
 		"menuItemActiveBackgroundColor": {
 			"type": "string"
 		},
+		"customMenuItemActiveBackgroundColor": {
+			"type": "string"
+		},
 		"menuItemActiveTextColor": {
+			"type": "string"
+		},
+		"customMenuItemActiveTextColor": {
 			"type": "string"
 		},
 		"menuOverlayBackgroundColor": {
 			"type": "string"
 		},
+		"customMenuOverlayBackgroundColor": {
+			"type": "string"
+		},
 		"menuOverlayTextColor": {
+			"type": "string"
+		},
+		"customMenuOverlayTextColor": {
 			"type": "string"
 		},
 		"menuActiveBorderColor": {
 			"type": "string"
 		},
-		"hasBoxShadow": {
-			"type": "boolean",
-			"default": false
+		"customMenuActiveBorderColor": {
+			"type": "string"
 		},
 		"isMobile": {
 			"type": "boolean",
@@ -56,18 +73,11 @@
 		"icon": {
 			"type": "string",
 			"default": "dropdown",
-			"enum": [
-				"dropdown",
-				"mobile",
-				"search"
-			]
+			"enum": ["dropdown", "mobile", "search"]
 		},
 		"animation": {
 			"type": "string",
-			"enum": [
-				"fade",
-				"slide"
-			]
+			"enum": ["fade", "slide"]
 		}
 	},
 	"supports": {
@@ -88,6 +98,7 @@
 				"fontSize": true
 			}
 		},
+		"shadow": true,
 		"__experimentalBorder": {
 			"color": true,
 			"width": true
@@ -98,6 +109,5 @@
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"render": "file:./render.php",
 	"viewScriptModule": "file:./view.js"
 }

@@ -38,10 +38,7 @@
 			"background": true
 		},
 		"spacing": {
-			"margin": [
-				"top",
-				"bottom"
-			],
+			"margin": ["top", "bottom"],
 			"padding": true
 		},
 		"typography": {
@@ -64,6 +61,5 @@
 	"usesContext": ["postType", "postId"],
 	"textdomain": "post-sub-title",
 	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

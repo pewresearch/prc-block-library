@@ -66,6 +66,59 @@ class Promo {
 	}
 
 	/**
+	 * Render callback for the block
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string
+	 */
+	public function render_callback( $attributes, $content, $block ) {
+		static $block_number = 1;
+
+		$attributes         = wp_parse_args(
+			$attributes,
+			array(
+				'icon'    => '',
+				'hasForm' => false,
+			)
+		);
+		$class_name         = array_key_exists( 'className', $attributes ) ? $attributes['className'] : 'is-style-standard';
+		$has_form           = array_key_exists( 'hasForm', $attributes ) ? $attributes['hasForm'] : false;
+		$has_icon           = ! empty( $attributes['icon'] ) && 'is-style-asymmetrical' !== $class_name;
+		$icon_url           = PRC_BLOCK_LIBRARY_DIR . '/src/promo/assets/' . $attributes['icon'] . '.svg';
+		$heading            = array_key_exists( 'heading', $attributes ) ? $attributes['heading'] : '';
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'id'    => md5( wp_json_encode( $attributes ) ),
+				'class' => \PRC\Platform\Block_Utils\classNames(
+					$class_name,
+					array(
+						'has-icon'       => $has_icon,
+						'has-large-icon' => 'alexa' === $attributes['icon'],
+						'has-form'       => $has_form,
+					)
+				),
+			)
+		);
+
+		$icon = $has_icon ? wp_sprintf(
+			'<div class="wp-block-prc-block-promo__icon"><img src="%s" alt="%s"/></div>',
+			esc_url( $icon_url ),
+			'Icon for promotion number ' . $block_number
+		) : '';
+
+		++$block_number;
+
+		return wp_sprintf(
+			'<div %1$s><div class="wp-block-prc-block-promo__inner-container">%2$s%3$s</div></div>',
+			$wrapper_attributes,
+			$icon,
+			$content
+		);
+	}
+
+	/**
 	 * Registers the block using the metadata loaded from the `block.json` file.
 	 * Behind the scenes, it registers also all assets so they can be enqueued
 	 * through the block editor in the corresponding context.
@@ -75,7 +128,12 @@ class Promo {
 	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
 	 */
 	public function block_init() {
-		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/promo' );
+		register_block_type_from_metadata(
+			PRC_BLOCK_LIBRARY_DIR . '/build/promo',
+			array(
+				'render_callback' => array( $this, 'render_callback' ),
+			)
+		);
 		add_shortcode( 'newsletter', array( $this, 'newsletter_shortcode_fallback' ), 10, 2 );
 	}
 }

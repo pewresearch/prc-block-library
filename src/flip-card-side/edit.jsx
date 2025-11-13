@@ -8,18 +8,6 @@
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
 /**
- * Internal Dependencies
- */
-
-const ALLOWED_BLOCKS = [
-	'core/heading',
-	'core/paragraph',
-	'core/list',
-	'core/image',
-	'core/button',
-];
-
-/**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
  *
@@ -40,16 +28,13 @@ export default function Edit({
 	context,
 	clientId,
 	isSelected,
+	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const blockProps = useBlockProps();
-	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
-	// This gives us a good way to ensure greater template and pattern control.
-	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	const { allowedBlocks } = attributes;
+	const blockProps = useBlockProps({
+		className: layoutClassNames,
+	});
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 		templateLock: false,
 	});
-
 	return <div {...innerBlocksProps} />;
 }

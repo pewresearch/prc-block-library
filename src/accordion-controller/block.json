@@ -6,8 +6,13 @@
 	"title": "Accordion",
 	"category": "design",
 	"description": "A collection of collapsible sections that can be expanded or collapsed to show or hide content. Useful for FAQs, lists, or any content you want to keep organized and compact. Click the title to expand or collapse the section.",
-	"allowedBlocks": [ "prc-block/accordion" ],
-	"attributes": {},
+	"allowedBlocks": ["prc-block/accordion"],
+	"attributes": {
+		"structuredData": {
+			"type": "boolean",
+			"default": false
+		}
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,

@@ -7,4 +7,24 @@
 .wp-block-prc-block-flip-card-controller.wp-block {
 	color: inherit;
 	background: inherit;
+	&.is-initialized {
+		// Editor Specific:
+		// Wonky, but it works...
+		&.is-flipped {
+			.wp-block-prc-block-flip-card-side.is-style-back {
+				display: block;
+			}
+			.wp-block-prc-block-flip-card-side.is-style-front {
+				display: none;
+			}
+		}
+		&:not(.is-flipped) {
+			.wp-block-prc-block-flip-card-side.is-style-back {
+				display: none;
+			}
+			.wp-block-prc-block-flip-card-side.is-style-front {
+				display: block;
+			}
+		}
+	}
 }

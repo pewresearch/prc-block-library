@@ -2,20 +2,16 @@
  * External Dependencies
  */
 import classNames from 'classnames';
-
+import { TaxonomySelect } from '@prc/components';
 /**
  * WordPress Dependencies
  */
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
-
+import { __ } from '@wordpress/i18n';
+import { useBlockProps, useInnerBlocksProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
-
-const ALLOWED_BLOCKS = [
-	'prc-block/taxonomy-list-link',
-	'prc-block/taxonomy-search',
-];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -42,26 +38,40 @@ const ALLOWED_BLOCKS = [
  */
 export default function Edit({
 	attributes,
+	setAttributes,
+	context,
+	clientId,
 	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const { templateLock, layout, allowedBlocks, className } = attributes;
+	const { layout, className, taxonomy } = attributes;
 	const orientation = layout?.orientation || 'vertical';
 
 	const blockProps = useBlockProps({
 		className: classNames(className, layoutClassNames),
 	});
 
-	// By defining a allowedBlocks attribute any block can now customize what inner blocks are allowed.
-	// This gives us a good way to ensure greater template and pattern control.
-	// By default if nothing is defined in the "allowedBlocks" attribute this will default to the constant ALLOWED_BLOCKS found under "Internal Dependencies" ^.
-	// The same applies for "orientation", defaults to "vertical".
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
-		allowedBlocks:
-			'horizontal' === orientation
-				? ['prc-block/taxonomy-list-link']
-				: allowedBlocks || ALLOWED_BLOCKS,
 		orientation,
 	});
 
-	return <div {...innerBlocksProps} />;
+	return (
+		<>
+			<InspectorControls>
+				<PanelBody
+					title={__(
+						'Taxonomy Settings',
+						'prc-block-library'
+					)}
+				>
+					<TaxonomySelect
+						value={taxonomy}
+						onChange={(newTaxonomy) => {
+							setAttributes({ taxonomy: newTaxonomy });
+						}}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div {...innerBlocksProps} />
+		</>
+	);
 }

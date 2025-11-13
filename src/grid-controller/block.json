@@ -3,15 +3,10 @@
 	"apiVersion": 3,
 	"name": "prc-block/grid-controller",
 	"version": "0.1.0",
-	"title": "Grid Columns",
+	"title": "Responsive Grid",
 	"category": "design",
-	"description": "Display content in multiple columns using a customizable responsive css-grid layout. The grid consists of 12 columns on desktop and tablet, and 4 columns on mobile.",
-	"keywords": [
-		"grid",
-		"columns",
-		"css grid",
-		"layout"
-	],
+	"description": "Display content in responsive CSS grid columns. The grid uses 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.",
+	"keywords": ["grid", "columns", "css grid", "layout"],
 	"attributes": {
 		"verticalAlignment": {
 			"type": "string"
@@ -25,7 +20,7 @@
 			"default": {
 				"spacing": {
 					"blockGap": {
-						"left":"var:preset|spacing|50"
+						"left": "var:preset|spacing|50"
 					}
 				}
 			}
@@ -34,7 +29,7 @@
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"align": [ "wide", "full" ],
+		"align": ["wide", "full"],
 		"color": {
 			"background": true,
 			"link": true,
@@ -42,9 +37,9 @@
 		},
 		"spacing": {
 			"blockGap": {
-				"sides": [ "horizontal" ]
+				"sides": ["horizontal"]
 			},
-			"margin": [ "top", "bottom" ],
+			"margin": ["top", "bottom"],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"blockGap": true,
@@ -157,6 +152,5 @@
 	},
 	"textdomain": "grid-controller",
 	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

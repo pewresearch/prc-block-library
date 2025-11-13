@@ -90,7 +90,7 @@ form.wp-block-prc-block-form {
 				gap: 1em;
 				font-family: inherit;
 				&::before {
-					content: '';
+					content: "";
 					display: block;
 					width: 20px;
 					height: 20px;
@@ -107,5 +107,8 @@ form.wp-block-prc-block-form {
 			}
 		}
 	}
-}
 
+	[class*="wp-block-prc-block-form-input-"][hidden] {
+		display: none !important;
+	}
+}

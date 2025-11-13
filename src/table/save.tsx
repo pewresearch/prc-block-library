@@ -87,27 +87,31 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 			<Tag>
 				{rows.map(({ cells }, rowIndex) => (
 					<tr key={rowIndex}>
-						{cells
-							.filter((_, cellIndex) => !hiddenColumns.includes(cellIndex))
-							.map(
-								(
-									{
-										content,
-										tag,
-										className,
-										id,
-										headers,
-										scope,
-										rowSpan,
-										colSpan,
-										styles,
-									},
-									cellIndex
-								) => (
+						{cells.map(
+							(
+								{
+									content,
+									tag,
+									className,
+									id,
+									headers,
+									scope,
+									rowSpan,
+									colSpan,
+									styles,
+								},
+								cellIndex
+							) => {
+								const isHidden = hiddenColumns.includes(cellIndex);
+								const cellClassName = clsx(className, {
+									'is-column-hidden': isHidden,
+								});
+
+								return (
 									<RichText.Content
 										key={cellIndex}
 										tagName={tag}
-										className={className || undefined}
+										className={cellClassName || undefined}
 										id={(tag === 'th' && id) || undefined}
 										headers={headers || undefined}
 										scope={(tag === 'th' && scope) || undefined}
@@ -124,8 +128,9 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 										}
 										style={convertToObject(styles)}
 									/>
-								)
-							)}
+								);
+							}
+						)}
 					</tr>
 				))}
 			</Tag>

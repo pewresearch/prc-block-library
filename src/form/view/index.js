@@ -187,6 +187,33 @@ const { state, actions } = store('prc-block/form', {
 			const { formFields } = state;
 			return formFields.find((field) => field.id === id)?.value;
 		},
+		get formattedInputValue() {
+			const { attributes } = getElement();
+			const { id } = attributes;
+			const { formFields } = state;
+			const field = formFields.find((field) => field.id === id);
+			if (!field) return '';
+
+			const value = field.value;
+			const format = field.outputFormat;
+
+			if (value === null || value === undefined) {
+				return '';
+			}
+
+			switch (format) {
+				case 'currency':
+					return new Intl.NumberFormat('en-US', {
+						style: 'currency',
+						currency: 'USD',
+					}).format(value);
+				case 'percentage':
+					return `${value}%`;
+				case 'number':
+				default:
+					return value.toString();
+			}
+		},
 		get inputName() {
 			const { attributes } = getElement();
 			const { id } = attributes;
@@ -281,6 +308,25 @@ const { state, actions } = store('prc-block/form', {
 				// No pages, simple form
 				return 'Submit';
 			}
+		},
+		get formDisplayCondition() {
+			const context = getContext();
+			const { formDisplayCondition } = context;
+			const { name, operator, value } = formDisplayCondition || {};
+			// Check if the condition is met
+			const { formFields } = state;
+			const targetField = formFields.find((field) => field.name === name);
+			if ( ! targetField ) {
+				return false;
+			}
+			switch (operator) {
+				case 'equals':
+					return targetField.value === value;
+				case 'not_equals':
+					return targetField.value !== value;
+				default:
+					return false;
+			}
 		}
 	},
 	actions: {
@@ -327,6 +373,13 @@ const { state, actions } = store('prc-block/form', {
 			const { value, id } = event.target;
 			actions.updateInputStateProp(id, 'value', value);
 			// Clear error and timer on user input
+			actions.updateInputStateProp(id, 'error', false);
+		}),
+		onInputRangeChange: withSyncEvent((event) => {
+			const { value, id } = event.target;
+			// Convert string to number for range inputs
+			actions.updateInputStateProp(id, 'value', parseFloat(value));
+			// Clear error on user input
 			actions.updateInputStateProp(id, 'error', false);
 		}),
 		onInputCheckboxClick: withSyncEvent((event) => {

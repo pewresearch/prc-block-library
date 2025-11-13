@@ -42,13 +42,6 @@ class Core_Group {
 	public $style_handle;
 
 	/**
-	 * View script module handle
-	 *
-	 * @var string
-	 */
-	public $view_script_module_handle;
-
-	/**
 	 * Size styles
 	 *
 	 * @var array
@@ -81,8 +74,6 @@ class Core_Group {
 			$loader->add_action( 'init', $this, 'register_new_styles', 10 );
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_assets' );
-			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
-			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 2 );
 		}
@@ -110,19 +101,8 @@ class Core_Group {
 	 * @return void
 	 */
 	public function register_assets() {
-		$this->editor_script_handle      = register_block_script_handle( $this->block_json, 'editorScript' );
-		$this->style_handle              = register_block_style_handle( $this->block_json, 'style' );
-		$this->view_script_module_handle = register_block_script_module_id( $this->block_json, 'viewScriptModule' );
-	}
-
-	/**
-	 * Register editor assets
-	 *
-	 * @hook enqueue_block_editor_assets
-	 * @return void
-	 */
-	public function register_editor_assets() {
-		wp_enqueue_script( $this->editor_script_handle );
+		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
+		$this->style_handle         = register_block_style_handle( $this->block_json, 'style' );
 	}
 
 	/**
@@ -133,96 +113,31 @@ class Core_Group {
 	 */
 	public function register_editor_style() {
 		wp_enqueue_style( $this->style_handle );
-		$styles = $this->generate_interior_divider_styles();
-		if ( is_wp_error( $styles ) ) {
-			return;
-		}
-		wp_add_inline_style( $this->style_handle, $styles );
+		// @TODO: Need to rework the divider to use design tokens throughout.
+		// $styles = $this->generate_divider_styles();
+		// if ( is_wp_error( $styles ) ) {
+		// return;
+		// }
+		// wp_add_inline_style( $this->style_handle, $styles );
 	}
 
-	/**
-	 * Generate interior divider styles
-	 *
-	 * @return string
-	 */
-	public function generate_interior_divider_styles() {
-		$colors = wp_get_global_settings( array( 'color', 'palette', 'theme' ) );
-		ob_start();
-		foreach ( $colors as $color ) {
-			$slug = $color['slug'];
-			?>
-			.wp-block-group.has-interior-divider.has-<?php echo $slug; ?>-interior-divider-color {
-				--divider-color: var(--wp--preset--color--<?php echo $slug; ?>);
-			}
-			.wp-block-group.js-is-sticky.has-sticky-background.has-sticky-background-<?php echo $slug; ?>-color,
-			.wp-block-group.js-is-stuck.has-sticky-background.has-sticky-background-<?php echo $slug; ?>-color {
-				background-color: var(--wp--preset--color--<?php echo $slug; ?>)!important;
-			}
-			.wp-block-group.js-is-sticky.has-sticky-text.has-sticky-text-<?php echo $slug; ?>-color,
-			.wp-block-group.js-is-stuck.has-sticky-text.has-sticky-text-<?php echo $slug; ?>-color {
-				color: var(--wp--preset--color--<?php echo $slug; ?>)!important;
-			}
-			<?php
-		}
-		$styles   = ob_get_clean();
-		$minifier = new Minify\CSS( $styles );
-		return $minifier->minify();
-	}
 
 	/**
-	 * Register additional attributes for the core-group block
+	 * Register editor assets
 	 *
-	 * @hook block_type_metadata 100, 1
-	 * @param mixed $metadata Metadata.
-	 * @return mixed
+	 * @hook enqueue_block_editor_assets
+	 * @return void
 	 */
-	public function add_attributes( $metadata ) {
-		if ( 'core/group' !== $metadata['name'] ) {
-			return $metadata;
-		}
-
-		if ( ! array_key_exists( 'responsiveContainerQuery', $metadata['attributes'] ) ) {
-			$metadata['attributes']['responsiveContainerQuery'] = array(
-				'type'    => 'object',
-				'default' => array(
-					'hideOnDesktop' => false,
-					'hideOnTablet'  => false,
-					'hideOnMobile'  => false,
-				),
-			);
-		}
-		if ( ! array_key_exists( 'maxWidth', $metadata['attributes'] ) ) {
-			$metadata['attributes']['maxWidth'] = array(
-				'type'    => 'object',
-				'default' => array(
-					'desktop' => null,
-					'tablet'  => null,
-					'mobile'  => null,
-				),
-			);
-		}
-		if ( ! array_key_exists( 'dividerColor', $metadata['attributes'] ) ) {
-			$metadata['attributes']['dividerColor'] = array(
-				'type' => 'string',
-			);
-		}
-		if ( ! array_key_exists( 'isStuckBackground', $metadata['attributes'] ) ) {
-			$metadata['attributes']['isStuckBackground'] = array(
-				'type' => 'string',
-			);
-		}
-		if ( ! array_key_exists( 'isStuckText', $metadata['attributes'] ) ) {
-			$metadata['attributes']['isStuckText'] = array(
-				'type' => 'string',
-			);
-		}
-		return $metadata;
+	public function register_editor_assets() {
+		wp_enqueue_script( $this->editor_script_handle );
+		wp_enqueue_style( $this->style_handle );
 	}
 
 	/**
 	 * Register additional settings, like context, for the core-group block.
 	 * Currently we're allowing the group block to have grid context.
 	 * There is no active use case for this, more an experiment to see what uses may emerge.
+	 * Also adds dividerColor attribute for interior divider functionality.
 	 *
 	 * @hook block_type_metadata_settings 100, 2
 	 * @param mixed $settings
@@ -246,12 +161,20 @@ class Core_Group {
 					'grid/column/mobile/row',
 				)
 			);
+			// Add dividerColor attribute if not already present
+			if ( ! array_key_exists( 'dividerColor', $settings['attributes'] ) ) {
+				$settings['attributes']['dividerColor'] = array(
+					'type'    => 'string',
+					'default' => null,
+				);
+			}
 		}
 		return $settings;
 	}
 
 	/**
 	 * Render the core/group block
+	 * Adds interior divider support and enqueues necessary styles.
 	 *
 	 * @hook render_block 100, 2
 	 * @param mixed $block_content
@@ -262,94 +185,47 @@ class Core_Group {
 		if ( 'core/group' !== $block['blockName'] || is_admin() ) {
 			return $block_content;
 		}
-
+		// Ensure group styles enqueued.
 		wp_enqueue_style( $this->style_handle );
-		// Check if $block_content contains is-style-baseball-card
-		if ( strpos( $block_content, 'is-style-baseball-card' ) !== false ) {
-			wp_enqueue_style( 'prc-block-library--baseball-card' );
-		}
-		$is_sticky = ! empty( $block['attrs']['style']['position']['type'] ) && 'sticky' === $block['attrs']['style']['position']['type'];
-		if ( $is_sticky ) {
-			wp_enqueue_script_module( $this->view_script_module_handle );
-		}
 
-		$responsive_options             = array_key_exists( 'responsiveContainerQuery', $block['attrs'] ) ? $block['attrs']['responsiveContainerQuery'] : array();
-		$hide_on_desktop                = array_key_exists( 'hideOnDesktop', $responsive_options ) ? $responsive_options['hideOnDesktop'] : false;
-		$hide_on_tablet                 = array_key_exists( 'hideOnTablet', $responsive_options ) ? $responsive_options['hideOnTablet'] : false;
-		$hide_on_mobile                 = array_key_exists( 'hideOnMobile', $responsive_options ) ? $responsive_options['hideOnMobile'] : false;
-		$is_responsive                  = $hide_on_desktop || $hide_on_tablet || $hide_on_mobile;
-		$has_divider_color              = array_key_exists( 'dividerColor', $block['attrs'] ) && ! empty( $block['attrs']['dividerColor'] );
-		$has_is_sticky_background_color = array_key_exists( 'isStuckBackground', $block['attrs'] ) && ! empty( $block['attrs']['isStuckBackground'] );
-		$has_is_sticky_text_color       = array_key_exists( 'isStuckText', $block['attrs'] ) && ! empty( $block['attrs']['isStuckText'] );
-		$max_width                      = array_key_exists( 'maxWidth', $block['attrs'] ) ? $block['attrs']['maxWidth'] : array();
+		// Handle interior divider
+		$has_divider_color = array_key_exists( 'dividerColor', $block['attrs'] ) && ! empty( $block['attrs']['dividerColor'] );
 
-		$w = new WP_HTML_Tag_Processor( $block_content );
-		if ( $w->next_tag() ) {
-
-			if ( $is_sticky ) {
-				$w->set_attribute(
-					'data-wp-interactive',
-					wp_json_encode(
-						array(
-							'namespace' => 'prc-block/core-group',
-						)
-					)
-				);
-				$w->set_attribute( 'data-wp-init--sticky', 'callbacks.onInit' );
-				if ( $has_is_sticky_background_color ) {
-					$w->add_class( 'has-sticky-background' );
-					$w->add_class(
-						wp_sprintf(
-							'has-sticky-background-%s-color',
-							esc_attr( $block['attrs']['isStuckBackground'] )
-						)
-					);
-				}
-				if ( $has_is_sticky_text_color ) {
-					$w->add_class( 'has-sticky-text' );
-					$w->add_class(
-						wp_sprintf(
-							'has-sticky-text-%s-color',
-							esc_attr( $block['attrs']['isStuckText'] )
-						)
-					);
-				}
-			}
-
-			if ( $is_responsive && $hide_on_desktop ) {
-				$w->set_attribute( 'data-hide-on-desktop', 'true' );
-			}
-			if ( $is_responsive && $hide_on_tablet ) {
-				$w->set_attribute( 'data-hide-on-tablet', 'true' );
-			}
-			if ( $is_responsive && $hide_on_mobile ) {
-				$w->set_attribute( 'data-hide-on-mobile', 'true' );
-			}
-			if ( $has_divider_color ) {
+		if ( $has_divider_color ) {
+			$w = new WP_HTML_Tag_Processor( $block_content );
+			if ( $w->next_tag() ) {
 				$w->add_class( 'has-interior-divider' );
 				$w->add_class( 'has-' . $block['attrs']['dividerColor'] . '-interior-divider-color' );
+				$block_content = $w->get_updated_html();
 			}
-			if ( $max_width ) {
-				$w->add_class( 'has-max-width-constraint' );
 
-				$styles = array(
-					'--max-width__desktop: ' . $max_width['desktop'] . ';',
-					'--max-width__tablet: ' . $max_width['tablet'] . ';',
-					'--max-width__mobile: ' . $max_width['mobile'] . ';',
-				);
-				$styles = implode( ' ', $styles );
-				// Add the styles to the style attribute, create if it doesnt exist, add to if it does.
-				$existing_styles = $w->get_attribute( 'style' );
-				if ( $existing_styles ) {
-					// Sanity check.
-					$existing_styles = rtrim( $existing_styles );
-					$existing_styles = rtrim( $existing_styles, ';' ) . ';';
-					$styles          = $existing_styles . ' ' . $styles;
-				}
-				$w->set_attribute( 'style', $styles );
+			// Generate and add inline styles for the divider color
+			$inline_styles = $this->generate_divider_styles( $block['attrs']['dividerColor'] );
+			if ( ! empty( $inline_styles ) ) {
+				wp_add_inline_style( $this->style_handle, $inline_styles );
 			}
 		}
 
-		return $w->get_updated_html();
+		return $block_content;
+	}
+
+	/**
+	 * Generate interior divider styles for a specific color.
+	 *
+	 * @param string $color_slug The color slug to generate styles for.
+	 * @return string
+	 */
+	private function generate_divider_styles( $color_slug ) {
+		if ( empty( $color_slug ) ) {
+			return '';
+		}
+
+		$style = sprintf(
+			'.wp-block-group.has-interior-divider.has-%s-interior-divider-color { --divider-color: var(--wp--preset--color--%s); }',
+			esc_attr( $color_slug ),
+			esc_attr( $color_slug )
+		);
+
+		return $style;
 	}
 }

@@ -7,6 +7,8 @@
 
 namespace PRC\Platform\Blocks;
 
+use WP_Block_Type_Registry;
+
 /**
  * Block Name:        Table of Contents
  * Description:       Displays a list of all heading blocks set to chapter headings.
@@ -35,8 +37,35 @@ class Table_Of_Contents {
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
+			$loader->add_filter( 'allowed_block_types_all', $this, 'disable_other_toc_blocks', 10, 2 );
 			$loader->add_action( 'init', $this, 'block_init' );
 		}
+	}
+
+	/**
+	 * Filter the allowed blocks in the editor.
+	 *
+	 * @hook allowed_block_types_all
+	 *
+	 * @internal
+	 * @param array|bool $allowed_block_types Array of allowed block types or a boolean.
+	 * @param object     $editor_context The editor context.
+	 * @return array Array of allowed block types.
+	 */
+	public function disable_other_toc_blocks( $allowed_block_types, $editor_context ) {
+		$registry         = WP_Block_Type_Registry::get_instance();
+		$registerd_blocks = $registry->get_all_registered();
+		$registerd_blocks = array_keys( $registerd_blocks );
+
+		$blocks_to_remove = array(
+			'core/table-of-contents',
+			'yoast-seo/table-of-contents',
+		);
+
+		$allowed_block_types = array_diff( $registerd_blocks, $blocks_to_remove );
+		$allowed_block_types = array_values( $allowed_block_types );
+
+		return $allowed_block_types;
 	}
 
 	/**
@@ -238,17 +267,48 @@ class Table_Of_Contents {
 	}
 
 	/**
+	 * Generate color styles using CSS custom properties.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return string Inline CSS string.
+	 */
+	private function generate_styles( array $attributes ): string {
+		$hover_bg    = $attributes['customHoverBackgroundColor'] ?? '';
+		$hover_text  = $attributes['customHoverTextColor'] ?? '';
+		$active_bg   = $attributes['customActiveBackgroundColor'] ?? '';
+		$active_text = $attributes['customActiveTextColor'] ?? '';
+		$block_gap   = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
+
+		$styles = array(
+			'--hover-background-color'  => $hover_bg,
+			'--hover-text-color'        => $hover_text,
+			'--active-background-color' => $active_bg,
+			'--active-text-color'       => $active_text,
+			'--block-gap'               => $block_gap,
+		);
+
+		$style_string = array_map(
+			static function ( string $key, string $value ): string {
+				return ! empty( $value ) ? $key . ': ' . $value . ';' : '';
+			},
+			array_keys( $styles ),
+			$styles
+		);
+
+		return implode( ' ', array_filter( $style_string ) );
+	}
+
+	/**
 	 * Get the section list template
 	 *
-	 * @param string $list_item_classnames List item classnames.
 	 * @param string $sections_source Sections source.
 	 * @return string
 	 */
-	protected function get_section_list_template( $list_item_classnames, $sections_source = 'chapter' ) {
+	protected function get_section_list_template( $sections_source = 'chapter' ) {
 		ob_start();
 		?>
 		<template data-wp-each--section="context.<?php echo $sections_source; ?>.sections">
-			<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="state.isActive" data-wp-watch--for-current-section="callbacks.watchForCurrentSection">
+			<li class="wp-block-prc-block-table-of-contents__list-item" data-wp-class--is-active="state.isActive" data-wp-watch--for-current-section="callbacks.watchForCurrentSection">
 				<a data-wp-bind--href="context.section.url" data-wp-text="context.section.label" data-wp-on--click="callbacks.scrollSmoothly"></a>
 			</li>
 		</template>
@@ -265,12 +325,7 @@ class Table_Of_Contents {
 	 */
 	protected function get_list_template( $attributes, $parts_enabled = false ) {
 		$block_gap            = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
-		$color_supports       = new Additional_Color_Supports();
-		$list_item_classnames = $color_supports->get_list_classnames(
-			'wp-block-prc-block-table-of-contents',
-			false,
-			$attributes,
-		);
+		$list_item_classnames = 'wp-block-prc-block-table-of-contents__list-item';
 		ob_start();
 		if ( ! $parts_enabled ) {
 			// If there are no parts then we're just going to display the chapters. So we're going to start the structure at `chapter`
@@ -280,7 +335,7 @@ class Table_Of_Contents {
 					<a data-wp-bind--href="context.chapter.url" data-wp-text="context.chapter.label"></a>
 				<?php // Sections. ?>
 					<ul class="wp-block-prc-block-table-of-contents__list sections" data-wp-hidden="callbacks.hasSections">
-						<?php echo $this->get_section_list_template( $list_item_classnames ); ?>
+						<?php echo $this->get_section_list_template(); ?>
 					</ul>
 				</li>
 			</template>
@@ -292,124 +347,61 @@ class Table_Of_Contents {
 			<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="state.isActive">
 				<a data-wp-bind--href="context.part.url" data-wp-text="context.part.label"></a>
 			<?php // Top level sections. ?>
-				<ul class="wp-block-prc-block-table-of-contents__list sections" data-wp-hidden="callbacks.hasListItems">
-					<?php echo $this->get_section_list_template( $list_item_classnames, 'part' ); ?>
-				</ul>
+				<ol class="wp-block-prc-block-table-of-contents__list sections" data-wp-hidden="callbacks.hasListItems">
+					<?php echo $this->get_section_list_template( 'part' ); ?>
+				</ol>
 			<?php // Chapters. ?>
-				<ul class="wp-block-prc-block-table-of-contents__list chapters" data-wp-hidden="callbacks.hasListItems">
+				<ol class="wp-block-prc-block-table-of-contents__list chapters" data-wp-hidden="callbacks.hasListItems">
 					<template data-wp-each--chapter="context.part.chapters">
 						<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="callbacks.isActive">
 							<a data-wp-bind--href="context.chapter.url" data-wp-text="context.chapter.label"></a>
 						<?php // Sections. ?>
-							<ul class="wp-block-prc-block-table-of-contents__list sections" data-wp-hidden="callbacks.hasListItems">
-								<?php echo $this->get_section_list_template( $list_item_classnames ); ?>
-							</ul>
+							<ol class="wp-block-prc-block-table-of-contents__list sections" data-wp-hidden="callbacks.hasListItems">
+								<?php echo $this->get_section_list_template(); //phpcs:ignore ?>
+							</ol>
 						</li>
 					</template>
-				</ul>
+				</ol>
 			</li>
 		</template>
 			<?php
 		}
 		$list_template = ob_get_clean();
 
-		return wp_sprintf(
-			'<ul class="wp-block-prc-block-table-of-contents__list" role="list" %1$s>%2$s</ul>',
-			'style="--block-gap: ' . $block_gap . ';"',
-			$list_template
-		);
+		return $list_template;
 	}
 
 	/**
 	 * Get the accordion markup
+	 *
+	 * @deprecated 3.0.0 Accordion view has been removed in favor of the list view.
 	 *
 	 * @param array $attributes Attributes.
 	 * @return string
 	 */
 	protected function get_accordion_markup( $attributes ) {
 		$block_gap            = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
-		$color_supports       = new Additional_Color_Supports();
-		$list_item_classnames = $color_supports->get_list_classnames(
-			'wp-block-prc-block-table-of-contents',
-			false,
-			$attributes,
-		);
+		$list_item_classnames = 'wp-block-prc-block-table-of-contents__list-item';
 		ob_start();
 		?>
 		<div style="--block-gap: <?php echo $block_gap; ?>;">
-		<?php // @TODO: Render the top level package item here ?>
 		<template data-wp-each--part="context.items">
 			<details data-wp-bind--name="state.parentSlug" data-wp-bind--part-slug="context.part.slug">
 				<summary>
 					<span data-wp-text="context.part.label"></span>
 				</summary>
-				<ul class="wp-block-prc-block-table-of-contents__list chapters" data-wp-hidden="callbacks.hasListItems">
+				<ol class="wp-block-prc-block-table-of-contents__list chapters" data-wp-hidden="callbacks.hasListItems">
 					<template data-wp-each--chapter="context.part.chapters">
 						<li class="<?php echo $list_item_classnames; ?>" data-wp-class--is-active="callbacks.isActive">
 							<a data-wp-bind--href="context.chapter.url" data-wp-text="context.chapter.label"></a>
 						</li>
 					</template>
-				</ul>
+				</ol>
 			</details>
 		</template>
 		</div>
 		<?php
 		return ob_get_clean();
-	}
-
-	/**
-	 * Get the heading markup
-	 *
-	 * @param array $attributes Attributes.
-	 * @return string
-	 */
-	protected function get_heading_markup( $attributes ) {
-		$heading_text = array_key_exists( 'heading', $attributes ) ? $attributes['heading'] : false;
-		return wp_sprintf(
-			'<div class="%1$s"><h2>%2$s</h2></div>',
-			\PRC\Platform\Block_Utils\classNames(
-				'wp-block-prc-block-table-of-contents__heading',
-				array(
-					'has-text-color' => $attributes['headingTextColor'],
-					'has-' . $attributes['headingTextColor'] . '-color' => $attributes['headingTextColor'],
-					'has-background' => $attributes['headingBackgroundColor'],
-					'has-' . $attributes['headingBackgroundColor'] . '-background-color' => $attributes['headingBackgroundColor'],
-					'is-hidden'      => true === $attributes['hideHeading'],
-				),
-			),
-			$heading_text,
-		);
-	}
-
-	/**
-	 * Get the dropdown markup
-	 *
-	 * @param array $attributes Attributes.
-	 * @return string
-	 */
-	protected function get_dropdown_markup( $attributes ) {
-		$heading_text = array_key_exists( 'heading', $attributes ) ? $attributes['heading'] : false;
-		$plus_icon    = \PRC\Platform\Icons\render( 'light', 'plus' );
-		$minus_icon   = \PRC\Platform\Icons\render( 'light', 'minus' );
-		$icon_button  = wp_sprintf(
-			'<button class="wp-block-prc-block-table-of-contents__dropdown-trigger"><span data-wp-bind--hidden="context.isDropdownOpen">%s</span><span data-wp-bind--hidden="!context.isDropdownOpen">%s</span></button>',
-			$plus_icon,
-			$minus_icon,
-		);
-		return wp_sprintf(
-			'<div class="%1$s" data-wp-on--click="actions.onDropdownClick"><h2>%2$s</h2>%3$s</div>',
-			\PRC\Platform\Block_Utils\classNames(
-				'wp-block-prc-block-table-of-contents__dropdown__heading',
-				array(
-					'has-text-color' => $attributes['dropdownTextColor'],
-					'has-' . $attributes['dropdownTextColor'] . '-color' => $attributes['dropdownTextColor'],
-					'has-background' => $attributes['dropdownBackgroundColor'],
-					'has-' . $attributes['dropdownBackgroundColor'] . '-background-color' => $attributes['dropdownBackgroundColor'],
-				),
-			),
-			$heading_text,
-			$icon_button,
-		);
 	}
 
 	/**
@@ -425,16 +417,6 @@ class Table_Of_Contents {
 		$parent_id  = wp_get_post_parent_id( $post_id );
 		$parent_id  = 0 === $parent_id ? $post_id : $parent_id;
 		$attributes = \PRC\Platform\Block_Utils\get_block_attributes( 'prc-block/table-of-contents', $attributes );
-
-		// By default, the TOC renders as a simple list.
-		// Aditional configurations of this block can render the TOC as an accordion or a dropdown.
-
-		$is_accordion = 'accordion' === $attributes['displayType'];
-
-		// Determine if this should be present in the "Dropdown" user interface or not.
-		$is_dropdown = 'dropdown' === $attributes['displayType'];
-		$is_dropdown = ! $is_dropdown ? array_key_exists( 'className', $attributes ) && false !== strpos( $attributes['className'], 'is-style-dropdown' ) : $is_dropdown;
-		$is_dropdown = 'mobile' === \PRC\Platform\get_current_device() ? true : $is_dropdown;
 
 		$items = $this->parse_toc_items( $parent_id, $post_id );
 
@@ -455,7 +437,7 @@ class Table_Of_Contents {
 			}
 		}
 
-		$interactive_state = wp_interactivity_state(
+		wp_interactivity_state(
 			'prc-block/table-of-contents',
 			array(
 				'postId'                      => $post_id,
@@ -470,59 +452,53 @@ class Table_Of_Contents {
 		);
 
 		$interactive_context = array(
-			'isAccordion'             => $is_accordion,
-			'isDropdown'              => $is_dropdown,
-			'isDropdownOpen'          => false,
 			'items'                   => $items,
-			'autoDropdownEnabled'     => $attributes['autoDropdownEnabled'],
-			'autoDropdownWidth'       => $attributes['autoDropdownWidth'],
 			'highlightCurrentSection' => $attributes['showCurrentChapter'],
 		);
 
-		if ( $is_accordion ) {
-			// Remove teh first item...
-			$interactive_context['items']               = array_slice( $items, 1 );
-			$interactive_context['isDropdown']          = false;
-			$interactive_context['autoDropdownEnabled'] = false;
-			$interior_content                           = $this->get_accordion_markup( $attributes );
-		} else {
-			$interior_content = $this->get_heading_markup( $attributes ) . $this->get_dropdown_markup( $attributes ) . $this->get_list_template( $attributes, $parts_enabled );
+		$interior_content = $this->get_list_template( $attributes, $parts_enabled );
+		if ( 'is-style-rls-accordion' === $attributes['className'] ) {
+			$interior_content = $this->get_accordion_markup( $attributes );
 		}
 
 		$block_attrs = get_block_wrapper_attributes(
 			array(
-				'class'                                    => \PRC\Platform\Block_Utils\classNames(
+				'class'                                  => \PRC\Platform\Block_Utils\classNames(
 					array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
-					'common-block-style--baseball-card',
 					array(
 						'has-text-color' => $attributes['textColor'],
 						'has-' . $attributes['textColor'] . '-color' => $attributes['textColor'],
 						'has-background' => $attributes['backgroundColor'],
 						'has-' . $attributes['backgroundColor'] . '-background-color' => $attributes['backgroundColor'],
 					),
+					'wp-block-prc-block-table-of-contents__list',
 				),
-				'aria-role'                                => 'navigation',
-				'data-wp-interactive'                      => 'prc-block/table-of-contents',
-				'data-wp-context'                          => wp_json_encode(
+				'aria-role'                              => 'navigation',
+				'data-wp-interactive'                    => 'prc-block/table-of-contents',
+				'data-wp-context'                        => wp_json_encode(
 					$interactive_context,
 				),
-				'data-wp-init--map-sections-to-chapters'   => 'callbacks.mapFoundSectionsToChapters',
-				'data-wp-init--watch-for-section-scroll'   => 'callbacks.initWatchForSectionScroll',
-				'data-wp-on-document--scroll'              => 'callbacks.watchForSectionScroll',
-				'data-wp-on-window--resize'                => 'callbacks.onResizeToggleDropdown',
-				'data-wp-on-window--click'                 => 'callbacks.onWindowClickCloseDropdown',
-				'data-wp-class--is-style-dropdown'         => 'context.isDropdown',
-				'data-wp-bind--aria-expanded'              => 'context.isDropdownOpen',
-				'data-wp-bind--data-auto-dropdown-enabled' => 'context.autoDropdownEnabled',
-				'data-wp-bind--data-auto-dropdown-width'   => 'context.autoDropdownWidth',
+				'data-wp-init--map-sections-to-chapters' => 'callbacks.mapFoundSectionsToChapters',
+				'data-wp-init--watch-for-section-scroll' => 'callbacks.initWatchForSectionScroll',
+				'data-wp-on-document--scroll'            => 'callbacks.watchForSectionScroll',
 			)
 		);
 
-		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
+		$markup = wp_sprintf(
+			'<ol %1$s>%2$s</ol>',
 			$block_attrs,
 			$interior_content,
 		);
+
+		// Use WP_HTML_Tag_Processor to append color styles to existing style attribute.
+		$tag_processor = new \WP_HTML_Tag_Processor( $markup );
+		if ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-prc-block-table-of-contents' ) ) ) {
+			$style  = (string) $tag_processor->get_attribute( 'style' );
+			$style .= ' ' . $this->generate_styles( $attributes );
+			$tag_processor->set_attribute( 'style', $style );
+		}
+
+		return $tag_processor->get_updated_html();
 	}
 
 	/**

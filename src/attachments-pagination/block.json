@@ -1,0 +1,74 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/attachments-pagination",
+	"version": "0.1.0",
+	"title": "Attachments Pagination",
+	"category": "text",
+	"description": "Displays paginated list for the attachments of the parent post of the current attachment. This is only intended for use on Attachment pages.",
+	"attributes": {
+		"hoverBackgroundColor": {
+			"type": "string",
+			"default": "ui-beige-very-light"
+		},
+		"hoverTextColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"activeBackgroundColor": {
+			"type": "string",
+			"default": "ui-gray-very-light"
+		},
+		"activeTextColor": {
+			"type": "string",
+			"default": "ui-black"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "ui-white"
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"blockGap": "var:preset|spacing|20"
+				}
+			}
+		},
+		"parentId": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"blockGap": true,
+			"margin": ["top", "bottom", "left", "right"],
+			"__experimentalDefaultControls": {
+				"margin": true,
+				"blockGap": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": false,
+			"__experimentalDefaultControls": {
+				"__experimentalFontFamily": true
+			}
+		}
+	},
+	"usesContext": ["postId", "postType"],
+	"textdomain": "attachments-pagination",
+	"editorScript": ["file:./index.js", "prc-block-library--pagination"],
+	"editorStyle": "file:./index.css",
+	"style": [
+		"file:./style-index.css",
+		"prc-block-library--pagination",
+		"prc-block-library--additional-color-supports"
+	]
+}

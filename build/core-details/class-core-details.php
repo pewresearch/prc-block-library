@@ -40,6 +40,12 @@ class Core_Details {
 	 * @var string
 	 */
 	public $editor_script_handle;
+	/**
+	 * The view script handle.
+	 *
+	 * @var string
+	 */
+	public $view_script_handle;
 
 	/**
 	 * Constructor
@@ -61,6 +67,8 @@ class Core_Details {
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'init', $this, 'register_styles' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_assets' );
+			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
+			$loader->add_filter( 'render_block', $this, 'render', 100, 3 );
 		}
 	}
 
@@ -72,6 +80,29 @@ class Core_Details {
 	public function register_assets() {
 		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
 		$this->editor_style_handle  = register_block_style_handle( $this->block_json, 'editorStyle' );
+		$this->view_script_handle   = register_block_script_module_id( $this->block_json, 'viewScriptModule' );
+	}
+
+	/**
+	 * Register additional attributes for the "core/details" block.
+	 *
+	 * @hook block_type_metadata
+	 * @param mixed $metadata Metadata.
+	 * @return mixed
+	 */
+	public function add_attributes( $metadata ) {
+		if ( 'core/details' !== $metadata['name'] ) {
+			return $metadata;
+		}
+
+		if ( ! array_key_exists( 'closeWhenFocusLost', $metadata['attributes'] ) ) {
+			$metadata['attributes']['closeWhenFocusLost'] = array(
+				'type'    => 'boolean',
+				'default' => false,
+			);
+		}
+
+		return $metadata;
 	}
 
 	/**
@@ -110,6 +141,51 @@ class Core_Details {
 				'inline_style' => wp_sprintf( '.wp-block-details.is-style-pew-knight-co-branded > summary:before { display: flex; background-image: url(%s); width: 183px; height: 35px; content: ""; background-repeat: no-repeat; background-size: contain; background-position: center;} .wp-block-details.is-style-pew-knight-co-branded > summary:after { background-position: right; width: 100%% !important; } .wp-block-details.is-style-pew-knight-co-branded > summary { text-indent: -9999px; }', 'https://pewresearch.org/wp-content/plugins/prc-block-library/assets/pew-knight-logo.svg' ) . self::get_new_icon_styles( 'pew-knight-co-branded' ),
 			)
 		);
+	}
+
+	/**
+	 * Render the block with Interactivity API directives.
+	 *
+	 * @hook render_block
+	 * @param string   $block_content The block content.
+	 * @param array    $block         The block.
+	 * @param WP_Block $block_obj     The block object.
+	 * @return string The filtered block content.
+	 */
+	public function render( $block_content, $block, $block_obj ) {
+		if ( 'core/details' !== $block['blockName'] ) {
+			return $block_content;
+		}
+
+		$close_when_focus_lost = $block['attrs']['closeWhenFocusLost'] ?? false;
+
+		// Only add interactivity if the feature is enabled.
+		if ( ! $close_when_focus_lost ) {
+			return $block_content;
+		}
+
+		// Enqueue the view script.
+		wp_enqueue_script_module( $this->view_script_handle );
+
+		// Use WP_HTML_Tag_Processor to add Interactivity API directives.
+		$processor = new WP_HTML_Tag_Processor( $block_content );
+
+		if ( $processor->next_tag( array( 'tag_name' => 'details' ) ) ) {
+			// Add the data-wp-interactive directive.
+			$processor->set_attribute( 'data-wp-interactive', 'core/details' );
+
+			// Add the context with closeWhenFocusLost value.
+			$context = array(
+				'closeWhenFocusLost' => $close_when_focus_lost,
+			);
+			$processor->set_attribute( 'data-wp-context', wp_json_encode( $context ) );
+
+			// Add the handleOutsideClick action.
+			$processor->set_attribute( 'data-wp-on-document--click', 'actions.handleOutsideClick' );
+
+		}
+
+		return $processor->get_updated_html();
 	}
 
 	/**

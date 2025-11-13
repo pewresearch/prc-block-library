@@ -1,2 +1,1 @@
 (()=>{"use strict";(0,window.wp.blocks.registerBlockVariation)("core/paragraph",{name:"version-info",title:"Version Info",attributes:{placeholder:'Version: 1.2.0 "Spiteful Washington"',metadata:{bindings:{content:{source:"prc-platform/version",args:{module:"platform"}}}}}})})();
-//# sourceMappingURL=index.js.map

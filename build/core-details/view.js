@@ -1,0 +1,1 @@
+import{getContext as t,getElement as e,store as s,withSyncEvent as o}from"@wordpress/interactivity";const{state:a}=s("core/details",{actions:{handleOutsideClick:o(s=>{const o=t(),{ref:a}=e();o.closeWhenFocusLost&&a&&!a.contains(s.target)&&a.hasAttribute("open")&&a.removeAttribute("open")})},callbacks:{}});

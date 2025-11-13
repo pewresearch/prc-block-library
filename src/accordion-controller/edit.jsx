@@ -10,7 +10,10 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	InnerBlocks,
+	InspectorControls,
 } from '@wordpress/block-editor';
+import { PanelBody, ToggleControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal Dependencies
@@ -48,7 +51,10 @@ export default function Edit({
 	attributes,
 	className,
 	__unstableLayoutClassNames: layoutClassNames,
+	setAttributes,
 }) {
+	const { structuredData = false } = attributes;
+
 	const blockProps = useBlockProps({
 		className: clsx(className, layoutClassNames),
 	});
@@ -61,5 +67,26 @@ export default function Edit({
 		template: TEMPLATE,
 	});
 
-	return <div {...innerBlocksProps} />;
+	return (
+		<>
+			<InspectorControls>
+				<PanelBody
+					title={ __('Accordion Settings', 'prc-block-library') }
+					initialOpen={ true }
+				>
+					<ToggleControl
+						label={ __('Include Structured Data', 'prc-block-library') }
+						checked={ structuredData }
+						onChange={(value) => setAttributes({ structuredData: value })}
+						help={
+							structuredData
+								? __('FAQ schema will be output for this accordion.', 'prc-block-library')
+								: __('FAQ schema disabled.', 'prc-block-library')
+						}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div {...innerBlocksProps} />
+		</>
+	);
 }

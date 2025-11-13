@@ -126,13 +126,13 @@ export default function Edit({
 	// Filter options based on inputValue and exclude already selected or disabled
 	const filteredOptions = useMemo(() => {
 		const allOptions = [...options, ...contextualOptions];
-		console.log('filteredOptions', {
-			options,
-			contextualOptions,
-			selectedValues,
-			inputValue,
-			allOptions,
-		});
+		// console.log('filteredOptions', {
+		// 	options,
+		// 	contextualOptions,
+		// 	selectedValues,
+		// 	inputValue,
+		// 	allOptions,
+		// });
 		return allOptions.filter(
 			(option) =>
 				!selectedValues.includes(option.value) &&
@@ -280,12 +280,12 @@ export default function Edit({
 						}}
 						onBlur={(event) => {
 							setTimeout(() => setIsDropdownOpen(false), 250);
-							console.log('onBlur');
+							// console.log('onBlur');
 						}}
 						onFocus={(event) => {
 							event.preventDefault();
 							setIsDropdownOpen(true);
-							console.log('onFocus', isDropdownOpen);
+							// console.log('onFocus', isDropdownOpen);
 						}}
 						disabled={attributes.disabled}
 						required={required && selectedValues.length === 0}

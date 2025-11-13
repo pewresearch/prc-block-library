@@ -39,6 +39,36 @@ class Post_Taxonomy_Terms {
 	}
 
 	/**
+	 * Generate CSS custom properties for color styles
+	 *
+	 * @param array $attributes Block attributes
+	 * @return string CSS string with color custom properties
+	 */
+	private function generate_color_styles( array $attributes ): string {
+		$hover_bg    = $attributes['customHoverBackgroundColor'] ?? '';
+		$hover_text  = $attributes['customHoverTextColor'] ?? '';
+		$active_bg   = $attributes['customActiveBackgroundColor'] ?? '';
+		$active_text = $attributes['customActiveTextColor'] ?? '';
+
+		$styles = array(
+			'--hover-background-color'  => $hover_bg,
+			'--hover-text-color'        => $hover_text,
+			'--active-background-color' => $active_bg,
+			'--active-text-color'       => $active_text,
+		);
+
+		$style_string = array_map(
+			static function ( string $key, string $value ): string {
+				return ! empty( $value ) ? $key . ': ' . $value . ';' : '';
+			},
+			array_keys( $styles ),
+			$styles
+		);
+
+		return implode( ' ', array_filter( $style_string ) );
+	}
+
+	/**
 	 * Render the block
 	 *
 	 * @param array  $attributes Block attributes
@@ -47,7 +77,6 @@ class Post_Taxonomy_Terms {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		$color_supports   = new Additional_Color_Supports( null );
 		$get_all_terms    = array_key_exists( 'getAllTerms', $attributes ) && $attributes['getAllTerms'];
 		$taxonomy         = $attributes['taxonomy'];
 		$taxonomy         = 'categories' === $taxonomy ? 'category' : $taxonomy;
@@ -104,11 +133,7 @@ class Post_Taxonomy_Terms {
 						$publications_page_link
 					);
 				}
-				$classnames = $is_list ? $color_supports->get_list_classnames(
-					'wp-block-prc-block-post-taxonomy-terms',
-					false,
-					$attributes,
-				) : 'wp-block-prc-block-post-taxonomy-terms__list-item';
+				$classnames = 'wp-block-prc-block-post-taxonomy-terms__list-item';
 				if ( $enable_link ) {
 					$item = wp_sprintf(
 						'<a href="%1$s">%2$s</a>',
@@ -130,11 +155,21 @@ class Post_Taxonomy_Terms {
 			$markup .= '</ul>';
 		}
 
-		return wp_sprintf(
+		$output = wp_sprintf(
 			'<div %1$s>%2$s</div>',
 			$wrapper_attributes,
 			$markup,
 		);
+
+		// Use WP_HTML_Tag_Processor to append color styles to existing style attribute
+		$tag_processor = new \WP_HTML_Tag_Processor( $output );
+		if ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-prc-block-post-taxonomy-terms' ) ) ) {
+			$style  = (string) $tag_processor->get_attribute( 'style' );
+			$style .= ' ' . $this->generate_color_styles( $attributes );
+			$tag_processor->set_attribute( 'style', $style );
+		}
+
+		return $tag_processor->get_updated_html();
 	}
 
 	/**

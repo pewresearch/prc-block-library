@@ -11,7 +11,7 @@
 			"type": "boolean",
 			"default": false
 		},
-		"taxonomy":{
+		"taxonomy": {
 			"type": "string",
 			"default": "categories"
 		},
@@ -26,25 +26,33 @@
 			"type": "boolean",
 			"default": true
 		},
-		"linkToPublicationsPage":{
+		"linkToPublicationsPage": {
 			"type": "boolean",
 			"default": false
 		},
 		"activeBackgroundColor": {
-			"type": "string",
-			"default": "ui-gray-very-light"
+			"type": "string"
 		},
 		"activeTextColor": {
-			"type": "string",
-			"default": "ui-text-color"
+			"type": "string"
+		},
+		"customActiveBackgroundColor": {
+			"type": "string"
+		},
+		"customActiveTextColor": {
+			"type": "string"
 		},
 		"hoverBackgroundColor": {
-			"type": "string",
-			"default": "ui-beige-very-light"
+			"type": "string"
 		},
 		"hoverTextColor": {
-			"type": "string",
-			"default": "ui-text-color"
+			"type": "string"
+		},
+		"customHoverBackgroundColor": {
+			"type": "string"
+		},
+		"customHoverTextColor": {
+			"type": "string"
 		},
 		"style": {
 			"type": "object",
@@ -86,22 +94,23 @@
 			"__experimentalFontFamily": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalTextDecoration": true,
-			"__experimentalSkipSerialization": [ "textDecoration" ],
+			"__experimentalSkipSerialization": ["textDecoration"],
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
 		},
 		"spacing": {
 			"blockGap": true,
-			"units": [ "px", "em", "rem", "vh", "vw" ],
+			"padding": true,
+			"units": ["px", "em", "rem", "vh", "vw"],
 			"__experimentalDefaultControls": {
 				"blockGap": true
 			}
 		}
 	},
-	"usesContext": [ "postId", "postType" ],
+	"usesContext": ["postId", "postType"],
 	"textdomain": "post-taxonomy-terms",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": ["file:./style-index.css", "prc-block-library--baseball-card","prc-block-library--additional-color-supports"]
+	"style": "file:./style-index.css"
 }

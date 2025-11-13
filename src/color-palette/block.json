@@ -6,10 +6,16 @@
 	"title": "Color Palette",
 	"category": "design",
 	"description": "Display a color from the palette defined in the currently active theme.",
-	"attributes": {},
+	"attributes": {
+		"colorSlug": {
+			"type": "string",
+			"default": ""
+		}
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
+		"interactivity": true,
 		"color": {
 			"background": true,
 			"text": false
@@ -18,7 +24,6 @@
 	"textdomain": "color-palette",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": ["file:./style-index.css", "wp-components"],
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js"
 }

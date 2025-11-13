@@ -46,6 +46,29 @@ class Code_Syntax {
 	}
 
 	/**
+	 * Render callback for the block
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string
+	 */
+	public function render_callback( $attributes, $content, $block ) {
+		wp_enqueue_style( 'prc-font-monospace' );
+
+		$detectedLanguage    = array_key_exists( 'detectedLanguage', $attributes ) ? $attributes['detectedLanguage'] : '';
+		$forceLanguage       = array_key_exists( 'forceLanguage', $attributes ) ? $attributes['forceLanguage'] : '';
+		$block_wrapper_attrs = get_block_wrapper_attributes();
+
+		return wp_sprintf(
+			'<div %1$s data-language="%2$s"><div class="wp-block-prc-block-code-syntax__ui"></div>%3$s</div>',
+			$block_wrapper_attrs,
+			! empty( $forceLanguage ) ? $forceLanguage : $detectedLanguage,
+			$content,
+		);
+	}
+
+	/**
 	 * Registers the block using the metadata loaded from the `block.json` file.
 	 * Behind the scenes, it registers also all assets so they can be enqueued
 	 * through the block editor in the corresponding context.
@@ -59,7 +82,7 @@ class Code_Syntax {
 		register_block_type_from_metadata(
 			PRC_BLOCK_LIBRARY_DIR . '/build/code-syntax',
 			array(
-				'render_callback' => array( $this, 'render_block_callback' ),
+				'render_callback' => array( $this, 'render_callback' ),
 			)
 		);
 	}

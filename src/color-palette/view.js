@@ -1,36 +1,49 @@
 /**
  * WordPress Dependencies
  */
-import { render } from '@wordpress/element';
-import domReady from '@wordpress/dom-ready';
+import { store, getContext, withScope } from '@wordpress/interactivity';
 
-/**
- * Internal Dependencies
- */
-import Palette from './palette';
-
-domReady(() => {
-	const palettes = document.querySelectorAll(
-		'.wp-block-prc-block-color-palette'
-	);
-	palettes.forEach((elm) => {
-		// Gather the classes and styles from the palette element.
-		const classes = elm.getAttribute('class');
-
-		// Get the second class name from the list of classes.
-		const [colorClass] = classes.split(' ').slice(1);
-
-		// Get the color slug from the class name.
-		const colorSlug = colorClass.slice(4, -17);
-
-		render(
-			<Palette
-				{...{
-					className: classes,
-					colorSlug,
-				}}
-			/>,
-			elm
-		);
-	});
+const { state } = store('prc-block/color-palette', {
+	state: {
+		get colorPalette() {
+			return state.colorPalette || {};
+		},
+	},
+	actions: {
+		copyToClipboard: () => {
+			const context = getContext();
+			if (context.disallowCopy) {
+				return;
+			}
+			
+			if (context.hex) {
+				navigator.clipboard.writeText(context.hex);
+				context.clicked = true;
+				
+				setTimeout(
+					withScope(() => {
+						context.clicked = false;
+					}),
+					2000
+				);
+			}
+		},
+		showTooltip: () => {
+			const context = getContext();
+			context.visible = true;
+		},
+		hideTooltip: () => {
+			const context = getContext();
+			context.visible = false;
+		},
+	},
+	callbacks: {
+		initColor: () => {
+			const context = getContext();
+			// If hex is already set from server-side rendering, no need to fetch
+			if (!context.hex && context.colorSlug && state.colorPalette) {
+				context.hex = state.colorPalette[context.colorSlug] || null;
+			}
+		},
+	},
 });

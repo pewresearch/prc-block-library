@@ -7,7 +7,6 @@ import classnames from 'classnames';
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
 import {
 	InnerBlocks,
 	useInnerBlocksProps,
@@ -20,6 +19,7 @@ import { useSelect } from '@wordpress/data';
  * Internal Dependencies
  */
 import Controls from './controls';
+import StyleEngine from './style-engine';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -54,6 +54,11 @@ export default function Edit({
 		desktopRow,
 		tabletRow,
 		mobileRow,
+		tabletPosition,
+		mobilePosition,
+		desktopDivider,
+		tabletDivider,
+		mobileDivider,
 	} = gridLayout;
 
 	const { hasChildBlocks } = useSelect(
@@ -71,8 +76,13 @@ export default function Edit({
 		className: classnames({
 			[`is-vertically-aligned-${verticalAlignment}`]: verticalAlignment,
 			[`column${index}-desktop-grid__span-${desktopSpan}`]: desktopSpan,
+			'has-desktop-divider': desktopDivider,
 			[`column${index}-tablet-grid__span-${tabletSpan}`]: tabletSpan,
+			[`column${index}-tablet-position-${tabletPosition}`]: tabletPosition,
+			'has-tablet-divider': tabletDivider,
 			[`column${index}-mobile-grid__span-${mobileSpan}`]: mobileSpan,
+			[`column${index}-mobile-position-${mobilePosition}`]: mobilePosition,
+			'has-mobile-divider': mobileDivider,
 		}),
 	});
 
@@ -86,9 +96,10 @@ export default function Edit({
 	});
 
 	return (
-		<Fragment>
+		<>
+			<StyleEngine attributes={attributes} clientId={clientId} />
 			<Controls {...{ attributes, setAttributes, clientId }} />
 			<div {...innerBlocksProps} />
-		</Fragment>
+		</>
 	);
 }

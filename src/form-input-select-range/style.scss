@@ -1,0 +1,15 @@
+.wp-block-prc-block-form-input-select-range {
+	display: flex;
+	gap: var(--wp--preset--spacing--20, 1rem);
+	align-items: flex-end;
+
+	&.is-layout-flex {
+		flex-wrap: wrap;
+	}
+
+	// Ensure inner select blocks have equal width
+	.wp-block-prc-block-form-input-select {
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}

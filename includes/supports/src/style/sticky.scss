@@ -1,0 +1,39 @@
+/**
+ * Sticky Block Support
+ */
+@use "./variables/breakpoints.scss" as *;
+@use "sass:math" as *;
+
+// Make sure sticky blocks account for wp admin bar height.
+body.admin-bar .is-position-sticky.js-is-sticky {
+	top: calc(
+		0px + var(--wp-admin--admin-bar--position-offset, 0px)
+	) !important;
+}
+
+.is-position-sticky.js-is-sticky.js-is-sticky--change {
+	overflow-y: scroll;
+	max-height: 90vh;
+}
+
+// Disable sticky positioning in the editor for blocks within the post content area.
+// This is an ask from producers specifically, as it's difficult to edit content when a block is sticky.
+.wp-block-post-content .wp-block.is-position-sticky {
+	position: relative !important;
+}
+
+// Only apply box shadow when the block is actually stuck to the top of the viewport.
+.is-position-sticky.has-stuck-box-shadow:not(.js-is-sticky--change) {
+	box-shadow: none !important;
+}
+
+// Make sure full width sticky blocks in the post content area span the full width of the viewport when stuck.
+@media only screen and (max-width:  #{ ($break-small) }) {
+	:where(.is-position-sticky.js-is-sticky--change:has(details)) {
+		width: 100vw !important;
+		transform: translateX(
+			calc(-1 * var(--wp--style--root--padding-left))
+		) !important; // Offsets the WP style engine root padding.
+		z-index: 100 !important;
+	}
+}

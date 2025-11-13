@@ -2,7 +2,7 @@
 /**
  * External Dependencies
  */
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { Icon } from '@prc/icons';
 
 /**
@@ -25,9 +25,6 @@ import { useDispatch } from '@wordpress/data';
  * Internal Dependencies
  */
 import Controls from './controls';
-
-// Allow only this block to be inserted into the inner blocks.
-const ALLOWED_BLOCKS = ['prc-block/taxonomy-list-link'];
 
 /**
  * Converts a spacing preset into a custom value.
@@ -77,7 +74,7 @@ export default function Edit({
 	insertBlocksAfter,
 }) {
 	// eslint-disable-next-line prettier/prettier, object-curly-newline
-	const { allowedBlocks, className, label, enableSubMenu, style } =
+	const { className, label, enableSubMenu, style } =
 		attributes;
 	const [subMenuIsOpen, toggleSubMenu] = useState(false);
 
@@ -86,14 +83,11 @@ export default function Edit({
 	const [popoverAnchor, setPopoverAnchor] = useState(null);
 	const listItemRef = useRef(null);
 
-	const { textColor } = context;
 	const blockGap = style?.spacing?.blockGap || 'var:preset|spacing|30';
 
 	const blockProps = useBlockProps({
 		ref: useMergeRefs([setPopoverAnchor, listItemRef]),
-		className: classNames(className, {
-			'has-text-color': !!textColor,
-			[getColorClassName('color', textColor)]: !!textColor,
+		className: clsx(className, {
 			'is-active': subMenuIsOpen,
 		}),
 	});
@@ -109,19 +103,14 @@ export default function Edit({
 	const minusIcion =
 		'is-style-sub-expand' === className ? 'minus' : 'circle-minus';
 
-	// By defining a allowedBlocks attribute any block can
-	// now customize what inner blocks are allowed.
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: classNames(
+			className: clsx(
 				'wp-block-prc-block-taxonomy-list-link__sub-menu'
 			),
 			style: {
 				...subMenuStyle,
 			},
-		},
-		{
-			allowedBlocks: allowedBlocks || ALLOWED_BLOCKS,
 		}
 	);
 

@@ -4,7 +4,7 @@
 /**
  * External Dependencies
  */
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
@@ -12,14 +12,14 @@ import classnames from 'classnames';
 import {
 	useBlockProps,
 	withColors,
-	getColorClassName,
 } from '@wordpress/block-editor';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 
 /**
  * Internal Dependencies
  */
 import './edit.scss';
+import StyleEngine from './style-engine';
 import Controls from './controls';
 import EditMenuItem from './edit-menu-item';
 import EditMenuTemplatePart from './edit-menu-template-part';
@@ -76,71 +76,12 @@ function Edit({
 	const [isMenuVisible, setMenuVisibility] = useState(false);
 	const toggleMenu = () => setMenuVisibility(!isMenuVisible);
 
-	const colors = {
-		menuItemBackgroundColor,
-		setMenuItemBackgroundColor,
-		menuItemTextColor,
-		setMenuItemTextColor,
-		menuItemActiveBackgroundColor,
-		setMenuItemActiveBackgroundColor,
-		menuItemActiveTextColor,
-		setMenuItemActiveTextColor,
-		menuOverlayBackgroundColor,
-		setMenuOverlayBackgroundColor,
-		menuOverlayTextColor,
-		setMenuOverlayTextColor,
-		menuActiveBorderColor,
-		setMenuActiveBorderColor,
-	};
-
-	const menuItemClassnames = classnames('wp-block-navigation-item', {
+	const menuItemClassnames = clsx('wp-block-navigation-item', {
 		'is-active': isMenuVisible,
-		'has-active-menu-item-background':
-			!!menuItemActiveBackgroundColor.color ||
-			menuItemActiveBackgroundColor.class,
-		[getColorClassName(
-			'active-menu-item-background',
-			menuItemActiveBackgroundColor?.slug
-		)]: !!menuItemActiveBackgroundColor?.slug,
-		'has-active-menu-item-color':
-			!!menuItemActiveTextColor.color || menuItemActiveTextColor.class,
-		[getColorClassName(
-			'active-menu-item-color',
-			menuItemActiveTextColor?.slug
-		)]: !!menuItemActiveTextColor?.slug,
-		'has-menu-item-background':
-			!!menuItemBackgroundColor.color || menuItemBackgroundColor.class,
-		[getColorClassName(
-			'menu-item-background',
-			menuItemBackgroundColor?.slug
-		)]: !!menuItemBackgroundColor?.slug,
-		'has-menu-item-color':
-			!!menuItemTextColor.color || menuItemTextColor.class,
-		[getColorClassName('menu-item-color', menuItemTextColor?.slug)]:
-			!!menuItemTextColor?.slug,
-		'has-active-border-color':
-			!!menuActiveBorderColor.color || menuActiveBorderColor.class,
-		[getColorClassName('active-border-color', menuActiveBorderColor?.slug)]:
-			!!menuActiveBorderColor?.slug,
 		'has-label': 'dropdown' === icon,
 	});
 
-	const overlayClassnames = classnames(
-		'wp-block-prc-block-navigation-mega-menu__container',
-		{
-			'has-overlay-background':
-				!!menuOverlayBackgroundColor.color ||
-				menuOverlayBackgroundColor.class,
-			[getColorClassName(
-				'overlay-background',
-				menuOverlayBackgroundColor?.slug
-			)]: !!menuOverlayBackgroundColor?.slug,
-			'has-overlay-color':
-				!!menuOverlayTextColor.color || menuOverlayTextColor.class,
-			[getColorClassName('overlay-color', menuOverlayTextColor?.slug)]:
-				!!menuOverlayTextColor?.slug,
-		}
-	);
+	const overlayClassnames = 'wp-block-prc-block-navigation-mega-menu__container';
 
 	const blockProps = useBlockProps({
 		className: menuItemClassnames,
@@ -148,7 +89,28 @@ function Edit({
 
 	return (
 		<div {...blockProps}>
-			<Controls {...{ attributes, setAttributes, colors, clientId }} />
+			<StyleEngine attributes={attributes} clientId={clientId} />
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+					clientId,
+					menuItemBackgroundColor,
+					setMenuItemBackgroundColor,
+					menuItemTextColor,
+					setMenuItemTextColor,
+					menuItemActiveBackgroundColor,
+					setMenuItemActiveBackgroundColor,
+					menuItemActiveTextColor,
+					setMenuItemActiveTextColor,
+					menuOverlayBackgroundColor,
+					setMenuOverlayBackgroundColor,
+					menuOverlayTextColor,
+					setMenuOverlayTextColor,
+					menuActiveBorderColor,
+					setMenuActiveBorderColor,
+				}}
+			/>
 			<EditMenuItem
 				{...{
 					attributes,

@@ -8,7 +8,6 @@ import { useDebounce } from '@prc/hooks';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
@@ -53,7 +52,7 @@ export default function Edit({
 	});
 
 	return (
-		<Fragment>
+		<>
 			<BlockControls>
 				<AlignmentControl
 					value={textAlign}
@@ -78,6 +77,6 @@ export default function Edit({
 					}
 				/>
 			</div>
-		</Fragment>
+		</>
 	);
 }

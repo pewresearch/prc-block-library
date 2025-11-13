@@ -25,10 +25,23 @@ import ColorControls from './control-colors';
 export default function Controls({
 	attributes,
 	setAttributes,
-	colors,
 	clientId,
+	menuItemBackgroundColor,
+	setMenuItemBackgroundColor,
+	menuItemTextColor,
+	setMenuItemTextColor,
+	menuItemActiveBackgroundColor,
+	setMenuItemActiveBackgroundColor,
+	menuItemActiveTextColor,
+	setMenuItemActiveTextColor,
+	menuOverlayBackgroundColor,
+	setMenuOverlayBackgroundColor,
+	menuOverlayTextColor,
+	setMenuOverlayTextColor,
+	menuActiveBorderColor,
+	setMenuActiveBorderColor,
 }) {
-	const { menuSlug, label, title, description, url, icon, hasBoxShadow } =
+	const { menuSlug, label, title, description, url, icon} =
 		attributes;
 
 	return (
@@ -124,20 +137,29 @@ export default function Controls({
 							'prc-navigation-mega-menu'
 						)}
 					/>
-					<ToggleControl
-						label={__('Has box shadow', 'prc-navigation-mega-menu')}
-						checked={hasBoxShadow}
-						onChange={(value) =>
-							setAttributes({ hasBoxShadow: value })
-						}
-						help={__(
-							'Enable to add a box shadow to the mega menu.',
-							'prc-navigation-mega-menu'
-						)}
-					/>
 				</PanelBody>
 			</InspectorControls>
-			<ColorControls {...{ colors, clientId }} />
+			<ColorControls
+				{...{
+					attributes,
+					setAttributes,
+					clientId,
+					menuItemBackgroundColor,
+					setMenuItemBackgroundColor,
+					menuItemTextColor,
+					setMenuItemTextColor,
+					menuItemActiveBackgroundColor,
+					setMenuItemActiveBackgroundColor,
+					menuItemActiveTextColor,
+					setMenuItemActiveTextColor,
+					menuOverlayBackgroundColor,
+					setMenuOverlayBackgroundColor,
+					menuOverlayTextColor,
+					setMenuOverlayTextColor,
+					menuActiveBorderColor,
+					setMenuActiveBorderColor,
+				}}
+			/>
 		</Fragment>
 	);
 }

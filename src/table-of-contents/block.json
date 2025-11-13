@@ -7,38 +7,9 @@
 	"category": "theme",
 	"description": "Displays a list of all heading blocks set to chapter headings.",
 	"attributes": {
-		"displayType": {
-			"type": "string",
-			"default": "list",
-			"enum": ["list", "accordion", "dropdown"]
-		},
 		"showCurrentChapter": {
 			"type": "boolean",
 			"default": false
-		},
-		"dropdownBackgroundColor": {
-			"type": "string",
-			"default": "white"
-		},
-		"dropdownTextColor": {
-			"type": "string",
-			"default": "ui-black"
-		},
-		"autoDropdownEnabled": {
-			"type": "boolean",
-			"default": true
-		},
-		"autoDropdownWidth": {
-			"type": "number",
-			"default": 480
-		},
-		"headingBackgroundColor": {
-			"type": "string",
-			"default": "ui-black"
-		},
-		"headingTextColor": {
-			"type": "string",
-			"default": "white"
 		},
 		"backgroundColor": {
 			"type": "string",
@@ -53,36 +24,28 @@
 			"default": "ui-black"
 		},
 		"activeBackgroundColor": {
-			"type": "string",
-			"default": "ui-gray-very-light"
+			"type": "string"
 		},
 		"activeTextColor": {
-			"type": "string",
-			"default": "ui-black"
+			"type": "string"
+		},
+		"customActiveBackgroundColor": {
+			"type": "string"
+		},
+		"customActiveTextColor": {
+			"type": "string"
 		},
 		"hoverBackgroundColor": {
-			"type": "string",
-			"default": "ui-beige-very-light"
+			"type": "string"
 		},
 		"hoverTextColor": {
-			"type": "string",
-			"default": "ui-black"
+			"type": "string"
 		},
-		"heading": {
-			"type": "string",
-			"default": "Table of Contents"
+		"customHoverBackgroundColor": {
+			"type": "string"
 		},
-		"hideHeading": {
-			"type": "boolean",
-			"default": false
-		},
-		"style": {
-			"type": "object",
-			"default": {
-				"spacing": {
-					"blockGap": "var:preset|spacing|20"
-				}
-			}
+		"customHoverTextColor": {
+			"type": "string"
 		}
 	},
 	"supports": {
@@ -96,15 +59,9 @@
 		},
 		"interactivity": true,
 		"spacing": {
-			"margin": [ "top", "bottom", "left", "right" ],
-			"blockGap": true,
-			"__experimentalDefaultControls": {
-				"margin": true,
-				"blockGap": true
-			}
-		},
-		"position": {
-			"sticky": true
+			"margin": true,
+			"padding": true,
+			"blockGap": true
 		},
 		"typography": {
 			"__experimentalFontFamily": true,
@@ -114,39 +71,15 @@
 				"__experimentalFontFamily": true,
 				"fontSizes": true
 			}
-		},
-		"__experimentalBorder": {
-			"color": true,
-			"radius": false,
-			"style": true,
-			"width": true,
-			"__experimentalDefaultControls": {
-			  "color": true,
-			  "radius": false,
-			  "style": true,
-			  "width": true
-			}
-		  }
-	},
-	"selectors": {
-		"root": ".wp-block-prc-block-table-of-contents",
-		"spacing": {
-			"blockGap": ".wp-block-prc-block-table-of-contents__list"
 		}
 	},
 	"example": {
-		"attributes": {
-			"className": "is-style-default"
-		},
 		"viewportWidth": 320
 	},
-	"usesContext": [
-		"postId",
-		"postType"
-	],
+	"usesContext": ["postId", "postType"],
 	"textdomain": "table-of-contents",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": ["file:./style-index.css","prc-block-library--baseball-card","prc-block-library--additional-color-supports"],
+	"style": "file:./style-index.css",
 	"viewScriptModule": "file:./view.js"
 }

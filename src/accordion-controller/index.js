@@ -11,7 +11,8 @@
 /**
  * WordPress Dependencies
  */
-import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType, unregisterBlockType } from '@wordpress/blocks';
+import domReady from '@wordpress/dom-ready';
 
 /**
  * Internal Dependencies
@@ -43,9 +44,14 @@ const settings = {
 	transforms,
 };
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
- */
 registerBlockType(name, { ...metadata, ...settings });
+
+/**
+ * Unregister core accordion blocks to prevent conflicts.
+ */
+domReady(() => {
+	unregisterBlockType('core/accordion');
+	unregisterBlockType('core/accordion-item');
+	unregisterBlockType('core/accordion-heading');
+	unregisterBlockType('core/accordion-panel');
+});

@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/card",
+	"version": "1.0.0",
+	"title": "Card",
+	"category": "design",
+	"description": "Display content in a card",
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"source": "html",
+			"selector": ".prc-card__heading"
+		},
+		"headingBackgroundColor": {
+			"type": "string"
+		},
+		"customHeadingBackgroundColor": {
+			"type": "string"
+		},
+		"headingTextColor": {
+			"type": "string"
+		},
+		"customHeadingTextColor": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"blockGap": true,
+			"margin": true,
+			"padding": true,
+			"__experimentalSkipSerialization": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		},
+		"position": {
+			"sticky": true
+		}
+	},
+	"usesContext": ["postId", "postType"],
+	"textdomain": "card",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

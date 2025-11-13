@@ -11,7 +11,7 @@
 		},
 		"separator": {
 			"type": "string",
-			"default": "/"
+			"default": ">"
 		},
 		"showCurrentPageTitle": {
 			"type": "boolean",
@@ -23,7 +23,7 @@
 		},
 		"showHome": {
 			"type": "boolean",
-			"default": false
+			"default": true
 		},
 		"homeCrumb": {
 			"type": "object",
@@ -39,6 +39,24 @@
 				},
 				"asIcon": {
 					"type": "boolean"
+				}
+			}
+		},
+		"showIndex": {
+			"type": "boolean",
+			"default": true
+		},
+		"indexCrumb": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"url": {
+					"type": "string"
+				},
+				"text": {
+					"type": "string"
 				}
 			}
 		},
@@ -87,7 +105,7 @@
 			"default": {
 				"spacing": {
 					"blockGap": {
-						"left":"var:preset|spacing|50"
+						"left": "var:preset|spacing|50"
 					}
 				}
 			}
@@ -104,12 +122,9 @@
 		},
 		"spacing": {
 			"blockGap": {
-				"sides": [ "horizontal" ]
+				"sides": ["horizontal"]
 			},
-			"margin": [
-				"top",
-				"bottom"
-			],
+			"margin": ["top", "bottom"],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -121,6 +136,16 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true,
 				"__experimentalFontFamily": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true
 			}
 		}
 	},

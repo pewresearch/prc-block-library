@@ -15,10 +15,13 @@ import {
 
 export default function ColorControls({
 	attributes,
+	setAttributes,
 	colors,
 	isList,
 	clientId,
 }) {
+	const { customHoverBackgroundColor, customHoverTextColor, customActiveBackgroundColor, customActiveTextColor } = attributes;
+
 	const colorProps = useMultipleOriginColorsAndGradients();
 
 	const colorSettings = useMemo(() => {
@@ -39,28 +42,40 @@ export default function ColorControls({
 
 		const t = [
 			{
-				colorValue: activeTextColor?.color,
-				onColorChange: setActiveTextColor,
+				colorValue: activeTextColor?.color ?? customActiveTextColor,
+				onColorChange: (value) => {
+					setActiveTextColor(value);
+					setAttributes({ customActiveTextColor: value });
+				},
 				label: __('Active Text'),
 			},
 			{
-				colorValue: activeBackgroundColor?.color,
-				onColorChange: setActiveBackgroundColor,
+				colorValue: activeBackgroundColor?.color ?? customActiveBackgroundColor,
+				onColorChange: (value) => {
+					setActiveBackgroundColor(value);
+					setAttributes({ customActiveBackgroundColor: value });
+				},
 				label: __('Active Background'),
 			},
 			{
-				colorValue: hoverTextColor?.color,
-				onColorChange: setHoverTextColor,
+				colorValue: hoverTextColor?.color ?? customHoverTextColor,
+				onColorChange: (value) => {
+					setHoverTextColor(value);
+					setAttributes({ customHoverTextColor: value });
+				},
 				label: __('Hover Text'),
 			},
 			{
-				colorValue: hoverBackgroundColor?.color,
-				onColorChange: setHoverBackgroundColor,
+				colorValue: hoverBackgroundColor?.color ?? customHoverBackgroundColor,
+				onColorChange: (value) => {
+					setHoverBackgroundColor(value);
+					setAttributes({ customHoverBackgroundColor: value });
+				},
 				label: __('Hover Background'),
 			},
 		];
 		return t;
-	}, [colors, isList]);
+	}, [colors, isList, customHoverBackgroundColor, customHoverTextColor, customActiveBackgroundColor, customActiveTextColor, setAttributes]);
 
 	return (
 		<Fragment>

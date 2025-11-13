@@ -6,9 +6,9 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'prc-block/accordion',
 		'version' => '1.0.0',
-		'title' => 'Accordion Section',
+		'title' => 'Accordion Item',
 		'category' => 'design',
-		'description' => 'A collapsible section that can be expanded or collapsed to show or hide content. Useful for any content you want to keep organized and compact. Click the title to expand or collapse the section.',
+		'description' => 'An item inside an accordion that can be expanded or collapsed to show or hide content. Useful for any content you want to keep organized and compact. Click the title to expand or collapse the section.',
 		'attributes' => array(
 			'title' => array(
 				'type' => 'string',
@@ -85,7 +85,10 @@ return array(
 			'prc-block/accordion'
 		),
 		'attributes' => array(
-			
+			'structuredData' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
 		),
 		'supports' => array(
 			'anchor' => true,
@@ -178,7 +181,8 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/animation',
-		'title' => 'Animation',
+		'title' => 'Screen Animation',
+		'description' => 'Add fun screen effects like confetti and emojis to celebrate user interactions.',
 		'version' => '1.0.0',
 		'category' => 'design',
 		'attributes' => array(
@@ -220,14 +224,14 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
 	),
-	'attachment-info' => array(
+	'attachments-list' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'prc-block/attachment-info',
-		'version' => '0.1.0',
-		'title' => 'Attachment Info',
+		'name' => 'prc-block/attachments-list',
+		'version' => '0.2.0',
+		'title' => 'Attachments List',
 		'category' => 'text',
-		'description' => 'Displays either a list of attachments or a pagination of attachments. This block is intended to be used on attachment pages only. It will display a list of attachments for the parent post of the current attachment.',
+		'description' => 'Displays a list of attachments for the parent post of the current attachment. This block is intended to be used on attachment pages only.',
 		'attributes' => array(
 			'headingBackgroundColor' => array(
 				'type' => 'string',
@@ -237,6 +241,92 @@ return array(
 				'type' => 'string',
 				'default' => 'ui-white'
 			),
+			'hoverBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'hoverTextColor' => array(
+				'type' => 'string'
+			),
+			'customHoverBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'customHoverTextColor' => array(
+				'type' => 'string'
+			),
+			'activeBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'activeTextColor' => array(
+				'type' => 'string'
+			),
+			'customActiveBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'customActiveTextColor' => array(
+				'type' => 'string'
+			),
+			'backgroundColor' => array(
+				'type' => 'string',
+				'default' => 'ui-white'
+			),
+			'heading' => array(
+				'type' => 'string',
+				'default' => 'Attachments'
+			),
+			'hideHeading' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'style' => array(
+				'type' => 'object',
+				'default' => array(
+					'spacing' => array(
+						'blockGap' => 'var:preset|spacing|20'
+					)
+				)
+			),
+			'parentId' => array(
+				'type' => 'number'
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => false,
+				'__experimentalDefaultControls' => array(
+					'__experimentalFontFamily' => true
+				)
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'textdomain' => 'attachments-list',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
+	),
+	'attachments-pagination' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/attachments-pagination',
+		'version' => '0.1.0',
+		'title' => 'Attachments Pagination',
+		'category' => 'text',
+		'description' => 'Displays paginated list for the attachments of the parent post of the current attachment. This is only intended for use on Attachment pages.',
+		'attributes' => array(
 			'hoverBackgroundColor' => array(
 				'type' => 'string',
 				'default' => 'ui-beige-very-light'
@@ -256,18 +346,6 @@ return array(
 			'backgroundColor' => array(
 				'type' => 'string',
 				'default' => 'ui-white'
-			),
-			'heading' => array(
-				'type' => 'string',
-				'default' => 'Attachment Info'
-			),
-			'hideHeading' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'variant' => array(
-				'type' => 'string',
-				'default' => 'list'
 			),
 			'style' => array(
 				'type' => 'object',
@@ -313,7 +391,7 @@ return array(
 			'postId',
 			'postType'
 		),
-		'textdomain' => 'attachment-info',
+		'textdomain' => 'attachments-pagination',
 		'editorScript' => array(
 			'file:./index.js',
 			'prc-block-library--pagination'
@@ -321,7 +399,6 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => array(
 			'file:./style-index.css',
-			'prc-block-library--baseball-card',
 			'prc-block-library--pagination',
 			'prc-block-library--additional-color-supports'
 		)
@@ -419,7 +496,7 @@ return array(
 			),
 			'separator' => array(
 				'type' => 'string',
-				'default' => '/'
+				'default' => '>'
 			),
 			'showCurrentPageTitle' => array(
 				'type' => 'boolean',
@@ -431,7 +508,7 @@ return array(
 			),
 			'showHome' => array(
 				'type' => 'boolean',
-				'default' => false
+				'default' => true
 			),
 			'homeCrumb' => array(
 				'type' => 'object',
@@ -447,6 +524,24 @@ return array(
 					),
 					'asIcon' => array(
 						'type' => 'boolean'
+					)
+				)
+			),
+			'showIndex' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'indexCrumb' => array(
+				'type' => 'object',
+				'properties' => array(
+					'id' => array(
+						'type' => 'string'
+					),
+					'url' => array(
+						'type' => 'string'
+					),
+					'text' => array(
+						'type' => 'string'
 					)
 				)
 			),
@@ -532,6 +627,16 @@ return array(
 					'fontSize' => true,
 					'__experimentalFontFamily' => true
 				)
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'style' => true,
+					'width' => true
+				)
 			)
 		),
 		'usesContext' => array(
@@ -546,6 +651,63 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
+	'card' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/card',
+		'version' => '1.0.0',
+		'title' => 'Card',
+		'category' => 'design',
+		'description' => 'Display content in a card',
+		'attributes' => array(
+			'heading' => array(
+				'type' => 'string',
+				'source' => 'html',
+				'selector' => '.prc-card__heading'
+			),
+			'headingBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'customHeadingBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'headingTextColor' => array(
+				'type' => 'string'
+			),
+			'customHeadingTextColor' => array(
+				'type' => 'string'
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true
+			),
+			'spacing' => array(
+				'blockGap' => true,
+				'margin' => true,
+				'padding' => true,
+				'__experimentalSkipSerialization' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'__experimentalFontFamily' => true
+			),
+			'position' => array(
+				'sticky' => true
+			)
+		),
+		'usesContext' => array(
+			'postId',
+			'postType'
+		),
+		'textdomain' => 'card',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
+	),
 	'carousel-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -553,7 +715,7 @@ return array(
 		'version' => '1.0.0',
 		'title' => 'Carousel',
 		'category' => 'design',
-		'description' => 'Organize content in a vertical or horizontal carousel.',
+		'description' => 'Organize content in a vertical or horizontal CSS carousel.',
 		'keywords' => array(
 			'scroll',
 			'carousel',
@@ -798,8 +960,7 @@ return array(
 			'file:./style-index.css',
 			'prc-font-monospace'
 		),
-		'viewScript' => 'file:./view.js',
-		'render' => 'file:./render.php'
+		'viewScript' => 'file:./view.js'
 	),
 	'collapsible' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -925,11 +1086,15 @@ return array(
 		'category' => 'design',
 		'description' => 'Display a color from the palette defined in the currently active theme.',
 		'attributes' => array(
-			
+			'colorSlug' => array(
+				'type' => 'string',
+				'default' => ''
+			)
 		),
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
+			'interactivity' => true,
 			'color' => array(
 				'background' => true,
 				'text' => false
@@ -938,12 +1103,8 @@ return array(
 		'textdomain' => 'color-palette',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => array(
-			'file:./style-index.css',
-			'wp-components'
-		),
-		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js'
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'copyright' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -998,7 +1159,11 @@ return array(
 		'category' => 'design',
 		'textdomain' => 'core-details',
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css'
+		'editorStyle' => 'file:./index.css',
+		'viewScriptModule' => 'file:./view.js',
+		'supports' => array(
+			'interactivity' => true
+		)
 	),
 	'core-dialog' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1043,13 +1208,9 @@ return array(
 		'category' => 'widgets',
 		'textdomain' => 'core-group',
 		'editorScript' => 'file:./index.js',
-		'viewScriptModule' => 'file:./view.js',
 		'style' => array(
 			'file:./style-index.css',
 			'prc-block-library--baseball-card'
-		),
-		'supports' => array(
-			'interactivity' => true
 		)
 	),
 	'core-heading' => array(
@@ -1261,7 +1422,6 @@ return array(
 			'dialog/id' => 'dialogId'
 		),
 		'textdomain' => 'dialog',
-		'render' => 'file:./render.php',
 		'editorScript' => 'file:./index.js'
 	),
 	'dialog-element' => array(
@@ -1470,74 +1630,48 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewModule' => 'file:./view.js'
 	),
 	'flip-card-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/flip-card-controller',
-		'version' => '0.1.0',
+		'version' => '1.0.0',
 		'title' => 'Flip Card Controller',
-		'description' => 'A card that has two sides; one for the front and one for the back.',
+		'description' => 'An interactive card that flips to reveal additional content on the back side.',
 		'category' => 'media',
+		'allowedBlocks' => array(
+			'prc-block/flip-card-side'
+		),
 		'attributes' => array(
-			'height' => array(
-				'type' => 'number',
-				'default' => 300
-			),
-			'width' => array(
-				'type' => 'number',
-				'default' => 300
-			)
+			
 		),
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
+			'interactivity' => true,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'enableContrastChecker' => true
+			),
 			'align' => array(
 				'left',
 				'right'
 			),
+			'layout' => array(
+				'default' => array(
+					'type' => 'constrained'
+				),
+				'allowSwitching' => false,
+				'allowInheriting' => false,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true,
+				'allowOrientation' => false,
+				'allowSizingOnChildren' => true
+			),
 			'spacing' => array(
-				'margin' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalFontFamily' => true
-				)
-			),
-			'interactivity' => true
-		),
-		'textdomain' => 'flip-card-controller',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js'
-	),
-	'flip-card-side' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/flip-card-side',
-		'version' => '0.1.0',
-		'title' => 'Flip Card Side',
-		'category' => 'media',
-		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			)
-		),
-		'supports' => array(
-			'color' => array(
-				'background' => true,
-				'link' => true,
-				'text' => true
-			),
-			'html' => false,
-			'spacing' => array(
+				'blockGap' => true,
 				'padding' => true,
 				'margin' => true
 			),
@@ -1545,20 +1679,87 @@ return array(
 				'fontSize' => true,
 				'lineHeight' => true,
 				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'__experimentalFontFamily' => true
+				)
+			)
+		),
+		'textdomain' => 'flip-card-controller',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
+	),
+	'flip-card-side' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/flip-card-side',
+		'version' => '1.0.0',
+		'title' => 'Flip Card Side',
+		'category' => 'media',
+		'attributes' => array(
+			
+		),
+		'supports' => array(
+			'html' => false,
+			'interactivity' => true,
+			'layout' => array(
+				'type' => 'constrained',
+				'default' => array(
+					'type' => 'constrained',
+					'orientation' => 'vertical',
+					'verticalAlignment' => 'center',
+					'allowOrientation' => true,
+					'contentSize' => '420px'
+				),
+				'allowSwitching' => true,
+				'allowInheriting' => false,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true,
+				'allowOrientation' => true,
+				'allowSizingOnChildren' => true
+			),
+			'spacing' => array(
+				'blockGap' => true,
+				'padding' => true,
+				'margin' => false
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
-				'width' => true
+				'width' => true,
+				'radius' => true
 			),
-			'interactivity' => true
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'enableContrastChecker' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'__experimentalFontFamily' => true
+				)
+			)
 		),
 		'parent' => array(
 			'prc-block/flip-card-controller'
 		),
 		'textdomain' => 'flip-card-side',
-		'editorScript' => 'file:./index.js',
-		'render' => 'file:./render.php'
+		'editorScript' => 'file:./index.js'
 	),
 	'footnotes' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1632,8 +1833,7 @@ return array(
 		'textdomain' => 'footnotes',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'form' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -1997,6 +2197,152 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
 	),
+	'form-input-range' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/form-input-range',
+		'version' => '1.0.0',
+		'title' => 'Input Range Field',
+		'description' => 'A primitive `<input type="range">` element for slider inputs.',
+		'category' => 'forms',
+		'attributes' => array(
+			'displayLabel' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'label' => array(
+				'type' => 'string',
+				'source' => 'html',
+				'selector' => 'label'
+			),
+			'min' => array(
+				'type' => 'number',
+				'default' => 0,
+				'source' => 'attribute',
+				'selector' => 'input',
+				'attribute' => 'min'
+			),
+			'max' => array(
+				'type' => 'number',
+				'default' => 100,
+				'source' => 'attribute',
+				'selector' => 'input',
+				'attribute' => 'max'
+			),
+			'step' => array(
+				'type' => 'number',
+				'default' => 1,
+				'source' => 'attribute',
+				'selector' => 'input',
+				'attribute' => 'step'
+			),
+			'value' => array(
+				'type' => 'number',
+				'default' => 50,
+				'source' => 'attribute',
+				'selector' => 'input',
+				'attribute' => 'value'
+			),
+			'displayValue' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'displayMinMax' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'outputFormat' => array(
+				'type' => 'string',
+				'enum' => array(
+					'number',
+					'currency',
+					'percentage'
+				),
+				'default' => 'number'
+			),
+			'orientation' => array(
+				'type' => 'string',
+				'enum' => array(
+					'horizontal',
+					'vertical'
+				),
+				'default' => 'horizontal'
+			),
+			'required' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'example' => array(
+			'viewportWidth' => 320,
+			'attributes' => array(
+				'label' => 'Select Volume',
+				'min' => 0,
+				'max' => 100,
+				'value' => 75,
+				'required' => false
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'reusable' => true,
+			'interactivity' => true,
+			'layout' => array(
+				'type' => 'flex',
+				'default' => array(
+					'type' => 'flex',
+					'orientation' => 'vertical',
+					'verticalAlignment' => 'center',
+					'allowOrientation' => true
+				),
+				'allowInheriting' => false,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true,
+				'allowOrientation' => true,
+				'allowSizingOnChildren' => true
+			),
+			'spacing' => array(
+				'blockGap' => true,
+				'padding' => true,
+				'margin' => true
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'width' => true,
+				'radius' => true,
+				'__experimentalSkipSerialization' => true
+			),
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'enableContrastChecker' => true,
+				'__experimentalSkipSerialization' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'__experimentalFontFamily' => true
+				)
+			),
+			'selectors' => array(
+				'root' => '.wp-block-prc-block-form-input-range',
+				'color' => '.wp-block-prc-block-form-input-range .range-container',
+				'border' => '.wp-block-prc-block-form-input-range .range-container'
+			)
+		),
+		'textdomain' => 'form-input-range',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css'
+	),
 	'form-input-select' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -2149,6 +2495,71 @@ return array(
 			)
 		),
 		'textdomain' => 'form-input-select',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
+	),
+	'form-input-select-range' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/form-input-select-range',
+		'version' => '1.0.0',
+		'title' => 'Select Range Field',
+		'category' => 'forms',
+		'description' => 'A block for selecting a range with minimum and maximum select dropdowns.',
+		'allowedBlocks' => array(
+			'prc-block/form-input-select',
+			'core/group'
+		),
+		'attributes' => array(
+			'type' => array(
+				'type' => 'string',
+				'enum' => array(
+					'custom',
+					'years',
+					'numbers'
+				),
+				'default' => 'custom'
+			),
+			'rangeStart' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'rangeEnd' => array(
+				'type' => 'number',
+				'default' => 100
+			),
+			'rangeStep' => array(
+				'type' => 'number',
+				'default' => 1
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'reusable' => false,
+			'interactivity' => true,
+			'spacing' => array(
+				'blockGap' => true,
+				'padding' => true,
+				'margin' => true
+			),
+			'layout' => array(
+				'type' => 'flex',
+				'default' => array(
+					'type' => 'flex',
+					'orientation' => 'horizontal',
+					'verticalAlignment' => 'center',
+					'allowOrientation' => true
+				),
+				'allowInheriting' => false,
+				'allowVerticalAlignment' => true,
+				'allowJustification' => true,
+				'allowOrientation' => true,
+				'allowSizingOnChildren' => true
+			)
+		),
+		'textdomain' => 'form-input-select-range',
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
@@ -2592,12 +3003,12 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'prc-block/grid-column',
 		'version' => '0.1.0',
-		'title' => 'Column',
+		'title' => 'Responsive Grid Column',
 		'category' => 'design',
 		'parent' => array(
 			'prc-block/grid-controller'
 		),
-		'description' => 'A single column within a columns grid block.',
+		'description' => 'A responsive grid column. Set the column’s span and start position at different breakpoints to create complex grid layouts.',
 		'attributes' => array(
 			'gridLayout' => array(
 				'type' => 'object',
@@ -2606,8 +3017,13 @@ return array(
 					'desktopSpan' => 4,
 					'tabletSpan' => 4,
 					'mobileSpan' => 4,
-					'tabletStart' => 1,
-					'mobileStart' => 1
+					'tabletStart' => null,
+					'mobileStart' => null,
+					'tabletPosition' => null,
+					'mobilePosition' => null,
+					'desktopDivider' => null,
+					'tabletDivider' => null,
+					'mobileDivider' => null
 				)
 			),
 			'verticalAlignment' => array(
@@ -2641,12 +3057,8 @@ return array(
 				'link' => true
 			),
 			'spacing' => array(
-				'blockGap' => array(
-					'__experimentalDefault' => '24px',
-					'sides' => array(
-						'vertical'
-					)
-				),
+				'blockGap' => true,
+				'margin' => true,
 				'padding' => true,
 				'__experimentalDefaultControls' => array(
 					'padding' => true
@@ -2687,17 +3099,16 @@ return array(
 		'textdomain' => 'grid-column',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'grid-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/grid-controller',
 		'version' => '0.1.0',
-		'title' => 'Grid Columns',
+		'title' => 'Responsive Grid',
 		'category' => 'design',
-		'description' => 'Display content in multiple columns using a customizable responsive css-grid layout. The grid consists of 12 columns on desktop and tablet, and 4 columns on mobile.',
+		'description' => 'Display content in responsive CSS grid columns. The grid uses 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.',
 		'keywords' => array(
 			'grid',
 			'columns',
@@ -2857,8 +3268,7 @@ return array(
 		),
 		'textdomain' => 'grid-controller',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'icon' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -2912,8 +3322,7 @@ return array(
 		'textdomain' => 'icon',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'logo' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3195,27 +3604,44 @@ return array(
 			'menuItemBackgroundColor' => array(
 				'type' => 'string'
 			),
+			'customMenuItemBackgroundColor' => array(
+				'type' => 'string'
+			),
 			'menuItemTextColor' => array(
+				'type' => 'string'
+			),
+			'customMenuItemTextColor' => array(
 				'type' => 'string'
 			),
 			'menuItemActiveBackgroundColor' => array(
 				'type' => 'string'
 			),
+			'customMenuItemActiveBackgroundColor' => array(
+				'type' => 'string'
+			),
 			'menuItemActiveTextColor' => array(
+				'type' => 'string'
+			),
+			'customMenuItemActiveTextColor' => array(
 				'type' => 'string'
 			),
 			'menuOverlayBackgroundColor' => array(
 				'type' => 'string'
 			),
+			'customMenuOverlayBackgroundColor' => array(
+				'type' => 'string'
+			),
 			'menuOverlayTextColor' => array(
+				'type' => 'string'
+			),
+			'customMenuOverlayTextColor' => array(
 				'type' => 'string'
 			),
 			'menuActiveBorderColor' => array(
 				'type' => 'string'
 			),
-			'hasBoxShadow' => array(
-				'type' => 'boolean',
-				'default' => false
+			'customMenuActiveBorderColor' => array(
+				'type' => 'string'
 			),
 			'isMobile' => array(
 				'type' => 'boolean',
@@ -3256,6 +3682,7 @@ return array(
 					'fontSize' => true
 				)
 			),
+			'shadow' => true,
 			'__experimentalBorder' => array(
 				'color' => true,
 				'width' => true
@@ -3266,7 +3693,6 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'playground' => array(
@@ -3342,8 +3768,7 @@ return array(
 		'textdomain' => 'popular-story',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'post-parent-title' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3452,20 +3877,28 @@ return array(
 				'default' => false
 			),
 			'activeBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-gray-very-light'
+				'type' => 'string'
 			),
 			'activeTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-text-color'
+				'type' => 'string'
+			),
+			'customActiveBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'customActiveTextColor' => array(
+				'type' => 'string'
 			),
 			'hoverBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-beige-very-light'
+				'type' => 'string'
 			),
 			'hoverTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-text-color'
+				'type' => 'string'
+			),
+			'customHoverBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'customHoverTextColor' => array(
+				'type' => 'string'
 			),
 			'style' => array(
 				'type' => 'object',
@@ -3516,6 +3949,7 @@ return array(
 			),
 			'spacing' => array(
 				'blockGap' => true,
+				'padding' => true,
 				'units' => array(
 					'px',
 					'em',
@@ -3535,11 +3969,7 @@ return array(
 		'textdomain' => 'post-taxonomy-terms',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => array(
-			'file:./style-index.css',
-			'prc-block-library--baseball-card',
-			'prc-block-library--additional-color-supports'
-		)
+		'style' => 'file:./style-index.css'
 	),
 	'progress-bar' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -3757,8 +4187,7 @@ return array(
 		'textdomain' => 'promo',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'promo-rotator' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4005,8 +4434,7 @@ return array(
 		),
 		'textdomain' => 'responsive-container-view',
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'render' => 'file:./render.php'
+		'editorStyle' => 'file:./index.css'
 	),
 	'roper-db-search' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4047,7 +4475,6 @@ return array(
 			'file:./style-index.css',
 			'roper-db-search'
 		),
-		'render' => 'file:./render.php',
 		'viewScript' => array(
 			'file:./view.js',
 			'roper-db-search'
@@ -4146,7 +4573,6 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'social-share-sheet' => array(
@@ -4188,7 +4614,6 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'social-share-text-link' => array(
@@ -4246,8 +4671,7 @@ return array(
 		),
 		'textdomain' => 'social-share-text-link',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'social-share-url-field' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4517,8 +4941,7 @@ return array(
 		),
 		'textdomain' => 'post-sub-title',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'tab' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4860,12 +5283,12 @@ return array(
 						)
 					)
 				)
-			)
-		),
-		'hiddenColumns' => array(
-			'type' => 'array',
-			'default' => array(
-				
+			),
+			'hiddenColumns' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				)
 			)
 		),
 		'supports' => array(
@@ -4936,42 +5359,9 @@ return array(
 		'category' => 'theme',
 		'description' => 'Displays a list of all heading blocks set to chapter headings.',
 		'attributes' => array(
-			'displayType' => array(
-				'type' => 'string',
-				'default' => 'list',
-				'enum' => array(
-					'list',
-					'accordion',
-					'dropdown'
-				)
-			),
 			'showCurrentChapter' => array(
 				'type' => 'boolean',
 				'default' => false
-			),
-			'dropdownBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'white'
-			),
-			'dropdownTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
-			),
-			'autoDropdownEnabled' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'autoDropdownWidth' => array(
-				'type' => 'number',
-				'default' => 480
-			),
-			'headingBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
-			),
-			'headingTextColor' => array(
-				'type' => 'string',
-				'default' => 'white'
 			),
 			'backgroundColor' => array(
 				'type' => 'string',
@@ -4986,36 +5376,28 @@ return array(
 				'default' => 'ui-black'
 			),
 			'activeBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-gray-very-light'
+				'type' => 'string'
 			),
 			'activeTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
+				'type' => 'string'
+			),
+			'customActiveBackgroundColor' => array(
+				'type' => 'string'
+			),
+			'customActiveTextColor' => array(
+				'type' => 'string'
 			),
 			'hoverBackgroundColor' => array(
-				'type' => 'string',
-				'default' => 'ui-beige-very-light'
+				'type' => 'string'
 			),
 			'hoverTextColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
+				'type' => 'string'
 			),
-			'heading' => array(
-				'type' => 'string',
-				'default' => 'Table of Contents'
+			'customHoverBackgroundColor' => array(
+				'type' => 'string'
 			),
-			'hideHeading' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'style' => array(
-				'type' => 'object',
-				'default' => array(
-					'spacing' => array(
-						'blockGap' => 'var:preset|spacing|20'
-					)
-				)
+			'customHoverTextColor' => array(
+				'type' => 'string'
 			)
 		),
 		'supports' => array(
@@ -5032,20 +5414,9 @@ return array(
 			),
 			'interactivity' => true,
 			'spacing' => array(
-				'margin' => array(
-					'top',
-					'bottom',
-					'left',
-					'right'
-				),
-				'blockGap' => true,
-				'__experimentalDefaultControls' => array(
-					'margin' => true,
-					'blockGap' => true
-				)
-			),
-			'position' => array(
-				'sticky' => true
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => true
 			),
 			'typography' => array(
 				'__experimentalFontFamily' => true,
@@ -5055,30 +5426,9 @@ return array(
 					'__experimentalFontFamily' => true,
 					'fontSizes' => true
 				)
-			),
-			'__experimentalBorder' => array(
-				'color' => true,
-				'radius' => false,
-				'style' => true,
-				'width' => true,
-				'__experimentalDefaultControls' => array(
-					'color' => true,
-					'radius' => false,
-					'style' => true,
-					'width' => true
-				)
-			)
-		),
-		'selectors' => array(
-			'root' => '.wp-block-prc-block-table-of-contents',
-			'spacing' => array(
-				'blockGap' => '.wp-block-prc-block-table-of-contents__list'
 			)
 		),
 		'example' => array(
-			'attributes' => array(
-				'className' => 'is-style-default'
-			),
 			'viewportWidth' => 320
 		),
 		'usesContext' => array(
@@ -5088,11 +5438,7 @@ return array(
 		'textdomain' => 'table-of-contents',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => array(
-			'file:./style-index.css',
-			'prc-block-library--baseball-card',
-			'prc-block-library--additional-color-supports'
-		),
+		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'tabs' => array(
@@ -5401,10 +5747,11 @@ return array(
 		'title' => 'Taxonomy List',
 		'category' => 'theme',
 		'description' => 'Display a list of taxonomy terms.',
+		'allowedBlocks' => array(
+			'prc-block/taxonomy-list-link',
+			'prc-block/taxonomy-search'
+		),
 		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
 			'templateLock' => array(
 				'type' => array(
 					'string',
@@ -5417,6 +5764,10 @@ return array(
 					false
 				)
 			),
+			'taxonomy' => array(
+				'type' => 'string',
+				'default' => 'category'
+			),
 			'style' => array(
 				'type' => 'object',
 				'default' => array(
@@ -5425,9 +5776,6 @@ return array(
 					)
 				)
 			)
-		),
-		'providesContext' => array(
-			'textColor' => 'textColor'
 		),
 		'supports' => array(
 			'html' => false,
@@ -5491,11 +5839,13 @@ return array(
 				)
 			)
 		),
+		'providesContext' => array(
+			'taxonomy' => 'taxonomy'
+		),
 		'textdomain' => 'menu',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'taxonomy-list-link' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -5505,10 +5855,12 @@ return array(
 		'title' => 'Taxonomy List Link',
 		'category' => 'theme',
 		'description' => 'Display a link to a taxonomy term or custom URL with optional settings.',
+		'allowedBlocks' => array(
+			'prc-block/taxonomy-list-link',
+			'core/paragraph',
+			'core/heading'
+		),
 		'attributes' => array(
-			'allowedBlocks' => array(
-				'type' => 'array'
-			),
 			'label' => array(
 				'type' => 'string'
 			),
@@ -5532,8 +5884,7 @@ return array(
 				'type' => 'string'
 			),
 			'taxonomy' => array(
-				'type' => 'string',
-				'default' => 'category'
+				'type' => 'string'
 			),
 			'enableSubMenu' => array(
 				'type' => 'boolean',
@@ -5557,6 +5908,11 @@ return array(
 				'__experimentalDefaultControls' => array(
 					'padding' => true
 				)
+			),
+			'color' => array(
+				'text' => true,
+				'link' => true,
+				'background' => true
 			),
 			'typography' => array(
 				'fontSize' => true,
@@ -5586,7 +5942,6 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'taxonomy-search' => array(
@@ -5624,11 +5979,13 @@ return array(
 			),
 			'interactivity' => true
 		),
+		'usesContext' => array(
+			'taxonomy'
+		),
 		'textdomain' => 'taxonomy-search',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'timeline' => array(
@@ -5717,7 +6074,6 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'timeline-slide' => array(
@@ -5769,8 +6125,7 @@ return array(
 		'textdomain' => 'timeline-slide',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php'
+		'style' => 'file:./style-index.css'
 	),
 	'tokens-list' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -5877,15 +6232,5 @@ return array(
 		'description' => 'Get the latest version for various PRC_ constants.',
 		'textdomain' => 'version',
 		'editorScript' => 'file:./index.js'
-	),
-	'yoast-seo-breadcrumbs' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'yoast-seo/breadcrumbs',
-		'version' => '0.1.0',
-		'category' => 'widgets',
-		'textdomain' => 'prc-block-library',
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
 	)
 );

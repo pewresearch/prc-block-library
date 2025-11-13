@@ -1,2 +1,1 @@
 import{getElement as t,store as e}from"@wordpress/interactivity";const{state:r,actions:n}=e("prc-block/social-share-url-field",{state:{get inputType(){return"text"},get inputValue(){const t=getContext(),{url:e}=t;return e},get inputName(){return"shareUrl"}},actions:{onInputClick:()=>{const{ref:e}=t();e.focus(),e.select()},onInputBlur:()=>{const{ref:e}=t();e.blur()}}});
-//# sourceMappingURL=view.js.map

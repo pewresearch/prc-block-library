@@ -3,10 +3,10 @@
 	"apiVersion": 3,
 	"name": "prc-block/grid-column",
 	"version": "0.1.0",
-	"title": "Column",
+	"title": "Responsive Grid Column",
 	"category": "design",
-	"parent": [ "prc-block/grid-controller" ],
-	"description": "A single column within a columns grid block.",
+	"parent": ["prc-block/grid-controller"],
+	"description": "A responsive grid column. Set the column’s span and start position at different breakpoints to create complex grid layouts.",
 	"attributes": {
 		"gridLayout": {
 			"type": "object",
@@ -15,8 +15,13 @@
 				"desktopSpan": 4,
 				"tabletSpan": 4,
 				"mobileSpan": 4,
-				"tabletStart": 1,
-				"mobileStart": 1
+				"tabletStart": null,
+				"mobileStart": null,
+				"tabletPosition": null,
+				"mobilePosition": null,
+				"desktopDivider": null,
+				"tabletDivider": null,
+				"mobileDivider": null
 			}
 		},
 		"verticalAlignment": {
@@ -26,8 +31,8 @@
 			"type": "array"
 		},
 		"templateLock": {
-			"type": [ "string", "boolean" ],
-			"enum": [ "all", "insert", "contentOnly", false ],
+			"type": ["string", "boolean"],
+			"enum": ["all", "insert", "contentOnly", false],
 			"default": false
 		}
 	},
@@ -42,10 +47,8 @@
 			"link": true
 		},
 		"spacing": {
-			"blockGap": {
-				"__experimentalDefault": "24px",
-				"sides": [ "vertical" ]
-			},
+			"blockGap": true,
+			"margin": true,
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -86,6 +89,5 @@
 	"textdomain": "grid-column",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

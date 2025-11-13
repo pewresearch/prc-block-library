@@ -1,5 +1,5 @@
 // Function to convert a complex CSS value to pixels
-// Everything below is heavily cribbed from Nick Diego for the js math window math.
+// Everything below is heavily cribbed from Nick Diego for the window resize math.
 function convertCssValueToPixels(cssValue) {
 	// Create a temporary element
 	const tempElement = document.createElement('div');

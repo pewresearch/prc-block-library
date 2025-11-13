@@ -22,12 +22,13 @@ function updateLink(updatedValue, setAttributes) {
 }
 
 export default function LinkControl({
+	taxonomy,
 	attributes,
 	setAttributes,
 	anchor,
 	onClose = () => {},
 }) {
-	const { label, url, taxonomy } = attributes;
+	const { label, url } = attributes;
 
 	const link = {
 		url,

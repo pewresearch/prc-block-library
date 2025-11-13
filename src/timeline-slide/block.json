@@ -20,10 +20,7 @@
 		"interactivity": true,
 		"spacing": {
 			"blockGap": true,
-			"margin": [
-				"top",
-				"bottom"
-			],
+			"margin": ["top", "bottom"],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -38,13 +35,10 @@
 			}
 		}
 	},
-	"parent": [
-		"prc-block/timeline"
-	],
+	"parent": ["prc-block/timeline"],
 	"usesContext": ["timeline/currentActiveIndex"],
 	"textdomain": "timeline-slide",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

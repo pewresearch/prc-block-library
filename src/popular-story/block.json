@@ -8,28 +8,28 @@
 	"category": "content-curation",
 	"attributes": {
 		"title": {
-            "type": "string"
-        },
-		"url":{
+			"type": "string"
+		},
+		"url": {
 			"type": "string",
 			"default": ""
 		},
 		"postId": {
-            "type": "integer"
-        },
+			"type": "integer"
+		},
 		"blockIndexAttr": {
-			"type" : "integer"
+			"type": "integer"
 		},
 		"enableNumber": {
 			"type": "boolean",
 			"default": true
 		}
-    },
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
 		"spacing": {
-			"margin": [ "top", "bottom" ],
+			"margin": ["top", "bottom"],
 			"padding": true
 		},
 		"typography": {
@@ -40,6 +40,5 @@
 	"textdomain": "popular-story",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

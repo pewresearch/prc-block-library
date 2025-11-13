@@ -9,7 +9,6 @@ import type { Dispatch, SetStateAction } from 'react';
  */
 import { __ } from '@wordpress/i18n';
 import { BlockControls, RichText } from '@wordpress/block-editor';
-import { createBlock, type BlockInstance } from '@wordpress/blocks';
 import { ToolbarButton } from '@wordpress/components';
 import { title as titleIcon } from '@wordpress/icons';
 import { useState, useEffect, useCallback } from '@wordpress/element';
@@ -20,7 +19,6 @@ import { usePrevious } from '@wordpress/compose';
  */
 import type { BlockAttributes } from '../block-attributes';
 import type { VSelectedCells, VSelectedLine } from '../utils/table-state';
-import { GenerateTableTitleButton } from '../utils/ai-generators';
 
 type Props = {
 	attributes: BlockAttributes;
@@ -121,12 +119,6 @@ export default function TableTitle({
 								setSelectedCells(undefined);
 							}}
 						/>
-						{isSelected && (
-							<GenerateTableTitleButton
-								attributes={attributes}
-								setAttributes={setAttributes}
-							/>
-						)}
 					</div>
 				)}
 		</>

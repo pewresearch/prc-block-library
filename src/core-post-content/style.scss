@@ -1,4 +1,4 @@
-@use '../../includes/common-styles/gutenberg-responsive-breaks' as *;
+@use "../../includes/supports/src/style/variables/breakpoints" as *;
 
 .wp-block-post-content {
 	counter-reset: big-number;
@@ -12,7 +12,6 @@
 		font-size: 1em !important;
 		letter-spacing: 0 !important;
 	}
-
 }
 
 body:not(.post-template-layout-no-container-query) {
@@ -28,22 +27,34 @@ body:not(.post-template-layout-no-container-query) {
 	// i.e. when the user is editing the post content BUT NOT previewing the full template.
 	@container post-content-container (min-width: 860px) {
 		.wp-block-post-content:not(.is-root-container) > .alignleft {
-			margin-left: max(0px, calc((100% - var(--wp--style--global--wide-size)) / 2)) !important;
+			margin-left: max(
+				0px,
+				calc((100% - var(--wp--style--global--wide-size)) / 2)
+			) !important;
 			margin-bottom: 1em;
 		}
 		.wp-block-post-content:not(.is-root-container) > .alignright {
-			margin-right: max(0px, calc((100% - var(--wp--style--global--wide-size)) / 2)) !important;
+			margin-right: max(
+				0px,
+				calc((100% - var(--wp--style--global--wide-size)) / 2)
+			) !important;
 			margin-bottom: 1em;
 		}
 	}
 	// "Standard" content well.
 	@container post-content-container (min-width: 639px) {
 		.wp-block-post-content > .alignleft {
-				margin-left: max(0px, calc((100% - var(--wp--style--global--content-size)) / 2));
-				margin-bottom: 1em;
+			margin-left: max(
+				0px,
+				calc((100% - var(--wp--style--global--content-size)) / 2)
+			);
+			margin-bottom: 1em;
 		}
 		.wp-block-post-content > .alignright {
-			margin-right: max(0px, calc((100% - var(--wp--style--global--content-size)) / 2));
+			margin-right: max(
+				0px,
+				calc((100% - var(--wp--style--global--content-size)) / 2)
+			);
 			margin-bottom: 1em;
 		}
 	}

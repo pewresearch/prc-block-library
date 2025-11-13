@@ -74,14 +74,19 @@ async function buildSingleBlock(blockName, chalk) {
 			readline.cursorTo(process.stdout, 0);
 			process.stdout.write(' '.repeat(50)); // Clear the line
 			readline.cursorTo(process.stdout, 0);
-			process.stdout.write(
-				chalk.green(`✅ Build complete for ${blockName}!\n`)
+
+			// Check for webpack compilation errors in stdout
+			const hasWebpackError = stdout && (
+				stdout.includes('webpack compiled with') && stdout.includes('error') ||
+				stdout.includes('ERROR in') ||
+				stdout.includes('Failed to compile')
 			);
 
-			if (error) {
+			if (error || hasWebpackError) {
+				process.stdout.write(stdout);
 				process.stdout.write(
 					chalk.red(
-						`❌ Build process error for ${blockName}: ${stderr}`
+						`❌ Build failed for ${blockName}${stderr ? ':\n' + stderr : ''}\n`
 					)
 				);
 				resolve(false);
@@ -161,6 +166,10 @@ async function buildSingleBlock(blockName, chalk) {
 				`✅ Pattern build complete! ${successCount}/${matchingBlocks.length} blocks built successfully.\n`
 			)
 		);
+
+		if (successCount < matchingBlocks.length) {
+			process.exit(1);
+		}
 		return;
 	}
 
@@ -219,6 +228,9 @@ async function buildSingleBlock(blockName, chalk) {
 		);
 	} else {
 		// Build single specific block
-		await buildSingleBlock(blockName, chalk);
+		const success = await buildSingleBlock(blockName, chalk);
+		if (!success) {
+			process.exit(1);
+		}
 	}
 })();

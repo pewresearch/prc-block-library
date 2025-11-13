@@ -8,4 +8,3 @@
 	outline: inherit;
 	text-align: left;
 `,Pe=({value:e,asInputField:t=!1})=>{const[a,n]=(0,r.useState)(!1);return(0,we.jsxs)(Le,{onClick:()=>{navigator.clipboard.writeText(e),n(!0),setTimeout(()=>n(!1),2e3)},title:"Click to copy",children:[(0,we.jsx)(Me.Icon,{icon:"copy"}),(0,we.jsx)("span",{children:a?"Copied":"Copy"})]})};n()(()=>{document.querySelectorAll(".wp-block-prc-block-code-syntax").forEach(t=>{const a=t.querySelector("code"),{language:n}=t.dataset;n&&n.length>0&&a.classList.add(`language-${n}`),e.highlightElement(a),(0,r.render)((0,we.jsx)(Pe,{value:a.textContent}),t.querySelector(".wp-block-prc-block-code-syntax__ui"))})})})()})();
-//# sourceMappingURL=view.js.map

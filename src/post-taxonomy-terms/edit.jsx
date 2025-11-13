@@ -19,6 +19,7 @@ import {decodeEntities} from '@wordpress/html-entities';
  * Internal Dependencies
  */
 import Controls from './controls';
+import StyleEngine from './style-engine';
 import usePostTaxonomyTerms from './use-post-taxonomy-terms';
 
 /**
@@ -50,7 +51,15 @@ function Edit( {
 	hoverBackgroundColor,
 	setHoverBackgroundColor,
 	hoverTextColor,
-	setHoverTextColor
+	setHoverTextColor,
+	customActiveBackgroundColor,
+	setCustomActiveBackgroundColor,
+	customActiveTextColor,
+	setCustomActiveTextColor,
+	customHoverBackgroundColor,
+	setCustomHoverBackgroundColor,
+	customHoverTextColor,
+	setCustomHoverTextColor
 } ) {
 	const {postId, postType} = context;
 	const {
@@ -105,32 +114,17 @@ function Edit( {
 		}
 	});
 
-	const memoizedItemClassNames = useMemo(() => {
-		const extraClassArgs = isList ? {
-			'has-active-background': !!colors.activeBackgroundColor.color || colors.activeBackgroundColor.class,
-			[`has-active-${colors?.activeBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
-			'has-active-color': !!colors.activeTextColor.color || colors.activeTextColor.class,
-			[`has-active-${colors?.activeTextColor?.slug}-color`]: !!colors?.activeTextColor?.slug,
-			'has-focus-background': !!colors.activeBackgroundColor.color || colors.activeBackgroundColor.class,
-			[`has-focus-${colors?.activeBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
-			'has-focus-color': !!colors.activeTextColor.color || colors.activeTextColor.class,
-			[`has-focus-${colors?.activeTextColor?.slug}-color`]: !!colors?.activeTextColor?.slug,
-			'has-hover-background': !!colors.hoverBackgroundColor.color || colors.hoverBackgroundColor.class,
-			[`has-hover-${colors?.hoverBackgroundColor?.slug}-background-color`]: !!colors?.activeBackgroundColor?.slug,
-			'has-hover-color': !!colors.hoverTextColor.color || colors.hoverTextColor.class,
-			[`has-hover-${colors?.hoverTextColor?.slug}-color`]: !!colors?.hoverTextColor?.slug,
-		} : {};
-		return classNames('wp-block-prc-block-post-taxonomy-terms__list-item', extraClassArgs);
-	}, [colors, isList]);
+	const itemClassName = 'wp-block-prc-block-post-taxonomy-terms__list-item';
 
 	const memoizedTaxonomyTerms = useMemo(() => {
 		return taxonomyTerms.map((term) => {
-			return <li className={memoizedItemClassNames}>{decodeEntities(term.name)}</li>
+			return <li className={itemClassName}>{decodeEntities(term.name)}</li>
 		});
-	}, [taxonomyTerms, isLoading, memoizedItemClassNames]);
+	}, [taxonomyTerms, isLoading, itemClassName]);
 
 	return (
 		<Fragment>
+			<StyleEngine attributes={attributes} clientId={clientId} />
 			<Controls { ...{ attributes, setAttributes, context, colors, isList, clientId } } />
 			<div { ...blockProps }>
 				<ul className="wp-block-prc-block-post-taxonomy-terms__list">
@@ -146,4 +140,8 @@ export default withColors(
 	{ activeTextColor: 'color' },
 	{ hoverBackgroundColor: 'color' },
 	{ hoverTextColor: 'color' },
+	'customActiveBackgroundColor',
+	'customActiveTextColor',
+	'customHoverBackgroundColor',
+	'customHoverTextColor'
 )(Edit);

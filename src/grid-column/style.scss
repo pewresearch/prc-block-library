@@ -1,29 +1,34 @@
-@import "../../includes/common-styles/gutenberg-responsive-breaks";
-
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
+@use "../../includes/supports/src/style/variables/breakpoints.scss" as *;
 
 .wp-block-prc-block-grid-column {
-	--margin-left: calc( -1 * var(--grid-gutter-half) );
+	position: relative;
+	--margin-left: calc(-1 * var(--grid-gutter-half));
+	--margin-right: calc(-1 * var(--grid-gutter-half));
+	& > *:not(:last-child) {
+		margin-block-end: var(
+			--grid-column-gap,
+			var(--grid-column-gap-default, 0.5em)
+		);
+	}
 	@media (min-width: #{ ($break-small) }) {
-		& > .wp-block-block:has(.align-to__column-divider),
-		& > .wp-block-template-part:has(.align-to__column-divider),
-		& > .align-to__column-divider {
+		.prc-block-grid-column--align-to-gutter {
 			width: calc(100% + var(--grid-gutter-half)) !important;
-			margin-left: calc( var(--margin-left) + 1px ) !important;
-			&.is-style-baseball-card,
-			.is-style-baseball-card {
-				.wp-block-group,
-				.wp-block-prc-block-table-of-contents__list {
-					padding-left: var(--grid-gutter);
-					// margin-block-start: var(--grid-gutter);
-					// margin-block-end: var(--grid-gutter);
-				}
-			}
+			margin-left: calc(var(--margin-left) + 1px) !important;
 		}
+	}
+
+	// If a section header is present, adjust the divider line height down below the section header.
+	&:has(.is-style-section-header):not(:first-of-type):not(.is-selected):not(
+			.is-highlighted
+		):not(.is-hovered):before {
+		top: 28px;
+		height: calc(100% - 28px);
+	}
+}
+
+@media (min-width: #{ ($break-small) }) and (max-width: #{ ($break-large) }) {
+	[class*="-tablet-position-1"] .prc-block-grid-column--align-to-gutter {
+		margin-left: 0px !important;
+		margin-right: calc(var(--margin-right) + 1px) !important;
 	}
 }

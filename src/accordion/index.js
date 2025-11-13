@@ -37,14 +37,8 @@ const { name } = metadata;
 
 const settings = {
 	icon,
-	__experimentalLabel: ({ title }) => title || name,
 	edit,
 	save,
 };
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
- */
 registerBlockType(name, { ...metadata, ...settings });

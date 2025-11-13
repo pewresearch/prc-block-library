@@ -1,47 +1,105 @@
-# Collapsible
-Contributors:      Pew Research Center
-Tags:              block
-Tested up to:      6.4
-Stable tag:        0.1.0
-License:           GPL-2.0-or-later
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+# Collapsible (Core Details Block Extension)
 
-
+Contributors: Pew Research Center
+Tags: block, collapsible, details, interactivity
+Tested up to: 6.7
+Stable tag: 1.0.0
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 ## Description
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+This extension enhances the core `core/details` block with additional functionality, including automatic closing when clicking outside the element and pre-configured variations for common use cases.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+### Features
+
+- **Close When Focus Lost**: Automatically close the details element when users click outside of it
+- **Block Variations**: Pre-configured styles for "How we did this" sections and Pew Knight Initiative content
+- **Transforms**: Easy migration from legacy `prc-block/collapsible` blocks
 
 ## Instructions
 
-This section describes how to use the block.
+### Using Close When Focus Lost
 
-## Frequently Asked Questions
+1. Add a Details block to your content
+2. In the block settings sidebar, find the "Details Settings" panel
+3. Toggle "Close when focus lost" on
+4. The details element will now automatically close when users click anywhere outside of it
 
-= A question that someone might have =
+This feature is useful for:
 
-An answer to that question.
+- Creating dismissible information panels
+- Improving user experience by auto-closing expanded sections
+- Implementing modal-like behavior without actual modals
 
-### What about foo bar?
+### Block Variations
 
-Answer to foo bar dilemma.
+#### Collapsible (Default)
 
-## Screenshots
+Pre-configured for "How we did this" sections with:
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif).
-2. This is the second screen shot
-3. You can store screenshots in a .docs folder in this block directory...
+- Plus/minus icon style
+- Beige background (`ui-beige-very-light`)
+- Light gray border
+- Default summary text: "How we did this"
+
+#### Pew Knight Co-Branded
+
+Designed for Pew Knight Initiative pages with:
+
+- Custom logo header
+- Plus/minus icon
+- Top and bottom borders only
+- Pre-populated content structure
+
+## Technical Implementation
+
+### Frontend Interactivity
+
+- Uses WordPress Interactivity API for reactive behavior
+- Event listener only attached when feature is enabled
+- Proper cleanup to prevent memory leaks
+
+### Attributes
+
+- `closeWhenFocusLost` (boolean, default: `false`)
+
+### Files
+
+- `index.js` - Editor integration, variations, and transforms
+- `controls.jsx` - Inspector controls for block settings
+- `view.js` - Frontend Interactivity API logic
+- `class-core-details.php` - Server-side rendering and attribute registration
+- `editor.scss` - Editor-only styles
+- `block.json` - Block metadata with Interactivity API support
 
 ## Changelog
 
-= 0.1.0 =
-* Release
+= 1.0.0 =
+
+- Added "Close when focus lost" feature with Interactivity API
+- Added block variations for common use cases
+- Added transforms from legacy collapsible block
+- Improved editor experience with custom controls
 
 ## Developer Notes
 
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-blocks where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+### Building
+
+```bash
+# Build this block
+npm run build -w @prc/block-library core-details
+
+# Watch mode for development
+npm run start -w @prc/block-library
+```
+
+### Interactivity API Integration
+
+The block uses WordPress Interactivity API for the "close when focus lost" feature. The implementation:
+
+1. Registers a custom attribute via `block_type_metadata` filter
+2. Uses `WP_HTML_Tag_Processor` to inject IAPI directives in `render_block` filter
+3. Implements event handling in `view.js` with proper cleanup
+
+See `class-core-details.php` for the server-side implementation and `view.js` for the client-side logic.

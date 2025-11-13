@@ -117,18 +117,23 @@ class Plugin {
 	 */
 	private function load_dependencies() {
 		$composer_autoload = plugin_dir_path( __DIR__ ) . '/vendor/autoload.php';
+		$dev_mode          = 'local' === wp_get_environment_type();
+		$folder            = $dev_mode ? 'src' : 'build';
 		// If the composer autoload file exists and if this plugin is being used off platform or in a test case of the platform, load the autoload file.
 		if ( file_exists( $composer_autoload ) && ( ! defined( 'PRC_PLATFORM' ) || ( defined( 'PRC_PLATFORM' ) && true !== PRC_PLATFORM ) ) ) {
 			require_once $composer_autoload;
 		}
 		// Load plugin loading class.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-loader.php';
+
+		require_once plugin_dir_path( __DIR__ ) . '/includes/block-visibility/class-block-visibility.php';
 		// Load support classes.
-		require_once plugin_dir_path( __DIR__ ) . '/includes/common-styles/class-common-styles.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/custom-text-formats/class-custom-text-formats.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/interactivity-api/class-interactivity-api.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/pagination/class-pagination.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/print-engine/class-print-engine.php';
-		require_once plugin_dir_path( __DIR__ ) . '/includes/block-visibility/class-block-visibility.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/supports/class-supports.php';
+
 		// Load blocks.
 		$this->load_blocks();
 		// Initialize the loader.
@@ -168,6 +173,8 @@ class Plugin {
 		$this->loader->add_filter( 'block_categories_all', $this, 'register_block_categories', 10, 1 );
 		// Add additional allowed HTML tags.
 		$this->loader->add_filter( 'wp_kses_allowed_html', $this, 'allowed_html_tags', 100, 2 );
+		// Allow additional inline styles.
+		$this->loader->add_filter( 'safe_style_css', $this, 'allowed_inline_styles', 10, 1 );
 		// Disable Remote Data Blocks example block.
 		add_filter( 'remote_data_blocks_register_example_block', '__return_false' );
 		// Signal support for PRC Blocks to RDB.
@@ -188,17 +195,14 @@ class Plugin {
 
 	/**
 	 * Init additional library support classes
-	 * 1. Apple News
-	 * 2. Common Styles
-	 * 3. Print Engine
-	 * 4. @wordpress/interactivity api supports
 	 */
 	private function define_library_dependencies() {
-		new Common_Styles( $this->get_loader() );
-		new Custom_Text_Formats( $this->get_loader() );
-		new Print_Engine( $this->get_loader() );
-		new Interactivity_API( $this->get_loader() );
 		new Block_Visibility( $this->get_loader() );
+		new Custom_Text_Formats( $this->get_loader() );
+		new Interactivity_API( $this->get_loader() );
+		new Pagination( $this->get_loader() );
+		new Print_Engine( $this->get_loader() );
+		new Supports( $this->get_loader() );
 	}
 
 	/**
@@ -240,9 +244,11 @@ class Plugin {
 		new Animation( $this->get_loader() );
 		new Accordion( $this->get_loader() );
 		new Accordion_Controller( $this->get_loader() );
-		new Attachment_Info( $this->get_loader() );
+		new Attachments_List( $this->get_loader() );
+		new Attachments_Pagination( $this->get_loader() );
 		new Audio_Player( $this->get_loader() );
 		new Breadcrumbs( $this->get_loader() );
+		new Card( $this->get_loader() );
 		new Carousel_Controller( $this->get_loader() );
 		new Carousel_Slide( $this->get_loader() );
 		new Code_Syntax( $this->get_Loader() );
@@ -257,8 +263,10 @@ class Plugin {
 		new Form_Captcha( $this->get_loader() );
 		new Form_Input_Checkbox( $this->get_loader() );
 		new Form_Input_Select( $this->get_loader() );
+		new Form_Input_Select_Range( $this->get_loader() );
 		new Form_Input_Password( $this->get_loader() );
 		new Form_Input_Radio_Group( $this->get_loader() );
+		new Form_Input_Range( $this->get_loader() );
 		new Form_Input_Text( $this->get_loader() );
 		new Form_Input_Textarea( $this->get_loader() );
 		new Form_Message( $this->get_loader() );
@@ -308,7 +316,6 @@ class Plugin {
 		new Timeline_Slide( $this->get_loader() );
 		new Tokens_List( $this->get_loader() );
 		new Version( $this->get_loader() );
-		new Yoast_SEO_Breadcrumbs( $this->get_loader() );
 		new Remote_Pivot_Table( $this->get_loader() );
 	}
 
@@ -352,6 +359,20 @@ class Plugin {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Add @container css rules to allowed safe style css.
+	 *
+	 * @hook safe_style_css
+	 *
+	 * @param mixed $styles The styles.
+	 * @return mixed The styles.
+	 */
+	public function allowed_inline_styles( $styles ) {
+		$styles[] = 'container';
+		$styles[] = '@container';
+		return $styles;
 	}
 
 	/**

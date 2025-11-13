@@ -30,7 +30,7 @@
 		},
 		"spacing": {
 			"blockGap": true,
-			"margin": [ "top", "bottom" ],
+			"margin": ["top", "bottom"],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -61,10 +61,9 @@
 			}
 		}
 	},
-	"usesContext": [ "postId" ],
+	"usesContext": ["postId"],
 	"textdomain": "footnotes",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

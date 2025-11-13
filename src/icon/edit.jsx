@@ -7,20 +7,14 @@ import { Icon, IconLibraryIndex } from '@prc/icons';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
 import {
 	useBlockProps,
-	RichText,
-	useInnerBlocksProps,
-	InnerBlocks,
 } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './controls';
-
-const ALLOWED_BLOCKS = ['core/group', 'core/paragraph'];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -48,7 +42,7 @@ export default function Edit({
 	const { library, icon, size } = attributes;
 
 	return (
-		<Fragment>
+		<>
 			<Controls
 				{...{
 					IconLibraryIndex,
@@ -60,6 +54,6 @@ export default function Edit({
 			<span {...blockProps}>
 				<Icon icon={icon} library={library} size={size} />
 			</span>
-		</Fragment>
+		</>
 	);
 }

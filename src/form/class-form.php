@@ -7,6 +7,8 @@
 
 namespace PRC\Platform\Blocks;
 
+use WP_Block_Type_Registry, WP_HTML_Tag_Processor;
+
 /**
  * Block Name:        Form
  * Requires at least: 6.4
@@ -35,7 +37,86 @@ class Form {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_filter( 'allowed_block_types_all', $this, 'disable_other_form_blocks', 10, 2 );
+			$loader->add_filter( 'render_block', $this, 'handle_conditional_form_field_display', 10, 2 );
 		}
+	}
+
+	/**
+	 * Wraps inner results blocks with display logic dependent on score.
+	 *
+	 * @hook render_block
+	 *
+	 * @param string $block_content The block content.
+	 * @param array  $block The block data.
+	 * @return string
+	 */
+	public function handle_conditional_form_field_display( $block_content, $block ) {
+		if ( ! isset( $block['attrs']['formDisplayMode'] ) ) {
+			return $block_content;
+		}
+		$display_mode = $block['attrs']['formDisplayMode'];
+		if ( 'always' === $display_mode ) {
+			return $block_content;
+		}
+
+		$form_display_condition = $block['attrs']['formDisplayCondition'] ?? false;
+		if ( ! $form_display_condition || ! is_array( $form_display_condition ) ) {
+			return $block_content;
+		}
+
+		$tag = new WP_HTML_Tag_Processor( $block_content );
+		$tag->next_tag();
+		// Check if this block has a data-wp-interactive attribute already, if so we need to wrap it in a new div to contain it's interactivity context.
+		if ( $tag->get_attribute( 'data-wp-interactive' ) ) {
+			$tag->get_updated_html();
+			$content = wp_sprintf(
+				'<div data-wp-interactive="prc-block/form">%s</div>',
+				$block_content
+			);
+			// If New Relic is available, add a custom tracer or log a custom event for transaction tracing.
+			\PRC\Platform\Newrelic\trace( 'prc-block/form/handle_conditional_form_field_display', 'wrapped_interactive_block' );
+			// Reset the tag processor.
+			$tag = new WP_HTML_Tag_Processor( $content );
+			$tag->next_tag();
+		}
+
+		$tag->set_attribute(
+			'data-wp-context',
+			wp_json_encode(
+				array(
+					'formDisplayCondition' => $form_display_condition,
+				)
+			)
+		);
+		$tag->set_attribute( 'data-wp-bind--hidden', '!state.formDisplayCondition' );
+
+		return $tag->get_updated_html();
+	}
+
+	/**
+	 * Filter the allowed blocks in the editor.
+	 *
+	 * @hook allowed_block_types_all
+	 *
+	 * @internal
+	 * @param array|bool $allowed_block_types Array of allowed block types or a boolean.
+	 * @param object     $editor_context The editor context.
+	 * @return array Array of allowed block types.
+	 */
+	public function disable_other_form_blocks( $allowed_block_types, $editor_context ) {
+		$registry         = WP_Block_Type_Registry::get_instance();
+		$registerd_blocks = $registry->get_all_registered();
+		$registerd_blocks = array_keys( $registerd_blocks );
+
+		$blocks_to_remove = array(
+			'jetpack/contact-form',
+		);
+
+		$allowed_block_types = array_diff( $registerd_blocks, $blocks_to_remove );
+		$allowed_block_types = array_values( $allowed_block_types );
+
+		return $allowed_block_types;
 	}
 
 	/**
@@ -116,7 +197,8 @@ class Form {
 		$form_action    = $attributes['action'] ?? false;
 		$form_namespace = $attributes['namespace'] ?? false;
 		if ( empty( $form_method ) || empty( $form_action ) || empty( $form_namespace ) ) {
-			return '';
+			do_action('qm/warning', 'Form block misconfigured: missing method, action, or namespace.' );
+			return '<p>Form misconfigured.</p>';
 		}
 		if ( 'rest' === $form_method ) {
 			wp_enqueue_script( 'wp-api-fetch' );

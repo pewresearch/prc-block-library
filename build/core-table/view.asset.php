@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('datatables', 'wp-dom-ready', 'wp-polyfill'), 'version' => 'a0741cb03fa4d64a57b1');
+<?php return array('dependencies' => array('datatables', 'wp-dom-ready'), 'version' => '9b196a0fe6406dab0b97');

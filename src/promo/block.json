@@ -10,8 +10,8 @@
 		"heading": {
 			"type": "string",
 			"source": "html",
-            "selector": ".wp-block-prc-block-promo__heading",
-												"role": "content"
+			"selector": ".wp-block-prc-block-promo__heading",
+			"role": "content"
 		},
 		"headingLevel": {
 			"type": "integer",
@@ -20,8 +20,8 @@
 		"subHeading": {
 			"type": "string",
 			"source": "html",
-            "selector": ".wp-block-prc-block-promo__sub_heading",
-												"role": "content"
+			"selector": ".wp-block-prc-block-promo__sub_heading",
+			"role": "content"
 		},
 		"icon": {
 			"type": "string",
@@ -54,8 +54,7 @@
 	"example": {
 		"attributes": {
 			"heading": "Facts are more important than ever",
-			"subHeading":
-				"<p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p>"
+			"subHeading": "<p>In times of uncertainty, good decisions demand good data. Please support our research with a financial contribution.</p>"
 		},
 		"innerBlocks": [
 			{
@@ -81,7 +80,7 @@
 		},
 		"html": false,
 		"spacing": {
-			"margin": [ "top", "bottom" ],
+			"margin": ["top", "bottom"],
 			"padding": true,
 			"blockGap": true
 		},
@@ -94,6 +93,5 @@
 	"textdomain": "promo",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+	"style": "file:./style-index.css"
 }

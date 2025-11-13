@@ -2,17 +2,14 @@
  * External Dependencies
  */
 import classnames from 'classnames';
-import { getBlockGapSupportValue } from '@prc/block-utils';
 
 /**
  * WordPress Dependencies
  */
-import { Fragment } from '@wordpress/element';
 import {
 	useInnerBlocksProps,
 	useBlockProps,
 	withColors,
-	getColorClassName,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
@@ -20,6 +17,7 @@ import { useSelect } from '@wordpress/data';
 /**
  * Internal Dependencies
  */
+import StyleEngine from './style-engine';
 import Controls from './controls';
 import Placeholder from './placeholder';
 
@@ -42,14 +40,9 @@ function Edit({
 
 	const blockProps = useBlockProps({
 		className: classnames(className, {
-			'has-divider': !!dividerColor.color || dividerColor.class,
-			[getColorClassName('divider-color', dividerColor?.slug)]:
-				!!dividerColor?.slug,
+			'has-divider': !!dividerColor.color || !!attributes.dividerColor,
 			[`is-vertically-aligned-${verticalAlignment}`]: verticalAlignment,
 		}),
-		style: {
-			'--grid-gutter': getBlockGapSupportValue(attributes, 'horizontal'),
-		},
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
@@ -64,7 +57,7 @@ function Edit({
 	}
 
 	return (
-		<Fragment>
+		<>
 			<Controls
 				{...{
 					attributes,
@@ -76,8 +69,9 @@ function Edit({
 					},
 				}}
 			/>
-			<div {...innerBlocksProps} />
-		</Fragment>
+			<StyleEngine attributes={attributes} clientId={clientId} />
+			<div {...innerBlocksProps}/>
+		</>
 	);
 }
 

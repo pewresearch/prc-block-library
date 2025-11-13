@@ -23,7 +23,6 @@ import {
 } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
-import { Fragment } from '@wordpress/element';
 
 const DESKTOP_MIN = 2;
 const TABLET_MIN = 2;
@@ -40,10 +39,7 @@ export default function Controls({
 }) {
 	const { verticalAlignment } = attributes;
 
-	const {
-		dividerColor,
-		setDividerColor,
-	} = colors;
+	const { dividerColor, setDividerColor } = colors;
 
 	const colorSettings = useMultipleOriginColorsAndGradients();
 
@@ -175,7 +171,7 @@ export default function Controls({
 	};
 
 	return (
-		<Fragment>
+		<>
 			<BlockControls>
 				<BlockVerticalAlignmentToolbar
 					onChange={updateAlignment}
@@ -215,20 +211,20 @@ export default function Controls({
 			</InspectorControls>
 			<InspectorControls group="color">
 				<ColorGradientSettingsDropdown
-					settings={ [
+					settings={[
 						{
 							colorValue: dividerColor?.color,
 							onColorChange: setDividerColor,
 							label: __('Column Divider'),
 						},
-					] }
-					panelId={ clientId }
-					hasColorsOrGradients={ false }
-					disableCustomColors={ true }
+					]}
+					panelId={clientId}
+					hasColorsOrGradients={false}
+					disableCustomColors={true}
 					__experimentalIsRenderedInSidebar
-					{ ...colorSettings }
+					{...colorSettings}
 				/>
 			</InspectorControls>
-		</Fragment>
+		</>
 	);
 }

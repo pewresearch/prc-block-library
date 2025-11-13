@@ -3,8 +3,9 @@
  */
 import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType, unregisterBlockType } from '@wordpress/blocks';
 import { register } from '@wordpress/data';
+import domReady from '@wordpress/dom-ready';
 
 /**
  * Internal Dependencies
@@ -14,6 +15,7 @@ import save from './save';
 import metadata from './block.json';
 import store from './store';
 import registerDefaultForms from './register-forms';
+import registerFormConditionalDisplayFilter from './conditional-fields';
 import './style.scss';
 
 const { name } = metadata;
@@ -30,6 +32,12 @@ register(store);
 registerDefaultForms();
 
 registerBlockType(name, { ...metadata, ...settings });
+
+registerFormConditionalDisplayFilter();
+
+domReady(() => {
+	unregisterBlockType('jetpack/contact-form');
+});
 
 // Prevent adding forms inside forms.
 const DISALLOWED_PARENTS = ['prc-block/form'];

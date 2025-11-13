@@ -7,6 +7,8 @@
 
 namespace PRC\Platform\Blocks;
 
+use WP_Block_Type_Registry, WP_HTML_Tag_Processor;
+
 /**
  * Block Name:        Accordion Controller
  * Requires at least: 6.4
@@ -33,7 +35,67 @@ class Accordion_Controller {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_filter( 'allowed_block_types_all', $this, 'disable_other_accordion_blocks', 10, 2 );
 		}
+	}
+	/**
+	 * Filter the allowed blocks in the editor.
+	 *
+	 * @hook allowed_block_types_all
+	 *
+	 * @internal
+	 * @param array|bool $allowed_block_types Array of allowed block types or a boolean.
+	 * @param object     $editor_context The editor context.
+	 * @return array Array of allowed block types.
+	 */
+	public function disable_other_accordion_blocks( $allowed_block_types, $editor_context ) {
+		$registry         = WP_Block_Type_Registry::get_instance();
+		$registerd_blocks = $registry->get_all_registered();
+		$registerd_blocks = array_keys( $registerd_blocks );
+
+		$blocks_to_remove = array(
+			'core/accordion',
+		);
+
+		$allowed_block_types = array_diff( $registerd_blocks, $blocks_to_remove );
+		$allowed_block_types = array_values( $allowed_block_types );
+
+		return $allowed_block_types;
+	}
+
+	/**
+	 * Add structured data to accordion content
+	 *
+	 * @param string $content Content.
+	 * @return string
+	 */
+	public function add_structured_data_to_accordion( $content ) {
+		$processor = new WP_HTML_Tag_Processor( $content );
+
+		$processor->set_attribute( 'itemscope', true );
+		$processor->set_attribute( 'itemtype', 'https://schema.org/FAQPage' );
+
+		while ( $processor->next_tag( array( 'class_name' => 'wp-block-prc-block-accordion' ) ) ) {
+			$processor->set_attribute( 'itemscope', true );
+			$processor->set_attribute( 'itemprop', 'mainEntity' );
+			$processor->set_attribute( 'itemtype', 'https://schema.org/Question' );
+
+			if ( $processor->next_tag( array( 'class_name' => 'wp-block-prc-block-accordion__title' ) ) ) {
+				$processor->set_attribute( 'itemprop', 'name' );
+			}
+
+			if ( $processor->next_tag( array( 'class_name' => 'wp-block-prc-block-accordion__content' ) ) ) {
+				$processor->set_attribute( 'itemscope', true );
+				$processor->set_attribute( 'itemprop', 'acceptedAnswer' );
+				$processor->set_attribute( 'itemtype', 'https://schema.org/Answer' );
+
+				if ( $processor->next_tag( 'p' ) ) {
+					$processor->set_attribute( 'itemprop', 'text' );
+				}
+			}
+		}
+
+		return $processor->get_updated_html();
 	}
 
 	/**
@@ -45,6 +107,9 @@ class Accordion_Controller {
 	 * @return string The block content.
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
+		if ( isset( $attributes['structuredData'] ) && $attributes['structuredData'] ) {
+			$content = $this->add_structured_data_to_accordion( $content );
+		}
 		$tag_processor = new \WP_HTML_Tag_Processor( $content );
 		$tag_processor->next_tag();
 		$tag_processor->set_attribute( 'data-wp-interactive', 'prc-block/accordion-controller' );

@@ -1,47 +1,102 @@
 # Grid Controller
-Contributors:      Seth Rubenstein
-Tags:              block
-Tested up to:      6.1
-Stable tag:        0.1.0
-License:           GPL-2.0-or-later
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
+A responsive CSS Grid layout system with intelligent divider functionality for WordPress.
 
+## Overview
 
-## Description
+The Grid Controller block provides a flexible 12-column grid system that adapts across breakpoints:
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+- **Mobile**: 4 columns
+- **Tablet**: 12 columns
+- **Desktop**: 12 columns
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+## Divider System
 
-## Instructions
+The divider system uses a **single `::before` pseudo-element** that intelligently switches between horizontal and vertical borders based on viewport and column span.
 
-This section describes how to use the block.
+### How It Works
 
-## Frequently Asked Questions
+The divider automatically chooses the appropriate orientation:
 
-= A question that someone might have =
+#### Mobile (4-column grid)
 
-An answer to that question.
+- **Full-width columns** (span-4): Horizontal dividers (`border-top`)
+- **Partial columns** (span < 4): Vertical dividers (`border-left`)
 
-### What about foo bar?
+#### Tablet (12-column grid)
 
-Answer to foo bar dilemma.
+- **Full-width columns** (span-12): Horizontal dividers (`border-top`)
+- **Partial columns** (span < 12): Vertical dividers (`border-left`)
 
-## Screenshots
+#### Desktop (12-column grid)
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif).
-2. This is the second screen shot
-3. You can store screenshots in a .docs folder in this block directory...
+- **Full-width columns** (span-12): Horizontal dividers (`border-top`)
+- **Partial columns** (span < 12): Vertical dividers (`border-left`)
 
-## Changelog
+### Technical Implementation
 
-= 0.1.0 =
-* Release
+```scss
+// Unified approach using ::before only
+@mixin horizontal-divider() {
+	&::before {
+		border-width: 1px 0 0 0; // Top border only
+		position: relative;
+		width: 100%;
+	}
+}
 
-## Developer Notes
+@mixin vertical-divider() {
+	&::before {
+		border-width: 0 0 0 1px; // Left border only
+		position: absolute;
+		height: 100%;
+	}
+}
+```
 
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-blocks where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+### Benefits
+
+1. **Single pseudo-element**: No need to manage both `::before` and `::after`
+2. **Automatic switching**: Divider orientation changes based on column width at each breakpoint
+3. **Clean CSS**: Reduced specificity and fewer `!important` overrides
+4. **Consistent theming**: Uses `--divider-color` CSS custom property
+5. **Better performance**: Fewer DOM pseudo-elements to render
+
+### Customization
+
+Control divider appearance via CSS custom properties:
+
+```css
+.wp-block-prc-block-grid-controller {
+	--divider-color: #cccccc;
+	--grid-gutter: 24px;
+}
+```
+
+### Special Cases
+
+#### Section Headers
+
+When a grid contains section headers, vertical dividers automatically adjust their top position and height to clear the header:
+
+```scss
+&.has-divider:has(.is-style-section-header) {
+	& > .wp-block-prc-block-grid-column:not(:first-of-type)::before {
+		top: 28px;
+		height: calc(100% - 28px);
+	}
+}
+```
+
+## Usage
+
+Add the `has-divider` class to enable dividers:
+
+```html
+<div class="wp-block-prc-block-grid-controller has-divider">
+	<div class="wp-block-prc-block-grid-column">Column 1</div>
+	<div class="wp-block-prc-block-grid-column">Column 2</div>
+</div>
+```
+
+The dividers will automatically adapt to the column widths at each breakpoint.

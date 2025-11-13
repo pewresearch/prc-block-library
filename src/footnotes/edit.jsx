@@ -8,12 +8,9 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, RawHTML } from '@wordpress/element';
+import { RawHTML } from '@wordpress/element';
 import {
 	useBlockProps,
-	RichText,
-	useInnerBlocksProps,
-	InnerBlocks,
 } from '@wordpress/block-editor';
 
 /**
@@ -67,9 +64,6 @@ export default function Edit({
 			'--block-gap': getBlockGapSupportValue(attributes),
 		},
 	});
-
-	console.log('footnotes', footnotes);
-	// then we'll need to build the markup to go into blockProps...
 
 	return <ol {...blockProps}>{footnotesList}</ol>;
 }

@@ -23,11 +23,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		},
 	},
 	actions: {
-		onClick: (event) => {
-			event.preventDefault();
-			const context = getContext();
-			context.isDropdownOpen = !context.isDropdownOpen;
-		},
 		getInternalChaptersList: () => {
 			const { ref } = getElement();
 			// check if the first level of the list has list-items with is-top-level class
@@ -73,11 +68,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 					}
 				});
 			});
-		},
-		onDropdownClick: (event) => {
-			event.preventDefault();
-			const context = getContext();
-			context.isDropdownOpen = !context.isDropdownOpen;
 		},
 		getContextClue: (context) => {
 			// If context.part is defined, but context.chapter and context.section are undefined, then this is a a part. If context.chapter is defined, but context.section is undefined, then this is a chapter. If context.section is defined, then this is a section.
@@ -182,38 +172,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			return false;
 		},
 		/**
-		 * When the client is resized, check if the dropdown should be enabled.
-		 */
-		onResizeToggleDropdown: () => {
-			const context = getContext();
-			const { autoDropdownEnabled, autoDropdownWidth } = context;
-			if (!autoDropdownEnabled) {
-				return;
-			}
-			const { ref } = getElement();
-			// get the width of the ref
-			const width = ref.offsetWidth;
-			// if the width is less than the autoDropdownWidth and autoDropdownEnabled is true
-			// set isDropdown to true
-			if (width < autoDropdownWidth && autoDropdownEnabled) {
-				context.isDropdown = true;
-			} else {
-				context.isDropdown = false;
-			}
-		},
-		/**
-		 * When a click event occurs inside the window,
-		 * but outside the dropdown target, close the dropdown.
-		 * @param {*} event
-		 */
-		onWindowClickCloseDropdown: (event) => {
-			const context = getContext();
-			const { ref } = getElement();
-			if (!ref.contains(event.target) && context.isDropdown) {
-				context.isDropdownOpen = false;
-			}
-		},
-		/**
 		 * Scroll smoothly when clicking on a # link
 		 * @param {*} event
 		 */
@@ -228,7 +186,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				target.scrollIntoView({ behavior: 'smooth' }, true);
 				window.history.pushState(null, null, `#${key}`);
 			}
-			context.isDropdownOpen = false;
 		},
 		// Section Scroll
 		/**

@@ -153,6 +153,69 @@ class Taxonomy_Search {
 	}
 
 	/**
+	 * Render callback for the block
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string
+	 */
+	public function render_callback( $attributes, $content, $block ) {
+		wp_enqueue_script( 'wp-url' );
+		wp_enqueue_script( 'wp-api-fetch' );
+		wp_enqueue_script( 'wp-html-entities' );
+
+		$restrict_to_term_id   = $attributes['restrictToTerm']['id'] ?? null;
+		$restrict_to_term_name = $attributes['restrictToTerm']['name'] ?? null;
+
+		$block_wrapper_attrs = get_block_wrapper_attributes(
+			array(
+				'data-wp-interactive'                   => wp_json_encode(
+					array(
+						'namespace' => 'prc-block/taxonomy-search',
+					)
+				),
+				'data-wp-context'                       => wp_json_encode(
+					array(
+						'taxonomy'           => $attributes['taxonomy'] ?? 'category',
+						'restrictToTermId'   => $restrict_to_term_id,
+						'restrictToTermName' => $restrict_to_term_name,
+						'searchValue'        => '',
+						'isActive'           => false,
+						'results'            => array(),
+					)
+				),
+				'data-wp-class--is-active'              => 'callbacks.showResults',
+				'data-wp-watch--on-search-value-change' => 'callbacks.onSearchValueChange',
+			)
+		);
+
+		ob_start();
+		?>
+		<ul class="wp-block-prc-block-taxonomy-search__results-list">
+		<template
+			data-wp-each--result="context.results"
+			data-wp-each-key="context.result.id"
+		>
+			<li class="wp-block-prc-block-taxonomy-search__result">
+				<a data-wp-bind--href="context.result.url">
+					<span data-wp-text="context.result.label"></span>
+				</a>
+			</li>
+		</template>
+		</ul>
+		<?php
+		$template = ob_get_clean();
+
+		return wp_sprintf(
+			'<div %1$s>%2$s%3$s</div>',
+			$block_wrapper_attrs,
+			$content,
+			$template,
+		);
+	}
+
+	/**
 	 * Registers the block using the metadata loaded from the `block.json` file.
 	 * Behind the scenes, it registers also all assets so they can be enqueued
 	 * through the block editor in the corresponding context.
@@ -161,6 +224,11 @@ class Taxonomy_Search {
 	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
 	 */
 	public function block_init() {
-		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/taxonomy-search' );
+		register_block_type_from_metadata(
+			PRC_BLOCK_LIBRARY_DIR . '/build/taxonomy-search',
+			array(
+				'render_callback' => array( $this, 'render_callback' ),
+			)
+		);
 	}
 }

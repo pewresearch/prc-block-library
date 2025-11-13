@@ -1,0 +1,19 @@
+.wp-block-prc-block-card {
+	--card-gap-default: 0.5em;
+	.prc-card__heading {
+		margin: 0;
+		padding: 0.525em 1em;
+		font-size: 0.825em;
+		font-weight: 400;
+		letter-spacing: 0.1em;
+		line-height: 1.28571429em;
+		text-transform: uppercase;
+		background-color: var(--custom-heading-background-color);
+		color: var(--custom-heading-text-color);
+	}
+	.prc-card__content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--card-gap, var(--card-gap-default));
+	}
+}

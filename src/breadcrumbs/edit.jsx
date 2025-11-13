@@ -8,101 +8,15 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
  * WordPress Dependencies
  */
 import { useSelect } from '@wordpress/data';
-import {
-	BlockControls,
-	InspectorControls,
-	JustifyContentControl,
-	RichText,
-	useBlockProps,
-} from '@wordpress/block-editor';
-import { PanelBody, ToggleControl } from '@wordpress/components';
-import { useEffect, useState, useMemo, Fragment } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { useBlockProps } from '@wordpress/block-editor';
 import { store as coreStore } from '@wordpress/core-data';
 import { decodeEntities } from '@wordpress/html-entities';
 
-function Crumb({
-	addLeadingSeparator,
-	crumbTitle,
-	editableTitleField = undefined,
-	isSelected,
-	placeholder,
-	separator,
-	setAttributes,
-	showSeparator,
-}) {
-	let crumbAnchor;
-	let separatorSpan;
-
-	// Keep track of whether or not the title field has been edited.
-	// This allows the default site title to be rendered as full "real" text.
-	// Then, when it's edited, if the title is removed, it is displayed as a placeholder,
-	// until the block is de-selected, where it is then treated as real text again.
-	const [isDirty, setIsDirty] = useState();
-
-	useEffect(() => {
-		if (!isSelected) {
-			setIsDirty(false);
-		}
-	}, [isSelected]);
-
-	if (separator || isSelected) {
-		separatorSpan = (
-			<span className="prc-block-breadcrumbs__separator">
-				<RichText
-					aria-label={__('Separator character')}
-					placeholder={__('/')}
-					withoutInteractiveFormatting
-					value={separator}
-					onChange={(html) => setAttributes({ separator: html })}
-				/>
-			</span>
-		);
-	}
-
-	if (editableTitleField) {
-		/* eslint-disable jsx-a11y/anchor-is-valid */
-		crumbAnchor = (
-			<a href="#" onClick={(event) => event.preventDefault()}>
-				{isSelected ? (
-					<RichText
-						aria-label={__('Title override')}
-						placeholder={placeholder}
-						withoutInteractiveFormatting
-						value={
-							isDirty
-								? (crumbTitle ?? placeholder)
-								: crumbTitle || placeholder
-						}
-						onChange={(html) => {
-							setIsDirty(true);
-							setAttributes({ [editableTitleField]: html });
-						}}
-					/>
-				) : (
-					crumbTitle || placeholder
-				)}
-			</a>
-		);
-		/* eslint-enable */
-	} else if (crumbTitle) {
-		/* eslint-disable jsx-a11y/anchor-is-valid */
-		crumbAnchor = (
-			<a href="#" onClick={(event) => event.preventDefault()}>
-				{crumbTitle}
-			</a>
-		);
-		/* eslint-enable */
-	}
-
-	return (
-		<li className="prc-block-breadcrumbs__item">
-			{addLeadingSeparator ? separatorSpan : null}
-			{crumbAnchor}
-			{showSeparator ? separatorSpan : null}
-		</li>
-	);
-}
+/**
+ * Internal Dependencies
+ */
+import Controls from './controls';
+import useBreadcrumbs from './use-breadcrumbs';
 
 export default function Edit({
 	attributes,
@@ -110,13 +24,7 @@ export default function Edit({
 	setAttributes,
 	context: { postType, postId },
 }) {
-	const {
-		contentJustification,
-		separator,
-		showCurrentPageTitle,
-		showLeadingSeparator,
-		siteTitleOverride,
-	} = attributes;
+	const { contentJustification } = attributes;
 
 	const { categories, parents, post, siteTitle } = useSelect(
 		(select) => {
@@ -175,56 +83,16 @@ export default function Edit({
 		[postId, postType]
 	);
 
-	// Construct breadcrumbs.
-	const breadcrumbs = useMemo(() => {
-		// Set breadcrumb names to real hierarchical post titles if available, and
-		// fall back to category names, or placeholder content if neither exists.
-
-		const crumbs = [];
-		let breadcrumbTitles;
-
-		if (parents?.length) {
-			breadcrumbTitles = parents.map(
-				(parent) => parent?.title?.rendered || ' '
-			);
-		} else if (categories?.length) {
-			breadcrumbTitles = categories.map(
-				(category) => category?.name || ' '
-			);
-		} else {
-			breadcrumbTitles = [__('Top-level page'), __('Child page')];
-		}
-
-		// Append current page title if set.
-		if (showCurrentPageTitle) {
-			breadcrumbTitles.push(post?.title || __('Current page'));
-		}
-
-		breadcrumbTitles.forEach((item, index) => {
-			crumbs.push(
-				<Crumb
-					addLeadingSeparator={index === 0 && showLeadingSeparator}
-					crumbTitle={item}
-					isSelected={isSelected}
-					separator={separator}
-					setAttributes={setAttributes}
-					showSeparator={index < breadcrumbTitles.length - 1}
-					key={index}
-				/>
-			);
-		});
-
-		return crumbs;
-	}, [
+	// Construct breadcrumbs using custom hook
+	const breadcrumbs = useBreadcrumbs({
+		attributes,
 		categories,
-		isSelected,
 		parents,
-		post?.title,
-		separator,
+		post,
+		siteTitle,
+		isSelected,
 		setAttributes,
-		showCurrentPageTitle,
-		showLeadingSeparator,
-	]);
+	});
 
 	const blockProps = useBlockProps({
 		className: classnames({
@@ -240,45 +108,14 @@ export default function Edit({
 	});
 
 	return (
-		<Fragment>
-			<BlockControls group="block">
-				<JustifyContentControl
-					allowedControls={['left', 'center', 'right']}
-					value={contentJustification}
-					onChange={(value) =>
-						setAttributes({ contentJustification: value })
-					}
-					popoverProps={{
-						position: 'bottom right',
-						isAlternate: true,
-					}}
-				/>
-			</BlockControls>
-			<InspectorControls>
-				<PanelBody title={__('Display')}>
-					<ToggleControl
-						label={__('Show leading separator')}
-						checked={showLeadingSeparator}
-						onChange={() =>
-							setAttributes({
-								showLeadingSeparator: !showLeadingSeparator,
-							})
-						}
-					/>
-					<ToggleControl
-						label={__('Show current page title')}
-						checked={showCurrentPageTitle}
-						onChange={() =>
-							setAttributes({
-								showCurrentPageTitle: !showCurrentPageTitle,
-							})
-						}
-					/>
-				</PanelBody>
-			</InspectorControls>
+		<>
+			<Controls
+				attributes={attributes}
+				setAttributes={setAttributes}
+			/>
 			<nav {...blockProps}>
-				<ol>{breadcrumbs}</ol>
+				<div className="prc-block-breadcrumbs__list">{breadcrumbs}</div>
 			</nav>
-		</Fragment>
+		</>
 	);
 }
