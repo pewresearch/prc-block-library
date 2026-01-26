@@ -1,12 +1,13 @@
 /**
  * External Dependencies
  */
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
 	useBlockProps,
 	RichText,
@@ -29,6 +30,10 @@ import Controls from './controls';
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
+ * @param            props.isSelected
+ * @param            props.mergeBlocks
+ * @param            props.onReplace
+ * @param            props.context
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
@@ -39,9 +44,16 @@ export default function Edit({
 	setAttributes,
 	mergeBlocks,
 	onReplace,
+	context,
 }) {
 	const { className, label, opensInNewTab, url } = attributes;
-
+	const {
+		showLabels,
+		iconColor,
+		iconColorValue,
+		iconBackgroundColor,
+		iconBackgroundColorValue,
+	} = context;
 	const link = {
 		url,
 		opensInNewTab,
@@ -101,18 +113,24 @@ export default function Edit({
 
 	const blockProps = useBlockProps({
 		ref: listItemRef,
-		className,
+		className: clsx(className, {
+			[`has-${iconColor}-color`]: iconColor,
+			[`has-${iconBackgroundColor}-background-color`]:
+				iconBackgroundColor,
+		}),
 	});
 
 	return (
-		<Fragment>
+		<>
 			<Controls {...{ attributes, setAttributes, setIsLinkOpen }} />
 			<div {...blockProps}>
 				<RichText
 					ref={ref}
 					identifier="label"
 					value={label}
-					onChange={(labelValue) => setAttributes({ label: labelValue })}
+					onChange={(labelValue) =>
+						setAttributes({ label: labelValue })
+					}
 					onMerge={mergeBlocks}
 					onReplace={onReplace}
 					aria-label={__('Social share link text')}
@@ -137,10 +155,13 @@ export default function Edit({
 								setAttributes({
 									url: encodeURI(newURL),
 									label: (() => {
-										const normalizedURL = newURL.replace(/http(s?):\/\//gi, '');
 										if (label) {
 											return label;
 										}
+										const normalizedURL = newURL.replace(
+											/http(s?):\/\//gi,
+											''
+										);
 										// If there's no label, add the URL.
 										return escape(normalizedURL);
 									})(),
@@ -151,6 +172,6 @@ export default function Edit({
 					</Popover>
 				)}
 			</div>
-		</Fragment>
+		</>
 	);
 }

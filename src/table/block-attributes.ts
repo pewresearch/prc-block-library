@@ -54,6 +54,9 @@ export interface Cell {
 	colSpan?: string;
 }
 
+// Sort direction type
+export type SortDirection = 'asc' | 'desc' | 'none';
+
 // Block attributes
 export interface BlockAttributes extends TableAttributes {
 	contentJustification: ContentJustifyValue | undefined;
@@ -71,6 +74,8 @@ export interface BlockAttributes extends TableAttributes {
 	tableTitleStyles?: string;
 	sourceNote?: string;
 	hiddenColumns?: number[];
+	isSortable?: boolean;
+	sortableColumns?: number[];
 }
 
 // Core Table Block attributes

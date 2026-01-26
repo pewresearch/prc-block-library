@@ -17,9 +17,9 @@ import { InspectorControls } from '@wordpress/block-editor';
  * 3. Add corresponding PHP render logic in class-core-tabs.php
  * 4. Add frontend behavior in view.js
  *
- * @param {Object} props                    Component props
- * @param {Object} props.attributes         Block attributes
- * @param {Function} props.setAttributes    Function to update attributes
+ * @param {Object}   props               Component props
+ * @param {Object}   props.attributes    Block attributes
+ * @param {Function} props.setAttributes Function to update attributes
  */
 export default function Controls({ attributes, setAttributes }) {
 	const { mobileDropdown, mobileDropdownWidth } = attributes;
@@ -27,11 +27,11 @@ export default function Controls({ attributes, setAttributes }) {
 	return (
 		<InspectorControls>
 			{/* Mobile Dropdown Settings */}
-			<PanelBody title={__('Mobile Settings', 'prc-block-library')}>
+			<PanelBody title={__('Settings', 'prc-block-library')}>
 				<ToggleControl
 					label={__('Mobile Dropdown', 'prc-block-library')}
 					help={__(
-						'Convert tabs to a dropdown select element on mobile devices',
+						'Convert tabs to a dropdown on mobile devices',
 						'prc-block-library'
 					)}
 					checked={mobileDropdown}
@@ -49,7 +49,7 @@ export default function Controls({ attributes, setAttributes }) {
 							'prc-block-library'
 						)}
 						help={__(
-							'Convert to dropdown below this screen width',
+							'Convert to dropdown when the screen width is less than this value',
 							'prc-block-library'
 						)}
 						value={mobileDropdownWidth}
@@ -64,8 +64,6 @@ export default function Controls({ attributes, setAttributes }) {
 					/>
 				)}
 			</PanelBody>
-
-			{/* Add additional PanelBody components here for future extensions */}
 		</InspectorControls>
 	);
 }

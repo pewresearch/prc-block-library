@@ -24,6 +24,12 @@
 	"usesContext": [
 		"postId",
 		"queryId",
+		"openInNewTab",
+		"showLabels",
+		"iconColor",
+		"iconColorValue",
+		"iconBackgroundColor",
+		"iconBackgroundColorValue",
 		"core/socialLinksTitle",
 		"core/socialLinksUrl",
 		"core/socialLinksDescription",

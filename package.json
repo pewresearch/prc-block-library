@@ -7,6 +7,8 @@
 		"build": "node bin/build-block.js",
 		"build:library": "wp-scripts build --webpack-copy-php; wp-scripts build --experimental-modules --webpack-copy-php; wp-scripts build-blocks-manifest",
 		"build:manifest": "wp-scripts build-blocks-manifest",
+		"build:core": "node bin/build-block.js core",
+		"build:core-manifest": "wp-scripts build-blocks-manifest --input=./core-blocks/src --output=./core-blocks/build/blocks-manifest.php",
 		"start:library": "wp-scripts build-blocks-manifest; wp-scripts start --experimental-modules --webpack-copy-php;",
 		"build:block-visibility": "wp-scripts build --webpack-copy-php --source-path=includes/block-visibility/src --output-path=includes/block-visibility/build",
 		"build:interactivity-api": "wp-scripts build --webpack-copy-php --source-path=includes/interactivity-api/src --output-path=includes/interactivity-api/build",

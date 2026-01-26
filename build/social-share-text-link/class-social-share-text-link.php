@@ -7,6 +7,8 @@
 
 namespace PRC\Platform\Blocks;
 
+use function PRC\Platform\Block_Utils\classNames;
+
 /**
  * Block Name:        Social Share Text Link
  * Version:           0.1.0
@@ -55,11 +57,22 @@ class Social_Share_Text_Link {
 			return '';
 		}
 
+		$context = $block->context;
+
+		$icon_color = array_key_exists( 'iconColor', $context ) ? $context['iconColor'] : '';
+		$icon_background_color = array_key_exists( 'iconBackgroundColor', $context ) ? $context['iconBackgroundColor'] : '';
+
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'href'   => isset( $attributes['url'] ) ? esc_url( $attributes['url'] ) : false,
 				'rel'    => 'nofollow',
 				'target' => isset( $attributes['opensInNewTab'] ) && true === $attributes['opensInNewTab'] ? '_blank' : false,
+				'class' => classNames(
+					array(
+						'has-'.$icon_color.'-color'            => $icon_color,
+						'has-'.$icon_background_color.'-background-color' => $icon_background_color,
+					)
+				),
 			)
 		);
 

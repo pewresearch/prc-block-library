@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { store, getContext } from '@wordpress/interactivity';
+import { store, getContext, getElement } from '@wordpress/interactivity';
 
 const { addQueryArgs } = wp.url;
 
@@ -10,7 +10,7 @@ const { innerWidth, innerHeight, open } = window;
 /**
  * Get social sharing arguments from context
  * @param {Object} context - The block context
- * @returns {Object} - Object containing url, title, and description
+ * @return {Object} - Object containing url, title, and description
  */
 function getShareArgs(context) {
 	let { url, title, description } = context;
@@ -42,7 +42,7 @@ function getShareArgs(context) {
 
 /**
  * Open a popup window for social sharing
- * @param {string} url - The URL to open
+ * @param {string} url        - The URL to open
  * @param {string} windowName - The name of the window
  */
 function openShareWindow(url, windowName) {
@@ -55,9 +55,9 @@ function openShareWindow(url, windowName) {
 
 /**
  * Generate share URL for different platforms
- * @param {string} platform - The social platform
+ * @param {string} platform  - The social platform
  * @param {Object} shareArgs - The sharing arguments
- * @returns {string} - The share URL
+ * @return {string} - The share URL
  */
 function generateShareUrl(platform, shareArgs) {
 	const { url, title, description } = shareArgs;
@@ -100,7 +100,7 @@ function generateShareUrl(platform, shareArgs) {
 /**
  * Get window name for different platforms
  * @param {string} platform - The social platform
- * @returns {string} - The window name
+ * @return {string} - The window name
  */
 function getWindowName(platform) {
 	const windowNames = {
@@ -114,23 +114,72 @@ function getWindowName(platform) {
 	return windowNames[platform] || 'shareWindow';
 }
 
-store('core/social-links', {
+const { actions, state } = store('core/social-links', {
 	actions: {
-		onShareClick: (event) => {
+		onClick: (event) => {
+			const { ref } = getElement();
+
+			// first we need to check if the ref has an a tag child, and if it has a href attribute set
+			const anchor = ref.querySelector('.wp-block-social-link-anchor');
+			if (anchor && anchor.href) {
+				// validate the href attribute is a valid URL
+				try {
+					new URL(anchor.href);
+					window.location.href = anchor.href;
+					return;
+				} catch (error) {
+					console.error('Invalid URL:', anchor.href);
+				}
+			}
+
+			const context = getContext();
+			const { platform } = context;
+			console.log('Social Tools Click:', { ...context });
+
+			if (!platform) {
+				return;
+			}
+
+			event.preventDefault();
+			event.stopPropagation();
+
+			if ('print' === platform) {
+				actions.onPrintClick();
+			} else if ('mail' === platform) {
+				actions.onMailClick();
+			} else if ('bookmark' === platform) {
+				actions.onBookmarkClick();
+			} else {
+				actions.onShareClick();
+			}
+		},
+		onShareClick: () => {
 			const context = getContext();
 			const { platform } = context;
 			if (!platform) {
 				return;
 			}
 			const shareArgs = getShareArgs(context);
-
-			event.preventDefault();
-			event.stopPropagation();
-
 			const shareUrl = generateShareUrl(platform, shareArgs);
 			const windowName = getWindowName(platform);
-
 			openShareWindow(shareUrl, windowName);
+		},
+		onPrintClick: () => {
+			// @TODO: Future print engine hook here.
+			window.print();
+		},
+		onMailClick: () => {
+			const context = getContext();
+			const { url, title, description } = getShareArgs(context);
+
+			const mailtoLink = `mailto:?subject=${encodeURIComponent(
+				title
+			)}&body=${encodeURIComponent(`${description}\n\n${url}`)}`;
+
+			window.location.href = mailtoLink;
+		},
+		onBookmarkClick: () => {
+			// @TODO: Future PRC User Accounts Bookmarks hook here.
 		},
 	},
 });

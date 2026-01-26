@@ -1,9 +1,14 @@
 /**
+ * External Dependencies
+ */
+import { Icon } from '@prc/icons';
+
+/**
  * WordPress Dependencies
  */
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { Fragment } from '@wordpress/element';
+import { registerBlockVariation } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
@@ -26,15 +31,35 @@ addFilter(
 				}
 
 				return (
-					<Fragment>
+					<>
 						<BlockEdit {...props} />
 						<Controls
 							{...{ attributes, setAttributes, context: false }}
 						/>
-					</Fragment>
+					</>
 				);
 			},
 		'withCoreSocialLinksControls'
 	),
 	21
 );
+
+registerBlockVariation('core/social-link', {
+	name: 'print',
+	title: 'Print',
+	icon: () => <Icon icon="print" library="solid" size={1} />,
+	attributes: {
+		service: 'print',
+	},
+	isActive: ['service'],
+});
+
+registerBlockVariation('core/social-link', {
+	name: 'bookmark',
+	title: 'Bookmark',
+	icon: () => <Icon icon="bookmark" library="solid" size={1} />,
+	attributes: {
+		service: 'bookmark',
+	},
+	isActive: ['service'],
+});

@@ -7,6 +7,8 @@
 
 namespace PRC\Platform\Blocks;
 
+use function PRC\Platform\Block_Utils\classNames;
+
 /**
  * Block Name:        Social Native Share
  * Description:       A share button to invoke the native share sheet in a visitors browser. When a browser does not support navigator.share this will fallback to a row of core&#x2F;social-links.
@@ -50,6 +52,8 @@ class Social_Share_Sheet {
 
 		$context = $block->context;
 
+		$icon_color = array_key_exists( 'iconColor', $context ) ? $context['iconColor'] : '';
+		$icon_background_color = array_key_exists( 'iconBackgroundColor', $context ) ? $context['iconBackgroundColor'] : '';
 		$link_title       = array_key_exists( 'core/socialLinksTitle', $context ) ? $context['core/socialLinksTitle'] : '';
 		$link_description = array_key_exists( 'core/socialLinksDescription', $context ) ? $context['core/socialLinksDescription'] : '';
 		$link_url         = array_key_exists( 'core/socialLinksUrl', $context ) ? $context['core/socialLinksUrl'] : '';
@@ -75,6 +79,7 @@ class Social_Share_Sheet {
 		);
 
 		$label               = array_key_exists( 'label', $attributes ) ? $attributes['label'] : 'Share';
+
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'data-wp-interactive'                => wp_json_encode(
@@ -98,19 +103,24 @@ class Social_Share_Sheet {
 			)
 		);
 
-		$icon = \PRC\Platform\Icons\render( 'solid', 'up-from-bracket' );
+		$icon = \PRC\Platform\Icons\render( 'solid', 'share' );
 
 		$native_template = wp_sprintf(
-			'<a href="%s"><span class="wp-block-prc-block-social-share-sheet__label">%s</span>%s</a>',
+			'<a href="%s" class="%s">%s</a>',
 			$link_url,
-			$label,
+			classNames(
+				array(
+					'has-'.$icon_color.'-color'            => $icon_color,
+					'has-'.$icon_background_color.'-background-color' => $icon_background_color,
+				)
+			),
 			$icon,
 		);
 
 		return wp_sprintf(
 			'<div %s>%s</div>',
 			$block_wrapper_attrs,
-			$content . $native_template,
+			$native_template . $content,
 		);
 	}
 

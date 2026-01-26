@@ -4601,6 +4601,12 @@ return array(
 		'usesContext' => array(
 			'postId',
 			'queryId',
+			'openInNewTab',
+			'showLabels',
+			'iconColor',
+			'iconColorValue',
+			'iconBackgroundColor',
+			'iconBackgroundColorValue',
 			'core/socialLinksTitle',
 			'core/socialLinksUrl',
 			'core/socialLinksDescription',
@@ -4620,7 +4626,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/social-share-text-link',
-		'version' => '0.1.0',
+		'version' => '1.0.0',
 		'title' => 'Social Share Text Link',
 		'description' => 'Add a text link to a social share group.',
 		'category' => 'widgets',
@@ -4665,6 +4671,14 @@ return array(
 				'label' => 'Read more...'
 			),
 			'viewPortWidth' => 100
+		),
+		'usesContext' => array(
+			'openInNewTab',
+			'showLabels',
+			'iconColor',
+			'iconColorValue',
+			'iconBackgroundColor',
+			'iconBackgroundColorValue'
 		),
 		'parent' => array(
 			'core/social-links'
@@ -5289,10 +5303,21 @@ return array(
 				'default' => array(
 					
 				)
+			),
+			'isSortable' => array(
+				'type' => 'boolean',
+				'default' => false
+			),
+			'sortableColumns' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				)
 			)
 		),
 		'supports' => array(
 			'anchor' => true,
+			'interactivity' => true,
 			'align' => array(
 				'left',
 				'right',
@@ -5348,7 +5373,8 @@ return array(
 			'file:./index.js'
 		),
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'table-of-contents' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -5523,6 +5549,7 @@ return array(
 		),
 		'supports' => array(
 			'align' => true,
+			'inserter' => false,
 			'color' => array(
 				'text' => false,
 				'background' => false

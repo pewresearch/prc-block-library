@@ -310,6 +310,9 @@ class Core_Button {
 	 */
 	public static function get_button_text( $block_content ) {
 		preg_match( '/<(a|button)[^>]*>(.*?)<\/(a|button)>/', $block_content, $matches );
+		if ( ! array_key_exists( 2, $matches ) ) {
+			return '';
+		}
 		return $matches[2];
 	}
 

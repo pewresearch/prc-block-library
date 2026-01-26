@@ -75,6 +75,7 @@
 	],
 	"supports": {
 		"align": true,
+		"inserter": false,
 		"color": {
 			"text": false,
 			"background": false

@@ -2,7 +2,6 @@
 /**
  * External Dependencies
  */
-import { Sorter } from '@prc/controls';
 import clsx from 'clsx';
 import { Icon, close } from '@wordpress/icons';
 
@@ -11,12 +10,6 @@ import { Icon, close } from '@wordpress/icons';
  */
 import { __ } from '@wordpress/i18n';
 import { useMemo, useState, useEffect, useRef } from '@wordpress/element';
-import {
-	PanelBody,
-	TextControl,
-	ToggleControl,
-	SelectControl,
-} from '@wordpress/components';
 import {
 	store as blockEditorStore,
 	useBlockProps,
@@ -28,21 +21,13 @@ import {
 	__experimentalGetShadowClassesAndStyles as useShadowProps,
 	__experimentalGetElementClassName,
 	getTypographyClassesAndStyles as useTypographyProps,
-	InspectorControls,
 } from '@wordpress/block-editor';
 import { store as blockStore } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
  */
-const DEFAULT_OPTIONS = [
-	{ label: 'North America', value: 'north-america' },
-	{ label: 'South America', value: 'south-america' },
-	{ label: 'Europe', value: 'europe' },
-	{ label: 'Asia', value: 'asia' },
-	{ label: 'Africa', value: 'africa' },
-	{ label: 'Australia', value: 'australia' },
-];
+import Controls from './controls';
 
 export default function Edit({
 	attributes,
@@ -80,8 +65,8 @@ export default function Edit({
 	const [inputValue, setInputValue] = useState('');
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-	const borderProps = useBorderProps( attributes );
-	const colorProps = useColorProps( attributes );
+	const borderProps = useBorderProps(attributes);
+	const colorProps = useColorProps(attributes);
 
 	const supportedClassNames = useMemo(() => {
 		return clsx({
@@ -107,7 +92,9 @@ export default function Edit({
 
 	// Block Wrapper
 	const blockClassNames = useMemo(() => {
-		return isInlineLabel ? [layoutClassNames, ...supportedClassNames] : layoutClassNames;
+		return isInlineLabel
+			? [layoutClassNames, ...supportedClassNames]
+			: layoutClassNames;
 	}, [layoutClassNames, supportedClassNames, isInlineLabel]);
 	const blockStyles = useMemo(() => {
 		return isInlineLabel ? supportedStyles : {};
@@ -149,120 +136,61 @@ export default function Edit({
 
 	return (
 		<>
-			<InspectorControls>
-				<PanelBody title={__('Form Input Field Settings')}>
-					<TextControl
-						label="Input Name"
-						help={__('This is the name of the input field. It is used to identify the input field in the form submission data. We recommend using a camelCase name.', 'prc-block-library')}
-						value={name}
-						onChange={(newName) => {
+			<Controls
+				attributes={attributes}
+				setAttributes={setAttributes}
+				clientId={clientId}
+			/>
+			<div {...blockProps}>
+				{displayLabel && (
+					<RichText
+						tagName="label"
+						placeholder={__('Label…', 'prc-block-library')}
+						value={label}
+						onChange={(newLabel) => {
+							const camelCaseLabel = newLabel
+								.replace(/<[^>]*>/g, '')
+								.replace(/(?:^| )(\w)/g, (_, letter) =>
+									letter.toUpperCase()
+								)
+								.replace(/^./, (str) => str.toLowerCase());
 							setAttributes({
-								metadata: { ...attributes.metadata, name: newName },
+								label: newLabel,
+								metadata: {
+									...attributes.metadata,
+									name: camelCaseLabel,
+								},
 							});
 						}}
 					/>
-					<TextControl
-						label="Placeholder"
-						value={placeholder}
-						onChange={(newPlaceholder) => {
-							setAttributes({ placeholder: newPlaceholder });
-						}}
-					/>
-					<ToggleControl
-						label="Display Label"
-						checked={displayLabel}
-						help="If toggled on, the label will be displayed above the input field."
-						onChange={(val) => {
-							setAttributes({ displayLabel: val });
-						}}
-					/>
-					<ToggleControl
-						label="Disabled"
-						checked={disabled}
-						help="If toggled on, the user cannot interact with this input."
-						onChange={(val) => {
-							setAttributes({ disabled: val });
-						}}
-					/>
-					<ToggleControl
-						label="Required"
-						checked={required}
-						help="If toggled on, the user must select a value before submitting the form."
-						onChange={(val) => {
-							setAttributes({ required: val });
-						}}
-					/>
-					<ToggleControl
-						label="Clear Icon Enabled"
-						checked={hasClearIcon}
-						help="If toggled on, a clear icon will be displayed in the input field."
-						onChange={(val) => {
-							setAttributes({ hasClearIcon: val });
-						}}
-					/>
-					<ToggleControl
-						label="Allow Search"
-						checked={allowSearch}
-						help="If toggled on, the user can search and filter through the options."
-						onChange={(val) => {
-							setAttributes({ allowSearch: val });
-						}}
-					/>
-				</PanelBody>
-				<PanelBody title={__('Form Input Field Options')}>
-					<SelectControl
-						label="Select from default options"
-						value={type}
-						options={[
-							{ label: 'Custom', value: 'custom' },
-							{ label: 'Countries', value: 'countries' },
-							{
-								label: 'Countries and Regions',
-								value: 'countries-and-regions',
-							},
-							{ label: 'U.S. States', value: 'us-states' },
-							{ label: 'Industries', value: 'industries' },
-						]}
-						onChange={(newType) => {
-							setAttributes({ type: newType });
-						}}
-					/>
-					<Sorter
-						options={options}
-						setAttributes={setAttributes}
-						attribute="options"
-						clientId={clientId}
-						isRemovable
-						hasSetActive
-					/>
-				</PanelBody>
-			</InspectorControls>
-			<div {...blockProps}>
-				{displayLabel && <RichText
-					tagName="label"
-					placeholder={__('Label...', 'prc-block-library')}
-					value={label}
-					onChange={(newLabel) => {
-						const camelCaseLabel = newLabel.replace(/<[^>]*>/g, '').replace(/(?:^| )(\w)/g, (_, letter) => letter.toUpperCase()).replace(/^./, str => str.toLowerCase());
-						setAttributes({ label: newLabel, metadata: { ...attributes.metadata, name: camelCaseLabel } });
-					}}
-				/>}
-				<div className={clsx("wp-block-prc-block-form-input-select__input", inputClassNames)} style={inputStyles}>
-
+				)}
+				<div
+					className={clsx(
+						'wp-block-prc-block-form-input-select__input',
+						inputClassNames
+					)}
+					style={inputStyles}
+				>
 					{allowMultiple && (
 						<div className="wp-block-prc-block-form-input-select__tokens-wrapper">
-						{selectedValues.map((val) => (
-							<span key={val} className="components-form-token-field__token">
-								{getLabel(val)}
-								<button
-									type="button"
-									aria-label={__('Remove', 'prc-block-library')}
-									onClick={() => handleTokenRemove(val)}
+							{selectedValues.map((val) => (
+								<span
+									key={val}
+									className="components-form-token-field__token"
 								>
-									<Icon icon={close} />
-								</button>
-							</span>
-						))}
+									{getLabel(val)}
+									<button
+										type="button"
+										aria-label={__(
+											'Remove',
+											'prc-block-library'
+										)}
+										onClick={() => handleTokenRemove(val)}
+									>
+										<Icon icon={close} />
+									</button>
+								</span>
+							))}
 						</div>
 					)}
 

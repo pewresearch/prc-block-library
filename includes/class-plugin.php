@@ -133,6 +133,7 @@ class Plugin {
 		require_once plugin_dir_path( __DIR__ ) . '/includes/pagination/class-pagination.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/print-engine/class-print-engine.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/supports/class-supports.php';
+		require_once plugin_dir_path( __DIR__ ) . '/core-blocks/class-core-blocks.php';
 
 		// Load blocks.
 		$this->load_blocks();
@@ -209,6 +210,9 @@ class Plugin {
 	 * Init Core Blocks
 	 */
 	private function define_core_blocks() {
+		// Gutenberg Core Block library ports.
+		new Core_Blocks( $this->get_loader() );
+		// Core Block Library Modifications.
 		new Core_Button( $this->get_loader() );
 		new Core_Categories( $this->get_loader() );
 		new Core_Code( $this->get_loader() );

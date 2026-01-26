@@ -17,12 +17,14 @@
 		}
 	}
 
-	// If a section header is present, adjust the divider line height down below the section header.
-	&:has(.is-style-section-header):not(:first-of-type):not(.is-selected):not(
-			.is-highlighted
-		):not(.is-hovered):before {
-		top: 28px;
-		height: calc(100% - 28px);
+	@media (min-width: #{ ($break-large) }) {
+		// If a section header is present, adjust the divider line height down below the section header.
+		&:has(.is-style-section-header):not(:first-of-type):not(
+				.is-selected
+			):not(.is-highlighted):not(.is-hovered):before {
+			top: 28px;
+			height: calc(100% - 28px);
+		}
 	}
 }
 

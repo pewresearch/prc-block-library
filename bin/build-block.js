@@ -7,15 +7,32 @@ const path = require('path');
 const args = process.argv.slice(2);
 let blockName = args[0];
 
+// Configuration for different block sources
+const BLOCK_SOURCES = {
+	library: {
+		srcDir: './src/',
+		buildDir: './build/',
+		manifestInput: './src',
+		manifestOutput: './build/blocks-manifest.php',
+	},
+	core: {
+		srcDir: './core-blocks/src/',
+		buildDir: './core-blocks/build/',
+		manifestInput: './core-blocks/src',
+		manifestOutput: './core-blocks/build/blocks-manifest.php',
+	},
+};
+
 // Function to build a single block
-async function buildSingleBlock(blockName, chalk) {
-	const src = `./src/${blockName}/`;
-	const output = `./build/${blockName}/`;
+async function buildSingleBlock(name, chalk, source = 'library') {
+	const config = BLOCK_SOURCES[source];
+	const src = `${config.srcDir}${name}/`;
+	const output = `${config.buildDir}${name}/`;
 
 	// Check if src directory exists
 	if (!fs.existsSync(src)) {
 		process.stdout.write(
-			chalk.red(`❌ Block does not exist at ${src}. Skipping...`)
+			chalk.red(`❌ Block does not exist at ${src}. Skipping...\n`)
 		);
 		return false;
 	}
@@ -32,7 +49,7 @@ async function buildSingleBlock(blockName, chalk) {
 		} catch (error) {
 			process.stdout.write(
 				chalk.yellow(
-					`⚠️  Warning: Could not parse block.json for ${blockName}: ${error.message}\n`
+					`⚠️  Warning: Could not parse block.json for ${name}: ${error.message}\n`
 				)
 			);
 		}
@@ -44,7 +61,7 @@ async function buildSingleBlock(blockName, chalk) {
 		readline.cursorTo(process.stdout, 0);
 		process.stdout.write(
 			chalk.blue(
-				`⚒️ Building block: ${chalk.bold(blockName)}${ellipses[ellipsesIndex]}`
+				`⚒️ Building block: ${chalk.bold(name)}${ellipses[ellipsesIndex]}`
 			)
 		);
 		ellipsesIndex = (ellipsesIndex + 1) % ellipses.length;
@@ -56,15 +73,14 @@ async function buildSingleBlock(blockName, chalk) {
 		command += ' --experimental-modules';
 		process.stdout.write(
 			chalk.magenta(
-				`🏗️ ${chalk.bgMagenta.white('(🔌iAPI)')} Building block: ${blockName}\n`
+				`🏗️ ${chalk.bgMagenta.white('(🔌iAPI)')} Building block: ${name}\n`
 			)
 		);
 	} else {
-		process.stdout.write(chalk.cyan(`🏗️ Building block: ${blockName}\n`));
+		process.stdout.write(chalk.cyan(`🏗️ Building block: ${name}\n`));
 	}
 	// Now run the manifest build command
-	command +=
-		'; npx wp-scripts build-blocks-manifest --input=./src --output=./build/blocks-manifest.php';
+	command += `; npx wp-scripts build-blocks-manifest --input=${config.manifestInput} --output=${config.manifestOutput}`;
 
 	return new Promise((resolve) => {
 		// Execute everything:
@@ -76,29 +92,91 @@ async function buildSingleBlock(blockName, chalk) {
 			readline.cursorTo(process.stdout, 0);
 
 			// Check for webpack compilation errors in stdout
-			const hasWebpackError = stdout && (
-				stdout.includes('webpack compiled with') && stdout.includes('error') ||
-				stdout.includes('ERROR in') ||
-				stdout.includes('Failed to compile')
-			);
+			const hasWebpackError =
+				stdout &&
+				((stdout.includes('webpack compiled with') &&
+					stdout.includes('error')) ||
+					stdout.includes('ERROR in') ||
+					stdout.includes('Failed to compile'));
 
 			if (error || hasWebpackError) {
 				process.stdout.write(stdout);
 				process.stdout.write(
 					chalk.red(
-						`❌ Build failed for ${blockName}${stderr ? ':\n' + stderr : ''}\n`
+						`❌ Build failed for ${name}${stderr ? ':\n' + stderr : ''}\n`
 					)
 				);
 				resolve(false);
 			} else {
 				process.stdout.write(stdout);
 				process.stdout.write(
-					chalk.green(`✅ ${blockName} built successfully!\n`)
+					chalk.green(`✅ ${name} built successfully!\n`)
 				);
 				resolve(true);
 			}
 		});
 	});
+}
+
+// Function to build all core blocks (used when building "all")
+async function buildAllCoreBlocks(chalk) {
+	const config = BLOCK_SOURCES.core;
+
+	if (!fs.existsSync(config.srcDir)) {
+		process.stdout.write(
+			chalk.yellow(
+				`⚠️  Core blocks source directory ${config.srcDir} does not exist. Skipping core blocks.\n`
+			)
+		);
+		return;
+	}
+
+	process.stdout.write(chalk.blue('\n🔨 Building all core blocks...\n'));
+
+	// Get all block directories in core-blocks/src
+	const coreBlocks = fs
+		.readdirSync(config.srcDir, { withFileTypes: true })
+		.filter((dirent) => dirent.isDirectory())
+		.filter((dirent) => dirent.name !== 'utils') // Exclude utils folder
+		.map((dirent) => dirent.name);
+
+	if (coreBlocks.length === 0) {
+		process.stdout.write(
+			chalk.yellow('⚠️  No core blocks found to build.\n')
+		);
+		return;
+	}
+
+	let successCount = 0;
+	for (const block of coreBlocks) {
+		const success = await buildSingleBlock(block, chalk, 'core');
+		if (success) successCount++;
+	}
+
+	// Build blocks manifest for core blocks
+	exec(
+		`npx wp-scripts build-blocks-manifest --input=${config.manifestInput} --output=${config.manifestOutput}`,
+		(error, stdout, stderr) => {
+			if (error) {
+				process.stdout.write(
+					chalk.red(
+						`❌ Error building core blocks manifest: ${stderr}\n`
+					)
+				);
+			} else {
+				process.stdout.write(stdout);
+				process.stdout.write(
+					chalk.green('✅ Core blocks manifest built!\n')
+				);
+			}
+		}
+	);
+
+	process.stdout.write(
+		chalk.green(
+			`✅ Core blocks build complete! ${successCount}/${coreBlocks.length} blocks built successfully.\n`
+		)
+	);
 }
 
 (async () => {
@@ -110,10 +188,21 @@ async function buildSingleBlock(blockName, chalk) {
 			type: 'text',
 			name: 'blockName',
 			message: chalk.cyan(
-				'Enter the block name (supports wildcards like form-*), or press enter to build all blocks'
+				'Enter the block name (supports wildcards like form-*), use "core:" prefix for core blocks (e.g., core:tabs), or press enter to build all blocks'
 			),
 		});
 		blockName = response.blockName;
+	}
+
+	// Check if building core blocks
+	const isCoreBlock = blockName && blockName.startsWith('core:');
+	const isAllCore =
+		blockName === 'core' ||
+		blockName === 'core-blocks' ||
+		blockName === 'CORE';
+
+	if (isCoreBlock) {
+		blockName = blockName.replace('core:', '');
 	}
 
 	// Handle wildcard patterns
@@ -123,7 +212,9 @@ async function buildSingleBlock(blockName, chalk) {
 		const regex = new RegExp(`^${regexPattern}$`);
 
 		// Get all directories in src folder
-		const srcDir = './src/';
+		const source = isCoreBlock ? 'core' : 'library';
+		const config = BLOCK_SOURCES[source];
+		const srcDir = config.srcDir;
 		if (!fs.existsSync(srcDir)) {
 			process.stdout.write(
 				chalk.red(`❌ Source directory ${srcDir} does not exist.`)
@@ -134,6 +225,7 @@ async function buildSingleBlock(blockName, chalk) {
 		const allBlocks = fs
 			.readdirSync(srcDir, { withFileTypes: true })
 			.filter((dirent) => dirent.isDirectory())
+			.filter((dirent) => dirent.name !== 'utils') // Exclude utils folder
 			.map((dirent) => dirent.name);
 
 		// Filter blocks that match the pattern
@@ -148,26 +240,76 @@ async function buildSingleBlock(blockName, chalk) {
 			process.exit(1);
 		}
 
+		const sourceLabel = isCoreBlock ? 'core ' : '';
 		process.stdout.write(
 			chalk.blue(
-				`🔨 Found ${matchingBlocks.length} blocks matching pattern "${blockName}": ${matchingBlocks.join(', ')}\n`
+				`🔨 Found ${matchingBlocks.length} ${sourceLabel}blocks matching pattern "${blockName}": ${matchingBlocks.join(', ')}\n`
 			)
 		);
 
 		// Build each matching block sequentially
 		let successCount = 0;
 		for (const block of matchingBlocks) {
-			const success = await buildSingleBlock(block, chalk);
+			const success = await buildSingleBlock(block, chalk, source);
 			if (success) successCount++;
 		}
 
 		process.stdout.write(
 			chalk.green(
-				`✅ Pattern build complete! ${successCount}/${matchingBlocks.length} blocks built successfully.\n`
+				`✅ Pattern build complete! ${successCount}/${matchingBlocks.length} ${sourceLabel}blocks built successfully.\n`
 			)
 		);
 
 		if (successCount < matchingBlocks.length) {
+			process.exit(1);
+		}
+		return;
+	}
+
+	// Handle building all core blocks
+	if (isAllCore) {
+		process.stdout.write(chalk.blue('🔨 Building all core blocks...\n'));
+		const config = BLOCK_SOURCES.core;
+
+		// Get all block directories in core-blocks/src
+		const coreBlocks = fs
+			.readdirSync(config.srcDir, { withFileTypes: true })
+			.filter((dirent) => dirent.isDirectory())
+			.filter((dirent) => dirent.name !== 'utils') // Exclude utils folder
+			.map((dirent) => dirent.name);
+
+		let successCount = 0;
+		for (const block of coreBlocks) {
+			const success = await buildSingleBlock(block, chalk, 'core');
+			if (success) successCount++;
+		}
+
+		// Build blocks manifest for core blocks
+		exec(
+			`npx wp-scripts build-blocks-manifest --input=${config.manifestInput} --output=${config.manifestOutput}`,
+			(error, stdout, stderr) => {
+				if (error) {
+					process.stdout.write(
+						chalk.red(
+							`❌ Error building core blocks manifest: ${stderr}`
+						)
+					);
+				} else {
+					process.stdout.write(stdout);
+					process.stdout.write(
+						chalk.green('✅ Core blocks manifest built!\n')
+					);
+				}
+			}
+		);
+
+		process.stdout.write(
+			chalk.green(
+				`✅ Core blocks build complete! ${successCount}/${coreBlocks.length} blocks built successfully.\n`
+			)
+		);
+
+		if (successCount < coreBlocks.length) {
 			process.exit(1);
 		}
 		return;
@@ -180,7 +322,7 @@ async function buildSingleBlock(blockName, chalk) {
 		blockName === 'library' ||
 		blockName === 'LIBRARY'
 	) {
-		process.stdout.write(chalk.blue('🔨 Building all blocks...\n'));
+		process.stdout.write(chalk.blue('🔨 Building all library blocks...\n'));
 		exec(
 			'npx wp-scripts build --webpack-copy-php',
 			(error, stdout, stderr) => {
@@ -190,7 +332,7 @@ async function buildSingleBlock(blockName, chalk) {
 					process.stdout.write(stdout);
 				}
 				process.stdout.write(
-					chalk.green('✅ Non-interactive blocks built!\n')
+					chalk.green('✅ Non-interactive library blocks built!\n')
 				);
 
 				exec(
@@ -204,7 +346,9 @@ async function buildSingleBlock(blockName, chalk) {
 							process.stdout.write(stdout);
 						}
 						process.stdout.write(
-							chalk.green('✅ Interactive blocks built!\n')
+							chalk.green(
+								'✅ Interactive library blocks built!\n'
+							)
 						);
 
 						exec(
@@ -218,17 +362,28 @@ async function buildSingleBlock(blockName, chalk) {
 									process.stdout.write(stdout);
 								}
 								process.stdout.write(
-									chalk.green('✅ Blocks manifest built!\n')
+									chalk.green(
+										'✅ Library blocks manifest built!\n'
+									)
 								);
+
+								// Now build core blocks
+								buildAllCoreBlocks(chalk);
 							}
 						);
 					}
 				);
 			}
 		);
+	} else if (isCoreBlock) {
+		// Build single specific core block
+		const success = await buildSingleBlock(blockName, chalk, 'core');
+		if (!success) {
+			process.exit(1);
+		}
 	} else {
-		// Build single specific block
-		const success = await buildSingleBlock(blockName, chalk);
+		// Build single specific library block
+		const success = await buildSingleBlock(blockName, chalk, 'library');
 		if (!success) {
 			process.exit(1);
 		}

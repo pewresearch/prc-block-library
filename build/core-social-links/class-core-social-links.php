@@ -11,8 +11,8 @@ use WP_HTML_Tag_Processor;
 
 /**
  * Block Name:        Core Social-Links
- * Version:           0.1.0
- * Requires at least: 6.4
+ * Version:           1.0.0
+ * Requires at least: 6.9
  * Requires PHP:      8.1
  * Author:            Seth Rubenstein
  *
@@ -86,6 +86,7 @@ class Core_Social_Links {
 			$loader->add_filter( 'render_block_data', $this, 'social_links_url_fallback', 1, 3 );
 			$loader->add_filter( 'render_block_context', $this, 'social_links_context_handler', 100, 3 );
 			$loader->add_filter( 'render_block', $this, 'social_link_render_callback', 100, 3 );
+			$loader->add_filter( 'block_core_social_link_get_services', $this, 'social_link_icons' );
 		}
 	}
 
@@ -258,6 +259,37 @@ class Core_Social_Links {
 	}
 
 	/**
+	 * Add custom social link icons.
+	 *
+	 * @hook block_core_social_link_get_services
+	 * @param array $services_data Services data.
+	 * @return array
+	 */
+	public function social_link_icons(array $services_data) {
+		$services_data['print'] = [
+			'name' => 'Print',
+			'icon' => \PRC\Platform\Icons\get_icon_as_svg
+			(
+				'solid',
+				'print',
+				'1em'
+			),
+		];
+
+		$services_data['bookmark'] = [
+			'name' => 'Bookmark',
+			'icon' => \PRC\Platform\Icons\get_icon_as_svg
+			(
+				'solid',
+				'bookmark',
+				'1em'
+			),
+		];
+
+		return $services_data;
+	}
+
+	/**
 	 * Handle defining the context value for blocks that may appear inside core/social-links.
 	 *
 	 * @hook render_block_context
@@ -338,7 +370,7 @@ class Core_Social_Links {
 			$add_interactivity = true;
 			if ( $tags->next_tag( 'a' ) ) {
 				$href = $tags->get_attribute( 'href' );
-				if ( ! empty( $href ) && '#' !== $href ) {
+				if ( ! empty( $href ) && str_contains('http', $href ) !== false && str_contains('https', $href ) !== false ) {
 					$add_interactivity = false;
 				}
 			}
@@ -346,9 +378,26 @@ class Core_Social_Links {
 			if ( $add_interactivity ) {
 				wp_enqueue_script_module( $this->view_script_handle );
 				wp_enqueue_script( 'wp-url' );
+
+				// Go back to the <li> tag to add attributes.
 				$tags->seek( 'social-link' );
+
+				// Get the platform from the class name. The class attribute may contain
+				// multiple classes so look for the token that starts with "wp-social-link-".
+				$class_attr = $tags->get_attribute( 'class' );
+				$platform    = '';
+				if ( $class_attr ) {
+					if ( preg_match( '/\bwp-social-link-([^\s]+)/', $class_attr, $matches ) ) {
+						$platform = $matches[1];
+					} else {
+						// Fallback: if the class attribute only contains the platform class,
+						// strip the prefix.
+						$platform = preg_replace( '/^wp-social-link-/', '', $class_attr );
+					}
+				}
+
+				// Set up interactivity attributes.
 				$tags->set_attribute( 'data-wp-interactive', 'core/social-links' );
-				$platform = preg_replace( '/^wp-social-link-/', '', $tags->get_attribute( 'class' ) );
 				$tags->set_attribute(
 					'data-wp-context',
 					wp_json_encode(
@@ -360,7 +409,9 @@ class Core_Social_Links {
 						)
 					)
 				);
-				$tags->set_attribute( 'data-wp-on--click', 'actions.onShareClick' );
+
+				// Hook on click handler.
+				$tags->set_attribute( 'data-wp-on--click', 'actions.onClick' );
 			}
 
 			return $tags->get_updated_html();

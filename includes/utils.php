@@ -7,57 +7,87 @@
 /**
  * Converts a number to a string of words. Stops at 999, we need to be sane about how many possibilities we support and text length.
  */
-if ( ! function_exists('conver_number_to_words') ) {
-	function convert_number_to_words($num) {
-		if (!is_int($num)) {
-		  return new WP_Error('invalid_input', 'Input must be an integer.');
+if ( ! function_exists( 'convert_number_to_words' ) ) {
+	function convert_number_to_words( $num ) {
+		if ( is_numeric( $num ) ) {
+			$num = (int) $num;
+		}
+		if ( ! is_int( $num ) ) {
+			return new WP_Error( 'invalid_input', 'Input must be an integer.' );
 		}
 
 		$ones = array(
-		  0 => 'zero', 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four',
-		  5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine'
+			0  => 'zero',
+			1  => 'one',
+			2  => 'two',
+			3  => 'three',
+			4  => 'four',
+			5  => 'five',
+			6  => 'six',
+			7  => 'seven',
+			8  => 'eight',
+			9  => 'nine',
+			10 => 'ten',
+			11 => 'eleven',
+			12 => 'twelve',
+			13 => 'thirteen',
+			14 => 'fourteen',
+			15 => 'fifteen',
+			16 => 'sixteen',
+			17 => 'seventeen',
+			18 => 'eighteen',
+			19 => 'nineteen',
 		);
 		$tens = array(
-		  0 => '', 1 => 'ten', 2 => 'twenty', 3 => 'thirty', 4 => 'forty',
-		  5 => 'fifty', 6 => 'sixty', 7 => 'seventy', 8 => 'eighty', 9 => 'ninety'
+			0 => '',
+			1 => 'ten',
+			2 => 'twenty',
+			3 => 'thirty',
+			4 => 'forty',
+			5 => 'fifty',
+			6 => 'sixty',
+			7 => 'seventy',
+			8 => 'eighty',
+			9 => 'ninety',
 		);
 		$hundreds = array(
-		  'hundred', 'thousand'
+			'hundred',
+			'thousand',
 		);
 
-		if ($num < 0 || $num >= 1000) {
-		  return new WP_Error('out_of_range', 'Input must be between 0 and 999.');
+		if ( $num < 0 || $num >= 1000 ) {
+			return new WP_Error( 'out_of_range', 'Input must be between 0 and 999.' );
 		}
 
-		if ($num == 0) {
-		  return esc_html($ones[0]);
+		if ( $num == 0 ) {
+			return esc_html( $ones[0] );
 		}
 
-		$result = '';
-		$hundred = (int) ($num / 100);
-		$ten = (int) ($num / 10) % 10;
-		$one = $num % 10;
+		$result  = '';
+		$hundred = (int) ( $num / 100 );
+		$ten     = (int) ( $num / 10 ) % 10;
+		$one     = $num % 10;
 
-		if ($hundred > 0) {
-		  $result .= $ones[$hundred] . ' ' . $hundreds[0];
+		if ( $hundred > 0 ) {
+			$result .= $ones[ $hundred ] . ' ' . $hundreds[0];
 		}
 
-		if ($ten > 0 || $one > 0) {
-		  if (!empty($result)) {
-			$result .= ' ';
-		  }
-
-		  if ($ten < 2) {
-			$result .= $ones[$ten * 10 + $one];
-		  } else {
-			$result .= $tens[$ten];
-			if ($one > 0) {
-			  $result .= '-' . $ones[$one];
+		if ( $ten > 0 || $one > 0 ) {
+			if ( ! empty( $result ) ) {
+				$result .= ' ';
 			}
-		  }
+
+			if ( $ten < 2 ) {
+				$result .= $ones[ $ten * 10 + $one ];
+			} else {
+				$result .= $tens[ $ten ];
+				if ( $one > 0 ) {
+					$result .= '-' . $ones[ $one ];
+				}
+			}
 		}
 
-		return esc_html($result);
+		return esc_html( $result );
 	}
 }
 

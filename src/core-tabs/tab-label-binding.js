@@ -10,10 +10,10 @@ import { __ } from '@wordpress/i18n';
 
 export default function registerTabLabelBinding() {
 	registerBlockBindingsSource({
-		name: 'tab/label',
-		usesContext: ['tab/label'],
+		name: 'core/tab-label',
+		usesContext: ['core/tab-label'],
 		getValues({ select, context }) {
-			const tabLabel = context['tab/label'];
+			const tabLabel = context['core/tab-label'];
 			if (tabLabel) {
 				return {
 					content: tabLabel,
@@ -39,11 +39,10 @@ export default function registerTabLabelBinding() {
 			// Find the root, tab block, update the label.
 			const tabBlockClientIds = getBlockParentsByBlockName(
 				selectedBlockClientId,
-				'prc-block/tab'
+				'core/tab'
 			);
-			// Get the first tab block.
+			// Get the first tab block out of the array. There is only one anyways.
 			const tabBlockClientId = tabBlockClientIds[0];
-			console.log('tabBlockClientId', tabBlockClientId);
 
 			updateBlockAttributes(tabBlockClientId, {
 				label: newValue,
@@ -54,13 +53,13 @@ export default function registerTabLabelBinding() {
 		},
 	});
 	registerBlockVariation('core/paragraph', {
-		name: 'tab/label',
+		name: 'core/tab-label',
 		title: __('Tab Label', 'prc-block-library'),
 		description: __('Tab Label', 'prc-block-library'),
 		attributes: {
 			metadata: {
 				bindings: {
-					content: { source: 'tab/label' },
+					content: { source: 'core/tab-label' },
 				},
 			},
 		},
@@ -72,13 +71,13 @@ export default function registerTabLabelBinding() {
 		},
 	});
 	registerBlockVariation('core/heading', {
-		name: 'tab/label',
+		name: 'core/tab-label',
 		title: __('Tab Label', 'prc-block-library'),
 		description: __('Tab Label', 'prc-block-library'),
 		attributes: {
 			metadata: {
 				bindings: {
-					content: { source: 'tab/label' },
+					content: { source: 'core/tab-label' },
 				},
 			},
 		},

@@ -11,7 +11,9 @@ import {
 	useInnerBlocksProps,
 	InnerBlocks,
 	withColors,
+	Warning,
 } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -77,6 +79,12 @@ function Edit({
 	return (
 		<>
 			<div {...innerBlockProps}>
+				<Warning>
+					{__(
+						'This tabs block is deprecated. Please convert to the new core/tabs block by selecting "Transform to" in the block toolbar.',
+						'prc-block-library'
+					)}
+				</Warning>
 				{innerBlockProps.children}
 				<TabFill tabsClientId={clientId}>
 					<div className="wp-block-prc-block-tabs__tab-item__inserter">

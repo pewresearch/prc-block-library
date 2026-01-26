@@ -209,13 +209,13 @@ class Core_Heading {
 			$context['prcLegacyChapter'] = true;
 			return $context;
 		}
-		// If this has postId, then lets check the date and determine if its before 2022, if it is then we should add to context 'prcLegacyChapter' => true...
+		// If this has postId, then lets check the date and determine if its before March 2023, if it is then we should add to context 'prcLegacyChapter' => true...
 		if ( array_key_exists( 'postId', $context ) && false === $this->legacy_heading_check_completed ) {
 			$post_date    = get_the_date( 'Y-m-d H:i:s', $context['postId'] );
 			$last_updated = get_the_modified_date( 'Y-m-d H:i:s', $context['postId'] );
 			// We set this to true so we don't run this check again.
 			$this->legacy_heading_check_completed = true;
-			if ( strtotime( $post_date ) < strtotime( '2022-01-01 00:00:00' ) ) {
+			if ( strtotime( $post_date ) < strtotime( '2023-03-01 00:00:00' ) ) {
 				$context['prcLegacyChapter'] = true;
 			} else {
 				// The check has been run and did not find any legacy chapters.

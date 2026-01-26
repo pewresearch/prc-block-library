@@ -101,6 +101,7 @@ export default function TableSettings({
 		sticky,
 		head,
 		foot,
+		isSortable,
 	} = attributes;
 
 	const options = useSelect((select) => {
@@ -160,6 +161,10 @@ export default function TableSettings({
 		setAttributes(toTableAttributes(newVTable));
 		setSelectedCells(undefined);
 		setSelectedLine(undefined);
+	};
+
+	const onChangeIsSortable = () => {
+		setAttributes({ isSortable: !isSortable });
 	};
 
 	const onChangeWidth = (value: Property.Width | undefined) => {
@@ -253,6 +258,8 @@ export default function TableSettings({
 			isStackedOnMobile: false,
 			sticky: undefined,
 			tableStyles: undefined,
+			isSortable: false,
+			sortableColumns: [],
 		});
 	};
 
@@ -277,6 +284,24 @@ export default function TableSettings({
 				label={__('Footer section', 'flexible-table-block')}
 				checked={!!(foot && foot.length)}
 				onChange={onToggleFooterSection}
+				__nextHasNoMarginBottom
+			/>
+			<ToggleControl
+				label={__('Enable column sorting', 'prc-block-library')}
+				help={
+					head && head.length
+						? __(
+								'Allow users to click column headers to sort table rows.',
+								'prc-block-library'
+							)
+						: __(
+								'Sorting requires a header section. Enable the header section above.',
+								'prc-block-library'
+							)
+				}
+				checked={!!isSortable}
+				onChange={onChangeIsSortable}
+				disabled={!(head && head.length)}
 				__nextHasNoMarginBottom
 			/>
 			<hr />

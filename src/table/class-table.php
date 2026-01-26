@@ -18,6 +18,9 @@ define( 'FTB_OPTION_PREFIX', 'flexible_table_block' );
 define( 'FTB_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'FTB_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 
+use WP_HTML_Tag_Processor;
+use WP_HTML_Table_Processor;
+
 /**
  * Table Block
  *
@@ -67,6 +70,8 @@ class Table {
 	 * @hook init
 	 */
 	public function block_init() {
-		register_block_type_from_metadata( PRC_BLOCK_LIBRARY_DIR . '/build/table' );
+		register_block_type_from_metadata(
+			PRC_BLOCK_LIBRARY_DIR . '/build/table',
+		);
 	}
 }

@@ -42,6 +42,8 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 		tableTitleStyles,
 		sourceNote,
 		hiddenColumns = [],
+		isSortable = false,
+		sortableColumns = [],
 	} = attributes;
 
 	const isEmpty: boolean = !head?.length && !body?.length && !foot?.length;
@@ -55,12 +57,27 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 	const tableTitleStylesObj: Properties = convertToObject(tableTitleStyles);
 	const colorProps = getColorClassesAndStyles(attributes);
 
+	// Prepare interactivity context for sortable tables
+	const interactivityContext = isSortable
+		? JSON.stringify({
+				sortColumn: null,
+				sortDirection: 'none',
+				sortableColumns,
+			})
+		: undefined;
+
 	const blockProps = useBlockProps.save({
 		className: clsx({
 			[`is-content-justification-${contentJustification}`]:
 				contentJustification,
 			'is-scroll-on-pc': isScrollOnPc,
 			'is-scroll-on-mobile': isScrollOnMobile,
+			'is-sortable': isSortable,
+		}),
+		...(isSortable && {
+			'data-wp-interactive': 'prc-block/table',
+			'data-wp-context': interactivityContext,
+			'data-wp-init': 'callbacks.onInit',
 		}),
 	});
 
@@ -82,6 +99,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 		}
 
 		const Tag = `t${type}` as const;
+		const isHeader = type === 'head';
 
 		return (
 			<Tag>
@@ -103,9 +121,31 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 								cellIndex
 							) => {
 								const isHidden = hiddenColumns.includes(cellIndex);
+
+								// Determine if this header cell is sortable
+								const isCellSortable =
+									isSortable &&
+									isHeader &&
+									rowIndex === 0 && // Only first row of header
+									(sortableColumns.length === 0 ||
+										sortableColumns.includes(cellIndex));
+
 								const cellClassName = clsx(className, {
 									'is-column-hidden': isHidden,
+									'is-sortable': isCellSortable,
 								});
+
+								// Prepare sortable props for header cells
+								const sortableProps = isCellSortable
+									? {
+											'data-wp-on--click':
+												'actions.onHeaderClick',
+											'data-column-index':
+												cellIndex.toString(),
+											role: 'button',
+											tabIndex: 0,
+										}
+									: {};
 
 								return (
 									<RichText.Content
@@ -127,6 +167,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 												: undefined
 										}
 										style={convertToObject(styles)}
+										{...sortableProps}
 									/>
 								);
 							}

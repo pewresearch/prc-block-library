@@ -22,10 +22,10 @@
 	}
 	&.web-share-supported {
 		& > li {
-			display: none!important;
+			display: none !important;
 		}
 		& > a {
-			display: flex!important;
+			display: flex !important;
 			align-items: center;
 			span {
 				line-height: 1;
@@ -33,8 +33,8 @@
 		}
 	}
 	&:not(.web-share-supported) {
-		& > a  {
-			display: none!important;
+		& > a {
+			display: none !important;
 		}
 	}
 }
@@ -48,15 +48,18 @@
 	padding: 0;
 	display: flex;
 	justify-content: center;
-    align-items: center;
+	align-items: center;
 	text-transform: inherit;
 }
+
 // The social links block should inherit the font size from the parent element when we're using this block.
-.wp-block-social-links.has-small-icon-size:has(.wp-block-prc-block-social-share-sheet) {
-    font-size: inherit !important;
-	font-size: inherit!important;
-	color: inherit!important;
-	line-height: inherit!important;
-	letter-spacing: inherit!important;
-	font-weight: inherit!important;
+.wp-block-social-links.has-small-icon-size:has(
+		.wp-block-prc-block-social-share-sheet
+	) {
+	font-size: inherit !important;
+	font-size: inherit !important;
+	color: inherit !important;
+	line-height: inherit !important;
+	letter-spacing: inherit !important;
+	font-weight: inherit !important;
 }

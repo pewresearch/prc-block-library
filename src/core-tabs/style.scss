@@ -1,88 +1,188 @@
 /* Variant styles for core-tabs (ported from tabs/style.scss) */
 
-// "Tabs (Outline)" style.
-.wp-block-prc-block-tabs.is-style-outline {
-	/* Outline draws a 1px box and keeps transparent background */
-	--tab-outline-width: 1px;
-	--tab-bg: transparent;
-	--tab-bg-hover: transparent;
-	--tab-bg-active: transparent;
-	--tab-text: var(--custom-tab-text-color, #000);
-	--tab-text-hover: var(--custom-tab-hover-text-color, #000);
-	--tab-text-active: var(--custom-tab-active-text-color, #000);
-	--tab-border-color: var(--custom-tab-inactive-color, transparent);
-	--tab-border-color-hover: var(--custom-tab-hover-color, #000);
-	--tab-border-color-active: var(--custom-tab-active-color, #000);
+/**
+Core styles for core-tabs block.
+*/
 
-	.tabs__tab-label {
-		border-style: solid;
-		border-color: var(--tab-border-color);
-		border-top-width: 1px;
-		border-left-width: 1px;
-		border-right-width: 1px;
-		border-bottom-width: 0px;
-		&:hover {
-			border-color: var(--tab-border-color-hover);
+.wp-block-tabs-menu[hidden] {
+	display: none;
+}
+
+/**
+  Custom Mobile Dropdown
+*/
+.wp-block-tabs:has(.wp-block-tabs-menu__dropdown) {
+	width: 100%;
+}
+.wp-block-tabs-menu__dropdown {
+	position: relative;
+	width: 100%;
+	font-family: var(--wp--preset--font-family--sans-serif);
+
+	&[hidden] {
+		display: none;
+	}
+
+	&.is-open {
+		.wp-block-tabs-menu__dropdown-panel {
+			display: block;
 		}
-		&[aria-selected="true"] {
-			border-color: var(--tab-border-color-active);
+		.wp-block-tabs-menu__dropdown-trigger {
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+			.wp-block-tabs-menu__dropdown-trigger-icon {
+				transform: rotate(180deg);
+			}
 		}
 	}
 
-	&.is-vertical {
-		.tabs__tab-label {
-			/* Match previous behavior: no right border in vertical */
-			border-inline-end: 0;
-			border-bottom-width: 1px;
+	&:not(.is-open) {
+		.wp-block-tabs-menu__dropdown-panel {
+			display: none;
 		}
 	}
 }
 
-// "Links With Hover Button" style
-.wp-block-prc-block-tabs.is-style-links-button {
-	--tabs-divider-color: var(--custom-tab-hover-color, #000);
-	--tab-bg: transparent;
-	--tab-bg-hover: var(--custom-tab-hover-color, #000);
-	--tab-bg-active: transparent;
-	--tab-text: var(--custom-tab-text-color, #000);
-	--tab-text-hover: var(--custom-tab-hover-text-color, #000);
-	--tab-text-active: var(--custom-tab-active-text-color, #000);
-	--tab-border-color: var(--custom-tab-inactive-color, transparent);
-	--tab-border-color-hover: transparent; /* hover pill hides underline */
-	--tab-border-color-active: var(--custom-tab-active-color, #000);
-	--tab-underline-width: 2px;
-	--tab-padding-block: 0.5em;
-	--tab-padding-inline: 1em;
+.wp-block-tabs-menu__dropdown-trigger {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: var(--wp--preset--spacing--20, 0.75em)
+		var(--wp--preset--spacing--30, 1em);
+	background-color: var(--wp--preset--color--ui-white, #fff);
+	border: 1px solid var(--wp--preset--color--ui-gray-light, #ccc);
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: inherit;
+	font-family: inherit;
+	text-align: left;
+	color: inherit;
 
-	.tabs__list {
-		border-block-end: 1px solid var(--tabs-divider-color);
+	&:hover {
+		border-color: var(--wp--preset--color--ui-gray, #999);
 	}
 
-	.tabs__tab-label {
-		/* extra bottom padding before hover */
-		padding-block-end: 1em;
-		&:hover:not([aria-selected="true"]) {
-			border-radius: 9999px;
-			margin-block-end: 0.5em;
-			padding-block-end: 0.5em;
+	&:focus {
+		outline: 2px solid var(--wp--preset--color--link, #007cba);
+		outline-offset: 2px;
+	}
+}
+
+.wp-block-tabs-menu__dropdown-trigger-label {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	flex: 1;
+	overflow: hidden;
+
+	// Text truncation for the label span inside.
+	> span:last-child {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	// Flag icon sizing within trigger.
+	.fi {
+		flex-shrink: 0;
+		font-size: 1.25em;
+	}
+}
+
+.wp-block-tabs-menu__dropdown-trigger-icon {
+	flex-shrink: 0;
+	width: 0;
+	height: 0;
+	margin-left: 0.5em;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid currentColor;
+	transition: transform 0.2s ease;
+}
+
+.wp-block-tabs-menu__dropdown-panel {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	background-color: var(--wp--preset--color--ui-white, #fff);
+	border: 1px solid var(--wp--preset--color--ui-gray-light, #ccc);
+	border-top: none;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+.wp-block-tabs-menu__dropdown-item {
+	display: block;
+	margin: 0;
+	padding: 0;
+
+	// Override tabs-menu-item styles for dropdown context.
+	.wp-block-tabs-menu-item {
+		display: flex;
+		flex-direction: row !important;
+		width: 100%;
+		opacity: 1;
+		border-radius: 0;
+
+		&:hover {
+			background-color: var(--custom-tab-hover-color, #f0f0f0) !important;
 		}
 	}
 
-	&.is-vertical {
-		.tabs__list {
-			border-block-end: none;
-			border-inline-end: 1px solid var(--tabs-divider-color);
-		}
-		.tabs__tab-label {
-			/* move underline to side for vertical */
-			--tab-side-border-width: 2px;
-			--tab-underline-width: 0;
-			padding: 0.5em 1em 0.5em 0.75em;
-			&:hover:not([aria-selected="true"]) {
-				margin-block-end: 0;
-				margin-inline-end: 0.25em;
-				padding-inline-end: 0.75em;
-			}
-		}
+	&:last-child .wp-block-tabs-menu-item {
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+	}
+}
+
+/**
+  Smart style: Country Flags
+  Displays country flags before tab labels using flag-icons library.
+*/
+.wp-block-tabs-menu-item.is-style-country-flags {
+	// Flag icon.
+	.fi {
+		flex-shrink: 0;
+		font-size: 2em;
+	}
+	// Placeholder for the flag icon.
+	&.wp-block:before {
+		content: "";
+		display: block;
+		width: 2em;
+		height: 2em;
+		background-color: #eaeaea;
+	}
+}
+
+/**
+	Smart style: Active Underline
+	Adds an underline to the active tab label.
+*/
+.wp-block-tabs-menu.is-style-active-underline {
+	border-bottom-color: #eaeaea !important;
+	padding-bottom: 0 !important;
+	.wp-block-tabs-menu-item {
+		margin-bottom: 1em !important;
+	}
+	.wp-block-tabs-menu-item.is-active,
+	.wp-block-tabs-menu-item[aria-selected="true"] {
+		color: var(--custom-tab-active-text-color, #000) !important;
+		background-color: transparent !important;
+		border-bottom-color: var(--custom-tab-active-color, #000) !important;
+		border-bottom-width: 2px !important;
+		border-bottom-style: solid !important;
+		border-radius: 0 !important;
+		padding-bottom: 1.5em !important;
+		margin-bottom: 0em !important;
 	}
 }

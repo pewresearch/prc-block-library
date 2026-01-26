@@ -1,19 +1,20 @@
-.wp-block-social-links.is-style-default {
-	.wp-block-social-link {
-		border-radius: 5px;
-		.wp-block-social-link-anchor {
-			padding: 0.4em 1.3em;
-			font-weight: bold;
-		}
-		svg {
-			opacity: 0.9;
-		}
-	}
-}
-
 .wp-block-social-link-anchor {
 	text-decoration: none !important;
 	&:visited {
 		color: inherit;
+	}
+}
+
+.wp-block-social-links.is-style-pill-shape {
+	align-items: stretch;
+	.wp-social-link button,
+	.wp-social-link > a,
+	.wp-block-prc-block-social-share-sheet button,
+	.wp-block-prc-block-social-share-sheet > a,
+	.wp-block-prc-block-social-share-text-link {
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+		border-radius: 9999px;
+		border: 1px solid var(--wp--preset--color--ui-gray-light) !important;
 	}
 }

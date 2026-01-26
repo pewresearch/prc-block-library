@@ -28,7 +28,8 @@ sup.footnote {
 	font-size: 75%;
 	line-height: 0;
 	vertical-align: baseline;
+	font-family: serif; // Other Adobe serif fonts do not render undelerlines correctly for 3, and 5 at such a small size. So we're using serif as a fallback.
 	a {
-		text-decoration: inherit !important;
+		text-decoration: underline !important;
 	}
 }

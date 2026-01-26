@@ -258,10 +258,19 @@
 		"hiddenColumns": {
 			"type": "array",
 			"default": []
+		},
+		"isSortable": {
+			"type": "boolean",
+			"default": false
+		},
+		"sortableColumns": {
+			"type": "array",
+			"default": []
 		}
 	},
 	"supports": {
 		"anchor": true,
+		"interactivity": true,
 		"align": ["left", "right", "wide", "full"],
 		"color": {
 			"__experimentalSkipSerialization": [
@@ -309,5 +318,6 @@
 	},
 	"editorScript": ["ais-ai", "file:./index.js"],
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js"
 }

@@ -3,6 +3,7 @@
  * External Dependencies
  */
 import { getBlockGapSupportValue } from '@prc/block-utils';
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
@@ -41,6 +42,13 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 			'--block-gap': getBlockGapSupportValue(attributes),
 		},
 	});
+	const {
+		showLabels,
+		iconColor,
+		iconColorValue,
+		iconBackgroundColor,
+		iconBackgroundColorValue,
+	} = context;
 	// get the allowedBlocks for the parent block...
 	const allowedBlocks = useSelect(
 		(select) => {
@@ -69,25 +77,30 @@ export default function Edit({ attributes, setAttributes, context, clientId }) {
 
 	return (
 		<div {...blockProps}>
-			<div {...innerBlocksProps}></div>
 			<button
 				{...{
 					type: 'button',
 					onClick: (e) => {
 						e.preventDefault();
 					},
+					className: clsx({
+						[`has-${iconColor}-color`]: iconColor,
+						[`has-${iconBackgroundColor}-background-color`]:
+							iconBackgroundColor,
+					}),
 				}}
 			>
-				<RichText
+				{/* <RichText
 					className="wp-block-prc-block-social-share-sheet__label"
 					tagName="span"
 					value={label}
 					onChange={(value) => setAttributes({ label: value })}
 					placeholder="Share"
 					allowedFormats={['core/bold', 'core/italic']}
-				/>
+				/> */}
 				<Icon />
 			</button>
+			<div {...innerBlocksProps}></div>
 		</div>
 	);
 }
