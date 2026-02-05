@@ -1,7 +1,6 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
@@ -39,107 +38,101 @@ const TABS_TEMPLATE = [
 					anchor: 'tab-1',
 					label: 'Tab 1',
 				},
-				[
-					[
-						'core/paragraph',
-						{
-							placeholder: __( 'Type / to add a block to tab' ),
-						},
-					],
-				],
+				[['core/paragraph']],
 			],
 		],
 	],
 ];
 
-function Edit( {
+function Edit({
 	clientId,
 	attributes,
 	setAttributes,
 	__unstableLayoutClassNames: layoutClassNames,
-} ) {
+}) {
 	const { anchor, activeTabIndex, editorActiveTabIndex } = attributes;
 
 	/**
 	 * Initialize editorActiveTabIndex to activeTabIndex on mount.
 	 * This ensures the ephemeral editor state starts at the persisted default.
 	 */
-	useEffect( () => {
-		if ( editorActiveTabIndex === undefined ) {
-			setAttributes( { editorActiveTabIndex: activeTabIndex } );
+	useEffect(() => {
+		if (editorActiveTabIndex === undefined) {
+			setAttributes({ editorActiveTabIndex: activeTabIndex });
 		}
-	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-	/**
-	 * Compute tabs list from innerblocks to provide via context.
-	 * This traverses the tab-panels block to find all tab blocks
-	 * and extracts their label and anchor for the tabs-menu to consume.
-	 */
-	const tabsList = useSelect(
-		( select ) => {
-			const { getBlocks } = select( blockEditorStore );
-			const innerBlocks = getBlocks( clientId );
+	const tabs = useSelect(
+		(select) => {
+			const { getBlocks } = select(blockEditorStore);
+			const innerBlocks = getBlocks(clientId);
 
-			// Find tab-panels block and extract tab data
-			const tabPanels = innerBlocks.find(
-				( block ) => block.name === 'core/tab-panels'
+			// Find tab-panel block and extract tab data
+			const tabPanel = innerBlocks.find(
+				(block) => block.name === 'core/tab-panels'
 			);
 
-			if ( ! tabPanels ) {
+			if (!tabPanel) {
 				return [];
 			}
 
-			return tabPanels.innerBlocks
-				.filter( ( block ) => block.name === 'core/tab' )
-				.map( ( tab, index ) => ( {
-					id: tab.attributes.anchor || `tab-${ index }`,
-					label: tab.attributes.label || '',
-					clientId: tab.clientId,
-					index,
-				} ) );
+			return tabPanel.innerBlocks.filter(
+				(block) => block.name === 'core/tab'
+			);
 		},
-		[ clientId ]
+		[clientId]
 	);
 
 	/**
 	 * Memoize context value to prevent unnecessary re-renders.
 	 */
-	const contextValue = useMemo(
-		() => ( {
-			'core/tabs-list': tabsList,
+	const contextValue = useMemo(() => {
+		/**
+		 * Compute tabs list from innerblocks to provide via context.
+		 * This traverses the tab-panel block to find all tab blocks
+		 * and extracts their label and anchor for the tabs-menu to consume.
+		 */
+		const tabList = tabs.map((tab, index) => ({
+			id: tab.attributes.anchor || `tab-${index}`,
+			label: tab.attributes.label || '',
+			clientId: tab.clientId,
+			index,
+		}));
+
+		return {
+			'core/tabs-list': tabList,
 			'core/tabs-id': anchor,
 			'core/tabs-activeTabIndex': activeTabIndex,
 			'core/tabs-editorActiveTabIndex': editorActiveTabIndex,
-		} ),
-		[ tabsList, anchor, activeTabIndex, editorActiveTabIndex ]
-	);
+		};
+	}, [tabs, anchor, activeTabIndex, editorActiveTabIndex]);
 
 	/**
 	 * Block props for the tabs container.
 	 */
-	const blockProps = useBlockProps( {
+	const blockProps = useBlockProps({
 		className: layoutClassNames,
-	} );
+	});
 
 	/**
 	 * Innerblocks props for the tabs container.
 	 */
-	const innerBlockProps = useInnerBlocksProps( blockProps, {
+	const innerBlockProps = useInnerBlocksProps(blockProps, {
 		template: TABS_TEMPLATE,
 		templateLock: false,
-		// renderAppender: false,
+		renderAppender: false,
 		__experimentalCaptureToolbars: true,
-	} );
+	});
 
 	return (
-		<BlockContextProvider value={ contextValue }>
-			<div { ...innerBlockProps }>
+		<BlockContextProvider value={contextValue}>
+			<div {...innerBlockProps}>
 				<Controls
-					clientId={ clientId }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
+					clientId={clientId}
+					attributes={attributes}
+					setAttributes={setAttributes}
 				/>
-				{ innerBlockProps.children }
+				{innerBlockProps.children}
 			</div>
 		</BlockContextProvider>
 	);
