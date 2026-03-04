@@ -13,10 +13,6 @@
     "css-container-queries"
   ],
   "attributes": {
-    "darkModeEnabled": {
-      "type": "boolean",
-      "default": true
-    },
     "justification": {
       "type": "string",
       "default": "left",

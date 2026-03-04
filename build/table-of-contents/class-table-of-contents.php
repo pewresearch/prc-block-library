@@ -128,6 +128,15 @@ class Table_Of_Contents {
 
 		$package_parts        = get_post_meta( $parent_id, 'package_parts', true );
 		$chapters             = get_post_meta( $parent_id, 'multiSectionReport', true );
+
+		// Normalize chapters array structure.
+		// WordPress's preview filter can mangle revisions_enabled meta, returning a single
+		// chapter object {key, postId} instead of an array [{key, postId}].
+		// Detect and fix this malformed structure.
+		if ( is_array( $chapters ) && isset( $chapters['key'] ) && isset( $chapters['postId'] ) ) {
+			$chapters = array( $chapters );
+		}
+
 		$chapters_not_in_part = array();
 		// We need to get all the chapters by their postId value and put them in the parts on the items array if the existign parts items array of postIds contains the chapter postId.
 		// If there are no package_parts, just return the chapters with their titles.
@@ -135,6 +144,15 @@ class Table_Of_Contents {
 		if ( empty( $package_parts ) && ! empty( $chapters ) ) {
 			$toc_items = array_map(
 				function ( $chapter ) use ( $current_post_id ) {
+					if ( ! is_array( $chapter ) ) {
+						return array(
+							'label'     => '',
+							'slug'      => '',
+							'url'       => '',
+							'is_active' => false,
+							'sections'  => array(),
+						);
+					}
 					$chapter['label']     = html_entity_decode( get_the_title( $chapter['postId'] ) );
 					$chapter['slug']      = sanitize_title( $chapter['label'] );
 					$chapter['url']       = get_permalink( $chapter['postId'] );

@@ -2,6 +2,9 @@
 /**
  * Color Palette Block
  *
+ * Displays the full theme color palette as a design system reference guide,
+ * grouped by category with light/dark pairs parsed from light-dark() values.
+ *
  * @package PRC\Platform\Blocks
  */
 
@@ -9,15 +12,51 @@ namespace PRC\Platform\Blocks;
 
 /**
  * Block Name:        Color Palette
- * Description:       Outputs a color square
- * Version:           0.1.0
- * Requires at least: 6.1
+ * Description:       Displays the full theme color palette as a design system reference guide.
+ * Version:           1.0.0
+ * Requires at least: 6.4
  * Requires PHP:      8.1
  * Author:            Pew Research Center
  *
  * @package           prc-block
  */
 class Color_Palette {
+	/**
+	 * UI color group definitions: slug => group label.
+	 */
+	private const UI_GROUPS = array(
+		'UI — Surfaces & Backgrounds' => array(
+			'ui-white',
+			'ui-gray-very-light',
+			'ui-beige-very-light',
+			'ui-beige-light',
+		),
+		'UI — Text'                   => array(
+			'ui-black',
+			'ui-text-color',
+			'ui-gray-very-dark',
+			'ui-gray-dark',
+		),
+		'UI — Borders & Dividers'     => array(
+			'ui-gray-light',
+			'ui-beige-dark',
+			'ui-beige-very-dark',
+		),
+		'UI — Links'                  => array(
+			'ui-link-color',
+			'ui-link-hover-color',
+		),
+		'UI — Status & Accent'        => array(
+			'ui-success',
+			'ui-error',
+			'ui-mustard',
+			'ui-green-dark',
+			'ui-brown-dark',
+			'ui-blue-dark',
+			'ui-purple-dark',
+		),
+	);
+
 	/**
 	 * Constructor
 	 *
@@ -35,123 +74,163 @@ class Color_Palette {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'prc_api_endpoints', $this, 'register_endpoint' );
 		}
 	}
 
 	/**
-	 * Register endpoint for getting theme colors
+	 * Parse a light-dark() CSS value into its light and dark components.
 	 *
-	 * @hook prc_api_endpoints
-	 * @param mixed $endpoints
-	 * @return void
+	 * @param string $value A CSS color value, either plain hex or light-dark(#light, #dark).
+	 * @return array{light: string, dark: string|null}
 	 */
-	public function register_endpoint( $endpoints ) {
-		array_push(
-			$endpoints,
-			array(
-				'route'               => 'utils/get-theme-color',
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'restfully_get_color' ),
-				'args'                => array(
-					'color' => array(
-						'validate_callback' => function ( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-				),
-				'permission_callback' => function () {
-					return true;
-				},
-			)
+	private function parse_light_dark( $value ) {
+		if ( preg_match( '/^light-dark\(\s*([^,]+?)\s*,\s*([^)]+?)\s*\)$/i', $value, $matches ) ) {
+			return array(
+				'light' => trim( $matches[1] ),
+				'dark'  => trim( $matches[2] ),
+			);
+		}
+		return array(
+			'light' => $value,
+			'dark'  => null,
 		);
-		return $endpoints;
 	}
 
 	/**
-	 * Restfully get color
+	 * Compute relative luminance of a hex color for text contrast.
 	 *
-	 * @param \WP_REST_Request $request
-	 * @return \WP_Error|\WP_REST_Response
+	 * @param string $hex Hex color (e.g. #ffffff).
+	 * @return float Luminance between 0 and 1.
 	 */
-	public function restfully_get_color( \WP_REST_Request $request ) {
-		$color_slug = $request->get_param( 'color' );
-		$colors     = wp_get_global_settings( array( 'color', 'palette', 'theme' ) );
-		if ( ! is_array( $colors ) ) {
-			return new WP_Error( 'prc-platform-color-palette', 'Failed to get colors' );
+	private function luminance( $hex ) {
+		$hex = ltrim( $hex, '#' );
+		if ( strlen( $hex ) === 3 ) {
+			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
 		}
-		$picked_color = array_filter(
-			$colors,
-			function ( $color ) use ( $color_slug ) {
-				return $color['slug'] === $color_slug;
-			}
-		);
-		if ( empty( $picked_color ) ) {
-			return $colors;
-		}
-		return array_pop( $picked_color );
+		$r = hexdec( substr( $hex, 0, 2 ) ) / 255;
+		$g = hexdec( substr( $hex, 2, 2 ) ) / 255;
+		$b = hexdec( substr( $hex, 4, 2 ) ) / 255;
+		return 0.299 * $r + 0.587 * $g + 0.114 * $b;
 	}
 
+	/**
+	 * Get contrasting text color for a background.
+	 *
+	 * @param string $bg_hex Background hex color.
+	 * @return string '#000000' or '#ffffff'.
+	 */
+	private function text_on( $bg_hex ) {
+		return $this->luminance( $bg_hex ) > 0.45 ? '#000000' : '#ffffff';
+	}
 
 	/**
-	 * Get the entire color palette as a slug => hex map
+	 * Group the palette colors into named sections.
 	 *
-	 * @return array
+	 * @param array $colors Array of palette entries from theme.json.
+	 * @return array Ordered array of ['title' => string, 'colors' => array].
 	 */
-	private function get_color_palette() {
-		$colors = wp_get_global_settings( array( 'color', 'palette', 'theme' ) );
-		if ( ! is_array( $colors ) ) {
-			return array();
-		}
-
-		$palette = array();
+	private function group_palette( $colors ) {
+		// Build a slug => color entry lookup.
+		$by_slug = array();
 		foreach ( $colors as $color ) {
-			if ( isset( $color['slug'] ) && isset( $color['color'] ) ) {
-				$palette[ $color['slug'] ] = $color['color'];
+			$by_slug[ $color['slug'] ] = $color;
+		}
+
+		$sections = array();
+
+		// 1. UI groups (explicit slug lists).
+		foreach ( self::UI_GROUPS as $title => $slugs ) {
+			$group_colors = array();
+			foreach ( $slugs as $slug ) {
+				if ( isset( $by_slug[ $slug ] ) ) {
+					$group_colors[] = $by_slug[ $slug ];
+					unset( $by_slug[ $slug ] );
+				}
+			}
+			if ( ! empty( $group_colors ) ) {
+				$sections[] = array(
+					'title'  => $title,
+					'colors' => $group_colors,
+				);
 			}
 		}
-		return $palette;
+
+		// 2. Spectrum groups (auto-detected from slug pattern: {family}-spectrum-*).
+		$spectrum_families = array();
+		foreach ( $by_slug as $slug => $color ) {
+			if ( preg_match( '/^(.+)-spectrum-(primary|light-one|light-two|light-three|dark-one|dark-two)$/', $slug, $m ) ) {
+				$family = $m[1];
+				if ( ! isset( $spectrum_families[ $family ] ) ) {
+					$spectrum_families[ $family ] = array();
+				}
+				$spectrum_families[ $family ][] = $color;
+			}
+		}
+
+		// Sort each spectrum family in display order.
+		$shade_order = array(
+			'light-one'   => 0,
+			'light-two'   => 1,
+			'light-three' => 2,
+			'primary'     => 3,
+			'dark-one'    => 4,
+			'dark-two'    => 5,
+		);
+
+		foreach ( $spectrum_families as $family => $family_colors ) {
+			usort(
+				$family_colors,
+				function ( $a, $b ) use ( $family, $shade_order ) {
+					$a_shade = str_replace( $family . '-spectrum-', '', $a['slug'] );
+					$b_shade = str_replace( $family . '-spectrum-', '', $b['slug'] );
+					$a_order = $shade_order[ $a_shade ] ?? 99;
+					$b_order = $shade_order[ $b_shade ] ?? 99;
+					return $a_order - $b_order;
+				}
+			);
+
+			// Title-case the family name.
+			$title = ucwords( str_replace( '-', ' ', $family ) ) . ' Spectrum';
+
+			$sections[] = array(
+				'title'  => $title,
+				'colors' => $family_colors,
+			);
+		}
+
+		return $sections;
 	}
 
 	/**
-	 * Initialize interactivity state with the full color palette
-	 * Only called once per page load
+	 * Render a single swatch element.
+	 *
+	 * @param string $hex        The hex color value.
+	 * @param string $slug       The color slug (for context).
+	 * @param string $mode_label 'light' or 'dark'.
+	 * @return string HTML for the swatch.
 	 */
-	private function init_interactivity_state() {
-		static $initialized = false;
-
-		if ( $initialized ) {
-			return;
-		}
-
-		$palette = $this->get_color_palette();
-
-		wp_interactivity_state(
-			'prc-block/color-palette',
+	private function render_swatch( $hex, $slug, $mode_label ) {
+		$text_color = $this->text_on( $hex );
+		$context    = wp_json_encode(
 			array(
-				'colorPalette' => $palette,
+				'hex'     => strtoupper( $hex ),
+				'slug'    => $slug,
+				'copied'  => false,
 			)
 		);
 
-		$initialized = true;
+		return sprintf(
+			'<div class="color-palette-card__swatch" style="background:%s;color:%s" data-wp-interactive="%s" data-wp-context=\'%s\' data-wp-on--click="actions.copyToClipboard" data-wp-text="context.copied ? \'Copied!\' : context.hex">%s</div>',
+			esc_attr( $hex ),
+			esc_attr( $text_color ),
+			esc_attr( wp_json_encode( array( 'namespace' => 'prc-block/color-palette' ) ) ),
+			esc_attr( $context ),
+			esc_html( strtoupper( $hex ) )
+		);
 	}
 
 	/**
-	 * Extract color slug from block classes
-	 *
-	 * @param string $classes Block classes.
-	 * @return string|null Color slug or null if not found.
-	 */
-	private function extract_color_slug_from_classes( $classes ) {
-		// Match pattern like "has-{slug}-background-color"
-		if ( preg_match( '/has-([a-z0-9\-]+)-background-color/', $classes, $matches ) ) {
-			return $matches[1];
-		}
-		return null;
-	}
-
-	/**
-	 * Render callback for the block
+	 * Render callback for the block.
 	 *
 	 * @param array  $attributes Block attributes.
 	 * @param string $content    Block content.
@@ -159,70 +238,43 @@ class Color_Palette {
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
-		// Initialize the interactivity state once per page
-		$this->init_interactivity_state();
-
-		// Get color slug from attributes or extract from classes
-		$color_slug = isset( $attributes['colorSlug'] ) ? $attributes['colorSlug'] : '';
-		
-		// If not in attributes, try to extract from block wrapper classes
-		if ( empty( $color_slug ) ) {
-			// Get classes from block support
-			$block_wrapper_attrs = get_block_wrapper_attributes();
-			preg_match( '/class="([^"]*)"/', $block_wrapper_attrs, $class_matches );
-			$classes = isset( $class_matches[1] ) ? $class_matches[1] : '';
-			$color_slug = $this->extract_color_slug_from_classes( $classes );
+		$colors   = wp_get_global_settings( array( 'color', 'palette', 'theme' ) );
+		if ( ! is_array( $colors ) || empty( $colors ) ) {
+			return '<p>No theme color palette found.</p>';
 		}
 
-		// Get hex value from palette
-		$palette = $this->get_color_palette();
-		$hex     = isset( $palette[ $color_slug ] ) ? $palette[ $color_slug ] : null;
+		$sections = $this->group_palette( $colors );
 
-		// Build context for the Interactivity API
-		$context = array(
-			'colorSlug'    => $color_slug,
-			'hex'          => $hex,
-			'clicked'      => false,
-			'visible'      => false,
-			'disallowCopy' => false,
-		);
-
-		$block_wrapper_attrs = get_block_wrapper_attributes(
-			array(
-				'data-wp-interactive'       => wp_json_encode(
-					array(
-						'namespace' => 'prc-block/color-palette',
-					)
-				),
-				'data-wp-context'           => wp_json_encode( $context ),
-				'data-wp-init'              => 'callbacks.initColor',
-				'data-wp-on--click'         => 'actions.copyToClipboard',
-				'data-wp-on--mouseenter'    => 'actions.showTooltip',
-				'data-wp-on--mouseleave'    => 'actions.hideTooltip',
-			)
-		);
-
-		// Build display text
-		$display_text = $hex ? strtoupper( $hex ) : 'Loading...';
+		$block_wrapper_attrs = get_block_wrapper_attributes();
 
 		ob_start();
 		?>
 		<div <?php echo $block_wrapper_attrs; ?>>
-			<span 
-				class="color-text"
-				data-wp-text="context.clicked ? '✓ Copied!' : (context.hex ? context.hex.toUpperCase() : 'Loading...')"
-			>
-				<?php echo esc_html( $display_text ); ?>
-			</span>
-			<div 
-				class="color-tooltip" 
-				data-wp-class--visible="context.visible"
-			>
-				<span class="color-tooltip-content">
-					<?php echo esc_html( $color_slug ); ?>
-				</span>
-				<span class="color-tooltip-arrow"></span>
+		<?php foreach ( $sections as $section ) : ?>
+			<div class="color-palette-section">
+				<h3 class="color-palette-section__title"><?php echo esc_html( $section['title'] ); ?></h3>
+				<div class="color-palette-grid">
+				<?php foreach ( $section['colors'] as $color ) : ?>
+					<?php $parsed = $this->parse_light_dark( $color['color'] ); ?>
+					<div class="color-palette-card">
+						<div class="color-palette-card__name"><?php echo esc_html( $color['slug'] ); ?></div>
+						<div class="color-palette-card__pair">
+							<?php echo $this->render_swatch( $parsed['light'], $color['slug'], 'light' ); ?>
+							<?php if ( $parsed['dark'] ) : ?>
+								<?php echo $this->render_swatch( $parsed['dark'], $color['slug'], 'dark' ); ?>
+							<?php endif; ?>
+						</div>
+						<?php if ( $parsed['dark'] ) : ?>
+						<div class="color-palette-card__labels">
+							<span>light</span>
+							<span>dark</span>
+						</div>
+						<?php endif; ?>
+					</div>
+				<?php endforeach; ?>
+				</div>
 			</div>
+		<?php endforeach; ?>
 		</div>
 		<?php
 		return ob_get_clean();
@@ -230,8 +282,6 @@ class Color_Palette {
 
 	/**
 	 * Registers the block using the metadata loaded from the `block.json` file.
-	 * Behind the scenes, it registers also all assets so they can be enqueued
-	 * through the block editor in the corresponding context.
 	 *
 	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
 	 */

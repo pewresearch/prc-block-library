@@ -6,7 +6,7 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 /**
  * Helper function to strip HTML tags from a string
  * @param {string} html - HTML string to strip
- * @returns {string} - Plain text content
+ * @return {string} - Plain text content
  */
 function stripHtml(html) {
 	const tmp = document.createElement('div');
@@ -22,7 +22,7 @@ function stripHtml(html) {
  * - YYYY-MM-DD, YYYY/MM/DD (ISO format)
  * - Month DD, YYYY (e.g., "January 15, 2024")
  * @param {string} text - The text to parse
- * @returns {number|null} - Timestamp if valid date, null otherwise
+ * @return {number|null} - Timestamp if valid date, null otherwise
  */
 function parseDate(text) {
 	// Skip if empty or too short
@@ -75,10 +75,26 @@ function parseDate(text) {
 }
 
 /**
+ * Parse a duration string (e.g. "13h 15m", "2hr", "90min") into total minutes.
+ * @param {string} text - Plain text to parse
+ * @return {number|null} - Total minutes if valid duration, null otherwise
+ */
+function parseDuration(text) {
+	const match = text.match(
+		/^\s*(?:(\d+)\s*(?:h|hr)s?)?\s*(?:(\d+)\s*(?:m|min)s?)?\s*$/i
+	);
+	if (!match) return null;
+	const hours = match[1] ? parseInt(match[1], 10) : 0;
+	const minutes = match[2] ? parseInt(match[2], 10) : 0;
+	if (hours === 0 && minutes === 0) return null;
+	return hours * 60 + minutes;
+}
+
+/**
  * Helper function to parse a value for sorting
  * Attempts to detect and parse numeric values
  * @param {string} value - The cell content value
- * @returns {{ value: number | string, isNumeric: boolean }}
+ * @return {{ value: number | string, isNumeric: boolean }} Parsed value and whether it is numeric
  */
 function parseValue(value) {
 	const text = stripHtml(value).trim();
@@ -87,6 +103,12 @@ function parseValue(value) {
 	const dateValue = parseDate(text);
 	if (dateValue !== null) {
 		return { value: dateValue, isNumeric: true };
+	}
+
+	// Duration: e.g. "13h 15m", "13hr 10min", "2h", "90m"
+	const durationValue = parseDuration(text);
+	if (durationValue !== null) {
+		return { value: durationValue, isNumeric: true };
 	}
 
 	// Try to parse as a number (handles commas, percentages, currency)
@@ -106,10 +128,10 @@ function parseValue(value) {
 
 /**
  * Compare two values for sorting
- * @param {any} a - First value
- * @param {any} b - Second value
+ * @param {any}    a         - First value
+ * @param {any}    b         - Second value
  * @param {string} direction - 'asc' or 'desc'
- * @returns {number}
+ * @return {number} Negative if a < b, positive if a > b, zero if equal
  */
 function compareValues(a, b, direction) {
 	const parsedA = parseValue(a);
@@ -133,8 +155,8 @@ function compareValues(a, b, direction) {
 /**
  * Perform the actual table sorting
  * @param {HTMLElement} tableWrapper - The table wrapper element
- * @param {number} columnIndex - Column to sort by
- * @param {string} direction - 'asc', 'desc', or 'none'
+ * @param {number}      columnIndex  - Column to sort by
+ * @param {string}      direction    - 'asc', 'desc', or 'none'
  */
 function sortTable(tableWrapper, columnIndex, direction) {
 	const tbody = tableWrapper.querySelector('tbody');
@@ -157,8 +179,10 @@ function sortTable(tableWrapper, columnIndex, direction) {
 
 			if (!cellA || !cellB) return 0;
 
-			const valueA = cellA.innerHTML;
-			const valueB = cellB.innerHTML;
+			const valueA =
+				cellA.getAttribute('data-sort-value') ?? cellA.innerHTML;
+			const valueB =
+				cellB.getAttribute('data-sort-value') ?? cellB.innerHTML;
 
 			return compareValues(valueA, valueB, direction);
 		});
@@ -197,17 +221,16 @@ function sortTable(tableWrapper, columnIndex, direction) {
 /**
  * Interactivity store for the Power Table block
  */
-const { state } = store('prc-block/table', {
+store('prc-block/table', {
 	state: {
 		/**
 		 * Returns the sort indicator character based on direction
 		 */
 		get sortIndicator() {
-			const context = getContext();
 			const { ref } = getElement();
-
 			if (!ref) return '';
 
+			const context = getContext();
 			const columnIndex = parseInt(
 				ref.getAttribute('data-column-index'),
 				10
@@ -236,11 +259,10 @@ const { state } = store('prc-block/table', {
 		 * Handle click on sortable header cell
 		 */
 		onHeaderClick: () => {
-			const context = getContext();
 			const { ref } = getElement();
-
 			if (!ref) return;
 
+			const context = getContext();
 			const columnIndex = parseInt(
 				ref.getAttribute('data-column-index'),
 				10
@@ -283,17 +305,16 @@ const { state } = store('prc-block/table', {
 
 		/**
 		 * Handle mobile sort dropdown change
+		 * @param {Event} event - The change event from the select element
 		 */
 		onMobileSortChange: (event) => {
-			const context = getContext();
 			const { ref } = getElement();
-
 			if (!ref) return;
 
-			const selectedValue = event.target.value;
+			const context = getContext();
 
 			// If empty selection, reset to original order
-			if (selectedValue === '') {
+			if (event.target.value === '') {
 				context.sortColumn = null;
 				context.sortDirection = 'none';
 
@@ -304,7 +325,7 @@ const { state } = store('prc-block/table', {
 				return;
 			}
 
-			const columnIndex = parseInt(selectedValue, 10);
+			const columnIndex = parseInt(event.target.value, 10);
 
 			// Set default direction to ascending for new column
 			const newDirection =
@@ -313,7 +334,8 @@ const { state } = store('prc-block/table', {
 					: 'asc';
 
 			context.sortColumn = columnIndex;
-			context.sortDirection = newDirection === 'none' ? 'asc' : newDirection;
+			context.sortDirection =
+				newDirection === 'none' ? 'asc' : newDirection;
 
 			const tableWrapper = ref.closest('.wp-block-prc-block-table');
 			if (tableWrapper) {

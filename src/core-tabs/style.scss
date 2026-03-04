@@ -3,6 +3,11 @@
 /**
 Core styles for core-tabs block.
 */
+.wp-block-tab {
+	figure + p {
+		margin-top: 0px !important;
+	}
+}
 
 .wp-block-tabs-menu[hidden] {
 	display: none;
@@ -60,7 +65,7 @@ Core styles for core-tabs block.
 	color: inherit;
 
 	&:hover {
-		border-color: var(--wp--preset--color--ui-gray, #999);
+		border-color: var(--wp--preset--color--ui-gray-dark);
 	}
 
 	&:focus {
@@ -129,6 +134,7 @@ Core styles for core-tabs block.
 	.wp-block-tabs-menu-item {
 		display: flex;
 		flex-direction: row !important;
+		justify-content: flex-start;
 		width: 100%;
 		opacity: 1;
 		border-radius: 0;
@@ -145,10 +151,67 @@ Core styles for core-tabs block.
 }
 
 /**
+  Bottom Mobile Dropdown (copy placed after tab panels)
+*/
+.wp-block-tabs-menu__dropdown--bottom {
+	.wp-block-tabs-menu__dropdown-panel {
+		top: auto;
+		bottom: 100%;
+		border-top: 1px solid var(--wp--preset--color--ui-gray-light, #ccc);
+		border-bottom: none;
+		border-radius: 4px 4px 0 0;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.wp-block-tabs-menu__dropdown-trigger-icon {
+		border-top: none;
+		border-bottom: 5px solid currentColor;
+	}
+
+	&.is-open {
+		.wp-block-tabs-menu__dropdown-trigger {
+			border-bottom-left-radius: 4px;
+			border-bottom-right-radius: 4px;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
+		.wp-block-tabs-menu__dropdown-trigger-icon {
+			transform: rotate(180deg);
+		}
+	}
+
+	// Override first/last child border radius for upward-opening panel.
+	.wp-block-tabs-menu__dropdown-item {
+		&:first-child .wp-block-tabs-menu-item {
+			border-top-left-radius: 4px;
+			border-top-right-radius: 4px;
+		}
+		&:last-child .wp-block-tabs-menu-item {
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+}
+
+/**
   Smart style: Country Flags
   Displays country flags before tab labels using flag-icons library.
 */
 .wp-block-tabs-menu-item.is-style-country-flags {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	flex-direction: column;
+	opacity: 0.5;
+	&:hover,
+	&[aria-selected="true"] {
+		opacity: 1;
+	}
+	span {
+		margin-block-start: 0 !important;
+	}
 	// Flag icon.
 	.fi {
 		flex-shrink: 0;

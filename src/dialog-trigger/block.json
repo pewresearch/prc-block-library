@@ -28,7 +28,7 @@
 		},
 		"interactivity": true
 	},
-	"usesContext": ["dialog/id", "dialog/className"],
+	"usesContext": ["dialog/id", "dialog/className", "dialog/isOpen"],
 	"parent": ["prc-block/dialog"],
 	"textdomain": "dialog-trigger",
 	"editorScript": "file:./index.js",

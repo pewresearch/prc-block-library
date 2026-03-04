@@ -12,6 +12,11 @@
 		"dialogId": {
 			"type": "string",
 			"default": ""
+		},
+		"editorIsDialogOpen": {
+			"type": "boolean",
+			"role": "local",
+			"default": false
 		}
 	},
 	"supports": {
@@ -29,7 +34,8 @@
 		"interactivity": true
 	},
 	"providesContext": {
-		"dialog/id": "dialogId"
+		"dialog/id": "dialogId",
+		"dialog/isOpen": "editorIsDialogOpen"
 	},
 	"textdomain": "dialog",
 	"editorScript": "file:./index.js"

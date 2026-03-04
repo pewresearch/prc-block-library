@@ -57,9 +57,9 @@ function addTransformToCoreTabs(settings, name) {
 				[tabsMenuItemBlock]
 			);
 
-			// Create locked tab-panels block with tab children
+			// Create locked tab-panel block with tab children
 			const tabPanelsBlock = createBlock(
-				'core/tab-panels',
+				'core/tab-panel',
 				{ lock: { remove: true } },
 				tabBlocks
 			);

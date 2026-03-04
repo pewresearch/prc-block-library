@@ -13,10 +13,7 @@ import { getBlockGapSupportValue } from '@prc/block-utils';
  * WordPress Dependencies
  */
 import { useMemo } from '@wordpress/element';
-import {
-	useBlockProps,
-	withColors,
-} from '@wordpress/block-editor';
+import { useBlockProps, withColors } from '@wordpress/block-editor';
 import { useDispatch } from '@wordpress/data';
 
 /**
@@ -58,8 +55,8 @@ function InternalChapters({ internalChapters }) {
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props                            Properties passed to the function.
- * @param {Object}   props.attributes                 Available block attributes.
+ * @param {Object}   props                                Properties passed to the function.
+ * @param {Object}   props.attributes                     Available block attributes.
  * @param            props.context
  * @param            props.clientId
  * @param            props.isSelected
@@ -71,7 +68,15 @@ function InternalChapters({ internalChapters }) {
  * @param            props.setHoverBackgroundColor
  * @param            props.hoverTextColor
  * @param            props.setHoverTextColor
- * @param {Function} props.setAttributes              Function that updates individual attributes.
+ * @param            props.customHoverBackgroundColor
+ * @param            props.setCustomHoverBackgroundColor
+ * @param            props.customHoverTextColor
+ * @param            props.setCustomHoverTextColor
+ * @param            props.customActiveBackgroundColor
+ * @param            props.setCustomActiveBackgroundColor
+ * @param            props.customActiveTextColor
+ * @param            props.setCustomActiveTextColor
+ * @param {Function} props.setAttributes                  Function that updates individual attributes.
  *
  * @return {WPElement} Element to render.
  */
@@ -100,11 +105,7 @@ function Edit({
 }) {
 	const { postId, postType } = context;
 	const { chapters = [] } = useTOC({ postId, postType });
-	const {
-		showCurrentChapter,
-		className,
-		style,
-	} = attributes;
+	const { showCurrentChapter, className, style } = attributes;
 
 	// Construct a colors object that contains the color values and helper functions, re-compute whenever the color values change.
 	const colors = useMemo(
@@ -138,13 +139,10 @@ function Edit({
 		return {
 			className: clsx(
 				'wp-block-prc-block-table-of-contents__list',
-				className,
+				className
 			),
 		};
-	}, [
-		blockWrapperClassNames,
-		showCurrentChapter,
-	]);
+	}, [blockWrapperClassNames, showCurrentChapter]);
 
 	const blockProps = useBlockProps(blockPropArgs);
 
@@ -160,32 +158,32 @@ function Edit({
 			/>
 			<ol {...blockProps}>
 				<StyleEngine attributes={attributes} clientId={clientId} />
-				{0 !== chapters.length && chapters.map((chapter) => {
-					const key =
-						chapter.id || `chptr-${Math.random()}`;
-					return (
-						<li
-							key={key}
-							className={classNames(
-								'wp-block-prc-block-table-of-contents__list-item',
-								{
-									'is-active': postId === chapter?.id,
-								}
-							)}
-						>
-							<span>{chapter.title}</span>
-							{postId === chapter.id &&
-								chapter?.internalChapters && (
-									<InternalChapters
-										{...{
-											internalChapters:
-												chapter?.internalChapters,
-										}}
-									/>
+				{0 !== chapters.length &&
+					chapters.map((chapter) => {
+						const key = chapter.id || `chptr-${Math.random()}`;
+						return (
+							<li
+								key={key}
+								className={clsx(
+									'wp-block-prc-block-table-of-contents__list-item',
+									{
+										'is-active': postId === chapter?.id,
+									}
 								)}
-						</li>
-					);
-				})}
+							>
+								<span>{chapter.title}</span>
+								{postId === chapter.id &&
+									chapter?.internalChapters && (
+										<InternalChapters
+											{...{
+												internalChapters:
+													chapter?.internalChapters,
+											}}
+										/>
+									)}
+							</li>
+						);
+					})}
 			</ol>
 		</>
 	);

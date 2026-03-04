@@ -6,9 +6,11 @@ import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
-import { useState, useRef, useEffect, useMemo } from '@wordpress/element';
+import { useRef, useEffect, useState } from '@wordpress/element';
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { ResizableBox } from '@wordpress/components';
+
 /**
  * Internal Dependencies
  */
@@ -51,58 +53,74 @@ const TEMPLATE = [
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {obect}    props.context       Context object.
- * @param {string}   props.clientId      Block client ID.
- * @param {boolean}  props.isSelected    Whether the block is selected.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                            Properties passed to the function.
+ * @param {Object}   props.attributes                 Available block attributes.
+ * @param {string}   props.clientId                   Block client ID.
+ * @param {Function} props.setAttributes              Function that updates individual attributes.
+ * @param {string}   props.__unstableLayoutClassNames Layout class names from parent.
  *
- * @return {WPElement} Element to render.
+ * @return {Element} Element to render.
  */
 export default function Edit({
 	attributes,
 	setAttributes,
-	context,
 	clientId,
-	isSelected,
 	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const ref = useRef( null );
-	const [isFlipped, setIsFlipped] = useState(false);
+	const ref = useRef(null);
+	const { fixedHeight, isFlipped = false } = attributes;
+	const { toggleSelection } = useDispatch('core/block-editor');
 
-	// Get the first flip-card-side block and check its inner blocks count
-	const firstFlipCardInnerBlocksCount = useSelect(
-		( select ) => {
-			const { getBlocksByClientId, getBlockOrder } = select( 'core/block-editor' );
-			const innerBlockIds = getBlockOrder( clientId );
-			if ( innerBlockIds.length === 0 ) {
+	// Initialize isFlipped when undefined (e.g. existing blocks before attribute existed).
+	useEffect(() => {
+		if (attributes.isFlipped === undefined) {
+			setAttributes({ isFlipped: false });
+		}
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	// Get both flip-card-side blocks and their inner block counts so useMemo re-fires when content changes
+	const flipCardSideBlockCount = useSelect(
+		(select) => {
+			const { getBlockOrder } = select('core/block-editor');
+			const innerBlockIds = getBlockOrder(clientId);
+			if (innerBlockIds.length < 2) {
 				return 0;
 			}
-			const firstBlockId = innerBlockIds[0];
-			const firstBlock = getBlocksByClientId( firstBlockId )[0];
-			return firstBlock ? getBlockOrder( firstBlockId ).length : 0;
+			const firstCount = getBlockOrder(innerBlockIds[0]).length;
+			const secondCount = getBlockOrder(innerBlockIds[1]).length;
+			return firstCount + secondCount;
 		},
-		[ clientId ]
+		[clientId]
 	);
 
-	// Calculate height from the first flip-card-side block only if it has more than 1 inner block
-	const maxHeight = useMemo(() => {
-		if ( ! ref.current || firstFlipCardInnerBlocksCount < 1 ) {
-			return null;
+	// Measure heights after each DOM commit using useEffect so ref.current reflects
+	// the actual current DOM. We use Math.max(prev, new) so the stored height can only
+	// grow — when is-initialized is active, editor.scss hides one side via display:none
+	// making its offsetHeight 0, but that can never shrink the previously-measured height.
+	const [maxHeight, setMaxHeight] = useState(null);
+	useEffect(() => {
+		if (!ref.current || flipCardSideBlockCount < 1) {
+			return;
 		}
-
-		const firstSide = ref.current.querySelector(
+		const sides = ref.current.querySelectorAll(
 			'.wp-block-prc-block-flip-card-side'
 		);
+		if (!sides.length) {
+			return;
+		}
+		const newMax =
+			Math.max(...Array.from(sides).map((side) => side.offsetHeight)) ||
+			null;
+		if (newMax) {
+			setMaxHeight((prev) => Math.max(prev ?? 0, newMax));
+		}
+	}, [flipCardSideBlockCount]);
 
-		return firstSide ? firstSide.offsetHeight : null;
-	}, [isSelected, ref.current, firstFlipCardInnerBlocksCount] );
+	const isInitialized = maxHeight !== null;
 
-	// Check if component is initialized (has calculated height)
-	const isInitialized = useMemo(() => {
-		return maxHeight !== null;
-	}, [maxHeight] );
+	const isSmartHeight =
+		fixedHeight === undefined || fixedHeight === null || fixedHeight === -1;
+	const effectiveHeight = isSmartHeight ? (maxHeight ?? 200) : fixedHeight;
 
 	const blockProps = useBlockProps({
 		ref,
@@ -111,13 +129,15 @@ export default function Edit({
 			'is-initialized': isInitialized,
 		}),
 		style: {
-			minHeight: isInitialized && maxHeight ? `${maxHeight}px` : null,
+			minHeight: `${effectiveHeight}px`,
 		},
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
-			className: clsx('wp-block-prc-block-flip-card-controller__inner-blocks'),
+			className: clsx(
+				'wp-block-prc-block-flip-card-controller__inner-blocks'
+			),
 		},
 		{
 			template: TEMPLATE,
@@ -128,9 +148,46 @@ export default function Edit({
 
 	return (
 		<>
-			<FlipControl {...{ isFlipped, setIsFlipped, clientId }} />
+			<FlipControl
+				clientId={clientId}
+				isFlipped={isFlipped}
+				fixedHeight={fixedHeight}
+				maxHeight={maxHeight}
+			/>
 			<div {...blockProps}>
-				<div {...innerBlocksProps} />
+				{isSmartHeight ? (
+					<div {...innerBlocksProps} />
+				) : (
+					<ResizableBox
+						size={{ height: effectiveHeight }}
+						minHeight={50}
+						minWidth={50}
+						__experimentalShowTooltip={true}
+						__experimentalTooltipProps={{
+							showPx: true,
+							fadeTimeout: 1000,
+						}}
+						enable={{
+							top: false,
+							right: false,
+							bottom: true,
+							left: false,
+							topRight: false,
+							bottomRight: false,
+							bottomLeft: false,
+							topLeft: false,
+						}}
+						onResizeStart={() => toggleSelection(false)}
+						onResizeStop={(event, direction, elt) => {
+							toggleSelection(true);
+							setAttributes({
+								fixedHeight: Math.max(50, elt.offsetHeight),
+							});
+						}}
+					>
+						<div {...innerBlocksProps} />
+					</ResizableBox>
+				)}
 			</div>
 		</>
 	);

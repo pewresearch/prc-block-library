@@ -21,9 +21,9 @@
 	--tab-outline-width: 0;
 	--tab-underline-width: 0;
 	--tab-side-border-width: 0;
-	--tab-border-color: var(--custom-tab-inactive-color, transparent);
-	--tab-border-color-hover: var(--custom-tab-hover-color, #000);
-	--tab-border-color-active: var(--custom-tab-active-color, #000);
+	--tab-brdr-color: var(--custom-tab-inactive-color, transparent);
+	--tab-brdr-color-hover: var(--custom-tab-hover-color, #000);
+	--tab-brdr-color-active: var(--custom-tab-active-color, #000);
 	--tab-padding-block: var(--wp--preset--spacing--20, 0.5em);
 	--tab-padding-inline: var(--wp--preset--spacing--30, 1em);
 	--tab-border-radius: 0;
@@ -39,7 +39,7 @@
 		padding: var(--tab-padding-block) var(--tab-padding-inline);
 		font-size: inherit;
 		font-family: inherit;
-		border: 1px solid var(--tab-border-color-active);
+		border: 1px solid var(--tab-brdr-color-active);
 		border-radius: var(--tab-border-radius);
 		background-color: var(--tab-bg);
 		color: var(--tab-text);
@@ -52,7 +52,7 @@
 		cursor: pointer;
 
 		&:focus {
-			outline: 2px solid var(--tab-border-color-active);
+			outline: 2px solid var(--tab-brdr-color-active);
 			outline-offset: 2px;
 		}
 	}
@@ -93,27 +93,27 @@
 			cursor: pointer;
 			background-color: var(--tab-bg);
 			color: var(--tab-text);
-			border: var(--tab-outline-width) solid var(--tab-border-color);
+			border: var(--tab-outline-width) solid var(--tab-brdr-color);
 			border-block-end: var(--tab-underline-width) solid
-				var(--tab-border-color);
+				var(--tab-brdr-color);
 			border-inline-end: var(--tab-side-border-width) solid
-				var(--tab-border-color);
+				var(--tab-brdr-color);
 			border-radius: var(--tab-border-radius);
 			&:focus-visible {
-				outline: 2px solid var(--tab-border-color-active);
+				outline: 2px solid var(--tab-brdr-color-active);
 				outline-offset: 2px;
 			}
 			&:hover {
 				opacity: var(--tab-opacity-hover);
 				background-color: var(--tab-bg-hover);
 				color: var(--tab-text-hover);
-				border-color: var(--tab-border-color-hover);
+				border-color: var(--tab-brdr-color-hover);
 			}
 			&[aria-selected="true"] {
 				opacity: var(--tab-opacity-active);
 				background-color: var(--tab-bg-active);
 				color: var(--tab-text-active);
-				border-color: var(--tab-border-color-active);
+				border-color: var(--tab-brdr-color-active);
 			}
 		}
 	}
@@ -173,24 +173,24 @@
 	--tab-text: var(--custom-tab-text-color, #000);
 	--tab-text-hover: var(--custom-tab-hover-text-color, #000);
 	--tab-text-active: var(--custom-tab-active-text-color, #000);
-	--tab-border-color: var(--custom-tab-inactive-color, transparent);
-	--tab-border-color-hover: var(--custom-tab-hover-color, #000);
-	--tab-border-color-active: var(--custom-tab-active-color, #000);
+	--tab-brdr-color: var(--custom-tab-inactive-color, transparent);
+	--tab-brdr-color-hover: var(--custom-tab-hover-color, #000);
+	--tab-brdr-color-active: var(--custom-tab-active-color, #000);
 	--tab-underline-width: 2px;
 
 	.tabs__tab-label {
 		/* preserve extra bottom space for underline */
 		padding-block-end: 0.5em;
-		border-bottom: 2px solid var(--tab-border-color);
+		border-bottom: 2px solid var(--tab-brdr-color);
 		&[aria-selected="true"] {
 			background-color: inherit;
 			color: var(--tab-text-active);
-			border-color: var(--tab-border-color-active);
+			border-color: var(--tab-brdr-color-active);
 		}
 		&:hover:not([aria-selected="true"]) {
 			background-color: inherit;
 			color: var(--tab-text-hover);
-			border-color: var(--tab-border-color-hover);
+			border-color: var(--tab-brdr-color-hover);
 		}
 	}
 

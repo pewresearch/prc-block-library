@@ -1,44 +1,50 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/responsive-container-view",
-	"version": "0.1.0",
-	"title": "Responsive View",
-	"category": "design",
-	"description": "A block of blocks that appears and hides at specific viewport widths.",
-	"attributes": {
-		"min": {
-			"type": "number"
-		},
-		"max": {
-			"type": "number"
-		},
-		"orientation": {
-			"type": "string",
-			"default": "vertical"
-		},
-		"deviceType": {
-			"type": "string",
-			"enum": ["desktop", "tablet", "mobile"]
-		},
-		"additionalStyles": {
-			"type": "string"
-		}
-	},
-	"supports": {
-		"anchor": true,
-		"html": false,
-		"spacing": {
-			"blockGap": true,
-			"padding": true
-		},
-		"typography": {
-			"fontSize": true,
-			"__experimentalFontFamily": true
-		}
-	},
-	"parent": ["prc-block/responsive-container-controller"],
-	"textdomain": "responsive-container-view",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/responsive-container-view",
+  "version": "0.1.0",
+  "title": "Responsive View",
+  "category": "design",
+  "description": "A block of blocks that appears and hides at specific viewport widths.",
+  "attributes": {
+    "min": {
+      "type": "number"
+    },
+    "max": {
+      "type": "number"
+    },
+    "orientation": {
+      "type": "string",
+      "default": "vertical"
+    },
+    "deviceType": {
+      "type": "string",
+      "enum": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ]
+    },
+    "additionalStyles": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "spacing": {
+      "blockGap": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true
+    }
+  },
+  "parent": [
+    "prc-block/responsive-container-controller"
+  ],
+  "textdomain": "responsive-container-view",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css"
 }

@@ -59,6 +59,14 @@ class Core_Tabs {
 	public $view_script_module_ver;
 
 	/**
+	 * Stack of mobile dropdown markup to be copied after tab panels.
+	 * Uses an array (stack) to handle nested tabs blocks correctly.
+	 *
+	 * @var array
+	 */
+	private $pending_dropdown_copies = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
@@ -90,6 +98,8 @@ class Core_Tabs {
 			$loader->add_filter( 'render_block_core/tabs-menu', $this, 'render_core_tabs_menu', 10, 3 );
 			// Render modified core/tabs-menu-item block for smart styles.
 			$loader->add_filter( 'render_block_core/tabs-menu-item', $this, 'render_core_tabs_menu_item', 10, 3 );
+			// Render core/tabs block with bottom mobile dropdown copy.
+			$loader->add_filter( 'render_block_core/tabs', $this, 'render_core_tabs', 10, 3 );
 		}
 	}
 
@@ -193,10 +203,10 @@ class Core_Tabs {
 		$flag_markup = '<span class="fi fi-' . esc_attr( $country_code ) . '"></span>';
 
 		// Inject the flag before the label span using regex.
-		// The structure is: <a ...><span>Label</span></a>
-		// We want: <a ...><span class="fi fi-XX"></span><span>Label</span></a>
+		// The structure is: <button ...><span>Label</span></button>
+		// We want: <button ...><span class="fi fi-XX"></span><span>Label</span></button>
 		$block_content = preg_replace(
-			'/(<a[^>]*>)(<span>)/i',
+			'/(<button[^>]*>)(<span>)/i',
 			'$1' . $flag_markup . '$2',
 			$block_content,
 			1
@@ -370,15 +380,15 @@ class Core_Tabs {
 	}
 
 	/**
-	 * Build a core/tab-panels parsed block with core/tab children.
+	 * Build a core/tab-panel parsed block with core/tab children.
 	 *
 	 * @param array $core_tab_blocks Array of core/tab parsed blocks.
-	 * @return array The core/tab-panels parsed block.
+	 * @return array The core/tab-panel parsed block.
 	 */
-	private function build_core_tab_panels_block( array $core_tab_blocks ): array {
+	private function build_core_tab_panel_block( array $core_tab_blocks ): array {
 		// Build innerContent with null placeholders for each tab block.
-		$inner_content    = array( '<div class="wp-block-tab-panels">' );
-		$inner_html_parts = array( '<div class="wp-block-tab-panels">' );
+		$inner_content    = array( '<div class="wp-block-tab-panel">' );
+		$inner_html_parts = array( '<div class="wp-block-tab-panel">' );
 
 		foreach ( $core_tab_blocks as $tab_block ) {
 			$inner_content[]    = null;
@@ -389,7 +399,7 @@ class Core_Tabs {
 		$inner_html_parts[] = '</div>';
 
 		return array(
-			'blockName'    => 'core/tab-panels',
+			'blockName'    => 'core/tab-panel',
 			'attrs'        => array(),
 			'innerBlocks'  => $core_tab_blocks,
 			'innerHTML'    => implode( '', $inner_html_parts ),
@@ -407,7 +417,7 @@ class Core_Tabs {
 	 * @return array The core/tabs-menu-item parsed block.
 	 */
 	private function build_core_tabs_menu_item_block( array $color_attrs ): array {
-		$inner_html = '<a class="wp-block-tabs-menu-item wp-block-tabs-menu-item__template" hidden></a>';
+		$inner_html = '<button type="button" class="wp-block-tabs-menu-item wp-block-tabs-menu-item__template" hidden></button>';
 
 		return array(
 			'blockName'    => 'core/tabs-menu-item',
@@ -498,7 +508,7 @@ class Core_Tabs {
 		$is_vertical = 'vertical' === ( $attributes['orientation'] ?? 'horizontal' );
 
 		$tabs_menu  = $this->build_core_tabs_menu_block( $color_attrs, $is_vertical );
-		$tab_panels = $this->build_core_tab_panels_block( $core_tab_blocks );
+		$tab_panel  = $this->build_core_tab_panel_block( $core_tab_blocks );
 
 		// 4. Build core/tabs with proper innerHTML/innerContent.
 		$tabs_inner_html = '<div class="wp-block-tabs"></div>';
@@ -506,12 +516,12 @@ class Core_Tabs {
 		return array(
 			'blockName'    => 'core/tabs',
 			'attrs'        => $core_tabs_attrs,
-			'innerBlocks'  => array( $tabs_menu, $tab_panels ),
+			'innerBlocks'  => array( $tabs_menu, $tab_panel ),
 			'innerHTML'    => $tabs_inner_html,
 			'innerContent' => array(
 				'<div class="wp-block-tabs">',
 				null, // tabs-menu placeholder
-				null, // tab-panels placeholder
+				null, // tab-panel placeholder
 				'</div>',
 			),
 		);
@@ -527,9 +537,9 @@ class Core_Tabs {
 	private function generate_tabs_list_context( array $converted ): array {
 		$tabs_list = array();
 
-		// Find tab-panels block in innerBlocks.
+		// Find tab-panel block in innerBlocks.
 		foreach ( $converted['innerBlocks'] ?? array() as $inner_block ) {
-			if ( 'core/tab-panels' === ( $inner_block['blockName'] ?? '' ) ) {
+			if ( 'core/tab-panel' === ( $inner_block['blockName'] ?? '' ) ) {
 				$tab_index = 0;
 				foreach ( $inner_block['innerBlocks'] ?? array() as $tab_block ) {
 					if ( 'core/tab' === ( $tab_block['blockName'] ?? '' ) ) {
@@ -646,6 +656,10 @@ class Core_Tabs {
 		if ( $mobile_dropdown ) {
 			$dropdown_markup = $this->build_mobile_dropdown_markup( $block, $instance, $tabs_id );
 
+			// Store a copy of the dropdown markup to be placed after tab panels
+			// in the render_core_tabs callback.
+			$this->pending_dropdown_copies[] = $dropdown_markup;
+
 			// Using regex, add dropdown after the wp-block-tabs-menu div.
 			$content = preg_replace(
 				'/<div\s+[^>]*class="[^"]*\bwp-block-tabs-menu\b[^"]*"[^>]*>.*?<\/div>/is',
@@ -656,6 +670,44 @@ class Core_Tabs {
 		}
 
 		return is_string( $content ) ? $content : $tag_processor->get_updated_html();
+	}
+
+	/**
+	 * Render core/tabs block with a copy of the mobile dropdown placed after the tab panels.
+	 * This provides a bottom dropdown on mobile so users can switch tabs from both above
+	 * and below the content.
+	 *
+	 * @hook render_block_core/tabs
+	 *
+	 * @param string   $block_content Block content.
+	 * @param array    $block Block.
+	 * @param WP_Block $instance WP_Block instance.
+	 * @return string
+	 */
+	public function render_core_tabs( $block_content, $block, $instance ) {
+		// Check if there is a pending dropdown copy from the tabs-menu render.
+		if ( empty( $this->pending_dropdown_copies ) ) {
+			return $block_content;
+		}
+
+		$dropdown_markup = array_pop( $this->pending_dropdown_copies );
+
+		// Add the bottom modifier class to the copied dropdown.
+		$bottom_dropdown = str_replace(
+			'class="wp-block-tabs-menu__dropdown"',
+			'class="wp-block-tabs-menu__dropdown wp-block-tabs-menu__dropdown--bottom"',
+			$dropdown_markup
+		);
+
+		// Insert the bottom dropdown before the final closing </div> of the tabs block.
+		$last_div_pos = strrpos( $block_content, '</div>' );
+		if ( false !== $last_div_pos ) {
+			$block_content = substr( $block_content, 0, $last_div_pos )
+				. $bottom_dropdown
+				. substr( $block_content, $last_div_pos );
+		}
+
+		return $block_content;
 	}
 
 	/**
@@ -717,9 +769,9 @@ class Core_Tabs {
 		$active_tab_block   = new WP_Block( $template_block, $active_tab_context );
 		$rendered_active    = $active_tab_block->render();
 
-		// Extract innerHTML from <a>...</a> to get just the inner content (flags + label spans).
+		// Extract innerHTML from <button>...</button> to get just the inner content (flags + label spans).
 		$trigger_content = '';
-		if ( preg_match( '/<a[^>]*>(.*?)<\/a>/s', $rendered_active, $matches ) ) {
+		if ( preg_match( '/<button[^>]*>(.*?)<\/button>/s', $rendered_active, $matches ) ) {
 			$trigger_content = $matches[1];
 		} else {
 			// Fallback to escaped label if regex fails.

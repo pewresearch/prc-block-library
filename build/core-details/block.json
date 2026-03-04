@@ -1,15 +1,15 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/core-details",
-	"version": "1.0.0",
-	"title": "Collapsible",
-	"category": "design",
-	"textdomain": "core-details",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"viewScriptModule": "file:./view.js",
-	"supports": {
-		"interactivity": true
-	}
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/core-details",
+  "version": "1.0.0",
+  "title": "Collapsible",
+  "category": "design",
+  "textdomain": "core-details",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "viewScriptModule": "file:./view.js",
+  "supports": {
+    "interactivity": true
+  }
 }

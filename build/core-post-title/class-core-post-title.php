@@ -68,8 +68,32 @@ class Core_Post_Title {
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_style' );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 2 );
-			$loader->add_filter( 'prc_block_styles', $this, 'print_style' );
+			$loader->add_action( 'prc_print_engine_register_block_callbacks', $this, 'register_print_callbacks' );
 		}
+	}
+
+	/**
+	 * Register print styles for the post title block.
+	 *
+	 * @hook prc_print_engine_register_block_callbacks
+	 */
+	public function register_print_callbacks() {
+		Block_Print_Registry::register_style(
+			'prc-block/core-post-title',
+			'.print-engine-cover__title {
+				font-size: 65px;
+				line-height: 65px;
+				padding-bottom: 10px;
+				border-bottom: 3px solid black;
+			}'
+		);
+		Block_Print_Registry::register_print_style(
+			'prc-block/core-post-title',
+			'.print-engine-cover__title {
+				font-size: 75px;
+				line-height: 75px;
+			}'
+		);
 	}
 
 	/**
@@ -90,26 +114,6 @@ class Core_Post_Title {
 	 */
 	public function register_style() {
 		wp_enqueue_style( $this->view_style_handle );
-	}
-
-	/**
-	 * Print style
-	 *
-	 * @hook prc_block_styles
-	 * @param mixed $styles
-	 * @return void
-	 */
-	public function print_style( $styles ) {
-		ob_start();
-		?>
-		.prc-block-library-print-engine__cover-sheet .wp-block-post-title {
-			font-size: 65px;
-			line-height: 65px;
-			padding-bottom: 10px;
-			border-bottom: 3px solid black;
-		}
-		<?php
-		return $styles . ob_get_clean();
 	}
 
 	/**

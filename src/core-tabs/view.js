@@ -123,6 +123,8 @@ const { state, actions } = store('core/tabs', {
 		}),
 		/**
 		 * Handles clicks outside the dropdown to close it.
+		 * Checks all dropdowns within the same tabs block (top and bottom)
+		 * so clicking one dropdown doesn't close the shared state.
 		 *
 		 * @param {MouseEvent} event The click event.
 		 */
@@ -131,11 +133,25 @@ const { state, actions } = store('core/tabs', {
 			const { tabsId } = context;
 			const dropdownElement = getElement();
 
-			// Check if click is outside the dropdown.
-			if (
-				dropdownElement &&
-				!dropdownElement.ref.contains(event.target)
-			) {
+			if (!dropdownElement?.ref) {
+				return;
+			}
+
+			// Find the parent tabs block to check all dropdowns within it.
+			const tabsBlock = dropdownElement.ref.closest('.wp-block-tabs');
+			if (!tabsBlock) {
+				return;
+			}
+
+			// Check if click is inside ANY dropdown within this tabs block.
+			const allDropdowns = tabsBlock.querySelectorAll(
+				'.wp-block-tabs-menu__dropdown'
+			);
+			const isInsideAnyDropdown = Array.from(allDropdowns).some((dd) =>
+				dd.contains(event.target)
+			);
+
+			if (!isInsideAnyDropdown) {
 				if (state[tabsId]) {
 					state[tabsId].dropdownOpen = false;
 				}
@@ -143,11 +159,37 @@ const { state, actions } = store('core/tabs', {
 		}),
 		/**
 		 * Handles dropdown item click - closes dropdown after tab selection.
+		 * When using the bottom mobile dropdown, smooth-scrolls to the top dropdown
+		 * so the user sees the newly selected tab content from the top.
 		 * The tab selection is handled by the core tabs-menu-item click handler.
 		 */
 		handleDropdownItemClick: withSyncEvent(() => {
 			const context = getContext('core/tabs/private');
 			const { tabsId } = context;
+			const element = getElement();
+
+			if (element?.ref) {
+				const dropdown = element.ref.closest(
+					'.wp-block-tabs-menu__dropdown'
+				);
+				if (
+					dropdown?.classList.contains(
+						'wp-block-tabs-menu__dropdown--bottom'
+					)
+				) {
+					const tabsBlock = dropdown.closest('.wp-block-tabs');
+					const topDropdown = tabsBlock?.querySelector(
+						'.wp-block-tabs-menu__dropdown:not(.wp-block-tabs-menu__dropdown--bottom)'
+					);
+					if (topDropdown) {
+						topDropdown.scrollIntoView({
+							behavior: 'smooth',
+							block: 'start',
+						});
+					}
+				}
+			}
+
 			if (state[tabsId]) {
 				state[tabsId].dropdownOpen = false;
 			}

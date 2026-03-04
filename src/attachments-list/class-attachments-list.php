@@ -83,7 +83,7 @@ class Attachments_List {
 
 		$post__not_in = array();
 
-		if ( \PRC\Platform\is_module_active( 'art-direction' ) ) {
+		if ( is_plugin_active( 'prc-art-direction/prc-art-direction.php' ) ) {
 			// Filter out Art Direction
 			// Get the art direction from the parent post and filter out any id's that are already in use.
 			$art_direction_api = new \PRC\Platform\Art_Direction\API( $parent_post_id );

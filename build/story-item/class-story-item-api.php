@@ -300,7 +300,7 @@ class Story_Item_API {
 		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 			// Get the yoast primary term if available
 			if ( count( $terms ) > 1 ) {
-				$primary_term_id = \PRC\Platform\get_primary_term_id( $taxonomy, $this->post_id );
+				$primary_term_id = \PRC\Platform\get_primary_term_id( $this->post_id, $taxonomy );
 				$first_term      = array_filter(
 					$terms,
 					function ( $term ) use ( $primary_term_id ) {

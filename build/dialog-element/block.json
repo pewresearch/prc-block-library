@@ -109,7 +109,8 @@
   },
   "usesContext": [
     "dialog/id",
-    "dialog/className"
+    "dialog/className",
+    "dialog/isOpen"
   ],
   "providesContext": {
     "dialog/label": "dialogLabel"

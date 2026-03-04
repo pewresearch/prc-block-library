@@ -6,10 +6,11 @@ import { useStyleOverride } from '@wordpress/block-editor';
 /**
  * Gets the color styles for the navigation mega menu block.
  *
- * @param {Object} attributes - Block attributes
- * @returns {Object} CSS custom properties map
+ * @param {Object} options            - Options object.
+ * @param {Object} options.attributes - Block attributes.
+ * @return {Object} CSS custom properties map
  */
-function getColorStyles({ attributes }) {
+function getColorStyles({ attributes } = {}) {
 	const {
 		customMenuItemBackgroundColor,
 		customMenuItemTextColor,
@@ -21,24 +22,36 @@ function getColorStyles({ attributes }) {
 	} = attributes || {};
 
 	// Helper to normalize color objects (preset { slug } vs direct value).
-	function getColorValue( color ) {
-		if ( ! color ) {
+	function getColorValue(color) {
+		if (!color) {
 			return null;
 		}
-		if ( typeof color === 'object' && color.slug ) {
-			return `var(--wp--preset--color--${ color.slug })`;
+		if (typeof color === 'object' && color.slug) {
+			return `var(--wp--preset--color--${color.slug})`;
 		}
 		return color;
 	}
 
 	const colorVarMap = {
-		'--custom-menu-item-background-color': getColorValue( customMenuItemBackgroundColor ),
-		'--custom-menu-item-text-color': getColorValue( customMenuItemTextColor ),
-		'--custom-menu-item-active-background-color': getColorValue( customMenuItemActiveBackgroundColor ),
-		'--custom-menu-item-active-text-color': getColorValue( customMenuItemActiveTextColor ),
-		'--custom-menu-overlay-background-color': getColorValue( customMenuOverlayBackgroundColor ),
-		'--custom-menu-overlay-text-color': getColorValue( customMenuOverlayTextColor ),
-		'--custom-menu-active-border-color': getColorValue( customMenuActiveBorderColor ),
+		'--custom-menu-item-background-color': getColorValue(
+			customMenuItemBackgroundColor
+		),
+		'--custom-menu-item-text-color': getColorValue(customMenuItemTextColor),
+		'--custom-menu-item-active-background-color': getColorValue(
+			customMenuItemActiveBackgroundColor
+		),
+		'--custom-menu-item-active-text-color': getColorValue(
+			customMenuItemActiveTextColor
+		),
+		'--custom-menu-overlay-background-color': getColorValue(
+			customMenuOverlayBackgroundColor
+		),
+		'--custom-menu-overlay-text-color': getColorValue(
+			customMenuOverlayTextColor
+		),
+		'--custom-menu-active-brdr-color': getColorValue(
+			customMenuActiveBorderColor
+		),
 	};
 
 	return colorVarMap;
@@ -52,26 +65,23 @@ function getColorStyles({ attributes }) {
  * @param {Object} props
  * @param {Object} props.attributes Block attributes
  * @param {string} props.clientId   Block client ID
- * @returns {null} No UI output
+ * @return {null} No UI output
  */
-export default function StyleEngine( { attributes, clientId } ) {
-	if ( ! clientId ) {
-		return null;
-	}
-
-	const colorVarMap = getColorStyles( { attributes } );
+export default function StyleEngine({ attributes, clientId }) {
+	const colorVarMap = getColorStyles({ attributes });
 
 	// Build scoped CSS only for defined values to avoid unnecessary empty declarations.
-	const declarations = Object.entries( colorVarMap )
-		.filter( ( [ , value ] ) => !! value )
-		.map( ( [ name, value ] ) => `\t${ name }: ${ value };` )
-		.join( '\n' );
+	const declarations = Object.entries(colorVarMap)
+		.filter(([, value]) => !!value)
+		.map(([name, value]) => `\t${name}: ${value};`)
+		.join('\n');
 
-	if ( declarations.length ) {
-		useStyleOverride( {
-			css: `#block-${ clientId } {\n${ declarations }\n}`,
-		} );
-	}
+	const css =
+		clientId && declarations.length
+			? `#block-${clientId} {\n${declarations}\n}`
+			: '';
+
+	useStyleOverride({ css });
 
 	return null;
 }

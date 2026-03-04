@@ -7,7 +7,13 @@ import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
-import { useMemo, useRef, useEffect } from '@wordpress/element';
+import {
+	useMemo,
+	useRef,
+	useEffect,
+	useState,
+	useCallback,
+} from '@wordpress/element';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
@@ -22,9 +28,19 @@ import { useSelect, useDispatch } from '@wordpress/data';
  */
 import { Toolbar, InspectorPanel } from './controls';
 import StyleEngine from './style-engine';
-import { STORE_NAME } from '../dialog/store';
 
-function Edit( {
+const CLOSING_ANIMATION_NAMES = [
+	'fadeOut',
+	'popOut',
+	'slideOutDown',
+	'slideOutUp',
+	'slideOutLeft',
+	'slideOutRight',
+	'zoomOut',
+	'bounceOut',
+];
+
+function Edit({
 	attributes,
 	setAttributes,
 	context,
@@ -32,74 +48,124 @@ function Edit( {
 	className,
 	backdropColor,
 	setBackdropColor,
-} ) {
+}) {
 	const { dialogSize = 'medium', animation = 'fade' } = attributes;
-	const { selectBlock } = useDispatch( blockEditorStore );
-	const { init, destroy, open, close } = useDispatch( STORE_NAME );
 
-	const { rootClientId, isOpen, isClosingModal } = useSelect(
-		( select ) => {
+	const isOpen = context['dialog/isOpen'] ?? false;
+	const [showClosingAnimation, setShowClosingAnimation] = useState(false);
+
+	const {
+		selectBlock,
+		updateBlockAttributes,
+		__unstableMarkNextChangeAsNotPersistent,
+	} = useDispatch(blockEditorStore);
+
+	const { rootClientId, dialogClientId } = useSelect(
+		(select) => {
+			const root =
+				select(blockEditorStore).getBlockRootClientId(clientId);
 			return {
-				rootClientId:
-					select( blockEditorStore ).getBlockRootClientId( clientId ),
-				isOpen: select( STORE_NAME ).isOpen( clientId ),
-				isClosingModal: select( STORE_NAME ).isClosingModal( clientId ),
+				rootClientId: root,
+				dialogClientId: root,
 			};
 		},
-		[ clientId ]
+		[clientId]
 	);
 
-	/**
-	 * Setup state and ref for the dialog.
-	 */
-	const dialogElementRef = useRef( null );
+	const dialogElementRef = useRef(null);
 
-	// Initialize dialog in store and cleanup on unmount
-	useEffect( () => {
-		init( clientId );
-
-		return () => {
-			destroy( clientId );
-		};
-	}, [ clientId, init, destroy ] );
-
-	// Sync DOM state with store state
-	useEffect( () => {
-		if ( dialogElementRef.current ) {
-			if ( isOpen && ! dialogElementRef.current.open ) {
+	// Sync DOM state with context state
+	useEffect(() => {
+		if (dialogElementRef.current) {
+			if (isOpen && !dialogElementRef.current.open) {
+				setShowClosingAnimation(false);
 				dialogElementRef.current.showModal();
-			} else if ( ! isOpen && dialogElementRef.current.open ) {
+			} else if (!isOpen && dialogElementRef.current.open) {
 				dialogElementRef.current.close();
 			}
 		}
-	}, [ isOpen ] );
+	}, [isOpen]);
 
-	/**
-	 * Helper functions:
-	 */
-	const openDialog = () => open( clientId );
-	const closeDialog = () => {
-		close( clientId );
-		selectBlock( rootClientId );
+	const finalizeClose = useCallback(() => {
+		if (dialogClientId) {
+			__unstableMarkNextChangeAsNotPersistent();
+			updateBlockAttributes(dialogClientId, {
+				editorIsDialogOpen: false,
+			});
+		}
+		setShowClosingAnimation(false);
+		selectBlock(rootClientId);
+	}, [
+		dialogClientId,
+		rootClientId,
+		selectBlock,
+		updateBlockAttributes,
+		__unstableMarkNextChangeAsNotPersistent,
+	]);
+
+	const openDialog = () => {
+		if (dialogClientId) {
+			__unstableMarkNextChangeAsNotPersistent();
+			updateBlockAttributes(dialogClientId, {
+				editorIsDialogOpen: true,
+			});
+		}
 	};
-	const onEscHandler = ( e ) => {
+
+	const closeDialog = useCallback(() => {
+		const prefersReducedMotion = window.matchMedia(
+			'(prefers-reduced-motion: reduce)'
+		).matches;
+
+		if (prefersReducedMotion) {
+			finalizeClose();
+			return;
+		}
+
+		setShowClosingAnimation(true);
+
+		const dialogElement = dialogElementRef.current;
+		if (!dialogElement) {
+			finalizeClose();
+			return;
+		}
+
+		const onAnimationEnd = (event) => {
+			if (!CLOSING_ANIMATION_NAMES.includes(event.animationName)) {
+				return;
+			}
+			dialogElement.removeEventListener('animationend', onAnimationEnd);
+			finalizeClose();
+		};
+
+		dialogElement.addEventListener('animationend', onAnimationEnd);
+	}, [finalizeClose]);
+
+	const onEscHandler = (e) => {
 		e.preventDefault();
 		closeDialog();
 	};
 
-	const blockProps = useBlockProps( {
+	const onBackdropClick = (event) => {
+		if (event.target === event.currentTarget) {
+			closeDialog();
+		}
+	};
+
+	const blockProps = useBlockProps({
 		ref: dialogElementRef,
-		className: clsx( className, {
+		className: clsx(className, {
 			'is-size-small': 'small' === dialogSize,
 			'is-size-medium': 'medium' === dialogSize,
 			'is-size-large': 'large' === dialogSize,
-			[ `is-animation-${ animation }` ]: animation,
-			'is-closing-modal': isClosingModal,
-		} ),
+			[`is-animation-${animation}`]: animation,
+			'is-closing': showClosingAnimation,
+			active: isOpen && !showClosingAnimation,
+		}),
 		role: 'dialog',
 		'aria-modal': 'true',
 		'aria-labelledby': '',
-	} );
+	});
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{
@@ -114,46 +180,47 @@ function Edit( {
 	return (
 		<KeyboardShortcuts
 			bindGlobal
-			shortcuts={ {
+			shortcuts={{
 				esc: onEscHandler,
-			} }
+			}}
 		>
-			<dialog { ...blockProps }>
-				<StyleEngine attributes={ attributes } clientId={ clientId } />
+			{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- Keyboard support via ESC handler, backdrop click closes */}
+			<dialog {...blockProps} onClick={onBackdropClick}>
+				<StyleEngine attributes={attributes} clientId={clientId} />
 				<InspectorPanel
-					colors={ {
+					colors={{
 						backdropColor,
 						setBackdropColor,
-					} }
-					openDialog={ openDialog }
-					closeDialog={ closeDialog }
-					clientId={ clientId }
-					context={ context }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
+					}}
+					openDialog={openDialog}
+					closeDialog={closeDialog}
+					clientId={clientId}
+					context={context}
+					attributes={attributes}
+					setAttributes={setAttributes}
 				/>
 				<Toolbar
-					openDialog={ openDialog }
-					closeDialog={ closeDialog }
-					isOpen={ isOpen }
-					clientId={ clientId }
-					attributes={ attributes }
+					openDialog={openDialog}
+					closeDialog={closeDialog}
+					isOpen={isOpen}
+					clientId={clientId}
+					attributes={attributes}
 				/>
 				<button
 					className="wp-block-prc-block-dialog-element__close-button"
 					type="button"
 					aria-label="Close dialog"
-					onClick={ () => closeDialog() }
+					onClick={() => closeDialog()}
 				>
 					{
 						// @TODO We need to probably add a slotfill here for the icon. We should reference the icon library work in Gutenberg to determine if we can hook in to that for this.
-					 }
-					<Icon icon={ cancelCircleFilled } />
+					}
+					<Icon icon={cancelCircleFilled} />
 				</button>
-				<div { ...innerBlocksProps } />
+				<div {...innerBlocksProps} />
 			</dialog>
 		</KeyboardShortcuts>
 	);
 }
 
-export default withColors( { backdropColor: 'backdrop-color' } )( Edit );
+export default withColors({ backdropColor: 'backdrop-color' })(Edit);

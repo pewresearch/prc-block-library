@@ -10,7 +10,7 @@
 
 /* Colors */
 $textColor: var(--wp--preset--color--text-color);
-$darkTextColor: rgba(0, 0, 0, 0.85);
+$darkTextColor: var(--wp--preset--color--ui-black);
 $blackLinkColor: var(--wp--preset--color--ui-black);
 
 $A1: 564px;
@@ -434,7 +434,7 @@ $placeholderInvertedLoadingGradient: linear-gradient(
 
 		font-size: 12px;
 		font-family: var(--wp--preset--font-family--sans-serif);
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--wp--preset--color--ui-gray-medium);
 		letter-spacing: 0.1em;
 		line-height: 1em;
 		text-transform: uppercase;

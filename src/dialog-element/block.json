@@ -103,7 +103,7 @@
 		},
 		"interactivity": true
 	},
-	"usesContext": ["dialog/id", "dialog/className"],
+	"usesContext": ["dialog/id", "dialog/className", "dialog/isOpen"],
 	"providesContext": {
 		"dialog/label": "dialogLabel"
 	},

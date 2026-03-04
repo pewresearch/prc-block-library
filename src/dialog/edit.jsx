@@ -9,6 +9,7 @@ import {
 	useInnerBlocksProps,
 	InspectorControls,
 	store as blockEditorStore,
+	BlockContextProvider,
 } from '@wordpress/block-editor';
 import {
 	Button,
@@ -19,10 +20,6 @@ import {
 } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 
-/**
- * Internal dependencies
- */
-import { STORE_NAME } from './store';
 const TEMPLATE = [
 	[
 		'prc-block/dialog-trigger',
@@ -36,9 +33,7 @@ const TEMPLATE = [
 			[
 				'core/paragraph',
 				{
-					placeholder: __(
-						'Start typing to add Dialog trigger text…'
-					),
+					placeholder: __('Start typing to add Dialog trigger text…'),
 				},
 			],
 		],
@@ -56,7 +51,7 @@ const TEMPLATE = [
 				'core/heading',
 				{
 					level: 2,
-					placeholder: __( 'Add a dialog label…' ),
+					placeholder: __('Add a dialog label…'),
 					metadata: {
 						bindings: {
 							content: {
@@ -70,124 +65,133 @@ const TEMPLATE = [
 	],
 ];
 
-export default function Edit( { attributes, setAttributes, clientId } ) {
-	const { dialogId } = attributes;
+export default function Edit({ attributes, setAttributes, clientId }) {
+	const { dialogId, editorIsDialogOpen = false } = attributes;
 
-	// Initialize dialogId only once after mount if not set.
-	useEffect( () => {
-		if ( ! dialogId ) {
-			setAttributes( { dialogId: clientId } );
-		}
-	}, [ dialogId, clientId, setAttributes ] );
-
-	// Get the dialog-element block from inner blocks
-	const { dialogElementClientId, isDialogOpen } = useSelect(
-		( select ) => {
-			const { getBlock } = select( blockEditorStore );
-			const block = getBlock( clientId );
+	// Get the dialog-content block from inner blocks and check if it's selected.
+	const { dialogElementClientId, isDialogElementSelected } = useSelect(
+		(select) => {
+			const { getBlock, isBlockSelected, hasSelectedInnerBlock } =
+				select(blockEditorStore);
+			const block = getBlock(clientId);
 			const dialogElementBlock = block?.innerBlocks?.find(
-				( innerBlock ) => innerBlock.name === 'prc-block/dialog-element'
+				(innerBlock) => innerBlock.name === 'prc-block/dialog-element'
 			);
 			const dialogElementId = dialogElementBlock?.clientId;
+			const isSelected = dialogElementId
+				? isBlockSelected(dialogElementId) ||
+					hasSelectedInnerBlock(dialogElementId, true)
+				: false;
 
 			return {
 				dialogElementClientId: dialogElementId,
-				isDialogOpen: dialogElementId
-					? select( STORE_NAME ).isOpen( dialogElementId )
-					: false,
+				isDialogElementSelected: isSelected,
 			};
 		},
-		[ clientId ]
+		[clientId]
 	);
 
-	// Get store actions
-	const { open, close } = useDispatch( STORE_NAME );
+	const { __unstableMarkNextChangeAsNotPersistent } =
+		useDispatch(blockEditorStore);
 
-	// Set up a ref for the block container
-	const ref = useRef( null );
+	// Initialize dialogId only once after mount if not set.
+	useEffect(() => {
+		if (!dialogId) {
+			setAttributes({ dialogId: clientId });
+		}
+	}, [dialogId, clientId, setAttributes]);
 
-	const blockProps = useBlockProps( {
-		ref,
-	} );
+	// Auto open dialog when dialog-element or its children are selected.
+	useEffect(() => {
+		if (isDialogElementSelected && !editorIsDialogOpen) {
+			__unstableMarkNextChangeAsNotPersistent();
+			setAttributes({ editorIsDialogOpen: true });
+		}
+	}, [
+		isDialogElementSelected,
+		editorIsDialogOpen,
+		setAttributes,
+		__unstableMarkNextChangeAsNotPersistent,
+	]);
 
-	// We're locking down the template and allowed blocks to only allow the dialog trigger and dialog element.
-	const innerBlocksProps = useInnerBlocksProps( blockProps, {
-		template: TEMPLATE,
-		templateLock: 'insert',
-	} );
+	const ref = useRef(null);
+	const blockProps = useBlockProps({ ref });
+
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			template: TEMPLATE,
+			templateLock: 'insert',
+		}
+	);
 
 	const buttonLabel = useMemo(
-		() => ( isDialogOpen ? __( 'Close Dialog' ) : __( 'Edit Dialog' ) ),
-		[ isDialogOpen ]
+		() => (editorIsDialogOpen ? __('Close Dialog') : __('Edit Dialog')),
+		[editorIsDialogOpen]
 	);
+
+	const toggleDialog = () => {
+		__unstableMarkNextChangeAsNotPersistent();
+		setAttributes({
+			editorIsDialogOpen: !editorIsDialogOpen,
+		});
+	};
 
 	return (
 		<>
 			<BlockControls __experimentalShareWithChildBlocks>
 				<ToolbarGroup>
 					<ToolbarButton
-						label={ buttonLabel }
-						onClick={ () => {
-							if ( ! dialogElementClientId ) {
-								console.warn(
-									'No dialog-element block found. Please add a dialog-element block.'
-								);
-								return;
-							}
-							if ( isDialogOpen ) {
-								close( dialogElementClientId );
-							} else {
-								open( dialogElementClientId );
-							}
-						} }
+						label={buttonLabel}
+						aria-controls={dialogElementClientId}
+						onClick={toggleDialog}
 					>
-						{ buttonLabel }
+						{buttonLabel}
 					</ToolbarButton>
 				</ToolbarGroup>
 			</BlockControls>
 			<InspectorControls>
-				<PanelBody title={ __( 'Dialog Settings' ) }>
+				<PanelBody title={__('Dialog Settings')}>
 					<div>
 						<p>
-							{ __(
+							{__(
 								'The dialog element requires a dialog trigger and a dialog element. You can edit the text of the trigger directly, to edit the content of the dialog click the "Edit Dialog" button below.'
-							) }
+							)}
 						</p>
 						<TextControl
-							label={ __( 'Dialog ID' ) }
-							value={ dialogId }
-							onChange={ ( value ) =>
-								setAttributes( { dialogId: value } )
+							label={__('Dialog ID')}
+							value={dialogId}
+							onChange={(value) =>
+								setAttributes({ dialogId: value })
 							}
-							help={ __(
+							help={__(
 								'The ID of the dialog element. This should be unique on the page.'
-							) }
+							)}
 							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 						/>
 						<Button
 							__next40pxDefaultSize
 							variant="tertiary"
-							onClick={ () => {
-								if ( dialogElementClientId ) {
-									if ( isDialogOpen ) {
-										close( dialogElementClientId );
-									} else {
-										open( dialogElementClientId );
-									}
-								}
-							} }
-							disabled={ ! dialogElementClientId }
+							onClick={toggleDialog}
+							disabled={!dialogElementClientId}
 							accessibleWhenDisabled
 						>
-							{ isDialogOpen
-								? __( 'Close Dialog' )
-								: __( 'Edit Dialog' ) }
+							{buttonLabel}
 						</Button>
 					</div>
 				</PanelBody>
 			</InspectorControls>
-			<div { ...innerBlocksProps } />
+			<div {...blockProps}>
+				<BlockContextProvider
+					value={{
+						'dialog/id': dialogId || null,
+						'dialog/isOpen': editorIsDialogOpen,
+					}}
+				>
+					{innerBlocksProps.children}
+				</BlockContextProvider>
+			</div>
 		</>
 	);
 }

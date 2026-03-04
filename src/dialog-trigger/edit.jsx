@@ -1,25 +1,16 @@
 /**
- * External Dependencies
- */
-
-/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useRef, useMemo } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import {
 	BlockControls,
 	useBlockProps,
 	useInnerBlocksProps,
-	store as blockEditorStore
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
-
-/**
- * Internal Dependencies
- */
-import { STORE_NAME } from '../dialog/store';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -29,51 +20,40 @@ import { STORE_NAME } from '../dialog/store';
  *
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
- * @param            props.context
- * @param            props.clientId
- * @param            props.isSelected
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props.context       Block context.
+ * @param {string}   props.clientId     Block client ID.
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({
-	attributes,
-	context,
-	clientId,
-}) {
-	const dialogId = context['dialog/id'] ?? null;
+export default function Edit({ context, clientId }) {
+	const dialogId = context['dialog/id'] ?? '';
+	const isDialogOpen = context['dialog/isOpen'] ?? false;
 
-	// Get the dialog-element block from the parent dialog block
-	const { dialogElementClientId, isDialogOpen } = useSelect(
-		( select ) => {
-			const { getBlock, getBlockRootClientId } = select( blockEditorStore );
-			const parentClientId = getBlockRootClientId( clientId );
-			const parentBlock = getBlock( parentClientId );
-
-			// Find the dialog-element block in the parent's inner blocks
-			const dialogElementBlock = parentBlock?.innerBlocks?.find(
-				( innerBlock ) => innerBlock.name === 'prc-block/dialog-element'
-			);
-			const dialogElementId = dialogElementBlock?.clientId;
-
-			return {
-				dialogElementClientId: dialogElementId,
-				isDialogOpen: dialogElementId
-					? select( STORE_NAME ).isOpen( dialogElementId )
-					: false,
-			};
-		},
-		[ clientId ]
+	const { dialogClientId } = useSelect(
+		(select) => ({
+			dialogClientId:
+				select(blockEditorStore).getBlockRootClientId(clientId),
+		}),
+		[clientId]
 	);
 
-	// Get store actions
-	const { open, close } = useDispatch( STORE_NAME );
+	const { updateBlockAttributes, __unstableMarkNextChangeAsNotPersistent } =
+		useDispatch(blockEditorStore);
+
+	const toggleDialog = () => {
+		if (dialogClientId) {
+			__unstableMarkNextChangeAsNotPersistent();
+			updateBlockAttributes(dialogClientId, {
+				editorIsDialogOpen: !isDialogOpen,
+			});
+		}
+	};
 
 	const blockProps = useBlockProps({
 		'aria-haspopup': 'dialog',
 		'aria-controls': dialogId,
 		'aria-expanded': isDialogOpen ? 'true' : 'false',
-		'type': 'button',
+		type: 'button',
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(blockProps, {
@@ -81,8 +61,8 @@ export default function Edit({
 	});
 
 	const buttonLabel = useMemo(
-		() => ( isDialogOpen ? __( 'Close Dialog' ) : __( 'Edit Dialog' ) ),
-		[ isDialogOpen ]
+		() => (isDialogOpen ? __('Close Dialog') : __('Edit Dialog')),
+		[isDialogOpen]
 	);
 
 	return (
@@ -90,22 +70,11 @@ export default function Edit({
 			<BlockControls __experimentalShareWithChildBlocks>
 				<ToolbarGroup>
 					<ToolbarButton
-						label={ buttonLabel }
-						onClick={ () => {
-							if ( ! dialogElementClientId ) {
-								console.warn(
-									'No dialog-element block found. Please add a dialog-element block to the parent dialog.'
-								);
-								return;
-							}
-							if ( isDialogOpen ) {
-								close( dialogElementClientId );
-							} else {
-								open( dialogElementClientId );
-							}
-						} }
+						label={buttonLabel}
+						aria-controls={dialogId}
+						onClick={toggleDialog}
 					>
-						{ buttonLabel }
+						{buttonLabel}
 					</ToolbarButton>
 				</ToolbarGroup>
 			</BlockControls>

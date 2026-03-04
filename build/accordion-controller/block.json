@@ -1,98 +1,102 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/accordion-controller",
-	"version": "1.0.0",
-	"title": "Accordion",
-	"category": "design",
-	"description": "A collection of collapsible sections that can be expanded or collapsed to show or hide content. Useful for FAQs, lists, or any content you want to keep organized and compact. Click the title to expand or collapse the section.",
-	"allowedBlocks": ["prc-block/accordion"],
-	"attributes": {
-		"structuredData": {
-			"type": "boolean",
-			"default": false
-		}
-	},
-	"supports": {
-		"anchor": true,
-		"html": false,
-		"interactivity": true,
-		"align": true,
-		"color": {
-			"link": true,
-			"text": false,
-			"background": false
-		},
-		"spacing": {
-			"blockGap": {
-				"sides": ["vertical"]
-			},
-			"margin": true,
-			"padding": true
-		},
-		"layout": {
-			"allowEditing": false,
-			"default": {
-				"type": "flex",
-				"orientation": "vertical"
-			}
-		},
-		"typography": {
-			"fontSize": true,
-			"__experimentalFontFamily": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"__experimentalFontFamily": true
-			}
-		},
-		"__experimentalBorder": {
-			"color": true,
-			"style": true,
-			"width": true,
-			"__experimentalDefaultControls": {
-				"color": true,
-				"style": true,
-				"width": true
-			}
-		}
-	},
-	"example": {
-		"attributes": {},
-		"innerBlocks": [
-			{
-				"name": "prc-block/accordion",
-				"attributes": {
-					"title": "Accordion 1"
-				},
-				"innerBlocks": [
-					{
-						"name": "core/paragraph",
-						"attributes": {
-							"content": "Content 1"
-						}
-					}
-				]
-			},
-			{
-				"name": "prc-block/accordion",
-				"attributes": {
-					"title": "Accordion 2"
-				},
-				"innerBlocks": [
-					{
-						"name": "core/paragraph",
-						"attributes": {
-							"content": "Content 2"
-						}
-					}
-				]
-			}
-		],
-		"viewportWidth": 640
-	},
-	"textdomain": "accordion-controller",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScriptModule": "file:./view.js"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/accordion-controller",
+  "version": "1.0.0",
+  "title": "Accordion",
+  "category": "design",
+  "description": "A collection of collapsible sections that can be expanded or collapsed to show or hide content. Useful for FAQs, lists, or any content you want to keep organized and compact. Click the title to expand or collapse the section.",
+  "allowedBlocks": [
+    "prc-block/accordion"
+  ],
+  "attributes": {
+    "structuredData": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "interactivity": true,
+    "align": true,
+    "color": {
+      "link": true,
+      "text": false,
+      "background": false
+    },
+    "spacing": {
+      "blockGap": {
+        "sides": [
+          "vertical"
+        ]
+      },
+      "margin": true,
+      "padding": true
+    },
+    "layout": {
+      "allowEditing": false,
+      "default": {
+        "type": "flex",
+        "orientation": "vertical"
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "__experimentalFontFamily": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "style": true,
+      "width": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "style": true,
+        "width": true
+      }
+    }
+  },
+  "example": {
+    "attributes": {},
+    "innerBlocks": [
+      {
+        "name": "prc-block/accordion",
+        "attributes": {
+          "title": "Accordion 1"
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Content 1"
+            }
+          }
+        ]
+      },
+      {
+        "name": "prc-block/accordion",
+        "attributes": {
+          "title": "Accordion 2"
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Content 2"
+            }
+          }
+        ]
+      }
+    ],
+    "viewportWidth": 640
+  },
+  "textdomain": "accordion-controller",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js"
 }

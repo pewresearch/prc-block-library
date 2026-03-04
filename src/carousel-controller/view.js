@@ -89,11 +89,6 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			const context = getContext();
 			const { orientation, count } = context;
 
-			// Get all the heights of the slides, wp-block-prc-block-carousel-slide and set the context.minHeight to the highest height
-			const slides = track.querySelectorAll(
-				'.wp-block-prc-block-carousel-slide'
-			);
-
 			const isVertical = orientation === 'vertical';
 			state.bodyObj = document.body;
 
@@ -102,42 +97,45 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			track.addEventListener(
 				'scroll',
 				withScope(
-					withSyncEvent((event) => {
+					withSyncEvent(() => {
 						// Clear existing timeout
 						clearTimeout(scrollTimeout);
 
 						// Set new timeout to ensure we get the final position after scroll stops
-						scrollTimeout = setTimeout(() => {
-							// Get container and content dimensions based on orientation
-							const containerSize = isVertical
-								? track.clientHeight
-								: track.clientWidth;
-							const contentSize = isVertical
-								? track.scrollHeight
-								: track.scrollWidth;
-							const scrollPos = isVertical
-								? track.scrollTop
-								: track.scrollLeft;
+						scrollTimeout = setTimeout(
+							withScope(() => {
+								// Get container and content dimensions based on orientation
+								const containerSize = isVertical
+									? track.clientHeight
+									: track.clientWidth;
+								const contentSize = isVertical
+									? track.scrollHeight
+									: track.scrollWidth;
+								const scrollPos = isVertical
+									? track.scrollTop
+									: track.scrollLeft;
 
-							// Calculate progress as a percentage (0 to 1)
-							const maxScroll = contentSize - containerSize;
-							const progress = maxScroll
-								? scrollPos / maxScroll
-								: 0;
+								// Calculate progress as a percentage (0 to 1)
+								const maxScroll = contentSize - containerSize;
+								const progress = maxScroll
+									? scrollPos / maxScroll
+									: 0;
 
-							// Calculate slide index from progress
-							const slideIndex = Math.round(
-								progress * (count - 1)
-							);
+								// Calculate slide index from progress
+								const slideIndex = Math.round(
+									progress * (count - 1)
+								);
 
-							// Ensure index is within bounds
-							const boundedIndex = Math.max(
-								0,
-								Math.min(slideIndex, count - 1)
-							);
+								// Ensure index is within bounds
+								const boundedIndex = Math.max(
+									0,
+									Math.min(slideIndex, count - 1)
+								);
 
-							context.slideIndex = boundedIndex;
-						}, 10);
+								context.slideIndex = boundedIndex;
+							}),
+							10
+						);
 					})
 				)
 			);
@@ -148,19 +146,13 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		},
 		isDotActive: () => {
 			const context = getContext();
-			const { attributes } = getElement();
-			const index = parseInt(attributes['data-slide-index'], 10);
-			return context.slideIndex === index;
+			return context.slideIndex === context.dot.index;
 		},
 		onMouseEnter: withSyncEvent(() => {
-			const context = getContext();
-			console.log('onMouseEnter::', context);
-			context.isSelected = true;
+			getContext().isSelected = true;
 		}),
 		onMouseLeave: withSyncEvent(() => {
-			const context = getContext();
-			console.log('onMouseLeave::', context);
-			context.isSelected = false;
+			getContext().isSelected = false;
 		}),
 		onCoverFinalSideDisable: () => {
 			const { ref } = getElement();

@@ -99,7 +99,7 @@ class Navigation_Mega_Menu {
 			'--custom-menu-item-active-text-color'       => $menu_item_active_text,
 			'--custom-menu-overlay-background-color'     => $menu_overlay_bg,
 			'--custom-menu-overlay-text-color'           => $menu_overlay_text,
-			'--custom-menu-active-border-color'          => $menu_active_border,
+			'--custom-menu-active-brdr-color'           => $menu_active_border,
 		);
 
 		$style_string = array_map(

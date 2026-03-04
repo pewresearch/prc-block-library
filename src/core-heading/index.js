@@ -4,7 +4,6 @@
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { Fragment } from '@wordpress/element';
 import {
 	createBlock,
 	registerBlockVariation,
@@ -42,12 +41,12 @@ addFilter(
 				}
 
 				return (
-					<Fragment>
+					<>
 						<BlockEdit {...props} />
 						<Controls
 							{...{ attributes, setAttributes, context: false }}
 						/>
-					</Fragment>
+					</>
 				);
 			},
 		'withCoreHeadingControls'

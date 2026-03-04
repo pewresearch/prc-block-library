@@ -45,17 +45,20 @@ class Flip_Card_Controller {
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
-		$block_id = wp_unique_id( 'prc-block-flip-card-controller-' );
+		$block_id     = wp_unique_id( 'prc-block-flip-card-controller-' );
+		$fixed_height = isset( $attributes['fixedHeight'] ) ? (int) $attributes['fixedHeight'] : null;
+		$is_manual_height = $fixed_height > 0;
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'data-wp-interactive'           => 'prc-block/flip-card-controller',
 				'data-wp-context'               => wp_json_encode(
 					array(
-						'id'            => $block_id,
-						'flipped'       => false,
-						'minHeight'     => null,
-						'isInitialized' => false,
+						'id'          => $block_id,
+						'flipped'     => false,
+						'minHeight'   => null,
+						'fixedHeight' => $fixed_height,
+						'initialized' => $is_manual_height,
 					)
 				),
 				'data-wp-class--is-initialized' => 'state.isInitialized',

@@ -38,7 +38,7 @@
 
 .common-block-style__pagination__pagination-numbers,
 .wp-block-query-pagination-numbers {
-	--pagination-item-border-color: var(--wp--preset--color--ui-gray-light);
+	--pagination-item-brdr-color: var(--wp--preset--color--ui-gray-light);
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -52,7 +52,7 @@
 		line-height: 1em;
 		border-width: 1px;
 		border-style: solid;
-		border-color: var(--pagination-item-border-color, transparent);
+		border-color: var(--pagination-item-brdr-color, transparent);
 		&.is-active,
 		&.current {
 			border-color: transparent !important;

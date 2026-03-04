@@ -99,13 +99,6 @@
 		// }
 	}
 
-
-	&:not(.wp-block):not(.is-selected):not(.has-child-selected) {
-		.prc-block-carousel-controller__track__inner {
-			scroll-snap-type: none;
-		}
-	}
-
 	&.is-style-vertical {
 		.prc-block-carousel-controller__track__inner {
 			flex-direction: column;
@@ -123,7 +116,8 @@
 		}
 	}
 
-	.prc-block-carousel-controller__track__inner .wp-block-prc-block-carousel-slide {
+	.prc-block-carousel-controller__track__inner
+		.wp-block-prc-block-carousel-slide {
 		height: auto;
 		flex-basis: 100%;
 		min-height: 100%;
@@ -191,7 +185,7 @@
 			.icon {
 				color: var(--prc-carousel-controller-dot-color, #000);
 			}
-			&[data-active='true'] {
+			&[data-active="true"] {
 				opacity: 1;
 			}
 		}

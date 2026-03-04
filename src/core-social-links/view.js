@@ -166,7 +166,10 @@ const { actions, state } = store('core/social-links', {
 		},
 		onPrintClick: () => {
 			// @TODO: Future print engine hook here.
-			window.print();
+			// Add ?pdf=true to the url and redirect to the pdf view.
+			const url = new URL(window.location.href);
+			url.searchParams.set('pdf', 'true');
+			window.location.href = url.toString();
 		},
 		onMailClick: () => {
 			const context = getContext();

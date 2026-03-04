@@ -125,7 +125,9 @@ class Plugin {
 		}
 		// Load plugin loading class.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-loader.php';
-
+		// Load AI experiments classes.
+		require_once plugin_dir_path( __DIR__ ) . '/includes/ai-experiments/class-ai-experiments.php';
+		// Load block visibility classes.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/block-visibility/class-block-visibility.php';
 		// Load support classes.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/custom-text-formats/class-custom-text-formats.php';
@@ -133,7 +135,6 @@ class Plugin {
 		require_once plugin_dir_path( __DIR__ ) . '/includes/pagination/class-pagination.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/print-engine/class-print-engine.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/supports/class-supports.php';
-		require_once plugin_dir_path( __DIR__ ) . '/core-blocks/class-core-blocks.php';
 
 		// Load blocks.
 		$this->load_blocks();
@@ -191,6 +192,7 @@ class Plugin {
 	public function signal_rdb_template_support( $template_blocks ) {
 		$template_blocks[] = 'prc-block/remote-pivot-table';
 		$template_blocks[] = 'prc-block/tabs';
+		$template_blocks[] = 'core/tabs';
 		return $template_blocks;
 	}
 
@@ -198,6 +200,7 @@ class Plugin {
 	 * Init additional library support classes
 	 */
 	private function define_library_dependencies() {
+		new AI_Experiments( $this->get_loader() );
 		new Block_Visibility( $this->get_loader() );
 		new Custom_Text_Formats( $this->get_loader() );
 		new Interactivity_API( $this->get_loader() );
@@ -210,8 +213,6 @@ class Plugin {
 	 * Init Core Blocks
 	 */
 	private function define_core_blocks() {
-		// Gutenberg Core Block library ports.
-		new Core_Blocks( $this->get_loader() );
 		// Core Block Library Modifications.
 		new Core_Button( $this->get_loader() );
 		new Core_Categories( $this->get_loader() );
@@ -232,7 +233,6 @@ class Plugin {
 		new Core_Post_Content( $this->get_loader() );
 		new Core_Post_Title( $this->get_loader() );
 		new Core_Pullquote( $this->get_loader() );
-		new Core_Query( $this->get_loader() );
 		new Core_Query_Pagination_Numbers( $this->get_loader() );
 		new Core_Search( $this->get_loader() );
 		new Core_Separator( $this->get_loader() );

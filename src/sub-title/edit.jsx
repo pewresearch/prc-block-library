@@ -2,7 +2,6 @@
  * External Dependencies
  */
 import classnames from 'classnames';
-import { useDebounce } from '@prc/hooks';
 
 /**
  * WordPress Dependencies
@@ -27,11 +26,14 @@ import { useEntityProp } from '@wordpress/core-data';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
- * @param {Object}   props               Properties passed to the function.
- * @param {Object}   props.attributes    Available block attributes.
- * @param {Function} props.setAttributes Function that updates individual attributes.
+ * @param {Object}   props                   Properties passed to the function.
+ * @param {Object}   props.attributes        Available block attributes.
+ * @param {string}   props.className         Class name for the block.
+ * @param {Function} props.insertBlocksAfter Function that inserts blocks after the current block.
+ * @param {Object}   props.context           Context object.
+ * @param {Function} props.setAttributes     Function that updates individual attributes.
  *
- * @return {WPElement} Element to render.
+ * @return {JSX.Element} Element to render.
  */
 export default function Edit({
 	attributes,
@@ -43,7 +45,9 @@ export default function Edit({
 	const { textAlign } = attributes;
 	const { postId, postType } = context;
 	const [meta, setMeta] = useEntityProp('postType', postType, 'meta', postId);
-	const subTitle = meta?.sub_headline || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.';
+	const subTitle =
+		meta?.sub_headline ||
+		'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.';
 
 	const blockProps = useBlockProps({
 		className: classnames(className, {
@@ -64,12 +68,15 @@ export default function Edit({
 			<div {...blockProps}>
 				<RichText
 					tagName="div"
-					onChange={(t) => undefined !== postId && setMeta({...meta, sub_headline: t}) }
+					onChange={(t) =>
+						undefined !== postId &&
+						setMeta({ ...meta, sub_headline: t })
+					}
 					allowedFormats={[]}
 					keepPlaceholderOnFocus
 					value={subTitle}
 					placeholder={__(
-						'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+						'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
 					)}
 					disableLineBreaks
 					__unstableOnSplitAtEnd={() =>

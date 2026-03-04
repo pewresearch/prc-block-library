@@ -113,8 +113,9 @@ class Breadcrumbs {
 				if ( $has_post_hierarchy ) {
 					$ancestor_ids = get_ancestors( $current_object->ID, $current_object->post_type, 'post_type' );
 				} else {
-					$primary_term_id = \PRC\Platform\get_primary_term_id( 'category', $current_object->ID );
-					if ( ! empty( $primary_term_id ) && ! is_wp_error( $primary_term_id ) ) {
+					$primary_term_id = \PRC\Platform\get_primary_term_id( $current_object->ID, 'category' );
+					do_action('qm/debug', 'primary_term_id: ' . print_r( $primary_term_id, true ) );
+					if ( false !== $primary_term_id && is_numeric( $primary_term_id ) ) {
 						$term           = get_term( $primary_term_id, 'category' );
 						$ancestor_ids[] = $term->term_id;
 						$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );

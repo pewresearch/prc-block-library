@@ -1081,28 +1081,20 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/color-palette',
-		'version' => '0.1.0',
+		'version' => '1.0.0',
 		'title' => 'Color Palette',
 		'category' => 'design',
-		'description' => 'Display a color from the palette defined in the currently active theme.',
+		'description' => 'Displays the full theme color palette as a design system reference guide.',
 		'attributes' => array(
-			'colorSlug' => array(
-				'type' => 'string',
-				'default' => ''
-			)
+			
 		),
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
-			'interactivity' => true,
-			'color' => array(
-				'background' => true,
-				'text' => false
-			)
+			'interactivity' => true
 		),
 		'textdomain' => 'color-palette',
 		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
 	),
@@ -1301,16 +1293,6 @@ return array(
 		'textdomain' => 'core-pullquote',
 		'style' => 'file:./style-index.css'
 	),
-	'core-query' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/core-query',
-		'version' => '0.1.0',
-		'title' => 'Core Query',
-		'category' => 'theme',
-		'textdomain' => 'core-query',
-		'editorScript' => 'file:./index.js'
-	),
 	'core-search' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1396,6 +1378,11 @@ return array(
 			'dialogId' => array(
 				'type' => 'string',
 				'default' => ''
+			),
+			'editorIsDialogOpen' => array(
+				'type' => 'boolean',
+				'role' => 'local',
+				'default' => false
 			)
 		),
 		'supports' => array(
@@ -1419,7 +1406,8 @@ return array(
 			'interactivity' => true
 		),
 		'providesContext' => array(
-			'dialog/id' => 'dialogId'
+			'dialog/id' => 'dialogId',
+			'dialog/isOpen' => 'editorIsDialogOpen'
 		),
 		'textdomain' => 'dialog',
 		'editorScript' => 'file:./index.js'
@@ -1535,7 +1523,8 @@ return array(
 		),
 		'usesContext' => array(
 			'dialog/id',
-			'dialog/className'
+			'dialog/className',
+			'dialog/isOpen'
 		),
 		'providesContext' => array(
 			'dialog/label' => 'dialogLabel'
@@ -1586,7 +1575,8 @@ return array(
 		),
 		'usesContext' => array(
 			'dialog/id',
-			'dialog/className'
+			'dialog/className',
+			'dialog/isOpen'
 		),
 		'parent' => array(
 			'prc-block/dialog'
@@ -1644,7 +1634,17 @@ return array(
 			'prc-block/flip-card-side'
 		),
 		'attributes' => array(
-			
+			'fixedHeight' => array(
+				'type' => 'number'
+			),
+			'isFlipped' => array(
+				'type' => 'boolean',
+				'role' => 'local',
+				'default' => false
+			)
+		),
+		'providesContext' => array(
+			'prc-block/flip-card-isFlipped' => 'isFlipped'
 		),
 		'supports' => array(
 			'anchor' => true,
@@ -1757,6 +1757,9 @@ return array(
 		),
 		'parent' => array(
 			'prc-block/flip-card-controller'
+		),
+		'usesContext' => array(
+			'prc-block/flip-card-isFlipped'
 		),
 		'textdomain' => 'flip-card-side',
 		'editorScript' => 'file:./index.js'
@@ -3339,10 +3342,6 @@ return array(
 			'css-container-queries'
 		),
 		'attributes' => array(
-			'darkModeEnabled' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
 			'justification' => array(
 				'type' => 'string',
 				'default' => 'left',

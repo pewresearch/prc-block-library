@@ -1,139 +1,146 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/form-input-range",
-	"version": "1.0.0",
-	"title": "Input Range Field",
-	"description": "A primitive `<input type=\"range\">` element for slider inputs.",
-	"category": "forms",
-	"attributes": {
-		"displayLabel": {
-			"type": "boolean",
-			"default": true
-		},
-		"label": {
-			"type": "string",
-			"source": "html",
-			"selector": "label"
-		},
-		"min": {
-			"type": "number",
-			"default": 0,
-			"source": "attribute",
-			"selector": "input",
-			"attribute": "min"
-		},
-		"max": {
-			"type": "number",
-			"default": 100,
-			"source": "attribute",
-			"selector": "input",
-			"attribute": "max"
-		},
-		"step": {
-			"type": "number",
-			"default": 1,
-			"source": "attribute",
-			"selector": "input",
-			"attribute": "step"
-		},
-		"value": {
-			"type": "number",
-			"default": 50,
-			"source": "attribute",
-			"selector": "input",
-			"attribute": "value"
-		},
-		"displayValue": {
-			"type": "boolean",
-			"default": true
-		},
-		"displayMinMax": {
-			"type": "boolean",
-			"default": true
-		},
-		"outputFormat": {
-			"type": "string",
-			"enum": ["number", "currency", "percentage"],
-			"default": "number"
-		},
-		"orientation": {
-			"type": "string",
-			"enum": ["horizontal", "vertical"],
-			"default": "horizontal"
-		},
-		"required": {
-			"type": "boolean",
-			"default": false
-		}
-	},
-	"example": {
-		"viewportWidth": 320,
-		"attributes": {
-			"label": "Select Volume",
-			"min": 0,
-			"max": 100,
-			"value": 75,
-			"required": false
-		}
-	},
-	"supports": {
-		"anchor": true,
-		"html": false,
-		"reusable": true,
-		"interactivity": true,
-		"layout": {
-			"type": "flex",
-			"default": {
-				"type": "flex",
-				"orientation": "vertical",
-				"verticalAlignment": "center",
-				"allowOrientation": true
-			},
-			"allowInheriting": false,
-			"allowVerticalAlignment": true,
-			"allowJustification": true,
-			"allowOrientation": true,
-			"allowSizingOnChildren": true
-		},
-		"spacing": {
-			"blockGap": true,
-			"padding": true,
-			"margin": true
-		},
-		"__experimentalBorder": {
-			"color": true,
-			"width": true,
-			"radius": true,
-			"__experimentalSkipSerialization": true
-		},
-		"color": {
-			"background": true,
-			"text": true,
-			"enableContrastChecker": true,
-			"__experimentalSkipSerialization": true
-		},
-		"typography": {
-			"fontSize": true,
-			"lineHeight": true,
-			"__experimentalFontFamily": true,
-			"__experimentalFontWeight": true,
-			"__experimentalFontStyle": true,
-			"__experimentalTextTransform": true,
-			"__experimentalTextDecoration": true,
-			"__experimentalLetterSpacing": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"__experimentalFontFamily": true
-			}
-		},
-		"selectors": {
-			"root": ".wp-block-prc-block-form-input-range",
-			"color": ".wp-block-prc-block-form-input-range .range-container",
-			"border": ".wp-block-prc-block-form-input-range .range-container"
-		}
-	},
-	"textdomain": "form-input-range",
-	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/form-input-range",
+  "version": "1.0.0",
+  "title": "Input Range Field",
+  "description": "A primitive `<input type=\"range\">` element for slider inputs.",
+  "category": "forms",
+  "attributes": {
+    "displayLabel": {
+      "type": "boolean",
+      "default": true
+    },
+    "label": {
+      "type": "string",
+      "source": "html",
+      "selector": "label"
+    },
+    "min": {
+      "type": "number",
+      "default": 0,
+      "source": "attribute",
+      "selector": "input",
+      "attribute": "min"
+    },
+    "max": {
+      "type": "number",
+      "default": 100,
+      "source": "attribute",
+      "selector": "input",
+      "attribute": "max"
+    },
+    "step": {
+      "type": "number",
+      "default": 1,
+      "source": "attribute",
+      "selector": "input",
+      "attribute": "step"
+    },
+    "value": {
+      "type": "number",
+      "default": 50,
+      "source": "attribute",
+      "selector": "input",
+      "attribute": "value"
+    },
+    "displayValue": {
+      "type": "boolean",
+      "default": true
+    },
+    "displayMinMax": {
+      "type": "boolean",
+      "default": true
+    },
+    "outputFormat": {
+      "type": "string",
+      "enum": [
+        "number",
+        "currency",
+        "percentage"
+      ],
+      "default": "number"
+    },
+    "orientation": {
+      "type": "string",
+      "enum": [
+        "horizontal",
+        "vertical"
+      ],
+      "default": "horizontal"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "example": {
+    "viewportWidth": 320,
+    "attributes": {
+      "label": "Select Volume",
+      "min": 0,
+      "max": 100,
+      "value": 75,
+      "required": false
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "reusable": true,
+    "interactivity": true,
+    "layout": {
+      "type": "flex",
+      "default": {
+        "type": "flex",
+        "orientation": "vertical",
+        "verticalAlignment": "center",
+        "allowOrientation": true
+      },
+      "allowInheriting": false,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true
+    },
+    "spacing": {
+      "blockGap": true,
+      "padding": true,
+      "margin": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "width": true,
+      "radius": true,
+      "__experimentalSkipSerialization": true
+    },
+    "color": {
+      "background": true,
+      "text": true,
+      "enableContrastChecker": true,
+      "__experimentalSkipSerialization": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    },
+    "selectors": {
+      "root": ".wp-block-prc-block-form-input-range",
+      "color": ".wp-block-prc-block-form-input-range .range-container",
+      "border": ".wp-block-prc-block-form-input-range .range-container"
+    }
+  },
+  "textdomain": "form-input-range",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css"
 }

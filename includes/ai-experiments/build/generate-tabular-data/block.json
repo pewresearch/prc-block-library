@@ -1,0 +1,6 @@
+{
+  "name": "prc-ai-experiments/generate-tabular-data",
+  "title": "Generate Tabular Data",
+  "description": "Generate tabular data in markdown format based on a prompt.",
+  "editorScript": "file:./index.js"
+}

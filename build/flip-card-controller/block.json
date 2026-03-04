@@ -1,57 +1,74 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/flip-card-controller",
-	"version": "1.0.0",
-	"title": "Flip Card Controller",
-	"description": "An interactive card that flips to reveal additional content on the back side.",
-	"category": "media",
-	"allowedBlocks": ["prc-block/flip-card-side"],
-	"attributes": {},
-	"supports": {
-		"anchor": true,
-		"html": false,
-		"interactivity": true,
-		"color": {
-			"background": true,
-			"text": true,
-			"enableContrastChecker": true
-		},
-		"align": ["left", "right"],
-		"layout": {
-			"default": {
-				"type": "constrained"
-			},
-			"allowSwitching": false,
-			"allowInheriting": false,
-			"allowVerticalAlignment": true,
-			"allowJustification": true,
-			"allowOrientation": false,
-			"allowSizingOnChildren": true
-		},
-		"spacing": {
-			"blockGap": true,
-			"padding": true,
-			"margin": true
-		},
-		"typography": {
-			"fontSize": true,
-			"lineHeight": true,
-			"__experimentalFontFamily": true,
-			"__experimentalFontWeight": true,
-			"__experimentalFontStyle": true,
-			"__experimentalTextTransform": true,
-			"__experimentalTextDecoration": true,
-			"__experimentalLetterSpacing": true,
-			"__experimentalDefaultControls": {
-				"fontSize": true,
-				"__experimentalFontFamily": true
-			}
-		}
-	},
-	"textdomain": "flip-card-controller",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScriptModule": "file:./view.js"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/flip-card-controller",
+  "version": "1.0.0",
+  "title": "Flip Card Controller",
+  "description": "An interactive card that flips to reveal additional content on the back side.",
+  "category": "media",
+  "allowedBlocks": [
+    "prc-block/flip-card-side"
+  ],
+  "attributes": {
+    "fixedHeight": {
+      "type": "number"
+    },
+    "isFlipped": {
+      "type": "boolean",
+      "role": "local",
+      "default": false
+    }
+  },
+  "providesContext": {
+    "prc-block/flip-card-isFlipped": "isFlipped"
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "interactivity": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "enableContrastChecker": true
+    },
+    "align": [
+      "left",
+      "right"
+    ],
+    "layout": {
+      "default": {
+        "type": "constrained"
+      },
+      "allowSwitching": false,
+      "allowInheriting": false,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": false,
+      "allowSizingOnChildren": true
+    },
+    "spacing": {
+      "blockGap": true,
+      "padding": true,
+      "margin": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalFontStyle": true,
+      "__experimentalTextTransform": true,
+      "__experimentalTextDecoration": true,
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true,
+        "__experimentalFontFamily": true
+      }
+    }
+  },
+  "textdomain": "flip-card-controller",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js"
 }

@@ -1,58 +1,65 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/form-input-select-range",
-	"version": "1.0.0",
-	"title": "Select Range Field",
-	"category": "forms",
-	"description": "A block for selecting a range with minimum and maximum select dropdowns.",
-	"allowedBlocks": ["prc-block/form-input-select", "core/group"],
-	"attributes": {
-		"type": {
-			"type": "string",
-			"enum": ["custom", "years", "numbers"],
-			"default": "custom"
-		},
-		"rangeStart": {
-			"type": "number",
-			"default": 0
-		},
-		"rangeEnd": {
-			"type": "number",
-			"default": 100
-		},
-		"rangeStep": {
-			"type": "number",
-			"default": 1
-		}
-	},
-	"supports": {
-		"anchor": true,
-		"html": false,
-		"reusable": false,
-		"interactivity": true,
-		"spacing": {
-			"blockGap": true,
-			"padding": true,
-			"margin": true
-		},
-		"layout": {
-			"type": "flex",
-			"default": {
-				"type": "flex",
-				"orientation": "horizontal",
-				"verticalAlignment": "center",
-				"allowOrientation": true
-			},
-			"allowInheriting": false,
-			"allowVerticalAlignment": true,
-			"allowJustification": true,
-			"allowOrientation": true,
-			"allowSizingOnChildren": true
-		}
-	},
-	"textdomain": "form-input-select-range",
-	"editorScript": "file:./index.js",
-	"style": "file:./style-index.css",
-	"viewScriptModule": "file:./view.js"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/form-input-select-range",
+  "version": "1.0.0",
+  "title": "Select Range Field",
+  "category": "forms",
+  "description": "A block for selecting a range with minimum and maximum select dropdowns.",
+  "allowedBlocks": [
+    "prc-block/form-input-select",
+    "core/group"
+  ],
+  "attributes": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "custom",
+        "years",
+        "numbers"
+      ],
+      "default": "custom"
+    },
+    "rangeStart": {
+      "type": "number",
+      "default": 0
+    },
+    "rangeEnd": {
+      "type": "number",
+      "default": 100
+    },
+    "rangeStep": {
+      "type": "number",
+      "default": 1
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "reusable": false,
+    "interactivity": true,
+    "spacing": {
+      "blockGap": true,
+      "padding": true,
+      "margin": true
+    },
+    "layout": {
+      "type": "flex",
+      "default": {
+        "type": "flex",
+        "orientation": "horizontal",
+        "verticalAlignment": "center",
+        "allowOrientation": true
+      },
+      "allowInheriting": false,
+      "allowVerticalAlignment": true,
+      "allowJustification": true,
+      "allowOrientation": true,
+      "allowSizingOnChildren": true
+    }
+  },
+  "textdomain": "form-input-select-range",
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js"
 }

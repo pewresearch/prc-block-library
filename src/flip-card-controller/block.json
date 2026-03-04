@@ -7,7 +7,19 @@
 	"description": "An interactive card that flips to reveal additional content on the back side.",
 	"category": "media",
 	"allowedBlocks": ["prc-block/flip-card-side"],
-	"attributes": {},
+	"attributes": {
+		"fixedHeight": {
+			"type": "number"
+		},
+		"isFlipped": {
+			"type": "boolean",
+			"role": "local",
+			"default": false
+		}
+	},
+	"providesContext": {
+		"prc-block/flip-card-isFlipped": "isFlipped"
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,

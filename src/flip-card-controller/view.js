@@ -1,9 +1,14 @@
 /**
  * WordPress Dependencies
  */
-import { store, getContext, getElement, withSyncEvent } from '@wordpress/interactivity';
+import {
+	store,
+	getContext,
+	getElement,
+	withSyncEvent,
+} from '@wordpress/interactivity';
 
-const { state } = store('prc-block/flip-card-controller', {
+const storeConfig = {
 	state: {
 		get isInitialized() {
 			const { initialized } = getContext();
@@ -30,22 +35,22 @@ const { state } = store('prc-block/flip-card-controller', {
 			if (!ref) {
 				return;
 			}
-			// Check that the ref element has the is-style-front class
-			if (!ref.classList.contains('is-style-front')) {
-				return;
-			}
-			const context = getContext();
 			const elementHeight = ref.offsetHeight;
 			if (!elementHeight) {
 				return;
 			}
-
-			context.minHeight = elementHeight;
+			const context = getContext();
+			context.minHeight = Math.max(context.minHeight || 0, elementHeight);
 			context.initialized = true;
 		},
 		minHeightStyle() {
-			const { minHeight } = getContext();
+			const { fixedHeight, minHeight } = getContext();
+			if (fixedHeight > 0) {
+				return `${fixedHeight}px`;
+			}
 			return minHeight ? `${minHeight}px` : '100%';
 		},
-	}
-});
+	},
+};
+
+store('prc-block/flip-card-controller', storeConfig);

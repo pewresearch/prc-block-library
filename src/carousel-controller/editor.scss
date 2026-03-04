@@ -1,5 +1,10 @@
 .wp-block-prc-block-carousel-controller.wp-block {
+	// Disable scroll-snap in the editor when the block isn't selected,
+	// so the editor can freely scroll the track for block selection.
 	&:not(.is-selected):not(.has-child-selected) {
+		.prc-block-carousel-controller__track__inner {
+			scroll-snap-type: none;
+		}
 		.prc-block-carousel-controller__insert-block {
 			display: none;
 		}

@@ -10,8 +10,6 @@ import type { Properties } from 'csstype';
 import {
 	RichText,
 	useBlockProps,
-	// @ts-ignore: has no exported member
-	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalGetColorClassesAndStyles as getColorClassesAndStyles,
 } from '@wordpress/block-editor';
 import type { BlockSaveProps } from '@wordpress/blocks';
@@ -22,6 +20,33 @@ import type { BlockSaveProps } from '@wordpress/blocks';
 import { convertToObject } from './utils/style-converter';
 import { toInteger } from './utils/helper';
 import type { BlockAttributes, SectionName, Row } from './block-attributes';
+
+/**
+ * Parses underscore-prefix notation: leading underscores set display decimal precision.
+ * e.g. _0.01 → display "0.0", sort 0.01; __0.002 → display "0.00", sort 0.002
+ * @param htmlContent
+ */
+function parseUnderscoreNotation(htmlContent: string): {
+	displayContent: string;
+	sortValue: string;
+} | null {
+	const text = htmlContent.replace(/<[^>]*>/g, '').trim();
+	const match = text.match(/^(_+)(-?[\d,]+\.?\d*%?)$/);
+	if (!match) return null;
+
+	const underscoreCount = match[1].length;
+	const rawValue = match[2];
+	const numericStr = rawValue.replace(/[,%]/g, '');
+	const num = parseFloat(numericStr);
+	if (isNaN(num)) return null;
+
+	const formatted = num.toFixed(underscoreCount);
+	const isPercent = rawValue.endsWith('%');
+	return {
+		displayContent: isPercent ? `${formatted}%` : formatted,
+		sortValue: numericStr,
+	};
+}
 
 export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 	const {
@@ -120,7 +145,8 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 								},
 								cellIndex
 							) => {
-								const isHidden = hiddenColumns.includes(cellIndex);
+								const isHidden =
+									hiddenColumns.includes(cellIndex);
 
 								// Determine if this header cell is sortable
 								const isCellSortable =
@@ -147,6 +173,17 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 										}
 									: {};
 
+								const underscoreParsed =
+									parseUnderscoreNotation(content);
+								const displayContent =
+									underscoreParsed?.displayContent ?? content;
+								const sortValueAttr = underscoreParsed
+									? {
+											'data-sort-value':
+												underscoreParsed.sortValue,
+										}
+									: {};
+
 								return (
 									<RichText.Content
 										key={cellIndex}
@@ -154,8 +191,10 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 										className={cellClassName || undefined}
 										id={(tag === 'th' && id) || undefined}
 										headers={headers || undefined}
-										scope={(tag === 'th' && scope) || undefined}
-										value={content}
+										scope={
+											(tag === 'th' && scope) || undefined
+										}
+										value={displayContent}
 										rowSpan={
 											toInteger(rowSpan) > 1
 												? toInteger(rowSpan)
@@ -167,6 +206,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 												: undefined
 										}
 										style={convertToObject(styles)}
+										{...sortValueAttr}
 										{...sortableProps}
 									/>
 								);

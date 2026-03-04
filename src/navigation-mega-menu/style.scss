@@ -10,11 +10,13 @@
 	--menu-item-active-text: var(--custom-menu-item-active-text-color, inherit);
 	--menu-overlay-bg: var(--custom-menu-overlay-background-color, #fff);
 	--menu-overlay-text: var(--custom-menu-overlay-text-color, inherit);
-	--menu-active-border: var(--custom-menu-active-border-color, transparent);
+	--menu-active-border: var(--custom-menu-active-brdr-color, transparent);
 
 	border-top: 1px solid transparent;
 	border-left: 1px solid transparent;
 	border-right: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+
 	flex-direction: column;
 	background-color: var(--menu-item-bg);
 	color: var(--menu-item-text);

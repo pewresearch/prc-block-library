@@ -65,6 +65,12 @@ $standard_logo_minimum_width: 360px;
 		@include hasWhiteColor();
 	}
 
+	// When the user's OS prefers dark,
+	// show white logos to match the site-wide dark mode from theme.json light-dark().
+	@media (prefers-color-scheme: dark) {
+		@include hasWhiteColor();
+	}
+
 	&.is-style-container-aware .wp-block-prc-block-logo__inner {
 		@container prc-logo (min-width: 360px) {
 			.wp-block-prc-block-logo__inner__logo-alt {

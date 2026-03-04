@@ -1,85 +1,91 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/table-of-contents",
-	"version": "0.1.0",
-	"title": "Table of Contents",
-	"category": "theme",
-	"description": "Displays a list of all heading blocks set to chapter headings.",
-	"attributes": {
-		"showCurrentChapter": {
-			"type": "boolean",
-			"default": false
-		},
-		"backgroundColor": {
-			"type": "string",
-			"default": "white"
-		},
-		"textColor": {
-			"type": "string",
-			"default": "ui-black"
-		},
-		"linkColor": {
-			"type": "string",
-			"default": "ui-black"
-		},
-		"activeBackgroundColor": {
-			"type": "string"
-		},
-		"activeTextColor": {
-			"type": "string"
-		},
-		"customActiveBackgroundColor": {
-			"type": "string"
-		},
-		"customActiveTextColor": {
-			"type": "string"
-		},
-		"hoverBackgroundColor": {
-			"type": "string"
-		},
-		"hoverTextColor": {
-			"type": "string"
-		},
-		"customHoverBackgroundColor": {
-			"type": "string"
-		},
-		"customHoverTextColor": {
-			"type": "string"
-		}
-	},
-	"supports": {
-		"anchor": true,
-		"html": false,
-		"align": ["left", "right"],
-		"color": {
-			"background": true,
-			"text": true,
-			"link": true
-		},
-		"interactivity": true,
-		"spacing": {
-			"margin": true,
-			"padding": true,
-			"blockGap": true
-		},
-		"typography": {
-			"__experimentalFontFamily": true,
-			"fontSizes": true,
-			"lineHeight": true,
-			"__experimentalDefaultControls": {
-				"__experimentalFontFamily": true,
-				"fontSizes": true
-			}
-		}
-	},
-	"example": {
-		"viewportWidth": 320
-	},
-	"usesContext": ["postId", "postType"],
-	"textdomain": "table-of-contents",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScriptModule": "file:./view.js"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/table-of-contents",
+  "version": "0.1.0",
+  "title": "Table of Contents",
+  "category": "theme",
+  "description": "Displays a list of all heading blocks set to chapter headings.",
+  "attributes": {
+    "showCurrentChapter": {
+      "type": "boolean",
+      "default": false
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "white"
+    },
+    "textColor": {
+      "type": "string",
+      "default": "ui-black"
+    },
+    "linkColor": {
+      "type": "string",
+      "default": "ui-black"
+    },
+    "activeBackgroundColor": {
+      "type": "string"
+    },
+    "activeTextColor": {
+      "type": "string"
+    },
+    "customActiveBackgroundColor": {
+      "type": "string"
+    },
+    "customActiveTextColor": {
+      "type": "string"
+    },
+    "hoverBackgroundColor": {
+      "type": "string"
+    },
+    "hoverTextColor": {
+      "type": "string"
+    },
+    "customHoverBackgroundColor": {
+      "type": "string"
+    },
+    "customHoverTextColor": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "left",
+      "right"
+    ],
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true
+    },
+    "interactivity": true,
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "blockGap": true
+    },
+    "typography": {
+      "__experimentalFontFamily": true,
+      "fontSizes": true,
+      "lineHeight": true,
+      "__experimentalDefaultControls": {
+        "__experimentalFontFamily": true,
+        "fontSizes": true
+      }
+    }
+  },
+  "example": {
+    "viewportWidth": 320
+  },
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "textdomain": "table-of-contents",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js"
 }
