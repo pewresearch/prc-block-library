@@ -15,6 +15,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
  */
 import SpanControls from './span-controls';
 import OrderControls from './order-controls';
+import ResponsiveToolbarControls from './responsive-toolbar-controls';
 
 export default function Controls({ attributes, setAttributes, clientId }) {
 	const { gridLayout, verticalAlignment } = attributes;
@@ -61,6 +62,11 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 				<BlockVerticalAlignmentToolbar
 					onChange={updateVerticalAlignment}
 					value={verticalAlignment}
+				/>
+				<ResponsiveToolbarControls
+					gridLayout={gridLayout}
+					setAttributes={setAttributes}
+					clientId={clientId}
 				/>
 			</BlockControls>
 			<InspectorControls>

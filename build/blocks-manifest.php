@@ -4736,6 +4736,50 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
 	),
+	'spoken-article' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-spoken-article/player',
+		'version' => '0.1.0',
+		'title' => 'Spoken Article',
+		'category' => 'media',
+		'description' => 'Audio narration of the article content using AI-generated speech',
+		'attributes' => array(
+			'audioId' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'audioUrl' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'duration' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'multiple' => false,
+			'reusable' => false,
+			'spacing' => array(
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true
+				)
+			)
+		),
+		'textdomain' => 'prc-block-library',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewModule' => 'file:./view.js'
+	),
 	'story-item' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
