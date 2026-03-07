@@ -1,30 +1,24 @@
 /**
  * External Dependencies
  */
-import { MarkedRangeControl } from '@prc/components';
 
 /**
  * WordPress Dependencies
  */
 import { useMemo } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { ToolbarGroup, ToolbarButton, Dropdown } from '@wordpress/components';
+import {
+	ToolbarGroup,
+	ToolbarButton,
+	Dropdown,
+	RangeControl,
+} from '@wordpress/components';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 
-const SPAN_MARKS = [
-	{ value: 1, label: '1' },
-	{ value: 2, label: '2' },
-	{ value: 3, label: '3' },
-	{ value: 4, label: '4' },
-	{ value: 5, label: '5' },
-	{ value: 6, label: '6' },
-	{ value: 7, label: '7' },
-	{ value: 8, label: '8' },
-	{ value: 9, label: '9' },
-	{ value: 10, label: '10' },
-	{ value: 11, label: '11' },
-	{ value: 12, label: '12' },
-];
+/**
+ * Internal Dependencies
+ */
+import { MARKS, calculateDividers } from './utils';
 
 /**
  * Get device-specific labels and values
@@ -38,19 +32,19 @@ function getDeviceConfig(deviceType) {
 			label: 'Desktop',
 			icon: '🖥️',
 			spanMax: 12,
-			spanMarks: SPAN_MARKS,
+			spanMarks: MARKS,
 		},
 		tablet: {
 			label: 'Tablet',
 			icon: '📱',
 			spanMax: 12,
-			spanMarks: SPAN_MARKS,
+			spanMarks: MARKS,
 		},
 		mobile: {
 			label: 'Mobile',
 			icon: '📱',
 			spanMax: 4,
-			spanMarks: SPAN_MARKS.filter((item) => item.value <= 4),
+			spanMarks: MARKS.filter((item) => item.value <= 4),
 		},
 	};
 
@@ -182,42 +176,6 @@ export default function ResponsiveToolbarControls({
 		}, 50);
 	};
 
-	/**
-	 * Calculate dividers based on visual position
-	 *
-	 * @param {Array}    columns     - Array of column blocks
-	 * @param {Function} updateAttrs - Function to update block attributes
-	 */
-	const calculateDividers = (columns, updateAttrs) => {
-		if (!columns || columns.length === 0) return;
-
-		columns.forEach((column, domIndex) => {
-			const columnLayout = column.attributes.gridLayout || {};
-			const columnIndex = domIndex + 1;
-
-			const desktopDivider = columnIndex !== 1;
-			const tabletPos = columnLayout.tabletPosition || columnIndex;
-			const tabletDivider = tabletPos !== 1;
-			const mobilePos = columnLayout.mobilePosition || columnIndex;
-			const mobileDivider = mobilePos !== 1;
-
-			if (
-				columnLayout.desktopDivider !== desktopDivider ||
-				columnLayout.tabletDivider !== tabletDivider ||
-				columnLayout.mobileDivider !== mobileDivider
-			) {
-				updateAttrs(column.clientId, {
-					gridLayout: {
-						...columnLayout,
-						desktopDivider,
-						tabletDivider,
-						mobileDivider,
-					},
-				});
-			}
-		});
-	};
-
 	return (
 		<ToolbarGroup>
 			<Dropdown
@@ -235,28 +193,17 @@ export default function ResponsiveToolbarControls({
 				)}
 				renderContent={() => (
 					<div
-						style={{
-							padding: '16px',
-							minWidth: '280px',
-						}}
+						className="grid-column-toolbar-popover"
+						style={{ marginBottom: '1.5em' }}
 					>
-						<div
-							style={{
-								marginBottom: '8px',
-								fontSize: '12px',
-								fontWeight: 600,
-								color: '#1e1e1e',
-							}}
-						>
-							{deviceConfig.label} Column Span
-						</div>
-						<MarkedRangeControl
+						<RangeControl
 							value={currentSpan}
 							onChange={handleSpanChange}
 							withInputField={false}
 							min={1}
 							max={deviceConfig.spanMax}
 							marks={deviceConfig.spanMarks}
+							label={`${deviceConfig.label} Span`}
 						/>
 					</div>
 				)}
@@ -276,29 +223,15 @@ export default function ResponsiveToolbarControls({
 						</ToolbarButton>
 					)}
 					renderContent={() => (
-						<div
-							style={{
-								padding: '16px',
-								minWidth: '280px',
-							}}
-						>
-							<div
-								style={{
-									marginBottom: '8px',
-									fontSize: '12px',
-									fontWeight: 600,
-									color: '#1e1e1e',
-								}}
-							>
-								{deviceConfig.label} Column Order
-							</div>
-							<MarkedRangeControl
+						<div className="grid-column-toolbar-popover">
+							<RangeControl
 								value={currentPosition}
 								onChange={handlePositionChange}
 								withInputField={false}
 								min={1}
 								max={columnCount}
 								marks={orderMarks}
+								label={`${deviceConfig.label} Column Order`}
 								help="Visual position of this column"
 							/>
 						</div>

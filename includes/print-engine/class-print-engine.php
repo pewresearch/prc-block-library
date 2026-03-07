@@ -91,6 +91,11 @@ class Print_Engine {
 			return;
 		}
 
+		if ( ! is_user_logged_in() ) {
+			wp_safe_redirect( wp_login_url( get_permalink() ) );
+			exit;
+		}
+
 		if ( ! is_singular() ) {
 			return;
 		}
@@ -166,7 +171,7 @@ class Print_Engine {
 	}
 
 	public function allow_print_engine() {
-		return true === $this->is_pdf_view();
+		return is_user_logged_in() && true === $this->is_pdf_view();
 	}
 
 	/**

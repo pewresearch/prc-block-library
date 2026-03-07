@@ -1,8 +1,6 @@
-/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
-import { MarkedRangeControl } from '@prc/components';
 
 /**
  * WordPress Dependencies
@@ -10,8 +8,8 @@ import { MarkedRangeControl } from '@prc/components';
 import { __ } from '@wordpress/i18n';
 import {
 	Notice,
-	RangeControl,
 	__experimentalToolsPanelItem as ToolsPanelItem,
+	RangeControl,
 } from '@wordpress/components';
 import {
 	InspectorControls,
@@ -24,9 +22,6 @@ import {
 import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 
-const DESKTOP_MIN = 2;
-const TABLET_MIN = 2;
-const MOBILE_MIN = 2;
 const DESKTOP_MAX = 12;
 const TABLET_MAX = 8;
 const MOBILE_MAX = 4;
@@ -60,10 +55,9 @@ export default function Controls({
 	/**
 	 * Update all child Column blocks with a new vertical alignment setting
 	 * based on whatever alignment is passed in. This allows change to parent
-	 * to overide anything set on a individual column basis.
+	 * to override anything set on an individual column basis.
 	 *
-	 * @param {string} verticalAlignment the vertical alignment setting
-	 * @param          newAlignment
+	 * @param {string} newAlignment - The vertical alignment setting
 	 */
 	const updateAlignment = (newAlignment) => {
 		// Update own alignment.
@@ -88,13 +82,6 @@ export default function Controls({
 		let columns = innerBlocks;
 		const isAddingColumn = newColumns > previousColumns;
 
-		console.log(
-			'updateColumns -> ',
-			columns,
-			isAddingColumn,
-			previousColumns,
-			newColumns
-		);
 		// See if there is available space, how much in terms of span count is available.
 
 		// get all the attributes.gridLayout.desktopSpan from the innerBlocks
@@ -122,12 +109,6 @@ export default function Controls({
 		if (0 > availableMobileSpan) {
 			availableMobileSpan = 0;
 		}
-
-		console.log('Available Spans:', {
-			availableDesktopSpan,
-			availableTabletSpan,
-			availableMobileSpan,
-		});
 
 		if (isAddingColumn) {
 			const newBlock = createBlock('prc-block/grid-column', {
@@ -158,15 +139,6 @@ export default function Controls({
 			// We will need to redistribute the remaining space to the last column.
 		}
 
-		console.log(
-			'"updateColumns" replaceInnerBlocks...',
-			isAddingColumn,
-			previousColumns,
-			newColumns,
-			columns,
-			innerBlocks
-		);
-
 		replaceInnerBlocks(clientId, columns);
 	};
 
@@ -184,22 +156,24 @@ export default function Controls({
 					hasValue={() => undefined !== count}
 					panelId={clientId}
 				>
-					<MarkedRangeControl
-						label={__('Columns')}
-						value={count}
-						onChange={(value) => updateColumns(count, value)}
-						min={1}
-						max={Math.max(6, count)}
-						withInputField={false}
-						marks={[
-							{ value: 1, label: '1' },
-							{ value: 2, label: '2' },
-							{ value: 3, label: '3' },
-							{ value: 4, label: '4' },
-							{ value: 5, label: '5' },
-							{ value: 6, label: '6' },
-						]}
-					/>
+					<div style={{ marginBottom: '1.5em' }}>
+						<RangeControl
+							label={__('Columns')}
+							value={count}
+							onChange={(value) => updateColumns(count, value)}
+							min={1}
+							max={Math.max(6, count)}
+							withInputField={false}
+							marks={[
+								{ value: 1, label: '1' },
+								{ value: 2, label: '2' },
+								{ value: 3, label: '3' },
+								{ value: 4, label: '4' },
+								{ value: 5, label: '5' },
+								{ value: 6, label: '6' },
+							]}
+						/>
+					</div>
 					{6 < count && (
 						<Notice status="warning" isDismissible={false}>
 							{__(

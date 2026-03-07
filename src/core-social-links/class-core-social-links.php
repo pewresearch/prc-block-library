@@ -353,6 +353,21 @@ class Core_Social_Links {
 	 */
 	public function social_link_render_callback( $block_content, $block, $instance ) {
 		if ( $this->child_block_name === $block['blockName'] && is_string( $block_content ) && ! is_admin() ) {
+			$tags = new WP_HTML_Tag_Processor( $block_content );
+			$tags->next_tag( 'li' );
+
+			// Don't render Print link for logged-out users.
+			$class_attr = $tags->get_attribute( 'class' );
+			$platform   = '';
+			if ( $class_attr && preg_match( '/\bwp-social-link-([^\s]+)/', $class_attr, $matches ) ) {
+				$platform = $matches[1];
+			}
+			if ( 'print' === $platform && ! is_user_logged_in() ) {
+				return '';
+			}
+
+			$tags->set_bookmark( 'social-link' );
+
 			$context = $instance->context;
 
 			$url = isset( $context['core/socialLinksUrl'] ) ? $context['core/socialLinksUrl'] : false;
@@ -360,10 +375,6 @@ class Core_Social_Links {
 			$title = isset( $context['core/socialLinksTitle'] ) ? $context['core/socialLinksTitle'] : null;
 
 			$description = isset( $context['core/socialLinksDescription'] ) ? $context['core/socialLinksDescription'] : null;
-
-			$tags = new WP_HTML_Tag_Processor( $block_content );
-			$tags->next_tag( 'li' );
-			$tags->set_bookmark( 'social-link' );
 
 			// Most of the time, social links are used to share a post and not point to a specific url.
 			// We'll assume we want to add iAPI support by default.

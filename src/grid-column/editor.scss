@@ -1,10 +1,24 @@
-/**
- * The following styles get applied inside the editor only.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
 .wp-block-prc-block-grid-column.wp-block {
 	color: inherit;
 	background: inherit;
+}
+
+/* Toolbar dropdown popovers */
+.grid-column-toolbar-popover {
+	padding: 16px;
+	min-width: 360px;
+}
+
+.grid-column-toolbar-popover__label {
+	margin-bottom: 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #1e1e1e;
+}
+
+/* Inspector help text */
+.grid-column-order-help {
+	font-size: 12px;
+	color: #757575;
+	margin-top: 0;
 }

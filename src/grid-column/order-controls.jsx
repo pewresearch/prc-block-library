@@ -1,160 +1,31 @@
 /**
  * External Dependencies
  */
-import { MarkedRangeControl } from '@prc/components';
+
+/**
+ * Internal Dependencies
+ */
+import { calculateDividers } from './utils';
 
 /**
  * WordPress Dependencies
  */
 import { useEffect } from '@wordpress/element';
 import { store as blockEditorStore } from '@wordpress/block-editor';
-import { CardDivider, PanelBody } from '@wordpress/components';
+import {
+	PanelBody,
+	RangeControl,
+	__experimentalVStack as VStack,
+} from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
-
-/**
- * Calculate which columns should have dividers based on visual position
- * A column gets a divider if it's NOT in position 1 (first visual position)
- * @param siblingColumns
- * @param updateBlockAttributes
- */
-function calculateDividers(siblingColumns, updateBlockAttributes) {
-	if (!siblingColumns || siblingColumns.length === 0) return;
-
-	siblingColumns.forEach((column, domIndex) => {
-		const columnLayout = column.attributes.gridLayout || {};
-		const columnIndex = domIndex + 1; // 1-based index
-
-		// Desktop uses DOM order - first column (index 1) has no divider
-		const desktopDivider = columnIndex !== 1;
-
-		// Tablet uses tabletPosition if set, otherwise DOM order
-		const tabletPos = columnLayout.tabletPosition || columnIndex;
-		const tabletDivider = tabletPos !== 1;
-
-		// Mobile uses mobilePosition if set, otherwise DOM order
-		const mobilePos = columnLayout.mobilePosition || columnIndex;
-		const mobileDivider = mobilePos !== 1;
-
-		// Only update if values have changed
-		if (
-			columnLayout.desktopDivider !== desktopDivider ||
-			columnLayout.tabletDivider !== tabletDivider ||
-			columnLayout.mobileDivider !== mobileDivider
-		) {
-			updateBlockAttributes(column.clientId, {
-				gridLayout: {
-					...columnLayout,
-					desktopDivider,
-					tabletDivider,
-					mobileDivider,
-				},
-			});
-		}
-	});
-}
-
-/**
- * Smart position management - adjusts other columns when one column's position changes
- * This prevents position conflicts and maintains a sensible ordering
- * @param siblingColumns
- * @param movingColumnId
- * @param newPosition
- * @param device
- * @param updateBlockAttributes
- */
-function adjustSiblingPositions(
-	siblingColumns,
-	movingColumnId,
-	newPosition,
-	device,
-	updateBlockAttributes
-) {
-	if (!siblingColumns || siblingColumns.length === 0) return;
-
-	const positionKey =
-		device === 'tablet' ? 'tabletPosition' : 'mobilePosition';
-
-	console.log('Adjusting positions for', device, 'to', newPosition);
-	console.log(
-		'adjustSiblingPositions',
-		siblingColumns,
-		movingColumnId,
-		newPosition,
-		device
-	);
-
-	// Get current positions of all columns
-	const columnPositions = siblingColumns.map((column, domIndex) => {
-		const columnLayout = column.attributes.gridLayout || {};
-		const defaultPosition = domIndex + 1; // DOM order as default
-		const currentPosition = columnLayout[positionKey] || defaultPosition;
-
-		return {
-			clientId: column.clientId,
-			domIndex: domIndex + 1,
-			currentPosition,
-			layout: columnLayout,
-		};
-	});
-
-	// Find the column that's moving
-	const movingColumn = columnPositions.find(
-		(col) => col.clientId === movingColumnId
-	);
-	if (!movingColumn) return;
-
-	const oldPosition = movingColumn.currentPosition;
-
-	// If position hasn't actually changed, no need to adjust
-	if (oldPosition === newPosition) return;
-
-	// Update positions for affected columns
-	columnPositions.forEach((column) => {
-		if (column.clientId === movingColumnId) {
-			// This is the column being moved - handled by caller
-			return;
-		}
-
-		let adjustedPosition = column.currentPosition;
-
-		if (newPosition < oldPosition) {
-			// Moving column is moving up (to lower position number)
-			// Shift columns between newPosition and oldPosition down by 1
-			if (
-				column.currentPosition >= newPosition &&
-				column.currentPosition < oldPosition
-			) {
-				adjustedPosition = column.currentPosition + 1;
-			}
-		} else {
-			// Moving column is moving down (to higher position number)
-			// Shift columns between oldPosition and newPosition up by 1
-			if (
-				column.currentPosition > oldPosition &&
-				column.currentPosition <= newPosition
-			) {
-				adjustedPosition = column.currentPosition - 1;
-			}
-		}
-
-		// Only update if position actually changed
-		if (adjustedPosition !== column.currentPosition) {
-			// If adjusted position equals DOM order, set to null (sequential)
-			const positionValue =
-				adjustedPosition === column.domIndex ? null : adjustedPosition;
-
-			updateBlockAttributes(column.clientId, {
-				gridLayout: {
-					...column.layout,
-					[positionKey]: positionValue,
-				},
-			});
-		}
-	});
-}
 
 export default function OrderControls({ gridLayout, setAttributes, clientId }) {
 	const { index, tabletPosition, mobilePosition } = gridLayout;
+
+	const deviceType = useSelect((select) => {
+		const type = select('core/editor').getDeviceType();
+		return type ? type.toLowerCase() : 'desktop';
+	}, []);
 
 	const { columnCount, siblingColumns } = useSelect(
 		(select) => {
@@ -179,7 +50,9 @@ export default function OrderControls({ gridLayout, setAttributes, clientId }) {
 
 	/**
 	 * Get current position (1-based for display)
-	 * @param device
+	 *
+	 * @param {string} device - Device type (tablet or mobile)
+	 * @return {number} 1-based position
 	 */
 	const getCurrentPosition = (device) => {
 		if (device === 'tablet') {
@@ -192,25 +65,14 @@ export default function OrderControls({ gridLayout, setAttributes, clientId }) {
 	};
 
 	/**
-	 * Update column position with smart adjustment of sibling columns
-	 * @param newPosition
-	 * @param device
+	 * Update column position
+	 *
+	 * @param {number} newPosition - New 1-based position
+	 * @param {string} device      - Device type (tablet or mobile)
 	 */
 	const handlePositionChange = (newPosition, device) => {
 		const positionKey =
 			device === 'tablet' ? 'tabletPosition' : 'mobilePosition';
-
-		// @TODO: Get this to work properly.
-		// // First, adjust sibling columns to make room for the new position
-		// adjustSiblingPositions(
-		// 	siblingColumns,
-		// 	clientId,
-		// 	newPosition,
-		// 	device,
-		// 	updateBlockAttributes
-		// );
-
-		// Then update this column's position
 		// If setting to sequential position (matching DOM order), set to null
 		const positionValue = newPosition === index ? null : newPosition;
 
@@ -231,48 +93,54 @@ export default function OrderControls({ gridLayout, setAttributes, clientId }) {
 	// Calculate dividers when columns are added, removed, or reordered
 	useEffect(() => {
 		calculateDividers(siblingColumns, updateBlockAttributes);
-	}, [columnCount, tabletPosition, mobilePosition]);
+	}, [
+		columnCount,
+		tabletPosition,
+		mobilePosition,
+		siblingColumns,
+		updateBlockAttributes,
+	]);
+
+	const isDesktop = deviceType === 'desktop';
+	const isTablet = deviceType === 'tablet';
+	const isMobile = deviceType === 'mobile';
 
 	return (
 		<PanelBody title="Column Order" initialOpen={false}>
-			<div className="css-grid-column-controls">
-				<p
-					style={{
-						fontSize: '12px',
-						color: '#757575',
-						marginTop: 0,
-					}}
-				>
-					Set the visual order of this column at different screen
-					sizes. Desktop order follows the column position in the
-					editor.
-				</p>
-				<MarkedRangeControl
-					label="Tablet Position"
-					value={getCurrentPosition('tablet')}
-					onChange={(newPosition) => {
-						handlePositionChange(newPosition, 'tablet');
-					}}
-					withInputField={false}
-					min={1}
-					max={columnCount}
-					marks={orderMarks}
-					help="Visual position of this column on tablet devices"
-				/>
-				<CardDivider />
-				<MarkedRangeControl
-					label="Mobile Position"
-					value={getCurrentPosition('mobile')}
-					onChange={(newPosition) => {
-						handlePositionChange(newPosition, 'mobile');
-					}}
-					withInputField={false}
-					min={1}
-					max={columnCount}
-					marks={orderMarks}
-					help="Visual position of this column on mobile devices"
-				/>
-			</div>
+			<p className="grid-column-order-help">
+				Set the visual order of this column at different screen sizes.
+				Desktop order follows the column position in the editor.
+			</p>
+			<VStack spacing="2em" style={{ marginBottom: '1.5em' }}>
+				{(isDesktop || isTablet) && (
+					<RangeControl
+						label="Tablet Position"
+						value={getCurrentPosition('tablet')}
+						onChange={(newPosition) => {
+							handlePositionChange(newPosition, 'tablet');
+						}}
+						withInputField={false}
+						min={1}
+						max={columnCount}
+						marks={orderMarks}
+						help="Visual position of this column on tablet devices"
+					/>
+				)}
+				{(isDesktop || isMobile) && (
+					<RangeControl
+						label="Mobile Position"
+						value={getCurrentPosition('mobile')}
+						onChange={(newPosition) => {
+							handlePositionChange(newPosition, 'mobile');
+						}}
+						withInputField={false}
+						min={1}
+						max={columnCount}
+						marks={orderMarks}
+						help="Visual position of this column on mobile devices"
+					/>
+				)}
+			</VStack>
 		</PanelBody>
 	);
 }
