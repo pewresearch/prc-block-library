@@ -1,13 +1,10 @@
 /**
- * External Dependencies
- */
-
-/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
 import {
 	Notice,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalToolsPanelItem as ToolsPanelItem,
 	RangeControl,
 } from '@wordpress/components';
@@ -15,12 +12,20 @@ import {
 	InspectorControls,
 	BlockControls,
 	BlockVerticalAlignmentToolbar,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
+
+/**
+ * Internal Dependencies
+ */
+import DividerControls from './divider-controls';
+import LayoutToolbar from './layout-toolbar';
 
 const DESKTOP_MAX = 12;
 const TABLET_MAX = 8;
@@ -32,7 +37,8 @@ export default function Controls({
 	clientId,
 	colors,
 }) {
-	const { verticalAlignment } = attributes;
+	const { verticalAlignment, dividerStyle, dividerWidth, dividerInset } =
+		attributes;
 
 	const { dividerColor, setDividerColor } = colors;
 
@@ -60,10 +66,7 @@ export default function Controls({
 	 * @param {string} newAlignment - The vertical alignment setting
 	 */
 	const updateAlignment = (newAlignment) => {
-		// Update own alignment.
 		setAttributes({ verticalAlignment: newAlignment });
-
-		// Update all child Column Blocks to match.
 		innerBlockClientIds.forEach((innerBlockClientId) => {
 			updateBlockAttributes(innerBlockClientId, {
 				verticalAlignment: newAlignment,
@@ -82,9 +85,6 @@ export default function Controls({
 		let columns = innerBlocks;
 		const isAddingColumn = newColumns > previousColumns;
 
-		// See if there is available space, how much in terms of span count is available.
-
-		// get all the attributes.gridLayout.desktopSpan from the innerBlocks
 		let availableDesktopSpan = columns.reduce(
 			(acc, column) => acc - column.attributes.gridLayout.desktopSpan,
 			DESKTOP_MAX
@@ -101,7 +101,6 @@ export default function Controls({
 			availableTabletSpan = 0;
 		}
 
-		// Get available mobile spans but if its negative then just return 0
 		let availableMobileSpan = columns.reduce(
 			(acc, column) => acc - column.attributes.gridLayout.mobileSpan,
 			MOBILE_MAX
@@ -123,7 +122,6 @@ export default function Controls({
 			});
 			columns = [...columns, newBlock];
 		} else {
-			// Get the last column's innerBlocks and merge them with the second to last column's innerBlocks.
 			const lastColumnInnerBlocks =
 				columns[columns.length - 1].innerBlocks;
 			const secondToLastColumnInnerBlocks =
@@ -132,11 +130,8 @@ export default function Controls({
 				...secondToLastColumnInnerBlocks,
 				...lastColumnInnerBlocks,
 			];
-			// Replace the second to last column's innerBlocks with the merged innerBlocks.
 			columns[columns.length - 2].innerBlocks = mergedInnerBlocks;
-			// The removed column will be the last of the inner blocks.
 			columns = columns.slice(0, -(previousColumns - newColumns));
-			// We will need to redistribute the remaining space to the last column.
 		}
 
 		replaceInnerBlocks(clientId, columns);
@@ -148,6 +143,10 @@ export default function Controls({
 				<BlockVerticalAlignmentToolbar
 					onChange={updateAlignment}
 					value={verticalAlignment}
+				/>
+				<LayoutToolbar
+					clientId={clientId}
+					setAttributes={setAttributes}
 				/>
 			</BlockControls>
 			<InspectorControls group="dimensions">
@@ -199,6 +198,12 @@ export default function Controls({
 					{...colorSettings}
 				/>
 			</InspectorControls>
+			<DividerControls
+				dividerStyle={dividerStyle}
+				dividerWidth={dividerWidth}
+				dividerInset={dividerInset}
+				setAttributes={setAttributes}
+			/>
 		</>
 	);
 }

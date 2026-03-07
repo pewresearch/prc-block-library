@@ -70,7 +70,7 @@ function Edit({
 				}}
 			/>
 			<StyleEngine attributes={attributes} clientId={clientId} />
-			<div {...innerBlocksProps}/>
+			<div {...innerBlocksProps} />
 		</>
 	);
 }

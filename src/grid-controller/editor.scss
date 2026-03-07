@@ -1,0 +1,43 @@
+/* Gutter visualization: subtle dashed line between columns when grid-controller is selected */
+.wp-block-prc-block-grid-controller.is-selected,
+.wp-block-prc-block-grid-controller.has-child-selected {
+	> .wp-block-prc-block-grid-column:not(:first-child)::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: calc(-1 * (var(--grid-gutter, 24px) / 2));
+		width: 0;
+		border-left: 1px dashed rgba(0, 0, 0, 0.15);
+		pointer-events: none;
+		z-index: 0;
+	}
+}
+
+/* Gutter size label — shows gap value between columns when controller is selected */
+.wp-block-prc-block-grid-controller.is-selected {
+	> .wp-block-prc-block-grid-column:not(:first-child) {
+		> .grid-column-gutter-label {
+			display: block;
+		}
+	}
+}
+
+.grid-column-gutter-label {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: calc(-1 * (var(--grid-gutter, 24px) / 2));
+	transform: translate(-50%, -50%);
+	background: rgba(0, 0, 0, 0.55);
+	color: #fff;
+	font-size: 10px;
+	font-weight: 500;
+	line-height: 1;
+	padding: 2px 5px;
+	border-radius: 2px;
+	pointer-events: none;
+	white-space: nowrap;
+	z-index: 1;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}

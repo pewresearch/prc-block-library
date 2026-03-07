@@ -22,13 +22,13 @@ $grid-mobile: repeat(4, 1fr);
 		content: "";
 		display: block;
 		border-color: var(--divider-color, transparent);
-		border-style: solid;
-		border-width: 1px 0 0 0;
-		width: 100%;
+		border-style: var(--divider-style, solid);
+		border-width: var(--divider-width, 1px) 0 0 0;
+		width: calc(100% - 2 * var(--divider-inset, 0px));
 		height: 0;
 		position: relative;
 		top: 0;
-		left: 0;
+		left: var(--divider-inset, 0px);
 		margin-top: calc(-1 * var(--grid-gutter));
 		padding-bottom: var(--grid-gutter);
 	}
@@ -39,12 +39,12 @@ $grid-mobile: repeat(4, 1fr);
 		content: "";
 		display: block;
 		border-color: var(--divider-color, transparent);
-		border-style: solid;
-		border-width: 0 0 0 1px;
+		border-style: var(--divider-style, solid);
+		border-width: 0 0 0 var(--divider-width, 1px);
 		width: 0;
-		height: 100%;
+		height: calc(100% - 2 * var(--divider-inset, 0px));
 		position: absolute;
-		top: 0;
+		top: var(--divider-inset, 0px);
 		left: calc(-1 * (var(--grid-gutter) / 2));
 		margin-top: 0;
 		padding-bottom: 0;
@@ -79,6 +79,18 @@ $grid-mobile: repeat(4, 1fr);
 
 	margin-block-start: 1.25em;
 	margin-block-end: 1.25em;
+
+	&.is-vertically-aligned-top {
+		align-items: start;
+	}
+
+	&.is-vertically-aligned-center {
+		align-items: center;
+	}
+
+	&.is-vertically-aligned-bottom {
+		align-items: end;
+	}
 
 	&.wp-block.is-placeholder {
 		display: block;

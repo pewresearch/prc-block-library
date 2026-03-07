@@ -77,22 +77,35 @@ class Grid_Controller {
 	}
 
 	/**
-	 * Generate CSS custom properties for divider color settings.
+	 * Generate CSS custom properties for divider settings (color, style, width, inset).
 	 *
 	 * @param array $attributes Block attributes.
 	 * @return string Inline CSS string.
 	 */
-	private function generate_divider_color_styles( array $attributes ): string {
-		$divider_color = $attributes['dividerColor'] ?? '';
+	private function generate_divider_styles( array $attributes ): string {
+		$declarations = array();
 
-		if ( empty( $divider_color ) ) {
-			return '';
+		$divider_color = $attributes['dividerColor'] ?? '';
+		if ( ! empty( $divider_color ) ) {
+			$declarations[] = wp_sprintf( '--divider-color: var(--wp--preset--color--%s);', $divider_color );
 		}
 
-		// Convert color slug to CSS variable.
-		$color_value = 'var(--wp--preset--color--' . $divider_color . ')';
+		$divider_style = $attributes['dividerStyle'] ?? 'solid';
+		if ( ! empty( $divider_style ) && 'solid' !== $divider_style ) {
+			$declarations[] = wp_sprintf( '--divider-style: %s;', $divider_style );
+		}
 
-		return wp_sprintf( '--divider-color: %s;', $color_value );
+		$divider_width = $attributes['dividerWidth'] ?? 1;
+		if ( ! empty( $divider_width ) && 1 !== (int) $divider_width ) {
+			$declarations[] = wp_sprintf( '--divider-width: %dpx;', (int) $divider_width );
+		}
+
+		$divider_inset = $attributes['dividerInset'] ?? 0;
+		if ( ! empty( $divider_inset ) && 0 !== (int) $divider_inset ) {
+			$declarations[] = wp_sprintf( '--divider-inset: %dpx;', (int) $divider_inset );
+		}
+
+		return implode( ' ', $declarations );
 	}
 
 	/**
@@ -123,9 +136,9 @@ class Grid_Controller {
 			$color_css_classes[] = sprintf( 'has-%s-divider-color', $attributes['dividerColor'] );
 		}
 
-		// Generate CSS custom properties for gutter and divider color.
+		// Generate CSS custom properties for gutter and divider.
 		$gutter_styles  = $this->generate_gutter_styles( $attributes );
-		$divider_styles = $this->generate_divider_color_styles( $attributes );
+		$divider_styles = $this->generate_divider_styles( $attributes );
 		$inline_styles  = trim( $gutter_styles . ' ' . $divider_styles );
 
 		$vertical_alignment = array_key_exists( 'verticalAlignment', $attributes ) ? $attributes['verticalAlignment'] : 'top';

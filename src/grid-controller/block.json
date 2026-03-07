@@ -15,6 +15,18 @@
 			"type": "string",
 			"default": "ui-gray-light"
 		},
+		"dividerStyle": {
+			"type": "string",
+			"default": "solid"
+		},
+		"dividerWidth": {
+			"type": "number",
+			"default": 1
+		},
+		"dividerInset": {
+			"type": "number",
+			"default": 0
+		},
 		"style": {
 			"type": "object",
 			"default": {
@@ -152,5 +164,6 @@
 	},
 	"textdomain": "grid-controller",
 	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css"
 }

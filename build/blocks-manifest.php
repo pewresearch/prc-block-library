@@ -3126,6 +3126,18 @@ return array(
 				'type' => 'string',
 				'default' => 'ui-gray-light'
 			),
+			'dividerStyle' => array(
+				'type' => 'string',
+				'default' => 'solid'
+			),
+			'dividerWidth' => array(
+				'type' => 'number',
+				'default' => 1
+			),
+			'dividerInset' => array(
+				'type' => 'number',
+				'default' => 0
+			),
 			'style' => array(
 				'type' => 'object',
 				'default' => array(
@@ -3271,6 +3283,7 @@ return array(
 		),
 		'textdomain' => 'grid-controller',
 		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
 	'icon' => array(
@@ -5389,16 +5402,13 @@ return array(
 				'default' => false
 			),
 			'backgroundColor' => array(
-				'type' => 'string',
-				'default' => 'white'
+				'type' => 'string'
 			),
 			'textColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
+				'type' => 'string'
 			),
 			'linkColor' => array(
-				'type' => 'string',
-				'default' => 'ui-black'
+				'type' => 'string'
 			),
 			'activeBackgroundColor' => array(
 				'type' => 'string'

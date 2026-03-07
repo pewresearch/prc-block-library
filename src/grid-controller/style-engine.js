@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /**
  * WordPress dependencies
  */
 import {
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalGetGapCSSValue as getGapCSSValue,
 	useStyleOverride,
 } from '@wordpress/block-editor';
@@ -11,18 +13,16 @@ import {
  *
  * @param {Object} params
  * @param {Object} params.attributes Block attributes
- * @returns {Object} CSS variable map
+ * @return {Object} CSS variable map
  */
 function getGutterStyles({ attributes }) {
 	const { style } = attributes || {};
 	const { spacing } = style || {};
 	const { blockGap } = spacing || {};
 
-	// Default fallback for grid gutter
 	const fallbackValue = 'var(--wp--style--block-gap, 24px)';
 	let gutterValue = fallbackValue;
 
-	// Check for a value - grid-controller uses horizontal gap
 	if (!!blockGap) {
 		gutterValue =
 			typeof blockGap === 'string'
@@ -30,7 +30,6 @@ function getGutterStyles({ attributes }) {
 				: getGapCSSValue(blockGap?.left) || fallbackValue;
 	}
 
-	// The grid gutter calculation requires a real value (such as `0px`) and not `0`
 	const gutterMap = {
 		'--grid-gutter': gutterValue === '0' ? '0px' : gutterValue,
 	};
@@ -39,36 +38,46 @@ function getGutterStyles({ attributes }) {
 }
 
 /**
- * Gets the divider color styles for the grid-controller block.
+ * Gets the divider styles for the grid-controller block.
  *
  * @param {Object} params
  * @param {Object} params.attributes Block attributes
- * @returns {Object} CSS variable map
+ * @return {Object} CSS variable map
  */
-function getDividerColorStyles({ attributes }) {
-	const { dividerColor } = attributes || {};
+function getDividerStyles({ attributes }) {
+	const { dividerColor, dividerStyle, dividerWidth, dividerInset } =
+		attributes || {};
 
-	// Helper to normalize color values (preset slug vs direct value)
 	function getColorValue(color) {
 		if (!color) {
 			return null;
 		}
-		// If it's a slug string (e.g., "ui-gray-light"), convert to CSS variable
 		if (typeof color === 'string') {
 			return `var(--wp--preset--color--${color})`;
 		}
-		// If it's an object with slug property
 		if (typeof color === 'object' && color.slug) {
 			return `var(--wp--preset--color--${color.slug})`;
 		}
 		return color;
 	}
 
-	const colorVarMap = {
+	const varMap = {
 		'--divider-color': getColorValue(dividerColor),
 	};
 
-	return colorVarMap;
+	if (dividerStyle && dividerStyle !== 'solid') {
+		varMap['--divider-style'] = dividerStyle;
+	}
+
+	if (dividerWidth && dividerWidth !== 1) {
+		varMap['--divider-width'] = `${dividerWidth}px`;
+	}
+
+	if (dividerInset && dividerInset > 0) {
+		varMap['--divider-inset'] = `${dividerInset}px`;
+	}
+
+	return varMap;
 }
 
 /**
@@ -79,32 +88,28 @@ function getDividerColorStyles({ attributes }) {
  * @param {Object} props
  * @param {Object} props.attributes Block attributes
  * @param {string} props.clientId   Block client ID
- * @returns {null} No UI output
+ * @return {null} No UI output
  */
 export default function StyleEngine({ attributes, clientId }) {
-	if (!clientId) {
-		return null;
-	}
-
 	const gutterVarMap = getGutterStyles({ attributes });
-	const colorVarMap = getDividerColorStyles({ attributes });
+	const dividerVarMap = getDividerStyles({ attributes });
 
 	const styleVarMap = {
 		...gutterVarMap,
-		...colorVarMap,
+		...dividerVarMap,
 	};
 
-	// Build scoped CSS only for defined values to avoid unnecessary empty declarations
 	const declarations = Object.entries(styleVarMap)
 		.filter(([, value]) => !!value)
 		.map(([name, value]) => `\t${name}: ${value};`)
 		.join('\n');
 
-	if (declarations.length) {
-		useStyleOverride({
-			css: `#block-${clientId} {\n${declarations}\n}`,
-		});
-	}
+	const css =
+		clientId && declarations.length
+			? `#block-${clientId} {\n${declarations}\n}`
+			: '';
+
+	useStyleOverride({ css });
 
 	return null;
 }

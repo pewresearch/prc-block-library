@@ -63,11 +63,11 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 					onChange={updateVerticalAlignment}
 					value={verticalAlignment}
 				/>
-				<ResponsiveToolbarControls
+				{/* <ResponsiveToolbarControls
 					gridLayout={gridLayout}
 					setAttributes={setAttributes}
 					clientId={clientId}
-				/>
+				/> */}
 			</BlockControls>
 			<InspectorControls>
 				<SpanControls

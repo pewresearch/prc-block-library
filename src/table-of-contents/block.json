@@ -12,16 +12,13 @@
 			"default": false
 		},
 		"backgroundColor": {
-			"type": "string",
-			"default": "white"
+			"type": "string"
 		},
 		"textColor": {
-			"type": "string",
-			"default": "ui-black"
+			"type": "string"
 		},
 		"linkColor": {
-			"type": "string",
-			"default": "ui-black"
+			"type": "string"
 		},
 		"activeBackgroundColor": {
 			"type": "string"
@@ -51,7 +48,10 @@
 	"supports": {
 		"anchor": true,
 		"html": false,
-		"align": ["left", "right"],
+		"align": [
+			"left",
+			"right"
+		],
 		"color": {
 			"background": true,
 			"text": true,
@@ -76,7 +76,10 @@
 	"example": {
 		"viewportWidth": 320
 	},
-	"usesContext": ["postId", "postType"],
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"textdomain": "table-of-contents",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

@@ -4,6 +4,18 @@
 	position: relative;
 	--margin-left: calc(-1 * var(--grid-gutter-half));
 	--margin-right: calc(-1 * var(--grid-gutter-half));
+
+	&.is-vertically-aligned-top {
+		align-self: start;
+	}
+
+	&.is-vertically-aligned-center {
+		align-self: center;
+	}
+
+	&.is-vertically-aligned-bottom {
+		align-self: end;
+	}
 	& > *:not(:last-child) {
 		margin-block-end: var(
 			--grid-column-gap,

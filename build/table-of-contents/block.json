@@ -12,16 +12,13 @@
       "default": false
     },
     "backgroundColor": {
-      "type": "string",
-      "default": "white"
+      "type": "string"
     },
     "textColor": {
-      "type": "string",
-      "default": "ui-black"
+      "type": "string"
     },
     "linkColor": {
-      "type": "string",
-      "default": "ui-black"
+      "type": "string"
     },
     "activeBackgroundColor": {
       "type": "string"
