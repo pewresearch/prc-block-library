@@ -29,8 +29,8 @@ $grid-mobile: repeat(4, 1fr);
 		position: relative;
 		top: 0;
 		left: var(--divider-inset, 0px);
-		margin-top: calc(-1 * var(--grid-gutter));
-		padding-bottom: var(--grid-gutter);
+		margin-top: calc(-1 * var(--grid-row-gap, var(--grid-gutter)));
+		padding-bottom: var(--grid-row-gap, var(--grid-gutter));
 	}
 }
 
@@ -74,7 +74,8 @@ $grid-mobile: repeat(4, 1fr);
 	overflow-wrap: break-word; // New standard.
 
 	display: grid;
-	gap: var(--grid-gutter);
+	column-gap: var(--grid-gutter);
+	row-gap: var(--grid-row-gap, var(--grid-gutter));
 	grid-template-columns: $grid-mobile;
 
 	margin-block-start: 1.25em;
@@ -96,80 +97,36 @@ $grid-mobile: repeat(4, 1fr);
 		display: block;
 	}
 
-	// Grid rules.
-	// Mobile first.
-	@for $i from 1 through 12 {
-		@for $x from 1 through 4 {
-			&
-				> .wp-block-prc-block-grid-column.column#{
-				$x
-				}-mobile-grid__span-#{
-				$i
-				} {
-				grid-column-end: span
-					$i; // Set it to span $i columns, regardless of starting position.
-			}
-		}
+	// Span rules via CSS custom properties (3 rules instead of 168).
+	& > .wp-block-prc-block-grid-column {
+		grid-column-end: span var(--mobile-span, 4);
 	}
 
-	// Tablet grid rules.
 	@media (min-width: #{ ($break-small) }) {
 		grid-template-columns: $grid-tablet;
 
-		@for $i from 1 through 12 {
-			@for $x from 1 through 4 {
-				&
-					> .wp-block-prc-block-grid-column.column#{
-					$x
-					}-tablet-grid__span-#{
-					$i
-					} {
-					grid-column-end: span
-						$i; // Set it to span $i columns, regardless of starting position.
-				}
-			}
+		& > .wp-block-prc-block-grid-column {
+			grid-column-end: span var(--tablet-span, 4);
 		}
 	}
 
-	// Desktop grid rules.
 	@media (min-width: #{ ($break-large) }) {
 		grid-template-columns: $grid-desktop;
 
-		@for $i from 1 through 12 {
-			@for $x from 1 through 6 {
-				&
-					> .wp-block-prc-block-grid-column.column#{
-					$x
-					}-desktop-grid__span-#{
-					$i
-					} {
-					grid-column-end: span
-						$i; // Set it to span $i columns, regardless of starting position.
-				}
-			}
+		& > .wp-block-prc-block-grid-column {
+			grid-column-end: span var(--desktop-span, 4);
 		}
 	}
 
-	// Generate position classes for each column (1-6) and each possible position (1-6)
-	@for $i from 1 through 6 {
-		// Tablet positioning
-		@for $position from 1 through 6 {
-			&
-				> .wp-block-prc-block-grid-column.column#{$i}-tablet-position-#{$position} {
-				@media (min-width: #{ ($break-small) }) and (max-width: #{ ($break-large - 1) }) {
-					order: #{$position};
-				}
-			}
+	// Ordering via CSS custom properties (2 rules instead of 288).
+	@media (min-width: #{ ($break-small) }) and (max-width: #{ ($break-large - 1) }) {
+		& > .wp-block-prc-block-grid-column {
+			order: var(--tablet-order);
 		}
-
-		// Mobile positioning
-		@for $position from 1 through 6 {
-			&
-				> .wp-block-prc-block-grid-column.column#{$i}-mobile-position-#{$position} {
-				@media (max-width: #{ ($break-small - 1) }) {
-					order: #{$position};
-				}
-			}
+	}
+	@media (max-width: #{ ($break-small - 1) }) {
+		& > .wp-block-prc-block-grid-column {
+			order: var(--mobile-order);
 		}
 	}
 
@@ -177,13 +134,16 @@ $grid-mobile: repeat(4, 1fr);
 	&.has-divider {
 		// Desktop dividers
 		@media (min-width: #{ ($break-large) }) {
-			& > .wp-block-prc-block-grid-column.has-desktop-divider {
+			&
+				> .wp-block-prc-block-grid-column.has-desktop-divider:not(
+					.is-first-in-row
+				) {
 				// Full-width gets horizontal divider
-				&[class*="-desktop-grid__span-12"] {
+				&[data-desktop-span="12"] {
 					@include horizontal-divider();
 				}
 				// Non-full-width gets vertical divider
-				&:not([class*="-desktop-grid__span-12"]) {
+				&:not([data-desktop-span="12"]) {
 					@include vertical-divider();
 				}
 			}
@@ -191,13 +151,16 @@ $grid-mobile: repeat(4, 1fr);
 
 		// Tablet dividers
 		@media (min-width: #{ ($break-small) }) and (max-width: #{ ($break-large - 1) }) {
-			& > .wp-block-prc-block-grid-column.has-tablet-divider {
+			&
+				> .wp-block-prc-block-grid-column.has-tablet-divider:not(
+					.is-first-in-row
+				) {
 				// Full-width gets horizontal divider
-				&[class*="-tablet-grid__span-12"] {
+				&[data-tablet-span="12"] {
 					@include horizontal-divider();
 				}
 				// Non-full-width gets vertical divider
-				&:not([class*="-tablet-grid__span-12"]) {
+				&:not([data-tablet-span="12"]) {
 					@include vertical-divider();
 				}
 			}
@@ -205,13 +168,16 @@ $grid-mobile: repeat(4, 1fr);
 
 		// Mobile dividers
 		@media (max-width: #{ ($break-small - 1) }) {
-			& > .wp-block-prc-block-grid-column.has-mobile-divider {
+			&
+				> .wp-block-prc-block-grid-column.has-mobile-divider:not(
+					.is-first-in-row
+				) {
 				// Full-width gets horizontal divider
-				&[class*="-mobile-grid__span-4"] {
+				&[data-mobile-span="4"] {
 					@include horizontal-divider();
 				}
 				// Non-full-width gets vertical divider
-				&:not([class*="-mobile-grid__span-4"]) {
+				&:not([data-mobile-span="4"]) {
 					@include vertical-divider();
 				}
 			}

@@ -3,7 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import {
-	Notice,
 	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalToolsPanelItem as ToolsPanelItem,
 	RangeControl,
@@ -26,9 +25,11 @@ import { createBlock } from '@wordpress/blocks';
  */
 import DividerControls from './divider-controls';
 import LayoutToolbar from './layout-toolbar';
+import AddColumnToolbarControl from '../grid-column/add-column-toolbar-control';
+import ColumnOrderPanel from '../grid-column/column-order-panel';
 
 const DESKTOP_MAX = 12;
-const TABLET_MAX = 8;
+const TABLET_MAX = 12;
 const MOBILE_MAX = 4;
 
 export default function Controls({
@@ -37,8 +38,7 @@ export default function Controls({
 	clientId,
 	colors,
 }) {
-	const { verticalAlignment, dividerStyle, dividerWidth, dividerInset } =
-		attributes;
+	const { verticalAlignment, dividerStyle, dividerInset } = attributes;
 
 	const { dividerColor, setDividerColor } = colors;
 
@@ -139,6 +139,7 @@ export default function Controls({
 
 	return (
 		<>
+			<AddColumnToolbarControl parentClientId={clientId} />
 			<BlockControls>
 				<BlockVerticalAlignmentToolbar
 					onChange={updateAlignment}
@@ -155,31 +156,15 @@ export default function Controls({
 					hasValue={() => undefined !== count}
 					panelId={clientId}
 				>
-					<div style={{ marginBottom: '1.5em' }}>
-						<RangeControl
-							label={__('Columns')}
-							value={count}
-							onChange={(value) => updateColumns(count, value)}
-							min={1}
-							max={Math.max(6, count)}
-							withInputField={false}
-							marks={[
-								{ value: 1, label: '1' },
-								{ value: 2, label: '2' },
-								{ value: 3, label: '3' },
-								{ value: 4, label: '4' },
-								{ value: 5, label: '5' },
-								{ value: 6, label: '6' },
-							]}
-						/>
-					</div>
-					{6 < count && (
-						<Notice status="warning" isDismissible={false}>
-							{__(
-								'This column count exceeds the recommended amount and may cause visual breakage.'
-							)}
-						</Notice>
-					)}
+					<RangeControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={__('Columns')}
+						value={count}
+						onChange={(value) => updateColumns(count, value)}
+						min={1}
+						max={Math.max(12, count)}
+					/>
 				</ToolsPanelItem>
 			</InspectorControls>
 			<InspectorControls group="color">
@@ -198,9 +183,12 @@ export default function Controls({
 					{...colorSettings}
 				/>
 			</InspectorControls>
+			<InspectorControls>
+				<ColumnOrderPanel parentClientId={clientId} />
+			</InspectorControls>
 			<DividerControls
+				clientId={clientId}
 				dividerStyle={dividerStyle}
-				dividerWidth={dividerWidth}
 				dividerInset={dividerInset}
 				setAttributes={setAttributes}
 			/>

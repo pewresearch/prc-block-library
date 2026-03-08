@@ -14,8 +14,9 @@ import { useSelect, useDispatch } from '@wordpress/data';
  * Internal Dependencies
  */
 import SpanControls from './span-controls';
-import OrderControls from './order-controls';
-import ResponsiveToolbarControls from './responsive-toolbar-controls';
+import ColumnOrderPanel from './column-order-panel';
+import AddColumnToolbarControl from './add-column-toolbar-control';
+import RemoveColumnToolbarControl from './remove-column-toolbar-control';
 
 export default function Controls({ attributes, setAttributes, clientId }) {
 	const { gridLayout, verticalAlignment } = attributes;
@@ -58,26 +59,22 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 
 	return (
 		<>
+			<AddColumnToolbarControl parentClientId={rootClientId} />
+			<RemoveColumnToolbarControl clientId={clientId} />
 			<BlockControls>
 				<BlockVerticalAlignmentToolbar
 					onChange={updateVerticalAlignment}
 					value={verticalAlignment}
 				/>
-				{/* <ResponsiveToolbarControls
-					gridLayout={gridLayout}
-					setAttributes={setAttributes}
-					clientId={clientId}
-				/> */}
 			</BlockControls>
 			<InspectorControls>
 				<SpanControls
 					gridLayout={gridLayout}
 					setAttributes={setAttributes}
 				/>
-				<OrderControls
-					gridLayout={gridLayout}
-					setAttributes={setAttributes}
-					clientId={clientId}
+				<ColumnOrderPanel
+					parentClientId={rootClientId}
+					activeColumnClientId={clientId}
 				/>
 			</InspectorControls>
 		</>

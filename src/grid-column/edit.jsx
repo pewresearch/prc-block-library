@@ -94,39 +94,86 @@ export default function Edit({
 
 	const { toggleSelection } = useDispatch('core/block-editor');
 
-	const { hasChildBlocks, deviceType, parentIsSelected, gutterLabel } =
-		useSelect(
-			(select) => {
-				const {
-					getBlockOrder,
-					getBlockRootClientId,
-					isBlockSelected: isSelected_,
-					getBlock,
-				} = select(blockEditorStore);
-				const type = select('core/editor').getDeviceType();
-				const rootId = getBlockRootClientId(clientId);
-				const parentBlock = rootId ? getBlock(rootId) : null;
-				const gap = parentBlock?.attributes?.style?.spacing?.blockGap;
+	const {
+		hasChildBlocks,
+		deviceType,
+		parentIsSelected,
+		gutterLabel,
+		rowGutterLabel,
+		isFirstInRow,
+	} = useSelect(
+		(select) => {
+			const {
+				getBlockOrder,
+				getBlockRootClientId,
+				isBlockSelected: isSelected_,
+				getBlock,
+			} = select(blockEditorStore);
+			const type = select('core/editor').getDeviceType();
+			const rootId = getBlockRootClientId(clientId);
+			const parentBlock = rootId ? getBlock(rootId) : null;
+			const gap = parentBlock?.attributes?.style?.spacing?.blockGap;
 
-				let label = '';
-				if (gap) {
-					const raw = typeof gap === 'string' ? gap : gap?.left || '';
-					if (raw.startsWith('var:preset|spacing|')) {
-						label = raw.replace('var:preset|spacing|', 'S-');
-					} else {
-						label = raw;
-					}
+			const formatLabel = (raw) => {
+				if (!raw) return '';
+				if (raw.startsWith('var:preset|spacing|')) {
+					return raw.replace('var:preset|spacing|', 'S-');
 				}
+				return raw;
+			};
 
-				return {
-					hasChildBlocks: 0 < getBlockOrder(clientId).length,
-					deviceType: type ? type.toLowerCase() : 'desktop',
-					parentIsSelected: rootId ? isSelected_(rootId) : false,
-					gutterLabel: label,
-				};
-			},
-			[clientId]
-		);
+			let label = '';
+			let rowLabel = '';
+			if (gap) {
+				const leftRaw = typeof gap === 'string' ? gap : gap?.left || '';
+				const topRaw = typeof gap === 'string' ? gap : gap?.top || '';
+				label = formatLabel(leftRaw);
+				rowLabel = formatLabel(topRaw);
+			}
+
+			const device = type ? type.toLowerCase() : 'desktop';
+			const spanKey =
+				device === 'mobile'
+					? 'mobileSpan'
+					: device === 'tablet'
+						? 'tabletSpan'
+						: 'desktopSpan';
+			const maxCols = device === 'mobile' ? 4 : 12;
+
+			let firstInRow = false;
+			if (rootId) {
+				const siblingIds = getBlockOrder(rootId);
+				const myIndex = siblingIds.indexOf(clientId);
+				if (myIndex > 0) {
+					let currentRowUsed = 0;
+					for (let i = 0; i < myIndex; i++) {
+						const sib = getBlock(siblingIds[i]);
+						const sibSpan =
+							sib?.attributes?.gridLayout?.[spanKey] ?? 4;
+						if (currentRowUsed + sibSpan > maxCols) {
+							currentRowUsed = sibSpan;
+						} else {
+							currentRowUsed += sibSpan;
+						}
+					}
+					const ourSpan = gridLayout?.[spanKey] ?? 4;
+					firstInRow =
+						currentRowUsed >= maxCols ||
+						currentRowUsed + ourSpan > maxCols;
+				}
+			}
+
+			return {
+				hasChildBlocks: 0 < getBlockOrder(clientId).length,
+				deviceType: device,
+				parentIsSelected: rootId ? isSelected_(rootId) : false,
+				gutterLabel: label,
+				rowGutterLabel: rowLabel,
+				isFirstInRow: firstInRow,
+			};
+		},
+		[clientId]
+	);
 
 	const { maxCols, currentSpan, spanKey } = useMemo(() => {
 		if (deviceType === 'mobile') {
@@ -199,18 +246,22 @@ export default function Edit({
 		ref: columnRef,
 		className: classnames({
 			[`is-vertically-aligned-${verticalAlignment}`]: verticalAlignment,
-			[`column${index}-desktop-grid__span-${desktopSpan}`]: desktopSpan,
 			'has-desktop-divider': desktopDivider,
-			[`column${index}-tablet-grid__span-${tabletSpan}`]: tabletSpan,
-			[`column${index}-tablet-position-${tabletPosition}`]:
-				tabletPosition,
 			'has-tablet-divider': tabletDivider,
-			[`column${index}-mobile-grid__span-${mobileSpan}`]: mobileSpan,
-			[`column${index}-mobile-position-${mobilePosition}`]:
-				mobilePosition,
 			'has-mobile-divider': mobileDivider,
 			'is-resizing': isResizing,
+			'is-first-in-row': isFirstInRow,
 		}),
+		style: {
+			'--desktop-span': desktopSpan,
+			'--tablet-span': tabletSpan,
+			'--mobile-span': mobileSpan,
+			'--tablet-order': tabletPosition || undefined,
+			'--mobile-order': mobilePosition || undefined,
+		},
+		'data-desktop-span': String(desktopSpan),
+		'data-tablet-span': String(tabletSpan),
+		'data-mobile-span': String(mobileSpan),
 	});
 
 	const innerBlocksProps = useInnerBlocksProps(
@@ -231,9 +282,17 @@ export default function Edit({
 			<Controls {...{ attributes, setAttributes, clientId }} />
 			<div {...blockProps}>
 				<span className="grid-column-span-badge">{spanLabel}</span>
-				{parentIsSelected && index > 1 && gutterLabel && (
-					<span className="grid-column-gutter-label">
-						{gutterLabel}
+				{parentIsSelected &&
+					index > 1 &&
+					gutterLabel &&
+					!isFirstInRow && (
+						<span className="grid-column-gutter-label">
+							{gutterLabel}
+						</span>
+					)}
+				{parentIsSelected && isFirstInRow && rowGutterLabel && (
+					<span className="grid-column-gutter-label grid-column-gutter-label--vertical">
+						{rowGutterLabel}
 					</span>
 				)}
 				{isSelected ? (

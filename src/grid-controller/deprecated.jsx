@@ -8,7 +8,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
  * This handles migration from the old architecture where:
  * - Grid controller stored columnOrdering: {tablet: [2,0,1], mobile: [1,2,0]}
  * - Provided this to child columns via context
- * 
+ *
  * To the new architecture where:
  * - Grid controller only manages dividerColor and verticalAlignment
  * - Each column manages its own position and divider attributes
@@ -44,7 +44,7 @@ export default [
 		 */
 		migrate(attributes, innerBlocks) {
 			const { columnOrdering, ...otherAttributes } = attributes;
-			
+
 			// Note: Child columns will be migrated separately by their own deprecation handler
 			return {
 				...otherAttributes,

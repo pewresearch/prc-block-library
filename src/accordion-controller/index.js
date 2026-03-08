@@ -32,7 +32,7 @@ import './editor.scss';
 import edit from './edit';
 import icon from './icon';
 import save from './save';
-
+import disableCoreAccordion from './disable-core-accordion';
 import metadata from './block.json';
 
 const { name } = metadata;
@@ -46,12 +46,4 @@ const settings = {
 
 registerBlockType(name, { ...metadata, ...settings });
 
-/**
- * Unregister core accordion blocks to prevent conflicts.
- */
-domReady(() => {
-	unregisterBlockType('core/accordion');
-	unregisterBlockType('core/accordion-item');
-	unregisterBlockType('core/accordion-heading');
-	unregisterBlockType('core/accordion-panel');
-});
+disableCoreAccordion();

@@ -25,6 +25,7 @@ import save from './save';
 import deprecated from './deprecated';
 import transforms from './transforms';
 import variations from './variations';
+import disableCoreColumns from './disable-core-columns';
 
 import metadata from './block.json';
 
@@ -45,3 +46,5 @@ const settings = {
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
 registerBlockType(name, { ...metadata, ...settings });
+
+disableCoreColumns();

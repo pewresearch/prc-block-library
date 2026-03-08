@@ -1,7 +1,10 @@
 /* Gutter visualization: subtle dashed line between columns when grid-controller is selected */
 .wp-block-prc-block-grid-controller.is-selected,
 .wp-block-prc-block-grid-controller.has-child-selected {
-	> .wp-block-prc-block-grid-column:not(:first-child)::after {
+	/* Vertical dashed line between columns (not first-child, not first-in-row) */
+	> .wp-block-prc-block-grid-column:not(:first-child):not(
+			.is-first-in-row
+		)::after {
 		content: "";
 		position: absolute;
 		top: 0;
@@ -14,10 +17,36 @@
 	}
 }
 
+/* Editor device preview: tablet/mobile preview classes don't change viewport width,
+   so media queries won't fire. Mirror the responsive rules for preview mode. */
+.is-tablet-preview .wp-block-prc-block-grid-controller {
+	grid-template-columns: repeat(12, 1fr);
+
+	> .wp-block-prc-block-grid-column {
+		grid-column-end: span var(--tablet-span, 4);
+		order: var(--tablet-order);
+	}
+}
+
+.is-mobile-preview .wp-block-prc-block-grid-controller {
+	grid-template-columns: repeat(4, 1fr);
+
+	> .wp-block-prc-block-grid-column {
+		grid-column-end: span var(--mobile-span, 4);
+		order: var(--mobile-order);
+	}
+}
+
 /* Gutter size label — shows gap value between columns when controller is selected */
 .wp-block-prc-block-grid-controller.is-selected {
-	> .wp-block-prc-block-grid-column:not(:first-child) {
+	> .wp-block-prc-block-grid-column:not(:first-child):not(.is-first-in-row) {
 		> .grid-column-gutter-label {
+			display: block;
+		}
+	}
+	/* Row gutter label — shows row gap value for columns that start a new row */
+	> .wp-block-prc-block-grid-column.is-first-in-row {
+		> .grid-column-gutter-label--vertical {
 			display: block;
 		}
 	}
@@ -39,5 +68,13 @@
 	pointer-events: none;
 	white-space: nowrap;
 	z-index: 1;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans,
+		Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+	&--vertical {
+		top: calc(-1 * (var(--grid-row-gap, var(--grid-gutter, 24px)) / 2));
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
 }

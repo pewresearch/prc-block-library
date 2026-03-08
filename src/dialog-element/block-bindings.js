@@ -39,9 +39,11 @@ export default function registerDialogElementLabelBinding() {
 		},
 		setValues({ select, dispatch, bindings }) {
 			const { newValue } = bindings.content;
-			const { getSelectedBlockClientId, getBlockRootClientId, getBlockName } =
-				select(blockEditorStore);
-			const { updateBlockAttributes } = dispatch(blockEditorStore);
+			const {
+				getSelectedBlockClientId,
+				getBlockRootClientId,
+				getBlockName,
+			} = select(blockEditorStore);
 
 			const selectedBlockClientId = getSelectedBlockClientId();
 			if (!selectedBlockClientId) {
@@ -55,6 +57,7 @@ export default function registerDialogElementLabelBinding() {
 			if ('prc-block/dialog-element' !== rootName) {
 				return; // Safety: only update when inside dialog-element.
 			}
+			const { updateBlockAttributes } = dispatch(blockEditorStore);
 			updateBlockAttributes(rootClientId, { dialogLabel: newValue });
 		},
 		canUserEditValue() {

@@ -2,11 +2,11 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "prc-block/grid-controller",
-	"version": "0.1.0",
-	"title": "Responsive Grid",
+	"version": "1.0.0",
+	"title": "Responsive Columns",
 	"category": "design",
-	"description": "Display content in responsive CSS grid columns. The grid uses 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.",
-	"keywords": ["grid", "columns", "css grid", "layout"],
+	"description": "Display content in responsive columns. The columns uses 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.",
+	"keywords": ["grid", "columns", "responsive", "layout"],
 	"attributes": {
 		"verticalAlignment": {
 			"type": "string"
@@ -18,10 +18,6 @@
 		"dividerStyle": {
 			"type": "string",
 			"default": "solid"
-		},
-		"dividerWidth": {
-			"type": "number",
-			"default": 1
 		},
 		"dividerInset": {
 			"type": "number",
@@ -42,6 +38,7 @@
 		"anchor": true,
 		"html": false,
 		"align": ["wide", "full"],
+		"listView": true,
 		"color": {
 			"background": true,
 			"link": true,
@@ -49,7 +46,7 @@
 		},
 		"spacing": {
 			"blockGap": {
-				"sides": ["horizontal"]
+				"sides": ["horizontal", "vertical"]
 			},
 			"margin": ["top", "bottom"],
 			"padding": true,

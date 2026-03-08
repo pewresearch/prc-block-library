@@ -237,12 +237,9 @@ class Grid_Column {
 
 		$vertical_alignment = array_key_exists( 'verticalAlignment', $attributes ) ? $attributes['verticalAlignment'] : 'top';
 
-		// Build the layout CSS classes.
+		// Build the layout CSS classes (span is now via CSS custom properties + data attributes).
 		$column_classes = array(
 			'is-vertically-aligned-' . $vertical_alignment,
-			'column' . $index . '-desktop-grid__span-' . $attrs['desktopSpan'],
-			'column' . $index . '-tablet-grid__span-' . $attrs['tabletSpan'],
-			'column' . $index . '-mobile-grid__span-' . $attrs['mobileSpan'],
 		);
 
 		// Add desktop divider class.
@@ -250,17 +247,9 @@ class Grid_Column {
 			$column_classes[] = 'has-desktop-divider';
 		}
 
-		// Add tablet position and divider classes.
-		if ( ! empty( $attrs['tabletPosition'] ) ) {
-			$column_classes[] = 'column' . $index . '-tablet-position-' . $attrs['tabletPosition'];
-		}
+		// Add divider classes.
 		if ( $attrs['tabletDivider'] ) {
 			$column_classes[] = 'has-tablet-divider';
-		}
-
-		// Add mobile position and divider classes.
-		if ( ! empty( $attrs['mobilePosition'] ) ) {
-			$column_classes[] = 'column' . $index . '-mobile-position-' . $attrs['mobilePosition'];
 		}
 		if ( $attrs['mobileDivider'] ) {
 			$column_classes[] = 'has-mobile-divider';
@@ -268,10 +257,29 @@ class Grid_Column {
 
 		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
 
+		$inline_style = sprintf(
+			'--grid-column-gap:%s;--desktop-span:%d;--tablet-span:%d;--mobile-span:%d;',
+			esc_attr( $block_gap ),
+			(int) $attrs['desktopSpan'],
+			(int) $attrs['tabletSpan'],
+			(int) $attrs['mobileSpan']
+		);
+
+		// Append ordering CSS custom properties when set.
+		if ( ! empty( $attrs['tabletPosition'] ) ) {
+			$inline_style .= sprintf( '--tablet-order:%d;', (int) $attrs['tabletPosition'] );
+		}
+		if ( ! empty( $attrs['mobilePosition'] ) ) {
+			$inline_style .= sprintf( '--mobile-order:%d;', (int) $attrs['mobilePosition'] );
+		}
+
 		$block_attrs = get_block_wrapper_attributes(
 			array(
-				'class' => \PRC\Platform\Block_Utils\classNames( $column_classes ),
-				'style' => '--grid-column-gap:' . esc_attr( $block_gap ) . ';',
+				'class'            => \PRC\Platform\Block_Utils\classNames( $column_classes ),
+				'style'           => $inline_style,
+				'data-desktop-span' => (string) $attrs['desktopSpan'],
+				'data-tablet-span'  => (string) $attrs['tabletSpan'],
+				'data-mobile-span'  => (string) $attrs['mobileSpan'],
 			)
 		);
 

@@ -1363,7 +1363,7 @@ return array(
 		'name' => 'prc-block/dialog',
 		'version' => '1.1.0',
 		'title' => 'Dialog',
-		'description' => 'Render content in a `<dialog/>` element modal. Includes a trigger to open the dialog, and dialog element to render content.',
+		'description' => 'Render content in a modal. Includes a trigger to open the dialog and a dialog element `<dialog/>` to display content.',
 		'category' => 'media',
 		'keywords' => array(
 			'dialog',
@@ -1388,13 +1388,7 @@ return array(
 		'supports' => array(
 			'anchor' => false,
 			'html' => false,
-			'align' => array(
-				'full',
-				'wide',
-				'left',
-				'right',
-				'center'
-			),
+			'listView' => true,
 			'typography' => array(
 				'fontSize' => true,
 				'__experimentalFontFamily' => true,
@@ -3108,14 +3102,14 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/grid-controller',
-		'version' => '0.1.0',
-		'title' => 'Responsive Grid',
+		'version' => '1.0.0',
+		'title' => 'Responsive Columns',
 		'category' => 'design',
-		'description' => 'Display content in responsive CSS grid columns. The grid uses 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.',
+		'description' => 'Display content in responsive columns. The columns uses 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.',
 		'keywords' => array(
 			'grid',
 			'columns',
-			'css grid',
+			'responsive',
 			'layout'
 		),
 		'attributes' => array(
@@ -3129,10 +3123,6 @@ return array(
 			'dividerStyle' => array(
 				'type' => 'string',
 				'default' => 'solid'
-			),
-			'dividerWidth' => array(
-				'type' => 'number',
-				'default' => 1
 			),
 			'dividerInset' => array(
 				'type' => 'number',
@@ -3156,6 +3146,7 @@ return array(
 				'wide',
 				'full'
 			),
+			'listView' => true,
 			'color' => array(
 				'background' => true,
 				'link' => true,
@@ -3164,7 +3155,8 @@ return array(
 			'spacing' => array(
 				'blockGap' => array(
 					'sides' => array(
-						'horizontal'
+						'horizontal',
+						'vertical'
 					)
 				),
 				'margin' => array(

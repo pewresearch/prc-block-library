@@ -124,8 +124,11 @@ class Sub_Title {
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
-		$context_post_id = $block->context['postId'];
-		$parent_post_id  = wp_get_post_parent_id( $context_post_id );
+		$context_post_id = $block->context['postId'] ?? null;
+		if ( ! $context_post_id ) {
+			return '';
+		}
+		$parent_post_id = wp_get_post_parent_id( $context_post_id );
 		// If the post is a child do not render the sub title.
 		if ( 0 !== $parent_post_id ) {
 			return '';

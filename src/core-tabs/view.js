@@ -20,9 +20,11 @@ const { state, actions } = store('core/tabs', {
 		 */
 		get displayDropdown() {
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
-			const { mobileDropdownActive } = state[tabsId];
-			return !mobileDropdownActive;
+			const tabsId = context?.tabsId;
+			if (!tabsId || !state[tabsId]) {
+				return true;
+			}
+			return !state[tabsId].mobileDropdownActive;
 		},
 		/**
 		 * Whether to hide the tabs list (returns true when in mobile dropdown mode).
@@ -31,9 +33,11 @@ const { state, actions } = store('core/tabs', {
 		 */
 		get displayTabsList() {
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
-			const { mobileDropdownActive } = state[tabsId];
-			return mobileDropdownActive;
+			const tabsId = context?.tabsId;
+			if (!tabsId || !state[tabsId]) {
+				return false;
+			}
+			return state[tabsId].mobileDropdownActive;
 		},
 		/**
 		 * Whether the dropdown panel is open.
@@ -42,7 +46,10 @@ const { state, actions } = store('core/tabs', {
 		 */
 		get isDropdownOpen() {
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
+			const tabsId = context?.tabsId;
+			if (!tabsId || !state[tabsId]) {
+				return false;
+			}
 			return state[tabsId].dropdownOpen;
 		},
 		/**
@@ -74,8 +81,8 @@ const { state, actions } = store('core/tabs', {
 		 */
 		toggleDropdown: withSyncEvent(() => {
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
-			if (state[tabsId]) {
+			const tabsId = context?.tabsId;
+			if (tabsId && state[tabsId]) {
 				state[tabsId].dropdownOpen = !state[tabsId].dropdownOpen;
 			}
 		}),
@@ -84,7 +91,10 @@ const { state, actions } = store('core/tabs', {
 		 */
 		updateMobileDropdownState: () => {
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
+			const tabsId = context?.tabsId;
+			if (!tabsId || !state[tabsId]) {
+				return;
+			}
 			const { mobileDropdownEnabled, mobileDropdownWidth } =
 				state[tabsId];
 
@@ -107,16 +117,15 @@ const { state, actions } = store('core/tabs', {
 	callbacks: {
 		addEventListeners: withSyncEvent(() => {
 			actions.signalTabsReady();
-			// Initialize mobile dropdown state.
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
+			const tabsId = context?.tabsId;
 			if (state[tabsId]?.mobileDropdownEnabled) {
 				actions.updateMobileDropdownState();
 			}
 		}),
 		addResizeListener: withSyncEvent(() => {
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
+			const tabsId = context?.tabsId;
 			if (state[tabsId]?.mobileDropdownEnabled) {
 				actions.updateMobileDropdownState();
 			}
@@ -130,7 +139,7 @@ const { state, actions } = store('core/tabs', {
 		 */
 		handleClickOutside: withSyncEvent((event) => {
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
+			const tabsId = context?.tabsId;
 			const dropdownElement = getElement();
 
 			if (!dropdownElement?.ref) {
@@ -165,7 +174,7 @@ const { state, actions } = store('core/tabs', {
 		 */
 		handleDropdownItemClick: withSyncEvent(() => {
 			const context = getContext('core/tabs/private');
-			const { tabsId } = context;
+			const tabsId = context?.tabsId;
 			const element = getElement();
 
 			if (element?.ref) {

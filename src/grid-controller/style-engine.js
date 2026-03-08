@@ -22,16 +22,21 @@ function getGutterStyles({ attributes }) {
 
 	const fallbackValue = 'var(--wp--style--block-gap, 24px)';
 	let gutterValue = fallbackValue;
+	let rowGutterValue = fallbackValue;
 
 	if (!!blockGap) {
-		gutterValue =
-			typeof blockGap === 'string'
-				? getGapCSSValue(blockGap)
-				: getGapCSSValue(blockGap?.left) || fallbackValue;
+		if (typeof blockGap === 'string') {
+			gutterValue = getGapCSSValue(blockGap);
+			rowGutterValue = gutterValue;
+		} else {
+			gutterValue = getGapCSSValue(blockGap?.left) || fallbackValue;
+			rowGutterValue = getGapCSSValue(blockGap?.top) || gutterValue;
+		}
 	}
 
 	const gutterMap = {
 		'--grid-gutter': gutterValue === '0' ? '0px' : gutterValue,
+		'--grid-row-gap': rowGutterValue === '0' ? '0px' : rowGutterValue,
 	};
 
 	return gutterMap;
@@ -45,8 +50,7 @@ function getGutterStyles({ attributes }) {
  * @return {Object} CSS variable map
  */
 function getDividerStyles({ attributes }) {
-	const { dividerColor, dividerStyle, dividerWidth, dividerInset } =
-		attributes || {};
+	const { dividerColor, dividerStyle, dividerInset } = attributes || {};
 
 	function getColorValue(color) {
 		if (!color) {
@@ -67,10 +71,6 @@ function getDividerStyles({ attributes }) {
 
 	if (dividerStyle && dividerStyle !== 'solid') {
 		varMap['--divider-style'] = dividerStyle;
-	}
-
-	if (dividerWidth && dividerWidth !== 1) {
-		varMap['--divider-width'] = `${dividerWidth}px`;
 	}
 
 	if (dividerInset && dividerInset > 0) {

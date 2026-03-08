@@ -3,6 +3,8 @@
  */
 import { store, getContext } from '@wordpress/interactivity';
 
+let isSharing = false;
+
 const { state } = store('prc-block/social-share-sheet', {
 	state: {
 		enabled: false,
@@ -12,11 +14,19 @@ const { state } = store('prc-block/social-share-sheet', {
 			const context = getContext();
 			if (true === state.enabled) {
 				event.preventDefault();
-				window.navigator.share({
-					title: context?.title,
-					text: context?.text,
-					url: context?.url,
-				});
+			}
+			if (true === state.enabled && !isSharing) {
+				isSharing = true;
+				window.navigator
+					.share({
+						title: context?.title,
+						text: context?.text,
+						url: context?.url,
+					})
+					.catch(() => {})
+					.finally(() => {
+						isSharing = false;
+					});
 			}
 		},
 	},

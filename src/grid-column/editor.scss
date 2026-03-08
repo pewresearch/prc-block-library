@@ -23,6 +23,58 @@
 	margin-top: 0;
 }
 
+.column-order-panel__list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0 0 16px;
+}
+
+.column-order-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 10px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.column-order-item--active {
+	border-left: 3px solid var(--wp-admin-theme-color, #3858e9);
+	padding-left: 8px;
+}
+
+.column-order-item__handle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: grab;
+	color: #50575e;
+}
+
+.column-order-item__meta {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.column-order-item__label {
+	font-size: 12px;
+	font-weight: 600;
+	color: #1e1e1e;
+}
+
+.column-order-item__span {
+	font-size: 11px;
+	color: #757575;
+}
+
+.column-order-item--dragging {
+	opacity: 0.85;
+	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
 /* ResizableBox for column span drag editing */
 .grid-column-resizable {
 	.components-resizable-box__handle {
@@ -61,5 +113,7 @@
 	border-radius: 2px;
 	pointer-events: none;
 	white-space: nowrap;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans,
+		Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }

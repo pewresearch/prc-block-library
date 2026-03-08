@@ -266,6 +266,210 @@ const variations = [
 		],
 		scope: ['block'],
 	},
+	{
+		name: 'two-by-two-grid',
+		title: __('6/6 + 6/6'),
+		description: __('Four columns in a 2×2 grid'),
+		icon: (
+			<SVG
+				width="48"
+				height="48"
+				viewBox="0 0 48 48"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<Path
+					fillRule="evenodd"
+					d="M39 12a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V14a2 2 0 0 1 2-2h30zM23 22H9V14h14v8zm18 0H25V14h16v8zM23 34H9V24h14v10zm18 0H25V24h16v10z"
+				/>
+			</SVG>
+		),
+		attributes: {
+			dividerColor: 'gray',
+		},
+		innerBlocks: [
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 1,
+						desktopSpan: 6,
+						tabletSpan: 6,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 2,
+						desktopSpan: 6,
+						tabletSpan: 6,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 3,
+						desktopSpan: 6,
+						tabletSpan: 6,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 4,
+						desktopSpan: 6,
+						tabletSpan: 6,
+						mobileSpan: 4,
+					},
+				},
+			],
+		],
+		scope: ['block'],
+	},
+	{
+		name: 'three-plus-one-feature',
+		title: __('4/4/4 + 12'),
+		description: __('Three columns then a full-width row'),
+		icon: (
+			<SVG
+				width="48"
+				height="48"
+				viewBox="0 0 48 48"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<Path
+					fillRule="evenodd"
+					d="M39 12a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V14a2 2 0 0 1 2-2h30zM18 22H9V14h9v8zm12 0H20V14h10v8zm9 0H32V14h7v8zM41 34H9V24h32v10z"
+				/>
+			</SVG>
+		),
+		attributes: {
+			dividerColor: 'gray',
+		},
+		innerBlocks: [
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 1,
+						desktopSpan: 4,
+						tabletSpan: 4,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 2,
+						desktopSpan: 4,
+						tabletSpan: 4,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 3,
+						desktopSpan: 4,
+						tabletSpan: 4,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 4,
+						desktopSpan: 12,
+						tabletSpan: 12,
+						mobileSpan: 4,
+					},
+				},
+			],
+		],
+		scope: ['block'],
+	},
+	{
+		name: 'feature-plus-three',
+		title: __('12 + 4/4/4'),
+		description: __('Full-width row then three columns'),
+		icon: (
+			<SVG
+				width="48"
+				height="48"
+				viewBox="0 0 48 48"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<Path
+					fillRule="evenodd"
+					d="M39 12a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V14a2 2 0 0 1 2-2h30zM41 22H9V14h32v8zM18 34H9V24h9v10zm12 0H20V24h10v10zm9 0H32V24h7v10z"
+				/>
+			</SVG>
+		),
+		attributes: {
+			dividerColor: 'gray',
+		},
+		innerBlocks: [
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 1,
+						desktopSpan: 12,
+						tabletSpan: 12,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 2,
+						desktopSpan: 4,
+						tabletSpan: 4,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 3,
+						desktopSpan: 4,
+						tabletSpan: 4,
+						mobileSpan: 4,
+					},
+				},
+			],
+			[
+				'prc-block/grid-column',
+				{
+					gridLayout: {
+						index: 4,
+						desktopSpan: 4,
+						tabletSpan: 4,
+						mobileSpan: 4,
+					},
+				},
+			],
+		],
+		scope: ['block'],
+	},
 ];
 
 export default variations;

@@ -88,6 +88,11 @@ class Breadcrumbs {
 		$type_of_object     = '';
 		$ancestor_ids       = array();
 		$has_post_hierarchy = false;
+
+		if ( null === $current_object ) {
+			return '';
+		}
+
 		if ( $current_object instanceof \WP_Post ) {
 			$type_of_object = 'WP_Post';
 		} elseif ( $current_object instanceof \WP_Term ) {
@@ -100,25 +105,26 @@ class Breadcrumbs {
 
 		switch ( $type_of_object ) {
 			case 'WP_Post':
-				// If this a wp_post type object and is attachment then lets "fail over" to the parent post.
 				if ( 'attachment' === $current_object->post_type && $current_object->post_parent ) {
-					$parent_post    = get_post( $current_object->post_parent );
+					$parent_post = get_post( $current_object->post_parent );
+					if ( ! $parent_post instanceof \WP_Post ) {
+						return '';
+					}
 					$current_object = $parent_post;
 				}
 				$has_post_hierarchy = is_post_type_hierarchical( $current_object->post_type );
-				// If this is a hierarchical post type, which, Post is not by default. Thats why our "reports"
-				// post-like type does not get picked up. Instead, posts rely on their primary term.
-				// This is really intended for Pages and any custom post types that are hierarchical.
-				// If not hierarchical, then we will look for primary term in 'category' taxonomy.
+				// Hierarchical post types (pages, custom) use post ancestors.
+				// Non-hierarchical (posts, reports) use primary term in 'category' taxonomy.
 				if ( $has_post_hierarchy ) {
 					$ancestor_ids = get_ancestors( $current_object->ID, $current_object->post_type, 'post_type' );
 				} else {
 					$primary_term_id = \PRC\Platform\get_primary_term_id( $current_object->ID, 'category' );
-					do_action('qm/debug', 'primary_term_id: ' . print_r( $primary_term_id, true ) );
-					if ( false !== $primary_term_id && is_numeric( $primary_term_id ) ) {
-						$term           = get_term( $primary_term_id, 'category' );
-						$ancestor_ids[] = $term->term_id;
-						$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
+					if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
+						$term = get_term( $primary_term_id, 'category' );
+						if ( $term instanceof \WP_Term ) {
+							$ancestor_ids[] = $term->term_id;
+							$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
+						}
 					}
 				}
 				break;
@@ -184,19 +190,19 @@ class Breadcrumbs {
 		if ( $show_current_page ) {
 			$current_page_url   = null;
 			$current_page_title = null;
-			// If a wp_post object then we'll look at post_id and post_type.
 			if ( 'WP_Post' === $type_of_object ) {
 				$current_page_url   = get_the_permalink( $current_object->ID );
 				$current_page_title = $current_object->post_title;
-			}
-			if ( 'WP_Term' === $type_of_object ) {
+			} elseif ( 'WP_Term' === $type_of_object ) {
 				$current_page_url   = get_term_link( $current_object, $current_object->taxonomy );
 				$current_page_title = $current_object->name;
 			}
-			$breadcrumbs[] = array(
-				'url'  => $current_page_url,
-				'text' => $current_page_title,
-			);
+			if ( $current_page_url && $current_page_title ) {
+				$breadcrumbs[] = array(
+					'url'  => $current_page_url,
+					'text' => $current_page_title,
+				);
+			}
 		}
 
 		/**

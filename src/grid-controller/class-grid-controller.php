@@ -9,7 +9,7 @@ namespace PRC\Platform\Blocks;
 
 /**
  * Block Name:        Grid Controller
- * Version:           0.1.0
+ * Version:           1.0.0
  * Requires at least: 6.1
  * Requires PHP:      8.1
  * Author:            Seth Rubenstein
@@ -44,36 +44,47 @@ class Grid_Controller {
 	 * @return string Inline CSS string.
 	 */
 	private function generate_gutter_styles( array $attributes ): string {
+		$default = '--grid-gutter: 24px;--grid-row-gap: 24px;';
 		if ( empty( $attributes['style'] ) || ! is_array( $attributes['style'] ) ) {
-			return '--grid-gutter: 24px;';
+			return $default;
 		}
 		if ( empty( $attributes['style']['spacing'] ) || ! is_array( $attributes['style']['spacing'] ) ) {
-			return '--grid-gutter: 24px;';
+			return $default;
 		}
 		if ( ! array_key_exists( 'blockGap', $attributes['style']['spacing'] ) ) {
-			return '--grid-gutter: 24px;';
+			return $default;
 		}
 
-		$block_gap    = $attributes['style']['spacing']['blockGap'];
-		$gutter_value = '24px';
+		$block_gap     = $attributes['style']['spacing']['blockGap'];
+		$gutter_value  = '24px';
+		$row_gutter_value = '24px';
 
-		// Grid controller uses horizontal gap (left).
+		// Grid controller uses horizontal gap (left) and vertical gap (top).
 		if ( is_array( $block_gap ) ) {
 			if ( array_key_exists( 'left', $block_gap ) ) {
 				$gutter_value = $block_gap['left'];
 			} else {
-				return '--grid-gutter: 24px;';
+				return '--grid-gutter: 24px;--grid-row-gap: 24px;';
+			}
+			if ( array_key_exists( 'top', $block_gap ) ) {
+				$row_gutter_value = $block_gap['top'];
+			} else {
+				$row_gutter_value = $gutter_value;
 			}
 		} elseif ( is_string( $block_gap ) ) {
-			$gutter_value = $block_gap;
+			$gutter_value    = $block_gap;
+			$row_gutter_value = $block_gap;
 		}
 
 		// Convert preset spacing tokens to CSS variables.
 		if ( preg_match( '/^var:preset\|spacing\|(.+)$/', (string) $gutter_value, $matches ) ) {
 			$gutter_value = 'var(--wp--preset--spacing--' . $matches[1] . ')';
 		}
+		if ( preg_match( '/^var:preset\|spacing\|(.+)$/', (string) $row_gutter_value, $matches ) ) {
+			$row_gutter_value = 'var(--wp--preset--spacing--' . $matches[1] . ')';
+		}
 
-		return wp_sprintf( '--grid-gutter: %s;', $gutter_value );
+		return wp_sprintf( '--grid-gutter: %s;--grid-row-gap: %s;', $gutter_value, $row_gutter_value );
 	}
 
 	/**
@@ -93,11 +104,6 @@ class Grid_Controller {
 		$divider_style = $attributes['dividerStyle'] ?? 'solid';
 		if ( ! empty( $divider_style ) && 'solid' !== $divider_style ) {
 			$declarations[] = wp_sprintf( '--divider-style: %s;', $divider_style );
-		}
-
-		$divider_width = $attributes['dividerWidth'] ?? 1;
-		if ( ! empty( $divider_width ) && 1 !== (int) $divider_width ) {
-			$declarations[] = wp_sprintf( '--divider-width: %dpx;', (int) $divider_width );
 		}
 
 		$divider_inset = $attributes['dividerInset'] ?? 0;
