@@ -21,7 +21,6 @@ import { ResizableBox } from '@wordpress/components';
  * Internal Dependencies
  */
 import Controls from './controls';
-import StyleEngine from './style-engine';
 
 const DESKTOP_COLS = 12;
 const TABLET_COLS = 12;
@@ -278,7 +277,6 @@ export default function Edit({
 
 	return (
 		<>
-			<StyleEngine attributes={attributes} clientId={clientId} />
 			<Controls {...{ attributes, setAttributes, clientId }} />
 			<div {...blockProps}>
 				<span className="grid-column-span-badge">{spanLabel}</span>

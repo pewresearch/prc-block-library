@@ -35,7 +35,13 @@ import Icon from './icon';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, setAttributes, context, clientId }) {
+export default function Edit({
+	attributes,
+	setAttributes,
+	isSelected,
+	context,
+	clientId,
+}) {
 	const { label } = attributes;
 	const blockProps = useBlockProps({
 		style: {

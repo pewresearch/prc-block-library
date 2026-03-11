@@ -4,13 +4,12 @@
   "name": "prc-block/logo",
   "version": "1.0.0",
   "title": "Pew Research Center Logo",
-  "description": "Contextually aware logo block for Pew Research Center. Can display either the standard PRC logo set or Decoded logo.",
+  "description": "The Pew Research Center logo, available in primary, alternate, decoded, and symbol styles. Dark mode aware.",
   "category": "theme",
   "keywords": [
     "logo",
     "masthead",
-    "dark-mode",
-    "css-container-queries"
+    "dark-mode"
   ],
   "attributes": {
     "justification": {
@@ -31,6 +30,7 @@
     "html": false,
     "color": {
       "background": true,
+      "text": false,
       "gradients": true
     },
     "spacing": {
@@ -45,24 +45,28 @@
       "isDefault": true
     },
     {
+      "name": "primary-stable-white",
+      "label": "Primary (Stable White)"
+    },
+    {
       "name": "alt-only",
       "label": "Alternate"
     },
     {
-      "name": "container-aware",
-      "label": "Container Aware"
-    },
-    {
-      "name": "decoded-only",
-      "label": "Decoded"
+      "name": "alt-stable-white",
+      "label": "Alternate (Stable White)"
     },
     {
       "name": "symbol-only",
       "label": "Symbol Only"
     },
     {
-      "name": "symbol-only-white",
-      "label": "Symbol Only (White)"
+      "name": "symbol-stable-white",
+      "label": "Symbol (Stable White)"
+    },
+    {
+      "name": "decoded-only",
+      "label": "Decoded"
     }
   ],
   "example": {
@@ -79,6 +83,7 @@
   ],
   "textdomain": "pewresearch-logo",
   "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
   "script": [
     "prc-icons"
   ],

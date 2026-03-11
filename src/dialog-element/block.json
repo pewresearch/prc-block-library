@@ -48,8 +48,12 @@
 		},
 		"dialogSize": {
 			"type": "string",
-			"enum": ["small", "medium", "large"],
-			"default": "small"
+			"enum": [
+				"small",
+				"medium",
+				"large"
+			],
+			"default": "medium"
 		},
 		"dialogPosition": {
 			"type": "string",
@@ -103,11 +107,17 @@
 		},
 		"interactivity": true
 	},
-	"usesContext": ["dialog/id", "dialog/className", "dialog/isOpen"],
+	"usesContext": [
+		"dialog/id",
+		"dialog/className",
+		"dialog/isOpen"
+	],
 	"providesContext": {
 		"dialog/label": "dialogLabel"
 	},
-	"parent": ["prc-block/dialog"],
+	"parent": [
+		"prc-block/dialog"
+	],
 	"textdomain": "dialog-element",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

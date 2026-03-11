@@ -139,7 +139,9 @@
 	}
 }
 
-.wp-block-prc-block-dialog-element.has-ui-black-background-color .wp-block-prc-block-dialog-element__close-button {
+.wp-block-prc-block-dialog-element.has-ui-black-background-color .wp-block-prc-block-dialog-element__close-button,
+.wp-block-prc-block-dialog-element.has-stable-black-background-color .wp-block-prc-block-dialog-element__close-button,
+.wp-block-prc-block-dialog-element.is-style-video .wp-block-prc-block-dialog-element__close-button {
 	color: #fff;
 	fill: #fff;
 }

@@ -7,10 +7,6 @@
 
 namespace PRC\Platform\Blocks;
 
-use WP_HTML_Tag_Processor;
-use MatthiasMullie\Minify;
-use MatthiasMullie\Minify\Exceptions\IOException;
-
 /**
  * Block Name:        Logo
  * Version:           0.1.0
@@ -21,12 +17,35 @@ use MatthiasMullie\Minify\Exceptions\IOException;
  * @package           prc-block
  */
 class Logo {
+
 	/**
 	 * Style handle for the logo block
 	 *
 	 * @var string
 	 */
 	public static $style_handle = 'prc-block-logo-style';
+
+	/**
+	 * Logo assets base path (relative to plugin root) for plugins_url.
+	 *
+	 * @var string
+	 */
+	private const ASSETS_PATH = 'src/logo/assets/';
+
+	/**
+	 * Map of block style class suffix to SVG filename.
+	 *
+	 * @var array<string, string>
+	 */
+	private const STYLE_TO_ASSET = array(
+		'primary-only'       => 'primary.svg',
+		'primary-stable-white' => 'primary-white.svg',
+		'alt-only'             => 'alternate.svg',
+		'alt-stable-white'     => 'alternate-white.svg',
+		'decoded-only'         => 'decoded.svg',
+		'symbol-only'          => 'symbol.svg',
+		'symbol-stable-white'  => 'symbol-white.svg',
+	);
 
 	/**
 	 * Constructor
@@ -45,58 +64,37 @@ class Logo {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_action( 'enqueue_block_assets', $this, 'enqueue_custom_fill_styles' );
 		}
 	}
 
 	/**
-	 * Get the logo
+	 * Gets the active logo style from block className.
 	 *
-	 * @param string $logo_file Logo file.
-	 * @return string
+	 * @param string $class_name Block className (e.g. "wp-block-prc-block-logo is-style-primary-only").
+	 * @return string Style slug or 'primary-only' as default.
 	 */
-	public function get_logo( $logo_file ) {
-		$path = PRC_BLOCK_LIBRARY_DIR . '/src/logo/assets/' . $logo_file;
-		$path = realpath( $path );
-		if ( ! $path || ! @is_file( $path ) ) {
+	private function get_style_from_classname( $class_name ) {
+		if ( ! is_string( $class_name ) || '' === $class_name ) {
+			return 'primary-only';
+		}
+		if ( preg_match( '/is-style-([a-z0-9-]+)/', $class_name, $m ) && isset( self::STYLE_TO_ASSET[ $m[1] ] ) ) {
+			return $m[1];
+		}
+		return 'primary-only';
+	}
+
+	/**
+	 * Gets the SVG URL for a given asset filename.
+	 *
+	 * @param string $filename Asset filename (e.g. 'primary.svg').
+	 * @return string URL or empty string if not found.
+	 */
+	private function get_logo_url( $filename ) {
+		$path = PRC_BLOCK_LIBRARY_DIR . '/' . self::ASSETS_PATH . $filename;
+		if ( ! is_file( $path ) ) {
 			return '';
 		}
-		return @file_get_contents( $path );
-	}
-
-	/**
-	 * Generates the CSS for the text color SVG fill styles using the color palette defined in theme.json
-	 *
-	 * @return string
-	 */
-	public function generate_text_color_svg_fill_styles() {
-		$colors = wp_get_global_settings( array( 'color', 'palette', 'theme' ) );
-		ob_start();
-		foreach ( $colors as $color ) {
-			$slug  = $color['slug'];
-			$color = $color['color'];
-			?>
-			.wp-block-prc-block-logo.has-<?php echo $slug; ?>-color .wp-block-prc-block-logo__inner [data-browser-theme="light"] path {
-				fill: <?php echo $color; ?> !important;
-			}
-			<?php
-		}
-		$styles   = ob_get_clean();
-		$minifier = new Minify\CSS( $styles );
-		return $minifier->minify();
-	}
-
-	/**
-	 * Enqueues the CSS for the text color SVG fill styles for the Logo block.
-	 *
-	 * @hook enqueue_block_assets
-	 */
-	public function enqueue_custom_fill_styles() {
-		$styles = $this->generate_text_color_svg_fill_styles();
-		if ( is_wp_error( $styles ) ) {
-			return;
-		}
-		wp_add_inline_style( self::$style_handle, $styles );
+		return plugins_url( self::ASSETS_PATH . $filename, PRC_BLOCK_LIBRARY_FILE );
 	}
 
 	/**
@@ -104,18 +102,26 @@ class Logo {
 	 *
 	 * @param array    $attributes Block attributes.
 	 * @param string   $content Block content.
-	 * @param WP_Block $block Block object.
+	 * @param \WP_Block $block Block object.
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		$classname     = array_key_exists( 'className', $attributes ) ? $attributes['className'] : '';
-		$width         = array_key_exists( 'width', $attributes ) ? $attributes['width'] . 'px' : '100%';
-		$justification = array_key_exists( 'justification', $attributes ) ? $attributes['justification'] : 'left';
+		$class_name   = isset( $attributes['className'] ) ? $attributes['className'] : '';
+		$width        = isset( $attributes['width'] ) ? (int) $attributes['width'] : null;
+		$justification = isset( $attributes['justification'] ) ? $attributes['justification'] : 'left';
+
+		$style = $this->get_style_from_classname( $class_name );
+		$asset = self::STYLE_TO_ASSET[ $style ] ?? 'primary.svg';
+		$url   = $this->get_logo_url( $asset );
+
+		if ( '' === $url ) {
+			return '';
+		}
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'class' => \PRC\Platform\Block_Utils\classNames(
-					$classname,
+					$class_name,
 					array(
 						'item-justified-left'   => 'left' === $justification,
 						'item-justified-center' => 'center' === $justification,
@@ -125,86 +131,38 @@ class Logo {
 			)
 		);
 
-		$logo = new WP_HTML_Tag_Processor( $this->get_logo( 'primary.svg' ) );
-		if ( $logo->next_tag() ) {
-			$logo->set_attribute( 'data-browser-theme', 'light' );
-		}
-
-		$logo_white = new WP_HTML_Tag_Processor( $this->get_logo( 'primary-white.svg' ) );
-		if ( $logo_white->next_tag() ) {
-			$logo_white->set_attribute( 'data-browser-theme', 'dark' );
-		}
-
-		$logo_alt = new WP_HTML_Tag_Processor( $this->get_logo( 'alternate.svg' ) );
-		if ( $logo_alt->next_tag() ) {
-			$logo_alt->set_attribute( 'data-browser-theme', 'light' );
-		}
-
-		$logo_alt_white = new WP_HTML_Tag_Processor( $this->get_logo( 'alternate-white.svg' ) );
-		if ( $logo_alt_white->next_tag() ) {
-			$logo_alt_white->set_attribute( 'data-browser-theme', 'dark' );
-		}
-
-		$decoded       = new WP_HTML_Tag_Processor( $this->get_logo( 'decoded.svg' ) );
-		$decoded_white = new WP_HTML_Tag_Processor( $this->get_logo( 'decoded-white.svg' ) );
-		if ( $decoded_white->next_tag() ) {
-			$decoded_white->set_attribute( 'data-browser-theme', 'dark' );
-		}
-
-		$symbol = new WP_HTML_Tag_Processor( $this->get_logo( 'symbol.svg' ) );
-		if ( $symbol->next_tag() ) {
-			$symbol->set_attribute( 'data-browser-theme', 'light' );
-		}
-		$symbol_white = new WP_HTML_Tag_Processor( $this->get_logo( 'symbol-white.svg' ) );
-		if ( $symbol_white->next_tag() ) {
-			$symbol_white->set_attribute( 'data-browser-theme', 'dark' );
-		}
+		$width_style = null !== $width ? sprintf( 'max-width: %dpx;', $width ) : '';
 
 		$site_url = get_site_url();
+		$href     = ( 'decoded-only' === $style ) ? $site_url . '/decoded' : $site_url;
 
-		ob_start();
-		?>
-		<div class="wp-block-prc-block-logo__dimensions" style="max-width: <?php echo $width; ?>;">
-			<div class="wp-block-prc-block-logo__inner">
-				<div class="wp-block-prc-block-logo__inner__logo" alt="Return to Home" name="Pew Research Center Logo">
-					<?php
-					echo str_replace( '%site_url%', $site_url, $logo ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo str_replace( '%site_url%', $site_url, $logo_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					?>
-				</div>
-				<div class="wp-block-prc-block-logo__inner__logo-alt" alt="Return to Home" name="Pew Research Center Logo">
-					<?php
-					echo str_replace( '%site_url%', $site_url, $logo_alt ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo str_replace( '%site_url%', $site_url, $logo_alt_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					?>
-				</div>
-				<div class="wp-block-prc-block-logo__inner__decoded" alt="Return to Home" name="Pew Research Center Logo">
-					<?php
-					echo str_replace( '%site_url%', $site_url, $decoded ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo str_replace( '%site_url%', $site_url, $decoded_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					?>
-				</div>
-				<div class="wp-block-prc-block-logo__inner__symbol" alt="Return to Home" name="Pew Research Center Logo">
-					<?php
-					echo str_replace( '%site_url%', $site_url, $symbol ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo str_replace( '%site_url%', $site_url, $symbol_white ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					?>
-				</div>
-			</div>
-				</div>
-		<?php
-		$content = ob_get_clean();
-		return wp_sprintf(
+		$img = sprintf(
+			'<img src="%1$s" alt="%2$s" loading="eager" />',
+			esc_url( $url ),
+			esc_attr__( 'Return to Home', 'pewresearch-logo' )
+		);
+
+		$link = sprintf(
+			'<a href="%1$s" class="wp-block-prc-block-logo__link">%2$s</a>',
+			esc_url( $href ),
+			$img // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- img is built from esc_url
+		);
+
+		$inner = sprintf(
+			'<div class="wp-block-prc-block-logo__dimensions" style="%1$s"><div class="wp-block-prc-block-logo__inner">%2$s</div></div>',
+			esc_attr( $width_style ),
+			$link // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- link built from esc_url/esc_attr
+		);
+
+		return sprintf(
 			'<div %1$s>%2$s</div>',
 			$block_wrapper_attrs,
-			$content,
+			$inner // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- constructed from escaped values
 		);
 	}
 
 	/**
 	 * Registers the block using the metadata loaded from the `block.json` file.
-	 * Behind the scenes, it registers also all assets so they can be enqueued
-	 * through the block editor in the corresponding context.
 	 *
 	 * @hook init
 	 *

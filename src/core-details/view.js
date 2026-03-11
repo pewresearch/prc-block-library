@@ -1,7 +1,12 @@
 /**
  * WordPress Dependencies
  */
-import { store, getContext, getElement, withSyncEvent } from '@wordpress/interactivity';
+import {
+	store,
+	getContext,
+	getElement,
+	withSyncEvent,
+} from '@wordpress/interactivity';
 
 const { state } = store('core/details', {
 	actions: {
@@ -25,7 +30,36 @@ const { state } = store('core/details', {
 				}
 			}
 		}),
+		/**
+		 * Handle summary click: if click is in the logo zone (::before, 183px), open
+		 * the Pew-Knight collection in a new tab and prevent toggling the details.
+		 */
+		handleSummaryClick: withSyncEvent((event) => {
+			const context = getContext();
+			if (!context.knightCollectionUrl) {
+				return;
+			}
+			const { ref } = getElement();
+			if (!ref) {
+				return;
+			}
+			const rect = ref.getBoundingClientRect();
+			const clickX = event.clientX - rect.left;
+			const isRtl = getComputedStyle(ref).direction === 'rtl';
+			const logoWidth = 183;
+			const inLogoZone = isRtl
+				? rect.width - clickX < logoWidth
+				: clickX < logoWidth;
+			if (inLogoZone) {
+				event.preventDefault();
+				event.stopPropagation();
+				window.open(
+					context.knightCollectionUrl,
+					'_blank',
+					'noopener,noreferrer'
+				);
+			}
+		}),
 	},
-	callbacks: {
-	},
+	callbacks: {},
 });

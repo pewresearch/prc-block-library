@@ -255,11 +255,8 @@ class Grid_Column {
 			$column_classes[] = 'has-mobile-divider';
 		}
 
-		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
-
 		$inline_style = sprintf(
-			'--grid-column-gap:%s;--desktop-span:%d;--tablet-span:%d;--mobile-span:%d;',
-			esc_attr( $block_gap ),
+			'--desktop-span:%d;--tablet-span:%d;--mobile-span:%d;',
 			(int) $attrs['desktopSpan'],
 			(int) $attrs['tabletSpan'],
 			(int) $attrs['mobileSpan']

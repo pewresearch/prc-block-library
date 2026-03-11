@@ -3,6 +3,54 @@
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
+const MOBILE_BREAKPOINT = 782;
+const MOBILE_SCROLL_OFFSET = 32;
+const ADMIN_BAR_HEIGHT_DESKTOP = 32;
+const ADMIN_BAR_HEIGHT_MOBILE = 32;
+
+/**
+ * Scroll to an element with offsets for sticky headers (mobile TOC, WP admin bar).
+ *
+ * @param {HTMLElement} target - The element to scroll into view.
+ */
+function scrollToElementWithOffset(target) {
+	const rect = target.getBoundingClientRect();
+	const scrollTop = window.scrollY || document.documentElement.scrollTop;
+	const targetTop = rect.top + scrollTop;
+
+	const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+	const hasAdminBar = document.body.classList.contains('admin-bar');
+
+	let offset = 0;
+	if (isMobile) {
+		offset += MOBILE_SCROLL_OFFSET;
+		if (hasAdminBar) {
+			offset += ADMIN_BAR_HEIGHT_MOBILE;
+		}
+	} else if (hasAdminBar) {
+		offset += ADMIN_BAR_HEIGHT_DESKTOP;
+	}
+
+	const scrollTarget = Math.max(0, targetTop - offset);
+
+	window.scrollTo({
+		top: scrollTarget,
+		behavior: 'smooth',
+	});
+}
+
+/**
+ * Close the parent core/details element if the link is inside one (e.g. mobile collapsible TOC).
+ *
+ * @param {HTMLElement} link - The clicked link element.
+ */
+function closeParentDetails(link) {
+	const details = link.closest('details');
+	if (details) {
+		details.removeAttribute('open');
+	}
+}
+
 const { actions, state } = store('prc-block/table-of-contents', {
 	state: {
 		get isActive() {
@@ -61,8 +109,9 @@ const { actions, state } = store('prc-block/table-of-contents', {
 							href.replace('#', '')
 						);
 						if (target) {
-							target.scrollIntoView({ behavior: 'smooth' }, true);
-							// Add the hash to the end of the URL.
+							e.preventDefault();
+							closeParentDetails(link);
+							scrollToElementWithOffset(target);
 							window.history.pushState(null, null, href);
 						}
 					}
@@ -183,7 +232,8 @@ const { actions, state } = store('prc-block/table-of-contents', {
 			const target = document.getElementById(key);
 
 			if (target) {
-				target.scrollIntoView({ behavior: 'smooth' }, true);
+				closeParentDetails(event.currentTarget || event.target);
+				scrollToElementWithOffset(target);
 				window.history.pushState(null, null, `#${key}`);
 			}
 		},

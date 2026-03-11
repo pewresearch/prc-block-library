@@ -53,7 +53,7 @@
         "medium",
         "large"
       ],
-      "default": "small"
+      "default": "medium"
     },
     "dialogPosition": {
       "type": "string",

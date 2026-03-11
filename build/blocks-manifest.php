@@ -1461,7 +1461,7 @@ return array(
 					'medium',
 					'large'
 				),
-				'default' => 'small'
+				'default' => 'medium'
 			),
 			'dialogPosition' => array(
 				'type' => 'string',
@@ -3338,13 +3338,12 @@ return array(
 		'name' => 'prc-block/logo',
 		'version' => '1.0.0',
 		'title' => 'Pew Research Center Logo',
-		'description' => 'Contextually aware logo block for Pew Research Center. Can display either the standard PRC logo set or Decoded logo.',
+		'description' => 'The Pew Research Center logo, available in primary, alternate, decoded, and symbol styles. Dark mode aware.',
 		'category' => 'theme',
 		'keywords' => array(
 			'logo',
 			'masthead',
-			'dark-mode',
-			'css-container-queries'
+			'dark-mode'
 		),
 		'attributes' => array(
 			'justification' => array(
@@ -3365,6 +3364,7 @@ return array(
 			'html' => false,
 			'color' => array(
 				'background' => true,
+				'text' => false,
 				'gradients' => true
 			),
 			'spacing' => array(
@@ -3379,24 +3379,28 @@ return array(
 				'isDefault' => true
 			),
 			array(
+				'name' => 'primary-stable-white',
+				'label' => 'Primary (Stable White)'
+			),
+			array(
 				'name' => 'alt-only',
 				'label' => 'Alternate'
 			),
 			array(
-				'name' => 'container-aware',
-				'label' => 'Container Aware'
-			),
-			array(
-				'name' => 'decoded-only',
-				'label' => 'Decoded'
+				'name' => 'alt-stable-white',
+				'label' => 'Alternate (Stable White)'
 			),
 			array(
 				'name' => 'symbol-only',
 				'label' => 'Symbol Only'
 			),
 			array(
-				'name' => 'symbol-only-white',
-				'label' => 'Symbol Only (White)'
+				'name' => 'symbol-stable-white',
+				'label' => 'Symbol (Stable White)'
+			),
+			array(
+				'name' => 'decoded-only',
+				'label' => 'Decoded'
 			)
 		),
 		'example' => array(
@@ -3413,6 +3417,7 @@ return array(
 		),
 		'textdomain' => 'pewresearch-logo',
 		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
 		'script' => array(
 			'prc-icons'
 		),
