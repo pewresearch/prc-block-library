@@ -188,7 +188,7 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		},
 		/**
 		 * Determine if the current part or chapter has list items.
-		 * @return {boolean}
+		 * @return {boolean} True when the active part or chapter has sections.
 		 */
 		hasListItems() {
 			const context = getContext();
@@ -202,7 +202,7 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		},
 		/**
 		 * Determine if the current part or chapter is active.
-		 * @return {boolean}
+		 * @return {boolean} True when the context item is the active TOC entry.
 		 */
 		isActive() {
 			const context = getContext();
@@ -264,6 +264,9 @@ const { actions, state } = store('prc-block/table-of-contents', {
 		 * This runs exclusivley against core/heading blocks.
 		 * This function watches the scroll position of the page and determines if the current
 		 * heading is in view. If it is, it sets the currentSection to the id of the heading.
+		 *
+		 * Uses getBoundingClientRect() so positions are correct inside positioned ancestors
+		 * (e.g. core/cover); offsetTop is relative to offsetParent and breaks that case.
 		 */
 		watchForSectionScroll: () => {
 			if (!state.enableWatchForSectionScroll) {
@@ -279,7 +282,6 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				return;
 			}
 			const threshold = 50;
-			const scrollPosition = window.scrollY;
 
 			let currentSectionKey = null;
 
@@ -287,11 +289,10 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				const key = sectionKeys[i];
 				const sectionElement = document.getElementById(key);
 				if (!sectionElement) continue;
-				const sectionTop = sectionElement.offsetTop;
-				if (sectionTop - scrollPosition <= threshold) {
+				const headingTop = sectionElement.getBoundingClientRect().top;
+				if (headingTop <= threshold) {
 					currentSectionKey = key;
 				} else {
-					// As soon as we find a section below the threshold, stop
 					break;
 				}
 			}

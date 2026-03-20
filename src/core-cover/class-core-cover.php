@@ -88,6 +88,14 @@ class Core_Cover {
 				'label' => 'Disable Mobile Collapse',
 			),
 		);
+
+		register_block_style(
+			$this->block_name,
+			array(
+				'name'  => 'video-cover-blur',
+				'label' => 'Video Cover Blur',
+			),
+		);
 	}
 
 	/**

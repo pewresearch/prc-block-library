@@ -266,8 +266,16 @@ class Core_Heading {
 				$id = preg_replace( '/^h-/', '', $id );
 			}
 		} else {
-			// If there is no ID then we'll generate one that is reproducible and the same on every page load.
-			$id = md5( $block_content );
+			// If no ID exists, default to a readable slug based on heading text.
+			$heading_text = '';
+			if ( preg_match( '/<h[1-6][^>]*>(.*?)<\/h[1-6]>/si', $block_content, $matches ) ) {
+				$heading_text = html_entity_decode( wp_strip_all_tags( $matches[1] ) );
+			}
+			$id = sanitize_title( $heading_text );
+			// Keep a deterministic fallback if heading text is unavailable.
+			if ( '' === $id ) {
+				$id = md5( $block_content );
+			}
 		}
 
 		$heading_tag->set_attribute( 'id', $id );

@@ -1,0 +1,15 @@
+---
+description: Keep block docs updated with block source changes.
+globs: plugins/prc-block-library/src/**/*.js,plugins/prc-block-library/src/**/*.jsx,plugins/prc-block-library/src/**/*.ts,plugins/prc-block-library/src/**/*.tsx,plugins/prc-block-library/src/**/*.php,plugins/prc-block-library/src/**/block.json,plugins/prc-block-library/src/**/render.php,plugins/prc-block-library/src/**/*.scss,plugins/prc-block-library/src/**/*.css
+alwaysApply: false
+---
+
+# PRC Block Library Doc Sync
+
+When changing a block under `plugins/prc-block-library/src/<block-slug>/`, also update the matching doc file:
+
+- `plugins/prc-block-library/docs/<block-slug>.md`
+
+Update docs whenever code changes affect behavior, UI, data flow, Interactivity API state/actions, attributes, supports, rendering, setup, or usage examples.
+
+If a docs file does not exist for a changed block slug, create one using the existing docs format in this plugin.

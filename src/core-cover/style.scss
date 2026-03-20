@@ -1,9 +1,13 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
+
+.wp-block-cover:has(video) .wp-block-cover__inner-container :where(.wp-block-group.has-background:first-of-type) {
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
+	border: 1px solid #ffffff26;
+	border-radius: 12px;
+}
+
+//
 // Default Cover Style:
 .wp-block-cover {
 	margin-bottom: 2em;
@@ -94,3 +98,12 @@
 		}
 	}
 }
+
+// Guassian blur effect on interior div of a video cover.
+.wp-block-cover.is-style-video-cover-blur .wp-block-cover__inner-container .wp-block-group.has-background:first-of-type {
+	background: rgba(255, 255, 255, 0.15);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 12px;
+  }

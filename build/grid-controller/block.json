@@ -3,9 +3,9 @@
   "apiVersion": 3,
   "name": "prc-block/grid-controller",
   "version": "1.0.0",
-  "title": "Responsive Columns",
+  "title": "Responsive Grid",
   "category": "design",
-  "description": "Display content in responsive columns. The columns uses 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.",
+  "description": "Display content in a grid of responsive columns. The columns use 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.",
   "keywords": [
     "grid",
     "columns",

@@ -23,6 +23,7 @@ import { useClientWidth } from '@prc/hooks';
  * Internal Dependencies
  */
 import Controls from './controls';
+// SVG images
 import primarySvg from './assets/primary.svg';
 import primaryWhiteSvg from './assets/primary-white.svg';
 import alternateSvg from './assets/alternate.svg';
@@ -165,9 +166,6 @@ export default function Edit({
 }) {
 	const { className, width } = attributes;
 	const ref = useRef();
-	const style = getStyleFromClassName(className);
-	const { naturalWidth, naturalHeight } =
-		DIMENSIONS[style] || DIMENSIONS['primary-only'];
 
 	const blockProps = useBlockProps({
 		ref,
@@ -178,7 +176,13 @@ export default function Edit({
 		}),
 	});
 
-	const imgWrapper = <LogoInner className={className} width={width} />;
+	const style = getStyleFromClassName(blockProps.className);
+	const { naturalWidth, naturalHeight } =
+		DIMENSIONS[style] || DIMENSIONS['primary-only'];
+
+	const imgWrapper = (
+		<LogoInner className={blockProps.className} width={width} />
+	);
 
 	return (
 		<Fragment>

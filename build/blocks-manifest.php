@@ -2999,13 +2999,13 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'prc-block/grid-column',
-		'version' => '0.1.0',
-		'title' => 'Responsive Grid Column',
+		'version' => '1.0.0',
+		'title' => 'Responsive Column',
 		'category' => 'design',
 		'parent' => array(
 			'prc-block/grid-controller'
 		),
-		'description' => 'A responsive grid column. Set the column’s span and start position at different breakpoints to create complex grid layouts.',
+		'description' => 'A responsive grid column. Set the column’s span and start position at different breakpoints to create complex responsive grid layouts.',
 		'attributes' => array(
 			'gridLayout' => array(
 				'type' => 'object',
@@ -3103,9 +3103,9 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'prc-block/grid-controller',
 		'version' => '1.0.0',
-		'title' => 'Responsive Columns',
+		'title' => 'Responsive Grid',
 		'category' => 'design',
-		'description' => 'Display content in responsive columns. The columns uses 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.',
+		'description' => 'Display content in a grid of responsive columns. The columns use 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.',
 		'keywords' => array(
 			'grid',
 			'columns',
@@ -3421,6 +3421,7 @@ return array(
 		'script' => array(
 			'prc-icons'
 		),
+		'viewScript' => 'file:./view.js',
 		'style' => 'file:./style-index.css'
 	),
 	'lorem-ipsum' => array(

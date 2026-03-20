@@ -8,16 +8,16 @@ PRC Block Library registers ~90 blocks across two namespaces: `prc-block/*` for 
 
 ### Dependencies
 
-- **Upstream**: `prc-platform-core` (required plugin), `prc-schema-seo` (optional, for PDF contact resolution), `prc-staff-bylines` (optional, for PDF bylines), Report Package plugin (optional, for multi-chapter PDF rendering), WordPress AI plugin (optional, for tabular data AI experiment)
-- **Downstream**: Every plugin or theme that renders blocks on the front end depends on this library. The `prc-block-library/forms` `@wordpress/data` store is a direct integration point for any plugin registering custom form types.
+-   **Upstream**: `prc-platform-core` (required plugin), `prc-schema-seo` (optional, for PDF contact resolution), `prc-staff-bylines` (optional, for PDF bylines), Report Package plugin (optional, for multi-chapter PDF rendering), WordPress AI plugin (optional, for tabular data AI experiment)
+-   **Downstream**: Every plugin or theme that renders blocks on the front end depends on this library. The `prc-block-library/forms` `@wordpress/data` store is a direct integration point for any plugin registering custom form types.
 
 ## Local Development Setup
 
 ### Prerequisites
 
-- Node.js 22+ / npm 10.9+
-- PHP 8.2+
-- WordPress Playground (via `npm run playground:start` from repo root)
+-   Node.js 22+ / npm 10.9+
+-   PHP 8.2+
+-   WordPress Playground (via `npm run playground:start` from repo root)
 
 ### Running Locally
 
@@ -48,189 +48,193 @@ Blocks are discovered and loaded automatically at runtime. `Plugin::load_blocks(
 
 Blocks are split into two groups initialized by `Plugin`:
 
-- **Core blocks** (`define_core_blocks`): extensions and modifications to existing `core/*` blocks — adding attributes, context, controls, or custom rendering.
-- **PRC blocks** (`define_prc_blocks`): net-new blocks in the `prc-block` namespace.
+-   **Core blocks** (`define_core_blocks`): extensions and modifications to existing `core/*` blocks — adding attributes, context, controls, or custom rendering.
+-   **PRC blocks** (`define_prc_blocks`): net-new blocks in the `prc-block` namespace.
 
 In addition to block classes, `Plugin` boots several support subsystems via `define_library_dependencies()`. These run independently of individual blocks and hook into WordPress globally.
 
 Block scaffolding uses `@wordpress/create-block` with a local template. There are four variants:
 
-| Variant | When to use |
-|---------|------------|
-| `default` | Standard block with optional InnerBlocks/RichText; uses `render.php` |
-| `dynamic` | Block needing a PHP class for server-side rendering or REST registration |
-| `static` | Primitive block that serializes HTML directly to the database |
-| `coreBlock` | Extension of an existing `core/*` block |
+| Variant     | When to use                                                              |
+| ----------- | ------------------------------------------------------------------------ |
+| `default`   | Standard block with optional InnerBlocks/RichText; uses `render.php`     |
+| `dynamic`   | Block needing a PHP class for server-side rendering or REST registration |
+| `static`    | Primitive block that serializes HTML directly to the database            |
+| `coreBlock` | Extension of an existing `core/*` block                                  |
 
 ### Key Files
 
-| Path | Purpose |
-|------|---------|
-| `prc-block-library.php` | Plugin entry point; defines constants, runs `Plugin` |
-| `includes/class-plugin.php` | Boots all blocks and support subsystems; registers block categories and HTML allowlist |
-| `includes/class-loader.php` | Maintains and runs all WordPress action/filter hooks |
-| `includes/utils.php` | `convert_number_to_words()`, `prc_log_error()`, `prc_block_library_manifest()` helpers |
-| `includes/ai-experiments/class-ai-experiments.php` | Registers the Tabular Data AI experiment via the WordPress AI plugin |
-| `includes/block-visibility/class-block-visibility.php` | Adds editor UI for per-block visibility control |
-| `includes/custom-text-formats/class-custom-text-formats.php` | Registers custom rich text format buttons in the editor toolbar |
-| `includes/interactivity-api/class-interactivity-api.php` | Injects `interactiveNamespace` and `interactiveSubsumption` attributes and context on every block that declares `supports.interactivity` |
-| `includes/pagination/class-pagination.php` | Registers shared pagination styles/scripts consumed by listing blocks |
-| `includes/print-engine/class-print-engine.php` | Intercepts `?pdf=true` requests and renders a full print/PDF page; adds `printEngine` attribute to all blocks |
-| `includes/print-engine/class-block-print-registry.php` | Static registry where other plugins register block-level print callbacks and CSS |
-| `includes/supports/class-supports.php` | Adds `maxWidth` (responsive per-breakpoint constraint) and sticky-state color/shadow attributes to every block |
-| `build/blocks-manifest.php` | Auto-generated block metadata index; do not edit manually |
-| `src/README.md` | Instructions for scaffolding a new block |
-| `bin/build-block.js` | CLI helper for building a single named block |
-| `bin/start-block.js` | CLI helper for watching a single named block |
-| `webpack.config.js` | Inherits from root `webpack.config.js` |
-| `tests/` | Playwright e2e specs |
+| Path                                                         | Purpose                                                                                                                                  |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `prc-block-library.php`                                      | Plugin entry point; defines constants, runs `Plugin`                                                                                     |
+| `includes/class-plugin.php`                                  | Boots all blocks and support subsystems; registers block categories and HTML allowlist                                                   |
+| `includes/class-loader.php`                                  | Maintains and runs all WordPress action/filter hooks                                                                                     |
+| `includes/utils.php`                                         | `convert_number_to_words()`, `prc_log_error()`, `prc_block_library_manifest()` helpers                                                   |
+| `includes/ai-experiments/class-ai-experiments.php`           | Registers the Tabular Data AI experiment via the WordPress AI plugin                                                                     |
+| `includes/block-visibility/class-block-visibility.php`       | Adds editor UI for per-block visibility control                                                                                          |
+| `includes/custom-text-formats/class-custom-text-formats.php` | Registers custom rich text format buttons in the editor toolbar                                                                          |
+| `includes/interactivity-api/class-interactivity-api.php`     | Injects `interactiveNamespace` and `interactiveSubsumption` attributes and context on every block that declares `supports.interactivity` |
+| `includes/pagination/class-pagination.php`                   | Registers shared pagination styles/scripts consumed by listing blocks                                                                    |
+| `includes/print-engine/class-print-engine.php`               | Intercepts `?pdf=true` requests and renders a full print/PDF page; adds `printEngine` attribute to all blocks                            |
+| `includes/print-engine/class-block-print-registry.php`       | Static registry where other plugins register block-level print callbacks and CSS                                                         |
+| `includes/supports/class-supports.php`                       | Adds `maxWidth` (responsive per-breakpoint constraint) and sticky-state color/shadow attributes to every block                           |
+| `build/blocks-manifest.php`                                  | Auto-generated block metadata index; do not edit manually                                                                                |
+| `src/README.md`                                              | Instructions for scaffolding a new block                                                                                                 |
+| `bin/build-block.js`                                         | CLI helper for building a single named block                                                                                             |
+| `bin/start-block.js`                                         | CLI helper for watching a single named block                                                                                             |
+| `webpack.config.js`                                          | Inherits from root `webpack.config.js`                                                                                                   |
+| `tests/`                                                     | Playwright e2e specs                                                                                                                     |
 
 ## Blocks
+
+This section doubles as the documentation index. Each block links to its detailed doc in [`docs/`](docs/).
 
 ### Core Block Modifications (`core/*`)
 
 Adds attributes, context, rendering changes, or new editor controls to existing WordPress core blocks.
 
-| Block | Notes |
-|-------|-------|
-| `core/button` | PRC platform customizations |
-| `core/categories` | PRC platform customizations |
-| `core/code` | PRC platform customizations |
-| `core/cover` | PRC platform customizations |
-| `core/details` | Interactivity API integration |
-| `core/dialog` | PRC dialog pattern utilities |
-| `core/embed` | PRC platform customizations |
-| `core/file` | PRC platform customizations |
-| `core/group` | PRC platform customizations |
-| `core/heading` | PRC platform customizations |
-| `core/image` | PRC platform customizations |
-| `core/list` | PRC platform customizations |
-| `core/list-item` | PRC platform customizations |
-| `core/media-text` | PRC platform customizations |
-| `core/navigation` | PRC platform customizations |
-| `core/paragraph` | PRC platform customizations |
-| `core/post-content` | PRC platform customizations |
-| `core/post-title` | Custom render callback for PRC title patterns |
-| `core/pullquote` | PRC platform customizations |
-| `core/query-pagination-numbers` | PRC platform customizations |
-| `core/search` | PRC platform customizations |
-| `core/separator` | PRC platform customizations |
-| `core/social-links` | Interactivity API integration |
-| `core/table` | PRC platform customizations |
-| `core/tabs` | PRC platform customizations; registered as Remote Data Blocks template |
+| Block                                                                    | Notes                                                                  |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| [`core/button`](docs/core-button.md)                                     | PRC platform customizations                                            |
+| [`core/categories`](docs/core-categories.md)                             | PRC platform customizations                                            |
+| [`core/carousel`](docs/core-carousel.md)                                 | WIP, no functional implementation yet                                  |
+| [`core/code`](docs/core-code.md)                                         | PRC platform customizations                                            |
+| [`core/cover`](docs/core-cover.md)                                       | PRC platform customizations                                            |
+| [`core/details`](docs/core-details.md)                                   | Interactivity API integration                                          |
+| [`core/dialog`](docs/core-dialog.md)                                     | PRC dialog pattern utilities                                           |
+| [`core/embed`](docs/core-embed.md)                                       | PRC platform customizations                                            |
+| [`core/file`](docs/core-file.md)                                         | PRC platform customizations                                            |
+| [`core/group`](docs/core-group.md)                                       | PRC platform customizations                                            |
+| [`core/heading`](docs/core-heading.md)                                   | PRC platform customizations                                            |
+| [`core/image`](docs/core-image.md)                                       | PRC platform customizations                                            |
+| [`core/list`](docs/core-list.md)                                         | PRC platform customizations                                            |
+| [`core/list-item`](docs/core-list-item.md)                               | PRC platform customizations                                            |
+| [`core/media-text`](docs/core-media-text.md)                             | PRC platform customizations                                            |
+| [`core/navigation`](docs/core-navigation.md)                             | PRC platform customizations                                            |
+| [`core/paragraph`](docs/core-paragraph.md)                               | PRC platform customizations                                            |
+| [`core/post-content`](docs/core-post-content.md)                         | PRC platform customizations                                            |
+| [`core/post-title`](docs/core-post-title.md)                             | Custom render callback for PRC title patterns                          |
+| [`core/pullquote`](docs/core-pullquote.md)                               | PRC platform customizations                                            |
+| [`core/query-pagination-numbers`](docs/core-query-pagination-numbers.md) | PRC platform customizations                                            |
+| [`core/search`](docs/core-search.md)                                     | PRC platform customizations                                            |
+| [`core/separator`](docs/core-separator.md)                               | PRC platform customizations                                            |
+| [`core/social-links`](docs/core-social-links.md)                         | Interactivity API integration                                          |
+| [`core/table`](docs/core-table.md)                                       | PRC platform customizations                                            |
+| [`core/tabs`](docs/core-tabs.md)                                         | PRC platform customizations; registered as Remote Data Blocks template |
 
 ### Content & Editorial (`prc-block/*`)
 
-| Block | Description |
-|-------|-------------|
-| `prc-block/story-item` | Primary content card for linking to articles; supports block bindings and query loop context |
-| `prc-block/popular-story` | Variant of story item for trending/popular content |
-| `prc-block/sub-title` | Deck/subtitle display below a post title |
-| `prc-block/post-parent-title` | Renders the parent post title with link |
-| `prc-block/post-taxonomy-terms` | Displays taxonomy term links for the current post |
-| `prc-block/breadcrumbs` | Breadcrumb navigation for the current post |
-| `prc-block/table-of-contents` | Generates a TOC from heading blocks; also used by the Print Engine |
-| `prc-block/footnotes` | Footnote rendering |
-| `prc-block/copyright` | Copyright statement block |
-| `prc-block/version` | Displays a version/update notice |
-| `prc-block/promo` | Promotional content unit |
-| `prc-block/promo-rotator` | Cycles through multiple `prc-block/promo` blocks |
-| `prc-block/logo` | PRC logo block with link support |
-| `prc-block/timeline` | Container for `prc-block/timeline-slide` items |
-| `prc-block/timeline-slide` | Individual slide within a timeline |
+| Block                                                          | Description                                                                                  |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [`prc-block/story-item`](docs/story-item.md)                   | Primary content card for linking to articles; supports block bindings and query loop context |
+| [`prc-block/popular-story`](docs/popular-story.md)             | Variant of story item for trending/popular content                                           |
+| [`prc-block/sub-title`](docs/sub-title.md)                     | Deck/subtitle display below a post title                                                     |
+| [`prc-block/post-parent-title`](docs/post-parent-title.md)     | Renders the parent post title with link                                                      |
+| [`prc-block/post-taxonomy-terms`](docs/post-taxonomy-terms.md) | Displays taxonomy term links for the current post                                            |
+| [`prc-block/breadcrumbs`](docs/breadcrumbs.md)                 | Breadcrumb navigation for the current post                                                   |
+| [`prc-block/table-of-contents`](docs/table-of-contents.md)     | Generates a TOC from heading blocks; also used by the Print Engine                           |
+| [`prc-block/footnotes`](docs/footnotes.md)                     | Footnote rendering                                                                           |
+| [`prc-block/copyright`](docs/copyright.md)                     | Copyright statement block                                                                    |
+| [`prc-block/version`](docs/version.md)                         | Displays a version/update notice                                                             |
+| [`prc-block/promo`](docs/promo.md)                             | Promotional content unit                                                                     |
+| [`prc-block/promo-rotator`](docs/promo-rotator.md)             | Cycles through multiple `prc-block/promo` blocks                                             |
+| [`prc-block/logo`](docs/logo.md)                               | PRC logo block with link support                                                             |
+| [`prc-block/timeline`](docs/timeline.md)                       | Container for `prc-block/timeline-slide` items                                               |
+| [`prc-block/timeline-slide`](docs/timeline-slide.md)           | Individual slide within a timeline                                                           |
 
 ### Navigation & Layout
 
-| Block | Description |
-|-------|-------------|
-| `prc-block/navigation-mega-menu` | Mega-menu extension for `core/navigation` |
-| `prc-block/grid-controller` | CSS grid layout container |
-| `prc-block/grid-column` | Column within a `prc-block/grid-controller` |
-| `prc-block/accordion-controller` | Manages expand/collapse state across child accordions |
-| `prc-block/accordion` | Individual accordion panel |
-| `prc-block/carousel-controller` | Splide.js-powered carousel container |
-| `prc-block/carousel-slide` | Individual slide within a carousel |
-| `prc-block/tabs` | Tab container; registered as Remote Data Blocks template |
-| `prc-block/tab` | Individual tab panel |
-| `prc-block/collapsible` | Single show/hide content region |
-| `prc-block/responsive-container-controller` | Renders different inner block sets at different breakpoints |
-| `prc-block/responsive-container-view` | A breakpoint-specific view within a responsive container |
+| Block                                                                                  | Description                                                 |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| [`prc-block/navigation-mega-menu`](docs/navigation-mega-menu.md)                       | Mega-menu extension for `core/navigation`                   |
+| [`prc-block/grid-controller`](docs/grid-controller.md)                                 | CSS grid layout container                                   |
+| [`prc-block/grid-column`](docs/grid-column.md)                                         | Column within a `prc-block/grid-controller`                 |
+| [`prc-block/accordion-controller`](docs/accordion-controller.md)                       | Manages expand/collapse state across child accordions       |
+| [`prc-block/accordion`](docs/accordion.md)                                             | Individual accordion panel                                  |
+| [`prc-block/carousel-controller`](docs/carousel-controller.md)                         | Splide.js-powered carousel container                        |
+| [`prc-block/carousel-slide`](docs/carousel-slide.md)                                   | Individual slide within a carousel                          |
+| [`prc-block/tabs`](docs/tabs.md)                                                       | Tab container; registered as Remote Data Blocks template    |
+| [`prc-block/tab`](docs/tab.md)                                                         | Individual tab panel                                        |
+| [`prc-block/collapsible`](docs/collapsible.md)                                         | Single show/hide content region                             |
+| [`prc-block/responsive-container-controller`](docs/responsive-container-controller.md) | Renders different inner block sets at different breakpoints |
+| [`prc-block/responsive-container-view`](docs/responsive-container-view.md)             | A breakpoint-specific view within a responsive container    |
 
 ### Interactive UI
 
-| Block | Description |
-|-------|-------------|
-| `prc-block/dialog` | Modal dialog container |
-| `prc-block/dialog-trigger` | Button or element that opens a dialog |
-| `prc-block/dialog-element` | Content region inside a dialog |
-| `prc-block/flip-card-controller` | Flip card animation container |
-| `prc-block/flip-card-side` | Front or back face of a flip card |
-| `prc-block/show-more` | Truncates content with an expandable "show more" control |
-| `prc-block/animation` | Applies scroll/entrance animations to inner content |
-| `prc-block/progress-bar` | Animated progress indicator |
-| `prc-block/render-to-region` | (In progress) Portals block content to a named page region |
-| `prc-block/entity-as-iframe` | Embeds a WordPress post or page as a resizing iframe |
+| Block                                                            | Description                                                |
+| ---------------------------------------------------------------- | ---------------------------------------------------------- |
+| [`prc-block/dialog`](docs/dialog.md)                             | Modal dialog container                                     |
+| [`prc-block/dialog-trigger`](docs/dialog-trigger.md)             | Button or element that opens a dialog                      |
+| [`prc-block/dialog-element`](docs/dialog-element.md)             | Content region inside a dialog                             |
+| [`prc-block/flip-card-controller`](docs/flip-card-controller.md) | Flip card animation container                              |
+| [`prc-block/flip-card-side`](docs/flip-card-side.md)             | Front or back face of a flip card                          |
+| [`prc-block/show-more`](docs/show-more.md)                       | Truncates content with an expandable "show more" control   |
+| [`prc-block/animation`](docs/animation.md)                       | Applies scroll/entrance animations to inner content        |
+| [`prc-block/progress-bar`](docs/progress-bar.md)                 | Animated progress indicator                                |
+| [`prc-block/render-to-region`](docs/render-to-region.md)         | (In progress) Portals block content to a named page region |
+| [`prc-block/entity-as-iframe`](docs/entity-as-iframe.md)         | Embeds a WordPress post or page as a resizing iframe       |
 
 ### Forms
 
-| Block | Description |
-|-------|-------------|
-| `prc-block/form` | Form container; uses `prc-block-library/forms` data store |
-| `prc-block/form-page` | Multi-page form step |
-| `prc-block/form-submit` | Submit button |
-| `prc-block/form-message` | Displays success/error messages |
-| `prc-block/form-captcha` | reCAPTCHA integration |
-| `prc-block/form-input-text` | Text input |
-| `prc-block/form-input-textarea` | Textarea input |
-| `prc-block/form-input-checkbox` | Checkbox input |
-| `prc-block/form-input-radio-group` | Radio button group |
-| `prc-block/form-input-select` | Select/dropdown |
-| `prc-block/form-input-select-range` | Dual-handle range select |
-| `prc-block/form-input-range` | Single-handle range slider |
-| `prc-block/form-input-password` | Password input |
-| `prc-block/mailchimp-form` | Mailchimp list subscription form |
-| `prc-block/mailchimp-select` | Mailchimp interest group selector |
+| Block                                                                  | Description                                               |
+| ---------------------------------------------------------------------- | --------------------------------------------------------- |
+| [`prc-block/form`](docs/form.md)                                       | Form container; uses `prc-block-library/forms` data store |
+| [`prc-block/form-page`](docs/form-page.md)                             | Multi-page form step                                      |
+| [`prc-block/form-submit`](docs/form-submit.md)                         | Submit button                                             |
+| [`prc-block/form-message`](docs/form-message.md)                       | Displays success/error messages                           |
+| [`prc-block/form-captcha`](docs/form-captcha.md)                       | reCAPTCHA integration                                     |
+| [`prc-block/form-input-text`](docs/form-input-text.md)                 | Text input                                                |
+| [`prc-block/form-input-textarea`](docs/form-input-textarea.md)         | Textarea input                                            |
+| [`prc-block/form-input-checkbox`](docs/form-input-checkbox.md)         | Checkbox input                                            |
+| [`prc-block/form-input-radio-group`](docs/form-input-radio-group.md)   | Radio button group                                        |
+| [`prc-block/form-input-select`](docs/form-input-select.md)             | Select/dropdown                                           |
+| [`prc-block/form-input-select-range`](docs/form-input-select-range.md) | Dual-handle range select                                  |
+| [`prc-block/form-input-range`](docs/form-input-range.md)               | Single-handle range slider                                |
+| [`prc-block/form-input-password`](docs/form-input-password.md)         | Password input                                            |
+| [`prc-block/mailchimp-form`](docs/mailchimp-form.md)                   | Mailchimp list subscription form                          |
+| [`prc-block/mailchimp-select`](docs/mailchimp-select.md)               | Mailchimp interest group selector                         |
 
 ### Social
 
-| Block | Description |
-|-------|-------------|
-| `prc-block/social-share-sheet` | Social sharing action sheet |
-| `prc-block/social-share-text-link` | Inline "share this" text link |
-| `prc-block/social-share-url-field` | Copyable URL field for sharing |
+| Block                                                                | Description                    |
+| -------------------------------------------------------------------- | ------------------------------ |
+| [`prc-block/social-share-sheet`](docs/social-share-sheet.md)         | Social sharing action sheet    |
+| [`prc-block/social-share-text-link`](docs/social-share-text-link.md) | Inline "share this" text link  |
+| [`prc-block/social-share-url-field`](docs/social-share-url-field.md) | Copyable URL field for sharing |
 
 ### Taxonomy & Data
 
-| Block | Description |
-|-------|-------------|
-| `prc-block/taxonomy-list` | Lists terms from a taxonomy |
-| `prc-block/taxonomy-list-link` | Individual term link within a taxonomy list |
-| `prc-block/taxonomy-search` | Searchable term browser |
-| `prc-block/taxonomy-index-az-controller` | A–Z index controller for taxonomy browsing |
-| `prc-block/taxonomy-index-az-list` | Letter-grouped term list |
-| `prc-block/taxonomy-index-list-controller` | Paginated/filtered taxonomy list controller |
-| `prc-block/tokens-list` | Displays a list of design tokens |
-| `prc-block/roper-db-search` | Roper Center database search interface |
-| `prc-block/remote-pivot-table` | Remote Data Blocks template for pivot table data |
+| Block                                                                                | Description                                      |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------ |
+| [`prc-block/table`](docs/table.md)                                                   | Data table with TypeScript editor and sorting    |
+| [`prc-block/taxonomy-list`](docs/taxonomy-list.md)                                   | Lists terms from a taxonomy                      |
+| [`prc-block/taxonomy-list-link`](docs/taxonomy-list-link.md)                         | Individual term link within a taxonomy list      |
+| [`prc-block/taxonomy-search`](docs/taxonomy-search.md)                               | Searchable term browser                          |
+| [`prc-block/taxonomy-index-az-controller`](docs/taxonomy-index-az-controller.md)     | A–Z index controller for taxonomy browsing       |
+| [`prc-block/taxonomy-index-az-list`](docs/taxonomy-index-az-list.md)                 | Letter-grouped term list                         |
+| [`prc-block/taxonomy-index-list-controller`](docs/taxonomy-index-list-controller.md) | Paginated/filtered taxonomy list controller      |
+| [`prc-block/tokens-list`](docs/tokens-list.md)                                       | Displays a list of design tokens                 |
+| [`prc-block/roper-db-search`](docs/roper-db-search.md)                               | Roper Center database search interface           |
+| [`prc-block/remote-pivot-table`](docs/remote-pivot-table.md)                         | Remote Data Blocks template for pivot table data |
 
 ### Attachments & Media
 
-| Block | Description |
-|-------|-------------|
-| `prc-block/attachments-list` | Lists file attachments for a post |
-| `prc-block/attachments-pagination` | Pagination for attachment lists |
-| `prc-block/audio-player` | HLS.js/MediaElement audio player |
+| Block                                                                | Description                       |
+| -------------------------------------------------------------------- | --------------------------------- |
+| [`prc-block/attachments-list`](docs/attachments-list.md)             | Lists file attachments for a post |
+| [`prc-block/attachments-pagination`](docs/attachments-pagination.md) | Pagination for attachment lists   |
+| [`prc-block/audio-player`](docs/audio-player.md)                     | HLS.js/MediaElement audio player  |
 
 ### Utilities & Developer Tools
 
-| Block | Description |
-|-------|-------------|
-| `prc-block/card` | Generic content card container |
-| `prc-block/icon` | FontAwesome icon picker and renderer |
-| `prc-block/color-palette` | Displays the active theme color palette |
-| `prc-block/code-syntax` | highlight.js syntax-highlighted code block |
-| `prc-block/lorem-ipsum` | Placeholder text generator for layout work |
-| `prc-block/playground` | Embeds a WordPress Playground instance |
+| Block                                              | Description                                |
+| -------------------------------------------------- | ------------------------------------------ |
+| [`prc-block/card`](docs/card.md)                   | Generic content card container             |
+| [`prc-block/icon`](docs/icon.md)                   | FontAwesome icon picker and renderer       |
+| [`prc-block/color-palette`](docs/color-palette.md) | Displays the active theme color palette    |
+| [`prc-block/code-syntax`](docs/code-syntax.md)     | highlight.js syntax-highlighted code block |
+| [`prc-block/lorem-ipsum`](docs/lorem-ipsum.md)     | Placeholder text generator for layout work |
+| [`prc-block/playground`](docs/playground.md)       | Embeds a WordPress Playground instance     |
 
 ## Support Systems
 
@@ -273,8 +277,8 @@ The `printEngine` block attribute (`hideOnPrint`, `displayOnPrint`) is injected 
 
 Adds two layout features to all blocks:
 
-- **`maxWidth`** — per-breakpoint max-width constraints (`desktop`, `tablet`, `mobile`); rendered as CSS custom properties on the block element.
-- **Sticky enhancements** — `isStuckBackground`, `isStuckText`, `isStuckBoxShadow` attributes that swap colors and add a box shadow when a sticky block is in the "stuck" state via the Interactivity API.
+-   **`maxWidth`** — per-breakpoint max-width constraints (`desktop`, `tablet`, `mobile`); rendered as CSS custom properties on the block element.
+-   **Sticky enhancements** — `isStuckBackground`, `isStuckText`, `isStuckBoxShadow` attributes that swap colors and add a box shadow when a sticky block is in the "stuck" state via the Interactivity API.
 
 ### Form Data Store
 
@@ -284,11 +288,13 @@ Forms are registered through a `@wordpress/data` store rather than WordPress fil
 import { dispatch } from '@wordpress/data';
 
 dispatch('prc-block-library/forms').registerForm({
-    label: 'My Custom Form',
-    namespace: 'my-plugin/namespace',
-    action: 'my-action',
-    method: 'api',
-    template: [ /* block template */ ],
+	label: 'My Custom Form',
+	namespace: 'my-plugin/namespace',
+	action: 'my-action',
+	method: 'api',
+	template: [
+		/* block template */
+	],
 });
 ```
 
@@ -298,28 +304,28 @@ Retrieve registered forms:
 import { useSelect } from '@wordpress/data';
 
 const forms = useSelect(
-    (select) => select('prc-block-library/forms').getForms(),
-    []
+	(select) => select('prc-block-library/forms').getForms(),
+	[]
 );
 ```
 
 ## Hooks & Filters
 
-| Hook | Type | Description |
-|------|------|-------------|
-| `block_categories_all` | filter | Adds five categories: **Content Curation**, **Marketing**, **Forms**, **Editorial Product**, **Interactivity API** |
-| `should_load_separate_core_block_assets` | filter | Returns `true`; enables per-block asset loading for performance |
-| `wp_kses_allowed_html` | filter | Extends allowed tags to include `iframe`, `input`, `textarea`, `form`, `picture`, `source`, `svg`, `path`, `rect`; extends `img` with `srcset`/`sizes`; extends `a` with aria attributes |
-| `safe_style_css` | filter | Adds `container` and `@container` to allowed inline CSS properties |
-| `block_type_metadata` | filter | Multiple usages — injects `interactiveNamespace`/`interactiveSubsumption`, `printEngine`, `maxWidth`, and sticky attributes on all blocks |
-| `block_type_metadata_settings` | filter | Merges Interactivity API context entries for blocks that support it |
-| `render_block` | filter | Applied by Print Engine (visibility and `data-*` attribute injection) and Supports (sticky and max-width rendering) |
-| `remote_data_blocks_template_blocks` | filter | Signals to Remote Data Blocks that `prc-block/remote-pivot-table`, `prc-block/tabs`, and `core/tabs` support RDB templates |
-| `remote_data_blocks_register_example_block` | filter | Returns `false`; disables the RDB example block |
-| `prc_platform_rewrite_query_vars` | filter | Adds `print`, `printEngineBeta`, and `pdf` to recognized query vars |
-| `prc_print_engine_register_block_callbacks` | action | Fires at `init` priority 5; use this to register print callbacks via `Block_Print_Registry` |
-| `prc_print_engine_block_{block_name}` | filter | Per-block filter on print-rendered HTML; fires after the registered `Block_Print_Registry` callback |
-| `ai_experiments_register_experiments` | action | Used internally to register the Tabular Data AI experiment |
+| Hook                                        | Type   | Description                                                                                                                                                                              |
+| ------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `block_categories_all`                      | filter | Adds five categories: **Content Curation**, **Marketing**, **Forms**, **Editorial Product**, **Interactivity API**                                                                       |
+| `should_load_separate_core_block_assets`    | filter | Returns `true`; enables per-block asset loading for performance                                                                                                                          |
+| `wp_kses_allowed_html`                      | filter | Extends allowed tags to include `iframe`, `input`, `textarea`, `form`, `picture`, `source`, `svg`, `path`, `rect`; extends `img` with `srcset`/`sizes`; extends `a` with aria attributes |
+| `safe_style_css`                            | filter | Adds `container` and `@container` to allowed inline CSS properties                                                                                                                       |
+| `block_type_metadata`                       | filter | Multiple usages — injects `interactiveNamespace`/`interactiveSubsumption`, `printEngine`, `maxWidth`, and sticky attributes on all blocks                                                |
+| `block_type_metadata_settings`              | filter | Merges Interactivity API context entries for blocks that support it                                                                                                                      |
+| `render_block`                              | filter | Applied by Print Engine (visibility and `data-*` attribute injection) and Supports (sticky and max-width rendering)                                                                      |
+| `remote_data_blocks_template_blocks`        | filter | Signals to Remote Data Blocks that `prc-block/remote-pivot-table`, `prc-block/tabs`, and `core/tabs` support RDB templates                                                               |
+| `remote_data_blocks_register_example_block` | filter | Returns `false`; disables the RDB example block                                                                                                                                          |
+| `prc_platform_rewrite_query_vars`           | filter | Adds `print`, `printEngineBeta`, and `pdf` to recognized query vars                                                                                                                      |
+| `prc_print_engine_register_block_callbacks` | action | Fires at `init` priority 5; use this to register print callbacks via `Block_Print_Registry`                                                                                              |
+| `prc_print_engine_block_{block_name}`       | filter | Per-block filter on print-rendered HTML; fires after the registered `Block_Print_Registry` callback                                                                                      |
+| `ai_experiments_register_experiments`       | action | Used internally to register the Tabular Data AI experiment                                                                                                                               |
 
 ## Troubleshooting
 
@@ -343,8 +349,8 @@ const forms = useSelect(
 
 ## Related Docs
 
-- [Development Guidelines](../../docs/DEVELOPMENT_GUIDELINES.md)
-- [JavaScript Development Rules](../../.cursor/rules/javascript-development.mdc)
-- [WordPress Development Rules](../../.cursor/rules/wordpress-development.mdc)
-- [Block Development Skill](../../.claude/skills/wp-block-development/SKILL.md)
-- [Interactivity API Skill](../../.claude/skills/wp-interactivity-api/SKILL.md)
+-   [Development Guidelines](../../docs/DEVELOPMENT_GUIDELINES.md)
+-   [JavaScript Development Rules](../../.cursor/rules/javascript-development.mdc)
+-   [WordPress Development Rules](../../.cursor/rules/wordpress-development.mdc)
+-   [Block Development Skill](../../.claude/skills/wp-block-development/SKILL.md)
+-   [Interactivity API Skill](../../.claude/skills/wp-interactivity-api/SKILL.md)

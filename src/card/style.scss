@@ -8,8 +8,14 @@
 		letter-spacing: 0.1em;
 		line-height: 1.28571429em;
 		text-transform: uppercase;
-		background-color: var(--custom-heading-background-color);
-		color: var(--custom-heading-text-color);
+		background-color: var(
+			--custom-heading-background-color,
+			var(--wp--preset--color--ui-stable-black)
+		);
+		color: var(
+			--custom-heading-text-color,
+			var(--wp--preset--color--ui-stable-white)
+		);
 	}
 	.prc-card__content {
 		display: flex;

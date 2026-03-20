@@ -501,7 +501,9 @@ class Markdown_For_Agents_Integration {
 	private function generate_heading_id( string $html ): string {
 		$tag = new \WP_HTML_Tag_Processor( $html );
 		if ( ! $tag->next_tag() ) {
-			return md5( $html );
+			$heading_text = $this->extract_heading_text( $html );
+			$id           = sanitize_title( $heading_text );
+			return '' !== $id ? $id : md5( $html );
 		}
 
 		$id = $tag->get_attribute( 'id' );
@@ -525,7 +527,9 @@ class Markdown_For_Agents_Integration {
 			return $id;
 		}
 
-		return md5( $html );
+		$heading_text = $this->extract_heading_text( $html );
+		$id           = sanitize_title( $heading_text );
+		return '' !== $id ? $id : md5( $html );
 	}
 
 	/**

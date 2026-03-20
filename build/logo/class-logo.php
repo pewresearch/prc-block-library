@@ -38,12 +38,28 @@ class Logo {
 	 * @var array<string, string>
 	 */
 	private const STYLE_TO_ASSET = array(
-		'primary-only'       => 'primary.svg',
+		'primary-only'         => 'primary.svg',
 		'primary-stable-white' => 'primary-white.svg',
 		'alt-only'             => 'alternate.svg',
 		'alt-stable-white'     => 'alternate-white.svg',
 		'decoded-only'         => 'decoded.svg',
 		'symbol-only'          => 'symbol.svg',
+		'symbol-stable-white'  => 'symbol-white.svg',
+	);
+
+	/**
+	 * Map of block style to dark-mode (white) asset filename for iOS Safari.
+	 * Used when prefers-color-scheme: dark is not applied inside SVG img on iOS.
+	 *
+	 * @var array<string, string>
+	 */
+	private const STYLE_TO_DARK_ASSET = array(
+		'primary-only'         => 'primary-white.svg',
+		'primary-stable-white' => 'primary-white.svg',
+		'alt-only'             => 'alternate-white.svg',
+		'alt-stable-white'     => 'alternate-white.svg',
+		'decoded-only'         => 'decoded-white.svg',
+		'symbol-only'          => 'symbol-white.svg',
 		'symbol-stable-white'  => 'symbol-white.svg',
 	);
 
@@ -92,6 +108,7 @@ class Logo {
 	private function get_logo_url( $filename ) {
 		$path = PRC_BLOCK_LIBRARY_DIR . '/' . self::ASSETS_PATH . $filename;
 		if ( ! is_file( $path ) ) {
+			do_action( 'qm/warn', 'Logo asset not found: ' . $filename );
 			return '';
 		}
 		return plugins_url( self::ASSETS_PATH . $filename, PRC_BLOCK_LIBRARY_FILE );
@@ -100,14 +117,14 @@ class Logo {
 	/**
 	 * Renders the block callback for the Logo block.
 	 *
-	 * @param array    $attributes Block attributes.
-	 * @param string   $content Block content.
+	 * @param array     $attributes Block attributes.
+	 * @param string    $content Block content.
 	 * @param \WP_Block $block Block object.
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		$class_name   = isset( $attributes['className'] ) ? $attributes['className'] : '';
-		$width        = isset( $attributes['width'] ) ? (int) $attributes['width'] : null;
+		$class_name    = isset( $attributes['className'] ) ? $attributes['className'] : '';
+		$width         = isset( $attributes['width'] ) ? (int) $attributes['width'] : null;
 		$justification = isset( $attributes['justification'] ) ? $attributes['justification'] : 'left';
 
 		$style = $this->get_style_from_classname( $class_name );
@@ -116,6 +133,12 @@ class Logo {
 
 		if ( '' === $url ) {
 			return '';
+		}
+
+		$dark_asset = self::STYLE_TO_DARK_ASSET[ $style ] ?? $asset;
+		$dark_url   = $this->get_logo_url( $dark_asset );
+		if ( '' === $dark_url ) {
+			$dark_url = $url;
 		}
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
@@ -137,9 +160,10 @@ class Logo {
 		$href     = ( 'decoded-only' === $style ) ? $site_url . '/decoded' : $site_url;
 
 		$img = sprintf(
-			'<img src="%1$s" alt="%2$s" loading="eager" />',
+			'<img src="%1$s" alt="%2$s" loading="eager" data-src-light="%1$s" data-src-dark="%3$s" />',
 			esc_url( $url ),
-			esc_attr__( 'Return to Home', 'pewresearch-logo' )
+			esc_attr__( 'Return to Home', 'pewresearch-logo' ),
+			esc_url( $dark_url )
 		);
 
 		$link = sprintf(

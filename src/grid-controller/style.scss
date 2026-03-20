@@ -93,6 +93,10 @@ $grid-mobile: repeat(4, 1fr);
 		align-items: end;
 	}
 
+	&.is-vertically-aligned-stretch {
+		align-items: stretch;
+	}
+
 	&.wp-block.is-placeholder {
 		display: block;
 	}

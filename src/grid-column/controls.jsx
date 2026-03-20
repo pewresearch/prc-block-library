@@ -18,6 +18,8 @@ import ColumnOrderPanel from './column-order-panel';
 import AddColumnToolbarControl from './add-column-toolbar-control';
 import RemoveColumnToolbarControl from './remove-column-toolbar-control';
 
+const VERTICAL_ALIGNMENT_CONTROLS = ['top', 'center', 'bottom', 'stretch'];
+
 export default function Controls({ attributes, setAttributes, clientId }) {
 	const { gridLayout, verticalAlignment } = attributes;
 	const { index } = gridLayout;
@@ -63,6 +65,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 			<RemoveColumnToolbarControl clientId={clientId} />
 			<BlockControls>
 				<BlockVerticalAlignmentToolbar
+					controls={VERTICAL_ALIGNMENT_CONTROLS}
 					onChange={updateVerticalAlignment}
 					value={verticalAlignment}
 				/>

@@ -24,12 +24,12 @@ export default function registerVariations() {
 	registerBlockVariation(BLOCKNAME, {
 		name: 'collapsible',
 		title: 'Collapsible',
-		description: 'Used in "How we did this" sections.',
-		keywords: ['collapsible', 'how we did this'],
+		description: 'Used in "About this research" sections.',
+		keywords: ['collapsible', 'about this research', 'how we did this'],
 		attributes: {
 			className: 'is-style-plus-icon',
 			backgroundColor: 'ui-beige-very-light',
-			summary: 'How we did this',
+			summary: 'About this research',
 			borderColor: 'ui-gray-light',
 			fontFamily: 'sans-serif',
 			style: {
@@ -49,8 +49,8 @@ export default function registerVariations() {
 		name: 'pew-knight-co-branded',
 		title: 'Pew Knight Co-Branded',
 		description:
-			'Used in "How we did this" sections in Pew Knight Initiative pages.',
-		keywords: ['collapsible', 'how we did this', 'pew-knight'],
+			'Used in "About this research" sections in Pew Knight Initiative pages.',
+		keywords: ['collapsible', 'about this research', 'pew-knight'],
 		attributes: {
 			className: 'is-style-pew-knight-co-branded',
 			summary: 'Pew Knight Initiative',

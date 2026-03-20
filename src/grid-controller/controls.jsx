@@ -32,6 +32,8 @@ const DESKTOP_MAX = 12;
 const TABLET_MAX = 12;
 const MOBILE_MAX = 4;
 
+const VERTICAL_ALIGNMENT_CONTROLS = ['top', 'center', 'bottom', 'stretch'];
+
 export default function Controls({
 	attributes,
 	setAttributes,
@@ -142,6 +144,7 @@ export default function Controls({
 			<AddColumnToolbarControl parentClientId={clientId} />
 			<BlockControls>
 				<BlockVerticalAlignmentToolbar
+					controls={VERTICAL_ALIGNMENT_CONTROLS}
 					onChange={updateAlignment}
 					value={verticalAlignment}
 				/>

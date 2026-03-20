@@ -58,7 +58,7 @@ This document describes the refactored architecture for column ordering and divi
 ```javascript
 {
   dividerColor: null,           // Optional color override
-  verticalAlignment: null,      // null | 'top' | 'center' | 'bottom'
+  verticalAlignment: null,      // null | 'top' | 'center' | 'bottom' | 'stretch'
 }
 ```
 

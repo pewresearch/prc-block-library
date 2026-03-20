@@ -57,12 +57,7 @@ class Entity_As_Iframe {
 		}
 
 		$iframe_id  = wp_unique_id( 'prc-entity-iframe-' );
-		$iframe_url = add_query_arg(
-			array(
-				'iframe' => true,
-			),
-			$url
-		);
+		$iframe_url = trailingslashit( $url ) . 'iframe/';
 		// Check if the entity has a set height, otherwise default to 500px.
 		$iframe_height = get_post_meta( $ref, 'iframe_height', true ) ?: 500;
 		$iframe_height = $iframe_height . 'px';

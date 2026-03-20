@@ -1,4 +1,5 @@
 import { store, getContext, getElement } from '@wordpress/interactivity';
+/* global iFrameResize */
 
 const { state } = store('prc-block/entity-as-iframe', {
 	state: {
@@ -24,6 +25,7 @@ const { state } = store('prc-block/entity-as-iframe', {
 				context.src = context.url;
 				state[context.id].resizer = iFrameResize(
 					{
+						license: 'GPLv3',
 						bodyMargin: 0,
 						bodyPadding: 0,
 						heightCalculationMethod: 'taggedElement',
@@ -32,7 +34,7 @@ const { state } = store('prc-block/entity-as-iframe', {
 				)[0];
 			} else {
 				context.src = '';
-				state[context.id].resizer?.iFrameResizer.removeListeners();
+				state[context.id].resizer?.iFrameResizer?.disconnect?.();
 			}
 		},
 	},

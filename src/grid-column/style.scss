@@ -17,6 +17,10 @@
 		align-self: end;
 	}
 
+	&.is-vertically-aligned-stretch {
+		align-self: stretch;
+	}
+
 	@media (min-width: #{ ($break-small) }) {
 		.prc-block-grid-column--align-to-gutter {
 			width: calc(100% + var(--grid-gutter-half)) !important;
