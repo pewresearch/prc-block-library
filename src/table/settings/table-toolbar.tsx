@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -5,45 +6,53 @@ import { blockTable, justifyLeft } from '@wordpress/icons';
 
 /**
  * WordPress Dependencies
-*/
-import { useRef, useEffect } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import { ToolbarDropdownMenu, Button, MenuItem } from '@wordpress/components';
-import { useDispatch, select } from '@wordpress/data';
-import { store as noticesStore } from '@wordpress/notices';
-import { useKeyboardShortcut } from '@wordpress/compose';
+ */
 import { store as blockEditorStore } from '@wordpress/block-editor';
+import {
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+	__experimentalConfirmDialog as ConfirmDialog,
+	ToolbarButton,
+	ToolbarDropdownMenu,
+} from '@wordpress/components';
+import { useKeyboardShortcut } from '@wordpress/compose';
+import { useDispatch } from '@wordpress/data';
+import { useRef, useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { store as noticesStore } from '@wordpress/notices';
 
 /**
  * Internal Dependencies
  */
+import { BlockAttributes, ContentJustifyValue } from '../block-attributes';
 import { CONTENT_JUSTIFY_CONTROLS } from '../constants';
 import {
+	tableColumnAfter,
+	tableColumnBefore,
+	tableColumnDelete,
+	tableMergeCell,
+	tablePivot,
 	tableRowAfter,
 	tableRowBefore,
-	tableColumnBefore,
-	tableColumnAfter,
-	tableColumnDelete,
 	tableRowDelete,
-	tableMergeCell,
 	tableSplitCell,
 } from '../icons';
+import { hasActiveColumnMeta } from '../utils/column-meta';
 import {
-	insertRow,
-	deleteRow,
-	insertColumn,
 	deleteColumn,
+	deleteRow,
+	hasMergedCells,
+	insertColumn,
+	insertRow,
+	isEmptySection,
+	isRectangleSelected,
 	mergeCells,
 	splitMergedCells,
-	hasMergedCells,
-	isRectangleSelected,
 	toTableAttributes,
-	isEmptySection,
-	type VTable,
-	type VSelectedLine,
+	transposeTable,
 	type VSelectedCells,
+	type VSelectedLine,
+	type VTable,
 } from '../utils/table-state';
-import { BlockAttributes, ContentJustifyValue } from '../block-attributes';
 
 type Props = {
 	contentJustification: string;
@@ -66,12 +75,11 @@ export default function ToolbarControls({
 	attributes,
 	clientId,
 }: Props) {
-	// Create a warning notice.
 	const { createWarningNotice } = useDispatch(noticesStore);
 	const { updateBlockAttributes } = useDispatch(blockEditorStore);
 
-	// Create a ref to store the dropdown button element
 	const dropdownRef = useRef<HTMLButtonElement>(null);
+	const [showTransposeConfirm, setShowTransposeConfirm] = useState(false);
 
 	// Register keyboard shortcut
 	useKeyboardShortcut('mod+shift+e', (event: KeyboardEvent) => {
@@ -193,7 +201,47 @@ export default function ToolbarControls({
 		setSelectedLine(undefined);
 	};
 
-	// Create a list of controls for the content justification dropdown.
+	// Transpose guards: exactly 1 header row, no footer, no merged cells.
+	const canTranspose =
+		!isEmptySection(vTable.head) &&
+		vTable.head.length === 1 &&
+		isEmptySection(vTable.foot) &&
+		![...vTable.head, ...vTable.body].some((row) =>
+			row.cells.some((c) => c.rowSpan > 1 || c.colSpan > 1)
+		) &&
+		vTable.body.length > 0;
+
+	const executeTranspose = () => {
+		const result = transposeTable(vTable);
+		if (!result) {
+			// @ts-ignore
+			createWarningNotice(
+				__(
+					'Cannot transpose: the table must have exactly one header row, no footer, and no merged cells.',
+					'prc-block-library'
+				),
+				{ type: 'snackbar' }
+			);
+			return;
+		}
+		setAttributes({
+			...toTableAttributes(result),
+			columnMeta: [],
+			validationSchema: '',
+			isValid: true,
+		});
+		setSelectedCells(undefined);
+		setSelectedLine(undefined);
+	};
+
+	const onTransposeClick = () => {
+		if (hasActiveColumnMeta(attributes.columnMeta || [])) {
+			setShowTransposeConfirm(true);
+		} else {
+			executeTranspose();
+		}
+	};
+
 	const TableJustifyControls = CONTENT_JUSTIFY_CONTROLS.map(
 		({ icon, label, value }) => ({
 			icon,
@@ -275,6 +323,26 @@ export default function ToolbarControls({
 				controls={TableEditControls}
 				ref={dropdownRef}
 			/>
+		<ToolbarButton
+			icon={tablePivot}
+			label={__('Transpose table', 'prc-block-library')}
+			onClick={onTransposeClick}
+			disabled={!canTranspose}
+		/>
+			{showTransposeConfirm && (
+				<ConfirmDialog
+					onConfirm={() => {
+						setShowTransposeConfirm(false);
+						executeTranspose();
+					}}
+					onCancel={() => setShowTransposeConfirm(false)}
+				>
+					{__(
+						'Transposing will reset all column metadata (types, rounding, hidden/sortable flags) because column semantics do not survive a transpose. Continue?',
+						'prc-block-library'
+					)}
+				</ConfirmDialog>
+			)}
 		</>
 	);
 }

@@ -20,6 +20,11 @@
       }
     }
   },
+  "example": {
+    "attributes": {
+      "numoffset": 0
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false,

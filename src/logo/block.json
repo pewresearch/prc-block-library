@@ -20,6 +20,7 @@
 	},
 	"supports": {
 		"html": false,
+		"interactivity": true,
 		"color": {
 			"background": true,
 			"text": false,
@@ -59,6 +60,10 @@
 		{
 			"name": "decoded-only",
 			"label": "Decoded"
+		},
+		{
+			"name": "pew-knight-only",
+			"label": "Pew Knight"
 		}
 	],
 	"example": {
@@ -73,6 +78,6 @@
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"script": ["prc-icons"],
-	"viewScript": "file:./view.js",
+	"viewScriptModule": "file:./view.js",
 	"style": "file:./style-index.css"
 }

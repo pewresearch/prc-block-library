@@ -74,6 +74,7 @@ class Core_Group {
 			$loader->add_action( 'init', $this, 'register_new_styles', 10 );
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_assets' );
+			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 2 );
 		}
@@ -113,12 +114,6 @@ class Core_Group {
 	 */
 	public function register_editor_style() {
 		wp_enqueue_style( $this->style_handle );
-		// @TODO: Need to rework the divider to use design tokens throughout.
-		// $styles = $this->generate_divider_styles();
-		// if ( is_wp_error( $styles ) ) {
-		// return;
-		// }
-		// wp_add_inline_style( $this->style_handle, $styles );
 	}
 
 
@@ -130,7 +125,6 @@ class Core_Group {
 	 */
 	public function register_editor_assets() {
 		wp_enqueue_script( $this->editor_script_handle );
-		wp_enqueue_style( $this->style_handle );
 	}
 
 	/**

@@ -4,15 +4,33 @@
 	"name": "prc-block/social-share-url-field",
 	"version": "0.1.0",
 	"title": "Social Share Url Field",
-	"keywords": ["social"],
+	"keywords": [
+		"social"
+	],
 	"category": "marketing",
-	"allowedBlocks": ["prc-block/form-input-text"],
+	"allowedBlocks": [
+		"prc-block/form-input-text"
+	],
 	"attributes": {},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "prc-block/form-input-text",
+				"attributes": {
+					"label": "URL",
+					"placeholder": "https://..."
+				}
+			}
+		]
+	},
 	"supports": {
 		"anchor": false,
 		"html": false,
 		"spacing": {
-			"margin": [ "top", "bottom" ]
+			"margin": [
+				"top",
+				"bottom"
+			]
 		},
 		"typography": {
 			"fontSize": true,
@@ -25,7 +43,9 @@
 		"align": false,
 		"interactivity": true
 	},
-	"parent": ["core/social-links"],
+	"parent": [
+		"core/social-links"
+	],
 	"usesContext": [
 		"postId",
 		"core/socialLinksTitle",

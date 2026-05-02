@@ -2,7 +2,7 @@
  * External Dependencies
  */
 
-import { getBlockGapSupportValue } from '@prc/block-utils';
+import { getBlockGapSupportValue } from '@prc/functions';
 
 /**
  * WordPress Dependencies

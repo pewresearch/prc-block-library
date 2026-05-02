@@ -38,19 +38,48 @@ class Timeline_Slide {
 	}
 
 	/**
+	 * Resolve tick label for this slide (must match Timeline::render_callback tick ids).
+	 *
+	 * @param array     $attributes Block attributes.
+	 * @param \WP_Block $block     Block instance.
+	 * @return string
+	 */
+	private function resolve_slide_label( array $attributes, $block ): string {
+		$name  = $attributes['metadata']['name'] ?? '';
+		$label = is_string( $name ) ? trim( $name ) : '';
+		if ( '' === $label ) {
+			$legacy = $attributes['label'] ?? '';
+			$label  = is_string( $legacy ) ? trim( $legacy ) : '';
+		}
+		if ( '' !== $label ) {
+			return $label;
+		}
+
+		$slide_index = 0;
+		if ( $block instanceof \WP_Block && $block->parent_block instanceof \WP_Block ) {
+			foreach ( $block->parent_block->inner_blocks as $i => $inner ) {
+				if ( $inner === $block ) {
+					$slide_index = (int) $i;
+					break;
+				}
+			}
+		}
+
+		// Plain English for stable tick ids (must match Timeline::render_callback).
+		return sprintf( 'Slide %d', $slide_index + 1 );
+	}
+
+	/**
 	 * Render callback for the block
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content.
-	 * @param object $block      Block object.
+	 * @param array     $attributes Block attributes.
+	 * @param string    $content    Block content.
+	 * @param \WP_Block $block      Block object.
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
-		if ( empty( $attributes['metadata']['name'] ) ) {
-			return '';
-		}
-
-		$block_id = md5( $attributes['metadata']['name'] );
+		$label    = $this->resolve_slide_label( $attributes, $block );
+		$block_id = md5( $label );
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(

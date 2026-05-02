@@ -4,7 +4,6 @@
 import {
 	createBlock,
 	createBlocksFromInnerBlocksTemplate,
-	cloneBlock,
 } from '@wordpress/blocks';
 
 const transforms = {
@@ -16,12 +15,15 @@ const transforms = {
 			transform: (attributes, innerBlocks) => {
 				const newBlocks = [];
 				innerBlocks.forEach((block) => {
-					const { label } = block.attributes;
+					const tabLabel =
+						typeof block.attributes.label === 'string'
+							? block.attributes.label
+							: '';
 					const newBlock = {
 						name: 'prc-block/timeline-slide',
 						attributes: {
 							metadata: {
-								name: label,
+								name: tabLabel,
 							},
 						},
 						innerBlocks: block.innerBlocks,
@@ -43,12 +45,14 @@ const transforms = {
 			transform: (attributes, innerBlocks) => {
 				const newBlocks = [];
 				innerBlocks.forEach((block) => {
-					const { metadata } = block.attributes;
-					const { name } = metadata;
+					const slideLabel =
+						block.attributes.metadata?.name ??
+						block.attributes.label ??
+						'';
 					newBlocks.push(
 						createBlock(
 							'prc-block/tab',
-							{ label: name, metadata: { ...metadata } },
+							{ label: slideLabel },
 							block.innerBlocks
 						)
 					);
@@ -83,16 +87,22 @@ const transforms = {
 			transform: (attributes, innerBlocks) => {
 				const newBlocks = [];
 				innerBlocks.forEach((block) => {
-					const { metadata } = block.attributes;
-					const { name } = metadata;
+					const slideLabel =
+						block.attributes.metadata?.name ??
+						block.attributes.label ??
+						'';
 					newBlocks.push(
 						createBlock(
 							'core/details',
 							{
-								summary: name,
-								metadata: {
-									...metadata,
-								},
+								summary: slideLabel,
+								...(block.attributes.metadata
+									? {
+											metadata: {
+												...block.attributes.metadata,
+											},
+									  }
+									: {}),
 							},
 							block.innerBlocks
 						)

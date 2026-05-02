@@ -75,6 +75,7 @@ class Core_Dialog {
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_assets' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
+			$loader->add_filter( 'render_block_' . $this->block_name, $this, 'render_block__dialog', 10, 2 );
 			$loader->add_filter( 'render_block_' . $this->block_name . '-element', $this, 'render_block__dialog_element', 10, 2 );
 		}
 	}
@@ -111,6 +112,33 @@ class Core_Dialog {
 	}
 
 	/**
+	 * After the full dialog block renders, add trigger hover prefetch when the dialog contains entity-as-iframe.
+	 *
+	 * @param string $block_content The block content.
+	 * @param array  $block         The block data.
+	 * @return string
+	 *
+	 * @hook render_block_prc-block/dialog
+	 */
+	public function render_block__dialog( $block_content, $block ) {
+		if ( ! is_string( $block_content ) || ! preg_match( '/wp-block-prc-block-entity-as-iframe/', $block_content ) ) {
+			return $block_content;
+		}
+
+		$processor = new WP_HTML_Tag_Processor( $block_content );
+		if ( ! $processor->next_tag( array( 'class_name' => 'wp-block-prc-block-dialog-trigger' ) ) ) {
+			return $block_content;
+		}
+
+		$processor->set_attribute(
+			'data-wp-on--pointerenter',
+			'callbacks.prefetchEntityIframeOnTriggerPointer'
+		);
+
+		return $processor->get_updated_html();
+	}
+
+	/**
 	 * Render callback for prc-block/dialog-element
 	 *
 	 * @param string $block_content The block content.
@@ -126,6 +154,9 @@ class Core_Dialog {
 		$tag->set_attribute( 'data-wp-watch--on-open-start-video', 'callbacks.onOpenStartVideo' );
 		$tag->set_attribute( 'data-wp-watch--on-close-stop-video', 'callbacks.onCloseStopVideo' );
 		$tag->set_attribute( 'data-wp-watch--on-open-watch-animation-end', 'callbacks.onAnimationEnd' );
+		if ( is_string( $block_content ) && preg_match( '/wp-block-prc-block-entity-as-iframe/', $block_content ) ) {
+			$tag->set_attribute( 'data-wp-watch--sync-entity-iframes', 'callbacks.syncEntityIframeWithDialog' );
+		}
 		return $tag->get_updated_html();
 	}
 }

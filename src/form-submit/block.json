@@ -5,21 +5,51 @@
 	"title": "Form Submit Actions",
 	"category": "design",
 	"icon": "button",
-	"ancestor": [ "prc-block/form" ],
-	"allowedBlocks": [ "core/button", "prc-block/form-captcha" ],
+	"ancestor": [
+		"prc-block/form"
+	],
+	"allowedBlocks": [
+		"core/button",
+		"prc-block/form-captcha"
+	],
 	"description": "Submission actions for forms. Includes submit button, captcha, and optional response message.",
-	"keywords": [ "submit", "button", "form" ],
+	"keywords": [
+		"submit",
+		"button",
+		"form"
+	],
 	"supports": {
 		"anchor": true,
 		"spacing": {
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
 			}
 		}
 	},
-	"usesContext": [ "form/displayMessage" ],
+	"usesContext": [
+		"form/displayMessage"
+	],
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "core/button",
+				"attributes": {
+					"text": "Submit",
+					"tagName": "button",
+					"type": "submit"
+				}
+			},
+			{
+				"name": "prc-block/form-captcha",
+				"attributes": {}
+			}
+		]
+	},
 	"textdomain": "form-submit",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

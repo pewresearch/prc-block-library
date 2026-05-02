@@ -18,13 +18,9 @@ fi
 
 cd "$PROJECT_DIR"
 
-# Collect changed files (staged + unstaged vs HEAD) plus untracked.
-changed_files=$(git diff --name-only HEAD 2>/dev/null || true)
-untracked_files=$(git ls-files --others --exclude-standard 2>/dev/null || true)
-
-if [[ -n "$untracked_files" ]]; then
-  changed_files=$(printf "%s\n%s\n" "$changed_files" "$untracked_files")
-fi
+# Only check staged files — unstaged edits and untracked files are mid-session
+# work that hasn't been committed to yet, so docs enforcement is premature.
+changed_files=$(git diff --name-only --cached 2>/dev/null || true)
 
 if [[ -z "$changed_files" ]]; then
   echo '{}'

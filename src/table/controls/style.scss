@@ -25,7 +25,6 @@
 
 	&.is-none,
 	&.is-transparent {
-
 		.component-color-indicator::before {
 			position: absolute;
 			top: 1px;
@@ -38,8 +37,14 @@
 	}
 
 	&.is-none .component-color-indicator::before {
-		background-color: #fff;
-		background-image: linear-gradient(to left top, transparent 48%, #cc1818 calc(48% + 1px), #cc1818 calc(52% - 1px), transparent 52%);
+		background-color: light-dark(#fff, #1e1e1e);
+		background-image: linear-gradient(
+			to left top,
+			transparent 48%,
+			#cc1818 calc(48% + 1px),
+			#cc1818 calc(52% - 1px),
+			transparent 52%
+		);
 	}
 
 	&.is-transparent .component-color-indicator::before {

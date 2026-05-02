@@ -63,6 +63,12 @@
 			"type": "number"
 		}
 	},
+	"example": {
+		"attributes": {
+			"heading": "Attachments",
+			"hideHeading": false
+		}
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -83,7 +89,10 @@
 			}
 		}
 	},
-	"usesContext": ["postId", "postType"],
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"textdomain": "attachments-list",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

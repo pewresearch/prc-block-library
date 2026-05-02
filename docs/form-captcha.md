@@ -2,6 +2,10 @@
 
 A dynamic block that integrates Cloudflare Turnstile captcha into the form submission flow. The captcha widget is hidden by default and revealed automatically when the user initiates form submission, acting as a gatekeeper before the actual API call is made.
 
+## Block inserter example
+
+`block.json` includes an empty `example` object so the inserter preview uses default block attributes.
+
 ## Namespace
 
 `prc-block/form-captcha`
@@ -12,11 +16,11 @@ A dynamic block that integrates Cloudflare Turnstile captcha into the form submi
 
 ## Supports
 
-| Feature | Value |
-|---------|-------|
-| Spacing (margin) | `true` |
-| Interactivity | `true` |
-| HTML | `false` |
+| Feature          | Value   |
+| ---------------- | ------- |
+| Spacing (margin) | `true`  |
+| Interactivity    | `true`  |
+| HTML             | `false` |
 
 ## Attributes
 
@@ -42,8 +46,8 @@ No explicit `parent` or `ancestor` constraint in `block.json`, but the block is 
 
 ### Requirements
 
-- The `PRC_PLATFORM_TURNSTILE_SITE_KEY` constant must be defined in the WordPress environment.
-- The Cloudflare Turnstile script is registered and enqueued by the block's PHP class.
+-   The `PRC_PLATFORM_TURNSTILE_SITE_KEY` constant must be defined in the WordPress environment.
+-   The Cloudflare Turnstile script is registered and enqueued by the block's PHP class.
 
 ## Block Markup Example
 
@@ -59,23 +63,25 @@ The block is fully server-side rendered via `render_callback` in `class-form-cap
 
 1. **Script Registration**: Registers the Cloudflare Turnstile script (`https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onloadTurnstileCallback`) with explicit render mode.
 2. **Block Output**: Renders a `<div>` container with:
-   - `data-wp-interactive="prc-block/form-captcha"` for its own interactivity namespace
-   - `data-wp-context` with `targetNamespace` pointing to the parent form's namespace (`prc-block/form`)
-   - `data-wp-watch="callbacks.onInit"` to initialize the captcha watcher
-   - `hidden` attribute (hidden by default)
-   - `data-wp-bind--hidden="context.captchaHidden"` bound to the parent form's captcha visibility state
-   - The Turnstile site key as a `data-sitekey` attribute on the inner captcha element
+    - `data-wp-interactive="prc-block/form-captcha"` for its own interactivity namespace
+    - `data-wp-context` with `targetNamespace` pointing to the parent form's namespace (`prc-block/form`)
+    - `data-wp-watch="callbacks.onInit"` to initialize the captcha watcher
+    - `hidden` attribute (hidden by default)
+    - `data-wp-bind--hidden="context.captchaHidden"` bound to the parent form's captcha visibility state
+    - The Turnstile site key as a `data-sitekey` attribute on the inner captcha element
 
 ### Rendered Output
 
 ```html
-<div data-wp-interactive="prc-block/form-captcha"
-     data-wp-context='{"targetNamespace":"prc-block/form"}'
-     data-wp-watch="callbacks.onInit"
-     hidden
-     data-wp-bind--hidden="context.captchaHidden"
-     class="wp-block-prc-block-form-captcha">
-  <div class="cf-turnstile" data-sitekey="..."></div>
+<div
+	data-wp-interactive="prc-block/form-captcha"
+	data-wp-context='{"targetNamespace":"prc-block/form"}'
+	data-wp-watch="callbacks.onInit"
+	hidden
+	data-wp-bind--hidden="context.captchaHidden"
+	class="wp-block-prc-block-form-captcha"
+>
+	<div class="cf-turnstile" data-sitekey="..."></div>
 </div>
 ```
 
@@ -85,8 +91,8 @@ The block is fully server-side rendered via `render_callback` in `class-form-cap
 
 ### Callbacks
 
-| Callback | Description |
-|----------|-------------|
+| Callback | Description                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `onInit` | A watcher that monitors the `captchaHidden` state from the parent form context. When `captchaHidden` transitions to `false` (form submission initiated), it calls `turnstile.render()` on the captcha container element. On successful challenge completion, the Turnstile callback sets `captchaToken` and `captchaPassed` on the target (parent form) context, which triggers the form's `onCaptchaPassing` callback to proceed with submission. |
 
 ### Interaction Flow
@@ -100,6 +106,6 @@ The block is fully server-side rendered via `render_callback` in `class-form-cap
 
 ## Related Blocks
 
-| Block | Relationship |
-|-------|-------------|
+| Block            | Relationship                                                                                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
 | `prc-block/form` | Required parent. Provides the `captchaHidden`, `captchaToken`, and `captchaPassed` context values. |

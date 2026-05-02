@@ -21,6 +21,11 @@
 			"default": ""
 		}
 	},
+	"example": {
+		"attributes": {
+			"label": "Share"
+		}
+	},
 	"usesContext": [
 		"postId",
 		"queryId",
@@ -36,7 +41,9 @@
 		"core/socialLinksImageId",
 		"core/socialLinksHashtags"
 	],
-	"parent": ["core/social-links"],
+	"parent": [
+		"core/social-links"
+	],
 	"textdomain": "social-share-sheet",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

@@ -35,7 +35,7 @@ class Taxonomy_List_Link {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'prc_platform_rewrite_query_vars', $this, 'register_query_var' );
+			$loader->add_filter( 'query_vars', $this, 'register_query_var' );
 		}
 	}
 
@@ -107,7 +107,7 @@ class Taxonomy_List_Link {
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
 				'id'                       => $block_id,
-				'class'                    => \PRC\Platform\Block_Utils\classNames( $css_classes ),
+				'class'                    => \PRC\BlockUtils\classNames( $css_classes ),
 				'data-wp-interactive'      => wp_json_encode(
 					array(
 						'namespace' => 'prc-block/taxonomy-list-link',

@@ -34,7 +34,22 @@ class Promo {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_filter( 'block_bindings_supported_attributes_prc-block/promo', $this, 'enable_pattern_overrides' );
 		}
+	}
+
+	/**
+	 * Enable pattern overrides for the promo block
+	 *
+	 * @hook block_bindings_supported_attributes_prc-block/promo
+	 * @param array $supported_attributes Supported attributes.
+	 * @return array
+	 */
+	public function enable_pattern_overrides( $supported_attributes ) {
+		$supported_attributes[] = 'heading';
+		$supported_attributes[] = 'subHeading';
+		$supported_attributes[] = 'icon';
+		return $supported_attributes;
 	}
 
 	/**
@@ -91,7 +106,7 @@ class Promo {
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'    => md5( wp_json_encode( $attributes ) ),
-				'class' => \PRC\Platform\Block_Utils\classNames(
+				'class' => \PRC\BlockUtils\classNames(
 					$class_name,
 					array(
 						'has-icon'       => $has_icon,

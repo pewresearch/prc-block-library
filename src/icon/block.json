@@ -20,12 +20,22 @@
 			"default": "star"
 		}
 	},
+	"example": {
+		"attributes": {
+			"icon": "star",
+			"library": "solid",
+			"size": 1
+		}
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
 		"spacing": {
 			"blockGap": true,
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true

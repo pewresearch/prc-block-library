@@ -8,6 +8,7 @@ import { Fragment } from '@wordpress/element';
 /**
  * Internal Dependencies
  */
+import './style.scss';
 import './editor.scss';
 import Controls from './controls';
 

@@ -63,6 +63,13 @@
 			}
 		}
 	},
+	"example": {
+		"attributes": {
+			"taxonomy": "categories",
+			"enableLink": true,
+			"perPage": 5
+		}
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -94,7 +101,9 @@
 			"__experimentalFontFamily": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalTextDecoration": true,
-			"__experimentalSkipSerialization": ["textDecoration"],
+			"__experimentalSkipSerialization": [
+				"textDecoration"
+			],
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
@@ -102,13 +111,22 @@
 		"spacing": {
 			"blockGap": true,
 			"padding": true,
-			"units": ["px", "em", "rem", "vh", "vw"],
+			"units": [
+				"px",
+				"em",
+				"rem",
+				"vh",
+				"vw"
+			],
 			"__experimentalDefaultControls": {
 				"blockGap": true
 			}
 		}
 	},
-	"usesContext": ["postId", "postType"],
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"textdomain": "post-taxonomy-terms",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

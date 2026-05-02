@@ -20,11 +20,23 @@ let blockName = args[0];
 
 	if (!blockName) {
 		process.stdout.write('Starting all blocks...\n');
-	} else {
 	}
 
-	const src = `./src/${blockName}/`;
-	const output = `./build/${blockName}/`;
+	// Determine source: deprecated: prefix -> deprecated/src, otherwise src
+	let srcBase = './src';
+	let buildBase = './build';
+	let manifestInput = './src';
+	let manifestOutput = './build/blocks-manifest.php';
+	if (blockName && blockName.startsWith('deprecated:')) {
+		blockName = blockName.replace('deprecated:', '');
+		srcBase = './deprecated/src';
+		buildBase = './deprecated/build';
+		manifestInput = './deprecated/src';
+		manifestOutput = './deprecated/build/blocks-manifest.php';
+	}
+
+	const src = `${srcBase}/${blockName}/`;
+	const output = `${buildBase}/${blockName}/`;
 
 	// Check if src directory exists
 	if (!fs.existsSync(src)) {
@@ -60,8 +72,7 @@ let blockName = args[0];
 		ellipsesIndex = (ellipsesIndex + 1) % ellipses.length;
 	}, 500);
 
-	let command =
-		'npx wp-scripts build-blocks-manifest --input=./src --output=./build/blocks-manifest.php';
+	let command = `npx wp-scripts build-blocks-manifest --input=${manifestInput} --output=${manifestOutput}`;
 	// Clear the interval when the build process is done
 	command += `; npx wp-scripts start --source-path=${src} --output-path=${output} --webpack-copy-php`;
 	if (isInteractive) {

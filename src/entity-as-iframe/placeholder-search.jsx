@@ -13,29 +13,29 @@ import { __ } from '@wordpress/i18n';
  */
 import { POST_TYPE, POST_TYPE_LABEL } from './constants';
 
-export default function PlaceholderSearch( {
+export default function PlaceholderSearch({
 	clientId,
 	attributes,
 	setAttributes,
-} ) {
+}) {
 	return (
 		<WPEntitySearch
-			searchLabel={ __( `Search for ${ POST_TYPE_LABEL }` ) }
+			searchLabel={__(`Search for ${POST_TYPE_LABEL}`)}
 			entityType="postType"
-			entitySubType={ POST_TYPE }
-			onSelect={ ( entity ) => {
-				console.log( 'Entity: ', entity );
-				setAttributes( {
-					ref: parseInt( entity.id ),
-				} );
-			} }
-			onKeyEnter={ () => {
-				console.log( 'Enter Key Pressed' );
-			} }
-			onKeyESC={ () => {
-				console.log( 'ESC Key Pressed' );
-			} }
-			perPage={ 10 }
+			entitySubType={POST_TYPE}
+			onSelect={(entity) => {
+				console.log('Entity: ', entity);
+				setAttributes({
+					ref: parseInt(entity.id),
+				});
+			}}
+			onKeyEnter={() => {
+				console.log('Enter Key Pressed');
+			}}
+			onKeyESC={() => {
+				console.log('ESC Key Pressed');
+			}}
+			perPage={10}
 		/>
 	);
 }

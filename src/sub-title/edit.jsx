@@ -45,9 +45,7 @@ export default function Edit({
 	const { textAlign } = attributes;
 	const { postId, postType } = context;
 	const [meta, setMeta] = useEntityProp('postType', postType, 'meta', postId);
-	const subTitle =
-		meta?.sub_headline ||
-		'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.';
+	const subTitle = meta?.sub_title || null;
 
 	const blockProps = useBlockProps({
 		className: classnames(className, {
@@ -70,14 +68,12 @@ export default function Edit({
 					tagName="div"
 					onChange={(t) =>
 						undefined !== postId &&
-						setMeta({ ...meta, sub_headline: t })
+						setMeta({ ...meta, sub_title: t })
 					}
 					allowedFormats={[]}
 					keepPlaceholderOnFocus
 					value={subTitle}
-					placeholder={__(
-						'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'
-					)}
+					placeholder={__('Post sub-title')}
 					disableLineBreaks
 					__unstableOnSplitAtEnd={() =>
 						insertBlocksAfter(createBlock(getDefaultBlockName()))

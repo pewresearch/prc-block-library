@@ -2,24 +2,25 @@
 
 ## Block Overview
 
-| Property    | Value                                                                    |
-| ----------- | ------------------------------------------------------------------------ |
-| Name        | `prc-block/responsive-container-controller`                              |
-| Title       | Responsive Container                                                     |
-| Category    | `design`                                                                 |
-| Version     | 0.1.0                                                                    |
-| Description | A set of blocks to display content at specific viewport widths.          |
-| Keywords    | ai2html, illustrator, responsive, container, Illustrator, AI2HTML        |
+| Property    | Value                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------ |
+| Name        | `prc-block/responsive-container-controller`                                                |
+| Title       | Responsive Container                                                                       |
+| Category    | `design`                                                                                   |
+| Version     | 0.1.0                                                                                      |
+| Description | A set of blocks to display content at specific viewport widths.                            |
+| Keywords    | ai2html, illustrator, responsive, container, Illustrator, AI2HTML                          |
+| Example     | Yes (three `responsive-container-view` rows — desktop / tablet / mobile; inserter preview) |
 
 ## Supports
 
-| Feature         | Enabled                          |
-| --------------- | -------------------------------- |
-| HTML editing    | No                               |
-| Anchor          | Yes                              |
-| Alignment       | left, right, wide, full          |
-| Spacing         | blockGap, margin (top/bottom), padding |
-| Typography      | fontSize, fontFamily             |
+| Feature      | Enabled                                |
+| ------------ | -------------------------------------- |
+| HTML editing | No                                     |
+| Anchor       | Yes                                    |
+| Alignment    | left, right, wide, full                |
+| Spacing      | blockGap, margin (top/bottom), padding |
+| Typography   | fontSize, fontFamily                   |
 
 ## Attributes
 
@@ -53,24 +54,52 @@ None. This is a top-level block.
 4. On the frontend, only the view matching the current viewport width will be visible; the others are hidden via CSS media queries.
 5. Additional views can be added using the block appender when the controller block is selected.
 
+## Inserter preview
+
+The `example` in `block.json` matches the default three-view template (device types and min/max breakpoints as in the editor), without duplicating full inner content — the inserter uses this shape for the thumbnail.
+
 ## Block Markup Example
 
 ```html
 <div class="wp-block-prc-block-responsive-container-controller" id="abcdef1234">
-  <div class="wp-block-prc-block-responsive-container-view" id="desktop01" style="display: none;">
-    <!-- Desktop content -->
-  </div>
-  <div class="wp-block-prc-block-responsive-container-view" id="tablet001" style="display: none;">
-    <!-- Tablet content -->
-  </div>
-  <div class="wp-block-prc-block-responsive-container-view" id="mobile01" style="display: none;">
-    <!-- Mobile content -->
-  </div>
+	<div
+		class="wp-block-prc-block-responsive-container-view"
+		id="desktop01"
+		style="display: none;"
+	>
+		<!-- Desktop content -->
+	</div>
+	<div
+		class="wp-block-prc-block-responsive-container-view"
+		id="tablet001"
+		style="display: none;"
+	>
+		<!-- Tablet content -->
+	</div>
+	<div
+		class="wp-block-prc-block-responsive-container-view"
+		id="mobile01"
+		style="display: none;"
+	>
+		<!-- Mobile content -->
+	</div>
 </div>
 <style>
-  @media screen and (min-width: 980px) { #desktop01.wp-block-prc-block-responsive-container-view { display: flex!important; } }
-  @media screen and (max-width: 979px) and (min-width: 480px) { #tablet001.wp-block-prc-block-responsive-container-view { display: flex!important; } }
-  @media screen and (max-width: 479px) { #mobile01.wp-block-prc-block-responsive-container-view { display: flex!important; } }
+	@media screen and (min-width: 980px) {
+		#desktop01.wp-block-prc-block-responsive-container-view {
+			display: flex !important;
+		}
+	}
+	@media screen and (max-width: 979px) and (min-width: 480px) {
+		#tablet001.wp-block-prc-block-responsive-container-view {
+			display: flex !important;
+		}
+	}
+	@media screen and (max-width: 479px) {
+		#mobile01.wp-block-prc-block-responsive-container-view {
+			display: flex !important;
+		}
+	}
 </style>
 ```
 
@@ -78,12 +107,12 @@ None. This is a top-level block.
 
 The block is server-side rendered via `Responsive_Container_Controller::render_block_callback()`:
 
-- Generates a unique hash ID for the controller wrapper and each inner view block.
-- Iterates over inner blocks, rendering each and assigning unique IDs.
-- Constructs CSS media queries based on each view's `min` and `max` attributes.
-- Outputs the views wrapped in the controller `<div>` followed by a `<style>` tag containing the generated media queries.
-- Adds `top`, `left`, `right`, and `bottom` to WordPress safe CSS styles via the `safe_style_css` filter.
-- All views start with `display: none` and are shown only when their media query matches.
+-   Generates a unique hash ID for the controller wrapper and each inner view block.
+-   Iterates over inner blocks, rendering each and assigning unique IDs.
+-   Constructs CSS media queries based on each view's `min` and `max` attributes.
+-   Outputs the views wrapped in the controller `<div>` followed by a `<style>` tag containing the generated media queries.
+-   Adds `top`, `left`, `right`, and `bottom` to WordPress safe CSS styles via the `safe_style_css` filter.
+-   All views start with `display: none` and are shown only when their media query matches.
 
 ## Frontend Interactivity
 
@@ -91,4 +120,4 @@ No view script. Responsive behavior is handled entirely via CSS media queries ge
 
 ## Related Blocks
 
-- **`prc-block/responsive-container-view`** -- The child block that holds content for each viewport range. Must be placed inside this controller.
+-   **`prc-block/responsive-container-view`** -- The child block that holds content for each viewport range. Must be placed inside this controller.

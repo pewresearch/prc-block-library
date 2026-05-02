@@ -4,49 +4,50 @@ An interactive card that flips to reveal additional content on the back side. Us
 
 ## Block Metadata
 
-| Property    | Value                                |
-|-------------|--------------------------------------|
-| Namespace   | `prc-block/flip-card-controller`     |
-| Category    | `media`                              |
-| Version     | `1.0.0`                              |
-| API Version | `3`                                  |
+| Property    | Value                                                                |
+| ----------- | -------------------------------------------------------------------- |
+| Namespace   | `prc-block/flip-card-controller`                                     |
+| Category    | `media`                                                              |
+| Version     | `1.0.0`                                                              |
+| API Version | `3`                                                                  |
+| Example     | Yes (two `flip-card-side` blocks with paragraphs — inserter preview) |
 
 ## Supports
 
-| Feature               | Value                                     |
-|-----------------------|-------------------------------------------|
-| Anchor                | `true`                                    |
-| HTML editing          | `false`                                   |
-| Interactivity         | `true`                                    |
-| Color background      | `true`                                    |
-| Color text            | `true`                                    |
-| Contrast checker      | `true`                                    |
-| Align                 | `left`, `right`                           |
-| Layout                | Constrained (no switching, no inheriting) |
-| Vertical alignment    | `true`                                    |
-| Justification         | `true`                                    |
-| Sizing on children    | `true`                                    |
-| Block gap             | `true`                                    |
-| Spacing padding       | `true`                                    |
-| Spacing margin        | `true`                                    |
-| Typography            | Full (size, line-height, family, weight, style, transform, decoration, letter-spacing) |
+| Feature            | Value                                                                                  |
+| ------------------ | -------------------------------------------------------------------------------------- |
+| Anchor             | `true`                                                                                 |
+| HTML editing       | `false`                                                                                |
+| Interactivity      | `true`                                                                                 |
+| Color background   | `true`                                                                                 |
+| Color text         | `true`                                                                                 |
+| Contrast checker   | `true`                                                                                 |
+| Align              | `left`, `right`                                                                        |
+| Layout             | Constrained (no switching, no inheriting)                                              |
+| Vertical alignment | `true`                                                                                 |
+| Justification      | `true`                                                                                 |
+| Sizing on children | `true`                                                                                 |
+| Block gap          | `true`                                                                                 |
+| Spacing padding    | `true`                                                                                 |
+| Spacing margin     | `true`                                                                                 |
+| Typography         | Full (size, line-height, family, weight, style, transform, decoration, letter-spacing) |
 
 ## Attributes
 
-| Attribute     | Type      | Default | Role    | Description                                                                                     |
-|---------------|-----------|---------|---------|-------------------------------------------------------------------------------------------------|
+| Attribute     | Type      | Default | Role    | Description                                                                                                                        |
+| ------------- | --------- | ------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | `fixedHeight` | `number`  | —       | —       | Fixed pixel height for the card. When unset, `null`, or `-1`, "smart height" mode is used (auto-calculated from the tallest side). |
-| `isFlipped`   | `boolean` | `false` | `local` | Editor-only state tracking which side is currently visible. Not saved to post content.          |
+| `isFlipped`   | `boolean` | `false` | `local` | Editor-only state tracking which side is currently visible. Not saved to post content.                                             |
 
 ## Provided Context
 
-| Context Key                        | Source Attribute |
-|------------------------------------|-----------------|
-| `prc-block/flip-card-isFlipped`    | `isFlipped`     |
+| Context Key                     | Source Attribute |
+| ------------------------------- | ---------------- |
+| `prc-block/flip-card-isFlipped` | `isFlipped`      |
 
 ## Allowed Inner Blocks
 
-- `prc-block/flip-card-side`
+-   `prc-block/flip-card-side`
 
 ## Inner Blocks Template
 
@@ -66,25 +67,29 @@ None. This is the top-level container for flip card functionality.
 3. Add content to the front side (visible by default).
 4. Click the **flip button** (rotate icon) in the toolbar to flip to the back side and add content there.
 5. **Height modes** (toggle via toolbar button):
-   - **Smart height** (default): Automatically calculates the minimum height based on the tallest side. Height can only grow, never shrink, to prevent layout jumps.
-   - **Manual height**: Enables a resizable handle at the bottom to set a fixed pixel height.
+    - **Smart height** (default): Automatically calculates the minimum height based on the tallest side. Height can only grow, never shrink, to prevent layout jumps.
+    - **Manual height**: Enables a resizable handle at the bottom to set a fixed pixel height.
 6. On the frontend, clicking anywhere on the card (except links and buttons) flips it.
+
+## Inserter preview
+
+The `example` in `block.json` mirrors the locked insert template: front and back `prc-block/flip-card-side` blocks (`is-style-front` / `is-style-back`) each with a `core/paragraph` for the inserter thumbnail.
 
 ## Block Markup Example
 
 ```html
 <!-- wp:prc-block/flip-card-controller -->
-  <!-- wp:prc-block/flip-card-side {"className":"is-style-front"} -->
-    <!-- wp:paragraph -->
-    <p>Front side content</p>
-    <!-- /wp:paragraph -->
-  <!-- /wp:prc-block/flip-card-side -->
+<!-- wp:prc-block/flip-card-side {"className":"is-style-front"} -->
+<!-- wp:paragraph -->
+<p>Front side content</p>
+<!-- /wp:paragraph -->
+<!-- /wp:prc-block/flip-card-side -->
 
-  <!-- wp:prc-block/flip-card-side {"className":"is-style-back"} -->
-    <!-- wp:paragraph -->
-    <p>Back side content</p>
-    <!-- /wp:paragraph -->
-  <!-- /wp:prc-block/flip-card-side -->
+<!-- wp:prc-block/flip-card-side {"className":"is-style-back"} -->
+<!-- wp:paragraph -->
+<p>Back side content</p>
+<!-- /wp:paragraph -->
+<!-- /wp:prc-block/flip-card-side -->
 <!-- /wp:prc-block/flip-card-controller -->
 ```
 
@@ -95,24 +100,26 @@ The `Flip_Card_Controller` PHP class provides a server-side render callback:
 1. Generates a unique block ID via `wp_unique_id('prc-block-flip-card-controller-')`.
 2. Reads the `fixedHeight` attribute to determine height mode.
 3. Outputs a wrapper `<div>` with Interactivity API directives:
-   - `data-wp-interactive="prc-block/flip-card-controller"`
-   - `data-wp-context` with `id`, `flipped` (false), `minHeight` (null), `fixedHeight`, and `initialized` state.
-   - `data-wp-class--is-initialized` and `data-wp-class--is-flipped` for CSS state classes.
-   - `data-wp-style--min-height="callbacks.minHeightStyle"` for dynamic height.
+    - `data-wp-interactive="prc-block/flip-card-controller"`
+    - `data-wp-context` with `id`, `flipped` (false), `minHeight` (null), `fixedHeight`, and `initialized` state.
+    - `data-wp-class--is-initialized` and `data-wp-class--is-flipped` for CSS state classes.
+    - `data-wp-style--min-height="callbacks.minHeightStyle"` for dynamic height.
 4. Wraps inner content in a `.wp-block-prc-block-flip-card-controller__inner-blocks` div.
 
 Rendered output:
 
 ```html
-<div class="wp-block-prc-block-flip-card-controller"
-     data-wp-interactive="prc-block/flip-card-controller"
-     data-wp-context='{"id":"prc-block-flip-card-controller-1","flipped":false,"minHeight":null,"fixedHeight":null,"initialized":false}'
-     data-wp-class--is-initialized="state.isInitialized"
-     data-wp-class--is-flipped="state.isFlipped"
-     data-wp-style--min-height="callbacks.minHeightStyle">
-  <div class="wp-block-prc-block-flip-card-controller__inner-blocks">
-    <!-- front and back sides -->
-  </div>
+<div
+	class="wp-block-prc-block-flip-card-controller"
+	data-wp-interactive="prc-block/flip-card-controller"
+	data-wp-context='{"id":"prc-block-flip-card-controller-1","flipped":false,"minHeight":null,"fixedHeight":null,"initialized":false}'
+	data-wp-class--is-initialized="state.isInitialized"
+	data-wp-class--is-flipped="state.isFlipped"
+	data-wp-style--min-height="callbacks.minHeightStyle"
+>
+	<div class="wp-block-prc-block-flip-card-controller__inner-blocks">
+		<!-- front and back sides -->
+	</div>
 </div>
 ```
 
@@ -121,16 +128,19 @@ Rendered output:
 Uses the WordPress Interactivity API with store namespace `prc-block/flip-card-controller`.
 
 **State (derived):**
-- `state.isInitialized` — Returns `context.initialized`, true once side heights have been measured.
-- `state.isFlipped` — Returns `context.flipped`, the current flip state.
+
+-   `state.isInitialized` — Returns `context.initialized`, true once side heights have been measured.
+-   `state.isFlipped` — Returns `context.flipped`, the current flip state.
 
 **Actions:**
-- `toggleFlip(event)` — Flips the card. Ignores clicks on `<a>` and `<button>` elements to allow links and buttons within card content to function normally.
+
+-   `toggleFlip(event)` — Flips the card. Ignores clicks on `<a>` and `<button>` elements to allow links and buttons within card content to function normally.
 
 **Callbacks:**
-- `onCardSideInit()` — Called by each Flip Card Side on init. Measures the side's `offsetHeight` and updates `context.minHeight` to the maximum of all sides. Sets `context.initialized` to true.
-- `minHeightStyle()` — Returns the computed `min-height` CSS value: uses `fixedHeight` if set (manual mode), otherwise uses the measured `minHeight`, falling back to `100%`.
+
+-   `onCardSideInit()` — Called by each Flip Card Side on init. Measures the side's `offsetHeight` and updates `context.minHeight` to the maximum of all sides. Sets `context.initialized` to true.
+-   `minHeightStyle()` — Returns the computed `min-height` CSS value: uses `fixedHeight` if set (manual mode), otherwise uses the measured `minHeight`, falling back to `100%`.
 
 ## Related Blocks
 
-- [`prc-block/flip-card-side`](./flip-card-side.md) — Child block representing one side of the card (required, exactly two).
+-   [`prc-block/flip-card-side`](./flip-card-side.md) — Child block representing one side of the card (required, exactly two).

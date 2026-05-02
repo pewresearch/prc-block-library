@@ -2,6 +2,10 @@
 
 A dynamic block that collects footnote shortcodes from post content and renders them as a numbered, linked footnote list. Footnotes are authored inline using a bracket-based shortcode syntax and automatically extracted, replaced with superscript links, and compiled into an ordered list at the block's position.
 
+## Block inserter example
+
+`block.json` defines an `example` with `numoffset: 0` so the inserter preview matches default numbering behavior.
+
 ## Namespace
 
 `prc-block/footnotes`
@@ -12,29 +16,29 @@ A dynamic block that collects footnote shortcodes from post content and renders 
 
 ## Supports
 
-| Feature | Value |
-|---------|-------|
-| Anchor | `true` |
-| Color (text) | `true` |
-| Color (background) | `true` |
-| Color (link) | `true` |
-| Spacing (margin) | `true` |
-| Spacing (padding) | `true` |
-| Border (color) | `true` |
-| Border (radius) | `true` |
-| Border (style) | `true` |
-| Border (width) | `true` |
-| Typography (fontSize) | `true` |
-| Typography (lineHeight) | `true` |
-| Typography (fontFamily) | `true` |
-| HTML | `false` |
+| Feature                 | Value   |
+| ----------------------- | ------- |
+| Anchor                  | `true`  |
+| Color (text)            | `true`  |
+| Color (background)      | `true`  |
+| Color (link)            | `true`  |
+| Spacing (margin)        | `true`  |
+| Spacing (padding)       | `true`  |
+| Border (color)          | `true`  |
+| Border (radius)         | `true`  |
+| Border (style)          | `true`  |
+| Border (width)          | `true`  |
+| Typography (fontSize)   | `true`  |
+| Typography (lineHeight) | `true`  |
+| Typography (fontFamily) | `true`  |
+| HTML                    | `false` |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `numoffset` | `number` | `0` | Offset applied to footnote numbering. When set, the footnote list starts counting from this value plus one. |
-| `style` | `object` | `undefined` | Block style object for color, spacing, border, and typography settings. |
+| Attribute   | Type     | Default     | Description                                                                                                 |
+| ----------- | -------- | ----------- | ----------------------------------------------------------------------------------------------------------- |
+| `numoffset` | `number` | `0`         | Offset applied to footnote numbering. When set, the footnote list starts counting from this value plus one. |
+| `style`     | `object` | `undefined` | Block style object for color, spacing, border, and typography settings.                                     |
 
 ## Available Styles
 
@@ -50,9 +54,9 @@ None. The block can be placed anywhere in the editor, though it is typically pos
 
 **Uses Context:**
 
-| Context Key | Description |
-|-------------|-------------|
-| `postId` | The current post ID, used to scope footnote collection to the correct post. |
+| Context Key | Description                                                                 |
+| ----------- | --------------------------------------------------------------------------- |
+| `postId`    | The current post ID, used to scope footnote collection to the correct post. |
 
 ## Usage Instructions
 
@@ -106,17 +110,21 @@ The block is fully server-side rendered via `render_callback` in `class-footnote
 
 ### Key PHP Classes
 
-- **`Footnotes`** (`class-footnotes.php`): Registers the block, hooks the content filter, and implements `render_block_callback`.
-- **`Footnotes_API`** (`class-footnotes-api.php`): Core processing class. Uses regex to match `[\d+.\s(.*?)]` patterns, extracts footnote text, replaces shortcodes with superscript links, and supports `numoffset` for custom numbering.
+-   **`Footnotes`** (`class-footnotes.php`): Registers the block, hooks the content filter, and implements `render_block_callback`.
+-   **`Footnotes_API`** (`class-footnotes-api.php`): Core processing class. Uses regex to match `[\d+.\s(.*?)]` patterns, extracts footnote text, replaces shortcodes with superscript links, and supports `numoffset` for custom numbering.
 
 ### Rendered Output
 
 ```html
 <ol class="wp-block-prc-block-footnotes" start="1">
-  <li id="footnote-1" class="wp-block-prc-block-footnotes__footnote">
-    <span>This is the footnote text.</span>
-    <a class="wp-block-prc-block-footnotes__footnote__return" href="#footnote-1-link">↩</a>
-  </li>
+	<li id="footnote-1" class="wp-block-prc-block-footnotes__footnote">
+		<span>This is the footnote text.</span>
+		<a
+			class="wp-block-prc-block-footnotes__footnote__return"
+			href="#footnote-1-link"
+			>↩</a
+		>
+	</li>
 </ol>
 ```
 

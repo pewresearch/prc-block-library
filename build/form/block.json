@@ -106,6 +106,43 @@
   "providesContext": {
     "form/displayMessage": "displayMessage"
   },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "prc-block/form-input-text",
+        "attributes": {
+          "type": "text",
+          "label": "Name",
+          "required": true,
+          "placeholder": "Enter your name"
+        }
+      },
+      {
+        "name": "prc-block/form-input-text",
+        "attributes": {
+          "type": "email",
+          "label": "Email",
+          "required": true,
+          "placeholder": "Enter your email"
+        }
+      },
+      {
+        "name": "prc-block/form-submit",
+        "innerBlocks": []
+      },
+      {
+        "name": "prc-block/form-message",
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Thank you for your message!"
+            }
+          }
+        ]
+      }
+    ]
+  },
   "textdomain": "form",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

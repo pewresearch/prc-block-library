@@ -4,17 +4,6 @@
 import { store, getContext, getElement } from '@wordpress/interactivity';
 
 /**
- * Helper function to strip HTML tags from a string
- * @param {string} html - HTML string to strip
- * @return {string} - Plain text content
- */
-function stripHtml(html) {
-	const tmp = document.createElement('div');
-	tmp.innerHTML = html;
-	return tmp.textContent || tmp.innerText || '';
-}
-
-/**
  * Attempt to parse a string as a date
  * Supports common formats:
  * - MM/DD/YYYY, MM-DD-YYYY (US format)
@@ -61,12 +50,13 @@ function parseDate(text) {
 		if (!isNaN(date.getTime())) return date.getTime();
 	}
 
-	// Try native Date.parse for formats like "January 15, 2024"
-	const parsed = Date.parse(text);
-	if (!isNaN(parsed)) {
-		// Verify it's actually a date and not a number being misinterpreted
-		// Date.parse can parse numbers, so we avoid that
-		if (!/^\d+$/.test(text)) {
+	// Try native Date.parse for formats like "January 15, 2024".
+	// Skip strings that look numeric (digits, dots, commas, currency, %) —
+	// Date.parse behavior for these is implementation-specific and diverges
+	// between Firefox and Chrome, producing false-positive timestamps.
+	if (!/^[\s$€£¥%\d.,+-]+$/.test(text)) {
+		const parsed = Date.parse(text);
+		if (!isNaN(parsed)) {
 			return parsed;
 		}
 	}
@@ -93,13 +83,25 @@ function parseDuration(text) {
 /**
  * Helper function to parse a value for sorting
  * Attempts to detect and parse numeric values
- * @param {string} value - The cell content value
+ * @param {string} value - Plain text cell content (from textContent or data-sort-value)
  * @return {{ value: number | string, isNumeric: boolean }} Parsed value and whether it is numeric
  */
 function parseValue(value) {
-	const text = stripHtml(value).trim();
+	const text = String(value ?? '').trim();
 
-	// Try to parse as a date first (common formats)
+	// Numbers first — avoids sending numeric data-sort-value strings through
+	// Date.parse, which has implementation-specific behavior across browsers.
+	const cleanedText = text
+		.replace(/[$€£¥,]/g, '')
+		.replace(/%$/, '')
+		.trim();
+
+	const num = parseFloat(cleanedText);
+	if (!isNaN(num) && isFinite(num) && cleanedText === String(num)) {
+		return { value: num, isNumeric: true };
+	}
+
+	// Date detection (ISO, US/EU, natural language)
 	const dateValue = parseDate(text);
 	if (dateValue !== null) {
 		return { value: dateValue, isNumeric: true };
@@ -111,14 +113,8 @@ function parseValue(value) {
 		return { value: durationValue, isNumeric: true };
 	}
 
-	// Try to parse as a number (handles commas, percentages, currency)
-	const cleanedText = text
-		.replace(/[$€£¥,]/g, '') // Remove currency symbols and commas
-		.replace(/%$/, '') // Remove trailing percent
-		.trim();
-
-	const num = parseFloat(cleanedText);
-
+	// Looser numeric check for values like "1,234" or "$5.99" where
+	// cleanedText !== String(num) due to leading zeros, commas, etc.
 	if (!isNaN(num) && isFinite(num)) {
 		return { value: num, isNumeric: true };
 	}
@@ -142,8 +138,10 @@ function compareValues(a, b, direction) {
 	// If both are numeric, compare as numbers
 	if (parsedA.isNumeric && parsedB.isNumeric) {
 		result = parsedA.value - parsedB.value;
+	} else if (parsedA.isNumeric !== parsedB.isNumeric) {
+		// Non-numeric values sort to the end (asc) / beginning (desc) vs mixed string compare
+		result = parsedA.isNumeric ? -1 : 1;
 	} else {
-		// Compare as strings
 		const strA = String(parsedA.value);
 		const strB = String(parsedB.value);
 		result = strA.localeCompare(strB);
@@ -172,24 +170,34 @@ function sortTable(tableWrapper, columnIndex, direction) {
 			return indexA - indexB;
 		});
 	} else {
-		// Sort the rows
+		// Sort the rows — look up cells by virtual column index (`data-prc-v-col`)
+		// so colspan rows resolve to the correct column.
+		const vColSelector = `[data-prc-v-col="${columnIndex}"]`;
 		rows.sort((a, b) => {
-			const cellA = a.querySelectorAll('td, th')[columnIndex];
-			const cellB = b.querySelectorAll('td, th')[columnIndex];
+			const cellA =
+				a.querySelector(vColSelector) ??
+				a.querySelectorAll('td, th')[columnIndex];
+			const cellB =
+				b.querySelector(vColSelector) ??
+				b.querySelectorAll('td, th')[columnIndex];
 
-			if (!cellA || !cellB) return 0;
+			if (!cellA && !cellB) return 0;
+			if (!cellA) return 1;
+			if (!cellB) return -1;
 
 			const valueA =
-				cellA.getAttribute('data-sort-value') ?? cellA.innerHTML;
+				cellA.getAttribute('data-sort-value') ?? cellA.textContent;
 			const valueB =
-				cellB.getAttribute('data-sort-value') ?? cellB.innerHTML;
+				cellB.getAttribute('data-sort-value') ?? cellB.textContent;
 
 			return compareValues(valueA, valueB, direction);
 		});
 	}
 
-	// Re-append rows in sorted order
-	rows.forEach((row) => tbody.appendChild(row));
+	// Re-append rows in sorted order (DocumentFragment = single DOM op; avoids Firefox reflow quirks)
+	const fragment = document.createDocumentFragment();
+	rows.forEach((row) => fragment.appendChild(row));
+	tbody.appendChild(fragment);
 
 	// Update aria-sort on header cells
 	const thead = tableWrapper.querySelector('thead');
@@ -365,7 +373,7 @@ store('prc-block/table', {
 	},
 	callbacks: {
 		/**
-		 * Initialize the table - store original row indices
+		 * Initialize the table — original row indices for sort reset (rounding is server-rendered).
 		 */
 		onInit: () => {
 			const { ref } = getElement();
@@ -373,13 +381,11 @@ store('prc-block/table', {
 			if (!ref) return;
 
 			const tbody = ref.querySelector('tbody');
-			if (!tbody) return;
-
-			// Store original row indices for reset functionality
-			const rows = tbody.querySelectorAll('tr');
-			rows.forEach((row, index) => {
-				row.setAttribute('data-original-index', index.toString());
-			});
+			if (tbody) {
+				tbody.querySelectorAll('tr').forEach((row, index) => {
+					row.setAttribute('data-original-index', index.toString());
+				});
+			}
 		},
 	},
 });

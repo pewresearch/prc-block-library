@@ -25,7 +25,7 @@ class Attachments_List {
 	 *
 	 * @var string
 	 */
-	public static $cache_group = 'attachments-list-v1.5';
+	public static $cache_group = 'attachments-list-v1.6';
 
 	/**
 	 * Constructor
@@ -50,7 +50,7 @@ class Attachments_List {
 	public function get_all_chart_refs_for_post( $post_id ) {
 		$blocks              = parse_blocks( get_post_field( 'post_content', $post_id, 'raw' ) );
 		$depth_to_search     = 5;
-		$synced_chart_blocks = \PRC\Platform\Block_Utils\find_blocks( $blocks, 'prc-chart-builder/synced-chart', $depth_to_search );
+		$synced_chart_blocks = \PRC\BlockUtils\find_blocks( $blocks, 'prc-chart-builder/synced-chart', $depth_to_search );
 		$chart_ids_found     = array();
 		if ( is_array( $synced_chart_blocks ) && ! empty( $synced_chart_blocks ) ) {
 			// For each chart there is an attrs array with a ref property inside, lets collect those.
@@ -113,18 +113,30 @@ class Attachments_List {
 		}
 
 		// Then we find attachments for the parent.
-		$attachments = new WP_Query(
-			array(
-				'post_type'      => 'attachment',
-				'post_parent'    => $parent_post_id,
-				'post_status'    => 'inherit',
-				'post__not_in'   => $post__not_in, // phpcs:ignore
-				'posts_per_page' => 50,
-				'orderby'        => 'date',
-				'order'          => 'asc',
-				'media_type'     => 'image',
-			)
+		$query_args = array(
+			'post_type'      => 'attachment',
+			'post_parent'    => $parent_post_id,
+			'post_status'    => 'inherit',
+			'post__not_in'   => $post__not_in, // phpcs:ignore
+			'posts_per_page' => 50,
+			'orderby'        => 'date',
+			'order'          => 'asc',
+			'media_type'     => 'image',
 		);
+
+		if ( taxonomy_exists( '_media_visibility' ) ) {
+			$query_args['tax_query'] = array(
+				array(
+					'taxonomy'         => '_media_visibility',
+					'field'            => 'slug',
+					'terms'            => array( 'hidden' ),
+					'operator'         => 'NOT IN',
+					'include_children' => false,
+				),
+			);
+		}
+
+		$attachments = new WP_Query( $query_args );
 
 		if ( $attachments->have_posts() ) {
 			foreach ( $attachments->posts as $attachment ) {
@@ -166,7 +178,7 @@ class Attachments_List {
 		$hover_text  = $attributes['customHoverTextColor'] ?? '';
 		$active_bg   = $attributes['customActiveBackgroundColor'] ?? '';
 		$active_text = $attributes['customActiveTextColor'] ?? '';
-		$block_gap   = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
+		$block_gap   = \PRC\BlockUtils\get_block_gap_support_value( $attributes );
 
 		$styles = array(
 			'--hover-background-color'  => $hover_bg,
@@ -219,7 +231,7 @@ class Attachments_List {
 		);
 		foreach ( $attachments as $attachment ) {
 			$is_active  = $attachment['is_active'] ?? false;
-			$classnames = \PRC\Platform\Block_Utils\classNames(
+			$classnames = \PRC\BlockUtils\classNames(
 				'wp-block-prc-block-attachments-list__list-item',
 				'flex-align-center',
 				array(

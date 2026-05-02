@@ -2,6 +2,10 @@
 
 A searchable dropdown select input with support for custom options, preset option lists (countries, US states, industries), single or multi-select, keyboard navigation, and contextual options provided by parent blocks. Renders a combobox-style input with a filterable dropdown list.
 
+## Block inserter example
+
+`block.json` defines an `example` with `viewportWidth` 320 and a “Country” select (`type` custom) with sample US/UK/CA options — inserter preview.
+
 ## Namespace
 
 `prc-block/form-input-select`
@@ -12,58 +16,58 @@ A searchable dropdown select input with support for custom options, preset optio
 
 ## Supports
 
-| Feature | Value |
-|---------|-------|
-| Anchor | `true` |
-| Interactivity | `true` |
-| Layout (type) | `flex` |
-| Spacing (margin) | `true` |
-| Spacing (padding) | `true` |
-| Spacing (blockGap) | `true` |
-| Border | `true` (custom selectors) |
-| Color (text) | `true` (custom selectors) |
-| Color (background) | `true` (custom selectors) |
-| Typography (fontSize) | `true` (custom selectors) |
+| Feature                 | Value                     |
+| ----------------------- | ------------------------- |
+| Anchor                  | `true`                    |
+| Interactivity           | `true`                    |
+| Layout (type)           | `flex`                    |
+| Spacing (margin)        | `true`                    |
+| Spacing (padding)       | `true`                    |
+| Spacing (blockGap)      | `true`                    |
+| Border                  | `true` (custom selectors) |
+| Color (text)            | `true` (custom selectors) |
+| Color (background)      | `true` (custom selectors) |
+| Typography (fontSize)   | `true` (custom selectors) |
 | Typography (lineHeight) | `true` (custom selectors) |
-| HTML | `false` |
+| HTML                    | `false`                   |
 
 ### Custom Selectors
 
 ```json
 {
-  "root": ".wp-block-prc-block-form-input-select",
-  "border": ".wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__input",
-  "typography": ".wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__input",
-  "color": {
-    "text": ".wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__input",
-    "background": ".wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__input"
-  }
+	"root": ".wp-block-prc-block-form-input-select",
+	"border": ".wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__input",
+	"typography": ".wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__input",
+	"color": {
+		"text": ".wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__input",
+		"background": ".wp-block-prc-block-form-input-select .wp-block-prc-block-form-input-select__input"
+	}
 }
 ```
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `type` | `string` | `"custom"` | Option source: `"custom"`, `"countries"`, `"countries-and-regions"`, `"us-states"`, or `"industries"`. |
-| `rawOptions` | `array` | `[]` | Raw options array before processing. |
-| `options` | `array` | `[]` | Processed options array. Each item has `label` (string), `value` (string), and optionally `disabled` (boolean). |
-| `hasClearIcon` | `boolean` | `false` | Show a clear/reset button inside the input. |
-| `displayLabel` | `boolean` | `true` | Show/hide the label above the select. |
-| `label` | `string` | `""` | Label text, editable via RichText (source: `html`, selector: `label`). |
-| `placeholder` | `string` | `""` | Placeholder text shown when no value is selected. |
-| `required` | `boolean` | `false` | Whether a selection is required before form submission. |
-| `disabled` | `boolean` | `false` | Whether the input is disabled/non-interactive. |
-| `value` | `string` | `""` | Currently selected value. |
-| `allowMultiple` | `boolean` | `false` | Allow selecting multiple values (renders as token field). |
-| `allowSearch` | `boolean` | `true` | Allow typing to filter/search through options. |
-| `metadata` | `object` | `undefined` | Contains `name` (field identifier for form data). |
+| Attribute       | Type      | Default     | Description                                                                                                     |
+| --------------- | --------- | ----------- | --------------------------------------------------------------------------------------------------------------- |
+| `type`          | `string`  | `"custom"`  | Option source: `"custom"`, `"countries"`, `"countries-and-regions"`, `"us-states"`, or `"industries"`.          |
+| `rawOptions`    | `array`   | `[]`        | Raw options array before processing.                                                                            |
+| `options`       | `array`   | `[]`        | Processed options array. Each item has `label` (string), `value` (string), and optionally `disabled` (boolean). |
+| `hasClearIcon`  | `boolean` | `false`     | Show a clear/reset button inside the input.                                                                     |
+| `displayLabel`  | `boolean` | `true`      | Show/hide the label above the select.                                                                           |
+| `label`         | `string`  | `""`        | Label text, editable via RichText (source: `html`, selector: `label`).                                          |
+| `placeholder`   | `string`  | `""`        | Placeholder text shown when no value is selected.                                                               |
+| `required`      | `boolean` | `false`     | Whether a selection is required before form submission.                                                         |
+| `disabled`      | `boolean` | `false`     | Whether the input is disabled/non-interactive.                                                                  |
+| `value`         | `string`  | `""`        | Currently selected value.                                                                                       |
+| `allowMultiple` | `boolean` | `false`     | Allow selecting multiple values (renders as token field).                                                       |
+| `allowSearch`   | `boolean` | `true`      | Allow typing to filter/search through options.                                                                  |
+| `metadata`      | `object`  | `undefined` | Contains `name` (field identifier for form data).                                                               |
 
 ## Available Styles
 
-| Style | Slug | Description |
-|-------|------|-------------|
-| Default | `default` | Standard dropdown with border and color applied to the input wrapper. |
+| Style        | Slug           | Description                                                                           |
+| ------------ | -------------- | ------------------------------------------------------------------------------------- |
+| Default      | `default`      | Standard dropdown with border and color applied to the input wrapper.                 |
 | Inline Label | `inline-label` | Label and input rendered on the same line. Color/border applied to the outer wrapper. |
 
 ## Inner Blocks
@@ -73,13 +77,14 @@ None. This is a leaf block.
 ## Parent / Ancestor Requirements
 
 No explicit parent constraint. Can be used:
-- Inside `prc-block/form` as a direct form field
-- Inside `prc-block/form-input-select-range` as a min or max selector
+
+-   Inside `prc-block/form` as a direct form field
+-   Inside `prc-block/form-input-select-range` as a min or max selector
 
 **Uses Context:**
 
-| Context Key | Description |
-|-------------|-------------|
+| Context Key                 | Description                                                                                                        |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `form-input-select/options` | Options array provided by a parent block (e.g., `form-input-select-range`). Merged with the block's own `options`. |
 
 ## Usage Instructions
@@ -94,12 +99,12 @@ No explicit parent constraint. Can be used:
 
 Set `type` in the inspector to use built-in option lists:
 
-| Type | Description |
-|------|-------------|
-| `countries` | ISO country list |
+| Type                    | Description                        |
+| ----------------------- | ---------------------------------- |
+| `countries`             | ISO country list                   |
 | `countries-and-regions` | Countries plus regions/territories |
-| `us-states` | US state list |
-| `industries` | Industry categories |
+| `us-states`             | US state list                      |
+| `industries`            | Industry categories                |
 
 When using a preset, custom options are ignored. The options are generated server-side during PHP rendering.
 
@@ -120,11 +125,11 @@ Toggle `hasClearIcon` to show a reset button (X) inside the input that clears th
 ```html
 <!-- wp:prc-block/form-input-select {"type":"us-states","placeholder":"Select a state...","metadata":{"name":"state"}} -->
 <div class="wp-block-prc-block-form-input-select">
-  <label>State</label>
-  <div class="wp-block-prc-block-form-input-select__input">
-    <input type="text" role="combobox" placeholder="Select a state..." />
-    <div class="wp-block-prc-block-form-input-select__list"></div>
-  </div>
+	<label>State</label>
+	<div class="wp-block-prc-block-form-input-select__input">
+		<input type="text" role="combobox" placeholder="Select a state..." />
+		<div class="wp-block-prc-block-form-input-select__list"></div>
+	</div>
 </div>
 <!-- /wp:prc-block/form-input-select -->
 ```
@@ -136,20 +141,23 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
 ### Render Pipeline
 
 1. **Option Construction** (`construct_options_list`): Builds the final options array based on `type`:
-   - `"custom"`: Uses the `options` attribute directly
-   - `"countries"`, `"countries-and-regions"`, `"us-states"`, `"industries"`: Generates options from built-in data sets
-   - Merges contextual options from parent blocks (via `form-input-select/options` context)
+
+    - `"custom"`: Uses the `options` attribute directly
+    - `"countries"`, `"countries-and-regions"`, `"us-states"`, `"industries"`: Generates options from built-in data sets
+    - Merges contextual options from parent blocks (via `form-input-select/options` context)
 
 2. **Interactivity Setup**: Wraps with `data-wp-interactive="prc-block/form-input-select"` and context containing:
-   - `targetNamespace` (parent form namespace)
-   - `isOpen` (false), `searchValue` ("")
-   - `selectedValue`, `highlightedIndex` (-1)
-   - `options` (the constructed options array)
+
+    - `targetNamespace` (parent form namespace)
+    - `isOpen` (false), `searchValue` ("")
+    - `selectedValue`, `highlightedIndex` (-1)
+    - `options` (the constructed options array)
 
 3. **Dropdown List**: Replaces the static list placeholder with a `<template data-wp-each="context.filteredOptions">` that dynamically renders `<li>` items with:
-   - `data-wp-on--click="actions.onOptionClick"` for selection
-   - `data-wp-text` bound to option label
-   - `data-wp-bind--class` for highlight state
+
+    - `data-wp-on--click="actions.onOptionClick"` for selection
+    - `data-wp-text` bound to option label
+    - `data-wp-bind--class` for highlight state
 
 4. **Keyboard Navigation**: Adds `data-wp-on--keydown="actions.onKeyDown"` to the input for ArrowUp/Down/Enter/Escape handling.
 
@@ -165,26 +173,26 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
 
 ### State / Context
 
-| Key | Type | Description |
-|-----|------|-------------|
-| `isOpen` | `boolean` | Whether the dropdown is currently visible. |
-| `searchValue` | `string` | Current text in the search input. |
-| `selectedValue` | `string` | Currently selected option value. |
-| `highlightedIndex` | `number` | Index of the highlighted option for keyboard navigation (-1 = none). |
-| `options` | `array` | Full options list. |
-| `filteredOptions` | `array` | Options filtered by search value (derived). |
+| Key                | Type      | Description                                                          |
+| ------------------ | --------- | -------------------------------------------------------------------- |
+| `isOpen`           | `boolean` | Whether the dropdown is currently visible.                           |
+| `searchValue`      | `string`  | Current text in the search input.                                    |
+| `selectedValue`    | `string`  | Currently selected option value.                                     |
+| `highlightedIndex` | `number`  | Index of the highlighted option for keyboard navigation (-1 = none). |
+| `options`          | `array`   | Full options list.                                                   |
+| `filteredOptions`  | `array`   | Options filtered by search value (derived).                          |
 
 ### Actions
 
-| Action | Description |
-|--------|-------------|
-| `onOptionClick` | Handles clicking a dropdown option. Sets `selectedValue`, clears search, closes dropdown, and hoists value to parent form. |
-| `onKeyDown` | Keyboard handler for the input. Supports ArrowDown (next option), ArrowUp (previous option), Enter (select highlighted), Escape (close dropdown). |
-| `onClear` | Clears the selected value and search input. Hoists empty value to parent form. |
-| `onDropdownArrowClick` | Toggles dropdown open/close state. |
-| `onSearchInput` | Updates `searchValue` as user types, which triggers re-filtering of options. |
-| `onInputFocus` | Opens the dropdown when the input receives focus. |
-| `onInputBlur` | Closes the dropdown on blur (with a short delay to allow click events on options). |
+| Action                 | Description                                                                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onOptionClick`        | Handles clicking a dropdown option. Sets `selectedValue`, clears search, closes dropdown, and hoists value to parent form.                        |
+| `onKeyDown`            | Keyboard handler for the input. Supports ArrowDown (next option), ArrowUp (previous option), Enter (select highlighted), Escape (close dropdown). |
+| `onClear`              | Clears the selected value and search input. Hoists empty value to parent form.                                                                    |
+| `onDropdownArrowClick` | Toggles dropdown open/close state.                                                                                                                |
+| `onSearchInput`        | Updates `searchValue` as user types, which triggers re-filtering of options.                                                                      |
+| `onInputFocus`         | Opens the dropdown when the input receives focus.                                                                                                 |
+| `onInputBlur`          | Closes the dropdown on blur (with a short delay to allow click events on options).                                                                |
 
 ### Value Hoisting
 
@@ -192,7 +200,7 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
 
 ## Related Blocks
 
-| Block | Relationship |
-|-------|-------------|
-| `prc-block/form` | Parent form container. Receives the selected value in `formFields`. |
+| Block                               | Relationship                                                                                             |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `prc-block/form`                    | Parent form container. Receives the selected value in `formFields`.                                      |
 | `prc-block/form-input-select-range` | Optional parent that provides contextual options and uses two select blocks for min/max range selection. |

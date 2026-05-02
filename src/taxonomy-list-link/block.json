@@ -42,14 +42,25 @@
 			"default": false
 		}
 	},
-	"parent": ["prc-block/taxonomy-list"],
+	"example": {
+		"attributes": {
+			"label": "Category Name",
+			"url": "#"
+		}
+	},
+	"parent": [
+		"prc-block/taxonomy-list"
+	],
 	"supports": {
 		"anchor": true,
 		"html": false,
 		"reusable": true,
 		"spacing": {
 			"blockGap": true,
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -80,7 +91,10 @@
 	"providesContext": {
 		"style": "style"
 	},
-	"usesContext": ["taxonomy", "style"],
+	"usesContext": [
+		"taxonomy",
+		"style"
+	],
 	"textdomain": "taxonomy-list-link",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

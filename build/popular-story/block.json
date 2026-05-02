@@ -25,6 +25,14 @@
       "default": true
     }
   },
+  "example": {
+    "attributes": {
+      "title": "Most Popular Story Title",
+      "url": "#",
+      "blockIndexAttr": 1,
+      "enableNumber": true
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false,

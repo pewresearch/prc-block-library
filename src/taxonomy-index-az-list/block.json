@@ -6,22 +6,36 @@
 	"title": "Taxonomy Index A-Z Listing",
 	"category": "theme",
 	"description": "A list of taxonomy terms sorted alphabeticaly. Select terms you want to exclude by checking the box.",
-	"keywords": ["taxonomy", "alphabetical"],
+	"keywords": [
+		"taxonomy",
+		"alphabetical"
+	],
 	"attributes": {
 		"letter": {
-            "type": "string"
-        },
-        "exclude": {
-            "type": "array",
+			"type": "string"
+		},
+		"exclude": {
+			"type": "array",
 			"default": []
-        },
+		},
 		"taxonomy": {
-            "type": "array",
-			"default": ["category"]
-        },
+			"type": "array",
+			"default": [
+				"category"
+			]
+		},
 		"disableHeading": {
 			"type": "boolean",
 			"default": false
+		}
+	},
+	"example": {
+		"attributes": {
+			"letter": "A",
+			"taxonomy": [
+				"category"
+			],
+			"disableHeading": false
 		}
 	},
 	"supports": {
@@ -30,7 +44,10 @@
 		"html": false,
 		"spacing": {
 			"blockGap": true,
-			"margin": [ "top", "bottom" ],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true

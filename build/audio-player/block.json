@@ -33,6 +33,12 @@
       "default": false
     }
   },
+  "example": {
+    "attributes": {
+      "title": "Audio Title",
+      "description": "A brief description of this audio clip."
+    }
+  },
   "styles": [
     {
       "name": "card",

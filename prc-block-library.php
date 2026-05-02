@@ -19,7 +19,7 @@
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       prc-block-library
- * Requires Plugins:  prc-platform-core
+ * Requires Plugins:  prc-scripts
  */
 
 namespace PRC\Platform\Blocks;
@@ -31,6 +31,19 @@ if ( ! defined( 'WPINC' ) ) {
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+if ( ! defined( 'DEFAULT_TECHNICAL_CONTACT' ) ) {
+	define( 'DEFAULT_TECHNICAL_CONTACT', 'webdev@pewresearch.org' );
+}
+
+// Load the Jetpack Autoloader so runtime version-selection can pick the
+// highest version across all plugins that ship the same library dep
+// (see .cursor/plans/composer-shape-b-migration_0e4e9991.plan.md).
+$prc_block_library_autoloader = __DIR__ . '/vendor/autoload_packages.php';
+if ( file_exists( $prc_block_library_autoloader ) ) {
+	require_once $prc_block_library_autoloader;
+}
+unset( $prc_block_library_autoloader );
 
 define( 'PRC_BLOCK_LIBRARY_FILE', __FILE__ );
 define( 'PRC_BLOCK_LIBRARY_DIR', __DIR__ );

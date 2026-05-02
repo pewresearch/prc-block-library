@@ -40,6 +40,16 @@
       "margin": true
     }
   },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Animated content."
+        }
+      }
+    ]
+  },
   "textdomain": "animation",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css",

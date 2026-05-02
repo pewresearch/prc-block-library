@@ -20,7 +20,10 @@
 		"html": false,
 		"spacing": {
 			"blockGap": true,
-			"margin": [ "top", "bottom" ],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -34,6 +37,54 @@
 				"__experimentalFontFamily": true
 			}
 		}
+	},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "prc-block/grid-controller",
+				"innerBlocks": [
+					{
+						"name": "prc-block/grid-column",
+						"attributes": {
+							"gridLayout": {
+								"index": 1,
+								"desktopSpan": 4,
+								"tabletSpan": 2
+							},
+							"allowedBlocks": [
+								"prc-block/taxonomy-index-az-list"
+							]
+						}
+					},
+					{
+						"name": "prc-block/grid-column",
+						"attributes": {
+							"gridLayout": {
+								"index": 2,
+								"desktopSpan": 4,
+								"tabletSpan": 4
+							},
+							"allowedBlocks": [
+								"prc-block/taxonomy-index-az-list"
+							]
+						}
+					},
+					{
+						"name": "prc-block/grid-column",
+						"attributes": {
+							"gridLayout": {
+								"index": 3,
+								"desktopSpan": 4,
+								"tabletSpan": 2
+							},
+							"allowedBlocks": [
+								"prc-block/taxonomy-index-az-list"
+							]
+						}
+					}
+				]
+			}
+		]
 	},
 	"textdomain": "taxonomy-index-az-controller",
 	"editorScript": "file:./index.js",

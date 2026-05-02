@@ -51,6 +51,16 @@
       "style": true
     }
   },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Slide content."
+        }
+      }
+    ]
+  },
   "parent": [
     "prc-block/carousel-controller"
   ],

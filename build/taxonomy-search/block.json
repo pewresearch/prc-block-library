@@ -36,6 +36,21 @@
   "usesContext": [
     "taxonomy"
   ],
+  "example": {
+    "attributes": {
+      "taxonomy": "category"
+    },
+    "innerBlocks": [
+      {
+        "name": "prc-block/form-input-text",
+        "attributes": {
+          "isInteractive": true,
+          "interactiveNamespace": "prc-block/taxonomy-search",
+          "placeholder": "Search category"
+        }
+      }
+    ]
+  },
   "textdomain": "taxonomy-search",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

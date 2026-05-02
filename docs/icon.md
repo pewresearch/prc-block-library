@@ -5,6 +5,10 @@
 **Title:** Icon
 **Description:** Renders a Font Awesome icon.
 
+## Block inserter example
+
+`block.json` defines an `example` with `icon` star, `library` solid, and `size` 1 — inserter preview.
+
 ## Block Namespace
 
 `prc-block/icon`
@@ -15,21 +19,21 @@
 
 ## Supports
 
-| Feature | Enabled | Details |
-|---------|---------|---------|
-| Anchor | Yes | |
-| HTML editing | No | |
-| Spacing | Yes | `blockGap`, `margin` (top/bottom), `padding` (default control) |
-| Color | Yes | Background, text, link |
-| Typography | Yes | Font size (default control), line height |
+| Feature      | Enabled | Details                                                        |
+| ------------ | ------- | -------------------------------------------------------------- |
+| Anchor       | Yes     |                                                                |
+| HTML editing | No      |                                                                |
+| Spacing      | Yes     | `blockGap`, `margin` (top/bottom), `padding` (default control) |
+| Color        | Yes     | Background, text, link                                         |
+| Typography   | Yes     | Font size (default control), line height                       |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `size` | `number` | `1` | Icon size in `em` units |
+| Attribute | Type     | Default   | Description                                                    |
+| --------- | -------- | --------- | -------------------------------------------------------------- |
+| `size`    | `number` | `1`       | Icon size in `em` units                                        |
 | `library` | `string` | `"solid"` | Font Awesome icon library (e.g., `solid`, `regular`, `brands`) |
-| `icon` | `string` | `"star"` | Icon name from the selected library |
+| `icon`    | `string` | `"star"`  | Icon name from the selected library                            |
 
 ## Available Styles
 
@@ -47,9 +51,9 @@ None. Can be placed anywhere.
 
 1. Insert the Icon block.
 2. In the Inspector Panel under "Block Controls":
-   - **Icon Library** -- Select which Font Awesome library to use (solid, regular, brands, etc.). The available libraries are populated from the `@prc/icons` package's `IconLibraryIndex`.
-   - **Icon** -- Choose a specific icon from the selected library. Icons are listed with human-readable names.
-   - **Size (in em)** -- Adjust the icon size. Accepts decimal values with a step of 0.1.
+    - **Icon Library** -- Select which Font Awesome library to use (solid, regular, brands, etc.). The available libraries are populated from the `@prc/icons` package's `IconLibraryIndex`.
+    - **Icon** -- Choose a specific icon from the selected library. Icons are listed with human-readable names.
+    - **Size (in em)** -- Adjust the icon size. Accepts decimal values with a step of 0.1.
 3. The icon renders inline in the editor using the `<Icon>` component from `@prc/icons`.
 4. Use block-level color controls to change the icon's color.
 
@@ -57,7 +61,7 @@ None. Can be placed anywhere.
 
 ```html
 <span class="wp-block-prc-block-icon">
-  <svg><!-- Font Awesome SVG icon markup --></svg>
+	<svg><!-- Font Awesome SVG icon markup --></svg>
 </span>
 ```
 
@@ -77,4 +81,4 @@ None.
 
 ## Related Blocks
 
-- `prc-block/logo` -- PRC logo block (also renders SVG graphics)
+-   `prc-block/logo` -- PRC logo block (also renders SVG graphics)

@@ -1,13 +1,13 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "prc-block/supports",
-	"version": "2.0.0",
-	"editorStyle": "file:./index.css",
-	"editorScript": "file:./index.js",
-	"viewScriptModule": "file:./view.js",
-	"style": "file:./style-index.css",
-	"supports": {
-		"interactivity": true
-	}
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/supports",
+  "version": "2.0.0",
+  "editorStyle": "file:./index.css",
+  "editorScript": "file:./index.js",
+  "viewScriptModule": "file:./view.js",
+  "style": "file:./style-index.css",
+  "supports": {
+    "interactivity": true
+  }
 }

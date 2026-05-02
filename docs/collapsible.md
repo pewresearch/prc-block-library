@@ -1,47 +1,49 @@
 # Collapsible
 
+> **Deprecated.** This block has been superseded by `core/details`. It remains registered for backward compatibility with existing content. Source files live in `deprecated/src/collapsible/`.
+
 An accordion-style collapsible content section, commonly used for "How we did this" methodology panels.
 
 ## Block Metadata
 
-| Property    | Value                     |
-|-------------|---------------------------|
-| Namespace   | `prc-block/collapsible`   |
-| Category    | `design`                  |
-| Version     | `0.1.0`                   |
-| API Version | `3`                       |
+| Property    | Value                                   |
+| ----------- | --------------------------------------- |
+| Namespace   | `prc-block/collapsible`                 |
+| Category    | `design`                                |
+| Version     | `0.1.0`                                 |
+| API Version | `3`                                     |
 | Keywords    | collapsible, accordion, how we did this |
 
 ## Supports
 
-| Feature          | Value                                          |
-|------------------|------------------------------------------------|
-| Anchor           | `false`                                        |
-| HTML editing     | `false`                                        |
-| Inserter         | `false` (only available through variations)    |
-| Block gap        | Vertical sides only                            |
-| Spacing margin   | `top`, `bottom`                                |
-| Spacing padding  | `true` (default controls enabled)              |
-| Color background | `true`                                         |
-| Color text       | `true`                                         |
-| Color link       | `true`                                         |
-| Border color     | `true` (default controls enabled)              |
-| Border style     | `true` (default controls enabled)              |
-| Border width     | `true` (default controls enabled)              |
-| Font size        | `true` (default controls enabled)              |
-| Font family      | `true` (default controls enabled)              |
-| Interactivity    | `true`                                         |
+| Feature          | Value                                       |
+| ---------------- | ------------------------------------------- |
+| Anchor           | `false`                                     |
+| HTML editing     | `false`                                     |
+| Inserter         | `false` (only available through variations) |
+| Block gap        | Vertical sides only                         |
+| Spacing margin   | `top`, `bottom`                             |
+| Spacing padding  | `true` (default controls enabled)           |
+| Color background | `true`                                      |
+| Color text       | `true`                                      |
+| Color link       | `true`                                      |
+| Border color     | `true` (default controls enabled)           |
+| Border style     | `true` (default controls enabled)           |
+| Border width     | `true` (default controls enabled)           |
+| Font size        | `true` (default controls enabled)           |
+| Font family      | `true` (default controls enabled)           |
+| Interactivity    | `true`                                      |
 
 ## Attributes
 
-| Attribute         | Type      | Default              | Description                                                                                |
-|-------------------|-----------|----------------------|--------------------------------------------------------------------------------------------|
-| `title`           | `string`  | —                    | The title text shown in the collapsible header (e.g. "How we did this").                   |
-| `allowedBlocks`   | `array`   | —                    | Override the default list of allowed inner blocks.                                         |
-| `backgroundColor` | `string`  | `"ui-beige-very-light"` | Preset background color slug.                                                           |
-| `borderColor`     | `string`  | `"ui-beige-dark"`    | Preset border color slug.                                                                  |
-| `isCoBranded`     | `boolean` | `false`              | When true, displays the Pew-Knight co-branding logo instead of a text title.               |
-| `style`           | `object`  | *(see defaults)*     | Default border width of 1px, vertical block gap of spacing/30, padding of spacing/20-30.   |
+| Attribute         | Type      | Default                 | Description                                                                              |
+| ----------------- | --------- | ----------------------- | ---------------------------------------------------------------------------------------- |
+| `title`           | `string`  | —                       | The title text shown in the collapsible header (e.g. "How we did this").                 |
+| `allowedBlocks`   | `array`   | —                       | Override the default list of allowed inner blocks.                                       |
+| `backgroundColor` | `string`  | `"ui-beige-very-light"` | Preset background color slug.                                                            |
+| `borderColor`     | `string`  | `"ui-beige-dark"`       | Preset border color slug.                                                                |
+| `isCoBranded`     | `boolean` | `false`                 | When true, displays the Pew-Knight co-branding logo instead of a text title.             |
+| `style`           | `object`  | _(see defaults)_        | Default border width of 1px, vertical block gap of spacing/30, padding of spacing/20-30. |
 
 ## Available Styles
 
@@ -49,24 +51,24 @@ No registered block styles. Visual variants are handled via block variations.
 
 ## Block Variations
 
-| Variation Name                       | Title                               | Default | Description                                                                    |
-|--------------------------------------|-------------------------------------|---------|--------------------------------------------------------------------------------|
-| `collapsible`                        | Collapsible                         | Yes     | Standard collapsible with text title and beige background/border.              |
-| `pew-knight-co-branded-collapsible`  | Pew Knight Co-Branded Collapsible   | No      | Shows Pew-Knight logo, white background, top/bottom borders only, no side borders. |
+| Variation Name                      | Title                             | Default | Description                                                                        |
+| ----------------------------------- | --------------------------------- | ------- | ---------------------------------------------------------------------------------- |
+| `collapsible`                       | Collapsible                       | Yes     | Standard collapsible with text title and beige background/border.                  |
+| `pew-knight-co-branded-collapsible` | Pew Knight Co-Branded Collapsible | No      | Shows Pew-Knight logo, white background, top/bottom borders only, no side borders. |
 
 ## Inner Blocks
 
 Default allowed inner blocks:
 
-- `core/paragraph`
-- `core/heading`
-- `core/image`
-- `core/table`
-- `core/list`
-- `core/buttons`
-- `core/file`
-- `core/video`
-- `core/group`
+-   `core/paragraph`
+-   `core/heading`
+-   `core/image`
+-   `core/table`
+-   `core/list`
+-   `core/buttons`
+-   `core/file`
+-   `core/video`
+-   `core/group`
 
 The allowed list can be overridden via the `allowedBlocks` attribute. The default template starts with a single empty `core/paragraph`.
 
@@ -76,7 +78,7 @@ None. Can be placed anywhere (though it is only insertable through its registere
 
 ## Block Transforms
 
-- **From `[collapsible]` shortcode**: Converts the legacy shortcode to this block, extracting the title from the first `<h4>` tag in the shortcode content.
+-   **From `[collapsible]` shortcode**: Converts the legacy shortcode to this block, extracting the title from the first `<h4>` tag in the shortcode content.
 
 ## Usage Instructions
 
@@ -114,10 +116,12 @@ The PHP class also registers a `[collapsible]` shortcode fallback that converts 
 Uses the WordPress Interactivity API (`@wordpress/interactivity`) with store namespace `prc-block/collapsible`.
 
 **Actions:**
-- `onClick` — Toggles `context.isOpen` to expand/collapse the content.
+
+-   `onClick` — Toggles `context.isOpen` to expand/collapse the content.
 
 **Callbacks:**
-- `onInitScrollIntoView` — On page load, if the collapsible is initialized in an open state (via the `collapsibleId` query var), scrolls the element into view after a 500ms delay with smooth scrolling behavior.
+
+-   `onInitScrollIntoView` — On page load, if the collapsible is initialized in an open state (via the `collapsibleId` query var), scrolls the element into view after a 500ms delay with smooth scrolling behavior.
 
 ## Related Blocks
 

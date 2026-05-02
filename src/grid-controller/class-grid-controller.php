@@ -158,7 +158,7 @@ class Grid_Controller {
 
 		$block_attrs = get_block_wrapper_attributes(
 			array(
-				'class' => \PRC\Platform\Block_Utils\classNames( $css_classes ),
+				'class' => \PRC\BlockUtils\classNames( $css_classes ),
 				'style' => $inline_styles,
 			)
 		);

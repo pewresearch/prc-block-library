@@ -104,24 +104,20 @@ function build_core_tab_panel( array $core_tab_blocks, array $attrs = array(), s
 }
 
 /**
- * Build a core/tabs-menu-item block.
+ * Build a core/tabs-menu-item block (one per tab; Gutenberg 22.8+).
  *
- * This block serves as the template for styling all tab buttons in the tabs-menu.
- *
- * @param array  $attrs      Optional attributes for the tabs-menu-item block.
- *                           Supports color, typography, spacing, border, and shadow attributes.
- *                           The 'className' attribute will be included in the generated HTML.
- * @param string $inner_html Optional custom innerHTML for the tabs-menu-item.
- *                           If provided, should include serialized block support styles.
- *                           If empty, a default template will be used.
+ * @param string $menu_item_anchor Full anchor for the menu item (e.g. tab-1-button), matching core/tabs pairing.
+ * @param array  $attrs            Optional attributes (block supports). Anchor in $attrs is overwritten.
+ * @param string $inner_html       Optional saved button HTML; if empty, a minimal button is generated.
  * @return array The core/tabs-menu-item parsed block structure.
  */
-function build_core_tabs_menu_item( array $attrs = array(), string $inner_html = '' ): array {
-	// Use provided innerHTML or generate default with className support.
+function build_core_tabs_menu_item( string $menu_item_anchor, array $attrs = array(), string $inner_html = '' ): array {
+	$attrs['anchor'] = $menu_item_anchor;
+
 	if ( empty( $inner_html ) ) {
-		$base_class   = 'wp-block-tabs-menu-item wp-block-tabs-menu-item__template';
+		$base_class   = 'wp-block-tabs-menu-item';
 		$custom_class = ! empty( $attrs['className'] ) ? ' ' . $attrs['className'] : '';
-		$inner_html   = '<button type="button" class="' . esc_attr( $base_class . $custom_class ) . '" hidden></button>';
+		$inner_html   = '<button type="button" class="' . esc_attr( $base_class . $custom_class ) . '"></button>';
 	}
 
 	return array(
@@ -134,37 +130,39 @@ function build_core_tabs_menu_item( array $attrs = array(), string $inner_html =
 }
 
 /**
- * Build a core/tabs-menu block.
+ * Build a core/tabs-menu block with one core/tabs-menu-item per tab anchor.
  *
- * @param array  $attrs                       Optional attributes for the tabs-menu.
- *                                            The 'className' attribute will be included in the generated HTML.
- * @param bool   $is_vertical                 Whether the tabs menu is vertical.
- * @param array  $tabs_menu_item_attrs        Optional attributes for the tabs-menu-item inner block.
- *                                            Supports color, typography, spacing, border, and shadow.
- * @param string $tabs_menu_item_inner_html   Optional custom innerHTML for the tabs-menu-item.
- *                                            If provided, should include serialized block support styles.
+ * @param array  $attrs                     Optional attributes for the tabs-menu.
+ * @param bool   $is_vertical              Whether the tabs menu is vertical.
+ * @param array  $menu_item_anchors        Anchor string per menu item (e.g. tab-1-button, tab-2-button).
+ * @param array  $tabs_menu_item_attrs     Shared styling attributes applied to each menu item.
+ * @param string $tabs_menu_item_inner_html Optional shared innerHTML for each menu item (serialized button).
  * @return array The core/tabs-menu parsed block structure.
  */
-function build_core_tabs_menu( array $attrs = array(), bool $is_vertical = false, array $tabs_menu_item_attrs = array(), string $tabs_menu_item_inner_html = '' ): array {
+function build_core_tabs_menu( array $attrs = array(), bool $is_vertical = false, array $menu_item_anchors = array(), array $tabs_menu_item_attrs = array(), string $tabs_menu_item_inner_html = '' ): array {
 	$orientation_class = $is_vertical ? ' is-vertical' : '';
 	$custom_class      = ! empty( $attrs['className'] ) ? ' ' . $attrs['className'] : '';
 
-	// Build tabs-menu-item inner block
-	$tabs_menu_item = build_core_tabs_menu_item( $tabs_menu_item_attrs, $tabs_menu_item_inner_html );
+	$inner_blocks = array();
+	foreach ( $menu_item_anchors as $anchor ) {
+		$inner_blocks[] = build_core_tabs_menu_item( (string) $anchor, $tabs_menu_item_attrs, $tabs_menu_item_inner_html );
+	}
 
 	$opening_tag = '<div class="wp-block-tabs-menu tabs__list' . esc_attr( $orientation_class . $custom_class ) . '" role="tablist">';
 	$closing_tag = '</div>';
 
+	$inner_content = array( $opening_tag );
+	foreach ( $inner_blocks as $_ ) {
+		$inner_content[] = null;
+	}
+	$inner_content[] = $closing_tag;
+
 	return array(
 		'blockName'    => 'core/tabs-menu',
 		'attrs'        => $attrs,
-		'innerBlocks'  => array( $tabs_menu_item ),
+		'innerBlocks'  => $inner_blocks,
 		'innerHTML'    => $opening_tag . $closing_tag,
-		'innerContent' => array(
-			$opening_tag,
-			null, // tabs-menu-item placeholder
-			$closing_tag,
-		),
+		'innerContent' => $inner_content,
 	);
 }
 
@@ -218,10 +216,8 @@ function generate_tabs_list( array $core_tab_blocks ): array {
  * @param array  $attrs                        Attributes for the wrapper `core/tabs` block.
  * @param array  $tabs_menu_attributes         Optional attributes for the `core/tabs-menu` block.
  * @param array  $tab_panel_attributes         Optional attributes for the `core/tab-panel` block.
- * @param array  $tabs_menu_item_attrs         Optional attributes for the `core/tabs-menu-item` block.
- *                                             Supports color, typography, spacing, border, and shadow.
- * @param string $tabs_menu_item_inner_html    Optional custom innerHTML for the tabs-menu-item.
- *                                             If provided, should include serialized block support styles.
+ * @param array  $tabs_menu_item_attrs         Optional shared attributes for each `core/tabs-menu-item`.
+ * @param string $tabs_menu_item_inner_html    Optional shared innerHTML for each menu item button.
  * @param string $tab_panel_inner_html         Optional custom innerHTML for the tab-panel wrapper.
  * @return array The core/tabs parsed block structure.
  */
@@ -245,6 +241,28 @@ function create_core_tabs(
 		$core_tab_blocks[] = generate_core_tab( $label, $content, $anchor );
 	}
 
+	// Menu item anchors: {tab_id}-button, aligned with each core/tab anchor.
+	$menu_item_anchors = array();
+	$tab_index         = 0;
+	foreach ( $core_tab_blocks as $tab_block ) {
+		if ( 'core/tab' !== ( $tab_block['blockName'] ?? '' ) ) {
+			continue;
+		}
+		$tattrs = $tab_block['attrs'] ?? array();
+		$tab_id = $tattrs['anchor'] ?? '';
+		if ( empty( $tab_id ) && ! empty( $tab_block['innerHTML'] ) ) {
+			$tag_processor = new WP_HTML_Tag_Processor( $tab_block['innerHTML'] );
+			if ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-tab' ) ) ) {
+				$tab_id = $tag_processor->get_attribute( 'id' ) ?? '';
+			}
+		}
+		if ( empty( $tab_id ) ) {
+			$tab_id = 'tab-' . $tab_index;
+		}
+		$menu_item_anchors[] = $tab_id . '-button';
+		++$tab_index;
+	}
+
 	// Determine orientation.
 	$is_vertical = 'vertical' === ( $attrs['orientation'] ?? 'horizontal' );
 
@@ -258,7 +276,7 @@ function create_core_tabs(
 		);
 	}
 
-	$tabs_menu = build_core_tabs_menu( $tabs_menu_attrs, $is_vertical, $tabs_menu_item_attrs, $tabs_menu_item_inner_html );
+	$tabs_menu = build_core_tabs_menu( $tabs_menu_attrs, $is_vertical, $menu_item_anchors, $tabs_menu_item_attrs, $tabs_menu_item_inner_html );
 	$tab_panel = build_core_tab_panel( $core_tab_blocks, $tab_panel_attributes, $tab_panel_inner_html );
 
 	// Build core/tabs attributes.

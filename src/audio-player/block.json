@@ -33,6 +33,12 @@
 			"default": false
 		}
 	},
+	"example": {
+		"attributes": {
+			"title": "Audio Title",
+			"description": "A brief description of this audio clip."
+		}
+	},
 	"styles": [
 		{
 			"name": "card",
@@ -50,7 +56,10 @@
 		"html": false,
 		"spacing": {
 			"blockGap": true,
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -68,7 +77,10 @@
 	"textdomain": "audio-player",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": ["file:./style-index.css", "wp-mediaelement"],
+	"style": [
+		"file:./style-index.css",
+		"wp-mediaelement"
+	],
 	"render": "file:./render.php",
 	"viewScript": "file:./view.js"
 }

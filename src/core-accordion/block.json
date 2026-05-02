@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/core-accordion",
+	"version": "1.0.0",
+	"title": "Accordion",
+	"category": "design",
+	"description": "Extended core/accordion with entity iframe support and structured data.",
+	"textdomain": "core-accordion",
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"supports": {
+		"interactivity": true
+	},
+	"viewScriptModule": "file:./view.js"
+}

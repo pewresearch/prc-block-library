@@ -5,6 +5,10 @@
 **Title:** Lorem Ipsum
 **Description:** Lorem ipsum placeholder text.
 
+## Block inserter example
+
+`block.json` defines an `example` with `totalParagraphs` 1. The block is not shown in the inserter (`inserter: false`); the metadata still documents the default preview shape for tooling.
+
 ## Block Namespace
 
 `prc-block/lorem-ipsum`
@@ -15,16 +19,16 @@
 
 ## Supports
 
-| Feature | Enabled | Details |
-|---------|---------|---------|
-| Inserter | No | Cannot be inserted from the block inserter |
-| HTML editing | No | |
+| Feature      | Enabled | Details                                    |
+| ------------ | ------- | ------------------------------------------ |
+| Inserter     | No      | Cannot be inserted from the block inserter |
+| HTML editing | No      |                                            |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `totalParagraphs` | `number` | `1` | Number of placeholder paragraphs to generate |
+| Attribute         | Type     | Default | Description                                  |
+| ----------------- | -------- | ------- | -------------------------------------------- |
+| `totalParagraphs` | `number` | `1`     | Number of placeholder paragraphs to generate |
 
 ## Available Styles
 
@@ -52,14 +56,16 @@ The generated content uses the `jabber` library with Pew Research Center topic k
 ### Generated Content Types
 
 For more than 3 blocks, a heading is added at the start. The content varies:
-- Regular paragraphs (30-70 words)
-- Every 3rd block has a chance (~30%) of being a **quote block**, or (~30%) a **list block** (3-6 items), or a regular paragraph.
+
+-   Regular paragraphs (30-70 words)
+-   Every 3rd block has a chance (~30%) of being a **quote block**, or (~30%) a **list block** (3-6 items), or a regular paragraph.
 
 ## Block Markup Example
 
 This block does not produce markup. It transforms into standard `core/paragraph`, `core/heading`, `core/quote`, and `core/list` blocks.
 
 Example of typing `%ipsum 3`:
+
 ```
 Before: "%ipsum 3" [Enter]
 After:
@@ -69,6 +75,7 @@ After:
 ```
 
 Example of typing `%ipsum 5`:
+
 ```
 After:
   - core/heading (level 2)
@@ -89,7 +96,7 @@ None.
 
 ## Related Blocks
 
-- `core/paragraph` -- The primary output block after transformation
-- `core/heading` -- Generated as headers in multi-block output
-- `core/quote` -- Occasionally generated in varied content
-- `core/list` -- Occasionally generated in varied content
+-   `core/paragraph` -- The primary output block after transformation
+-   `core/heading` -- Generated as headers in multi-block output
+-   `core/quote` -- Occasionally generated in varied content
+-   `core/list` -- Occasionally generated in varied content

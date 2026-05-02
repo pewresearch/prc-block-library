@@ -71,6 +71,26 @@
 			"default": "center"
 		}
 	},
+	"example": {
+		"attributes": {
+			"dialogSize": "medium",
+			"animation": "fade"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/heading",
+				"attributes": {
+					"content": "Dialog Title"
+				}
+			},
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Dialog content."
+				}
+			}
+		]
+	},
 	"supports": {
 		"html": false,
 		"align": false,

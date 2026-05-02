@@ -5,6 +5,10 @@
 **Title:** Responsive Column
 **Description:** A responsive grid column. Set the column's span and start position at different breakpoints to create complex responsive grid layouts.
 
+## Block inserter example
+
+`block.json` defines an `example` with sample `gridLayout` spans and a `core/paragraph` (“Column content.”). The block is not directly insertable (`inserter: false`); the preview shape applies when the column appears in grid templates or listings.
+
 ## Block Namespace
 
 `prc-block/grid-column`
@@ -15,46 +19,56 @@
 
 ## Supports
 
-| Feature | Enabled | Details |
-|---------|---------|---------|
-| Anchor | Yes | |
-| Reusable | No | |
-| Inserter | No | Cannot be inserted directly; only created via parent grid controller |
-| HTML editing | No | |
-| Color | Yes | Background, text, link |
-| Spacing | Yes | `blockGap`, `margin`, `padding` (default control) |
-| Border | Yes | Color, style, width (all default controls) |
-| Typography | Yes | Font size, line height, font family (default controls) |
-| Layout | Yes | Experimental layout support |
+| Feature      | Enabled | Details                                                                                                     |
+| ------------ | ------- | ----------------------------------------------------------------------------------------------------------- |
+| Anchor       | Yes     |                                                                                                             |
+| Reusable     | No      |                                                                                                             |
+| Inserter     | No      | Cannot be inserted directly; only created via parent grid controller                                        |
+| HTML editing | No      |                                                                                                             |
+| Color        | Yes     | Background, text, link                                                                                      |
+| Spacing      | Yes     | `blockGap`, `margin`, `padding` (default control). Block gap is also exposed as a CSS variable (see below). |
+| Border       | Yes     | Color, style, width (all default controls)                                                                  |
+| Typography   | Yes     | Font size, line height, font family (default controls)                                                      |
+| Layout       | Yes     | Experimental layout support                                                                                 |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `gridLayout` | `object` | See below | Object controlling responsive grid behavior |
-| `verticalAlignment` | `string` | — | `top`, `center`, `bottom`, or `stretch`. Stretch makes the column fill the grid row height (`align-self: stretch`). If the attribute is absent in saved markup, PHP still defaults the front end to `top`. |
-| `allowedBlocks` | `array` | — | Restrict which blocks can be placed inside |
-| `templateLock` | `string\|boolean` | `false` | Lock mode: `"all"`, `"insert"`, `"contentOnly"`, or `false` |
+| Attribute           | Type              | Default   | Description                                                                                                                                                                                                |
+| ------------------- | ----------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `gridLayout`        | `object`          | See below | Object controlling responsive grid behavior                                                                                                                                                                |
+| `verticalAlignment` | `string`          | —         | `top`, `center`, `bottom`, or `stretch`. Stretch makes the column fill the grid row height (`align-self: stretch`). If the attribute is absent in saved markup, PHP still defaults the front end to `top`. |
+| `allowedBlocks`     | `array`           | —         | Restrict which blocks can be placed inside                                                                                                                                                                 |
+| `templateLock`      | `string\|boolean` | `false`   | Lock mode: `"all"`, `"insert"`, `"contentOnly"`, or `false`                                                                                                                                                |
 
 ### `gridLayout` Object
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `index` | `number` | `0` | Column position index (1-based when active) |
-| `desktopSpan` | `number` | `4` | Number of grid columns to span on desktop (out of 12) |
-| `tabletSpan` | `number` | `4` | Number of grid columns to span on tablet (out of 12) |
-| `mobileSpan` | `number` | `4` | Number of grid columns to span on mobile (out of 4) |
-| `tabletStart` | `number\|null` | `null` | Grid start position on tablet |
-| `mobileStart` | `number\|null` | `null` | Grid start position on mobile |
-| `tabletPosition` | `number\|null` | `null` | Custom order position on tablet |
-| `mobilePosition` | `number\|null` | `null` | Custom order position on mobile |
-| `desktopDivider` | `boolean\|null` | `null` | Show divider line on desktop |
-| `tabletDivider` | `boolean\|null` | `null` | Show divider line on tablet |
-| `mobileDivider` | `boolean\|null` | `null` | Show divider line on mobile |
+| Property         | Type            | Default | Description                                           |
+| ---------------- | --------------- | ------- | ----------------------------------------------------- |
+| `index`          | `number`        | `0`     | Column position index (1-based when active)           |
+| `desktopSpan`    | `number`        | `4`     | Number of grid columns to span on desktop (out of 12) |
+| `tabletSpan`     | `number`        | `4`     | Number of grid columns to span on tablet (out of 12)  |
+| `mobileSpan`     | `number`        | `4`     | Number of grid columns to span on mobile (out of 4)   |
+| `tabletStart`    | `number\|null`  | `null`  | Grid start position on tablet                         |
+| `mobileStart`    | `number\|null`  | `null`  | Grid start position on mobile                         |
+| `tabletPosition` | `number\|null`  | `null`  | Custom order position on tablet                       |
+| `mobilePosition` | `number\|null`  | `null`  | Custom order position on mobile                       |
+| `desktopDivider` | `boolean\|null` | `null`  | Show divider line on desktop                          |
+| `tabletDivider`  | `boolean\|null` | `null`  | Show divider line on tablet                           |
+| `mobileDivider`  | `boolean\|null` | `null`  | Show divider line on mobile                           |
 
 ## Available Styles
 
 None.
+
+## CSS custom properties
+
+In addition to span and order variables, the block exposes the column’s **block spacing gap** as a custom property so child blocks and theme CSS can reuse the same value (for example padding or `calc()` that should track the column’s vertical gap).
+
+| Property            | Source                                                                                                                                                                             | Where it appears                                                                                                                                                                                  |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--grid-column-gap` | Block spacing **Block gap** (vertical axis: unified string or `top` when split). Resolved via `getBlockGapSupportValue` / `get_block_gap_support_value` with dimension `vertical`. | **Editor:** on the inner blocks wrapper (`useInnerBlocksProps`). **Front end:** on the column wrapper from `render_block_callback` (only when the resolved value is not empty and not `inherit`). |
+
+Preset spacing tokens are output as `var(--wp--preset--spacing--*)` (or equivalent) so they match the rest of the editor.
 
 ## Inner Blocks
 
@@ -68,17 +82,17 @@ This block can only exist as a direct child of a Responsive Grid block.
 
 ## Provides Context
 
-| Context Key | Source |
-|-------------|--------|
-| `grid/column/desktop/span` | `gridSpan` |
-| `grid/column/desktop/start` | `gridStart` |
-| `grid/column/desktop/row` | `gridRow` |
-| `grid/column/tablet/span` | `tabletGridSpan` |
-| `grid/column/tablet/start` | `tabletGridStart` |
-| `grid/column/tablet/row` | `tabletGridRow` |
-| `grid/column/mobile/span` | `mobileGridSpan` |
-| `grid/column/mobile/start` | `mobileGridStart` |
-| `grid/column/mobile/row` | `mobileGridRow` |
+| Context Key                 | Source            |
+| --------------------------- | ----------------- |
+| `grid/column/desktop/span`  | `gridSpan`        |
+| `grid/column/desktop/start` | `gridStart`       |
+| `grid/column/desktop/row`   | `gridRow`         |
+| `grid/column/tablet/span`   | `tabletGridSpan`  |
+| `grid/column/tablet/start`  | `tabletGridStart` |
+| `grid/column/tablet/row`    | `tabletGridRow`   |
+| `grid/column/mobile/span`   | `mobileGridSpan`  |
+| `grid/column/mobile/start`  | `mobileGridStart` |
+| `grid/column/mobile/row`    | `mobileGridRow`   |
 
 ## Usage Instructions
 
@@ -93,12 +107,14 @@ This block can only exist as a direct child of a Responsive Grid block.
 ## Block Markup Example
 
 ```html
-<div class="wp-block-prc-block-grid-column is-vertically-aligned-top has-desktop-divider has-tablet-divider"
-     style="--desktop-span:8;--tablet-span:6;--mobile-span:4;"
-     data-desktop-span="8"
-     data-tablet-span="6"
-     data-mobile-span="4">
-  <!-- Inner block content -->
+<div
+	class="wp-block-prc-block-grid-column is-vertically-aligned-top has-desktop-divider has-tablet-divider"
+	style="--desktop-span:8;--tablet-span:6;--mobile-span:4;--grid-column-gap:var(--wp--preset--spacing--40);"
+	data-desktop-span="8"
+	data-tablet-span="6"
+	data-mobile-span="4"
+>
+	<!-- Inner block content -->
 </div>
 ```
 
@@ -107,7 +123,7 @@ This block can only exist as a direct child of a Responsive Grid block.
 Server-side rendered via `render_block_callback` in `Grid_Column`. The PHP:
 
 1. Parses `gridLayout` attributes with defaults.
-2. Generates CSS custom properties: `--desktop-span`, `--tablet-span`, `--mobile-span` (and optionally `--tablet-order`, `--mobile-order`).
+2. Generates CSS custom properties: `--desktop-span`, `--tablet-span`, `--mobile-span` (and optionally `--tablet-order`, `--mobile-order`, and `--grid-column-gap` when block gap is set).
 3. Adds data attributes: `data-desktop-span`, `data-tablet-span`, `data-mobile-span`.
 4. Adds vertical alignment class (e.g., `is-vertically-aligned-top`, `is-vertically-aligned-stretch`). If `verticalAlignment` is omitted from stored attributes, PHP defaults to `top` and outputs `is-vertically-aligned-top`.
 5. Adds divider classes (`has-desktop-divider`, `has-tablet-divider`, `has-mobile-divider`) based on `gridLayout` divider attributes.
@@ -121,4 +137,4 @@ None. Layout is purely CSS-driven using CSS Grid with custom properties and medi
 
 ## Related Blocks
 
-- `prc-block/grid-controller` -- Required parent; provides the CSS Grid container
+-   `prc-block/grid-controller` -- Required parent; provides the CSS Grid container

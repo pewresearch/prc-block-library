@@ -48,8 +48,9 @@ class Mailchimp_Select {
 		wp_enqueue_script( 'wp-api-fetch' );
 		wp_enqueue_script( 'wp-url' );
 
-		$mailchimp = new \PRC\Platform\Mailchimp( null, null );
-		$nonce     = $mailchimp->get_nonce();
+		$nonce = function_exists( '\PRC\Platform\Mailchimp\get_nonce' )
+			? \PRC\Platform\Mailchimp\get_nonce()
+			: wp_create_nonce( 'wp_rest' );
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(

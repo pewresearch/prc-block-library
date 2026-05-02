@@ -35,7 +35,20 @@ class Mailchimp_Form {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_filter( 'block_bindings_supported_attributes_prc-block/mailchimp-form', $this, 'enable_pattern_overrides' );
 		}
+	}
+
+	/**
+	 * Enable pattern overrides for the mailchimp form block
+	 *
+	 * @hook block_bindings_supported_attributes_prc-block/mailchimp-form
+	 * @param array $supported_attributes Supported attributes.
+	 * @return array
+	 */
+	public function enable_pattern_overrides( $supported_attributes ) {
+		$supported_attributes[] = 'interest';
+		return $supported_attributes;
 	}
 
 	/**
@@ -49,8 +62,9 @@ class Mailchimp_Form {
 		wp_enqueue_script( 'wp-api-fetch' );
 		wp_enqueue_script( 'wp-url' );
 
-		$mailchimp = new \PRC\Platform\Mailchimp( null );
-		$nonce     = $mailchimp->get_nonce();
+		$nonce = function_exists( '\PRC\Platform\Mailchimp\get_nonce' )
+			? \PRC\Platform\Mailchimp\get_nonce()
+			: wp_create_nonce( 'wp_rest' );
 
 		$block_wrapper_attributes = get_block_wrapper_attributes(
 			array(

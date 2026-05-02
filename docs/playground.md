@@ -2,6 +2,10 @@
 
 A dev-only block that provides a simple way to see all blocks and/or components at once. Delete it and drop it back in to start fresh. Not registered or rendered in production environments.
 
+## Block inserter example
+
+`block.json` defines an `example` with `playgroundType` `blocks` — inserter preview in dev.
+
 ## Block Namespace
 
 `prc-block/playground`
@@ -13,14 +17,14 @@ A dev-only block that provides a simple way to see all blocks and/or components 
 ## Supports
 
 | Feature | Enabled |
-|---------|---------|
-| Anchor | Yes |
-| HTML | No |
+| ------- | ------- |
+| Anchor  | Yes     |
+| HTML    | No      |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
+| Attribute        | Type     | Default    | Description                                             |
+| ---------------- | -------- | ---------- | ------------------------------------------------------- |
 | `playgroundType` | `string` | `"blocks"` | The type of playground. One of: `blocks`, `components`. |
 
 ## Available Styles
@@ -29,17 +33,17 @@ No block style variations defined.
 
 ## Block Variations
 
-| Variation | Name | Description | Default |
-|-----------|------|-------------|---------|
-| Blocks Playground | `blocks-playground` | Renders all registered blocks as inner blocks | Yes |
-| Components Playground | `components-playground` | Renders component demos on the frontend | No |
+| Variation             | Name                    | Description                                   | Default |
+| --------------------- | ----------------------- | --------------------------------------------- | ------- |
+| Blocks Playground     | `blocks-playground`     | Renders all registered blocks as inner blocks | Yes     |
+| Components Playground | `components-playground` | Renders component demos on the frontend       | No      |
 
 ## Inner Blocks
 
 This is a container block. The inner blocks are dynamically populated:
 
-- **Blocks mode:** The PHP class constructs a template containing every registered block type (excluding `prc-block/playground` itself, blocks with parent restrictions, and newsletterglue blocks). This template is localized to the editor script.
-- **Components mode:** A single paragraph placeholder is shown in the editor. Component demos render on the frontend.
+-   **Blocks mode:** The PHP class constructs a template containing every registered block type (excluding `prc-block/playground` itself, blocks with parent restrictions, and newsletterglue blocks). This template is localized to the editor script.
+-   **Components mode:** A single paragraph placeholder is shown in the editor. Component demos render on the frontend.
 
 ## Parent/Ancestor Requirements
 
@@ -57,7 +61,7 @@ None.
 
 ```html
 <div class="wp-block-prc-block-playground">
-  <!-- Inner blocks content / component demos rendered here -->
+	<!-- Inner blocks content / component demos rendered here -->
 </div>
 ```
 
@@ -78,8 +82,8 @@ The `block_init` method:
 
 Has a `view.js` script that runs on `domReady`:
 
-- Finds all `.wp-block-prc-block-playground` elements on the page.
-- Renders a React component (`Group`) into each element containing demo instances of `Select` and `Autocomplete` components from `@prc/components`.
+-   Finds all `.wp-block-prc-block-playground` elements on the page.
+-   Renders a React component (`Group`) into each element containing demo instances of `Select` and `Autocomplete` components from `@prc/components`.
 
 This is only relevant in the **Components Playground** variation.
 

@@ -20,6 +20,11 @@
 			}
 		}
 	},
+	"example": {
+		"attributes": {
+			"numoffset": 0
+		}
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -30,7 +35,10 @@
 		},
 		"spacing": {
 			"blockGap": true,
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -61,7 +69,9 @@
 			}
 		}
 	},
-	"usesContext": ["postId"],
+	"usesContext": [
+		"postId"
+	],
 	"textdomain": "footnotes",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

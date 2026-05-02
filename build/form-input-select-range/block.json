@@ -33,6 +33,32 @@
       "default": 1
     }
   },
+  "example": {
+    "attributes": {
+      "type": "years",
+      "rangeStart": 2000,
+      "rangeEnd": 2025,
+      "rangeStep": 1
+    },
+    "innerBlocks": [
+      {
+        "name": "prc-block/form-input-select",
+        "attributes": {
+          "type": "custom",
+          "label": "Minimum",
+          "placeholder": "Select Minimum..."
+        }
+      },
+      {
+        "name": "prc-block/form-input-select",
+        "attributes": {
+          "type": "custom",
+          "label": "Maximum",
+          "placeholder": "Select Maximum..."
+        }
+      }
+    ]
+  },
   "supports": {
     "anchor": true,
     "html": false,

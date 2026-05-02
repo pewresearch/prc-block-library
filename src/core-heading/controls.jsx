@@ -1,8 +1,4 @@
 /**
- * External Dependencies
- */
-
-/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -11,22 +7,16 @@ import {
 	BlockControls,
 	InspectorAdvancedControls,
 } from '@wordpress/block-editor';
-import { decodeEntities } from '@wordpress/html-entities';
-import { cleanForSlug } from '@wordpress/url';
 import {
 	TextControl,
 	ToolbarButton,
 	ToolbarGroup,
 } from '@wordpress/components';
 
-function getAnchorFromContent(content = '') {
-	const plainText = decodeEntities(String(content))
-		.replace(/<[^>]+>/g, ' ')
-		.replace(/\s+/g, ' ')
-		.trim();
-
-	return cleanForSlug(plainText);
-}
+/**
+ * Internal Dependencies
+ */
+import { getAnchorFromContent } from './utils';
 
 function InspectorPanel({ attributes, setAttributes }) {
 	const { isChapter, altTocText, content } = attributes;
@@ -72,20 +62,32 @@ function Toolbar({ attributes, setAttributes }) {
 	);
 }
 
+function shouldAutoGenerateAnchor(level) {
+	return level === 3 || level === 4;
+}
+
 export default function Controls({ attributes, setAttributes, context }) {
-	const { isChapter, content, anchor } = attributes;
+	const { content, anchor, level } = attributes;
 	const previousContentRef = useRef(content);
-	const previousIsChapterRef = useRef(isChapter);
+	const previousLevelRef = useRef(level);
+	const previousShouldAutoAnchorRef = useRef(shouldAutoGenerateAnchor(level));
 
 	useEffect(() => {
-		const chapterJustEnabled =
-			!previousIsChapterRef.current && Boolean(isChapter);
-		const chapterContentChanged =
-			Boolean(previousIsChapterRef.current) &&
-			Boolean(isChapter) &&
+		const autoAnchor = shouldAutoGenerateAnchor(level);
+
+		const levelJustBecameH3OrH4 =
+			![3, 4].includes(previousLevelRef.current) &&
+			[3, 4].includes(level);
+		const autoAnchorJustEnabled =
+			(!previousShouldAutoAnchorRef.current && autoAnchor) ||
+			levelJustBecameH3OrH4;
+
+		const contentChangedWhileAuto =
+			Boolean(previousShouldAutoAnchorRef.current) &&
+			autoAnchor &&
 			previousContentRef.current !== content;
 
-		if (chapterJustEnabled || chapterContentChanged) {
+		if (autoAnchorJustEnabled || contentChangedWhileAuto) {
 			const nextAnchor = getAnchorFromContent(content);
 			if (nextAnchor && nextAnchor !== anchor) {
 				setAttributes({ anchor: nextAnchor });
@@ -93,8 +95,9 @@ export default function Controls({ attributes, setAttributes, context }) {
 		}
 
 		previousContentRef.current = content;
-		previousIsChapterRef.current = isChapter;
-	}, [isChapter, content, anchor, setAttributes]);
+		previousLevelRef.current = level;
+		previousShouldAutoAnchorRef.current = autoAnchor;
+	}, [content, anchor, setAttributes, level]);
 
 	return (
 		<Fragment>

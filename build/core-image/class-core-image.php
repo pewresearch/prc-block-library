@@ -2,12 +2,20 @@
 /**
  * Core Image Block
  *
+ * Extends `core/image` with platform-specific behaviour:
+ * - Lazy-load control (disable lazy loading inside carousel/timeline slides,
+ *   eager loading when `no-lazy-load` class is present, dominant-color bypass)
+ * - Breakpoint-aligned `srcset` and `sizes` rewrite for rendered blocks,
+ *   attachment-page hero images, and `wp_content_img_tag` pass-through
+ *
  * @package PRC\Platform\Blocks
  */
 
 namespace PRC\Platform\Blocks;
 
 use WP_HTML_Tag_Processor;
+use WP_Post;
+
 /**
  * Block Name:
  * Version:           0.1.0
@@ -48,6 +56,16 @@ class Core_Image {
 	public $style_handle;
 
 	/**
+	 * Marker data attribute used to flag `<img>` tags that the
+	 * breakpoint-srcset filter has touched, so the `wp_content_img_tag`
+	 * pass can re-apply our `sizes` value after WP core's image-tag
+	 * pipeline would otherwise reset it from the `width` attribute.
+	 *
+	 * @var string
+	 */
+	const SRCSET_CONTEXT_ATTR = 'data-prc-srcset-context';
+
+	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
@@ -68,6 +86,7 @@ class Core_Image {
 		$loader->add_action( 'enqueue_block_assets', $this, 'register_style' );
 		$loader->add_filter( 'render_block_data', $this, 'set_image_to_lazy_load_inside_blocks', 10, 3 );
 		$loader->add_filter( 'render_block_core/image', $this, 'share_figure_no_lazy_load_classname_with_img', 10, 2 );
+		$loader->add_filter( 'render_block_core/image', $this, 'filter_block_srcset', 11, 2 );
 		$loader->add_filter(
 			'wp_img_tag_add_loading_attr',
 			$this,
@@ -77,6 +96,8 @@ class Core_Image {
 		);
 		$loader->add_filter( 'dominant_color_img_tag_add_dominant_color', $this, 'disable_dominate_color_for_no_lazy_loading', 10, 5 );
 		$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
+		$loader->add_filter( 'wp_get_attachment_image_attributes', $this, 'filter_attachment_page_image_attributes', 10, 3 );
+		$loader->add_filter( 'wp_content_img_tag', $this, 'reapply_breakpoint_sizes_in_content', 99, 3 );
 	}
 
 	/**
@@ -215,5 +236,272 @@ class Core_Image {
 		}
 
 		return $enabled;
+	}
+
+	/**
+	 * Build a breakpoint-aligned `srcset` and `sizes` for a given attachment.
+	 *
+	 * Returns an associative array with `srcset` and `sizes` keys, or `null`
+	 * if the attachment metadata is missing or malformed. The `$context`
+	 * argument selects the candidate-width set and the `sizes` hint to use:
+	 *
+	 *   'default'         No alignment / left / right float.
+	 *                     Candidates: 480, 782, 960, 1200, 1564, 1600 w.
+	 *                     sizes: (max-width: 480px) 480px, (max-width: 782px) 782px, 640px
+	 *
+	 *   'wide'            align=wide.
+	 *                     Candidates: 480, 782, 960, 1200, 1564, 1600 w.
+	 *                     sizes: (max-width: 480px) 480px, (max-width: 782px) 782px, 1200px
+	 *
+	 *   'full'            align=full.
+	 *                     Candidates: 480, 782, 960, 1200, 1564, 1600, 1920, 2400 w.
+	 *                     sizes: 100vw
+	 *
+	 *   'attachment_page' Prepended image in the 8-of-12 grid column on attachment pages.
+	 *                     Candidates: 480, 782, 960, 1200, 1564, 1600 w.
+	 *                     sizes: (max-width: 480px) 480px, (max-width: 782px) 782px, 800px
+	 *
+	 * Candidates wider than the attachment's original width are dropped to
+	 * avoid upscaling, and the original width is always retained as the
+	 * largest candidate so retina targets at the rendered display size get
+	 * an exact match. URLs use the VIP File System `?resize=w,h` transform
+	 * parameter with the height calculated proportionally from the original
+	 * aspect ratio.
+	 *
+	 * @param int    $attachment_id Attachment post ID.
+	 * @param string $context       One of 'default', 'wide', 'full', 'attachment_page'.
+	 * @return array{srcset:string,sizes:string}|null
+	 */
+	private function build_breakpoint_srcset_attrs( int $attachment_id, string $context = 'default' ): ?array {
+		$meta = wp_get_attachment_metadata( $attachment_id );
+
+		if ( ! is_array( $meta ) || empty( $meta['width'] ) || empty( $meta['height'] ) ) {
+			return null;
+		}
+
+		$original_width  = (int) $meta['width'];
+		$original_height = (int) $meta['height'];
+		$base_url        = wp_get_attachment_url( $attachment_id );
+
+		if ( ! $base_url ) {
+			return null;
+		}
+
+		$context_map = array(
+			'default'         => array(
+				'widths' => array( 480, 960, 782, 1564, 1200, 1600 ),
+				'sizes'  => '(max-width: 480px) 480px, (max-width: 782px) 782px, 640px',
+			),
+			'wide'            => array(
+				'widths' => array( 480, 960, 782, 1564, 1200, 1600 ),
+				'sizes'  => '(max-width: 480px) 480px, (max-width: 782px) 782px, 1200px',
+			),
+			'full'            => array(
+				'widths' => array( 480, 960, 782, 1564, 1200, 1600, 1920, 2400 ),
+				'sizes'  => '100vw',
+			),
+			'attachment_page' => array(
+				'widths' => array( 480, 960, 782, 1564, 1200, 1600 ),
+				'sizes'  => '(max-width: 480px) 480px, (max-width: 782px) 782px, 800px',
+			),
+		);
+
+		$config           = $context_map[ $context ] ?? $context_map['default'];
+		$candidate_widths = $config['widths'];
+		$sizes_attr       = $config['sizes'];
+
+		$candidates = array();
+		$ratio      = $original_height / $original_width;
+
+		foreach ( $candidate_widths as $w ) {
+			if ( $w > $original_width ) {
+				continue;
+			}
+			$h                = (int) round( $w * $ratio );
+			$candidates[ $w ] = add_query_arg( array( 'resize' => $w . ',' . $h ), $base_url );
+		}
+
+		if ( ! isset( $candidates[ $original_width ] ) ) {
+			$candidates[ $original_width ] = add_query_arg(
+				array( 'resize' => $original_width . ',' . $original_height ),
+				$base_url
+			);
+		}
+
+		if ( empty( $candidates ) ) {
+			return null;
+		}
+
+		ksort( $candidates );
+
+		$srcset_parts = array();
+		foreach ( $candidates as $w => $url ) {
+			$srcset_parts[] = $url . ' ' . $w . 'w';
+		}
+
+		return array(
+			'srcset' => implode( ', ', $srcset_parts ),
+			'sizes'  => $sizes_attr,
+		);
+	}
+
+	/**
+	 * Rewrite the `srcset` and `sizes` attributes on rendered core/image
+	 * blocks to a breakpoint-aligned candidate set.
+	 *
+	 * Replaces WP core's default "one URL per registered intermediate size"
+	 * srcset with a small set of candidates targeting the platform's three
+	 * layout breakpoints. The exact candidate widths and `sizes` hint depend
+	 * on the block's `align` attribute:
+	 *
+	 *   - No align / left / right: 6 candidates (480–1600w) + original, sizes ends at 640px.
+	 *   - align=wide: 6 candidates (480–1600w) + original, sizes ends at 1200px.
+	 *   - align=full: 8 candidates (480–2400w) + original, sizes=100vw.
+	 *
+	 * Runs at priority 11 so the no-lazy-load class pass (priority 10)
+	 * completes first.
+	 *
+	 * @hook render_block_core/image 11
+	 *
+	 * @param string               $block_content The rendered block HTML.
+	 * @param array<string, mixed> $block         The parsed block data.
+	 * @return string
+	 */
+	public function filter_block_srcset( string $block_content, array $block ): string {
+		$processor = new WP_HTML_Tag_Processor( $block_content );
+
+		if ( ! $processor->next_tag( 'img' ) ) {
+			return $block_content;
+		}
+
+		$class = (string) ( $processor->get_attribute( 'class' ) ?? '' );
+
+		if ( ! preg_match( '/\bwp-image-(\d+)\b/', $class, $matches ) ) {
+			return $block_content;
+		}
+
+		$attachment_id = (int) $matches[1];
+
+		$align   = isset( $block['attrs']['align'] ) ? (string) $block['attrs']['align'] : '';
+		$context = match ( $align ) {
+			'full'  => 'full',
+			'wide'  => 'wide',
+			default => 'default',
+		};
+
+		$attrs = $this->build_breakpoint_srcset_attrs( $attachment_id, $context );
+
+		if ( null === $attrs ) {
+			return $block_content;
+		}
+
+		$processor->set_attribute( 'srcset', $attrs['srcset'] );
+		$processor->set_attribute( 'sizes', $attrs['sizes'] );
+		$processor->set_attribute( self::SRCSET_CONTEXT_ATTR, $context );
+
+		return $processor->get_updated_html();
+	}
+
+	/**
+	 * Apply breakpoint-aligned `srcset` and `sizes` to the prepended
+	 * attachment image on attachment-page templates.
+	 *
+	 * Scoped to the attachment page's own queried attachment so that other
+	 * `wp_get_attachment_image()` calls on the same page (sidebar thumbnails,
+	 * theme card images, etc.) continue to use WP core's default srcset
+	 * machinery with the full registered-size set.
+	 *
+	 * @hook wp_get_attachment_image_attributes
+	 *
+	 * @param array<string, string> $attr       Image HTML attributes.
+	 * @param WP_Post               $attachment The attachment post object.
+	 * @param string|int[]          $size       Requested size slug or [w, h] pair.
+	 * @return array<string, string>
+	 */
+	public function filter_attachment_page_image_attributes( $attr, $attachment, $size ) {
+		if ( ! is_attachment() ) {
+			return $attr;
+		}
+
+		if ( ! ( $attachment instanceof WP_Post ) ) {
+			return $attr;
+		}
+
+		if ( get_queried_object_id() !== (int) $attachment->ID ) {
+			return $attr;
+		}
+
+		$attrs = $this->build_breakpoint_srcset_attrs( (int) $attachment->ID, 'attachment_page' );
+
+		if ( null === $attrs ) {
+			return $attr;
+		}
+
+		$attr['srcset']                      = $attrs['srcset'];
+		$attr['sizes']                       = $attrs['sizes'];
+		$attr[ self::SRCSET_CONTEXT_ATTR ] = 'attachment_page';
+
+		return $attr;
+	}
+
+	/**
+	 * Re-apply the breakpoint-aligned `sizes` value to images that were
+	 * tagged with the srcset-context marker, then strip the marker.
+	 *
+	 * `wp_filter_content_tags()` runs at priority 12 on `the_content`, after
+	 * `do_blocks()` (priority 9). Some passes inside that pipeline recalculate
+	 * `sizes` from the `<img>`'s explicit `width` attribute, overwriting the
+	 * value set by `filter_block_srcset()` / `filter_attachment_page_image_attributes()`.
+	 * Re-applying at priority 99 ensures our breakpoint `sizes` reaches the browser.
+	 *
+	 * The marker attribute is removed so it doesn't leak into the rendered HTML.
+	 *
+	 * @hook wp_content_img_tag 99
+	 *
+	 * @param string    $filtered_image The img tag HTML.
+	 * @param string    $context        Core's context string (e.g. 'the_content'). Unused.
+	 * @param int|false $attachment_id  Attachment ID for the image, or false.
+	 * @return string
+	 */
+	public function reapply_breakpoint_sizes_in_content( $filtered_image, $context, $attachment_id ) {
+		if ( ! is_string( $filtered_image ) || '' === $filtered_image ) {
+			return $filtered_image;
+		}
+
+		if ( false === strpos( $filtered_image, self::SRCSET_CONTEXT_ATTR ) ) {
+			return $filtered_image;
+		}
+
+		$processor = new WP_HTML_Tag_Processor( $filtered_image );
+
+		if ( ! $processor->next_tag( 'img' ) ) {
+			return $filtered_image;
+		}
+
+		$marker = $processor->get_attribute( self::SRCSET_CONTEXT_ATTR );
+
+		if ( ! is_string( $marker ) || '' === $marker ) {
+			return $filtered_image;
+		}
+
+		$resolved_id = is_numeric( $attachment_id ) ? (int) $attachment_id : 0;
+
+		if ( $resolved_id <= 0 ) {
+			$class = (string) ( $processor->get_attribute( 'class' ) ?? '' );
+			if ( preg_match( '/\bwp-image-(\d+)\b/', $class, $matches ) ) {
+				$resolved_id = (int) $matches[1];
+			}
+		}
+
+		if ( $resolved_id > 0 ) {
+			$attrs = $this->build_breakpoint_srcset_attrs( $resolved_id, $marker );
+			if ( null !== $attrs ) {
+				$processor->set_attribute( 'sizes', $attrs['sizes'] );
+			}
+		}
+
+		$processor->remove_attribute( self::SRCSET_CONTEXT_ATTR );
+
+		return $processor->get_updated_html();
 	}
 }

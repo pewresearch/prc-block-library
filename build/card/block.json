@@ -25,6 +25,19 @@
       "type": "string"
     }
   },
+  "example": {
+    "attributes": {
+      "heading": "Card Title"
+    },
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Card content goes here."
+        }
+      }
+    ]
+  },
   "supports": {
     "anchor": true,
     "html": false,

@@ -193,8 +193,8 @@ class Markdown_For_Agents_Integration {
 					if ( 'core/tab' !== ( $tab['blockName'] ?? '' ) ) {
 						continue;
 					}
-				$label   = $tab['attrs']['label'] ?? '';
-				$tab_md  = $this->convert_inner_blocks( $tab['innerBlocks'] ?? array(), $post );
+					$label   = $tab['attrs']['label'] ?? '';
+					$tab_md  = $this->convert_inner_blocks( $tab['innerBlocks'] ?? array(), $post );
 					$heading = '' !== $label ? '### ' . html_entity_decode( wp_strip_all_tags( $label ) ) : '';
 
 					$tab_parts = array_filter( array( $heading, $tab_md ) );
@@ -307,7 +307,7 @@ class Markdown_For_Agents_Integration {
 	/**
 	 * Convert prc-block/timeline block to markdown.
 	 *
-	 * Each prc-block/timeline-slide child has metadata.name as its label.
+	 * Each prc-block/timeline-slide child stores the tick title in `metadata.name` (legacy: `label` string).
 	 *
 	 * @param array    $block Parsed block array.
 	 * @param \WP_Post $post  The post being converted.
@@ -321,8 +321,13 @@ class Markdown_For_Agents_Integration {
 				continue;
 			}
 
-			$metadata = $slide['attrs']['metadata'] ?? array();
-			$label    = $metadata['name'] ?? '';
+			$attrs = $slide['attrs'] ?? array();
+			$name  = $attrs['metadata']['name'] ?? '';
+			$label = is_string( $name ) ? trim( $name ) : '';
+			if ( '' === $label ) {
+				$legacy = $attrs['label'] ?? '';
+				$label  = is_string( $legacy ) ? trim( $legacy ) : '';
+			}
 			$slide_md = $this->convert_inner_blocks( $slide['innerBlocks'] ?? array(), $post );
 			$heading  = '' !== $label ? '### ' . html_entity_decode( wp_strip_all_tags( $label ) ) : '';
 
@@ -351,9 +356,9 @@ class Markdown_For_Agents_Integration {
 		$parent_id = wp_get_post_parent_id( $post_id );
 		$parent_id = 0 === $parent_id ? $post_id : $parent_id;
 
-		$chapters       = get_post_meta( $parent_id, 'multiSectionReport', true );
-		$package_parts  = get_post_meta( $parent_id, 'package_parts', true );
-		$parts_enabled  = (bool) get_post_meta( $parent_id, 'package_parts__enabled', true );
+		$chapters      = get_post_meta( $parent_id, 'multiSectionReport', true );
+		$package_parts = get_post_meta( $parent_id, 'package_parts', true );
+		$parts_enabled = (bool) get_post_meta( $parent_id, 'package_parts__enabled', true );
 
 		if ( is_array( $chapters ) && isset( $chapters['key'] ) && isset( $chapters['postId'] ) ) {
 			$chapters = array( $chapters );
@@ -368,7 +373,7 @@ class Markdown_For_Agents_Integration {
 		$parts = array( '## Table of Contents' );
 
 		if ( empty( $package_parts ) || ! $parts_enabled ) {
-			$index = 1;
+			$index      = 1;
 			$root_label = html_entity_decode( get_the_title( $parent_id ) );
 			$root_url   = $this->get_markdown_permalink( $parent_id );
 			$parts[]    = $index . '. [' . $root_label . '](' . $root_url . ')';
@@ -384,8 +389,8 @@ class Markdown_For_Agents_Integration {
 					continue;
 				}
 				++$index;
-				$label  = html_entity_decode( get_the_title( $chapter['postId'] ) );
-				$url    = $this->get_markdown_permalink( $chapter['postId'] );
+				$label   = html_entity_decode( get_the_title( $chapter['postId'] ) );
+				$url     = $this->get_markdown_permalink( $chapter['postId'] );
 				$parts[] = $index . '. [' . $label . '](' . $url . ')';
 
 				if ( (int) $chapter['postId'] === $post_id && ! empty( $sections_for_post ) ) {
@@ -444,8 +449,8 @@ class Markdown_For_Agents_Integration {
 	 * @return array<string, string> Map of section ID → section label.
 	 */
 	private function find_sections_in_post( \WP_Post $post ): array {
-		$blocks   = parse_blocks( $post->post_content );
-		$sections = array();
+		$blocks    = parse_blocks( $post->post_content );
+		$sections  = array();
 		$is_legacy = $this->is_legacy_post( $post );
 
 		$this->walk_blocks_for_sections( $blocks, $sections, $is_legacy );
@@ -456,9 +461,9 @@ class Markdown_For_Agents_Integration {
 	/**
 	 * Recursively walk blocks looking for section headings.
 	 *
-	 * @param array  $blocks    Parsed blocks array.
-	 * @param array  &$sections Accumulator for found sections.
-	 * @param bool   $is_legacy Whether to treat all h3 as chapter headings.
+	 * @param array $blocks    Parsed blocks array.
+	 * @param array &$sections Accumulator for found sections.
+	 * @param bool  $is_legacy Whether to treat all h3 as chapter headings.
 	 */
 	private function walk_blocks_for_sections( array $blocks, array &$sections, bool $is_legacy ): void {
 		foreach ( $blocks as $block ) {

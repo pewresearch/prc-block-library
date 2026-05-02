@@ -9,8 +9,16 @@
 	"attributes": {
 		"playgroundType": {
 			"type": "string",
-			"enum": [ "blocks", "components" ],
+			"enum": [
+				"blocks",
+				"components"
+			],
 			"default": "blocks"
+		}
+	},
+	"example": {
+		"attributes": {
+			"playgroundType": "blocks"
 		}
 	},
 	"supports": {

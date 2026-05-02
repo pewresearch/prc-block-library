@@ -10,108 +10,112 @@ PRC's override/extension of the WordPress `core/button` block.
 
 ## What PRC Customizes
 
-- Enables Interactivity API support on the core button block
-- Removes the `parent` restriction so singular button blocks can be used anywhere (not just inside `core/buttons`)
-- Registers multiple icon-appended button styles (arrow, expand, magnifying glass, clear, rotate, graduation cap)
-- Registers a "Flex Buttons" style on the `core/buttons` wrapper
-- Adds Interactivity API directives for dynamic text, click handlers, and state-driven class toggling (error, success, processing, disabled, hidden)
-- Handles block binding logic for staff photo downloads
-- Provides Apple News component layout, style, and text-style definitions
+-   Enables Interactivity API support on the core button block
+-   Removes the `parent` restriction so singular button blocks can be used anywhere (not just inside `core/buttons`)
+-   Registers multiple icon-appended button styles (arrow, expand, magnifying glass, clear, rotate, graduation cap)
+-   Registers a "Flex Buttons" style on the `core/buttons` wrapper
+-   Adds Interactivity API directives for dynamic text, click handlers, and state-driven class toggling (error, success, processing, disabled, hidden)
+-   Handles block binding logic for staff photo downloads
+-   Provides Apple News component layout, style, and text-style definitions
 
 ## Supports Modifications
 
-| Support       | Value  |
-|---------------|--------|
+| Support         | Value                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------- |
 | `interactivity` | `true` (added via `blocks.registerBlockType` filter and `block_type_metadata_settings` filter) |
-| `parent`        | Removed (allows standalone usage outside `core/buttons`) |
+| `parent`        | Removed (allows standalone usage outside `core/buttons`)                                       |
 
 ## Additional Attributes
 
 PRC does not register new attributes via `block.json`, but utilizes existing core attributes (`anchor`, `metadata`, `interactiveNamespace`, `interactiveSubsumption`) to drive Interactivity API behavior at render time.
 
-| Attribute | Source | Purpose |
-|-----------|--------|---------|
-| `interactiveNamespace` | Block attrs | The Interactivity API namespace to bind directives to |
-| `interactiveSubsumption` | Block attrs | When `true`, uses simplified subsumption-mode directives |
-| `metadata.name` | Block attrs | Used to generate a button ID if no anchor is set |
-| `metadata.bindings` | Block attrs | Block binding configuration (e.g., staff photo download links) |
+| Attribute                | Source      | Purpose                                                        |
+| ------------------------ | ----------- | -------------------------------------------------------------- |
+| `interactiveNamespace`   | Block attrs | The Interactivity API namespace to bind directives to          |
+| `interactiveSubsumption` | Block attrs | When `true`, uses simplified subsumption-mode directives       |
+| `metadata.name`          | Block attrs | Used to generate a button ID if no anchor is set               |
+| `metadata.bindings`      | Block attrs | Block binding configuration (e.g., staff photo download links) |
 
 ## Available Styles
 
 ### On `core/button`
 
-| Style Name | Label | Description |
-|------------|-------|-------------|
-| `icon__arrow-right-long` | Arrow Right Icon | Appends a right arrow icon after button text |
-| `icon__up-right-and-down-left-from-center` | Expand Icon | Appends an expand icon after button text |
-| `icon__magnifying-glass` | Magnifying Glass Icon | Appends a blue magnifying glass icon |
-| `icon__clear` | Clear Icon | Appends a light circle-x icon |
-| `icon__clear__filled` | Clear Icon Filled | Appends a solid circle-x icon |
-| `icon__arrows-rotate` | Arrows Rotate Icon | Appends a rotate arrows icon |
-| `icon__graduation-cap` | Graduation Cap Icon | Appends a graduation cap icon |
+| Style Name                                 | Label                 | Description                                  |
+| ------------------------------------------ | --------------------- | -------------------------------------------- |
+| `icon__arrow-right-long`                   | Arrow Right Icon      | Appends a right arrow icon after button text |
+| `icon__up-right-and-down-left-from-center` | Expand Icon           | Appends an expand icon after button text     |
+| `icon__magnifying-glass`                   | Magnifying Glass Icon | Appends a blue magnifying glass icon         |
+| `icon__clear`                              | Clear Icon            | Appends a light circle-x icon                |
+| `icon__clear__filled`                      | Clear Icon Filled     | Appends a solid circle-x icon                |
+| `icon__arrows-rotate`                      | Arrows Rotate Icon    | Appends a rotate arrows icon                 |
+| `icon__graduation-cap`                     | Graduation Cap Icon   | Appends a graduation cap icon                |
+
+Icon styles are generated by `Core_Button::style_template()`: the `:after` pseudo-element uses a data-URI background image. For dark mode (`prefers-color-scheme: dark`) while logged in (`body.logged-in`, consistent with PRC dark mode beta), that `:after` also gets `filter: invert(1)` so icons read correctly on dark UI.
 
 ### On `core/buttons`
 
-| Style Name | Label | Description |
-|------------|-------|-------------|
+| Style Name     | Label        | Description                                                             |
+| -------------- | ------------ | ----------------------------------------------------------------------- |
 | `flex-buttons` | Flex Buttons | Applies flex layout with reduced padding and connected border treatment |
 
 ## Style Overrides
 
 From `style.scss`:
 
-- **100% width support:** `.wp-block-button__width-100 .wp-element-button` gets `width: 100%`
-- **Hidden state:** `[hidden]` buttons get `display: none`
-- **Error state:** `.is-error` gets `background-color: var(--wp--preset--color--ui-error)` with white text
-- **Success state:** `.is-success` gets `background-color: var(--wp--preset--color--ui-success)` with white text
-- **Processing state:** `.is-processing` gets `cursor: wait` and a pulsing opacity animation
-- **Disabled state:** `.is-disabled` gets `opacity: 0.5` and `cursor: not-allowed`
-- **Link decoration:** `.wp-block-button__link` removes text decoration
-- **Flex buttons:** Connected border treatment (removes inter-button borders, rounds only outer corners) with responsive space-between variants
+-   **100% width support:** `.wp-block-button__width-100 .wp-element-button` gets `width: 100%`
+-   **Hidden state:** `[hidden]` buttons get `display: none`
+-   **Error state:** `.is-error` gets `background-color: var(--wp--preset--color--ui-error)` with white text
+-   **Success state:** `.is-success` gets `background-color: var(--wp--preset--color--ui-success)` with white text
+-   **Processing state:** `.is-processing` gets `cursor: wait` and a pulsing opacity animation
+-   **Disabled state:** `.is-disabled` gets `opacity: 0.5` and `cursor: not-allowed`
+-   **Link decoration:** `.wp-block-button__link` removes text decoration
+-   **Flex buttons:** Connected border treatment (removes inter-button borders, rounds only outer corners) with responsive space-between variants
 
 From `editor.scss`:
 
-- Inherits color and background from parent in the editor
-- Hides parent `wp-block-group` when a button inside is hidden
+-   Inherits color and background from parent in the editor
+-   Hides parent `wp-block-group` when a button inside is hidden
 
 ## Editor Enhancements
 
 From `index.js`:
 
-- Adds `interactivity: true` to the block's supports
-- Deletes the `parent` property so buttons can be placed independently of the `core/buttons` wrapper
+-   Adds `interactivity: true` to the block's supports
+-   Deletes the `parent` property so buttons can be placed independently of the `core/buttons` wrapper
 
 ## Frontend Interactivity
 
 No dedicated `view.js` file. Interactivity is handled server-side by injecting `data-wp-*` directives during render:
 
 **Standard mode** (when `interactiveNamespace` is set):
-- `data-wp-interactive` -- bound to the target namespace
-- `data-wp-on--click` -- dispatches `actions.onButtonClick`
-- `data-wp-on--mouseenter` -- dispatches `actions.onButtonMouseEnter`
-- `data-wp-text` -- bound to `state.{buttonId}.text`
-- `data-wp-class--is-error` -- bound to `state.{buttonId}.isError`
-- `data-wp-class--is-success` -- bound to `state.{buttonId}.isSuccess`
-- `data-wp-class--is-processing` -- bound to `state.{buttonId}.isProcessing`
-- `data-wp-class--is-disabled` -- bound to `state.{buttonId}.isDisabled`
-- `data-wp-bind--hidden` -- bound to `state.{buttonId}.isHidden`
+
+-   `data-wp-interactive` -- bound to the target namespace
+-   `data-wp-on--click` -- dispatches `actions.onButtonClick`
+-   `data-wp-on--mouseenter` -- dispatches `actions.onButtonMouseEnter`
+-   `data-wp-text` -- bound to `state.{buttonId}.text`
+-   `data-wp-class--is-error` -- bound to `state.{buttonId}.isError`
+-   `data-wp-class--is-success` -- bound to `state.{buttonId}.isSuccess`
+-   `data-wp-class--is-processing` -- bound to `state.{buttonId}.isProcessing`
+-   `data-wp-class--is-disabled` -- bound to `state.{buttonId}.isDisabled`
+-   `data-wp-bind--hidden` -- bound to `state.{buttonId}.isHidden`
 
 **Subsumption mode** (when `interactiveSubsumption` is `true`):
-- Simplified directives without namespaced state paths
+
+-   Simplified directives without namespaced state paths
 
 **Interactivity state** initialized per button:
 
 ```json
 {
-  "{buttonId}": {
-    "isHidden": false,
-    "isDisabled": false,
-    "isError": false,
-    "isSuccess": false,
-    "isProcessing": false,
-    "text": "Button Text",
-    "originalText": "Button Text"
-  }
+	"{buttonId}": {
+		"isHidden": false,
+		"isDisabled": false,
+		"isError": false,
+		"isSuccess": false,
+		"isProcessing": false,
+		"text": "Button Text",
+		"originalText": "Button Text"
+	}
 }
 ```
 
@@ -131,16 +135,19 @@ Key behaviors:
 
 ```html
 <div class="wp-block-button is-style-icon__arrow-right-long">
-  <a class="wp-block-button__link wp-element-button"
-     id="core-button-1"
-     data-core-button-original-text="Learn More"
-     data-wp-interactive="my-namespace"
-     data-wp-on--click="my-namespace::actions.onButtonClick"
-     data-wp-on--mouseenter="my-namespace::actions.onButtonMouseEnter"
-     data-wp-text="my-namespace::state.core-button-1.text"
-     data-wp-class--is-error="my-namespace::state.core-button-1.isError"
-     data-wp-class--is-processing="my-namespace::state.core-button-1.isProcessing"
-     href="#">Learn More</a>
+	<a
+		class="wp-block-button__link wp-element-button"
+		id="core-button-1"
+		data-core-button-original-text="Learn More"
+		data-wp-interactive="my-namespace"
+		data-wp-on--click="my-namespace::actions.onButtonClick"
+		data-wp-on--mouseenter="my-namespace::actions.onButtonMouseEnter"
+		data-wp-text="my-namespace::state.core-button-1.text"
+		data-wp-class--is-error="my-namespace::state.core-button-1.isError"
+		data-wp-class--is-processing="my-namespace::state.core-button-1.isProcessing"
+		href="#"
+		>Learn More</a
+	>
 </div>
 ```
 

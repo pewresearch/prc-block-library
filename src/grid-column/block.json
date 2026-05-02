@@ -46,6 +46,24 @@
 			"default": false
 		}
 	},
+	"example": {
+		"attributes": {
+			"gridLayout": {
+				"index": 1,
+				"desktopSpan": 4,
+				"tabletSpan": 4,
+				"mobileSpan": 4
+			}
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Column content."
+				}
+			}
+		]
+	},
 	"supports": {
 		"anchor": true,
 		"reusable": false,

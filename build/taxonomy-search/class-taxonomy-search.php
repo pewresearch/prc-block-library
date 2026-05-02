@@ -36,22 +36,18 @@ class Taxonomy_Search {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'prc_api_endpoints', $this, 'register_endpoint' );
+			$loader->add_action( 'rest_api_init', $this, 'register_endpoint' );
 		}
 	}
 
 	/**
-	 * Register endpoint for getting the AZ list of terms.
-	 *
-	 * @hook prc_api_endpoints
-	 * @param array $endpoints Endpoints.
-	 * @return array $endpoints with new endpoint
+	 * @hook rest_api_init
 	 */
-	public function register_endpoint( $endpoints ) {
-		array_push(
-			$endpoints,
+	public function register_endpoint() {
+		register_rest_route(
+			'prc-api/v3',
+			'blocks/taxonomy-search',
 			array(
-				'route'               => 'blocks/taxonomy-search',
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'restfully_search_taxonomy' ),
 				'args'                => array(
@@ -82,7 +78,6 @@ class Taxonomy_Search {
 				},
 			)
 		);
-		return $endpoints;
 	}
 
 	/**

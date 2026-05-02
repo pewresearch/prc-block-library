@@ -7,7 +7,9 @@
 	"category": "theme",
 	"description": "Search for terms of a specified taxonomy.",
 	"icon": "search",
-	"allowedBlocks": ["prc-block/form-input-text"],
+	"allowedBlocks": [
+		"prc-block/form-input-text"
+	],
 	"attributes": {
 		"taxonomy": {
 			"type": "string",
@@ -31,7 +33,24 @@
 		},
 		"interactivity": true
 	},
-	"usesContext": ["taxonomy"],
+	"usesContext": [
+		"taxonomy"
+	],
+	"example": {
+		"attributes": {
+			"taxonomy": "category"
+		},
+		"innerBlocks": [
+			{
+				"name": "prc-block/form-input-text",
+				"attributes": {
+					"isInteractive": true,
+					"interactiveNamespace": "prc-block/taxonomy-search",
+					"placeholder": "Search category"
+				}
+			}
+		]
+	},
 	"textdomain": "taxonomy-search",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

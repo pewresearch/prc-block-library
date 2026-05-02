@@ -38,6 +38,16 @@
 			}
 		}
 	},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Thank you for your submission!"
+				}
+			}
+		]
+	},
 	"textdomain": "form-message",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

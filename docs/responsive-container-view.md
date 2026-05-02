@@ -2,31 +2,32 @@
 
 ## Block Overview
 
-| Property    | Value                                                                           |
-| ----------- | ------------------------------------------------------------------------------- |
-| Name        | `prc-block/responsive-container-view`                                           |
-| Title       | Responsive View                                                                 |
-| Category    | `design`                                                                        |
-| Version     | 0.1.0                                                                           |
-| Description | A block of blocks that appears and hides at specific viewport widths.           |
+| Property    | Value                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------- |
+| Name        | `prc-block/responsive-container-view`                                                       |
+| Title       | Responsive View                                                                             |
+| Category    | `design`                                                                                    |
+| Version     | 0.1.0                                                                                       |
+| Description | A block of blocks that appears and hides at specific viewport widths.                       |
+| Example     | Yes (`deviceType` + `min` with `core/html` sample — inserter preview; parent is controller) |
 
 ## Supports
 
-| Feature         | Enabled                        |
-| --------------- | ------------------------------ |
-| HTML editing    | No                             |
-| Anchor          | Yes                            |
-| Spacing         | blockGap, padding              |
-| Typography      | fontSize, fontFamily           |
+| Feature      | Enabled              |
+| ------------ | -------------------- |
+| HTML editing | No                   |
+| Anchor       | Yes                  |
+| Spacing      | blockGap, padding    |
+| Typography   | fontSize, fontFamily |
 
 ## Attributes
 
-| Attribute          | Type     | Default      | Description                                                              |
-| ------------------ | -------- | ------------ | ------------------------------------------------------------------------ |
-| `min`              | `number` | _(none)_     | Minimum viewport width (px) at which this view becomes visible.          |
-| `max`              | `number` | _(none)_     | Maximum viewport width (px) at which this view becomes visible.          |
-| `orientation`      | `string` | `"vertical"` | Layout orientation of inner blocks (`vertical` or `horizontal`).         |
-| `deviceType`       | `string` | _(none)_     | Pre-defined device type. Enum: `desktop`, `tablet`, `mobile`.            |
+| Attribute          | Type     | Default      | Description                                                                                  |
+| ------------------ | -------- | ------------ | -------------------------------------------------------------------------------------------- |
+| `min`              | `number` | _(none)_     | Minimum viewport width (px) at which this view becomes visible.                              |
+| `max`              | `number` | _(none)_     | Maximum viewport width (px) at which this view becomes visible.                              |
+| `orientation`      | `string` | `"vertical"` | Layout orientation of inner blocks (`vertical` or `horizontal`).                             |
+| `deviceType`       | `string` | _(none)_     | Pre-defined device type. Enum: `desktop`, `tablet`, `mobile`.                                |
 | `additionalStyles` | `string` | _(none)_     | Custom CSS styles scoped to this view. Classes are auto-prefixed with the block's unique ID. |
 
 ## Available Styles
@@ -35,12 +36,12 @@ None defined in `block.json`.
 
 ## Block Variations
 
-| Variation  | Device Type | Min (px) | Max (px) | Scope                     |
-| ---------- | ----------- | -------- | -------- | ------------------------- |
-| Default    | _(none)_    | 980      | 0        | inserter                  |
-| Desktop    | `desktop`   | 980      | _(none)_ | inserter, transform       |
-| Tablet     | `tablet`    | 480      | 979      | inserter, transform       |
-| Mobile     | `mobile`    | 0        | 479      | inserter, transform       |
+| Variation | Device Type | Min (px) | Max (px) | Scope               |
+| --------- | ----------- | -------- | -------- | ------------------- |
+| Default   | _(none)_    | 980      | 0        | inserter            |
+| Desktop   | `desktop`   | 980      | _(none)_ | inserter, transform |
+| Tablet    | `tablet`    | 480      | 979      | inserter, transform |
+| Mobile    | `mobile`    | 0        | 479      | inserter, transform |
 
 ## Inner Blocks
 
@@ -56,18 +57,26 @@ This block can only be used inside a Responsive Container Controller.
 
 1. This block is automatically inserted as a child of the **Responsive Container** controller.
 2. In the block inspector, configure the **Responsive Range**:
-   - **Minimum**: The smallest viewport width (px) at which this view displays.
-   - **Maximum**: The largest viewport width (px) at which this view displays.
-   - Use the **Pre-Defined Device Ranges** dropdown to quickly set Desktop (980+), Tablet (480-979), or Mobile (0-479).
+    - **Minimum**: The smallest viewport width (px) at which this view displays.
+    - **Maximum**: The largest viewport width (px) at which this view displays.
+    - Use the **Pre-Defined Device Ranges** dropdown to quickly set Desktop (980+), Tablet (480-979), or Mobile (0-479).
 3. The min/max values are automatically constrained based on sibling views to prevent overlapping ranges.
 4. Optionally add **Additional Styles** in the inspector -- custom CSS that will be scoped to this view block.
 5. Place your content inside the view. A notice banner shows the current viewport range.
 
+## Inserter preview
+
+`block.json` defines an `example` with `deviceType: desktop`, `min: 980`, and a `core/html` inner block with sample markup — aligned with the default `core/html` template in the edit screen.
+
 ## Block Markup Example
 
 ```html
-<div class="wp-block-prc-block-responsive-container-view" id="viewhash1" style="display: none;">
-  <!-- Inner content blocks -->
+<div
+	class="wp-block-prc-block-responsive-container-view"
+	id="viewhash1"
+	style="display: none;"
+>
+	<!-- Inner content blocks -->
 </div>
 ```
 
@@ -75,10 +84,10 @@ This block can only be used inside a Responsive Container Controller.
 
 The block is server-side rendered via `Responsive_Container_View::render_callback()`:
 
-- Assigns a unique block ID (from parent controller or generated via `md5`).
-- Sets `display: none` as the default inline style (the parent controller's media queries toggle visibility).
-- If `additionalStyles` are provided, processes CSS class selectors by prefixing them with the block's unique ID for scoping.
-- Outputs additional styles in an inline `<style>` tag within the view wrapper.
+-   Assigns a unique block ID (from parent controller or generated via `md5`).
+-   Sets `display: none` as the default inline style (the parent controller's media queries toggle visibility).
+-   If `additionalStyles` are provided, processes CSS class selectors by prefixing them with the block's unique ID for scoping.
+-   Outputs additional styles in an inline `<style>` tag within the view wrapper.
 
 ## Frontend Interactivity
 
@@ -86,4 +95,4 @@ No view script. Visibility is controlled by CSS media queries generated by the p
 
 ## Related Blocks
 
-- **`prc-block/responsive-container-controller`** -- The parent wrapper block that generates media queries and manages the responsive views.
+-   **`prc-block/responsive-container-controller`** -- The parent wrapper block that generates media queries and manages the responsive views.

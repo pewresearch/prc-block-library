@@ -3,6 +3,7 @@
 
 .editor-styles-wrapper .wp-block-prc-block-table {
 	box-sizing: border-box;
+	color-scheme: light dark;
 
 	> table {
 		&.has-fixed-layout {
@@ -47,7 +48,7 @@
 			th,
 			td {
 				.block-editor-rich-text__editable {
-					border: 1px dotted #ccc;
+					border: 1px dotted light-dark(#ccc, #666);
 				}
 			}
 		}
@@ -80,12 +81,12 @@
 
 		.ftb-placeholder__table {
 			thead th {
-				border: 1px #1e1e1e solid;
+				border: 1px light-dark(#1e1e1e, #e0e0e0) solid;
 			}
 
 			tbody td,
 			tfoot td {
-				border: 1px #1e1e1e solid;
+				border: 1px light-dark(#1e1e1e, #e0e0e0) solid;
 			}
 		}
 	}
@@ -126,13 +127,13 @@
 			margin: 0 1px;
 			font-family: Consolas, Monaco, monospace;
 			font-size: 13px;
-			background: #f0f0f1;
+			background: light-dark(#f0f0f1, #2a2a2a);
 		}
 	}
 
 	.ftb-placeholder__table-wrap {
 		width: 100%;
-		background-color: #eaeaea;
+		background-color: light-dark(#eaeaea, #2a2a2a);
 		box-sizing: border-box;
 	}
 
@@ -156,7 +157,7 @@
 
 		tbody td,
 		tfoot td {
-			background-color: #fff;
+			background-color: light-dark(#fff, #1e1e1e);
 			// border: 1px #1e1e1e solid;
 		}
 
@@ -227,7 +228,7 @@
 			height: 6px;
 			padding: 0;
 			content: "";
-			background: #eaeaea;
+			background: light-dark(#eaeaea, #3a3a3a);
 			border-radius: 50%;
 		}
 
@@ -280,8 +281,8 @@
 		justify-content: center;
 		min-width: 0;
 		padding: 0;
-		color: #1e1e1e;
-		background: #eaeaea;
+		color: light-dark(#1e1e1e, #e0e0e0);
+		background: light-dark(#eaeaea, #3a3a3a);
 
 		svg {
 			margin-right: 0;
@@ -313,10 +314,16 @@
 		min-width: 0;
 		height: 30px;
 		padding: 0;
-		background: #fff;
-		border: 1px solid #ccc;
+		background: light-dark(#fff, #2a2a2a);
+		border: 1px solid light-dark(#ccc, #555);
 		border-radius: 2px;
 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+		@media (prefers-color-scheme: dark) {
+			svg {
+				filter: invert(1);
+			}
+		}
 	}
 
 	.ftb-row-deleter {
@@ -336,11 +343,29 @@
 		margin-left: -15px;
 	}
 
+	// Style for cells that fail validation
+	td.is-cell-invalid,
+	th.is-cell-invalid {
+		position: relative;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			border: 2px solid rgba(204, 0, 0, 0.6);
+			background: rgba(204, 0, 0, 0.06);
+			pointer-events: none;
+		}
+	}
+
 	// Style for hidden columns in editor
 	td.is-column-hidden,
 	th.is-column-hidden {
 		opacity: 0.4;
-		background-color: #f0f0f0;
+		background-color: light-dark(#f0f0f0, #2a2a2a);
 		position: relative;
 
 		&::after {

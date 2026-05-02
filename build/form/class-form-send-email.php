@@ -110,35 +110,32 @@ class Form_Send_Email {
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
-			$loader->add_filter( 'prc_api_endpoints', $this, 'register_rest_endpoints' );
+			$loader->add_action( 'rest_api_init', $this, 'register_rest_endpoints' );
 		}
 	}
 
 	/**
-	 * Register REST endpoints.
-	 *
-	 * @hook prc_api_endpoints
-	 *
-	 * @param array $endpoints The endpoints.
-	 * @return array
+	 * @hook rest_api_init
 	 */
-	public function register_rest_endpoints( $endpoints ) {
-		$send_email = array(
-			'route'               => 'form/send-to-email',
-			'methods'             => 'POST',
-			'callback'            => array( $this, 'handle_email_submission' ),
-			'args'                => array(
-				'nonce' => array(
-					'validate_callback' => function ( $param, $request, $key ) {
-						return is_string( $param );
-					},
+	public function register_rest_endpoints() {
+		register_rest_route(
+			'prc-api/v3',
+			'form/send-to-email',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'handle_email_submission' ),
+				'args'                => array(
+					'nonce' => array(
+						'validate_callback' => function ( $param, $request, $key ) {
+							return is_string( $param );
+						},
+					),
 				),
-			),
-			'permission_callback' => function () {
-				return true;
-			},
+				'permission_callback' => function () {
+					return true;
+				},
+			)
 		);
-		return array_merge( $endpoints, array( $send_email ) );
 	}
 
 	/**

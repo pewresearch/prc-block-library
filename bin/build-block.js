@@ -21,6 +21,12 @@ const BLOCK_SOURCES = {
 		manifestInput: './core-blocks/src',
 		manifestOutput: './core-blocks/build/blocks-manifest.php',
 	},
+	deprecated: {
+		srcDir: './deprecated/src/',
+		buildDir: './deprecated/build/',
+		manifestInput: './deprecated/src',
+		manifestOutput: './deprecated/build/blocks-manifest.php',
+	},
 };
 
 // Function to build a single block
@@ -61,7 +67,9 @@ async function buildSingleBlock(name, chalk, source = 'library') {
 		readline.cursorTo(process.stdout, 0);
 		process.stdout.write(
 			chalk.blue(
-				`⚒️ Building block: ${chalk.bold(name)}${ellipses[ellipsesIndex]}`
+				`⚒️ Building block: ${chalk.bold(name)}${
+					ellipses[ellipsesIndex]
+				}`
 			)
 		);
 		ellipsesIndex = (ellipsesIndex + 1) % ellipses.length;
@@ -73,7 +81,9 @@ async function buildSingleBlock(name, chalk, source = 'library') {
 		command += ' --experimental-modules';
 		process.stdout.write(
 			chalk.magenta(
-				`🏗️ ${chalk.bgMagenta.white('(🔌iAPI)')} Building block: ${name}\n`
+				`🏗️ ${chalk.bgMagenta.white(
+					'(🔌iAPI)'
+				)} Building block: ${name}\n`
 			)
 		);
 	} else {
@@ -103,7 +113,9 @@ async function buildSingleBlock(name, chalk, source = 'library') {
 				process.stdout.write(stdout);
 				process.stdout.write(
 					chalk.red(
-						`❌ Build failed for ${name}${stderr ? ':\n' + stderr : ''}\n`
+						`❌ Build failed for ${name}${
+							stderr ? ':\n' + stderr : ''
+						}\n`
 					)
 				);
 				resolve(false);
@@ -179,6 +191,47 @@ async function buildAllCoreBlocks(chalk) {
 	);
 }
 
+async function buildAllDeprecatedBlocks(chalk) {
+	const config = BLOCK_SOURCES.deprecated;
+
+	if (!fs.existsSync(config.srcDir)) {
+		process.stdout.write(
+			chalk.yellow(
+				`⚠️  Deprecated blocks source directory ${config.srcDir} does not exist. Skipping deprecated blocks.\n`
+			)
+		);
+		return;
+	}
+
+	process.stdout.write(
+		chalk.blue('\n🔨 Building all deprecated blocks...\n')
+	);
+
+	const deprecatedBlocks = fs
+		.readdirSync(config.srcDir, { withFileTypes: true })
+		.filter((dirent) => dirent.isDirectory())
+		.map((dirent) => dirent.name);
+
+	if (deprecatedBlocks.length === 0) {
+		process.stdout.write(
+			chalk.yellow('⚠️  No deprecated blocks found to build.\n')
+		);
+		return;
+	}
+
+	let successCount = 0;
+	for (const block of deprecatedBlocks) {
+		const success = await buildSingleBlock(block, chalk, 'deprecated');
+		if (success) successCount++;
+	}
+
+	process.stdout.write(
+		chalk.green(
+			`✅ Deprecated blocks build complete! ${successCount}/${deprecatedBlocks.length} blocks built successfully.\n`
+		)
+	);
+}
+
 (async () => {
 	// Dynamic import for chalk to handle ES module
 	const chalk = (await import('chalk')).default;
@@ -188,21 +241,27 @@ async function buildAllCoreBlocks(chalk) {
 			type: 'text',
 			name: 'blockName',
 			message: chalk.cyan(
-				'Enter the block name (supports wildcards like form-*), use "core:" prefix for core blocks (e.g., core:tabs), or press enter to build all blocks'
+				'Enter the block name (supports wildcards like form-*), use "core:" prefix for core blocks (e.g., core:tabs), "deprecated:" for deprecated blocks (e.g., deprecated:tabs), or press enter to build all blocks'
 			),
 		});
 		blockName = response.blockName;
 	}
 
-	// Check if building core blocks
+	// Check if building core or deprecated blocks
 	const isCoreBlock = blockName && blockName.startsWith('core:');
+	const isDeprecatedBlock = blockName && blockName.startsWith('deprecated:');
 	const isAllCore =
 		blockName === 'core' ||
 		blockName === 'core-blocks' ||
 		blockName === 'CORE';
+	const isAllDeprecated =
+		blockName === 'deprecated' || blockName === 'DEPRECATED';
 
 	if (isCoreBlock) {
 		blockName = blockName.replace('core:', '');
+	}
+	if (isDeprecatedBlock) {
+		blockName = blockName.replace('deprecated:', '');
 	}
 
 	// Handle wildcard patterns
@@ -212,7 +271,11 @@ async function buildAllCoreBlocks(chalk) {
 		const regex = new RegExp(`^${regexPattern}$`);
 
 		// Get all directories in src folder
-		const source = isCoreBlock ? 'core' : 'library';
+		const source = isCoreBlock
+			? 'core'
+			: isDeprecatedBlock
+			? 'deprecated'
+			: 'library';
 		const config = BLOCK_SOURCES[source];
 		const srcDir = config.srcDir;
 		if (!fs.existsSync(srcDir)) {
@@ -243,7 +306,11 @@ async function buildAllCoreBlocks(chalk) {
 		const sourceLabel = isCoreBlock ? 'core ' : '';
 		process.stdout.write(
 			chalk.blue(
-				`🔨 Found ${matchingBlocks.length} ${sourceLabel}blocks matching pattern "${blockName}": ${matchingBlocks.join(', ')}\n`
+				`🔨 Found ${
+					matchingBlocks.length
+				} ${sourceLabel}blocks matching pattern "${blockName}": ${matchingBlocks.join(
+					', '
+				)}\n`
 			)
 		);
 
@@ -263,6 +330,12 @@ async function buildAllCoreBlocks(chalk) {
 		if (successCount < matchingBlocks.length) {
 			process.exit(1);
 		}
+		return;
+	}
+
+	// Handle building all deprecated blocks
+	if (isAllDeprecated) {
+		await buildAllDeprecatedBlocks(chalk);
 		return;
 	}
 
@@ -367,8 +440,10 @@ async function buildAllCoreBlocks(chalk) {
 									)
 								);
 
-								// Now build core blocks
-								buildAllCoreBlocks(chalk);
+								// Now build deprecated and core blocks
+								buildAllDeprecatedBlocks(chalk).then(() =>
+									buildAllCoreBlocks(chalk)
+								);
 							}
 						);
 					}
@@ -378,6 +453,12 @@ async function buildAllCoreBlocks(chalk) {
 	} else if (isCoreBlock) {
 		// Build single specific core block
 		const success = await buildSingleBlock(blockName, chalk, 'core');
+		if (!success) {
+			process.exit(1);
+		}
+	} else if (isDeprecatedBlock) {
+		// Build single specific deprecated block
+		const success = await buildSingleBlock(blockName, chalk, 'deprecated');
 		if (!success) {
 			process.exit(1);
 		}

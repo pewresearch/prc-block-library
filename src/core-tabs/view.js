@@ -9,7 +9,10 @@ import {
 	withSyncEvent,
 } from '@wordpress/interactivity';
 
-// Interactivity store for the core-tabs block extension.
+import { syncEntityIframeActive } from '../entity-as-iframe/shared/sync-entity-iframe-active.js';
+import { prefetchEntityIframeUrl } from '../entity-as-iframe/shared/prefetch-entity-iframe.js';
+
+// Interactivity store for the core-tabs block extension (merges with WordPress core `core/tabs`).
 const { state, actions } = store('core/tabs', {
 	state: {
 		/**
@@ -92,6 +95,7 @@ const { state, actions } = store('core/tabs', {
 		updateMobileDropdownState: () => {
 			const context = getContext('core/tabs/private');
 			const tabsId = context?.tabsId;
+			console.log('updateMobileDropdownState', tabsId, { state: state[tabsId] });
 			if (!tabsId || !state[tabsId]) {
 				return;
 			}
@@ -239,5 +243,37 @@ const { state, actions } = store('core/tabs', {
 				}
 			}
 		},
+		/**
+		 * Keep nested entity-as-iframe `isActive` in sync with `state.isActiveTab` from the public
+		 * `core/tabs` store (same reactive source as `data-wp-bind--hidden` on tab panels).
+		 *
+		 * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/tabs/view.js
+		 */
+		syncEntityIframeWithTabPanel: () => {
+			const { ref } = getElement();
+			if (!ref?.querySelector?.('.wp-block-prc-block-entity-as-iframe')) {
+				return;
+			}
+			const { state: tabsState } = store('core/tabs');
+			syncEntityIframeActive(ref, !!tabsState.isActiveTab);
+		},
+		/**
+		 * Prefetch entity iframe URL when pointer enters a tab menu item (PHP adds on each `.wp-block-tabs-menu-item`).
+		 */
+		prefetchEntityIframeOnTabMenuItemPointer: withSyncEvent((event) => {
+			const btn = event.currentTarget;
+			const panelId = btn.getAttribute('aria-controls');
+			if (!panelId) {
+				return;
+			}
+			const panel = document.getElementById(panelId);
+			const wrap = panel?.querySelector(
+				'.wp-block-prc-block-entity-as-iframe'
+			);
+			const url = wrap?.getAttribute('data-entity-iframe-prefetch-url');
+			if (url) {
+				prefetchEntityIframeUrl(url);
+			}
+		}),
 	},
 });

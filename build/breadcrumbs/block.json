@@ -111,6 +111,21 @@
       }
     }
   },
+  "example": {
+    "attributes": {
+      "separator": ">",
+      "showHome": true,
+      "showIndex": true,
+      "homeCrumb": {
+        "text": "Home",
+        "url": "#"
+      },
+      "indexCrumb": {
+        "text": "Publications",
+        "url": "#"
+      }
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false,

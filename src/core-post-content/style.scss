@@ -14,6 +14,11 @@
 	}
 }
 
+// CSS Hack for fallback style for visited links.
+.wp-block-post-content a:not(.wp-button-block__link):visited {
+	color: light-dark(#611da7, #a370d6);
+}
+
 body:not(.post-template-layout-no-container-query) {
 	.wp-block-post-content {
 		container: post-content-container / inline-size;

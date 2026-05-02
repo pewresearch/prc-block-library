@@ -53,7 +53,7 @@ class Story_Item_API {
 		$this->in_query_loop = array_key_exists( 'query', $this->context ) && array_key_exists( 'queryId', $this->context ) && ! empty( $this->context['queryId'] ) && ! empty( $this->context['query'] );
 		$this->inner_content = normalize_whitespace( $content );
 		// Setup variables:
-		$this->is_mobile = 'mobile' === \PRC\Platform\get_current_device();
+		$this->is_mobile = 'mobile' === \PRC\BlockUtils\get_current_device();
 		$this->post_id   = $this->get_post_id();
 		// Check if wp_post global is set, and if it is does it have the same post id as the one we're looking for, if so use that. This is to ensure we're getting the correct post data for the current post and so we don't have to make another query. This is the most effecient way to get post data.
 		if ( isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post && $GLOBALS['post']->ID === $this->post_id ) {
@@ -198,7 +198,7 @@ class Story_Item_API {
 
 		$enable_alt_header_weight = $this->enable_light_header_font_weight();
 
-		$header_class = \PRC\Platform\Block_Utils\classNames(
+		$header_class = \PRC\BlockUtils\classNames(
 			'header',
 			array(
 				'large'  => 1 === $header_size,
@@ -300,7 +300,7 @@ class Story_Item_API {
 		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 			// Get the yoast primary term if available
 			if ( count( $terms ) > 1 ) {
-				$primary_term_id = \PRC\Platform\get_primary_term_id( $this->post_id, $taxonomy );
+				$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $this->post_id, $taxonomy );
 				$first_term      = array_filter(
 					$terms,
 					function ( $term ) use ( $primary_term_id ) {
@@ -568,7 +568,7 @@ class Story_Item_API {
 			),
 		);
 
-		$image_class = \PRC\Platform\Block_Utils\classNames(
+		$image_class = \PRC\BlockUtils\classNames(
 			'image',
 			'jetpack-lazy-image',
 			array(
@@ -603,7 +603,7 @@ class Story_Item_API {
 		$image_size            = $this->get_image_size();
 		$disable_mobile_styles = $this->check_for_attr( 'disableMobileStyles' );
 		$block_wrapper_attrs   = array(
-			'class' => \PRC\Platform\Block_Utils\classNames(
+			'class' => \PRC\BlockUtils\classNames(
 				array(
 					$image_slot . ' aligned' => $image_slot,
 					'in-query-loop'          => $this->in_query_loop,

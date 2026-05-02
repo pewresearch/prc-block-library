@@ -6,18 +6,20 @@ The core Gutenberg block library for the PRC Platform — provides all custom bl
 
 PRC Block Library registers ~90 blocks across two namespaces: `prc-block/*` for custom PRC blocks and modifications to `core/*` blocks. It is the display layer of the platform and the first plugin loaded when rendering any content. Beyond blocks, it also ships a set of cross-cutting support systems (Interactivity API helpers, a Print Engine, block visibility controls, custom rich text formats, sticky/max-width layout supports, and a form data store) that apply globally to all registered blocks.
 
+In the block editor, the plugin registers the **Pew Research Center Block Library** block collection (namespace `prc-block`) in `includes/supports/src/index.jsx`, which is enqueued with the Supports subsystem.
+
 ### Dependencies
 
--   **Upstream**: `prc-platform-core` (required plugin), `prc-schema-seo` (optional, for PDF contact resolution), `prc-staff-bylines` (optional, for PDF bylines), Report Package plugin (optional, for multi-chapter PDF rendering), WordPress AI plugin (optional, for tabular data AI experiment)
--   **Downstream**: Every plugin or theme that renders blocks on the front end depends on this library. The `prc-block-library/forms` `@wordpress/data` store is a direct integration point for any plugin registering custom form types.
+- **Upstream**: `prc-platform-core` (required plugin), `prc-schema-seo` (optional, for PDF contact resolution), `prc-staff-bylines` (optional, for PDF bylines), Report Package plugin (optional, for multi-chapter PDF rendering), WordPress AI plugin (optional, for tabular data AI experiment)
+- **Downstream**: Every plugin or theme that renders blocks on the front end depends on this library. The `prc-block-library/forms` `@wordpress/data` store is a direct integration point for any plugin registering custom form types.
 
 ## Local Development Setup
 
 ### Prerequisites
 
--   Node.js 22+ / npm 10.9+
--   PHP 8.2+
--   WordPress Playground (via `npm run playground:start` from repo root)
+- Node.js 22+ / npm 10.9+
+- PHP 8.2+
+- WordPress Playground (via `npm run playground:start` from repo root)
 
 ### Running Locally
 
@@ -38,8 +40,9 @@ npm run start:library -w @prc/block-library
 ### Running Tests
 
 ```bash
-# Run Playwright e2e tests (requires Playground to be running)
-npm run test -w @prc/block-library
+# Run Playwright e2e tests (from monorepo root; wp-env + Playwright are centralized)
+npm run env:start
+npm test -- tests/prc-block-library/
 ```
 
 ## Architecture
@@ -48,19 +51,21 @@ Blocks are discovered and loaded automatically at runtime. `Plugin::load_blocks(
 
 Blocks are split into two groups initialized by `Plugin`:
 
--   **Core blocks** (`define_core_blocks`): extensions and modifications to existing `core/*` blocks — adding attributes, context, controls, or custom rendering.
--   **PRC blocks** (`define_prc_blocks`): net-new blocks in the `prc-block` namespace.
+- **Core blocks** (`define_core_blocks`): extensions and modifications to existing `core/*` blocks — adding attributes, context, controls, or custom rendering.
+- **PRC blocks** (`define_prc_blocks`): net-new blocks in the `prc-block` namespace.
 
 In addition to block classes, `Plugin` boots several support subsystems via `define_library_dependencies()`. These run independently of individual blocks and hook into WordPress globally.
 
-Block scaffolding uses `@wordpress/create-block` with a local template. There are four variants:
+Block scaffolding uses `@wordpress/create-block` with templates located at the repository root (`/block-templates`). There are four variants:
 
-| Variant     | When to use                                                              |
-| ----------- | ------------------------------------------------------------------------ |
-| `default`   | Standard block with optional InnerBlocks/RichText; uses `render.php`     |
-| `dynamic`   | Block needing a PHP class for server-side rendering or REST registration |
-| `static`    | Primitive block that serializes HTML directly to the database            |
-| `coreBlock` | Extension of an existing `core/*` block                                  |
+| Variant           | When to use                                                                |
+| ----------------- | -------------------------------------------------------------------------- |
+| `default`         | Standard block with InnerBlocks and server-side rendering via `render.php` |
+| `syncedEntity`    | Block that wraps a custom post type or synced entity with create/search UI |
+| `contextProvider` | Block that provides context to children and uses Interactivity API routing |
+| `coreBlock`       | Extension of an existing `core/*` block via filters                        |
+
+To scaffold a new block, run `npm run create-block` from the repository root. See `/block-templates/README.md` for detailed documentation.
 
 ### Key Files
 
@@ -70,7 +75,7 @@ Block scaffolding uses `@wordpress/create-block` with a local template. There ar
 | `includes/class-plugin.php`                                  | Boots all blocks and support subsystems; registers block categories and HTML allowlist                                                   |
 | `includes/class-loader.php`                                  | Maintains and runs all WordPress action/filter hooks                                                                                     |
 | `includes/utils.php`                                         | `convert_number_to_words()`, `prc_log_error()`, `prc_block_library_manifest()` helpers                                                   |
-| `includes/ai-experiments/class-ai-experiments.php`           | Registers the Tabular Data AI experiment via the WordPress AI plugin                                                                     |
+| `includes/ai-features/class-ai-features.php`                 | Registers block library AI features (tabular data, story blurb) via the WordPress AI plugin                                              |
 | `includes/block-visibility/class-block-visibility.php`       | Adds editor UI for per-block visibility control                                                                                          |
 | `includes/custom-text-formats/class-custom-text-formats.php` | Registers custom rich text format buttons in the editor toolbar                                                                          |
 | `includes/interactivity-api/class-interactivity-api.php`     | Injects `interactiveNamespace` and `interactiveSubsumption` attributes and context on every block that declares `supports.interactivity` |
@@ -277,8 +282,10 @@ The `printEngine` block attribute (`hideOnPrint`, `displayOnPrint`) is injected 
 
 Adds two layout features to all blocks:
 
--   **`maxWidth`** — per-breakpoint max-width constraints (`desktop`, `tablet`, `mobile`); rendered as CSS custom properties on the block element.
--   **Sticky enhancements** — `isStuckBackground`, `isStuckText`, `isStuckBoxShadow` attributes that swap colors and add a box shadow when a sticky block is in the "stuck" state via the Interactivity API.
+- **`maxWidth`** — per-breakpoint max-width constraints (`desktop`, `tablet`, `mobile`); rendered as CSS custom properties on the block element.
+- **Sticky enhancements** — `isStuckBackground`, `isStuckText`, `isStuckBoxShadow` attributes that swap colors and add a box shadow when a sticky block is in the "stuck" state via the Interactivity API.
+
+The same editor script (`src/index.jsx`) unregisters unused core block types (archives, calendar, latest comments, tag cloud, verse) and a set of `core/embed` service variations; edit that file to change the list.
 
 ### Form Data Store
 
@@ -322,10 +329,10 @@ const forms = useSelect(
 | `render_block`                              | filter | Applied by Print Engine (visibility and `data-*` attribute injection) and Supports (sticky and max-width rendering)                                                                      |
 | `remote_data_blocks_template_blocks`        | filter | Signals to Remote Data Blocks that `prc-block/remote-pivot-table`, `prc-block/tabs`, and `core/tabs` support RDB templates                                                               |
 | `remote_data_blocks_register_example_block` | filter | Returns `false`; disables the RDB example block                                                                                                                                          |
-| `prc_platform_rewrite_query_vars`           | filter | Adds `print`, `printEngineBeta`, and `pdf` to recognized query vars                                                                                                                      |
+| `query_vars`                                | filter | Adds `print`, `printEngineBeta`, and `pdf` to recognized query vars                                                                                                                      |
 | `prc_print_engine_register_block_callbacks` | action | Fires at `init` priority 5; use this to register print callbacks via `Block_Print_Registry`                                                                                              |
 | `prc_print_engine_block_{block_name}`       | filter | Per-block filter on print-rendered HTML; fires after the registered `Block_Print_Registry` callback                                                                                      |
-| `ai_experiments_register_experiments`       | action | Used internally to register the Tabular Data AI experiment                                                                                                                               |
+| `wpai_register_features`                    | action | Used internally to register block library AI features (tabular data, story blurb) with the WordPress AI plugin                                                                           |
 
 ## Troubleshooting
 
@@ -349,8 +356,8 @@ const forms = useSelect(
 
 ## Related Docs
 
--   [Development Guidelines](../../docs/DEVELOPMENT_GUIDELINES.md)
--   [JavaScript Development Rules](../../.cursor/rules/javascript-development.mdc)
--   [WordPress Development Rules](../../.cursor/rules/wordpress-development.mdc)
--   [Block Development Skill](../../.claude/skills/wp-block-development/SKILL.md)
--   [Interactivity API Skill](../../.claude/skills/wp-interactivity-api/SKILL.md)
+- [Development Guidelines](../../docs/DEVELOPMENT_GUIDELINES.md)
+- [JavaScript Development Rules](../../.cursor/rules/javascript-development.mdc)
+- [WordPress Development Rules](../../.cursor/rules/wordpress-development.mdc)
+- [Block Development Skill](../../.claude/skills/wp-block-development/SKILL.md)
+- [Interactivity API Skill](../../.claude/skills/wp-interactivity-api/SKILL.md)

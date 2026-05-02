@@ -31,6 +31,7 @@ import alternateWhiteSvg from './assets/alternate-white.svg';
 import decodedSvg from './assets/decoded.svg';
 import symbolSvg from './assets/symbol.svg';
 import symbolWhiteSvg from './assets/symbol-white.svg';
+import pewKnightLogoSvg from './assets/pew-knight.svg';
 
 const MIN_SIZE = 24;
 
@@ -42,6 +43,7 @@ const STYLE_TO_URL = {
 	'decoded-only': decodedSvg,
 	'symbol-only': symbolSvg,
 	'symbol-stable-white': symbolWhiteSvg,
+	'pew-knight-only': pewKnightLogoSvg,
 };
 
 const DIMENSIONS = {
@@ -52,6 +54,7 @@ const DIMENSIONS = {
 	'decoded-only': { width: 210.29, height: 92 },
 	'symbol-only': { width: 216, height: 216 },
 	'symbol-stable-white': { width: 216, height: 216 },
+	'pew-knight-only': { width: 168, height: 32 },
 };
 
 function getStyleFromClassName(className) {

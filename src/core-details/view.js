@@ -8,19 +8,23 @@ import {
 	withSyncEvent,
 } from '@wordpress/interactivity';
 
-const { state } = store('core/details', {
+import { syncEntityIframeActive } from '../entity-as-iframe/shared/sync-entity-iframe-active.js';
+import { prefetchEntityIframeUrl } from '../entity-as-iframe/shared/prefetch-entity-iframe.js';
+
+store('core/details', {
 	actions: {
 		/**
 		 * Handle clicks outside the details element to close it
 		 */
 		handleOutsideClick: withSyncEvent((event) => {
 			const context = getContext();
-			const { ref } = getElement();
 
 			// Only proceed if closeWhenFocusLost is enabled
 			if (!context.closeWhenFocusLost) {
 				return;
 			}
+
+			const { ref } = getElement();
 
 			// Check if the click is outside the details element
 			if (ref && !ref.contains(event.target)) {
@@ -45,7 +49,7 @@ const { state } = store('core/details', {
 			}
 			const rect = ref.getBoundingClientRect();
 			const clickX = event.clientX - rect.left;
-			const isRtl = getComputedStyle(ref).direction === 'rtl';
+			const isRtl = window.getComputedStyle(ref).direction === 'rtl';
 			const logoWidth = 183;
 			const inLogoZone = isRtl
 				? rect.width - clickX < logoWidth
@@ -60,6 +64,47 @@ const { state } = store('core/details', {
 				);
 			}
 		}),
+		/**
+		 * Keep `context.isOpen` in sync with the native `<details>` open state (toggle fires on user and programmatic changes).
+		 */
+		syncDetailsOpenFromToggle: () => {
+			const { ref } = getElement();
+			if (!ref) {
+				return;
+			}
+			getContext().isOpen = ref.hasAttribute('open');
+		},
 	},
-	callbacks: {},
+	callbacks: {
+		/**
+		 * Keep nested entity-as-iframe `isActive` in sync with `context.isOpen` (same `core/details` store).
+		 */
+		syncEntityIframeWithDetails: () => {
+			const { ref } = getElement();
+			if (!ref?.querySelector?.('.wp-block-prc-block-entity-as-iframe')) {
+				return;
+			}
+			syncEntityIframeActive(ref, !!getContext().isOpen);
+		},
+		/**
+		 * Prefetch entity iframe document(s) when the pointer enters the summary (set on `<summary>` via PHP).
+		 */
+		prefetchEntityIframeOnSummaryPointer: withSyncEvent((event) => {
+			const summary = event.currentTarget;
+			const detailsEl = summary?.closest?.('details');
+			if (!detailsEl) {
+				return;
+			}
+			detailsEl
+				.querySelectorAll('[data-entity-iframe-prefetch-url]')
+				.forEach((el) => {
+					const url = el.getAttribute(
+						'data-entity-iframe-prefetch-url'
+					);
+					if (url) {
+						prefetchEntityIframeUrl(url);
+					}
+				});
+		}),
+	},
 });

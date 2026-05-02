@@ -259,6 +259,10 @@ export default function TableSettings({
 			sticky: undefined,
 			tableStyles: undefined,
 			isSortable: false,
+			// Clear sortable flags from columnMeta rather than the legacy array.
+			columnMeta: (attributes.columnMeta || []).map((m) =>
+				m ? { ...m, sortable: undefined } : m
+			),
 			sortableColumns: [],
 		});
 	};

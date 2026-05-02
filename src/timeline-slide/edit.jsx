@@ -8,45 +8,30 @@
 import {
 	useBlockProps,
 	useInnerBlocksProps,
-	RichText,
 	InnerBlocks,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { Fragment, useMemo, useEffect } from '@wordpress/element';
+import { useMemo, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 
-export default function Edit({
-	attributes,
-	setAttributes,
-	clientId,
-	isSelected,
-	context,
-}) {
+export default function Edit({ clientId, isSelected, context }) {
 	const {
 		blockIndex,
 		hasChildBlocks,
 		hasInnerBlocksSelected,
-		isRootSelected,
-		isRootDeepSelected,
 		timelineClientId,
 	} = useSelect(
 		(select) => {
 			const rootClientId =
 				select(blockEditorStore).getBlockRootClientId(clientId);
 			return {
-				blockIndex:
-					select(blockEditorStore).getBlockIndex(clientId) + 1,
+				blockIndex: select(blockEditorStore).getBlockIndex(clientId),
 				hasChildBlocks:
 					select(blockEditorStore).getBlockOrder(clientId).length > 0,
 				hasInnerBlocksSelected: select(
 					blockEditorStore
 				).hasSelectedInnerBlock(clientId, true),
 				timelineClientId: rootClientId,
-				isRootSelected:
-					select(blockEditorStore).isBlockSelected(rootClientId),
-				isRootDeepSelected: select(
-					blockEditorStore
-				).hasSelectedInnerBlock(rootClientId, true),
 			};
 		},
 		[clientId]
@@ -59,16 +44,10 @@ export default function Edit({
 		if (true !== isSelected) {
 			return;
 		}
-		console.log(
-			"Updating the parent timeline block's current active index",
-			isSelected,
-			timelineClientId,
-			blockIndex
-		);
 		updateBlockAttributes(timelineClientId, {
 			currentActiveIndex: blockIndex,
 		});
-	}, [blockIndex, timelineClientId, isSelected]);
+	}, [blockIndex, timelineClientId, isSelected, updateBlockAttributes]);
 
 	/**
 	 * This hook determines if the current timeline slide is selected.
@@ -80,7 +59,7 @@ export default function Edit({
 			hasInnerBlocksSelected ||
 			(context && blockIndex === context['timeline/currentActiveIndex'])
 		);
-	}, [isSelected, hasInnerBlocksSelected, context]);
+	}, [isSelected, hasInnerBlocksSelected, context, blockIndex]);
 
 	const blockProps = useBlockProps({
 		hidden: !isSelectedSlide,

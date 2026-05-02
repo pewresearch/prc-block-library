@@ -8,10 +8,11 @@ import type { FormEvent } from 'react';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, createInterpolateElement } from '@wordpress/element';
+import { useState, createInterpolateElement, useRef } from '@wordpress/element';
 import { BlockIcon } from '@wordpress/block-editor';
 import {
 	Button,
+	DropZone,
 	Placeholder,
 	TextControl,
 	ToggleControl,
@@ -39,6 +40,7 @@ import {
 	toTableAttributes,
 	type VTable,
 } from '../utils/table-state';
+import { handleCSV } from '../csv-parser';
 import { blockIcon as icon } from '../icons';
 import type { BlockAttributes } from '../block-attributes';
 
@@ -56,6 +58,8 @@ export default function TablePlaceholder({ setAttributes }: Props) {
 	);
 	const [headerSection, setHeaderSection] = useState<boolean>(false);
 	const [footerSection, setFooterSection] = useState<boolean>(false);
+
+	const csvFileInputRef = useRef<HTMLInputElement>(null);
 
 	const totalRowCount: number | undefined = rowCount
 		? rowCount + Number(headerSection) + Number(footerSection)
@@ -123,7 +127,14 @@ export default function TablePlaceholder({ setAttributes }: Props) {
 			label={__('Power Table', 'prc-block')}
 			className="ftb-placeholder"
 			icon={<BlockIcon icon={icon} showColors />}
+			style={{ position: 'relative' }}
 		>
+			<DropZone
+				label={__('Drop CSV to import', 'prc-block')}
+				onFilesDrop={(files) =>
+					handleCSV(files, {} as BlockAttributes, setAttributes)
+				}
+			/>
 			<div className="components-placeholder__instructions">
 				{createInterpolateElement(
 					isAppleOS()
@@ -256,6 +267,29 @@ export default function TablePlaceholder({ setAttributes }: Props) {
 					>
 						{__('Create Table', 'prc-block')}
 					</Button>
+					<Button
+						variant="secondary"
+						type="button"
+						onClick={() => csvFileInputRef.current?.click()}
+						__next40pxDefaultSize
+					>
+						{__('Import CSV', 'prc-block')}
+					</Button>
+					<input
+						ref={csvFileInputRef}
+						type="file"
+						accept="text/csv"
+						onChange={(e) => {
+							if (e.target.files) {
+								handleCSV(
+									e.target.files,
+									{} as BlockAttributes,
+									setAttributes
+								);
+							}
+						}}
+						style={{ display: 'none' }}
+					/>
 				</HStack>
 			</VStack>
 		</Placeholder>

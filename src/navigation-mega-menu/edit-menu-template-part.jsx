@@ -6,7 +6,7 @@ import { InnerBlocksAsSyncedContent } from '@prc/components';
 /**
  * WordPress Dependencies
  */
-import { createRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 /**
  * Internal Dependencies
@@ -21,7 +21,7 @@ export default function EditMenuTemplatePart({
 	toggleMenu,
 	isMobile,
 }) {
-	const ref = createRef();
+	const ref = useRef(null);
 	const { menuId } = useMenuTemplatePart({ menuSlug });
 	const { topPosition, leftPosition, width } = useRefResizer({
 		ref,
@@ -33,7 +33,7 @@ export default function EditMenuTemplatePart({
 	return (
 		<InnerBlocksAsSyncedContent
 			{...{
-				passedRef: ref,
+				ref,
 				postId: menuId,
 				postType: 'wp_template_part',
 				postTypeLabel: 'Mega Menu',

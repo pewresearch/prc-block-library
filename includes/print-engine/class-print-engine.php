@@ -30,7 +30,7 @@ class Print_Engine {
 
 	public function init( $loader ) {
 		$loader->add_action( 'init', $this, 'fire_block_print_registration', 5 );
-		$loader->add_filter( 'prc_platform_rewrite_query_vars', $this, 'add_query_vars' );
+		$loader->add_filter( 'query_vars', $this, 'add_query_vars' );
 		$loader->add_action( 'template_redirect', $this, 'render_pdf_template' );
 		$loader->add_action( 'wp_enqueue_scripts', $this, 'register_view_script' );
 		$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
@@ -59,7 +59,7 @@ class Print_Engine {
 	}
 
 	/**
-	 * @hook prc_platform_rewrite_query_vars
+	 * @hook query_vars
 	 */
 	public function add_query_vars( $qvars ) {
 		$qvars[] = 'print';

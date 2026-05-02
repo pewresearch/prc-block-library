@@ -2,6 +2,10 @@
 
 Rotates through child promo blocks randomly on page load, displaying only one at a time.
 
+## Block inserter example
+
+`block.json` defines an `example` with one `prc-block/card` (“Promo Card”) and inner `core/paragraph` — inserter preview.
+
 ## Block Namespace
 
 `prc-block/promo-rotator`
@@ -12,21 +16,21 @@ Rotates through child promo blocks randomly on page load, displaying only one at
 
 ## Supports
 
-| Feature | Enabled |
-|---------|---------|
-| Anchor | Yes |
-| HTML | No |
-| Spacing (blockGap) | Yes |
-| Spacing (margin) | Top and bottom only |
-| Spacing (padding) | Yes (default control) |
-| Typography (fontSize) | Yes (default control) |
+| Feature                 | Enabled               |
+| ----------------------- | --------------------- |
+| Anchor                  | Yes                   |
+| HTML                    | No                    |
+| Spacing (blockGap)      | Yes                   |
+| Spacing (margin)        | Top and bottom only   |
+| Spacing (padding)       | Yes (default control) |
+| Typography (fontSize)   | Yes (default control) |
 | Typography (fontFamily) | Yes (default control) |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `allowedBlocks` | `array` | -- | Optional override for which block types can be placed inside. Defaults to `prc-block/promo` and `prc-block/card` if not set. |
+| Attribute       | Type    | Default | Description                                                                                                                  |
+| --------------- | ------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `allowedBlocks` | `array` | --      | Optional override for which block types can be placed inside. Defaults to `prc-block/promo` and `prc-block/card` if not set. |
 
 ## Available Styles
 
@@ -36,8 +40,8 @@ No block style variations defined.
 
 Allowed inner blocks (default):
 
-- `prc-block/promo`
-- `prc-block/card`
+-   `prc-block/promo`
+-   `prc-block/card`
 
 The `allowedBlocks` attribute can override this list to allow any block types.
 
@@ -61,9 +65,9 @@ In the editor, all children are visible:
 
 ```html
 <!-- wp:prc-block/promo-rotator -->
-  <!-- wp:prc-block/promo {"heading":"Promo A"} /-->
-  <!-- wp:prc-block/promo {"heading":"Promo B"} /-->
-  <!-- wp:prc-block/promo {"heading":"Promo C"} /-->
+<!-- wp:prc-block/promo {"heading":"Promo A"} /-->
+<!-- wp:prc-block/promo {"heading":"Promo B"} /-->
+<!-- wp:prc-block/promo {"heading":"Promo C"} /-->
 <!-- /wp:prc-block/promo-rotator -->
 ```
 
@@ -88,5 +92,5 @@ No frontend JavaScript. The randomization is handled server-side during PHP rend
 
 ## Related Blocks
 
-- `prc-block/promo` -- Primary child block type for promotional content
-- `prc-block/card` -- Alternative child block type
+-   `prc-block/promo` -- Primary child block type for promotional content
+-   `prc-block/card` -- Alternative child block type

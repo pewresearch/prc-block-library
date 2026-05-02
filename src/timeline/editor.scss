@@ -12,4 +12,15 @@
 		transform-origin: center top;
 		transform: translateX(-50%) rotate(var(--tick-label-angle, 0deg)) !important;
 	}
+
+	// Match PHP markup: play + pause icons; @prc/icons uses `.icon` (not `icon__play` / `icon__pause`).
+	.timeline-controls
+		.play-pause-button:not(.is-playing)
+		> .icon:nth-of-type(2) {
+		display: none;
+	}
+
+	.timeline-controls .play-pause-button.is-playing > .icon:nth-of-type(1) {
+		display: none;
+	}
 }

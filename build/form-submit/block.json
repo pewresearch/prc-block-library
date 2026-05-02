@@ -34,6 +34,22 @@
   "usesContext": [
     "form/displayMessage"
   ],
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/button",
+        "attributes": {
+          "text": "Submit",
+          "tagName": "button",
+          "type": "submit"
+        }
+      },
+      {
+        "name": "prc-block/form-captcha",
+        "attributes": {}
+      }
+    ]
+  },
   "textdomain": "form-submit",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

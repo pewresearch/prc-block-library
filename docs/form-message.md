@@ -9,21 +9,25 @@
 
 `prc-block/form-message`
 
+## Inserter preview
+
+`block.json` includes an `example` with a single `core/paragraph` (“Thank you for your submission!”), matching the default inner-blocks template and driving the block inserter preview.
+
 ## Category
 
 `forms`
 
 ## Supports
 
-| Feature | Enabled | Details |
-|---------|---------|---------|
-| Anchor | No | |
-| HTML editing | No | |
-| Reusable | Yes | |
-| Interactivity | Yes | |
-| Spacing | Yes | `blockGap`, `margin` (top/bottom), `padding` (default control) |
-| Color | Yes | Background, text, link, button |
-| Typography | Yes | Font size, font family (both default controls) |
+| Feature       | Enabled | Details                                                        |
+| ------------- | ------- | -------------------------------------------------------------- |
+| Anchor        | No      |                                                                |
+| HTML editing  | No      |                                                                |
+| Reusable      | Yes     |                                                                |
+| Interactivity | Yes     |                                                                |
+| Spacing       | Yes     | `blockGap`, `margin` (top/bottom), `padding` (default control) |
+| Color         | Yes     | Background, text, link, button                                 |
+| Typography    | Yes     | Font size, font family (both default controls)                 |
 
 ## Attributes
 
@@ -57,20 +61,24 @@ None explicitly declared, but designed to be used inside `prc-block/form` or `pr
 ## Block Markup Example
 
 ```html
-<div class="wp-block-prc-block-form-message"
-     data-wp-interactive="prc-block/form"
-     data-wp-class--is-displaying-form-message="state.formMessage">
-  <p>Thank you for your submission!</p>
+<div
+	class="wp-block-prc-block-form-message"
+	data-wp-interactive="prc-block/form"
+	data-wp-class--is-displaying-form-message="state.formMessage"
+>
+	<p>Thank you for your submission!</p>
 </div>
 ```
 
 With dynamic message token:
 
 ```html
-<div class="wp-block-prc-block-form-message"
-     data-wp-interactive="prc-block/form"
-     data-wp-class--is-displaying-form-message="state.formMessage">
-  <p><span data-wp-text="state.formMessage"></span></p>
+<div
+	class="wp-block-prc-block-form-message"
+	data-wp-interactive="prc-block/form"
+	data-wp-class--is-displaying-form-message="state.formMessage"
+>
+	<p><span data-wp-text="state.formMessage"></span></p>
 </div>
 ```
 
@@ -89,8 +97,8 @@ No standalone `view.js`. The block relies on the parent form's interactivity sto
 
 ## Related Blocks
 
-- `prc-block/form` -- Parent form container that manages submission state
-- `prc-block/form-submit` -- Triggers the form submission that populates the message
-- `prc-block/mailchimp-form` -- Newsletter form that uses this block for confirmation messages
-- `prc-block/form-input-text` -- Form input fields
-- `prc-block/form-input-textarea` -- Textarea form input fields
+-   `prc-block/form` -- Parent form container that manages submission state
+-   `prc-block/form-submit` -- Triggers the form submission that populates the message
+-   `prc-block/mailchimp-form` -- Newsletter form that uses this block for confirmation messages
+-   `prc-block/form-input-text` -- Form input fields
+-   `prc-block/form-input-textarea` -- Textarea form input fields

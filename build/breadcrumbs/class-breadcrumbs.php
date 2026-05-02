@@ -86,8 +86,9 @@ class Breadcrumbs {
 		$show_current_page  = ! empty( $attributes['showCurrentPageTitle'] );
 		$current_object     = get_queried_object();
 		$type_of_object     = '';
-		$ancestor_ids       = array();
-		$has_post_hierarchy = false;
+		$ancestor_ids                = array();
+		$has_post_hierarchy          = false;
+		$breadcrumbs_from_categories = false;
 
 		if ( null === $current_object ) {
 			return '';
@@ -113,12 +114,27 @@ class Breadcrumbs {
 					$current_object = $parent_post;
 				}
 				$has_post_hierarchy = is_post_type_hierarchical( $current_object->post_type );
+				// When true, middle crumbs use category links; when false, post parent permalinks.
+				$breadcrumbs_from_categories = ! $has_post_hierarchy;
 				// Hierarchical post types (pages, custom) use post ancestors.
 				// Non-hierarchical (posts, reports) use primary term in 'category' taxonomy.
 				if ( $has_post_hierarchy ) {
 					$ancestor_ids = get_ancestors( $current_object->ID, $current_object->post_type, 'post_type' );
+					// Some hierarchical CPTs (e.g. `feature`) use hierarchy for URLs but have no parent;
+					// fall back to primary category like non-hierarchical posts.
+					if ( empty( $ancestor_ids ) ) {
+						$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
+						if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
+							$term = get_term( $primary_term_id, 'category' );
+							if ( $term instanceof \WP_Term ) {
+								$ancestor_ids[] = $term->term_id;
+								$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
+								$breadcrumbs_from_categories = true;
+							}
+						}
+					}
 				} else {
-					$primary_term_id = \PRC\Platform\get_primary_term_id( $current_object->ID, 'category' );
+					$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
 					if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
 						$term = get_term( $primary_term_id, 'category' );
 						if ( $term instanceof \WP_Term ) {
@@ -129,7 +145,8 @@ class Breadcrumbs {
 				}
 				break;
 			case 'WP_Term':
-				$ancestor_ids = get_ancestors( $current_object->term_id, $current_object->taxonomy, 'taxonomy' );
+				$ancestor_ids                = get_ancestors( $current_object->term_id, $current_object->taxonomy, 'taxonomy' );
+				$breadcrumbs_from_categories = true;
 				break;
 			case 'WP_Post_Type':
 				// No ancestors.
@@ -168,19 +185,19 @@ class Breadcrumbs {
 		}
 
 		if ( ! empty( $ancestor_ids ) ) {
-			if ( $has_post_hierarchy ) {
-				// Construct remaining breadcrumbs from ancestor ids.
-				foreach ( array_reverse( $ancestor_ids ) as $ancestor_id ) {
-					$breadcrumbs[] = array(
-						'url'  => get_the_permalink( $ancestor_id ),
-						'text' => get_the_title( $ancestor_id ),
-					);
-				}
-			} else {
+			if ( $breadcrumbs_from_categories ) {
 				foreach ( array_reverse( $ancestor_ids ) as $ancestor_id ) {
 					$breadcrumbs[] = array(
 						'url'  => get_category_link( $ancestor_id ),
 						'text' => get_cat_name( $ancestor_id ),
+					);
+				}
+			} else {
+				// Construct remaining breadcrumbs from post-type ancestor ids.
+				foreach ( array_reverse( $ancestor_ids ) as $ancestor_id ) {
+					$breadcrumbs[] = array(
+						'url'  => get_the_permalink( $ancestor_id ),
+						'text' => get_the_title( $ancestor_id ),
 					);
 				}
 			}
@@ -254,7 +271,7 @@ class Breadcrumbs {
 			}
 		}
 
-		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes, 'horizontal' );
+		$block_gap = \PRC\BlockUtils\get_block_gap_support_value( $attributes, 'horizontal' );
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(

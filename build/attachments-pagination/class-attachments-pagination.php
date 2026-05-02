@@ -48,7 +48,7 @@ class Attachments_Pagination {
 	 * @return array|false
 	 */
 	public function get_attachments( $parent_post_id, $post_id = null ) {
-		$cached_data = wp_cache_get( $parent_post_id, 'attachments-pagination' );
+		$cached_data = wp_cache_get( $parent_post_id, 'attachments-pagination-v2' );
 		if ( false !== $cached_data && ! is_user_logged_in() ) {
 			return $cached_data;
 		}
@@ -70,18 +70,30 @@ class Attachments_Pagination {
 			}
 		}
 
-		$attachments = new WP_Query(
-			array(
-				'post_type'      => 'attachment',
-				'post_parent'    => $parent_post_id,
-				'post_status'    => 'inherit',
-				'post__not_in'   => $post__not_in, // phpcs:ignore
-				'posts_per_page' => 50,
-				'orderby'        => 'date',
-				'order'          => 'asc',
-				'media_type'     => 'image',
-			)
+		$query_args = array(
+			'post_type'      => 'attachment',
+			'post_parent'    => $parent_post_id,
+			'post_status'    => 'inherit',
+			'post__not_in'   => $post__not_in, // phpcs:ignore
+			'posts_per_page' => 50,
+			'orderby'        => 'date',
+			'order'          => 'asc',
+			'media_type'     => 'image',
 		);
+
+		if ( taxonomy_exists( '_media_visibility' ) ) {
+			$query_args['tax_query'] = array(
+				array(
+					'taxonomy'         => '_media_visibility',
+					'field'            => 'slug',
+					'terms'            => array( 'hidden' ),
+					'operator'         => 'NOT IN',
+					'include_children' => false,
+				),
+			);
+		}
+
+		$attachments = new WP_Query( $query_args );
 
 		if ( ! $attachments->have_posts() ) {
 			return false;
@@ -113,7 +125,7 @@ class Attachments_Pagination {
 			);
 		}
 
-		wp_cache_set( $parent_post_id, $to_return, 'attachments-pagination', 1 * HOUR_IN_SECONDS );
+		wp_cache_set( $parent_post_id, $to_return, 'attachments-pagination-v2', 1 * HOUR_IN_SECONDS );
 
 		return $to_return;
 	}
@@ -131,7 +143,7 @@ class Attachments_Pagination {
 			$is_active                      = get_the_ID() === $attachment['id'];
 			$attachments[ $i ]['is_active'] = $is_active;
 		}
-		$pagination         = new \PRC\Platform\Block_Utils\Pagination( $attachments );
+		$pagination         = new \PRC\BlockUtils\Pagination( $attachments );
 		$pagination_content = $pagination->get_markup();
 
 		$block_attrs = array();

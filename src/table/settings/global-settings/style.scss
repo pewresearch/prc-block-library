@@ -1,5 +1,4 @@
 .ftb-global-setting-modal {
-
 	@media (min-width: 600px) {
 		width: calc(100% - 32px);
 		height: calc(100% - 120px);
@@ -15,7 +14,6 @@
 }
 
 .ftb-global-setting-modal__tab-panel {
-
 	.components-tab-panel__tabs {
 		position: absolute;
 		top: 84px;
@@ -31,9 +29,9 @@
 	}
 
 	.components-tab-panel__tabs-item {
-
 		&:focus {
-			box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+			box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus)
+				var(--wp-admin-theme-color);
 		}
 
 		&:focus-visible::before {
@@ -41,7 +39,7 @@
 		}
 
 		&.is-active {
-			background: #f0f0f0;
+			background: light-dark(#f0f0f0, #2a2a2a);
 
 			&::after {
 				content: none;
@@ -74,7 +72,7 @@
 	bottom: 0;
 	left: 0;
 	height: 56px;
-	background: #fff;
+	background: light-dark(#fff, #1e1e1e);
 	z-index: 2;
 }
 

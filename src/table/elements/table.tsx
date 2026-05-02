@@ -16,7 +16,7 @@ import type {
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect, useRef } from '@wordpress/element';
+import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
 import {
 	// @ts-ignore: has no exported member
 	__experimentalUseColorProps as useColorProps,
@@ -44,6 +44,11 @@ import {
 	type VSelectedCells,
 } from '../utils/table-state';
 import { convertToObject } from '../utils/style-converter';
+import {
+	getEffectiveColumnMeta,
+	setColumnMetaField,
+} from '../utils/column-meta';
+import { validateTable } from '../utils/validation';
 
 import type {
 	SectionName,
@@ -193,20 +198,17 @@ export default function Table({
 	};
 
 	const onHideColumn = (vColIndex: number) => {
-		const hiddenColumns = attributes.hiddenColumns || [];
-		const isHidden = hiddenColumns.includes(vColIndex);
-
-		if (isHidden) {
-			// Unhide the column
-			setAttributes({
-				hiddenColumns: hiddenColumns.filter((col) => col !== vColIndex),
-			});
-		} else {
-			// Hide the column
-			setAttributes({
-				hiddenColumns: [...hiddenColumns, vColIndex],
-			});
-		}
+		const currentMeta = attributes.columnMeta || [];
+		const effective = getEffectiveColumnMeta(vColIndex, attributes);
+		const isHidden = !!effective.hidden;
+		setAttributes({
+			columnMeta: setColumnMetaField(
+				vColIndex,
+				'hidden',
+				!isHidden,
+				currentMeta
+			),
+		});
 		setSelectedCells(undefined);
 		setSelectedLine(undefined);
 	};
@@ -507,6 +509,18 @@ export default function Table({
 		}
 	};
 
+	// Build a Set of "section:rowIndex:vColIndex" keys for cells that fail
+	// column-type validation, so we can apply is-cell-invalid during render.
+	const invalidCellKeys = useMemo(() => {
+		const result = validateTable(attributes);
+		if (result.valid) return new Set<string>();
+		return new Set(
+			result.errors.map(
+				(e) => `${e.section}:${e.rowIndex}:${e.vColIndex}`
+			)
+		);
+	}, [attributes.columnMeta, attributes.body, attributes.foot]);
+
 	// Remove cells from the virtual table that are not needed for dom rendering.
 	const filteredVTable = Object.keys(vTable).reduce(
 		(result: any, sectionName) => {
@@ -534,12 +548,73 @@ export default function Table({
 	const handleContextMenu = (event: MouseEvent, cell: VCell) => {
 		event.preventDefault();
 		event.stopPropagation();
-		console.log('handleContextMenu', event);
 		setContextMenu({
 			isOpen: true,
 			anchorElement: event.currentTarget as HTMLElement,
 			cell,
 		});
+	};
+
+	const onSetColumnRounding = (
+		vColIndex: number,
+		decimals: number | null
+	) => {
+		const currentMeta = attributes.columnMeta || [];
+		setAttributes({
+			columnMeta: setColumnMetaField(
+				vColIndex,
+				'roundDecimals',
+				decimals,
+				currentMeta
+			),
+		});
+	};
+
+	const onSetColumnDataType = (
+		vColIndex: number,
+		dataType: import('../block-attributes').ColumnDataType
+	) => {
+		const currentMeta = attributes.columnMeta || [];
+		setAttributes({
+			columnMeta: setColumnMetaField(
+				vColIndex,
+				'dataType',
+				dataType,
+				currentMeta
+			),
+		});
+	};
+
+	const onSetCellRounding = (
+		targetCell: VCell,
+		decimals: number | 'inherit'
+	) => {
+		const sectionName = targetCell.sectionName;
+		const newSection = vTable[sectionName].map((row, rowIndex) => {
+			if (rowIndex !== targetCell.rowIndex) {
+				return row;
+			}
+			return {
+				...row,
+				cells: row.cells.map((c) => {
+					if (c.vColIndex !== targetCell.vColIndex || c.isHidden) {
+						return c;
+					}
+					if (decimals === 'inherit') {
+						const next: VCell = { ...c };
+						delete next.roundDecimals;
+						return next;
+					}
+					return { ...c, roundDecimals: decimals };
+				}),
+			};
+		});
+		setAttributes(
+			toTableAttributes({
+				...vTable,
+				[sectionName]: newSection,
+			})
+		);
 	};
 
 	const closeContextMenu = () => {
@@ -559,48 +634,6 @@ export default function Table({
 			console.error('Failed to copy:', err);
 		}
 	};
-
-	useEffect(() => {
-		if (contextMenu?.isOpen) {
-			const handleClickOutside = (event: MouseEvent) => {
-				const target = event.target as Node;
-				const menu = document.querySelector(
-					'.ftb-table-cell-context-menu'
-				);
-				const isClickInside = menu?.contains(target);
-
-				if (!isClickInside) {
-					closeContextMenu();
-				}
-			};
-
-			// Use capture phase to ensure we handle the click before other handlers
-			document.addEventListener('click', handleClickOutside, true);
-			document.addEventListener('contextmenu', handleClickOutside, true);
-
-			return () => {
-				document.removeEventListener('click', handleClickOutside, true);
-				document.removeEventListener(
-					'contextmenu',
-					handleClickOutside,
-					true
-				);
-			};
-		}
-	}, [contextMenu?.isOpen]);
-
-	useEffect(() => {
-		if (contextMenu?.isOpen) {
-			const handleEscape = (event: KeyboardEvent) => {
-				if (event.key === 'Escape') {
-					closeContextMenu();
-				}
-			};
-
-			document.addEventListener('keydown', handleEscape);
-			return () => document.removeEventListener('keydown', handleEscape);
-		}
-	}, [contextMenu?.isOpen]);
 
 	const navigateToCell = (value: string) => {
 		// Parse input in format "row:column" (1-based indices)
@@ -744,7 +777,14 @@ export default function Table({
 														'is-selected':
 															isCellSelected,
 														'is-column-hidden':
-															(attributes.hiddenColumns || []).includes(vColIndex),
+															!!getEffectiveColumnMeta(
+																vColIndex,
+																attributes
+															).hidden,
+														'is-cell-invalid':
+															invalidCellKeys.has(
+																`${sectionName}:${rowIndex}:${vColIndex}`
+															),
 													})}
 													data-row={rowIndex}
 													data-col={vColIndex}
@@ -807,7 +847,29 @@ export default function Table({
 															setSelectedLine,
 															setSelectedCells,
 															onSelectSectionCells,
-															hiddenColumns: attributes.hiddenColumns || [],
+															hiddenColumns: (
+																attributes.columnMeta ||
+																[]
+															)
+																.map((m, i) =>
+																	m?.hidden
+																		? i
+																		: -1
+																)
+																.filter(
+																	(i) =>
+																		i >= 0
+																),
+															isCellSelected,
+															columnRoundDecimals:
+																(
+																	attributes.columnMeta ||
+																	[]
+																).map(
+																	(m) =>
+																		m?.roundDecimals ??
+																		null
+																),
 														}}
 													/>
 												</Cell>
@@ -829,6 +891,19 @@ export default function Table({
 				onClose={closeContextMenu}
 				copyToClipboard={copyToClipboard}
 				TableCellContextMenuSlot={TableCellContextMenuSlot}
+				columnRoundDecimals={(attributes.columnMeta || []).map(
+					(m) => m?.roundDecimals ?? null
+				)}
+				onSetColumnRounding={onSetColumnRounding}
+				onSetCellRounding={onSetCellRounding}
+				hiddenColumns={(attributes.columnMeta || [])
+					.map((m, i) => (m?.hidden ? i : -1))
+					.filter((i) => i >= 0)}
+				onHideColumn={onHideColumn}
+				columnDataTypes={(attributes.columnMeta || []).map(
+					(m) => m?.dataType ?? 'auto'
+				)}
+				onSetColumnDataType={onSetColumnDataType}
 			/>
 
 			<GoToCellModal

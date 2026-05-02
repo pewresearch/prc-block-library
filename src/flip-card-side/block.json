@@ -6,6 +6,16 @@
 	"title": "Flip Card Side",
 	"category": "media",
 	"attributes": {},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Card side content."
+				}
+			}
+		]
+	},
 	"supports": {
 		"html": false,
 		"interactivity": true,
@@ -55,8 +65,12 @@
 			}
 		}
 	},
-	"parent": ["prc-block/flip-card-controller"],
-	"usesContext": ["prc-block/flip-card-isFlipped"],
+	"parent": [
+		"prc-block/flip-card-controller"
+	],
+	"usesContext": [
+		"prc-block/flip-card-isFlipped"
+	],
 	"textdomain": "flip-card-side",
 	"editorScript": "file:./index.js"
 }

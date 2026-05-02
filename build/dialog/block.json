@@ -26,6 +26,51 @@
       "default": false
     }
   },
+  "example": {
+    "attributes": {
+      "dialogId": "123"
+    },
+    "innerBlocks": [
+      {
+        "name": "prc-block/dialog-trigger",
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Click to open"
+            }
+          }
+        ]
+      },
+      {
+        "name": "prc-block/dialog-element",
+        "attributes": {
+          "dialogSize": "medium",
+          "animation": "fade"
+        },
+        "innerBlocks": [
+          {
+            "name": "core/heading",
+            "attributes": {
+              "content": "Dialog Title"
+            }
+          },
+          {
+            "name": "core/image",
+            "attributes": {
+              "url": "https://placehold.co/600x400"
+            }
+          },
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Dialog content goes here."
+            }
+          }
+        ]
+      }
+    ]
+  },
   "supports": {
     "anchor": false,
     "html": false,

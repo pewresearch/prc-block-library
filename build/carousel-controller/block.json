@@ -102,6 +102,21 @@
       "style": true
     }
   },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "prc-block/carousel-slide",
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Carousel slide content."
+            }
+          }
+        ]
+      }
+    ]
+  },
   "textdomain": "carousel-controller",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

@@ -9,7 +9,7 @@ import type { Properties } from 'csstype';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useEffect, useState, useRef } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import {
 	InspectorControls,
@@ -31,9 +31,11 @@ import {
 	TableCaptionSettings,
 	TableCellSettings,
 	TableToolbar,
+	TableValidationToolbar,
 	TableDataSettings,
 	TableDataDropzone,
 	TableTitleSettings,
+	TableValidationSettings,
 } from './settings';
 import {
 	Table,
@@ -49,6 +51,9 @@ import {
 	type VSelectedLine,
 	type VSelectedCells,
 } from './utils/table-state';
+import { validateTable, validateSchema } from './utils/validation';
+import type { ValidationSchema } from './utils/validation';
+import { normalizeBlockAttributes } from './utils/table-attribute-normalize';
 import { convertToObject } from './utils/style-converter';
 import type { BlockAttributes, SectionName } from './block-attributes';
 
@@ -61,7 +66,6 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		// @ts-ignore: `insertBlocksAfter` prop is not exist at @types
 		insertBlocksAfter,
 		clientId,
-		context,
 	} = props;
 	const {
 		contentJustification,
@@ -70,8 +74,6 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 		captionSide,
 		tableTitleStyles,
 	} = attributes;
-
-	console.log('PowerTable context', context);
 
 	// Manage cell(s) and line(row) selection.
 	const [selectedCells, setSelectedCells] =
@@ -107,6 +109,38 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 			setSelectedLine(undefined);
 		}
 	}, [isSingleSelected]);
+
+	// One-shot: strip stacked is-sortable / is-column-hidden from parsed className and coerce
+	// roundDecimals so save() matches stored HTML (avoids block invalidation after reload).
+	useEffect(() => {
+		const patch = normalizeBlockAttributes(attributes);
+		if (patch !== null) {
+			setAttributes(patch);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount for loaded content
+	}, []);
+
+	// Recompute isValid whenever table data or column metadata changes.
+	useEffect(() => {
+		const schemas: ValidationSchema[] =
+			(window as any).prcTableValidationSchemas ?? [];
+		const activeSchema = schemas.find(
+			(s) => s.slug === attributes.validationSchema
+		);
+		const result = activeSchema
+			? validateSchema(attributes, activeSchema)
+			: validateTable(attributes);
+		if (result.valid !== attributes.isValid) {
+			setAttributes({ isValid: result.valid });
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [
+		attributes.columnMeta,
+		attributes.validationSchema,
+		attributes.head,
+		attributes.body,
+		attributes.foot,
+	]);
 
 	// Create virtual table object with the cells placed in positions based on how they actually look.
 	const vTable: VTable = toVirtualTable(attributes);
@@ -157,6 +191,7 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 	};
 
 	const tableCellSettingsProps = {
+		attributes,
 		setAttributes,
 		vTable,
 		selectedCells,
@@ -233,6 +268,11 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 							<TableToolbar {...tableToolbarProps} />
 						</BlockControls>
 					)}
+					{!isContentOnlyMode && (
+						<BlockControls group="other">
+							<TableValidationToolbar attributes={attributes} />
+						</BlockControls>
+					)}
 					<InspectorControls>
 						<PanelBody
 							title={__('Table data', 'flexible-table-block')}
@@ -268,6 +308,15 @@ function TableEdit(props: BlockEditProps<BlockAttributes>) {
 						>
 							<TableCaptionSettings
 								{...tableCaptionSettingProps}
+							/>
+						</PanelBody>
+						<PanelBody
+							title={__('Validation', 'prc-block-library')}
+							initialOpen={false}
+						>
+							<TableValidationSettings
+								attributes={attributes}
+								setAttributes={setAttributes}
 							/>
 						</PanelBody>
 					</InspectorControls>

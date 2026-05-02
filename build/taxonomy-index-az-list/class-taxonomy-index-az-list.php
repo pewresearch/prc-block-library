@@ -34,22 +34,18 @@ class Taxonomy_Index_AZ_List {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'prc_api_endpoints', $this, 'register_endpoint' );
+			$loader->add_action( 'rest_api_init', $this, 'register_endpoint' );
 		}
 	}
 
 	/**
-	 * Register endpoint for getting the AZ list of terms.
-	 *
-	 * @hook prc_api_endpoints
-	 * @param array $endpoints Endpoints.
-	 * @return array $endpoints with new endpoint
+	 * @hook rest_api_init
 	 */
-	public function register_endpoint( $endpoints ) {
-		array_push(
-			$endpoints,
+	public function register_endpoint() {
+		register_rest_route(
+			'prc-api/v3',
+			'blocks/taxonomy-index-az-list',
 			array(
-				'route'               => 'blocks/taxonomy-index-az-list',
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'restfully_get_terms_by_letter' ),
 				'args'                => array(
@@ -69,7 +65,6 @@ class Taxonomy_Index_AZ_List {
 				},
 			)
 		);
-		return $endpoints;
 	}
 
 	/**

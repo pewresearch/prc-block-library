@@ -1,1 +1,1 @@
-import{getContext as o,store as e,withScope as t}from"@wordpress/interactivity";e("prc-block/color-palette",{actions:{copyToClipboard:()=>{const e=o();e.hex&&(navigator.clipboard.writeText(e.hex),e.copied=!0,setTimeout(t(()=>{e.copied=!1}),2e3))}}});
+import{getContext as o,store as t,withScope as e}from"@wordpress/interactivity";t("prc-block/color-palette",{actions:{copyToClipboard:()=>{const t=o();t.hex&&(navigator.clipboard.writeText(t.hex),t.copied=!0,setTimeout(e(()=>{t.copied=!1}),2e3))}}});

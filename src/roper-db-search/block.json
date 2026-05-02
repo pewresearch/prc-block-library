@@ -5,7 +5,13 @@
 	"version": "0.1.0",
 	"title": "Roper Database",
 	"description": "Embeddable Roper Database search tool.",
-	"keywords": ["database", "roper", "cornell", "search", "polling"],
+	"keywords": [
+		"database",
+		"roper",
+		"cornell",
+		"search",
+		"polling"
+	],
 	"category": "embed",
 	"attributes": {
 		"subText": {
@@ -21,12 +27,24 @@
 			"default": "default"
 		}
 	},
+	"example": {
+		"attributes": {
+			"subText": "Use this tool to search our database of polling questions.",
+			"perPage": 10
+		}
+	},
 	"supports": {
 		"anchor": true,
 		"html": false
 	},
 	"textdomain": "roper-db-search",
 	"editorScript": "file:./index.js",
-	"style": ["file:./style-index.css", "roper-db-search"],
-	"viewScript": ["file:./view.js", "roper-db-search"]
+	"style": [
+		"file:./style-index.css",
+		"roper-db-search"
+	],
+	"viewScript": [
+		"file:./view.js",
+		"roper-db-search"
+	]
 }

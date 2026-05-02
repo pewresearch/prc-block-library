@@ -42,6 +42,25 @@
 			"type": "string"
 		}
 	},
+	"example": {
+		"attributes": {
+			"showLabel": "Show More",
+			"hideLabel": "Hide",
+			"heights": {
+				"desktop": 200,
+				"tablet": 150,
+				"mobile": 100
+			}
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "This content is initially hidden and revealed when the user clicks Show More."
+				}
+			}
+		]
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -52,7 +71,10 @@
 		},
 		"spacing": {
 			"blockGap": true,
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true

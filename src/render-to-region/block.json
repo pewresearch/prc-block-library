@@ -43,6 +43,11 @@
 			}
 		}
 	},
+	"example": {
+		"attributes": {
+			"regionName": "sidebar"
+		}
+	},
 	"supports": {
 		"html": false,
 		"anchor": true,

@@ -56,8 +56,16 @@ class Entity_As_Iframe {
 			return '<pre class="prc-platform-message__warning__not-found">No entity found</pre>';
 		}
 
-		$iframe_id  = wp_unique_id( 'prc-entity-iframe-' );
+		$iframe_id = wp_unique_id( 'prc-entity-iframe-' );
+
+		$iframe_template = isset( $attributes['iframeTemplate'] ) ? (string) $attributes['iframeTemplate'] : 'content';
+		if ( ! in_array( $iframe_template, array( 'branded', 'content' ), true ) ) {
+			$iframe_template = 'content';
+		}
+
 		$iframe_url = trailingslashit( $url ) . 'iframe/';
+		$iframe_url = add_query_arg( 'prc_entity_iframe', '1', $iframe_url );
+		$iframe_url = add_query_arg( 'iframeTemplate', $iframe_template, $iframe_url );
 		// Check if the entity has a set height, otherwise default to 500px.
 		$iframe_height = get_post_meta( $ref, 'iframe_height', true ) ?: 500;
 		$iframe_height = $iframe_height . 'px';
@@ -76,36 +84,31 @@ class Entity_As_Iframe {
 		);
 
 		$iframe_content = wp_sprintf(
-			'<iframe id="%1$s" data-wp-bind--src="context.src" height="%3$s" width="100%%" scrolling="no" frameborder="0"></iframe>',
+			'<iframe id="%1$s" data-wp-bind--src="context.src" height="%2$s" width="100%%" scrolling="no" frameborder="0"></iframe>',
 			$iframe_id,
-			$iframe_url,
 			$iframe_height,
 		);
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'data-ref-id'                => $ref,
-				'data-wp-interactive'        => wp_json_encode(
-					array(
-						'namespace' => 'prc-block/entity-as-iframe',
-					)
-				),
-				'data-wp-context'            => wp_json_encode(
+				'data-ref-id'                     => $ref,
+				'data-entity-iframe-prefetch-url' => esc_url( $iframe_url ),
+				'data-wp-interactive'             => 'prc-block/entity-as-iframe',
+				'data-wp-context'                 => wp_json_encode(
 					array(
 						'id'  => $iframe_id,
 						'url' => $iframe_url,
 						'src' => '',
 					)
 				),
-				'data-wp-watch--on-activate' => 'callbacks.onActivate',
-				'data-wp-class--is-active'   => 'callbacks.isActive',
+				'data-wp-watch--on-activate'      => 'callbacks.onActivate',
+				'data-wp-class--is-active'        => 'callbacks.isActive',
 			)
 		);
 
 		return wp_sprintf(
-			'<div %1$s data-iframe-height>%2$s %3$s</div>',
+			'<div %1$s data-iframe-height>%2$s</div>',
 			$block_wrapper_attrs,
-			$placeholder,
 			$iframe_content,
 		);
 	}

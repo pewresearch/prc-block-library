@@ -42,6 +42,12 @@
       "default": false
     }
   },
+  "example": {
+    "attributes": {
+      "label": "Category Name",
+      "url": "#"
+    }
+  },
   "parent": [
     "prc-block/taxonomy-list"
   ],

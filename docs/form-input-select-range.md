@@ -2,6 +2,10 @@
 
 A container block that pairs two `form-input-select` dropdown blocks to capture a min/max range selection. Generates options based on type (years, custom numbers) and validates that the minimum value does not exceed the maximum. Provides generated options to child select blocks via block context.
 
+## Block inserter example
+
+`block.json` defines an `example` with `type` years (2000–2025) and two inner `form-input-select` blocks (minimum / maximum labels) — inserter preview.
+
 ## Namespace
 
 `prc-block/form-input-select-range`
@@ -12,25 +16,25 @@ A container block that pairs two `form-input-select` dropdown blocks to capture 
 
 ## Supports
 
-| Feature | Value |
-|---------|-------|
-| Anchor | `true` |
-| Interactivity | `true` |
-| Spacing (margin) | `true` |
-| Spacing (padding) | `true` |
-| Spacing (blockGap) | `true` |
-| Layout (type) | `flex` (orientation: horizontal) |
-| HTML | `false` |
+| Feature            | Value                            |
+| ------------------ | -------------------------------- |
+| Anchor             | `true`                           |
+| Interactivity      | `true`                           |
+| Spacing (margin)   | `true`                           |
+| Spacing (padding)  | `true`                           |
+| Spacing (blockGap) | `true`                           |
+| Layout (type)      | `flex` (orientation: horizontal) |
+| HTML               | `false`                          |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `type` | `string` | `"custom"` | Option generation strategy: `"custom"`, `"years"`, or `"numbers"`. |
-| `rangeStart` | `number` | `0` | Start of the numeric range (for `"numbers"` type). |
-| `rangeEnd` | `number` | `100` | End of the numeric range (for `"numbers"` type). |
-| `rangeStep` | `number` | `1` | Step increment between options (for `"numbers"` type). |
-| `metadata` | `object` | `undefined` | Contains `name` (field identifier for form data). |
+| Attribute    | Type     | Default     | Description                                                        |
+| ------------ | -------- | ----------- | ------------------------------------------------------------------ |
+| `type`       | `string` | `"custom"`  | Option generation strategy: `"custom"`, `"years"`, or `"numbers"`. |
+| `rangeStart` | `number` | `0`         | Start of the numeric range (for `"numbers"` type).                 |
+| `rangeEnd`   | `number` | `100`       | End of the numeric range (for `"numbers"` type).                   |
+| `rangeStep`  | `number` | `1`         | Step increment between options (for `"numbers"` type).             |
+| `metadata`   | `object` | `undefined` | Contains `name` (field identifier for form data).                  |
 
 ## Available Styles
 
@@ -38,18 +42,19 @@ None defined.
 
 ## Inner Blocks
 
-| Block | Description |
-|-------|-------------|
+| Block                         | Description                                                  |
+| ----------------------------- | ------------------------------------------------------------ |
 | `prc-block/form-input-select` | Two instances: one for minimum value, one for maximum value. |
-| `core/group` | Optional layout wrapper. |
+| `core/group`                  | Optional layout wrapper.                                     |
 
 Only `prc-block/form-input-select` and `core/group` are allowed as direct children.
 
 ### Default Template
 
 Two `prc-block/form-input-select` blocks:
-- First: placeholder "Min", metadata name "{parentName}Min"
-- Second: placeholder "Max", metadata name "{parentName}Max"
+
+-   First: placeholder "Min", metadata name "{parentName}Min"
+-   Second: placeholder "Max", metadata name "{parentName}Max"
 
 ## Parent / Ancestor Requirements
 
@@ -57,8 +62,8 @@ No explicit parent constraint, but designed to function inside a `prc-block/form
 
 **Provides Context:**
 
-| Context Key | Description |
-|-------------|-------------|
+| Context Key                 | Description                                                                                  |
+| --------------------------- | -------------------------------------------------------------------------------------------- |
 | `form-input-select/options` | The generated options array, consumed by child `form-input-select` blocks via `usesContext`. |
 
 ## Usage Instructions
@@ -89,8 +94,8 @@ The block validates that the minimum selection does not exceed the maximum. If t
 ```html
 <!-- wp:prc-block/form-input-select-range {"type":"years","metadata":{"name":"yearRange"}} -->
 <div class="wp-block-prc-block-form-input-select-range">
-  <!-- wp:prc-block/form-input-select {"placeholder":"Start Year","metadata":{"name":"yearRangeMin"}} /-->
-  <!-- wp:prc-block/form-input-select {"placeholder":"End Year","metadata":{"name":"yearRangeMax"}} /-->
+	<!-- wp:prc-block/form-input-select {"placeholder":"Start Year","metadata":{"name":"yearRangeMin"}} /-->
+	<!-- wp:prc-block/form-input-select {"placeholder":"End Year","metadata":{"name":"yearRangeMax"}} /-->
 </div>
 <!-- /wp:prc-block/form-input-select-range -->
 ```
@@ -102,16 +107,18 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
 ### Render Pipeline
 
 1. **Option Generation**: Based on `type`:
-   - `"years"`: Generates options from the current year descending 100 years
-   - `"numbers"`: Generates options from `rangeStart` to `rangeEnd` by `rangeStep`
-   - `"custom"`: No generation; relies on child block configuration
+
+    - `"years"`: Generates options from the current year descending 100 years
+    - `"numbers"`: Generates options from `rangeStart` to `rangeEnd` by `rangeStep`
+    - `"custom"`: No generation; relies on child block configuration
 
 2. **Context Provision**: Sets `form-input-select/options` in the block context so child `form-input-select` blocks receive the generated options.
 
 3. **Interactivity Setup**: Wraps with `data-wp-interactive="prc-block/form-input-select-range"` and context containing:
-   - `targetNamespace` (parent form namespace)
-   - `minValue`, `maxValue` (null initially)
-   - `isComplete` (false), `isValid` (false)
+
+    - `targetNamespace` (parent form namespace)
+    - `minValue`, `maxValue` (null initially)
+    - `isComplete` (false), `isValid` (false)
 
 4. **Field Registration**: Registers the range as a single compound field in the parent form's `formFields` state.
 
@@ -121,17 +128,17 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
 
 ### State / Context
 
-| Key | Type | Description |
-|-----|------|-------------|
-| `minValue` | `string|null` | Currently selected minimum value. |
-| `maxValue` | `string|null` | Currently selected maximum value. |
+| Key          | Type      | Description                                    |
+| ------------ | --------- | ---------------------------------------------- | --------------------------------- |
+| `minValue`   | `string   | null`                                          | Currently selected minimum value. |
+| `maxValue`   | `string   | null`                                          | Currently selected maximum value. |
 | `isComplete` | `boolean` | True when both min and max have been selected. |
-| `isValid` | `boolean` | True when min <= max. |
+| `isValid`    | `boolean` | True when min <= max.                          |
 
 ### Callbacks
 
-| Callback | Description |
-|----------|-------------|
+| Callback        | Description                                                                                                                                                                                                                                                                    |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `onValueChange` | Generator callback. Watches for changes to child select values. When both min and max are selected, validates that min <= max. If valid and complete, hoists both values (as a compound `{min, max}` object) to the parent form's `formFields` state via the target namespace. |
 
 ### Interaction Flow
@@ -144,7 +151,7 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
 
 ## Related Blocks
 
-| Block | Relationship |
-|-------|-------------|
-| `prc-block/form` | Parent form container. Receives the range value pair in `formFields`. |
+| Block                         | Relationship                                                                                                               |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `prc-block/form`              | Parent form container. Receives the range value pair in `formFields`.                                                      |
 | `prc-block/form-input-select` | Required child block (two instances). Provides the min and max dropdown selectors. Receives generated options via context. |

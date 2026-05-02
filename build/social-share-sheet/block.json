@@ -21,6 +21,11 @@
       "default": ""
     }
   },
+  "example": {
+    "attributes": {
+      "label": "Share"
+    }
+  },
   "usesContext": [
     "postId",
     "queryId",

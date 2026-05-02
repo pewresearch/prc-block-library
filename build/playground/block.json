@@ -16,6 +16,11 @@
       "default": "blocks"
     }
   },
+  "example": {
+    "attributes": {
+      "playgroundType": "blocks"
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false

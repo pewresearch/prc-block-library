@@ -2,7 +2,10 @@
  * WordPress Dependencies
  */
 
-import { store, getElement } from '@wordpress/interactivity';
+import { store, getElement, withSyncEvent } from '@wordpress/interactivity';
+
+import { syncEntityIframeActive } from '../entity-as-iframe/shared/sync-entity-iframe-active.js';
+import { prefetchEntityIframeUrl } from '../entity-as-iframe/shared/prefetch-entity-iframe.js';
 
 const { VideoPressIframeApi } = window;
 
@@ -475,5 +478,41 @@ const { state, actions } = store('prc-block/dialog', {
 			// Initialize Vimeo
 			actions.initVimeoAPI();
 		},
+		/**
+		 * Keep nested entity-as-iframe `isActive` in sync with `state.dialog.isOpen` (same `prc-block/dialog` store).
+		 * Used with `data-wp-watch--sync-entity-iframes` so this re-runs when open state changes reactively.
+		 */
+		syncEntityIframeWithDialog: () => {
+			const isOpen = state.dialog?.isOpen;
+			const { ref } = getElement();
+			if (!ref?.querySelector?.('.wp-block-prc-block-entity-as-iframe')) {
+				return;
+			}
+			syncEntityIframeActive(ref, !!isOpen);
+		},
+		/**
+		 * Prefetch entity iframe document(s) when the pointer enters the dialog trigger (set on trigger via PHP).
+		 */
+		prefetchEntityIframeOnTriggerPointer: withSyncEvent((event) => {
+			const trigger = event.currentTarget;
+			const dialogId = trigger.getAttribute('aria-controls');
+			if (!dialogId) {
+				return;
+			}
+			const dialogEl = document.getElementById(dialogId);
+			if (!dialogEl) {
+				return;
+			}
+			dialogEl
+				.querySelectorAll('[data-entity-iframe-prefetch-url]')
+				.forEach((el) => {
+					const url = el.getAttribute(
+						'data-entity-iframe-prefetch-url'
+					);
+					if (url) {
+						prefetchEntityIframeUrl(url);
+					}
+				});
+		}),
 	},
 });

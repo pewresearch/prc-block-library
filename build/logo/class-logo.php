@@ -45,10 +45,11 @@ class Logo {
 		'decoded-only'         => 'decoded.svg',
 		'symbol-only'          => 'symbol.svg',
 		'symbol-stable-white'  => 'symbol-white.svg',
+		'pew-knight-only'      => 'pew-knight.svg',
 	);
 
 	/**
-	 * Map of block style to dark-mode (white) asset filename for iOS Safari.
+	 * Map of block style to dark-mode asset filename for iOS Safari / Interactivity context.
 	 * Used when prefers-color-scheme: dark is not applied inside SVG img on iOS.
 	 *
 	 * @var array<string, string>
@@ -61,6 +62,7 @@ class Logo {
 		'decoded-only'         => 'decoded-white.svg',
 		'symbol-only'          => 'symbol-white.svg',
 		'symbol-stable-white'  => 'symbol-white.svg',
+		'pew-knight-only'      => 'pew-knight-white.svg',
 	);
 
 	/**
@@ -143,7 +145,7 @@ class Logo {
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'class' => \PRC\Platform\Block_Utils\classNames(
+				'class'               => \PRC\BlockUtils\classNames(
 					$class_name,
 					array(
 						'item-justified-left'   => 'left' === $justification,
@@ -151,6 +153,19 @@ class Logo {
 						'item-justified-right'  => 'right' === $justification,
 					)
 				),
+				'data-wp-interactive' => wp_json_encode(
+					array(
+						'namespace' => 'prc-block/logo',
+					)
+				),
+				'data-wp-context'     => wp_json_encode(
+					array(
+						'srcLight'   => $url,
+						'srcDark'    => $dark_url,
+						'currentSrc' => $url,
+					)
+				),
+				'data-wp-init'        => 'callbacks.setupIosColorScheme',
 			)
 		);
 
@@ -160,10 +175,9 @@ class Logo {
 		$href     = ( 'decoded-only' === $style ) ? $site_url . '/decoded' : $site_url;
 
 		$img = sprintf(
-			'<img src="%1$s" alt="%2$s" loading="eager" data-src-light="%1$s" data-src-dark="%3$s" />',
+			'<img src="%1$s" alt="%2$s" loading="eager" data-wp-bind--src="context.currentSrc" />',
 			esc_url( $url ),
-			esc_attr__( 'Return to Home', 'pewresearch-logo' ),
-			esc_url( $dark_url )
+			esc_attr__( 'Return to Home', 'pewresearch-logo' )
 		);
 
 		$link = sprintf(

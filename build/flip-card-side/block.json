@@ -6,6 +6,16 @@
   "title": "Flip Card Side",
   "category": "media",
   "attributes": {},
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Card side content."
+        }
+      }
+    ]
+  },
   "supports": {
     "html": false,
     "interactivity": true,

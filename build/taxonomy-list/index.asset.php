@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('classnames', 'prc-components', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-i18n', 'wp-primitives'), 'version' => '1dbc7cdfea7f399f6862');
+<?php return array('dependencies' => array('classnames', 'prc-components', 'react-jsx-runtime', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-i18n', 'wp-primitives'), 'version' => 'ac21f25c532b36eab3ac');

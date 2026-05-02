@@ -50,7 +50,7 @@ class Carousel_Controller {
 		if ( 'prc-block/carousel-controller' !== $block->parsed_block['blockName'] ) {
 			return $content;
 		}
-		$attributes     = \PRC\Platform\Block_Utils\get_block_attributes(
+		$attributes     = \PRC\BlockUtils\get_block_attributes(
 			'prc-block/carousel-controller',
 			$attributes
 		);

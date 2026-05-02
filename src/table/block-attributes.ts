@@ -13,6 +13,30 @@ import type {
 	STICKY_CONTROLS,
 } from './constants';
 
+// ---------------------------------------------------------------------------
+// Column metadata types
+// ---------------------------------------------------------------------------
+
+export type ColumnDataType =
+	| 'auto'
+	| 'text'
+	| 'number'
+	| 'date'
+	| 'currency'
+	| 'percentage'
+	| 'url'
+	| 'fips'
+	| 'iso3alpha'
+	| 'iso3numeric';
+
+export interface ColumnMeta {
+	dataType: ColumnDataType;
+	hidden?: boolean;
+	sortable?: boolean;
+	/** 1–10, null = off */
+	roundDecimals?: number | null;
+}
+
 type NestedObject = {
 	[key: string]: NestedObject | null | undefined;
 };
@@ -52,6 +76,8 @@ export interface Cell {
 	scope?: CellScopeValue;
 	rowSpan?: string;
 	colSpan?: string;
+	/** When set, overrides column rounding for this cell (1–10). Omit to inherit column. */
+	roundDecimals?: number;
 }
 
 // Sort direction type
@@ -73,9 +99,22 @@ export interface BlockAttributes extends TableAttributes {
 	tableTitle?: string;
 	tableTitleStyles?: string;
 	sourceNote?: string;
+	/** Unified per-column metadata. Replaces the three legacy arrays below. */
+	columnMeta?: ColumnMeta[];
+	/** Slug of the active validation schema (from window.prcTableValidationSchemas). */
+	validationSchema?: string;
+	/** Derived: true when all column types and the active schema pass validation. Never set directly by the editor. */
+	isValid?: boolean;
+	// ---------------------------------------------------------------------------
+	// @deprecated — kept for migration period only; use columnMeta instead.
+	// ---------------------------------------------------------------------------
+	/** @deprecated Use columnMeta[i].hidden */
 	hiddenColumns?: number[];
-	isSortable?: boolean;
+	/** @deprecated Use columnMeta[i].roundDecimals. Per virtual column index: `null`/missing index = Off; 1–10 = round half-up to that many decimals (body/footer). */
+	columnRoundDecimals?: (number | null)[];
+	/** @deprecated Use columnMeta[i].sortable */
 	sortableColumns?: number[];
+	isSortable?: boolean;
 }
 
 // Core Table Block attributes

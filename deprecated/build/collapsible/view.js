@@ -1,0 +1,1 @@
+import{getContext as o,getElement as t,store as e}from"@wordpress/interactivity";e("prc-block/collapsible",{actions:{onClick:()=>{const t=o();t.isOpen=!t.isOpen}},callbacks:{onInitScrollIntoView:()=>{const e=o(),{ref:s}=t();e.isOpen&&setTimeout(()=>{s.scrollIntoView({behavior:"smooth",block:"start"})},500)}}});

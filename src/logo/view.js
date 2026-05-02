@@ -1,42 +1,37 @@
 /**
- * Logo block: on iOS Safari, swap img src by prefers-color-scheme because
- * SVG loaded via <img> does not receive dark mode inside the image document.
- * Only runs on iOS; other platforms use the SVG's internal media query.
+ * Logo block: on iOS Safari, bind `img` src from context because SVG loaded via
+ * `<img>` does not receive dark mode inside the image document. Other platforms
+ * rely on the SVG's internal media query; the init callback no-ops there.
  */
-(function () {
-	'use strict';
+import { store, getContext, withScope } from '@wordpress/interactivity';
 
-	function isIos() {
-		return /iPad|iPhone|iPod/.test(navigator.userAgent);
-	}
+function isIos() {
+	return /iPad|iPhone|iPod/.test(window.navigator.userAgent);
+}
 
-	function applyColorScheme(img) {
-		var light = img.getAttribute('data-src-light');
-		var dark = img.getAttribute('data-src-dark');
-		if (!light || !dark) return;
-		var darkMode = window.matchMedia(
-			'(prefers-color-scheme: dark)'
-		).matches;
-		img.src = darkMode ? dark : light;
-	}
-
-	function run() {
-		if (!isIos()) return;
-		var imgs = document.querySelectorAll(
-			'.wp-block-prc-block-logo img[data-src-light][data-src-dark]'
-		);
-		var mq = window.matchMedia('(prefers-color-scheme: dark)');
-		imgs.forEach(function (img) {
-			applyColorScheme(img);
-			mq.addEventListener('change', function () {
-				applyColorScheme(img);
-			});
-		});
-	}
-
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', run);
-	} else {
-		run();
-	}
-})();
+store('prc-block/logo', {
+	callbacks: {
+		/**
+		 * Subscribes to prefers-color-scheme on iOS only and updates context.currentSrc.
+		 */
+		setupIosColorScheme: () => {
+			if (!isIos()) {
+				return;
+			}
+			const context = getContext();
+			const mq = window.matchMedia('(prefers-color-scheme: dark)');
+			const apply = () => {
+				context.currentSrc = mq.matches
+					? context.srcDark
+					: context.srcLight;
+			};
+			apply();
+			mq.addEventListener(
+				'change',
+				withScope(() => {
+					apply();
+				})
+			);
+		},
+	},
+});

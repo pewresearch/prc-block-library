@@ -7,6 +7,7 @@
   "category": "design",
   "description": "Displays the full theme color palette as a design system reference guide.",
   "attributes": {},
+  "example": {},
   "supports": {
     "anchor": true,
     "html": false,

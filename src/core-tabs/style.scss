@@ -9,8 +9,47 @@ Core styles for core-tabs block.
 	}
 }
 
-.wp-block-tabs-menu[hidden] {
-	display: none;
+/**
+  Neutralize trunk's active pseudo-element underline.
+  Gutenberg trunk (post-v1.5.3) moved the active indicator to a ::before underline;
+  we manage active state ourselves to restore v1.5.3-era pill chrome.
+*/
+.wp-block-tabs-menu-item[aria-selected="true"]::before,
+.wp-block-tabs-menu-item.is-active::before {
+	content: none;
+}
+
+/**
+  Default tabs menu and tab menu item button chrome (v1.5.3 parity).
+*/
+.wp-block-tabs-menu {
+	display: flex;
+	flex-wrap: wrap;
+	min-width: fit-content;
+	gap: 0.75em;
+
+	&[hidden] {
+		display: none !important;
+	}
+
+	.wp-block-tabs-menu-item {
+		&:focus {
+			outline: none;
+		}
+		&:focus-visible {
+			outline: 2px solid var(--tab-border-color-active, #000);
+			outline-offset: 2px;
+		}
+		&:hover {
+			background-color: var(--custom-tab-hover-color, #eaeaea) !important;
+			color: var(--custom-tab-hover-text-color, #000) !important;
+		}
+		&[aria-selected="true"],
+		&.is-active {
+			background-color: var(--custom-tab-active-color, #000) !important;
+			color: var(--custom-tab-active-text-color, #fff) !important;
+		}
+	}
 }
 
 /**

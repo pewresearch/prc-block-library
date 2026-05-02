@@ -88,6 +88,14 @@ class Core_Cover {
 				'label' => 'Disable Mobile Collapse',
 			),
 		);
+
+		register_block_style(
+			$this->block_name,
+			array(
+				'name'  => 'video-cover-blur',
+				'label' => 'Video Cover Blur',
+			),
+		);
 	}
 
 	/**
@@ -162,7 +170,7 @@ class Core_Cover {
 
 		wp_enqueue_style( $this->style_handle );
 
-		if ( ! function_exists( '\PRC\Platform\get_current_device' ) ) {
+		if ( ! function_exists( '\PRC\BlockUtils\get_current_device' ) ) {
 			return $block_content;
 		}
 
@@ -176,12 +184,12 @@ class Core_Cover {
 
 		// Replace the image with the mobile image if on a mobile device.
 		$image_attrs = null;
-		if ( 'mobile' === \PRC\Platform\get_current_device() && preg_match( '/<img(.*?)>/', $block_content, $matches ) && false !== $mobile_image ) {
+		if ( 'mobile' === \PRC\BlockUtils\get_current_device() && preg_match( '/<img(.*?)>/', $block_content, $matches ) && false !== $mobile_image ) {
 			$image_attrs   = $matches[1];
 			$image_attrs   = preg_replace( '/src=".*?"/', 'src="' . $mobile_image . '"', $image_attrs );
 			$block_content = preg_replace( '/<img(.*?)>/', '<img' . $image_attrs . '>', $block_content );
 		}
-		if ( 'tablet' === \PRC\Platform\get_current_device() && preg_match( '/<img(.*?)>/', $block_content, $matches ) && false !== $tablet_image ) {
+		if ( 'tablet' === \PRC\BlockUtils\get_current_device() && preg_match( '/<img(.*?)>/', $block_content, $matches ) && false !== $tablet_image ) {
 			$image_attrs   = $matches[1];
 			$image_attrs   = preg_replace( '/src=".*?"/', 'src="' . $tablet_image . '"', $image_attrs );
 			$block_content = preg_replace( '/<img(.*?)>/', '<img' . $image_attrs . '>', $block_content );

@@ -39,6 +39,16 @@
   "parent": [
     "prc-block/dialog"
   ],
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Click to open"
+        }
+      }
+    ]
+  },
   "textdomain": "dialog-trigger",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

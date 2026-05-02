@@ -12,6 +12,17 @@
     "prc-block/form-input-text"
   ],
   "attributes": {},
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "prc-block/form-input-text",
+        "attributes": {
+          "label": "URL",
+          "placeholder": "https://..."
+        }
+      }
+    ]
+  },
   "supports": {
     "anchor": false,
     "html": false,

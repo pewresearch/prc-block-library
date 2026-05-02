@@ -63,6 +63,12 @@
       "type": "number"
     }
   },
+  "example": {
+    "attributes": {
+      "heading": "Attachments",
+      "hideHeading": false
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false,

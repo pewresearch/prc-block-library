@@ -12,6 +12,19 @@
     },
     "allowedBlocks": {
       "type": "array"
+    },
+    "iframeTemplate": {
+      "type": "string",
+      "enum": [
+        "content",
+        "branded"
+      ],
+      "default": "content"
+    }
+  },
+  "example": {
+    "attributes": {
+      "iframeTemplate": "content"
     }
   },
   "supports": {

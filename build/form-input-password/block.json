@@ -16,6 +16,19 @@
       "default": false
     }
   },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "prc-block/form-input-text",
+        "attributes": {
+          "type": "password",
+          "label": "Password",
+          "required": true,
+          "placeholder": "Password..."
+        }
+      }
+    ]
+  },
   "supports": {
     "anchor": true,
     "html": false,

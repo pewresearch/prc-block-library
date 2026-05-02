@@ -9,7 +9,7 @@
     "metadata": {
       "type": "object",
       "default": {
-        "name": "2020"
+        "name": ""
       }
     }
   },
@@ -44,6 +44,16 @@
   "usesContext": [
     "timeline/currentActiveIndex"
   ],
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Timeline slide content."
+        }
+      }
+    ]
+  },
   "textdomain": "timeline-slide",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

@@ -66,6 +66,38 @@
       }
     }
   },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "prc-block/flip-card-side",
+        "attributes": {
+          "className": "is-style-front"
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Flip Card Front"
+            }
+          }
+        ]
+      },
+      {
+        "name": "prc-block/flip-card-side",
+        "attributes": {
+          "className": "is-style-back"
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Flip Card Back"
+            }
+          }
+        ]
+      }
+    ]
+  },
   "textdomain": "flip-card-controller",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

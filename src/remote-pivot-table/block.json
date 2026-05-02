@@ -6,7 +6,14 @@
 	"title": "Remote Pivot Table",
 	"description": "Pivots the data of a remote tabular data source allowing for pseudo-pivot-table like functionality. Select a data source like column or row and then select the columns to pivot by.",
 	"category": "media",
-	"keywords": ["remote", "data", "row", "table", "pivot", "tabular"],
+	"keywords": [
+		"remote",
+		"data",
+		"row",
+		"table",
+		"pivot",
+		"tabular"
+	],
 	"attributes": {
 		"primaryKey": {
 			"type": "string"
@@ -20,8 +27,16 @@
 		},
 		"dataSource": {
 			"type": "string",
-			"enum": ["column", "row"],
+			"enum": [
+				"column",
+				"row"
+			],
 			"default": "row"
+		}
+	},
+	"example": {
+		"attributes": {
+			"dataSource": "row"
 		}
 	},
 	"supports": {

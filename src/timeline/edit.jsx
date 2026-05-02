@@ -5,51 +5,58 @@
 /**
  * WordPress Dependencies
  */
-import {
-	Fragment,
-	useMemo,
-	useState,
-	useCallback,
-	useRef,
-	useEffect,
-} from '@wordpress/element';
+import { Fragment, useMemo, useCallback, useRef } from '@wordpress/element';
 import {
 	useBlockProps,
 	RichText,
 	useInnerBlocksProps,
-	InnerBlocks,
 	store as blockEditorStore,
+	withColors,
 } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal Dependencies
  */
+import { Icon } from '@prc/icons';
+import classnames from 'classnames';
 import Controls from './controls';
 
 const getTickDensity = (count) => {
 	if (count <= 10) {
 		return 'sparse';
-	} else if (count <= 20) {
-		return 'medium';
-	} else if (count <= 40) {
-		return 'dense';
-	} else {
-		return 'very-dense';
 	}
+	if (count <= 20) {
+		return 'medium';
+	}
+	if (count <= 40) {
+		return 'dense';
+	}
+	return 'very-dense';
 };
 
-export default function Edit({
+function Edit({
 	attributes,
 	setAttributes,
 	clientId,
-	isSelected,
+	tickMarkColor,
+	setTickMarkColor,
 }) {
-	const { currentActiveIndex, tickMarkInterval, tickMarkHeight, showAllTickMarks, hideLastTick, tickLabelAngle, visibleTicks } = attributes;
+	const {
+		currentActiveIndex,
+		tickMarkInterval,
+		tickMarkHeight,
+		showAllTickMarks,
+		hideLastTick,
+		tickLabelAngle,
+		visibleTicks,
+		tickMarkWidth,
+		enableAutoPlay,
+	} = attributes;
 	const inputRef = useRef();
 	const { selectBlock, updateBlockAttributes } =
 		useDispatch(blockEditorStore);
-
 
 	const { maxSteps, ticks } = useSelect(
 		(select) => {
@@ -76,7 +83,9 @@ export default function Edit({
 	const setActiveTick = useCallback(
 		(index) => {
 			setAttributes({ currentActiveIndex: index });
-			selectBlock(ticksClientIds[index], ticksClientIds, index);
+			if (ticksClientIds[index]) {
+				selectBlock(ticksClientIds[index]);
+			}
 		},
 		[setAttributes, selectBlock, ticksClientIds]
 	);
@@ -93,17 +102,33 @@ export default function Edit({
 		return getTickDensity(ticks?.length);
 	}, [ticks, useManualControl]);
 
+	const safeSliderMax = Math.max(0, maxSteps - 1);
+	const sliderValue = Math.min(
+		Math.max(currentActiveIndex ?? 0, 0),
+		safeSliderMax
+	);
+
+	const blockStyle = useMemo(() => {
+		const style = {
+			'--tick-height': `${tickMarkHeight}px`,
+			'--tick-label-angle': `${tickLabelAngle ?? 0}deg`,
+			'--tick-width': `${tickMarkWidth ?? 2}px`,
+		};
+		if (tickMarkColor?.color) {
+			style['--tick-color'] = tickMarkColor.color;
+		}
+		return style;
+	}, [tickMarkHeight, tickLabelAngle, tickMarkWidth, tickMarkColor]);
+
 	/**
 	 * Block props for the timeline block.
+	 * Tick CSS custom properties are applied on `.tick-slider`, not `useBlockProps`, so they are
+	 * not lost when WordPress merges `wrapperProps.style` (spacing, typography, etc.) on the block wrapper.
 	 */
 	const blockProps = useBlockProps({
 		'data-tick-density': tickDensity,
 		'data-show-all-ticks': showAllTickMarks ? 'true' : 'false',
 		'data-manual-control': useManualControl ? 'true' : 'false',
-		style: {
-			'--tick-height': `${tickMarkHeight}px`,
-			'--tick-label-angle': `${tickLabelAngle ?? 0}deg`,
-		},
 	});
 	/**
 	 * Innerblocks props for the timeline content.
@@ -117,44 +142,25 @@ export default function Edit({
 		}
 	);
 
-	/**
-	 * This set's up a listener for the slider input.
-	 * When the slider's value changes it selects the block using it's clientId by
-	 * matching the value it receives, the index, from the blocks array.
-	 */
-	useEffect(() => {
-		const slider = inputRef.current;
-		const handleInput = function () {
-			// Get the value that has been updated.
-			const { value } = this;
-			const newActiveIndex = value - 1;
-			setActiveTick(newActiveIndex);
-		};
-		slider.addEventListener('input', handleInput);
-		return () => {
-			slider.removeEventListener('input', handleInput);
-		};
-	}, [setActiveTick, selectBlock]);
-
-	/**
-	 * This effect ensures the slider's value matches the currentActiveIndex attribute.
-	 */
-	useEffect(() => {
-		if (currentActiveIndex) {
-			console.log('Update slider value to match currentActiveIndex');
-			inputRef.current.value = currentActiveIndex;
-		}
-	}, [currentActiveIndex]);
-
 	return (
 		<Fragment>
-			<Controls {...{ attributes, setAttributes, clientId, ticks }} />
+			<Controls
+				{...{
+					attributes,
+					setAttributes,
+					clientId,
+					ticks,
+					colors: { tickMarkColor, setTickMarkColor },
+				}}
+			/>
 			<div {...blockProps}>
-				<div className="tick-slider">
+				<div className="tick-slider" style={blockStyle}>
 					<ul className="ticks">
 						{ticks.map((tick, index) => {
-							const { metadata } = tick.attributes;
-							const { name } = metadata;
+							const labelText =
+								tick.attributes.metadata?.name ??
+								tick.attributes.label ??
+								'';
 							const position = tickPositions[index];
 
 							// Determine if this tick should be visible based on settings
@@ -166,16 +172,19 @@ export default function Edit({
 							const hideThisTick = hideLastTick && isLast;
 
 							// Check if using specific tick selection
-							const useSpecificSelection = visibleTicks && visibleTicks.length > 0;
-							const isSpecificallySelected = useSpecificSelection && visibleTicks.includes(index);
+							const useSpecificSelection =
+								visibleTicks && visibleTicks.length > 0;
+							const isSpecificallySelected =
+								useSpecificSelection &&
+								visibleTicks.includes(index);
 
-							const shouldShowTick = !hideThisTick && (
-								useSpecificSelection ? isSpecificallySelected : (
-									showAllTickMarks ||
-									isFirstOrLast ||
-									(index % tickMarkInterval === 0)
-								)
-							);
+							const shouldShowTick =
+								!hideThisTick &&
+								(useSpecificSelection
+									? isSpecificallySelected
+									: showAllTickMarks ||
+									  isFirstOrLast ||
+									  index % tickMarkInterval === 0);
 
 							return (
 								<li
@@ -185,7 +194,9 @@ export default function Edit({
 									style={{
 										left: `${position}%`,
 										opacity: shouldShowTick ? 1 : 0,
-										pointerEvents: shouldShowTick ? 'auto' : 'none',
+										pointerEvents: shouldShowTick
+											? 'auto'
+											: 'none',
 									}}
 								>
 									<RichText
@@ -195,14 +206,15 @@ export default function Edit({
 												tick.clientId,
 												{
 													metadata: {
-														...metadata,
+														...(tick.attributes
+															.metadata || {}),
 														name: value,
 													},
 												}
 											)
 										}
 										placeholder={'Tick'}
-										value={name}
+										value={labelText}
 										withoutInteractiveFormatting
 									/>
 								</li>
@@ -210,12 +222,35 @@ export default function Edit({
 						})}
 					</ul>
 					<div className="timeline-controls">
+						<button
+							type="button"
+							className={classnames('play-pause-button', {
+								'is-playing': enableAutoPlay,
+							})}
+							aria-label={__(
+								'Play or pause timeline',
+								'prc-block-library'
+							)}
+							tabIndex={-1}
+							onClick={(event) => {
+								event.preventDefault();
+							}}
+						>
+							<Icon library="solid" icon="play" size={0.8} />
+							<Icon library="solid" icon="pause" size={0.8} />
+						</button>
 						<input
 							ref={inputRef}
 							type="range"
-							min={1}
-							max={maxSteps}
-							value={currentActiveIndex}
+							min={0}
+							max={safeSliderMax}
+							value={sliderValue}
+							onChange={(event) => {
+								const v = parseInt(event.target.value, 10);
+								if (!Number.isNaN(v)) {
+									setActiveTick(v);
+								}
+							}}
 						/>
 					</div>
 				</div>
@@ -224,3 +259,5 @@ export default function Edit({
 		</Fragment>
 	);
 }
+
+export default withColors({ tickMarkColor: 'color' })(Edit);

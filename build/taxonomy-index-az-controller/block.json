@@ -38,6 +38,54 @@
       }
     }
   },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "prc-block/grid-controller",
+        "innerBlocks": [
+          {
+            "name": "prc-block/grid-column",
+            "attributes": {
+              "gridLayout": {
+                "index": 1,
+                "desktopSpan": 4,
+                "tabletSpan": 2
+              },
+              "allowedBlocks": [
+                "prc-block/taxonomy-index-az-list"
+              ]
+            }
+          },
+          {
+            "name": "prc-block/grid-column",
+            "attributes": {
+              "gridLayout": {
+                "index": 2,
+                "desktopSpan": 4,
+                "tabletSpan": 4
+              },
+              "allowedBlocks": [
+                "prc-block/taxonomy-index-az-list"
+              ]
+            }
+          },
+          {
+            "name": "prc-block/grid-column",
+            "attributes": {
+              "gridLayout": {
+                "index": 3,
+                "desktopSpan": 4,
+                "tabletSpan": 2
+              },
+              "allowedBlocks": [
+                "prc-block/taxonomy-index-az-list"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
   "textdomain": "taxonomy-index-az-controller",
   "editorScript": "file:./index.js",
   "style": "file:./style-index.css"

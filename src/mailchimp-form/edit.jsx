@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import clsx from 'clsx';
-import { getBlockGapSupportValue } from '@prc/block-utils';
+import { getBlockGapSupportValue } from '@prc/functions';
 
 /**
  * WordPress Dependencies

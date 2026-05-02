@@ -46,7 +46,7 @@ Registered in `index.js` via `registerBlockStyle`.
 **File:** `index.js`
 
 - Adds a higher-order component (`editor.BlockListBlock` filter) that injects `--block-gap` as a CSS custom property on the block wrapper in the editor
-- Uses `getBlockGapSupportValue` from `@prc/block-utils` to compute the gap value
+- Uses `getBlockGapSupportValue` from `@prc/functions` to compute the gap value
 
 ## Frontend Interactivity
 

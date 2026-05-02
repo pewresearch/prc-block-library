@@ -139,6 +139,11 @@
               "type": "string",
               "source": "attribute",
               "attribute": "colspan"
+            },
+            "roundDecimals": {
+              "type": "number",
+              "source": "attribute",
+              "attribute": "data-prc-round-decimals"
             }
           }
         }
@@ -205,6 +210,11 @@
               "type": "string",
               "source": "attribute",
               "attribute": "colspan"
+            },
+            "roundDecimals": {
+              "type": "number",
+              "source": "attribute",
+              "attribute": "data-prc-round-decimals"
             }
           }
         }
@@ -271,14 +281,37 @@
               "type": "string",
               "source": "attribute",
               "attribute": "colspan"
+            },
+            "roundDecimals": {
+              "type": "number",
+              "source": "attribute",
+              "attribute": "data-prc-round-decimals"
             }
           }
         }
       }
     },
-    "hiddenColumns": {
+    "columnMeta": {
       "type": "array",
       "default": []
+    },
+    "validationSchema": {
+      "type": "string",
+      "default": ""
+    },
+    "isValid": {
+      "type": "boolean",
+      "default": true
+    },
+    "columnRoundDecimals": {
+      "type": "array",
+      "default": [],
+      "__deprecated": "Use columnMeta[i].roundDecimals instead."
+    },
+    "hiddenColumns": {
+      "type": "array",
+      "default": [],
+      "__deprecated": "Use columnMeta[i].hidden instead."
     },
     "isSortable": {
       "type": "boolean",
@@ -286,7 +319,80 @@
     },
     "sortableColumns": {
       "type": "array",
-      "default": []
+      "default": [],
+      "__deprecated": "Use columnMeta[i].sortable instead."
+    }
+  },
+  "example": {
+    "attributes": {
+      "head": [
+        {
+          "cells": [
+            {
+              "content": "Version",
+              "tag": "th"
+            },
+            {
+              "content": "Jazz Musician",
+              "tag": "th"
+            },
+            {
+              "content": "Release Date",
+              "tag": "th"
+            }
+          ]
+        }
+      ],
+      "body": [
+        {
+          "cells": [
+            {
+              "content": "5.9",
+              "tag": "td"
+            },
+            {
+              "content": "Joséphine Baker",
+              "tag": "td"
+            },
+            {
+              "content": "January 25, 2022",
+              "tag": "td"
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "content": "5.8",
+              "tag": "td"
+            },
+            {
+              "content": "Art Tatum",
+              "tag": "td"
+            },
+            {
+              "content": "July 20, 2021",
+              "tag": "td"
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "content": "5.7",
+              "tag": "td"
+            },
+            {
+              "content": "Esperanza Spalding",
+              "tag": "td"
+            },
+            {
+              "content": "March 9, 2021",
+              "tag": "td"
+            }
+          ]
+        }
+      ]
     }
   },
   "supports": {
@@ -341,6 +447,11 @@
         "fontSize": ".wp-block-prc-block-table > table"
       }
     }
+  },
+  "providesContext": {
+    "prc-block/table/columnMeta": "columnMeta",
+    "prc-block/table/validationSchema": "validationSchema",
+    "prc-block/table/isValid": "isValid"
   },
   "editorScript": [
     "ais-ai",

@@ -19,33 +19,26 @@ import type { BlockSaveProps } from '@wordpress/blocks';
  */
 import { convertToObject } from './utils/style-converter';
 import { toInteger } from './utils/helper';
+import {
+	normalizeRoundDecimalsValue,
+	stripAutoManagedCellClassNames,
+} from './utils/table-attribute-normalize';
+import { getEffectiveColumnMeta } from './utils/column-meta';
 import type { BlockAttributes, SectionName, Row } from './block-attributes';
 
 /**
- * Parses underscore-prefix notation: leading underscores set display decimal precision.
- * e.g. _0.01 → display "0.0", sort 0.01; __0.002 → display "0.00", sort 0.002
- * @param htmlContent
+ * Virtual column index at the start of this cell (accounts for colspan in prior cells).
+ *
+ * @param row       Row containing the cell.
+ * @param cellIndex Index of the cell within the row.
  */
-function parseUnderscoreNotation(htmlContent: string): {
-	displayContent: string;
-	sortValue: string;
-} | null {
-	const text = htmlContent.replace(/<[^>]*>/g, '').trim();
-	const match = text.match(/^(_+)(-?[\d,]+\.?\d*%?)$/);
-	if (!match) return null;
-
-	const underscoreCount = match[1].length;
-	const rawValue = match[2];
-	const numericStr = rawValue.replace(/[,%]/g, '');
-	const num = parseFloat(numericStr);
-	if (isNaN(num)) return null;
-
-	const formatted = num.toFixed(underscoreCount);
-	const isPercent = rawValue.endsWith('%');
-	return {
-		displayContent: isPercent ? `${formatted}%` : formatted,
-		sortValue: numericStr,
-	};
+function getVColStartForCell(row: Row, cellIndex: number): number {
+	let v = 0;
+	for (let i = 0; i < cellIndex; i++) {
+		const span = toInteger(row.cells[i].colSpan);
+		v += span > 1 ? span : 1;
+	}
+	return v;
 }
 
 export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
@@ -66,9 +59,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 		tableTitle,
 		tableTitleStyles,
 		sourceNote,
-		hiddenColumns = [],
 		isSortable = false,
-		sortableColumns = [],
 	} = attributes;
 
 	const isEmpty: boolean = !head?.length && !body?.length && !foot?.length;
@@ -82,15 +73,6 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 	const tableTitleStylesObj: Properties = convertToObject(tableTitleStyles);
 	const colorProps = getColorClassesAndStyles(attributes);
 
-	// Prepare interactivity context for sortable tables
-	const interactivityContext = isSortable
-		? JSON.stringify({
-				sortColumn: null,
-				sortDirection: 'none',
-				sortableColumns,
-			})
-		: undefined;
-
 	const blockProps = useBlockProps.save({
 		className: clsx({
 			[`is-content-justification-${contentJustification}`]:
@@ -98,11 +80,6 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 			'is-scroll-on-pc': isScrollOnPc,
 			'is-scroll-on-mobile': isScrollOnMobile,
 			'is-sortable': isSortable,
-		}),
-		...(isSortable && {
-			'data-wp-interactive': 'prc-block/table',
-			'data-wp-context': interactivityContext,
-			'data-wp-init': 'callbacks.onInit',
 		}),
 	});
 
@@ -125,6 +102,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 
 		const Tag = `t${type}` as const;
 		const isHeader = type === 'head';
+		const isDataSection = type === 'body' || type === 'foot';
 
 		return (
 			<Tag>
@@ -142,47 +120,63 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 									rowSpan,
 									colSpan,
 									styles,
+									roundDecimals,
 								},
 								cellIndex
 							) => {
-								const isHidden =
-									hiddenColumns.includes(cellIndex);
+								const row = rows[rowIndex];
+								const vColStart = getVColStartForCell(
+									row,
+									cellIndex
+								);
 
-								// Determine if this header cell is sortable
+								const colMeta = getEffectiveColumnMeta(
+									vColStart,
+									attributes
+								);
+
+								const isHidden = !!colMeta.hidden;
+
+								// Determine if this header cell is sortable.
+								// colMeta.sortable === false means explicitly non-sortable;
+								// undefined/true means sortable when isSortable is on.
 								const isCellSortable =
 									isSortable &&
 									isHeader &&
-									rowIndex === 0 && // Only first row of header
-									(sortableColumns.length === 0 ||
-										sortableColumns.includes(cellIndex));
+									rowIndex === 0 &&
+									colMeta.sortable !== false;
 
-								const cellClassName = clsx(className, {
-									'is-column-hidden': isHidden,
-									'is-sortable': isCellSortable,
-								});
+								const cellClassName = clsx(
+									stripAutoManagedCellClassNames(className),
+									{
+										'is-column-hidden': isHidden,
+										'is-sortable': isCellSortable,
+									}
+								);
 
-								// Prepare sortable props for header cells
-								const sortableProps = isCellSortable
-									? {
-											'data-wp-on--click':
-												'actions.onHeaderClick',
-											'data-column-index':
-												cellIndex.toString(),
-											role: 'button',
-											tabIndex: 0,
-										}
-									: {};
+								const dataSectionProps: Record<string, string> =
+									isDataSection
+										? {
+												'data-prc-v-col':
+													String(vColStart),
+											}
+										: {};
 
-								const underscoreParsed =
-									parseUnderscoreNotation(content);
-								const displayContent =
-									underscoreParsed?.displayContent ?? content;
-								const sortValueAttr = underscoreParsed
-									? {
-											'data-sort-value':
-												underscoreParsed.sortValue,
-										}
-									: {};
+								const effectiveRoundDecimals =
+									normalizeRoundDecimalsValue(roundDecimals);
+								const roundDecimalsProps: Record<
+									string,
+									string
+								> =
+									isDataSection &&
+									effectiveRoundDecimals !== undefined
+										? {
+												'data-prc-round-decimals':
+													String(
+														effectiveRoundDecimals
+													),
+											}
+										: {};
 
 								return (
 									<RichText.Content
@@ -194,7 +188,7 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 										scope={
 											(tag === 'th' && scope) || undefined
 										}
-										value={displayContent}
+										value={content}
 										rowSpan={
 											toInteger(rowSpan) > 1
 												? toInteger(rowSpan)
@@ -206,8 +200,8 @@ export default function save({ attributes }: BlockSaveProps<BlockAttributes>) {
 												: undefined
 										}
 										style={convertToObject(styles)}
-										{...sortValueAttr}
-										{...sortableProps}
+										{...dataSectionProps}
+										{...roundDecimalsProps}
 									/>
 								);
 							}

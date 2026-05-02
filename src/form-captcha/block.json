@@ -7,11 +7,15 @@
 	"category": "forms",
 	"description": "Display a captcha form element. Powered by Cloudflare Turnstile. This Captcha is mostly invisible and does not require user interaction.",
 	"attributes": {},
+	"example": {},
 	"supports": {
 		"anchor": false,
 		"html": false,
 		"spacing": {
-			"margin": [ "top", "bottom" ]
+			"margin": [
+				"top",
+				"bottom"
+			]
 		},
 		"interactivity": true
 	},

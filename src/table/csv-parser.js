@@ -9,7 +9,8 @@ import CSV from 'comma-separated-values';
 
 function convertToRow(d, tag = 'td') {
 	return d.map((content) => ({
-		content,
+		content:
+			content === null || content === undefined ? '' : String(content),
 		tag,
 	}));
 }

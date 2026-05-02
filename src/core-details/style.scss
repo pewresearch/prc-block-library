@@ -1,0 +1,9 @@
+/**
+ * Black caret SVGs on summary::after need inverting when the UI is in dark mode.
+ * Scoped to logged-in users to match PRC dark mode beta (see pew-knight-co-branded).
+ */
+@media (prefers-color-scheme: dark) {
+	body.logged-in .wp-block-details > summary::after {
+		filter: invert(1);
+	}
+}

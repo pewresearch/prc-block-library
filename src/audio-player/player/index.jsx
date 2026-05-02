@@ -3,8 +3,7 @@
  * External Dependencies
  */
 import ReactPlayer from 'react-player/file';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -140,13 +139,15 @@ const AudioPlayer = ({
 						}}
 					></div>
 					{!isPlaying ? (
-						<FontAwesomeIcon
-							icon={faPlay}
+						<Icon
+							icon="play"
+							library="solid"
 							className="wp-block-prc-block-audio-player__card__icon"
 						/>
 					) : (
-						<FontAwesomeIcon
-							icon={faPause}
+						<Icon
+							icon="pause"
+							library="solid"
 							className="wp-block-prc-block-audio-player__card__icon"
 						/>
 					)}

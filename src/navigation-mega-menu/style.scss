@@ -187,6 +187,20 @@
 	}
 }
 
+/**
+ * Dark mode overrides for active state
+ * Scoped to logged-in users to match PRC dark mode beta.
+ */
+@media (prefers-color-scheme: dark) {
+	body.logged-in .wp-block-prc-block-navigation-mega-menu.is-active {
+		// Ensure active state has proper contrast in dark mode
+		// Override inline custom properties with dark mode compatible colors
+		--menu-item-active-bg: var(--wp--preset--color--ui-gray-dark, rgba(255, 255, 255, 0.1));
+		--menu-item-active-text: var(--wp--preset--color--ui-white, #f0f0f0);
+		--menu-active-border: var(--wp--preset--color--ui-gray-medium, rgba(255, 255, 255, 0.2));
+	}
+}
+
 // nav.wp-block-navigation.mobile-masthead {
 // 	.wp-block-navigation-item {
 // 		display: inline-block;

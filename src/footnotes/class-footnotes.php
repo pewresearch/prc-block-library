@@ -92,7 +92,7 @@ class Footnotes {
 		);
 		$content            = implode( '', $footnotes );
 
-		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
+		$block_gap = \PRC\BlockUtils\get_block_gap_support_value( $attributes );
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(

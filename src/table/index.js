@@ -13,7 +13,6 @@ import { createHigherOrderComponent } from '@wordpress/compose';
 import './store';
 import './style.scss';
 import metadata from './block.json';
-import example from './example';
 import { blockIcon as icon } from './icons';
 import edit from './edit';
 import save from './save';
@@ -27,7 +26,6 @@ const settings = {
 	icon,
 	edit,
 	save,
-	example,
 	transforms,
 	deprecated,
 	// styles: [

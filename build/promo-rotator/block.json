@@ -17,6 +17,24 @@
       "type": "array"
     }
   },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "prc-block/card",
+        "attributes": {
+          "heading": "Promo Card"
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Promotional content."
+            }
+          }
+        ]
+      }
+    ]
+  },
   "supports": {
     "anchor": true,
     "html": false,

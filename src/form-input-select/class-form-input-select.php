@@ -57,13 +57,13 @@ class Form_Input_Select {
 					$attributes['value'] = $country_code;
 				}
 			}
-			$input_options = \PRC\Platform\get_list_of( 'countries' );
+			$input_options = \PRC\BlockUtils\get_list_of( 'countries' );
 		} elseif ( 'countries-and-regions' === $type ) {
-			$input_options = \PRC\Platform\get_list_of( 'countries-and-regions' );
+			$input_options = \PRC\BlockUtils\get_list_of( 'countries-and-regions' );
 		} elseif ( 'us-states' === $type ) {
-			$input_options = \PRC\Platform\get_list_of( 'us-states' );
+			$input_options = \PRC\BlockUtils\get_list_of( 'us-states' );
 		} elseif ( 'industries' === $type ) {
-			$input_options = \PRC\Platform\get_list_of( 'industries' );
+			$input_options = \PRC\BlockUtils\get_list_of( 'industries' );
 		}
 
 		// Merge in any custom options that are set on the block.

@@ -3,21 +3,33 @@
 	"description": "Pew Research Center Block Library",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
-    "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0"
-    },
-    "require": {
-		"matthiasmullie/minify": "^1.3"
-    },
-    "config": {
-		"vendor-dir": "./vendor",
-        "allow-plugins": {
+	"require": {
+		"php": ">=8.2",
+		"automattic/jetpack-autoloader": "^5.0",
+		"matthiasmullie/minify": "^1.3",
+		"prc/block-utils": "^1.0"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0.0"
+	},
+	"config": {
+		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
 			"composer/installers": true,
-			"alleyinteractive/composer-wordpress-autoloader": true
+			"alleyinteractive/composer-wordpress-autoloader": true,
+			"automattic/jetpack-autoloader": true
 		},
+		"github-protocols": [
+			"https"
+		],
 		"platform": {
-			"php": "8.2"
+			"php": "8.4.0"
 		}
-    }
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/pewresearch/prc-block-utils"
+		}
+	]
 }

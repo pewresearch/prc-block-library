@@ -5,9 +5,15 @@
 	"title": "Story Item",
 	"version": "5.0.0",
 	"category": "content-curation",
-    "description": "A story item is a visual display of a post, with a title, excerpt, and image. Pre-compiled variations such as pub-listing, list-item, and newsletter-glue are available for each post.",
-    "keywords": ["prc", "story", "item", "story item", "stub"],
-    "usesContext": [
+	"description": "A story item is a visual display of a post, with a title, excerpt, and image. Pre-compiled variations such as pub-listing, list-item, and newsletter-glue are available for each post.",
+	"keywords": [
+		"prc",
+		"story",
+		"item",
+		"story item",
+		"stub"
+	],
+	"usesContext": [
 		"postId",
 		"postType",
 		"query",
@@ -35,76 +41,75 @@
 	"attributes": {
 		"title": {
 			"type": "string"
-        },
-        "excerpt": {
-            "type": "string",
-            "source": "html",
-            "multiline": "p",
-            "selector": ".description"
-        },
-        "url": {
+		},
+		"excerpt": {
 			"type": "string",
-            "default": ""
-        },
-        "label": {
-            "type": "string"
-        },
-        "date": {
+			"source": "html",
+			"selector": ".description"
+		},
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"label": {
 			"type": "string"
-        },
-        "image": {
-            "type": "string"
-        },
-        "imageSlot": {
-            "type": "string",
-            "default": "top"
-        },
-        "imageSize": {
-            "type": "string",
-            "default": "A1"
-        },
-        "isChartArt": {
-            "type": "boolean",
+		},
+		"date": {
+			"type": "string"
+		},
+		"image": {
+			"type": "string"
+		},
+		"imageSlot": {
+			"type": "string",
+			"default": "top"
+		},
+		"imageSize": {
+			"type": "string",
+			"default": "A1"
+		},
+		"isChartArt": {
+			"type": "boolean",
 			"default": false
-        },
-        "postId": {
-            "type": "integer"
-        },
+		},
+		"postId": {
+			"type": "integer"
+		},
 		"postType": {
-            "type": "string"
-        },
-        "headerSize": {
-            "type": "integer",
-            "default": 2
-        },
-        "enableAltHeaderWeight": {
-            "type": "boolean",
-            "default": false
-        },
-        "enableHeader": {
-            "type": "boolean",
-            "default": true
-        },
-        "enableExcerpt": {
-            "type": "boolean",
-            "default": true
-        },
-        "enableExtra": {
-            "type": "boolean",
-            "default": false
-        },
-        "enableMeta": {
-            "type": "boolean",
-            "default": true
-        },
-        "metaTaxonomy": {
-            "type": "string",
-            "default": "formats"
-        },
-        "isPreview": {
-            "type": "boolean",
-            "default": false
-        },
+			"type": "string"
+		},
+		"headerSize": {
+			"type": "integer",
+			"default": 2
+		},
+		"enableAltHeaderWeight": {
+			"type": "boolean",
+			"default": false
+		},
+		"enableHeader": {
+			"type": "boolean",
+			"default": true
+		},
+		"enableExcerpt": {
+			"type": "boolean",
+			"default": true
+		},
+		"enableExtra": {
+			"type": "boolean",
+			"default": false
+		},
+		"enableMeta": {
+			"type": "boolean",
+			"default": true
+		},
+		"metaTaxonomy": {
+			"type": "string",
+			"default": "formats"
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		},
 		"isNewsletterGlue": {
 			"type": "boolean",
 			"default": false
@@ -113,7 +118,10 @@
 	"supports": {
 		"html": false,
 		"spacing": {
-			"margin": [ "top", "bottom" ],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true
 		},
 		"__experimentalBorder": {

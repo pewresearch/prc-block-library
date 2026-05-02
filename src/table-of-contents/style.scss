@@ -122,3 +122,9 @@
 		}
 	}
 }
+
+@media (prefers-color-scheme: dark) {
+	body.logged-in .wp-block-prc-block-table-of-contents details > summary:before {
+		filter: invert(1);
+	}
+}

@@ -5,7 +5,11 @@
 	"version": "0.1.0",
 	"title": "Post Parent Title",
 	"category": "theme",
-	"usesContext": [ "postId", "postType", "queryId" ],
+	"usesContext": [
+		"postId",
+		"postType",
+		"queryId"
+	],
 	"attributes": {
 		"textAlign": {
 			"type": "string"
@@ -28,8 +32,17 @@
 			"default": "_self"
 		}
 	},
+	"example": {
+		"attributes": {
+			"level": 4,
+			"isLink": false
+		}
+	},
 	"supports": {
-		"align": [ "wide", "full" ],
+		"align": [
+			"wide",
+			"full"
+		],
 		"html": false,
 		"color": {
 			"gradients": false,

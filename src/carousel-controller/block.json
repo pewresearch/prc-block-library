@@ -6,8 +6,14 @@
 	"title": "Carousel",
 	"category": "design",
 	"description": "Organize content in a vertical or horizontal CSS carousel.",
-	"keywords": ["scroll", "carousel", "slider"],
-	"allowedBlocks": ["prc-block/carousel-slide"],
+	"keywords": [
+		"scroll",
+		"carousel",
+		"slider"
+	],
+	"allowedBlocks": [
+		"prc-block/carousel-slide"
+	],
 	"attributes": {
 		"orientation": {
 			"type": "string",
@@ -28,12 +34,20 @@
 		"arrowsSize": {
 			"type": "string",
 			"default": "medium",
-			"enum": ["small", "medium", "large"]
+			"enum": [
+				"small",
+				"medium",
+				"large"
+			]
 		},
 		"dotsSize": {
 			"type": "string",
 			"default": "small",
-			"enum": ["small", "medium", "large"]
+			"enum": [
+				"small",
+				"medium",
+				"large"
+			]
 		},
 		"dotColor": {
 			"type": "string",
@@ -46,9 +60,15 @@
 	},
 	"supports": {
 		"html": false,
-		"align": ["wide", "full"],
+		"align": [
+			"wide",
+			"full"
+		],
 		"spacing": {
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true
 		},
 		"interactivity": true,
@@ -81,6 +101,21 @@
 			"width": true,
 			"style": true
 		}
+	},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "prc-block/carousel-slide",
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Carousel slide content."
+						}
+					}
+				]
+			}
+		]
 	},
 	"textdomain": "carousel-controller",
 	"editorScript": "file:./index.js",

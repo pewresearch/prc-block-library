@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "title": "Taxonomy Index List Controller",
   "category": "theme",
-  "description": "Display a grid of taxonomy list blocks that converts to an accordion on mobile",
+  "description": "Display a grid of taxonomy list blocks that converts to a WordPress core accordion on mobile",
   "attributes": {
     "allowedBlocks": {
       "type": "array"
@@ -36,6 +36,60 @@
         "__experimentalFontFamily": true
       }
     }
+  },
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "prc-block/grid-controller",
+        "innerBlocks": [
+          {
+            "name": "prc-block/grid-column",
+            "attributes": {
+              "gridLayout": {
+                "index": 1,
+                "desktopSpan": 4,
+                "tabletSpan": 2,
+                "mobileSpan": 4
+              },
+              "allowedBlocks": [
+                "prc-block/taxonomy-list",
+                "core/block"
+              ]
+            }
+          },
+          {
+            "name": "prc-block/grid-column",
+            "attributes": {
+              "gridLayout": {
+                "index": 2,
+                "desktopSpan": 4,
+                "tabletSpan": 4,
+                "mobileSpan": 4
+              },
+              "allowedBlocks": [
+                "prc-block/taxonomy-list",
+                "core/block"
+              ]
+            }
+          },
+          {
+            "name": "prc-block/grid-column",
+            "attributes": {
+              "gridLayout": {
+                "index": 3,
+                "desktopSpan": 4,
+                "tabletSpan": 2,
+                "mobileSpan": 4
+              },
+              "allowedBlocks": [
+                "prc-block/taxonomy-list",
+                "core/block"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   "textdomain": "taxonomy-index-list-controller",
   "editorScript": "file:./index.js",

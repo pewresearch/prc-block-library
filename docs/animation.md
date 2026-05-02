@@ -4,34 +4,35 @@ Add fun screen effects like confetti and emojis to celebrate user interactions.
 
 ## Block Metadata
 
-| Property   | Value                    |
-|------------|--------------------------|
-| Name       | `prc-block/animation`    |
-| Title      | Screen Animation         |
-| Category   | `design`                 |
-| Version    | `1.0.0`                  |
-| API        | 3                        |
-| Textdomain | `animation`              |
+| Property   | Value                                                  |
+| ---------- | ------------------------------------------------------ |
+| Name       | `prc-block/animation`                                  |
+| Title      | Screen Animation                                       |
+| Category   | `design`                                               |
+| Version    | `1.0.0`                                                |
+| API        | 3                                                      |
+| Textdomain | `animation`                                            |
+| Example    | Yes (inner `core/paragraph` — drives inserter preview) |
 
 ## Attributes
 
-| Attribute   | Type     | Default  | Enum Values                    | Description |
-|-------------|----------|----------|--------------------------------|-------------|
-| `animation` | `string` | --       | `confetti`, `emoji`            | The type of animation to display. |
-| `emoji`     | `string` | --       | --                             | The emoji character to use when animation type is `emoji`. |
-| `effect`    | `string` | --       | `center`, `fireworks`, `rain`  | The visual effect pattern for the animation. |
-| `speed`     | `number` | `5000`   | --                             | Duration of the animation in milliseconds. Lower values mean faster animations. |
+| Attribute   | Type     | Default | Enum Values                   | Description                                                                     |
+| ----------- | -------- | ------- | ----------------------------- | ------------------------------------------------------------------------------- |
+| `animation` | `string` | --      | `confetti`, `emoji`           | The type of animation to display.                                               |
+| `emoji`     | `string` | --      | --                            | The emoji character to use when animation type is `emoji`.                      |
+| `effect`    | `string` | --      | `center`, `fireworks`, `rain` | The visual effect pattern for the animation.                                    |
+| `speed`     | `number` | `5000`  | --                            | Duration of the animation in milliseconds. Lower values mean faster animations. |
 
 ## Supports
 
-| Feature | Enabled | Notes |
-|---------|---------|-------|
-| Anchor | Yes | |
-| HTML editing | No | |
-| Reusable | Yes | |
-| Interactivity API | Yes | |
-| Spacing: padding | Yes | |
-| Spacing: margin | Yes | |
+| Feature           | Enabled | Notes |
+| ----------------- | ------- | ----- |
+| Anchor            | Yes     |       |
+| HTML editing      | No      |       |
+| Reusable          | Yes     |       |
+| Interactivity API | Yes     |       |
+| Spacing: padding  | Yes     |       |
+| Spacing: margin   | Yes     |       |
 
 ## Inner Blocks
 
@@ -39,11 +40,11 @@ This is a container block. It can optionally hold inner blocks that serve as an 
 
 ## Inspector Controls
 
-- **Animation** panel:
-  - **Animation** select: Choose between `Confetti` and `Emoji`.
-  - **Effect** select: Choose between `Center`, `Fireworks`, and `Rain`.
-  - **Emoji** text input: Visible only when animation type is `emoji`. Enter the emoji character to use.
-  - **Speed** number input: Animation duration in milliseconds.
+-   **Animation** panel:
+    -   **Animation** select: Choose between `Confetti` and `Emoji`.
+    -   **Effect** select: Choose between `Center`, `Fireworks`, and `Rain`.
+    -   **Emoji** text input: Visible only when animation type is `emoji`. Enter the emoji character to use.
+    -   **Speed** number input: Animation duration in milliseconds.
 
 ## Usage Instructions
 
@@ -55,15 +56,29 @@ This is a container block. It can optionally hold inner blocks that serve as an 
 6. Optionally add inner blocks to anchor the animation to specific content.
 7. The animation is triggered programmatically on the frontend by setting the block's `enabled` state to `true` in the Interactivity API store.
 
+## Inserter preview
+
+The `example` in `block.json` mirrors the default edit template: one `core/paragraph` with sample text so the block inserter shows a realistic preview.
+
+```html
+<!-- wp:prc-block/animation -->
+<!-- wp:paragraph -->
+<p>Animated content.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:prc-block/animation -->
+```
+
 ## Block Markup Example
 
 ```html
-<div class="wp-block-prc-block-animation"
-     id="prc-block-animation-abc123"
-     data-wp-interactive="prc-block/animation"
-     data-wp-watch--do-animation="callbacks.onAnimate"
-     data-wp-context='{"id":"prc-block-animation-abc123"}'>
-    <p>Optional anchor content here.</p>
+<div
+	class="wp-block-prc-block-animation"
+	id="prc-block-animation-abc123"
+	data-wp-interactive="prc-block/animation"
+	data-wp-watch--do-animation="callbacks.onAnimate"
+	data-wp-context='{"id":"prc-block-animation-abc123"}'
+>
+	<p>Optional anchor content here.</p>
 </div>
 ```
 
@@ -80,38 +95,40 @@ The `render_block_callback` in `class-animation.php`:
 The `view.js` file registers an Interactivity API store under `prc-block/animation`. The animation is powered by the [canvas-confetti](https://www.npmjs.com/package/canvas-confetti) library, loaded dynamically from CDN when needed.
 
 ### State
-- `isAnimating`: Derived state that checks if the current block's `enabled` flag is `true`.
+
+-   `isAnimating`: Derived state that checks if the current block's `enabled` flag is `true`.
 
 ### Actions (all generator functions)
 
-| Action | Description |
-|--------|-------------|
-| `explodeConfettiFireworks(speed)` | Confetti particles launched from left and right sides in alternating bursts. |
-| `explodeConfettiFromCenterOfScreen(speed)` | Single confetti burst from the center with a layered follow-up burst. |
-| `explodeEmojiFireworks(emoji, speed)` | Same as confetti fireworks but using a custom emoji shape. |
-| `explodeEmojiFromCenterOfScreen(emoji, speed)` | Same as center confetti but using a custom emoji shape. |
-| `rainConfetti(speed)` | Confetti particles falling from the top of the screen like rain. |
-| `rainEmoji(emoji, speed)` | Emoji particles falling from the top like rain. |
+| Action                                         | Description                                                                  |
+| ---------------------------------------------- | ---------------------------------------------------------------------------- |
+| `explodeConfettiFireworks(speed)`              | Confetti particles launched from left and right sides in alternating bursts. |
+| `explodeConfettiFromCenterOfScreen(speed)`     | Single confetti burst from the center with a layered follow-up burst.        |
+| `explodeEmojiFireworks(emoji, speed)`          | Same as confetti fireworks but using a custom emoji shape.                   |
+| `explodeEmojiFromCenterOfScreen(emoji, speed)` | Same as center confetti but using a custom emoji shape.                      |
+| `rainConfetti(speed)`                          | Confetti particles falling from the top of the screen like rain.             |
+| `rainEmoji(emoji, speed)`                      | Emoji particles falling from the top like rain.                              |
 
 ### Callbacks
-- `onAnimate`: Watches the `isAnimating` state. When `true`, loads the confetti script and dispatches the appropriate animation action based on the `animation` and `effect` combination. Will not run if the parent element is hidden.
+
+-   `onAnimate`: Watches the `isAnimating` state. When `true`, loads the confetti script and dispatches the appropriate animation action based on the `animation` and `effect` combination. Will not run if the parent element is hidden.
 
 ### Animation Matrix
 
-| Animation | Effect     | Action Called |
-|-----------|------------|---------------|
-| confetti  | center     | `explodeConfettiFromCenterOfScreen` |
-| confetti  | fireworks  | `explodeConfettiFireworks` |
-| confetti  | rain       | `rainConfetti` |
-| emoji     | center     | `explodeEmojiFromCenterOfScreen` |
-| emoji     | fireworks  | `explodeEmojiFireworks` |
-| emoji     | rain       | `rainEmoji` |
+| Animation | Effect    | Action Called                       |
+| --------- | --------- | ----------------------------------- |
+| confetti  | center    | `explodeConfettiFromCenterOfScreen` |
+| confetti  | fireworks | `explodeConfettiFireworks`          |
+| confetti  | rain      | `rainConfetti`                      |
+| emoji     | center    | `explodeEmojiFromCenterOfScreen`    |
+| emoji     | fireworks | `explodeEmojiFireworks`             |
+| emoji     | rain      | `rainEmoji`                         |
 
 ## Styles
 
 ```css
 .wp-block-prc-block-animation {
-    position: relative;
+	position: relative;
 }
 ```
 

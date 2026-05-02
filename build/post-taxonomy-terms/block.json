@@ -63,6 +63,13 @@
       }
     }
   },
+  "example": {
+    "attributes": {
+      "taxonomy": "categories",
+      "enableLink": true,
+      "perPage": 5
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false,

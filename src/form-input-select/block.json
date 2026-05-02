@@ -75,6 +75,29 @@
 			"default": true
 		}
 	},
+	"example": {
+		"viewportWidth": 320,
+		"attributes": {
+			"type": "custom",
+			"label": "Country",
+			"placeholder": "Select a country...",
+			"required": false,
+			"options": [
+				{
+					"label": "United States",
+					"value": "us"
+				},
+				{
+					"label": "United Kingdom",
+					"value": "uk"
+				},
+				{
+					"label": "Canada",
+					"value": "ca"
+				}
+			]
+		}
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,

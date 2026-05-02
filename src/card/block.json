@@ -25,6 +25,19 @@
 			"type": "string"
 		}
 	},
+	"example": {
+		"attributes": {
+			"heading": "Card Title"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Card content goes here."
+				}
+			}
+		]
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -46,7 +59,10 @@
 			"sticky": true
 		}
 	},
-	"usesContext": ["postId", "postType"],
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"textdomain": "card",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

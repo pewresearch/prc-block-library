@@ -9,6 +9,16 @@
   "ancestor": [
     "prc-block/form"
   ],
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/paragraph",
+        "attributes": {
+          "content": "Form page content."
+        }
+      }
+    ]
+  },
   "supports": {
     "anchor": true,
     "html": false,

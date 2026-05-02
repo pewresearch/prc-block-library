@@ -112,18 +112,25 @@ class Core_Post_Content {
 					$block_content = apply_filters( 'the_content', '[videopress ' . $videopress_id . ']' );
 				}
 			} elseif ( $is_image ) {
-				$image_url = wp_get_attachment_image_src( $attachment_id, 'large' );
-				$full_url  = wp_get_attachment_image_src( $attachment_id, 'full' );
-				if ( $image_url ) {
-					$image_title   = get_the_title( $attachment_id );
+				$full_url    = wp_get_attachment_image_src( $attachment_id, 'full' );
+				$image_title = get_the_title( $attachment_id );
+				$caption     = get_the_content( $attachment_id );
+
+				$img_html = wp_get_attachment_image(
+					$attachment_id,
+					'large',
+					false,
+					array(
+						'class' => 'attachment-large size-large wp-image-' . (int) $attachment_id,
+						'alt'   => $image_title,
+					)
+				);
+
+				if ( $img_html ) {
 					$block_content = wp_sprintf(
-						'<figure class="wp-block-image aligncenter size-large"><img width="%s" height="%s" src="%s" alt="%s" class="wp-image-%s">%s</figure><h5>Download</h5><a href="%s" download>%s</a>',
-						$image_url[1],
-						$image_url[2],
-						$image_url[0],
-						$image_title,
-						$attachment_id,
-						get_the_content( $attachment_id ) ? '<figcaption class="wp-element-caption"' . get_the_content( $attachment_id ) . '</figcaption>' : '',
+						'<figure class="wp-block-image aligncenter size-large">%s%s</figure><h5>Download</h5><a href="%s" download>%s</a>',
+						$img_html,
+						$caption ? '<figcaption class="wp-element-caption">' . $caption . '</figcaption>' : '',
 						$full_url[0],
 						$image_title
 					);

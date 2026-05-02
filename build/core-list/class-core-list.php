@@ -137,7 +137,7 @@ class Core_List {
 			return $block_content;
 		}
 
-		$block_gap = \PRC\Platform\Block_Utils\get_block_gap_support_value( $block['attrs'], 'vertical' );
+		$block_gap = \PRC\BlockUtils\get_block_gap_support_value( $block['attrs'], 'vertical' );
 
 		$tag_processor = new WP_HTML_Tag_Processor( $block_content );
 		$html_tag      = 'ul';

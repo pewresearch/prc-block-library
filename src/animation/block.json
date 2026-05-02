@@ -9,14 +9,21 @@
 	"attributes": {
 		"animation": {
 			"type": "string",
-			"enum": ["confetti", "emoji"]
+			"enum": [
+				"confetti",
+				"emoji"
+			]
 		},
 		"emoji": {
 			"type": "string"
 		},
 		"effect": {
 			"type": "string",
-			"enum": ["center", "fireworks", "rain"]
+			"enum": [
+				"center",
+				"fireworks",
+				"rain"
+			]
 		},
 		"speed": {
 			"type": "number",
@@ -32,6 +39,16 @@
 			"padding": true,
 			"margin": true
 		}
+	},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Animated content."
+				}
+			}
+		]
 	},
 	"textdomain": "animation",
 	"editorScript": "file:./index.js",

@@ -42,6 +42,12 @@ class Core_Details {
 	 */
 	public $editor_style_handle;
 	/**
+	 * The frontend style handle (details disclosure icon dark mode).
+	 *
+	 * @var string
+	 */
+	public $style_handle;
+	/**
 	 * The editor script handle.
 	 *
 	 * @var string
@@ -73,7 +79,7 @@ class Core_Details {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'init', $this, 'register_styles' );
-			$loader->add_action( 'enqueue_block_assets', $this, 'enqueue_frontend_icon_styles', 10 );
+			$loader->add_action( 'enqueue_block_assets', $this, 'enqueue_styles', 10 );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_assets' );
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 3 );
@@ -88,6 +94,7 @@ class Core_Details {
 	public function register_assets() {
 		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
 		$this->editor_style_handle  = register_block_style_handle( $this->block_json, 'editorStyle' );
+		$this->style_handle         = register_block_style_handle( $this->block_json, 'style' );
 		$this->view_script_handle   = register_block_script_module_id( $this->block_json, 'viewScriptModule' );
 	}
 
@@ -120,8 +127,8 @@ class Core_Details {
 	 * @return string The CSS styles.
 	 */
 	public static function get_base_icon_styles() {
-		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'caret-down', 'black' );
-		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'caret-up', 'black' );
+		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', 'caret-down', 'black' );
+		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', 'caret-up', 'black' );
 		return wp_sprintf(
 			'.wp-block-details > summary { list-style: none; } .wp-block-details > summary::-webkit-details-marker { display: none; } .wp-block-details > summary { display: flex; align-items: center; font-size: 1rem; gap: 0.25em; } .wp-block-details > summary::after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; background-image: url(%1$s); background-size: contain; background-repeat: no-repeat; flex-shrink: 0; } .wp-block-details[open] > summary::after { background-image: url(%2$s); }',
 			$open_icon,
@@ -142,12 +149,18 @@ class Core_Details {
 	}
 
 	/**
-	 * Enqueue frontend styles that apply our icons to all core/details blocks.
+	 * Enqueue frontend styles, including those that apply our icons to all core/details blocks.
 	 * Prevents iOS Safari from falling back to emoji glyphs for the disclosure marker.
 	 *
 	 * @hook enqueue_block_assets
 	 */
-	public function enqueue_frontend_icon_styles() {
+	public function enqueue_styles() {
+		if ( ! empty( $this->style_handle ) ) {
+			wp_enqueue_style( $this->style_handle );
+		}
+		if ( is_admin() ) {
+			wp_enqueue_style( $this->editor_style_handle );
+		}
 		$handle = 'prc-core-details-icons';
 		wp_register_style( $handle, false, array(), PRC_BLOCK_LIBRARY_VERSION );
 		wp_enqueue_style( $handle );
@@ -166,7 +179,7 @@ class Core_Details {
 			array(
 				'name'         => 'plus-icon',
 				'label'        => 'Plus/Minus Icon',
-				'inline_style' => '.wp-block-details.is-style-plus-icon > summary { font-weight: bold; } ' . self::get_new_icon_styles( 'plus-icon' ),
+				'inline_style' => '.wp-block-details.is-style-plus-icon > summary { font-weight: bold; } ' . self::get_new_icon_styles( 'plus-icon' ) . '@media (prefers-color-scheme: dark) { .wp-block-details.is-style-plus-icon > summary:after { color: #fff; } }'
 			)
 		);
 
@@ -176,8 +189,8 @@ class Core_Details {
 			'.wp-block-details.is-style-pew-knight-co-branded > summary:before { display: flex; background-image: url(%s); width: 183px; height: 35px; content: ""; background-repeat: no-repeat; background-size: contain; background-position: center;} .wp-block-details.is-style-pew-knight-co-branded > summary:after { background-position: right; width: 100%% !important; flex-shrink: 1; } .wp-block-details.is-style-pew-knight-co-branded > summary { text-indent: -9999px; }',
 			esc_url( $logo_url_light )
 		);
-		$logo_dark_css  = wp_sprintf(
-			'@media (prefers-color-scheme: dark) { .wp-block-details.is-style-pew-knight-co-branded > summary:before { background-image: url(%s); } }',
+		$logo_dark_css = wp_sprintf(
+			'@media (prefers-color-scheme: dark) { .wp-block-details.is-style-pew-knight-co-branded > summary:before { background-image: url(%s); } .wp-block-details.is-style-pew-knight-co-branded > summary:after { color: #fff; } }',
 			esc_url( $logo_url_dark )
 		);
 
@@ -208,8 +221,9 @@ class Core_Details {
 		$close_when_focus_lost = $block['attrs']['closeWhenFocusLost'] ?? false;
 		$className             = $block['attrs']['className'] ?? '';
 		$is_knight_style       = str_contains( $className, 'is-style-pew-knight-co-branded' );
+		$has_entity_iframe     = (bool) preg_match( '/wp-block-prc-block-entity-as-iframe/', $block_content );
 
-		if ( ! $close_when_focus_lost && ! $is_knight_style ) {
+		if ( ! $close_when_focus_lost && ! $is_knight_style && ! $has_entity_iframe ) {
 			return $block_content;
 		}
 
@@ -218,22 +232,43 @@ class Core_Details {
 		$processor = new WP_HTML_Tag_Processor( $block_content );
 
 		if ( $processor->next_tag( array( 'tag_name' => 'details' ) ) ) {
-			$processor->set_attribute( 'data-wp-interactive', 'core/details' );
+			$initial_open = null !== $processor->get_attribute( 'open' );
 
-			$context = array(
-				'closeWhenFocusLost' => $close_when_focus_lost,
-			);
-			if ( $is_knight_style ) {
-				$context['knightCollectionUrl'] = self::PEW_KNIGHT_COLLECTION_URL;
+			$needs_interactive = $close_when_focus_lost || $is_knight_style || $has_entity_iframe;
+
+			if ( $needs_interactive ) {
+				$processor->set_attribute( 'data-wp-interactive', 'core/details' );
+
+				$context = array();
+				if ( $close_when_focus_lost || $is_knight_style ) {
+					$context['closeWhenFocusLost'] = $close_when_focus_lost;
+				}
+				if ( $is_knight_style ) {
+					$context['knightCollectionUrl'] = self::PEW_KNIGHT_COLLECTION_URL;
+				}
+				if ( $has_entity_iframe ) {
+					$context['isOpen'] = $initial_open;
+				}
+				$processor->set_attribute( 'data-wp-context', wp_json_encode( $context ) );
+
+				if ( $close_when_focus_lost ) {
+					$processor->set_attribute( 'data-wp-on-document--click', 'actions.handleOutsideClick' );
+				}
 			}
-			$processor->set_attribute( 'data-wp-context', wp_json_encode( $context ) );
 
-			if ( $close_when_focus_lost ) {
-				$processor->set_attribute( 'data-wp-on-document--click', 'actions.handleOutsideClick' );
+			if ( $has_entity_iframe ) {
+				$processor->set_attribute( 'data-wp-on--toggle', 'actions.syncDetailsOpenFromToggle' );
+				$processor->set_attribute( 'data-wp-watch--sync-entity-iframes', 'callbacks.syncEntityIframeWithDetails' );
 			}
 
-			if ( $is_knight_style && $processor->next_tag( array( 'tag_name' => 'summary' ) ) ) {
-				$processor->set_attribute( 'data-wp-on--click', 'actions.handleSummaryClick' );
+			$needs_summary_attrs = $has_entity_iframe || $is_knight_style;
+			if ( $needs_summary_attrs && $processor->next_tag( array( 'tag_name' => 'summary' ) ) ) {
+				if ( $has_entity_iframe ) {
+					$processor->set_attribute( 'data-wp-on--pointerenter', 'callbacks.prefetchEntityIframeOnSummaryPointer' );
+				}
+				if ( $is_knight_style ) {
+					$processor->set_attribute( 'data-wp-on--click', 'actions.handleSummaryClick' );
+				}
 			}
 		}
 
@@ -264,7 +299,6 @@ class Core_Details {
 	 * @hook enqueue_block_editor_assets
 	 */
 	public function register_editor_assets() {
-		wp_enqueue_style( $this->editor_style_handle );
 		wp_enqueue_script( $this->editor_script_handle );
 	}
 }

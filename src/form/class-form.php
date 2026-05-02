@@ -197,7 +197,7 @@ class Form {
 		$form_action    = $attributes['action'] ?? false;
 		$form_namespace = $attributes['namespace'] ?? false;
 		if ( empty( $form_method ) || empty( $form_action ) || empty( $form_namespace ) ) {
-			do_action('qm/warning', 'Form block misconfigured: missing method, action, or namespace.' );
+			do_action( 'qm/warning', 'Form block misconfigured: missing method, action, or namespace.' );
 			return '<p>Form misconfigured.</p>';
 		}
 		if ( 'rest' === $form_method ) {

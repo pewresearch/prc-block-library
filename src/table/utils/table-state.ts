@@ -16,6 +16,7 @@ import {
 	updatePadding,
 } from './style-updater';
 import { toInteger } from './helper';
+import { normalizeCellPersistedFields } from './table-attribute-normalize';
 import type {
 	CellTagValue,
 	CellScopeValue,
@@ -967,7 +968,6 @@ export function toVirtualTable(state: TableAttributes): VTable {
  * @return {Object} Table attributes.
  */
 export function toTableAttributes(vTable: VTable): TableAttributes {
-	console.log('toTableAttributes', vTable);
 	return Object.entries(vTable).reduce(
 		(newTableAttributes: TableAttributes, [sectionName, section]) => {
 			if (!section.length) {
@@ -979,23 +979,29 @@ export function toTableAttributes(vTable: VTable): TableAttributes {
 						// Delete cells marked as deletion.
 						.filter((cell) => !cell.isHidden)
 						// Keep only the properties needed.
-						.map((cell) => ({
-							content: cell.content,
-							styles: cell.styles,
-							tag: cell.tag,
-							className: cell.className,
-							id: cell.id,
-							headers: cell.headers,
-							scope: cell.scope,
-							rowSpan:
-								cell.rowSpan > 1
-									? String(cell.rowSpan)
-									: undefined,
-							colSpan:
-								cell.colSpan > 1
-									? String(cell.colSpan)
-									: undefined,
-						})),
+						.map((cell) => {
+							const cellAttr: Cell = {
+								content: cell.content,
+								styles: cell.styles,
+								tag: cell.tag,
+								className: cell.className,
+								id: cell.id,
+								headers: cell.headers,
+								scope: cell.scope,
+								rowSpan:
+									cell.rowSpan > 1
+										? String(cell.rowSpan)
+										: undefined,
+								colSpan:
+									cell.colSpan > 1
+										? String(cell.colSpan)
+										: undefined,
+								...(cell.roundDecimals !== undefined
+									? { roundDecimals: cell.roundDecimals }
+									: {}),
+							};
+							return normalizeCellPersistedFields(cellAttr).cell;
+						}),
 				})
 			);
 			return newTableAttributes;
@@ -1293,6 +1299,111 @@ export function hasMergedCells(selectedCells: VSelectedCells): boolean {
 		({ rowSpan, colSpan }: { rowSpan: number; colSpan: number }) =>
 			rowSpan > 1 || colSpan > 1
 	);
+}
+
+/**
+ * Transposes the table: header cells become the first body column and the
+ * first body column becomes the new header row. Remaining body data is
+ * matrix-transposed (row i, col j -> row j, col i).
+ *
+ * Returns `null` when guards fail:
+ *  - head must have exactly one row
+ *  - no merged cells (rowSpan > 1 or colSpan > 1) in any section
+ *  - foot section must be empty (footer semantics don't survive a transpose)
+ *
+ * @param vTable Current virtual table state.
+ * @return Transposed virtual table, or null if guards fail.
+ */
+export function transposeTable(vTable: VTable): VTable | null {
+	if (isEmptySection(vTable.head) || vTable.head.length !== 1) {
+		return null;
+	}
+	if (!isEmptySection(vTable.foot)) {
+		return null;
+	}
+
+	const allCells = [
+		...vTable.head.flatMap((r) => r.cells),
+		...vTable.body.flatMap((r) => r.cells),
+	];
+	if (allCells.some((c) => c.rowSpan > 1 || c.colSpan > 1)) {
+		return null;
+	}
+
+	const headerRow = vTable.head[0].cells;
+	const bodyRows = vTable.body;
+	const bodyRowCount = bodyRows.length;
+	const colCount = headerRow.length;
+
+	if (bodyRowCount === 0 || colCount === 0) {
+		return null;
+	}
+
+	// New header: [corner cell, body-col-0 values...]
+	// e.g. original head [H1,H2,H3] + body col 0 [A,B] => new head [H1, A, B]
+	const newHead: VRow = {
+		cells: [
+			{
+				content: headerRow[0].content,
+				tag: 'th' as const,
+				rowSpan: 1,
+				colSpan: 1,
+				sectionName: 'head' as const,
+				rowIndex: 0,
+				vColIndex: 0,
+				isHidden: false,
+			},
+			...bodyRows.map(
+				(row, idx): VCell => ({
+					content: row.cells[0]?.content ?? '',
+					tag: 'th' as const,
+					rowSpan: 1,
+					colSpan: 1,
+					sectionName: 'head' as const,
+					rowIndex: 0,
+					vColIndex: idx + 1,
+					isHidden: false,
+				})
+			),
+		],
+	};
+
+	// New body: each old header cell (index 1+) seeds a row.
+	// Col 0 = old header label; cols 1+ = transposed body data.
+	const newBody: VRow[] = headerRow.slice(1).map(
+		(headerCell, headerIdx): VRow => ({
+			cells: [
+				{
+					content: headerCell.content,
+					tag: 'td' as const,
+					rowSpan: 1,
+					colSpan: 1,
+					sectionName: 'body' as const,
+					rowIndex: headerIdx,
+					vColIndex: 0,
+					isHidden: false,
+				},
+				...bodyRows.map(
+					(bodyRow, bodyRowIdx): VCell => ({
+						content: bodyRow.cells[headerIdx + 1]?.content ?? '',
+						tag: 'td' as const,
+						rowSpan: 1,
+						colSpan: 1,
+						sectionName: 'body' as const,
+						rowIndex: headerIdx,
+						vColIndex: bodyRowIdx + 1,
+						isHidden: false,
+					})
+				),
+			],
+		})
+	);
+
+	return {
+		head: [newHead],
+		body: newBody,
+		foot: [],
+	};
 }
 
 /**

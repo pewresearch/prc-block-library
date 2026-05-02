@@ -1,0 +1,14 @@
+/**
+ * Core Accordion Extended Styles
+ *
+ * This file contains additional styles for the extended core/accordion block
+ * to support PRC Platform specific features.
+ */
+
+// Entity iframe support - ensure proper spacing
+.wp-block-accordion-panel {
+	.wp-block-prc-block-entity-as-iframe {
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+}

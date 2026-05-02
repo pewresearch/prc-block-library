@@ -9,7 +9,7 @@
 		"metadata": {
 			"type": "object",
 			"default": {
-				"name": "2020"
+				"name": ""
 			}
 		}
 	},
@@ -20,7 +20,10 @@
 		"interactivity": true,
 		"spacing": {
 			"blockGap": true,
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -35,8 +38,22 @@
 			}
 		}
 	},
-	"parent": ["prc-block/timeline"],
-	"usesContext": ["timeline/currentActiveIndex"],
+	"parent": [
+		"prc-block/timeline"
+	],
+	"usesContext": [
+		"timeline/currentActiveIndex"
+	],
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Timeline slide content."
+				}
+			}
+		]
+	},
 	"textdomain": "timeline-slide",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

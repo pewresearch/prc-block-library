@@ -42,7 +42,7 @@ class Roper_DB_Search {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
 			$loader->add_action( 'wp_enqueue_scripts', $this, 'register_vendor_assets' );
-			$loader->add_filter( 'prc_platform_rewrite_query_vars', $this, 'register_global_db_vendor_query_vars' );
+			$loader->add_filter( 'query_vars', $this, 'register_global_db_vendor_query_vars' );
 		}
 	}
 
@@ -59,7 +59,7 @@ class Roper_DB_Search {
 	/**
 	 * Add Roper's query vars to the global query vars array
 	 *
-	 * @hook prc_platform_rewrite_query_vars
+	 * @hook query_vars
 	 *
 	 * @param mixed $query_vars Query vars.
 	 * @return array $query_vars

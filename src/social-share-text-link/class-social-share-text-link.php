@@ -7,7 +7,7 @@
 
 namespace PRC\Platform\Blocks;
 
-use function PRC\Platform\Block_Utils\classNames;
+use function PRC\BlockUtils\classNames;
 
 /**
  * Block Name:        Social Share Text Link

@@ -2,6 +2,10 @@
 
 A popular post item, typically placed in a group block for numbered list display.
 
+## Block inserter example
+
+`block.json` defines an `example` with sample title, URL, `blockIndexAttr`, and `enableNumber` — inserter preview.
+
 ## Block Namespace
 
 `prc-block/popular-story`
@@ -12,24 +16,24 @@ A popular post item, typically placed in a group block for numbered list display
 
 ## Supports
 
-| Feature | Enabled |
-|---------|---------|
-| Anchor | Yes |
-| HTML | No |
-| Spacing (margin) | Top and bottom only |
-| Spacing (padding) | Yes |
-| Typography (fontSize) | Yes |
-| Typography (fontFamily) | Yes |
+| Feature                 | Enabled             |
+| ----------------------- | ------------------- |
+| Anchor                  | Yes                 |
+| HTML                    | No                  |
+| Spacing (margin)        | Top and bottom only |
+| Spacing (padding)       | Yes                 |
+| Typography (fontSize)   | Yes                 |
+| Typography (fontFamily) | Yes                 |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `title` | `string` | -- | The display title of the popular story. |
-| `url` | `string` | `""` | The URL the story title links to. |
-| `postId` | `integer` | -- | The WordPress post ID of the selected story. |
-| `blockIndexAttr` | `integer` | -- | The index position of this block within its parent group (auto-calculated). |
-| `enableNumber` | `boolean` | `true` | Whether to display the numbered index. Automatically set based on parent block context. |
+| Attribute        | Type      | Default | Description                                                                             |
+| ---------------- | --------- | ------- | --------------------------------------------------------------------------------------- |
+| `title`          | `string`  | --      | The display title of the popular story.                                                 |
+| `url`            | `string`  | `""`    | The URL the story title links to.                                                       |
+| `postId`         | `integer` | --      | The WordPress post ID of the selected story.                                            |
+| `blockIndexAttr` | `integer` | --      | The index position of this block within its parent group (auto-calculated).             |
+| `enableNumber`   | `boolean` | `true`  | Whether to display the numbered index. Automatically set based on parent block context. |
 
 ## Available Styles
 
@@ -57,8 +61,8 @@ None, but the block is designed to be placed inside a `core/group` block. When p
 
 ```html
 <aside class="wp-block-prc-block-popular-story">
-  <div class="big-number">1</div>
-  <a href="https://example.com/story" class="title">Story Title Here</a>
+	<div class="big-number">1</div>
+	<a href="https://example.com/story" class="title">Story Title Here</a>
 </aside>
 ```
 
@@ -66,7 +70,7 @@ When `enableNumber` is false or the block is not in a group:
 
 ```html
 <aside class="wp-block-prc-block-popular-story">
-  <a href="https://example.com/story" class="title">Story Title Here</a>
+	<a href="https://example.com/story" class="title">Story Title Here</a>
 </aside>
 ```
 
@@ -77,8 +81,8 @@ The `render_callback` method:
 1. Returns empty string if no title or URL is set.
 2. Calculates the display index: if `enableNumber` is true, adds 1 to `blockIndexAttr` (zero-based to one-based).
 3. Renders an `<aside>` element with:
-   - A `.big-number` div (if index > 0)
-   - A linked `.title` element
+    - A `.big-number` div (if index > 0)
+    - A linked `.title` element
 
 ## Frontend Interactivity
 
@@ -86,4 +90,4 @@ No frontend JavaScript. This block is purely server-side rendered.
 
 ## Related Blocks
 
-- `core/group` -- Recommended parent block for numbered list display
+-   `core/group` -- Recommended parent block for numbered list display

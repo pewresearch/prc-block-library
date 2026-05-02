@@ -36,6 +36,27 @@
       }
     }
   },
+  "example": {
+    "attributes": {
+      "taxonomy": "category"
+    },
+    "innerBlocks": [
+      {
+        "name": "prc-block/taxonomy-list-link",
+        "attributes": {
+          "label": "Category A",
+          "url": "#"
+        }
+      },
+      {
+        "name": "prc-block/taxonomy-list-link",
+        "attributes": {
+          "label": "Category B",
+          "url": "#"
+        }
+      }
+    ]
+  },
   "supports": {
     "html": false,
     "inserter": true,

@@ -27,6 +27,12 @@
       "default": "default"
     }
   },
+  "example": {
+    "attributes": {
+      "subText": "Use this tool to search our database of polling questions.",
+      "perPage": 10
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false

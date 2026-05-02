@@ -3,7 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 
-const createTicksSpread = (startingPoint = 2000, endPoint = 2025) => {
+const currentYear = new Date().getFullYear();
+
+const createTicksSpread = (startingPoint = 2000, endPoint = currentYear) => {
 	const ticks = [];
 	for (let i = startingPoint; i < endPoint; i++) {
 		const newName = i.toString();

@@ -20,6 +20,7 @@ import { ResizableBox } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
+import { getBlockGapSupportValue } from '@prc/functions';
 import Controls from './controls';
 
 const DESKTOP_COLS = 12;
@@ -65,6 +66,7 @@ export default function Edit({
 	context,
 	clientId,
 	isSelected,
+	__unstableLayoutClassNames: layoutClassNames,
 }) {
 	const { gridLayout, allowedBlocks, templateLock, verticalAlignment } =
 		attributes;
@@ -135,8 +137,8 @@ export default function Edit({
 				device === 'mobile'
 					? 'mobileSpan'
 					: device === 'tablet'
-						? 'tabletSpan'
-						: 'desktopSpan';
+					? 'tabletSpan'
+					: 'desktopSpan';
 			const maxCols = device === 'mobile' ? 4 : 12;
 
 			let firstInRow = false;
@@ -263,8 +265,15 @@ export default function Edit({
 		'data-mobile-span': String(mobileSpan),
 	});
 
+	const gridColumnGap = getBlockGapSupportValue(attributes, 'vertical');
+
 	const innerBlocksProps = useInnerBlocksProps(
-		{},
+		{
+			className: layoutClassNames,
+			style: {
+				...(gridColumnGap && { '--grid-column-gap': gridColumnGap }),
+			},
+		},
 		{
 			allowedBlocks,
 			orientation: 'vertical',

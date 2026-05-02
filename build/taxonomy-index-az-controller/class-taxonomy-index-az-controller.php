@@ -66,7 +66,7 @@ class Taxonomy_Index_AZ_Controller {
 		}
 		$list = '<ul class="wp-block-prc-block-taxonomy-index-az-controller--list">';
 		foreach ( $this->range as $letter ) {
-			$class = \PRC\Platform\Block_Utils\classNames( 'item', array( 'disabled' => ! in_array( $letter, $present ) ) );
+			$class = \PRC\BlockUtils\classNames( 'item', array( 'disabled' => ! in_array( $letter, $present ) ) );
 			$list .= "<li><a href='#{$letter}' class='{$class}'>{$letter}</a></li>";
 		}
 		$list .= '</ul>';

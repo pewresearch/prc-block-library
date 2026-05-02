@@ -5,7 +5,7 @@ import domReady from '@wordpress/dom-ready';
 import { registerBlockStyle } from '@wordpress/blocks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { addFilter } from '@wordpress/hooks';
-import { getBlockGapSupportValue } from '@prc/block-utils';
+import { getBlockGapSupportValue } from '@prc/functions';
 
 import { useMemo } from 'react';
 /**

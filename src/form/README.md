@@ -84,26 +84,28 @@ The REST method uses WordPress REST API endpoints to handle form submissions ser
 ```php
 class My_Form_Handler {
     public function __construct($loader) {
-        $loader->add_filter('prc_api_endpoints', $this, 'register_rest_endpoints');
+        $loader->add_action('rest_api_init', $this, 'register_rest_endpoints');
     }
 
-    public function register_rest_endpoints($endpoints) {
-        $my_endpoint = array(
-            'route'               => 'form/my-action', // Will be accessible at /wp-json/prc-api/v3/form/my-action
-            'methods'             => 'POST',
-            'callback'            => array($this, 'handle_form_submission'),
-            'args'                => array(
-                'nonce' => array(
-                    'validate_callback' => function($param, $request, $key) {
-                        return is_string($param);
-                    },
+    public function register_rest_endpoints() {
+        register_rest_route(
+            'prc-api/v3',
+            'form/my-action', // Accessible at /wp-json/prc-api/v3/form/my-action
+            array(
+                'methods'             => 'POST',
+                'callback'            => array($this, 'handle_form_submission'),
+                'args'                => array(
+                    'nonce' => array(
+                        'validate_callback' => function($param, $request, $key) {
+                            return is_string($param);
+                        },
+                    ),
                 ),
-            ),
-            'permission_callback' => function() {
-                return true; // Adjust permissions as needed
-            },
+                'permission_callback' => function() {
+                    return true; // Adjust permissions as needed
+                },
+            )
         );
-        return array_merge($endpoints, array($my_endpoint));
     }
 
     public function handle_form_submission($request) {

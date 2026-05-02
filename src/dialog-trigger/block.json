@@ -12,7 +12,10 @@
 		"align": false,
 		"inserter": false,
 		"spacing": {
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -28,8 +31,24 @@
 		},
 		"interactivity": true
 	},
-	"usesContext": ["dialog/id", "dialog/className", "dialog/isOpen"],
-	"parent": ["prc-block/dialog"],
+	"usesContext": [
+		"dialog/id",
+		"dialog/className",
+		"dialog/isOpen"
+	],
+	"parent": [
+		"prc-block/dialog"
+	],
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Click to open"
+				}
+			}
+		]
+	},
 	"textdomain": "dialog-trigger",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

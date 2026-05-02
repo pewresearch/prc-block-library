@@ -39,6 +39,7 @@
 			"type": "number"
 		}
 	},
+	"example": {},
 	"supports": {
 		"anchor": true,
 		"html": false,
@@ -48,7 +49,12 @@
 		},
 		"spacing": {
 			"blockGap": true,
-			"margin": ["top", "bottom", "left", "right"],
+			"margin": [
+				"top",
+				"bottom",
+				"left",
+				"right"
+			],
 			"__experimentalDefaultControls": {
 				"margin": true,
 				"blockGap": true
@@ -62,9 +68,15 @@
 			}
 		}
 	},
-	"usesContext": ["postId", "postType"],
+	"usesContext": [
+		"postId",
+		"postType"
+	],
 	"textdomain": "attachments-pagination",
-	"editorScript": ["file:./index.js", "prc-block-library--pagination"],
+	"editorScript": [
+		"file:./index.js",
+		"prc-block-library--pagination"
+	],
 	"editorStyle": "file:./index.css",
 	"style": [
 		"file:./style-index.css",

@@ -200,11 +200,16 @@ class Core_Button {
 	 */
 	public function style_template( $style_name, $icon, $icon_library = 'solid', $icon_color = 'black' ) {
 		$icon_url = \PRC\Platform\Icons\get_icon_as_data_uri( $icon_library, $icon, $icon_color );
-		return wp_sprintf(
+		$base     = wp_sprintf(
 			'.wp-block-button.is-style-%1$s { display: flex; align-items: center; } .wp-block-button.is-style-%1$s > .wp-element-button { display: flex; align-items: center; justify-content: space-between; text-align: left; } .wp-block-button.is-style-%1$s > .wp-element-button:after { content: ""; display: inline-block; margin-left: 0.5em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; flex-basis: 0.875em; flex-grow: 0; flex-shrink: 0; }',
 			$style_name,
 			$icon_url,
 		);
+		$dark     = wp_sprintf(
+			'@media (prefers-color-scheme: dark) { body.logged-in .wp-block-button.is-style-%1$s > .wp-element-button:after { filter: invert(1); } }',
+			$style_name,
+		);
+		return $base . $dark;
 	}
 
 	/**

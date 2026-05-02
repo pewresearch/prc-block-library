@@ -212,7 +212,7 @@ class Navigation_Mega_Menu {
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'                           => $menu_uniq_id,
-				'class'                        => \PRC\Platform\Block_Utils\classNames(
+				'class'                        => \PRC\BlockUtils\classNames(
 					array(
 						'wp-block-navigation-item',
 						'has-label'      => 'dropdown' === $icon,

@@ -295,7 +295,7 @@ class Table_Of_Contents {
 		$hover_text  = $attributes['customHoverTextColor'] ?? '';
 		$active_bg   = $attributes['customActiveBackgroundColor'] ?? '';
 		$active_text = $attributes['customActiveTextColor'] ?? '';
-		$block_gap   = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
+		$block_gap   = \PRC\BlockUtils\get_block_gap_support_value( $attributes );
 
 		$styles = array(
 			'--hover-background-color'  => $hover_bg,
@@ -342,7 +342,7 @@ class Table_Of_Contents {
 	 * @return string
 	 */
 	protected function get_list_template( $attributes, $parts_enabled = false ) {
-		$block_gap            = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
+		$block_gap            = \PRC\BlockUtils\get_block_gap_support_value( $attributes );
 		$list_item_classnames = 'wp-block-prc-block-table-of-contents__list-item';
 		ob_start();
 		if ( ! $parts_enabled ) {
@@ -398,7 +398,7 @@ class Table_Of_Contents {
 	 * @return string
 	 */
 	protected function get_accordion_markup( $attributes ) {
-		$block_gap            = \PRC\Platform\Block_Utils\get_block_gap_support_value( $attributes );
+		$block_gap            = \PRC\BlockUtils\get_block_gap_support_value( $attributes );
 		$list_item_classnames = 'wp-block-prc-block-table-of-contents__list-item';
 		ob_start();
 		?>
@@ -434,7 +434,7 @@ class Table_Of_Contents {
 		$post_id    = $block->context['postId'];
 		$parent_id  = wp_get_post_parent_id( $post_id );
 		$parent_id  = 0 === $parent_id ? $post_id : $parent_id;
-		$attributes = \PRC\Platform\Block_Utils\get_block_attributes( 'prc-block/table-of-contents', $attributes );
+		$attributes = \PRC\BlockUtils\get_block_attributes( 'prc-block/table-of-contents', $attributes );
 
 		$items = $this->parse_toc_items( $parent_id, $post_id );
 
@@ -481,7 +481,7 @@ class Table_Of_Contents {
 
 		$block_attrs = get_block_wrapper_attributes(
 			array(
-				'class'                                  => \PRC\Platform\Block_Utils\classNames(
+				'class'                                  => \PRC\BlockUtils\classNames(
 					array_key_exists( 'className', $attributes ) ? $attributes['className'] : '',
 					array(
 						'has-text-color' => $attributes['textColor'],

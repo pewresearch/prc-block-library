@@ -5,12 +5,10 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useState, useEffect, useCallback } from '@wordpress/element';
-import { BlockControls, InspectorControls } from '@wordpress/block-editor';
+import { __, sprintf } from '@wordpress/i18n';
+import { Fragment } from '@wordpress/element';
+import { InspectorControls } from '@wordpress/block-editor';
 import {
-	BaseControl,
-	Button,
 	ExternalLink,
 	PanelBody,
 	SelectControl,
@@ -23,27 +21,56 @@ import { useEntityProp } from '@wordpress/core-data';
  */
 import { POST_TYPE, POST_TYPE_LABEL } from './constants';
 
-function InspectorPanel( { attributes, setAttributes } ) {
-	const { ref } = attributes;
-	const [ title, setTitle ] = useEntityProp(
+function InspectorPanel({ attributes, setAttributes }) {
+	const { ref, iframeTemplate } = attributes;
+	const [title, setTitle] = useEntityProp(
 		'postType',
 		POST_TYPE,
 		'title',
 		ref
 	);
-	const [ permalink ] = useEntityProp( 'postType', POST_TYPE, 'link', ref );
+	const [permalink] = useEntityProp('postType', POST_TYPE, 'link', ref);
 	return (
 		<InspectorControls>
 			<PanelBody title="Entity Info">
 				<div>
+					<SelectControl
+						__nextHasNoMarginBottom
+						label={__('Iframe template', 'entity-as-iframe')}
+						help={__(
+							'Content: post body only. Branded: theme iframed template + masthead when applicable.',
+							'entity-as-iframe'
+						)}
+						value={iframeTemplate || 'content'}
+						options={[
+							{
+								label: __(
+									'Content (minimal)',
+									'entity-as-iframe'
+								),
+								value: 'content',
+							},
+							{
+								label: __('Branded', 'entity-as-iframe'),
+								value: 'branded',
+							},
+						]}
+						onChange={(value) =>
+							setAttributes({ iframeTemplate: value })
+						}
+					/>
 					<TextControl
 						__nextHasNoMarginBottom
-						label={ __( `${ POST_TYPE_LABEL } Title` ) }
-						value={ title }
-						onChange={ setTitle }
+						label={sprintf(
+							/* translators: %s: post type label (e.g. Post). */
+							__('%s Title', 'entity-as-iframe'),
+							POST_TYPE_LABEL
+						)}
+						value={title}
+						onChange={setTitle}
 					/>
-					<ExternalLink href={ permalink }>
-						Open { POST_TYPE_LABEL.toLowerCase() } in new window
+					<ExternalLink href={permalink}>
+						Open {POST_TYPE_LABEL.toLowerCase()} in new window
 					</ExternalLink>
 				</div>
 			</PanelBody>
@@ -51,10 +78,10 @@ function InspectorPanel( { attributes, setAttributes } ) {
 	);
 }
 
-export default function Controls( { attributes, setAttributes, context } ) {
+export default function Controls({ attributes, setAttributes, context }) {
 	return (
 		<Fragment>
-			<InspectorPanel { ...{ attributes, setAttributes, context } } />
+			<InspectorPanel {...{ attributes, setAttributes, context }} />
 		</Fragment>
 	);
 }

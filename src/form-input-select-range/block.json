@@ -6,11 +6,18 @@
 	"title": "Select Range Field",
 	"category": "forms",
 	"description": "A block for selecting a range with minimum and maximum select dropdowns.",
-	"allowedBlocks": ["prc-block/form-input-select", "core/group"],
+	"allowedBlocks": [
+		"prc-block/form-input-select",
+		"core/group"
+	],
 	"attributes": {
 		"type": {
 			"type": "string",
-			"enum": ["custom", "years", "numbers"],
+			"enum": [
+				"custom",
+				"years",
+				"numbers"
+			],
 			"default": "custom"
 		},
 		"rangeStart": {
@@ -25,6 +32,32 @@
 			"type": "number",
 			"default": 1
 		}
+	},
+	"example": {
+		"attributes": {
+			"type": "years",
+			"rangeStart": 2000,
+			"rangeEnd": 2025,
+			"rangeStep": 1
+		},
+		"innerBlocks": [
+			{
+				"name": "prc-block/form-input-select",
+				"attributes": {
+					"type": "custom",
+					"label": "Minimum",
+					"placeholder": "Select Minimum..."
+				}
+			},
+			{
+				"name": "prc-block/form-input-select",
+				"attributes": {
+					"type": "custom",
+					"label": "Maximum",
+					"placeholder": "Select Maximum..."
+				}
+			}
+		]
 	},
 	"supports": {
 		"anchor": true,

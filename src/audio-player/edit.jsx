@@ -2,8 +2,7 @@
 /**
  * External Dependencies
  */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import { Icon } from '@prc/icons';
 /**
  * WordPress Dependencies
  */
@@ -73,8 +72,9 @@ export default function Edit({ attributes, setAttributes }) {
 										width: '50%',
 									}}
 								></div>
-								<FontAwesomeIcon
-									icon={faPlay}
+								<Icon
+									icon="play"
+									library="solid"
 									className="card__icon"
 								/>
 								<RichText

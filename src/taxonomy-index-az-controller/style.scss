@@ -40,3 +40,15 @@
 		border-bottom: none;
 	}
 }
+
+@media (prefers-color-scheme: dark) {
+	body.logged-in .wp-block-prc-block-taxonomy-index-az-controller {
+		ul.wp-block-prc-block-taxonomy-index-az-controller--list {
+			li {
+				a {
+					color: var(--wp--preset--color--ui-text-color) !important;
+				}
+			}
+		}
+	}
+}

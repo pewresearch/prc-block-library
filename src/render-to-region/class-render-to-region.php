@@ -43,7 +43,7 @@ class Render_To_Region {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
 			$loader->add_action( 'render_block', $this, 'add_region_attribute_to_block_wrapper', 10, 2 );
-			$loader->add_filter( 'prc_api_endpoints', $this, 'define_regions_api_endpoint', 10, 1 );
+			$loader->add_action( 'rest_api_init', $this, 'define_regions_api_endpoint' );
 		}
 	}
 
@@ -154,16 +154,16 @@ class Render_To_Region {
 	/**
 	 * Define the regions API endpoint.
 	 *
-	 * @hook prc_api_endpoints
-	 *
-	 * @param array $endpoints The endpoints.
-	 * @return array The endpoints.
+	 * @hook rest_api_init
 	 */
-	public function define_regions_api_endpoint( $endpoints ) {
-		array_push(
-			$endpoints,
+	/**
+	 * @hook rest_api_init
+	 */
+	public function define_regions_api_endpoint() {
+		register_rest_route(
+			'prc-api/v3',
+			'render-to-regions',
 			array(
-				'route'               => 'render-to-regions',
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_regions_for_restfully' ),
 				'args'                => array(
@@ -181,7 +181,6 @@ class Render_To_Region {
 				},
 			)
 		);
-		return $endpoints;
 	}
 
 	/**

@@ -1,5 +1,4 @@
 import { store, getContext, getElement } from '@wordpress/interactivity';
-/* global iFrameResize */
 
 const { state } = store('prc-block/entity-as-iframe', {
 	state: {
@@ -19,22 +18,43 @@ const { state } = store('prc-block/entity-as-iframe', {
 			return state.active;
 		},
 		onActivate: () => {
-			const context = getContext();
 			const { ref } = getElement();
+			const iframe = ref?.querySelector?.('iframe');
+
+			if (!iframe) {
+				return;
+			}
+			const context = getContext();
 			if (state.active) {
 				context.src = context.url;
-				state[context.id].resizer = iFrameResize(
-					{
-						license: 'GPLv3',
-						bodyMargin: 0,
-						bodyPadding: 0,
-						heightCalculationMethod: 'taggedElement',
-					},
-					ref.querySelector('iframe')
-				)[0];
+				// prc-embeds registers `window.iFrameResize` (v5 UMD); avoid `[0]` on undefined.
+				let resize = null;
+				if (typeof window.iFrameResize === 'function') {
+					resize = window.iFrameResize;
+				} else if (typeof window.iframeResize === 'function') {
+					resize = window.iframeResize;
+				}
+				if (resize) {
+					const result = resize(
+						{
+							license: 'GPLv3',
+							direction: 'vertical',
+							heightCalculationMethod: 'taggedElement',
+						},
+						iframe
+					);
+					const fromArray =
+						Array.isArray(result) && result.length > 0
+							? result[0]
+							: null;
+					// v5 returns a frozen array of iframes; fall back to the element we passed in.
+					state[context.id].resizer = fromArray ?? iframe ?? null;
+				}
 			} else {
 				context.src = '';
-				state[context.id].resizer?.iFrameResizer?.disconnect?.();
+				const api = iframe.iframeResizer || iframe.iFrameResizer;
+				api?.disconnect?.();
+				state[context.id].resizer = null;
 			}
 		},
 	},

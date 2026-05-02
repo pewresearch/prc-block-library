@@ -50,7 +50,7 @@
 		gap: 4px;
 		min-height: 38px;
 		border: 1px solid transparent;
-		border-color: rgba(0, 0, 0, 0.2);
+		border-color: var(--wp--preset--color--ui-gray-light);
 		border-radius: var(--wp--custom--border-radius);
 		padding: 4px;
 		position: relative;
@@ -175,6 +175,30 @@
 			width: calc(100% + 2em);
 			left: -1em;
 			right: -1em;
+		}
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	body.logged-in .wp-block-prc-block-form-input-select {
+		.wp-block-prc-block-form-input-select__input {
+			border-color: var(--wp--preset--color--ui-gray-dark);
+		}
+		.wp-block-prc-block-form-input-select__list {
+			background: var(--wp--preset--color--ui-white);
+			color: var(--wp--preset--color--ui-gray-very-dark);
+			li {
+				color: var(--wp--preset--color--ui-gray-very-dark);
+				&:hover {
+					background: var(--wp--preset--color--ui-gray-light);
+					color: var(--wp--preset--color--ui-gray-very-dark);
+				}
+				&:active,
+				&.is-selected,
+				&[aria-selected="true"] {
+					background: var(--wp--preset--color--ui-gray-light);
+				}
+			}
 		}
 	}
 }

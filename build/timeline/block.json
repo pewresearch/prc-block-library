@@ -28,7 +28,7 @@
     },
     "tickMarkInterval": {
       "type": "number",
-      "default": 1
+      "default": 2
     },
     "tickMarkHeight": {
       "type": "number",
@@ -49,12 +49,61 @@
     "visibleTicks": {
       "type": "array",
       "default": []
+    },
+    "tickMarkColor": {
+      "type": "string",
+      "default": ""
+    },
+    "tickMarkWidth": {
+      "type": "number",
+      "default": 2
     }
+  },
+  "example": {
+    "attributes": {
+      "defaultLabel": "Timeline"
+    },
+    "innerBlocks": [
+      {
+        "name": "prc-block/timeline-slide",
+        "attributes": {
+          "metadata": {
+            "name": "2020"
+          }
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Events from 2020."
+            }
+          }
+        ]
+      },
+      {
+        "name": "prc-block/timeline-slide",
+        "attributes": {
+          "metadata": {
+            "name": "2021"
+          }
+        },
+        "innerBlocks": [
+          {
+            "name": "core/paragraph",
+            "attributes": {
+              "content": "Events from 2021."
+            }
+          }
+        ]
+      }
+    ]
   },
   "supports": {
     "anchor": true,
     "html": false,
     "interactivity": true,
+    "listView": true,
+    "alignWide": true,
     "spacing": {
       "blockGap": true,
       "margin": [

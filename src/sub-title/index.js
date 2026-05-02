@@ -13,8 +13,6 @@ import { title as icon } from '@wordpress/icons';
 /**
  * Internal Dependencies
  */
-
-import './style.scss';
 import edit from './edit';
 
 import metadata from './block.json';

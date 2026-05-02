@@ -1,5 +1,7 @@
 # Tab
 
+> **Deprecated.** This block has been superseded by `core/tab`. It remains registered for backward compatibility with existing content. Source files live in `deprecated/src/tab/`.
+
 Content panel for a single tab within a `prc-block/tabs` tabbed interface. Each Tab block holds arbitrary inner blocks and exposes its label to the parent Tabs block via context.
 
 ## Namespace
@@ -12,20 +14,20 @@ Content panel for a single tab within a `prc-block/tabs` tabbed interface. Each 
 
 ## Supports
 
-| Feature | Detail |
-|---|---|
-| Anchor | Yes |
-| HTML | No |
-| Reusable | No |
-| Layout | Switching, vertical alignment, justification, orientation, sizing on children |
-| Spacing | `blockGap`, `padding` (no `margin`) |
-| Typography | `fontSize`, `fontFamily` (skip serialization -- applied manually in PHP) |
+| Feature    | Detail                                                                        |
+| ---------- | ----------------------------------------------------------------------------- |
+| Anchor     | Yes                                                                           |
+| HTML       | No                                                                            |
+| Reusable   | No                                                                            |
+| Layout     | Switching, vertical alignment, justification, orientation, sizing on children |
+| Spacing    | `blockGap`, `padding` (no `margin`)                                           |
+| Typography | `fontSize`, `fontFamily` (skip serialization -- applied manually in PHP)      |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|---|---|---|---|
-| `label` | `string` | `""` | The visible tab label rendered in the tablist by the parent Tabs block. |
+| Attribute | Type     | Default | Description                                                             |
+| --------- | -------- | ------- | ----------------------------------------------------------------------- |
+| `label`   | `string` | `""`    | The visible tab label rendered in the tablist by the parent Tabs block. |
 
 ## Available Styles
 
@@ -37,15 +39,15 @@ Accepts any block. Default template inserts a single `core/paragraph` with place
 
 ## Parent / Ancestor Requirements
 
-| Constraint | Value |
-|---|---|
-| `parent` | `prc-block/tabs` |
+| Constraint | Value            |
+| ---------- | ---------------- |
+| `parent`   | `prc-block/tabs` |
 
 ## Context
 
-| Direction | Key | Maps to |
-|---|---|---|
-| Provides | `tab/label` | `label` attribute |
+| Direction | Key         | Maps to           |
+| --------- | ----------- | ----------------- |
+| Provides  | `tab/label` | `label` attribute |
 
 ## Usage
 
@@ -54,14 +56,15 @@ Tab blocks are inserted exclusively inside a Tabs container. Each tab provides i
 In the editor, the Tab uses a SlotFill pattern (`TabFill` / `TabsListSlot`) to render its label button into the parent's tab bar. Only the currently selected tab's inner content is visible.
 
 Inspector controls:
-- **Tab Label** -- text control mirroring the inline RichText label.
-- **Is Default Tab** -- toggle that sets the parent Tabs block's `activeTabIndex` to this tab's index so it displays on page load.
+
+-   **Tab Label** -- text control mirroring the inline RichText label.
+-   **Is Default Tab** -- toggle that sets the parent Tabs block's `activeTabIndex` to this tab's index so it displays on page load.
 
 ## Block Markup (save)
 
 ```html
 <section class="wp-block-prc-block-tab" id="{tabPanelId}">
-  <!-- inner blocks -->
+	<!-- inner blocks -->
 </section>
 ```
 
@@ -86,7 +89,7 @@ The Tab block does not register its own Interactivity API store. It participates
 
 ## Related Blocks
 
-| Block | Relationship |
-|---|---|
-| `prc-block/tabs` | Required parent container |
-| `core/tabs` | Core replacement (the PRC tabs block is deprecated in the editor inserter) |
+| Block            | Relationship                                                               |
+| ---------------- | -------------------------------------------------------------------------- |
+| `prc-block/tabs` | Required parent container                                                  |
+| `core/tabs`      | Core replacement (the PRC tabs block is deprecated in the editor inserter) |

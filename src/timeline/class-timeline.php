@@ -16,7 +16,6 @@ namespace PRC\Platform\Blocks;
  *
  * @package           prc-block
  */
-
 class Timeline {
 	/**
 	 * Constructor
@@ -39,6 +38,48 @@ class Timeline {
 	}
 
 	/**
+	 * Resolve slide label from inner block attrs (must match Timeline_Slide::resolve_slide_label).
+	 *
+	 * @param array $attrs Inner block attributes.
+	 * @param int   $index Zero-based slide index.
+	 * @return string
+	 */
+	private function resolve_inner_slide_label( array $attrs, int $index ): string {
+		$name  = $attrs['metadata']['name'] ?? '';
+		$label = is_string( $name ) ? trim( $name ) : '';
+		if ( '' === $label ) {
+			$legacy = $attrs['label'] ?? '';
+			$label  = is_string( $legacy ) ? trim( $legacy ) : '';
+		}
+		if ( '' === $label ) {
+			return sprintf( 'Slide %d', $index + 1 );
+		}
+		return $label;
+	}
+
+	/**
+	 * CSS value for --tick-color: theme preset slug (var(--wp--preset--color--*)) or legacy raw (#, rgb, var()).
+	 *
+	 * @param string $value Attribute string from the editor (slug or legacy hex/rgb).
+	 * @return string Safe fragment for inline style, or empty string when unset.
+	 */
+	private function get_tick_color_css_value( string $value ): string {
+		$value = trim( $value );
+		if ( '' === $value ) {
+			return '';
+		}
+		if (
+			str_starts_with( $value, '#' )
+			|| str_starts_with( $value, 'rgb' )
+			|| str_starts_with( $value, 'var(' )
+		) {
+			return esc_attr( $value );
+		}
+
+		return 'var(--wp--preset--color--' . esc_attr( $value ) . ')';
+	}
+
+	/**
 	 * Render callback for the block
 	 *
 	 * @param array  $attributes Block attributes.
@@ -56,15 +97,24 @@ class Timeline {
 		$hide_last_tick      = $attributes['hideLastTick'] ?? false;
 		$tick_label_angle    = $attributes['tickLabelAngle'] ?? 0;
 		$visible_ticks       = $attributes['visibleTicks'] ?? array();
+		$tick_mark_color     = $attributes['tickMarkColor'] ?? '';
+		$tick_mark_width     = isset( $attributes['tickMarkWidth'] ) ? (int) $attributes['tickMarkWidth'] : 2;
 
-		foreach ( $block->parsed_block['innerBlocks'] as $index => $inner_block ) {
-			$label = $inner_block['attrs']['metadata']['name'] ?? '';
-			if ( empty( $label ) ) {
-				continue;
-			}
+		$inner_blocks = $block->parsed_block['innerBlocks'] ?? array();
+		if ( empty( $inner_blocks ) ) {
+			return sprintf(
+				'<div %s>%s</div>',
+				get_block_wrapper_attributes(),
+				$content
+			);
+		}
+
+		foreach ( $inner_blocks as $index => $inner_block ) {
+			$attrs = $inner_block['attrs'] ?? array();
+			$label = $this->resolve_inner_slide_label( $attrs, (int) $index );
 
 			// Calculate the percentage position for this tick.
-			$total_items = count( $block->parsed_block['innerBlocks'] );
+			$total_items = count( $inner_blocks );
 			$percentage  = $total_items > 1 ? ( $index / ( $total_items - 1 ) ) * 100 : 0;
 
 			// Determine if this tick should be visible based on settings.
@@ -110,14 +160,11 @@ class Timeline {
 		/**
 		 * Get the tick density based on the number of ticks.
 		 * Only used when automatic density control is enabled.
-		 *
-		 * @param int $count The number of ticks.
-		 * @return string The tick density.
 		 */
 		$tick_count = count( $ticks );
 		$density    = 'sparse';
 		if ( ! $use_manual_control ) {
-			switch ( $tick_count ) {
+			switch ( true ) {
 				case $tick_count <= 10:
 					$density = 'sparse';
 					break;
@@ -131,6 +178,12 @@ class Timeline {
 					$density = 'very-dense';
 					break;
 			}
+		}
+
+		$inline_style   = '--tick-height: ' . esc_attr( (string) $tick_mark_height ) . 'px; --tick-label-angle: ' . esc_attr( (string) $tick_label_angle ) . 'deg; --tick-width: ' . esc_attr( (string) $tick_mark_width ) . 'px';
+		$tick_color_css = $this->get_tick_color_css_value( (string) $tick_mark_color );
+		if ( '' !== $tick_color_css ) {
+			$inline_style .= '; --tick-color: ' . $tick_color_css;
 		}
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
@@ -149,7 +202,7 @@ class Timeline {
 					)
 				),
 				'data-wp-init'        => 'callbacks.onInit',
-				'style'               => '--tick-height: ' . esc_attr( $tick_mark_height ) . 'px; --tick-label-angle: ' . esc_attr( $tick_label_angle ) . 'deg;',
+				'style'               => $inline_style,
 			)
 		);
 

@@ -67,6 +67,7 @@ class Plugin {
 		$this->define_library_dependencies();
 		$this->define_core_blocks();
 		$this->define_prc_blocks();
+		$this->define_deprecated_blocks();
 	}
 
 	/**
@@ -107,6 +108,27 @@ class Plugin {
 	}
 
 	/**
+	 * Include all deprecated blocks from the plugin's /deprecated directory.
+	 *
+	 * @return void
+	 */
+	private function load_deprecated_blocks() {
+		$dev_mode    = 'local' === wp_get_environment_type();
+		$block_src   = $dev_mode ? 'deprecated/src' : 'deprecated/build';
+		$block_files = glob( PRC_BLOCK_LIBRARY_DIR . '/' . $block_src . '/*', GLOB_ONLYDIR );
+		if ( ! $block_files ) {
+			return;
+		}
+		foreach ( $block_files as $block ) {
+			$block_name      = basename( $block );
+			$block_file_path = $block_src . '/' . $block_name . '/class-' . $block_name . '.php';
+			if ( file_exists( plugin_dir_path( __DIR__ ) . $block_file_path ) ) {
+				require_once plugin_dir_path( __DIR__ ) . $block_file_path;
+			}
+		}
+	}
+
+	/**
 	 * Load the required dependencies for this plugin.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
@@ -116,17 +138,13 @@ class Plugin {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-		$composer_autoload = plugin_dir_path( __DIR__ ) . '/vendor/autoload.php';
-		$dev_mode          = 'local' === wp_get_environment_type();
-		$folder            = $dev_mode ? 'src' : 'build';
-		// If the composer autoload file exists and if this plugin is being used off platform or in a test case of the platform, load the autoload file.
-		if ( file_exists( $composer_autoload ) && ( ! defined( 'PRC_PLATFORM' ) || ( defined( 'PRC_PLATFORM' ) && true !== PRC_PLATFORM ) ) ) {
-			require_once $composer_autoload;
-		}
+		// Composer dependencies are loaded by the main plugin file via
+		// Jetpack Autoloader; see prc-block-library.php.
+
 		// Load plugin loading class.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-loader.php';
-		// Load AI experiments classes.
-		require_once plugin_dir_path( __DIR__ ) . '/includes/ai-experiments/class-ai-experiments.php';
+		// Load AI features classes.
+		require_once plugin_dir_path( __DIR__ ) . '/includes/ai-features/class-ai-features.php';
 		// Load block visibility classes.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/block-visibility/class-block-visibility.php';
 		// Load support classes.
@@ -139,6 +157,7 @@ class Plugin {
 
 		// Load blocks.
 		$this->load_blocks();
+		$this->load_deprecated_blocks();
 		// Initialize the loader.
 		$this->loader = new Loader();
 	}
@@ -156,6 +175,11 @@ class Plugin {
 		wp_register_block_metadata_collection(
 			PRC_BLOCK_LIBRARY_DIR . '/build',
 			PRC_BLOCK_LIBRARY_DIR . '/build/blocks-manifest.php'
+		);
+
+		wp_register_block_metadata_collection(
+			PRC_BLOCK_LIBRARY_DIR . '/deprecated/build',
+			PRC_BLOCK_LIBRARY_DIR . '/deprecated/build/blocks-manifest.php'
 		);
 
 		/**
@@ -201,7 +225,7 @@ class Plugin {
 	 * Init additional library support classes
 	 */
 	private function define_library_dependencies() {
-		new AI_Experiments( $this->get_loader() );
+		new AI_Features( $this->get_loader() );
 		new Block_Visibility( $this->get_loader() );
 		new Custom_Text_Formats( $this->get_loader() );
 		new Interactivity_API( $this->get_loader() );
@@ -216,6 +240,7 @@ class Plugin {
 	 */
 	private function define_core_blocks() {
 		// Core Block Library Modifications.
+		new Core_Accordion( $this->get_loader() );
 		new Core_Button( $this->get_loader() );
 		new Core_Categories( $this->get_loader() );
 		new Core_Code( $this->get_loader() );
@@ -236,6 +261,7 @@ class Plugin {
 		new Core_Post_Title( $this->get_loader() );
 		new Core_Pullquote( $this->get_loader() );
 		new Core_Query_Pagination_Numbers( $this->get_loader() );
+		new Core_Query( $this->get_loader() );
 		new Core_Search( $this->get_loader() );
 		new Core_Separator( $this->get_loader() );
 		new Core_Social_Links( $this->get_loader() );
@@ -248,8 +274,6 @@ class Plugin {
 	 */
 	private function define_prc_blocks() {
 		new Animation( $this->get_loader() );
-		new Accordion( $this->get_loader() );
-		new Accordion_Controller( $this->get_loader() );
 		new Attachments_List( $this->get_loader() );
 		new Attachments_Pagination( $this->get_loader() );
 		new Audio_Player( $this->get_loader() );
@@ -258,7 +282,6 @@ class Plugin {
 		new Carousel_Controller( $this->get_loader() );
 		new Carousel_Slide( $this->get_loader() );
 		new Code_Syntax( $this->get_Loader() );
-		new Collapsible( $this->get_loader() );
 		new Color_Palette( $this->get_loader() );
 		new Copyright( $this->get_loader() );
 		new Entity_As_Iframe( $this->get_loader() );
@@ -309,8 +332,6 @@ class Plugin {
 		new Story_Item( $this->get_loader() );
 		new Sub_Title( $this->get_loader() );
 		new Table_Of_Contents( $this->get_loader() );
-		new Tab( $this->get_loader() );
-		new Tabs( $this->get_loader() );
 		new Table( $this->get_loader() );
 		new Taxonomy_Index_AZ_Controller( $this->get_loader() );
 		new Taxonomy_Index_AZ_List( $this->get_loader() );
@@ -323,6 +344,20 @@ class Plugin {
 		new Tokens_List( $this->get_loader() );
 		new Version( $this->get_loader() );
 		new Remote_Pivot_Table( $this->get_loader() );
+	}
+
+	/**
+	 * Init Deprecated Blocks
+	 *
+	 * These blocks have been superseded by core equivalents but remain
+	 * registered for backward compatibility with existing content.
+	 */
+	private function define_deprecated_blocks() {
+		new Accordion( $this->get_loader() );
+		new Accordion_Controller( $this->get_loader() );
+		new Collapsible( $this->get_loader() );
+		new Tab( $this->get_loader() );
+		new Tabs( $this->get_loader() );
 	}
 
 	/**

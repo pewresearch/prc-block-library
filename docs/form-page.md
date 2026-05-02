@@ -5,6 +5,10 @@
 **Title:** Form Page
 **Description:** A primitive block for a form page.
 
+## Block inserter example
+
+`block.json` defines an `example` with a `core/paragraph` (“Form page content.”) — inserter preview (ancestor is `prc-block/form`).
+
 ## Block Namespace
 
 `prc-block/form-page`
@@ -15,16 +19,16 @@
 
 ## Supports
 
-| Feature | Enabled | Details |
-|---------|---------|---------|
-| Anchor | Yes | |
-| HTML editing | No | |
-| Reusable | No | |
-| Interactivity | Yes | |
-| Color | Yes | Background, text, link |
-| Layout | Yes | Flex layout with vertical orientation; supports orientation, justification, vertical alignment, and sizing on children |
-| Spacing | Yes | `blockGap`, `padding`, `margin` |
-| Typography | Yes | Font size, line height, font family, font weight |
+| Feature       | Enabled | Details                                                                                                                |
+| ------------- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Anchor        | Yes     |                                                                                                                        |
+| HTML editing  | No      |                                                                                                                        |
+| Reusable      | No      |                                                                                                                        |
+| Interactivity | Yes     |                                                                                                                        |
+| Color         | Yes     | Background, text, link                                                                                                 |
+| Layout        | Yes     | Flex layout with vertical orientation; supports orientation, justification, vertical alignment, and sizing on children |
+| Spacing       | Yes     | `blockGap`, `padding`, `margin`                                                                                        |
+| Typography    | Yes     | Font size, line height, font family, font weight                                                                       |
 
 ## Attributes
 
@@ -55,14 +59,16 @@ This block can only be inserted inside a `prc-block/form` block (at any nesting 
 ## Block Markup Example
 
 ```html
-<div class="wp-block-prc-block-form-page"
-     id="prc-block-form-page-1"
-     data-wp-interactive="prc-block/form"
-     data-wp-bind--hidden="state.isPageHidden"
-     data-wp-context='{"pageId":"prc-block-form-page-1"}'>
-  <!-- Form fields for this page -->
-  <div class="wp-block-prc-block-form-input-text">...</div>
-  <div class="wp-block-prc-block-form-input-textarea">...</div>
+<div
+	class="wp-block-prc-block-form-page"
+	id="prc-block-form-page-1"
+	data-wp-interactive="prc-block/form"
+	data-wp-bind--hidden="state.isPageHidden"
+	data-wp-context='{"pageId":"prc-block-form-page-1"}'
+>
+	<!-- Form fields for this page -->
+	<div class="wp-block-prc-block-form-input-text">...</div>
+	<div class="wp-block-prc-block-form-input-textarea">...</div>
 </div>
 ```
 
@@ -83,8 +89,8 @@ The `[hidden]` attribute is styled with `display: none` in the block's CSS.
 
 ## Related Blocks
 
-- `prc-block/form` -- Required ancestor; manages page navigation state
-- `prc-block/form-input-text` -- Form input fields placed inside pages
-- `prc-block/form-input-textarea` -- Textarea fields placed inside pages
-- `prc-block/form-submit` -- Submit actions (typically on the last page)
-- `prc-block/form-message` -- Post-submission message
+-   `prc-block/form` -- Required ancestor; manages page navigation state
+-   `prc-block/form-input-text` -- Form input fields placed inside pages
+-   `prc-block/form-input-textarea` -- Textarea fields placed inside pages
+-   `prc-block/form-submit` -- Submit actions (typically on the last page)
+-   `prc-block/form-message` -- Post-submission message

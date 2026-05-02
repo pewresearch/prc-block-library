@@ -41,6 +41,20 @@
       "__experimentalFontFamily": true
     }
   },
+  "example": {
+    "attributes": {
+      "deviceType": "desktop",
+      "min": 980
+    },
+    "innerBlocks": [
+      {
+        "name": "core/html",
+        "attributes": {
+          "content": "<p>Desktop content</p>"
+        }
+      }
+    ]
+  },
   "parent": [
     "prc-block/responsive-container-controller"
   ],

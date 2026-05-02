@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -6,19 +7,27 @@ import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
-import type { MouseEvent } from 'react';
-import { useMemo } from '@wordpress/element';
-import { Button } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
-import { plus, trash, chevronRight, chevronDown, seen, unseen } from '@wordpress/icons';
 import { RichText } from '@wordpress/block-editor';
+import { Button } from '@wordpress/components';
+import { useEffect, useMemo, useRef } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import {
+	chevronDown,
+	chevronRight,
+	plus,
+	seen,
+	trash,
+	unseen,
+} from '@wordpress/icons';
+import type { MouseEvent } from 'react';
 
 /**
  * Internal Dependencies
  */
-import { CELL_ARIA_LABEL } from '../constants';
 import type { SectionName } from '../block-attributes';
+import { CELL_ARIA_LABEL } from '../constants';
 import type { StoreOptions } from '../store';
+import { getEditorCellDisplayContent } from '../utils/round-display';
 import TableRowSelectButton from './table-row-select-button';
 
 interface TableCellControlsProps {
@@ -50,6 +59,37 @@ interface TableCellControlsProps {
 	setSelectedCells: (selectedCells: any) => void;
 	onSelectSectionCells: (sectionName: SectionName) => void;
 	hiddenColumns: number[];
+	isCellSelected: boolean;
+	columnRoundDecimals: (number | null)[] | undefined;
+}
+
+function useTableCellRichTextValue(
+	isCellSelected: boolean,
+	content: string,
+	sectionName: SectionName,
+	vColIndex: number,
+	columnRoundDecimals: (number | null)[] | undefined,
+	cellRoundDecimals: number | undefined
+): string {
+	return useMemo(() => {
+		if (isCellSelected) {
+			return content;
+		}
+		return getEditorCellDisplayContent(
+			content,
+			sectionName,
+			vColIndex,
+			columnRoundDecimals,
+			cellRoundDecimals
+		);
+	}, [
+		isCellSelected,
+		content,
+		sectionName,
+		vColIndex,
+		columnRoundDecimals,
+		cellRoundDecimals,
+	]);
 }
 
 const TableCellControls = ({
@@ -81,10 +121,31 @@ const TableCellControls = ({
 	setSelectedCells,
 	onSelectSectionCells,
 	hiddenColumns,
+	isCellSelected,
+	columnRoundDecimals,
 }: TableCellControlsProps) => {
+	const richTextRef = useRef<HTMLElement>(null);
+
 	const showControl = useMemo(() => {
 		return isSelected && !isContentOnlyMode;
 	}, [isSelected, isContentOnlyMode]);
+
+	useEffect(() => {
+		// Only auto-focus the RichText when this cell is individually selected,
+		// not when it's part of a row/column selection (selectedLine is set).
+		if (isCellSelected && !selectedLine && richTextRef.current) {
+			richTextRef.current.focus();
+		}
+	}, [isCellSelected, selectedLine]);
+
+	const richTextValue = useTableCellRichTextValue(
+		isCellSelected,
+		content,
+		sectionName,
+		vColIndex,
+		columnRoundDecimals,
+		typeof cell.roundDecimals === 'number' ? cell.roundDecimals : undefined
+	);
 
 	const isColumnHidden = useMemo(() => {
 		return hiddenColumns.includes(vColIndex);
@@ -201,7 +262,9 @@ const TableCellControls = ({
 											: 'Hide column',
 										'flexible-table-block'
 									)}
-									tabIndex={options.focus_control_button ? 0 : -1}
+									tabIndex={
+										options.focus_control_button ? 0 : -1
+									}
 									icon={isColumnHidden ? seen : unseen}
 									iconSize={20}
 									onClick={(event: MouseEvent) => {
@@ -215,7 +278,9 @@ const TableCellControls = ({
 										'Delete column',
 										'flexible-table-block'
 									)}
-									tabIndex={options.focus_control_button ? 0 : -1}
+									tabIndex={
+										options.focus_control_button ? 0 : -1
+									}
 									icon={trash}
 									iconSize={20}
 									onClick={(event: MouseEvent) => {
@@ -247,8 +312,9 @@ const TableCellControls = ({
 				/>
 			)}
 			<RichText
-				key={vColIndex}
-				value={content}
+				ref={richTextRef}
+				key={`${vColIndex}-${isCellSelected ? 'edit' : 'preview'}`}
+				value={richTextValue}
 				onChange={(value) => onChangeCellContent(value, cell)}
 				{...((!isSelectMode || isTabMove) && {
 					onFocus: () => {

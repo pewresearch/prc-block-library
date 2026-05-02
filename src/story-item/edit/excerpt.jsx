@@ -37,7 +37,6 @@ export default function Excerpt({ attributes, setAttributes }) {
 			value={excerpt}
 			onChange={(value) => setAttributes({ excerpt: value })}
 			placeholder={placeholder}
-			// multiline="p"
 			className={classes}
 		/>
 	);

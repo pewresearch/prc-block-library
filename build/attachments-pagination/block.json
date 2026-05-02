@@ -39,6 +39,7 @@
       "type": "number"
     }
   },
+  "example": {},
   "supports": {
     "anchor": true,
     "html": false,

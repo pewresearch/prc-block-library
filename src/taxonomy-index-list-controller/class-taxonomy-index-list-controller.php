@@ -80,7 +80,8 @@ class Taxonomy_Index_List_Controller {
 
 		// If the reusable block has a single block, and that block is a taxonomy list, then render it as an accordion.
 		if ( count( $blocks ) === 1 && $blocks[0]['blockName'] === 'prc-block/taxonomy-list' ) {
-			$content = $this->parse_taxonomy_list_as_accordion( $blocks[0] );
+			$item_markup = $this->parse_taxonomy_list_as_accordion( $blocks[0] );
+			$content     = $item_markup ? $this->wrap_core_accordion( $item_markup ) : '';
 		} else {
 			$content = render_block( $blocks[0] );
 		}
@@ -90,10 +91,52 @@ class Taxonomy_Index_List_Controller {
 	}
 
 	/**
+	 * Wrap serialized core/accordion-item markup in core/accordion (matches core serialized HTML shape).
+	 *
+	 * Applies the theme sans-serif font preset (see theme.json `fontFamily` slug `sans-serif`).
+	 *
+	 * @param string $items_markup One or more serialized `core/accordion-item` blocks.
+	 * @return string
+	 */
+	private function wrap_core_accordion( $items_markup ) {
+		$accordion_attrs = array(
+			'fontFamily' => 'sans-serif',
+		);
+
+		return sprintf(
+			'<!-- wp:accordion %s --><div role="group" class="wp-block-accordion">%s</div><!-- /wp:accordion -->',
+			serialize_block_attributes( $accordion_attrs ),
+			$items_markup
+		);
+	}
+
+	/**
+	 * Build serialized core/accordion-item markup: heading + panel with inner blocks.
+	 *
+	 * @param string $label Plain-text accordion title.
+	 * @param string $inner_blocks_markup Result of serialize_blocks() for panel inner blocks.
+	 * @return string
+	 */
+	private function build_core_accordion_item_markup( $label, $inner_blocks_markup ) {
+		$heading_inner = sprintf(
+			'<h3 class="wp-block-accordion-heading has-sans-serif-font-family"><button type="button" class="wp-block-accordion-heading__toggle"><span class="wp-block-accordion-heading__toggle-title">%s</span><span class="wp-block-accordion-heading__toggle-icon" aria-hidden="true">+</span></button></h3>',
+			esc_html( $label )
+		);
+
+		return sprintf(
+			'<!-- wp:accordion-item --><div class="wp-block-accordion-item has-sans-serif-font-family"><!-- wp:accordion-heading -->%s<!-- /wp:accordion-heading -->
+
+<!-- wp:accordion-panel --><div role="region" class="wp-block-accordion-panel">%s</div><!-- /wp:accordion-panel --></div><!-- /wp:accordion-item -->',
+			"\n" . $heading_inner . "\n",
+			$inner_blocks_markup
+		);
+	}
+
+	/**
 	 * Parse the taxonomy list as an accordion.
 	 *
 	 * @param array $taxonomy_list_block Taxonomy list block.
-	 * @return string
+	 * @return string Serialized `core/accordion-item` markup, or empty string.
 	 */
 	public function parse_taxonomy_list_as_accordion( $taxonomy_list_block ) {
 		$inner_blocks = $taxonomy_list_block['innerBlocks'];
@@ -107,13 +150,14 @@ class Taxonomy_Index_List_Controller {
 		if ( empty( $heading_block ) ) {
 			return '';
 		}
-		// Get the label from heading block
-		$label = $heading_block[0]['attrs']['label'] ?? '';
-		$url   = $heading_block[0]['attrs']['url'] ?? '';
+		$heading_block_item = reset( $heading_block );
+		// Extract the label from heading block.
+		$label = $heading_block_item['attrs']['label'] ?? '';
+		$url   = $heading_block_item['attrs']['url'] ?? '';
 
-		// Get the array index of the heading block in the inner_blocks array
-		$heading_block_index = array_search( $heading_block[0], $inner_blocks );
-		// Remove the heading block from the inner_blocks array
+		// Extract the array index of the heading block in the inner_blocks array.
+		$heading_block_index = array_search( $heading_block_item, $inner_blocks, true );
+		// Remove the heading block from the inner_blocks array.
 		unset( $inner_blocks[ $heading_block_index ] );
 		// Reindex the array to cleanup data.
 		$inner_blocks = array_values( $inner_blocks );
@@ -122,7 +166,7 @@ class Taxonomy_Index_List_Controller {
 			$psuedo_accordion_title_term_link = array(
 				'blockName'    => 'prc-block/taxonomy-list-link',
 				'attrs'        => array(
-					'label'      => "Main $label page",
+					'label'      => "Main $label page »",
 					'url'        => $url,
 					'fontFamily' => 'sans-serif',
 				),
@@ -130,29 +174,21 @@ class Taxonomy_Index_List_Controller {
 				'innerHTML'    => '',
 				'innerContent' => array(),
 			);
-			// Add the psuedo accordion title term link to the beginning of the inner_blocks array
+			// Add psuedo accordion title term link to the beginning of the inner_blocks array.
 			array_unshift( $inner_blocks, $psuedo_accordion_title_term_link );
 		}
 
-		$markup = '';
-
-		if ( $label && $inner_blocks ) {
-			ob_start();
-			?>
-			<!-- wp:prc-block/accordion {"title":"<?php echo $label; ?>", "fontFamily":"sans-serif"} -->
-			<?php echo serialize_blocks( $inner_blocks ); ?>
-			<!-- /wp:prc-block/accordion -->
-			<?php
-			$markup = ob_get_clean();
+		if ( ! $label || ! $inner_blocks ) {
+			return '';
 		}
 
-		return $markup;
+		return $this->build_core_accordion_item_markup( $label, serialize_blocks( $inner_blocks ) );
 	}
 
 	/**
 	 * Render the taxonomy-index-list-controller block as an accordion.
 	 *
-	 * @param array $block Block.
+	 * @param \WP_Block $block Block.
 	 * @return string
 	 */
 	public function render_as_accordion_block( $block ) {
@@ -166,29 +202,29 @@ class Taxonomy_Index_List_Controller {
 			}
 		}
 
-		ob_start();
-		?>
-		<!-- wp:prc-block/accordion-controller {"borderColor":"ui-white"} -->
-		%s
-		<!-- /wp:prc-block/accordion-controller -->
-		<?php
-		$block_content = ob_get_clean();
-		$block_content = wp_sprintf( normalize_whitespace( $block_content ), $accordion_blocks );
+		if ( '' === $accordion_blocks ) {
+			return '';
+		}
 
-		$blocks = parse_blocks( $block_content );
-		return render_block( array_pop( $blocks ) );
+		$markup = $this->wrap_core_accordion( $accordion_blocks );
+		$blocks = parse_blocks( $markup );
+		if ( empty( $blocks ) ) {
+			return '';
+		}
+
+		return render_block( $blocks[0] );
 	}
 
 	/**
 	 * Render the block callback.
 	 *
-	 * @param array  $attributes Attributes.
-	 * @param string $content Content.
-	 * @param array  $block Block.
+	 * @param array     $attributes Attributes.
+	 * @param string    $content Content.
+	 * @param \WP_Block $block Block instance.
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		if ( 'mobile' === \PRC\Platform\get_current_device() ) {
+		if ( 'mobile' === \PRC\BlockUtils\get_current_device() ) {
 			return $this->render_as_accordion_block( $block );
 		}
 

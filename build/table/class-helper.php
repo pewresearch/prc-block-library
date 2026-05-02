@@ -57,6 +57,9 @@ class Helper {
 				case 'table_border_collapse':
 					$styles[ "{$selector} > table" ] .= "border-collapse:{$value};";
 					break;
+				case 'table_font_family':
+					$styles[ "{$selector} > table" ] .= "font-family:{$value};";
+					break;
 				case 'row_odd_color':
 					$styles[ "{$selector}.is-style-stripes tbody tr:nth-child(odd) th" ] .= "background-color:{$value};";
 					$styles[ "{$selector}.is-style-stripes tbody tr:nth-child(odd) td" ] .= "background-color:{$value};";

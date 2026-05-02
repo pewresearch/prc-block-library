@@ -6,7 +6,19 @@
 	"title": "Form Page",
 	"description": "A primitive block for a form page",
 	"category": "forms",
-	"ancestor": ["prc-block/form"],
+	"ancestor": [
+		"prc-block/form"
+	],
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Form page content."
+				}
+			}
+		]
+	},
 	"supports": {
 		"anchor": true,
 		"html": false,

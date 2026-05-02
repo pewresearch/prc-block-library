@@ -4,43 +4,44 @@ Render content in a modal dialog. Includes a trigger to open the dialog and a di
 
 ## Block Metadata
 
-| Property    | Value                 |
-|-------------|-----------------------|
-| Namespace   | `prc-block/dialog`    |
-| Category    | `media`               |
-| Version     | `1.1.0`               |
-| API Version | `3`                   |
-| Keywords    | dialog, modal, popup  |
+| Property    | Value                                             |
+| ----------- | ------------------------------------------------- |
+| Namespace   | `prc-block/dialog`                                |
+| Category    | `media`                                           |
+| Version     | `1.1.0`                                           |
+| API Version | `3`                                               |
+| Keywords    | dialog, modal, popup                              |
+| Example     | Yes (with inner blocks — drives inserter preview) |
 
 ## Supports
 
-| Feature       | Value                              |
-|---------------|------------------------------------|
-| Anchor        | `false`                            |
-| HTML editing  | `false`                            |
-| List View     | `true`                             |
-| Font size     | `true` (default controls enabled)  |
-| Font family   | `true` (default controls enabled)  |
-| Interactivity | `true`                             |
+| Feature       | Value                             |
+| ------------- | --------------------------------- |
+| Anchor        | `false`                           |
+| HTML editing  | `false`                           |
+| List View     | `true`                            |
+| Font size     | `true` (default controls enabled) |
+| Font family   | `true` (default controls enabled) |
+| Interactivity | `true`                            |
 
 ## Attributes
 
-| Attribute            | Type      | Default | Role    | Description                                                                                 |
-|----------------------|-----------|---------|---------|---------------------------------------------------------------------------------------------|
-| `dialogId`           | `string`  | `""`    | —       | Unique identifier for the dialog. Defaults to the block's `clientId` in the editor. Must be unique on the page. |
+| Attribute            | Type      | Default | Role    | Description                                                                                                        |
+| -------------------- | --------- | ------- | ------- | ------------------------------------------------------------------------------------------------------------------ |
+| `dialogId`           | `string`  | `""`    | —       | Unique identifier for the dialog. Defaults to the block's `clientId` in the editor. Must be unique on the page.    |
 | `editorIsDialogOpen` | `boolean` | `false` | `local` | Editor-only state tracking whether the dialog content is currently visible for editing. Not saved to post content. |
 
 ## Provided Context
 
-| Context Key      | Source Attribute      |
-|------------------|-----------------------|
-| `dialog/id`      | `dialogId`            |
-| `dialog/isOpen`  | `editorIsDialogOpen`  |
+| Context Key     | Source Attribute     |
+| --------------- | -------------------- |
+| `dialog/id`     | `dialogId`           |
+| `dialog/isOpen` | `editorIsDialogOpen` |
 
 ## Allowed Inner Blocks
 
-- `prc-block/dialog-element`
-- `prc-block/dialog-trigger`
+-   `prc-block/dialog-element`
+-   `prc-block/dialog-trigger`
 
 ## Inner Blocks Template
 
@@ -67,19 +68,30 @@ None. This is the top-level container for dialog functionality.
 
 ## Block Markup Example
 
+The `example` defined in `block.json` drives the inserter preview. It uses a bare `dialog-trigger` (no inner content) and a `dialog-element` with `medium` size and `fade` animation:
+
+```html
+<!-- wp:prc-block/dialog {"dialogId":"123"} -->
+<!-- wp:prc-block/dialog-trigger /-->
+<!-- wp:prc-block/dialog-element {"dialogSize":"medium","animation":"fade"} /-->
+<!-- /wp:prc-block/dialog -->
+```
+
+A more complete real-world example with inner content:
+
 ```html
 <!-- wp:prc-block/dialog {"dialogId":"my-dialog"} -->
-  <!-- wp:prc-block/dialog-trigger -->
-    <!-- wp:paragraph -->
-    <p>Click to open</p>
-    <!-- /wp:paragraph -->
-  <!-- /wp:prc-block/dialog-trigger -->
+<!-- wp:prc-block/dialog-trigger -->
+<!-- wp:paragraph -->
+<p>Click to open</p>
+<!-- /wp:paragraph -->
+<!-- /wp:prc-block/dialog-trigger -->
 
-  <!-- wp:prc-block/dialog-element -->
-    <!-- wp:heading -->
-    <h2>Dialog Title</h2>
-    <!-- /wp:heading -->
-  <!-- /wp:prc-block/dialog-element -->
+<!-- wp:prc-block/dialog-element {"dialogSize":"medium","animation":"fade"} -->
+<!-- wp:heading -->
+<h2>Dialog Title</h2>
+<!-- /wp:heading -->
+<!-- /wp:prc-block/dialog-element -->
 <!-- /wp:prc-block/dialog -->
 ```
 
@@ -94,11 +106,13 @@ The `Dialog` PHP class provides a server-side render callback:
 Rendered output:
 
 ```html
-<div class="wp-block-prc-block-dialog"
-     data-wp-interactive="prc-block/dialog"
-     data-wp-context='{"id":"my-dialog"}'
-     data-wp-key="my-dialog">
-  <!-- trigger and dialog element content -->
+<div
+	class="wp-block-prc-block-dialog"
+	data-wp-interactive="prc-block/dialog"
+	data-wp-context='{"id":"my-dialog"}'
+	data-wp-key="my-dialog"
+>
+	<!-- trigger and dialog element content -->
 </div>
 ```
 
@@ -108,5 +122,5 @@ The Dialog block itself serves as the container. The actual interactivity logic 
 
 ## Related Blocks
 
-- [`prc-block/dialog-trigger`](./dialog-trigger.md) — The clickable trigger element (required child).
-- [`prc-block/dialog-element`](./dialog-element.md) — The modal dialog content container (required child).
+-   [`prc-block/dialog-trigger`](./dialog-trigger.md) — The clickable trigger element (required child).
+-   [`prc-block/dialog-element`](./dialog-element.md) — The modal dialog content container (required child).

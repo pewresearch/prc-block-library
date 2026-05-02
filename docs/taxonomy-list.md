@@ -2,6 +2,10 @@
 
 Navigation container block that holds `prc-block/taxonomy-list-link` and `prc-block/taxonomy-search` blocks to build structured taxonomy menus. Provides the taxonomy context to its children and renders as a `<nav>` element.
 
+## Block inserter example
+
+`block.json` defines an `example` with `taxonomy` category and two sample `taxonomy-list-link` inner blocks — inserter preview.
+
 ## Namespace
 
 `prc-block/taxonomy-list`
@@ -12,22 +16,22 @@ Navigation container block that holds `prc-block/taxonomy-list-link` and `prc-bl
 
 ## Supports
 
-| Feature | Detail |
-|---|---|
-| Anchor | Yes |
-| HTML | No |
-| Color | Text, link, background |
-| Layout | Flex (vertical default), orientation, justification, sizing on children |
-| Spacing | `margin`, `padding`, `blockGap` (default: `0.3em`) |
+| Feature    | Detail                                                                                                                                                          |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Anchor     | Yes                                                                                                                                                             |
+| HTML       | No                                                                                                                                                              |
+| Color      | Text, link, background                                                                                                                                          |
+| Layout     | Flex (vertical default), orientation, justification, sizing on children                                                                                         |
+| Spacing    | `margin`, `padding`, `blockGap` (default: `0.3em`)                                                                                                              |
 | Typography | `fontSize`, `fontFamily`, `fontWeight`, `fontStyle`, `textTransform`, `textDecoration` (skip serialization for `textDecoration`), `letterSpacing`, `lineHeight` |
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|---|---|---|---|
-| `templateLock` | `string` or `boolean` | -- | Controls inner block template locking |
-| `taxonomy` | `string` | `"category"` | The taxonomy slug this list displays terms for |
-| `style` | `object` | `{ spacing: { blockGap: "0.3em" } }` | Default style object with block gap |
+| Attribute      | Type                  | Default                              | Description                                    |
+| -------------- | --------------------- | ------------------------------------ | ---------------------------------------------- |
+| `templateLock` | `string` or `boolean` | --                                   | Controls inner block template locking          |
+| `taxonomy`     | `string`              | `"category"`                         | The taxonomy slug this list displays terms for |
+| `style`        | `object`              | `{ spacing: { blockGap: "0.3em" } }` | Default style object with block gap            |
 
 ## Available Styles
 
@@ -36,8 +40,9 @@ None declared in `block.json`. Styling is controlled through block supports and 
 ## Inner Blocks
 
 Allowed blocks:
-- `prc-block/taxonomy-list-link` -- individual term links
-- `prc-block/taxonomy-search` -- search input for filtering terms
+
+-   `prc-block/taxonomy-list-link` -- individual term links
+-   `prc-block/taxonomy-search` -- search input for filtering terms
 
 ## Parent / Ancestor Requirements
 
@@ -45,9 +50,9 @@ None.
 
 ## Context
 
-| Direction | Key | Maps to |
-|---|---|---|
-| Provides | `taxonomy` | `taxonomy` attribute |
+| Direction | Key        | Maps to              |
+| --------- | ---------- | -------------------- |
+| Provides  | `taxonomy` | `taxonomy` attribute |
 
 ## Usage
 
@@ -59,7 +64,7 @@ The taxonomy context flows down to all child blocks, so `taxonomy-list-link` and
 
 ```html
 <nav class="wp-block-prc-block-taxonomy-list">
-  <!-- inner blocks (taxonomy-list-link, taxonomy-search) -->
+	<!-- inner blocks (taxonomy-list-link, taxonomy-search) -->
 </nav>
 ```
 
@@ -70,7 +75,8 @@ The taxonomy context flows down to all child blocks, so `taxonomy-list-link` and
 Minimal server-side logic. Registers the block via metadata.
 
 **Fallback render wrapper:**
-- Hooks into `render_block_prc-block/taxonomy-list` filter to ensure older saved content that lacks a `<nav>` wrapper gets one added at render time. This handles backward compatibility for blocks saved before the `<nav>` element was part of the save output.
+
+-   Hooks into `render_block_prc-block/taxonomy-list` filter to ensure older saved content that lacks a `<nav>` wrapper gets one added at render time. This handles backward compatibility for blocks saved before the `<nav>` element was part of the save output.
 
 ## Frontend Interactivity
 
@@ -78,8 +84,8 @@ No Interactivity API store is registered. The block is a static container. Inter
 
 ## Related Blocks
 
-| Block | Relationship |
-|---|---|
-| `prc-block/taxonomy-list-link` | Primary child block for individual term links |
-| `prc-block/taxonomy-search` | Optional child block for term search |
+| Block                                      | Relationship                                            |
+| ------------------------------------------ | ------------------------------------------------------- |
+| `prc-block/taxonomy-list-link`             | Primary child block for individual term links           |
+| `prc-block/taxonomy-search`                | Optional child block for term search                    |
 | `prc-block/taxonomy-index-list-controller` | Parent controller that manages desktop/mobile rendering |

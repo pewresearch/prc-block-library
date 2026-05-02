@@ -568,18 +568,23 @@ $placeholderInvertedLoadingGradient: linear-gradient(
 	> article.wp-block-prc-block-story-item,
 .wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item)
 	> article.wp-block-prc-block-story-item,
+.wp-block-prc-block-grid-column-is-layout-flow:has(.wp-block-prc-block-story-item)
+	> article.wp-block-prc-block-story-item,
 .has-story-items > article.wp-block-prc-block-story-item {
 	border-bottom: $dividedBorder;
-	padding: 21px 0 21px 0;
+	padding: var(--grid-column-gap, 21px) 0 var(--grid-column-gap, 21px) 0;
+	margin-block-start: 0; // For story items stacked in a grid column we rely on the padding to introduce a gap.
 
 	&:first-child,
 	&:first-of-type {
 		padding-top: 0px;
 	}
+
 	&:last-child {
 		padding-bottom: 0;
 		border-bottom: none;
 	}
+
 	&:only-of-type,
 	&:only-child {
 		padding-top: 0;

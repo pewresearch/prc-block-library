@@ -51,7 +51,19 @@
 			"style": true
 		}
 	},
-	"parent": [ "prc-block/carousel-controller" ],
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Slide content."
+				}
+			}
+		]
+	},
+	"parent": [
+		"prc-block/carousel-controller"
+	],
 	"textdomain": "carousel-slide",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

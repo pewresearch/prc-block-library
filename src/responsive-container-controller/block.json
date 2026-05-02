@@ -5,7 +5,14 @@
 	"version": "0.1.0",
 	"title": "Responsive Container",
 	"description": "A set of blocks to display content at specific viewport widths.",
-	"keywords": ["ai2html", "illustrator", "responsive", "container", "Illustrator", "AI2HTML"],
+	"keywords": [
+		"ai2html",
+		"illustrator",
+		"responsive",
+		"container",
+		"Illustrator",
+		"AI2HTML"
+	],
 	"category": "design",
 	"attributes": {},
 	"supports": {
@@ -19,13 +26,42 @@
 		],
 		"spacing": {
 			"blockGap": true,
-			"margin": [ "top", "bottom" ],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true
 		},
 		"typography": {
 			"fontSize": true,
 			"__experimentalFontFamily": true
 		}
+	},
+	"example": {
+		"innerBlocks": [
+			{
+				"name": "prc-block/responsive-container-view",
+				"attributes": {
+					"deviceType": "desktop",
+					"min": 980
+				}
+			},
+			{
+				"name": "prc-block/responsive-container-view",
+				"attributes": {
+					"deviceType": "tablet",
+					"min": 480,
+					"max": 979
+				}
+			},
+			{
+				"name": "prc-block/responsive-container-view",
+				"attributes": {
+					"deviceType": "mobile",
+					"max": 479
+				}
+			}
+		]
 	},
 	"textdomain": "responsive-container-controller",
 	"editorScript": "file:./index.js",

@@ -2,39 +2,40 @@
 
 ## Block Overview
 
-| Property    | Value                                                                                          |
-| ----------- | ---------------------------------------------------------------------------------------------- |
-| Name        | `prc-block/render-to-region`                                                                   |
-| Title       | Render To Region                                                                               |
-| Category    | `theme`                                                                                        |
-| Version     | 1.0.0                                                                                          |
-| Description | This block allows other blocks to "render to" the defined region upon certain conditions.      |
+| Property    | Value                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------- |
+| Name        | `prc-block/render-to-region`                                                              |
+| Title       | Render To Region                                                                          |
+| Category    | `theme`                                                                                   |
+| Version     | 1.0.0                                                                                     |
+| Description | This block allows other blocks to "render to" the defined region upon certain conditions. |
+| Example     | Yes (`regionName` sidebar — inserter preview)                                             |
 
 ## Supports
 
-| Feature        | Enabled |
-| -------------- | ------- |
-| HTML editing   | No      |
-| Anchor         | Yes     |
-| Reusable       | No      |
-| Interactivity  | Yes     |
+| Feature       | Enabled |
+| ------------- | ------- |
+| HTML editing  | No      |
+| Anchor        | Yes     |
+| Reusable      | No      |
+| Interactivity | Yes     |
 
 ## Attributes
 
-| Attribute              | Type     | Default                                                                                           | Description                                                                 |
-| ---------------------- | -------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `regionName`           | `string` | _(none)_                                                                                          | A unique name identifying the region. Must not conflict with other regions.  |
-| `activationConditions` | `object` | `{ isDesktop: false, isMobile: false, isTablet: false, isPortrait: false, isLandscape: false }`   | Conditions under which blocks should be rendered into this region.           |
+| Attribute              | Type     | Default                                                                                         | Description                                                                 |
+| ---------------------- | -------- | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `regionName`           | `string` | _(none)_                                                                                        | A unique name identifying the region. Must not conflict with other regions. |
+| `activationConditions` | `object` | `{ isDesktop: false, isMobile: false, isTablet: false, isPortrait: false, isLandscape: false }` | Conditions under which blocks should be rendered into this region.          |
 
 ### Activation Conditions Properties
 
-| Property      | Type      | Default | Description                                        |
-| ------------- | --------- | ------- | -------------------------------------------------- |
-| `isDesktop`   | `boolean` | `false` | Activate this region on desktop viewports.          |
-| `isMobile`    | `boolean` | `false` | Activate this region on mobile viewports.           |
-| `isTablet`    | `boolean` | `false` | Activate this region on tablet viewports.           |
-| `isPortrait`  | `boolean` | `false` | Activate this region in portrait orientation.       |
-| `isLandscape` | `boolean` | `false` | Activate this region in landscape orientation.      |
+| Property      | Type      | Default | Description                                    |
+| ------------- | --------- | ------- | ---------------------------------------------- |
+| `isDesktop`   | `boolean` | `false` | Activate this region on desktop viewports.     |
+| `isMobile`    | `boolean` | `false` | Activate this region on mobile viewports.      |
+| `isTablet`    | `boolean` | `false` | Activate this region on tablet viewports.      |
+| `isPortrait`  | `boolean` | `false` | Activate this region in portrait orientation.  |
+| `isLandscape` | `boolean` | `false` | Activate this region in landscape orientation. |
 
 ## Available Styles
 
@@ -59,32 +60,33 @@ None. This block can be placed anywhere, typically within templates.
 ## Block Markup Example
 
 ```html
-<div class="wp-block-prc-block-render-to-region"
-     data-prc-block--render-to-region--name="sidebar-region">
-</div>
+<div
+	class="wp-block-prc-block-render-to-region"
+	data-prc-block--render-to-region--name="sidebar-region"
+></div>
 ```
 
 ## PHP Rendering
 
 The block is server-side rendered via `Render_To_Region::render_block_callback()`. The PHP class:
 
-- Tracks defined regions and requested regions across the page render.
-- Adds `data-wp-interactive`, `data-wp-init`, and `data-wp-watch` attributes to the region wrapper for Interactivity API integration.
-- Uses `wp_interactivity_state()` to pass region name and attached block IDs to the client.
-- Via the `render_block` filter, adds `data-prc-block--render-to-region--name` and `data-prc-block--render-to-region--attach-id` attributes to blocks that target a region.
-- Appends a re-attach placeholder `<div>` after each block targeting a region, used to return the block to its original position when the region deactivates.
-- Exposes a REST API endpoint at `prc-api/v3/render-to-regions` (GET) that accepts `post` (integer) or `template` (string) parameters and returns available regions.
-- Registers the `prc_block__render_to_regions` post meta (array of strings) for storing region names per post.
+-   Tracks defined regions and requested regions across the page render.
+-   Adds `data-wp-interactive`, `data-wp-init`, and `data-wp-watch` attributes to the region wrapper for Interactivity API integration.
+-   Uses `wp_interactivity_state()` to pass region name and attached block IDs to the client.
+-   Via the `render_block` filter, adds `data-prc-block--render-to-region--name` and `data-prc-block--render-to-region--attach-id` attributes to blocks that target a region.
+-   Appends a re-attach placeholder `<div>` after each block targeting a region, used to return the block to its original position when the region deactivates.
+-   Exposes a REST API endpoint at `prc-api/v3/render-to-regions` (GET) that accepts `post` (integer) or `template` (string) parameters and returns available regions.
+-   Registers the `prc_block__render_to_regions` post meta (array of strings) for storing region names per post.
 
 ## Frontend Interactivity
 
 The `view.js` uses the WordPress Interactivity API (`@wordpress/interactivity`) to manage region mounting and updates:
 
-- **`callbacks.onMount`**: Fires when a block targeting a region initializes; reads the region name from `data-prc-block--render-to-region--name`.
-- **`callbacks.onUpdate`**: Fires on state changes for blocks targeting a region.
-- **`callbacks.onRegionMount`**: Fires when the region element itself initializes.
-- **`callbacks.onRegionUpdate`**: Fires when the region state updates.
-- Includes a `doNavigateAction` generator that uses the Interactivity Router for client-side navigation.
+-   **`callbacks.onMount`**: Fires when a block targeting a region initializes; reads the region name from `data-prc-block--render-to-region--name`.
+-   **`callbacks.onUpdate`**: Fires on state changes for blocks targeting a region.
+-   **`callbacks.onRegionMount`**: Fires when the region element itself initializes.
+-   **`callbacks.onRegionUpdate`**: Fires when the region state updates.
+-   Includes a `doNavigateAction` generator that uses the Interactivity Router for client-side navigation.
 
 ## Related Blocks
 

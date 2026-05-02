@@ -5,23 +5,15 @@
   "version": "0.1.0",
   "title": "Sub-title",
   "description": "Displays the sub-title of a post.",
+  "keywords": [
+    "subtitle",
+    "sub-title",
+    "subtitle"
+  ],
   "category": "layout",
   "attributes": {
     "textAlign": {
       "type": "string"
-    },
-    "fontSize": {
-      "type": "string",
-      "default": "h2"
-    },
-    "style": {
-      "type": "object",
-      "default": {
-        "typography": {
-          "fontWeight": "400",
-          "fontStyle": "italic"
-        }
-      }
     }
   },
   "example": {
@@ -66,6 +58,5 @@
     "postId"
   ],
   "textdomain": "post-sub-title",
-  "editorScript": "file:./index.js",
-  "style": "file:./style-index.css"
+  "editorScript": "file:./index.js"
 }

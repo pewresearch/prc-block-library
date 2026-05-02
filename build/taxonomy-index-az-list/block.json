@@ -29,6 +29,15 @@
       "default": false
     }
   },
+  "example": {
+    "attributes": {
+      "letter": "A",
+      "taxonomy": [
+        "category"
+      ],
+      "disableHeading": false
+    }
+  },
   "supports": {
     "anchor": true,
     "align": false,

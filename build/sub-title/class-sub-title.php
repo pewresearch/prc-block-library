@@ -7,6 +7,10 @@
 
 namespace PRC\Platform\Blocks;
 
+if ( defined( 'WP_CLI' ) && \WP_CLI ) {
+	require_once __DIR__ . '/class-sub-title-migrate-cli.php';
+}
+
 /**
  * Block Name:        Post Sub-Title
  * Version:           0.1.0
@@ -46,7 +50,6 @@ class Sub_Title {
 	 */
 	public function init() {
 		$this->loader->add_action( 'init', $this, 'block_init' );
-		$this->loader->add_filter( 'vip_block_data_api__sourced_block_result', $this, 'add_data_to_vip_blocks_api', 10, 4 );
 		$this->loader->add_filter( 'render_block_prc-block/subtitle', $this, 'render_hooks', 10, 3 );
 		$this->loader->add_filter( 'render_block_core/post-content', $this, 'remove_unneeded_sub_title_blocks', 10, 3 );
 	}
@@ -79,7 +82,9 @@ class Sub_Title {
 	 * @return string The block content.
 	 */
 	public function remove_unneeded_sub_title_blocks( $block_content, $block, $wp_block ) {
-		do_action( 'qm/debug', 'Counts: ' . $this->render_counts );
+		if ( 'local' === wp_get_environment_type() ) {
+			do_action( 'qm/debug', 'Counts: ' . $this->render_counts );
+		}
 		if ( is_singular( 'post' ) && $this->render_counts >= 2 ) {
 			$block_content = preg_replace(
 				'/<h2[^>]*class="[^"]*\bwp-block-prc-block-subtitle\b[^"]*"[^>]*>.*?<\/h2>/s',
@@ -88,31 +93,6 @@ class Sub_Title {
 			);
 		}
 		return $block_content;
-	}
-
-	/**
-	 * Add data to VIP blocks API
-	 *
-	 * @hook vip_block_data_api__sourced_block_result
-	 * @param array  $sourced_block Sourced block.
-	 * @param string $block_name Block name.
-	 * @param int    $post_id Post ID.
-	 * @param array  $block Block.
-	 * @return array
-	 */
-	public function add_data_to_vip_blocks_api( $sourced_block, $block_name, $post_id, $block ) {
-		if ( 'prc-block/sub-title' !== $block_name ) {
-			return $sourced_block;
-		}
-
-		// check for new value if it exists use it for $value otherwise check for legacy...
-		$new_value    = get_post_meta( $post_id, 'sub_title', true );
-		$legacy_value = get_post_meta( $post_id, 'sub_headline', true );
-
-		// Add custom attribute to REST API result
-		$sourced_block['attributes']['content'] = $new_value ? $new_value : $legacy_value;
-
-		return $sourced_block;
 	}
 
 	/**
@@ -134,10 +114,8 @@ class Sub_Title {
 			return '';
 		}
 
-		$text_align          = isset( $attributes['textAlign'] ) ? $attributes['textAlign'] : 'left';
-		$legacy_sub_headline = get_post_meta( $context_post_id, 'sub_headline', true );
-		$sub_title           = get_post_meta( $context_post_id, 'sub_title', true );
-		$sub_title           = $sub_title ? $sub_title : $legacy_sub_headline;
+		$text_align = isset( $attributes['textAlign'] ) ? $attributes['textAlign'] : 'left';
+		$sub_title  = get_post_meta( $context_post_id, 'sub_title', true );
 
 		if ( ! $sub_title ) {
 			return '';
@@ -178,17 +156,16 @@ class Sub_Title {
 			)
 		);
 
-		// New
-		// @TODO: switch block over to this when we start the ui/update
 		register_post_meta(
 			'',
 			'sub_title',
 			array(
-				'show_in_rest'  => true,
-				'single'        => true,
-				'type'          => 'string',
-				'description'   => 'A sub title that appears under the post title.',
-				'auth_callback' => function () {
+				'show_in_rest'      => true,
+				'single'            => true,
+				'type'              => 'string',
+				'revisions_enabled' => true,
+				'description'       => 'A sub title that appears under the post title.',
+				'auth_callback'     => function () {
 					return current_user_can( 'edit_posts' );
 				},
 			)

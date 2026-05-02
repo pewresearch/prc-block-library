@@ -13,6 +13,11 @@
 			"default": 1
 		}
 	},
+	"example": {
+		"attributes": {
+			"totalParagraphs": 1
+		}
+	},
 	"supports": {
 		"inserter": false,
 		"html": false

@@ -85,6 +85,16 @@
   "usesContext": [
     "tokens/list"
   ],
+  "example": {
+    "innerBlocks": [
+      {
+        "name": "core/button",
+        "attributes": {
+          "text": "Token"
+        }
+      }
+    ]
+  },
   "textdomain": "tokens-list",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

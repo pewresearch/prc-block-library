@@ -45,7 +45,6 @@
     "excerpt": {
       "type": "string",
       "source": "html",
-      "multiline": "p",
       "selector": ".description"
     },
     "url": {

@@ -20,6 +20,13 @@
       "default": "star"
     }
   },
+  "example": {
+    "attributes": {
+      "icon": "star",
+      "library": "solid",
+      "size": 1
+    }
+  },
   "supports": {
     "anchor": true,
     "html": false,
