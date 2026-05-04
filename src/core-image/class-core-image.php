@@ -382,6 +382,12 @@ class Core_Image {
 
 		$attachment_id = (int) $matches[1];
 
+		$src = (string) ( $processor->get_attribute( 'src' ) ?? '' );
+
+		if ( ! $this->src_matches_attachment( $src, $attachment_id ) ) {
+			return $block_content;
+		}
+
 		$align   = isset( $block['attrs']['align'] ) ? (string) $block['attrs']['align'] : '';
 		$context = match ( $align ) {
 			'full'  => 'full',
@@ -400,6 +406,60 @@ class Core_Image {
 		$processor->set_attribute( self::SRCSET_CONTEXT_ATTR, $context );
 
 		return $processor->get_updated_html();
+	}
+
+	/**
+	 * Verify that an `<img>`'s `src` URL actually points to the file
+	 * associated with the given attachment ID.
+	 *
+	 * Guards against stale `wp-image-{id}` classes (e.g. an editor swapped
+	 * the `src` manually, or the attachment was replaced) so we don't
+	 * rewrite `srcset`/`sizes` to candidates of a different file.
+	 *
+	 * The attachment URL (from wp_get_attachment_url) is the canonical
+	 * original filename — it never carries a WP size suffix. The src URL
+	 * may be either the original or a sized variant with a `-WxH` suffix
+	 * appended by WordPress. We extract the attachment's base name
+	 * unmodified, then check whether the src filename either matches it
+	 * exactly or equals it with a single trailing `-\d+x\d+` suffix.
+	 * This avoids false negatives for filenames that naturally contain
+	 * dimension-like patterns (e.g. `banner-1920x1080.jpg`).
+	 *
+	 * @param string $src           The `<img>`'s `src` attribute value.
+	 * @param int    $attachment_id Attachment post ID parsed from the `wp-image-{id}` class.
+	 * @return bool
+	 */
+	private function src_matches_attachment( string $src, int $attachment_id ): bool {
+		if ( '' === $src || $attachment_id <= 0 ) {
+			return false;
+		}
+
+		$attachment_url = wp_get_attachment_url( $attachment_id );
+
+		if ( ! is_string( $attachment_url ) || '' === $attachment_url ) {
+			return false;
+		}
+
+		$get_filename = static function ( string $url ): string {
+			$path = wp_parse_url( $url, PHP_URL_PATH );
+			if ( ! is_string( $path ) || '' === $path ) {
+				return '';
+			}
+			return (string) pathinfo( $path, PATHINFO_FILENAME );
+		};
+
+		$attachment_base = $get_filename( $attachment_url );
+		if ( '' === $attachment_base ) {
+			return false;
+		}
+
+		$src_filename = $get_filename( $src );
+		if ( $src_filename === $attachment_base ) {
+			return true;
+		}
+
+		$src_stripped = (string) preg_replace( '/-\d+x\d+$/', '', $src_filename );
+		return $src_stripped === $attachment_base;
 	}
 
 	/**
@@ -437,8 +497,8 @@ class Core_Image {
 			return $attr;
 		}
 
-		$attr['srcset']                      = $attrs['srcset'];
-		$attr['sizes']                       = $attrs['sizes'];
+		$attr['srcset']                    = $attrs['srcset'];
+		$attr['sizes']                     = $attrs['sizes'];
 		$attr[ self::SRCSET_CONTEXT_ATTR ] = 'attachment_page';
 
 		return $attr;
