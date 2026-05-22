@@ -12,7 +12,7 @@ export default function registerTabLabelBinding() {
 	registerBlockBindingsSource({
 		name: 'core/tab-label',
 		usesContext: ['core/tab-label'],
-		getValues({ select, context }) {
+		getValues({ context }) {
 			const tabLabel = context['core/tab-label'];
 			if (tabLabel) {
 				return {
@@ -24,13 +24,10 @@ export default function registerTabLabelBinding() {
 				placeholder: __('Enter tab label', 'prc-quiz'),
 			};
 		},
-		setValues({ select, dispatch, context, bindings }) {
+		setValues({ select, dispatch, bindings }) {
 			const { newValue } = bindings.content;
-			const {
-				getSelectedBlockClientId,
-				getBlockRootClientId,
-				getBlockParentsByBlockName,
-			} = select(blockEditorStore);
+			const { getSelectedBlockClientId, getBlockParentsByBlockName } =
+				select(blockEditorStore);
 			const { updateBlockAttributes } = dispatch(blockEditorStore);
 
 			// Get the currently selected tab block.
@@ -39,16 +36,16 @@ export default function registerTabLabelBinding() {
 			// Find the root, tab block, update the label.
 			const tabBlockClientIds = getBlockParentsByBlockName(
 				selectedBlockClientId,
-				'core/tab'
+				'core/tab-panel'
 			);
-			// Get the first tab block out of the array. There is only one anyways.
+			// Get the first tab panel block out of the array. There is only one anyways.
 			const tabBlockClientId = tabBlockClientIds[0];
 
 			updateBlockAttributes(tabBlockClientId, {
 				label: newValue,
 			});
 		},
-		canUserEditValue({ select, context, args }) {
+		canUserEditValue() {
 			return true;
 		},
 	});

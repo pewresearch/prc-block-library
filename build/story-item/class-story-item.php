@@ -60,21 +60,8 @@ class Story_Item {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
-			$loader->add_filter( 'newsletterglue_allowed_block_list', $this, 'allow_in_newsletter_glue', 10, 1 );
 			$loader->add_filter( 'render_block_context', $this, 'handle_story_item_query_context_awareness', 100, 3 );
 		}
-	}
-
-	/**
-	 * Allows for the block to be used in the Newsletter Glue plugin.
-	 *
-	 * @hook newsletterglue_allowed_block_list
-	 * @param mixed $blocks Blocks.
-	 * @return mixed
-	 */
-	public function allow_in_newsletter_glue( $blocks ) {
-		$blocks[] = 'prc-block/story-item';
-		return $blocks;
 	}
 
 	/**

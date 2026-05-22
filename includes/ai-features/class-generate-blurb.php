@@ -149,8 +149,9 @@ GUIDELINES:
 		$permalink = get_permalink( $post_id );
 		if ( ! is_string( $permalink ) ) {
 			$permalink = '';
+		} elseif ( '' !== $permalink ) {
+			$permalink = AI_Prompt_Permalink::normalize_for_public_origin( $permalink );
 		}
-		$permalink = str_replace( get_bloginfo( 'url' ), 'https://www.pewresearch.org', $permalink );
 
 		$raw_source = '';
 		if ( '' !== trim( (string) $post->post_excerpt ) ) {

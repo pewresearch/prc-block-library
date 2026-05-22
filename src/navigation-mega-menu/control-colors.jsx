@@ -21,10 +21,7 @@ export default function ColorControls({
 	setMenuItemActiveBackgroundColor,
 	menuItemActiveTextColor,
 	setMenuItemActiveTextColor,
-	menuOverlayBackgroundColor,
-	setMenuOverlayBackgroundColor,
-	menuOverlayTextColor,
-	setMenuOverlayTextColor,
+
 	menuActiveBorderColor,
 	setMenuActiveBorderColor,
 }) {
@@ -33,108 +30,93 @@ export default function ColorControls({
 		customMenuItemTextColor,
 		customMenuItemActiveBackgroundColor,
 		customMenuItemActiveTextColor,
-		customMenuOverlayBackgroundColor,
-		customMenuOverlayTextColor,
+
 		customMenuActiveBorderColor,
 	} = attributes;
 
 	const colorSettings = useMultipleOriginColorsAndGradients();
 
-	const colorSettingsArray = useMemo(() => [
-		{
-			label: __('Menu Item Background', 'prc-block-library'),
-			colorValue: menuItemBackgroundColor?.color ?? customMenuItemBackgroundColor,
-			onColorChange: (value) => {
-				setMenuItemBackgroundColor(value);
-				setAttributes({
-					customMenuItemBackgroundColor: value,
-				});
+	const colorSettingsArray = useMemo(
+		() => [
+			{
+				label: __('Menu Item Background', 'prc-block-library'),
+				colorValue:
+					menuItemBackgroundColor?.color ??
+					customMenuItemBackgroundColor,
+				onColorChange: (value) => {
+					setMenuItemBackgroundColor(value);
+					setAttributes({
+						customMenuItemBackgroundColor: value,
+					});
+				},
 			},
-		},
-		{
-			label: __('Menu Item Text', 'prc-block-library'),
-			colorValue: menuItemTextColor?.color ?? customMenuItemTextColor,
-			onColorChange: (value) => {
-				setMenuItemTextColor(value);
-				setAttributes({
-					customMenuItemTextColor: value,
-				});
+			{
+				label: __('Menu Item Text', 'prc-block-library'),
+				colorValue: menuItemTextColor?.color ?? customMenuItemTextColor,
+				onColorChange: (value) => {
+					setMenuItemTextColor(value);
+					setAttributes({
+						customMenuItemTextColor: value,
+					});
+				},
 			},
-		},
-		{
-			label: __('Menu Item Active Background', 'prc-block-library'),
-			colorValue: menuItemActiveBackgroundColor?.color ?? customMenuItemActiveBackgroundColor,
-			onColorChange: (value) => {
-				setMenuItemActiveBackgroundColor(value);
-				setAttributes({
-					customMenuItemActiveBackgroundColor: value,
-				});
+			{
+				label: __('Menu Item Active Background', 'prc-block-library'),
+				colorValue:
+					menuItemActiveBackgroundColor?.color ??
+					customMenuItemActiveBackgroundColor,
+				onColorChange: (value) => {
+					setMenuItemActiveBackgroundColor(value);
+					setAttributes({
+						customMenuItemActiveBackgroundColor: value,
+					});
+				},
 			},
-		},
-		{
-			label: __('Menu Item Active Text', 'prc-block-library'),
-			colorValue: menuItemActiveTextColor?.color ?? customMenuItemActiveTextColor,
-			onColorChange: (value) => {
-				setMenuItemActiveTextColor(value);
-				setAttributes({
-					customMenuItemActiveTextColor: value,
-				});
+			{
+				label: __('Menu Item Active Text', 'prc-block-library'),
+				colorValue:
+					menuItemActiveTextColor?.color ??
+					customMenuItemActiveTextColor,
+				onColorChange: (value) => {
+					setMenuItemActiveTextColor(value);
+					setAttributes({
+						customMenuItemActiveTextColor: value,
+					});
+				},
 			},
-		},
-		{
-			label: __('Menu Overlay Background', 'prc-block-library'),
-			colorValue: menuOverlayBackgroundColor?.color ?? customMenuOverlayBackgroundColor,
-			onColorChange: (value) => {
-				setMenuOverlayBackgroundColor(value);
-				setAttributes({
-					customMenuOverlayBackgroundColor: value,
-				});
+			{
+				label: __('Menu Active Border', 'prc-block-library'),
+				colorValue:
+					menuActiveBorderColor?.color ?? customMenuActiveBorderColor,
+				onColorChange: (value) => {
+					setMenuActiveBorderColor(value);
+					setAttributes({
+						customMenuActiveBorderColor: value,
+					});
+				},
 			},
-		},
-		{
-			label: __('Menu Overlay Text', 'prc-block-library'),
-			colorValue: menuOverlayTextColor?.color ?? customMenuOverlayTextColor,
-			onColorChange: (value) => {
-				setMenuOverlayTextColor(value);
-				setAttributes({
-					customMenuOverlayTextColor: value,
-				});
-			},
-		},
-		{
-			label: __('Menu Active Border', 'prc-block-library'),
-			colorValue: menuActiveBorderColor?.color ?? customMenuActiveBorderColor,
-			onColorChange: (value) => {
-				setMenuActiveBorderColor(value);
-				setAttributes({
-					customMenuActiveBorderColor: value,
-				});
-			},
-		},
-	], [
-		menuItemBackgroundColor,
-		customMenuItemBackgroundColor,
-		menuItemTextColor,
-		customMenuItemTextColor,
-		menuItemActiveBackgroundColor,
-		customMenuItemActiveBackgroundColor,
-		menuItemActiveTextColor,
-		customMenuItemActiveTextColor,
-		menuOverlayBackgroundColor,
-		customMenuOverlayBackgroundColor,
-		menuOverlayTextColor,
-		customMenuOverlayTextColor,
-		menuActiveBorderColor,
-		customMenuActiveBorderColor,
-		setMenuItemBackgroundColor,
-		setMenuItemTextColor,
-		setMenuItemActiveBackgroundColor,
-		setMenuItemActiveTextColor,
-		setMenuOverlayBackgroundColor,
-		setMenuOverlayTextColor,
-		setMenuActiveBorderColor,
-		setAttributes,
-	]);
+		],
+		[
+			menuItemBackgroundColor,
+			customMenuItemBackgroundColor,
+			menuItemTextColor,
+			customMenuItemTextColor,
+			menuItemActiveBackgroundColor,
+			customMenuItemActiveBackgroundColor,
+			menuItemActiveTextColor,
+			customMenuItemActiveTextColor,
+
+			menuActiveBorderColor,
+			customMenuActiveBorderColor,
+			setMenuItemBackgroundColor,
+			setMenuItemTextColor,
+			setMenuItemActiveBackgroundColor,
+			setMenuItemActiveTextColor,
+
+			setMenuActiveBorderColor,
+			setAttributes,
+		]
+	);
 
 	return (
 		<InspectorControls group="color">

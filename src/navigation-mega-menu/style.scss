@@ -1,6 +1,6 @@
-// Styles for both the Editor and the front end.
+// Styles for both the editor and the front end.
 .wp-block-prc-block-navigation-mega-menu {
-	/* Component design tokens (mapped to custom props from style engine) */
+	/* Component design tokens (mapped to custom props from the style engine). */
 	--menu-item-bg: var(--custom-menu-item-background-color, transparent);
 	--menu-item-text: var(--custom-menu-item-text-color, inherit);
 	--menu-item-active-bg: var(
@@ -8,15 +8,10 @@
 		transparent
 	);
 	--menu-item-active-text: var(--custom-menu-item-active-text-color, inherit);
-	--menu-overlay-bg: var(--custom-menu-overlay-background-color, #fff);
-	--menu-overlay-text: var(--custom-menu-overlay-text-color, inherit);
+
 	--menu-active-border: var(--custom-menu-active-brdr-color, transparent);
 
-	border-top: 1px solid transparent;
-	border-left: 1px solid transparent;
-	border-right: 1px solid transparent;
-	border-bottom: 1px solid transparent;
-
+	border: 1px solid transparent;
 	flex-direction: column;
 	background-color: var(--menu-item-bg);
 	color: var(--menu-item-text);
@@ -27,17 +22,15 @@
 		padding: 0;
 	}
 
-	&:not(.is-active) .wp-block-prc-block-navigation-mega-menu__container {
-		width: 0;
-	}
 	&.is-active {
 		border-top-color: var(--menu-active-border);
 		border-right-color: var(--menu-active-border);
 		border-left-color: var(--menu-active-border);
 		background-color: var(--menu-item-active-bg);
 		color: var(--menu-item-active-text);
+
 		.wp-block-prc-block-navigation-mega-menu__tab-divider {
-			background-color: var(--menu-overlay-bg);
+			background-color: transparent;
 		}
 	}
 
@@ -67,7 +60,7 @@
 		border-bottom: 1px solid transparent;
 		position: relative;
 		z-index: 3;
-		top: 0px;
+		top: 0;
 
 		.wp-block-prc-block-navigation-mega-menu__toggle-dropdown-icon,
 		.wp-block-prc-block-navigation-mega-menu__toggle-search-icon,
@@ -75,8 +68,6 @@
 			align-self: center;
 			display: inline-block;
 			font-size: inherit;
-			// height: 0.6em;
-			// line-height: 0;
 			padding: 0;
 			width: 0.6em;
 		}
@@ -108,104 +99,144 @@
 			.wp-block-prc-block-navigation-mega-menu__toggle-mobile-icon > * {
 				transform: rotate(-90deg);
 			}
-
-			& ~ .wp-block-prc-block-navigation-mega-menu__container {
-				opacity: 1;
-				overflow: visible;
-				visibility: visible;
-				z-index: 100;
-			}
 		}
 	}
+}
 
-	&.has-box-shadow .wp-block-prc-block-navigation-mega-menu__container {
-		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-		border: none;
-	}
+/* ----------------------------------------------------------------------- *
+ * Dialog overlay
+ *
+ * The mega menu overlay is a native `<dialog>` opened with `showModal()`,
+ * so it lives in the browser's top layer. `top` is not anchored to a CSS
+ * anchor (that breaks across the top-layer boundary); instead `view.js`
+ * sets `--prc-mega-menu-anchor-top` on this `<dialog>` to the bottom edge of
+ * the parent `.wp-block-navigation` from `getBoundingClientRect()`, updated
+ * on open, nav `ResizeObserver`, and window resize (per instance so
+ * multiple mega menus do not share one root variable).
+ * ----------------------------------------------------------------------- */
+.wp-block-prc-block-navigation-mega-menu__dialog {
+	/* Override the user-agent dialog defaults (centered, padded, bordered). */
+	margin: 0;
+	padding: 0;
+	border: 0;
+	max-width: 100vw;
+	max-height: 100vh;
 
-	.wp-block-prc-block-navigation-mega-menu__container {
-		height: auto;
-		left: 0;
-		opacity: 0;
-		overflow: hidden;
-		position: absolute;
-		transition: opacity 0.1s linear; // Hook in animation here...
-		visibility: hidden;
-		z-index: 2;
-		background-color: var(--menu-overlay-bg);
-		color: var(--menu-overlay-text);
-		border-bottom-width: 1px;
-		border-bottom-color: var(--menu-active-border);
-		border-bottom-style: solid;
-		border-top-width: 1px;
-		border-top-color: var(--menu-active-border);
-		border-top-style: solid;
-		max-width: 100vw;
-		width: 100vw;
+	width: 100vw;
 
-		.wp-block-prc-block-navigation-mega-menu__container__close-button {
-			align-items: center;
-			border: none;
-			cursor: pointer;
-			display: flex;
-			justify-content: center;
+	border-block: 1px solid var(--menu-active-border);
+
+	position: absolute;
+	left: 0;
+	right: 0;
+
+	/* Pin below the navigation block (see --prc-mega-menu-anchor-top). */
+	top: var(--prc-mega-menu-anchor-top, 0px);
+
+	/* Animation primitives. The default is fade. */
+	opacity: 0;
+	transition:
+		opacity 150ms ease,
+		overlay 150ms allow-discrete,
+		display 150ms allow-discrete;
+
+	&[open] {
+		opacity: 1;
+		@starting-style {
 			opacity: 0;
-			padding: 4px;
-			position: absolute;
-			right: 2em;
-			text-align: center;
-			top: 1em;
-			transition: opacity 0.2s ease;
-			z-index: 100;
-			appearance: none;
-			-webkit-appearance: none;
-			background-color: transparent;
+		}
+	}
 
-			// Show the close button when focused (for keyboard navigation)
-			&:focus {
-				opacity: 1;
+	&.is-animation-slide {
+		transform: translateY(-8px);
+		transition:
+			opacity 200ms ease,
+			transform 200ms ease,
+			overlay 200ms allow-discrete,
+			display 200ms allow-discrete;
+
+		&[open] {
+			transform: translateY(0);
+			@starting-style {
+				opacity: 0;
+				transform: translateY(-8px);
 			}
 		}
+	}
 
-		// Show the close button when the mega menu is hovered.
-		// When the viewport is less than 600px, the close button will always be visible.
-		@media (max-width: 600px) {
-			.wp-block-prc-block-navigation-mega-menu__container__close-button {
-				opacity: 1;
-			}
-		}
-		&:hover {
-			.wp-block-prc-block-navigation-mega-menu__container__close-button {
-				opacity: 1;
-			}
-		}
+	&::backdrop {
+		/* D1: transparent backdrop — no visible scrim, but still receives
+		   clicks so the modal closes when the user clicks outside. */
+		background: transparent;
+		transition:
+			background-color 150ms ease,
+			overlay 150ms allow-discrete,
+			display 150ms allow-discrete;
+	}
 
-		// This ensures navigation menu inside of mega menus display correctly.
-		.is-responsive {
-			display: flex;
+	.wp-block-prc-block-navigation-mega-menu__container__close-button {
+		align-items: center;
+		border: none;
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		opacity: 0;
+		padding: 4px;
+		position: absolute;
+		right: 2em;
+		text-align: center;
+		top: 1em;
+		transition: opacity 0.2s ease;
+		z-index: 100;
+		appearance: none;
+		-webkit-appearance: none;
+		background-color: transparent;
+
+		// Show the close button when focused (for keyboard navigation).
+		&:focus {
+			opacity: 1;
 		}
+	}
+
+	// On small viewports, always show the close button.
+	@media (max-width: 600px) {
+		.wp-block-prc-block-navigation-mega-menu__container__close-button {
+			opacity: 1;
+		}
+	}
+
+	&:hover {
+		.wp-block-prc-block-navigation-mega-menu__container__close-button {
+			opacity: 1;
+		}
+	}
+
+	// Ensure the responsive nav inside a mega menu still flexes correctly.
+	.is-responsive {
+		display: flex;
+	}
+
+	// Box-shadow option carries over from the legacy markup.
+	.wp-block-prc-block-navigation-mega-menu.has-box-shadow & {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 	}
 }
 
 /**
- * Dark mode overrides for active state
+ * Dark mode overrides for active state.
  * Scoped to logged-in users to match PRC dark mode beta.
  */
 @media (prefers-color-scheme: dark) {
 	body.logged-in .wp-block-prc-block-navigation-mega-menu.is-active {
-		// Ensure active state has proper contrast in dark mode
-		// Override inline custom properties with dark mode compatible colors
-		--menu-item-active-bg: var(--wp--preset--color--ui-gray-dark, rgba(255, 255, 255, 0.1));
+		// Override inline custom properties with dark mode compatible colors.
+		--menu-item-active-bg: var(
+			--wp--preset--color--ui-gray-dark,
+			rgba(255, 255, 255, 0.1)
+		);
 		--menu-item-active-text: var(--wp--preset--color--ui-white, #f0f0f0);
-		--menu-active-border: var(--wp--preset--color--ui-gray-medium, rgba(255, 255, 255, 0.2));
+		--menu-active-border: var(
+			--wp--preset--color--ui-gray-medium,
+			rgba(255, 255, 255, 0.2)
+		);
 	}
 }
-
-// nav.wp-block-navigation.mobile-masthead {
-// 	.wp-block-navigation-item {
-// 		display: inline-block;
-// 	}
-// 	ul.wp-block-navigation__container.is-style-default.wp-block-navigation {
-// 		display: block;
-// 	}
-// }

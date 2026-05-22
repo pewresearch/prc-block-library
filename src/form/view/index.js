@@ -305,8 +305,9 @@ const { state, actions } = store('prc-block/form', {
 				const isLastPage = currentPageIndex === formPages.length - 1;
 				return isLastPage ? 'Submit' : 'Next';
 			} else {
-				// No pages, simple form
-				return 'Submit';
+				// No pages — use the button's own text set by form-submit context,
+				// falling back to 'Submit' if nothing was provided.
+				return context.submitButtonText || 'Submit';
 			}
 		},
 		get formDisplayCondition() {
@@ -316,7 +317,7 @@ const { state, actions } = store('prc-block/form', {
 			// Check if the condition is met
 			const { formFields } = state;
 			const targetField = formFields.find((field) => field.name === name);
-			if ( ! targetField ) {
+			if (!targetField) {
 				return false;
 			}
 			switch (operator) {
@@ -327,7 +328,7 @@ const { state, actions } = store('prc-block/form', {
 				default:
 					return false;
 			}
-		}
+		},
 	},
 	actions: {
 		/**
@@ -439,7 +440,6 @@ const { state, actions } = store('prc-block/form', {
 					return;
 				}
 				// If we're here, then we're on the last page and can continue with submission.
-
 			}
 
 			if (context.submissionProcessing) {
@@ -471,7 +471,6 @@ const { state, actions } = store('prc-block/form', {
 			const context = getContext();
 			context.submissionProcessing = false;
 			context.captchaHidden = true;
-			context.submitButtonText = 'Submit';
 			context.stopProcessing = false;
 			context.allowSubmit = true;
 			context.errors = [];
@@ -519,8 +518,6 @@ const { state, actions } = store('prc-block/form', {
 					return field;
 				});
 			}
-
-
 		},
 		onCaptchaPassing: () => {
 			const context = getContext();

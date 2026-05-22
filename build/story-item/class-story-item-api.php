@@ -211,8 +211,8 @@ class Story_Item_API {
 			'<h%1$s class="%2$s"><a href="%3$s">%4$s</a></h%1$s>',
 			$header_size,
 			$header_class,
-			$url,
-			$title,
+			esc_url( $url ),
+			esc_html( $title ),
 		);
 	}
 

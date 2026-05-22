@@ -1,4 +1,4 @@
-// Ensure the container is above other innerblock and block instances.
-.wp-block-prc-block-navigation-mega-menu__container {
-	z-index: 11!important;
-}
+// Editor-specific overrides. The mega menu is display-only in the editor;
+// content is edited via the template part in the Site Editor.
+// No panel or dialog styles are needed here — all shared visual tokens live
+// in style.scss on the block root.

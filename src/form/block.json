@@ -22,23 +22,20 @@
 		"prc-block/form-page",
 		"prc-block/form-submit"
 	],
-	"keywords": [
-		"form",
-		"captcha",
-		"field",
-		"input"
-	],
+	"keywords": ["form", "captcha", "field", "input"],
 	"icon": "feedback",
 	"attributes": {
 		"formName": {
 			"type": "string"
 		},
+		"displayMessageEditing": {
+			"type": "boolean",
+			"default": false,
+			"role": "local"
+		},
 		"method": {
 			"type": "string",
-			"enum": [
-				"rest",
-				"api"
-			],
+			"enum": ["rest", "api"],
 			"default": "api"
 		},
 		"namespace": {

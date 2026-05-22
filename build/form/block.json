@@ -33,6 +33,11 @@
     "formName": {
       "type": "string"
     },
+    "displayMessageEditing": {
+      "type": "boolean",
+      "default": false,
+      "role": "local"
+    },
     "method": {
       "type": "string",
       "enum": [

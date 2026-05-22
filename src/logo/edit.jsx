@@ -1,10 +1,4 @@
 /**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
- */
-
-/**
  * External Dependencies
  */
 import classnames from 'classnames';
@@ -23,28 +17,13 @@ import { useClientWidth } from '@prc/hooks';
  * Internal Dependencies
  */
 import Controls from './controls';
-// SVG images
-import primarySvg from './assets/primary.svg';
-import primaryWhiteSvg from './assets/primary-white.svg';
-import alternateSvg from './assets/alternate.svg';
-import alternateWhiteSvg from './assets/alternate-white.svg';
-import decodedSvg from './assets/decoded.svg';
-import symbolSvg from './assets/symbol.svg';
-import symbolWhiteSvg from './assets/symbol-white.svg';
-import pewKnightLogoSvg from './assets/pew-knight.svg';
 
 const MIN_SIZE = 24;
 
-const STYLE_TO_URL = {
-	'primary-only': primarySvg,
-	'primary-stable-white': primaryWhiteSvg,
-	'alt-only': alternateSvg,
-	'alt-stable-white': alternateWhiteSvg,
-	'decoded-only': decodedSvg,
-	'symbol-only': symbolSvg,
-	'symbol-stable-white': symbolWhiteSvg,
-	'pew-knight-only': pewKnightLogoSvg,
-};
+// Asset URLs are provided by PHP via wp_add_inline_script on the editor handle.
+// Falls back to an empty map so the block degrades gracefully during SSR or
+// when the inline script hasn't loaded yet.
+const STYLE_TO_URL = window.prcBlockLogoAssets || {};
 
 const DIMENSIONS = {
 	'primary-only': { width: 483.97, height: 72 },
@@ -57,17 +36,23 @@ const DIMENSIONS = {
 	'pew-knight-only': { width: 168, height: 32 },
 };
 
+const DEFAULT_STYLE = 'primary-only';
+
 function getStyleFromClassName(className) {
 	if (!className || typeof className !== 'string') {
-		return 'primary-only';
+		return DEFAULT_STYLE;
 	}
 	const m = className.match(/is-style-([a-z0-9-]+)/);
-	return m && STYLE_TO_URL[m[1]] ? m[1] : 'primary-only';
+	return m && STYLE_TO_URL[m[1]] ? m[1] : DEFAULT_STYLE;
 }
 
 function LogoInner({ className, width }) {
 	const style = getStyleFromClassName(className);
-	const src = STYLE_TO_URL[style] || primarySvg;
+	const src = STYLE_TO_URL[style] || STYLE_TO_URL[DEFAULT_STYLE];
+
+	if (!src) {
+		return null;
+	}
 
 	return (
 		<div

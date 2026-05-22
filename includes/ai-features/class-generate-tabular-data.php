@@ -210,8 +210,12 @@ OUTPUT FORMAT:
 			$urls_to_check[] = get_permalink( $post_id );
 		}
 
-		// Replace bloginfo('url') with pewresearch.org, so that we're always checking live site urls.
-		$urls_to_check = str_replace( get_bloginfo( 'url' ), 'https://www.pewresearch.org', $urls_to_check );
+		$urls_to_check = array_map(
+			static function ( $url ) {
+				return is_string( $url ) ? AI_Prompt_Permalink::normalize_for_public_origin( $url ) : $url;
+			},
+			$urls_to_check
+		);
 
 		// Shape the prompt with user request and source URLs.
 		$prompt = wp_sprintf(

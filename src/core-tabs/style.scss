@@ -1,9 +1,9 @@
 /* Variant styles for core-tabs (ported from tabs/style.scss) */
 
 /**
-Core styles for core-tabs block.
+Core styles for core-tabs block (tab panel content regions).
 */
-.wp-block-tab {
+.wp-block-tab-panel {
 	figure + p {
 		margin-top: 0px !important;
 	}
@@ -14,15 +14,15 @@ Core styles for core-tabs block.
   Gutenberg trunk (post-v1.5.3) moved the active indicator to a ::before underline;
   we manage active state ourselves to restore v1.5.3-era pill chrome.
 */
-.wp-block-tabs-menu-item[aria-selected="true"]::before,
-.wp-block-tabs-menu-item.is-active::before {
+.wp-block-tab[aria-selected="true"]::before,
+.wp-block-tab.is-active::before {
 	content: none;
 }
 
 /**
-  Default tabs menu and tab menu item button chrome (v1.5.3 parity).
+  Default tab list and tab button chrome (v1.5.3 parity).
 */
-.wp-block-tabs-menu {
+.wp-block-tab-list {
 	display: flex;
 	flex-wrap: wrap;
 	min-width: fit-content;
@@ -32,7 +32,7 @@ Core styles for core-tabs block.
 		display: none !important;
 	}
 
-	.wp-block-tabs-menu-item {
+	.wp-block-tab {
 		&:focus {
 			outline: none;
 		}
@@ -55,10 +55,10 @@ Core styles for core-tabs block.
 /**
   Custom Mobile Dropdown
 */
-.wp-block-tabs:has(.wp-block-tabs-menu__dropdown) {
+.wp-block-tabs:has(.wp-block-tabs-list__dropdown) {
 	width: 100%;
 }
-.wp-block-tabs-menu__dropdown {
+.wp-block-tabs-list__dropdown {
 	position: relative;
 	width: 100%;
 	font-family: var(--wp--preset--font-family--sans-serif);
@@ -68,26 +68,26 @@ Core styles for core-tabs block.
 	}
 
 	&.is-open {
-		.wp-block-tabs-menu__dropdown-panel {
+		.wp-block-tabs-list__dropdown-panel {
 			display: block;
 		}
-		.wp-block-tabs-menu__dropdown-trigger {
+		.wp-block-tabs-list__dropdown-trigger {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
-			.wp-block-tabs-menu__dropdown-trigger-icon {
+			.wp-block-tabs-list__dropdown-trigger-icon {
 				transform: rotate(180deg);
 			}
 		}
 	}
 
 	&:not(.is-open) {
-		.wp-block-tabs-menu__dropdown-panel {
+		.wp-block-tabs-list__dropdown-panel {
 			display: none;
 		}
 	}
 }
 
-.wp-block-tabs-menu__dropdown-trigger {
+.wp-block-tabs-list__dropdown-trigger {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -113,7 +113,7 @@ Core styles for core-tabs block.
 	}
 }
 
-.wp-block-tabs-menu__dropdown-trigger-label {
+.wp-block-tabs-list__dropdown-trigger-label {
 	display: flex;
 	align-items: center;
 	gap: 0.5em;
@@ -134,7 +134,7 @@ Core styles for core-tabs block.
 	}
 }
 
-.wp-block-tabs-menu__dropdown-trigger-icon {
+.wp-block-tabs-list__dropdown-trigger-icon {
 	flex-shrink: 0;
 	width: 0;
 	height: 0;
@@ -145,7 +145,7 @@ Core styles for core-tabs block.
 	transition: transform 0.2s ease;
 }
 
-.wp-block-tabs-menu__dropdown-panel {
+.wp-block-tabs-list__dropdown-panel {
 	position: absolute;
 	top: 100%;
 	left: 0;
@@ -164,13 +164,13 @@ Core styles for core-tabs block.
 	overflow-y: auto;
 }
 
-.wp-block-tabs-menu__dropdown-item {
+.wp-block-tabs-list__dropdown-item {
 	display: block;
 	margin: 0;
 	padding: 0;
 
-	// Override tabs-menu-item styles for dropdown context.
-	.wp-block-tabs-menu-item {
+	// Override tab button styles for dropdown context.
+	.wp-block-tab {
 		display: flex;
 		flex-direction: row !important;
 		justify-content: flex-start;
@@ -183,7 +183,7 @@ Core styles for core-tabs block.
 		}
 	}
 
-	&:last-child .wp-block-tabs-menu-item {
+	&:last-child .wp-block-tab {
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 	}
@@ -192,8 +192,8 @@ Core styles for core-tabs block.
 /**
   Bottom Mobile Dropdown (copy placed after tab panels)
 */
-.wp-block-tabs-menu__dropdown--bottom {
-	.wp-block-tabs-menu__dropdown-panel {
+.wp-block-tabs-list__dropdown--bottom {
+	.wp-block-tabs-list__dropdown-panel {
 		top: auto;
 		bottom: 100%;
 		border-top: 1px solid var(--wp--preset--color--ui-gray-light, #ccc);
@@ -204,30 +204,30 @@ Core styles for core-tabs block.
 		box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
 	}
 
-	.wp-block-tabs-menu__dropdown-trigger-icon {
+	.wp-block-tabs-list__dropdown-trigger-icon {
 		border-top: none;
 		border-bottom: 5px solid currentColor;
 	}
 
 	&.is-open {
-		.wp-block-tabs-menu__dropdown-trigger {
+		.wp-block-tabs-list__dropdown-trigger {
 			border-bottom-left-radius: 4px;
 			border-bottom-right-radius: 4px;
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}
-		.wp-block-tabs-menu__dropdown-trigger-icon {
+		.wp-block-tabs-list__dropdown-trigger-icon {
 			transform: rotate(180deg);
 		}
 	}
 
 	// Override first/last child border radius for upward-opening panel.
-	.wp-block-tabs-menu__dropdown-item {
-		&:first-child .wp-block-tabs-menu-item {
+	.wp-block-tabs-list__dropdown-item {
+		&:first-child .wp-block-tab {
 			border-top-left-radius: 4px;
 			border-top-right-radius: 4px;
 		}
-		&:last-child .wp-block-tabs-menu-item {
+		&:last-child .wp-block-tab {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
 		}
@@ -238,7 +238,7 @@ Core styles for core-tabs block.
   Smart style: Country Flags
   Displays country flags before tab labels using flag-icons library.
 */
-.wp-block-tabs-menu-item.is-style-country-flags {
+.wp-block-tab.is-style-country-flags {
 	display: flex;
 	align-items: center;
 	gap: 0.5em;
@@ -270,14 +270,15 @@ Core styles for core-tabs block.
 	Smart style: Active Underline
 	Adds an underline to the active tab label.
 */
-.wp-block-tabs-menu.is-style-active-underline {
+.wp-block-tab-list.is-style-active-underline {
 	border-bottom-color: #eaeaea !important;
 	padding-bottom: 0 !important;
-	.wp-block-tabs-menu-item {
+	.wp-block-tab {
 		margin-bottom: 1em !important;
+		border-radius: 25px !important;
 	}
-	.wp-block-tabs-menu-item.is-active,
-	.wp-block-tabs-menu-item[aria-selected="true"] {
+	.wp-block-tab.is-active,
+	.wp-block-tab[aria-selected="true"] {
 		color: var(--custom-tab-active-text-color, #000) !important;
 		background-color: transparent !important;
 		border-bottom-color: var(--custom-tab-active-color, #000) !important;
@@ -286,5 +287,42 @@ Core styles for core-tabs block.
 		border-radius: 0 !important;
 		padding-bottom: 1.5em !important;
 		margin-bottom: 0em !important;
+	}
+}
+
+/**
+ * Dark color scheme: tab labels inherit article-level `light-dark()` colors, while charts,
+ * banners, and tab chrome often use stable white surfaces — producing illegible light-on-light
+ * or dark-on-dark combinations. Anchor the tablist to predictable light-surface contrast.
+ */
+ @media (prefers-color-scheme: dark) {
+	.wp-block-tab-list:not(.is-style-active-underline) {
+		color-scheme: only light;
+		background-color: var(--wp--preset--color--ui-stable-white);
+		color: var(--wp--preset--color--ui-stable-black);
+
+		.wp-block-tab:not([aria-selected="true"]):not(.is-active) {
+			color: var(--wp--preset--color--ui-stable-black);
+		}
+	}
+
+	.wp-block-tab-list.is-style-active-underline {
+		color: var(--wp--preset--color--ui-text-color);
+		border-bottom-color: var(--wp--preset--color--ui-gray-light) !important;
+
+		.wp-block-tab:not([aria-selected="true"]):not(.is-active) {
+			color: var(--wp--preset--color--ui-text-color);
+		}
+	}
+
+	.wp-block-tab-list__dropdown-trigger {
+		color-scheme: only light;
+		background-color: var(--wp--preset--color--ui-stable-white);
+		color: var(--wp--preset--color--ui-stable-black);
+	}
+
+	.wp-block-tab-list__dropdown-panel {
+		color-scheme: only light;
+		background-color: var(--wp--preset--color--ui-stable-white);
 	}
 }

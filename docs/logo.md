@@ -99,6 +99,10 @@ None. Can be placed anywhere. The block also registers itself as an allowed bloc
 </div>
 ```
 
+## Asset Location
+
+Logo SVG assets live in the shared `images/logos/` directory (`wp-content/images/logos/` at runtime) rather than inside the plugin. Both the editor (via `window.prcBlockLogoAssets`, localized from PHP) and the PHP render reference that single location. If the assets directory is missing the block silently skips registration.
+
 ## PHP Rendering
 
 Server-side rendered via `render_block_callback` in `Logo`. The PHP:

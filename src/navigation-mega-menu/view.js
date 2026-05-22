@@ -1,171 +1,188 @@
 /**
  * WordPress dependencies
  */
-import { store, getContext, getElement } from '@wordpress/interactivity';
+import {
+	store,
+	getContext,
+	getElement,
+	withSyncEvent,
+} from '@wordpress/interactivity';
 
-import { getValues } from './use-ref-resizer';
+/**
+ * Writes the distance from the viewport top to the bottom of the
+ * wrapper's containing `core/navigation` block so the top-layer `<dialog>`
+ * can sit flush under the nav bar (`position: fixed; top: …`).
+ *
+ * The variable is set on the dialog element (not `document.documentElement`)
+ * so multiple mega menus in different navigation blocks do not overwrite a
+ * single shared root custom property when their ResizeObservers fire.
+ *
+ * @param {HTMLElement|null} wrapperEl Mega-menu wrapper (IxN `ref`).
+ */
+function setMegaMenuAnchorTop(wrapperEl) {
+	if (!wrapperEl) {
+		return;
+	}
+	const nav = wrapperEl.closest('.wp-block-navigation');
+	const dialogEl = wrapperEl.querySelector(
+		'.wp-block-prc-block-navigation-mega-menu__dialog'
+	);
+	if (!nav || !dialogEl) {
+		return;
+	}
+	const bottom = Math.round(nav.getBoundingClientRect().bottom);
+	dialogEl.style.setProperty('--prc-mega-menu-anchor-top', `${bottom}px`);
+}
 
+/**
+ * Mega menu interactivity store.
+ *
+ * The overlay is a native `<dialog>` rendered into the browser's top layer.
+ * This store tracks per-instance open state under `state[id].isActive` and
+ * uses a `data-wp-watch` callback (`syncDialogState`) on the wrapper to call
+ * `dialogEl.showModal()` / `dialogEl.close()` whenever that flag flips. All
+ * Escape, focus-trap, stacking and `::backdrop` outside-click semantics are
+ * delegated to the dialog element itself.
+ */
 const { state, actions } = store('prc-block/navigation-mega-menu', {
 	state: {
 		get isActive() {
-			const context = getContext();
-			const { id } = context;
+			const { id } = getContext();
 			return state[id]?.isActive || false;
-		},
-		get width() {
-			const context = getContext();
-			return context.width;
-		},
-		get left() {
-			const context = getContext();
-			return context.left;
-		},
-		get top() {
-			const context = getContext();
-			return context.top;
 		},
 	},
 	actions: {
-		closeAll: () => {
+		/**
+		 * Closes every open mega menu in the page. Used to enforce the
+		 * single-open invariant when the user toggles a different menu.
+		 */
+		closeAll() {
 			Object.keys(state).forEach((key) => {
-				state[key].isActive = false;
+				if (
+					typeof state[key] === 'object' &&
+					state[key] !== null &&
+					'isActive' in state[key]
+				) {
+					state[key].isActive = false;
+				}
 			});
 		},
-		toggleMenuOnClick() {
-			const { ref } = getElement();
-			actions.toggleMenu();
-		},
-		closeMenuOnClick() {
-			actions.closeMenu('click');
-			actions.closeMenu('focus');
-		},
-		toggleMenu() {
-			const context = getContext();
-			const { id } = context;
-			state[id].isActive = !state[id].isActive;
-		},
+		toggleMenuOnClick: withSyncEvent((event) => {
+			event.preventDefault();
+			const { id } = getContext();
+			const wasActive = state[id].isActive;
+			actions.closeAll();
+			state[id].isActive = !wasActive;
+		}),
+		closeMenuOnClick: withSyncEvent((event) => {
+			event.preventDefault();
+			const { id } = getContext();
+			state[id].isActive = false;
+		}),
 		openMenu() {
-			const context = getContext();
-			const { id } = context;
+			const { id } = getContext();
+			actions.closeAll();
 			state[id].isActive = true;
 		},
 		closeMenu() {
-			const context = getContext();
-			const { id } = context;
+			const { id } = getContext();
 			state[id].isActive = false;
-		},
-		setMenuPositions() {
-			const { ref } = getElement();
-			const menu = ref.querySelector(
-				'.wp-block-prc-block-navigation-mega-menu__container'
-			);
-			if (!menu) {
-				return;
-			}
-
-			const navBlock = menu.closest('.wp-block-navigation');
-			if (!navBlock) {
-				return;
-			}
-
-			const context = getContext();
-
-			const { width, left, top } = getValues(
-				ref,
-				ref.closest('.wp-block-navigation')
-			);
-
-			context.width = width;
-			context.left = left;
-			context.top = top;
 		},
 	},
 	callbacks: {
 		onInit() {
-			const context = getContext();
 			const { ref } = getElement();
-			const menu = ref.querySelector(
-				'.wp-block-prc-block-navigation-mega-menu__container'
+			const dialogEl = ref.querySelector(
+				'.wp-block-prc-block-navigation-mega-menu__dialog'
 			);
-			context.menuRef = menu;
-
-			// Set the initial menu positions
-			actions.setMenuPositions();
-
-			const innerGroup = menu.querySelector(
+			if (!dialogEl) {
+				return;
+			}
+			const nav = ref.closest('.wp-block-navigation');
+			if (nav) {
+				const ro = new window.ResizeObserver(() =>
+					setMegaMenuAnchorTop(ref)
+				);
+				ro.observe(nav);
+				setMegaMenuAnchorTop(ref);
+			}
+			// Cache the active-state classnames declared on the inner group
+			// so we can mirror them onto the toggle when the menu is open.
+			const innerGroup = dialogEl.querySelector(
 				'.wp-block-group.has-background'
 			);
 			if (innerGroup) {
+				const context = getContext();
 				const activeClassnames = innerGroup.className.match(
 					/(has-.*-background-color|has-background|has-text-color|has-.*-color)/g
 				);
 				context.activeClassnames = activeClassnames;
 			}
 		},
-		onResize() {
-			// Watch for window resize events and update the menu positions
-			actions.setMenuPositions();
+		/**
+		 * Driven by `data-wp-watch` on the wrapper. Whenever the per-instance
+		 * `isActive` flag changes, push the new state into the DOM by calling
+		 * the matching imperative dialog API. Reading state inside the watch
+		 * callback is what registers the dependency.
+		 */
+		syncDialogState() {
+			const { id, dialogId } = getContext();
+			const wantOpen = state[id]?.isActive ?? false;
+			const dialogEl = document.getElementById(dialogId);
+			if (!dialogEl) {
+				return;
+			}
+			if (wantOpen && !dialogEl.open) {
+				const { ref } = getElement();
+				setMegaMenuAnchorTop(ref);
+				dialogEl.showModal();
+			} else if (!wantOpen && dialogEl.open) {
+				dialogEl.close();
+			}
 		},
-		getToggleClassname() {
-			const defaults = [
-				'wp-block-navigation-item__content',
-				'wp-block-prc-block-navigation-mega-menu__toggle',
-			];
-			const context = getContext();
-			const { activeClassnames } = context;
-			// convert the array of activeClassnames to a string
-			if (state.isActive) {
-				const newClassnames =
-					defaults.join(' ') + activeClassnames.join(' ');
-				return newClassnames;
-			}
-			return defaults.join(' ');
-		},
-		onWindowClickCloseMegaMenu: (event) => {
-			const context = getContext();
-			const { id } = context;
-			if (!id) {
-				return;
-			}
-			if (!state[id]?.isActive) {
-				return;
-			}
-			const elm = getElement();
-			const { ref } = elm;
-
-			// check elm for any of the event.target
-			// if present then return early
-			if (
-				ref.contains(event.target) &&
-				!event.target.classList.contains(
-					'wp-block-prc-block-popup-modal__outer'
-				)
-			) {
-				return;
-			}
-
-			const megaMenuContainer = ref.querySelector(
-				'.wp-block-prc-block-navigation-mega-menu__container'
-			);
-			if (
-				!megaMenuContainer.innerHTML.includes(event.target.innerHTML) &&
-				true === state[id].isActive
-			) {
+		/**
+		 * Native `close` event fires for ESC, the close button, and explicit
+		 * `dialog.close()` calls. Sync state back so IxN remains the source
+		 * of truth (covers the ESC path that bypasses our actions entirely).
+		 */
+		onDialogClose() {
+			const { id } = getContext();
+			if (state[id]?.isActive) {
 				state[id].isActive = false;
 			}
 		},
-		onESCKey: (event) => {
-			const context = getContext();
-			const { id } = context;
-			if (!id) {
+		/**
+		 * On a modal `<dialog>`, clicks on the backdrop arrive at the dialog
+		 * element itself (event.target === the dialog). Inner content clicks
+		 * bubble from descendants.
+		 */
+		onBackdropClick: withSyncEvent((event) => {
+			const { ref } = getElement();
+			if (event.target !== ref) {
 				return;
 			}
-			if (event.key === 'Escape') {
-				if (true === state[id].isActive) {
-					event.preventDefault();
-					state[id].isActive = false;
-				}
-			}
-		},
+			const { id } = getContext();
+			state[id].isActive = false;
+		}),
 	},
 });
+
+if (typeof window !== 'undefined') {
+	let resizeScheduled = false;
+	window.addEventListener('resize', () => {
+		if (resizeScheduled) {
+			return;
+		}
+		resizeScheduled = true;
+		window.requestAnimationFrame(() => {
+			resizeScheduled = false;
+			document
+				.querySelectorAll(
+					'.wp-block-prc-block-navigation-mega-menu.is-active'
+				)
+				.forEach((el) => {
+					setMegaMenuAnchorTop(el);
+				});
+		});
+	});
+}

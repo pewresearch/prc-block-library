@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable max-lines-per-function */
 /**
  * External Dependencies
  */
@@ -9,11 +6,8 @@ import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
-import {
-	useBlockProps,
-	withColors,
-} from '@wordpress/block-editor';
-import { useState } from 'react';
+import { useBlockProps, withColors } from '@wordpress/block-editor';
+import { useCallback, useState } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -22,18 +16,24 @@ import './edit.scss';
 import StyleEngine from './style-engine';
 import Controls from './controls';
 import EditMenuItem from './edit-menu-item';
-import EditMenuTemplatePart from './edit-menu-template-part';
 
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
+ *
+ * The editor shows the nav toggle button for styling. Click the icon span to
+ * toggle a local `is-active` preview (active menu item colors); it is not saved.
+ * Content is authored via the "Edit in Site Editor" link in the inspector
+ * (see `controls.jsx` → `MenuTemplatePartControl`).
+ *
+ * The **frontend** uses `<dialog>` + `showModal()` driven by the Interactivity
+ * API (see `class-navigation-mega-menu.php` and `view.js`).
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
  * @param {Object}   props                                  Properties passed to the function.
  * @param {Object}   props.attributes                       Available block attributes.
  * @param {string}   props.clientId                         The unique identifier for the block.
- * @param {boolean}  props.isSelected                       Whether the block is currently selected.
  * @param {Object}   props.menuItemBackgroundColor          The background color of the menu item.
  * @param {Function} props.setMenuItemBackgroundColor       Function to set the background color of the menu item.
  * @param {Object}   props.menuItemTextColor                The text color of the menu item.
@@ -42,10 +42,6 @@ import EditMenuTemplatePart from './edit-menu-template-part';
  * @param {Function} props.setMenuItemActiveBackgroundColor Function to set the background color of the active menu item.
  * @param {Object}   props.menuItemActiveTextColor          The text color of the active menu item.
  * @param {Function} props.setMenuItemActiveTextColor       Function to set the text color of the active menu item.
- * @param {Object}   props.menuOverlayBackgroundColor       The background color of the menu overlay.
- * @param {Function} props.setMenuOverlayBackgroundColor    Function to set the background color of the menu overlay.
- * @param {Object}   props.menuOverlayTextColor             The text color of the menu overlay.
- * @param {Function} props.setMenuOverlayTextColor          Function to set the text color of the menu overlay.
  * @param {Object}   props.menuActiveBorderColor            The border color of the active menu.
  * @param {Function} props.setMenuActiveBorderColor         Function to set the border color of the active menu.
  * @param {Function} props.setAttributes                    Function to set the block attributes.
@@ -56,7 +52,6 @@ function Edit({
 	attributes,
 	setAttributes,
 	clientId,
-	isSelected,
 	menuItemBackgroundColor,
 	setMenuItemBackgroundColor,
 	menuItemTextColor,
@@ -65,26 +60,22 @@ function Edit({
 	setMenuItemActiveBackgroundColor,
 	menuItemActiveTextColor,
 	setMenuItemActiveTextColor,
-	menuOverlayBackgroundColor,
-	setMenuOverlayBackgroundColor,
-	menuOverlayTextColor,
-	setMenuOverlayTextColor,
+
 	menuActiveBorderColor,
 	setMenuActiveBorderColor,
 }) {
-	const { icon, label, description, menuSlug, isMobile } = attributes;
-	const [isMenuVisible, setMenuVisibility] = useState(false);
-	const toggleMenu = () => setMenuVisibility(!isMenuVisible);
+	const { icon } = attributes;
 
-	const menuItemClassnames = clsx('wp-block-navigation-item', {
-		'is-active': isMenuVisible,
-		'has-label': 'dropdown' === icon,
-	});
-
-	const overlayClassnames = 'wp-block-prc-block-navigation-mega-menu__container';
+	const [isActive, setIsActive] = useState(false);
+	const toggleActive = useCallback(() => {
+		setIsActive((value) => !value);
+	}, []);
 
 	const blockProps = useBlockProps({
-		className: menuItemClassnames,
+		className: clsx('wp-block-navigation-item', {
+			'has-label': 'dropdown' === icon,
+			'is-active': isActive,
+		}),
 	});
 
 	return (
@@ -103,10 +94,7 @@ function Edit({
 					setMenuItemActiveBackgroundColor,
 					menuItemActiveTextColor,
 					setMenuItemActiveTextColor,
-					menuOverlayBackgroundColor,
-					setMenuOverlayBackgroundColor,
-					menuOverlayTextColor,
-					setMenuOverlayTextColor,
+
 					menuActiveBorderColor,
 					setMenuActiveBorderColor,
 				}}
@@ -115,23 +103,10 @@ function Edit({
 				{...{
 					attributes,
 					setAttributes,
-					isSelected,
-					isMenuVisible,
-					toggleMenu,
+					isActive,
+					toggleActive,
 				}}
 			/>
-			<div className="wp-block-prc-block-navigation-mega-menu__tab-divider"></div>
-			{isMenuVisible && (
-				<EditMenuTemplatePart
-					{...{
-						menuSlug,
-						clientId,
-						overlayClassnames,
-						toggleMenu,
-						isMobile,
-					}}
-				/>
-			)}
 		</div>
 	);
 }
@@ -141,7 +116,6 @@ export default withColors(
 	{ menuItemTextColor: 'color' },
 	{ menuItemActiveBackgroundColor: 'color' },
 	{ menuItemActiveTextColor: 'color' },
-	{ menuOverlayBackgroundColor: 'color' },
-	{ menuOverlayTextColor: 'color' },
+
 	{ menuActiveBorderColor: 'color' }
 )(Edit);

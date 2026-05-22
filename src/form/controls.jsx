@@ -154,7 +154,6 @@ export default function Controls({
 
 	const methods = useMemo(() => {
 		const defaults = [
-
 			{
 				label: 'Select an action',
 				value: '',
@@ -178,20 +177,30 @@ export default function Controls({
 		];
 	}, [method, apiMethods, restMethods]);
 
-	const getSelectedAction = useCallback((namespace, action) => {
-		return registeredForms.filter((form) => {
-			// console.log('form', form);
-			if( form.namespace === namespace && form.action === action ) {
-				// Check if there is a template for this action, if not, revert to the default template
-				if( form.template && form.template.length > 0 ) {
-					return form;
-				} else {
-					form.template = DEFAULT_FORM_TEMPLATE;
-					return form;
-				}
-			}
-		}).pop() || {};
-	}, [registeredForms]);
+	const getSelectedAction = useCallback(
+		(namespace, action) => {
+			return (
+				registeredForms
+					.filter((form) => {
+						// console.log('form', form);
+						if (
+							form.namespace === namespace &&
+							form.action === action
+						) {
+							// Check if there is a template for this action, if not, revert to the default template
+							if (form.template && form.template.length > 0) {
+								return form;
+							} else {
+								form.template = DEFAULT_FORM_TEMPLATE;
+								return form;
+							}
+						}
+					})
+					.pop() || {}
+			);
+		},
+		[registeredForms]
+	);
 
 	const selectedAction = useMemo(() => {
 		return getSelectedAction(namespace, action);
@@ -221,7 +230,7 @@ export default function Controls({
 	return (
 		<>
 			{hasMessageBlock && (
-				<BlockControls>
+				<BlockControls group="block">
 					<ToolbarButton
 						icon={() => (
 							<Icon
@@ -323,15 +332,14 @@ export default function Controls({
 								<Button
 									variant="primary"
 									onClick={() => {
-										// console.log('selectedAction', selectedAction);
 										setIsTemplateDialogOpen(false);
-										// Find the form in the
 										const blocks =
 											createBlocksFromInnerBlocksTemplate(
 												selectedAction.template
 											);
-										// console.log('blocks...', blocks);
-										replaceBlock(clientId, blocks);
+										replaceInnerBlocks(clientId, [
+											...blocks,
+										]);
 									}}
 								>
 									Use template

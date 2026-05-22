@@ -128,7 +128,7 @@ class Tokens_List {
 			$template_inner = $template_tag->get_updated_html();
 		}
 		$template  = wp_sprintf(
-			'<div class="prc-block-tokens-list__tokens"><template data-wp-each--token="%s" data-wp-each-key="context.token.value">%s</template></div>%s',
+			'<div class="prc-block-tokens-list__tokens"><template data-wp-each--token="%s" data-wp-each-key="context.token.slug">%s</template></div>%s',
 			'state.tokens',
 			$template_inner,
 			$this->construct_clear_button( $template_inner )

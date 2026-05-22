@@ -121,3 +121,78 @@ Converted the navigation-mega-menu block to use design tokens and the style engi
 - Existing blocks should continue to work (backward compatible)
 - Old color class names are no longer generated but won't break existing content
 - Custom CSS relying on the old generated classes (e.g., `.has-blue-overlay-background`) may need updates
+
+---
+
+## Dialog Refactor (May 2026)
+
+The mega-menu **frontend** overlay uses a native `<dialog>` element opened with
+`showModal()`. That removes custom viewport `left`/`width` positioning math, a
+window-click outside-close handler, and a document keydown ESC handler. Vertical
+placement under the `core/navigation` bar uses `--prc-mega-menu-anchor-top`,
+updated from `ResizeObserver` + window resize (**`view.js` only**).
+
+The **block editor** does **not** use `<dialog>`: **`edit.jsx`** renders an
+in-flow preview panel under the nav item (`__editor-panel` in **`edit.scss`**)
+so authors can edit the navigation without a top-layer modal. ESC and the
+close button still collapse the preview; the template-part editor still mounts
+lazily on first open and stays mounted.
+
+### What changed (frontend)
+
+- **Markup.** The overlay is a `<dialog>` instead of a `<div>`. The legacy class
+  `wp-block-prc-block-navigation-mega-menu__container` is preserved on the
+  dialog alongside a new `__dialog` class so existing site CSS keeps applying.
+  Dual-class period is one release; `__container` is deprecated.
+- **Positioning.** `showModal()` puts the dialog in the top layer, so CSS Anchor
+  Positioning from the in-tree wrapper does not resolve reliably. Instead,
+  `view.js` sets `--prc-mega-menu-anchor-top` on the host `document.documentElement`
+  to the `getBoundingClientRect().bottom` of the parent `.wp-block-navigation`,
+  refreshed on `ResizeObserver(nav)`, window resize, and immediately before
+  `showModal()`. `style.scss` uses `top: var(--prc-mega-menu-anchor-top, 0px)`.
+- **Interactivity.** The store keeps its own namespace
+  (`prc-block/navigation-mega-menu`) and uses a `data-wp-watch` callback
+  (`syncDialogState`) on the wrapper to call `dialogEl.showModal()` /
+  `dialogEl.close()` when `state[id].isActive` flips. ESC, focus trap,
+  stacking-context escape, and `::backdrop` outside-click are delegated to the
+  dialog element. A native `close` event handler syncs state back so IxN
+  remains the source of truth.
+- **Single-open invariant.** `actions.toggleMenuOnClick` calls `closeAll()`
+  before opening, so opening menu B closes menu A even when both live in the
+  same nav block.
+- **Animations.** The `animation` attribute (`fade | slide`) is wired via
+  `@starting-style` and `transition-behavior: allow-discrete` on the dialog and
+  its `::backdrop`. `fade` is the default.
+- **Modal with transparent backdrop.** `showModal()` uses a transparent
+  backdrop so there is no visible scrim, but it still receives clicks for
+  outside-close on the frontend.
+
+### What changed (editor)
+
+- **In-flow panel.** `edit.jsx` renders a `<div>` panel (`__editor-panel`, plus
+  legacy `__container`), not `<dialog>` / `showModal()`. Panel layout and
+  close-button styling live in `edit.scss`; shared design tokens still come
+  from `style.scss` on the block root.
+
+### Files removed
+
+- `use-ref-resizer.js` — `getValues()` and the `useRefResizer` hook had no
+  remaining callers after the dialog took over positioning on the frontend.
+
+### Removed runtime concerns
+
+The following all disappeared from `view.js`:
+
+- `setMenuPositions` action and the `width`/`left`/`top` context fields
+- `onResize` callback (window resize listener)
+- `onWindowClickCloseMegaMenu` callback (manual outside-click resolver)
+- `onESCKey` callback (manual document keydown listener)
+- `getToggleClassname` callback (was unreferenced)
+
+### Backwards compatibility
+
+- Block attribute schema is unchanged — no migrations or deprecations needed.
+- Serialized blocks render unchanged in shape (toggle button + overlay), only
+  the overlay element type and runtime semantics change on the frontend.
+- The legacy `__container` class is preserved on the dialog; existing site CSS
+  targeting that class still applies.

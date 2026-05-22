@@ -124,6 +124,22 @@ class Core_Button {
 	public function add_settings( array $settings, array $metadata ) {
 		if ( self::$block_name === $metadata['name'] ) {
 			$settings['interactivity'] = true;
+			$settings['attributes']    = array_merge(
+				$settings['attributes'] ?? array(),
+				array(
+					'hasIcon'      => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+					'iconLibrary'  => array( 'type' => 'string' ),
+					'iconName'     => array( 'type' => 'string' ),
+					'iconPosition' => array(
+						'type'    => 'string',
+						'default' => 'right',
+					),
+					'iconColor'    => array( 'type' => 'string' ),
+				)
+			);
 		}
 		return $settings;
 	}
@@ -189,119 +205,16 @@ class Core_Button {
 	}
 
 	/**
-	 * Internal function to generate a style template for a button.
-	 *
-	 * @param string $style_name The style name.
-	 * @param string $icon The icon name.
-	 * @param string $icon_library The icon library (solid, light, etc).
-	 * @param string $icon_color The icon color.
-	 *
-	 * @return string The style template.
-	 */
-	public function style_template( $style_name, $icon, $icon_library = 'solid', $icon_color = 'black' ) {
-		$icon_url = \PRC\Platform\Icons\get_icon_as_data_uri( $icon_library, $icon, $icon_color );
-		$base     = wp_sprintf(
-			'.wp-block-button.is-style-%1$s { display: flex; align-items: center; } .wp-block-button.is-style-%1$s > .wp-element-button { display: flex; align-items: center; justify-content: space-between; text-align: left; } .wp-block-button.is-style-%1$s > .wp-element-button:after { content: ""; display: inline-block; margin-left: 0.5em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; flex-basis: 0.875em; flex-grow: 0; flex-shrink: 0; }',
-			$style_name,
-			$icon_url,
-		);
-		$dark     = wp_sprintf(
-			'@media (prefers-color-scheme: dark) { body.logged-in .wp-block-button.is-style-%1$s > .wp-element-button:after { filter: invert(1); } }',
-			$style_name,
-		);
-		return $base . $dark;
-	}
-
-	/**
 	 * Registers additional icon styles for core/button.
 	 */
 	public function register_core_button_block_styles() {
 		register_block_style(
 			'core/button',
 			array(
-				'name'         => 'icon__arrow-right-long',
-				'label'        => 'Arrow Right Icon',
-				'inline_style' => $this->style_template(
-					'icon__arrow-right-long',
-					'arrow-right-long',
-				),
-			)
-		);
-
-		register_block_style(
-			'core/button',
-			array(
-				'name'         => 'icon__up-right-and-down-left-from-center',
-				'label'        => 'Expand Icon',
-				'inline_style' => $this->style_template(
-					'icon__up-right-and-down-left-from-center',
-					'up-right-and-down-left-from-center'
-				),
-			)
-		);
-
-		register_block_style(
-			'core/button',
-			array(
-				'name'         => 'icon__magnifying-glass',
-				'label'        => 'Magnifying Glass Icon',
-				'inline_style' => $this->style_template(
-					'icon__magnifying-glass',
-					'magnifying-glass',
-					'solid',
-					'#346EAD'
-				),
-			)
-		);
-
-		register_block_style(
-			'core/button',
-			array(
-				'name'         => 'icon__clear',
-				'label'        => 'Clear Icon',
-				'inline_style' => $this->style_template(
-					'icon__clear',
-					'circle-x',
-					'light',
-				),
-			)
-		);
-
-		register_block_style(
-			'core/button',
-			array(
-				'name'         => 'icon__clear__filled',
-				'label'        => 'Clear Icon Filled',
-				'inline_style' => $this->style_template(
-					'icon__clear__filled',
-					'circle-x',
-					'solid',
-				),
-			)
-		);
-
-		register_block_style(
-			'core/button',
-			array(
-				'name'         => 'icon__arrows-rotate',
-				'label'        => 'Arrows Rotate Icon',
-				'inline_style' => $this->style_template(
-					'icon__arrows-rotate',
-					'arrows-rotate',
-					'solid',
-				),
-			)
-		);
-
-		register_block_style(
-			'core/button',
-			array(
-				'name'         => 'icon__graduation-cap',
-				'label'        => 'Graduation Cap Icon',
-				'inline_style' => $this->style_template(
-					'icon__graduation-cap',
-					'graduation-cap',
-					'solid',
+				'name'         => 'link',
+				'label'        => 'Link',
+				'inline_style' => wp_sprintf(
+					'.wp-block-button.is-style-link .wp-element-button { background: transparent !important; color: inherit; padding: 0 !important; border: none !important; border-radius: 0 !important; min-height: unset; font-size: inherit; text-decoration: none !important; }',
 				),
 			)
 		);
@@ -314,11 +227,11 @@ class Core_Button {
 	 * @return string
 	 */
 	public static function get_button_text( $block_content ) {
-		preg_match( '/<(a|button)[^>]*>(.*?)<\/(a|button)>/', $block_content, $matches );
+		preg_match( '/<(a|button)[^>]*>(.*?)<\/(a|button)>/s', $block_content, $matches );
 		if ( ! array_key_exists( 2, $matches ) ) {
 			return '';
 		}
-		return $matches[2];
+		return trim( wp_strip_all_tags( $matches[2] ) );
 	}
 
 	/**
@@ -340,6 +253,65 @@ class Core_Button {
 	 * @param mixed  $block Block.
 	 * @return mixed
 	 */
+	/**
+	 * Resolve the CSS vars needed by the is-style-has-icon style and apply them
+	 * to the rendered HTML. Sets --icon-url / --icon-color on the <a> element
+	 * and data-icon-position on the outer .wp-block-button wrapper.
+	 *
+	 * @param string $block_content Block HTML.
+	 * @param array  $attrs         Block attributes.
+	 *
+	 * @return string Modified block HTML.
+	 */
+	private function maybe_inject_icon_vars( string $block_content, array $attrs ): string {
+		if ( empty( $attrs['hasIcon'] ) ) {
+			return $block_content;
+		}
+
+		$icon_name = $attrs['iconName'] ?? '';
+		if ( empty( $icon_name ) ) {
+			return $block_content;
+		}
+
+		$library  = $attrs['iconLibrary'] ?? 'solid';
+		$color    = $attrs['iconColor'] ?? 'currentColor';
+		$position = $attrs['iconPosition'] ?? 'right';
+
+		$icon_uri = \PRC\Platform\Icons\get_icon_as_data_uri( $library, $icon_name );
+
+		// Pass 1: set CSS vars on the <a> element.
+		$anchor_processor = new WP_HTML_Tag_Processor( $block_content );
+		while ( $anchor_processor->next_tag() ) {
+			if ( in_array( $anchor_processor->get_tag(), array( 'A', 'BUTTON' ), true ) ) {
+				break;
+			}
+		}
+		if ( in_array( $anchor_processor->get_tag(), array( 'A', 'BUTTON' ), true ) ) {
+			$existing_style = $anchor_processor->get_attribute( 'style' ) ?? '';
+			$separator      = '' !== $existing_style ? ';' : '';
+			$icon_style     = sprintf(
+				'--icon-url:url(%1$s);--icon-color:%2$s',
+				$icon_uri,
+				$color
+			);
+			$anchor_processor->set_attribute( 'style', $existing_style . $separator . $icon_style );
+		}
+
+		$block_content = $anchor_processor->get_updated_html();
+
+		// Pass 2: add has-icon class and data-icon-position on the outer wrapper div.
+		$wrapper_processor = new WP_HTML_Tag_Processor( $block_content );
+		if ( $wrapper_processor->next_tag( 'div' ) ) {
+			$existing_class = $wrapper_processor->get_attribute( 'class' ) ?? '';
+			if ( ! $wrapper_processor->has_class( 'has-icon' ) ) {
+				$wrapper_processor->set_attribute( 'class', trim( $existing_class . ' has-icon' ) );
+			}
+			$wrapper_processor->set_attribute( 'data-icon-position', esc_attr( $position ) );
+		}
+
+		return $wrapper_processor->get_updated_html();
+	}
+
 	public function render( $block_content, $block ) {
 		if ( self::$block_name !== $block['blockName'] || is_admin() ) {
 			return $block_content;
@@ -352,8 +324,15 @@ class Core_Button {
 		$target_namespace = array_key_exists( 'interactiveNamespace', $block['attrs'] ) ? $block['attrs']['interactiveNamespace'] : null;
 		$has_subsumption  = array_key_exists( 'interactiveSubsumption', $attributes ) ? $attributes['interactiveSubsumption'] : false;
 
+		// Inject icon CSS vars for is-style-has-icon before further processing.
+		$block_content = $this->maybe_inject_icon_vars( $block_content, $attributes );
+
 		$tag_processor = new WP_HTML_Tag_Processor( $block_content );
-		$tag_processor->next_tag( 'a' );
+		while ( $tag_processor->next_tag() ) {
+			if ( in_array( $tag_processor->get_tag(), array( 'A', 'BUTTON' ), true ) ) {
+				break;
+			}
+		}
 
 		$metadata = array_key_exists( 'metadata', $block['attrs'] ) ? $block['attrs']['metadata'] : null;
 
@@ -382,9 +361,10 @@ class Core_Button {
 		if ( null !== $metadata ) {
 			$bindings = array_key_exists( 'bindings', $metadata ) ? $metadata['bindings'] : null;
 			if ( null !== $bindings ) {
-				$bound_url        = array_key_exists( 'url', $bindings ) ? $bindings['url'] : array( 'args' => array() );
-				$bound_url_src    = array_key_exists( 'source', $bound_url ) ? $bound_url['source'] : null;
-				$args_value_fetch = array_key_exists( 'valueToFetch', $bound_url['args'] ) ? $bound_url['args']['valueToFetch'] : null;
+				$bound_url      = array_key_exists( 'url', $bindings ) ? $bindings['url'] : array( 'args' => array() );
+				$bound_url_src  = array_key_exists( 'source', $bound_url ) ? $bound_url['source'] : null;
+				$bound_url_args = isset( $bound_url['args'] ) && is_array( $bound_url['args'] ) ? $bound_url['args'] : array();
+				$args_value_fetch = array_key_exists( 'valueToFetch', $bound_url_args ) ? $bound_url_args['valueToFetch'] : null;
 				// If the button is bound to a staff photo, add the download attribute.
 				if ( 'prc-platform/staff-info' === $bound_url_src && 'photo-full' === $args_value_fetch ) {
 					$tag_processor->set_attribute( 'download', true );

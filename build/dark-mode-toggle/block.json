@@ -1,0 +1,103 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "prc-block/dark-mode-toggle",
+  "version": "0.1.0",
+  "title": "Dark Mode Toggle",
+  "category": "widgets",
+  "description": "A button that lets visitors override their OS color-scheme preference for the current site, switching between light and dark mode.",
+  "keywords": [
+    "dark",
+    "mode",
+    "light",
+    "color",
+    "scheme",
+    "theme"
+  ],
+  "attributes": {
+    "showLabel": {
+      "type": "boolean",
+      "default": true
+    },
+    "lightLabel": {
+      "type": "string",
+      "default": "Light mode"
+    },
+    "darkLabel": {
+      "type": "string",
+      "default": "Dark mode"
+    }
+  },
+  "example": {
+    "attributes": {
+      "showLabel": true,
+      "lightLabel": "Light mode",
+      "darkLabel": "Dark mode"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "html": false,
+    "align": [
+      "left",
+      "center",
+      "right",
+      "wide"
+    ],
+    "interactivity": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "link": true,
+      "__experimentalDefaultControls": {
+        "background": false,
+        "text": false
+      }
+    },
+    "spacing": {
+      "blockGap": true,
+      "margin": [
+        "top",
+        "bottom"
+      ],
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "padding": true
+      }
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "__experimentalFontFamily": true,
+      "__experimentalFontWeight": true,
+      "__experimentalDefaultControls": {
+        "fontSize": true
+      }
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "style": true,
+      "width": true,
+      "radius": true,
+      "__experimentalDefaultControls": {
+        "color": true,
+        "style": true,
+        "width": true,
+        "radius": true
+      }
+    },
+    "selectors": {
+      "border": ".wp-block-prc-block-dark-mode-toggle",
+      "color": {
+        "background": ".wp-block-prc-block-dark-mode-toggle",
+        "text": ".wp-block-prc-block-dark-mode-toggle",
+        "link": ".wp-block-prc-block-dark-mode-toggle"
+      }
+    }
+  },
+  "textdomain": "dark-mode-toggle",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js"
+}

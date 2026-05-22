@@ -48,18 +48,6 @@
 		"customMenuItemActiveTextColor": {
 			"type": "string"
 		},
-		"menuOverlayBackgroundColor": {
-			"type": "string"
-		},
-		"customMenuOverlayBackgroundColor": {
-			"type": "string"
-		},
-		"menuOverlayTextColor": {
-			"type": "string"
-		},
-		"customMenuOverlayTextColor": {
-			"type": "string"
-		},
 		"menuActiveBorderColor": {
 			"type": "string"
 		},

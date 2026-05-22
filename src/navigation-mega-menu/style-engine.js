@@ -16,8 +16,7 @@ function getColorStyles({ attributes } = {}) {
 		customMenuItemTextColor,
 		customMenuItemActiveBackgroundColor,
 		customMenuItemActiveTextColor,
-		customMenuOverlayBackgroundColor,
-		customMenuOverlayTextColor,
+
 		customMenuActiveBorderColor,
 	} = attributes || {};
 
@@ -43,12 +42,7 @@ function getColorStyles({ attributes } = {}) {
 		'--custom-menu-item-active-text-color': getColorValue(
 			customMenuItemActiveTextColor
 		),
-		'--custom-menu-overlay-background-color': getColorValue(
-			customMenuOverlayBackgroundColor
-		),
-		'--custom-menu-overlay-text-color': getColorValue(
-			customMenuOverlayTextColor
-		),
+
 		'--custom-menu-active-brdr-color': getColorValue(
 			customMenuActiveBorderColor
 		),

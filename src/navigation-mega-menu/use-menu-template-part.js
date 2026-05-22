@@ -17,30 +17,15 @@ export default function useMenuTemplatePart({
 		}
 	);
 
-	// Filter the template parts for those in the 'menu' area.
 	const menuOptions = useMemo(() => {
 		if (!records || !records.length) {
 			return [];
 		}
-		const selectedMenu = records.find((item) => item.slug === menuSlug);
-		if (selectedMenu) {
-			return [
-				{
-					label: selectedMenu.title.rendered,
-					value: selectedMenu.slug,
-				},
-			];
-		}
-		return records
-			.filter(
-				(item) =>
-					item.area === 'menu' || item.title.rendered.includes('menu')
-			)
-			.map((item) => ({
-				label: item.title.rendered,
-				value: item.slug,
-			}));
-	}, [menuSlug, records]);
+		return records.map((item) => ({
+			label: item.title.rendered,
+			value: item.slug,
+		}));
+	}, [records]);
 
 	const hasMenus = useMemo(() => menuOptions.length > 0, [menuOptions]);
 	const selectedMenuAndExists = useMemo(
@@ -54,23 +39,21 @@ export default function useMenuTemplatePart({
 		if (!menuSlug || !hasResolved || !records || !records.length) {
 			return;
 		}
-		const r =
-			hasResolved &&
-			records &&
-			records.find((item) => item.slug === menuSlug);
-		if (r.theme && r.slug) {
+		const r = records.find((item) => item.slug === menuSlug);
+		if (!r) {
+			return;
+		}
+		// WP core-data already stores the compound `theme//slug` as `r.id`
+		// for wp_template_part records. Use it directly; fall back to manual
+		// construction; final fallback is slug-only so the link always appears.
+		if (r.id) {
+			return r.id;
+		}
+		if (r.theme) {
 			return `${r.theme}//${r.slug}`;
 		}
+		return r.slug;
 	}, [menuSlug, hasResolved, records]);
-
-	console.log(
-		'useMenuTemplatePart',
-		menuOptions,
-		hasMenus,
-		selectedMenuAndExists,
-		records,
-		menuId
-	);
 
 	return {
 		menuOptions,

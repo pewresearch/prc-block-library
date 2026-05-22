@@ -6,16 +6,12 @@ import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
 import {
 	InnerBlocks,
 	useBlockProps,
 	useInnerBlocksProps,
-	InspectorControls,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { TextControl, SelectControl, PanelBody } from '@wordpress/components';
-import { useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 /**
@@ -31,7 +27,9 @@ export default function Edit({
 	clientId,
 	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const [displayMessageEditing, setDisplayMessageEditing] = useState(false);
+	const { displayMessageEditing } = attributes;
+	const setDisplayMessageEditing = (value) =>
+		setAttributes({ displayMessageEditing: value });
 	const { hasInnerBlocks } = useSelect(
 		(select) => {
 			const { getBlock } = select(blockEditorStore);

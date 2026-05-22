@@ -5,7 +5,7 @@ if ( is_admin() ) {
 }
 
 $current_dir = dirname(__FILE__);
-$assets_dir = PRC_BLOCK_LIBRARY_DIR . '/assets';
+$assets_url = content_url( 'images/logos' );
 
 $collapsible_title = array_key_exists( 'title', $attributes ) ? $attributes['title'] : 'How we did this';
 $collapsible_title = wp_specialchars_decode($collapsible_title);
@@ -29,7 +29,7 @@ if ( $is_co_branded ) {
 	$collapsible_title = wp_sprintf(
 		'<a href="%1$s"><img src="%2$s" alt="%3$s" height="35px" class="wp-block-prc-block-collapsible__co-branding" title="%3$s" /></a>',
 		get_bloginfo('url') . '/pew-knight',
-		$assets_dir . '/pew-knight-logo.svg',
+		$assets_url . '/pew-knight.svg',
 		'Learn more about the Pew Knight Initiative'
 	);
 	$collapsible_id = wp_unique_id('pew-knight-collapsible-');

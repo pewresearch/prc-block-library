@@ -1,17 +1,11 @@
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 // eslint-disable-next-line no-restricted-imports
 import { createInterpolateElement, Fragment } from '@wordpress/element';
-import {
-	ComboboxControl,
-	Notice,
-	__experimentalHStack as HStack, // eslint-disable-line
-	__experimentalToggleGroupControl as ToggleGroupControl, // eslint-disable-line
-	__experimentalToggleGroupControlOptionIcon as ToggleGroupControlOptionIcon, // eslint-disable-line
-} from '@wordpress/components';
+import { Button, ComboboxControl, Notice } from '@wordpress/components';
 
 /**
  * Internal Dependencies
@@ -22,19 +16,41 @@ export default function MenuTemplatePartControl({
 	menuSlug,
 	onChange = () => {},
 }) {
-	const siteUrl = useSelect((select) => select('core').getSite().url);
+	const siteUrl = window.prcPlatform?.siteUrl;
+
 	const menuTemplateUrl = siteUrl
 		? `${siteUrl}/wp-admin/site-editor.php?path=%2Fpatterns&categoryType=wp_template_part&categoryId=menu`
 		: '';
 
-	// Fetch all template parts.
-	const { menuOptions, hasMenus, selectedMenuAndExists } =
+	const { menuOptions, hasMenus, selectedMenuAndExists, menuId } =
 		useMenuTemplatePart({
 			menuSlug,
 			setMenuSlug: (newVal) => onChange(newVal),
 		});
 
-	// Notice for when no menus have been created.
+	console.log('useMenuTemplatePart', {
+		menuOptions,
+		hasMenus,
+		selectedMenuAndExists,
+		menuId,
+	});
+
+	// Direct link to the specific template part when menuId is available.
+	// Falls back to the menu patterns list so the link always appears when
+	// a valid template is selected.
+	const editTemplateUrl = (() => {
+		if (!siteUrl) {
+			return '';
+		}
+		if (menuId) {
+			return `${siteUrl}/wp-admin/site-editor.php?p=${encodeURIComponent(`/wp_template_part/${menuId}`)}&canvas=edit`;
+		}
+		return menuTemplateUrl;
+	})();
+
+	const selectedMenuLabel =
+		menuOptions.find((o) => o.value === menuSlug)?.label ?? menuSlug;
+
 	const noMenusNotice = (
 		<Notice status="warning" isDismissible={false}>
 			{createInterpolateElement(
@@ -55,7 +71,6 @@ export default function MenuTemplatePartControl({
 		</Notice>
 	);
 
-	// Notice for when the selected menu template no longer exists.
 	const menuDoesntExistNotice = (
 		<Notice status="warning" isDismissible={false}>
 			{__(
@@ -72,27 +87,29 @@ export default function MenuTemplatePartControl({
 				value={menuSlug}
 				options={menuOptions}
 				onChange={onChange}
-				help={
-					hasMenus &&
-					createInterpolateElement(
-						__(
-							'Create and modify menu templates in the <a>Site Editor</a>.',
-							'mega-menu-block'
-						),
-						{
-							a: (
-							<a // eslint-disable-line
-									href={menuTemplateUrl}
-									target="_blank"
-									rel="noreferrer"
-								/>
-							),
-						}
-					)
-				}
 			/>
 			{!hasMenus && noMenusNotice}
 			{hasMenus && !selectedMenuAndExists && menuDoesntExistNotice}
+			{selectedMenuAndExists && editTemplateUrl && (
+				<Button
+					variant="link"
+					href={editTemplateUrl}
+					target="_blank"
+					rel="noreferrer"
+					style={{ marginTop: '8px', display: 'inline-flex' }}
+				>
+					{selectedMenuLabel
+						? sprintf(
+								/* translators: %s: template part name */
+								__(
+									'Edit "%s" in Site Editor',
+									'mega-menu-block'
+								),
+								selectedMenuLabel
+							)
+						: __('Edit template in Site Editor', 'mega-menu-block')}
+				</Button>
+			)}
 		</Fragment>
 	);
 }

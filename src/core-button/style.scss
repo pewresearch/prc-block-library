@@ -65,6 +65,39 @@
 	text-decoration: none !important;
 }
 
+.wp-block-button.has-icon {
+	display: flex;
+	align-items: center;
+	.wp-element-button {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		&::before,
+		&::after {
+			content: "";
+			display: inline-block;
+			width: 0.875em;
+			height: 0.875em;
+			flex: 0 0 0.875em;
+			background-color: var(--icon-color, currentColor);
+			mask-image: var(--icon-url);
+			mask-size: contain;
+			mask-repeat: no-repeat;
+			mask-position: center;
+			-webkit-mask-image: var(--icon-url);
+			-webkit-mask-size: contain;
+			-webkit-mask-repeat: no-repeat;
+			-webkit-mask-position: center;
+		}
+	}
+	&[data-icon-position="left"] .wp-element-button::after {
+		display: none;
+	}
+	&[data-icon-position="right"] .wp-element-button::before {
+		display: none;
+	}
+}
+
 .is-style-flex-buttons .wp-element-button {
 	padding-left: 0.85em;
 	padding-right: 0.85em;

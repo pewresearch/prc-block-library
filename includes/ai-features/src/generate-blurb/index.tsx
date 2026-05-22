@@ -1,71 +1,113 @@
 /**
  * External Dependencies
  */
-import { AISuggestToolbarButton } from '@prc/components';
 
 /**
  * WordPress Dependencies
  */
 import { addFilter } from '@wordpress/hooks';
-import { Modal } from '@wordpress/components';
+import { BlockControls } from '@wordpress/block-editor';
+import {
+	Modal,
+	ToolbarDropdownMenu,
+	ToolbarGroup,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { update } from '@wordpress/icons';
 import { useState } from '@wordpress/element';
 import { createHigherOrderComponent } from '@wordpress/compose';
 
 /**
  * Internal Dependencies
  */
-import AIGenerateBlurb from './ai-generate-blurb';
+import AIGenerateStoryItem from './ai-generate-blurb';
+
+type AIMode = 'title' | 'blurb';
 
 const ALLOWED_BLOCKS = ['prc-block/story-item'];
 
 /**
  * Higher-order component that wraps the Story Item block edit component
- * to inject a Generate blurb toolbar button.
+ * to inject a Generate with AI toolbar dropdown containing title and blurb options.
  */
-const withAIGenerateBlurb = createHigherOrderComponent((BlockEdit) => {
+const withAIGenerateStoryItem = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
 		const [isModalOpen, setIsModalOpen] = useState(false);
+		const [mode, setMode] = useState<AIMode>('blurb');
 
 		if (!ALLOWED_BLOCKS.includes(props.name)) {
 			return <BlockEdit {...props} />;
 		}
 
+		const headerEnabled = props.attributes.enableHeader !== false;
 		const excerptEnabled = props.attributes.enableExcerpt !== false;
+
+		// Don't render any AI control if both features are disabled.
+		if (!headerEnabled && !excerptEnabled) {
+			return <BlockEdit {...props} />;
+		}
+
+		const openModal = (selectedMode: AIMode) => {
+			setMode(selectedMode);
+			setIsModalOpen(true);
+		};
+
+		const controls: {
+			title: string;
+			onClick: () => void;
+		}[] = [];
+
+		if (headerEnabled) {
+			controls.push({
+				title: __('Generate title', 'prc-block-library'),
+				onClick: () => openModal('title'),
+			});
+		}
+
+		if (excerptEnabled) {
+			controls.push({
+				title: __('Generate blurb', 'prc-block-library'),
+				onClick: () => openModal('blurb'),
+			});
+		}
+
+		const modalTitle =
+			mode === 'title'
+				? __('Generate title', 'prc-block-library')
+				: __('Generate blurb', 'prc-block-library');
 
 		return (
 			<>
 				<BlockEdit {...props} />
-				{excerptEnabled && (
-					<>
-						<AISuggestToolbarButton
-							label={__('Generate blurb', 'prc-block-library')}
-							onClick={() => setIsModalOpen(true)}
+				<BlockControls group="other">
+					<ToolbarGroup>
+						<ToolbarDropdownMenu
+							icon={update}
+							label={__('Generate with AI', 'prc-block-library')}
+							controls={controls}
 						/>
-						{isModalOpen && (
-							<Modal
-								title={__(
-									'Generate blurb',
-									'prc-block-library'
-								)}
-								onRequestClose={() => setIsModalOpen(false)}
-							>
-								<AIGenerateBlurb
-									attributes={props.attributes}
-									setAttributes={props.setAttributes}
-									onClose={() => setIsModalOpen(false)}
-								/>
-							</Modal>
-						)}
-					</>
+					</ToolbarGroup>
+				</BlockControls>
+				{isModalOpen && (
+					<Modal
+						title={modalTitle}
+						onRequestClose={() => setIsModalOpen(false)}
+					>
+						<AIGenerateStoryItem
+							mode={mode}
+							attributes={props.attributes}
+							setAttributes={props.setAttributes}
+							onClose={() => setIsModalOpen(false)}
+						/>
+					</Modal>
 				)}
 			</>
 		);
 	};
-}, 'withAIGenerateBlurb');
+}, 'withAIGenerateStoryItem');
 
 addFilter(
 	'editor.BlockEdit',
 	'prc-block-library/ai-features/generate-blurb',
-	withAIGenerateBlurb
+	withAIGenerateStoryItem
 );

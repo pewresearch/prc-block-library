@@ -7,8 +7,6 @@
 
 namespace PRC\Platform\Blocks;
 
-use MatthiasMullie\Minify;
-
 /**
  * Block Name:        Navigation Mega Menu
  * Version:           1.0.0
@@ -88,8 +86,7 @@ class Navigation_Mega_Menu {
 		$menu_item_text        = $attributes['customMenuItemTextColor'] ?? '';
 		$menu_item_active_bg   = $attributes['customMenuItemActiveBackgroundColor'] ?? '';
 		$menu_item_active_text = $attributes['customMenuItemActiveTextColor'] ?? '';
-		$menu_overlay_bg       = $attributes['customMenuOverlayBackgroundColor'] ?? '';
-		$menu_overlay_text     = $attributes['customMenuOverlayTextColor'] ?? '';
+
 		$menu_active_border    = $attributes['customMenuActiveBorderColor'] ?? '';
 
 		$styles = array(
@@ -97,9 +94,8 @@ class Navigation_Mega_Menu {
 			'--custom-menu-item-text-color'              => $menu_item_text,
 			'--custom-menu-item-active-background-color' => $menu_item_active_bg,
 			'--custom-menu-item-active-text-color'       => $menu_item_active_text,
-			'--custom-menu-overlay-background-color'     => $menu_overlay_bg,
-			'--custom-menu-overlay-text-color'           => $menu_overlay_text,
-			'--custom-menu-active-brdr-color'           => $menu_active_border,
+
+			'--custom-menu-active-brdr-color'            => $menu_active_border,
 		);
 
 		$style_string = array_map(
@@ -115,6 +111,20 @@ class Navigation_Mega_Menu {
 
 	/**
 	 * Render callback for the navigation mega menu block.
+	 *
+	 * The overlay is rendered as a native `<dialog>` element. The frontend
+	 * Interactivity store calls `dialogEl.showModal()` / `dialogEl.close()`
+	 * in response to `state[id].isActive` flips, so all stacking, focus,
+	 * Escape, and `::backdrop` outside-click semantics are handled by the
+	 * platform rather than by hand.
+	 *
+	 * Vertical position is driven by the CSS variable
+	 * `--prc-mega-menu-anchor-top` on the `<dialog>` (distance from the
+	 * viewport top to the bottom edge of the parent `core/navigation` block),
+	 * updated at runtime by `view.js` via `ResizeObserver` + window resize —
+	 * so the dialog sits flush under the nav bar even though `showModal()`
+	 * moves it into the top layer. Each instance sets its own variable on the
+	 * dialog element so multiple mega menus do not overwrite each other.
 	 *
 	 * @param array    $attributes Block attributes.
 	 * @param string   $content    Block content.
@@ -139,34 +149,35 @@ class Navigation_Mega_Menu {
 		$animation       = $attributes['animation'] ?? '';
 		$url_description = $attributes['description'] ?? false;
 		$url_title       = $attributes['title'] ?? false;
-		$url             = $attributes['url'] ?? false;
 		$icon            = $attributes['icon'] ?? 'dropdown';
 		$has_box_shadow  = $attributes['hasBoxShadow'] ?? false;
 		$is_mobile       = $attributes['isMobile'] ?? false;
 
 		$menu_uniq_id = wp_unique_id( 'mega-menu-' );
+		$dialog_id    = $menu_uniq_id . '-dialog';
 
-		$initial_state                  = array(
-			$menu_uniq_id => array(
-				'isActive' => false,
-				'top'      => 0,
-				'left'     => 0,
-				'width'    => 0,
-			),
+		// Per-instance interactivity state. The store keys all per-dialog
+		// data by the wrapper id so multiple mega menus can coexist without
+		// stomping on each other.
+		wp_interactivity_state(
+			'prc-block/navigation-mega-menu',
+			array(
+				$menu_uniq_id => array(
+					'isActive' => false,
+				),
+			)
 		);
-		$initial_state[ $menu_uniq_id ] = array( 'isActive' => false );
-		wp_interactivity_state( 'prc-block/navigation-mega-menu', $initial_state );
 
 		ob_start();
 		?>
-		<span class="wp-block-prc-block-navigation-mega-menu__toggle-<?php echo $icon; ?>-icon">
+		<span class="wp-block-prc-block-navigation-mega-menu__toggle-<?php echo esc_attr( $icon ); ?>-icon">
 			<?php
 			if ( 'dropdown' === $icon ) {
-				echo \PRC\Platform\Icons\Render( 'solid', 'caret-down' );
+				echo \PRC\Platform\Icons\Render( 'solid', 'caret-down' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} elseif ( 'mobile' === $icon ) {
-				echo \PRC\Platform\Icons\Render( 'light', 'bars' );
+				echo \PRC\Platform\Icons\Render( 'light', 'bars' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			} elseif ( 'search' === $icon ) {
-				echo \PRC\Platform\Icons\Render( 'solid', 'magnifying-glass' );
+				echo \PRC\Platform\Icons\Render( 'solid', 'magnifying-glass' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 			?>
 		</span>
@@ -181,38 +192,43 @@ class Navigation_Mega_Menu {
 			data-wp-on--click="actions.closeMenuOnClick"
 			type="button"
 		>
-			<?php echo \PRC\Platform\Icons\Render( 'solid', 'close' ); ?>
+			<?php echo \PRC\Platform\Icons\Render( 'solid', 'close' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</button>
 		<?php
 		$close_button = ob_get_clean();
 
-		$overlay_classnames = 'wp-block-prc-block-navigation-mega-menu__container';
+		// Keep the legacy `__container` class on the dialog for one release so
+		// any site CSS targeting the old div-based selector keeps applying.
+		$dialog_classnames = \PRC\BlockUtils\classNames(
+			array(
+				'wp-block-prc-block-navigation-mega-menu__container',
+				'wp-block-prc-block-navigation-mega-menu__dialog',
+				$animation ? 'is-animation-' . $animation : '',
+			)
+		);
 
 		ob_start();
 		?>
-		<div
-			class="<?php echo esc_attr( $overlay_classnames ); ?>"
-			tabindex="-1"
-			data-wp-style--top="state.top"
-			data-wp-style--left="state.left"
-			data-wp-style--width="state.width"
+		<dialog
+			id="<?php echo esc_attr( $dialog_id ); ?>"
+			class="<?php echo esc_attr( $dialog_classnames ); ?>"
+			data-wp-on--click="callbacks.onBackdropClick"
+			data-wp-on--close="callbacks.onDialogClose"
 		>
-			<?php echo $close_button; ?>
-			<?php echo $mega_menu_template_part; ?>
-		</div>
-
+			<?php echo $close_button; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo $mega_menu_template_part; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		</dialog>
 		<?php
-		$mega_menu_container__and__content = ob_get_clean();
+		$mega_menu_dialog = ob_get_clean();
 
 		$display_label = ( ! $icon || 'dropdown' === $icon ) ? $label : '';
 
-		// Generate inline color styles.
-		$color_styles = $this->generate_color_styles( $attributes );
+		$wrapper_styles = $this->generate_color_styles( $attributes );
 
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'id'                           => $menu_uniq_id,
-				'class'                        => \PRC\BlockUtils\classNames(
+				'id'                       => $menu_uniq_id,
+				'class'                    => \PRC\BlockUtils\classNames(
 					array(
 						'wp-block-navigation-item',
 						'has-label'      => 'dropdown' === $icon,
@@ -220,41 +236,40 @@ class Navigation_Mega_Menu {
 						'is-mobile'      => $is_mobile,
 					)
 				),
-				'style'                        => $color_styles,
-				'data-wp-interactive'          => 'prc-block/navigation-mega-menu',
-				'data-wp-context'              => wp_json_encode(
+				'style'                    => $wrapper_styles,
+				'data-wp-interactive'      => 'prc-block/navigation-mega-menu',
+				'data-wp-context'          => wp_json_encode(
 					array(
 						'id'        => $menu_uniq_id,
+						'dialogId'  => $dialog_id,
 						'animation' => $animation,
-						'url'       => $url,
 					)
 				),
-				'data-wp-class--is-active'     => 'state.isActive',
-				'data-wp-init'                 => 'callbacks.onInit',
-				'data-wp-on-window--resize'    => 'callbacks.onResize',
-				'data-wp-on-document--keydown' => 'callbacks.onESCKey',
-				'data-wp-on-window--click'     => 'callbacks.onWindowClickCloseMegaMenu',
+				'data-wp-class--is-active' => 'state.isActive',
+				'data-wp-init'             => 'callbacks.onInit',
+				'data-wp-watch'            => 'callbacks.syncDialogState',
 			)
 		);
 		ob_start();
 		?>
 
-		<div <?php echo $wrapper_attributes; ?>>
+		<div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 			<button
 				class="wp-block-navigation-item__content wp-block-prc-block-navigation-mega-menu__toggle"
 				data-wp-on--click="actions.toggleMenuOnClick"
 				data-wp-bind--aria-expanded="state.isActive"
 				title="<?php echo esc_attr( $url_title ); ?>"
 				aria-description="<?php echo esc_attr( $url_description ); ?>"
-				aria-controls="<?php echo esc_attr( $menu_uniq_id ); ?>"
+				aria-controls="<?php echo esc_attr( $dialog_id ); ?>"
+				type="button"
 			>
 				<?php echo esc_html( $display_label ); ?>
-				<?php echo $toggle_icon; ?>
+				<?php echo $toggle_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</button>
 
 			<div class="wp-block-prc-block-navigation-mega-menu__tab-divider"></div>
 
-			<?php echo $mega_menu_container__and__content; ?>
+			<?php echo $mega_menu_dialog; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
 		<?php
 		return ob_get_clean();

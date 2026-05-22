@@ -62,9 +62,11 @@ class Core_Categories {
 			list-style: none;
 		}
 		<?php
-		$style    = ob_get_clean();
-		$minifier = new Minify\CSS( $style );
-		$style    = $minifier->minify();
+		$style = ob_get_clean();
+		if ( class_exists( 'MatthiasMullie\Minify\CSS' ) ) {
+			$minifier = new Minify\CSS( $style );
+			$style    = $minifier->minify();
+		}
 		register_block_style(
 			self::$block_name,
 			array(

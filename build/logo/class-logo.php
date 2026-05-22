@@ -2,6 +2,11 @@
 /**
  * Logo Block
  *
+ * Logo SVG assets live in the shared /images/logos/ directory (wp-content/images/logos/)
+ * rather than inside this plugin. Both the editor (via localized JS data) and the
+ * PHP render reference that single location. If the assets directory is missing the
+ * block silently skips registration.
+ *
  * @package PRC\Platform\Blocks
  */
 
@@ -26,11 +31,11 @@ class Logo {
 	public static $style_handle = 'prc-block-logo-style';
 
 	/**
-	 * Logo assets base path (relative to plugin root) for plugins_url.
+	 * Shared logo assets directory relative to WP_CONTENT_DIR / content_url().
 	 *
 	 * @var string
 	 */
-	private const ASSETS_PATH = 'src/logo/assets/';
+	private const ASSETS_DIR = 'images/logos/';
 
 	/**
 	 * Map of block style class suffix to SVG filename.
@@ -86,6 +91,14 @@ class Logo {
 	}
 
 	/**
+	 * Whether the shared logo assets directory exists and contains the
+	 * primary logo (used as a canary for the whole set).
+	 */
+	private function assets_available(): bool {
+		return is_file( WP_CONTENT_DIR . '/' . self::ASSETS_DIR . 'primary.svg' );
+	}
+
+	/**
 	 * Gets the active logo style from block className.
 	 *
 	 * @param string $class_name Block className (e.g. "wp-block-prc-block-logo is-style-primary-only").
@@ -102,18 +115,18 @@ class Logo {
 	}
 
 	/**
-	 * Gets the SVG URL for a given asset filename.
+	 * Gets the SVG URL for a given asset filename from the shared logos directory.
 	 *
 	 * @param string $filename Asset filename (e.g. 'primary.svg').
 	 * @return string URL or empty string if not found.
 	 */
 	private function get_logo_url( $filename ) {
-		$path = PRC_BLOCK_LIBRARY_DIR . '/' . self::ASSETS_PATH . $filename;
+		$path = WP_CONTENT_DIR . '/' . self::ASSETS_DIR . $filename;
 		if ( ! is_file( $path ) ) {
 			do_action( 'qm/warn', 'Logo asset not found: ' . $filename );
 			return '';
 		}
-		return plugins_url( self::ASSETS_PATH . $filename, PRC_BLOCK_LIBRARY_FILE );
+		return content_url( self::ASSETS_DIR . $filename );
 	}
 
 	/**
@@ -201,17 +214,34 @@ class Logo {
 
 	/**
 	 * Registers the block using the metadata loaded from the `block.json` file.
+	 * Gracefully skips registration when the shared logo assets are not present.
 	 *
 	 * @hook init
 	 *
 	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
 	 */
 	public function block_init() {
+		if ( ! $this->assets_available() ) {
+			do_action( 'qm/warn', 'Logo block: shared assets not found at ' . self::ASSETS_DIR . ', block not registered.' );
+			return;
+		}
+
 		register_block_type_from_metadata(
 			PRC_BLOCK_LIBRARY_DIR . '/build/logo',
 			array(
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
+		);
+
+		$base_url   = content_url( self::ASSETS_DIR );
+		$style_urls = array();
+		foreach ( self::STYLE_TO_ASSET as $style => $filename ) {
+			$style_urls[ $style ] = $base_url . $filename;
+		}
+		wp_add_inline_script(
+			'prc-block-logo-editor-script',
+			sprintf( 'window.prcBlockLogoAssets = %s;', wp_json_encode( $style_urls ) ),
+			'before'
 		);
 	}
 }

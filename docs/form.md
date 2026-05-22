@@ -95,7 +95,35 @@ None. The form block is a top-level container. Note: the block registration logi
 
 ### Form Templates
 
-The inspector includes a template dialog with pre-configured form layouts. Selecting a template replaces the current inner blocks with the template's block structure.
+When you select an **Action** that was registered with a `template` in the `prc-block-library/forms` store, the editor opens a **Use Form Template?** modal with three choices:
+
+| Button | Behavior |
+| ------ | -------- |
+| **Use template** | Replaces the form's **inner blocks only** with blocks from the registered action template. The Form block itself stays in place; inspector settings (`formName`, `method`, `namespace`, `action`, `redirectUrl`) are preserved. |
+| **Use existing blocks** | Closes the modal and keeps the current inner blocks unchanged. |
+| **Start blank** | Replaces inner blocks with the minimal base template (`BASE_TEMPLATE`) — a fresh starting layout without the registered action's full field set. |
+
+Templates are applied with `replaceInnerBlocks` on the Form block's `clientId`, not by replacing the Form block node. That keeps the form container, attributes, and interactivity context intact while swapping field structure.
+
+Registered forms may omit a custom template; in that case the editor falls back to `DEFAULT_FORM_TEMPLATE` when resolving the selected action.
+
+**Registering a template** (from a consuming plugin):
+
+```js
+dispatch('prc-block-library/forms').registerForm({
+  label: 'My Form',
+  namespace: 'my-plugin/namespace',
+  action: 'myAction',
+  method: 'api', // or 'rest'
+  template: [
+    ['prc-block/form-input-text', { /* … */ }],
+    ['prc-block/form-input-submit-button', {}],
+    ['prc-block/form-message', {}],
+  ],
+});
+```
+
+Selecting that action in the Form block inspector triggers the template modal when `template` is non-empty.
 
 ### Conditional Field Display
 

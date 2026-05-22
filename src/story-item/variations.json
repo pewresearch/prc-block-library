@@ -1,4 +1,3 @@
-
 {
 	"lede": {
 		"title": "Lede Story Item",
@@ -8,8 +7,7 @@
 			"imageSize": "A1",
 			"headerSize": 1,
 			"enableExcerpt": true,
-			"enableHeader": true,
-			"isNewsletterGlue": false
+			"enableHeader": true
 		}
 	},
 	"publication-listing": {
@@ -20,8 +18,7 @@
 			"imageSize": "A3",
 			"headerSize": 2,
 			"enableExcerpt": true,
-			"enableHeader": true,
-			"isNewsletterGlue": false
+			"enableHeader": true
 		}
 	},
 	"list-item": {
@@ -30,15 +27,7 @@
 		"attributes": {
 			"imageSlot": "disabled",
 			"enableHeader": true,
-			"enableExcerpt": false,
-			"isNewsletterGlue": false
-		}
-	},
-	"newsletter-glue": {
-		"title": "Newsletter Glue",
-		"description": "Newsletter Glue compatible version of a Story Item, ready for Mailchimp markup.",
-		"attributes": {
-			"isNewsletterGlue": true
+			"enableExcerpt": false
 		}
 	}
 }

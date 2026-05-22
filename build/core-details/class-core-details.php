@@ -183,8 +183,8 @@ class Core_Details {
 			)
 		);
 
-		$logo_url_light = plugins_url( 'assets/pew-knight-logo.svg', PRC_BLOCK_LIBRARY_FILE );
-		$logo_url_dark  = plugins_url( 'assets/pew-knight-logo-dark.svg', PRC_BLOCK_LIBRARY_FILE );
+		$logo_url_light = content_url( 'images/logos/pew-knight.svg' );
+		$logo_url_dark  = content_url( 'images/logos/pew-knight-logo-dark.svg' );
 		$logo_light_css = wp_sprintf(
 			'.wp-block-details.is-style-pew-knight-co-branded > summary:before { display: flex; background-image: url(%s); width: 183px; height: 35px; content: ""; background-repeat: no-repeat; background-size: contain; background-position: center;} .wp-block-details.is-style-pew-knight-co-branded > summary:after { background-position: right; width: 100%% !important; flex-shrink: 1; } .wp-block-details.is-style-pew-knight-co-branded > summary { text-indent: -9999px; }',
 			esc_url( $logo_url_light )

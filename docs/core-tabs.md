@@ -131,13 +131,13 @@ When tab content includes **Entity as Iframe**, the PHP layer injects directives
 
 **File:** `util.php`
 
--   **`generate_core_tab()`** -- creates a `core/tab` block with label, optional anchor, and inner blocks
--   **`build_core_tab_panel()`** -- wraps `core/tab` blocks in a `core/tab-panel` block
--   **`build_core_tabs_menu_item( $menu_item_anchor, ... )`** -- creates one `core/tabs-menu-item` with the given anchor (e.g. `tab-1-button`) and optional shared styling attrs
--   **`build_core_tabs_menu()`** -- creates a `core/tabs-menu` with **one inner `core/tabs-menu-item` per anchor** in the passed list
--   **`generate_tabs_list()`** -- builds the `core/tabs-list`-shaped array from `core/tab` parsed blocks
--   **`create_core_tabs()`** -- assembles the full `core/tabs` tree: derives menu-item anchors `{tab_id}-button` from each generated `core/tab`, then builds menu + panel
--   **`render_tabs()`** -- convenience wrapper: `create_core_tabs()` + `WP_Block` render with `core/tabs-list` and `core/tabs-id` context
+-   **`generate_core_tab( $label, $content, $anchor )`** -- creates a `core/tab-panel` parsed block with a `<section role="tabpanel">` wrapper
+-   **`build_core_tab_panels( $tab_panel_blocks, $attrs, $wrapper_html )`** -- wraps `core/tab-panel` blocks in a `core/tab-panels` block. When `$wrapper_html` is supplied, the saved wrapper's class/style attributes are reused so block-supports classes (layout, color, spacing) baked in by `save.js` carry over.
+-   **`build_core_tab_button( $menu_item_anchor, $attrs, $inner_html )`** -- creates one `core/tab` (tab button) with the given anchor (e.g. `tab-1-button`) and optional shared styling attrs / serialized button HTML
+-   **`build_core_tab_list( $attrs, $is_vertical, $menu_item_anchors, $tabs_menu_item_attrs, $tabs_menu_item_inner_html, $wrapper_html )`** -- creates a `core/tab-list` with **one inner `core/tab` button per anchor**. When `$wrapper_html` is supplied, the saved tab-list wrapper's class/style are reused (preserving editor-authored layout orientation, color, typography, spacing supports); `role="tablist"` is always re-applied.
+-   **`generate_tabs_list( $tab_panel_blocks )`** -- builds the `core/tabs-list`-shaped array (id/label/index) from `core/tab-panel` parsed blocks for context injection
+-   **`create_core_tabs( $tabs, $attrs, $tabs_menu_attributes, $tab_panel_attributes, $tabs_menu_item_attrs, $tabs_menu_item_inner_html, $tab_panel_inner_html, $tabs_menu_inner_html, $tabs_inner_html )`** -- assembles the full `core/tabs` tree: derives menu-item anchors `{tab_id}-button` from each generated `core/tab-panel`, then builds tab-list + tab-panels. The optional trailing `$tabs_menu_inner_html` and `$tabs_inner_html` are forwarded so the saved wrapper HTML for `core/tab-list` and the outer `core/tabs` can be reused (preserving block-supports). When `$tabs_inner_html` is supplied, the outer `wp-block-tabs` wrapper class/style are reused so the `core/tabs` render callback finds and decorates a wrapper that already carries the correct supports classes.
+-   **`render_tabs()`** -- convenience wrapper: `create_core_tabs()` + `WP_Block` render with `core/tabs-list` and `core/tabs-id` context. Mirrors the trailing `$tabs_menu_inner_html` / `$tabs_inner_html` parameters of `create_core_tabs()` for callers that want to preserve editor-authored wrapper supports end-to-end (e.g. `prc-rls/available-tabs`).
 
 ## Block Markup Example
 

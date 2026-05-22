@@ -59,10 +59,10 @@ class Markdown_For_Agents_Integration {
 		);
 
 		// Suppress individual core tab-related blocks (handled by parent).
-		Block_Markdown_Registry::register( 'core/tabs-menu', '__return_empty_string' );
-		Block_Markdown_Registry::register( 'core/tabs-menu-item', '__return_empty_string' );
-		Block_Markdown_Registry::register( 'core/tab-panel', '__return_empty_string' );
+		Block_Markdown_Registry::register( 'core/tab-list', '__return_empty_string' );
 		Block_Markdown_Registry::register( 'core/tab', '__return_empty_string' );
+		Block_Markdown_Registry::register( 'core/tab-panels', '__return_empty_string' );
+		Block_Markdown_Registry::register( 'core/tab-panel', '__return_empty_string' );
 
 		// prc-block/tabs — PRC custom tabs container.
 		Block_Markdown_Registry::register(
@@ -96,6 +96,74 @@ class Markdown_For_Agents_Integration {
 			'prc-block/table-of-contents',
 			array( $this, 'table_of_contents_to_markdown' )
 		);
+
+		// core/image — preserve alignment and width as Pandoc-style attributes.
+		Block_Markdown_Registry::register(
+			'core/image',
+			array( $this, 'image_to_markdown' )
+		);
+	}
+
+	/**
+	 * Convert a core/image block to Markdown, preserving alignment via
+	 * Pandoc-style attributes: ![alt](url){.alignright width=280}
+	 *
+	 * Email providers (and other format specs) can read these attributes to
+	 * emit alignment-aware HTML without losing the information during the
+	 * HTML→Markdown conversion step.
+	 *
+	 * @param array    $block Parsed block array.
+	 * @param \WP_Post $post  The post being converted.
+	 * @return string Markdown image string, optionally with Pandoc attributes.
+	 */
+	public function image_to_markdown( array $block, \WP_Post $post ): string {
+		$attrs     = $block['attrs'] ?? array();
+		$align     = $attrs['align'] ?? null;      // left|right|center|wide|full|null
+		$width     = isset( $attrs['width'] ) ? (int) $attrs['width'] : 0;
+		$inner_html = $block['innerHTML'] ?? '';
+
+		// Parse src, alt, and optional link href from the rendered innerHTML.
+		$src  = '';
+		$alt  = '';
+		$href = '';
+
+		$processor = new \WP_HTML_Tag_Processor( $inner_html );
+
+		// Look for a wrapping <a> before the <img>.
+		if ( $processor->next_tag( 'a' ) ) {
+			$href = (string) $processor->get_attribute( 'href' );
+		}
+
+		// Reset and find <img>.
+		$processor = new \WP_HTML_Tag_Processor( $inner_html );
+		if ( $processor->next_tag( 'img' ) ) {
+			$src = (string) $processor->get_attribute( 'src' );
+			$alt = (string) $processor->get_attribute( 'alt' );
+		}
+
+		if ( '' === $src ) {
+			return '';
+		}
+
+		// No alignment — plain markdown image, no annotation needed.
+		if ( null === $align ) {
+			$image_md = sprintf( '![%s](%s)', $alt, $src );
+			return $href ? sprintf( '[![%s](%s)](%s)', $alt, $src, $href ) : $image_md;
+		}
+
+		// Build Pandoc-style attribute list: {.alignright width=280}
+		$pandoc_attrs = array( '.align' . $align );
+
+		if ( in_array( $align, array( 'left', 'right' ), true ) ) {
+			$pandoc_attrs[] = 'width=' . ( $width ?: 280 );
+		} elseif ( 'center' === $align ) {
+			$pandoc_attrs[] = 'width=' . ( $width ?: 400 );
+		}
+
+		$image_md = sprintf( '![%s](%s){%s}', $alt, $src, implode( ' ', $pandoc_attrs ) );
+
+		// Preserve link wrapping if present.
+		return $href ? sprintf( '[%s](%s)', $image_md, $href ) : $image_md;
 	}
 
 	/**
@@ -175,7 +243,7 @@ class Markdown_For_Agents_Integration {
 	/**
 	 * Convert core/tabs block to markdown.
 	 *
-	 * Walks innerBlocks to find core/tab-panel → core/tab children.
+	 * Walks innerBlocks to find core/tab-panels → core/tab-panel children.
 	 * Each tab's label becomes a heading, followed by its inner content.
 	 *
 	 * @param array    $block Parsed block array.
@@ -188,13 +256,13 @@ class Markdown_For_Agents_Integration {
 		foreach ( $block['innerBlocks'] ?? array() as $inner ) {
 			$name = $inner['blockName'] ?? '';
 
-			if ( 'core/tab-panel' === $name ) {
-				foreach ( $inner['innerBlocks'] ?? array() as $tab ) {
-					if ( 'core/tab' !== ( $tab['blockName'] ?? '' ) ) {
+			if ( 'core/tab-panels' === $name ) {
+				foreach ( $inner['innerBlocks'] ?? array() as $tab_panel ) {
+					if ( 'core/tab-panel' !== ( $tab_panel['blockName'] ?? '' ) ) {
 						continue;
 					}
-					$label   = $tab['attrs']['label'] ?? '';
-					$tab_md  = $this->convert_inner_blocks( $tab['innerBlocks'] ?? array(), $post );
+					$label   = $tab_panel['attrs']['label'] ?? '';
+					$tab_md  = $this->convert_inner_blocks( $tab_panel['innerBlocks'] ?? array(), $post );
 					$heading = '' !== $label ? '### ' . html_entity_decode( wp_strip_all_tags( $label ) ) : '';
 
 					$tab_parts = array_filter( array( $heading, $tab_md ) );

@@ -1173,6 +1173,109 @@ return array(
 			'interactivity' => true
 		)
 	),
+	'dark-mode-toggle' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/dark-mode-toggle',
+		'version' => '0.1.0',
+		'title' => 'Dark Mode Toggle',
+		'category' => 'widgets',
+		'description' => 'A button that lets visitors override their OS color-scheme preference for the current site, switching between light and dark mode.',
+		'keywords' => array(
+			'dark',
+			'mode',
+			'light',
+			'color',
+			'scheme',
+			'theme'
+		),
+		'attributes' => array(
+			'showLabel' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
+			'lightLabel' => array(
+				'type' => 'string',
+				'default' => 'Light mode'
+			),
+			'darkLabel' => array(
+				'type' => 'string',
+				'default' => 'Dark mode'
+			)
+		),
+		'example' => array(
+			'attributes' => array(
+				'showLabel' => true,
+				'lightLabel' => 'Light mode',
+				'darkLabel' => 'Dark mode'
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'align' => array(
+				'left',
+				'center',
+				'right',
+				'wide'
+			),
+			'interactivity' => true,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'link' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => false,
+					'text' => false
+				)
+			),
+			'spacing' => array(
+				'blockGap' => true,
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'style' => true,
+				'width' => true,
+				'radius' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'style' => true,
+					'width' => true,
+					'radius' => true
+				)
+			),
+			'selectors' => array(
+				'border' => '.wp-block-prc-block-dark-mode-toggle',
+				'color' => array(
+					'background' => '.wp-block-prc-block-dark-mode-toggle',
+					'text' => '.wp-block-prc-block-dark-mode-toggle',
+					'link' => '.wp-block-prc-block-dark-mode-toggle'
+				)
+			)
+		),
+		'textdomain' => 'dark-mode-toggle',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
+	),
 	'dialog' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1817,6 +1920,11 @@ return array(
 		'attributes' => array(
 			'formName' => array(
 				'type' => 'string'
+			),
+			'displayMessageEditing' => array(
+				'type' => 'boolean',
+				'default' => false,
+				'role' => 'local'
 			),
 			'method' => array(
 				'type' => 'string',
@@ -3819,18 +3927,6 @@ return array(
 			'customMenuItemActiveTextColor' => array(
 				'type' => 'string'
 			),
-			'menuOverlayBackgroundColor' => array(
-				'type' => 'string'
-			),
-			'customMenuOverlayBackgroundColor' => array(
-				'type' => 'string'
-			),
-			'menuOverlayTextColor' => array(
-				'type' => 'string'
-			),
-			'customMenuOverlayTextColor' => array(
-				'type' => 'string'
-			),
 			'menuActiveBorderColor' => array(
 				'type' => 'string'
 			),
@@ -5175,10 +5271,6 @@ return array(
 				'default' => 'formats'
 			),
 			'isPreview' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'isNewsletterGlue' => array(
 				'type' => 'boolean',
 				'default' => false
 			)

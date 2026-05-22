@@ -284,6 +284,7 @@ class Plugin {
 		new Code_Syntax( $this->get_Loader() );
 		new Color_Palette( $this->get_loader() );
 		new Copyright( $this->get_loader() );
+		new Dark_Mode_Toggle( $this->get_loader() );
 		new Entity_As_Iframe( $this->get_loader() );
 		new Flip_Card_Controller( $this->get_loader() );
 		new Flip_Card_Side( $this->get_loader() );
@@ -449,20 +450,9 @@ class Plugin {
 			'disabled'    => true,
 			'style'       => true,
 			'checked'     => true,
+			'role'        => true,
 		);
 		$allowed_tags['textarea']      = array(
-			'class'       => true,
-			'id'          => true,
-			'name'        => true,
-			'type'        => true,
-			'value'       => true,
-			'placeholder' => true,
-			'required'    => true,
-			'disabled'    => true,
-			'style'       => true,
-			'checked'     => true,
-		);
-		$allowed_tags['input']         = array(
 			'class'       => true,
 			'id'          => true,
 			'name'        => true,
@@ -479,7 +469,8 @@ class Plugin {
 			'id'    => true,
 			'style' => true,
 		);
-		$allowed_tags['div']['style']  = true;
+		$allowed_tags['div']['style']              = true;
+		$allowed_tags['div']['data-icon-position'] = true;
 		$allowed_tags['img']['srcset'] = true;
 		$allowed_tags['img']['sizes']  = true;
 		$allowed_tags['picture']       = true;

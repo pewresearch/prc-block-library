@@ -285,7 +285,7 @@ class Form {
 					'submissionProcessing' => false,
 					'allowSubmit'          => true,
 					'formMessage'          => false,
-					'submitButtonText'     => 'SUBMIT',
+					'submitButtonText'     => null,
 					'submitMethod'         => array(
 						'method'    => $form_method,
 						'action'    => $form_action,

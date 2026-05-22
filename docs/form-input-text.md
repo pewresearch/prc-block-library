@@ -60,6 +60,24 @@ A general-purpose text input block supporting 11 input types: text, email, passw
 | Default | `default` | Label above, input below. Color/border applied to the input element. |
 | Inline Label | `inline-label` | Label and input on the same line. Color/border applied to the outer wrapper. |
 
+## Inspector Controls
+
+The block exposes the following inspector controls under **Form Input Field Settings**:
+
+| Control | Attribute | Notes |
+|---------|-----------|-------|
+| Input Type | `type` | `SelectControl`. Hidden when the block's parent is `prc-block/form-input-password`. |
+| Input Name | `metadata.name` | `TextControl`. Hidden when the block's parent is `prc-block/form-input-password`. |
+| Input Placeholder | `placeholder` | `TextControl`. Always visible. |
+| Display Label | `displayLabel` | `ToggleControl`. Always visible. |
+| Required | `required` | `ToggleControl`. Hidden when the block's parent is `prc-block/form-input-password`. |
+
+### Conditional controls inside a password parent
+
+When `form-input-text` is nested directly inside a `prc-block/form-input-password` block, the **Input Type**, **Input Name**, and **Required** controls are suppressed in the editor. The password parent owns those settings (it sets the input type to `password`, generates the field name, and forces required/non-required state to match the password pattern), so exposing them on the child would let editors put the field into an inconsistent state.
+
+The hiding is implemented with `<LimitControls>` from `@prc/controls`, which uses the block editor store to look up the immediate parent's block name and conditionally renders or suppresses its children. The check runs against the **immediate parent** only (`getBlockRootClientId`), not the ancestor chain.
+
 ## Inner Blocks
 
 None. This is a leaf block.
@@ -68,7 +86,7 @@ None. This is a leaf block.
 
 No explicit parent constraint. Commonly used inside:
 - `prc-block/form` -- as a direct form field
-- `prc-block/form-input-password` -- as a password or confirmation input
+- `prc-block/form-input-password` -- as a password or confirmation input. When used here, the **Input Type**, **Input Name**, and **Required** inspector controls are hidden because the password block manages those settings on the field's behalf (see [Inspector Controls](#inspector-controls)).
 
 ## Usage Instructions
 

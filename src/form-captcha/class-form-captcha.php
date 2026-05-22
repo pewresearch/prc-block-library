@@ -88,9 +88,7 @@ class Form_Captcha {
 			'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback',
 			array(),
 			'1.0.0',
-			array(
-				'defer' => true,
-			)
+			array()
 		);
 		wp_localize_script(
 			'cloudflare-turnstile',

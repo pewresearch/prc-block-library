@@ -95,7 +95,6 @@ const { state, actions } = store('core/tabs', {
 		updateMobileDropdownState: () => {
 			const context = getContext('core/tabs/private');
 			const tabsId = context?.tabsId;
-			console.log('updateMobileDropdownState', tabsId, { state: state[tabsId] });
 			if (!tabsId || !state[tabsId]) {
 				return;
 			}
@@ -158,7 +157,7 @@ const { state, actions } = store('core/tabs', {
 
 			// Check if click is inside ANY dropdown within this tabs block.
 			const allDropdowns = tabsBlock.querySelectorAll(
-				'.wp-block-tabs-menu__dropdown'
+				'.wp-block-tabs-list__dropdown'
 			);
 			const isInsideAnyDropdown = Array.from(allDropdowns).some((dd) =>
 				dd.contains(event.target)
@@ -174,7 +173,7 @@ const { state, actions } = store('core/tabs', {
 		 * Handles dropdown item click - closes dropdown after tab selection.
 		 * When using the bottom mobile dropdown, smooth-scrolls to the top dropdown
 		 * so the user sees the newly selected tab content from the top.
-		 * The tab selection is handled by the core tabs-menu-item click handler.
+		 * The tab selection is handled by the core tab button click handler.
 		 */
 		handleDropdownItemClick: withSyncEvent(() => {
 			const context = getContext('core/tabs/private');
@@ -183,16 +182,16 @@ const { state, actions } = store('core/tabs', {
 
 			if (element?.ref) {
 				const dropdown = element.ref.closest(
-					'.wp-block-tabs-menu__dropdown'
+					'.wp-block-tabs-list__dropdown'
 				);
 				if (
 					dropdown?.classList.contains(
-						'wp-block-tabs-menu__dropdown--bottom'
+						'wp-block-tabs-list__dropdown--bottom'
 					)
 				) {
 					const tabsBlock = dropdown.closest('.wp-block-tabs');
 					const topDropdown = tabsBlock?.querySelector(
-						'.wp-block-tabs-menu__dropdown:not(.wp-block-tabs-menu__dropdown--bottom)'
+						'.wp-block-tabs-list__dropdown:not(.wp-block-tabs-list__dropdown--bottom)'
 					);
 					if (topDropdown) {
 						topDropdown.scrollIntoView({
@@ -223,7 +222,7 @@ const { state, actions } = store('core/tabs', {
 
 			// Find the dropdown container.
 			const dropdown = element.ref.closest(
-				'.wp-block-tabs-menu__dropdown'
+				'.wp-block-tabs-list__dropdown'
 			);
 			if (!dropdown) {
 				return;
@@ -231,12 +230,11 @@ const { state, actions } = store('core/tabs', {
 
 			// Find the dropdown item at the active index.
 			const items = dropdown.querySelectorAll(
-				'.wp-block-tabs-menu__dropdown-item'
+				'.wp-block-tabs-list__dropdown-item'
 			);
 			if (items[activeTabIndex]) {
-				const anchor = items[activeTabIndex].querySelector(
-					'.wp-block-tabs-menu-item'
-				);
+				const anchor =
+					items[activeTabIndex].querySelector('.wp-block-tab');
 				if (anchor) {
 					// Copy the innerHTML to the trigger label.
 					element.ref.innerHTML = anchor.innerHTML;
@@ -258,7 +256,7 @@ const { state, actions } = store('core/tabs', {
 			syncEntityIframeActive(ref, !!tabsState.isActiveTab);
 		},
 		/**
-		 * Prefetch entity iframe URL when pointer enters a tab menu item (PHP adds on each `.wp-block-tabs-menu-item`).
+		 * Prefetch entity iframe URL when pointer enters a tab button (PHP adds on each `.wp-block-tab`).
 		 */
 		prefetchEntityIframeOnTabMenuItemPointer: withSyncEvent((event) => {
 			const btn = event.currentTarget;

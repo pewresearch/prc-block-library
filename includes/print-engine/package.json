@@ -5,6 +5,10 @@
 	"scripts": {
 		"build": "wp-scripts build --webpack-copy-php --source-path=src --output-path=build"
 	},
+	"dependencies": {
+		"canvg": "^3.0.11",
+		"dompurify": "^3.2.4"
+	},
 	"devDependencies": {
 		"@wordpress/scripts": "^31.4.0"
 	}

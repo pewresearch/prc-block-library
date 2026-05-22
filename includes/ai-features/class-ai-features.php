@@ -37,9 +37,11 @@ class AI_Features {
 			return;
 		}
 
+		require_once plugin_dir_path( __FILE__ ) . '/class-ai-prompt-permalink.php';
 		require_once plugin_dir_path( __FILE__ ) . '/class-generate-tabular-data.php';
 		require_once plugin_dir_path( __FILE__ ) . '/class-generate-tabular-data-feature.php';
 		require_once plugin_dir_path( __FILE__ ) . '/class-generate-blurb.php';
+		require_once plugin_dir_path( __FILE__ ) . '/class-generate-title.php';
 		require_once plugin_dir_path( __FILE__ ) . '/class-generate-blurb-feature.php';
 
 		add_action(

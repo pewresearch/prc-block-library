@@ -46,13 +46,6 @@ class Form_Message {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		$block_wrapper_attrs = get_block_wrapper_attributes(
-			array(
-				'data-wp-interactive' => 'prc-block/form',
-				'data-wp-class--is-displaying-form-message' => 'state.formMessage',
-			)
-		);
-
 		$content = str_replace(
 			array(
 				'{{message}}',
@@ -64,11 +57,22 @@ class Form_Message {
 			$content
 		);
 
-		return wp_sprintf(
-			'<div %1$s>%2$s</div>',
-			$block_wrapper_attrs,
-			$content,
-		);
+		/*
+		 * save.jsx already serialises the outer <div> with the block wrapper
+		 * classes (via useBlockProps.save). Use WP_HTML_Tag_Processor to stamp
+		 * the Interactivity API attributes onto that existing tag rather than
+		 * wrapping in a second <div> via get_block_wrapper_attributes().
+		 */
+		$tag = new \WP_HTML_Tag_Processor( $content );
+		if ( $tag->next_tag() ) {
+			$tag->add_class( 'wp-block-prc-block-form-message');
+
+
+			$tag->set_attribute( 'data-wp-interactive', 'prc-block/form' );
+			$tag->set_attribute( 'data-wp-class--is-displaying-form-message', 'state.formMessage' );
+		}
+
+		return $tag->get_updated_html();
 	}
 
 	/**

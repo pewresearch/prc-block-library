@@ -26,8 +26,41 @@ class Block_Visibility {
 	 */
 	public function __construct( $loader ) {
 		$loader->add_action( 'enqueue_block_editor_assets', $this, 'enqueue_assets', 20 );
+		$loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_frontend_styles', 20 );
 		$loader->add_filter( 'block_type_metadata', $this, 'back_compat_core_group_attributes', 100, 1 );
 		$loader->add_filter( 'render_block_core/group', $this, 'back_compat_core_group_render', 10, 2 );
+	}
+
+	/**
+	 * Enqueue frontend styles for viewport-based block visibility.
+	 *
+	 * Provides the media-query CSS that hides blocks with the legacy
+	 * `block-visibility-hide-*-screen` class names on the appropriate viewport.
+	 * These classes were previously output by the Block Visibility plugin's
+	 * inline-style system; we supply them directly so the plugin is not required.
+	 *
+	 * Breakpoints match the Block Visibility plugin defaults:
+	 *   desktop (large) : ≥ 992 px
+	 *   tablet (medium) : 768 px – 991.98 px
+	 *   mobile (small)  : < 768 px
+	 *
+	 * @hook wp_enqueue_scripts 20
+	 */
+	public function enqueue_frontend_styles() {
+		wp_register_style( self::$asset_name . '-frontend', false, array(), '1.0.0' );
+		wp_enqueue_style( self::$asset_name . '-frontend' );
+		wp_add_inline_style(
+			self::$asset_name . '-frontend',
+			'@media (min-width: 992px) {
+	.block-visibility-hide-large-screen { display: none !important; }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+	.block-visibility-hide-medium-screen { display: none !important; }
+}
+@media (max-width: 767.98px) {
+	.block-visibility-hide-small-screen { display: none !important; }
+}'
+		);
 	}
 
 	/**
