@@ -21,6 +21,7 @@ import save from './save';
 import { HorizontalIcon as icon } from './icons';
 import variations from './variations';
 import transforms from './transforms';
+import deprecated from './deprecated';
 import './style.scss';
 import './editor.scss';
 
@@ -34,6 +35,7 @@ const settings = {
 	save,
 	variations,
 	transforms,
+	deprecated,
 };
 
 /**

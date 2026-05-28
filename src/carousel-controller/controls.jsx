@@ -14,9 +14,8 @@ import {
 	CardDivider,
 	Button,
 } from '@wordpress/components';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { createBlock } from '@wordpress/blocks';
-import { useMemo, useCallback } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+import { useMemo } from '@wordpress/element';
 
 export default function Controls({
 	attributes,
@@ -28,35 +27,33 @@ export default function Controls({
 	setArrowColor,
 }) {
 	const {
-		orientation,
+		viewType,
 		enableDots,
 		enableArrows,
 		enableRewind,
 		arrowsSize,
 		dotsSize,
+		useSlideBgForDots,
 	} = attributes;
 
-	const { insertBlock, replaceBlock } = useDispatch('core/block-editor');
+	const isCoverflow = viewType === 'coverflow';
 
 	const colorSettings = useMultipleOriginColorsAndGradients();
 
 	// detect if the parent block is a cover block or not...
-	const { isInsideCover, innerBlocks } = useSelect(
+	const { isInsideCover } = useSelect(
 		(select) => {
 			const { getBlockRootClientId, getBlock } =
 				select('core/block-editor');
 			const rootClientId = getBlockRootClientId(clientId);
-			const innerBlocks = getBlock(clientId)?.innerBlocks;
 			if (!rootClientId) {
 				return {
 					isInsideCover: false,
-					innerBlocks,
 				};
 			}
 			const parentBlock = getBlock(rootClientId);
 			return {
 				isInsideCover: parentBlock.name === 'core/cover',
-				innerBlocks,
 			};
 		},
 		[clientId]
@@ -72,45 +69,22 @@ export default function Controls({
 				label: 'Vertical',
 				value: 'vertical',
 			},
+			{
+				label: 'Coverflow',
+				value: 'coverflow',
+			},
 		];
-	}, [isInsideCover]);
-
-	const onConvertToVertical = useCallback(() => {
-		replaceBlock(
-			clientId,
-			createBlock(
-				'core/cover',
-				{
-					dimRatio: 50,
-					overlayColor: 'black',
-					minHeight: 400,
-					contentPosition: 'center',
-				},
-				[
-					createBlock(
-						'prc-block/carousel-controller',
-						{
-							...attributes,
-							orientation: 'vertical',
-						},
-						innerBlocks
-					),
-				]
-			)
-		);
-	}, [insertBlock, attributes, innerBlocks]);
+	}, []);
 
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={'Carousel Orientation'} initialOpen={true}>
+				<PanelBody title={'Carousel View Type'} initialOpen={true}>
 					<SelectControl
-						label={'Orientation'}
-						value={orientation}
+						label={'View Type'}
+						value={viewType}
 						options={options}
-						onChange={(value) =>
-							setAttributes({ orientation: value })
-						}
+						onChange={(value) => setAttributes({ viewType: value })}
 					/>
 				</PanelBody>
 				<PanelBody title={'Carousel Navigation'} initialOpen={true}>
@@ -144,6 +118,18 @@ export default function Controls({
 							}
 						/>
 					)}
+					{enableDots && (
+						<ToggleControl
+							label={'Use Slide Background Colors for Dot Colors'}
+							checked={useSlideBgForDots}
+							onChange={(value) =>
+								setAttributes({ useSlideBgForDots: value })
+							}
+							help={
+								'When enabled, each navigation dot uses its slide\u2019s background color. The custom Navigation Dot color is ignored.'
+							}
+						/>
+					)}
 					<CardDivider />
 					<ToggleControl
 						label={'Enable Arrows'}
@@ -152,7 +138,7 @@ export default function Controls({
 							setAttributes({ enableArrows: value })
 						}
 					/>
-					{enableArrows && (
+					{enableArrows && !isCoverflow && (
 						<SelectControl
 							label={'Arrows Size'}
 							value={arrowsSize}
@@ -195,11 +181,15 @@ export default function Controls({
 			<InspectorControls group="color">
 				<ColorGradientSettingsDropdown
 					settings={[
-						{
-							colorValue: dotColor?.color,
-							onColorChange: setDotColor,
-							label: __('Navigation Dot'),
-						},
+						...(useSlideBgForDots
+							? []
+							: [
+									{
+										colorValue: dotColor?.color,
+										onColorChange: setDotColor,
+										label: __('Navigation Dot'),
+									},
+								]),
 						{
 							colorValue: arrowColor?.color,
 							onColorChange: setArrowColor,

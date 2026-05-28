@@ -28,22 +28,27 @@ import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
  */
 export default function Save({ attributes }) {
 	const {
-		orientation,
+		viewType,
 		enableArrows,
 		enableDots,
 		arrowsSize,
 		dotsSize,
 		dotColor,
 		arrowColor,
+		useSlideBgForDots,
 	} = attributes;
+
+	const isCoverflow = viewType === 'coverflow';
 
 	const blockProps = useBlockProps.save({
 		className: clsx('wp-block-prc-block-carousel-controller', {
-			'is-style-vertical': orientation === 'vertical',
+			'is-style-vertical': viewType === 'vertical',
+			'has-view-coverflow': isCoverflow,
 			[`has-arrows-${arrowsSize}`]: enableArrows && arrowsSize,
 			[`has-dots-${dotsSize}`]: enableDots && dotsSize,
-			[`has-dot-color`]: dotColor,
+			[`has-dot-color`]: dotColor && !useSlideBgForDots,
 			[`has-arrow-color`]: arrowColor,
+			'has-slide-bg-dots': useSlideBgForDots,
 		}),
 	});
 	const innerBlocksProps = useInnerBlocksProps.save({
@@ -60,6 +65,9 @@ export default function Save({ attributes }) {
 			)}
 			{enableDots && (
 				<div className="prc-block-carousel-controller__dots"></div>
+			)}
+			{isCoverflow && (
+				<div className="prc-block-carousel-controller__counter"></div>
 			)}
 		</div>
 	);

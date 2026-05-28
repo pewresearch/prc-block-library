@@ -10,3 +10,7 @@ export function VerticalIcon() {
 export function HorizontalIcon() {
 	return <Icon icon="rectangle-history" library="light" />;
 }
+
+export function CoverflowIcon() {
+	return <Icon icon="cards-blank" library="light" />;
+}

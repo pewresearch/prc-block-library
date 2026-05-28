@@ -15,13 +15,22 @@
     "prc-block/carousel-slide"
   ],
   "attributes": {
-    "orientation": {
+    "viewType": {
       "type": "string",
-      "default": "horizontal"
+      "default": "horizontal",
+      "enum": [
+        "horizontal",
+        "vertical",
+        "coverflow"
+      ]
     },
     "enableDots": {
       "type": "boolean",
       "default": true
+    },
+    "useSlideBgForDots": {
+      "type": "boolean",
+      "default": false
     },
     "enableArrows": {
       "type": "boolean",

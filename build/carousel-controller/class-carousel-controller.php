@@ -130,14 +130,22 @@ class Carousel_Controller {
 		if ( 'prc-block/carousel-controller' !== $block->parsed_block['blockName'] ) {
 			return $content;
 		}
-		$attributes     = \PRC\BlockUtils\get_block_attributes(
+		// Back-compat: legacy content stored the view as `orientation` (not in block.json).
+		$legacy_orientation = $attributes['orientation'] ?? null;
+		$has_view_type      = array_key_exists( 'viewType', $attributes );
+
+		$attributes = \PRC\BlockUtils\get_block_attributes(
 			'prc-block/carousel-controller',
 			$attributes
 		);
-		$is_vertical    = 'vertical' === $attributes['orientation'];
-		$arrows_eanbled = $attributes['enableArrows'];
-		$dots_enabled   = $attributes['enableDots'];
-		$count          = count( $block->parsed_block['innerBlocks'] );
+
+		$view_type = $has_view_type ? $attributes['viewType'] : ( $legacy_orientation ?? 'horizontal' );
+		$is_vertical           = 'vertical' === $view_type;
+		$is_coverflow          = 'coverflow' === $view_type;
+		$arrows_eanbled        = $attributes['enableArrows'];
+		$dots_enabled          = $attributes['enableDots'];
+		$use_slide_bg_for_dots = ! empty( $attributes['useSlideBgForDots'] );
+		$count                 = count( $block->parsed_block['innerBlocks'] );
 
 		$block_id = wp_unique_id( 'prc-block-carousel-controller-' );
 
@@ -217,7 +225,9 @@ class Carousel_Controller {
 						'enabled'      => false,
 						'slideIndex'   => 0,
 						'count'        => $count,
-						'orientation'  => $attributes['orientation'],
+						'viewType'     => $view_type,
+						// Back-compat alias for the renamed attribute.
+						'orientation'  => $view_type,
 						'enableRewind' => (bool) $attributes['enableRewind'],
 						'slides'       => $slides,
 					)
@@ -240,11 +250,20 @@ class Carousel_Controller {
 
 			// Inject the dots to the markup if enabled.
 			if ( $dots_enabled ) {
-				$dots = wp_sprintf(
-					'<div class="prc-block-carousel-controller__dots"><template data-wp-each--dot="context.slides"><button class="prc-block-carousel-controller__dot" data-wp-on--click="actions.goToDot" data-wp-bind--data-slide-index="context.dot.index" data-wp-bind--aria-label="context.dot.label" data-wp-bind--data-active="callbacks.isDotActive">%s</button></template></div>',
+				// When using slide background colors, bind each dot's color from its slide context.
+				$dot_style_binding = $use_slide_bg_for_dots ? ' data-wp-bind--style="callbacks.dotStyle"' : '';
+				$dots              = wp_sprintf(
+					'<div class="prc-block-carousel-controller__dots"><template data-wp-each--dot="context.slides"><button class="prc-block-carousel-controller__dot" data-wp-on--click="actions.goToDot" data-wp-bind--data-slide-index="context.dot.index" data-wp-bind--aria-label="context.dot.label" data-wp-bind--data-active="callbacks.isDotActive"%s>%s</button></template></div>',
+					$dot_style_binding,
 					\PRC\Platform\Icons\render( 'solid', 'circle' )
 				);
 				$content = str_replace( '<div class="prc-block-carousel-controller__dots"></div>', $dots, $content );
+			}
+
+			// Inject the slide counter to the markup for coverflow view.
+			if ( $is_coverflow ) {
+				$counter = '<div class="prc-block-carousel-controller__counter"><span data-wp-text="state.currentSlideLabel"></span> / <span data-wp-text="context.count"></span></div>';
+				$content = str_replace( '<div class="prc-block-carousel-controller__counter"></div>', $counter, $content );
 			}
 		}
 

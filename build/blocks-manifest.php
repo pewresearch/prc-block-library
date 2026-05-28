@@ -602,13 +602,22 @@ return array(
 			'prc-block/carousel-slide'
 		),
 		'attributes' => array(
-			'orientation' => array(
+			'viewType' => array(
 				'type' => 'string',
-				'default' => 'horizontal'
+				'default' => 'horizontal',
+				'enum' => array(
+					'horizontal',
+					'vertical',
+					'coverflow'
+				)
 			),
 			'enableDots' => array(
 				'type' => 'boolean',
 				'default' => true
+			),
+			'useSlideBgForDots' => array(
+				'type' => 'boolean',
+				'default' => false
 			),
 			'enableArrows' => array(
 				'type' => 'boolean',

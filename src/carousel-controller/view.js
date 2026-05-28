@@ -16,6 +16,40 @@ const prefersReducedMotion = () =>
 
 const SET_ACTIVE_SLIDE_EVENT = 'prc-carousel-controller:set-active-slide';
 
+/**
+ * Reads the resolved view type from context, accepting the legacy
+ * `orientation` key for back-compat with content rendered before the rename.
+ *
+ * @param {Object} context Interactivity context.
+ * @return {string} The view type.
+ */
+const getViewType = (context) =>
+	context.viewType || context.orientation || 'horizontal';
+
+/**
+ * Positions each coverflow slide relative to the active slide by setting an
+ * `--offset` CSS variable the stylesheet uses to build the stacked-card
+ * transform. Runs on the frontend only (view.js does not execute in the
+ * editor; edit.jsx handles the editor visual separately).
+ *
+ * @param {HTMLElement} track      The track inner element.
+ * @param {number}      slideIndex The active slide index.
+ */
+const applyCoverflowOffsets = (track, slideIndex) => {
+	if (!track) {
+		return;
+	}
+	const slides = track.querySelectorAll('.wp-block-prc-block-carousel-slide');
+	slides.forEach((slide, index) => {
+		const offset = index - slideIndex;
+		const abs = Math.abs(offset);
+		slide.style.setProperty('--offset', String(offset));
+		slide.style.setProperty('--abs-offset', String(abs));
+		// Cap the visible stack to 4 peeking slides on either side.
+		slide.classList.toggle('is-coverflow-hidden', abs > 4);
+	});
+};
+
 const { state, actions } = store('prc-block/carousel-controller', {
 	state: {
 		lastScrollY: 0,
@@ -34,7 +68,13 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			return ref.closest('.wp-block-cover');
 		},
 		get isVertical() {
-			return getContext().orientation === 'vertical';
+			return getViewType(getContext()) === 'vertical';
+		},
+		get isCoverflow() {
+			return getViewType(getContext()) === 'coverflow';
+		},
+		get currentSlideLabel() {
+			return getContext().slideIndex + 1;
 		},
 		get rootEl() {
 			const { id } = getContext();
@@ -65,13 +105,18 @@ const { state, actions } = store('prc-block/carousel-controller', {
 	},
 	actions: {
 		navigateToSlide: (index) => {
-			const { track, isVertical, rootEl } = state;
+			const { track, isVertical, isCoverflow, rootEl } = state;
 			const context = getContext();
 			context.slideIndex = index;
-			track.scrollTo({
-				[isVertical ? 'top' : 'left']: index * track.offsetWidth,
-				behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-			});
+			if (isCoverflow) {
+				// Coverflow repositions cards via transforms instead of scrolling.
+				applyCoverflowOffsets(track, index);
+			} else {
+				track.scrollTo({
+					[isVertical ? 'top' : 'left']: index * track.offsetWidth,
+					behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+				});
+			}
 			if (rootEl) {
 				const { slideIndex, count } = context;
 				const liveEl = rootEl.querySelector(
@@ -128,9 +173,11 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		onInit: () => {
 			const { track, rootEl } = state;
 			const context = getContext();
-			const { orientation, count } = context;
+			const { count } = context;
 
-			const isVertical = orientation === 'vertical';
+			const viewType = getViewType(context);
+			const isVertical = viewType === 'vertical';
+			const isCoverflow = viewType === 'coverflow';
 			state.bodyObj = document.body;
 
 			// Ensure an aria-live region exists for slide-change announcements (R19).
@@ -156,46 +203,54 @@ const { state, actions } = store('prc-block/carousel-controller', {
 				);
 			}
 
-			// We add a debounced scroll event listener to the track to calculate the current slideIndex value based on the scroll position.
-			let scrollTimeout;
-			track.addEventListener(
-				'scroll',
-				withScope(
-					withSyncEvent(() => {
-						clearTimeout(scrollTimeout);
-						scrollTimeout = setTimeout(
-							withScope(() => {
-								const containerSize = isVertical
-									? track.clientHeight
-									: track.clientWidth;
-								const contentSize = isVertical
-									? track.scrollHeight
-									: track.scrollWidth;
-								const scrollPos = isVertical
-									? track.scrollTop
-									: track.scrollLeft;
+			// Coverflow positions cards via transforms (no scroll snapping), so
+			// the scroll-derived index detection is skipped; set the initial
+			// stacked layout instead.
+			if (isCoverflow) {
+				applyCoverflowOffsets(track, context.slideIndex);
+			} else {
+				// We add a debounced scroll event listener to the track to calculate the current slideIndex value based on the scroll position.
+				let scrollTimeout;
+				track.addEventListener(
+					'scroll',
+					withScope(
+						withSyncEvent(() => {
+							clearTimeout(scrollTimeout);
+							scrollTimeout = setTimeout(
+								withScope(() => {
+									const containerSize = isVertical
+										? track.clientHeight
+										: track.clientWidth;
+									const contentSize = isVertical
+										? track.scrollHeight
+										: track.scrollWidth;
+									const scrollPos = isVertical
+										? track.scrollTop
+										: track.scrollLeft;
 
-								const maxScroll = contentSize - containerSize;
-								const progress = maxScroll
-									? scrollPos / maxScroll
-									: 0;
+									const maxScroll =
+										contentSize - containerSize;
+									const progress = maxScroll
+										? scrollPos / maxScroll
+										: 0;
 
-								const slideIndex = Math.round(
-									progress * (count - 1)
-								);
+									const slideIndex = Math.round(
+										progress * (count - 1)
+									);
 
-								const boundedIndex = Math.max(
-									0,
-									Math.min(slideIndex, count - 1)
-								);
+									const boundedIndex = Math.max(
+										0,
+										Math.min(slideIndex, count - 1)
+									);
 
-								context.slideIndex = boundedIndex;
-							}),
-							10
-						);
-					})
-				)
-			);
+									context.slideIndex = boundedIndex;
+								}),
+								10
+							);
+						})
+					)
+				);
+			}
 
 			if (!state.isInsideCover) {
 				context.enabled = true;

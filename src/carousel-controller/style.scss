@@ -64,6 +64,10 @@
 		grid-area: dots;
 	}
 
+	.prc-block-carousel-controller__counter {
+		grid-area: counter;
+	}
+
 	.prc-block-carousel-controller__insert-block {
 		grid-area: insert-block;
 		width: 100%;
@@ -87,6 +91,63 @@
 			"arrow-prev track arrow-next"
 			"insert-block insert-block insert-block";
 		grid-template-rows: auto 1fr auto;
+	}
+
+	// Coverflow: stacked cards with arrows beneath the dots and a slide counter.
+	&.has-view-coverflow {
+		grid-template-areas:
+			"track track track track track"
+			"dots dots dots dots dots"
+			". arrow-prev counter arrow-next ."
+			"insert-block insert-block insert-block insert-block insert-block";
+		grid-template-columns: 1fr auto auto auto 1fr;
+		grid-template-rows: auto auto auto auto;
+
+		.prc-block-carousel-controller__track {
+			perspective: 1200px;
+			overflow: hidden;
+		}
+
+		.prc-block-carousel-controller__track__inner {
+			position: relative;
+			display: grid;
+			grid-template-columns: 100%;
+			width: 100%;
+			min-height: 0;
+			overflow: visible;
+			transform-style: preserve-3d;
+			scroll-snap-type: none;
+
+			.wp-block-prc-block-carousel-slide {
+				// Stack every slide in the same cell so the row sizes to the
+				// tallest slide and shorter slides stretch to match it.
+				grid-column: 1;
+				grid-row: 1;
+				justify-self: center;
+				align-self: stretch;
+				width: 60%;
+				max-width: 60%;
+				scroll-snap-align: none;
+				transition:
+					transform 0.4s ease,
+					opacity 0.4s ease;
+				transform: translateX(calc(var(--offset, 0) * 14%)) translateZ(calc(var(--abs-offset, 0) * -90px)) scale(calc(1 - min(var(--abs-offset, 0) * 0.07, 0.4))) rotateY(calc(var(--offset, 0) * -4deg));
+				opacity: calc(1 - min(var(--abs-offset, 0) * 0.18, 0.8));
+				z-index: calc(100 - var(--abs-offset, 0));
+
+				// Cap the visible stack to 4 peeking slides; JS toggles this.
+				&.is-coverflow-hidden {
+					opacity: 0;
+					pointer-events: none;
+				}
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.prc-block-carousel-controller__track__inner .wp-block-prc-block-carousel-slide {
+				transition: none;
+			}
+		}
 	}
 
 	&:not(.is-enabled) {
@@ -246,5 +307,60 @@
 				font-size: 1rem;
 			}
 		}
+	}
+
+	// Per-slide dot colors: render each dot as a colored ring (transparent
+	// center) that fills when active. Styling the button itself (not the glyph)
+	// keeps editor and frontend identical, since both set the inline color var.
+	&.has-slide-bg-dots {
+		.prc-block-carousel-controller__dots {
+			.prc-block-carousel-controller__dot {
+				width: 0.9rem;
+				height: 0.9rem;
+				border-radius: 50%;
+				border: 2px solid var(--prc-carousel-controller-dot-color, #000);
+				background: transparent;
+				opacity: 1;
+
+				.icon {
+					display: none;
+				}
+
+				&[data-active="true"] {
+					background: var(--prc-carousel-controller-dot-color, #000);
+				}
+			}
+		}
+
+		&.has-dots-small .prc-block-carousel-controller__dots {
+			.prc-block-carousel-controller__dot {
+				width: 0.7rem;
+				height: 0.7rem;
+			}
+		}
+
+		&.has-dots-medium .prc-block-carousel-controller__dots {
+			.prc-block-carousel-controller__dot {
+				width: 0.9rem;
+				height: 0.9rem;
+			}
+		}
+
+		&.has-dots-large .prc-block-carousel-controller__dots {
+			.prc-block-carousel-controller__dot {
+				width: 1.2rem;
+				height: 1.2rem;
+			}
+		}
+	}
+
+	.prc-block-carousel-controller__counter {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.25rem;
+		font-family: var(--wp--preset--font-family--sans-serif);
+		font-variant-numeric: tabular-nums;
+		font-weight: 700;
 	}
 }

@@ -27,7 +27,7 @@ const transforms = {
 				return createBlock(
 					'prc-block/carousel-controller',
 					{
-						orientation: 'horizontal',
+						viewType: 'horizontal',
 						enableDots: true,
 						enableArrows: true,
 						enableRewind: true,
@@ -86,7 +86,7 @@ const transforms = {
 							'prc-block/carousel-controller',
 							{
 								...attributes,
-								orientation: 'vertical',
+								viewType: 'vertical',
 							},
 							innerBlocks
 						),
