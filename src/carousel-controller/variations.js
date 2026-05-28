@@ -20,8 +20,8 @@ export default [
 		},
 		scope: ['inserter', 'block'],
 		isDefault: true,
-		isActive: (blockAttributes, variationAttributes) =>
-			blockAttributes.orientation === variationAttributes.orientation,
+		isActive: (blockAttributes) =>
+			blockAttributes.orientation === 'horizontal',
 	},
 	{
 		name: 'carousel-vertical',

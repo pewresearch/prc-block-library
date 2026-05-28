@@ -55,8 +55,12 @@ export default function Save({ attributes }) {
 			<div className="prc-block-carousel-controller__track">
 				<div {...innerBlocksProps} />
 			</div>
-			{enableArrows && <div className="prc-block-carousel-controller__arrows"></div>}
-			{enableDots && <div className="prc-block-carousel-controller__dots"></div>}
+			{enableArrows && (
+				<div className="prc-block-carousel-controller__arrows"></div>
+			)}
+			{enableDots && (
+				<div className="prc-block-carousel-controller__dots"></div>
+			)}
 		</div>
 	);
 }

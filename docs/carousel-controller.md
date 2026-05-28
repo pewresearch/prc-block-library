@@ -141,7 +141,7 @@ The `render_block_callback` in `class-carousel-controller.php`:
 3. Adds Interactivity API directives to the wrapper: `data-wp-interactive`, `data-wp-context`, `data-wp-init`, `data-wp-class--is-enabled`, `data-wp-class--is-selected`, mouse event handlers, and scroll handlers.
 4. Iterates over each `.wp-block-prc-block-carousel-slide` to assign unique IDs, slide indexes, and `data-wp-class--is-active` directives.
 5. Sets CSS custom properties for dot and arrow colors.
-6. Injects arrow button markup (with chevron icons) if arrows are enabled, replacing the empty `.prc-block-carousel-controller__arrows` placeholder.
+6. Injects arrow navigation if arrows are enabled, replacing the empty `.prc-block-carousel-controller__arrows` placeholder.
 7. Injects dot navigation markup (using `<template data-wp-each>`) if dots are enabled, replacing the empty `.prc-block-carousel-controller__dots` placeholder.
 8. Arrow icons change based on orientation: `chevron-left`/`chevron-right` for horizontal, `chevron-up`/`chevron-down` for vertical.
 

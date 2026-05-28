@@ -638,11 +638,11 @@ return array(
 			),
 			'dotColor' => array(
 				'type' => 'string',
-				'default' => 'var(--wp--preset--color--black)'
+				'default' => 'black'
 			),
 			'arrowColor' => array(
 				'type' => 'string',
-				'default' => 'var(--wp--preset--color--black)'
+				'default' => 'black'
 			)
 		),
 		'supports' => array(
@@ -3508,7 +3508,7 @@ return array(
 		'attributes' => array(
 			'size' => array(
 				'type' => 'number',
-				'default' => '1'
+				'default' => 1
 			),
 			'library' => array(
 				'type' => 'string',

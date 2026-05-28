@@ -103,10 +103,7 @@ export default function Controls({
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={'Carousel Orientation'}
-					initialOpen={true}
-				>
+				<PanelBody title={'Carousel Orientation'} initialOpen={true}>
 					<SelectControl
 						label={'Orientation'}
 						value={orientation}
@@ -211,7 +208,6 @@ export default function Controls({
 					]}
 					panelId={clientId}
 					hasColorsOrGradients={false}
-					disableCustomColors={true}
 					__experimentalIsRenderedInSidebar
 					{...colorSettings}
 				/>

@@ -30,7 +30,8 @@ const TEMPLATE = [
 			[
 				'core/paragraph',
 				{
-					placeholder: 'Type / to add blocks inside the carousel slide.',
+					placeholder:
+						'Type / to add blocks inside the carousel slide.',
 				},
 			],
 		],
@@ -69,7 +70,7 @@ function Edit({
 		_isSelected,
 		nextClientId,
 		previousClientId,
-		userIsTyping
+		userIsTyping,
 	} = useSelect((select) => {
 		const {
 			getBlock,
@@ -82,25 +83,38 @@ function Edit({
 			isTyping,
 		} = select(blockEditorStore);
 		const currentlySelectedBlockClientId = getSelectedBlockClientId();
-		const blockParents = getBlockParentsByBlockName(
-			currentlySelectedBlockClientId,
-			'prc-block/carousel-controller'
-		);
-
-		const blockParentClientId =
-			blockParents?.[0] || currentlySelectedBlockClientId;
 		const currentlySelectedBlock = getBlock(currentlySelectedBlockClientId);
 		const _innerBlocks = getBlocks(clientId);
-		const currentlySelectedSlideBlock =
-			'prc-block/carousel-slide' === currentlySelectedBlock?.name
-				? currentlySelectedBlockClientId
-				: null;
+		const slideClientIds = new Set(
+			_innerBlocks.map((block) => block.clientId)
+		);
+		let currentlySelectedSlideBlock = null;
+		if (currentlySelectedBlock?.name === 'prc-block/carousel-slide') {
+			if (slideClientIds.has(currentlySelectedBlockClientId)) {
+				currentlySelectedSlideBlock = currentlySelectedBlockClientId;
+			}
+		} else if (currentlySelectedBlockClientId) {
+			const slideParents = getBlockParentsByBlockName(
+				currentlySelectedBlockClientId,
+				'prc-block/carousel-slide'
+			);
+			currentlySelectedSlideBlock =
+				slideParents.find((slideId) => slideClientIds.has(slideId)) ??
+				null;
+		}
 		const blockIsSelected =
 			isSelected || hasSelectedInnerBlock(clientId, true);
+
+		// When a slide is selected: that slide's clientId.
+		// Otherwise: the first inner slide's clientId (or null if no inner blocks yet).
+		const firstSlideClientId = _innerBlocks?.[0]?.clientId ?? null;
+		const activeSlideClientId =
+			currentlySelectedSlideBlock ?? firstSlideClientId;
+
 		if (null === currentlySelectedSlideBlock) {
 			return {
 				innerBlocks: _innerBlocks,
-				selectedCarouselSlideClientId: blockParentClientId,
+				selectedCarouselSlideClientId: activeSlideClientId,
 				nextClientId: null,
 				previousClientId: null,
 				_isSelected: blockIsSelected,
@@ -109,7 +123,7 @@ function Edit({
 		}
 		return {
 			innerBlocks: _innerBlocks,
-			selectedCarouselSlideClientId: blockParentClientId,
+			selectedCarouselSlideClientId: activeSlideClientId,
 			nextClientId: getNextBlockClientId(currentlySelectedSlideBlock),
 			previousClientId: getPreviousBlockClientId(
 				currentlySelectedSlideBlock
@@ -118,7 +132,6 @@ function Edit({
 			userIsTyping: isTyping(),
 		};
 	});
-
 
 	const blockProps = useBlockProps({
 		className: clsx({
@@ -148,7 +161,6 @@ function Edit({
 			template: TEMPLATE,
 			defaultBlock: DEFAULT_BLOCK,
 			directInsert: true,
-			__experiementalCaptureToolbars: true,
 		}
 	);
 
@@ -160,7 +172,7 @@ function Edit({
 		/>
 	);
 
-	const previousArrow = (
+	const previousArrow = enableArrows && (
 		<PreviousArrow
 			selectBlock={selectBlock}
 			previousClientId={previousClientId}
@@ -168,7 +180,7 @@ function Edit({
 		/>
 	);
 
-	const nextArrow = (
+	const nextArrow = enableArrows && (
 		<NextArrow
 			selectBlock={selectBlock}
 			nextClientId={nextClientId}
@@ -191,9 +203,9 @@ function Edit({
 				<div className="prc-block-carousel-controller__track">
 					<div {...innerBlocksProps} />
 				</div>
-				{enableArrows && previousArrow}
-				{enableArrows && nextArrow}
 				{enableDots && dots}
+				{previousArrow}
+				{nextArrow}
 				<div className="prc-block-carousel-controller__insert-block">
 					<InnerBlocks.ButtonBlockAppender />
 				</div>

@@ -65,7 +65,9 @@ function InspectorPanel({ IconLibraryIndex, attributes, setAttributes }) {
 					value={size}
 					min={0.1}
 					step={0.1}
-					onChange={(val) => setAttributes({ size: val })}
+					onChange={(val) =>
+						setAttributes({ size: parseFloat(val) || 1 })
+					}
 				/>
 			</PanelBody>
 		</InspectorControls>

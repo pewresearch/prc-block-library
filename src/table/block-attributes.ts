@@ -26,6 +26,7 @@ export type ColumnDataType =
 	| 'percentage'
 	| 'url'
 	| 'fips'
+	| 'cbsa'
 	| 'iso3alpha'
 	| 'iso3numeric';
 

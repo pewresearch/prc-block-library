@@ -51,11 +51,11 @@
 		},
 		"dotColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--black)"
+			"default": "black"
 		},
 		"arrowColor": {
 			"type": "string",
-			"default": "var(--wp--preset--color--black)"
+			"default": "black"
 		}
 	},
 	"supports": {

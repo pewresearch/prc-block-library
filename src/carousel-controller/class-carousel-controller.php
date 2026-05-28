@@ -40,6 +40,86 @@ class Carousel_Controller {
 	}
 
 	/**
+	 * Resolves a stored color attribute value to a CSS color string without
+	 * double-wrapping preset slugs.
+	 *
+	 * Only strict color literals are accepted (hex, theme preset `var()`, and
+	 * a small set of color functions). Invalid or injection-shaped input is
+	 * dropped. Unrecognized values are treated as preset slugs and wrapped in
+	 * `var(--wp--preset--color--{slug})` after slug sanitization.
+	 *
+	 * @param string $value Stored color attribute value.
+	 * @return string CSS color value safe to emit inside a custom property.
+	 */
+	private function resolve_color_value( string $value ): string {
+		$value = trim( $value );
+		if ( '' === $value ) {
+			return '';
+		}
+
+		if ( preg_match( '/[;{}\\\\]|url\s*\(|expression\s*\(|@import/i', $value ) ) {
+			return '';
+		}
+
+		$literal = $this->sanitize_css_color_literal( $value );
+		if ( '' !== $literal ) {
+			return $literal;
+		}
+
+		// Reject malformed literals instead of coercing them into preset slugs.
+		if (
+			str_starts_with( $value, '#' )
+			|| str_starts_with( $value, 'var(' )
+			|| preg_match( '/^[a-zA-Z-]+\s*\(/', $value )
+		) {
+			return '';
+		}
+
+		$slug = sanitize_html_class( $value );
+		if ( '' === $slug ) {
+			return '';
+		}
+
+		return 'var(--wp--preset--color--' . $slug . ')';
+	}
+
+	/**
+	 * Validates a CSS color literal for safe use as a custom-property value.
+	 *
+	 * Rejects delimiter injection (`;`, `{}`), `url()`, and other non-color syntax.
+	 *
+	 * @param string $value Trimmed color string from block attributes.
+	 * @return string Sanitized color literal, or empty string when invalid.
+	 */
+	private function sanitize_css_color_literal( string $value ): string {
+		if ( preg_match( '/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $value ) ) {
+			return $value;
+		}
+
+		if ( preg_match( '/^var\(--wp--preset--color--([a-z0-9-]+)\)$/', $value, $matches ) ) {
+			return 'var(--wp--preset--color--' . $matches[1] . ')';
+		}
+
+		if ( preg_match(
+			'/^(rgb|rgba|hsl|hsla|hwb|oklch|oklab|lab|lch|color)\(([^()]*)\)$/i',
+			$value,
+			$matches
+		) ) {
+			$inner = $matches[2];
+			if ( '' === $inner || preg_match( '/[;{}\\\\]|url\s*\(|expression\s*\(/i', $inner ) ) {
+				return '';
+			}
+			if ( ! preg_match( '/^[0-9a-zA-Z%,.\s\/+\-*degturnrad]+$/', $inner ) ) {
+				return '';
+			}
+
+			return $value;
+		}
+
+		return '';
+	}
+
+	/**
 	 * Adds iAPI directives to the Carousel Controller block.
 	 *
 	 * @param array    $attributes The attributes.
@@ -85,18 +165,26 @@ class Carousel_Controller {
 			);
 
 			$style  = '';
-			$style .= '--prc-carousel-controller-dot-color: var(--wp--preset--color--' . $attributes['dotColor'] . ');';
-			$style .= '--prc-carousel-controller-arrow-color: var(--wp--preset--color--' . $attributes['arrowColor'] . ');';
+			$style .= '--prc-carousel-controller-dot-color: ' . $this->resolve_color_value( $attributes['dotColor'] ) . ';';
+			$style .= '--prc-carousel-controller-arrow-color: ' . $this->resolve_color_value( $attributes['arrowColor'] ) . ';';
 			$tag_processor->set_attribute( 'style', $style );
 
-			$i = 0;
+			$slides = array();
+			$i      = 0;
 			while ( $tag_processor->next_tag(
 				array(
 					'tag_name'   => 'div',
 					'class_name' => 'wp-block-prc-block-carousel-slide',
 				)
 			) ) {
-				$slide_id = wp_unique_id( 'wp-block-prc-block-carousel-slide-' );
+				$slide_id    = wp_unique_id( 'wp-block-prc-block-carousel-slide-' );
+				$slide_attrs = $block->parsed_block['innerBlocks'][ $i ]['attrs'] ?? array();
+				$slide_bg    = '';
+				if ( ! empty( $slide_attrs['backgroundColor'] ) ) {
+					$slide_bg = $this->resolve_color_value( $slide_attrs['backgroundColor'] );
+				} elseif ( ! empty( $slide_attrs['style']['color']['background'] ) ) {
+					$slide_bg = $this->resolve_color_value( $slide_attrs['style']['color']['background'] );
+				}
 				$tag_processor->set_attribute( 'id', $slide_id );
 				$tag_processor->set_attribute( 'data-wp-class--is-active', 'state.isActive' );
 				$tag_processor->set_attribute(
@@ -106,6 +194,7 @@ class Carousel_Controller {
 							'isActive' => false,
 							'id'       => $slide_id,
 							'index'    => $i,
+							'color'    => $slide_bg,
 						)
 					)
 				);
@@ -113,6 +202,7 @@ class Carousel_Controller {
 					'label' => 'Go to slide ' . ( $i + 1 ),
 					'index' => $i,
 					'id'    => $slide_id,
+					'color' => $slide_bg,
 				);
 				++$i;
 			}
@@ -123,12 +213,13 @@ class Carousel_Controller {
 				'data-wp-context',
 				wp_json_encode(
 					array(
-						'id'          => $block_id,
-						'enabled'     => false,
-						'slideIndex'  => 0,
-						'count'       => $count,
-						'orientation' => $attributes['orientation'],
-						'slides'      => $slides,
+						'id'           => $block_id,
+						'enabled'      => false,
+						'slideIndex'   => 0,
+						'count'        => $count,
+						'orientation'  => $attributes['orientation'],
+						'enableRewind' => (bool) $attributes['enableRewind'],
+						'slides'       => $slides,
 					)
 				)
 			);
@@ -139,7 +230,7 @@ class Carousel_Controller {
 
 			// Inject the arrows to the markup if enabled.
 			if ( $arrows_eanbled ) {
-				$arrows  = wp_sprintf(
+				$arrows = wp_sprintf(
 					'<button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__prev" data-wp-on--click="actions.goToPreviousSlide" aria-label="Previous slide">%s</button><button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__next" data-wp-on--click="actions.goToNextSlide" aria-label="Next slide">%s</button>',
 					\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-up' : 'chevron-left' ),
 					\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-down' : 'chevron-right' )
@@ -149,7 +240,7 @@ class Carousel_Controller {
 
 			// Inject the dots to the markup if enabled.
 			if ( $dots_enabled ) {
-				$dots    = wp_sprintf(
+				$dots = wp_sprintf(
 					'<div class="prc-block-carousel-controller__dots"><template data-wp-each--dot="context.slides"><button class="prc-block-carousel-controller__dot" data-wp-on--click="actions.goToDot" data-wp-bind--data-slide-index="context.dot.index" data-wp-bind--aria-label="context.dot.label" data-wp-bind--data-active="callbacks.isDotActive">%s</button></template></div>',
 					\PRC\Platform\Icons\render( 'solid', 'circle' )
 				);

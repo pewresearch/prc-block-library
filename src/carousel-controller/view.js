@@ -9,6 +9,13 @@ import {
 	withSyncEvent,
 } from '@wordpress/interactivity';
 
+const prefersReducedMotion = () =>
+	typeof window !== 'undefined' &&
+	window.matchMedia &&
+	window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const SET_ACTIVE_SLIDE_EVENT = 'prc-carousel-controller:set-active-slide';
+
 const { state, actions } = store('prc-block/carousel-controller', {
 	state: {
 		lastScrollY: 0,
@@ -28,6 +35,10 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		},
 		get isVertical() {
 			return getContext().orientation === 'vertical';
+		},
+		get rootEl() {
+			const { id } = getContext();
+			return document.getElementById(id);
 		},
 		get track() {
 			const { id } = getContext();
@@ -54,12 +65,34 @@ const { state, actions } = store('prc-block/carousel-controller', {
 	},
 	actions: {
 		navigateToSlide: (index) => {
-			const { track, isVertical } = state;
-			getContext().slideIndex = index;
+			const { track, isVertical, rootEl } = state;
+			const context = getContext();
+			context.slideIndex = index;
 			track.scrollTo({
 				[isVertical ? 'top' : 'left']: index * track.offsetWidth,
-				behavior: 'smooth',
+				behavior: prefersReducedMotion() ? 'auto' : 'smooth',
 			});
+			if (rootEl) {
+				const { slideIndex, count } = context;
+				const liveEl = rootEl.querySelector(
+					'.prc-block-carousel-controller__live'
+				);
+				if (liveEl) {
+					liveEl.textContent = `Slide ${slideIndex + 1} of ${count}`;
+				}
+			}
+		},
+		setActiveSlide: (index) => {
+			const { count } = getContext();
+			const slideIndex = Number(index);
+			if (!Number.isFinite(slideIndex) || count < 1) {
+				return;
+			}
+			const boundedIndex = Math.max(
+				0,
+				Math.min(Math.trunc(slideIndex), count - 1)
+			);
+			actions.navigateToSlide(boundedIndex);
 		},
 		goToDot: () => {
 			const context = getContext();
@@ -69,15 +102,23 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		},
 		goToNextSlide: () => {
 			const context = getContext();
-			const { count, slideIndex } = context;
-			const nextIndex = count === slideIndex + 1 ? 0 : slideIndex + 1;
-			actions.navigateToSlide(nextIndex);
+			const { count, slideIndex, enableRewind = true } = context;
+			if (slideIndex >= count - 1) {
+				if (!enableRewind) return;
+				actions.navigateToSlide(0);
+				return;
+			}
+			actions.navigateToSlide(slideIndex + 1);
 		},
 		goToPreviousSlide: () => {
 			const context = getContext();
-			const { slideIndex, count } = context;
-			const previousIndex = slideIndex === 0 ? count - 1 : slideIndex - 1;
-			actions.navigateToSlide(previousIndex);
+			const { count, slideIndex, enableRewind = true } = context;
+			if (slideIndex <= 0) {
+				if (!enableRewind) return;
+				actions.navigateToSlide(count - 1);
+				return;
+			}
+			actions.navigateToSlide(slideIndex - 1);
 		},
 		resetCarousel: () => {
 			actions.navigateToSlide(0);
@@ -85,26 +126,45 @@ const { state, actions } = store('prc-block/carousel-controller', {
 	},
 	callbacks: {
 		onInit: () => {
-			const { track } = state;
+			const { track, rootEl } = state;
 			const context = getContext();
 			const { orientation, count } = context;
 
 			const isVertical = orientation === 'vertical';
 			state.bodyObj = document.body;
 
-			// We add a debounced scroll event listend to the track to calculate the current slideIndex value based on the scroll position.
+			// Ensure an aria-live region exists for slide-change announcements (R19).
+			if (rootEl) {
+				let announceEl = rootEl.querySelector(
+					'.prc-block-carousel-controller__live'
+				);
+				if (!announceEl) {
+					announceEl = document.createElement('div');
+					announceEl.className =
+						'prc-block-carousel-controller__live screen-reader-text';
+					announceEl.setAttribute('aria-live', 'polite');
+					announceEl.setAttribute('aria-atomic', 'true');
+					rootEl.appendChild(announceEl);
+				}
+				rootEl.addEventListener(
+					SET_ACTIVE_SLIDE_EVENT,
+					withScope(
+						withSyncEvent((event) => {
+							actions.setActiveSlide(event.detail?.index);
+						})
+					)
+				);
+			}
+
+			// We add a debounced scroll event listener to the track to calculate the current slideIndex value based on the scroll position.
 			let scrollTimeout;
 			track.addEventListener(
 				'scroll',
 				withScope(
 					withSyncEvent(() => {
-						// Clear existing timeout
 						clearTimeout(scrollTimeout);
-
-						// Set new timeout to ensure we get the final position after scroll stops
 						scrollTimeout = setTimeout(
 							withScope(() => {
-								// Get container and content dimensions based on orientation
 								const containerSize = isVertical
 									? track.clientHeight
 									: track.clientWidth;
@@ -115,18 +175,15 @@ const { state, actions } = store('prc-block/carousel-controller', {
 									? track.scrollTop
 									: track.scrollLeft;
 
-								// Calculate progress as a percentage (0 to 1)
 								const maxScroll = contentSize - containerSize;
 								const progress = maxScroll
 									? scrollPos / maxScroll
 									: 0;
 
-								// Calculate slide index from progress
 								const slideIndex = Math.round(
 									progress * (count - 1)
 								);
 
-								// Ensure index is within bounds
 								const boundedIndex = Math.max(
 									0,
 									Math.min(slideIndex, count - 1)
@@ -147,6 +204,11 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		isDotActive: () => {
 			const context = getContext();
 			return context.slideIndex === context.dot.index;
+		},
+		dotStyle: () => {
+			const { dot } = getContext();
+			if (!dot || !dot.color) return '';
+			return `--prc-carousel-controller-dot-color: ${dot.color};`;
 		},
 		onMouseEnter: withSyncEvent(() => {
 			getContext().isSelected = true;

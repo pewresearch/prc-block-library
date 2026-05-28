@@ -47,6 +47,7 @@ const COLUMN_DATA_TYPE_KEYS: ColumnDataType[] = [
 	'percentage',
 	'url',
 	'fips',
+	'cbsa',
 	'iso3alpha',
 	'iso3numeric',
 ];
@@ -69,6 +70,8 @@ function getColumnDataTypeLabel(value: ColumnDataType): string {
 			return __('URL', 'prc-block-library');
 		case 'fips':
 			return __('FIPS code', 'prc-block-library');
+		case 'cbsa':
+			return __('CBSA code', 'prc-block-library');
 		case 'iso3alpha':
 			return __('ISO-3 alpha (e.g. USA)', 'prc-block-library');
 		case 'iso3numeric':
