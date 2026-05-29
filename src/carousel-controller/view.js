@@ -57,7 +57,6 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		bodyObj: null,
 		hasEngaged: false,
 		scrollLockTimeout: null,
-		wheelTimeout: null,
 		get isInsideCover() {
 			const { ref } = getElement();
 			const x = ref.closest('.wp-block-cover');
@@ -109,7 +108,6 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			const context = getContext();
 			context.slideIndex = index;
 			if (isCoverflow) {
-				// Coverflow repositions cards via transforms instead of scrolling.
 				applyCoverflowOffsets(track, index);
 			} else {
 				track.scrollTo({
@@ -208,6 +206,54 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			// stacked layout instead.
 			if (isCoverflow) {
 				applyCoverflowOffsets(track, context.slideIndex);
+
+				// Click-to-navigate for coverflow peeking slides. Uses a
+				// delegated handler on the track (controller scope) because
+				// 3D hit-testing with preserve-3d doesn't reliably resolve
+				// clicks on translateZ-offset slides to those elements.
+				track.addEventListener(
+					'click',
+					withScope(
+						withSyncEvent((event) => {
+							const slide = event.target.closest(
+								'.wp-block-prc-block-carousel-slide'
+							);
+
+							if (
+								slide &&
+								slide.classList.contains('is-active')
+							) {
+								return;
+							}
+
+							if (!slide) {
+								// Click landed on the track background (3D
+								// hit-test miss); navigate by click position.
+								const trackRect = track.getBoundingClientRect();
+								const trackCenter =
+									trackRect.left + trackRect.width / 2;
+								if (event.clientX < trackCenter) {
+									actions.goToPreviousSlide();
+								} else {
+									actions.goToNextSlide();
+								}
+								return;
+							}
+
+							event.preventDefault();
+							event.stopPropagation();
+							const slides = Array.from(
+								track.querySelectorAll(
+									'.wp-block-prc-block-carousel-slide'
+								)
+							);
+							const clickedIndex = slides.indexOf(slide);
+							if (clickedIndex >= 0) {
+								actions.navigateToSlide(clickedIndex);
+							}
+						})
+					)
+				);
 			} else {
 				// We add a debounced scroll event listener to the track to calculate the current slideIndex value based on the scroll position.
 				let scrollTimeout;
@@ -249,6 +295,48 @@ const { state, actions } = store('prc-block/carousel-controller', {
 							);
 						})
 					)
+				);
+			}
+
+			// Wheel navigation: one slide per gesture while hovering the carousel.
+			// Skipped inside a wp-block-cover to avoid fighting the cover scroll-jack.
+			if (rootEl && !state.isInsideCover) {
+				const WHEEL_COOLDOWN_MS = 600;
+				rootEl.addEventListener(
+					'wheel',
+					withScope(
+						withSyncEvent((event) => {
+							const delta = event.deltaY;
+							if (Math.abs(delta) < 1) {
+								return;
+							}
+							if (context.wheelTimeout) {
+								event.preventDefault();
+								return;
+							}
+							const { slideIndex, enableRewind = true } = context;
+							if (delta > 0) {
+								if (slideIndex >= count - 1 && !enableRewind) {
+									return;
+								}
+							} else if (slideIndex <= 0 && !enableRewind) {
+								return;
+							}
+							event.preventDefault();
+							if (delta > 0) {
+								actions.goToNextSlide();
+							} else {
+								actions.goToPreviousSlide();
+							}
+							context.wheelTimeout = setTimeout(
+								withScope(() => {
+									context.wheelTimeout = null;
+								}),
+								WHEEL_COOLDOWN_MS
+							);
+						})
+					),
+					{ passive: false }
 				);
 			}
 

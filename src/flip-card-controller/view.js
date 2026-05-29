@@ -35,13 +35,36 @@ const storeConfig = {
 			if (!ref) {
 				return;
 			}
-			const elementHeight = ref.offsetHeight;
-			if (!elementHeight) {
+			const context = getContext();
+
+			const measure = () => {
+				const elementHeight = ref.offsetHeight;
+				if (!elementHeight) {
+					return false;
+				}
+				context.minHeight = Math.max(
+					context.minHeight || 0,
+					elementHeight
+				);
+				context.initialized = true;
+				return true;
+			};
+
+			// Fast path: already laid out at hydration.
+			if (measure()) {
 				return;
 			}
-			const context = getContext();
-			context.minHeight = Math.max(context.minHeight || 0, elementHeight);
-			context.initialized = true;
+
+			// Self-heal: a hidden/zero-height ancestor or unloaded image means
+			// offsetHeight is 0 right now. Re-measure when the side gains height.
+			const observer = new ResizeObserver(() => {
+				if (measure()) {
+					observer.disconnect();
+				}
+			});
+			observer.observe(ref);
+
+			return () => observer.disconnect();
 		},
 		minHeightStyle() {
 			const { fixedHeight, minHeight } = getContext();

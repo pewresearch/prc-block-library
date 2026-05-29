@@ -128,12 +128,14 @@
 				width: 60%;
 				max-width: 60%;
 				scroll-snap-align: none;
-				transition:
-					transform 0.4s ease,
-					opacity 0.4s ease;
+				cursor: pointer;
+				transition: transform 0.4s ease;
 				transform: translateX(calc(var(--offset, 0) * 14%)) translateZ(calc(var(--abs-offset, 0) * -90px)) scale(calc(1 - min(var(--abs-offset, 0) * 0.07, 0.4))) rotateY(calc(var(--offset, 0) * -4deg));
-				opacity: calc(1 - min(var(--abs-offset, 0) * 0.18, 0.8));
 				z-index: calc(100 - var(--abs-offset, 0));
+
+				&.is-active {
+					cursor: default;
+				}
 
 				// Cap the visible stack to 4 peeking slides; JS toggles this.
 				&.is-coverflow-hidden {
