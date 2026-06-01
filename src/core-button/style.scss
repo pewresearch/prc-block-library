@@ -31,7 +31,7 @@
 
 .wp-element-button {
 	&[hidden] {
-		display: none;
+		display: none !important;
 	}
 	&.is-error {
 		background-color: var(--wp--preset--color--ui-error);

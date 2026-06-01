@@ -150,6 +150,7 @@ class Form_Input_Select {
 			$tag->set_bookmark( 'start' );
 			if ( ! $has_subsumption ) {
 				$tag->set_attribute( 'data-wp-interactive', 'prc-block/form-input-select' );
+				$tag->set_attribute( 'data-wp-on-document--click', 'actions.onDocumentClick' );
 			}
 			$tag->set_attribute( 'data-wp-class--is-open', 'state.isOpen' );
 			if ( $attributes['hasClearIcon'] ?? false ) {

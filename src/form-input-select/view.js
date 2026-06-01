@@ -326,6 +326,7 @@ const { state, actions } = store('prc-block/form-input-select', {
 			const { value, label } = context.option;
 			state[id].value = value;
 			state[id].label = label;
+			state[id].isOpen = false;
 
 			actions.hoistValueToTargetState(id, targetNamespace);
 		}),
@@ -360,6 +361,16 @@ const { state, actions } = store('prc-block/form-input-select', {
 			const { id } = context;
 			if (state[id]) {
 				state[id].isOpen = !state[id].isOpen;
+			}
+		}),
+		onDocumentClick: withSyncEvent((event) => {
+			const { id } = getContext();
+			if (!id || !state[id] || !state[id].isOpen) {
+				return;
+			}
+			const { ref } = getElement();
+			if (ref && !ref.contains(event.target)) {
+				state[id].isOpen = false;
 			}
 		}),
 	},

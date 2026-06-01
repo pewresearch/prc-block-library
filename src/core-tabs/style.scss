@@ -4,7 +4,7 @@
 Core styles for core-tabs block (tab panel content regions).
 */
 .wp-block-tab-panel {
-	figure + p {
+	figure+p {
 		margin-top: 0px !important;
 	}
 }
@@ -36,18 +36,25 @@ Core styles for core-tabs block (tab panel content regions).
 		&:focus {
 			outline: none;
 		}
+
 		&:focus-visible {
 			outline: 2px solid var(--tab-border-color-active, #000);
 			outline-offset: 2px;
 		}
+
 		&:hover {
 			background-color: var(--custom-tab-hover-color, #eaeaea) !important;
 			color: var(--custom-tab-hover-text-color, #000) !important;
 		}
+
 		&[aria-selected="true"],
 		&.is-active {
 			background-color: var(--custom-tab-active-color, #000) !important;
 			color: var(--custom-tab-active-text-color, #fff) !important;
+			border-top: var(--custom-tab-active-border-top, none);
+			border-right: var(--custom-tab-active-border-right, none);
+			border-bottom: var(--custom-tab-active-border-bottom, none);
+			border-left: var(--custom-tab-active-border-left, none);
 		}
 	}
 }
@@ -58,6 +65,7 @@ Core styles for core-tabs block (tab panel content regions).
 .wp-block-tabs:has(.wp-block-tabs-list__dropdown) {
 	width: 100%;
 }
+
 .wp-block-tabs-list__dropdown {
 	position: relative;
 	width: 100%;
@@ -71,9 +79,11 @@ Core styles for core-tabs block (tab panel content regions).
 		.wp-block-tabs-list__dropdown-panel {
 			display: block;
 		}
+
 		.wp-block-tabs-list__dropdown-trigger {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
+
 			.wp-block-tabs-list__dropdown-trigger-icon {
 				transform: rotate(180deg);
 			}
@@ -92,8 +102,7 @@ Core styles for core-tabs block (tab panel content regions).
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
-	padding: var(--wp--preset--spacing--20, 0.75em)
-		var(--wp--preset--spacing--30, 1em);
+	padding: var(--wp--preset--spacing--20, 0.75em) var(--wp--preset--spacing--30, 1em);
 	background-color: var(--wp--preset--color--ui-white, #fff);
 	border: 1px solid var(--wp--preset--color--ui-gray-light, #ccc);
 	border-radius: 4px;
@@ -121,7 +130,7 @@ Core styles for core-tabs block (tab panel content regions).
 	overflow: hidden;
 
 	// Text truncation for the label span inside.
-	> span:last-child {
+	>span:last-child {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -216,6 +225,7 @@ Core styles for core-tabs block (tab panel content regions).
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}
+
 		.wp-block-tabs-list__dropdown-trigger-icon {
 			transform: rotate(180deg);
 		}
@@ -227,6 +237,7 @@ Core styles for core-tabs block (tab panel content regions).
 			border-top-left-radius: 4px;
 			border-top-right-radius: 4px;
 		}
+
 		&:last-child .wp-block-tab {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
@@ -244,18 +255,22 @@ Core styles for core-tabs block (tab panel content regions).
 	gap: 0.5em;
 	flex-direction: column;
 	opacity: 0.5;
+
 	&:hover,
 	&[aria-selected="true"] {
 		opacity: 1;
 	}
+
 	span {
 		margin-block-start: 0 !important;
 	}
+
 	// Flag icon.
 	.fi {
 		flex-shrink: 0;
 		font-size: 2em;
 	}
+
 	// Placeholder for the flag icon.
 	&.wp-block:before {
 		content: "";
@@ -273,10 +288,12 @@ Core styles for core-tabs block (tab panel content regions).
 .wp-block-tab-list.is-style-active-underline {
 	border-bottom-color: #eaeaea !important;
 	padding-bottom: 0 !important;
+
 	.wp-block-tab {
 		margin-bottom: 1em !important;
 		border-radius: 25px !important;
 	}
+
 	.wp-block-tab.is-active,
 	.wp-block-tab[aria-selected="true"] {
 		color: var(--custom-tab-active-text-color, #000) !important;
@@ -295,7 +312,7 @@ Core styles for core-tabs block (tab panel content regions).
  * banners, and tab chrome often use stable white surfaces — producing illegible light-on-light
  * or dark-on-dark combinations. Anchor the tablist to predictable light-surface contrast.
  */
- @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	.wp-block-tab-list:not(.is-style-active-underline) {
 		color-scheme: only light;
 		background-color: var(--wp--preset--color--ui-stable-white);
