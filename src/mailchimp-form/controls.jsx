@@ -8,14 +8,14 @@ import { MailchimpSegmentSelect } from '@prc/components';
  */
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, BlockControls } from '@wordpress/block-editor';
-import { PanelBody, PanelRow } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
 
 export default function Controls({ attributes, setAttributes }) {
-	const { interest } = attributes;
+	const { interest, mailchimpFormId } = attributes;
 	return (
 		<>
 			<BlockControls>
@@ -40,6 +40,22 @@ export default function Controls({ attributes, setAttributes }) {
 								setAttributes({ interest: newInterestId });
 							}}
 							apiKey="mailchimp-form"
+						/>
+					</PanelRow>
+					<PanelRow>
+						<TextControl
+							label={__(
+								'Mailchimp form ID (FIRSTFORM)',
+								'mailchimp-form'
+							)}
+							help={__(
+								'Optional. Sent as the FIRSTFORM merge field when the audience has that tag configured. HTML anchors are not used for tracking.',
+								'mailchimp-form'
+							)}
+							value={mailchimpFormId || ''}
+							onChange={(value) =>
+								setAttributes({ mailchimpFormId: value })
+							}
 						/>
 					</PanelRow>
 				</PanelBody>

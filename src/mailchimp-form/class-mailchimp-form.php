@@ -48,6 +48,7 @@ class Mailchimp_Form {
 	 */
 	public function enable_pattern_overrides( $supported_attributes ) {
 		$supported_attributes[] = 'interest';
+		$supported_attributes[] = 'mailchimpFormId';
 		return $supported_attributes;
 	}
 
@@ -58,7 +59,7 @@ class Mailchimp_Form {
 	 * @param string $content Block content.
 	 * @return string Block HTML.
 	 */
-	public function render_block_callback( $attributes, $content ) {
+	public function render_block_callback( $attributes, $content, $block = null ) {
 		wp_enqueue_script( 'wp-api-fetch' );
 		wp_enqueue_script( 'wp-url' );
 
@@ -66,18 +67,27 @@ class Mailchimp_Form {
 			? \PRC\Platform\Mailchimp\get_nonce()
 			: wp_create_nonce( 'wp_rest' );
 
-		$block_wrapper_attributes = get_block_wrapper_attributes(
-			array(
-				'id'                  => wp_unique_id( 'mailchimp-form-' ),
-				'data-wp-interactive' => 'prc-block/mailchimp-form',
-				'data-wp-context'     => wp_json_encode(
-					array(
-						'NONCE'    => $nonce,
-						'interest' => array_key_exists( 'interest', $attributes ) ? $attributes['interest'] : false,
-					)
-				),
-			)
+		$mailchimp_form_id = isset( $attributes['mailchimpFormId'] )
+			? trim( (string) $attributes['mailchimpFormId'] )
+			: '';
+		$form_id_for_api   = '' !== $mailchimp_form_id ? $mailchimp_form_id : false;
+
+		$wrapper_attributes = array(
+			'data-wp-interactive' => 'prc-block/mailchimp-form',
+			'data-wp-context'     => wp_json_encode(
+				array(
+					'NONCE'    => $nonce,
+					'interest' => array_key_exists( 'interest', $attributes ) ? $attributes['interest'] : false,
+					'formId'   => $form_id_for_api,
+				)
+			),
 		);
+
+		if ( empty( $attributes['anchor'] ) ) {
+			$wrapper_attributes['id'] = wp_unique_id( 'mailchimp-form-' );
+		}
+
+		$block_wrapper_attributes = get_block_wrapper_attributes( $wrapper_attributes );
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',

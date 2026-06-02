@@ -15,6 +15,23 @@ namespace PRC\Platform\Blocks;
 class Form_Send_Email {
 
 	/**
+	 * Object-cache group for the send-to-email throttle buckets.
+	 */
+	const THROTTLE_CACHE_GROUP = 'prc_block_form_send_email_throttle';
+
+	/**
+	 * Default per-IP send limit and window (fixed window).
+	 */
+	const THROTTLE_IP_LIMIT  = 10;
+	const THROTTLE_IP_WINDOW = 10 * MINUTE_IN_SECONDS;
+
+	/**
+	 * Default per-recipient send limit and window (fixed window).
+	 */
+	const THROTTLE_EMAIL_LIMIT  = 5;
+	const THROTTLE_EMAIL_WINDOW = HOUR_IN_SECONDS;
+
+	/**
 	 * Define validation rules for each field type.
 	 *
 	 * @var array
@@ -357,6 +374,10 @@ class Form_Send_Email {
 	 * @return \WP_Error|true
 	 */
 	private function validate_captcha( $value, $type = 'captchaToken' ) {
+		// Captcha is verified once, authoritatively, in handle_email_submission().
+		// Turnstile tokens are single-use, so re-verifying the same token here
+		// (this method runs inside the per-field validation loop) would always
+		// fail with "timeout-or-duplicate". Intentionally a no-op.
 		return true;
 	}
 
@@ -517,6 +538,19 @@ class Form_Send_Email {
 			return new \WP_Error( 'empty_form_fields', 'No form fields provided.', array( 'status' => 400 ) );
 		}
 
+		$captcha_token = function_exists( '\\PRC\\Platform\\find_captcha_token_in_form_fields' )
+			? \PRC\Platform\find_captcha_token_in_form_fields( $form_fields )
+			: '';
+		if ( function_exists( '\\PRC\\Platform\\verify_captcha' ) ) {
+			$remote_ip = function_exists( '\\PRC\\Platform\\get_client_ip' )
+				? \PRC\Platform\get_client_ip()
+				: '';
+
+			if ( ! \PRC\Platform\verify_captcha( $captcha_token, '' !== $remote_ip ? $remote_ip : null ) ) {
+				return new \WP_Error( 'captcha_failed', 'Captcha verification failed.', array( 'status' => 403 ) );
+			}
+		}
+
 		// Find the first field with type 'email' and use its value as the email address.
 		$email_address = false;
 		foreach ( $form_fields as $field ) {
@@ -545,6 +579,11 @@ class Form_Send_Email {
 		$subject = 'New Form Submission from: ' . $form_name;
 		$message = $this->format_message( $form_fields, $form_name );
 
+		$throttled = $this->enforce_send_throttle( $target );
+		if ( is_wp_error( $throttled ) ) {
+			return $throttled;
+		}
+
 		$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 		$headers[] = 'From: ' . sanitize_email( $email_address );
 		$headers[] = 'Reply-To: ' . sanitize_email( $email_address );
@@ -566,5 +605,64 @@ class Form_Send_Email {
 		} else {
 			return new \WP_Error( 'form_submission_failed', 'Form submission failed to send', array( 'status' => 500 ) );
 		}
+	}
+
+	/**
+	 * Enforce per-IP and per-recipient send throttling.
+	 *
+	 * @param string $target Validated recipient email address.
+	 * @return true|\WP_Error
+	 */
+	private function enforce_send_throttle( $target ) {
+		if ( ! function_exists( '\\PRC\\Platform\\rate_limit_hit' ) ) {
+			return true;
+		}
+
+		/**
+		 * Filter the send-throttle limits for the sendToEmail form action.
+		 *
+		 * @param array{ip:array{limit:int,window:int},email:array{limit:int,window:int}} $limits
+		 */
+		$limits = apply_filters(
+			'prc_block_form_send_email_throttle',
+			array(
+				'ip'    => array(
+					'limit'  => self::THROTTLE_IP_LIMIT,
+					'window' => self::THROTTLE_IP_WINDOW,
+				),
+				'email' => array(
+					'limit'  => self::THROTTLE_EMAIL_LIMIT,
+					'window' => self::THROTTLE_EMAIL_WINDOW,
+				),
+			)
+		);
+
+		$ip = function_exists( '\\PRC\\Platform\\get_client_ip' )
+			? \PRC\Platform\get_client_ip()
+			: '';
+
+		if ( '' !== $ip && isset( $limits['ip']['limit'], $limits['ip']['window'] ) ) {
+			if ( \PRC\Platform\rate_limit_hit(
+				'ip_' . md5( $ip ),
+				(int) $limits['ip']['limit'],
+				(int) $limits['ip']['window'],
+				self::THROTTLE_CACHE_GROUP
+			) ) {
+				return new \WP_Error( 'rate_limited', 'Too many requests. Please try again later.', array( 'status' => 429 ) );
+			}
+		}
+
+		if ( isset( $limits['email']['limit'], $limits['email']['window'] ) ) {
+			if ( \PRC\Platform\rate_limit_hit(
+				'to_' . md5( strtolower( $target ) ),
+				(int) $limits['email']['limit'],
+				(int) $limits['email']['window'],
+				self::THROTTLE_CACHE_GROUP
+			) ) {
+				return new \WP_Error( 'rate_limited', 'This address has reached its send limit. Please try again later.', array( 'status' => 429 ) );
+			}
+		}
+
+		return true;
 	}
 }

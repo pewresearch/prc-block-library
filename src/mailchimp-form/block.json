@@ -6,7 +6,7 @@
 	"description": "A block that allows you to add a MailChimp form to your page.",
 	"version": "1.0.0",
 	"category": "marketing",
-	"keywords": [ "mailchimp", "form", "newsletter", "subscribe" ],
+	"keywords": ["mailchimp", "form", "newsletter", "subscribe"],
 	"allowedBlocks": [
 		"prc-block/form",
 		"prc-block/form-input-text",
@@ -20,14 +20,19 @@
 		"interest": {
 			"type": "string",
 			"default": ""
+		},
+		"mailchimpFormId": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"html": false,
 		"spacing": {
 			"margin": true
 		},
-		"interactivity" : true
+		"interactivity": true
 	},
 	"example": {
 		"attributes": {},

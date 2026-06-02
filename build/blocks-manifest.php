@@ -2862,6 +2862,10 @@ return array(
 			array(
 				'name' => 'inline-label',
 				'label' => 'Inline Label'
+			),
+			array(
+				'name' => 'hidden',
+				'label' => 'Hidden'
 			)
 		),
 		'textdomain' => 'form-input-text',
@@ -3718,9 +3722,14 @@ return array(
 			'interest' => array(
 				'type' => 'string',
 				'default' => ''
+			),
+			'mailchimpFormId' => array(
+				'type' => 'string',
+				'default' => ''
 			)
 		),
 		'supports' => array(
+			'anchor' => true,
 			'html' => false,
 			'spacing' => array(
 				'margin' => true

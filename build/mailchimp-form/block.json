@@ -25,9 +25,14 @@
     "interest": {
       "type": "string",
       "default": ""
+    },
+    "mailchimpFormId": {
+      "type": "string",
+      "default": ""
     }
   },
   "supports": {
+    "anchor": true,
     "html": false,
     "spacing": {
       "margin": true

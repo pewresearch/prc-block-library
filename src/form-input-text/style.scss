@@ -86,4 +86,8 @@
 			}
 		}
 	}
+
+	&.is-style-hidden:not(.wp-block) {
+		display: none;
+	}
 }

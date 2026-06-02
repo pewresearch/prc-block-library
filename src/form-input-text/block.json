@@ -127,6 +127,10 @@
 		{
 			"name": "inline-label",
 			"label": "Inline Label"
+		},
+		{
+			"name": "hidden",
+			"label": "Hidden"
 		}
 	],
 	"textdomain": "form-input-text",

@@ -437,6 +437,12 @@ const { state, actions } = store('prc-block/form', {
 				if (currentPageIndex < formPages.length - 1) {
 					// Not on the last page, so go to the next page.
 					context.activePage = formPages[currentPageIndex + 1];
+					getElement().ref?.dispatchEvent(
+						new CustomEvent('prc-form/submitted', {
+							bubbles: true,
+							detail: { success: false, aborted: true },
+						})
+					);
 					return;
 				}
 				// If we're here, then we're on the last page and can continue with submission.
@@ -451,6 +457,12 @@ const { state, actions } = store('prc-block/form', {
 			actions.checkForRequiredFieldsWithoutValues();
 
 			if (context.stopProcessing) {
+				getElement().ref?.dispatchEvent(
+					new CustomEvent('prc-form/submitted', {
+						bubbles: true,
+						detail: { success: false },
+					})
+				);
 				return;
 			}
 
@@ -549,6 +561,7 @@ const { state, actions } = store('prc-block/form', {
 		// 	}
 		// },
 		*sendSubmission() {
+			const { ref: formEl } = getElement();
 			const context = getContext();
 			const {
 				captchaPassed,
@@ -632,6 +645,15 @@ const { state, actions } = store('prc-block/form', {
 				}
 				context.submissionProcessing = false;
 				context._isSubmitting = false; // Reset flag
+				formEl?.dispatchEvent(
+					new CustomEvent('prc-form/submitted', {
+						bubbles: true,
+						detail: {
+							success: !!state.success,
+							error: !!state.error,
+						},
+					})
+				);
 			} else if (method === 'api') {
 				const _store = yield store(namespace);
 				// Run the requested action and wait for it to complete.
@@ -684,7 +706,34 @@ const { state, actions } = store('prc-block/form', {
 					} finally {
 						context.submissionProcessing = false;
 						context._isSubmitting = false; // Reset flag
+						formEl?.dispatchEvent(
+							new CustomEvent('prc-form/submitted', {
+								bubbles: true,
+								detail: {
+									success: !!state.success,
+									error: !!state.error,
+								},
+							})
+						);
 					}
+				} else {
+					console.error(
+						'onSubmit (API): missing store action',
+						namespace,
+						action
+					);
+					state.error = true;
+					context.submissionProcessing = false;
+					context._isSubmitting = false;
+					formEl?.dispatchEvent(
+						new CustomEvent('prc-form/submitted', {
+							bubbles: true,
+							detail: {
+								success: false,
+								error: true,
+							},
+						})
+					);
 				}
 			}
 			FormPersistence.clearFormData(formId);

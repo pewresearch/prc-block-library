@@ -21,9 +21,20 @@ const storeConfig = {
 	},
 	actions: {
 		toggleFlip: withSyncEvent((event) => {
-			// Check if event target is a button or a link, if so do nothing.
-			if (['A', 'BUTTON'].includes(event.target.tagName)) {
-				return;
+			// Let interactive controls handle their own click instead of
+			// flipping the card: a <button>, or a real link (an <a> with a
+			// non-empty href). An <a> without an href (e.g. a link-less
+			// wp-element-button) is non-navigational, so a click on it should
+			// fall through and flip the card like any other content.
+			const interactive = event.target.closest('a, button');
+			if (interactive) {
+				const isButton = 'BUTTON' === interactive.tagName;
+				const isLinkWithHref =
+					'A' === interactive.tagName &&
+					!!interactive.getAttribute('href');
+				if (isButton || isLinkWithHref) {
+					return;
+				}
 			}
 			const context = getContext();
 			context.flipped = !context.flipped;

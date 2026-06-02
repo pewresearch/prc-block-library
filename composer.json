@@ -7,7 +7,8 @@
 		"php": ">=8.2",
 		"automattic/jetpack-autoloader": "^5.0",
 		"matthiasmullie/minify": "^1.3",
-		"prc/block-utils": "^1.0"
+		"prc/block-utils": "^1.0",
+		"usarise/turnstile": "^0.7.0"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0.0"

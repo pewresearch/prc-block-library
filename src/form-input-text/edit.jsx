@@ -13,6 +13,7 @@ import {
 	store as blockEditorStore,
 	useBlockProps,
 	RichText,
+	Warning,
 	getColorClassName,
 	__experimentalUseBorderProps as useBorderProps,
 	__experimentalUseColorProps as useColorProps,
@@ -57,8 +58,11 @@ export default function Edit({
 	const { name } = metadata || {};
 
 	const isInlineLabel = useMemo(() => {
-		console.log('isInlineLabel', className, className?.includes('is-style-inline-label'));
 		return className?.includes('is-style-inline-label');
+	}, [className]);
+
+	const isHidden = useMemo(() => {
+		return className?.includes('is-style-hidden');
 	}, [className]);
 
 	const borderProps = useBorderProps( attributes );
@@ -110,28 +114,39 @@ export default function Edit({
 				}}
 			/>
 			<div {...blockProps}>
-				{displayLabel && <RichText
-					tagName="label"
-					placeholder={__('Label...', 'prc-block-library')}
-					value={label}
-					onChange={(newLabel) => {
-						const camelCaseLabel = newLabel.replace(/<[^>]*>/g, '').replace(/(?:^| )(\w)/g, (_, letter) => letter.toUpperCase()).replace(/^./, str => str.toLowerCase());
-						setAttributes({ label: newLabel, metadata: { ...attributes.metadata, name: camelCaseLabel } });
-					}}
-				/>}
-				<input
-					className={clsx(inputClassNames)}
-					style={inputStyles}
-					type={type ?? 'text'}
-					id={anchor}
-					name={name}
-					required={required}
-					placeholder={placeholder}
-					value={value}
-					onChange={(event) => {
-						event.preventDefault();
-					}}
-				/>
+				{isHidden ? (
+					<Warning>
+						{__(
+							'This is a hidden form field. It will not be visible on the front end, but its value will still be submitted with the form.',
+							'prc-block-library'
+						)}
+					</Warning>
+				) : (
+					<>
+						{displayLabel && <RichText
+							tagName="label"
+							placeholder={__('Label...', 'prc-block-library')}
+							value={label}
+							onChange={(newLabel) => {
+								const camelCaseLabel = newLabel.replace(/<[^>]*>/g, '').replace(/(?:^| )(\w)/g, (_, letter) => letter.toUpperCase()).replace(/^./, str => str.toLowerCase());
+								setAttributes({ label: newLabel, metadata: { ...attributes.metadata, name: camelCaseLabel } });
+							}}
+						/>}
+						<input
+							className={clsx(inputClassNames)}
+							style={inputStyles}
+							type={type ?? 'text'}
+							id={anchor}
+							name={name}
+							required={required}
+							placeholder={placeholder}
+							value={value}
+							onChange={(event) => {
+								event.preventDefault();
+							}}
+						/>
+					</>
+				)}
 			</div>
 		</>
 	);

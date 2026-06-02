@@ -1,17 +1,24 @@
 const ENDPOINT = '/prc-api/v3/mailchimp/subscribe';
 
+const isPreviewRequest = () => {
+	const params = new URLSearchParams(window.location.search);
+	return params.has('preview') || params.has('preview_id');
+};
+
 export default async function subscribe({
 	emailAddress,
 	captchaToken = false,
 	interest = false,
 	NONCE = false,
+	formId = false,
 }) {
-	console.log('🐵 subscribe', {
-		emailAddress,
-		captchaToken,
-		interest,
-		NONCE,
-	});
+	if (isPreviewRequest()) {
+		return Promise.resolve({
+			success: true,
+			message: 'Preview: subscription skipped.',
+		});
+	}
+
 	return new Promise((resolve, reject) => {
 		const { apiFetch } = window.wp;
 		const { isURL, buildQueryString } = window.wp.url;
@@ -29,13 +36,19 @@ export default async function subscribe({
 			return new Error('🙈 Invalid page url', url);
 		}
 
-		const path = buildQueryString({
+		const queryParams = {
 			email,
 			captcha_token: captchaToken,
 			interests: interest,
 			api_key: 'mailchimp-form',
 			origin_url: url,
-		});
+		};
+
+		if (formId) {
+			queryParams.form_id = formId;
+		}
+
+		const path = buildQueryString(queryParams);
 
 		// Setup the nonce middleware.
 		apiFetch.use(apiFetch.createNonceMiddleware(NONCE));
@@ -46,15 +59,11 @@ export default async function subscribe({
 		})
 			.then((response) => {
 				if (response.success) {
-					console.log('🐵 MailChimp success', response);
 					return resolve(response);
-				} else {
-					console.error('🙊 MailChimp reject', response);
-					return reject(response);
 				}
+				return reject(response);
 			})
 			.catch((e) => {
-				console.error('🙊 MailChimp error', e);
 				return reject(e);
 			});
 	});
