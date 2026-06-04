@@ -7,7 +7,7 @@ import hljs from 'highlight.js';
  * WordPress Dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { render } from '@wordpress/element';
+import { createRoot } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -28,9 +28,11 @@ domReady(() => {
 
 		hljs.highlightElement(code);
 
-		render(
-			<CopyText value={code.textContent} />,
-			codeBlock.querySelector('.wp-block-prc-block-code-syntax__ui')
+		const ui = codeBlock.querySelector(
+			'.wp-block-prc-block-code-syntax__ui'
 		);
+		if (ui) {
+			createRoot(ui).render(<CopyText value={code.textContent} />);
+		}
 	});
 });

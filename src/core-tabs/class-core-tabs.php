@@ -286,6 +286,13 @@ class Core_Tabs {
 				'label' => __( 'Active Underline', 'prc-block-library' ),
 			)
 		);
+		register_block_style(
+			'core/tabs',
+			array(
+				'name'  => 'tabbed',
+				'label' => __( 'Tabbed', 'prc-block-library' ),
+			)
+		);
 	}
 
 	/**

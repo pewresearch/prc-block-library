@@ -22,13 +22,13 @@ const getSlideBackgroundColor = (block) => {
 
 export const Dots = ({
 	innerBlocks,
-	selectBlock,
-	selectedCarouselSlideClientId,
+	activeSlideClientId,
+	onNavigateToSlide,
 	useSlideBgForDots = false,
 }) => (
 	<div className="prc-block-carousel-controller__dots">
 		{innerBlocks.map((block, index) => {
-			const isActive = selectedCarouselSlideClientId === block.clientId;
+			const isActive = activeSlideClientId === block.clientId;
 			const slideColor = useSlideBgForDots
 				? getSlideBackgroundColor(block)
 				: undefined;
@@ -37,7 +37,7 @@ export const Dots = ({
 					key={block.clientId}
 					className="prc-block-carousel-controller__dot"
 					type="button"
-					onClick={() => selectBlock(block.clientId)}
+					onClick={() => onNavigateToSlide(index)}
 					aria-label={`Go to slide ${index + 1}`}
 					data-active={isActive}
 					style={
@@ -62,16 +62,11 @@ const getPrevIcon = (viewType) =>
 const getNextIcon = (viewType) =>
 	viewType === 'vertical' ? 'chevron-down' : 'chevron-right';
 
-export const PreviousArrow = ({
-	selectBlock,
-	previousClientId,
-	viewType,
-	disabled = false,
-}) => (
+export const PreviousArrow = ({ onNavigate, viewType, disabled = false }) => (
 	<button
 		className="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__prev"
 		type="button"
-		onClick={() => previousClientId && selectBlock(previousClientId)}
+		onClick={() => !disabled && onNavigate()}
 		disabled={disabled}
 		aria-disabled={disabled || undefined}
 		aria-label="Previous slide"
@@ -80,16 +75,11 @@ export const PreviousArrow = ({
 	</button>
 );
 
-export const NextArrow = ({
-	selectBlock,
-	nextClientId,
-	viewType,
-	disabled = false,
-}) => (
+export const NextArrow = ({ onNavigate, viewType, disabled = false }) => (
 	<button
 		className="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__next"
 		type="button"
-		onClick={() => nextClientId && selectBlock(nextClientId)}
+		onClick={() => !disabled && onNavigate()}
 		disabled={disabled}
 		aria-disabled={disabled || undefined}
 		aria-label="Next slide"
@@ -99,21 +89,22 @@ export const NextArrow = ({
 );
 
 export const Arrows = ({
-	previousClientId,
-	nextClientId,
-	selectBlock,
+	onNavigatePrevious,
+	onNavigateNext,
 	viewType,
+	disabledPrevious = false,
+	disabledNext = false,
 }) => (
 	<div className="prc-block-carousel-controller__arrows">
 		<PreviousArrow
-			selectBlock={selectBlock}
-			previousClientId={previousClientId}
+			onNavigate={onNavigatePrevious}
 			viewType={viewType}
+			disabled={disabledPrevious}
 		/>
 		<NextArrow
-			selectBlock={selectBlock}
-			nextClientId={nextClientId}
+			onNavigate={onNavigateNext}
 			viewType={viewType}
+			disabled={disabledNext}
 		/>
 	</div>
 );

@@ -65,6 +65,10 @@
     "arrowColor": {
       "type": "string",
       "default": "black"
+    },
+    "editorActiveSlideIndex": {
+      "type": "number",
+      "role": "local"
     }
   },
   "supports": {

@@ -21,16 +21,18 @@ Only `prc-block/carousel-slide` blocks are allowed inside this controller.
 
 ## Attributes
 
-| Attribute      | Type      | Default                             | Enum Values                | Description                                                                   |
-| -------------- | --------- | ----------------------------------- | -------------------------- | ----------------------------------------------------------------------------- |
-| `orientation`  | `string`  | `"horizontal"`                      | --                         | Scroll direction of the carousel. Set to `"vertical"` for vertical scrolling. |
-| `enableDots`   | `boolean` | `true`                              | --                         | Show dot navigation indicators below (or beside) the carousel.                |
-| `enableArrows` | `boolean` | `true`                              | --                         | Show previous/next arrow buttons.                                             |
-| `enableRewind` | `boolean` | `true`                              | --                         | Allow the carousel to wrap around from last to first slide and vice versa.    |
-| `arrowsSize`   | `string`  | `"medium"`                          | `small`, `medium`, `large` | Size of the navigation arrows.                                                |
-| `dotsSize`     | `string`  | `"small"`                           | `small`, `medium`, `large` | Size of the dot indicators.                                                   |
-| `dotColor`     | `string`  | `"var(--wp--preset--color--black)"` | --                         | Color for the dot indicators.                                                 |
-| `arrowColor`   | `string`  | `"var(--wp--preset--color--black)"` | --                         | Color for the arrow buttons.                                                  |
+| Attribute                | Type      | Default        | Enum Values                          | Description                                                                                      |
+| ------------------------ | --------- | -------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `viewType`               | `string`  | `"horizontal"` | `horizontal`, `vertical`, `coverflow` | Carousel layout: horizontal scroll, vertical scroll, or coverflow (3D stacked slides).          |
+| `enableDots`             | `boolean` | `true`         | --                                   | Show dot navigation indicators below (or beside) the carousel.                                   |
+| `useSlideBgForDots`      | `boolean` | `false`        | --                                   | Color each dot from its slide’s background color instead of `dotColor`.                            |
+| `enableArrows`           | `boolean` | `true`         | --                                   | Show previous/next arrow buttons.                                                                |
+| `enableRewind`           | `boolean` | `true`         | --                                   | Allow the carousel to wrap around from last to first slide and vice versa (frontend).            |
+| `arrowsSize`             | `string`  | `"medium"`     | `small`, `medium`, `large`           | Size of the navigation arrows.                                                                   |
+| `dotsSize`               | `string`  | `"small"`      | `small`, `medium`, `large`           | Size of the dot indicators.                                                                      |
+| `dotColor`               | `string`  | `"black"`      | --                                   | Color for the dot indicators (ignored when `useSlideBgForDots` is true).                         |
+| `arrowColor`             | `string`  | `"black"`      | --                                   | Color for the arrow buttons.                                                                     |
+| `editorActiveSlideIndex` | `number`  | —              | --                                   | Editor-only index of the visible slide (`role: local`). Not saved to post content.               |
 
 ## Supports
 
@@ -59,13 +61,13 @@ Only `prc-block/carousel-slide` blocks are allowed inside this controller.
 2. The first slide is created automatically with a paragraph placeholder.
 3. Add content to the slide (images, text, any blocks).
 4. Click the **+** appender to add more slides. New slides inherit style attributes from existing ones.
-5. Use the arrow buttons in the editor to navigate between slides.
+5. Use the arrow buttons or dot indicators in the editor to preview slides. Navigation updates a local active-slide index (see **Editor Enhancements**), so arrows and dots work even when the carousel controller itself is selected rather than a slide.
 6. In the sidebar, configure:
-    - **Orientation**: Horizontal (default) or vertical scrolling.
-    - **Enable Dots**: Toggle dot navigation.
+    - **View Type**: Horizontal (default), vertical, or coverflow.
+    - **Enable Dots**: Toggle dot navigation; optionally use each slide’s background for dot color.
     - **Enable Arrows**: Toggle arrow navigation.
     - **Arrows Size** / **Dots Size**: Small, medium, or large.
-    - **Dot Color** / **Arrow Color**: Customize navigation element colors.
+    - **Dot Color** / **Arrow Color**: Customize navigation element colors (when not using slide backgrounds for dots).
 
 ## Inserter preview
 
@@ -131,6 +133,24 @@ The `example` in `block.json` matches the default template shape: a single `prc-
 	</div>
 </div>
 ```
+
+## Editor Enhancements
+
+**Files:** `use-editor-active-slide.js`, `edit.jsx`, `navigation-components.jsx`
+
+**`use-editor-active-slide.js`**
+
+-   Tracks the visible slide with a **local** `editorActiveSlideIndex` attribute (`block.json`), decoupled from which block is currently selected in the list view or canvas.
+-   Exposes `setActiveIndex(index)` to move the preview: updates the local index via `__unstableMarkNextChangeAsNotPersistent`, then selects the target slide so the canvas follows.
+-   When you select a slide or content inside a slide, the active index syncs to match that slide.
+-   When slides are added or removed, the stored index is clamped (`clampSlideIndex`) so it stays within bounds.
+
+**`navigation-components.jsx`**
+
+-   **Dots** call `onNavigateToSlide(index)` (wired to `setActiveIndex`) instead of `selectBlock` on the slide client id.
+-   **PreviousArrow** / **NextArrow** use `onNavigate` callbacks and `disabled` at the first/last slide (no rewind in the editor, unlike the frontend when `enableRewind` is on).
+
+This keeps editor preview aligned with frontend navigation when the controller wrapper is selected, which is the common case while adjusting carousel settings.
 
 ## PHP Rendering
 

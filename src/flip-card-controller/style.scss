@@ -9,12 +9,14 @@
 .wp-block-group[class*="align"]:has(.wp-block-prc-block-flip-card-controller) {
 	min-width: 200px;
 }
+
 // .wp-block-group:has(.wp-block-prc-block-flip-card-controller) .wp-block-prc-block-flip-card-controller {
 // 	width: 100%;
 // }
 
 .wp-block-prc-block-flip-card-controller {
 	min-width: 100px;
+
 	// perspective: 1000px;
 	&.is-flipped .wp-block-prc-block-flip-card-controller__inner-blocks {
 		transform: rotateY(180deg);
@@ -36,6 +38,7 @@
 			&:not(.wp-block) {
 				cursor: pointer;
 			}
+
 			-webkit-backface-visibility: hidden;
 			backface-visibility: hidden;
 			width: 100%;
@@ -43,7 +46,7 @@
 			margin-block-end: 0;
 			margin-block-start: 0;
 			margin: 0;
-			overflow-y: auto;
+
 			&.is-style-back {
 				transform: rotateY(180deg);
 			}
@@ -54,10 +57,39 @@
 		.wp-block-prc-block-flip-card-side {
 			position: absolute;
 		}
+
+		// Firefox (and nested carousel 3D) can ignore backface-visibility on
+		// rotated faces. Match the editor: only mount the active face in layout.
+		&.is-flipped {
+			.wp-block-prc-block-flip-card-side:not(.is-style-back) {
+				display: none;
+			}
+		}
+
+		&:not(.is-flipped) {
+			.wp-block-prc-block-flip-card-side.is-style-back {
+				display: none;
+			}
+		}
 	}
-	// &:not(.is-initialized) .wp-block-prc-block-flip-card-side.is-style-back {
-	// 	display: none;
-	// }
+
+	&.is-measuring {
+		.wp-block-prc-block-flip-card-side {
+			display: block !important;
+			height: auto !important;
+			min-height: 0 !important;
+		}
+
+		.wp-block-prc-block-flip-card-controller__inner-blocks {
+			height: auto !important;
+		}
+	}
+
+	&:not(.is-initialized):not(.wp-block) {
+		.wp-block-prc-block-flip-card-side.is-style-back {
+			display: none;
+		}
+	}
 }
 
 // When a flip card lives inside a carousel slide (notably coverflow, which

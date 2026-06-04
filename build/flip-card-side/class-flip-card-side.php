@@ -50,7 +50,6 @@ class Flip_Card_Side {
 			array(
 				'data-wp-interactive'       => 'prc-block/flip-card-controller',
 				'data-wp-on--click'         => 'actions.toggleFlip',
-				'data-wp-init'              => 'callbacks.onCardSideInit',
 				'data-wp-style--min-height' => 'callbacks.minHeightStyle',
 			)
 		);

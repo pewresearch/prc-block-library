@@ -19,7 +19,7 @@ PRC utilities and the legacy `prc-block/tabs` → `core/tabs` transform follow t
 ## What PRC Customizes
 
 -   Registers a `core/tab-label` block bindings source for syncing tab labels between the menu and tab content
--   Registers "Country Flags" and "Active Underline" block styles
+-   Registers "Country Flags" and "Active Underline" block styles, plus a **Tabbed** preset on the parent `core/tabs` block
 -   Adds a mobile dropdown mode that converts the tabs menu to a select-style dropdown below a configurable breakpoint
 -   Supports top and bottom dropdown placement (bottom dropdown copies the menu after tab panels)
 -   Adds a block transform from legacy `prc-block/tabs` to `core/tabs` (one `core/tabs-menu-item` per tab; base colors mapped only to block supports where applicable)
@@ -49,6 +49,7 @@ Added via `blocks.registerBlockType` filter in `index.jsx`.
 
 | Block                 | Style Name         | Label            | Description                                                       |
 | --------------------- | ------------------ | ---------------- | ----------------------------------------------------------------- |
+| `core/tabs`           | `tabbed`           | Tabbed           | Folder-tab preset: bordered panel, tab row divider, gray inactive labels, bold active tab connected to the content panel below |
 | `core/tabs-menu-item` | `country-flags`    | Country Flags    | Displays country flag icons before tab labels, faded until active |
 | `core/tabs-menu`      | `active-underline` | Active Underline | Underline on the active tab with transparent background           |
 
@@ -66,6 +67,12 @@ Registered in PHP via `register_block_style` in `register_block_styles`.
 -   **Bottom dropdown variant** -- `.wp-block-tabs-menu__dropdown--bottom` opens upward with reversed border radii and shadow direction
 -   **Country Flags** -- flex column layout with 2em flag icons, items start at 0.5 opacity and go full opacity on hover/active
 -   **Active Underline** -- transparent background on active tab with `border-bottom: 2px solid` using custom active color variable
+-   **Tabbed** (`.wp-block-tabs.is-style-tabbed`) -- self-contained folder-tab preset on the parent `core/tabs` block (apply via block styles in the editor; no extra inspector settings):
+    -   `.wp-block-tab-list` -- bottom divider; tabs align to the baseline of the row
+    -   `.wp-block-tab` -- inactive labels use gray text; active tab is bold with a bordered “folder” tab (`margin-bottom: -1px`) that connects to the panel below
+    -   `.wp-block-tab-panels` / `.wp-block-tab-panel` -- content panel wrapped in a matching border (`border-top: 0` on panels so it joins the active tab); panel padding `1.5em`
+    -   Uses theme tokens (`ui-gray-light`, `ui-white`, `ui-text-color`, `ui-black`) — no manual border, background, or color settings required
+    -   **Dark color scheme:** uses adaptive `light-dark()` palette tokens so borders, active-tab surface, panel background, and label colors follow OS dark mode or the site Dark Mode Toggle (excluded from the generic stable-white tab-list override applied to other tab styles)
 
 ## Editor Enhancements
 
@@ -120,7 +127,7 @@ When tab content includes **Entity as Iframe**, the PHP layer injects directives
 -   **`extend_core_tabs_menu_uses_context`** (`register_block_type_args` filter) -- for `core/tabs-menu`, appends `core/tabs-id`, `core/tabs-activeTabIndex`, and `core/tabs-editorActiveTabIndex` to `usesContext` so PRC render callbacks still receive parent tabs context after Gutenberg narrowed the default `usesContext` list
 -   **`register_assets`** (`init` hook) -- registers editor script, style, and view script module handles
 -   **`register_tab_block_bindings`** (`init` hook) -- registers the `core/tab-label` server-side block bindings source
--   **`register_block_styles`** (`init` hook) -- registers `country-flags` style on `core/tabs-menu-item` (with flag-icons CSS enqueue) and `active-underline` style on `core/tabs-menu`
+-   **`register_block_styles`** (`init` hook) -- registers `tabbed` style on `core/tabs`, `country-flags` style on `core/tabs-menu-item` (with flag-icons CSS enqueue), and `active-underline` style on `core/tabs-menu`
 -   **`filter_render_block_context`** (`render_block_context` filter) -- for `core/tab`, adds `core/tab-slug` (slugified label) for child blocks
 -   **`render_core_tabs_menu`** (`render_block_core/tabs-menu` filter) -- enqueues the view script module and Interactivity state; when `mobileDropdown` is enabled, builds mobile dropdown markup by **rendering each parsed `core/tabs-menu-item` inner block** with the correct per-tab context (matching anchors to `core/tabs-list`), appends dropdown after the menu, and binds visibility for the desktop tablist; supports bottom dropdown via `render_core_tabs`
 -   **`render_core_tabs_menu_item`** (`render_block_core/tabs-menu-item` filter) -- when the **Country Flags** block style is active, injects flag icon markup before the label `<span>` inside the button

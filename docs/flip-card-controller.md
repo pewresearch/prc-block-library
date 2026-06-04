@@ -71,6 +71,16 @@ None. This is the top-level container for flip card functionality.
     - **Manual height**: Enables a resizable handle at the bottom to set a fixed pixel height.
 6. On the frontend, clicking anywhere on the card (except links and buttons) flips it.
 
+## Styles
+
+**File:** `style.scss`
+
+-   **3D flip** -- inner blocks use `transform-style: preserve-3d`; sides use `backface-visibility: hidden` with the back side rotated 180° on the Y axis.
+-   **Active face only (frontend)** -- after initialization (`.is-initialized:not(.wp-block)`), sides are `position: absolute` and only the visible face stays in layout (`display: none` on the hidden face). Firefox and nested 3D contexts (e.g. flip cards inside carousel coverflow slides) can ignore `backface-visibility`, so hiding the inactive face prevents both sides from showing through.
+-   **Pre-init** -- before the Interactivity API measures sides, the back face is hidden on the frontend only (`:not(.is-initialized):not(.wp-block)`); the editor (`.wp-block` wrapper) still shows both sides for editing.
+-   **Smart height measuring** -- during the measurement pass (`.is-measuring`), side heights reset to `auto` so `minHeight` can be calculated from the tallest face.
+-   **Carousel slides** -- when nested in `prc-block/carousel-slide`, the controller and inner blocks pin to `width: 100%` / `height: 100%` so absolutely positioned sides fill the slide instead of collapsing.
+
 ## Inserter preview
 
 The `example` in `block.json` mirrors the locked insert template: front and back `prc-block/flip-card-side` blocks (`is-style-front` / `is-style-back`) each with a `core/paragraph` for the inserter thumbnail.

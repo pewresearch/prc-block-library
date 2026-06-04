@@ -63,6 +63,7 @@ class Flip_Card_Controller {
 				),
 				'data-wp-class--is-initialized' => 'state.isInitialized',
 				'data-wp-class--is-flipped'     => 'state.isFlipped',
+				'data-wp-init'                  => 'callbacks.onControllerInit',
 				'data-wp-style--min-height'     => 'callbacks.minHeightStyle',
 			)
 		);

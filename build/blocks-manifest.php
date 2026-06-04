@@ -652,6 +652,10 @@ return array(
 			'arrowColor' => array(
 				'type' => 'string',
 				'default' => 'black'
+			),
+			'editorActiveSlideIndex' => array(
+				'type' => 'number',
+				'role' => 'local'
 			)
 		),
 		'supports' => array(

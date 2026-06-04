@@ -5,8 +5,59 @@ import {
 	store,
 	getContext,
 	getElement,
+	withScope,
 	withSyncEvent,
 } from '@wordpress/interactivity';
+
+/**
+ * Measure front/back sides under a neutralizer class and update context.minHeight.
+ *
+ * @param {HTMLElement} controllerEl The flip-card controller element.
+ * @param {Object}      context      Interactivity context for this controller.
+ * @return {boolean} True when a positive minHeight was computed.
+ */
+const measureSides = (controllerEl, context) => {
+	const innerBlocks = controllerEl.querySelector(
+		'.wp-block-prc-block-flip-card-controller__inner-blocks'
+	);
+	if (!innerBlocks) {
+		return false;
+	}
+
+	const sides = innerBlocks.querySelectorAll(
+		'.wp-block-prc-block-flip-card-side'
+	);
+	if (!sides.length) {
+		return false;
+	}
+
+	context.isMeasuring = true;
+	controllerEl.classList.add('is-measuring');
+
+	const heights = {};
+	sides.forEach((side) => {
+		const key = side.classList.contains('is-style-back') ? 'back' : 'front';
+		const elementHeight = side.offsetHeight;
+		if (elementHeight) {
+			heights[key] = Math.max(heights[key] || 0, elementHeight);
+		}
+	});
+
+	controllerEl.classList.remove('is-measuring');
+	context.isMeasuring = false;
+
+	const measuredHeights = Object.values(heights);
+	if (!measuredHeights.length) {
+		return false;
+	}
+
+	const next = Math.max(0, ...measuredHeights);
+	if (next > 0 && next !== context.minHeight) {
+		context.minHeight = next;
+	}
+
+	return next > 0;
+};
 
 const storeConfig = {
 	state: {
@@ -41,41 +92,58 @@ const storeConfig = {
 		}),
 	},
 	callbacks: {
-		onCardSideInit() {
+		onControllerInit() {
 			const { ref } = getElement();
 			if (!ref) {
 				return;
 			}
+
 			const context = getContext();
-
-			const measure = () => {
-				const elementHeight = ref.offsetHeight;
-				if (!elementHeight) {
-					return false;
-				}
-				context.minHeight = Math.max(
-					context.minHeight || 0,
-					elementHeight
-				);
-				context.initialized = true;
-				return true;
-			};
-
-			// Fast path: already laid out at hydration.
-			if (measure()) {
+			if (context.fixedHeight > 0) {
 				return;
 			}
 
-			// Self-heal: a hidden/zero-height ancestor or unloaded image means
-			// offsetHeight is 0 right now. Re-measure when the side gains height.
-			const observer = new ResizeObserver(() => {
-				if (measure()) {
-					observer.disconnect();
-				}
-			});
-			observer.observe(ref);
+			const innerBlocks = ref.querySelector(
+				'.wp-block-prc-block-flip-card-controller__inner-blocks'
+			);
+			if (!innerBlocks) {
+				return;
+			}
 
-			return () => observer.disconnect();
+			if (measureSides(ref, context)) {
+				context.initialized = true;
+			}
+
+			let rafId = null;
+
+			const observer = new window.ResizeObserver(
+				withScope(() => {
+					if (context.isMeasuring) {
+						return;
+					}
+
+					if (rafId) {
+						window.cancelAnimationFrame(rafId);
+					}
+					rafId = window.requestAnimationFrame(
+						withScope(() => {
+							rafId = null;
+							if (measureSides(ref, context)) {
+								context.initialized = true;
+							}
+						})
+					);
+				})
+			);
+
+			observer.observe(innerBlocks);
+
+			return () => {
+				if (rafId) {
+					window.cancelAnimationFrame(rafId);
+				}
+				observer.disconnect();
+			};
 		},
 		minHeightStyle() {
 			const { fixedHeight, minHeight } = getContext();

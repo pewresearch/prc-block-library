@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { render, Component } from '@wordpress/element';
+import { createRoot, Component } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 
 /**
@@ -27,7 +27,7 @@ domReady(() => {
 		const metaDescription = elm.getAttribute('data-meta-description');
 		const enableTracking = elm.getAttribute('data-enable-tracking');
 
-		render(
+		createRoot(elm).render(
 			<AudioPlayer
 				type={type}
 				title={title}
@@ -38,8 +38,7 @@ domReady(() => {
 				metaDescription={metaDescription}
 				classes={classes}
 				enableTracking={enableTracking}
-			/>,
-			elm
+			/>
 		);
 	});
 });

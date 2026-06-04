@@ -13,7 +13,7 @@ import {
 	InnerBlocks,
 	withColors,
 } from '@wordpress/block-editor';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import { Fragment, useRef, useEffect } from '@wordpress/element';
 
 /**
@@ -21,6 +21,7 @@ import { Fragment, useRef, useEffect } from '@wordpress/element';
  */
 import Controls from './controls';
 import { Dots, PreviousArrow, NextArrow } from './navigation-components';
+import { useEditorActiveSlide } from './use-editor-active-slide';
 
 const TEMPLATE = [
 	[
@@ -66,6 +67,7 @@ function Edit({
 		arrowsSize,
 		dotsSize,
 		useSlideBgForDots,
+		editorActiveSlideIndex,
 	} = attributes;
 
 	const isCoverflow = viewType === 'coverflow';
@@ -74,71 +76,24 @@ function Edit({
 
 	const blockRef = useRef(null);
 
-	const { selectBlock } = useDispatch(blockEditorStore);
-
 	const {
 		innerBlocks,
-		selectedCarouselSlideClientId,
-		_isSelected,
-		userIsTyping,
-	} = useSelect((select) => {
-		const {
-			getBlock,
-			getBlocks,
-			getSelectedBlockClientId,
-			getBlockParentsByBlockName,
-			hasSelectedInnerBlock,
-			isTyping,
-		} = select(blockEditorStore);
-		const currentlySelectedBlockClientId = getSelectedBlockClientId();
-		const currentlySelectedBlock = getBlock(currentlySelectedBlockClientId);
-		const _innerBlocks = getBlocks(clientId);
-		const slideClientIds = new Set(
-			_innerBlocks.map((block) => block.clientId)
-		);
-		let currentlySelectedSlideBlock = null;
-		if (currentlySelectedBlock?.name === 'prc-block/carousel-slide') {
-			if (slideClientIds.has(currentlySelectedBlockClientId)) {
-				currentlySelectedSlideBlock = currentlySelectedBlockClientId;
-			}
-		} else if (currentlySelectedBlockClientId) {
-			const slideParents = getBlockParentsByBlockName(
-				currentlySelectedBlockClientId,
-				'prc-block/carousel-slide'
-			);
-			currentlySelectedSlideBlock =
-				slideParents.find((slideId) => slideClientIds.has(slideId)) ??
-				null;
-		}
-		const blockIsSelected =
-			isSelected || hasSelectedInnerBlock(clientId, true);
+		slideCount,
+		activeIndex,
+		activeSlideClientId,
+		setActiveIndex,
+	} = useEditorActiveSlide({
+		clientId,
+		editorActiveSlideIndex,
+	});
 
-		// When a slide is selected: that slide's clientId.
-		// Otherwise: the first inner slide's clientId (or null if no inner blocks yet).
-		const firstSlideClientId = _innerBlocks?.[0]?.clientId ?? null;
-		const activeSlideClientId =
-			currentlySelectedSlideBlock ?? firstSlideClientId;
-
+	const { _isSelected, userIsTyping } = useSelect((select) => {
+		const { hasSelectedInnerBlock, isTyping } = select(blockEditorStore);
 		return {
-			innerBlocks: _innerBlocks,
-			selectedCarouselSlideClientId: activeSlideClientId,
-			_isSelected: blockIsSelected,
+			_isSelected: isSelected || hasSelectedInnerBlock(clientId, true),
 			userIsTyping: isTyping(),
 		};
 	});
-
-	const activeIndex = Math.max(
-		0,
-		innerBlocks.findIndex(
-			(block) => block.clientId === selectedCarouselSlideClientId
-		)
-	);
-
-	// Arrows navigate relative to the visible active slide, regardless of the
-	// current editor selection (the controller is often selected, not a slide).
-	const previousSlideClientId =
-		innerBlocks[activeIndex - 1]?.clientId ?? null;
-	const nextSlideClientId = innerBlocks[activeIndex + 1]?.clientId ?? null;
 
 	const blockProps = useBlockProps({
 		ref: blockRef,
@@ -203,24 +158,24 @@ function Edit({
 	const dots = (
 		<Dots
 			innerBlocks={innerBlocks}
-			selectBlock={selectBlock}
-			selectedCarouselSlideClientId={selectedCarouselSlideClientId}
+			activeSlideClientId={activeSlideClientId}
+			onNavigateToSlide={setActiveIndex}
 			useSlideBgForDots={useSlideBgForDots}
 		/>
 	);
 
 	const previousArrow = enableArrows && (
 		<PreviousArrow
-			selectBlock={selectBlock}
-			previousClientId={previousSlideClientId}
+			onNavigate={() => setActiveIndex(activeIndex - 1)}
+			disabled={activeIndex <= 0}
 			viewType={viewType}
 		/>
 	);
 
 	const nextArrow = enableArrows && (
 		<NextArrow
-			selectBlock={selectBlock}
-			nextClientId={nextSlideClientId}
+			onNavigate={() => setActiveIndex(activeIndex + 1)}
+			disabled={activeIndex >= slideCount - 1}
 			viewType={viewType}
 		/>
 	);

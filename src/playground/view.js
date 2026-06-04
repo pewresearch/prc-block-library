@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { render } from '@wordpress/element';
+import { createRoot } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 
 /**
@@ -169,7 +169,7 @@ domReady(() => {
 			'.wp-block-prc-block-playground'
 		);
 		playgrounds.forEach((playground) => {
-			render(<Group />, playground);
+			createRoot(playground).render(<Group />);
 		});
 	}
 });
