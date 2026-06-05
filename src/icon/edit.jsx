@@ -1,15 +1,12 @@
 /**
  * External Dependencies
  */
-import { Icon, IconLibraryIndex } from '@prc/icons';
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
  */
-import { __ } from '@wordpress/i18n';
-import {
-	useBlockProps,
-} from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
@@ -25,32 +22,16 @@ import Controls from './controls';
  * @param {Object}   props               Properties passed to the function.
  * @param {Object}   props.attributes    Available block attributes.
  * @param {Function} props.setAttributes Function that updates individual attributes.
- * @param {Object}   props.context       Context object with the block's context values.
- * @param {string}   props.clientId      Unique ID of the block.
- * @param {boolean}  props.isSelected    Whether or not the block is currently selected.
  *
- * @return {WPElement} Element to render.
+ * @return {Element} Element to render.
  */
-export default function Edit({
-	attributes,
-	setAttributes,
-	context,
-	clientId,
-	isSelected,
-}) {
+export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();
 	const { library, icon, size } = attributes;
 
 	return (
 		<>
-			<Controls
-				{...{
-					IconLibraryIndex,
-					attributes,
-					setAttributes,
-					context: false,
-				}}
-			/>
+			<Controls {...{ attributes, setAttributes }} />
 			<span {...blockProps}>
 				<Icon icon={icon} library={library} size={size} />
 			</span>

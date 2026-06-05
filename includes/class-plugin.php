@@ -154,6 +154,7 @@ class Plugin {
 		require_once plugin_dir_path( __DIR__ ) . '/includes/print-engine/class-print-engine.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/supports/class-supports.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-markdown-for-agents-integration.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/class-email-newsletter-integration.php';
 
 		// Load blocks.
 		$this->load_blocks();
@@ -233,6 +234,7 @@ class Plugin {
 		new Print_Engine( $this->get_loader() );
 		new Supports( $this->get_loader() );
 		new Markdown_For_Agents_Integration( $this->get_loader() );
+		new Email_Newsletter_Integration( $this->get_loader() );
 	}
 
 	/**
