@@ -14,7 +14,7 @@ import {
 	withColors,
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
-import { Fragment, useRef, useEffect } from '@wordpress/element';
+import { Fragment, useRef, useEffect, useState } from '@wordpress/element';
 
 /**
  * Internal Dependencies
@@ -50,6 +50,8 @@ const DEFAULT_BLOCK = {
 	],
 };
 
+const COVERFLOW_MOBILE_BREAKPOINT = 600;
+
 function Edit({
 	attributes,
 	setAttributes,
@@ -75,6 +77,21 @@ function Edit({
 		viewType === 'vertical' ? 'vertical' : 'horizontal';
 
 	const blockRef = useRef(null);
+	const [isMobileViewport, setIsMobileViewport] = useState(false);
+
+	useEffect(() => {
+		const mediaQuery = window.matchMedia(
+			`(max-width: ${COVERFLOW_MOBILE_BREAKPOINT}px)`
+		);
+		const updateViewport = () => {
+			setIsMobileViewport(mediaQuery.matches);
+		};
+		updateViewport();
+		mediaQuery.addEventListener('change', updateViewport);
+		return () => {
+			mediaQuery.removeEventListener('change', updateViewport);
+		};
+	}, []);
 
 	const {
 		innerBlocks,
@@ -140,20 +157,21 @@ function Edit({
 		const slides = root.querySelectorAll(
 			'.prc-block-carousel-controller__track__inner > .wp-block-prc-block-carousel-slide'
 		);
+		const peekLimit = isMobileViewport ? 1 : 4;
 		slides.forEach((slide, index) => {
 			if (isCoverflow) {
 				const offset = index - activeIndex;
 				const abs = Math.abs(offset);
 				slide.style.setProperty('--offset', String(offset));
 				slide.style.setProperty('--abs-offset', String(abs));
-				slide.classList.toggle('is-coverflow-hidden', abs > 4);
+				slide.classList.toggle('is-coverflow-hidden', abs > peekLimit);
 			} else {
 				slide.style.removeProperty('--offset');
 				slide.style.removeProperty('--abs-offset');
 				slide.classList.remove('is-coverflow-hidden');
 			}
 		});
-	}, [isCoverflow, activeIndex, innerBlocks.length]);
+	}, [isCoverflow, activeIndex, innerBlocks.length, isMobileViewport]);
 
 	const dots = (
 		<Dots

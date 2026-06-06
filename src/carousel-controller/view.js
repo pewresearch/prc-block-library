@@ -15,6 +15,20 @@ const prefersReducedMotion = () =>
 	window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const SET_ACTIVE_SLIDE_EVENT = 'prc-carousel-controller:set-active-slide';
+const COVERFLOW_MOBILE_BREAKPOINT = 600;
+
+/**
+ * Returns how many slides may peek on either side of the active coverflow card.
+ * Mobile (<= 600px) shows one neighbor; larger viewports show up to four.
+ *
+ * @return {number} Peek limit on each side of the active slide.
+ */
+const getCoverflowPeekLimit = () => {
+	if (typeof window === 'undefined') {
+		return 4;
+	}
+	return window.innerWidth <= COVERFLOW_MOBILE_BREAKPOINT ? 1 : 4;
+};
 
 /**
  * Reads the resolved view type from context, accepting the legacy
@@ -39,14 +53,14 @@ const applyCoverflowOffsets = (track, slideIndex) => {
 	if (!track) {
 		return;
 	}
+	const peekLimit = getCoverflowPeekLimit();
 	const slides = track.querySelectorAll('.wp-block-prc-block-carousel-slide');
 	slides.forEach((slide, index) => {
 		const offset = index - slideIndex;
 		const abs = Math.abs(offset);
 		slide.style.setProperty('--offset', String(offset));
 		slide.style.setProperty('--abs-offset', String(abs));
-		// Cap the visible stack to 4 peeking slides on either side.
-		slide.classList.toggle('is-coverflow-hidden', abs > 4);
+		slide.classList.toggle('is-coverflow-hidden', abs > peekLimit);
 	});
 };
 
@@ -206,6 +220,15 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			// stacked layout instead.
 			if (isCoverflow) {
 				applyCoverflowOffsets(track, context.slideIndex);
+
+				window.addEventListener(
+					'resize',
+					withScope(
+						withSyncEvent(() => {
+							applyCoverflowOffsets(track, context.slideIndex);
+						})
+					)
+				);
 
 				// Click-to-navigate for coverflow peeking slides. Uses a
 				// delegated handler on the track (controller scope) because

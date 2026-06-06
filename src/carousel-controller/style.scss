@@ -1,3 +1,5 @@
+@use "../../includes/supports/src/style/variables/breakpoints.scss" as *;
+
 .wp-block-cover:has(.wp-block-prc-block-carousel-controller) {
 	display: flex;
 	flex-direction: column;
@@ -130,23 +132,33 @@
 				scroll-snap-align: none;
 				cursor: pointer;
 				transition: transform 0.4s ease;
-				transform: translateX(calc(var(--offset, 0) * 14%)) translateZ(calc(var(--abs-offset, 0) * -90px)) scale(calc(1 - min(var(--abs-offset, 0) * 0.07, 0.4))) rotateY(calc(var(--offset, 0) * -4deg));
+				transform: translateX(calc(var(--offset, 0) * 14%))
+					translateZ(calc(var(--abs-offset, 0) * -90px))
+					scale(calc(1 - min(var(--abs-offset, 0) * 0.07, 0.4)))
+					rotateY(calc(var(--offset, 0) * -4deg));
 				z-index: calc(100 - var(--abs-offset, 0));
 
 				&.is-active {
 					cursor: default;
 				}
 
-				// Cap the visible stack to 4 peeking slides; JS toggles this.
+				// Peek cap is responsive: 1 slide on mobile, 4 on larger viewports.
+				// JS toggles .is-coverflow-hidden beyond the active peek limit.
 				&.is-coverflow-hidden {
 					opacity: 0;
 					pointer-events: none;
+				}
+
+				@media (max-width: #{ $break-small }) {
+					width: 74%;
+					max-width: 74%;
 				}
 			}
 		}
 
 		@media (prefers-reduced-motion: reduce) {
-			.prc-block-carousel-controller__track__inner .wp-block-prc-block-carousel-slide {
+			.prc-block-carousel-controller__track__inner
+				.wp-block-prc-block-carousel-slide {
 				transition: none;
 			}
 		}
@@ -189,7 +201,8 @@
 	}
 
 	// Track behavior — scroll-snap fan-out.
-	.prc-block-carousel-controller__track__inner .wp-block-prc-block-carousel-slide {
+	.prc-block-carousel-controller__track__inner
+		.wp-block-prc-block-carousel-slide {
 		height: auto;
 		flex-basis: 100%;
 		min-height: 100%;
