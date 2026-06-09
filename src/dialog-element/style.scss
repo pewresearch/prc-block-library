@@ -58,6 +58,20 @@
 	&.is-size-large {
 		min-width: 75vw !important;
 	}
+	&.is-variant-bottom-sheet {
+		position: fixed;
+		inset: auto 0 0;
+		width: 100%;
+		max-width: 100%;
+		min-width: 100% !important;
+		margin: 0;
+		border-radius: 1em 1em 0 0;
+		max-height: min(90vh, 100dvh);
+
+		@media (max-width: $break-small) {
+			max-height: 90dvh;
+		}
+	}
 	&.has-border-color {
 		border-style: solid;
 	}
@@ -139,9 +153,12 @@
 	}
 }
 
-.wp-block-prc-block-dialog-element.has-ui-black-background-color .wp-block-prc-block-dialog-element__close-button,
-.wp-block-prc-block-dialog-element.has-stable-black-background-color .wp-block-prc-block-dialog-element__close-button,
-.wp-block-prc-block-dialog-element.is-style-video .wp-block-prc-block-dialog-element__close-button {
+.wp-block-prc-block-dialog-element.has-ui-black-background-color
+	.wp-block-prc-block-dialog-element__close-button,
+.wp-block-prc-block-dialog-element.has-stable-black-background-color
+	.wp-block-prc-block-dialog-element__close-button,
+.wp-block-prc-block-dialog-element.is-style-video
+	.wp-block-prc-block-dialog-element__close-button {
 	color: #fff;
 	fill: #fff;
 }

@@ -9,18 +9,152 @@ import {
 	withSyncEvent,
 } from '@wordpress/interactivity';
 
+/**
+ * Internal dependencies
+ */
+import { isDialogDismissed, persistDialogDismissal } from './dismissal-storage';
+
+/** Whether the reader has scrolled the document at least once this page load. */
+let hasUserScrolled = false;
+
 function addDialogIdToUrl(id) {
 	const url = new URL(window.location.href);
 	url.searchParams.set('dialogId', id);
-	// Update the URL without adding to history
 	window.history.replaceState({}, '', url);
 }
 
 function removeDialogIdFromUrl() {
 	const url = new URL(window.location.href);
 	url.searchParams.delete('dialogId');
-	// Update the URL without adding to history
 	window.history.replaceState({}, '', url);
+}
+
+/**
+ * @return {number} Scroll position as a percentage of document height.
+ */
+function getDocumentScrollPercent() {
+	const scrollTop =
+		window.scrollY ||
+		document.documentElement.scrollTop ||
+		document.body.scrollTop ||
+		0;
+	const scrollHeight =
+		document.documentElement.scrollHeight -
+		document.documentElement.clientHeight;
+
+	if (scrollHeight <= 0) {
+		return 0;
+	}
+
+	return (scrollTop / scrollHeight) * 100;
+}
+
+/**
+ * @param {string} dialogId Dialog element id.
+ * @return {boolean} Whether scroll-depth auto-activation may run for this dialog.
+ */
+function isDialogArmable(dialogId) {
+	const element = document.getElementById(dialogId);
+	if (!element) {
+		return false;
+	}
+
+	// Inside a hidden subtree (e.g. quiz results before display, group-quiz dialogs).
+	return element.closest('[hidden]') === null;
+}
+
+/**
+ * @param {Object} dialog Dialog state from the interactivity store.
+ * @return {boolean} Whether auto-activation should be skipped for this dialog.
+ */
+function shouldSuppressAutoActivation(dialog) {
+	if (!dialog?.id) {
+		return false;
+	}
+
+	return isDialogDismissed(
+		dialog.id,
+		dialog.dismissalPersistenceScope || 'pageload'
+	);
+}
+
+/**
+ * @param {Object} dialog Dialog state from the interactivity store.
+ */
+function recordDismissalForDialog(dialog) {
+	if (!dialog?.id) {
+		return;
+	}
+
+	persistDialogDismissal(
+		dialog.id,
+		dialog.dismissalPersistenceScope || 'pageload'
+	);
+}
+
+/**
+ * @param {Object} dialogs Dialog state map from the interactivity store.
+ * @return {boolean} Whether any dialog is currently open.
+ */
+function hasAnyOpenDialog(dialogs) {
+	const dialogIds = Object.keys(dialogs);
+	for (let i = 0; i < dialogIds.length; i++) {
+		const dialog = dialogs[dialogIds[i]];
+		if (dialog.isOpen || dialog.isClosing) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * Opens a scroll-triggered dialog when the reader is already past its threshold.
+ * Used after another dialog closes so scroll-only activation is not missed.
+ *
+ * @param {Object} storeActions Dialog store actions.
+ */
+function evaluateScrollTriggeredDialogs(storeActions) {
+	const { dialogs } = state;
+
+	if (!hasUserScrolled) {
+		return;
+	}
+
+	if (hasAnyOpenDialog(dialogs)) {
+		return;
+	}
+
+	const dialogIds = Object.keys(dialogs);
+	for (let i = 0; i < dialogIds.length; i++) {
+		const dialogId = dialogIds[i];
+		const dialog = dialogs[dialogId];
+		const threshold = dialog.scrollDepthPercentage;
+
+		if (typeof threshold !== 'number' || threshold < 0) {
+			continue;
+		}
+
+		if (dialog.hasTriggeredScrollOpen) {
+			continue;
+		}
+
+		if (shouldSuppressAutoActivation(dialog)) {
+			continue;
+		}
+
+		if (!isDialogArmable(dialogId)) {
+			continue;
+		}
+
+		if (getDocumentScrollPercent() < threshold) {
+			continue;
+		}
+
+		state.dialogs[dialogId].hasTriggeredScrollOpen = true;
+		storeActions.closeAll();
+		storeActions.open(dialogId);
+		return;
+	}
 }
 
 const { actions, state } = store('prc-block/dialog', {
@@ -49,10 +183,9 @@ const { actions, state } = store('prc-block/dialog', {
 			const { dialogs } = state;
 			const ids = Object.keys(dialogs);
 			ids.forEach((id) => {
-				// Check that state[key] is an object and has an isOpen property.
 				if (
 					typeof dialogs[id] !== 'object' ||
-					!dialogs[id].hasOwnProperty('isOpen')
+					!Object.prototype.hasOwnProperty.call(dialogs[id], 'isOpen')
 				) {
 					return;
 				}
@@ -61,35 +194,53 @@ const { actions, state } = store('prc-block/dialog', {
 		},
 		/**
 		 * This function is used by dialog-trigger to open the dialog when clicked.
+		 * Click triggers bypass dismissal persistence.
+		 *
 		 * @param event
 		 */
 		onClickOpen: withSyncEvent((event) => {
-			// We are hijacking all clicks on the trigger and any children to prevent the default click behavior.
 			event.preventDefault();
 			const { id } = state;
 			actions.open(id);
 		}),
 		/**
 		 * This function is used by the close button in the dialog element, when clicked it closes the dialog.
+		 *
 		 * @param event
 		 */
 		onClickClose: withSyncEvent((event) => {
 			event.preventDefault();
-			const { id } = state;
+			const { id, dialog } = state;
+			recordDismissalForDialog(dialog);
 			actions.close(id);
 		}),
 		/**
-		 * This function allows you to directly open a dialog by passing an id from another store, like so:
-		 * store('core/dialog').actions.open('xyz123');
-		 * @param {*} passthroughId
+		 * Records dismissal for the given dialog id so auto-activation is suppressed.
+		 * Intended for external integrations (e.g. Mailchimp form submit success).
+		 *
+		 * @param {string} passthroughId
 		 */
-		open: (passthroughId = false) => {
-			// Most interactions will pass an id through, but if not then fallback to state for id.
+		recordDismissal: (passthroughId = false) => {
 			let id = passthroughId;
 			if (!id) {
 				id = state.id;
 			}
-			// Finally, if there is no id then we can't proceed and should exit early.
+			if (!id || !state.dialogs[id]) {
+				return;
+			}
+			recordDismissalForDialog(state.dialogs[id]);
+		},
+		/**
+		 * This function allows you to directly open a dialog by passing an id from another store, like so:
+		 * store('prc-block/dialog').actions.open('xyz123');
+		 *
+		 * @param {*} passthroughId
+		 */
+		open: (passthroughId = false) => {
+			let id = passthroughId;
+			if (!id) {
+				id = state.id;
+			}
 			if (!id) {
 				return;
 			}
@@ -98,7 +249,8 @@ const { actions, state } = store('prc-block/dialog', {
 		},
 		/**
 		 * This function allows you to directly close a dialog by passing an id from another store, like so:
-		 * store('core/dialog').actions.close('xyz123');
+		 * store('prc-block/dialog').actions.close('xyz123');
+		 *
 		 * @param {*} passthroughId
 		 */
 		close: (passthroughId = false) => {
@@ -123,6 +275,7 @@ const { actions, state } = store('prc-block/dialog', {
 			if (id && event.key === 'Escape') {
 				if (true === dialog.isOpen) {
 					event.preventDefault();
+					recordDismissalForDialog(dialog);
 					actions.close(id);
 				}
 			}
@@ -132,11 +285,9 @@ const { actions, state } = store('prc-block/dialog', {
 		 */
 		onOpen: () => {
 			const { dialogElement, dialog, id } = state;
-			// Sanity check, if we don't have an id or dialogElement then we can't proceed.
 			if (!id || !dialogElement) {
 				return;
 			}
-			// If the dialog is meant to not be open, don't proceed.
 			if (!dialog.isOpen) {
 				return;
 			}
@@ -150,33 +301,26 @@ const { actions, state } = store('prc-block/dialog', {
 		 */
 		onClose: () => {
 			const { dialogElement, dialog, id } = state;
-			// Sanity check, if we don't have an id or dialogElement then we can't proceed.
 			if (!id || !dialogElement) {
 				return;
 			}
-			// If the dialog is meant to be open, don't proceed.
 			if (dialog.isOpen) {
 				return;
 			}
-			// If already closing, don't start another close animation
 			if (dialog.isClosing) {
 				return;
 			}
-			// CRITICAL FIX: Only proceed if the dialog element is actually open in the DOM
-			// This prevents the watcher from triggering close animations when the dialog
-			// was never opened in the first place (e.g., on page load when isOpen initializes to false)
 			if (!dialogElement.open) {
 				return;
 			}
-			// Start isClosing animation...
 			state.dialogs[id].isClosing = true;
-			// Allow for animation to complete...
 			setTimeout(
 				withScope(() => {
 					dialogElement?.close();
 					removeDialogIdFromUrl(id);
 					state.dialogs[id].isClosing = false;
 					state.dialogs[id].isOpen = false;
+					evaluateScrollTriggeredDialogs(actions);
 				}),
 				dialog.animationDuration
 			);
@@ -189,7 +333,6 @@ const { actions, state } = store('prc-block/dialog', {
 		onBackdropClick: withSyncEvent((event) => {
 			const { ref } = getElement();
 			const boundingRects = ref.getBoundingClientRect();
-			// make sure the event x and y are within the dialog element, if they are continue...
 			if (
 				event.clientX >= boundingRects.left &&
 				event.clientX <= boundingRects.right &&
@@ -202,8 +345,50 @@ const { actions, state } = store('prc-block/dialog', {
 			if (true !== dialog.isOpen || dialog.isClosing) {
 				return;
 			}
+			recordDismissalForDialog(dialog);
 			actions.close(id);
 		}),
+		/**
+		 * Opens the dialog when the reader scrolls past the configured depth threshold.
+		 */
+		onScroll: () => {
+			hasUserScrolled = true;
+
+			const { id, dialog, dialogs } = state;
+			if (!id || !dialog) {
+				return;
+			}
+
+			const threshold = dialog.scrollDepthPercentage;
+			if (typeof threshold !== 'number' || threshold < 0) {
+				return;
+			}
+
+			if (dialog.hasTriggeredScrollOpen) {
+				return;
+			}
+
+			if (shouldSuppressAutoActivation(dialog)) {
+				state.dialogs[id].hasTriggeredScrollOpen = true;
+				return;
+			}
+
+			if (!isDialogArmable(id)) {
+				return;
+			}
+
+			if (hasAnyOpenDialog(dialogs)) {
+				return;
+			}
+
+			if (getDocumentScrollPercent() < threshold) {
+				return;
+			}
+
+			state.dialogs[id].hasTriggeredScrollOpen = true;
+			actions.closeAll();
+			actions.open(id);
+		},
 		/**
 		 * Initializes the Dialog element.
 		 * Activates the current dialog element if there is an auto activation timer set.
@@ -217,18 +402,27 @@ const { actions, state } = store('prc-block/dialog', {
 			) {
 				return;
 			}
-			// Check if any of the dialogs are already open,
-			// if so we don't want to close or auto activate another dialog.
-			const dialogIds = Object.keys(dialogs);
-			for (let i = 0; i < dialogIds.length; i++) {
-				const dialogId = dialogIds[i];
-				if (dialogs[dialogId].isOpen) {
-					return;
-				}
+
+			if (hasAnyOpenDialog(dialogs)) {
+				return;
 			}
+
+			if (shouldSuppressAutoActivation(dialog)) {
+				return;
+			}
+
 			if (1 <= dialog.activationTimerDuration) {
 				setTimeout(
 					withScope(() => {
+						const currentDialog = state.dialogs[id];
+						if (
+							shouldSuppressAutoActivation(currentDialog) ||
+							currentDialog?.hasTriggeredScrollOpen ||
+							currentDialog?.isOpen ||
+							currentDialog?.isClosing
+						) {
+							return;
+						}
 						actions.closeAll();
 						actions.open(id);
 					}),

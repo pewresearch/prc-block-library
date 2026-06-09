@@ -108,16 +108,11 @@ class Sub_Title {
 		if ( ! $context_post_id ) {
 			return '';
 		}
-		$parent_post_id = wp_get_post_parent_id( $context_post_id );
-		// If the post is a child do not render the sub title.
-		if ( 0 !== $parent_post_id ) {
-			return '';
-		}
 
 		$text_align = isset( $attributes['textAlign'] ) ? $attributes['textAlign'] : 'left';
-		$sub_title  = get_post_meta( $context_post_id, 'sub_title', true );
+		$sub_title  = trim( (string) get_post_meta( $context_post_id, 'sub_title', true ) );
 
-		if ( ! $sub_title ) {
+		if ( '' === $sub_title ) {
 			return '';
 		}
 

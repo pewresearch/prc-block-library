@@ -1454,6 +1454,27 @@ return array(
 					'bottom right'
 				),
 				'default' => 'center'
+			),
+			'scrollDepthPercentage' => array(
+				'type' => 'number',
+				'default' => -1
+			),
+			'dismissalPersistenceScope' => array(
+				'type' => 'string',
+				'enum' => array(
+					'pageload',
+					'session',
+					'device'
+				),
+				'default' => 'pageload'
+			),
+			'dialogVariant' => array(
+				'type' => 'string',
+				'enum' => array(
+					'default',
+					'bottom-sheet'
+				),
+				'default' => 'default'
 			)
 		),
 		'example' => array(

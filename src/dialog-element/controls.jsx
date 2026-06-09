@@ -22,16 +22,25 @@ import {
 	__experimentalNumberControl as NumberControl,
 	SelectControl,
 	ToggleControl,
-	AlignmentMatrixControl
+	AlignmentMatrixControl,
 } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 
-export function Toolbar({ openDialog, closeDialog, isOpen, clientId, attributes }) {
+import { ActivationControls } from './activation-controls';
+
+export function Toolbar({
+	openDialog,
+	closeDialog,
+	isOpen,
+	clientId,
+	attributes,
+}) {
 	const { dialogPosition } = attributes || {};
 	/**
 	 * Setup the icon and label for the block toolbar.
 	 */
-	const { selectBlock, updateBlockAttributes } = useDispatch('core/block-editor');
+	const { selectBlock, updateBlockAttributes } =
+		useDispatch('core/block-editor');
 	const { rootClientId } = useSelect((select) => {
 		return {
 			rootClientId:
@@ -64,7 +73,9 @@ export function Toolbar({ openDialog, closeDialog, isOpen, clientId, attributes 
 					label={__('Change dialog position')}
 					value={dialogPosition}
 					onChange={(nextPosition) => {
-						updateBlockAttributes(clientId, { dialogPosition: nextPosition });
+						updateBlockAttributes(clientId, {
+							dialogPosition: nextPosition,
+						});
 					}}
 				/>
 			</ToolbarGroup>
@@ -124,10 +135,7 @@ export function InspectorPanel({
 						}}
 					/>
 					<ToggleControl
-						label={__(
-							'Enable Deep Linking',
-							'prc-block-library'
-						)}
+						label={__('Enable Deep Linking', 'prc-block-library')}
 						help={__(
 							'Allow the dialog to be opened via a URL hash (e.g., ?dialogId=<dialog id>).',
 							'prc-block-library'
@@ -140,10 +148,7 @@ export function InspectorPanel({
 						}
 					/>
 					<ToggleControl
-						label={__(
-							'Auto Activation Timer',
-							'prc-block-library'
-						)}
+						label={__('Auto Activation Timer', 'prc-block-library')}
 						help={__(
 							'Automatically open the dialog after the specified time, in milliseconds.',
 							'prc-block-library'
@@ -151,8 +156,9 @@ export function InspectorPanel({
 						checked={1 <= autoActivationTimer}
 						onChange={(newAutoActivationTimer) =>
 							setAttributes({
-								autoActivationTimer:
-									newAutoActivationTimer ? 5000 : -1,
+								autoActivationTimer: newAutoActivationTimer
+									? 5000
+									: -1,
 							})
 						}
 					/>
@@ -169,6 +175,10 @@ export function InspectorPanel({
 							value={autoActivationTimer}
 						/>
 					)}
+					<ActivationControls
+						attributes={attributes}
+						setAttributes={setAttributes}
+					/>
 				</PanelBody>
 				<PanelBody title={__('Animation', 'prc-block-library')}>
 					<SelectControl
@@ -234,7 +244,8 @@ export function InspectorPanel({
 					settings={[
 						{
 							label: __('Backdrop', 'prc-block-library'),
-							colorValue: backdropColor?.color ?? customBackdropColor,
+							colorValue:
+								backdropColor?.color ?? customBackdropColor,
 							onColorChange: (value) => {
 								setBackdropColor(value);
 								setAttributes({

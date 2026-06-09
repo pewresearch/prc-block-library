@@ -69,6 +69,27 @@
         "bottom right"
       ],
       "default": "center"
+    },
+    "scrollDepthPercentage": {
+      "type": "number",
+      "default": -1
+    },
+    "dismissalPersistenceScope": {
+      "type": "string",
+      "enum": [
+        "pageload",
+        "session",
+        "device"
+      ],
+      "default": "pageload"
+    },
+    "dialogVariant": {
+      "type": "string",
+      "enum": [
+        "default",
+        "bottom-sheet"
+      ],
+      "default": "default"
     }
   },
   "example": {

@@ -1,5 +1,28 @@
+@use "../../includes/supports/src/style/variables/breakpoints" as *;
+
+// Bottom sheet: override native dialog:modal centering in the block editor.
+dialog.wp-block-prc-block-dialog-element.is-variant-bottom-sheet:open,
+dialog.wp-block-prc-block-dialog-element.is-variant-bottom-sheet:modal {
+	position: fixed !important;
+	inset: auto 0 0 !important;
+	top: auto !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 100% !important;
+	margin: 0 !important;
+	border-radius: 1em 1em 0 0;
+	max-height: min(90vh, 100dvh);
+
+	@media (max-width: $break-small) {
+		max-height: 90dvh;
+	}
+}
+
 .is-outline-mode .wp-block-prc-block-dialog-element.wp-block {
-	&:not(.remove-outline).is-hovered:not(.is-selected):after,  &:not(.remove-outline):not(.rich-text):not([contenteditable=true]).is-selected:after {
-		border-radius: inherit!important;
+	&:not(.remove-outline).is-hovered:not(.is-selected):after,
+	&:not(.remove-outline):not(.rich-text):not(
+			[contenteditable="true"]
+		).is-selected:after {
+		border-radius: inherit !important;
 	}
 }

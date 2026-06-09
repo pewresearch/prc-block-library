@@ -48,11 +48,7 @@
 		},
 		"dialogSize": {
 			"type": "string",
-			"enum": [
-				"small",
-				"medium",
-				"large"
-			],
+			"enum": ["small", "medium", "large"],
 			"default": "medium"
 		},
 		"dialogPosition": {
@@ -69,6 +65,20 @@
 				"bottom right"
 			],
 			"default": "center"
+		},
+		"scrollDepthPercentage": {
+			"type": "number",
+			"default": -1
+		},
+		"dismissalPersistenceScope": {
+			"type": "string",
+			"enum": ["pageload", "session", "device"],
+			"default": "pageload"
+		},
+		"dialogVariant": {
+			"type": "string",
+			"enum": ["default", "bottom-sheet"],
+			"default": "default"
 		}
 	},
 	"example": {
@@ -127,17 +137,11 @@
 		},
 		"interactivity": true
 	},
-	"usesContext": [
-		"dialog/id",
-		"dialog/className",
-		"dialog/isOpen"
-	],
+	"usesContext": ["dialog/id", "dialog/className", "dialog/isOpen"],
 	"providesContext": {
 		"dialog/label": "dialogLabel"
 	},
-	"parent": [
-		"prc-block/dialog"
-	],
+	"parent": ["prc-block/dialog"],
 	"textdomain": "dialog-element",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

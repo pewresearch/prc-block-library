@@ -49,7 +49,11 @@ function Edit({
 	backdropColor,
 	setBackdropColor,
 }) {
-	const { dialogSize = 'medium', animation = 'fade' } = attributes;
+	const {
+		dialogSize = 'medium',
+		animation = 'fade',
+		dialogVariant = 'default',
+	} = attributes;
 
 	const isOpen = context['dialog/isOpen'] ?? false;
 	const [showClosingAnimation, setShowClosingAnimation] = useState(false);
@@ -159,6 +163,7 @@ function Edit({
 			'is-size-medium': 'medium' === dialogSize,
 			'is-size-large': 'large' === dialogSize,
 			[`is-animation-${animation}`]: animation,
+			'is-variant-bottom-sheet': 'bottom-sheet' === dialogVariant,
 			'is-closing': showClosingAnimation,
 			active: isOpen && !showClosingAnimation,
 		}),
