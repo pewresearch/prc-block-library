@@ -17,8 +17,19 @@
 	cursor: pointer;
 	.wp-block-prc-block-social-share-sheet__label {
 		display: inline-block;
-		padding-right: 0.5em;
 		text-transform: inherit;
+	}
+	&.has-text-align-left > a,
+	&.has-text-align-left > button {
+		justify-content: flex-start;
+	}
+	&.has-text-align-center > a,
+	&.has-text-align-center > button {
+		justify-content: center;
+	}
+	&.has-text-align-right > a,
+	&.has-text-align-right > button {
+		justify-content: flex-end;
 	}
 	&.web-share-supported {
 		& > li {
@@ -39,16 +50,26 @@
 	}
 }
 
-.wp-block-prc-block-social-share-sheet > button {
+.wp-block-prc-block-social-share-sheet > button,
+.wp-block-prc-block-social-share-sheet > a {
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	border: none;
 	background: none;
+	box-shadow: none;
 	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: inherit;
+	line-height: inherit;
+	letter-spacing: inherit;
+	text-decoration: none;
+	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	gap: 0.5em;
 	text-transform: inherit;
 }
 

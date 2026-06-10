@@ -5,6 +5,8 @@
  * @package PRC\Platform\Blocks
  */
 
+declare(strict_types=1);
+
 namespace PRC\Platform\Blocks;
 
 use function PRC\BlockUtils\classNames;
@@ -40,6 +42,34 @@ class Social_Share_Sheet {
 	}
 
 	/**
+	 * Whether the block has a custom text color set via block supports.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return bool
+	 */
+	private function has_text_color( array $attributes ): bool {
+		if ( ! empty( $attributes['textColor'] ) ) {
+			return true;
+		}
+
+		return ! empty( $attributes['style']['color']['text'] );
+	}
+
+	/**
+	 * Whether the block has a custom background color set via block supports.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return bool
+	 */
+	private function has_background_color( array $attributes ): bool {
+		if ( ! empty( $attributes['backgroundColor'] ) ) {
+			return true;
+		}
+
+		return ! empty( $attributes['style']['color']['background'] );
+	}
+
+	/**
 	 * Render callback for the block
 	 *
 	 * @param array  $attributes Block attributes.
@@ -52,11 +82,11 @@ class Social_Share_Sheet {
 
 		$context = $block->context;
 
-		$icon_color = array_key_exists( 'iconColor', $context ) ? $context['iconColor'] : '';
+		$icon_color            = array_key_exists( 'iconColor', $context ) ? $context['iconColor'] : '';
 		$icon_background_color = array_key_exists( 'iconBackgroundColor', $context ) ? $context['iconBackgroundColor'] : '';
-		$link_title       = array_key_exists( 'core/socialLinksTitle', $context ) ? $context['core/socialLinksTitle'] : '';
-		$link_description = array_key_exists( 'core/socialLinksDescription', $context ) ? $context['core/socialLinksDescription'] : '';
-		$link_url         = array_key_exists( 'core/socialLinksUrl', $context ) ? $context['core/socialLinksUrl'] : '';
+		$link_title            = array_key_exists( 'core/socialLinksTitle', $context ) ? $context['core/socialLinksTitle'] : '';
+		$link_description      = array_key_exists( 'core/socialLinksDescription', $context ) ? $context['core/socialLinksDescription'] : '';
+		$link_url              = array_key_exists( 'core/socialLinksUrl', $context ) ? $context['core/socialLinksUrl'] : '';
 
 		$hashtags = array_key_exists( 'core/socialLinksHashtags', $context ) ? $context['core/socialLinksHashtags'] : array();
 		// Prepend every hashtag with a # and then return a comma separated string.
@@ -78,43 +108,71 @@ class Social_Share_Sheet {
 			)
 		);
 
-		$label               = array_key_exists( 'label', $attributes ) ? $attributes['label'] : 'Share';
-
-		$block_wrapper_attrs = get_block_wrapper_attributes(
-			array(
-				'data-wp-interactive'                => wp_json_encode(
+		$label = array_key_exists( 'label', $attributes ) ? $attributes['label'] : '';
+		$label_html = $label
+			? wp_sprintf(
+				'<span class="wp-block-prc-block-social-share-sheet__label">%s</span>',
+				wp_kses(
+					$label,
 					array(
-						'namespace' => 'prc-block/social-share-sheet',
+						'em'     => array(),
+						'strong' => array(),
 					)
-				),
-				'data-wp-context'                    => wp_json_encode(
-					array(
-						'title'    => $link_title,
-						'text'     => $link_description,
-						'url'      => $link_url,
-						'hashtags' => $hashtags,
-						'image'    => $image_id ? wp_get_attachment_image_url( $image_id, 'full' ) : false,
-					)
-				),
-				'data-wp-on--click'                  => 'actions.onClick',
-				'data-wp-class--web-share-supported' => 'state.enabled',
-				'data-wp-init'                       => 'callbacks.detectWebShareSupport',
-				'style'                              => '--block-gap:' . \PRC\BlockUtils\get_block_gap_support_value( $attributes, 'horizontal' ) . ';',
+				)
 			)
+			: '';
+
+		$text_align    = $attributes['textAlign'] ?? '';
+		$icon_library  = $attributes['iconLibrary'] ?? 'solid';
+		$icon_name     = $attributes['iconName'] ?? 'share';
+		$icon_position = $attributes['iconPosition'] ?? 'right';
+
+		$has_text_color       = $this->has_text_color( $attributes );
+		$has_background_color = $this->has_background_color( $attributes );
+
+		$wrapper_attrs = array(
+			'data-wp-interactive'                => wp_json_encode(
+				array(
+					'namespace' => 'prc-block/social-share-sheet',
+				)
+			),
+			'data-wp-context'                    => wp_json_encode(
+				array(
+					'title'    => $link_title,
+					'text'     => $link_description,
+					'url'      => $link_url,
+					'hashtags' => $hashtags,
+					'image'    => $image_id ? wp_get_attachment_image_url( $image_id, 'full' ) : false,
+				)
+			),
+			'data-wp-on--click'                  => 'actions.onClick',
+			'data-wp-class--web-share-supported' => 'state.enabled',
+			'data-wp-init'                       => 'callbacks.detectWebShareSupport',
+			'style'                              => '--block-gap:' . \PRC\BlockUtils\get_block_gap_support_value( $attributes, 'horizontal' ) . ';',
 		);
 
-		$icon = \PRC\Platform\Icons\render( 'solid', 'share' );
+		if ( $text_align ) {
+			$wrapper_attrs['class'] = 'has-text-align-' . $text_align;
+		}
+
+		$block_wrapper_attrs = get_block_wrapper_attributes( $wrapper_attrs );
+
+		$icon = \PRC\Platform\Icons\render( $icon_library, $icon_name );
+
+		$anchor_content = 'left' === $icon_position
+			? $icon . $label_html
+			: $label_html . $icon;
 
 		$native_template = wp_sprintf(
 			'<a href="%s" class="%s">%s</a>',
-			$link_url,
+			esc_url( $link_url ),
 			classNames(
 				array(
-					'has-'.$icon_color.'-color'            => $icon_color,
-					'has-'.$icon_background_color.'-background-color' => $icon_background_color,
+					'has-' . $icon_color . '-color' => $icon_color && ! $has_text_color,
+					'has-' . $icon_background_color . '-background-color' => $icon_background_color && ! $has_background_color,
 				)
 			),
-			$icon,
+			$anchor_content,
 		);
 
 		return wp_sprintf(

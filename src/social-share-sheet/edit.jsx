@@ -2,23 +2,25 @@
 /**
  * External Dependencies
  */
+import { IconPicker } from '@prc/components';
 import { getBlockGapSupportValue } from '@prc/functions';
+import { Icon } from '@prc/icons';
 import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
  */
+import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
 	RichText,
+	BlockControls,
+	AlignmentControl,
+	InspectorControls,
 } from '@wordpress/block-editor';
+import { PanelBody } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
-
-/**
- * Internal Dependencies
- */
-import Icon from './icon';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -42,19 +44,29 @@ export default function Edit({
 	context,
 	clientId,
 }) {
-	const { label } = attributes;
+	const {
+		label,
+		textAlign,
+		iconLibrary = 'solid',
+		iconName = 'share',
+		iconPosition = 'right',
+	} = attributes;
 	const blockProps = useBlockProps({
+		className: clsx({
+			[`has-text-align-${textAlign}`]: textAlign,
+		}),
 		style: {
 			'--block-gap': getBlockGapSupportValue(attributes),
 		},
 	});
-	const {
-		showLabels,
-		iconColor,
-		iconColorValue,
-		iconBackgroundColor,
-		iconBackgroundColorValue,
-	} = context;
+	const { iconColor, iconBackgroundColor } = context;
+
+	const hasTextColor = attributes.textColor || attributes.style?.color?.text;
+	const hasBackgroundColor =
+		attributes.backgroundColor || attributes.style?.color?.background;
+
+	const showLabel = label || isSelected;
+
 	// get the allowedBlocks for the parent block...
 	const allowedBlocks = useSelect(
 		(select) => {
@@ -82,31 +94,70 @@ export default function Edit({
 	);
 
 	return (
-		<div {...blockProps}>
-			<button
-				{...{
-					type: 'button',
-					onClick: (e) => {
+		<>
+			<BlockControls>
+				<AlignmentControl
+					value={textAlign}
+					onChange={(nextAlign) => {
+						setAttributes({ textAlign: nextAlign });
+					}}
+				/>
+			</BlockControls>
+			<InspectorControls>
+				<PanelBody title={__('Icon')} initialOpen>
+					<IconPicker
+						library={iconLibrary}
+						icon={iconName}
+						position={iconPosition}
+						onChange={(next) => {
+							const update = {};
+							if ('library' in next) {
+								update.iconLibrary = next.library;
+							}
+							if ('icon' in next) {
+								update.iconName = next.icon;
+							}
+							if ('position' in next) {
+								update.iconPosition = next.position;
+							}
+							setAttributes(update);
+						}}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div {...blockProps}>
+				<button
+					type="button"
+					onClick={(e) => {
 						e.preventDefault();
-					},
-					className: clsx({
-						[`has-${iconColor}-color`]: iconColor,
+					}}
+					className={clsx({
+						[`has-${iconColor}-color`]: iconColor && !hasTextColor,
 						[`has-${iconBackgroundColor}-background-color`]:
-							iconBackgroundColor,
-					}),
-				}}
-			>
-				{/* <RichText
-					className="wp-block-prc-block-social-share-sheet__label"
-					tagName="span"
-					value={label}
-					onChange={(value) => setAttributes({ label: value })}
-					placeholder="Share"
-					allowedFormats={['core/bold', 'core/italic']}
-				/> */}
-				<Icon />
-			</button>
-			<div {...innerBlocksProps}></div>
-		</div>
+							iconBackgroundColor && !hasBackgroundColor,
+					})}
+				>
+					{iconPosition === 'left' && (
+						<Icon library={iconLibrary} icon={iconName} />
+					)}
+					{showLabel && (
+						<RichText
+							className="wp-block-prc-block-social-share-sheet__label"
+							tagName="span"
+							value={label}
+							onChange={(value) =>
+								setAttributes({ label: value })
+							}
+							placeholder="Share"
+							allowedFormats={['core/bold', 'core/italic']}
+						/>
+					)}
+					{iconPosition === 'right' && (
+						<Icon library={iconLibrary} icon={iconName} />
+					)}
+				</button>
+				<div {...innerBlocksProps}></div>
+			</div>
+		</>
 	);
 }

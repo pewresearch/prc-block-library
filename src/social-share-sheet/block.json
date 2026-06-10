@@ -6,24 +6,90 @@
 	"title": "Social Share Sheet",
 	"category": "widgets",
 	"description": "Invokes a browser's native navigator.share share sheet. If the browser does not support the Web Share API, a fallback share sheet is displayed.",
-	"supports": {
-		"anchor": true,
-		"html": false,
-		"interactivity": true
-	},
 	"attributes": {
 		"label": {
 			"type": "string",
-			"default": "Share"
-		},
-		"url": {
-			"type": "string",
 			"default": ""
+		},
+		"textAlign": {
+			"type": "string"
+		},
+		"iconLibrary": {
+			"type": "string",
+			"default": "solid"
+		},
+		"iconName": {
+			"type": "string",
+			"default": "share"
+		},
+		"iconPosition": {
+			"type": "string",
+			"default": "right"
 		}
 	},
 	"example": {
 		"attributes": {
-			"label": "Share"
+			"label": ""
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"interactivity": true,
+		"color": {
+			"background": true,
+			"text": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"blockGap": true,
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true,
+				"margin": true
+			}
+		},
+		"shadow": true,
+		"__experimentalBorder": {
+			"color": true,
+			"style": true,
+			"width": true,
+			"radius": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"style": true,
+				"width": true,
+				"radius": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"selectors": {
+			"border": ".wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button",
+			"shadow": ".wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button",
+			"color": {
+				"background": ".wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button",
+				"text": ".wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button"
+			},
+			"spacing": {
+				"padding": ".wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button"
+			},
+			"typography": ".wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button"
 		}
 	},
 	"usesContext": [

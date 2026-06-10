@@ -5035,24 +5035,90 @@ return array(
 		'title' => 'Social Share Sheet',
 		'category' => 'widgets',
 		'description' => 'Invokes a browser\'s native navigator.share share sheet. If the browser does not support the Web Share API, a fallback share sheet is displayed.',
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'interactivity' => true
-		),
 		'attributes' => array(
 			'label' => array(
 				'type' => 'string',
-				'default' => 'Share'
-			),
-			'url' => array(
-				'type' => 'string',
 				'default' => ''
+			),
+			'textAlign' => array(
+				'type' => 'string'
+			),
+			'iconLibrary' => array(
+				'type' => 'string',
+				'default' => 'solid'
+			),
+			'iconName' => array(
+				'type' => 'string',
+				'default' => 'share'
+			),
+			'iconPosition' => array(
+				'type' => 'string',
+				'default' => 'right'
 			)
 		),
 		'example' => array(
 			'attributes' => array(
-				'label' => 'Share'
+				'label' => ''
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'interactivity' => true,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'__experimentalDefaultControls' => array(
+					'background' => true,
+					'text' => true
+				)
+			),
+			'spacing' => array(
+				'blockGap' => true,
+				'margin' => true,
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true,
+					'margin' => true
+				)
+			),
+			'shadow' => true,
+			'__experimentalBorder' => array(
+				'color' => true,
+				'style' => true,
+				'width' => true,
+				'radius' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'style' => true,
+					'width' => true,
+					'radius' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true
+				)
+			),
+			'selectors' => array(
+				'border' => '.wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button',
+				'shadow' => '.wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button',
+				'color' => array(
+					'background' => '.wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button',
+					'text' => '.wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button'
+				),
+				'spacing' => array(
+					'padding' => '.wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button'
+				),
+				'typography' => '.wp-block-prc-block-social-share-sheet > a, .wp-block-prc-block-social-share-sheet > button'
 			)
 		),
 		'usesContext' => array(
