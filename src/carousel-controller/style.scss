@@ -97,6 +97,10 @@
 
 	// Coverflow: stacked cards with arrows beneath the dots and a slide counter.
 	&.has-view-coverflow {
+		--coverflow-peek-x: 14%;
+		--coverflow-depth: 90px;
+		--coverflow-scale-step: 0.07;
+
 		grid-template-areas:
 			"track track track track track"
 			"dots dots dots dots dots"
@@ -132,9 +136,23 @@
 				scroll-snap-align: none;
 				cursor: pointer;
 				transition: transform 0.4s ease;
-				transform: translateX(calc(var(--offset, 0) * 14%))
-					translateZ(calc(var(--abs-offset, 0) * -90px))
-					scale(calc(1 - min(var(--abs-offset, 0) * 0.07, 0.4)))
+				transform: translateX(
+						calc(var(--offset, 0) * var(--coverflow-peek-x))
+					)
+					translateZ(
+						calc(
+							var(--abs-offset, 0) * (var(--coverflow-depth) * -1)
+						)
+					)
+					scale(
+						calc(
+							1 - min(
+									var(--abs-offset, 0) *
+										var(--coverflow-scale-step),
+									0.4
+								)
+						)
+					)
 					rotateY(calc(var(--offset, 0) * -4deg));
 				z-index: calc(100 - var(--abs-offset, 0));
 
@@ -150,8 +168,11 @@
 				}
 
 				@media (max-width: #{ $break-small }) {
-					width: 74%;
-					max-width: 74%;
+					width: 88%;
+					max-width: 88%;
+					--coverflow-peek-x: 50%;
+					--coverflow-depth: 40px;
+					--coverflow-scale-step: 0.04;
 				}
 			}
 		}

@@ -17,6 +17,12 @@ import { isDialogDismissed, persistDialogDismissal } from './dismissal-storage';
 /** Whether the reader has scrolled the document at least once this page load. */
 let hasUserScrolled = false;
 
+/** Wait for scrolling to settle before evaluating scroll-depth triggers (ms). */
+const SCROLL_SETTLE_MS = 250;
+
+/** Debounce timer for scroll-depth evaluation across all dialogs on the page. */
+let scrollSettleTimer = null;
+
 function addDialogIdToUrl(id) {
 	const url = new URL(window.location.href);
 	url.searchParams.set('dialogId', id);
@@ -139,6 +145,7 @@ function evaluateScrollTriggeredDialogs(storeActions) {
 		}
 
 		if (shouldSuppressAutoActivation(dialog)) {
+			state.dialogs[dialogId].hasTriggeredScrollOpen = true;
 			continue;
 		}
 
@@ -155,6 +162,22 @@ function evaluateScrollTriggeredDialogs(storeActions) {
 		storeActions.open(dialogId);
 		return;
 	}
+}
+
+/**
+ * Schedules scroll-depth evaluation after scrolling settles.
+ * Avoids firing during programmatic smooth scroll (e.g. quiz results scroll-to-top).
+ *
+ * @param {Object} storeActions Dialog store actions.
+ */
+function scheduleScrollTriggeredDialogEvaluation(storeActions) {
+	clearTimeout(scrollSettleTimer);
+	scrollSettleTimer = setTimeout(
+		withScope(() => {
+			evaluateScrollTriggeredDialogs(storeActions);
+		}),
+		SCROLL_SETTLE_MS
+	);
 }
 
 const { actions, state } = store('prc-block/dialog', {
@@ -350,11 +373,13 @@ const { actions, state } = store('prc-block/dialog', {
 		}),
 		/**
 		 * Opens the dialog when the reader scrolls past the configured depth threshold.
+		 * Evaluation is debounced so programmatic smooth scroll does not open the dialog
+		 * at an intermediate (stale) scroll position.
 		 */
 		onScroll: () => {
 			hasUserScrolled = true;
 
-			const { id, dialog, dialogs } = state;
+			const { id, dialog } = state;
 			if (!id || !dialog) {
 				return;
 			}
@@ -368,26 +393,7 @@ const { actions, state } = store('prc-block/dialog', {
 				return;
 			}
 
-			if (shouldSuppressAutoActivation(dialog)) {
-				state.dialogs[id].hasTriggeredScrollOpen = true;
-				return;
-			}
-
-			if (!isDialogArmable(id)) {
-				return;
-			}
-
-			if (hasAnyOpenDialog(dialogs)) {
-				return;
-			}
-
-			if (getDocumentScrollPercent() < threshold) {
-				return;
-			}
-
-			state.dialogs[id].hasTriggeredScrollOpen = true;
-			actions.closeAll();
-			actions.open(id);
+			scheduleScrollTriggeredDialogEvaluation(actions);
 		},
 		/**
 		 * Initializes the Dialog element.
