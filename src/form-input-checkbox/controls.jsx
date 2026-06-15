@@ -2,6 +2,7 @@
 /**
  * External Dependencies
  */
+import { MailchimpSegmentSelect } from '@prc/components';
 
 /**
  * WordPress Dependencies
@@ -10,6 +11,7 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
+	PanelRow,
 	SelectControl,
 	TextControl,
 	ToggleControl,
@@ -23,10 +25,26 @@ import { Fragment } from '@wordpress/element';
 function InspectorPanel({ attributes, setAttributes }) {
 	const { type, value, defaultChecked, required, metadata } = attributes;
 	const { name } = metadata || {};
+	const isMailchimpSignup = name === 'mailchimp_signup';
 	return (
 		<Fragment>
 			<InspectorControls>
 				<PanelBody title={__('Form Input Field Settings')}>
+					{isMailchimpSignup && (
+						<PanelRow>
+							<MailchimpSegmentSelect
+								label={__(
+									'Choose Newsletter Segment',
+									'prc-block-library'
+								)}
+								value={value}
+								onChange={(newInterestId) => {
+									setAttributes({ value: newInterestId });
+								}}
+								apiKey="mailchimp-form"
+							/>
+						</PanelRow>
+					)}
 					<SelectControl
 						label="Input Type"
 						value={type}
@@ -41,6 +59,14 @@ function InspectorPanel({ attributes, setAttributes }) {
 					/>
 					<TextControl
 						label="Input Value"
+						help={
+							isMailchimpSignup
+								? __(
+										'Mailchimp interest ID for this segment. Populated by the segment picker above.',
+										'prc-block-library'
+									)
+								: undefined
+						}
 						value={value}
 						onChange={(newValue) => {
 							setAttributes({ value: newValue });

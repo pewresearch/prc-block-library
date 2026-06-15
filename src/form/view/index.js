@@ -6,6 +6,7 @@ import {
 	getContext,
 	getElement,
 	withSyncEvent,
+	withScope,
 } from '@wordpress/interactivity';
 
 import { FormResponse } from './form-response';
@@ -244,6 +245,12 @@ const { state, actions } = store('prc-block/form', {
 			const { formFields } = state;
 			return formFields.find((field) => field.id === id)?.readOnly;
 		},
+		get isInputCopied() {
+			const { attributes } = getElement();
+			const { id } = attributes;
+			const { formFields } = state;
+			return formFields.find((field) => field.id === id)?.copied || false;
+		},
 		get isInputRequired() {
 			const { attributes } = getElement();
 			const { id } = attributes;
@@ -349,6 +356,20 @@ const { state, actions } = store('prc-block/form', {
 			state.formFields = formFields;
 			FormPersistence.saveFormData(formId, formFields);
 		},
+		applyResponseDataToFields: (data) => {
+			if (!data || typeof data !== 'object') {
+				return;
+			}
+			state.formFields = state.formFields.map((field) => {
+				if (!field.responseKey || !(field.responseKey in data)) {
+					return field;
+				}
+				return {
+					...field,
+					value: data[field.responseKey],
+				};
+			});
+		},
 		onLabelClick: withSyncEvent((event) => {
 			// Find the adjacent input element and focus it.
 			const input = event.target.nextElementSibling;
@@ -397,6 +418,25 @@ const { state, actions } = store('prc-block/form', {
 		onInputBlur: withSyncEvent((event) => {}),
 		onInputMouseEnter: withSyncEvent((event) => {}),
 		onInputMouseLeave: withSyncEvent((event) => {}),
+		onCopyToClipboard: withSyncEvent(async (event) => {
+			const { id, value } = event.target;
+			if (!value) {
+				return;
+			}
+			event.target.select();
+			try {
+				await navigator.clipboard.writeText(value);
+				actions.updateInputStateProp(id, 'copied', true);
+				setTimeout(
+					withScope(() => {
+						actions.updateInputStateProp(id, 'copied', false);
+					}),
+					1500
+				);
+			} catch (error) {
+				console.warn('Failed to copy to clipboard:', error);
+			}
+		}),
 		checkForRequiredFieldsWithoutValues: () => {
 			const context = getContext();
 			const { fieldsForSubmission } = state;
@@ -627,6 +667,7 @@ const { state, actions } = store('prc-block/form', {
 					});
 					const formResponse = new FormResponse(response);
 					if (formResponse.isSuccess) {
+						actions.applyResponseDataToFields(formResponse.data);
 						state.success = true;
 						context.formMessage =
 							formResponse?.message ||
@@ -667,6 +708,9 @@ const { state, actions } = store('prc-block/form', {
 							// Clear the form data from localStorage.
 							FormPersistence.clearFormData(formId);
 
+							actions.applyResponseDataToFields(
+								formResponse.data
+							);
 							state.success = true;
 
 							// If there's a redirectUrl, then redirect to it.

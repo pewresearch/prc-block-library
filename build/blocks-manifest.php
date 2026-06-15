@@ -2812,6 +2812,13 @@ return array(
 			'required' => array(
 				'type' => 'boolean',
 				'default' => false
+			),
+			'responseKey' => array(
+				'type' => 'string'
+			),
+			'copyToClipboard' => array(
+				'type' => 'boolean',
+				'default' => false
 			)
 		),
 		'example' => array(
@@ -3065,6 +3072,16 @@ return array(
 		'title' => 'Form Message',
 		'category' => 'forms',
 		'description' => 'Display a message to the user upon successful form submission.',
+		'allowedBlocks' => array(
+			'core/paragraph',
+			'core/heading',
+			'core/group',
+			'core/buttons',
+			'core/button',
+			'core/separator',
+			'core/image',
+			'prc-block/form-input-text'
+		),
 		'attributes' => array(
 			
 		),

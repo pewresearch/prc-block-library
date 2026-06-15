@@ -45,7 +45,9 @@ Yes. This is a container block. The default template includes:
 core/paragraph ("Thank you for your submission!")
 ```
 
-Any blocks can be placed inside to compose the success/error message content.
+**Allowed blocks:** `core/paragraph`, `core/heading`, `core/group`, `core/buttons`, `core/button`, `core/separator`, `core/image`, `prc-block/form-input-text`
+
+Use inner blocks to compose the success/error message content. `prc-block/form-input-text` is supported for message-state inputs (for example, collecting an email address inside the message layer on cross-device verification flows).
 
 ## Parent / Ancestor Requirements
 

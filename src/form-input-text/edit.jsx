@@ -54,7 +54,18 @@ export default function Edit({
 	insertBlocksAfter,
 	__unstableLayoutClassNames: layoutClassNames,
 }) {
-	const { anchor, label, placeholder, required, type, value, metadata, displayLabel, className } = attributes;
+	const {
+		anchor,
+		label,
+		placeholder,
+		required,
+		type,
+		value,
+		metadata,
+		displayLabel,
+		className,
+		copyToClipboard,
+	} = attributes;
 	const { name } = metadata || {};
 
 	const isInlineLabel = useMemo(() => {
@@ -65,8 +76,8 @@ export default function Edit({
 		return className?.includes('is-style-hidden');
 	}, [className]);
 
-	const borderProps = useBorderProps( attributes );
-	const colorProps = useColorProps( attributes );
+	const borderProps = useBorderProps(attributes);
+	const colorProps = useColorProps(attributes);
 
 	const supportedClassNames = useMemo(() => {
 		return clsx({
@@ -91,7 +102,9 @@ export default function Edit({
 	}, [isInlineLabel, supportedStyles]);
 
 	const blockClassNames = useMemo(() => {
-		return isInlineLabel ? [layoutClassNames, ...supportedClassNames] : layoutClassNames;
+		return isInlineLabel
+			? [layoutClassNames, ...supportedClassNames]
+			: layoutClassNames;
 	}, [layoutClassNames, supportedClassNames, isInlineLabel]);
 
 	const blockStyles = useMemo(() => {
@@ -123,15 +136,33 @@ export default function Edit({
 					</Warning>
 				) : (
 					<>
-						{displayLabel && <RichText
-							tagName="label"
-							placeholder={__('Label...', 'prc-block-library')}
-							value={label}
-							onChange={(newLabel) => {
-								const camelCaseLabel = newLabel.replace(/<[^>]*>/g, '').replace(/(?:^| )(\w)/g, (_, letter) => letter.toUpperCase()).replace(/^./, str => str.toLowerCase());
-								setAttributes({ label: newLabel, metadata: { ...attributes.metadata, name: camelCaseLabel } });
-							}}
-						/>}
+						{displayLabel && (
+							<RichText
+								tagName="label"
+								placeholder={__(
+									'Label...',
+									'prc-block-library'
+								)}
+								value={label}
+								onChange={(newLabel) => {
+									const camelCaseLabel = newLabel
+										.replace(/<[^>]*>/g, '')
+										.replace(/(?:^| )(\w)/g, (_, letter) =>
+											letter.toUpperCase()
+										)
+										.replace(/^./, (str) =>
+											str.toLowerCase()
+										);
+									setAttributes({
+										label: newLabel,
+										metadata: {
+											...attributes.metadata,
+											name: camelCaseLabel,
+										},
+									});
+								}}
+							/>
+						)}
 						<input
 							className={clsx(inputClassNames)}
 							style={inputStyles}
@@ -139,6 +170,7 @@ export default function Edit({
 							id={anchor}
 							name={name}
 							required={required}
+							readOnly={copyToClipboard}
 							placeholder={placeholder}
 							value={value}
 							onChange={(event) => {

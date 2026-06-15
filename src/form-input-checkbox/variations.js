@@ -10,10 +10,7 @@ export default [
 	{
 		name: 'checkbox',
 		title: __('Form Input Checkbox', 'prc-block-library'),
-		excerpt: __(
-			'A checkbox input field.',
-			'prc-block-library'
-		),
+		excerpt: __('A checkbox input field.', 'prc-block-library'),
 		attributes: {
 			type: 'checkbox',
 		},
@@ -21,23 +18,38 @@ export default [
 		category: 'forms',
 		scope: ['inserter', 'transform'],
 		isActive: (attributes, variationAttributes) =>
-			variationAttributes.type ===
-			attributes.type,
+			variationAttributes.type === attributes.type,
+	},
+	{
+		name: 'mailchimp-signup',
+		title: __('Newsletter Signup', 'prc-block-library'),
+		excerpt: __(
+			'Optional Mailchimp newsletter opt-in for sendSystemEmail forms.',
+			'prc-block-library'
+		),
+		attributes: {
+			type: 'checkbox',
+			label: 'Sign me up for the newsletter',
+			metadata: {
+				name: 'mailchimp_signup',
+			},
+		},
+		category: 'forms',
+		scope: ['inserter', 'transform'],
+		isActive: (attributes, variationAttributes) =>
+			'mailchimp_signup' === attributes?.metadata?.name &&
+			'mailchimp_signup' === variationAttributes?.metadata?.name,
 	},
 	{
 		name: 'radio',
 		title: __('Form Input Radio', 'prc-block-library'),
-		excerpt: __(
-			'A radio input field.',
-			'prc-block-library'
-		),
+		excerpt: __('A radio input field.', 'prc-block-library'),
 		attributes: {
 			type: 'radio',
 		},
 		category: 'forms',
 		scope: ['inserter', 'transform'],
 		isActive: (attributes, variationAttributes) =>
-			variationAttributes.type ===
-			attributes.type,
+			variationAttributes.type === attributes.type,
 	},
 ];

@@ -279,4 +279,8 @@ This will return an array of all forms registered with the store.
 - The old `addFilter('prc-block-forms', ...)` and `applyFilters('prc-block-forms', [])` methods are no longer supported.
 - Each form should have a unique combination of `namespace` and `action`.
 - The form block will only surface API actions relative to the block's parent block.
-- The form block does not require a parent block for rest or server actions, those will be globally listed regardless of inheritance. 
+- The form block does not require a parent block for rest or server actions, those will be globally listed regardless of inheritance.
+
+### Mailchimp newsletter opt-in (`sendSystemEmail`)
+
+Forms using the **Send System Email** action can include a **Newsletter Signup** checkbox (`metadata.name: mailchimp_signup`). The segment is chosen in the block inspector; on submit the interest ID travels in the field `value` and `checked` state. See `plugins/prc-email-builder/README.md` for the server-side filter and response shape. 

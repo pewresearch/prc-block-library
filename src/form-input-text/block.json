@@ -52,6 +52,13 @@
 		"required": {
 			"type": "boolean",
 			"default": false
+		},
+		"responseKey": {
+			"type": "string"
+		},
+		"copyToClipboard": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {

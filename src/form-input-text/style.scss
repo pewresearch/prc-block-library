@@ -23,7 +23,9 @@
 		text-align: left;
 		vertical-align: top;
 		outline: none;
-		transition: color .1s ease,border-color .1s ease;
+		transition:
+			color 0.1s ease,
+			border-color 0.1s ease;
 		margin: 0;
 		padding: 9px 13px;
 		border: 1px solid transparent;
@@ -89,5 +91,13 @@
 
 	&.is-style-hidden:not(.wp-block) {
 		display: none;
+	}
+
+	input[readonly] {
+		cursor: pointer;
+	}
+
+	input.is-copied {
+		border-color: var(--wp--preset--color--ui-success, #00a32a) !important;
 	}
 }

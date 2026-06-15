@@ -89,6 +89,8 @@ class Form_Input_Text {
 		$input_value       = $attributes['value'] ?? '';
 		$input_placeholder = $attributes['placeholder'] ?? '';
 		$input_required    = $attributes['required'] ?? false;
+		$response_key      = $attributes['responseKey'] ?? '';
+		$copy_to_clipboard = $attributes['copyToClipboard'] ?? false;
 
 		if ( $tag->next_tag( 'input' ) ) {
 			$input_name        = $tag->get_attribute( 'name' );
@@ -127,6 +129,11 @@ class Form_Input_Text {
 			$tag->set_attribute( 'data-wp-class--is-success', $target_store . 'state.isInputSuccess' );
 			$tag->set_attribute( 'data-wp-class--is-processing', $target_store . 'state.isInputProcessing' );
 
+			if ( $copy_to_clipboard ) {
+				$tag->set_attribute( 'data-wp-on--click', $target_store . 'actions.onCopyToClipboard' );
+				$tag->set_attribute( 'data-wp-class--is-copied', $target_store . 'state.isInputCopied' );
+			}
+
 			$state                  = wp_interactivity_state( $target_namespace );
 			$existing_form_fields   = $state['formFields'] ?? array();
 			$existing_form_fields[] = array(
@@ -137,8 +144,9 @@ class Form_Input_Text {
 				'value'       => $input_value,
 				'required'    => $input_required,
 				'placeholder' => $input_placeholder,
+				'responseKey' => $response_key ?: null,
 				'hidden'      => null,
-				'readonly'    => null,
+				'readOnly'    => $copy_to_clipboard ? true : null,
 				'disabled'    => null,
 				'error'       => null,
 			);

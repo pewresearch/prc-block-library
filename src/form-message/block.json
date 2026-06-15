@@ -6,6 +6,16 @@
 	"title": "Form Message",
 	"category": "forms",
 	"description": "Display a message to the user upon successful form submission.",
+	"allowedBlocks": [
+		"core/paragraph",
+		"core/heading",
+		"core/group",
+		"core/buttons",
+		"core/button",
+		"core/separator",
+		"core/image",
+		"prc-block/form-input-text"
+	],
 	"attributes": {},
 	"supports": {
 		"anchor": false,
@@ -14,10 +24,7 @@
 		"interactivity": true,
 		"spacing": {
 			"blockGap": true,
-			"margin": [
-				"top",
-				"bottom"
-			],
+			"margin": ["top", "bottom"],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
