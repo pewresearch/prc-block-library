@@ -180,6 +180,30 @@ function scheduleScrollTriggeredDialogEvaluation(storeActions) {
 	);
 }
 
+/**
+ * @param {HTMLDialogElement|null} dialogElement
+ * @return {boolean} Whether the dialog uses the bottom-sheet variant.
+ */
+function isBottomSheetDialog(dialogElement) {
+	return (
+		dialogElement?.classList.contains('is-variant-bottom-sheet') ?? false
+	);
+}
+
+/**
+ * Opens a dialog element using show() for bottom sheets or showModal() otherwise.
+ *
+ * @param {HTMLDialogElement} dialogElement
+ */
+function openDialogElement(dialogElement) {
+	if (isBottomSheetDialog(dialogElement)) {
+		dialogElement.show();
+		return;
+	}
+
+	dialogElement.showModal();
+}
+
 const { actions, state } = store('prc-block/dialog', {
 	state: {
 		get id() {
@@ -317,7 +341,7 @@ const { actions, state } = store('prc-block/dialog', {
 			if (dialog.enableDeepLink) {
 				addDialogIdToUrl(id);
 			}
-			dialogElement?.showModal();
+			openDialogElement(dialogElement);
 		},
 		/**
 		 * Handles the dialog close event, this is triggered by the user clicking the close button, pressing the escape key or clicking outside the dialog when it's a non-modal dialog.
@@ -355,6 +379,9 @@ const { actions, state } = store('prc-block/dialog', {
 		 */
 		onBackdropClick: withSyncEvent((event) => {
 			const { ref } = getElement();
+			if (isBottomSheetDialog(ref)) {
+				return;
+			}
 			const boundingRects = ref.getBoundingClientRect();
 			if (
 				event.clientX >= boundingRects.left &&

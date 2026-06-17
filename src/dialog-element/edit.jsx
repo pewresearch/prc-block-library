@@ -7,13 +7,7 @@ import clsx from 'clsx';
 /**
  * WordPress Dependencies
  */
-import {
-	useMemo,
-	useRef,
-	useEffect,
-	useState,
-	useCallback,
-} from '@wordpress/element';
+import { useRef, useEffect, useState, useCallback } from '@wordpress/element';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
@@ -78,17 +72,38 @@ function Edit({
 
 	const dialogElementRef = useRef(null);
 
+	const isBottomSheet = 'bottom-sheet' === dialogVariant;
+
 	// Sync DOM state with context state
 	useEffect(() => {
-		if (dialogElementRef.current) {
-			if (isOpen && !dialogElementRef.current.open) {
-				setShowClosingAnimation(false);
-				dialogElementRef.current.showModal();
-			} else if (!isOpen && dialogElementRef.current.open) {
-				dialogElementRef.current.close();
+		const dialogElement = dialogElementRef.current;
+		if (!dialogElement) {
+			return;
+		}
+
+		if (isOpen && !dialogElement.open) {
+			setShowClosingAnimation(false);
+			if (isBottomSheet) {
+				dialogElement.show();
+			} else {
+				dialogElement.showModal();
+			}
+		} else if (!isOpen && dialogElement.open) {
+			dialogElement.close();
+		} else if (
+			isOpen &&
+			dialogElement.open &&
+			isBottomSheet === dialogElement.matches(':modal')
+		) {
+			dialogElement.close();
+			setShowClosingAnimation(false);
+			if (isBottomSheet) {
+				dialogElement.show();
+			} else {
+				dialogElement.showModal();
 			}
 		}
-	}, [isOpen]);
+	}, [isOpen, isBottomSheet]);
 
 	const finalizeClose = useCallback(() => {
 		if (dialogClientId) {
@@ -151,6 +166,9 @@ function Edit({
 	};
 
 	const onBackdropClick = (event) => {
+		if (isBottomSheet) {
+			return;
+		}
 		if (event.target === event.currentTarget) {
 			closeDialog();
 		}
@@ -168,7 +186,7 @@ function Edit({
 			active: isOpen && !showClosingAnimation,
 		}),
 		role: 'dialog',
-		'aria-modal': 'true',
+		'aria-modal': isBottomSheet ? 'false' : 'true',
 		'aria-labelledby': '',
 	});
 

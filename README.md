@@ -359,5 +359,5 @@ const forms = useSelect(
 - [Development Guidelines](../../docs/DEVELOPMENT_GUIDELINES.md)
 - [JavaScript Development Rules](../../.cursor/rules/javascript-development.mdc)
 - [WordPress Development Rules](../../.cursor/rules/wordpress-development.mdc)
-- [Block Development Skill](../../.claude/skills/wp-block-development/SKILL.md)
-- [Interactivity API Skill](../../.claude/skills/wp-interactivity-api/SKILL.md)
+- [Block Development Skill](../../.cursor/skills/wp-block-development/SKILL.md)
+- [Interactivity API Skill](../../.cursor/skills/wp-interactivity-api/SKILL.md)

@@ -67,9 +67,21 @@
 		margin: 0;
 		border-radius: 1em 1em 0 0;
 		max-height: min(90vh, 100dvh);
+		isolation: isolate;
 
 		@media (max-width: $break-small) {
 			max-height: 90dvh;
+		}
+
+		// Non-modal show() has no ::backdrop — extend a click-through scrim via
+		// box-shadow so it is not clipped by this element's transform containing block.
+		&:open {
+			box-shadow: 0 0 0 100vmax
+				color-mix(
+					in srgb,
+					var(--wp--style--dialog-backdrop-color, rgba(0, 0, 0, 0.8)) 50%,
+					transparent
+				);
 		}
 	}
 	&.has-border-color {

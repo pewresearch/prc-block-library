@@ -18,7 +18,10 @@ import { useBlockProps } from '@wordpress/block-editor';
 /**
  * Interanl Dependencies
  */
-import { refreshPostAttributes } from '../../helpers';
+import {
+	refreshPostAttributes,
+	STORY_ITEM_ENTITY_STATUSES,
+} from '../../helpers';
 
 export default function Placeholder({ attributes, setAttributes }) {
 	const { postId, postType, imageSize, url } = attributes;
@@ -77,6 +80,7 @@ export default function Placeholder({ attributes, setAttributes }) {
 						entityId: postId,
 						entityType: 'postType', // taxonomy, user
 						entitySubType: postType, // ['post', 'page', 'staff'] || ['category', 'tag'] || 'user'
+						entityStatus: STORY_ITEM_ENTITY_STATUSES,
 						perPage: 10,
 						hideChildren: true,
 						clearOnSelect: false,

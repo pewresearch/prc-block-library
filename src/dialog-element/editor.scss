@@ -1,6 +1,6 @@
 @use "../../includes/supports/src/style/variables/breakpoints" as *;
 
-// Bottom sheet: override native dialog:modal centering in the block editor.
+// Bottom sheet: anchor to viewport bottom in the editor (show() or showModal()).
 dialog.wp-block-prc-block-dialog-element.is-variant-bottom-sheet:open,
 dialog.wp-block-prc-block-dialog-element.is-variant-bottom-sheet:modal {
 	position: fixed !important;
@@ -12,9 +12,19 @@ dialog.wp-block-prc-block-dialog-element.is-variant-bottom-sheet:modal {
 	margin: 0 !important;
 	border-radius: 1em 1em 0 0;
 	max-height: min(90vh, 100dvh);
+	isolation: isolate;
 
 	@media (max-width: $break-small) {
 		max-height: 90dvh;
+	}
+
+	&:not(:modal) {
+		box-shadow: 0 0 0 100vmax
+			color-mix(
+				in srgb,
+				var(--wp--style--dialog-backdrop-color, rgba(0, 0, 0, 0.8)) 50%,
+				transparent
+			);
 	}
 }
 

@@ -1,10 +1,5 @@
 /* eslint-disable max-lines-per-function */
 /**
- * External Dependencies
- */
-import { URLSearchToolbar } from '@prc/components';
-
-/**
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -74,22 +69,33 @@ function Toolbar({ attributes, setAttributes, context }) {
 						postType,
 						url,
 						onSelect: (post) => {
-							return new Promise((resolve) => {
-								getPostAttributes(
-									post.entityId,
-									post.entitySubType,
-									imageSize
-								).then((attrs) => {
-									console.log(
-										'getPostAttributes attrs:',
-										attrs
-									);
-									setTimeout(() => {
+							return getPostAttributes(
+								post.entityId,
+								post.entitySubType,
+								imageSize
+							)
+								.then((attrs) => {
+									if (
+										attrs &&
+										Object.keys(attrs).length > 0
+									) {
 										setAttributes(attrs);
-									}, 500);
-									resolve(attrs);
+									}
+									return attrs;
+								})
+								.catch((err) => {
+									console.error(err);
+									setAttributes({
+										postId: post.entityId,
+										postType: post.entitySubType,
+										url: post.entityUrl || '',
+										title: post.entityName || '',
+										excerpt: post.entityDescription || '',
+										image: '',
+										isChartArt: false,
+									});
+									return {};
 								});
-							});
 						},
 						onURLChange: (newVal) => {
 							setAttributes({ url: newVal });

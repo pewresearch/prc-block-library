@@ -99,9 +99,13 @@ Any blocks can be placed inside the dialog element. The template lock is set to 
 When **Dialog Variant** is **Bottom Sheet**:
 
 - The dialog renders as a full-width panel fixed to the bottom of the viewport with rounded top corners (`is-variant-bottom-sheet`).
+- Opens with native `show()` (non-modal), not `showModal()`. Page content behind the sheet stays interactive.
+- No native `::backdrop` is created for non-modal dialogs. Dimming is painted via a CSS `::before` scrim with `pointer-events: none`, so overlay taps pass through to the page and do **not** close the sheet.
+- `aria-modal="false"` is emitted for bottom sheets.
 - Pair with the **Slide Up** animation (selected automatically when switching variants).
 - Size and alignment-matrix position controls do not apply; width is always 100%.
-- In the block editor, `editor.scss` overrides native `dialog:modal` centering so the open preview matches the frontend bottom-anchored layout.
+- Close button and **Escape** still close the dialog and record dismissal for auto-activation suppression.
+- In the block editor, `editor.scss` anchors the open preview to the viewport bottom and mirrors the click-through scrim behavior.
 
 ### Scroll depth and dismissal persistence
 
@@ -118,7 +122,7 @@ When **Dialog Variant** is **Bottom Sheet**:
 
 - Suppresses **auto-activation** triggers (scroll depth, auto-activation timer) after the reader dismisses the dialog.
 - **Click triggers always open the dialog** — dismissal persistence does not apply to `dialog-trigger` clicks.
-- Dismissal is recorded when the reader closes via the close button, Escape, or backdrop click.
+- Dismissal is recorded when the reader closes via the close button, Escape, or backdrop click (default variant only; bottom-sheet overlay taps do not dismiss).
 - Storage by scope:
     - `pageload` — in-memory for the current page load only.
     - `session` — `sessionStorage` key `prc-dialog-dismissed-{dialogId}`.
@@ -127,7 +131,7 @@ When **Dialog Variant** is **Bottom Sheet**:
 
 ## Block Editor
 
-The editor uses the same `<dialog>` element and `showModal()` as the frontend, driven by parent context (`dialog/isOpen` from `editorIsDialogOpen` on the parent Dialog block).
+The editor uses the same `<dialog>` element as the frontend, driven by parent context (`dialog/isOpen` from `editorIsDialogOpen` on the parent Dialog block). Default variants use `showModal()`; bottom sheets use `show()`.
 
 - Selecting the dialog element or its inner blocks auto-opens the dialog for editing.
 - **Escape** or **Close Dialog** runs the closing animation (when motion is allowed), then closes the modal and re-selects the parent Dialog block.
@@ -225,9 +229,9 @@ Uses the WordPress Interactivity API with store namespace `prc-block/dialog`.
 **Callbacks:**
 
 - `onESCKey(event)` — Closes the dialog on Escape key press. Records dismissal for auto-activation suppression.
-- `onOpen()` — Watcher that calls `dialogElement.showModal()` when `isOpen` becomes true. Updates URL if deep linking is enabled.
+- `onOpen()` — Watcher that calls `dialogElement.show()` for bottom sheets or `dialogElement.showModal()` for default variants when `isOpen` becomes true. Updates URL if deep linking is enabled.
 - `onClose()` — Watcher that runs closing animation, then calls `dialogElement.close()`, removes URL parameter, and resets state. Respects animation duration.
-- `onBackdropClick(event)` — Closes the dialog when clicking outside the dialog bounds (on the backdrop). Records dismissal for auto-activation suppression.
+- `onBackdropClick(event)` — For default variants, closes the dialog when clicking outside the dialog bounds (on the backdrop) and records dismissal. No-op for bottom sheets.
 - `onInit()` — Handles auto-activation timer. If set, opens the dialog after the configured delay when no other dialog is open and dismissal persistence does not suppress it.
 - `onScroll()` — When `scrollDepthPercentage` is enabled, opens the dialog once the reader scrolls past the configured percentage (once per page load; respects dismissal persistence).
 

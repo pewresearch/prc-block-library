@@ -220,7 +220,7 @@ class Dialog_Element {
 			'id'                             => $context_id,
 			'class'                          => implode( ' ', $dialog_classes ),
 			'role'                           => 'dialog',
-			'aria-modal'                     => 'true',
+			'aria-modal'                     => 'bottom-sheet' === $dialog_variant ? 'false' : 'true',
 			'aria-labelledby'                => $aria_labelledby,
 			'data-wp-interactive'            => 'prc-block/dialog',
 			'data-wp-init'                   => 'callbacks.onInit',

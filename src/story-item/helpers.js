@@ -10,6 +10,8 @@ import apiFetch from '@wordpress/api-fetch';
 import { date as formatDate } from '@wordpress/date';
 import { useBlockProps } from '@wordpress/block-editor';
 
+const STORY_ITEM_ENTITY_STATUSES = ['publish', 'draft', 'future'];
+
 const setArtBySize = (imageSize, postId, setAttributes) => {
 	if (0 !== postId && false !== setAttributes) {
 		apiFetch({
@@ -36,14 +38,25 @@ const setArtBySize = (imageSize, postId, setAttributes) => {
  * @param {*} isRefresh
  * @return
  */
+const getArtDirectionSlot = (artDirection, imageSize) => {
+	if (!artDirection || 'object' !== typeof artDirection) {
+		return null;
+	}
+
+	const slot = artDirection[imageSize];
+	if (!slot || 'string' !== typeof slot.rawUrl || '' === slot.rawUrl) {
+		return null;
+	}
+
+	return slot;
+};
+
 const getAttributesFromPost = (
 	post,
 	options = {
 		imageSize: 'A1',
 	}
 ) => {
-	console.log('getAttributesFromPost', post, options);
-
 	if (null === post) {
 		return {};
 	}
@@ -59,17 +72,20 @@ const getAttributesFromPost = (
 			post.excerpt.hasOwnProperty('rendered')
 				? post.excerpt.rendered
 				: '',
-		url: post.link,
+		url: post.link || '',
 		label: post.hasOwnProperty('label') ? post.label : 'report',
-		date: formatDate('M j, Y', post.date),
+		date: post.date ? formatDate('M j, Y', post.date) : '',
 		postId: post.id,
 		postType: post.type,
 	};
 
-	if (post.art_direction) {
-		const { imageSize } = options;
-		storyItem.image = post.art_direction[imageSize].rawUrl;
-		storyItem.isChartArt = post.art_direction[imageSize].chartArt;
+	const artSlot = getArtDirectionSlot(post.art_direction, options.imageSize);
+	if (artSlot) {
+		storyItem.image = artSlot.rawUrl;
+		storyItem.isChartArt = Boolean(artSlot.chartArt);
+	} else {
+		storyItem.image = '';
+		storyItem.isChartArt = false;
 	}
 
 	return storyItem;
@@ -117,18 +133,21 @@ const refreshPostAttributes = (options) => {
 
 const getPostAttributes = (postId, postType, imageSize) => {
 	const restType = 'post' === postType ? 'posts' : postType;
-	return new Promise((resolve, reject) => {
-		apiFetch({
-			path: `/wp/v2/${restType}/${postId}`,
-			method: 'GET',
+	return apiFetch({
+		path: `/wp/v2/${restType}/${postId}`,
+		method: 'GET',
+	})
+		.then((post) => {
+			if (false !== post) {
+				return getAttributesFromPost(post, { imageSize });
+			}
+
+			return {};
 		})
-			.then((post) => {
-				if (false !== post) {
-					resolve(getAttributesFromPost(post, { imageSize }));
-				}
-			})
-			.catch((err) => reject(err));
-	});
+		.catch((err) => {
+			console.error(err);
+			throw err;
+		});
 };
 
 const useStoryItemBlockProps = (attributes, asSave = false) => {
@@ -163,7 +182,9 @@ const useStoryItemBlockProps = (attributes, asSave = false) => {
 export {
 	setArtBySize,
 	getAttributesFromPost,
+	getArtDirectionSlot,
 	getPostAttributes,
 	refreshPostAttributes,
 	useStoryItemBlockProps,
+	STORY_ITEM_ENTITY_STATUSES,
 };

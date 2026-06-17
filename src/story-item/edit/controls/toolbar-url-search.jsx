@@ -7,12 +7,12 @@ import { WPEntitySearch } from '@prc/components';
  * WordPress Dependencies
  */
 import { useState } from '@wordpress/element';
-import {
-	Modal,
-	ToolbarButton,
-	ToolbarGroup,
-	Button,
-} from '@wordpress/components';
+import { Modal, ToolbarButton, ToolbarGroup } from '@wordpress/components';
+
+/**
+ * Internal Dependencies
+ */
+import { STORY_ITEM_ENTITY_STATUSES } from '../../helpers';
 
 export default function ToolbarURLSearch({
 	postId,
@@ -53,9 +53,13 @@ export default function ToolbarURLSearch({
 								placeholder: 'Climate Change', // placeholder for the search input
 								searchValue: url, // pre-populate the search input
 								onSelect: (post) => {
-									onSelect(post).then(() => {
-										setIsModalOpen(false);
-									});
+									Promise.resolve(onSelect(post))
+										.then(() => {
+											setIsModalOpen(false);
+										})
+										.catch(() => {
+											setIsModalOpen(false);
+										});
 								},
 								onKeyEnter: () => {
 									setIsModalOpen(false);
@@ -66,6 +70,7 @@ export default function ToolbarURLSearch({
 								entityId: postId,
 								entityType: 'postType',
 								entitySubType: postType,
+								entityStatus: STORY_ITEM_ENTITY_STATUSES,
 								perPage: 10,
 								hideChildren: true,
 								onUpdateURL: (newVal) => {
