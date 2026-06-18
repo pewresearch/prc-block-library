@@ -88,6 +88,9 @@ export default function Placeholder({ attributes, setAttributes }) {
 						showExcerpt: true,
 						showType: true,
 						searchSize: 'default', // compact also available
+						onUpdateURL: (newVal) => {
+							setAttributes({ url: newVal, postId: 0 });
+						},
 					}}
 				/>
 				<Button
