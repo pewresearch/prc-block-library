@@ -32,6 +32,15 @@ The block supports device-specific visibility and max-width constraints:
 - **Interior Divider**: Adds a divider between inner blocks, with customizable color.
 - **Sticky Background/Text Colors**: Set background and text colors for sticky states.
 
+### 3a. **Grid layout: responsive order + grid-aware dividers**
+
+This is the recommended replacement for the deprecated `prc-block/grid-controller` / `grid-column` blocks. When a `core/group` uses the native **Grid** layout (`layout.type === 'grid'`), PRC layers two capabilities on top of Gutenberg's native responsive grid (per-viewport column count, spacing, and column/row span shipped in Gutenberg 23.3):
+
+- **Responsive column order** — each grid child gains a **Column order** control in the Dimensions panel tied to the editor **device preview** toolbar (`core/editor` `getDeviceType()`). One field reads/writes the active preview bucket (`style.layout.prcOrder` on desktop, `style.tablet.layout.prcOrder`, etc.) via [`utils/style-state.js`](utils/style-state.js). Desktop preview shows a notice that order follows canvas position; tablet/mobile preview allow editing. Tablet/mobile values fall back to desktop when blank. In the editor, canvas order uses inline `order` from the active preview device; on the frontend, `@media` rules at 480px/782px apply.
+- **Grid-aware dividers** — setting an **Interior Divider** color on a grid group, plus optional **Divider Style** (solid/dashed/dotted/none) and **Divider Inset** in the Border panel, draws dividers between grid children. Placement is computed in the editor ([`utils/divider-placement.js`](utils/divider-placement.js)) from native spans + column count: side-by-side children get a vertical divider; full-width children get a horizontal divider; the first item in each row gets none. Flags persist per child under `style.prcGridDivider` and render server-side without any parent lookup. In the editor, divider visibility follows the device preview toolbar (`.is-*-preview` rules in `style.scss`); on the frontend, `@media` breakpoints apply.
+
+**Breakpoints** on the frontend mirror `WP_Theme_JSON::RESPONSIVE_BREAKPOINTS` (mobile `width <= 480px`, tablet `480px < width <= 782px`). The `tablet`/`mobile` style keys are normalized in one place to tolerate core's in-progress move to `@tablet`/`@mobile`.
+
 ### 4. **Custom Block Variations**
 
 Several pre-configured variations are available:

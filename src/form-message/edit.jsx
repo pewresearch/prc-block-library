@@ -61,7 +61,13 @@ export default function Edit({ clientId, isSelected }) {
 			[
 				'core/paragraph',
 				{
-					content: 'Thank you for your submission!',
+					metadata: {
+						bindings: {
+							content: {
+								source: 'prc-block/form-message',
+							},
+						},
+					},
 				},
 			],
 		],

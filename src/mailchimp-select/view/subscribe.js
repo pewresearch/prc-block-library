@@ -4,10 +4,9 @@ export default async function subscribe({
 	emailAddress,
 	captchaToken = false,
 	interests = [],
-	NONCE = false,
 }) {
 	const { apiFetch } = window.wp;
-	const { isURL, buildQueryString } = window.wp.url;
+	const { isURL } = window.wp.url;
 	return new Promise((resolve, reject) => {
 		if (!captchaToken) {
 			return reject(
@@ -21,7 +20,6 @@ export default async function subscribe({
 		if (!isURL(url)) {
 			return reject(new Error('Invalid url', url));
 		}
-		apiFetch.use(apiFetch.createNonceMiddleware(NONCE));
 		apiFetch({
 			path: ENDPOINT,
 			method: 'POST',

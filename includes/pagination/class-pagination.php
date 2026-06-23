@@ -38,7 +38,14 @@ class Pagination {
 	 * @hook enqueue_block_assets
 	 */
 	public function register_pagination_style() {
-		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/index.asset.php';
+		$asset_path = plugin_dir_path( __FILE__ ) . '/build/index.asset.php';
+		if ( ! is_readable( $asset_path ) ) {
+			return;
+		}
+		$asset_file = include $asset_path;
+		if ( ! is_array( $asset_file ) ) {
+			return;
+		}
 		wp_register_style(
 			'prc-block-library--pagination',
 			plugins_url( '/build/style-index.css', __FILE__ ),
@@ -53,7 +60,14 @@ class Pagination {
 	 * @hook admin_enqueue_scripts
 	 */
 	public function reigster_pagination_script() {
-		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/index.asset.php';
+		$asset_path = plugin_dir_path( __FILE__ ) . '/build/index.asset.php';
+		if ( ! is_readable( $asset_path ) ) {
+			return;
+		}
+		$asset_file = include $asset_path;
+		if ( ! is_array( $asset_file ) || ! isset( $asset_file['dependencies'] ) ) {
+			return;
+		}
 		wp_register_script(
 			'prc-block-library--pagination',
 			plugins_url( '/build/index.js', __FILE__ ),

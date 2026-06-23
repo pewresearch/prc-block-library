@@ -9,16 +9,21 @@ import { getBlockGapSupportValue } from '@prc/functions';
  */
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { Fragment } from '@wordpress/element';
-import { withColors } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
+import { store as blockEditorStore } from '@wordpress/block-editor';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 /**
  * Internal Dependencies
  */
-import { InteriorDividerControls } from './controls';
+import { InteriorDividerControls, GridDividerControls } from './controls';
 import registerVariations from './variations';
 import registerTransforms from './transforms';
+import registerGridChildControls from './grid-child-controls';
+import {
+	clearDividerPlacement,
+	syncDividerPlacement,
+} from './utils/divider-placement';
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * All files containing `style` keyword are bundled together. The code used
@@ -34,10 +39,21 @@ const BLOCKIDENTIFIER = 'prc-block/core-group';
 
 registerVariations();
 registerTransforms();
+registerGridChildControls();
+
+/**
+ * Whether a group is using the native grid layout.
+ *
+ * @param {Object} attributes Block attributes.
+ * @return {boolean} True for grid-layout groups.
+ */
+function isGridGroup(attributes) {
+	return attributes?.layout?.type === 'grid';
+}
 
 /**
  * Add support for left and right alignment, and add transform support from prc-block/callout to group.
- * Also adds dividerColor attribute for interior divider functionality.
+ * Also adds dividerColor/dividerStyle/dividerInset attributes for interior + grid-aware divider functionality.
  *
  * @param {Object} settings Settings for the block.
  *
@@ -61,18 +77,67 @@ addFilter(
 			];
 		}
 
-		// Add dividerColor attribute for interior divider
+		// Divider attributes for interior + grid-aware dividers.
 		settings.attributes = {
 			...settings.attributes,
 			dividerColor: {
 				type: 'string',
 				default: null,
 			},
+			dividerStyle: {
+				type: 'string',
+				default: 'solid',
+			},
+			dividerInset: {
+				type: 'number',
+				default: 0,
+			},
 		};
 
 		return settings;
 	}
 );
+
+/**
+ * Keep grid-child divider placement in sync as spans / column counts change.
+ *
+ * @param {Object} props            Block edit props.
+ * @param {Object} props.attributes Block attributes.
+ * @param {string} props.clientId   Block client id.
+ * @return {null} Renders nothing.
+ */
+function GridDividerSync({ attributes, clientId }) {
+	const { dividerColor } = attributes;
+
+	const children = useSelect(
+		(select) => select(blockEditorStore).getBlocks(clientId),
+		[clientId]
+	);
+	const { updateBlockAttributes } = useDispatch(blockEditorStore);
+
+	const enabled = isGridGroup(attributes) && !!dividerColor;
+
+	useEffect(() => {
+		if (!enabled) {
+			clearDividerPlacement(children, updateBlockAttributes);
+			return;
+		}
+		syncDividerPlacement(
+			children,
+			attributes.layout,
+			attributes.style,
+			updateBlockAttributes
+		);
+	}, [
+		enabled,
+		children,
+		attributes.layout,
+		attributes.style,
+		updateBlockAttributes,
+	]);
+
+	return null;
+}
 
 /**
  * Add additional controls to the core/group block inspector.
@@ -92,6 +157,8 @@ addFilter(
 				return (
 					<>
 						<InteriorDividerControls {...props} />
+						<GridDividerControls {...props} />
+						<GridDividerSync {...props} />
 						<BlockEdit {...props} />
 					</>
 				);
@@ -102,7 +169,54 @@ addFilter(
 );
 
 /**
- * Add interior divider class names to the block wrapper in the editor.
+ * Compute the editor wrapper props for a core/group, handling both the legacy
+ * stacked interior divider and the grid-aware divider.
+ *
+ * @param {Object} attributes   Block attributes.
+ * @param {Object} wrapperProps Existing wrapper props.
+ * @return {Object} New wrapper props.
+ */
+function buildGroupWrapperProps(attributes, wrapperProps) {
+	const { dividerColor } = attributes;
+	const isGrid = isGridGroup(attributes);
+
+	const newWrapperProps = { ...wrapperProps };
+	const classes = [wrapperProps?.className || ''];
+	const style = {
+		...(wrapperProps?.style || {}),
+		'--grid-gutter': getBlockGapSupportValue(
+			attributes,
+			isGrid ? 'horizontal' : 'vertical'
+		),
+	};
+
+	if (dividerColor) {
+		style['--divider-color'] = `var(--wp--preset--color--${dividerColor})`;
+		if (isGrid) {
+			classes.push('has-divider');
+			classes.push(`has-${dividerColor}-divider-color`);
+			if (
+				attributes.dividerStyle &&
+				attributes.dividerStyle !== 'solid'
+			) {
+				style['--divider-style'] = attributes.dividerStyle;
+			}
+			if (attributes.dividerInset) {
+				style['--divider-inset'] = `${attributes.dividerInset}px`;
+			}
+		} else {
+			classes.push('has-interior-divider');
+			classes.push(`has-${dividerColor}-interior-divider-color`);
+		}
+	}
+
+	newWrapperProps.className = classes.filter(Boolean).join(' ');
+	newWrapperProps.style = style;
+	return newWrapperProps;
+}
+
+/**
+ * Add divider class names + CSS variables to the block wrapper in the editor.
  */
 addFilter(
 	'editor.BlockListBlock',
@@ -115,22 +229,15 @@ addFilter(
 				return <BlockListBlock {...props} />;
 			}
 
-			const { dividerColor } = attributes;
-
-			const newWrapperProps = {
-				...wrapperProps,
-			};
-
-			if (undefined !== dividerColor && null !== dividerColor) {
-				newWrapperProps.className = `${wrapperProps?.className || ''} has-interior-divider has-${dividerColor}-interior-divider-color`;
-			}
-			newWrapperProps.style = {
-				'--grid-gutter': getBlockGapSupportValue(
-					attributes,
-					'vertical'
-				),
-			};
-			return <BlockListBlock {...props} wrapperProps={newWrapperProps} />;
+			return (
+				<BlockListBlock
+					{...props}
+					wrapperProps={buildGroupWrapperProps(
+						attributes,
+						wrapperProps
+					)}
+				/>
+			);
 		};
 	}, 'withGroupWrapperProps'),
 	100

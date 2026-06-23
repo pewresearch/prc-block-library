@@ -19,17 +19,11 @@ store(NAMESPACE, {
 				// 	fieldsForSubmission,
 				// 	context
 				// );
-				const { interest, NONCE, formId } = context;
+				const { interest, formId } = context;
 				if (!interest && interest.length < 1) {
 					return reject({
 						status: 'error',
 						message: 'No interest id provided',
-					});
-				}
-				if (!NONCE) {
-					return reject({
-						status: 'error',
-						message: 'No nonce provided',
 					});
 				}
 				// Get the object out of fieldsForSubmission that has the name "emailAddress"
@@ -45,7 +39,6 @@ store(NAMESPACE, {
 					emailAddress,
 					interest,
 					captchaToken,
-					NONCE,
 					formId,
 				})
 					.then((response) => {

@@ -293,6 +293,308 @@ return array(
 		'render' => 'file:./render.php',
 		'viewScriptModule' => 'file:./view.js'
 	),
+	'grid-column' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/grid-column',
+		'version' => '1.0.0',
+		'title' => 'Responsive Column (Deprecated)',
+		'category' => 'design',
+		'parent' => array(
+			'prc-block/grid-controller'
+		),
+		'description' => 'A responsive grid column. Set the column’s span and start position at different breakpoints to create complex responsive grid layouts.',
+		'attributes' => array(
+			'gridLayout' => array(
+				'type' => 'object',
+				'default' => array(
+					'index' => 0,
+					'desktopSpan' => 4,
+					'tabletSpan' => 4,
+					'mobileSpan' => 4,
+					'tabletStart' => null,
+					'mobileStart' => null,
+					'tabletPosition' => null,
+					'mobilePosition' => null,
+					'desktopDivider' => null,
+					'tabletDivider' => null,
+					'mobileDivider' => null
+				)
+			),
+			'verticalAlignment' => array(
+				'type' => 'string'
+			),
+			'allowedBlocks' => array(
+				'type' => 'array'
+			),
+			'templateLock' => array(
+				'type' => array(
+					'string',
+					'boolean'
+				),
+				'enum' => array(
+					'all',
+					'insert',
+					'contentOnly',
+					false
+				),
+				'default' => false
+			)
+		),
+		'example' => array(
+			'attributes' => array(
+				'gridLayout' => array(
+					'index' => 1,
+					'desktopSpan' => 4,
+					'tabletSpan' => 4,
+					'mobileSpan' => 4
+				)
+			),
+			'innerBlocks' => array(
+				array(
+					'name' => 'core/paragraph',
+					'attributes' => array(
+						'content' => 'Column content.'
+					)
+				)
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'reusable' => false,
+			'inserter' => false,
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'link' => true
+			),
+			'spacing' => array(
+				'blockGap' => true,
+				'margin' => true,
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true
+				)
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'__experimentalFontFamily' => true
+				)
+			),
+			'__experimentalLayout' => true
+		),
+		'providesContext' => array(
+			'grid/column/desktop/span' => 'gridSpan',
+			'grid/column/desktop/start' => 'gridStart',
+			'grid/column/desktop/row' => 'gridRow',
+			'grid/column/tablet/span' => 'tabletGridSpan',
+			'grid/column/tablet/start' => 'tabletGridStart',
+			'grid/column/tablet/row' => 'tabletGridRow',
+			'grid/column/mobile/span' => 'mobileGridSpan',
+			'grid/column/mobile/start' => 'mobileGridStart',
+			'grid/column/mobile/row' => 'mobileGridRow'
+		),
+		'textdomain' => 'grid-column',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
+	),
+	'grid-controller' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/grid-controller',
+		'version' => '1.0.0',
+		'title' => 'Responsive Grid (Deprecated)',
+		'category' => 'design',
+		'description' => 'Deprecated: use a core Group block with the Grid layout instead, which now supports responsive column counts, spans, ordering, and dividers. Existing Responsive Grid blocks continue to render; convert them via the block transform.',
+		'keywords' => array(
+			'grid',
+			'columns',
+			'responsive',
+			'layout'
+		),
+		'attributes' => array(
+			'verticalAlignment' => array(
+				'type' => 'string'
+			),
+			'dividerColor' => array(
+				'type' => 'string',
+				'default' => 'ui-gray-light'
+			),
+			'dividerStyle' => array(
+				'type' => 'string',
+				'default' => 'solid'
+			),
+			'dividerInset' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'style' => array(
+				'type' => 'object',
+				'default' => array(
+					'spacing' => array(
+						'blockGap' => array(
+							'left' => 'var:preset|spacing|50'
+						)
+					)
+				)
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'inserter' => false,
+			'align' => array(
+				'wide',
+				'full'
+			),
+			'listView' => true,
+			'color' => array(
+				'background' => true,
+				'link' => true,
+				'text' => true
+			),
+			'spacing' => array(
+				'blockGap' => array(
+					'sides' => array(
+						'horizontal',
+						'vertical'
+					)
+				),
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'blockGap' => true,
+					'margin' => false,
+					'padding' => false
+				)
+			),
+			'__experimentalBorder' => array(
+				'color' => true,
+				'style' => true,
+				'width' => true,
+				'__experimentalDefaultControls' => array(
+					'color' => true,
+					'style' => true,
+					'width' => true
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'__experimentalFontFamily' => true
+				)
+			)
+		),
+		'example' => array(
+			'attributes' => array(
+				'dividerColor' => 'ui-gray-light'
+			),
+			'innerBlocks' => array(
+				array(
+					'name' => 'prc-block/grid-column',
+					'attributes' => array(
+						'gridLayout' => array(
+							'index' => 1,
+							'desktopSpan' => 4,
+							'tabletSpan' => 4,
+							'mobileSpan' => 4
+						)
+					),
+					'innerBlocks' => array(
+						array(
+							'name' => 'core/heading',
+							'attributes' => array(
+								'content' => 'Column 1'
+							)
+						),
+						array(
+							'name' => 'core/paragraph',
+							'attributes' => array(
+								'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet urn'
+							)
+						)
+					)
+				),
+				array(
+					'name' => 'prc-block/grid-column',
+					'attributes' => array(
+						'gridLayout' => array(
+							'index' => 2,
+							'desktopSpan' => 4,
+							'tabletSpan' => 4,
+							'mobileSpan' => 4
+						)
+					),
+					'innerBlocks' => array(
+						array(
+							'name' => 'core/heading',
+							'attributes' => array(
+								'content' => 'Column 2'
+							)
+						),
+						array(
+							'name' => 'core/paragraph',
+							'attributes' => array(
+								'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet urn'
+							)
+						)
+					)
+				),
+				array(
+					'name' => 'prc-block/grid-column',
+					'attributes' => array(
+						'gridLayout' => array(
+							'index' => 3,
+							'desktopSpan' => 4,
+							'tabletSpan' => 4,
+							'mobileSpan' => 4
+						)
+					),
+					'innerBlocks' => array(
+						array(
+							'name' => 'core/heading',
+							'attributes' => array(
+								'content' => 'Column 3'
+							)
+						),
+						array(
+							'name' => 'core/paragraph',
+							'attributes' => array(
+								'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet urn'
+							)
+						)
+					)
+				)
+			),
+			'viewportWidth' => 1350
+		),
+		'textdomain' => 'grid-controller',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css'
+	),
 	'tab' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

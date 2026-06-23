@@ -170,7 +170,7 @@ The block uses server-side rendering via `render_form_callback` in `class-form.p
     - `formName`, `method`, `namespace`, `action`, `redirectUrl`
     - `errors` (empty array), `hasErrors` (false)
     - `captchaHidden` (true), `captchaToken` (null), `captchaPassed` (false)
-    - `nonce` (wp_create_nonce)
+    - `nonceName` / `nonceToken` (empty for public forms; user-accounts may override)
     - `isSubmitting`, `isSubmitted`, `isProcessing` (all false)
     - `formFields` (empty object, populated by child blocks at render)
     - `formPages` (for multi-page forms)

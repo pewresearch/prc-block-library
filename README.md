@@ -27,11 +27,11 @@ In the block editor, the plugin registers the **Pew Research Center Block Librar
 # Build the entire library (run from repo root)
 npm run build:library -w @prc/block-library
 
-# Build a single block only
-npm run build grid-controller -w @prc/block-library
+# Build a single deprecated block only
+npm run build deprecated:grid-controller -w @prc/block-library
 
-# Watch mode for a single block during development
-npm run start grid-controller -w @prc/block-library
+# Watch mode for a single deprecated block during development
+npm run start deprecated:grid-controller -w @prc/block-library
 
 # Watch mode for the full library
 npm run start:library -w @prc/block-library
@@ -152,8 +152,6 @@ Adds attributes, context, rendering changes, or new editor controls to existing 
 | Block                                                                                  | Description                                                 |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
 | [`prc-block/navigation-mega-menu`](docs/navigation-mega-menu.md)                       | Mega-menu extension for `core/navigation`                   |
-| [`prc-block/grid-controller`](docs/grid-controller.md)                                 | CSS grid layout container                                   |
-| [`prc-block/grid-column`](docs/grid-column.md)                                         | Column within a `prc-block/grid-controller`                 |
 | [`prc-block/accordion-controller`](docs/accordion-controller.md)                       | Manages expand/collapse state across child accordions       |
 | [`prc-block/accordion`](docs/accordion.md)                                             | Individual accordion panel                                  |
 | [`prc-block/carousel-controller`](docs/carousel-controller.md)                         | Splide.js-powered carousel container                        |

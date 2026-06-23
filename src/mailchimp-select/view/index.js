@@ -1,7 +1,7 @@
 /**
  * WordPress Dependencies
  */
-import { store, getContext, getElement } from '@wordpress/interactivity';
+import { store } from '@wordpress/interactivity';
 
 /**
  * Internal Dependencies
@@ -12,7 +12,6 @@ import subscribe from './subscribe';
 const { state, actions } = store(NAMESPACE, {
 	actions: {
 		subscribe: async (fieldsForSubmission) => {
-			const { NONCE } = getContext();
 			// Get the object out of fieldsForSubmission that has the name "emailAddress"
 			const emailAddress = fieldsForSubmission.find((field) =>
 				['emailAddress', 'email'].includes(field.name)
@@ -29,7 +28,6 @@ const { state, actions } = store(NAMESPACE, {
 				emailAddress,
 				interests,
 				captchaToken,
-				NONCE,
 			})
 				.then((response) => {
 					return {

@@ -300,8 +300,8 @@ class Grid_Column {
 	 * @see https://developer.wordpress.org/reference/functions/register_block_type/
 	 */
 	public function block_init() {
-		register_block_type(
-			PRC_BLOCK_LIBRARY_DIR . '/build/grid-column',
+		register_block_type_from_metadata(
+			PRC_BLOCK_LIBRARY_DIR . '/deprecated/build/grid-column',
 			array(
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)

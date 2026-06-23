@@ -3,9 +3,9 @@
   "apiVersion": 3,
   "name": "prc-block/grid-controller",
   "version": "1.0.0",
-  "title": "Responsive Grid",
+  "title": "Responsive Grid (Deprecated)",
   "category": "design",
-  "description": "Display content in a grid of responsive columns. The columns use 12 columns on desktop and tablet, and 4 columns on mobile. Control each column’s span and start position precisely at different breakpoints.",
+  "description": "Deprecated: use a core Group block with the Grid layout instead, which now supports responsive column counts, spans, ordering, and dividers. Existing Responsive Grid blocks continue to render; convert them via the block transform.",
   "keywords": [
     "grid",
     "columns",
@@ -42,6 +42,7 @@
   "supports": {
     "anchor": true,
     "html": false,
+    "inserter": false,
     "align": [
       "wide",
       "full"

@@ -48,19 +48,11 @@ class Mailchimp_Select {
 		wp_enqueue_script( 'wp-api-fetch' );
 		wp_enqueue_script( 'wp-url' );
 
-		$nonce = function_exists( '\PRC\Platform\Mailchimp\get_nonce' )
-			? \PRC\Platform\Mailchimp\get_nonce()
-			: wp_create_nonce( 'wp_rest' );
-
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
 				'id'                  => wp_unique_id( 'mailchimp-select-' ),
 				'data-wp-interactive' => 'prc-block/mailchimp-select',
-				'data-wp-context'     => wp_json_encode(
-					array(
-						'NONCE' => $nonce,
-					)
-				),
+				'data-wp-context'     => wp_json_encode( array() ),
 			)
 		);
 

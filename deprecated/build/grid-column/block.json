@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "prc-block/grid-column",
   "version": "1.0.0",
-  "title": "Responsive Column",
+  "title": "Responsive Column (Deprecated)",
   "category": "design",
   "parent": [
     "prc-block/grid-controller"

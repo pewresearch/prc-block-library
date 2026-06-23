@@ -3,11 +3,9 @@
 	"apiVersion": 3,
 	"name": "prc-block/grid-column",
 	"version": "1.0.0",
-	"title": "Responsive Column",
+	"title": "Responsive Column (Deprecated)",
 	"category": "design",
-	"parent": [
-		"prc-block/grid-controller"
-	],
+	"parent": ["prc-block/grid-controller"],
 	"description": "A responsive grid column. Set the column’s span and start position at different breakpoints to create complex responsive grid layouts.",
 	"attributes": {
 		"gridLayout": {
@@ -33,16 +31,8 @@
 			"type": "array"
 		},
 		"templateLock": {
-			"type": [
-				"string",
-				"boolean"
-			],
-			"enum": [
-				"all",
-				"insert",
-				"contentOnly",
-				false
-			],
+			"type": ["string", "boolean"],
+			"enum": ["all", "insert", "contentOnly", false],
 			"default": false
 		}
 	},

@@ -304,8 +304,6 @@ class Plugin {
 		new Form_Message( $this->get_loader() );
 		new Form_Page( $this->get_loader() );
 		new Form_Submit( $this->get_loader() );
-		new Grid_Column( $this->get_loader() );
-		new Grid_Controller( $this->get_loader() );
 		new Icon( $this->get_loader() );
 		new Logo( $this->get_loader() );
 		new Lorem_Ipsum( $this->get_loader() );
@@ -359,6 +357,8 @@ class Plugin {
 		new Accordion( $this->get_loader() );
 		new Accordion_Controller( $this->get_loader() );
 		new Collapsible( $this->get_loader() );
+		new Grid_Column( $this->get_loader() );
+		new Grid_Controller( $this->get_loader() );
 		new Tab( $this->get_loader() );
 		new Tabs( $this->get_loader() );
 	}

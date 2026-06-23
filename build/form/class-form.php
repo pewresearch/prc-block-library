@@ -280,7 +280,7 @@ class Form {
 					'captchaHidden'        => true,
 					'captchaToken'         => '',
 					'nonceName'            => 'prc-block-form',
-					'nonceToken'           => wp_create_nonce( 'prc-block-form' ),
+					'nonceToken'           => '',
 					'stopProcessing'       => false,
 					'submissionProcessing' => false,
 					'allowSubmit'          => true,

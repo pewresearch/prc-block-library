@@ -9,7 +9,6 @@ export default async function subscribe({
 	emailAddress,
 	captchaToken = false,
 	interest = false,
-	NONCE = false,
 	formId = false,
 }) {
 	if (isPreviewRequest()) {
@@ -49,9 +48,6 @@ export default async function subscribe({
 		}
 
 		const path = buildQueryString(queryParams);
-
-		// Setup the nonce middleware.
-		apiFetch.use(apiFetch.createNonceMiddleware(NONCE));
 
 		apiFetch({
 			path: `${ENDPOINT}/?${path}`,

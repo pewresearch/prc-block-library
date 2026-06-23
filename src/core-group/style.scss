@@ -8,6 +8,174 @@
 }
 
 /**
+ * Native responsive style-state breakpoints.
+ *
+ * Mirrors WP_Theme_JSON::RESPONSIVE_BREAKPOINTS so the PRC responsive column
+ * order + grid dividers flip at the exact widths Gutenberg uses for its native
+ * per-viewport (column span / column count / spacing) overrides:
+ *   - mobile: width <= 480px
+ *   - tablet: 480px < width <= 782px
+ *   - desktop: width > 782px (base, no media query)
+ * Themes can override these via settings.responsive.viewports; if PRC ever sets
+ * custom viewport sizes, update these two values to match.
+ */
+$state-mobile-max: 480px;
+$state-tablet-max: 782px;
+
+/**
+ * Responsive column order for grid-group children.
+ *
+ * Order is stored in the native style.{viewport} structure and surfaced here as
+ * CSS custom properties on each child. Tablet/mobile fall back to the desktop
+ * (base) order when not explicitly set.
+ */
+.wp-block-group.is-layout-grid > * {
+	order: var(--desktop-order, 0);
+}
+
+@media (min-width: #{$state-mobile-max + 1}) and (max-width: #{$state-tablet-max}) {
+	.wp-block-group.is-layout-grid > * {
+		order: var(--tablet-order, var(--desktop-order, 0));
+	}
+}
+
+@media (max-width: #{$state-mobile-max}) {
+	.wp-block-group.is-layout-grid > * {
+		order: var(--mobile-order, var(--desktop-order, 0));
+	}
+}
+
+/**
+ * Grid-aware dividers for grid-group children.
+ *
+ * A divider is drawn before any child that is not first in its row (computed in
+ * the editor and persisted per child). Full-width children get a horizontal
+ * divider (border-top); side-by-side children get a vertical divider
+ * (border-left positioned in the column gutter).
+ */
+@mixin grid-vertical-divider {
+	&::before {
+		content: "";
+		display: block;
+		position: absolute;
+		top: var(--divider-inset, 0px);
+		left: calc(-0.5 * var(--grid-gutter, 24px));
+		width: 0;
+		height: calc(100% - 2 * var(--divider-inset, 0px));
+		border-left: var(--divider-width, 1px) var(--divider-style, solid)
+			var(--divider-color, transparent);
+	}
+}
+
+@mixin grid-horizontal-divider {
+	&::before {
+		content: "";
+		display: block;
+		position: relative;
+		top: calc(-0.5 * var(--grid-gutter, 24px));
+		left: var(--divider-inset, 0px);
+		width: calc(100% - 2 * var(--divider-inset, 0px));
+		height: 0;
+		border-top: var(--divider-width, 1px) var(--divider-style, solid)
+			var(--divider-color, transparent);
+	}
+}
+
+.wp-block-group.is-layout-grid.has-divider {
+	& > * {
+		position: relative;
+	}
+}
+
+/**
+ * Frontend: divider viewport switching follows real @media breakpoints.
+ * Scoped so editor canvas @media widths do not suppress dividers while the
+ * device-preview toolbar is active (see .is-*-preview rules below).
+ */
+:root:not(:has(.is-desktop-preview, .is-tablet-preview, .is-mobile-preview)) {
+	.wp-block-group.is-layout-grid.has-divider {
+		// Desktop dividers (base).
+		& > .has-desktop-divider:not(.is-desktop-full-width) {
+			@include grid-vertical-divider;
+		}
+		& > .has-desktop-divider.is-desktop-full-width {
+			@include grid-horizontal-divider;
+		}
+
+		@media (min-width: #{$state-mobile-max + 1}) and (max-width: #{$state-tablet-max}) {
+			& > .has-desktop-divider::before {
+				display: none;
+			}
+			& > .has-tablet-divider:not(.is-tablet-full-width) {
+				@include grid-vertical-divider;
+			}
+			& > .has-tablet-divider.is-tablet-full-width {
+				@include grid-horizontal-divider;
+			}
+		}
+
+		@media (max-width: #{$state-mobile-max}) {
+			& > .has-desktop-divider::before {
+				display: none;
+			}
+			& > .has-mobile-divider:not(.is-mobile-full-width) {
+				@include grid-vertical-divider;
+			}
+			& > .has-mobile-divider.is-mobile-full-width {
+				@include grid-horizontal-divider;
+			}
+		}
+	}
+}
+
+/**
+ * Editor device preview: divider visibility follows the preview toolbar, not
+ * canvas width. Gutenberg adds .is-*-preview on the block list inside the
+ * iframe; frontend pages never have those ancestors. Order in the editor uses
+ * inline `order` from grid-child-controls.jsx, not @media rules.
+ */
+.is-desktop-preview .wp-block-group.is-layout-grid.has-divider {
+	& > .has-desktop-divider:not(.is-desktop-full-width) {
+		@include grid-vertical-divider;
+	}
+	& > .has-desktop-divider.is-desktop-full-width {
+		@include grid-horizontal-divider;
+	}
+	& > .has-tablet-divider::before,
+	& > .has-mobile-divider::before {
+		display: none;
+	}
+}
+
+.is-tablet-preview .wp-block-group.is-layout-grid.has-divider {
+	& > .has-desktop-divider::before {
+		display: none;
+	}
+	& > .has-tablet-divider:not(.is-tablet-full-width) {
+		@include grid-vertical-divider;
+	}
+	& > .has-tablet-divider.is-tablet-full-width {
+		@include grid-horizontal-divider;
+	}
+	& > .has-mobile-divider::before {
+		display: none;
+	}
+}
+
+.is-mobile-preview .wp-block-group.is-layout-grid.has-divider {
+	& > .has-desktop-divider::before,
+	& > .has-tablet-divider::before {
+		display: none;
+	}
+	& > .has-mobile-divider:not(.is-mobile-full-width) {
+		@include grid-vertical-divider;
+	}
+	& > .has-mobile-divider.is-mobile-full-width {
+		@include grid-horizontal-divider;
+	}
+}
+
+/**
  * Interior Divider
  * Adds dividing lines between child blocks within a group.
  */

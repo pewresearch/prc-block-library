@@ -1,5 +1,7 @@
 # Grid Column (Responsive Column)
 
+> **Deprecated.** Children of a core **Group** block using the **Grid** layout are now plain blocks with native per-viewport span controls plus a PRC **Column order** control (Dimensions panel). This block is hidden from the inserter but still renders existing content; migrate via **Transform → Group** on the parent Responsive Grid. See [core-group/README.md](../src/core-group/README.md).
+
 ## Block Name & Description
 
 **Title:** Responsive Column
@@ -137,4 +139,4 @@ None. Layout is purely CSS-driven using CSS Grid with custom properties and medi
 
 ## Related Blocks
 
--   `prc-block/grid-controller` -- Required parent; provides the CSS Grid container
+- `prc-block/grid-controller` -- Required parent; provides the CSS Grid container

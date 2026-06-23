@@ -34,6 +34,8 @@ class Form_Message {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_action( 'init', $this, 'register_block_bindings' );
+			$loader->add_filter( 'render_block', $this, 'inject_message_binding', 20, 2 );
 		}
 	}
 
@@ -91,5 +93,58 @@ class Form_Message {
 				'render_callback' => array( $this, 'render_block_callback' ),
 			)
 		);
+	}
+
+	/**
+	 * Register the form result message block bindings source.
+	 *
+	 * @hook init
+	 *
+	 * @return void
+	 */
+	public function register_block_bindings() {
+		register_block_bindings_source(
+			'prc-block/form-message',
+			array(
+				'label'              => __( 'Form Result Message', 'prc-block-library' ),
+				'get_value_callback' => function () {
+					return '';
+				},
+			)
+		);
+	}
+
+	/**
+	 * Stamp the Interactivity API directive onto paragraphs bound to
+	 * prc-block/form-message.
+	 *
+	 * The form result message is a runtime value in the prc-block/form
+	 * interactivity store, so the binding source returns an empty string at
+	 * render time and this filter wires the <p> to state.formMessage.
+	 *
+	 * @hook render_block
+	 *
+	 * @param string $html  Rendered block HTML.
+	 * @param array  $block Parsed block array.
+	 * @return string Modified HTML.
+	 */
+	public function inject_message_binding( $html, $block ) {
+		if ( 'core/paragraph' !== ( $block['blockName'] ?? '' ) ) {
+			return $html;
+		}
+
+		$metadata   = $block['attrs']['metadata'] ?? array();
+		$bindings   = $metadata['bindings'] ?? array();
+		$content_source = $bindings['content']['source'] ?? '';
+		if ( 'prc-block/form-message' !== $content_source ) {
+			return $html;
+		}
+
+		$tag = new \WP_HTML_Tag_Processor( $html );
+		if ( $tag->next_tag( 'p' ) ) {
+			$tag->set_attribute( 'data-wp-text', 'state.formMessage' );
+		}
+
+		return $tag->get_updated_html();
 	}
 }

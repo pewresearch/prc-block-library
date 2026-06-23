@@ -77,7 +77,7 @@ This passes the interactive namespace (`prc-block/mailchimp-form`) to child form
 <div class="wp-block-prc-block-mailchimp-form"
      id="mailchimp-form-1"
      data-wp-interactive="prc-block/mailchimp-form"
-     data-wp-context='{"NONCE":"abc123","interest":"newsletter-segment-id"}'>
+     data-wp-context='{"interest":"newsletter-segment-id","formId":false}'>
   <form class="wp-block-prc-block-form">
     <!-- Email input -->
     <div class="wp-block-prc-block-form-input-text">
@@ -100,11 +100,10 @@ This passes the interactive namespace (`prc-block/mailchimp-form`) to child form
 Server-side rendered via `render_block_callback` in `Mailchimp_Form`. The PHP:
 
 1. Enqueues `wp-api-fetch` and `wp-url` scripts for the frontend API calls.
-2. Creates a Mailchimp nonce via `\PRC\Platform\Mailchimp` for secure API requests.
-3. Wraps the inner block content in a `<div>` with:
+2. Wraps the inner block content in a `<div>` with:
    - A unique `id` (e.g., `mailchimp-form-1`)
    - `data-wp-interactive="prc-block/mailchimp-form"` to bind to the mailchimp interactivity store
-   - `data-wp-context` containing the `NONCE` and `interest` segment ID
+   - `data-wp-context` containing the `interest` segment ID and optional `formId`
 
 ## Frontend Interactivity
 
@@ -116,7 +115,7 @@ The store provides a single action:
 
 Called by the parent form's submission flow. It:
 
-1. Extracts the `interest` and `NONCE` from the block context.
+1. Extracts the `interest` and optional `formId` from the block context.
 2. Finds the `emailAddress` (or `email`) field from the submitted form fields.
 3. Finds the `captchaToken` field from the submitted form fields.
 4. Calls the `subscribe()` function which makes a POST request to `/prc-api/v3/mailchimp/subscribe` with:
@@ -127,7 +126,7 @@ Called by the parent form's submission flow. It:
    - `origin_url` -- The current page URL
 5. Returns a promise resolving with `{ status: 'success', message: '...' }` or rejecting with `{ status: 'error', message: '...' }`.
 
-The nonce middleware is set up on `wp.apiFetch` before the request for authentication.
+Public subscribe requests are gated by Turnstile captcha and per-IP rate limiting on the server.
 
 ## Related Blocks
 

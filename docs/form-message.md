@@ -57,8 +57,9 @@ None explicitly declared, but designed to be used inside `prc-block/form` or `pr
 
 1. Add the block inside a form structure.
 2. Compose the message content using inner blocks (paragraphs, headings, buttons, etc.).
-3. Use the template token `{{message}}` (or `{{form message}}`, `{{form-message}}`, `{{form_message}}`) in any inner block's text content. At render time, these tokens are replaced with a dynamic `<span>` bound to the form's interactivity state message.
-4. The block is hidden by default and only becomes visible when `state.formMessage` is truthy (i.e., after form submission).
+3. **Recommended:** Bind a `core/paragraph`'s content to the **Form Result Message** binding source (`prc-block/form-message`). At render time, the paragraph is wired to `state.formMessage` via the Interactivity API. New form-message blocks default to this binding.
+4. **Legacy:** Use the template token `{{message}}` (or `{{form message}}`, `{{form-message}}`, `{{form_message}}`) in any inner block's text content. At render time, these tokens are replaced with a dynamic `<span>` bound to the form's interactivity state message.
+5. The block is hidden by default and only becomes visible when `state.formMessage` is truthy (i.e., after form submission).
 
 ## Block Markup Example
 
@@ -68,11 +69,19 @@ None explicitly declared, but designed to be used inside `prc-block/form` or `pr
 	data-wp-interactive="prc-block/form"
 	data-wp-class--is-displaying-form-message="state.formMessage"
 >
-	<p>Thank you for your submission!</p>
+	<p data-wp-text="state.formMessage"></p>
 </div>
 ```
 
-With dynamic message token:
+With the block binding (recommended):
+
+```html
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"prc-block/form-message"}}}} -->
+<p data-wp-text="state.formMessage"></p>
+<!-- /wp:paragraph -->
+```
+
+With legacy dynamic message token:
 
 ```html
 <div
@@ -92,6 +101,8 @@ Server-side rendered via `render_block_callback` in `Form_Message`. The PHP:
 2. Adds `data-wp-interactive="prc-block/form"` to bind to the form's interactivity store.
 3. Adds `data-wp-class--is-displaying-form-message="state.formMessage"` to toggle visibility.
 4. Replaces template tokens (`{{message}}`, `{{form message}}`, `{{form-message}}`, `{{form_message}}`) with `<span data-wp-text="state.formMessage"></span>` for dynamic message rendering.
+
+Paragraphs bound to `prc-block/form-message` are handled separately via `inject_message_binding` on the `render_block` filter, which stamps `data-wp-text="state.formMessage"` onto the bound `<p>` tag.
 
 ## Frontend Interactivity
 

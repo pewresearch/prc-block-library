@@ -141,13 +141,6 @@ class Form_Send_Email {
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'handle_email_submission' ),
-				'args'                => array(
-					'nonce' => array(
-						'validate_callback' => function ( $param, $request, $key ) {
-							return is_string( $param );
-						},
-					),
-				),
 				'permission_callback' => function () {
 					return true;
 				},
@@ -389,7 +382,10 @@ class Form_Send_Email {
 	 * @return \WP_Error|true
 	 */
 	private function validate_nonce( $value, $type = 'nonceToken', ) {
-		return wp_verify_nonce( $value, 'prc-block-form' );
+		// Nonce is not verified here — page-embedded prc-block-form nonces expire
+		// on edge-cached pages. Captcha + send throttling in handle_email_submission()
+		// are the real gates. Cached pages may still submit a stale nonceToken field.
+		return true;
 	}
 
 	/**
@@ -513,11 +509,6 @@ class Form_Send_Email {
 	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function handle_email_submission( $request ) {
-		$nonce = $request->get_param( 'nonce' );
-		if ( ! $this->validate_nonce( $nonce ) ) {
-			return new \WP_Error( 'invalid_nonce', 'Unauthorized access, NONCE invalid. ERROR CODE: 403', array( 'status' => 403 ) );
-		}
-
 		$form_data = json_decode( $request->get_body(), true );
 
 		if ( ! $form_data || ! is_array( $form_data ) ) {
