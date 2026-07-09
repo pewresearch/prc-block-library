@@ -1,6 +1,8 @@
 # Tab
 
-> **Deprecated.** This block has been superseded by `core/tab`. It remains registered for backward compatibility with existing content. Source files live in `deprecated/src/tab/`.
+> **Deprecated.** This block has been superseded by `core/tabs` / `core/tab-panel`. It remains registered for backward compatibility with existing content. Source files live in `deprecated/src/tab/`.
+>
+> **Note:** Gutenberg 23.5 removed the intermediate `core/tab` button block. See [core-tabs.md](core-tabs.md) for the current `core/tab-list` + `tabs` attribute model.
 
 Content panel for a single tab within a `prc-block/tabs` tabbed interface. Each Tab block holds arbitrary inner blocks and exposes its label to the parent Tabs block via context.
 
@@ -57,8 +59,8 @@ In the editor, the Tab uses a SlotFill pattern (`TabFill` / `TabsListSlot`) to r
 
 Inspector controls:
 
--   **Tab Label** -- text control mirroring the inline RichText label.
--   **Is Default Tab** -- toggle that sets the parent Tabs block's `activeTabIndex` to this tab's index so it displays on page load.
+- **Tab Label** -- text control mirroring the inline RichText label.
+- **Is Default Tab** -- toggle that sets the parent Tabs block's `activeTabIndex` to this tab's index so it displays on page load.
 
 ## Block Markup (save)
 

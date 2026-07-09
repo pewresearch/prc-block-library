@@ -1,18 +1,14 @@
 /**
  * WordPress Dependencies
  */
-import { useEffect, useRef } from '@wordpress/element';
-import { useSelect, useDispatch } from '@wordpress/data';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { createBlock } from '@wordpress/blocks';
-import { store as blockEditorStore } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
 import Controls from './controls';
-import TabControls from './controls-tab';
 import registerTabLabelBinding from './tab-label-binding';
 import './style.scss';
 
@@ -45,19 +41,12 @@ function addTransformToCoreTabs(settings, name) {
 				);
 			});
 
-			const tabButtonBlocks = tabPanelBlocks.map((panelBlock, index) => {
-				const anchor =
-					panelBlock.attributes.anchor || `tab-${index + 1}`;
-				return createBlock('core/tab', {
-					anchor: `${anchor}-button`,
-				});
+			const tabListBlock = createBlock('core/tab-list', {
+				lock: { remove: true },
+				tabs: tabPanelBlocks.map((panelBlock) => ({
+					label: panelBlock.attributes.label || 'Tab',
+				})),
 			});
-
-			const tabListBlock = createBlock(
-				'core/tab-list',
-				{ lock: { remove: true } },
-				tabButtonBlocks
-			);
 
 			const tabPanelsBlock = createBlock(
 				'core/tab-panels',
@@ -92,7 +81,7 @@ addFilter(
 );
 
 /**
- * Hover/active color attributes added to both core/tab-list and core/tab.
+ * Hover/active color attributes added to core/tab-list.
  * Follows the WP preset-slug + customHex pair pattern used by native color supports.
  */
 const hoverActiveColorAttributes = {
@@ -107,7 +96,7 @@ const hoverActiveColorAttributes = {
 };
 
 /**
- * Add extended attributes to the core/tab-list and core/tab blocks.
+ * Add extended attributes to the core/tab-list block.
  *
  * @param {Object} settings Block settings
  * @param {string} name     Block name
@@ -127,16 +116,6 @@ function addAttributes(settings, name) {
 					type: 'number',
 					default: 768,
 				},
-				...hoverActiveColorAttributes,
-			},
-		};
-	}
-
-	if (name === 'core/tab') {
-		return {
-			...settings,
-			attributes: {
-				...settings.attributes,
 				...hoverActiveColorAttributes,
 			},
 		};
@@ -178,132 +157,18 @@ addFilter(
 );
 
 /**
- * The four context keys that core/tab-list provides to core/tab children.
- * Each key carries the resolved preset-slug (not hex) so the tab's control
- * can display the inherited value. Custom hex values live in the paired
- * customHover/customActive attrs on the parent.
- */
-const TAB_LIST_CONTEXT_KEYS = {
-	'prc-block/tab-list-hoverBackgroundColor': 'hoverBackgroundColor',
-	'prc-block/tab-list-hoverTextColor': 'hoverTextColor',
-	'prc-block/tab-list-activeBackgroundColor': 'activeBackgroundColor',
-	'prc-block/tab-list-activeTextColor': 'activeTextColor',
-	'prc-block/tab-list-customHoverBackgroundColor':
-		'customHoverBackgroundColor',
-	'prc-block/tab-list-customHoverTextColor': 'customHoverTextColor',
-	'prc-block/tab-list-customActiveBackgroundColor':
-		'customActiveBackgroundColor',
-	'prc-block/tab-list-customActiveTextColor': 'customActiveTextColor',
-};
-
-/**
- * Wire core/tab-list as a provider and core/tab as a consumer for
- * hover/active color context so the editor context prop carries
- * parent values into the core/tab Edit component.
- *
- * @param {Object} settings Block settings
- * @param {string} name     Block name
- * @return {Object} Modified block settings
- */
-function addColorContext(settings, name) {
-	if (name === 'core/tab-list') {
-		return {
-			...settings,
-			providesContext: {
-				...(settings.providesContext || {}),
-				...TAB_LIST_CONTEXT_KEYS,
-			},
-		};
-	}
-
-	if (name === 'core/tab') {
-		return {
-			...settings,
-			usesContext: [
-				...(settings.usesContext || []),
-				...Object.keys(TAB_LIST_CONTEXT_KEYS),
-			],
-		};
-	}
-
-	return settings;
-}
-
-addFilter(
-	'blocks.registerBlockType',
-	'prc-block/core-tabs/add-color-context',
-	addColorContext
-);
-
-/**
- * Extend core/tab-list edit: color controls + sync tab button count with tab panels.
- * Also wires color controls onto core/tab.
+ * Extend core/tab-list edit with color controls.
  *
  * @param {Function} BlockEdit Original BlockEdit component
  * @return {Function} Enhanced BlockEdit component
  */
 const withExtendedControls = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
-		const { name, attributes, setAttributes, clientId, context } = props;
-
-		if ('core/tab' === name) {
-			return (
-				<>
-					<TabControls
-						{...{ attributes, setAttributes, clientId, context }}
-					/>
-					<BlockEdit {...props} />
-				</>
-			);
-		}
+		const { name, attributes, setAttributes, clientId } = props;
 
 		if ('core/tab-list' !== name) {
 			return <BlockEdit {...props} />;
 		}
-
-		const { replaceInnerBlocks } = useDispatch(blockEditorStore);
-
-		const { menuItemBlocks, tabPanelBlocks } = useSelect(
-			(select) => {
-				const { getBlocks, getBlockRootClientId, getBlock } =
-					select(blockEditorStore);
-				const parentId = getBlockRootClientId(clientId);
-				const parent = parentId ? getBlock(parentId) : null;
-				const tabPanels = parent?.innerBlocks?.find(
-					(b) => b.name === 'core/tab-panels'
-				);
-				return {
-					menuItemBlocks: getBlocks(clientId),
-					tabPanelBlocks:
-						tabPanels?.innerBlocks?.filter(
-							(b) => b.name === 'core/tab-panel'
-						) ?? [],
-				};
-			},
-			[clientId]
-		);
-
-		const migrated = useRef(false);
-
-		useEffect(() => {
-			if (migrated.current) {
-				return;
-			}
-			if (
-				tabPanelBlocks.length > 0 &&
-				menuItemBlocks.length < tabPanelBlocks.length
-			) {
-				migrated.current = true;
-				const newButtons = tabPanelBlocks.map((panelBlock, index) => {
-					const anchor =
-						panelBlock.attributes.anchor || `tab-${index + 1}`;
-					return createBlock('core/tab', {
-						anchor: `${anchor}-button`,
-					});
-				});
-				replaceInnerBlocks(clientId, newButtons, false);
-			}
-		}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 		return (
 			<>
@@ -337,18 +202,15 @@ function resolveColorValue(slug, customHex) {
 
 /**
  * BlockListBlock HOC: inject the four hover/active CSS custom properties
- * into the wrapper element's inline style for core/tab-list and core/tab
- * so the editor canvas reflects the configured colors live.
- *
- * For core/tab, falls back to parent tab-list context values when the tab's
- * own attrs are not set.
+ * into the wrapper element's inline style for core/tab-list so the editor
+ * canvas reflects the configured colors live.
  */
 const withHoverActiveColorPreview = createHigherOrderComponent(
 	(BlockListBlock) => {
 		return (props) => {
-			const { name, attributes, context, wrapperProps } = props;
+			const { name, attributes, wrapperProps } = props;
 
-			if (name !== 'core/tab-list' && name !== 'core/tab') {
+			if (name !== 'core/tab-list') {
 				return <BlockListBlock {...props} />;
 			}
 
@@ -363,62 +225,24 @@ const withHoverActiveColorPreview = createHigherOrderComponent(
 				customActiveTextColor,
 			} = attributes;
 
-			// For core/tab: fall back to parent context values if own attr unset.
-			const effectiveHoverBg =
-				resolveColorValue(
-					hoverBackgroundColor,
-					customHoverBackgroundColor
-				) ||
-				(name === 'core/tab'
-					? resolveColorValue(
-							context?.[
-								'prc-block/tab-list-hoverBackgroundColor'
-							],
-							context?.[
-								'prc-block/tab-list-customHoverBackgroundColor'
-							]
-						)
-					: '');
-
-			const effectiveHoverText =
-				resolveColorValue(hoverTextColor, customHoverTextColor) ||
-				(name === 'core/tab'
-					? resolveColorValue(
-							context?.['prc-block/tab-list-hoverTextColor'],
-							context?.[
-								'prc-block/tab-list-customHoverTextColor'
-							]
-						)
-					: '');
-
-			const effectiveActiveBg =
-				resolveColorValue(
-					activeBackgroundColor,
-					customActiveBackgroundColor
-				) ||
-				(name === 'core/tab'
-					? resolveColorValue(
-							context?.[
-								'prc-block/tab-list-activeBackgroundColor'
-							],
-							context?.[
-								'prc-block/tab-list-customActiveBackgroundColor'
-							]
-						)
-					: '');
-
-			const effectiveActiveText =
-				resolveColorValue(activeTextColor, customActiveTextColor) ||
-				(name === 'core/tab'
-					? resolveColorValue(
-							context?.['prc-block/tab-list-activeTextColor'],
-							context?.[
-								'prc-block/tab-list-customActiveTextColor'
-							]
-						)
-					: '');
-
 			const cssVars = {};
+			const effectiveHoverBg = resolveColorValue(
+				hoverBackgroundColor,
+				customHoverBackgroundColor
+			);
+			const effectiveHoverText = resolveColorValue(
+				hoverTextColor,
+				customHoverTextColor
+			);
+			const effectiveActiveBg = resolveColorValue(
+				activeBackgroundColor,
+				customActiveBackgroundColor
+			);
+			const effectiveActiveText = resolveColorValue(
+				activeTextColor,
+				customActiveTextColor
+			);
+
 			if (effectiveHoverBg)
 				cssVars['--custom-tab-hover-color'] = effectiveHoverBg;
 			if (effectiveHoverText)
@@ -426,8 +250,7 @@ const withHoverActiveColorPreview = createHigherOrderComponent(
 			if (effectiveActiveBg)
 				cssVars['--custom-tab-active-color'] = effectiveActiveBg;
 			if (effectiveActiveText)
-				cssVars['--custom-tab-active-text-color'] =
-					effectiveActiveText;
+				cssVars['--custom-tab-active-text-color'] = effectiveActiveText;
 
 			const mergedWrapperProps = {
 				...wrapperProps,

@@ -14,7 +14,8 @@
 		"value": {
 			"type": "string",
 			"source": "html",
-			"selector": "code"
+			"selector": "code",
+			"role": "content"
 		},
 		"forceLanguage": {
 			"type": "string",
@@ -42,11 +43,18 @@
 		}
 	},
 	"supports": {
-		"align": ["full", "wide", "center"],
+		"align": [
+			"full",
+			"wide",
+			"center"
+		],
 		"anchor": true,
 		"html": false,
 		"spacing": {
-			"margin": ["top", "bottom"],
+			"margin": [
+				"top",
+				"bottom"
+			],
 			"padding": true,
 			"__experimentalDefaultControls": {
 				"padding": true
@@ -64,6 +72,9 @@
 	"textdomain": "code-syntax",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": ["file:./style-index.css", "prc-font-monospace"],
+	"style": [
+		"file:./style-index.css",
+		"prc-font-monospace"
+	],
 	"viewScript": "file:./view.js"
 }

@@ -14,8 +14,8 @@ Core styles for core-tabs block (tab panel content regions).
   Gutenberg trunk (post-v1.5.3) moved the active indicator to a ::before underline;
   we manage active state ourselves to restore v1.5.3-era pill chrome.
 */
-.wp-block-tab[aria-selected="true"]::before,
-.wp-block-tab.is-active::before {
+.wp-block-tab-list button[aria-selected="true"]::before,
+.wp-block-tab-list button.is-active::before {
 	content: none;
 }
 
@@ -32,7 +32,7 @@ Core styles for core-tabs block (tab panel content regions).
 		display: none !important;
 	}
 
-	.wp-block-tab {
+	button {
 		&:focus {
 			outline: none;
 		}
@@ -180,7 +180,7 @@ Core styles for core-tabs block (tab panel content regions).
 	padding: 0;
 
 	// Override tab button styles for dropdown context.
-	.wp-block-tab {
+	button {
 		display: flex;
 		flex-direction: row !important;
 		justify-content: flex-start;
@@ -193,7 +193,7 @@ Core styles for core-tabs block (tab panel content regions).
 		}
 	}
 
-	&:last-child .wp-block-tab {
+	&:last-child button {
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 	}
@@ -234,12 +234,12 @@ Core styles for core-tabs block (tab panel content regions).
 
 	// Override first/last child border radius for upward-opening panel.
 	.wp-block-tabs-list__dropdown-item {
-		&:first-child .wp-block-tab {
+		&:first-child button {
 			border-top-left-radius: 4px;
 			border-top-right-radius: 4px;
 		}
 
-		&:last-child .wp-block-tab {
+		&:last-child button {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
 		}
@@ -250,35 +250,29 @@ Core styles for core-tabs block (tab panel content regions).
   Smart style: Country Flags
   Displays country flags before tab labels using flag-icons library.
 */
-.wp-block-tab.is-style-country-flags {
-	display: flex;
-	align-items: center;
-	gap: 0.5em;
-	flex-direction: column;
-	opacity: 0.5;
+.wp-block-tab-list.is-style-country-flags {
+	flex-wrap: wrap;
+	button {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		flex-direction: column;
+		opacity: 0.5;
 
-	&:hover,
-	&[aria-selected="true"] {
-		opacity: 1;
-	}
+		&:hover,
+		&[aria-selected="true"] {
+			opacity: 1;
+		}
 
-	span {
-		margin-block-start: 0 !important;
-	}
+		span {
+			margin-block-start: 0 !important;
+		}
 
-	// Flag icon.
-	.fi {
-		flex-shrink: 0;
-		font-size: 2em;
-	}
-
-	// Placeholder for the flag icon.
-	&.wp-block:before {
-		content: "";
-		display: block;
-		width: 2em;
-		height: 2em;
-		background-color: #eaeaea;
+		// Flag icon.
+		.fi {
+			flex-shrink: 0;
+			font-size: 2em;
+		}
 	}
 }
 
@@ -290,13 +284,13 @@ Core styles for core-tabs block (tab panel content regions).
 	border-bottom-color: #eaeaea !important;
 	padding-bottom: 0 !important;
 
-	.wp-block-tab {
+	button {
 		margin-bottom: 1em !important;
 		border-radius: 25px !important;
 	}
 
-	.wp-block-tab.is-active,
-	.wp-block-tab[aria-selected="true"] {
+	button.is-active,
+	button[aria-selected="true"] {
 		color: var(--custom-tab-active-text-color, #000) !important;
 		background-color: transparent !important;
 		border-bottom-color: var(--custom-tab-active-color, #000) !important;
@@ -326,7 +320,7 @@ Core styles for core-tabs block (tab panel content regions).
 		border-bottom: 1px solid var(--tabbed-border-color);
 	}
 
-	.wp-block-tab {
+	button {
 		margin: 0 !important;
 		padding: 1em 1.5em !important;
 		background-color: transparent !important;
@@ -380,7 +374,7 @@ Core styles for core-tabs block (tab panel content regions).
 		background-color: var(--wp--preset--color--ui-stable-white);
 		color: var(--wp--preset--color--ui-stable-black);
 
-		.wp-block-tab:not([aria-selected="true"]):not(.is-active) {
+		button:not([aria-selected="true"]):not(.is-active) {
 			color: var(--wp--preset--color--ui-stable-black);
 		}
 	}
@@ -389,18 +383,18 @@ Core styles for core-tabs block (tab panel content regions).
 		color: var(--wp--preset--color--ui-text-color);
 		border-bottom-color: var(--wp--preset--color--ui-gray-light) !important;
 
-		.wp-block-tab:not([aria-selected="true"]):not(.is-active) {
+		button:not([aria-selected="true"]):not(.is-active) {
 			color: var(--wp--preset--color--ui-text-color);
 		}
 	}
 
-	.wp-block-tab-list__dropdown-trigger {
+	.wp-block-tabs-list__dropdown-trigger {
 		color-scheme: only light;
 		background-color: var(--wp--preset--color--ui-stable-white);
 		color: var(--wp--preset--color--ui-stable-black);
 	}
 
-	.wp-block-tab-list__dropdown-panel {
+	.wp-block-tabs-list__dropdown-panel {
 		color-scheme: only light;
 		background-color: var(--wp--preset--color--ui-stable-white);
 	}

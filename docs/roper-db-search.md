@@ -8,7 +8,7 @@
 | Title       | Roper Database                                        |
 | Category    | `embed`                                               |
 | Version     | 0.1.0                                                 |
-| Description | Embeddable Roper Database search tool.                |
+| Description | Embeddable Roper Database search tool (legacy iframe embed). For the integrated Roper iPoll search UI, see [`@prc/roper`](../../prc-roper/docs/README.md). |
 | Keywords    | database, roper, cornell, search, polling             |
 | Example     | Yes (sample `subText` / `perPage` — inserter preview) |
 

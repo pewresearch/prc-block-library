@@ -63,6 +63,7 @@ class Plugin {
 		$this->plugin_name = 'prc-block-library';
 
 		$this->load_dependencies();
+		$this->define_patterns();
 		$this->gutenberg_config();
 		$this->define_library_dependencies();
 		$this->define_core_blocks();
@@ -164,6 +165,33 @@ class Plugin {
 	}
 
 	/**
+	 * Register block patterns from the plugin patterns directory.
+	 */
+	private function define_patterns() {
+		$this->loader->add_action( 'plugins_loaded', $this, 'register_patterns', 5 );
+	}
+
+	/**
+	 * Load pattern PHP files via the platform pattern loader.
+	 *
+	 * @hook plugins_loaded
+	 */
+	public function register_patterns(): void {
+		if ( ! function_exists( '\PRC\Platform\Core\Patterns\register_plugin_patterns' ) ) {
+			return;
+		}
+
+		\PRC\Platform\Core\Patterns\register_plugin_patterns(
+			'prc-block-library',
+			PRC_BLOCK_LIBRARY_DIR . '/patterns',
+			array(
+				'category_label' => __( 'Block Library', 'prc-block-library' ),
+				'text_domain'    => 'prc-block-library',
+			)
+		);
+	}
+
+	/**
 	 * Miscellaneous Gutenberg configuration for PRC Block Library.
 	 * 1. Load core block assets separately
 	 * 2. Register additional block categories
@@ -216,7 +244,6 @@ class Plugin {
 	 * @return array The template blocks.
 	 */
 	public function signal_rdb_template_support( $template_blocks ) {
-		$template_blocks[] = 'prc-block/remote-pivot-table';
 		$template_blocks[] = 'prc-block/tabs';
 		$template_blocks[] = 'core/tabs';
 		return $template_blocks;
@@ -291,8 +318,6 @@ class Plugin {
 		new Flip_Card_Controller( $this->get_loader() );
 		new Flip_Card_Side( $this->get_loader() );
 		new Footnotes( $this->get_loader() );
-		new Form( $this->get_loader() );
-		new Form_Captcha( $this->get_loader() );
 		new Form_Input_Checkbox( $this->get_loader() );
 		new Form_Input_Select( $this->get_loader() );
 		new Form_Input_Select_Range( $this->get_loader() );
@@ -301,14 +326,9 @@ class Plugin {
 		new Form_Input_Range( $this->get_loader() );
 		new Form_Input_Text( $this->get_loader() );
 		new Form_Input_Textarea( $this->get_loader() );
-		new Form_Message( $this->get_loader() );
-		new Form_Page( $this->get_loader() );
-		new Form_Submit( $this->get_loader() );
 		new Icon( $this->get_loader() );
 		new Logo( $this->get_loader() );
 		new Lorem_Ipsum( $this->get_loader() );
-		new Mailchimp_Form( $this->get_loader() );
-		new Mailchimp_Select( $this->get_loader() );
 		new Navigation_Mega_Menu( $this->get_loader() );
 		new Playground( $this->get_loader() );
 		new Popular_Story( $this->get_loader() );
@@ -331,9 +351,7 @@ class Plugin {
 		new Social_Share_Text_Link( $this->get_loader() );
 		new Social_Share_URL_Field( $this->get_loader() );
 		new Story_Item( $this->get_loader() );
-		new Sub_Title( $this->get_loader() );
 		new Table_Of_Contents( $this->get_loader() );
-		new Table( $this->get_loader() );
 		new Taxonomy_Index_AZ_Controller( $this->get_loader() );
 		new Taxonomy_Index_AZ_List( $this->get_loader() );
 		new Taxonomy_Index_List_Controller( $this->get_loader() );
@@ -344,7 +362,6 @@ class Plugin {
 		new Timeline_Slide( $this->get_loader() );
 		new Tokens_List( $this->get_loader() );
 		new Version( $this->get_loader() );
-		new Remote_Pivot_Table( $this->get_loader() );
 	}
 
 	/**
@@ -361,6 +378,9 @@ class Plugin {
 		new Grid_Controller( $this->get_loader() );
 		new Tab( $this->get_loader() );
 		new Tabs( $this->get_loader() );
+		new Sub_Title( $this->get_loader() );
+		new Mailchimp_Form( $this->get_loader() );
+		new Mailchimp_Select( $this->get_loader() );
 	}
 
 	/**

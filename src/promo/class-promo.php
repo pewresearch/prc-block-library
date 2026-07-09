@@ -72,7 +72,11 @@ class Promo {
 		ob_start();
 		?>
 		<!-- wp:prc-block/promo {"backgroundColor":"#fff","hasForm":true} -->
-		<div class="wp-block-prc-block-promo__text"><h2 class="wp-block-prc-block-promo__heading"><?php echo esc_html( $args['headline'] ); ?></h2><div class="wp-block-prc-block-promo__sub_heading"><p><?php echo esc_html( $args['subheadline'] ); ?></p></div></div><div class="wp-block-prc-block-promo__action"><!-- wp:prc-block/mailchimp-form {"interest":"<?php echo esc_html( $args['list_id'] ); ?>","buttonColor":"#000","className":"wp-block-prc-block-mailchimp-form is-style-horizontal"} /--></div>
+		<div class="wp-block-prc-block-promo__text"><h2 class="wp-block-prc-block-promo__heading"><?php echo esc_html( $args['headline'] ); ?></h2><div class="wp-block-prc-block-promo__sub_heading"><p><?php echo esc_html( $args['subheadline'] ); ?></p></div></div><div class="wp-block-prc-block-promo__action"><!-- wp:prc-block/form {"formName":"Newsletter Signup","method":"api","namespace":"prc-block/form","action":"subscribe","actionConfig":{"interest":"<?php echo esc_html( $args['list_id'] ); ?>"},"className":"is-style-horizontal","layout":{"type":"flex","justifyContent":"space-between"}} -->
+<form class="wp-block-prc-block-form is-style-horizontal"><!-- wp:prc-block/form-input-text {"required":true,"metadata":{"name":"emailAddress"}} /--><!-- wp:prc-block/form-submit --><!-- wp:button {"tagName":"button","type":"submit"} -->
+<div class="wp-block-button"><button type="submit" class="wp-block-button__link wp-element-button">Submit</button></div>
+<!-- /wp:button --><!-- wp:prc-block/form-captcha /--><!-- /wp:prc-block/form-submit --><!-- wp:prc-block/form-message /--></form>
+<!-- /wp:prc-block/form --></div>
 		<!-- /wp:prc-block/promo -->
 		<?php
 		$promo_content = ob_get_clean();

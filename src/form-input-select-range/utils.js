@@ -2,36 +2,19 @@
  * Generate options array based on range parameters.
  *
  * @param {number} start - Start value
- * @param {number} end - End value
- * @param {number} step - Step increment
- * @returns {Array} Array of option objects
+ * @param {number} end   - End value
+ * @param {number} step  - Step increment
+ * @return {Array} Array of option objects
  */
 export const generateRangeOptions = (start, end, step = 1) => {
 	const options = [];
-	for (let i = start; i <= end; i += step) {
-		options.push({
-			label: i.toString(),
-			value: i.toString(),
-		});
-	}
-	return options;
-};
-
-/**
- * Generate year options from current year backwards.
- *
- * @param {number} yearsBack - Number of years to go back (default 100)
- * @returns {Array} Array of year option objects
- */
-export const generateYearOptions = (yearsBack = 100) => {
-	const currentYear = new Date().getFullYear();
-	const options = [];
-	for (let i = 0; i <= yearsBack; i++) {
-		const year = currentYear - i;
-		options.push({
-			label: year.toString(),
-			value: year.toString(),
-		});
+	if (end >= start) {
+		for (let i = start; i <= end; i += step) {
+			options.push({
+				label: i.toString(),
+				value: i.toString(),
+			});
+		}
 	}
 	return options;
 };
@@ -39,28 +22,20 @@ export const generateYearOptions = (yearsBack = 100) => {
 /**
  * Construct a select input template for the select range block.
  *
- * @param {Object} attributes - Block attributes
  * @param {string} label - Label for the select
- * @param {string} name - Name attribute for the select
- * @param {Array} options - Options array
- * @returns {Array} Block template array
+ * @param {string} name  - Name attribute for the select
+ * @return {Array} Block template array
  */
-export const getSelectTemplate = (
-	attributes = {},
-	label = 'Select',
-	name = 'select',
-	options = []
-) => {
+export const getSelectTemplate = (subsumption, namespace, label = 'Select', name = 'select') => {
 	return [
 		'prc-block/form-input-select',
 		{
 			type: 'custom',
 			label,
-			required: true,
+			required: false,
 			placeholder: `Select ${label}...`,
-			options,
-			interactiveNamespace: 'prc-block/form-input-select-range',
-			interactiveSubsumption: true,
+			interactiveNamespace: namespace,
+			interactiveSubsumption: subsumption,
 			metadata: {
 				name,
 			},
@@ -73,40 +48,20 @@ export const getSelectTemplate = (
 };
 
 /**
- * Get the appropriate options based on block type.
- *
- * @param {Object} attributes - Block attributes
- * @returns {Array} Array of options
- */
-export const getOptionsForType = (attributes) => {
-	const { type, rangeStart, rangeEnd, rangeStep } = attributes;
-
-	switch (type) {
-		case 'years':
-			return generateYearOptions(100);
-		case 'numbers':
-			return generateRangeOptions(
-				rangeStart || 0,
-				rangeEnd || 100,
-				rangeStep || 1
-			);
-		case 'custom':
-		default:
-			return [];
-	}
-};
-
-/**
  * Construct the double select template for min/max range.
  *
- * @param {Object} attributes - Block attributes
- * @returns {Array} Array of block templates
+ * @return {Array} Array of block templates
  */
-export const getDoubleSelectTemplate = (attributes) => {
-	const options = getOptionsForType(attributes);
-
+export const getDoubleSelectTemplate = (subsumption, namespace) => {
 	return [
-		getSelectTemplate(attributes, 'Minimum', 'rangeMin', options),
-		getSelectTemplate(attributes, 'Maximum', 'rangeMax', options),
+		getSelectTemplate( subsumption, namespace, 'Minimum', 'rangeMin' ),
+		getSelectTemplate( subsumption, namespace, 'Maximum', 'rangeMax' ),
+		[
+			'core/paragraph',
+			{
+				content: 'Please select a valid range.',
+				className: 'error-state-message',
+			},
+		],
 	];
 };

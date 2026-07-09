@@ -14,7 +14,8 @@
     "value": {
       "type": "string",
       "source": "html",
-      "selector": "code"
+      "selector": "code",
+      "role": "content"
     },
     "forceLanguage": {
       "type": "string",

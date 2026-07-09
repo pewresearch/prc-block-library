@@ -12,10 +12,8 @@ import './style.scss';
 import './editor.scss';
 import Controls from './controls';
 
-import registerVariations from './variations';
 import registerTransforms from './transforms';
 
-registerVariations();
 registerTransforms();
 
 const BLOCKNAME = 'core/details';

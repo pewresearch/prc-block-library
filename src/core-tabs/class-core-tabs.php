@@ -90,7 +90,6 @@ class Core_Tabs {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_filter( 'register_block_type_args', $this, 'extend_core_tab_list_uses_context', 10, 2 );
-			$loader->add_filter( 'register_block_type_args', $this, 'extend_core_tab_uses_context', 10, 2 );
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'init', $this, 'register_tab_block_bindings' );
 			$loader->add_action( 'init', $this, 'register_block_styles' );
@@ -102,8 +101,6 @@ class Core_Tabs {
 			// $loader->add_filter( 'render_block_prc-block/tabs', $this, 'render_prc_tabs', 10, 2 );
 			// Render modified core/tab-list block.
 			$loader->add_filter( 'render_block_core/tab-list', $this, 'render_core_tab_list', 10, 3 );
-			// Render modified core/tab (tab button) block for smart styles.
-			$loader->add_filter( 'render_block_core/tab', $this, 'render_core_tab_button', 10, 3 );
 			// Render core/tabs block with bottom mobile dropdown copy.
 			$loader->add_filter( 'render_block_core/tabs', $this, 'render_core_tabs', 10, 3 );
 			$loader->add_filter( 'render_block_core/tabs', $this, 'render_core_tabs_entity_iframe', 15, 3 );
@@ -132,7 +129,10 @@ class Core_Tabs {
 		$block_content = $processor->get_updated_html();
 
 		$processor = new WP_HTML_Tag_Processor( $block_content );
-		while ( $processor->next_tag( array( 'class_name' => 'wp-block-tab' ) ) ) {
+		while ( $processor->next_tag( array( 'tag_name' => 'BUTTON' ) ) ) {
+			if ( 'tab' !== $processor->get_attribute( 'role' ) ) {
+				continue;
+			}
 			$processor->set_attribute( 'data-wp-on--pointerenter', 'core/tabs::callbacks.prefetchEntityIframeOnTabMenuItemPointer' );
 		}
 
@@ -175,58 +175,6 @@ class Core_Tabs {
 
 		// Enable Custom CSS block support so saved CSS is applied on the frontend.
 		$args['supports']['customCSS'] = true;
-
-		// Provide hover/active color context to child core/tab buttons via block context.
-		// Context keys use the prc-block/ prefix to avoid collisions with upstream context.
-		$args['provides_context'] = array_merge(
-			$args['provides_context'] ?? array(),
-			array(
-				'prc-block/tab-list-hoverBackgroundColor'       => 'hoverBackgroundColor',
-				'prc-block/tab-list-customHoverBackgroundColor' => 'customHoverBackgroundColor',
-				'prc-block/tab-list-hoverTextColor'             => 'hoverTextColor',
-				'prc-block/tab-list-customHoverTextColor'       => 'customHoverTextColor',
-				'prc-block/tab-list-activeBackgroundColor'      => 'activeBackgroundColor',
-				'prc-block/tab-list-customActiveBackgroundColor' => 'customActiveBackgroundColor',
-				'prc-block/tab-list-activeTextColor'            => 'activeTextColor',
-				'prc-block/tab-list-customActiveTextColor'      => 'customActiveTextColor',
-			)
-		);
-
-		return $args;
-	}
-
-	/**
-	 * Add hover/active color context keys to core/tab's uses_context so
-	 * per-tab controls can read the inherited parent tab-list values.
-	 *
-	 * @hook register_block_type_args
-	 *
-	 * @param array  $args Block type args.
-	 * @param string $name Block name.
-	 * @return array
-	 */
-	public function extend_core_tab_uses_context( $args, $name ) {
-		if ( 'core/tab' !== $name ) {
-			return $args;
-		}
-
-		$uses_context = $args['uses_context'] ?? array();
-		$extra        = array(
-			'prc-block/tab-list-hoverBackgroundColor',
-			'prc-block/tab-list-customHoverBackgroundColor',
-			'prc-block/tab-list-hoverTextColor',
-			'prc-block/tab-list-customHoverTextColor',
-			'prc-block/tab-list-activeBackgroundColor',
-			'prc-block/tab-list-customActiveBackgroundColor',
-			'prc-block/tab-list-activeTextColor',
-			'prc-block/tab-list-customActiveTextColor',
-		);
-		foreach ( $extra as $key ) {
-			if ( ! in_array( $key, $uses_context, true ) ) {
-				$uses_context[] = $key;
-			}
-		}
-		$args['uses_context'] = $uses_context;
 
 		return $args;
 	}
@@ -273,7 +221,7 @@ class Core_Tabs {
 	 */
 	public function register_block_styles() {
 		register_block_style(
-			'core/tab',
+			'core/tab-list',
 			array(
 				'name'  => 'country-flags',
 				'label' => __( 'Country Flags', 'prc-block-library' ),
@@ -296,76 +244,6 @@ class Core_Tabs {
 	}
 
 	/**
-	 * Render core/tab (tab button) block with smart style modifications.
-	 *
-	 * @hook render_block_core/tab
-	 *
-	 * @param string   $block_content Block content.
-	 * @param array    $block Block.
-	 * @param WP_Block $instance WP_Block instance.
-	 * @return string
-	 */
-	public function render_core_tab_button( $block_content, $block, $instance ) {
-		$attributes = $block['attrs'] ?? array();
-		$class_name = $attributes['className'] ?? '';
-
-		// Inject per-tab hover/active CSS custom properties when the tab has its own overrides set.
-		// When not set, the tab inherits via CSS cascade from the parent tab-list wrapper.
-		$hover_active_style = $this->build_hover_active_style( $attributes );
-		if ( '' !== $hover_active_style ) {
-			$tag_processor = new WP_HTML_Tag_Processor( $block_content );
-			if ( $tag_processor->next_tag( 'button' ) ) {
-				$existing_style = $tag_processor->get_attribute( 'style' ) ?? '';
-				$merged_style   = '' !== $existing_style
-					? rtrim( $existing_style, '; ' ) . '; ' . $hover_active_style
-					: $hover_active_style;
-				$tag_processor->set_attribute( 'style', $merged_style );
-			}
-			$block_content = $tag_processor->get_updated_html();
-		}
-
-		// Check if the country-flags style is applied.
-		if ( false === strpos( $class_name, 'is-style-country-flags' ) ) {
-			return $block_content;
-		}
-
-		// Get the tab label from context.
-		$tab_label = $instance->context['core/tab-label'] ?? '';
-		if ( empty( $tab_label ) ) {
-			return $block_content;
-		}
-
-		// Get country code from label.
-		$country_code = \PRC\BlockUtils\get_country_code_from_name( $tab_label );
-		if ( null === $country_code ) {
-			return $block_content;
-		}
-
-		// Enqueue flag-icons CSS.
-		wp_enqueue_style(
-			'flag-icons',
-			'https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css',
-			array(),
-			'7.3.2'
-		);
-
-		// Build the flag icon markup.
-		$flag_markup = '<span class="fi fi-' . esc_attr( $country_code ) . '"></span>';
-
-		// Inject the flag before the label span using regex.
-		// The structure is: <button ...><span>Label</span></button>
-		// We want: <button ...><span class="fi fi-XX"></span><span>Label</span></button>
-		$block_content = preg_replace(
-			'/(<button[^>]*>)(<span>)/i',
-			'$1' . $flag_markup . '$2',
-			$block_content,
-			1
-		);
-
-		return $block_content;
-	}
-
-	/**
 	 * Add slugified label to context as core/tab-slug for children.
 	 *
 	 * @hook render_block_context
@@ -382,8 +260,9 @@ class Core_Tabs {
 		$attrs = $parsed_block['attrs'] ?? array();
 		$label = isset( $attrs['label'] ) ? wp_strip_all_tags( (string) $attrs['label'] ) : '';
 		if ( $label ) {
-			$label                    = str_replace( '&', 'and', $label );
-			$context['core/tab-slug'] = sanitize_title( $label );
+			$label                      = str_replace( '&', 'and', $label );
+			$context['core/tab-label']  = $label;
+			$context['core/tab-slug']   = sanitize_title( $label );
 		}
 		return $context;
 	}
@@ -565,43 +444,24 @@ class Core_Tabs {
 	}
 
 	/**
-	 * Build a core/tab (tab button) parsed block for one tab.
+	 * Build a core/tab-list parsed block with tabs attribute and button HTML.
 	 *
-	 * @param string $tab_id      Tab panel id (e.g. tab-1); button anchor will be tab_id + '-button'.
-	 * @param array  $menu_attrs Shared styling attributes for the tab button.
-	 * @return array The core/tab parsed block.
-	 */
-	private function build_core_tabs_menu_item_block( string $tab_id, array $menu_attrs ): array {
-		$attrs           = $menu_attrs;
-		$attrs['anchor'] = $tab_id . '-button';
-		$inner_html      = '<button type="button" class="wp-block-tab" role="tab"></button>';
-
-		return array(
-			'blockName'    => 'core/tab',
-			'attrs'        => $attrs,
-			'innerBlocks'  => array(),
-			'innerHTML'    => $inner_html,
-			'innerContent' => array( $inner_html ),
-		);
-	}
-
-	/**
-	 * Build a core/tab-list parsed block with one tab button per tab id.
-	 *
-	 * @param array $tabs_menu_item_attrs Shared attributes for each inner core/tab button.
-	 * @param bool  $is_vertical          Whether the tabs are vertical.
-	 * @param array $tab_ids              Tab panel ids in order (without -button suffix).
+	 * @param array $tabs_menu_attrs Shared attributes for the tab-list block (colors, styles).
+	 * @param bool  $is_vertical     Whether the tabs are vertical.
+	 * @param array $tab_labels      Tab labels in panel order.
 	 * @return array The core/tab-list parsed block.
 	 */
-	private function build_core_tabs_menu_block( array $tabs_menu_item_attrs, bool $is_vertical, array $tab_ids ): array {
-		$inner_blocks = array();
-		foreach ( $tab_ids as $tid ) {
-			$inner_blocks[] = $this->build_core_tabs_menu_item_block( (string) $tid, $tabs_menu_item_attrs );
-		}
+	private function build_core_tabs_menu_block( array $tabs_menu_attrs, bool $is_vertical, array $tab_labels ): array {
+		$attrs         = $tabs_menu_attrs;
+		$attrs['tabs'] = array_map(
+			static function ( $label ) {
+				return array( 'label' => (string) $label );
+			},
+			$tab_labels
+		);
 
-		$tabs_menu_attrs = array();
 		if ( $is_vertical ) {
-			$tabs_menu_attrs['layout'] = array(
+			$attrs['layout'] = array(
 				'type'        => 'flex',
 				'flexWrap'    => 'nowrap',
 				'orientation' => 'vertical',
@@ -609,22 +469,20 @@ class Core_Tabs {
 		}
 
 		$orientation_class = $is_vertical ? ' is-vertical' : '';
+		$opening           = '<div class="wp-block-tab-list' . $orientation_class . '" role="tablist">';
+		$closing           = '</div>';
 
-		$opening = '<div class="wp-block-tabs-list' . $orientation_class . '" role="tablist">';
-		$closing = '</div>';
-
-		$inner_content = array( $opening );
-		foreach ( $inner_blocks as $_ ) {
-			$inner_content[] = null;
+		$buttons_html = '';
+		foreach ( $tab_labels as $label ) {
+			$buttons_html .= '<button type="button" role="tab">' . esc_html( (string) $label ) . '</button>';
 		}
-		$inner_content[] = $closing;
 
 		return array(
 			'blockName'    => 'core/tab-list',
-			'attrs'        => $tabs_menu_attrs,
-			'innerBlocks'  => $inner_blocks,
-			'innerHTML'    => $opening . $closing,
-			'innerContent' => $inner_content,
+			'attrs'        => $attrs,
+			'innerBlocks'  => array(),
+			'innerHTML'    => $opening . $buttons_html . $closing,
+			'innerContent' => array( $opening . $buttons_html . $closing ),
 		);
 	}
 
@@ -667,29 +525,17 @@ class Core_Tabs {
 			$core_tab_panel_blocks[] = $this->build_core_tab_block( $tab_block );
 		}
 
-		// 3. Build core/tab-list with one core/tab button per tab (anchors: {tab_id}-button).
+		// 3. Build core/tab-list with tabs attribute and button HTML.
 		$color_attrs = $this->map_color_attributes( $attributes );
 		$is_vertical = 'vertical' === ( $attributes['orientation'] ?? 'horizontal' );
 
-		$tab_ids = array();
-		$t_index = 0;
+		$tab_labels = array();
 		foreach ( $core_tab_panel_blocks as $tab_panel_block ) {
-			$tattrs = $tab_panel_block['attrs'] ?? array();
-			$tab_id = $tattrs['anchor'] ?? '';
-			if ( empty( $tab_id ) && ! empty( $tab_panel_block['innerHTML'] ) ) {
-				$tag_processor = new WP_HTML_Tag_Processor( $tab_panel_block['innerHTML'] );
-				if ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-tab-panel' ) ) ) {
-					$tab_id = $tag_processor->get_attribute( 'id' ) ?? '';
-				}
-			}
-			if ( empty( $tab_id ) ) {
-				$tab_id = 'tab-' . $t_index;
-			}
-			$tab_ids[] = $tab_id;
-			++$t_index;
+			$tattrs     = $tab_panel_block['attrs'] ?? array();
+			$tab_labels[] = $tattrs['label'] ?? '';
 		}
 
-		$tabs_menu = $this->build_core_tabs_menu_block( $color_attrs, $is_vertical, $tab_ids );
+		$tabs_menu = $this->build_core_tabs_menu_block( $color_attrs, $is_vertical, $tab_labels );
 		$tab_panels = $this->build_core_tab_panels_block( $core_tab_panel_blocks );
 
 		// 4. Build core/tabs with proper innerHTML/innerContent.
@@ -711,10 +557,16 @@ class Core_Tabs {
 
 	/**
 	 * Generate the tabs list context from converted core/tab-panel blocks.
-	 * This mirrors gutenberg_block_core_tabs_generate_tabs_list().
+	 *
+	 * The shape MUST match core's `core/tabs-list` context, which Gutenberg 23.5
+	 * (WordPress/gutenberg#79337) changed to a flat array of tab-ID slug STRINGS
+	 * (see gutenberg_block_core_tabs_generate_tabs_list(), which returns
+	 * esc_attr( $tab_id ) values). Core's tab-list render callback consumes this as
+	 * `$tab_id = $tabs_list[ $tab_index ]` and builds `'tab__' . $tab_id` /
+	 * aria-controls from it — returning objects here yields broken `tab__Array` ids.
 	 *
 	 * @param array $converted The converted core/tabs block structure.
-	 * @return array The tabs list for context.
+	 * @return string[] The tab-ID strings for the core/tabs-list context.
 	 */
 	private function generate_tabs_list_context( array $converted ): array {
 		$tabs_list = array();
@@ -728,8 +580,7 @@ class Core_Tabs {
 				if ( 'core/tab-panel' !== ( $tab_panel_block['blockName'] ?? '' ) ) {
 					continue;
 				}
-				$attrs     = $tab_panel_block['attrs'] ?? array();
-				$tab_label = $attrs['label'] ?? '';
+				$attrs = $tab_panel_block['attrs'] ?? array();
 
 				$tab_id = $attrs['anchor'] ?? '';
 				if ( empty( $tab_id ) && ! empty( $tab_panel_block['innerHTML'] ) ) {
@@ -742,11 +593,7 @@ class Core_Tabs {
 					$tab_id = 'tab-' . $tab_index;
 				}
 
-				$tabs_list[] = array(
-					'id'    => $tab_id,
-					'label' => esc_html( (string) $tab_label ),
-					'index' => $tab_index,
-				);
+				$tabs_list[] = esc_attr( $tab_id );
 				++$tab_index;
 			}
 			break;
@@ -815,6 +662,11 @@ class Core_Tabs {
 		$attributes            = $block['attrs'] ?? array();
 		$mobile_dropdown       = $attributes['mobileDropdown'] ?? false;
 		$mobile_dropdown_width = $attributes['mobileDropdownWidth'] ?? 768;
+		$class_name            = $attributes['className'] ?? '';
+
+		if ( false !== strpos( $class_name, 'is-style-country-flags' ) ) {
+			$block_content = $this->inject_country_flags_into_tab_list( $block_content );
+		}
 
 		$tag_processor = new WP_HTML_Tag_Processor( $block_content );
 		$tag_processor->next_tag( array( 'class_name' => 'wp-block-tab-list' ) );
@@ -830,14 +682,21 @@ class Core_Tabs {
 			$tag_processor->set_attribute( 'style', $merged_style );
 		}
 
+		// Namespace our per-tabs dropdown state under a dedicated `prcMobileDropdown`
+		// key. Gutenberg 23.5 (WordPress/gutenberg#79337) stores core's per-block tabs
+		// list array at `state[ tabsId ]`; writing our object to that same key clobbers
+		// core's array and makes `onTabsInit`'s `tabsList.findIndex()` throw, disabling
+		// all tab interactivity.
 		wp_interactivity_state(
 			'core/tabs',
 			array(
-				$tabs_id => array(
-					'mobileDropdownEnabled' => $mobile_dropdown,
-					'mobileDropdownActive'  => false, // Viewport width is less than mobileDropdownWidth.
-					'mobileDropdownWidth'   => $mobile_dropdown_width,
-					'dropdownOpen'          => false, // Dropdown is closed.
+				'prcMobileDropdown' => array(
+					$tabs_id => array(
+						'mobileDropdownEnabled' => $mobile_dropdown,
+						'mobileDropdownActive'  => false, // Viewport width is less than mobileDropdownWidth.
+						'mobileDropdownWidth'   => $mobile_dropdown_width,
+						'dropdownOpen'          => false, // Dropdown is closed.
+					),
 				),
 			)
 		);
@@ -854,7 +713,7 @@ class Core_Tabs {
 		$content = $tag_processor->get_updated_html();
 
 		if ( $mobile_dropdown ) {
-			$dropdown_markup = $this->build_mobile_dropdown_markup( $block, $instance, $tabs_id );
+			$dropdown_markup = $this->build_mobile_dropdown_markup( $content, $instance, $tabs_id );
 
 			// Store a copy of the dropdown markup to be placed after tab panels
 			// in the render_core_tabs callback.
@@ -911,89 +770,116 @@ class Core_Tabs {
 	}
 
 	/**
-	 * Build the custom mobile dropdown markup with rendered core/tab buttons.
+	 * Inject country flag icons into tab-list buttons when the country-flags style is active.
 	 *
-	 * @param array    $block    The parsed block.
-	 * @param WP_Block $instance The WP_Block instance.
-	 * @param string   $tabs_id  The tabs ID.
+	 * @param string $block_content Rendered tab-list HTML.
+	 * @return string Updated HTML.
+	 */
+	private function inject_country_flags_into_tab_list( string $block_content ): string {
+		$tabs = $this->get_tab_list_data( $block_content );
+		if ( empty( $tabs ) ) {
+			return $block_content;
+		}
+
+		wp_enqueue_style(
+			'flag-icons',
+			'https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css',
+			array(),
+			'7.3.2'
+		);
+
+		foreach ( $tabs as $tab ) {
+			$country_code = \PRC\BlockUtils\get_country_code_from_name( $tab['label'] );
+			if ( null === $country_code ) {
+				continue;
+			}
+
+			$flag_markup   = '<span class="fi fi-' . esc_attr( $country_code ) . '"></span>';
+			$new_button    = preg_replace(
+				'/(<button[^>]*>)/i',
+				'$1' . $flag_markup,
+				$tab['html'],
+				1
+			);
+			$block_content = str_replace( $tab['html'], $new_button, $block_content );
+		}
+
+		return $block_content;
+	}
+
+	/**
+	 * Extract rendered tab button HTML from a tab-list block's content.
+	 *
+	 * @param string $block_content Rendered tab-list HTML.
+	 * @return string[] Button outer HTML in document order.
+	 */
+	private function extract_tab_buttons_from_content( string $block_content ): array {
+		if ( ! preg_match( '/<div[^>]*class="[^"]*\bwp-block-tab-list\b[^"]*"[^>]*>(.*?)<\/div>/is', $block_content, $list_match ) ) {
+			return array();
+		}
+
+		if ( ! preg_match_all( '/<button[^>]*>.*?<\/button>/is', $list_match[1], $button_matches ) ) {
+			return array();
+		}
+
+		return $button_matches[0];
+	}
+
+	/**
+	 * Build structured tab data from rendered tab-list content.
+	 *
+	 * This is the single source of truth for PRC tab-list extensions (country flags,
+	 * mobile dropdown). The label is read from the rendered button text — the stable
+	 * public contract — rather than the `core/tabs-list` block context, which is a
+	 * core-controlled array of tab-ID slugs (no labels) and whose shape changed in
+	 * Gutenberg 23.5 (WordPress/gutenberg#79337). Core's own tab-list render callback
+	 * likewise operates on the rendered buttons, so this stays aligned with upstream.
+	 *
+	 * @param string $block_content Rendered tab-list HTML.
+	 * @return array<int, array{html: string, label: string}> Tab data in document order.
+	 */
+	private function get_tab_list_data( string $block_content ): array {
+		$tabs = array();
+		foreach ( $this->extract_tab_buttons_from_content( $block_content ) as $button_html ) {
+			$tabs[] = array(
+				'html'  => $button_html,
+				'label' => trim( html_entity_decode( wp_strip_all_tags( $button_html ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ),
+			);
+		}
+		return $tabs;
+	}
+
+	/**
+	 * Build the custom mobile dropdown markup from rendered tab-list buttons.
+	 *
+	 * @param string   $block_content Rendered tab-list HTML (with flags/styles applied).
+	 * @param WP_Block $instance      The WP_Block instance.
+	 * @param string   $tabs_id       The tabs ID.
 	 * @return string The dropdown HTML markup.
 	 */
-	private function build_mobile_dropdown_markup( $block, $instance, $tabs_id ) {
-		$context   = $instance->context ?? array();
-		$tabs_list = $context['core/tabs-list'] ?? array();
+	private function build_mobile_dropdown_markup( $block_content, $instance, $tabs_id ) {
+		$context = $instance->context ?? array();
 
-		if ( empty( $tabs_list ) ) {
+		$tabs = $this->get_tab_list_data( (string) $block_content );
+		if ( empty( $tabs ) ) {
 			return '';
 		}
 
-		$inner_blocks = $block['innerBlocks'] ?? array();
-		if ( empty( $inner_blocks ) ) {
-			return '';
-		}
-
-		// Build rendered dropdown items: one per inner core/tab button, paired by position
-		// with the tabs-list (matches core/tab-list render behavior).
 		$dropdown_items_markup = '';
-		$menu_item_position    = 0;
-
-		foreach ( $inner_blocks as $parsed_menu_item ) {
-			if ( 'core/tab' !== ( $parsed_menu_item['blockName'] ?? '' ) ) {
-				continue;
-			}
-
-			$tab_index = $menu_item_position;
-			$tab       = $tabs_list[ $tab_index ] ?? null;
-			++$menu_item_position;
-
-			if ( null === $tab ) {
-				continue;
-			}
-
-			$tab_context = array_merge(
-				$context,
-				array(
-					'core/tab-index' => $tab_index,
-					'core/tab-id'    => $tab['id'] ?? '',
-					'core/tab-label' => $tab['label'] ?? '',
-				)
-			);
-
-			$tab_block              = new WP_Block( $parsed_menu_item, $tab_context );
-			$rendered_item          = $tab_block->render();
-			$dropdown_items_markup .= '<li class="wp-block-tabs-list__dropdown-item" role="option" data-wp-on--click="core/tabs::callbacks.handleDropdownItemClick">' . $rendered_item . '</li>';
+		foreach ( $tabs as $tab ) {
+			$dropdown_items_markup .= '<li class="wp-block-tabs-list__dropdown-item" role="option" data-wp-on--click="core/tabs::callbacks.handleDropdownItemClick">' . $tab['html'] . '</li>';
 		}
 
-		// Get the active tab index for initial trigger display.
 		$active_tab_index = $context['core/tabs-activeTabIndex'] ?? 0;
+		$active_tab       = $tabs[ $active_tab_index ] ?? $tabs[0];
 
-		// Pair the active menu item by position too (consistent with the loop above).
-		$active_parsed_block = $inner_blocks[ $active_tab_index ] ?? $inner_blocks[0] ?? null;
-		if ( null === $active_parsed_block ) {
-			return '';
-		}
-
-		$active_tab_context = array_merge(
-			$context,
-			array(
-				'core/tab-index' => $active_tab_index,
-				'core/tab-id'    => $tabs_list[ $active_tab_index ]['id'] ?? '',
-				'core/tab-label' => $tabs_list[ $active_tab_index ]['label'] ?? '',
-			)
-		);
-		$active_tab_block   = new WP_Block( $active_parsed_block, $active_tab_context );
-		$rendered_active    = $active_tab_block->render();
-
-		// Extract innerHTML from <button>...</button> to get just the inner content (flags + label spans).
 		$trigger_content = '';
-		if ( preg_match( '/<button[^>]*>(.*?)<\/button>/s', $rendered_active, $matches ) ) {
+		if ( preg_match( '/<button[^>]*>(.*?)<\/button>/s', $active_tab['html'], $matches ) ) {
 			$trigger_content = $matches[1];
 		} else {
-			// Fallback to escaped label if regex fails.
-			$trigger_content = '<span>' . esc_html( html_entity_decode( $tabs_list[ $active_tab_index ]['label'] ?? 'Select a tab' ) ) . '</span>';
+			$trigger_content = '<span>' . esc_html( '' !== $active_tab['label'] ? $active_tab['label'] : 'Select a tab' ) . '</span>';
 		}
 
-		// Build the complete dropdown markup.
-		// Use data-wp-watch to update trigger label when activeTabIndex changes.
 		$dropdown_markup = sprintf(
 			'<div class="wp-block-tabs-list__dropdown" data-wp-class--is-open="core/tabs::state.isDropdownOpen" data-wp-bind--hidden="core/tabs::state.displayDropdown" data-wp-on-document--click="core/tabs::callbacks.handleClickOutside">
 				<button type="button" class="wp-block-tabs-list__dropdown-trigger" aria-haspopup="listbox" data-wp-on--click="core/tabs::actions.toggleDropdown">

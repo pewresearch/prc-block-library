@@ -14,7 +14,8 @@ PRC's override/extension of the WordPress `core/heading` block.
 -   Adds "chapter/section" functionality for table of contents integration
 -   Adds an alternate TOC text attribute for overriding what appears in the table of contents
 -   Registers "Heading" (default, H4), "Section" (chapter heading), and "Layout Heading" variations
--   Registers "Layout Heading" and "Hidden" block styles
+-   Registers "Layout Heading", "Hidden", and **Sub-title** block styles
+-   Registers a **Sub-title** block binding that reads/writes the `sub_title` post meta field (replaces the deprecated `prc-block/sub-title` block)
 -   Cleans up auto-generated heading IDs (removes `h-` prefix, converts leading numbers to words)
 -   Generates reproducible IDs for headings without anchors
 -   Integrates chapter headings with `prc-block/table-of-contents` Interactivity API state
@@ -47,6 +48,23 @@ Registered both server-side (`block_type_metadata`) and client-side (`blocks.reg
 | ---------------- | -------------- | ---------------------------------------------------------------------------------- |
 | `layout-heading` | Layout Heading | Black bottom border with 4px padding and 24px margin                               |
 | `hidden`         | Hidden         | Visually hidden (0px font, 0 opacity, 0 height) on frontend; 50% opacity in editor |
+| `sub-title`      | Sub-title      | Smaller, secondary heading style for post subtitles                                |
+
+## Sub-title block binding
+
+The deprecated `prc-block/sub-title` block was migrated to a bound `core/heading` with the **Sub-title** style. Producers insert a heading, apply the Sub-title style, and bind its content to the `sub_title` post meta field via the block bindings UI.
+
+**Binding source:** `prc-block/core-heading/sub-title` (registered in `block-bindings.js` and `class-core-heading.php`).
+
+**Post meta:** `sub_title` — registered with `show_in_rest` and `single => true` so the binding is editable in the block editor and persists through REST saves (including RTC).
+
+**Rendering rules** (`render_sub_title_heading`):
+
+- Bound headings **outside** `core/post-content` (e.g. in single templates) render the live `sub_title` meta value.
+- Bound headings **inside** `core/post-content` are suppressed to avoid duplicating the template subtitle.
+- Empty or whitespace-only meta renders nothing.
+
+**Migration:** Legacy `prc-block/sub-title` blocks remain in `deprecated/src/sub-title/` for backward compatibility. New content should use the bound heading pattern above.
 
 ## Style Overrides
 
@@ -55,6 +73,8 @@ From `style.scss`:
 **Hidden style:** On the frontend, headings with `is-style-hidden` (excluding editor context) get zero font size, zero opacity, zero height. In the editor, they display at 50% opacity.
 
 **Layout heading:** `is-style-layout-heading` gets a 1px solid black bottom border, 4px bottom padding, 24px bottom margin.
+
+**Sub-title style:** `is-style-sub-title` applies the secondary heading typography defined in `style.scss` (used by the sub-title block binding).
 
 **Legacy section-header:** Same visual treatment as layout-heading (backward compatibility).
 

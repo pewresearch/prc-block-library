@@ -218,7 +218,8 @@ const { state, actions } = store('prc-block/form-input-select', {
 				event.stopPropagation();
 				const { inputOptions } = state;
 				if (inputOptions && inputOptions[activeIndex]) {
-					const { label, value } = inputOptions[activeIndex];
+					const { label, value, disabled } = inputOptions[activeIndex];
+					if ( disabled ) { return; }
 
 					state[id].value = value;
 					state[id].label = label;
@@ -282,6 +283,7 @@ const { state, actions } = store('prc-block/form-input-select', {
 			const { inputOptions } = state;
 			const { activeIndex } = getContext();
 
+			
 			// Determine next active index.
 			let nextActive = null;
 			if (activeIndex === null || isNaN(activeIndex)) {
@@ -323,7 +325,8 @@ const { state, actions } = store('prc-block/form-input-select', {
 			event.preventDefault();
 			const context = getContext();
 			const { id, targetNamespace } = context;
-			const { value, label } = context.option;
+			const { value, label, disabled } = context.option;
+			if ( disabled ) { return; }
 			state[id].value = value;
 			state[id].label = label;
 			state[id].isOpen = false;

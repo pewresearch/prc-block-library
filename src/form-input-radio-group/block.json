@@ -6,12 +6,15 @@
 	"title": "Form Input Radio Group",
 	"description": "A primitive block for a form input radio group field",
 	"category": "forms",
-	"allowedBlocks": ["prc-block/form-input-checkbox"],
+	"allowedBlocks": [
+		"prc-block/form-input-checkbox"
+	],
 	"attributes": {
 		"label": {
 			"type": "string",
 			"source": "html",
-			"selector": "label"
+			"selector": "label",
+			"role": "content"
 		},
 		"required": {
 			"type": "boolean",

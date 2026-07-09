@@ -10,8 +10,8 @@
 	}
 }
 
-.prc-block-area[data-post-type='short-read'] .wp-block-prc-block-promo,
-.prc-block-area[data-post-type='post'] .wp-block-prc-block-promo {
+.prc-block-area[data-post-type="short-read"] .wp-block-prc-block-promo,
+.prc-block-area[data-post-type="post"] .wp-block-prc-block-promo {
 	padding: 1rem;
 }
 
@@ -25,7 +25,7 @@
 	container-type: inline-size;
 	container-name: promo;
 
-	mark:not([class*='wp-block-prc-block-']) {
+	mark:not([class*="wp-block-prc-block-"]) {
 		background: transparent !important;
 	}
 
@@ -97,12 +97,12 @@
 	}
 	// Default layouts for both with and without form variants
 	& > .wp-block-prc-block-promo__inner-container {
-		--grid-template-areas: 'icon text action';
+		--grid-template-areas: "icon text action";
 		--grid-template-columns: 47px 2fr 2fr;
 		--grid-alignment: center;
 
 		@container promo (max-width: 361px) {
-			--grid-template-areas: 'icon' 'text' 'action' !important;
+			--grid-template-areas: "icon" "text" "action" !important;
 			--grid-template-columns: minmax(200px, 361px) !important;
 			--grid-justification: center !important;
 
@@ -118,7 +118,7 @@
 	// With Form
 	&.has-form > .wp-block-prc-block-promo__inner-container {
 		@container promo (max-width: 670px) {
-			--grid-template-areas: 'text text' 'icon action';
+			--grid-template-areas: "text text" "icon action";
 			--grid-template-columns: 47px minmax(320px, 475px);
 			--grid-alignment: flex-start;
 			--grid-justification: center !important;
@@ -130,7 +130,7 @@
 		}
 
 		@container promo (max-width: 480px) {
-			--grid-template-areas: 'icon text' 'action action';
+			--grid-template-areas: "icon text" "action action";
 			--grid-template-columns: 47px minmax(320px, 475px);
 			--grid-alignment: flex-start;
 			--grid-justification: center !important;
@@ -146,7 +146,8 @@
 		--grid-template-columns: 47px 2fr 1fr;
 		@container promo (max-width: 361px) {
 			.wp-block-prc-block-promo__action,
-			.wp-block-prc-block-promo__action > .is-content-justification-right {
+			.wp-block-prc-block-promo__action
+				> .is-content-justification-right {
 				justify-content: center !important;
 			}
 		}
@@ -155,9 +156,11 @@
 
 // Standard Layout (Without Icon)
 .wp-block-prc-block-promo:not(.has-icon):not(.is-style-pancake),
-.wp-block-prc-block-promo.is-style-standard:not(.has-icon):not(.is-style-pancake) {
+.wp-block-prc-block-promo.is-style-standard:not(.has-icon):not(
+		.is-style-pancake
+	) {
 	& > .wp-block-prc-block-promo__inner-container {
-		--grid-template-areas: 'text action';
+		--grid-template-areas: "text action";
 		--grid-template-columns: 2fr 1fr;
 		--grid-alignment: center;
 		--grid-justification: center !important;
@@ -165,7 +168,7 @@
 
 	& > .wp-block-prc-block-promo__inner-container {
 		@container promo (max-width: 670px) {
-			--grid-template-areas: 'text text' 'action action';
+			--grid-template-areas: "text text" "action action";
 			--grid-template-columns: minmax(320px, 475px) minmax(320px, 475px);
 			--grid-alignment: flex-start;
 			--grid-justification: center !important;
@@ -182,17 +185,18 @@
 .wp-block-prc-block-promo.is-style-pancake {
 	&.has-form > .wp-block-prc-block-promo__inner-container {
 		--grid-template-columns: 7fr 3fr;
-		.wp-block-prc-block-promo__action > .wp-block-prc-block-mailchimp-form {
+		.wp-block-prc-block-promo__action > .wp-block-prc-block-mailchimp-form,
+		.wp-block-prc-block-promo__action > .wp-block-prc-block-form {
 			flex-direction: row;
 		}
 	}
 	& > .wp-block-prc-block-promo__inner-container {
-		--grid-template-areas: 'text action';
+		--grid-template-areas: "text action";
 		--grid-template-columns: 9fr 1fr;
 		--grid-alignment: center;
 
 		@container promo (max-width: 760px) {
-			--grid-template-areas: 'icon' 'text' 'action' !important;
+			--grid-template-areas: "icon" "text" "action" !important;
 			--grid-template-columns: minmax(200px, 600px) !important;
 			--grid-justification: center !important;
 
@@ -200,7 +204,8 @@
 				flex-direction: column;
 			}
 			.wp-block-prc-block-promo__action,
-			.wp-block-prc-block-promo__action > .is-content-justification-right {
+			.wp-block-prc-block-promo__action
+				> .is-content-justification-right {
 				justify-content: center !important;
 			}
 		}

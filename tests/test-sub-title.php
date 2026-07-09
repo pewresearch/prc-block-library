@@ -1,25 +1,33 @@
 <?php
 /**
- * Tests for Sub_Title block render_callback.
+ * Tests for sub-title block bindings and legacy block rendering.
  *
  * @package PRC\Platform\Blocks
  */
 
 declare( strict_types=1 );
 
+use PRC\Platform\Blocks\Core_Heading;
 use PRC\Platform\Blocks\Sub_Title;
 
 /**
- * Sub-title block render tests.
+ * Sub-title binding and legacy block tests.
  */
 class Test_Sub_Title extends WP_UnitTestCase {
 
 	/**
-	 * Block instance under test.
+	 * Legacy block instance under test.
 	 *
 	 * @var Sub_Title
 	 */
-	private Sub_Title $block;
+	private Sub_Title $legacy_block;
+
+	/**
+	 * Core heading integration instance under test.
+	 *
+	 * @var Core_Heading
+	 */
+	private Core_Heading $core_heading;
 
 	/**
 	 * Set up test fixtures.
@@ -39,96 +47,134 @@ class Test_Sub_Title extends WP_UnitTestCase {
 			public function add_filter( ...$args ): void {}
 		};
 
-		$this->block = new Sub_Title( $loader );
+		$this->legacy_block  = new Sub_Title( $loader );
+		$this->core_heading  = new Core_Heading( $loader );
 	}
 
 	/**
-	 * Render subtitle markup for a post ID.
+	 * Build a bound sub-title heading block payload.
 	 *
-	 * @param int $post_id Post ID.
+	 * @return array
+	 */
+	private function get_bound_subtitle_block(): array {
+		return array(
+			'blockName' => 'core/heading',
+			'attrs'     => array(
+				'level'    => 2,
+				'metadata' => array(
+					'bindings' => array(
+						'content' => array(
+							'source' => 'core/post-meta',
+							'args'   => array(
+								'key' => 'sub_title',
+							),
+						),
+					),
+				),
+			),
+		);
+	}
+
+	/**
+	 * Render a bound sub-title heading through Core_Heading filters.
+	 *
+	 * @param int    $post_id       Post ID.
+	 * @param string $block_content Heading HTML.
 	 * @return string
 	 */
-	private function render_for_post( int $post_id ): string {
+	private function render_bound_subtitle_for_post( int $post_id, string $block_content ): string {
+		$wp_block = (object) array(
+			'context' => array(
+				'postId' => $post_id,
+			),
+		);
+
+		return $this->core_heading->render_sub_title_heading(
+			$block_content,
+			$this->get_bound_subtitle_block(),
+			$wp_block
+		);
+	}
+
+	/**
+	 * Legacy block render callback should return empty output.
+	 */
+	public function test_legacy_block_render_callback_returns_empty_string(): void {
+		$post_id = self::factory()->post->create();
+		update_post_meta( $post_id, 'sub_title', 'Legacy subtitle' );
+
 		$block = (object) array(
 			'context' => array(
 				'postId' => $post_id,
 			),
 		);
 
-		return $this->block->render_callback( array(), '', $block );
-	}
-
-	/**
-	 * Parent posts with sub_title meta should render.
-	 */
-	public function test_parent_with_sub_title_renders(): void {
-		$parent_id = self::factory()->post->create();
-		update_post_meta( $parent_id, 'sub_title', 'Parent subtitle' );
-
-		$html = $this->render_for_post( $parent_id );
-
-		$this->assertStringContainsString( 'Parent subtitle', $html );
-		$this->assertStringContainsString( 'wp-block-prc-block-subtitle', $html );
-	}
-
-	/**
-	 * Child posts with their own sub_title meta should render.
-	 */
-	public function test_child_with_sub_title_renders(): void {
-		$parent_id = self::factory()->post->create(
-			array(
-				'post_title' => 'Parent report',
-			)
-		);
-		update_post_meta( $parent_id, 'sub_title', 'Package subtitle' );
-
-		$child_id = self::factory()->post->create(
-			array(
-				'post_parent' => $parent_id,
-				'post_title'  => 'Chapter one',
-			)
-		);
-		update_post_meta( $child_id, 'sub_title', 'Chapter subtitle' );
-
-		$html = $this->render_for_post( $child_id );
-
-		$this->assertStringContainsString( 'Chapter subtitle', $html );
-		$this->assertStringNotContainsString( 'Package subtitle', $html );
-	}
-
-	/**
-	 * Child posts without sub_title should not inherit the parent value.
-	 */
-	public function test_child_without_sub_title_does_not_render_parent(): void {
-		$parent_id = self::factory()->post->create();
-		update_post_meta( $parent_id, 'sub_title', 'Package subtitle' );
-
-		$child_id = self::factory()->post->create(
-			array(
-				'post_parent' => $parent_id,
-			)
-		);
-
-		$html = $this->render_for_post( $child_id );
+		$html = $this->legacy_block->render_callback( array(), '', $block );
 
 		$this->assertSame( '', $html );
 	}
 
 	/**
-	 * Whitespace-only child sub_title should render nothing.
+	 * Bound headings with sub_title meta should render outside post content.
 	 */
-	public function test_child_whitespace_sub_title_renders_nothing(): void {
-		$parent_id = self::factory()->post->create();
-		update_post_meta( $parent_id, 'sub_title', 'Package subtitle' );
+	public function test_bound_subtitle_renders_with_meta_outside_post_content(): void {
+		$post_id = self::factory()->post->create();
+		update_post_meta( $post_id, 'sub_title', 'Template subtitle' );
 
-		$child_id = self::factory()->post->create(
+		$html = $this->render_bound_subtitle_for_post(
+			$post_id,
+			'<h2 class="wp-block-heading">Template subtitle</h2>'
+		);
+
+		$this->assertStringContainsString( 'Template subtitle', $html );
+	}
+
+	/**
+	 * Bound headings inside post content should be stripped on the frontend.
+	 */
+	public function test_bound_subtitle_is_stripped_inside_post_content(): void {
+		$post_id = self::factory()->post->create();
+		update_post_meta( $post_id, 'sub_title', 'Duplicate subtitle' );
+
+		$this->core_heading->flag_post_content_render_start(
 			array(
-				'post_parent' => $parent_id,
+				'blockName' => 'core/post-content',
 			)
 		);
-		update_post_meta( $child_id, 'sub_title', '   ' );
 
-		$html = $this->render_for_post( $child_id );
+		$html = $this->render_bound_subtitle_for_post(
+			$post_id,
+			'<h2 class="wp-block-heading">Duplicate subtitle</h2>'
+		);
+
+		$this->assertSame( '', $html );
+	}
+
+	/**
+	 * Empty sub_title meta should suppress bound heading output.
+	 */
+	public function test_bound_subtitle_with_empty_meta_renders_nothing(): void {
+		$post_id = self::factory()->post->create();
+
+		$html = $this->render_bound_subtitle_for_post(
+			$post_id,
+			'<h2 class="wp-block-heading"></h2>'
+		);
+
+		$this->assertSame( '', $html );
+	}
+
+	/**
+	 * Whitespace-only sub_title meta should suppress bound heading output.
+	 */
+	public function test_bound_subtitle_with_whitespace_meta_renders_nothing(): void {
+		$post_id = self::factory()->post->create();
+		update_post_meta( $post_id, 'sub_title', '   ' );
+
+		$html = $this->render_bound_subtitle_for_post(
+			$post_id,
+			'<h2 class="wp-block-heading">   </h2>'
+		);
 
 		$this->assertSame( '', $html );
 	}

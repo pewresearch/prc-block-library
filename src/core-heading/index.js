@@ -2,19 +2,16 @@
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { registerBlockVariation } from '@wordpress/blocks';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import {
-	createBlock,
-	registerBlockVariation,
-	registerBlockType,
-} from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
  */
 import Controls from './controls';
 import transforms from './transforms';
+import './block-bindings';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -83,6 +80,7 @@ registerBlockVariation(BLOCKNAME, {
 	name: 'heading',
 	title: __('Heading'),
 	isDefault: true,
+	scope: [],
 	keywords: ['heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
 	attributes: {
 		level: 4,
@@ -94,6 +92,7 @@ registerBlockVariation(BLOCKNAME, {
 	name: 'section',
 	title: __('Section'),
 	icon: 'book-alt',
+	scope: ['inserter'],
 	keywords: ['chapter', 'section'],
 	description: __(
 		'Sections headings are no different from other headings visually, other than they are included in the table of contents.'
@@ -103,18 +102,4 @@ registerBlockVariation(BLOCKNAME, {
 		level: 3,
 	},
 	isActive: ({ isChapter }) => isChapter,
-});
-
-registerBlockVariation(BLOCKNAME, {
-	name: 'layout-heading',
-	title: __('Layout Heading'),
-	description: __('A heading styled for "layout headings".'),
-	attributes: {
-		className: 'is-style-layout-heading',
-		level: 3,
-	},
-	isActive: ({ className }) =>
-		['is-style-layout-heading', 'is-style-section-header'].includes(
-			className
-		),
 });

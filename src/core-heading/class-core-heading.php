@@ -57,6 +57,10 @@ class Core_Heading {
 			'name'  => 'hidden',
 			'label' => 'Hidden',
 		),
+		array(
+			'name'  => 'sub-title',
+			'label' => 'Sub-title',
+		),
 	);
 	/**
 	 * Check if the legacy heading check, which requires a get_date request
@@ -65,6 +69,13 @@ class Core_Heading {
 	 * @var bool
 	 */
 	public $legacy_heading_check_completed = false;
+
+	/**
+	 * Whether core/post-content is currently being rendered.
+	 *
+	 * @var bool
+	 */
+	private $is_rendering_post_content = false;
 
 	/**
 	 * Constructor for the Core_Heading class.
@@ -84,13 +95,131 @@ class Core_Heading {
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
 			$loader->add_action( 'init', $this, 'register_assets' );
+			$loader->add_action( 'init', $this, 'register_sub_title_meta' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'block_type_metadata_settings', $this, 'add_settings', 100, 2 );
+			$loader->add_filter( 'render_block_data', $this, 'flag_post_content_render_start', 10, 1 );
+			$loader->add_filter( 'render_block', $this, 'render_sub_title_heading', 5, 3 );
+			$loader->add_filter( 'render_block', $this, 'flag_post_content_render_end', 10, 3 );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 3 );
 			$loader->add_filter( 'render_block_context', $this, 'check_if_legacy_chapter_heading', 100, 3 );
 		}
+	}
+
+	/**
+	 * Register post meta used by the sub-title heading binding.
+	 *
+	 * @hook init
+	 * @return void
+	 */
+	public function register_sub_title_meta(): void {
+		register_post_meta(
+			'',
+			'sub_headline',
+			array(
+				'show_in_rest'  => true,
+				'single'        => true,
+				'type'          => 'string',
+				'description'   => 'A sub title that appears under the post title.',
+				'auth_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+
+		register_post_meta(
+			'',
+			'sub_title',
+			array(
+				'show_in_rest'      => true,
+				'single'            => true,
+				'type'              => 'string',
+				'revisions_enabled' => true,
+				'description'       => 'A sub title that appears under the post title.',
+				'auth_callback'     => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+	}
+
+	/**
+	 * Whether a core/heading block is bound to sub_title post meta.
+	 *
+	 * @param array $block Parsed block.
+	 * @return bool
+	 */
+	private function is_sub_title_bound_heading( array $block ): bool {
+		if ( 'core/heading' !== ( $block['blockName'] ?? '' ) ) {
+			return false;
+		}
+
+		return 'sub_title' === ( $block['attrs']['metadata']['bindings']['content']['args']['key'] ?? '' );
+	}
+
+	/**
+	 * Mark the start of core/post-content rendering so duplicate sub-titles can be stripped.
+	 *
+	 * @hook render_block_data
+	 * @param array $parsed_block Parsed block.
+	 * @return array
+	 */
+	public function flag_post_content_render_start( array $parsed_block ): array {
+		if ( 'core/post-content' === ( $parsed_block['blockName'] ?? '' ) ) {
+			$this->is_rendering_post_content = true;
+		}
+
+		return $parsed_block;
+	}
+
+	/**
+	 * Clear the post-content render flag after core/post-content finishes.
+	 *
+	 * @hook render_block
+	 * @param string $block_content Block content.
+	 * @param array  $block         Block.
+	 * @param mixed  $wp_block      WP block instance.
+	 * @return string
+	 */
+	public function flag_post_content_render_end( $block_content, $block, $wp_block ) {
+		if ( 'core/post-content' === ( $block['blockName'] ?? '' ) ) {
+			$this->is_rendering_post_content = false;
+		}
+
+		return $block_content;
+	}
+
+	/**
+	 * Suppress duplicate or empty sub-title headings.
+	 *
+	 * @hook render_block
+	 * @param string $block_content Block content.
+	 * @param array  $block         Block.
+	 * @param mixed  $wp_block      WP block instance.
+	 * @return string
+	 */
+	public function render_sub_title_heading( $block_content, $block, $wp_block ) {
+		if ( is_admin() || ! $this->is_sub_title_bound_heading( $block ) ) {
+			return $block_content;
+		}
+
+		if ( $this->is_rendering_post_content ) {
+			return '';
+		}
+
+		$post_id = $wp_block->context['postId'] ?? get_the_ID();
+		if ( ! $post_id ) {
+			return '';
+		}
+
+		$sub_title = trim( (string) get_post_meta( (int) $post_id, 'sub_title', true ) );
+		if ( '' === $sub_title ) {
+			return '';
+		}
+
+		return $block_content;
 	}
 
 	/**
@@ -125,6 +254,7 @@ class Core_Heading {
 	 */
 	public function register_editor_script() {
 		wp_enqueue_script( $this->editor_script_handle );
+		wp_enqueue_style( $this->style_handle );
 	}
 
 	/**

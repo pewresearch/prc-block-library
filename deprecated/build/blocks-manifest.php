@@ -595,6 +595,267 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
+	'mailchimp-form' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/mailchimp-form',
+		'title' => 'MailChimp Form',
+		'description' => 'A block that allows you to add a MailChimp form to your page.',
+		'version' => '1.0.0',
+		'category' => 'marketing',
+		'keywords' => array(
+			'mailchimp',
+			'form',
+			'newsletter',
+			'subscribe'
+		),
+		'allowedBlocks' => array(
+			'prc-block/form',
+			'prc-block/form-input-text',
+			'prc-block/form-submit',
+			'prc-block/form-captcha',
+			'prc-block/form-message',
+			'core/button',
+			'core/group'
+		),
+		'attributes' => array(
+			'interest' => array(
+				'type' => 'string',
+				'default' => ''
+			),
+			'mailchimpFormId' => array(
+				'type' => 'string',
+				'default' => ''
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'inserter' => false,
+			'spacing' => array(
+				'margin' => true
+			),
+			'interactivity' => true
+		),
+		'example' => array(
+			'attributes' => array(
+				
+			),
+			'innerBlocks' => array(
+				array(
+					'name' => 'prc-block/form',
+					'attributes' => array(
+						
+					),
+					'innerBlocks' => array(
+						array(
+							'name' => 'prc-block/form-input-text',
+							'attributes' => array(
+								'type' => 'email'
+							)
+						),
+						array(
+							'name' => 'prc-block/form-submit',
+							'attributes' => array(
+								
+							),
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/button',
+									'attributes' => array(
+										'text' => 'SIGN UP'
+									)
+								)
+							)
+						)
+					)
+				)
+			),
+			'viewportWidth' => 480
+		),
+		'providesContext' => array(
+			'interactiveNamespace' => 'interactiveNamespace'
+		),
+		'textdomain' => 'mailchimp-form',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view/index.js'
+	),
+	'mailchimp-select' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/mailchimp-select',
+		'version' => '1.0.0',
+		'title' => 'MailChimp Select',
+		'description' => 'Select from multiple MailChimp segment interests to subscribe to.',
+		'category' => 'marketing',
+		'keywords' => array(
+			'mailchimp',
+			'newsletters',
+			'select'
+		),
+		'allowedBlocks' => array(
+			'core/group',
+			'prc-block/form'
+		),
+		'attributes' => array(
+			'interests' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				)
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'inserter' => false,
+			'color' => array(
+				'background' => true,
+				'text' => true,
+				'link' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true,
+				'blockGap' => array(
+					'sides' => array(
+						'vertical'
+					)
+				)
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true
+			),
+			'interactivity' => true
+		),
+		'example' => array(
+			'innerBlocks' => array(
+				array(
+					'name' => 'prc-block/form',
+					'attributes' => array(
+						'namespace' => 'prc-block/mailchimp-select',
+						'action' => 'subscribe',
+						'interactiveNamespace' => 'prc-block/mailchimp-form'
+					),
+					'innerBlocks' => array(
+						array(
+							'name' => 'prc-block/form-input-text',
+							'attributes' => array(
+								'label' => 'Email Address',
+								'required' => true,
+								'placeholder' => 'Email Address',
+								'type' => 'email',
+								'metadata' => array(
+									'name' => 'emailAddress'
+								)
+							)
+						),
+						array(
+							'name' => 'prc-block/form-submit',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/button',
+									'attributes' => array(
+										'text' => 'Submit',
+										'tagName' => 'button',
+										'type' => 'submit'
+									)
+								),
+								array(
+									'name' => 'prc-block/form-captcha',
+									'attributes' => array(
+										
+									)
+								)
+							)
+						),
+						array(
+							'name' => 'prc-block/form-message',
+							'innerBlocks' => array(
+								array(
+									'name' => 'core/paragraph',
+									'attributes' => array(
+										'content' => 'Thank you for subscribing!'
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		),
+		'textdomain' => 'mailchimp-select',
+		'editorScript' => 'file:./index.js',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view/index.js'
+	),
+	'sub-title' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/subtitle',
+		'version' => '0.1.0',
+		'title' => 'Sub-title',
+		'description' => 'Displays the sub-title of a post.',
+		'keywords' => array(
+			'subtitle',
+			'sub-title',
+			'subtitle'
+		),
+		'category' => 'layout',
+		'attributes' => array(
+			'textAlign' => array(
+				'type' => 'string'
+			)
+		),
+		'example' => array(
+			'attributes' => array(
+				'textAlign' => 'left'
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'inserter' => false,
+			'multiple' => false,
+			'color' => array(
+				'text' => true,
+				'background' => true
+			),
+			'spacing' => array(
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true
+			),
+			'typography' => array(
+				'fontSize' => true,
+				'lineHeight' => true,
+				'__experimentalFontFamily' => true,
+				'__experimentalFontWeight' => true,
+				'__experimentalFontStyle' => true,
+				'__experimentalTextTransform' => true,
+				'__experimentalTextDecoration' => true,
+				'__experimentalLetterSpacing' => true,
+				'__experimentalDefaultControls' => array(
+					'fontSize' => true,
+					'fontAppearance' => true,
+					'textTransform' => true,
+					'lineHeight' => true
+				)
+			)
+		),
+		'usesContext' => array(
+			'postType',
+			'postId'
+		),
+		'textdomain' => 'post-sub-title',
+		'editorScript' => 'file:./index.js'
+	),
 	'tab' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,

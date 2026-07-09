@@ -1,15 +1,22 @@
 .wp-block-prc-block-form-input-select-range {
-	display: flex;
-	gap: var(--wp--preset--spacing--20, 1rem);
-	align-items: flex-end;
-
-	&.is-layout-flex {
-		flex-wrap: wrap;
+	&.is-error .wp-block-prc-block-form-input-select__input {
+		border-color: var(--wp--preset--color--ui-error);
 	}
 
+	&.is-error .error-state-message {
+		display: block;
+		color: var(--wp--preset--color--ui-error);
+	}
+
+	.error-state-message {
+		display: none;
+	}
 	// Ensure inner select blocks have equal width
 	.wp-block-prc-block-form-input-select {
 		flex-grow: 1;
 		flex-shrink: 1;
+	}
+	.wp-block-prc-block-form-input-select.has-selection .prc-block-form-input-select__icon-wrapper .wp-block-prc-block-form-input-select__dropdown-arrow{
+		display: inline-block;
 	}
 }

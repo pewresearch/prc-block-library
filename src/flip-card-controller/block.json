@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "prc-block/flip-card-controller",
 	"version": "1.0.0",
-	"title": "Flip Card Controller",
+	"title": "Flip Card",
 	"description": "An interactive card that flips to reveal additional content on the back side.",
 	"category": "media",
 	"allowedBlocks": [

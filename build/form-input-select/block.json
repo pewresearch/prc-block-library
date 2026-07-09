@@ -37,14 +37,16 @@
     "label": {
       "type": "string",
       "source": "html",
-      "selector": "label"
+      "selector": "label",
+      "role": "content"
     },
     "placeholder": {
       "type": "string",
       "default": "A hint or example...",
       "source": "attribute",
       "selector": "input",
-      "attribute": "placeholder"
+      "attribute": "placeholder",
+      "role": "content"
     },
     "required": {
       "type": "boolean",
@@ -155,7 +157,8 @@
     }
   },
   "usesContext": [
-    "form-input-select/options"
+    "form-input-select/options",
+    "form-input-select/has-clear-icon"
   ],
   "styles": [
     {

@@ -14,14 +14,16 @@
     "label": {
       "type": "string",
       "source": "html",
-      "selector": "label"
+      "selector": "label",
+      "role": "content"
     },
     "placeholder": {
       "type": "string",
       "default": "A hint or example...",
       "source": "attribute",
       "selector": "input",
-      "attribute": "placeholder"
+      "attribute": "placeholder",
+      "role": "content"
     },
     "type": {
       "type": "string",

@@ -24,10 +24,11 @@ if ( ! file_exists( "{$_tests_dir}/includes/functions.php" ) ) {
 require_once "{$_tests_dir}/includes/functions.php";
 
 /**
- * Load the Sub Title block class under test.
+ * Load sub-title related classes under test.
  */
 function _manually_load_sub_title_block() {
-	require_once dirname( __DIR__ ) . '/src/sub-title/class-sub-title.php';
+	require_once dirname( __DIR__ ) . '/deprecated/src/sub-title/class-sub-title.php';
+	require_once dirname( __DIR__ ) . '/src/core-heading/class-core-heading.php';
 }
 
 tests_add_filter( 'muplugins_loaded', '_manually_load_sub_title_block' );

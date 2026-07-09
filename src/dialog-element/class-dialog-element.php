@@ -21,11 +21,26 @@ use WP_Block;
  */
 class Dialog_Element {
 	/**
+	 * Dialog element bindings editor script manifest.
+	 *
+	 * @var array<string, mixed>
+	 */
+	public $bindings_block_json;
+
+	/**
+	 * Editor script handle for dialog element bindings registration.
+	 *
+	 * @var string|false
+	 */
+	public $bindings_editor_script_handle;
+
+	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
 	 */
 	public function __construct( $loader ) {
+		$this->bindings_block_json = prc_block_library_manifest( 'dialog-element-bindings' );
 		$this->init( $loader );
 	}
 
@@ -36,8 +51,39 @@ class Dialog_Element {
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
+			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
 			$loader->add_filter( 'query_vars', $this, 'add_dialog_id_query_var' );
+		}
+	}
+
+	/**
+	 * Register editor assets for global binding source registration.
+	 *
+	 * @hook init
+	 * @return void
+	 */
+	public function register_assets() {
+		if ( empty( $this->bindings_block_json ) ) {
+			return;
+		}
+
+		$this->bindings_editor_script_handle = register_block_script_handle(
+			$this->bindings_block_json,
+			'editorScript'
+		);
+	}
+
+	/**
+	 * Enqueue dialog label binding registration in every block editor context.
+	 *
+	 * @hook enqueue_block_editor_assets
+	 * @return void
+	 */
+	public function register_editor_script() {
+		if ( ! empty( $this->bindings_editor_script_handle ) ) {
+			wp_enqueue_script( $this->bindings_editor_script_handle );
 		}
 	}
 

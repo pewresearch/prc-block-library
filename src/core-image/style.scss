@@ -57,9 +57,9 @@ $alignRightMargin: 5px 0px 15px 15px;
 .size-1400-wide { max-width: 1400px !important; }
 
 .wp-block-image {
-	&:not(.alignwide):not(.alignfull) {
-		max-width: 100%;
-	}
+	// &:not(.alignwide):not(.alignfull) {
+	// 	max-width: 100%;
+	// }
 
 	img {
 		height: auto;

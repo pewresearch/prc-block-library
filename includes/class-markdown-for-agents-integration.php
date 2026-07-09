@@ -60,7 +60,6 @@ class Markdown_For_Agents_Integration {
 
 		// Suppress individual core tab-related blocks (handled by parent).
 		Block_Markdown_Registry::register( 'core/tab-list', '__return_empty_string' );
-		Block_Markdown_Registry::register( 'core/tab', '__return_empty_string' );
 		Block_Markdown_Registry::register( 'core/tab-panels', '__return_empty_string' );
 		Block_Markdown_Registry::register( 'core/tab-panel', '__return_empty_string' );
 

@@ -83,9 +83,10 @@ No explicit parent constraint. Can be used:
 
 **Uses Context:**
 
-| Context Key                 | Description                                                                                                        |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `form-input-select/options` | Options array provided by a parent block (e.g., `form-input-select-range`). Merged with the block's own `options`. |
+| Context Key                       | Description                                                                                                        |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `form-input-select/options`       | Options array provided by a parent block (e.g., `form-input-select-range`). Merged with the block's own `options`. |
+| `form-input-select/has-clear-icon` | When true, enables the clear icon even if the block's own `hasClearIcon` attribute is false. Set by `form-input-select-range` via `enableClearIcons`. |
 
 ## Usage Instructions
 
@@ -114,11 +115,35 @@ Set `allowMultiple` to `true`. Selected values render as removable tokens above 
 
 ### Clear Icon
 
-Toggle `hasClearIcon` to show a reset button (X) inside the input that clears the current selection.
+Toggle **Clear Icon Enabled** (`hasClearIcon`) to show a reset button (X) inside the input that clears the current selection. This inspector control is only available when the block is **not** nested inside `form-input-select-range`.
+
+When nested inside `form-input-select-range`, the child **Clear Icon Enabled** toggle is hidden via `LimitControls` (same as Disabled, Required, and Allow Search). Configure clear icons on the parent range block's **Clear Icons Enabled** setting (`enableClearIcons`), which passes `form-input-select/has-clear-icon` block context to both child selects.
+
+At render time, the clear icon is shown when either `hasClearIcon` is true on the block **or** the parent context `form-input-select/has-clear-icon` is true.
 
 ### Search/Filter
 
 `allowSearch` is `true` by default. Users can type to filter the dropdown list. Set to `false` for a traditional dropdown without search.
+
+### Nested Inside Select Range
+
+When a `form-input-select` is a direct child of `form-input-select-range`, several inspector controls are hidden via `LimitControls` because the parent manages options and range behavior:
+
+- Input Name
+- Disabled / Required
+- Clear Icon Enabled
+- Allow Search
+- Form Input Field Options panel (preset types and custom option sorter)
+
+Placeholder and display label remain editable on child selects. Clear icons, search, and option configuration are managed by the parent range block.
+
+### Disabled Options
+
+Individual options may include `disabled: true`. Parent blocks (notably `form-input-select-range`) can set this at runtime to constrain valid choices.
+
+- Disabled options render with reduced opacity and `cursor: not-allowed`.
+- Click and Enter-key selection are ignored when the targeted option is disabled (`onInputOptionClick`, Enter handling in `onInputKeyDown`).
+- Keyboard navigation may still highlight disabled options; selection is blocked at commit time.
 
 ## Block Markup Example
 
@@ -146,26 +171,28 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
     - `"countries"`, `"countries-and-regions"`, `"us-states"`, `"industries"`: Generates options from built-in data sets
     - Merges contextual options from parent blocks (via `form-input-select/options` context)
 
-2. **Interactivity Setup**: Wraps with `data-wp-interactive="prc-block/form-input-select"` and context containing:
+2. **Clear Icon Resolution**: `has_clear_icon` is true when `hasClearIcon` is set on the block **or** `form-input-select/has-clear-icon` is provided by a parent (e.g. `form-input-select-range`).
 
-    - `targetNamespace` (parent form namespace)
-    - `isOpen` (false), `searchValue` ("")
-    - `selectedValue`, `highlightedIndex` (-1)
-    - `options` (the constructed options array)
+3. **Interactivity Setup**: Wraps with `data-wp-interactive="prc-block/form-input-select"` (unless `interactiveSubsumption` is true) and context containing:
 
-3. **Dropdown List**: Replaces the static list placeholder with a `<template data-wp-each="context.filteredOptions">` that dynamically renders `<li>` items with:
+    - `targetNamespace` (parent interactive namespace)
+    - `id`, `hasClearIcon`, `searchTerm`, `activeIndex`, `processing`
+    - Per-instance server state keyed by `id` (value, label, options, etc.)
 
-    - `data-wp-on--click="actions.onOptionClick"` for selection
+4. **Dropdown List**: Replaces the static list placeholder with a `<template data-wp-each="state.inputOptions">` that dynamically renders `<li role="option">` items with:
+
+    - `data-wp-on--click="actions.onInputOptionClick"` for selection
     - `data-wp-text` bound to option label
-    - `data-wp-bind--class` for highlight state
+    - `data-wp-bind--disabled="context.option.disabled"` for per-option disabled state
+    - `data-wp-bind--data-ref-value="context.option.value"` for keyboard navigation scrolling
 
-4. **Keyboard Navigation**: Adds `data-wp-on--keydown="actions.onKeyDown"` to the input for ArrowUp/Down/Enter/Escape handling.
+5. **Keyboard Navigation**: Adds `data-wp-on-async--keydown="actions.onInputKeyDown"` and `data-wp-on-async--keyup="actions.onInputKeyUp"` to the input for ArrowUp/Down/Enter/Escape handling and search filtering.
 
-5. **Clear Button**: When `hasClearIcon` is true, adds a clear button with `data-wp-on--click="actions.onClear"`.
+6. **Clear Button**: When `has_clear_icon` is true, binds `data-wp-class--has-selection="state.hasValue"` and adds a clear button with `data-wp-on--click="actions.onInputClearButtonClick"`.
 
-6. **Dropdown Arrow**: Adds an arrow indicator with `data-wp-on--click="actions.onDropdownArrowClick"`.
+7. **Dropdown Arrow**: Adds an arrow indicator with `data-wp-on--click="actions.onDropdownArrowClick"`. When a value is selected inside a range block, the parent range stylesheet keeps the dropdown arrow visible.
 
-7. **Field Registration**: Registers the field in the target form's `formFields` state.
+8. **Field Registration**: Registers the field in the target namespace store and hoists value changes via `hoistValueToTargetState`.
 
 ## Frontend Interactivity
 
@@ -184,15 +211,16 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
 
 ### Actions
 
-| Action                 | Description                                                                                                                                       |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onOptionClick`        | Handles clicking a dropdown option. Sets `selectedValue`, clears search, closes dropdown, and hoists value to parent form.                        |
-| `onKeyDown`            | Keyboard handler for the input. Supports ArrowDown (next option), ArrowUp (previous option), Enter (select highlighted), Escape (close dropdown). |
-| `onClear`              | Clears the selected value and search input. Hoists empty value to parent form.                                                                    |
-| `onDropdownArrowClick` | Toggles dropdown open/close state.                                                                                                                |
-| `onSearchInput`        | Updates `searchValue` as user types, which triggers re-filtering of options.                                                                      |
-| `onInputFocus`         | Opens the dropdown when the input receives focus.                                                                                                 |
-| `onInputBlur`          | Closes the dropdown on blur (with a short delay to allow click events on options).                                                                |
+| Action                     | Description                                                                                                                                                                      |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onInputOptionClick`       | Handles clicking a dropdown option. No-ops when the option is disabled. Sets value/label, closes dropdown, and hoists value to the target namespace.                             |
+| `onInputKeyDown`           | Keyboard handler for the input. Enter selects the highlighted option (skipped when disabled). Arrow keys are delegated to `onInputKeyUp`.                                        |
+| `onInputKeyUp`             | Updates `searchTerm` when search is allowed. Handles ArrowDown/ArrowUp navigation and Escape to close.                                                                         |
+| `onInputClearButtonClick`  | Clears the selected value and search input. Hoists empty value to the target namespace.                                                                                          |
+| `onDropdownArrowClick`     | Toggles dropdown open/close state.                                                                                                                                               |
+| `onInputFocus`             | Opens the dropdown when the input receives focus.                                                                                                                                |
+| `onInputBlur`              | Closes the dropdown on blur (with a short delay to allow click events on options).                                                                                               |
+| `moveThroughChoices`       | Moves keyboard highlight through `inputOptions`, scrolling the listbox to keep the active item visible.                                                                          |
 
 ### Value Hoisting
 
@@ -203,4 +231,4 @@ The block uses server-side rendering via `render_callback` in `class-form-input-
 | Block                               | Relationship                                                                                             |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `prc-block/form`                    | Parent form container. Receives the selected value in `formFields`.                                      |
-| `prc-block/form-input-select-range` | Optional parent that provides contextual options and uses two select blocks for min/max range selection. |
+| `prc-block/form-input-select-range` | Optional parent that provides options, clear-icon context, and runtime option disabling for min/max range selection. |

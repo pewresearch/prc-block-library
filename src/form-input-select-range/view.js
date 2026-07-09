@@ -1,52 +1,53 @@
 /**
  * WordPress Dependencies
  */
-import {
-	store,
-	getContext,
-	getElement,
-} from '@wordpress/interactivity';
+import { store, getContext } from '@wordpress/interactivity';
 
 /**
  * WordPress Interactivity Store for Select Range Input Block
  *
  * Manages minimum and maximum select input state and validation.
  * Handles range validation and synchronizes with parent form components.
- *
- * @namespace prc-block/form-input-select-range
  */
-const { actions, state } = store('prc-block/form-input-select-range', {
+const { state, actions } = store('prc-block/form-input-select-range', {
 	state: {
 		/**
 		 * Gets the unique identifier for the current select range block instance.
-		 *
-		 * @returns {string|false} The block ID from context, or false if not available
+		 * @return {string|false} The block ID from context, or false if not available
 		 */
 		get id() {
 			return getContext()?.id || false;
 		},
 		/**
+		 * Gets the target namespace for the current select range block instance.
+		 * @return {string|false} The targetNamespace, or false if not available
+		 */
+		get targetNamespace() {
+			return getContext()?.targetNamespace || false;
+		},
+		/**
 		 * Gets the current minimum value for this range instance.
-		 *
-		 * @returns {string} The current minimum value or empty string if not set
+		 * @return {string} The current minimum value or empty string if not set
 		 */
 		get minValue() {
-			const { id } = state;
-			return state[id]?.minValue || '';
+			const { minInputId, id } = state;
+			const { state: subState } = store('prc-block/form-input-select');
+			const value = subState[minInputId]?.value || state[id]?.initMinValue;
+			return +value;
 		},
 		/**
 		 * Gets the current maximum value for this range instance.
-		 *
-		 * @returns {string} The current maximum value or empty string if not set
+		 * @return {string} The current maximum value or empty string if not set
 		 */
 		get maxValue() {
-			const { id } = state;
-			return state[id]?.maxValue || '';
+			const { maxInputId, id } = state;
+			const { state: subState } = store('prc-block/form-input-select');
+			const value = subState[maxInputId]?.value || state[id]?.initMaxValue;
+			return +value;
 		},
 		/**
 		 * Gets the DOM ID of the minimum select input field.
-		 *
-		 * @returns {string} The minimum input field ID or empty string if not set
+		 * @return {string} The minimum input field ID or empty string if not set
 		 */
 		get minInputId() {
 			const { id } = state;
@@ -54,153 +55,100 @@ const { actions, state } = store('prc-block/form-input-select-range', {
 		},
 		/**
 		 * Gets the DOM ID of the maximum select input field.
-		 *
-		 * @returns {string} The maximum input field ID or empty string if not set
+		 * @return {string} The maximum input field ID or empty string if not set
 		 */
 		get maxInputId() {
 			const { id } = state;
 			return state[id]?.maxInputId || '';
 		},
 		/**
+		 * Returns the default range.
+		 * @return {string} Range as an array
+		 */
+		get defaultRange() {
+			const { id } = state;
+			const min = state[id]?.initMinValue ?? '';
+			const max = state[id]?.initMaxValue ?? '';
+			return { min: min, max: max };
+		},
+		/**
 		 * Checks if the range is valid (min <= max).
-		 *
-		 * @returns {boolean} True if range is valid, false otherwise
+		 * @return {boolean} True if range is valid, false otherwise
 		 */
 		get isValidRange() {
-			const { id } = state;
-			if (!state[id]) {
-				return true;
-			}
-			const { minValue, maxValue } = state[id];
-			if (!minValue || !maxValue) {
-				return true; // If either is empty, we consider it valid (not fully filled yet)
-			}
+			const { minValue, maxValue } = state;
 			// Convert to numbers for comparison
 			const min = parseFloat(minValue);
 			const max = parseFloat(maxValue);
 			return min <= max;
 		},
 		/**
-		 * Checks if both minimum and maximum values are selected.
-		 *
-		 * @returns {boolean} True if both values are selected, false otherwise
+		 * Gets error state.
+		 * @return {boolean}  True if error state is on false if not
 		 */
-		get hasCompleteRange() {
-			const { id } = state;
-			if (!state[id]) {
-				return false;
-			}
-			const { minValue, maxValue } = state[id];
-			return !!minValue && !!maxValue;
+		get isRangeError() {
+			const { isValidRange } = state;
+			return !isValidRange;
 		},
 	},
+	// / npm run start form-input-select-range   npm run build form-input-select-range -w @prc/block-library
 	actions: {
-		/**
-		 * Handles input change events for both min and max select fields.
-		 * Updates the appropriate state values based on the input's name attribute.
-		 *
-		 * @param {Event} event - The input change event containing the new value
-		 */
-		onInputChange: (event) => {
-			const { id, name } = event.target;
-			const newValue = event.target?.value;
-			const blockId = state.id;
-
-			if (!blockId || !state[blockId]) {
-				// Initialize block state if it doesn't exist
-				state[blockId] = {
-					minValue: '',
-					maxValue: '',
-					minInputId: '',
-					maxInputId: '',
-				};
+		hoistValueToTargetState: ( minValue, maxValue, defaultRange ) => {
+			const { targetNamespace } = state;
+			// Hoist value up to the target namespace.
+			const { state: targetState } = store(targetNamespace);
+			// Return if namespace doesn't exist
+			if (!targetState) {
+				return;
 			}
+			const { id } = state; 
+			if ( ! !!targetState.selectRange ) { targetState.selectRange = {} }
+			const isDefaultMin = defaultRange?.min === minValue,
+				  isDefaultMax =  defaultRange?.max === maxValue,
+				  isDefault = isDefaultMax && isDefaultMin;
 
-			// Determine which field was updated based on the input's name attribute
-			if ('rangeMin' === name) {
-				state[blockId].minValue = newValue;
-				state[blockId].minInputId = id;
-			} else if ('rangeMax' === name) {
-				state[blockId].maxValue = newValue;
-				state[blockId].maxInputId = id;
-			}
+			targetState.selectRange[id] = { 
+				range: { 
+					min: minValue, 
+					max: maxValue 
+				},
+				isDefault: isDefault,
+				isDefaultMin: isDefaultMin,
+				isDefaultMax: isDefaultMax,
+			};
+
 		},
 	},
 	callbacks: {
-		/**
-		 * Initializes the select range functionality.
-		 *
-		 * Sets up the initial state for the block instance.
-		 */
-		onInit: () => {
-			const { id } = getContext();
-			const blockId = id;
-
-			if (!blockId) {
-				return;
-			}
-
-			console.log('Initializing select range block with ID:', blockId, state);
-		},
-		/**
-		 * Validates the range whenever values change.
-		 *
-		 * Ensures minimum value doesn't exceed maximum value and vice versa.
-		 * Updates any validation states or error messages as needed.
-		 */
-		onRangeValidation: () => {
-			const { id } = state;
-			const blockId = id;
-
-			if (!blockId || !state[blockId]) {
-				return;
-			}
-
-			const { isValidRange } = state;
-
-			// You can add error handling here, e.g., setting error states
-			// on the form fields if the range is invalid
+		limitSelections: () => {
+			const { isValidRange, minInputId, maxInputId, minValue, maxValue } = state;
+			// Exit if invalid range
 			if (!isValidRange) {
-				console.warn('Invalid range: minimum value exceeds maximum value');
+				return;
 			}
+
+			// Convert to numbers
+			const min = parseFloat(minValue);
+			const max = parseFloat(maxValue);
+			// Gather inputs
+			const { state: targetState } = store('prc-block/form-input-select');
+			if ( ! targetState ) { return; }
+			// For each input in the field,
+			[minInputId, maxInputId].forEach((inputId, index) => {
+				// Update the available options:
+				// 	- rangeMax may select values greater than or equal to rangeMin
+				// 	- rangeMin may select values less than or equal to rangeMax
+				targetState?.[inputId]?.options?.forEach((option) => {
+					option.disabled =
+						index > 0 ? option.value < min : option.value > max;
+				});
+			});
 		},
-		/**
-		 * Propagates range values to the parent form component.
-		 *
-		 * This generator function communicates with the target namespace (parent form)
-		 * to update the form's state when both min and max values are selected
-		 * and the range is valid.
-		 *
-		 * @generator
-		 * @yields {Object} Store reference for the target namespace
-		 */
-		*onValueChange() {
-			const { targetNamespace, id } = getContext();
-			const { minValue, maxValue, hasCompleteRange, isValidRange } = state;
-
-			if (hasCompleteRange && isValidRange) {
-				// Get the target store (parent form) actions
-				const { actions: targetActions } = yield store(targetNamespace);
-
-				if (targetActions?.onInputChange) {
-					// Send min value
-					targetActions.onInputChange({
-						target: {
-							value: minValue,
-							id: `${id}-min`,
-							name: 'rangeMin',
-						},
-					});
-
-					// Send max value
-					targetActions.onInputChange({
-						target: {
-							value: maxValue,
-							id: `${id}-max`,
-							name: 'rangeMax',
-						},
-					});
-				}
+		publishRange: () => {
+			const { isValidRange, minValue, maxValue, defaultRange } = state;
+			// If the range is valid
+			if ( isValidRange ) {
+				actions.hoistValueToTargetState( minValue, maxValue, defaultRange );
 			}
 		},
 	},

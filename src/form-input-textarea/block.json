@@ -5,7 +5,12 @@
 	"version": "1.0.0",
 	"title": "Input Textarea Field",
 	"description": "A primitive `<textarea>` element.",
-	"keywords": ["textarea", "form", "input", "field"],
+	"keywords": [
+		"textarea",
+		"form",
+		"input",
+		"field"
+	],
 	"category": "forms",
 	"attributes": {
 		"displayLabel": {
@@ -15,14 +20,16 @@
 		"label": {
 			"type": "string",
 			"source": "html",
-			"selector": "label"
+			"selector": "label",
+			"role": "content"
 		},
 		"placeholder": {
 			"type": "string",
 			"default": "A hint or example...",
 			"source": "attribute",
 			"selector": "textarea",
-			"attribute": "placeholder"
+			"attribute": "placeholder",
+			"role": "content"
 		},
 		"value": {
 			"type": "string",
@@ -67,7 +74,11 @@
 			"source": "attribute",
 			"selector": "textarea",
 			"attribute": "wrap",
-			"enum": ["hard", "soft", "off"]
+			"enum": [
+				"hard",
+				"soft",
+				"off"
+			]
 		}
 	},
 	"example": {

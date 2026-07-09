@@ -26,8 +26,21 @@ import IconControl from './icon-control';
 const ALLOWED_BLOCKS = [
 	'core/buttons',
 	'core/paragraph',
+	'prc-block/form',
 	'prc-block/mailchimp-form',
 ];
+
+function isNewsletterSignupForm(block) {
+	if ('prc-block/mailchimp-form' === block.name) {
+		return true;
+	}
+
+	return (
+		'prc-block/form' === block.name &&
+		block.attributes?.action === 'subscribe' &&
+		block.attributes?.namespace === 'prc-block/form'
+	);
+}
 
 export default function Edit({
 	attributes,
@@ -55,9 +68,8 @@ export default function Edit({
 					select('core/block-editor').getBlockOrder(clientId).length,
 				hasMailchimpForm:
 					0 <
-					innerBlocks.filter(
-						(block) => 'prc-block/mailchimp-form' === block.name
-					).length,
+					innerBlocks.filter((block) => isNewsletterSignupForm(block))
+						.length,
 			};
 		},
 		[clientId]

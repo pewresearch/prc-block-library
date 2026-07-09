@@ -35,7 +35,6 @@
 		// }
 	}
 
-
 	label {
 		cursor: pointer;
 	}
@@ -70,9 +69,9 @@
 			min-width: 120px;
 			font-size: inherit;
 			&:focus {
-				outline: none!important;
-				box-shadow: none!important;
-				border: none!important;
+				outline: none !important;
+				box-shadow: none !important;
+				border: none !important;
 			}
 		}
 	}
@@ -137,6 +136,10 @@
 				background: #f0f0f1;
 				color: #1d2327;
 				font-weight: bold;
+			}
+			&[disabled="true"] {
+				opacity: 0.5;
+				cursor: not-allowed;
 			}
 		}
 	}

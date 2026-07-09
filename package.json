@@ -1,6 +1,6 @@
 {
 	"name": "@prc/block-library",
-	"version": "3.0.1",
+	"version": "4.0.0",
 	"description": "PRC Block Library",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
@@ -22,7 +22,7 @@
 		"start": "node bin/start-block.js",
 		"watch": "node bin/start-block.js",
 		"test": "wp-scripts test-unit-js",
-		"composer": "wp-env run tests-cli --env-cwd=wp-content/plugins/prc-block-library composer"
+		"composer": "vip dev-env exec --slug prc-platform -- composer --working-dir=/wp/wp-content/plugins/prc-block-library"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^31.4.0",

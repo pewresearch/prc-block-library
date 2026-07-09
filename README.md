@@ -11,7 +11,7 @@ In the block editor, the plugin registers the **Pew Research Center Block Librar
 ### Dependencies
 
 - **Upstream**: `prc-platform-core` (required plugin), `prc-schema-seo` (optional, for PDF contact resolution), `prc-staff-bylines` (optional, for PDF bylines), Report Package plugin (optional, for multi-chapter PDF rendering), WordPress AI plugin (optional, for tabular data AI experiment)
-- **Downstream**: Every plugin or theme that renders blocks on the front end depends on this library. The `prc-block-library/forms` `@wordpress/data` store is a direct integration point for any plugin registering custom form types.
+- **Downstream**: Every plugin or theme that renders blocks on the front end depends on this library. Form input blocks (`prc-block/form-input-*`) live here; the form container and related blocks live in `@prc/block-forms`. The `prc-block-library/forms` `@wordpress/data` store (registered by `@prc/block-forms`) is a direct integration point for any plugin registering custom form types.
 
 ## Local Development Setup
 
@@ -19,7 +19,7 @@ In the block editor, the plugin registers the **Pew Research Center Block Librar
 
 - Node.js 22+ / npm 10.9+
 - PHP 8.2+
-- WordPress Playground (via `npm run playground:start` from repo root)
+- WordPress Playground (via ``npm run vip:start` from repo root)
 
 ### Running Locally
 
@@ -40,8 +40,8 @@ npm run start:library -w @prc/block-library
 ### Running Tests
 
 ```bash
-# Run Playwright e2e tests (from monorepo root; wp-env + Playwright are centralized)
-npm run env:start
+# Run Playwright e2e tests (from monorepo root; VIP dev-env + Playwright are centralized)
+npm run vip:start
 npm test -- tests/prc-block-library/
 ```
 
@@ -179,13 +179,10 @@ Adds attributes, context, rendering changes, or new editor controls to existing 
 
 ### Forms
 
+Form container and structure blocks (`prc-block/form`, `form-page`, `form-submit`, `form-message`, `form-captcha`, `form-message-bindings`) are registered by [`@prc/block-forms`](../prc-block-forms/README.md). Form **input** blocks remain in this plugin:
+
 | Block                                                                  | Description                                               |
 | ---------------------------------------------------------------------- | --------------------------------------------------------- |
-| [`prc-block/form`](docs/form.md)                                       | Form container; uses `prc-block-library/forms` data store |
-| [`prc-block/form-page`](docs/form-page.md)                             | Multi-page form step                                      |
-| [`prc-block/form-submit`](docs/form-submit.md)                         | Submit button                                             |
-| [`prc-block/form-message`](docs/form-message.md)                       | Displays success/error messages                           |
-| [`prc-block/form-captcha`](docs/form-captcha.md)                       | reCAPTCHA integration                                     |
 | [`prc-block/form-input-text`](docs/form-input-text.md)                 | Text input                                                |
 | [`prc-block/form-input-textarea`](docs/form-input-textarea.md)         | Textarea input                                            |
 | [`prc-block/form-input-checkbox`](docs/form-input-checkbox.md)         | Checkbox input                                            |
@@ -194,8 +191,8 @@ Adds attributes, context, rendering changes, or new editor controls to existing 
 | [`prc-block/form-input-select-range`](docs/form-input-select-range.md) | Dual-handle range select                                  |
 | [`prc-block/form-input-range`](docs/form-input-range.md)               | Single-handle range slider                                |
 | [`prc-block/form-input-password`](docs/form-input-password.md)         | Password input                                            |
-| [`prc-block/mailchimp-form`](docs/mailchimp-form.md)                   | Mailchimp list subscription form                          |
-| [`prc-block/mailchimp-select`](docs/mailchimp-select.md)               | Mailchimp interest group selector                         |
+| [`prc-block/mailchimp-form`](docs/mailchimp-form.md) (deprecated)     | Use Form block **Newsletter Signup (Mailchimp)** variation |
+| [`prc-block/mailchimp-select`](docs/mailchimp-select.md) (deprecated) | Use Form block **Newsletter Selection (Mailchimp)** variation |
 
 ### Social
 
@@ -218,7 +215,6 @@ Adds attributes, context, rendering changes, or new editor controls to existing 
 | [`prc-block/taxonomy-index-list-controller`](docs/taxonomy-index-list-controller.md) | Paginated/filtered taxonomy list controller      |
 | [`prc-block/tokens-list`](docs/tokens-list.md)                                       | Displays a list of design tokens                 |
 | [`prc-block/roper-db-search`](docs/roper-db-search.md)                               | Roper Center database search interface           |
-| [`prc-block/remote-pivot-table`](docs/remote-pivot-table.md)                         | Remote Data Blocks template for pivot table data |
 
 ### Attachments & Media
 
@@ -287,7 +283,7 @@ The same editor script (`src/index.jsx`) unregisters unused core block types (ar
 
 ### Form Data Store
 
-Forms are registered through a `@wordpress/data` store rather than WordPress filters.
+The `prc-block-library/forms` `@wordpress/data` store is registered by `@prc/block-forms` (see [`plugins/prc-block-forms/src/form/store.js`](../prc-block-forms/src/form/store.js)). Form types are registered through that store rather than WordPress filters.
 
 ```js
 import { dispatch } from '@wordpress/data';
@@ -325,12 +321,56 @@ const forms = useSelect(
 | `block_type_metadata`                       | filter | Multiple usages — injects `interactiveNamespace`/`interactiveSubsumption`, `printEngine`, `maxWidth`, and sticky attributes on all blocks                                                |
 | `block_type_metadata_settings`              | filter | Merges Interactivity API context entries for blocks that support it                                                                                                                      |
 | `render_block`                              | filter | Applied by Print Engine (visibility and `data-*` attribute injection) and Supports (sticky and max-width rendering)                                                                      |
-| `remote_data_blocks_template_blocks`        | filter | Signals to Remote Data Blocks that `prc-block/remote-pivot-table`, `prc-block/tabs`, and `core/tabs` support RDB templates                                                               |
+| `remote_data_blocks_template_blocks`        | filter | Signals to Remote Data Blocks that `prc-block/tabs` and `core/tabs` support RDB templates                                                                                                |
 | `remote_data_blocks_register_example_block` | filter | Returns `false`; disables the RDB example block                                                                                                                                          |
 | `query_vars`                                | filter | Adds `print`, `printEngineBeta`, and `pdf` to recognized query vars                                                                                                                      |
 | `prc_print_engine_register_block_callbacks` | action | Fires at `init` priority 5; use this to register print callbacks via `Block_Print_Registry`                                                                                              |
 | `prc_print_engine_block_{block_name}`       | filter | Per-block filter on print-rendered HTML; fires after the registered `Block_Print_Registry` callback                                                                                      |
 | `wpai_register_features`                    | action | Used internally to register block library AI features (tabular data, story blurb) with the WordPress AI plugin                                                                           |
+
+## Block patterns (disposition-A scaffolds)
+
+Patterns live in `patterns/` and register via `register_plugin_patterns()` from `client-mu-plugins/plugin-patterns.php`. Category slug: **`prc-block-library`**.
+
+| Retired variation     | Pattern slug                              | Block Types header |
+| --------------------- | ----------------------------------------- | ------------------ |
+| Callout               | `prc-block-library/callout`               | `core/group`       |
+| Social Group          | `prc-block-library/social-group`          | `core/group`       |
+| Collapsible           | `prc-block-library/collapsible`           | `core/details`     |
+| Pew Knight co-branded | `prc-block-library/pew-knight-co-branded` | `core/details`     |
+
+Use the **Patterns** inserter (`prc-block-library` category) for these scaffolds.
+
+### core/group width presets (transform-scoped variations)
+
+Constrained-width group presets (200px, 250px, 300px, 320px, 420px, 640px) register as `core/group` block variations with `scope: ['transform']` in `src/core-group/variations.js`. They appear in the **block transforms** menu when converting or transforming a Group block, not in the block inserter, Patterns inserter, or variation switcher.
+
+### core/heading presets (transform-scoped variations)
+
+Heading (H4 default), Section (`isChapter: true`, level 3), and Layout Heading (`is-style-layout-heading`) register as `core/heading` block variations with `scope: ['transform']` in `src/core-heading/index.js`. They appear in the **block transforms** menu only.
+
+## Binding companions (patterns + inserter variations)
+
+| Discovery                                  | Item                 | Where                                                        |
+| ------------------------------------------ | -------------------- | ------------------------------------------------------------ |
+| Pattern                                    | Copyright Disclaimer | `prc-block-library/copyright-disclaimer` — Patterns inserter |
+| Inserter variation (`scope: ['inserter']`) | Tab Label            | `core/paragraph` + `core/heading` inside `core/tab-panel`    |
+| Inserter variation                         | Dialog Label         | `core/heading` inside `prc-block/dialog-element`             |
+| Inserter variation                         | Form: Result Message | `core/paragraph` inside `prc-block/form-message`             |
+| Inserter variation                         | Version Info         | `core/paragraph` (global inserter)                           |
+
+Copyright disclaimer remains a parent-scoped pattern. Tab label, dialog label, form result message, and version info register as block variations visible in the **block inserter** only (not the variation switcher). Use **Attributes → Bindings** to retrofit existing blocks.
+
+## Author discovery (bindings, patterns, bits)
+
+| Author task                                                          | Preferred path                                                                     |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Layout scaffold (group width, callout, collapsible, heading presets) | Block pattern under `prc-block-library` or `prc-religious-landscape-study`         |
+| Staff field on a whole block (photo, bio, job title)                 | Staff Context Provider → pattern **or** Attributes → Bindings → **Staff Info API** |
+| Staff name/title/bio inline in copy                                  | Staff Context Provider → block bits toolbar (**Staff** category)                   |
+| Quiz / typology field in results                                     | Parent block → pattern **or** Attributes → Bindings (ancestor-scoped source)       |
+| User login/profile/logout button URL                                 | User State panel → Attributes → Bindings → **User Accounts**                       |
+| Copyright year in running text                                       | Block bits → **Copyright**                                                         |
 
 ## Troubleshooting
 

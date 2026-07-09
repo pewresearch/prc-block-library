@@ -40,22 +40,27 @@
   },
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "role": "content"
     },
     "excerpt": {
       "type": "string",
       "source": "html",
-      "selector": ".description"
+      "selector": ".description",
+      "role": "content"
     },
     "url": {
       "type": "string",
-      "default": ""
+      "default": "",
+      "role": "content"
     },
     "label": {
-      "type": "string"
+      "type": "string",
+      "role": "content"
     },
     "date": {
-      "type": "string"
+      "type": "string",
+      "role": "content"
     },
     "image": {
       "type": "string"

@@ -39,7 +39,8 @@
       "type": "string",
       "source": "html",
       "selector": "label",
-      "default": "Progress"
+      "default": "Progress",
+      "role": "content"
     },
     "value": {
       "type": "number",

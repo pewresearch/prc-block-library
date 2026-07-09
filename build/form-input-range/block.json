@@ -14,7 +14,8 @@
     "label": {
       "type": "string",
       "source": "html",
-      "selector": "label"
+      "selector": "label",
+      "role": "content"
     },
     "min": {
       "type": "number",

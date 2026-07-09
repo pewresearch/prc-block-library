@@ -1,0 +1,9 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/dialog-element-bindings",
+	"version": "1.0.0",
+	"title": "Dialog Element Bindings",
+	"textdomain": "prc-block-library",
+	"editorScript": "file:./index.js"
+}

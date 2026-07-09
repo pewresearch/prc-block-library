@@ -1,17 +1,44 @@
 /**
  * WordPress Dependencies.
  */
-import {
-	registerBlockVariation,
-	registerBlockBindingsSource,
-} from '@wordpress/blocks';
+import { registerBlockVariation } from '@wordpress/blocks';
+import { defineBindingSource } from '@prc/functions';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
+const TAB_LABEL_VARIATION = {
+	name: 'core/tab-label',
+	title: __('Tab Label', 'prc-block-library'),
+	description: __('Tab Label', 'prc-block-library'),
+	attributes: {
+		metadata: {
+			bindings: {
+				content: { source: 'core/tab-label' },
+			},
+		},
+	},
+	ancestor: ['core/tab-panel'],
+	scope: ['inserter'],
+	isActive: (blockAttributes, variationAttributes) => {
+		return (
+			blockAttributes.metadata?.bindings?.content?.source ===
+			variationAttributes.metadata?.bindings.content.source
+		);
+	},
+};
+
 export default function registerTabLabelBinding() {
-	registerBlockBindingsSource({
+	defineBindingSource({
 		name: 'core/tab-label',
+		label: __('Tab Label', 'prc-block-library'),
 		usesContext: ['core/tab-label'],
+		fields: [
+			{
+				label: __('Tab Label', 'prc-block-library'),
+				type: 'string',
+				args: {},
+			},
+		],
 		getValues({ context }) {
 			const tabLabel = context['core/tab-label'];
 			if (tabLabel) {
@@ -30,15 +57,11 @@ export default function registerTabLabelBinding() {
 				select(blockEditorStore);
 			const { updateBlockAttributes } = dispatch(blockEditorStore);
 
-			// Get the currently selected tab block.
 			const selectedBlockClientId = getSelectedBlockClientId();
-
-			// Find the root, tab block, update the label.
 			const tabBlockClientIds = getBlockParentsByBlockName(
 				selectedBlockClientId,
 				'core/tab-panel'
 			);
-			// Get the first tab panel block out of the array. There is only one anyways.
 			const tabBlockClientId = tabBlockClientIds[0];
 
 			updateBlockAttributes(tabBlockClientId, {
@@ -49,40 +72,7 @@ export default function registerTabLabelBinding() {
 			return true;
 		},
 	});
-	registerBlockVariation('core/paragraph', {
-		name: 'core/tab-label',
-		title: __('Tab Label', 'prc-block-library'),
-		description: __('Tab Label', 'prc-block-library'),
-		attributes: {
-			metadata: {
-				bindings: {
-					content: { source: 'core/tab-label' },
-				},
-			},
-		},
-		isActive: (blockAttributes, variationAttributes) => {
-			return (
-				blockAttributes.metadata?.bindings?.content?.source ===
-				variationAttributes.metadata?.bindings.content.source
-			);
-		},
-	});
-	registerBlockVariation('core/heading', {
-		name: 'core/tab-label',
-		title: __('Tab Label', 'prc-block-library'),
-		description: __('Tab Label', 'prc-block-library'),
-		attributes: {
-			metadata: {
-				bindings: {
-					content: { source: 'core/tab-label' },
-				},
-			},
-		},
-		isActive: (blockAttributes, variationAttributes) => {
-			return (
-				blockAttributes.metadata?.bindings?.content?.source ===
-				variationAttributes.metadata?.bindings.content.source
-			);
-		},
-	});
+
+	registerBlockVariation('core/paragraph', TAB_LABEL_VARIATION);
+	registerBlockVariation('core/heading', TAB_LABEL_VARIATION);
 }

@@ -10,7 +10,8 @@
     "heading": {
       "type": "string",
       "source": "html",
-      "selector": ".prc-card__heading"
+      "selector": ".prc-card__heading",
+      "role": "content"
     },
     "headingBackgroundColor": {
       "type": "string"

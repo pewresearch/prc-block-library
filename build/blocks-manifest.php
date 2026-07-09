@@ -527,7 +527,8 @@ return array(
 			'heading' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => '.prc-card__heading'
+				'selector' => '.prc-card__heading',
+				'role' => 'content'
 			),
 			'headingBackgroundColor' => array(
 				'type' => 'string'
@@ -812,7 +813,8 @@ return array(
 			'value' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'code'
+				'selector' => 'code',
+				'role' => 'content'
 			),
 			'forceLanguage' => array(
 				'type' => 'string',
@@ -1550,6 +1552,15 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScriptModule' => 'file:./view.js'
 	),
+	'dialog-element-bindings' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/dialog-element-bindings',
+		'version' => '1.0.0',
+		'title' => 'Dialog Element Bindings',
+		'textdomain' => 'prc-block-library',
+		'editorScript' => 'file:./index.js'
+	),
 	'dialog-trigger' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -1662,7 +1673,7 @@ return array(
 		'apiVersion' => 3,
 		'name' => 'prc-block/flip-card-controller',
 		'version' => '1.0.0',
-		'title' => 'Flip Card Controller',
+		'title' => 'Flip Card',
 		'description' => 'An interactive card that flips to reveal additional content on the back side.',
 		'category' => 'media',
 		'allowedBlocks' => array(
@@ -1920,196 +1931,6 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
-	'form' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/form',
-		'title' => 'Form',
-		'description' => 'A form element with input validation and a centralized form actions registry and api.',
-		'category' => 'common',
-		'allowedBlocks' => array(
-			'core/paragraph',
-			'core/heading',
-			'core/group',
-			'core/columns',
-			'core/image',
-			'core/button',
-			'prc-block/form-input-checkbox',
-			'prc-block/form-input-password',
-			'prc-block/form-input-radio-group',
-			'prc-block/form-input-select',
-			'prc-block/form-input-text',
-			'prc-block/form-input-textarea',
-			'prc-block/form-message',
-			'prc-block/form-page',
-			'prc-block/form-submit'
-		),
-		'keywords' => array(
-			'form',
-			'captcha',
-			'field',
-			'input'
-		),
-		'icon' => 'feedback',
-		'attributes' => array(
-			'formName' => array(
-				'type' => 'string'
-			),
-			'displayMessageEditing' => array(
-				'type' => 'boolean',
-				'default' => false,
-				'role' => 'local'
-			),
-			'method' => array(
-				'type' => 'string',
-				'enum' => array(
-					'rest',
-					'api'
-				),
-				'default' => 'api'
-			),
-			'namespace' => array(
-				'type' => 'string'
-			),
-			'action' => array(
-				'type' => 'string'
-			),
-			'redirectUrl' => array(
-				'type' => 'string'
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'className' => false,
-			'interactivity' => true,
-			'color' => array(
-				'background' => true,
-				'text' => true,
-				'link' => true,
-				'heading' => true,
-				'button' => true
-			),
-			'layout' => array(
-				'type' => 'constrained',
-				'default' => array(
-					'type' => 'constrained',
-					'orientation' => 'vertical',
-					'verticalAlignment' => 'center',
-					'allowOrientation' => true,
-					'contentSize' => '420px'
-				),
-				'allowSwitching' => true,
-				'allowInheriting' => false,
-				'allowVerticalAlignment' => true,
-				'allowJustification' => true,
-				'allowOrientation' => true,
-				'allowSizingOnChildren' => true
-			),
-			'spacing' => array(
-				'blockGap' => true,
-				'margin' => true,
-				'padding' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true,
-					'blockGap' => true
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalFontFamily' => true
-				)
-			),
-			'__experimentalSelector' => 'form'
-		),
-		'providesContext' => array(
-			'form/displayMessage' => 'displayMessage'
-		),
-		'example' => array(
-			'innerBlocks' => array(
-				array(
-					'name' => 'prc-block/form-input-text',
-					'attributes' => array(
-						'type' => 'text',
-						'label' => 'Name',
-						'required' => true,
-						'placeholder' => 'Enter your name'
-					)
-				),
-				array(
-					'name' => 'prc-block/form-input-text',
-					'attributes' => array(
-						'type' => 'email',
-						'label' => 'Email',
-						'required' => true,
-						'placeholder' => 'Enter your email'
-					)
-				),
-				array(
-					'name' => 'prc-block/form-submit',
-					'innerBlocks' => array(
-						
-					)
-				),
-				array(
-					'name' => 'prc-block/form-message',
-					'innerBlocks' => array(
-						array(
-							'name' => 'core/paragraph',
-							'attributes' => array(
-								'content' => 'Thank you for your message!'
-							)
-						)
-					)
-				)
-			)
-		),
-		'textdomain' => 'form',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'render' => 'file:./render.php',
-		'viewScriptModule' => 'file:./view/index.js'
-	),
-	'form-captcha' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/form-captcha',
-		'version' => '1.0.3',
-		'title' => 'Form Captcha',
-		'category' => 'forms',
-		'description' => 'Display a captcha form element. Powered by Cloudflare Turnstile. This Captcha is mostly invisible and does not require user interaction.',
-		'attributes' => array(
-			
-		),
-		'example' => array(
-			
-		),
-		'supports' => array(
-			'anchor' => false,
-			'html' => false,
-			'spacing' => array(
-				'margin' => array(
-					'top',
-					'bottom'
-				)
-			),
-			'interactivity' => true
-		),
-		'textdomain' => 'form-captcha',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'viewScriptModule' => 'file:./view.js'
-	),
 	'form-input-checkbox' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -2131,7 +1952,8 @@ return array(
 			'label' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'label'
+				'selector' => 'label',
+				'role' => 'content'
 			),
 			'value' => array(
 				'type' => 'string',
@@ -2277,7 +2099,8 @@ return array(
 			'label' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'label'
+				'selector' => 'label',
+				'role' => 'content'
 			),
 			'required' => array(
 				'type' => 'boolean',
@@ -2358,7 +2181,8 @@ return array(
 			'label' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'label'
+				'selector' => 'label',
+				'role' => 'content'
 			),
 			'min' => array(
 				'type' => 'number',
@@ -2531,14 +2355,16 @@ return array(
 			'label' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'label'
+				'selector' => 'label',
+				'role' => 'content'
 			),
 			'placeholder' => array(
 				'type' => 'string',
 				'default' => 'A hint or example...',
 				'source' => 'attribute',
 				'selector' => 'input',
-				'attribute' => 'placeholder'
+				'attribute' => 'placeholder',
+				'role' => 'content'
 			),
 			'required' => array(
 				'type' => 'boolean',
@@ -2649,7 +2475,8 @@ return array(
 			)
 		),
 		'usesContext' => array(
-			'form-input-select/options'
+			'form-input-select/options',
+			'form-input-select/has-clear-icon'
 		),
 		'styles' => array(
 			array(
@@ -2683,11 +2510,10 @@ return array(
 			'type' => array(
 				'type' => 'string',
 				'enum' => array(
-					'custom',
 					'years',
 					'numbers'
 				),
-				'default' => 'custom'
+				'default' => 'numbers'
 			),
 			'rangeStart' => array(
 				'type' => 'number',
@@ -2697,9 +2523,17 @@ return array(
 				'type' => 'number',
 				'default' => 100
 			),
+			'currentYear' => array(
+				'type' => 'boolean',
+				'default' => true
+			),
 			'rangeStep' => array(
 				'type' => 'number',
 				'default' => 1
+			),
+			'enableClearIcons' => array(
+				'type' => 'boolean',
+				'default' => true
 			)
 		),
 		'example' => array(
@@ -2753,6 +2587,13 @@ return array(
 				'allowSizingOnChildren' => true
 			)
 		),
+		'providesContext' => array(
+			'form-input-select/has-clear-icon' => 'enableClearIcons'
+		),
+		'usesContext' => array(
+			'form-input-select/options',
+			'form-input-select-range/key'
+		),
 		'textdomain' => 'form-input-select-range',
 		'editorScript' => 'file:./index.js',
 		'style' => 'file:./style-index.css',
@@ -2774,14 +2615,16 @@ return array(
 			'label' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'label'
+				'selector' => 'label',
+				'role' => 'content'
 			),
 			'placeholder' => array(
 				'type' => 'string',
 				'default' => 'A hint or example...',
 				'source' => 'attribute',
 				'selector' => 'input',
-				'attribute' => 'placeholder'
+				'attribute' => 'placeholder',
+				'role' => 'content'
 			),
 			'type' => array(
 				'type' => 'string',
@@ -2926,14 +2769,16 @@ return array(
 			'label' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'label'
+				'selector' => 'label',
+				'role' => 'content'
 			),
 			'placeholder' => array(
 				'type' => 'string',
 				'default' => 'A hint or example...',
 				'source' => 'attribute',
 				'selector' => 'textarea',
-				'attribute' => 'placeholder'
+				'attribute' => 'placeholder',
+				'role' => 'content'
 			),
 			'value' => array(
 				'type' => 'string',
@@ -3062,193 +2907,6 @@ return array(
 		),
 		'textdomain' => 'form-input-textarea',
 		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
-	),
-	'form-message' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/form-message',
-		'version' => '1.0.0',
-		'title' => 'Form Message',
-		'category' => 'forms',
-		'description' => 'Display a message to the user upon successful form submission.',
-		'allowedBlocks' => array(
-			'core/paragraph',
-			'core/heading',
-			'core/group',
-			'core/buttons',
-			'core/button',
-			'core/separator',
-			'core/image',
-			'prc-block/form-input-text'
-		),
-		'attributes' => array(
-			
-		),
-		'supports' => array(
-			'anchor' => false,
-			'html' => false,
-			'reusable' => true,
-			'interactivity' => true,
-			'spacing' => array(
-				'blockGap' => true,
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true
-				)
-			),
-			'color' => array(
-				'background' => true,
-				'text' => true,
-				'link' => true,
-				'button' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'__experimentalFontFamily' => true
-				)
-			)
-		),
-		'example' => array(
-			'innerBlocks' => array(
-				array(
-					'name' => 'core/paragraph',
-					'attributes' => array(
-						'content' => 'Thank you for your submission!'
-					)
-				)
-			)
-		),
-		'textdomain' => 'form-message',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
-	),
-	'form-page' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/form-page',
-		'version' => '1.0.1',
-		'title' => 'Form Page',
-		'description' => 'A primitive block for a form page',
-		'category' => 'forms',
-		'ancestor' => array(
-			'prc-block/form'
-		),
-		'example' => array(
-			'innerBlocks' => array(
-				array(
-					'name' => 'core/paragraph',
-					'attributes' => array(
-						'content' => 'Form page content.'
-					)
-				)
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'reusable' => false,
-			'interactivity' => true,
-			'color' => array(
-				'background' => true,
-				'text' => true,
-				'link' => true
-			),
-			'layout' => array(
-				'type' => 'flex',
-				'default' => array(
-					'type' => 'flex',
-					'orientation' => 'vertical',
-					'verticalAlignment' => 'center',
-					'allowOrientation' => true
-				),
-				'allowInheriting' => false,
-				'allowVerticalAlignment' => true,
-				'allowJustification' => true,
-				'allowOrientation' => true,
-				'allowSizingOnChildren' => true
-			),
-			'spacing' => array(
-				'blockGap' => true,
-				'padding' => true,
-				'margin' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true
-			)
-		),
-		'textdomain' => 'form-page',
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
-	),
-	'form-submit' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/form-submit',
-		'title' => 'Form Submit Actions',
-		'category' => 'design',
-		'icon' => 'button',
-		'ancestor' => array(
-			'prc-block/form'
-		),
-		'allowedBlocks' => array(
-			'core/button',
-			'prc-block/form-captcha'
-		),
-		'description' => 'Submission actions for forms. Includes submit button, captcha, and optional response message.',
-		'keywords' => array(
-			'submit',
-			'button',
-			'form'
-		),
-		'supports' => array(
-			'anchor' => true,
-			'spacing' => array(
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true,
-				'__experimentalDefaultControls' => array(
-					'padding' => true
-				)
-			)
-		),
-		'usesContext' => array(
-			'form/displayMessage'
-		),
-		'example' => array(
-			'innerBlocks' => array(
-				array(
-					'name' => 'core/button',
-					'attributes' => array(
-						'text' => 'Submit',
-						'tagName' => 'button',
-						'type' => 'submit'
-					)
-				),
-				array(
-					'name' => 'prc-block/form-captcha',
-					'attributes' => array(
-						
-					)
-				)
-			)
-		),
-		'textdomain' => 'form-submit',
-		'editorScript' => 'file:./index.js',
-		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css'
 	),
 	'icon' => array(
@@ -3435,202 +3093,6 @@ return array(
 		),
 		'textdomain' => 'lorem-ipsum',
 		'editorScript' => 'file:./index.js'
-	),
-	'mailchimp-form' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/mailchimp-form',
-		'title' => 'MailChimp Form',
-		'description' => 'A block that allows you to add a MailChimp form to your page.',
-		'version' => '1.0.0',
-		'category' => 'marketing',
-		'keywords' => array(
-			'mailchimp',
-			'form',
-			'newsletter',
-			'subscribe'
-		),
-		'allowedBlocks' => array(
-			'prc-block/form',
-			'prc-block/form-input-text',
-			'prc-block/form-submit',
-			'prc-block/form-captcha',
-			'prc-block/form-message',
-			'core/button',
-			'core/group'
-		),
-		'attributes' => array(
-			'interest' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'mailchimpFormId' => array(
-				'type' => 'string',
-				'default' => ''
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'spacing' => array(
-				'margin' => true
-			),
-			'interactivity' => true
-		),
-		'example' => array(
-			'attributes' => array(
-				
-			),
-			'innerBlocks' => array(
-				array(
-					'name' => 'prc-block/form',
-					'attributes' => array(
-						
-					),
-					'innerBlocks' => array(
-						array(
-							'name' => 'prc-block/form-input-text',
-							'attributes' => array(
-								'type' => 'email'
-							)
-						),
-						array(
-							'name' => 'prc-block/form-submit',
-							'attributes' => array(
-								
-							),
-							'innerBlocks' => array(
-								array(
-									'name' => 'core/button',
-									'attributes' => array(
-										'text' => 'SIGN UP'
-									)
-								)
-							)
-						)
-					)
-				)
-			),
-			'viewportWidth' => 480
-		),
-		'providesContext' => array(
-			'interactiveNamespace' => 'interactiveNamespace'
-		),
-		'textdomain' => 'mailchimp-form',
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css',
-		'viewScriptModule' => 'file:./view/index.js'
-	),
-	'mailchimp-select' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/mailchimp-select',
-		'version' => '1.0.0',
-		'title' => 'MailChimp Select',
-		'description' => 'Select from multiple MailChimp segment interests to subscribe to.',
-		'category' => 'marketing',
-		'keywords' => array(
-			'mailchimp',
-			'newsletters',
-			'select'
-		),
-		'allowedBlocks' => array(
-			'core/group',
-			'prc-block/form'
-		),
-		'attributes' => array(
-			'interests' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				)
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'color' => array(
-				'background' => true,
-				'text' => true,
-				'link' => true
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'blockGap' => array(
-					'sides' => array(
-						'vertical'
-					)
-				)
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true
-			),
-			'interactivity' => true
-		),
-		'example' => array(
-			'innerBlocks' => array(
-				array(
-					'name' => 'prc-block/form',
-					'attributes' => array(
-						'namespace' => 'prc-block/mailchimp-select',
-						'action' => 'subscribe',
-						'interactiveNamespace' => 'prc-block/mailchimp-form'
-					),
-					'innerBlocks' => array(
-						array(
-							'name' => 'prc-block/form-input-text',
-							'attributes' => array(
-								'label' => 'Email Address',
-								'required' => true,
-								'placeholder' => 'Email Address',
-								'type' => 'email',
-								'metadata' => array(
-									'name' => 'emailAddress'
-								)
-							)
-						),
-						array(
-							'name' => 'prc-block/form-submit',
-							'innerBlocks' => array(
-								array(
-									'name' => 'core/button',
-									'attributes' => array(
-										'text' => 'Submit',
-										'tagName' => 'button',
-										'type' => 'submit'
-									)
-								),
-								array(
-									'name' => 'prc-block/form-captcha',
-									'attributes' => array(
-										
-									)
-								)
-							)
-						),
-						array(
-							'name' => 'prc-block/form-message',
-							'innerBlocks' => array(
-								array(
-									'name' => 'core/paragraph',
-									'attributes' => array(
-										'content' => 'Thank you for subscribing!'
-									)
-								)
-							)
-						)
-					)
-				)
-			)
-		),
-		'textdomain' => 'mailchimp-select',
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css',
-		'viewScriptModule' => 'file:./view/index.js'
 	),
 	'navigation-mega-menu' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4087,7 +3549,8 @@ return array(
 				'type' => 'string',
 				'source' => 'html',
 				'selector' => 'label',
-				'default' => 'Progress'
+				'default' => 'Progress',
+				'role' => 'content'
 			),
 			'value' => array(
 				'type' => 'number',
@@ -4326,61 +3789,6 @@ return array(
 		),
 		'textdomain' => 'promo-rotator',
 		'editorScript' => 'file:./index.js'
-	),
-	'remote-pivot-table' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/remote-pivot-table',
-		'version' => '1.0.0',
-		'title' => 'Remote Pivot Table',
-		'description' => 'Pivots the data of a remote tabular data source allowing for pseudo-pivot-table like functionality. Select a data source like column or row and then select the columns to pivot by.',
-		'category' => 'media',
-		'keywords' => array(
-			'remote',
-			'data',
-			'row',
-			'table',
-			'pivot',
-			'tabular'
-		),
-		'attributes' => array(
-			'primaryKey' => array(
-				'type' => 'string'
-			),
-			'selectedColumns' => array(
-				'type' => 'array',
-				'items' => array(
-					'type' => 'string'
-				),
-				'default' => array(
-					
-				)
-			),
-			'dataSource' => array(
-				'type' => 'string',
-				'enum' => array(
-					'column',
-					'row'
-				),
-				'default' => 'row'
-			)
-		),
-		'example' => array(
-			'attributes' => array(
-				'dataSource' => 'row'
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false
-		),
-		'usesContext' => array(
-			'remote-data-blocks/remoteData',
-			'remote-data-blocks/pivotedData'
-		),
-		'textdomain' => 'remote-pivot-table',
-		'editorScript' => 'file:./index.js',
-		'style' => 'file:./style-index.css'
 	),
 	'render-to-region' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -5029,22 +4437,27 @@ return array(
 		),
 		'attributes' => array(
 			'title' => array(
-				'type' => 'string'
+				'type' => 'string',
+				'role' => 'content'
 			),
 			'excerpt' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => '.description'
+				'selector' => '.description',
+				'role' => 'content'
 			),
 			'url' => array(
 				'type' => 'string',
-				'default' => ''
+				'default' => '',
+				'role' => 'content'
 			),
 			'label' => array(
-				'type' => 'string'
+				'type' => 'string',
+				'role' => 'content'
 			),
 			'date' => array(
-				'type' => 'string'
+				'type' => 'string',
+				'role' => 'content'
 			),
 			'image' => array(
 				'type' => 'string'
@@ -5130,551 +4543,6 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js'
-	),
-	'sub-title' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/subtitle',
-		'version' => '0.1.0',
-		'title' => 'Sub-title',
-		'description' => 'Displays the sub-title of a post.',
-		'keywords' => array(
-			'subtitle',
-			'sub-title',
-			'subtitle'
-		),
-		'category' => 'layout',
-		'attributes' => array(
-			'textAlign' => array(
-				'type' => 'string'
-			)
-		),
-		'example' => array(
-			'attributes' => array(
-				'textAlign' => 'left'
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'html' => false,
-			'multiple' => false,
-			'color' => array(
-				'text' => true,
-				'background' => true
-			),
-			'spacing' => array(
-				'margin' => array(
-					'top',
-					'bottom'
-				),
-				'padding' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalTextDecoration' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-					'fontAppearance' => true,
-					'textTransform' => true,
-					'lineHeight' => true
-				)
-			)
-		),
-		'usesContext' => array(
-			'postType',
-			'postId'
-		),
-		'textdomain' => 'post-sub-title',
-		'editorScript' => 'file:./index.js'
-	),
-	'table' => array(
-		'$schema' => 'https://schemas.wp.org/trunk/block.json',
-		'apiVersion' => 3,
-		'name' => 'prc-block/table',
-		'version' => '1.1.0',
-		'title' => 'Power Table',
-		'category' => 'text',
-		'keywords' => array(
-			'table',
-			'cell',
-			'data'
-		),
-		'description' => 'Create a powerful and flexible table complete with responsive design and sorting/filtering options.',
-		'textdomain' => 'prc-block-library',
-		'usesContext' => array(
-			'remote-data-blocks/remoteData'
-		),
-		'attributes' => array(
-			'contentJustification' => array(
-				'type' => 'string'
-			),
-			'hasFixedLayout' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'isScrollOnPc' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'isScrollOnMobile' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'isStackedOnMobile' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'sticky' => array(
-				'type' => 'string'
-			),
-			'tableStyles' => array(
-				'type' => 'string',
-				'source' => 'attribute',
-				'selector' => 'table',
-				'attribute' => 'style'
-			),
-			'sourceNote' => array(
-				'type' => 'string',
-				'source' => 'html',
-				'selector' => 'p',
-				'__experimentalRole' => 'content'
-			),
-			'tableTitle' => array(
-				'type' => 'string',
-				'source' => 'html',
-				'selector' => 'h4',
-				'__experimentalRole' => 'content'
-			),
-			'tableTitleStyles' => array(
-				'type' => 'string',
-				'source' => 'attribute',
-				'selector' => 'h4',
-				'attribute' => 'style'
-			),
-			'captionSide' => array(
-				'type' => 'string',
-				'default' => 'top'
-			),
-			'caption' => array(
-				'type' => 'string',
-				'source' => 'html',
-				'selector' => 'figcaption',
-				'__experimentalRole' => 'content'
-			),
-			'captionStyles' => array(
-				'type' => 'string',
-				'source' => 'attribute',
-				'selector' => 'figcaption',
-				'attribute' => 'style'
-			),
-			'head' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				),
-				'source' => 'query',
-				'selector' => 'thead tr',
-				'query' => array(
-					'cells' => array(
-						'type' => 'array',
-						'default' => array(
-							
-						),
-						'source' => 'query',
-						'selector' => 'td,th',
-						'query' => array(
-							'content' => array(
-								'type' => 'string',
-								'source' => 'html',
-								'__experimentalRole' => 'content'
-							),
-							'styles' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'style'
-							),
-							'tag' => array(
-								'type' => 'string',
-								'default' => 'td',
-								'source' => 'tag'
-							),
-							'className' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'class'
-							),
-							'id' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'id'
-							),
-							'headers' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'headers'
-							),
-							'scope' => array(
-								'enum' => array(
-									'row',
-									'col',
-									'rowgroup',
-									'colgroup'
-								),
-								'source' => 'attribute',
-								'attribute' => 'scope'
-							),
-							'rowSpan' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'rowspan'
-							),
-							'colSpan' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'colspan'
-							),
-							'roundDecimals' => array(
-								'type' => 'number',
-								'source' => 'attribute',
-								'attribute' => 'data-prc-round-decimals'
-							)
-						)
-					)
-				)
-			),
-			'body' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				),
-				'source' => 'query',
-				'selector' => 'tbody tr',
-				'query' => array(
-					'cells' => array(
-						'type' => 'array',
-						'default' => array(
-							
-						),
-						'source' => 'query',
-						'selector' => 'td,th',
-						'query' => array(
-							'content' => array(
-								'type' => 'string',
-								'source' => 'html',
-								'__experimentalRole' => 'content'
-							),
-							'styles' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'style'
-							),
-							'tag' => array(
-								'type' => 'string',
-								'default' => 'td',
-								'source' => 'tag'
-							),
-							'className' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'class'
-							),
-							'id' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'id'
-							),
-							'headers' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'headers'
-							),
-							'scope' => array(
-								'enum' => array(
-									'row',
-									'col',
-									'rowgroup',
-									'colgroup'
-								),
-								'source' => 'attribute',
-								'attribute' => 'scope'
-							),
-							'rowSpan' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'rowspan'
-							),
-							'colSpan' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'colspan'
-							),
-							'roundDecimals' => array(
-								'type' => 'number',
-								'source' => 'attribute',
-								'attribute' => 'data-prc-round-decimals'
-							)
-						)
-					)
-				)
-			),
-			'foot' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				),
-				'source' => 'query',
-				'selector' => 'tfoot tr',
-				'query' => array(
-					'cells' => array(
-						'type' => 'array',
-						'default' => array(
-							
-						),
-						'source' => 'query',
-						'selector' => 'td,th',
-						'query' => array(
-							'content' => array(
-								'type' => 'string',
-								'source' => 'html',
-								'__experimentalRole' => 'content'
-							),
-							'styles' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'style'
-							),
-							'tag' => array(
-								'type' => 'string',
-								'default' => 'td',
-								'source' => 'tag'
-							),
-							'className' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'class'
-							),
-							'id' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'id'
-							),
-							'headers' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'headers'
-							),
-							'scope' => array(
-								'enum' => array(
-									'row',
-									'col',
-									'rowgroup',
-									'colgroup'
-								),
-								'source' => 'attribute',
-								'attribute' => 'scope'
-							),
-							'rowSpan' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'rowspan'
-							),
-							'colSpan' => array(
-								'type' => 'string',
-								'source' => 'attribute',
-								'attribute' => 'colspan'
-							),
-							'roundDecimals' => array(
-								'type' => 'number',
-								'source' => 'attribute',
-								'attribute' => 'data-prc-round-decimals'
-							)
-						)
-					)
-				)
-			),
-			'columnMeta' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				)
-			),
-			'validationSchema' => array(
-				'type' => 'string',
-				'default' => ''
-			),
-			'isValid' => array(
-				'type' => 'boolean',
-				'default' => true
-			),
-			'columnRoundDecimals' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				),
-				'__deprecated' => 'Use columnMeta[i].roundDecimals instead.'
-			),
-			'hiddenColumns' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				),
-				'__deprecated' => 'Use columnMeta[i].hidden instead.'
-			),
-			'isSortable' => array(
-				'type' => 'boolean',
-				'default' => false
-			),
-			'sortableColumns' => array(
-				'type' => 'array',
-				'default' => array(
-					
-				),
-				'__deprecated' => 'Use columnMeta[i].sortable instead.'
-			)
-		),
-		'example' => array(
-			'attributes' => array(
-				'head' => array(
-					array(
-						'cells' => array(
-							array(
-								'content' => 'Version',
-								'tag' => 'th'
-							),
-							array(
-								'content' => 'Jazz Musician',
-								'tag' => 'th'
-							),
-							array(
-								'content' => 'Release Date',
-								'tag' => 'th'
-							)
-						)
-					)
-				),
-				'body' => array(
-					array(
-						'cells' => array(
-							array(
-								'content' => '5.9',
-								'tag' => 'td'
-							),
-							array(
-								'content' => 'Joséphine Baker',
-								'tag' => 'td'
-							),
-							array(
-								'content' => 'January 25, 2022',
-								'tag' => 'td'
-							)
-						)
-					),
-					array(
-						'cells' => array(
-							array(
-								'content' => '5.8',
-								'tag' => 'td'
-							),
-							array(
-								'content' => 'Art Tatum',
-								'tag' => 'td'
-							),
-							array(
-								'content' => 'July 20, 2021',
-								'tag' => 'td'
-							)
-						)
-					),
-					array(
-						'cells' => array(
-							array(
-								'content' => '5.7',
-								'tag' => 'td'
-							),
-							array(
-								'content' => 'Esperanza Spalding',
-								'tag' => 'td'
-							),
-							array(
-								'content' => 'March 9, 2021',
-								'tag' => 'td'
-							)
-						)
-					)
-				)
-			)
-		),
-		'supports' => array(
-			'anchor' => true,
-			'interactivity' => true,
-			'align' => array(
-				'left',
-				'right',
-				'wide',
-				'full'
-			),
-			'color' => array(
-				'__experimentalSkipSerialization' => array(
-					'text',
-					'background',
-					'gradients'
-				),
-				'gradients' => true,
-				'link' => true
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'__experimentalFontFamily' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => false
-				)
-			),
-			'spacing' => array(
-				'margin' => true,
-				'padding' => true,
-				'__experimentalDefaultControls' => array(
-					'margin' => false
-				)
-			),
-			'__experimentalBorder' => array(
-				'color' => true,
-				'radius' => false,
-				'style' => true,
-				'width' => true,
-				'__experimentalDefaultControls' => array(
-					'color' => true,
-					'radius' => true,
-					'style' => true,
-					'width' => true
-				)
-			),
-			'__experimentalSelector' => array(
-				'root' => '.wp-block-prc-block-table',
-				'typography' => array(
-					'root' => '.wp-block-prc-block-table',
-					'fontFamily' => '.wp-block-prc-block-table',
-					'fontSize' => '.wp-block-prc-block-table > table'
-				)
-			)
-		),
-		'providesContext' => array(
-			'prc-block/table/columnMeta' => 'columnMeta',
-			'prc-block/table/validationSchema' => 'validationSchema',
-			'prc-block/table/isValid' => 'isValid'
-		),
-		'editorScript' => array(
-			'ais-ai',
-			'file:./index.js'
-		),
-		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css',
-		'viewScriptModule' => 'file:./view.js'
 	),
 	'table-of-contents' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -6527,7 +5395,8 @@ return array(
 			'label' => array(
 				'type' => 'string',
 				'source' => 'html',
-				'selector' => 'label'
+				'selector' => 'label',
+				'role' => 'content'
 			),
 			'tokens' => array(
 				'type' => 'array',

@@ -38,8 +38,6 @@ class AI_Features {
 		}
 
 		require_once plugin_dir_path( __FILE__ ) . '/class-ai-prompt-permalink.php';
-		require_once plugin_dir_path( __FILE__ ) . '/class-generate-tabular-data.php';
-		require_once plugin_dir_path( __FILE__ ) . '/class-generate-tabular-data-feature.php';
 		require_once plugin_dir_path( __FILE__ ) . '/class-generate-blurb.php';
 		require_once plugin_dir_path( __FILE__ ) . '/class-generate-title.php';
 		require_once plugin_dir_path( __FILE__ ) . '/class-generate-blurb-feature.php';
@@ -47,7 +45,6 @@ class AI_Features {
 		add_action(
 			'wpai_register_features',
 			function ( $registry ) {
-				$registry->register_feature( new \PRC\Platform\Blocks\AI_Features\Generate_Tabular_Data_Feature() );
 				$registry->register_feature( new \PRC\Platform\Blocks\AI_Features\Generate_Blurb_Feature() );
 			}
 		);

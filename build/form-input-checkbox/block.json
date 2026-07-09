@@ -19,7 +19,8 @@
     "label": {
       "type": "string",
       "source": "html",
-      "selector": "label"
+      "selector": "label",
+      "role": "content"
     },
     "value": {
       "type": "string",

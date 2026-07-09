@@ -3,33 +3,30 @@
  *
  * Provides a binding source so inner paragraph blocks can bind their content
  * directly to the parent Dialog Element block's `dialogLabel` attribute.
- *
- * Pattern modeled after answer-binding example in quiz builder.
  */
 
 /**
  * WordPress Dependencies
  */
-import {
-	registerBlockBindingsSource,
-	registerBlockVariation,
-} from '@wordpress/blocks';
+import { registerBlockVariation } from '@wordpress/blocks';
+import { defineBindingSource } from '@prc/functions';
 import { __ } from '@wordpress/i18n';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 
 export default function registerDialogElementLabelBinding() {
-	registerBlockBindingsSource({
+	defineBindingSource({
 		name: 'prc-block/dialog-element-label',
 		label: __('Dialog Element Label', 'prc-block-library'),
-		/**
-		 * No external context required; we derive needed info via selection.
-		 */
-		usesContext: [],
+		usesContext: ['dialog/label'],
+		fields: [
+			{
+				label: __('Dialog Label', 'prc-block-library'),
+				type: 'string',
+				args: {},
+			},
+		],
 		getValues({ context }) {
-			// We don't rely on context; the binding system calls this with block context.
 			const dialogLabel = context['dialog/label'] ?? null;
-			// If we have a dialog label, return it as the content value.
-			// Otherwise, return a placeholder prompting the user to add one.
 			if (dialogLabel) {
 				return { content: dialogLabel };
 			}
@@ -55,7 +52,7 @@ export default function registerDialogElementLabelBinding() {
 			}
 			const rootName = getBlockName(rootClientId);
 			if ('prc-block/dialog-element' !== rootName) {
-				return; // Safety: only update when inside dialog-element.
+				return;
 			}
 			const { updateBlockAttributes } = dispatch(blockEditorStore);
 			updateBlockAttributes(rootClientId, { dialogLabel: newValue });
@@ -84,6 +81,7 @@ export default function registerDialogElementLabelBinding() {
 			},
 		},
 		ancestor: ['prc-block/dialog-element'],
+		scope: ['inserter'],
 		isActive: (blockAttributes, variationAttributes) => {
 			return (
 				blockAttributes.metadata?.bindings?.content?.source ===

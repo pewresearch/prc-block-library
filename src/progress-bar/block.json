@@ -6,7 +6,14 @@
 	"title": "Progress Bar",
 	"category": "media",
 	"icon": "chart-bar",
-	"keywords": ["progress", "bar", "quiz", "result", "horizontal", "chart"],
+	"keywords": [
+		"progress",
+		"bar",
+		"quiz",
+		"result",
+		"horizontal",
+		"chart"
+	],
 	"attributes": {
 		"barColor": {
 			"type": "string",
@@ -32,7 +39,8 @@
 			"type": "string",
 			"source": "html",
 			"selector": "label",
-			"default": "Progress"
+			"default": "Progress",
+			"role": "content"
 		},
 		"value": {
 			"type": "number",
@@ -41,17 +49,26 @@
 		"labelFormat": {
 			"type": "string",
 			"default": "percentage",
-			"enum": ["percentage", "fractional"]
+			"enum": [
+				"percentage",
+				"fractional"
+			]
 		},
 		"labelPosition": {
 			"type": "string",
 			"default": "left",
-			"enum": ["left", "right"]
+			"enum": [
+				"left",
+				"right"
+			]
 		},
 		"valuePosition": {
 			"type": "string",
 			"default": "outside",
-			"enum": ["inside", "outside"]
+			"enum": [
+				"inside",
+				"outside"
+			]
 		},
 		"valueFontSize": {
 			"type": "number",

@@ -13,12 +13,8 @@
 	"attributes": {
 		"type": {
 			"type": "string",
-			"enum": [
-				"custom",
-				"years",
-				"numbers"
-			],
-			"default": "custom"
+			"enum": ["years", "numbers"],
+			"default": "numbers"
 		},
 		"rangeStart": {
 			"type": "number",
@@ -28,9 +24,17 @@
 			"type": "number",
 			"default": 100
 		},
+		"currentYear": {
+			"type": "boolean",
+			"default": true
+		},
 		"rangeStep": {
 			"type": "number",
 			"default": 1
+		},
+		"enableClearIcons": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"example": {
@@ -84,6 +88,10 @@
 			"allowSizingOnChildren": true
 		}
 	},
+	"providesContext": {
+		"form-input-select/has-clear-icon": "enableClearIcons"
+	},
+	"usesContext": ["form-input-select/options", "form-input-select-range/key"],
 	"textdomain": "form-input-select-range",
 	"editorScript": "file:./index.js",
 	"style": "file:./style-index.css",
