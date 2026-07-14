@@ -67,7 +67,7 @@ None. Can be placed anywhere. The block also registers itself as an allowed bloc
     - **Symbol Only** -- Just the PRC symbol mark, dark mode aware
     - **Symbol (Stable White)** -- Always white symbol
     - **Decoded** -- Decoded sub-brand logo
-    - **Pew Knight** -- Pew Knight wordmark; single adaptive SVG (`pew-knight-logo-adaptive.svg`) toggles light/dark artwork via internal `prefers-color-scheme` (same asset for Interactivity `src` / `currentSrc` on iOS)
+    - **Pew Knight** -- Pew Knight wordmark; single adaptive SVG (`pew-knight-logo-adaptive.svg`) toggles light/dark artwork via internal `prefers-color-scheme` (same asset for Interactivity `src` / `currentSrc` on Safari/WebKit)
 3. **Justification** -- Use the block toolbar to align the logo left, center, or right.
 4. **Width** -- Resize the logo by dragging the resize handles when the block is selected, or enter a precise pixel width in the Dimensions inspector panel.
 5. The logo links to the site's home URL. The "Decoded" style links to `/decoded` instead.
@@ -79,7 +79,7 @@ None. Can be placed anywhere. The block also registers itself as an allowed bloc
 	class="wp-block-prc-block-logo is-style-primary-only item-justified-left"
 	data-wp-interactive='{"namespace":"prc-block/logo"}'
 	data-wp-context='{"srcLight":".../primary.svg","srcDark":".../primary-white.svg","currentSrc":".../primary.svg"}'
-	data-wp-init="callbacks.setupIosColorScheme"
+	data-wp-init="callbacks.setupSafariColorScheme"
 >
 	<div class="wp-block-prc-block-logo__dimensions" style="max-width: 361px;">
 		<div class="wp-block-prc-block-logo__inner">
@@ -122,13 +122,13 @@ The block has no `save` function -- it is entirely dynamic/server-rendered.
 
 **`view.js`** (registered as **`viewScriptModule`**) -- WordPress Interactivity API store `prc-block/logo`.
 
-SVGs loaded via `<img>` tags do not receive the `prefers-color-scheme: dark` media query on iOS Safari. The `setupIosColorScheme` init callback:
+SVGs loaded via `<img>` tags do not receive the `prefers-color-scheme: dark` media query on Safari/WebKit (macOS and iOS). The `setupSafariColorScheme` init callback:
 
-1. Returns immediately on non-iOS browsers (dark mode continues to use each SVG's internal CSS where applicable).
-2. On iOS, reads `srcLight` / `srcDark` from block context and sets `context.currentSrc` from `matchMedia('(prefers-color-scheme: dark)')`.
+1. Returns immediately on non-Safari/WebKit browsers (dark mode continues to use each SVG's internal CSS where applicable).
+2. On Safari/WebKit, reads `srcLight` / `srcDark` from block context and sets `context.currentSrc` from `matchMedia('(prefers-color-scheme: dark)')`.
 3. Subscribes to color-scheme changes with `withScope` so bound `img` `src` stays in sync.
 
-The `<img>` uses `data-wp-bind--src="context.currentSrc"` so hydration matches the server-rendered light URL, then updates on iOS when the scheme changes.
+The `<img>` uses `data-wp-bind--src="context.currentSrc"` so hydration matches the server-rendered light URL, then updates on Safari/WebKit when the scheme changes.
 
 ## Related Blocks
 

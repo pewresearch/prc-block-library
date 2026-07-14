@@ -54,8 +54,8 @@ class Logo {
 	);
 
 	/**
-	 * Map of block style to dark-mode asset filename for iOS Safari / Interactivity context.
-	 * Used when prefers-color-scheme: dark is not applied inside SVG img on iOS.
+	 * Map of block style to dark-mode asset filename for Safari/WebKit / Interactivity context.
+	 * Used when prefers-color-scheme: dark is not applied inside SVG img on Safari/WebKit.
 	 *
 	 * @var array<string, string>
 	 */
@@ -178,7 +178,7 @@ class Logo {
 						'currentSrc' => $url,
 					)
 				),
-				'data-wp-init'        => 'callbacks.setupIosColorScheme',
+				'data-wp-init'        => 'callbacks.setupSafariColorScheme',
 			)
 		);
 

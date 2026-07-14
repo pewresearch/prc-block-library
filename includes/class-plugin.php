@@ -231,6 +231,8 @@ class Plugin {
 		$this->loader->add_filter( 'wp_kses_allowed_html', $this, 'allowed_html_tags', 100, 2 );
 		// Allow additional inline styles.
 		$this->loader->add_filter( 'safe_style_css', $this, 'allowed_inline_styles', 10, 1 );
+		// Allow light-dark() color values in inline styles.
+		$this->loader->add_filter( 'safecss_filter_attr_allow_css', $this, 'allow_light_dark_css', 10, 2 );
 		// Disable Remote Data Blocks example block.
 		add_filter( 'remote_data_blocks_register_example_block', '__return_false' );
 		// Signal support for PRC Blocks to RDB.
@@ -437,6 +439,57 @@ class Plugin {
 		$styles[] = 'container';
 		$styles[] = '@container';
 		return $styles;
+	}
+
+	/**
+	 * Allow CSS declarations containing the light-dark() color function.
+	 *
+	 * The prc-design-system palette defines every color as a light-dark()
+	 * value, which blocks (e.g. the Power Table's cell color controls) inline
+	 * as raw style attribute values. Core's safecss_filter_attr() rejects any
+	 * declaration containing a function outside its allowlist
+	 * (var|calc|min|max|minmax|clamp|repeat), so those declarations are
+	 * stripped on save for users without `unfiltered_html` — on this multisite
+	 * platform, everyone. See Linear PRC-545.
+	 *
+	 * Mirrors core's own strip-and-retest approach: remove well-formed
+	 * light-dark() functions whose contents are restricted to color-value
+	 * characters (with one nesting level for rgb()-style arguments), then
+	 * re-apply core's disallowed-character check to the remainder. Only
+	 * returns true when a light-dark() function was actually stripped and the
+	 * remainder is clean; everything else defers to the incoming decision.
+	 *
+	 * @hook safecss_filter_attr_allow_css
+	 *
+	 * @param bool   $allow_css       Whether the CSS declaration is considered safe.
+	 * @param string $css_test_string The CSS declaration being tested.
+	 * @return bool Whether the CSS declaration is allowed.
+	 */
+	public function allow_light_dark_css( $allow_css, $css_test_string ) {
+		if ( $allow_css ) {
+			return $allow_css;
+		}
+
+		if ( ! str_contains( $css_test_string, 'light-dark(' ) ) {
+			return $allow_css;
+		}
+
+		// Color-value characters only: hex, keywords, percentages, commas,
+		// slashes, dots, whitespace, and one nesting level of parentheses for
+		// rgb()/hsl()-style arguments with the same restricted contents.
+		$inner    = '[a-zA-Z0-9#%.,\/\s-]';
+		$stripped = preg_replace(
+			"/\blight-dark\((?:{$inner}|[a-zA-Z-]+\({$inner}*\))*\)/",
+			'',
+			$css_test_string
+		);
+
+		if ( null === $stripped || $stripped === $css_test_string ) {
+			return $allow_css;
+		}
+
+		// Core's disallowed-character check from safecss_filter_attr().
+		return ! preg_match( '%[\\\(&=}]|/\*%', $stripped );
 	}
 
 	/**
