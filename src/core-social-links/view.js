@@ -2,8 +2,7 @@
  * WordPress Dependencies
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
-
-const { addQueryArgs } = wp.url;
+import { addQueryArgs } from '@wordpress/url';
 
 const { innerWidth, innerHeight, open } = window;
 

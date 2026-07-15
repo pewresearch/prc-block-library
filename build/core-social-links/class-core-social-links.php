@@ -388,7 +388,6 @@ class Core_Social_Links {
 
 			if ( $add_interactivity ) {
 				wp_enqueue_script_module( $this->view_script_handle );
-				wp_enqueue_script( 'wp-url' );
 
 				// Go back to the <li> tag to add attributes.
 				$tags->seek( 'social-link' );
