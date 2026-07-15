@@ -20,6 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Generate_Title {
 
 	/**
+	 * Plugin file used to validate activation on the target site.
+	 *
+	 * @var string
+	 */
+	private const PLUGIN_FILE = 'prc-block-library/prc-block-library.php';
+
+	/**
 	 * Ability name.
 	 *
 	 * @var string
@@ -57,6 +64,7 @@ class Generate_Title {
 							'type'        => 'integer',
 							'description' => 'The linked post ID.',
 						),
+						'site_id' => \PRC\Platform\AI\Utils\site_id_input_schema_property(),
 					),
 					'required'             => array( 'post_id' ),
 					'additionalProperties' => false,
@@ -74,13 +82,25 @@ class Generate_Title {
 						),
 					),
 				),
-				'execute_callback'    => array( $this, 'execute' ),
-				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
+				'execute_callback'    => function ( $input ) {
+					return $this->with_site(
+						$input,
+						function () use ( $input ) {
+							return $this->execute( $input );
+						}
+					);
+				},
+				'permission_callback' => function ( $input = null ) {
+					return $this->with_site(
+						$input,
+						function () {
+							return current_user_can( 'edit_posts' );
+						}
+					);
 				},
 				'meta'                => array(
 					'annotations'    => array(
-						'instructions' => 'This ability generates a short, factual headline/title for a Story Item block from the linked post title and content.',
+						'instructions' => 'This ability generates a short, factual headline/title for a Story Item block from the linked post title and content. Optionally pass site_id to run against a specific multisite blog; defaults to the content site (20). If this plugin is inactive on the target site, the ability returns plugin_inactive_on_site.',
 						'readonly'     => true,
 						'destructive'  => false,
 						'idempotent'   => false,
@@ -209,6 +229,21 @@ GUIDELINES:
 		return array(
 			'error' => '',
 			'title' => $generated_title,
+		);
+	}
+
+	/**
+	 * Run a callback on the requested target site.
+	 *
+	 * @param array|null $input    Ability input.
+	 * @param callable   $callback Callback to run after site validation/switching.
+	 * @return mixed
+	 */
+	private function with_site( $input, callable $callback ) {
+		return \PRC\Platform\AI\Utils\with_site(
+			\PRC\Platform\AI\Utils\resolve_site_id( is_array( $input ) ? $input : null ),
+			self::PLUGIN_FILE,
+			$callback
 		);
 	}
 }
