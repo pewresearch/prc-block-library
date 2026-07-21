@@ -35,11 +35,18 @@ class Story_Item {
 	public static $cache_invalidate = '10-23-2023';
 
 	/**
+	 * Object cache group for rendered story items.
+	 *
+	 * @var string
+	 */
+	public static $cache_group = 'story-item-v1';
+
+	/**
 	 * Cache TTL
 	 *
 	 * @var int
 	 */
-	public static $cache_ttl = 10 * MINUTE_IN_SECONDS;
+	public static $cache_ttl = HOUR_IN_SECONDS;
 
 	/**
 	 * Constructor
@@ -59,9 +66,75 @@ class Story_Item {
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
+			// After WP AI plugins_loaded bootstrap (priority 10); Abstract_Feature is not autoloadable before that.
+			$loader->add_action( 'plugins_loaded', $this, 'register_wp_ai_features', 11 );
 			$loader->add_action( 'init', $this, 'block_init' );
 			$loader->add_filter( 'render_block_context', $this, 'handle_story_item_query_context_awareness', 100, 3 );
+			$loader->add_action( 'prc_platform_on_update', $this, 'clear_cache_on_update', 10, 1 );
 		}
+	}
+
+	/**
+	 * Load Story Item AI classes and register the feature with the WP AI plugin.
+	 *
+	 * @return void
+	 */
+	public function register_wp_ai_features() {
+		if ( ! class_exists( '\WordPress\AI\Abstracts\Abstract_Feature' ) ) {
+			return;
+		}
+
+		require_once __DIR__ . '/class-ai.php';
+
+		add_action(
+			'wpai_register_features',
+			function ( $registry ) {
+				$registry->register_feature( new Story_Item_AI() );
+			}
+		);
+	}
+
+	/**
+	 * Get the cache version for a post-backed story item.
+	 *
+	 * @param int|false $post_id Post ID.
+	 * @return int
+	 */
+	public static function get_cache_version( $post_id ) {
+		if ( ! $post_id ) {
+			return 0;
+		}
+		$version = wp_cache_get( 'v_' . (int) $post_id, self::$cache_group );
+		return false === $version ? 0 : (int) $version;
+	}
+
+	/**
+	 * Bump cache version so prior render cache entries are ignored.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return void
+	 */
+	public static function bump_cache_version( int $post_id ): void {
+		wp_cache_set(
+			'v_' . $post_id,
+			self::get_cache_version( $post_id ) + 1,
+			self::$cache_group,
+			DAY_IN_SECONDS
+		);
+	}
+
+	/**
+	 * Invalidate story item render cache when a post updates.
+	 *
+	 * @hook prc_platform_on_update
+	 * @param \WP_Post $post Post object.
+	 * @return void
+	 */
+	public function clear_cache_on_update( $post ) {
+		if ( ! $post instanceof \WP_Post ) {
+			return;
+		}
+		self::bump_cache_version( (int) $post->ID );
 	}
 
 	/**
@@ -77,6 +150,16 @@ class Story_Item {
 	public function render_story_item( $attributes, $content, $block ) {
 		$story_item = new Story_Item_API( $attributes, $content, $block->context );
 
+		$use_cache = ! is_user_logged_in() && ! is_preview() && false !== $story_item->post_id;
+		$cache_key = $use_cache ? $story_item->get_cache_key() : false;
+
+		if ( $use_cache && false !== $cache_key ) {
+			$cached_markup = wp_cache_get( $cache_key, self::$cache_group );
+			if ( false !== $cached_markup && is_string( $cached_markup ) ) {
+				return $cached_markup;
+			}
+		}
+
 		$block_wrapper_attrs = $story_item->get_block_wrapper_attributes();
 
 		$meta_markup    = $story_item->get_meta_markup();
@@ -84,7 +167,7 @@ class Story_Item {
 		$content_markup = $story_item->get_content_markup();
 		$image_markup   = $story_item->get_image_markup();
 
-		return wp_sprintf(
+		$markup = wp_sprintf(
 			'<article %1$s>%2$s %3$s %4$s %5$s</article>',
 			$block_wrapper_attrs,
 			$meta_markup,
@@ -92,6 +175,12 @@ class Story_Item {
 			$title_markup,
 			$content_markup,
 		);
+
+		if ( $use_cache && false !== $cache_key ) {
+			wp_cache_set( $cache_key, $markup, self::$cache_group, self::$cache_ttl );
+		}
+
+		return $markup;
 	}
 
 	/**

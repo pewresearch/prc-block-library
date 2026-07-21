@@ -72,6 +72,7 @@ class Core_Table {
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_script' );
+			$loader->add_action( 'enqueue_block_assets', $this, 'register_editor_style' );
 			$loader->add_filter( 'upload_mimes', $this, 'allow_csv_mime_type', 10, 1 );
 			$loader->add_filter( 'render_block', $this, 'enqueue_view_style', 10, 2 );
 		}
@@ -122,6 +123,19 @@ class Core_Table {
 	 */
 	public function register_editor_script() {
 		wp_enqueue_script( $this->editor_script_handle );
+	}
+
+	/**
+	 * Register editor style for the iframed canvas.
+	 *
+	 * @hook enqueue_block_assets
+	 * @return void
+	 */
+	public function register_editor_style() {
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		wp_enqueue_style( $this->style_handle );
 	}
 

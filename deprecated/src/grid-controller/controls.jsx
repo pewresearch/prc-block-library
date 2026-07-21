@@ -160,7 +160,6 @@ export default function Controls({
 					panelId={clientId}
 				>
 					<RangeControl
-						__next40pxDefaultSize
 						__nextHasNoMarginBottom
 						label={__('Columns')}
 						value={count}

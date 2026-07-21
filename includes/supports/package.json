@@ -1,6 +1,6 @@
 {
 	"name": "@prc/block-library-supports",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"build": "wp-scripts build --experimental-modules --webpack-copy-php --source-path=src --output-path=build"

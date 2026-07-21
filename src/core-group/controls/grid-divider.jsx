@@ -72,7 +72,6 @@ export default function GridDividerControls({
 				panelId={clientId}
 			>
 				<RangeControl
-					__next40pxDefaultSize
 					__nextHasNoMarginBottom
 					label={__('Divider Inset', 'core-group')}
 					value={dividerInset || 0}

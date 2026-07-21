@@ -60,33 +60,34 @@ class Responsive_Container_Controller {
 	}
 
 	/**
-	 * Get the block id hash
+	 * Cheap unique DOM id for a viewport.
 	 *
-	 * @param mixed $block Block.
+	 * Ids only need to match media queries within the same request. The previous
+	 * implementation hashed the full parsed block tree (including innerBlocks)
+	 * via json_encode + sha1 — far more expensive than needed for an ephemeral
+	 * DOM id. wp_unique_id() is O(1) and guarantees document uniqueness even when
+	 * many controllers share identical breakpoint attributes.
+	 *
+	 * @param array $attrs Unused; retained for call-site compatibility.
+	 * @param int   $index Unused; retained for call-site compatibility.
 	 * @return string
 	 */
-	public function get_block_id_hash( $block ) {
-		return substr( strtolower( preg_replace( '/[0-9_\/]+/', '', base64_encode( sha1( wp_json_encode( $block ) ) ) ) ), 0, 10 );
+	public function get_block_id_hash( $attrs = array(), $index = 0 ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+		return wp_unique_id( 'rcv-' );
 	}
 
 	/**
-	 * Construct media queries
+	 * Construct media queries from precomputed viewport specs.
 	 *
-	 * @param mixed $innerblocks Inner blocks.
+	 * @param array $viewport_specs List of [ 'id' => string, 'min' => ?int, 'max' => ?int ].
 	 * @return string
 	 */
-	public function construct_media_queries( $innerblocks ) {
+	public function construct_media_queries( $viewport_specs ) {
 		$media_queries = array();
-		foreach ( $innerblocks as $viewport_block ) {
-			$id  = $id = $this->get_block_id_hash( $viewport_block );
-			$min = array_key_exists(
-				'min',
-				$viewport_block['attrs']
-			) && 0 !== $viewport_block['attrs']['min'] ? $viewport_block['attrs']['min'] : null;
-			$max = array_key_exists(
-				'max',
-				$viewport_block['attrs']
-			) && 0 !== $viewport_block['attrs']['max'] ? $viewport_block['attrs']['max'] : null;
+		foreach ( $viewport_specs as $spec ) {
+			$id  = $spec['id'];
+			$min = array_key_exists( 'min', $spec ) && null !== $spec['min'] && 0 !== $spec['min'] ? $spec['min'] : null;
+			$max = array_key_exists( 'max', $spec ) && null !== $spec['max'] && 0 !== $spec['max'] ? $spec['max'] : null;
 
 			if ( null !== $min && null !== $max ) {
 				$media_queries[ $id ] = sprintf( '@media screen and (max-width: %spx) and (min-width: %spx) {#%s.wp-block-prc-block-responsive-container-view { display: flex!important; }}', $max, $min, $id );
@@ -111,26 +112,35 @@ class Responsive_Container_Controller {
 			return $content;
 		}
 
+		// Wrapper id is not referenced by media queries; uniqueness in-document is enough.
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'id' => $this->get_block_id_hash( $block ),
+				'id' => wp_unique_id( 'rcc-' ),
 			)
 		);
 
 		// Reset content.
-		$content = '';
+		$content        = '';
+		$viewport_specs = array();
 
-		foreach ( $block->parsed_block['innerBlocks'] as $i => $viewport_block ) {
-			$id                            = $this->get_block_id_hash( $viewport_block );
+		foreach ( $block->parsed_block['innerBlocks'] as $viewport_block ) {
+			$attrs                         = isset( $viewport_block['attrs'] ) && is_array( $viewport_block['attrs'] ) ? $viewport_block['attrs'] : array();
+			$id                            = $this->get_block_id_hash( $attrs );
 			$viewport_block['attrs']['id'] = $id;
 			$content                      .= render_block( $viewport_block );
+
+			$viewport_specs[] = array(
+				'id'  => $id,
+				'min' => array_key_exists( 'min', $attrs ) ? $attrs['min'] : null,
+				'max' => array_key_exists( 'max', $attrs ) ? $attrs['max'] : null,
+			);
 		}
 
 		return wp_sprintf(
 			'<div %1$s>%2$s</div><style>%3$s</style>',
 			$wrapper_attributes,
 			$content,
-			$this->construct_media_queries( $block->parsed_block['innerBlocks'] ),
+			$this->construct_media_queries( $viewport_specs ),
 		);
 	}
 

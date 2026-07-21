@@ -8,7 +8,7 @@
 | Title       | Story Item                                                                                                                                                                             |
 | Category    | `content-curation`                                                                                                                                                                     |
 | Version     | 5.0.0                                                                                                                                                                                  |
-| Description | A story item is a visual display of a post, with a title, excerpt, and image. Pre-compiled variations such as pub-listing, list-item, and newsletter-glue are available for each post. |
+| Description | A story item is a visual display of a post, with a title, excerpt, and image. Pre-compiled variations such as pub-listing and list-item are available for each post. |
 | Keywords    | prc, story, item, story item, stub                                                                                                                                                     |
 
 ## Supports
@@ -44,7 +44,6 @@
 | `enableMeta`            | `boolean` | `true`      | Whether to show the meta section (label, date).                                                                                                                                                                                                            |
 | `metaTaxonomy`          | `string`  | `"formats"` | Which taxonomy to use for the meta label.                                                                                                                                                                                                                  |
 | `isPreview`             | `boolean` | `false`     | Whether the block is in preview/read-only mode.                                                                                                                                                                                                            |
-| `isNewsletterGlue`      | `boolean` | `false`     | Whether to use Newsletter Glue (Mailchimp) compatible markup.                                                                                                                                                                                              |
 
 ## Uses Context
 
@@ -82,7 +81,6 @@ None defined in `block.json`.
 | `story-item-lede`                | Lede Story Item                | Default lede layout: top A1 image with header and excerpt. | `imageSlot: "top"`, `imageSize: "A1"`, `headerSize: 1`  |
 | `story-item-publication-listing` | Publication Listing Story Item | Left A3 image (right on mobile).                           | `imageSlot: "left"`, `imageSize: "A3"`, `headerSize: 2` |
 | `story-item-list-item`           | List Item                      | No excerpt, no image.                                      | `imageSlot: "disabled"`, `enableExcerpt: false`         |
-| `story-item-newsletter-glue`     | Newsletter Glue                | Mailchimp-compatible version.                              | `isNewsletterGlue: true`                                |
 
 All variations are available in the inserter, block settings, and transform scopes.
 
@@ -148,7 +146,6 @@ The block is server-side rendered via `Story_Item::render_story_item()`:
 -   Supports query context awareness via `handle_story_item_query_context_awareness()`:
     -   When inside a `core/post-template`, the block receives `queryId` and `query` context.
     -   Removes `postId` and `postType` from hoisted context so each iteration uses its own post data.
--   Allowed in Newsletter Glue plugin via the `newsletterglue_allowed_block_list` filter.
 -   Uses caching with a 10-minute TTL for performance.
 -   Date format: `M j, Y` (e.g., "Jan 1, 2023").
 

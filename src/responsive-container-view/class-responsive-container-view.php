@@ -46,7 +46,9 @@ class Responsive_Container_View {
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
-		$block_id = array_key_exists( 'id', $attributes ) ? $attributes['id'] : md5( wp_json_encode( $block ) );
+		$block_id = array_key_exists( 'id', $attributes ) && ! empty( $attributes['id'] )
+			? $attributes['id']
+			: wp_unique_id( 'rcv-' );
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
@@ -55,24 +57,17 @@ class Responsive_Container_View {
 			)
 		);
 
-		$allowed_html = wp_kses_allowed_html( 'post' );
-		if ( is_array( $allowed_html ) ) {
-			$allowed_html['style']        = true;
-			$allowed_html['div']['style'] = true;
-			$allowed_html['p']['style']   = true;
-		}
-
-		ob_start();
+		$style_block = '';
 		if ( array_key_exists( 'additionalStyles', $attributes ) && ! empty( $attributes['additionalStyles'] ) ) {
-			$styles = preg_replace( '/\.([a-zA-Z0-9_-]+)(?!\s*#)/', '#' . $block_id . ' .$1', $attributes['additionalStyles'] );
-			echo '<style>' . $styles . '</style>';
+			$styles      = preg_replace( '/\.([a-zA-Z0-9_-]+)(?!\s*#)/', '#' . $block_id . ' .$1', $attributes['additionalStyles'] );
+			$style_block = '<style>' . $styles . '</style>';
 		}
-		$style_block = ob_get_clean();
 
+		// Trust already-rendered InnerBlocks HTML from render_block(); do not re-run wp_kses.
 		return wp_sprintf(
 			'<div %1$s>%2$s</div>',
 			$block_wrapper_attrs,
-			wp_kses( $content, $allowed_html ) . $style_block
+			$content . $style_block
 		);
 	}
 

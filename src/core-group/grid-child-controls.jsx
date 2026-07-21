@@ -178,7 +178,6 @@ const withGridChildOrderControls = createHigherOrderComponent(
 											),
 										});
 									}}
-									__next40pxDefaultSize
 								/>
 							)}
 						</ToolsPanelItem>

@@ -267,8 +267,14 @@ const { state, actions } = store(
 				}
 			},
 			/**
-			 * Keep nested entity-as-iframe `isActive` in sync with `state.isActiveTab` from the public
+			 * Keep nested entity-as-iframe `isActive` in sync with `state.isActiveTab` from the
 			 * `core/tabs` store (same reactive source as `data-wp-bind--hidden` on tab panels).
+			 *
+			 * Use the store `state` closed over from the top-level `store(..., { lock: unlock })`
+			 * call — do **not** re-enter via `store('core/tabs')` with the default public lock.
+			 * That marks an unlock-created store as public (`storeLocks = false`) and causes
+			 * Gutenberg's later `{ lock: true }` registration to throw
+			 * "Cannot lock a public store", disabling all tab interactivity.
 			 *
 			 * @see https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/tabs/view.js
 			 */
@@ -281,8 +287,7 @@ const { state, actions } = store(
 				) {
 					return;
 				}
-				const { state: tabsState } = store('core/tabs');
-				syncEntityIframeActive(ref, !!tabsState.isActiveTab);
+				syncEntityIframeActive(ref, !!state.isActiveTab);
 			},
 			/**
 			 * Prefetch entity iframe URL when pointer enters a tab button (PHP adds on each tab button).

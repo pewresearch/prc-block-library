@@ -459,10 +459,12 @@ const { state, actions } = store('prc-block/dialog', {
 		 */
 		onAnimationEnd: () => {
 			const { id, dialog } = state;
-			const animationDuration = dialog.animationDuration || 0;
-			if (!id || !dialog.isOpen) {
+			// Guard before reading dialog fields: data-wp-watch can re-run when
+			// context/id is missing or state.dialogs[id] is not initialized yet.
+			if (!id || !dialog?.isOpen) {
 				return;
 			}
+			const animationDuration = dialog.animationDuration || 0;
 			setTimeout(() => {
 				window.dispatchEvent(new CustomEvent('wpDialogAnimationEnd'));
 			}, animationDuration);

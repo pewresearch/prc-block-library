@@ -3,11 +3,9 @@ if ( is_admin() ) {
 	return $content;
 }
 
-$image_attachment = array_key_exists('imageSource', $attributes) && array_key_exists('id', $attributes['imageSource']) ? wp_get_attachment_image_src( $attributes['imageSource']['id'], null) : null;
-$image_url = null !== $image_attachment ? $image_attachment[0] : '';
-if ( ! $image_url ) {
-	$image_url = '';
-}
+$image_attachment = array_key_exists( 'imageSource', $attributes ) && array_key_exists( 'id', $attributes['imageSource'] ) ? wp_get_attachment_image_src( $attributes['imageSource']['id'], null ) : null;
+// wp_get_attachment_image_src() returns false (not null) when the attachment is missing.
+$image_url        = is_array( $image_attachment ) && isset( $image_attachment[0] ) ? $image_attachment[0] : '';
 $audio_url = wp_get_attachment_url( $attributes['source']['id'] );
 $input_title = array_key_exists('title', $attributes) ? $attributes['title'] : '';
 $input_description = array_key_exists('description', $attributes) ? $attributes['description'] : '';

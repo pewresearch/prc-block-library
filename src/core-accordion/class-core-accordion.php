@@ -53,26 +53,11 @@ class Core_Accordion {
 	public $editor_script_handle;
 
 	/**
-	 * View script handle
+	 * View script module handle
 	 *
-	 * @var string
+	 * @var string|false
 	 */
 	public $view_script_module_handle;
-
-	/**
-	 * View script module dependencies
-	 *
-	 * @var array
-	 */
-	public $view_script_module_deps;
-
-	/**
-	 * View script module version
-	 *
-	 * @var string
-	 */
-
-	public $view_script_module_ver;
 
 	/**
 	 * Constructor
@@ -107,10 +92,7 @@ class Core_Accordion {
 	public function register_assets() {
 		$this->style_handle              = register_block_style_handle( $this->block_json, 'style' );
 		$this->editor_script_handle      = register_block_script_handle( $this->block_json, 'editorScript' );
-		$this->view_script_module_handle = register_block_script_handle( $this->block_json, 'viewScriptModule' );
-		$view_asset                      = include PRC_BLOCK_LIBRARY_DIR . '/build/core-accordion/view.asset.php';
-		$this->view_script_module_deps   = $view_asset['dependencies'];
-		$this->view_script_module_ver    = $view_asset['version'];
+		$this->view_script_module_handle = register_block_script_module_id( $this->block_json, 'viewScriptModule' );
 	}
 
 	/**
@@ -242,13 +224,10 @@ class Core_Accordion {
 			return $block_content;
 		}
 
-		// Enqueue the entity-iframe support script.
-		wp_enqueue_script_module(
-			$this->view_script_module_handle,
-			plugins_url( '/build/core-accordion/view.js', PRC_BLOCK_LIBRARY_FILE ),
-			$this->view_script_module_deps,
-			$this->view_script_module_ver
-		);
+		// Enqueue the entity-iframe support script module (registered via block.json).
+		if ( ! empty( $this->view_script_module_handle ) ) {
+			wp_enqueue_script_module( $this->view_script_module_handle );
+		}
 
 		// Add Interactivity API support for entity iframe support to each accordion item.
 		// This is used to toggle the entity iframe when the accordion is opened/closed.

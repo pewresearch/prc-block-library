@@ -8,9 +8,9 @@ import {
 	withSyncEvent,
 	withScope,
 } from '@wordpress/interactivity';
+import { addQueryArgs } from '@wordpress/url';
 
 const { apiFetch } = window.wp;
-const { addQueryArgs } = window.wp.url;
 const { decodeEntities } = window.wp.htmlEntities;
 
 const { state, actions } = store('prc-block/taxonomy-search', {

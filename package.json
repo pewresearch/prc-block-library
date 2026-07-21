@@ -1,6 +1,6 @@
 {
 	"name": "@prc/block-library",
-	"version": "3.1.0",
+	"version": "4.0.1",
 	"description": "PRC Block Library",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
@@ -17,7 +17,6 @@
 		"build:interactivity-api": "npm -w @prc/block-library-interactivity-api run build",
 		"build:pagination": "npm -w @prc/block-library-pagination run build",
 		"build:supports": "npm -w @prc/block-library-supports run build",
-		"build:ai": "npm -w @prc/block-library-ai-features run build",
 		"build:print-engine": "npm -w @prc/block-library-print-engine run build",
 		"start": "node bin/start-block.js",
 		"watch": "node bin/start-block.js",

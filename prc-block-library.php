@@ -32,10 +32,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'DEFAULT_TECHNICAL_CONTACT' ) ) {
-	define( 'DEFAULT_TECHNICAL_CONTACT', 'webdev@pewresearch.org' );
-}
-
 // When running inside the PRC Platform monorepo the root autoloader already
 // provides every dependency; skip per-plugin Jetpack Autoloader initialization.
 if ( ! defined( 'PRC_PLATFORM' ) ) {
@@ -50,27 +46,6 @@ define( 'PRC_BLOCK_LIBRARY_FILE', __FILE__ );
 define( 'PRC_BLOCK_LIBRARY_DIR', __DIR__ );
 define( 'PRC_BLOCK_LIBRARY_VERSION', '3.0.0' );
 define( 'PRC_BLOCK_LIBRARY_MANIFEST_FILE', __DIR__ . '/build/block-manifest.php' );
-
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-prc-block-library-activator.php
- */
-function activate_prc_block_library() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-prc-block-library-activator.php';
-	PRC_Block_Library_Activator::activate();
-}
-
-/**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-prc-block-library-deactivator.php
- */
-function deactivate_prc_block_library() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-prc-block-library-deactivator.php';
-	PRC_Block_Library_Deactivator::deactivate();
-}
-
-register_activation_hook( __FILE__, '\PRC\Platform\Blocks\activate_prc_block_library' );
-register_deactivation_hook( __FILE__, '\PRC\Platform\Blocks\deactivate_prc_block_library' );
 
 /**
  * Helper utilities

@@ -27,6 +27,7 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 import './editor.scss';
 import './style.scss';
+import './edit/ai-controls';
 import edit from './edit';
 import save from './save';
 import icon from './icon';

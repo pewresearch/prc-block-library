@@ -144,8 +144,6 @@ class Plugin {
 
 		// Load plugin loading class.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-loader.php';
-		// Load AI features classes.
-		require_once plugin_dir_path( __DIR__ ) . '/includes/ai-features/class-ai-features.php';
 		// Load block visibility classes.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/block-visibility/class-block-visibility.php';
 		// Load support classes.
@@ -199,17 +197,26 @@ class Plugin {
 	 */
 	private function gutenberg_config() {
 		/**
-		 * Register the block library manifest file.
+		 * Register block metadata collections when the Turbo/wp-scripts build
+		 * has produced the manifest. Skip when missing so local VIP without a
+		 * full build does not trip WP_Block_Metadata_Registry::_doing_it_wrong
+		 * or include() Warnings (Sentry PRC-PLATFORM-PHP-M3 / PHP-KY).
 		 */
-		wp_register_block_metadata_collection(
-			PRC_BLOCK_LIBRARY_DIR . '/build',
-			PRC_BLOCK_LIBRARY_DIR . '/build/blocks-manifest.php'
-		);
+		$library_manifest = PRC_BLOCK_LIBRARY_DIR . '/build/blocks-manifest.php';
+		if ( file_exists( $library_manifest ) ) {
+			wp_register_block_metadata_collection(
+				PRC_BLOCK_LIBRARY_DIR . '/build',
+				$library_manifest
+			);
+		}
 
-		wp_register_block_metadata_collection(
-			PRC_BLOCK_LIBRARY_DIR . '/deprecated/build',
-			PRC_BLOCK_LIBRARY_DIR . '/deprecated/build/blocks-manifest.php'
-		);
+		$deprecated_manifest = PRC_BLOCK_LIBRARY_DIR . '/deprecated/build/blocks-manifest.php';
+		if ( file_exists( $deprecated_manifest ) ) {
+			wp_register_block_metadata_collection(
+				PRC_BLOCK_LIBRARY_DIR . '/deprecated/build',
+				$deprecated_manifest
+			);
+		}
 
 		/**
 		 * Load core block assets separately
@@ -255,7 +262,6 @@ class Plugin {
 	 * Init additional library support classes
 	 */
 	private function define_library_dependencies() {
-		new AI_Features( $this->get_loader() );
 		new Block_Visibility( $this->get_loader() );
 		new Custom_Text_Formats( $this->get_loader() );
 		new Interactivity_API( $this->get_loader() );

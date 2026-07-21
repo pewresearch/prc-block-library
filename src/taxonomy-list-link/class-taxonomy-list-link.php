@@ -63,8 +63,6 @@ class Taxonomy_List_Link {
 			return $content;
 		}
 
-		wp_enqueue_script( 'wp-url' );
-
 		// Default Plus and Minus Icons.
 		$chevron_right_icon = \PRC\Platform\Icons\render( 'solid', 'chevron-right' );
 		$plus_icon          = \PRC\Platform\Icons\render( 'light', 'circle-plus' );

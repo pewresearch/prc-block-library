@@ -70,32 +70,37 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 	const { min, max, additionalStyles } = attributes;
 
 	// Determine the maximum, get the minimum of the previous block and subtract 1. If there are no blocks prior, and this is the first block, set the max to 0.
-	const {constrainedMax, isFirstBlock, isLastBlock} = useSelect((select) => {
-		const previousBlockClientId =
-			select('core/block-editor').getPreviousBlockClientId(clientId);
-		const previousBlockAttrs = select(
-			'core/block-editor'
-		).getBlockAttributes(previousBlockClientId);
-		const rootClientId = select('core/block-editor').getBlockRootClientId(clientId);
-		const rootBlock = select('core/block-editor').getBlock(rootClientId);
-		const rootInnerBlocks = rootBlock.innerBlocks;
-		const lastBlockClientId = rootInnerBlocks[rootInnerBlocks.length - 1].clientId;
-		const firstBlockClientId = rootInnerBlocks[0].clientId;
-		const _isFirstBlock = clientId === firstBlockClientId;
-		const _isLastBlock = clientId === lastBlockClientId;
-		let _constrainedMax = null;
-		if (null !== previousBlockAttrs) {
-			const _calc = previousBlockAttrs?.min - 1;
-			if (_calc > 0) {
-				_constrainedMax = _calc;
+	const { constrainedMax, isFirstBlock, isLastBlock } = useSelect(
+		(select) => {
+			const previousBlockClientId =
+				select('core/block-editor').getPreviousBlockClientId(clientId);
+			const previousBlockAttrs = select(
+				'core/block-editor'
+			).getBlockAttributes(previousBlockClientId);
+			const rootClientId =
+				select('core/block-editor').getBlockRootClientId(clientId);
+			const rootBlock =
+				select('core/block-editor').getBlock(rootClientId);
+			const rootInnerBlocks = rootBlock.innerBlocks;
+			const lastBlockClientId =
+				rootInnerBlocks[rootInnerBlocks.length - 1].clientId;
+			const firstBlockClientId = rootInnerBlocks[0].clientId;
+			const _isFirstBlock = clientId === firstBlockClientId;
+			const _isLastBlock = clientId === lastBlockClientId;
+			let _constrainedMax = null;
+			if (null !== previousBlockAttrs) {
+				const _calc = previousBlockAttrs?.min - 1;
+				if (_calc > 0) {
+					_constrainedMax = _calc;
+				}
 			}
+			return {
+				constrainedMax: _constrainedMax,
+				isFirstBlock: _isFirstBlock,
+				isLastBlock: _isLastBlock,
+			};
 		}
-		return {
-			constrainedMax: _constrainedMax,
-			isFirstBlock: _isFirstBlock,
-			isLastBlock: _isLastBlock,
-		};
-	});
+	);
 
 	const [minValue, setMinValue] = useState(min);
 	const [maxValue, setMaxValue] = useState(max);
@@ -139,7 +144,6 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 						{!isLastBlock && (
 							<FlexBlock>
 								<NumberControl
-									__next40pxDefaultSize
 									label="Minimum"
 									value={minValue}
 									max={maxValue}
@@ -160,7 +164,6 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 						{!isFirstBlock && (
 							<FlexBlock>
 								<NumberControl
-									__next40pxDefaultSize
 									label="Maximum"
 									value={maxValue}
 									max={constrainedMax}
@@ -174,7 +177,10 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 					</Flex>
 				</PanelRow>
 				<PanelRow>
-					<DeviceSizeQuickSelect attributes={attributes} setAttributes={setAttributes} />
+					<DeviceSizeQuickSelect
+						attributes={attributes}
+						setAttributes={setAttributes}
+					/>
 				</PanelRow>
 			</PanelBody>
 			<PanelBody title="Responsive Styles" initialOpen={true}>

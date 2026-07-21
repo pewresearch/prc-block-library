@@ -54,13 +54,6 @@ class Playground {
 				return $block_type->name !== 'prc-block/playground';
 			}
 		);
-		// filter out any with block_type->name containing newsletterglue
-		$block_types = array_filter(
-			$block_types,
-			function ( $block_type ) {
-				return strpos( $block_type->name, 'newsletterglue' ) === false;
-			}
-		);
 		// filter out any with block_type->parent that have non null values
 		$block_types = array_filter(
 			$block_types,

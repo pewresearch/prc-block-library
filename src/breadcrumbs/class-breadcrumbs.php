@@ -19,6 +19,16 @@ use WP_Block_Type_Registry;
  */
 class Breadcrumbs {
 	/**
+	 * Object cache group for breadcrumb trail assembly.
+	 */
+	private const CACHE_GROUP = 'prc_breadcrumbs';
+
+	/**
+	 * Cache TTL for breadcrumb trail assembly.
+	 */
+	private const CACHE_TTL = HOUR_IN_SECONDS;
+
+	/**
 	 * Constructor
 	 *
 	 * @param mixed $loader Loader.
@@ -36,7 +46,314 @@ class Breadcrumbs {
 		if ( null !== $loader ) {
 			$loader->add_filter( 'allowed_block_types_all', $this, 'disable_other_breadcrumb_blocks', 10, 2 );
 			$loader->add_action( 'init', $this, 'block_init' );
+			$loader->add_action( 'prc_platform_on_update', $this, 'clear_cache_on_post_update', 10, 1 );
+			$loader->add_action( 'edited_term', $this, 'clear_cache_on_term_update', 10, 3 );
 		}
+	}
+
+	/**
+	 * Whether breadcrumb trail assembly should use object cache.
+	 *
+	 * @return bool
+	 */
+	private static function should_use_cache(): bool {
+		return ! is_user_logged_in() && ! is_preview();
+	}
+
+	/**
+	 * Object cache key prefix for a breadcrumb context.
+	 *
+	 * @param string $object_key Stable object identifier.
+	 * @return string
+	 */
+	private static function get_object_version_key( string $object_key ): string {
+		return 'v_' . $object_key;
+	}
+
+	/**
+	 * Get cache version for a breadcrumb object.
+	 *
+	 * @param string $object_key Stable object identifier.
+	 * @return int
+	 */
+	private static function get_cache_version( string $object_key ): int {
+		$version = wp_cache_get( self::get_object_version_key( $object_key ), self::CACHE_GROUP );
+		return false === $version ? 0 : (int) $version;
+	}
+
+	/**
+	 * Bump cache version so prior trail cache entries are ignored.
+	 *
+	 * @param string $object_key Stable object identifier.
+	 * @return void
+	 */
+	private static function bump_cache_version( string $object_key ): void {
+		wp_cache_set(
+			self::get_object_version_key( $object_key ),
+			self::get_cache_version( $object_key ) + 1,
+			self::CACHE_GROUP,
+			DAY_IN_SECONDS
+		);
+	}
+
+	/**
+	 * Build a stable object key for cache invalidation.
+	 *
+	 * @param string                          $type_of_object Object type label.
+	 * @param \WP_Post|\WP_Term|\WP_Post_Type|\WP_User $current_object Queried object.
+	 * @return string|null
+	 */
+	private static function get_object_cache_key( string $type_of_object, $current_object ): ?string {
+		switch ( $type_of_object ) {
+			case 'WP_Post':
+				return 'post_' . (int) $current_object->ID;
+			case 'WP_Term':
+				return 'term_' . (int) $current_object->term_id;
+			case 'WP_Post_Type':
+				return 'post_type_' . sanitize_key( $current_object->name );
+			case 'WP_User':
+				return 'user_' . (int) $current_object->ID;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Cache key for an assembled breadcrumb trail.
+	 *
+	 * @param string $object_key Stable object identifier.
+	 * @param bool   $show_current_page Whether the current page title is included.
+	 * @param bool   $includes_category_crumbs Whether middle crumbs embed category term data.
+	 * @return string
+	 */
+	private static function get_trail_cache_key( string $object_key, bool $show_current_page, bool $includes_category_crumbs = false ): string {
+		$version = self::get_cache_version( $object_key );
+		if ( $includes_category_crumbs ) {
+			// Post trails embed live category names/links; include taxonomy version so term edits invalidate them.
+			$version .= '_c' . self::get_cache_version( 'taxonomy_category' );
+		}
+
+		return 'trail_' . $object_key . '_v' . $version . '_sc' . ( $show_current_page ? '1' : '0' );
+	}
+
+	/**
+	 * Invalidate breadcrumb cache when a post updates.
+	 *
+	 * @hook prc_platform_on_update
+	 *
+	 * @param \WP_Post $post Updated post.
+	 * @return void
+	 */
+	public function clear_cache_on_post_update( $post ): void {
+		if ( ! $post instanceof \WP_Post ) {
+			return;
+		}
+
+		self::bump_cache_version( 'post_' . (int) $post->ID );
+	}
+
+	/**
+	 * Invalidate breadcrumb cache when a term updates.
+	 *
+	 * @hook edited_term
+	 *
+	 * @param int    $term_id  Term ID.
+	 * @param int    $tt_id    Term taxonomy ID.
+	 * @param string $taxonomy Taxonomy slug.
+	 * @return void
+	 */
+	public function clear_cache_on_term_update( $term_id, $tt_id, $taxonomy ): void {
+		unset( $tt_id );
+		self::bump_cache_version( 'term_' . (int) $term_id );
+		if ( 'category' === $taxonomy ) {
+			self::bump_cache_version( 'taxonomy_category' );
+		}
+	}
+
+	/**
+	 * Resolve breadcrumb context from the queried object.
+	 *
+	 * @param object|null $queried_object Queried object.
+	 * @return array|null
+	 */
+	private function resolve_breadcrumb_context( $queried_object ): ?array {
+		if ( null === $queried_object ) {
+			return null;
+		}
+
+		$type_of_object              = '';
+		$ancestor_ids                = array();
+		$breadcrumbs_from_categories = false;
+
+		if ( $queried_object instanceof \WP_Post ) {
+			$type_of_object = 'WP_Post';
+		} elseif ( $queried_object instanceof \WP_Term ) {
+			$type_of_object = 'WP_Term';
+		} elseif ( $queried_object instanceof \WP_Post_Type ) {
+			$type_of_object = 'WP_Post_Type';
+		} elseif ( $queried_object instanceof \WP_User ) {
+			$type_of_object = 'WP_User';
+		} else {
+			return null;
+		}
+
+		$current_object = $queried_object;
+
+		switch ( $type_of_object ) {
+			case 'WP_Post':
+				if ( 'attachment' === $current_object->post_type && $current_object->post_parent ) {
+					$parent_post = get_post( $current_object->post_parent );
+					if ( ! $parent_post instanceof \WP_Post ) {
+						return null;
+					}
+					$current_object = $parent_post;
+				}
+				$has_post_hierarchy = is_post_type_hierarchical( $current_object->post_type );
+				// When true, middle crumbs use category links; when false, post parent permalinks.
+				$breadcrumbs_from_categories = ! $has_post_hierarchy;
+				// Hierarchical post types (pages, custom) use post ancestors.
+				// Non-hierarchical (posts, reports) use primary term in 'category' taxonomy.
+				if ( $has_post_hierarchy ) {
+					$ancestor_ids = get_ancestors( $current_object->ID, $current_object->post_type, 'post_type' );
+					// Some hierarchical CPTs (e.g. `feature`) use hierarchy for URLs but have no parent;
+					// fall back to primary category like non-hierarchical posts.
+					if ( empty( $ancestor_ids ) ) {
+						$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
+						if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
+							$term = get_term( $primary_term_id, 'category' );
+							if ( $term instanceof \WP_Term ) {
+								$ancestor_ids[]              = $term->term_id;
+								$ancestor_ids                = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
+								$breadcrumbs_from_categories = true;
+							}
+						}
+					}
+				} else {
+					$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
+					if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
+						$term = get_term( $primary_term_id, 'category' );
+						if ( $term instanceof \WP_Term ) {
+							$ancestor_ids[] = $term->term_id;
+							$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
+						}
+					}
+				}
+				break;
+			case 'WP_Term':
+				$ancestor_ids                = get_ancestors( $current_object->term_id, $current_object->taxonomy, 'taxonomy' );
+				$breadcrumbs_from_categories = true;
+				break;
+			case 'WP_Post_Type':
+				// No ancestors.
+				break;
+			case 'WP_User':
+				// No ancestors.
+				break;
+			default:
+				return null;
+		}
+
+		$object_key = self::get_object_cache_key( $type_of_object, $current_object );
+		if ( null === $object_key ) {
+			return null;
+		}
+
+		return array(
+			'type_of_object'              => $type_of_object,
+			'current_object'              => $current_object,
+			'ancestor_ids'                => $ancestor_ids,
+			'breadcrumbs_from_categories' => $breadcrumbs_from_categories,
+			'object_key'                  => $object_key,
+		);
+	}
+
+	/**
+	 * Build ancestor and current-page breadcrumb trail data.
+	 *
+	 * Home and index crumbs are attribute-driven and merged after cache lookup.
+	 *
+	 * @param array $context           Resolved breadcrumb context.
+	 * @param bool  $show_current_page Whether to append the current page title.
+	 * @return array<int, array{url: string, text: string}>
+	 */
+	private function build_trail_breadcrumbs( array $context, bool $show_current_page ): array {
+		$breadcrumbs                 = array();
+		$type_of_object              = $context['type_of_object'];
+		$current_object              = $context['current_object'];
+		$ancestor_ids                = $context['ancestor_ids'];
+		$breadcrumbs_from_categories = $context['breadcrumbs_from_categories'];
+
+		if ( ! empty( $ancestor_ids ) ) {
+			if ( $breadcrumbs_from_categories ) {
+				foreach ( array_reverse( $ancestor_ids ) as $ancestor_id ) {
+					$breadcrumbs[] = array(
+						'url'  => get_category_link( $ancestor_id ),
+						'text' => get_cat_name( $ancestor_id ),
+					);
+				}
+			} else {
+				foreach ( array_reverse( $ancestor_ids ) as $ancestor_id ) {
+					$breadcrumbs[] = array(
+						'url'  => get_the_permalink( $ancestor_id ),
+						'text' => get_the_title( $ancestor_id ),
+					);
+				}
+			}
+		}
+
+		if ( $show_current_page ) {
+			$current_page_url   = null;
+			$current_page_title = null;
+			if ( 'WP_Post' === $type_of_object ) {
+				$current_page_url   = get_the_permalink( $current_object->ID );
+				$current_page_title = $current_object->post_title;
+			} elseif ( 'WP_Term' === $type_of_object ) {
+				$current_page_url   = get_term_link( $current_object, $current_object->taxonomy );
+				$current_page_title = $current_object->name;
+			}
+			if ( $current_page_url && $current_page_title ) {
+				$breadcrumbs[] = array(
+					'url'  => $current_page_url,
+					'text' => $current_page_title,
+				);
+			}
+		}
+
+		return $breadcrumbs;
+	}
+
+	/**
+	 * Get cached or freshly built breadcrumb trail data.
+	 *
+	 * @param array $context           Resolved breadcrumb context.
+	 * @param bool  $show_current_page Whether to append the current page title.
+	 * @return array<int, array{url: string, text: string}>
+	 */
+	private function get_trail_breadcrumbs( array $context, bool $show_current_page ): array {
+		$object_key                = $context['object_key'];
+		$includes_category_crumbs  = ! empty( $context['breadcrumbs_from_categories'] );
+		$use_cache                 = self::should_use_cache();
+
+		if ( $use_cache ) {
+			$cache_key    = self::get_trail_cache_key( $object_key, $show_current_page, $includes_category_crumbs );
+			$cached_trail = wp_cache_get( $cache_key, self::CACHE_GROUP );
+			if ( false !== $cached_trail && is_array( $cached_trail ) ) {
+				return $cached_trail;
+			}
+		}
+
+		$trail = $this->build_trail_breadcrumbs( $context, $show_current_page );
+
+		if ( $use_cache ) {
+			wp_cache_set(
+				self::get_trail_cache_key( $object_key, $show_current_page, $includes_category_crumbs ),
+				$trail,
+				self::CACHE_GROUP,
+				self::CACHE_TTL
+			);
+		}
+
+		return $trail;
 	}
 
 	/**
@@ -82,89 +399,22 @@ class Breadcrumbs {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		$context            = $block->context;
-		$show_current_page  = ! empty( $attributes['showCurrentPageTitle'] );
-		$current_object     = get_queried_object();
-		$type_of_object     = '';
-		$ancestor_ids                = array();
-		$has_post_hierarchy          = false;
-		$breadcrumbs_from_categories = false;
+		$context           = $block->context;
+		$show_current_page = ! empty( $attributes['showCurrentPageTitle'] );
+		$breadcrumb_context = $this->resolve_breadcrumb_context( get_queried_object() );
 
-		if ( null === $current_object ) {
+		if ( null === $breadcrumb_context ) {
 			return '';
 		}
 
-		if ( $current_object instanceof \WP_Post ) {
-			$type_of_object = 'WP_Post';
-		} elseif ( $current_object instanceof \WP_Term ) {
-			$type_of_object = 'WP_Term';
-		} elseif ( $current_object instanceof \WP_Post_Type ) {
-			$type_of_object = 'WP_Post_Type';
-		} elseif ( $current_object instanceof \WP_User ) {
-			$type_of_object = 'WP_User';
-		}
-
-		switch ( $type_of_object ) {
-			case 'WP_Post':
-				if ( 'attachment' === $current_object->post_type && $current_object->post_parent ) {
-					$parent_post = get_post( $current_object->post_parent );
-					if ( ! $parent_post instanceof \WP_Post ) {
-						return '';
-					}
-					$current_object = $parent_post;
-				}
-				$has_post_hierarchy = is_post_type_hierarchical( $current_object->post_type );
-				// When true, middle crumbs use category links; when false, post parent permalinks.
-				$breadcrumbs_from_categories = ! $has_post_hierarchy;
-				// Hierarchical post types (pages, custom) use post ancestors.
-				// Non-hierarchical (posts, reports) use primary term in 'category' taxonomy.
-				if ( $has_post_hierarchy ) {
-					$ancestor_ids = get_ancestors( $current_object->ID, $current_object->post_type, 'post_type' );
-					// Some hierarchical CPTs (e.g. `feature`) use hierarchy for URLs but have no parent;
-					// fall back to primary category like non-hierarchical posts.
-					if ( empty( $ancestor_ids ) ) {
-						$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
-						if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
-							$term = get_term( $primary_term_id, 'category' );
-							if ( $term instanceof \WP_Term ) {
-								$ancestor_ids[] = $term->term_id;
-								$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
-								$breadcrumbs_from_categories = true;
-							}
-						}
-					}
-				} else {
-					$primary_term_id = \PRC\BlockUtils\get_primary_term_id( $current_object->ID, 'category' );
-					if ( null !== $primary_term_id && is_numeric( $primary_term_id ) ) {
-						$term = get_term( $primary_term_id, 'category' );
-						if ( $term instanceof \WP_Term ) {
-							$ancestor_ids[] = $term->term_id;
-							$ancestor_ids   = array_merge( $ancestor_ids, get_ancestors( $term->term_id, 'category' ) );
-						}
-					}
-				}
-				break;
-			case 'WP_Term':
-				$ancestor_ids                = get_ancestors( $current_object->term_id, $current_object->taxonomy, 'taxonomy' );
-				$breadcrumbs_from_categories = true;
-				break;
-			case 'WP_Post_Type':
-				// No ancestors.
-				break;
-			case 'WP_User':
-				// No ancestors.
-				break;
-			default:
-				return '';
-		}
-
-		$breadcrumbs = array();
+		$breadcrumbs = $this->get_trail_breadcrumbs( $breadcrumb_context, $show_current_page );
+		$prefix      = array();
 
 		// Set up the home crumb if set to show.
 		if ( $attributes['showHome'] && ! empty( $attributes['homeCrumb']['text'] ) ) {
-			$home_url      = $attributes['homeCrumb']['url'] ?? home_url();
-			$home_label    = $attributes['homeCrumb']['text'] ?? \PRC\Platform\Icons\render( 'solid', 'house' );
-			$breadcrumbs[] = array(
+			$home_url   = $attributes['homeCrumb']['url'] ?? home_url();
+			$home_label = $attributes['homeCrumb']['text'] ?? \PRC\Platform\Icons\render( 'solid', 'house' );
+			$prefix[]   = array(
 				'url'  => $home_url,
 				'text' => $home_label,
 			);
@@ -177,49 +427,15 @@ class Breadcrumbs {
 			if ( $index_url && ! preg_match( '/^https?:\/\//', $index_url ) ) {
 				$index_url = home_url( $index_url );
 			}
-			$index_label   = $attributes['indexCrumb']['text'];
-			$breadcrumbs[] = array(
+			$index_label = $attributes['indexCrumb']['text'];
+			$prefix[]    = array(
 				'url'  => $index_url,
 				'text' => $index_label,
 			);
 		}
 
-		if ( ! empty( $ancestor_ids ) ) {
-			if ( $breadcrumbs_from_categories ) {
-				foreach ( array_reverse( $ancestor_ids ) as $ancestor_id ) {
-					$breadcrumbs[] = array(
-						'url'  => get_category_link( $ancestor_id ),
-						'text' => get_cat_name( $ancestor_id ),
-					);
-				}
-			} else {
-				// Construct remaining breadcrumbs from post-type ancestor ids.
-				foreach ( array_reverse( $ancestor_ids ) as $ancestor_id ) {
-					$breadcrumbs[] = array(
-						'url'  => get_the_permalink( $ancestor_id ),
-						'text' => get_the_title( $ancestor_id ),
-					);
-				}
-			}
-		}
-
-		// Append current page title if set to show.
-		if ( $show_current_page ) {
-			$current_page_url   = null;
-			$current_page_title = null;
-			if ( 'WP_Post' === $type_of_object ) {
-				$current_page_url   = get_the_permalink( $current_object->ID );
-				$current_page_title = $current_object->post_title;
-			} elseif ( 'WP_Term' === $type_of_object ) {
-				$current_page_url   = get_term_link( $current_object, $current_object->taxonomy );
-				$current_page_title = $current_object->name;
-			}
-			if ( $current_page_url && $current_page_title ) {
-				$breadcrumbs[] = array(
-					'url'  => $current_page_url,
-					'text' => $current_page_title,
-				);
-			}
+		if ( ! empty( $prefix ) ) {
+			$breadcrumbs = array_merge( $prefix, $breadcrumbs );
 		}
 
 		/**

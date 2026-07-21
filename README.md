@@ -75,7 +75,7 @@ To scaffold a new block, run `npm run create-block` from the repository root. Se
 | `includes/class-plugin.php`                                  | Boots all blocks and support subsystems; registers block categories and HTML allowlist                                                   |
 | `includes/class-loader.php`                                  | Maintains and runs all WordPress action/filter hooks                                                                                     |
 | `includes/utils.php`                                         | `convert_number_to_words()`, `prc_log_error()`, `prc_block_library_manifest()` helpers                                                   |
-| `includes/ai-features/class-ai-features.php`                 | Registers block library AI features (tabular data, story blurb) via the WordPress AI plugin                                              |
+| `src/story-item/class-ai.php`                                | Story Item AI title/blurb generation via the WordPress AI plugin                                                                         |
 | `includes/block-visibility/class-block-visibility.php`       | Adds editor UI for per-block visibility control                                                                                          |
 | `includes/custom-text-formats/class-custom-text-formats.php` | Registers custom rich text format buttons in the editor toolbar                                                                          |
 | `includes/interactivity-api/class-interactivity-api.php`     | Injects `interactiveNamespace` and `interactiveSubsumption` attributes and context on every block that declares `supports.interactivity` |

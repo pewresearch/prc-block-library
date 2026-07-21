@@ -1,6 +1,0 @@
-{
-	"name": "prc-ai-features/generate-blurb",
-	"title": "Generate Blurb",
-	"description": "Generate a short blurb for a story item from the linked post.",
-	"editorScript": "file:./index.tsx"
-}

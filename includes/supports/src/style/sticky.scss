@@ -5,7 +5,8 @@
 @use "sass:math" as *;
 
 // Make sure sticky blocks account for wp admin bar height.
-body.admin-bar .is-position-sticky.js-is-sticky {
+body.admin-bar:not(.block-editor-iframe__body):not(.editor-styles-wrapper)
+	.is-position-sticky.js-is-sticky {
 	top: calc(
 		0px + var(--wp-admin--admin-bar--position-offset, 0px)
 	) !important;

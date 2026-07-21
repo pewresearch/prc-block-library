@@ -15,41 +15,24 @@ import { useCallback, useEffect } from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
 import { Notice } from '@wordpress/components';
 
-declare global {
-	interface Window {
-		PRCStoryItemAI: {
-			enabled: boolean;
-			abilityGenerateBlurb: string;
-			abilityGenerateTitle: string;
-		};
-	}
-}
-
 const MODAL_CONTENT_WIDTH = '360px';
-
-interface AIGenerateStoryItemProps {
-	mode: 'title' | 'blurb';
-	attributes: Record<string, unknown>;
-	setAttributes: (attrs: Record<string, unknown>) => void;
-	onClose?: () => void;
-}
 
 /**
  * Modal UI for generating a story item title or blurb via AI.
  *
- * @param root0
- * @param root0.mode
- * @param root0.attributes
- * @param root0.setAttributes
- * @param root0.onClose
+ * @param {Object}   props
+ * @param {string}   props.mode
+ * @param {Object}   props.attributes
+ * @param {Function} props.setAttributes
+ * @param {Function} [props.onClose]
  */
 export default function AIGenerateStoryItem({
 	mode,
 	attributes,
 	setAttributes,
 	onClose,
-}: AIGenerateStoryItemProps) {
-	const postId = attributes.postId as number | undefined;
+}) {
+	const postId = attributes.postId;
 
 	const aiConfig = window.PRCStoryItemAI;
 	const abilityName =
@@ -58,12 +41,10 @@ export default function AIGenerateStoryItem({
 			: aiConfig?.abilityGenerateBlurb || 'prc-ai/generate-blurb';
 
 	const { isLoading, error, result, fetch, reset, dismissError } =
-		useAISuggest<string>({
+		useAISuggest({
 			abilityName,
 			transformResult: (raw) =>
-				mode === 'title'
-					? (raw.title as string)
-					: (raw.blurb as string),
+				mode === 'title' ? raw.title : raw.blurb,
 		});
 
 	const handleFetch = useCallback(() => {

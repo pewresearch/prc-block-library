@@ -1666,7 +1666,7 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
-		'viewModule' => 'file:./view.js'
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'flip-card-controller' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -4402,7 +4402,7 @@ return array(
 		'title' => 'Story Item',
 		'version' => '5.0.0',
 		'category' => 'content-curation',
-		'description' => 'A story item is a visual display of a post, with a title, excerpt, and image. Pre-compiled variations such as pub-listing, list-item, and newsletter-glue are available for each post.',
+		'description' => 'A story item is a visual display of a post, with a title, excerpt, and image. Pre-compiled variations such as pub-listing and list-item are available for each post.',
 		'keywords' => array(
 			'prc',
 			'story',

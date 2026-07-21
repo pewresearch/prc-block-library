@@ -127,14 +127,34 @@ function prc_log_error( $group = 'GENERAL ALERT', $code = '', $message = '', $er
 	return $exception;
 }
 
-function prc_block_library_manifest($block_name) {
-	$manifest = include PRC_BLOCK_LIBRARY_DIR . '/build/blocks-manifest.php';
-	if ( ! isset( $manifest[ $block_name ] ) ) {
-		return [];
+/**
+ * Look up a block's metadata from the built blocks-manifest.php index.
+ *
+ * Returns an empty array when the manifest is missing (e.g. local VIP without
+ * a full plugin build). Callers treat that as "no metadata" and skip asset
+ * registration rather than emitting include() Warnings into Sentry.
+ *
+ * @param string $block_name Block directory name under build/ (e.g. 'core-paragraph').
+ * @return array Block metadata from the manifest, or an empty array.
+ */
+function prc_block_library_manifest( $block_name ) {
+	$manifest_file = PRC_BLOCK_LIBRARY_DIR . '/build/blocks-manifest.php';
+	if ( ! file_exists( $manifest_file ) ) {
+		return array();
 	}
-	$manifest = array_key_exists($block_name, $manifest) ? $manifest[$block_name] : [];
-	if ( !empty($manifest) ) {
-		$manifest['file'] = wp_normalize_path( realpath( PRC_BLOCK_LIBRARY_DIR . '/build/'.$block_name.'/block.json' ) );
+
+	$manifest = include $manifest_file;
+	if ( ! is_array( $manifest ) || ! isset( $manifest[ $block_name ] ) ) {
+		return array();
 	}
-	return $manifest;
+
+	$block_manifest = $manifest[ $block_name ];
+	if ( ! empty( $block_manifest ) ) {
+		$block_json_path = realpath( PRC_BLOCK_LIBRARY_DIR . '/build/' . $block_name . '/block.json' );
+		if ( false !== $block_json_path ) {
+			$block_manifest['file'] = wp_normalize_path( $block_json_path );
+		}
+	}
+
+	return $block_manifest;
 }

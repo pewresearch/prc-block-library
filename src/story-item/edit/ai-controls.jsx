@@ -1,8 +1,4 @@
 /**
- * External Dependencies
- */
-
-/**
  * WordPress Dependencies
  */
 import { addFilter } from '@wordpress/hooks';
@@ -20,9 +16,7 @@ import { createHigherOrderComponent } from '@wordpress/compose';
 /**
  * Internal Dependencies
  */
-import AIGenerateStoryItem from './ai-generate-blurb';
-
-type AIMode = 'title' | 'blurb';
+import AIGenerateStoryItem from './ai-generate';
 
 const ALLOWED_BLOCKS = ['prc-block/story-item'];
 
@@ -33,7 +27,11 @@ const ALLOWED_BLOCKS = ['prc-block/story-item'];
 const withAIGenerateStoryItem = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
 		const [isModalOpen, setIsModalOpen] = useState(false);
-		const [mode, setMode] = useState<AIMode>('blurb');
+		const [mode, setMode] = useState('blurb');
+
+		if (!window.PRCStoryItemAI?.enabled) {
+			return <BlockEdit {...props} />;
+		}
 
 		if (!ALLOWED_BLOCKS.includes(props.name)) {
 			return <BlockEdit {...props} />;
@@ -47,15 +45,12 @@ const withAIGenerateStoryItem = createHigherOrderComponent((BlockEdit) => {
 			return <BlockEdit {...props} />;
 		}
 
-		const openModal = (selectedMode: AIMode) => {
+		const openModal = (selectedMode) => {
 			setMode(selectedMode);
 			setIsModalOpen(true);
 		};
 
-		const controls: {
-			title: string;
-			onClick: () => void;
-		}[] = [];
+		const controls = [];
 
 		if (headerEnabled) {
 			controls.push({
@@ -108,6 +103,6 @@ const withAIGenerateStoryItem = createHigherOrderComponent((BlockEdit) => {
 
 addFilter(
 	'editor.BlockEdit',
-	'prc-block-library/ai-features/generate-blurb',
+	'prc-block-library/story-item/ai-controls',
 	withAIGenerateStoryItem
 );

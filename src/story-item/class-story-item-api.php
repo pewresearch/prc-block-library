@@ -105,9 +105,13 @@ class Story_Item_API {
 	 */
 	public function get_cache_key() {
 		$args = array(
-			'query_id'  => $this->check_for_context( 'queryId' ),
-			'post_id'   => $this->post_id,
-			'is_mobile' => $this->is_mobile,
+			'query_id'   => $this->check_for_context( 'queryId' ),
+			'post_id'    => $this->post_id,
+			'is_mobile'  => $this->is_mobile,
+			'version'    => Story_Item::get_cache_version( $this->post_id ),
+			'attributes' => $this->attributes,
+			'content'    => md5( (string) $this->inner_content ),
+			'invalidate' => Story_Item::$cache_invalidate,
 		);
 		return md5( wp_json_encode( $args ) );
 	}

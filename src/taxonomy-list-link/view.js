@@ -2,6 +2,7 @@
  * WordPress Dependencies
  */
 import { store, getElement, getContext } from '@wordpress/interactivity';
+import { addQueryArgs, getQueryArg, removeQueryArgs } from '@wordpress/url';
 
 store('prc-block/taxonomy-list-link', {
 	actions: {
@@ -14,12 +15,12 @@ store('prc-block/taxonomy-list-link', {
 			// Update the URL:
 			if (id) {
 				// Check if the URL already has a taxonomyLink query arg, if so remove it:
-				const existingArgs = window.wp.url.getQueryArg(
+				const existingArgs = getQueryArg(
 					window.location.href,
 					'taxonomyLink'
 				);
 				if (existingArgs && existingArgs === id) {
-					const newUrl = window.wp.url.removeQueryArgs(
+					const newUrl = removeQueryArgs(
 						window.location.href,
 						'taxonomyLink'
 					);
@@ -28,7 +29,7 @@ store('prc-block/taxonomy-list-link', {
 				}
 
 				const { href } = window.location;
-				const newUrl = window.wp.url.addQueryArgs(href, {
+				const newUrl = addQueryArgs(href, {
 					taxonomyLink: id,
 				});
 				window.history.pushState({ id }, '', newUrl);
@@ -44,11 +45,12 @@ store('prc-block/taxonomy-list-link', {
 		onInit: () => {
 			const context = getContext();
 			const { ref } = getElement();
-			const { id } = ref;
-			// If on init this is already active scroll it into view:
-			if (true === context.isActive && id) {
+			// If on init this is already active scroll it into view.
+			// Use the element ref (not getElementById) so a mid-timeout DOM
+			// replacement cannot throw TypeError on null.scrollIntoView.
+			if (true === context.isActive && ref) {
 				setTimeout(() => {
-					document.getElementById(id).scrollIntoView({
+					ref.scrollIntoView({
 						behavior: 'smooth',
 						block: 'center',
 					});

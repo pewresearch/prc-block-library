@@ -42,7 +42,7 @@ No block style variations defined.
 
 This is a container block. The inner blocks are dynamically populated:
 
--   **Blocks mode:** The PHP class constructs a template containing every registered block type (excluding `prc-block/playground` itself, blocks with parent restrictions, and newsletterglue blocks). This template is localized to the editor script.
+-   **Blocks mode:** The PHP class constructs a template containing every registered block type (excluding `prc-block/playground` itself and blocks with parent restrictions). This template is localized to the editor script.
 -   **Components mode:** A single paragraph placeholder is shown in the editor. Component demos render on the frontend.
 
 ## Parent/Ancestor Requirements
@@ -75,7 +75,7 @@ The `render_block_callback` method:
 The `block_init` method:
 
 1. Skips registration entirely in production.
-2. Constructs a block template from all registered block types (filtering out recursive, parent-restricted, and newsletterglue blocks).
+2. Constructs a block template from all registered block types (filtering out recursive and parent-restricted blocks).
 3. Localizes the template to the editor script as `prcPlayground.blockTemplate`.
 
 ## Frontend Interactivity

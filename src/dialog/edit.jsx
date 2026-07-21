@@ -167,11 +167,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							help={__(
 								'The ID of the dialog element. This should be unique on the page.'
 							)}
-							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 						/>
 						<Button
-							__next40pxDefaultSize
 							variant="tertiary"
 							onClick={toggleDialog}
 							disabled={!dialogElementClientId}

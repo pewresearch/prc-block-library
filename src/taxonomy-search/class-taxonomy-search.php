@@ -156,7 +156,6 @@ class Taxonomy_Search {
 	 * @return string
 	 */
 	public function render_callback( $attributes, $content, $block ) {
-		wp_enqueue_script( 'wp-url' );
 		wp_enqueue_script( 'wp-api-fetch' );
 		wp_enqueue_script( 'wp-html-entities' );
 

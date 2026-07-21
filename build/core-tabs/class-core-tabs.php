@@ -55,12 +55,9 @@ class Core_Tabs {
 	/**
 	 * View script module handle
 	 *
-	 * @var string
+	 * @var string|false
 	 */
 	public $view_script_module_handle;
-
-	public $view_script_module_deps;
-	public $view_script_module_ver;
 
 	/**
 	 * Stack of mobile dropdown markup to be copied after tab panels.
@@ -188,10 +185,7 @@ class Core_Tabs {
 	public function register_assets() {
 		$this->style_handle              = register_block_style_handle( $this->block_json, 'style' );
 		$this->editor_script_handle      = register_block_script_handle( $this->block_json, 'editorScript' );
-		$this->view_script_module_handle = register_block_script_handle( $this->block_json, 'viewScriptModule' );
-		$view_asset                      = include PRC_BLOCK_LIBRARY_DIR . '/build/core-tabs/view.asset.php';
-		$this->view_script_module_deps   = $view_asset['dependencies'];
-		$this->view_script_module_ver    = $view_asset['version'];
+		$this->view_script_module_handle = register_block_script_module_id( $this->block_json, 'viewScriptModule' );
 	}
 
 	/**
@@ -641,12 +635,9 @@ class Core_Tabs {
 	 * @return string
 	 */
 	public function render_core_tab_list( $block_content, $block, $instance ) {
-		wp_enqueue_script_module(
-			$this->view_script_module_handle,
-			plugins_url( '/build/core-tabs/view.js', PRC_BLOCK_LIBRARY_FILE ),
-			$this->view_script_module_deps,
-			$this->view_script_module_ver
-		);
+		if ( ! empty( $this->view_script_module_handle ) ) {
+			wp_enqueue_script_module( $this->view_script_module_handle );
+		}
 
 		$context = $instance->context ?? array();
 		$tabs_id = $context['core/tabs-id'] ?? '';

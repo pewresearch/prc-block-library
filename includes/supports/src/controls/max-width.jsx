@@ -74,7 +74,6 @@ export default function MaxWidthControls({
 					value={maxWidth}
 					units={units}
 					label={__('Max Width')}
-					__next40pxDefaultSize
 				/>
 			</ToolsPanelItem>
 		</InspectorControls>
