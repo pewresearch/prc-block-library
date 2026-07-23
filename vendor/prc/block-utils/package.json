@@ -1,0 +1,15 @@
+{
+	"name": "@prc/block-utils-package-dev",
+	"private": true,
+	"devDependencies": {
+		"@wordpress/env": "^10.0.0"
+	},
+	"scripts": {
+		"env:start": "wp-env start",
+		"env:stop": "wp-env stop",
+		"env:install-tests": "wp-env run tests-cli bash -c 'cd /var/www/html && curl -fsSLO https://raw.githubusercontent.com/wp-cli/scaffold-command/main/templates/install-wp-tests.sh && bash install-wp-tests.sh wordpress_test root \"\" localhost latest true'",
+		"test": "wp-env run tests-cli --env-cwd=/var/www/html/wp-content/plugins/prc-block-utils composer test",
+		"test:unit": "wp-env run tests-cli --env-cwd=/var/www/html/wp-content/plugins/prc-block-utils composer run test:unit",
+		"test:integration": "wp-env run tests-cli --env-cwd=/var/www/html/wp-content/plugins/prc-block-utils composer run test:integration"
+	}
+}

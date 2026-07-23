@@ -39,7 +39,90 @@ class Table_Of_Contents {
 		if ( null !== $loader ) {
 			$loader->add_filter( 'allowed_block_types_all', $this, 'disable_other_toc_blocks', 10, 2 );
 			$loader->add_action( 'init', $this, 'block_init' );
+			// Logged-in / preview requests skip both TOC cache get and set (to avoid
+			// serving or poisoning stale draft/preview payloads). Pair that with
+			// explicit invalidation so anonymous traffic is not stuck on a 1-hour TTL
+			// after package_parts / chapter structure changes.
+			$loader->add_action( 'prc_platform_on_update', $this, 'clear_toc_cache_on_update', 20, 1 );
+			$loader->add_action( 'prc_platform_on_publish', $this, 'clear_toc_cache_on_update', 20, 1 );
 		}
+	}
+
+	/**
+	 * Delete cached TOC items for a report package parent and each chapter page.
+	 *
+	 * TOC entries are keyed per requesting post ID (group `post_{id}`, key `prc_toc`)
+	 * because `is_active` is baked into the payload. Clears IDs from both
+	 * `multiSectionReport` and current `post_parent` children so chapters just
+	 * removed from meta are invalidated before async parent reconcile runs.
+	 *
+	 * @param int $parent_id Package parent post ID.
+	 * @return void
+	 */
+	public static function clear_toc_cache_for_package( int $parent_id ): void {
+		if ( $parent_id <= 0 ) {
+			return;
+		}
+
+		$post_ids = array( $parent_id );
+		$chapters = get_post_meta( $parent_id, 'multiSectionReport', true );
+		if ( is_array( $chapters ) ) {
+			if ( isset( $chapters['postId'] ) ) {
+				$chapters = array( $chapters );
+			}
+			foreach ( $chapters as $chapter ) {
+				if ( is_array( $chapter ) && ! empty( $chapter['postId'] ) ) {
+					$post_ids[] = (int) $chapter['postId'];
+				}
+			}
+		}
+
+		// Chapters dropped from multiSectionReport stay post_parent-linked until
+		// async reconcile, which skips the publish pipeline — so also clear any
+		// currently attached children still present at sync-tier invalidation time.
+		$child_ids = get_posts(
+			array(
+				'post_type'              => get_post_type( $parent_id ) ?: 'any',
+				'post_parent'            => $parent_id,
+				'post_status'            => 'any',
+				'posts_per_page'         => -1,
+				'fields'                 => 'ids',
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+			)
+		);
+		foreach ( (array) $child_ids as $child_id ) {
+			$post_ids[] = (int) $child_id;
+		}
+
+		foreach ( array_unique( $post_ids ) as $post_id ) {
+			wp_cache_delete( 'prc_toc', 'post_' . $post_id );
+		}
+	}
+
+	/**
+	 * Invalidate TOC object cache when a report package or chapter updates.
+	 *
+	 * @hook prc_platform_on_update
+	 * @hook prc_platform_on_publish
+	 *
+	 * @param object $post Post-like object from the publish pipeline.
+	 * @return void
+	 */
+	public function clear_toc_cache_on_update( $post ): void {
+		// Pipeline passes stdClass from setup_extra_wp_post_object_fields(), not WP_Post.
+		if ( ! is_object( $post ) || empty( $post->ID ) ) {
+			return;
+		}
+
+		$post_id   = (int) $post->ID;
+		$parent_id = wp_get_post_parent_id( $post_id );
+		$parent_id = ( 0 === $parent_id || false === $parent_id ) ? $post_id : (int) $parent_id;
+
+		self::clear_toc_cache_for_package( $parent_id );
 	}
 
 	/**
@@ -119,22 +202,30 @@ class Table_Of_Contents {
 	 * @return array
 	 */
 	protected function parse_toc_items( $parent_id, $current_post_id ) {
-		// Check cached items first.
-		$cached_items = wp_cache_get( 'prc_toc', 'post_' . $current_post_id );
-		// Always serve the freshest TOC items to logged in users. This also lets logged in users "reset" the cache by refreshing the page.
-		if ( $cached_items && ! is_user_logged_in() ) {
-			return $cached_items;
+		// Always serve the freshest TOC items to logged-in users and during preview
+		// (including public post preview / `_ppp`, which sets is_preview()). Draft
+		// packages change meta frequently; caching would hide updates and can retain
+		// a fatal-shaped payload from an earlier incomplete parts setup. Match
+		// report-package chapter caching: skip both get and set in those cases.
+		$use_cache = ! is_user_logged_in() && ! is_preview();
+		if ( $use_cache ) {
+			$cached_items = wp_cache_get( 'prc_toc', 'post_' . $current_post_id );
+			if ( $cached_items ) {
+				return $cached_items;
+			}
 		}
 
 		$package_parts        = get_post_meta( $parent_id, 'package_parts', true );
 		$chapters             = get_post_meta( $parent_id, 'multiSectionReport', true );
 
-		// Normalize chapters array structure.
-		// WordPress's preview filter can mangle revisions_enabled meta, returning a single
-		// chapter object {key, postId} instead of an array [{key, postId}].
-		// Detect and fix this malformed structure.
+		// Normalize chapters / parts array structure.
+		// WordPress's preview filter can mangle revisions_enabled meta, returning a
+		// single object instead of an array of objects. Detect and wrap.
 		if ( is_array( $chapters ) && isset( $chapters['key'] ) && isset( $chapters['postId'] ) ) {
 			$chapters = array( $chapters );
+		}
+		if ( is_array( $package_parts ) && ( isset( $package_parts['label'] ) || isset( $package_parts['items'] ) ) ) {
+			$package_parts = array( $package_parts );
 		}
 
 		$chapters_not_in_part = array();
@@ -151,6 +242,7 @@ class Table_Of_Contents {
 							'url'       => '',
 							'is_active' => false,
 							'sections'  => array(),
+							'chapters'  => array(),
 						);
 					}
 					$chapter['label']     = html_entity_decode( get_the_title( $chapter['postId'] ) );
@@ -158,6 +250,7 @@ class Table_Of_Contents {
 					$chapter['url']       = get_permalink( $chapter['postId'] );
 					$chapter['is_active'] = $chapter['postId'] === $current_post_id;
 					$chapter['sections']  = array();
+					$chapter['chapters']  = array();
 					return $chapter;
 				},
 				$chapters
@@ -278,8 +371,10 @@ class Table_Of_Contents {
 		// Reset the indexes of the array.
 		$toc_items = array_values( $toc_items );
 
-		// Cache the items for 1 hour.
-		wp_cache_set( 'prc_toc', $toc_items, 'post_' . $current_post_id, 1 * HOUR_IN_SECONDS );
+		// Cache the items for 1 hour (anonymous, non-preview only).
+		if ( $use_cache ) {
+			wp_cache_set( 'prc_toc', $toc_items, 'post_' . $current_post_id, 1 * HOUR_IN_SECONDS );
+		}
 
 		return $toc_items;
 	}
@@ -438,14 +533,35 @@ class Table_Of_Contents {
 
 		$items = $this->parse_toc_items( $parent_id, $post_id );
 
-		$parts_enabled               = (bool) get_post_meta( $parent_id, 'package_parts__enabled', true );
-		$parts_enabled               = (bool) ( $parts_enabled && ! empty( $items ) );
+		$parts_enabled = (bool) get_post_meta( $parent_id, 'package_parts__enabled', true );
+		// Align parts mode with the actual $items shape. The enabled flag alone is
+		// common on in-progress drafts (toggle on, parts not configured yet); that
+		// yields flat chapter rows with empty nested chapters. Also, $items may come
+		// from the prc_toc cache while package_parts meta has since changed — keying
+		// the template off a fresh meta read would desync list markup from data.
+		$has_parts_structure = false;
+		if ( ! empty( $items ) && is_array( $items ) ) {
+			foreach ( $items as $item ) {
+				if ( is_array( $item ) && ! empty( $item['chapters'] ) ) {
+					$has_parts_structure = true;
+					break;
+				}
+			}
+		}
+		$parts_enabled = $parts_enabled && $has_parts_structure;
 		$currently_active_part_label = '';
 		if ( $parts_enabled && ! empty( $items ) ) {
 			$currently_active_part = array_filter(
 				$items,
 				function ( $part ) use ( $post_id ) {
-					return is_array( $part ) && $part['is_active'] && in_array( $post_id, array_column( $part['chapters'], 'postId' ) );
+					if ( ! is_array( $part ) || empty( $part['is_active'] ) ) {
+						return false;
+					}
+					$chapters = $part['chapters'] ?? null;
+					if ( ! is_array( $chapters ) ) {
+						return false;
+					}
+					return in_array( $post_id, array_column( $chapters, 'postId' ), true );
 				}
 			);
 			if ( ! empty( $currently_active_part ) ) {

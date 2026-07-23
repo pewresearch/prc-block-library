@@ -1,29 +1,46 @@
 .wp-block-prc-block-progress-bar {
-	display: flex;
-	flex-direction: row;
+	display: grid;
+	grid-template-columns: minmax(6rem, 12rem) minmax(0, 1fr);
 	align-items: center;
-	justify-content: flex-start;
-	gap: 10px;
-	label {
-		flex-shrink: 0;
-		margin-right: 10px;
+	column-gap: 10px;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+
+	label,
+	.prc-progress-bar-label {
+		grid-column: 1;
+		min-width: 0;
+		margin: 0;
+		overflow-wrap: anywhere;
 	}
+
 	.prc-progress-bar {
-		flex-grow: 1 !important;
+		grid-column: 2;
+		min-width: 0;
+		width: 100%;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: flex-start;
 		gap: 10px;
+
 		.prc-progress-bar-value {
 			padding: 2px 4px;
+			min-width: 0;
 		}
 	}
+
 	&.prc-progress-bar-label-right {
-		flex-direction: row-reverse;
-		label {
-			margin-right: 0;
-			margin-left: 10px;
+		grid-template-columns: minmax(0, 1fr) minmax(6rem, 12rem);
+
+		label,
+		.prc-progress-bar-label {
+			grid-column: 2;
+		}
+
+		.prc-progress-bar {
+			grid-column: 1;
 		}
 	}
 }

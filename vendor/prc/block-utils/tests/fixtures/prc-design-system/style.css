@@ -1,0 +1,19 @@
+/*
+Theme Name: PRC Design System
+Theme URI: https://www.pewresearch.org
+Author: Seth Rubenstein and Peter Bell
+Author URI: https://www.pewresearch.org
+Description: A WP block based design system for Pew Research Center
+Requires at least: 6.8
+Tested up to: 6.8
+Requires PHP: 8.0
+Version: 2.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: prc-design-system
+Tags: 
+*/
+
+.wp-theme {
+	background: inherit;
+}

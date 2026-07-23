@@ -1,0 +1,82 @@
+{
+    "name": "rinvex/countries",
+    "description": "Rinvex Countries is a simple and lightweight package for retrieving country details with flexibility. A whole bunch of data including name, demonym, capital, iso codes, dialling codes, geo data, currencies, flags, emoji, and other attributes for all 250 countries worldwide at your fingertips.",
+    "type": "library",
+    "keywords": [
+        "flags",
+        "rinvex",
+        "country",
+        "flexible",
+        "countries",
+        "currencies",
+        "geographic",
+        "languages",
+        "dialling",
+        "demonym",
+        "simple",
+        "emoji",
+        "svg"
+    ],
+    "license": "MIT",
+    "homepage": "https://rinvex.com",
+    "support": {
+        "email": "help@rinvex.com",
+        "issues": "https://github.com/rinvex/countries/issues",
+        "source": "https://github.com/rinvex/countries",
+        "docs": "https://github.com/rinvex/countries/blob/master/README.md"
+    },
+    "authors": [
+        {
+            "name": "Rinvex LLC",
+            "homepage": "https://rinvex.com",
+            "email": "help@rinvex.com"
+        },
+        {
+            "name": "Abdelrahman Omran",
+            "homepage": "https://omranic.com",
+            "email": "me@omranic.com",
+            "role": "Project Lead"
+        },
+        {
+            "name": "The Generous PHP Community",
+            "homepage": "https://github.com/rinvex/countries/contributors"
+        }
+    ],
+    "require": {
+        "php": "^8.2.0"
+    },
+    "require-dev": {
+        "codedungeon/phpunit-result-printer": "^0.32.0",
+        "phpunit/phpunit": "^10.1.0"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Rinvex\\Country\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rinvex\\Country\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rinvex\\Country\\Providers\\CountryServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

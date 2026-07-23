@@ -28,7 +28,12 @@ import { useInstanceId } from '@wordpress/compose';
  */
 import ColorControls from './color-controls';
 
-export default function Controls({ attributes, setAttributes, colors, clientId }) {
+export default function Controls({
+	attributes,
+	setAttributes,
+	colors,
+	clientId,
+}) {
 	const {
 		label,
 		value,
@@ -41,7 +46,10 @@ export default function Controls({ attributes, setAttributes, colors, clientId }
 	} = attributes;
 
 	const barHeightInputId = useInstanceId(RangeControl, 'bar-height-input');
-	const valueFontSizeInputId = useInstanceId(NumberControl, 'value-font-size-input');
+	const valueFontSizeInputId = useInstanceId(
+		NumberControl,
+		'value-font-size-input'
+	);
 
 	const [barHeightValue, setBarHeightValue] = useState(barHeight);
 	const [valueFontSizeValue, setValueFontSizeValue] = useState(valueFontSize);
@@ -71,27 +79,60 @@ export default function Controls({ attributes, setAttributes, colors, clientId }
 							{ label: __('Left'), value: 'left' },
 							{ label: __('Right'), value: 'right' },
 						]}
-						onChange={(val) => setAttributes({ labelPosition: val })}
+						onChange={(val) =>
+							setAttributes({ labelPosition: val })
+						}
 					/>
 
-					<RangeControl
-						label={__('Value')}
-						value={value}
-						min={0}
-						max={maxValue}
-						withInputField
-						allowReset
-						isShiftStepEnabled
-						resetFallbackValue={0}
-						step={1}
-						onChange={(val) => setAttributes({ value: parseFloat(val) })}
+					<SelectControl
+						label={__('Value Format')}
+						value={labelFormat}
+						options={[
+							{ label: __('Percentage'), value: 'percentage' },
+							{ label: __('Fractional'), value: 'fractional' },
+						]}
+						onChange={(val) => setAttributes({ labelFormat: val })}
 					/>
+
+					{labelFormat === 'fractional' ? (
+						<NumberControl
+							label={__('Value')}
+							value={value}
+							min={0}
+							max={maxValue}
+							step={0.1}
+							onChange={(val) =>
+								setAttributes({
+									value:
+										val === '' || val === undefined
+											? 0
+											: parseFloat(val),
+								})
+							}
+						/>
+					) : (
+						<RangeControl
+							label={__('Value')}
+							value={value}
+							min={0}
+							max={maxValue}
+							withInputField
+							allowReset
+							isShiftStepEnabled
+							resetFallbackValue={0}
+							step={1}
+							onChange={(val) =>
+								setAttributes({ value: parseFloat(val) })
+							}
+						/>
+					)}
 
 					<NumberControl
 						label={__('Maximum value')}
 						value={maxValue}
 						disableUnits
 						disabledUnits
+						step={labelFormat === 'fractional' ? 0.1 : 1}
 						onChange={(val) =>
 							setAttributes({ maxValue: parseFloat(val) })
 						}
@@ -104,17 +145,9 @@ export default function Controls({ attributes, setAttributes, colors, clientId }
 							{ label: __('Inside'), value: 'inside' },
 							{ label: __('Outside'), value: 'outside' },
 						]}
-						onChange={(val) => setAttributes({ valuePosition: val })}
-					/>
-
-					<SelectControl
-						label={__('Value Format')}
-						value={labelFormat}
-						options={[
-							{ label: __('Percentage'), value: 'percentage' },
-							{ label: __('Fractional'), value: 'fractional' },
-						]}
-						onChange={(val) => setAttributes({ labelFormat: val })}
+						onChange={(val) =>
+							setAttributes({ valuePosition: val })
+						}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -157,7 +190,9 @@ export default function Controls({ attributes, setAttributes, colors, clientId }
 						value={valueFontSizeValue}
 						disableUnits
 						disabledUnits
-						onChange={(val) => setValueFontSizeValue(parseFloat(val))}
+						onChange={(val) =>
+							setValueFontSizeValue(parseFloat(val))
+						}
 					/>
 				</ToolsPanelItem>
 			</InspectorControls>

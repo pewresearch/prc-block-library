@@ -1,0 +1,1558 @@
+{
+	"customTemplates": [
+		{
+			"name": "video",
+			"postTypes": [
+				"attachment"
+			],
+			"title": "Attachment: Video"
+		},
+		{
+			"name": "blank",
+			"postTypes": [
+				"page",
+				"post",
+				"short-read",
+				"feature",
+				"fact-sheet"
+			],
+			"title": "Layout: Blank (Only Content - No Masthead/Footer)"
+		},
+		{
+			"name": "layout-blank-canvas",
+			"postTypes": [
+				"post",
+				"short-read",
+				"feature",
+				"fact-sheet"
+			],
+			"title": "Layout: Blank Canvas (Only Content - With Masthead/Footer)"
+		},
+		{
+			"name": "layout-full-width",
+			"postTypes": [
+				"post",
+				"short-read",
+				"feature",
+				"fact-sheet"
+			],
+			"title": "Layout: Full Width"
+		},
+		{
+			"name": "layout-centered",
+			"postTypes": [
+				"post",
+				"short-read",
+				"feature",
+				"fact-sheet"
+			],
+			"title": "Layout: Centered"
+		},
+		{
+			"name": "layout-essay",
+			"postTypes": [
+				"post",
+				"feature",
+				"short-read",
+				"quiz"
+			],
+			"title": "Layout: Essay"
+		},
+		{
+			"name": "layout-essay-no-breadcrumbs",
+			"postTypes": [
+				"post",
+				"feature",
+				"short-read",
+				"quiz"
+			],
+			"title": "Layout: Essay (No Breadcrumbs)"
+		},
+		{
+			"name": "attachment",
+			"title": "Single: Attachment"
+		},
+		{
+			"name": "attachment-video",
+			"title": "Single: Video"
+		},
+		{
+			"name": "archive-dataset",
+			"title": "Archive: Datasets"
+		},
+		{
+			"name": "archive-decoded",
+			"title": "Archive: Decoded"
+		},
+		{
+			"name": "archive-short-read",
+			"title": "Archive: Short Read"
+		},
+		{
+			"name": "taxonomy-areas-of-expertise",
+			"title": "Archive: Areas of Expertise"
+		},
+		{
+			"name": "taxonomy-bylines",
+			"title": "Archive: Staff Profile"
+		},
+		{
+			"name": "taxonomy-datasets",
+			"title": "Single: Dataset"
+		},
+		{
+			"name": "taxonomy-regions-countries",
+			"title": "Archive: Regions & Countries"
+		},
+		{
+			"name": "home",
+			"title": "Publications"
+		},
+		{
+			"name": "front-page",
+			"title": "Homepage"
+		},
+		{
+			"name": "single",
+			"postTypes": [
+				"post"
+			],
+			"title": "Single"
+		},
+		{
+			"name": "page",
+			"postTypes": [
+				"page"
+			],
+			"title": "Single: Page"
+		},
+		{
+			"name": "single-decoded",
+			"postTypes": [
+				"decoded"
+			],
+			"title": "Single: Decoded"
+		},
+		{
+			"name": "single-block_module",
+			"postTypes": [
+				"block_module"
+			],
+			"title": "Single: Block Module Preview"
+		},
+		{
+			"name": "single-collections",
+			"postTypes": [
+				"collections"
+			],
+			"title": "Collection: Default"
+		},
+		{
+			"name": "collections-custom",
+			"postTypes": [
+				"collections"
+			],
+			"title": "Collection: Custom"
+		},
+		{
+			"name": "single-homepage",
+			"postTypes": [
+				"homepage"
+			],
+			"title": "Single: Homepage Preview"
+		},
+		{
+			"name": "single-fact-sheet",
+			"postTypes": [
+				"fact-sheet",
+				"post"
+			],
+			"title": "Single: Fact Sheet"
+		},
+		{
+			"name": "wp-custom-template-fact-sheet-no-rail",
+			"postTypes": [
+				"fact-sheet",
+				"post"
+			],
+			"title": "Single: Fact Sheet (No TOC Rail)"
+		},
+		{
+			"name": "single-feature",
+			"postTypes": [
+				"feature"
+			],
+			"title": "Single: Feature"
+		},
+		{
+			"name": "single-mini-course",
+			"postTypes": [
+				"mini-course"
+			],
+			"title": "Single: Mini Course"
+		},
+		{
+			"name": "single-newsletterglue",
+			"title": "Single: Newsletter (Web)"
+		},
+		{
+			"name": "single-quiz",
+			"postTypes": [
+				"quiz"
+			],
+			"title": "Single: Quiz"
+		},
+		{
+			"name": "single-short-read",
+			"postTypes": [
+				"short-read"
+			],
+			"title": "Single: Short Read"
+		}
+	],
+	"settings": {
+		"appearanceTools": true,
+		"blocks": {
+			"core/button": {
+				"typography": {
+					"lineHeight": true
+				}
+			},
+			"core/group": {
+				"border": {
+					"color": true,
+					"radius": true,
+					"style": true,
+					"width": true
+				},
+				"color": {
+					"link": true
+				},
+				"spacing": {
+					"margin": true,
+					"padding": true
+				},
+				"typography": {
+					"lineHeight": true
+				}
+			},
+			"core/heading": {
+				"border": {
+					"color": true,
+					"radius": false,
+					"style": true,
+					"width": true
+				},
+				"spacing": {
+					"margin": true,
+					"padding": true
+				}
+			},
+			"core/list": {
+				"typography": {
+					"lineHeight": true
+				}
+			},
+			"core/navigation": {
+				"typography": {
+					"lineHeight": true
+				}
+			},
+			"core/post-title": {
+				"typography": {
+					"lineHeight": true
+				}
+			},
+			"core/pullquote": {
+				"border": {
+					"color": false,
+					"radius": false,
+					"style": false,
+					"width": false
+				}
+			},
+			"prc-block/grid-controller": {
+				"spacing": {
+					"blockGap": true
+				}
+			}
+		},
+		"color": {
+			"customDuotone": false,
+			"defaultDuotone": false,
+			"defaultPalette": false,
+			"gradients": [
+				{
+					"gradient": "linear-gradient(180deg,light-dark(rgb(255,255,255),#1a1a1a) 0%,light-dark(rgb(242,248,251),#1e2830) 47%,light-dark(rgb(255,255,255),#1a1a1a) 100%)",
+					"name": "RLS Blue Gradient",
+					"slug": "custom-rls-blue-gradient"
+				},
+				{
+					"gradient": "linear-gradient(180deg,light-dark(rgb(245,239,250),#2a2433) 0%,light-dark(rgb(242,248,251),#1e2830) 100%)",
+					"name": "RLS Purple Blue Gradient",
+					"slug": "custom-rls-purple-blue-gradient"
+				}
+			],
+			"palette": [
+				{
+					"color": "light-dark(#ffffff, #1a1a1a)",
+					"name": "UI White",
+					"slug": "ui-white"
+				},
+				{
+					"color": "light-dark(#000000, #f0f0f0)",
+					"name": "UI Black",
+					"slug": "ui-black"
+				},
+				{
+					"color": "light-dark(#346EAD, #5B9BD5)",
+					"name": "UI Link Color",
+					"slug": "ui-link-color"
+				},
+				{
+					"color": "light-dark(#5F94CF, #7BB3E8)",
+					"name": "UI Link Hover Color",
+					"slug": "ui-link-hover-color"
+				},
+				{
+					"color": "light-dark(#2a2a2a, #d9d9d9)",
+					"name": "UI Text Color",
+					"slug": "ui-text-color"
+				},
+				{
+					"color": "light-dark(#565656, #a0a0a0)",
+					"name": "UI Gray Very Dark",
+					"slug": "ui-gray-very-dark"
+				},
+				{
+					"color": "light-dark(#818181, #9a9a9a)",
+					"name": "UI Gray Dark",
+					"slug": "ui-gray-dark"
+				},
+				{
+					"color": "light-dark(#dadbdb, #3a3a3a)",
+					"name": "UI Gray Light",
+					"slug": "ui-gray-light"
+				},
+				{
+					"color": "light-dark(#F7F7F7, #242424)",
+					"name": "UI Gray Very Light",
+					"slug": "ui-gray-very-light"
+				},
+				{
+					"color": "light-dark(#f7f7f1, #26251f)",
+					"name": "UI Beige Very Light",
+					"slug": "ui-beige-very-light"
+				},
+				{
+					"color": "light-dark(#f0f0e6, #333028)",
+					"name": "UI Beige Light",
+					"slug": "ui-beige-light"
+				},
+				{
+					"color": "light-dark(#d7d8d4, #45433b)",
+					"name": "UI Beige Dark",
+					"slug": "ui-beige-dark"
+				},
+				{
+					"color": "light-dark(#adadad, #5a5a5a)",
+					"name": "UI Beige Very Dark",
+					"slug": "ui-beige-very-dark"
+				},
+				{
+					"color": "light-dark(#d7b236, #E0BD45)",
+					"name": "UI Mustard",
+					"slug": "ui-mustard"
+				},
+				{
+					"color": "light-dark(#5cb85c, #6FCD6F)",
+					"name": "UI Success",
+					"slug": "ui-success"
+				},
+				{
+					"color": "light-dark(#d9534f, #E8706C)",
+					"name": "UI Error",
+					"slug": "ui-error"
+				},
+				{
+					"color": "light-dark(#5A6B51, #7E9B6E)",
+					"name": "UI Green Dark",
+					"slug": "ui-green-dark"
+				},
+				{
+					"color": "light-dark(#8F5949, #B87A68)",
+					"name": "UI Brown Dark",
+					"slug": "ui-brown-dark"
+				},
+				{
+					"color": "light-dark(#1A707E, #2A9DB0)",
+					"name": "UI Blue Dark",
+					"slug": "ui-blue-dark"
+				},
+				{
+					"color": "light-dark(#756A7E, #9B8FA8)",
+					"name": "UI Purple Dark",
+					"slug": "ui-purple-dark"
+				},
+				{
+					"color": "light-dark(#49432B, #CEC6A6)",
+					"name": "Background Spectrum Dark One",
+					"slug": "background-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#1D1B12, #E1DECD)",
+					"name": "Background Spectrum Dark Two",
+					"slug": "background-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#DDD9C7, #4A442B)",
+					"name": "Background Spectrum Light One",
+					"slug": "background-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#938857, #AA9E67)",
+					"name": "Background Spectrum Light Three",
+					"slug": "background-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#C3BB9B, #706640)",
+					"name": "Background Spectrum Light Two",
+					"slug": "background-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#EEECE4, #302D1D)",
+					"name": "Background Spectrum Primary",
+					"slug": "background-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#004A75, #74CCFF)",
+					"name": "Blue Spectrum Dark One",
+					"slug": "blue-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#002748, #9AD0FF)",
+					"name": "Blue Spectrum Dark Two",
+					"slug": "blue-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#C9D1E1, #263249)",
+					"name": "Blue Spectrum Light One",
+					"slug": "blue-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#7591B7, #476792)",
+					"name": "Blue Spectrum Light Three",
+					"slug": "blue-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#9DAECB, #374C70)",
+					"name": "Blue Spectrum Light Two",
+					"slug": "blue-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#006699, #56C7FF)",
+					"name": "Blue Spectrum Primary",
+					"slug": "blue-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#335062, #8FB3C9)",
+					"name": "Gray Blue Spectrum Dark One",
+					"slug": "gray-blue-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#213441, #ABC6D8)",
+					"name": "Gray Blue Spectrum Dark Two",
+					"slug": "gray-blue-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#D5E1E9, #1F323F)",
+					"name": "Gray Blue Spectrum Light One",
+					"slug": "gray-blue-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#82A6BF, #406A87)",
+					"name": "Gray Blue Spectrum Light Three",
+					"slug": "gray-blue-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#ACC4D3, #314F63)",
+					"name": "Gray Blue Spectrum Light Two",
+					"slug": "gray-blue-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#456A83, #739EBA)",
+					"name": "Gray Blue Spectrum Primary",
+					"slug": "gray-blue-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#6E7537, #BFC77E)",
+					"name": "Green Spectrum Dark One",
+					"slug": "green-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#494E24, #D0D69F)",
+					"name": "Green Spectrum Dark Two",
+					"slug": "green-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#EAECD8, #3A3E1C)",
+					"name": "Green Spectrum Light One",
+					"slug": "green-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#C2C98B, #788137)",
+					"name": "Green Spectrum Light Three",
+					"slug": "green-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#D6DAB3, #585E2A)",
+					"name": "Green Spectrum Light Two",
+					"slug": "green-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#949D48, #B0BA5B)",
+					"name": "Green Spectrum Primary",
+					"slug": "green-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#A4A4A4, #616161)",
+					"name": "Grey Spectrum Dark One",
+					"slug": "grey-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#7E7E7E, #818181)",
+					"name": "Grey Spectrum Dark Two",
+					"slug": "grey-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#F1F1F1, #202020)",
+					"name": "Grey Spectrum Light One",
+					"slug": "grey-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#C6C8CA, #404345)",
+					"name": "Grey Spectrum Light Three",
+					"slug": "grey-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#D7D7D7, #363636)",
+					"name": "Grey Spectrum Light Two",
+					"slug": "grey-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#FFFFFF, #141414)",
+					"name": "Grey Spectrum Primary",
+					"slug": "grey-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#9E7F2D, #D6B355)",
+					"name": "Light Brown Spectrum Dark One",
+					"slug": "light-brown-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#6A5522, #DDC283)",
+					"name": "Light Brown Spectrum Dark Two",
+					"slug": "light-brown-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#F6EED6, #46380C)",
+					"name": "Light Brown Spectrum Light One",
+					"slug": "light-brown-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#E4CB83, #8F7119)",
+					"name": "Light Brown Spectrum Light Three",
+					"slug": "light-brown-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#ECDBAC, #6B5414)",
+					"name": "Light Brown Spectrum Light Two",
+					"slug": "light-brown-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#D1A730, #D7A926)",
+					"name": "Light Brown Spectrum Primary",
+					"slug": "light-brown-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#7C441C, #E5A170)",
+					"name": "Medium Brown Spectrum Dark One",
+					"slug": "medium-brown-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#532E16, #E8B695)",
+					"name": "Medium Brown Spectrum Dark Two",
+					"slug": "medium-brown-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#F2DBCD, #4D2811)",
+					"name": "Medium Brown Spectrum Light One",
+					"slug": "medium-brown-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#DE996A, #A5541D)",
+					"name": "Medium Brown Spectrum Light Three",
+					"slug": "medium-brown-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#E7BA9A, #7A4118)",
+					"name": "Medium Brown Spectrum Light Two",
+					"slug": "medium-brown-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#A55A26, #DE884D)",
+					"name": "Medium Brown Spectrum Primary",
+					"slug": "medium-brown-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#BB792A, #DC9239)",
+					"name": "Orange Spectrum Dark One",
+					"slug": "orange-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#7C5220, #E1AE71)",
+					"name": "Orange Spectrum Dark Two",
+					"slug": "orange-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#F9EAD4, #4B3007)",
+					"name": "Orange Spectrum Light One",
+					"slug": "orange-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#F1C37F, #975E09)",
+					"name": "Orange Spectrum Light Three",
+					"slug": "orange-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#F5D6A9, #724608)",
+					"name": "Orange Spectrum Light Two",
+					"slug": "orange-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#EA9E2C, #E08B0C)",
+					"name": "Orange Spectrum Primary",
+					"slug": "orange-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#552E35, #CC9BA4)",
+					"name": "Plum Spectrum Dark One",
+					"slug": "plum-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#391E22, #DAB3B8)",
+					"name": "Plum Spectrum Dark Two",
+					"slug": "plum-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#E8D3D7, #412026)",
+					"name": "Plum Spectrum Light One",
+					"slug": "plum-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#BC7B86, #8D434F)",
+					"name": "Plum Spectrum Light Three",
+					"slug": "plum-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#D1A8AF, #66323B)",
+					"name": "Plum Spectrum Light Two",
+					"slug": "plum-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#733D47, #C0818D)",
+					"name": "Plum Spectrum Primary",
+					"slug": "plum-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#584F5E, #A499AB)",
+					"name": "Purple Spectrum Dark One",
+					"slug": "purple-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#3A343F, #BBB3C2)",
+					"name": "Purple Spectrum Dark Two",
+					"slug": "purple-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#E3E1E5, #2C282F)",
+					"name": "Purple Spectrum Light One",
+					"slug": "purple-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#ACA4B1, #5D5463)",
+					"name": "Purple Spectrum Light Three",
+					"slug": "purple-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#C7C1CB, #463E4B)",
+					"name": "Purple Spectrum Light Two",
+					"slug": "purple-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#746A7E, #897E94)",
+					"name": "Purple Spectrum Primary",
+					"slug": "purple-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#902D1E, #E5705E)",
+					"name": "Red Spectrum Dark One",
+					"slug": "red-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#5F1D14, #EC9589)",
+					"name": "Red Spectrum Dark Two",
+					"slug": "red-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#F5D4CF, #4D150D)",
+					"name": "Red Spectrum Light One",
+					"slug": "red-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#E37F73, #9E2718)",
+					"name": "Red Spectrum Light Three",
+					"slug": "red-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#EBABA2, #742014)",
+					"name": "Red Spectrum Light Two",
+					"slug": "red-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#BF3B27, #DF4B35)",
+					"name": "Red Spectrum Primary",
+					"slug": "red-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#0073A5, #4BC9FF)",
+					"name": "Sky Blue Spectrum Dark One",
+					"slug": "sky-blue-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#00557E, #6CCFFF)",
+					"name": "Sky Blue Spectrum Dark Two",
+					"slug": "sky-blue-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#C9DEEE, #15364F)",
+					"name": "Sky Blue Spectrum Light One",
+					"slug": "sky-blue-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#71B2D6, #26729C)",
+					"name": "Sky Blue Spectrum Light Three",
+					"slug": "sky-blue-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#9DC7E1, #1F5476)",
+					"name": "Sky Blue Spectrum Light Two",
+					"slug": "sky-blue-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#0090C0, #35CDFF)",
+					"name": "Sky Blue Spectrum Primary",
+					"slug": "sky-blue-spectrum-primary"
+				},
+				{
+					"color": "light-dark(#005645, #8EFFE9)",
+					"name": "Teal Spectrum Dark One",
+					"slug": "teal-spectrum-dark-one"
+				},
+				{
+					"color": "light-dark(#003A2C, #A5FFE9)",
+					"name": "Teal Spectrum Dark Two",
+					"slug": "teal-spectrum-dark-two"
+				},
+				{
+					"color": "light-dark(#D1E9E4, #1E443C)",
+					"name": "Teal Spectrum Light One",
+					"slug": "teal-spectrum-light-one"
+				},
+				{
+					"color": "light-dark(#64B6AA, #46A295)",
+					"name": "Teal Spectrum Light Three",
+					"slug": "teal-spectrum-light-three"
+				},
+				{
+					"color": "light-dark(#A2D2C8, #306C60)",
+					"name": "Teal Spectrum Light Two",
+					"slug": "teal-spectrum-light-two"
+				},
+				{
+					"color": "light-dark(#387668, #7DC6B6)",
+					"name": "Teal Spectrum Primary",
+					"slug": "teal-spectrum-primary"
+				},
+				{
+					"color": "#000",
+					"name": "Stable Black",
+					"slug": "ui-stable-black"
+				},
+				{
+					"color": "#FFF",
+					"name": "Stable White",
+					"slug": "ui-stable-white"
+				}
+			]
+		},
+		"custom": {
+			"border-radius": "3px",
+			"content-size": "640px",
+			"content-size-wide": "920px",
+			"max-width": "1200px",
+			"offset-margin": "calc(-1400px + var(--wp--custom--max-width))"
+		},
+		"dimensions": {
+			"defaultAspectRatios": false
+		},
+		"layout": {
+			"contentSize": "640px",
+			"wideSize": "1200px"
+		},
+		"shadow": {
+			"defaultPresets": false,
+			"presets": [
+				{
+					"name": "Shallow",
+					"shadow": "0 2px 3px 0 light-dark(color(srgb 0 0 0 / 0.20), color(srgb 0 0 0 / 0.50))",
+					"slug": "shallow"
+				},
+				{
+					"name": "Medium",
+					"shadow": "0 6px 16px 0 light-dark(color(srgb 0 0 0 / 0.12), color(srgb 0 0 0 / 0.40))",
+					"slug": "medium"
+				},
+				{
+					"name": "Deep",
+					"shadow": "0 12px 24px 0 light-dark(color(srgb 0 0 0 / 0.12), color(srgb 0 0 0 / 0.45))",
+					"slug": "deep"
+				}
+			]
+		},
+		"typography": {
+			"defaultFontSizes": false,
+			"fluid": true,
+			"fontFamilies": [
+				{
+					"fontFamily": "'franklin-gothic-urw', Verdana, Geneva, sans-serif",
+					"name": "Sans-Serif",
+					"slug": "sans-serif"
+				},
+				{
+					"fontFamily": "'abril-text', var(--wp--preset--font-family--georgia)",
+					"name": "Serif",
+					"slug": "serif"
+				},
+				{
+					"fontFamily": "Georgia, 'Times New Roman', Times, serif",
+					"name": "Georgia",
+					"slug": "georgia"
+				}
+			],
+			"fontSizes": [
+				{
+					"name": "Small Label",
+					"size": "13px",
+					"slug": "small-label"
+				},
+				{
+					"fluid": {
+						"max": "16px",
+						"min": "16px"
+					},
+					"name": "Small",
+					"size": "16px",
+					"slug": "small"
+				},
+				{
+					"fluid": {
+						"max": "18px",
+						"min": "18px"
+					},
+					"name": "Medium",
+					"size": "18px",
+					"slug": "medium"
+				},
+				{
+					"fluid": {
+						"max": "20px",
+						"min": "20px"
+					},
+					"name": "Large",
+					"size": "20px",
+					"slug": "large"
+				},
+				{
+					"fluid": {
+						"max": "36px",
+						"min": "36px"
+					},
+					"name": "H1",
+					"size": "36px",
+					"slug": "h-one"
+				},
+				{
+					"fluid": {
+						"max": "28px",
+						"min": "28px"
+					},
+					"name": "H2",
+					"size": "28px",
+					"slug": "h-two"
+				},
+				{
+					"fluid": {
+						"max": "20px",
+						"min": "20px"
+					},
+					"name": "H3",
+					"size": "20px",
+					"slug": "h-three"
+				},
+				{
+					"fluid": {
+						"max": "18px",
+						"min": "18px"
+					},
+					"name": "H4",
+					"size": "18px",
+					"slug": "h-four"
+				},
+				{
+					"fluid": {
+						"max": "16px",
+						"min": "16px"
+					},
+					"name": "H5",
+					"size": "16px",
+					"slug": "h-five"
+				},
+				{
+					"fluid": {
+						"max": "3rem",
+						"min": "2rem"
+					},
+					"name": "Fluid 3 (48px) to 2 (32px)",
+					"size": "3rem",
+					"slug": "fluid-3-to-2"
+				},
+				{
+					"fluid": {
+						"max": "2rem",
+						"min": "1.5rem"
+					},
+					"name": "Fluid 2 (32px) to 1.5 (24px)",
+					"size": "2rem",
+					"slug": "fluid-2-to-1-5"
+				},
+				{
+					"fluid": {
+						"max": "1.751rem",
+						"min": "1.25rem"
+					},
+					"name": "Fluid 1.75 (28px) to 1.25 (20px)",
+					"size": "1.751rem",
+					"slug": "fluid-1-75-to-1-25"
+				},
+				{
+					"fluid": {
+						"max": "1.75rem",
+						"min": "1.375rem"
+					},
+					"name": "Fluid 1.75 (28px) to 1.375 (22px)",
+					"size": "1.75rem",
+					"slug": "fluid-1-75-to-1-375"
+				},
+				{
+					"fluid": {
+						"max": "1.5rem",
+						"min": "1rem"
+					},
+					"name": "Fluid 1.5 (24px) to 1 (16px)",
+					"size": "1.5rem",
+					"slug": "fluid-1-5-to-1"
+				},
+				{
+					"fluid": {
+						"max": "1.375rem",
+						"min": "1rem"
+					},
+					"name": "Fluid 1.375 (22px) to 1 (16px)",
+					"size": "1.375rem",
+					"slug": "fluid-1-375-to-1"
+				},
+				{
+					"fluid": {
+						"max": "1.25rem",
+						"min": "1rem"
+					},
+					"name": "Fluid 1.25 (20px) to 1 (16px)",
+					"size": "1.25rem",
+					"slug": "fluid-1-25-to-1"
+				},
+				{
+					"fluid": {
+						"max": "1.125rem",
+						"min": "1rem"
+					},
+					"name": "Fluid 1.125 (18px) to 1 (16px)",
+					"size": "1.125rem",
+					"slug": "fluid-1-125-to-1"
+				},
+				{
+					"fluid": {
+						"max": "1rem",
+						"min": "0.875rem"
+					},
+					"name": "Fluid 1 (16px) to 0.875 (14px)",
+					"size": "1rem",
+					"slug": "fluid-1-to-0-875"
+				},
+				{
+					"fluid": {
+						"max": "1.01rem",
+						"min": "0.8125rem"
+					},
+					"name": "Fluid 1 (16px) to 0.8125 (13px)",
+					"size": "1.01rem",
+					"slug": "fluid-1-to-0-8125"
+				}
+			]
+		},
+		"useRootPaddingAwareAlignments": true
+	},
+	"styles": {
+		"css": ":root { color-scheme: light dark; }",
+		"blocks": {
+			"core/button": {
+				"border": {
+					"radius": "3px"
+				}
+			},
+			"core/details": {
+				"elements": {
+					"h4": {
+						"typography": {
+							"fontSize": "var(--wp--preset--font-size--small)"
+						}
+					}
+				}
+			},
+			"core/categories": {
+				"spacing": {
+					"margin": {
+						"bottom": "var(--wp--preset--spacing--20)",
+						"left": "0",
+						"right": "0",
+						"top": "var(--wp--preset--spacing--20)"
+					},
+					"padding": {
+						"left": "0",
+						"right": "0"
+					}
+				}
+			},
+			"core/file": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)"
+				}
+			},
+			"core/list": {
+				"spacing": {
+					"padding": {
+						"left": "1rem"
+					}
+				}
+			},
+			"core/list-item": {
+				"spacing": {
+					"margin": {
+						"bottom": "1px"
+					}
+				}
+			},
+			"core/navigation": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)"
+				}
+			},
+			"core/post-content": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-text-color)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--ui-link-color)"
+						}
+					}
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--georgia)",
+					"fontSize": "var(--wp--preset--font-size--small)",
+					"lineHeight": "1.6"
+				}
+			},
+			"core/post-date": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-gray-dark)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--ui-gray-dark)"
+						}
+					}
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+					"textTransform": "uppercase"
+				}
+			},
+			"core/post-excerpt": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--georgia)",
+					"lineHeight": 1.6
+				}
+			},
+			"core/post-title": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-text-color)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--ui-text-color)"
+						}
+					}
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--serif)",
+					"fontSize": "35px",
+					"lineHeight": "41px"
+				}
+			},
+			"core/pullquote": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--serif)"
+				}
+			},
+			"core/quote": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--serif)"
+				}
+			},
+			"core/separator": {
+				"color": {
+					"background": "var(--wp--preset--color--ui-gray-light)"
+				},
+				"spacing": {
+					"margin": {
+						"bottom": "1rem",
+						"top": "1rem"
+					}
+				}
+			},
+			"core/social-links": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)"
+				},
+				"spacing": {
+					"margin": {
+						"bottom": "var(--wp--preset--spacing--20)",
+						"top": "var(--wp--preset--spacing--20)"
+					},
+					"padding": {
+						"bottom": "0",
+						"left": "0",
+						"right": "0",
+						"top": "0"
+					}
+				}
+			},
+			"core/table": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+					"fontSize": "14px",
+					"lineHeight": "1.5"
+				}
+			},
+			"prc-block/bylines-display": {
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--ui-link-color)"
+						}
+					}
+				}
+			},
+			"prc-block/card": {
+				"css": "--custom-heading-background-color: var(--wp--preset--color--ui-stable-black); --custom-heading-text-color: var(--wp--preset--color--ui-stable-white);"
+			},
+			"prc-block/collapsible": {
+				"spacing": {
+					"padding": {
+						"bottom": "var(--wp--preset--spacing--40)",
+						"left": "var(--wp--preset--spacing--40)",
+						"right": "var(--wp--preset--spacing--40)",
+						"top": "0.88rem"
+					}
+				}
+			},
+			"prc-block/dialog-element": {
+				"border": {
+					"color": "var(--wp--preset--color--ui-black)",
+					"radius": "10px",
+					"width": "1px"
+				},
+				"color": {
+					"background": "var(--wp--preset--color--ui-white)",
+					"text": "var(--wp--preset--color--ui-text-color)"
+				},
+				"css": "--backdrop-color: var(--wp--preset--color--ui-gray-very-light);",
+				"shadow": "var(--wp--preset--shadow--deep)",
+				"spacing": {
+					"padding": {
+						"bottom": "var(--wp--preset--spacing--30)",
+						"left": "var(--wp--preset--spacing--40)",
+						"right": "var(--wp--preset--spacing--40)",
+						"top": "var(--wp--preset--spacing--30)"
+					}
+				}
+			},
+			"prc-block/fact-sheet-collection": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)"
+				}
+			},
+			"prc-block/grid-column": {
+				"spacing": {
+					"blockGap": {
+						"top": "0.5em"
+					}
+				}
+			},
+			"prc-block/grid-controller": {
+				"spacing": {
+					"margin": {
+						"bottom": "var(--wp--preset--spacing--20)",
+						"top": "var(--wp--preset--spacing--20)"
+					}
+				}
+			},
+			"prc-block/popular-story": {
+				"spacing": {
+					"margin": {
+						"bottom": "0",
+						"top": "0"
+					},
+					"padding": {
+						"bottom": "0",
+						"top": "0"
+					}
+				}
+			},
+			"prc-block/post-parent-title": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-gray-dark)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--ui-gray-dark)"
+						}
+					}
+				}
+			},
+			"prc-block/post-taxonomy-terms": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-gray-dark)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--ui-gray-dark)"
+						}
+					}
+				}
+			},
+			"prc-block/report-materials": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-text-color)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--ui-text-color)"
+						}
+					}
+				}
+			},
+			"prc-block/subtitle": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--serif)",
+					"fontSize": "var(--wp--preset--font-size--h-two)",
+					"fontStyle": "italic",
+					"fontWeight": "400",
+					"lineHeight": "1.25"
+				},
+				"css": "--wp--preset--font-size--h-two: clamp(18.5px, 1.346rem + ((1vw - 3.2px) * 1.53), 24px);"
+			},
+			"prc-block/table": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+					"fontSize": "14px",
+					"lineHeight": "1.5"
+				}
+			},
+			"prc-block/table-of-contents": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-text-color)"
+				},
+				"elements": {
+					"link": {
+						"color": {
+							"text": "var(--wp--preset--color--ui-text-color)"
+						}
+					}
+				},
+				"spacing": {
+					"margin": {
+						"bottom": "1rem",
+						"top": "1rem"
+					}
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)"
+				}
+			},
+			"prc-block/tabs": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)"
+				}
+			},
+			"prc-platform/facet-template": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+					"fontSize": "13px",
+					"fontStyle": "normal",
+					"fontWeight": "400",
+					"letterSpacing": "0.65px",
+					"textTransform": "uppercase"
+				},
+				"variations": {
+					"no-label": {
+						"typography": {
+							"fontSize": "0px"
+						}
+					}
+				}
+			}
+		},
+		"color": {
+			"background": "var(--wp--preset--color--ui-white)",
+			"text": "var(--wp--preset--color--ui-text-color)"
+		},
+		"elements": {
+			"caption": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-gray-dark)"
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+					"fontSize": "var(--wp--preset--font-size--small-label)",
+					"fontStyle": "normal",
+					"fontWeight": "400",
+					"lineHeight": "1.3"
+				}
+			},
+			"h1": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--serif)",
+					"fontSize": "var(--wp--preset--font-size--h-one)",
+					"fontWeight": "bold",
+					"lineHeight": "1.14"
+				}
+			},
+			"h2": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+					"fontSize": "var(--wp--preset--font-size--h-two)",
+					"fontWeight": "bold",
+					"lineHeight": "1.1"
+				}
+			},
+			"h3": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--serif)",
+					"fontSize": "var(--wp--preset--font-size--h-three)",
+					"fontWeight": "bold",
+					"lineHeight": "1.3"
+				}
+			},
+			"h4": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+					"fontSize": "var(--wp--preset--font-size--h-four)",
+					"fontWeight": "bold",
+					"lineHeight": "1.4"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--georgia)",
+					"fontSize": "var(--wp--preset--font-size--h-five)",
+					"fontStyle": "italic",
+					"fontWeight": "400",
+					"lineHeight": "1.6"
+				}
+			},
+			"link": {
+				"color": {
+					"text": "var(--wp--preset--color--ui-link-color)"
+				},
+				"typography": {
+					"textDecoration": "none"
+				}
+			}
+		},
+		"spacing": {
+			"padding": {
+				"bottom": "var(--wp--preset--spacing--40)",
+				"left": "1em",
+				"right": "1em",
+				"top": "0px"
+			}
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--sans-serif)",
+			"fontSize": "16px",
+			"lineHeight": "1.6"
+		}
+	},
+	"templateParts": [
+		{
+			"area": "uncategorized",
+			"name": "iframe-post-content",
+			"title": "Iframed Post Content"
+		},
+		{
+			"area": "footer",
+			"name": "footer",
+			"title": "Footer"
+		},
+		{
+			"area": "header",
+			"name": "masthead",
+			"title": "Masthead"
+		},
+		{
+			"area": "header",
+			"name": "slim-masthead",
+			"title": "Masthead (Slim)"
+		},
+		{
+			"area": "sidebar",
+			"name": "standard-set-of-facets",
+			"title": "Standard Set of Facets"
+		},
+		{
+			"area": "sidebar",
+			"name": "decoded-categories-baseball-card",
+			"title": "Decoded Categories Baseball Card"
+		},
+		{
+			"area": "footer",
+			"name": "decoded-footer",
+			"title": "Decoded Footer"
+		},
+		{
+			"area": "header",
+			"name": "decoded-header",
+			"title": "Decoded Header"
+		},
+		{
+			"area": "uncategorized",
+			"name": "decoded-post-meta",
+			"title": "Decoded Post Meta"
+		},
+		{
+			"area": "sidebar",
+			"name": "decoded-sidebar",
+			"title": "Decoded Sidebar"
+		},
+		{
+			"area": "uncategorized",
+			"name": "decoded-post-topics-listing-mobile",
+			"title": "Decoded Category Tags"
+		},
+		{
+			"area": "uncategorized",
+			"name": "default-article-header",
+			"title": "Default Article Header"
+		},
+		{
+			"area": "header",
+			"name": "desktop-mega-menu",
+			"title": "Desktop Mega Menu"
+		},
+		{
+			"area": "uncategorized",
+			"name": "facets-pager",
+			"title": "Facets Pager"
+		},
+		{
+			"area": "uncategorized",
+			"name": "facets-results-info-and-selected-tokens",
+			"title": "Facets Results Info and Selected Tokens"
+		},
+		{
+			"area": "header",
+			"name": "mobile-mega-menu",
+			"title": "Mobile Mega Menu"
+		},
+		{
+			"area": "header",
+			"name": "mobile-menu-search",
+			"title": "Mobile Menu Search"
+		},
+		{
+			"area": "uncategorized",
+			"name": "post-meta",
+			"title": "Post Meta"
+		},
+		{
+			"area": "uncategorized",
+			"name": "login-form",
+			"title": "Login Form"
+		},
+		{
+			"area": "uncategorized",
+			"name": "login-form-content-gate",
+			"title": "Login Form (Content Gate)"
+		},
+		{
+			"area": "sidebar",
+			"name": "standard-limited-post-sidebar",
+			"title": "Standard Limited Post Sidebar"
+		},
+		{
+			"area": "sidebar",
+			"name": "standard-post-sidebar-related-topics-popular",
+			"title": "Standard Post Sidebar Related Topics Popular"
+		},
+		{
+			"area": "uncategorized",
+			"name": "topics-tags-style",
+			"title": "Topic Tags"
+		},
+		{
+			"area": "header",
+			"name": "rls-app-masthead",
+			"title": "RLS: App Masthead"
+		}
+	],
+	"version": 3,
+	"$schema": "https://schemas.wp.org/trunk/theme.json"
+}

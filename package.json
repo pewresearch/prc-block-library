@@ -20,7 +20,7 @@
 		"build:print-engine": "npm -w @prc/block-library-print-engine run build",
 		"start": "node bin/start-block.js",
 		"watch": "node bin/start-block.js",
-		"test": "wp-scripts test-unit-js",
+		"test": "wp-scripts test-unit-js --config jest.config.js",
 		"composer": "vip dev-env exec --slug prc-platform -- composer --working-dir=/wp/wp-content/plugins/prc-block-library"
 	},
 	"devDependencies": {

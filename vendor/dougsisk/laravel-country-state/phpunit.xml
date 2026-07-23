@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
+  <testsuites>
+    <testsuite name="CountryState Test Suite">
+      <file>tests/CountryStateTest.php</file>
+    </testsuite>
+    <testsuite name="CountryState Laravel Test Suite">
+      <file>tests/laravel/CountryStateLaravelTest.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>

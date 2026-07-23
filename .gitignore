@@ -33,4 +33,6 @@ yarn-error.log*
 # Testing
 artifacts/
 .vscode/*
-vendor/
+
+# vendor/ is committed for standalone installs (populated by platform ship CI).
+!vendor/

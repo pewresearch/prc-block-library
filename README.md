@@ -42,7 +42,7 @@ npm run start:library -w @prc/block-library
 ```bash
 # Run Playwright e2e tests (from monorepo root; VIP dev-env + Playwright are centralized)
 npm run vip:start
-npm test -- tests/prc-block-library/
+npm test -- tests/prc-block-library/e2e/
 ```
 
 ## Architecture
@@ -88,7 +88,7 @@ To scaffold a new block, run `npm run create-block` from the repository root. Se
 | `bin/build-block.js`                                         | CLI helper for building a single named block                                                                                             |
 | `bin/start-block.js`                                         | CLI helper for watching a single named block                                                                                             |
 | `webpack.config.js`                                          | Inherits from root `webpack.config.js`                                                                                                   |
-| `tests/`                                                     | Playwright e2e specs                                                                                                                     |
+| `tests/prc-block-library/e2e/`                                | Playwright e2e specs (monorepo root)                                                                                                     |
 
 ## Blocks
 

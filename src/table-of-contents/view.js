@@ -154,7 +154,11 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				})
 			);
 
-			const { items } = getContext();
+			const context = getContext();
+			const items = context?.items;
+			if (!Array.isArray(items) || !items.length) {
+				return;
+			}
 
 			const unattachedPackagePartIndex = items.findIndex(
 				(part) => part.key === `unattachedPackagePart_${postId}`
@@ -165,10 +169,15 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				const activeChapterIndex = items.findIndex(
 					(chapter) => chapter.is_active === true
 				);
+				// No active chapter (e.g. TOC on a post outside the package) —
+				// bail rather than writing `.sections` on `items[-1]`.
+				if (-1 === activeChapterIndex) {
+					return;
+				}
 				items[activeChapterIndex].sections = mappedSections;
 			} else {
 				const activePartIndex = items.findIndex((part) => {
-					return part.chapters.find(
+					return part.chapters?.find(
 						(chapter) => chapter.is_active === true
 					);
 				});
@@ -178,6 +187,9 @@ const { actions, state } = store('prc-block/table-of-contents', {
 				const activeChapterIndex = items[
 					activePartIndex
 				].chapters.findIndex((chapter) => chapter.is_active === true);
+				if (-1 === activeChapterIndex) {
+					return;
+				}
 
 				items[activePartIndex].chapters[activeChapterIndex].sections =
 					mappedSections;

@@ -1,0 +1,38 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Composer install
+        run: composer install --prefer-dist --no-progress
+
+      - name: npm ci
+        run: npm ci
+
+      - name: Start wp-env
+        run: npm run env:start
+
+      - name: Install WP test library
+        run: npm run env:install-tests
+
+      - name: PHPUnit
+        run: npm test
