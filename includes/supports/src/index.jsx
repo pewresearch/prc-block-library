@@ -26,7 +26,6 @@ import './editor.scss';
 import {
 	ColorControls,
 	CSSHelpersLibrary,
-	MaxWidthControls,
 	BoxShadowControls,
 } from './controls';
 
@@ -95,7 +94,9 @@ domReady(() => {
  * Add attributes for:
  * 1. stuck background color
  * 2. stuck text color
- * 3. max width
+ * 3. stuck box shadow
+ * 4. legacy max width (attribute kept for existing content; editor UI removed —
+ *    for new constraints use Additional CSS under Advanced, or content width)
  *
  * @param {Object} settings Settings for the block.
  *
@@ -121,6 +122,7 @@ addFilter('blocks.registerBlockType', `prc-block/supports`, (settings) => {
 		};
 	}
 
+	// Preserve maxWidth so legacy saved values remain available for editor/frontend styling.
 	settings.attributes = {
 		...settings.attributes,
 		maxWidth: {
@@ -141,7 +143,11 @@ addFilter('blocks.registerBlockType', `prc-block/supports`, (settings) => {
  * 1. stuck background color
  * 2. stuck text color
  * 3. stuck box shadow toggle
- * 4. max width
+ *
+ * Max Width Dimensions control intentionally omitted. For new max-width
+ * constraints, prefer Gutenberg content width / layout settings, or use the
+ * Additional CSS panel under Advanced in the block editor (available on each
+ * block). Legacy maxWidth attributes still render.
  */
 addFilter(
 	'editor.BlockEdit',
@@ -149,15 +155,10 @@ addFilter(
 	createHigherOrderComponent(
 		(BlockEdit) =>
 			function SupportsControls(props) {
-				const { name, attributes, setAttributes, clientId } = props;
+				const { attributes, setAttributes, clientId } = props;
 				return (
 					<>
 						<CustomColorsControls
-							attributes={attributes}
-							setAttributes={setAttributes}
-							clientId={clientId}
-						/>
-						<MaxWidthControls
 							attributes={attributes}
 							setAttributes={setAttributes}
 							clientId={clientId}
@@ -181,6 +182,8 @@ addFilter(
  * Add block wrapper html attributes and class names for:
  * 1. stuck background
  * 2. stuck text
+ * 3. stuck box shadow
+ * 4. legacy max width (when a saved value exists)
  */
 addFilter(
 	'editor.BlockListBlock',
@@ -213,9 +216,8 @@ addFilter(
 				newWrapperProps.className = `${newWrapperProps?.className || ''} has-stuck-box-shadow`;
 			}
 
-			// Add max width styles and class.
+			// Apply legacy max width styles when a saved value exists.
 			if (undefined !== maxWidth) {
-				// We need to add the data attr for each device type to the wrapper element.
 				if (null !== maxWidth.desktop) {
 					newWrapperProps.style = {
 						...newWrapperProps.style,
@@ -240,12 +242,6 @@ addFilter(
 				) {
 					newWrapperProps.className = `${newWrapperProps?.className || ''} has-max-width-constraint`;
 				}
-				// else {
-				// 	newWrapperProps.className = className.replace(
-				// 		'has-max-width-constraint',
-				// 		''
-				// 	);
-				// }
 			} else if (className.includes('has-max-width-constraint')) {
 				newWrapperProps.className = className.replace(
 					'has-max-width-constraint',

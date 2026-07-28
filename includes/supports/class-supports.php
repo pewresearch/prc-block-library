@@ -70,6 +70,7 @@ class Supports {
 			$loader->add_action( 'enqueue_block_assets', $this, 'enqueue_styles' );
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'render_block', $this, 'add_sticky_support_to_render', 100, 2 );
+			// Keep legacy maxWidth rendering for existing content (editor UI removed).
 			$loader->add_filter( 'render_block', $this, 'add_max_width_support_to_render', 100, 2 );
 		}
 	}
@@ -176,6 +177,8 @@ class Supports {
 		if ( ! is_array( $metadata ) || ! array_key_exists( 'attributes', $metadata ) ) {
 			return $metadata;
 		}
+		// Keep maxWidth registered so saved legacy values are preserved and rendered.
+		// New constraints: Gutenberg content width / layout, or Additional CSS under Advanced.
 		if ( ! array_key_exists( 'maxWidth', $metadata['attributes'] ) ) {
 			$metadata['attributes']['maxWidth'] = array(
 				'type'    => 'object',
@@ -271,11 +274,18 @@ class Supports {
 	}
 
 	/**
-	 * Adds max-width support features to the rendered block.
+	 * Applies legacy max-width constraints from saved maxWidth attributes.
+	 *
+	 * The Dimensions panel control is removed; this remains so existing content
+	 * that already has maxWidth set keeps its styling.
+	 *
+	 * Going forward, prefer Gutenberg content width / layout settings, or use
+	 * the Additional CSS panel under Advanced in the block editor (available
+	 * on each block) for one-off max-width constraints.
 	 *
 	 * @hook render_block 100, 2
-	 * @param mixed $block_content
-	 * @param mixed $block
+	 * @param mixed $block_content Block HTML.
+	 * @param mixed $block         Parsed block.
 	 * @return mixed
 	 */
 	public function add_max_width_support_to_render( $block_content, $block ) {
@@ -284,32 +294,52 @@ class Supports {
 		}
 
 		$max_width = array_key_exists( 'maxWidth', $block['attrs'] ) ? $block['attrs']['maxWidth'] : array();
-		if ( $max_width ) {
-			wp_enqueue_style( $this->style_handle );
+		if ( ! $this->has_legacy_max_width( $max_width ) ) {
+			return $block_content;
 		}
+
+		wp_enqueue_style( $this->style_handle );
 
 		$w = new WP_HTML_Tag_Processor( $block_content );
 		if ( $w->next_tag() ) {
-			if ( $max_width ) {
-				$w->add_class( 'has-max-width-constraint' );
-				$styles = array(
-					'--max-width__desktop: ' . $max_width['desktop'] . ';',
-					'--max-width__tablet: ' . $max_width['tablet'] . ';',
-					'--max-width__mobile: ' . $max_width['mobile'] . ';',
-				);
-				$styles = implode( ' ', $styles );
-				// Add the styles to the style attribute, create if it doesnt exist, add to if it does.
-				$existing_styles = $w->get_attribute( 'style' );
-				if ( $existing_styles ) {
-					// Sanity check.
-					$existing_styles = rtrim( $existing_styles );
-					$existing_styles = rtrim( $existing_styles, ';' ) . ';';
-					$styles          = $existing_styles . ' ' . $styles;
-				}
-				$w->set_attribute( 'style', $styles );
+			$w->add_class( 'has-max-width-constraint' );
+			$styles = array(
+				'--max-width__desktop: ' . $max_width['desktop'] . ';',
+				'--max-width__tablet: ' . $max_width['tablet'] . ';',
+				'--max-width__mobile: ' . $max_width['mobile'] . ';',
+			);
+			$styles = implode( ' ', $styles );
+			// Add the styles to the style attribute, create if it doesnt exist, add to if it does.
+			$existing_styles = $w->get_attribute( 'style' );
+			if ( $existing_styles ) {
+				// Sanity check.
+				$existing_styles = rtrim( $existing_styles );
+				$existing_styles = rtrim( $existing_styles, ';' ) . ';';
+				$styles          = $existing_styles . ' ' . $styles;
 			}
+			$w->set_attribute( 'style', $styles );
 			$block_content = $w->get_updated_html();
 		}
 		return $block_content;
+	}
+
+	/**
+	 * Whether a maxWidth attribute has a real legacy value to apply.
+	 *
+	 * @param mixed $max_width Max width attribute value.
+	 * @return bool
+	 */
+	private function has_legacy_max_width( $max_width ) {
+		if ( ! is_array( $max_width ) ) {
+			return false;
+		}
+
+		foreach ( array( 'desktop', 'tablet', 'mobile' ) as $breakpoint ) {
+			if ( array_key_exists( $breakpoint, $max_width ) && null !== $max_width[ $breakpoint ] && '' !== $max_width[ $breakpoint ] ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

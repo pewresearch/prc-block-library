@@ -1,5 +1,10 @@
 /**
- * Max Width
+ * Max Width (legacy)
+ *
+ * Kept so blocks that already have a maxWidth attribute keep their styling.
+ * The Dimensions Max Width control is removed. Going forward, prefer Gutenberg
+ * content width / layout settings, or use the Additional CSS panel under
+ * Advanced in the block editor (available on each block).
  */
 @use "./variables/breakpoints.scss" as *;
 @use "sass:math" as *;

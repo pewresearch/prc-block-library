@@ -21,11 +21,12 @@ These styles can be selected in the block editor and are registered via PHP for 
 
 ### 2. **Responsive Controls**
 
-The block supports device-specific visibility and max-width constraints:
+The block supports device-specific visibility:
 
 - **Hide on Desktop/Tablet/Mobile**: Toggle block visibility per device.
-- **Max Width per Device**: Set different max-widths for desktop, tablet, and mobile.
 - **Responsive container queries**: Data attributes and CSS variables are used for fine-grained control.
+
+For new width constraints, use Gutenberg content width / layout settings (or custom CSS for one-off cases). Legacy per-device `maxWidth` values already saved on blocks continue to apply; the Max Width editor control is no longer available.
 
 ### 3. **Color & Divider Controls**
 
@@ -54,7 +55,7 @@ Each variation provides a unique layout and style, with example inner blocks and
 
 ### 5. **Editor Enhancements**
 
-- **Custom Controls**: Additional controls for color, responsive settings, and max width are injected into the block sidebar.
+- **Custom Controls**: Additional controls for color and responsive settings are injected into the block sidebar (Max Width Dimensions control removed).
 - **Block Filters**: Filters are used to add attributes, wrapper props, and support for left/right alignment.
 - **Transforms**: Supports transforms from other custom blocks (e.g., `prc-block/callout`).
 
@@ -78,7 +79,7 @@ The included `style.scss` provides:
 Add a `core/group` block in the editor. Use the block sidebar to:
 
 - Select a custom style (e.g., "Baseball Card", "Callout").
-- Set device-specific visibility and max-width.
+- Set device-specific visibility.
 - Choose divider and sticky colors.
 
 Choose a variation from the inserter for pre-configured layouts.

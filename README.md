@@ -4,7 +4,7 @@ The core Gutenberg block library for the PRC Platform — provides all custom bl
 
 ## Overview
 
-PRC Block Library registers ~90 blocks across two namespaces: `prc-block/*` for custom PRC blocks and modifications to `core/*` blocks. It is the display layer of the platform and the first plugin loaded when rendering any content. Beyond blocks, it also ships a set of cross-cutting support systems (Interactivity API helpers, a Print Engine, block visibility controls, custom rich text formats, sticky/max-width layout supports, and a form data store) that apply globally to all registered blocks.
+PRC Block Library registers ~90 blocks across two namespaces: `prc-block/*` for custom PRC blocks and modifications to `core/*` blocks. It is the display layer of the platform and the first plugin loaded when rendering any content. Beyond blocks, it also ships a set of cross-cutting support systems (Interactivity API helpers, a Print Engine, block visibility controls, custom rich text formats, sticky/legacy-max-width layout supports, and a form data store) that apply globally to all registered blocks.
 
 In the block editor, the plugin registers the **Pew Research Center Block Library** block collection (namespace `prc-block`) in `includes/supports/src/index.jsx`, which is enqueued with the Supports subsystem.
 
@@ -82,7 +82,7 @@ To scaffold a new block, run `npm run create-block` from the repository root. Se
 | `includes/pagination/class-pagination.php`                   | Registers shared pagination styles/scripts consumed by listing blocks                                                                    |
 | `includes/print-engine/class-print-engine.php`               | Intercepts `?pdf=true` requests and renders a full print/PDF page; adds `printEngine` attribute to all blocks                            |
 | `includes/print-engine/class-block-print-registry.php`       | Static registry where other plugins register block-level print callbacks and CSS                                                         |
-| `includes/supports/class-supports.php`                       | Adds `maxWidth` (responsive per-breakpoint constraint) and sticky-state color/shadow attributes to every block                           |
+| `includes/supports/class-supports.php`                       | Adds sticky-state color/shadow attributes; keeps legacy `maxWidth` attribute registration/render (editor UI removed)                     |
 | `build/blocks-manifest.php`                                  | Auto-generated block metadata index; do not edit manually                                                                                |
 | `src/README.md`                                              | Instructions for scaffolding a new block                                                                                                 |
 | `bin/build-block.js`                                         | CLI helper for building a single named block                                                                                             |
@@ -274,10 +274,10 @@ The `printEngine` block attribute (`hideOnPrint`, `displayOnPrint`) is injected 
 
 ### Block Supports (`includes/supports/`)
 
-Adds two layout features to all blocks:
+Adds sticky layout enhancements for blocks that support sticky positioning:
 
-- **`maxWidth`** — per-breakpoint max-width constraints (`desktop`, `tablet`, `mobile`); rendered as CSS custom properties on the block element.
 - **Sticky enhancements** — `isStuckBackground`, `isStuckText`, `isStuckBoxShadow` attributes that swap colors and add a box shadow when a sticky block is in the "stuck" state via the Interactivity API.
+- **Legacy `maxWidth`** — the Dimensions panel Max Width control is removed. Existing blocks that already have a `maxWidth` attribute keep editor and frontend styling. Prefer Gutenberg content width / layout settings for new content; custom CSS remains available for one-off cases.
 
 The same editor script (`src/index.jsx`) unregisters unused core block types (archives, calendar, latest comments, tag cloud, verse) and a set of `core/embed` service variations; edit that file to change the list.
 
@@ -318,9 +318,9 @@ const forms = useSelect(
 | `should_load_separate_core_block_assets`    | filter | Returns `true`; enables per-block asset loading for performance                                                                                                                          |
 | `wp_kses_allowed_html`                      | filter | Extends allowed tags to include `iframe`, `input`, `textarea`, `form`, `picture`, `source`, `svg`, `path`, `rect`; extends `img` with `srcset`/`sizes`; extends `a` with aria attributes |
 | `safe_style_css`                            | filter | Adds `container` and `@container` to allowed inline CSS properties                                                                                                                       |
-| `block_type_metadata`                       | filter | Multiple usages — injects `interactiveNamespace`/`interactiveSubsumption`, `printEngine`, `maxWidth`, and sticky attributes on all blocks                                                |
+| `block_type_metadata`                       | filter | Multiple usages — injects `interactiveNamespace`/`interactiveSubsumption`, `printEngine`, sticky attributes, and legacy `maxWidth` on all blocks                                         |
 | `block_type_metadata_settings`              | filter | Merges Interactivity API context entries for blocks that support it                                                                                                                      |
-| `render_block`                              | filter | Applied by Print Engine (visibility and `data-*` attribute injection) and Supports (sticky and max-width rendering)                                                                      |
+| `render_block`                              | filter | Applied by Print Engine (visibility and `data-*` attribute injection) and Supports (sticky and legacy max-width rendering)                                                               |
 | `remote_data_blocks_template_blocks`        | filter | Signals to Remote Data Blocks that `prc-block/tabs` and `core/tabs` support RDB templates                                                                                                |
 | `remote_data_blocks_register_example_block` | filter | Returns `false`; disables the RDB example block                                                                                                                                          |
 | `query_vars`                                | filter | Adds `print`, `printEngineBeta`, and `pdf` to recognized query vars                                                                                                                      |
