@@ -25,4 +25,7 @@
 	li:not(:first-child) {
 		margin-block-start: var(--block-gap);
 	}
+	li a {
+		text-decoration: underline;
+	}
 }

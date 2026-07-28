@@ -1,6 +1,8 @@
 .wp-block-post-content {
 	counter-reset: big-number;
-	p a {
+	p a,
+	ul.wp-block-list li a,
+	ol.wp-block-list li a {
 		text-decoration: underline;
 	}
 	h5 {

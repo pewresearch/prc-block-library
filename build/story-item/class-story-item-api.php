@@ -94,6 +94,7 @@ class Story_Item_API {
 		foreach ( $attributes as $key => $opts ) {
 			$defaults[ $key ] = array_key_exists( 'default', $opts ) ? $opts['default'] : null;
 		}
+		return $defaults;
 	}
 
 	/**
@@ -259,9 +260,17 @@ class Story_Item_API {
 		}
 		$date = $this->check_for_attr( 'date' );
 		$date = $date ? $date : $this->post_data['post_date'];
+		// Empty/missing dates must not fall through to strtotime(null)/'' → epoch.
+		if ( empty( $date ) || ! is_string( $date ) ) {
+			return false;
+		}
+		$timestamp = strtotime( $date );
+		if ( false === $timestamp ) {
+			return false;
+		}
 		return gmdate(
 			self::$date_format,
-			strtotime( $date )
+			$timestamp
 		);
 	}
 
