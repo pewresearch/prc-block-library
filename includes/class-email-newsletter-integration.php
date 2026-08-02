@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace PRC\Platform\Blocks;
 
+use PRC\Platform\Email_Builder\Email_Block_Converter;
 use PRC\Platform\Email_Builder\Email_Block_Integration;
 use PRC\Platform\Email_Builder\Email_Style_Resolver;
 
@@ -63,6 +64,19 @@ class Email_Newsletter_Integration {
 	);
 
 	/**
+	 * Allowed inline tags in a linked story title.
+	 *
+	 * @var array<string,array<string,bool>>
+	 */
+	private const ALLOWED_TITLE_HTML = array(
+		'strong' => array(),
+		'b'      => array(),
+		'em'     => array(),
+		'i'      => array(),
+		'br'     => array(),
+	);
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Loader $loader The loader instance.
@@ -103,8 +117,6 @@ class Email_Newsletter_Integration {
 	 * @return string Email HTML fragment.
 	 */
 	public function story_item_to_email_html( array $block, \WP_Post $post ): string {
-		unset( $post ); // Newsletter post unused; story-item resolves its own postId.
-
 		if ( ! class_exists( __NAMESPACE__ . '\\Story_Item_API' ) ) {
 			$api_file = PRC_BLOCK_LIBRARY_DIR . '/src/story-item/class-story-item-api.php';
 			if ( is_readable( $api_file ) ) {
@@ -116,8 +128,7 @@ class Email_Newsletter_Integration {
 		}
 
 		$attrs = is_array( $block['attrs'] ?? null ) ? $block['attrs'] : array();
-		// parse_blocks() leaves InnerBlocks as null placeholders in innerHTML;
-		// rebuild so enableExtra content is visible to Story_Item_API::get_extras().
+		// Story_Item_API reads excerpt and legacy extra markup from saved HTML.
 		$inner_html = $this->reconstruct_block_html( $block );
 
 		// parse_blocks() does not apply block.json defaults; merge explicitly.
@@ -137,11 +148,41 @@ class Email_Newsletter_Integration {
 			$url = '';
 		}
 
+		$title = is_string( $title ) ? $title : '';
+		$extra = is_string( $extra ) ? $extra : '';
+		$inner_blocks = is_array( $block['innerBlocks'] ?? null ) ? $block['innerBlocks'] : array();
+
+		$extra_html = '';
+		if ( ! empty( $attrs['enableExtra'] ) ) {
+			if ( ! empty( $inner_blocks ) ) {
+				$extra_html = ( new Email_Block_Converter() )->blocks_to_email_html( $inner_blocks, $post );
+			} elseif ( '' !== $extra ) {
+				$extra_html = $this->sanitize_inline_html( $extra );
+				if ( '' !== $extra_html && class_exists( Email_Block_Integration::class ) ) {
+					$extra_html = Email_Block_Integration::rewrite_body_links( $extra_html, $attrs );
+				}
+			}
+		}
+
+		/** @var array{title_html:string,title_text:string,extra_html:string} $story_content */
+		$story_content = array(
+			'title_html' => trim( (string) wp_kses( $title, self::ALLOWED_TITLE_HTML ) ),
+			// Replace soft breaks with spaces before stripping so alt text does not jam lines.
+			'title_text' => trim(
+				(string) preg_replace(
+					'/\s+/',
+					' ',
+					wp_strip_all_tags( (string) preg_replace( '/<br\b[^>]*>/i', ' ', $title ) )
+				)
+			),
+			'extra_html' => $extra_html,
+		);
+
 		$text_content = $this->build_text_content(
 			$attrs,
-			is_string( $title ) ? $title : '',
+			$story_content['title_html'],
 			is_string( $excerpt ) ? $excerpt : '',
-			is_string( $extra ) ? $extra : '',
+			$story_content['extra_html'],
 			$url,
 			is_string( $label ) ? $label : '',
 			is_string( $date ) ? $date : '',
@@ -164,7 +205,7 @@ class Email_Newsletter_Integration {
 			is_array( $imgs ) ? $imgs : null,
 			is_string( $image_size ) ? $image_size : '',
 			$url,
-			is_string( $title ) ? $title : '',
+			$story_content['title_text'],
 			$bordered
 		);
 
@@ -260,9 +301,9 @@ class Email_Newsletter_Integration {
 	 * Build meta + title + excerpt + extra text column HTML.
 	 *
 	 * @param array<string,mixed> $attrs         Block attrs.
-	 * @param string              $title         Resolved title.
+	 * @param string              $title_html    Email-ready title HTML.
 	 * @param string              $excerpt       Resolved excerpt HTML.
-	 * @param string              $extra         Resolved extra HTML.
+	 * @param string              $extra_html    Email-ready extra HTML.
 	 * @param string              $url           Story URL.
 	 * @param string              $label         Meta label.
 	 * @param string              $date          Meta date.
@@ -271,9 +312,9 @@ class Email_Newsletter_Integration {
 	 */
 	private function build_text_content(
 		array $attrs,
-		string $title,
+		string $title_html,
 		string $excerpt,
-		string $extra,
+		string $extra_html,
 		string $url,
 		string $label,
 		string $date,
@@ -299,11 +340,11 @@ class Email_Newsletter_Integration {
 			}
 		}
 
-		if ( '' !== $title ) {
+		if ( '' !== $title_html ) {
 			$header = $this->header_typography( (int) ( $attrs['headerSize'] ?? 2 ), ! empty( $attrs['enableAltHeaderWeight'] ) || ! $has_excerpt );
 			$title_linked = '' !== $url
-				? sprintf( '<a href="%s" style="color:#000000;text-decoration:none;">%s</a>', esc_url( $url ), esc_html( $title ) )
-				: esc_html( $title );
+				? sprintf( '<a href="%s" style="color:#000000;text-decoration:none;">%s</a>', esc_url( $url ), $title_html )
+				: $title_html;
 			$parts .= sprintf(
 				'<p style="font-family:%s;font-size:%dpx;line-height:%dpx;font-weight:%s;color:#000000;margin:0;">%s</p>',
 				esc_attr( $serif ),
@@ -328,18 +369,12 @@ class Email_Newsletter_Integration {
 			}
 		}
 
-		if ( '' !== $extra ) {
-			$extra_html = $this->sanitize_inline_html( $extra );
-			if ( '' !== $extra_html ) {
-				if ( class_exists( Email_Block_Integration::class ) ) {
-					$extra_html = Email_Block_Integration::rewrite_body_links( $extra_html, $attrs );
-				}
-				$parts .= sprintf(
-					'<div style="font-family:%s;font-size:15px;line-height:22px;color:#333333;margin:1em 0 0 0;">%s</div>',
-					esc_attr( $sans ),
-					$extra_html
-				);
-			}
+		if ( '' !== trim( $extra_html ) ) {
+			$parts .= sprintf(
+				'<div style="font-family:%s;font-size:15px;line-height:22px;color:#333333;margin:1em 0 0 0;">%s</div>',
+				esc_attr( $sans ),
+				$extra_html
+			);
 		}
 
 		return $parts;

@@ -26,6 +26,7 @@ function InspectorPanel({ attributes, setAttributes }) {
 	const { type, value, defaultChecked, required, metadata } = attributes;
 	const { name } = metadata || {};
 	const isMailchimpSignup = name === 'mailchimp_signup';
+	const audienceId = metadata?.audienceId ?? '';
 	return (
 		<Fragment>
 			<InspectorControls>
@@ -33,15 +34,21 @@ function InspectorPanel({ attributes, setAttributes }) {
 					{isMailchimpSignup && (
 						<PanelRow>
 							<MailchimpSegmentSelect
-								label={__(
-									'Choose Newsletter Segment',
-									'prc-block-library'
-								)}
-								value={value}
-								onChange={(newInterestId) => {
-									setAttributes({ value: newInterestId });
+								audienceId={audienceId}
+								segmentId={value}
+								onAudienceChange={(nextAudienceId) => {
+									setAttributes({
+										metadata: {
+											...attributes.metadata,
+											audienceId: nextAudienceId,
+										},
+										// Clear segment when audience changes.
+										value: '',
+									});
 								}}
-								apiKey="mailchimp-form"
+								onSegmentChange={(nextSegmentId) => {
+									setAttributes({ value: nextSegmentId });
+								}}
 							/>
 						</PanelRow>
 					)}
@@ -62,7 +69,7 @@ function InspectorPanel({ attributes, setAttributes }) {
 						help={
 							isMailchimpSignup
 								? __(
-										'Mailchimp interest ID for this segment. Populated by the segment picker above.',
+										'Mailchimp saved segment ID for this opt-in. Populated by the picker above. Legacy forms may still store an interest ID.',
 										'prc-block-library'
 									)
 								: undefined
@@ -72,6 +79,27 @@ function InspectorPanel({ attributes, setAttributes }) {
 							setAttributes({ value: newValue });
 						}}
 					/>
+					{isMailchimpSignup && (
+						<TextControl
+							label={__(
+								'Mailchimp audience ID',
+								'prc-block-library'
+							)}
+							help={__(
+								'Stored in block metadata. Populated by the audience picker above.',
+								'prc-block-library'
+							)}
+							value={audienceId}
+							onChange={(nextAudienceId) => {
+								setAttributes({
+									metadata: {
+										...attributes.metadata,
+										audienceId: nextAudienceId,
+									},
+								});
+							}}
+						/>
+					)}
 					<TextControl
 						label="Input Name"
 						help={__(

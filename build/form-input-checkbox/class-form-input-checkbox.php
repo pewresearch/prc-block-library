@@ -128,20 +128,29 @@ class Form_Input_Checkbox {
 		}
 
 		if ( ! $has_subsumption ) {
+			$audience_id          = '';
+			if ( array_key_exists( 'metadata', $attributes )
+				&& is_array( $attributes['metadata'] )
+				&& array_key_exists( 'audienceId', $attributes['metadata'] )
+			) {
+				$audience_id = (string) $attributes['metadata']['audienceId'];
+			}
+
 			$state                  = wp_interactivity_state( $target_namespace );
 			$existing_form_fields   = $state['formFields'] ?? array();
 			$existing_form_fields[] = array(
-				'id'       => $block_id,
-				'name'     => $input_name,
-				'label'    => $label_text,
-				'type'     => $attributes['type'] ?? 'checkbox',
-				'value'    => $input_value ?? '',
-				'checked'  => $input_checked ?? false,
-				'required' => $input_required ?? false,
-				'hidden'   => null,
-				'readonly' => null,
-				'disabled' => null,
-				'error'    => null,
+				'id'         => $block_id,
+				'name'       => $input_name,
+				'label'      => $label_text,
+				'type'       => $attributes['type'] ?? 'checkbox',
+				'value'      => $input_value ?? '',
+				'audienceId' => $audience_id,
+				'checked'    => $input_checked ?? false,
+				'required'   => $input_required ?? false,
+				'hidden'     => null,
+				'readonly'   => null,
+				'disabled'   => null,
+				'error'      => null,
 			);
 			$state                  = wp_interactivity_state(
 				$target_namespace,
