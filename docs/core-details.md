@@ -109,6 +109,7 @@ Key behaviors:
 3. **Knight logo click:** When the Knight style is active, injects `data-wp-on--click="actions.handleSummaryClick"` on `<summary>` (can coexist with entity iframe prefetch on the same `<summary>`).
 4. **View script enqueuing:** Enqueues the view script module when focus-lost, Knight style, **or** entity iframe integration is needed
 5. **Errant tag cleanup:** `filter_details_output` removes empty `<a>` tags (from Word doc copy-paste)
+6. **Print engine:** Registers a print callback that forces `<details open>` on `/print` routes so closed accordion panels render expanded content for PDF capture
 
 ## Block Markup Example
 

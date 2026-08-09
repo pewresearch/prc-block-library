@@ -66,6 +66,8 @@ None. This is the top-level container for dialog functionality.
 6. The **Dialog ID** can be customized in the inspector panel. It must be unique on the page.
 7. The dialog auto-opens for editing when you select the dialog element or its inner blocks.
 
+**Note:** Editor inspector controls were updated for current WordPress component defaults (removed obsolete `__next40pxDefaultSize` props).
+
 ## Block Markup Example
 
 The `example` defined in `block.json` drives the inserter preview. It uses a bare `dialog-trigger` (no inner content) and a `dialog-element` with `medium` size and `fade` animation:

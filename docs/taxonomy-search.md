@@ -74,11 +74,11 @@ Standard inner blocks save. Server-side rendering augments the output with inter
 **Key methods:**
 
 -   `restfully_search_taxonomy()` -- Searches terms by name using `get_terms()` with `name__like`. If `parent_term_id` is provided, restricts results to that term's children via `get_term_children()`. Results are cached with a 1-day TTL.
--   `render_callback()` -- Enqueues `wp-url`, `wp-api-fetch`, and `wp-html-entities` scripts. Sets `data-wp-interactive="prc-block/taxonomy-search"`. Injects `data-wp-context` with `{ taxonomy, restrictToTermId, searchValue, isActive, results: [] }`. Outputs a `<ul>` with `data-wp-each--result="context.results"` for dynamic result rendering. Each result item is an `<a>` bound to `context.result.url` and `context.result.label`.
+-   `render_callback()` -- Enqueues `wp-api-fetch` and `wp-html-entities` scripts (URL helpers come from the bundled `@wordpress/url` import in `view.js`, not a separate `wp-url` enqueue). Sets `data-wp-interactive="prc-block/taxonomy-search"`. Injects `data-wp-context` with `{ taxonomy, restrictToTermId, searchValue, isActive, results: [] }`. Outputs a `<ul>` with `data-wp-each--result="context.results"` for dynamic result rendering. Each result item is an `<a>` bound to `context.result.url` and `context.result.label`.
 
 ## Frontend Interactivity
 
-`view.js` registers the `prc-block/taxonomy-search` store.
+`view.js` registers the `prc-block/taxonomy-search` store. Query-arg helpers use the `@wordpress/url` `addQueryArgs` import (not `window.wp.url`).
 
 **Actions:**
 

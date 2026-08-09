@@ -112,12 +112,12 @@ Standard inner blocks save. Server-side rendering augments the output with inter
 
 **Actions:**
 
--   `onClick` -- Toggles `context.isActive`. When activating, appends `taxonomyLink={id}` to the URL via `wp.url.addQueryArgs`. When deactivating, removes the query arg via `wp.url.removeQueryArgs`. Updates `window.location` to persist state.
+-   `onClick` -- Toggles `context.isActive`. When activating, appends `taxonomyLink={id}` to the URL via `addQueryArgs` from `@wordpress/url`. When deactivating, removes the query arg via `removeQueryArgs`. Updates `window.location` to persist state.
 
 **Callbacks:**
 
 -   `getExpandedMenuLabel` -- Returns `"Less"` when `context.isActive` is true, `"More"` otherwise. Used for the sub-expand toggle button label.
--   `onInit` -- On page load, if the link is already active (from the URL query var), scrolls the element into view with `{ behavior: 'smooth' }`.
+-   `onInit` -- On page load, if the link is already active (from the URL query var), scrolls the link element into view via `ref.scrollIntoView({ behavior: 'smooth' })` instead of `getElementById`, avoiding null reference errors when the DOM node is missing.
 
 ## Related Blocks
 

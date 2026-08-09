@@ -92,6 +92,8 @@ From `controls/interior-divider.jsx`:
 - Uses `withColors` HOC and `ColorGradientSettingsDropdown` for color selection
 - Conditionally renders based on inner block count
 
+**Max width per device:** The per-device **Max Width** inspector control was removed. Device-specific visibility toggles remain. Legacy saved `maxWidth` values still apply on the frontend; use Gutenberg content width / layout settings or custom CSS for new width constraints.
+
 ## Frontend Interactivity
 
 None. No `view.js` file.

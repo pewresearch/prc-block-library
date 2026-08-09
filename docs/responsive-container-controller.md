@@ -107,7 +107,7 @@ The `example` in `block.json` matches the default three-view template (device ty
 
 The block is server-side rendered via `Responsive_Container_Controller::render_block_callback()`:
 
--   Generates a unique hash ID for the controller wrapper and each inner view block.
+-   Assigns viewport DOM ids via `wp_unique_id('rcv-')` / `wp_unique_id('rcc-')` instead of hashing the full block tree; media queries are built from precomputed viewport specs.
 -   Iterates over inner blocks, rendering each and assigning unique IDs.
 -   Constructs CSS media queries based on each view's `min` and `max` attributes.
 -   Outputs the views wrapped in the controller `<div>` followed by a `<style>` tag containing the generated media queries.

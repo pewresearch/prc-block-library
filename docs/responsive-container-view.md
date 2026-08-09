@@ -84,8 +84,9 @@ This block can only be used inside a Responsive Container Controller.
 
 The block is server-side rendered via `Responsive_Container_View::render_callback()`:
 
--   Assigns a unique block ID (from parent controller or generated via `md5`).
+-   Assigns a unique block ID from the parent controller, or falls back to `wp_unique_id()` (no longer `md5`).
 -   Sets `display: none` as the default inline style (the parent controller's media queries toggle visibility).
+-   Renders InnerBlocks HTML without re-running `wp_kses` on already-sanitized output.
 -   If `additionalStyles` are provided, processes CSS class selectors by prefixing them with the block's unique ID for scoping.
 -   Outputs additional styles in an inline `<style>` tag within the view wrapper.
 

@@ -12,6 +12,8 @@ Renders any WordPress entity (post, page, etc.) as an iframe. Supports toggling 
 | API Version | `3`                                                |
 | Example     | Yes (`iframeTemplate`: content — inserter preview) |
 
+**Assets:** `block.json` registers the frontend module as `viewScriptModule` (formerly `viewModule`).
+
 ## Supports
 
 | Feature         | Value                             |

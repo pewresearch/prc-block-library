@@ -116,3 +116,11 @@ The command handles two legacy shapes:
 2. **Pre-23.1 template schema** — `core/tabs-menu` + singular `core/tab-panel` container holding `core/tab` content panels (e.g. country-flag interactives with one empty `tabs-menu-item` template): converts to `core/tab-list` + `core/tab-panels` + `core/tab-panel`, builds the `tabs` attribute from panel labels, and hoists `tabs-menu-item` styling (e.g. `is-style-country-flags`, active/hover colors) onto `core/tab-list`.
 
 Safe to re-run: already-migrated posts are skipped.
+
+## Frontend Interactivity
+
+**File:** `view.js` (Interactivity API module)
+
+- Registers the view script module via `register_block_script_module_id`; enqueue uses the handle only (not a full module URL).
+- **`syncEntityIframeWithTabPanel`** -- syncs nested **Entity as Iframe** blocks with the active tab panel. Uses the closed-over store `state` from the module callback scope (not a fresh `store('core/tabs')` lookup) so it does not lock a public store.
+- Mobile dropdown state, resize handling, and click-outside-to-close behavior for tab-list mobile dropdown mode.

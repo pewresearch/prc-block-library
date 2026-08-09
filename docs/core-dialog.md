@@ -92,7 +92,7 @@ Extends the `prc-block/dialog` Interactivity API store with comprehensive video 
 -   `onOpenStartVideo` -- plays video when dialog opens
 -   `onCloseStopVideo` -- pauses on close; resets to beginning if already marked as watched
 -   `onAnimationEnd` -- fires `wpDialogAnimationEnd` custom event after animation duration
--   `syncEntityIframeWithDialog` -- when the dialog markup includes **Entity as Iframe**, used with **`data-wp-watch--sync-entity-iframes`**: reads **`state.dialog.isOpen`** on the shared `prc-block/dialog` store (same state as `wp_interactivity_state` / `state.dialogs[id]`) and sets `store('prc-block/entity-as-iframe').state[iframeId].isActive` so nested entity iframes load only while the dialog is open (no DOM `open` / `MutationObserver` wiring)
+-   `syncEntityIframeWithDialog` -- when the dialog markup includes **Entity as Iframe**, used with **`data-wp-watch--sync-entity-iframes`**: reads **`state.dialog.isOpen`** on the shared `prc-block/dialog` store (same state as `wp_interactivity_state` / `state.dialogs[id]`) and sets `store('prc-block/entity-as-iframe').state[iframeId].isActive` so nested entity iframes load only while the dialog is open (no DOM `open` / `MutationObserver` wiring). Guards with optional chaining (`dialog?.isOpen`) when context or `state.dialogs[id]` is missing or not yet initialized.
 -   `prefetchEntityIframeOnTriggerPointer` -- bound via **`data-wp-on--pointerenter`** on **`.wp-block-prc-block-dialog-trigger`** (injected by `Core_Dialog::render_block__dialog` when the dialog subtree contains entity iframe): resolves the dialog by `aria-controls`, then prefetches `data-entity-iframe-prefetch-url` values inside that `<dialog>` (best-effort cache warm before first open)
 
 **Watch tracking:**

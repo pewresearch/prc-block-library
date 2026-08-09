@@ -79,7 +79,7 @@ Custom audio player with multiple display styles.
 This block uses a `render.php` template file rather than a PHP class render callback:
 
 1. Extracts the audio URL via `wp_get_attachment_url()` from `source.id`.
-2. Extracts the cover image URL via `wp_get_attachment_image_src()` from `imageSource.id`.
+2. Extracts the cover image URL via `wp_get_attachment_image_src()` from `imageSource.id`. When the attachment is missing or invalid, `wp_get_attachment_image_src()` returns `false` (not `null`); the template checks `is_array( $image_attachment )` before reading `[0]`, so an empty image URL is used instead of triggering a PHP notice.
 3. Outputs a `<div>` wrapper with `data-*` attributes containing all the player configuration: title, description, source URL, image URL, meta title, meta description, and tracking flag.
 4. The PHP class (`class-audio-player.php`) only handles block registration with no custom render callback.
 
