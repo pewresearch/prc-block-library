@@ -15,6 +15,7 @@ import { Placeholder } from '@wordpress/components';
 /**
  * Internal Dependencies
  */
+import { normalizeExcerpt } from '../helpers';
 
 const randomTitlePlaceholder = () => {
 	const opts = [
@@ -35,7 +36,7 @@ const randomExcerptPlaceholder = () => {
 		'72% of U.S. adults say that, on the issues that matter to them, their side in politics has been losing more often than winning.',
 		'56% of U.S. adults say that oil executives should be tried for crimes against humanity for their role in climate change.',
 	];
-	return `<p>${opts[Math.floor(Math.random() * opts.length)]}</p>`;
+	return opts[Math.floor(Math.random() * opts.length)];
 };
 
 const IMAGE_SIZES = {
@@ -95,10 +96,10 @@ export default function ContextPreview({ attributes, clientId, context }) {
 			return randomExcerptPlaceholder();
 		}
 		if (excerpt.raw && !excerpt.rendered) {
-			return excerpt.raw;
+			return normalizeExcerpt(excerpt.raw);
 		}
 		if (excerpt.rendered) {
-			return excerpt.rendered;
+			return normalizeExcerpt(excerpt.rendered);
 		}
 		return randomExcerptPlaceholder();
 	}, [excerpt]);
@@ -183,7 +184,6 @@ export default function ContextPreview({ attributes, clientId, context }) {
 					<RichText.Content
 						tagName="div"
 						value={memoizedExcerpt}
-						multiline="p"
 						className={excerptClasses}
 					/>
 				)}
@@ -232,7 +232,6 @@ export default function ContextPreview({ attributes, clientId, context }) {
 				<RichText.Content
 					tagName="div"
 					value={memoizedExcerpt}
-					multiline="p"
 					className={excerptClasses}
 				/>
 			)}

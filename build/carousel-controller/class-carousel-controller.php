@@ -142,6 +142,8 @@ class Carousel_Controller {
 		$view_type = $has_view_type ? $attributes['viewType'] : ( $legacy_orientation ?? 'horizontal' );
 		$is_vertical           = 'vertical' === $view_type;
 		$is_coverflow          = 'coverflow' === $view_type;
+		$is_slideshow          = 'slideshow' === $view_type;
+		$show_counter          = $is_coverflow || $is_slideshow;
 		$arrows_eanbled        = $attributes['enableArrows'];
 		$dots_enabled          = $attributes['enableDots'];
 		$use_slide_bg_for_dots = ! empty( $attributes['useSlideBgForDots'] );
@@ -217,21 +219,24 @@ class Carousel_Controller {
 
 			$tag_processor->seek( 'start' );
 
+			$context = array(
+				'id'           => $block_id,
+				'enabled'      => false,
+				'slideIndex'   => 0,
+				'count'        => $count,
+				'viewType'     => $view_type,
+				// Back-compat alias for the renamed attribute.
+				'orientation'  => $view_type,
+				'enableRewind' => (bool) $attributes['enableRewind'],
+				'slides'       => $slides,
+			);
+			if ( $is_slideshow ) {
+				$context['isPlaying']  = true;
+				$context['playLabel']  = 'Pause slideshow';
+			}
 			$tag_processor->set_attribute(
 				'data-wp-context',
-				wp_json_encode(
-					array(
-						'id'           => $block_id,
-						'enabled'      => false,
-						'slideIndex'   => 0,
-						'count'        => $count,
-						'viewType'     => $view_type,
-						// Back-compat alias for the renamed attribute.
-						'orientation'  => $view_type,
-						'enableRewind' => (bool) $attributes['enableRewind'],
-						'slides'       => $slides,
-					)
-				)
+				wp_json_encode( $context )
 			);
 
 			$tag_processor->release_bookmark( 'start' );
@@ -260,10 +265,24 @@ class Carousel_Controller {
 				$content = str_replace( '<div class="prc-block-carousel-controller__dots"></div>', $dots, $content );
 			}
 
-			// Inject the slide counter to the markup for coverflow view.
-			if ( $is_coverflow ) {
+			// Inject the slide counter for coverflow and slideshow views.
+			if ( $show_counter ) {
 				$counter = '<div class="prc-block-carousel-controller__counter"><span data-wp-text="state.currentSlideLabel"></span> / <span data-wp-text="context.count"></span></div>';
 				$content = str_replace( '<div class="prc-block-carousel-controller__counter"></div>', $counter, $content );
+			}
+
+			// Inject the play/pause control for slideshow view.
+			if ( $is_slideshow ) {
+				$play = wp_sprintf(
+					'<button class="prc-block-carousel-controller__play is-playing" type="button" aria-label="Pause slideshow" aria-pressed="true" data-wp-on--click="actions.togglePlay" data-wp-bind--aria-label="context.playLabel" data-wp-bind--aria-pressed="context.isPlaying" data-wp-class--is-playing="context.isPlaying"><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--pause">%1$s</span><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--play">%2$s</span></button>',
+					\PRC\Platform\Icons\render( 'solid', 'pause' ),
+					\PRC\Platform\Icons\render( 'solid', 'play' )
+				);
+				$content = str_replace(
+					'<div class="prc-block-carousel-controller__play"></div>',
+					$play,
+					$content
+				);
 			}
 		}
 

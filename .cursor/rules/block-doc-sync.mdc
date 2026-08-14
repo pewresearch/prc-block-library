@@ -8,8 +8,8 @@ alwaysApply: false
 
 When changing a block under `plugins/prc-block-library/src/<block-slug>/`, also update the matching doc file:
 
-- `plugins/prc-block-library/docs/<block-slug>.md`
+- `docs/plugins/prc-block-library/blocks/<block-slug>.md`
 
 Update docs whenever code changes affect behavior, UI, data flow, Interactivity API state/actions, attributes, supports, rendering, setup, or usage examples.
 
-If a docs file does not exist for a changed block slug, create one using the existing docs format in this plugin.
+If a docs file does not exist for a changed block slug, create one using the existing docs format under `docs/plugins/prc-block-library/blocks/`.

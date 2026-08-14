@@ -78,7 +78,11 @@ class Core_Post_Title {
 	 * @hook prc_print_engine_register_block_callbacks
 	 */
 	public function register_print_callbacks() {
-		Block_Print_Registry::register_style(
+		if ( ! class_exists( '\PRC\Platform\Print_Engine\Block_Print_Registry' ) ) {
+			return;
+		}
+
+		\PRC\Platform\Print_Engine\Block_Print_Registry::register_style(
 			'prc-block/core-post-title',
 			'.print-engine-cover__title {
 				font-size: 65px;
@@ -87,7 +91,7 @@ class Core_Post_Title {
 				border-bottom: 3px solid black;
 			}'
 		);
-		Block_Print_Registry::register_print_style(
+		\PRC\Platform\Print_Engine\Block_Print_Registry::register_print_style(
 			'prc-block/core-post-title',
 			'.print-engine-cover__title {
 				font-size: 75px;

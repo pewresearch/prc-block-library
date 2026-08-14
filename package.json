@@ -1,6 +1,6 @@
 {
 	"name": "@prc/block-library",
-	"version": "4.0.0",
+	"version": "4.1.0",
 	"description": "PRC Block Library",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
@@ -17,7 +17,6 @@
 		"build:interactivity-api": "npm -w @prc/block-library-interactivity-api run build",
 		"build:pagination": "npm -w @prc/block-library-pagination run build",
 		"build:supports": "npm -w @prc/block-library-supports run build",
-		"build:print-engine": "npm -w @prc/block-library-print-engine run build",
 		"start": "node bin/start-block.js",
 		"watch": "node bin/start-block.js",
 		"test": "wp-scripts test-unit-js --config jest.config.js",
@@ -51,7 +50,6 @@
 		"comma-separated-values": "^3.6.4",
 		"highlight.js": "^11.11.1",
 		"hls.js": "^1.6.2",
-		"html2pdf.js": "^0.12.1",
 		"iframe-resizer": "^4.3.2",
 		"md5": "^2.3.0",
 		"mediaelement": "^7.0.7",

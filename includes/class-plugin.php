@@ -150,7 +150,7 @@ class Plugin {
 		require_once plugin_dir_path( __DIR__ ) . '/includes/custom-text-formats/class-custom-text-formats.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/interactivity-api/class-interactivity-api.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/pagination/class-pagination.php';
-		require_once plugin_dir_path( __DIR__ ) . '/includes/print-engine/class-print-engine.php';
+		// Print engine extracted to plugins/prc-print-engine.
 		require_once plugin_dir_path( __DIR__ ) . '/includes/supports/class-supports.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-markdown-for-agents-integration.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-email-newsletter-integration.php';
@@ -266,7 +266,7 @@ class Plugin {
 		new Custom_Text_Formats( $this->get_loader() );
 		new Interactivity_API( $this->get_loader() );
 		new Pagination( $this->get_loader() );
-		new Print_Engine( $this->get_loader() );
+		// Print engine extracted to plugins/prc-print-engine.
 		new Supports( $this->get_loader() );
 		new Markdown_For_Agents_Integration( $this->get_loader() );
 		new Email_Newsletter_Integration( $this->get_loader() );

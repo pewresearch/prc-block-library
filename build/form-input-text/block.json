@@ -95,6 +95,9 @@
       "padding": true,
       "margin": true
     },
+    "dimensions": {
+      "minWidth": true
+    },
     "__experimentalBorder": {
       "color": true,
       "width": true,

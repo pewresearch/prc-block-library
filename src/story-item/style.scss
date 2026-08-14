@@ -557,6 +557,33 @@ $placeholderInvertedLoadingGradient: linear-gradient(
 }
 // End .wp-block-prc-block-story-item
 
+.single-prc_email_campaign .wp-block-prc-block-story-item,
+.post-type-prc_email_campaign .wp-block-prc-block-story-item {
+	width: 100%;
+	max-width: 100%;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0;
+	padding-right: 0;
+
+	.extra {
+		& > * {
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		ul,
+		ol {
+			padding-left: 1.25em;
+			margin-left: 0;
+		}
+	}
+}
+
+.single-prc_email_campaign .wp-block-prc-block-story-item .header {
+	display: block;
+}
+
 // Fallback consecutive story item styling.
 // This is for when style engine values are not set or available.
 // .ui ones are fallbacks until we switch over to a block theme for prc.
@@ -568,7 +595,9 @@ $placeholderInvertedLoadingGradient: linear-gradient(
 	> article.wp-block-prc-block-story-item,
 .wp-block-prc-block-grid-column:has(.wp-block-prc-block-story-item)
 	> article.wp-block-prc-block-story-item,
-.wp-block-prc-block-grid-column-is-layout-flow:has(.wp-block-prc-block-story-item)
+.wp-block-prc-block-grid-column-is-layout-flow:has(
+		.wp-block-prc-block-story-item
+	)
 	> article.wp-block-prc-block-story-item,
 .has-story-items > article.wp-block-prc-block-story-item {
 	border-bottom: $dividedBorder;

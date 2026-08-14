@@ -14,3 +14,7 @@ export function HorizontalIcon() {
 export function CoverflowIcon() {
 	return <Icon icon="cards-blank" library="light" />;
 }
+
+export function SlideshowIcon() {
+	return <Icon icon="presentation-screen" library="light" />;
+}

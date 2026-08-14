@@ -16,6 +16,10 @@ const prefersReducedMotion = () =>
 
 const SET_ACTIVE_SLIDE_EVENT = 'prc-carousel-controller:set-active-slide';
 const COVERFLOW_MOBILE_BREAKPOINT = 600;
+const AUTOPLAY_INTERVAL_MS = 5000;
+
+/** @type {Map<string, ReturnType<typeof setTimeout>>} */
+const autoplayTimers = new Map();
 
 /**
  * Returns how many slides may peek on either side of the active coverflow card.
@@ -64,6 +68,19 @@ const applyCoverflowOffsets = (track, slideIndex) => {
 	});
 };
 
+/**
+ * Clears the autoplay timer for a carousel instance.
+ *
+ * @param {string} id Block element id.
+ */
+const clearAutoplayTimer = (id) => {
+	if (!id || !autoplayTimers.has(id)) {
+		return;
+	}
+	clearTimeout(autoplayTimers.get(id));
+	autoplayTimers.delete(id);
+};
+
 const { state, actions } = store('prc-block/carousel-controller', {
 	state: {
 		lastScrollY: 0,
@@ -85,6 +102,9 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		},
 		get isCoverflow() {
 			return getViewType(getContext()) === 'coverflow';
+		},
+		get isSlideshow() {
+			return getViewType(getContext()) === 'slideshow';
 		},
 		get currentSlideLabel() {
 			return getContext().slideIndex + 1;
@@ -117,6 +137,83 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		},
 	},
 	actions: {
+		stopAutoplay: () => {
+			const context = getContext();
+			clearAutoplayTimer(context.id);
+			context.isPlaying = false;
+			context.playLabel = 'Play slideshow';
+		},
+		scheduleAutoplayTick: () => {
+			const context = getContext();
+			const { id } = context;
+			// Cover-nested carousels stay disabled until engaged; do not advance.
+			if (!id || !context.isPlaying || context.enabled === false) {
+				return;
+			}
+			clearAutoplayTimer(id);
+			autoplayTimers.set(
+				id,
+				setTimeout(
+					withScope(() => {
+						const {
+							count,
+							slideIndex,
+							enableRewind = true,
+							isPlaying,
+							enabled,
+						} = getContext();
+						if (!isPlaying || enabled === false || count < 1) {
+							return;
+						}
+						let nextIndex = slideIndex + 1;
+						if (nextIndex >= count) {
+							if (!enableRewind) {
+								actions.stopAutoplay();
+								return;
+							}
+							nextIndex = 0;
+						}
+						actions.navigateToSlide(nextIndex);
+						actions.scheduleAutoplayTick();
+					}),
+					AUTOPLAY_INTERVAL_MS
+				)
+			);
+		},
+		startAutoplay: () => {
+			const context = getContext();
+			if (prefersReducedMotion()) {
+				context.isPlaying = false;
+				context.playLabel = 'Play slideshow';
+				clearAutoplayTimer(context.id);
+				return;
+			}
+			context.isPlaying = true;
+			context.playLabel = 'Pause slideshow';
+			actions.scheduleAutoplayTick();
+		},
+		togglePlay: () => {
+			const context = getContext();
+			if (context.isPlaying) {
+				actions.stopAutoplay();
+				return;
+			}
+			actions.startAutoplay();
+		},
+		/**
+		 * Clears the autoplay timer without changing play intent so cover
+		 * re-entry (or re-enable) can resume when isPlaying is still true.
+		 */
+		suspendAutoplayTimer: () => {
+			const context = getContext();
+			clearAutoplayTimer(context.id);
+		},
+		pauseForUserNav: () => {
+			const context = getContext();
+			if (state.isSlideshow && context.isPlaying) {
+				actions.stopAutoplay();
+			}
+		},
 		navigateToSlide: (index) => {
 			const { track, isVertical, isCoverflow, rootEl } = state;
 			const context = getContext();
@@ -149,17 +246,20 @@ const { state, actions } = store('prc-block/carousel-controller', {
 				0,
 				Math.min(Math.trunc(slideIndex), count - 1)
 			);
+			actions.pauseForUserNav();
 			actions.navigateToSlide(boundedIndex);
 		},
 		goToDot: () => {
 			const context = getContext();
 			const { dot } = context;
 			const { index } = dot;
+			actions.pauseForUserNav();
 			actions.navigateToSlide(index);
 		},
 		goToNextSlide: () => {
 			const context = getContext();
 			const { count, slideIndex, enableRewind = true } = context;
+			actions.pauseForUserNav();
 			if (slideIndex >= count - 1) {
 				if (!enableRewind) return;
 				actions.navigateToSlide(0);
@@ -170,6 +270,7 @@ const { state, actions } = store('prc-block/carousel-controller', {
 		goToPreviousSlide: () => {
 			const context = getContext();
 			const { count, slideIndex, enableRewind = true } = context;
+			actions.pauseForUserNav();
 			if (slideIndex <= 0) {
 				if (!enableRewind) return;
 				actions.navigateToSlide(count - 1);
@@ -178,6 +279,8 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			actions.navigateToSlide(slideIndex - 1);
 		},
 		resetCarousel: () => {
+			// Suspend timer only — keep isPlaying so cover re-entry can resume.
+			actions.suspendAutoplayTimer();
 			actions.navigateToSlide(0);
 		},
 	},
@@ -190,6 +293,7 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			const viewType = getViewType(context);
 			const isVertical = viewType === 'vertical';
 			const isCoverflow = viewType === 'coverflow';
+			const isSlideshow = viewType === 'slideshow';
 			state.bodyObj = document.body;
 
 			// Ensure an aria-live region exists for slide-change announcements (R19).
@@ -272,6 +376,7 @@ const { state, actions } = store('prc-block/carousel-controller', {
 							);
 							const clickedIndex = slides.indexOf(slide);
 							if (clickedIndex >= 0) {
+								actions.pauseForUserNav();
 								actions.navigateToSlide(clickedIndex);
 							}
 						})
@@ -321,6 +426,19 @@ const { state, actions } = store('prc-block/carousel-controller', {
 				);
 			}
 
+			if (!state.isInsideCover) {
+				context.enabled = true;
+			}
+
+			if (isSlideshow) {
+				if (prefersReducedMotion()) {
+					context.isPlaying = false;
+					context.playLabel = 'Play slideshow';
+				} else if (context.isPlaying !== false) {
+					actions.startAutoplay();
+				}
+			}
+
 			// Wheel navigation: one slide per gesture while hovering the carousel.
 			// Skipped inside a wp-block-cover to avoid fighting the cover scroll-jack.
 			if (rootEl && !state.isInsideCover) {
@@ -362,10 +480,6 @@ const { state, actions } = store('prc-block/carousel-controller', {
 					{ passive: false }
 				);
 			}
-
-			if (!state.isInsideCover) {
-				context.enabled = true;
-			}
 		},
 		isDotActive: () => {
 			const context = getContext();
@@ -389,6 +503,7 @@ const { state, actions } = store('prc-block/carousel-controller', {
 			const cover = ref.closest('.wp-block-cover');
 			if (cover && slideIndex === count - 1) {
 				context.enabled = false;
+				actions.suspendAutoplayTimer();
 			}
 		},
 		onCoverScroll: () => {
@@ -412,6 +527,10 @@ const { state, actions } = store('prc-block/carousel-controller', {
 					context.enabled = true;
 					state.bodyObj.style.overflow = 'hidden';
 					state.hasEngaged = true;
+					// Resume slideshow autoplay after cover engagement.
+					if (state.isSlideshow && context.isPlaying) {
+						actions.scheduleAutoplayTick();
+					}
 
 					// Release body lock after 2 seconds
 					setTimeout(
@@ -421,8 +540,10 @@ const { state, actions } = store('prc-block/carousel-controller', {
 						2000
 					);
 				}
-				// On the way out, set engaged to false
+				// On the way out, stop autoplay immediately; reset after delay.
+				// Leave enabled alone — re-enable only runs on downward engagement.
 				if (coverBottom <= 0 || coverTop >= window.innerHeight) {
+					actions.suspendAutoplayTimer();
 					setTimeout(
 						withScope(() => {
 							state.hasEngaged = false;

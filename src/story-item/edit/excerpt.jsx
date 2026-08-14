@@ -36,6 +36,7 @@ export default function Excerpt({ attributes, setAttributes }) {
 			tagName="div"
 			value={excerpt}
 			onChange={(value) => setAttributes({ excerpt: value })}
+			allowedFormats={['core/bold', 'core/italic', 'core/link']}
 			placeholder={placeholder}
 			className={classes}
 		/>

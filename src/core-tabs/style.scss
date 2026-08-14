@@ -60,6 +60,177 @@ Core styles for core-tabs block (tab panel content regions).
 }
 
 /**
+  Vertical tabs (ported from legacy prc-block/tabs).
+  Parent owns side-by-side layout; list stays a column. Placement end uses
+  row-reverse so DOM order stays list then panels.
+*/
+.wp-block-tabs.is-vertical {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	gap: 1em;
+
+	&.has-tab-list-end {
+		flex-direction: row-reverse;
+	}
+
+	.wp-block-tab-list,
+	.wp-block-tab-list.is-vertical {
+		flex-grow: 0;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		max-width: fit-content;
+		min-width: 100px;
+		overflow-x: hidden;
+	}
+
+	&.has-tab-list-start .wp-block-tab-list {
+		border-inline-end: 1px solid
+			var(
+				--custom-tab-active-color,
+				var(--wp--preset--color--ui-gray-light, #eaeaea)
+			);
+		border-block-end: none;
+	}
+
+	&.has-tab-list-end .wp-block-tab-list {
+		border-inline-start: 1px solid
+			var(
+				--custom-tab-active-color,
+				var(--wp--preset--color--ui-gray-light, #eaeaea)
+			);
+		border-block-end: none;
+	}
+
+	.wp-block-tab-panels {
+		flex: 1 1 auto;
+		min-width: 0;
+		margin-block-start: 0;
+	}
+
+	/* Mobile dropdown active: list hidden — stack like legacy. */
+	&:has(.wp-block-tabs-list__dropdown):has(.wp-block-tab-list[hidden]) {
+		flex-direction: column;
+		flex-wrap: wrap;
+
+		.wp-block-tab-list {
+			max-width: 100%;
+			border-inline-end: none;
+			border-inline-start: none;
+			border-block-end: 1px solid
+				var(
+					--custom-tab-active-color,
+					var(--wp--preset--color--ui-gray-light, #eaeaea)
+				);
+		}
+	}
+
+	/*
+	  Editor: InnerBlocks wrap list + panels, so flex must target the layout
+	  row. These selectors do not match on the frontend.
+	*/
+	> .block-editor-inner-blocks {
+		width: 100%;
+		/* Bridge gap to the layout row: inherit only reads the parent. */
+		gap: inherit;
+	}
+
+	> .block-editor-inner-blocks > .block-editor-block-list__layout {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: stretch;
+		gap: inherit;
+	}
+
+	&.has-tab-list-end
+		> .block-editor-inner-blocks
+		> .block-editor-block-list__layout {
+		flex-direction: row-reverse;
+	}
+
+	> .block-editor-inner-blocks
+		> .block-editor-block-list__layout
+		> .wp-block[data-type="core/tab-list"] {
+		flex: 0 0 auto;
+		width: auto;
+		max-width: fit-content;
+		min-width: 100px;
+	}
+
+	> .block-editor-inner-blocks
+		> .block-editor-block-list__layout
+		> .wp-block[data-type="core/tab-panels"] {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+}
+
+.wp-block-tabs.is-vertical.is-style-tabbed {
+	.wp-block-tab-list {
+		align-items: stretch;
+		border-block-end: none;
+		border-inline-end: 1px solid var(--tabbed-border-color);
+	}
+
+	&.has-tab-list-end .wp-block-tab-list {
+		border-inline-end: none;
+		border-inline-start: 1px solid var(--tabbed-border-color);
+	}
+
+	button.is-active,
+	button[aria-selected="true"] {
+		margin-bottom: 0 !important;
+		margin-inline-end: -1px !important;
+		border-bottom-color: var(--tabbed-border-color) !important;
+		border-inline-end-color: var(--tabbed-surface-color) !important;
+	}
+
+	&.has-tab-list-end {
+		button.is-active,
+		button[aria-selected="true"] {
+			margin-inline-end: 0 !important;
+			margin-inline-start: -1px !important;
+			border-inline-end-color: var(--tabbed-border-color) !important;
+			border-inline-start-color: var(--tabbed-surface-color) !important;
+		}
+	}
+
+	.wp-block-tab-panels {
+		border-top: 1px solid var(--tabbed-border-color);
+	}
+}
+
+.wp-block-tabs.is-vertical .wp-block-tab-list.is-style-active-underline {
+	border-block-end: none !important;
+	padding-block-end: 0 !important;
+
+	button {
+		margin-bottom: 0 !important;
+	}
+
+	button.is-active,
+	button[aria-selected="true"] {
+		border-block-end: none !important;
+		border-inline-end: 2px solid var(--custom-tab-active-color, #000) !important;
+		padding-block-end: var(--wp--preset--spacing--20, 0.5em) !important;
+		padding-inline-end: 0.5em !important;
+	}
+}
+
+.wp-block-tabs.is-vertical.has-tab-list-end
+	.wp-block-tab-list.is-style-active-underline {
+	button.is-active,
+	button[aria-selected="true"] {
+		border-inline-end: none !important;
+		border-inline-start: 2px solid var(--custom-tab-active-color, #000) !important;
+		padding-inline-end: var(--wp--preset--spacing--20, 0.5em) !important;
+		padding-inline-start: 0.5em !important;
+	}
+}
+
+/**
   Custom Mobile Dropdown
 */
 .wp-block-tabs:has(.wp-block-tabs-list__dropdown) {

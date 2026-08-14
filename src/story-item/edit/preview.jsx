@@ -41,12 +41,15 @@ export default function Preview({ attributes }) {
 	} = attributes;
 
 	const blockProps = useStoryItemBlockProps(attributes);
-	const innerBlocksProps = useInnerBlocksProps({
-		className: 'extra'
-	}, {
-		allowedBlocks: ['core/list', 'core/paragraph', 'core/html'],
-		templateLock: true,
-	});
+	const innerBlocksProps = useInnerBlocksProps(
+		{
+			className: 'extra',
+		},
+		{
+			allowedBlocks: ['core/list', 'core/paragraph', 'core/html'],
+			templateLock: true,
+		}
+	);
 
 	const headerClasses = classNames('header', {
 		large: 1 === headerSize,
@@ -114,14 +117,11 @@ export default function Preview({ attributes }) {
 				<RichText.Content
 					tagName="div"
 					value={excerpt}
-					multiline="p"
 					className={excerptClasses}
 				/>
 			)}
 
-			{enableExtra && (
-				<div {...innerBlocksProps} />
-			)}
+			{enableExtra && <div {...innerBlocksProps} />}
 		</article>
 	);
 }

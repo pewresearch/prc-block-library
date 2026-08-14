@@ -135,14 +135,26 @@ class Core_Image {
 	/**
 	 * Here we're hijacking the core/image block's style and providing our own.
 	 *
+	 * Bail before deregistering the core handle when the PRC style is missing
+	 * (incomplete build / register_block_style_handle returned false) so core
+	 * styles stay intact and we do not read ->src on null.
+	 *
 	 * @hook enqueue_block_assets
 	 */
 	public function register_style() {
-		wp_deregister_style( 'wp-block-image' );
 		global $wp_styles;
+
+		if ( empty( $this->style_handle ) || empty( $wp_styles->registered[ $this->style_handle ] ) ) {
+			return;
+		}
+
 		$style = $wp_styles->registered[ $this->style_handle ];
-		$src   = $style->src;
-		wp_register_style( 'wp-block-image', $src, array(), PRC_BLOCK_LIBRARY_VERSION );
+		if ( ! is_object( $style ) || empty( $style->src ) ) {
+			return;
+		}
+
+		wp_deregister_style( 'wp-block-image' );
+		wp_register_style( 'wp-block-image', $style->src, array(), PRC_BLOCK_LIBRARY_VERSION );
 	}
 
 	/**

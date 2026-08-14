@@ -108,3 +108,15 @@ export const Arrows = ({
 		/>
 	</div>
 );
+
+export const PlayButton = ({ isPlaying = false, onToggle }) => (
+	<button
+		className="prc-block-carousel-controller__play"
+		type="button"
+		onClick={onToggle}
+		aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
+		aria-pressed={isPlaying}
+	>
+		<Icon library="solid" icon={isPlaying ? 'pause' : 'play'} />
+	</button>
+);

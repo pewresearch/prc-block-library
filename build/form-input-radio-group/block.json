@@ -67,6 +67,9 @@
       "padding": true,
       "margin": true
     },
+    "dimensions": {
+      "minWidth": true
+    },
     "typography": {
       "fontSize": true,
       "lineHeight": true,

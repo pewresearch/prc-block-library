@@ -246,7 +246,11 @@ function create_core_tabs(
 	$core_attrs = array(
 		'tabsId'         => $attrs['tabsId'] ?? '',
 		'activeTabIndex' => $attrs['activeTabIndex'] ?? 0,
+		'orientation'    => $attrs['orientation'] ?? 'horizontal',
 	);
+	if ( ! empty( $attrs['tabListPlacement'] ) ) {
+		$core_attrs['tabListPlacement'] = $attrs['tabListPlacement'];
+	}
 	if ( ! empty( $attrs['metadata'] ) ) {
 		$core_attrs['metadata'] = $attrs['metadata'];
 	}
@@ -260,9 +264,16 @@ function create_core_tabs(
 		$core_attrs['className'] = $attrs['className'];
 	}
 
+	$orientation_classes = '';
+	if ( $is_vertical ) {
+		$placement            = $attrs['tabListPlacement'] ?? 'start';
+		$orientation_classes  = ' is-vertical';
+		$orientation_classes .= 'end' === $placement ? ' has-tab-list-end' : ' has-tab-list-start';
+	}
+
 	$base_class   = 'wp-block-tabs';
 	$custom_class = ! empty( $attrs['className'] ) ? ' ' . $attrs['className'] : '';
-	$opening_tag  = '<div class="' . esc_attr( trim( $base_class . $custom_class ) ) . '">';
+	$opening_tag  = '<div class="' . esc_attr( trim( $base_class . $orientation_classes . $custom_class ) ) . '">';
 	$closing_tag  = '</div>';
 
 	if ( ! empty( $tabs_inner_html ) ) {

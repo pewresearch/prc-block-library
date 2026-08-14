@@ -20,7 +20,12 @@ import { Fragment, useRef, useEffect, useState } from '@wordpress/element';
  * Internal Dependencies
  */
 import Controls from './controls';
-import { Dots, PreviousArrow, NextArrow } from './navigation-components';
+import {
+	Dots,
+	PreviousArrow,
+	NextArrow,
+	PlayButton,
+} from './navigation-components';
 import { useEditorActiveSlide } from './use-editor-active-slide';
 
 const TEMPLATE = [
@@ -73,11 +78,14 @@ function Edit({
 	} = attributes;
 
 	const isCoverflow = viewType === 'coverflow';
+	const isSlideshow = viewType === 'slideshow';
+	const showCounter = isCoverflow || isSlideshow;
 	const trackOrientation =
 		viewType === 'vertical' ? 'vertical' : 'horizontal';
 
 	const blockRef = useRef(null);
 	const [isMobileViewport, setIsMobileViewport] = useState(false);
+	const [isPlayingPreview, setIsPlayingPreview] = useState(true);
 
 	useEffect(() => {
 		const mediaQuery = window.matchMedia(
@@ -117,6 +125,7 @@ function Edit({
 		className: clsx({
 			'is-style-vertical': viewType === 'vertical',
 			'has-view-coverflow': isCoverflow,
+			'has-view-slideshow': isSlideshow,
 			'is-enabled': _isSelected,
 			[`has-arrows-${arrowsSize}`]: enableArrows && arrowsSize,
 			[`has-dots-${dotsSize}`]: enableDots && dotsSize,
@@ -198,10 +207,17 @@ function Edit({
 		/>
 	);
 
-	const counter = isCoverflow && (
+	const counter = showCounter && (
 		<div className="prc-block-carousel-controller__counter">
 			<span>{activeIndex + 1}</span> / <span>{innerBlocks.length}</span>
 		</div>
+	);
+
+	const playButton = isSlideshow && (
+		<PlayButton
+			isPlaying={isPlayingPreview}
+			onToggle={() => setIsPlayingPreview((value) => !value)}
+		/>
 	);
 
 	return (
@@ -218,11 +234,22 @@ function Edit({
 			<div {...blockProps}>
 				<div className="prc-block-carousel-controller__track">
 					<div {...innerBlocksProps} />
+					{isSlideshow && counter}
 				</div>
 				{enableDots && dots}
-				{previousArrow}
-				{nextArrow}
-				{counter}
+				{isSlideshow ? (
+					<div className="prc-block-carousel-controller__controls">
+						{playButton}
+						{previousArrow}
+						{nextArrow}
+					</div>
+				) : (
+					<>
+						{previousArrow}
+						{nextArrow}
+					</>
+				)}
+				{isCoverflow && counter}
 				<div className="prc-block-carousel-controller__insert-block">
 					<InnerBlocks.ButtonBlockAppender />
 				</div>

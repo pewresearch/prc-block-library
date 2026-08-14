@@ -217,7 +217,16 @@ class Story_Item_API {
 			$header_size,
 			$header_class,
 			esc_url( $url ),
-			esc_html( $title ),
+			wp_kses(
+				$title,
+				array(
+					'strong' => array(),
+					'b'      => array(),
+					'em'     => array(),
+					'i'      => array(),
+					'br'     => array(),
+				)
+			),
 		);
 	}
 

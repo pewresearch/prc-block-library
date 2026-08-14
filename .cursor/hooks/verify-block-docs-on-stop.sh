@@ -63,7 +63,7 @@ missing_docs=()
 
 while IFS= read -r block_slug; do
   [[ -z "$block_slug" ]] && continue
-  expected_doc="plugins/prc-block-library/docs/${block_slug}.md"
+  expected_doc="docs/plugins/prc-block-library/${block_slug}.md"
 
   # Skip enforcement for blocks without a corresponding docs file.
   if [[ ! -f "$expected_doc" ]]; then
@@ -85,7 +85,7 @@ for doc in "${missing_docs[@]}"; do
   message="${message}- ${doc}\n"
 done
 
-message="${message}\nRule: changes in plugins/prc-block-library/src/<block-slug>/... should include updates to plugins/prc-block-library/docs/<block-slug>.md when behavior, UI, data flow, or usage changed."
+message="${message}\nRule: changes in plugins/prc-block-library/src/<block-slug>/... should include updates to docs/plugins/prc-block-library/<block-slug>.md when behavior, UI, data flow, or usage changed."
 
 message_json=$(echo -e "$message" | jq -Rsa .)
 echo "{\"followup_message\": $message_json}"

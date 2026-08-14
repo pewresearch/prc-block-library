@@ -70,6 +70,14 @@
 		grid-area: counter;
 	}
 
+	.prc-block-carousel-controller__controls {
+		grid-area: controls;
+	}
+
+	.prc-block-carousel-controller__play {
+		grid-area: play;
+	}
+
 	.prc-block-carousel-controller__insert-block {
 		grid-area: insert-block;
 		width: 100%;
@@ -181,6 +189,131 @@
 			.prc-block-carousel-controller__track__inner
 				.wp-block-prc-block-carousel-slide {
 				transition: none;
+			}
+		}
+	}
+
+	// Slideshow: floating slide counter on the track edge. Dots and controls
+	// share one full-width nav row so dots center under the badge while
+	// play/arrows sit on the right without shifting that center.
+	&.has-view-slideshow {
+		grid-template-areas:
+			"track"
+			"nav"
+			"insert-block";
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto auto;
+		row-gap: 1.25rem;
+
+		.prc-block-carousel-controller__track {
+			position: relative;
+			overflow: visible;
+		}
+
+		.prc-block-carousel-controller__counter {
+			position: absolute;
+			left: 50%;
+			bottom: 0;
+			z-index: 2;
+			transform: translate(-50%, 50%);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.2rem;
+			padding: 0.2rem 0.65rem;
+			background: #fff;
+			border: 1px solid #d0d0d0;
+			border-radius: 999px;
+			font-family: var(--wp--preset--font-family--sans-serif);
+			font-size: 0.8125rem;
+			font-variant-numeric: tabular-nums;
+			font-weight: 500;
+			line-height: 1.2;
+			color: #333;
+			pointer-events: none;
+			white-space: nowrap;
+		}
+
+		.prc-block-carousel-controller__dots {
+			grid-area: nav;
+			justify-self: center;
+			align-self: center;
+		}
+
+		.prc-block-carousel-controller__controls {
+			grid-area: nav;
+			justify-self: end;
+			align-self: center;
+			z-index: 1;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: center;
+			justify-content: flex-end;
+			gap: 0.75rem;
+
+			// Parent rules assign arrow-prev / arrow-next / play grid areas.
+			// Reset so those buttons stay flex items inside this cluster.
+			.prc-block-carousel-controller__play,
+			.prc-block-carousel-controller__arrow__prev,
+			.prc-block-carousel-controller__arrow__next {
+				grid-area: auto;
+			}
+		}
+
+		.prc-block-carousel-controller__play {
+			appearance: none;
+			background: none;
+			border: 1px solid var(--prc-carousel-controller-arrow-color, #666);
+			border-radius: 50%;
+			width: 2rem;
+			height: 2rem;
+			padding: 0;
+			cursor: pointer;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			flex: 0 0 auto;
+
+			.icon,
+			.prc-block-carousel-controller__play-icon {
+				color: var(--prc-carousel-controller-arrow-color, #666);
+				font-size: 0.75rem;
+				line-height: 1;
+			}
+
+			.prc-block-carousel-controller__play-icon--play {
+				display: none;
+			}
+
+			.prc-block-carousel-controller__play-icon--pause {
+				display: inline-flex;
+			}
+
+			&:not(.is-playing) {
+				.prc-block-carousel-controller__play-icon--play {
+					display: inline-flex;
+				}
+
+				.prc-block-carousel-controller__play-icon--pause {
+					display: none;
+				}
+			}
+		}
+
+		.prc-block-carousel-controller__arrow {
+			min-width: 2rem;
+			min-height: 2rem;
+			flex: 0 0 auto;
+		}
+
+		// Beat has-arrows-* utilities (same specificity otherwise; inspector
+		// hides arrow size for slideshow so the default medium class sticks).
+		&.has-arrows-small,
+		&.has-arrows-medium,
+		&.has-arrows-large {
+			.prc-block-carousel-controller__arrow .icon {
+				font-size: 1rem;
 			}
 		}
 	}

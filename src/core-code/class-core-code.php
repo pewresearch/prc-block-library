@@ -81,14 +81,28 @@ class Core_Code {
 	/**
 	 * Register style
 	 *
+	 * Hijack core/code's stylesheet handle with the PRC style URL when the
+	 * block-library style registered successfully. Bail before deregistering
+	 * the core handle when the PRC style is missing (incomplete build /
+	 * register_block_style_handle returned false) so core styles stay intact
+	 * and we do not read ->src on null.
+	 *
 	 * @hook enqueue_block_assets
 	 * @return void
 	 */
 	public function register_style() {
-		wp_deregister_style( 'wp-block-code' );
 		global $wp_styles;
+
+		if ( empty( $this->style_handle ) || empty( $wp_styles->registered[ $this->style_handle ] ) ) {
+			return;
+		}
+
 		$style = $wp_styles->registered[ $this->style_handle ];
-		$src   = $style->src;
-		wp_register_style( 'wp-block-code', $src, array(), $this->version );
+		if ( ! is_object( $style ) || empty( $style->src ) ) {
+			return;
+		}
+
+		wp_deregister_style( 'wp-block-code' );
+		wp_register_style( 'wp-block-code', $style->src, array(), $this->version );
 	}
 }

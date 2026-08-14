@@ -164,10 +164,12 @@ const { actions, state } = store('core/social-links', {
 			openShareWindow(shareUrl, windowName);
 		},
 		onPrintClick: () => {
-			// @TODO: Future print engine hook here.
-			// Add ?pdf=true to the url and redirect to the pdf view.
 			const url = new URL(window.location.href);
-			url.searchParams.set('pdf', 'true');
+			url.searchParams.delete('pdf');
+			const path = url.pathname.replace(/\/+$/, '');
+			if (!path.endsWith('/print')) {
+				url.pathname = `${path}/print`;
+			}
 			window.location.href = url.toString();
 		},
 		onMailClick: () => {

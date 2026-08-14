@@ -28,7 +28,7 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 		baseYearStart = 1985,
 		baseYearEnd = new Date().getFullYear();
 	
-	const limitList = ['prc-platform/facet-template'];
+	const limitList = ['prc-ep/facet-template'];
 	const checkParents = {blockEditorStore: blockEditorStore, clientId: clientId, parentList: limitList};
 	return (
 	<LimitControls checkParents={checkParents}>

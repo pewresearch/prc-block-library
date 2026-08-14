@@ -478,6 +478,16 @@ class Core_Tabs_Migrate_CLI extends \WPCOM_VIP_CLI_Command {
 		if ( null !== $migrated_tab_list ) {
 			$tabs_block['innerBlocks'][ $tab_list_index ] = $migrated_tab_list;
 			$changed                                      = true;
+
+			// Parent owns orientation; hoist from tab-list layout so render stamps is-vertical.
+			$list_attrs  = $tab_list_block['attrs'] ?? array();
+			$is_vertical = isset( $list_attrs['layout']['orientation'] ) && 'vertical' === $list_attrs['layout']['orientation'];
+			if ( $is_vertical ) {
+				$tabs_attrs                              = $tabs_block['attrs'] ?? array();
+				$tabs_block['attrs']                     = $tabs_attrs;
+				$tabs_block['attrs']['orientation']      = 'vertical';
+				$tabs_block['attrs']['tabListPlacement'] = $tabs_attrs['tabListPlacement'] ?? 'start';
+			}
 		}
 
 		if ( ! empty( $tabs_block['innerBlocks'] ) ) {
@@ -589,6 +599,12 @@ class Core_Tabs_Migrate_CLI extends \WPCOM_VIP_CLI_Command {
 			$tab_panels = build_core_tab_panels( $panel_blocks, $container_attrs, $panels_container['innerHTML'] ?? '' );
 		} else {
 			return null;
+		}
+
+		if ( $is_vertical ) {
+			$tabs_block['attrs']                     = $tabs_attrs;
+			$tabs_block['attrs']['orientation']      = 'vertical';
+			$tabs_block['attrs']['tabListPlacement'] = $tabs_attrs['tabListPlacement'] ?? 'start';
 		}
 
 		$tabs_block['innerBlocks'] = array( $tab_list, $tab_panels );

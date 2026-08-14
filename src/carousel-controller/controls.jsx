@@ -37,6 +37,8 @@ export default function Controls({
 	} = attributes;
 
 	const isCoverflow = viewType === 'coverflow';
+	const isSlideshow = viewType === 'slideshow';
+	const hideArrowSize = isCoverflow || isSlideshow;
 
 	const colorSettings = useMultipleOriginColorsAndGradients();
 
@@ -72,6 +74,10 @@ export default function Controls({
 			{
 				label: 'Coverflow',
 				value: 'coverflow',
+			},
+			{
+				label: 'Slideshow',
+				value: 'slideshow',
 			},
 		];
 	}, []);
@@ -138,7 +144,7 @@ export default function Controls({
 							setAttributes({ enableArrows: value })
 						}
 					/>
-					{enableArrows && !isCoverflow && (
+					{enableArrows && !hideArrowSize && (
 						<SelectControl
 							label={'Arrows Size'}
 							value={arrowsSize}

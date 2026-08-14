@@ -542,7 +542,7 @@ npm install --save-dev @axe-core/playwright
     - `LinkAmbiguousTextRule.php` - Descriptive link text
     - `TabOrderModifiedRule.php` - Tab order management
 - **Block Library Examples**: `plugins/prc-block-library/src/accordion/` - Similar collapsible pattern with good accessibility
-- **Development Guidelines**: `docs/DEVELOPMENT_GUIDELINES.md` - Block-first architecture requirements
+- **Development Guidelines**: `docs/development-guidelines.md` - Block-first architecture requirements
 
 ### Tools & Documentation
 

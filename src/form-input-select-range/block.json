@@ -73,6 +73,9 @@
 			"padding": true,
 			"margin": true
 		},
+		"dimensions": {
+			"minWidth": true
+		},
 		"layout": {
 			"type": "flex",
 			"default": {

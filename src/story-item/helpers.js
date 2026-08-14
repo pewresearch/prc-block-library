@@ -12,6 +12,32 @@ import { useBlockProps } from '@wordpress/block-editor';
 
 const STORY_ITEM_ENTITY_STATUSES = ['publish', 'draft', 'future'];
 
+const normalizeExcerpt = (excerpt) => {
+	if ('string' !== typeof excerpt) {
+		return '';
+	}
+
+	const trimmed = excerpt.trim();
+	if ('' === trimmed) {
+		return '';
+	}
+
+	const paragraphPattern = /<p(?:\s[^>]*)?>([\s\S]*?)<\/p>/gi;
+	const paragraphs = Array.from(trimmed.matchAll(paragraphPattern));
+	if (
+		0 < paragraphs.length &&
+		'' === trimmed.replace(paragraphPattern, '').trim()
+	) {
+		return paragraphs.map(([, paragraph]) => paragraph.trim()).join('<br>');
+	}
+
+	if (!/<p(?:\s[^>]*)?>/i.test(trimmed) && /<\/p>\s*$/i.test(trimmed)) {
+		return trimmed.replace(/\s*<\/p>\s*$/i, '');
+	}
+
+	return trimmed;
+};
+
 const setArtBySize = (imageSize, postId, setAttributes) => {
 	if (0 !== postId && false !== setAttributes) {
 		apiFetch({
@@ -70,7 +96,7 @@ const getAttributesFromPost = (
 		excerpt:
 			post.hasOwnProperty('excerpt') &&
 			post.excerpt.hasOwnProperty('rendered')
-				? post.excerpt.rendered
+				? normalizeExcerpt(post.excerpt.rendered)
 				: '',
 		url: post.link || '',
 		label: post.hasOwnProperty('label') ? post.label : 'report',
@@ -181,6 +207,7 @@ const useStoryItemBlockProps = (attributes, asSave = false) => {
 
 export {
 	setArtBySize,
+	normalizeExcerpt,
 	getAttributesFromPost,
 	getArtDirectionSlot,
 	getPostAttributes,

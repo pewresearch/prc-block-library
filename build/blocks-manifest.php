@@ -609,7 +609,8 @@ return array(
 				'enum' => array(
 					'horizontal',
 					'vertical',
-					'coverflow'
+					'coverflow',
+					'slideshow'
 				)
 			),
 			'enableDots' => array(
@@ -2002,6 +2003,9 @@ return array(
 				'margin' => true,
 				'blockSpacing' => true
 			),
+			'dimensions' => array(
+				'minWidth' => true
+			),
 			'typography' => array(
 				'fontSize' => true,
 				'lineHeight' => true,
@@ -2063,6 +2067,9 @@ return array(
 				'blockGap' => true,
 				'padding' => true,
 				'margin' => true
+			),
+			'dimensions' => array(
+				'minWidth' => true
 			),
 			'layout' => array(
 				'type' => 'flex',
@@ -2152,6 +2159,9 @@ return array(
 				'blockGap' => true,
 				'padding' => true,
 				'margin' => true
+			),
+			'dimensions' => array(
+				'minWidth' => true
 			),
 			'typography' => array(
 				'fontSize' => true,
@@ -2275,6 +2285,9 @@ return array(
 				'blockGap' => true,
 				'padding' => true,
 				'margin' => true
+			),
+			'dimensions' => array(
+				'minWidth' => true
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
@@ -2442,6 +2455,9 @@ return array(
 				'padding' => true,
 				'margin' => true
 			),
+			'dimensions' => array(
+				'minWidth' => true
+			),
 			'__experimentalBorder' => array(
 				'color' => true,
 				'width' => true,
@@ -2572,6 +2588,9 @@ return array(
 				'padding' => true,
 				'margin' => true
 			),
+			'dimensions' => array(
+				'minWidth' => true
+			),
 			'layout' => array(
 				'type' => 'flex',
 				'default' => array(
@@ -2695,6 +2714,9 @@ return array(
 				'blockGap' => true,
 				'padding' => true,
 				'margin' => true
+			),
+			'dimensions' => array(
+				'minWidth' => true
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
@@ -2861,6 +2883,9 @@ return array(
 				'blockGap' => true,
 				'padding' => true,
 				'margin' => true
+			),
+			'dimensions' => array(
+				'minWidth' => true
 			),
 			'__experimentalBorder' => array(
 				'color' => true,
@@ -4425,7 +4450,7 @@ return array(
 		'example' => array(
 			'attributes' => array(
 				'title' => 'Ultricies Ipsum Nibh Egestas Purus',
-				'excerpt' => '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>',
+				'excerpt' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.',
 				'label' => 'Report',
 				'date' => 'Jan 1, 2023',
 				'image' => 'https://www.pewresearch.org/global/wp-content/uploads/sites/2/2020/04/PG_2020.04.21_U.S.-Views-China_featured.jpg',

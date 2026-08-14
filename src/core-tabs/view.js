@@ -94,6 +94,48 @@ const { state, actions } = store(
 		},
 		actions: {
 			/**
+			 * Orientation-aware tab keyboard navigation.
+			 *
+			 * Upstream core/tabs only handles ArrowLeft/ArrowRight (and Home/End).
+			 * Vertical tabs need ArrowUp/ArrowDown per the ARIA tabs pattern and
+			 * legacy prc-block/tabs behavior. `.is-vertical` is stamped on the
+			 * tabs wrapper by render_core_tabs when orientation is vertical.
+			 *
+			 * @param {KeyboardEvent} event The keydown event.
+			 */
+			handleTabKeyDown: withSyncEvent((event) => {
+				const { tabIndex, tabsList } = state;
+				if (tabIndex === null) {
+					return;
+				}
+
+				const { ref } = getElement();
+				// Class is on the owning .wp-block-tabs, not the tab button.
+				const isVertical = !!ref
+					?.closest?.('.wp-block-tabs')
+					?.classList?.contains('is-vertical');
+
+				if (event.key === 'ArrowRight' && !isVertical) {
+					event.preventDefault();
+					actions.moveFocus(tabIndex + 1);
+				} else if (event.key === 'ArrowLeft' && !isVertical) {
+					event.preventDefault();
+					actions.moveFocus(tabIndex - 1);
+				} else if (event.key === 'ArrowDown' && isVertical) {
+					event.preventDefault();
+					actions.moveFocus(tabIndex + 1);
+				} else if (event.key === 'ArrowUp' && isVertical) {
+					event.preventDefault();
+					actions.moveFocus(tabIndex - 1);
+				} else if (event.key === 'Home') {
+					event.preventDefault();
+					actions.moveFocus(0);
+				} else if (event.key === 'End') {
+					event.preventDefault();
+					actions.moveFocus(tabsList.length - 1);
+				}
+			}),
+			/**
 			 * Signals that the tabs are ready by firing a custom browser event.
 			 * This provides extensibility for other scripts to hook into when tabs are initialized.
 			 */

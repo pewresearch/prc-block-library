@@ -16,6 +16,7 @@ registerBlockVariation('core/heading', {
 	attributes: {
 		level: 2,
 		className: 'is-style-sub-title',
+		placeholder: __('Add sub-title'),
 		metadata: {
 			bindings: {
 				content: {

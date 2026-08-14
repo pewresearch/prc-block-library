@@ -81,9 +81,95 @@ class Core_Details {
 			$loader->add_action( 'init', $this, 'register_styles' );
 			$loader->add_action( 'enqueue_block_assets', $this, 'enqueue_styles', 10 );
 			$loader->add_action( 'enqueue_block_editor_assets', $this, 'register_editor_assets' );
+			$loader->add_action( 'prc_print_engine_register_block_callbacks', $this, 'register_print_callbacks' );
 			$loader->add_filter( 'block_type_metadata', $this, 'add_attributes', 100, 1 );
 			$loader->add_filter( 'render_block', $this, 'render', 100, 3 );
 		}
+	}
+
+	/**
+	 * Register print-engine markup callback for core/details.
+	 *
+	 * Forces remaining details blocks open on `/print` so closed accordion
+	 * content is visible to Paged.js / Firebase PDF capture.
+	 *
+	 * @hook prc_print_engine_register_block_callbacks
+	 */
+	public function register_print_callbacks() {
+		if ( ! class_exists( '\PRC\Platform\Print_Engine\Block_Print_Registry' ) ) {
+			return;
+		}
+
+		\PRC\Platform\Print_Engine\Block_Print_Registry::register(
+			'core/details',
+			array( $this, 'details_to_print_html' )
+		);
+	}
+
+	/**
+	 * Convert a core/details block to print-friendly HTML with open forced.
+	 *
+	 * Print-engine registry callbacks short-circuit in pre_render_block with an
+	 * empty $content string, so this rebuilds from innerContent / innerBlocks
+	 * when needed, then sets the open attribute.
+	 *
+	 * @param string   $content Rendered block HTML (empty on pre_render path).
+	 * @param array    $block   Parsed block array.
+	 * @param \WP_Post $post    The post being printed.
+	 * @return string Print HTML with details forced open.
+	 */
+	public function details_to_print_html( string $content, array $block, \WP_Post $post ): string {
+		unset( $post );
+
+		if ( '' === $content ) {
+			$content = $this->rebuild_details_html( $block );
+		}
+
+		if ( '' === $content ) {
+			return '';
+		}
+
+		$processor = new WP_HTML_Tag_Processor( $content );
+		if ( ! $processor->next_tag( array( 'tag_name' => 'details' ) ) ) {
+			return $content;
+		}
+
+		$processor->set_attribute( 'open', true );
+		return $processor->get_updated_html();
+	}
+
+	/**
+	 * Rebuild details markup from saved innerContent and rendered inner blocks.
+	 *
+	 * Preserves the saved summary, classes, and wrapper attributes that would
+	 * otherwise be skipped by the print-engine pre_render short-circuit.
+	 *
+	 * @param array $block Parsed details block.
+	 * @return string Rebuilt block HTML.
+	 */
+	private function rebuild_details_html( array $block ): string {
+		$inner_blocks  = $block['innerBlocks'] ?? array();
+		$inner_content = $block['innerContent'] ?? array();
+
+		if ( empty( $inner_content ) ) {
+			return '';
+		}
+
+		$html         = '';
+		$inner_index  = 0;
+		foreach ( $inner_content as $chunk ) {
+			if ( is_string( $chunk ) ) {
+				$html .= $chunk;
+				continue;
+			}
+
+			if ( isset( $inner_blocks[ $inner_index ] ) && is_array( $inner_blocks[ $inner_index ] ) ) {
+				$html .= render_block( $inner_blocks[ $inner_index ] );
+			}
+			++$inner_index;
+		}
+
+		return $html;
 	}
 
 	/**

@@ -6,7 +6,12 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal Dependencies
  */
-import { HorizontalIcon, VerticalIcon, CoverflowIcon } from './icons';
+import {
+	HorizontalIcon,
+	VerticalIcon,
+	CoverflowIcon,
+	SlideshowIcon,
+} from './icons';
 
 export default [
 	{
@@ -45,6 +50,21 @@ export default [
 		icon: CoverflowIcon(),
 		attributes: {
 			viewType: 'coverflow',
+			className: 'is-style-dots-navigation',
+		},
+		scope: ['inserter', 'block'],
+		isActive: (blockAttributes, variationAttributes) =>
+			blockAttributes.viewType === variationAttributes.viewType,
+	},
+	{
+		name: 'carousel-slideshow',
+		title: __('Carousel: Slideshow'),
+		description: __(
+			'A slideshow carousel with a floating slide counter, dots, and play controls beneath the slides.'
+		),
+		icon: SlideshowIcon(),
+		attributes: {
+			viewType: 'slideshow',
 			className: 'is-style-dots-navigation',
 		},
 		scope: ['inserter', 'block'],

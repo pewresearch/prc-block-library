@@ -54,6 +54,24 @@ class Logo {
 	);
 
 	/**
+	 * Map of block style to light-mode asset filename for Safari/WebKit / Interactivity context.
+	 * Dedicated light files have no prefers-color-scheme media query, so they stay
+	 * dark-on-light even when the OS is in dark mode and the visitor has forced light.
+	 *
+	 * @var array<string, string>
+	 */
+	private const STYLE_TO_LIGHT_ASSET = array(
+		'primary-only'         => 'primary-light.svg',
+		'primary-stable-white' => 'primary-white.svg',
+		'alt-only'             => 'alternate-light.svg',
+		'alt-stable-white'     => 'alternate-white.svg',
+		'decoded-only'         => 'decoded-light.svg',
+		'symbol-only'          => 'symbol-light.svg',
+		'symbol-stable-white'  => 'symbol-white.svg',
+		'pew-knight-only'      => 'pew-knight-light.svg',
+	);
+
+	/**
 	 * Map of block style to dark-mode asset filename for Safari/WebKit / Interactivity context.
 	 * Used when prefers-color-scheme: dark is not applied inside SVG img on Safari/WebKit.
 	 *
@@ -67,7 +85,7 @@ class Logo {
 		'decoded-only'         => 'decoded-white.svg',
 		'symbol-only'          => 'symbol-white.svg',
 		'symbol-stable-white'  => 'symbol-white.svg',
-		'pew-knight-only'      => 'pew-knight-white.svg',
+		'pew-knight-only'      => 'pew-knight-logo-dark.svg',
 	);
 
 	/**
@@ -150,6 +168,12 @@ class Logo {
 			return '';
 		}
 
+		$light_asset = self::STYLE_TO_LIGHT_ASSET[ $style ] ?? $asset;
+		$light_url   = $this->get_logo_url( $light_asset );
+		if ( '' === $light_url ) {
+			$light_url = $url;
+		}
+
 		$dark_asset = self::STYLE_TO_DARK_ASSET[ $style ] ?? $asset;
 		$dark_url   = $this->get_logo_url( $dark_asset );
 		if ( '' === $dark_url ) {
@@ -158,7 +182,7 @@ class Logo {
 
 		$block_wrapper_attrs = get_block_wrapper_attributes(
 			array(
-				'class'               => \PRC\BlockUtils\classNames(
+				'class'                        => \PRC\BlockUtils\classNames(
 					$class_name,
 					array(
 						'item-justified-left'   => 'left' === $justification,
@@ -166,19 +190,20 @@ class Logo {
 						'item-justified-right'  => 'right' === $justification,
 					)
 				),
-				'data-wp-interactive' => wp_json_encode(
+				'data-wp-interactive'          => wp_json_encode(
 					array(
 						'namespace' => 'prc-block/logo',
 					)
 				),
-				'data-wp-context'     => wp_json_encode(
+				'data-wp-context'              => wp_json_encode(
 					array(
-						'srcLight'   => $url,
+						'srcLight'   => $light_url,
 						'srcDark'    => $dark_url,
 						'currentSrc' => $url,
 					)
 				),
-				'data-wp-init'        => 'callbacks.setupSafariColorScheme',
+				'data-wp-init'                 => 'callbacks.setupSafariColorScheme',
+				'data-wp-watch--safari-scheme' => 'callbacks.applySafariColorScheme',
 			)
 		);
 

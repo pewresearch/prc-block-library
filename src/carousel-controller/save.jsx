@@ -39,11 +39,14 @@ export default function Save({ attributes }) {
 	} = attributes;
 
 	const isCoverflow = viewType === 'coverflow';
+	const isSlideshow = viewType === 'slideshow';
+	const showCounter = isCoverflow || isSlideshow;
 
 	const blockProps = useBlockProps.save({
 		className: clsx('wp-block-prc-block-carousel-controller', {
 			'is-style-vertical': viewType === 'vertical',
 			'has-view-coverflow': isCoverflow,
+			'has-view-slideshow': isSlideshow,
 			[`has-arrows-${arrowsSize}`]: enableArrows && arrowsSize,
 			[`has-dots-${dotsSize}`]: enableDots && dotsSize,
 			[`has-dot-color`]: dotColor && !useSlideBgForDots,
@@ -59,14 +62,33 @@ export default function Save({ attributes }) {
 		<div {...blockProps}>
 			<div className="prc-block-carousel-controller__track">
 				<div {...innerBlocksProps} />
+				{isSlideshow && (
+					<div className="prc-block-carousel-controller__counter"></div>
+				)}
 			</div>
-			{enableArrows && (
-				<div className="prc-block-carousel-controller__arrows"></div>
+			{isSlideshow ? (
+				<>
+					{enableDots && (
+						<div className="prc-block-carousel-controller__dots"></div>
+					)}
+					<div className="prc-block-carousel-controller__controls">
+						<div className="prc-block-carousel-controller__play"></div>
+						{enableArrows && (
+							<div className="prc-block-carousel-controller__arrows"></div>
+						)}
+					</div>
+				</>
+			) : (
+				<>
+					{enableArrows && (
+						<div className="prc-block-carousel-controller__arrows"></div>
+					)}
+					{enableDots && (
+						<div className="prc-block-carousel-controller__dots"></div>
+					)}
+				</>
 			)}
-			{enableDots && (
-				<div className="prc-block-carousel-controller__dots"></div>
-			)}
-			{isCoverflow && (
+			{isCoverflow && showCounter && (
 				<div className="prc-block-carousel-controller__counter"></div>
 			)}
 		</div>

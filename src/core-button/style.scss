@@ -29,6 +29,14 @@
 	}
 }
 
+// Editor wraps core/button in display:table so auto margins center a shrink-wrapped box.
+// Frontend .wp-block-button is a block and fills the constrained well; only .aligncenter
+// needs fit-content so constrained auto margins can center it without shifting defaults.
+.is-layout-constrained
+	> .wp-block-button.aligncenter:not([class*="wp-block-button__width"]) {
+	width: fit-content;
+}
+
 .wp-element-button {
 	&[hidden] {
 		display: none !important;

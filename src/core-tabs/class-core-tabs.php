@@ -86,7 +86,7 @@ class Core_Tabs {
 	 */
 	public function init( $loader = null ) {
 		if ( null !== $loader ) {
-			$loader->add_filter( 'register_block_type_args', $this, 'extend_core_tab_list_uses_context', 10, 2 );
+			$loader->add_filter( 'register_block_type_args', $this, 'extend_core_tabs_block_args', 10, 2 );
 			$loader->add_action( 'init', $this, 'register_assets' );
 			$loader->add_action( 'init', $this, 'register_tab_block_bindings' );
 			$loader->add_action( 'init', $this, 'register_block_styles' );
@@ -137,23 +137,47 @@ class Core_Tabs {
 	}
 
 	/**
-	 * Restore context keys on core/tab-list for PRC extensions (mobile dropdown, etc.)
-	 * and enable Custom CSS support.
+	 * Register vertical-tabs attributes/context on core/tabs, restore context keys
+	 * on core/tab-list for PRC extensions (mobile dropdown, orientation), and enable
+	 * Custom CSS support on tab-list.
 	 *
 	 * Upstream narrowed usesContext to core/tabs-list only; we merge parent-provided
 	 * context back so render_block_core/tab-list receives core/tabs-id and active index.
 	 *
-	 * NOTE: WordPress converts the camelCase `usesContext` from block.json to snake_case
-	 * `uses_context` before invoking the `register_block_type_args` filter. The filter
-	 * MUST read/write `uses_context`; writing `usesContext` here is a silent no-op and
-	 * leaves $tabs_id unresolved at render time, which keys interactivity state by 0
-	 * (PHP coerces false to int 0) and breaks the mobile dropdown client-side.
+	 * NOTE: WordPress converts the camelCase `usesContext` / `providesContext` from
+	 * block.json to snake_case before invoking the `register_block_type_args` filter.
+	 * The filter MUST read/write `uses_context` / `provides_context`; writing camelCase
+	 * here is a silent no-op and leaves $tabs_id unresolved at render time, which keys
+	 * interactivity state by 0 (PHP coerces false to int 0) and breaks the mobile
+	 * dropdown client-side.
 	 *
 	 * @param array  $args Block type args.
 	 * @param string $name Block name.
 	 * @return array
 	 */
-	public function extend_core_tab_list_uses_context( $args, $name ) {
+	public function extend_core_tabs_block_args( $args, $name ) {
+		if ( 'core/tabs' === $name ) {
+			$args['attributes'] = array_merge(
+				$args['attributes'] ?? array(),
+				array(
+					'orientation'      => array(
+						'type'    => 'string',
+						'enum'    => array( 'horizontal', 'vertical' ),
+						'default' => 'horizontal',
+					),
+					'tabListPlacement' => array(
+						'type'    => 'string',
+						'enum'    => array( 'start', 'end' ),
+						'default' => 'start',
+					),
+				)
+			);
+			$provides_context = $args['provides_context'] ?? array();
+			$provides_context['core/tabs-orientation'] = 'orientation';
+			$args['provides_context']                  = $provides_context;
+			return $args;
+		}
+
 		if ( 'core/tab-list' !== $name ) {
 			return $args;
 		}
@@ -162,6 +186,7 @@ class Core_Tabs {
 			'core/tabs-id',
 			'core/tabs-activeTabIndex',
 			'core/tabs-editorActiveTabIndex',
+			'core/tabs-orientation',
 		);
 		foreach ( $extra as $key ) {
 			if ( ! in_array( $key, $uses_context, true ) ) {
@@ -495,6 +520,7 @@ class Core_Tabs {
 		$core_tabs_attrs = array(
 			'tabsId'         => $attributes['tabsId'] ?? '',
 			'activeTabIndex' => $attributes['activeTabIndex'] ?? 0,
+			'orientation'    => $attributes['orientation'] ?? 'horizontal',
 		);
 
 		if ( ! empty( $attributes['metadata'] ) ) {
@@ -663,6 +689,11 @@ class Core_Tabs {
 		$tag_processor->next_tag( array( 'class_name' => 'wp-block-tab-list' ) );
 		$tag_processor->set_attribute( 'data-wp-init--add-event-listeners', 'core/tabs::callbacks.addEventListeners' );
 
+		$orientation = $context['core/tabs-orientation'] ?? 'horizontal';
+		if ( 'vertical' === $orientation ) {
+			$tag_processor->add_class( 'is-vertical' );
+		}
+
 		// Merge hover/active CSS custom properties into the wrapper's inline style.
 		$hover_active_style = $this->build_hover_active_style( $attributes );
 		if ( '' !== $hover_active_style ) {
@@ -723,9 +754,8 @@ class Core_Tabs {
 	}
 
 	/**
-	 * Render core/tabs block with a copy of the mobile dropdown placed after the tab panels.
-	 * This provides a bottom dropdown on mobile so users can switch tabs from both above
-	 * and below the content.
+	 * Render core/tabs block: stamp vertical orientation classes, then place a
+	 * copy of the mobile dropdown after the tab panels when present.
 	 *
 	 * @hook render_block_core/tabs
 	 *
@@ -735,6 +765,26 @@ class Core_Tabs {
 	 * @return string
 	 */
 	public function render_core_tabs( $block_content, $block, $instance ) {
+		$attributes  = $block['attrs'] ?? array();
+		$orientation = $attributes['orientation'] ?? 'horizontal';
+		$placement   = $attributes['tabListPlacement'] ?? 'start';
+
+		if ( 'vertical' === $orientation ) {
+			$tag_processor = new WP_HTML_Tag_Processor( $block_content );
+			if ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-tabs' ) ) ) {
+				$tag_processor->add_class( 'is-vertical' );
+				$tag_processor->add_class(
+					'end' === $placement ? 'has-tab-list-end' : 'has-tab-list-start'
+				);
+			}
+			// Stamp the list too. Parent attrs are the source of truth; do not rely
+			// on provides_context alone (missing when core/tabs is not registered).
+			if ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-tab-list' ) ) ) {
+				$tag_processor->add_class( 'is-vertical' );
+			}
+			$block_content = $tag_processor->get_updated_html();
+		}
+
 		// Check if there is a pending dropdown copy from the tab-list render.
 		if ( empty( $this->pending_dropdown_copies ) ) {
 			return $block_content;

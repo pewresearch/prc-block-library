@@ -4,13 +4,22 @@
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { createBlock } from '@wordpress/blocks';
+import { useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 
 /**
  * Internal Dependencies
  */
-import Controls from './controls';
+import Controls, { TabsOrientationControls } from './controls';
 import registerTabLabelBinding from './tab-label-binding';
 import './style.scss';
+
+const VERTICAL_TAB_LIST_LAYOUT = {
+	type: 'flex',
+	orientation: 'vertical',
+	flexWrap: 'nowrap',
+};
 
 /**
  * Add transform from prc-block/tabs to core/tabs.
@@ -29,6 +38,9 @@ function addTransformToCoreTabs(settings, name) {
 		type: 'block',
 		blocks: ['prc-block/tabs'],
 		transform: (attributes, innerBlocks) => {
+			const orientation = attributes.orientation || 'horizontal';
+			const isVertical = 'vertical' === orientation;
+
 			const tabPanelBlocks = innerBlocks.map((tabBlock, index) => {
 				const { label, anchor } = tabBlock.attributes;
 				return createBlock(
@@ -46,6 +58,7 @@ function addTransformToCoreTabs(settings, name) {
 				tabs: tabPanelBlocks.map((panelBlock) => ({
 					label: panelBlock.attributes.label || 'Tab',
 				})),
+				...(isVertical ? { layout: VERTICAL_TAB_LIST_LAYOUT } : {}),
 			});
 
 			const tabPanelsBlock = createBlock(
@@ -59,6 +72,7 @@ function addTransformToCoreTabs(settings, name) {
 				{
 					tabsId: attributes.tabsId,
 					activeTabIndex: attributes.activeTabIndex || 0,
+					orientation,
 				},
 				[tabListBlock, tabPanelsBlock]
 			);
@@ -95,14 +109,41 @@ const hoverActiveColorAttributes = {
 	customActiveTextColor: { type: 'string' },
 };
 
+const coreTabsOrientationAttributes = {
+	orientation: {
+		type: 'string',
+		enum: ['horizontal', 'vertical'],
+		default: 'horizontal',
+	},
+	tabListPlacement: {
+		type: 'string',
+		enum: ['start', 'end'],
+		default: 'start',
+	},
+};
+
 /**
- * Add extended attributes to the core/tab-list block.
+ * Add extended attributes to core/tabs and core/tab-list.
  *
  * @param {Object} settings Block settings
  * @param {string} name     Block name
  * @return {Object} Modified block settings
  */
 function addAttributes(settings, name) {
+	if (name === 'core/tabs') {
+		return {
+			...settings,
+			attributes: {
+				...settings.attributes,
+				...coreTabsOrientationAttributes,
+			},
+			providesContext: {
+				...settings.providesContext,
+				'core/tabs-orientation': 'orientation',
+			},
+		};
+	}
+
 	if (name === 'core/tab-list') {
 		return {
 			...settings,
@@ -118,6 +159,12 @@ function addAttributes(settings, name) {
 				},
 				...hoverActiveColorAttributes,
 			},
+			usesContext: [
+				...new Set([
+					...(settings.usesContext || []),
+					'core/tabs-orientation',
+				]),
+			],
 		};
 	}
 
@@ -157,7 +204,51 @@ addFilter(
 );
 
 /**
- * Extend core/tab-list edit with color controls.
+ * Keep tab-list flex layout in sync with parent core/tabs orientation.
+ *
+ * @param {Object}   props
+ * @param {string}   props.clientId
+ * @param {Object}   props.attributes
+ * @param {Function} props.setAttributes
+ */
+function SyncVerticalTabListLayout({ clientId, attributes, setAttributes }) {
+	const parentOrientation = useSelect(
+		(select) => {
+			const { getBlockRootClientId, getBlockAttributes } =
+				select(blockEditorStore);
+			const parentId = getBlockRootClientId(clientId);
+			if (!parentId) {
+				return 'horizontal';
+			}
+			return getBlockAttributes(parentId)?.orientation || 'horizontal';
+		},
+		[clientId]
+	);
+
+	const isVertical = 'vertical' === parentOrientation;
+	const layoutOrientation = attributes?.layout?.orientation;
+
+	useEffect(() => {
+		if (isVertical && layoutOrientation !== 'vertical') {
+			setAttributes({ layout: VERTICAL_TAB_LIST_LAYOUT });
+			return;
+		}
+		if (!isVertical && layoutOrientation === 'vertical') {
+			setAttributes({
+				layout: {
+					type: 'flex',
+					orientation: 'horizontal',
+					flexWrap: 'wrap',
+				},
+			});
+		}
+	}, [isVertical, layoutOrientation, setAttributes]);
+
+	return null;
+}
+
+/**
+ * Extend core/tabs and core/tab-list edit with PRC controls.
  *
  * @param {Function} BlockEdit Original BlockEdit component
  * @return {Function} Enhanced BlockEdit component
@@ -166,16 +257,33 @@ const withExtendedControls = createHigherOrderComponent((BlockEdit) => {
 	return (props) => {
 		const { name, attributes, setAttributes, clientId } = props;
 
-		if ('core/tab-list' !== name) {
-			return <BlockEdit {...props} />;
+		if ('core/tabs' === name) {
+			return (
+				<>
+					<TabsOrientationControls
+						attributes={attributes}
+						setAttributes={setAttributes}
+					/>
+					<BlockEdit {...props} />
+				</>
+			);
 		}
 
-		return (
-			<>
-				<Controls {...{ attributes, setAttributes, clientId }} />
-				<BlockEdit {...props} />
-			</>
-		);
+		if ('core/tab-list' === name) {
+			return (
+				<>
+					<SyncVerticalTabListLayout
+						clientId={clientId}
+						attributes={attributes}
+						setAttributes={setAttributes}
+					/>
+					<Controls {...{ attributes, setAttributes, clientId }} />
+					<BlockEdit {...props} />
+				</>
+			);
+		}
+
+		return <BlockEdit {...props} />;
 	};
 }, 'withExtendedControls');
 
@@ -201,77 +309,161 @@ function resolveColorValue(slug, customHex) {
 }
 
 /**
- * BlockListBlock HOC: inject the four hover/active CSS custom properties
- * into the wrapper element's inline style for core/tab-list so the editor
- * canvas reflects the configured colors live.
+ * Editor wrapper classes for vertical core/tabs.
+ *
+ * @param {Object}   props
+ * @param {Function} props.BlockListBlock
+ * @param {Object}   props.blockProps
  */
-const withHoverActiveColorPreview = createHigherOrderComponent(
-	(BlockListBlock) => {
-		return (props) => {
-			const { name, attributes, wrapperProps } = props;
+function CoreTabsListBlockPreview({ BlockListBlock, blockProps }) {
+	const { attributes, wrapperProps } = blockProps;
+	const orientation = attributes?.orientation || 'horizontal';
+	const tabListPlacement = attributes?.tabListPlacement || 'start';
+	const extraClasses = [];
 
-			if (name !== 'core/tab-list') {
-				return <BlockListBlock {...props} />;
-			}
+	if ('vertical' === orientation) {
+		extraClasses.push('is-vertical');
+		extraClasses.push(
+			'end' === tabListPlacement
+				? 'has-tab-list-end'
+				: 'has-tab-list-start'
+		);
+	}
 
-			const {
-				hoverBackgroundColor,
-				customHoverBackgroundColor,
-				hoverTextColor,
-				customHoverTextColor,
-				activeBackgroundColor,
-				customActiveBackgroundColor,
-				activeTextColor,
-				customActiveTextColor,
-			} = attributes;
+	if (!extraClasses.length) {
+		return <BlockListBlock {...blockProps} />;
+	}
 
-			const cssVars = {};
-			const effectiveHoverBg = resolveColorValue(
-				hoverBackgroundColor,
-				customHoverBackgroundColor
-			);
-			const effectiveHoverText = resolveColorValue(
-				hoverTextColor,
-				customHoverTextColor
-			);
-			const effectiveActiveBg = resolveColorValue(
-				activeBackgroundColor,
-				customActiveBackgroundColor
-			);
-			const effectiveActiveText = resolveColorValue(
-				activeTextColor,
-				customActiveTextColor
-			);
+	const mergedClassName = [wrapperProps?.className, ...extraClasses]
+		.filter(Boolean)
+		.join(' ');
 
-			if (effectiveHoverBg)
-				cssVars['--custom-tab-hover-color'] = effectiveHoverBg;
-			if (effectiveHoverText)
-				cssVars['--custom-tab-hover-text-color'] = effectiveHoverText;
-			if (effectiveActiveBg)
-				cssVars['--custom-tab-active-color'] = effectiveActiveBg;
-			if (effectiveActiveText)
-				cssVars['--custom-tab-active-text-color'] = effectiveActiveText;
-
-			const mergedWrapperProps = {
+	return (
+		<BlockListBlock
+			{...blockProps}
+			wrapperProps={{
 				...wrapperProps,
-				style: {
-					...(wrapperProps?.style || {}),
-					...cssVars,
-				},
-			};
+				className: mergedClassName,
+			}}
+		/>
+	);
+}
 
+/**
+ * Editor wrapper: vertical class + hover/active CSS vars for core/tab-list.
+ *
+ * @param {Object}   props
+ * @param {Function} props.BlockListBlock
+ * @param {Object}   props.blockProps
+ */
+function CoreTabListBlockPreview({ BlockListBlock, blockProps }) {
+	const { attributes, wrapperProps, clientId } = blockProps;
+
+	const parentOrientation = useSelect(
+		(select) => {
+			const { getBlockRootClientId, getBlockAttributes } =
+				select(blockEditorStore);
+			const parentId = getBlockRootClientId(clientId);
+			if (!parentId) {
+				return 'horizontal';
+			}
+			return getBlockAttributes(parentId)?.orientation || 'horizontal';
+		},
+		[clientId]
+	);
+
+	const {
+		hoverBackgroundColor,
+		customHoverBackgroundColor,
+		hoverTextColor,
+		customHoverTextColor,
+		activeBackgroundColor,
+		customActiveBackgroundColor,
+		activeTextColor,
+		customActiveTextColor,
+	} = attributes;
+
+	const cssVars = {};
+	const effectiveHoverBg = resolveColorValue(
+		hoverBackgroundColor,
+		customHoverBackgroundColor
+	);
+	const effectiveHoverText = resolveColorValue(
+		hoverTextColor,
+		customHoverTextColor
+	);
+	const effectiveActiveBg = resolveColorValue(
+		activeBackgroundColor,
+		customActiveBackgroundColor
+	);
+	const effectiveActiveText = resolveColorValue(
+		activeTextColor,
+		customActiveTextColor
+	);
+
+	if (effectiveHoverBg)
+		cssVars['--custom-tab-hover-color'] = effectiveHoverBg;
+	if (effectiveHoverText)
+		cssVars['--custom-tab-hover-text-color'] = effectiveHoverText;
+	if (effectiveActiveBg)
+		cssVars['--custom-tab-active-color'] = effectiveActiveBg;
+	if (effectiveActiveText)
+		cssVars['--custom-tab-active-text-color'] = effectiveActiveText;
+
+	const isVertical = 'vertical' === parentOrientation;
+	const mergedClassName = [
+		wrapperProps?.className,
+		isVertical ? 'is-vertical' : null,
+	]
+		.filter(Boolean)
+		.join(' ');
+
+	const mergedWrapperProps = {
+		...wrapperProps,
+		className: mergedClassName || wrapperProps?.className,
+		style: {
+			...(wrapperProps?.style || {}),
+			...cssVars,
+		},
+	};
+
+	return <BlockListBlock {...blockProps} wrapperProps={mergedWrapperProps} />;
+}
+
+/**
+ * BlockListBlock HOC: editor wrapper classes for vertical tabs +
+ * hover/active CSS custom properties on core/tab-list.
+ */
+const withCoreTabsPreview = createHigherOrderComponent((BlockListBlock) => {
+	return (props) => {
+		const { name } = props;
+
+		if (name === 'core/tabs') {
 			return (
-				<BlockListBlock {...props} wrapperProps={mergedWrapperProps} />
+				<CoreTabsListBlockPreview
+					BlockListBlock={BlockListBlock}
+					blockProps={props}
+				/>
 			);
-		};
-	},
-	'withHoverActiveColorPreview'
-);
+		}
+
+		if (name === 'core/tab-list') {
+			return (
+				<CoreTabListBlockPreview
+					BlockListBlock={BlockListBlock}
+					blockProps={props}
+				/>
+			);
+		}
+
+		return <BlockListBlock {...props} />;
+	};
+}, 'withCoreTabsPreview');
 
 addFilter(
 	'editor.BlockListBlock',
-	'prc-block/core-tabs/with-hover-active-color-preview',
-	withHoverActiveColorPreview
+	'prc-block/core-tabs/with-core-tabs-preview',
+	withCoreTabsPreview
 );
 
 registerTabLabelBinding();

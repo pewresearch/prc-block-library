@@ -3,7 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
-import { ToggleControl, PanelBody, RangeControl } from '@wordpress/components';
+import {
+	ToggleControl,
+	PanelBody,
+	RangeControl,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
 import {
 	InspectorControls,
 	__experimentalColorGradientSettingsDropdown as ColorGradientSettingsDropdown,
@@ -12,16 +20,69 @@ import {
 } from '@wordpress/block-editor';
 
 /**
- * Core Tabs Controls Extension — for core/tab-list
+ * Vertical orientation controls for core/tabs.
  *
- * Provides mobile-dropdown settings and hover/active color pickers.
- * Wrapped in withColors so preset slugs round-trip correctly.
+ * @param {Object}   props
+ * @param {Object}   props.attributes
+ * @param {Function} props.setAttributes
+ */
+export function TabsOrientationControls({ attributes, setAttributes }) {
+	const { orientation = 'horizontal', tabListPlacement = 'start' } =
+		attributes;
+	const isVertical = 'vertical' === orientation;
+
+	return (
+		<InspectorControls>
+			<PanelBody title={__('Tabs Settings', 'prc-block-library')}>
+				<ToggleControl
+					label={__('Vertical Tabs', 'prc-block-library')}
+					checked={isVertical}
+					onChange={(value) =>
+						setAttributes({
+							orientation: value ? 'vertical' : 'horizontal',
+							...(value ? {} : { tabListPlacement: 'start' }),
+						})
+					}
+					__nextHasNoMarginBottom
+				/>
+				{isVertical && (
+					<ToggleGroupControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+						isBlock
+						label={__('Tab list placement', 'prc-block-library')}
+						help={__(
+							'Start places the tab list on the left in LTR. End places it on the right.',
+							'prc-block-library'
+						)}
+						value={tabListPlacement}
+						onChange={(value) =>
+							setAttributes({ tabListPlacement: value })
+						}
+					>
+						<ToggleGroupControlOption
+							value="start"
+							label={__('Start', 'prc-block-library')}
+						/>
+						<ToggleGroupControlOption
+							value="end"
+							label={__('End', 'prc-block-library')}
+						/>
+					</ToggleGroupControl>
+				)}
+			</PanelBody>
+		</InspectorControls>
+	);
+}
+
+/**
+ * Mobile dropdown + hover/active color controls for core/tab-list.
  *
- * @param {Object}   props                       Component props
- * @param {Object}   props.attributes            Block attributes
- * @param {Function} props.setAttributes         Function to update attributes
- * @param {string}   props.clientId              Block client ID
- * @param {Object}   props.hoverBackgroundColor  withColors resolved object
+ * @param {Object}   props
+ * @param {Object}   props.attributes
+ * @param {Function} props.setAttributes
+ * @param {string}   props.clientId
+ * @param {Object}   props.hoverBackgroundColor
  * @param {Function} props.setHoverBackgroundColor
  * @param {Object}   props.hoverTextColor
  * @param {Function} props.setHoverTextColor
@@ -30,7 +91,7 @@ import {
  * @param {Object}   props.activeTextColor
  * @param {Function} props.setActiveTextColor
  */
-function Controls({
+function TabListControls({
 	attributes,
 	setAttributes,
 	clientId,
@@ -98,7 +159,6 @@ function Controls({
 				/>
 			</InspectorControls>
 			<InspectorControls>
-				{/* Mobile Dropdown Settings */}
 				<PanelBody title={__('Settings', 'prc-block-library')}>
 					<ToggleControl
 						label={__('Mobile Dropdown', 'prc-block-library')}
@@ -146,4 +206,4 @@ export default withColors({
 	hoverTextColor: 'color',
 	activeBackgroundColor: 'color',
 	activeTextColor: 'color',
-})(Controls);
+})(TabListControls);

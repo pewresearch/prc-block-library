@@ -15,7 +15,11 @@ import {
  * Internal Dependencies
  */
 import { ImageSizeIcon, ImageSlotIcon } from './icons';
-import { setArtBySize, getPostAttributes } from '../../helpers';
+import {
+	setArtBySize,
+	getPostAttributes,
+	normalizeExcerpt,
+} from '../../helpers';
 import ToolbarURLSearch from './toolbar-url-search';
 
 const COLUMN_LIMIT = 6;
@@ -90,7 +94,9 @@ function Toolbar({ attributes, setAttributes, context }) {
 										postType: post.entitySubType,
 										url: post.entityUrl || '',
 										title: post.entityName || '',
-										excerpt: post.entityDescription || '',
+										excerpt: normalizeExcerpt(
+											post.entityDescription || ''
+										),
 										image: '',
 										isChartArt: false,
 									});

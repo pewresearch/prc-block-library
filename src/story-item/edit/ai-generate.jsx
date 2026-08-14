@@ -15,6 +15,11 @@ import { useCallback, useEffect } from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
 import { Notice } from '@wordpress/components';
 
+/**
+ * Internal Dependencies
+ */
+import { normalizeExcerpt } from '../helpers';
+
 const MODAL_CONTENT_WIDTH = '360px';
 
 /**
@@ -66,12 +71,9 @@ export default function AIGenerateStoryItem({
 			return;
 		}
 		if (mode === 'title') {
-			// title is a plain-text attribute; strip any HTML markup from model output
-			// before storing so server-side esc_html() is the only escaping layer needed.
 			setAttributes({ title: result.replace(/<[^>]*(>|$)/g, '') });
 		} else {
-			const html = `<p>${escapeHTML(result)}</p>`;
-			setAttributes({ excerpt: html });
+			setAttributes({ excerpt: normalizeExcerpt(escapeHTML(result)) });
 		}
 		reset();
 		onClose?.();
