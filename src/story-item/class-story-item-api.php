@@ -540,8 +540,8 @@ class Story_Item_API {
 		}
 
 		$art      = function_exists( '\PRC\Platform\Art_Direction\get' ) ? \PRC\Platform\Art_Direction\get( $this->post_id, $image_size ) : false;
-		$image_id = false !== $art ? $art['id'] : false;
-		$bordered = false !== $art ? $art['chartArt'] : $bordered;
+		$image_id = false !== $art ? ( $art['id'] ?? false ) : false;
+		$bordered = false !== $art ? (bool) ( $art['chartArt'] ?? false ) : $bordered;
 		if ( false !== $image_id ) {
 			$imgs = $this->get_imgs( $image_id, $image_size, $bordered );
 		}
