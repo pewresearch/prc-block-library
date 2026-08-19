@@ -74,6 +74,9 @@
 	}
 
 	&.is-measuring {
+		height: auto !important;
+		min-height: 0 !important;
+
 		.wp-block-prc-block-flip-card-side {
 			display: block !important;
 			height: auto !important;
@@ -92,20 +95,24 @@
 	}
 }
 
-// When a flip card lives inside a carousel slide (notably coverflow, which
-// forces every slide to width:60% + overflow:hidden and stacks them with 3D
-// transforms), the card must explicitly claim the full width and height of the
-// slide. Otherwise, once the sides go position:absolute on the frontend, their
-// containing block (__inner-blocks) can collapse and the content wraps into a
-// narrow column. Pinning both the controller and its inner-blocks to 100%
-// gives the absolutely-positioned sides a correctly sized box to fill.
+// Coverflow slides are width-capped (60%/88%) with 3D transforms. The card
+// still needs the full slide width so content does not wrap into a column.
+// Height comes from the measured `minHeightStyle` pixel value (also applied
+// as `height`) so inner-blocks can be 100% of a definite box after the sides
+// go position:absolute. Do not use height: 100% of the slide — that fills
+// extra coverflow stretch instead of hugging the illustration.
 .wp-block-prc-block-carousel-slide {
 	.wp-block-prc-block-flip-card-controller {
 		width: 100%;
 
-		.wp-block-prc-block-flip-card-controller__inner-blocks {
+		&.is-initialized
+			.wp-block-prc-block-flip-card-controller__inner-blocks {
 			width: 100%;
 			height: 100%;
+		}
+
+		.wp-block-prc-block-flip-card-controller__inner-blocks {
+			width: 100%;
 		}
 	}
 }

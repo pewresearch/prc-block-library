@@ -151,6 +151,22 @@ class Carousel_Controller {
 
 		$block_id = wp_unique_id( 'prc-block-carousel-controller-' );
 
+		// Mirror the JS isActive getter so data-wp-class--is-active can keep
+		// the current slide in flow on first paint (coverflow track height).
+		wp_interactivity_state(
+			'prc-block/carousel-controller',
+			array(
+				'isActive' => static function () {
+					$context = wp_interactivity_get_context();
+					if ( ! isset( $context['index'], $context['slideIndex'] ) ) {
+						return false;
+					}
+
+					return (int) $context['index'] === (int) $context['slideIndex'];
+				},
+			)
+		);
+
 		$tag_processor = new WP_HTML_Tag_Processor( $content );
 
 		while ( $tag_processor->next_tag(
@@ -197,6 +213,9 @@ class Carousel_Controller {
 				}
 				$tag_processor->set_attribute( 'id', $slide_id );
 				$tag_processor->set_attribute( 'data-wp-class--is-active', 'state.isActive' );
+				if ( $is_coverflow && 0 === $i ) {
+					$tag_processor->add_class( 'is-active' );
+				}
 				$tag_processor->set_attribute(
 					'data-wp-context',
 					wp_json_encode(

@@ -133,12 +133,15 @@
 			scroll-snap-type: none;
 
 			.wp-block-prc-block-carousel-slide {
-				// Stack every slide in the same cell so the row sizes to the
-				// tallest slide and shorter slides stretch to match it.
+				// Active slide sizes the track. Inactive slides leave the flow
+				// so a short card is not stretched to a taller sibling.
 				grid-column: 1;
 				grid-row: 1;
 				justify-self: center;
-				align-self: stretch;
+				align-self: start;
+				min-height: min-content;
+				height: auto;
+				overflow: visible;
 				width: 60%;
 				max-width: 60%;
 				scroll-snap-align: none;
@@ -166,6 +169,13 @@
 
 				&.is-active {
 					cursor: default;
+				}
+
+				&:not(.is-active) {
+					position: absolute;
+					inset-block-start: 0;
+					inset-inline: 0;
+					margin-inline: auto;
 				}
 
 				// Peek cap is responsive: 1 slide on mobile, 4 on larger viewports.

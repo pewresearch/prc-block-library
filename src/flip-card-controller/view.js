@@ -150,7 +150,10 @@ const storeConfig = {
 			if (fixedHeight > 0) {
 				return `${fixedHeight}px`;
 			}
-			return minHeight ? `${minHeight}px` : '100%';
+			if (minHeight) {
+				return `${minHeight}px`;
+			}
+			return undefined;
 		},
 	},
 };
