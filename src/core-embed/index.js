@@ -4,8 +4,11 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockVariation } from '@wordpress/blocks';
 
-const EXAMPLE = 'https://app.sli.do/event/2jtxhrzn';
 const BLOCKNAME = 'core/embed';
+
+const isProvider = (blockAttributes, variationAttributes) =>
+	blockAttributes.providerNameSlug &&
+	blockAttributes.providerNameSlug === variationAttributes.providerNameSlug;
 
 /**
  * Slido Block
@@ -19,7 +22,18 @@ registerBlockVariation(BLOCKNAME, {
 		providerNameSlug: 'slido',
 		responsive: true,
 	},
-	isActive: (blockAttributes, variationAttributes) =>
-		blockAttributes.providerNameSlug &&
-		blockAttributes.providerNameSlug === variationAttributes.providerNameSlug,
+	isActive: isProvider,
+});
+
+registerBlockVariation(BLOCKNAME, {
+	name: 'slideshare',
+	title: __('SlideShare'),
+	description: __('Embed a SlideShare deck.'),
+	keywords: [__('slides'), __('deck'), __('presentation')],
+	patterns: [/^https?:\/\/(www\.)?slideshare\.net\/.+/i],
+	attributes: {
+		providerNameSlug: 'slideshare',
+		responsive: true,
+	},
+	isActive: isProvider,
 });
