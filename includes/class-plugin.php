@@ -154,6 +154,7 @@ class Plugin {
 		require_once plugin_dir_path( __DIR__ ) . '/includes/supports/class-supports.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-markdown-for-agents-integration.php';
 		require_once plugin_dir_path( __DIR__ ) . '/includes/class-email-newsletter-integration.php';
+		require_once plugin_dir_path( __DIR__ ) . '/includes/class-story-item-topic-label.php';
 
 		// Load blocks.
 		$this->load_blocks();
@@ -270,6 +271,7 @@ class Plugin {
 		new Supports( $this->get_loader() );
 		new Markdown_For_Agents_Integration( $this->get_loader() );
 		new Email_Newsletter_Integration( $this->get_loader() );
+		new Story_Item_Topic_Label( $this->get_loader() );
 	}
 
 	/**
@@ -338,6 +340,7 @@ class Plugin {
 		new Logo( $this->get_loader() );
 		new Lorem_Ipsum( $this->get_loader() );
 		new Navigation_Mega_Menu( $this->get_loader() );
+		new Navigation_Panel( $this->get_loader() );
 		new Playground( $this->get_loader() );
 		new Popular_Story( $this->get_loader() );
 		new Dialog( $this->get_loader() );
@@ -370,6 +373,7 @@ class Plugin {
 		new Timeline_Slide( $this->get_loader() );
 		new Tokens_List( $this->get_loader() );
 		new Version( $this->get_loader() );
+		new Navigation_Panels( $this->get_loader() );
 	}
 
 	/**

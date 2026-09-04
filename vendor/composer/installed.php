@@ -3,7 +3,7 @@
         'name' => 'pewresearch/prc-block-library',
         'pretty_version' => 'dev-trunk',
         'version' => 'dev-trunk',
-        'reference' => 'c23d0bf0cff1b58c1cfa794eea354659c2a60f32',
+        'reference' => '804ddde449658d8cb94e2325ff2a2de1d02e8bbf',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -130,7 +130,7 @@
         'pewresearch/prc-block-library' => array(
             'pretty_version' => 'dev-trunk',
             'version' => 'dev-trunk',
-            'reference' => 'c23d0bf0cff1b58c1cfa794eea354659c2a60f32',
+            'reference' => '804ddde449658d8cb94e2325ff2a2de1d02e8bbf',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

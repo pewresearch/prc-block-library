@@ -51,7 +51,11 @@ $state-tablet-max: 782px;
  * A divider is drawn before any child that is not first in its row (computed in
  * the editor and persisted per child). Full-width children get a horizontal
  * divider (border-top); side-by-side children get a vertical divider
- * (border-left positioned in the column gutter).
+ * (border-left positioned in the column gutter). When Gutenberg auto-fill
+ * wraps the grid to one column, `is-stacked` (Interactivity API, measured
+ * tracks) flips leftover vertical rules to horizontal (border-top). The
+ * editor uses `is-stacked-on-tablet` / `is-stacked-on-mobile` with the
+ * device-preview toolbar because IAPI does not run in the canvas.
  */
 @mixin grid-vertical-divider {
 	&::before {
@@ -62,6 +66,7 @@ $state-tablet-max: 782px;
 		left: calc(-0.5 * var(--grid-gutter, 24px));
 		width: 0;
 		height: calc(100% - 2 * var(--divider-inset, 0px));
+		border-top: 0;
 		border-left: var(--divider-width, 1px) var(--divider-style, solid)
 			var(--divider-color, transparent);
 	}
@@ -76,6 +81,7 @@ $state-tablet-max: 782px;
 		left: var(--divider-inset, 0px);
 		width: calc(100% - 2 * var(--divider-inset, 0px));
 		height: 0;
+		border-left: 0;
 		border-top: var(--divider-width, 1px) var(--divider-style, solid)
 			var(--divider-color, transparent);
 	}
@@ -94,11 +100,16 @@ $state-tablet-max: 782px;
  */
 :root:not(:has(.is-desktop-preview, .is-tablet-preview, .is-mobile-preview)) {
 	.wp-block-group.is-layout-grid.has-divider {
-		// Desktop dividers (base).
-		& > .has-desktop-divider:not(.is-desktop-full-width) {
+		// Desktop dividers (base). Auto-fill can still wrap inside a
+		// narrow content column on a desktop-width viewport, so honor
+		// measured `.is-stacked` the same way tablet/mobile do.
+		&.is-stacked > .has-desktop-divider {
+			@include grid-horizontal-divider;
+		}
+		&:not(.is-stacked) > .has-desktop-divider:not(.is-desktop-full-width) {
 			@include grid-vertical-divider;
 		}
-		& > .has-desktop-divider.is-desktop-full-width {
+		&:not(.is-stacked) > .has-desktop-divider.is-desktop-full-width {
 			@include grid-horizontal-divider;
 		}
 
@@ -106,22 +117,31 @@ $state-tablet-max: 782px;
 			& > .has-desktop-divider::before {
 				display: none;
 			}
-			& > .has-tablet-divider:not(.is-tablet-full-width) {
+			&.is-stacked > .has-tablet-divider {
+				@include grid-horizontal-divider;
+			}
+			&:not(.is-stacked)
+				> .has-tablet-divider:not(.is-tablet-full-width) {
 				@include grid-vertical-divider;
 			}
-			& > .has-tablet-divider.is-tablet-full-width {
+			&:not(.is-stacked) > .has-tablet-divider.is-tablet-full-width {
 				@include grid-horizontal-divider;
 			}
 		}
 
 		@media (max-width: #{$state-mobile-max}) {
-			& > .has-desktop-divider::before {
+			& > .has-desktop-divider::before,
+			& > .has-tablet-divider::before {
 				display: none;
 			}
-			& > .has-mobile-divider:not(.is-mobile-full-width) {
+			&.is-stacked > .has-mobile-divider {
+				@include grid-horizontal-divider;
+			}
+			&:not(.is-stacked)
+				> .has-mobile-divider:not(.is-mobile-full-width) {
 				@include grid-vertical-divider;
 			}
-			& > .has-mobile-divider.is-mobile-full-width {
+			&:not(.is-stacked) > .has-mobile-divider.is-mobile-full-width {
 				@include grid-horizontal-divider;
 			}
 		}
@@ -151,10 +171,14 @@ $state-tablet-max: 782px;
 	& > .has-desktop-divider::before {
 		display: none;
 	}
-	& > .has-tablet-divider:not(.is-tablet-full-width) {
+	&.is-stacked-on-tablet > .has-tablet-divider {
+		@include grid-horizontal-divider;
+	}
+	&:not(.is-stacked-on-tablet)
+		> .has-tablet-divider:not(.is-tablet-full-width) {
 		@include grid-vertical-divider;
 	}
-	& > .has-tablet-divider.is-tablet-full-width {
+	&:not(.is-stacked-on-tablet) > .has-tablet-divider.is-tablet-full-width {
 		@include grid-horizontal-divider;
 	}
 	& > .has-mobile-divider::before {
@@ -167,10 +191,14 @@ $state-tablet-max: 782px;
 	& > .has-tablet-divider::before {
 		display: none;
 	}
-	& > .has-mobile-divider:not(.is-mobile-full-width) {
+	&.is-stacked-on-mobile > .has-mobile-divider {
+		@include grid-horizontal-divider;
+	}
+	&:not(.is-stacked-on-mobile)
+		> .has-mobile-divider:not(.is-mobile-full-width) {
 		@include grid-vertical-divider;
 	}
-	& > .has-mobile-divider.is-mobile-full-width {
+	&:not(.is-stacked-on-mobile) > .has-mobile-divider.is-mobile-full-width {
 		@include grid-horizontal-divider;
 	}
 }

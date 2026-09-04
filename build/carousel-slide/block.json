@@ -31,7 +31,7 @@
       "allowSwitching": false,
       "allowInheriting": false,
       "allowOrientation": false,
-      "allowVerticalAlignment": true,
+      "allowVerticalAlignment": false,
       "allowJustification": true,
       "allowSizingOnChildren": true
     },

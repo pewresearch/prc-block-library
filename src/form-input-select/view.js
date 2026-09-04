@@ -5,9 +5,18 @@ import {
 	store,
 	getContext,
 	getElement,
-	getServerState,
 	withSyncEvent,
 } from '@wordpress/interactivity';
+
+/**
+ * Internal Dependencies
+ */
+import {
+	visibleOptions,
+	nextWindow,
+	hasMoreOptions,
+	shouldAdvanceWindow,
+} from './visible-options';
 
 const { state, actions } = store('prc-block/form-input-select', {
 	state: {
@@ -98,9 +107,12 @@ const { state, actions } = store('prc-block/form-input-select', {
 		},
 		get inputValue() {
 			const context = getContext();
-			const { id } = context;
+			const { id, searchTerm } = context;
 			if (!id || !state[id]) {
 				return '';
+			}
+			if (state[id].isOpen) {
+				return searchTerm ?? '';
 			}
 			return state[id].value || '';
 		},
@@ -122,7 +134,7 @@ const { state, actions } = store('prc-block/form-input-select', {
 		},
 		get hasClearIcon() {
 			const context = getContext();
-			const { id, hasClearIcon } = context;
+			const { id, hasClearIcon, searchTerm } = context;
 			if (!id || !state[id]) {
 				return false;
 			}
@@ -131,30 +143,17 @@ const { state, actions } = store('prc-block/form-input-select', {
 			}
 			return false;
 		},
-		/**
-		 * Gets the full options list, or a filtered list based on the search term
-		 * for the input.
-		 */
 		get inputOptions() {
 			const context = getContext();
-			const { id, searchTerm } = context;
+			const { id, searchTerm, listWindow } = context;
 			if (!id || !state[id]) {
 				return [];
 			}
-			let options = state[id].options || [];
-			if (searchTerm && searchTerm.length > 0 && options) {
-				const filteredOptions = options.filter((option) =>
-					option.label
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase())
-				);
-				if (filteredOptions.length > 0) {
-					options = filteredOptions;
-				} else {
-					options = options;
-				}
-			}
-			return options;
+			return visibleOptions(
+				state[id].options || [],
+				searchTerm,
+				listWindow
+			);
 		},
 	},
 	actions: {
@@ -195,17 +194,14 @@ const { state, actions } = store('prc-block/form-input-select', {
 				'Escape',
 				'Tab',
 			];
-			const isNavigationKey = navigationKeys.includes(event.key);
 
-			// Handle arrow keys specifically to prevent page scrolling
 			if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
 				event.preventDefault();
 				event.stopPropagation();
-				// Let onInputKeyUp handle the actual navigation logic
 				return;
 			}
 
-			// If search is not allowed and this is not a navigation key, prevent the default behavior
+			const isNavigationKey = navigationKeys.includes(event.key);
 			if (!allowSearch && !isNavigationKey) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -218,9 +214,13 @@ const { state, actions } = store('prc-block/form-input-select', {
 				event.stopPropagation();
 				const { inputOptions } = state;
 				if (inputOptions && inputOptions[activeIndex]) {
-					const { label, value, disabled } = inputOptions[activeIndex];
-					if ( disabled ) { return; }
+					const { label, value, disabled } =
+						inputOptions[activeIndex];
+					if (disabled) {
+						return;
+					}
 
+					getContext().searchTerm = '';
 					state[id].value = value;
 					state[id].label = label;
 					state[id].isOpen = false;
@@ -229,21 +229,25 @@ const { state, actions } = store('prc-block/form-input-select', {
 				}
 			}
 		}),
+		onInputInput: withSyncEvent((event) => {
+			const context = getContext();
+			const { allowSearch } = context;
+			if (!allowSearch) {
+				return;
+			}
+			if (context.searchTerm !== event.target.value) {
+				context.searchTerm = event.target.value;
+				context.activeIndex = 0;
+			}
+		}),
 		onInputKeyUp: withSyncEvent((event) => {
 			const context = getContext();
-			const { id, allowSearch } = context;
+			const { id } = context;
 
-			// Only update search term if search is allowed
-			if (allowSearch) {
-				context.searchTerm = event.target.value;
-			}
-
-			// Open dropdown if not already open
 			if (!state[id].isOpen) {
 				state[id].isOpen = true;
 			}
 
-			// Handle arrow key navigation (works regardless of allowSearch)
 			if (event.key === 'ArrowDown') {
 				event.preventDefault();
 				event.stopPropagation();
@@ -257,12 +261,27 @@ const { state, actions } = store('prc-block/form-input-select', {
 				return;
 			}
 
-			// Close dropdown on escape key
 			if (event.key === 'Escape') {
 				state[id].isOpen = false;
 			}
 		}),
-		onLabelClick: withSyncEvent((event) => {
+		onListScroll: withSyncEvent((event) => {
+			const context = getContext();
+			const { id, searchTerm, listWindow } = context;
+			const catalog = state[id]?.options || [];
+			if (
+				!shouldAdvanceWindow(
+					event.target,
+					catalog,
+					searchTerm,
+					listWindow
+				)
+			) {
+				return;
+			}
+			context.listWindow = nextWindow(catalog, searchTerm, listWindow);
+		}),
+		onLabelClick: withSyncEvent(() => {
 			const { id } = getContext();
 			// find the input element and focus it.
 			const input = document.getElementById(id);
@@ -270,45 +289,72 @@ const { state, actions } = store('prc-block/form-input-select', {
 				input.focus();
 			}
 		}),
-		onInputClearButtonClick: withSyncEvent((event) => {
-			const { id } = getContext();
-			const { targetNamespace } = getContext();
-			getContext().searchTerm = '';
+		onInputClearButtonClick: withSyncEvent(() => {
+			const context = getContext();
+			const { id, targetNamespace } = context;
+			context.searchTerm = '';
+			context.activeIndex = 0;
+			context.listWindow = null;
 			state[id].value = '';
 			state[id].label = '';
 			state[id].isOpen = false;
 			actions.hoistValueToTargetState(id, targetNamespace);
 		}),
 		moveThroughChoices: (direction, ref) => {
-			const { inputOptions } = state;
-			const { activeIndex } = getContext();
-
-			
-			// Determine next active index.
-			let nextActive = null;
-			if (activeIndex === null || isNaN(activeIndex)) {
-				nextActive = 0;
-			} else {
-				nextActive = activeIndex + direction;
+			const context = getContext();
+			const { id, searchTerm, listWindow, activeIndex } = context;
+			const catalog = state[id]?.options || [];
+			let options = state.inputOptions;
+			if (!options.length) {
+				return;
 			}
+
+			let nextActive =
+				activeIndex === null || isNaN(activeIndex)
+					? 0
+					: activeIndex + direction;
+
+			if (
+				nextActive >= options.length &&
+				hasMoreOptions(catalog, searchTerm, listWindow)
+			) {
+				context.listWindow = nextWindow(
+					catalog,
+					searchTerm,
+					listWindow
+				);
+				options = state.inputOptions;
+			}
+
 			if (nextActive < 0) {
-				nextActive = inputOptions.length - 1;
+				nextActive = options.length - 1;
 			}
-			if (nextActive >= inputOptions.length) {
+			if (nextActive >= options.length) {
 				nextActive = 0;
 			}
 
-			// Get the next active value.
-			const nextActiveValue = inputOptions[nextActive].value;
-			// And then scroll the listbox to the active item.
+			const nextOption = options[nextActive];
+			if (!nextOption) {
+				return;
+			}
+
+			context.activeIndex = nextActive;
+			actions.highlightActiveOption(ref, nextOption.value);
+		},
+		highlightActiveOption: (ref, nextActiveValue) => {
 			const listbox = ref.parentElement.parentElement.querySelector(
 				'.wp-block-prc-block-form-input-select__list'
 			);
-			const activeItem = listbox.querySelector(
-				`[data-ref-value="${nextActiveValue}"]`
-			);
-			if (activeItem) {
-				// Remove the active class from the previous active item.
+			if (!listbox) {
+				return;
+			}
+			const applyHighlight = () => {
+				const activeItem = listbox.querySelector(
+					`[data-ref-value="${nextActiveValue}"]`
+				);
+				if (!activeItem) {
+					return false;
+				}
 				const previousActive = listbox.querySelector('.is-selected');
 				if (previousActive) {
 					previousActive.classList.remove('is-selected');
@@ -317,30 +363,55 @@ const { state, actions } = store('prc-block/form-input-select', {
 				activeItem.scrollIntoView({
 					block: 'nearest',
 				});
+				return true;
+			};
+			if (!applyHighlight()) {
+				window.requestAnimationFrame(applyHighlight);
 			}
-
-			getContext().activeIndex = nextActive;
 		},
+		onInputOptionPointerDown: withSyncEvent((event) => {
+			// Keep focus on the combobox. Blur hides the list
+			// (visibility: hidden) before click, so the option never commits.
+			// Do not commit here: pointerdown also starts a pan on overflowing lists.
+			event.preventDefault();
+		}),
 		onInputOptionClick: withSyncEvent((event) => {
 			event.preventDefault();
 			const context = getContext();
 			const { id, targetNamespace } = context;
-			const { value, label, disabled } = context.option;
-			if ( disabled ) { return; }
+			if (!id || !state[id]) {
+				return;
+			}
+			const target = event.currentTarget;
+			const option = context.option || {};
+			const value =
+				option.value ??
+				(target && typeof target.getAttribute === 'function'
+					? target.getAttribute('data-ref-value')
+					: null);
+			const label =
+				option.label ??
+				(typeof target?.textContent === 'string'
+					? target.textContent.trim()
+					: '');
+			if (option.disabled || null === value || undefined === value) {
+				return;
+			}
+			context.searchTerm = '';
 			state[id].value = value;
 			state[id].label = label;
 			state[id].isOpen = false;
 
 			actions.hoistValueToTargetState(id, targetNamespace);
 		}),
-		onInputFocus: withSyncEvent((event) => {
+		onInputFocus: withSyncEvent(() => {
 			const context = getContext();
 			const { id } = context;
 			if (state[id]) {
 				state[id].isOpen = true;
 			}
 		}),
-		onInputBlur: withSyncEvent((event) => {
+		onInputBlur: withSyncEvent(() => {
 			// By default this runs on the on-blur directive on the input element
 			// but we also use it as a shortcut to close the listbox on click,
 
@@ -359,7 +430,7 @@ const { state, actions } = store('prc-block/form-input-select', {
 				}, 150);
 			}
 		}),
-		onDropdownArrowClick: withSyncEvent((event) => {
+		onDropdownArrowClick: withSyncEvent(() => {
 			const context = getContext();
 			const { id } = context;
 			if (state[id]) {

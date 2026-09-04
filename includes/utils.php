@@ -1,13 +1,21 @@
 <?php
 /**
- * Utility functions
+ * Utility functions for the block library plugin.
+ *
  * Please wrap functions in an if ( ! function_exists() ) { } block to avoid conflicts.
+ *
+ * @package PRC\Platform\Block_Library
  */
 
-/**
- * Converts a number to a string of words. Stops at 999, we need to be sane about how many possibilities we support and text length.
- */
 if ( ! function_exists( 'convert_number_to_words' ) ) {
+	/**
+	 * Converts a number to a string of words.
+	 *
+	 * Stops at 999 to keep supported ranges and output length reasonable.
+	 *
+	 * @param int|numeric-string $num Number to convert.
+	 * @return string|WP_Error Words for the number, or an error object.
+	 */
 	function convert_number_to_words( $num ) {
 		if ( is_numeric( $num ) ) {
 			$num = (int) $num;
@@ -16,7 +24,7 @@ if ( ! function_exists( 'convert_number_to_words' ) ) {
 			return new WP_Error( 'invalid_input', 'Input must be an integer.' );
 		}
 
-		$ones = array(
+		$ones     = array(
 			0  => 'zero',
 			1  => 'one',
 			2  => 'two',
@@ -38,7 +46,7 @@ if ( ! function_exists( 'convert_number_to_words' ) ) {
 			18 => 'eighteen',
 			19 => 'nineteen',
 		);
-		$tens = array(
+		$tens     = array(
 			0 => '',
 			1 => 'ten',
 			2 => 'twenty',
@@ -59,7 +67,7 @@ if ( ! function_exists( 'convert_number_to_words' ) ) {
 			return new WP_Error( 'out_of_range', 'Input must be between 0 and 999.' );
 		}
 
-		if ( $num == 0 ) {
+		if ( 0 === $num ) {
 			return esc_html( $ones[0] );
 		}
 
@@ -93,33 +101,27 @@ if ( ! function_exists( 'convert_number_to_words' ) ) {
 
 
 /**
- * A standardized function to throw and log errors.
- * @param string $group
- * @param string $code
- * @param string $message
- * @param bool $post = WP_Post object
- * @param bool $error_obj = WP_Error object
- * @return Exception|false
+ * Log a standardized error and return an exception when applicable.
+ *
+ * @param string      $group     Error group label.
+ * @param string      $code      Error code.
+ * @param string      $message   Human-readable message.
+ * @param array|mixed $error_obj Optional contextual error data.
+ * @return \Exception|false
  */
 function prc_log_error( $group = 'GENERAL ALERT', $code = '', $message = '', $error_obj = array() ) {
-	$error = $group . ' | ' . $message;
-	$e = new WP_Error( $code, sprintf( '%s', $error ), $error_obj );
+	$error     = $group . ' | ' . $message;
+	$e         = new WP_Error( $code, sprintf( '%s', $error ), $error_obj );
 	$exception = false;
-	if (is_wp_error($e)) {
-		$exception = new \Exception($e->get_error_message(), $e->get_error_code());
-	}
-
-	if ( function_exists( 'wp_sentry_safe' ) ) {
-		wp_sentry_safe(
-		function ( \Sentry\State\HubInterface $client ) use ( $exception ) {
-			$client->captureException($exception);
-		}
-		);
+	if ( is_wp_error( $e ) ) {
+		$exception = new \Exception( $e->get_error_message(), $e->get_error_code() );
 	}
 
 	if ( 'production' !== wp_get_environment_type() ) {
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- non-production diagnostics only.
 		error_log( $error );
 		if ( $error_obj ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_print_r -- non-production diagnostics only.
 			error_log( print_r( $error_obj, true ) );
 		}
 	}
@@ -132,7 +134,7 @@ function prc_log_error( $group = 'GENERAL ALERT', $code = '', $message = '', $er
  *
  * Returns an empty array when the manifest is missing (e.g. local VIP without
  * a full plugin build). Callers treat that as "no metadata" and skip asset
- * registration rather than emitting include() Warnings into Sentry.
+ * registration rather than emitting include() warnings in logs.
  *
  * @param string $block_name Block directory name under build/ (e.g. 'core-paragraph').
  * @return array Block metadata from the manifest, or an empty array.

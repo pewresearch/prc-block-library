@@ -81,6 +81,16 @@ class Taxonomy_Search {
 	}
 
 	/**
+	 * Build the taxonomy-search object-cache key.
+	 *
+	 * @param array $args Query args included in the hash.
+	 * @return string
+	 */
+	public static function build_search_cache_key( array $args ): string {
+		return 'taxonomy_search_' . md5( wp_json_encode( $args ) );
+	}
+
+	/**
 	 * Search a taxonomy for a term value.
 	 *
 	 * Returns data specifically formatted for the Semantic UI React Search component.
@@ -95,21 +105,24 @@ class Taxonomy_Search {
 		$per_page       = $request->get_param( 'per_page' );
 
 		$args = array(
-			'taxonomy'     => $taxonomy,
-			'per_page'     => $per_page,
-			'hierarchical' => true,
-			'hide_empty'   => true,
+			'taxonomy'       => $taxonomy,
+			'per_page'       => $per_page,
+			'hierarchical'   => true,
+			'hide_empty'     => true,
+			'parent_term_id' => $parent_term_id,
 		);
 
 		if ( $search_value ) {
 			$args['search'] = $search_value;
 		}
 
-		$cache_key    = 'taxonomy_search_' . md5( json_encode( $args ) );
-		$cached_terms = wp_cache_get( $cache_key );
+		$cache_key    = self::build_search_cache_key( $args );
+		$cached_terms = wp_cache_get( $cache_key, 'prc_block_library' );
 		if ( false !== $cached_terms ) {
 			return $cached_terms;
 		}
+
+		unset( $args['parent_term_id'] );
 
 		$parent_term_children = false;
 		// Store children of the parent termporarily so we can filter everything except them, later.

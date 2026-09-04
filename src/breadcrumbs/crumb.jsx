@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import { Icon } from '@prc/icons';
 
 /**
  * WordPress Dependencies
@@ -9,10 +10,6 @@ import { RichText } from '@wordpress/block-editor';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { decodeEntities } from '@wordpress/html-entities';
-
-/**
- * Internal Dependencies
- */
 
 export default function Crumb({
 	addLeadingSeparator,
@@ -23,14 +20,12 @@ export default function Crumb({
 	separator,
 	setAttributes,
 	showSeparator,
+	asIcon = false,
+	hasDropdown = false,
 }) {
 	let crumbAnchor;
 	let separatorSpan;
 
-	// Keep track of whether or not the title field has been edited.
-	// This allows the default site title to be rendered as full "real" text.
-	// Then, when it's edited, if the title is removed, it is displayed as a placeholder,
-	// until the block is de-selected, where it is then treated as real text again.
 	const [isDirty, setIsDirty] = useState();
 
 	useEffect(() => {
@@ -53,10 +48,35 @@ export default function Crumb({
 		);
 	}
 
-	if (editableTitleField) {
+	const caret = hasDropdown ? (
+		<span className="prc-block-breadcrumbs__caret" aria-hidden="true">
+			<Icon icon="caret-down" library="solid" size={0.7} />
+		</span>
+	) : null;
+
+	const itemClassName = hasDropdown
+		? 'prc-block-breadcrumbs__item has-dropdown'
+		: 'prc-block-breadcrumbs__item';
+
+	if (asIcon) {
 		/* eslint-disable jsx-a11y/anchor-is-valid */
 		crumbAnchor = (
-			<div className="prc-block-breadcrumbs__item">
+			<div className={itemClassName}>
+				<a
+					href="#"
+					onClick={(event) => event.preventDefault()}
+					aria-label={crumbTitle || __('Home')}
+				>
+					<Icon icon="house" library="solid" size={1} />
+				</a>
+				{caret}
+			</div>
+		);
+		/* eslint-enable */
+	} else if (editableTitleField) {
+		/* eslint-disable jsx-a11y/anchor-is-valid */
+		crumbAnchor = (
+			<div className={itemClassName}>
 				<a href="#" onClick={(event) => event.preventDefault()}>
 					{isSelected ? (
 						<RichText
@@ -65,7 +85,7 @@ export default function Crumb({
 							withoutInteractiveFormatting
 							value={
 								isDirty
-									? crumbTitle ?? placeholder
+									? (crumbTitle ?? placeholder)
 									: crumbTitle || placeholder
 							}
 							onChange={(html) => {
@@ -77,24 +97,32 @@ export default function Crumb({
 						crumbTitle || placeholder
 					)}
 				</a>
+				{caret}
 			</div>
 		);
 		/* eslint-enable */
 	} else if (crumbTitle) {
 		/* eslint-disable jsx-a11y/anchor-is-valid */
 		crumbAnchor = (
-			<a className="prc-block-breadcrumbs__item" href="#" onClick={(event) => event.preventDefault()}>
-				{decodeEntities(crumbTitle)}
-			</a>
+			<div className={itemClassName}>
+				<a
+					className="prc-block-breadcrumbs__link"
+					href="#"
+					onClick={(event) => event.preventDefault()}
+				>
+					{decodeEntities(crumbTitle)}
+				</a>
+				{caret}
+			</div>
 		);
 		/* eslint-enable */
 	}
 
 	return (
 		<>
-		{addLeadingSeparator ? separatorSpan : null}
-		{crumbAnchor}
-		{showSeparator ? separatorSpan : null}
+			{addLeadingSeparator ? separatorSpan : null}
+			{crumbAnchor}
+			{showSeparator ? separatorSpan : null}
 		</>
 	);
 }

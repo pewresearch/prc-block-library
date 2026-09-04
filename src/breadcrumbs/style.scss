@@ -1,8 +1,5 @@
 /**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
+ * Frontend and editor styles for the breadcrumbs trail.
  */
 
 .wp-block-prc-block-breadcrumbs {
@@ -10,16 +7,16 @@
 	background: transparent;
 
 	.prc-block-breadcrumbs__list {
-		display: -webkit-box;
-		overflow: hidden;
-		line-clamp: 1;
-		-webkit-line-clamp: 1;
-		-webkit-box-orient: vertical;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		overflow: visible;
 		margin: 0;
 		padding: 0;
 
 		& > * {
-			display: inline-block;
+			display: inline-flex;
+			align-items: center;
 			margin-inline-end: var(--breadcrumbs-gap, 1em);
 
 			.rich-text {
@@ -29,27 +26,62 @@
 	}
 
 	.prc-block-breadcrumbs__item {
-		&:hover,
-		&:focus-within {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.2em;
+
+		&.has-dropdown.is-open {
 			.prc-block-breadcrumbs__sub_list {
 				display: flex;
 			}
 		}
 	}
 
+	.prc-block-breadcrumbs__trigger,
+	.prc-block-breadcrumbs__toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.2em;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background: none;
+		color: inherit;
+		font: inherit;
+		cursor: pointer;
+	}
+
+	.prc-block-breadcrumbs__trigger {
+		color: var(--wp--preset--color--ui-link-color, inherit);
+	}
+
+	.prc-block-breadcrumbs__caret {
+		display: inline-flex;
+		align-items: center;
+		color: var(--wp--preset--color--ui-gray-dark, #6c6c6c);
+		font-size: 0.7em;
+		line-height: 1;
+	}
+
 	.prc-block-breadcrumbs__sub_list {
 		display: none;
 		flex-direction: column;
+		align-items: flex-start;
 		gap: calc(var(--breadcrumbs-gap, 1em) / 2);
 		position: absolute;
-		background: white;
+		left: 0;
+		top: 100%;
+		background: var(--wp--preset--color--ui-white, white);
 		box-shadow: var(--wp--preset--shadow--natural);
 		padding: 0.8em;
 		z-index: 100;
-		top: 0;
-		transform: translateY(3em);
+		margin-top: 0.25em;
 		border-radius: 1em;
 		border: 1px solid var(--wp--preset--color--ui-gray-dark);
+		max-height: 20em;
+		overflow-y: auto;
+		min-width: 16em;
 
 		.prc-block-breadcrumbs__item {
 			display: block;

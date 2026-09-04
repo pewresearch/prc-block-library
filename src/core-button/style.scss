@@ -73,6 +73,13 @@
 	text-decoration: none !important;
 }
 
+.wp-block-button.is-style-link .wp-element-button {
+	&:hover,
+	&:focus-visible {
+		text-decoration: underline !important;
+	}
+}
+
 .wp-block-button.has-icon {
 	display: flex;
 	align-items: center;

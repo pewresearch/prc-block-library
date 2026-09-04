@@ -411,6 +411,9 @@ return array(
 						'is_current_page' => array(
 							'type' => 'boolean'
 						),
+						'asIcon' => array(
+							'type' => 'boolean'
+						),
 						'crumbs' => array(
 							'type' => 'array',
 							'items' => array(
@@ -426,6 +429,9 @@ return array(
 										'type' => 'string'
 									),
 									'is_current_page' => array(
+										'type' => 'boolean'
+									),
+									'asIcon' => array(
 										'type' => 'boolean'
 									)
 								)
@@ -463,6 +469,7 @@ return array(
 		'supports' => array(
 			'anchor' => true,
 			'html' => false,
+			'interactivity' => true,
 			'color' => array(
 				'background' => true,
 				'text' => true,
@@ -513,7 +520,8 @@ return array(
 		'textdomain' => 'breadcrumbs',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
 	),
 	'card' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -649,11 +657,11 @@ return array(
 			),
 			'dotColor' => array(
 				'type' => 'string',
-				'default' => 'black'
+				'default' => 'ui-black'
 			),
 			'arrowColor' => array(
 				'type' => 'string',
-				'default' => 'black'
+				'default' => 'ui-black'
 			),
 			'editorActiveSlideIndex' => array(
 				'type' => 'number',
@@ -760,7 +768,7 @@ return array(
 				'allowSwitching' => false,
 				'allowInheriting' => false,
 				'allowOrientation' => false,
-				'allowVerticalAlignment' => true,
+				'allowVerticalAlignment' => false,
 				'allowJustification' => true,
 				'allowSizingOnChildren' => true
 			),
@@ -1023,9 +1031,13 @@ return array(
 		'category' => 'widgets',
 		'textdomain' => 'core-group',
 		'editorScript' => 'file:./index.js',
+		'viewScriptModule' => 'file:./view.js',
 		'style' => array(
 			'file:./style-index.css',
 			'prc-block-library--baseball-card'
+		),
+		'supports' => array(
+			'interactivity' => true
 		)
 	),
 	'core-heading' => array(
@@ -3229,6 +3241,156 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
+	),
+	'navigation-panel' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/navigation-panel',
+		'version' => '0.1.0',
+		'title' => 'Navigation Panel',
+		'category' => 'design',
+		'description' => 'A navigation panel container with InnerBlocks, block context, and Interactivity API support.',
+		'attributes' => array(
+			'label' => array(
+				'type' => 'string'
+			),
+			'returnLabel' => array(
+				'type' => 'string'
+			),
+			'panelIconId' => array(
+				'type' => 'number'
+			),
+			'panelIconUrl' => array(
+				'type' => 'string'
+			)
+		),
+		'example' => array(
+			'attributes' => array(
+				'label' => 'Browse By Region'
+			),
+			'innerBlocks' => array(
+				array(
+					'name' => 'core/paragraph',
+					'attributes' => array(
+						'content' => 'Panel content goes here.'
+					)
+				)
+			)
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'interactivity' => true,
+			'spacing' => array(
+				'blockGap' => true,
+				'margin' => array(
+					'top',
+					'bottom'
+				),
+				'padding' => true,
+				'__experimentalDefaultControls' => array(
+					'padding' => true
+				)
+			)
+		),
+		'parent' => array(
+			'prc-block/navigation-panels'
+		),
+		'usesContext' => array(
+			'navigation-panel/activeIndex',
+			'navigation-panel/activeEditorIndex'
+		),
+		'textdomain' => 'navigation-panel',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScriptModule' => 'file:./view.js'
+	),
+	'navigation-panels' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'prc-block/navigation-panels',
+		'version' => '0.1.0',
+		'title' => 'Navigation Panels',
+		'category' => 'widgets',
+		'description' => 'Navigation panels with InnerBlocks content controlled by the Interactivity API.',
+		'allowedBlocks' => array(
+			'prc-block/navigation-panel'
+		),
+		'attributes' => array(
+			'activePanelIndex' => array(
+				'type' => 'number',
+				'default' => 0
+			),
+			'editorActivePanelIndex' => array(
+				'type' => 'number',
+				'role' => 'local'
+			),
+			'returnLabel' => array(
+				'type' => 'string',
+				'default' => 'Back',
+				'role' => 'local'
+			),
+			'level' => array(
+				'type' => 'string',
+				'default' => 'independent',
+				'enum' => array(
+					'independent',
+					'parent',
+					'child'
+				)
+			),
+			'desktopLayout' => array(
+				'type' => 'string',
+				'default' => 'left',
+				'enum' => array(
+					'left',
+					'top'
+				)
+			),
+			'mobileLayout' => array(
+				'type' => 'string',
+				'default' => 'top',
+				'enum' => array(
+					'left',
+					'top'
+				)
+			),
+			'optionsMinWidth' => array(
+				'type' => 'string',
+				'default' => '25%'
+			),
+			'navigationStyle' => array(
+				'type' => 'string',
+				'default' => 'none',
+				'enum' => array(
+					'none',
+					'play',
+					'angle-right'
+				)
+			)
+		),
+		'example' => array(
+			
+		),
+		'supports' => array(
+			'anchor' => true,
+			'html' => false,
+			'interactivity' => true,
+			'lock' => 'true'
+		),
+		'providesContext' => array(
+			'navigation-panel/activeIndex' => 'activePanelIndex',
+			'navigation-panel/activeEditorIndex' => 'editorActivePanelIndex'
+		),
+		'textdomain' => 'navigation-panels',
+		'editorScript' => 'file:./index.js',
+		'editorStyle' => 'file:./index.css',
+		'style' => array(
+			'file:./style-index.css',
+			'prc-block-form-input-checkbox-style'
+		),
 		'viewScriptModule' => 'file:./view.js'
 	),
 	'playground' => array(

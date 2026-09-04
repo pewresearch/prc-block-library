@@ -42,6 +42,13 @@ class Core_Group {
 	public $style_handle;
 
 	/**
+	 * View script module handle
+	 *
+	 * @var string
+	 */
+	public $view_script_module_handle;
+
+	/**
 	 * Size styles
 	 *
 	 * @var array
@@ -103,8 +110,9 @@ class Core_Group {
 	 * @return void
 	 */
 	public function register_assets() {
-		$this->editor_script_handle = register_block_script_handle( $this->block_json, 'editorScript' );
-		$this->style_handle         = register_block_style_handle( $this->block_json, 'style' );
+		$this->editor_script_handle      = register_block_script_handle( $this->block_json, 'editorScript' );
+		$this->style_handle              = register_block_style_handle( $this->block_json, 'style' );
+		$this->view_script_module_handle = register_block_script_module_id( $this->block_json, 'viewScriptModule' );
 	}
 
 	/**
@@ -135,9 +143,9 @@ class Core_Group {
 	 * Also adds dividerColor attribute for interior divider functionality.
 	 *
 	 * @hook block_type_metadata_settings 100, 2
-	 * @param mixed $settings
-	 * @param mixed $metadata
-	 * @return mixed
+	 * @param array $settings Block type settings.
+	 * @param array $metadata Block type metadata.
+	 * @return array Modified settings.
 	 */
 	public function add_settings( array $settings, array $metadata ) {
 		if ( 'core/group' === $metadata['name'] ) {
@@ -156,7 +164,7 @@ class Core_Group {
 					'grid/column/mobile/row',
 				)
 			);
-			// Add dividerColor attribute if not already present
+			// Add dividerColor attribute if not already present.
 			if ( ! array_key_exists( 'dividerColor', $settings['attributes'] ) ) {
 				$settings['attributes']['dividerColor'] = array(
 					'type'    => 'string',
@@ -186,9 +194,9 @@ class Core_Group {
 	 * Adds interior divider support and enqueues necessary styles.
 	 *
 	 * @hook render_block 100, 2
-	 * @param mixed $block_content
-	 * @param mixed $block
-	 * @return mixed
+	 * @param string $block_content Rendered block HTML.
+	 * @param array  $block         Parsed block.
+	 * @return string Updated HTML.
 	 */
 	public function render( $block_content, $block ) {
 		if ( 'core/group' !== $block['blockName'] || is_admin() ) {
@@ -215,7 +223,32 @@ class Core_Group {
 			$w->add_class( 'has-divider' );
 			$w->add_class( 'has-' . $divider_color . '-divider-color' );
 
-			$vars   = array();
+			// Observe computed grid tracks so leftover vertical rules flip when
+			// auto-fill wraps to one column (container width, not viewport).
+			if ( ! empty( $this->view_script_module_handle ) ) {
+				wp_enqueue_script_module( $this->view_script_module_handle );
+			}
+			if ( ! $w->get_attribute( 'data-wp-interactive' ) ) {
+				$w->set_attribute( 'data-wp-interactive', 'prc-block/core-group' );
+			}
+			$w->set_attribute(
+				'data-wp-context',
+				wp_json_encode(
+					array(
+						'isStacked' => false,
+					)
+				)
+			);
+			$w->set_attribute(
+				'data-wp-init--observe-stacking',
+				'prc-block/core-group::callbacks.observeStacking'
+			);
+			$w->set_attribute(
+				'data-wp-class--is-stacked',
+				'prc-block/core-group::context.isStacked'
+			);
+
+			$vars        = array();
 			$grid_gutter = \PRC\BlockUtils\get_block_gap_support_value( $block['attrs'], 'horizontal' );
 			if ( ! empty( $grid_gutter ) ) {
 				$vars[] = sprintf( '--grid-gutter:%s;', esc_attr( $grid_gutter ) );

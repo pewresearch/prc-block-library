@@ -28,6 +28,12 @@ import { store as blockStore } from '@wordpress/blocks';
  * Internal Dependencies
  */
 import Controls from './controls';
+import {
+	DEFAULT_WINDOW,
+	visibleOptions,
+	nextWindow,
+	shouldAdvanceWindow,
+} from './visible-options';
 
 export default function Edit({
 	attributes,
@@ -64,6 +70,10 @@ export default function Edit({
 	const [selectedValues, setSelectedValues] = useState([]);
 	const [inputValue, setInputValue] = useState('');
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const [listWindow, setListWindow] = useState({
+		query: '',
+		limit: DEFAULT_WINDOW,
+	});
 
 	const borderProps = useBorderProps(attributes);
 	const colorProps = useColorProps(attributes);
@@ -110,23 +120,16 @@ export default function Edit({
 		return context['form-input-select/options'] || [];
 	}, [context]);
 
-	// Filter options based on inputValue and exclude already selected or disabled
-	const filteredOptions = useMemo(() => {
-		const allOptions = [...options, ...contextualOptions];
-		// console.log('filteredOptions', {
-		// 	options,
-		// 	contextualOptions,
-		// 	selectedValues,
-		// 	inputValue,
-		// 	allOptions,
-		// });
-		return allOptions.filter(
+	const catalog = useMemo(() => {
+		return [...options, ...contextualOptions].filter(
 			(option) =>
-				!selectedValues.includes(option.value) &&
-				!option.disabled &&
-				option.label.toLowerCase().includes(inputValue.toLowerCase())
+				!selectedValues.includes(option.value) && !option.disabled
 		);
-	}, [options, contextualOptions, selectedValues, inputValue]);
+	}, [options, contextualOptions, selectedValues]);
+
+	const filteredOptions = useMemo(() => {
+		return visibleOptions(catalog, inputValue, listWindow);
+	}, [catalog, inputValue, listWindow]);
 
 	// Get label for a value
 	function getLabel(val) {
@@ -204,7 +207,7 @@ export default function Edit({
 						placeholder={placeholder}
 						value={inputValue}
 						onChange={(event) => {
-							event.preventDefault();
+							setInputValue(event.target.value);
 						}}
 						onBlur={(event) => {
 							setTimeout(() => setIsDropdownOpen(false), 250);
@@ -224,6 +227,24 @@ export default function Edit({
 							id={`dropdown-list-${clientId}`}
 							role="listbox"
 							className="wp-block-prc-block-form-input-select__list"
+							onScroll={(event) => {
+								if (
+									shouldAdvanceWindow(
+										event.currentTarget,
+										catalog,
+										inputValue,
+										listWindow
+									)
+								) {
+									setListWindow(
+										nextWindow(
+											catalog,
+											inputValue,
+											listWindow
+										)
+									);
+								}
+							}}
 						>
 							{filteredOptions.map((option, idx) => (
 								<li

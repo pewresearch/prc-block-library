@@ -61,11 +61,11 @@
     },
     "dotColor": {
       "type": "string",
-      "default": "black"
+      "default": "ui-black"
     },
     "arrowColor": {
       "type": "string",
-      "default": "black"
+      "default": "ui-black"
     },
     "editorActiveSlideIndex": {
       "type": "number",

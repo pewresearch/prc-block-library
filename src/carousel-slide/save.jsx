@@ -1,12 +1,17 @@
 /**
  * External Dependencies
  */
+import clsx from 'clsx';
 
 /**
  * WordPress Dependencies
  */
-
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+
+/**
+ * Internal Dependencies
+ */
+import { isSlideVerticallyStretched } from './utils';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -17,10 +22,16 @@ import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
  *
  * @param {Object} props            Properties passed to the function.
  * @param {Object} props.attributes Available block attributes.
- * @return {WPElement} Element to render.
+ * @return {*} Element to render.
  */
-export default function Save( { attributes } ) {
-	const blockProps = useBlockProps.save();
+export default function Save({ attributes }) {
+	const blockProps = useBlockProps.save({
+		className: clsx({
+			'is-vertically-aligned-stretch': isSlideVerticallyStretched(
+				attributes?.layout
+			),
+		}),
+	});
 	const innerBlocksProps = useInnerBlocksProps.save(blockProps);
 
 	return <div {...innerBlocksProps} />;

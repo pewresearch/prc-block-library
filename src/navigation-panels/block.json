@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/navigation-panels",
+	"version": "0.1.0",
+	"title": "Navigation Panels",
+	"category": "widgets",
+	"description": "Navigation panels with InnerBlocks content controlled by the Interactivity API.",
+	"allowedBlocks": [
+		"prc-block/navigation-panel"
+	],
+	"attributes": {
+		"activePanelIndex": {
+			"type": "number",
+			"default": 0
+		},
+		"editorActivePanelIndex": {
+			"type": "number",
+			"role": "local"
+		},
+		"returnLabel": {
+			"type": "string",
+			"default": "Back",
+			"role": "local"
+		},
+		"level": {
+			"type": "string",
+			"default": "independent",
+			"enum": ["independent", "parent", "child"]
+		},
+		"desktopLayout": {
+			"type": "string",
+			"default": "left",
+			"enum": ["left", "top"]
+		},
+		"mobileLayout": {
+			"type": "string",
+			"default": "top",
+			"enum": ["left", "top"]
+		},
+		"optionsMinWidth": {
+			"type": "string",
+			"default": "25%"
+		},
+		"navigationStyle": {
+			"type": "string",
+			"default": "none",
+			"enum": ["none", "play", "angle-right"]
+		}
+	},
+	"example": {},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"interactivity": true,
+		"lock": "true"
+	},
+	"providesContext": {
+		"navigation-panel/activeIndex": "activePanelIndex",
+		"navigation-panel/activeEditorIndex": "editorActivePanelIndex"
+	},
+	"textdomain": "navigation-panels",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": ["file:./style-index.css", "prc-block-form-input-checkbox-style"],
+	"viewScriptModule": "file:./view.js"
+}

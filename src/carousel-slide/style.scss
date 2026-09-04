@@ -3,4 +3,18 @@
 	&.has-background {
 		padding: var(--wp--preset--spacing--20);
 	}
+
+	// Gutenberg maps vertical flex Stretch to justify-content: stretch, which
+	// flexbox ignores. Grow direct inner blocks so they fill leftover height.
+	&.is-vertically-aligned-stretch {
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+
+		> :not(.block-list-appender) {
+			flex-grow: 1;
+			align-self: stretch;
+			min-height: 0;
+			width: 100%;
+		}
+	}
 }

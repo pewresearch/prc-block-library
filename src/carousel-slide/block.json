@@ -31,7 +31,7 @@
 			"allowSwitching": false,
 			"allowInheriting": false,
 			"allowOrientation": false,
-			"allowVerticalAlignment": true,
+			"allowVerticalAlignment": false,
 			"allowJustification": true,
 			"allowSizingOnChildren": true
 		},
@@ -61,9 +61,7 @@
 			}
 		]
 	},
-	"parent": [
-		"prc-block/carousel-controller"
-	],
+	"parent": ["prc-block/carousel-controller"],
 	"textdomain": "carousel-slide",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",

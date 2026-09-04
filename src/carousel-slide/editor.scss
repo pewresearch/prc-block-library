@@ -1,2 +1,7 @@
-.wp-block-prc-block-carousel-slide.wp-block {
+.wp-block-prc-block-carousel-slide.wp-block.is-vertically-aligned-stretch {
+	> .block-list-appender {
+		flex-grow: 0;
+		width: auto;
+		align-self: auto;
+	}
 }

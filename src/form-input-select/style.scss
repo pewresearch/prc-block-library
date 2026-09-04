@@ -100,6 +100,7 @@
 	&:not(.is-open) .wp-block-prc-block-form-input-select__list {
 		visibility: hidden;
 		opacity: 0;
+		pointer-events: none;
 		transition: opacity 0.15s ease-in-out;
 	}
 	.wp-block-prc-block-form-input-select__list {
@@ -109,32 +110,39 @@
 		right: 0;
 		width: 100%;
 		max-height: 200px;
-		background: #fff;
-		border: 1px solid #ccd0d4;
-		border-radius: 0 0 var(--wp--custom--border-radius) var(--wp--custom--border-radius);
+		background: var(--wp--preset--color--ui-white, #fff);
+		border: 1px solid var(--wp--preset--color--ui-gray-light, #ccd0d4);
+		border-radius: 0 0 var(--wp--custom--border-radius)
+			var(--wp--custom--border-radius);
 		margin-top: 2px;
-		box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+		box-shadow: var(
+			--wp--preset--shadow--shallow,
+			0 2px 3px 0 rgba(34, 36, 38, 0.15)
+		);
 		overflow-y: auto;
+		overflow-anchor: none;
 		padding: 0;
 		margin: 0;
 		list-style: none;
 		z-index: 1000;
 		transition: opacity 0.15s ease-in-out;
+		color: var(--wp--preset--color--ui-text-color, #1d2327);
 
 		li {
 			padding: 8px 12px;
 			cursor: pointer;
-			color: #1d2327;
+			color: var(--wp--preset--color--ui-text-color, #1d2327);
 			background: transparent;
-			&:hover {
-				background: var(--wp--preset--color--ui-gray-light, #f0f0f1);
-				color: var(--wp--preset--color--ui-gray-dark, #1d2327);
-			}
+			user-select: none;
+			&:hover,
 			&:active,
 			&.is-selected,
 			&[aria-selected="true"] {
-				background: #f0f0f1;
-				color: #1d2327;
+				background: var(--wp--preset--color--ui-gray-light, #f0f0f1);
+				color: var(--wp--preset--color--ui-text-color, #1d2327);
+			}
+			&.is-selected,
+			&[aria-selected="true"] {
 				font-weight: bold;
 			}
 			&[disabled="true"] {
@@ -178,30 +186,6 @@
 			width: calc(100% + 2em);
 			left: -1em;
 			right: -1em;
-		}
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	body.logged-in .wp-block-prc-block-form-input-select {
-		.wp-block-prc-block-form-input-select__input {
-			border-color: var(--wp--preset--color--ui-gray-dark);
-		}
-		.wp-block-prc-block-form-input-select__list {
-			background: var(--wp--preset--color--ui-white);
-			color: var(--wp--preset--color--ui-gray-very-dark);
-			li {
-				color: var(--wp--preset--color--ui-gray-very-dark);
-				&:hover {
-					background: var(--wp--preset--color--ui-gray-light);
-					color: var(--wp--preset--color--ui-gray-very-dark);
-				}
-				&:active,
-				&.is-selected,
-				&[aria-selected="true"] {
-					background: var(--wp--preset--color--ui-gray-light);
-				}
-			}
 		}
 	}
 }

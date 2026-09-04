@@ -1,0 +1,57 @@
+.wp-block-prc-block-navigation-panels {
+    display: flex;
+    align-content: stretch;
+	&__content {
+        width: 100%;
+       padding: 20px;
+	}
+    &__options{
+        width: 100%;
+        flex-shrink: 10;
+        padding: 20px;
+        
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            .panel-nav-icon{
+                width: 32px;
+                height: 32px;
+            }
+        }
+    }
+    .option-column{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .sub-navigation {
+        padding-left: 20px;
+    }
+}
+
+// MOBILE 
+@media (max-width: 782px) {
+    .wp-block-prc-block-navigation-panels {
+        .is-mobile-hidden{
+            display: none;
+        }
+        // Top layout closed: radio may be checked (default panel) but label must not look selected.
+        &.mobile-top > .wp-block-prc-block-navigation-panels__options .wp-block-prc-block-form-input-checkbox.is-style-label-only:has(input:checked){
+            font-weight: initial;
+        }
+
+    }
+}
+// DESKTOP
+@media (min-width: 783px) {
+    .wp-block-prc-block-navigation-panels {
+        .is-desktop-hidden{
+            display: none;
+        }
+        // Top layout closed: radio may be checked (default panel) but label must not look selected.
+        &.desktop-top > .wp-block-prc-block-navigation-panels__options .wp-block-prc-block-form-input-checkbox.is-style-label-only:has(input:checked){
+            font-weight: initial;
+        }
+    }
+}

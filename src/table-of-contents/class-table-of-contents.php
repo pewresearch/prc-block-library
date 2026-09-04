@@ -175,14 +175,19 @@ class Table_Of_Contents {
 	 * @hook init
 	 */
 	public function register_styles() {
-		$style_buffer  = '';
-		$style_buffer .= self::get_new_icon_styles( 'executive-summary', 'clipboard-list', 'regular' );
-		$style_buffer .= self::get_new_icon_styles( 'i-religious-affiliation-and-religious-switching', 'person-walking-arrow-loop-left' );
-		$style_buffer .= self::get_new_icon_styles( 'ii-religion-and-family-life', 'family-dress' );
-		$style_buffer .= self::get_new_icon_styles( 'iii-religious-or-spiritual-beliefs-and-practices', 'person-praying' );
-		$style_buffer .= self::get_new_icon_styles( 'iv-social-and-political-views', 'person-booth' );
-		$style_buffer .= self::get_new_icon_styles( 'v-opinions-on-religions-place-in-society', 'hands-praying' );
-		$style_buffer .= self::get_new_icon_styles( 'vi-demographics-of-u-s-religious-groups', 'user-plus' );
+		$cache_key    = 'icon_css_toc_rls_accordion_' . PRC_BLOCK_LIBRARY_VERSION;
+		$style_buffer = wp_cache_get( $cache_key, 'prc_block_library' );
+		if ( ! is_string( $style_buffer ) ) {
+			$style_buffer  = '';
+			$style_buffer .= self::get_new_icon_styles( 'executive-summary', 'clipboard-list', 'regular' );
+			$style_buffer .= self::get_new_icon_styles( 'i-religious-affiliation-and-religious-switching', 'person-walking-arrow-loop-left' );
+			$style_buffer .= self::get_new_icon_styles( 'ii-religion-and-family-life', 'family-dress' );
+			$style_buffer .= self::get_new_icon_styles( 'iii-religious-or-spiritual-beliefs-and-practices', 'person-praying' );
+			$style_buffer .= self::get_new_icon_styles( 'iv-social-and-political-views', 'person-booth' );
+			$style_buffer .= self::get_new_icon_styles( 'v-opinions-on-religions-place-in-society', 'hands-praying' );
+			$style_buffer .= self::get_new_icon_styles( 'vi-demographics-of-u-s-religious-groups', 'user-plus' );
+			wp_cache_set( $cache_key, $style_buffer, 'prc_block_library', DAY_IN_SECONDS );
+		}
 		register_block_style(
 			'prc-block/table-of-contents',
 			array(

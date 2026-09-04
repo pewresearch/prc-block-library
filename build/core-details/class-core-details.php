@@ -213,13 +213,20 @@ class Core_Details {
 	 * @return string The CSS styles.
 	 */
 	public static function get_base_icon_styles() {
+		$cache_key = 'icon_css_details_base_' . PRC_BLOCK_LIBRARY_VERSION;
+		$cached    = wp_cache_get( $cache_key, 'prc_block_library' );
+		if ( is_string( $cached ) ) {
+			return $cached;
+		}
 		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', 'caret-down', 'black' );
 		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'solid', 'caret-up', 'black' );
-		return wp_sprintf(
+		$css        = wp_sprintf(
 			'.wp-block-details > summary { list-style: none; } .wp-block-details > summary::-webkit-details-marker { display: none; } .wp-block-details > summary { display: flex; align-items: center; font-size: 1rem; gap: 0.25em; } .wp-block-details > summary::after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; background-image: url(%1$s); background-size: contain; background-repeat: no-repeat; flex-shrink: 0; } .wp-block-details[open] > summary::after { background-image: url(%2$s); }',
 			$open_icon,
 			$close_icon
 		);
+		wp_cache_set( $cache_key, $css, 'prc_block_library', DAY_IN_SECONDS );
+		return $css;
 	}
 
 	/**
@@ -229,9 +236,16 @@ class Core_Details {
 	 * @return string The CSS styles.
 	 */
 	public static function get_new_icon_styles( $style_name ) {
+		$cache_key = 'icon_css_details_' . $style_name . '_' . PRC_BLOCK_LIBRARY_VERSION;
+		$cached    = wp_cache_get( $cache_key, 'prc_block_library' );
+		if ( is_string( $cached ) ) {
+			return $cached;
+		}
 		$open_icon  = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-plus', 'black' );
 		$close_icon = \PRC\Platform\Icons\get_icon_as_data_uri( 'light', 'circle-minus', 'black' );
-		return wp_sprintf( '.wp-block-details.is-style-%1$s > summary::-webkit-details-marker { display: none } .wp-block-details.is-style-%1$s > summary { font-weight: bold; display: flex; align-items: center; font-size: 1rem; gap: 0.25em; } .wp-block-details.is-style-%1$s > summary:after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; } .wp-block-details.is-style-%1$s[open] > summary:after { background-image: url(%3$s); }', $style_name, $open_icon, $close_icon );
+		$css        = wp_sprintf( '.wp-block-details.is-style-%1$s > summary::-webkit-details-marker { display: none } .wp-block-details.is-style-%1$s > summary { font-weight: bold; display: flex; align-items: center; font-size: 1rem; gap: 0.25em; } .wp-block-details.is-style-%1$s > summary:after { content: ""; display: block; margin-left: 0.3em; width: 0.875em; height: 0.875em; background-image: url(%2$s); background-size: contain; background-repeat: no-repeat; } .wp-block-details.is-style-%1$s[open] > summary:after { background-image: url(%3$s); }', $style_name, $open_icon, $close_icon );
+		wp_cache_set( $cache_key, $css, 'prc_block_library', DAY_IN_SECONDS );
+		return $css;
 	}
 
 	/**

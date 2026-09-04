@@ -77,6 +77,9 @@
           "is_current_page": {
             "type": "boolean"
           },
+          "asIcon": {
+            "type": "boolean"
+          },
           "crumbs": {
             "type": "array",
             "items": {
@@ -92,6 +95,9 @@
                   "type": "string"
                 },
                 "is_current_page": {
+                  "type": "boolean"
+                },
+                "asIcon": {
                   "type": "boolean"
                 }
               }
@@ -129,6 +135,7 @@
   "supports": {
     "anchor": true,
     "html": false,
+    "interactivity": true,
     "color": {
       "background": true,
       "text": true,
@@ -179,5 +186,6 @@
   "textdomain": "breadcrumbs",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+  "style": "file:./style-index.css",
+  "viewScriptModule": "file:./view.js"
 }

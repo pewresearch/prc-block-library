@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "prc-block/navigation-panel",
+	"version": "0.1.0",
+	"title": "Navigation Panel",
+	"category": "design",
+	"description": "A navigation panel container with InnerBlocks, block context, and Interactivity API support.",
+	"attributes": {
+		"label": {
+			"type": "string"
+		},
+		"returnLabel": {
+			"type": "string"
+		},
+		"panelIconId": {
+			"type": "number"
+		},
+		"panelIconUrl": {
+			"type": "string"
+		}
+	},
+	"example": {
+		"attributes": {
+			"label": "Browse By Region"
+		},
+		"innerBlocks": [
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Panel content goes here."
+				}
+			}
+		]
+	},
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"interactivity": true,
+		"spacing": {
+			"blockGap": true,
+			"margin": ["top", "bottom"],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		}
+	},
+	"parent": ["prc-block/navigation-panels"],
+	"usesContext": [
+		"navigation-panel/activeIndex",
+		"navigation-panel/activeEditorIndex"
+	],
+	"textdomain": "navigation-panel",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScriptModule": "file:./view.js"
+}

@@ -99,7 +99,7 @@ class Breadcrumbs {
 	/**
 	 * Build a stable object key for cache invalidation.
 	 *
-	 * @param string                          $type_of_object Object type label.
+	 * @param string                                   $type_of_object Object type label.
 	 * @param \WP_Post|\WP_Term|\WP_Post_Type|\WP_User $current_object Queried object.
 	 * @return string|null
 	 */
@@ -141,11 +141,11 @@ class Breadcrumbs {
 	 *
 	 * @hook prc_platform_on_update
 	 *
-	 * @param \WP_Post $post Updated post.
+	 * @param object $post Post-like object from the publish pipeline.
 	 * @return void
 	 */
 	public function clear_cache_on_post_update( $post ): void {
-		if ( ! $post instanceof \WP_Post ) {
+		if ( ! is_object( $post ) || empty( $post->ID ) ) {
 			return;
 		}
 
@@ -399,77 +399,81 @@ class Breadcrumbs {
 	 * @return string
 	 */
 	public function render_block_callback( $attributes, $content, $block ) {
-		$context           = $block->context;
-		$show_current_page = ! empty( $attributes['showCurrentPageTitle'] );
+		unset( $content, $block );
+		$show_current_page  = ! empty( $attributes['showCurrentPageTitle'] );
 		$breadcrumb_context = $this->resolve_breadcrumb_context( get_queried_object() );
+		$trail              = null !== $breadcrumb_context
+			? $this->get_trail_breadcrumbs( $breadcrumb_context, $show_current_page )
+			: array();
+		$prefix             = $this->build_attribute_prefix( $attributes );
 
-		if ( null === $breadcrumb_context ) {
-			return '';
-		}
-
-		$breadcrumbs = $this->get_trail_breadcrumbs( $breadcrumb_context, $show_current_page );
-		$prefix      = array();
-
-		// Set up the home crumb if set to show.
-		if ( $attributes['showHome'] && ! empty( $attributes['homeCrumb']['text'] ) ) {
-			$home_url   = $attributes['homeCrumb']['url'] ?? home_url();
-			$home_label = $attributes['homeCrumb']['text'] ?? \PRC\Platform\Icons\render( 'solid', 'house' );
-			$prefix[]   = array(
-				'url'  => $home_url,
-				'text' => $home_label,
-			);
-		}
-
-		// Set up the index crumb if it exists.
-		if ( $attributes['showIndex'] && ! empty( $attributes['indexCrumb']['text'] ) ) {
-			$index_url = $attributes['indexCrumb']['url'] ?? '';
-			// Check if $index_url is a fully qualified URL.
-			if ( $index_url && ! preg_match( '/^https?:\/\//', $index_url ) ) {
-				$index_url = home_url( $index_url );
-			}
-			$index_label = $attributes['indexCrumb']['text'];
-			$prefix[]    = array(
-				'url'  => $index_url,
-				'text' => $index_label,
-			);
-		}
-
-		if ( ! empty( $prefix ) ) {
-			$breadcrumbs = array_merge( $prefix, $breadcrumbs );
-		}
+		$breadcrumbs = array_merge( $prefix, $trail );
 
 		/**
-		 * Filters the list of breadcrumb links within the Breadcrumbs block render callback.
+		 * Filters the list of breadcrumb crumbs.
 		 *
-		 * @since 6.3.0
+		 * Each crumb is `url`, `text`, and optional `asIcon`, `is_current_page`,
+		 * `visible`, and nested `crumbs` for a dropdown.
 		 *
-		 * @param array[] An array of Breadcrumb arrays with `url` and `title` keys.
+		 * Do not add a second filter argument. Religious Landscape Study reads
+		 * the second argument as a Schema.org flag.
+		 *
+		 * @param array[] $breadcrumbs Breadcrumb records.
 		 */
 		$breadcrumbs = apply_filters( 'prc_platform_breadcrumbs', $breadcrumbs );
 
-		// If no breadcrumbs are available, return an empty string.
 		if ( empty( $breadcrumbs ) ) {
 			return '';
 		}
 
-		$inner_markup = '';
-		foreach ( $breadcrumbs as $index => $breadcrumb ) {
-			$show_separator  = $index < count( $breadcrumbs ) - 1;
-			$child_crumbs    = $breadcrumb['crumbs'] ?? array();
-			$is_current_page = $breadcrumb['is_current_page'] ?? ( $show_current_page && count( $breadcrumbs ) - 1 === $index );
-			$crumb_visible   = $breadcrumb['visible'] ?? true;
+		$inner_markup  = '';
+		$has_dropdown  = false;
+		$visible_index = 0;
+		$total_visible = 0;
+		foreach ( $breadcrumbs as $breadcrumb ) {
+			if ( false !== ( $breadcrumb['visible'] ?? true ) ) {
+				++$total_visible;
+			}
+		}
+
+		foreach ( $breadcrumbs as $breadcrumb ) {
+			if ( ! is_array( $breadcrumb ) ) {
+				continue;
+			}
+			$crumb_visible = $breadcrumb['visible'] ?? true;
 			if ( ! $crumb_visible ) {
 				continue;
 			}
+			$child_crumbs = $breadcrumb['crumbs'] ?? array();
+			if ( ! empty( $child_crumbs ) ) {
+				$has_dropdown = true;
+			}
+			$show_separator  = $visible_index < $total_visible - 1;
+			$is_current_page = $breadcrumb['is_current_page'] ?? ( $show_current_page && $visible_index === $total_visible - 1 );
+			$text            = $breadcrumb['text'] ?? '';
+			$link_aria_label = '';
+			if ( ! empty( $breadcrumb['asIcon'] ) ) {
+				$link_aria_label = wp_strip_all_tags( $text );
+				if ( '' === $link_aria_label ) {
+					$link_aria_label = __( 'Home' );
+				}
+				$text = \PRC\Platform\Icons\render( 'solid', 'house' );
+			}
 			$inner_markup .= $this->build_crumb_markup(
-				$breadcrumb['url'],
-				$breadcrumb['text'],
+				$breadcrumb['url'] ?? '',
+				$text,
 				$attributes,
-				$index,
+				$visible_index,
 				$show_separator,
 				$is_current_page,
-				$child_crumbs
+				is_array( $child_crumbs ) ? $child_crumbs : array(),
+				$link_aria_label
 			);
+			++$visible_index;
+		}
+
+		if ( '' === $inner_markup ) {
+			return '';
 		}
 
 		$classnames = '';
@@ -487,22 +491,79 @@ class Breadcrumbs {
 			}
 		}
 
+		if ( $has_dropdown ) {
+			$classnames = trim( $classnames . ' has-dropdown' );
+		}
+
 		$block_gap = \PRC\BlockUtils\get_block_gap_support_value( $attributes, 'horizontal' );
 
-		$wrapper_attributes = get_block_wrapper_attributes(
-			array(
-				'id'         => wp_unique_id( 'breadcrumbs-' ),
-				'class'      => $classnames,
-				'aria-label' => __( 'Breadcrumbs' ),
-				'style'      => '--breadcrumbs-gap: ' . $block_gap . ';',
-			)
+		$wrapper_args = array(
+			'id'         => wp_unique_id( 'breadcrumbs-' ),
+			'class'      => $classnames,
+			'aria-label' => __( 'Breadcrumbs' ),
+			'style'      => '--breadcrumbs-gap: ' . $block_gap . ';',
 		);
+		if ( $has_dropdown ) {
+			$wrapper_args['data-wp-interactive'] = 'prc-block/breadcrumbs';
+		}
+
+		$wrapper_attributes = get_block_wrapper_attributes( $wrapper_args );
 
 		return wp_sprintf(
 			'<nav %1$s><div class="prc-block-breadcrumbs__list">%2$s</div></nav>',
 			$wrapper_attributes,
 			$inner_markup
 		);
+	}
+
+	/**
+	 * Build home, index, and authored crumbs from block attributes.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return array<int, array<string, mixed>>
+	 */
+	private function build_attribute_prefix( array $attributes ): array {
+		$prefix = array();
+
+		if ( ! empty( $attributes['showHome'] ) ) {
+			$as_icon   = ! empty( $attributes['homeCrumb']['asIcon'] );
+			$home_text = $attributes['homeCrumb']['text'] ?? '';
+			if ( $as_icon || '' !== $home_text ) {
+				$home_url = $attributes['homeCrumb']['url'] ?? home_url();
+				$prefix[] = array(
+					'url'    => $home_url,
+					'text'   => '' !== $home_text ? $home_text : __( 'Home' ),
+					'asIcon' => $as_icon,
+				);
+			}
+		}
+
+		if ( ! empty( $attributes['showIndex'] ) && ! empty( $attributes['indexCrumb']['text'] ) ) {
+			$index_url = $attributes['indexCrumb']['url'] ?? '';
+			if ( $index_url && ! preg_match( '/^https?:\/\//', $index_url ) ) {
+				$index_url = home_url( $index_url );
+			}
+			$prefix[] = array(
+				'url'  => $index_url,
+				'text' => $attributes['indexCrumb']['text'],
+			);
+		}
+
+		$static_crumbs = $attributes['crumbs'] ?? array();
+		if ( is_array( $static_crumbs ) ) {
+			foreach ( $static_crumbs as $static_crumb ) {
+				if ( ! is_array( $static_crumb ) ) {
+					continue;
+				}
+				$text = $static_crumb['text'] ?? '';
+				if ( '' === $text ) {
+					continue;
+				}
+				$prefix[] = $static_crumb;
+			}
+		}
+
+		return $prefix;
 	}
 
 	/**
@@ -517,15 +578,16 @@ class Breadcrumbs {
 	 * @param bool   $show_separator  Whether to show the separator character where available.
 	 * @param bool   $is_current_page Whether to mark the breadcrumb item as the current page.
 	 * @param array  $child_crumbs    Optional nested breadcrumbs.
+	 * @param string $link_aria_label Optional accessible name when the label is an icon.
 	 *
-	 * @return string The markup for a single breadcrumb item wrapped in an `li` element.
+	 * @return string The markup for a single breadcrumb item.
 	 */
-	public function build_crumb_markup( $url, $title, $attributes, $index, $show_separator = true, $is_current_page = false, $child_crumbs = array() ) {
+	public function build_crumb_markup( $url, $title, $attributes, $index, $show_separator = true, $is_current_page = false, $child_crumbs = array(), $link_aria_label = '' ) {
 		$separator_class = 'prc-block-breadcrumbs__separator';
+		$has_dropdown    = ! empty( $child_crumbs );
+		$has_url         = is_string( $url ) && '' !== $url;
+		$markup          = '';
 
-		$markup = '';
-
-		// Render leading separator, if enabled.
 		if (
 			! empty( $attributes['showLeadingSeparator'] ) &&
 			! empty( $attributes['separator'] ) &&
@@ -538,23 +600,89 @@ class Breadcrumbs {
 			);
 		}
 
-		// Wrap the entire crumb (link + child crumbs) in a container.
-		$markup .= '<div class="prc-block-breadcrumbs__item">';
+		$item_classes = 'prc-block-breadcrumbs__item';
+		if ( $has_dropdown ) {
+			$item_classes .= ' has-dropdown';
+		}
 
-		// Build the link.
-		$markup .= wp_sprintf(
-			'<a href="%s"%s><span>%s</span></a>',
-			esc_url( $url ),
-			$is_current_page ? ' aria-current="page"' : '',
-			$title,
+		$item_open = wp_sprintf(
+			'<div class="%s"',
+			esc_attr( $item_classes )
 		);
+		if ( $has_dropdown ) {
+			$item_open .= wp_sprintf(
+				' data-wp-context="%s" data-wp-class--is-open="context.isOpen" data-wp-on-document--click="actions.closeOnOutsideClick" data-wp-on-document--keydown="actions.closeOnEscape"',
+				esc_attr(
+					wp_json_encode(
+						array(
+							'isOpen' => false,
+						)
+					)
+				)
+			);
+		}
+		$markup .= $item_open . '>';
 
-		if ( ! empty( $child_crumbs ) ) {
-			$markup .= '<div class="prc-block-breadcrumbs__sub_list">';
+		$caret = $has_dropdown ? \PRC\Platform\Icons\render( 'solid', 'caret-down' ) : '';
+		$label = wp_sprintf( '<span>%s</span>', $title );
+		$aria  = '';
+		if ( '' !== $link_aria_label ) {
+			$aria = wp_sprintf( ' aria-label="%s"', esc_attr( $link_aria_label ) );
+		}
+		$current = $is_current_page ? ' aria-current="page"' : '';
+
+		if ( $has_dropdown && ! $has_url ) {
+			$markup .= wp_sprintf(
+				'<button type="button" class="prc-block-breadcrumbs__trigger" data-wp-on--click="actions.toggle" data-wp-bind--aria-expanded="context.isOpen" aria-haspopup="true"%1$s>%2$s<span class="prc-block-breadcrumbs__caret" aria-hidden="true">%3$s</span></button>',
+				$aria,
+				$label,
+				$caret
+			);
+		} elseif ( $has_url ) {
+			$markup .= wp_sprintf(
+				'<a href="%1$s"%2$s%3$s>%4$s</a>',
+				esc_url( $url ),
+				$current,
+				$aria,
+				$label
+			);
+			if ( $has_dropdown ) {
+				$toggle_label = '' !== $link_aria_label ? $link_aria_label : wp_strip_all_tags( (string) $title );
+				if ( '' === $toggle_label ) {
+					$toggle_label = __( 'submenu', 'breadcrumbs' );
+				}
+				/* translators: %s: Breadcrumb label for the dropdown menu. */
+				$toggle_aria = sprintf( __( 'Toggle %s menu', 'breadcrumbs' ), $toggle_label );
+				$markup     .= wp_sprintf(
+					'<button type="button" class="prc-block-breadcrumbs__toggle" data-wp-on--click="actions.toggle" data-wp-bind--aria-expanded="context.isOpen" aria-haspopup="true" aria-label="%1$s"><span class="prc-block-breadcrumbs__caret" aria-hidden="true">%2$s</span></button>',
+					esc_attr( $toggle_aria ),
+					$caret
+				);
+			}
+		} else {
+			$markup .= wp_sprintf(
+				'<span class="prc-block-breadcrumbs__label"%1$s>%2$s</span>',
+				$current,
+				$label
+			);
+		}
+
+		if ( $has_dropdown ) {
+			$markup .= '<div class="prc-block-breadcrumbs__sub_list" role="list" data-wp-on--click="actions.closeOnSubnavClick">';
 			foreach ( $child_crumbs as $child_crumb_index => $child_crumb ) {
+				if ( ! is_array( $child_crumb ) ) {
+					continue;
+				}
+				if ( false === ( $child_crumb['visible'] ?? true ) ) {
+					continue;
+				}
+				$child_text = $child_crumb['text'] ?? '';
+				if ( ! empty( $child_crumb['asIcon'] ) ) {
+					$child_text = \PRC\Platform\Icons\render( 'solid', 'house' );
+				}
 				$markup .= $this->build_crumb_markup(
-					$child_crumb['url'],
-					$child_crumb['text'],
+					$child_crumb['url'] ?? '',
+					$child_text,
 					array(),
 					$child_crumb_index,
 					false,
@@ -564,12 +692,9 @@ class Breadcrumbs {
 			$markup .= '</div>';
 		}
 
-		$markup .= '</div>'; // Close the crumb container.
+		$markup .= '</div>';
 
-		if (
-			$show_separator &&
-			! empty( $attributes['separator'] )
-		) {
+		if ( $show_separator && ! empty( $attributes['separator'] ) ) {
 			$markup .= wp_sprintf(
 				'<span class="%1$s" aria-hidden="true">%2$s</span>',
 				$separator_class,

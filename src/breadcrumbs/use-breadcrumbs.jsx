@@ -1,8 +1,4 @@
 /**
- * External Dependencies
- */
-
-/**
  * WordPress Dependencies
  */
 import { useMemo } from '@wordpress/element';
@@ -14,16 +10,16 @@ import { __ } from '@wordpress/i18n';
 import Crumb from './crumb';
 
 /**
- * Custom hook to construct breadcrumbs based on post hierarchy and settings
+ * Construct breadcrumbs from post hierarchy and block attributes.
  *
- * @param {Object}  config                      Configuration object
- * @param {Object}  config.attributes           Block attributes
- * @param {Array}   config.categories           Parent categories
- * @param {Array}   config.parents              Parent posts
- * @param {Object}  config.post                 Current post
- * @param {string}  config.siteTitle            Site title
- * @param {boolean} config.isSelected           Whether block is selected
- * @param {Function} config.setAttributes       Function to set attributes
+ * @param {Object}   config               Configuration object
+ * @param {Object}   config.attributes    Block attributes
+ * @param {Array}    config.categories    Parent categories
+ * @param {Array}    config.parents       Parent posts
+ * @param {Object}   config.post          Current post
+ * @param {string}   config.siteTitle     Site title
+ * @param {boolean}  config.isSelected    Whether block is selected
+ * @param {Function} config.setAttributes Function to set attributes
  * @return {Array} Array of Crumb components
  */
 export default function useBreadcrumbs({
@@ -43,23 +39,27 @@ export default function useBreadcrumbs({
 		showIndex,
 		homeCrumb,
 		indexCrumb,
+		crumbs: authoredCrumbs,
 	} = attributes;
 
 	return useMemo(() => {
-		// Set breadcrumb names to real hierarchical post titles if available, and
-		// fall back to category names, or placeholder content if neither exists.
-
 		const crumbs = [];
 		let breadcrumbTitles;
 
-		// Add home crumb if showHome is enabled
 		if (showHome) {
 			const homeText = homeCrumb?.text || siteTitle || __('Home');
 			crumbs.push(
 				<Crumb
 					addLeadingSeparator={false}
+					asIcon={!!homeCrumb?.asIcon}
 					crumbTitle={homeText}
-					editableTitleField="homeCrumb"
+					editableTitleField={
+						homeCrumb?.asIcon ? undefined : 'homeCrumb'
+					}
+					hasDropdown={
+						Array.isArray(homeCrumb?.crumbs) &&
+						homeCrumb.crumbs.length > 0
+					}
 					isSelected={isSelected}
 					placeholder={__('Home')}
 					separator={separator}
@@ -77,7 +77,6 @@ export default function useBreadcrumbs({
 			);
 		}
 
-		// Add index crumb if it exists
 		if (showIndex) {
 			const indexText = indexCrumb?.text || '';
 			crumbs.push(
@@ -102,6 +101,28 @@ export default function useBreadcrumbs({
 			);
 		}
 
+		const extraCrumbs = Array.isArray(authoredCrumbs) ? authoredCrumbs : [];
+		extraCrumbs.forEach((crumb, extraIndex) => {
+			if (!crumb?.text) {
+				return;
+			}
+			crumbs.push(
+				<Crumb
+					addLeadingSeparator={false}
+					asIcon={!!crumb.asIcon}
+					crumbTitle={crumb.text}
+					hasDropdown={
+						Array.isArray(crumb.crumbs) && crumb.crumbs.length > 0
+					}
+					isSelected={isSelected}
+					separator={separator}
+					setAttributes={setAttributes}
+					showSeparator={true}
+					key={crumb.id || `authored-crumb-${extraIndex}`}
+				/>
+			);
+		});
+
 		if (parents?.length) {
 			breadcrumbTitles = parents.map(
 				(parent) => parent?.title?.rendered || ' '
@@ -114,7 +135,6 @@ export default function useBreadcrumbs({
 			breadcrumbTitles = [__('Top-level page'), __('Child page')];
 		}
 
-		// Append current page title if set.
 		if (showCurrentPageTitle) {
 			breadcrumbTitles.push(post?.title || __('Current page'));
 		}
@@ -141,6 +161,7 @@ export default function useBreadcrumbs({
 
 		return crumbs;
 	}, [
+		authoredCrumbs,
 		categories,
 		homeCrumb,
 		indexCrumb,

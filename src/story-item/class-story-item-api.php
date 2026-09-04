@@ -42,11 +42,6 @@ class Story_Item_API {
 	 * @param array  $context The context for the block.
 	 */
 	public function __construct( $attributes = array(), $content = null, $context = array() ) {
-		$block_json_file  = PRC_BLOCK_LIBRARY_DIR . '/src/story-item/block.json';
-		$variations_file  = PRC_BLOCK_LIBRARY_DIR . '/src/story-item/variations.json';
-		self::$block_json = \wp_json_file_decode( $block_json_file, array( 'associative' => true ) );
-		// Setup data:
-		// do_action('qm/debug', 'Story_Item_API::'.print_r(['attrs' => $attributes, 'context' => $context,], true));
 		$this->attributes = wp_parse_args( $attributes, $this->construct_attribute_defaults() );
 		$this->context    = is_array( $context ) ? $context : array();
 		// if $this->context contains 'query' and queryId
@@ -89,12 +84,7 @@ class Story_Item_API {
 	}
 
 	private function construct_attribute_defaults() {
-		$attributes = self::$block_json['attributes'];
-		$defaults   = array();
-		foreach ( $attributes as $key => $opts ) {
-			$defaults[ $key ] = array_key_exists( 'default', $opts ) ? $opts['default'] : null;
-		}
-		return $defaults;
+		return Story_Item::attribute_defaults();
 	}
 
 	/**
@@ -105,16 +95,12 @@ class Story_Item_API {
 	 * @return string
 	 */
 	public function get_cache_key() {
-		$args = array(
-			'query_id'   => $this->check_for_context( 'queryId' ),
-			'post_id'    => $this->post_id,
-			'is_mobile'  => $this->is_mobile,
-			'version'    => Story_Item::get_cache_version( $this->post_id ),
-			'attributes' => $this->attributes,
-			'content'    => md5( (string) $this->inner_content ),
-			'invalidate' => Story_Item::$cache_invalidate,
+		return Story_Item::build_cache_key(
+			$this->attributes,
+			$this->inner_content,
+			$this->context,
+			$this->post_id
 		);
-		return md5( wp_json_encode( $args ) );
 	}
 
 	private function check_for_attr( $key ) {

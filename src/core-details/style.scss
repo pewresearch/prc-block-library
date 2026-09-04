@@ -7,3 +7,14 @@
 		filter: invert(1);
 	}
 }
+
+// Subsection headings must stay smaller than the details summary title (1rem).
+// Theme/post-content rules set h4 to 18px, which visually overtakes the summary.
+// Inner blocks are direct children of <details>, not wrapped in a content container.
+.wp-block-details {
+	:where(h1, h2, h3, h4, h5, h6).wp-block-heading,
+	:where(h1, h2, h3, h4, h5, h6) {
+		font-size: inherit !important;
+		line-height: 1.4;
+	}
+}

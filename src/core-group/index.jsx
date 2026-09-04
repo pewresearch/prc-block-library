@@ -22,6 +22,7 @@ import registerTransforms from './transforms';
 import registerGridChildControls from './grid-child-controls';
 import {
 	clearDividerPlacement,
+	gridStacksOnViewport,
 	syncDividerPlacement,
 } from './utils/divider-placement';
 /**
@@ -195,6 +196,24 @@ function buildGroupWrapperProps(attributes, wrapperProps) {
 		if (isGrid) {
 			classes.push('has-divider');
 			classes.push(`has-${dividerColor}-divider-color`);
+			if (
+				gridStacksOnViewport(
+					attributes.layout,
+					attributes.style,
+					'tablet'
+				)
+			) {
+				classes.push('is-stacked-on-tablet');
+			}
+			if (
+				gridStacksOnViewport(
+					attributes.layout,
+					attributes.style,
+					'mobile'
+				)
+			) {
+				classes.push('is-stacked-on-mobile');
+			}
 			if (
 				attributes.dividerStyle &&
 				attributes.dividerStyle !== 'solid'

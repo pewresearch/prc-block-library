@@ -55,6 +55,7 @@
 	.prc-block-carousel-controller__track {
 		grid-area: track;
 		display: flex;
+		min-width: 0;
 		overflow: hidden;
 	}
 
@@ -217,7 +218,15 @@
 
 		.prc-block-carousel-controller__track {
 			position: relative;
+			// Visible overflow lets the 1/N badge hang below. Lock min-width so
+			// two-column slides cannot grow the page.
+			min-width: 0;
 			overflow: visible;
+		}
+
+		.prc-block-carousel-controller__track__inner {
+			min-width: 0;
+			max-width: 100%;
 		}
 
 		.prc-block-carousel-controller__counter {
@@ -274,7 +283,11 @@
 		.prc-block-carousel-controller__play {
 			appearance: none;
 			background: none;
-			border: 1px solid var(--prc-carousel-controller-arrow-color, #666);
+			border: 1px solid
+				var(
+					--prc-carousel-controller-arrow-color,
+					var(--wp--preset--color--ui-gray-very-dark)
+				);
 			border-radius: 50%;
 			width: 2rem;
 			height: 2rem;
@@ -287,7 +300,10 @@
 
 			.icon,
 			.prc-block-carousel-controller__play-icon {
-				color: var(--prc-carousel-controller-arrow-color, #666);
+				color: var(
+					--prc-carousel-controller-arrow-color,
+					var(--wp--preset--color--ui-gray-very-dark)
+				);
 				font-size: 0.75rem;
 				line-height: 1;
 			}
@@ -324,6 +340,27 @@
 		&.has-arrows-large {
 			.prc-block-carousel-controller__arrow .icon {
 				font-size: 1rem;
+			}
+		}
+
+		// Mobile: same bottom nav row, but prev/next at the block edges and
+		// no play button. Pointer-events pass through the stretched controls
+		// so centered dots stay clickable.
+		@media (max-width: #{ $break-small }) {
+			.prc-block-carousel-controller__controls {
+				justify-self: stretch;
+				width: 100%;
+				justify-content: space-between;
+				pointer-events: none;
+
+				.prc-block-carousel-controller__arrow__prev,
+				.prc-block-carousel-controller__arrow__next {
+					pointer-events: auto;
+				}
+			}
+
+			.prc-block-carousel-controller__play {
+				display: none;
 			}
 		}
 	}
@@ -374,6 +411,8 @@
 
 	.prc-block-carousel-controller__track__inner {
 		width: 100%;
+		max-width: 100%;
+		min-width: 0;
 		display: flex;
 		flex-direction: row;
 		flex-grow: 1;
@@ -393,10 +432,10 @@
 			scroll-snap-stop: always;
 			display: flex;
 			flex-direction: column;
-			flex-grow: 1;
-			flex-shrink: 0;
+			flex: 0 0 100%;
 			width: 100%;
 			max-width: 100%;
+			min-width: 0;
 			overflow: hidden;
 		}
 	}
@@ -412,7 +451,10 @@
 		justify-content: center;
 
 		.icon {
-			color: var(--prc-carousel-controller-arrow-color, #000);
+			color: var(
+				--prc-carousel-controller-arrow-color,
+				var(--wp--preset--color--ui-black)
+			);
 		}
 	}
 
@@ -437,7 +479,10 @@
 			}
 
 			.icon {
-				color: var(--prc-carousel-controller-dot-color, #000);
+				color: var(
+					--prc-carousel-controller-dot-color,
+					var(--wp--preset--color--ui-black)
+				);
 			}
 
 			&[data-active="true"] {
@@ -497,7 +542,11 @@
 				width: 0.9rem;
 				height: 0.9rem;
 				border-radius: 50%;
-				border: 2px solid var(--prc-carousel-controller-dot-color, #000);
+				border: 2px solid
+					var(
+						--prc-carousel-controller-dot-color,
+						var(--wp--preset--color--ui-black)
+					);
 				background: transparent;
 				opacity: 1;
 
@@ -506,7 +555,10 @@
 				}
 
 				&[data-active="true"] {
-					background: var(--prc-carousel-controller-dot-color, #000);
+					background: var(
+						--prc-carousel-controller-dot-color,
+						var(--wp--preset--color--ui-black)
+					);
 				}
 			}
 		}

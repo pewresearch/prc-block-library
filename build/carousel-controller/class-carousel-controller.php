@@ -84,6 +84,26 @@ class Carousel_Controller {
 	}
 
 	/**
+	 * Resolves arrow and dot colors to a CSS value.
+	 *
+	 * The historical default slug `black` maps to WordPress core's static
+	 * `#000000` token, which disappears on dark `ui-white` surfaces. Treat that
+	 * slug (and an empty value) as adaptive `ui-black`. Explicit hex and other
+	 * slugs, including `ui-stable-black`, pass through unchanged.
+	 *
+	 * @param string $value Stored color attribute value.
+	 * @return string CSS color value safe to emit inside a custom property.
+	 */
+	private function resolve_navigation_color_value( string $value ): string {
+		$value = trim( $value );
+		if ( '' === $value || 'black' === $value ) {
+			$value = 'ui-black';
+		}
+
+		return $this->resolve_color_value( $value );
+	}
+
+	/**
 	 * Validates a CSS color literal for safe use as a custom-property value.
 	 *
 	 * Rejects delimiter injection (`;`, `{}`), `url()`, and other non-color syntax.
@@ -191,8 +211,8 @@ class Carousel_Controller {
 			);
 
 			$style  = '';
-			$style .= '--prc-carousel-controller-dot-color: ' . $this->resolve_color_value( $attributes['dotColor'] ) . ';';
-			$style .= '--prc-carousel-controller-arrow-color: ' . $this->resolve_color_value( $attributes['arrowColor'] ) . ';';
+			$style .= '--prc-carousel-controller-dot-color: ' . $this->resolve_navigation_color_value( $attributes['dotColor'] ) . ';';
+			$style .= '--prc-carousel-controller-arrow-color: ' . $this->resolve_navigation_color_value( $attributes['arrowColor'] ) . ';';
 			$tag_processor->set_attribute( 'style', $style );
 
 			$slides = array();
@@ -250,8 +270,8 @@ class Carousel_Controller {
 				'slides'       => $slides,
 			);
 			if ( $is_slideshow ) {
-				$context['isPlaying']  = true;
-				$context['playLabel']  = 'Pause slideshow';
+				$context['isPlaying'] = true;
+				$context['playLabel'] = 'Pause slideshow';
 			}
 			$tag_processor->set_attribute(
 				'data-wp-context',
@@ -264,7 +284,7 @@ class Carousel_Controller {
 
 			// Inject the arrows to the markup if enabled.
 			if ( $arrows_eanbled ) {
-				$arrows = wp_sprintf(
+				$arrows  = wp_sprintf(
 					'<button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__prev" data-wp-on--click="actions.goToPreviousSlide" aria-label="Previous slide">%s</button><button class="prc-block-carousel-controller__arrow prc-block-carousel-controller__arrow__next" data-wp-on--click="actions.goToNextSlide" aria-label="Next slide">%s</button>',
 					\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-up' : 'chevron-left' ),
 					\PRC\Platform\Icons\render( 'solid', $is_vertical ? 'chevron-down' : 'chevron-right' )
@@ -281,7 +301,7 @@ class Carousel_Controller {
 					$dot_style_binding,
 					\PRC\Platform\Icons\render( 'solid', 'circle' )
 				);
-				$content = str_replace( '<div class="prc-block-carousel-controller__dots"></div>', $dots, $content );
+				$content           = str_replace( '<div class="prc-block-carousel-controller__dots"></div>', $dots, $content );
 			}
 
 			// Inject the slide counter for coverflow and slideshow views.
@@ -292,7 +312,7 @@ class Carousel_Controller {
 
 			// Inject the play/pause control for slideshow view.
 			if ( $is_slideshow ) {
-				$play = wp_sprintf(
+				$play    = wp_sprintf(
 					'<button class="prc-block-carousel-controller__play is-playing" type="button" aria-label="Pause slideshow" aria-pressed="true" data-wp-on--click="actions.togglePlay" data-wp-bind--aria-label="context.playLabel" data-wp-bind--aria-pressed="context.isPlaying" data-wp-class--is-playing="context.isPlaying"><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--pause">%1$s</span><span class="prc-block-carousel-controller__play-icon prc-block-carousel-controller__play-icon--play">%2$s</span></button>',
 					\PRC\Platform\Icons\render( 'solid', 'pause' ),
 					\PRC\Platform\Icons\render( 'solid', 'play' )
