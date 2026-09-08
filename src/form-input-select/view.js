@@ -18,6 +18,18 @@ import {
 	shouldAdvanceWindow,
 } from './visible-options';
 
+const TAP_MOVE_PX = 8;
+
+function pointerMovedPastTap(startX, startY, event) {
+	if (!Number.isFinite(startX) || !Number.isFinite(startY)) {
+		return true;
+	}
+	return (
+		Math.hypot(event.clientX - startX, event.clientY - startY) >=
+		TAP_MOVE_PX
+	);
+}
+
 const { state, actions } = store('prc-block/form-input-select', {
 	state: {
 		get activeIndex() {
@@ -369,14 +381,7 @@ const { state, actions } = store('prc-block/form-input-select', {
 				window.requestAnimationFrame(applyHighlight);
 			}
 		},
-		onInputOptionPointerDown: withSyncEvent((event) => {
-			// Keep focus on the combobox. Blur hides the list
-			// (visibility: hidden) before click, so the option never commits.
-			// Do not commit here: pointerdown also starts a pan on overflowing lists.
-			event.preventDefault();
-		}),
-		onInputOptionClick: withSyncEvent((event) => {
-			event.preventDefault();
+		commitOption: (event) => {
 			const context = getContext();
 			const { id, targetNamespace } = context;
 			if (!id || !state[id]) {
@@ -403,6 +408,44 @@ const { state, actions } = store('prc-block/form-input-select', {
 			state[id].isOpen = false;
 
 			actions.hoistValueToTargetState(id, targetNamespace);
+		},
+		onInputOptionPointerDown: withSyncEvent((event) => {
+			// Keep focus on the combobox. Blur hides the list
+			// (visibility: hidden) before click, so the option never commits.
+			// Secondary buttons must not start a commit gesture or suppress
+			// the context menu via preventDefault.
+			if (event.button !== 0) {
+				return;
+			}
+			event.preventDefault();
+			const context = getContext();
+			context.pointerStartX = event.clientX;
+			context.pointerStartY = event.clientY;
+			context.pointerGesture = true;
+		}),
+		onInputOptionPointerUp: withSyncEvent((event) => {
+			const context = getContext();
+			if (!context.pointerGesture || event.button !== 0) {
+				return;
+			}
+			if (
+				pointerMovedPastTap(
+					context.pointerStartX,
+					context.pointerStartY,
+					event
+				)
+			) {
+				return;
+			}
+			actions.commitOption(event);
+		}),
+		onInputOptionClick: withSyncEvent((event) => {
+			event.preventDefault();
+			const context = getContext();
+			if (context.pointerGesture) {
+				return;
+			}
+			actions.commitOption(event);
 		}),
 		onInputFocus: withSyncEvent(() => {
 			const context = getContext();

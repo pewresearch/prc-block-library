@@ -161,7 +161,8 @@
   },
   "usesContext": [
     "form-input-select/options",
-    "form-input-select/has-clear-icon"
+    "form-input-select/has-clear-icon",
+    "form-input-select/name"
   ],
   "styles": [
     {

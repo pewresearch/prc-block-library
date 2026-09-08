@@ -8,54 +8,71 @@ import clsx from 'clsx';
  */
 import {
 	useBlockProps,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalGetBorderClassesAndStyles as getBorderClassesAndStyles,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalGetColorClassesAndStyles as getColorClassesAndStyles,
-	__experimentalGetSpacingClassesAndStyles as getSpacingClassesAndStyles,
-	__experimentalGetShadowClassesAndStyles as getShadowClassesAndStyles,
-	__experimentalGetElementClassName,
-	getTypographyClassesAndStyles,
-	RichText
+	RichText,
 } from '@wordpress/block-editor';
 
-export default function Save( { attributes } ) {
-	const { label, displayLabel, placeholder, required, value, metadata, className, allowMultiple } = attributes;
+export default function Save({ attributes }) {
+	const {
+		label,
+		displayLabel,
+		placeholder,
+		required,
+		value,
+		metadata,
+		className,
+		allowMultiple,
+	} = attributes;
 	const { name } = metadata || {};
-	const borderProps = getBorderClassesAndStyles( attributes );
-	const colorProps = getColorClassesAndStyles( attributes );
+	const borderProps = getBorderClassesAndStyles(attributes);
+	const colorProps = getColorClassesAndStyles(attributes);
 
 	const isInlineLabel = className?.includes('is-style-inline-label');
 
-	let inputColorClassnames = [];
-	if ( !isInlineLabel ) {
+	const inputColorClassnames = [];
+	if (!isInlineLabel) {
 		inputColorClassnames.push(colorProps.className);
 		inputColorClassnames.push(borderProps.className);
 	}
 
-	const inputClassNames = clsx('wp-block-prc-block-form-input-select__input', ...inputColorClassnames);
+	const inputClassNames = clsx(
+		'wp-block-prc-block-form-input-select__input',
+		...inputColorClassnames
+	);
 	const inputStyles = {
-		...(!isInlineLabel ? {...colorProps.style, ...borderProps.style} : {}),
+		...(!isInlineLabel
+			? { ...colorProps.style, ...borderProps.style }
+			: {}),
 	};
 
 	const inputProps = {
-		placeholder: placeholder,
-		value: value,
-		name: name,
+		placeholder,
+		value,
+		name,
 		type: 'text',
 		role: 'combobox',
 	};
-	if ( required ) {
+	if (required) {
 		inputProps.required = true;
 	}
 
-	let blockColorClassnames = [];
-	if ( isInlineLabel ) {
+	const blockColorClassnames = [];
+	if (isInlineLabel) {
 		blockColorClassnames.push(colorProps.className);
 		blockColorClassnames.push(borderProps.className);
 	}
 
 	const blockProps = useBlockProps.save({
-		className: clsx('wp-block-prc-block-form-input-select', ...blockColorClassnames),
-		style: isInlineLabel ? { ...colorProps.style, ...borderProps.style } : {},
+		className: clsx(
+			'wp-block-prc-block-form-input-select',
+			...blockColorClassnames
+		),
+		style: isInlineLabel
+			? { ...colorProps.style, ...borderProps.style }
+			: {},
 	});
 
 	const useLabel = true === displayLabel && label && label.length > 0;

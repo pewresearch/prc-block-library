@@ -139,8 +139,12 @@ class Form_Input_Select {
 			$target_store = '';
 		}
 		$has_clear_icon = ( $attributes['hasClearIcon'] ?? false ) || ( $block->context['form-input-select/has-clear-icon'] ?? false );
-		$input_name = array_key_exists( 'metadata', $attributes ) && array_key_exists( 'name', $attributes['metadata'] ) ? $attributes['metadata']['name'] : '';
-		$block_id   = null;
+		$input_name     = array_key_exists( 'metadata', $attributes ) && array_key_exists( 'name', $attributes['metadata'] ) ? $attributes['metadata']['name'] : '';
+		$context_name   = $block->context['form-input-select/name'] ?? '';
+		if ( is_string( $context_name ) && '' !== $context_name ) {
+			$input_name = $context_name;
+		}
+		$block_id = null;
 
 		$tag = new \WP_HTML_Tag_Processor( $content );
 		if ( $tag->next_tag(
@@ -180,6 +184,9 @@ class Form_Input_Select {
 						'activeIndex'     => 0,
 						'processing'      => false,
 						'allowSearch'     => $attributes['allowSearch'] ?? true,
+						'pointerStartX'   => null,
+						'pointerStartY'   => null,
+						'pointerGesture'  => false,
 					)
 				)
 			);
@@ -290,7 +297,7 @@ class Form_Input_Select {
 			'<div class="prc-block-form-input-select__icon-wrapper"><button class="wp-block-prc-block-form-input-select__clear-button" data-wp-on--click="actions.onInputClearButtonClick" data-wp-bind--hidden="!state.hasClearIcon" type="button">%4$s</button><button class="wp-block-prc-block-form-input-select__dropdown-arrow" data-wp-on--click="actions.onDropdownArrowClick" data-wp-class--is-open="context.isOpen" type="button">%5$s</button></div><ul role="listbox" id="dropdown-list-%1$s" class="wp-block-prc-block-form-input-select__list" data-wp-on-async--scroll="actions.onListScroll"><template data-wp-each--option="%2$s" data-wp-each-key="context.option.value">%3$s</template></ul>',
 			$block_id,
 			'state.inputOptions',
-			'<li role="option" data-wp-on--pointerdown="actions.onInputOptionPointerDown" data-wp-on--click="actions.onInputOptionClick" data-wp-text="context.option.label" data-wp-bind--data-ref-value="context.option.value" data-wp-bind--disabled="context.option.disabled" ></li>',
+			'<li role="option" data-wp-on--pointerdown="actions.onInputOptionPointerDown" data-wp-on--pointerup="actions.onInputOptionPointerUp" data-wp-on--click="actions.onInputOptionClick" data-wp-text="context.option.label" data-wp-bind--data-ref-value="context.option.value" data-wp-bind--disabled="context.option.disabled" ></li>',
 			\PRC\Platform\Icons\render( 'solid', 'circle-xmark' ),
 			\PRC\Platform\Icons\render( 'solid', 'chevron-down' ),
 		);

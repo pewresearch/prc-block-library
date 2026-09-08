@@ -1,6 +1,6 @@
 {
 	"name": "@prc/block-library",
-	"version": "4.1.0",
+	"version": "4.1.1",
 	"description": "PRC Block Library",
 	"license": "GPL-2.0-or-later",
 	"scripts": {

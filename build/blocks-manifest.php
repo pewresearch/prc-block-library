@@ -2504,7 +2504,8 @@ return array(
 		),
 		'usesContext' => array(
 			'form-input-select/options',
-			'form-input-select/has-clear-icon'
+			'form-input-select/has-clear-icon',
+			'form-input-select/name'
 		),
 		'styles' => array(
 			array(

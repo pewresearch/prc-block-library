@@ -33,14 +33,20 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 	} = attributes;
 
 	const { name } = attributes.metadata || {};
-	// Set data for control limits 
+	// Set data for control limits
 	const limitList = ['prc-block/form-input-select-range'];
-	const checkParents = {blockEditorStore: blockEditorStore, clientId: clientId, parentList: limitList};
+	const checkParents = {
+		blockEditorStore,
+		clientId,
+		parentList: limitList,
+	};
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Form Input Field Settings')}>
 				<LimitControls checkParents={checkParents}>
 					<TextControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
 						label="Input Name"
 						help={__(
 							'This is the name of the input field. It is used to identify the input field in the form submission data. We recommend using a camelCase name.',
@@ -58,6 +64,8 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 					/>
 				</LimitControls>
 				<TextControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
 					label="Placeholder"
 					value={placeholder}
 					onChange={(newPlaceholder) => {
@@ -110,6 +118,8 @@ export default function Controls({ attributes, setAttributes, clientId }) {
 			<LimitControls checkParents={checkParents}>
 				<PanelBody title={__('Form Input Field Options')}>
 					<SelectControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
 						label="Select from default options"
 						value={type}
 						options={[

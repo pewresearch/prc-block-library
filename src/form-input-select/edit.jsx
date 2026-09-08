@@ -9,20 +9,15 @@ import { Icon, close } from '@wordpress/icons';
  * WordPress Dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useMemo, useState, useEffect, useRef } from '@wordpress/element';
+import { useMemo, useState, useRef } from '@wordpress/element';
 import {
-	store as blockEditorStore,
 	useBlockProps,
 	RichText,
-	getColorClassName,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalUseBorderProps as useBorderProps,
+	// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
 	__experimentalUseColorProps as useColorProps,
-	__experimentalGetSpacingClassesAndStyles as useSpacingProps,
-	__experimentalGetShadowClassesAndStyles as useShadowProps,
-	__experimentalGetElementClassName,
-	getTypographyClassesAndStyles as useTypographyProps,
 } from '@wordpress/block-editor';
-import { store as blockStore } from '@wordpress/blocks';
 
 /**
  * Internal Dependencies
@@ -41,7 +36,6 @@ export default function Edit({
 	context,
 	clientId,
 	isSelected,
-	insertBlocksAfter,
 	__unstableLayoutClassNames: layoutClassNames,
 }) {
 	const {
@@ -49,27 +43,18 @@ export default function Edit({
 		placeholder,
 		required,
 		disabled,
-		hasClearIcon,
-		value,
-		metadata,
 		displayLabel,
-		type,
-		rawOptions = [],
 		options = [],
 		allowMultiple = false,
 		className,
-		allowSearch = true,
 	} = attributes;
 
 	const isInlineLabel = useMemo(() => {
 		return className?.includes('is-style-inline-label');
 	}, [className]);
 
-	const { name } = metadata || {};
-
 	const [selectedValues, setSelectedValues] = useState([]);
 	const [inputValue, setInputValue] = useState('');
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [listWindow, setListWindow] = useState({
 		query: '',
 		limit: DEFAULT_WINDOW,
@@ -131,10 +116,15 @@ export default function Edit({
 		return visibleOptions(catalog, inputValue, listWindow);
 	}, [catalog, inputValue, listWindow]);
 
-	// Get label for a value
 	function getLabel(val) {
 		const opt = options.find((o) => o.value === val);
 		return opt ? opt.label : val;
+	}
+
+	function handleTokenRemove(val) {
+		setSelectedValues((current) =>
+			current.filter((currentVal) => currentVal !== val)
+		);
 	}
 
 	return (
@@ -201,24 +191,15 @@ export default function Edit({
 						ref={inputRef}
 						type="text"
 						role="combobox"
-						ariaAutocomplete="list"
-						ariaExpanded={isSelected}
-						ariaControls={`dropdown-list-${clientId}`}
+						aria-autocomplete="list"
+						aria-expanded={isSelected}
+						aria-controls={`dropdown-list-${clientId}`}
 						placeholder={placeholder}
 						value={inputValue}
 						onChange={(event) => {
 							setInputValue(event.target.value);
 						}}
-						onBlur={(event) => {
-							setTimeout(() => setIsDropdownOpen(false), 250);
-							// console.log('onBlur');
-						}}
-						onFocus={(event) => {
-							event.preventDefault();
-							setIsDropdownOpen(true);
-							// console.log('onFocus', isDropdownOpen);
-						}}
-						disabled={attributes.disabled}
+						disabled={disabled}
 						required={required && selectedValues.length === 0}
 					/>
 
@@ -246,7 +227,7 @@ export default function Edit({
 								}
 							}}
 						>
-							{filteredOptions.map((option, idx) => (
+							{filteredOptions.map((option) => (
 								<li
 									key={option.value}
 									role="option"
